@@ -1,0 +1,17 @@
+ Tests of the Nonsymmetric eigenproblem condition estimation routines
+ SLALN2, SLASY2, SLANV2, SLAEXC, STRSYL, STREXC, STRSNA, STRSEN, SLAQTR
+
+ Relative machine precision (EPS) =     0.119209E-06
+ Safe minimum (SFMIN)             =     0.117549E-37
+
+ Routines pass computational tests if test ratio is less than   20.00
+
+
+ SEC routines passed the tests of the error exits ( 35 tests done)
+
+ All tests for SEC routines passed the threshold (501251 tests run)
+
+
+ End of tests
+ Total time used =         3.66 seconds
+

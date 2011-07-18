@@ -1,0 +1,19 @@
+==title:syr2 (TODO){cxxblas::syr2}==
+
+==ul:begin==
+-> [syr2] performs the hermitian rank [1] operation
+   ==latex==
+   A  = \alpha x y^T + \alpha y x^T + A
+   ====
+   where [alpha] is a scalar, [x] and [y] are vectors and [A] is a
+   symmetric  matrix.
+-> Source code:
+--> Browse header file: [@header]
+--> Browse implementation: [@tccimpl]
+==ul:end==
+
+TODO:
+==ul:begin==
+-> Implement everything :-)
+-> This is easier than it sounds.
+==ul:end==

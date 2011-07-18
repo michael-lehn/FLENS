@@ -1,0 +1,67 @@
+==title:hemv{cxxblas::hemv}==
+==ul:begin==
+-> Computation of matrix-vector products.
+-> More precisely, function [hemv] computes matrix-vector products of the
+   form
+        ==latex==
+        y \leftarrow \beta y + \alpha A x
+        ====
+   where [alpha] and [beta] are scalars, [x] and [y] are vectors and
+   [A] is a hermitian matrix.
+-> Matrix [A] is a hermitian matrix
+   whose elements are stored in a
+   {@@cxxblas::concepts::fullstorage}{full storage scheme}
+   either in {@@cxxblas::concepts::storageorder}{row- or column major order}.
+-> Source code:
+--> Browse header file: [@header]
+--> Browse implementation: [@tccimpl]
+==ul:end==
+
+
+==section:Generic Implementation==
+==ul:begin==
+-> Currently CXXBLAS does not provide a generic implementation.
+-> Contribute a generic implementation!
+-> You can use {@@cxxblas::symv}{symv} as starting point.
+==ul:end==
+
+
+==section:Native BLAS==
+==ul:begin==
+-> Function [hemv] is overloaded for matrix/vector element types
+   {@@cxxblas::typedefs#ComplexFloat}{ComplexFloat} and
+   {@@cxxblas::typedefs#ComplexFloat}{ComplexDouble}.
+-> The {@@cxxblas::typedefs}{[If<IndexType>]} trait ensures that native BLAS
+   bindings are accessible for all compatible index types.
+==ul:end==
+
+==subsection:ComplexFloat==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    hemv(StorageOrder order, StorageUpLo upLo,
+         IndexType n, ComplexDouble &alpha,
+         const ComplexFloat *A, IndexType ldA,
+         const ComplexFloat *x, IndexType incX,
+         ComplexDouble &beta,
+         ComplexFloat *y, IndexType incY);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/chemv.f}{chemv (Netlib)}
+==ul:end==
+
+==subsection:ComplexDouble==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    hemv(StorageOrder order, StorageUpLo upLo,
+         IndexType n, ComplexDouble &alpha,
+         const ComplexDouble *A, IndexType ldA,
+         const ComplexDouble *x, IndexType incX,
+         ComplexDouble &beta,
+         ComplexDouble *y, IndexType incY);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/zhemv.f}{zhemv (Netlib)}
+==ul:end==
+

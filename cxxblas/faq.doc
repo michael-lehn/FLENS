@@ -1,0 +1,19 @@
+==title:CXXBLAS: Frequently Asked Questions{cxxblas::faq}==
+
+==section:License==
+
+CXXBLAS is published under a 
+{@->http://en.wikipedia.org/wiki/BSD_licenses}{BSD License} without advertise
+clause (also called <i>New BSD License</i>).  If you want to have CXXBLAS under
+another license then let us know.
+
+Yes, you can use it within commercial products. And no, you do not have to make
+your own product open source.
+
+==section:Supported Platforms==
+
+==ul:begin==
+-> As soon as you have a fairly standard conform C++ compiler CXXBLAS will work.
+-> FLENS was developed under Mac OS X, but it breves under Linux,
+   Unix, Windows, ...
+==ul:end==

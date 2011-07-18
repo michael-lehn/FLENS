@@ -1,0 +1,94 @@
+==title:trsm{cxxblas::trsm}==
+==ul:begin==
+-> Solves one of the matrix equations
+--> [$ \text{op}(A) \, X = \alpha B $] or
+--> [$ X \, \text{op}(A) = \alpha B $] with
+    [$\text{op}(A) \in \{A, A^T, A^H\}$]
+--> Matrix [A] is triangular, 
+--> Matrices [X] and [B] are general (i.e. not necessarily square
+     or symmetric) matrices where elements are stored in a
+    {@@cxxblas::concepts::fullstorage}{full storage scheme}
+    either in {@@cxxblas::concepts::storageorder}{row- or column major order},
+--> [alpha] is a scalar
+-> Source code:
+--> Browse header file: [@header]
+--> Browse implementation: [@tccimpl]
+==ul:end==
+
+
+==section:Generic Implementation==
+==ul:begin==
+-> Currently CXXBLAS does not provide a generic implementation.
+-> Contribute a generic implementation!
+==ul:end==
+
+
+==section:Native BLAS==
+==ul:begin==
+-> Function [trsm] is overloaded for [float], [double],
+   {@@cxxblas::typedefs#ComplexFloat}{ComplexFloat} and
+   {@@cxxblas::typedefs#ComplexFloat}{ComplexDouble}.
+-> The {@@cxxblas::typedefs}{[If<IndexType>]} trait ensures that native BLAS
+   bindings are accessible for all compatible index types.
+==ul:end==
+
+==subsection:float==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    trsm(StorageOrder order, Side side, StorageUpLo upLo,
+         Transpose transA, Diag diag,
+         IndexType m, IndexType n,
+         float alpha,
+         const float *A, IndexType ldA,
+         float *B, IndexType ldB);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/strsm.f}{strsm (Netlib)}
+==ul:end==
+
+
+==subsection:double==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    trsm(StorageOrder order, Side side, StorageUpLo upLo,
+         Transpose transA, Diag diag,
+         IndexType m, IndexType n,
+         double alpha,
+         const double *A, IndexType ldA,
+         double *B, IndexType ldB);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/dtrsm.f}{dtrsm (Netlib)}
+==ul:end==
+
+==subsection:ComplexFloat==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    trsm(StorageOrder order, Side side, StorageUpLo upLo,
+         Transpose transA, Diag diag,
+         IndexType m, IndexType n,
+         const ComplexFloat &alpha,
+         const ComplexFloat *A, IndexType ldA,
+         ComplexFloat *B, IndexType ldB);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/ctrsm.f}{ctrsm (Netlib)}
+==ul:end==
+
+==subsection:ComplexDouble==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    trsm(StorageOrder order, Side side, StorageUpLo upLo,
+         Transpose transA, Diag diag,
+         IndexType m, IndexType n,
+         const ComplexDouble &alpha,
+         const ComplexDouble *A, IndexType ldA,
+         ComplexDouble *B, IndexType ldB);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/ztrsm.f}{ztrsm (Netlib)}
+==ul:end==

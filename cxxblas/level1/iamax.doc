@@ -1,0 +1,65 @@
+==title:iamax{cxxblas::iamax}==
+==ul:begin==
+-> Find the index of the vector element with largest  absolute value.
+-> Source code:
+--> Browse header file: [@header]
+--> Browse implementation: [@tccimpl]
+==ul:end==
+
+
+==section:Generic Implementation==
+==ul:begin==
+-> Currently CXXBLAS does not provide a generic implementation.
+-> Contribute a generic implementation!
+==ul:end==
+
+
+==section:Native BLAS==
+==ul:begin==
+-> Function [iamax] is overloaded for [float], [double],
+   {@@cxxblas::typedefs#ComplexFloat}{ComplexFloat} and
+   {@@cxxblas::typedefs#ComplexFloat}{ComplexDouble}.
+-> The {@@cxxblas::typedefs}{[If<IndexType>]} trait ensures that native BLAS
+   bindings are accessible for all compatible index types.
+==ul:end==
+
+==subsection:float==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    iamax(IndexType n, const float *x, IndexType incX, IndexType &i);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/isamax.f}{isamax (Netlib)}
+==ul:end==
+
+==subsection:double==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    iamax(IndexType n, const double *x, IndexType incX, IndexType &i);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/idamax.f}{idamax (Netlib)}
+==ul:end==
+
+==subsection:ComplexFloat==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    iamax(IndexType n, const ComplexFloat *x, IndexType incX, IndexType &i);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/icamax.f}{icamax (Netlib)}
+==ul:end==
+
+==subsection:ComplexDouble==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    iamax(IndexType n, const ComplexDouble *x, IndexType incX, IndexType &i);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/izamax.f}{izamax (Netlib)}
+==ul:end==
+

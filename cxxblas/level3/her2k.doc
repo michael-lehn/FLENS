@@ -1,0 +1,68 @@
+==title:her2k{cxxblas::her2k}==
+==ul:begin==
+-> Performs one of the hermitian rank [2k] operations:
+--> [$ C = \alpha A B^H + \bar{\alpha} B A^H + \beta C $] or
+--> [$ C = \alpha A^H B + \bar{\alpha} B^H A + \beta C $]
+-> where:
+--> Matrix [C] is hermitian, 
+--> Matrices [A] and [B] are both general (i.e. not necessarily square
+     or symmetric) matrices.
+--> Matrices [A], [B] and [C] are all stored in a
+    {@@cxxblas::concepts::fullstorage}{full storage scheme}
+    either in {@@cxxblas::concepts::storageorder}{row- or column major order},
+--> [alpha], [beta] are scalars.
+-> Source code:
+--> Browse header file: [@header]
+--> Browse implementation: [@tccimpl]
+==ul:end==
+
+
+==section:Generic Implementation==
+==ul:begin==
+-> Currently CXXBLAS does not provide a generic implementation.
+-> Contribute a generic implementation!
+==ul:end==
+
+
+==section:Native BLAS==
+==ul:begin==
+-> Function [her2k] is overloaded for
+   {@@cxxblas::typedefs#ComplexFloat}{ComplexFloat} and
+   {@@cxxblas::typedefs#ComplexFloat}{ComplexDouble}.
+-> The {@@cxxblas::typedefs}{[If<IndexType>]} trait ensures that native BLAS
+   bindings are accessible for all compatible index types.
+==ul:end==
+
+==subsection:ComplexFloat==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    her2k(StorageOrder order, StorageUpLo upLo,
+          Transpose trans,
+          IndexType n, IndexType k,
+          const ComplexFloat &alpha,
+          const ComplexFloat *A, CBLAS_INT ldA,
+          const ComplexFloat *B, CBLAS_INT ldB,
+          float beta,
+          ComplexFloat *C, CBLAS_INT ldC);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/cher2k.f}{cher2k (Netlib)}
+==ul:end==
+
+==subsection:ComplexDouble==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    her2k(StorageOrder order, StorageUpLo upLo,
+          Transpose trans,
+          IndexType n, IndexType k,
+          const ComplexDouble &alpha,
+          const ComplexDouble *A, CBLAS_INT ldA,
+          const ComplexDouble *B, CBLAS_INT ldB,
+          double beta,
+          ComplexDouble *C, CBLAS_INT ldC);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/zher2k.f}{zher2k (Netlib)}
+==ul:end==

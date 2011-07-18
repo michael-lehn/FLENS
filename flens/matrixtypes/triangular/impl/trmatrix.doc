@@ -1,0 +1,284 @@
+==title:TrMatrix{flens::TrMatrix}==
+
+Implementation of a symmetric matrix type around a
+{@flens/storage/storage#FullStorage}{Full Storage Scheme} using the 
+{@flens/matvec/concepts/bridgepattern}{bridge pattern}.
+
+==ul:begin==
+-> Class [TrMatrix] is derived from class
+   {@flens/matvec/matrixtypes/triangular/triangularmatrix}{TriangularMatrix}
+   which is derived from
+   {@flens/matvec/matrixtypes/matrix}{Matrix}.
+   ==latex==
+   \begin{figure}[h]
+       \centering
+       \psset{xunit=0.95cm,yunit=0.95cm}
+       \begin{pspicture}(0,0)(4,5)
+       \rput(0,0){\textcolor{white}{.}}
+       \rput(4,5){\textcolor{white}{.}}
+
+       \psframe(0,4)(4,5)
+       \rput(2,4.5){Matrix}
+
+       \psline{->}(2,3)(2,4)
+       \psframe(0,2)(4,3)
+       \rput(2,2.5){TriangularMatrix}
+
+       \psline{->}(2,1)(2,2)
+       \psframe(0,0)(4,1)
+       \rput(2,0.5){TrMatrix}
+
+       \end{pspicture}
+   \end{figure}
+   ====
+-> Class [TrMatrix] is defined in [namespace flens].
+-> Class [TrMatrix] supports {@@concept::View}{views}.
+-> Browse header file: [@header]
+-> Browse implementation: [@tccimpl]
+-> Other matrix types based on the
+   {@flens/storage/storage#FullStorage}{Full Storage Scheme}
+   are:
+-->  {@flens/matvec/matrixtypes/general/impl/gematrix}{GeMatrix}
+-->  {@flens/matvec/matrixtypes/hermitian/impl/hematrix}{HeMatrix}
+-->  {@flens/matvec/matrixtypes/symmetric/impl/symatrix}{SyMatrix}
+==ul:end==
+
+==section:Template Parameters==
+The declaration of [TrMatrix] reads
+==code:.cc==
+template <typename FS>
+    class TrMatrix;
+====
+with template parameter [FS] specifying a
+{@flens/storage/storage#FullStorage}{Full Storage Scheme}.
+
+==section:Public Typedefs==
+
+Plenty of typedefs are defined that are useful for generic programming:
+==list:begin==
+->[T]:                      Element type
+->[IndexType]:              Index type
+->[]: \&nbsp;
+->[ConstVectorView]:        Type for constant [DenseVector] views 
+                            (e.g. for referencing row or column parts)
+->[VectorView]:             [DenseVector] view
+->[Vector]:                 [DenseVector] with dedicated memory
+                            (i.e. storing copies)
+->[]: \&nbsp;
+->[ConstGeneralView]:       Type for constant [GeMatrix] views
+->[GeneralView]:            Type for [GeMatrix] views
+->[GeneralNoView]:          [GeMatrix]  matrix with dedicated memory
+                            (i.e. storing copies)
+->[]: \&nbsp;
+->[ConstHermitianView]:     Type for constant [HeMatrix] views
+->[HermitianView]:          Type for [HeMatrix] views
+->[HermitianNoView]:        [HeMatrix] matrix with dedicated memory
+                            (i.e. storing copies)
+->[]: \&nbsp;
+->[ConstSymmetricView]:     Type for constant [SyMatrix] views
+->[SymmetricView]:          Type for [SyMatrix] views
+->[SymmetricNoView]:        Type for a [SyMatrix]  matrix with dedicated memory
+                            (i.e. storing copies)
+->[]: \&nbsp;
+->[ConstView]:              Type for constant [TrMatrix] views
+->[View]:                   Type for [TrMatrix] views
+->[NoView]:                 Type for a [TrMatrix] matrix with dedicated memory
+                            (i.e. storing copies)
+==list:end==
+
+
+==section:Constructors==
+==subsection:Construct from Full Storage Schemes==
+==coderef==
+TrMatrix(const FS &fs,
+         cxxblas::StorageUpLo upLo,
+         cxxblas::Diag diag = cxxblas::NonUnit);
+====
+Constructs a triangular matrix from a given
+{@flens/storage/storage#FullStorage}{full storage scheme}.  Elements
+defining the triangular matrix are referenced either from the [upper] or [lower]
+part of the storage scheme as specified by {@cxxblas/typedefs#StorageUpLo}{upLo}.
+Wether diagonal elements are assumed to be one gets specified
+{@cxxblas/typedefs#Diag}{diag}.
+
+The full storage scheme is required to be square.
+
+Differences and relationships between storage schemes and matrix types
+are explained in more detail 
+{@flens/storage/storage#StorageSchemeAndMatrixTypes}{here}.
+
+==subsection:Copy Constructor==
+==coderef==
+TrMatrix(const TrMatrix &rhs);
+====
+Constructs a matrix from a given [TrMatrix].
+
+==subsection:Construct from TrMatrix with Different Storage Scheme==
+==coderef==
+template <typename RHS>
+    TrMatrix(const TrMatrix<RHS> &rhs);
+====
+Constructs a matrix from [rhs] which is a [TrMatrix] based on a different
+storage scheme. Requires that storage scheme [RHS] can be converted to [FS].
+
+==subsection:Construct from non-constant TrMatrix with Different Storage Scheme==
+==coderef==
+template <typename RHS>
+    TrMatrix(TrMatrix<RHS> &rhs);
+====
+Constructs a triangular matrix from [rhs] which is a [TrMatrix] based on a
+different storage scheme. Requires that storage scheme [RHS] can be converted
+to [FS].
+
+Needed for creating views from non-views.
+
+==subsection:Construct from Matrix==
+==coderef==
+template <typename RHS>
+    TrMatrix(const Matrix<RHS> &rhs);
+====
+Constructs a triangular matrix from [rhs] which can be any matrix derived
+from base class Matrix. Requires that an appropriate copy function exists for
+initialization.
+
+I.e. the constructor must be able to initialize itself by calling
+[blas::copy(rhs.impl(), *this)].
+
+==section:Operators==
+==subsection:Element Access (const)==
+==coderef==
+const ElementType &
+operator()(IndexType row, IndexType col) const;
+====
+Returns the element indexed by [(row, col)].
+
+==subsection:Element Access==
+==coderef==
+ElementType &
+operator()(IndexType row, IndexType col);
+====
+Returns the element indexed by [(row, col)].
+
+==section:Views==
+==subsection:General View (const)==
+==coderef==
+ConstGeneralView
+general() const;
+====
+Creates and returns a const general matrix referencing the underlying full
+storage scheme. 
+
+I.e. the returned matrix is of type [GeMatrix] having a full storage view
+referencing the underlying scheme.
+
+==subsection:General View==
+==coderef==
+GeneralView
+general();
+====
+Creates and returns a [GeMatrix] referencing the underlying full
+storage scheme. 
+
+I.e. the returned matrix is of type [GeMatrix] having a full storage view
+referencing the underlying scheme.
+
+==subsection:Hermitian View (const)==
+==coderef==
+ConstHermitianView
+hermitian() const;
+====
+==subsection:Hermitian View==
+==coderef==
+HermitianView
+hermitian();
+====
+==subsection:Symmetric View (const)==
+==coderef==
+ConstSymmetricView
+symmetric() const;
+====
+==subsection:Symmetric View==
+==coderef==
+SymmetricView
+symmetric();
+====
+
+==section:Methods==
+==subsection:Matrix Dimension==
+==coderef==
+IndexType
+dim() const;
+====
+Returns the dimension of the triangular matrix.
+
+==subsection:First Valid Row Index==
+==coderef==
+IndexType
+firstRow() const;
+====
+Returns the first valid row index.
+
+==subsection:Last Valid Row Index==
+==coderef==
+IndexType
+lastRow() const;
+====
+Returns the last valid row index.
+
+==subsection:First Valid Column Index==
+==coderef==
+IndexType
+firstCol() const;
+====
+Returns the first valid column index.
+
+==subsection:Last Valid Column Index==
+==coderef==
+IndexType
+lastCol() const;
+====
+Returns the last valid column index.
+
+==section:Accessing the Implementation==
+==subsection:Accessing the Storage Scheme (const)==
+==coderef==
+const FS &
+engine() const;
+====
+Returns a constant reference to the underlying storage scheme.
+
+==subsection:Accessing the Storage Scheme==
+==coderef==
+FS &
+engine();
+====
+Returns a reference to the underlying storage scheme.
+
+==subsection:Upper/Lower Referencing (const)==
+==coderef==
+cxxblas::StorageUpLo
+upLo() const;
+====
+Returns whether the upper or lower triangular part of the underlying
+storage scheme gets referenced.
+
+==subsection:Upper/Lower Referencing==
+==coderef==
+cxxblas::StorageUpLo &
+upLo();
+====
+Returns a reference to the internal variable specifying
+whether the upper or lower triangular part of the underlying
+storage scheme gets referenced.
+
+==subsection:Unit Diagonal/Non-Unit Diagonal (const)==
+==coderef==
+cxxblas::Diag
+diag() const;
+====
+
+==subsection:Unit Diagonal/Non-Unit Diagonal==
+==coderef==
+cxxblas::diag &
+diag();
+====

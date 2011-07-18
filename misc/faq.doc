@@ -1,0 +1,91 @@
+==title:FLENS: Frequently Asked Questions{misc::faq}==
+
+==section:License==
+
+FLENS is published under a 
+{@->http://en.wikipedia.org/wiki/BSD_licenses}{BSD License} without advertise
+clause (also called 
+{@->http://en.wikipedia.org/wiki/BSD_licenses#3-clause_license_.28.22New_BSD_License.22.29}{New BSD License}
+).
+If you want to have FLENS under another license then let us know.
+
+Yes, you can use it within commercial products. And no, you do not have to make
+your own product open source.
+
+==section:Supported Platforms==
+==ul:begin==
+-> As soon as you have a fairly standard conform C++ compiler FLENS will work.
+-> FLENS was developed under Mac OS X, but it breves under Linux,
+   Unix, Windows, ...
+==ul:end==
+
+==section:FLENS Features==
+
+==subsection:Can I use FLENS Matrix/Vectors for Block-Matrices/Block-Vectors?==
+
+==ul:begin==
+-> Short answer:
+--> No.
+--> The idea of FLENS is that you define your own matrix/vector types for this
+    kind of purpose, e.g.:
+---> [GeBlockMatrix], [HeBlockMatrix], [SyBlockMatrix], [TrBlockMatrix]
+---> [GeSparseBlockMatrix], [HeSparseBlockMatrix], [SySparseBlockMatrix],
+     [TrSparseBlockMatrix]
+---> [DenseBlockVector]
+---> [SparseBlockVector] 
+--> If such matrix/vector types are frequently needed we will extend FLENS
+    for such types.
+-> Reasons:
+--> We do <b>not</b> want matrix/vector types that
+---> can handle anything you possibly might imagine
+---> but perform poor in special (but in practice relevant) cases
+--> FLENS was designed from scratch for being extensible for new matrix/vector
+    types.
+---> It is straight forward to define new matrix/vector types.
+---> It is straight forward to define linear algebra operations for
+     new matrix/vector types.
+---> Both is feasible.
+--> Defining new matrix/vector types is nothing you have to be scared of:
+---> Think of FLENS as an extension of C++ for features that simplify
+     programming related to matrix/vector types and related operations on these
+     types.
+==ul:end==
+
+==section:Some Statistics==
+
+These are some questions we actually ask ourself from time to time ...
+
+==subsection:How Many Files Does FLENS Have?==
+Including documentation:
+==exec:==
+cd ${DOCSRC_DIR}
+printf "Number of files: "
+find . | egrep "\.(h|cc|tcc|doc)$" | wc -l
+====
+Only headers and implementation:
+==exec:==
+cd ${DOCSRC_DIR}
+printf "Number of files: "
+find . | egrep "\.(h|cc|tcc)$" | wc -l
+====
+
+
+==subsection:How Many Lines of Code Does FLENS Have?==
+==exec:==
+cd ${DOCSRC_DIR}
+printf "Lines of code: "
+for i in `find . | egrep "\.(h|cc|tcc)$"`; do cat $i; done | wc -l
+====
+and without out the lines for the license and some of the comments:
+==exec:==
+cd ${DOCSRC_DIR}
+printf "Lines of code: "
+for i in `find . | egrep "\.(h|cc|tcc)$"`; do cat $i | egrep -v "^.\*"; done | wc -l
+====
+
+==subsection:How Many Lines of Documentation Does FLENS Have?==
+==exec:==
+cd ${DOCSRC_DIR}
+printf "Lines of documentation: "
+for i in `find . -name "*.doc"`; do cat $i; done | wc -l
+====

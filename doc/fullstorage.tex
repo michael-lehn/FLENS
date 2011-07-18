@@ -1,0 +1,139 @@
+\section{Full Storage Schemes}
+
+
+  \paragraph{Class}{\tt \hypertarget{FullStorage}{FullStorage<T, Order>}}
+  \index{FullStorage}
+  
+% template parameter
+  \begin{CDescription}
+  \item[T]
+      Template parameter specifying the array's element type.
+  \item[Order]
+      Parameter of enumeration type {\tt StorageOrder} specifying
+      storage order.
+  \end{CDescription}
+
+
+% template parameter
+% typedefs
+  \paragraph{{\it Public typedefs}}
+  \begin{CDescription}
+  \item[typedef ConstFullStorageView<T, Order> ConstView;          ,,%
+	    typedef FullStorageView<T, Order>      View;               ,,%
+	    typedef ConstArrayView<T>              ConstVectorView;    ,,%
+	    typedef ArrayView<T>                   VectorView;]
+  \end{CDescription}	
+
+
+% constructors and destructor
+  \paragraph{{\it Constructors and destructor}}
+  \begin{CDescription}
+  \item[FullStorage();]
+		
+  \item[FullStorage(int numRows, int numCols,          ,,%
+        . . . . . . int firstRow=1, int firstCol=1);]
+		
+  \item[FullStorage(const FullStorage<T, Order> &rhs);]
+		
+  \item[~FullStorage();]
+  \end{CDescription}
+
+% operators		
+  \paragraph{{\it Operators}}
+  \begin{CDescription}
+  \item[FullStorage<T, Order> &                                 ,,%
+		operator=(const FullStorage<T, Order> &rhs);            ,,%
+		                                                        ,,%
+		FullStorage<T, Order> &                                 ,,%
+		operator=(const FullStorageView<T, Order> &rhs);        ,,%
+		                                                        ,,%
+		FullStorage<T, Order> &                                 ,,%
+		operator=(const ConstFullStorageView<T, Order> &rhs);]
+		
+  \item[const T &                               ,,%
+		operator()(int row, int col) const;     ,,%
+		                                        ,,%
+		T &                                     ,,%
+		operator()(int row, int col);]
+  \end{CDescription}
+		
+% operators		
+  \paragraph{{\it Methods}}
+  \begin{CDescription}
+  \item[int                         ,,%
+        firstRow() const;]
+
+  \item[int                         ,,%
+        firstCol() const;]
+		
+  \item[int                        ,,%
+        lastRow() const;]
+
+  \item[int                        ,,%
+        lastCol() const;]
+		
+  \item[int                        ,,%
+        numRows() const;]
+
+  \item[int                        ,,%
+        numCols() const;]
+		
+  \item[int                        ,,%
+		leadingDimension() const;]
+		
+  \item[int                        ,,%
+		strideRow() const;]
+
+  \item[int                        ,,%
+		strideCol() const;]
+		
+  \item[const T *                        ,,%
+		data() const;]
+		
+  \item[T *                        ,,%
+		data();]
+		
+  \item[const T * const *                        ,,%
+		leadingDimensionStorage() const;]
+		
+  \item[T**                        ,,%
+		leadingDimensionStorage();]
+		
+  \item[void                        ,,%
+		resize(int numRows, int numCols, int firstRow=1, int firstCol=1);]
+		
+  \item[ConstFullStorageView<T, Order>                        ,,%
+		view(int fromRow, int fromCol, int toRow, int toCol,  ,,%
+		. . .int firstViewRow=1, int firstViewCol=1) const;]
+		
+  \item[FullStorageView<T, Order>                             ,,%
+		view(int fromRow, int fromCol, int toRow, int toCol,  ,,%
+		. . .int firstViewRow=1, int firstViewCol=1);]
+
+  \item[ConstArrayView<T>                             ,,%
+		viewRow(int row, int firstViewIndex=1) const;]
+
+  \item[ArrayView<T>                                  ,,%
+		viewRow(int row, int firstViewIndex=1);]
+		
+  \item[ConstArrayView<T>                             ,,%
+		viewCol(int col, int firstViewIndex=1) const;]
+
+  \item[ArrayView<T>                                  ,,%
+		viewCol(int col, int firstViewIndex=1);]
+		
+  \item[ConstArrayView<T>                        ,,%
+		viewRow(int row, int fromCol, int toCol, ,,%
+		. . . . int firstViewIndex=1) const;]
+
+  \item[ArrayView<T>                        ,,%
+		viewRow(int row, int fromCol, int toCol, int firstViewIndex=1);]
+		
+  \item[ConstArrayView<T>                        ,,%
+		viewCol(int col, int fromRow, int toRow, ,,%
+		. . . . int firstViewIndex=1) const;]
+
+  \item[ArrayView<T>                        ,,%
+		viewCol(int col, int fromRow, int toRow, int firstViewIndex=1);]
+  \end{CDescription}
+

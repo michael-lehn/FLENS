@@ -1,0 +1,8 @@
+==title:Level 3 CXXBLAS{cxxblas::level3}==
+
+==ul:begin==
+-> Header file [@header] includes all level 3 functions.
+==ul:end==
+
+Defines matrix-matrix operations, e.g. matrix-matrix products.
+==toc:.==

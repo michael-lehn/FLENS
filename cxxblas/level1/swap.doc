@@ -1,0 +1,94 @@
+==title:swap{cxxblas::swap}==
+==ul:begin==
+-> Exchange vectors [x] and [y]
+-> Source code:
+--> Browse header file: [@header]
+--> Browse implementation: [@tccimpl]
+==ul:end==
+
+
+==section:Generic Implementation==
+The interface of the generic implementation reads:
+
+==coderef==
+template <typename IndexType, typename X, typename Y>
+    void
+    swap(IndexType n, X *x, IndexType incX, Y *y, IndexType incY);
+====
+
+==subsection:Template Types==
+
+==list:begin==
+->[IndexType]:      Size and index type for vectors
+->[X]:              Element type of vector [x]
+->[Y]:              Element type of vector [y]
+==list:end==
+
+==subsection:Parameters==
+
+==list:begin==
+->[n]:      vector lengths (has to be the same for both vectors)
+->[x]:      Pointer to the first element of vector [x]
+->[incX]:   stride between elements in vector [x]
+->[y]:      Pointer to the first element of vector [y]
+->[incY]:   stride between elements in vector [y]
+==list:end==
+
+
+==section:Native BLAS==
+==ul:begin==
+-> Function [swap] is overloaded for [float], [double],
+   {@@cxxblas::typedefs#ComplexFloat}{ComplexFloat} and
+   {@@cxxblas::typedefs#ComplexFloat}{ComplexDouble}.
+-> The {@@cxxblas::typedefs}{[If<IndexType>]} trait ensures that native BLAS
+   bindings are accessible for all compatible index types.
+==ul:end==
+
+==subsection:float==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    swap(IndexType n,
+         float *x, IndexType incX,
+         float *y, IndexType incY);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/sswap.f}{sswap (Netlib)}
+==ul:end==
+
+==subsection:double==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    swap(IndexType n,
+         double *x, IndexType incX,
+         double *y, IndexType incY);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/dswap.f}{dswap (Netlib)}
+==ul:end==
+
+==subsection:ComplexFloat==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    swap(IndexType n,
+         ComplexFloat *x, IndexType incX,
+         ComplexFloat *y, IndexType incY);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/cswap.f}{cswap (Netlib)}
+==ul:end==
+
+==subsection:ComplexDouble==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    swap(IndexType n,
+         ComplexDouble *x, IndexType incX,
+         ComplexDouble *y, IndexType incY);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/zswap.f}{zswap (Netlib)}
+==ul:end==
+

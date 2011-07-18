@@ -1,0 +1,28 @@
+
+ Tests of the CS Decomposition routines
+
+ LAPACK VERSION 3.3.0
+
+ The following parameter values will be used:
+    M:         0    10    10    10    10    21    24    30    22    32
+
+    P:         0     4     4     0    10     9    10    20    12    12
+
+    N:         0     0    10     4     4    15    12     8    20     8
+
+
+ Relative machine underflow is taken to be    0.117549E-37
+ Relative machine overflow  is taken to be    0.340282E+39
+ Relative machine precision is taken to be    0.596046E-07
+
+ Routines pass computational tests if test ratio is less than   10.00
+
+
+ CSD routines passed the tests of the error exits (  0 tests done)
+
+ All tests for CSD routines passed the threshold (   270 tests run)
+
+
+ End of tests
+ Total time used =         0.03 seconds
+

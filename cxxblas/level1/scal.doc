@@ -1,0 +1,115 @@
+==title:scal{cxxblas::scal}==
+==ul:begin==
+-> Scales vector elements, i.e. computes [$y \leftarrow \alpha y$] where
+   [y] is a vector and [alpha] a scalar value.
+-> Source code:
+--> Browse header file: [@header]
+--> Browse implementation: [@tccimpl]
+==ul:end==
+
+
+==section:Generic Implementation==
+For function [scal] the interface of the generic implementation reads:
+
+==coderef==
+template <typename IndexType, typename ALPHA, typename Y>
+    void
+    scal(IndexType n, const ALPHA &alpha, Y *y, IndexType incY);
+====
+
+==subsection:Template Types==
+==list:begin==
+->[IndexType]:      Size and index type for vectors
+->[ALPHA]:          Type of the scaling factor [alpha]
+->[Y]:              Element type of vector [y]
+==list:end==
+
+==subsection:Parameters==
+==list:begin==
+->[n]:      vector lengths (has to be the same for both vectors)
+->[alpha]:  Scaling factor [alpha]
+->[y]:      Pointer to the first element of vector [y]
+->[incY]:   stride between elements in vector [y]
+==list:end==
+
+==section:Native BLAS==
+==ul:begin==
+-> Function [asum] is overloaded for [float], [double],
+   {@@cxxblas::typedefs#ComplexFloat}{ComplexFloat} and
+   {@@cxxblas::typedefs#ComplexFloat}{ComplexDouble}.
+-> The {@@cxxblas::typedefs}{[If<IndexType>]} trait ensures that native BLAS
+   bindings are accessible for all compatible index types.
+==ul:end==
+
+==subsection:float==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    scal(IndexType n, float alpha, float *x, IndexType incX);
+====
+Scales a real vector (with elements of type [float]) by a real
+constant (of type [float]).
+==ul:begin==
+-> {@->http://www.netlib.org/blas/sscal.f}{sscal (Netlib)}
+==ul:end==
+
+==subsection:double==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    scal(IndexType n, double alpha, double *x, IndexType incX);
+====
+Scales a real vector (with elements of type [double]) by a real
+constant (of type [double]).
+==ul:begin==
+-> {@->http://www.netlib.org/blas/dscal.f}{dscal (Netlib)}
+==ul:end==
+
+==subsection:ComplexFloat==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    scal(IndexType n, ComplexFloat *alpha, ComplexFloat *x, IndexType incX);
+====
+Scales a complex vector (with elements of type [ComplexFloat]) by a complex
+constant (of type [ComplexFloat]).
+==ul:begin==
+-> {@->http://www.netlib.org/blas/cscal.f}{cscal (Netlib)}
+==ul:end==
+
+==subsection:ComplexDouble==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    scal(IndexType n, ComplexDouble *alpha, ComplexDouble *x, IndexType incX);
+====
+Scales a complex vector (with elements of type [ComplexDouble]) by a complex
+constant (of type [ComplexDouble]).
+==ul:begin==
+-> {@->http://www.netlib.org/blas/zscal.f}{zscal (Netlib)}
+==ul:end==
+
+==subsection:ComplexFloat (scaled by float)==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    scal(IndexType n, float alpha, ComplexFloat *x, IndexType incX);
+====
+Scales a complex vector (with elements of type [ComplexFloat]) by a real
+constant (of type [float]).
+==ul:begin==
+-> {@->http://www.netlib.org/blas/csscal.f}{csscal (Netlib)}
+==ul:end==
+
+==subsection:ComplexDouble (scaled by double)==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    scal(IndexType n, double alpha, ComplexDouble *x, IndexType incX);
+====
+Scales a complex vector (with elements of type [ComplexDouble]) by a real
+constant (of type [double]).
+==ul:begin==
+-> {@->http://www.netlib.org/blas/zdscal.f}{zdscal (Netlib)}
+==ul:end==
+

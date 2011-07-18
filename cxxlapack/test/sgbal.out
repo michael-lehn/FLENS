@@ -1,0 +1,12 @@
+ .. test output of SGGBAL .. 
+ value of largest test error            =    0.200E-05
+ example number where info is not zero  =    0
+ example number where ILO or IHI wrong  =    0
+ example number having largest error    =    8
+ number of examples where info is not 0 =    0
+ total number of examples tested        =    8
+
+
+ End of tests
+ Total time used =         0.01 seconds
+

@@ -1,0 +1,23 @@
+==title:IndexOptions{flens::IndexOptions}==
+
+Storage schemes in FLENS require template parameter specifying the index type and indexing behavior.  The [IndexOptions] struct can be used for storage schemes as such a template parameter:
+==code:.cc==
+template <typename I = long,
+          I _defaultIndexBase = I(1)>
+struct IndexOptions
+{
+    typedef I       IndexType;
+    static const I  defaultIndexBase = _defaultIndexBase;
+};
+====
+[IndexType] defines the desired index type and [defaultIndexBase] the default index base.
+
+Example for using [IndexOptions] together with {@flens/storage/array/array}{Array}:
+==code:.cc==
+typedef IndexOptions<long, 0>    IndexOptions;
+typedef Array<mpq_class, IndexOptions>  Array;
+
+Array x(5);  // index type:     long
+             // index base:     0 (C style)
+             // element type:   mpq_class (from GMP: http://gmplib.org/)
+====

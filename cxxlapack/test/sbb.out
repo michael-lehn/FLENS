@@ -1,0 +1,34 @@
+ Tests of SGBBRD
+ (reduction of a general band matrix to real bidiagonal form)
+
+ LAPACK VERSION 3.3.0
+
+ The following parameter values will be used:
+    M:         0     0     0     0     1     1     1     1     2     2
+               2     2     3     3     3     3    10    10    16    16
+    N:         0     1     2     3     0     1     2     3     0     1
+               2     3     0     1     2     3    10    16    10    16
+    K:         0     1     2     3    16
+    NS:        1     2
+
+ Relative machine underflow is taken to be    0.117549E-37
+ Relative machine overflow  is taken to be    0.340282E+39
+ Relative machine precision is taken to be    0.596046E-07
+
+ Routines pass computational tests if test ratio is less than   20.00
+
+
+
+ SBB:  NRHS =   1
+
+ All tests for SBB passed the threshold ( 3000 tests run)
+
+
+ SBB:  NRHS =   2
+
+ All tests for SBB passed the threshold ( 3000 tests run)
+
+
+ End of tests
+ Total time used =         0.15 seconds
+

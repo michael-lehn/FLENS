@@ -1,0 +1,48 @@
+==title:Matrix{flens::Matrix}== 
+
+Class [Matrix] is the base class for all matrix types.
+
+==ul:begin==
+-> Implements static polymorphism using the [Curiously Recurring Template Pattern]
+-> Class [Matrix] is defined in [namespace flens].
+-> Browse header file: [@header]
+-> Browse implementation: [@tccimpl]
+==ul:end==
+
+Derived Classes:
+==toc:general/==
+==toc:hermitian/==
+==toc:symmetric/==
+==toc:triangular/==
+
+==section:Template Parameters==
+The declaration of [Matrix] reads
+==code:.cc==
+template <typename I>
+    class Matrix;
+====
+with template parameter [I] specifying a derived matrix type.
+
+==section:Public Typedefs==
+
+==list:begin==
+->[Impl]:                   Type of the derived matrix type
+==list:end==
+
+==section:Methods==
+
+==subsection:Static Cast to Implementation (const)==
+
+==coderef==
+const Impl &
+impl() const;
+====
+Returns the derived matrix type (i.e. the actual matrix implementation).
+
+==subsection:Static Cast to Implementation==
+
+==coderef==
+Impl &
+impl();
+====
+Returns the derived matrix type (i.e. the actual matrix implementation).

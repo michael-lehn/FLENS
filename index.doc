@@ -1,0 +1,40 @@
+==title:The FLENS Project==
+
+==ul:begin==
+-> [FLENS] is short for Flexible Library for Efficient Numerical Solutions
+-> The [FLENS] project is divided into the following modules:
+--> [CXXBLAS]
+--> [CXXLAPACK]
+--> [FLENS]: provides matrix and vector containers.  Special features are:
+---> Storage schemes that are suitable for interacting with [BLAS] and [LAPACK]
+---> High level interface for [CXXBLAS] and [CXXLAPACK]
+==ul:end==
+
+
+==section:CXXBLAS/CXXLAPACK==
+
+The purpose of the [CXXBLAS] and [CXXLAPACK] modules is twofold.
+
+First, if no other BLAS/LAPACK implementation is installed on a system it
+provides a reference implementation.  
+
+Second, it provides support for linear algebra operations where elements
+are user-defined types.  For instance, elements defined by the GMP library.
+
+==toc:cxxblas/==
+
+In the future we will extend the module such that it also serves as an interface
+to [BLAS] implementations available on your system.
+
+At the moment the [CXXLAPACK] is only on our TODO-wishlist.
+
+==section:FLENS==
+
+Provides matrix and vector types.  And a lot more ...
+
+==toc:flens/==
+==toc:tutorial/==
+
+==section:Miscellaneous==
+
+==toc:misc/==

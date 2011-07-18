@@ -1,0 +1,25 @@
+
+ Tests of the Linear Least Squares routines
+
+ LAPACK VERSION 3.3.0
+
+ The following parameter values will be used:
+    M:         6     0     5     8    10    30
+    P:         0     5     5     5     8    20
+    N:         5     5     6     8    12    40
+
+ Relative machine underflow is taken to be    0.117549E-37
+ Relative machine overflow  is taken to be    0.340282E+39
+ Relative machine precision is taken to be    0.596046E-07
+
+ Routines pass computational tests if test ratio is less than   20.00
+
+
+ LSE routines passed the tests of the error exits (  8 tests done)
+
+ All tests for LSE routines passed the threshold (    96 tests run)
+
+
+ End of tests
+ Total time used =         0.03 seconds
+

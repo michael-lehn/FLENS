@@ -1,0 +1,330 @@
+==title:FullStorage{flens::FullStorage}==
+Implementation of a full storage scheme with dedicated memory for its elements.
+==ul:begin==
+-> Elements are stored consecutive in memory (either row or column-wise).
+   Memory gets allocated by the constructors and gets freed by the destructor.
+-> Class [FullStorage] supports views referencing parts of the storage scheme.
+   These can be rows, columns or rectangular parts.
+-> Class [FullStorage] is defined in [namespace flens].
+-> Browse header file: [@header]
+-> Browse implementation: [@tccimpl]
+-> Related implementations of the full storage scheme:
+--> Class {@flens/storage/fullstorage/fullstorageview}{FullStorageView}
+    implements a corresponding view type with read-and-write access.
+--> Class Class {@flens/storage/fullstorage/constfullstorageview}{ConstFullStorageView}
+    implements a corresponding view type with read-only access.
+-> Matrix types based on the
+   {@flens/storage/storage#FullStorage}{Full Storage Scheme}
+   are:
+-->  {@flens/matrixtypes/general/impl/gematrix}{GeMatrix}
+-->  {@flens/matrixtypes/hermitian/impl/hematrix}{HeMatrix}
+-->  {@flens/matrixtypes/symmetric/impl/symatrix}{SyMatrix}
+-->  {@flens/matrixtypes/triangular/impl/trmatrix}{TrMatrix}
+==ul:end==
+
+
+==section:Template Parameters==
+The declaration of [FullStorage] reads
+==code:.cc==
+template <typename T,
+          cxxblas::StorageOrder Order = cxxblas::RowMajor,
+          typename I = IndexOptions<long>,
+          typename A = std::allocator<T> >
+    class FullStorage;
+====
+with template parameters:
+==list:begin==
+->[T]:      Element type
+->[Order]   {@cxxblas/typedefs#StorageOrder}{Storage Order}
+->[I]:      {@flens/storage/indexoptions}{Indexing options}
+->[A]:      Some standard conform allocator
+==list:end==
+
+
+==section:Public Typedefs==
+The following typedefs are defined:
+==list:begin==
+->[ElementType]:            Element Type
+->[IndexType]:              Index Type
+->[Allocator]:              Type of allocator
+
+->[ConstView]:              Constant view for referencing rectangular parts
+->[View]:                   View for referencing rectangular parts
+->[NoView]:                 Type for storing a copy of a rectangular part.
+
+->[ConstArrayView]:         Constant view for referencing rows or columns.
+->[ArrayView]:              View for referencing rows or columns.
+->[Array]:                  Type for storing a copy of rows or columns.
+==list:end==
+
+==section:Constructors==
+
+==subsection:Empty Storage==
+==coderef==
+FullStorage();
+====
+Create an empty full storage scheme.
+
+==subsection:Storage of Given Dimensions==
+==coderef==
+FullStorage(IndexType numRows, IndexType numCols,
+            IndexType firstRow = I::defaultIndexBase,
+            IndexType firstCol = I::defaultIndexBase,
+            const ElementType &value = ElementType(),
+            const Allocator &allocator = Allocator());
+====
+Create an full storage scheme of given dimensions and index bases.
+
+==subsection:Copy Constructor==
+==coderef==
+FullStorage(const FullStorage &rhs);
+====
+Allocates memory and copies elements from [rhs].
+
+==subsection:Construct from Full Storage Scheme (Conversion)==
+==coderef==
+template <typename RHS>
+    FullStorage(const RHS &rhs);
+====
+Allocates memory and copies elements from [rhs].
+
+
+==section:Operators==
+==subsection:Element Access (const)==
+==coderef==
+const ElementType &
+operator()(IndexType row, IndexType col) const;
+====
+Returns element specified by [(row, col)].
+
+==subsection:Element Access==
+==coderef==
+ElementType &
+operator()(IndexType row, IndexType col);
+====
+Returns element specified by [(row, col)].
+
+==section:Methods==
+
+==subsection:First Valid Row Index==
+==coderef==
+IndexType
+firstRow() const;
+====
+Returns the first valid row index.
+
+==subsection:Last Valid Row Index==
+==coderef==
+IndexType
+lastRow() const;
+====
+Returns the last valid row index.
+
+==subsection:First Valid Column Index==
+==coderef==
+IndexType
+firstCol() const;
+====
+Returns the first valid row index.
+
+==subsection:Last Valid Column Index==
+==coderef==
+IndexType
+lastCol() const;
+====
+Returns the last valid row index.
+
+==subsection:Number of Rows==
+==coderef==
+IndexType
+numRows() const;
+====
+Returns the number of rows.
+
+==subsection:Number of Columns==
+==coderef==
+IndexType
+numCols() const;
+====
+Returns the number of columns.
+
+==subsection:Leading Dimension==
+==coderef==
+IndexType
+leadingDimension() const;
+====
+Returns the leading dimension.
+
+==subsection:Stride between Rows==
+==coderef==
+IndexType
+strideRow() const;
+====
+Returns the stride between row elements.
+
+==subsection:Stride between Columns==
+==coderef==
+IndexType
+strideCol() const;
+====
+Returns the stride between column elements.
+
+==subsection:Pointer to first Element (const)==
+==coderef==
+const ElementType *
+data() const;
+====
+Returns a const pointer to the first element, i.e. the address of the
+element with indices [(firstRow(), firstCol())].
+
+==subsection:Pointer to first Element==
+==coderef==
+ElementType *
+data();
+====
+Returns a pointer to the first element, i.e. the address of the
+element with indices [(firstRow(), firstCol())].
+
+==subsection:Get Allocator in Use==
+==coderef==
+const Allocator &
+allocator() const;
+====
+Returns the allocator used by the constructor.
+
+==subsection:Resize (Given Dimensions)==
+==coderef==
+bool
+resize(IndexType numRows, IndexType numCols,
+       IndexType firstRow = I::defaultIndexBase,
+       IndexType firstCol = I::defaultIndexBase,
+       const ElementType &value = ElementType());
+====
+If [numRows] does not equal [numRows()]
+or [numCols] does not equal [numCols()]
+the storage gets reallocated and initialized with [value].
+
+If [firstRow] does not equal [firstRow()]
+or [firstCol] does not equal [firstCol()]
+the index base gets changed by calling [changeIndexBase(firstRow, firstCol)].
+
+==subsection:Resize (Get Dimension from Given Storage)==
+==coderef==
+template <typename FS>
+    bool
+    resize(const FS &rhs, const ElementType &value = ElementType());
+====
+Calls the [resize] method above with dimensions and index bases from [rhs].
+
+[TODO]: implement this type of [resize] for [Array], [ArrayView]
+and [ConstArrayView]
+
+==subsection:Fill==
+==coderef==
+void
+fill(const ElementType &value = ElementType(0));
+====
+Assigns [value] to all elements in the storage scheme.
+
+==subsection:Change Index Base==
+==coderef==
+void
+changeIndexBase(IndexType firstRow, IndexType firstCol);
+====
+Changes index bases of rows and columns to [firstRow] and [firstCol] respectively.
+
+==section:Methods for Views==
+
+==subsection:Create Constant Full Storage View (const)==
+==coderef==
+const ConstView
+view(IndexType fromRow, IndexType fromCol,
+     IndexType toRow, IndexType toCol,
+     IndexType firstViewRow = I::defaultIndexBase,
+     IndexType firstViewCol = I::defaultIndexBase) const;
+====
+Creates and returns a constant view referencing the rectangular part of the
+full storage scheme specified by [fromRow], [fromCol], [toRow], [toCol].
+
+The index base of the created view gets specified by [firstViewRow]
+and [firstViewCol].
+
+==subsection:Create Full Storage View==
+==coderef==
+View
+view(IndexType fromRow, IndexType fromCol,
+     IndexType toRow, IndexType toCol,
+     IndexType firstViewRow = I::defaultIndexBase,
+     IndexType firstViewCol = I::defaultIndexBase);
+====
+Creates and returns a view referencing the rectangular part of the
+full storage scheme specified by [fromRow], [fromCol], [toRow], [toCol].
+
+The index base of the created view gets specified by [firstViewRow]
+and [firstViewCol].
+
+==subsection:Create Constant Array View of Single Row (const)==
+==coderef==
+const ConstArrayView
+viewRow(IndexType row,
+        IndexType firstViewIndex = I::defaultIndexBase) const;
+====
+Creates and returns a constant array view referencing the specified row
+of the full storage scheme.
+
+The index base of the created view gets specified by [firstViewIndex].
+
+==subsection:Create Array View of Single Row==
+==coderef==
+ArrayView
+viewRow(IndexType row,
+        IndexType firstViewIndex = I::defaultIndexBase);
+====
+Creates and returns an array view referencing the specified row
+of the full storage scheme.
+
+The index base of the created view gets specified by [firstViewIndex].
+
+==subsection:Create Constant Array View of Single Column (const)==
+==coderef==
+const ConstArrayView
+viewCol(IndexType col,
+        IndexType firstViewIndex = I::defaultIndexBase) const;
+====
+Creates and returns a constant array view referencing the specified column
+of the full storage scheme.
+
+The index base of the created view gets specified by [firstViewIndex].
+
+==subsection:Create Array View of Single Column==
+==coderef==
+ArrayView
+viewCol(IndexType col,
+        IndexType firstViewIndex = I::defaultIndexBase);
+====
+Creates and returns an array view referencing the specified column
+of the full storage scheme.
+
+The index base of the created view gets specified by [firstViewIndex].
+
+==subsection:Create Constant Array View for Diagonal (const)==
+==coderef==
+const ConstArrayView
+viewDiag(IndexType d,
+         IndexType firstViewIndex = I::defaultIndexBase) const;
+====
+Creates and returns a constant array view referencing the [d]-th diagonal from 
+the full storage scheme.
+
+The index base of the created view gets specified by [firstViewIndex].
+
+==subsection:Create Array View for Diagonal==
+==coderef==
+ArrayView
+viewDiag(IndexType d,
+         IndexType firstViewIndex = I::defaultIndexBase);
+====
+Creates and returns an array view referencing the [d]-th diagonal from 
+the full storage scheme.
+
+The index base of the created view gets specified by [firstViewIndex].

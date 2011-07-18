@@ -1,0 +1,96 @@
+==title:trmm{cxxblas::trmm}==
+==ul:begin==
+-> Computation of matrix-matrix products.
+-> More precisely, function [trmm] computes matrix-matrix products of the
+   form
+--> [$B \leftarrow \alpha \, \text{op}(A) \, B$] or
+--> [$B \leftarrow \alpha \,  B \, \text{op}(A)$] with
+    [$\text{op}(A) \in \{A, A^T, A^H\}$]
+--> Matrix [A] is triangular, 
+--> Matrices[B] is a general (i.e. not necessarily square
+     or symmetric) matrix whose elements are stored in a
+    {@@cxxblas::concepts::fullstorage}{full storage scheme}
+    either in {@@cxxblas::concepts::storageorder}{row- or column major order},
+--> [alpha] is a scalar
+-> Source code:
+--> Browse header file: [@header]
+--> Browse implementation: [@tccimpl]
+==ul:end==
+
+
+==section:Generic Implementation==
+==ul:begin==
+-> Currently CXXBLAS does not provide a generic implementation.
+-> Contribute a generic implementation!
+==ul:end==
+
+
+==section:Native BLAS==
+==ul:begin==
+-> Function [trmm] is overloaded for [float], [double],
+   {@@cxxblas::typedefs#ComplexFloat}{ComplexFloat} and
+   {@@cxxblas::typedefs#ComplexFloat}{ComplexDouble}.
+-> The {@@cxxblas::typedefs}{[If<IndexType>]} trait ensures that native BLAS
+   bindings are accessible for all compatible index types.
+==ul:end==
+
+==subsection:float==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    trmm(StorageOrder order, Side side, StorageUpLo upLo,
+         Transpose transA, Diag diag,
+         IndexType m, IndexType n,
+         float alpha,
+         const float *A, IndexType ldA,
+         float *B, IndexType ldB);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/strmm.f}{strmm (Netlib)}
+==ul:end==
+
+
+==subsection:double==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    trmm(StorageOrder order, Side side, StorageUpLo upLo,
+         Transpose transA, Diag diag,
+         IndexType m, IndexType n,
+         double alpha,
+         const double *A, IndexType ldA,
+         double *B, IndexType ldB);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/dtrmm.f}{dtrmm (Netlib)}
+==ul:end==
+
+==subsection:ComplexFloat==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    trmm(StorageOrder order, Side side, StorageUpLo upLo,
+         Transpose transA, Diag diag,
+         IndexType m, IndexType n,
+         const ComplexFloat &alpha,
+         const ComplexFloat *A, IndexType ldA,
+         ComplexFloat *B, IndexType ldB);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/ctrmm.f}{ctrmm (Netlib)}
+==ul:end==
+
+==subsection:ComplexDouble==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    trmm(StorageOrder order, Side side, StorageUpLo upLo,
+         Transpose transA, Diag diag,
+         IndexType m, IndexType n,
+         const ComplexDouble &alpha,
+         const ComplexDouble *A, IndexType ldA,
+         ComplexDouble *B, IndexType ldB);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/ztrmm.f}{ztrmm (Netlib)}
+==ul:end==

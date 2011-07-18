@@ -1,0 +1,65 @@
+==title:herk{cxxblas::herk}==
+==ul:begin==
+-> Performs one of the hermitian rank [k] operations:
+--> [$ C = \alpha A A^H + \beta C $] or
+--> [$ C = \alpha A^H A + \beta C $]
+-> where:
+--> Matrix [C] is hermitian, 
+--> Matrix [A] is a general (i.e. not necessarily square
+     or symmetric) matrix.
+--> Matrices [A] and [C] are both stored in a
+    {@@cxxblas::concepts::fullstorage}{full storage scheme}
+    either in {@@cxxblas::concepts::storageorder}{row- or column major order},
+--> [alpha], [beta] are scalars.
+-> Source code:
+--> Browse header file: [@header]
+--> Browse implementation: [@tccimpl]
+==ul:end==
+
+
+==section:Generic Implementation==
+==ul:begin==
+-> Currently CXXBLAS does not provide a generic implementation.
+-> Contribute a generic implementation!
+==ul:end==
+
+
+==section:Native BLAS==
+==ul:begin==
+-> Function [herk] is overloaded for [float], [double],
+   {@@cxxblas::typedefs#ComplexFloat}{ComplexFloat} and
+   {@@cxxblas::typedefs#ComplexFloat}{ComplexDouble}.
+-> The {@@cxxblas::typedefs}{[If<IndexType>]} trait ensures that native BLAS
+   bindings are accessible for all compatible index types.
+==ul:end==
+
+
+==subsection:ComplexFloat==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    herk(StorageOrder order, StorageUpLo upLo,
+         Transpose trans, IndexType n, IndexType k,
+         float alpha,
+         const ComplexFloat *A, IndexType ldA,
+         float beta,
+         ComplexFloat *C, IndexType ldC);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/cherk.f}{cherk (Netlib)}
+==ul:end==
+
+==subsection:ComplexDouble==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    herk(StorageOrder order, StorageUpLo upLo,
+         Transpose trans, IndexType n, IndexType k,
+         double alpha,
+         const ComplexDouble *A, IndexType ldA,
+         double beta,
+         ComplexDouble *C, IndexType ldC);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/zherk.f}{zherk (Netlib)}
+==ul:end==

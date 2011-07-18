@@ -1,0 +1,78 @@
+==title:Bridge Pattern{concept::BridgePattern}==
+
+FLENS separates interface and implementation of matrix types following the
+<a href="http://en.wikipedia.org/wiki/Bridge_pattern">bridge pattern</a>. For
+instance, class {@flens/vectortypes/impl/densevector}{DenseVector} acts as an interface
+for different implementations of
+{@flens/storage/storage#Array}{array storage schemes}.  Available
+implementations are classes
+{@flens/storage/array/array}{Array},
+{@flens/storage/array/arrayview}{ArrayView} or
+{@flens/storage/array/constarrayview}{ConstArrayView}.
+
+As there is no need to exchange the implementation for a matrix or vector type
+at runtime the bridge pattern can be implemented using templates:
+==code:.cc==
+template <typename A>
+class DenseVector
+{
+    public:
+        typedef typename A::IndexType     IndexType;
+        typedef typename A::ElementType   T;
+
+        // ...
+
+        T &
+        operator(IndexType i)
+        {
+            // delegate functionality to storage implementation
+            return _array(i);
+        }
+
+        IndexType
+        numRows() const
+        {
+            // delegate functionality to storage implementation
+            return _array.numRows();
+        }
+          
+        // ...
+  
+    private:
+        A _array;
+};
+====
+Combining the bridge pattern with the
+{@flens/concepts/classhierarchy#CRTP}{CRTP Pattern} for the vertical
+class hierarchy finally leads to
+==code:.cc==
+template <typename A>
+class DenseVector
+    : Vector<DenseVector<A> >
+{
+    public:
+        typedef typename A::IndexType     IndexType;
+        typedef typename A::ElementType   T;
+
+        // ...
+
+        T &
+        operator(IndexType i)
+        {
+            // delegate functionality to storage implementation
+            return _array(i);
+        }
+
+        IndexType
+        numRows() const
+        {
+            // delegate functionality to storage implementation
+            return _array.numRows();
+        }
+
+        // ...
+  
+    private:
+        A _array;
+};
+====

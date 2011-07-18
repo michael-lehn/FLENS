@@ -1,0 +1,33 @@
+==title:blas::r2k{flens::blas::r2k}==
+
+==ul:begin==
+-> Computation of symmetric or hermitian rank [2k] operations.
+-> Source code:
+--> Browse header file: [@header]
+--> Browse implementation: [@tccimpl]
+==ul:end==
+
+==section:Matrices with Full Storage Schemes==
+
+==subsection:Hermitian Rank 2K Operations==
+==coderef==
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+    void
+    r2k(cxxblas::Transpose trans,
+        const ALPHA &alpha,
+        const GeMatrix<MA> &A, const GeMatrix<MB> &B,
+        const BETA &beta,
+        HeMatrix<MC> &C);
+====
+
+==subsection:Symmetric Rank 2K Operations==
+
+==coderef==
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+    void
+    r2k(cxxblas::Transpose trans,
+        const ALPHA &alpha,
+        const GeMatrix<MA> &A, const GeMatrix<MB> &B,
+        const BETA &beta,
+        SyMatrix<MC> &C);
+====

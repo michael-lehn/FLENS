@@ -1,0 +1,40 @@
+==title:CXXBLAS{cxxblas}==
+
+==ul:begin==
+-> Depending on the complexity of the operation the BLAS functions are
+   subdivided into three levels.
+==ul:end==
+
+==section:Level 1==
+Defines vector-vector operations, e.g. vector copying, vector addition,
+dot products, ...
+==toc:level1/==
+
+==section:Level 2==
+Defines matrix-vector operations, e.g. matrix-vector products.
+==toc:level2/==
+
+==section:Level 3==
+Defines matrix-matrix operations, e.g. matrix-matrix products.
+==toc:level3/==
+
+==section:Level 1 Extensions==
+Defines some level 1 functions for matrices.  Implementations of these
+functions fall back on standard level 1 BLAS.
+==toc:level1extensions/==
+
+==section:Typedefs and Auxiliary Function==
+
+Typedefs for this package are defined in {@@cxxblas::typedefs}{cxxblas/typedefs.h}
+and some auxiliary functions here:
+==toc:aux/==
+
+
+==section:Concepts==
+
+==subsection:Storage Order==
+==toc:concepts/[order]==
+
+==subsection:Storage Schemes==
+==toc:concepts/[.+storage]==
+

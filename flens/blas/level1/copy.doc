@@ -1,0 +1,102 @@
+==title:blas::copy{flens::blas::copy}==
+==ul:begin==
+-> Computes [$y \leftarrow x$] for vectors.
+-> Computes operations of the form 
+   [$B \leftarrow \text{op}(A)$]
+   with [$\text{op}(A) \in \{A, A^T, A^H\}$] for matrices.
+-> Source code:
+--> Browse header file: [@header]
+--> Browse implementation: [@tccimpl]
+==ul:end==
+
+
+==section:Common Interface==
+The common interfaces are defined for both, abstract vector and abstract matrix
+types.  In each case the underlying implementation casts the operands to their
+actual implementation and calls a specialized (i.e. overloaded) version of
+[copy] (listed in the sections below).
+
+==subsection:Vectors==
+For vector operands the common interface reads:
+==coderef==
+template <typename VX, typename VY>
+    void
+    copy(const Vector<VX> &x, Vector<VY> &y);
+====
+==ul:begin==
+-> Computes [$y \leftarrow x$] for vectors.
+==ul:end==
+
+==subsection:Matrices==
+For matrix operands the common interface reads:
+==coderef==
+template <typename MA, typename MB>
+    void
+    copy(cxxblas::Transpose trans, const Matrix<MA> &A, Matrix<MB> &B);
+====
+==ul:begin==
+-> Computes operations of the form [$B \leftarrow \text{op}(A) \,x$]
+   where [A], [B] are matrices.
+--> {@@cxxblas::typedefs#Transpose}{[trans]} specifies
+    [$\text{op}(A) \in \{A, A^T, A^H\}$]
+==ul:end==
+
+
+==section:DenseVector#DenseVector==
+For vectors of type {@@flens::DenseVector} the following specialized interface
+is provided:
+==coderef==
+template <typename VX, typename VY>
+    void
+    copy(const DenseVector<VX> &x, DenseVector<VY> &y);
+====
+
+Template Types:
+==list:begin==
+->[VX]:         {@@flens::storage#Array}{Array storage scheme} of vector [x].
+->[VY]:         {@@flens::storage#Array}{Array storage scheme} of vector [y].
+==list:end==
+
+Parameters
+==list:begin==
+->[x]:      {@@flens::DenseVector}{Dense} vector [x]
+->[y]:      {@@flens::DenseVector}{Dense} vector [y]
+==list:end==
+
+Note:
+==ul:begin==
+-> The implementation calls {@@cxxblas::copy}{[cxxblas::copy]}
+-> Vector [y] get resized if possible (i.e. if [y] is not a vector view).
+==ul:end==
+
+
+==section:GeMatrix#GeMatrix==
+For matrices of type {@@flens::GeMatrix} the following specialized interface
+is provided:
+==coderef==
+template <typename MA, typename MB>
+    void
+    copy(cxxblas::Transpose trans,
+         const GeMatrix<MA> &A, GeMatrix<MB> &B);
+====
+
+Template Types:
+==list:begin==
+->[MA]:     {@@flens::storage#FullStorage}{Full storage scheme} of matrix [A]
+->[MB]:     {@@flens::storage#FullStorage}{Full storage scheme} of matrix [B]
+==list:end==
+
+Parameters
+==list:begin==
+->[trans]:  {@@cxxblas::typedefs#Transpose}{Specifies} 
+            [$\text{op}(A) \in \{A, A^T, A^H\}$]
+->[A]:      {@@flens::GeMatrix}{General} matrix [A]
+->[B]:      {@@flens::GeMatrix}{General} matrix [B]
+==list:end==
+
+Note:
+==ul:begin==
+-> The implementation calls {@@cxxblas::gecopy}{[cxxblas::gecopy]}
+-> Dimensions of matrix [B] are required to match corresponding dimensions
+   of matrix [A].
+==ul:end==

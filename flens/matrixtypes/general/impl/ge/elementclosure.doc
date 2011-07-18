@@ -1,0 +1,11 @@
+==title:gematrix::ElementClosure{flens::gematrix::ElementClosure}==
+
+==ul:begin==
+-> Source code:
+--> Browse header file: [@header]
+--> Browse implementation: [@tccimpl]
+-> Comments:
+--> The assignment operator traverses elements according to the utilized storage
+    order.
+--> Currently: Not implemented in a very elegant way.
+==ul:end==

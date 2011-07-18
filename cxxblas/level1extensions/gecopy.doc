@@ -1,0 +1,51 @@
+==title:gecopy{cxxblas::gecopy}==
+==ul:begin==
+-> Copy [A] to [B] where [A] and [B] are a general (i.e. not necessarily
+   square or symmetric) matrices whose elements are stored in a
+   {@@cxxblas::concepts::fullstorage}{full storage scheme}
+   either in {@@cxxblas::concepts::storageorder}{row- or column major order}..
+-> More precisely one of the following operations can be performed:
+--> [$ B \leftarrow A $]
+--> [$ B \leftarrow A^T $]
+--> [$ B \leftarrow A^H $]
+-> The implementation internally calls {@@cxxblas::copy}{copy}.
+-> Source code:
+--> Browse header file: [@header]
+--> Browse implementation: [@tccimpl]
+==ul:end==
+
+==section:Generic Implementation==
+The interface of the generic implementation reads:
+
+==coderef==
+template <typename IndexType, typename MA, typename MB>
+    void
+    gecopy(StorageOrder order,
+           Transpose trans, IndexType m, IndexType n,
+           const MA *A, IndexType ldA,
+           MB *B, IndexType ldB);
+====
+
+==subsection:Template Types==
+==list:begin==
+->[IndexType]:  Size and index type for vectors
+->[MA]:         Element type of matrix [A]
+->[MB]:         Element type of matrix [B]
+==list:end==
+
+==subsection:Parameters==
+==list:begin==
+->[order]:  {@@cxxblas::typedefs#StorageOrder}{Enum constant} specifying the 
+            {@@cxxblas::concepts::storageorder}{storage order} of matrix [A]
+->[trans]:  {@@cxxblas::typedefs#Transpose}{Enum constant} specifying the type
+            of operation to be performed.
+->[m]:      Number of rows of matrix [B]
+->[n]:      Number of columns of matrix [B]
+->[A]:      Pointer to the first element of matrix [A]
+->[ldA]:    {@@cxxblas::concepts::fullstorage#LeadingDimension}{Leading dimension}
+            of matrix [A]
+->[B]:      Pointer to the first element of matrix [B]
+->[ldB]:    {@@cxxblas::concepts::fullstorage#LeadingDimension}{Leading dimension}
+            of matrix [B]
+==list:end==
+

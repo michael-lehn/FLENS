@@ -1,0 +1,100 @@
+==title:symm{cxxblas::symm}==
+==ul:begin==
+-> Computation of matrix-matrix products.
+-> More precisely, function [symm] computes matrix-matrix products of the
+   form
+--> [$ C  \leftarrow \alpha A B  + \beta C$] or
+--> [$ C  \leftarrow \alpha B A  + \beta C$] 
+--> Matrix [A] is symmetric, 
+--> Matrices[B] and [C] are both general (i.e. not necessarily square
+     or symmetric) matrices.
+--> Matrices [A], [B] and [C] are all stored in a
+    {@@cxxblas::concepts::fullstorage}{full storage scheme}
+    either in {@@cxxblas::concepts::storageorder}{row- or column major order},
+--> [alpha], [beta] are scalars
+-> Source code:
+--> Browse header file: [@header]
+--> Browse implementation: [@tccimpl]
+==ul:end==
+
+
+==section:Generic Implementation==
+==ul:begin==
+-> Currently CXXBLAS does not provide a generic implementation.
+-> Contribute a generic implementation!
+==ul:end==
+
+
+==section:Native BLAS==
+==ul:begin==
+-> Function [symm] is overloaded for [float], [double],
+   {@@cxxblas::typedefs#ComplexFloat}{ComplexFloat} and
+   {@@cxxblas::typedefs#ComplexFloat}{ComplexDouble}.
+-> The {@@cxxblas::typedefs}{[If<IndexType>]} trait ensures that native BLAS
+   bindings are accessible for all compatible index types.
+==ul:end==
+
+==subsection:float==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    symm(StorageOrder order, Side side, StorageUpLo upLo,
+         IndexType m, IndexType n,
+         float alpha,
+         const float *A, IndexType ldA,
+         const float *B, IndexType ldB,
+         float beta,
+         float *C, IndexType ldC);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/ssymm.f}{ssymm (Netlib)}
+==ul:end==
+
+
+==subsection:double==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    symm(StorageOrder order, Side side, StorageUpLo upLo,
+         IndexType m, IndexType n,
+         double alpha,
+         const double *A, IndexType ldA,
+         const double *B, IndexType ldB,
+         double beta,
+         double *C, IndexType ldC);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/dsymm.f}{dsymm (Netlib)}
+==ul:end==
+
+==subsection:ComplexFloat==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    symm(StorageOrder order, Side side, StorageUpLo upLo,
+         IndexType m, IndexType n,
+         const ComplexFloat &alpha,
+         const ComplexFloat *A, IndexType ldA,
+         const ComplexFloat *B, IndexType ldB,
+         const ComplexFloat &beta,
+         ComplexFloat *C, IndexType ldC);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/csymm.f}{csymm (Netlib)}
+==ul:end==
+
+==subsection:ComplexDouble==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    symm(StorageOrder order, Side side, StorageUpLo upLo,
+         IndexType m, IndexType n,
+         const ComplexDouble &alpha,
+         const ComplexDouble *A, IndexType ldA,
+         const ComplexDouble *B, IndexType ldB,
+         const ComplexDouble &beta,
+         ComplexDouble *C, IndexType ldC);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/zsymm.f}{zsymm (Netlib)}
+==ul:end==

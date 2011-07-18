@@ -1,0 +1,22 @@
+-> The advatage of BLAS: Stable interface! For decades!
+--> During the last two decades the C++ guys spent their time on re-inventing
+    wheels.
+--> No C++ library could achieve a state of stability matching the state of
+    BLAS.  No C++ library got even close to this point.
+--> At the same time the BLAS guys spent their time on tuning their
+    implementations.  They achieve peak performance on the latest and greatest
+    architectures.
+--> Whenever the C++ guys figure out a special kind of operation that
+    outperforms (or at least can compete with) a certain BLAS function
+    it gets celebrated like a trip to mars.
+--> In the BLAS world such things not even get noticed.
+
+-> Conclusion: First step, assimilate the status quo. Second step, do better.
+--> Primary goal: We need the possibility to take full advantage of BLAS
+---> The capability to fully utilize BLAS is a necessary condition for any
+     numerical library.
+---> If you ignore BLAS you get ignored (by the people who count in this
+     domain).
+---> It is a necessary condition because: if you possibly want to be better in
+     the future, then you should at least be as good as the status quo.
+--> Secondary goal: We want a generic reference implementation of BLAS

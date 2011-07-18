@@ -1,0 +1,20 @@
+==title:complex==
+
+Defines some auxiliary functions for dealing with complex types.
+
+==section:conjugate==
+
+For complex values function [conjugate] returns the conjugate of a variable:  
+==code:.cc==
+template <typename T>
+    std::complex<T>
+    conjugate(const std::complex<T> &x);
+====
+
+For non-complex values it just returns the argument itself:
+==code:.cc==
+template <typename T>
+    const T &
+    conjugate(const T &x);
+====
+

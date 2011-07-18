@@ -1,0 +1,109 @@
+\documentclass{book}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{makeidx}
+\usepackage{graphicx,color}
+\DeclareGraphicsRule{.pdftex}{pdf}{.pdftex}{}
+\usepackage{psfrag}
+\usepackage{fancyvrb}
+\usepackage{subfigure}
+\usepackage{listings}
+
+\usepackage{todo}
+
+\usepackage[latin1]{inputenc}
+\usepackage[OT1]{fontenc}
+
+
+\usepackage[T1, obeyspaces]{url}
+\let\URL\url
+\def\EndeDesItems{dasEndOfItem}
+\long\def\Zeile#1{\xEinItem#1,,dasEndOfItem,,}
+\long\def\xEinItem#1,,{\def\temp{#1}%
+  \ifx\temp\EndeDesItems
+  \else\URL{#1}\par\expandafter\xEinItem
+  \fi
+}
+
+\newenvironment{CDescription}{%
+  \begin{list}{}{%
+      \setlength{\itemsep}{0.4cm}
+      \setlength{\labelsep}{0cm}%
+      \setlength{\leftmargin}{\labelwidth}%
+      \addtolength{\leftmargin}{0.5cm}%
+      \renewcommand{\makelabel}[1]{%
+        \parbox[b]{\textwidth}{\Zeile{##1}}}}}%
+  {\end{list}}
+
+
+% Define shortcut:     \verb|text|  -> |text|
+% \DefineShortVerb{\|}
+%&
+%% Problem:
+%%    \begin{tabular}{c|c}   
+
+
+% should be included as LAST package
+\usepackage[colorlinks=true]{hyperref}
+
+\lstset{
+    numbers=none, %left,
+    basicstyle=\ttfamily\footnotesize,
+    numberstyle=\tiny,
+    frame=none
+}
+
+\title{FLENS Reference Manual}
+
+\author{Alexander Stippler \thanks{University of Ulm, Department of Numerical Analysis, 89069 Ulm, Germany}}
+
+\makeindex
+
+\begin{document}
+%% == TITLE ==============================
+
+\maketitle
+
+%% == TOC ===============================
+
+\setcounter{tocdepth}{2}
+\tableofcontents
+
+
+\chapter{Storage Schemes}
+
+FLENS uses the implementations of the storage schemes as engines for matrix and vector types.
+    
+
+\paragraph{Vector Storage Scheme:}
+  \begin{description}
+  \item[\hyperlink{Array}{{\tt Array<T>}}]
+  \item[\hyperlink{ArrayView}{{\tt ArrayView<T>}}]
+  \item[\hyperlink{ConstArrayView}{{\tt ConstArrayView<T>}}]
+  \end{description}
+  Used as engines for \hyperlink{DenseVector}{{\tt DenseVector<E>}}.
+
+\paragraph{Full Storage Scheme:}
+  \begin{description}
+  \item[\hyperlink{FullStorage}{{\tt FullStorage<T, StorageOrder>}}]
+  \item[\hyperlink{FullStorageView}{{\tt FullStorageView<T, StorageOrder>}}]
+  \item[\hyperlink{ConstFullStorageView}%
+                  {{\tt ConstFullStorageView<T, StorageOrder>}}]
+  \end{description}
+  Used as engines for \hyperlink{GeMatrix}{{\tt GeMatrix<E>}}.
+
+
+\include{array}
+
+\include{fullstorage}
+
+
+
+%% == INDEX ===============================
+
+\addcontentsline{toc}{chapter}{Index}
+\printindex
+
+
+\end{document}

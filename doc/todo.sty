@@ -1,0 +1,34 @@
+% A simple style file to provide todo functionality
+% Warnings are logged for all TODOs, and if there are any todos, a
+% final warning is presented so it's not all lost in the shuffle of
+% TeX's voluminous output
+% Thank you to Will Uther (will@cs.cmu.edu) who originally wrote this
+% package 
+\NeedsTeXFormat{LaTeX2e}[1995/12/01]
+\ProvidesClass{todo}
+          [2002/07/19 v1.0i Package to provide todo notes]
+
+\newif\iftodo@show
+\todo@showtrue
+
+\DeclareOption{hide}{\todo@showfalse}
+
+\ProcessOptions
+
+\newcommand{\mycomment}[1]{{\bf $<$#1$>$}}
+%usage \todo{Item to be reminded about}
+\newcommand{\todo@remembertodo}{%
+\gdef\todo@Warning{\PackageWarningNoLine{todo}{There are still TODOs!}}}
+\gdef\todo@Warning{\relax}
+
+\newcommand{\todo}[1]{{\todo@remembertodo\PackageWarning{todo}{#1}%
+\iftodo@show{\marginpar{{\footnotesize {\tt TODO:} {\it #1}}}}\fi
+}}
+\let\SMURF=\todo
+\let\smurf=\todo
+
+\AtEndDocument{\todo@Warning}
+
+
+
+\endinput

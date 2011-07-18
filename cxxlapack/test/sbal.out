@@ -1,0 +1,12 @@
+ .. test output of SGEBAL .. 
+ value of largest test error            =    0.000E+00
+ example number where info is not zero  =    0
+ example number where ILO or IHI wrong  =    0
+ example number having largest error    =    0
+ number of examples where info is not 0 =    0
+ total number of examples tested        =   13
+
+
+ End of tests
+ Total time used =         0.01 seconds
+

@@ -1,0 +1,210 @@
+==title:ArrayView{flens::ArrayView}==
+
+Implementation of an array storage scheme referencing parts of
+another array storage scheme.
+
+==ul:begin==
+-> No memory gets allocated.
+
+-> Elements are located consecutive in memory divided by a constant stride.
+
+-> Class [ArrayView] supports views (so in this case views of views)
+   referencing parts of the array.  However, views can only reference elements
+   separated by a constant stride.
+
+-> Class [ArrayView] is defined in [namespace flens].
+
+-> Browse header file: [@header]
+
+-> Browse implementation: [@tccimpl]
+==ul:end==
+
+==section:Template Parameters==
+The declaration of [ArrayView] reads
+==code:.cc==
+template <typename T,
+          typename I = IndexOptions<long>,
+          typename A = std::allocator<T> >
+    class ArrayView;
+====
+with template parameters:
+==list:begin==
+->[T]: Element type
+->[I]: {@flens/storage/indexoptions}{Indexing options}
+->[A]: Some standard conform allocator
+==list:end==
+
+==section:Public Typedefs==
+The following typedefs are defined:
+==list:begin==
+->[ElementType]:    element type
+->[IndexType]:      index type
+->[Allocator]:      type of allocator
+->[ConstView]:      type of a 
+                    {@flens/storage/array/constarrayview}{constant view}
+                    for referencing parts of this array
+->[View]:           type of a 
+                    {@flens/storage/array/arrayview}{view}
+                    for referencing parts of this array
+->[NoView]:         type of a 
+                    {@flens/storage/array/array}{array for storing a copy}
+                    of this array or parts
+                    of this array.
+==list:end==
+
+
+==section:Constructors==
+==subsection:Construct View from Pointer==
+==coderef==
+ArrayView(ElementType *data, const Allocator &allocator,
+          IndexType length,
+          IndexType stride = 1,
+          IndexType firstIndex = I::defaultIndexBase);
+====
+Constructs an array view of given [length] and [stride] where [data] points
+to its first elements.  The index base gets specified by [firstIndex].
+
+==subsection:Copy Constructor==
+==coderef==
+ArrayView(const ArrayView &rhs);
+====
+Constructs an array view referencing [rhs].
+
+==subsection:Construct from Array Storage Scheme==
+==coderef==
+template <typename RHS>
+    ArrayView(RHS &rhs);
+====
+Constructs an array view referencing [rhs].
+
+==section:Operators==
+==subsection: Element Access (const)==
+==coderef==
+const ElementType &
+operator()(IndexType index) const;
+====
+Returns the element specified by [index].
+
+==subsection: Element Access==
+==coderef==
+ElementType &
+operator()(IndexType index);
+====
+Returns the element specified by [index].
+
+
+
+
+==section:Methods==
+==subsection:First Valid Index==
+==coderef==
+IndexType
+firstIndex() const;
+====
+Returns the first valid index.
+
+==subsection:Last Valid Index==
+==coderef==
+IndexType
+lastIndex() const;
+====
+Returns the last valid index.
+
+==subsection:Array Length==
+==coderef==
+IndexType
+length() const;
+====
+Returns the length of the array
+
+==subsection:Stride==
+==coderef==
+IndexType
+stride() const;
+====
+Returns the stride between elements.
+
+==subsection:Pointer to First Element (const)==
+==coderef==
+const ElementType *
+data() const;
+====
+Returns a const pointer to the first element (i.e. the element whose index
+equals [firstIndex()]) in the array.
+
+==subsection:Pointer to First Element==
+==coderef==
+ElementType *
+data();
+====
+Returns a const pointer to the first element (i.e. the element whose
+index equals [firstIndex()]) in the array.
+
+==subsection:Get Allocator in Use==
+==coderef==
+const Allocator &
+allocator() const;
+====
+Returns the allocator used by the constructor of non-views (i.e. by
+arrays of type [NoView]).
+
+==subsection:Resize==
+==coderef==
+bool
+resize(IndexType length,
+       IndexType firstIndex = I::defaultIndexBase,
+       const ElementType &value = ElementType());
+====
+If [length] does not equal [length()] an assertion get triggered in [DEBUG]
+mode.  This is because views can not be resized.
+
+If [firstIndex] does not equal [firstIndex()] the index base gets changed by
+calling [changeIndexBase(firstIndex)].
+
+==subsection:Resize (Given Array Storage Scheme)==
+==coderef==
+template <typename ARRAY>
+   bool
+   resize(const ARRAY &rhs, const ElementType &value = ElementType());
+====
+Calls the [resize] method above with length and index base of [rhs].
+
+==subsection:Fill==
+==coderef==
+void
+fill(const ElementType &value = ElementType(0));
+====
+Assign [value] to all elements in the array.
+
+==subsection:Change Index Base==
+==coderef==
+void
+changeIndexBase(IndexType firstIndex);
+====
+Changes the index base, i.e. changes the valid index range.
+
+==section:Methods for Views==
+==subsection:Create Constant Array ViewReferencing Array Parts==
+==coderef==
+const ConstView
+view(IndexType from, IndexType to,
+     IndexType stride = IndexType(1),
+     IndexType firstViewIndex = I::defaultIndexBase) const;
+====
+Creates and returns a constant array view referencing elements indices in
+[from, ..., from + k*stride, ..., to].
+
+The index base of the created view gets specified by [firstViewIndex].
+
+
+==subsection:Create Array ViewReferencing Array Parts==
+==coderef==
+ArrayView
+view(IndexType from, IndexType to,
+     IndexType stride = IndexType(1),
+     IndexType firstViewIndex = I::defaultIndexBase);
+====
+Creates and returns an array view referencing elements indices in
+[from, ..., from + k*stride, ..., to].
+
+The index base of the created view gets specified by [firstViewIndex].

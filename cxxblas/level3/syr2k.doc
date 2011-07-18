@@ -1,0 +1,103 @@
+==title:syr2k{cxxblas::syr2k}==
+==ul:begin==
+-> Performs one of the symmetric rank [2k] operations:
+--> [$ C = \alpha A B^T + \alpha B A^T + \beta C $] or
+--> [$ C = \alpha A^T B + \alpha B^T A + \beta C $]
+-> where:
+--> Matrix [C] is symmetric, 
+--> Matrices [A] and [B] are both general (i.e. not necessarily square
+     or symmetric) matrices.
+--> Matrices [A], [B] and [C] are all stored in a
+    {@@cxxblas::concepts::fullstorage}{full storage scheme}
+    either in {@@cxxblas::concepts::storageorder}{row- or column major order},
+--> [alpha], [beta] are scalars.
+-> Source code:
+--> Browse header file: [@header]
+--> Browse implementation: [@tccimpl]
+==ul:end==
+
+
+==section:Generic Implementation==
+==ul:begin==
+-> Currently CXXBLAS does not provide a generic implementation.
+-> Contribute a generic implementation!
+==ul:end==
+
+
+==section:Native BLAS==
+==ul:begin==
+-> Function [syr2k] is overloaded for [float], [double],
+   {@@cxxblas::typedefs#ComplexFloat}{ComplexFloat} and
+   {@@cxxblas::typedefs#ComplexFloat}{ComplexDouble}.
+-> The {@@cxxblas::typedefs}{[If<IndexType>]} trait ensures that native BLAS
+   bindings are accessible for all compatible index types.
+==ul:end==
+
+==subsection:float==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    syr2k(StorageOrder order, StorageUpLo upLo,
+          Transpose trans,
+          IndexType n, IndexType k,
+          float alpha,
+          const float *A, IndexType ldA,
+          const float *B, IndexType ldB,
+          float beta,
+          float *C, IndexType ldC);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/ssyr2k.f}{ssyr2k (Netlib)}
+==ul:end==
+
+
+==subsection:double==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    syr2k(StorageOrder order, StorageUpLo upLo,
+          Transpose trans,
+          IndexType n, IndexType k,
+          double alpha,
+          const double *A, IndexType ldA,
+          const double *B, IndexType ldB,
+          double beta,
+          double *C, IndexType ldC);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/dsyr2k.f}{dsyr2k (Netlib)}
+==ul:end==
+
+==subsection:ComplexFloat==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    syr2k(StorageOrder order, StorageUpLo upLo,
+          Transpose trans,
+          IndexType n, IndexType k,
+          const ComplexFloat &alpha,
+          const ComplexFloat *A, IndexType ldA,
+          const ComplexFloat *B, IndexType ldB,
+          const ComplexFloat &beta,
+          ComplexFloat *C, IndexType ldC);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/csyr2k.f}{csyr2k (Netlib)}
+==ul:end==
+
+==subsection:ComplexDouble==
+==coderef==
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    syr2k(StorageOrder order, StorageUpLo upLo,
+          Transpose trans,
+          IndexType n, IndexType k,
+          const ComplexDouble &alpha,
+          const ComplexDouble *A, IndexType ldA,
+          const ComplexDouble *B, IndexType ldB,
+          const ComplexDouble &beta,
+          ComplexDouble *C, IndexType ldC);
+====
+==ul:begin==
+-> {@->http://www.netlib.org/blas/zsyr2k.f}{zsyr2k (Netlib)}
+==ul:end==

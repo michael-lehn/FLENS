@@ -1,0 +1,25 @@
+
+ Tests of the Generalized Linear Regression Model routines
+
+ LAPACK VERSION 3.3.0
+
+ The following parameter values will be used:
+    M:         0     5     8    15    20    40
+    P:         9     0    15    12    15    30
+    N:         5     5    10    25    30    40
+
+ Relative machine underflow is taken to be    0.117549E-37
+ Relative machine overflow  is taken to be    0.340282E+39
+ Relative machine precision is taken to be    0.596046E-07
+
+ Routines pass computational tests if test ratio is less than   20.00
+
+
+ GLM routines passed the tests of the error exits (  8 tests done)
+
+ All tests for GLM routines passed the threshold (    48 tests run)
+
+
+ End of tests
+ Total time used =         0.04 seconds
+

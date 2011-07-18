@@ -1,0 +1,11 @@
+ .. test output of SGEBAK .. 
+ value of largest test error             =    0.197E+01
+ example number where info is not zero   =    0
+ example number having largest error     =    7
+ number of examples where info is not 0  =    0
+ total number of examples tested         =    7
+
+
+ End of tests
+ Total time used =         0.00 seconds
+

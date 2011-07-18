@@ -1,0 +1,72 @@
+ Tests of the REAL LAPACK routines 
+ LAPACK VERSION 3.0.0
+
+ The following parameter values will be used:
+    M   :       0     1     2     3     5    10    50
+    N   :       0     1     2     3     5    10    50
+    NRHS:       1     2    15
+    NB  :       1     3     3     3    20
+    NX  :       1     0     5     9     1
+    RANK:      30    50    90
+
+ Routines pass computational tests if test ratio is less than   30.00
+
+ Relative machine underflow is taken to be    0.117549E-37
+ Relative machine overflow  is taken to be    0.340282E+39
+ Relative machine precision is taken to be    0.596046E-07
+
+
+ SGE routines passed the tests of the error exits
+
+ All tests for SGE routines passed the threshold (  3653 tests run)
+
+ SGE drivers passed the tests of the error exits
+
+ All tests for SGE drivers  passed the threshold (  4866 tests run)
+
+ SGB routines were not tested
+
+ SGT routines were not tested
+
+ SPO routines were not tested
+
+ SPS routines were not tested
+
+ SPP routines were not tested
+
+ SPB routines were not tested
+
+ SPT routines were not tested
+
+ SSY routines were not tested
+
+ SSP routines were not tested
+
+ STR routines were not tested
+
+ STP routines were not tested
+
+ STB routines were not tested
+
+ SQR routines were not tested
+
+ SRQ routines were not tested
+
+ SLQ routines were not tested
+
+ SQL routines were not tested
+
+ SQP routines were not tested
+
+ STZ routines were not tested
+
+ SLS routines were not tested
+
+ SGBEQU failed test with value  0.839E+07 exceeding threshold  0.200E+01
+ SPOEQU failed test with value  0.839E+07 exceeding threshold  0.200E+01
+ SPPEQU failed test with value  0.839E+07 exceeding threshold  0.200E+01
+ SPBEQU failed test with value  0.839E+07 exceeding threshold  0.200E+01
+
+ End of tests
+ Total time used =         0.00 seconds
+
