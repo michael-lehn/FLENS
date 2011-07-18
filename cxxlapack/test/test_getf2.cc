@@ -1,4 +1,4 @@
-// clang++ gmp_test.cc -I../../ -I/opt/local/include/ -L /opt/local/lib -lgmpxx -lgmp
+// clang++ test_getf2.cc -I../../ -I/opt/local/include/ -L /opt/local/lib -lgmpxx -lgmp
 
 
 #include <gmpxx.h>
