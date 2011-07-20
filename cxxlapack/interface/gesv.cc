@@ -204,13 +204,13 @@ GESV(const INT *N, const INT *NRHS,
      INT *INFO)
 {
     *INFO = gesv(ColMajor, *N, *NRHS, A, *LDA, IPIV, B, *LDB);
+    for (INT i=0; i<*N; ++i) {
+        ++IPIV[i];
+    }
     if (*INFO<0) {
         *INFO = -(*INFO);
         XERBLA("SGESV", INFO, 5);
         *INFO = -(*INFO);
-    }
-    for (INT i=0; i<*N; ++i) {
-        ++IPIV[i];
     }
     if (*INFO<0) {
         return;
