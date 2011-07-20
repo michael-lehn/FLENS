@@ -80,6 +80,63 @@ namespace cxxlapack {
 using cxxblas::swap;
 using std::swap;
 
+
+template <typename IndexType, typename MA>
+void
+laswp(StorageOrder order,
+      IndexType n, MA *A, IndexType ldA,
+      IndexType k1, IndexType k2,
+      const IndexType *iPiv, IndexType incX)
+{
+    assert(order==ColMajor);
+
+    IndexType iX0, i1, i2, inc;
+    if (incX>0) {
+        iX0 = k1;
+        i1 = k1;
+        i2 = k2;
+        inc = 1;
+    } else if (incX<0) {
+        iX0 = -k2*incX;
+        i1 = k2;
+        i2 = k1;
+        inc = -1;
+    } else {
+        return;
+    }
+
+    IndexType n32 = (n/32)*32;
+
+    if (n32!=0) {
+        for (IndexType j=0; j<n32; j+=32) {
+            for (IndexType i=i1, iX=iX0; i!=i2+inc; i+=inc, iX+=incX) {
+                IndexType iP = iPiv[iX];
+                assert(iP>=0);
+                assert(iP<ldA);
+                if (iP!=i) {
+                    for (IndexType k=j; k<j+32; ++k) {
+                        swap(A[i+k*ldA], A[iP+k*ldA]);
+                    }
+                }
+            }
+        }
+    }
+    if (n32!=n) {
+        for (IndexType i=i1, iX=iX0; i!=i2+inc; i+=inc, iX+=incX) {
+            IndexType iP = iPiv[iX];
+            assert(iP>=0);
+            assert(iP<ldA);
+            if (iP!=i) {
+                for (IndexType k=n32; k<n; ++k) {
+                    swap(A[i+k*ldA], A[iP+k*ldA]);
+                }
+            }
+        }
+    }
+}
+
+/*
+
 template <typename IndexType, typename MA>
 void
 laswp(StorageOrder order,
@@ -123,6 +180,8 @@ laswp(StorageOrder order,
         assert(0);
     }
 }
+
+*/
 
 } // namespace cxxlapack
 

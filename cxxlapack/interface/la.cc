@@ -308,11 +308,50 @@ LASWP_REF(const INT *N, FLOAT *A, const INT *LDA,
           const INT *IPIV, const INT *INCX);
 #endif
 
+void Claswp(INT n, FLOAT * A, INT lda, INT k1, INT k2, const INT * ipiv, INT incx)
+{
+    INT i, k, i1, i2, ip, ix, ix0, inc;
+    FLOAT temp;
+
+    if (incx > 0) {
+	ix0 = k1;
+	i1 = k1;
+	i2 = k2;
+	inc = 1;
+    } else if (incx < 0) {
+	ix0 = 1 + (1 - k2) * incx;
+	i1 = k2;
+	i2 = k1;
+	inc = -1;
+    } else {
+	return;
+    }
+
+    ix = ix0;
+    for (i = i1; inc > 0 ? i <= i2 : i >= i2; i = i + inc) {
+	ip = ipiv[ix - 1];
+    if (ip>n) {
+        fprintf(stderr, "ip=%d, n=%d, lda=%d\n", ip, n, lda);
+    }
+    assert(ip<=lda);
+	if (ip != i) {
+	    for (k = 1; k <= n; k++) {
+		temp = A[(i - 1) + (k - 1) * lda];
+		A[(i - 1) + (k - 1) * lda] = A[(ip - 1) + (k - 1) * lda];
+		A[(ip - 1) + (k - 1) * lda] = temp;
+	    }
+	}
+	ix = ix + incx;
+    }
+    return;
+}
+
 void
 LASWP(const INT *N, FLOAT *A, const INT *LDA,
       const INT *K1, const INT *K2,
       const INT *IPIV, const INT *INCX)
 {
+//    Claswp(*N, A, *LDA, *K1, *K2, IPIV, *INCX); return;
 #   ifdef DEBUG_INTERFACE
     fprintf(stderr, "LASWP\n");
 #   endif
@@ -320,7 +359,34 @@ LASWP(const INT *N, FLOAT *A, const INT *LDA,
 #   ifdef USE_LASWP_REF
     LASWP_REF(N, A, LDA, K1, K2, IPIV, INCX);
 #   else
-    laswp(ColMajor, *N, A, *LDA, *K1-1, *K2-1, IPIV, *INCX, 1);
+    INT k1 = (*K1)-1;
+    INT k2 = (*K2)-1;
+    INT incX = *INCX;
+
+    INT iX0, i1, i2, inc;
+    if (incX>0) {
+        iX0 = k1;
+        i1 = k1;
+        i2 = k2;
+        inc = 1;
+    } else if (incX<0) {
+        iX0 = -k2*incX;
+        i1 = k2;
+        i2 = k1;
+        inc = -1;
+    } else {
+        return;
+    }
+    INT *iPiv = const_cast<INT *>(IPIV);
+    for (INT i=i1, iX=iX0; i!=i2+inc; i+=inc, iX+=incX) {
+        --iPiv[iX];
+    }
+
+    laswp(ColMajor, *N, A, *LDA, k1, k2, iPiv, incX);
+
+    for (INT i=i1, iX=iX0; i!=i2+inc; i+=inc, iX+=incX) {
+        ++iPiv[iX];
+    }
 #   endif
 }
 
