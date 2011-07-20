@@ -85,103 +85,51 @@ template <typename IndexType, typename MA>
 void
 laswp(StorageOrder order,
       IndexType n, MA *A, IndexType ldA,
-      IndexType k1, IndexType k2,
+      IndexType i1, IndexType i2,
       const IndexType *iPiv, IndexType incX)
 {
     assert(order==ColMajor);
-
-    IndexType iX0, i1, i2, inc;
+//
+//     Interchange row i with row iPiv[i] for each of rows K1 through K2.
+//
+    IndexType iX0, inc;
     if (incX>0) {
-        iX0 = k1;
-        i1 = k1;
-        i2 = k2;
+        iX0 = i1;
         inc = 1;
     } else if (incX<0) {
-        iX0 = -k2*incX;
-        i1 = k2;
-        i2 = k1;
+        iX0 = -i2*incX;
+        swap(i1, i2);
         inc = -1;
     } else {
         return;
     }
 
-    IndexType n32 = (n/32)*32;
+    const IndexType bs = 32;
+    const IndexType nbs = (n/bs)*bs;
 
-    if (n32!=0) {
-        for (IndexType j=0; j<n32; j+=32) {
+    if (nbs!=0) {
+        for (IndexType j=0; j<nbs; j+=bs, A+=bs*ldA) {
             for (IndexType i=i1, iX=iX0; i!=i2+inc; i+=inc, iX+=incX) {
                 IndexType iP = iPiv[iX];
                 assert(iP>=0);
                 assert(iP<ldA);
                 if (iP!=i) {
-                    for (IndexType k=j; k<j+32; ++k) {
-                        swap(A[i+k*ldA], A[iP+k*ldA]);
-                    }
+                    swap(bs, A+i, ldA, A+iP, ldA);
                 }
             }
         }
     }
-    if (n32!=n) {
+    if (nbs!=n) {
         for (IndexType i=i1, iX=iX0; i!=i2+inc; i+=inc, iX+=incX) {
             IndexType iP = iPiv[iX];
             assert(iP>=0);
             assert(iP<ldA);
             if (iP!=i) {
-                for (IndexType k=n32; k<n; ++k) {
-                    swap(A[i+k*ldA], A[iP+k*ldA]);
-                }
+                swap(n-nbs, A+i, ldA, A+iP, ldA);
             }
         }
     }
 }
-
-/*
-
-template <typename IndexType, typename MA>
-void
-laswp(StorageOrder order,
-      IndexType n, MA *A, IndexType ldA,
-      IndexType i1, IndexType i2,
-      const IndexType *iPiv, IndexType incIPiv,
-      IndexType pivIndexBase)
-{
-//
-//     Interchange row i with row iPiv[i] for each of rows K1 through K2.
-//
-    assert(i1<=i2);
-    if (incIPiv<0) {
-        iPiv -= incIPiv*i2;
-    }
-
-    IndexType bs = 3002;
-    IndexType nbs = IndexType(n/bs)*bs;
-
-    if (order==ColMajor) {
-        if (nbs!=0) {
-            for (IndexType j=0; j<nbs; j+=bs, A+=bs*ldA) {
-                for (IndexType i=i1, iX=i*incIPiv; i<=i2; ++i, iX+=incIPiv) {
-                    IndexType iP = iPiv[iX]-pivIndexBase;
-                    if (iP!=i) {
-                        swap(bs, A+i, ldA, A+iP, ldA);
-                    }
-                }
-            }
-        }
-        if (nbs!=n) {
-            for (IndexType i=i1, iX=i*incIPiv; i<=i2; ++i, iX+=incIPiv) {
-                IndexType iP = iPiv[iX]-pivIndexBase;
-                if (iP!=i) {
-                    swap(n-nbs, A+i, ldA, A+iP, ldA);
-                }
-            }
-        }
-    }
-    if (order==RowMajor) {
-        assert(0);
-    }
-}
-
-*/
 
 } // namespace cxxlapack
 

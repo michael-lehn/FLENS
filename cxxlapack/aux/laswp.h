@@ -39,21 +39,11 @@
 namespace cxxlapack {
 
 template <typename IndexType, typename MA>
-void
-laswp(StorageOrder order,
-      IndexType n, MA *A, IndexType ldA,
-      IndexType k1, IndexType k2,
-      const IndexType *iPiv, IndexType incX);
-
-/*
-template <typename IndexType, typename MA>
     void
     laswp(StorageOrder order,
           IndexType n, MA *A, IndexType ldA,
-          IndexType k1, IndexType k2,
-          const IndexType *iPiv, IndexType incIPiv,
-          IndexType pivIndexBase=0);
-*/
+          IndexType i1, IndexType i2,
+          const IndexType *iPiv, IndexType incIPiv);
 
 } // namespace cxxlapack
 
