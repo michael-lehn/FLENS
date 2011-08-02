@@ -33,6 +33,7 @@
 #ifndef FLENS_BLAS_LEVEL2_LEVEL2_TCC
 #define FLENS_BLAS_LEVEL2_LEVEL2_TCC
 
+#include <flens/blas/level2/r.tcc>
 #include <flens/blas/level2/mv.tcc>
 #include <flens/blas/level2/sv.tcc>
 
