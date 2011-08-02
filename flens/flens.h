@@ -36,21 +36,11 @@
 #include <flens/aux/aux.h>
 #include <flens/blas/blas.h>
 #include <flens/io/io.h>
+#include <flens/lapack/lapack.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/scalartypes/scalartypes.h>
 #include <flens/scalaroperations/scalaroperations.h>
 #include <flens/storage/storage.h>
 #include <flens/vectortypes/vectortypes.h>
-
-#include <flens/aux/aux.tcc>
-#include <flens/blas/blas.tcc>
-#include <flens/io/io.tcc>
-#include <flens/matrixtypes/matrixtypes.tcc>
-#include <flens/scalartypes/scalartypes.tcc>
-#include <flens/scalaroperations/scalaroperations.tcc>
-#include <flens/storage/storage.tcc>
-#include <flens/vectortypes/vectortypes.tcc>
-
-#include <cxxblas/cxxblas.tcc>
 
 #endif // FLENS_FLENS_H
