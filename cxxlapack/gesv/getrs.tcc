@@ -76,10 +76,7 @@
 
 namespace cxxlapack {
 
-using cxxblas::ger;
-using cxxblas::iamax;
-using cxxblas::scal;
-using cxxblas::swap;
+using cxxblas::trsm;
 
 template <typename IndexType, typename MA, typename MB>
 IndexType

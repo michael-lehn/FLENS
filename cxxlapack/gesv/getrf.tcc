@@ -77,7 +77,7 @@
 
 namespace cxxlapack {
 
-using cxxblas::ger;
+using cxxblas::gemm;
 using cxxblas::iamax;
 using cxxblas::scal;
 using cxxblas::swap;
@@ -131,13 +131,15 @@ getrf(StorageOrder order,
 //
 //      Use blocked code.
 //
-        for (IndexType j=0; j<min(m,n); j+=nb) {
-            IndexType jb = min(min(m,n)-j, nb);
+        for (IndexType j=1; j<=min(m,n); j+=bs) {
+            IndexType jb = min(min(m,n)-j, bs);
 //
 //          Factor diagonal and subdiagonal blocks and test for exact
 //          singularity.
 //
-            IndexType _info = getf2(order, m-j, jb, A+j*(ldA+1), ldA, iPiv+j);
+            Range rows(j, m);
+            Range cols(j, j+jb);
+            IndexType _info = getf2(A(rows,cols), iPiv(rows));
 //
 //          Adjust INFO and the pivot indices.
 //

@@ -103,13 +103,14 @@ laswp(StorageOrder order,
     } else {
         return;
     }
+    i2 += inc;
 
     const IndexType bs = 32;
     const IndexType nbs = (n/bs)*bs;
 
     if (nbs!=0) {
         for (IndexType j=0; j<nbs; j+=bs, A+=bs*ldA) {
-            for (IndexType i=i1, iX=iX0; i!=i2+inc; i+=inc, iX+=incX) {
+            for (IndexType i=i1, iX=iX0; i!=i2; i+=inc, iX+=incX) {
                 IndexType iP = iPiv[iX];
                 assert(iP>=0);
                 assert(iP<ldA);
@@ -120,7 +121,7 @@ laswp(StorageOrder order,
         }
     }
     if (nbs!=n) {
-        for (IndexType i=i1, iX=iX0; i!=i2+inc; i+=inc, iX+=incX) {
+        for (IndexType i=i1, iX=iX0; i!=i2; i+=inc, iX+=incX) {
             IndexType iP = iPiv[iX];
             assert(iP>=0);
             assert(iP<ldA);
