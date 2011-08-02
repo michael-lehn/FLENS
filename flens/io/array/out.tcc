@@ -45,19 +45,22 @@ operator<<(std::ostream &out, const DenseVector<A> &x)
     IndexType defaultIndexBase = StorageInfo<A>::defaultIndexBase;
 
     out << std::endl << "[";
-    (x.firstIndex()==defaultIndexBase) ? out << x.length()
-                                       : out << x.firstIndex()
-                                             << ".."
-                                             << x.lastIndex();
+    if ((x.firstIndex()==defaultIndexBase) && (x.inc()>0)) {
+        out << x.length();
+    } else {
+        out << x.firstIndex()
+            << ".."
+            << x.lastIndex();
+    }
     out << "] ";
 #   endif // FLENS_IO_WITH_RANGES
 
     out << std::endl;
     out.setf(std::ios::fixed);
-    for (IndexType i=x.firstIndex(); i<=x.lastIndex(); ++i) {
+    for (IndexType i=x.firstIndex(); i!=x.endIndex(); i+=x.inc()) {
         out.width(11);
         out << x(i) << " ";
-        if (i<x.lastIndex()) {
+        if (i!=x.lastIndex()) {
             out << " ";
         }
     }
