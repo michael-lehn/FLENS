@@ -39,6 +39,14 @@
 
 namespace flens { namespace blas {
 
+//-- forwarding ----------------------------------------------------------------
+template <typename ALPHA, typename VY>
+void
+scal(const ALPHA &alpha, VY &&y)
+{
+    scal(alpha, y);
+}
+
 //-- common interface for vectors ----------------------------------------------
 template <typename ALPHA, typename VY>
 void
@@ -61,7 +69,7 @@ void
 scal(const ALPHA &alpha, DenseVector<VY> &y)
 {
 #   ifdef HAVE_CXXBLAS_SCAL
-    cxxblas::scal(y.length(), alpha, y.engine().data(), y.engine().stride());
+    cxxblas::scal(y.length(), alpha, y.data(), y.inc());
 #   else
     ASSERT(0);
 #   endif

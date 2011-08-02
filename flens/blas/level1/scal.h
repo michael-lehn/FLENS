@@ -38,6 +38,11 @@
 
 namespace flens { namespace blas {
 
+//-- forwarding ----------------------------------------------------------------
+template <typename ALPHA, typename VY>
+    void
+    scal(const ALPHA &alpha, VY &&y);
+
 //-- common interface for vectors ----------------------------------------------
 template <typename ALPHA, typename VY>
     void
@@ -47,6 +52,8 @@ template <typename ALPHA, typename VY>
 template <typename ALPHA, typename MB>
     void
     scal(const ALPHA &alpha, Matrix<MB> &B);
+
+//------------------------------------------------------------------------------
 
 //-- scal
 template <typename ALPHA, typename VY>

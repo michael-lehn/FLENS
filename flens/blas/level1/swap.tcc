@@ -41,14 +41,19 @@ namespace flens { namespace blas {
 
 template <typename X, typename Y>
 void
+swap(X &&x, Y &&y)
+{
+    blas::swap(x, y);
+}
+
+template <typename X, typename Y>
+void
 swap(DenseVector<X> &x, DenseVector<Y> &y)
 {
     ASSERT(x.length()==y.length());
 
 #   ifdef HAVE_CXXBLAS_SWAP
-    cxxblas::swap(x.length(),
-                  x.engine().data(), x.engine().stride(),
-                  y.engine().data(), y.engine().stride());
+    cxxblas::swap(x.length(), x.data(), x.inc(), y.data(), y.inc());
 #   else
     ASSERT(0);
 #   endif

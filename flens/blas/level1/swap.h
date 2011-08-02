@@ -38,6 +38,12 @@
 
 namespace flens { namespace blas {
 
+//-- forwarding ----------------------------------------------------------------
+template <typename X, typename Y>
+    void
+    swap(X &&x, Y &&y);
+
+//-- DenseVector ---------------------------------------------------------------
 template <typename X, typename Y>
     void
     swap(DenseVector<X> &x, DenseVector<Y> &y);
