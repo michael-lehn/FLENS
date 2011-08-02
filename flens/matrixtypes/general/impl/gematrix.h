@@ -112,7 +112,6 @@ class GeMatrix
         GeMatrix(IndexType numRows, IndexType numCols,
                  IndexType firstRow, IndexType firstCol);
 
-//TODO
         GeMatrix(const Range<IndexType> &rowRange,
                  const Range<IndexType> &colRange);
 
