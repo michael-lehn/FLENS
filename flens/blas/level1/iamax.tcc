@@ -46,9 +46,7 @@ iamax(const DenseVector<X> &x)
     typename DenseVector<X>::IndexType i;
 
 #   ifdef HAVE_CXXBLAS_IAMAX
-    cxxblas::iamax(x.length(),
-                   x.engine().data(), x.engine().leadingDimension(),
-                   i);
+    cxxblas::iamax(x.length(), x.data(), x.inc(), i);
 #   else
     ASSERT(0);
 #   endif

@@ -62,14 +62,12 @@ copy(const DenseVector<VX> &x, DenseVector<VY> &y)
 {
     FLENS_CLOSURELOG_ADD_ENTRY_COPY(x, y);
     if (y.length()!=x.length()) {
-        y.engine().resize(x.engine());
+        y.resize(x);
     }
-    y.engine().changeIndexBase(x.firstIndex());
+    y.changeIndexBase(x.firstIndex());
 
 #   ifdef HAVE_CXXBLAS_COPY
-    cxxblas::copy(x.length(),
-                  x.engine().data(), x.engine().stride(),
-                  y.engine().data(), y.engine().stride());
+    cxxblas::copy(x.length(), x.data(), x.inc(), y.data(), y.inc());
 #   else
     ASSERT(0);
 #   endif
@@ -86,14 +84,13 @@ copy(cxxblas::Transpose trans,
     FLENS_CLOSURELOG_ADD_ENTRY_COPY(A, B);
 
     if (trans==cxxblas::NoTrans) {
-        if ((A.numRows()!=B.numRows())
-         || (A.numCols()!=B.numCols())) {
+        if ((A.numRows()!=B.numRows()) || (A.numCols()!=B.numCols())) {
             B.engine().resize(A.engine());
         }
     } else {
-        if ((A.numRows()!=B.numCols())
-         || (A.numCols()!=B.numRows())) {
-            B.engine().resize(A.numCols(),A.numRows(), A.firstCol(), A.firstRow());
+        if ((A.numRows()!=B.numCols())  || (A.numCols()!=B.numRows())) {
+            B.engine().resize(A.numCols(), A.numRows(),
+                              A.firstCol(), A.firstRow());
         } 
     }
     trans = (StorageInfo<MA>::Order==StorageInfo<MB>::Order)
