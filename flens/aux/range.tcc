@@ -74,14 +74,14 @@ template <typename IndexType>
 IndexType
 Range<IndexType>::numTicks() const
 {
-    return (_lastIndex-_firstIndex)/_stride + IndexType(1);
+    return (_lastIndex-_firstIndex)/abs(_stride) + IndexType(1);
 }
 
 template <typename IndexType>
 IndexType
 Range<IndexType>::length() const
 {
-    return (_lastIndex-_firstIndex)/_stride + IndexType(1);
+    return (_lastIndex-_firstIndex)/abs(_stride) + IndexType(1);
 }
 
 //------------------------------------------------------------------------------
