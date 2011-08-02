@@ -182,6 +182,11 @@ template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
 const typename FullStorageView<T, Order, I, A>::ElementType *
 FullStorageView<T, Order, I, A>::data() const
 {
+#   ifndef NDEBUG
+    if ((numRows()==0) || numCols()==0) {
+        return 0;
+    }
+#   endif
     return &(this->operator()(_firstRow, _firstCol));
 }
 
@@ -189,6 +194,12 @@ template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
 typename FullStorageView<T, Order, I, A>::ElementType *
 FullStorageView<T, Order, I, A>::data()
 {
+#   ifndef NDEBUG
+    if ((numRows()==0) || numCols()==0) {
+        return 0;
+    }
+#   endif
+
     return &(this->operator()(_firstRow, _firstCol));
 }
 
@@ -248,6 +259,15 @@ void
 FullStorageView<T, Order, I, A>::changeIndexBase(IndexType firstRow,
                                                  IndexType firstCol)
 {
+#   ifndef NDEBUG
+    // prevent an out-of-bound assertion in case a view is empty anyway
+    if ((numRows()==0) || (numCols()==0)) {
+        _firstRow = firstRow;
+        _firstCol = firstCol;
+        return;
+    }
+#   endif
+
     if (Order==cxxblas::RowMajor) {
         _data = data() - (firstRow*leadingDimension() + firstCol);
     }
@@ -266,6 +286,17 @@ FullStorageView<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
                                       IndexType firstViewRow,
                                       IndexType firstViewCol) const
 {
+    const IndexType numRows = toRow-fromRow+1;
+    const IndexType numCols = toCol-fromCol+1;
+
+#   ifndef NDEBUG
+    // prevent an out-of-bound assertion in case a view is empty anyway
+    if ((numRows==0) || (numCols==0)) {
+        fromRow = firstRow();
+        fromCol = firstCol();
+    }
+#   endif
+
     ASSERT(fromRow>=firstRow());
     ASSERT(fromRow<=toRow);
     ASSERT(toRow<=lastRow());
@@ -276,8 +307,8 @@ FullStorageView<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
 
     return ConstView(&(this->operator()(fromRow, fromCol)),// data
                      allocator(),                          // allocator
-                     toRow-fromRow+1,                      // # rows
-                     toCol-fromCol+1,                      // # cols
+                     numRows,                              // # rows
+                     numCols,                              // # cols
                      leadingDimension(),                   // leading dimension
                      firstViewRow,                         // firstRow
                      firstViewCol);                        // firstCol
@@ -290,6 +321,17 @@ FullStorageView<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
                                       IndexType firstViewRow,
                                       IndexType firstViewCol)
 {
+    const IndexType numRows = toRow-fromRow+1;
+    const IndexType numCols = toCol-fromCol+1;
+
+#   ifndef NDEBUG
+    // prevent an out-of-bound assertion in case a view is empty anyway
+    if ((numRows==0) || (numCols==0)) {
+        fromRow = firstRow();
+        fromCol = firstCol();
+    }
+#   endif
+
     ASSERT(fromRow>=firstRow());
     ASSERT(fromRow<=toRow);
     ASSERT(toRow<=lastRow());
@@ -300,8 +342,8 @@ FullStorageView<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
 
     return View(&(this->operator()(fromRow, fromCol)),// data
                 allocator(),                          // allocator
-                toRow-fromRow+1,                      // # rows
-                toCol-fromCol+1,                      // # cols
+                numRows,                              // # rows
+                numCols,                              // # cols
                 leadingDimension(),                   // leading dimension
                 firstViewRow,                         // firstRow
                 firstViewCol);                        // firstCol
@@ -313,6 +355,13 @@ const typename FullStorageView<T, Order, I, A>::ConstArrayView
 FullStorageView<T, Order, I, A>::viewRow(IndexType row,
                                          IndexType firstViewIndex) const
 {
+#   ifndef NDEBUG
+    // prevent an out-of-bound assertion in case a view is empty anyway
+    if (numCols()==0) {
+        row = this->firstRow();
+    }
+#   endif
+
     ASSERT(row>=firstRow());
     ASSERT(row<=lastRow());
 
@@ -328,6 +377,13 @@ typename FullStorageView<T, Order, I, A>::ArrayView
 FullStorageView<T, Order, I, A>::viewRow(IndexType row,
                                          IndexType firstViewIndex)
 {
+#   ifndef NDEBUG
+    // prevent an out-of-bound assertion in case a view is empty anyway
+    if (numCols()==0) {
+        row = firstRow();
+    }
+#   endif
+
     ASSERT(row>=firstRow());
     ASSERT(row<=lastRow());
 
@@ -338,12 +394,71 @@ FullStorageView<T, Order, I, A>::viewRow(IndexType row,
                      firstViewIndex);
 }
 
+template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+const typename FullStorageView<T, Order, I, A>::ConstArrayView
+FullStorageView<T, Order, I, A>::viewRow(IndexType row,
+                                         IndexType firstCol, IndexType lastCol,
+                                         IndexType firstViewIndex) const
+{
+    const IndexType length = lastCol-firstCol+1;
+
+#   ifndef NDEBUG
+    // prevent an out-of-bound assertion in case a view is empty anyway
+    if (length==0) {
+        row =       firstRow();
+        firstCol =  this->firstCol();
+    }
+#   endif
+
+    ASSERT(row>=firstRow());
+    ASSERT(row<=lastRow());
+
+    return ConstArrayView(&(this->operator()(row, firstCol)),
+                          allocator(),
+                          length,
+                          strideCol(),
+                          firstViewIndex);
+}
+
+template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+typename FullStorageView<T, Order, I, A>::ArrayView
+FullStorageView<T, Order, I, A>::viewRow(IndexType row,
+                                         IndexType firstCol, IndexType lastCol,
+                                         IndexType firstViewIndex)
+{
+    const IndexType length = lastCol-firstCol+1;
+
+#   ifndef NDEBUG
+    // prevent an out-of-bound assertion in case a view is empty anyway
+    if (length==0) {
+        row =       firstRow();
+        firstCol =  this->firstCol();
+    }
+#   endif
+
+    ASSERT(row>=firstRow());
+    ASSERT(row<=lastRow());
+
+    return ArrayView(&(this->operator()(row, firstCol)),
+                     allocator(),
+                     length,
+                     strideCol(),
+                     firstViewIndex);
+}
+
 // view of single column
 template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
 const typename FullStorageView<T, Order, I, A>::ConstArrayView
 FullStorageView<T, Order, I, A>::viewCol(IndexType col,
                                          IndexType firstViewIndex) const
 {
+#   ifndef NDEBUG
+    // prevent an out-of-bound assertion in case a view is empty anyway
+    if (numRows()==0) {
+        col = firstCol();
+    }
+#   endif
+
     ASSERT(col>=firstCol());
     ASSERT(col<=lastCol());
 
@@ -359,6 +474,13 @@ typename FullStorageView<T, Order, I, A>::ArrayView
 FullStorageView<T, Order, I, A>::viewCol(IndexType col,
                                          IndexType firstViewIndex)
 {
+#   ifndef NDEBUG
+    // prevent an out-of-bound assertion in case a view is empty anyway
+    if (numRows()==0) {
+        col = firstCol();
+    }
+#   endif
+
     ASSERT(col>=firstCol());
     ASSERT(col<=lastCol());
 
@@ -369,14 +491,76 @@ FullStorageView<T, Order, I, A>::viewCol(IndexType col,
                      firstViewIndex);
 }
 
+template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+const typename FullStorageView<T, Order, I, A>::ConstArrayView
+FullStorageView<T, Order, I, A>::viewCol(IndexType firstRow, IndexType lastRow,
+                                         IndexType col,
+                                         IndexType firstViewIndex) const
+{
+    const IndexType length = lastRow-firstRow+1;
+
+#   ifndef NDEBUG
+    // prevent an out-of-bound assertion in case a view is empty anyway
+    if (length==0) {
+        firstRow =  this->firstRow();
+        col =       firstCol();
+    }
+#   endif
+
+    ASSERT(col>=firstCol());
+    ASSERT(col<=lastCol());
+
+    return ConstArrayView(&(this->operator()(firstRow, col)),
+                          allocator(),
+                          length,
+                          strideRow(),
+                          firstViewIndex);
+}
+
+template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+typename FullStorageView<T, Order, I, A>::ArrayView
+FullStorageView<T, Order, I, A>::viewCol(IndexType firstRow, IndexType lastRow,
+                                         IndexType col,
+                                         IndexType firstViewIndex)
+{
+    const IndexType length = lastRow-firstRow+1;
+
+#   ifndef NDEBUG
+    // prevent an out-of-bound assertion in case a view is empty anyway
+    if (length==0) {
+        firstRow =  this->firstRow();
+        col =       firstCol();
+    }
+#   endif
+
+    ASSERT(col>=firstCol());
+    ASSERT(col<=lastCol());
+
+    return ArrayView(&(this->operator()(firstRow, col)),
+                     allocator(),
+                     length,
+                     strideRow(),
+                     firstViewIndex);
+}
+
 // view of d-th diagonal
 template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
 const typename FullStorageView<T, Order, I, A>::ConstArrayView
 FullStorageView<T, Order, I, A>::viewDiag(IndexType d,
                                           IndexType firstViewIndex) const
 {
+#   ifndef NDEBUG
+    // prevent an out-of-bound assertion in case a view is empty anyway
+    IndexType col, row;
+    if (std::min(numRows(),numCols()) - std::abs(d)==0) {
+        row = this->firstRow();
+        col = this->firstCol();
+    }
+#   else
     IndexType col = firstCol() + ( (d>0) ? d : 0 );
     IndexType row = firstRow() + ( (d>0) ? 0 : -d );
+#   endif
+
     return ConstArrayView(&(this->operator()(row,col)),
                           allocator(),
                           std::min(numRows(),numCols()) - std::abs(d),
@@ -389,8 +573,18 @@ typename FullStorageView<T, Order, I, A>::ArrayView
 FullStorageView<T, Order, I, A>::viewDiag(IndexType d,
                                           IndexType firstViewIndex)
 {
+#   ifndef NDEBUG
+    // prevent an out-of-bound assertion in case a view is empty anyway
+    IndexType col, row;
+    if (std::min(numRows(),numCols()) - std::abs(d)==0) {
+        row = this->firstRow();
+        col = this->firstCol();
+    }
+#   else
     IndexType col = firstCol() + ( (d>0) ? d : 0 );
     IndexType row = firstRow() + ( (d>0) ? 0 : -d );
+#   endif
+
     return ArrayView(&(this->operator()(row,col)),
                      allocator(),
                      std::min(numRows(),numCols()) - std::abs(d),

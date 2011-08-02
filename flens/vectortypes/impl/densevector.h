@@ -1,5 +1,6 @@
 /*
  *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2011, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -84,7 +85,7 @@ class DenseVector
 
         DenseVector(const Range<IndexType> &range);
 
-        DenseVector(const A &array);
+        DenseVector(const A &array, bool reverse=false);
 
         DenseVector(const DenseVector &rhs);
 
@@ -170,6 +171,12 @@ class DenseVector
         operator()(const Underscore<IndexType> &all, 
                    IndexType firstViewIndex);
 
+        ConstView
+        reverse() const;
+
+        View
+        reverse();
+
         // -- methods ----------------------------------------------------------
         Range<IndexType>
         range() const;
@@ -183,6 +190,25 @@ class DenseVector
         IndexType
         length() const;
 
+        IndexType
+        inc() const;
+
+        IndexType
+        endIndex() const;
+
+        const ElementType *
+        data() const;
+
+        ElementType *
+        data();
+
+        template <typename RHS>
+            bool
+            resize(const DenseVector<RHS> &rhs);
+
+        void
+        changeIndexBase(IndexType firstIndex);
+
         // -- implementation ---------------------------------------------------
         const A &
         engine() const;
@@ -190,9 +216,12 @@ class DenseVector
         A &
         engine();
 
-    private:
+        bool
+        reversed() const;
 
-        A _array;
+    private:
+        A    _array;
+        bool _reverse;
 };
 
 } // namespace flens

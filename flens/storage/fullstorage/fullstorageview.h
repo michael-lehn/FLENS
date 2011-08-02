@@ -165,6 +165,16 @@ class FullStorageView
         viewRow(IndexType row,
                 IndexType firstViewIndex = I::defaultIndexBase);
 
+        const ConstArrayView
+        viewRow(IndexType row,
+                IndexType firstCol, IndexType lastCol,
+                IndexType firstViewIndex = I::defaultIndexBase) const;
+
+        ArrayView
+        viewRow(IndexType row,
+                IndexType firstCol, IndexType lastCol,
+                IndexType firstViewIndex = I::defaultIndexBase);
+
         // view of single column
         const ConstArrayView
         viewCol(IndexType col,
@@ -172,6 +182,16 @@ class FullStorageView
 
         ArrayView
         viewCol(IndexType col,
+                IndexType firstViewIndex = I::defaultIndexBase);
+
+        const ConstArrayView
+        viewCol(IndexType firstRow, IndexType lastRow,
+                IndexType col,
+                IndexType firstViewIndex = I::defaultIndexBase) const;
+
+        ArrayView
+        viewCol(IndexType firstRow, IndexType lastRow,
+                IndexType col,
                 IndexType firstViewIndex = I::defaultIndexBase);
 
         // view of d-th diagonal

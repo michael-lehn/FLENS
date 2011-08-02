@@ -129,9 +129,19 @@ class ConstFullStorageView
         viewRow(IndexType row,
                 IndexType firstViewIndex = I::defaultIndexBase) const;
 
+        const ConstArrayView
+        viewRow(IndexType row,
+                IndexType firstCol, IndexType lastCol,
+                IndexType firstViewIndex = I::defaultIndexBase) const;
+
         // view of single column
         const ConstArrayView
         viewCol(IndexType col,
+                IndexType firstViewIndex = I::defaultIndexBase) const;
+
+        const ConstArrayView
+        viewCol(IndexType firstRow, IndexType lastRow,
+                IndexType col,
                 IndexType firstViewIndex = I::defaultIndexBase) const;
 
         // view of d-th diagonal

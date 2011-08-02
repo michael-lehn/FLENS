@@ -1,5 +1,6 @@
 /*
  *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2011, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -41,57 +42,59 @@ namespace flens {
 
 template <typename A>
 DenseVector<A>::DenseVector()
+    : _reverse(false)
 {
 }
 
 template <typename A>
 DenseVector<A>::DenseVector(IndexType length)
-    : _array(length)
+    : _array(length), _reverse(false)
 {
 }
 
 template <typename A>
 DenseVector<A>::DenseVector(IndexType length, IndexType firstIndex)
-    : _array(length, firstIndex)
+    : _array(length, firstIndex), _reverse(false)
 {
 }
 
 template <typename A>
 DenseVector<A>::DenseVector(const Range<IndexType> &range)
-    : _array(range.numTicks(), range.firstIndex())
+    : _array(range.numTicks(), range.firstIndex()), _reverse(false)
 {
+    ASSERT(range.stride()>0);
 }
 
-
 template <typename A>
-DenseVector<A>::DenseVector(const A &array)
-    : _array(array)
+DenseVector<A>::DenseVector(const A &array, bool reverse)
+    : _array(array), _reverse(reverse)
 {
 }
 
 template <typename A>
 DenseVector<A>::DenseVector(const DenseVector &rhs)
-    : Vector<DenseVector>(), _array(rhs._array)
+    : Vector<DenseVector>(), _array(rhs._array), _reverse(false)
 {
 }
 
 template <typename A>
 template <typename RHS>
 DenseVector<A>::DenseVector(const DenseVector<RHS> &rhs)
-    : _array(rhs.engine())
+    : _array(rhs.engine()), _reverse(false)
 {
 }
 
 template <typename A>
 template <typename RHS>
 DenseVector<A>::DenseVector(DenseVector<RHS> &rhs)
-    : _array(rhs.engine())
+    : _array(rhs.engine()), _reverse(false)
 {
 }
 
 template <typename A>
 template <typename RHS>
 DenseVector<A>::DenseVector(const Vector<RHS> &rhs)
+    : _reverse(false)
 {
     copy(rhs, *this);
 }
@@ -101,7 +104,7 @@ template <typename A>
 typename DenseVector<A>::Initializer
 DenseVector<A>::operator=(const ElementType &value)
 {
-    engine().fill(value);
+    _array.fill(value);
     return Initializer(*this, firstIndex());
 }
 
@@ -276,6 +279,20 @@ DenseVector<A>::operator()(const Underscore<IndexType> &/*all*/,
                        _firstViewIndex);
 }
 
+template <typename A>
+typename DenseVector<A>::ConstView
+DenseVector<A>::reverse() const
+{
+    return ConstView(_array, !_reverse);
+}
+
+template <typename A>
+typename DenseVector<A>::View
+DenseVector<A>::reverse()
+{
+    return View(_array, !_reverse);
+}
+
 // -- methods ------------------------------------------------------------------
 
 template <typename A>
@@ -289,6 +306,9 @@ template <typename A>
 typename DenseVector<A>::IndexType
 DenseVector<A>::firstIndex() const
 {
+    if (_reverse) {
+        return _array.lastIndex();
+    }
     return _array.firstIndex();
 }
 
@@ -296,6 +316,9 @@ template <typename A>
 typename DenseVector<A>::IndexType
 DenseVector<A>::lastIndex() const
 {
+    if (_reverse) {
+        return _array.firstIndex();
+    }
     return _array.lastIndex();
 }
 
@@ -306,6 +329,58 @@ DenseVector<A>::length() const
     return _array.length();
 }
 
+template <typename A>
+typename DenseVector<A>::IndexType
+DenseVector<A>::inc() const
+{
+    if (_reverse) {
+        return -_array.stride();
+    }
+    return _array.stride();
+}
+
+template <typename A>
+typename DenseVector<A>::IndexType
+DenseVector<A>::endIndex() const
+{
+    return lastIndex() + inc();
+}
+
+template <typename A>
+const typename DenseVector<A>::ElementType *
+DenseVector<A>::data() const
+{
+    return _array.data();
+}
+
+template <typename A>
+typename DenseVector<A>::ElementType *
+DenseVector<A>::data()
+{
+    return _array.data();
+}
+
+template <typename A>
+template <typename RHS>
+bool
+DenseVector<A>::resize(const DenseVector<RHS> &rhs)
+{
+    bool resized = _array.resize(rhs.engine());
+    if (_reverse != rhs.reversed()) {
+        _reverse = rhs.reversed();
+        return true;
+    }
+    return resized;
+}
+
+template <typename A>
+void
+DenseVector<A>::changeIndexBase(IndexType firstIndex)
+{
+    _array.changeIndexBase(firstIndex);
+}
+
+// -- implementation -----------------------------------------------------------
 template <typename A>
 const A &
 DenseVector<A>::engine() const
@@ -318,6 +393,13 @@ A &
 DenseVector<A>::engine()
 {
     return _array;
+}
+
+template <typename A>
+bool
+DenseVector<A>::reversed() const
+{
+    return _reverse;
 }
 
 } // namespace flens

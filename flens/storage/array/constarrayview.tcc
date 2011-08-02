@@ -140,13 +140,22 @@ const ConstArrayView<T, I, A>
 ConstArrayView<T, I, A>::view(IndexType from, IndexType to,
                               IndexType stride, IndexType firstViewIndex) const
 {
+    const IndexType length = (to-from)/stride+1;
+
+#   ifndef NDEBUG
+    // prevent an out-of-bound assertion in case a view is empty anyway
+    if (length==0) {
+        from = firstIndex();
+    }
+#   endif
+
     ASSERT(firstIndex()<=from);
     ASSERT(lastIndex()>=to);
     ASSERT(from<=to);
     ASSERT(stride>=1);
     return ConstArrayView<T, I, A>(&operator()(from),   // data
                                    allocator(),         // allocator
-                                   (to-from)/stride+1,  // length
+                                   length,              // length
                                    stride*_stride,      // stride
                                    firstViewIndex);     // firstIndex in view
 }

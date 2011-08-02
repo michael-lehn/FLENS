@@ -34,6 +34,7 @@
 #ifndef FLENS_VECTORTYPES_IMPL_DV_INITIALIZER_TCC
 #define FLENS_VECTORTYPES_IMPL_DV_INITIALIZER_TCC 1
 
+#include <algorithm>
 #include <flens/aux/macros.h>
 #include <flens/vectortypes/impl/densevector.h>
 
@@ -49,9 +50,9 @@ template <typename A>
 Initializer<A>
 Initializer<A>::operator,(const ElementType &value)
 {
-    ++_index;
-    ASSERT(_index>=_x.firstIndex());
-    ASSERT(_index<=_x.lastIndex());
+    _index += _x.inc();
+    ASSERT(_index>=std::min(_x.firstIndex(), _x.lastIndex()));
+    ASSERT(_index<=std::max(_x.firstIndex(), _x.lastIndex()));
     _x(_index) = value;
     return Initializer(_x, _index);
 }
