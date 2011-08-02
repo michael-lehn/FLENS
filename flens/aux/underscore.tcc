@@ -38,8 +38,14 @@
 namespace flens {
 
 template <typename IndexType>
+Underscore<IndexType>::Underscore()
+{
+}
+
+template <typename IndexType>
 Range<IndexType>
-Underscore<IndexType>::operator()(IndexType firstIndex, IndexType lastIndex)
+Underscore<IndexType>::operator()(IndexType firstIndex,
+                                  IndexType lastIndex) const
 {
     return Range<IndexType>(firstIndex, lastIndex);
 }
@@ -48,7 +54,7 @@ template <typename IndexType>
 Range<IndexType>
 Underscore<IndexType>::operator()(IndexType firstIndex,
                                   IndexType stride,
-                                  IndexType lastIndex)
+                                  IndexType lastIndex) const
 {
     return Range<IndexType>(firstIndex, stride, lastIndex);
 }

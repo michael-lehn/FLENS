@@ -33,22 +33,24 @@
 #ifndef FLENS_AUX_UNDERSCORE_H
 #define FLENS_AUX_UNDERSCORE_H 1
 
+#include <flens/aux/range.h>
 #include <flens/storage/indexoptions.h>
 
 namespace flens {
-
-template <typename IndexType>
-    class Range;
 
 template <typename IndexType = typename IndexOptions<>::IndexType>
 class Underscore
 {
     public:
-        Range<IndexType>
-        operator()(IndexType firstIndex, IndexType lastIndex);
+        Underscore();
 
         Range<IndexType>
-        operator()(IndexType firstIndex, IndexType stride, IndexType lastIndex);
+        operator()(IndexType firstIndex, IndexType lastIndex) const;
+
+        Range<IndexType>
+        operator()(IndexType firstIndex,
+                   IndexType stride,
+                   IndexType lastIndex) const;
 };
 
 } // namespace flens
