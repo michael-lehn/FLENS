@@ -158,7 +158,7 @@ trf(GeMatrix<MA> &A, DenseVector<VP> &piv)
                          A(rows1, cols1).lowerUnit(),
                          A(rows1, cols2));
 
-                if (j+jb<m) {
+                if (j+jb<=m) {
 //
 //                  Update trailing submatrix.
 //
