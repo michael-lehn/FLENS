@@ -37,6 +37,7 @@
 
 #include <flens/lapack/gesv/sv.h>
 #include <flens/lapack/gesv/tf2.h>
+#include <flens/lapack/gesv/trf.h>
 #include <flens/lapack/gesv/trs.h>
 
 #include <flens/lapack/typedefs.h>

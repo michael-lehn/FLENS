@@ -38,9 +38,10 @@
 
 namespace flens { namespace lapack {
 
+//-- getf2 ---------------------------------------------------------------------
 template <typename MA, typename VP>
     typename GeMatrix<MA>::IndexType
-    trf(GeMatrix<MA> &A, DenseVector<VP> &iPiv);
+    trf(GeMatrix<MA> &A, DenseVector<VP> &piv);
 
 } } // namespace lapack, flens
 

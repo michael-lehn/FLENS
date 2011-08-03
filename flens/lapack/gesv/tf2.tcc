@@ -79,20 +79,20 @@ namespace flens { namespace lapack {
 //-- forwarding ----------------------------------------------------------------
 template <typename MA, typename VP>
 typename MA::IndexType
-tf2(MA &&A, VP &&iPiv)
+tf2(MA &&A, VP &&piv)
 {
-    return tf2(A, iPiv);
+    return tf2(A, piv);
 }
 
 //-- getf2 ---------------------------------------------------------------------
 template <typename MA, typename VP>
 typename GeMatrix<MA>::IndexType
-tf2(GeMatrix<MA> &A, DenseVector<VP> &iPiv)
+tf2(GeMatrix<MA> &A, DenseVector<VP> &piv)
 {
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
-    ASSERT(iPiv.firstIndex()==1);
-    ASSERT(iPiv.inc()==1);
+    ASSERT(piv.firstIndex()==1);
+    ASSERT(piv.inc()==1);
 
     typedef typename GeMatrix<MA>::IndexType    IndexType;
     typedef typename GeMatrix<MA>::ElementType  T;
@@ -104,8 +104,6 @@ tf2(GeMatrix<MA> &A, DenseVector<VP> &iPiv)
     const IndexType n = A.numCols();
 
     IndexType info = 0;
-    IndexType 
-    
 
 //
 //  Quick return if possible
@@ -128,7 +126,7 @@ tf2(GeMatrix<MA> &A, DenseVector<VP> &iPiv)
 //      Find pivot and test for singularity.
 //
         IndexType jp = j + blas::iamax(A(rows,j));
-        iPiv(j) = jp;
+        piv(j) = jp;
         if (A(jp, j)!=T(0)) {
 //
 //          Apply the interchange to columns 1:N.

@@ -41,12 +41,12 @@ namespace flens { namespace lapack {
 //-- forwarding ----------------------------------------------------------------
 template <typename MA, typename VP>
     typename MA::IndexType
-    tf2(MA &&A, VP &&iPiv);
+    tf2(MA &&A, VP &&piv);
 
 //-- getf2 ---------------------------------------------------------------------
 template <typename MA, typename VP>
     typename GeMatrix<MA>::IndexType
-    tf2(GeMatrix<MA> &A, DenseVector<VP> &iPiv);
+    tf2(GeMatrix<MA> &A, DenseVector<VP> &piv);
 
 } } // namespace lapack, flens
 

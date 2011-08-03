@@ -38,17 +38,23 @@
 
 namespace flens { namespace blas {
 
+//-- forwarding ----------------------------------------------------------------
+template <typename ALPHA, typename MA, typename MB>
+    void
+    sm(cxxblas::Side side, cxxblas::Transpose transA,
+       const ALPHA &alpha, const MA &A, MB &&B);
+
 //-- common interface ----------------------------------------------------------
 template <typename ALPHA, typename MA, typename MB>
     void
     sm(cxxblas::Side side, cxxblas::Transpose transA,
-        const ALPHA &alpha, const TriangularMatrix<MA> &A, Matrix<MB> &B);
+       const ALPHA &alpha, const TriangularMatrix<MA> &A, Matrix<MB> &B);
 
 //-- trsm
 template <typename ALPHA, typename MA, typename MB>
     void
     sm(cxxblas::Side side, cxxblas::Transpose transA,
-        const ALPHA &alpha, const TrMatrix<MA> &A, GeMatrix<MB> &B);
+       const ALPHA &alpha, const TrMatrix<MA> &A, GeMatrix<MB> &B);
 
 } } // namespace blas, flens
 

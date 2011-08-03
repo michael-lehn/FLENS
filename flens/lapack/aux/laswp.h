@@ -77,6 +77,12 @@
 
 namespace flens { namespace lapack {
 
+//-- forwarding ----------------------------------------------------------------
+template <typename MA, typename VP>
+    void
+    laswp(MA &&A, const VP &&piv);
+
+//-- laswp ---------------------------------------------------------------------
 template <typename MA, typename VP>
     void
     laswp(GeMatrix<MA> &A, const DenseVector<VP> &piv);

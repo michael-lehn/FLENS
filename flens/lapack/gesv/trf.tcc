@@ -73,15 +73,17 @@
 
 #include <algorithm>
 #include <flens/blas/blas.h>
+#include <flens/lapack/aux/laswp.h>
+#include <flens/lapack/gesv/tf2.h>
 
-namespace cxxlapack {
+namespace flens { namespace lapack {
 
 //-- getf2 ---------------------------------------------------------------------
 template <typename MA, typename VP>
 typename GeMatrix<MA>::IndexType
-trf(GeMatrix<MA> &A, DenseVector<VP> &iPiv);
+trf(GeMatrix<MA> &A, DenseVector<VP> &piv)
 {
-    typedef typename GeMatrix<MA>::IndexType IndexType;
+    typedef typename GeMatrix<MA>::IndexType    IndexType;
     typedef typename GeMatrix<MA>::ElementType  T;
 
     typedef Range<IndexType>    Range;
@@ -106,65 +108,63 @@ trf(GeMatrix<MA> &A, DenseVector<VP> &iPiv);
 //
 //      Use unblocked code.
 //
-        info = tf2(A, iPiv);
+        info = tf2(A, piv);
     } else {
 //
 //      Use blocked code.
 //
         for (IndexType j=1; j<=std::min(m,n); j+=bs) {
             IndexType jb = std::min(std::min(m,n)-j+1, bs);
+//
+//          Row and column partitioning of A
+//
+            const auto rows0    = _(    1,    j-1);
+            const auto rows1    = _(    j, j+jb-1);
+            const auto rows2    = _( j+jb,      m);
 
-            const Range colsDone        = _(1,j-1);
-            const Range cols            = _(j,j+jb-1);
-            const Range colsTrailing    = _(j+jb,n);
+            const auto rows12   = _(    j,      m);
 
-            const Range rows            = _(j,m);
-
+            const auto cols0    = _(    1,    j-1);
+            const auto cols1    = _(    j, j+jb-1);
+            const auto cols2    = _( j+jb,      n);
 //
 //          Factor diagonal and subdiagonal blocks and test for exact
 //          singularity.
 //
-            IndexType _info = tf2(A(rows,cols), iPiv(rows));
+            IndexType _info = tf2(A(rows12, cols1), piv(rows12));
 //
 //          Adjust INFO and the pivot indices.
 //
             if ((info==0) && (_info>0)) {
                 info = _info + j - 1;
             }
-            for (IndexType i=j; i<min(m,j+jb); ++i) {
-                iPiv[i] += j;
+            for (IndexType i=j; i<=min(m,j+jb-1); ++i) {
+                piv(i) += j-1;
             }
 //
 //          Apply interchanges to columns 1:J-1.
 //
-            laswp(order, j, A, ldA, j, j+jb-1, iPiv, IndexType(1));
+            laswp(A(_,cols0), piv(rows1, j));
 
-            if (j+jb<n) {
+            if (j+jb<=n) {
 //
 //              Apply interchanges to columns J+JB:N.
 //
-                laswp(order, n-j-jb+1, A+(j+jb)*ldA, ldA,
-                             j, j+jb-1, iPiv, IndexType(1));
+                laswp(A(_,cols2), piv(rows1, j));
 //
 //              Compute block row of U.
 //
-                trsm(order, Left, Lower, NoTrans, Unit,
-                     jb, n-j-jb,
-                     MA(1),
-                     A + j*(ldA+1), ldA,
-                     A + j+(j+jb)*ldA, ldA);
+                blas::sm(Left, NoTrans, T(1),
+                         A(rows1, cols1).lowerUnit(),
+                         A(rows1, cols2));
 
                 if (j+jb<m) {
 //
 //                  Update trailing submatrix.
 //
-                    gemm(order, NoTrans, NoTrans,
-                         m-j-jb, n-j-jb, jb,
-                         MA(-1),
-                         A+j*(ldA+1)+jb, ldA,
-                         A+j+(j+jb)*ldA, ldA,
-                         MA(1),
-                         A+(j+jb)*(ldA+1), ldA);
+                    blas::mm(NoTrans, NoTrans,
+                             T(-1), A(rows2, cols1), A(rows1, cols2),
+                             T( 1), A(rows2, cols2));
                 }
             }
         }
@@ -172,6 +172,6 @@ trf(GeMatrix<MA> &A, DenseVector<VP> &iPiv);
     return info;
 }
 
-} // namespace cxxlapack
+} } // namespace lapack, flens
 
 #endif // FLENS_LAPACK_GESV_TRF_TCC

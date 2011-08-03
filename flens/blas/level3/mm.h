@@ -38,7 +38,18 @@
 
 namespace flens { namespace blas {
 
-//-- product type: GeneralMatrix - GeneralMatrix products ----------------------
+//== product type: GeneralMatrix - GeneralMatrix products
+
+//-- forwarding ----------------------------------------------------------------
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+    void
+    mm(cxxblas::Transpose transA, cxxblas::Transpose transB,
+       const ALPHA &alpha,
+       const MA &A, const MB &B,
+       const BETA &beta,
+       MC &&C);
+
+//-- common interface ----------------------------------------------------------
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
     void
     mm(cxxblas::Transpose transA, cxxblas::Transpose transB,

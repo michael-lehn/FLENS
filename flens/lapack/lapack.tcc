@@ -37,6 +37,7 @@
 
 #include <flens/lapack/gesv/sv.tcc>
 #include <flens/lapack/gesv/tf2.tcc>
+#include <flens/lapack/gesv/trf.tcc>
 #include <flens/lapack/gesv/trs.tcc>
 
 #endif // FLENS_LAPACK_LAPACK_TCC

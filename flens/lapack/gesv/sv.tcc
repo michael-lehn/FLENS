@@ -96,8 +96,8 @@ sv(GeMatrix<MA> &A, DenseVector<VP> &piv, GeMatrix<MB> &B)
 //
 //  Compute the LU factorization of A.
 //
-    // TODO: call trf instead of tf2
-    info = tf2(A, piv);
+    info = trf(A, piv);
+    //info = tf2(A, piv);
     if (info==0) {
 //
 //      Solve the system A*X = B, overwriting B with X.

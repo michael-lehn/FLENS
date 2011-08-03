@@ -37,6 +37,15 @@
 
 namespace flens { namespace blas {
 
+//-- forwarding ----------------------------------------------------------------
+template <typename ALPHA, typename MA, typename MB>
+void
+sm(cxxblas::Side side, cxxblas::Transpose transA,
+   const ALPHA &alpha, const MA &A, MB &&B)
+{
+    sm(side, transA, alpha, A, B);
+}
+
 //-- common interface ----------------------------------------------------------
 template <typename ALPHA, typename MA, typename MB>
 void
