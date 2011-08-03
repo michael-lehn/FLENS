@@ -1,4 +1,4 @@
-// clang++ simple_lapack.cc -I../../ -I/opt/local/include/ -L /opt/local/lib -lgmpxx -lgmp
+// clang++ -std=c++0x simple_lapack.cc -I../../ -I/opt/local/include/ -L /opt/local/lib -lgmpxx -lgmp
 
 #include <iostream>
 #include <gmpxx.h>
@@ -32,17 +32,17 @@ main()
     IndexVector     iPiv(m);
 
 #   ifdef TEST_CASE_1
-    Ab =  3, -1,  0,  0,  4,
-        -1,  3, -1,  0, -2,
-         0, -1,  3, -1, -7,
-         0,  0, -1,  3,  8;
+    Ab =  3,  -1,   0,   0,   4,
+         -1,   3,  -1,   0,  -2,
+          0,  -1,   3,  -1,  -7,
+          0,   0,  -1,   3,   8;
 #   endif
 
 #   ifdef TEST_CASE_2
     Ab =  2,   3,  -1,   0,  20,
-        -6,  -5,   0,   2, -33,
-         2,  -5,   6,  -6, -43,
-         4,   6,   2,  -3,  49;
+         -6,  -5,   0,   2, -33,
+          2,  -5,   6,  -6, -43,
+          4,   6,   2,  -3,  49;
 #   endif
 
     cerr << "Ab = " << Ab << endl;
