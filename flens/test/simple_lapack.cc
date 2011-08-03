@@ -1,4 +1,9 @@
+//
+// compile with:
+//
 // clang++ -std=c++0x simple_lapack.cc -I../../ -I/opt/local/include/ -L /opt/local/lib -lgmpxx -lgmp
+//
+//
 
 #include <iostream>
 #include <gmpxx.h>
