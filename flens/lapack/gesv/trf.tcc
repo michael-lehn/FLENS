@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2011, Iris Haecker
+ *   Copyright (c) 2011, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -77,6 +77,14 @@
 #include <flens/lapack/gesv/tf2.h>
 
 namespace flens { namespace lapack {
+
+//-- forwarding ----------------------------------------------------------------
+template <typename MA, typename VP>
+typename MA::IndexType
+trf(MA &&A, VP &&piv)
+{
+    trf(A, piv);
+}
 
 //-- getf2 ---------------------------------------------------------------------
 template <typename MA, typename VP>

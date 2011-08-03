@@ -38,6 +38,11 @@
 
 namespace flens { namespace lapack {
 
+//-- forwarding ----------------------------------------------------------------
+template <typename MA, typename VP>
+    typename MA::IndexType
+    trf(MA &&A, VP &&piv);
+
 //-- getf2 ---------------------------------------------------------------------
 template <typename MA, typename VP>
     typename GeMatrix<MA>::IndexType
