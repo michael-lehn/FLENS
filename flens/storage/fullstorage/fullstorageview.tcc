@@ -292,8 +292,8 @@ FullStorageView<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if ((numRows==0) || (numCols==0)) {
-        fromRow = firstRow();
-        fromCol = firstCol();
+        fromRow = toRow = firstRow();
+        fromCol = toCol = firstCol();
     }
 #   endif
 
@@ -327,8 +327,8 @@ FullStorageView<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if ((numRows==0) || (numCols==0)) {
-        fromRow = firstRow();
-        fromCol = firstCol();
+        fromRow = toRow = firstRow();
+        fromCol = toCol = firstCol();
     }
 #   endif
 

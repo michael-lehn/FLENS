@@ -211,8 +211,8 @@ ConstFullStorageView<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if ((numRows==0) || (numCols==0)) {
-        fromRow = this->firstRow();
-        fromCol = this->firstCol();
+        fromRow = toRow = this->firstRow();
+        fromCol = toCol = this->firstCol();
     }
 #   endif
 
