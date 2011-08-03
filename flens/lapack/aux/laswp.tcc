@@ -96,7 +96,7 @@ laswp(GeMatrix<MA> &A, const DenseVector<VP> &piv)
     const IndexType n = A.numCols();
 
 //
-//     Interchange row i with row iPiv(i) for each of rows K1 through K2.
+//     Interchange row i with row piv(i) for each of rows K1 through K2.
 //
     const IndexType pBeg = piv.firstIndex();
     const IndexType pEnd = piv.endIndex();
