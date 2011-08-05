@@ -68,108 +68,102 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
-#ifndef FLENS_LAPACK_GESV_TF2_TCC
-#define FLENS_LAPACK_GESV_TF2_TCC 1
+#ifndef FLENS_LAPACK_QR_ORM2R_TCC
+#define FLENS_LAPACK_QR_ORM2R_TCC 1
 
-#include <algorithm>
 #include <flens/blas/blas.h>
+#include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
 
 //-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VP>
-typename MA::IndexType
-tf2(MA &&A, VP &&piv)
+template <typename MA, typename VTAU, typename MC, typename VWORK>
+void
+orm2r(Side side, Transpose trans, MA &&A, const VTAU &tau, MC &&C,
+      VWORK &&work)
 {
-    return tf2(A, piv);
+    orm2r(side, trans, A, tau, C, work);
 }
 
-//-- getf2 ---------------------------------------------------------------------
-template <typename MA, typename VP>
-typename GeMatrix<MA>::IndexType
-tf2(GeMatrix<MA> &A, DenseVector<VP> &piv)
+//-- ormqr ---------------------------------------------------------------------
+template <typename MA, typename VTAU, typename MC, typename VWORK>
+void
+orm2r(Side side, Transpose trans, GeMatrix<MA> &A,
+      const DenseVector<VTAU> &tau, GeMatrix<MC> &C,
+      DenseVector<VWORK> &work)
 {
-    ASSERT(A.firstRow()==1);
-    ASSERT(A.firstCol()==1);
-    ASSERT(piv.firstIndex()==1);
-    ASSERT(piv.inc()==1);
+#   ifndef NDEBUG
+    if ((side==Left) && (work.length()<C.numCols())) {
+        ASSERT(0);
+    }
+    if ((side==Right) && (work.length()<C.numRows())) {
+        ASSERT(0);
+    }
+#   endif
 
-    typedef typename GeMatrix<MA>::IndexType    IndexType;
-    typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MC>::IndexType    IndexType;
+    typedef typename GeMatrix<MC>::ElementType  T;
 
     typedef Range<IndexType>    Range;
     const Underscore<IndexType> _;
 
-    const IndexType m = A.numRows();
-    const IndexType n = A.numCols();
+    IndexType m = C.numRows();
+    IndexType n = C.numCols();
+    IndexType k = A.numCols();
 
-    IndexType info = 0;
+//
+//  nq is the order of Q
+//
+    const IndexType nq = (side==Left) ? m : n;
+    
+    ASSERT(A.numRows()>=nq);
+    ASSERT(k<=nq);
 
 //
 //  Quick return if possible
 //
-    if ((m==0) || (n==0)) {
-        return info;
+    if ((m==0) || (n==0) || (k==0)) {
+        return;
     }
-//
-//     Compute machine safe minimum 
-//
-    T safeMin = lamch<T>(SafeMin);
 
-    for (IndexType j=1; j<=std::min(m,n); ++j) {
+    IndexType iBeg, iEnd, iInc;
+    if (((side==Left) && (trans!=NoTrans))
+     || ((side==Right) && (trans==NoTrans)))
+    {
+        iBeg = 1;
+        iEnd = k+1;
+        iInc = 1;
+    } else {
+        iBeg = k;
+        iEnd = 0;
+        iInc = -1;
+    }
+
+    Range rows = _(1,m);
+    Range cols = _(1,n);
+
+    for (IndexType i=iBeg; i!=iEnd; i+=iInc) {
+        if (side==Left) {
 //
-//      Row range of current submatrix A(j:M, j:N)
+//          H(i) is applied to C(i:m,1:n)
 //
-        const Range rows(j, m);
-//
-//      Row and column range of trailing submatrix A(j+1:M, j+1:N)
-//
-        const Range _rows(j+1, m);
-        const Range _cols(j+1, n);
-//
-//      Find pivot and test for singularity.
-//
-        IndexType jp = j + blas::iamax(A(rows,j));
-        piv(j) = jp;
-        if (A(jp, j)!=T(0)) {
-//
-//          Apply the interchange to columns 1:N.
-//
-            if (j!=jp) {
-                blas::swap(A(j,_), A(jp,_));
-            }
-//
-//          Compute elements J+1:M of J-th column.
-//
-            if (j<m) {
-                // TODO: if abs(A(j,j)) is less then sfmin do not
-                //       compute T(1)/A(j,j)
-                //       see: http://www.netlib.org/lapack/double/dgetf2.f
-                if (abs(A(j,j)>=safeMin)) {
-                    blas::scal(T(1)/A(j, j), A(_rows,j));
-                } else {
-                    for (IndexType i=1; i<=m-j; ++i) {
-                        A(j+i,j) /= A(j,j);
-                    }
-                }
-            }
+            rows = _(i,m);
         } else {
-            if (info==0) {
-                info = j+1;
-            }
+//
+//          H(i) is applied to C(1:m,i:n)
+//
+            cols = _(i,n);
         }
 //
-//      Update trailing submatrix A(j+1:M, j+1:N)
+//      Apply H(i)
 //
-        blas::r(T(-1),
-                A(_rows,     j),
-                A(    j, _cols),
-                A(_rows, _cols));
+        const T Aii = A(i,i);
+        A(i,i) = T(1);
+        larf(side, A(_(i,m), i), tau(i), C(rows, cols), work);
+        A(i,i) = Aii;
     }
-
-    return info;
 }
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_GESV_TF2_TCC
+#endif // FLENS_LAPACK_QR_ORM2R_TCC

@@ -30,44 +30,66 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_BLAS_LEVEL2_R_TCC
-#define FLENS_BLAS_LEVEL2_R_TCC 1
+/*  Based on
+ *
+      SUBROUTINE DGEQRS( M, N, NRHS, A, LDA, TAU, B, LDB, WORK, LWORK,
+     $                   INFO )
+ *
+ *  -- LAPACK routine (version 3.0) --
+ *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
+ *     Courant Institute, Argonne National Lab, and Rice University
+ *     February 29, 1992
+ */
 
-#include <cxxblas/cxxblas.h>
-#include <flens/matrixtypes/matrixtypes.h>
-#include <flens/vectortypes/vectortypes.h>
+#ifndef FLENS_LAPACK_QR_QRS_TCC
+#define FLENS_LAPACK_QR_QRS_TCC 1
 
-namespace flens { namespace blas {
+#include <flens/blas/blas.h>
+#include <flens/lapack/lapack.h>
+
+namespace flens { namespace lapack {
 
 //-- forwarding ----------------------------------------------------------------
-template <typename ALPHA, typename VX, typename VY, typename MA>
+template <typename MA, typename VTAU, typename MB, typename VWORK>
 void
-r(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
+qrs(MA &&A, const VTAU &tau, MB &&B, VWORK &&work)
 {
-    r(alpha, x, y, A);
+    qrs(A, tau, B, work);
 }
 
-//-- GeMatrix, DenseVector -----------------------------------------------------
-
-//-- ger
-template <typename ALPHA, typename VX, typename VY, typename MA>
+//-- qrs -----------------------------------------------------------------------
+template <typename MA, typename VTAU, typename MB, typename VWORK>
 void
-r(const ALPHA &alpha, const DenseVector<VX> &x, const DenseVector<VY> &y,
-  GeMatrix<MA> &A)
+qrs(GeMatrix<MA> &A, const DenseVector<VTAU> &tau, GeMatrix<MB> &B,
+    DenseVector<VWORK> &work)
 {
-    if ((x.length()!=A.numRows()) || (y.length()!=A.numCols())) {
-        A.engine().resize(x.length(), y.length(),
-                          x.engine().firstIndex(),
-                          y.engine().firstIndex());
+    ASSERT(work.length()>=B.numCols());
+
+    typedef typename GeMatrix<MA>::IndexType    IndexType;
+    typedef typename GeMatrix<MA>::ElementType  T;
+
+    const IndexType m = A.numRows();
+    const IndexType n = A.numCols();
+    const IndexType nRhs = B.numCols();
+
+//
+//  Quick return if possible
+//
+    if ((n==0) || (nRhs==0) || (m==0)) {
+        return;
     }
-    cxxblas::ger(StorageInfo<MA>::Order,
-                 A.numRows(), A.numCols(),
-                 alpha,
-                 x.data(), x.stride(),
-                 y.data(), y.stride(),
-                 A.engine().data(), A.engine().leadingDimension());
+//
+//  B := Q' * B
+//
+    // TODO: call the block version
+    // ormqr(Left, Trans, A, tau, B, work);
+    orm2r(Left, Trans, A, tau, B, work);
+//
+//  Solve R*X = B(1:n,:)
+//
+    blas::sm(Left, NoTrans, T(1), A.upper(), B);
 }
 
-} } // namespace blas, flens
+} } // namespace lapack, flens
 
-#endif // FLENS_BLAS_LEVEL2_R_TCC
+#endif // FLENS_LAPACK_QR_QRS_TCC

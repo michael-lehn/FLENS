@@ -44,12 +44,19 @@ void
 nrm2(const DenseVector<X> &x, T &norm)
 {
 #   ifdef HAVE_CXXBLAS_NRM2
-    cxxblas::nrm2(x.length(),
-                  x.engine().data(), x.engine().leadingDimension(),
-                  norm);
+    cxxblas::nrm2(x.length(), x.data(), x.stride(), norm);
 #   else
     ASSERT(0);
 #   endif
+}
+
+template <typename X>
+typename DenseVector<X>::ElementType
+nrm2(const DenseVector<X> &x)
+{
+    typename DenseVector<X>::ElementType norm;
+    nrm2(x, norm);
+    return norm;
 }
 
 } } // namespace blas, flens

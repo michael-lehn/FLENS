@@ -202,6 +202,9 @@ class DenseVector
         ElementType *
         data();
 
+        IndexType
+        stride() const;
+
         template <typename RHS>
             bool
             resize(const DenseVector<RHS> &rhs);

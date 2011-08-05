@@ -42,6 +42,10 @@ template <typename X, typename T>
     void
     nrm2(const DenseVector<X> &x, T &norm);
 
+template <typename X>
+    typename DenseVector<X>::ElementType
+    nrm2(const DenseVector<X> &x);
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1_NRM2_H

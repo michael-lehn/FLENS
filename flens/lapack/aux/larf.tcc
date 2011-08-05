@@ -68,108 +68,71 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
-#ifndef FLENS_LAPACK_GESV_TF2_TCC
-#define FLENS_LAPACK_GESV_TF2_TCC 1
+#ifndef FLENS_LAPACK_AUX_LARF_TCC
+#define FLENS_LAPACK_AUX_LARF_TCC 1
 
-#include <algorithm>
 #include <flens/blas/blas.h>
+#include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
 
 //-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VP>
-typename MA::IndexType
-tf2(MA &&A, VP &&piv)
+template <typename VV, typename TAU, typename MC, typename VWORK>
+void
+larf(Side side, const VV &v, const TAU &tau, MC &&C, VWORK &&work)
 {
-    return tf2(A, piv);
+    larf(side, v, tau, C, work);
 }
 
-//-- getf2 ---------------------------------------------------------------------
-template <typename MA, typename VP>
-typename GeMatrix<MA>::IndexType
-tf2(GeMatrix<MA> &A, DenseVector<VP> &piv)
+//-- larf ----------------------------------------------------------------------
+template <typename VV, typename TAU, typename MC, typename VWORK>
+void
+larf(Side side, const DenseVector<VV> &v, const TAU &tau,
+     GeMatrix<MC> &C, DenseVector<VWORK> &work)
 {
-    ASSERT(A.firstRow()==1);
-    ASSERT(A.firstCol()==1);
-    ASSERT(piv.firstIndex()==1);
-    ASSERT(piv.inc()==1);
-
-    typedef typename GeMatrix<MA>::IndexType    IndexType;
-    typedef typename GeMatrix<MA>::ElementType  T;
-
-    typedef Range<IndexType>    Range;
-    const Underscore<IndexType> _;
-
-    const IndexType m = A.numRows();
-    const IndexType n = A.numCols();
-
-    IndexType info = 0;
-
-//
-//  Quick return if possible
-//
-    if ((m==0) || (n==0)) {
-        return info;
+#   ifndef NDEBUG
+    if ((side==Left) && (work.length()<C.numCols())) {
+        ASSERT(0);
     }
-//
-//     Compute machine safe minimum 
-//
-    T safeMin = lamch<T>(SafeMin);
+    if ((side==Right) && (work.length()<C.numRows())) {
+        ASSERT(0);
+    }
+#   endif
 
-    for (IndexType j=1; j<=std::min(m,n); ++j) {
+    typedef typename GeMatrix<MC>::IndexType    IndexType;
+    typedef typename GeMatrix<MC>::ElementType  T;
+
+    if (side==Left) {
 //
-//      Row range of current submatrix A(j:M, j:N)
+//      Form  H * C
 //
-        const Range rows(j, m);
+        if (tau!=TAU(0)) {
 //
-//      Row and column range of trailing submatrix A(j+1:M, j+1:N)
+//          w := C' * v
 //
-        const Range _rows(j+1, m);
-        const Range _cols(j+1, n);
+            blas::mv(Trans, T(1), C, v, T(0), work);
 //
-//      Find pivot and test for singularity.
+//          C := C - v * w'
 //
-        IndexType jp = j + blas::iamax(A(rows,j));
-        piv(j) = jp;
-        if (A(jp, j)!=T(0)) {
-//
-//          Apply the interchange to columns 1:N.
-//
-            if (j!=jp) {
-                blas::swap(A(j,_), A(jp,_));
-            }
-//
-//          Compute elements J+1:M of J-th column.
-//
-            if (j<m) {
-                // TODO: if abs(A(j,j)) is less then sfmin do not
-                //       compute T(1)/A(j,j)
-                //       see: http://www.netlib.org/lapack/double/dgetf2.f
-                if (abs(A(j,j)>=safeMin)) {
-                    blas::scal(T(1)/A(j, j), A(_rows,j));
-                } else {
-                    for (IndexType i=1; i<=m-j; ++i) {
-                        A(j+i,j) /= A(j,j);
-                    }
-                }
-            }
-        } else {
-            if (info==0) {
-                info = j+1;
-            }
+            blas::r(-tau, v, work, C);
         }
+    } else {
 //
-//      Update trailing submatrix A(j+1:M, j+1:N)
+//      Form  C * H
 //
-        blas::r(T(-1),
-                A(_rows,     j),
-                A(    j, _cols),
-                A(_rows, _cols));
+        if (tau!=TAU(0)) {
+//
+//          w := C * v
+//
+            blas::mv(NoTrans, T(1), C, v, T(0), work);
+//
+//          C := C - w * v'
+//
+            blas::r(-tau, work, v, C);
+        }
     }
-
-    return info;
 }
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_GESV_TF2_TCC
+#endif // FLENS_LAPACK_AUX_LARF_TCC

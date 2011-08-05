@@ -30,44 +30,15 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_BLAS_LEVEL2_R_TCC
-#define FLENS_BLAS_LEVEL2_R_TCC 1
+#ifndef FLENS_LAPACK_AUX_SIGN_H
+#define FLENS_LAPACK_AUX_SIGN_H 1
 
-#include <cxxblas/cxxblas.h>
-#include <flens/matrixtypes/matrixtypes.h>
-#include <flens/vectortypes/vectortypes.h>
+namespace flens { namespace lapack {
 
-namespace flens { namespace blas {
+template <typename T>
+    T
+    sign(const T &x, const T &y);
 
-//-- forwarding ----------------------------------------------------------------
-template <typename ALPHA, typename VX, typename VY, typename MA>
-void
-r(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
-{
-    r(alpha, x, y, A);
-}
+} } // namespace lapack, flens
 
-//-- GeMatrix, DenseVector -----------------------------------------------------
-
-//-- ger
-template <typename ALPHA, typename VX, typename VY, typename MA>
-void
-r(const ALPHA &alpha, const DenseVector<VX> &x, const DenseVector<VY> &y,
-  GeMatrix<MA> &A)
-{
-    if ((x.length()!=A.numRows()) || (y.length()!=A.numCols())) {
-        A.engine().resize(x.length(), y.length(),
-                          x.engine().firstIndex(),
-                          y.engine().firstIndex());
-    }
-    cxxblas::ger(StorageInfo<MA>::Order,
-                 A.numRows(), A.numCols(),
-                 alpha,
-                 x.data(), x.stride(),
-                 y.data(), y.stride(),
-                 A.engine().data(), A.engine().leadingDimension());
-}
-
-} } // namespace blas, flens
-
-#endif // FLENS_BLAS_LEVEL2_R_TCC
+#endif // FLENS_LAPACK_AUX_SIGN_H

@@ -30,44 +30,38 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_BLAS_LEVEL2_R_TCC
-#define FLENS_BLAS_LEVEL2_R_TCC 1
+/*  Based on
+ *
+      SUBROUTINE DGEQRS( M, N, NRHS, A, LDA, TAU, B, LDB, WORK, LWORK,
+     $                   INFO )
+ *
+ *  -- LAPACK routine (version 3.0) --
+ *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
+ *     Courant Institute, Argonne National Lab, and Rice University
+ *     February 29, 1992
+ */
 
-#include <cxxblas/cxxblas.h>
+#ifndef FLENS_LAPACK_QR_QRS_H
+#define FLENS_LAPACK_QR_QRS_H 1
+
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 
-namespace flens { namespace blas {
+namespace flens { namespace lapack {
+
+//TODO: make ref to A const!
 
 //-- forwarding ----------------------------------------------------------------
-template <typename ALPHA, typename VX, typename VY, typename MA>
-void
-r(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
-{
-    r(alpha, x, y, A);
-}
+template <typename MA, typename VTAU, typename MB, typename VWORK>
+    void
+    qrs(MA &&A, const VTAU &tau, MB &&B, VWORK &&work);
 
-//-- GeMatrix, DenseVector -----------------------------------------------------
+//-- qrs -----------------------------------------------------------------------
+template <typename MA, typename VTAU, typename MB, typename VWORK>
+    void
+    qrs(GeMatrix<MA> &A, const DenseVector<VTAU> &tau, GeMatrix<MB> &B,
+        DenseVector<VWORK> &work);
 
-//-- ger
-template <typename ALPHA, typename VX, typename VY, typename MA>
-void
-r(const ALPHA &alpha, const DenseVector<VX> &x, const DenseVector<VY> &y,
-  GeMatrix<MA> &A)
-{
-    if ((x.length()!=A.numRows()) || (y.length()!=A.numCols())) {
-        A.engine().resize(x.length(), y.length(),
-                          x.engine().firstIndex(),
-                          y.engine().firstIndex());
-    }
-    cxxblas::ger(StorageInfo<MA>::Order,
-                 A.numRows(), A.numCols(),
-                 alpha,
-                 x.data(), x.stride(),
-                 y.data(), y.stride(),
-                 A.engine().data(), A.engine().leadingDimension());
-}
+} } // namespace lapack, flens
 
-} } // namespace blas, flens
-
-#endif // FLENS_BLAS_LEVEL2_R_TCC
+#endif // FLENS_LAPACK_QR_QRS_H

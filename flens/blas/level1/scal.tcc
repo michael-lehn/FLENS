@@ -69,7 +69,7 @@ void
 scal(const ALPHA &alpha, DenseVector<VY> &y)
 {
 #   ifdef HAVE_CXXBLAS_SCAL
-    cxxblas::scal(y.length(), alpha, y.data(), y.inc());
+    cxxblas::scal(y.length(), alpha, y.data(), y.stride());
 #   else
     ASSERT(0);
 #   endif

@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2011, Iris Haecker
+ *   Copyright (c) 2011, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -29,7 +29,6 @@
  *   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 
 /*
  *   Copyright (c) 1992-2007 The University of Tennessee.  All rights reserved.
@@ -72,8 +71,8 @@
 #ifndef FLENS_LAPACK_AUX_LASWP_H
 #define FLENS_LAPACK_AUX_LASWP_H 1
 
-#include <flens/blas/blas.h>
-#include <flens/lapack/lapack.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace lapack {
 

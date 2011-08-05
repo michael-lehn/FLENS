@@ -30,44 +30,28 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_BLAS_LEVEL2_R_TCC
-#define FLENS_BLAS_LEVEL2_R_TCC 1
+#ifndef FLENS_LAPACK_AUX_LAMCH_H
+#define FLENS_LAPACK_AUX_LAMCH_H 1
 
-#include <cxxblas/cxxblas.h>
-#include <flens/matrixtypes/matrixtypes.h>
-#include <flens/vectortypes/vectortypes.h>
+namespace flens { namespace lapack {
 
-namespace flens { namespace blas {
+enum MachineParameter {
+    Eps,               // relative machine precision
+    SafeMin,           // safe minimum, such that reciprocal does not overflow
+    Base,              // base of the machine
+    Precision,         // Eps*Base
+    Mantissa,          // number of (base) digits in the mantissa
+    Rounding,          // return 1 when rounding occurs in addition, 0 otherwise
+    UnderflowExp,      // minimum exponent before (gradual) underflow
+    UnderflowThreshold,// underflow threshold - Base**(UnderflowExp-1)
+    OverflowExp,       // largest exponent before overflow
+    OverflowThreshold, // overflow threshold - Base**OverflowExp*(1-Eps)
+};
 
-//-- forwarding ----------------------------------------------------------------
-template <typename ALPHA, typename VX, typename VY, typename MA>
-void
-r(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
-{
-    r(alpha, x, y, A);
-}
+template <typename T>
+    T
+    lamch(MachineParameter machineParameter);
 
-//-- GeMatrix, DenseVector -----------------------------------------------------
+} } // namespace lapack, flens
 
-//-- ger
-template <typename ALPHA, typename VX, typename VY, typename MA>
-void
-r(const ALPHA &alpha, const DenseVector<VX> &x, const DenseVector<VY> &y,
-  GeMatrix<MA> &A)
-{
-    if ((x.length()!=A.numRows()) || (y.length()!=A.numCols())) {
-        A.engine().resize(x.length(), y.length(),
-                          x.engine().firstIndex(),
-                          y.engine().firstIndex());
-    }
-    cxxblas::ger(StorageInfo<MA>::Order,
-                 A.numRows(), A.numCols(),
-                 alpha,
-                 x.data(), x.stride(),
-                 y.data(), y.stride(),
-                 A.engine().data(), A.engine().leadingDimension());
-}
-
-} } // namespace blas, flens
-
-#endif // FLENS_BLAS_LEVEL2_R_TCC
+#endif // FLENS_LAPACK_AUX_LAMCH_H

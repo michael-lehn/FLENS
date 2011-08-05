@@ -37,6 +37,8 @@
 
 namespace cxxblas {
 
+using std::sqrt;
+
 template <typename IndexType, typename X, typename T>
 void
 nrm2_generic(IndexType n, const X *x, IndexType incX, T &norm)
@@ -45,7 +47,7 @@ nrm2_generic(IndexType n, const X *x, IndexType incX, T &norm)
     for (IndexType i=0; i<n; ++i, x+=incX) {
         norm += cxxblas::real(conjugate(*x)*(*x));
     }
-    norm = std::sqrt(norm);
+    norm = sqrt(norm);
 }
 
 template <typename IndexType, typename X, typename T>

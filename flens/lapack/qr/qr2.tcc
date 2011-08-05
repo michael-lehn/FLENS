@@ -68,108 +68,57 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
-#ifndef FLENS_LAPACK_GESV_TF2_TCC
-#define FLENS_LAPACK_GESV_TF2_TCC 1
+#ifndef FLENS_LAPACK_QR_QR2_TCC
+#define FLENS_LAPACK_QR_QR2_TCC 1
 
-#include <algorithm>
 #include <flens/blas/blas.h>
+#include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
 
 //-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VP>
-typename MA::IndexType
-tf2(MA &&A, VP &&piv)
+template <typename MA, typename VTAU, typename VWORK>
+void
+qr2(MA &&A, VTAU &&tau, VWORK &&work)
 {
-    return tf2(A, piv);
+    return qr2(A, tau, work);
 }
 
-//-- getf2 ---------------------------------------------------------------------
-template <typename MA, typename VP>
-typename GeMatrix<MA>::IndexType
-tf2(GeMatrix<MA> &A, DenseVector<VP> &piv)
+//-- qr2 -----------------------------------------------------------------------
+template <typename MA, typename VTAU, typename VWORK>
+void
+qr2(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 {
-    ASSERT(A.firstRow()==1);
-    ASSERT(A.firstCol()==1);
-    ASSERT(piv.firstIndex()==1);
-    ASSERT(piv.inc()==1);
-
     typedef typename GeMatrix<MA>::IndexType    IndexType;
     typedef typename GeMatrix<MA>::ElementType  T;
 
-    typedef Range<IndexType>    Range;
     const Underscore<IndexType> _;
 
     const IndexType m = A.numRows();
     const IndexType n = A.numCols();
+    const IndexType k = std::min(m, n);
 
-    IndexType info = 0;
+    ASSERT(tau.length()>=k);
+    ASSERT(work.length()>=n);
 
+    for (IndexType i=1; i<=k; ++i) {
 //
-//  Quick return if possible
+//      Generate elementary reflector H(i) to annihilate A(i+1:m,i)
 //
-    if ((m==0) || (n==0)) {
-        return info;
-    }
-//
-//     Compute machine safe minimum 
-//
-    T safeMin = lamch<T>(SafeMin);
+        larfg(m-i+1, A(i,i), A(_(std::min(i+1,m),m), i), tau(i));
 
-    for (IndexType j=1; j<=std::min(m,n); ++j) {
+        if (i<n) {
 //
-//      Row range of current submatrix A(j:M, j:N)
+//          Apply H(i) to A(i:m,i+1:n) from the left
 //
-        const Range rows(j, m);
-//
-//      Row and column range of trailing submatrix A(j+1:M, j+1:N)
-//
-        const Range _rows(j+1, m);
-        const Range _cols(j+1, n);
-//
-//      Find pivot and test for singularity.
-//
-        IndexType jp = j + blas::iamax(A(rows,j));
-        piv(j) = jp;
-        if (A(jp, j)!=T(0)) {
-//
-//          Apply the interchange to columns 1:N.
-//
-            if (j!=jp) {
-                blas::swap(A(j,_), A(jp,_));
-            }
-//
-//          Compute elements J+1:M of J-th column.
-//
-            if (j<m) {
-                // TODO: if abs(A(j,j)) is less then sfmin do not
-                //       compute T(1)/A(j,j)
-                //       see: http://www.netlib.org/lapack/double/dgetf2.f
-                if (abs(A(j,j)>=safeMin)) {
-                    blas::scal(T(1)/A(j, j), A(_rows,j));
-                } else {
-                    for (IndexType i=1; i<=m-j; ++i) {
-                        A(j+i,j) /= A(j,j);
-                    }
-                }
-            }
-        } else {
-            if (info==0) {
-                info = j+1;
-            }
+            const T Aii = A(i,i);
+            A(i,i) = T(1);
+            larf(Left, A(_(i,m),i), tau(i), A(_(i,m), _(i+1,n)), work);
+            A(i,i) = Aii;
         }
-//
-//      Update trailing submatrix A(j+1:M, j+1:N)
-//
-        blas::r(T(-1),
-                A(_rows,     j),
-                A(    j, _cols),
-                A(_rows, _cols));
     }
-
-    return info;
 }
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_GESV_TF2_TCC
+#endif // FLENS_LAPACK_QR_QR2_TCC

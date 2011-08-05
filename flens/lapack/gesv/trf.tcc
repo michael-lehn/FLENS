@@ -83,7 +83,7 @@ template <typename MA, typename VP>
 typename MA::IndexType
 trf(MA &&A, VP &&piv)
 {
-    trf(A, piv);
+    return trf(A, piv);
 }
 
 //-- getf2 ---------------------------------------------------------------------
@@ -94,7 +94,6 @@ trf(GeMatrix<MA> &A, DenseVector<VP> &piv)
     typedef typename GeMatrix<MA>::IndexType    IndexType;
     typedef typename GeMatrix<MA>::ElementType  T;
 
-    typedef Range<IndexType>    Range;
     const Underscore<IndexType> _;
 
     const IndexType m = A.numRows();

@@ -36,9 +36,6 @@
 #include <complex>
 #include <cxxblas/level1/level1.h>
 
-using std::min;
-using std::max;
-
 namespace cxxblas {
 
 template <typename IndexType, typename ALPHA, typename MA, typename VX,
@@ -69,9 +66,9 @@ gbmv_generic(StorageOrder order, Transpose trans,
         scal_generic(m, beta, y, incY);
         if (trans==NoTrans) {
             for (IndexType i=0, iY=0; i<m; ++i, iY+=incY) {
-                IndexType iA = max(kl-i, IndexType(0));
-                IndexType len = min(kl+ku+1, kl-i+n) - iA;
-                IndexType iX = max(i-kl, IndexType(0))*incX;
+                IndexType iA = std::max(kl-i, IndexType(0));
+                IndexType len = std::min(kl+ku+1, kl-i+n) - iA;
+                IndexType iX = std::max(i-kl, IndexType(0))*incX;
 
                 VY _y;
                 dotu_generic(len, A+ldA*i+iA, IndexType(1),
@@ -81,9 +78,9 @@ gbmv_generic(StorageOrder order, Transpose trans,
             }
         } else {
             for (IndexType i=0, iY=0; i<m; ++i, iY+=incY) {
-                IndexType iA = max(kl-i, IndexType(0));
-                IndexType len = min(kl+ku+1, kl-i+n) - iA;
-                IndexType iX = max(i-kl, IndexType(0))*incX;
+                IndexType iA = std::max(kl-i, IndexType(0));
+                IndexType len = std::min(kl+ku+1, kl-i+n) - iA;
+                IndexType iX = std::max(i-kl, IndexType(0))*incX;
 
                 VY _y;
                 dot_generic(len, A+ldA*i+iA, IndexType(1),
@@ -102,9 +99,9 @@ gbmv_generic(StorageOrder order, Transpose trans,
         scal_generic(n, beta, y, incY);
         if (trans==Trans) {
             for (IndexType i=0, iX=0; i<m; ++i, iX+=incX) {
-                IndexType iA = max(kl-i, IndexType(0));
-                IndexType len = min(kl+ku+1, kl-i+n) - iA;
-                IndexType iY = max(i - kl, IndexType(0))*incY;
+                IndexType iA = std::max(kl-i, IndexType(0));
+                IndexType len = std::min(kl+ku+1, kl-i+n) - iA;
+                IndexType iY = std::max(i - kl, IndexType(0))*incY;
 
                 axpy_generic(len, x[iX] * alpha,
                                   A+ldA*i+iA, IndexType(1),
@@ -112,9 +109,9 @@ gbmv_generic(StorageOrder order, Transpose trans,
             }
         } else {
             for (IndexType i=0, iX=0; i<m; ++i, iX+=incX) {
-                IndexType iA = max(kl-i, IndexType(0));
-                IndexType len = min(kl+ku+1, kl-i+n) - iA;
-                IndexType iY = max(i - kl, IndexType(0))*incY;
+                IndexType iA = std::max(kl-i, IndexType(0));
+                IndexType len = std::min(kl+ku+1, kl-i+n) - iA;
+                IndexType iY = std::max(i - kl, IndexType(0))*incY;
 
                 acxpy_generic(len, x[iX] * alpha,
                                    A+ldA*i+iA, IndexType(1),

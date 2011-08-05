@@ -334,9 +334,9 @@ typename DenseVector<A>::IndexType
 DenseVector<A>::inc() const
 {
     if (_reverse) {
-        return -_array.stride();
+        return -1;
     }
-    return _array.stride();
+    return 1;
 }
 
 template <typename A>
@@ -358,6 +358,16 @@ typename DenseVector<A>::ElementType *
 DenseVector<A>::data()
 {
     return _array.data();
+}
+
+template <typename A>
+typename DenseVector<A>::IndexType
+DenseVector<A>::stride() const
+{
+    if (_reverse) {
+        return -_array.stride();
+    }
+    return _array.stride();
 }
 
 template <typename A>

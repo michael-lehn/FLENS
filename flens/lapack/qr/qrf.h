@@ -68,108 +68,18 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
-#ifndef FLENS_LAPACK_GESV_TF2_TCC
-#define FLENS_LAPACK_GESV_TF2_TCC 1
+#ifndef FLENS_LAPACK_QR_QRF_H
+#define FLENS_LAPACK_QR_QRF_H 1
 
-#include <algorithm>
-#include <flens/blas/blas.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace lapack {
 
 //-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VP>
-typename MA::IndexType
-tf2(MA &&A, VP &&piv)
-{
-    return tf2(A, piv);
-}
 
-//-- getf2 ---------------------------------------------------------------------
-template <typename MA, typename VP>
-typename GeMatrix<MA>::IndexType
-tf2(GeMatrix<MA> &A, DenseVector<VP> &piv)
-{
-    ASSERT(A.firstRow()==1);
-    ASSERT(A.firstCol()==1);
-    ASSERT(piv.firstIndex()==1);
-    ASSERT(piv.inc()==1);
-
-    typedef typename GeMatrix<MA>::IndexType    IndexType;
-    typedef typename GeMatrix<MA>::ElementType  T;
-
-    typedef Range<IndexType>    Range;
-    const Underscore<IndexType> _;
-
-    const IndexType m = A.numRows();
-    const IndexType n = A.numCols();
-
-    IndexType info = 0;
-
-//
-//  Quick return if possible
-//
-    if ((m==0) || (n==0)) {
-        return info;
-    }
-//
-//     Compute machine safe minimum 
-//
-    T safeMin = lamch<T>(SafeMin);
-
-    for (IndexType j=1; j<=std::min(m,n); ++j) {
-//
-//      Row range of current submatrix A(j:M, j:N)
-//
-        const Range rows(j, m);
-//
-//      Row and column range of trailing submatrix A(j+1:M, j+1:N)
-//
-        const Range _rows(j+1, m);
-        const Range _cols(j+1, n);
-//
-//      Find pivot and test for singularity.
-//
-        IndexType jp = j + blas::iamax(A(rows,j));
-        piv(j) = jp;
-        if (A(jp, j)!=T(0)) {
-//
-//          Apply the interchange to columns 1:N.
-//
-            if (j!=jp) {
-                blas::swap(A(j,_), A(jp,_));
-            }
-//
-//          Compute elements J+1:M of J-th column.
-//
-            if (j<m) {
-                // TODO: if abs(A(j,j)) is less then sfmin do not
-                //       compute T(1)/A(j,j)
-                //       see: http://www.netlib.org/lapack/double/dgetf2.f
-                if (abs(A(j,j)>=safeMin)) {
-                    blas::scal(T(1)/A(j, j), A(_rows,j));
-                } else {
-                    for (IndexType i=1; i<=m-j; ++i) {
-                        A(j+i,j) /= A(j,j);
-                    }
-                }
-            }
-        } else {
-            if (info==0) {
-                info = j+1;
-            }
-        }
-//
-//      Update trailing submatrix A(j+1:M, j+1:N)
-//
-        blas::r(T(-1),
-                A(_rows,     j),
-                A(    j, _cols),
-                A(_rows, _cols));
-    }
-
-    return info;
-}
+//-- qr2 -----------------------------------------------------------------------
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_GESV_TF2_TCC
+#endif // FLENS_LAPACK_QR_QRF_H
