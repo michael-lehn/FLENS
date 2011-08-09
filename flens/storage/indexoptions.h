@@ -33,9 +33,13 @@
 #ifndef FLENS_STORAGE_INDEXOPTIONS_H
 #define FLENS_STORAGE_INDEXOPTIONS_H 1
 
+#ifndef FLENS_DEFAULT_INDEXTYPE
+#define FLENS_DEFAULT_INDEXTYPE long
+#endif
+
 namespace flens {
 
-template <typename I = int, I _defaultIndexBase = I(1)>
+template <typename I = FLENS_DEFAULT_INDEXTYPE, I _defaultIndexBase = I(1)>
 struct IndexOptions
 {
     typedef I       IndexType;
