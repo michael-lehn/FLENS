@@ -30,73 +30,71 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_DRIVERS_DRIVERS_H
-#define CXXBLAS_DRIVERS_DRIVERS_H 1
-
-// define implementation specific constants, macros, etc.
-#if defined (WITH_ATLAS)
-#   include <cxxblas/drivers/atlas.h>
-#elif defined (WITH_GOTOBLAS)
-#   include <cxxblas/drivers/gotoblas.h>
-#elif defined (WITH_VECLIB)
-#   include <cxxblas/drivers/veclib.h>
-#elif defined (WITH_REFBLAS)
-#   include <cxxblas/drivers/refblas.h>
-#endif
-
-
-#ifdef HAVE_CBLAS
-
-#include <cxxblas/drivers/cblas.h>
-#include <cxxblas/typedefs.h>
+#include <cxxblas/drivers/drivers.h>
 
 namespace cxxblas {
 
 const char *
-blasImpl();
-
-//------------------------------------------------------------------------------
-
-template <typename Any>
-struct If
+blasImpl()
 {
-};
-
-template <>
-struct If<int>
-{
-    typedef void isBlasCompatibleInteger;
-};
-
-template <>
-struct If<long>
-{
-    typedef void isBlasCompatibleInteger;
-};
+    return BLAS_IMPL;
+}
 
 //------------------------------------------------------------------------------
 
 namespace CBLAS {
 
 CBLAS_ORDER
-value(StorageOrder order);
+value(StorageOrder order)
+{
+    if (order==RowMajor) {
+        return CblasRowMajor;
+    }
+    return CblasColMajor;
+}
 
 CBLAS_TRANSPOSE
-value(Transpose trans);
+value(Transpose trans)
+{
+    if (trans==NoTrans) {
+        return CblasNoTrans;
+    }
+    if (trans==Conj) {
+        return CblasConjNoTrans;
+    }
+    if (trans==Trans) {
+        return CblasTrans;
+    }
+    return CblasConjTrans;
+}
 
 CBLAS_UPLO
-value(StorageUpLo upLo);
+value(StorageUpLo upLo)
+{
+    if (upLo==Upper) {
+        return CblasUpper;
+    }
+    return CblasLower;
+}
 
 CBLAS_SIDE
-value(Side side);
+value(Side side)
+{
+    if (side==Left) {
+        return CblasLeft;
+    }
+    return CblasRight;
+}
 
 CBLAS_DIAG
-value(Diag diag);
+value(Diag diag)
+{
+    if (diag==Unit) {
+        return CblasUnit;
+    }
+    return CblasNonUnit;
+}
 
 } // namespace CBLAS
 
 } // namespace cxxblas
-
-#endif // HAVE_CBLAS
-
-#endif // CXXBLAS_DRIVERS_DRIVERS_H
