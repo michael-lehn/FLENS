@@ -67,7 +67,16 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
        const BETA &beta,
        GeMatrix<MC> &C);
 
-//-- product type: HermitianMatrix - GeneralMatrix products --------------------
+
+//== product type: HermitianMatrix - GeneralMatrix products
+
+//-- forwarding ----------------------------------------------------------------
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+    void
+    mm(cxxblas::Side side, const ALPHA &alpha, const MA &A, const MB &B,
+       const BETA &beta, MC &&C);
+
+//-- common interface ----------------------------------------------------------
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
     void
     mm(cxxblas::Side side,
@@ -82,7 +91,13 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
        const ALPHA &alpha, const HeMatrix<MA> &A, const GeMatrix<MB> &B,
        const BETA &beta, GeMatrix<MC> &C);
 
-//-- product type: SymmetricMatrix - GeneralMatrix products --------------------
+
+//== product type: SymmetricMatrix - GeneralMatrix products
+
+//-- forwarding ----------------------------------------------------------------
+// -> is identical with forwarding of Hermitian Matrix - GeneralMatrix products
+
+//-- common interface ----------------------------------------------------------
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
     void
     mm(cxxblas::Side side,
@@ -97,7 +112,16 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
        const ALPHA &alpha, const SyMatrix<MA> &A, const GeMatrix<MB> &B,
        const BETA &beta, GeMatrix<MC> &C);
 
-//-- product type: TriangularMatrix - GeneralMatrix products -------------------
+
+//== product type: TriangularMatrix - GeneralMatrix products
+
+//-- forwarding ----------------------------------------------------------------
+template <typename ALPHA, typename MA, typename MB>
+    void
+    mm(cxxblas::Side side, cxxblas::Transpose transA,
+       const ALPHA &alpha, const MA &A, MB &&B);
+
+//-- common interface ----------------------------------------------------------
 template <typename ALPHA, typename MA, typename MB>
     void
     mm(cxxblas::Side side,

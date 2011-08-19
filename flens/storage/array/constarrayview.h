@@ -49,14 +49,17 @@ class ConstArrayView
         typedef typename I::IndexType  IndexType;
         typedef A                      Allocator;
         
-        typedef ConstArrayView       ConstView;
-        typedef ArrayView<T, I, A>   View;
-        typedef Array<T, I, A>       NoView;
+        typedef ConstArrayView          ConstView;
+        typedef ArrayView<T, I, A>      View;
+        typedef Array<T, I, A>          NoView;
 
-        ConstArrayView(const ElementType *data, const Allocator &allocator,
-                       IndexType length,
+        static const IndexType          defaultIndexBase = I::defaultIndexBase;
+
+        ConstArrayView(IndexType length,
+                       const ElementType *data,
                        IndexType stride = IndexType(1),
-                       IndexType firstIndex =  I::defaultIndexBase);
+                       IndexType firstIndex =  defaultIndexBase,
+                       const Allocator &allocator = Allocator());
 
         ConstArrayView(const ConstArrayView &rhs);
 
@@ -92,7 +95,7 @@ class ConstArrayView
         const ConstArrayView
         view(IndexType from, IndexType to,
              IndexType stride = IndexType(1),
-             IndexType firstViewIndex =  I::defaultIndexBase) const;
+             IndexType firstViewIndex =  defaultIndexBase) const;
 
     private:
         ConstArrayView &
@@ -101,14 +104,6 @@ class ConstArrayView
         const ElementType *_data;
         Allocator         _allocator;
         IndexType         _length, _stride, _firstIndex;
-};
-
-//------------------------------------------------------------------------------
-
-template <typename T, typename I, typename A>
-struct StorageInfo<ConstArrayView<T, I, A> >
-{
-    static const typename I::IndexType defaultIndexBase = I::defaultIndexBase;
 };
 
 } // namespace flens

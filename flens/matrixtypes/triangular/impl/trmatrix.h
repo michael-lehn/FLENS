@@ -151,6 +151,15 @@ class TrMatrix
         IndexType
         lastCol() const;
 
+        const ElementType *
+        data() const;
+
+        ElementType *
+        data();
+
+        IndexType
+        leadingDimension() const;
+
         // -- implementation ---------------------------------------------------
         const Engine &
         engine() const;

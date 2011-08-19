@@ -33,8 +33,6 @@
 #ifndef FLENS_BLAS_LEVEL3_R2K_TCC
 #define FLENS_BLAS_LEVEL3_R2K_TCC
 
-#include <flens/storage/storageinfo.h>
-
 namespace flens { namespace blas {
 
 //-- her2k
@@ -58,17 +56,17 @@ r2k(cxxblas::Transpose trans,
     ASSERT((beta==static_cast<BETA>(0)) || (C.dim()==n));
 
     if (C.dim()!=n) {
-        C.engine().resize(n, n);
+        C.resize(n, n);
     }
 
 #   ifdef HAVE_CXXBLAS_HER2K
-    cxxblas::her2k(StorageInfo<MC>::Order, C.upLo(), trans,
+    cxxblas::her2k(MC::order, C.upLo(), trans,
                    n, k,
                    alpha,
-                   A.engine().data(), A.engine().leadingDimension(),
-                   B.engine().data(), B.engine().leadingDimension(),
+                   A.data(), A.leadingDimension(),
+                   B.data(), B.leadingDimension(),
                    beta,
-                   C.engine().data(), C.engine().leadingDimension());
+                   C.data(), C.leadingDimension());
 #   else
     ASSERT(0);
 #   endif
@@ -95,17 +93,17 @@ r2k(cxxblas::Transpose trans,
     ASSERT((beta==static_cast<BETA>(0)) || (C.dim()==n));
 
     if (C.dim()!=n) {
-        C.engine().resize(n, n);
+        C.resize(n, n);
     }
 
 #   ifdef HAVE_CXXBLAS_SYR2K
-    cxxblas::syr2k(StorageInfo<MC>::Order, C.upLo(), trans,
+    cxxblas::syr2k(MC::order, C.upLo(), trans,
                    n, k,
                    alpha,
-                   A.engine().data(), A.engine().leadingDimension(),
-                   B.engine().data(), B.engine().leadingDimension(),
+                   A.data(), A.leadingDimension(),
+                   B.data(), B.leadingDimension(),
                    beta,
-                   C.engine().data(), C.engine().leadingDimension());
+                   C.data(), C.leadingDimension());
 #   else
     ASSERT(0);
 #   endif

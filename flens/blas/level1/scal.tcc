@@ -81,9 +81,8 @@ void
 scal(const ALPHA &alpha, GeMatrix<MB> &B)
 {
 #   ifdef HAVE_CXXBLAS_GESCAL
-    cxxblas::gescal(StorageInfo<MB>::Order,
-                    B.numRows(), B.numCols(),
-                    alpha, B.engine().data(), B.engine().leadingDimension());
+    cxxblas::gescal(MB::order, B.numRows(), B.numCols(),
+                    alpha, B.data(), B.leadingDimension());
 #   else
     ASSERT(0);
 #   endif

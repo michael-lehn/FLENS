@@ -33,10 +33,15 @@
 #ifndef FLENS_LAPACK_LAPACK_TCC
 #define FLENS_LAPACK_LAPACK_TCC 1
 
+#include <flens/lapack/aux/ilaenv.tcc>
+#include <flens/lapack/aux/ilalc.tcc>
+#include <flens/lapack/aux/ilalr.tcc>
 #include <flens/lapack/aux/lamch.tcc>
 #include <flens/lapack/aux/lapy2.tcc>
 #include <flens/lapack/aux/larf.tcc>
+#include <flens/lapack/aux/larfb.tcc>
 #include <flens/lapack/aux/larfg.tcc>
+#include <flens/lapack/aux/larft.tcc>
 #include <flens/lapack/aux/laswp.tcc>
 #include <flens/lapack/aux/sign.tcc>
 
@@ -46,7 +51,9 @@
 #include <flens/lapack/gesv/trs.tcc>
 
 #include <flens/lapack/qr/orm2r.tcc>
+#include <flens/lapack/qr/ormqr.tcc>
 #include <flens/lapack/qr/qr2.tcc>
+#include <flens/lapack/qr/qrf.tcc>
 #include <flens/lapack/qr/qrs.tcc>
 
 #endif // FLENS_LAPACK_LAPACK_TCC

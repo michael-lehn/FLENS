@@ -33,8 +33,6 @@
 #ifndef FLENS_BLAS_LEVEL3_RK_TCC
 #define FLENS_BLAS_LEVEL3_RK_TCC
 
-#include <flens/storage/storageinfo.h>
-
 namespace flens { namespace blas {
 
 
@@ -47,7 +45,7 @@ rk(cxxblas::Transpose trans,
    const BETA &beta,
    HeMatrix<MC> &C)
 {
-    ASSERT(StorageInfo<MC>::Order==StorageInfo<MA>::Order);
+    ASSERT(MC::order==MA::order);
     typedef typename HeMatrix<MC>::IndexType IndexType;
 
     IndexType n = (trans==cxxblas::NoTrans) ? A.numRows()
@@ -57,17 +55,17 @@ rk(cxxblas::Transpose trans,
 
     ASSERT((beta==static_cast<BETA>(0)) || (C.dim()==n));
     if (C.dim()!=n) {
-        C.engine().resize(n, n);
+        C.resize(n, n);
     }
 
     ASSERT(C.dim()==((trans==cxxblas::NoTrans) ? A.numRows() : A.numCols()));
 
 #   ifdef HAVE_CXXBLAS_HERK
-    cxxblas::herk(StorageInfo<MC>::Order, C.upLo(),
+    cxxblas::herk(MC::order, C.upLo(),
                   trans, n, k, alpha,
-                  A.engine().data(), A.engine().leadingDimension(),
+                  A.data(), A.leadingDimension(),
                   beta,
-                  C.engine().data(), C.engine().leadingDimension());
+                  C.data(), C.leadingDimension());
 #   else
     ASSERT(0);
 #   endif
@@ -82,7 +80,7 @@ rk(cxxblas::Transpose trans,
    const BETA &beta,
    SyMatrix<MC> &C)
 {
-    ASSERT(StorageInfo<MC>::Order==StorageInfo<MA>::Order);
+    ASSERT(MC::order==MA::order);
 
     typedef typename SyMatrix<MC>::IndexType IndexType;
 
@@ -93,17 +91,17 @@ rk(cxxblas::Transpose trans,
 
     ASSERT((beta==static_cast<BETA>(0)) || (C.dim()==n));
     if (C.dim()!=n) {
-        C.engine().resize(n, n);
+        C.resize(n, n);
     }
 
     ASSERT(C.dim()==((trans==cxxblas::NoTrans) ? A.numRows() : A.numCols()));
 
 #   ifdef HAVE_CXXBLAS_SYRK
-    cxxblas::syrk(StorageInfo<MC>::Order, C.upLo(),
+    cxxblas::syrk(MC::order, C.upLo(),
                   trans, n, k, alpha,
-                  A.engine().data(), A.engine().leadingDimension(),
+                  A.data(), A.leadingDimension(),
                   beta,
-                  C.engine().data(), C.engine().leadingDimension());
+                  C.data(), C.leadingDimension());
 #   else
     ASSERT(0);
 #   endif

@@ -111,12 +111,14 @@ orm2r(Side side, Transpose trans, GeMatrix<MA> &A,
     IndexType n = C.numCols();
     IndexType k = A.numCols();
 
+    const bool noTrans = ((trans==Trans) || (trans==ConjTrans)) ? false
+                                                                : true;
 //
 //  nq is the order of Q
 //
     const IndexType nq = (side==Left) ? m : n;
     
-    ASSERT(A.numRows()>=nq);
+    ASSERT(A.numRows()==nq);
     ASSERT(k<=nq);
 
 //
@@ -127,16 +129,15 @@ orm2r(Side side, Transpose trans, GeMatrix<MA> &A,
     }
 
     IndexType iBeg, iEnd, iInc;
-    if (((side==Left) && (trans!=NoTrans))
-     || ((side==Right) && (trans==NoTrans)))
+    if (((side==Left) && !noTrans) || ((side==Right) && noTrans))
     {
         iBeg = 1;
-        iEnd = k+1;
         iInc = 1;
+        iEnd = k+iInc;
     } else {
         iBeg = k;
-        iEnd = 0;
         iInc = -1;
+        iEnd = 1+iInc;
     }
 
     Range rows = _(1,m);
@@ -159,7 +160,7 @@ orm2r(Side side, Transpose trans, GeMatrix<MA> &A,
 //
         const T Aii = A(i,i);
         A(i,i) = T(1);
-        larf(side, A(_(i,m), i), tau(i), C(rows, cols), work);
+        larf(side, A(_(i,nq), i), tau(i), C(rows, cols), work);
         A(i,i) = Aii;
     }
 }

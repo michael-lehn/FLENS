@@ -33,8 +33,6 @@
 #ifndef FLENS_BLAS_LEVEL3_MM_TCC
 #define FLENS_BLAS_LEVEL3_MM_TCC
 
-#include <flens/storage/storageinfo.h>
-
 namespace flens { namespace blas {
 
 //== product type: GeneralMatrix - GeneralMatrix products
@@ -83,10 +81,10 @@ mm(cxxblas::Transpose transA, cxxblas::Transpose transB,
     IndexType n = (transB==cxxblas::NoTrans) ? B.numCols() : B.numRows();
     IndexType k = (transA==cxxblas::NoTrans) ? A.numCols() : A.numRows();
 
-    if (StorageInfo<MC>::Order!=StorageInfo<MA>::Order) {
+    if (MC::order!=MA::order) {
         transA = cxxblas::Transpose(transA ^ cxxblas::Trans);
     }
-    if (StorageInfo<MC>::Order!=StorageInfo<MB>::Order) {
+    if (MC::order!=MB::order) {
         transB = cxxblas::Transpose(transB ^ cxxblas::Trans);
     }
 
@@ -94,26 +92,37 @@ mm(cxxblas::Transpose transA, cxxblas::Transpose transB,
     ASSERT((beta==BETA(0)) || (C.numCols()==n));
 
     if ((C.numRows()!=m) || (C.numCols()!=n)) {
-        C.engine().resize(m, n);
+        C.resize(m, n);
     }
 
 #   ifdef HAVE_CXXBLAS_GEMM
-    cxxblas::gemm(StorageInfo<MC>::Order,
+    cxxblas::gemm(MC::order,
                   transA, transB,
                   C.numRows(),
                   C.numCols(),
                   k,
                   alpha,
-                  A.engine().data(), A.engine().leadingDimension(),
-                  B.engine().data(), B.engine().leadingDimension(),
+                  A.data(), A.leadingDimension(),
+                  B.data(), B.leadingDimension(),
                   beta,
-                  C.engine().data(), C.engine().leadingDimension());
+                  C.data(), C.leadingDimension());
 #   else
     ASSERT(0);
 #   endif
 }
 
-//-- product type: HermitianMatrix - GeneralMatrix products --------------------
+
+//== product type: HermitianMatrix - GeneralMatrix products
+
+//-- forwarding ----------------------------------------------------------------
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+void
+mm(cxxblas::Side side, const ALPHA &alpha, const MA &A, const MB &B,
+   const BETA &beta, MC &&C)
+{
+    mm(side, alpha, A, B, beta, C);
+}
+
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 void
 mm(cxxblas::Side side,
@@ -132,7 +141,7 @@ mm(cxxblas::Side side,
    const BETA &beta, GeMatrix<MC> &C)
 {
 #   ifndef NDEBUG
-    ASSERT(StorageInfo<MC>::Order==StorageInfo<MB>::Order);
+    ASSERT(MC::order==MB::Oorder);
     if (side==cxxblas::Left) {
         ASSERT(A.dim()==B.numRows());
     } else {
@@ -140,7 +149,7 @@ mm(cxxblas::Side side,
     }
 #   endif
 
-    cxxblas::StorageUpLo upLo = (StorageInfo<MC>::Order==StorageInfo<MA>::Order)
+    cxxblas::StorageUpLo upLo = (MC::order==MA::order)
                               ? A.upLo()
                               : cxxblas::StorageUpLo(! A.upLo());
 
@@ -152,24 +161,30 @@ mm(cxxblas::Side side,
     ASSERT((beta==static_cast<BETA>(0)) || (C.numCols()==n));
  
     if ((C.numRows()!=m) || (C.numCols()!=n)) {
-        C.engine().resize(m,n);
+        C.resize(m,n);
     }
 
 #   ifdef HAVE_CXXBLAS_HEMM
-    cxxblas::hemm(StorageInfo<MC>::Order, side,
+    cxxblas::hemm(MC::order, side,
                   upLo,
                   C.numRows(), C.numCols(),
                   alpha,
-                  A.engine().data(), A.engine().leadingDimension(),
-                  B.engine().data(), B.engine().leadingDimension(),
+                  A.data(), A.leadingDimension(),
+                  B.data(), B.leadingDimension(),
                   beta,
-                  C.engine().data(), C.engine().leadingDimension());
-#    else
-     ASSERT(0);
-#    endif
+                  C.data(), C.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
 }
 
-//-- product type: SymmetricMatrix - GeneralMatrix products --------------------
+
+//== product type: SymmetricMatrix - GeneralMatrix products
+
+//-- forwarding ----------------------------------------------------------------
+// -> is identical with forwarding of Hermitian Matrix - GeneralMatrix products
+
+//-- common interface ----------------------------------------------------------
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 void
 mm(cxxblas::Side side,
@@ -188,7 +203,7 @@ mm(cxxblas::Side side,
    const BETA &beta, GeMatrix<MC> &C)
 {
 #   ifndef NDEBUG
-    ASSERT(StorageInfo<MC>::Order==StorageInfo<MB>::Order);
+    ASSERT(MC::order==MB::order);
     if (side==cxxblas::Left) {
         ASSERT(A.dim()==B.numRows());
     } else {
@@ -196,7 +211,7 @@ mm(cxxblas::Side side,
     }
 #   endif
 
-    cxxblas::StorageUpLo upLo = (StorageInfo<MC>::Order==StorageInfo<MA>::Order)
+    cxxblas::StorageUpLo upLo = (MC::order==MA::order)
                               ? A.upLo()
                               : cxxblas::StorageUpLo(! A.upLo());
 
@@ -208,24 +223,35 @@ mm(cxxblas::Side side,
     ASSERT((beta==static_cast<BETA>(0)) || (C.numCols()==n));
 
     if ((C.numRows()!=m) || (C.numCols()!=n)) {
-        C.engine().resize(m, n);
+        C.resize(m, n);
     }
 
 #   ifdef HAVE_CXXBLAS_SYMM
-    cxxblas::symm(StorageInfo<MC>::Order, side,
+    cxxblas::symm(MC::order, side,
                   upLo,
                   C.numRows(), C.numCols(),
                   alpha,
-                  A.engine().data(), A.engine().leadingDimension(),
-                  B.engine().data(), B.engine().leadingDimension(),
+                  A.data(), A.leadingDimension(),
+                  B.data(), B.leadingDimension(),
                   beta,
-                  C.engine().data(), C.engine().leadingDimension());
-#    else
-     ASSERT(0);
-#    endif
+                  C.data(), C.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
 }
 
-//-- product type: TriangularMatrix - GeneralMatrix products -------------------
+//== product type: TriangularMatrix - GeneralMatrix products
+
+//-- forwarding ----------------------------------------------------------------
+template <typename ALPHA, typename MA, typename MB>
+void
+mm(cxxblas::Side side, cxxblas::Transpose transA,
+   const ALPHA &alpha, const MA &A, MB &&B)
+{
+    mm(side, transA, alpha, A, B);
+}
+
+//-- common interface ----------------------------------------------------------
 template <typename ALPHA, typename MA, typename MB>
 void
 mm(cxxblas::Side side,
@@ -244,7 +270,7 @@ mm(cxxblas::Side side,
    GeMatrix<MB> &B)
 {
 #   ifndef NDEBUG
-    ASSERT(StorageInfo<MB>::Order==StorageInfo<MA>::Order);
+    ASSERT(MB::order==MA::order);
     if (side==cxxblas::Left) {
         assert(A.dim()==B.numRows());
     } else {
@@ -254,12 +280,12 @@ mm(cxxblas::Side side,
 
 
 #   ifdef HAVE_CXXBLAS_TRMM
-    cxxblas::trmm(StorageInfo<MB>::Order, side,
+    cxxblas::trmm(MB::order, side,
                   A.upLo(), transA, A.diag(),
                   B.numRows(), B.numCols(),
                   alpha,
-                  A.engine().data(), A.engine().leadingDimension(),
-                  B.engine().data(), B.engine().leadingDimension());
+                  A.data(), A.leadingDimension(),
+                  B.data(), B.leadingDimension());
 #   else
     ASSERT(0);
 #   endif

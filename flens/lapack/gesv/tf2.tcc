@@ -142,20 +142,17 @@ tf2(GeMatrix<MA> &A, DenseVector<VP> &piv)
 //          Compute elements J+1:M of J-th column.
 //
             if (j<m) {
-                // TODO: if abs(A(j,j)) is less then sfmin do not
-                //       compute T(1)/A(j,j)
-                //       see: http://www.netlib.org/lapack/double/dgetf2.f
-                if (abs(A(j,j)>=safeMin)) {
+                if (abs(A(j,j))>=safeMin) {
                     blas::scal(T(1)/A(j, j), A(_rows,j));
                 } else {
                     for (IndexType i=1; i<=m-j; ++i) {
-                        A(j+i,j) /= A(j,j);
+                        A(j+i,j) = A(j+i,j)/A(j,j);
                     }
                 }
             }
         } else {
             if (info==0) {
-                info = j+1;
+                info = j;
             }
         }
 //

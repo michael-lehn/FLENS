@@ -35,7 +35,6 @@
 
 #include <cxxblas/typedefs.h>
 #include <flens/storage/indexoptions.h>
-#include <flens/storage/storageinfo.h>
 
 namespace flens {
 
@@ -53,6 +52,10 @@ class FullStorageView
         typedef typename I::IndexType                 IndexType;
         typedef A                                     Allocator;
 
+        static const cxxblas::StorageOrder            order = Order;
+        static const IndexType                        defaultIndexBase
+                                                          = I::defaultIndexBase;
+
         typedef ConstFullStorageView<T, Order, I, A>  ConstView;
         typedef FullStorageView                       View;
         typedef FullStorage<T, Order, I, A>           NoView;
@@ -61,11 +64,19 @@ class FullStorageView
         typedef flens::ArrayView<T, I, A>             ArrayView;
         typedef flens::Array<T, I, A>                 Array;
 
-        FullStorageView(ElementType *data, const Allocator &allocator,
-                        IndexType numRows, IndexType numCols,
+        FullStorageView(IndexType numRows, IndexType numCols,
+                        ElementType *data,
                         IndexType leadingDimension,
                         IndexType firstRow = I::defaultIndexBase,
-                        IndexType firstCol = I::defaultIndexBase);
+                        IndexType firstCol = I::defaultIndexBase,
+                        const Allocator &allocator = Allocator());
+
+        template <typename ARRAY>
+            FullStorageView(IndexType numRows, IndexType numCols,
+                            ARRAY &array,
+                            IndexType firstRow = I::defaultIndexBase,
+                            IndexType firstCol = I::defaultIndexBase,
+                            const Allocator &allocator = Allocator());
 
         FullStorageView(const FullStorageView &rhs);
 
@@ -209,15 +220,6 @@ class FullStorageView
         IndexType    _numRows, _numCols;
         IndexType    _leadingDimension;
         IndexType    _firstRow, _firstCol;
-};
-
-//------------------------------------------------------------------------------
-
-template <typename T, cxxblas::StorageOrder _Order, typename I, typename A>
-struct StorageInfo<FullStorageView<T, _Order, I, A> >
-{
-    static const cxxblas::StorageOrder Order = _Order;
-    static const typename I::IndexType defaultIndexBase = I::defaultIndexBase;
 };
 
 } // namespace flens

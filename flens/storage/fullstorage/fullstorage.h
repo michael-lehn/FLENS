@@ -35,7 +35,6 @@
 
 #include <cxxblas/typedefs.h>
 #include <flens/storage/indexoptions.h>
-#include <flens/storage/storageinfo.h>
 
 namespace flens {
 
@@ -55,6 +54,10 @@ class FullStorage
         typedef T                                     ElementType;
         typedef typename I::IndexType                 IndexType;
         typedef A                                     Allocator;
+
+        static const cxxblas::StorageOrder            order = Order;
+        static const IndexType                        defaultIndexBase
+                                                          = I::defaultIndexBase;
 
         typedef ConstFullStorageView<T, Order, I, A>  ConstView;
         typedef FullStorageView<T, Order, I, A>       View;
@@ -224,16 +227,6 @@ class FullStorage
         Allocator    _allocator;
         IndexType    _numRows, _numCols;
         IndexType    _firstRow, _firstCol;
-};
-
-
-//------------------------------------------------------------------------------
-
-template <typename T, cxxblas::StorageOrder _Order, typename I, typename A>
-struct StorageInfo<FullStorage<T, _Order, I, A> >
-{
-    static const cxxblas::StorageOrder Order = _Order;
-    static const typename I::IndexType defaultIndexBase = I::defaultIndexBase;
 };
 
 } // namespace flens

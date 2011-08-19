@@ -43,8 +43,8 @@ rot(DenseVector<X> &x, DenseVector<Y> &y, const T &c, const T &s)
     ASSERT(x.length()==y.length());
 #   ifdef HAVE_CXXBLAS_ROT
     cxxblas::rot(x.length(),
-                 x.engine().data(), x.engine().leadingDimension(),
-                 y.engine().data(), y.engine().leadingDimension(),
+                 x.data(), x.leadingDimension(),
+                 y.data(), y.leadingDimension(),
                  c, s);
 #   else
     ASSERT(0);

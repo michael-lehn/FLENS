@@ -37,12 +37,12 @@ namespace flens {
 
 template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
 ConstFullStorageView<T, Order, I, A>::ConstFullStorageView(
-                                        const ElementType *data,
-                                        const Allocator &allocator,
                                         IndexType numRows, IndexType numCols,
+                                        const ElementType *data,
                                         IndexType leadingDimension,
                                         IndexType firstRow,
-                                        IndexType firstCol)
+                                        IndexType firstCol,
+                                        const Allocator &allocator)
     : _data(data), _allocator(allocator), _numRows(numRows), _numCols(numCols),
       _leadingDimension(leadingDimension), _firstRow(0), _firstCol(0)
 {
@@ -224,13 +224,13 @@ ConstFullStorageView<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
     ASSERT(fromCol<=toCol);
     ASSERT(toCol<=lastCol());
 
-    return ConstView(&(this->operator()(fromRow, fromCol)),// data
-                     allocator(),                          // allocator
-                     numRows,                              // # rows
+    return ConstView(numRows,                              // # rows
                      numCols,                              // # cols
+                     &(this->operator()(fromRow, fromCol)),// data
                      leadingDimension(),                   // leading dimension
                      firstViewRow,                         // firstRow
-                     firstViewCol);                        // firstCol
+                     firstViewCol,                         // firstCol
+                     allocator());                         // allocator
 }
 
 // view of single row
@@ -249,11 +249,11 @@ ConstFullStorageView<T, Order, I, A>::viewRow(IndexType row,
     ASSERT(row>=firstRow());
     ASSERT(row<=lastRow());
 
-    return ConstArrayView(&(this->operator()(row, _firstCol))-firstViewIndex,
-                          allocator(),
-                          numCols(),
+    return ConstArrayView(numCols(),
+                          &(this->operator()(row, _firstCol))-firstViewIndex,
                           strideCol(),
-                          firstViewIndex);
+                          firstViewIndex,
+                          allocator());
 }
 
 template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
@@ -276,11 +276,11 @@ ConstFullStorageView<T, Order, I, A>::viewRow(IndexType row,
     ASSERT(row>=firstRow());
     ASSERT(row<=lastRow());
 
-    return ConstArrayView(&(this->operator()(row, firstCol)),
-                          allocator(),
-                          length,
+    return ConstArrayView(length,
+                          &(this->operator()(row, firstCol)),
                           strideCol(),
-                          firstViewIndex);
+                          firstViewIndex,
+                          allocator());
 }
 
 // view of single columns
@@ -299,11 +299,11 @@ ConstFullStorageView<T, Order, I, A>::viewCol(IndexType col,
     ASSERT(col>=firstCol());
     ASSERT(col<=lastCol());
 
-    return ConstArrayView(&(this->operator()(_firstRow, col))-firstViewIndex,
-                          allocator(),
-                          numRows(),
+    return ConstArrayView(numRows(),
+                          &(this->operator()(_firstRow, col))-firstViewIndex,
                           strideRow(),
-                          firstViewIndex);
+                          firstViewIndex,
+                          allocator());
 }
 
 template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
@@ -326,11 +326,11 @@ ConstFullStorageView<T, Order, I, A>::viewCol(IndexType firstRow,
     ASSERT(col>=firstCol());
     ASSERT(col<=lastCol());
 
-    return ConstArrayView(&(this->operator()(firstRow, col)),
-                          allocator(),
-                          length,
+    return ConstArrayView(length,
+                          &(this->operator()(firstRow, col)),
                           strideRow(),
-                          firstViewIndex);
+                          firstViewIndex,
+                          allocator());
 }
 
 // view of d-th diagonal
@@ -339,23 +339,14 @@ const typename ConstFullStorageView<T, Order, I, A>::ConstArrayView
 ConstFullStorageView<T, Order, I, A>::viewDiag(IndexType d,
                                                IndexType firstViewIndex) const
 {
-#   ifndef NDEBUG
-    // prevent an out-of-bound assertion in case a view is empty anyway
-    IndexType col, row;
-    if (std::min(numRows(),numCols()) - std::abs(d)==0) {
-        row = this->firstRow();
-        col = this->firstCol();
-    }
-#   else
     IndexType col = firstCol() + ( (d>0) ? d : 0 );
     IndexType row = firstRow() + ( (d>0) ? 0 : -d );
-#   endif
 
-    return ConstArrayView(&(this->operator()(row,col)),
-                          allocator(),
-                          std::min(numRows(),numCols()) - std::abs(d),
+    return ConstArrayView(std::min(numRows(),numCols()) - std::abs(d),
+                          &(this->operator()(row,col)),
                           leadingDimension()+1,
-                          firstViewIndex);
+                          firstViewIndex,
+                          allocator());
 }
 
 } // namespace flens

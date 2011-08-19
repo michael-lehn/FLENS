@@ -71,8 +71,8 @@
 #ifndef FLENS_LAPACK_GESV_SV_TCC
 #define FLENS_LAPACK_GESV_SV_TCC 1
 
-#include <cxxblas/cxxblas.h>
-#include <cxxlapack/cxxlapack.h>
+#include <flens/blas/blas.h>
+#include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
 
@@ -97,7 +97,6 @@ sv(GeMatrix<MA> &A, DenseVector<VP> &piv, GeMatrix<MB> &B)
 //  Compute the LU factorization of A.
 //
     info = trf(A, piv);
-    //info = tf2(A, piv);
     if (info==0) {
 //
 //      Solve the system A*X = B, overwriting B with X.

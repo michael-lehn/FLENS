@@ -113,7 +113,8 @@ qr2(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 //
             const T Aii = A(i,i);
             A(i,i) = T(1);
-            larf(Left, A(_(i,m),i), tau(i), A(_(i,m), _(i+1,n)), work);
+            auto _work = work(_(1, n-i));
+            larf(Left, A(_(i,m),i), tau(i), A(_(i,m), _(i+1,n)), _work);
             A(i,i) = Aii;
         }
     }

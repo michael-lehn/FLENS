@@ -41,9 +41,9 @@
 namespace flens {
 
 template <typename T, typename I, typename A>
-ArrayView<T, I, A>::ArrayView(ElementType *data, const Allocator &allocator,
-                              IndexType length,
-                              IndexType stride, IndexType firstIndex)
+ArrayView<T, I, A>::ArrayView(IndexType length, ElementType *data,
+                              IndexType stride, IndexType firstIndex,
+                              const Allocator &allocator)
     : _data(data-firstIndex),
       _allocator(allocator),
       _length(length),
@@ -178,10 +178,14 @@ ArrayView<T, I, A>::fill(const ElementType &value)
 
 template <typename T, typename I, typename A>
 void
-ArrayView<T, I, A>::changeIndexBase(IndexType /*firstIndex*/)
+ArrayView<T, I, A>::changeIndexBase(IndexType firstIndex)
 {
     // TODO: Error message "changing index bases of views is not allowed"
-//    ASSERT(_firstIndex==firstIndex);
+    // Lehn: Why is changing the index base not allowed here??
+    //       I inserted a mean ASSERT(0) just to see if anybody is
+    //       calling this method at all.  At the moment I think we
+    //       just could implement this.
+    ASSERT(_firstIndex==firstIndex);
 }
 
 template <typename T, typename I, typename A>
@@ -195,18 +199,19 @@ ArrayView<T, I, A>::view(IndexType from, IndexType to,
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
         from = firstIndex();
+        to = firstIndex();
     }
 #   endif
 
     ASSERT(firstIndex()<=from);
     ASSERT(lastIndex()>=to);
     ASSERT(from<=to);
-    ASSERT(stride>=1);
-    return ConstView(&operator()(from),     // data
-                     allocator(),           // allocator
-                     length,                // length
+    ASSERT(stride>0);
+    return ConstView(length,                // length
+                     &operator()(from),     // data
                      stride*_stride,        // stride
-                     firstViewIndex);       // firstIndex in view
+                     firstViewIndex,        // firstIndex in view
+                     allocator());          // allocator
 }
 
 template <typename T, typename I, typename A>
@@ -220,18 +225,19 @@ ArrayView<T, I, A>::view(IndexType from, IndexType to,
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
         from = firstIndex();
+        to = firstIndex();
     }
 #   endif
 
     ASSERT(firstIndex()<=from);
     ASSERT(lastIndex()>=to);
     ASSERT(from<=to);
-    ASSERT(stride>=1);
-    return ArrayView(&operator()(from),     // data
-                     allocator(),           // allocator
-                     length,                // length
+    ASSERT(stride>0);
+    return ArrayView(length,                // length
+                     &operator()(from),     // data
                      stride*_stride,        // stride
-                     firstViewIndex);       // firstIndex in view
+                     firstViewIndex,        // firstIndex in view
+                     allocator());          // allocator
 }
 
 } // namespace flens

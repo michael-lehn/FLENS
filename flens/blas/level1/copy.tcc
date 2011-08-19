@@ -35,7 +35,6 @@
 
 #include <flens/aux/macros.h>
 #include <flens/blas/debugmacro.h>
-#include <flens/storage/storageinfo.h>
 
 namespace flens { namespace blas {
 
@@ -85,23 +84,23 @@ copy(cxxblas::Transpose trans,
 
     if (trans==cxxblas::NoTrans) {
         if ((A.numRows()!=B.numRows()) || (A.numCols()!=B.numCols())) {
-            B.engine().resize(A.engine());
+            B.resize(A);
         }
     } else {
         if ((A.numRows()!=B.numCols())  || (A.numCols()!=B.numRows())) {
-            B.engine().resize(A.numCols(), A.numRows(),
-                              A.firstCol(), A.firstRow());
-        } 
+            B.resize(A.numCols(), A.numRows(),
+                     A.firstCol(), A.firstRow());
+        }
     }
-    trans = (StorageInfo<MA>::Order==StorageInfo<MB>::Order)
+    trans = (MA::order==MB::order)
           ? cxxblas::Transpose(trans ^ cxxblas::NoTrans)
           : cxxblas::Transpose(trans ^ cxxblas::Trans);
 
 #   ifdef HAVE_CXXBLAS_GECOPY
-    cxxblas::gecopy(StorageInfo<MB>::Order, trans,
+    cxxblas::gecopy(MB::order, trans,
                     B.numRows(), B.numCols(),
-                    A.engine().data(), A.engine().leadingDimension(),
-                    B.engine().data(), B.engine().leadingDimension());
+                    A.data(), A.leadingDimension(),
+                    B.data(), B.leadingDimension());
 #   else
     ASSERT(0);
 #   endif

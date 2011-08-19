@@ -38,6 +38,11 @@
 
 namespace cxxlapack {
 
+//-- ilaenv --------------------------------------------------------------------
+template <typename T>
+int
+ilaenv(int spec, const char *name, const char *opts,
+       int n1, int n2, int n3, int n4);
 
 } // namespace cxxlapack
 

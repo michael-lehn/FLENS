@@ -43,7 +43,7 @@ operator<<(std::ostream &out, const GeMatrix<FS> &A)
 {
     typedef typename GeMatrix<FS>::IndexType IndexType;
 #   ifdef FLENS_IO_WITH_RANGES
-    IndexType defaultIndexBase = StorageInfo<FS>::defaultIndexBase;
+    IndexType defaultIndexBase = FS::defaultIndexBase;
 
     out << "[";
     (A.firstRow()==defaultIndexBase) ? out << A.numRows()
@@ -59,7 +59,7 @@ operator<<(std::ostream &out, const GeMatrix<FS> &A)
 #   endif // FLENS_IO_WITH_RANGES
 
     out << std::endl;
-    out.setf(std::ios::fixed|std::ios::right);
+    //out.setf(std::ios::fixed|std::ios::right);
     for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
         for (IndexType j=A.firstCol(); j<=A.lastCol(); ++j) {
             out.width(11);
@@ -77,7 +77,7 @@ operator<<(std::ostream &out, const HeMatrix<FS> &A)
     typedef typename HeMatrix<FS>::ElementType  ElementType;
     typedef typename HeMatrix<FS>::IndexType    IndexType;
 #   ifdef FLENS_IO_WITH_RANGES
-    IndexType defaultIndexBase = StorageInfo<FS>::defaultIndexBase;
+    IndexType defaultIndexBase = FS::defaultIndexBase;
 
     if ((A.firstRow()==defaultIndexBase)
      && (A.firstCol()==defaultIndexBase))
@@ -122,7 +122,7 @@ operator<<(std::ostream &out, const SyMatrix<FS> &A)
     typedef typename GeMatrix<FS>::IndexType IndexType;
 
 #   ifdef FLENS_IO_WITH_RANGES
-    IndexType defaultIndexBase = StorageInfo<FS>::defaultIndexBase;
+    IndexType defaultIndexBase = FS::defaultIndexBase;
 
     if ((A.firstRow()==defaultIndexBase)
      && (A.firstCol()==defaultIndexBase))
@@ -157,7 +157,7 @@ operator<<(std::ostream &out, const TrMatrix<FS> &A)
     typedef typename GeMatrix<FS>::IndexType IndexType;
 
 #   ifdef FLENS_IO_WITH_RANGES
-    IndexType defaultIndexBase = StorageInfo<FS>::defaultIndexBase;
+    IndexType defaultIndexBase = FS::defaultIndexBase;
 
     if ((A.firstRow()==defaultIndexBase)
      && (A.firstCol()==defaultIndexBase))

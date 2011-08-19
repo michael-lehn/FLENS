@@ -91,8 +91,8 @@ template <typename MA, typename VP>
 typename GeMatrix<MA>::IndexType
 trf(GeMatrix<MA> &A, DenseVector<VP> &piv)
 {
-    typedef typename GeMatrix<MA>::IndexType    IndexType;
     typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MA>::IndexType    IndexType;
 
     const Underscore<IndexType> _;
 
@@ -110,7 +110,8 @@ trf(GeMatrix<MA> &A, DenseVector<VP> &piv)
 //
 //  Determine the block size for this environment.
 //
-    IndexType bs = 2; // TODO: laenv( 1, 'DGETRF', ' ', M, N, -1, -1 );
+    IndexType bs = ilaenv<T>(1, "GETRF", "", m, n, -1, -1);
+
     if ((bs<=1) || (bs>=std::min(m,n))) {
 //
 //      Use unblocked code.

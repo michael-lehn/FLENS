@@ -33,6 +33,8 @@
 #ifndef CXXBLAS_DRIVERS_GOTOBLAS_H
 #define CXXBLAS_DRIVERS_GOTOBLAS_H 1
 
+#include <cstdlib>
+
 #   define HAVE_CBLAS           1
 #   ifdef BLASINT
 #      define CBLAS_INT         BLASINT

@@ -209,11 +209,11 @@ Array<T, I, A>::view(IndexType from, IndexType to,
     ASSERT(lastIndex()>=to);
     ASSERT(from<=to);
     ASSERT(stride>=1);
-    return ConstView(&operator()(from),     // data
-                     allocator(),           // allocator
-                     length,                // length
+    return ConstView(length,                // length
+                     &operator()(from),     // data
                      stride,                // stride
-                     firstViewIndex);       // firstIndex
+                     firstViewIndex,        // firstIndex
+                     allocator());          // allocator
 }
 
 template <typename T, typename I, typename A>
@@ -234,11 +234,11 @@ Array<T, I, A>::view(IndexType from, IndexType to,
     ASSERT(lastIndex()>=to);
     ASSERT(from<=to);
     ASSERT(stride>=1);
-    return View(&operator()(from),          // data
-                allocator(),                // allocator
-                length,                     // length
+    return View(length,                     // length
+                &operator()(from),          // data
                 stride,                     // stride
-                firstViewIndex);            // firstIndex in view
+                firstViewIndex,             // firstIndex in view
+                allocator());               // allocator
 }
 
 //-- private methods -----------------------------------------------------------
@@ -275,7 +275,7 @@ Array<T, I, A>::_release()
         for (IndexType i=firstIndex(); i<=lastIndex(); ++i) {
             _allocator.destroy(_data+i);
         }
-        _allocator.deallocate(_data + _firstIndex, _length);   
+        _allocator.deallocate(data(), _length);   
         _data = 0;     
     }
     ASSERT(_data==0);

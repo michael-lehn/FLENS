@@ -61,9 +61,10 @@ main()
     cerr << "Ab = " << Ab << endl;
 
     DenseVector tau(std::min(m,n));
-    DenseVector work(n);
+    DenseVector work;
 
-    lapack::qr2(Ab(_,_(1,m)), tau, work);
+    lapack::qrf(Ab(_,_(1,m)), tau, work);
+    //lapack::qrf(Ab, tau, work);
     cerr << "-> Ab = " << Ab << endl;
 
     lapack::qrs(Ab(_,_(1,m)), tau, Ab(_,_(m+1,n)), work);

@@ -373,14 +373,22 @@ DenseVector<A>::stride() const
 template <typename A>
 template <typename RHS>
 bool
-DenseVector<A>::resize(const DenseVector<RHS> &rhs)
+DenseVector<A>::resize(const DenseVector<RHS> &rhs, const ElementType &value)
 {
-    bool resized = _array.resize(rhs.engine());
+    bool resized = _array.resize(rhs.engine(), value);
     if (_reverse != rhs.reversed()) {
         _reverse = rhs.reversed();
         return true;
     }
     return resized;
+}
+
+template <typename A>
+bool
+DenseVector<A>::resize(IndexType length, IndexType firstIndex,
+                       const ElementType &value)
+{
+    return _array.resize(length, firstIndex, value);
 }
 
 template <typename A>

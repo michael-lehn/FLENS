@@ -34,7 +34,6 @@
 #define FLENS_STORAGE_STORAGE_H 1
 
 #include <flens/storage/indexoptions.h>
-#include <flens/storage/storageinfo.h>
 
 #include <flens/storage/array/constarrayview.h>
 #include <flens/storage/array/arrayview.h>

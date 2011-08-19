@@ -128,6 +128,10 @@ class GeMatrix
         template <typename RHS>
             GeMatrix(const Matrix<RHS> &rhs);
 
+        template <typename RHS>
+            GeMatrix(IndexType numRows, IndexType numCols,
+                     DenseVector<RHS> &rhs);
+
         // -- operators --------------------------------------------------------
         Initializer
         operator=(const ElementType &value);
@@ -194,6 +198,32 @@ class GeMatrix
 
         Range<IndexType>
         cols() const;
+
+        const ElementType *
+        data() const;
+
+        ElementType *
+        data();
+
+        IndexType
+        leadingDimension() const;
+
+        template <typename RHS>
+            bool
+            resize(const GeMatrix<RHS> &rhs,
+                   const ElementType &value = ElementType());
+
+        bool
+        resize(IndexType numRows, IndexType numCols,
+               IndexType firstRowIndex = Engine::defaultIndexBase,
+               IndexType firstColIndex = Engine::defaultIndexBase,
+               const ElementType &value = ElementType());
+
+        bool
+        fill(const ElementType &value = ElementType(0));
+
+        void
+        changeIndexBase(IndexType firstRowIndex, IndexType firstColIndex);
 
         // -- views ------------------------------------------------------------
 

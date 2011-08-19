@@ -39,6 +39,12 @@
 
 namespace flens { namespace blas {
 
+//-- forwarding: GeneralMatrix - Vector products -------------------------------
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+    void
+    mv(cxxblas::Transpose trans,
+       const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y);
+
 //-- product type: GeneralMatrix - Vector products -----------------------------
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
     void
@@ -53,6 +59,12 @@ template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
        const ALPHA &alpha, const GeMatrix<MA> &A, const DenseVector<VX> &x,
        const BETA &beta, DenseVector<VY> &y);
 
+
+//-- forwarding: Hermitian Matrix - Vector products ----------------------------
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+    void
+    mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y);
+
 //-- product type: HermitianMatrix - Vector products ---------------------------
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
     void
@@ -65,6 +77,10 @@ template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
     mv(const ALPHA &alpha, const HeMatrix<MA> &A, const DenseVector<VX> &x,
        const BETA &beta, DenseVector<VY> &y);
 
+
+//-- forwarding: SymmetricMatrix - Vector products -----------------------------
+// -> is identical with forwarding of Hermitian Matrix - Vector products
+
 //-- product type: SymmetricMatrix - Vector products ---------------------------
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
     void
@@ -76,6 +92,12 @@ template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
     void
     mv(const ALPHA &alpha, const SyMatrix<MA> &A, const DenseVector<VX> &x,
        const BETA &beta, DenseVector<VY> &y);
+
+
+//-- forwarding: TriangularMatrix - Vector products ----------------------------
+template <typename MA, typename VX>
+    void
+    mv(cxxblas::Transpose trans,  const MA &A, VX &&x);
 
 //-- product type: TriangularMatrix - Vector products --------------------------
 template <typename MA, typename VX>

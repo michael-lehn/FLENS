@@ -36,7 +36,6 @@
 #include <cxxblas/cxxblas.h>
 #include <flens/aux/macros.h>
 #include <flens/blas/debugmacro.h>
-#include <flens/storage/storageinfo.h>
 
 namespace flens { namespace blas {
 
@@ -48,15 +47,6 @@ axpy(const ALPHA &alpha, const Vector<VX> &x, Vector<VY> &y)
     axpy(alpha, x.impl(), y.impl());
 }
 
-//-- common interface for matrices ---------------------------------------------
-template <typename ALPHA, typename MA, typename MB>
-void
-axpy(cxxblas::Transpose trans,
-     const ALPHA &alpha, const Matrix<MA> &A, Matrix<MB> &B)
-{
-    axpy(trans, alpha, A.impl(), B.impl());
-}
-
 //-- axpy
 template <typename ALPHA, typename VX, typename VY>
 void
@@ -65,18 +55,27 @@ axpy(const ALPHA &alpha, const DenseVector<VX> &x, DenseVector<VY> &y)
     FLENS_CLOSURELOG_ADD_ENTRY_AXPY(alpha, x, y);
 
     if (y.length()==0) {
-        y.engine().resize(x.engine(), 0);
+        y.resize(x.engine(), 0);
     }
     ASSERT(y.length()==x.length());
 
 #   ifdef HAVE_CXXBLAS_AXPY
     cxxblas::axpy(x.length(), alpha,
-                  x.engine().data(), x.engine().stride(),
-                  y.engine().data(), y.engine().stride());
+                  x.data(), x.stride(),
+                  y.data(), y.stride());
 #   else
     ASSERT(0);
 #   endif
     FLENS_CLOSURELOG_END_ENTRY;
+}
+
+//-- common interface for matrices ---------------------------------------------
+template <typename ALPHA, typename MA, typename MB>
+void
+axpy(cxxblas::Transpose trans,
+     const ALPHA &alpha, const Matrix<MA> &A, Matrix<MB> &B)
+{
+    axpy(trans, alpha, A.impl(), B.impl());
 }
 
 //-- geaxpy
@@ -87,20 +86,33 @@ axpy(cxxblas::Transpose trans,
 {
     FLENS_CLOSURELOG_ADD_ENTRY_AXPY(alpha, A, B);
 
-
-    if ((A.numRows()!=B.numRows())
-     || (A.numCols()!=B.numCols())) {
-        B.engine().resize(A.engine(), 0);
+    if (B.numRows()*B.numCols()==0) {
+        if ((trans==cxxblas::NoTrans) || (trans==cxxblas::Conj)) {
+            B.resize(A.numRows(), A.numCols());
+        } else {
+            B.resize(A.numCols(), A.numRows());
+        }
+        // fill with zeros!
+        B.fill();
     }
-    trans = (StorageInfo<MA>::Order==StorageInfo<MB>::Order)
+
+#   ifndef NDEBUG
+    if ((trans==cxxblas::NoTrans) || (trans==cxxblas::Conj)) {
+        ASSERT((A.numRows()==B.numRows()) && (A.numCols()==B.numCols()));
+    } else {
+        ASSERT((A.numRows()==B.numCols()) && (A.numCols()==B.numRows()));
+    }
+#   endif
+
+    trans = (MA::order==MB::order)
           ? cxxblas::Transpose(trans ^ cxxblas::NoTrans)
           : cxxblas::Transpose(trans ^ cxxblas::Trans);
 
 #   ifdef HAVE_CXXBLAS_GEAXPY
-    cxxblas::geaxpy(StorageInfo<MB>::Order, trans,
+    cxxblas::geaxpy(MB::order, trans,
                     B.numRows(), B.numCols(), alpha,
-                    A.engine().data(), A.engine().leadingDimension(),
-                    B.engine().data(), B.engine().leadingDimension());
+                    A.data(), A.leadingDimension(),
+                    B.data(), B.leadingDimension());
 #   else
     ASSERT(0);
 #   endif

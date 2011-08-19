@@ -175,6 +175,27 @@ HeMatrix<FS>::lastCol() const
     return _engine.lastCol();
 }
 
+template <typename FS>
+const typename HeMatrix<FS>::ElementType *
+HeMatrix<FS>::data() const
+{
+    return _engine.data();
+}
+
+template <typename FS>
+typename HeMatrix<FS>::ElementType *
+HeMatrix<FS>::data()
+{
+    return _engine.data();
+}
+
+template <typename FS>
+typename HeMatrix<FS>::IndexType
+HeMatrix<FS>::leadingDimension() const
+{
+    return _engine.leadingDimension();
+}
+
 // -- implementation -----------------------------------------------------------
 
 template <typename FS>

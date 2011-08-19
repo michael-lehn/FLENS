@@ -77,8 +77,14 @@
 namespace flens { namespace lapack {
 
 //-- forwarding ----------------------------------------------------------------
+template <typename MA, typename VTAU, typename VWORK>
+    void
+    qrf(MA &&A, VTAU &&tau, VWORK &&work);
 
-//-- qr2 -----------------------------------------------------------------------
+//-- geqrf ---------------------------------------------------------------------
+template <typename MA, typename VTAU, typename VWORK>
+    void
+    qrf(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work);
 
 } } // namespace lapack, flens
 

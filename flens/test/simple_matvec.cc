@@ -1,3 +1,10 @@
+//
+// compile with:
+//
+// clang++ -std=c++0x simple_matvec.cc -I../../ -I/opt/local/include/ -L /opt/local/lib -lgmpxx -lgmp
+//
+//
+
 #include <iostream>
 #include <flens/flens.cxx>
 
@@ -16,7 +23,6 @@ main()
     x = 1, 2, 3, 4, 5;
 
     cout << "x =      " << x << endl;
-    cout << "x(2:4) = " << x(_[2][4]) << endl;
 
     GeMatrix A(3,3);
     A = 1, 2, 3,
@@ -24,4 +30,7 @@ main()
         1, 2, 1;
 
     cout << "A = " << A << endl;
+    auto _x = A(_(2,3),2);
+    cout << "_x = A(2:3,2) = " << _x << endl;
+    cout << "_x.firstIndex() = " << _x .firstIndex() << endl;
 }

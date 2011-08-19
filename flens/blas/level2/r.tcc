@@ -56,16 +56,16 @@ r(const ALPHA &alpha, const DenseVector<VX> &x, const DenseVector<VY> &y,
   GeMatrix<MA> &A)
 {
     if ((x.length()!=A.numRows()) || (y.length()!=A.numCols())) {
-        A.engine().resize(x.length(), y.length(),
-                          x.engine().firstIndex(),
-                          y.engine().firstIndex());
+        A.resize(x.length(), y.length(),
+                          x.firstIndex(),
+                          y.firstIndex());
     }
-    cxxblas::ger(StorageInfo<MA>::Order,
+    cxxblas::ger(MA::order,
                  A.numRows(), A.numCols(),
                  alpha,
                  x.data(), x.stride(),
                  y.data(), y.stride(),
-                 A.engine().data(), A.engine().leadingDimension());
+                 A.data(), A.leadingDimension());
 }
 
 } } // namespace blas, flens

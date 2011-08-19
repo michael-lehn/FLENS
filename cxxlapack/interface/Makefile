@@ -5,6 +5,12 @@ FC = gfortran
 
 INT = int
 
+
+# /Users/lehn/GotoBLAS2/libgoto2.a
+
+CXXFLAGS += -DUSE_CBLAS -DWITH_GOTOBLAS
+
+
 # used in gesv.cc
 CXXFLAGS += -DUSE_GECON_REF
 CXXFLAGS += -DUSE_GEEQU_REF

@@ -68,6 +68,8 @@ qrs(GeMatrix<MA> &A, const DenseVector<VTAU> &tau, GeMatrix<MB> &B,
     typedef typename GeMatrix<MA>::IndexType    IndexType;
     typedef typename GeMatrix<MA>::ElementType  T;
 
+    const Underscore<IndexType> _;
+
     const IndexType m = A.numRows();
     const IndexType n = A.numCols();
     const IndexType nRhs = B.numCols();

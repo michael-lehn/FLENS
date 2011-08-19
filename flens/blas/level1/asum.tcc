@@ -44,7 +44,7 @@ asum(const DenseVector<X> &x, T &absoluteSum)
 {
 #   ifdef HAVE_CXXBLAS_ASUM
     cxxblas::asum(x.length(),
-                  x.engine().data(), x.engine().stride(),
+                  x.data(), x.stride(),
                   absoluteSum);
 #   else
     ASSERT(0);

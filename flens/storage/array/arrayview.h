@@ -45,18 +45,21 @@ template <typename T, typename I, typename A>
 class ArrayView
 {
     public:
-        typedef T                      ElementType;
-        typedef typename I::IndexType  IndexType;
-        typedef A                      Allocator;
+        typedef T                       ElementType;
+        typedef typename I::IndexType   IndexType;
+        typedef A                       Allocator;
 
-        typedef ConstArrayView<T, I, A>  ConstView;
-        typedef ArrayView                View;
-        typedef Array<T, I, A>           NoView;
+        typedef ConstArrayView<T, I, A> ConstView;
+        typedef ArrayView               View;
+        typedef Array<T, I, A>          NoView;
 
-        ArrayView(ElementType *data, const Allocator &allocator,
-                  IndexType length,
-                  IndexType stride = 1,
-                  IndexType firstIndex = I::defaultIndexBase);
+        static const IndexType          defaultIndexBase = I::defaultIndexBase;
+
+        ArrayView(IndexType length,
+                  ElementType *data,
+                  IndexType stride = IndexType(1),
+                  IndexType firstIndex = defaultIndexBase,
+                  const Allocator &allocator = Allocator());
 
         ArrayView(const ArrayView &rhs);
 
@@ -98,7 +101,7 @@ class ArrayView
 
         bool
         resize(IndexType length,
-               IndexType firstIndex = I::defaultIndexBase,
+               IndexType firstIndex = defaultIndexBase,
                const ElementType &value = ElementType());
 
         template <typename ARRAY>
@@ -114,25 +117,17 @@ class ArrayView
         const ConstView
         view(IndexType from, IndexType to,
              IndexType stride = IndexType(1),
-             IndexType firstViewIndex =  I::defaultIndexBase) const;
+             IndexType firstViewIndex =  defaultIndexBase) const;
 
         ArrayView
         view(IndexType from, IndexType to,
              IndexType stride = IndexType(1),
-             IndexType firstViewIndex = I::defaultIndexBase);
+             IndexType firstViewIndex = defaultIndexBase);
 
     private:
         ElementType  *_data;
         Allocator    _allocator;
         IndexType    _length, _stride, _firstIndex;
-};
-
-//------------------------------------------------------------------------------
-
-template <typename T, typename I, typename A>
-struct StorageInfo<ArrayView<T, I, A> >
-{
-    static const typename I::IndexType defaultIndexBase = I::defaultIndexBase;
 };
 
 } // namespace flens

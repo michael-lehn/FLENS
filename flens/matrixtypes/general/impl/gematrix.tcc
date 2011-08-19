@@ -100,6 +100,14 @@ GeMatrix<FS>::GeMatrix(const Matrix<RHS> &rhs)
     blas::copy(rhs.impl(), *this);
 }
 
+template <typename FS>
+template <typename RHS>
+GeMatrix<FS>::GeMatrix(IndexType numRows, IndexType numCols,
+                       DenseVector<RHS> &rhs)
+    : _engine(numRows, numCols, rhs.engine())
+{
+}
+
 // -- operators ----------------------------------------------------------------
 
 template <typename FS>
@@ -261,6 +269,63 @@ GeMatrix<FS>::cols() const
     return Range<IndexType>(_engine.firstCol(),_engine.lastCol());
 }
 
+template <typename FS>
+const typename GeMatrix<FS>::ElementType *
+GeMatrix<FS>::data() const
+{
+    return _engine.data();
+}
+
+template <typename FS>
+typename GeMatrix<FS>::ElementType *
+GeMatrix<FS>::data()
+{
+    return _engine.data();
+}
+
+template <typename FS>
+typename GeMatrix<FS>::IndexType
+GeMatrix<FS>::leadingDimension() const
+{
+    return _engine.leadingDimension();
+}
+
+template <typename FS>
+template <typename RHS>
+bool
+GeMatrix<FS>::resize(const GeMatrix<RHS> &rhs,
+                     const ElementType &value)
+{
+    return _engine.resize(rhs.engine(), value);
+}
+
+template <typename FS>
+bool
+GeMatrix<FS>::resize(IndexType numRows, IndexType numCols,
+                     IndexType firstRowIndex,
+                     IndexType firstColIndex,
+                     const ElementType &value)
+{
+    return _engine.resize(numRows, numCols,
+                          firstRowIndex, firstColIndex,
+                          value);
+}
+
+template <typename FS>
+bool
+GeMatrix<FS>::fill(const ElementType &value)
+{
+    return _engine.fill(value);
+}
+
+template <typename FS>
+void
+GeMatrix<FS>::changeIndexBase(IndexType firstRowIndex, IndexType firstColIndex)
+{
+    _engine.changeIndexBase(firstRowIndex, firstColIndex);
+}
+
+
 // -- views --------------------------------------------------------------------
 
 // diag views
@@ -364,8 +429,7 @@ typename GeMatrix<FS>::ConstView
 GeMatrix<FS>::operator()(const GeMatrix<RHS> &A) const
 {
     return engine().view(A.firstRow(), A.firstCol(),
-                         A.lastRow(), A.lastCol(),
-                         A.firstRow(), A.firstCol());
+                         A.lastRow(), A.lastCol());
 }
 
 template <typename FS>
@@ -438,18 +502,14 @@ template <typename FS>
 typename GeMatrix<FS>::ConstVectorView
 GeMatrix<FS>::operator()(IndexType row, const Range<IndexType> &cols) const
 {
-    return engine().viewRow(row, 
-                            cols.firstIndex(), cols.lastIndex(),
-                            cols.firstIndex());
+    return engine().viewRow(row, cols.firstIndex(), cols.lastIndex());
 }
 
 template <typename FS>
 typename GeMatrix<FS>::VectorView
 GeMatrix<FS>::operator()(IndexType row, const Range<IndexType> &cols)
 {
-    return engine().viewRow(row, 
-                            cols.firstIndex(), cols.lastIndex(),
-                            cols.firstIndex());
+    return engine().viewRow(row, cols.firstIndex(), cols.lastIndex());
 }
 
 // column view (vector view)
@@ -471,18 +531,14 @@ template <typename FS>
 typename GeMatrix<FS>::ConstVectorView
 GeMatrix<FS>::operator()(const Range<IndexType> &rows, IndexType col) const
 {
-    return engine().viewCol(rows.firstIndex(), rows.lastIndex(), 
-                            col,
-                            rows.firstIndex());
+    return engine().viewCol(rows.firstIndex(), rows.lastIndex(), col);
 }
 
 template <typename FS>
 typename GeMatrix<FS>::VectorView
 GeMatrix<FS>::operator()(const Range<IndexType> &rows, IndexType col)
 {
-    return engine().viewCol(rows.firstIndex(), rows.lastIndex(), 
-                            col,
-                            rows.firstIndex());
+    return engine().viewCol(rows.firstIndex(), rows.lastIndex(), col);
 }
 
 // -- implementation -----------------------------------------------------------

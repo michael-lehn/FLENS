@@ -59,6 +59,17 @@ enum Equilibration {
     RowColEquilibration
 };
 
+enum Direction {
+    Forward,
+    Backward
+};
+
+enum StoreVectors {
+    ColumnWise,
+    RowWise
+};
+
+
 // import from std
 
 using std::abs;

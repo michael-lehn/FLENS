@@ -42,7 +42,7 @@ operator<<(std::ostream &out, const DenseVector<A> &x)
     typedef typename DenseVector<A>::IndexType IndexType;
 
 #   ifdef FLENS_IO_WITH_RANGES
-    IndexType defaultIndexBase = StorageInfo<A>::defaultIndexBase;
+    IndexType defaultIndexBase = A::defaultIndexBase;
 
     out << std::endl << "[";
     if ((x.firstIndex()==defaultIndexBase) && (x.inc()>0)) {
@@ -56,7 +56,7 @@ operator<<(std::ostream &out, const DenseVector<A> &x)
 #   endif // FLENS_IO_WITH_RANGES
 
     out << std::endl;
-    out.setf(std::ios::fixed);
+    //out.setf(std::ios::fixed);
     for (IndexType i=x.firstIndex(); i!=x.endIndex(); i+=x.inc()) {
         out.width(11);
         out << x(i) << " ";

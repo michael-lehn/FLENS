@@ -182,6 +182,27 @@ TrMatrix<FS>::lastCol() const
     return _engine.lastCol();
 }
 
+template <typename FS>
+const typename TrMatrix<FS>::ElementType *
+TrMatrix<FS>::data() const
+{
+    return _engine.data();
+}
+
+template <typename FS>
+typename TrMatrix<FS>::ElementType *
+TrMatrix<FS>::data()
+{
+    return _engine.data();
+}
+
+template <typename FS>
+typename TrMatrix<FS>::IndexType
+TrMatrix<FS>::leadingDimension() const
+{
+    return _engine.leadingDimension();
+}
+
 // -- implementation -----------------------------------------------------------
 template <typename FS>
 const typename TrMatrix<FS>::Engine &

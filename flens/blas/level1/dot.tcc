@@ -45,8 +45,8 @@ dot(const DenseVector<X> &x, const DenseVector<Y> &y, T &result)
 
 #   ifdef HAVE_CXXBLAS_DOT
     cxxblas::dot(x.length(),
-                 x.engine().data(), x.engine().stride(),
-                 y.engine().data(), y.engine().stride(),
+                 x.data(), x.stride(),
+                 y.data(), y.stride(),
                  result);
 #   else
     ASSERT(0);
@@ -61,8 +61,8 @@ dotu(const DenseVector<X> &x, const DenseVector<Y> &y, T &result)
 
 #   ifdef HAVE_CXXBLAS_DOTU
     cxxblas::dotu(x.length(),
-                  x.engine().data(), x.engine().stride(),
-                  y.engine().data(), y.engine().stride(),
+                  x.data(), x.stride(),
+                  y.data(), y.stride(),
                   result);
 #   else
     ASSERT(0);

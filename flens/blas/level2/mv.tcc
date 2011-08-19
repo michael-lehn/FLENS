@@ -33,9 +33,16 @@
 #ifndef FLENS_BLAS_LEVEL2_MV_TCC
 #define FLENS_BLAS_LEVEL2_MV_TCC 1
 
-#include <flens/storage/storageinfo.h>
-
 namespace flens { namespace blas {
+
+//-- forwarding: GeneralMatrix - Vector products -------------------------------
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+void
+mv(cxxblas::Transpose trans,
+   const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
+{
+    mv(trans, alpha, A, x, beta, y);
+}
 
 //-- product type: GeneralMatrix - Vector products -----------------------------
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
@@ -67,23 +74,31 @@ mv(cxxblas::Transpose trans,
     ASSERT((beta==BETA(0)) || (y.length()==yLength));
 
     if (y.length()!=yLength) {
-        y.engine().resize(yLength, 0);
+        y.resize(yLength, 0);
     }
 
 #   ifdef HAVE_CXXBLAS_GEMV
-    cxxblas::gemv(StorageInfo<MA>::Order,
+    cxxblas::gemv(MA::order,
                   trans,
                   A.numRows(), A.numCols(),
                   alpha,
-                  A.engine().data(), A.engine().leadingDimension(),
-                  x.engine().data(), x.engine().stride(),
+                  A.data(), A.leadingDimension(),
+                  x.data(), x.stride(),
                   beta,
-                  y.engine().data(), y.engine().stride());
+                  y.data(), y.stride());
 #   else
     ASSERT(0);
 #   endif
 
     FLENS_CLOSURELOG_END_ENTRY
+}
+
+//-- forwarding: HermitianMatrix - Vector products -------------------------------
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+void
+mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
+{
+    mv(alpha, A, x, beta, y);
 }
 
 //-- product type: HermitianMatrix - Vector products ---------------------------
@@ -106,21 +121,25 @@ mv(const ALPHA &alpha, const HeMatrix<MA> &A, const DenseVector<VX> &x,
     ASSERT((beta==BETA(0)) || (y.length()==A.dim()));
 
     if (y.length()!=A.dim()) {
-        y.engine().resize(A.dim(), 0);
+        y.resize(A.dim(), 0);
     }
 
 #   ifdef HAVE_CXXBLAS_HEMV
-    cxxblas::hemv(StorageInfo<MA>::Order, A.upLo(),
+    cxxblas::hemv(MA::order, A.upLo(),
                   A.dim(),
                   alpha,
-                  A.engine().data(), A.engine().leadingDimension(),
-                  x.engine().data(), x.engine().stride(),
+                  A.data(), A.leadingDimension(),
+                  x.data(), x.stride(),
                   beta,
-                  y.engine().data(), y.engine().stride());
+                  y.data(), y.stride());
 #   else
     ASSERT(0);
 #   endif
 }
+
+
+//-- forwarding: SymmetricMatrix - Vector products -----------------------------
+// -> is identical with forwarding of Hermitian Matrix - Vector products
 
 //-- product type: SymmetricMatrix - Vector products ---------------------------
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
@@ -142,20 +161,29 @@ mv(const ALPHA &alpha, const SyMatrix<MA> &A, const DenseVector<VX> &x,
     ASSERT((beta==BETA(0)) || (y.length()==A.dim()));
 
     if (y.length()!=A.dim()) {
-        y.engine().resize(A.dim(), 0);
+        y.resize(A.dim(), 0);
     }
 
 #   ifdef HAVE_CXXBLAS_SYMV
-    cxxblas::symv(StorageInfo<MA>::Order, A.upLo(),
+    cxxblas::symv(MA::order, A.upLo(),
                   A.dim(),
                   alpha,
-                  A.engine().data(), A.engine().leadingDimension(),
-                  x.engine().data(), x.engine().stride(),
+                  A.data(), A.leadingDimension(),
+                  x.data(), x.stride(),
                   beta,
-                  y.engine().data(), y.engine().stride());
+                  y.data(), y.stride());
 #   else
     ASSERT(0);
 #   endif
+}
+
+
+//-- forwarding: TriangularMatrix - Vector products ----------------------------
+template <typename MA, typename VX>
+void
+mv(cxxblas::Transpose trans,  const MA &A, VX &&x)
+{
+    mv(trans, A, x);
 }
 
 //-- product type: TriangularMatrix - Vector products --------------------------
@@ -173,11 +201,11 @@ mv(cxxblas::Transpose trans, const TrMatrix<MA> &A, DenseVector<VX> &x)
 {
     ASSERT(x.length()==A.dim());
 #   ifdef HAVE_CXXBLAS_TRMV
-    cxxblas::trmv(StorageInfo<MA>::Order, A.upLo(),
+    cxxblas::trmv(MA::order, A.upLo(),
                   trans, A.diag(),
                   A.dim(),
-                  A.engine().data(), A.engine().leadingDimension(),
-                  x.engine().data(), x.engine().stride());
+                  A.data(), A.leadingDimension(),
+                  x.data(), x.stride());
 #   else
     ASSERT(0);
 #   endif

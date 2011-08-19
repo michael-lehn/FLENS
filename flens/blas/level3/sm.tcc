@@ -33,8 +33,6 @@
 #ifndef FLENS_BLAS_LEVEL3_SM_TCC
 #define FLENS_BLAS_LEVEL3_SM_TCC
 
-#include <flens/storage/storageinfo.h>
-
 namespace flens { namespace blas {
 
 //-- forwarding ----------------------------------------------------------------
@@ -61,16 +59,16 @@ void
 sm(cxxblas::Side side, cxxblas::Transpose transA,
    const ALPHA &alpha, const TrMatrix<MA> &A, GeMatrix<MB> &B)
 {
-    ASSERT(StorageInfo<MB>::Order==StorageInfo<MA>::Order);
+    ASSERT(MB::order==MA::order);
     ASSERT(A.dim() == (side==cxxblas::Left) ? B.numRows() : B.numCols());
 
 #   ifdef HAVE_CXXBLAS_TRSM
-    cxxblas::trsm(StorageInfo<MA>::Order, side, A.upLo(),
+    cxxblas::trsm(MA::order, side, A.upLo(),
                   transA, A.diag(),
                   B.numRows(), B.numCols(),
                   alpha,
-                  A.engine().data(), A.engine().leadingDimension(),
-                  B.engine().data(), B.engine().leadingDimension());
+                  A.data(), A.leadingDimension(),
+                  B.data(), B.leadingDimension());
 #   else
     ASSERT(0);
 #   endif

@@ -71,9 +71,13 @@
 #ifndef FLENS_LAPACK_AUX_LAPY2_TCC
 #define FLENS_LAPACK_AUX_LAPY2_TCC 1
 
+#include <cmath>
+
 namespace flens { namespace lapack {
 
 using std::abs;
+using std::max;
+using std::min;
 
 //-- lapy2 ---------------------------------------------------------------------
 template <typename T>
@@ -83,15 +87,14 @@ lapy2(const T &x, const T &y)
     const T xAbs = abs(x);
     const T yAbs = abs(y);
 
-    const T w = std::max(xAbs, yAbs);
-    const T z = std::min(xAbs, yAbs);
+    const T w = max(xAbs, yAbs);
+    const T z = min(xAbs, yAbs);
 
     if (z==T(0)) {
         return w;
     }
 
-    const T zw = z / w;
-    return w*sqrt(T(1) + zw*zw);
+    return w*sqrt(T(1) + pow(z/w,2));
 }
 
 } } // namespace lapack, flens

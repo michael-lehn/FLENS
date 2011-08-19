@@ -33,10 +33,15 @@
 #ifndef FLENS_LAPACK_LAPACK_H
 #define FLENS_LAPACK_LAPACK_H 1
 
+#include <flens/lapack/aux/ilaenv.h>
+#include <flens/lapack/aux/ilalc.h>
+#include <flens/lapack/aux/ilalr.h>
 #include <flens/lapack/aux/lamch.h>
 #include <flens/lapack/aux/lapy2.h>
 #include <flens/lapack/aux/larf.h>
+#include <flens/lapack/aux/larfb.h>
 #include <flens/lapack/aux/larfg.h>
+#include <flens/lapack/aux/larft.h>
 #include <flens/lapack/aux/laswp.h>
 #include <flens/lapack/aux/sign.h>
 
@@ -46,7 +51,9 @@
 #include <flens/lapack/gesv/trs.h>
 
 #include <flens/lapack/qr/orm2r.h>
+#include <flens/lapack/qr/ormqr.h>
 #include <flens/lapack/qr/qr2.h>
+#include <flens/lapack/qr/qrf.h>
 #include <flens/lapack/qr/qrs.h>
 
 #include <flens/lapack/typedefs.h>

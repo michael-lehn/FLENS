@@ -58,10 +58,12 @@ class Array
         typedef ArrayView<T, I, A>       View;
         typedef Array                    NoView;
 
+        static const IndexType           defaultIndexBase = I::defaultIndexBase;
+
         Array();
 
         Array(IndexType length,
-              IndexType firstIndex = I::defaultIndexBase,
+              IndexType firstIndex = defaultIndexBase,
               const ElementType &value = ElementType(),
               const Allocator &allocator = Allocator());
 
@@ -105,7 +107,7 @@ class Array
 
         bool
         resize(IndexType length,
-               IndexType firstIndex = I::defaultIndexBase,
+               IndexType firstIndex = defaultIndexBase,
                const ElementType &value = ElementType());
 
         template <typename ARRAY>
@@ -121,12 +123,12 @@ class Array
         const ConstView
         view(IndexType from, IndexType to,
              IndexType stride = IndexType(1),
-             IndexType firstViewIndex = I::defaultIndexBase) const;
+             IndexType firstViewIndex = defaultIndexBase) const;
 
         View
         view(IndexType from, IndexType to,
              IndexType stride = IndexType(1),
-             IndexType firstViewIndex = I::defaultIndexBase);
+             IndexType firstViewIndex = defaultIndexBase);
 
     private:
         void
@@ -141,14 +143,6 @@ class Array
         ElementType *_data;
         Allocator   _allocator;
         IndexType   _length, _firstIndex;
-};
-
-//------------------------------------------------------------------------------
-
-template <typename T, typename I, typename A>
-struct StorageInfo<Array<T, I, A> >
-{
-    static const typename I::IndexType defaultIndexBase = I::defaultIndexBase;
 };
 
 } // namespace flens

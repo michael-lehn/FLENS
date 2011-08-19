@@ -175,6 +175,27 @@ SyMatrix<FS>::lastCol() const
     return _engine.lastCol();
 }
 
+template <typename FS>
+const typename SyMatrix<FS>::ElementType *
+SyMatrix<FS>::data() const
+{
+    return _engine.data();
+}
+
+template <typename FS>
+typename SyMatrix<FS>::ElementType *
+SyMatrix<FS>::data()
+{
+    return _engine.data();
+}
+
+template <typename FS>
+typename SyMatrix<FS>::IndexType
+SyMatrix<FS>::leadingDimension() const
+{
+    return _engine.leadingDimension();
+}
+
 // -- implementation -----------------------------------------------------------
 
 template <typename FS>

@@ -77,8 +77,17 @@
 namespace flens { namespace lapack {
 
 //-- forwarding ----------------------------------------------------------------
+template <typename MA, typename VTAU, typename MC, typename VWORK>
+void
+ormqr(Side side, Transpose &trans, MA &&A, const VTAU &tau, MC &&C,
+      VWORK &&work);
 
 //-- ormqr ---------------------------------------------------------------------
+template <typename MA, typename VTAU, typename MC, typename VWORK>
+void
+ormqr(Side side, Transpose &trans, GeMatrix<MA> &A,
+      const DenseVector<VTAU> &tau, GeMatrix<MC> &C,
+      DenseVector<VWORK> &work);
 
 } } // namespace lapack, flens
 

@@ -38,16 +38,36 @@
 namespace cxxblas {
 
 using std::sqrt;
+using std::abs;
 
 template <typename IndexType, typename X, typename T>
 void
 nrm2_generic(IndexType n, const X *x, IndexType incX, T &norm)
 {
-    norm = 0;
-    for (IndexType i=0; i<n; ++i, x+=incX) {
-        norm += cxxblas::real(conjugate(*x)*(*x));
+    if (n<1) {
+        norm = 0;
+    } else if (n==1) {
+        norm = abs(*x);
+    } else {
+        T scale = 0;
+        T ssq = 1;
+//      The following loop is equivalent to this call to the LAPACK
+//      auxiliary routine:
+//      CALL DLASSQ( N, X, INCX, SCALE, SSQ )
+//
+        for (IndexType i=0, iX=0; i<n; ++i, iX+=incX) {
+            if (x[iX]!=T(0)) {
+                T absXi = abs(x[iX]);
+                if (scale<absXi) {
+                    ssq = T(1) + ssq * pow(scale/absXi, 2);
+                    scale = absXi;
+                } else {
+                    ssq += pow(absXi/scale, 2);
+                }
+            }
+        }
+        norm = scale*sqrt(ssq);
     }
-    norm = sqrt(norm);
 }
 
 template <typename IndexType, typename X, typename T>

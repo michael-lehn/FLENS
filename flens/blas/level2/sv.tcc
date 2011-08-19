@@ -50,11 +50,11 @@ sv(cxxblas::Transpose trans, const TrMatrix<MA> &A, DenseVector<VX> &x)
 {
     ASSERT(x.length()==A.dim());
 #   ifdef HAVE_CXXBLAS_TRSV
-    cxxblas::trsv(StorageInfo<MA>::Order, A.upLo(),
+    cxxblas::trsv(MA::order, A.upLo(),
                   trans, A.diag(),
                   A.dim(),
-                  A.engine().data(), A.engine().leadingDimension(),
-                  x.engine().data(), x.engine().stride());
+                  A.data(), A.leadingDimension(),
+                  x.data(), x.stride());
 #   else
     ASSERT(0);
 #   endif

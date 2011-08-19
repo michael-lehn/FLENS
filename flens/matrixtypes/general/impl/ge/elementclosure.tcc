@@ -34,7 +34,6 @@
 #define FLENS_MATRIXTYPES_GENERAL_IMPL_GE_ELEMENTCLOSURE_TCC 1
 
 #include <cxxblas/cxxblas.h>
-#include <flens/storage/storage.h>
 
 namespace flens { namespace gematrix {
 
@@ -52,7 +51,7 @@ ElementClosure<M>::operator=(const ElementType &rhs)
     typename IndexVariable::ElementType &i = _row.value();
     typename IndexVariable::ElementType &j = _col.value();
 
-    if (StorageInfo<typename M::Engine>::Order==cxxblas::RowMajor) {
+    if (M::Engine::order==cxxblas::RowMajor) {
         for (i=_matrix.firstRow(); i<=_matrix.lastRow(); ++i) {
             for (j=_matrix.firstCol(); j<=_matrix.lastCol(); ++j) {
                 value() = rhs;
@@ -75,7 +74,7 @@ ElementClosure<M>::operator=(const Scalar<S> &rhs)
     typename IndexVariable::ElementType &i = _row.value();
     typename IndexVariable::ElementType &j = _col.value();
 
-    if (StorageInfo<typename M::Engine>::Order==cxxblas::RowMajor) {
+    if (M::Engine::order==cxxblas::RowMajor) {
         for (i=_matrix.firstRow(); i<=_matrix.lastRow(); ++i) {
             for (j=_matrix.firstCol(); j<=_matrix.lastCol(); ++j) {
                 value() = rhs.impl().value();
@@ -97,7 +96,7 @@ ElementClosure<M>::operator=(const ElementClosure &rhs)
     typename IndexVariable::ElementType &i = _row.value();
     typename IndexVariable::ElementType &j = _col.value();
 
-    if (StorageInfo<typename M::Engine>::Order==cxxblas::RowMajor) {
+    if (M::Engine::order==cxxblas::RowMajor) {
         for (i=_matrix.firstRow(); i<=_matrix.lastRow(); ++i) {
             for (j=_matrix.firstCol(); j<=_matrix.lastCol(); ++j) {
                 value() = rhs.impl().value();

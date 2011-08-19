@@ -207,7 +207,16 @@ class DenseVector
 
         template <typename RHS>
             bool
-            resize(const DenseVector<RHS> &rhs);
+            resize(const DenseVector<RHS> &rhs,
+                   const ElementType &value = ElementType());
+
+        bool
+        resize(IndexType length,
+               IndexType firstIndex = Engine::defaultIndexBase,
+               const ElementType &value = ElementType());
+
+        bool
+        fill(const ElementType &value = ElementType(0));
 
         void
         changeIndexBase(IndexType firstIndex);
