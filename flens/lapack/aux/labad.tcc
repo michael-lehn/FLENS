@@ -30,36 +30,37 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_LAPACK_LAPACK_TCC
-#define FLENS_LAPACK_LAPACK_TCC 1
+/* Based on
+      SUBROUTINE DLABAD( SMALL, LARGE )
+ *
+ *  -- LAPACK auxiliary routine (version 3.2) --
+ *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
+ *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
+ *     November 2006
+ */
 
-#include <flens/lapack/aux/ilaenv.tcc>
-#include <flens/lapack/aux/ilalc.tcc>
-#include <flens/lapack/aux/ilalr.tcc>
-#include <flens/lapack/aux/labad.tcc>
-#include <flens/lapack/aux/lamch.tcc>
-#include <flens/lapack/aux/lanv2.tcc>
-#include <flens/lapack/aux/lapy2.tcc>
-#include <flens/lapack/aux/larf.tcc>
-#include <flens/lapack/aux/larfb.tcc>
-#include <flens/lapack/aux/larfg.tcc>
-#include <flens/lapack/aux/larft.tcc>
-#include <flens/lapack/aux/laswp.tcc>
-#include <flens/lapack/aux/sign.tcc>
+#ifndef FLENS_LAPACK_AUX_LABAD_TCC
+#define FLENS_LAPACK_AUX_LABAD_TCC 1
 
-#include <flens/lapack/eig/hd2.tcc>
+#include <cmath>
 
-#include <flens/lapack/gesv/sv.tcc>
-#include <flens/lapack/gesv/tf2.tcc>
-#include <flens/lapack/gesv/trf.tcc>
-#include <flens/lapack/gesv/trs.tcc>
+namespace flens { namespace lapack {
 
-#include <flens/lapack/qr/org2r.tcc>
-#include <flens/lapack/qr/orgqr.tcc>
-#include <flens/lapack/qr/orm2r.tcc>
-#include <flens/lapack/qr/ormqr.tcc>
-#include <flens/lapack/qr/qr2.tcc>
-#include <flens/lapack/qr/qrf.tcc>
-#include <flens/lapack/qr/qrs.tcc>
+//-- labad ---------------------------------------------------------------------
+template <typename T>
+T
+labad(T &small, T &large)
+{
+//
+//  If it looks like we're on a Cray, take the square root of
+//  SMALL and LARGE to avoid overflow and underflow problems.
+//
+    if (log10(large)>2000) {
+        small = sqrt(small);
+        large = sqrt(large);
+    }
+}
 
-#endif // FLENS_LAPACK_LAPACK_TCC
+} } // namespace lapack, flens
+
+#endif // FLENS_LAPACK_AUX_LABAD_TCC

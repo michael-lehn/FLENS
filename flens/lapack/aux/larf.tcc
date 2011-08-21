@@ -83,6 +83,8 @@ larf(Side side, const DenseVector<VV> &v, const TAU &tau,
 //      Set up variables for scanning V.  LASTV begins pointing to the end of V.
 //      Look for the last non-zero row in V.
 //
+        // Lehn: I will fix & remove this when needed
+        ASSERT(v.inc()>0);
         for (lastV=v.length(); lastV>=1; --lastV)
         {
             if (v(lastV)!=T(0)) {

@@ -201,21 +201,19 @@ Array<T, I, A>::view(IndexType from, IndexType to,
 
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
-    if (length==0) {
-        from = firstIndex();
-        to = firstIndex();
+    const ElementType   *data = (length!=0) ? &operator()(from) : 0;
+
+    if (length!=0) {
+        ASSERT(firstIndex()<=from);
+        ASSERT(lastIndex()>=to);
+        ASSERT(from<=to);
     }
+    ASSERT(stride>=1);
+#   else
+    const ElementType   *data = &operator()(from);
 #   endif
 
-    ASSERT(firstIndex()<=from);
-    ASSERT(lastIndex()>=to);
-    ASSERT(from<=to);
-    ASSERT(stride>=1);
-    return ConstView(length,                // length
-                     &operator()(from),     // data
-                     stride,                // stride
-                     firstViewIndex,        // firstIndex
-                     allocator());          // allocator
+    return ConstView(length, data, stride, firstViewIndex, allocator());
 }
 
 template <typename T, typename I, typename A>
@@ -223,25 +221,23 @@ typename Array<T, I, A>::View
 Array<T, I, A>::view(IndexType from, IndexType to,
                      IndexType stride, IndexType firstViewIndex)
 {
-    const IndexType length = (to-from)/stride+1;
+    const IndexType     length = (to-from)/stride+1;
 
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
-    if (length==0) {
-        from = firstIndex();
-        to = firstIndex();
+    ElementType         *data = (length!=0) ? &operator()(from) : 0;
+
+    if (length!=0) {
+        ASSERT(firstIndex()<=from);
+        ASSERT(lastIndex()>=to);
+        ASSERT(from<=to);
     }
+    ASSERT(stride>=1);
+#   else
+    ElementType         *data = &operator()(from);
 #   endif
 
-    ASSERT(firstIndex()<=from);
-    ASSERT(lastIndex()>=to);
-    ASSERT(from<=to);
-    ASSERT(stride>=1);
-    return View(length,                     // length
-                &operator()(from),          // data
-                stride,                     // stride
-                firstViewIndex,             // firstIndex in view
-                allocator());               // allocator
+    return View(length, data, stride, firstViewIndex, allocator());
 }
 
 //-- private methods -----------------------------------------------------------

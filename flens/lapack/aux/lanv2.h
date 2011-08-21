@@ -30,36 +30,27 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_LAPACK_LAPACK_TCC
-#define FLENS_LAPACK_LAPACK_TCC 1
+/* Based on
+ *
+       SUBROUTINE DLANV2( A, B, C, D, RT1R, RT1I, RT2R, RT2I, CS, SN )
+ *
+ *  -- LAPACK auxiliary routine (version 3.2.2) --
+ *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
+ *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
+ *     June 2010
+ */
 
-#include <flens/lapack/aux/ilaenv.tcc>
-#include <flens/lapack/aux/ilalc.tcc>
-#include <flens/lapack/aux/ilalr.tcc>
-#include <flens/lapack/aux/labad.tcc>
-#include <flens/lapack/aux/lamch.tcc>
-#include <flens/lapack/aux/lanv2.tcc>
-#include <flens/lapack/aux/lapy2.tcc>
-#include <flens/lapack/aux/larf.tcc>
-#include <flens/lapack/aux/larfb.tcc>
-#include <flens/lapack/aux/larfg.tcc>
-#include <flens/lapack/aux/larft.tcc>
-#include <flens/lapack/aux/laswp.tcc>
-#include <flens/lapack/aux/sign.tcc>
+#ifndef FLENS_LAPACK_AUX_LANV2_H
+#define FLENS_LAPACK_AUX_LANV2_H 1
 
-#include <flens/lapack/eig/hd2.tcc>
+namespace flens { namespace lapack {
 
-#include <flens/lapack/gesv/sv.tcc>
-#include <flens/lapack/gesv/tf2.tcc>
-#include <flens/lapack/gesv/trf.tcc>
-#include <flens/lapack/gesv/trs.tcc>
+//-- lanv2 ---------------------------------------------------------------------
+template <typename T>
+    void
+    lanv2(T &a, T &b, T &c, T &d, T &rt1r, T &rt1i, T &rt2r, T &rt2i,
+          T &cs, T &sn);
 
-#include <flens/lapack/qr/org2r.tcc>
-#include <flens/lapack/qr/orgqr.tcc>
-#include <flens/lapack/qr/orm2r.tcc>
-#include <flens/lapack/qr/ormqr.tcc>
-#include <flens/lapack/qr/qr2.tcc>
-#include <flens/lapack/qr/qrf.tcc>
-#include <flens/lapack/qr/qrs.tcc>
+} } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_LAPACK_TCC
+#endif // FLENS_LAPACK_AUX_LANV2_H

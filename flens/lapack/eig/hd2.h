@@ -30,36 +30,34 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_LAPACK_LAPACK_TCC
-#define FLENS_LAPACK_LAPACK_TCC 1
+/* Based on
+      SUBROUTINE DGEHD2( N, ILO, IHI, A, LDA, TAU, WORK, INFO )
+ *
+ *  -- LAPACK routine (version 3.3.1) --
+ *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
+ *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
+ *  -- April 2011                                                      --
+ */
 
-#include <flens/lapack/aux/ilaenv.tcc>
-#include <flens/lapack/aux/ilalc.tcc>
-#include <flens/lapack/aux/ilalr.tcc>
-#include <flens/lapack/aux/labad.tcc>
-#include <flens/lapack/aux/lamch.tcc>
-#include <flens/lapack/aux/lanv2.tcc>
-#include <flens/lapack/aux/lapy2.tcc>
-#include <flens/lapack/aux/larf.tcc>
-#include <flens/lapack/aux/larfb.tcc>
-#include <flens/lapack/aux/larfg.tcc>
-#include <flens/lapack/aux/larft.tcc>
-#include <flens/lapack/aux/laswp.tcc>
-#include <flens/lapack/aux/sign.tcc>
+#ifndef FLENS_LAPACK_EIG_HD2_H
+#define FLENS_LAPACK_EIG_HD2_H 1
 
-#include <flens/lapack/eig/hd2.tcc>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
 
-#include <flens/lapack/gesv/sv.tcc>
-#include <flens/lapack/gesv/tf2.tcc>
-#include <flens/lapack/gesv/trf.tcc>
-#include <flens/lapack/gesv/trs.tcc>
+namespace flens { namespace lapack {
 
-#include <flens/lapack/qr/org2r.tcc>
-#include <flens/lapack/qr/orgqr.tcc>
-#include <flens/lapack/qr/orm2r.tcc>
-#include <flens/lapack/qr/ormqr.tcc>
-#include <flens/lapack/qr/qr2.tcc>
-#include <flens/lapack/qr/qrf.tcc>
-#include <flens/lapack/qr/qrs.tcc>
+//-- forwarding ----------------------------------------------------------------
+template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+    void
+    hd2(IndexType iLo, IndexType iHi, MA &&A, VTAU &&tau, VWORK &&work);
 
-#endif // FLENS_LAPACK_LAPACK_TCC
+//-- hd2 -----------------------------------------------------------------------
+template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+    void
+    hd2(IndexType iLo, IndexType iHi, GeMatrix<MA> &A,
+        DenseVector<VTAU> &&tau, DenseVector<VWORK> &work);
+
+} } // namespace lapack, flens
+
+#endif // FLENS_LAPACK_EIG_HD2_H

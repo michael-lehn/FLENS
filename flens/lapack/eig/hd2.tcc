@@ -31,33 +31,78 @@
  */
 
 /* Based on
-      SUBROUTINE DORG2R( M, N, K, A, LDA, TAU, WORK, INFO )
+      SUBROUTINE DGEHD2( N, ILO, IHI, A, LDA, TAU, WORK, INFO )
  *
- *  -- LAPACK routine (version 3.2) --
+ *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
  *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
- *     November 2006
+ *  -- April 2011                                                      --
  */
 
-#ifndef FLENS_LAPACK_QR_ORG2R_H
-#define FLENS_LAPACK_QR_ORG2R_H 1
+#ifndef FLENS_LAPACK_EIG_HD2_TCC
+#define FLENS_LAPACK_EIG_HD2_TCC 1
 
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace lapack {
 
+using std::max;
+using std::min;
+
 //-- forwarding ----------------------------------------------------------------
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
-    void
-    org2r(IndexType k, MA &&A, const VTAU &tau, VWORK &&work);
+void
+hd2(IndexType iLo, IndexType iHi, MA &&A, VTAU &&tau, VWORK &&work)
+{
+    hd2(iLo, iHi, A, tau, work);
+}
 
-//-- org2r ---------------------------------------------------------------------
+//-- hd2 -----------------------------------------------------------------------
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
-    void
-    org2r(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
-          DenseVector<VWORK> &work);
+void
+hd2(IndexType iLo, IndexType iHi, GeMatrix<MA> &A,
+    DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
+{
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(A.numRows()==A.numCols());
+    ASSERT(tau.firstIndex()<=iLo);
+    ASSERT(tau.lastIndex()>=iHi-1);
+    ASSERT(tau.inc()>0);
+    ASSERT(work.length()>=A.numRows());
+
+    ASSERT(1<=iLo);
+    ASSERT(iLo<=iHi);
+    ASSERT(iHi<=max(IndexType(1), A.numCols()));
+
+    typedef typename GeMatrix<MA>::ElementType  T;
+
+    const Underscore<IndexType> _;
+
+    const IndexType n = A.numCols();
+
+    for (IndexType i=iLo; i<iHi; ++i) {
+//
+//      Compute elementary reflector H(i) to annihilate A(i+2:ihi,i)
+//
+        larfg(iHi-i, A(i+1,i), A(_(min(i+2,n),iHi),i), tau(i));
+
+        const T Aii = A(i+1,i);
+        A(i+1,i) = 1; 
+//
+//      Apply H(i) to A(1:ihi,i+1:ihi) from the right
+//
+        larf(Right, A(_(i+1,iHi),i), tau(i), A(_(1,iHi),_(i+1,iHi)), work);
+//
+//      Apply H(i) to A(i+1:ihi,i+1:n) from the left
+//
+        larf(Left, A(_(i+1,iHi),i), tau(i), A(_(i+1,iHi),_(i+1,n)), work);
+
+        A(i+1,i) = Aii;
+    }
+}
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_QR_ORG2R_H
+#endif // FLENS_LAPACK_EIG_HD2_TCC

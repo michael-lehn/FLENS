@@ -31,8 +31,7 @@
  */
 
 /* Based on
- *
-      SUBROUTINE DGEQRF( M, N, A, LDA, TAU, WORK, LWORK, INFO )
+      SUBROUTINE DORGQR( M, N, K, A, LDA, TAU, WORK, LWORK, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -40,8 +39,8 @@
  *     November 2006
  */
 
-#ifndef FLENS_LAPACK_QR_QRF_TCC
-#define FLENS_LAPACK_QR_QRF_TCC 1
+#ifndef FLENS_LAPACK_QR_ORGQR_TCC
+#define FLENS_LAPACK_QR_ORGQR_TCC 1
 
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>
@@ -52,50 +51,48 @@ using std::max;
 using std::min;
 
 //-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VTAU, typename VWORK>
+template <typename IndexType, typename MA, typename VTAU, typename VWORK>
 void
-qrf(MA &&A, VTAU &&tau, VWORK &&work)
+orgqr(IndexType k, MA &&A, const VTAU &tau, VWORK &&work)
 {
-    return qrf(A, tau, work);
+    orgqr(k, A, tau, work);
 }
 
-//-- geqrf ---------------------------------------------------------------------
-template <typename MA, typename VTAU, typename VWORK>
+//-- orgqr ---------------------------------------------------------------------
+template <typename IndexType, typename MA, typename VTAU, typename VWORK>
 void
-qrf(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
+orgqr(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
+      DenseVector<VWORK> &work)
 {
-    ASSERT(A.firstRow()==1);
-    ASSERT(A.firstCol()==1);
-    ASSERT(tau.firstIndex()==1);
-    ASSERT(work.firstIndex()==1);
+    ASSERT(A.firstRow()==IndexType(1));
+    ASSERT(A.firstCol()==IndexType(1));
+    ASSERT(tau.firstIndex()==IndexType(1));
+    ASSERT(tau.length()==k);
 
     typedef typename GeMatrix<MA>::ElementType  T;
-    typedef typename GeMatrix<MA>::IndexType    IndexType;
 
     const Underscore<IndexType> _;
 
-    const IndexType m = A.numRows();
-    const IndexType n = A.numCols();
-    const IndexType k = min(m, n);
+    IndexType m = A.numRows();
+    IndexType n = A.numCols();
 
-    ASSERT(tau.length()>=k);
-    ASSERT((work.length()>=n) || (work.length()==0));
+    ASSERT(n<=m);
+    ASSERT(k<=n);
+    ASSERT(0<=k);
 
 //
 //  Perform and apply workspace query
 //
-    IndexType nb = ilaenv<T>(1, "GEQRF", "", m, n);
-
-    const IndexType lWorkOpt = n*nb;
+    IndexType nb = ilaenv<T>(1, "ORGQR", "", m, n, k);
+    const IndexType lWorkOpt = max(IndexType(1), n) * nb;
     if (work.length()==0) {
         work.resize(max(lWorkOpt,IndexType(1)));
         work(1)=lWorkOpt;
     }
-
 //
 //  Quick return if possible
 //
-    if (k==0) {
+    if (n<=0) {
         work(1) = 1;
         return;
     }
@@ -103,43 +100,65 @@ qrf(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
     IndexType nbMin = 2;
     IndexType nx = 0;
     IndexType iws = n;
-    IndexType ldWork = -1;
+    IndexType ldWork = 1;
 
     if ((nb>1) && (nb<k)) {
 //
 //      Determine when to cross over from blocked to unblocked code.
 //
-        nx = max(IndexType(0), ilaenv<T>(3, "GEQRF", "", m, n));
+        nx = max(IndexType(0), ilaenv<T>(3, "ORGQR", "", m, n, k));
         if (nx<k) {
 //
 //          Determine if workspace is large enough for blocked code.
 //
             ldWork = n;
-            iws = ldWork*nb;
+            iws = ldWork *nb;
             if (work.length()<iws) {
 //
 //              Not enough workspace to use optimal NB:  reduce NB and
 //              determine the minimum value of NB.
 //
                 nb = work.length() / ldWork;
-                nbMin = max(IndexType(2), ilaenv<T>(2, "GEQRF", 0, m, n));
+                nbMin = max(IndexType(2), ilaenv<T>(2, "ORGQR", "", m, n, k));
             }
         }
     }
 
-    IndexType i;
+    IndexType ki, kk;
+
     if ((nb>=nbMin) && (nb<k) && (nx<k)) {
+//
+//      Use blocked code after the last block.
+//      The first kk columns are handled by the block method.
+//
+        ki = ((k-nx-1)/nb)*nb;
+        kk = min(k, ki+nb);
+//
+//      Set A(1:kk,kk+1:n) to zero.
+//
+        for (IndexType j=kk+1; j<=n; ++j) {
+            for (IndexType i=1; i<=kk; ++i) {
+                A(i,j) = 0;
+            }
+        }
+    } else {
+        kk = 0;
+    }
+
+//
+//  Use unblocked code for the last or only block.
+//
+    if (kk<n) {
+        org2r(k-kk, A(_(kk+1,m),_(kk+1,n)), tau(_(kk+1, k)), work);
+    }
+
+    if (kk>0) {
         typename GeMatrix<MA>::View Work(n, nb, work);
 //
-//      Use blocked code initially
+//      Use blocked code
 //
-        for (i=1; i<=k-nx; i+=nb) {
-            const IndexType ib = min(k-i+1, nb);
-//
-//          Compute the QR factorization of the current block
-//          A(i:m,i:i+ib-1)
-//
-            qr2(A(_(i,m),_(i,i+ib-1)), tau(_(i,i+ib-1)), work);
+        for (IndexType i=ki+1; i>=1; i-=nb) {
+            const IndexType ib = min(nb, k-i+1);
             if (i+ib<=n) {
 //
 //              Form the triangular factor of the block reflector
@@ -152,28 +171,31 @@ qrf(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
                       tau(_(i,i+ib-1)),
                       Tr);
 //
-//              Apply H' to A(i:m,i+ib:n) from the left
+//              Apply H to A(i:m,i+ib:n) from the left
 //
-                larfb(Left, Trans, Forward, ColumnWise,
+                larfb(Left, NoTrans, Forward, ColumnWise,
                       A(_(i,m),_(i,i+ib-1)),
                       Tr,
                       A(_(i,m),_(i+ib,n)),
                       Work(_(ib+1,n),_(1,ib)));
             }
+//
+//          Apply H to rows i:m of current block
+//
+            org2r(ib, A(_(i,m),_(i,i+ib-1)), tau(_(i,i+ib-1)), work);
+//
+//          Set rows 1:i-1 of current block to zero
+//
+            for (IndexType j=i; j<i+ib; ++j) {
+                for (IndexType l=1; l<i; ++l) {
+                    A(l, j) = 0;
+                }
+            }
         }
-    } else {
-        i = 1;
-    }
-    
-//
-//  Use unblocked code to factor the last or only block.
-//
-    if (i<=k) {
-        qr2(A(_(i,m),_(i,n)), tau(_(i,k)), work);
     }
     work(1) = iws;
 }
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_QR_QRF_TCC
+#endif // FLENS_LAPACK_QR_ORGQR_TCC

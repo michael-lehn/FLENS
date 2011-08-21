@@ -55,7 +55,7 @@ org2r(IndexType k, MA &&A, const VTAU &tau, VWORK &&work)
     org2r(k, A, tau, work);
 }
 
-//-- ormqr ---------------------------------------------------------------------
+//-- org2r ---------------------------------------------------------------------
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
 void
 org2r(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
@@ -64,6 +64,7 @@ org2r(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
     ASSERT(A.firstRow()==IndexType(1));
     ASSERT(A.firstCol()==IndexType(1));
     ASSERT(tau.firstIndex()==IndexType(1));
+    ASSERT(work.length()>=A.numCols());
 
     typedef typename GeMatrix<MA>::ElementType  T;
 

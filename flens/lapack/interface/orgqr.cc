@@ -18,34 +18,6 @@
 #   define ORGQR_NAME    "ZORGQR"
 #endif
 
-// TODO: remove this ------>
-#ifdef SINGLE
-#   define ORG2R         sorg2r_
-#   define ORG2R_REF     sorg2r
-#   define ORG2R_NAME    "SORG2R"
-#elif DOUBLE
-#   define ORG2R         dorg2r_
-#   define ORG2R_REF     dorg2r
-#   define ORG2R_NAME    "DORG2R"
-#elif COMPLEX_SINGLE
-#   define ORG2R         corg2r_
-#   define ORG2R_REF     corg2r
-#   define ORG2R_NAME    "CORG2R"
-#elif COMPLEX_DOUBLE
-#   define ORG2R         zorg2r_
-#   define ORG2R_REF     zorg2r
-#   define ORG2R_NAME    "ZORG2R"
-#endif
-
-extern "C" {
-
-void
-ORG2R_REF(INT *M, INT *N, INT *K, FLOAT *A, INT *LDA, FLOAT *TAU,
-          FLOAT *WORK, INT *INFO);
-
-}
-// <------------------------
-
 using namespace flens;
 
 extern "C" {
@@ -109,9 +81,8 @@ ORGQR(INT *M, INT *N, INT *K, FLOAT *A, INT *LDA, FLOAT *TAU,
     DenseVector<AR>      __tau = _tau;
     DenseVector<AR>      __work = _work;
 
-    lapack::org2r(*K, __A, __tau, __work);
-    ORG2R_REF(M, N, K, A, LDA, TAU, WORK, INFO);
-    //ORGQR_REF(M, N, K, A, LDA, TAU, WORK, LWORK, INFO);
+    lapack::orgqr(*K, __A, __tau, __work);
+    ORGQR_REF(M, N, K, A, LDA, TAU, WORK, LWORK, INFO);
 
     if (isDifferent(_A,__A)) {
         std::cerr << "_A = " << _A << std::endl;
@@ -142,7 +113,7 @@ ORGQR(INT *M, INT *N, INT *K, FLOAT *A, INT *LDA, FLOAT *TAU,
     DenseVector<AV>      _tau = AV(*K, TAU);
     DenseVector<AV>      _work = AV(*LWORK, WORK);
 
-    lapack::org2r(*K, _A, _tau, _work);
+    lapack::orgqr(*K, _A, _tau, _work);
 #   endif
 
 }
