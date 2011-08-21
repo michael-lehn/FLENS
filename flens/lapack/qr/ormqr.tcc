@@ -66,25 +66,30 @@ ormqr(Side side, Transpose &trans, GeMatrix<MA> &A,
       const DenseVector<VTAU> &tau, GeMatrix<MC> &C,
       DenseVector<VWORK> &work)
 {
-    typedef typename GeMatrix<MA>::View         GeMatrixView;
-
     typedef typename GeMatrix<MC>::ElementType  T;
     typedef typename GeMatrix<MC>::IndexType    IndexType;
 
+    typedef typename GeMatrix<MC>::View         GeView;
+    typedef typename GeView::Engine             GeViewEngine;
+
     const Underscore<IndexType> _;
 
+
 //
-//  Paramter for maximum block size and array tr.
+//  Paramter for maximum block size and buffer for TrMatrix Tr.
 //
     const IndexType     nbMax = 64;
+    const IndexType     ldt = nbMax + 1;
+    T                   trBuffer[nbMax*ldt];
 
     const IndexType m = C.numRows();
     const IndexType n = C.numCols();
     const IndexType k = A.numCols();
 
+    ASSERT(tau.length()==k);
+
     const bool noTrans = ((trans==Trans) || (trans==ConjTrans)) ? false
                                                                 : true;
-
 //
 //  nq is the order of Q and nw is the minimum dimension of work
 //
@@ -112,8 +117,10 @@ ormqr(Side side, Transpose &trans, GeMatrix<MA> &A,
         opt[1] = 'C';
     }
     opt[2] = 0;
+
     IndexType nb = min(nbMax, IndexType(ilaenv<T>(1, "ORMQR", opt, m, n, k)));
     IndexType lWorkOpt = max(IndexType(1), nw)*nb;
+
     if (work.length()==0) {
         work.resize(lWorkOpt);
     }
@@ -125,8 +132,6 @@ ormqr(Side side, Transpose &trans, GeMatrix<MA> &A,
         work(1) = 1;
         return;
     }
-
-    typename GeMatrix<MC>::Vector   tr(_(1,nbMax));
 
     IndexType nbMin = 2;
     IndexType iws;
@@ -140,7 +145,7 @@ ormqr(Side side, Transpose &trans, GeMatrix<MA> &A,
         iws = nw;
     }
 
-    if ((nb<nbMin) || (nb>k) || true) {
+    if ((nb<nbMin) || (nb>=k)) {
 //
 //      Use unblocked code
 //
@@ -171,16 +176,14 @@ ormqr(Side side, Transpose &trans, GeMatrix<MA> &A,
 
         for (IndexType i=iBeg; i!=iEnd; i+=iInc) {
             const IndexType ib = min(nb, k-i+1);
+            GeView          Tr = GeViewEngine(ib, ib, trBuffer, ib);
+            
 //
 //          Form the triangular factor of the block reflector
 //          H = H(i) H(i+1) . . . H(i+ib-1)
 //
-            // auto Tr = GeMatrixView(ib, ib, tr).upper();
-            GeMatrix<FullStorage<T, ColMajor> >     _Tmp(ib, ib);
-            auto Tr = _Tmp.upper();
-
             larft(Forward, ColumnWise, nq-i+1,
-                  A(_(i,nq),_(i,i+ib-1)), tau(_(i,i+ib-1)), Tr);
+                  A(_(i,nq),_(i,i+ib-1)), tau(_(i,i+ib-1)), Tr.upper());
 
             if (side==Left) {
 //
@@ -196,13 +199,12 @@ ormqr(Side side, Transpose &trans, GeMatrix<MA> &A,
 
             larfb(side, trans,
                   Forward, ColumnWise,
-                  A(_(i,nq),_(i,i+ib-1)), Tr,
+                  A(_(i,nq),_(i,i+ib-1)), Tr.upper(),
                   C(_(ic,m),_(jc,n)),
                   Work);
         }
     }
     work(1) = lWorkOpt;
-
 }
 
 } } // namespace lapack, flens

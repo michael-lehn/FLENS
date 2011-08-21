@@ -61,6 +61,11 @@ GEQRF(INT *M, INT *N, FLOAT *A, INT *LDA, FLOAT *TAU,
         return;
     }
 
+    //TODO: insert code for workspace query, e.g.
+    // if (*LWORK==-1) {
+    //     return lapack::qrfWorkSizeQuery<FLOAT>(M, N);
+    // }
+
 
 #   ifdef USE_GEQRF_REF
     // call LAPACK implementation
@@ -102,9 +107,13 @@ GEQRF(INT *M, INT *N, FLOAT *A, INT *LDA, FLOAT *TAU,
     }
 
     if (isDifferent(_work,__work)) {
-        //std::cerr << "_work = " << _work << std::endl;
-        //std::cerr << "__work = " << __work << std::endl;
-        //assert(0);
+        std::cerr << "ERROR:" << std::endl;
+        for (INT i=_work.firstIndex(); i<=_work.lastIndex(); ++i) {
+            std::cerr << "LAPACK: _work(" << i << ") = " << _work(i) << std::endl
+                      << "FLENS: __work(" << i << ") = " << __work(i)
+                      << std::endl << std::endl;
+        }
+        assert(0);
     }
 
 #   else
@@ -114,10 +123,8 @@ GEQRF(INT *M, INT *N, FLOAT *A, INT *LDA, FLOAT *TAU,
     DenseVector<AV>      _tau = AV(k, TAU, INT(1));
     DenseVector<AV>      _work = AV(*LWORK, WORK, INT(1));
 
-    lapack::qrf(__A, __tau, __work);
+    lapack::qrf(_A, _tau, _work);
 #   endif
-
-
 }
 
 } // extern "C"

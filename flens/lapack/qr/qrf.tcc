@@ -86,13 +86,6 @@ qrf(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 //
     IndexType nb = ilaenv<T>(1, "GEQRF", "", m, n, -1, -1);
 
-    std::cerr << "nb = " << nb
-              << ", n = " << n
-              << ", m = " << m
-              << ", k = " << k
-              << ", work.length() = " << work.length()
-              << std::endl;
-
     const IndexType lWorkOpt = n*nb;
     if (work.length()==0) {
         work.resize(max(lWorkOpt,IndexType(1)));
@@ -117,7 +110,6 @@ qrf(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 //      Determine when to cross over from blocked to unblocked code.
 //
         nx = max(0, ilaenv<T>(3, "GEQRF", "", m, n));
-        std::cerr << "nx = " << nx << std::endl;
         if (nx<k) {
 //
 //          Determine if workspace is large enough for blocked code.
@@ -180,7 +172,6 @@ qrf(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
         qr2(A(_(i,m),_(i,n)), tau(_(i,k)), work);
     }
     work(1) = iws;
-    std::cerr << "work(1) = iws = " << work(1) << std::endl;
 }
 
 } } // namespace lapack, flens

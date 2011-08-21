@@ -74,8 +74,6 @@ larf(Side side, const DenseVector<VV> &v, const TAU &tau,
     typedef typename GeMatrix<MC>::ElementType  T;
 
     const Underscore<IndexType> _;
-    const IndexType m = C.numRows();
-    const IndexType n = C.numCols();
 
     IndexType lastV = 0;
     IndexType lastC = 0;
@@ -83,17 +81,11 @@ larf(Side side, const DenseVector<VV> &v, const TAU &tau,
     if (tau!=T(0)) {
 //
 //      Set up variables for scanning V.  LASTV begins pointing to the end of V.
-//
-        if (side==Left) {
-            lastV = m;
-        } else {
-            lastV = n;
-        }
-//
 //      Look for the last non-zero row in V.
 //
-        for (IndexType i=v.firstIndex(); i!=v.endIndex(); i+=v.inc(), --lastV) {
-            if (v(i)!=T(0)) {
+        for (lastV=v.length(); lastV>=1; --lastV)
+        {
+            if (v(lastV)!=T(0)) {
                 break;
             }
         }

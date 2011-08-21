@@ -62,7 +62,7 @@ operator<<(std::ostream &out, const GeMatrix<FS> &A)
     //out.setf(std::ios::fixed|std::ios::right);
     for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
         for (IndexType j=A.firstCol(); j<=A.lastCol(); ++j) {
-            out.width(11);
+            out.width(20);
             out << A(i,j) << " ";
         }
         out << std::endl;
@@ -154,7 +154,8 @@ template <typename FS>
 std::ostream &
 operator<<(std::ostream &out, const TrMatrix<FS> &A)
 {
-    typedef typename GeMatrix<FS>::IndexType IndexType;
+    typedef typename GeMatrix<FS>::IndexType    IndexType;
+    typedef typename GeMatrix<FS>::ElementType  ElementType;
 
 #   ifdef FLENS_IO_WITH_RANGES
     IndexType defaultIndexBase = FS::defaultIndexBase;
@@ -172,21 +173,22 @@ operator<<(std::ostream &out, const TrMatrix<FS> &A)
 #   endif // FLENS_IO_WITH_RANGES
 
     out << std::endl;
-    out.setf(std::ios::fixed|std::ios::right);
+    // out.setf(std::ios::fixed|std::ios::right);
     for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
         for (IndexType j=A.firstCol(); j<=A.lastCol(); ++j) {
-            out.width(11);
+            out.width(20);
             if (i==j) {
-                (A.diag()==cxxblas::Unit) ? out << 1
+                (A.diag()==cxxblas::Unit) ? out << ElementType(1)
                                           : out << A(i,j);
-                continue;
-            }
-            if (((i>j) && (A.upLo()==cxxblas::Lower))
-             || ((i<j) && (A.upLo()==cxxblas::Upper))) {
-                out << A(i,j);
             } else {
-                out << 0;
+                if (((i>j) && (A.upLo()==cxxblas::Lower))
+                 || ((i<j) && (A.upLo()==cxxblas::Upper))) {
+                    out << A(i,j);
+                } else {
+                    out << ElementType(0);
+                }
             }
+            out << " ";
         }
         out << std::endl;
     }

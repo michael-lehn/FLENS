@@ -31,17 +31,16 @@
  */
 
 /* Based on
-      SUBROUTINE DORM2R( SIDE, TRANS, M, N, K, A, LDA, TAU, C, LDC,
-     $                   WORK, INFO )
+      SUBROUTINE DORG2R( M, N, K, A, LDA, TAU, WORK, INFO )
  *
- *  -- LAPACK routine (version 3.3.1) --
+ *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
  *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
- *  -- April 2011                                                      --
+ *     November 2006
  */
 
-#ifndef FLENS_LAPACK_QR_ORM2R_TCC
-#define FLENS_LAPACK_QR_ORM2R_TCC 1
+#ifndef FLENS_LAPACK_QR_ORG2R_TCC
+#define FLENS_LAPACK_QR_ORG2R_TCC 1
 
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>
@@ -49,94 +48,71 @@
 namespace flens { namespace lapack {
 
 //-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VTAU, typename MC, typename VWORK>
+template <typename IndexType, typename MA, typename VTAU, typename VWORK>
 void
-orm2r(Side side, Transpose trans, MA &&A, const VTAU &tau, MC &&C,
-      VWORK &&work)
+org2r(IndexType k, MA &&A, const VTAU &tau, VWORK &&work)
 {
-    orm2r(side, trans, A, tau, C, work);
+    org2r(k, A, tau, work);
 }
 
 //-- ormqr ---------------------------------------------------------------------
-template <typename MA, typename VTAU, typename MC, typename VWORK>
+template <typename IndexType, typename MA, typename VTAU, typename VWORK>
 void
-orm2r(Side side, Transpose trans, GeMatrix<MA> &A,
-      const DenseVector<VTAU> &tau, GeMatrix<MC> &C,
+org2r(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
       DenseVector<VWORK> &work)
 {
-#   ifndef NDEBUG
-    if ((side==Left) && (work.length()<C.numCols())) {
-        ASSERT(0);
-    }
-    if ((side==Right) && (work.length()<C.numRows())) {
-        ASSERT(0);
-    }
-#   endif
+    ASSERT(A.firstRow()==IndexType(1));
+    ASSERT(A.firstCol()==IndexType(1));
+    ASSERT(tau.firstIndex()==IndexType(1));
 
-    typedef typename GeMatrix<MC>::IndexType    IndexType;
-    typedef typename GeMatrix<MC>::ElementType  T;
+    typedef typename GeMatrix<MA>::ElementType  T;
 
-    typedef Range<IndexType>    Range;
     const Underscore<IndexType> _;
 
-    IndexType m = C.numRows();
-    IndexType n = C.numCols();
-    IndexType k = A.numCols();
+    IndexType m = A.numRows();
+    IndexType n = A.numCols();
 
-    const bool noTrans = ((trans==Trans) || (trans==ConjTrans)) ? false
-                                                                : true;
-//
-//  nq is the order of Q
-//
-    const IndexType nq = (side==Left) ? m : n;
-    
-    ASSERT(A.numRows()==nq);
-    ASSERT(k<=nq);
+    ASSERT(n<=m);
+    ASSERT(k<=n);
+    ASSERT(0<=k);
 
 //
 //  Quick return if possible
 //
-    if ((m==0) || (n==0) || (k==0)) {
+    if (n<=0) {
         return;
     }
-
-    IndexType iBeg, iEnd, iInc;
-    if (((side==Left) && !noTrans) || ((side==Right) && noTrans))
-    {
-        iBeg = 1;
-        iInc = 1;
-        iEnd = k+iInc;
-    } else {
-        iBeg = k;
-        iInc = -1;
-        iEnd = 1+iInc;
+//
+//  Initialise columns k+1:n to columns of the unit matrix
+//
+    for (IndexType j=k+1; j<=n; ++j) {
+        for (IndexType l=1; l<=m; ++l) {
+            A(l,j) = 0;
+        }
+        A(j,j) = 1;
     }
 
-    Range rows = _(1,m);
-    Range cols = _(1,n);
-
-    for (IndexType i=iBeg; i!=iEnd; i+=iInc) {
-        if (side==Left) {
+    for (IndexType i=k; i>=1; --i) {
 //
-//          H(i) is applied to C(i:m,1:n)
+//      Apply H(i) to A(i:m,i+1:n) from the left
 //
-            rows = _(i,m);
-        } else {
-//
-//          H(i) is applied to C(1:m,i:n)
-//
-            cols = _(i,n);
+        if (i<n) {
+            A(i,i) = 1;
+            larf(Left, A(_(i,m),i), tau(i), A(_(i,m),_(i+1,n)), work);
         }
+        if (i<m) {
+            blas::scal(-tau(i), A(_(i+1,m),i));
+        }
+        A(i,i) = T(1) - tau(i);
 //
-//      Apply H(i)
+//      Set A(1:i-1,i) to zero
 //
-        const T Aii = A(i,i);
-        A(i,i) = T(1);
-        larf(side, A(_(i,nq), i), tau(i), C(rows, cols), work);
-        A(i,i) = Aii;
+        for (IndexType l=1; l<i; ++l) {
+            A(l,i) = 0;
+        }
     }
 }
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_QR_ORM2R_TCC
+#endif // FLENS_LAPACK_QR_ORG2R_TCC

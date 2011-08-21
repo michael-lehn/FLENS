@@ -146,6 +146,7 @@ ConstArrayView<T, I, A>::view(IndexType from, IndexType to,
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
         from = firstIndex();
+        to = firstIndex();
     }
 #   endif
 

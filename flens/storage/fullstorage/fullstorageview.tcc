@@ -66,6 +66,8 @@ FullStorageView<T, Order, I, A>::FullStorageView(IndexType numRows,
       _leadingDimension(Order==cxxblas::ColMajor ? _numRows : _numCols),
       _firstRow(firstRow), _firstCol(firstCol)
 {
+    ASSERT(numRows*numCols<=array.length());
+
     if (Order==cxxblas::RowMajor) {
         _data -= firstRow*_numCols + firstCol;
     }

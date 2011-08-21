@@ -71,9 +71,10 @@ Array<T, I, A>::Array(const RHS &rhs)
     : _data(0), _allocator(rhs.allocator()),
       _length(rhs.length()), _firstIndex(rhs.firstIndex())
 {
-    ASSERT(length()>0);
-    _allocate();
-    cxxblas::copy(length(), rhs.data(), rhs.stride(), data(), stride());
+    if (length()>0) {
+        _allocate();
+        cxxblas::copy(length(), rhs.data(), rhs.stride(), data(), stride());
+    }
 }
 
 template <typename T, typename I, typename A>
@@ -202,6 +203,7 @@ Array<T, I, A>::view(IndexType from, IndexType to,
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
         from = firstIndex();
+        to = firstIndex();
     }
 #   endif
 
@@ -227,6 +229,7 @@ Array<T, I, A>::view(IndexType from, IndexType to,
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
         from = firstIndex();
+        to = firstIndex();
     }
 #   endif
 

@@ -129,15 +129,11 @@
       NX = 0
       IWS = N
 
-      WRITE (0,*) 'REF->NB = ', NB
-
-
       IF( NB.GT.1 .AND. NB.LT.K ) THEN
 *
 *        Determine when to cross over from blocked to unblocked code.
 *
          NX = MAX( 0, ILAENV( 3, 'DGEQRF', ' ', M, N, -1, -1 ) )
-         WRITE (0,*) 'REF->NX = ', NX
 
          IF( NX.LT.K ) THEN
 *

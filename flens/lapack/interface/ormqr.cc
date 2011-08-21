@@ -102,7 +102,80 @@ ORMQR(char *SIDE, char *TRANS,
         return;
     }
 
-#   ifndef USE_ORMQR_REF
+
+#   ifdef USE_ORMQR_REF
+    // call LAPACK implementation
+
+    ORMQR_REF(SIDE, TRANS, M, N, K, A, LDA, TAU, C, LDC, WORK, LWORK, INFO);
+
+#   elif defined(CMP_W_ORMQR_REF)
+    // call LAPACK and FLENS implementation, compare results
+
+    if ((*M==0) || (*N==0) || (*K==0)) {
+        *INFO = 0;
+        return;
+    }
+
+    Side __side = ((*SIDE=='l') || (*SIDE=='L')) ? Left : Right;
+    Transpose __trans;
+    if ((*TRANS=='N') || (*TRANS=='n')) {
+        __trans = NoTrans;
+    } else if ((*TRANS=='R') || (*TRANS=='r')) {
+        __trans = Conj;
+    } else if ((*TRANS=='T') || (*TRANS=='t')) {
+        __trans = Trans;
+    } else if ((*TRANS=='C') || (*TRANS=='c')) {
+        __trans = ConjTrans;
+    } else {
+        ASSERT(0);
+    }
+
+    GeMatrix<FSV>        _A = FSV((__side==Left) ? *M : *N, *K, A, *LDA);
+    GeMatrix<FSV>        _C = FSV(*M, *N, C, *LDC);
+    DenseVector<AV>      _tau = AV(*K, TAU);
+    DenseVector<AV>      _work = AV(*LWORK, WORK);
+
+
+    GeMatrix<FS>         __A = _A;
+    GeMatrix<FS>         __C = _C;
+    DenseVector<AR>      __tau = _tau;
+    DenseVector<AR>      __work = _work;
+
+
+    lapack::ormqr(__side, __trans, __A, __tau, __C, __work);
+    ORMQR_REF(SIDE, TRANS, M, N, K, A, LDA, TAU, C, LDC, WORK, LWORK, INFO);
+
+    if (isDifferent(_A,__A)) {
+        std::cerr << "_A = " << _A << std::endl;
+        std::cerr << "__A = " << __A << std::endl;
+        assert(0);
+    }
+
+    if (isDifferent(_C,__C)) {
+        std::cerr << "_C = " << _C << std::endl;
+        std::cerr << "__C = " << __C << std::endl;
+        assert(0);
+    }
+
+    if (isDifferent(_tau,__tau)) {
+        std::cerr << "_tau = " << _tau << std::endl;
+        std::cerr << "__tau = " << __tau << std::endl;
+        assert(0);
+    }
+
+    if (isDifferent(_work,__work)) {
+        std::cerr << "ERROR:" << std::endl;
+        for (INT i=_work.firstIndex(); i<=_work.lastIndex(); ++i) {
+            std::cerr << "LAPACK: _work(" << i << ") = " << _work(i) << std::endl
+                      << "FLENS: __work(" << i << ") = " << __work(i)
+                      << std::endl << std::endl;
+        }
+        assert(0);
+    }
+
+#   else
+    // call FLENS implementation
+
     Side _side = ((*SIDE=='l') || (*SIDE=='L')) ? Left : Right;
     Transpose _trans;
     if ((*TRANS=='N') || (*TRANS=='n')) {
@@ -121,16 +194,13 @@ ORMQR(char *SIDE, char *TRANS,
     GeMatrix<FSV>        _C = FSV(*M, *N, C, *LDC);
     DenseVector<AV>      _tau = AV(*K, TAU);
 
+    // TODO: interface should support worksize query
+    assert(*LWORK!=-1);
     DenseVector<AV>      _work = AV(*LWORK, WORK);
 
-    // for testing worksize query/resizing pass an empty vector:
-    // DenseVector<AR>      __work;
-
     lapack::ormqr(_side, _trans, _A, _tau, _C, _work);
-
-#   else
-    ORMQR_REF(SIDE, TRANS, M, N, K, A, LDA, TAU, C, LDC, WORK, LWORK, INFO);
 #   endif
+
 }
 
 } // extern "C"

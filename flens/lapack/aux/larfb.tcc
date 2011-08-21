@@ -108,14 +108,21 @@ larfb(Side side, Transpose transH, Direction direction, StoreVectors storeV,
                 IndexType lastC = ilalc(C(_(1,lastV),_));
                 auto C1 = C(_(1,k),_(1,lastC));
                 auto C2 = C(_(k+1,lastV),_(1,lastC));
+
 //
 //              W := C**T * V  =  (C1**T * V1 + C2**T * V2)  (stored in WORK)
 //
 //              W := C1**T
 //
+                //std::cerr << "-> Work = " << Work << std::endl;
                 auto W = Work(_(1,lastC),_(1,k));
 
                 blas::copy(Trans, C1, W);
+                //std::cerr << "-> Work = " << Work << std::endl;
+                //std::cerr << "-> V = " << V << std::endl;
+                //std::cerr << "-> C = " << C << std::endl;
+                //std::cerr << "-> C1 = " << C1 << std::endl;
+                //std::cerr << "-> W    = " << W << std::endl;
 //
 //              W := W * V1
 //
@@ -159,52 +166,28 @@ larfb(Side side, Transpose transH, Direction direction, StoreVectors storeV,
                 IndexType lastC = ilalr(C(_,_(1,lastV)));
                 auto C1 = C(_(1,lastC),_(1,k));
                 auto C2 = C(_(1,lastC),_(k+1,lastV));
-
-                ////std::cerr << "V = " << V << std::endl;
-                ////std::cerr << "V1 = " << V1 << std::endl;
-                ////std::cerr << "V2 = " << V2 << std::endl;
-
-                ////std::cerr << "C = " << C << std::endl;
-                //std::cerr << "C1 = " << C1 << std::endl;
-                //std::cerr << "C2 = " << C2 << std::endl;
-
 //
 //              W := C * V  =  (C1*V1 + C2*V2)  (stored in WORK)
 //
 //              W := C1
 //
                 auto W = Work(_(1,lastC),_(1,k));
-
-                //std::cerr << "T = " << T << std::endl;
-
-                //std::cerr << "1) W = " << W << std::endl;
-
                 blas::copy(NoTrans, C1, W);
-
-
-                //std::cerr << "2) W = " << W << std::endl;
-
 //
 //              W := W * V1
 //
                 blas::mm(Right, NoTrans, One, V1.lowerUnit(), W);
-
-                //std::cerr << "3) W = " << W << std::endl;
 
                 if (lastV>k) {
 //
 //                  W := W + C2 * V2
 //
                     blas::mm(NoTrans, NoTrans, One, C2, V2, One, W);
-
-                    //std::cerr << "4) W = " << W << std::endl;
                 }
 //
 //              W := W * T  or  W * T**T
 //
                 blas::mm(Right, transH, One, T, W);
-
-                //std::cerr << "5) W = " << W << std::endl;
 //
 //              C := C - W * V**T
 //
@@ -213,16 +196,11 @@ larfb(Side side, Transpose transH, Direction direction, StoreVectors storeV,
 //                  C2 := C2 - W * V2**T
 //
                     blas::mm(NoTrans, Trans, -One, W, V2, One, C2);
-
-                    //std::cerr << "6) W = " << W << std::endl;
                 }
 //
 //              W := W * V1**T
 //
                 blas::mm(Right, Trans, One, V1.lowerUnit(), W);
-
-                //std::cerr << "7) W = " << W << std::endl;
-
 //
 //              C1 := C1 - W
 //

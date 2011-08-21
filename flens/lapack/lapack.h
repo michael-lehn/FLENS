@@ -50,6 +50,7 @@
 #include <flens/lapack/gesv/trf.h>
 #include <flens/lapack/gesv/trs.h>
 
+#include <flens/lapack/qr/org2r.h>
 #include <flens/lapack/qr/orm2r.h>
 #include <flens/lapack/qr/ormqr.h>
 #include <flens/lapack/qr/qr2.h>

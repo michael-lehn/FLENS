@@ -24,14 +24,12 @@ extern "C" {
 
 void
 ORG2R_REF(INT *M, INT *N, INT *K, FLOAT *A, INT *LDA, FLOAT *TAU,
-          FLOAT *WORK, INT *LWORK, INT *INFO);
+          FLOAT *WORK, INT *INFO);
 
 void
 org2rErrorCheck(INT *M, INT *N, INT *K, FLOAT *A, INT *LDA, FLOAT *TAU,
-                FLOAT *WORK, INT *LWORK, INT *INFO)
+                FLOAT *WORK, INT *INFO)
 {
-    bool lQuery = (*LWORK==-1);
-    
     if (*M<0) {
         *INFO = -1;
     } else if ((*N<0) || (*N>*M)) {
@@ -40,21 +38,19 @@ org2rErrorCheck(INT *M, INT *N, INT *K, FLOAT *A, INT *LDA, FLOAT *TAU,
         *INFO = -3;
     } else if (*LDA<std::max(INT(1), *M)) {
         *INFO = -5;
-    } else if ((*LWORK<std::max(INT(1), *N)) && (!lQuery)) {
-        *INFO = -8;
     }
 }
 
 
 void
 ORG2R(INT *M, INT *N, INT *K, FLOAT *A, INT *LDA, FLOAT *TAU,
-      FLOAT *WORK, INT *LWORK, INT *INFO)
+      FLOAT *WORK, INT *INFO)
 {
 #   ifdef DEBUG_INTERFACE
     std::cerr << ORG2R_NAME << std::endl;
 #   endif
 
-    org2rErrorCheck(M, N, K, A, LDA, TAU, WORK, LWORK, INFO);
+    org2rErrorCheck(M, N, K, A, LDA, TAU, WORK, INFO);
 
     if (*INFO<0) {
         *INFO = -(*INFO);
@@ -63,10 +59,62 @@ ORG2R(INT *M, INT *N, INT *K, FLOAT *A, INT *LDA, FLOAT *TAU,
         return;
     }
 
-#   ifndef USE_ORG2R_REF
-    ASSERT(0);  // not yet implemented
+#   ifdef USE_ORG2R_REF
+    // call LAPACK implementation
+
+    ORG2R_REF(M, N, K, A, LDA, TAU, WORK, INFO);
+
+#   elif defined(CMP_W_ORG2R_REF)
+    // call LAPACK and FLENS implementation, compare results
+
+    if (*N==0) {
+        *INFO = 0;
+        return;
+    }
+
+    GeMatrix<FSV>        _A = FSV(*M, *N, A, *LDA);
+    DenseVector<AV>      _tau = AV(*K, TAU);
+    DenseVector<AV>      _work = AV(*LWORK, WORK);
+
+
+    GeMatrix<FS>         __A = _A;
+    DenseVector<AR>      __tau = _tau;
+    DenseVector<AR>      __work = _work;
+
+
+    lapack::org2r(*K, __A, __tau, __work);
+    ORG2R_REF(M, N, K, A, LDA, TAU, WORK, INFO);
+
+    if (isDifferent(_A,__A)) {
+        std::cerr << "_A = " << _A << std::endl;
+        std::cerr << "__A = " << __A << std::endl;
+        assert(0);
+    }
+
+    if (isDifferent(_tau,__tau)) {
+        std::cerr << "_tau = " << _tau << std::endl;
+        std::cerr << "__tau = " << __tau << std::endl;
+        assert(0);
+    }
+
+    if (isDifferent(_work,__work)) {
+        std::cerr << "ERROR:" << std::endl;
+        for (INT i=_work.firstIndex(); i<=_work.lastIndex(); ++i) {
+            std::cerr << "LAPACK: _work(" << i << ") = " << _work(i) << std::endl
+                      << "FLENS: __work(" << i << ") = " << __work(i)
+                      << std::endl << std::endl;
+        }
+        assert(0);
+    }
+
 #   else
-    ORG2R_REF(M, N, K, A, LDA, TAU, WORK, LWORK, INFO);
+    // call FLENS implementation
+
+    GeMatrix<FSV>        _A = FSV(*M, *N, A, *LDA);
+    DenseVector<AV>      _tau = AV(*K, TAU);
+    DenseVector<AV>      _work = AV(*LWORK, WORK);
+
+    lapack::org2r(*K, _A, _tau, _work);
 #   endif
 }
 
