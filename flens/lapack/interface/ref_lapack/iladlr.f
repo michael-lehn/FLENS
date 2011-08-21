@@ -54,7 +54,7 @@
          ILADLR = 0
          DO J = 1, N
             I=M
-            DO WHILE ((A(I,J).NE.ZERO).AND.(I.GE.1))
+            DO WHILE ((A(I,J).EQ.ZERO).AND.(I.GE.1))
               I=I-1
             ENDDO
             ILADLR = MAX( ILADLR, I )
