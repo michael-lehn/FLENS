@@ -64,7 +64,7 @@ template <typename IndexType, typename MH, typename VWR, typename VWI,
     lahqr(bool wantT, bool wantZ,
           IndexType iLo, IndexType iHi, GeMatrix<MH> &H,
           DenseVector<VWR> &wr, DenseVector<VWI> &wi,
-          IndexType iLoZ, IndexType iHiZ, GeMatrix<MZ) &Z);
+          IndexType iLoZ, IndexType iHiZ, GeMatrix<MZ> &Z);
 
 } } // namespace lapack, flens
 

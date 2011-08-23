@@ -33,6 +33,8 @@
 #ifndef FLENS_STORAGE_FULLSTORAGE_FULLSTORAGEVIEW_TCC
 #define FLENS_STORAGE_FULLSTORAGE_FULLSTORAGEVIEW_TCC 1
 
+#include <flens/storage/fullstorage/trapezoidalfill.h>
+
 namespace flens {
 
 template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
@@ -278,6 +280,17 @@ FullStorageView<T, Order, I, A>::fill(const ElementType &value)
     }
     ASSERT(0);
     return false;
+}
+
+template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+bool
+FullStorageView<T, Order, I, A>::fill(cxxblas::StorageUpLo  upLo,
+                                      const ElementType &value)
+{
+    trapezoidalFill(order, upLo, value,
+                    numRows(), numCols(),
+                    data(), leadingDimension());
+    return true;
 }
 
 template <typename T, cxxblas::StorageOrder Order, typename I, typename A>

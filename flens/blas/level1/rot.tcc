@@ -36,21 +36,7 @@
 
 namespace flens { namespace blas {
 
-template <typename X, typename Y, typename T>
-void
-rot(DenseVector<X> &x, DenseVector<Y> &y, const T &c, const T &s)
-{
-    ASSERT(x.length()==y.length());
-#   ifdef HAVE_CXXBLAS_ROT
-    cxxblas::rot(x.length(),
-                 x.data(), x.leadingDimension(),
-                 y.data(), y.leadingDimension(),
-                 c, s);
-#   else
-    ASSERT(0);
-#   endif
-}
-
+//-- rotg
 template <typename T>
 void
 rotg(T &a, T &b, T &c, T &s)
@@ -61,5 +47,31 @@ rotg(T &a, T &b, T &c, T &s)
     ASSERT(0);
 #   endif
 }
+
+
+//-- forwarding: rot -----------------------------------------------------------
+template <typename VX, typename VY, typename T>
+void
+rot(VX &&x, VY &&y, const T &c, const T &s)
+{
+    rot(x, y, c, s);
+}
+
+//-- rot
+template <typename VX, typename VY, typename T>
+void
+rot(DenseVector<VX> &x, DenseVector<VY> &y, const T &c, const T &s)
+{
+    ASSERT(x.length()==y.length());
+#   ifdef HAVE_CXXBLAS_ROT
+    cxxblas::rot(x.length(),
+                 x.data(), x.inc(),
+                 y.data(), y.inc(),
+                 c, s);
+#   else
+    ASSERT(0);
+#   endif
+}
+
 
 } } // namespace blas, flens

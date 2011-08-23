@@ -68,6 +68,7 @@ orgqr(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
     ASSERT(A.firstCol()==IndexType(1));
     ASSERT(tau.firstIndex()==IndexType(1));
     ASSERT(tau.length()==k);
+    ASSERT((work.length()==0) || (work.length()>=A.numCols()));
 
     typedef typename GeMatrix<MA>::ElementType  T;
 

@@ -73,8 +73,7 @@
 
 #include <algorithm>
 #include <flens/blas/blas.h>
-#include <flens/lapack/aux/laswp.h>
-#include <flens/lapack/gesv/tf2.h>
+#include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
 

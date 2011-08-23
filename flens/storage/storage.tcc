@@ -40,5 +40,6 @@
 #include <flens/storage/fullstorage/constfullstorageview.tcc>
 #include <flens/storage/fullstorage/fullstorageview.tcc>
 #include <flens/storage/fullstorage/fullstorage.tcc>
+#include <flens/storage/fullstorage/trapezoidalfill.tcc>
 
 #endif // FLENS_STORAGE_STORAGE_TCC

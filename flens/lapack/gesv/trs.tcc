@@ -72,7 +72,7 @@
 #define FLENS_LAPACK_GESV_TRS_TCC 1
 
 #include <flens/blas/blas.h>
-#include <flens/lapack/aux/laswp.h>
+#include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
 

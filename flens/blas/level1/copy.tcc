@@ -38,6 +38,22 @@
 
 namespace flens { namespace blas {
 
+//-- forwarding ----------------------------------------------------------------
+template <typename X, typename Y>
+void
+copy(const X &x, Y &&y)
+{
+    copy(x, y);
+}
+
+template <typename MA, typename MB>
+void
+copy(cxxblas::Transpose trans,
+     const MA &A, MB &&B)
+{
+    copy(trans, A, B);
+}
+
 //-- common interface for vectors ----------------------------------------------
 template <typename VX, typename VY>
 void

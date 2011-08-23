@@ -37,17 +37,26 @@
 #include <flens/lapack/aux/ilalc.tcc>
 #include <flens/lapack/aux/ilalr.tcc>
 #include <flens/lapack/aux/labad.tcc>
+#include <flens/lapack/aux/ladiv.tcc>
 #include <flens/lapack/aux/lamch.tcc>
-#include <flens/lapack/aux/lanv2.tcc>
 #include <flens/lapack/aux/lapy2.tcc>
 #include <flens/lapack/aux/larf.tcc>
 #include <flens/lapack/aux/larfb.tcc>
 #include <flens/lapack/aux/larfg.tcc>
 #include <flens/lapack/aux/larft.tcc>
+#include <flens/lapack/aux/lascl.tcc>
+#include <flens/lapack/aux/lassq.tcc>
 #include <flens/lapack/aux/laswp.tcc>
 #include <flens/lapack/aux/sign.tcc>
 
 #include <flens/lapack/eig/hd2.tcc>
+#include <flens/lapack/eig/hrd.tcc>
+#include <flens/lapack/eig/hseqr.tcc>
+#include <flens/lapack/eig/lahr2.tcc>
+#include <flens/lapack/eig/lahqr.tcc>
+#include <flens/lapack/eig/lanv2.tcc>
+#include <flens/lapack/eig/orghr.tcc>
+#include <flens/lapack/eig/ormhr.tcc>
 
 #include <flens/lapack/gesv/sv.tcc>
 #include <flens/lapack/gesv/tf2.tcc>

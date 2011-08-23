@@ -38,13 +38,22 @@
 
 namespace flens { namespace blas {
 
-template <typename X, typename Y, typename T>
-    void
-    rot(DenseVector<X> &x, DenseVector<Y> &y, const T &c, const T &s);
-
+//-- rotg
 template <typename T>
     void
     rotg(T &a, T &b, T &c, T &s);
+
+
+//-- forwarding: rot -----------------------------------------------------------
+template <typename VX, typename VY, typename T>
+    void
+    rot(VX &&x, VY &&y, const T &c, const T &s);
+
+//-- rot
+template <typename VX, typename VY, typename T>
+    void
+    rot(DenseVector<VX> &x, DenseVector<VY> &y, const T &c, const T &s);
+
 
 } } // namespace blas, flens
 

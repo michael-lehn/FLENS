@@ -89,6 +89,8 @@ template <typename MA, typename VTAU, typename MC, typename VWORK>
           const DenseVector<VTAU> &tau, GeMatrix<MC> &C,
           DenseVector<VWORK> &work);
 
+// Note: Matrix A is modified by the routine but restored on exit.
+
 } } // namespace lapack, flens
 
 #endif // FLENS_LAPACK_QR_ORM2R_H

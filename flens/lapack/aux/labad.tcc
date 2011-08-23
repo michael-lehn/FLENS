@@ -48,7 +48,7 @@ namespace flens { namespace lapack {
 
 //-- labad ---------------------------------------------------------------------
 template <typename T>
-T
+void
 labad(T &small, T &large)
 {
 //

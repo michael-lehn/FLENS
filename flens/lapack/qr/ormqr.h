@@ -89,6 +89,8 @@ ormqr(Side side, Transpose &trans, GeMatrix<MA> &A,
       const DenseVector<VTAU> &tau, GeMatrix<MC> &C,
       DenseVector<VWORK> &work);
 
+// Note: Matrix A is modified by the routine but restored on exit.
+
 } } // namespace lapack, flens
 
 #endif // FLENS_LAPACK_QR_ORMQR_H

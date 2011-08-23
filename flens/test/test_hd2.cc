@@ -19,7 +19,7 @@ using namespace flens;
 
 typedef double   T;
 
-#define TEST_CASE_2
+#define TEST_CASE_1
 
 int
 main()
@@ -33,7 +33,8 @@ main()
 
     const IndexType n = 4;
 
-    GeMatrix            A(n, n);
+    GeMatrix            A(n, n), Z(n, n);
+    DenseVector         wr(n), wi(n);
 
 #   ifdef TEST_CASE_1
     A =  3,  -1,   0,   0,
@@ -61,7 +62,16 @@ main()
     DenseVector tau(n-1);
     DenseVector work(n);
 
-    
     lapack::hd2(IndexType(1), n, A, tau, work);
-    cerr << "-> A = " << A << endl;
+
+    cerr << "A = " << A << endl;
+
+    IndexType info = lapack::hseqr(lapack::HSEQR::Eigenvalues, lapack::HSEQR::Init,
+                                   IndexType(1), n, A, wr, wi, Z, work);
+
+    cerr << "-> info =  " << info << endl;
+    cerr << "-> A =  " << A << endl;
+    cerr << "-> wr = " << wr << endl;
+    cerr << "-> wi = " << wi << endl;
+    cerr << "-> Z =  " << Z << endl;
 }

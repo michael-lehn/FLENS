@@ -37,17 +37,27 @@
 #include <flens/lapack/aux/ilalc.h>
 #include <flens/lapack/aux/ilalr.h>
 #include <flens/lapack/aux/labad.h>
+#include <flens/lapack/aux/ladiv.h>
 #include <flens/lapack/aux/lamch.h>
-#include <flens/lapack/aux/lanv2.h>
 #include <flens/lapack/aux/lapy2.h>
 #include <flens/lapack/aux/larf.h>
 #include <flens/lapack/aux/larfb.h>
 #include <flens/lapack/aux/larfg.h>
 #include <flens/lapack/aux/larft.h>
+#include <flens/lapack/aux/lascl.h>
+#include <flens/lapack/aux/lassq.h>
 #include <flens/lapack/aux/laswp.h>
 #include <flens/lapack/aux/sign.h>
 
 #include <flens/lapack/eig/hd2.h>
+#include <flens/lapack/eig/hrd.h>
+#include <flens/lapack/eig/hseqr.h>
+#include <flens/lapack/eig/lahr2.h>
+#include <flens/lapack/eig/lahqr.h>
+#include <flens/lapack/eig/lanv2.h>
+#include <flens/lapack/eig/orghr.h>
+#include <flens/lapack/eig/ormhr.h>
+
 
 #include <flens/lapack/gesv/sv.h>
 #include <flens/lapack/gesv/tf2.h>

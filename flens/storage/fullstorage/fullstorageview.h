@@ -151,6 +151,10 @@ class FullStorageView
         bool
         fill(const ElementType &value = ElementType(0));
 
+        bool
+        fill(cxxblas::StorageUpLo  upLo,
+             const ElementType &value = ElementType(0));
+
         void
         changeIndexBase(IndexType firstRow, IndexType firstCol);
 

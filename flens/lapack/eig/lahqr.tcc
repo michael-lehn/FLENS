@@ -43,8 +43,8 @@
 #ifndef FLENS_LAPACK_EIG_LAHQR_TCC
 #define FLENS_LAPACK_EIG_LAHQR_TCC 1
 
-#include <flens/matrixtypes/matrixtypes.h>
-#include <flens/vectortypes/vectortypes.h>
+#include <flens/blas/blas.h>
+#include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
 
@@ -71,7 +71,7 @@ IndexType
 lahqr(bool wantT, bool wantZ,
       IndexType iLo, IndexType iHi, GeMatrix<MH> &H,
       DenseVector<VWR> &wr, DenseVector<VWI> &wi,
-      IndexType iLoZ, IndexType iHiZ, GeMatrix<MZ) &Z)
+      IndexType iLoZ, IndexType iHiZ, GeMatrix<MZ> &Z)
 {
     ASSERT(H.firstRow()==1);
     ASSERT(H.firstCol()==1);
@@ -96,10 +96,15 @@ lahqr(bool wantT, bool wantZ,
 
     typedef typename GeMatrix<MH>::ElementType  T;
 
-    const T         Zero(0), One(1), Two(2);
-    const T         Dat1(0.75), Dat2(-0.4375);
-    const IndexType itMax = 30;
-    const IndexType n = H.numRows()
+    const Underscore<IndexType>     _;
+    const T                         Zero(0), One(1), Two(2);
+    const T                         Dat1(0.75), Dat2(-0.4375);
+    const IndexType                 itMax = 30;
+    const IndexType                 n = H.numRows();
+
+    typedef typename GeMatrix<MH>::VectorView   VectorView;
+    T           vBuffer[3];
+    VectorView  v = typename VectorView::Engine(3, vBuffer);
 
 //
 //  Quick return if possible
@@ -123,8 +128,8 @@ lahqr(bool wantT, bool wantZ,
         H(iHi, iHi-2) = Zero;
     }
 
-    nh = iHi - iLo + 1;
-    nz = iHiZ - iLoZ +1;
+    const IndexType nh = iHi - iLo + 1;
+    const IndexType nz = iHiZ - iLoZ +1;
 //
 //  Set machine-dependent constants for the stopping criterion.
 //
@@ -134,29 +139,30 @@ lahqr(bool wantT, bool wantZ,
     const T eps = lamch<T>(Precision);
     const T smallNum = safeMin*(T(nh)/eps);
 //
-//  I1 and I2 are the indices of the first row and last column of H
+//  i1 and i2 are the indices of the first row and last column of H
 //  to which transformations must be applied. If eigenvalues only are
-//  being computed, I1 and I2 are set inside the main loop.
+//  being computed, i1 and i2 are set inside the main loop.
 //
+    IndexType i1, i2;
     if (wantT) {
         i1 = 1;
         i2 = n;
     }
 //
-//  The main loop begins here. I is the loop index and decreases from
-//  IHI to ILO in steps of 1 or 2. Each iteration of the loop works
-//  with the active submatrix in rows and columns L to I.
-//  Eigenvalues I+1 to IHI have already converged. Either L = ILO or
-//  H(L,L-1) is negligible so that the matrix splits.
+//  The main loop begins here. Variable i is the loop index and decreases from
+//  iHi to iLo in steps of 1 or 2. Each iteration of the loop works
+//  with the active submatrix in rows and columns l to i.
+//  Eigenvalues i+1 to iHi have already converged. Either l = iLo or
+//  H(l,l-1) is negligible so that the matrix splits.
 //
-    i = iHi;
+    IndexType i = iHi;
     while (true) {
-        l = iLo;
+        IndexType l = iLo;
         if (i<iLo) {
             break;
         }
 //
-//      Perform QR iterations on rows and columns ILO to I until a
+//      Perform QR iterations on rows and columns iLo to i until a
 //      submatrix of order 1 or 2 splits off at the bottom because a
 //      subdiagonal element has become negligible.
 //
@@ -165,7 +171,8 @@ lahqr(bool wantT, bool wantZ,
 //
 //          Look for a single small subdiagonal element.
 //
-            for (IndexType k=i; k>l; --k) {
+            IndexType k;
+            for (k=i; k>l; --k) {
                 if (abs(H(k,k-1))<=smallNum) {
                     break;
                 }
@@ -196,9 +203,9 @@ lahqr(bool wantT, bool wantZ,
             l = k;
             if (l>iLo) {
 //
-//              H(L,L-1) is negligible
+//              H(l,l-1) is negligible
 //
-                H( L, L-1 ) = ZERO
+                H(l, l-1) = Zero;
             }
 //
 //          Exit from loop if a submatrix of order 1 or 2 has split off.
@@ -207,15 +214,17 @@ lahqr(bool wantT, bool wantZ,
                 break;
             }
 //
-//          Now the active submatrix is in rows and columns L to I. If
+//          Now the active submatrix is in rows and columns l to i. If
 //          eigenvalues only are being computed, only the active submatrix
 //          need be transformed.
 //
-            if (! wantT) {
+            if (!wantT) {
                 i1 = l;
                 i2 = i;
             }
 
+            T H11, H12, H21, H22;
+            T rt1r, rt2r, rt1i, rt2i;
             if (its==10) {
 //
 //              Exceptional shift.
@@ -230,8 +239,8 @@ lahqr(bool wantT, bool wantZ,
 //              Exceptional shift.
 //
                 const T s = abs(H(i,i-1)) + abs(H(i-1,i-2));
-                H11 = DAT1*s + H(i,i);
-                H12 = DAT2*s;
+                H11 = Dat1*s + H(i,i);
+                H12 = Dat2*s;
                 H21 = s;
                 H22 = H11;
             } else {
@@ -257,7 +266,7 @@ lahqr(bool wantT, bool wantZ,
                 H12 = H12 / s;
                 H22 = H22 / s;
                 const T tr = (H11+H22) / Two;
-                const T det = (H11-tr)*(H22-tr) - H12*H21
+                const T det = (H11-tr)*(H22-tr) - H12*H21;
                 const T rtDisc = sqrt(abs(det));
                 if (det>=Zero) {
 //
@@ -287,9 +296,10 @@ lahqr(bool wantT, bool wantZ,
 //
 //          Look for two consecutive small subdiagonal elements.
 //
-            for (IndexType m=i-2; m>=l; --m) {
+            IndexType m;
+            for (m=i-2; m>=l; --m) {
 //              Determine the effect of starting the double-shift QR
-//              iteration at row M, and see if this would make H(M,M-1)
+//              iteration at row m, and see if this would make H(m,m-1)
 //              negligible.  (The following uses scaling to avoid
 //              overflows and most underflows.)
 //
@@ -325,17 +335,17 @@ lahqr(bool wantT, bool wantZ,
             for (IndexType k=m; k<i; ++k) {
 //
 //              The first iteration of this loop determines a reflection G
-//              from the vector V and applies it from left and right to H,
+//              from the vector v and applies it from left and right to H,
 //              thus creating a nonzero bulge below the subdiagonal.
 //
 //              Each subsequent iteration determines a reflection G to
-//              restore the Hessenberg form in the (K-1)th column, and thus
+//              restore the Hessenberg form in the (k-1)th column, and thus
 //              chases the bulge one step toward the bottom of the active
-//              submatrix. NR is the order of G.
+//              submatrix. 'nr' is the order of G.
 //
                 T   t1, t2, t3, v2, v3;
 
-                nr = min(IndexType(3), i-k+1);
+                IndexType nr = min(IndexType(3), i-k+1);
                 if (k>m) {
                     blas::copy(H(_(k,k+nr-1),k-1), v(_(1,nr)));
                 }
@@ -361,7 +371,7 @@ lahqr(bool wantT, bool wantZ,
                     t3 = t1*v3;
 //
 //                  Apply G from the left to transform the rows of the matrix
-//                  in columns K to I2.
+//                  in columns k to i2.
 //
                     for (IndexType j=k; j<=i2; ++j) {
                         const T sum = H(k,j) + v2*H(k+1,j) + v3*H(k+2,j);
@@ -371,7 +381,7 @@ lahqr(bool wantT, bool wantZ,
                     }
 //
 //                  Apply G from the right to transform the columns of the
-//                  matrix in rows I1 to min(K+3,I).
+//                  matrix in rows i1 to min(k+3,i).
 //
                     for (IndexType j=i1; j<=min(k+3,i); ++j) {
                         const T sum = H(j, k) + v2*H(j,k+1) + v3*H(j,k+2);
@@ -386,9 +396,9 @@ lahqr(bool wantT, bool wantZ,
 //
                         for (IndexType j=iLoZ; j<=iHiZ; ++j) {
                             const T sum = Z(j, k) + v2*Z(j, k+1) + v3*Z(j, k+2);
-                            Z(j, k  ) = Z(j, k  ) - sum*t1
-                            Z(j, k+1) = Z(j, k+1) - sum*t2
-                            Z(j, k+2) = Z(j, k+2) - sum*t3
+                            Z(j, k  ) = Z(j, k  ) - sum*t1;
+                            Z(j, k+1) = Z(j, k+1) - sum*t2;
+                            Z(j, k+2) = Z(j, k+2) - sum*t3;
                         }
                     }
                 } else if (nr==2) {
@@ -396,14 +406,14 @@ lahqr(bool wantT, bool wantZ,
 //                  Apply G from the left to transform the rows of the matrix
 //                  in columns K to I2.
 //
-                    for (IndexType j=k; j<=i2; ++i2) {
+                    for (IndexType j=k; j<=i2; ++j) {
                         const T sum = H(k, j) + v2*H(k+1, j);
                         H(k,   j) = H(k,   j) - sum*t1;
                         H(k+1, j) = H(k+1, j) - sum*t2;
                     }
 //
 //                  Apply G from the right to transform the columns of the
-//                  matrix in rows I1 to min(K+3,I).
+//                  matrix in rows i1 to min(k+3,i).
 //
                     for (IndexType j=i1; j<=i; ++j) {
                         const T sum = H(j, k) + v2*H(j, k+1);
@@ -473,6 +483,8 @@ lahqr(bool wantT, bool wantZ,
 //
         i = l - 1;
     }
+    
+    return 0;
 }
 
 } } // namespace lapack, flens

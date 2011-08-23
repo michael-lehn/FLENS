@@ -31,6 +31,7 @@
  */
 
 /* Based on
+ *
       SUBROUTINE DGEHD2( N, ILO, IHI, A, LDA, TAU, WORK, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
@@ -42,8 +43,8 @@
 #ifndef FLENS_LAPACK_EIG_HD2_TCC
 #define FLENS_LAPACK_EIG_HD2_TCC 1
 
-#include <flens/matrixtypes/matrixtypes.h>
-#include <flens/vectortypes/vectortypes.h>
+#include <flens/blas/blas.h>
+#include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
 

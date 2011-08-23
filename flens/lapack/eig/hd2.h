@@ -31,6 +31,7 @@
  */
 
 /* Based on
+ *
       SUBROUTINE DGEHD2( N, ILO, IHI, A, LDA, TAU, WORK, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --

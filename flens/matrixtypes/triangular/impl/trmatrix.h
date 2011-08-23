@@ -104,6 +104,8 @@ class TrMatrix
             TrMatrix(const Matrix<RHS> &rhs);
 
         // -- operators --------------------------------------------------------
+        void
+        operator=(const ElementType &value);
 
         const ElementType &
         operator()(IndexType row, IndexType col) const;

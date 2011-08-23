@@ -77,6 +77,13 @@ TrMatrix<FS>::TrMatrix(const Matrix<RHS> &rhs)
 // -- operators ----------------------------------------------------------------
 
 template <typename FS>
+void
+TrMatrix<FS>::operator=(const ElementType &value)
+{
+    engine().fill(_upLo, value);
+}
+
+template <typename FS>
 const typename TrMatrix<FS>::ElementType &
 TrMatrix<FS>::operator()(IndexType row, IndexType col) const
 {

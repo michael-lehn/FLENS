@@ -34,8 +34,11 @@
 #define FLENS_STORAGE_FULLSTORAGE_FULLSTORAGE_TCC 1
 
 #include <cxxblas/level1extensions/gecopy.h>
+#include <flens/storage/fullstorage/trapezoidalfill.h>
 
 namespace flens {
+
+using std::min;
 
 //= Constructors
 
@@ -282,6 +285,20 @@ FullStorage<T, Order, I, A>::fill(const ElementType &value)
     std::fill_n(data(), numRows()*numCols(), value);
     return true;
 }
+
+template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+bool
+FullStorage<T, Order, I, A>::fill(cxxblas::StorageUpLo  upLo,
+                                  const ElementType &value)
+{
+    ASSERT(_data);
+
+    trapezoidalFill(order, upLo, value,
+                    numRows(), numCols(),
+                    data(), leadingDimension());
+    return true;
+}
+
 
 template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
 void
