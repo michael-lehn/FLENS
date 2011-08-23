@@ -40,8 +40,8 @@
  *     June 2010
  */
 
-#ifndef FLENS_LAPACK_AUX_LANV2_TCC
-#define FLENS_LAPACK_AUX_LANV2_TCC 1
+#ifndef FLENS_LAPACK_EIG_LANV2_TCC
+#define FLENS_LAPACK_EIG_LANV2_TCC 1
 
 namespace flens { namespace lapack {
 
@@ -175,4 +175,4 @@ lanv2(T &a, T &b, T &c, T &d, T &rt1r, T &rt1i, T &rt2r, T &rt2i, T &cs, T &sn)
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_AUX_LANV2_TCC
+#endif // FLENS_LAPACK_EIG_LANV2_TCC

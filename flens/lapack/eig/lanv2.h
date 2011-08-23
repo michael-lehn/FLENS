@@ -40,8 +40,8 @@
  *     June 2010
  */
 
-#ifndef FLENS_LAPACK_AUX_LANV2_H
-#define FLENS_LAPACK_AUX_LANV2_H 1
+#ifndef FLENS_LAPACK_EIG_LANV2_H
+#define FLENS_LAPACK_EIG_LANV2_H 1
 
 namespace flens { namespace lapack {
 
@@ -53,4 +53,4 @@ template <typename T>
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_AUX_LANV2_H
+#endif // FLENS_LAPACK_EIG_LANV2_H
