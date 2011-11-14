@@ -1,0 +1,58 @@
+#include <flens/lapack/interface/include/config.h>
+#include <flens/flens.cxx>
+
+namespace flens { namespace lapack {
+
+extern "C" {
+
+MachineParameter
+_getMachineParameter(const char c)
+{
+    MachineParameter machineParameter;
+
+    switch (c) {
+        case 'E':
+        case 'e': machineParameter = Eps;
+                  break;
+        case 'S':
+        case 's': machineParameter = SafeMin;
+                  break;
+        case 'B':
+        case 'b': machineParameter = Base;
+                  break;
+        case 'P':
+        case 'p': machineParameter = Precision;
+                  break;
+        case 'N':
+        case 'n': machineParameter = Mantissa;
+                  break;
+        case 'R':
+        case 'r': machineParameter = Rounding;
+                  break;
+        case 'M':
+        case 'm': machineParameter = UnderflowExp;
+                  break;
+        case 'U':
+        case 'u': machineParameter = UnderflowThreshold;
+                  break;
+        case 'L':
+        case 'l': machineParameter = OverflowExp;
+                  break;
+        case 'O':
+        case 'o': machineParameter = OverflowThreshold;
+                  break;
+        default:  ASSERT(0);
+    }
+    return machineParameter;
+}
+
+//-- dlamch --------------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(dlamch)(const char *c)
+{
+    return lamch<DOUBLE>(_getMachineParameter(*c));
+}
+
+} // extern "C"
+
+} } // namespace lapack, flens
