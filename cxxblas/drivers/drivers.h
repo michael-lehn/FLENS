@@ -52,7 +52,8 @@
 
 namespace cxxblas {
 
-const char *
+template <typename CHAR>
+const CHAR *
 blasImpl();
 
 //------------------------------------------------------------------------------
@@ -76,22 +77,54 @@ struct If<long>
 
 //------------------------------------------------------------------------------
 
+template <typename A, typename B>
+struct IsSame
+{
+    static const bool value = false;
+};
+
+template <typename A>
+struct IsSame<A,A>
+{
+    static const bool value = true;
+};
+
+//------------------------------------------------------------------------------
+
+template <bool b, typename T>
+struct RestrictTo
+{
+};
+
+template <typename T>
+struct RestrictTo<true, T> 
+{
+    typedef T Type;
+};
+
+//------------------------------------------------------------------------------
+
 namespace CBLAS {
 
-CBLAS_ORDER
-value(StorageOrder order);
+template <typename ENUM>
+    typename RestrictTo<IsSame<ENUM,StorageOrder>::value, CBLAS_ORDER>::Type
+    getCblasType(ENUM order);
 
-CBLAS_TRANSPOSE
-value(Transpose trans);
+template <typename ENUM>
+    typename RestrictTo<IsSame<ENUM,Transpose>::value, CBLAS_TRANSPOSE>::Type
+    getCblasType(ENUM trans);
 
-CBLAS_UPLO
-value(StorageUpLo upLo);
+template <typename ENUM>
+    typename RestrictTo<IsSame<ENUM,StorageUpLo>::value, CBLAS_UPLO>::Type
+    getCblasType(ENUM upLo);
 
-CBLAS_SIDE
-value(Side side);
+template <typename ENUM>
+    typename RestrictTo<IsSame<ENUM,Side>::value, CBLAS_SIDE>::Type
+    getCblasType(ENUM side);
 
-CBLAS_DIAG
-value(Diag diag);
+template <typename ENUM>
+    typename RestrictTo<IsSame<ENUM,Diag>::value, CBLAS_DIAG>::Type
+    getCblasType(ENUM diag);
 
 } // namespace CBLAS
 

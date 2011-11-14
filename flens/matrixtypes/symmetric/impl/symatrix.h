@@ -35,6 +35,7 @@
 
 #include <cxxblas/typedefs.h>
 #include <flens/matrixtypes/symmetric/symmetricmatrix.h>
+#include <flens/typedefs.h>
 
 namespace flens {
 
@@ -95,7 +96,7 @@ class SyMatrix
         SyMatrix(IndexType dim,
                  IndexType firstRow, IndexType firstCol);
 
-        SyMatrix(const Engine &engine, cxxblas::StorageUpLo upLo);
+        SyMatrix(const Engine &engine, StorageUpLo upLo);
 
         SyMatrix(const SyMatrix &rhs);
 
@@ -159,15 +160,15 @@ class SyMatrix
         Engine &
         engine();
 
-        cxxblas::StorageUpLo
+        StorageUpLo
         upLo() const;
 
-        cxxblas::StorageUpLo &
+        StorageUpLo &
         upLo();
 
     private:
-        Engine               _engine;
-        cxxblas::StorageUpLo _upLo;
+        Engine      _engine;
+        StorageUpLo _upLo;
 };
 
 } // namespace flens

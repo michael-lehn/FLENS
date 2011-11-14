@@ -34,7 +34,9 @@
 #define FLENS_BLAS_LEVEL1_COPY_TCC 1
 
 #include <flens/aux/macros.h>
+#include <flens/blas/blas.h>
 #include <flens/blas/debugmacro.h>
+#include <flens/typedefs.h>
 
 namespace flens { namespace blas {
 
@@ -43,15 +45,18 @@ template <typename X, typename Y>
 void
 copy(const X &x, Y &&y)
 {
+    CHECKPOINT_ENTER;
     copy(x, y);
+    CHECKPOINT_LEAVE;
 }
 
 template <typename MA, typename MB>
 void
-copy(cxxblas::Transpose trans,
-     const MA &A, MB &&B)
+copy(Transpose trans, const MA &A, MB &&B)
 {
+    CHECKPOINT_ENTER;
     copy(trans, A, B);
+    CHECKPOINT_LEAVE;
 }
 
 //-- common interface for vectors ----------------------------------------------
@@ -59,15 +64,19 @@ template <typename VX, typename VY>
 void
 copy(const Vector<VX> &x, Vector<VY> &y)
 {
+    CHECKPOINT_ENTER;
     copy(x.impl(), y.impl());
+    CHECKPOINT_LEAVE;
 }
 
 //-- common interface for matrices ---------------------------------------------
 template <typename MA, typename MB>
 void
-copy(cxxblas::Transpose trans, const Matrix<MA> &A, Matrix<MB> &B)
+copy(Transpose trans, const Matrix<MA> &A, Matrix<MB> &B)
 {
+    CHECKPOINT_ENTER;
     copy(trans, A.impl(), B.impl());
+    CHECKPOINT_LEAVE;
 }
 
 //-- copy
@@ -93,12 +102,11 @@ copy(const DenseVector<VX> &x, DenseVector<VY> &y)
 //-- gecopy
 template <typename MA, typename MB>
 void
-copy(cxxblas::Transpose trans,
-     const GeMatrix<MA> &A, GeMatrix<MB> &B)
+copy(Transpose trans, const GeMatrix<MA> &A, GeMatrix<MB> &B)
 {
     FLENS_CLOSURELOG_ADD_ENTRY_COPY(A, B);
 
-    if (trans==cxxblas::NoTrans) {
+    if (trans==NoTrans) {
         if ((A.numRows()!=B.numRows()) || (A.numCols()!=B.numCols())) {
             B.resize(A);
         }
@@ -109,12 +117,45 @@ copy(cxxblas::Transpose trans,
         }
     }
     trans = (MA::order==MB::order)
-          ? cxxblas::Transpose(trans ^ cxxblas::NoTrans)
-          : cxxblas::Transpose(trans ^ cxxblas::Trans);
+          ? Transpose(trans ^ NoTrans)
+          : Transpose(trans ^ Trans);
 
 #   ifdef HAVE_CXXBLAS_GECOPY
     cxxblas::gecopy(MB::order, trans,
                     B.numRows(), B.numCols(),
+                    A.data(), A.leadingDimension(),
+                    B.data(), B.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+    FLENS_CLOSURELOG_END_ENTRY
+}
+
+//-- trcopy
+template <typename MA, typename MB>
+void
+copy(Transpose trans, const TrMatrix<MA> &A, TrMatrix<MB> &B)
+{
+    FLENS_CLOSURELOG_ADD_ENTRY_COPY(A, B);
+
+    // TODO: change default resize policy such that resize is done:
+    //          1) if possible, e.g. no resize in an axpy
+    //          2) rhs-size is zero
+    if (B.dim()!=A.dim() && B.dim()==0) {
+        B.resize(A);
+    }
+
+#   ifndef NDEBUG
+    if (trans==NoTrans) {
+        ASSERT(A.upLo()==B.upLo());
+    }
+#   endif
+
+    // TODO: make this assertion unnecessary
+    ASSERT(A.order()==B.order());
+
+#   ifdef HAVE_CXXBLAS_GECOPY
+    cxxblas::trcopy(B.order(), B.upLo(), trans, B.dim(),
                     A.data(), A.leadingDimension(),
                     B.data(), B.leadingDimension());
 #   else

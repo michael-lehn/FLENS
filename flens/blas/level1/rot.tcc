@@ -32,6 +32,7 @@
 
 #include <cxxblas/cxxblas.h>
 #include <flens/aux/macros.h>
+#include <flens/typedefs.h>
 #include <flens/vectortypes/impl/densevector.h>
 
 namespace flens { namespace blas {
@@ -42,7 +43,7 @@ void
 rotg(T &a, T &b, T &c, T &s)
 {
 #   ifdef HAVE_CXXBLAS_ROTG
-    cxxblas::rotg(a, b, c, s);
+    rotg(a, b, c, s);
 #   else
     ASSERT(0);
 #   endif
@@ -64,10 +65,7 @@ rot(DenseVector<VX> &x, DenseVector<VY> &y, const T &c, const T &s)
 {
     ASSERT(x.length()==y.length());
 #   ifdef HAVE_CXXBLAS_ROT
-    cxxblas::rot(x.length(),
-                 x.data(), x.inc(),
-                 y.data(), y.inc(),
-                 c, s);
+    cxxblas::rot(x.length(), x.data(), x.stride(), y.data(), y.stride(), c, s);
 #   else
     ASSERT(0);
 #   endif

@@ -35,13 +35,14 @@
 
 #include <flens/matrixtypes/general/impl/gematrix.h>
 #include <flens/matrixtypes/symmetric/impl/symatrix.h>
+#include <flens/typedefs.h>
 
 namespace flens {
 
 template <typename FS>
 TrMatrix<FS>::TrMatrix(const Engine &engine,
-                       cxxblas::StorageUpLo upLo,
-                       cxxblas::Diag diag)
+                       StorageUpLo upLo,
+                       Diag diag)
     : _engine(engine), _upLo(upLo), _diag(diag)
 {
 }
@@ -84,11 +85,28 @@ TrMatrix<FS>::operator=(const ElementType &value)
 }
 
 template <typename FS>
+TrMatrix<FS> &
+TrMatrix<FS>::operator=(const TrMatrix &rhs)
+{
+    blas::copy(NoTrans, rhs, *this);
+    return *this;
+}
+
+template <typename FS>
+template <typename RHS>
+TrMatrix<FS> &
+TrMatrix<FS>::operator=(const Matrix<RHS> &rhs)
+{
+    blas::copy(NoTrans, rhs, *this);
+    return *this;
+}
+
+template <typename FS>
 const typename TrMatrix<FS>::ElementType &
 TrMatrix<FS>::operator()(IndexType row, IndexType col) const
 {
-    ASSERT((_upLo==cxxblas::Upper) ? (col>=row) : (col<=row));
-    ASSERT(!((_diag==cxxblas::Unit) && (col==row)));
+    ASSERT((_upLo==Upper) ? (col>=row) : (col<=row));
+    ASSERT(!((_diag==Unit) && (col==row)));
 
     return _engine(row, col);
 }
@@ -97,8 +115,8 @@ template <typename FS>
 typename TrMatrix<FS>::ElementType &
 TrMatrix<FS>::operator()(IndexType row, IndexType col)
 {
-    ASSERT((_upLo==cxxblas::Upper) ? (col>=row) : (col<=row));
-    ASSERT(!((_diag==cxxblas::Unit) && (col==row)));
+    ASSERT((_upLo==Upper) ? (col>=row) : (col<=row));
+    ASSERT(!((_diag==Unit) && (col==row)));
 
     return _engine(row, col);
 }
@@ -139,7 +157,7 @@ template <typename FS>
 typename TrMatrix<FS>::ConstSymmetricView
 TrMatrix<FS>::symmetric() const
 {
-    ASSERT(diag()==cxxblas::NonUnit);
+    ASSERT(diag()==NonUnit);
     return ConstSymmetricView(_engine, upLo());
 }
 
@@ -147,7 +165,7 @@ template <typename FS>
 typename TrMatrix<FS>::SymmetricView
 TrMatrix<FS>::symmetric()
 {
-    ASSERT(diag()==cxxblas::NonUnit);
+    ASSERT(diag()==NonUnit);
     return SymmetricView(_engine, upLo());
 }
 
@@ -210,6 +228,30 @@ TrMatrix<FS>::leadingDimension() const
     return _engine.leadingDimension();
 }
 
+template <typename FS>
+StorageOrder
+TrMatrix<FS>::order() const
+{
+    return _engine.order;
+}
+
+template <typename FS>
+template <typename RHS>
+bool
+TrMatrix<FS>::resize(const TrMatrix<RHS> &rhs,
+                     const ElementType &value)
+{
+    return _engine.resize(rhs.engine(), value);
+}
+
+template <typename FS>
+bool
+TrMatrix<FS>::resize(IndexType dim, IndexType firstIndex,
+                     const ElementType &value)
+{
+    return _engine.resize(dim, dim, firstIndex, firstIndex, value);
+}
+
 // -- implementation -----------------------------------------------------------
 template <typename FS>
 const typename TrMatrix<FS>::Engine &
@@ -226,28 +268,28 @@ TrMatrix<FS>::engine()
 }
 
 template <typename FS>
-cxxblas::StorageUpLo
+StorageUpLo
 TrMatrix<FS>::upLo() const
 {
     return _upLo;
 }
 
 template <typename FS>
-cxxblas::StorageUpLo &
+StorageUpLo &
 TrMatrix<FS>::upLo()
 {
     return _upLo;
 }
 
 template <typename FS>
-cxxblas::Diag
+Diag
 TrMatrix<FS>::diag() const
 {
     return _diag;
 }
 
 template <typename FS>
-cxxblas::Diag &
+Diag &
 TrMatrix<FS>::diag()
 {
     return _diag;

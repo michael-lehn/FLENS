@@ -48,22 +48,17 @@
 
 namespace flens { namespace lapack {
 
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename MV, typename VTAU, typename MT>
-void
-larft(Direction direction, StoreVectors storeVectors, IndexType n,
-      MV &&V, const VTAU &tau, MT &&T)
-{
-    larft(direction, storeVectors, n, V, tau, T);
-}
+//== generic lapack implementation =============================================
 
-//-- larf ----------------------------------------------------------------------
 template <typename IndexType, typename MV, typename VTAU, typename MT>
 void
-larft(Direction direction, StoreVectors storeVectors, IndexType n,
-      GeMatrix<MV> &V, const DenseVector<VTAU> &tau, TrMatrix<MT> &T)
+larft_generic(Direction direction, StoreVectors storeVectors, IndexType n,
+              GeMatrix<MV> &V, const DenseVector<VTAU> &tau, TrMatrix<MT> &Tr)
 {
-    typedef typename GeMatrix<MV>::ElementType  ElementType;
+    using std::max;
+    using std::min;
+
+    typedef typename GeMatrix<MV>::ElementType  T;
     const Underscore<IndexType> _;
 
 //
@@ -73,34 +68,34 @@ larft(Direction direction, StoreVectors storeVectors, IndexType n,
         return;
     }
 
-    const IndexType k = T.dim();
+    const IndexType k = Tr.dim();
 
 //  Lehn: as long as we do not have col-views for TrMatrix we get them
 //        via a GeMatrixView
-    auto _T = T.general();
+    auto _Tr = Tr.general();
 
     if (direction==Forward) {
         IndexType lastV;
         IndexType prevLastV = n;
         for (IndexType i=1; i<=k; ++i) {
             prevLastV = max(i, prevLastV);
-            if (tau(i)==ElementType(0)) {
+            if (tau(i)==T(0)) {
 //
 //              H(i)  =  I
 //
                 for (IndexType j=1; j<=i; ++j) {
-                    T(j,i) = 0;
+                    Tr(j,i) = 0;
                 }
             } else {
 //
 //              general case
 //
-                ElementType Vii = V(i,i);
+                T Vii = V(i,i);
                 V(i,i) = 1;
                 if (storeVectors==ColumnWise) {
 //                  Skip any trailing zeros.
                     for (lastV=n; lastV>=i+1; --lastV) {
-                        if (V(lastV,i)!=ElementType(0)) {
+                        if (V(lastV,i)!=T(0)) {
                             break;
                         }
                     }
@@ -110,8 +105,8 @@ larft(Direction direction, StoreVectors storeVectors, IndexType n,
 //
                     blas::mv(Trans, -tau(i),
                              V(_(i,j),_(1,i-1)), V(_(i,j),i),
-                             ElementType(0),
-                             _T(_(1,i-1),i));
+                             T(0),
+                             _Tr(_(1,i-1),i));
                 } else { /* storeVectors==RowWise */
                     // Lehn: I will implement it as soon as someone needs it
                     ASSERT(0);
@@ -121,9 +116,9 @@ larft(Direction direction, StoreVectors storeVectors, IndexType n,
 //              T(1:i-1,i) := T(1:i-1,1:i-1) * T(1:i-1,i)
 //
                 blas::mv(NoTrans,
-                         _T(_(1,i-1),_(1,i-1)).upper(),
-                         _T(_(1,i-1),i));
-                T(i,i) = tau(i);
+                         _Tr(_(1,i-1),_(1,i-1)).upper(),
+                         _Tr(_(1,i-1),i));
+                Tr(i,i) = tau(i);
                 if (i>1) {
                     prevLastV = max(prevLastV, lastV);
                 } else {
@@ -135,6 +130,110 @@ larft(Direction direction, StoreVectors storeVectors, IndexType n,
         // Lehn: I will implement it as soon as someone needs this case
         ASSERT(0);
     }
+}
+
+//== interface for native lapack ===============================================
+
+#ifdef CHECK_CXXLAPACK
+
+template <typename IndexType, typename MV, typename VTAU, typename MT>
+void
+larft_native(Direction direction, StoreVectors storeVectors, IndexType n,
+             GeMatrix<MV> &V, const DenseVector<VTAU> &tau, TrMatrix<MT> &Tr)
+{
+    typedef typename TrMatrix<MT>::ElementType  T;
+
+    const char DIRECT = (direction==Forward) ? 'F' : 'B';
+    const char STOREV = (storeVectors==ColumnWise) ? 'C' : 'R';
+    const INTEGER N = n;
+    const INTEGER K = Tr.dim();
+    const INTEGER LDV = V.leadingDimension();
+    const INTEGER LDT = Tr.leadingDimension();
+
+    if (IsSame<T, DOUBLE>::value) {
+        LAPACK_IMPL(dlarft)(&DIRECT,
+                            &STOREV,
+                            &N,
+                            &K,
+                            V.data(),
+                            &LDV,
+                            tau.data(),
+                            Tr.data(),
+                            &LDT);
+    } else {
+        ASSERT(0);
+    }
+}
+
+#endif // CHECK_CXXLAPACK
+
+//== public interface ==========================================================
+
+template <typename IndexType, typename MV, typename VTAU, typename MT>
+void
+larft(Direction direction, StoreVectors storeVectors, IndexType n,
+      GeMatrix<MV> &V, const DenseVector<VTAU> &tau, TrMatrix<MT> &Tr)
+{
+    LAPACK_DEBUG_OUT("larft");
+
+//
+//  Test the input parameters
+//
+    ASSERT(V.firstRow()==1);
+    ASSERT(V.firstCol()==1);
+    ASSERT(tau.firstIndex()==1);
+    ASSERT(Tr.firstRow()==1);
+    ASSERT(Tr.firstCol()==1);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    typename GeMatrix<MV>::NoView   _V = V;
+    
+    typename TrMatrix<MT>::NoView   _Tr = Tr;
+    // copy the full storage!
+    // TODO: make this nicer
+    _Tr.general() = Tr.general();
+#   endif
+
+//
+//  Call implementation
+//
+    larft_generic(direction, storeVectors, n, V, tau, Tr);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    larft_native(direction, storeVectors, n, _V, tau, _Tr);
+
+    bool failed = false;
+    if (! isIdentical(V, _V, " V", "_V")) {
+        std::cerr << "CXXLAPACK:  V = " << V << std::endl;
+        std::cerr << "F77LAPACK: _V = " << _V << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(Tr.general(), _Tr.general(), " Tr", "_Tr")) {
+        std::cerr << "CXXLAPACK:  Tr = " << Tr << std::endl;
+        std::cerr << "F77LAPACK: _Tr = " << _Tr << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    }
+#   endif
+}
+
+//-- forwarding ----------------------------------------------------------------
+template <typename IndexType, typename MV, typename VTAU, typename MT>
+void
+larft(Direction direction, StoreVectors storeVectors, IndexType n,
+      MV &&V, const VTAU &tau, MT &&Tr)
+{
+    larft(direction, storeVectors, n, V, tau, Tr);
 }
 
 } } // namespace lapack, flens

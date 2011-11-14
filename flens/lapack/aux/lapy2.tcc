@@ -46,15 +46,18 @@
 
 namespace flens { namespace lapack {
 
-using std::abs;
-using std::max;
-using std::min;
+//== generic lapack implementation =============================================
 
-//-- lapy2 ---------------------------------------------------------------------
 template <typename T>
 T
-lapy2(const T &x, const T &y)
+lapy2_generic(const T &x, const T &y)
 {
+    using std::abs;
+    using std::max;
+    using std::min;
+    using std::pow;
+    using std::sqrt;
+
     const T xAbs = abs(x);
     const T yAbs = abs(y);
 
@@ -66,6 +69,76 @@ lapy2(const T &x, const T &y)
     }
 
     return w*sqrt(T(1) + pow(z/w,2));
+}
+
+//== interface for native lapack ===============================================
+
+#ifdef CHECK_CXXLAPACK
+
+template <typename T>
+T
+lapy2_native(const T &x, const T &y)
+{
+    if (IsSame<T, DOUBLE>::value) {
+        return LAPACK_IMPL(dlapy2)(&x,
+                                   &y);
+    } else {
+        ASSERT(0);
+    }
+}
+
+#endif // CHECK_CXXLAPACK
+
+//== public interface ==========================================================
+
+template <typename T>
+T
+lapy2(const T &x, const T &y)
+{
+    LAPACK_DEBUG_OUT("lapy2");
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    T _x    = x;
+    T _y    = y;
+#   endif
+
+//
+//  Call implementation
+//
+    const T result = lapy2_generic(x, y);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    const T _result = lapy2_native(_x, _y);
+
+    bool failed = false;
+    if (! isIdentical(x, _x, " x", "_x")) {
+        std::cerr << "CXXLAPACK:  x = " << x << std::endl;
+        std::cerr << "F77LAPACK: _x = " << _x << std::endl;
+        failed = true;
+    }
+    if (! isIdentical(y, _y, " y", "_y")) {
+        std::cerr << "CXXLAPACK:  y = " << y << std::endl;
+        std::cerr << "F77LAPACK: _y = " << _y << std::endl;
+        failed = true;
+    }
+    if (! isIdentical(result, _result, " result", "_result")) {
+        std::cerr << "CXXLAPACK:  result = " << result << std::endl;
+        std::cerr << "F77LAPACK: _result = " << _result << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    }
+#   endif
+
+    return result;
 }
 
 } } // namespace lapack, flens

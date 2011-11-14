@@ -48,19 +48,19 @@
 
 namespace flens { namespace lapack {
 
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename MA, typename VTAU,
-          typename MTR, typename MY>
-    void
-    lahr2(IndexType k, IndexType nb, MA &&A, VTAU &&tau, MTR &&Tr, MY &&Y);
-
-//-- lahr2 ---------------------------------------------------------------------
+//== lahr2 =====================================================================
 template <typename IndexType, typename MA, typename VTAU,
           typename MTR, typename MY>
     void
     lahr2(IndexType k, IndexType nb,
           GeMatrix<MA> &A, DenseVector<VTAU> &tau,
           TrMatrix<MTR> &Tr, GeMatrix<MY> &Y);
+
+//-- forwarding ----------------------------------------------------------------
+template <typename IndexType, typename MA, typename VTAU,
+          typename MTR, typename MY>
+    void
+    lahr2(IndexType k, IndexType nb, MA &&A, VTAU &&tau, MTR &&Tr, MY &&Y);
 
 } } // namespace lapack, flens
 

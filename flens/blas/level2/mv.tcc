@@ -33,12 +33,14 @@
 #ifndef FLENS_BLAS_LEVEL2_MV_TCC
 #define FLENS_BLAS_LEVEL2_MV_TCC 1
 
+#include <flens/typedefs.h>
+
 namespace flens { namespace blas {
 
 //-- forwarding: GeneralMatrix - Vector products -------------------------------
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
 void
-mv(cxxblas::Transpose trans,
+mv(Transpose trans,
    const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
 {
     mv(trans, alpha, A, x, beta, y);
@@ -47,7 +49,7 @@ mv(cxxblas::Transpose trans,
 //-- product type: GeneralMatrix - Vector products -----------------------------
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
 void
-mv(cxxblas::Transpose trans,
+mv(Transpose trans,
    const ALPHA &alpha, const GeneralMatrix<MA> &A, const Vector<VX> &x,
    const BETA &beta, Vector<VY> &y)
 {
@@ -57,18 +59,18 @@ mv(cxxblas::Transpose trans,
 //-- gemv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
 void
-mv(cxxblas::Transpose trans,
+mv(Transpose trans,
    const ALPHA &alpha, const GeMatrix<MA> &A, const DenseVector<VX> &x,
    const BETA &beta, DenseVector<VY> &y)
 {
     FLENS_CLOSURELOG_ADD_ENTRY_GEMV(trans, alpha, A, x, beta, y);
 
     ASSERT(ADDRESS(y)!=ADDRESS(x));
-    ASSERT(x.length()==((trans==cxxblas::NoTrans) ? A.numCols()
+    ASSERT(x.length()==((trans==NoTrans) ? A.numCols()
                                                   : A.numRows()));
 
     typedef typename GeMatrix<MA>::IndexType IndexType;
-    IndexType yLength = (trans==cxxblas::NoTrans) ? A.numRows()
+    IndexType yLength = (trans==NoTrans) ? A.numRows()
                                                   : A.numCols();
 
     ASSERT((beta==BETA(0)) || (y.length()==yLength));
@@ -181,7 +183,7 @@ mv(const ALPHA &alpha, const SyMatrix<MA> &A, const DenseVector<VX> &x,
 //-- forwarding: TriangularMatrix - Vector products ----------------------------
 template <typename MA, typename VX>
 void
-mv(cxxblas::Transpose trans,  const MA &A, VX &&x)
+mv(Transpose trans,  const MA &A, VX &&x)
 {
     mv(trans, A, x);
 }
@@ -189,7 +191,7 @@ mv(cxxblas::Transpose trans,  const MA &A, VX &&x)
 //-- product type: TriangularMatrix - Vector products --------------------------
 template <typename MA, typename VX>
 void
-mv(cxxblas::Transpose trans,  const TriangularMatrix<MA> &A, Vector<VX> &x)
+mv(Transpose trans,  const TriangularMatrix<MA> &A, Vector<VX> &x)
 {
     mv(trans, A.impl(), x.impl());
 }
@@ -197,7 +199,7 @@ mv(cxxblas::Transpose trans,  const TriangularMatrix<MA> &A, Vector<VX> &x)
 //-- trmv
 template <typename MA, typename VX>
 void
-mv(cxxblas::Transpose trans, const TrMatrix<MA> &A, DenseVector<VX> &x)
+mv(Transpose trans, const TrMatrix<MA> &A, DenseVector<VX> &x)
 {
     ASSERT(x.length()==A.dim());
 #   ifdef HAVE_CXXBLAS_TRMV

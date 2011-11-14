@@ -76,15 +76,15 @@
 
 namespace flens { namespace lapack {
 
+//== larfg =====================================================================
+template <typename IndexType, typename ALPHA, typename VX, typename TAU>
+    void
+    larfg(IndexType n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau);
+
 //-- forwarding ----------------------------------------------------------------
 template <typename IndexType, typename ALPHA, typename VX, typename TAU>
     void
     larfg(IndexType n, ALPHA &alpha, VX &&x, TAU &tau);
-
-//-- larfg ---------------------------------------------------------------------
-template <typename IndexType, typename ALPHA, typename VX, typename TAU>
-    void
-    larfg(IndexType n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau);
 
 } } // namespace lapack, flens
 

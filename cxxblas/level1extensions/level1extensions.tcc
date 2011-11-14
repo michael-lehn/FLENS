@@ -39,5 +39,6 @@
 #include <cxxblas/level1extensions/gescal.tcc>
 #include <cxxblas/level1extensions/hescal.tcc>
 #include <cxxblas/level1extensions/syscal.tcc>
+#include <cxxblas/level1extensions/trcopy.tcc>
 
 #endif // CXXBLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_TCC

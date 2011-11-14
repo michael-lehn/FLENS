@@ -48,16 +48,37 @@
 
 namespace flens { namespace lapack {
 
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename  MA, typename  VTAU, typename  VWORK>
-    void
-    orghr(IndexType iLo, IndexType iHi, MA &&A, const VTAU &tau, VWORK &&work);
+//== orghr =====================================================================
+template <typename IndexType, typename  MA, typename  VTAU>
+    IndexType
+    orghr_wsq(IndexType                 iLo,
+              IndexType                 iHi,
+              const GeMatrix<MA>        &A,
+              const DenseVector<VTAU>   &tau);
 
-//-- orghr ---------------------------------------------------------------------
-template <typename IndexType, typename  MA, typename  VTAU, typename  VWORK>
+template <typename IndexType, typename  MA, typename  VTAU, typename VW>
     void
-    orghr(IndexType iLo, IndexType iHi, GeMatrix<MA> &A,
-          const DenseVector<VTAU> &tau, DenseVector<VWORK> &work);
+    orghr(IndexType                     iLo,
+          IndexType                     iHi,
+          GeMatrix<MA>                  &A,
+          const DenseVector<VTAU>       &tau,
+          DenseVector<VW>               &work);
+
+//-- forwarding ----------------------------------------------------------------
+template <typename IndexType, typename  MA, typename  VTAU>
+    IndexType
+    orghr_wsq(IndexType                 iLo,
+              IndexType                 iHi,
+              const MA                  &&A,
+              const VTAU                &tau);
+
+template <typename IndexType, typename  MA, typename  VTAU, typename VW>
+    void
+    orghr(IndexType                     iLo,
+          IndexType                     iHi,
+          MA                            &&A,
+          const VTAU                    &tau,
+          VW                            &&work);
 
 } } // namespace lapack, flens
 

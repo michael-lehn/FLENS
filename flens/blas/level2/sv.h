@@ -35,6 +35,7 @@
 
 #include <cxxblas/cxxblas.h>
 #include <flens/matrixtypes/matrixtypes.h>
+#include <flens/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace blas {
@@ -42,12 +43,12 @@ namespace flens { namespace blas {
 //-- common interface ----------------------------------------------------------
 template <typename MA, typename VX>
     void
-    sv(cxxblas::Transpose trans, const TriangularMatrix<MA> &A, Vector<VX> &x);
+    sv(Transpose trans, const TriangularMatrix<MA> &A, Vector<VX> &x);
 
 //-- trsv
 template <typename MA, typename VX>
     void
-    sv(cxxblas::Transpose trans, const TrMatrix<MA> &A, DenseVector<VX> &x);
+    sv(Transpose trans, const TrMatrix<MA> &A, DenseVector<VX> &x);
 
 } } // namespace blas, flens
 

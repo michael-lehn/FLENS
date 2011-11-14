@@ -1,4 +1,4 @@
-include ../../make.inc
+include ../make.inc
 
 #######################################################################
 #  This is the makefile to create a library of the test matrix

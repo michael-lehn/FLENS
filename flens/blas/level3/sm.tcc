@@ -33,12 +33,14 @@
 #ifndef FLENS_BLAS_LEVEL3_SM_TCC
 #define FLENS_BLAS_LEVEL3_SM_TCC
 
+#include <flens/typedefs.h>
+
 namespace flens { namespace blas {
 
 //-- forwarding ----------------------------------------------------------------
 template <typename ALPHA, typename MA, typename MB>
 void
-sm(cxxblas::Side side, cxxblas::Transpose transA,
+sm(Side side, Transpose transA,
    const ALPHA &alpha, const MA &A, MB &&B)
 {
     sm(side, transA, alpha, A, B);
@@ -47,7 +49,7 @@ sm(cxxblas::Side side, cxxblas::Transpose transA,
 //-- common interface ----------------------------------------------------------
 template <typename ALPHA, typename MA, typename MB>
 void
-sm(cxxblas::Side side, cxxblas::Transpose transA,
+sm(Side side, Transpose transA,
    const ALPHA &alpha, const TriangularMatrix<MA> &A, Matrix<MB> &B)
 {
     sm(side, transA, alpha, A.impl(), B.impl());
@@ -56,11 +58,11 @@ sm(cxxblas::Side side, cxxblas::Transpose transA,
 //-- trsm
 template <typename ALPHA, typename MA, typename MB>
 void
-sm(cxxblas::Side side, cxxblas::Transpose transA,
+sm(Side side, Transpose transA,
    const ALPHA &alpha, const TrMatrix<MA> &A, GeMatrix<MB> &B)
 {
     ASSERT(MB::order==MA::order);
-    ASSERT(A.dim() == (side==cxxblas::Left) ? B.numRows() : B.numCols());
+    ASSERT(A.dim() == (side==Left) ? B.numRows() : B.numCols());
 
 #   ifdef HAVE_CXXBLAS_TRSM
     cxxblas::trsm(MA::order, side, A.upLo(),

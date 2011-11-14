@@ -38,6 +38,7 @@
 #endif // CXXBLAS_DEBUG_OUT
 
 #include <cxxblas/aux/complex.tcc>
+#include <cxxblas/drivers/drivers.tcc>
 
 #include <cxxblas/level1/level1.tcc>
 #include <cxxblas/level1extensions/level1extensions.tcc>

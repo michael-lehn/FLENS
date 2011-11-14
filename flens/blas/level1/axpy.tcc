@@ -36,8 +36,19 @@
 #include <cxxblas/cxxblas.h>
 #include <flens/aux/macros.h>
 #include <flens/blas/debugmacro.h>
+#include <flens/typedefs.h>
 
 namespace flens { namespace blas {
+
+//-- forwarding ----------------------------------------------------------------
+template <typename ALPHA, typename MA, typename MB>
+void
+axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
+{
+    CHECKPOINT_ENTER;
+    axpy(trans, alpha, A, B);
+    CHECKPOINT_LEAVE;
+}
 
 //-- common interface for vectors ----------------------------------------------
 template <typename ALPHA, typename VX, typename VY>
@@ -55,7 +66,7 @@ axpy(const ALPHA &alpha, const DenseVector<VX> &x, DenseVector<VY> &y)
     FLENS_CLOSURELOG_ADD_ENTRY_AXPY(alpha, x, y);
 
     if (y.length()==0) {
-        y.resize(x.engine(), 0);
+        y.resize(x, 0);
     }
     ASSERT(y.length()==x.length());
 
@@ -72,8 +83,7 @@ axpy(const ALPHA &alpha, const DenseVector<VX> &x, DenseVector<VY> &y)
 //-- common interface for matrices ---------------------------------------------
 template <typename ALPHA, typename MA, typename MB>
 void
-axpy(cxxblas::Transpose trans,
-     const ALPHA &alpha, const Matrix<MA> &A, Matrix<MB> &B)
+axpy(Transpose trans, const ALPHA &alpha, const Matrix<MA> &A, Matrix<MB> &B)
 {
     axpy(trans, alpha, A.impl(), B.impl());
 }
@@ -81,13 +91,13 @@ axpy(cxxblas::Transpose trans,
 //-- geaxpy
 template <typename ALPHA, typename MA, typename MB>
 void
-axpy(cxxblas::Transpose trans,
+axpy(Transpose trans,
      const ALPHA &alpha, const GeMatrix<MA> &A, GeMatrix<MB> &B)
 {
     FLENS_CLOSURELOG_ADD_ENTRY_AXPY(alpha, A, B);
 
     if (B.numRows()*B.numCols()==0) {
-        if ((trans==cxxblas::NoTrans) || (trans==cxxblas::Conj)) {
+        if ((trans==NoTrans) || (trans==Conj)) {
             B.resize(A.numRows(), A.numCols());
         } else {
             B.resize(A.numCols(), A.numRows());
@@ -97,7 +107,7 @@ axpy(cxxblas::Transpose trans,
     }
 
 #   ifndef NDEBUG
-    if ((trans==cxxblas::NoTrans) || (trans==cxxblas::Conj)) {
+    if ((trans==NoTrans) || (trans==Conj)) {
         ASSERT((A.numRows()==B.numRows()) && (A.numCols()==B.numCols()));
     } else {
         ASSERT((A.numRows()==B.numCols()) && (A.numCols()==B.numRows()));
@@ -105,14 +115,14 @@ axpy(cxxblas::Transpose trans,
 #   endif
 
     trans = (MA::order==MB::order)
-          ? cxxblas::Transpose(trans ^ cxxblas::NoTrans)
-          : cxxblas::Transpose(trans ^ cxxblas::Trans);
+          ? Transpose(trans ^ NoTrans)
+          : Transpose(trans ^ Trans);
 
 #   ifdef HAVE_CXXBLAS_GEAXPY
-    cxxblas::geaxpy(MB::order, trans,
-                    B.numRows(), B.numCols(), alpha,
-                    A.data(), A.leadingDimension(),
-                    B.data(), B.leadingDimension());
+    geaxpy(MB::order, trans,
+           B.numRows(), B.numCols(), alpha,
+           A.data(), A.leadingDimension(),
+           B.data(), B.leadingDimension());
 #   else
     ASSERT(0);
 #   endif

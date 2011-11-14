@@ -33,6 +33,10 @@
 #ifndef FLENS_AUX_AUX_TCC
 #define FLENS_AUX_AUX_TCC 1
 
+#include <flens/aux/max.tcc>
+#include <flens/aux/min.tcc>
+#include <flens/aux/pair.tcc>
+#include <flens/aux/quadruple.tcc>
 #include <flens/aux/range.tcc>
 #include <flens/aux/underscore.tcc>
 

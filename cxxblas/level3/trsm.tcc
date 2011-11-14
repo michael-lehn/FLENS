@@ -44,6 +44,8 @@ trsm_generic(StorageOrder order, Side sideA, StorageUpLo upLoA,
              const MA *A, IndexType ldA,
              MB *B, IndexType ldB)
 {
+    CXXBLAS_DEBUG_OUT("trsm_generic");
+
     if (order==ColMajor) {
         sideA = (sideA==Left) ? Right : Left;
         upLoA = (upLoA==Upper) ? Lower : Upper;
@@ -91,8 +93,9 @@ trsm(StorageOrder order, Side side, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_strsm");
 
-    cblas_strsm(CBLAS::value(order), CBLAS::value(side), CBLAS::value(upLo),
-                CBLAS::value(transA), CBLAS::value(diag),
+    cblas_strsm(CBLAS::getCblasType(order),
+                CBLAS::getCblasType(side), CBLAS::getCblasType(upLo),
+                CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 m, n,
                 alpha,
                 A, ldA,
@@ -111,8 +114,9 @@ trsm(StorageOrder order, Side side, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_dtrsm");
 
-    cblas_dtrsm(CBLAS::value(order), CBLAS::value(side), CBLAS::value(upLo),
-                CBLAS::value(transA), CBLAS::value(diag),
+    cblas_dtrsm(CBLAS::getCblasType(order),
+                CBLAS::getCblasType(side), CBLAS::getCblasType(upLo),
+                CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 m, n,
                 alpha,
                 A, ldA,
@@ -131,8 +135,9 @@ trsm(StorageOrder order, Side side, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ctrsm");
 
-    cblas_ctrsm(CBLAS::value(order), CBLAS::value(side), CBLAS::value(upLo),
-                CBLAS::value(transA), CBLAS::value(diag),
+    cblas_ctrsm(CBLAS::getCblasType(order),
+                CBLAS::getCblasType(side), CBLAS::getCblasType(upLo),
+                CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 m, n,
                 reinterpret_cast<const float *>(&alpha),
                 reinterpret_cast<const float *>(A), ldA,
@@ -151,8 +156,9 @@ trsm(StorageOrder order, Side side, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ztrsm");
 
-    cblas_ztrsm(CBLAS::value(order), CBLAS::value(side), CBLAS::value(upLo),
-                CBLAS::value(transA), CBLAS::value(diag),
+    cblas_ztrsm(CBLAS::getCblasType(order),
+                CBLAS::getCblasType(side), CBLAS::getCblasType(upLo),
+                CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 m, n,
                 reinterpret_cast<const double *>(&alpha),
                 reinterpret_cast<const double *>(A), ldA,

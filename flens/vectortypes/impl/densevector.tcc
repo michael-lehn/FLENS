@@ -66,8 +66,8 @@ DenseVector<A>::DenseVector(const Range<IndexType> &range)
 }
 
 template <typename A>
-DenseVector<A>::DenseVector(const A &array, bool reverse)
-    : _array(array), _reverse(reverse)
+DenseVector<A>::DenseVector(const Engine &engine, bool reverse)
+    : _array(engine), _reverse(reverse)
 {
 }
 
@@ -368,6 +368,13 @@ DenseVector<A>::stride() const
         return -_array.stride();
     }
     return _array.stride();
+}
+
+template <typename A>
+typename DenseVector<A>::IndexType
+DenseVector<A>::indexBase() const
+{
+    return _array.firstIndex();
 }
 
 template <typename A>

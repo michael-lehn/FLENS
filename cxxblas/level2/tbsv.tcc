@@ -36,9 +36,6 @@
 #include <complex>
 #include <cxxblas/level1/level1.h>
 
-using std::min;
-using std::max;
-
 namespace cxxblas {
 
 template <typename IndexType, typename MA, typename VX>
@@ -49,10 +46,14 @@ tbsv_generic(StorageOrder order, StorageUpLo upLo,
              const MA *A, IndexType ldA,
              VX *x, IndexType incX)
 {
+    using std::max;
+    using std::min;
+
     if (order==ColMajor) {
         transA = Transpose(transA^Trans);
         upLo = (upLo==Upper) ? Lower : Upper;
     }
+
     if (transA==NoTrans) {
         if (upLo==Upper) {
             if (diag==NonUnit) {

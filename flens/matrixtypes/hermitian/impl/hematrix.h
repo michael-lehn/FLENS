@@ -34,6 +34,7 @@
 #define FLENS_MATRIXTYPES_HERMITIAN_IMPL_HEMATRIX_H 1
 
 #include <cxxblas/typedefs.h>
+#include <flens/typedefs.h>
 #include <flens/matrixtypes/hermitian/hermitianmatrix.h>
 
 namespace flens {
@@ -95,7 +96,7 @@ class HeMatrix
         HeMatrix(IndexType dim,
                  IndexType firstRow, IndexType firstCol);
 
-        HeMatrix(const Engine &engine, cxxblas::StorageUpLo upLo);
+        HeMatrix(const Engine &engine, StorageUpLo upLo);
 
         HeMatrix(const HeMatrix &rhs);
 
@@ -159,15 +160,15 @@ class HeMatrix
         Engine &
         engine();
 
-        cxxblas::StorageUpLo
+        StorageUpLo
         upLo() const;
 
-        cxxblas::StorageUpLo &
+        StorageUpLo &
         upLo();
 
     private:
-        Engine               _engine;
-        cxxblas::StorageUpLo _upLo;
+        Engine      _engine;
+        StorageUpLo _upLo;
 };
 
 } // namespace flens

@@ -33,20 +33,9 @@
 #ifndef FLENS_LAPACK_AUX_LAMCH_H
 #define FLENS_LAPACK_AUX_LAMCH_H 1
 
-namespace flens { namespace lapack {
+#include <flens/lapack/typedefs.h>
 
-enum MachineParameter {
-    Eps,               // relative machine precision
-    SafeMin,           // safe minimum, such that reciprocal does not overflow
-    Base,              // base of the machine
-    Precision,         // Eps*Base
-    Mantissa,          // number of (base) digits in the mantissa
-    Rounding,          // return 1 when rounding occurs in addition, 0 otherwise
-    UnderflowExp,      // minimum exponent before (gradual) underflow
-    UnderflowThreshold,// underflow threshold - Base**(UnderflowExp-1)
-    OverflowExp,       // largest exponent before overflow
-    OverflowThreshold, // overflow threshold - Base**OverflowExp*(1-Eps)
-};
+namespace flens { namespace lapack {
 
 template <typename T>
     T

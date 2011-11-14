@@ -35,6 +35,7 @@
 
 #include <cxxblas/cxxblas.h>
 #include <flens/aux/macros.h>
+#include <flens/typedefs.h>
 #include <flens/vectortypes/impl/densevector.h>
 
 namespace flens { namespace blas {
@@ -50,7 +51,7 @@ iamax(const DenseVector<X> &x)
 #   else
     ASSERT(0);
 #   endif
-    return i;
+    return i + x.indexBase();
 }
 
 } } // namespace blas, flens

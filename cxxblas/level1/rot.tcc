@@ -35,15 +35,12 @@
 
 #include <cmath>
 
-using std::abs;
-
 namespace cxxblas {
 
 template <typename IndexType, typename X, typename Y, typename T>
 void
 rot_generic(IndexType n, X *x, IndexType incX, Y *y, IndexType incY, T c, T s)
 {
-    
     for (IndexType i=0, iX=0, iY=0; i<n; ++i, iX+=incX, iY+=incY) {
         X _x =  c*x[iX] + s*y[iY];
         Y _y = -s*x[iX] + c*y[iY];
@@ -69,6 +66,9 @@ template <typename A, typename B, typename T>
 void
 rotg(A &a, B &b, T &c, T &s)
 {
+    using std::abs;
+    using std::sqrt;
+
     A absA = abs(a);
     B absB = abs(b);
 

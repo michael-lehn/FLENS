@@ -42,12 +42,57 @@ namespace cxxblas {
 template <typename IndexType, typename ALPHA, typename VX, typename VY,
           typename MA>
     void
+    gerc(StorageOrder order,
+         IndexType m, IndexType n,
+         const ALPHA &alpha,
+         const VX *x, IndexType incX,
+         const VY *y, IndexType incY,
+         MA *A, IndexType ldA);
+
+template <typename IndexType, typename ALPHA, typename VX, typename VY,
+          typename MA>
+    void
     ger(StorageOrder order,
         IndexType m, IndexType n,
         const ALPHA &alpha,
         const VX *x, IndexType incX,
         const VY *y, IndexType incY,
         MA *A, IndexType ldA);
+
+template <typename IndexType, typename ALPHA, typename VX, typename VY,
+          typename MA>
+    void
+    geru(StorageOrder order,
+         IndexType m, IndexType n,
+         const ALPHA &alpha,
+         const VX *x, IndexType incX,
+         const VY *y, IndexType incY,
+         MA *A, IndexType ldA);
+
+#ifdef HAVE_CBLAS
+
+// sger
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+    ger(StorageOrder order,
+        IndexType m, IndexType n,
+        const float &alpha,
+        const float *x, IndexType incX,
+        const float *y, IndexType incY,
+        float *A, IndexType ldA);
+
+// dger
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+    ger(StorageOrder order,
+        IndexType m, IndexType n,
+        const double &alpha,
+        const double *x, IndexType incX,
+        const double *y, IndexType incY,
+        double *A, IndexType ldA);
+
+#endif // HAVE_CBLAS
+
 
 } // namespace cxxblas
 

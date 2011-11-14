@@ -35,13 +35,14 @@
 
 #include <cxxblas/cxxblas.h>
 #include <flens/matrixtypes/matrixtypes.h>
+#include <flens/typedefs.h>
 
 namespace flens { namespace blas {
 
 //-- herk
 template <typename ALPHA, typename MA, typename BETA, typename MC>
     void
-    rk(cxxblas::Transpose trans,
+    rk(Transpose trans,
        const ALPHA &alpha,
        const GeMatrix<MA> &A,
        const BETA &beta,
@@ -50,7 +51,7 @@ template <typename ALPHA, typename MA, typename BETA, typename MC>
 //-- syrk
 template <typename ALPHA, typename MA, typename BETA, typename MC>
     void
-    rk(cxxblas::Transpose trans,
+    rk(Transpose trans,
        const ALPHA &alpha,
        const GeMatrix<MA> &A,
        const BETA &beta,

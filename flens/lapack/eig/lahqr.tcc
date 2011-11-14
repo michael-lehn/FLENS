@@ -43,62 +43,38 @@
 #ifndef FLENS_LAPACK_EIG_LAHQR_TCC
 #define FLENS_LAPACK_EIG_LAHQR_TCC 1
 
+#include <cmath>
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
 
-using std::abs;
-using std::max;
-using std::min;
+//== generic lapack implementation =============================================
 
-//-- forwarding ----------------------------------------------------------------
 template <typename IndexType, typename MH, typename VWR, typename VWI,
           typename MZ>
 IndexType
-lahqr(bool wantT, bool wantZ,
-      IndexType iLo, IndexType iHi, MH &&H,
-      VWR &&wr, VWI &&wi,
-      IndexType iLoZ, IndexType iHiZ, MZ &&Z)
+lahqr_generic(bool                  wantT,
+              bool                  wantZ,
+              IndexType             iLo,
+              IndexType             iHi,
+              GeMatrix<MH>          &H,
+              DenseVector<VWR>      &wr,
+              DenseVector<VWI>      &wi,
+              IndexType             iLoZ,
+              IndexType             iHiZ,
+              GeMatrix<MZ>          &Z)
 {
-    lahqr(wantT, wantZ, iLo, iHi, H, wr, wi, iLoZ, iHiZ, Z);
-}
-
-//-- lahqr ---------------------------------------------------------------------
-template <typename IndexType, typename MH, typename VWR, typename VWI,
-          typename MZ>
-IndexType
-lahqr(bool wantT, bool wantZ,
-      IndexType iLo, IndexType iHi, GeMatrix<MH> &H,
-      DenseVector<VWR> &wr, DenseVector<VWI> &wi,
-      IndexType iLoZ, IndexType iHiZ, GeMatrix<MZ> &Z)
-{
-    ASSERT(H.firstRow()==1);
-    ASSERT(H.firstCol()==1);
-    ASSERT(H.numRows()==H.numCols());
-    ASSERT(wr.firstIndex()==1);
-    ASSERT(wr.length()==H.numRows());
-    ASSERT(wi.firstIndex()==1);
-    ASSERT(wi.length()==H.numRows());
-    ASSERT(wantZ || (Z.numRows()==H.numCols()));
-    ASSERT(wantZ || (Z.numCols()==H.numCols()));
-
-    // 1 <= ILO <= max(1,IHI); IHI <= N.
-    ASSERT(1<=iLo);
-    ASSERT(iLo<=max(IndexType(1), iHi));
-    ASSERT(iHi<=H.numRows());
-
-    // 1 <= ILOZ <= ILO; IHI <= IHIZ <= N.
-    ASSERT(1<=iLoZ);
-    ASSERT(iLoZ<=iLo);
-    ASSERT(iHi<=iHiZ);
-    ASSERT(iHiZ<=H.numRows());
+    using std::abs;
+    using std::max;
+    using std::min;
 
     typedef typename GeMatrix<MH>::ElementType  T;
 
     const Underscore<IndexType>     _;
     const T                         Zero(0), One(1), Two(2);
-    const T                         Dat1(0.75), Dat2(-0.4375);
+    const T                         Dat1 = T(3)/T(4),
+                                    Dat2 = T(-0.4375);
     const IndexType                 itMax = 30;
     const IndexType                 n = H.numRows();
 
@@ -129,15 +105,14 @@ lahqr(bool wantT, bool wantZ,
     }
 
     const IndexType nh = iHi - iLo + 1;
-    const IndexType nz = iHiZ - iLoZ +1;
 //
 //  Set machine-dependent constants for the stopping criterion.
 //
     T safeMin = lamch<T>(SafeMin);
     T safeMax = One / safeMin;
     labad(safeMin, safeMax);
-    const T eps = lamch<T>(Precision);
-    const T smallNum = safeMin*(T(nh)/eps);
+    const T ulp = lamch<T>(Precision);
+    const T smallNum = safeMin*(T(nh)/ulp);
 //
 //  i1 and i2 are the indices of the first row and last column of H
 //  to which transformations must be applied. If eigenvalues only are
@@ -172,13 +147,13 @@ lahqr(bool wantT, bool wantZ,
 //          Look for a single small subdiagonal element.
 //
             IndexType k;
-            for (k=i; k>l; --k) {
+            for (k=i; k>=l+1; --k) {
                 if (abs(H(k,k-1))<=smallNum) {
                     break;
                 }
                 T test = abs(H(k-1,k-1)) + abs(H(k,k));
                 if (test==Zero) {
-                    if (k-2<=iLo) {
+                    if (k-2>=iLo) {
                         test += abs(H(k-1,k-2));
                     }
                     if (k+1<=iHi) {
@@ -189,18 +164,19 @@ lahqr(bool wantT, bool wantZ,
 //              .    deflation  criterion due to Ahues & Tisseur (LAWN 122,
 //              .    1997). It has better mathematical foundation and
 //              .    improves accuracy in some cases.  ====
-                if (abs(H(k,k-1))<=eps*test) {
+                if (abs(H(k,k-1))<=ulp*test) {
                     const T ab = max(abs(H(k, k-1)), abs(H(k-1, k)));
                     const T ba = min(abs(H(k, k-1)), abs(H(k-1, k)));
                     const T aa = max(abs(H(k,   k)), abs(H(k-1, k-1)-H(k, k)));
                     const T bb = min(abs(H(k,   k)), abs(H(k-1, k-1)-H(k, k)));
-                    const T s = aa + bb;
-                    if (ba*(ab/s)<=max(smallNum, eps*(bb*(aa/s)))) {
+                    const T s = aa + ab;
+                    if (ba*(ab/s)<=max(smallNum, ulp*(bb*(aa/s)))) {
                         break;
                     }
                 }
             }
             l = k;
+
             if (l>iLo) {
 //
 //              H(l,l-1) is negligible
@@ -261,10 +237,10 @@ lahqr(bool wantT, bool wantZ,
                 rt2r = Zero;
                 rt2i = Zero;
             } else {
-                H11 = H11 / s;
-                H21 = H21 / s;
-                H12 = H12 / s;
-                H22 = H22 / s;
+                H11 /= s;
+                H21 /= s;
+                H12 /= s;
+                H22 /= s;
                 const T tr = (H11+H22) / Two;
                 const T det = (H11-tr)*(H22-tr) - H12*H21;
                 const T rtDisc = sqrt(abs(det));
@@ -314,17 +290,17 @@ lahqr(bool wantT, bool wantZ,
                 v(3) = H21S*H(m+2,m+1);
 
                 s = abs(v(1)) + abs(v(2)) + abs(v(3));
-                v(1) = v(1) / s;
-                v(2) = v(2) / s;
-                v(3) = v(3) / s;
+                v(1) /= s;
+                v(2) /= s;
+                v(3) /= s;
 
                 if (m==l) {
                     break;
                 }
 
                 const T value1 = abs(H(m,m-1))*(abs(v(2))+abs(v(3)));
-                const T value2 = eps*abs(v(1))
-                               *(abs(H(m-1,m-1))+abs(H(m,m))+abs(H(m+1,m+1)));
+                const T value2 = ulp*abs(v(1))
+                                 *(abs(H(m-1,m-1))+abs(H(m,m))+abs(H(m+1,m+1)));
                 if (value1<=value2) {
                     break;
                 }
@@ -332,7 +308,7 @@ lahqr(bool wantT, bool wantZ,
 //
 //          Double-shift QR step
 //
-            for (IndexType k=m; k<i; ++k) {
+            for (k=m; k<=i-1; ++k) {
 //
 //              The first iteration of this loop determines a reflection G
 //              from the vector v and applies it from left and right to H,
@@ -361,9 +337,8 @@ lahqr(bool wantT, bool wantZ,
 //                  .    H( K, K-1 ) = -H( K, K-1 ) to
 //                  .    avoid a bug when v(2) and v(3)
 //                  .    underflow. ====
-                    H(k, k-1) = H(k, k-1)*(One-t1);
+                    H(k, k-1) *= (One-t1);
                 }
-
                 v2 = v(2);
                 t2 = t1*v2;
                 if (nr==3) {
@@ -375,9 +350,9 @@ lahqr(bool wantT, bool wantZ,
 //
                     for (IndexType j=k; j<=i2; ++j) {
                         const T sum = H(k,j) + v2*H(k+1,j) + v3*H(k+2,j);
-                        H(k,   j) = H(k,   j) - sum*t1;
-                        H(k+1, j) = H(k+1, j) - sum*t2;
-                        H(k+2, j) = H(k+2, j) - sum*t3;
+                        H(k,   j) -= sum*t1;
+                        H(k+1, j) -= sum*t2;
+                        H(k+2, j) -= sum*t3;
                     }
 //
 //                  Apply G from the right to transform the columns of the
@@ -385,9 +360,9 @@ lahqr(bool wantT, bool wantZ,
 //
                     for (IndexType j=i1; j<=min(k+3,i); ++j) {
                         const T sum = H(j, k) + v2*H(j,k+1) + v3*H(j,k+2);
-                        H(j, k  ) = H(j, k   ) - sum*t1;
-                        H(j, k+1) = H(j, k+1 ) - sum*t2;
-                        H(j, k+2) = H(j, k+2 ) - sum*t3;
+                        H(j, k  ) -= sum*t1;
+                        H(j, k+1) -= sum*t2;
+                        H(j, k+2) -= sum*t3;
                     }
 
                     if (wantZ) {
@@ -396,9 +371,9 @@ lahqr(bool wantT, bool wantZ,
 //
                         for (IndexType j=iLoZ; j<=iHiZ; ++j) {
                             const T sum = Z(j, k) + v2*Z(j, k+1) + v3*Z(j, k+2);
-                            Z(j, k  ) = Z(j, k  ) - sum*t1;
-                            Z(j, k+1) = Z(j, k+1) - sum*t2;
-                            Z(j, k+2) = Z(j, k+2) - sum*t3;
+                            Z(j, k  ) -= sum*t1;
+                            Z(j, k+1) -= sum*t2;
+                            Z(j, k+2) -= sum*t3;
                         }
                     }
                 } else if (nr==2) {
@@ -408,8 +383,8 @@ lahqr(bool wantT, bool wantZ,
 //
                     for (IndexType j=k; j<=i2; ++j) {
                         const T sum = H(k, j) + v2*H(k+1, j);
-                        H(k,   j) = H(k,   j) - sum*t1;
-                        H(k+1, j) = H(k+1, j) - sum*t2;
+                        H(k,   j) -= sum*t1;
+                        H(k+1, j) -= sum*t2;
                     }
 //
 //                  Apply G from the right to transform the columns of the
@@ -417,8 +392,8 @@ lahqr(bool wantT, bool wantZ,
 //
                     for (IndexType j=i1; j<=i; ++j) {
                         const T sum = H(j, k) + v2*H(j, k+1);
-                        H(j, k  ) = H(j, k  ) - sum*t1;
-                        H(j, k+1) = H(j, k+1) - sum*t2;
+                        H(j, k  ) -= sum*t1;
+                        H(j, k+1) -= sum*t2;
                     }
 
                     if (wantZ) {
@@ -427,8 +402,8 @@ lahqr(bool wantT, bool wantZ,
 //
                         for (IndexType j=iLoZ; j<=iHiZ; ++j) {
                             const T sum = Z(j, k) + v2*Z(j, k+1);
-                            Z(j, k  ) = Z(j, k  ) - sum*t1;
-                            Z(j, k+1) = Z(j, k+1) - sum*t2;
+                            Z(j, k  ) -= sum*t1;
+                            Z(j, k+1) -= sum*t2;
                         }
                     }
                 }
@@ -474,8 +449,8 @@ lahqr(bool wantT, bool wantZ,
 //
 //              Apply the transformation to Z.
 //
-                const auto rows = _(iLoZ,iLoZ+nz-1);
-                blas::rot(Z(rows, i-1), Z(rows, i  ), cs, sn);
+                const auto rows = _(iLoZ, iHiZ);
+                blas::rot(Z(rows, i-1), Z(rows, i), cs, sn);
             }
         }
 //
@@ -483,8 +458,197 @@ lahqr(bool wantT, bool wantZ,
 //
         i = l - 1;
     }
-    
     return 0;
+}
+
+//== interface for native lapack ===============================================
+
+#ifdef CHECK_CXXLAPACK
+
+template <typename IndexType, typename MH, typename VWR, typename VWI,
+          typename MZ>
+IndexType
+lahqr_native(bool                   wantT,
+             bool                   wantZ,
+             IndexType              iLo,
+             IndexType              iHi,
+             GeMatrix<MH>           &H,
+             DenseVector<VWR>       &wr,
+             DenseVector<VWI>       &wi,
+             IndexType              iLoZ,
+             IndexType              iHiZ,
+             GeMatrix<MZ>           &Z)
+{
+    typedef typename GeMatrix<MH>::ElementType  T;
+
+    const LOGICAL    WANTT  = wantT;
+    const LOGICAL    WANTZ  = wantZ;
+    const INTEGER    N      = H.numRows();
+    const INTEGER    ILO    = iLo;
+    const INTEGER    IHI    = iHi;
+    const INTEGER    LDH    = H.leadingDimension();
+    const INTEGER    ILOZ   = iLoZ;
+    const INTEGER    IHIZ   = iHiZ;
+    const INTEGER    LDZ    = Z.leadingDimension();
+    INTEGER          INFO;
+
+    if (IsSame<T,DOUBLE>::value) {
+        LAPACK_IMPL(dlahqr)(&WANTT,
+                            &WANTZ,
+                            &N,
+                            &ILO,
+                            &IHI,
+                            H.data(),
+                            &LDH,
+                            wr.data(),
+                            wi.data(),
+                            &ILOZ,
+                            &IHIZ,
+                            Z.data(),
+                            &LDZ,
+                            &INFO);
+    } else {
+        ASSERT(0);
+    }
+    return INFO;
+}
+
+#endif // CHECK_CXXLAPACK
+
+//== public interface ==========================================================
+
+template <typename IndexType, typename MH, typename VWR, typename VWI,
+          typename MZ>
+IndexType
+lahqr(bool                  wantT,
+      bool                  wantZ,
+      IndexType             iLo,
+      IndexType             iHi,
+      GeMatrix<MH>          &H,
+      DenseVector<VWR>      &wr,
+      DenseVector<VWI>      &wi,
+      IndexType             iLoZ,
+      IndexType             iHiZ,
+      GeMatrix<MZ>          &Z)
+{
+    LAPACK_DEBUG_OUT("lahqr");
+
+//
+//  Test the input parameters
+//
+    using std::max;
+
+    ASSERT(H.firstRow()==1);
+    ASSERT(H.firstCol()==1);
+    ASSERT(H.numRows()==H.numCols());
+    ASSERT(wr.firstIndex()==1);
+    ASSERT(wr.length()==H.numRows());
+    ASSERT(wi.firstIndex()==1);
+    ASSERT(wi.length()==H.numRows());
+    ASSERT(wantZ || (Z.numRows()==H.numCols()));
+    ASSERT(wantZ || (Z.numCols()==H.numCols()));
+
+    // 1 <= ILO <= max(1,IHI); IHI <= N.
+    ASSERT(1<=iLo);
+    ASSERT(iLo<=max(IndexType(1), iHi));
+    ASSERT(iHi<=H.numRows());
+
+    // 1 <= ILOZ <= ILO; IHI <= IHIZ <= N.
+    ASSERT(1<=iLoZ);
+    ASSERT(iLoZ<=iLo);
+    ASSERT(iHi<=iHiZ);
+    ASSERT(iHiZ<=H.numRows());
+
+//
+//  Make copies of output arguments
+//
+#   ifdef CHECK_CXXLAPACK
+    typename GeMatrix<MH>::NoView          H_org    = H;
+    typename GeMatrix<MH>::NoView          Z_org    = Z;
+
+    typename GeMatrix<MH>::NoView          _H       = H;
+    typename DenseVector<VWR>::NoView      _wr      = wr;
+    typename DenseVector<VWI>::NoView      _wi      = wi;
+    typename GeMatrix<MZ>::NoView          _Z       = Z;
+#   endif
+
+//
+//  Call implementation
+//
+    IndexType info = lahqr_generic(wantT, wantZ, iLo,  iHi,
+                                   H, wr, wi, iLoZ, iHiZ, Z);
+
+//
+//  Compare results
+//
+#   ifdef CHECK_CXXLAPACK
+    IndexType _info = lahqr_native(wantT, wantZ, iLo,  iHi,
+                                   _H, _wr, _wi, iLoZ, iHiZ, _Z);
+
+    bool failed = false;
+    if (! isIdentical(H, _H, " H", "_H")) {
+        std::cerr << "CXXLAPACK:  H = " << H << std::endl;
+        std::cerr << "F77LAPACK: _H = " << _H << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(wr, _wr, " wr", "_wr")) {
+        std::cerr << "CXXLAPACK:  wr = " << wr << std::endl;
+        std::cerr << "F77LAPACK: _wr = " << _wr << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(wi, _wi, " wi", "_wi")) {
+        std::cerr << "CXXLAPACK:  wi = " << wi << std::endl;
+        std::cerr << "F77LAPACK: _wi = " << _wi << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(Z, _Z, " Z", "_Z")) {
+        std::cerr << "CXXLAPACK:  Z = " << Z << std::endl;
+        std::cerr << "F77LAPACK: _Z = " << _Z << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(info, _info, " info", "_info")) {
+        std::cerr << "CXXLAPACK:  info = " << info << std::endl;
+        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        std::cerr << "H_org = " << H_org << std::endl;
+        std::cerr << "Z_org = " << Z_org << std::endl;
+        std::cerr << "wantT = " << wantT
+                  << ", wantZ = " << wantZ
+                  << ", iLo = " << iLo
+                  << ", iHi = " << iHi
+                  << std::endl;
+        std::cerr << "error in: lahqr.tcc" << std::endl;
+        ASSERT(0);
+    } else {
+//        std::cerr << "passed: lahqr.tcc" << std::endl;
+    }
+#   endif
+    return info;
+}
+
+//-- forwarding ----------------------------------------------------------------
+template <typename IndexType, typename MH, typename VWR, typename VWI,
+          typename MZ>
+IndexType
+lahqr(bool          wantT,
+      bool          wantZ,
+      IndexType     iLo,
+      IndexType     iHi,
+      MH            &&H,
+      VWR           &&wr,
+      VWI           &&wi,
+      IndexType     iLoZ,
+      IndexType     iHiZ,
+      MZ            &&Z)
+{
+    return lahqr(wantT, wantZ, iLo, iHi, H, wr, wi, iLoZ, iHiZ, Z);
 }
 
 } } // namespace lapack, flens

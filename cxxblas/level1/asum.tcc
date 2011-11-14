@@ -35,7 +35,6 @@
 
 #include <cmath>
 
-using std::abs;
 
 namespace cxxblas {
 
@@ -43,6 +42,8 @@ template <typename IndexType, typename X, typename T>
 void
 asum_generic(IndexType n, const X *x, IndexType incX, T &absSum)
 {
+    using std::abs;
+
     absSum = 0;
     for (IndexType i=0; i<n; ++i, x+=incX) {
         absSum += abs(cxxblas::real(*x)) + abs(cxxblas::imag(*x));
@@ -53,6 +54,9 @@ template <typename IndexType, typename X, typename T>
 void
 asum(IndexType n, const X *x, IndexType incX, T &absSum)
 {
+    // TODO: add this to all generic BLAS calls
+    CXXBLAS_DEBUG_OUT("[ asum_generic");
+
     if (incX<0) {
         x -= incX*(n-1);
     }

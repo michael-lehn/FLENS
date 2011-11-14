@@ -38,14 +38,14 @@
 namespace flens {
 
 template <bool b, typename T>
-struct RestrictTo 
+struct RestrictTo
 {
 };
 
 template <typename T>
 struct RestrictTo<true, T> 
-{ 
-    typedef T Type; 
+{
+    typedef T Type;
 };
 
 } // namespace flens

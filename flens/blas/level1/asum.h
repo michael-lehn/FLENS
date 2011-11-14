@@ -41,6 +41,10 @@ template <typename X, typename T>
     void
     asum(const DenseVector<X> &x, T &absoluteSum);
 
+template <typename X>
+    const typename DenseVector<X>::ElementType
+    asum(const DenseVector<X> &x);
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1_ASUM_H

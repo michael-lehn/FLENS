@@ -50,14 +50,12 @@
 
 namespace flens { namespace lapack {
 
-//-- ilalc ---------------------------------------------------------------------
+//== generic lapack implementation =============================================
+
 template <typename MA>
 typename GeMatrix<MA>::IndexType
-ilalc(const GeMatrix<MA> &A)
+ilalc_generic(const GeMatrix<MA> &A)
 {
-    ASSERT(A.firstRow()==1);
-    ASSERT(A.firstCol()==1);
-
     typedef typename GeMatrix<MA>::IndexType    IndexType;
     typedef typename GeMatrix<MA>::ElementType  T;
 
@@ -84,6 +82,23 @@ ilalc(const GeMatrix<MA> &A)
         }
     }
     return 0;
+}
+
+//== interface for native lapack ===============================================
+
+
+//== public interface ==========================================================
+
+template <typename MA>
+typename GeMatrix<MA>::IndexType
+ilalc(const GeMatrix<MA> &A)
+{
+    LAPACK_DEBUG_OUT("ilalc");
+
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+
+    return ilalc_generic(A);
 }
 
 } } // namespace lapack, flens

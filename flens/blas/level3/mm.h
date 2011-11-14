@@ -35,6 +35,7 @@
 
 #include <cxxblas/cxxblas.h>
 #include <flens/matrixtypes/matrixtypes.h>
+#include <flens/typedefs.h>
 
 namespace flens { namespace blas {
 
@@ -43,7 +44,7 @@ namespace flens { namespace blas {
 //-- forwarding ----------------------------------------------------------------
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
     void
-    mm(cxxblas::Transpose transA, cxxblas::Transpose transB,
+    mm(Transpose transA, Transpose transB,
        const ALPHA &alpha,
        const MA &A, const MB &B,
        const BETA &beta,
@@ -52,7 +53,7 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 //-- common interface ----------------------------------------------------------
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
     void
-    mm(cxxblas::Transpose transA, cxxblas::Transpose transB,
+    mm(Transpose transA, Transpose transB,
        const ALPHA &alpha,
        const GeneralMatrix<MA> &A, const GeneralMatrix<MB> &B,
        const BETA &beta,
@@ -61,7 +62,7 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 //-- gemm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
     void
-    mm(cxxblas::Transpose transA, cxxblas::Transpose transB,
+    mm(Transpose transA, Transpose transB,
        const ALPHA &alpha,
        const GeMatrix<MA> &A, const GeMatrix<MB> &B,
        const BETA &beta,
@@ -73,13 +74,13 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 //-- forwarding ----------------------------------------------------------------
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
     void
-    mm(cxxblas::Side side, const ALPHA &alpha, const MA &A, const MB &B,
+    mm(Side side, const ALPHA &alpha, const MA &A, const MB &B,
        const BETA &beta, MC &&C);
 
 //-- common interface ----------------------------------------------------------
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
     void
-    mm(cxxblas::Side side,
+    mm(Side side,
        const ALPHA &alpha,
        const HermitianMatrix<MA> &A, const GeneralMatrix<MB> &B,
        const BETA &beta, GeneralMatrix<MC> &C);
@@ -87,7 +88,7 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 //-- hemm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
     void
-    mm(cxxblas::Side side,
+    mm(Side side,
        const ALPHA &alpha, const HeMatrix<MA> &A, const GeMatrix<MB> &B,
        const BETA &beta, GeMatrix<MC> &C);
 
@@ -100,7 +101,7 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 //-- common interface ----------------------------------------------------------
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
     void
-    mm(cxxblas::Side side,
+    mm(Side side,
        const ALPHA &alpha,
        const SymmetricMatrix<MA> &A, const GeneralMatrix<MB> &B,
        const BETA &beta, GeneralMatrix<MC> &C);
@@ -108,7 +109,7 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 //-- symm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
     void
-    mm(cxxblas::Side side,
+    mm(Side side,
        const ALPHA &alpha, const SyMatrix<MA> &A, const GeMatrix<MB> &B,
        const BETA &beta, GeMatrix<MC> &C);
 
@@ -118,22 +119,22 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 //-- forwarding ----------------------------------------------------------------
 template <typename ALPHA, typename MA, typename MB>
     void
-    mm(cxxblas::Side side, cxxblas::Transpose transA,
+    mm(Side side, Transpose transA,
        const ALPHA &alpha, const MA &A, MB &&B);
 
 //-- common interface ----------------------------------------------------------
 template <typename ALPHA, typename MA, typename MB>
     void
-    mm(cxxblas::Side side,
-       cxxblas::Transpose transA, const ALPHA &alpha,
+    mm(Side side,
+       Transpose transA, const ALPHA &alpha,
        const TriangularMatrix<MA> &A,
        GeneralMatrix<MB> &B);
 
 //-- trmm
 template <typename ALPHA, typename MA, typename MB>
     void
-    mm(cxxblas::Side side,
-       cxxblas::Transpose transA, const ALPHA &alpha, const TrMatrix<MA> &A,
+    mm(Side side,
+       Transpose transA, const ALPHA &alpha, const TrMatrix<MA> &A,
        GeMatrix<MB> &B);
 
 } } // namespace blas, flens

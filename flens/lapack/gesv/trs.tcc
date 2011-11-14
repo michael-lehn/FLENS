@@ -74,23 +74,15 @@
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>
 
-namespace flens { namespace lapack {
+namespace flens { namespace cxxlapack {
 
-//-- forwarding ----------------------------------------------------------------
+//-- trs (generic implementation) ----------------------------------------------
 template <typename MA, typename VP, typename MB>
 void
-trs(Transpose transA, const MA &A, const VP &piv, MB &&B)
+trs_generic(Transpose transA, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
+            GeMatrix<MB> &B)
 {
-    trs(transA, A, piv, B);
-}
-
-//-- getrs ---------------------------------------------------------------------
-template <typename MA, typename VP, typename MB>
-void
-trs(Transpose transA, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
-    GeMatrix<MB> &B)
-{
-    ASSERT(A.numRows()==A.numCols());
+    using lapack::laswp;
 
     typedef typename GeMatrix<MA>::IndexType    IndexType;
     typedef typename GeMatrix<MA>::ElementType  T;
@@ -136,6 +128,31 @@ trs(Transpose transA, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
 //
         laswp(B, piv.reverse());
     }
+}
+
+} } // namespace cxxlapack flens
+
+//==============================================================================
+
+namespace flens { namespace lapack {
+
+//-- forwarding ----------------------------------------------------------------
+template <typename MA, typename VP, typename MB>
+void
+trs(Transpose transA, const MA &A, const VP &piv, MB &&B)
+{
+    trs(transA, A, piv, B);
+}
+
+//-- trs (entry point) ---------------------------------------------------------
+template <typename MA, typename VP, typename MB>
+void
+trs(Transpose transA, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
+    GeMatrix<MB> &B)
+{
+    ASSERT(A.numRows()==A.numCols());
+
+    cxxlapack::trs_generic(transA, A, piv, B);
 }
 
 } } // namespace lapack, flens

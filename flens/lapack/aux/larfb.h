@@ -49,18 +49,29 @@
 
 namespace flens { namespace lapack {
 
+//== larfb =====================================================================
+template <typename MV, typename MT, typename MC, typename MWORK>
+    void
+    larfb(Side                  side,
+          Transpose             transH,
+          Direction             direction,
+          StoreVectors          storeVectors,
+          const GeMatrix<MV>    &V,
+          const TrMatrix<MT>    &T,
+          GeMatrix<MC>          &C,
+          GeMatrix<MWORK>       &work);
+
 //-- forwarding ----------------------------------------------------------------
 template <typename MV, typename MT, typename MC, typename MWORK>
     void
-    larfb(Side side, Transpose transH, Direction direction, StoreVectors storeV,
-          const MV &V, const MT &T, MC &&C, MWORK &&work);
-
-//-- larf ----------------------------------------------------------------------
-template <typename MV, typename MT, typename MC, typename MWORK>
-    void
-    larfb(Side side, Transpose transH, Direction direction, StoreVectors storeV,
-          const GeMatrix<MV> &V, const TrMatrix<MT> &T, GeMatrix<MC> &C,
-          GeMatrix<MWORK> &work);
+    larfb(Side              side,
+          Transpose         transH,
+          Direction         direction,
+          StoreVectors      storeV,
+          const MV          &V,
+          const MT          &T,
+          MC                &&C,
+          MWORK             &&work);
 
 } } // namespace lapack, flens
 

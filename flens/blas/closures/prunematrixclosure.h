@@ -37,6 +37,7 @@
 #include <flens/aux/promotion.h>
 #include <flens/blas/operators/operators.h>
 #include <flens/matrixtypes/impl/matrixclosure.h>
+#include <flens/typedefs.h>
 
 namespace flens {
 
@@ -51,8 +52,8 @@ struct PruneMatrixClosure
         static const ALPHA &
         updateScalingFactor(const ALPHA &alpha, const Matrix &);
 
-    static cxxblas::Transpose
-    updateTranspose(cxxblas::Transpose trans);
+    static Transpose
+    updateTranspose(Transpose trans);
 
     static const Remainder &
     remainder(const Matrix &matrix);

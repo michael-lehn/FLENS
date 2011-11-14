@@ -35,6 +35,7 @@
 
 #include <cxxblas/cxxblas.h>
 #include <flens/matrixtypes/matrixtypes.h>
+#include <flens/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace blas {
@@ -42,20 +43,20 @@ namespace flens { namespace blas {
 //-- forwarding: GeneralMatrix - Vector products -------------------------------
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
     void
-    mv(cxxblas::Transpose trans,
+    mv(Transpose trans,
        const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y);
 
 //-- product type: GeneralMatrix - Vector products -----------------------------
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
     void
-    mv(cxxblas::Transpose trans,
+    mv(Transpose trans,
        const ALPHA &alpha, const GeneralMatrix<MA> &A, const Vector<VX> &x,
        const BETA &beta, Vector<VY> &y);
 
 //-- gemv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
     void
-    mv(cxxblas::Transpose trans,
+    mv(Transpose trans,
        const ALPHA &alpha, const GeMatrix<MA> &A, const DenseVector<VX> &x,
        const BETA &beta, DenseVector<VY> &y);
 
@@ -97,17 +98,17 @@ template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
 //-- forwarding: TriangularMatrix - Vector products ----------------------------
 template <typename MA, typename VX>
     void
-    mv(cxxblas::Transpose trans,  const MA &A, VX &&x);
+    mv(Transpose trans,  const MA &A, VX &&x);
 
 //-- product type: TriangularMatrix - Vector products --------------------------
 template <typename MA, typename VX>
     void
-    mv(cxxblas::Transpose trans,  const TriangularMatrix<MA> &A, Vector<VX> &x);
+    mv(Transpose trans,  const TriangularMatrix<MA> &A, Vector<VX> &x);
 
 //-- trmv
 template <typename MA, typename VX>
     void
-    mv(cxxblas::Transpose trans, const TrMatrix<MA> &A, DenseVector<VX> &x);
+    mv(Transpose trans, const TrMatrix<MA> &A, DenseVector<VX> &x);
 
 
 } } // namespace blas, flens

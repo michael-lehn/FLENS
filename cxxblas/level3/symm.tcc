@@ -99,7 +99,8 @@ symm(StorageOrder order, Side side, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ssymm");
 
-    cblas_ssymm(CBLAS::value(order), CBLAS::value(side), CBLAS::value(upLo),
+    cblas_ssymm(CBLAS::getCblasType(order),
+                CBLAS::getCblasType(side), CBLAS::getCblasType(upLo),
                 m, n,
                 alpha,
                 A, ldA,
@@ -121,7 +122,8 @@ symm(StorageOrder order, Side side, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_dsymm");
 
-    cblas_dsymm(CBLAS::value(order), CBLAS::value(side), CBLAS::value(upLo),
+    cblas_dsymm(CBLAS::getCblasType(order),
+                CBLAS::getCblasType(side), CBLAS::getCblasType(upLo),
                 m, n,
                 alpha,
                 A, ldA,
@@ -143,7 +145,8 @@ symm(StorageOrder order, Side side, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_csymm");
 
-    cblas_csymm(CBLAS::value(order), CBLAS::value(side), CBLAS::value(upLo),
+    cblas_csymm(CBLAS::getCblasType(order),
+                CBLAS::getCblasType(side), CBLAS::getCblasType(upLo),
                 m, n,
                 reinterpret_cast<const float *>(&alpha),
                 reinterpret_cast<const float *>(A), ldA,
@@ -165,7 +168,8 @@ symm(StorageOrder order, Side side, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zsymm");
 
-    cblas_zsymm(CBLAS::value(order), CBLAS::value(side), CBLAS::value(upLo),
+    cblas_zsymm(CBLAS::getCblasType(order),
+                CBLAS::getCblasType(side), CBLAS::getCblasType(upLo),
                 m, n,
                 reinterpret_cast<const double *>(&alpha),
                 reinterpret_cast<const double *>(A), ldA,

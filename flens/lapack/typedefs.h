@@ -36,8 +36,26 @@
 #include <cassert>
 #include <complex>
 #include <cxxblas/cxxblas.h>
+#include <flens/storage/storage.h>
 
 namespace flens { namespace lapack {
+
+
+// vector views
+template <typename T>
+using DenseVectorConstView = DenseVector<ConstArrayView<T> >;
+
+template <typename T>
+using DenseVectorView = DenseVector<ArrayView<T> >;
+
+
+// matrix views
+template <typename T>
+using GeMatrixConstView = GeMatrix<ConstFullStorageView<T, ColMajor> >;
+
+template <typename T>
+using GeMatrixView = GeMatrix<FullStorageView<T, ColMajor> >;
+
 
 enum Norm {
     OneNorm,
@@ -69,36 +87,40 @@ enum StoreVectors {
     RowWise
 };
 
+enum MachineParameter {
+    Eps,               // relative machine precision
+    SafeMin,           // safe minimum, such that reciprocal does not overflow
+    Base,              // base of the machine
+    Precision,         // Eps*Base
+    Mantissa,          // number of (base) digits in the mantissa
+    Rounding,          // return 1 when rounding occurs in addition, 0 otherwise
+    UnderflowExp,      // minimum exponent before (gradual) underflow
+    UnderflowThreshold,// underflow threshold - Base**(UnderflowExp-1)
+    OverflowExp,       // largest exponent before overflow
+    OverflowThreshold, // overflow threshold - Base**OverflowExp*(1-Eps)
+};
 
-// import from std
+namespace BALANCE {
 
-using std::abs;
-using std::max;
-using std::min;
+    enum Balance {
+        None        = 'N',
+        PermuteOnly = 'P',
+        ScaleOnly   = 'S',
+        Both        = 'B'
+    };
 
-// import types from cxxblas
+}
 
-using cxxblas::StorageOrder;
-using cxxblas::ColMajor;
-using cxxblas::RowMajor;
+namespace SENSE {
 
-using cxxblas::StorageUpLo;
-using cxxblas::Upper;
-using cxxblas::Lower;
+    enum Sense {
+        None                  = 'N',
+        EigenvaluesOnly       = 'E',
+        InvariantSubspaceOnly = 'V',
+        Both                  = 'B'
+    };
 
-using cxxblas::Side;
-using cxxblas::Left;
-using cxxblas::Right;
-
-using cxxblas::Transpose;
-using cxxblas::NoTrans;
-using cxxblas::Trans;
-using cxxblas::Conj;
-using cxxblas::ConjTrans;
-
-using cxxblas::Diag;
-using cxxblas::Unit;
-using cxxblas::NonUnit;
+}
 
 } } // namespace lapack, flens
 

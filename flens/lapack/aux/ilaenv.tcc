@@ -48,27 +48,113 @@
 #ifndef FLENS_LAPACK_AUX_ILAENV_TCC
 #define FLENS_LAPACK_AUX_ILAENV_TCC 1
 
-#include <flens/lapack/typedefs.h>
-#include <flens/matrixtypes/matrixtypes.h>
-#include <flens/vectortypes/vectortypes.h>
+#include <complex>
+#include <string>
+
+#include <flens/aux/issame.h>
+#include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
 
-//-- ilaenv --------------------------------------------------------------------
+//== generic lapack implementation =============================================
+
+template <typename T>
+int
+ilaenv_generic(int spec, const char *_name, const char *_opts,
+               int n1, int n2, int n3, int n4)
+{
+    std::cerr << "spec = " << spec
+              << ", name = " << _name
+              << ", opts = " << _opts
+              << ", n1 = " << n1
+              << ", n2 = " << n2
+              << ", n3 = " << n3
+              << ", n4 = " << n4
+              << std::endl;
+    using std::string;
+    using std::complex;
+
+    string opts(_opts);
+    string name;
+    if (IsSame<T,float>::value) {
+        name = string("S") + string(_name);
+    } else if (IsSame<T,double>::value) {
+        name = string("D") + string(_name);
+    } else if (IsSame<T,complex<float> >::value) {
+        name = string("C") + string(_name);
+    } else if (IsSame<T,complex<double> >::value) {
+        name = string("Z") + string(_name);
+    } else {
+        ASSERT(0);
+    }
+
+#   ifdef LAPACK_DECL
+    int result = LAPACK_DECL(ilaenv)(&spec, name.c_str(), opts.c_str(),
+                                     &n1, &n2, &n3, &n4,
+                                     strlen(name.c_str()),
+                                     strlen(opts.c_str()));
+    std::cerr << "ilaenv: result = " << result << std::endl;
+#   else
+    int result = 1;
+#   endif
+
+    return result;
+}
+
+//== interface for native lapack ===============================================
+
+#if defined CHECK_CXXLAPACK || defined USE_NATIVE_ILAENV
+
+template <typename T>
+int
+ilaenv_native(int spec, const char *_name, const char *_opts,
+              int n1, int n2, int n3, int n4)
+{
+    using std::string;
+    using std::complex;
+
+    string opts(_opts);
+    string name;
+    if (IsSame<T,float>::value) {
+        name = string("S") + string(_name);
+    } else if (IsSame<T,double>::value) {
+        name = string("D") + string(_name);
+    } else if (IsSame<T,complex<float> >::value) {
+        name = string("C") + string(_name);
+    } else if (IsSame<T,complex<double> >::value) {
+        name = string("Z") + string(_name);
+    } else {
+        ASSERT(0);
+    }
+
+#if defined CHECK_CXXLAPACK || defined USE_NATIVE_ILAENV
+    int result = LAPACK_DECL(ilaenv)(&spec, name.c_str(), opts.c_str(),
+                                     &n1, &n2, &n3, &n4,
+                                     strlen(name.c_str()),
+                                     strlen(opts.c_str()));
+#else
+    ASSERT(0);
+#endif
+
+    //std::cerr << "ilaenv: result = " << result << std::endl;
+
+    return result;
+}
+
+#endif // CHECK_CXXLAPACK
+
+//== public interface ==========================================================
+
 template <typename T>
 int
 ilaenv(int spec, const char *name, const char *opts,
        int n1, int n2, int n3, int n4)
 {
-    if (spec==1) {
-        return 2;
-    } else if (spec==2) {
-        return 2;
-    } else if (spec==3) {
-        return 2;
-    }
-    ASSERT(0);
-    return -1;
+#if defined CHECK_CXXLAPACK || defined USE_NATIVE_ILAENV
+    return ilaenv_native<T>(spec, name, opts, n1, n2, n3, n4);
+#else
+    return ilaenv_generic<T>(spec, name, opts, n1, n2, n3, n4);
+#endif
 }
 
 } } // namespace lapack, flens

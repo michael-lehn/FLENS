@@ -69,19 +69,24 @@ namespace LASCL {
 
 } // namespace LANGE
 
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename T, typename MA>
-    void
-    lascl(LASCL::Type type, IndexType kl, IndexType ku,
-          const T &cFrom, const T &cTo, MA &&A);
-
 // TODO: provide an interface for different matrix types, i.e. GeMatrix,
-//       TrMatrix, SbMatrix, HessenbergMatrix
+//       TrMatrix, SbMatrix, HessenbergMatrix, vector types and scalars
 //-- lange ---------------------------------------------------------------------
 template <typename IndexType, typename T, typename MA>
-    void
+    typename RestrictTo<IsSame<typename MA::ElementType, T>::value, void>::Type
     lascl(LASCL::Type type, IndexType kl, IndexType ku,
           const T &cFrom, const T &cTo, MA &A);
+
+template <typename IndexType, typename T, typename MA>
+    typename RestrictTo<IsSame<MA, T>::value, void>::Type
+    lascl(LASCL::Type type, IndexType kl, IndexType ku,
+          const T &cFrom, const T &cTo, MA &A);
+
+//-- forwarding ----------------------------------------------------------------
+template <typename IndexType, typename T, typename MA>
+    typename RestrictTo<IsSame<typename MA::ElementType, T>::value, void>::Type
+    lascl(LASCL::Type type, IndexType kl, IndexType ku,
+          const T &cFrom, const T &cTo, MA &&A);
 
 } } // namespace lapack, flens
 

@@ -64,22 +64,53 @@ namespace HSEQR {
                         // the product Q*Z is returned.
     };
 
-} // namespace HSEQR
+}
+
+//== hseqr_wsq (worksize query) ================================================
+template <typename IndexType, typename MH>
+    IndexType
+    hseqr_wsq(HSEQR::Job            job,
+              HSEQR::ComputeZ       computeZ,
+              IndexType             iLo,
+              IndexType             iHi,
+              const GeMatrix<MH>    &H);
+
+//== hseqr =====================================================================
+template <typename IndexType, typename MH, typename VWR, typename VWI,
+          typename MZ, typename VWORK>
+    IndexType
+    hseqr(HSEQR::Job                job,
+          HSEQR::ComputeZ           compZ,
+          IndexType                 iLo,
+          IndexType                 iHi,
+          GeMatrix<MH>              &H,
+          DenseVector<VWR>          &wr,
+          DenseVector<VWI>          &wi,
+          GeMatrix<MZ>              &Z,
+          DenseVector<VWORK>        &work);
+
 
 //-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename MH, typename VWR, typename VWI,
-          typename MZ, typename VWORK>
+template <typename IndexType, typename MH>
     IndexType
-    hseqr(HSEQR::Job job, HSEQR::ComputeZ compZ, IndexType iLo, IndexType iHi,
-          MH &&H, VWR &&wr, VWI &&wi, MZ &&Z, VWORK &&work);
+    hseqr_wsq(HSEQR::Job        job,
+              HSEQR::ComputeZ   computeZ,
+              IndexType         iLo,
+              IndexType         iHi,
+              const MH          &&H);
 
-//-- hseqr ---------------------------------------------------------------------
 template <typename IndexType, typename MH, typename VWR, typename VWI,
           typename MZ, typename VWORK>
     IndexType
-    hseqr(HSEQR::Job job, HSEQR::ComputeZ compZ, IndexType iLo, IndexType iHi,
-          GeMatrix<MH> &H, DenseVector<VWR> &wr, DenseVector<VWI> &wi,
-          GeMatrix<MZ> &Z, DenseVector<VWORK> &work);
+    hseqr(HSEQR::Job            job,
+          HSEQR::ComputeZ       compZ,
+          IndexType             iLo,
+          IndexType             iHi,
+          MH                    &&H,
+          VWR                   &&wr,
+          VWI                   &&wi,
+          MZ                    &&Z,
+          VWORK                 &&work);
 
 } } // namespace lapack, flens
 

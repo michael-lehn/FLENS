@@ -68,7 +68,7 @@ axpy(IndexType n, const ALPHA &alpha, const X *x,
 // saxpy
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
-axpy(IndexType n, float alpha, const float *x, IndexType incX,
+axpy(IndexType n, const float &alpha, const float *x, IndexType incX,
      float *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_saxpy");
@@ -79,7 +79,7 @@ axpy(IndexType n, float alpha, const float *x, IndexType incX,
 // daxpy
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
-axpy(IndexType n, double alpha, const double *x, IndexType incX,
+axpy(IndexType n, const double &alpha, const double *x, IndexType incX,
      double *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_daxpy");

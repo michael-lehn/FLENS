@@ -48,28 +48,23 @@
 
 namespace flens { namespace lapack {
 
-namespace BAL {
-
-    enum Job {      //  Specifies the operations to be performed on A:
-        None,       //  simply set ILO = 1, IHI = N, SCALE(I) = 1.0
-                    //  for i = 1,...,N;
-        Permute,    //  permute only;
-        Scale,      //  scale only;
-        Bothe       //  both permute and scale.
-    };
-
-} // namespace BAL
+//-- bal -----------------------------------------------------------------------
+template <typename MA, typename IndexType, typename VSCALE>
+    void
+    bal(BALANCE::Balance    job,
+        GeMatrix<MA>        &A,
+        IndexType           &iLo,
+        IndexType           &iHi,
+        DenseVector<VSCALE> &scale);
 
 //-- forwarding ----------------------------------------------------------------
 template <typename MA, typename IndexType, typename VSCALE>
     void
-    bal(BAL::Job job, MA &&A, IndexType &iLo, IndexType &iHi, VSCALE &&scale);
-
-//-- bal -----------------------------------------------------------------------
-template <typename MA, typename IndexType, typename VSCALE>
-    void
-    bal(BAL::Job job, GeMatrix<MA> &A, IndexType &iLo, IndexType &iHi,
-        DenseVector<VSCALE> &scale);
+    bal(BALANCE::Balance    job,
+        MA                  &&A,
+        IndexType           &&iLo,
+        IndexType           &&iHi,
+        VSCALE              &&scale);
 
 } } // namespace lapack, flens
 

@@ -85,7 +85,7 @@ class DenseVector
 
         DenseVector(const Range<IndexType> &range);
 
-        DenseVector(const A &array, bool reverse=false);
+        DenseVector(const Engine &engine, bool reverse=false);
 
         DenseVector(const DenseVector &rhs);
 
@@ -204,6 +204,9 @@ class DenseVector
 
         IndexType
         stride() const;
+
+        IndexType
+        indexBase() const;
 
         template <typename RHS>
             bool

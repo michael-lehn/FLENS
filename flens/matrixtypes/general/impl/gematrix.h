@@ -40,6 +40,7 @@
 #include <flens/matrixtypes/general/impl/ge/elementclosure.h>
 #include <flens/matrixtypes/general/impl/ge/initializer.h>
 #include <flens/scalartypes/impl/indexvariable.h>
+#include <flens/typedefs.h>
 
 namespace flens {
 
@@ -128,9 +129,14 @@ class GeMatrix
         template <typename RHS>
             GeMatrix(const Matrix<RHS> &rhs);
 
-        template <typename RHS>
+        template <typename VECTOR>
             GeMatrix(IndexType numRows, IndexType numCols,
-                     DenseVector<RHS> &rhs);
+                     VECTOR &&rhs);
+
+        template <typename VECTOR>
+            GeMatrix(IndexType numRows, IndexType numCols,
+                     VECTOR &&rhs,
+                     IndexType leadingDimension);
 
         // -- operators --------------------------------------------------------
         Initializer
@@ -208,6 +214,9 @@ class GeMatrix
         IndexType
         leadingDimension() const;
 
+        StorageOrder
+        order() const;
+
         template <typename RHS>
             bool
             resize(const GeMatrix<RHS> &rhs,
@@ -226,6 +235,19 @@ class GeMatrix
         changeIndexBase(IndexType firstRowIndex, IndexType firstColIndex);
 
         // -- views ------------------------------------------------------------
+        // vectorize matrix
+        const ConstVectorView
+        vectorView() const;
+
+        VectorView
+        vectorView();
+
+        // vectorize matrix and select range
+        const ConstVectorView
+        vectorView(IndexType from, IndexType to) const;
+
+        VectorView
+        vectorView(IndexType from, IndexType to);
 
         // diag views
         const ConstVectorView

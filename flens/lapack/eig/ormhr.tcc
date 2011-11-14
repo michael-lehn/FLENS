@@ -49,49 +49,76 @@
 
 namespace flens { namespace lapack {
 
-using std::max;
+//== generic lapack implementation =============================================
 
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename  MA, typename  VTAU,
-          typename  MC, typename  VWORK>
-void
-ormhr(Side side, Transpose trans, IndexType iLo, IndexType iHi,
-      MA &&A, const VTAU &tau, MC &&C, VWORK &&work)
+template <typename IndexType, typename  MC>
+IndexType
+ormhr_generic_wsq(Side                      side,
+                  Transpose                 trans,
+                  IndexType                 iLo,
+                  IndexType                 iHi,
+                  const GeMatrix<MC>        &C)
 {
-    ormhr(side, trans, iLo, iHi, A, tau, C, work);
-}
+    using std::max;
 
-//-- ormhr ---------------------------------------------------------------------
-template <typename IndexType, typename  MA, typename  VTAU,
-          typename  MC, typename  VWORK>
-void
-ormhr_impl(Side side, Transpose trans, IndexType iLo, IndexType iHi,
-           GeMatrix<MA> &A, const DenseVector<VTAU> &tau, GeMatrix<MC> &C,
-           DenseVector<VWORK> &work)
-{
     typedef typename GeMatrix<MC>::ElementType  T;
 
     const IndexType m = C.numRows();
     const IndexType n = C.numCols();
+    const IndexType nh = iHi - iLo;
 
 //
-//  nq is the order of Q and nw is the minimum dimension of WORK
+//  nw is the minimum dimension of WORK
 //
-    const IndexType nq = (side==Left) ? m : n;
     const IndexType nw = (side==Left) ? n : m;
 
 //  TODO: implement a better way for setting up the opt string
     char opt[3];
-    opt[0] = (Side==Left) ? 'L' : 'R';
-    if (trans==NoTrans) {
-        opt[1] = 'N';
-    } else if (trans==Trans) {
-        opt[1] = 'T';
-    } else if (trans==ConjTrans) {
-        opt[1] = 'C';
-    } else if (trans==Conj) {
-        opt[1] = 'R';
+    opt[0] = getF77LapackChar(side);
+    opt[1] = getF77LapackChar(trans);
+    opt[2] = 0;
+
+    IndexType nb;
+    if (side==Left) {
+        nb = ilaenv<T>(1, "ORMQR", opt, nh, n, nh);
+    } else {
+        nb = ilaenv<T>(1, "ORMQR", opt, m, nh, nh);
     }
+    return max(IndexType(1), nw)*nb;
+}
+
+template <typename IndexType, typename  MA, typename  VTAU,
+          typename  MC, typename  VWORK>
+void
+ormhr_generic(Side                      side,
+              Transpose                 trans,
+              IndexType                 iLo,
+              IndexType                 iHi,
+              GeMatrix<MA>              &A,
+              const DenseVector<VTAU>   &tau,
+              GeMatrix<MC>              &C,
+              DenseVector<VWORK>        &work)
+{
+    using std::max;
+
+    typedef typename GeMatrix<MC>::ElementType  T;
+
+    const Underscore<IndexType> _;
+
+    const IndexType m = C.numRows();
+    const IndexType n = C.numCols();
+    const IndexType nh = iHi - iLo;
+
+//
+//  nw is the minimum dimension of WORK
+//
+    const IndexType nw = (side==Left) ? n : m;
+
+//  TODO: implement a better way for setting up the opt string
+    char opt[3];
+    opt[0] = getF77LapackChar(side);
+    opt[1] = getF77LapackChar(trans);
+    opt[2] = 0;
 
     IndexType nb;
     if (side==Left) {
@@ -100,7 +127,13 @@ ormhr_impl(Side side, Transpose trans, IndexType iLo, IndexType iHi,
         nb = ilaenv<T>(1, "ORMQR", opt, m, nh, nh);
     }
     IndexType lWorkOpt = max(IndexType(1), nw)*nb;
-    work(1) = lWorkOpt;
+
+//
+//  Apply worksize query
+//
+    if (work.length()==0) {
+        work.resize(lWorkOpt);
+    }
 
 //
 //  Quick return if possible
@@ -110,34 +143,208 @@ ormhr_impl(Side side, Transpose trans, IndexType iLo, IndexType iHi,
         return;
     }
 
+    const auto _tau = tau(_(iLo,iHi-1));
+    auto       _A  = A(_(iLo+1,iHi),_(iLo,iHi-1));
+
     if (side==Left) {
-        mi = nh;
-        ni = n;
-        i1 = iLo + 1;
-        i2 = 1;
+
+        auto _C  = C(_(iLo+1,iHi),_);
+
+        ormqr(Left, trans, _A, _tau, _C, work);
+
     } else {
-        mi = m
-        ni = nh
-        i1 = 1
-        i2 = ilo + 1
+
+        auto _C  = C(_,_(iLo+1,iHi));
+
+        ormqr(Right, trans, _A, _tau, _C, work);
     }
 
-    auto _A     = A(_(iLo+1,iLo+mi),_(iLo,iLo+nh-1));
-    auto _tau   = tau(_(iLo,iLo+nh-1));
-    auto _C     = C(_(i1,i1+mi-1),_(i2,i2+ni-1));
-
-    ormqr(side, trans, A(_(iLo+1,iLo+mi),_(iLo,iLo+ni-1)), tau(), C(), work)
-
     work(1) = lWorkOpt;
+}
+
+//== interface for native lapack ===============================================
+
+#ifdef CHECK_CXXLAPACK
+
+template <typename IndexType, typename  MC>
+IndexType
+ormhr_native_wsq(Side                      side,
+                 Transpose                 trans,
+                 IndexType                 iLo,
+                 IndexType                 iHi,
+                 const GeMatrix<MC>        &C)
+{
+    using std::max;
+
+    typedef typename GeMatrix<MC>::ElementType  T;
+
+    IndexType m = C.numRows();
+    IndexType n = C.numCols();
+
+    const char       SIDE   = getF77LapackChar(side);
+    const char       TRANS  = getF77LapackChar(trans);
+    const INTEGER    M      = m;
+    const INTEGER    N      = n;
+    const INTEGER    ILO    = iLo;
+    const INTEGER    IHI    = iHi;
+    const INTEGER    LDA    = (SIDE=='L') ? max(IndexType(1), m)
+                                          : max(IndexType(1), n);
+    const INTEGER    LDC    = C.leadingDimension();
+    T                WORK;
+    T                DUMMY;
+    const INTEGER    LWORK  = -1;
+    INTEGER          INFO;
+
+    if (IsSame<T,DOUBLE>::value) {
+        LAPACK_IMPL(dormhr)(&SIDE,
+                            &TRANS,
+                            &M,
+                            &N,
+                            &ILO,
+                            &IHI,
+                            &DUMMY,
+                            &LDA,
+                            &DUMMY,
+                            &DUMMY,
+                            &LDC,
+                            &WORK,
+                            &LWORK,
+                            &INFO);
+    } else {
+        ASSERT(0);
+    }
+    ASSERT(INFO==0);
+    return WORK;
 }
 
 template <typename IndexType, typename  MA, typename  VTAU,
           typename  MC, typename  VWORK>
 void
-ormhr(Side side, Transpose trans, IndexType iLo, IndexType iHi,
-      GeMatrix<MA> &A, const DenseVector<VTAU> &tau, GeMatrix<MC> &C,
-      DenseVector<VWORK> &work)
+ormhr_native(Side                      side,
+             Transpose                 trans,
+             IndexType                 iLo,
+             IndexType                 iHi,
+             GeMatrix<MA>              &A,
+             const DenseVector<VTAU>   &tau,
+             GeMatrix<MC>              &C,
+             DenseVector<VWORK>        &work)
 {
+    typedef typename GeMatrix<MC>::ElementType  T;
+
+    const char       SIDE   = getF77LapackChar(side);
+    const char       TRANS  = getF77LapackChar(trans);
+    const INTEGER    M      = C.numRows();
+    const INTEGER    N      = C.numCols();
+    const INTEGER    ILO    = iLo;
+    const INTEGER    IHI    = iHi;
+    const INTEGER    LDA    = A.leadingDimension();
+    const INTEGER    LDC    = C.leadingDimension();
+    const INTEGER    LWORK  = work.length();
+    INTEGER          INFO;
+
+    if (IsSame<T,DOUBLE>::value) {
+        LAPACK_IMPL(dormhr)(&SIDE,
+                            &TRANS,
+                            &M,
+                            &N,
+                            &ILO,
+                            &IHI,
+                            A.data(),
+                            &LDA,
+                            tau.data(),
+                            C.data(),
+                            &LDC,
+                            work.data(),
+                            &LWORK,
+                            &INFO);
+    } else {
+        ASSERT(0);
+    }
+    ASSERT(INFO==0);
+}
+
+#endif // CHECK_CXXLAPACK
+
+//== public interface ==========================================================
+
+template <typename IndexType, typename  MC>
+IndexType
+ormhr_wsq(Side                      side,
+          Transpose                 trans,
+          IndexType                 iLo,
+          IndexType                 iHi,
+          const GeMatrix<MC>        &C)
+{
+    LAPACK_DEBUG_OUT("ormhr_wsq");
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    const IndexType m = C.numRows();
+    const IndexType n = C.numCols();
+
+    if (side==Left) {
+        if (m==0) {
+            ASSERT(iLo==1);
+            ASSERT(iHi==0);
+        } else {
+            ASSERT(1<=iLo);
+            ASSERT(iLo<=iHi);
+            ASSERT(iHi<=m);
+        }
+    }
+    if (side==Right) {
+        if (n==0) {
+            ASSERT(iLo==1);
+            ASSERT(iHi==0);
+        } else {
+            ASSERT(1<=iLo);
+            ASSERT(iLo<=iHi);
+            ASSERT(iHi<=n);
+        }
+    }
+#   endif
+
+//
+//  Call implementation
+//
+    IndexType ws = ormhr_generic_wsq(side, trans, iLo, iHi, C);
+
+//
+//  Compare results
+//
+#   ifdef CHECK_CXXLAPACK
+    IndexType _ws = ormhr_native_wsq(side, trans, iLo, iHi, C);
+
+    if (ws!=_ws) {
+        std::cerr << "CXXLAPACK:  ws = " << ws << std::endl;
+        std::cerr << "F77LAPACK: _ws = " << _ws << std::endl;
+        ASSERT(0);
+    }
+#   endif
+    return ws;
+}
+
+template <typename IndexType, typename  MA, typename  VTAU,
+          typename  MC, typename  VWORK>
+void
+ormhr(Side                      side,
+      Transpose                 trans,
+      IndexType                 iLo,
+      IndexType                 iHi,
+      GeMatrix<MA>              &A,
+      const DenseVector<VTAU>   &tau,
+      GeMatrix<MC>              &C,
+      DenseVector<VWORK>        &work)
+{
+    LAPACK_DEBUG_OUT("ormhr");
+
+    using std::max;
+
+//
+//  Test the input parameters
+//
 #   ifndef NDEBUG
     const IndexType m = C.numRows();
     const IndexType n = C.numCols();
@@ -145,8 +352,6 @@ ormhr(Side side, Transpose trans, IndexType iLo, IndexType iHi,
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
     ASSERT(tau.firstIndex()==1);
-    ASSERT(m==1);
-    ASSERT(n==1);
     if (side==Left) {
         if (m==0) {
             ASSERT(iLo==1);
@@ -175,7 +380,97 @@ ormhr(Side side, Transpose trans, IndexType iLo, IndexType iHi,
         || (side==Right && work.length()>=max(IndexType(1),m)));
 #   endif
 
-    ormhrImpl(side, trans, iLo, iHi, A, tau, C, work);
+//
+//  Make copies of output arguments
+//
+#   ifdef CHECK_CXXLAPACK
+    typename GeMatrix<MA>::NoView       A_org      = A;
+    typename GeMatrix<MC>::NoView       C_org      = C;
+    typename DenseVector<VWORK>::NoView work_org   = work;
+#   endif
+
+//
+//  Call implementation
+//
+    ormhr_generic(side, trans, iLo, iHi, A, tau, C, work);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of results computed by the generic implementation
+//
+    typename GeMatrix<MA>::NoView       A_generic       = A;
+    typename GeMatrix<MC>::NoView       C_generic       = C;
+    typename DenseVector<VWORK>::NoView work_generic    = work;
+
+//
+//  restore output arguments
+//
+    A = A_org;
+    C = C_org;
+    work = work_org;
+
+//
+//  Compare generic results with results from the native implementation
+//
+    ormhr_native(side, trans, iLo, iHi, A, tau, C, work);
+
+    bool failed = false;
+    if (! isIdentical(A_generic, A, "A_generic", "A")) {
+        std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
+        std::cerr << "F77LAPACK: A = " << A << std::endl;
+        failed = true;
+    }
+    if (! isIdentical(C_generic, C, "C_generic", "C")) {
+        std::cerr << "CXXLAPACK: C_generic = " << C_generic << std::endl;
+        std::cerr << "F77LAPACK: C = " << C << std::endl;
+        failed = true;
+    }
+    if (! isIdentical(work_generic, work, "work_generic", "work")) {
+        std::cerr << "CXXLAPACK: work_generic = " << work_generic << std::endl;
+        std::cerr << "F77LAPACK: work = " << work << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        std::cerr << "error in: ormhr.tcc" << std::endl;
+        ASSERT(0);
+    } else {
+        // std::cerr << "passed: ormhr.tcc" << std::endl;
+    }
+#   endif
+}
+
+//-- forwarding ----------------------------------------------------------------
+template <typename IndexType, typename  MA, typename  VTAU, typename  MC>
+IndexType
+ormhr_wsq(Side              side,
+          Transpose         trans,
+          IndexType         iLo,
+          IndexType         iHi,
+          const MC          &&C)
+{
+    CHECKPOINT_ENTER;
+    const IndexType info = ormhr_wsq(side, trans, iLo, iHi, C);
+    CHECKPOINT_LEAVE;
+
+    return info;
+}
+
+template <typename IndexType, typename  MA, typename  VTAU,
+          typename  MC, typename  VWORK>
+void
+ormhr(Side              side,
+      Transpose         trans,
+      IndexType         iLo,
+      IndexType         iHi,
+      MA                &&A,
+      const VTAU        &tau,
+      MC                &&C,
+      VWORK             &&work)
+{
+    CHECKPOINT_ENTER;
+    ormhr(side, trans, iLo, iHi, A, tau, C, work);
+    CHECKPOINT_LEAVE;
 }
 
 } } // namespace lapack, flens

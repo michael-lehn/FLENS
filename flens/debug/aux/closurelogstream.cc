@@ -34,6 +34,7 @@
 #include <flens/debug/aux/closurelog.h>
 #include <flens/debug/aux/closurelogstream.h>
 #include <flens/debug/aux/variablepool.h>
+#include <flens/typedefs.h>
 
 namespace flens { namespace verbose {
 
@@ -44,17 +45,17 @@ ClosureLogStream::ClosureLogStream(VariablePool &variablePool,
 }
 
 ClosureLogStream &
-operator<<(ClosureLogStream &clStream, cxxblas::Transpose trans)
+operator<<(ClosureLogStream &clStream, Transpose trans)
 {
-    if (trans==cxxblas::NoTrans) {
+    if (trans==NoTrans) {
         clStream._out << "NoTrans";
         return clStream;
     }
-    if (trans==cxxblas::Conj) {
+    if (trans==Conj) {
         clStream._out << "Conj";
         return clStream;
     }
-    if (trans==cxxblas::Trans) {
+    if (trans==Trans) {
         clStream._out << "Trans";
         return clStream;
     }

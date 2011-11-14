@@ -91,8 +91,9 @@ trmm(StorageOrder order, Side side, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_strmm");
 
-    cblas_strmm(CBLAS::value(order), CBLAS::value(side), CBLAS::value(upLo),
-                CBLAS::value(transA), CBLAS::value(diag),
+    cblas_strmm(CBLAS::getCblasType(order),
+                CBLAS::getCblasType(side), CBLAS::getCblasType(upLo),
+                CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 m, n,
                 alpha,
                 A, ldA,
@@ -111,8 +112,9 @@ trmm(StorageOrder order, Side side, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_dtrmm");
 
-    cblas_dtrmm(CBLAS::value(order), CBLAS::value(side), CBLAS::value(upLo),
-                CBLAS::value(transA), CBLAS::value(diag),
+    cblas_dtrmm(CBLAS::getCblasType(order),
+                CBLAS::getCblasType(side), CBLAS::getCblasType(upLo),
+                CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 m, n,
                 alpha,
                 A, ldA,
@@ -131,12 +133,13 @@ trmm(StorageOrder order, Side side, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ctrmm");
 
-    cblas_ctrmm(CBLAS::value(order), CBLAS::value(side), CBLAS::value(upLo),
-                CBLAS::value(transA), CBLAS::value(diag),
+    cblas_ctrmm(CBLAS::getCblasType(order),
+                CBLAS::getCblasType(side), CBLAS::getCblasType(upLo),
+                CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 m, n,
                 reinterpret_cast<const float *>(&alpha),
                 reinterpret_cast<const float *>(A), ldA,
-                reinterpret_cast<const float *>(B), ldB);    
+                reinterpret_cast<const float *>(B), ldB);
 }
 
 // ztrmm
@@ -151,12 +154,13 @@ trmm(StorageOrder order, Side side, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ztrmm");
 
-    cblas_ztrmm(CBLAS::value(order), CBLAS::value(side), CBLAS::value(upLo),
-                CBLAS::value(transA), CBLAS::value(diag),
+    cblas_ztrmm(CBLAS::getCblasType(order),
+                CBLAS::getCblasType(side), CBLAS::getCblasType(upLo),
+                CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 m, n,
                 reinterpret_cast<const double *>(&alpha),
                 reinterpret_cast<const double *>(A), ldA,
-                reinterpret_cast<const double *>(B), ldB);    
+                reinterpret_cast<const double *>(B), ldB);
 }
 
 #endif // HAVE_CBLAS

@@ -45,16 +45,20 @@
 
 namespace flens { namespace lapack {
 
-using std::abs;
-using std::max;
-using std::min;
-using std::swap;
+//== generic lapack implementation =============================================
 
-//-- lanv2 ---------------------------------------------------------------------
 template <typename T>
 void
-lanv2(T &a, T &b, T &c, T &d, T &rt1r, T &rt1i, T &rt2r, T &rt2i, T &cs, T &sn)
+lanv2_generic(T &a, T &b, T &c, T &d,
+              T &rt1r, T &rt1i,
+              T &rt2r, T &rt2i,
+              T &cs, T &sn)
 {
+    using std::abs;
+    using std::max;
+    using std::min;
+    using std::swap;
+
     const T Zero(0), Half(0.5), One(1), Multpl(4);
 
     const T eps = lamch<T>(Precision);
@@ -171,6 +175,131 @@ lanv2(T &a, T &b, T &c, T &d, T &rt1r, T &rt1i, T &rt2r, T &rt2i, T &cs, T &sn)
         rt1i = sqrt(abs(b))*sqrt(abs(c));
         rt2i = -rt1i;
     }
+}
+
+//== interface for native lapack ===============================================
+
+#ifdef CHECK_CXXLAPACK
+
+template <typename T>
+void
+lanv2_native(T &a, T &b, T &c, T &d,
+             T &rt1r, T &rt1i,
+             T &rt2r, T &rt2i,
+             T &cs, T &sn)
+{
+    if (IsSame<T,DOUBLE>::value) {
+        LAPACK_IMPL(dlanv2)(&a, &b, &c, &d,
+                            &rt1r, &rt1i,
+                            &rt2r, &rt2i,
+                            &cs, &sn);
+    } else {
+        ASSERT(0);
+    }
+}
+
+#endif // CHECK_CXXLAPACK
+
+//== public interface ==========================================================
+
+template <typename T>
+void
+lanv2(T &a, T &b, T &c, T &d, T &rt1r, T &rt1i, T &rt2r, T &rt2i, T &cs, T &sn)
+{
+    LAPACK_DEBUG_OUT("lanv2");
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    T _a    = a;
+    T _b    = b;
+    T _c    = c;
+    T _d    = d;
+    T _rt1r = rt1r;
+    T _rt1i = rt1i;
+    T _rt2r = rt2r;
+    T _rt2i = rt2i;
+    T _cs   = cs;
+    T _sn   = sn;
+#   endif
+
+//
+//  Call implementation
+//
+    lanv2_generic(a, b, c, d, rt1r, rt1i, rt2r, rt2i, cs, sn);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    lanv2_native(_a, _b, _c, _d, _rt1r, _rt1i, _rt2r, _rt2i, _cs, _sn);
+
+    bool failed = false;
+    if (! isIdentical(a, _a, " a", "_a")) {
+        std::cerr << "CXXLAPACK:  a = " << a << std::endl;
+        std::cerr << "F77LAPACK: _a = " << _a << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(b, _b, " b", "_b")) {
+        std::cerr << "CXXLAPACK:  b = " << b << std::endl;
+        std::cerr << "F77LAPACK: _b = " << _b << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(c, _c, " c", "_c")) {
+        std::cerr << "CXXLAPACK:  c = " << c << std::endl;
+        std::cerr << "F77LAPACK: _c = " << _c << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(d, _d, " d", "_d")) {
+        std::cerr << "CXXLAPACK:  d = " << d << std::endl;
+        std::cerr << "F77LAPACK: _d = " << _d << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(rt1r, _rt1r, " rt1r", "_rt1r")) {
+        std::cerr << "CXXLAPACK:  rt1r = " << rt1r << std::endl;
+        std::cerr << "F77LAPACK: _rt1r = " << _rt1r << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(rt1i, _rt1i, " rt1i", "_rt1i")) {
+        std::cerr << "CXXLAPACK:  rt1i = " << rt1i << std::endl;
+        std::cerr << "F77LAPACK: _rt1i = " << _rt1i << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(rt2r, _rt2r, " rt2r", "_rt2r")) {
+        std::cerr << "CXXLAPACK:  rt2r = " << rt2r << std::endl;
+        std::cerr << "F77LAPACK: _rt2r = " << _rt2r << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(rt2i, _rt2i, " rt2i", "_rt2i")) {
+        std::cerr << "CXXLAPACK:  rt2i = " << rt2i << std::endl;
+        std::cerr << "F77LAPACK: _rt2i = " << _rt2i << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(cs, _cs, " cs", "_cs")) {
+        std::cerr << "CXXLAPACK:  cs = " << cs << std::endl;
+        std::cerr << "F77LAPACK: _cs = " << _cs << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(sn, _sn, " sn", "_sn")) {
+        std::cerr << "CXXLAPACK:  sn = " << sn << std::endl;
+        std::cerr << "F77LAPACK: _sn = " << _sn << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    }
+#   endif
 }
 
 } } // namespace lapack, flens

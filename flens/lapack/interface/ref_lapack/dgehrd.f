@@ -209,6 +209,7 @@
       END IF
       LDWORK = N
 *
+
       IF( NB.LT.NBMIN .OR. NB.GE.NH ) THEN
 *
 *        Use unblocked code below

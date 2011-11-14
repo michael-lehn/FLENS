@@ -35,17 +35,18 @@
 
 #include <cxxblas/typedefs.h>
 #include <flens/storage/indexoptions.h>
+#include <flens/typedefs.h>
 
 namespace flens {
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
     class FullStorageView;
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
     class ConstFullStorageView;
 
 template <typename T,
-          cxxblas::StorageOrder Order = cxxblas::RowMajor,
+          StorageOrder Order = ColMajor,
           typename I = IndexOptions<>,
           typename A = std::allocator<T> >
 class FullStorage
@@ -55,7 +56,7 @@ class FullStorage
         typedef typename I::IndexType                 IndexType;
         typedef A                                     Allocator;
 
-        static const cxxblas::StorageOrder            order = Order;
+        static const StorageOrder                     order = Order;
         static const IndexType                        defaultIndexBase
                                                           = I::defaultIndexBase;
 
@@ -138,7 +139,7 @@ class FullStorage
         resize(const Range<IndexType> &rows,
                const Range<IndexType> &cols,
                const ElementType &value = ElementType());
-        
+
         template <typename FS>
             bool
             resize(const FS &rhs, const ElementType &value = ElementType());
@@ -147,11 +148,17 @@ class FullStorage
         fill(const ElementType &value = ElementType(0));
 
         bool
-        fill(cxxblas::StorageUpLo  upLo,
-             const ElementType &value = ElementType(0));
+        fill(StorageUpLo upLo, const ElementType &value = ElementType(0));
 
         void
         changeIndexBase(IndexType firstRow, IndexType firstCol);
+
+        // view of fullstorage scheme as an array
+        const ConstArrayView
+        arrayView(IndexType firstViewIndex = I::defaultIndexBase) const;
+
+        ArrayView
+        arrayView(IndexType firstViewIndex = I::defaultIndexBase);
 
         // view of rectangular part
         const ConstView

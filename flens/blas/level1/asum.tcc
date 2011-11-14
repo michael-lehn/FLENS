@@ -35,6 +35,8 @@
 
 #include <cxxblas/cxxblas.h>
 #include <flens/aux/macros.h>
+#include <flens/typedefs.h>
+
 
 namespace flens { namespace blas {
 
@@ -43,13 +45,22 @@ void
 asum(const DenseVector<X> &x, T &absoluteSum)
 {
 #   ifdef HAVE_CXXBLAS_ASUM
-    cxxblas::asum(x.length(),
-                  x.data(), x.stride(),
-                  absoluteSum);
+    cxxblas::asum(x.length(), x.data(), x.stride(), absoluteSum);
 #   else
     ASSERT(0);
 #   endif
 }
+
+template <typename X>
+const typename DenseVector<X>::ElementType
+asum(const DenseVector<X> &x)
+{
+    typename DenseVector<X>::ElementType  absoluteSum;
+
+    asum(x, absoluteSum);
+    return absoluteSum;
+}
+
 
 } } // namespace blas, flens
 

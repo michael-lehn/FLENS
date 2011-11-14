@@ -34,17 +34,21 @@
 #define FLENS_STORAGE_FULLSTORAGE_FULLSTORAGEVIEW_H 1
 
 #include <cxxblas/typedefs.h>
+#include <flens/typedefs.h>
 #include <flens/storage/indexoptions.h>
 
 namespace flens {
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
     class FullStorage;
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
     class ConstFullStorageView;
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T,
+          StorageOrder Order,
+          typename I = IndexOptions<>,
+          typename A = std::allocator<T> >
 class FullStorageView
 {
     public:
@@ -52,7 +56,7 @@ class FullStorageView
         typedef typename I::IndexType                 IndexType;
         typedef A                                     Allocator;
 
-        static const cxxblas::StorageOrder            order = Order;
+        static const StorageOrder                     order = Order;
         static const IndexType                        defaultIndexBase
                                                           = I::defaultIndexBase;
 
@@ -74,6 +78,7 @@ class FullStorageView
         template <typename ARRAY>
             FullStorageView(IndexType numRows, IndexType numCols,
                             ARRAY &array,
+                            IndexType leadingDimension,
                             IndexType firstRow = I::defaultIndexBase,
                             IndexType firstCol = I::defaultIndexBase,
                             const Allocator &allocator = Allocator());
@@ -86,13 +91,6 @@ class FullStorageView
         ~FullStorageView();
 
         //-- operators ---------------------------------------------------------
-
-        FullStorageView &
-        operator=(const FullStorageView &rhs);
-
-        template <typename RHS>
-            FullStorageView &
-            operator=(const RHS &rhs);
 
         const ElementType &
         operator()(IndexType row, IndexType col) const;
@@ -152,11 +150,18 @@ class FullStorageView
         fill(const ElementType &value = ElementType(0));
 
         bool
-        fill(cxxblas::StorageUpLo  upLo,
+        fill(StorageUpLo  upLo,
              const ElementType &value = ElementType(0));
 
         void
         changeIndexBase(IndexType firstRow, IndexType firstCol);
+
+        // view of fullstorage scheme as an array
+        const ConstArrayView
+        arrayView(IndexType firstViewIndex = I::defaultIndexBase) const;
+
+        ArrayView
+        arrayView(IndexType firstViewIndex = I::defaultIndexBase);
 
         // view of rectangular part
         const ConstView

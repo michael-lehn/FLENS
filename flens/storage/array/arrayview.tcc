@@ -84,8 +84,13 @@ template <typename T, typename I, typename A>
 const typename ArrayView<T, I, A>::ElementType &
 ArrayView<T, I, A>::operator()(IndexType index) const
 {
-    ASSERT(index>=firstIndex());
-    ASSERT(index<=lastIndex());
+#   ifndef NDEBUG
+    if (lastIndex()>=firstIndex()) {
+        ASSERT(index>=firstIndex());
+        ASSERT(index<=lastIndex());
+    }
+#   endif
+
     return _data[_firstIndex + _stride*(index-_firstIndex)];
 }
 
@@ -93,8 +98,13 @@ template <typename T, typename I, typename A>
 typename ArrayView<T, I, A>::ElementType &
 ArrayView<T, I, A>::operator()(IndexType index)
 {
-    ASSERT(index>=firstIndex());
-    ASSERT(index<=lastIndex());
+#   ifndef NDEBUG
+    if (lastIndex()>=firstIndex()) {
+        ASSERT(index>=firstIndex());
+        ASSERT(index<=lastIndex());
+    }
+#   endif
+
     return _data[_firstIndex + _stride*(index-_firstIndex)];
 }
 
@@ -149,11 +159,10 @@ ArrayView<T, I, A>::allocator() const
 
 template <typename T, typename I, typename A>
 bool
-ArrayView<T, I, A>::resize(IndexType length,
-                           IndexType /*firstIndex*/,
+ArrayView<T, I, A>::resize(IndexType DEBUG_VAR(length),
+                           IndexType,
                            const ElementType &)
 {
-//    ASSERT((length==_length) && (firstIndex==_firstIndex));
     ASSERT(length==_length);
     return false;
 }
@@ -178,7 +187,7 @@ ArrayView<T, I, A>::fill(const ElementType &value)
 
 template <typename T, typename I, typename A>
 void
-ArrayView<T, I, A>::changeIndexBase(IndexType firstIndex)
+ArrayView<T, I, A>::changeIndexBase(IndexType DEBUG_VAR(firstIndex))
 {
     // TODO: Error message "changing index bases of views is not allowed"
     // Lehn: Why is changing the index base not allowed here??
@@ -225,13 +234,13 @@ ArrayView<T, I, A>::view(IndexType from, IndexType to,
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
         from = firstIndex();
-        to = firstIndex();
+    } else {
+        ASSERT(firstIndex()<=from);
+        ASSERT(lastIndex()>=to);
+        ASSERT(from<=to);
     }
 #   endif
 
-    ASSERT(firstIndex()<=from);
-    ASSERT(lastIndex()>=to);
-    ASSERT(from<=to);
     ASSERT(stride>0);
     return ArrayView(length,                // length
                      &operator()(from),     // data

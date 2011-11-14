@@ -51,15 +51,13 @@
 
 namespace flens { namespace lapack {
 
-using std::max;
+//== generic lapack implementation =============================================
 
-//-- ilalr ---------------------------------------------------------------------
 template <typename MA>
 typename GeMatrix<MA>::IndexType
-ilalr(const GeMatrix<MA> &A)
+ilalr_generic(const GeMatrix<MA> &A)
 {
-    ASSERT(A.firstRow()==1);
-    ASSERT(A.firstCol()==1);
+    using std::max;
 
     typedef typename GeMatrix<MA>::IndexType    IndexType;
     typedef typename GeMatrix<MA>::ElementType  T;
@@ -89,6 +87,25 @@ ilalr(const GeMatrix<MA> &A)
         }
     }
     return lastRow;
+}
+
+//== interface for native lapack ===============================================
+
+
+//== public interface ==========================================================
+
+template <typename MA>
+typename GeMatrix<MA>::IndexType
+ilalr(const GeMatrix<MA> &A)
+{
+    LAPACK_DEBUG_OUT("ilalr");
+
+    using std::max;
+
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+
+    return ilalr_generic(A);
 }
 
 } } // namespace lapack, flens

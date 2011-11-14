@@ -48,26 +48,23 @@
 
 namespace flens { namespace lapack {
 
-namespace LANGE {
+//== lange =====================================================================
+template <typename MA, typename VWORK>
+    typename GeMatrix<MA>::ElementType
+    lange(Norm norm, const GeMatrix<MA> &A);
 
-    enum Norm {
-        OneNorm,
-        InfinityNorm,
-        FrobeniusNorm,
-        MaximumNorm
-    };
-
-} // namespace LANGE
+template <typename MA, typename VWORK>
+    typename GeMatrix<MA>::ElementType
+    lange(Norm norm, const GeMatrix<MA> &A, DenseVector<VWORK> &work);
 
 //-- forwarding ----------------------------------------------------------------
 template <typename MA, typename VWORK>
     typename MA::ElementType
-    lange(LANGE::Norm norm, const MA &A, VWORK &&work);
+    lange(Norm norm, const MA &A);
 
-//-- lange ---------------------------------------------------------------------
 template <typename MA, typename VWORK>
-    typename GeMatrix<MA>::ElementType
-    lange(LANGE::Norm norm, const GeMatrix<MA> &A, DenseVector<VWORK> &work);
+    typename MA::ElementType
+    lange(Norm norm, const MA &A, VWORK &&work);
 
 } } // namespace lapack, flens
 

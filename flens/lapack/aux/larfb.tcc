@@ -50,35 +50,32 @@
 
 namespace flens { namespace lapack {
 
-//-- forwarding ----------------------------------------------------------------
+//== generic lapack implementation =============================================
+
 template <typename MV, typename MT, typename MC, typename MWORK>
 void
-larfb(Side side, Transpose transH, Direction direction, StoreVectors storeV,
-      const MV &V, const MT &T, MC &&C, MWORK &&Work)
+larfb_generic(Side                  side,
+              Transpose             transH,
+              Direction             direction,
+              StoreVectors          storeVectors,
+              const GeMatrix<MV>    &V,
+              const TrMatrix<MT>    &Tr,
+              GeMatrix<MC>          &C,
+              GeMatrix<MWORK>       &Work)
 {
-    larfb(side, transH, direction, storeV, V, T, C, Work);
-}
+    using lapack::ilalc;
+    using lapack::ilalr;
+    using std::max;
 
-//-- larf ----------------------------------------------------------------------
-template <typename MV, typename MT, typename MC, typename MWORK>
-void
-larfb(Side side, Transpose transH, Direction direction, StoreVectors storeV,
-      const GeMatrix<MV> &V, const TrMatrix<MT> &T, GeMatrix<MC> &C,
-      GeMatrix<MWORK> &Work)
-{
-    ASSERT(transH!=Conj);
-    ASSERT(Work.numRows()>= (side==Left) ? C.numCols() : C.numRows());
-    ASSERT(Work.numCols()>=T.dim());
-
-    typedef typename GeMatrix<MC>::ElementType  ElementType;
+    typedef typename GeMatrix<MC>::ElementType  T;
     typedef typename GeMatrix<MC>::IndexType    IndexType;
 
     const Underscore<IndexType> _;
-    const ElementType   One(1);
+    const T                     One(1);
 
     const IndexType m = C.numRows();
     const IndexType n = C.numCols();
-    const IndexType k = T.dim();
+    const IndexType k = Tr.dim();
 
 //
 //  Quick return if possible
@@ -89,7 +86,7 @@ larfb(Side side, Transpose transH, Direction direction, StoreVectors storeV,
 
     const Transpose transT = (transH==NoTrans) ? ConjTrans : NoTrans;
 
-    if (storeV==ColumnWise) {
+    if (storeVectors==ColumnWise) {
         if (direction==Forward) {
 //
 //          Let  V =  ( V1 )    (first K rows)
@@ -114,15 +111,9 @@ larfb(Side side, Transpose transH, Direction direction, StoreVectors storeV,
 //
 //              W := C1**T
 //
-                //std::cerr << "-> Work = " << Work << std::endl;
                 auto W = Work(_(1,lastC),_(1,k));
 
                 blas::copy(Trans, C1, W);
-                //std::cerr << "-> Work = " << Work << std::endl;
-                //std::cerr << "-> V = " << V << std::endl;
-                //std::cerr << "-> C = " << C << std::endl;
-                //std::cerr << "-> C1 = " << C1 << std::endl;
-                //std::cerr << "-> W    = " << W << std::endl;
 //
 //              W := W * V1
 //
@@ -137,7 +128,7 @@ larfb(Side side, Transpose transH, Direction direction, StoreVectors storeV,
 //
 //              W := W * T**T  or  W * T
 //
-                blas::mm(Right, transT, One, T, W);
+                blas::mm(Right, transT, One, Tr, W);
 //
 //              C := C - V * W**T
 //
@@ -187,7 +178,7 @@ larfb(Side side, Transpose transH, Direction direction, StoreVectors storeV,
 //
 //              W := W * T  or  W * T**T
 //
-                blas::mm(Right, transH, One, T, W);
+                blas::mm(Right, transH, One, Tr, W);
 //
 //              C := C - W * V**T
 //
@@ -205,17 +196,147 @@ larfb(Side side, Transpose transH, Direction direction, StoreVectors storeV,
 //              C1 := C1 - W
 //
                 blas::axpy(NoTrans, -One, W, C1);
-
-                //std::cerr << "8) C1 = " << C1 << std::endl;
             }
         } else if (direction==Backward) {
             // Lehn: I will implement it as soon as someone needs it
             ASSERT(0);
         }
-    } else if (storeV==RowWise) {
+    } else if (storeVectors==RowWise) {
         // Lehn: I will implement it as soon as someone needs it
         ASSERT(0);
     }
+}
+
+//== interface for native lapack ===============================================
+
+#ifdef CHECK_CXXLAPACK
+
+template <typename MV, typename MT, typename MC, typename MWORK>
+void
+larfb_native(Side                   side,
+             Transpose              transH,
+             Direction              direction,
+             StoreVectors           storeVectors,
+             const GeMatrix<MV>     &V,
+             const TrMatrix<MT>     &Tr,
+             GeMatrix<MC>           &C,
+             GeMatrix<MWORK>        &Work)
+{
+    typedef typename TrMatrix<MT>::ElementType  T;
+
+    const char      SIDE    = (side==Left) ? 'L' : 'R';
+    const char      TRANS   = getF77LapackChar(transH);
+    const char      DIRECT  = (direction==Forward) ? 'F' : 'B';
+    const char      STOREV  = (storeVectors==ColumnWise) ? 'C' : 'R';
+    const INTEGER   M       = C.numRows();
+    const INTEGER   N       = C.numCols();
+    const INTEGER   K       = Tr.dim();
+    const INTEGER   LDV     = V.leadingDimension();
+    const INTEGER   LDT     = Tr.leadingDimension();
+    const INTEGER   LDC     = C.leadingDimension();
+    const INTEGER   LDWORK  = Work.leadingDimension();
+
+    if (IsSame<T, DOUBLE>::value) {
+        LAPACK_IMPL(dlarfb)(&SIDE,
+                            &TRANS,
+                            &DIRECT,
+                            &STOREV,
+                            &M,
+                            &N,
+                            &K,
+                            V.data(),
+                            &LDV,
+                            Tr.data(),
+                            &LDT,
+                            C.data(),
+                            &LDC,
+                            Work.data(),
+                            &LDWORK);
+    } else {
+        ASSERT(0);
+    }
+}
+
+#endif // CHECK_CXXLAPACK
+
+//== public interface ==========================================================
+
+template <typename MV, typename MT, typename MC, typename MWORK>
+void
+larfb(Side                  side, 
+      Transpose             transH,
+      Direction             direction,
+      StoreVectors          storeV,
+      const GeMatrix<MV>    &V,
+      const TrMatrix<MT>    &Tr,
+      GeMatrix<MC>          &C,
+      GeMatrix<MWORK>       &Work)
+{
+    LAPACK_DEBUG_OUT("larfb");
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(transH!=Conj);
+    
+    if (side==Left) {
+        ASSERT(Work.numRows()>=C.numCols());
+    } else {
+        ASSERT(Work.numRows()>=C.numRows());
+    }
+    ASSERT(Work.numCols()>=Tr.dim());
+#   endif
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    typename GeMatrix<MC>::NoView       _C = C;
+    typename GeMatrix<MWORK>::NoView    _Work = Work;
+#   endif
+
+//
+//  Call implementation
+//
+    larfb_generic(side, transH, direction, storeV, V, Tr, C, Work);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    larfb_native(side, transH, direction, storeV, V, Tr, _C, _Work);
+
+    bool failed = false;
+    if (! isIdentical(C, _C, " C", "_C")) {
+        std::cerr << "CXXLAPACK:  C = " << C << std::endl;
+        std::cerr << "F77LAPACK: _C = " << _C << std::endl;
+        failed = true;
+    }
+    if (! isIdentical(Work, _Work, " Work", "_Work")) {
+        std::cerr << "CXXLAPACK:  Work = " << Work << std::endl;
+        std::cerr << "F77LAPACK: _Work = " << _Work << std::endl;
+        failed = true;
+    }
+    if (failed) {
+        ASSERT(0);
+    }
+#   endif
+}
+
+//-- forwarding ----------------------------------------------------------------
+template <typename MV, typename MT, typename MC, typename MWORK>
+void
+larfb(Side              side,
+      Transpose         transH,
+      Direction         direction,
+      StoreVectors      storeV,
+      const MV          &V,
+      const MT          &Tr,
+      MC                &&C,
+      MWORK             &&Work)
+{
+    larfb(side, transH, direction, storeV, V, Tr, C, Work);
 }
 
 } } // namespace lapack, flens

@@ -48,34 +48,20 @@
 
 namespace flens { namespace lapack {
 
-using std::max;
-using std::min;
+//== generic lapack implementation =============================================
 
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+template <typename IndexType, typename MA, typename VTAU, typename VW>
 void
-hd2(IndexType iLo, IndexType iHi, MA &&A, VTAU &&tau, VWORK &&work)
+hd2_generic(IndexType           iLo,
+            IndexType           iHi,
+            GeMatrix<MA>        &A,
+            DenseVector<VTAU>   &tau,
+            DenseVector<VW>     &work)
 {
-    hd2(iLo, iHi, A, tau, work);
-}
-
-//-- hd2 -----------------------------------------------------------------------
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
-void
-hd2(IndexType iLo, IndexType iHi, GeMatrix<MA> &A,
-    DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
-{
-    ASSERT(A.firstRow()==1);
-    ASSERT(A.firstCol()==1);
-    ASSERT(A.numRows()==A.numCols());
-    ASSERT(tau.firstIndex()<=iLo);
-    ASSERT(tau.lastIndex()>=iHi-1);
-    ASSERT(tau.inc()>0);
-    ASSERT(work.length()>=A.numRows());
-
-    ASSERT(1<=iLo);
-    ASSERT(iLo<=iHi);
-    ASSERT(iHi<=max(IndexType(1), A.numCols()));
+    using lapack::larf;
+    using lapack::larfg;
+    using std::max;
+    using std::min;
 
     typedef typename GeMatrix<MA>::ElementType  T;
 
@@ -102,6 +88,124 @@ hd2(IndexType iLo, IndexType iHi, GeMatrix<MA> &A,
 
         A(i+1,i) = Aii;
     }
+}
+
+//== interface for native lapack ===============================================
+
+#ifdef CHECK_CXXLAPACK
+
+template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+void
+hd2_native(IndexType iLo, IndexType iHi, GeMatrix<MA> &A,
+           DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
+{
+    // TODO: add this assertion to other ..._native implementations
+    assert(A.order()==ColMajor);
+    typedef typename  GeMatrix<MA>::ElementType     T;
+
+    const INTEGER N     = A.numCols();
+    const INTEGER ILO   = iLo;
+    const INTEGER IHI   = iHi;
+    const INTEGER LDA   = A.leadingDimension();
+
+    INTEGER INFO;
+
+    if (IsSame<T,DOUBLE>::value) {
+        LAPACK_IMPL(dgehd2)(&N,
+                            &ILO,
+                            &IHI,
+                            A.data(),
+                            &LDA,
+                            tau.data(),
+                            work.data(),
+                            &INFO);
+    } else {
+        ASSERT(0);
+    }
+
+    ASSERT(INFO==0);
+}
+
+#endif // CHECK_CXXLAPACK
+
+//== public interface ==========================================================
+
+template <typename IndexType, typename MA, typename VTAU, typename VW>
+void
+hd2(IndexType           iLo,
+    IndexType           iHi,
+    GeMatrix<MA>        &A,
+    DenseVector<VTAU>   &tau,
+    DenseVector<VW>     &work)
+{
+    LAPACK_DEBUG_OUT("hd2");
+
+    using std::max;
+//
+//  Test the input parameters
+//
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(A.numRows()==A.numCols());
+    ASSERT(tau.firstIndex()<=iLo);
+    ASSERT(tau.lastIndex()>=iHi-1);
+    ASSERT(tau.inc()>0);
+    ASSERT(work.length()>=A.numRows());
+
+    ASSERT(1<=iLo);
+    ASSERT(iLo<=iHi);
+    ASSERT(iHi<=max(IndexType(1), A.numCols()));
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    typename GeMatrix<MA>::NoView       _A = A;
+    typename DenseVector<VTAU>::NoView  _tau = tau;
+    typename DenseVector<VW>::NoView    _work = work;
+#   endif
+
+//
+//  Call implementation
+//
+    hd2_generic(iLo, iHi, A, tau, work);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    hd2_native(iLo, iHi, _A, _tau, _work);
+
+    if (! isIdentical(A, _A, "A", "A_")) {
+        std::cerr << "CXXLAPACK:  A = " << A << std::endl;
+        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+        ASSERT(0);
+    }
+
+    if (! isIdentical(tau, _tau, "tau", "tau_")) {
+        std::cerr << "CXXLAPACK:  tau = " << tau << std::endl;
+        std::cerr << "F77LAPACK: _tau = " << _tau << std::endl;
+        ASSERT(0);
+    }
+
+    if (! isIdentical(work, _work, "work", "work_")) {
+        std::cerr << "CXXLAPACK:  work = " << work << std::endl;
+        std::cerr << "F77LAPACK: _work = " << _work << std::endl;
+        ASSERT(0);
+    }
+#   endif
+}
+
+//-- forwarding ----------------------------------------------------------------
+template <typename IndexType, typename MA, typename VTAU, typename VW>
+void
+hd2(IndexType   iLo,
+    IndexType   iHi,
+    MA          &&A,
+    VTAU        &&tau,
+    VW          &&work)
+{
+    hd2(iLo, iHi, A, tau, work);
 }
 
 } } // namespace lapack, flens

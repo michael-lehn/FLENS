@@ -46,7 +46,7 @@ herk_generic(StorageOrder order, StorageUpLo upLoC,
     if (n==0) {
         return;
     }
-    
+
     if (order==ColMajor) {
         upLoC = (upLoC==Upper) ? Lower : Upper;
         transA = Transpose(transA^ConjTrans);
@@ -100,8 +100,8 @@ herk(StorageOrder order, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_cherk");
 
-    cblas_cherk(CBLAS::value(order), CBLAS::value(upLo),
-                CBLAS::value(trans), n, k,
+    cblas_cherk(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
+                CBLAS::getCblasType(trans), n, k,
                 alpha,
                 reinterpret_cast<const float *>(A), ldA,
                 beta,
@@ -120,8 +120,8 @@ herk(StorageOrder order, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zherk");
 
-    cblas_zherk(CBLAS::value(order), CBLAS::value(upLo),
-                CBLAS::value(trans), n, k,
+    cblas_zherk(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
+                CBLAS::getCblasType(trans), n, k,
                 alpha,
                 reinterpret_cast<const double *>(A), ldA,
                 beta,

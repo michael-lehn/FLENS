@@ -33,12 +33,14 @@
 #ifndef FLENS_BLAS_LEVEL3_R2K_TCC
 #define FLENS_BLAS_LEVEL3_R2K_TCC
 
+#include <flens/typedefs.h>
+
 namespace flens { namespace blas {
 
 //-- her2k
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 void
-r2k(cxxblas::Transpose trans,
+r2k(Transpose trans,
     const ALPHA &alpha,
     const GeMatrix<MA> &A, const GeMatrix<MB> &B,
     const BETA &beta,
@@ -46,10 +48,10 @@ r2k(cxxblas::Transpose trans,
 {
     typedef typename GeMatrix<MA>::IndexType IndexType;
 
-    IndexType n = (trans==cxxblas::NoTrans) ? A.numRows()
-                                            : A.numCols();
-    IndexType k = (trans==cxxblas::NoTrans) ? A.numCols()
-                                            : A.numRows();
+    IndexType n = (trans==NoTrans) ? A.numRows()
+                                   : A.numCols();
+    IndexType k = (trans==NoTrans) ? A.numCols()
+                                   : A.numRows();
 
     ASSERT(A.numRows()==B.numRows());
     ASSERT(A.numCols()==B.numCols());
@@ -75,7 +77,7 @@ r2k(cxxblas::Transpose trans,
 //-- syr2k
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 void
-r2k(cxxblas::Transpose trans,
+r2k(Transpose trans,
     const ALPHA &alpha,
     const GeMatrix<MA> &A, const GeMatrix<MB> &B,
     const BETA &beta,
@@ -83,10 +85,10 @@ r2k(cxxblas::Transpose trans,
 {
     typedef typename GeMatrix<MA>::IndexType IndexType;
 
-    IndexType n = (trans==cxxblas::NoTrans) ? A.numRows()
-                                            : A.numCols();
-    IndexType k = (trans==cxxblas::NoTrans) ? A.numCols()
-                                            : A.numRows();
+    IndexType n = (trans==NoTrans) ? A.numRows()
+                                   : A.numCols();
+    IndexType k = (trans==NoTrans) ? A.numCols()
+                                   : A.numRows();
 
     ASSERT(A.numRows()==B.numRows());
     ASSERT(A.numCols()==B.numCols());

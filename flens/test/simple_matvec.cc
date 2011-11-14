@@ -33,4 +33,18 @@ main()
     auto _x = A(_(2,3),2);
     cout << "_x = A(2:3,2) = " << _x << endl;
     cout << "_x.firstIndex() = " << _x .firstIndex() << endl;
+
+    GeMatrix B(3,3);
+    B = 1, 2, 3,
+        4, 5, 6,
+        7, 8, 9;
+
+    cout << "B:" << B << endl;
+    cout << "vectorizing B:" << endl;
+    cout << B.vectorView() << endl;
+    cout << B(_,_(2,3)).vectorView() << endl;
+
+    const auto C = B(_,_(2,3));
+    cout << "C = " << C << endl;
+    cout << "C.vectorView() = " << C.vectorView() << endl;
 }

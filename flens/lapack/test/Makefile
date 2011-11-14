@@ -43,7 +43,8 @@ ifneq ($(strip $(VARLIB)),)
 endif
 
 
-all:     single complex double complex16 singleproto doubleproto complexproto complex16proto
+#all:     single complex double complex16 singleproto doubleproto complexproto complex16proto
+all:     double
 
 SEIGTST= snep.out \
          ssep.out \
@@ -143,11 +144,9 @@ ZLINTST= ztest.out
 ZLINTSTPROTO= zctest.out ztest_rfp.out
 
 
-single:         $(SLINTST)
-#single:         $(SLINTST) $(SEIGTST)
+single:         $(SLINTST) $(SEIGTST)
 complex:        $(CLINTST) $(CEIGTST)
-double:         $(DLINTST)
-#double:         $(DLINTST) $(DEIGTST)
+double:         $(DLINTST) $(DEIGTST)
 complex16:      $(ZLINTST) $(ZEIGTST)
 singleproto:    $(SLINTSTPROTO)
 complexproto:   $(CLINTSTPROTO)

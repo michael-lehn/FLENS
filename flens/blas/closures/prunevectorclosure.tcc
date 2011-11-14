@@ -33,6 +33,8 @@
 #ifndef FLENS_BLAS_CLOSURES_PRUNEVECTORCLOSURE_TCC
 #define FLENS_BLAS_CLOSURES_PRUNEVECTORCLOSURE_TCC 1
 
+#include <flens/typedefs.h>
+
 namespace flens {
 
 //-- General definition --------------------------------------------------------
@@ -47,8 +49,8 @@ PruneVectorClosure<Vector>::updateScalingFactor(const ALPHA &alpha,
 }
 
 template <typename Vector>
-cxxblas::Transpose
-PruneVectorClosure<Vector>::updateTranspose(cxxblas::Transpose trans)
+Transpose
+PruneVectorClosure<Vector>::updateTranspose(Transpose trans)
 {
     return trans;
 }
@@ -79,8 +81,8 @@ struct PruneVectorClosure<VectorClosure<OpMult, ScalarValue<L>, R> >
         return PVC::updateScalingFactor(alpha*vc.left().value(), vc.right());
     }
 
-    static cxxblas::Transpose
-    updateTranspose(cxxblas::Transpose trans)
+    static Transpose
+    updateTranspose(Transpose trans)
     {
         return PruneVectorClosure<R>::updateTranspose(trans);
     }
@@ -108,11 +110,11 @@ struct PruneVectorClosure<VectorClosure<OpConj, R, R> >
         return PruneVectorClosure<R>::updateScalingFactor(alpha, vc.right());
     }
 
-    static cxxblas::Transpose
-    updateTranspose(cxxblas::Transpose trans)
+    static Transpose
+    updateTranspose(Transpose trans)
     {
         trans = PruneVectorClosure<R>::updateTranspose(trans);
-        return cxxblas::Transpose(trans^cxxblas::Conj);
+        return Transpose(trans^Conj);
     }
 
     static const Remainder &

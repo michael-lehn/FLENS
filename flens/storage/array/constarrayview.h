@@ -41,7 +41,9 @@ template <typename T, typename I, typename A>
 template <typename T, typename I, typename A>
     class Array;
 
-template <typename T, typename I, typename A>
+template <typename T,
+          typename I = IndexOptions<>,
+          typename A = std::allocator<T> >
 class ConstArrayView
 {
     public:

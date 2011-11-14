@@ -48,6 +48,8 @@ gerc_generic(StorageOrder order, Transpose conjugateA,
              const VY *y, IndexType incY,
              MA *A, IndexType ldA)
 {
+    CXXBLAS_DEBUG_OUT("gerc_generic");
+
     if (order==ColMajor) {
         conjugateA = Transpose(conjugateA^Conj);
         gerc_generic(RowMajor, conjugateA, n, m,
@@ -55,6 +57,18 @@ gerc_generic(StorageOrder order, Transpose conjugateA,
                      A, ldA);
         return;
     }
+
+    for (IndexType i=0, iX=0; i<m; ++i, iX+=incX) {
+        std::cerr<< "  " << x[iX];
+    }
+    std::cerr << std::endl;
+
+    for (IndexType j=0, jY=0; j<n; ++j, jY+=incY) {
+        std::cerr << "  " << y[jY];
+    }
+    std::cerr << std::endl;
+
+
     #ifdef CXXBLAS_USE_XERBLA
         // insert error check here
     #endif
@@ -67,7 +81,7 @@ gerc_generic(StorageOrder order, Transpose conjugateA,
     } else {
         for (IndexType i=0, iX=0; i<m; ++i, iX+=incX) {
             acxpy_generic(n, alpha*x[iX], y, incY, A+i*ldA, IndexType(1));
-        }        
+        }
     }
 }
 
@@ -81,6 +95,7 @@ geru_generic(StorageOrder order,
              const VY *y, IndexType incY,
              MA *A, IndexType ldA)
 {
+    CXXBLAS_DEBUG_OUT("geru_generic");
     if (order==ColMajor) {
         geru_generic(RowMajor, n, m,
                      alpha, y, incY, x, incX,
@@ -147,6 +162,50 @@ geru(StorageOrder order,
     }
     geru_generic(order, m, n, alpha, x, incX, y, incY, A, ldA);
 }
+
+#ifdef HAVE_CBLAS
+
+// sger
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+ger(StorageOrder order,
+    IndexType m, IndexType n,
+    const float &alpha,
+    const float *x, IndexType incX,
+    const float *y, IndexType incY,
+    float *A, IndexType ldA)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_sger");
+
+    cblas_sger(CBLAS::getCblasType(order),
+               m, n,
+               alpha,
+               x, incX,
+               y, incY,
+               A, ldA);
+}
+
+// dger
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+ger(StorageOrder order,
+    IndexType m, IndexType n,
+    const double &alpha,
+    const double *x, IndexType incX,
+    const double *y, IndexType incY,
+    double *A, IndexType ldA)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_dger");
+
+    cblas_dger(CBLAS::getCblasType(order),
+               m, n,
+               alpha,
+               x, incX,
+               y, incY,
+               A, ldA);
+}
+
+#endif // HAVE_CBLAS
 
 } // namespace cxxblas
 

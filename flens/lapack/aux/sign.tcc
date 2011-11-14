@@ -33,18 +33,30 @@
 #ifndef FLENS_LAPACK_AUX_SIGN_TCC
 #define FLENS_LAPACK_AUX_SIGN_TCC 1
 
+#include <cmath>
+
 namespace flens { namespace lapack {
 
-using std::abs;
+//
+// Note: In Fortran 95 the sign function will return -abs(x) if y is -0
+//
 
 template <typename T>
 T
 sign(const T &x, const T &y)
 {
-    if (y>=T(0)) {
+    using std::abs;
+    const T Zero(0);
+
+    if (y>Zero) {
+        return abs(x);
+    } else if (y<Zero) {
+        return -abs(x);
+    } else if (std::signbit(y)!=0) {
+        return -abs(x);
+    } else {
         return abs(x);
     }
-    return -abs(x);
 }
 
 } } // namespace lapack, flens

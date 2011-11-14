@@ -48,16 +48,23 @@
 
 namespace flens { namespace lapack {
 
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+//== hd2 =======================================================================
+template <typename IndexType, typename MA, typename VT, typename VW>
     void
-    hd2(IndexType iLo, IndexType iHi, MA &&A, VTAU &&tau, VWORK &&work);
+    hd2(IndexType           iLo,
+        IndexType           iHi,
+        GeMatrix<MA>        &A,
+        DenseVector<VT>     &tau,
+        DenseVector<VW>     &work);
 
-//-- hd2 -----------------------------------------------------------------------
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+//-- forwarding ----------------------------------------------------------------
+template <typename IndexType, typename MA, typename VT, typename VW>
     void
-    hd2(IndexType iLo, IndexType iHi, GeMatrix<MA> &A,
-        DenseVector<VTAU> &&tau, DenseVector<VWORK> &work);
+    hd2(IndexType           iLo,
+        IndexType           iHi,
+        MA                  &&A,
+        VT                  &&tau,
+        VW                  &&work);
 
 } } // namespace lapack, flens
 

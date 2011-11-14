@@ -37,6 +37,7 @@
 #include <cxxblas/typedefs.h>
 #include <flens/debug/aux/closurelog.h>
 #include <flens/debug/aux/variablepool.h>
+#include <flens/typedefs.h>
 
 namespace flens { namespace verbose {
 
@@ -51,7 +52,7 @@ class ClosureLogStream
 
 
 ClosureLogStream &
-operator<<(ClosureLogStream &clStream, cxxblas::Transpose trans);
+operator<<(ClosureLogStream &clStream, Transpose trans);
 
 ClosureLogStream &
 operator<<(ClosureLogStream &closureLogStream, const char *msg);

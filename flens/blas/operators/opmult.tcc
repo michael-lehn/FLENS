@@ -33,8 +33,10 @@
 #ifndef FLENS_BLAS_OPERATORS_OPMULT_TCC
 #define FLENS_BLAS_OPERATORS_OPMULT_TCC 1
 
+#include <cxxblas/aux/complex.h>
 #include <flens/blas/closures/closures.h>
 #include <flens/blas/level1/dot.h>
+#include <flens/typedefs.h>
 
 namespace flens {
 
@@ -124,20 +126,22 @@ typename Promotion<typename VX::Impl::ElementType,
                    typename VY::Impl::ElementType>::Type
 operator*(const Vector<VX> &x, const Vector<VY> &y)
 {
+    using cxxblas::conjugate;
+
     typedef PruneVectorClosure<typename VX::Impl> PVCX;
     typedef PruneVectorClosure<typename VY::Impl> PVCY;
-    
+
     typedef typename Promotion<typename VX::Impl::ElementType,
                                typename VY::Impl::ElementType>::Type  ALPHA;
 
     ALPHA alpha;
-    cxxblas::Transpose xTrans = PVCX::updateTranspose(cxxblas::NoTrans);
-    cxxblas::Transpose yTrans = PVCY::updateTranspose(cxxblas::NoTrans);
+    Transpose xTrans = PVCX::updateTranspose(NoTrans);
+    Transpose yTrans = PVCY::updateTranspose(NoTrans);
 
-    if (cxxblas::Conj & (xTrans^yTrans)) {
+    if (Conj & (xTrans^yTrans)) {
         blas::dot(PVCX::remainder(x.impl()), PVCY::remainder(y.impl()), alpha);
-        if (cxxblas::Conj & yTrans) {
-            alpha = cxxblas::conjugate(alpha);
+        if (Conj & yTrans) {
+            alpha = conjugate(alpha);
         }
     } else {
         blas::dotu(PVCX::remainder(x.impl()), PVCY::remainder(y.impl()), alpha);

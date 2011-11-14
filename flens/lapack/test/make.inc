@@ -20,11 +20,11 @@ PLAT = _FLENS
 #  selected.  Define LOADER and LOADOPTS to refer to the loader
 #  and desired load options for your machine.
 #
-FORTRAN  = gfortran -fimplicit-none -g
+FORTRAN  = g95 -fimplicit-none -g
 OPTS     =
 DRVOPTS  = $(OPTS)
 NOOPT    = -g -O0
-LOADER   = gfortran -g -lstdc++
+LOADER   = g95 -g -lstdc++
 LOADOPTS =
 #
 # Timer for the SECOND and DSECND routines

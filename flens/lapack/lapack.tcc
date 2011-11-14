@@ -33,42 +33,77 @@
 #ifndef FLENS_LAPACK_LAPACK_TCC
 #define FLENS_LAPACK_LAPACK_TCC 1
 
+#include <flens/lapack/aux/convert.tcc>
 #include <flens/lapack/aux/ilaenv.tcc>
 #include <flens/lapack/aux/ilalc.tcc>
 #include <flens/lapack/aux/ilalr.tcc>
 #include <flens/lapack/aux/labad.tcc>
+#include <flens/lapack/aux/lacn2.tcc>
 #include <flens/lapack/aux/ladiv.tcc>
+#include <flens/lapack/aux/laln2.tcc>
 #include <flens/lapack/aux/lamch.tcc>
-#include <flens/lapack/aux/lapy2.tcc>
+#include <flens/lapack/aux/lange.tcc>
 #include <flens/lapack/aux/larf.tcc>
 #include <flens/lapack/aux/larfb.tcc>
 #include <flens/lapack/aux/larfg.tcc>
 #include <flens/lapack/aux/larft.tcc>
+#include <flens/lapack/aux/larfx.tcc>
+#include <flens/lapack/aux/lartg.tcc>
 #include <flens/lapack/aux/lascl.tcc>
+#include <flens/lapack/aux/lapy2.tcc>
 #include <flens/lapack/aux/lassq.tcc>
 #include <flens/lapack/aux/laswp.tcc>
+#include <flens/lapack/aux/lasy2.tcc>
+#include <flens/lapack/aux/nint.tcc>
 #include <flens/lapack/aux/sign.tcc>
 
+#include <flens/lapack/debug/isidentical.tcc>
+
+#include <flens/lapack/eig/bak.tcc>
+#include <flens/lapack/eig/bal.tcc>
+#include <flens/lapack/eig/es.tcc>
+#include <flens/lapack/eig/esx.tcc>
+#include <flens/lapack/eig/ev.tcc>
+#include <flens/lapack/eig/evx.tcc>
 #include <flens/lapack/eig/hd2.tcc>
 #include <flens/lapack/eig/hrd.tcc>
 #include <flens/lapack/eig/hseqr.tcc>
 #include <flens/lapack/eig/lahr2.tcc>
+#include <flens/lapack/eig/laexc.tcc>
 #include <flens/lapack/eig/lahqr.tcc>
 #include <flens/lapack/eig/lanv2.tcc>
+#include <flens/lapack/eig/laqr0.tcc>
+#include <flens/lapack/eig/laqr1.tcc>
+#include <flens/lapack/eig/laqr2.tcc>
+#include <flens/lapack/eig/laqr3.tcc>
+#include <flens/lapack/eig/laqr4.tcc>
+#include <flens/lapack/eig/laqr5.tcc>
+#include <flens/lapack/eig/laqtr.tcc>
 #include <flens/lapack/eig/orghr.tcc>
 #include <flens/lapack/eig/ormhr.tcc>
+#include <flens/lapack/eig/trevc.tcc>
+#include <flens/lapack/eig/trexc.tcc>
+#include <flens/lapack/eig/trsen.tcc>
+#include <flens/lapack/eig/trsna.tcc>
+#include <flens/lapack/eig/trsyl.tcc>
 
-#include <flens/lapack/gesv/sv.tcc>
 #include <flens/lapack/gesv/tf2.tcc>
 #include <flens/lapack/gesv/trf.tcc>
-#include <flens/lapack/gesv/trs.tcc>
 
+#include <flens/lapack/qr/qr2.tcc>
+#include <flens/lapack/qr/qrf.tcc>
 #include <flens/lapack/qr/org2r.tcc>
 #include <flens/lapack/qr/orgqr.tcc>
 #include <flens/lapack/qr/orm2r.tcc>
 #include <flens/lapack/qr/ormqr.tcc>
-#include <flens/lapack/qr/qr2.tcc>
-#include <flens/lapack/qr/qrf.tcc>
+
+/*
+
+
+#include <flens/lapack/gesv/sv.tcc>
+#include <flens/lapack/gesv/trs.tcc>
+
 #include <flens/lapack/qr/qrs.tcc>
+*/
 
 #endif // FLENS_LAPACK_LAPACK_TCC

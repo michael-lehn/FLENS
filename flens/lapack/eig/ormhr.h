@@ -49,22 +49,47 @@
 
 namespace flens { namespace lapack {
 
+//== ormhr =====================================================================
+template <typename IndexType, typename  MC>
+    IndexType
+    ormhr_wsq(Side                      side,
+              Transpose                 trans,
+              IndexType                 iLo,
+              IndexType                 iHi,
+              const GeMatrix<MC>        &C);
+
+template <typename IndexType, typename  MA, typename  VTAU,
+          typename  MC, typename  VWORK>
+    void
+    ormhr(Side                          side,
+          Transpose                     trans,
+          IndexType                     iLo,
+          IndexType                     iHi,
+          GeMatrix<MA>                  &A,
+          const DenseVector<VTAU>       &tau,
+          GeMatrix<MC>                  &C,
+          DenseVector<VWORK>            &work);
+
 //-- forwarding ----------------------------------------------------------------
+template <typename IndexType, typename  MC>
+    IndexType
+    ormhr_wsq(Side                      side,
+              Transpose                 trans,
+              IndexType                 iLo,
+              IndexType                 iHi,
+              const MC                  &&C);
+
 template <typename IndexType, typename  MA, typename  VTAU,
           typename  MC, typename  VWORK>
     void
-    ormhr(Side side, Transpose trans, IndexType iLo, IndexType iHi,
-          MA &&A, const VTAU &tau, MC &&C, VWORK &&work);
-
-//-- ormhr ---------------------------------------------------------------------
-template <typename IndexType, typename  MA, typename  VTAU,
-          typename  MC, typename  VWORK>
-    void
-    ormhr(Side side, Transpose trans, IndexType iLo, IndexType iHi,
-          GeMatrix<MA> &A, const DenseVector<VTAU> &tau, GeMatrix<MC> &C,
-          DenseVector<VWORK> &work);
-
-// Note: Matrix A is modified by the routine but restored on exit.
+    ormhr(Side                          side,
+          Transpose                     trans,
+          IndexType                     iLo,
+          IndexType                     iHi,
+          MA                            &&A,
+          const VTAU                    &tau,
+          MC                            &&C,
+          VWORK                         &&work);
 
 } } // namespace lapack, flens
 

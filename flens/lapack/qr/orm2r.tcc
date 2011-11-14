@@ -79,9 +79,9 @@ orm2r(Side side, Transpose trans, GeMatrix<MA> &A,
     typedef Range<IndexType>    Range;
     const Underscore<IndexType> _;
 
-    IndexType m = C.numRows();
-    IndexType n = C.numCols();
-    IndexType k = A.numCols();
+    const IndexType m = C.numRows();
+    const IndexType n = C.numCols();
+    const IndexType k = A.numCols();
 
     const bool noTrans = ((trans==Trans) || (trans==ConjTrans)) ? false
                                                                 : true;

@@ -49,22 +49,23 @@
 
 namespace flens { namespace lapack {
 
-using std::abs;
-using std::pow;
+//== generic lapack implementation =============================================
 
-//-- lassq ---------------------------------------------------------------------
 template <typename VX, typename T>
 void
-lassq(const DenseVector<VX> &x, T &scale, T &sumsq)
+lassq_generic(const DenseVector<VX> &x, T &scale, T &sumsq)
 {
-    ASSERT(x.inc()>0);
+    using std::abs;
+    using std::pow;
 
     typedef typename DenseVector<VX>::IndexType IndexType;
+
+    const IndexType n = x.length();
 
     if (n>0) {
         for (IndexType i=x.firstIndex(); i<=x.lastIndex(); ++i) {
             if (x(i)!=T(0)) {
-                const absXi = abs(x(i));
+                const T absXi = abs(x(i));
                 if (scale<absXi) {
                     sumsq = 1 + sumsq*pow(scale/absXi, 2);
                     scale = absXi;
@@ -74,6 +75,90 @@ lassq(const DenseVector<VX> &x, T &scale, T &sumsq)
             }
         }
     }
+}
+
+//== interface for native lapack ===============================================
+
+#ifdef CHECK_CXXLAPACK
+
+template <typename VX, typename T>
+void
+lassq_native(const DenseVector<VX> &x, T &scale, T &sumsq)
+{
+    const INTEGER N     = x.length();
+    const INTEGER INCX  = x.inc();
+    T             SCALE = scale;
+    T             SUMSQ = sumsq;
+
+    if (IsSame<T,DOUBLE>::value) {
+        LAPACK_IMPL(dlassq)(&N,
+                            x.data(),
+                            &INCX,
+                            &SCALE,
+                            &SUMSQ);
+    } else {
+        ASSERT(0);
+    }
+
+    scale = SCALE;
+    sumsq = SUMSQ;
+}
+
+#endif // CHECK_CXXLAPACK
+
+
+//== public interface ==========================================================
+
+template <typename VX, typename T>
+void
+lassq(const DenseVector<VX> &x, T &scale, T &sumsq)
+{
+    LAPACK_DEBUG_OUT("lassq");
+
+//
+//  Test the input parameters
+//
+    ASSERT(x.inc()>0);
+
+//
+//  Make copies of output arguments
+//
+#   ifdef CHECK_CXXLAPACK
+    T _scale = scale;
+    T _sumsq = sumsq;
+#   endif
+
+//
+//  Call implementation
+//
+    lassq_generic(x, scale, sumsq);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    lassq_native(x, _scale, _sumsq);
+
+    bool failed = false;
+    if (! isIdentical(scale, _scale, " scale", "_scale")) {
+        std::cerr << "CXXLAPACK:  scale = " << scale << std::endl;
+        std::cerr << "F77LAPACK: _scale = " << _scale << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(sumsq, _sumsq, " sumsq", "_sumsq")) {
+        std::cerr << "CXXLAPACK:  sumsq = " << sumsq << std::endl;
+        std::cerr << "F77LAPACK: _sumsq = " << _sumsq << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    } else {
+//        std::cerr << "passed: lassq.tcc" << std::endl;
+    }
+
+#   endif
 }
 
 } } // namespace lapack, flens

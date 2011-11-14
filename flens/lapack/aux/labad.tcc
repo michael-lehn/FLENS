@@ -43,13 +43,15 @@
 #define FLENS_LAPACK_AUX_LABAD_TCC 1
 
 #include <cmath>
+#include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
 
-//-- labad ---------------------------------------------------------------------
+//== generic lapack implementation =============================================
+
 template <typename T>
 void
-labad(T &small, T &large)
+labad_generic(T &small, T &large)
 {
 //
 //  If it looks like we're on a Cray, take the square root of
@@ -59,6 +61,72 @@ labad(T &small, T &large)
         small = sqrt(small);
         large = sqrt(large);
     }
+}
+
+//== interface for native lapack ===============================================
+
+#ifdef CHECK_CXXLAPACK
+
+template <typename T>
+void
+labad_native(T &small, T &large)
+{
+    if (IsSame<T, DOUBLE>::value) {
+        LAPACK_IMPL(dlabad)(&small,
+                            &large);
+    } else {
+        ASSERT(0);
+    }
+}
+
+#endif // CHECK_CXXLAPACK
+
+//== public interface ==========================================================
+
+template <typename T>
+void
+labad(T &small, T &large)
+{
+    LAPACK_DEBUG_OUT("BEGIN: labad");
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    T _small    = small;
+    T _large    = large;
+#   endif
+
+//
+//  Call implementation
+//
+    labad_generic(small, large);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    labad_native(_small, _large);
+
+    bool failed = false;
+    if (! isIdentical(small, _small, " small", "_small")) {
+        std::cerr << "CXXLAPACK:  small = " << small << std::endl;
+        std::cerr << "F77LAPACK: _small = " << _small << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(large, _large, " large", "_large")) {
+        std::cerr << "CXXLAPACK:  large = " << large << std::endl;
+        std::cerr << "F77LAPACK: _large = " << _large << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    }
+#   endif
+
+    LAPACK_DEBUG_OUT("END: labad");
 }
 
 } } // namespace lapack, flens

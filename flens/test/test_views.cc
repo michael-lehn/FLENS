@@ -23,8 +23,8 @@ typedef int     INT;
 typedef IndexOptions<INT>       I;
 typedef std::allocator<FLOAT>   Alloc;
 
-typedef FullStorageView<CXXFLOAT, cxxblas::ColMajor, I, Alloc>  FSV;
-typedef FullStorage<CXXFLOAT, cxxblas::ColMajor>                FS;
+typedef FullStorageView<CXXFLOAT, ColMajor, I, Alloc>  FSV;
+typedef FullStorage<CXXFLOAT, ColMajor>                FS;
 
 
 typedef ArrayView<CXXFLOAT, I, Alloc>                           AV;

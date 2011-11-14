@@ -31,6 +31,7 @@
  */
 
 /* Baesed on
+ *
       SUBROUTINE xLARFG( N, ALPHA, X, INCX, TAU )
  *
  *  -- LAPACK auxiliary routine (version 3.3.1) --
@@ -47,24 +48,13 @@
 
 namespace flens { namespace lapack {
 
-using std::abs;
+//== generic lapack implementation =============================================
 
-//-- forwarding ----------------------------------------------------------------
 template <typename IndexType, typename ALPHA, typename VX, typename TAU>
 void
-larfg(IndexType n, ALPHA &alpha, VX &&x, TAU &tau)
+larfg_generic(IndexType n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
 {
-    larfg(n, alpha, x, tau);
-}
-
-//-- larfg ---------------------------------------------------------------------
-template <typename IndexType, typename ALPHA, typename VX, typename TAU>
-void
-larfg(IndexType n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
-{
-    ASSERT(x.inc()>0);
-    ASSERT(x.length()<=n);
-    ASSERT(x.firstIndex()==1);
+    using std::abs;
 
     typedef typename DenseVector<VX>::ElementType   T;
 
@@ -114,6 +104,104 @@ larfg(IndexType n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
         }
         alpha = beta;
     }
+}
+
+//== interface for native lapack ===============================================
+
+#ifdef CHECK_CXXLAPACK
+
+template <typename IndexType, typename ALPHA, typename VX, typename TAU>
+void
+larfg_native(IndexType n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
+{
+    typedef typename DenseVector<VX>::ElementType  T;
+
+    INTEGER N       = n;
+    INTEGER INCX    = x.inc();
+
+    if (IsSame<T, DOUBLE>::value) {
+        LAPACK_IMPL(dlarfg)(&N,
+                            &alpha,
+                            x.data(),
+                            &INCX,
+                            &tau);
+    } else {
+        ASSERT(0);
+    }
+}
+
+#endif // CHECK_CXXLAPACK
+
+//== public interface ==========================================================
+
+template <typename IndexType, typename ALPHA, typename VX, typename TAU>
+void
+larfg(IndexType n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
+{
+    LAPACK_DEBUG_OUT("larfg");
+
+//
+//  Test the input parameters
+//
+    ASSERT(x.firstIndex()==1);
+    ASSERT(x.inc()>0);
+    ASSERT(x.length()<=n);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    ALPHA                               _alpha  = alpha;
+    typename DenseVector<VX>::NoView    _x      = x;
+    TAU                                 _tau    = tau;
+#   endif
+
+//
+//  Call implementation
+//
+    larfg_generic(n, alpha, x, tau);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    larfg_native(n, _alpha, _x, _tau);
+
+    bool failed = false;
+    if (alpha!=_alpha) {
+        std::cerr << "CXXLAPACK:  alpha = " << alpha << std::endl;
+        std::cerr << "F77LAPACK: _alpha = " << _alpha << std::endl;
+        std::cerr << "CXXLAPACK:  alpha - _alpha= "
+                  << alpha - _alpha << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(x, _x, " x", "x_")) {
+        std::cerr << "CXXLAPACK:  x = " << x << std::endl;
+        std::cerr << "F77LAPACK: _x = " << _x << std::endl;
+        failed = true;
+    }
+
+    if (tau!=_tau) {
+        std::cerr << "CXXLAPACK:  tau = " << tau << std::endl;
+        std::cerr << "F77LAPACK: _tau = " << _tau << std::endl;
+        std::cerr << "CXXLAPACK:  tau - _tau= "
+                  << tau - _tau << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    }
+#   endif
+}
+
+//-- forwarding ----------------------------------------------------------------
+template <typename IndexType, typename ALPHA, typename VX, typename TAU>
+void
+larfg(IndexType n, ALPHA &alpha, VX &&x, TAU &tau)
+{
+    larfg(n, alpha, x, tau);
 }
 
 } } // namespace lapack, flens

@@ -47,28 +47,15 @@
 
 namespace flens { namespace lapack {
 
-//-- forwarding ----------------------------------------------------------------
-template <typename VV, typename TAU, typename MC, typename VWORK>
-void
-larf(Side side, const VV &v, const TAU &tau, MC &&C, VWORK &&work)
-{
-    larf(side, v, tau, C, work);
-}
+//== generic lapack implementation =============================================
 
-//-- larf ----------------------------------------------------------------------
 template <typename VV, typename TAU, typename MC, typename VWORK>
 void
-larf(Side side, const DenseVector<VV> &v, const TAU &tau,
-     GeMatrix<MC> &C, DenseVector<VWORK> &work)
+larf_generic(Side side, const DenseVector<VV> &v, const TAU &tau,
+             GeMatrix<MC> &C, DenseVector<VWORK> &work)
 {
-    ASSERT((v.inc()>0) && (v.firstIndex()==1)
-        || (v.inc()<0) && (v.lastIndex()==1));
-    ASSERT((side==Left) && (v.length()==C.numRows())
-        || (side==Right) && (v.length()==C.numCols()));
-    ASSERT(C.firstRow()==1);
-    ASSERT(C.firstCol()==1);
-    ASSERT((side==Left) && (work.length()>=C.numCols())
-        || (side==Right) && (work.length()>=C.numRows()));
+    using lapack::ilalc;
+    using lapack::ilalr;
 
     typedef typename GeMatrix<MC>::IndexType    IndexType;
     typedef typename GeMatrix<MC>::ElementType  T;
@@ -142,6 +129,117 @@ larf(Side side, const DenseVector<VV> &v, const TAU &tau,
             blas::r(-tau, _work, _v, _C);
         }
     }
+}
+
+//== interface for native lapack ===============================================
+
+#ifdef CHECK_CXXLAPACK
+
+template <typename VV, typename TAU, typename MC, typename VWORK>
+void
+larf_native(Side side, const DenseVector<VV> &v, const TAU &tau,
+            GeMatrix<MC> &C, DenseVector<VWORK> &work)
+{
+    typedef typename GeMatrix<MC>::ElementType  T;
+
+    const char      SIDE    = getF77LapackChar<Side>(side);
+    const INTEGER   M       = C.numRows();
+    const INTEGER   N       = C.numCols();
+    const INTEGER   INCV    = v.inc();
+    const INTEGER   LDC     = C.leadingDimension();
+    
+
+    LAPACK_IMPL(dlarf)(&SIDE,
+                       &M,
+                       &N,
+                       v.data(),
+                       &INCV,
+                       &tau,
+                       C.data(),
+                       &LDC,
+                       work.data());
+}
+
+#endif // CHECK_CXXLAPACK
+
+//== public interface ==========================================================
+
+template <typename VV, typename TAU, typename MC, typename VWORK>
+void
+larf(Side side, const DenseVector<VV> &v, const TAU &tau,
+     GeMatrix<MC> &C, DenseVector<VWORK> &work)
+{
+    LAPACK_DEBUG_OUT("larf");
+
+//
+//  Test the input parameters
+//
+    ASSERT((v.inc()>0) && (v.firstIndex()==1)
+        || (v.inc()<0) && (v.lastIndex()==1));
+    ASSERT((side==Left) && (v.length()==C.numRows())
+        || (side==Right) && (v.length()==C.numCols()));
+    ASSERT(C.firstRow()==1);
+    ASSERT(C.firstCol()==1);
+    ASSERT((side==Left) && (work.length()>=C.numCols())
+        || (side==Right) && (work.length()>=C.numRows()));
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    typename GeMatrix<MC>::NoView       C_org      = C;
+    typename DenseVector<VV>::NoView    work_org   = work;
+#   endif
+
+//
+//  Call implementation
+//
+    larf_generic(side, v, tau, C, work);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of results computed by the generic implementation
+//
+    typename GeMatrix<MC>::NoView       C_generic      = C;
+    typename DenseVector<VV>::NoView    work_generic   = work;
+
+//
+//  restore output arguments
+//
+    C       = C_org;
+    work    = work_org;
+
+//
+//  Compare generic results with results from the native implementation
+//
+    larf_native(side, v, tau, C, work);
+
+    bool failed = false;
+
+    if (! isIdentical(C_generic, C, "C_generic", "C")) {
+        std::cerr << "CXXLAPACK: C_generic = " << C_generic << std::endl;
+        std::cerr << "F77LAPACK: C = " << C << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(work_generic, work, "work_generic", "work")) {
+        std::cerr << "CXXLAPACK: work_generic = " << work_generic << std::endl;
+        std::cerr << "F77LAPACK: work = " << work << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    }
+#   endif
+}
+
+//-- forwarding ----------------------------------------------------------------
+template <typename VV, typename TAU, typename MC, typename VWORK>
+void
+larf(Side side, const VV &v, const TAU &tau, MC &&C, VWORK &&work)
+{
+    larf(side, v, tau, C, work);
 }
 
 } } // namespace lapack, flens

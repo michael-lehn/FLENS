@@ -33,6 +33,8 @@
 #ifndef FLENS_BLAS_CLOSURES_PRUNEMATRIXCLOSURE_TCC
 #define FLENS_BLAS_CLOSURES_PRUNEMATRIXCLOSURE_TCC 1
 
+#include <flens/typedefs.h>
+
 namespace flens {
 
 //-- General definition --------------------------------------------------------
@@ -47,8 +49,8 @@ PruneMatrixClosure<Matrix>::updateScalingFactor(const ALPHA &alpha,
 }
 
 template <typename Matrix>
-cxxblas::Transpose
-PruneMatrixClosure<Matrix>::updateTranspose(cxxblas::Transpose trans)
+Transpose
+PruneMatrixClosure<Matrix>::updateTranspose(Transpose trans)
 {
     return trans;
 }
@@ -79,8 +81,8 @@ struct PruneMatrixClosure<MatrixClosure<OpMult, ScalarValue<L>, R> >
         return PMC::updateScalingFactor(alpha*mc.left().value(), mc.right());
     }
 
-    static cxxblas::Transpose
-    updateTranspose(cxxblas::Transpose trans)
+    static Transpose
+    updateTranspose(Transpose trans)
     {
         return PruneMatrixClosure<R>::updateTranspose(trans);
     }
@@ -108,11 +110,11 @@ struct PruneMatrixClosure<MatrixClosure<OpTrans, R, R> >
         return PruneMatrixClosure<R>::updateScalingFactor(alpha, mc.right());
     }
 
-    static cxxblas::Transpose
-    updateTranspose(cxxblas::Transpose trans)
+    static Transpose
+    updateTranspose(Transpose trans)
     {
         trans = PruneMatrixClosure<R>::updateTranspose(trans);
-        return cxxblas::Transpose(trans^cxxblas::Trans);
+        return Transpose(trans^Trans);
     }
 
     static const Remainder &
@@ -138,11 +140,11 @@ struct PruneMatrixClosure<MatrixClosure<OpConj, R, R> >
         return PruneMatrixClosure<R>::updateScalingFactor(alpha, mc.right());
     }
 
-    static cxxblas::Transpose
-    updateTranspose(cxxblas::Transpose trans)
+    static Transpose
+    updateTranspose(Transpose trans)
     {
         trans = PruneMatrixClosure<R>::updateTranspose(trans);
-        return cxxblas::Transpose(trans^cxxblas::Conj);
+        return Transpose(trans^Conj);
     }
 
     static const Remainder &

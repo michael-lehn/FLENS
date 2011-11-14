@@ -46,7 +46,7 @@ class GeneralMatrix
 template <typename I>
 struct TypeInfo<GeneralMatrix<I> >
 {
-    typedef typename TypeInfo<I>::Impl Impl;
+    typedef typename TypeInfo<I>::Impl  Impl;
 };
 
 } // namespace flens

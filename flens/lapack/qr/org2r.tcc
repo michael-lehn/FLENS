@@ -47,35 +47,21 @@
 
 namespace flens { namespace lapack {
 
-//-- forwarding ----------------------------------------------------------------
+//== generic lapack implementation =============================================
+
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
 void
-org2r(IndexType k, MA &&A, const VTAU &tau, VWORK &&work)
+org2r_generic(IndexType                 k,
+              GeMatrix<MA>              &A,
+              const DenseVector<VTAU>   &tau,
+              DenseVector<VWORK>        &work)
 {
-    org2r(k, A, tau, work);
-}
-
-//-- org2r ---------------------------------------------------------------------
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
-void
-org2r(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
-      DenseVector<VWORK> &work)
-{
-    ASSERT(A.firstRow()==IndexType(1));
-    ASSERT(A.firstCol()==IndexType(1));
-    ASSERT(tau.firstIndex()==IndexType(1));
-    ASSERT(work.length()>=A.numCols());
-
     typedef typename GeMatrix<MA>::ElementType  T;
 
     const Underscore<IndexType> _;
 
-    IndexType m = A.numRows();
-    IndexType n = A.numCols();
-
-    ASSERT(n<=m);
-    ASSERT(k<=n);
-    ASSERT(0<=k);
+    const IndexType m = A.numRows();
+    const IndexType n = A.numCols();
 
 //
 //  Quick return if possible
@@ -112,6 +98,117 @@ org2r(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
             A(l,i) = 0;
         }
     }
+}
+
+//== interface for native lapack ===============================================
+
+#ifdef CHECK_CXXLAPACK
+
+template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+void
+org2r_native(IndexType                 k,
+             GeMatrix<MA>              &A,
+             const DenseVector<VTAU>   &tau,
+             DenseVector<VWORK>        &work)
+{
+    typedef typename GeMatrix<MA>::ElementType  T;
+
+    const INTEGER    M      = A.numRows();
+    const INTEGER    N      = A.numCols();
+    const INTEGER    K      = k;
+    const INTEGER    LDA    = A.leadingDimension();
+    INTEGER          INFO;
+
+    if (IsSame<T,DOUBLE>::value) {
+        LAPACK_IMPL(dorg2r)(&M,
+                            &N,
+                            &K,
+                            A.data(),
+                            &LDA,
+                            tau.data(),
+                            work.data(),
+                            &INFO);
+    } else {
+        ASSERT(0);
+    }
+    ASSERT(INFO==0);
+}
+
+#endif // CHECK_CXXLAPACK
+
+//== public interface ==========================================================
+
+template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+void
+org2r(IndexType                 k,
+      GeMatrix<MA>              &A,
+      const DenseVector<VTAU>   &tau,
+      DenseVector<VWORK>        &work)
+{
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==IndexType(1));
+    ASSERT(A.firstCol()==IndexType(1));
+    ASSERT(tau.firstIndex()==IndexType(1));
+    ASSERT(work.length()>=A.numCols());
+
+    const IndexType m = A.numRows();
+    const IndexType n = A.numCols();
+
+    ASSERT(n<=m);
+    ASSERT(k<=n);
+    ASSERT(0<=k);
+#   endif
+
+//
+//  Make copies of output arguments
+//
+#   ifdef CHECK_CXXLAPACK
+    typename GeMatrix<MA>::NoView       _A      = A;
+    typename DenseVector<VWORK>::NoView _work   = work;
+#   endif
+
+//
+//  Call implementation
+//
+    org2r_generic(k, A, tau, work);
+
+//
+//  Compare results
+//
+#   ifdef CHECK_CXXLAPACK
+    org2r_native(k, _A, tau, _work);
+
+    bool failed = false;
+    if (! isIdentical(A, _A, " A", "A_")) {
+        std::cerr << "CXXLAPACK:  A = " << A << std::endl;
+        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(work, _work, " work", "_work")) {
+        std::cerr << "CXXLAPACK:  work = " << work << std::endl;
+        std::cerr << "F77LAPACK: _work = " << _work << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        std::cerr << "error in: org2r.tcc" << std::endl;
+        ASSERT(0);
+    } else {
+//        std::cerr << "passed: org2r.tcc" << std::endl;
+    }
+#   endif
+}
+
+//-- forwarding ----------------------------------------------------------------
+template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+void
+org2r(IndexType k, MA &&A, const VTAU &tau, VWORK &&work)
+{
+    org2r(k, A, tau, work);
 }
 
 } } // namespace lapack, flens

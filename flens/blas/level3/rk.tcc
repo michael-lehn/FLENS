@@ -33,13 +33,14 @@
 #ifndef FLENS_BLAS_LEVEL3_RK_TCC
 #define FLENS_BLAS_LEVEL3_RK_TCC
 
-namespace flens { namespace blas {
+#include <flens/typedefs.h>
 
+namespace flens { namespace blas {
 
 //-- herk
 template <typename ALPHA, typename MA, typename BETA, typename MC>
 void
-rk(cxxblas::Transpose trans,
+rk(Transpose trans,
    const ALPHA &alpha,
    const GeMatrix<MA> &A,
    const BETA &beta,
@@ -48,9 +49,9 @@ rk(cxxblas::Transpose trans,
     ASSERT(MC::order==MA::order);
     typedef typename HeMatrix<MC>::IndexType IndexType;
 
-    IndexType n = (trans==cxxblas::NoTrans) ? A.numRows()
+    IndexType n = (trans==NoTrans) ? A.numRows()
                                             : A.numCols();
-    IndexType k = (trans==cxxblas::NoTrans) ? A.numCols()
+    IndexType k = (trans==NoTrans) ? A.numCols()
                                             : A.numRows();
 
     ASSERT((beta==static_cast<BETA>(0)) || (C.dim()==n));
@@ -58,7 +59,7 @@ rk(cxxblas::Transpose trans,
         C.resize(n, n);
     }
 
-    ASSERT(C.dim()==((trans==cxxblas::NoTrans) ? A.numRows() : A.numCols()));
+    ASSERT(C.dim()==((trans==NoTrans) ? A.numRows() : A.numCols()));
 
 #   ifdef HAVE_CXXBLAS_HERK
     cxxblas::herk(MC::order, C.upLo(),
@@ -74,7 +75,7 @@ rk(cxxblas::Transpose trans,
 //-- syrk
 template <typename ALPHA, typename MA, typename BETA, typename MC>
 void
-rk(cxxblas::Transpose trans,
+rk(Transpose trans,
    const ALPHA &alpha,
    const GeMatrix<MA> &A,
    const BETA &beta,
@@ -84,9 +85,9 @@ rk(cxxblas::Transpose trans,
 
     typedef typename SyMatrix<MC>::IndexType IndexType;
 
-    IndexType n = (trans==cxxblas::NoTrans) ? A.numRows()
+    IndexType n = (trans==NoTrans) ? A.numRows()
                                             : A.numCols();
-    IndexType k = (trans==cxxblas::NoTrans) ? A.numCols()
+    IndexType k = (trans==NoTrans) ? A.numCols()
                                             : A.numRows();
 
     ASSERT((beta==static_cast<BETA>(0)) || (C.dim()==n));
@@ -94,7 +95,7 @@ rk(cxxblas::Transpose trans,
         C.resize(n, n);
     }
 
-    ASSERT(C.dim()==((trans==cxxblas::NoTrans) ? A.numRows() : A.numCols()));
+    ASSERT(C.dim()==((trans==NoTrans) ? A.numRows() : A.numCols()));
 
 #   ifdef HAVE_CXXBLAS_SYRK
     cxxblas::syrk(MC::order, C.upLo(),

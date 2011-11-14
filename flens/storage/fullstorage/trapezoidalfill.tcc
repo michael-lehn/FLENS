@@ -34,40 +34,40 @@
 #define FLENS_STORAGE_FULLSTORAGE_TRAPEZOIDALFILL_TCC 1
 
 #include <cxxblas/typedefs.h>
+#include <flens/typedefs.h>
 
 namespace flens {
 
 template <typename IndexType, typename T>
 void
-trapezoidalFill(cxxblas::StorageOrder order, cxxblas::StorageUpLo upLo,
+trapezoidalFill(StorageOrder order, StorageUpLo upLo,
                 const T &value,
                 IndexType m, IndexType n, T *data, IndexType ld)
 {
-    // fill the strictly upper trapezoidal part
-    if (upLo==cxxblas::Upper) {
-        if (order==cxxblas::RowMajor) {
+    // fill the upper trapezoidal part
+    if (upLo==Upper) {
+        if (order==RowMajor) {
             for (IndexType i=0; i<min(m,n); ++i, data+=ld+1) {
-                std::fill_n(data+1, n-i-1, value);
+                std::fill_n(data, n-i, value);
             }
         }
-        if (order==cxxblas::ColMajor) {
+        if (order==ColMajor) {
             ++data;
-            for (IndexType j=1; j<n; ++j, data+=ld) {
-                std::fill_n(data, min(j,m), value);
+            for (IndexType j=0; j<n; ++j, data+=ld) {
+                std::fill_n(data, min(j+1,m), value);
             }
         }
     }
-    // fill the strictly lower trapezoidal part
-    if (upLo==cxxblas::Lower) {
-        if (order==cxxblas::RowMajor) {
-            data += ld;
-            for (IndexType i=1; i<m; ++i, data+=ld) {
-                std::fill_n(data, min(i, n), value);
+    // fill the lower trapezoidal part
+    if (upLo==Lower) {
+        if (order==RowMajor) {
+            for (IndexType i=0; i<m; ++i, data+=ld) {
+                std::fill_n(data, min(i+1, n), value);
             }
         }
-        if (order==cxxblas::ColMajor) {
+        if (order==ColMajor) {
             for (IndexType j=0; j<min(m, n); ++j, data+=ld+1) {
-                std::fill_n(data+1, m-j-1, value);
+                std::fill_n(data, m-j, value);
             }
         }
     }

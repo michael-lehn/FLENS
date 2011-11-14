@@ -47,21 +47,23 @@
 
 namespace flens { namespace lapack {
 
-using std::abs;
-
-//-- ladiv ---------------------------------------------------------------------
+//== generic lapack implementation =============================================
 template <typename T>
 void
 ladiv(const T &a, const T &b, const T &c, const T &d, T &p, T &q)
 {
+    LAPACK_DEBUG_OUT("ladiv");
+
+    using std::abs;
+
     if (abs(d)<abs(c)) {
-        e = d / c;
-        f = c + d*e;
+        const T e = d / c;
+        const T f = c + d*e;
         p = (a + b*e) / f;
         q = (b - a*e) / f;
     } else {
-        e = c / d;
-        f = d + c*e;
+        const T e = c / d;
+        const T f = d + c*e;
         p = ( b + a*e) / f;
         q = (-a + b*e) / f;
     }

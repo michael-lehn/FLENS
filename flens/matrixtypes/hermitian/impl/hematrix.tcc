@@ -34,6 +34,7 @@
 #define FLENS_MATRIXTYPES_HERMITIAN_IMPL_HEMATRIX_TCC 1
 
 #include <flens/blas/level1/copy.h>
+#include <flens/typedefs.h>
 
 namespace flens {
 
@@ -55,7 +56,7 @@ HeMatrix<FS>::HeMatrix(IndexType dim, IndexType firstRow, IndexType firstCol)
 }
 
 template <typename FS>
-HeMatrix<FS>::HeMatrix(const Engine &engine, cxxblas::StorageUpLo upLo)
+HeMatrix<FS>::HeMatrix(const Engine &engine, StorageUpLo upLo)
     : _engine(engine), _upLo(upLo)
 {
     ASSERT(_engine.numRows()==_engine.numCols());
@@ -96,7 +97,7 @@ const typename HeMatrix<FS>::ElementType &
 HeMatrix<FS>::operator()(IndexType row, IndexType col) const
 {
 #   ifndef NDEBUG
-    if (_upLo==cxxblas::Upper) {
+    if (_upLo==Upper) {
         ASSERT(col-firstCol()>=row-firstRow());
     } else {
         ASSERT(col-firstCol()<=row-firstRow());
@@ -110,7 +111,7 @@ typename HeMatrix<FS>::ElementType &
 HeMatrix<FS>::operator()(IndexType row, IndexType col)
 {
 #   ifndef NDEBUG
-    if (_upLo==cxxblas::Upper) {
+    if (_upLo==Upper) {
         ASSERT(col-firstCol()>=row-firstRow());
     } else {
         ASSERT(col-firstCol()<=row-firstRow());
@@ -213,14 +214,14 @@ HeMatrix<FS>::engine()
 }
 
 template <typename FS>
-cxxblas::StorageUpLo
+StorageUpLo
 HeMatrix<FS>::upLo() const
 {
     return _upLo;
 }
 
 template <typename FS>
-cxxblas::StorageUpLo &
+StorageUpLo &
 HeMatrix<FS>::upLo()
 {
     return _upLo;

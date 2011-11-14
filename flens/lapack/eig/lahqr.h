@@ -48,23 +48,35 @@
 
 namespace flens { namespace lapack {
 
+//== lahqr =====================================================================
+template <typename IndexType, typename MH, typename VWR, typename VWI,
+          typename MZ>
+    IndexType
+    lahqr(bool              wantT,
+          bool              wantZ,
+          IndexType         iLo,
+          IndexType         iHi,
+          GeMatrix<MH>      &H,
+          DenseVector<VWR>  &wr,
+          DenseVector<VWI>  &wi,
+          IndexType         iLoZ,
+          IndexType         iHiZ,
+          GeMatrix<MZ>      &Z);
+
 //-- forwarding ----------------------------------------------------------------
 template <typename IndexType, typename MH, typename VWR, typename VWI,
           typename MZ>
     IndexType
-    lahqr(bool wantT, bool wantZ,
-          IndexType iLo, IndexType iHi, MH &&H,
-          VWR &&wr, VWI &&wi,
-          IndexType iLoZ, IndexType iHiZ, MZ &&Z);
-
-//-- lahqr ---------------------------------------------------------------------
-template <typename IndexType, typename MH, typename VWR, typename VWI,
-          typename MZ>
-    IndexType
-    lahqr(bool wantT, bool wantZ,
-          IndexType iLo, IndexType iHi, GeMatrix<MH> &H,
-          DenseVector<VWR> &wr, DenseVector<VWI> &wi,
-          IndexType iLoZ, IndexType iHiZ, GeMatrix<MZ> &Z);
+    lahqr(bool              wantT,
+          bool              wantZ,
+          IndexType         iLo,
+          IndexType         iHi,
+          MH                &&H,
+          VWR               &&wr,
+          VWI               &&wi,
+          IndexType         iLoZ,
+          IndexType         iHiZ,
+          MZ                &&Z);
 
 } } // namespace lapack, flens
 

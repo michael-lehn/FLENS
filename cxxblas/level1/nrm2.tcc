@@ -37,13 +37,14 @@
 
 namespace cxxblas {
 
-using std::sqrt;
-using std::abs;
-
 template <typename IndexType, typename X, typename T>
 void
 nrm2_generic(IndexType n, const X *x, IndexType incX, T &norm)
 {
+    using std::abs;
+    using std::pow;
+    using std::sqrt;
+
     if (n<1) {
         norm = 0;
     } else if (n==1) {

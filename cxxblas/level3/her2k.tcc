@@ -116,8 +116,8 @@ her2k(StorageOrder order, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_cher2k");
 
-    cblas_cher2k(CBLAS::value(order), CBLAS::value(upLo),
-                 CBLAS::value(trans),
+    cblas_cher2k(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
+                 CBLAS::getCblasType(trans),
                  n, k,
                  reinterpret_cast<const float *>(&alpha),
                  reinterpret_cast<const float *>(A), ldA,
@@ -140,8 +140,8 @@ her2k(StorageOrder order, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zher2k");
 
-    cblas_zher2k(CBLAS::value(order), CBLAS::value(upLo),
-                 CBLAS::value(trans),
+    cblas_zher2k(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
+                 CBLAS::getCblasType(trans),
                  n, k,
                  reinterpret_cast<const double *>(&alpha),
                  reinterpret_cast<const double *>(A), ldA,

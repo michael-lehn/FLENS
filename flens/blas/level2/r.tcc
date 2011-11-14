@@ -52,15 +52,14 @@ r(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
 //-- ger
 template <typename ALPHA, typename VX, typename VY, typename MA>
 void
-r(const ALPHA &alpha, const DenseVector<VX> &x, const DenseVector<VY> &y,
+r(const ALPHA &alpha,
+  const DenseVector<VX> &x, const DenseVector<VY> &y,
   GeMatrix<MA> &A)
 {
     if ((x.length()!=A.numRows()) || (y.length()!=A.numCols())) {
-        A.resize(x.length(), y.length(),
-                          x.firstIndex(),
-                          y.firstIndex());
+        A.resize(x.length(), y.length(), x.firstIndex(), y.firstIndex());
     }
-    cxxblas::ger(MA::order,
+    cxxblas::ger(A.order(),
                  A.numRows(), A.numCols(),
                  alpha,
                  x.data(), x.stride(),

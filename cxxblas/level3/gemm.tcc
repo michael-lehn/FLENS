@@ -47,6 +47,8 @@ gemm_generic(StorageOrder order,
              const BETA &beta,
              MC *C, IndexType ldC)
 {
+    CXXBLAS_DEBUG_OUT("gemm_generic");
+
     if ((m==0) || (n==0)) {
         return;
     }
@@ -201,8 +203,8 @@ gemm(StorageOrder order,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_sgemm");
 
-    cblas_sgemm(CBLAS::value(order),
-                CBLAS::value(transA), CBLAS::value(transB),
+    cblas_sgemm(CBLAS::getCblasType(order),
+                CBLAS::getCblasType(transA), CBLAS::getCblasType(transB),
                 m, n, k,
                 alpha,
                 A, ldA,
@@ -225,8 +227,8 @@ gemm(StorageOrder order,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_dgemm");
 
-    cblas_dgemm(CBLAS::value(order),
-                CBLAS::value(transA), CBLAS::value(transB),
+    cblas_dgemm(CBLAS::getCblasType(order),
+                CBLAS::getCblasType(transA), CBLAS::getCblasType(transB),
                 m, n, k,
                 alpha,
                 A, ldA,
@@ -249,8 +251,8 @@ gemm(StorageOrder order,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_cgemm");
 
-    cblas_cgemm(CBLAS::value(order),
-                CBLAS::value(transA), CBLAS::value(transB),
+    cblas_cgemm(CBLAS::getCblasType(order),
+                CBLAS::getCblasType(transA), CBLAS::getCblasType(transB),
                 m, n, k,
                 reinterpret_cast<const float *>(&alpha),
                 reinterpret_cast<const float *>(A), ldA,
@@ -273,8 +275,8 @@ gemm(StorageOrder order,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zgemm");
 
-    cblas_zgemm(CBLAS::value(order),
-                CBLAS::value(transA), CBLAS::value(transB),
+    cblas_zgemm(CBLAS::getCblasType(order),
+                CBLAS::getCblasType(transA), CBLAS::getCblasType(transB),
                 m, n, k,
                 reinterpret_cast<const double *>(&alpha),
                 reinterpret_cast<const double *>(A), ldA,

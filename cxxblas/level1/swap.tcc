@@ -39,6 +39,8 @@ template <typename IndexType, typename X, typename Y>
 void
 swap_generic(IndexType n, X *x, IndexType incX, Y *y, IndexType incY)
 {
+    CXXBLAS_DEBUG_OUT("swap_generic");
+
     for (IndexType i=0; i<n; ++i, x+=incX, y+=incY) {
         std::swap(*x, *y);
     }

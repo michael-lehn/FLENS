@@ -39,7 +39,7 @@ namespace flens {
 
 template <typename IndexType, typename T>
     void
-    trapezoidalFill(cxxblas::StorageOrder order, cxxblas::StorageUpLo upLo,
+    trapezoidalFill(StorageOrder order, StorageUpLo upLo,
                     const T &value,
                     IndexType m, IndexType n, T *data, IndexType ld);
 

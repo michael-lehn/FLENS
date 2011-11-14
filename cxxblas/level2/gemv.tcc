@@ -49,6 +49,8 @@ gemv_generic(StorageOrder order, Transpose transA, Transpose conjX,
              const BETA &beta,
              VY *y, IndexType incY)
 {
+    CXXBLAS_DEBUG_OUT("gemv_generic");
+
     if (order==ColMajor) {
         transA = Transpose(transA^Trans);
         gemv_generic(RowMajor, transA, conjX, n, m, alpha, A, ldA,
@@ -159,7 +161,7 @@ gemv(StorageOrder order, Transpose trans,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_sgemv");
 
-    cblas_sgemv(CBLAS::value(order), CBLAS::value(trans),
+    cblas_sgemv(CBLAS::getCblasType(order), CBLAS::getCblasType(trans),
                 m,  n,
                 alpha,
                 A, ldA,
@@ -181,7 +183,7 @@ gemv(StorageOrder order, Transpose trans,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_dgemv");
 
-    cblas_dgemv(CBLAS::value(order), CBLAS::value(trans),
+    cblas_dgemv(CBLAS::getCblasType(order), CBLAS::getCblasType(trans),
                 m,  n,
                 alpha,
                 A, ldA,
@@ -203,7 +205,7 @@ gemv(StorageOrder order, Transpose trans,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_cgemv");
 
-    cblas_cgemv(CBLAS::value(order), CBLAS::value(trans),
+    cblas_cgemv(CBLAS::getCblasType(order), CBLAS::getCblasType(trans),
                 m,  n,
                 reinterpret_cast<const float *>(&alpha),
                 reinterpret_cast<const float *>(A), ldA,
@@ -225,7 +227,7 @@ gemv(StorageOrder order, Transpose trans,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zgemv");
 
-    cblas_zgemv(CBLAS::value(order), CBLAS::value(trans),
+    cblas_zgemv(CBLAS::getCblasType(order), CBLAS::getCblasType(trans),
                 m,  n,
                 reinterpret_cast<const double *>(&alpha),
                 reinterpret_cast<const double *>(A), ldA,

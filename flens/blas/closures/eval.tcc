@@ -39,6 +39,8 @@
 #include <flens/blas/debugmacro.h>
 #include <flens/blas/level1/level1.h>
 #include <flens/blas/level2/level2.h>
+#include <flens/typedefs.h>
+
 
 //-- blas entry points----------------------------------------------------------
 
@@ -58,7 +60,7 @@ copy(const Vector<VX> &x, Vector<VY> &y)
 
 template <typename ALPHA, typename VX, typename VY>
 void
-axpy(const ALPHA &alpha, const Vector<VX> &x, Vector<VY> &y)
+axpy(const ALPHA &alpha, const Vector<VX> &x, VY &&y)
 {
     FLENS_CLOSURELOG_ADD_ENTRY_PLUSASSIGNMENT(alpha, x, y);
 
@@ -70,7 +72,7 @@ axpy(const ALPHA &alpha, const Vector<VX> &x, Vector<VY> &y)
 //-- matrix closures
 template <typename MA, typename MB>
 void
-copy(cxxblas::Transpose trans,
+copy(Transpose trans,
      const Matrix<MA> &A, Matrix<MB> &B)
 {
     // TODO: take trans into account
@@ -83,7 +85,7 @@ copy(cxxblas::Transpose trans,
 
 template <typename ALPHA, typename MA, typename MB>
 void
-axpy(cxxblas::Transpose trans,
+axpy(Transpose trans,
      const ALPHA &alpha, const Matrix<MA> &A, Matrix<MB> &B)
 {
     // TODO: take trans into account
@@ -175,7 +177,7 @@ void
 copy(const VectorClosure<OpMult, MA, VX> &Ax, Vector<VY> &y)
 {
     typedef typename VY::Impl::ElementType TY;
-    mv(cxxblas::NoTrans, TY(1), Ax.left(), Ax.right(), TY(0), y.impl());
+    mv(NoTrans, TY(1), Ax.left(), Ax.right(), TY(0), y.impl());
 }
 
 //-- axpy
@@ -222,24 +224,24 @@ axpy(const ALPHA &alpha,
      const VectorClosure<OpMult, MA, VX> &Ax, Vector<VY> &y)
 {
     typedef typename VY::Impl::ElementType TY;
-    mv(cxxblas::NoTrans, alpha, Ax.left(), Ax.right(), TY(1), y.impl());
+    mv(NoTrans, alpha, Ax.left(), Ax.right(), TY(1), y.impl());
 }
 
 //-- mv
 // y = x*A  ->  y = A'*x
 template <typename ALPHA, typename VX, typename MA, typename BETA, typename VY>
 void
-mv(cxxblas::Transpose trans,
+mv(Transpose trans,
    const ALPHA &alpha, const Vector<VX> &x, const Matrix<MA> &A,
    const BETA &beta, Vector<VY> &y)
 {
-    trans = cxxblas::Transpose(cxxblas::Trans^trans);
+    trans = Transpose(Trans^trans);
     mv(trans, alpha, A.impl(), x.impl(), beta, y.impl());
 }
 
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
 void
-mv(cxxblas::Transpose trans,
+mv(Transpose trans,
    const ALPHA &alpha, const Matrix<MA> &A, const Vector<VX> &x,
    const BETA &beta, Vector<VY> &y)
 {
@@ -258,29 +260,32 @@ mv(cxxblas::Transpose trans,
 
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
 void
-mv(cxxblas::Transpose trans,
+mv(Transpose DEBUG_VAR(trans),
    const ALPHA &alpha, const HermitianMatrix<MA> &A, const Vector<VX> &x,
    const BETA &beta, Vector<VY> &y)
 {
-    ASSERT(trans==cxxblas::NoTrans);
+    ASSERT(trans==NoTrans);
     mv(alpha, A.impl(), x.impl(), beta, y.impl());
 }
 
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
 void
-mv(cxxblas::Transpose trans,
+mv(Transpose DEBUG_VAR(trans),
    const ALPHA &alpha, const SymmetricMatrix<MA> &A, const Vector<VX> &x,
    const BETA &beta, Vector<VY> &y)
 {
-    ASSERT(trans==cxxblas::NoTrans);
+    ASSERT(trans==NoTrans);
     mv(alpha, A.impl(), x.impl(), beta, y.impl());
 }
 
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
 void
-mv(cxxblas::Transpose trans,
-   const ALPHA &alpha, const TriangularMatrix<MA> &A, const Vector<VX> &x,
-   const BETA &beta, Vector<VY> &y)
+mv(Transpose                    trans,
+   const ALPHA                  &DEBUG_VAR(alpha),
+   const TriangularMatrix<MA>   &A,
+   const Vector<VX>             &DEBUG_VAR(x),
+   const BETA                   &DEBUG_VAR(beta),
+   Vector<VY>                   &y)
 {
     ASSERT(alpha==ALPHA(1));
     ASSERT(beta==BETA(0));
@@ -293,8 +298,7 @@ mv(cxxblas::Transpose trans,
 // B = op(A)   (error-handle for unkown closure)
 template <typename Op, typename MA1, typename MA2, typename MB>
 void
-copy(cxxblas::Transpose trans,
-     const MatrixClosure<Op, MA1, MA2> &A, Matrix<MB> &B)
+copy(Transpose, const MatrixClosure<Op, MA1, MA2> &, Matrix<MB> &)
 {
     std::cerr << "ERROR: unkown Op-type" << std::endl;
     ASSERT(0);
@@ -303,12 +307,12 @@ copy(cxxblas::Transpose trans,
 // B = A'
 template <typename MA, typename MB>
 void
-copy(cxxblas::Transpose trans,
+copy(Transpose trans,
      const MatrixClosure<OpTrans, MA, MA> &At, Matrix<MB> &B)
 {
-    trans = cxxblas::Transpose(trans^cxxblas::Trans);
+    trans = Transpose(trans^Trans);
     if (ADDRESS(At.left())==ADDRESS(B)) {
-        ASSERT(trans==cxxblas::NoTrans);
+        ASSERT(trans==NoTrans);
     } else {
         copy(trans, At.left(), B.impl());
     }
@@ -317,11 +321,11 @@ copy(cxxblas::Transpose trans,
 // B = alpha*A
 template <typename T, typename MA, typename MB>
 void
-copy(cxxblas::Transpose trans,
+copy(Transpose trans,
      const MatrixClosure<OpMult, ScalarValue<T>, MA> &aA, Matrix<MB> &B)
 {
     if (ADDRESS(aA.right())==ADDRESS(B)) {
-        ASSERT(trans==cxxblas::NoTrans);
+        ASSERT(trans==NoTrans);
         scal(aA.left().value(), B.impl());
     } else {
         scal(T(0), B.impl());
@@ -332,7 +336,7 @@ copy(cxxblas::Transpose trans,
 // B = A1 + A2
 template <typename ML, typename MR, typename MB>
 void
-copy(cxxblas::Transpose trans,
+copy(Transpose trans,
      const MatrixClosure<OpAdd, ML, MR> &A, Matrix<MB> &B)
 {
     FLENS_CLOSURELOG_ADD_ENTRY_COPY(A, B);
@@ -350,8 +354,8 @@ copy(cxxblas::Transpose trans,
 // B += op(A)   (error-handle for unkown closure)
 template <typename ALPHA, typename Op, typename MA1, typename MA2, typename MB>
 void
-axpy(cxxblas::Transpose trans, const ALPHA &alpha,
-     const MatrixClosure<Op, MA1, MA2> &A, Matrix<MB> &B)
+axpy(Transpose, const ALPHA &,
+     const MatrixClosure<Op, MA1, MA2> &, Matrix<MB> &)
 {
     std::cerr << "ERROR: unkown Op-type" << std::endl;
     ASSERT(0);
@@ -360,17 +364,17 @@ axpy(cxxblas::Transpose trans, const ALPHA &alpha,
 // B += A'
 template <typename ALPHA, typename MA, typename MB>
 void
-axpy(cxxblas::Transpose trans, const ALPHA &alpha,
+axpy(Transpose trans, const ALPHA &alpha,
      const MatrixClosure<OpTrans, MA, MA> &At, Matrix<MB> &B)
 {
-    trans = cxxblas::Transpose(trans^cxxblas::Trans);
+    trans = Transpose(trans^Trans);
     axpy(trans, alpha, At.left(), B.impl());
 }
 
 // B += alpha*A
 template <typename ALPHA, typename T, typename MA, typename MB>
 void
-axpy(cxxblas::Transpose trans, const ALPHA &alpha,
+axpy(Transpose trans, const ALPHA &alpha,
      const MatrixClosure<OpMult, ScalarValue<T>, MA> &aA, Matrix<MB> &B)
 {
     axpy(trans, alpha*aA.left().value(), aA.right(), B.impl());
@@ -379,7 +383,7 @@ axpy(cxxblas::Transpose trans, const ALPHA &alpha,
 // B += A1 + A2
 template <typename ALPHA, typename ML, typename MR, typename MB>
 void
-axpy(cxxblas::Transpose trans, const ALPHA &alpha,
+axpy(Transpose trans, const ALPHA &alpha,
      const MatrixClosure<OpAdd, ML, MR> &A, Matrix<MB> &B)
 {
     ASSERT(!DebugClosure::search(A.right(), ADDRESS(B)));

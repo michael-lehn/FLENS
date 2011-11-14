@@ -39,7 +39,11 @@
 #include <flens/aux/isconvertible.h>
 #include <flens/aux/issame.h>
 #include <flens/aux/macros.h>
+#include <flens/aux/max.h>
+#include <flens/aux/min.h>
+#include <flens/aux/pair.h>
 #include <flens/aux/promotion.h>
+#include <flens/aux/quadruple.h>
 #include <flens/aux/range.h>
 #include <flens/aux/restrictto.h>
 #include <flens/aux/underscore.h>

@@ -36,9 +36,6 @@
 #include <complex>
 #include <cxxblas/level1/level1.h>
 
-using std::min;
-using std::max;
-
 namespace cxxblas {
 
 template <typename IndexType, typename ALPHA, typename MA, typename VX,
@@ -52,6 +49,10 @@ hbmv_generic(StorageOrder order, StorageUpLo upLo, Transpose conjugateA,
              const BETA &beta,
              VY *y, IndexType incY)
 {
+    using std::max;
+    using std::min;
+    // TODO:  using cxxblas::real <- causes an error
+
     if (order==ColMajor) {
         upLo = (upLo==Upper) ? Lower : Upper;
         conjugateA = Transpose(conjugateA^Conj);

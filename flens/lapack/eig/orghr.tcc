@@ -48,24 +48,40 @@
 
 namespace flens { namespace lapack {
 
-using std::max;
+//== generic lapack implementation =============================================
 
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename  MA, typename  VTAU, typename  VWORK>
-void
-orghr(IndexType iLo, IndexType iHi, MA &&A, const VTAU &tau, VWORK &&work)
+template <typename IndexType, typename  MA, typename  VTAU>
+IndexType
+orghr_generic_wsq(IndexType                 iLo,
+                  IndexType                 iHi,
+                  const GeMatrix<MA>        &A,
+                  const DenseVector<VTAU>   &)
 {
-    orghr(iLo, iHi, A, tau, work);
-}
+    using std::max;
 
-//-- orghr ---------------------------------------------------------------------
-template <typename IndexType, typename  MA, typename  VTAU, typename  VWORK>
-void
-orghr_impl(IndexType iLo, IndexType iHi, GeMatrix<MA> &A,
-           const DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
-{
     typedef typename GeMatrix<MA>::ElementType  T;
 
+    const Underscore<IndexType> _;
+    const IndexType n = A.numRows();
+    const IndexType nh = iHi - iLo;
+    const IndexType nb = ilaenv<T>(1, "ORGQR", "", nh, nh, nh);
+
+    return max(IndexType(1), nh)*nb;
+}
+
+template <typename IndexType, typename  MA, typename  VTAU, typename VW>
+void
+orghr_generic(IndexType                 iLo,
+              IndexType                 iHi,
+              GeMatrix<MA>              &A,
+              const DenseVector<VTAU>   &tau,
+              DenseVector<VW>           &work)
+{
+    using std::max;
+
+    typedef typename GeMatrix<MA>::ElementType  T;
+
+    const Underscore<IndexType> _;
     const IndexType n = A.numRows();
     const IndexType nh = iHi - iLo;
     const IndexType nb = ilaenv<T>(1, "ORGQR", "", nh, nh, nh);
@@ -116,21 +132,103 @@ orghr_impl(IndexType iLo, IndexType iHi, GeMatrix<MA> &A,
 //
 //      Generate Q(ilo+1:ihi,ilo+1:ihi)
 //
-        orgqr(A(_(iLo+1,iHi),_(iLo+1,iHi)), tau(_(iLo,iHi-1)), work);
+        orgqr(nh, A(_(iLo+1,iHi),_(iLo+1,iHi)), tau(_(iLo,iHi-1)), work);
     }
     work(1) = lWorkOpt;
 }
 
-template <typename IndexType, typename  MA, typename  VTAU, typename  VWORK>
-void
-orghr(IndexType iLo, IndexType iHi, GeMatrix<MA> &A,
-      const DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
+//== interface for native lapack ===============================================
+
+#ifdef CHECK_CXXLAPACK
+
+template <typename IndexType, typename  MA, typename  VTAU>
+IndexType
+orghr_native_wsq(IndexType                 iLo,
+                 IndexType                 iHi,
+                 const GeMatrix<MA>        &A,
+                 const DenseVector<VTAU>   &tau)
 {
+    typedef typename GeMatrix<MA>::ElementType  T;
+
+    const INTEGER    N      = A.numRows();
+    const INTEGER    ILO    = iLo;
+    const INTEGER    IHI    = iHi;
+    const INTEGER    LDA    = A.leadingDimension();
+    T                WORK;
+    T                DUMMY;
+    const INTEGER    LWORK  = -1;
+    INTEGER          INFO;
+
+    if (IsSame<T, DOUBLE>::value) {
+        LAPACK_IMPL(dorghr)(&N,
+                            &ILO,
+                            &IHI,
+                            &DUMMY,
+                            &LDA,
+                            tau.data(),
+                            &WORK,
+                            &LWORK,
+                            &INFO);
+    } else {
+        ASSERT(0);
+    }
+    ASSERT(INFO==0);
+    return WORK;
+}
+
+
+template <typename IndexType, typename  MA, typename  VTAU, typename VW>
+void
+orghr_native(IndexType                 iLo,
+             IndexType                 iHi,
+             GeMatrix<MA>              &A,
+             const DenseVector<VTAU>   &tau,
+             DenseVector<VW>           &work)
+{
+    typedef typename GeMatrix<MA>::ElementType  T;
+
+    const INTEGER    N      = A.numRows();
+    const INTEGER    ILO    = iLo;
+    const INTEGER    IHI    = iHi;
+    const INTEGER    LDA    = A.leadingDimension();
+    const INTEGER    LWORK  = work.length();
+    INTEGER          INFO;
+
+    if (IsSame<T, DOUBLE>::value) {
+        LAPACK_IMPL(dorghr)(&N,
+                            &ILO,
+                            &IHI,
+                            A.data(),
+                            &LDA,
+                            tau.data(),
+                            work.data(),
+                            &LWORK,
+                            &INFO);
+    } else {
+        ASSERT(0);
+    }
+    ASSERT(INFO==0);
+}
+
+#endif // CHECK_CXXLAPACK
+
+//== public interface ==========================================================
+
+template <typename IndexType, typename  MA, typename  VTAU>
+IndexType
+orghr_wsq(IndexType                 iLo,
+          IndexType                 iHi,
+          const GeMatrix<MA>        &A,
+          const DenseVector<VTAU>   &tau)
+{
+//
+//  Test the input parameters
+//
 #   ifndef NDEBUG
     ASSERT(A.numRows()==A.numCols());
 
     const IndexType n = A.numCols();
-    if (n>0) {
+    if (n==0) {
         ASSERT(iLo==1);
         ASSERT(iHi==0);
     } else {
@@ -139,10 +237,121 @@ orghr(IndexType iLo, IndexType iHi, GeMatrix<MA> &A,
         ASSERT(iHi<=n);
     }
     ASSERT(tau.length()==(n-1));
-    const bool lQuery = (work.length()==0);
-    ASSERT((work.length()>=(iHi-iLo)) || lQuery);
 #   endif
 
+//
+//  Call implementation
+//
+    IndexType ws = orghr_generic_wsq(iLo, iHi, A, tau);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    IndexType _ws = orghr_native_wsq(iLo, iHi, A, tau);
+
+    if (ws!=_ws) {
+        std::cerr << "CXXLAPACK:  ws = " << ws << std::endl;
+        std::cerr << "F77LAPACK: _ws = " << _ws << std::endl;
+        ASSERT(0);
+    }
+#   endif
+
+    return ws;
+}
+
+template <typename IndexType, typename  MA, typename  VTAU, typename VW>
+void
+orghr(IndexType                 iLo,
+      IndexType                 iHi,
+      GeMatrix<MA>              &A,
+      const DenseVector<VTAU>   &tau,
+      DenseVector<VW>           &work)
+{
+    LAPACK_DEBUG_OUT("orghr");
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.numRows()==A.numCols());
+
+    const IndexType n = A.numCols();
+    if (n==0) {
+        ASSERT(iLo==1);
+        ASSERT(iHi==0);
+    } else {
+        ASSERT(1<=iLo);
+        ASSERT(iLo<=iHi);
+        ASSERT(iHi<=n);
+    }
+    ASSERT(tau.length()==(n-1));
+    ASSERT(work.length()>=iHi-iLo);
+#   endif
+
+//
+//  Make copies of output arguments
+//
+#   ifdef CHECK_CXXLAPACK
+    typename GeMatrix<MA>::NoView       _A    = A;
+    typename DenseVector<VW>::NoView    _work = work;
+#   endif
+
+//
+//  Call implementation
+//
+    orghr_generic(iLo, iHi, A, tau, work);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    if (_work.length()==0) {
+        _work.resize(work.length());
+    }
+    orghr_native(iLo, iHi, _A, tau, _work);
+
+    bool failed = false;
+    if (! isIdentical(A, _A, " A", "A_")) {
+        std::cerr << "CXXLAPACK:  A = " << A << std::endl;
+        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(work, _work, " work", "_work")) {
+        std::cerr << "CXXLAPACK:  work = " << work << std::endl;
+        std::cerr << "F77LAPACK: _work = " << _work << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        std::cerr << "error in: hrd.tcc" << std::endl;
+        ASSERT(0);
+    } else {
+//        std::cerr << "passed: hrd.tcc" << std::endl;
+    }
+#   endif
+}
+
+//-- forwarding ----------------------------------------------------------------
+template <typename IndexType, typename  MA, typename  VTAU>
+IndexType
+orghr_wsq(IndexType     iLo,
+          IndexType     iHi,
+          const MA      &&A,
+          const VTAU    &tau)
+{
+    return orghr_wsq(iLo, iHi, A, tau);
+}
+
+template <typename IndexType, typename  MA, typename  VTAU, typename VW>
+void
+orghr(IndexType     iLo,
+      IndexType     iHi,
+      MA            &&A,
+      const VTAU    &tau,
+      VW            &&work)
+{
     orghr(iLo, iHi, A, tau, work);
 }
 

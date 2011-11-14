@@ -34,6 +34,7 @@
 #define FLENS_MATRIXTYPES_SYMMETRIC_IMPL_SYMATRIX_TCC 1
 
 #include <flens/blas/level1/copy.h>
+#include <flens/typedefs.h>
 
 namespace flens {
 
@@ -55,7 +56,7 @@ SyMatrix<FS>::SyMatrix(IndexType dim, IndexType firstRow, IndexType firstCol)
 }
 
 template <typename FS>
-SyMatrix<FS>::SyMatrix(const Engine &engine, cxxblas::StorageUpLo upLo)
+SyMatrix<FS>::SyMatrix(const Engine &engine, StorageUpLo upLo)
     : _engine(engine), _upLo(upLo)
 {
     ASSERT(_engine.numRows()==_engine.numCols());
@@ -96,7 +97,7 @@ const typename SyMatrix<FS>::ElementType &
 SyMatrix<FS>::operator()(IndexType row, IndexType col) const
 {
 #   ifndef NDEBUG
-    if (_upLo==cxxblas::Upper) {
+    if (_upLo==Upper) {
         ASSERT(col-firstCol()>=row-firstRow());
     } else {
         ASSERT(col-firstCol()<=row-firstRow());
@@ -110,7 +111,7 @@ typename SyMatrix<FS>::ElementType &
 SyMatrix<FS>::operator()(IndexType row, IndexType col)
 {
 #   ifndef NDEBUG
-    if (_upLo==cxxblas::Upper) {
+    if (_upLo==Upper) {
         ASSERT(col-firstCol()>=row-firstRow());
     } else {
         ASSERT(col-firstCol()<=row-firstRow());
@@ -213,14 +214,14 @@ SyMatrix<FS>::engine()
 }
 
 template <typename FS>
-cxxblas::StorageUpLo
+StorageUpLo
 SyMatrix<FS>::upLo() const
 {
     return _upLo;
 }
 
 template <typename FS>
-cxxblas::StorageUpLo &
+StorageUpLo &
 SyMatrix<FS>::upLo()
 {
     return _upLo;

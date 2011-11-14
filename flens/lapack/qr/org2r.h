@@ -47,16 +47,17 @@
 
 namespace flens { namespace lapack {
 
+//== org2r =====================================================================
+template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+    void
+    org2r(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
+          DenseVector<VWORK> &work);
+
 //-- forwarding ----------------------------------------------------------------
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
     void
     org2r(IndexType k, MA &&A, const VTAU &tau, VWORK &&work);
 
-//-- org2r ---------------------------------------------------------------------
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
-    void
-    org2r(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
-          DenseVector<VWORK> &work);
 
 } } // namespace lapack, flens
 

@@ -47,40 +47,23 @@
 
 namespace flens { namespace lapack {
 
-using std::max;
-using std::min;
+//== generic lapack implementation =============================================
 
-//-- forwarding ----------------------------------------------------------------
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
 void
-orgqr(IndexType k, MA &&A, const VTAU &tau, VWORK &&work)
+orgqr_generic(IndexType                 k,
+              GeMatrix<MA>              &A,
+              const DenseVector<VTAU>   &tau,
+              DenseVector<VWORK>        &work)
 {
-    orgqr(k, A, tau, work);
-}
-
-//-- orgqr ---------------------------------------------------------------------
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
-void
-orgqr(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
-      DenseVector<VWORK> &work)
-{
-    ASSERT(A.firstRow()==IndexType(1));
-    ASSERT(A.firstCol()==IndexType(1));
-    ASSERT(tau.firstIndex()==IndexType(1));
-    ASSERT(tau.length()==k);
-    ASSERT((work.length()==0) || (work.length()>=A.numCols()));
+    using std::max;
+    using std::min;
 
     typedef typename GeMatrix<MA>::ElementType  T;
 
     const Underscore<IndexType> _;
-
-    IndexType m = A.numRows();
-    IndexType n = A.numCols();
-
-    ASSERT(n<=m);
-    ASSERT(k<=n);
-    ASSERT(0<=k);
-
+    const IndexType m = A.numRows();
+    const IndexType n = A.numCols();
 //
 //  Perform and apply workspace query
 //
@@ -107,7 +90,7 @@ orgqr(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
 //
 //      Determine when to cross over from blocked to unblocked code.
 //
-        nx = max(IndexType(0), ilaenv<T>(3, "ORGQR", "", m, n, k));
+        nx = max(IndexType(0), IndexType(ilaenv<T>(3, "ORGQR", "", m, n, k)));
         if (nx<k) {
 //
 //          Determine if workspace is large enough for blocked code.
@@ -120,7 +103,8 @@ orgqr(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
 //              determine the minimum value of NB.
 //
                 nb = work.length() / ldWork;
-                nbMin = max(IndexType(2), ilaenv<T>(2, "ORGQR", "", m, n, k));
+                nbMin = max(IndexType(2),
+                            IndexType(ilaenv<T>(2, "ORGQR", "", m, n, k)));
             }
         }
     }
@@ -195,6 +179,126 @@ orgqr(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
         }
     }
     work(1) = iws;
+}
+
+//== interface for native lapack ===============================================
+
+#ifdef CHECK_CXXLAPACK
+
+template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+void
+orgqr_native(IndexType                  k,
+              GeMatrix<MA>              &A,
+              const DenseVector<VTAU>   &tau,
+              DenseVector<VWORK>        &work)
+{
+    typedef typename  GeMatrix<MA>::ElementType     T;
+
+    const INTEGER M     = A.numRows();
+    const INTEGER N     = A.numCols();
+    const INTEGER K     = k;
+    const INTEGER LDA   = A.leadingDimension();
+    const INTEGER LWORK = work.length();
+    INTEGER INFO;
+
+    if (IsSame<T,DOUBLE>::value) {
+        LAPACK_IMPL(dorgqr)(&M,
+                            &N,
+                            &K,
+                            A.data(),
+                            &LDA,
+                            tau.data(),
+                            work.data(),
+                            &LWORK,
+                            &INFO);
+    } else {
+        ASSERT(0);
+    }
+    ASSERT(INFO==0);
+}
+
+#endif // CHECK_CXXLAPACK
+
+//== public interface ==========================================================
+
+template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+void
+orgqr(IndexType                 k,
+      GeMatrix<MA>              &A,
+      const DenseVector<VTAU>   &tau,
+      DenseVector<VWORK>        &work)
+{
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==IndexType(1));
+    ASSERT(A.firstCol()==IndexType(1));
+    ASSERT(tau.firstIndex()==IndexType(1));
+    ASSERT(tau.length()==k);
+    ASSERT((work.length()==0) || (work.length()>=A.numCols()));
+
+    const IndexType m = A.numRows();
+    const IndexType n = A.numCols();
+
+    ASSERT(n<=m);
+    ASSERT(k<=n);
+    ASSERT(0<=k);
+#   endif 
+
+//
+//  Make copies of output arguments
+//
+#   ifdef CHECK_CXXLAPACK
+    typename GeMatrix<MA>::NoView       _A      = A;
+    typename DenseVector<VWORK>::NoView _work   = work;
+#   endif
+
+//
+//  Call implementation
+//
+    orgqr_generic(k, A, tau, work);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    if (_work.length()==0) {
+        _work.resize(work.length());
+    }
+    orgqr_native(k, _A, tau, _work);
+
+    bool failed = false;
+    if (! isIdentical(A, _A, " A", "A_")) {
+        std::cerr << "CXXLAPACK:  A = " << A << std::endl;
+        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(work, _work, " work", "_work")) {
+        std::cerr << "CXXLAPACK:  work = " << work << std::endl;
+        std::cerr << "F77LAPACK: _work = " << _work << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        std::cerr << "error in: orgqr.tcc" << std::endl;
+        ASSERT(0);
+    } else {
+//        std::cerr << "passed: orgqr.tcc" << std::endl;
+    }
+#   endif
+}
+
+//-- forwarding ----------------------------------------------------------------
+template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+void
+orgqr(IndexType     k,
+      MA            &&A,
+      const VTAU    &tau,
+      VWORK         &&work)
+{
+    orgqr(k, A, tau, work);
 }
 
 } } // namespace lapack, flens

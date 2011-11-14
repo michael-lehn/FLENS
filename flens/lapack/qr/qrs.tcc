@@ -83,9 +83,7 @@ qrs(GeMatrix<MA> &A, const DenseVector<VTAU> &tau, GeMatrix<MB> &B,
 //
 //  B := Q' * B
 //
-    // TODO: call the block version
-    // ormqr(Left, Trans, A, tau, B, work);
-    orm2r(Left, Trans, A, tau, B, work);
+    ormqr(Left, Trans, A, tau, B, work);
 //
 //  Solve R*X = B(1:n,:)
 //

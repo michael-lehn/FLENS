@@ -76,18 +76,11 @@
 
 namespace flens { namespace lapack {
 
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VTAU, typename VWORK>
-void
-qr2(MA &&A, VTAU &&tau, VWORK &&work)
-{
-    return qr2(A, tau, work);
-}
+//== generic lapack implementation =============================================
 
-//-- qr2 -----------------------------------------------------------------------
 template <typename MA, typename VTAU, typename VWORK>
 void
-qr2(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
+qr2_generic(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 {
     typedef typename GeMatrix<MA>::IndexType    IndexType;
     typedef typename GeMatrix<MA>::ElementType  T;
@@ -97,9 +90,6 @@ qr2(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
     const IndexType m = A.numRows();
     const IndexType n = A.numCols();
     const IndexType k = std::min(m, n);
-
-    ASSERT(tau.length()>=k);
-    ASSERT(work.length()>=n);
 
     for (IndexType i=1; i<=k; ++i) {
 //
@@ -118,6 +108,111 @@ qr2(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
             A(i,i) = Aii;
         }
     }
+}
+
+//== interface for native lapack ===============================================
+
+#ifdef CHECK_CXXLAPACK
+
+template <typename MA, typename VTAU, typename VWORK>
+void
+qr2_native(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
+{
+    typedef typename GeMatrix<MA>::ElementType  T;
+
+    const INTEGER    M = A.numRows();
+    const INTEGER    N = A.numCols();
+    const INTEGER    LDA = A.leadingDimension();
+    INTEGER          INFO;
+
+    if (IsSame<T, DOUBLE>::value) {
+        LAPACK_IMPL(dgeqr2)(&M, &N, A.data(), &LDA,
+                            tau.data(), work.data(),
+                            &INFO);
+        assert(INFO==0);
+    } else {
+        ASSERT(0);
+    }
+}
+
+#endif // CHECK_CXXLAPACK
+
+//== public interface ==========================================================
+
+template <typename MA, typename VTAU, typename VWORK>
+void
+qr2(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
+{
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(tau.firstIndex()==1);
+    ASSERT(work.firstIndex()==1);
+
+    const IndexType m = A.numRows();
+    const IndexType n = A.numCols();
+    const IndexType k = std::min(m, n);
+
+    ASSERT(tau.length()>=k);
+    ASSERT(work.length()>=n);
+#   endif
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    typename GeMatrix<MA>::NoView       _A      = A;
+    typename DenseVector<VTAU>::NoView  _tau    = tau;
+    typename DenseVector<VTAU>::NoView  _work   = work;
+#   endif
+
+//
+//  Call implementation
+//
+    qr2_generic(A, tau, work);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    qr2_native(_A, _tau, _work);
+
+    bool failed = false;
+    if (! isIdentical(A, _A, " A", "_A")) {
+        std::cerr << "CXXLAPACK:  A = " << A << std::endl;
+        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(tau, _tau, " tau", "_tau")) {
+        std::cerr << "CXXLAPACK:  tau = " << tau << std::endl;
+        std::cerr << "F77LAPACK: _tau = " << _tau << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(work, _work, " work", "_work")) {
+        std::cerr << "CXXLAPACK:  work = " << work << std::endl;
+        std::cerr << "F77LAPACK: _work = " << _work << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    }
+#   endif
+}
+
+//-- forwarding ----------------------------------------------------------------
+template <typename MA, typename VTAU, typename VWORK>
+void
+qr2(MA &&A, VTAU &&tau, VWORK &&work)
+{
+    return qr2(A, tau, work);
 }
 
 } } // namespace lapack, flens

@@ -30,6 +30,16 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/* Baesed on
+ *
+      SUBROUTINE DGETF2( M, N, A, LDA, IPIV, INFO )
+ *
+ *  -- LAPACK routine (version 3.2) --
+ *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
+ *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
+ *     November 2006
+ */
+
 #ifndef FLENS_LAPACK_GESV_TF2_H
 #define FLENS_LAPACK_GESV_TF2_H 1
 
@@ -38,15 +48,16 @@
 
 namespace flens { namespace lapack {
 
+//== tf2 =======================================================================
+template <typename MA, typename VP>
+    typename GeMatrix<MA>::IndexType
+    tf2(GeMatrix<MA> &A, DenseVector<VP> &piv);
+
 //-- forwarding ----------------------------------------------------------------
 template <typename MA, typename VP>
     typename MA::IndexType
     tf2(MA &&A, VP &&piv);
 
-//-- getf2 ---------------------------------------------------------------------
-template <typename MA, typename VP>
-    typename GeMatrix<MA>::IndexType
-    tf2(GeMatrix<MA> &A, DenseVector<VP> &piv);
 
 } } // namespace lapack, flens
 

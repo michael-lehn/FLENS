@@ -48,22 +48,15 @@
 
 namespace flens { namespace lapack {
 
-using std::max;
-using std::min;
+//== generic lapack implementation =============================================
 
-//-- forwarding ----------------------------------------------------------------
 template <typename MA, typename VTAU, typename VWORK>
 void
-qrf(MA &&A, VTAU &&tau, VWORK &&work)
+qrf_generic(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 {
-    return qrf(A, tau, work);
-}
+    using std::max;
+    using std::min;
 
-//-- geqrf ---------------------------------------------------------------------
-template <typename MA, typename VTAU, typename VWORK>
-void
-qrf(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
-{
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
     ASSERT(tau.firstIndex()==1);
@@ -109,7 +102,7 @@ qrf(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 //
 //      Determine when to cross over from blocked to unblocked code.
 //
-        nx = max(IndexType(0), ilaenv<T>(3, "GEQRF", "", m, n));
+        nx = max(IndexType(0), IndexType(ilaenv<T>(3, "GEQRF", "", m, n)));
         if (nx<k) {
 //
 //          Determine if workspace is large enough for blocked code.
@@ -122,7 +115,8 @@ qrf(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 //              determine the minimum value of NB.
 //
                 nb = work.length() / ldWork;
-                nbMin = max(IndexType(2), ilaenv<T>(2, "GEQRF", 0, m, n));
+                nbMin = max(IndexType(2),
+                            IndexType(ilaenv<T>(2, "GEQRF", 0, m, n)));
             }
         }
     }
@@ -164,7 +158,7 @@ qrf(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
     } else {
         i = 1;
     }
-    
+
 //
 //  Use unblocked code to factor the last or only block.
 //
@@ -172,6 +166,106 @@ qrf(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
         qr2(A(_(i,m),_(i,n)), tau(_(i,k)), work);
     }
     work(1) = iws;
+}
+
+//== interface for native lapack ===============================================
+
+#ifdef CHECK_CXXLAPACK
+
+template <typename MA, typename VTAU, typename VWORK>
+void
+qrf_native(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
+{
+    typedef typename GeMatrix<MA>::ElementType  T;
+
+    const INTEGER    M = A.numRows();
+    const INTEGER    N = A.numCols();
+    const INTEGER    LDA = A.leadingDimension();
+    INTEGER          LWORK = work.length();
+    INTEGER          INFO;
+
+    if (IsSame<T, DOUBLE>::value) {
+        LAPACK_IMPL(dgeqrf)(&M, &N, A.data(), &LDA,
+                            tau.data(),
+                            work.data(), &LWORK,
+                            &INFO);
+        assert(INFO==0);
+    } else {
+        ASSERT(0);
+    }
+}
+
+#endif // CHECK_CXXLAPACK
+
+//== public interface ==========================================================
+
+template <typename MA, typename VTAU, typename VWORK>
+void
+qrf(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
+{
+//
+//  Test the input parameters
+//
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(tau.firstIndex()==1);
+    ASSERT(work.firstIndex()==1);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    typename GeMatrix<MA>::NoView       _A      = A;
+    typename DenseVector<VTAU>::NoView  _tau    = tau;
+    typename DenseVector<VTAU>::NoView  _work   = work;
+#   endif
+
+//
+//  Call implementation
+//
+    qrf_generic(A, tau, work);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    if (work.length()!=_work.length()) {
+        // work got resized be the generic implementation
+        _work.resize(work.length());
+    }
+    qrf_native(_A, _tau, _work);
+
+    bool failed = false;
+    if (! isIdentical(A, _A, " A", "_A")) {
+        std::cerr << "CXXLAPACK:  A = " << A << std::endl;
+        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(tau, _tau, " tau", "_tau")) {
+        std::cerr << "CXXLAPACK:  tau = " << tau << std::endl;
+        std::cerr << "F77LAPACK: _tau = " << _tau << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(work, _work, " work", "_work")) {
+        std::cerr << "CXXLAPACK:  work = " << work << std::endl;
+        std::cerr << "F77LAPACK: _work = " << _work << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    }
+#   endif
+}
+
+//-- forwarding ----------------------------------------------------------------
+template <typename MA, typename VTAU, typename VWORK>
+void
+qrf(MA &&A, VTAU &&tau, VWORK &&work)
+{
+    return qrf(A, tau, work);
 }
 
 } } // namespace lapack, flens

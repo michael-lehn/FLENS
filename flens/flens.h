@@ -41,6 +41,7 @@
 #include <flens/scalartypes/scalartypes.h>
 #include <flens/scalaroperations/scalaroperations.h>
 #include <flens/storage/storage.h>
+#include <flens/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>
 
 #endif // FLENS_FLENS_H

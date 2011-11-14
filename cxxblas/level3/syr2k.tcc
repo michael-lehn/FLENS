@@ -121,8 +121,8 @@ syr2k(StorageOrder order, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ssyr2k");
 
-    cblas_ssyr2k(CBLAS::value(order), CBLAS::value(upLo),
-                 CBLAS::value(trans),
+    cblas_ssyr2k(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
+                 CBLAS::getCblasType(trans),
                  n, k,
                  alpha,
                  A, ldA,
@@ -145,8 +145,8 @@ syr2k(StorageOrder order, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_dsyr2k");
 
-    cblas_dsyr2k(CBLAS::value(order), CBLAS::value(upLo),
-                 CBLAS::value(trans),
+    cblas_dsyr2k(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
+                 CBLAS::getCblasType(trans),
                  n, k,
                  alpha,
                  A, ldA,
@@ -169,8 +169,8 @@ syr2k(StorageOrder order, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_csyr2k");
 
-    cblas_csyr2k(CBLAS::value(order), CBLAS::value(upLo),
-                 CBLAS::value(trans),
+    cblas_csyr2k(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
+                 CBLAS::getCblasType(trans),
                  n, k,
                  reinterpret_cast<const float *>(&alpha),
                  reinterpret_cast<const float *>(A), ldA,
@@ -193,8 +193,8 @@ syr2k(StorageOrder order, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zsyr2k");
 
-    cblas_zsyr2k(CBLAS::value(order), CBLAS::value(upLo),
-                 CBLAS::value(trans),
+    cblas_zsyr2k(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
+                 CBLAS::getCblasType(trans),
                  n, k,
                  reinterpret_cast<const double *>(&alpha),
                  reinterpret_cast<const double *>(A), ldA,

@@ -39,5 +39,6 @@
 #include <cxxblas/level1extensions/gescal.h>
 #include <cxxblas/level1extensions/hescal.h>
 #include <cxxblas/level1extensions/syscal.h>
+#include <cxxblas/level1extensions/trcopy.h>
 
 #endif // CXXBLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_H

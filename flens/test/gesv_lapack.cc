@@ -27,10 +27,10 @@ typedef mpq_class   T;
 int
 main()
 {
-    typedef GeMatrix<FullStorage<T> >       GeMatrix;
-    typedef GeMatrix::IndexType             IndexType;
+    typedef GeMatrix<FullStorage<T> >           GeMatrix;
+    typedef GeMatrix::IndexType                 IndexType;
 
-    typedef DenseVector<Array<T> >          IndexVector;
+    typedef DenseVector<Array<IndexType> >      IndexVector;
 
     const Underscore<IndexType> _;
 
@@ -40,14 +40,14 @@ main()
     GeMatrix            Ab(m, n);
     IndexVector         iPiv(m);
 
-    lapack::Transpose   transA;
+    Transpose           transA;
 
 #   ifdef TEST_CASE_1
     Ab =  3,  -1,   0,   0,   4,
          -1,   3,  -1,   0,  -2,
           0,  -1,   3,  -1,  -7,
           0,   0,  -1,   3,   8;
-    transA = lapack::NoTrans;
+    transA = NoTrans;
 #   endif
 
 #   ifdef TEST_CASE_2
@@ -55,7 +55,7 @@ main()
          -6,  -5,   0,   2, -33,
           2,  -5,   6,  -6, -43,
           4,   6,   2,  -3,  49;
-    transA = lapack::NoTrans;
+    transA = NoTrans;
 #   endif
 
 #   ifdef TEST_CASE_3
@@ -63,7 +63,7 @@ main()
           3,  -5,  -5,   6, -33,
          -1,   0,   6,   2, -43,
           0,   2,  -6,  -3,  49;
-    transA = lapack::Trans;
+    transA = Trans;
 #   endif
 
     cerr << "Ab = " << Ab << endl;
@@ -75,9 +75,11 @@ main()
     lapack::sv(A, iPiv, b);
     */
 
+    lapack::trf(Ab, iPiv);
+
     // lapack::sv(Ab(_,_(1,m)), iPiv, Ab(_,_(m+1,n)));
-    lapack::trf(Ab(_,_(1,m)), iPiv);
-    lapack::trs(transA, Ab(_,_(1,m)), iPiv, Ab(_,_(m+1,n)));
+    //lapack::trf(Ab(_,_(1,m)), iPiv);
+    //lapack::trs(transA, Ab(_,_(1,m)), iPiv, Ab(_,_(m+1,n)));
 
     cerr << "-> Ab = " << Ab << endl;
     cerr << "-> iPiv = " << iPiv << endl;

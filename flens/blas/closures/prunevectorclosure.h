@@ -36,6 +36,7 @@
 #include <cxxblas/typedefs.h>
 #include <flens/aux/promotion.h>
 #include <flens/blas/operators/operators.h>
+#include <flens/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens {
@@ -51,8 +52,8 @@ struct PruneVectorClosure
         static const ALPHA &
         updateScalingFactor(const ALPHA &alpha, const Vector &);
 
-    static cxxblas::Transpose
-    updateTranspose(cxxblas::Transpose trans);
+    static Transpose
+    updateTranspose(Transpose trans);
 
     static const Remainder &
     remainder(const Vector &vector);

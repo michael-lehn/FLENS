@@ -34,6 +34,8 @@
 #define FLENS_MATRIXTYPES_GENERAL_IMPL_GEMATRIX_TCC 1
 
 #include <flens/blas/blas.h>
+#include <flens/typedefs.h>
+
 #include <flens/matrixtypes/general/impl/ge/constelementclosure.tcc>
 #include <flens/matrixtypes/general/impl/ge/elementclosure.tcc>
 #include <flens/matrixtypes/general/impl/ge/initializer.tcc>
@@ -101,10 +103,19 @@ GeMatrix<FS>::GeMatrix(const Matrix<RHS> &rhs)
 }
 
 template <typename FS>
-template <typename RHS>
+template <typename VECTOR>
+GeMatrix<FS>::GeMatrix(IndexType numRows, IndexType numCols, VECTOR &&rhs)
+    : _engine(numRows, numCols, rhs.engine(), (FS::order==RowMajor) ? numCols
+                                                                    : numRows)
+{
+}
+
+template <typename FS>
+template <typename VECTOR>
 GeMatrix<FS>::GeMatrix(IndexType numRows, IndexType numCols,
-                       DenseVector<RHS> &rhs)
-    : _engine(numRows, numCols, rhs.engine())
+                       VECTOR &&rhs,
+                       IndexType leadingDimension)
+    : _engine(numRows, numCols, rhs.engine(), leadingDimension)
 {
 }
 
@@ -122,7 +133,7 @@ template <typename FS>
 GeMatrix<FS> &
 GeMatrix<FS>::operator=(const GeMatrix<FS> &rhs)
 {
-    blas::copy(cxxblas::NoTrans, rhs, *this);
+    blas::copy(NoTrans, rhs, *this);
     return *this;
 }
 
@@ -131,7 +142,7 @@ template <typename RHS>
 GeMatrix<FS> &
 GeMatrix<FS>::operator=(const Matrix<RHS> &rhs)
 {
-    blas::copy(cxxblas::NoTrans, rhs, *this);
+    blas::copy(NoTrans, rhs.impl(), *this);
     return *this;
 }
 
@@ -140,7 +151,7 @@ template <typename RHS>
 GeMatrix<FS> &
 GeMatrix<FS>::operator+=(const Matrix<RHS> &rhs)
 {
-    blas::axpy(cxxblas::NoTrans, ElementType(1), rhs.impl(), *this);
+    blas::axpy(NoTrans, ElementType(1), rhs.impl(), *this);
     return *this;
 }
 
@@ -149,7 +160,7 @@ template <typename RHS>
 GeMatrix<FS> &
 GeMatrix<FS>::operator-=(const Matrix<RHS> &rhs)
 {
-    blas::axpy(cxxblas::NoTrans, ElementType(-1), rhs.impl(), *this);
+    blas::axpy(NoTrans, ElementType(-1), rhs.impl(), *this);
     return *this;
 }
 
@@ -291,6 +302,13 @@ GeMatrix<FS>::leadingDimension() const
 }
 
 template <typename FS>
+StorageOrder
+GeMatrix<FS>::order() const
+{
+    return _engine.order;
+}
+
+template <typename FS>
 template <typename RHS>
 bool
 GeMatrix<FS>::resize(const GeMatrix<RHS> &rhs,
@@ -327,20 +345,49 @@ GeMatrix<FS>::changeIndexBase(IndexType firstRowIndex, IndexType firstColIndex)
 
 
 // -- views --------------------------------------------------------------------
+// vectorize matrix
+template <typename FS>
+const typename GeMatrix<FS>::ConstVectorView
+GeMatrix<FS>::vectorView() const
+{
+    return _engine.arrayView();
+}
+
+template <typename FS>
+typename GeMatrix<FS>::VectorView
+GeMatrix<FS>::vectorView()
+{
+    return _engine.arrayView();
+}
+
+// vectorize matrix and select range
+template <typename FS>
+const typename GeMatrix<FS>::ConstVectorView
+GeMatrix<FS>::vectorView(IndexType from, IndexType to) const
+{
+    return _engine.arrayView().view(from,to);
+}
+
+template <typename FS>
+typename GeMatrix<FS>::VectorView
+GeMatrix<FS>::vectorView(IndexType from, IndexType to)
+{
+    return _engine.arrayView().view(from,to);
+}
 
 // diag views
 template <typename FS>
 const typename GeMatrix<FS>::ConstVectorView
 GeMatrix<FS>::diag(IndexType d) const
 {
-    return _engine.viewDiag(d, 1);
+    return _engine.viewDiag(d);
 }
 
 template <typename FS>
 typename GeMatrix<FS>::VectorView
 GeMatrix<FS>::diag(IndexType d)
 {
-    return _engine.viewDiag(d, 1);
+    return _engine.viewDiag(d);
 }
 
 // triangular views
@@ -348,56 +395,56 @@ template <typename FS>
 typename GeMatrix<FS>::ConstTriangularView
 GeMatrix<FS>::upper() const
 {
-    return ConstTriangularView(engine(), cxxblas::Upper);
+    return ConstTriangularView(engine(), Upper);
 }
 
 template <typename FS>
 typename GeMatrix<FS>::TriangularView
 GeMatrix<FS>::upper()
 {
-    return TriangularView(engine(), cxxblas::Upper);
+    return TriangularView(engine(), Upper);
 }
 
 template <typename FS>
 typename GeMatrix<FS>::ConstTriangularView
 GeMatrix<FS>::upperUnit() const
 {
-    return ConstTriangularView(engine(), cxxblas::Upper, cxxblas::Unit);
+    return ConstTriangularView(engine(), Upper, Unit);
 }
 
 template <typename FS>
 typename GeMatrix<FS>::TriangularView
 GeMatrix<FS>::upperUnit()
 {
-    return TriangularView(engine(), cxxblas::Upper, cxxblas::Unit);
+    return TriangularView(engine(), Upper, Unit);
 }
 
 template <typename FS>
 typename GeMatrix<FS>::ConstTriangularView
 GeMatrix<FS>::lower() const
 {
-    return ConstTriangularView(engine(), cxxblas::Lower);
+    return ConstTriangularView(engine(), Lower);
 }
 
 template <typename FS>
 typename GeMatrix<FS>::TriangularView
 GeMatrix<FS>::lower()
 {
-    return TriangularView(engine(), cxxblas::Lower);
+    return TriangularView(engine(), Lower);
 }
 
 template <typename FS>
 typename GeMatrix<FS>::ConstTriangularView
 GeMatrix<FS>::lowerUnit() const
 {
-    return ConstTriangularView(engine(), cxxblas::Lower, cxxblas::Unit);
+    return ConstTriangularView(engine(), Lower, Unit);
 }
 
 template <typename FS>
 typename GeMatrix<FS>::TriangularView
 GeMatrix<FS>::lowerUnit()
 {
-    return TriangularView(engine(), cxxblas::Lower, cxxblas::Unit);
+    return TriangularView(engine(), Lower, Unit);
 }
 
 // rectangular views
@@ -409,7 +456,7 @@ GeMatrix<FS>::operator()(const Range<IndexType> &rows,
     ASSERT(rows.stride()==IndexType(1));
     ASSERT(cols.stride()==IndexType(1));
     return engine().view(rows.firstIndex(), cols.firstIndex(),
-                         rows.lastIndex(), cols.lastInex());
+                         rows.lastIndex(), cols.lastIndex());
 }
 
 template <typename FS>

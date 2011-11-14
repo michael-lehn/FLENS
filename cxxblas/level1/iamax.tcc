@@ -36,14 +36,14 @@
 #include <complex>
 #include <cmath>
 
-using std::abs;
-
 namespace cxxblas {
 
 template <typename IndexType, typename X>
 void
 iamax_generic(IndexType n, const X *x, IndexType incX, IndexType &iAbsMaxX)
 {
+    using std::abs;
+
     iAbsMaxX = 0;
     X maxX = x[iAbsMaxX];
     for (IndexType i=0, iX=0; i<n; ++i, iX+=incX) {

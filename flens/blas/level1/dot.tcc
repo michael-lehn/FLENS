@@ -34,6 +34,7 @@
 #define FLENS_BLAS_LEVEL1_DOT_TCC 1
 
 #include <flens/aux/macros.h>
+#include <flens/typedefs.h>
 
 namespace flens { namespace blas {
 
@@ -46,8 +47,7 @@ dot(const DenseVector<X> &x, const DenseVector<Y> &y, T &result)
 #   ifdef HAVE_CXXBLAS_DOT
     cxxblas::dot(x.length(),
                  x.data(), x.stride(),
-                 y.data(), y.stride(),
-                 result);
+                 y.data(), y.stride(), result);
 #   else
     ASSERT(0);
 #   endif
@@ -62,8 +62,7 @@ dotu(const DenseVector<X> &x, const DenseVector<Y> &y, T &result)
 #   ifdef HAVE_CXXBLAS_DOTU
     cxxblas::dotu(x.length(),
                   x.data(), x.stride(),
-                  y.data(), y.stride(),
-                  result);
+                  y.data(), y.stride(), result);
 #   else
     ASSERT(0);
 #   endif

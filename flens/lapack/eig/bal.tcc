@@ -43,218 +43,359 @@
 #ifndef FLENS_LAPACK_EIG_BAL_TCC
 #define FLENS_LAPACK_EIG_BAL_TCC 1
 
+#include <flens/aux/aux.h>
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
 
-using namespace BAL;
+//== generic lapack implementation =============================================
 
-using std::max;
-using std::min;
-
-//-- forwarding ----------------------------------------------------------------
 template <typename MA, typename IndexType, typename VSCALE>
 void
-bal(BAL::Job job, MA &&A, IndexType &iLo, IndexType &iHi, VSCALE &&scale)
+bal_generic(BALANCE::Balance    job,
+            GeMatrix<MA>        &A,
+            IndexType           &iLo,
+            IndexType           &iHi,
+            DenseVector<VSCALE> &scale)
 {
-    bal(job, A, iLo, iHi, scale);
-}
+    using namespace BALANCE;
 
-//-- bal -----------------------------------------------------------------------
-template <typename MA, typename IndexType, typename VSCALE>
-void
-bal(BAL::Job job, GeMatrix<MA> &A, IndexType &iLo, IndexType &iHi,
-    DenseVector<VSCALE> &scale);
-{
-    ASSERT(A.firstRow()==1);
-    ASSERT(A.firstCol()==1);
-    ASSERT(A.numRows()==A.numCols());
+    using std::abs;
+    using flens::max;
+    using flens::min;
+    using std::isnan;
 
+    typedef typename GeMatrix<MA>::ElementType  T;
+
+    const T Zero(0), One(1);
+    const T scaleFactor(2), factor(0.95);
+
+    const T safeMin1 = lamch<T>(SafeMin) / lamch<T>(Precision);
+    const T safeMax1 = One / safeMin1;
+    const T safeMin2 = safeMin1*scaleFactor;
+    const T safeMax2 = One / safeMin2;
+
+
+    const Underscore<IndexType> _;
     const IndexType n = A.numRows();
 
     IndexType k = 1;
     IndexType l = n;
 
+    IndexType j, m;
 
-      IF( N.EQ.0 )
-     $   GO TO 210
+    if (n==0) {
+        goto DONE;
+    }
 
-      IF( LSAME( JOB, 'N' ) ) THEN
-         DO 10 I = 1, N
-            SCALE( I ) = ONE
-   10    CONTINUE
-         GO TO 210
-      END IF
-*
-      IF( LSAME( JOB, 'S' ) )
-     $   GO TO 120
-*
-*     Permutation to isolate eigenvalues if possible
-*
-      GO TO 50
-*
-*     Row and column exchange.
-*
-   20 CONTINUE
-      SCALE( M ) = J
-      IF( J.EQ.M )
-     $   GO TO 30
-*
-      CALL DSWAP( L, A( 1, J ), 1, A( 1, M ), 1 )
-      CALL DSWAP( N-K+1, A( J, K ), LDA, A( M, K ), LDA )
-*
-   30 CONTINUE
-      GO TO ( 40, 80 )IEXC
-*
-*     Search for rows isolating an eigenvalue and push them down.
-*
-   40 CONTINUE
-      IF( L.EQ.1 )
-     $   GO TO 210
-      L = L - 1
-*
-   50 CONTINUE
-      DO 70 J = L, 1, -1
-*
-         DO 60 I = 1, L
-            IF( I.EQ.J )
-     $         GO TO 60
-            IF( A( J, I ).NE.ZERO )
-     $         GO TO 70
-   60    CONTINUE
-*
-         M = L
-         IEXC = 1
-         GO TO 20
-   70 CONTINUE
-*
-      GO TO 90
-*
-*     Search for columns isolating an eigenvalue and push them left.
-*
-   80 CONTINUE
-      K = K + 1
-*
-   90 CONTINUE
-      DO 110 J = K, L
-*
-         DO 100 I = K, L
-            IF( I.EQ.J )
-     $         GO TO 100
-            IF( A( I, J ).NE.ZERO )
-     $         GO TO 110
-  100    CONTINUE
-*
-         M = K
-         IEXC = 2
-         GO TO 20
-  110 CONTINUE
-*
-  120 CONTINUE
-      DO 130 I = K, L
-         SCALE( I ) = ONE
-  130 CONTINUE
-*
-      IF( LSAME( JOB, 'P' ) )
-     $   GO TO 210
-*
-*     Balance the submatrix in rows K to L.
-*
-*     Iterative loop for norm reduction
-*
-      SFMIN1 = DLAMCH( 'S' ) / DLAMCH( 'P' )
-      SFMAX1 = ONE / SFMIN1
-      SFMIN2 = SFMIN1*SCLFAC
-      SFMAX2 = ONE / SFMIN2
-  140 CONTINUE
-      NOCONV = .FALSE.
-*
-      DO 200 I = K, L
-         C = ZERO
-         R = ZERO
-*
-         DO 150 J = K, L
-            IF( J.EQ.I )
-     $         GO TO 150
-            C = C + ABS( A( J, I ) )
-            R = R + ABS( A( I, J ) )
-  150    CONTINUE
-         ICA = IDAMAX( L, A( 1, I ), 1 )
-         CA = ABS( A( ICA, I ) )
-         IRA = IDAMAX( N-K+1, A( I, K ), LDA )
-         RA = ABS( A( I, IRA+K-1 ) )
-*
-*        Guard against zero C or R due to underflow.
-*
-         IF( C.EQ.ZERO .OR. R.EQ.ZERO )
-     $      GO TO 200
-         G = R / SCLFAC
-         F = ONE
-         S = C + R
-  160    CONTINUE
-         IF( C.GE.G .OR. MAX( F, C, CA ).GE.SFMAX2 .OR.
-     $       MIN( R, G, RA ).LE.SFMIN2 )GO TO 170
-            IF( DISNAN( C+F+CA+R+G+RA ) ) THEN
-*
-*           Exit if NaN to avoid infinite loop
-*
-            INFO = -3
-            CALL XERBLA( 'DGEBAL', -INFO )
-            RETURN
-         END IF
-         F = F*SCLFAC
-         C = C*SCLFAC
-         CA = CA*SCLFAC
-         R = R / SCLFAC
-         G = G / SCLFAC
-         RA = RA / SCLFAC
-         GO TO 160
-*
-  170    CONTINUE
-         G = C / SCLFAC
-  180    CONTINUE
-         IF( G.LT.R .OR. MAX( R, RA ).GE.SFMAX2 .OR.
-     $       MIN( F, C, G, CA ).LE.SFMIN2 )GO TO 190
-         F = F / SCLFAC
-         C = C / SCLFAC
-         G = G / SCLFAC
-         CA = CA / SCLFAC
-         R = R*SCLFAC
-         RA = RA*SCLFAC
-         GO TO 180
-*
-*        Now balance.
-*
-  190    CONTINUE
-         IF( ( C+R ).GE.FACTOR*S )
-     $      GO TO 200
-         IF( F.LT.ONE .AND. SCALE( I ).LT.ONE ) THEN
-            IF( F*SCALE( I ).LE.SFMIN1 )
-     $         GO TO 200
-         END IF
-         IF( F.GT.ONE .AND. SCALE( I ).GT.ONE ) THEN
-            IF( SCALE( I ).GE.SFMAX1 / F )
-     $         GO TO 200
-         END IF
-         G = ONE / F
-         SCALE( I ) = SCALE( I )*F
-         NOCONV = .TRUE.
-*
-         CALL DSCAL( N-K+1, G, A( I, K ), LDA )
-         CALL DSCAL( L, F, A( 1, I ), 1 )
-*
-  200 CONTINUE
-*
-      IF( NOCONV )
-     $   GO TO 140
-*
-  210 CONTINUE
-      ILO = K
-      IHI = L
+    if (job==None) {
+        for (IndexType i=1; i<=n; ++i) {
+            scale(i) = One;
+        }
+        goto DONE;
+    }
 
+    if (job!=ScaleOnly) {
+//
+//      Permutation to isolate eigenvalues if possible
+//
+        IndexType iExc = 0;
+//
+//      Row and column exchange.
+//
+        EXCHANGE:
+            if (iExc!=0) {
+                scale(m) = j;
+                if (j!=m) {
+                    blas::swap(A(_(1,l),j), A(_(1,l),m));
+                    blas::swap(A(j,_(k,n)), A(m,_(k,n)));
+                }
+            }
 
+        switch (iExc) {
+//
+//      Search for rows isolating an eigenvalue and push them down.
+//
+        case 1:
+            if (l==1) {
+                goto DONE;
+            }
+            --l;
+
+        case 0:
+            for (j=l; j>=1; --j) {
+                bool foundRow = true;
+
+                for (IndexType i=1; i<=l; ++i) {
+                    if (i==j) {
+                        continue;
+                    }
+                    if (A(j,i)!=Zero) {
+                        foundRow = false;
+                        break;
+                    }
+                }
+
+                if (foundRow) {
+                    m = l;
+                    iExc = 1;
+                    goto EXCHANGE;
+                }
+            }
+//
+//      Search for columns isolating an eigenvalue and push them left.
+//
+        case 2:
+            if ((iExc!=0) && (iExc!=1)) {
+                ++k;
+            }
+
+            for (j=k; j<=l; ++j) {
+                bool foundCol = true;
+
+                for (IndexType i=k; i<=l; ++i) {
+                    if (i==j) {
+                        continue;
+                    }
+                    if (A(i,j)!=Zero) {
+                        foundCol = false;
+                        break;
+                    }
+                }
+
+                if (foundCol) {
+                    m = k;
+                    iExc = 2;
+                    goto EXCHANGE;
+                }
+            }
+        }
+    }
+
+    for (IndexType i=k; i<=l; ++i) {
+        scale(i) = One;
+    }
+
+    if (job==PermuteOnly) {
+        goto DONE;
+    }
+//
+//  Balance the submatrix in rows K to L.
+//
+//  Iterative loop for norm reduction
+//
+    bool noConv;
+    do {
+        noConv = false;
+
+        for (IndexType i=k; i<=l; ++i) {
+            T c = Zero;
+            T r = Zero;
+
+            for (IndexType j=k; j<=l; ++j) {
+                if (j==i) {
+                    continue;
+                }
+                c += abs(A(j,i));
+                r += abs(A(i,j));
+            }
+            const IndexType ica = blas::iamax(A(_(1,l),i));
+            T ca = abs(A(ica,i));
+            const IndexType ira = blas::iamax(A(i,_(k,n)))+k-1;
+            T ra = abs(A(i,ira));
+//
+//          Guard against zero C or R due to underflow.
+//
+            if (c==Zero || r==Zero) {
+                continue;
+            }
+            T g = r / scaleFactor;
+            T f = One;
+            T s = c + r;
+
+            while (c<g && max(f,c,ca)<safeMax2 && min(r,g,ra)>safeMin2) {
+                if (isnan(c+f+ca+r+g+ra)) {
+//
+//                  Exit if NaN to avoid infinite loop
+//
+                    ASSERT(0);
+                    return;
+                }
+                f *= scaleFactor;
+                c *= scaleFactor;
+                ca *= scaleFactor;
+                r /= scaleFactor;
+                g /= scaleFactor;
+                ra /= scaleFactor;
+            }
+
+            g = c / scaleFactor;
+            while (g>=r && max(r,ra)<safeMax2 && min(f,c,g,ca)>safeMin2) {
+                f /= scaleFactor;
+                c /= scaleFactor;
+                g /= scaleFactor;
+                ca /= scaleFactor;
+                r *= scaleFactor;
+                ra *= scaleFactor;
+            }
+//
+//          Now balance.
+//
+            if ((c+r)>=factor*s) {
+                continue;
+            }
+            if (f<One && scale(i)<One) {
+                if (f*scale(i)<=safeMin1) {
+                    continue;
+                }
+            }
+            if (f>One && scale(i)>One) {
+                if (scale(i)>=safeMax1/f) {
+                    continue;
+                }
+            }
+            g = One / f;
+            scale(i) *= f;
+            noConv = true;
+
+            A(i,_(k,n)) *= g;
+            A(_(1,l),i) *= f;
+
+        }
+
+    } while (noConv);
+
+    DONE:
+        iLo = k;
+        iHi = l;
 }
+
+//== interface for native lapack ===============================================
+
+#ifdef CHECK_CXXLAPACK
+
+template <typename MA, typename IndexType, typename VSCALE>
+void
+bal_native(BALANCE::Balance    job,
+           GeMatrix<MA>        &A,
+           IndexType           &iLo,
+           IndexType           &iHi,
+           DenseVector<VSCALE> &scale)
+{
+    typedef typename GeMatrix<MA>::ElementType  T;
+
+    const char       JOB    = getF77LapackChar<BALANCE::Balance>(job);
+    const INTEGER    N      = A.numRows();
+    const INTEGER    LDA    = A.leadingDimension();
+    INTEGER          _ILO   = iLo;
+    INTEGER          _IHI   = iHi;
+    INTEGER          INFO;
+
+    if (IsSame<T, DOUBLE>::value) {
+        LAPACK_IMPL(dgebal)(&JOB,
+                            &N,
+                            A.data(),
+                            &LDA,
+                            &_ILO,
+                            &_IHI,
+                            scale.data(),
+                            &INFO);
+    } else {
+        ASSERT(0);
+    }
+
+    iLo     = _ILO;
+    iHi     = _IHI;
+
+    ASSERT(INFO==0);
+}
+
+#endif // CHECK_CXXLAPACK
+
+//== public interface ==========================================================
+
+template <typename MA, typename IndexType, typename VSCALE>
+void
+bal(BALANCE::Balance    job,
+    GeMatrix<MA>        &A,
+    IndexType           &iLo,
+    IndexType           &iHi,
+    DenseVector<VSCALE> &scale)
+{
+    LAPACK_DEBUG_OUT("bal");
+
+#   ifndef NDEBUG
+//
+//  Test the input parameters
+//
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(A.numRows()==A.numCols());
+#   endif
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    typename GeMatrix<MA>::NoView           _A      = A;
+    IndexType                               _iLo    = iLo;
+    IndexType                               _iHi    = iHi;
+    typename DenseVector<VSCALE>::NoView    _scale  = scale;
+#   endif
+
+//
+//  Call implementation
+//
+    bal_generic(job, A, iLo, iHi, scale);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    bal_native(job, _A, _iLo, _iHi, _scale);
+
+    bool failed = false;
+    if (! isIdentical(A, _A, " A", "_A")) {
+        std::cerr << "CXXLAPACK:  A = " << A << std::endl;
+        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(iLo, _iLo, " iLo", "_iLo")) {
+        failed = true;
+    }
+
+    if (! isIdentical(iHi, _iHi, " iHi", "_iHi")) {
+        failed = true;
+    }
+
+    if (! isIdentical(scale, _scale, " scale", "_scale")) {
+        std::cerr << "CXXLAPACK:  scale = " << scale << std::endl;
+        std::cerr << "F77LAPACK: _scale = " << _scale << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    }
+#   endif
+}
+
+//-- forwarding ----------------------------------------------------------------
+template <typename MA, typename IndexType, typename VSCALE>
+void
+bal(BALANCE::Balance    job,
+    MA                  &&A,
+    IndexType           &&iLo,
+    IndexType           &&iHi,
+    VSCALE              &&scale)
+{
+    CHECKPOINT_ENTER;
+    bal(job, A, iLo, iHi, scale);
+    CHECKPOINT_LEAVE;
+}
+
 
 } } // namespace lapack, flens
 

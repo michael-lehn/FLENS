@@ -34,10 +34,11 @@
 #define FLENS_STORAGE_FULLSTORAGE_FULLSTORAGEVIEW_TCC 1
 
 #include <flens/storage/fullstorage/trapezoidalfill.h>
+#include <flens/typedefs.h>
 
 namespace flens {
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 FullStorageView<T, Order, I, A>::FullStorageView(IndexType numRows,
                                                  IndexType numCols,
                                                  ElementType *data,
@@ -54,31 +55,27 @@ FullStorageView<T, Order, I, A>::FullStorageView(IndexType numRows,
     changeIndexBase(firstRow, firstCol);
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 template <typename ARRAY>
 FullStorageView<T, Order, I, A>::FullStorageView(IndexType numRows,
                                                  IndexType numCols,
                                                  ARRAY &array,
+                                                 IndexType leadingDimension,
                                                  IndexType firstRow,
                                                  IndexType firstCol,
                                                  const Allocator &allocator)
     : _data(array.data()),
-      _allocator(array.allocator()),
+      _allocator(allocator),
       _numRows(numRows), _numCols(numCols),
-      _leadingDimension(Order==cxxblas::ColMajor ? _numRows : _numCols),
-      _firstRow(firstRow), _firstCol(firstCol)
+      _leadingDimension(leadingDimension),
+      _firstRow(0), _firstCol(0)
 {
     ASSERT(numRows*numCols<=array.length());
 
-    if (Order==cxxblas::RowMajor) {
-        _data -= firstRow*_numCols + firstCol;
-    }
-    if (Order==cxxblas::ColMajor) {
-        _data -= firstCol*_numRows + firstRow;
-    }
+    changeIndexBase(firstRow, firstCol);
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 FullStorageView<T, Order, I, A>::FullStorageView(const FullStorageView &rhs)
     : _data(rhs._data),
       _allocator(rhs._allocator),
@@ -88,7 +85,7 @@ FullStorageView<T, Order, I, A>::FullStorageView(const FullStorageView &rhs)
 {
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 template <typename RHS>
 FullStorageView<T, Order, I, A>::FullStorageView(RHS &rhs)
     : _data(rhs.data()),
@@ -100,14 +97,14 @@ FullStorageView<T, Order, I, A>::FullStorageView(RHS &rhs)
     changeIndexBase(rhs.firstRow(), rhs.firstCol());
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 FullStorageView<T, Order, I, A>::~FullStorageView()
 {
 }
 
 //-- operators -----------------------------------------------------------------
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 const typename FullStorageView<T, Order, I, A>::ElementType &
 FullStorageView<T, Order, I, A>::operator()(IndexType row, IndexType col) const
 {
@@ -116,13 +113,13 @@ FullStorageView<T, Order, I, A>::operator()(IndexType row, IndexType col) const
     ASSERT(col>=_firstCol);
     ASSERT(col<_firstCol+_numCols);
 
-    if (Order==cxxblas::ColMajor) {
+    if (Order==ColMajor) {
         return _data[col*_leadingDimension+row];
     }
     return _data[row*_leadingDimension+col];
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 typename FullStorageView<T, Order, I, A>::ElementType &
 FullStorageView<T, Order, I, A>::operator()(IndexType row, IndexType col)
 {
@@ -131,7 +128,7 @@ FullStorageView<T, Order, I, A>::operator()(IndexType row, IndexType col)
     ASSERT(col>=_firstCol);
     ASSERT(col<_firstCol+_numCols);
 
-    if (Order==cxxblas::ColMajor) {
+    if (Order==ColMajor) {
         return _data[col*_leadingDimension+row];
     }
     return _data[row*_leadingDimension+col];
@@ -139,72 +136,72 @@ FullStorageView<T, Order, I, A>::operator()(IndexType row, IndexType col)
 
 //-- methods -------------------------------------------------------------------
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 typename FullStorageView<T, Order, I, A>::IndexType
 FullStorageView<T, Order, I, A>::firstRow() const
 {
     return _firstRow;
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 typename FullStorageView<T, Order, I, A>::IndexType
 FullStorageView<T, Order, I, A>::lastRow() const
 {
     return _firstRow+_numRows-1;
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 typename FullStorageView<T, Order, I, A>::IndexType
 FullStorageView<T, Order, I, A>::firstCol() const
 {
     return _firstCol;
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 typename FullStorageView<T, Order, I, A>::IndexType
 FullStorageView<T, Order, I, A>::lastCol() const
 {
     return _firstCol+_numCols-1;
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 typename FullStorageView<T, Order, I, A>::IndexType
 FullStorageView<T, Order, I, A>::numRows() const
 {
     return _numRows;
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 typename FullStorageView<T, Order, I, A>::IndexType
 FullStorageView<T, Order, I, A>::numCols() const
 {
     return _numCols;
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 typename FullStorageView<T, Order, I, A>::IndexType
 FullStorageView<T, Order, I, A>::leadingDimension() const
 {
     return _leadingDimension;
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 typename FullStorageView<T, Order, I, A>::IndexType
 FullStorageView<T, Order, I, A>::strideRow() const
 {
-    return (Order==cxxblas::ColMajor) ? 1
-                                      : leadingDimension();
+    return (Order==ColMajor) ? 1
+                             : leadingDimension();
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 typename FullStorageView<T, Order, I, A>::IndexType
 FullStorageView<T, Order, I, A>::strideCol() const
 {
-    return (Order==cxxblas::ColMajor) ? leadingDimension()
-                                      : 1;
+    return (Order==ColMajor) ? leadingDimension()
+                             : 1;
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 const typename FullStorageView<T, Order, I, A>::ElementType *
 FullStorageView<T, Order, I, A>::data() const
 {
@@ -216,7 +213,7 @@ FullStorageView<T, Order, I, A>::data() const
     return &(this->operator()(_firstRow, _firstCol));
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 typename FullStorageView<T, Order, I, A>::ElementType *
 FullStorageView<T, Order, I, A>::data()
 {
@@ -229,17 +226,17 @@ FullStorageView<T, Order, I, A>::data()
     return &(this->operator()(_firstRow, _firstCol));
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 const typename FullStorageView<T, Order, I, A>::Allocator &
 FullStorageView<T, Order, I, A>::allocator() const
 {
     return _allocator;
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 bool
-FullStorageView<T, Order, I, A>::resize(IndexType _numRows,
-                                        IndexType _numCols,
+FullStorageView<T, Order, I, A>::resize(IndexType DEBUG_VAR(_numRows),
+                                        IndexType DEBUG_VAR(_numCols),
                                         IndexType firstRow,
                                         IndexType firstCol,
                                         const ElementType &)
@@ -250,7 +247,7 @@ FullStorageView<T, Order, I, A>::resize(IndexType _numRows,
     return false;
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 template <typename FS>
 bool
 FullStorageView<T, Order, I, A>::resize(const FS &rhs, const ElementType &value)
@@ -260,18 +257,18 @@ FullStorageView<T, Order, I, A>::resize(const FS &rhs, const ElementType &value)
                   value);
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 bool
 FullStorageView<T, Order, I, A>::fill(const ElementType &value)
 {
-    if (Order==cxxblas::RowMajor) {
+    if (Order==RowMajor) {
         ElementType *p = data();
         for (IndexType i=0; i<numRows(); ++i, p+=leadingDimension()) {
             std::fill_n(p, numCols(), value);
         }
         return true;
     }
-    if (Order==cxxblas::ColMajor) {
+    if (Order==ColMajor) {
         ElementType *p = data();
         for (IndexType j=0; j<numCols(); ++j, p+=leadingDimension()) {
             std::fill_n(p, numRows(), value);
@@ -282,9 +279,9 @@ FullStorageView<T, Order, I, A>::fill(const ElementType &value)
     return false;
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 bool
-FullStorageView<T, Order, I, A>::fill(cxxblas::StorageUpLo  upLo,
+FullStorageView<T, Order, I, A>::fill(StorageUpLo  upLo,
                                       const ElementType &value)
 {
     trapezoidalFill(order, upLo, value,
@@ -293,7 +290,7 @@ FullStorageView<T, Order, I, A>::fill(cxxblas::StorageUpLo  upLo,
     return true;
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 void
 FullStorageView<T, Order, I, A>::changeIndexBase(IndexType firstRow,
                                                  IndexType firstCol)
@@ -307,18 +304,57 @@ FullStorageView<T, Order, I, A>::changeIndexBase(IndexType firstRow,
     }
 #   endif
 
-    if (Order==cxxblas::RowMajor) {
+    if (Order==RowMajor) {
         _data = data() - (firstRow*leadingDimension() + firstCol);
     }
-    if (Order==cxxblas::ColMajor) {
+    if (Order==ColMajor) {
         _data = data() - (firstCol*leadingDimension() + firstRow);
     }
     _firstRow = firstRow;
     _firstCol = firstCol;
 }
 
+// view of fullstorage scheme as an array
+template <typename T, StorageOrder Order, typename I, typename A>
+const typename FullStorageView<T, Order, I, A>::ConstArrayView
+FullStorageView<T, Order, I, A>::arrayView(IndexType firstViewIndex) const
+{
+#   ifndef NDEBUG
+    if (order==ColMajor) {
+        ASSERT(numRows()==leadingDimension());
+    } else {
+        ASSERT(numCols()==leadingDimension());
+    }
+#   endif
+
+    return ConstArrayView(numCols()*numRows(),
+                          data(),
+                          IndexType(1),
+                          firstViewIndex,
+                          allocator());
+}
+
+template <typename T, StorageOrder Order, typename I, typename A>
+typename FullStorageView<T, Order, I, A>::ArrayView
+FullStorageView<T, Order, I, A>::arrayView(IndexType firstViewIndex)
+{
+#   ifndef NDEBUG
+    if (order==ColMajor) {
+        ASSERT(numRows()==leadingDimension());
+    } else {
+        ASSERT(numCols()==leadingDimension());
+    }
+#   endif
+
+    return ArrayView(numCols()*numRows(),
+                     data(),
+                     IndexType(1),
+                     firstViewIndex,
+                     allocator());
+}
+
 // view of rectangular part
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 const typename FullStorageView<T, Order, I, A>::ConstView
 FullStorageView<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
                                       IndexType toRow, IndexType toCol,
@@ -331,8 +367,8 @@ FullStorageView<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if ((numRows==0) || (numCols==0)) {
-        fromRow = toRow = firstRow();
-        fromCol = toCol = firstCol();
+        return ConstView(numRows, numCols, 0, leadingDimension(),
+                         firstViewRow, firstViewCol, allocator());
     }
 #   endif
 
@@ -346,14 +382,14 @@ FullStorageView<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
 
     return ConstView(numRows,                              // # rows
                      numCols,                              // # cols
-                     &(this->operator()(fromRow, fromCol)),// data
+                     &(operator()(fromRow, fromCol)),      // data
                      leadingDimension(),                   // leading dimension
                      firstViewRow,                         // firstRow
                      firstViewCol,                         // firstCol
                      allocator());                         // allocator
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 FullStorageView<T, Order, I, A>
 FullStorageView<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
                                       IndexType toRow, IndexType toCol,
@@ -366,8 +402,8 @@ FullStorageView<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if ((numRows==0) || (numCols==0)) {
-        fromRow = toRow = firstRow();
-        fromCol = toCol = firstCol();
+        return View(numRows, numCols, 0, leadingDimension(),
+                    firstViewRow, firstViewCol, allocator());
     }
 #   endif
 
@@ -381,16 +417,15 @@ FullStorageView<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
 
     return View(numRows,                              // # rows
                 numCols,                              // # cols
-                &(this->operator()(fromRow, fromCol)),// data
+                &(operator()(fromRow, fromCol)),      // data
                 leadingDimension(),                   // leading dimension
                 firstViewRow,                         // firstRow
                 firstViewCol,                         // firstCol
                 allocator());                         // allocator
-                
 }
 
 // view of single row
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 const typename FullStorageView<T, Order, I, A>::ConstArrayView
 FullStorageView<T, Order, I, A>::viewRow(IndexType row,
                                          IndexType firstViewIndex) const
@@ -398,7 +433,8 @@ FullStorageView<T, Order, I, A>::viewRow(IndexType row,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (numCols()==0) {
-        row = this->firstRow();
+        return ConstArrayView(numCols(), 0, strideCol(),
+                              firstViewIndex, allocator());
     }
 #   endif
 
@@ -406,13 +442,13 @@ FullStorageView<T, Order, I, A>::viewRow(IndexType row,
     ASSERT(row<=lastRow());
 
     return ConstArrayView(numCols(),
-                          &(this->operator()(row, _firstCol)),
+                          &(operator()(row, _firstCol)),
                           strideCol(),
                           firstViewIndex,
                           allocator());
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 typename FullStorageView<T, Order, I, A>::ArrayView
 FullStorageView<T, Order, I, A>::viewRow(IndexType row,
                                          IndexType firstViewIndex)
@@ -420,7 +456,8 @@ FullStorageView<T, Order, I, A>::viewRow(IndexType row,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (numCols()==0) {
-        row = firstRow();
+        return ArrayView(numCols(), 0, strideCol(),
+                         firstViewIndex, allocator());
     }
 #   endif
 
@@ -428,13 +465,13 @@ FullStorageView<T, Order, I, A>::viewRow(IndexType row,
     ASSERT(row<=lastRow());
 
     return ArrayView(numCols(),
-                     &(this->operator()(row, _firstCol)),
+                     &(operator()(row, _firstCol)),
                      strideCol(),
                      firstViewIndex,
                      allocator());
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 const typename FullStorageView<T, Order, I, A>::ConstArrayView
 FullStorageView<T, Order, I, A>::viewRow(IndexType row,
                                          IndexType firstCol, IndexType lastCol,
@@ -445,8 +482,8 @@ FullStorageView<T, Order, I, A>::viewRow(IndexType row,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        row =       firstRow();
-        firstCol =  this->firstCol();
+        return ConstArrayView(length, 0, strideCol(),
+                              firstViewIndex, allocator());
     }
 #   endif
 
@@ -454,13 +491,13 @@ FullStorageView<T, Order, I, A>::viewRow(IndexType row,
     ASSERT(row<=lastRow());
 
     return ConstArrayView(length,
-                          &(this->operator()(row, firstCol)),
+                          &(operator()(row, firstCol)),
                           strideCol(),
                           firstViewIndex,
                           allocator());
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 typename FullStorageView<T, Order, I, A>::ArrayView
 FullStorageView<T, Order, I, A>::viewRow(IndexType row,
                                          IndexType firstCol, IndexType lastCol,
@@ -471,8 +508,8 @@ FullStorageView<T, Order, I, A>::viewRow(IndexType row,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        row =       firstRow();
-        firstCol =  this->firstCol();
+        return ArrayView(length, 0, strideCol(),
+                         firstViewIndex, allocator());
     }
 #   endif
 
@@ -480,14 +517,14 @@ FullStorageView<T, Order, I, A>::viewRow(IndexType row,
     ASSERT(row<=lastRow());
 
     return ArrayView(length,
-                     &(this->operator()(row, firstCol)),
+                     &(operator()(row, firstCol)),
                      strideCol(),
                      firstViewIndex,
                      allocator());
 }
 
 // view of single column
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 const typename FullStorageView<T, Order, I, A>::ConstArrayView
 FullStorageView<T, Order, I, A>::viewCol(IndexType col,
                                          IndexType firstViewIndex) const
@@ -495,7 +532,8 @@ FullStorageView<T, Order, I, A>::viewCol(IndexType col,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (numRows()==0) {
-        col = firstCol();
+        return ConstArrayView(numRows(), 0, strideRow(),
+                              firstViewIndex, allocator());
     }
 #   endif
 
@@ -503,13 +541,13 @@ FullStorageView<T, Order, I, A>::viewCol(IndexType col,
     ASSERT(col<=lastCol());
 
     return ConstArrayView(numRows(),
-                          &(this->operator()(_firstRow, col)),
+                          &(operator()(_firstRow, col)),
                           strideRow(),
                           firstViewIndex,
                           allocator());
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 typename FullStorageView<T, Order, I, A>::ArrayView
 FullStorageView<T, Order, I, A>::viewCol(IndexType col,
                                          IndexType firstViewIndex)
@@ -517,7 +555,8 @@ FullStorageView<T, Order, I, A>::viewCol(IndexType col,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (numRows()==0) {
-        col = firstCol();
+        return ArrayView(numRows(), 0, strideRow(),
+                         firstViewIndex, allocator());
     }
 #   endif
 
@@ -525,13 +564,13 @@ FullStorageView<T, Order, I, A>::viewCol(IndexType col,
     ASSERT(col<=lastCol());
 
     return ArrayView(numRows(),
-                     &(this->operator()(_firstRow, col)),
+                     &(operator()(_firstRow, col)),
                      strideRow(),
                      firstViewIndex,
                      allocator());
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 const typename FullStorageView<T, Order, I, A>::ConstArrayView
 FullStorageView<T, Order, I, A>::viewCol(IndexType firstRow, IndexType lastRow,
                                          IndexType col,
@@ -542,8 +581,8 @@ FullStorageView<T, Order, I, A>::viewCol(IndexType firstRow, IndexType lastRow,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        firstRow =  this->firstRow();
-        col =       firstCol();
+        return ConstArrayView(length, 0, strideRow(),
+                              firstViewIndex, allocator());
     }
 #   endif
 
@@ -551,13 +590,13 @@ FullStorageView<T, Order, I, A>::viewCol(IndexType firstRow, IndexType lastRow,
     ASSERT(col<=lastCol());
 
     return ConstArrayView(length,
-                          &(this->operator()(firstRow, col)),
+                          &(operator()(firstRow, col)),
                           strideRow(),
                           firstViewIndex,
                           allocator());
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 typename FullStorageView<T, Order, I, A>::ArrayView
 FullStorageView<T, Order, I, A>::viewCol(IndexType firstRow, IndexType lastRow,
                                          IndexType col,
@@ -568,8 +607,8 @@ FullStorageView<T, Order, I, A>::viewCol(IndexType firstRow, IndexType lastRow,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        firstRow =  this->firstRow();
-        col =       firstCol();
+        return ArrayView(length, 0, strideRow(),
+                         firstViewIndex, allocator());
     }
 #   endif
 
@@ -577,14 +616,14 @@ FullStorageView<T, Order, I, A>::viewCol(IndexType firstRow, IndexType lastRow,
     ASSERT(col<=lastCol());
 
     return ArrayView(length,
-                     &(this->operator()(firstRow, col)),
+                     &(operator()(firstRow, col)),
                      strideRow(),
                      firstViewIndex,
                      allocator());
 }
 
 // view of d-th diagonal
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 const typename FullStorageView<T, Order, I, A>::ConstArrayView
 FullStorageView<T, Order, I, A>::viewDiag(IndexType d,
                                           IndexType firstViewIndex) const
@@ -593,13 +632,13 @@ FullStorageView<T, Order, I, A>::viewDiag(IndexType d,
     IndexType row = firstRow() + ( (d>0) ? 0 : -d );
 
     return ConstArrayView(std::min(numRows(),numCols()) - std::abs(d),
-                          &(this->operator()(row,col)),
+                          &(operator()(row,col)),
                           leadingDimension()+1,
                           firstViewIndex,
                           allocator());
 }
 
-template <typename T, cxxblas::StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 typename FullStorageView<T, Order, I, A>::ArrayView
 FullStorageView<T, Order, I, A>::viewDiag(IndexType d,
                                           IndexType firstViewIndex)
@@ -608,7 +647,7 @@ FullStorageView<T, Order, I, A>::viewDiag(IndexType d,
     IndexType row = firstRow() + ( (d>0) ? 0 : -d );
 
     return ArrayView(std::min(numRows(),numCols()) - std::abs(d),
-                     &(this->operator()(row,col)),
+                     &(operator()(row,col)),
                      leadingDimension()+1,
                      firstViewIndex,
                      allocator());

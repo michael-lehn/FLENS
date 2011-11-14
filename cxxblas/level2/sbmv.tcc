@@ -36,9 +36,6 @@
 #include <complex>
 #include <cxxblas/level1/level1.h>
 
-using std::min;
-using std::max;
-
 namespace cxxblas {
 
 template <typename IndexType, typename ALPHA, typename MA, typename VX,
@@ -52,12 +49,16 @@ sbmv_generic(StorageOrder order, StorageUpLo upLo,
              const BETA &beta,
              VY *y, IndexType incY)
 {
+    using std::min;
+    using std::max;
+
     if (order==ColMajor) {
         upLo = (upLo==Upper) ? Lower : Upper;
         sbmv_generic(RowMajor, upLo, n, k, alpha, A, ldA,
                      x, incX, beta, y, incY);
         return;
     }
+
     scal_generic(n, beta, y, incY);
     if (upLo==Upper) {
         for (IndexType i=0, iX=0, iY=0; i<n; ++i, iX+=incX, iY+=incY) {

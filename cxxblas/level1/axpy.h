@@ -48,14 +48,14 @@ template <typename IndexType, typename ALPHA, typename X, typename Y>
 // saxpy
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
-    axpy(IndexType n, float alpha,
+    axpy(IndexType n, const float &alpha,
          const float *x, IndexType incX,
          float *y, IndexType incY);
 
 // daxpy
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
-    axpy(IndexType n, double alpha,
+    axpy(IndexType n, const double &alpha,
          const double *x, IndexType incX,
          double *y, IndexType incY);
 

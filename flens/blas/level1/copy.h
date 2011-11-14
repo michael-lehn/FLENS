@@ -35,6 +35,7 @@
 
 #include <cxxblas/cxxblas.h>
 #include <flens/matrixtypes/matrixtypes.h>
+#include <flens/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace blas {
@@ -46,7 +47,7 @@ template <typename X, typename Y>
 
 template <typename MA, typename MB>
     void
-    copy(cxxblas::Transpose trans,
+    copy(Transpose trans,
          const MA &A, MB &&B);
 
 //-- common interface for vectors ----------------------------------------------
@@ -57,7 +58,7 @@ template <typename VX, typename VY>
 //-- common interface for matrices ---------------------------------------------
 template <typename MA, typename MB>
     void
-    copy(cxxblas::Transpose trans,
+    copy(Transpose trans,
          const Matrix<MA> &A, Matrix<MB> &B);
 
 //-- copy
@@ -68,7 +69,7 @@ template <typename VX, typename VY>
 //-- gecopy
 template <typename MA, typename MB>
     void
-    copy(cxxblas::Transpose trans,
+    copy(Transpose trans,
          const GeMatrix<MA> &A, GeMatrix<MB> &B);
 
 } } // namespace blas, flens

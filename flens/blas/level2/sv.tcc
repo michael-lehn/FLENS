@@ -33,12 +33,14 @@
 #ifndef FLENS_BLAS_LEVEL2_SV_TCC
 #define FLENS_BLAS_LEVEL2_SV_TCC
 
+#include <flens/typedefs.h>
+
 namespace flens { namespace blas {
 
 //-- common interface ----------------------------------------------------------
 template <typename MA, typename VX>
 void
-sv(cxxblas::Transpose trans, const TriangularMatrix<MA> &A, Vector<VX> &x)
+sv(Transpose trans, const TriangularMatrix<MA> &A, Vector<VX> &x)
 {
     sv(trans, A.impl(), x.impl());
 }
@@ -46,7 +48,7 @@ sv(cxxblas::Transpose trans, const TriangularMatrix<MA> &A, Vector<VX> &x)
 //-- trsv
 template <typename MA, typename VX>
 void
-sv(cxxblas::Transpose trans, const TrMatrix<MA> &A, DenseVector<VX> &x)
+sv(Transpose trans, const TrMatrix<MA> &A, DenseVector<VX> &x)
 {
     ASSERT(x.length()==A.dim());
 #   ifdef HAVE_CXXBLAS_TRSV

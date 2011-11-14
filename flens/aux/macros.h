@@ -41,6 +41,37 @@
 
 #ifndef ASSERT
 #define ASSERT(x) assert(x)
-#endif //ASSERT
+#endif
+
+#ifndef NDEBUG
+
+#   ifndef CHECKPOINT_ENTER
+#   define CHECKPOINT_ENTER  static bool enter = false; \
+                             assert(!enter); enter=true;
+#   endif
+
+#   ifndef CHECKPOINT_LEAVE
+#   define CHECKPOINT_LEAVE  enter=false;
+#   endif
+
+#   ifndef DEBUG_VAR
+#   define DEBUG_VAR(x)      x
+#   endif
+
+#else
+
+#   ifndef CHECKPOINT_ENTER
+#   define CHECKPOINT_ENTER
+#   endif
+
+#   ifndef CHECKPOINT_LEAVE
+#   define CHECKPOINT_LEAVE
+#   endif
+
+#   ifndef DEBUG_VAR
+#   define DEBUG_VAR(x)
+#   endif
+
+#endif
 
 #endif // FLENS_AUX_MACROS_H

@@ -224,8 +224,8 @@ trsv(StorageOrder order, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_strsv");
 
-    cblas_strsv(CBLAS::value(order), CBLAS::value(upLo),
-                CBLAS::value(transA), CBLAS::value(diag),
+    cblas_strsv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
+                CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 n,
                 A, ldA,
                 x, incX);
@@ -242,8 +242,8 @@ trsv(StorageOrder order, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_dtrsv");
 
-    cblas_dtrsv(CBLAS::value(order), CBLAS::value(upLo),
-                CBLAS::value(transA), CBLAS::value(diag),
+    cblas_dtrsv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
+                CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 n,
                 A, ldA,
                 x, incX);
@@ -260,8 +260,8 @@ trsv(StorageOrder order, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ctrsv");
 
-    cblas_ctrsv(CBLAS::value(order), CBLAS::value(upLo),
-                CBLAS::value(transA), CBLAS::value(diag),
+    cblas_ctrsv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
+                CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 n,
                 reinterpret_cast<const float *>(A), ldA,
                 reinterpret_cast<const float *>(x), incX);
@@ -278,8 +278,8 @@ trsv(StorageOrder order, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ztrsv");
 
-    cblas_ztrsv(CBLAS::value(order), CBLAS::value(upLo),
-                CBLAS::value(transA), CBLAS::value(diag),
+    cblas_ztrsv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
+                CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 n,
                 reinterpret_cast<const double *>(A), ldA,
                 reinterpret_cast<const double *>(x), incX);

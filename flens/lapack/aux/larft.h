@@ -50,19 +50,17 @@
 
 namespace flens { namespace lapack {
 
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename MV, typename VTAU, typename MT>
-    void
-    larft(Direction direction, StoreVectors storeVectors, IndexType n,
-          MV &&V, const VTAU &tau, MT &&T);
-
-//-- larf ----------------------------------------------------------------------
+//== larft =====================================================================
 template <typename IndexType, typename MV, typename VTAU, typename MT>
     void
     larft(Direction direction, StoreVectors storeVectors, IndexType n,
           GeMatrix<MV> &V, const DenseVector<VTAU> &tau, TrMatrix<MT> &T);
 
-//-- larf ----------------------------------------------------------------------
+//-- forwarding ----------------------------------------------------------------
+template <typename IndexType, typename MV, typename VTAU, typename MT>
+    void
+    larft(Direction direction, StoreVectors storeVectors, IndexType n,
+          MV &&V, const VTAU &tau, MT &&T);
 
 } } // namespace lapack, flens
 

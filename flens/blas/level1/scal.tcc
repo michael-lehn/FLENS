@@ -36,6 +36,7 @@
 #include <cxxblas/cxxblas.h>
 #include <flens/aux/macros.h>
 #include <flens/storage/storage.h>
+#include <flens/typedefs.h>
 
 namespace flens { namespace blas {
 

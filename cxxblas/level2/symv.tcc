@@ -114,7 +114,7 @@ symv(StorageOrder order, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ssymv");
 
-    cblas_ssymv(CBLAS::value(order), CBLAS::value(upLo),
+    cblas_ssymv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                 n, alpha,
                 A, ldA,
                 x, incX,
@@ -134,7 +134,7 @@ symv(StorageOrder order, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_dsymv");
 
-    cblas_dsymv(CBLAS::value(order), CBLAS::value(upLo),
+    cblas_dsymv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                 n, alpha,
                 A, ldA,
                 x, incX,

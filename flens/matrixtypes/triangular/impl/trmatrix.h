@@ -89,8 +89,8 @@ class TrMatrix
         typedef TrMatrix<EngineNoView>              NoView;
 
         TrMatrix(const Engine &engine,
-                 cxxblas::StorageUpLo upLo,
-                 cxxblas::Diag diag = cxxblas::NonUnit);
+                 StorageUpLo upLo,
+                 Diag diag = NonUnit);
 
         TrMatrix(const TrMatrix &rhs);
 
@@ -106,6 +106,13 @@ class TrMatrix
         // -- operators --------------------------------------------------------
         void
         operator=(const ElementType &value);
+
+        TrMatrix &
+        operator=(const TrMatrix &rhs);
+
+        template <typename RHS>
+            TrMatrix &
+            operator=(const Matrix<RHS> &rhs);
 
         const ElementType &
         operator()(IndexType row, IndexType col) const;
@@ -162,6 +169,19 @@ class TrMatrix
         IndexType
         leadingDimension() const;
 
+        StorageOrder
+        order() const;
+
+        template <typename RHS>
+            bool
+            resize(const TrMatrix<RHS> &rhs,
+                   const ElementType &value = ElementType());
+
+        bool
+        resize(IndexType dim,
+               IndexType firstIndex = Engine::defaultIndexBase,
+               const ElementType &value = ElementType());
+
         // -- implementation ---------------------------------------------------
         const Engine &
         engine() const;
@@ -169,22 +189,22 @@ class TrMatrix
         Engine &
         engine();
 
-        cxxblas::StorageUpLo
+        StorageUpLo
         upLo() const;
 
-        cxxblas::StorageUpLo &
+        StorageUpLo &
         upLo();
 
-        cxxblas::Diag
+        Diag
         diag() const;
 
-        cxxblas::Diag &
+        Diag &
         diag();
 
     private:
-        Engine                _engine;
-        cxxblas::StorageUpLo  _upLo;
-        cxxblas::Diag         _diag;
+        Engine        _engine;
+        StorageUpLo  _upLo;
+        Diag         _diag;
 };
 
 } // namespace flens

@@ -76,20 +76,39 @@
 
 namespace flens { namespace lapack {
 
+//== ormqr =====================================================================
+template <typename MA, typename MC>
+    typename GeMatrix<MC>::IndexType
+    ormqr_wsq(Side                  side,
+              Transpose             trans,
+              GeMatrix<MA>          &A,
+              GeMatrix<MC>          &C);
+
+template <typename MA, typename VTAU, typename MC, typename VWORK>
+    void
+    ormqr(Side                      side,
+          Transpose                 trans,
+          GeMatrix<MA>              &A,
+          const DenseVector<VTAU>   &tau,
+          GeMatrix<MC>              &C,
+          DenseVector<VWORK>        &work);
+
 //-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VTAU, typename MC, typename VWORK>
-void
-ormqr(Side side, Transpose &trans, MA &&A, const VTAU &tau, MC &&C,
-      VWORK &&work);
+template <typename MA, typename MC>
+      typename MC::IndexType
+      ormqr_wsq(Side                side,
+                Transpose           trans,
+                MA                  &&A,
+                MC                  &&C);
 
-//-- ormqr ---------------------------------------------------------------------
 template <typename MA, typename VTAU, typename MC, typename VWORK>
-void
-ormqr(Side side, Transpose &trans, GeMatrix<MA> &A,
-      const DenseVector<VTAU> &tau, GeMatrix<MC> &C,
-      DenseVector<VWORK> &work);
-
-// Note: Matrix A is modified by the routine but restored on exit.
+      void
+      ormqr(Side                    side,
+            Transpose               trans,
+            MA                      &&A,
+            const VTAU              &tau,
+            MC                      &&C,
+            VWORK                   &&work);
 
 } } // namespace lapack, flens
 
