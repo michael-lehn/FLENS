@@ -209,7 +209,7 @@ trf(GeMatrix<MA> &A, DenseVector<VP> &piv)
 //
 //  Compare results
 //
-   IndexType _info = trf_native(_A, _piv);
+    IndexType _info = trf_native(_A, _piv);
 
     bool failed = false;
     if (! isIdentical(A, _A, " A", "_A")) {

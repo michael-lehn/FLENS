@@ -479,12 +479,12 @@ trsna(TRSNA::Job                    job,
 {
     typedef typename GeMatrix<MT>::IndexType IndexType;
 
+    const IndexType n = T.numRows();
+
 #   ifndef NDEBUG
     ASSERT(T.firstRow()==1);
     ASSERT(T.firstCol()==1);
     ASSERT(T.numRows()==T.numCols());
-
-    const IndexType n = T.numRows();
 
     if (howMany!=TRSNA::All) {
         ASSERT(select.firstIndex()==1);

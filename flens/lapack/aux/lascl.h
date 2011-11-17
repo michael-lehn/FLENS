@@ -43,6 +43,8 @@
 #ifndef FLENS_LAPACK_AUX_LASCL_H
 #define FLENS_LAPACK_AUX_LASCL_H 1
 
+
+#include <flens/aux/aux.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 

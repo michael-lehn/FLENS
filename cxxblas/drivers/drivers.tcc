@@ -47,6 +47,48 @@ blasImpl()
 }
 
 //------------------------------------------------------------------------------
+template <typename ENUM>
+typename RestrictTo<IsSame<ENUM,Diag>::value, char>::Type
+getF77BlasChar(ENUM diag)
+{
+    if (diag==Unit) {
+        return 'U';
+    }
+    return 'N';
+}
+
+template <typename ENUM>
+typename RestrictTo<IsSame<ENUM,StorageUpLo>::value, char>::Type
+getF77BlasChar(ENUM upLo)
+{
+    if (upLo==Upper) {
+        return 'U';
+    }
+    return 'L';
+}
+
+//------------------------------------------------------------------------------
+template <typename ENUM>
+typename RestrictTo<IsSame<ENUM,Diag>::value, Diag>::Type
+getCxxBlasEnum(char diag)
+{
+    if (diag=='U') {
+        return Unit;
+    }
+    return NonUnit;
+}
+
+template <typename ENUM>
+typename RestrictTo<IsSame<ENUM,StorageUpLo>::value, StorageUpLo>::Type
+getCxxBlasEnum(char upLo)
+{
+    if (upLo=='U') {
+        return Upper;
+    }
+    return Lower;
+}
+
+//------------------------------------------------------------------------------
 #ifdef HAVE_CBLAS
 
 namespace CBLAS {

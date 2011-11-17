@@ -1,3 +1,7 @@
+#ifndef INTEGER
+#define INTEGER int
+#endif
+
 //-- xerbla --------------------------------------------------------------------
 void
 LAPACK_DECL(xerbla)(const char      *SRNAME,

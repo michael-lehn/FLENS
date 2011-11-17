@@ -120,6 +120,59 @@ class TrMatrix
         ElementType &
         operator()(IndexType row, IndexType col);
 
+        // rectangular views
+        ConstGeneralView
+        operator()(const Range<IndexType> &rows,
+                   const Range<IndexType> &cols) const;
+
+        GeneralView
+        operator()(const Range<IndexType> &rows,
+                   const Range<IndexType> &cols);
+
+        // rectangular views (all rows selected)
+        ConstGeneralView
+        operator()(const Underscore<IndexType> &,
+                   const Range<IndexType> &cols) const;
+
+        GeneralView
+        operator()(const Underscore<IndexType> &,
+                   const Range<IndexType> &cols);
+
+        // rectangular views (all columns selected)
+        ConstGeneralView
+        operator()(const Range<IndexType> &rows,
+                   const Underscore<IndexType> &) const;
+
+        GeneralView
+        operator()(const Range<IndexType> &rows,
+                   const Underscore<IndexType> &);
+
+        // row view (vector view)
+        ConstVectorView
+        operator()(IndexType row, const Underscore<IndexType> &) const;
+
+        VectorView
+        operator()(IndexType row, const Underscore<IndexType> &);
+
+        ConstVectorView
+        operator()(IndexType row, const Range<IndexType> &cols) const;
+
+        VectorView
+        operator()(IndexType row, const Range<IndexType> &cols);
+
+        // column view (vector view)
+        ConstVectorView
+        operator()(const Underscore<IndexType> &, IndexType col) const;
+
+        VectorView
+        operator()(const Underscore<IndexType> &, IndexType col);
+
+        ConstVectorView
+        operator()(const Range<IndexType> &rows, IndexType col) const;
+
+        VectorView
+        operator()(const Range<IndexType> &rows, IndexType col);
+
         // -- views ------------------------------------------------------------
 
         // general views

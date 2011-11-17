@@ -53,6 +53,7 @@
 #include <flens/lapack/aux/ilaenv.h>
 #include <flens/lapack/aux/ilalc.h>
 #include <flens/lapack/aux/ilalr.h>
+#include <flens/lapack/aux/iparmq.h>
 #include <flens/lapack/aux/labad.h>
 #include <flens/lapack/aux/lacn2.h>
 #include <flens/lapack/aux/ladiv.h>
@@ -105,6 +106,8 @@
 
 #include <flens/lapack/gesv/tf2.h>
 #include <flens/lapack/gesv/trf.h>
+#include <flens/lapack/gesv/ti2.h>
+#include <flens/lapack/gesv/tri.h>
 
 #include <flens/lapack/qr/qr2.h>
 #include <flens/lapack/qr/qrf.h>

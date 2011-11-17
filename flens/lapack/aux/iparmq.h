@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2009, Michael Lehn
+ *   Copyright (c) 2011, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,54 +30,27 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_BLAS_LEVEL1_COPY_H
-#define FLENS_BLAS_LEVEL1_COPY_H 1
+/* Based on
+       INTEGER FUNCTION IPARMQ( spec, NAME, OPTS, N, ILO, IHI, LWORK )
+ *
+ *  -- LAPACK auxiliary routine (version 3.2) --
+ *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
+ *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
+ *     November 2006
+ */
 
-#include <cxxblas/cxxblas.h>
-#include <flens/matrixtypes/matrixtypes.h>
-#include <flens/typedefs.h>
-#include <flens/vectortypes/vectortypes.h>
+#ifndef FLENS_LAPACK_AUX_IPARMQ_H
+#define FLENS_LAPACK_AUX_IPARMQ_H 1
 
-namespace flens { namespace blas {
 
-//-- forwarding ----------------------------------------------------------------
-template <typename X, typename Y>
-    void
-    copy(const X &x, Y &&y);
+namespace flens { namespace lapack {
 
-template <typename MA, typename MB>
-    void
-    copy(Transpose trans,
-         const MA &A, MB &&B);
+//-- iparmq--------------------------------------------------------------------
+template <typename T>
+    int
+    iparmq(int spec, const char *, const char *,
+           int n, int iLo, int iHi, int lWork);
 
-//-- common interface for vectors ----------------------------------------------
-template <typename VX, typename VY>
-    void
-    copy(const Vector<VX> &x, Vector<VY> &y);
+} } // namespace lapack, flens
 
-//-- common interface for matrices ---------------------------------------------
-template <typename MA, typename MB>
-    void
-    copy(Transpose trans,
-         const Matrix<MA> &A, Matrix<MB> &B);
-
-//-- copy
-template <typename VX, typename VY>
-    void
-    copy(const DenseVector<VX> &x, DenseVector<VY> &y);
-
-//-- gecopy
-template <typename MA, typename MB>
-    void
-    copy(Transpose trans,
-         const GeMatrix<MA> &A, GeMatrix<MB> &B);
-
-//-- trcopy
-template <typename MA, typename MB>
-    void
-    copy(Transpose trans,
-         const TrMatrix<MA> &A, TrMatrix<MB> &B);
-
-} } // namespace blas, flens
-
-#endif // FLENS_BLAS_LEVEL1_COPY_H
+#endif // FLENS_LAPACK_AUX_IPARMQ_H

@@ -121,6 +121,115 @@ TrMatrix<FS>::operator()(IndexType row, IndexType col)
     return _engine(row, col);
 }
 
+// rectangular views
+template <typename FS>
+typename TrMatrix<FS>::ConstGeneralView
+TrMatrix<FS>::operator()(const Range<IndexType> &rows,
+                         const Range<IndexType> &cols) const
+{
+    return general()(rows, cols);
+}
+
+template <typename FS>
+typename TrMatrix<FS>::GeneralView
+TrMatrix<FS>::operator()(const Range<IndexType> &rows,
+                         const Range<IndexType> &cols)
+{
+    return general()(rows, cols);
+}
+
+// rectangular views (all rows selected)
+template <typename FS>
+typename TrMatrix<FS>::ConstGeneralView
+TrMatrix<FS>::operator()(const Underscore<IndexType> &_,
+                         const Range<IndexType> &cols) const
+{
+    return general()(_,cols);
+}
+
+template <typename FS>
+typename TrMatrix<FS>::GeneralView
+TrMatrix<FS>::operator()(const Underscore<IndexType> &_,
+                         const Range<IndexType> &cols)
+{
+    return general()(_,cols);
+}
+
+// rectangular views (all columns selected)
+template <typename FS>
+typename TrMatrix<FS>::ConstGeneralView
+TrMatrix<FS>::operator()(const Range<IndexType> &rows,
+                         const Underscore<IndexType> &_) const
+{
+    return general()(rows,_);
+}
+
+template <typename FS>
+typename TrMatrix<FS>::GeneralView
+TrMatrix<FS>::operator()(const Range<IndexType> &rows,
+                         const Underscore<IndexType> &_)
+{
+    return general()(rows,_);
+}
+
+// row view (vector view)
+template <typename FS>
+typename TrMatrix<FS>::ConstVectorView
+TrMatrix<FS>::operator()(IndexType row, const Underscore<IndexType> &_) const
+{
+    return general()(row,_);
+}
+
+template <typename FS>
+typename TrMatrix<FS>::VectorView
+TrMatrix<FS>::operator()(IndexType row, const Underscore<IndexType> &_)
+{
+    return general()(row,_);
+}
+
+template <typename FS>
+typename TrMatrix<FS>::ConstVectorView
+TrMatrix<FS>::operator()(IndexType row, const Range<IndexType> &cols) const
+{
+    return general()(row,cols);
+}
+
+template <typename FS>
+typename TrMatrix<FS>::VectorView
+TrMatrix<FS>::operator()(IndexType row, const Range<IndexType> &cols)
+{
+    return general()(row,cols);
+}
+
+// column view (vector view)
+template <typename FS>
+typename TrMatrix<FS>::ConstVectorView
+TrMatrix<FS>::operator()(const Underscore<IndexType> &_, IndexType col) const
+{
+    return general()(_,col);
+}
+
+template <typename FS>
+typename TrMatrix<FS>::VectorView
+TrMatrix<FS>::operator()(const Underscore<IndexType> &_, IndexType col)
+{
+    return general()(_,col);
+}
+
+template <typename FS>
+typename TrMatrix<FS>::ConstVectorView
+TrMatrix<FS>::operator()(const Range<IndexType> &rows, IndexType col) const
+{
+    return general()(rows,col);
+}
+
+template <typename FS>
+typename TrMatrix<FS>::VectorView
+TrMatrix<FS>::operator()(const Range<IndexType> &rows, IndexType col)
+{
+    return general()(rows,col);
+}
+
 // -- views ------------------------------------------------------------
 // general views
 template <typename FS>

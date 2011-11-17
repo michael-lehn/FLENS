@@ -1673,6 +1673,7 @@ LAPACK_DECL(dgetrf)(const INTEGER    *M,
 
 
 //-- dgetri --------------------------------------------------------------------
+/*
 void
 LAPACK_DECL(dgetri)(const INTEGER    *N,
                     DOUBLE           *A,
@@ -1692,6 +1693,7 @@ LAPACK_DECL(dgetri)(const INTEGER    *N,
                         LWORK,
                         INFO);
 }
+*/
 
 //-- dgetrs --------------------------------------------------------------------
 void
@@ -11526,6 +11528,7 @@ LAPACK_DECL(dtrti2)(const char       *UPLO,
 }
 
 //-- dtrtri --------------------------------------------------------------------
+/*
 void
 LAPACK_DECL(dtrtri)(const char       *UPLO,
                     const char       *DIAG,
@@ -11543,6 +11546,7 @@ LAPACK_DECL(dtrtri)(const char       *UPLO,
                         LDA,
                         INFO);
 }
+*/
 
 //-- dtrtrs --------------------------------------------------------------------
 void

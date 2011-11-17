@@ -470,8 +470,9 @@ ev_wsq(bool computeVL, bool computeVR, GeMatrix<MA> &A)
 //  Compare results
 //
     auto optWorkSize = ev_native_wsq(computeVL, computeVR, A);
-
-    ASSERT(optWorkSize==ws.second);
+    if (! isIdentical(optWorkSize, ws.second, "optWorkSize", "ws.second")) {
+        ASSERT(0);
+    }
 #   endif
 
     return ws;

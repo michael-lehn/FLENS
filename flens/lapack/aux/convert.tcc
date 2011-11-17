@@ -88,6 +88,7 @@ getF77LapackChar(ENUM enumValue)
         return 'F';
     } else {
         ASSERT(0);
+        return '?';
     }
 }
 
@@ -106,6 +107,7 @@ getF77LapackChar(ENUM enumValue)
         return 'B';
     } else {
         ASSERT(0);
+        return '?';
     }
 }
 
@@ -124,6 +126,7 @@ getF77LapackChar(ENUM enumValue)
         return 'B';
     } else {
         ASSERT(0);
+        return '?';
     }
 }
 
@@ -138,6 +141,7 @@ getF77LapackChar(ENUM enumValue)
         return 'S';
     } else {
         ASSERT(0);
+        return '?';
     }
 }
 
@@ -154,6 +158,7 @@ getF77LapackChar(ENUM enumValue)
         return 'V';
     } else {
         ASSERT(0);
+        return '?';
     }
 }
 
@@ -170,6 +175,7 @@ getF77LapackChar(ENUM enumValue)
         return 'S';
     } else {
         ASSERT(0);
+        return '?';
     }
 }
 
@@ -186,6 +192,7 @@ getF77LapackChar(ENUM enumValue)
         return 'B';
     } else {
         ASSERT(0);
+        return '?';
     }
 }
 
@@ -200,6 +207,7 @@ getF77LapackChar(ENUM enumValue)
         return 'S';
     } else {
         ASSERT(0);
+        return '?';
     }
 }
 
@@ -224,6 +232,7 @@ getF77LapackChar(ENUM enumValue)
         return 'Z';
     } else {
         ASSERT(0);
+        return '?';
     }
 }
 

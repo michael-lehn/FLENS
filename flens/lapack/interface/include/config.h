@@ -55,6 +55,7 @@ namespace flens {
 
 typedef FullStorageView<DOUBLE, cxxblas::ColMajor>  DFSView;
 typedef GeMatrix<DFSView>                           DGeMatrixView;
+typedef TrMatrix<DFSView>                           DTrMatrixView;
 
 typedef Array<bool>                                 BArray;
 typedef ArrayView<bool>                             BArrayView;

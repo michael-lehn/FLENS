@@ -313,7 +313,9 @@ hrd_wsq(IndexType           iLo,
 //
     IndexType _info = hrd_native_wsq(iLo, iHi, A);
 
-    ASSERT(info==_info);
+    if (! isIdentical(info, _info, " info", "_info")) {
+        ASSERT(0);
+    }
 #   endif
 
     return info;

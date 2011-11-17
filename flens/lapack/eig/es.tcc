@@ -364,7 +364,7 @@ es_generic(bool                 computeSchurVectors,
 
 //== interface for native lapack ===============================================
 
-//#ifdef  CHECK_CXXLAPACK
+#ifdef  CHECK_CXXLAPACK
 
 template <typename MA>
 typename GeMatrix<MA>::IndexType
@@ -470,7 +470,7 @@ es_native(bool                 computeSchurVectors,
     return INFO;
 }
 
-//#endif // CHECK_CXXLAPACK
+#endif // CHECK_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -501,7 +501,9 @@ es_wsq(bool                 computeSchurVectors,
 //
     auto optWorkSize = es_native_wsq(computeSchurVectors, A);
 
-    ASSERT(optWorkSize==ws.second);
+    if (! isIdentical(optWorkSize, ws.second, "optWorkSize", "ws.second")) {
+        ASSERT(0);
+    }
 #   endif
 
     return ws;
@@ -573,19 +575,7 @@ es(bool                 computeSchurVectors,
 //
 //  Call implementation
 //
-    /*
     IndexType result = es_generic(computeSchurVectors,
-                                  sortEigenvalues,
-                                  selectFunction,
-                                  A,
-                                  sDim,
-                                  wr,
-                                  wi,
-                                  VS,
-                                  work,
-                                  bWork);
-    */
-    IndexType result = es_native(computeSchurVectors,
                                   sortEigenvalues,
                                   selectFunction,
                                   A,

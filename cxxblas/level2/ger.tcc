@@ -58,17 +58,6 @@ gerc_generic(StorageOrder order, Transpose conjugateA,
         return;
     }
 
-    for (IndexType i=0, iX=0; i<m; ++i, iX+=incX) {
-        std::cerr<< "  " << x[iX];
-    }
-    std::cerr << std::endl;
-
-    for (IndexType j=0, jY=0; j<n; ++j, jY+=incY) {
-        std::cerr << "  " << y[jY];
-    }
-    std::cerr << std::endl;
-
-
     #ifdef CXXBLAS_USE_XERBLA
         // insert error check here
     #endif

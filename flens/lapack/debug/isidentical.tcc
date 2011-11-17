@@ -96,7 +96,7 @@ isIdentical(const DenseVector<VX> &x, const DenseVector<VY> &y,
                   << std::endl;
         return false;
     }
-    
+
     for (IndexType i=x.firstIndex(); i!=x.endIndex(); i+=x.inc()) {
         if (isDifferent(x(i), y(i))) {
             std::cerr.precision(150);
@@ -232,9 +232,13 @@ isIdentical(const TrMatrix<MA> &A, const TrMatrix<MB> &B,
 
     bool failed = false;
     bool isUpper = (A.upLo()==Upper);
-    
+    bool isUnit = (A.diag()==Unit);
+
     for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
         for (IndexType j=A.firstCol(); j<=A.lastCol(); ++j) {
+            if (isUnit && i==j) {
+                continue;
+            }
             if (isUpper && j>=i) {
                 failed = isDifferent(A(i,j), B(i,j));
             }

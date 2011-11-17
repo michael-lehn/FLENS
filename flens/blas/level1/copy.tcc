@@ -55,7 +55,7 @@ void
 copy(Transpose trans, const MA &A, MB &&B)
 {
     CHECKPOINT_ENTER;
-    copy(trans, A, B);
+    copy(trans, A.impl(), B.impl());
     CHECKPOINT_LEAVE;
 }
 

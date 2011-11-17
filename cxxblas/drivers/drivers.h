@@ -46,8 +46,9 @@
 
 
 #ifdef HAVE_CBLAS
-
 #include <cxxblas/drivers/cblas.h>
+#endif
+
 #include <cxxblas/typedefs.h>
 
 namespace cxxblas {
@@ -103,8 +104,29 @@ struct RestrictTo<true, T>
 };
 
 //------------------------------------------------------------------------------
+template <typename ENUM>
+    typename RestrictTo<IsSame<ENUM,Diag>::value, char>::Type
+    getF77BlasChar(ENUM diag);
+
+template <typename ENUM>
+    typename RestrictTo<IsSame<ENUM,StorageUpLo>::value, char>::Type
+    getF77BlasChar(ENUM upLo);
+
+//------------------------------------------------------------------------------
+template <typename ENUM>
+    typename RestrictTo<IsSame<ENUM,Diag>::value, Diag>::Type
+    getCxxBlasEnum(char diag);
+
+template <typename ENUM>
+    typename RestrictTo<IsSame<ENUM,StorageUpLo>::value, StorageUpLo>::Type
+    getCxxBlasEnum(char upLo);
+
+//------------------------------------------------------------------------------
+#ifdef HAVE_CBLAS
 
 namespace CBLAS {
+
+// TODO: rename these to getCblasEnum
 
 template <typename ENUM>
     typename RestrictTo<IsSame<ENUM,StorageOrder>::value, CBLAS_ORDER>::Type
@@ -128,8 +150,9 @@ template <typename ENUM>
 
 } // namespace CBLAS
 
+#endif // HAVE_CBLAS
+
 } // namespace cxxblas
 
-#endif // HAVE_CBLAS
 
 #endif // CXXBLAS_DRIVERS_DRIVERS_H

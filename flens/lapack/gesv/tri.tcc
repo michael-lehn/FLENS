@@ -30,9 +30,11 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/* Based on
+/* Baesed on
  *
-       SUBROUTINE DGETRF( M, N, A, LDA, IPIV, INFO )
+      SUBROUTINE DGETRI( N, A, LDA, IPIV, WORK, LWORK, INFO )
+
+      SUBROUTINE DTRTRI( UPLO, DIAG, N, A, LDA, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -58,6 +60,13 @@ typename GeMatrix<MA>::IndexType
 tri_generic(GeMatrix<MA> &A, DenseVector<VP> &piv, DenseVector<VWORK> &work)
 {
     using std::max;
+
+    typedef typename GeMatrix<MA>::ElementType ElementType;
+    typedef typename GeMatrix<MA>::IndexType   IndexType;
+
+    const ElementType Zero(0), One(1);
+    const IndexType n = A.numRows();
+    const Underscore<IndexType> _;
 
     IndexType info = 0;
     IndexType nb = ilaenv<ElementType>(1, "GETRI", "", n);
@@ -85,19 +94,22 @@ tri_generic(GeMatrix<MA> &A, DenseVector<VP> &piv, DenseVector<VWORK> &work)
     }
 
     IndexType nbMin = 2;
+    const IndexType lWork  = work.length();;
     const IndexType ldWork = n;
 
     IndexType iws;
 
     if (nb>1 && nb<n) {
         iws = max(ldWork*nb, IndexType(1));
-        if (work.length()<iws) {
+        if (lWork<iws) {
             nb = lWork / ldWork;
-            nbMin = max(IndexType(2), ilaenv<ElementType>(2, "GETRI", "", n));
+            nbMin = max(2, ilaenv<ElementType>(2, "GETRI", "", n));
         }
     } else {
         iws = n;
     }
+
+    GeMatrixView<ElementType> Work(n, nb, work);
 //
 //  Solve the equation inv(A)*L = inv(U) for inv(A).
 //
@@ -105,21 +117,22 @@ tri_generic(GeMatrix<MA> &A, DenseVector<VP> &piv, DenseVector<VWORK> &work)
 //
 //      Use unblocked code.
 //
-        DO 20 J = N, 1, -1
+        for (IndexType j=n; j>=1; --j) {
 //
 //          Copy current column of L to WORK and replace with zeros.
 //
-            DO 10 I = J + 1, N
-                WORK( I ) = A( I, J )
-                A( I, J ) = ZERO
-   10       CONTINUE
+            work(_(j+1,n)) = A(_(j+1,n),j);
+            A(_(j+1,n),j)  = Zero;;
 //
 //          Compute current column of inv(A).
 //
-            IF( J.LT.N )
-     $          CALL DGEMV( 'No transpose', N, N-J, -ONE, A( 1, J+1 ),
-     $                     LDA, WORK( J+1 ), 1, ONE, A( 1, J ), 1 )
-   20   CONTINUE
+            if (j<n) {
+                blas::mv(NoTrans, -One,
+                         A(_,_(j+1,n)), work(_(j+1,n)),
+                         One,
+                         A(_,j));
+            }
+        }
     } else {
 //
 //      Use blocked code.
@@ -131,23 +144,24 @@ tri_generic(GeMatrix<MA> &A, DenseVector<VP> &piv, DenseVector<VWORK> &work)
 //          Copy current block column of L to WORK and replace with
 //          zeros.
 //
-            for (IndexType jj=j; jj<=j+nb-1; ++jj) {
-                for (IndexType i=jj+1; i<=n; ++i) {
-                    Work(i,jj-j) = A(i,jj);
-                    A(i, jj) = Zero;
-                }
+            for (IndexType jj=j, JJ=1; jj<=j+jb-1; ++jj, ++JJ) {
+                Work(_(jj+1,n),JJ) = A(_(jj+1,n),jj);
+                A(_(jj+1,n),jj)    = Zero;
             }
 //
 //          Compute current block column of inv(A).
 //
             if (j+jb<=n) {
+                blas::mm(NoTrans, NoTrans,
+                         -One,
+                         A(_,_(j+jb,n)),
+                         Work(_(j+jb,n),_(1,jb)),
+                         One,
+                         A(_,_(j,j+jb-1)));
             }
-            IF( J+JB.LE.N )
-     $          CALL DGEMM( 'No transpose', 'No transpose', N, JB,
-     $                      N-J-JB+1, -ONE, A( 1, J+JB ), LDA,
-     $                      WORK( J+JB ), LDWORK, ONE, A( 1, J ), LDA )
-            CALL DTRSM( 'Right', 'Lower', 'No transpose', 'Unit', N, JB,
-     $                  ONE, WORK( J ), LDWORK, A( 1, J ), LDA )
+            blas::sm(Right, NoTrans,
+                     One, Work(_(j,j+jb-1),_(1,jb)).lowerUnit(),
+                     A(_,_(j,j+jb-1)));
         }
     }
 //
@@ -169,6 +183,114 @@ template <typename MA>
 typename GeMatrix<MA>::IndexType
 tri_generic(TrMatrix<MA> &A)
 {
+    using std::min;
+    using cxxblas::getF77BlasChar;
+
+    typedef typename TrMatrix<MA>::ElementType ElementType;
+    typedef typename TrMatrix<MA>::IndexType   IndexType;
+
+    const Underscore<IndexType> _;
+
+    const IndexType n = A.dim();
+    const bool upper  = (A.upLo()==Upper);
+    const bool noUnit = (A.diag()==NonUnit);
+
+    const ElementType  Zero(0), One(1);
+
+    IndexType info = 0;
+//
+//  Quick return if possible
+//
+    if (n==0) {
+        return info;
+    }
+//
+//  Check for singularity if non-unit.
+//
+    if (noUnit) {
+        for (info=1; info<=n; ++info) {
+            if (A(info,info)==Zero) {
+                return info;
+            }
+        }
+        info = 0;
+    }
+
+//
+//  Determine the block size for this environment.  //
+    const char upLoDiag[2] = { getF77BlasChar(A.upLo()),
+                               getF77BlasChar(A.diag()) };
+    const IndexType nb = ilaenv<ElementType>(1, "TRTRI", upLoDiag, n);
+
+    if (nb<=1 || nb>=n) {
+//
+//      Use unblocked code
+//
+        info = ti2(A);
+    } else {
+//
+//      Use blocked code
+//
+
+        if (upper) {
+//
+//          Compute inverse of upper triangular matrix
+//
+            for (IndexType j=1; j<=n; j+=nb) {
+                const IndexType jb = min(nb, n-j+1);
+//
+//              Compute rows 1:j-1 of current block column
+//
+                const auto range1 = _(1,j-1);
+                const auto range2 = _(j,j+jb-1);
+
+                const auto U11 = (noUnit) ? A(range1, range1).upper()
+                                          : A(range1, range1).upperUnit();
+                auto U22 = (noUnit) ? A(range2, range2).upper()
+                                    : A(range2, range2).upperUnit();
+                auto U12 = A(range1, range2);
+
+                blas::mm(Left, NoTrans, One, U11, U12);
+                blas::sm(Right, NoTrans, -One, U22, U12);
+//
+//              Compute inverse of current diagonal block
+//
+                info = ti2(U22);
+            }
+        } else {
+//
+//          Compute inverse of lower triangular matrix
+//
+            const IndexType nn = ((n-1)/nb)*nb + 1;
+            for (IndexType j=nn; j>=1; j-=nb) {
+                const IndexType jb = min(nb, n-j+1);
+
+                const auto range1 = _(j,j+jb-1);
+                auto L11 = (noUnit) ? A(range1,range1).lower()
+                                    : A(range1,range1).lowerUnit();
+
+                if (j+jb<=n) {
+//
+//                  Compute rows j+jb:n of current block column
+//
+                    const auto range2 = _(j+jb,n);
+
+                    const auto L22 = (noUnit) ? A(range2,range2).lower()
+                                              : A(range2,range2).lowerUnit();
+
+                    auto L21 = A(range2, range1);
+
+                    blas::mm(Left, NoTrans, One, L22, L21);
+                    blas::sm(Right, NoTrans, -One, L11, L21);
+                }
+//
+//              Compute inverse of current diagonal block
+//
+                info = ti2(L11);
+            }
+        }
+    }
+    return info;
 }
 
 //== interface for native lapack ===============================================
@@ -179,6 +301,27 @@ template <typename MA, typename VP, typename VWORK>
 typename GeMatrix<MA>::IndexType
 tri_native(GeMatrix<MA> &A, DenseVector<VP> &piv, DenseVector<VWORK> &work)
 {
+    typedef typename GeMatrix<MA>::ElementType  ElementType;
+    typedef typename GeMatrix<MA>::IndexType    IndexType;
+
+    const INTEGER    N      = A.numRows();
+    const INTEGER    LDA    = A.leadingDimension();
+    const INTEGER    LWORK  = work.length();
+    INTEGER          INFO;
+
+    if (IsSame<ElementType, DOUBLE>::value) {
+        LAPACK_IMPL(dgetri)(&N,
+                            A.data(),
+                            &LDA,
+                            piv.data(),
+                            work.data(),
+                            &LWORK,
+                            &INFO);
+    } else {
+        ASSERT(0);
+    }
+    ASSERT(INFO>=0);
+    return INFO;
 }
 
 //-- (tr)tri
@@ -186,6 +329,26 @@ template <typename MA>
 typename GeMatrix<MA>::IndexType
 tri_native(TrMatrix<MA> &A)
 {
+    typedef typename GeMatrix<MA>::ElementType  ElementType;
+
+    const char       UPLO   = getF77BlasChar(A.upLo());
+    const char       DIAG   = getF77BlasChar(A.diag());
+    const INTEGER    N      = A.dim();
+    const INTEGER    LDA    = A.leadingDimension();
+    INTEGER          INFO;
+
+    if (IsSame<ElementType, DOUBLE>::value) {
+        LAPACK_IMPL(dtrtri)(&UPLO,
+                            &DIAG,
+                            &N,
+                            A.data(),
+                            &LDA,
+                            &INFO);
+    } else {
+        ASSERT(0);
+    }
+    ASSERT(INFO>=0);
+    return INFO;
 }
 
 #endif // CHECK_CXXLAPACK
@@ -197,6 +360,87 @@ template <typename MA, typename VP, typename VWORK>
 typename GeMatrix<MA>::IndexType
 tri(GeMatrix<MA> &A, DenseVector<VP> &piv, DenseVector<VWORK> &work)
 {
+    using std::max;
+
+    typedef typename GeMatrix<MA>::IndexType IndexType;
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(A.numRows()==A.numCols());
+
+    const IndexType n = A.numRows();
+
+    ASSERT(piv.firstIndex()==1);
+    ASSERT(piv.length()==n);
+
+    const bool lQuery = (work.length()==0);
+    ASSERT(lQuery || work.length()>=n);
+#   endif
+
+//
+//  Make copies of output arguments
+//
+#   ifdef CHECK_CXXLAPACK
+    typename GeMatrix<MA>::NoView        A_org    = A;
+    typename DenseVector<VP>::NoView     piv_org  = piv;
+    typename DenseVector<VWORK>::NoView  work_org = work;
+#   endif
+
+//
+//  Call implementation
+//
+    const IndexType info = tri_generic(A, piv, work);
+
+//
+//  Compare results
+//
+#   ifdef CHECK_CXXLAPACK
+    typename GeMatrix<MA>::NoView        A_generic    = A;
+    typename DenseVector<VP>::NoView     piv_generic  = piv;
+    typename DenseVector<VWORK>::NoView  work_generic = work;
+
+    A    = A_org;
+    piv  = piv_org;
+    work = work_org;
+
+    const IndexType _info = tri_native(A, piv, work);
+
+    bool failed = false;
+    if (! isIdentical(A_generic, A, "A_generic", "A")) {
+        std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
+        std::cerr << "F77LAPACK: A = " << A << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(piv_generic, piv, "piv_generic", "piv")) {
+        std::cerr << "CXXLAPACK: piv_generic = " << piv_generic << std::endl;
+        std::cerr << "F77LAPACK: piv = " << piv << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(work_generic, work, "work_generic", "work")) {
+        std::cerr << "CXXLAPACK: work_generic = " << work_generic << std::endl;
+        std::cerr << "F77LAPACK: work = " << work << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(info, _info, " info", "_info")) {
+        std::cerr << "CXXLAPACK:  info = " << info << std::endl;
+        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    } else {
+        // std::cerr << "passed: (ge)tri.tcc" << std::endl;
+    }
+#   endif
+
+    return info;
 }
 
 //-- (tr)tri
@@ -204,9 +448,87 @@ template <typename MA>
 typename GeMatrix<MA>::IndexType
 tri(TrMatrix<MA> &A)
 {
+    typedef typename GeMatrix<MA>::IndexType IndexType;
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+#   endif
+
+//
+//  Make copies of output arguments
+//
+#   ifdef CHECK_CXXLAPACK
+    typename TrMatrix<MA>::NoView   A_org = A;
+#   endif
+
+//
+//  Call implementation
+//
+    const IndexType info = tri_generic(A);
+
+//
+//  Compare results
+//
+#   ifdef CHECK_CXXLAPACK
+    typename TrMatrix<MA>::NoView   A_generic = A;
+
+    A = A_org;
+
+    const IndexType _info = tri_native(A);
+
+    bool failed = false;
+    if (! isIdentical(A_generic, A, "A_generic", "A")) {
+        std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
+        std::cerr << "F77LAPACK: A = " << A << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(info, _info, " info", "_info")) {
+        std::cerr << "CXXLAPACK:  info = " << info << std::endl;
+        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    } else {
+        // std::cerr << "passed: (tr)tri.tcc" << std::endl;
+    }
+#   endif
+
+    return info;
 }
 
 //-- forwarding ----------------------------------------------------------------
+template <typename MA, typename VP, typename VWORK>
+typename MA::IndexType
+tri(MA &&A, VP &&piv, VWORK &&work)
+{
+    typedef typename MA::IndexType  IndexType;
+
+    CHECKPOINT_ENTER;
+    IndexType info = tri(A, piv, work);
+    CHECKPOINT_LEAVE;
+
+    return info;
+}
+
+template <typename MA>
+typename MA::IndexType
+tri(MA &&A)
+{
+    typedef typename MA::IndexType  IndexType;
+
+    CHECKPOINT_ENTER;
+    IndexType info = tri(A);
+    CHECKPOINT_LEAVE;
+
+    return info;
+}
 
 } } // namespace lapack, flens
 

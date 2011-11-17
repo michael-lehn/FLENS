@@ -1,3 +1,27 @@
+#ifndef INTEGER
+#define INTEGER int
+#endif
+
+#ifndef FLOAT
+#define FLOAT float
+#endif
+
+#ifndef DOUBLE
+#define DOUBLE double
+#endif
+
+#ifndef DOUBLE_COMPLEX
+#define DOUBLE_COMPLEX double
+#endif
+
+#ifndef LOGICAL
+#define LOGICAL int
+#endif
+
+#ifndef UNKNOWN
+#define UNKNOWN void
+#endif
+
 //-- dbbcsd --------------------------------------------------------------------
 void
 LAPACK_DECL(dbbcsd)(const char       *JOBU1,

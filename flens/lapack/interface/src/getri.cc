@@ -10,7 +10,7 @@ void
 LAPACK_DECL(dgetri)(const INTEGER    *N,
                     DOUBLE           *A,
                     const INTEGER    *LDA,
-                    const INTEGER    *IPIV,
+                    INTEGER          *IPIV,
                     DOUBLE           *WORK,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO)

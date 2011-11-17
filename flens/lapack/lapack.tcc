@@ -37,6 +37,7 @@
 #include <flens/lapack/aux/ilaenv.tcc>
 #include <flens/lapack/aux/ilalc.tcc>
 #include <flens/lapack/aux/ilalr.tcc>
+#include <flens/lapack/aux/iparmq.tcc>
 #include <flens/lapack/aux/labad.tcc>
 #include <flens/lapack/aux/lacn2.tcc>
 #include <flens/lapack/aux/ladiv.tcc>
@@ -89,6 +90,8 @@
 
 #include <flens/lapack/gesv/tf2.tcc>
 #include <flens/lapack/gesv/trf.tcc>
+#include <flens/lapack/gesv/ti2.tcc>
+#include <flens/lapack/gesv/tri.tcc>
 
 #include <flens/lapack/qr/qr2.tcc>
 #include <flens/lapack/qr/qrf.tcc>

@@ -32,7 +32,9 @@
 
 /* Baesed on
  *
-        SUBROUTINE DGETRI( N, A, LDA, IPIV, WORK, LWORK, INFO )
+      SUBROUTINE DGETRI( N, A, LDA, IPIV, WORK, LWORK, INFO )
+
+      SUBROUTINE DTRTRI( UPLO, DIAG, N, A, LDA, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -60,11 +62,11 @@ template <typename MA>
 
 //-- forwarding ----------------------------------------------------------------
 template <typename MA, typename VP, typename VWORK>
-    typename GeMatrix<MA>::IndexType
+    typename MA::IndexType
     tri(MA &&A, VP &&piv, VWORK &&work);
 
 template <typename MA>
-    typename GeMatrix<MA>::IndexType
+    typename MA::IndexType
     tri(MA &&A);
 
 } } // namespace lapack, flens

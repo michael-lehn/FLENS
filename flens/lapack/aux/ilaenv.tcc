@@ -58,46 +58,366 @@ namespace flens { namespace lapack {
 
 //== generic lapack implementation =============================================
 
+template <int n>
+bool
+isSame(const char *a, const char *b)
+{
+    for (int i=0; i<n; ++i) {
+        if (a[i]!=b[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+template <typename T>
+struct IsNotComplex
+{
+    static const bool value = true;
+};
+
+template <typename T>
+struct IsNotComplex<std::complex<T> >
+{
+    static const bool value = false;
+};
+
+template <typename T>
+struct IsComplex
+{
+    static const bool value = !IsNotComplex<T>::value;
+};
+
 template <typename T>
 int
-ilaenv_generic(int spec, const char *_name, const char *_opts,
+ilaenv_generic(int spec, const char *name, const char *opts,
                int n1, int n2, int n3, int n4)
 {
-    std::cerr << "spec = " << spec
-              << ", name = " << _name
-              << ", opts = " << _opts
-              << ", n1 = " << n1
-              << ", n2 = " << n2
-              << ", n3 = " << n3
-              << ", n4 = " << n4
-              << std::endl;
-    using std::string;
-    using std::complex;
+    int result = -1;
+    const char *c2 = name;
+    const char *c3 = name + 2;
+    const char *c4 = name + 1;
 
-    string opts(_opts);
-    string name;
-    if (IsSame<T,float>::value) {
-        name = string("S") + string(_name);
-    } else if (IsSame<T,double>::value) {
-        name = string("D") + string(_name);
-    } else if (IsSame<T,complex<float> >::value) {
-        name = string("C") + string(_name);
-    } else if (IsSame<T,complex<double> >::value) {
-        name = string("Z") + string(_name);
-    } else {
-        ASSERT(0);
+    int nb, nbMin, nx;
+
+    switch (spec) {
+//
+//      optimal blocksize
+//
+        case 1:
+            nb = -1;
+            if (isSame<2>(c2, "GE")) {
+                if (isSame<3>(c3, "TRF")) {
+                    if (IsNotComplex<T>::value) {
+                        nb = 64;
+                    } else {
+                        nb = 64;
+                    }
+                } else if (isSame<3>(c3, "QRF") || isSame<3>(c3, "RQF")
+                       ||  isSame<3>(c3, "LQF") || isSame<3>(c3, "QLF")) {
+                    if (IsNotComplex<T>::value) {
+                        nb = 32;
+                    } else {
+                        nb = 32;
+                    }
+                } else if (isSame<3>(c3, "HRD")) {
+                    if (IsNotComplex<T>::value) {
+                        nb = 32;
+                    } else {
+                        nb = 32;
+                    }
+                } else if (isSame<3>(c3, "BRD")) {
+                    if (IsNotComplex<T>::value) {
+                        nb = 32;
+                    } else {
+                        nb = 32;
+                    }
+                } else if (isSame<3>(c3, "TRI")) {
+                    if (IsNotComplex<T>::value) {
+                        nb = 64;
+                    } else {
+                        nb = 64;
+                    }
+                }
+            } else if (isSame<2>(c2, "PO")) {
+                if (isSame<3>(c3, "TRF")) {
+                    if (IsNotComplex<T>::value) {
+                        nb = 64;
+                    } else {
+                        nb = 64;
+                    }
+                }
+            } else if (isSame<2>(c2, "SY")) {
+                if (isSame<3>(c3, "TRF")) {
+                    if (IsNotComplex<T>::value) {
+                        nb = 64;
+                    } else {
+                        nb = 64;
+                    }
+                } else if (IsNotComplex<T>::value && isSame<3>(c3, "TRD")) {
+                    nb = 32;
+                } else if (IsNotComplex<T>::value && isSame<3>(c3, "GST")) {
+                    nb = 64;
+                }
+            } else if (IsComplex<T>::value &&  isSame<2>(c2, "HE")) {
+                if (isSame<3>(c3, "TRF")) {
+                    nb = 64;
+                } else if (isSame<3>(c3, "TRD")) {
+                    nb = 32;
+                } else if (isSame<3>(c3, "GST")) {
+                    nb = 64;
+                }
+            } else if (IsNotComplex<T>::value && isSame<2>(c2, "OR")) {
+                if (isSame<1>(c3, "G")) {
+                    if (isSame<2>(c4, "QR") || isSame<2>(c4, "RQ")
+                     || isSame<2>(c4, "LQ") || isSame<2>(c4, "QL")
+                     || isSame<2>(c4, "HR") || isSame<2>(c4, "TR")
+                     || isSame<2>(c4, "BR"))
+                    {
+                        nb = 32;
+                    }
+                } else if (isSame<1>(c3, "M")) {
+                    if (isSame<2>(c4, "QR") || isSame<2>(c4, "RQ")
+                     || isSame<2>(c4, "LQ") || isSame<2>(c4, "QL")
+                     || isSame<2>(c4, "HR") || isSame<2>(c4, "TR")
+                     || isSame<2>(c4, "BR"))
+                    {
+                        nb = 32;
+                    }
+                }
+            } else if (IsComplex<T>::value && isSame<2>(c2, "UN")) {
+                if (isSame<1>(c3, "G")) {
+                    if (isSame<2>(c4, "QR") || isSame<2>(c4, "RQ")
+                     || isSame<2>(c4, "LQ") || isSame<2>(c4, "QL")
+                     || isSame<2>(c4, "HR") || isSame<2>(c4, "TR")
+                     || isSame<2>(c4, "BR"))
+                    {
+                        nb = 32;
+                    }
+               } else if (isSame<1>(c3, "M")) {
+                    if (isSame<2>(c4, "QR") || isSame<2>(c4, "RQ")
+                     || isSame<2>(c4, "LQ") || isSame<2>(c4, "QL")
+                     || isSame<2>(c4, "HR") || isSame<2>(c4, "TR")
+                     || isSame<2>(c4, "BR"))
+                    {
+                        nb = 32;
+                    }
+               }
+            } else if (isSame<2>(c2, "GB")) {
+               if (isSame<3>(c3, "TRF")) {
+                  if (IsNotComplex<T>::value) {
+                     if (n4<=64) {
+                        nb = 1;
+                     } else {
+                        nb = 32;
+                     }
+                  } else {
+                     if (n4<=64) {
+                        nb = 1;
+                     } else {
+                        nb = 32;
+                     }
+                  }
+               }
+            } else if (isSame<2>(c2, "PB")) {
+               if (isSame<3>(c3, "TRF")) {
+                  if (IsNotComplex<T>::value) {
+                     if (n2<=64) {
+                        nb = 1;
+                     } else {
+                        nb = 32;
+                     }
+                  } else {
+                     if (n2<=64 ) {
+                        nb = 1;
+                     } else {
+                        nb = 32;
+                     }
+                  }
+               }
+            } else if (isSame<2>(c2, "TR")) {
+               if (isSame<3>(c3, "TRI")) {
+                  if (IsNotComplex<T>::value) {
+                     nb = 64;
+                  } else {
+                     nb = 64;
+                  }
+               }
+            } else if (isSame<2>(c2, "LA")) {
+               if (isSame<3>(c3, "UUM")) {
+                  if (IsNotComplex<T>::value) {
+                     nb = 64;
+                  } else {
+                     nb = 64;
+                  }
+               }
+            } else if (IsNotComplex<T>::value && isSame<2>(c2, "ST") ) {
+               if (isSame<3>(c3, "EBZ")) {
+                  nb = 1;
+               }
+            }
+            result = nb;
+            break;
+//
+//      minimal blocksize
+//
+        case 2:
+            nbMin = 2;
+            if (isSame<2>(c2, "GE")) {
+                if (isSame<3>(c3, "QRF") || isSame<3>(c3, "RQF")
+                 || isSame<3>(c3, "LQF") || isSame<3>(c3, "QLF")) {
+                    if (IsNotComplex<T>::value ) {
+                         nbMin = 2;
+                    } else {
+                        nbMin = 2;
+                    }
+                } else if (isSame<3>(c3, "HRD")) {
+                    if (IsNotComplex<T>::value ) {
+                        nbMin = 2;
+                    } else {
+                        nbMin = 2;
+                    }
+                } else if (isSame<3>(c3, "BRD")) {
+                    if (IsNotComplex<T>::value ) {
+                        nbMin = 2;
+                    } else {
+                        nbMin = 2;
+                    }
+                } else if (isSame<3>(c3, "TRI")) {
+                    if (IsNotComplex<T>::value ) {
+                        nbMin = 2;
+                    } else {
+                        nbMin = 2;
+                    }
+                }
+            } else if (isSame<2>(c2, "SY")) {
+                if (isSame<3>(c3, "TRF")) {
+                    if (IsNotComplex<T>::value ) {
+                        nbMin = 8;
+                    } else {
+                        nbMin = 8;
+                    }
+                } else if (IsNotComplex<T>::value && isSame<3>(c3, "TRD")) {
+                    nbMin = 2;
+                }
+            } else if (IsComplex<T>::value && isSame<2>(c2, "HE")) {
+                if (isSame<3>(c3, "TRD")) {
+                    nbMin = 2;
+                }
+            } else if (IsNotComplex<T>::value && isSame<2>(c2, "OR")) {
+                if (isSame<1>(c3, "G")) {
+                    if (isSame<2>(c4, "QR") || isSame<2>(c4, "RQ")
+                     || isSame<2>(c4, "LQ") || isSame<2>(c4, "QL")
+                     || isSame<2>(c4, "HR") || isSame<2>(c4, "TR")
+                     || isSame<2>(c4, "BR")) {
+                        nbMin = 2;
+                    }
+                } else if (isSame<1>(c3, "M")) {
+                    if (isSame<2>(c4, "QR") || isSame<2>(c4, "RQ")
+                     || isSame<2>(c4, "LQ") || isSame<2>(c4, "QL")
+                     || isSame<2>(c4, "HR") || isSame<2>(c4, "TR")
+                     || isSame<2>(c4, "BR")) {
+                        nbMin = 2;
+                    }
+                }
+            } else if (IsComplex<T>::value && isSame<2>(c2, "UN")) {
+                if (isSame<1>(c3, "G")) {
+                    if (isSame<2>(c4, "QR") || isSame<2>(c4, "RQ")
+                     || isSame<2>(c4, "LQ") || isSame<2>(c4, "QL")
+                     || isSame<2>(c4, "HR") || isSame<2>(c4, "TR")
+                     || isSame<2>(c4, "BR")) {
+                        nbMin = 2;
+                    }
+                } else if (isSame<1>(c3, "M")) {
+                    if (isSame<2>(c4, "QR") || isSame<2>(c4, "RQ")
+                     || isSame<2>(c4, "LQ") || isSame<2>(c4, "QL")
+                     || isSame<2>(c4, "HR") || isSame<2>(c4, "TR")
+                     || isSame<2>(c4, "BR")) {
+                        nbMin = 2;
+                    }
+                }
+            }
+            result = nbMin;
+            break;
+//
+//      crossover point
+//
+        case 3:
+            nx = 0;
+            if (isSame<2>(c2, "GE")) {
+                if (isSame<3>(c3, "QRF") || isSame<3>(c3, "RQF")
+                 || isSame<3>(c3, "LQF") || isSame<3>(c3, "QLF")) {
+                    if (IsNotComplex<T>::value) {
+                        nx =  128;
+                    } else {
+                        nx =  128;
+                    }
+                } else if (isSame<3>(c3, "HRD")) {
+                    if (IsNotComplex<T>::value) {
+                        nx =  128;
+                    } else {
+                        nx =  128;
+                    }
+                } else if (isSame<3>(c3, "BRD")) {
+                    if (IsNotComplex<T>::value) {
+                        nx =  128;
+                    } else {
+                        nx =  128;
+                    }
+                }
+            } else if (isSame<2>(c2, "SY")) {
+                if (IsNotComplex<T>::value && isSame<3>(c3, "TRD")) {
+                    nx =  32;
+                }
+            } else if (IsComplex<T>::value && isSame<2>(c2, "HE")) {
+                if (isSame<3>(c3, "TRD")) {
+                    nx =  32;
+                }
+            } else if (IsNotComplex<T>::value && isSame<2>(c2, "OR")) {
+                if (isSame<1>(c3, "G")) {
+                    if (isSame<2>(c4, "QR") || isSame<2>(c4, "RQ")
+                     || isSame<2>(c4, "LQ") || isSame<2>(c4, "QL")
+                     || isSame<2>(c4, "HR") || isSame<2>(c4, "TR")
+                     || isSame<2>(c4, "BR")) {
+                        nx =  128;
+                    }
+                }
+            } else if (IsComplex<T>::value && isSame<2>(c2, "UN")) {
+                if (isSame<1>(c3, "G")) {
+                    if (isSame<2>(c4, "QR") || isSame<2>(c4, "RQ")
+                     || isSame<2>(c4, "LQ") || isSame<2>(c4, "QL")
+                     || isSame<2>(c4, "HR") || isSame<2>(c4, "TR")
+                     || isSame<2>(c4, "BR")) {
+                        nx =  128;
+                    }
+                }
+            }
+            result = nx;
+            break;
+//
+//      DEPRECATED: number of shifts used in the nonsymmetric eigenvalue
+//                  routines
+//
+        case 4:
+            ASSERT(0);
+            break;
+//
+//      12 <= pec<= 16: hseqr or one of its subroutines .. 
+//
+        case 12:
+        case 13:
+        case 14:
+        case 15:
+        case 16:
+            result = iparmq<T>(spec, name, opts, n1, n2, n3, n4);
+            break;
+
+        default:
+            ASSERT(0);
+            result = -1;
+            break;
+
     }
-
-#   ifdef LAPACK_DECL
-    int result = LAPACK_DECL(ilaenv)(&spec, name.c_str(), opts.c_str(),
-                                     &n1, &n2, &n3, &n4,
-                                     strlen(name.c_str()),
-                                     strlen(opts.c_str()));
-    std::cerr << "ilaenv: result = " << result << std::endl;
-#   else
-    int result = 1;
-#   endif
-
     return result;
 }
 
@@ -107,8 +427,8 @@ ilaenv_generic(int spec, const char *_name, const char *_opts,
 
 template <typename T>
 int
-ilaenv_native(int spec, const char *_name, const char *_opts,
-              int n1, int n2, int n3, int n4)
+ilaenv_LapackTest(int spec, const char *_name, const char *_opts,
+                  int n1, int n2, int n3, int n4)
 {
     using std::string;
     using std::complex;
@@ -151,7 +471,7 @@ ilaenv(int spec, const char *name, const char *opts,
        int n1, int n2, int n3, int n4)
 {
 #if defined CHECK_CXXLAPACK || defined USE_NATIVE_ILAENV
-    return ilaenv_native<T>(spec, name, opts, n1, n2, n3, n4);
+    return ilaenv_LapackTest<T>(spec, name, opts, n1, n2, n3, n4);
 #else
     return ilaenv_generic<T>(spec, name, opts, n1, n2, n3, n4);
 #endif
