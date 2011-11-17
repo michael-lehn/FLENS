@@ -57,6 +57,7 @@ lanv2_generic(T &a, T &b, T &c, T &d,
     using std::abs;
     using std::max;
     using std::min;
+    using std::sqrt;
     using std::swap;
 
     const T Zero(0), Half(0.5), One(1), Multpl(4);

@@ -12,7 +12,7 @@ using namespace std;
 using namespace flens;
 
 // typedef mpf_class   T;
-typedef double   T;
+typedef long double   T;
 
 int
 main()
