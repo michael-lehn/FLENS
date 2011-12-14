@@ -1,0 +1,7 @@
+export DOC_PROJECT=FLENS
+
+export AUTHOR="Michael Lehn"
+export AUTHOR_WEBSITE="http://www.mathematik.uni-ulm.de/~lehn"
+export YEAR=`date +%Y`
+
+export CODE_DIR=${PWD}

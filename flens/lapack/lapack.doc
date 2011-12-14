@@ -2,20 +2,21 @@
 FLENS-LAPACK Implementation                                             [TOC]
 ===========================
 
-*FLENS* follows the philosophy of *extending a programming language through
-libraries*.  And in this case we extend C++ for features (e.g. different
-matrix/vector types, storage schemes ...) that are useful and crucial for
-the implementation of numerical algorithms.
+At the moment we are working on a C++ port of __LAPACK__.  *Sound tedious?  It
+is a joy with FLENS*!  This is because gives you the right tools to get the
+job done.  These are the matrix/vector types and the high-level BLAS interface.
 
-At the moment we are working on a C++ port of *LAPACK*.  Sound tedious?  It
-is a joy with *FLENS*!
+:links:  __LAPACK__ -> http://www.netlib.org/lapack/
 
 
 Purpose
 =======
-FLENS is a comfortable tool for the implementation of numerical and at the
-same time very efficient.  Porting LAPACK using FLENS will prove this by
-resulting in a LAPACK implementation that provides the following features:
+FLENS is a comfortable tool for the implementation of numerical algorithms.  At
+the same time we avoid negative impacts on efficiency due to abstraction.  But
+only claiming that we can achieve this two goals is one thing.  The other thing
+is proving this!  In this respect you could regard the FLENS-LAPACK as a
+prove of our claims.  So our FLENS-LAPACK port demonstrates the following
+features:
 
   - *Easy to read and understand*
 
@@ -87,7 +88,7 @@ the involved matrix types have full storage:
     types.  For example, the LAPACK functions __dgetrs__ and __dtrtrs__ resulted
     in the FLENS-LAPACK function __trs__ which is overloaded for `GeMatrix` and
     `TrMatrix`.
-  - All LAPACK routines are located in __flens/lapack__ directory and loosely
+  - All LAPACK routines are located in directory __flens/lapack__ and loosely
     grouped in subdiretories:
      - __aux__ contains various auxiliary routines
      - __eig__ contains routines most relevant for the computation of

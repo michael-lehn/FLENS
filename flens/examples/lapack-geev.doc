@@ -1,0 +1,41 @@
+==================================
+Eigenvalues (Non-Symmetric Matrix)
+==================================
+
+In this example we compute the eigenvalues $w,$ left eigenvectors $V_L$ and
+right eigenvectors $V_R$ of a non-symmetric Matrix $A.$  We use __lapack::ev__
+which is the FLENS port of LAPACK's __dgeev__.
+
+:links:  __lapack::ev__  -> file:flens/lapack/eig/ev.h
+         __dgeev__       -> file:flens/lapack/interface/ref_lapack/dgeev.f
+
+
+Example Code
+============
+:import: flens/examples/lapack-geev.cc [stripped, downloadable]
+
+Comments on Example Code
+========================
+:import: flens/examples/lapack-geev.cc
+
+Compile
+=======
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  clang++ -std=c++0x -Wall -I../.. -o lapack-geev lapack-geev.cc         |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Run
+===
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  ./lapack-geev                                                          |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+

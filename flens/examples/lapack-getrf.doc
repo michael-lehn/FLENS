@@ -1,0 +1,45 @@
+===================================
+Solving Systems of Linear Equations                               [TOC]
+===================================
+
+Compare this example with __flens/examples/lapack-gesv__.
+
+Like in __flens/examples/lapack-gesv__ we solve a system of linear equations
+$Ax = b.$  But instead of using the driver function __lapack::sv__ we first
+compute the $LU$ factorization of $A$ with __lapack::trf__ and then use the
+triangular solver __blas::sm__ to finish the job.  So basicaly we do manually
+what __lapack::sv__ does internally.
+
+:links:  __lapack::sv__  -> file:flens/lapack/gesv/sv.h
+         __lapack::trf__ -> file:flens/lapack/gesv/trf.h
+         __blas::sm__    -> file:flens/blas/level3/sm.h
+         __(.+)__        -> doc:$1
+
+
+Example Code
+============
+:import: flens/examples/lapack-getrf.cc [stripped, downloadable]
+
+Comments on Example Code
+========================
+:import: flens/examples/lapack-getrf.cc
+
+Compile
+=======
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  clang++ -std=c++0x -Wall -I../.. -o lapack-getrf lapack-getrf.cc       |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+Run
+===
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  ./lapack-getrf                                                         |
+  |                                                                         |
+  *-------------------------------------------------------------------------*

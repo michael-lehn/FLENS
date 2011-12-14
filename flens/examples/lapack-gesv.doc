@@ -1,0 +1,42 @@
+===================================
+Solving Systems of Linear Equations                               [TOC]
+===================================
+
+In this example we solve a system of linear equations $Ax = b$ were the
+coefficient matrix is general, i.e. not necessarily symmetric.  We solve the
+system with __lapack::sv__ whcih is the FLENS port of LAPACK's __dgesv__.
+
+:links:  __lapack::sv__  -> file:flens/lapack/gesv/sv.h
+         __dgesv__       -> file:flens/lapack/interface/ref_lapack/dgesv.f
+
+
+Example Code
+============
+:import: flens/examples/lapack-gesv.cc [stripped, downloadable]
+
+
+Comments on Example Code
+========================
+:import: flens/examples/lapack-gesv.cc
+
+
+Compile
+=======
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  clang++ -std=c++0x -Wall -I../.. -o lapack-gesv lapack-gesv.cc         |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Run
+===
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  ./lapack-gesv                                                          |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
