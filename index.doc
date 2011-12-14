@@ -10,58 +10,9 @@ the implementation of numerical algorithms.
 At the moment we are working on a C++ port of *LAPACK*.  Sound tedious?  It
 is a joy with *FLENS*!
 
-Purpose
-=======
-FLENS is a comfortable tool for the implementation of numerical and at the
-same time very efficient.  Porting LAPACK using FLENS will prove this by
-resulting in a LAPACK implementation that provides the following features:
 
-  - *Easy to read and understand*
-
-    There are many C++ libraries that implement LAPACK functionality.  But when
-    you look at their code it is often hard to even recognize the underlying
-    algorithm.  It is like the algorithm gets lost in all these C++ template
-    tricks and tweaks.
-
-    The Fortan implementation of LAPACK is much easier to read and understand.
-    Even if you are not very familiar with Fortran!  Well, maybe there is one
-    drawback.  As there are now actual matrix/vector types many parameters
-    have to be passed to LAPACK routines.  This is sometime error-prone and
-    hard to read.
-
-    Anyway, the FLENS-LAPACK implementation of these algorithms is *really*
-    readable.
-
-  - *Same results as the Fortran Implementation of LAPACK*
-
-    LAPACK is the king in the numerical software field,established and well
-    tested.  Our implementation is intended to produce exactly the same results
-    as the Fortran LAPACK (Version 3.3.1).  As long as the same BLAS
-    implementation gets used.  And with *exactly the same results* we mean that
-    we even produce the same roundoff errors.
-
-  - *Same performance as the Fortran implementation of LAPACK*
-
-    While we have not begun with benchmarking we are confident that in the
-    end we achieve the same performance as the Fortran LAPACK.  Again under
-    the assumption that in both cases the same BLAS implementation is used.
-
-  - *CXXBLAS*
-
-    We provide a generic BLAS implementation that gets called if no native
-    BLAS implementation like __ATLAS__, __GotoBLAS__ or __OpenBLAS__ is
-    available or if the involved data types are not supported.
-
-    While CXXBLAS currently passes all BLAS test we plan to modify its
-    implementation such that it produces exactly the same results as
-    the BLAS reference implementation.
-
-    Due to CXXBLAS the FLENS-LAPACK routines can be used with data types from
-    C++ multi-precision libraries.
-
-:links: __ATLAS__    -> http://math-atlas.sourceforge.net/
-        __GotoBLAS__ -> http://www.tacc.utexas.edu/tacc-projects/gotoblas2
-        __OpenBLAS__ -> http://xianyi.github.com/OpenBLAS/
+Obtain
+======
 
 Current Status
 ==============
