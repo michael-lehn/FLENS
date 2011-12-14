@@ -105,6 +105,10 @@ struct RestrictTo<true, T>
 
 //------------------------------------------------------------------------------
 template <typename ENUM>
+    typename RestrictTo<IsSame<ENUM,Transpose>::value, char>::Type
+    getF77BlasChar(ENUM trans);
+
+template <typename ENUM>
     typename RestrictTo<IsSame<ENUM,Diag>::value, char>::Type
     getF77BlasChar(ENUM diag);
 
@@ -113,6 +117,10 @@ template <typename ENUM>
     getF77BlasChar(ENUM upLo);
 
 //------------------------------------------------------------------------------
+template <typename ENUM>
+    typename RestrictTo<IsSame<ENUM,Transpose>::value, Transpose>::Type
+    getCxxBlasEnum(char trans);
+
 template <typename ENUM>
     typename RestrictTo<IsSame<ENUM,Diag>::value, Diag>::Type
     getCxxBlasEnum(char diag);
@@ -126,7 +134,7 @@ template <typename ENUM>
 
 namespace CBLAS {
 
-// TODO: rename these to getCblasEnum
+//TODO: rename these to getCblasEnum
 
 template <typename ENUM>
     typename RestrictTo<IsSame<ENUM,StorageOrder>::value, CBLAS_ORDER>::Type

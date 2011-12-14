@@ -48,6 +48,24 @@ blasImpl()
 
 //------------------------------------------------------------------------------
 template <typename ENUM>
+typename RestrictTo<IsSame<ENUM,Transpose>::value, char>::Type
+getF77BlasChar(ENUM trans)
+{
+    if (trans==NoTrans) {
+        return 'N';
+    } else if (trans==Trans) {
+        return 'T';
+    } else if (trans==Conj) {
+        return 'R';
+    } else if (trans==ConjTrans) {
+        return 'C';
+    } else {
+        ASSERT(0);
+        return '?';
+    }
+}
+
+template <typename ENUM>
 typename RestrictTo<IsSame<ENUM,Diag>::value, char>::Type
 getF77BlasChar(ENUM diag)
 {
@@ -68,6 +86,22 @@ getF77BlasChar(ENUM upLo)
 }
 
 //------------------------------------------------------------------------------
+template <typename ENUM>
+typename RestrictTo<IsSame<ENUM,Transpose>::value, Transpose>::Type
+getCxxBlasEnum(char trans)
+{
+    if ((trans=='N') || (trans=='n')) {
+        return NoTrans;
+    } else if ((trans=='T') || (trans=='t')) {
+        return Trans;
+    } else if ((trans=='C') || (trans=='c')) {
+        return ConjTrans;
+    } else if ((trans=='R') || (trans=='r')) {
+        return Conj;
+    }
+    return NoTrans;
+}
+
 template <typename ENUM>
 typename RestrictTo<IsSame<ENUM,Diag>::value, Diag>::Type
 getCxxBlasEnum(char diag)

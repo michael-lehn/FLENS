@@ -16,13 +16,15 @@ LAPACK_DECL(dgeqrf)(const INTEGER    *M,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO)
 {
+    DEBUG_FLENS_LAPACK("dgeqrf");
+
     using std::max;
     using std::min;
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
     bool lQuery = (*LWORK==-1);
-    
+
     *INFO = 0;
     if (*M<0) {
         *INFO = -1;

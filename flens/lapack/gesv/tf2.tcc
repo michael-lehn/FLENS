@@ -30,9 +30,9 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/* Baesed on
+/* Based on
  *
-      SUBROUTINE DGETF2( M, N, A, LDA, IPIV, INFO )
+       SUBROUTINE DGETF2( M, N, A, LDA, IPIV, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --

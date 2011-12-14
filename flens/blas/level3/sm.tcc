@@ -43,7 +43,9 @@ void
 sm(Side side, Transpose transA,
    const ALPHA &alpha, const MA &A, MB &&B)
 {
+    CHECKPOINT_ENTER;
     sm(side, transA, alpha, A, B);
+    CHECKPOINT_LEAVE;
 }
 
 //-- common interface ----------------------------------------------------------

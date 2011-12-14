@@ -47,12 +47,14 @@ template <typename FS>
 HeMatrix<FS>::HeMatrix(IndexType dim)
     : _engine(dim, dim)
 {
+    ASSERT(dim>=0);
 }
 
 template <typename FS>
 HeMatrix<FS>::HeMatrix(IndexType dim, IndexType firstRow, IndexType firstCol)
     : _engine(dim, dim, firstRow, firstCol)
 {
+    ASSERT(dim>=0);
 }
 
 template <typename FS>

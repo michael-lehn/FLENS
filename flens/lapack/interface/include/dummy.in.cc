@@ -1,4 +1,5 @@
 //-- lsamen --------------------------------------------------------------------
+/*
 LOGICAL
 LAPACK_DECL(lsamen)(const INTEGER    *N,
                     const char       *CA,
@@ -7,6 +8,7 @@ LAPACK_DECL(lsamen)(const INTEGER    *N,
     DEBUG_LAPACK_STUB("lsamen");
     return LAPACK_IMPL(lsamen)(N, CA, CB);
 }
+*/
 
 //-- dbbcsd --------------------------------------------------------------------
 void
@@ -591,6 +593,7 @@ LAPACK_DECL(dgebrd)(const INTEGER    *M,
 }
 
 //-- dgecon --------------------------------------------------------------------
+/*
 void
 LAPACK_DECL(dgecon)(const char       *NORM,
                     const INTEGER    *N,
@@ -613,8 +616,10 @@ LAPACK_DECL(dgecon)(const char       *NORM,
                         IWORK,
                         INFO);
 }
+*/
 
 //-- dgeequ --------------------------------------------------------------------
+/*
 void
 LAPACK_DECL(dgeequ)(const INTEGER    *M,
                     const INTEGER    *N,
@@ -639,6 +644,7 @@ LAPACK_DECL(dgeequ)(const INTEGER    *M,
                         AMAX,
                         INFO);
 }
+*/
 
 //-- dgeequb -------------------------------------------------------------------
 void
@@ -1341,6 +1347,7 @@ LAPACK_DECL(dgeqrfp)(const INTEGER    *M,
 }
 
 //-- dgerfs --------------------------------------------------------------------
+/*
 void
 LAPACK_DECL(dgerfs)(const char       *TRANS,
                     const INTEGER    *N,
@@ -1379,6 +1386,7 @@ LAPACK_DECL(dgerfs)(const char       *TRANS,
                         IWORK,
                         INFO);
 }
+*/
 
 //-- dgerq2 --------------------------------------------------------------------
 void
@@ -1477,6 +1485,7 @@ LAPACK_DECL(dgesdd)(const char       *JOBZ,
 }
 
 //-- dgesv ---------------------------------------------------------------------
+/*
 void
 LAPACK_DECL(dgesv)(const INTEGER        *N,
                    const INTEGER        *NRHS,
@@ -1497,6 +1506,7 @@ LAPACK_DECL(dgesv)(const INTEGER        *N,
                        LDB,
                        INFO);
 }
+*/
 
 //-- dgesvd --------------------------------------------------------------------
 void
@@ -1567,6 +1577,7 @@ LAPACK_DECL(dgesvj)(const char       *JOBA,
 }
 
 //-- dgesvx --------------------------------------------------------------------
+/*
 void
 LAPACK_DECL(dgesvx)(const char       *FACT,
                     const char       *TRANS,
@@ -1615,6 +1626,7 @@ LAPACK_DECL(dgesvx)(const char       *FACT,
                         IWORK,
                         INFO);
 }
+*/
 
 //-- dgetc2 --------------------------------------------------------------------
 void
@@ -1696,6 +1708,7 @@ LAPACK_DECL(dgetri)(const INTEGER    *N,
 */
 
 //-- dgetrs --------------------------------------------------------------------
+/*
 void
 LAPACK_DECL(dgetrs)(const char       *TRANS,
                     const INTEGER    *N,
@@ -1718,6 +1731,7 @@ LAPACK_DECL(dgetrs)(const char       *TRANS,
                         LDB,
                         INFO);
 }
+*/
 
 //-- dggbak --------------------------------------------------------------------
 void
@@ -4515,6 +4529,7 @@ LAPACK_DECL(dlaqgb)(const INTEGER    *M,
 }
 
 //-- dlaqge --------------------------------------------------------------------
+/*
 void
 LAPACK_DECL(dlaqge)(const INTEGER    *M,
                     const INTEGER    *N,
@@ -4539,6 +4554,7 @@ LAPACK_DECL(dlaqge)(const INTEGER    *M,
                         AMAX,
                         EQUED);
 }
+*/
 
 //-- dlaqp2 --------------------------------------------------------------------
 void
@@ -5138,7 +5154,7 @@ LAPACK_DECL(dlarft)(const char       *DIRECT,
                     DOUBLE           *T,
                     const INTEGER    *LDT)
 {
-    DEBUG_LAPACK_CALL("dlarft");
+    DEBUG_LAPACK_STUB("dlarft");
     LAPACK_IMPL(dlarft)(DIRECT,
                         STOREV,
                         N,
@@ -5199,7 +5215,9 @@ LAPACK_DECL(dlarnv)(const INTEGER    *IDIST,
                     const INTEGER    *N,
                     DOUBLE           *X)
 {
+#   ifdef DEBUG_ALL_LAPACK_STUB
     DEBUG_LAPACK_STUB("dlarnv");
+#   endif
     LAPACK_IMPL(dlarnv)(IDIST,
                         ISEED,
                         N,
@@ -6765,6 +6783,7 @@ LAPACK_DECL(dlatrd)(const char       *UPLO,
 }
 
 //-- dlatrs --------------------------------------------------------------------
+/*
 void
 LAPACK_DECL(dlatrs)(const char       *UPLO,
                     const char       *TRANS,
@@ -6791,6 +6810,7 @@ LAPACK_DECL(dlatrs)(const char       *UPLO,
                         CNORM,
                         INFO);
 }
+*/
 
 //-- dlatrz --------------------------------------------------------------------
 void
@@ -8103,6 +8123,7 @@ LAPACK_DECL(dporfs)(const char       *UPLO,
 }
 
 //-- dposv ---------------------------------------------------------------------
+/*
 void
 LAPACK_DECL(dposv)(const char           *UPLO,
                    const INTEGER        *N,
@@ -8123,6 +8144,7 @@ LAPACK_DECL(dposv)(const char           *UPLO,
                        LDB,
                        INFO);
 }
+*/
 
 //-- dposvx --------------------------------------------------------------------
 void
@@ -8187,6 +8209,7 @@ LAPACK_DECL(dpotf2)(const char       *UPLO,
 }
 
 //-- dpotrf --------------------------------------------------------------------
+/*
 void
 LAPACK_DECL(dpotrf)(const char       *UPLO,
                     const INTEGER    *N,
@@ -8201,8 +8224,10 @@ LAPACK_DECL(dpotrf)(const char       *UPLO,
                         LDA,
                         INFO);
 }
+*/
 
 //-- dpotri --------------------------------------------------------------------
+/*
 void
 LAPACK_DECL(dpotri)(const char       *UPLO,
                     const INTEGER    *N,
@@ -8217,8 +8242,10 @@ LAPACK_DECL(dpotri)(const char       *UPLO,
                         LDA,
                         INFO);
 }
+*/
 
 //-- dpotrs --------------------------------------------------------------------
+/*
 void
 LAPACK_DECL(dpotrs)(const char       *UPLO,
                     const INTEGER    *N,
@@ -8239,6 +8266,7 @@ LAPACK_DECL(dpotrs)(const char       *UPLO,
                         LDB,
                         INFO);
 }
+*/
 
 //-- dppcon --------------------------------------------------------------------
 void

@@ -33,7 +33,9 @@
 #ifndef FLENS_LAPACK_LAPACK_TCC
 #define FLENS_LAPACK_LAPACK_TCC 1
 
+#include <flens/lapack/aux/con.tcc>
 #include <flens/lapack/aux/convert.tcc>
+#include <flens/lapack/aux/equ.tcc>
 #include <flens/lapack/aux/ilaenv.tcc>
 #include <flens/lapack/aux/ilalc.tcc>
 #include <flens/lapack/aux/ilalr.tcc>
@@ -43,7 +45,8 @@
 #include <flens/lapack/aux/ladiv.tcc>
 #include <flens/lapack/aux/laln2.tcc>
 #include <flens/lapack/aux/lamch.tcc>
-#include <flens/lapack/aux/lange.tcc>
+#include <flens/lapack/aux/lan.tcc>
+#include <flens/lapack/aux/laq.tcc>
 #include <flens/lapack/aux/larf.tcc>
 #include <flens/lapack/aux/larfb.tcc>
 #include <flens/lapack/aux/larfg.tcc>
@@ -51,11 +54,13 @@
 #include <flens/lapack/aux/larfx.tcc>
 #include <flens/lapack/aux/lartg.tcc>
 #include <flens/lapack/aux/lascl.tcc>
+#include <flens/lapack/aux/latrs.tcc>
 #include <flens/lapack/aux/lapy2.tcc>
 #include <flens/lapack/aux/lassq.tcc>
 #include <flens/lapack/aux/laswp.tcc>
 #include <flens/lapack/aux/lasy2.tcc>
 #include <flens/lapack/aux/nint.tcc>
+#include <flens/lapack/aux/rscl.tcc>
 #include <flens/lapack/aux/sign.tcc>
 
 #include <flens/lapack/debug/isidentical.tcc>
@@ -88,10 +93,21 @@
 #include <flens/lapack/eig/trsna.tcc>
 #include <flens/lapack/eig/trsyl.tcc>
 
+#include <flens/lapack/gesv/lauu2.tcc>
+#include <flens/lapack/gesv/lauum.tcc>
+#include <flens/lapack/gesv/posv.tcc>
+#include <flens/lapack/gesv/potf2.tcc>
+#include <flens/lapack/gesv/potrf.tcc>
+#include <flens/lapack/gesv/potri.tcc>
+#include <flens/lapack/gesv/potrs.tcc>
+#include <flens/lapack/gesv/rfs.tcc>
+#include <flens/lapack/gesv/sv.tcc>
+#include <flens/lapack/gesv/svx.tcc>
 #include <flens/lapack/gesv/tf2.tcc>
 #include <flens/lapack/gesv/trf.tcc>
 #include <flens/lapack/gesv/ti2.tcc>
 #include <flens/lapack/gesv/tri.tcc>
+#include <flens/lapack/gesv/trs.tcc>
 
 #include <flens/lapack/qr/qr2.tcc>
 #include <flens/lapack/qr/qrf.tcc>
@@ -101,12 +117,6 @@
 #include <flens/lapack/qr/ormqr.tcc>
 
 /*
-
-
-#include <flens/lapack/gesv/sv.tcc>
-#include <flens/lapack/gesv/trs.tcc>
-
 #include <flens/lapack/qr/qrs.tcc>
 */
-
 #endif // FLENS_LAPACK_LAPACK_TCC

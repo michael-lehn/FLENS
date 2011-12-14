@@ -88,14 +88,6 @@ class SyMatrix
         typedef TrMatrix<EngineView>                TriangularView;
         typedef TrMatrix<EngineNoView>              TriangularNoView;
 
-        SyMatrix();
-
-        explicit
-        SyMatrix(IndexType dim);
-
-        SyMatrix(IndexType dim,
-                 IndexType firstRow, IndexType firstCol);
-
         SyMatrix(const Engine &engine, StorageUpLo upLo);
 
         SyMatrix(const SyMatrix &rhs);
@@ -110,6 +102,15 @@ class SyMatrix
             SyMatrix(const Matrix<RHS> &rhs);
 
         // -- operators --------------------------------------------------------
+        void
+        operator=(const ElementType &value);
+
+        SyMatrix &
+        operator=(const SyMatrix &rhs);
+
+        template <typename RHS>
+            SyMatrix &
+            operator=(const Matrix<RHS> &rhs);
 
         const ElementType &
         operator()(IndexType row, IndexType col) const;
@@ -117,14 +118,81 @@ class SyMatrix
         ElementType &
         operator()(IndexType row, IndexType col);
 
+        // rectangular views
+        const ConstGeneralView
+        operator()(const Range<IndexType> &rows,
+                   const Range<IndexType> &cols) const;
+
+        GeneralView
+        operator()(const Range<IndexType> &rows,
+                   const Range<IndexType> &cols);
+
+        // rectangular views (all rows selected)
+        const ConstGeneralView
+        operator()(const Underscore<IndexType> &,
+                   const Range<IndexType> &cols) const;
+
+        GeneralView
+        operator()(const Underscore<IndexType> &,
+                   const Range<IndexType> &cols);
+
+        // rectangular views (all columns selected)
+        const ConstGeneralView
+        operator()(const Range<IndexType> &rows,
+                   const Underscore<IndexType> &) const;
+
+        GeneralView
+        operator()(const Range<IndexType> &rows,
+                   const Underscore<IndexType> &);
+
+        // row view (vector view)
+        const ConstVectorView
+        operator()(IndexType row, const Underscore<IndexType> &) const;
+
+        VectorView
+        operator()(IndexType row, const Underscore<IndexType> &);
+
+        const ConstVectorView
+        operator()(IndexType row, const Range<IndexType> &cols) const;
+
+        VectorView
+        operator()(IndexType row, const Range<IndexType> &cols);
+
+        // column view (vector view)
+        const ConstVectorView
+        operator()(const Underscore<IndexType> &, IndexType col) const;
+
+        VectorView
+        operator()(const Underscore<IndexType> &, IndexType col);
+
+        const ConstVectorView
+        operator()(const Range<IndexType> &rows, IndexType col) const;
+
+        VectorView
+        operator()(const Range<IndexType> &rows, IndexType col);
+
         // -- views ------------------------------------------------------------
 
         // general views
-        ConstGeneralView
+        const ConstGeneralView
         general() const;
 
         GeneralView
         general();
+
+        // hermitian views
+        const ConstHermitianView
+        hermitian() const;
+
+        HermitianView
+        hermitian();
+
+        // triangular views
+        const ConstTriangularView
+        triangular() const;
+
+        TriangularView
+        triangular();
 
         // -- methods ----------------------------------------------------------
 
@@ -151,6 +219,19 @@ class SyMatrix
 
         IndexType
         leadingDimension() const;
+
+        StorageOrder
+        order() const;
+
+        template <typename RHS>
+            bool
+            resize(const SyMatrix<RHS> &rhs,
+                   const ElementType &value = ElementType());
+
+        bool
+        resize(IndexType dim,
+               IndexType firstIndex = Engine::defaultIndexBase,
+               const ElementType &value = ElementType());
 
         // -- implementation ---------------------------------------------------
 

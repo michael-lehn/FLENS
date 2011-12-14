@@ -205,7 +205,7 @@ trsen_generic(TRSEN::Job                job,
             s = One;
         }
         if (wantSP) {
-            sep = lange(OneNorm, T);
+            sep = lan(OneNorm, T);
         }
         goto DONE;
     }
@@ -271,7 +271,7 @@ trsen_generic(TRSEN::Job                job,
 //      Estimate the reciprocal of the condition number of the cluster
 //      of eigenvalues.
 //
-        ElementType rNorm = lange(FrobeniusNorm, Work);
+        ElementType rNorm = lan(FrobeniusNorm, Work);
         if (rNorm==Zero) {
             s = One;
         } else {

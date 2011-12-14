@@ -46,16 +46,13 @@
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>
 
-namespace flens { namespace cxxlapack {
+namespace flens { namespace lapack {
 
-//-- sv (generic implementation) -----------------------------------------------
+//== generic lapack implementation =============================================
 template <typename MA, typename VP, typename MB>
 typename GeMatrix<MA>::IndexType
 sv_generic(GeMatrix<MA> &A, DenseVector<VP> &piv, GeMatrix<MB> &B)
 {
-    using lapack::trf;
-    using lapack::trs;
-
     typedef typename GeMatrix<MA>::IndexType IndexType;
 
     IndexType info = 0;
@@ -73,32 +70,140 @@ sv_generic(GeMatrix<MA> &A, DenseVector<VP> &piv, GeMatrix<MB> &B)
     return info;
 }
 
-} } // namespace cxxlapack flens
+//== interface for native lapack ===============================================
 
-//==============================================================================
-namespace flens { namespace lapack {
+#ifdef CHECK_CXXLAPACK
+template <typename MA, typename VP, typename MB>
+typename GeMatrix<MA>::IndexType
+sv_native(GeMatrix<MA> &A, DenseVector<VP> &piv, GeMatrix<MB> &B)
+{
+    typedef typename GeMatrix<MA>::ElementType  ElementType;
+    const INTEGER N    = A.numRows();
+    const INTEGER NRHS = B.numCols();
+    const INTEGER LDA  = A.leadingDimension();
+    const INTEGER LDB  = B.leadingDimension();
+    INTEGER       INFO;
+
+    if (IsSame<ElementType, DOUBLE>::value) {
+        LAPACK_IMPL(dgesv)(&N,
+                           &NRHS,
+                           A.data(),
+                           &LDA,
+                           piv.data(),
+                           B.data(),
+                           &LDB,
+                           &INFO);
+   } else {
+        ASSERT(0);
+    }
+    return INFO;
+}
+
+#endif // CHECK_CXXLAPACK
+
+//== public interface ==========================================================
+
+template <typename MA, typename VP, typename MB>
+typename GeMatrix<MA>::IndexType
+sv(GeMatrix<MA> &A, DenseVector<VP> &piv, GeMatrix<MB> &B)
+{
+    typedef typename GeMatrix<MA>::IndexType    IndexType;
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(A.numRows()==A.numCols());
+    ASSERT((piv.inc()>0 && piv.firstIndex()==1)
+        || (piv.inc()<0 && piv.firstIndex()==A.numRows()));
+    ASSERT(B.firstRow()==1);
+    ASSERT(B.firstCol()==1);
+    ASSERT(B.numRows()==A.numRows());
+#   endif
+//
+//  Make copies of output arguments
+//
+    typename GeMatrix<MA>::NoView    A_org   = A;
+    typename DenseVector<VP>::NoView piv_org = piv;
+    typename GeMatrix<MB>::NoView    B_org   = B;
+//
+//  Call implementation
+//
+    IndexType info = sv_generic(A, piv, B);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    typename GeMatrix<MA>::NoView    A_generic   = A;
+    typename DenseVector<VP>::NoView piv_generic = piv;
+    typename GeMatrix<MB>::NoView    B_generic   = B;
+
+    A   = A_org;
+    piv = piv_org;
+    B   = B_org;
+
+    IndexType _info = sv_native(A, piv, B);
+
+    bool failed = false;
+    if (! isIdentical(A_generic, A, "A_generic", "A")) {
+        std::cerr << "A_org = " << A_org << std::endl;
+        std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
+        std::cerr << "F77LAPACK: A = " << A << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(piv_generic, piv, "piv_generic", "piv")) {
+        std::cerr << "piv_org = " << piv_org << std::endl;
+        std::cerr << "CXXLAPACK: piv_generic = " << piv_generic << std::endl;
+        std::cerr << "F77LAPACK: piv = " << piv << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(B_generic, B, "B_generic", "B")) {
+        std::cerr << "B_org = " << B_org << std::endl;
+        std::cerr << "CXXLAPACK: B_generic = " << B_generic << std::endl;
+        std::cerr << "F77LAPACK: B = " << B << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(info, _info, " info", "_info")) {
+        std::cerr << "CXXLAPACK:  info = " << info << std::endl;
+        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        failed = true;
+    }
+
+#   endif
+
+    return info;
+}
+
+template <typename MA, typename VP, typename VB>
+typename GeMatrix<MA>::IndexType
+sv(GeMatrix<MA> &A, DenseVector<VP> &piv, DenseVector<VB> &b)
+{
+    typedef typename DenseVector<VB>::ElementType  ElementType;
+    typedef typename DenseVector<VB>::IndexType    IndexType;
+
+    const IndexType    n     = b.length();
+    const StorageOrder order = GeMatrix<MA>::Engine::order;
+
+    GeMatrix<FullStorageView<ElementType, order> >  B(n, 1, b, n);
+
+    return sv(A, piv, B);
+}
 
 //-- forwarding ----------------------------------------------------------------
 template <typename MA, typename VP, typename MB>
 typename MA::IndexType
 sv(MA &&A, VP &&piv, MB &&B)
 {
-    return sv(A, piv, B);
-}
-
-//-- gesv ----------------------------------------------------------------------
-template <typename MA, typename VP, typename MB>
-typename GeMatrix<MA>::IndexType
-sv(GeMatrix<MA> &A, DenseVector<VP> &piv, GeMatrix<MB> &B)
-{
-    ASSERT(A.firstRow()==1);
-    ASSERT(A.firstCol()==1);
-    ASSERT((piv.inc()>0 && piv.firstIndex()==1)
-        || (piv.inc()<0 && piv.firstIndex()==A.numRows()));
-    ASSERT(B.firstRow()==1);
-    ASSERT(B.firstCol()==1);
-
-    return cxxlapack::sv_generic(A, piv, B);
+    typedef typename MA::IndexType    IndexType;
+    CHECKPOINT_ENTER;
+    const IndexType info =  sv(A, piv, B);
+    CHECKPOINT_LEAVE;
+    return info;
 }
 
 } } // namespace lapack, flens

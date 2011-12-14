@@ -51,6 +51,8 @@ template <typename FS>
 GeMatrix<FS>::GeMatrix(IndexType numRows, IndexType numCols)
     : _engine(numRows, numCols)
 {
+    ASSERT(numRows>=0);
+    ASSERT(numCols>=0);
 }
 
 template <typename FS>
@@ -58,6 +60,8 @@ GeMatrix<FS>::GeMatrix(IndexType numRows, IndexType numCols,
                        IndexType firstRow, IndexType firstCol)
     : _engine(numRows, numCols, firstRow, firstCol)
 {
+    ASSERT(numRows>=0);
+    ASSERT(numCols>=0);
 }
 
 template <typename FS>
@@ -392,7 +396,7 @@ GeMatrix<FS>::diag(IndexType d)
 
 // triangular views
 template <typename FS>
-typename GeMatrix<FS>::ConstTriangularView
+const typename GeMatrix<FS>::ConstTriangularView
 GeMatrix<FS>::upper() const
 {
     return ConstTriangularView(engine(), Upper);
@@ -406,7 +410,7 @@ GeMatrix<FS>::upper()
 }
 
 template <typename FS>
-typename GeMatrix<FS>::ConstTriangularView
+const typename GeMatrix<FS>::ConstTriangularView
 GeMatrix<FS>::upperUnit() const
 {
     return ConstTriangularView(engine(), Upper, Unit);
@@ -420,7 +424,7 @@ GeMatrix<FS>::upperUnit()
 }
 
 template <typename FS>
-typename GeMatrix<FS>::ConstTriangularView
+const typename GeMatrix<FS>::ConstTriangularView
 GeMatrix<FS>::lower() const
 {
     return ConstTriangularView(engine(), Lower);
@@ -434,7 +438,7 @@ GeMatrix<FS>::lower()
 }
 
 template <typename FS>
-typename GeMatrix<FS>::ConstTriangularView
+const typename GeMatrix<FS>::ConstTriangularView
 GeMatrix<FS>::lowerUnit() const
 {
     return ConstTriangularView(engine(), Lower, Unit);
@@ -449,7 +453,7 @@ GeMatrix<FS>::lowerUnit()
 
 // rectangular views
 template <typename FS>
-typename GeMatrix<FS>::ConstView
+const typename GeMatrix<FS>::ConstView
 GeMatrix<FS>::operator()(const Range<IndexType> &rows,
                          const Range<IndexType> &cols) const
 {
@@ -472,7 +476,7 @@ GeMatrix<FS>::operator()(const Range<IndexType> &rows,
 
 template <typename FS>
 template <typename RHS>
-typename GeMatrix<FS>::ConstView
+const typename GeMatrix<FS>::ConstView
 GeMatrix<FS>::operator()(const GeMatrix<RHS> &A) const
 {
     return engine().view(A.firstRow(), A.firstCol(),
@@ -490,7 +494,7 @@ GeMatrix<FS>::operator()(const GeMatrix<RHS> &A)
 
 // rectangular views (all rows selected)
 template <typename FS>
-typename GeMatrix<FS>::ConstView
+const typename GeMatrix<FS>::ConstView
 GeMatrix<FS>::operator()(const Underscore<IndexType> &,
                          const Range<IndexType> &cols) const
 {
@@ -511,7 +515,7 @@ GeMatrix<FS>::operator()(const Underscore<IndexType> &,
 
 // rectangular views (all columns selected)
 template <typename FS>
-typename GeMatrix<FS>::ConstView
+const typename GeMatrix<FS>::ConstView
 GeMatrix<FS>::operator()(const Range<IndexType> &rows,
                          const Underscore<IndexType> &) const
 {
@@ -532,7 +536,7 @@ GeMatrix<FS>::operator()(const Range<IndexType> &rows,
 
 // row view (vector view)
 template <typename FS>
-typename GeMatrix<FS>::ConstVectorView
+const typename GeMatrix<FS>::ConstVectorView
 GeMatrix<FS>::operator()(IndexType row, const Underscore<IndexType> &) const
 {
     return engine().viewRow(row);
@@ -546,7 +550,7 @@ GeMatrix<FS>::operator()(IndexType row, const Underscore<IndexType> &)
 }
 
 template <typename FS>
-typename GeMatrix<FS>::ConstVectorView
+const typename GeMatrix<FS>::ConstVectorView
 GeMatrix<FS>::operator()(IndexType row, const Range<IndexType> &cols) const
 {
     return engine().viewRow(row, cols.firstIndex(), cols.lastIndex());
@@ -561,7 +565,7 @@ GeMatrix<FS>::operator()(IndexType row, const Range<IndexType> &cols)
 
 // column view (vector view)
 template <typename FS>
-typename GeMatrix<FS>::ConstVectorView
+const typename GeMatrix<FS>::ConstVectorView
 GeMatrix<FS>::operator()(const Underscore<IndexType> &, IndexType col) const
 {
     return engine().viewCol(col);
@@ -575,7 +579,7 @@ GeMatrix<FS>::operator()(const Underscore<IndexType> &, IndexType col)
 }
 
 template <typename FS>
-typename GeMatrix<FS>::ConstVectorView
+const typename GeMatrix<FS>::ConstVectorView
 GeMatrix<FS>::operator()(const Range<IndexType> &rows, IndexType col) const
 {
     return engine().viewCol(rows.firstIndex(), rows.lastIndex(), col);

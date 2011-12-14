@@ -141,7 +141,7 @@ laexc_generic(bool                          computeQ,
         auto _D = D(_(1,nd),_(1,nd));
 
         _D = T(_(j1,j1+nd-1),_(j1,j1+nd-1));
-        ElementType normD = lange(MaximumNorm, _D);
+        ElementType normD = lan(MaximumNorm, _D);
 
         ElementType cs, sn, wr1, wr2, wi1, wi2;
 

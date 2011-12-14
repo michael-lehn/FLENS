@@ -58,6 +58,11 @@ template <typename MA, typename MB>
     isIdentical(const TrMatrix<MA> &A, const TrMatrix<MB> &B,
                 const char *AName = "A", const char *BName = "B");
 
+template <typename MA, typename MB>
+    bool
+    isIdentical(const SyMatrix<MA> &A, const SyMatrix<MB> &B,
+                const char *AName = "A", const char *BName = "B");
+
 } } // namespace lapack, flens
 
 #endif // FLENS_LAPACK_DEBUG_ISIDENTICAL_H

@@ -40,9 +40,7 @@
 namespace flens {
 
 template <typename FS>
-TrMatrix<FS>::TrMatrix(const Engine &engine,
-                       StorageUpLo upLo,
-                       Diag diag)
+TrMatrix<FS>::TrMatrix(const Engine &engine, StorageUpLo upLo, Diag diag)
     : _engine(engine), _upLo(upLo), _diag(diag)
 {
 }
@@ -105,9 +103,14 @@ template <typename FS>
 const typename TrMatrix<FS>::ElementType &
 TrMatrix<FS>::operator()(IndexType row, IndexType col) const
 {
-    ASSERT((_upLo==Upper) ? (col>=row) : (col<=row));
+#   ifndef NDEBUG
+    if (_upLo==Upper) {
+        ASSERT(col-firstCol()>=row-firstRow());
+    } else {
+        ASSERT(col-firstCol()<=row-firstRow());
+    }
     ASSERT(!((_diag==Unit) && (col==row)));
-
+#   endif
     return _engine(row, col);
 }
 
@@ -115,15 +118,20 @@ template <typename FS>
 typename TrMatrix<FS>::ElementType &
 TrMatrix<FS>::operator()(IndexType row, IndexType col)
 {
-    ASSERT((_upLo==Upper) ? (col>=row) : (col<=row));
+#   ifndef NDEBUG
+    if (_upLo==Upper) {
+        ASSERT(col-firstCol()>=row-firstRow());
+    } else {
+        ASSERT(col-firstCol()<=row-firstRow());
+    }
     ASSERT(!((_diag==Unit) && (col==row)));
-
+#   endif
     return _engine(row, col);
 }
 
 // rectangular views
 template <typename FS>
-typename TrMatrix<FS>::ConstGeneralView
+const typename TrMatrix<FS>::ConstGeneralView
 TrMatrix<FS>::operator()(const Range<IndexType> &rows,
                          const Range<IndexType> &cols) const
 {
@@ -140,7 +148,7 @@ TrMatrix<FS>::operator()(const Range<IndexType> &rows,
 
 // rectangular views (all rows selected)
 template <typename FS>
-typename TrMatrix<FS>::ConstGeneralView
+const typename TrMatrix<FS>::ConstGeneralView
 TrMatrix<FS>::operator()(const Underscore<IndexType> &_,
                          const Range<IndexType> &cols) const
 {
@@ -157,7 +165,7 @@ TrMatrix<FS>::operator()(const Underscore<IndexType> &_,
 
 // rectangular views (all columns selected)
 template <typename FS>
-typename TrMatrix<FS>::ConstGeneralView
+const typename TrMatrix<FS>::ConstGeneralView
 TrMatrix<FS>::operator()(const Range<IndexType> &rows,
                          const Underscore<IndexType> &_) const
 {
@@ -174,7 +182,7 @@ TrMatrix<FS>::operator()(const Range<IndexType> &rows,
 
 // row view (vector view)
 template <typename FS>
-typename TrMatrix<FS>::ConstVectorView
+const typename TrMatrix<FS>::ConstVectorView
 TrMatrix<FS>::operator()(IndexType row, const Underscore<IndexType> &_) const
 {
     return general()(row,_);
@@ -188,7 +196,7 @@ TrMatrix<FS>::operator()(IndexType row, const Underscore<IndexType> &_)
 }
 
 template <typename FS>
-typename TrMatrix<FS>::ConstVectorView
+const typename TrMatrix<FS>::ConstVectorView
 TrMatrix<FS>::operator()(IndexType row, const Range<IndexType> &cols) const
 {
     return general()(row,cols);
@@ -203,7 +211,7 @@ TrMatrix<FS>::operator()(IndexType row, const Range<IndexType> &cols)
 
 // column view (vector view)
 template <typename FS>
-typename TrMatrix<FS>::ConstVectorView
+const typename TrMatrix<FS>::ConstVectorView
 TrMatrix<FS>::operator()(const Underscore<IndexType> &_, IndexType col) const
 {
     return general()(_,col);
@@ -217,7 +225,7 @@ TrMatrix<FS>::operator()(const Underscore<IndexType> &_, IndexType col)
 }
 
 template <typename FS>
-typename TrMatrix<FS>::ConstVectorView
+const typename TrMatrix<FS>::ConstVectorView
 TrMatrix<FS>::operator()(const Range<IndexType> &rows, IndexType col) const
 {
     return general()(rows,col);
@@ -233,7 +241,7 @@ TrMatrix<FS>::operator()(const Range<IndexType> &rows, IndexType col)
 // -- views ------------------------------------------------------------
 // general views
 template <typename FS>
-typename TrMatrix<FS>::ConstGeneralView
+const typename TrMatrix<FS>::ConstGeneralView
 TrMatrix<FS>::general() const
 {
     return ConstGeneralView(_engine);
@@ -248,9 +256,10 @@ TrMatrix<FS>::general()
 
 // hermitian views
 template <typename FS>
-typename TrMatrix<FS>::ConstHermitianView
+const typename TrMatrix<FS>::ConstHermitianView
 TrMatrix<FS>::hermitian() const
 {
+    ASSERT(numRows()==numCols());
     return ConstHermitianView(_engine, upLo());
 }
 
@@ -258,15 +267,16 @@ template <typename FS>
 typename TrMatrix<FS>::HermitianView
 TrMatrix<FS>::hermitian()
 {
+    ASSERT(numRows()==numCols());
     return HermitianView(_engine, upLo());
 }
 
 // symmetric views
 template <typename FS>
-typename TrMatrix<FS>::ConstSymmetricView
+const typename TrMatrix<FS>::ConstSymmetricView
 TrMatrix<FS>::symmetric() const
 {
-    ASSERT(diag()==NonUnit);
+    ASSERT(numRows()==numCols());
     return ConstSymmetricView(_engine, upLo());
 }
 
@@ -274,7 +284,7 @@ template <typename FS>
 typename TrMatrix<FS>::SymmetricView
 TrMatrix<FS>::symmetric()
 {
-    ASSERT(diag()==NonUnit);
+    ASSERT(numRows()==numCols());
     return SymmetricView(_engine, upLo());
 }
 
@@ -283,9 +293,23 @@ template <typename FS>
 typename TrMatrix<FS>::IndexType
 TrMatrix<FS>::dim() const
 {
-    assert(_engine.numRows()==_engine.numCols());
+    ASSERT(_engine.numRows()==_engine.numCols());
 
     return _engine.numRows();
+}
+
+template <typename FS>
+typename TrMatrix<FS>::IndexType
+TrMatrix<FS>::numRows() const
+{
+    return _engine.numRows();
+}
+
+template <typename FS>
+typename TrMatrix<FS>::IndexType
+TrMatrix<FS>::numCols() const
+{
+    return _engine.numCols();
 }
 
 template <typename FS>
@@ -355,10 +379,13 @@ TrMatrix<FS>::resize(const TrMatrix<RHS> &rhs,
 
 template <typename FS>
 bool
-TrMatrix<FS>::resize(IndexType dim, IndexType firstIndex,
+TrMatrix<FS>::resize(IndexType numRows, IndexType numCols,
+                     IndexType firstRowIndex, IndexType firstColIndex,
                      const ElementType &value)
 {
-    return _engine.resize(dim, dim, firstIndex, firstIndex, value);
+    return _engine.resize(numRows, numCols,
+                          firstRowIndex, firstColIndex,
+                          value);
 }
 
 // -- implementation -----------------------------------------------------------

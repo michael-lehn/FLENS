@@ -73,7 +73,7 @@ namespace LASCL {
 
 // TODO: provide an interface for different matrix types, i.e. GeMatrix,
 //       TrMatrix, SbMatrix, HessenbergMatrix, vector types and scalars
-//-- lange ---------------------------------------------------------------------
+//-- lascl ---------------------------------------------------------------------
 template <typename IndexType, typename T, typename MA>
     typename RestrictTo<IsSame<typename MA::ElementType, T>::value, void>::Type
     lascl(LASCL::Type type, IndexType kl, IndexType ku,

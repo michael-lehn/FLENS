@@ -157,7 +157,7 @@ es_generic(bool                 computeSchurVectors,
 //
 //  Scale A if max element outside range [SMLNUM,BIGNUM]
 //
-    const T normA = lange(MaximumNorm, A);
+    const T normA = lan(MaximumNorm, A);
 
     bool scaleA = false;
     T    cScale;

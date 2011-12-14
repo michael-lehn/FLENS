@@ -33,27 +33,11 @@
 #ifndef FLENS_MATRIXTYPES_SYMMETRIC_IMPL_SYMATRIX_TCC
 #define FLENS_MATRIXTYPES_SYMMETRIC_IMPL_SYMATRIX_TCC 1
 
-#include <flens/blas/level1/copy.h>
+#include <flens/matrixtypes/general/impl/gematrix.h>
+#include <flens/matrixtypes/symmetric/impl/symatrix.h>
 #include <flens/typedefs.h>
 
 namespace flens {
-
-template <typename FS>
-SyMatrix<FS>::SyMatrix()
-{
-}
-
-template <typename FS>
-SyMatrix<FS>::SyMatrix(IndexType dim)
-    : _engine(dim, dim)
-{
-}
-
-template <typename FS>
-SyMatrix<FS>::SyMatrix(IndexType dim, IndexType firstRow, IndexType firstCol)
-    : _engine(dim, dim, firstRow, firstCol)
-{
-}
 
 template <typename FS>
 SyMatrix<FS>::SyMatrix(const Engine &engine, StorageUpLo upLo)
@@ -93,6 +77,30 @@ SyMatrix<FS>::SyMatrix(const Matrix<RHS> &rhs)
 // -- operators ----------------------------------------------------------------
 
 template <typename FS>
+void
+SyMatrix<FS>::operator=(const ElementType &value)
+{
+    engine().fill(_upLo, value);
+}
+
+template <typename FS>
+SyMatrix<FS> &
+SyMatrix<FS>::operator=(const SyMatrix &rhs)
+{
+    blas::copy(NoTrans, rhs, *this);
+    return *this;
+}
+
+template <typename FS>
+template <typename RHS>
+SyMatrix<FS> &
+SyMatrix<FS>::operator=(const Matrix<RHS> &rhs)
+{
+    blas::copy(NoTrans, rhs, *this);
+    return *this;
+}
+
+template <typename FS>
 const typename SyMatrix<FS>::ElementType &
 SyMatrix<FS>::operator()(IndexType row, IndexType col) const
 {
@@ -103,6 +111,7 @@ SyMatrix<FS>::operator()(IndexType row, IndexType col) const
         ASSERT(col-firstCol()<=row-firstRow());
     }
 #   endif
+
     return _engine(row, col);
 }
 
@@ -117,28 +126,172 @@ SyMatrix<FS>::operator()(IndexType row, IndexType col)
         ASSERT(col-firstCol()<=row-firstRow());
     }
 #   endif
+
     return _engine(row, col);
 }
 
-// -- views --------------------------------------------------------------------
+// rectangular views
+template <typename FS>
+const typename SyMatrix<FS>::ConstGeneralView
+SyMatrix<FS>::operator()(const Range<IndexType> &rows,
+                         const Range<IndexType> &cols) const
+{
+    return general()(rows, cols);
+}
 
+template <typename FS>
+typename SyMatrix<FS>::GeneralView
+SyMatrix<FS>::operator()(const Range<IndexType> &rows,
+                         const Range<IndexType> &cols)
+{
+    return general()(rows, cols);
+}
+
+// rectangular views (all rows selected)
+template <typename FS>
+const typename SyMatrix<FS>::ConstGeneralView
+SyMatrix<FS>::operator()(const Underscore<IndexType> &_,
+                         const Range<IndexType> &cols) const
+{
+    return general()(_,cols);
+}
+
+template <typename FS>
+typename SyMatrix<FS>::GeneralView
+SyMatrix<FS>::operator()(const Underscore<IndexType> &_,
+                         const Range<IndexType> &cols)
+{
+    return general()(_,cols);
+}
+
+// rectangular views (all columns selected)
+template <typename FS>
+const typename SyMatrix<FS>::ConstGeneralView
+SyMatrix<FS>::operator()(const Range<IndexType> &rows,
+                         const Underscore<IndexType> &_) const
+{
+    return general()(rows,_);
+}
+
+template <typename FS>
+typename SyMatrix<FS>::GeneralView
+SyMatrix<FS>::operator()(const Range<IndexType> &rows,
+                         const Underscore<IndexType> &_)
+{
+    return general()(rows,_);
+}
+
+// row view (vector view)
+template <typename FS>
+const typename SyMatrix<FS>::ConstVectorView
+SyMatrix<FS>::operator()(IndexType row, const Underscore<IndexType> &_) const
+{
+    return general()(row,_);
+}
+
+template <typename FS>
+typename SyMatrix<FS>::VectorView
+SyMatrix<FS>::operator()(IndexType row, const Underscore<IndexType> &_)
+{
+    return general()(row,_);
+}
+
+template <typename FS>
+const typename SyMatrix<FS>::ConstVectorView
+SyMatrix<FS>::operator()(IndexType row, const Range<IndexType> &cols) const
+{
+    return general()(row,cols);
+}
+
+template <typename FS>
+typename SyMatrix<FS>::VectorView
+SyMatrix<FS>::operator()(IndexType row, const Range<IndexType> &cols)
+{
+    return general()(row,cols);
+}
+
+// column view (vector view)
+template <typename FS>
+const typename SyMatrix<FS>::ConstVectorView
+SyMatrix<FS>::operator()(const Underscore<IndexType> &_, IndexType col) const
+{
+    return general()(_,col);
+}
+
+template <typename FS>
+typename SyMatrix<FS>::VectorView
+SyMatrix<FS>::operator()(const Underscore<IndexType> &_, IndexType col)
+{
+    return general()(_,col);
+}
+
+template <typename FS>
+const typename SyMatrix<FS>::ConstVectorView
+SyMatrix<FS>::operator()(const Range<IndexType> &rows, IndexType col) const
+{
+    return general()(rows,col);
+}
+
+template <typename FS>
+typename SyMatrix<FS>::VectorView
+SyMatrix<FS>::operator()(const Range<IndexType> &rows, IndexType col)
+{
+    return general()(rows,col);
+}
+
+// -- views --------------------------------------------------------------------
 // general views
 template <typename FS>
-typename SyMatrix<FS>::ConstGeneralView
+const typename SyMatrix<FS>::ConstGeneralView
 SyMatrix<FS>::general() const
 {
-    return _engine;
+    return ConstGeneralView(_engine);
 }
 
 template <typename FS>
 typename SyMatrix<FS>::GeneralView
 SyMatrix<FS>::general()
 {
-    return _engine;
+    return GeneralView(_engine);
+}
+
+// hermitian views
+template <typename FS>
+const typename SyMatrix<FS>::ConstHermitianView
+SyMatrix<FS>::hermitian() const
+{
+    return ConstHermitianView(_engine, upLo());
+}
+
+template <typename FS>
+typename SyMatrix<FS>::HermitianView
+SyMatrix<FS>::hermitian()
+{
+    return HermitianView(_engine, upLo());
+}
+
+// triangular views
+template <typename FS>
+const typename SyMatrix<FS>::ConstTriangularView
+SyMatrix<FS>::triangular() const
+{
+    if (upLo()==Upper) {
+        return general().upper();
+    }
+    return general().lower();
+}
+
+template <typename FS>
+typename SyMatrix<FS>::TriangularView
+SyMatrix<FS>::triangular()
+{
+    if (upLo()==Upper) {
+        return general().upper();
+    }
+    return general().lower();
 }
 
 // -- methods ------------------------------------------------------------------
-
 template <typename FS>
 typename SyMatrix<FS>::IndexType
 SyMatrix<FS>::dim() const
@@ -195,6 +348,30 @@ typename SyMatrix<FS>::IndexType
 SyMatrix<FS>::leadingDimension() const
 {
     return _engine.leadingDimension();
+}
+
+template <typename FS>
+StorageOrder
+SyMatrix<FS>::order() const
+{
+    return _engine.order;
+}
+
+template <typename FS>
+template <typename RHS>
+bool
+SyMatrix<FS>::resize(const SyMatrix<RHS> &rhs,
+                     const ElementType &value)
+{
+    return _engine.resize(rhs.engine(), value);
+}
+
+template <typename FS>
+bool
+SyMatrix<FS>::resize(IndexType dim, IndexType firstIndex,
+                     const ElementType &value)
+{
+    return _engine.resize(dim, dim, firstIndex, firstIndex, value);
 }
 
 // -- implementation -----------------------------------------------------------

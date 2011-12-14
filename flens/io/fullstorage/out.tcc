@@ -144,6 +144,7 @@ operator<<(std::ostream &out, const SyMatrix<FS> &A)
             out << ((A.upLo()==cxxblas::Upper)
                     ? A(std::min(i,j), std::max(i,j))
                     : A(std::max(i,j), std::min(i,j)));
+            out << " ";
         }
         out << std::endl;
     }

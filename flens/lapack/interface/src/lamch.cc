@@ -50,6 +50,7 @@ _getMachineParameter(const char c)
 DOUBLE
 LAPACK_DECL(dlamch)(const char *c)
 {
+    DEBUG_FLENS_LAPACK("dlamch");
     return lamch<DOUBLE>(_getMachineParameter(*c));
 }
 

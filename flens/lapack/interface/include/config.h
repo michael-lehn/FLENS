@@ -24,7 +24,7 @@
 
 #ifdef LAPACK_DECL
 #   undef   LAPACK_DECL
-#endif 
+#endif
 #define  LAPACK_DECL(x)     x##_
 
 #ifdef LAPACK_IMPL
@@ -33,14 +33,19 @@
 #define  LAPACK_IMPL(x)     x
 
 
-#define DEBUG_LAPACK_CALL(msg)      std::cerr << "LAPACK_CALL: " \
-                                              << msg << std::endl;
-
-#ifdef DEBUG_LAPACK_STUB
+#ifdef DEBUG_LAPACK_CALLS
 #   define DEBUG_LAPACK_STUB(msg)      std::cerr << "LAPACK_STUB: " \
                                                  << msg << std::endl;
 #else
 #   define DEBUG_LAPACK_STUB(msg)
+#endif
+
+
+#ifdef DEBUG_FLENS_LAPACK_CALLS
+#   define DEBUG_FLENS_LAPACK(msg)     std::cerr << "FLENS-LAPACK: " \
+                                                 << msg << std::endl;
+#else
+#   define DEBUG_FLENS_LAPACK(msg)
 #endif
 
 
@@ -53,25 +58,35 @@
 
 namespace flens {
 
-typedef FullStorageView<DOUBLE, cxxblas::ColMajor>  DFSView;
-typedef GeMatrix<DFSView>                           DGeMatrixView;
-typedef TrMatrix<DFSView>                           DTrMatrixView;
+typedef FullStorageView<DOUBLE, cxxblas::ColMajor>       DFSView;
+typedef ConstFullStorageView<DOUBLE, cxxblas::ColMajor>  DConstFSView;
 
-typedef Array<bool>                                 BArray;
-typedef ArrayView<bool>                             BArrayView;
-typedef DenseVector<BArray>                         BDenseVector;
-typedef DenseVector<BArrayView>                     BDenseVectorView;
+typedef GeMatrix<DFSView>                                DGeMatrixView;
+typedef GeMatrix<DConstFSView>                           DConstGeMatrixView;
 
-typedef Array<INTEGER>                              IArray;
-typedef ArrayView<INTEGER>                          IArrayView;
-typedef DenseVector<IArray>                         IDenseVector;
-typedef DenseVector<IArrayView>                     IDenseVectorView;
+typedef TrMatrix<DFSView>                                DTrMatrixView;
+typedef TrMatrix<DConstFSView>                           DConstTrMatrixView;
 
-typedef ArrayView<DOUBLE>                           DArrayView;
-typedef DenseVector<DArrayView>                     DDenseVectorView;
+typedef SyMatrix<DFSView>                                DSyMatrixView;
+typedef SyMatrix<DConstFSView>                           DConstSyMatrixView;
 
-typedef ConstArrayView<DOUBLE>                      DConstArrayView;
-typedef DenseVector<DConstArrayView>                DConstDenseVectorView;
+typedef Array<bool>                                      BArray;
+typedef ArrayView<bool>                                  BArrayView;
+typedef DenseVector<BArray>                              BDenseVector;
+typedef DenseVector<BArrayView>                          BDenseVectorView;
+
+typedef Array<INTEGER>                                   IArray;
+typedef ArrayView<INTEGER>                               IArrayView;
+typedef ConstArrayView<INTEGER>                          IConstArrayView;
+typedef DenseVector<IArray>                              IDenseVector;
+typedef DenseVector<IArrayView>                          IDenseVectorView;
+typedef DenseVector<IConstArrayView>                     IConstDenseVectorView;
+
+typedef ArrayView<DOUBLE>                                DArrayView;
+typedef DenseVector<DArrayView>                          DDenseVectorView;
+
+typedef ConstArrayView<DOUBLE>                           DConstArrayView;
+typedef DenseVector<DConstArrayView>                     DConstDenseVectorView;
 
 } // namespace flens
 

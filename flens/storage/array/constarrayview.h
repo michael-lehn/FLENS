@@ -50,7 +50,7 @@ class ConstArrayView
         typedef T                      ElementType;
         typedef typename I::IndexType  IndexType;
         typedef A                      Allocator;
-        
+
         typedef ConstArrayView          ConstView;
         typedef ArrayView<T, I, A>      View;
         typedef Array<T, I, A>          NoView;

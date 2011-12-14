@@ -43,6 +43,8 @@ LAPACK_DECL(dgees)(const char       *JOBVS,
                    LOGICAL          *BWORK,
                    INTEGER          *INFO)
 {
+    DEBUG_FLENS_LAPACK("dgees");
+
     using std::max;
     using std::min;
 //

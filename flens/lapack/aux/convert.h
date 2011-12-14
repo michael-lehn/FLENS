@@ -124,6 +124,11 @@ template <typename ENUM>
     typename RestrictTo<IsSame<ENUM,Side>::value, Side>::Type
     getFlensLapackEnum(char side);
 
+//-- convert: char to enum Norm
+template <typename ENUM>
+    typename RestrictTo<IsSame<ENUM,Norm>::value, Norm>::Type
+    getFlensLapackEnum(char norm);
+
 } } // namespace lapack, flens
 
 #endif // FLENS_LAPACK_AUX_CONVERT_H

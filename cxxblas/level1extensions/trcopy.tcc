@@ -40,27 +40,46 @@ namespace cxxblas {
 
 template <typename IndexType, typename MA, typename MB>
 void
-trcopy(StorageOrder order, StorageUpLo upLo, Transpose trans, IndexType n,
-       const MA *A, IndexType ldA, MB *B, IndexType ldB)
+trcopy(StorageOrder order, StorageUpLo upLo, Transpose trans, Diag diag,
+       IndexType n, const MA *A, IndexType ldA, MB *B, IndexType ldB)
 {
     if (order==RowMajor) {
         ASSERT(0);
     }
-    // TODO: (Lehn) I will implement cases UpperUnit, LowerUnit only when needed
-    ASSERT(upLo==Upper || upLo==Lower);
-    if (trans==NoTrans) {
-        if (upLo==Upper) {
-            for (IndexType j=0; j<n; ++j) {
-                copy(j+1, A+j*ldA, IndexType(1), B+j*ldB, IndexType(1));
+    if (diag==NonUnit) {
+        if (trans==NoTrans) {
+            if (upLo==Upper) {
+                for (IndexType j=0; j<n; ++j) {
+                    copy(j+1, A+j*ldA, IndexType(1),
+                              B+j*ldB, IndexType(1));
+                }
+            } else {
+                for (IndexType j=0; j<n; ++j) {
+                    copy(n-j, A+j*(ldA+1), IndexType(1),
+                              B+j*(ldB+1), IndexType(1));
+                }
             }
         } else {
-            for (IndexType j=0; j<n; ++j) {
-                copy(n-j, A+j*(ldA+1), IndexType(1), B+j*(ldB+1), IndexType(1));
-            }
+            // TODO: implement this case
+            ASSERT(0);
         }
-    }
-    if (trans==Trans) {
-        ASSERT(0);
+    } else {
+        if (trans==NoTrans) {
+            if (upLo==Upper) {
+                for (IndexType j=0; j<n; ++j) {
+                    copy(j, A+j*ldA, IndexType(1),
+                            B+j*ldB, IndexType(1));
+                }
+            } else {
+                for (IndexType j=0; j<n; ++j) {
+                    copy(n-j-1, A+j*(ldA+1)+1, IndexType(1),
+                                B+j*(ldB+1)+1, IndexType(1));
+                }
+            }
+        } else {
+            // TODO: implement this case
+            ASSERT(0);
+        }
     }
 }
 

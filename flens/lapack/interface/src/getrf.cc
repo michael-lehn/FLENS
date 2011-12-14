@@ -21,6 +21,7 @@ LAPACK_DECL(dgetrf)(const INTEGER    *M,
                     INTEGER          *IPIV,
                     INTEGER          *INFO)
 {
+    DEBUG_FLENS_LAPACK("dgetrf");
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //

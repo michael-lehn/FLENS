@@ -49,7 +49,9 @@
 
 
 
+#include <flens/lapack/aux/con.h>
 #include <flens/lapack/aux/convert.h>
+#include <flens/lapack/aux/equ.h>
 #include <flens/lapack/aux/ilaenv.h>
 #include <flens/lapack/aux/ilalc.h>
 #include <flens/lapack/aux/ilalr.h>
@@ -59,7 +61,8 @@
 #include <flens/lapack/aux/ladiv.h>
 #include <flens/lapack/aux/laln2.h>
 #include <flens/lapack/aux/lamch.h>
-#include <flens/lapack/aux/lange.h>
+#include <flens/lapack/aux/lan.h>
+#include <flens/lapack/aux/laq.h>
 #include <flens/lapack/aux/larf.h>
 #include <flens/lapack/aux/larfb.h>
 #include <flens/lapack/aux/larfg.h>
@@ -67,11 +70,13 @@
 #include <flens/lapack/aux/larfx.h>
 #include <flens/lapack/aux/lartg.h>
 #include <flens/lapack/aux/lascl.h>
+#include <flens/lapack/aux/latrs.h>
 #include <flens/lapack/aux/lapy2.h>
 #include <flens/lapack/aux/lassq.h>
 #include <flens/lapack/aux/laswp.h>
 #include <flens/lapack/aux/lasy2.h>
 #include <flens/lapack/aux/nint.h>
+#include <flens/lapack/aux/rscl.h>
 #include <flens/lapack/aux/sign.h>
 
 #include <flens/lapack/debug/isidentical.h>
@@ -104,10 +109,21 @@
 #include <flens/lapack/eig/trsna.h>
 #include <flens/lapack/eig/trsyl.h>
 
+#include <flens/lapack/gesv/lauu2.h>
+#include <flens/lapack/gesv/lauum.h>
+#include <flens/lapack/gesv/potf2.h>
+#include <flens/lapack/gesv/posv.h>
+#include <flens/lapack/gesv/potrf.h>
+#include <flens/lapack/gesv/potri.h>
+#include <flens/lapack/gesv/potrs.h>
+#include <flens/lapack/gesv/rfs.h>
+#include <flens/lapack/gesv/sv.h>
+#include <flens/lapack/gesv/svx.h>
 #include <flens/lapack/gesv/tf2.h>
 #include <flens/lapack/gesv/trf.h>
 #include <flens/lapack/gesv/ti2.h>
 #include <flens/lapack/gesv/tri.h>
+#include <flens/lapack/gesv/trs.h>
 
 #include <flens/lapack/qr/qr2.h>
 #include <flens/lapack/qr/qrf.h>
@@ -122,9 +138,6 @@
 #endif
 
 /*
-#include <flens/lapack/gesv/sv.h>
-#include <flens/lapack/gesv/trs.h>
-
 #include <flens/lapack/qr/qrs.h>
 */
 

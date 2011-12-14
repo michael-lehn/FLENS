@@ -51,7 +51,7 @@ getF77LapackChar(ENUM enumValue)
     } else if (enumValue==Conj) {
         return 'R';
     } else if (enumValue==ConjTrans) {
-        return 'H';
+        return 'C';
     } else {
         ASSERT(0);
         return '?';
@@ -302,6 +302,23 @@ getFlensLapackEnum(char side)
         return Left;
     } else if (side=='R') {
         return Right;
+    }
+    ASSERT(0);
+}
+
+//-- convert: char to enum Norm
+template <typename ENUM>
+typename RestrictTo<IsSame<ENUM,Norm>::value, Norm>::Type
+getFlensLapackEnum(char norm)
+{
+    if (norm=='1' || norm=='O') {
+        return OneNorm;
+    } else if (norm=='I') {
+        return InfinityNorm;
+    } else if (norm=='F') {
+        return FrobeniusNorm;
+    } else if (norm=='M') {
+        return MaximumNorm;
     }
     ASSERT(0);
 }

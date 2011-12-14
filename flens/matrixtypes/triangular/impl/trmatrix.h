@@ -40,14 +40,13 @@ namespace flens {
 
 // forward declarations
 template <typename FS>
+    class GeMatrix;
+
+template <typename FS>
     class HeMatrix;
 
 template <typename FS>
     class SyMatrix;
-
-template <typename FS>
-    class TrMatrix;
-
 
 template <typename FS>
 class TrMatrix
@@ -88,9 +87,7 @@ class TrMatrix
         typedef TrMatrix<EngineView>                View;
         typedef TrMatrix<EngineNoView>              NoView;
 
-        TrMatrix(const Engine &engine,
-                 StorageUpLo upLo,
-                 Diag diag = NonUnit);
+        TrMatrix(const Engine &engine, StorageUpLo upLo, Diag diag = NonUnit);
 
         TrMatrix(const TrMatrix &rhs);
 
@@ -121,7 +118,7 @@ class TrMatrix
         operator()(IndexType row, IndexType col);
 
         // rectangular views
-        ConstGeneralView
+        const ConstGeneralView
         operator()(const Range<IndexType> &rows,
                    const Range<IndexType> &cols) const;
 
@@ -130,7 +127,7 @@ class TrMatrix
                    const Range<IndexType> &cols);
 
         // rectangular views (all rows selected)
-        ConstGeneralView
+        const ConstGeneralView
         operator()(const Underscore<IndexType> &,
                    const Range<IndexType> &cols) const;
 
@@ -139,7 +136,7 @@ class TrMatrix
                    const Range<IndexType> &cols);
 
         // rectangular views (all columns selected)
-        ConstGeneralView
+        const ConstGeneralView
         operator()(const Range<IndexType> &rows,
                    const Underscore<IndexType> &) const;
 
@@ -148,26 +145,26 @@ class TrMatrix
                    const Underscore<IndexType> &);
 
         // row view (vector view)
-        ConstVectorView
+        const ConstVectorView
         operator()(IndexType row, const Underscore<IndexType> &) const;
 
         VectorView
         operator()(IndexType row, const Underscore<IndexType> &);
 
-        ConstVectorView
+        const ConstVectorView
         operator()(IndexType row, const Range<IndexType> &cols) const;
 
         VectorView
         operator()(IndexType row, const Range<IndexType> &cols);
 
         // column view (vector view)
-        ConstVectorView
+        const ConstVectorView
         operator()(const Underscore<IndexType> &, IndexType col) const;
 
         VectorView
         operator()(const Underscore<IndexType> &, IndexType col);
 
-        ConstVectorView
+        const ConstVectorView
         operator()(const Range<IndexType> &rows, IndexType col) const;
 
         VectorView
@@ -176,21 +173,21 @@ class TrMatrix
         // -- views ------------------------------------------------------------
 
         // general views
-        ConstGeneralView
+        const ConstGeneralView
         general() const;
 
         GeneralView
         general();
 
         // hermitian views
-        ConstHermitianView
+        const ConstHermitianView
         hermitian() const;
 
         HermitianView
         hermitian();
 
         // symmetric views
-        ConstSymmetricView
+        const ConstSymmetricView
         symmetric() const;
 
         SymmetricView
@@ -199,6 +196,12 @@ class TrMatrix
         // -- methods ----------------------------------------------------------
         IndexType
         dim() const;
+
+        IndexType
+        numRows() const;
+
+        IndexType
+        numCols() const;
 
         // for element access
         IndexType
@@ -231,8 +234,9 @@ class TrMatrix
                    const ElementType &value = ElementType());
 
         bool
-        resize(IndexType dim,
-               IndexType firstIndex = Engine::defaultIndexBase,
+        resize(IndexType numRows, IndexType numCols,
+               IndexType firstRowIndex = Engine::defaultIndexBase,
+               IndexType firstColIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
 
         // -- implementation ---------------------------------------------------
@@ -255,7 +259,7 @@ class TrMatrix
         diag();
 
     private:
-        Engine        _engine;
+        Engine       _engine;
         StorageUpLo  _upLo;
         Diag         _diag;
 };

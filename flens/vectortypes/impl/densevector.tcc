@@ -50,12 +50,14 @@ template <typename A>
 DenseVector<A>::DenseVector(IndexType length)
     : _array(length), _reverse(false)
 {
+    ASSERT(length>=0);
 }
 
 template <typename A>
 DenseVector<A>::DenseVector(IndexType length, IndexType firstIndex)
     : _array(length, firstIndex), _reverse(false)
 {
+    ASSERT(length>=0);
 }
 
 template <typename A>
@@ -220,7 +222,7 @@ DenseVector<A>::operator()(IndexVariable &index)
 //-- views ---------------------------------------------------------------------
 
 template <typename A>
-typename DenseVector<A>::ConstView
+const typename DenseVector<A>::ConstView
 DenseVector<A>::operator()(const Range<IndexType> &range) const
 {
     ASSERT(range.firstIndex()>=firstIndex());
@@ -240,7 +242,7 @@ DenseVector<A>::operator()(const Range<IndexType> &range)
 }
 
 template <typename A>
-typename DenseVector<A>::ConstView
+const typename DenseVector<A>::ConstView
 DenseVector<A>::operator()(const Range<IndexType> &range,
                            IndexType _firstViewIndex) const
 {
@@ -262,7 +264,7 @@ DenseVector<A>::operator()(const Range<IndexType> &range,
 }
 
 template <typename A>
-typename DenseVector<A>::ConstView
+const typename DenseVector<A>::ConstView
 DenseVector<A>::operator()(const Underscore<IndexType> &/*all*/,
                            IndexType _firstViewIndex) const
 {
@@ -280,7 +282,7 @@ DenseVector<A>::operator()(const Underscore<IndexType> &/*all*/,
 }
 
 template <typename A>
-typename DenseVector<A>::ConstView
+const typename DenseVector<A>::ConstView
 DenseVector<A>::reverse() const
 {
     return ConstView(_array, !_reverse);

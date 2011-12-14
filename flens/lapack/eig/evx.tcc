@@ -201,7 +201,7 @@ evx_generic(BALANCE::Balance     balance,
 //  Scale A if max element outside range [SMLNUM,BIGNUM]
 //
     IndexType iCond = 0;
-    const T ANorm = lange(MaximumNorm, A);
+    const T ANorm = lan(MaximumNorm, A);
     bool scaleA = false;
     T cScale;
     if (ANorm>Zero && ANorm<smallNum) {
@@ -218,7 +218,7 @@ evx_generic(BALANCE::Balance     balance,
 //  Balance the matrix and compute ABNRM
 //
     bal(balance, A, iLo, iHi, scale);
-    ABNorm = lange(OneNorm, A);
+    ABNorm = lan(OneNorm, A);
     if (scaleA) {
         lascl(LASCL::FullMatrix, 0, 0, cScale, ANorm, ABNorm);
     }

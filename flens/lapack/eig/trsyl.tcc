@@ -104,8 +104,8 @@ trsyl_generic(Transpose             transA,
     bigNum = One / smallNum;
 
     const T sMin = max(smallNum,
-                       eps*lange(MaximumNorm, A),
-                       eps*lange(MaximumNorm, B));
+                       eps*lan(MaximumNorm, A),
+                       eps*lan(MaximumNorm, B));
 
     const T sign = iSign;
 

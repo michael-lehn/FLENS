@@ -40,43 +40,13 @@
 
 namespace flens { namespace blas {
 
-//-- forwarding ----------------------------------------------------------------
 template <typename X, typename Y>
     void
     copy(const X &x, Y &&y);
 
 template <typename MA, typename MB>
     void
-    copy(Transpose trans,
-         const MA &A, MB &&B);
-
-//-- common interface for vectors ----------------------------------------------
-template <typename VX, typename VY>
-    void
-    copy(const Vector<VX> &x, Vector<VY> &y);
-
-//-- common interface for matrices ---------------------------------------------
-template <typename MA, typename MB>
-    void
-    copy(Transpose trans,
-         const Matrix<MA> &A, Matrix<MB> &B);
-
-//-- copy
-template <typename VX, typename VY>
-    void
-    copy(const DenseVector<VX> &x, DenseVector<VY> &y);
-
-//-- gecopy
-template <typename MA, typename MB>
-    void
-    copy(Transpose trans,
-         const GeMatrix<MA> &A, GeMatrix<MB> &B);
-
-//-- trcopy
-template <typename MA, typename MB>
-    void
-    copy(Transpose trans,
-         const TrMatrix<MA> &A, TrMatrix<MB> &B);
+    copy(Transpose trans, const MA &A, MB &&B);
 
 } } // namespace blas, flens
 

@@ -31,6 +31,8 @@ LAPACK_DECL(dgeevx)(const char       *BALANC,
                     INTEGER          *IWORK,
                     INTEGER          *INFO)
 {
+    DEBUG_FLENS_LAPACK("dgeevx");
+
     using std::max;
     using std::min;
 //

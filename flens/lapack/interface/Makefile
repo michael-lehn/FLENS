@@ -8,6 +8,7 @@ INTEGER = int
 
 CXXFLAGS += -Wall -Wextra -Wc++0x-extensions
 CXXFLAGS += -Werror
+CXXFLAGS += -g
 CXXFLAGS += -O3 -std=c++0x -I ../../..  -DINTEGER=$(INTEGER)
 CXXFLAGS += -DWITH_REFBLAS
 
@@ -15,12 +16,13 @@ CXXFLAGS += -DCHECK_CXXLAPACK
 #CXXFLAGS += -DUSE_NATIVE_ILAENV
 #CXXFLAGS += -DNDEBUG
 
-FCFLAGS  += -fno-underscoring
+FCFLAGS  += -g -fno-underscoring
 
 # trace calls to interface
 #CXXFLAGS += -DDEBUG_INTERFACE
 
-
+#CXXFLAGS += -DDEBUG_LAPACK_CALLS
+CXXFLAGS += -DDEBUG_FLENS_LAPACK_CALLS
 
 
 SOURCE_FILES = $(wildcard src/*.cc)

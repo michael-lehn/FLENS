@@ -49,18 +49,18 @@ enum StorageOrder {
 };
 
 enum StorageUpLo {
-    Upper = 0,
-    Lower = 1
+    Upper = 'U',
+    Lower = 'L'
 };
 
 enum Diag {
-    Unit,
-    NonUnit
+    Unit = 'U',
+    NonUnit = 'N'
 };
 
 enum Side {
-    Left = 0,
-    Right = 1
+    Left = 'L',
+    Right = 'R'
 };
 
 enum Transpose {NoTrans=0, Conj=1, Trans=2, ConjTrans=3};

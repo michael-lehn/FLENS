@@ -32,6 +32,13 @@
 
 /* Based on
  *
+       SUBROUTINE DLASY2( LTRANL, LTRANR, ISGN, N1, N2, TL, LDTL, TR,
+      $                   LDTR, B, LDB, SCALE, X, LDX, XNORM, INFO )
+ *
+ *  -- LAPACK auxiliary routine (version 3.2) --
+ *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
+ *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
+ *     November 2006
  */
 
 #ifndef FLENS_LAPACK_EIG_LASY2_TCC

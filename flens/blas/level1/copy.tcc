@@ -40,44 +40,9 @@
 
 namespace flens { namespace blas {
 
-//-- forwarding ----------------------------------------------------------------
-template <typename X, typename Y>
-void
-copy(const X &x, Y &&y)
-{
-    CHECKPOINT_ENTER;
-    copy(x, y);
-    CHECKPOINT_LEAVE;
-}
+namespace impl {
 
-template <typename MA, typename MB>
-void
-copy(Transpose trans, const MA &A, MB &&B)
-{
-    CHECKPOINT_ENTER;
-    copy(trans, A.impl(), B.impl());
-    CHECKPOINT_LEAVE;
-}
-
-//-- common interface for vectors ----------------------------------------------
-template <typename VX, typename VY>
-void
-copy(const Vector<VX> &x, Vector<VY> &y)
-{
-    CHECKPOINT_ENTER;
-    copy(x.impl(), y.impl());
-    CHECKPOINT_LEAVE;
-}
-
-//-- common interface for matrices ---------------------------------------------
-template <typename MA, typename MB>
-void
-copy(Transpose trans, const Matrix<MA> &A, Matrix<MB> &B)
-{
-    CHECKPOINT_ENTER;
-    copy(trans, A.impl(), B.impl());
-    CHECKPOINT_LEAVE;
-}
+//== specialized interfaces for vectors ========================================
 
 //-- copy
 template <typename VX, typename VY>
@@ -98,6 +63,8 @@ copy(const DenseVector<VX> &x, DenseVector<VY> &y)
 
     FLENS_CLOSURELOG_END_ENTRY
 }
+
+//== specialized interfaces for matrices =======================================
 
 //-- gecopy
 template <typename MA, typename MB>
@@ -143,6 +110,8 @@ copy(Transpose trans, const TrMatrix<MA> &A, TrMatrix<MB> &B)
     //          2) rhs-size is zero
     if (B.dim()!=A.dim() && B.dim()==0) {
         B.resize(A);
+        B.upLo() = A.upLo();
+        B.diag() = A.diag();
     }
 
 #   ifndef NDEBUG
@@ -153,15 +122,97 @@ copy(Transpose trans, const TrMatrix<MA> &A, TrMatrix<MB> &B)
 
     // TODO: make this assertion unnecessary
     ASSERT(A.order()==B.order());
+    ASSERT(A.diag()==B.diag());
 
-#   ifdef HAVE_CXXBLAS_GECOPY
-    cxxblas::trcopy(B.order(), B.upLo(), trans, B.dim(),
+#   ifdef HAVE_CXXBLAS_TRCOPY
+    cxxblas::trcopy(B.order(), B.upLo(), trans, B.diag(), B.dim(),
                     A.data(), A.leadingDimension(),
                     B.data(), B.leadingDimension());
 #   else
     ASSERT(0);
 #   endif
     FLENS_CLOSURELOG_END_ENTRY
+}
+
+//-- sycopy
+template <typename MA, typename MB>
+void
+copy(const SyMatrix<MA> &A, SyMatrix<MB> &B)
+{
+    FLENS_CLOSURELOG_ADD_ENTRY_COPY(A, B);
+
+    // TODO: change default resize policy such that resize is done:
+    //          1) if possible, e.g. no resize in an axpy
+    //          2) rhs-size is zero
+    if (B.dim()!=A.dim() && B.dim()==0) {
+        B.resize(A);
+        B.upLo() = A.upLo();
+    }
+
+    // TODO: make this assertion unnecessary
+    ASSERT(A.order()==B.order());
+
+#   ifdef HAVE_CXXBLAS_GECOPY
+    cxxblas::trcopy(B.order(), B.upLo(), NoTrans, NonUnit, B.dim(),
+                    A.data(), A.leadingDimension(),
+                    B.data(), B.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+    FLENS_CLOSURELOG_END_ENTRY
+}
+
+//== common interface for vectors ==============================================
+template <typename VX, typename VY>
+void
+copy(const Vector<VX> &x, Vector<VY> &y)
+{
+    CHECKPOINT_ENTER;
+    copy(x.impl(), y.impl());
+    CHECKPOINT_LEAVE;
+}
+
+//== common interface for matrices =============================================
+template <typename MA, typename MB>
+void
+copy(Transpose trans, const Matrix<MA> &A, Matrix<MB> &B)
+{
+    CHECKPOINT_ENTER;
+    copy(trans, A.impl(), B.impl());
+    CHECKPOINT_LEAVE;
+}
+
+template <typename MA, typename MB>
+void
+copy(Transpose trans, const SymmetricMatrix<MA> &A, SymmetricMatrix<MB> &B)
+{
+    //TODO: Lehn: this should become a warning instead of an error
+    ASSERT(trans==NoTrans);
+
+    CHECKPOINT_ENTER;
+    copy(A.impl(), B.impl());
+    CHECKPOINT_LEAVE;
+}
+
+} // namespace impl
+
+//== entry points ==============================================================
+template <typename X, typename Y>
+void
+copy(const X &x, Y &&y)
+{
+    CHECKPOINT_ENTER;
+    impl::copy(x.impl(), y.impl());
+    CHECKPOINT_LEAVE;
+}
+
+template <typename MA, typename MB>
+void
+copy(Transpose trans, const MA &A, MB &&B)
+{
+    CHECKPOINT_ENTER;
+    impl::copy(trans, A.impl(), B.impl());
+    CHECKPOINT_LEAVE;
 }
 
 } } // namespace blas, flens

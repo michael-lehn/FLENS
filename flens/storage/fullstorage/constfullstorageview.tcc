@@ -48,6 +48,8 @@ ConstFullStorageView<T, Order, I, A>::ConstFullStorageView(
     : _data(data), _allocator(allocator), _numRows(numRows), _numCols(numCols),
       _leadingDimension(leadingDimension), _firstRow(0), _firstCol(0)
 {
+    ASSERT(_numRows>=0);
+    ASSERT(_numCols>=0);
     changeIndexBase(firstRow, firstCol);
 }
 
@@ -64,6 +66,8 @@ ConstFullStorageView<T, Order, I, A>::ConstFullStorageView(
       _leadingDimension(leadingDimension),
       _firstRow(0), _firstCol(0)
 {
+    ASSERT(_numRows>=0);
+    ASSERT(_numCols>=0);
     ASSERT(numRows*numCols<=array.length());
 
     changeIndexBase(firstRow, firstCol);

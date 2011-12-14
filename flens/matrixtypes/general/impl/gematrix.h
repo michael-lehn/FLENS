@@ -257,32 +257,32 @@ class GeMatrix
         diag(IndexType d);
 
         // triangular views
-        ConstTriangularView
+        const ConstTriangularView
         upper() const;
 
         TriangularView
         upper();
 
-        ConstTriangularView
+        const ConstTriangularView
         upperUnit() const;
 
         TriangularView
         upperUnit();
 
-        ConstTriangularView
+        const ConstTriangularView
         lower() const;
 
         TriangularView
         lower();
 
-        ConstTriangularView
+        const ConstTriangularView
         lowerUnit() const;
 
         TriangularView
         lowerUnit();
 
         // rectangular views
-        ConstView
+        const ConstView
         operator()(const Range<IndexType> &rows,
                    const Range<IndexType> &cols) const;
 
@@ -291,7 +291,7 @@ class GeMatrix
                    const Range<IndexType> &cols);
 
         template <typename RHS>
-            ConstView
+            const ConstView
             operator()(const GeMatrix<RHS> &A) const;
 
         template <typename RHS>
@@ -299,7 +299,7 @@ class GeMatrix
             operator()(const GeMatrix<RHS> &A);
 
         // rectangular views (all rows selected)
-        ConstView
+        const ConstView
         operator()(const Underscore<IndexType> &,
                    const Range<IndexType> &cols) const;
 
@@ -308,7 +308,7 @@ class GeMatrix
                    const Range<IndexType> &cols);
 
         // rectangular views (all columns selected)
-        ConstView
+        const ConstView
         operator()(const Range<IndexType> &rows,
                    const Underscore<IndexType> &) const;
 
@@ -317,26 +317,26 @@ class GeMatrix
                    const Underscore<IndexType> &);
 
         // row view (vector view)
-        ConstVectorView
+        const ConstVectorView
         operator()(IndexType row, const Underscore<IndexType> &) const;
 
         VectorView
         operator()(IndexType row, const Underscore<IndexType> &);
 
-        ConstVectorView
+        const ConstVectorView
         operator()(IndexType row, const Range<IndexType> &cols) const;
 
         VectorView
         operator()(IndexType row, const Range<IndexType> &cols);
 
         // column view (vector view)
-        ConstVectorView
+        const ConstVectorView
         operator()(const Underscore<IndexType> &, IndexType col) const;
 
         VectorView
         operator()(const Underscore<IndexType> &, IndexType col);
 
-        ConstVectorView
+        const ConstVectorView
         operator()(const Range<IndexType> &rows, IndexType col) const;
 
         VectorView

@@ -157,7 +157,7 @@ ev_generic(bool computeVL, bool computeVR,
 //
 //  Scale A if max element outside range [SMLNUM,BIGNUM]
 //
-    const T ANorm = lange(MaximumNorm, A);
+    const T ANorm = lan(MaximumNorm, A);
     bool scaleA = false;
     T cScale;
     if (ANorm>Zero && ANorm<smallNum) {

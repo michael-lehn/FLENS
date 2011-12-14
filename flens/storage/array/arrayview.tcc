@@ -50,6 +50,7 @@ ArrayView<T, I, A>::ArrayView(IndexType length, ElementType *data,
       _stride(stride),
       _firstIndex(firstIndex)
 {
+    ASSERT(_length>=0);
 }
 
 template <typename T, typename I, typename A>

@@ -58,23 +58,16 @@ using GeMatrixView = GeMatrix<FullStorageView<T, ColMajor> >;
 
 
 enum Norm {
-    OneNorm,
-    InfinityNorm,
-    FrobeniusNorm,
-    MaximumNorm
+    OneNorm = 'O',
+    InfinityNorm = 'I',
+    FrobeniusNorm = 'F',
+    MaximumNorm = 'M'
 };
 
 enum ProbabilityDistribution {
     Uniform01,
     Uniform_11,
     StandardNormal
-};
-
-enum Equilibration {
-    NoEquilibration,
-    RowEquilibration,
-    ColEquilibration,
-    RowColEquilibration
 };
 
 enum Direction {

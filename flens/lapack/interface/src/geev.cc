@@ -22,6 +22,8 @@ LAPACK_DECL(dgeev)(const char           *JOBVL,
                    const INTEGER        *LWORK,
                    INTEGER              *INFO)
 {
+    DEBUG_FLENS_LAPACK("dgeev");
+
     using std::max;
     using std::min;
 //

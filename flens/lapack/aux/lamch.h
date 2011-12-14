@@ -30,6 +30,19 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/* Based on
+ *
+      DOUBLE PRECISION FUNCTION DLAMCH( CMACH )
+ *
+ *  -- LAPACK auxiliary routine (version 3.3.0) --
+ *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
+ *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
+ *     Based on LAPACK DLAMCH but with Fortran 95 query functions
+ *     See: http://www.cs.utk.edu/~luszczek/lapack/lamch.html
+ *     and  http://www.netlib.org/lapack-dev/lapack-coding/program-style.html#id2537289
+ *     July 2010
+ */
+
 #ifndef FLENS_LAPACK_AUX_LAMCH_H
 #define FLENS_LAPACK_AUX_LAMCH_H 1
 

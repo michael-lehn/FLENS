@@ -52,6 +52,9 @@ FullStorageView<T, Order, I, A>::FullStorageView(IndexType numRows,
       _leadingDimension(leadingDimension),
       _firstRow(0), _firstCol(0)
 {
+    ASSERT(_numRows>=0);
+    ASSERT(_numCols>=0);
+
     changeIndexBase(firstRow, firstCol);
 }
 
@@ -71,6 +74,8 @@ FullStorageView<T, Order, I, A>::FullStorageView(IndexType numRows,
       _firstRow(0), _firstCol(0)
 {
     ASSERT(numRows*numCols<=array.length());
+    ASSERT(_numRows>=0);
+    ASSERT(_numCols>=0);
 
     changeIndexBase(firstRow, firstCol);
 }

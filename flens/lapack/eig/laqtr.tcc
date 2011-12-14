@@ -95,12 +95,12 @@ laqtr_generic(bool                  trans,
     const ElementType smallNum = lamch<ElementType>(SafeMin)/eps;
     const ElementType bigNum = One/smallNum;
 
-    ElementType xNorm = lange(MaximumNorm, T);
+    ElementType xNorm = lan(MaximumNorm, T);
     if (!real) {
         typedef typename DenseVector<VB>::ElementType TB;
         const GeMatrixConstView<TB>  B(n, 1, b, n);
 
-        xNorm = max(xNorm, abs(w), lange(MaximumNorm, B));
+        xNorm = max(xNorm, abs(w), lan(MaximumNorm, B));
     }
     const ElementType sMin = max(smallNum, eps*xNorm);
 //

@@ -7,6 +7,7 @@ LOGICAL
 LAPACK_DECL(lsame)(const char       *CA,
                    const char       *CB)
 {
+    DEBUG_FLENS_LAPACK("lsame");
     return (*CA==*CB) ? LOGICAL(1) : LOGICAL(0);
 }
 

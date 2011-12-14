@@ -51,6 +51,8 @@ Array<T, I, A>::Array(IndexType length, IndexType firstIndex,
                       const ElementType &value, const Allocator &allocator)
     : _data(0), _allocator(allocator), _length(length), _firstIndex(firstIndex)
 {
+    ASSERT(_length>=0);
+
     _allocate(value);
 }
 
@@ -59,6 +61,8 @@ Array<T, I, A>::Array(const Array &rhs)
     : _data(0), _allocator(rhs.allocator()),
       _length(rhs.length()), _firstIndex(rhs.firstIndex())
 {
+    ASSERT(_length>=0);
+
     if (length()>0) {
         _allocate();
         cxxblas::copy(length(), rhs.data(), rhs.stride(), data(), stride());

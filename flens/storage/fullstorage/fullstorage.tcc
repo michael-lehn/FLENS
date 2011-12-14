@@ -60,6 +60,9 @@ FullStorage<T, Order, I, A>::FullStorage(IndexType numRows, IndexType numCols,
       _numRows(numRows), _numCols(numCols),
       _firstRow(firstRow), _firstCol(firstCol)
 {
+    ASSERT(_numRows>=0);
+    ASSERT(_numCols>=0);
+
     _allocate(value);
 }
 

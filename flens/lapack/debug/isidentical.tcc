@@ -186,7 +186,7 @@ bool
 isIdentical(const TrMatrix<MA> &A, const TrMatrix<MB> &B,
             const char *AName, const char *BName)
 {
-    typedef typename GeMatrix<MA>::IndexType IndexType;
+    typedef typename TrMatrix<MA>::IndexType IndexType;
 
     if (A.dim()==0 && B.dim()==0) {
         return true;
@@ -239,6 +239,83 @@ isIdentical(const TrMatrix<MA> &A, const TrMatrix<MB> &B,
             if (isUnit && i==j) {
                 continue;
             }
+            if (isUpper && j>=i) {
+                failed = isDifferent(A(i,j), B(i,j));
+            }
+            if (!isUpper && j<=i) {
+                failed = isDifferent(A(i,j), B(i,j));
+            }
+            if (failed) {
+                std::cerr.precision(150);
+                std::cerr << AName << "(" << i << ", " << j << ") = "
+                          << A(i,j) << std::endl
+                          << BName << "(" << i << ", " << j << ") = "
+                          << B(i,j) << std::endl
+                          << AName << "(" << i << ", " << j << ") - "
+                          << BName << "(" << i << ", " << j << ") = "
+                          << A(i,j) - B(i,j)
+                          << std::endl;
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+template <typename MA, typename MB>
+bool
+isIdentical(const SyMatrix<MA> &A, const SyMatrix<MB> &B,
+            const char *AName, const char *BName)
+{
+    typedef typename SyMatrix<MA>::IndexType IndexType;
+
+    if (A.dim()==0 && B.dim()==0) {
+        return true;
+    }
+
+    if (A.dim()!=B.dim()) {
+        std::cerr << AName << ".dim() = " << A.dim() << ", "
+                  << BName << ".dim() = " << B.dim()
+                  << std::endl;
+        return false;
+    }
+    if (A.firstRow()!=B.firstRow()) {
+        std::cerr << AName << ".firstRow() = " << A.firstRow() << ", "
+                  << BName << ".firstRow() = " << B.firstRow()
+                  << std::endl;
+        return false;
+    }
+    if (A.firstCol()!=B.firstCol()) {
+        std::cerr << AName << ".firstCol() = " << A.firstCol() << ", "
+                  << BName << ".firstCol() = " << B.firstCol()
+                  << std::endl;
+        return false;
+    }
+    if (A.lastRow()!=B.lastRow()) {
+        std::cerr << AName << ".lastRow() = " << A.lastRow() << ", "
+                  << BName << ".lastRow() = " << B.lastRow()
+                  << std::endl;
+        return false;
+    }
+    if (A.lastCol()!=B.lastCol()) {
+        std::cerr << AName << ".lastCol() = " << A.lastCol() << ", "
+                  << BName << ".lastCol() = " << B.lastCol()
+                  << std::endl;
+        return false;
+    }
+
+    if (A.upLo()!=B.upLo()) {
+        std::cerr << AName << ".upLo() = " << A.upLo() << ", "
+                  << BName << ".upLo() = " << B.upLo()
+                  << std::endl;
+        return false;
+    }
+
+    bool failed = false;
+    bool isUpper = (A.upLo()==Upper);
+
+    for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
+        for (IndexType j=A.firstCol(); j<=A.lastCol(); ++j) {
             if (isUpper && j>=i) {
                 failed = isDifferent(A(i,j), B(i,j));
             }

@@ -149,13 +149,13 @@ class DenseVector
 
         //-- views -------------------------------------------------------------
 
-        ConstView
+        const ConstView
         operator()(const Range<IndexType> &range) const;
 
         View
         operator()(const Range<IndexType> &range);
 
-        ConstView
+        const ConstView
         operator()(const Range<IndexType> &range,
                    IndexType firstViewIndex) const;
 
@@ -163,7 +163,7 @@ class DenseVector
         operator()(const Range<IndexType> &range, 
                    IndexType firstViewIndex);
 
-        ConstView
+        const ConstView
         operator()(const Underscore<IndexType> &all,
                    IndexType firstViewIndex) const;
 
@@ -171,7 +171,7 @@ class DenseVector
         operator()(const Underscore<IndexType> &all, 
                    IndexType firstViewIndex);
 
-        ConstView
+        const ConstView
         reverse() const;
 
         View

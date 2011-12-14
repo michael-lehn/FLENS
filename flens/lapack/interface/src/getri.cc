@@ -15,6 +15,8 @@ LAPACK_DECL(dgetri)(const INTEGER    *N,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO)
 {
+    DEBUG_FLENS_LAPACK("dgetri");
+
     using std::max;
     using std::min;
 //
