@@ -1,3 +1,0 @@
-==title:Native BLAS Interface{cxxblas::concepts::NativeBlasInterface}==
-
-==section:Select BLAS Function Based on IndexType#If==

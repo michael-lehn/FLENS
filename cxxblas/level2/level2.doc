@@ -1,8 +1,0 @@
-==title:Level 2 CXXBLAS{cxxblas::level2}==
-
-==ul:begin==
--> Header file [@header] includes all level 2 functions.
-==ul:end==
-
-Defines matrix-vector operations, e.g. matrix-vector products.
-==toc:.==

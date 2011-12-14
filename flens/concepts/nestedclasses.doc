@@ -1,7 +1,0 @@
-==title:Nested Classes in FLENS{concept::NestedClasses}==
-
-==ul:begin==
--> We want flat and flexible interfaces
---> Therefore we avoid the standard method for implementing nested classes
---> We want a loose coupling will namespacing
-==ul:end==

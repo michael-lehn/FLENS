@@ -1,9 +1,0 @@
-==title:Level 1 CXXBLAS{cxxblas::level1}==
-
-==ul:begin==
--> Header file [@header] includes all level 1 functions.
-==ul:end==
-
-Defines vector-vector operations, e.g. vector copying, vector addition,
-dot products, ...
-==toc:.==
