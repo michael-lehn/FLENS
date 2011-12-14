@@ -10,7 +10,6 @@ the implementation of numerical algorithms.
 At the moment we are working on a C++ port of *LAPACK*.  Sound tedious?  It
 is a joy with *FLENS*!
 
-
 Purpose
 =======
 FLENS is a comfortable tool for the implementation of numerical and at the
