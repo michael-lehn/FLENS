@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2011, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,18 +30,21 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_FLENS_TCC
-#define FLENS_FLENS_TCC 1
+#ifndef FLENS_LAPACK_AUX_SIGNBIT_H
+#define FLENS_LAPACK_AUX_SIGNBIT_H 1
 
-#include <flens/aux/aux.tcc>
-#include <flens/blas/blas.tcc>
-#include <flens/hacks/hacks.tcc>
-#include <flens/io/io.tcc>
-#include <flens/lapack/lapack.tcc>
-#include <flens/matrixtypes/matrixtypes.tcc>
-#include <flens/scalartypes/scalartypes.tcc>
-#include <flens/scalaroperations/scalaroperations.tcc>
-#include <flens/storage/storage.tcc>
-#include <flens/vectortypes/vectortypes.tcc>
+namespace flens { namespace lapack {
 
-#endif // FLENS_FLENS_TCC
+template <typename T>
+    int
+    signbit(const T &x);
+
+
+#ifdef QD_API
+int
+signbit(const qd_real &x);
+#endif // QD_API
+
+} } // namespace lapack, flens
+
+#endif // FLENS_LAPACK_AUX_SIGNBIT_H

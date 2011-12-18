@@ -33,6 +33,7 @@
 #ifndef FLENS_AUX_AUX_TCC
 #define FLENS_AUX_AUX_TCC 1
 
+#include <flens/aux/explicit_cast.tcc>
 #include <flens/aux/max.tcc>
 #include <flens/aux/min.tcc>
 #include <flens/aux/pair.tcc>

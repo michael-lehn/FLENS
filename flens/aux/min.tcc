@@ -48,7 +48,7 @@ template <typename T, typename ... Args>
 const T &
 min(const T &a, const T &b, const Args &... args)
 {
-    return min(std::min(a,b), args...);
+    return flens::min(std::min(a,b), args...);
 }
 
 } // namespace flens

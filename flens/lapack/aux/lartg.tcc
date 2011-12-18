@@ -43,7 +43,7 @@
 #ifndef FLENS_LAPACK_EIG_LARTG_TCC
 #define FLENS_LAPACK_EIG_LARTG_TCC 1
 
-#include <cmath>
+#include <flens/aux/aux.h>
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>
 
@@ -66,8 +66,11 @@ lartg_generic(const T &f, const T &g, T &cs, T &sn, T &r)
     if (first) {
         safeMin     = lamch<T>(SafeMin);
         eps         = lamch<T>(Eps);
-        safeMin2    = pow(lamch<T>(Base),
-                          int(log(safeMin/eps) / log(lamch<T>(Base)) / Two));
+
+        const int exp = explicit_cast<T,int>(log(safeMin/eps)
+                                             / log(lamch<T>(Base))
+                                             / Two);
+        safeMin2    = pow(lamch<T>(Base), exp);
         safeMax2    = One / safeMin2;
         first = false;
     }

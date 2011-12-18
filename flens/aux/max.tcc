@@ -48,7 +48,7 @@ template <typename T, typename ... Args>
 const T &
 max(const T &a, const T &b, const Args &... args)
 {
-    return max(std::max(a,b), args...);
+    return flens::max(std::max(a,b), args...);
 }
 
 } // namespace flens

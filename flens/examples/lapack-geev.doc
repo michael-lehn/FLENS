@@ -1,9 +1,9 @@
 ==================================
-Eigenvalues (Non-Symmetric Matrix)
+Eigenvalues (Non-Symmetric Matrix)                                      [TOC]
 ==================================
 
-In this example we compute the eigenvalues $w,$ left eigenvectors $V_L$ and
-right eigenvectors $V_R$ of a non-symmetric Matrix $A.$  We use __lapack::ev__
+In this example we compute the eigenvalues $w$, left eigenvectors $V_L$ and
+right eigenvectors $V_R$ of a non-symmetric Matrix $A$.  We use __lapack::ev__
 which is the FLENS port of LAPACK's __dgeev__.
 
 :links:  __lapack::ev__  -> file:flens/lapack/eig/ev.h

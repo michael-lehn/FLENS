@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2011, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,18 +30,9 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_FLENS_TCC
-#define FLENS_FLENS_TCC 1
+#ifndef FLENS_HACKS_HACKS_TCC
+#define FLENS_HACKS_HACKS_TCC 1
 
-#include <flens/aux/aux.tcc>
-#include <flens/blas/blas.tcc>
-#include <flens/hacks/hacks.tcc>
-#include <flens/io/io.tcc>
-#include <flens/lapack/lapack.tcc>
-#include <flens/matrixtypes/matrixtypes.tcc>
-#include <flens/scalartypes/scalartypes.tcc>
-#include <flens/scalaroperations/scalaroperations.tcc>
-#include <flens/storage/storage.tcc>
-#include <flens/vectortypes/vectortypes.tcc>
+#include <flens/hacks/qd.tcc>
 
-#endif // FLENS_FLENS_TCC
+#endif // FLENS_HACKS_HACKS_TCC

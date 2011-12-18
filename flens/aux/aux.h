@@ -35,6 +35,7 @@
 
 #include <flens/aux/constref.h>
 #include <flens/aux/compatiblescalar.h>
+#include <flens/aux/explicit_cast.h>
 #include <flens/aux/ifelseif.h>
 #include <flens/aux/isconvertible.h>
 #include <flens/aux/issame.h>

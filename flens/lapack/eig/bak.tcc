@@ -44,6 +44,7 @@
 #ifndef FLENS_LAPACK_EIG_BAK_TCC
 #define FLENS_LAPACK_EIG_BAK_TCC 1
 
+#include <flens/aux/aux.h>
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>
 
@@ -118,7 +119,7 @@ bak_generic(BALANCE::Balance            job,
                 if (i<iLo) {
                     i = iLo - ii;
                 }
-                const IndexType k = scale(i);
+                const IndexType k = explicit_cast<T,IndexType>(scale(i));
                 if (k==i) {
                     continue;
                 }
@@ -135,7 +136,7 @@ bak_generic(BALANCE::Balance            job,
                 if (i<iLo) {
                     i = iLo - ii;
                 }
-                const IndexType k = scale(i);
+                const IndexType k = explicit_cast<T,IndexType>(scale(i));
                 if (k==i) {
                     continue;
                 }

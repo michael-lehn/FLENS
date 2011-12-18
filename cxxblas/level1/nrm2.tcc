@@ -46,7 +46,7 @@ nrm2_generic(IndexType n, const X *x, IndexType incX, T &norm)
     using std::sqrt;
 
     if (n<1) {
-        norm = 0;
+        norm = T(0);
     } else if (n==1) {
         norm = abs(*x);
     } else {

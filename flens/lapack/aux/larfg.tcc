@@ -59,7 +59,7 @@ larfg_generic(IndexType n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
     typedef typename DenseVector<VX>::ElementType   T;
 
     if (n<=1) {
-        tau = 0;
+        tau = TAU(0);
         return;
     }
 
@@ -68,7 +68,7 @@ larfg_generic(IndexType n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
 //
 //      H  =  I
 //
-        tau = 0;
+        tau = TAU(0);
     } else {
 //
 //      general case

@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2011, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,18 +30,35 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_FLENS_TCC
-#define FLENS_FLENS_TCC 1
+#ifndef FLENS_LAPACK_AUX_SIGNBIT_TCC
+#define FLENS_LAPACK_AUX_SIGNBIT_TCC 1
 
-#include <flens/aux/aux.tcc>
-#include <flens/blas/blas.tcc>
-#include <flens/hacks/hacks.tcc>
-#include <flens/io/io.tcc>
-#include <flens/lapack/lapack.tcc>
-#include <flens/matrixtypes/matrixtypes.tcc>
-#include <flens/scalartypes/scalartypes.tcc>
-#include <flens/scalaroperations/scalaroperations.tcc>
-#include <flens/storage/storage.tcc>
-#include <flens/vectortypes/vectortypes.tcc>
+#include <cmath>
 
-#endif // FLENS_FLENS_TCC
+namespace flens { namespace lapack {
+
+template <typename T>
+int
+signbit(const T &x)
+{
+    return std::signbit(x);
+}
+
+
+//
+// TODO: This is a dirty hack until we figure out how to get the signbit
+//       for QD types.
+//
+#ifdef QD_API
+
+int
+signbit(const qd_real &x)
+{
+    return 0;
+}
+
+#endif // QD_API
+
+} } // namespace lapack, flens
+
+#endif // FLENS_LAPACK_AUX_SIGN_TCC

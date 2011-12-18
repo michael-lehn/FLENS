@@ -35,6 +35,7 @@
 
 #include <flens/aux/aux.h>
 #include <flens/blas/blas.h>
+#include <flens/hacks/hacks.h>
 #include <flens/io/io.h>
 #include <flens/lapack/lapack.h>
 #include <flens/matrixtypes/matrixtypes.h>

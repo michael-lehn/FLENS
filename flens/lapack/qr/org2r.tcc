@@ -74,7 +74,7 @@ org2r_generic(IndexType                 k,
 //
     for (IndexType j=k+1; j<=n; ++j) {
         for (IndexType l=1; l<=m; ++l) {
-            A(l,j) = 0;
+            A(l,j) = T(0);
         }
         A(j,j) = 1;
     }
@@ -95,7 +95,7 @@ org2r_generic(IndexType                 k,
 //      Set A(1:i-1,i) to zero
 //
         for (IndexType l=1; l<i; ++l) {
-            A(l,i) = 0;
+            A(l,i) = T(0);
         }
     }
 }

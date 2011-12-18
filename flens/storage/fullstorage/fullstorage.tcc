@@ -39,8 +39,6 @@
 
 namespace flens {
 
-using std::min;
-
 //= Constructors
 
 template <typename T, StorageOrder Order, typename I, typename A>

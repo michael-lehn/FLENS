@@ -123,7 +123,7 @@ orgqr_generic(IndexType                 k,
 //
         for (IndexType j=kk+1; j<=n; ++j) {
             for (IndexType i=1; i<=kk; ++i) {
-                A(i,j) = 0;
+                A(i,j) = T(0);
             }
         }
     } else {
@@ -173,7 +173,7 @@ orgqr_generic(IndexType                 k,
 //
             for (IndexType j=i; j<i+ib; ++j) {
                 for (IndexType l=1; l<i; ++l) {
-                    A(l, j) = 0;
+                    A(l, j) = T(0);
                 }
             }
         }

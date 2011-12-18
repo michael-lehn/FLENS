@@ -106,26 +106,26 @@ orghr_generic(IndexType                 iLo,
 //
     for (IndexType j=iHi; j>iLo; --j) {
         for (IndexType i=1; i<=j-1; ++i) {
-            A(i,j) = 0;
+            A(i,j) = T(0);
         }
         for (IndexType i=j+1; i<=iHi; ++i) {
             A(i,j) = A(i,j-1);
         }
         for (IndexType i=iHi+1; i<=n; ++i) {
-            A(i,j) = 0;
+            A(i,j) = T(0);
         }
     }
     for (IndexType j=1; j<=iLo; ++j) {
         for (IndexType i=1; i<=n; ++i) {
-            A(i,j) = 0;
+            A(i,j) = T(0);
         }
         A(j,j) = 1;
     }
     for (IndexType j=iHi+1; j<=n; ++j) {
         for (IndexType i=1; i<=n; ++i) {
-            A(i,j) = 0;
+            A(i,j) = T(0);
         }
-        A(j,j) = 1;
+        A(j,j) = T(1);
     }
 
     if (nh>0) {

@@ -112,6 +112,8 @@ Linear Equation Routines
  +==========+===========+========================================+============+
  | General  | __sv__    | Solves a general system of linear      | __dgesv__  |
  |          |           | equations $AX=B$.                      |            |
+ |          |           |                                        |            |
+ |          |           | *Example:*  __lapack-gesv__.           |            |
  +          +-----------+----------------------------------------+------------+
  |          | __svx__   | Solves a general system of linear      | __dgesvx__ |
  |          |           | equations $AX=B$.  Error bounds on     |            |
@@ -121,6 +123,8 @@ Linear Equation Routines
  |          | __trf__   | Computes an $LU$ factorization of a    | __dgetrf__ |
  |          |           | general matrix, using partial pivoting |            |
  |          |           | with row interchanges.                 |            |
+ |          |           |                                        |            |
+ |          |           | *Example:*  __lapack-getrf__.          |            |
  +          +-----------+----------------------------------------+------------+
  |          | __trs__   | Solves a general system of linear      | __dgetrs__ |
  |          |           | equations $AX=B,$ $A^T X=B,$ or        |            |
@@ -154,8 +158,9 @@ Linear Equation Routines
  |          |           | matrix, using the $LU$ factorization.  |            |
  +----------+-----------+----------------------------------------+------------+
 
-:links: __(d.+)__  -> file:flens/lapack/interface/ref_lapack/$1.f
-        __(.+)__   -> file:flens/lapack/gesv/$1.h
+:links: __(lapack-.+)__ -> doc:flens/examples/$1
+        __(d.+)__       -> file:flens/lapack/interface/ref_lapack/$1.f
+        __(.+)__        -> file:flens/lapack/gesv/$1.h
 
 
 Orthogonal Factorizations
@@ -165,6 +170,8 @@ Orthogonal Factorizations
  +===========+================================================+===============+
  | __qrf__   | Computes a $QR$ factorization of a general     | __dgeqrf__    |
  |           | rectangular matrix.                            |               |
+ |           |                                                |               |
+ |           | *Example:*  __lapack-geqrf__.                  |               |
  +-----------+------------------------------------------------+---------------+
  | __qrs__   | Solve the least squares problem                | __dgeqrs[1]__ |
  |           | $\min\| AX - B \|$ using the $QR$ factorization|               |
@@ -176,7 +183,8 @@ Orthogonal Factorizations
  |           | matrix from a $QR$ factorization.              |               |
  +-----------+------------------------------------------------+---------------+
 
-:links: __(d.*)\[1\]__  -> file:flens/lapack/test/LIN/$1.f
+:links: __(lapack-.+)__ -> doc:flens/examples/$1
+        __(d.*)\[1\]__  -> file:flens/lapack/test/LIN/$1.f
         __(d.*)__       -> file:flens/lapack/interface/ref_lapack/$1.f
         __(.*)__        -> file:flens/lapack/qr/$1.h
 
@@ -188,6 +196,8 @@ Non-Symmetric Eigenvalue Routines
  +===========+===================================================+============+
  | __ev__    | Computes the eigenvalues and left and right       | __dgeev__  |
  |           | eigenvectors of a general matrix.                 |            |
+ |           |                                                   |            |
+ |           | *Example:*  __lapack-geev__.                      |            |
  +-----------+---------------------------------------------------+------------+
  | __evx__   | Computes the eigenvalues and left and right       | __dgeevx__ |
  |           | eigenvectors of a general matrix.  Optionally     |            |
@@ -220,7 +230,8 @@ Non-Symmetric Eigenvalue Routines
  |           | from a reduction to Hessenberg form.              |            |
  +-----------+---------------------------------------------------+------------+
 
-:links: __(d.*)__  -> file:flens/lapack/interface/ref_lapack/$1.f
+:links: __(lapack-.+)__ -> doc:flens/examples/$1
+        __(d.*)__  -> file:flens/lapack/interface/ref_lapack/$1.f
         __(.*)__   -> file:flens/lapack/eig/$1.h
 
 
@@ -237,3 +248,27 @@ Of course there many more TODOs.  But theses are the most important:
 
 :links: __RefBLAS__  -> http://netlib.org/blas/
 
+
+Related Projects
+================
+
+- __LAPACK__ itself of course.
+- __mpack__ which is also a generic C++ port of LAPACK.  To our knowledge the
+    following strategy gets used for porting LAPACK:
+     - __f2c__ is used to create a C implementation of LAPACK
+     - Various scripts (the magic ingredient) are used to create a generic C++
+       implementation from the C code.
+  This approach has both, advantages and (depending on your own goals)
+  disadvantages:
+     - *Pros:*  You have a complete generic C++ port of LAPACK that supports
+       various multiple precision arithmetic libraries like __GMP__, __MPFR__
+       and __QD__.
+     - *Cons:*  The automatic generated code is hard to read (as is typical for
+       f2c-generated code).
+
+:links:  __LAPACK__ -> http://www.netlib.org/lapack/
+         __mpack__  -> http://mplapack.sourceforge.net/
+         __f2c__    -> http://en.wikipedia.org/wiki/F2c
+         __GMP__    -> http://gmplib.org/
+         __MPFR__   -> http://www.mpfr.org/
+         __QD__     -> http://crd-legacy.lbl.gov/~dhbailey/mpdist/

@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2011, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,18 +30,41 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_FLENS_TCC
-#define FLENS_FLENS_TCC 1
+#if defined(QD_API) && !defined(FLENS_HACKS_QD_H)
+#define FLENS_HACKS_QD_H 1
 
-#include <flens/aux/aux.tcc>
-#include <flens/blas/blas.tcc>
-#include <flens/hacks/hacks.tcc>
-#include <flens/io/io.tcc>
-#include <flens/lapack/lapack.tcc>
-#include <flens/matrixtypes/matrixtypes.tcc>
-#include <flens/scalartypes/scalartypes.tcc>
-#include <flens/scalaroperations/scalaroperations.tcc>
-#include <flens/storage/storage.tcc>
-#include <flens/vectortypes/vectortypes.tcc>
+#include <flens/aux/explicit_cast.h>
 
-#endif // FLENS_FLENS_TCC
+namespace flens {
+
+//
+// dd_real explicit_cast
+//
+
+template <>
+    int
+    explicit_cast(const dd_real &from);
+
+template <>
+    double
+    explicit_cast(const dd_real &from);
+
+//
+// qd_real explicit_cast
+//
+
+template <>
+    int
+    explicit_cast(const qd_real &from);
+
+template <>
+    double
+    explicit_cast(const qd_real &from);
+
+template <>
+    dd_real
+    explicit_cast(const qd_real &from);
+
+} // namespace flens
+
+#endif // defined(QD_API) && !defined(FLENS_HACKS_QD_H)

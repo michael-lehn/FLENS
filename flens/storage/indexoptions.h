@@ -34,7 +34,7 @@
 #define FLENS_STORAGE_INDEXOPTIONS_H 1
 
 #ifndef FLENS_DEFAULT_INDEXTYPE
-#define FLENS_DEFAULT_INDEXTYPE long
+#define FLENS_DEFAULT_INDEXTYPE int
 #endif
 
 namespace flens {

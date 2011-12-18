@@ -84,7 +84,7 @@ larft_generic(Direction direction, StoreVectors storeVectors, IndexType n,
 //              H(i)  =  I
 //
                 for (IndexType j=1; j<=i; ++j) {
-                    Tr(j,i) = 0;
+                    Tr(j,i) = T(0);
                 }
             } else {
 //
