@@ -1,0 +1,25 @@
+=====
+FLENS                                                                   [TOC]
+=====
+
+FLENS is a C++ for the efficient and convenient implementation of numerical
+algoithms.
+
+
+Obtain
+======
+
+
+  *--[BOX]------------------------------------------------------------------*
+  |                                                                         |
+  |  git clone git://github.com/michael-lehn/FLENS.git                      |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Scope and Limitations
+=====================
+
+
+Examples
+========
