@@ -69,15 +69,7 @@ lamch_generic(MachineParameter machineParameter)
         return eps;
     } else if (machineParameter==SafeMin) {
         T safeMin = std::numeric_limits<T>::min();
-
-        // gmp-hack: they return 0 as max value.  I guess this is because
-        //           there is no other way for returning infinity ...
-        //           Has anybody a better idea?
-        if (std::numeric_limits<T>::max()==T(0)) {
-            return 0;
-        }
-
-        T small = T(1) / std::numeric_limits<T>::max();
+        const T small = T(1) / std::numeric_limits<T>::max();
         if (small>=safeMin) {
 //
 //          Use SMALL plus a bit, to avoid the possibility of rounding

@@ -78,7 +78,6 @@
 #include <flens/lapack/aux/nint.h>
 #include <flens/lapack/aux/rscl.h>
 #include <flens/lapack/aux/sign.h>
-#include <flens/lapack/aux/signbit.h>
 
 #include <flens/lapack/debug/isidentical.h>
 

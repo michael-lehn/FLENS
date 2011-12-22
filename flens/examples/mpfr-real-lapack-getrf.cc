@@ -1,40 +1,31 @@
 #include <iostream>
+
 ///
-///  With header __flens.cxx__ all of FLENS gets included.
+/// Include header file for `mpfr::real` before `flens.cxx` and make
+/// sure that conversion operators are enabled
 ///
-///  :links:  __flens.cxx__ -> file:flens/flens.cxx
+#define REAL_ENABLE_CONVERSION_OPERATORS
+#include <external/real.hpp>
 #include <flens/flens.cxx>
 
 using namespace std;
 using namespace flens;
 
-typedef double   T;
+///
+///  Make typedef for using mpfr::real
+///
+typedef mpfr::real<53>   T;
 
 int
 main()
 {
-    ///
-    ///  Define some convenient typedefs for the matrix/vector types
-    ///  of our system of linear equations.
-    ///
     typedef GeMatrix<FullStorage<T> >           Matrix;
     typedef DenseVector<Array<T> >              Vector;
-
-    ///
-    ///  We also need an extra vector type for the pivots.  The type of the
-    ///  pivots is taken for the system matrix.
-    ///
     typedef Matrix::IndexType                   IndexType;
     typedef DenseVector<Array<IndexType> >      IndexVector;
 
-    ///
-    ///  Define an underscore operator for convenient matrix slicing
-    ///
     const Underscore<IndexType> _;
 
-    ///
-    ///  Set up the baby problem ...
-    ///
     const IndexType m = 4,
                     n = 5;
 
@@ -48,14 +39,8 @@ main()
 
     cout << "Ab = " << Ab << endl;
 
-    ///
-    /// Compute the $LU$ factorization with __lapack::trf__
-    ///
     lapack::trf(Ab, piv);
 
-    ///
-    ///  Solve the system of linear equation $Ax =B$ using __blas::sm__
-    ///
     const auto A = Ab(_,_(1,m));
     auto       B = Ab(_,_(m+1,n));
 
@@ -63,8 +48,3 @@ main()
 
     cout << "X = " << B << endl;
 }
-
-///
-///  :links: __lapack::trf__ -> file:flens/lapack/gesv/trf.h
-///          __blas::sm__ -> file:flens/blas/level3/sm.h
-///

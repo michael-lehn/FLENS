@@ -30,35 +30,72 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_LAPACK_AUX_SIGNBIT_TCC
-#define FLENS_LAPACK_AUX_SIGNBIT_TCC 1
+#if defined(MPFR_REAL_HPP) && !defined(FLENS_HACKS_MPFR_REAL_H)
+#define FLENS_HACKS_MPFR_REAL_H 1
 
-#include <cmath>
+#include <limits>
+#include <flens/aux/explicit_cast.h>
 
-namespace flens { namespace lapack {
-
-template <typename T>
-int
-signbit(const T &x)
-{
-    return std::signbit(x);
-}
-
+namespace mpfr {
 
 //
-// TODO: This is a dirty hack until we figure out how to get the signbit
-//       for QD types.
+// aux-functions used in numeric_limits
 //
-#ifdef QD_API
 
-int
-signbit(const qd_real &x)
+template <mpfr::real_prec_t _prec, mpfr::real_rnd_t _rnd>
+    const mpfr::real<_prec,_rnd>
+    nextabove(const mpfr::real<_prec,_rnd> &x);
+
+template <mpfr::real_prec_t _prec, mpfr::real_rnd_t _rnd>
+    const mpfr::real<_prec,_rnd>
+    get_max();
+
+} // namespace mpfr
+
+
+namespace std {
+
+//
+// numeric_limits
+// TODO: This just defines what gets used in FLENS-LAPACK get just copy
+//       the rest from numeric_limits<double>
+//
+
+template <mpfr::real_prec_t _prec, mpfr::real_rnd_t _rnd>
+class numeric_limits<mpfr::real<_prec,_rnd> >
+    : public numeric_limits<double>
 {
-    return 0;
-}
+    public:
+        typedef mpfr::real<_prec,_rnd>  T;
 
-#endif // QD_API
+        static const T _max;
+        static const T _min;
+        static const T _eps;
 
-} } // namespace lapack, flens
+        static const T
+        epsilon();
 
-#endif // FLENS_LAPACK_AUX_SIGN_TCC
+        static const T
+        max();
+
+        static const T
+        min();
+};
+
+//
+// import isnan to namespace std
+//
+template <mpfr::real_prec_t _prec, mpfr::real_rnd_t _rnd>
+    bool
+    isnan(const mpfr::real<_prec,_rnd> &x);
+
+//
+// import mpfr_real to namespace std
+//
+template <mpfr::real_prec_t _prec, mpfr::real_rnd_t _rnd>
+    int
+    signbit(const mpfr::real<_prec,_rnd> &x);
+
+} // namespace std
+
+#endif // defined(MPFR_REAL_HPP) && !defined(FLENS_HACKS_MPFR_REAL_H)

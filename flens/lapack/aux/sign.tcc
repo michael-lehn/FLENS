@@ -33,8 +33,6 @@
 #ifndef FLENS_LAPACK_AUX_SIGN_TCC
 #define FLENS_LAPACK_AUX_SIGN_TCC 1
 
-#include <flens/lapack/aux/signbit.h>
-
 namespace flens { namespace lapack {
 
 //
@@ -46,6 +44,7 @@ T
 sign(const T &x, const T &y)
 {
     using std::abs;
+    using std::signbit;
     const T Zero(0);
 
     if (y>Zero) {

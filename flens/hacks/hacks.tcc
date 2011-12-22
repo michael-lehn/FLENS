@@ -33,6 +33,7 @@
 #ifndef FLENS_HACKS_HACKS_TCC
 #define FLENS_HACKS_HACKS_TCC 1
 
+#include <flens/hacks/mpfr_real.tcc>
 #include <flens/hacks/qd.tcc>
 
 #endif // FLENS_HACKS_HACKS_TCC

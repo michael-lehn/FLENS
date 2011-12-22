@@ -62,7 +62,6 @@
 #include <flens/lapack/aux/nint.tcc>
 #include <flens/lapack/aux/rscl.tcc>
 #include <flens/lapack/aux/sign.tcc>
-#include <flens/lapack/aux/signbit.tcc>
 
 #include <flens/lapack/debug/isidentical.tcc>
 

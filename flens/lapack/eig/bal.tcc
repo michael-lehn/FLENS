@@ -62,9 +62,9 @@ bal_generic(BALANCE::Balance    job,
     using namespace BALANCE;
 
     using std::abs;
+    using std::isnan;
     using flens::max;
     using flens::min;
-    using std::isnan;
 
     typedef typename GeMatrix<MA>::ElementType  T;
 

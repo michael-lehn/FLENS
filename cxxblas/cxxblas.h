@@ -33,6 +33,10 @@
 #ifndef CXXBLAS_CXXBLAS_H
 #define CXXBLAS_CXXBLAS_H 1
 
+#ifdef CXXBLAS_DEBUG
+#define CXXBLAS_DEBUG_OUT(msg)   std::cerr << "CXXBLAS: " << msg << std::endl;
+#endif // CXXBLAS_DEBUG
+
 #ifndef CXXBLAS_DEBUG_OUT
 #define CXXBLAS_DEBUG_OUT(msg)
 #endif // CXXBLAS_DEBUG_OUT

@@ -82,7 +82,6 @@ lascl_generic(LASCL::Type   type,
     using namespace LASCL;
 
     using std::abs;
-    // TODO: check if isnan is supported by all relevant compilers
     using std::isnan;
     using std::max;
     using std::min;

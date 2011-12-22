@@ -33,6 +33,7 @@
 #ifndef FLENS_AUX_EXPLICIT_CAST_TCC
 #define FLENS_AUX_EXPLICIT_CAST_TCC 1
 
+
 namespace flens {
 
 template <typename From, typename To>

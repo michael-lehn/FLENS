@@ -35,6 +35,23 @@
 
 #include <flens/aux/explicit_cast.h>
 
+namespace std {
+
+//
+// signbit
+// TODO: At the moment this functions returns signbit(x[0]).  We have
+//       to figure out how we actually get the signbit ...
+//
+
+int
+signbit(const dd_real &x);
+
+int
+signbit(const qd_real &x);
+
+} // namespace std
+
+
 namespace flens {
 
 //

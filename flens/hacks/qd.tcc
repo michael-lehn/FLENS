@@ -33,6 +33,27 @@
 #if defined(QD_API) && !defined(FLENS_HACKS_QD_TCC)
 #define FLENS_HACKS_QD_TCC 1
 
+namespace std {
+
+//
+// signbit
+//
+
+int
+signbit(const dd_real &x)
+{
+    return std::signbit(x.x[0]);
+}
+
+int
+signbit(const qd_real &x)
+{
+    return std::signbit(x.x[0]);
+}
+
+} // namespace std
+
+
 namespace flens {
 
 //

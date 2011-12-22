@@ -182,7 +182,7 @@ laqr3_generic(bool                      wantT,
 //  ==== Machine constants ====
 //
     ElementType safeMin   = lamch<ElementType>(SafeMin);
-    ElementType safeMax   = One / SafeMin;
+    ElementType safeMax   = One / safeMin;
     labad(safeMin, safeMax);
     const ElementType ulp      = lamch<ElementType>(Precision);
     const ElementType smallNum = safeMin*(ElementType(n)/ulp);

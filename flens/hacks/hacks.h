@@ -33,6 +33,7 @@
 #ifndef FLENS_HACKS_HACKS_H
 #define FLENS_HACKS_HACKS_H 1
 
+#include <flens/hacks/mpfr_real.h>
 #include <flens/hacks/qd.h>
 
 #endif // FLENS_HACKS_HACKS_H

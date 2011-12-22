@@ -1,64 +1,53 @@
 #include <iostream>
 
+///
+///  Include the qd-headers
+///
 #include <qd/qd_real.h>
 #include <qd/fpu.h>
 
-///
-///  With header __flens.cxx__ all of FLENS gets included.
-///
-///  :links:  __flens.cxx__ -> file:flens/flens.cxx
 #include <flens/flens.cxx>
 
 using namespace std;
 using namespace flens;
 
+///
+///  For using quad-double precision in this example change the typedef to
+///
 typedef qd_real   T;
 
+///
+///  For understanding the next code lines we first take a look at the
+///  __QD Library__ documentation:
+///
+///  *--[BOX]------------------------------------------------------------*
+///  |                                                                   |
+///  | The algorithms in the QD library assume IEEE double precision     |
+///  | floating point arithmetic. Since Intel x86 processors have        |
+///  | extended (80-bit) floating point registers, the round-to-double   |
+///  | flag must be enabled in the control word of the FPU for this      |
+///  | library to function properly under x86 processors. The function   |
+///  | `fpu_fix_start` turns on the round-to-double bit in the FPU       |
+///  | control word, while `fpu_fix_end` will restore the original       |
+///  | state.                                                            |
+///  |                                                                   |
+///  *-------------------------------------------------------------------*
+///
+///  So the first thing we do in main is turning on the correct rounding ...
+///
 int
 main()
 {
     unsigned int old_cw;
     fpu_fix_start(&old_cw);
 
-
-    T a = 2;
-    T b = 1;
-    T c = 3;
-
-    cout << "min(a,b,c) = " << flens::min(a,b,c) << endl;
-    cout << "max(a,b,c) = " << flens::max(a,b,c) << endl;
-    cout << a[0] << endl;
-    cout << a.x[0] << endl;
-
-    cout << "sizeof(T) = " << sizeof(T) << endl;
-    cout << "numeric_limits<double>::epsilon() = "
-         << numeric_limits<double>::epsilon()
-         << endl;
-    cout << "numeric_limits<T>::epsilon() = "
-         << numeric_limits<T>::epsilon()
-         << endl;
-    ///
-    ///  Define some convenient typedefs for the matrix/vector types
-    ///  of our system of linear equations.
-    ///
     typedef GeMatrix<FullStorage<T> >           Matrix;
     typedef DenseVector<Array<T> >              Vector;
-
-    ///
-    ///  We also need an extra vector type for the pivots.  The type of the
-    ///  pivots is taken for the system matrix.
-    ///
     typedef Matrix::IndexType                   IndexType;
     typedef DenseVector<Array<IndexType> >      IndexVector;
 
-    ///
-    ///  Define an underscore operator for convenient matrix slicing
-    ///
     const Underscore<IndexType> _;
 
-    ///
-    ///  Set up the baby problem ...
-    ///
     const IndexType m = 4,
                     n = 5;
 
@@ -72,25 +61,21 @@ main()
 
     cout << "Ab = " << Ab << endl;
 
-    ///
-    /// Compute the $LU$ factorization with __lapack::trf__
-    ///
     lapack::trf(Ab, piv);
 
-    ///
-    ///  Solve the system of linear equation $Ax =B$ using __blas::sm__
-    ///
     const auto A = Ab(_,_(1,m));
     auto       B = Ab(_,_(m+1,n));
 
-    blas::sm(Left, NoTrans, 1, A.upper(), B);
+    blas::sm(Left, NoTrans, T(1), A.upper(), B);
 
     cout << "X = " << B << endl;
 
+    ///
+    ///  ... and at the end restore FPU rounding behavior as mentioned above.
+    ///
     fpu_fix_end(&old_cw);
 }
 
 ///
-///  :links: __lapack::trf__ -> file:flens/lapack/gesv/trf.h
-///          __blas::sm__ -> file:flens/blas/level3/sm.h
+///  :links: __QD Library__ -> http://crd-legacy.lbl.gov/~dhbailey/mpdist/
 ///
