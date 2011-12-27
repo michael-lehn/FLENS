@@ -174,14 +174,14 @@ larf(Side side, const DenseVector<VV> &v, const TAU &tau,
 //
 //  Test the input parameters
 //
-    ASSERT((v.inc()>0) && (v.firstIndex()==1)
-        || (v.inc()<0) && (v.lastIndex()==1));
-    ASSERT((side==Left) && (v.length()==C.numRows())
-        || (side==Right) && (v.length()==C.numCols()));
+    ASSERT((v.inc()>0 && v.firstIndex()==1)
+        || (v.inc()<0 && v.lastIndex()==1));
+    ASSERT((side==Left && v.length()==C.numRows())
+        || (side==Right && v.length()==C.numCols()));
     ASSERT(C.firstRow()==1);
     ASSERT(C.firstCol()==1);
-    ASSERT((side==Left) && (work.length()>=C.numCols())
-        || (side==Right) && (work.length()>=C.numRows()));
+    ASSERT((side==Left && work.length()>=C.numCols())
+        || (side==Right && work.length()>=C.numRows()));
 
 #   ifdef CHECK_CXXLAPACK
 //

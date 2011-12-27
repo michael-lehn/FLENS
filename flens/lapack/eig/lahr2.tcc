@@ -77,7 +77,7 @@ lahr2_generic(IndexType k, IndexType nb, GeMatrix<MA> &A,
         return;
     }
 
-    T ei;
+    T ei = T(0);
     for (IndexType i=1; i<=nb; ++i) {
         if (i>1) {
 //
@@ -124,7 +124,7 @@ lahr2_generic(IndexType k, IndexType nb, GeMatrix<MA> &A,
             blas::mv(NoTrans,
                      A(_(k+1,k+i-1),_(1,i-1)).lowerUnit(),
                      _Tr(_(1,i-1),nb));
-	    A(_(k+1,k+i-1),i) -= _Tr(_(1,i-1),nb);
+            A(_(k+1,k+i-1),i) -= _Tr(_(1,i-1),nb);
 
             A(k+i-1,i-1) = ei;
         }

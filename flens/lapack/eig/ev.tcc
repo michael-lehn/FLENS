@@ -494,6 +494,8 @@ ev(bool                 computeVL,
 
     typedef typename GeMatrix<MA>::IndexType    IndexType;
 
+    const IndexType n = A.numRows();
+
 //
 //  Test the input parameters
 //
@@ -503,28 +505,43 @@ ev(bool                 computeVL,
     ASSERT(A.firstCol()==1);
     ASSERT(work.firstIndex()==1);
 
-    typename GeMatrix<MA>::IndexType n = A.numRows();
 
     ASSERT(wr.firstIndex()==1);
-    ASSERT(wr.length()==n);
+    ASSERT(wr.length()==0 || wr.length()==n);
 
     ASSERT(wi.firstIndex()==1);
-    ASSERT(wi.length()==n);
+    ASSERT(wi.length()==0 || wi.length()==n);
 
     if (computeVL) {
         ASSERT(VL.numRows()==VL.numCols());
-        ASSERT(VL.numRows()==n);
+        ASSERT(VL.numRows()==0 || VL.numRows()==n);
         ASSERT(VL.firstRow()==1);
         ASSERT(VL.firstCol()==1);
     }
 
     if (computeVR) {
         ASSERT(VR.numRows()==VR.numCols());
-        ASSERT(VR.numRows()==n);
+        ASSERT(VR.numRows()==0 || VR.numRows()==n);
         ASSERT(VR.firstRow()==1);
         ASSERT(VR.firstCol()==1);
     }
 #   endif
+
+//
+//  Resize output arguments if they are empty and needed
+//
+    if (wr.length()==0) {
+        wr.resize(n);
+    }
+    if (wi.length()==0) {
+        wi.resize(n);
+    }
+    if (computeVL && VL.numRows()==0) {
+        VL.resize(n, n);
+    }
+    if (computeVR && VR.numRows()==0) {
+        VR.resize(n, n);
+    }
 
 //
 //  Make copies of output arguments

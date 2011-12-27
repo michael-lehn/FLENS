@@ -73,7 +73,9 @@ iparmq(int spec, const char *, const char *, int, int iLo, int iHi, int)
     const int nibble = 14;
     const int knwSwp = 500;
 
-    int nh, ns, result;
+    int nh = -1,
+        ns = -1,
+        result = -1;
 
     if ((spec==ISHFTS) || (spec==INWIN) || (spec==IACC22)) {
 //

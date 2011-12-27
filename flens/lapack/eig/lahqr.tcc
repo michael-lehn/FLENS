@@ -118,7 +118,7 @@ lahqr_generic(bool                  wantT,
 //  to which transformations must be applied. If eigenvalues only are
 //  being computed, i1 and i2 are set inside the main loop.
 //
-    IndexType i1, i2;
+    IndexType i1 = -1, i2 = -1;
     if (wantT) {
         i1 = 1;
         i2 = n;
