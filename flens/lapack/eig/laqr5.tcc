@@ -84,7 +84,7 @@ laqr5_generic(bool                      wantT,
     const Underscore<IndexType> _;
 
     const IndexType n   = H.numRows();
-    const IndexType nv  = WV.numCols();
+    const IndexType nv  = WV.numRows();
     const IndexType nh  = WH.numCols();
 
     typedef typename GeMatrix<MH>::VectorView   VectorView;
@@ -523,8 +523,8 @@ laqr5_generic(bool                      wantT,
 //              .    structure to exploit.  ====
 //
                 const IndexType k1 = max(IndexType(1), kTop-inCol);
-                const IndexType nu = (kdu-max(IndexType(0), ndCol-kBot ))-k1+1;
-                const IndexType _nu = (kdu-max(IndexType(0), ndCol-kBot ));
+                const IndexType nu  = (kdu-max(IndexType(0), ndCol-kBot)) -k1+1;
+                const IndexType _nu = (kdu-max(IndexType(0), ndCol-kBot));
 //
 //              ==== Horizontal Multiply ====
 //
@@ -738,7 +738,7 @@ laqr5_generic(bool                      wantT,
 //
 //                      ==== Copy the result back to Z ====
 //
-                        Z(_(jRow,jRow+jLen-1),_(inCol+1,inCol+kdu-1))
+                        Z(_(jRow,jRow+jLen-1),_(inCol+1,inCol+kdu))
                             = WV(_(1,jLen),_(1,kdu));
                     }
                 }
