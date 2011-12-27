@@ -152,9 +152,9 @@ like __GotoBLAS__ or __ATLAS__.  For ATLAS pass `-DWITH_ATLAS` to the compiler:
   |                                                                         |
   *-------------------------------------------------------------------------*
 
-If you want to check which BLAS functions get called also pass `-DDEBUG_CXXBLAS`
+If you want to check which BLAS function gets called also pass `-DDEBUG_CXXBLAS`
 to the compiler and grep and sort for `CXXBLAS` (note that the problem size in
-this example is so small that no LEVEL 3 BLAS functions get used):
+this example is so small that no LEVEL 3 BLAS function gets used):
 
   *--[SHELL]----------------------------------------------------------------*
   |                                                                         |
