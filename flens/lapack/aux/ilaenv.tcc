@@ -418,12 +418,50 @@ ilaenv_generic(int spec, const char *name, const char *opts,
             break;
 
     }
+
+#   ifdef LOG_ILAENV
+    std::cerr << "ILAENV_GENERIC: "
+              << "spec = " << spec
+              << ", name = " << name
+              << ", opts = " << opts
+              << ", n1 " << n1
+              << ", n2 " << n2
+              << ", n3 " << n3
+              << ", n4 " << n4
+              << ", result = " << result
+              << std::endl;
+#   endif
+
+
     return result;
 }
 
 //== interface for native lapack ===============================================
 
 #if defined CHECK_CXXLAPACK || defined USE_NATIVE_ILAENV
+
+#ifndef LAPACK_DECL
+#   define  LAPACK_DECL(x)    x##_
+
+#   define  INTEGER           int
+
+extern "C" {
+
+INTEGER
+LAPACK_DECL(ilaenv)(const INTEGER   *SPEC,
+                    const char      *NAME,
+                    const char      *OPTS,
+                    const INTEGER   *N1,
+                    const INTEGER   *N2,
+                    const INTEGER   *N3,
+                    const INTEGER   *N4,
+                    int             NAME_LEN,
+                    int             OPTS_LEN);
+
+} // extern "C"
+
+#endif
+
 
 template <typename T>
 int
@@ -452,13 +490,25 @@ ilaenv_LapackTest(int spec, const char *_name, const char *_opts,
                                      &n1, &n2, &n3, &n4,
                                      strlen(name.c_str()),
                                      strlen(opts.c_str()));
+
+#   ifdef LOG_ILAENV
+    std::cerr << "ILAENV_GENERIC: "
+              << "spec = " << spec
+              << ", name = " << name
+              << ", opts = " << opts
+              << ", n1 " << n1
+              << ", n2 " << n2
+              << ", n3 " << n3
+              << ", n4 " << n4
+              << ", result = " << result
+              << std::endl;
+#   endif
+
+
+    return result;
 #else
     ASSERT(0);
 #endif
-
-    //std::cerr << "ilaenv: result = " << result << std::endl;
-
-    return result;
 }
 
 #endif // CHECK_CXXLAPACK
