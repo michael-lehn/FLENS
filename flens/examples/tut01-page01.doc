@@ -1,0 +1,84 @@
+================================
+General Matrix with Full Storage                                          [TOC]
+================================
+
+The term *general matrix* refers to a matrix that is not necessarily square or
+symmetric.  Further, *full storage* denotes that all $mn$ elements of a
+$m \times n$ matrix get stored.  FLENS realizes this matrix type  in class
+__GeMatrix__.
+
+:links: __GeMatrix__ -> file:flens/matrixtypes/general/impl/gematrix.h
+
+First Steps
+===========
+In a first example we allocate and initialize a general matrix and play around
+with it.
+
+Example Code
+------------
+:import: flens/examples/tut01-page01-example01.cc [stripped, downloadable]
+
+Comments on Example Code
+------------------------
+:import: flens/examples/tut01-page01-example01.cc [brief]
+
+Compile and Run
+---------------
+
+   *--[SHELL]---------------------------------------------------------------*
+   |                                                                        |
+   |  cd flens/examples                                                     |
+   |  clang++ -Wall -std=c++0x -I../.. tut01-page01-example01.cc            |
+   |  ./a.out                                                               |
+   |                                                                        |
+   *------------------------------------------------------------------------*
+
+
+Changing the Index Base
+=======================
+FLENS provides different ways to change the index base of a matrix.  You can
+specify the index base when a matrix gets created.  Or you can define special
+matrix types with their own default base.
+
+Example Code
+------------
+:import: flens/examples/tut01-page01-example02.cc [stripped, downloadable]
+
+Comments on Example Code
+------------------------
+:import: flens/examples/tut01-page01-example02.cc [brief]
+
+Compile and Run
+---------------
+
+   *--[SHELL]---------------------------------------------------------------*
+   |                                                                        |
+   |  cd flens/examples                                                     |
+   |  clang++ -Wall -std=c++0x -I../.. tut01-page01-example02.cc            |
+   |  ./a.out                                                               |
+   |                                                                        |
+   *------------------------------------------------------------------------*
+
+Matrix Views (Referencing Matrix Parts)
+=======================================
+
+Example Code
+------------
+:import: flens/examples/tut01-page01-example03.cc [stripped, downloadable]
+
+Comments on Example Code
+------------------------
+:import: flens/examples/tut01-page01-example03.cc [brief]
+
+Compile and Run
+---------------
+
+   *--[SHELL]---------------------------------------------------------------*
+   |                                                                        |
+   |  cd flens/examples                                                     |
+   |  clang++ -Wall -std=c++0x -I../.. tut01-page01-example03.cc            |
+   |  ./a.out                                                               |
+   |                                                                        |
+   *------------------------------------------------------------------------*
+
+
