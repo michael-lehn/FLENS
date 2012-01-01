@@ -87,8 +87,6 @@ laqr5_generic(bool                      wantT,
     const IndexType nv  = WV.numRows();
     const IndexType nh  = WH.numCols();
 
-    std::cerr << "n = " << n << ", nv = " << nv << ", nh = " << nh << std::endl;
-
     typedef typename GeMatrix<MH>::VectorView   VectorView;
     T           vtBuffer[3];
     VectorView  vt = typename VectorView::Engine(3, vtBuffer);
