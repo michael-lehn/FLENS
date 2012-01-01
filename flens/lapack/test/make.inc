@@ -20,11 +20,11 @@ PLAT = _FLENS
 #  selected.  Define LOADER and LOADOPTS to refer to the loader
 #  and desired load options for your machine.
 #
-FORTRAN  = g95 -fimplicit-none -g
+FORTRAN  = gfortran -fimplicit-none -g
 OPTS     =
 DRVOPTS  = $(OPTS)
 NOOPT    = -g -O0
-LOADER   = g95 -g -lstdc++
+LOADER   = gfortran -g -lstdc++
 LOADOPTS =
 #
 # Timer for the SECOND and DSECND routines
@@ -52,7 +52,9 @@ RANLIB   = ranlib
 #  The target's machine-specific, optimized BLAS library should be
 #  used whenever possible.
 #
-BLASLIB      =   ../../interface/cblas_REF.a  ../../interface/blas_REF.a
+FBLASLIB     =   ../../interface/blas_REF.a
+CBLASLIB     =   ../../interface/cblas_REF.a
+BLASLIB      =   $(CBLASLIB) $(FBLASLIB)
 #### BLASLIB      = ../../interface/blas_REF.a
 #### BLASLIB      = $(HOME)/GotoBLAS2/libgoto2.a
 

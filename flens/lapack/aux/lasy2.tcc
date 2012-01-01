@@ -295,7 +295,7 @@ lasy2_generic(bool                  transLeft,
 //
         for (IndexType i=1; i<=3; ++i) {
             ElementType xMax = Zero;
-            IndexType ipSv, jpSv;
+            IndexType ipSv = -1, jpSv = -1;
 
             for (IndexType ip=i; ip<=4; ++ip) {
                 for (IndexType jp=i; jp<=4; ++jp) {

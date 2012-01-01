@@ -75,7 +75,7 @@ larft_generic(Direction direction, StoreVectors storeVectors, IndexType n,
     auto _Tr = Tr.general();
 
     if (direction==Forward) {
-        IndexType lastV;
+        IndexType lastV = -1;
         IndexType prevLastV = n;
         for (IndexType i=1; i<=k; ++i) {
             prevLastV = max(i, prevLastV);

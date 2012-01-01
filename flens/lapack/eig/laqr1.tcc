@@ -159,8 +159,8 @@ laqr1(GeMatrix<MH>              &H,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-    typename GeMatrix<MH>::NoView       _H  = H;
-    typename DenseVector<VV>::NoView    _v  = v;
+    typename GeMatrix<MH>::NoView       H_org  = H;
+    typename DenseVector<VV>::NoView    v_org  = v;
 #   endif
 
 //
@@ -170,20 +170,30 @@ laqr1(GeMatrix<MH>              &H,
 
 #   ifdef CHECK_CXXLAPACK
 //
+//  Make copies of results computed by the generic implementation
+//
+    typename GeMatrix<MH>::NoView       H_generic  = H;
+    typename DenseVector<VV>::NoView    v_generic  = v;
+//
+//  restore output arguments
+//
+    H = H_org;
+    v = v_org;
+//
 //  Compare results
 //
-    laqr1_native(_H, sr1, si1, sr2, si2, _v);
+    laqr1_native(H, sr1, si1, sr2, si2, v);
 
     bool failed = false;
-    if (! isIdentical(H, _H, " H", "_H")) {
-        std::cerr << "CXXLAPACK:  H = " << H << std::endl;
-        std::cerr << "F77LAPACK: _H = " << _H << std::endl;
+    if (! isIdentical(H_generic, H, "H_generic", "H")) {
+        std::cerr << "CXXLAPACK: H_generic = " << H_generic << std::endl;
+        std::cerr << "F77LAPACK: H = " << H << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(v, _v, " v", "_v")) {
-        std::cerr << "CXXLAPACK:  v = " << v << std::endl;
-        std::cerr << "F77LAPACK: _v = " << _v << std::endl;
+    if (! isIdentical(v_generic, v, "v_generic", "v")) {
+        std::cerr << "CXXLAPACK: v_generic = " << v_generic << std::endl;
+        std::cerr << "F77LAPACK: v = " << v << std::endl;
         failed = true;
     }
 

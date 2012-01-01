@@ -40,7 +40,6 @@
 
 namespace flens { namespace lapack {
 
-
 // vector views
 template <typename T>
 using DenseVectorConstView = DenseVector<ConstArrayView<T> >;

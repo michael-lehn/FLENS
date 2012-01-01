@@ -105,7 +105,7 @@ ilaenv_generic(int spec, const char *name, const char *opts,
 //      optimal blocksize
 //
         case 1:
-            nb = -1;
+            nb = 32;
             if (isSame<2>(c2, "GE")) {
                 if (isSame<3>(c3, "TRF")) {
                     if (IsNotComplex<T>::value) {
@@ -256,7 +256,7 @@ ilaenv_generic(int spec, const char *name, const char *opts,
                   nb = 1;
                }
             }
-            result = nb;
+            result = nb*2;
             break;
 //
 //      minimal blocksize
@@ -343,7 +343,7 @@ ilaenv_generic(int spec, const char *name, const char *opts,
 //      crossover point
 //
         case 3:
-            nx = 0;
+            nx = 32;
             if (isSame<2>(c2, "GE")) {
                 if (isSame<3>(c3, "QRF") || isSame<3>(c3, "RQF")
                  || isSame<3>(c3, "LQF") || isSame<3>(c3, "QLF")) {
@@ -392,7 +392,7 @@ ilaenv_generic(int spec, const char *name, const char *opts,
                     }
                 }
             }
-            result = nx;
+            result = nx/1.5;
             break;
 //
 //      DEPRECATED: number of shifts used in the nonsymmetric eigenvalue
@@ -418,12 +418,50 @@ ilaenv_generic(int spec, const char *name, const char *opts,
             break;
 
     }
+
+#   ifdef LOG_ILAENV
+    std::cerr << "ILAENV_GENERIC: "
+              << "spec = " << spec
+              << ", name = " << name
+              << ", opts = " << opts
+              << ", n1 " << n1
+              << ", n2 " << n2
+              << ", n3 " << n3
+              << ", n4 " << n4
+              << ", result = " << result
+              << std::endl;
+#   endif
+
+
     return result;
 }
 
 //== interface for native lapack ===============================================
 
 #if defined CHECK_CXXLAPACK || defined USE_NATIVE_ILAENV
+
+#ifndef LAPACK_DECL
+#   define  LAPACK_DECL(x)    x##_
+
+#   define  INTEGER           int
+#endif
+
+extern "C" {
+
+INTEGER
+LAPACK_DECL(ilaenv)(const INTEGER   *SPEC,
+                    const char      *NAME,
+                    const char      *OPTS,
+                    const INTEGER   *N1,
+                    const INTEGER   *N2,
+                    const INTEGER   *N3,
+                    const INTEGER   *N4,
+                    int             NAME_LEN,
+                    int             OPTS_LEN);
+
+} // extern "C"
+
+
 
 template <typename T>
 int
@@ -452,13 +490,25 @@ ilaenv_LapackTest(int spec, const char *_name, const char *_opts,
                                      &n1, &n2, &n3, &n4,
                                      strlen(name.c_str()),
                                      strlen(opts.c_str()));
+
+#   ifdef LOG_ILAENV
+    std::cerr << "ILAENV_GENERIC: "
+              << "spec = " << spec
+              << ", name = " << name
+              << ", opts = " << opts
+              << ", n1 " << n1
+              << ", n2 " << n2
+              << ", n3 " << n3
+              << ", n4 " << n4
+              << ", result = " << result
+              << std::endl;
+#   endif
+
+
+    return result;
 #else
     ASSERT(0);
 #endif
-
-    //std::cerr << "ilaenv: result = " << result << std::endl;
-
-    return result;
 }
 
 #endif // CHECK_CXXLAPACK

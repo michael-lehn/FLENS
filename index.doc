@@ -14,8 +14,7 @@ we show how FLENS can be used to implement LAPACK in C++.  Of course it should
 produce the same results, run at the same speed and it should be easier to
 impelment a LAPACK routine with FLENS than with Fortran.
 
-These are high aims.  And here we show how far we got right now ...
-
+Here we show how far we got right now ...
 
 
 What you should read
@@ -24,15 +23,14 @@ What you should read
 As the documentation is almost not existing you don't have much to read.  This
 is what we can offer you at the moment:
 
-- Looking at examples is always a good start
-    - compute a __LU factorization__
-    - compute a __QR factorization__
-    - compute __eigenvalues and eigenvectors__
-    - solving __systems of linear equations__
+- Looking at examples is always a good start:
+    - Computing a __LU factorization__,
+    - computing a __QR factorization__,
+    - computing __eigenvalues and eigenvectors__,
+    - solving __systems of linear equations__.
 - Overview of all driver functions currently implemented in __FLENS-LAPACK__
 
 From the examples you also can see what compiler flags are needed.
-
 
 
 Scope of this Branch
@@ -51,7 +49,6 @@ Scope of this Branch
   is for the LAPACK part often more expressive.
 - We improved our *doctool* (look at the bottom of each page for *document
   source*).  We now use *restructured text*.
-
 
 
 Git It

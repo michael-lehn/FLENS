@@ -109,7 +109,8 @@ orgqr_generic(IndexType                 k,
         }
     }
 
-    IndexType ki, kk;
+    IndexType ki = -1,
+              kk = -1;
 
     if ((nb>=nbMin) && (nb<k) && (nx<k)) {
 //

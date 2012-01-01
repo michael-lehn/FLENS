@@ -44,7 +44,11 @@ endif
 
 
 #all:     single complex double complex16 singleproto doubleproto complexproto complex16proto
-all:     double
+all:     tmglib double
+
+tmglib:
+	( cd MATGEN; $(MAKE) )    
+
 
 SEIGTST= snep.out \
          ssep.out \

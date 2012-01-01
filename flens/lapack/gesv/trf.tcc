@@ -94,7 +94,6 @@ trf_generic(GeMatrix<MA> &A, DenseVector<VP> &piv)
 //
 //          Row and column partitioning of A
 //
-            const auto rows0    = _(    1,    j-1);
             const auto rows1    = _(    j, j+jb-1);
             const auto rows2    = _( j+jb,      m);
 

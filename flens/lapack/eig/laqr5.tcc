@@ -32,14 +32,14 @@
 
 /* Based on
  *
-      SUBROUTINE DLAQR3( WANTT, WANTZ, N, KTOP, KBOT, NW, H, LDH, ILOZ,
-     $                   IHIZ, Z, LDZ, NS, ND, SR, SI, V, LDV, NH, T,
-     $                   LDT, NV, WV, LDWV, WORK, LWORK )
+       SUBROUTINE DLAQR5( WANTT, WANTZ, KACC22, N, KTOP, KBOT, NSHFTS,
+      $                   SR, SI, H, LDH, ILOZ, IHIZ, Z, LDZ, V, LDV, U,
+      $                   LDU, NV, WV, LDWV, NH, WH, LDWH )
  *
- *  -- LAPACK auxiliary routine (version 3.2.2)                        --
- *     Univ. of Tennessee, Univ. of California Berkeley,
- *     Univ. of Colorado Denver and NAG Ltd..
- *  -- June 2010                                                       --
+ *  -- LAPACK auxiliary routine (version 3.3.0) --
+ *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
+ *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
+ *     November 2010
  *
  */
 
@@ -84,8 +84,10 @@ laqr5_generic(bool                      wantT,
     const Underscore<IndexType> _;
 
     const IndexType n   = H.numRows();
-    const IndexType nv  = WV.numCols();
+    const IndexType nv  = WV.numRows();
     const IndexType nh  = WH.numCols();
+
+    std::cerr << "n = " << n << ", nv = " << nv << ", nh = " << nh << std::endl;
 
     typedef typename GeMatrix<MH>::VectorView   VectorView;
     T           vtBuffer[3];
@@ -143,7 +145,6 @@ laqr5_generic(bool                      wantT,
 //  ==== Use accumulated reflections to update far-from-diagonal
 //  .    entries ? ====
 //
-
     const bool accum = (kacc22==1) || (kacc22==2);
 //
 //  ==== If so, exploit the 2-by-2 block structure? ====
@@ -169,8 +170,9 @@ laqr5_generic(bool                      wantT,
     for (IndexType inCol=3*(1-nBmps)+kTop-1; inCol<=kBot-2; inCol+=3*nBmps-2) {
         IndexType ndCol = inCol + kdu;
         if (accum) {
-            U           = Zero;
-            U.diag(0)   = One;
+            auto U_ = U(_(1,kdu),_(1,kdu));
+            U_           = Zero;
+            U_.diag(0)   = One;
         }
 //
 //      ==== Near-the-diagonal bulge chase.  The following loop
@@ -267,7 +269,7 @@ laqr5_generic(bool                      wantT,
 //                          .    Replace the old reflector with
 //                          .    the new one. ====
 //
-                            H(k+1, k) = H(k+1, k) - refSum;
+                            H(k+1, k) -= refSum;
                             H(k+2, k) = Zero;
                             H(k+3, k) = Zero;
                             V(1, m) = vt(1);
@@ -362,7 +364,7 @@ laqr5_generic(bool                      wantT,
                         for (IndexType j=j1; j<=kdu; ++j) {
                             const T refSum = V(1,m)*(U(j,kms+1)
                                                         + V(2,m)*U(j,kms+2)
-                                                        + V(3,m)*U(j,kms+3)); 
+                                                        + V(3,m)*U(j,kms+3));
                             U(j, kms+1) -= refSum;
                             U(j, kms+2) -= refSum*V(2, m);
                             U(j, kms+3) -= refSum*V(3, m);
@@ -523,8 +525,8 @@ laqr5_generic(bool                      wantT,
 //              .    structure to exploit.  ====
 //
                 const IndexType k1 = max(IndexType(1), kTop-inCol);
-                const IndexType nu = (kdu-max(IndexType(0), ndCol-kBot ))-k1+1;
-                const IndexType _nu = (kdu-max(IndexType(0), ndCol-kBot ));
+                const IndexType nu  = (kdu-max(IndexType(0), ndCol-kBot)) -k1+1;
+                const IndexType _nu = (kdu-max(IndexType(0), ndCol-kBot));
 //
 //              ==== Horizontal Multiply ====
 //
@@ -576,10 +578,6 @@ laqr5_generic(bool                      wantT,
                 const IndexType i4 = kdu;
                 const IndexType j2 = i4 - i2;
                 const IndexType j4 = kdu;
-
-                const auto U11 = U(_(1,j2),_(1,i2));
-                const auto U21 = U(_(1,j2),_(1,i2));
-
 //
 //              ==== KZS and KNZ deal with the band of zeros
 //              .    along the diagonal of one of the triangular
@@ -642,7 +640,7 @@ laqr5_generic(bool                      wantT,
 //              ==== Vertical multiply ====
 //
                 for (IndexType jRow=jTop; jRow<=max(inCol,kTop)-1; jRow+=nv) {
-                    const IndexType jLen = min(nv, max(inCol,kTop -jRow));
+                    const IndexType jLen = min(nv, max(inCol,kTop) -jRow);
 //
 //                  ==== Copy right of H to scratch (the first KZS
 //                  .    columns get multiplied by zero) ====
@@ -738,7 +736,7 @@ laqr5_generic(bool                      wantT,
 //
 //                      ==== Copy the result back to Z ====
 //
-                        Z(_(jRow,jRow+jLen-1),_(inCol+1,inCol+kdu-1))
+                        Z(_(jRow,jRow+jLen-1),_(inCol+1,inCol+kdu))
                             = WV(_(1,jLen),_(1,kdu));
                     }
                 }
@@ -788,7 +786,7 @@ laqr5_native(bool                      wantT,
     const INTEGER    LDU        = U.leadingDimension();
     const INTEGER    NV         = WV.numRows();
     const INTEGER    LDWV       = WV.leadingDimension();
-    const INTEGER    NH         = WH.numRows();
+    const INTEGER    NH         = WH.numCols();
     const INTEGER    LDWH       = WH.leadingDimension();
 
     if (IsSame<T,DOUBLE>::value) {
@@ -913,7 +911,8 @@ laqr5(bool                      wantT,
 //
     laqr5_generic(wantT, wantZ, kacc22, kTop, kBot, nShifts,
                   sr, si, H, iLoZ, iHiZ, Z,
-                  V, U, WH, WV);
+                  V, U, WV, WH);
+
 #   ifdef CHECK_CXXLAPACK
 //
 //  Make copies of results computed by the generic implementation
@@ -926,7 +925,6 @@ laqr5(bool                      wantT,
     typename GeMatrix<MU>::NoView       U_generic  = U;
     typename GeMatrix<MWV>::NoView      WV_generic = WV;
     typename GeMatrix<MWH>::NoView      WH_generic = WH;
-
 //
 //  restore output arguments
 //
@@ -948,55 +946,61 @@ laqr5(bool                      wantT,
 
     bool failed = false;
     if (! isIdentical(sr_generic, sr, "sr_generic", "sr")) {
-        std::cerr << "CXXLAPACK: sr_generic = " << sr_generic << std::endl;
-        std::cerr << "F77LAPACK: sr = " << sr << std::endl;
+//        std::cerr << "CXXLAPACK: sr_generic = " << sr_generic << std::endl;
+//        std::cerr << "F77LAPACK: sr = " << sr << std::endl;
         failed = true;
     }
 
     if (! isIdentical(si_generic, si, "si_generic", "si")) {
-        std::cerr << "CXXLAPACK: si_generic = " << si_generic << std::endl;
-        std::cerr << "F77LAPACK: si = " << si << std::endl;
+//        std::cerr << "CXXLAPACK: si_generic = " << si_generic << std::endl;
+//        std::cerr << "F77LAPACK: si = " << si << std::endl;
         failed = true;
     }
 
     if (! isIdentical(H_generic, H, "H_generic", "H")) {
-        std::cerr << "CXXLAPACK: H_generic = " << H_generic << std::endl;
-        std::cerr << "F77LAPACK: H = " << H << std::endl;
+//        std::cerr << "CXXLAPACK: H_generic = " << H_generic << std::endl;
+//        std::cerr << "F77LAPACK: H = " << H << std::endl;
         failed = true;
     }
 
     if (! isIdentical(Z_generic, Z, "Z_generic", "Z")) {
-        std::cerr << "CXXLAPACK: Z_generic = " << Z_generic << std::endl;
-        std::cerr << "F77LAPACK: Z = " << Z << std::endl;
+//        std::cerr << "CXXLAPACK: Z_generic = " << Z_generic << std::endl;
+//        std::cerr << "F77LAPACK: Z = " << Z << std::endl;
         failed = true;
     }
 
     if (! isIdentical(V_generic, V, "V_generic", "V")) {
-        std::cerr << "CXXLAPACK: V_generic = " << V_generic << std::endl;
-        std::cerr << "F77LAPACK: V = " << V << std::endl;
+//        std::cerr << "CXXLAPACK: V_generic = " << V_generic << std::endl;
+//        std::cerr << "F77LAPACK: V = " << V << std::endl;
         failed = true;
     }
 
     if (! isIdentical(U_generic, U, "U_generic", "U")) {
-        std::cerr << "CXXLAPACK: U_generic = " << U_generic << std::endl;
-        std::cerr << "F77LAPACK: U = " << U << std::endl;
+//        std::cerr << "CXXLAPACK: U_generic = " << U_generic << std::endl;
+//        std::cerr << "F77LAPACK: U = " << U << std::endl;
         failed = true;
     }
 
     if (! isIdentical(WV_generic, WV, "WV_generic", "WV")) {
-        std::cerr << "CXXLAPACK: WV_generic = " << WV_generic << std::endl;
-        std::cerr << "F77LAPACK: WV = " << WV << std::endl;
+//        std::cerr << "CXXLAPACK: WV_generic = " << WV_generic << std::endl;
+//        std::cerr << "F77LAPACK: WV = " << WV << std::endl;
         failed = true;
     }
 
     if (! isIdentical(WH_generic, WH, "WH_generic", "WH")) {
-        std::cerr << "CXXLAPACK: WH_generic = " << WH_generic << std::endl;
-        std::cerr << "F77LAPACK: WH = " << WH << std::endl;
+//        std::cerr << "CXXLAPACK: WH_generic = " << WH_generic << std::endl;
+//        std::cerr << "F77LAPACK: WH = " << WH << std::endl;
         failed = true;
     }
 
     if (failed) {
         std::cerr << "error in: laqr5.tcc" << std::endl;
+        std::cerr << "N = H.numRows() =   " << H.numRows() << std::endl;
+        std::cerr << "H.numCols() =       " << H.numCols() << std::endl;
+        std::cerr << "NV = WV.numRows() = " << WV.numRows() << std::endl;
+        std::cerr << "WV.numCols() =      " << WV.numCols() << std::endl;
+        std::cerr << "NH = WH.numRows() = " << WH.numRows() << std::endl;
+        std::cerr << "WH.numCols() =      " << WH.numCols() << std::endl;
         ASSERT(0);
     } else {
         // std::cerr << "passed: laqr5.tcc" << std::endl;

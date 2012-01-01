@@ -45,4 +45,8 @@
 #include <flens/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>
 
+#ifdef CHECK_CXXLAPACK
+#   include <flens/lapack/interface/include/config.h>
+#endif // CHECK_CXXLAPACK
+
 #endif // FLENS_FLENS_H
