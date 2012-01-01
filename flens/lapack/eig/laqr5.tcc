@@ -790,11 +790,6 @@ laqr5_native(bool                      wantT,
     const INTEGER    LDWH       = WH.leadingDimension();
 
     if (IsSame<T,DOUBLE>::value) {
-        std::cerr << "Calling DLAQR5 with"
-                  << " N = " << N
-                  << " NV = " << NV
-                  << ", NH = " << NH
-                  << std::endl;
         LAPACK_IMPL(dlaqr5)(&WANTT,
                             &WANTZ,
                             &KACC22,
