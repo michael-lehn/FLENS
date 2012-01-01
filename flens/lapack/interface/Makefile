@@ -1,7 +1,7 @@
 CXX      = clang++
 #CXX      = icc
 
-FC = g95
+FC = gfortran
 
 #INTEGER = long
 INTEGER = int
@@ -22,7 +22,7 @@ FCFLAGS  += -g -fno-underscoring
 #CXXFLAGS += -DDEBUG_INTERFACE
 
 #CXXFLAGS += -DDEBUG_LAPACK_CALLS
-CXXFLAGS += -DDEBUG_FLENS_LAPACK_CALLS
+#CXXFLAGS += -DDEBUG_FLENS_LAPACK_CALLS
 
 
 SOURCE_FILES = $(wildcard src/*.cc)

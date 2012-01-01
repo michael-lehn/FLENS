@@ -1,6 +1,6 @@
 DEV               Data file for Real Nonsymmetric Eigenvalue Driver
-9                 Number of matrix dimensions
-0 1 2 3 5 10 20 40 100   Matrix dimensions
+10                Number of matrix dimensions
+0 1 2 3 5 10 20 40 100 132  Matrix dimensions
 3 3 1 11 4 8 2 0  Parameters NB, NBMIN, NXOVER, INMIN, INWIN, INIBL, ISHFTS, IACC22
 20.0              Threshold for test ratios
 T

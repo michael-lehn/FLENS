@@ -15,15 +15,15 @@ extern "C" {
 //-- dlaqge --------------------------------------------------------------------
 void
 LAPACK_DECL(dgeequ)(const INTEGER    *M,
-                const INTEGER    *N,
-                const DOUBLE     *A,
-                const INTEGER    *LDA,
-                DOUBLE           *R,
-                DOUBLE           *C,
-                DOUBLE           *ROWCND,
-                DOUBLE           *COLCND,
-                DOUBLE           *AMAX,
-                INTEGER          *INFO)
+                    const INTEGER    *N,
+                    const DOUBLE     *A,
+                    const INTEGER    *LDA,
+                    DOUBLE           *R,
+                    DOUBLE           *C,
+                    DOUBLE           *ROWCND,
+                    DOUBLE           *COLCND,
+                    DOUBLE           *AMAX,
+                    INTEGER          *INFO)
 {
     DEBUG_FLENS_LAPACK("dgeequ");
 //

@@ -541,13 +541,15 @@ laqr4_generic(bool                  wantT,
 //
                 IndexType kdu   = 3*ns - 3;
                 IndexType ku    = n - kdu + 1;
-                IndexType kmv   = kdu + 4;
+                IndexType kwv   = kdu + 4;
                 IndexType nho   = (n-kdu+1-4) - (kdu+1) + 1;
+
+//              NOTE: _WH.numCols()==_WV.numRows()
 
                 typedef typename GeMatrix<MH>::View GeMatrixView;
                 GeMatrixView _V(IndexType(3), ns/2, work(_(1,3*ns/2)));
                 auto _U     = H(_( ku,    n), _(    1,    kdu));
-                auto _WV    = H(_(kmv,n-kdu), _(    1,    kdu));
+                auto _WV    = H(_(kwv,n-kdu), _(    1,    kdu));
                 auto _WH    = H(_( ku,    n), _(kdu+1,kdu+nho));
 //
 //              ==== Small-bulge multi-shift QR sweep ====
@@ -806,11 +808,11 @@ laqr4(bool                  wantT,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-    typename GeMatrix<MH>::NoView          _H       = H;
-    typename DenseVector<VWR>::NoView      _wr      = wr;
-    typename DenseVector<VWI>::NoView      _wi      = wi;
-    typename GeMatrix<MZ>::NoView          _Z       = Z;
-    typename DenseVector<VWORK>::NoView    _work    = work;
+    typename GeMatrix<MH>::NoView          H_org       = H;
+    typename DenseVector<VWR>::NoView      wr_org      = wr;
+    typename DenseVector<VWI>::NoView      wi_org      = wi;
+    typename GeMatrix<MZ>::NoView          Z_org       = Z;
+    typename DenseVector<VWORK>::NoView    work_org    = work;
 #   endif
 
 //
@@ -820,36 +822,50 @@ laqr4(bool                  wantT,
                                   iLoZ, iHiZ, Z, work);
 #   ifdef CHECK_CXXLAPACK
 //
+//  Make copies of results computed by the generic implementation
+//
+    typename GeMatrix<MH>::NoView          H_generic       = H;
+    typename DenseVector<VWR>::NoView      wr_generic      = wr;
+    typename DenseVector<VWI>::NoView      wi_generic      = wi;
+    typename GeMatrix<MZ>::NoView          Z_generic       = Z;
+    typename DenseVector<VWORK>::NoView    work_generic    = work;
+//
+//  restore output arguments
+//
+    H = H_org;
+    wr = wr_org;
+    wi = wi_org;
+    Z = Z_org;
+    work = work_org;
+
+//
 //  Compare results
 //
-    if (_work.length()==0) {
-        _work.resize(work.length());
-    }
-    IndexType _info = laqr4_native(wantT, wantZ, iLo, iHi, _H, _wr, _wi,
-                                   iLoZ, iHiZ, _Z, _work);
+    IndexType _info = laqr4_native(wantT, wantZ, iLo, iHi, H, wr, wi,
+                                   iLoZ, iHiZ, Z, work);
 
     bool failed = false;
-    if (! isIdentical(H, _H, " H", "_H")) {
-        std::cerr << "CXXLAPACK:  H = " << H << std::endl;
-        std::cerr << "F77LAPACK: _H = " << _H << std::endl;
+    if (! isIdentical(H_generic, H, "H_generic", "H")) {
+        std::cerr << "CXXLAPACK: H_generic = " << H_generic << std::endl;
+        std::cerr << "F77LAPACK: H = " << H << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(wr, _wr, " wr", "_wr")) {
-        std::cerr << "CXXLAPACK:  wr = " << wr << std::endl;
-        std::cerr << "F77LAPACK: _wr = " << _wr << std::endl;
+    if (! isIdentical(wr_generic, wr, "wr_generic", "wr")) {
+        std::cerr << "CXXLAPACK: wr_generic = " << wr_generic << std::endl;
+        std::cerr << "F77LAPACK: wr = " << wr << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(wi, _wi, " wi", "_wi")) {
-        std::cerr << "CXXLAPACK:  wi = " << wi << std::endl;
-        std::cerr << "F77LAPACK: _wi = " << _wi << std::endl;
+    if (! isIdentical(wi_generic, wi, "wi_generic", "wi")) {
+        std::cerr << "CXXLAPACK: wi_generic = " << wi_generic << std::endl;
+        std::cerr << "F77LAPACK: wi = " << wi << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(Z, _Z, " Z", "_Z")) {
-        std::cerr << "CXXLAPACK:  Z = " << Z << std::endl;
-        std::cerr << "F77LAPACK: _Z = " << _Z << std::endl;
+    if (! isIdentical(Z_generic, Z, "Z_generic", "Z")) {
+        std::cerr << "CXXLAPACK: Z_generic = " << Z_generic << std::endl;
+        std::cerr << "F77LAPACK: Z = " << Z << std::endl;
         failed = true;
     }
 
@@ -859,9 +875,9 @@ laqr4(bool                  wantT,
         failed = true;
     }
 
-    if (! isIdentical(work, _work, " work", "_work")) {
-        std::cerr << "CXXLAPACK:  work = " << work << std::endl;
-        std::cerr << "F77LAPACK: _work = " << _work << std::endl;
+    if (! isIdentical(work_generic, work, " work_generic", "work")) {
+        std::cerr << "CXXLAPACK: work_generic = " << work_generic << std::endl;
+        std::cerr << "F77LAPACK: work = " << work << std::endl;
         failed = true;
     }
 

@@ -105,7 +105,7 @@ ilaenv_generic(int spec, const char *name, const char *opts,
 //      optimal blocksize
 //
         case 1:
-            nb = -1;
+            nb = 32;
             if (isSame<2>(c2, "GE")) {
                 if (isSame<3>(c3, "TRF")) {
                     if (IsNotComplex<T>::value) {
@@ -256,7 +256,7 @@ ilaenv_generic(int spec, const char *name, const char *opts,
                   nb = 1;
                }
             }
-            result = nb;
+            result = nb*2;
             break;
 //
 //      minimal blocksize
@@ -343,7 +343,7 @@ ilaenv_generic(int spec, const char *name, const char *opts,
 //      crossover point
 //
         case 3:
-            nx = 0;
+            nx = 32;
             if (isSame<2>(c2, "GE")) {
                 if (isSame<3>(c3, "QRF") || isSame<3>(c3, "RQF")
                  || isSame<3>(c3, "LQF") || isSame<3>(c3, "QLF")) {
@@ -392,7 +392,7 @@ ilaenv_generic(int spec, const char *name, const char *opts,
                     }
                 }
             }
-            result = nx;
+            result = nx/1.5;
             break;
 //
 //      DEPRECATED: number of shifts used in the nonsymmetric eigenvalue
@@ -444,6 +444,7 @@ ilaenv_generic(int spec, const char *name, const char *opts,
 #   define  LAPACK_DECL(x)    x##_
 
 #   define  INTEGER           int
+#endif
 
 extern "C" {
 
@@ -460,7 +461,6 @@ LAPACK_DECL(ilaenv)(const INTEGER   *SPEC,
 
 } // extern "C"
 
-#endif
 
 
 template <typename T>

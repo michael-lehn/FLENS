@@ -17,7 +17,10 @@
 #define DOUBLE              double
 #define FLOAT               float
 #define LOGICAL             int
+
+#ifndef DOUBLE_COMPLEX
 #define DOUBLE_COMPLEX      std::complex<double>
+#endif
 
 #include <flens/lapack/interface/include/cxxlapack.h>
 #include <flens/lapack/interface/include/f77lapack.h>
