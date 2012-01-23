@@ -70,26 +70,28 @@ enum ProbabilityDistribution {
 };
 
 enum Direction {
-    Forward,
-    Backward
+    Forward   = 'F',
+    Backward  = 'B'
 };
 
 enum StoreVectors {
-    ColumnWise,
-    RowWise
+    ColumnWise = 'C',
+    RowWise    = 'R'
 };
 
 enum MachineParameter {
-    Eps,               // relative machine precision
-    SafeMin,           // safe minimum, such that reciprocal does not overflow
-    Base,              // base of the machine
-    Precision,         // Eps*Base
-    Mantissa,          // number of (base) digits in the mantissa
-    Rounding,          // return 1 when rounding occurs in addition, 0 otherwise
-    UnderflowExp,      // minimum exponent before (gradual) underflow
-    UnderflowThreshold,// underflow threshold - Base**(UnderflowExp-1)
-    OverflowExp,       // largest exponent before overflow
-    OverflowThreshold, // overflow threshold - Base**OverflowExp*(1-Eps)
+    Eps                = 'E', // relative machine precision
+    SafeMin            = 'S', // safe minimum, such that reciprocal does not
+                              // overflow
+    Base               = 'B', // base of the machine
+    Precision          = 'P', // Eps*Base
+    Mantissa           = 'N', // number of (base) digits in the mantissa
+    Rounding           = 'R', // return 1 when rounding occurs in addition,
+                              // 0 otherwise
+    UnderflowExp       = 'M', // minimum exponent before (gradual) underflow
+    UnderflowThreshold = 'U', // underflow threshold - Base**(UnderflowExp-1)
+    OverflowExp        = 'L', // largest exponent before overflow
+    OverflowThreshold  = 'O'  // overflow threshold - Base**OverflowExp*(1-Eps)
 };
 
 namespace BALANCE {

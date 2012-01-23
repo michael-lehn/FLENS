@@ -149,9 +149,9 @@ template <typename A>
 DenseVector<A> &
 DenseVector<A>::operator+=(const ElementType &alpha)
 {
-	for (int i=firstIndex(); i<=lastIndex(); ++i) {
-		(*this)(i) += alpha;
-	}
+    for (int i=firstIndex(); i<=lastIndex(); ++i) {
+        (*this)(i) += alpha;
+    }
     return *this;
 }
 
@@ -159,9 +159,9 @@ template <typename A>
 DenseVector<A> &
 DenseVector<A>::operator-=(const ElementType &alpha)
 {
-	for (int i=firstIndex(); i<=lastIndex(); ++i) {
-		(*this)(i) -= alpha;
-	}
+    for (int i=firstIndex(); i<=lastIndex(); ++i) {
+        (*this)(i) -= alpha;
+    }
     return *this;
 }
 
@@ -177,6 +177,7 @@ template <typename A>
 DenseVector<A> &
 DenseVector<A>::operator/=(const ElementType &alpha)
 {
+    // TODO:  call rscal
     blas::scal(ElementType(1)/alpha, *this);
     return *this;
 }
@@ -235,6 +236,9 @@ template <typename A>
 typename DenseVector<A>::View
 DenseVector<A>::operator()(const Range<IndexType> &range)
 {
+    std::cerr << "this->range() = " << this->range()
+              << ", range = " << range
+              << std::endl;
     ASSERT(range.firstIndex()>=firstIndex());
     ASSERT(range.lastIndex()<=lastIndex());
     return _array.view(range.firstIndex(), range.lastIndex(), range.stride(),

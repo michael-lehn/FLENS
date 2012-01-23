@@ -51,22 +51,26 @@ template <typename VX, typename VY>
 void
 copy(const Vector<VX> &x, Vector<VY> &y)
 {
-    FLENS_CLOSURELOG_ADD_ENTRY_ASSIGNMENT(x, y);
+    CHECKPOINT_ENTER;
+    FLENS_CLOSURELOG_BEGIN_ASSIGNMENT(x, y);
 
     blas::copy(x.impl(), y.impl());
 
     FLENS_CLOSURELOG_END_ENTRY;
+    CHECKPOINT_LEAVE;
 }
 
 template <typename ALPHA, typename VX, typename VY>
 void
 axpy(const ALPHA &alpha, const Vector<VX> &x, VY &&y)
 {
-    FLENS_CLOSURELOG_ADD_ENTRY_PLUSASSIGNMENT(alpha, x, y);
+    CHECKPOINT_ENTER;
+    FLENS_CLOSURELOG_BEGIN_PLUSASSIGNMENT(alpha, x, y);
 
     blas::axpy(alpha, x.impl(), y.impl());
 
     FLENS_CLOSURELOG_END_ENTRY;
+    CHECKPOINT_LEAVE;
 }
 
 //-- matrix closures
@@ -75,12 +79,14 @@ void
 copy(Transpose trans,
      const Matrix<MA> &A, Matrix<MB> &B)
 {
+    CHECKPOINT_ENTER;
     // TODO: take trans into account
-    FLENS_CLOSURELOG_ADD_ENTRY_ASSIGNMENT(A, B);
+    FLENS_CLOSURELOG_ASSIGNMENT(A, B);
 
     blas::copy(trans, A.impl(), B.impl());
 
     FLENS_CLOSURELOG_END_ENTRY;
+    CHECKPOINT_LEAVE;
 }
 
 template <typename ALPHA, typename MA, typename MB>
@@ -88,15 +94,18 @@ void
 axpy(Transpose trans,
      const ALPHA &alpha, const Matrix<MA> &A, Matrix<MB> &B)
 {
+    CHECKPOINT_ENTER;
     // TODO: take trans into account
     FLENS_CLOSURELOG_ADD_ENTRY_PLUSASSIGNMENT(alpha, A, B);
 
     blas::axpy(trans, alpha, A.impl(), B.impl());
 
     FLENS_CLOSURELOG_END_ENTRY;
+    CHECKPOINT_LEAVE;
 }
 
 } // namespace flens
+
 
 namespace flens { namespace blas {
 
@@ -108,8 +117,12 @@ template <typename ALPHA, typename Op, typename L, typename R, typename VY>
 void
 copyScal(const ALPHA &alpha, const VectorClosure<Op, L, R> &x, Vector<VY> &y)
 {
+    CHECKPOINT_ENTER;
+
     copy(x, y.impl());
     scal(alpha, y.impl());
+
+    CHECKPOINT_LEAVE;
 }
 
 // y = alpha*x
@@ -118,12 +131,16 @@ template <typename ALPHA, typename VX, typename VY>
 void
 copyScal(const ALPHA &alpha, const Vector<VX> &x, Vector<VY> &y)
 {
+    CHECKPOINT_ENTER;
+
     if (ADDRESS(x)==ADDRESS(y)) {
         scal(alpha, y.impl());
     } else {
         scal(ALPHA(0), y.impl());
         axpy(alpha, x.impl(), y.impl());
     }
+
+    CHECKPOINT_LEAVE;
 }
 
 // y = alpha*x
@@ -132,6 +149,8 @@ template <typename T, typename VX, typename VY>
 void
 copy(const VectorClosure<OpMult, ScalarValue<T>, VX> &ax, Vector<VY> &y)
 {
+    CHECKPOINT_ENTER;
+
     /*
     if (ADDRESS(ax.right())==ADDRESS(y)) {
         scal(ax.left().value(), y.impl());
@@ -141,6 +160,8 @@ copy(const VectorClosure<OpMult, ScalarValue<T>, VX> &ax, Vector<VY> &y)
     }
     */
     copyScal(ax.left().value(), ax.right(), y.impl());
+
+    CHECKPOINT_LEAVE;
 }
 
 // y = x1 + x2
@@ -148,6 +169,7 @@ template <typename VL, typename VR, typename VY>
 void
 copy(const VectorClosure<OpAdd, VL, VR> &x, Vector<VY> &y)
 {
+    CHECKPOINT_ENTER;
     FLENS_CLOSURELOG_ADD_ENTRY_COPY(x, y);
 
     ASSERT(!DebugClosure::search(x.right(), ADDRESS(y)));
@@ -157,6 +179,7 @@ copy(const VectorClosure<OpAdd, VL, VR> &x, Vector<VY> &y)
     axpy(TY(1), x.right(), y.impl());
 
     FLENS_CLOSURELOG_END_ENTRY;
+    CHECKPOINT_LEAVE;
 }
 
 // y = x1 - x2
@@ -164,11 +187,14 @@ template <typename VL, typename VR, typename VY>
 void
 copy(const VectorClosure<OpSub, VL, VR> &x, Vector<VY> &y)
 {
+    CHECKPOINT_ENTER;
     ASSERT(!DebugClosure::search(x.right(), ADDRESS(y)));
 
     copy(x.left(), y.impl());
     typedef typename VY::Impl::ElementType TY;
     axpy(TY(-1), x.right(), y.impl());
+
+    CHECKPOINT_LEAVE;
 }
 
 // y = A*x
@@ -176,8 +202,12 @@ template <typename MA, typename VX, typename VY>
 void
 copy(const VectorClosure<OpMult, MA, VX> &Ax, Vector<VY> &y)
 {
+    CHECKPOINT_ENTER;
+
     typedef typename VY::Impl::ElementType TY;
     mv(NoTrans, TY(1), Ax.left(), Ax.right(), TY(0), y.impl());
+
+    CHECKPOINT_LEAVE;
 }
 
 //-- axpy
@@ -187,7 +217,11 @@ void
 axpy(const ALPHA &alpha,
      const VectorClosure<OpMult, ScalarValue<T>, VX> &ax, Vector<VY> &y)
 {
+    CHECKPOINT_ENTER;
+
     axpy(alpha*ax.left().value(), ax.right(), y.impl());
+
+    CHECKPOINT_LEAVE;
 }
 
 // y += x1 + x2
@@ -196,6 +230,7 @@ void
 axpy(const ALPHA &alpha,
      const VectorClosure<OpAdd, VL, VR> &x, Vector<VY> &y)
 {
+    CHECKPOINT_ENTER;
     ASSERT(!DebugClosure::search(x.right(), ADDRESS(y)));
     FLENS_CLOSURELOG_ADD_ENTRY_AXPY(alpha, x, y);
 
@@ -203,6 +238,7 @@ axpy(const ALPHA &alpha,
     axpy(alpha, x.right(), y.impl());
 
     FLENS_CLOSURELOG_END_ENTRY;
+    CHECKPOINT_LEAVE;
 }
 
 // y += x1 - x2
@@ -211,10 +247,13 @@ void
 axpy(const ALPHA &alpha,
      const VectorClosure<OpSub, VL, VR> &x, Vector<VY> &y)
 {
+    CHECKPOINT_ENTER;
     ASSERT(!DebugClosure::search(x.right(), ADDRESS(y)));
 
     axpy(alpha, x.left(), y.impl());
     axpy(-alpha, x.right(), y.impl());
+
+    CHECKPOINT_LEAVE;
 }
 
 // y += A*x
@@ -223,8 +262,12 @@ void
 axpy(const ALPHA &alpha,
      const VectorClosure<OpMult, MA, VX> &Ax, Vector<VY> &y)
 {
+    CHECKPOINT_ENTER;
+
     typedef typename VY::Impl::ElementType TY;
     mv(NoTrans, alpha, Ax.left(), Ax.right(), TY(1), y.impl());
+
+    CHECKPOINT_LEAVE;
 }
 
 //-- mv
@@ -235,8 +278,12 @@ mv(Transpose trans,
    const ALPHA &alpha, const Vector<VX> &x, const Matrix<MA> &A,
    const BETA &beta, Vector<VY> &y)
 {
+    CHECKPOINT_ENTER;
+
     trans = Transpose(Trans^trans);
     mv(trans, alpha, A.impl(), x.impl(), beta, y.impl());
+
+    CHECKPOINT_LEAVE;
 }
 
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
@@ -245,6 +292,8 @@ mv(Transpose trans,
    const ALPHA &alpha, const Matrix<MA> &A, const Vector<VX> &x,
    const BETA &beta, Vector<VY> &y)
 {
+    CHECKPOINT_ENTER;
+
     typedef PruneMatrixClosure<typename MA::Impl> PMC;
     typedef PruneVectorClosure<typename VX::Impl> PVC;
     trans = PVC::updateTranspose(trans);
@@ -256,6 +305,8 @@ mv(Transpose trans,
        PVC::remainder(x.impl()),
        beta,
        y.impl());
+
+    CHECKPOINT_LEAVE;
 }
 
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
@@ -264,8 +315,12 @@ mv(Transpose DEBUG_VAR(trans),
    const ALPHA &alpha, const HermitianMatrix<MA> &A, const Vector<VX> &x,
    const BETA &beta, Vector<VY> &y)
 {
+    CHECKPOINT_ENTER;
     ASSERT(trans==NoTrans);
+
     mv(alpha, A.impl(), x.impl(), beta, y.impl());
+
+    CHECKPOINT_LEAVE;
 }
 
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
@@ -274,8 +329,12 @@ mv(Transpose DEBUG_VAR(trans),
    const ALPHA &alpha, const SymmetricMatrix<MA> &A, const Vector<VX> &x,
    const BETA &beta, Vector<VY> &y)
 {
+    CHECKPOINT_ENTER;
     ASSERT(trans==NoTrans);
+
     mv(alpha, A.impl(), x.impl(), beta, y.impl());
+
+    CHECKPOINT_LEAVE;
 }
 
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
@@ -287,10 +346,14 @@ mv(Transpose                    trans,
    const BETA                   &DEBUG_VAR(beta),
    Vector<VY>                   &y)
 {
+    CHECKPOINT_ENTER;
     ASSERT(alpha==ALPHA(1));
     ASSERT(beta==BETA(0));
     ASSERT(ADDRESS(x)==ADDRESS(y));
+
     mv(trans, A.impl(), y.impl());
+
+    CHECKPOINT_LEAVE;
 }
 
 //-- matrix closures -----------------------------------------------------------
@@ -310,12 +373,16 @@ void
 copy(Transpose trans,
      const MatrixClosure<OpTrans, MA, MA> &At, Matrix<MB> &B)
 {
+    CHECKPOINT_ENTER;
+
     trans = Transpose(trans^Trans);
     if (ADDRESS(At.left())==ADDRESS(B)) {
         ASSERT(trans==NoTrans);
     } else {
         copy(trans, At.left(), B.impl());
     }
+
+    CHECKPOINT_LEAVE;
 }
 
 // B = alpha*A
@@ -324,6 +391,8 @@ void
 copy(Transpose trans,
      const MatrixClosure<OpMult, ScalarValue<T>, MA> &aA, Matrix<MB> &B)
 {
+    CHECKPOINT_ENTER;
+
     if (ADDRESS(aA.right())==ADDRESS(B)) {
         ASSERT(trans==NoTrans);
         scal(aA.left().value(), B.impl());
@@ -331,6 +400,8 @@ copy(Transpose trans,
         scal(T(0), B.impl());
         axpy(trans, aA.left().value(), aA.right(), B.impl());
     }
+
+    CHECKPOINT_LEAVE;
 }
 
 // B = A1 + A2
@@ -339,6 +410,7 @@ void
 copy(Transpose trans,
      const MatrixClosure<OpAdd, ML, MR> &A, Matrix<MB> &B)
 {
+    CHECKPOINT_ENTER;
     FLENS_CLOSURELOG_ADD_ENTRY_COPY(A, B);
 
     ASSERT(!DebugClosure::search(A.right(), ADDRESS(B)));
@@ -348,6 +420,7 @@ copy(Transpose trans,
     axpy(trans, TB(1), A.right(), B.impl());
 
     FLENS_CLOSURELOG_END_ENTRY;
+    CHECKPOINT_LEAVE;
 }
 
 //-- axpy
@@ -367,8 +440,12 @@ void
 axpy(Transpose trans, const ALPHA &alpha,
      const MatrixClosure<OpTrans, MA, MA> &At, Matrix<MB> &B)
 {
+    CHECKPOINT_ENTER;
+
     trans = Transpose(trans^Trans);
     axpy(trans, alpha, At.left(), B.impl());
+
+    CHECKPOINT_LEAVE;
 }
 
 // B += alpha*A
@@ -377,7 +454,11 @@ void
 axpy(Transpose trans, const ALPHA &alpha,
      const MatrixClosure<OpMult, ScalarValue<T>, MA> &aA, Matrix<MB> &B)
 {
+    CHECKPOINT_ENTER;
+
     axpy(trans, alpha*aA.left().value(), aA.right(), B.impl());
+
+    CHECKPOINT_LEAVE;
 }
 
 // B += A1 + A2
@@ -386,6 +467,7 @@ void
 axpy(Transpose trans, const ALPHA &alpha,
      const MatrixClosure<OpAdd, ML, MR> &A, Matrix<MB> &B)
 {
+    CHECKPOINT_ENTER;
     ASSERT(!DebugClosure::search(A.right(), ADDRESS(B)));
     FLENS_CLOSURELOG_ADD_ENTRY_AXPY(alpha, A, B);
 
@@ -393,6 +475,7 @@ axpy(Transpose trans, const ALPHA &alpha,
     axpy(trans, alpha, A.right(), B.impl());
 
     FLENS_CLOSURELOG_END_ENTRY;
+    CHECKPOINT_LEAVE;
 }
 
 } } // namespace blas, flens

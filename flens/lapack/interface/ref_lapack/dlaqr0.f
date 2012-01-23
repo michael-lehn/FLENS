@@ -483,13 +483,11 @@
                      CALL DLACPY( 'A', NS, NS, H( KS, KS ), LDH,
      $                            H( KT, 1 ), LDH )
                      IF( NS.GT.NMIN ) THEN
-                        WRITE (*,*) '-> DLAQR4'
                         CALL DLAQR4( .false., .false., NS, 1, NS,
      $                               H( KT, 1 ), LDH, WR( KS ),
      $                               WI( KS ), 1, 1, ZDUM, 1, WORK,
      $                               LWORK, INF )
                      ELSE
-                        WRITE (*,*) 'DLAHQR'
                         CALL DLAHQR( .false., .false., NS, 1, NS,
      $                               H( KT, 1 ), LDH, WR( KS ),
      $                               WI( KS ), 1, 1, ZDUM, 1, INF )

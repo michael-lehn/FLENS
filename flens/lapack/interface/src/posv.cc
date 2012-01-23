@@ -12,7 +12,7 @@ namespace flens { namespace lapack {
 
 extern "C" {
 
-//-- dpotrs --------------------------------------------------------------------
+//-- dposv ---------------------------------------------------------------------
 void
 LAPACK_DECL(dposv)(const char           *UPLO,
                    const INTEGER        *N,

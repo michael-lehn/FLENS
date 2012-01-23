@@ -31,7 +31,8 @@
  */
 
 /* Based on
-      SUBROUTINE DORGQR( M, N, K, A, LDA, TAU, WORK, LWORK, INFO )
+ *
+       SUBROUTINE DORGQR( M, N, K, A, LDA, TAU, WORK, LWORK, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --

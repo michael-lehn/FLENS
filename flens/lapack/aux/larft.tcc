@@ -58,8 +58,11 @@ larft_generic(Direction direction, StoreVectors storeVectors, IndexType n,
     using std::max;
     using std::min;
 
-    typedef typename GeMatrix<MV>::ElementType  T;
     const Underscore<IndexType> _;
+
+    typedef typename GeMatrix<MV>::ElementType  T;
+
+    const T Zero(0);
 
 //
 //  Quick return if possible
@@ -79,12 +82,12 @@ larft_generic(Direction direction, StoreVectors storeVectors, IndexType n,
         IndexType prevLastV = n;
         for (IndexType i=1; i<=k; ++i) {
             prevLastV = max(i, prevLastV);
-            if (tau(i)==T(0)) {
+            if (tau(i)==Zero) {
 //
 //              H(i)  =  I
 //
                 for (IndexType j=1; j<=i; ++j) {
-                    Tr(j,i) = T(0);
+                    Tr(j,i) = Zero;
                 }
             } else {
 //
@@ -95,7 +98,7 @@ larft_generic(Direction direction, StoreVectors storeVectors, IndexType n,
                 if (storeVectors==ColumnWise) {
 //                  Skip any trailing zeros.
                     for (lastV=n; lastV>=i+1; --lastV) {
-                        if (V(lastV,i)!=T(0)) {
+                        if (V(lastV,i)!=Zero) {
                             break;
                         }
                     }
@@ -105,11 +108,23 @@ larft_generic(Direction direction, StoreVectors storeVectors, IndexType n,
 //
                     blas::mv(Trans, -tau(i),
                              V(_(i,j),_(1,i-1)), V(_(i,j),i),
-                             T(0),
+                             Zero,
                              _Tr(_(1,i-1),i));
                 } else { /* storeVectors==RowWise */
-                    // Lehn: I will implement it as soon as someone needs it
-                    ASSERT(0);
+//                  Skip any trailing zeros.
+                    for (lastV=n; lastV>=i+1; --lastV) {
+                        if (V(i,lastV)!=Zero) {
+                            break;
+                        }
+                    }
+                    IndexType j = min(lastV, prevLastV);
+//
+//                  T(1:i-1,i) := - tau(i) * V(1:i-1,i:j) * V(i,i:j)**T
+//
+                    blas::mv(NoTrans, -tau(i),
+                             V(_(1,i-1),_(i,j)), V(i,_(i,j)),
+                             Zero,
+                             _Tr(_(1,i-1),i));
                 }
                 V(i,i) = Vii;
 //
@@ -189,12 +204,9 @@ larft(Direction direction, StoreVectors storeVectors, IndexType n,
 //
 //  Make copies of output arguments
 //
-    typename GeMatrix<MV>::NoView   _V = V;
-    
-    typename TrMatrix<MT>::NoView   _Tr = Tr;
+    typename GeMatrix<MV>::NoView   V_org = V;
     // copy the full storage!
-    // TODO: make this nicer
-    _Tr.general() = Tr.general();
+    typename GeMatrix<MT>::NoView   Tr_org = Tr.general();
 #   endif
 
 //
@@ -204,20 +216,29 @@ larft(Direction direction, StoreVectors storeVectors, IndexType n,
 
 #   ifdef CHECK_CXXLAPACK
 //
+//  Restore output arguments
+//
+    typename GeMatrix<MV>::NoView   V_generic = V;
+    typename GeMatrix<MT>::NoView   Tr_generic = Tr.general();
+
+    V = V_org;
+    Tr.general() = Tr_org;
+//
 //  Compare results
 //
-    larft_native(direction, storeVectors, n, _V, tau, _Tr);
+    larft_native(direction, storeVectors, n, V, tau, Tr);
 
     bool failed = false;
-    if (! isIdentical(V, _V, " V", "_V")) {
-        std::cerr << "CXXLAPACK:  V = " << V << std::endl;
-        std::cerr << "F77LAPACK: _V = " << _V << std::endl;
+    if (! isIdentical(V_generic, V, "V_generic", "V")) {
+        std::cerr << "CXXLAPACK: V_generic = " << V_generic << std::endl;
+        std::cerr << "F77LAPACK: V = " << V << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(Tr.general(), _Tr.general(), " Tr", "_Tr")) {
-        std::cerr << "CXXLAPACK:  Tr = " << Tr << std::endl;
-        std::cerr << "F77LAPACK: _Tr = " << _Tr << std::endl;
+    if (! isIdentical(Tr_generic, Tr.general(), "Tr_generic", "_Tr"))
+    {
+        std::cerr << "CXXLAPACK: Tr_generic = " << Tr_generic << std::endl;
+        std::cerr << "F77LAPACK: Tr = " << Tr.general() << std::endl;
         failed = true;
     }
 

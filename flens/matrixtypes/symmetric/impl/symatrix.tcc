@@ -87,7 +87,9 @@ template <typename FS>
 SyMatrix<FS> &
 SyMatrix<FS>::operator=(const SyMatrix &rhs)
 {
-    blas::copy(NoTrans, rhs, *this);
+    if (this!=&rhs) {
+        blas::copy(NoTrans, rhs, *this);
+    }
     return *this;
 }
 

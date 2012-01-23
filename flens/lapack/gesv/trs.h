@@ -49,6 +49,7 @@
 namespace flens { namespace lapack {
 
 //== generic lapack implementation =============================================
+// getrs
 template <typename MA, typename VP, typename MB>
     void
     trs(Transpose trans, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
@@ -59,10 +60,24 @@ template <typename MA, typename VP, typename VB>
     trs(Transpose trans, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
         DenseVector<VB> &b);
 
+// trtrs
+template <typename MA, typename VP, typename MB>
+    void
+    trs(Transpose trans, const TrMatrix<MA> &A, GeMatrix<MB> &B);
+
+template <typename MA, typename VP, typename VB>
+    void
+    trs(Transpose trans, const TrMatrix<MA> &A, DenseVector<VB> &b);
+
+
 //-- forwarding ----------------------------------------------------------------
 template <typename MA, typename VP, typename MB>
     void
     trs(Transpose trans, const MA &A, const VP &piv, MB &&B);
+
+template <typename MA, typename MB>
+    typename MA::IndexType
+    trs(Transpose trans, const MA &A, MB &&B);
 
 } } // namespace lapack, flens
 

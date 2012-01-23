@@ -1,8 +1,8 @@
       SUBROUTINE ZERRTZ( PATH, NUNIT )
 *
-*  -- LAPACK test routine (version 3.1) --
+*  -- LAPACK test routine (version 3.3.1) --
 *     Univ. of Tennessee, Univ. of California Berkeley and NAG Ltd..
-*     November 2006
+*  -- April 2011                                                      --
 *
 *     .. Scalar Arguments ..
       CHARACTER*3        PATH
@@ -98,7 +98,10 @@
          CALL ZTZRZF( 2, 2, A, 1, TAU, W, 1, INFO )
          CALL CHKXER( 'ZTZRZF', INFOT, NOUT, LERR, OK )
          INFOT = 7
-         CALL ZTZRZF( 2, 2, A, 2, TAU, W, 1, INFO )
+         CALL ZTZRZF( 2, 2, A, 2, TAU, W, 0, INFO )
+         CALL CHKXER( 'ZTZRZF', INFOT, NOUT, LERR, OK )
+         INFOT = 7
+         CALL ZTZRZF( 2, 3, A, 2, TAU, W, 1, INFO )
          CALL CHKXER( 'ZTZRZF', INFOT, NOUT, LERR, OK )
       END IF
 *

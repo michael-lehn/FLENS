@@ -60,6 +60,7 @@ orgqr_generic(IndexType                 k,
     using std::min;
 
     typedef typename GeMatrix<MA>::ElementType  T;
+    const T  Zero(0);
 
     const Underscore<IndexType> _;
     const IndexType m = A.numRows();
@@ -122,11 +123,7 @@ orgqr_generic(IndexType                 k,
 //
 //      Set A(1:kk,kk+1:n) to zero.
 //
-        for (IndexType j=kk+1; j<=n; ++j) {
-            for (IndexType i=1; i<=kk; ++i) {
-                A(i,j) = T(0);
-            }
-        }
+        A(_(1,kk),_(kk+1,n)) = Zero;
     } else {
         kk = 0;
     }
@@ -135,7 +132,7 @@ orgqr_generic(IndexType                 k,
 //  Use unblocked code for the last or only block.
 //
     if (kk<n) {
-        org2r(k-kk, A(_(kk+1,m),_(kk+1,n)), tau(_(kk+1, k)), work);
+        org2r(k-kk, A(_(kk+1,m),_(kk+1,n)), tau(_(kk+1, k)), work(_(1,n-kk)));
     }
 
     if (kk>0) {
@@ -168,15 +165,11 @@ orgqr_generic(IndexType                 k,
 //
 //          Apply H to rows i:m of current block
 //
-            org2r(ib, A(_(i,m),_(i,i+ib-1)), tau(_(i,i+ib-1)), work);
+            org2r(ib, A(_(i,m),_(i,i+ib-1)), tau(_(i,i+ib-1)), work(_(1,ib)));
 //
 //          Set rows 1:i-1 of current block to zero
 //
-            for (IndexType j=i; j<i+ib; ++j) {
-                for (IndexType l=1; l<i; ++l) {
-                    A(l, j) = T(0);
-                }
-            }
+            A(_(1,i-1),_(i,i+ib-1)) = Zero;
         }
     }
     work(1) = iws;
@@ -229,6 +222,7 @@ orgqr(IndexType                 k,
       const DenseVector<VTAU>   &tau,
       DenseVector<VWORK>        &work)
 {
+    typedef typename GeMatrix<MA>::ElementType  ElementType;
 //
 //  Test the input parameters
 //
@@ -251,8 +245,8 @@ orgqr(IndexType                 k,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-    typename GeMatrix<MA>::NoView       _A      = A;
-    typename DenseVector<VWORK>::NoView _work   = work;
+    typename GeMatrix<MA>::NoView       A_org      = A;
+    typename DenseVector<VWORK>::NoView work_org   = work;
 #   endif
 
 //
@@ -262,23 +256,33 @@ orgqr(IndexType                 k,
 
 #   ifdef CHECK_CXXLAPACK
 //
+//  Restore output arguments
+//
+    typename GeMatrix<MA>::NoView       A_generic      = A;
+    typename DenseVector<VWORK>::NoView work_generic   = work;
+
+    A = A_org;
+
+    if (work_org.length()!=0) {
+        work = work_org;
+    } else {
+        work = ElementType(0);
+    }
+//
 //  Compare results
 //
-    if (_work.length()==0) {
-        _work.resize(work.length());
-    }
-    orgqr_native(k, _A, tau, _work);
+    orgqr_native(k, A, tau, work);
 
     bool failed = false;
-    if (! isIdentical(A, _A, " A", "A_")) {
-        std::cerr << "CXXLAPACK:  A = " << A << std::endl;
-        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+    if (! isIdentical(A_generic, A, "A_generic", "A")) {
+        std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
+        std::cerr << "F77LAPACK: A = " << A << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(work, _work, " work", "_work")) {
-        std::cerr << "CXXLAPACK:  work = " << work << std::endl;
-        std::cerr << "F77LAPACK: _work = " << _work << std::endl;
+    if (! isIdentical(work_generic, work, "work_generic", "work")) {
+        std::cerr << "CXXLAPACK: work_generic = " << work_generic << std::endl;
+        std::cerr << "F77LAPACK: work = " << work << std::endl;
         failed = true;
     }
 

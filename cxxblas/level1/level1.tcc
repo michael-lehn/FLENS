@@ -40,6 +40,7 @@
 #include <cxxblas/level1/iamax.tcc>
 #include <cxxblas/level1/nrm2.tcc>
 #include <cxxblas/level1/rot.tcc>
+#include <cxxblas/level1/rotm.tcc>
 #include <cxxblas/level1/scal.tcc>
 #include <cxxblas/level1/swap.tcc>
 

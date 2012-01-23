@@ -31,6 +31,7 @@
  */
 
 /* Based on
+ *
       SUBROUTINE DORMQR( SIDE, TRANS, M, N, K, A, LDA, TAU, C, LDC,
      $                   WORK, LWORK, INFO )
  *
@@ -38,8 +39,6 @@
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
  *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
  *  -- April 2011                                                      --
- *
- *
  */
 
 #ifndef FLENS_LAPACK_QR_ORMQR_TCC
@@ -195,21 +194,23 @@ ormqr_generic(Side                      side,
 //
 //      Use unblocked code
 //
-        orm2r(side, trans, A, tau, C, work);
+        auto _work = (side==Left) ? work(_(1,n)) : work(_(1,m));
+        orm2r(side, trans, A, tau, C, _work);
     } else {
 //
 //      Use blocked code
 //
         IndexType iBeg, iInc, iEnd;
-        if (((side==Left) && (!noTrans)) || ((side==Right) && (noTrans))) {
+        if ((side==Left && !noTrans) || (side==Right && noTrans)) {
             iBeg = 1;
+            iEnd = ((k-1)/nb)*nb + 1;
             iInc = nb;
-            iEnd = ((k-1)/nb)*nb + 1 + iInc;
         } else {
             iBeg = ((k-1)/nb)*nb + 1;
+            iEnd = 1;
             iInc = -nb;
-            iEnd = 1 + iInc;
         }
+        iEnd += iInc;
 
         IndexType ic, jc;
         if (side==Left) {
@@ -222,8 +223,8 @@ ormqr_generic(Side                      side,
 
         for (IndexType i=iBeg; i!=iEnd; i+=iInc) {
             const IndexType ib = min(nb, k-i+1);
-            GeView          Tr = GeViewEngine(ib, ib, trBuffer, ib);
-            
+            GeView          Tr = GeViewEngine(ib, ib, trBuffer, ldt);
+
 //
 //          Form the triangular factor of the block reflector
 //          H = H(i) H(i+1) . . . H(i+ib-1)
@@ -247,7 +248,7 @@ ormqr_generic(Side                      side,
                   Forward, ColumnWise,
                   A(_(i,nq),_(i,i+ib-1)), Tr.upper(),
                   C(_(ic,m),_(jc,n)),
-                  Work);
+                  Work(_,_(1,ib)));
         }
     }
     work(1) = lWorkOpt;
@@ -276,7 +277,7 @@ ormqr_native_wsq(Side              side,
     T               WORK, DUMMY;
     const INTEGER   LWORK   = -1;
     INTEGER         INFO;
-    
+
     if (IsSame<T,DOUBLE>::value) {
         LAPACK_IMPL(dormqr)(&SIDE,
                             &TRANS,
@@ -319,7 +320,7 @@ ormqr_native(Side                       side,
     const INTEGER   LDC     = C.leadingDimension();
     const INTEGER   LWORK   = work.length();
     INTEGER         INFO;
-    
+
     if (IsSame<T,DOUBLE>::value) {
         LAPACK_IMPL(dormqr)(&SIDE,
                             &TRANS,
@@ -394,12 +395,12 @@ ormqr(Side                      side,
       GeMatrix<MC>              &C,
       DenseVector<VWORK>        &work)
 {
+    typedef typename GeMatrix<MC>::IndexType    IndexType;
+
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
-    typedef typename GeMatrix<MC>::IndexType    IndexType;
-
     const IndexType m = C.numRows();
     const IndexType n = C.numCols();
     const IndexType k = A.numCols();
@@ -409,7 +410,7 @@ ormqr(Side                      side,
     if (side==Left) {
         ASSERT(A.numRows()==m);
     } else {
-        ASSERT(A.numCols()==n);
+        ASSERT(A.numRows()==n);
     }
 
     if (work.length()>0) {
@@ -507,7 +508,6 @@ ormqr(Side              side,
       MC                &&C,
       VWORK             &&work)
 {
-    // TODO: asser that A is non-const
     CHECKPOINT_ENTER;
     ormqr(side, trans, A, tau, C, work);
     CHECKPOINT_LEAVE;

@@ -86,7 +86,9 @@ template <typename FS>
 TrMatrix<FS> &
 TrMatrix<FS>::operator=(const TrMatrix &rhs)
 {
-    blas::copy(NoTrans, rhs, *this);
+    if (this!=&rhs) {
+        blas::copy(NoTrans, rhs, *this);
+    }
     return *this;
 }
 

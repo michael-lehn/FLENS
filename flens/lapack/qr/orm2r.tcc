@@ -31,6 +31,7 @@
  */
 
 /* Based on
+ *
       SUBROUTINE DORM2R( SIDE, TRANS, M, N, K, A, LDA, TAU, C, LDC,
      $                   WORK, INFO )
  *
@@ -48,31 +49,13 @@
 
 namespace flens { namespace lapack {
 
-//-- forwarding ----------------------------------------------------------------
+//== generic lapack implementation =============================================
 template <typename MA, typename VTAU, typename MC, typename VWORK>
 void
-orm2r(Side side, Transpose trans, MA &&A, const VTAU &tau, MC &&C,
-      VWORK &&work)
+orm2r_generic(Side side, Transpose trans, GeMatrix<MA> &A,
+              const DenseVector<VTAU> &tau, GeMatrix<MC> &C,
+              DenseVector<VWORK> &work)
 {
-    orm2r(side, trans, A, tau, C, work);
-}
-
-//-- ormqr ---------------------------------------------------------------------
-template <typename MA, typename VTAU, typename MC, typename VWORK>
-void
-orm2r(Side side, Transpose trans, GeMatrix<MA> &A,
-      const DenseVector<VTAU> &tau, GeMatrix<MC> &C,
-      DenseVector<VWORK> &work)
-{
-#   ifndef NDEBUG
-    if ((side==Left) && (work.length()<C.numCols())) {
-        ASSERT(0);
-    }
-    if ((side==Right) && (work.length()<C.numRows())) {
-        ASSERT(0);
-    }
-#   endif
-
     typedef typename GeMatrix<MC>::IndexType    IndexType;
     typedef typename GeMatrix<MC>::ElementType  T;
 
@@ -89,7 +72,7 @@ orm2r(Side side, Transpose trans, GeMatrix<MA> &A,
 //  nq is the order of Q
 //
     const IndexType nq = (side==Left) ? m : n;
-    
+
     ASSERT(A.numRows()==nq);
     ASSERT(k<=nq);
 
@@ -101,16 +84,16 @@ orm2r(Side side, Transpose trans, GeMatrix<MA> &A,
     }
 
     IndexType iBeg, iEnd, iInc;
-    if (((side==Left) && !noTrans) || ((side==Right) && noTrans))
-    {
+    if ((side==Left && !noTrans) || (side==Right && noTrans)) {
         iBeg = 1;
+        iEnd = k;
         iInc = 1;
-        iEnd = k+iInc;
     } else {
         iBeg = k;
+        iEnd = 1;
         iInc = -1;
-        iEnd = 1+iInc;
     }
+    iEnd += iInc;
 
     Range rows = _(1,m);
     Range cols = _(1,n);
@@ -136,6 +119,155 @@ orm2r(Side side, Transpose trans, GeMatrix<MA> &A,
         A(i,i) = Aii;
     }
 }
+
+//== interface for native lapack ===============================================
+
+#ifdef CHECK_CXXLAPACK
+
+template <typename MA, typename VTAU, typename MC, typename VWORK>
+void
+orm2r_native(Side side, Transpose trans, GeMatrix<MA> &A,
+             const DenseVector<VTAU> &tau, GeMatrix<MC> &C,
+             DenseVector<VWORK> &work)
+{
+    typedef typename GeMatrix<MC>::ElementType    T;
+
+    const char      SIDE  = char(side);
+    const char      TRANS = getF77LapackChar(trans);
+    const INTEGER   M = C.numRows();
+    const INTEGER   N = C.numCols();
+    const INTEGER   K = A.numCols();
+    const INTEGER   LDA = A.leadingDimension();
+    const INTEGER   LDC = C.leadingDimension();
+    INTEGER         INFO;
+
+    if (IsSame<T,DOUBLE>::value) {
+        LAPACK_DECL(dorm2r)(&SIDE,
+                            &TRANS,
+                            &M,
+                            &N,
+                            &K,
+                            A.data(),
+                            &LDA,
+                            tau.data(),
+                            C.data(),
+                            &LDC,
+                            work.data(),
+                            &INFO);
+    } else {
+        ASSERT(0);
+    }
+    ASSERT(INFO==0);
+}
+
+#endif // CHECK_CXXLAPACK
+
+//== public interface ==========================================================
+
+template <typename MA, typename VTAU, typename MC, typename VWORK>
+void
+orm2r(Side side, Transpose trans, GeMatrix<MA> &A,
+      const DenseVector<VTAU> &tau, GeMatrix<MC> &C,
+      DenseVector<VWORK> &work)
+{
+    typedef typename GeMatrix<MC>::IndexType    IndexType;
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    const IndexType m = C.numRows();
+    const IndexType n = C.numCols();
+    const IndexType k = A.numCols();
+
+    ASSERT(tau.length()==k);
+
+    if (side==Left) {
+        ASSERT(A.numRows()==m);
+    } else {
+        ASSERT(A.numRows()==n);
+    }
+
+    if (work.length()>0) {
+        if (side==Left) {
+            ASSERT(work.length()==n);
+        } else {
+            ASSERT(work.length()==m);
+        }
+    }
+#   endif
+//
+//  Make copies of output arguments
+//
+#   ifdef CHECK_CXXLAPACK
+    typename GeMatrix<MA>::NoView       A_org      = A;
+    typename GeMatrix<MC>::NoView       C_org      = C;
+    typename DenseVector<VWORK>::NoView work_org   = work;
+#   endif
+
+//
+//  Call implementation
+//
+    orm2r_generic(side, trans, A, tau, C, work);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of results computed by the generic implementation
+//
+    typename GeMatrix<MA>::NoView       A_generic       = A;
+    typename GeMatrix<MC>::NoView       C_generic       = C;
+    typename DenseVector<VWORK>::NoView work_generic    = work;
+
+//
+//  restore output arguments
+//
+    A = A_org;
+    C = C_org;
+    work = work_org;
+
+//
+//  Compare generic results with results from the native implementation
+//
+    orm2r_native(side, trans, A, tau, C, work);
+
+    bool failed = false;
+    if (! isIdentical(A_generic, A, "A_generic", "A")) {
+        std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
+        std::cerr << "F77LAPACK: A = " << A << std::endl;
+        failed = true;
+    }
+    if (! isIdentical(C_generic, C, "C_generic", "C")) {
+        std::cerr << "CXXLAPACK: C_generic = " << C_generic << std::endl;
+        std::cerr << "F77LAPACK: C = " << C << std::endl;
+        failed = true;
+    }
+    if (! isIdentical(work_generic, work, "work_generic", "work")) {
+        std::cerr << "CXXLAPACK: work_generic = " << work_generic << std::endl;
+        std::cerr << "F77LAPACK: work = " << work << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        std::cerr << "error in: orm2r.tcc" << std::endl;
+        ASSERT(0);
+    } else {
+        // std::cerr << "passed: orm2r.tcc" << std::endl;
+    }
+#   endif
+
+}
+
+//-- forwarding ----------------------------------------------------------------
+template <typename MA, typename VTAU, typename MC, typename VWORK>
+void
+orm2r(Side side, Transpose trans, MA &&A, const VTAU &tau, MC &&C,
+      VWORK &&work)
+{
+    CHECKPOINT_ENTER;
+    orm2r(side, trans, A, tau, C, work);
+    CHECKPOINT_LEAVE;
+}
+
 
 } } // namespace lapack, flens
 

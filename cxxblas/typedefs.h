@@ -54,12 +54,12 @@ enum StorageUpLo {
 };
 
 enum Diag {
-    Unit = 'U',
+    Unit    = 'U',
     NonUnit = 'N'
 };
 
 enum Side {
-    Left = 'L',
+    Left  = 'L',
     Right = 'R'
 };
 

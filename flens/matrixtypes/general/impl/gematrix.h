@@ -270,6 +270,12 @@ class GeMatrix
         upperUnit();
 
         const ConstTriangularView
+        strictUpper() const;
+
+        TriangularView
+        strictUpper();
+
+        const ConstTriangularView
         lower() const;
 
         TriangularView
@@ -280,6 +286,12 @@ class GeMatrix
 
         TriangularView
         lowerUnit();
+
+        const ConstTriangularView
+        strictLower() const;
+
+        TriangularView
+        strictLower();
 
         // rectangular views
         const ConstView

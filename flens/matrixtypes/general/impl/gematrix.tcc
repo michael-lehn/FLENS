@@ -73,8 +73,8 @@ GeMatrix<FS>::GeMatrix(const Range<IndexType> &rowRange,
 }
 
 template <typename FS>
-GeMatrix<FS>::GeMatrix(const FS &fs)
-    : _engine(fs)
+GeMatrix<FS>::GeMatrix(const Engine &engine)
+    : _engine(engine)
 {
 }
 
@@ -137,7 +137,9 @@ template <typename FS>
 GeMatrix<FS> &
 GeMatrix<FS>::operator=(const GeMatrix<FS> &rhs)
 {
-    blas::copy(NoTrans, rhs, *this);
+    if (this!=&rhs) {
+        blas::copy(NoTrans, rhs, *this);
+    }
     return *this;
 }
 
@@ -425,6 +427,26 @@ GeMatrix<FS>::upperUnit()
 
 template <typename FS>
 const typename GeMatrix<FS>::ConstTriangularView
+GeMatrix<FS>::strictUpper() const
+{
+    const Underscore<IndexType> _;
+    const IndexType n = numCols();
+
+    return operator()(_,(2,n)).upper();
+}
+
+template <typename FS>
+typename GeMatrix<FS>::TriangularView
+GeMatrix<FS>::strictUpper()
+{
+    const Underscore<IndexType> _;
+    const IndexType n = numCols();
+
+    return operator()(_,(2,n)).upper();
+}
+
+template <typename FS>
+const typename GeMatrix<FS>::ConstTriangularView
 GeMatrix<FS>::lower() const
 {
     return ConstTriangularView(engine(), Lower);
@@ -449,6 +471,26 @@ typename GeMatrix<FS>::TriangularView
 GeMatrix<FS>::lowerUnit()
 {
     return TriangularView(engine(), Lower, Unit);
+}
+
+template <typename FS>
+const typename GeMatrix<FS>::ConstTriangularView
+GeMatrix<FS>::strictLower() const
+{
+    const Underscore<IndexType> _;
+    const IndexType m = numRows();
+
+    return operator()(_(2,m),_).lower();
+}
+
+template <typename FS>
+typename GeMatrix<FS>::TriangularView
+GeMatrix<FS>::strictLower()
+{
+    const Underscore<IndexType> _;
+    const IndexType m = numRows();
+
+    return operator()(_(2,m),_).lower();
 }
 
 // rectangular views

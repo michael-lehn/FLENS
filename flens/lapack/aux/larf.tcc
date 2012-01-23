@@ -57,35 +57,45 @@ larf_generic(Side side, const DenseVector<VV> &v, const TAU &tau,
     using lapack::ilalc;
     using lapack::ilalr;
 
+    typedef typename GeMatrix<MC>::ElementType  ElementType;
     typedef typename GeMatrix<MC>::IndexType    IndexType;
-    typedef typename GeMatrix<MC>::ElementType  T;
 
     const Underscore<IndexType> _;
+
+    const ElementType  Zero(0), One(1);
+
+    const IndexType m = C.numRows();
+    const IndexType n = C.numCols();
 
     IndexType lastV = 0;
     IndexType lastC = 0;
 
-    if (tau!=T(0)) {
+    if (tau!=Zero) {
 //
 //      Set up variables for scanning V.  LASTV begins pointing to the end of V.
 //      Look for the last non-zero row in V.
 //
-        // Lehn: I will fix & remove this when needed
-        ASSERT(v.inc()>0);
-        for (lastV=v.length(); lastV>=1; --lastV)
-        {
-            if (v(lastV)!=T(0)) {
-                break;
-            }
+        if (side==Left) {
+            lastV = m;
+        } else {
+            lastV = n;
+        }
+        IndexType i = (v.inc()>0) ? 1 + (lastV-1)*v.inc() : 1;
+//
+//      Look for the last non-zero row in V.
+//
+        while (lastV>0 && v(i)==Zero) {
+            --lastV;
+            i -= v.inc();
         }
         if (side==Left) {
 //
-//          Scan for the last non-zero column in C(1:lastV,:).
+//          Scan for the last non-zero column in C(1:lastv,:).
 //
             lastC = ilalc(C(_(1,lastV),_));
         } else {
 //
-//          Scan for the last non-zero row in C(:,1:lastV).
+//          Scan for the last non-zero row in C(:,1:lastv).
 //
             lastC = ilalr(C(_,_(1,lastV)));
         }
@@ -106,7 +116,7 @@ larf_generic(Side side, const DenseVector<VV> &v, const TAU &tau,
 //
 //          work(1:lastc,1) := C(1:lastv,1:lastc)' * v(1:lastv,1)
 //
-            blas::mv(Trans, T(1), _C, _v, T(0), _work);
+            blas::mv(Trans, One, _C, _v, Zero, _work);
 //
 //          C(1:lastv,1:lastc) := C(...) - v(1:lastv,1) * work(1:lastc,1)'
 //
@@ -122,7 +132,7 @@ larf_generic(Side side, const DenseVector<VV> &v, const TAU &tau,
 //
 //          work(1:lastc,1) := C(1:lastc,1:lastv) * v(1:lastv,1)
 //
-            blas::mv(NoTrans, T(1), _C, _v, T(0), _work);
+            blas::mv(NoTrans, One, _C, _v, Zero, _work);
 //
 //          C(1:lastc,1:lastv) := C(...) - work(1:lastc,1) * v(1:lastv,1)'
 //
@@ -145,9 +155,8 @@ larf_native(Side side, const DenseVector<VV> &v, const TAU &tau,
     const char      SIDE    = getF77LapackChar<Side>(side);
     const INTEGER   M       = C.numRows();
     const INTEGER   N       = C.numCols();
-    const INTEGER   INCV    = v.inc();
+    const INTEGER   INCV    = v.inc()*v.stride();
     const INTEGER   LDC     = C.leadingDimension();
-    
 
     LAPACK_IMPL(dlarf)(&SIDE,
                        &M,
@@ -239,7 +248,9 @@ template <typename VV, typename TAU, typename MC, typename VWORK>
 void
 larf(Side side, const VV &v, const TAU &tau, MC &&C, VWORK &&work)
 {
+    CHECKPOINT_ENTER;
     larf(side, v, tau, C, work);
+    CHECKPOINT_LEAVE;
 }
 
 } } // namespace lapack, flens

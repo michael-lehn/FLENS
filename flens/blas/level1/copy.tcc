@@ -117,6 +117,8 @@ copy(Transpose trans, const TrMatrix<MA> &A, TrMatrix<MB> &B)
 #   ifndef NDEBUG
     if (trans==NoTrans) {
         ASSERT(A.upLo()==B.upLo());
+    } else {
+        ASSERT(A.upLo()!=B.upLo());
     }
 #   endif
 

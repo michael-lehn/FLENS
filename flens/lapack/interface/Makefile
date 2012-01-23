@@ -1,15 +1,16 @@
 CXX      = clang++
-#CXX      = icc
+#CXX      = g++
 
 FC = gfortran
 
 #INTEGER = long
 INTEGER = int
 
-CXXFLAGS += -Wall -Wextra -Wc++0x-extensions
+CXXFLAGS += -Wall -Wextra
+#CXXFLAGS += -Wc++0x-extensions
 CXXFLAGS += -Werror
 CXXFLAGS += -g
-CXXFLAGS += -O3 -std=c++0x -I ../../..  -DINTEGER=$(INTEGER)
+CXXFLAGS += -O3 -std=c++0x -I ../../.. -DINTEGER=$(INTEGER)
 CXXFLAGS += -DWITH_REFBLAS
 
 CXXFLAGS += -DCHECK_CXXLAPACK
@@ -21,8 +22,8 @@ FCFLAGS  += -g -fno-underscoring
 # trace calls to interface
 #CXXFLAGS += -DDEBUG_INTERFACE
 
-#CXXFLAGS += -DDEBUG_LAPACK_CALLS
-#CXXFLAGS += -DDEBUG_FLENS_LAPACK_CALLS
+CXXFLAGS += -DDEBUG_LAPACK_CALLS
+CXXFLAGS += -DDEBUG_FLENS_LAPACK_CALLS
 
 
 SOURCE_FILES = $(wildcard src/*.cc)

@@ -6,7 +6,7 @@ namespace flens { namespace lapack {
 
 extern "C" {
 
-//-- dgetri --------------------------------------------------------------------
+//-- dtrtri --------------------------------------------------------------------
 void
 LAPACK_DECL(dtrtri)(const char       *UPLO,
                     const char       *DIAG,

@@ -87,7 +87,7 @@ foreach my $line (@lines) {
             $var =~ s/\s//g;
             $args{$var} = "DOUBLE_COMPLEX";
         }
-    }    
+    }
     if ($line =~ /^\s*REAL(.*)/) {
         my $vars = $1;
         $vars =~ s/\([^)]*\)//g;
@@ -124,6 +124,10 @@ my %args_non_const;
 foreach my $line (@lines) {
     for my $var (keys %args) {
         if ($line =~ /\s*\*\s*$var\s*\(.*output.*\)/) {
+            $args_non_const{$var} = $var;
+            next;
+        }
+        if ($line =~ /\s*\*\s*$var\s*\(.*workspace.*\)/) {
             $args_non_const{$var} = $var;
         }
     }
@@ -178,12 +182,12 @@ if ($subroutine) {
         print "{\n";
 
         print " " x 4 . "DEBUG_LAPACK_STUB(\"" . lc($name) . "\");\n";
-        
+
         if (lc($name) =~ /extended/) {
             print " " x 4 . "ASSERT(0);\n";
             print " " x 4 . "/*\n";
         }
-        
+
         my $defName = "LAPACK_IMPL(" . lc($name) . ")(";
 
         if ($returnType ne "void") {

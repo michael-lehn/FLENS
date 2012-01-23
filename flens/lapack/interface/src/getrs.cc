@@ -12,7 +12,7 @@ namespace flens { namespace lapack {
 
 extern "C" {
 
-//-- dgetrf --------------------------------------------------------------------
+//-- dgetrs --------------------------------------------------------------------
 void
 LAPACK_DECL(dgetrs)(const char       *TRANS,
                     const INTEGER    *N,

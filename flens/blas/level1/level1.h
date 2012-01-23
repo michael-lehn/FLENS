@@ -39,6 +39,7 @@
 #include <flens/blas/level1/iamax.h>
 #include <flens/blas/level1/nrm2.h>
 #include <flens/blas/level1/rot.h>
+#include <flens/blas/level1/rotm.h>
 #include <flens/blas/level1/scal.h>
 #include <flens/blas/level1/swap.h>
 

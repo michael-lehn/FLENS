@@ -39,6 +39,7 @@
 #include <flens/blas/level1/iamax.tcc>
 #include <flens/blas/level1/nrm2.tcc>
 #include <flens/blas/level1/rot.tcc>
+#include <flens/blas/level1/rotm.tcc>
 #include <flens/blas/level1/scal.tcc>
 #include <flens/blas/level1/swap.tcc>
 
