@@ -41,16 +41,7 @@ template <typename T>
 std::string
 typeId(const T &)
 {
-    if (IsSame<T,int>::value) {
-        return "Scalar";
-    }
-    if (IsSame<T,long>::value) {
-        return "Scalar";
-    }
-    if (IsSame<T,float>::value) {
-        return "Scalar";
-    }
-    if (IsSame<T,double>::value) {
+    if (IsScalar<T>::value) {
         return "Scalar";
     }
     return "unknown";

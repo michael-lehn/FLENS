@@ -40,13 +40,25 @@
 
 namespace flens { namespace blas {
 
-template <typename X, typename Y>
+//-- copy
+template <typename VX, typename VY>
     void
-    copy(const X &x, Y &&y);
+    copy(const DenseVector<VX> &x, DenseVector<VY> &y);
 
+//-- gecopy
 template <typename MA, typename MB>
     void
-    copy(Transpose trans, const MA &A, MB &&B);
+    copy(Transpose trans, const GeMatrix<MA> &A, GeMatrix<MB> &B);
+
+//-- trcopy
+template <typename MA, typename MB>
+    void
+    copy(Transpose trans, const TrMatrix<MA> &A, TrMatrix<MB> &B);
+
+//-- sycopy
+template <typename MA, typename MB>
+    void
+    copy(const SyMatrix<MA> &A, SyMatrix<MB> &B);
 
 } } // namespace blas, flens
 

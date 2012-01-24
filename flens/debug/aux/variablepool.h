@@ -48,10 +48,19 @@ class VariablePool
         template <typename T>
             std::string
             name(const T &var) const;
-    
+
+        template <typename T>
+            void
+            addTemporary(const T &var);
+
+        template <typename T>
+            void
+            removeTemporary(const T &var);
+
     private:
         std::map<std::string, int> _id;
         std::map<std::string, int> _typeCount;
+        std::map<std::string, int> _isTmp;
 };
 
 } } // namespace verbose, namespace flens

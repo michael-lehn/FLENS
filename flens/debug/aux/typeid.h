@@ -39,6 +39,15 @@
 namespace flens { namespace verbose {
 
 template <typename T>
+struct IsScalar
+{
+    static const bool value = (IsSame<T,int>::value)
+                           || (IsSame<T,long>::value)
+                           || (IsSame<T,float>::value)
+                           || (IsSame<T,double>::value);
+};
+
+template <typename T>
     std::string
     typeId(const T &);
 

@@ -40,17 +40,14 @@
 
 namespace flens { namespace blas {
 
-namespace impl {
-
-//== specialized interfaces for vectors ========================================
-
 //-- copy
 template <typename VX, typename VY>
 void
 copy(const DenseVector<VX> &x, DenseVector<VY> &y)
 {
-    FLENS_CLOSURELOG_ADD_ENTRY_COPY(x, y);
-    if (y.length()!=x.length()) {
+    FLENS_CLOSURELOG_BEGIN_COPY(x, y);
+
+    if (y.length()!=x.length() && y.length()==0) {
         y.resize(x);
     }
     y.changeIndexBase(x.firstIndex());
@@ -61,10 +58,8 @@ copy(const DenseVector<VX> &x, DenseVector<VY> &y)
     ASSERT(0);
 #   endif
 
-    FLENS_CLOSURELOG_END_ENTRY
+    FLENS_CLOSURELOG_END;
 }
-
-//== specialized interfaces for matrices =======================================
 
 //-- gecopy
 template <typename MA, typename MB>
@@ -95,7 +90,7 @@ copy(Transpose trans, const GeMatrix<MA> &A, GeMatrix<MB> &B)
 #   else
     ASSERT(0);
 #   endif
-    FLENS_CLOSURELOG_END_ENTRY
+    FLENS_CLOSURELOG_END;
 }
 
 //-- trcopy
@@ -133,7 +128,7 @@ copy(Transpose trans, const TrMatrix<MA> &A, TrMatrix<MB> &B)
 #   else
     ASSERT(0);
 #   endif
-    FLENS_CLOSURELOG_END_ENTRY
+    FLENS_CLOSURELOG_END;
 }
 
 //-- sycopy
@@ -161,60 +156,7 @@ copy(const SyMatrix<MA> &A, SyMatrix<MB> &B)
 #   else
     ASSERT(0);
 #   endif
-    FLENS_CLOSURELOG_END_ENTRY
-}
-
-//== common interface for vectors ==============================================
-template <typename VX, typename VY>
-void
-copy(const Vector<VX> &x, Vector<VY> &y)
-{
-    CHECKPOINT_ENTER;
-    copy(x.impl(), y.impl());
-    CHECKPOINT_LEAVE;
-}
-
-//== common interface for matrices =============================================
-template <typename MA, typename MB>
-void
-copy(Transpose trans, const Matrix<MA> &A, Matrix<MB> &B)
-{
-    CHECKPOINT_ENTER;
-    copy(trans, A.impl(), B.impl());
-    CHECKPOINT_LEAVE;
-}
-
-template <typename MA, typename MB>
-void
-copy(Transpose trans, const SymmetricMatrix<MA> &A, SymmetricMatrix<MB> &B)
-{
-    //TODO: Lehn: this should become a warning instead of an error
-    ASSERT(trans==NoTrans);
-
-    CHECKPOINT_ENTER;
-    copy(A.impl(), B.impl());
-    CHECKPOINT_LEAVE;
-}
-
-} // namespace impl
-
-//== entry points ==============================================================
-template <typename X, typename Y>
-void
-copy(const X &x, Y &&y)
-{
-    CHECKPOINT_ENTER;
-    impl::copy(x.impl(), y.impl());
-    CHECKPOINT_LEAVE;
-}
-
-template <typename MA, typename MB>
-void
-copy(Transpose trans, const MA &A, MB &&B)
-{
-    CHECKPOINT_ENTER;
-    impl::copy(trans, A.impl(), B.impl());
-    CHECKPOINT_LEAVE;
+    FLENS_CLOSURELOG_END;
 }
 
 } } // namespace blas, flens

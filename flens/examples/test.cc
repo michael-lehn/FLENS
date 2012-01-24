@@ -1,5 +1,7 @@
 #include <iostream>
+#include <flens/debug/aux/aux.h>
 #include <flens/flens.cxx>
+#include <flens/debug/aux/aux.tcc>
 
 using namespace std;
 using namespace flens;
@@ -12,15 +14,26 @@ main()
     typedef GeMatrix<FullStorage<T> >   GeMatrix;
     typedef DenseVector<Array<T> >      DenseVector;
 
-    DenseVector    a(n), b(n), c(n), d(n);
-    IndexVector    piv(n);
+    int n = 3;
+    DenseVector    a(n), b(n), c(n), d(n), e(n);
 
     a = 1;
     b = 2;
     c = 3;
     d = 4;
+    e = 5;
 
-    d = a + b + c;
+    verbose::ClosureLog::start("log");
 
-    cerr << "d = " << d << endl;
+    e = 3*2*a - b + c + d;
+    cerr << "e = " << e << endl;
+
+    e = ((a - b) - c) - d;
+    cerr << "e = " << e << endl;
+
+    e = a - (b - (c + d));
+    cerr << "e = " << e << endl;
+
+    e = a + (b + (c + d));
+    cerr << "e = " << e << endl;
 }

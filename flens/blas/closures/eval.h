@@ -46,40 +46,18 @@
 
 //-- blas entry points----------------------------------------------------------
 
-namespace flens { 
+namespace flens {
 
 //-- vector closures
 template <typename VX, typename VY>
     void
-    copy(const Vector<VX> &x, Vector<VY> &y);
-
-// TODO: use everywhere forwarding for rhs!
-template <typename ALPHA, typename VX, typename VY>
-    void
-    axpy(const ALPHA &alpha, const Vector<VX> &x, VY &&y);
-
-//-- matrix closures
-template <typename MA, typename MB>
-    void
-    copy(Transpose trans,
-         const Matrix<MA> &A, Matrix<MB> &B);
-
-template <typename ALPHA, typename MA, typename MB>
-    void
-    axpy(Transpose trans,
-         const ALPHA &alpha, const Matrix<MA> &A, Matrix<MB> &B);
+    assign(const Vector<VX> &x, Vector<VY> &y);
 
 } // namespace flens
 
 namespace flens { namespace blas {
 
 //-- vector closures -----------------------------------------------------------
-//-- copy
-// y = alpha*x
-template <typename T, typename VX, typename VY>
-    void
-    copy(const VectorClosure<OpMult, ScalarValue<T>, VX> &ax, Vector<VY> &y);
-
 // y = x1 + x2
 template <typename VL, typename VR, typename VY>
     void
@@ -89,18 +67,6 @@ template <typename VL, typename VR, typename VY>
 template <typename VL, typename VR, typename VY>
     void
     copy(const VectorClosure<OpSub, VL, VR> &x, Vector<VY> &y);
-
-// y = A*x
-template <typename MA, typename VX, typename VY>
-    void
-    copy(const VectorClosure<OpMult, MA, VX> &Ax, Vector<VY> &y);
-
-//-- axpy
-// y += alpha*x
-template <typename ALPHA, typename T, typename VX, typename VY>
-    void
-    axpy(const ALPHA &alpha,
-         const VectorClosure<OpMult, ScalarValue<T>, VX> &ax, Vector<VY> &y);
 
 // y += x1 + x2
 template <typename ALPHA, typename VL, typename VR, typename VY>
@@ -113,95 +79,6 @@ template <typename ALPHA, typename VL, typename VR, typename VY>
     void
     axpy(const ALPHA &alpha,
          const VectorClosure<OpSub, VL, VR> &x, Vector<VY> &y);
-
-// y += A*x
-template <typename ALPHA, typename MA, typename VX, typename VY>
-    void
-    axpy(const ALPHA &alpha,
-         const VectorClosure<OpMult, MA, VX> &Ax, Vector<VY> &y);
-
-//-- mv
-// y = x*A  ->  y = A'*x
-template <typename ALPHA, typename VX, typename MA, typename BETA, typename VY>
-    void
-    mv(Transpose trans,
-       const ALPHA &alpha, const Vector<VX> &x, const Matrix<MA> &A,
-       const BETA &beta, Vector<VY> &y);
-
-template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-    void
-    mv(Transpose trans,
-       const ALPHA &alpha, const Matrix<MA> &A, const Vector<VX> &x,
-       const BETA &beta, Vector<VY> &y);
-
-template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-    void
-    mv(Transpose trans,
-       const ALPHA &alpha, const HermitianMatrix<MA> &A, const Vector<VX> &x,
-       const BETA &beta, Vector<VY> &y);
-
-template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-    void
-    mv(Transpose trans,
-       const ALPHA &alpha, const SymmetricMatrix<MA> &A, const Vector<VX> &x,
-       const BETA &beta, Vector<VY> &y);
-
-template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-    void
-    mv(Transpose trans,
-       const ALPHA &alpha, const TriangularMatrix<MA> &A, const Vector<VX> &x,
-       const BETA &beta, Vector<VY> &y);
-
-//-- matrix closures -----------------------------------------------------------
-//-- copy
-// B = op(A)   (error-handle for unkown closure)
-template <typename Op, typename MA1, typename MA2, typename MB>
-    void
-    copy(Transpose trans,
-         const MatrixClosure<Op, MA1, MA2> &A, Matrix<MB> &B);
-
-// B = A'
-template <typename MA, typename MB>
-    void
-    copy(Transpose trans,
-         const MatrixClosure<OpTrans, MA, MA> &At, Matrix<MB> &B);
-
-// B = alpha*A
-template <typename T, typename MA, typename MB>
-    void
-    copy(Transpose trans,
-         const MatrixClosure<OpMult, ScalarValue<T>, MA> &aA, Matrix<MB> &B);
-
-// B = A1 + A2
-template <typename ML, typename MR, typename MB>
-    void
-    copy(Transpose trans,
-         const MatrixClosure<OpAdd, ML, MR> &A, Matrix<MB> &B);
-
-//-- axpy
-// B += op(A)   (error-handle for unkown closure)
-template <typename ALPHA, typename Op, typename MA1, typename MA2, typename MB>
-    void
-    axpy(Transpose trans, const ALPHA &alpha,
-         const MatrixClosure<Op, MA1, MA2> &A, Matrix<MB> &B);
-
-// B += A'
-template <typename ALPHA, typename MA, typename MB>
-    void
-    axpy(Transpose trans, const ALPHA &alpha,
-         const MatrixClosure<OpTrans, MA, MA> &At, Matrix<MB> &B);
-
-// B += alpha*A
-template <typename ALPHA, typename T, typename MA, typename MB>
-    void
-    axpy(Transpose trans, const ALPHA &alpha,
-         const MatrixClosure<OpMult, ScalarValue<T>, MA> &aA, Matrix<MB> &B);
-
-// B += A1 + A2
-template <typename ALPHA, typename ML, typename MR, typename MB>
-    void
-    axpy(Transpose trans, const ALPHA &alpha,
-         const MatrixClosure<OpAdd, ML, MR> &A, Matrix<MB> &B);
 
 } } // namespace blas, flens
 

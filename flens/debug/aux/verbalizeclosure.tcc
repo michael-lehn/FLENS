@@ -33,18 +33,29 @@
 #ifndef FLENS_DEBUG_AUX_VERBALIZECLOSURE_TCC
 #define FLENS_DEBUG_AUX_VERBALIZECLOSURE_TCC 1
 
+#include <sstream>
 #include <flens/blas/operators/operators.h>
 #include <flens/debug/aux/operation.h>
+#include <flens/debug/aux/typeid.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace verbose {
 
 template <typename T>
-std::string
+typename RestrictTo<!IsScalar<T>::value, std::string>::Type
 verbalizeClosure(VariablePool &variablePool, const T &x)
 {
     return variablePool.name(x);
+}
+
+template <typename T>
+typename RestrictTo<IsScalar<T>::value, std::string>::Type
+verbalizeClosure(VariablePool &variablePool, const T &x)
+{
+    std::stringstream sstream;
+    sstream << x;
+    return sstream.str();
 }
 
 template <typename I>

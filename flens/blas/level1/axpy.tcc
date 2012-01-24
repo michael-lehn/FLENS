@@ -40,33 +40,19 @@
 
 namespace flens { namespace blas {
 
-//-- forwarding ----------------------------------------------------------------
-template <typename ALPHA, typename MA, typename MB>
-void
-axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
-{
-    CHECKPOINT_ENTER;
-    axpy(trans, alpha, A, B);
-    CHECKPOINT_LEAVE;
-}
-
-//-- common interface for vectors ----------------------------------------------
-template <typename ALPHA, typename VX, typename VY>
-void
-axpy(const ALPHA &alpha, const Vector<VX> &x, Vector<VY> &y)
-{
-    axpy(alpha, x.impl(), y.impl());
-}
-
 //-- axpy
 template <typename ALPHA, typename VX, typename VY>
 void
 axpy(const ALPHA &alpha, const DenseVector<VX> &x, DenseVector<VY> &y)
 {
-    FLENS_CLOSURELOG_ADD_ENTRY_AXPY(alpha, x, y);
+    FLENS_CLOSURELOG_BEGIN_AXPY(alpha, x, y);
 
     if (y.length()==0) {
-        y.resize(x, 0);
+//      for axpy you have to fill resized vector with zeros!
+        typedef typename DenseVector<VY>::ElementType  T;
+        const T  Zero(0);
+
+        y.resize(x, Zero);
     }
     ASSERT(y.length()==x.length());
 
@@ -77,15 +63,7 @@ axpy(const ALPHA &alpha, const DenseVector<VX> &x, DenseVector<VY> &y)
 #   else
     ASSERT(0);
 #   endif
-    FLENS_CLOSURELOG_END_ENTRY;
-}
-
-//-- common interface for matrices ---------------------------------------------
-template <typename ALPHA, typename MA, typename MB>
-void
-axpy(Transpose trans, const ALPHA &alpha, const Matrix<MA> &A, Matrix<MB> &B)
-{
-    axpy(trans, alpha, A.impl(), B.impl());
+    FLENS_CLOSURELOG_END;
 }
 
 //-- geaxpy
@@ -96,14 +74,16 @@ axpy(Transpose trans,
 {
     FLENS_CLOSURELOG_ADD_ENTRY_AXPY(alpha, A, B);
 
-    if (B.numRows()*B.numCols()==0) {
+    if (B.numRows()==0 || B.numCols()==0) {
+//      for axpy you have to fill resized matrix with zeros!
+        typedef typename GeMatrix<MB>::ElementType  T;
+        const T  Zero(0);
+
         if ((trans==NoTrans) || (trans==Conj)) {
-            B.resize(A.numRows(), A.numCols());
+            B.resize(A.numRows(), A.numCols(), Zero);
         } else {
-            B.resize(A.numCols(), A.numRows());
+            B.resize(A.numCols(), A.numRows(), Zero);
         }
-        // fill with zeros!
-        B.fill();
     }
 
 #   ifndef NDEBUG
@@ -126,7 +106,7 @@ axpy(Transpose trans,
 #   else
     ASSERT(0);
 #   endif
-    FLENS_CLOSURELOG_END_ENTRY;
+    FLENS_CLOSURELOG_END;
 }
 
 } } // namespace blas, flens

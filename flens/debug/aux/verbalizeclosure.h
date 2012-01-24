@@ -34,12 +34,17 @@
 #define FLENS_DEBUG_AUX_VERBALIZECLOSURE_H 1
 
 #include <string>
+#include <flens/aux/restrictto.h>
 #include <flens/debug/aux/variablepool.h>
 
 namespace flens { namespace verbose {
 
 template <typename T>
-    std::string
+    typename RestrictTo<!IsScalar<T>::value, std::string>::Type
+    verbalizeClosure(VariablePool &variablePool, const T &x);
+
+template <typename T>
+    typename RestrictTo<IsScalar<T>::value, std::string>::Type
     verbalizeClosure(VariablePool &variablePool, const T &x);
 
 } } // namespace verbose, namespace flens

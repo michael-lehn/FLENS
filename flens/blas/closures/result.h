@@ -30,77 +30,59 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <algorithm>
-#include <string>
-#include <flens/debug/aux/closurelog.h>
-#include <flens/debug/aux/closurelogstream.h>
+#ifndef FLENS_BLAS_CLOSURES_RESULT_H
+#define FLENS_BLAS_CLOSURES_RESULT_H 1
 
-namespace flens { namespace verbose {
+#include <flens/blas/operators/operators.h>
+#include <flens/vectortypes/vectortypes.h>
 
-bool
-ClosureLog::_started = false;
+namespace flens {
 
-int
-ClosureLog::_indentLevel = -1;
-
-std::ofstream
-ClosureLog::_out;
-
-VariablePool
-ClosureLog::variablePool;
-
-ClosureLogStream
-ClosureLog::_closureLogStream = ClosureLogStream(ClosureLog::variablePool,
-                                                 ClosureLog::_out);
-
-void
-ClosureLog::start(const char *filename, bool clearLog)
+//-- General definition --------------------------------------------------------
+template <typename A>
+struct Result
 {
-    std::ios_base::openmode mode = (clearLog) ? std::ios_base::trunc
-                                              : std::ios_base::app;
-    _out.open(filename, mode | std::ios_base::out);
-    _started = true;
-    _indentLevel = 0;
-}
+    typedef A  Type;
+};
 
-void
-ClosureLog::stop()
+//-- Vectors -------------------------------------------------------------------
+template <typename V>
+struct Result<Vector<V> >
 {
-    _out << std::endl;
-    _out.close();
-    _started = false;
-}
+    typedef typename Vector<V>::Impl  Type;
+};
 
-bool
-ClosureLog::started()
+//== Define results of vector-vector operations ================================
+template <typename Op, typename VL, typename VR>
+struct Result<VectorClosure<Op, VL, VR> >
 {
-    return _started;
-}
+    typedef typename Result<VL>::Type  _VL;
+    typedef typename Result<VR>::Type  _VR;
 
-bool
-ClosureLog::createEntry()
+    typedef typename Result<VectorClosure<Op, _VL, _VR> >::Type Type;
+};
+
+//-- DenseVector-DenseVector-operations
+//
+// Op = OpAdd
+//
+template <typename VL, typename VR>
+struct Result<VectorClosure<OpAdd, DenseVector<VL>, DenseVector<VR> > >
 {
-    if (_started) {
-        ++_indentLevel;
-        return true;
-    }
-    return false;
-}
-
-void
-ClosureLog::closeEntry()
+    typedef typename Promotion<VL, VR>::Type V;
+    typedef typename DenseVector<V>::NoView  Type;
+};
+//
+// Op = OpSub
+//
+template <typename VL, typename VR>
+struct Result<VectorClosure<OpSub, DenseVector<VL>, DenseVector<VR> > >
 {
-    if (_started) {
-        --_indentLevel;
-    }
-}
+    typedef typename Promotion<VL, VR>::Type V;
+    typedef typename DenseVector<V>::NoView  Type;
+};
 
-ClosureLogStream &
-ClosureLog::append()
-{
-    std::string indent(std::max((_indentLevel-1)*4, 0), ' ');
-    _out << std::endl << indent;
-    return _closureLogStream;
-}
 
-} } // namespace verbose, namespace flens
+} // namespace flens
+
+#endif // FLENS_BLAS_CLOSURES_PRUNEVECTORCLOSURE_H

@@ -62,11 +62,12 @@ struct ClosureLog
         static ClosureLogStream &
         append();
 
+        static VariablePool     variablePool;
+
     private:
         static bool             _started;
         static int              _indentLevel;
         static std::ofstream    _out;
-        static VariablePool     _variablePool;
         static ClosureLogStream _closureLogStream;
 };
 

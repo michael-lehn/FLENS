@@ -1506,9 +1506,9 @@ jsv(JSV::Accuracy             accuracy,
                                  restrictedRange, considerTransA, perturb,
                                  A, sva, U, V, work);
     */
-    IndexType _info = jsv_native(accuracy, jobU, jobV,
-                                 restrictedRange, considerTransA, perturb,
-                                 A, sva, U, V, work, iwork);
+    IndexType info = jsv_native(accuracy, jobU, jobV,
+                                restrictedRange, considerTransA, perturb,
+                                A, sva, U, V, work, iwork);
 
 #   ifdef CHECK_CXXLAPACK
 //

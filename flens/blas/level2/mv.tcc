@@ -92,7 +92,7 @@ mv(Transpose trans,
     ASSERT(0);
 #   endif
 
-    FLENS_CLOSURELOG_END_ENTRY
+    FLENS_CLOSURELOG_END;
 }
 
 //-- forwarding: HermitianMatrix - Vector products -------------------------------

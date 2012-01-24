@@ -62,6 +62,10 @@ VariablePool::name(const T &var)
         _id[key] = ++_typeCount[type];
     }
 
+    if (_isTmp.count(key)>0 && _isTmp[key]==1) {
+        sstream << "tmp_";
+    }
+
     sstream << basename(var) << _id[key];
     return sstream.str();
 }
@@ -88,6 +92,38 @@ VariablePool::name(const T &var) const
 
     sstream << basename(var) << _id.find(key)->second;
     return sstream.str();
+}
+
+template <typename T>
+void
+VariablePool::addTemporary(const T &var)
+{
+    unsigned long address = reinterpret_cast<unsigned long>(&var);
+    std::string   type = typeId(var);
+
+    std::stringstream sstream;
+    sstream << type << address;
+    std::string key = sstream.str();
+    sstream.str("");
+    sstream.clear();
+
+    _isTmp[key] = 1;
+}
+
+template <typename T>
+void
+VariablePool::removeTemporary(const T &var)
+{
+    unsigned long address = reinterpret_cast<unsigned long>(&var);
+    std::string   type = typeId(var);
+
+    std::stringstream sstream;
+    sstream << type << address;
+    std::string key = sstream.str();
+    sstream.str("");
+    sstream.clear();
+
+    _isTmp[key] = 0;
 }
 
 } } // namespace verbose, namespace flens

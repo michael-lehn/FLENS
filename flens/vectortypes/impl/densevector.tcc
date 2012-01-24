@@ -98,7 +98,7 @@ template <typename RHS>
 DenseVector<A>::DenseVector(const Vector<RHS> &rhs)
     : _reverse(false)
 {
-    copy(rhs, *this);
+    assign(rhs, *this);
 }
 
 // -- operators --------------------------------------------------------
@@ -114,7 +114,7 @@ template <typename A>
 DenseVector<A> &
 DenseVector<A>::operator=(const DenseVector &rhs)
 {
-    copy(rhs, *this);
+    assign(rhs, *this);
     return *this;
 }
 
@@ -123,7 +123,7 @@ template <typename E>
 DenseVector<A> &
 DenseVector<A>::operator=(const Vector<E> &rhs)
 {
-    copy(rhs, *this);
+    assign(rhs, *this);
     return *this;
 }
 
@@ -132,7 +132,7 @@ template <typename E>
 DenseVector<A> &
 DenseVector<A>::operator+=(const Vector<E> &rhs)
 {
-    axpy(ElementType(1), rhs, *this);
+    plusAssign(rhs, *this);
     return *this;
 }
 
@@ -141,7 +141,7 @@ template <typename E>
 DenseVector<A> &
 DenseVector<A>::operator-=(const Vector<E> &rhs)
 {
-    axpy(ElementType(-1), rhs, *this);
+    minusAssign(rhs, *this);
     return *this;
 }
 
@@ -217,7 +217,7 @@ template <typename A>
 typename DenseVector<A>::ElementClosure
 DenseVector<A>::operator()(IndexVariable &index)
 {
-    return ElementClosure(*this, index);    
+    return ElementClosure(*this, index);
 }
 
 //-- views ---------------------------------------------------------------------
@@ -236,9 +236,6 @@ template <typename A>
 typename DenseVector<A>::View
 DenseVector<A>::operator()(const Range<IndexType> &range)
 {
-    std::cerr << "this->range() = " << this->range()
-              << ", range = " << range
-              << std::endl;
     ASSERT(range.firstIndex()>=firstIndex());
     ASSERT(range.lastIndex()<=lastIndex());
     return _array.view(range.firstIndex(), range.lastIndex(), range.stride(),

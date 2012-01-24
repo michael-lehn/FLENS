@@ -30,75 +30,48 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_DEBUG_MODE
-#   define FLENS_CLOSURELOG_END_ENTRY
-#   define FLENS_CLOSURELOG_ADD_ENTRY_ASSIGNMENT(Y, X)
-#   define FLENS_CLOSURELOG_ADD_ENTRY_PLUSASSIGNMENT(ALPHA, X, Y)
-#   define FLENS_CLOSURELOG_ADD_ENTRY_COPY(X, Y)
-#   define FLENS_CLOSURELOG_ADD_ENTRY_AXPY(ALPHA, X, Y)
-#   define FLENS_CLOSURELOG_ADD_ENTRY_GEMV(TRANS, ALPHA, A, X, BETA, Y)
-#elif defined(FLENS_DEBUGCLOSURES_CXXBLAS_ONLY)
-#   define FLENS_CLOSURELOG_END_ENTRY
 
-#   define FLENS_CLOSURELOG_ADD_ENTRY_ASSIGNMENT(X, Y)              \
-    if (verbose::ClosureLog::createEntry()) {                       \
-        verbose::ClosureLog::append() << Y << " = " << X << ";";    \
-        verbose::ClosureLog::closeEntry();                          \
-    }
-#   define FLENS_CLOSURELOG_ADD_ENTRY_PLUSASSIGNMENT(ALPHA, X, Y)   \
-    if (verbose::ClosureLog::createEntry()) {                       \
-        verbose::ClosureLog::append() << Y << " = " << Y << " + "   \
-                                      << ALPHA << "*" << X << ";";  \
-        verbose::ClosureLog::closeEntry();                          \
-    }
+#ifndef FLENS_BLAS_DEBUGMACRO_H
+#define FLENS_BLAS_DEBUGMACRO_H 1
 
-
-#   define FLENS_CLOSURELOG_ADD_ENTRY_COPY(X, Y)
-#   define FLENS_CLOSURELOG_ADD_ENTRY_AXPY(ALPHA, X, Y)
-#   define FLENS_CLOSURELOG_ADD_ENTRY_GEMV(TRANS, ALPHA, A, X, BETA, Y)
-#else // FLENS_DEBUG_MODE
-#   define FLENS_CLOSURELOG_END_ENTRY                               \
+#ifndef FLENS_DEBUG_CLOSURES
+#   define FLENS_CLOSURELOG_END
+#   define FLENS_CLOSURELOG_BEGIN_ASSIGNMENT(Y, X)
+#   define FLENS_CLOSURELOG_ADD_TMP(tmp, Y)
+#   define FLENS_CLOSURELOG_BEGIN_COPY(X, Y)
+#   define FLENS_CLOSURELOG_BEGIN_AXPY(ALPHA, X, Y)
+#else
+#   define FLENS_CLOSURELOG_END                                     \
     verbose::ClosureLog::closeEntry();
 
-#   define FLENS_CLOSURELOG_ADD_ENTRY_ASSIGNMENT(X, Y)              \
+#   define FLENS_CLOSURELOG_BEGIN_ASSIGNMENT(X, Y)                  \
     if (verbose::ClosureLog::createEntry()) {                       \
         verbose::ClosureLog::append() << Y << " = " << X << ";";    \
-        verbose::ClosureLog::append() << "flens::copy("             \
+        verbose::ClosureLog::append() << "flens::assign("             \
                                       << X << ", " << Y             \
                                       << ");";                      \
     }
 
-#   define FLENS_CLOSURELOG_ADD_ENTRY_PLUSASSIGNMENT(ALPHA, X, Y)   \
-    if (verbose::ClosureLog::createEntry()) {                       \
-        verbose::ClosureLog::append() << Y << " = " << Y << " + "   \
-                                      << ALPHA << "*" << X << ";";  \
-        verbose::ClosureLog::append() << "flens::axpy("             \
-                                      << ALPHA << ", " << X         \
-                                      << ", " << Y << ");";         \
-        verbose::ClosureLog::closeEntry();                          \
-    }
+#   define FLENS_CLOSURELOG_ADD_TMP(tmp, X)                         \
+    verbose::ClosureLog::variablePool.addTemporary(tmp);            \
+    verbose::ClosureLog::append() << "Warning: Temporary needed "   \
+                                  << "for " << X << ".";            \
+    verbose::ClosureLog::append();
 
-#   define FLENS_CLOSURELOG_ADD_ENTRY_COPY(X, Y)                    \
+#   define FLENS_CLOSURELOG_BEGIN_COPY(X, Y)                        \
     if (verbose::ClosureLog::createEntry()) {                       \
         verbose::ClosureLog::append() << "flens::blas::copy("       \
                                       << X << ", " << Y             \
                                       << ");";                      \
-    }                                                               \
+    }
 
-#   define FLENS_CLOSURELOG_ADD_ENTRY_AXPY(ALPHA, X, Y)             \
+#   define FLENS_CLOSURELOG_BEGIN_AXPY(ALPHA, X, Y)                 \
     if (verbose::ClosureLog::createEntry()) {                       \
         verbose::ClosureLog::append() << "flens::blas::axpy("       \
                                       << ALPHA << ", "              \
                                       << X << ", " << Y             \
                                       << ");";                      \
     }
+#endif // FLENS_DEBUG_CLOSURES
 
-#   define FLENS_CLOSURELOG_ADD_ENTRY_GEMV(TRANS, ALPHA, A, X, BETA, Y) \
-    if (verbose::ClosureLog::createEntry()) {                           \
-        verbose::ClosureLog::append() << "flens::blas::mv("             \
-                                      << TRANS << ", "                  \
-                                      << ALPHA << ", " << A << ", "     \
-                                      << X << ", " << BETA << ", "<< Y  \
-                                      << ");";                          \
-    }
-#endif // FLENS_DEBUG_MODE
+#endif // FLENS_BLAS_DEBUGMACRO_H
