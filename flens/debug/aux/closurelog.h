@@ -50,8 +50,14 @@ struct ClosureLog
         static void
         stop();
 
+        static void
+        separator();
+
         static bool
         createEntry();
+
+        static bool
+        openEntry();
 
         static bool
         started();
@@ -59,14 +65,21 @@ struct ClosureLog
         static void
         closeEntry();
 
+        static void
+        setTag(const char *tag);
+
+        static void
+        unsetTag();
+
         static ClosureLogStream &
-        append();
+        append(bool startNewLine = true);
 
         static VariablePool     variablePool;
 
     private:
         static bool             _started;
         static int              _indentLevel;
+        static std::string      _tag;
         static std::ofstream    _out;
         static ClosureLogStream _closureLogStream;
 };

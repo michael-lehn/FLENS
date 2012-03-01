@@ -33,29 +33,131 @@
 #ifndef FLENS_BLAS_CLOSURES_DEBUGCLOSURE_TCC
 #define FLENS_BLAS_CLOSURES_DEBUGCLOSURE_TCC 1
 
-#include <flens/aux/macros.h>
+#include <flens/aux/aux.h>
+#include <flens/vectortypes/vectortypes.h>
+
+//
+//  Default implementation and specializations of DEBUGCLOSURE::identical
+//
+
+namespace flens { namespace DEBUGCLOSURE {
+
+template <typename X, typename Y>
+typename RestrictTo<!HasFullStorage<X>::value || !HasFullStorage<Y>::value,
+         bool>::Type
+identical(const X &x, const Y &y)
+{
+    std::cerr << "V1" << std::endl;
+    return ADDRESS(x)==ADDRESS(y);
+}
+
+//
+// Two DenseVectors are identical if they reference the same memory
+//
+template <typename VX, typename VY>
+bool
+identical(const DenseVector<VX> &x, const DenseVector<VY> &y)
+{
+//
+//  Quick return if possible
+//
+    if (ADDRESS(x)==ADDRESS(y)) {
+        return true;
+    }
+
+    typedef typename DenseVector<VX>::ElementType  TX;
+    typedef typename DenseVector<VY>::ElementType  TY;
+
+    if (! IsSame<TX, TY>::value) {
+        return false;
+    }
+//
+//  Compare referenced memory
+//
+    if (RAWPOINTER(x.data())!=RAWPOINTER(y.data())) {
+        return false;
+    }
+    if (x.stride()!=y.stride()) {
+        return false;
+    }
+    if (x.length()!=y.length()) {
+        return false;
+    }
+    return true;
+}
+
+//
+// Two matrices with full storage are identical if they reference the
+// same memory region
+//
+template <typename MA, typename MB>
+typename RestrictTo<HasFullStorage<MA>::value && HasFullStorage<MB>::value,
+         bool>::Type
+identical(const MA &A, const MB &B)
+{
+    std::cerr << "V2" << std::endl;
+//
+//  Quick return if possible
+//
+    if (ADDRESS(A)==ADDRESS(B)) {
+        return true;
+    }
+
+    typedef typename MA::ElementType  TA;
+    typedef typename MB::ElementType  TB;
+
+    if (! IsSame<TA, TB>::value) {
+        return false;
+    }
+
+    if (MA::Engine::order!=MB::Engine::order) {
+        return false;
+    }
+//
+//  Compare referenced memory
+//
+    if (RAWPOINTER(A.data())!=RAWPOINTER(B.data())) {
+        return false;
+    }
+    if (A.leadingDimension()!=B.leadingDimension()) {
+        return false;
+    }
+    if (A.numRows()!=B.numRows()) {
+        return false;
+    }
+    if (A.numCols()!=B.numCols()) {
+        return false;
+    }
+    return true;
+}
+
+}} // namespace DEBUGCLOSURE, flens
+
+//
+//  Search mechanism for closures
+//
 
 namespace flens {
 
-template <typename A>
+template <typename X, typename Y>
 bool
-DebugClosure::search(const A &any, const void *addr)
+DebugClosure::search(const X &x, const Y &y)
 {
-    return ADDRESS(any)==addr;
+    return DEBUGCLOSURE::identical(x, y);
 }
 
-template <typename Op, typename L, typename R>
+template <typename Op, typename L, typename R, typename Y>
 bool
-DebugClosure::search(const VectorClosure<Op, L, R> &closure, const void *addr)
+DebugClosure::search(const VectorClosure<Op, L, R> &closure, const Y &y)
 {
-    return search(closure.left(), addr) || search(closure.right(), addr);
+    return search(closure.left(), y) || search(closure.right(), y);
 }
 
-template <typename Op, typename L, typename R>
+template <typename Op, typename L, typename R, typename Y>
 bool
-DebugClosure::search(const MatrixClosure<Op, L, R> &closure, const void *addr)
+DebugClosure::search(const MatrixClosure<Op, L, R> &closure, const Y &y)
 {
-    return search(closure.left(), addr) || search(closure.right(), addr);
+    return search(closure.left(), y) || search(closure.right(), y);
 }
 
 } // namespace flens

@@ -8,17 +8,33 @@ that's exactly what it is:
 *A builing block for the implementation of other (higher-level) numerical
 libraries or numerical applications*
 
-This site is about a working branch that is focused on the __FLENS-LAPACK__ part
-of FLENS.  In the past FLENS only had a interface/binding to __LAPACK__.  Now
-we show how FLENS can be used to implement LAPACK in C++.  Of course it should
-produce the same results, run at the same speed and it should be easier to
-impelment a LAPACK routine with FLENS than with Fortran.
+Some key points
 
-Here we show how far we got right now ...
+- C++ library (requires a C++11 conform compiler)
+- Easy install as FLENS is *headers only*
+- FLENS gives you
+    - Matrix/vector types for dense linear algebra
+    - Generic implementation of BLAS (see __CXXBLAS__)
+    - Generic reimplementation of __LAPACK__ (see __FLENS-LAPACK__)
+    - Generic implementation means that you can use any element type for
+      your matrices/vectors that "acts like a double".  So in particular
+      types from the __QD Library__,  __mpfr__, ...
+- If high performance BLAS libraries like __ATLAS__/__GotoBLAS__/... are
+  available you simply can link against them and boost performance.
+- __FLENS-BLAS__ is a high-level and easy-to-use __BLAS__ interface
+- __FLENS-LAPACK__ is a high-level and easy-to-use C++ implementation of
+  __LAPACK__.
+- FLENS also allows using overloaded operators for accessing BLAS.  Most
+  important in this respect:
+    - Overloaded operators come without performance penalty!
+    - In a special debug mode you can exactly trace what is happening and
+      how you linear algebra expressions gets evaluated through BLAS
+      calls
+    - More features are explained in the __tutorial__.
 
 
-What you should read
-====================
+Examples and Tutorial
+=====================
 
 As the documentation is almost not existing you don't have much to read.  This
 is what we can offer you at the moment:
@@ -32,6 +48,7 @@ is what we can offer you at the moment:
 - We just started with a __tutorial__:
     - Session 1: First steps with general matrices.
     - Session 2: Triangular and symmetric matrices.
+    - Session 3: BLAS, CXXBLAS, FLENS-BLAS and Overloaded Operators.
 
 From the examples you also can see what compiler flags are needed.
 
@@ -116,6 +133,8 @@ Join the mailing __list__!
 
 
 :links: __FLENS-LAPACK__ -> doc:flens/lapack/lapack
+        __FLENS-BLAS__   -> doc:flens/blas/blas
+        __BLAS__         -> http://www.netlib.org/blas/
         __LAPACK__       -> http://www.netlib.org/lapack/
         __systems of linear equations__   -> doc:flens/examples/lapack-gesv
         __LU factorization__              -> doc:flens/examples/lapack-getrf
@@ -131,7 +150,6 @@ Join the mailing __list__!
         __mpfr__        -> http://www.mpfr.org
         __ATLAS__       -> http://math-atlas.sourceforge.net
         __GotoBLAS__    -> http://www.tacc.utexas.edu/tacc-projects/gotoblas2
-        __FLENS-BLAS__  -> dir:flens/blas/
         __GitHub__      -> http://github.com/michael-lehn/FLENS
         __clang__       -> http://clang.llvm.org/
         __gcc__         -> http://gcc.gnu.org/

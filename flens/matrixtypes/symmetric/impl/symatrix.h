@@ -200,6 +200,12 @@ class SyMatrix
         dim() const;
 
         IndexType
+        numRows() const;
+
+        IndexType
+        numCols() const;
+
+        IndexType
         firstRow() const;
 
         IndexType

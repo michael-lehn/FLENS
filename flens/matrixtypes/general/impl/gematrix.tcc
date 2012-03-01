@@ -103,7 +103,7 @@ template <typename FS>
 template <typename RHS>
 GeMatrix<FS>::GeMatrix(const Matrix<RHS> &rhs)
 {
-    blas::copy(rhs.impl(), *this);
+    assign(rhs, *this);
 }
 
 template <typename FS>
@@ -138,7 +138,7 @@ GeMatrix<FS> &
 GeMatrix<FS>::operator=(const GeMatrix<FS> &rhs)
 {
     if (this!=&rhs) {
-        blas::copy(NoTrans, rhs, *this);
+        assign(rhs, *this);
     }
     return *this;
 }
@@ -148,7 +148,7 @@ template <typename RHS>
 GeMatrix<FS> &
 GeMatrix<FS>::operator=(const Matrix<RHS> &rhs)
 {
-    blas::copy(NoTrans, rhs.impl(), *this);
+    assign(rhs, *this);
     return *this;
 }
 
@@ -157,7 +157,7 @@ template <typename RHS>
 GeMatrix<FS> &
 GeMatrix<FS>::operator+=(const Matrix<RHS> &rhs)
 {
-    blas::axpy(NoTrans, ElementType(1), rhs.impl(), *this);
+    plusAssign(rhs, *this);
     return *this;
 }
 
@@ -166,8 +166,42 @@ template <typename RHS>
 GeMatrix<FS> &
 GeMatrix<FS>::operator-=(const Matrix<RHS> &rhs)
 {
-    blas::axpy(NoTrans, ElementType(-1), rhs.impl(), *this);
+    minusAssign(rhs, *this);
     return *this;
+}
+
+template <typename FS>
+GeMatrix<FS> &
+GeMatrix<FS>::operator+=(const ElementType &alpha)
+{
+    const Underscore<IndexType> _;
+
+    if (order()==ColMajor) {
+        for (IndexType j=firstCol(); j<=lastCol(); ++j) {
+            (*this)(_,j) += alpha;
+        }
+    } else {
+        for (IndexType i=firstRow(); i<=lastRow(); ++i) {
+            (*this)(i,_) += alpha;
+        }
+    }
+}
+
+template <typename FS>
+GeMatrix<FS> &
+GeMatrix<FS>::operator-=(const ElementType &alpha)
+{
+    const Underscore<IndexType> _;
+
+    if (order()==ColMajor) {
+        for (IndexType j=firstCol(); j<=lastCol(); ++j) {
+            (*this)(_,j) -= alpha;
+        }
+    } else {
+        for (IndexType i=firstRow(); i<=lastRow(); ++i) {
+            (*this)(i,_) -= alpha;
+        }
+    }
 }
 
 template <typename FS>
@@ -182,7 +216,7 @@ template <typename FS>
 GeMatrix<FS> &
 GeMatrix<FS>::operator/=(const ElementType &alpha)
 {
-    blas::scal(ElementType(1)/alpha, *this);
+    blas::rscal(alpha, *this);
     return *this;
 }
 
@@ -432,7 +466,7 @@ GeMatrix<FS>::strictUpper() const
     const Underscore<IndexType> _;
     const IndexType n = numCols();
 
-    return operator()(_,(2,n)).upper();
+    return operator()(_,_(2,n)).upper();
 }
 
 template <typename FS>
@@ -442,7 +476,7 @@ GeMatrix<FS>::strictUpper()
     const Underscore<IndexType> _;
     const IndexType n = numCols();
 
-    return operator()(_,(2,n)).upper();
+    return operator()(_,_(2,n)).upper();
 }
 
 template <typename FS>

@@ -39,11 +39,12 @@ namespace flens {
 
 struct OpTrans {};
 
-template <typename M>
-    const MatrixClosure<OpTrans,
-                        typename M::Impl,
-                        typename M::Impl>
-    transpose(const Matrix<M> &A);
+template <typename MA>
+using MatrixClosureOpTrans = MatrixClosure<OpTrans, MA, MA>;
+
+template <typename MA>
+    const MatrixClosureOpTrans<typename MA::Impl>
+    transpose(const Matrix<MA> &A);
 
 } // namespace flens
 

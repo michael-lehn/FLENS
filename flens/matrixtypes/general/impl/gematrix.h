@@ -157,6 +157,12 @@ class GeMatrix
             GeMatrix &
             operator-=(const Matrix<RHS> &rhs);
 
+        GeMatrix<FS> &
+        operator+=(const ElementType &alpha);
+
+        GeMatrix<FS> &
+        operator-=(const ElementType &alpha);
+
         GeMatrix &
         operator*=(const ElementType &alpha);
 

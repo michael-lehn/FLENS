@@ -43,6 +43,8 @@ syscal(StorageOrder order, StorageUpLo upLo,
        IndexType n,
        const ALPHA &alpha, MA *A, IndexType ldA)
 {
+    CXXBLAS_DEBUG_OUT("syscal_generic");
+
     if (alpha==ALPHA(1)) {
         return;
     }

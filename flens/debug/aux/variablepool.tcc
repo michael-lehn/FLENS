@@ -58,6 +58,9 @@ VariablePool::name(const T &var)
     if (_typeCount.count(type)==0) {
         _typeCount[type] = 0;
     }
+    if (tmpTron && _id.count(key)==0) {
+        _isTmp[key] = 1;
+    }
     if (_id.count(key)==0) {
         _id[key] = ++_typeCount[type];
     }
@@ -123,7 +126,8 @@ VariablePool::removeTemporary(const T &var)
     sstream.str("");
     sstream.clear();
 
-    _isTmp[key] = 0;
+    _isTmp.erase(key);
+    _id.erase(key);
 }
 
 } } // namespace verbose, namespace flens

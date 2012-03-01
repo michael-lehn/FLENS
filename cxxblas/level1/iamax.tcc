@@ -42,6 +42,8 @@ template <typename IndexType, typename X>
 void
 iamax_generic(IndexType n, const X *x, IndexType incX, IndexType &iAbsMaxX)
 {
+    CXXBLAS_DEBUG_OUT("iamax_generic");
+
     using std::abs;
 
     iAbsMaxX = 0;

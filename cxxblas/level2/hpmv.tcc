@@ -84,7 +84,7 @@ hpmv_generic(StorageOrder order, StorageUpLo upLo, Transpose conjugateA,
         if (conjugateA==Conj) {
             for (IndexType i=0, iY=0, iX=0; i<n; ++i, iX+=incX, iY+=incY) {
                 y[iY] += alpha*cxxblas::real(A[i+i*(i+1)/2]) * x[iX];
-                
+
                 VY _y = VY(0);
                 dot_generic(i, A+i*(i+1)/2, IndexType(1), x, incX, _y);
                 y[iY] += alpha*_y;
@@ -120,6 +120,8 @@ hpmv(StorageOrder order, StorageUpLo upLo,
      const BETA &beta,
      VY *y, IndexType incY)
 {
+    CXXBLAS_DEBUG_OUT("hpmv_generic");
+
     if (incX<0) {
         x -= incX*(n-1);
     }

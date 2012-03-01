@@ -39,6 +39,8 @@ template <typename IndexType, typename ALPHA, typename Y>
 void
 scal_generic(IndexType n, const ALPHA &alpha, Y *y, IndexType incY)
 {
+    CXXBLAS_DEBUG_OUT("scal_generic");
+
     for (IndexType i=0, iY=0; i<n; ++i, iY+=incY) {
         y[iY] *= alpha;
     }

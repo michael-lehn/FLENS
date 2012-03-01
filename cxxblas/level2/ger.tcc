@@ -48,8 +48,6 @@ gerc_generic(StorageOrder order, Transpose conjugateA,
              const VY *y, IndexType incY,
              MA *A, IndexType ldA)
 {
-    CXXBLAS_DEBUG_OUT("gerc_generic");
-
     if (order==ColMajor) {
         conjugateA = Transpose(conjugateA^Conj);
         gerc_generic(RowMajor, conjugateA, n, m,
@@ -111,6 +109,8 @@ gerc(StorageOrder order,
      const VY *y, IndexType incY,
      MA *A, IndexType ldA)
 {
+    CXXBLAS_DEBUG_OUT("gerc_generic");
+
     if (incX<0) {
         x -= incX*(m-1);
     }

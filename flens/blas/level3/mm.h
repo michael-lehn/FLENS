@@ -39,51 +39,34 @@
 
 namespace flens { namespace blas {
 
-//== product type: GeneralMatrix - GeneralMatrix products
-
-//-- forwarding ----------------------------------------------------------------
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-    void
-    mm(Transpose transA, Transpose transB,
-       const ALPHA &alpha,
-       const MA &A, const MB &B,
-       const BETA &beta,
-       MC &&C);
-
-//-- common interface ----------------------------------------------------------
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-    void
-    mm(Transpose transA, Transpose transB,
-       const ALPHA &alpha,
-       const GeneralMatrix<MA> &A, const GeneralMatrix<MB> &B,
-       const BETA &beta,
-       GeneralMatrix<MC> &C);
+//== GeneralMatrix - GeneralMatrix products ====================================
 
 //-- gemm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
     void
-    mm(Transpose transA, Transpose transB,
-       const ALPHA &alpha,
+    mm(Transpose transA, Transpose transB, const ALPHA &alpha,
        const GeMatrix<MA> &A, const GeMatrix<MB> &B,
-       const BETA &beta,
-       GeMatrix<MC> &C);
+       const BETA &beta, GeMatrix<MC> &C);
 
+//== TriangularMatrix - GeneralMatrix products =================================
 
-//== product type: HermitianMatrix - GeneralMatrix products
-
-//-- forwarding ----------------------------------------------------------------
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+//-- trmm
+template <typename ALPHA, typename MA, typename MB>
     void
-    mm(Side side, const ALPHA &alpha, const MA &A, const MB &B,
-       const BETA &beta, MC &&C);
+    mm(Side side,
+       Transpose transA, const ALPHA &alpha, const TrMatrix<MA> &A,
+       GeMatrix<MB> &B);
 
-//-- common interface ----------------------------------------------------------
+//== SymmetricMatrix - GeneralMatrix products ==================================
+
+//-- symm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
     void
     mm(Side side,
-       const ALPHA &alpha,
-       const HermitianMatrix<MA> &A, const GeneralMatrix<MB> &B,
-       const BETA &beta, GeneralMatrix<MC> &C);
+       const ALPHA &alpha, const SyMatrix<MA> &A, const GeMatrix<MB> &B,
+       const BETA &beta, GeMatrix<MC> &C);
+
+//== HermitianMatrix - GeneralMatrix products ==================================
 
 //-- hemm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
@@ -93,49 +76,52 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
        const BETA &beta, GeMatrix<MC> &C);
 
 
-//== product type: SymmetricMatrix - GeneralMatrix products
+//== Forwarding ================================================================
 
-//-- forwarding ----------------------------------------------------------------
-// -> is identical with forwarding of Hermitian Matrix - GeneralMatrix products
-
-//-- common interface ----------------------------------------------------------
+//-- GeneralMatrix - GeneralMatrix products
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-    void
-    mm(Side side,
-       const ALPHA &alpha,
-       const SymmetricMatrix<MA> &A, const GeneralMatrix<MB> &B,
-       const BETA &beta, GeneralMatrix<MC> &C);
+    typename RestrictTo<IsGeneralMatrix<MA>::value &&
+                        IsGeneralMatrix<MB>::value &&
+                       !IsClosure<MA>::value &&
+                       !IsClosure<MB>::value &&
+                        IsSame<MC, typename MC::Impl>::value,
+             void>::Type
+    mm(Transpose transA, Transpose transB, const ALPHA &alpha,
+       const MA &A, const MB &B,
+       const BETA &beta, MC &&C);
 
-//-- symm
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-    void
-    mm(Side side,
-       const ALPHA &alpha, const SyMatrix<MA> &A, const GeMatrix<MB> &B,
-       const BETA &beta, GeMatrix<MC> &C);
-
-
-//== product type: TriangularMatrix - GeneralMatrix products
-
-//-- forwarding ----------------------------------------------------------------
+//-- TriangularMatrix - GeneralMatrix products
 template <typename ALPHA, typename MA, typename MB>
-    void
+    typename RestrictTo<IsTriangularMatrix<MA>::value &&
+                        IsGeneralMatrix<MB>::value &&
+                       !IsClosure<MA>::value &&
+                        IsSame<MB, typename MB::Impl>::value,
+             void>::Type
     mm(Side side, Transpose transA,
        const ALPHA &alpha, const MA &A, MB &&B);
 
-//-- common interface ----------------------------------------------------------
-template <typename ALPHA, typename MA, typename MB>
-    void
-    mm(Side side,
-       Transpose transA, const ALPHA &alpha,
-       const TriangularMatrix<MA> &A,
-       GeneralMatrix<MB> &B);
 
-//-- trmm
-template <typename ALPHA, typename MA, typename MB>
-    void
-    mm(Side side,
-       Transpose transA, const ALPHA &alpha, const TrMatrix<MA> &A,
-       GeMatrix<MB> &B);
+//-- SymmetricMatrix - GeneralMatrix products
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+    typename RestrictTo<IsSymmetricMatrix<MA>::value &&
+                        IsGeneralMatrix<MB>::value &&
+                       !IsClosure<MA>::value &&
+                       !IsClosure<MB>::value &&
+                        IsSame<MC, typename MC::Impl>::value,
+             void>::Type
+    mm(Side side, const ALPHA &alpha, const MA &A, const MB &B,
+       const BETA &beta, MC &&C);
+
+//-- HermitianMatrix - GeneralMatrix products
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+    typename RestrictTo<IsHermitianMatrix<MA>::value &&
+                        IsGeneralMatrix<MB>::value &&
+                       !IsClosure<MA>::value &&
+                       !IsClosure<MB>::value &&
+                        IsSame<MC, typename MC::Impl>::value,
+             void>::Type
+    mm(Side side, const ALPHA &alpha, const MA &A, const MB &B,
+       const BETA &beta, MC &&C);
 
 } } // namespace blas, flens
 

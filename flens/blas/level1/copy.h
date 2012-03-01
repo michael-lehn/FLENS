@@ -34,6 +34,7 @@
 #define FLENS_BLAS_LEVEL1_COPY_H 1
 
 #include <cxxblas/cxxblas.h>
+#include <flens/aux/aux.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>
@@ -59,6 +60,28 @@ template <typename MA, typename MB>
 template <typename MA, typename MB>
     void
     copy(const SyMatrix<MA> &A, SyMatrix<MB> &B);
+
+//-- extensions ----------------------------------------------------------------
+
+//-- copy: TrMatrix -> GeMatrix
+template <typename MA, typename MB>
+    void
+    copy(Transpose trans, const TrMatrix<MA> &A, GeMatrix<MB> &B);
+
+//-- copy: GeMatrix -> TrMatrix
+template <typename MA, typename MB>
+    void
+    copy(Transpose trans, const GeMatrix<MA> &A, TrMatrix<MB> &B);
+
+//-- copy: SyMatrix -> GeMatrix
+template <typename MA, typename MB>
+    void
+    copy(const SyMatrix<MA> &A, GeMatrix<MB> &B);
+
+//-- copy: GeMatrix -> SyMatrix
+template <typename MA, typename MB>
+    void
+    copy(const GeMatrix<MA> &A, SyMatrix<MB> &B);
 
 } } // namespace blas, flens
 

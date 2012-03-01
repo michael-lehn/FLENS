@@ -1530,9 +1530,9 @@ jsv(JSV::Accuracy             accuracy,
 //
 //  Compare generic results with results from the native implementation
 //
-    IndexType info = jsv_native(accuracy, jobU, jobV,
-                                restrictedRange, considerTransA, perturb,
-                                A, sva, U, V, work, iwork);
+    IndexType _info = jsv_native(accuracy, jobU, jobV,
+                                 restrictedRange, considerTransA, perturb,
+                                 A, sva, U, V, work, iwork);
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {
         std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;

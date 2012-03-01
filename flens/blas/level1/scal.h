@@ -38,22 +38,11 @@
 
 namespace flens { namespace blas {
 
-//-- forwarding ----------------------------------------------------------------
+//-- scal (forwarding)
 template <typename ALPHA, typename VY>
-    void
+    typename RestrictTo<IsSame<VY, typename VY::Impl>::value,
+                        void>::Type
     scal(const ALPHA &alpha, VY &&y);
-
-//-- common interface for vectors ----------------------------------------------
-template <typename ALPHA, typename VY>
-    void
-    scal(const ALPHA &alpha, Vector<VY> &y);
-
-//-- common interface for matrices ---------------------------------------------
-template <typename ALPHA, typename MB>
-    void
-    scal(const ALPHA &alpha, Matrix<MB> &B);
-
-//------------------------------------------------------------------------------
 
 //-- scal
 template <typename ALPHA, typename VY>

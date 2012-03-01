@@ -120,6 +120,8 @@ hpr2(StorageOrder order, StorageUpLo upLo,
      const VY *y, IndexType incY,
      MA *A)
 {
+    CXXBLAS_DEBUG_OUT("hpr2_generic");
+
     if (incX<0) {
         x -= incX*(n-1);
     }

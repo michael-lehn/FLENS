@@ -146,6 +146,8 @@ hbmv(StorageOrder order, StorageUpLo upLo,
      const BETA &beta,
      VY *y, IndexType incY)
 {
+    CXXBLAS_DEBUG_OUT("hbmv_generic");
+
     if (n==0) {
         return;
     }

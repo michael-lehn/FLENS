@@ -68,11 +68,11 @@ template <typename L, typename R>
 struct PruneMatrixClosure<MatrixClosure<OpMult, ScalarValue<L>, R> >
 {
     typedef MatrixClosure<OpMult, ScalarValue<L>, R>  MC;
-    
+
     typedef typename PruneMatrixClosure<R>::ScalingFactor  _ScalingFactor;
     typedef typename Promotion<L, _ScalingFactor>::Type    ScalingFactor;
     typedef typename PruneMatrixClosure<R>::Remainder      Remainder;
-    
+
     template <typename ALPHA>
     static const typename Promotion<ALPHA, ScalingFactor>::Type
     updateScalingFactor(const ALPHA &alpha, const MC &mc)
@@ -99,10 +99,10 @@ template <typename R>
 struct PruneMatrixClosure<MatrixClosure<OpTrans, R, R> >
 {
     typedef MatrixClosure<OpTrans, R, R>  MC;
-    
+
     typedef typename PruneMatrixClosure<R>::ScalingFactor  ScalingFactor;
     typedef typename PruneMatrixClosure<R>::Remainder      Remainder;
-    
+
     template <typename ALPHA>
     static const typename Promotion<ALPHA, ScalingFactor>::Type
     updateScalingFactor(const ALPHA &alpha, const MC &mc)
@@ -129,10 +129,10 @@ template <typename R>
 struct PruneMatrixClosure<MatrixClosure<OpConj, R, R> >
 {
     typedef MatrixClosure<OpConj, R, R>  MC;
-    
+
     typedef typename PruneMatrixClosure<R>::ScalingFactor  ScalingFactor;
     typedef typename PruneMatrixClosure<R>::Remainder      Remainder;
-    
+
     template <typename ALPHA>
     static const typename Promotion<ALPHA, ScalingFactor>::Type
     updateScalingFactor(const ALPHA &alpha, const MC &mc)

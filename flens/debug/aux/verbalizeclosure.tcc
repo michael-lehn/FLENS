@@ -58,6 +58,22 @@ verbalizeClosure(VariablePool &variablePool, const T &x)
     return sstream.str();
 }
 
+template <typename T>
+std::string
+verbalizeClosure(VariablePool &variablePool, const ScalarValue<T> &x)
+{
+    std::stringstream sstream;
+    sstream << x.value();
+    return sstream.str();
+}
+
+template <typename I>
+std::string
+verbalizeClosure(VariablePool &variablePool, const Matrix<I> &x)
+{
+    return verbalizeClosure(variablePool, x.impl());
+}
+
 template <typename I>
 std::string
 verbalizeClosure(VariablePool &variablePool, const Vector<I> &x)
@@ -67,8 +83,7 @@ verbalizeClosure(VariablePool &variablePool, const Vector<I> &x)
 
 template <typename Op, typename L, typename R>
 std::string
-verbalizeClosure(VariablePool &variablePool,
-                 const VectorClosure<Op, L, R> &x)
+verbalizeClosure(VariablePool &variablePool, const VectorClosure<Op, L, R> &x)
 {
     return operation<Op>(verbalizeClosure(variablePool, x.left()),
                          verbalizeClosure(variablePool, x.right()));
@@ -76,8 +91,7 @@ verbalizeClosure(VariablePool &variablePool,
 
 template <typename Op, typename L, typename R>
 std::string
-verbalizeClosure(VariablePool &variablePool,
-                 const MatrixClosure<Op, L, R> &x)
+verbalizeClosure(VariablePool &variablePool, const MatrixClosure<Op, L, R> &x)
 {
     return operation<Op>(verbalizeClosure(variablePool, x.left()),
                          verbalizeClosure(variablePool, x.right()));

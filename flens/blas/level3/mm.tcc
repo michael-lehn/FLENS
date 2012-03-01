@@ -39,30 +39,6 @@ namespace flens { namespace blas {
 
 //== product type: GeneralMatrix - GeneralMatrix products
 
-//-- forwarding ----------------------------------------------------------------
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-void
-mm(Transpose transA, Transpose transB,
-   const ALPHA &alpha,
-   const MA &A, const MB &B,
-   const BETA &beta,
-   MC &&C)
-{
-    mm(transA, transB, alpha, A, B, beta, C);
-}
-
-//-- common interface ----------------------------------------------------------
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-void
-mm(Transpose transA, Transpose transB,
-   const ALPHA &alpha,
-   const GeneralMatrix<MA> &A, const GeneralMatrix<MB> &B,
-   const BETA &beta,
-   GeneralMatrix<MC> &C)
-{
-    mm(transA, transB, alpha, A.impl(), B.impl(), beta, C.impl());
-}
-
 //-- gemm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 void
@@ -90,12 +66,43 @@ mm(Transpose transA, Transpose transB,
         transB = Transpose(transB ^ Trans);
     }
 
-    ASSERT((beta==BETA(0)) || (C.numRows()==m));
-    ASSERT((beta==BETA(0)) || (C.numCols()==n));
+#   ifndef NDEBUG
+    if (beta!=BETA(0)) {
+        if (C.numRows()!=0 && C.numCols()!=0) {
+            ASSERT(C.numRows()==m && C.numCols()==n);
+        }
+    }
+#   endif
 
     if ((C.numRows()!=m) || (C.numCols()!=n)) {
         C.resize(m, n);
     }
+
+#   ifndef FLENS_DEBUG_CLOSURES
+    ASSERT(!DEBUGCLOSURE::identical(A, C));
+    ASSERT(!DEBUGCLOSURE::identical(B, C));
+#   else
+//
+//  If A or B is identical with C we copy C into a temporary first.  Then
+//  we compute the matrix-matrix product and afterwards copy the result into C.
+//
+    if (DEBUGCLOSURE::identical(A, C) || DEBUGCLOSURE::identical(B, C)) {
+        typename GeMatrix<MC>::NoView _C;
+        FLENS_BLASLOG_TMP_ADD(_C);
+
+        if (beta!=BETA(0)) {
+            _C = C;
+        }
+        mm(transA, transB, alpha, A, B, beta, _C);
+        C = _C;
+
+        FLENS_BLASLOG_TMP_REMOVE(_C, C);
+        return;
+    }
+#   endif
+
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_GEMM(transA, transB, alpha, A, B, beta, C);
 
 #   ifdef HAVE_CXXBLAS_GEMM
     cxxblas::gemm(MC::order,
@@ -111,29 +118,130 @@ mm(Transpose transA, Transpose transB,
 #   else
     ASSERT(0);
 #   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
 }
 
+//== product type: TriangularMatrix - GeneralMatrix products
 
-//== product type: HermitianMatrix - GeneralMatrix products
-
-//-- forwarding ----------------------------------------------------------------
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+//-- trmm
+template <typename ALPHA, typename MA, typename MB>
 void
-mm(Side side, const ALPHA &alpha, const MA &A, const MB &B,
-   const BETA &beta, MC &&C)
+mm(Side side,
+   Transpose transA, const ALPHA &alpha, const TrMatrix<MA> &A,
+   GeMatrix<MB> &B)
 {
-    mm(side, alpha, A, B, beta, C);
+#   ifndef NDEBUG
+    ASSERT(MB::order==MA::order);
+    if (side==Left) {
+        assert(A.dim()==B.numRows());
+    } else {
+        assert(B.numCols()==A.dim());
+    }
+#   endif
+
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_TRMM(side, transA, alpha, A, B);
+
+#   ifdef HAVE_CXXBLAS_TRMM
+    cxxblas::trmm(MB::order, side,
+                  A.upLo(), transA, A.diag(),
+                  B.numRows(), B.numCols(),
+                  alpha,
+                  A.data(), A.leadingDimension(),
+                  B.data(), B.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
 }
 
+
+//== product type: SymmetricMatrix - GeneralMatrix products
+
+//-- symm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 void
 mm(Side side,
-   const ALPHA &alpha,
-   const HermitianMatrix<MA> &A, const GeneralMatrix<MB> &B,
-   const BETA &beta, GeneralMatrix<MC> &C)
+   const ALPHA &alpha, const SyMatrix<MA> &A, const GeMatrix<MB> &B,
+   const BETA &beta, GeMatrix<MC> &C)
 {
-    mm(side, alpha, A.impl(), B.impl(), beta, C.impl());
+#   ifndef NDEBUG
+    ASSERT(MC::order==MB::order);
+    if (side==Left) {
+        ASSERT(A.dim()==B.numRows());
+    } else {
+        ASSERT(B.numCols()==A.dim());
+    }
+#   endif
+
+    StorageUpLo upLo = (MC::order==MA::order)
+                     ? A.upLo()
+                     : StorageUpLo(! A.upLo());
+
+    typedef typename GeMatrix<MC>::IndexType IndexType;
+    IndexType m = (side==Left) ? A.dim() : B.numRows();
+    IndexType n = (side==Left) ? B.numCols() : A.dim();
+
+#   ifndef NDEBUG
+    if (beta!=BETA(0)) {
+        if (C.numRows()!=0 && C.numCols()!=0) {
+            ASSERT(C.numRows()==m && C.numCols()==n);
+        }
+    }
+#   endif
+
+    if ((C.numRows()!=m) || (C.numCols()!=n)) {
+        C.resize(m, n);
+    }
+
+#   ifndef FLENS_DEBUG_CLOSURES
+    ASSERT(!DEBUGCLOSURE::identical(A, C));
+    ASSERT(!DEBUGCLOSURE::identical(B, C));
+#   else
+//
+//  If A or B is identical with C we copy C into a temporary first.  Then
+//  we compute the matrix-matrix product and afterwards copy the result into C.
+//
+    if (DEBUGCLOSURE::identical(A, C) || DEBUGCLOSURE::identical(B, C)) {
+        typename GeMatrix<MC>::NoView _C;
+        FLENS_BLASLOG_TMP_ADD(_C);
+
+        if (beta!=BETA(0)) {
+            _C = C;
+        }
+        mm(side, alpha, A, B, beta, _C);
+        C = _C;
+
+        FLENS_BLASLOG_TMP_REMOVE(_C, C);
+        return;
+    }
+#   endif
+
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_SYMM(side, alpha, A, B, beta, C);
+
+#   ifdef HAVE_CXXBLAS_SYMM
+    cxxblas::symm(MC::order, side,
+                  upLo,
+                  C.numRows(), C.numCols(),
+                  alpha,
+                  A.data(), A.leadingDimension(),
+                  B.data(), B.leadingDimension(),
+                  beta,
+                  C.data(), C.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
 }
+
+//== product type: HermitianMatrix - GeneralMatrix products
 
 //-- hemm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
@@ -180,118 +288,71 @@ mm(Side side,
 #   endif
 }
 
+//== Forwarding ================================================================
 
-//== product type: SymmetricMatrix - GeneralMatrix products
-
-//-- forwarding ----------------------------------------------------------------
-// -> is identical with forwarding of Hermitian Matrix - GeneralMatrix products
-
-//-- common interface ----------------------------------------------------------
+//-- GeneralMatrix - GeneralMatrix products
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-void
-mm(Side side,
-   const ALPHA &alpha,
-   const SymmetricMatrix<MA> &A, const GeneralMatrix<MB> &B,
-   const BETA &beta, GeneralMatrix<MC> &C)
+typename RestrictTo<IsGeneralMatrix<MA>::value &&
+                    IsGeneralMatrix<MB>::value &&
+                   !IsClosure<MA>::value &&
+                   !IsClosure<MB>::value &&
+                    IsSame<MC, typename MC::Impl>::value,
+         void>::Type
+mm(Transpose transA, Transpose transB, const ALPHA &alpha,
+   const MA &A, const MB &B, const BETA &beta, MC &&C)
 {
-    mm(side, alpha, A.impl(), B.impl(), beta, C.impl());
+    CHECKPOINT_ENTER;
+    mm(transA, transB, alpha, A, B, beta, C);
+    CHECKPOINT_LEAVE;
 }
 
-//-- symm
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-void
-mm(Side side,
-   const ALPHA &alpha, const SyMatrix<MA> &A, const GeMatrix<MB> &B,
-   const BETA &beta, GeMatrix<MC> &C)
-{
-#   ifndef NDEBUG
-    ASSERT(MC::order==MB::order);
-    if (side==Left) {
-        ASSERT(A.dim()==B.numRows());
-    } else {
-        ASSERT(B.numCols()==A.dim());
-    }
-#   endif
-
-    StorageUpLo upLo = (MC::order==MA::order)
-                     ? A.upLo()
-                     : StorageUpLo(! A.upLo());
-
-    typedef typename GeMatrix<MC>::IndexType IndexType;
-    IndexType m = (side==Left) ? A.dim() : B.numRows();
-    IndexType n = (side==Left) ? B.numCols() : A.dim();
-
-    ASSERT((beta==static_cast<BETA>(0)) || (C.numRows()==m));
-    ASSERT((beta==static_cast<BETA>(0)) || (C.numCols()==n));
-
-    if ((C.numRows()!=m) || (C.numCols()!=n)) {
-        C.resize(m, n);
-    }
-
-#   ifdef HAVE_CXXBLAS_SYMM
-    cxxblas::symm(MC::order, side,
-                  upLo,
-                  C.numRows(), C.numCols(),
-                  alpha,
-                  A.data(), A.leadingDimension(),
-                  B.data(), B.leadingDimension(),
-                  beta,
-                  C.data(), C.leadingDimension());
-#   else
-    ASSERT(0);
-#   endif
-}
-
-//== product type: TriangularMatrix - GeneralMatrix products
-
-//-- forwarding ----------------------------------------------------------------
+//-- TriangularMatrix - GeneralMatrix products
 template <typename ALPHA, typename MA, typename MB>
-void
-mm(Side side, Transpose transA,
-   const ALPHA &alpha, const MA &A, MB &&B)
+typename RestrictTo<IsTriangularMatrix<MA>::value &&
+                    IsGeneralMatrix<MB>::value &&
+                   !IsClosure<MA>::value &&
+                    IsSame<MB, typename MB::Impl>::value,
+         void>::Type
+mm(Side side, Transpose transA, const ALPHA &alpha, const MA &A, MB &&B)
 {
+    CHECKPOINT_ENTER;
     mm(side, transA, alpha, A, B);
+    CHECKPOINT_LEAVE;
 }
 
-//-- common interface ----------------------------------------------------------
-template <typename ALPHA, typename MA, typename MB>
-void
-mm(Side side,
-   Transpose transA, const ALPHA &alpha,
-   const TriangularMatrix<MA> &A,
-   GeneralMatrix<MB> &B)
+
+//-- SymmetricMatrix - GeneralMatrix products
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+typename RestrictTo<IsSymmetricMatrix<MA>::value &&
+                    IsGeneralMatrix<MB>::value &&
+                   !IsClosure<MA>::value &&
+                   !IsClosure<MB>::value &&
+                    IsSame<MC, typename MC::Impl>::value,
+         void>::Type
+mm(Side side, const ALPHA &alpha, const MA &A, const MB &B,
+   const BETA &beta, MC &&C)
 {
-    mm(side, transA, alpha, A.impl(), B.impl());
+    CHECKPOINT_ENTER;
+    mm(side, alpha, A, B, beta, C);
+    CHECKPOINT_LEAVE;
 }
 
-//-- trmm
-template <typename ALPHA, typename MA, typename MB>
-void
-mm(Side side,
-   Transpose transA, const ALPHA &alpha, const TrMatrix<MA> &A,
-   GeMatrix<MB> &B)
+//-- HermitianMatrix - GeneralMatrix products
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+typename RestrictTo<IsHermitianMatrix<MA>::value &&
+                    IsGeneralMatrix<MB>::value &&
+                   !IsClosure<MA>::value &&
+                   !IsClosure<MB>::value &&
+                    IsSame<MC, typename MC::Impl>::value,
+         void>::Type
+mm(Side side, const ALPHA &alpha, const MA &A, const MB &B,
+   const BETA &beta, MC &&C)
 {
-#   ifndef NDEBUG
-    ASSERT(MB::order==MA::order);
-    if (side==Left) {
-        assert(A.dim()==B.numRows());
-    } else {
-        assert(B.numCols()==A.dim());
-    }
-#   endif
-
-
-#   ifdef HAVE_CXXBLAS_TRMM
-    cxxblas::trmm(MB::order, side,
-                  A.upLo(), transA, A.diag(),
-                  B.numRows(), B.numCols(),
-                  alpha,
-                  A.data(), A.leadingDimension(),
-                  B.data(), B.leadingDimension());
-#   else
-    ASSERT(0);
-#   endif
+    CHECKPOINT_ENTER;
+    mm(side, alpha, A, B, beta, C);
+    CHECKPOINT_LEAVE;
 }
+
 
 } } // namespace blas, flens
 

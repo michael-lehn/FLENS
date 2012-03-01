@@ -42,6 +42,7 @@
 #include <flens/storage/fullstorage/constfullstorageview.h>
 #include <flens/storage/fullstorage/fullstorageview.h>
 #include <flens/storage/fullstorage/fullstorage.h>
+#include <flens/storage/fullstorage/isfullstorage.h>
 #include <flens/storage/fullstorage/trapezoidalfill.h>
 
 #endif // FLENS_STORAGE_STORAGE_H

@@ -1,0 +1,188 @@
+====================
+FLENS-BLAS Interface                                                    [TOC]
+====================
+
+FLENS provides a very convenient interface for __BLAS__.  If no native BLAS
+implementation is available then __CXXBLAS__ (which comes with FLENS) gets used
+as a default implementation.  However, for high performance we recommend to
+install an optimized native BLAS implementation.  Some implementations like
+like __ATLAS__, __GotoBLAS__ or __OpenBLAS__ are free available and do an
+amazing job.
+
+Also have a look at the __tutorial__ for getting an impression on how using
+FLENS-BLAS.
+
+
+:links: __BLAS__     -> http://www.netlib.org/blas/
+        __CXXBLAS__  -> dir:cxxblas/
+        __ATLAS__    -> http://math-atlas.sourceforge.net/
+        __GotoBLAS__ -> http://www.tacc.utexas.edu/tacc-projects/gotoblas2
+        __OpenBLAS__ -> http://xianyi.github.com/OpenBLAS/
+        __tutorial__ -> doc:flens/examples/tutorial
+
+
+Purpose
+=======
+
+- *Simplified naming convention*
+
+  Consider BLAS functions like `dgemv`, `sgemv`, `ssbmv`, `dgbmv`, ... all
+  of them implement some kind of matrix-vector product. That's what the `mv`
+  stands for.  However, the names also encapsulate further information about
+  the involved matrix/vector types:
+
+    - The first leter indicates the element type
+       - `s` for single precision,
+       - `d` for double precision,
+       - `c` for complex single precision,
+       - `z` for complex double precision.
+    - The next two letter indicate the involved matrix type
+       - `ge` for a general matrix with full storage
+       - `gb` for a general matrix with band storage
+       - `sy` for a symmetric matrix with full storage
+       - `sb` for a symmetric matrix with banded storage
+       - ...
+
+  Because FLENS provides actual matrix/vector types this information can
+  be retrieved from the argument types.  Hence, FLENS merely provides one
+  function *`mv`* and overloads it for different matrix/vector types.
+
+  Analogously in FLENS function *`mm`* is overloaded for various matrix/vector
+  types such that it unifies `gemm`, `symm`, `trmm`, ...
+
+- *Simplified function arguments*
+
+  Compared to calling BLAS functions directly or through the CBLAS interface
+  the number of arguments required by FLENS-BLAS functions is significantly
+  smaller.  In BLAS/CBLAS you always have to pass
+    - matrix/vector dimensions
+    - leading dimensions/strides and
+    - a data pointer
+  for each matrix/vector argument.  In FLENS-BLAS you simply pass a single
+  matrix/vector object to the corresponding function.
+
+  As an example: `dgemv` from CBLAS requires `12` arguments while its FLENS-BLAS
+  counterpart `mv` only requires `6` arguments.  Besides convenient usage this
+  also provides increased safety and improves correctness.
+
+Level 1 BLAS
+============
+This BLAS level originally deals with vector-vector operations only.  For
+convenience we added in some cases matrix-matrix variants that for instance
+allow copying or adding matrices.
+
+ +------------+-----------------------------------------------+---------------+
+ | FLENS-BLAS | DESCRIPTION                                   | CXXBLAS       |
+ +============+===============================================+===============+
+ | __asum__   | Takes the sum of the absolute values, i.e.    | __asum[1]__   |
+ |            | computes $\sum\limits_{i} |x_i|$.             |               |
+ +------------+-----------------------------------------------+---------------+
+ | __axpy__   | Constant times a vector plus a vector, i.e.   | __axpy[1]__   |
+ |            | computes $y \leftarrow \alpha x + y$.         |               |
+ +------------+-----------------------------------------------+---------------+
+ | __copy__   | Copies a vector $x$ to a vector $y$ or        | __copy[1]__   |
+ |            | a matrix $A$ to a matrix $B$.                 |               |
+ +------------+-----------------------------------------------+---------------+
+ | __dot__,   | Forms the dot product of two vectors, i.e.    | __dot[1]__,   |
+ | dotu       | computes $\sum\limits_{i} \bar{x}_i y_i$      | udot          |
+ |            | or $\sum\limits_{i} x_i y_i$.                 |               |
+ +------------+-----------------------------------------------+---------------+
+ | __nrm2__   | Computes the euclidean norm of a vector, i.e. | __nrm2[1]__   |
+ |            | $\sqrt{\sum\limits_{i} |x_i|^2}$.             |               |
+ +------------+-----------------------------------------------+---------------+
+ | __rot__    | Applies a plane rotation.                     | __rot[1]__    |
+ +------------+-----------------------------------------------+---------------+
+ | __rotm__   | Applies a modified Givens rotation.           | __rotm[1]__   |
+ +------------+-----------------------------------------------+---------------+
+ | __scal__   | Scales a vector by a constant, i.e. computes  | __scal[1]__   |
+ |            | $x \leftarrow \alpha x$.                      |               |
+ +------------+-----------------------------------------------+---------------+
+ | __swap__   | Interchanges two vectors.                     | __swap[1]__   |
+ +------------+-----------------------------------------------+---------------+
+
+:links: __(.*)\[1\]__  -> file:cxxblas/level1/$1.h
+        __(.*)__       -> file:flens/blas/level1/$1.h
+
+Level 2 BLAS
+============
+This BLAS level deals with matrix-vector operations.
+
+*TODO*:  At the moment FLENS-BLAS does not provide an interface to the rank-2
+updates (see CXXBLAS functions) `her2`, `hpr2`, `syr2`, `spr2`.  We will add
+them as soon as a FLENS-LAPACK routine requires it or somebody complains.
+
+ +------------+---------------------------------------------------+-----------+
+ | FLENS-BLAS | DESCRIPTION                                       | CXXBLAS   |
+ +============+===================================================+===========+
+ | __mv__     | Computes a matrix-vector product. The form of     |           |
+ |            | the product depends on the matrix type:           |           |
+ |            |  - For *general* matrices it is                   |           |
+ |            |    $y \leftarrow \beta y + \alpha \text{op}(A) x$.| __gemv__  |
+ |            |  - For *symmetric* matrices it is                 |           |
+ |            |    $y \leftarrow \beta y + \alpha A x$.           | __symv__  |
+ |            |  - For *triangular* matrices it is                |           |
+ |            |    $x \leftarrow \text{op}(A) x$.                 | __trmv__  |
+ |            | Hereby $\text{op}(A)$ denotes $A$, $A^T$ or       |           |
+ |            | $A^H$.                                            |           |
+ +------------+---------------------------------------------------+-----------+
+ | __r__      | Computes a rank `1` operation.  The type of       |           |
+ |            | operation depends on type of the matrix that      |           |
+ |            | gets updated:                                     |           |
+ |            |  - For *general* matrices it is                   |           |
+ |            |    $A \leftarrow A + \alpha x y^T$.               | __ger__   |
+ |            |  - For *symmetric* matrices it is                 |           |
+ |            |    $A \leftarrow A + \alpha x x^T$.               | __syr__   |
+ +------------+---------------------------------------------------+-----------+
+ | __sv__     | Solves one of the systems of equations            |           |
+ |            | $Ax = b$ or $A^T x = b$ where $A$ is an unit      | __trsv__  |
+ |            | or non-unit or upper or lower triangular matrix.  |           |
+ +------------+---------------------------------------------------+-----------+
+
+:links: __mv__     -> file:flens/blas/level2/mv.h
+        __r__      -> file:flens/blas/level2/r.h
+        __sv__     -> file:flens/blas/level2/r.h
+        __(.*)__   -> file:cxxblas/level2/$1.h
+
+Level 3 BLAS
+============
+
+ +------------+---------------------------------------------------+-----------+
+ | FLENS-BLAS | DESCRIPTION                                       | CXXBLAS   |
+ +============+===================================================+===========+
+ | __mm__     | Computes a matrix-matrix product.  The form of    |           |
+ |            | the product depends on the matrix types.  If one  |           |
+ |            | matrix is a *general* matrix and the other matrix |           |
+ |            | is                                                |           |
+ |            |  - *general* then it is                           | __gemm__  |
+ |            |    $C \leftarrow \beta C                          |           |
+ |            |    + \alpha \, \text{op}(A) \, \text{op}(B)$      |           |
+ |            |  - *symmetric* then it is                         | __symm__  |
+ |            |    $C \leftarrow \beta C                          |           |
+ |            |    + \alpha \, A \, \text{op}(B)$                 |           |
+ |            |  - *triangular* then it is                        | __trmm__  |
+ |            |    $B \leftarrow \alpha \, \text{op}(A) \, B$     |           |
+ +------------+---------------------------------------------------+-----------+
+ | __r2k__    | Compute a symmetric rank-`2k` update, i.e.        | __syr2k__ |
+ |            | $C \leftarrow \beta C                             |           |
+ |            | + \alpha\,A\, B^T + \alpha\,B\,A^T$ or            |           |
+ |            | $C \leftarrow \beta C                             |           |
+ |            | + \alpha\,A^T \, B + \alpha\,B^T\,A$.             |           |
+ +------------+---------------------------------------------------+-----------+
+ | __rk__     | Compute a symmetric rank-`k` update, i.e.         | __syrk__  |
+ |            | $C \leftarrow \beta C + \alpha A \, A^T$          |           |
+ |            | or                                                |           |
+ |            | $C \leftarrow \beta C + \alpha A^T \, A$          |           |
+ +------------+---------------------------------------------------+-----------+
+ | __sm__     | Solves one of the matrix equations                | __trsm__  |
+ |            | $\text{op}(A)\,X = B$ or $X\,\text{op}(A) = B$    |           |
+ |            | for $X$ where $A$ is an unit or non-unit or upper |           |
+ |            | or lower triangular matrix and $\text{op}(A)$     |           |
+ |            | denotes $A$, $A^T$ or $A^H$.                      |           |
+ +------------+---------------------------------------------------+-----------+
+
+:links: __mm__     -> file:flens/blas/level3/mm.h
+        __r2k__    -> file:flens/blas/level3/r2k.h
+        __rk__     -> file:flens/blas/level3/rk.h
+        __sm__     -> file:flens/blas/level3/sm.h
+        __(.*)__   -> file:cxxblas/level3/$1.h
+

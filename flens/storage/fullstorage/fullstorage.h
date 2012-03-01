@@ -39,6 +39,15 @@
 
 namespace flens {
 
+template <typename T, typename I, typename A>
+    class Array;
+
+template <typename T, typename I, typename A>
+    class ArrayView;
+
+template <typename T, typename I, typename A>
+    class ConstArrayView;
+
 template <typename T, StorageOrder Order, typename I, typename A>
     class FullStorageView;
 

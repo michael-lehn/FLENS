@@ -33,21 +33,50 @@
 #ifndef FLENS_BLAS_CLOSURES_DEBUGCLOSURE_H
 #define FLENS_BLAS_CLOSURES_DEBUGCLOSURE_H 1
 
+#include <flens/storage/fullstorage/hasfullstorage.h>
+
 namespace flens {
+
+//
+//  If you implement a new matrix/vector type that supports views you might
+//  need to specialize the following function
+//
+
+namespace DEBUGCLOSURE {
+
+    template <typename X, typename Y>
+        typename RestrictTo<!HasFullStorage<X>::value
+                         || !HasFullStorage<Y>::value,
+                 bool>::Type
+        identical(const X &x, const Y &y);
+
+    template <typename VX, typename VY>
+        bool
+        identical(const DenseVector<VX> &x, const DenseVector<VY> &y);
+
+    template <typename MA, typename MB>
+        typename RestrictTo<HasFullStorage<MA>::value
+                         && HasFullStorage<MB>::value,
+                 bool>::Type
+        identical(const MA &A, const MB &B);
+
+} // namespace DEBUGCLOSURE
+
 
 struct DebugClosure
 {
-    template <typename A>
+    template <typename X, typename Y>
         static bool
-        search(const A &any, const void *addr);
+        search(const X &x, const Y &y);
 
-    template <typename Op, typename L, typename R>
+    template <typename Op, typename L, typename R, typename Y>
         static bool
-        search(const VectorClosure<Op, L, R> &closure, const void *addr);
+        search(const VectorClosure<Op, L, R> &closure, const Y &y);
 
-    template <typename Op, typename L, typename R>
+    template <typename Op, typename L, typename R, typename Y>
         static bool
-        search(const MatrixClosure<Op, L, R> &closure, const void *addr);
+        search(const MatrixClosure<Op, L, R> &closure, const Y &y);
+
 };
 
 } // namespace flens

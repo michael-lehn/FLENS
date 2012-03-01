@@ -1,0 +1,50 @@
+=============
+Using CXXBLAS
+=============
+
+FLENS matrix/vector types make iteraction with BLAS easy as you have access
+to
+
+- matrix/vector dimensions,
+- storage order,
+- leading dimensions and strides and
+- data pointers.
+
+In addition __CXXBLAS__ makes it easy to reuse the same code for different
+element types like `float`, `double`, `std::complex<float>`,
+`std::complex<double>` or any other type that "can be used like a `double`",
+i.e. relevant operators (e.g. `+`, `*`, ...) are overloaded.
+
+Toy Example
+===========
+Assume you want to compute $y = \beta y + \alpha\,A^T x + z$ where $\alpha,
+\beta$ are scalars, $x, y, z$ are (dense) vectors and $A$ is a (general) matrix
+(with full storage).
+
+Using CXXBLAS for this task you will first call __gemv__ and subsequently
+__axpy__.
+
+Example Code
+============
+:import: flens/examples/tut03-page01-example.cc [stripped, downloadable]
+
+Comments on Example Code
+========================
+:import: flens/examples/tut03-page01-example.cc [brief]
+
+
+Compile and Run
+===============
+
+   *--[SHELL]---------------------------------------------------------------*
+   |                                                                        |
+   |  cd flens/examples                                                     |
+   |  clang++ -Wall -std=c++0x -I../.. tut03-page01-example.cc              |
+   |  ./a.out                                                               |
+   |                                                                        |
+   *------------------------------------------------------------------------*
+
+
+:links: __CXXBLAS__  -> dir:cxxblas/
+        __axpy__     -> file:cxxblas/level1/axpy.h
+        __gemv__     -> file:cxxblas/level2/gemv.h

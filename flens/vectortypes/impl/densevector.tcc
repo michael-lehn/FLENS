@@ -114,7 +114,9 @@ template <typename A>
 DenseVector<A> &
 DenseVector<A>::operator=(const DenseVector &rhs)
 {
-    assign(rhs, *this);
+    if (this!=&rhs) {
+        assign(rhs, *this);
+    }
     return *this;
 }
 
@@ -177,8 +179,7 @@ template <typename A>
 DenseVector<A> &
 DenseVector<A>::operator/=(const ElementType &alpha)
 {
-    // TODO:  call rscal
-    blas::scal(ElementType(1)/alpha, *this);
+    blas::rscal(alpha, *this);
     return *this;
 }
 

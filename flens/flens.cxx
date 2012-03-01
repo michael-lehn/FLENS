@@ -33,9 +33,18 @@
 #ifndef FLENS_FLENS_CXX
 #define FLENS_FLENS_CXX 1
 
+#ifdef FLENS_DEBUG_CLOSURES
+#   include <flens/debug/aux/aux.h>
+#endif
+
+
 #include <flens/flens.h>
 #include <flens/flens.tcc>
-
 #include <cxxblas/cxxblas.cxx>
+
+
+#ifdef FLENS_DEBUG_CLOSURES
+#   include <flens/debug/aux/aux.tcc>
+#endif
 
 #endif // FLENS_FLENS_CXX

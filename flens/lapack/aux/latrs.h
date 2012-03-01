@@ -31,7 +31,8 @@
  */
 
 /*
-       SUBROUTINE DLASWP( N, A, LDA, K1, K2, IPIV, INCX )
+       SUBROUTINE DLATRS( UPLO, TRANS, DIAG, NORMIN, N, A, LDA, X, SCALE,
+      $                   CNORM, INFO )
  *
  *  -- LAPACK auxiliary routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --

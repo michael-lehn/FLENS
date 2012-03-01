@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -34,6 +34,8 @@
 #define FLENS_BLAS_CLOSURES_RESULT_H 1
 
 #include <flens/blas/operators/operators.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/storage/storage.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens {
@@ -42,47 +44,30 @@ namespace flens {
 template <typename A>
 struct Result
 {
-    typedef A  Type;
+    typedef A                       Type;
+    typedef typename Type::NoView   NoView;
 };
 
-//-- Vectors -------------------------------------------------------------------
-template <typename V>
-struct Result<Vector<V> >
+//-- VectorClosures ------------------------------------------------------------
+template <typename Op, typename L, typename R>
+struct Result<VectorClosure<Op, L, R> >
 {
-    typedef typename Vector<V>::Impl  Type;
+    typedef typename VectorClosure<Op, L, R>::ElementType T;
+
+    typedef DenseVector<Array<T> >  Type;
+    typedef typename Type::NoView   NoView;
 };
 
-//== Define results of vector-vector operations ================================
-template <typename Op, typename VL, typename VR>
-struct Result<VectorClosure<Op, VL, VR> >
+//-- MatrixClosures ------------------------------------------------------------
+template <typename Op, typename L, typename R>
+struct Result<MatrixClosure<Op, L, R> >
 {
-    typedef typename Result<VL>::Type  _VL;
-    typedef typename Result<VR>::Type  _VR;
+    typedef typename MatrixClosure<Op, L, R>::ElementType T;
 
-    typedef typename Result<VectorClosure<Op, _VL, _VR> >::Type Type;
+    typedef GeMatrix<FullStorage<T, ColMajor> >  Type;
+    typedef typename Type::NoView                NoView;
 };
-
-//-- DenseVector-DenseVector-operations
-//
-// Op = OpAdd
-//
-template <typename VL, typename VR>
-struct Result<VectorClosure<OpAdd, DenseVector<VL>, DenseVector<VR> > >
-{
-    typedef typename Promotion<VL, VR>::Type V;
-    typedef typename DenseVector<V>::NoView  Type;
-};
-//
-// Op = OpSub
-//
-template <typename VL, typename VR>
-struct Result<VectorClosure<OpSub, DenseVector<VL>, DenseVector<VR> > >
-{
-    typedef typename Promotion<VL, VR>::Type V;
-    typedef typename DenseVector<V>::NoView  Type;
-};
-
 
 } // namespace flens
 
-#endif // FLENS_BLAS_CLOSURES_PRUNEVECTORCLOSURE_H
+#endif // FLENS_BLAS_CLOSURES_RESULT_H

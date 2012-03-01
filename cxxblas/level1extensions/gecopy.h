@@ -39,6 +39,9 @@
 
 namespace cxxblas {
 
+//
+//  B = A  or B = A^T
+//
 template <typename IndexType, typename MA, typename MB>
     void
     gecopy(StorageOrder order,

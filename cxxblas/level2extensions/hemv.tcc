@@ -47,6 +47,8 @@ hemv(StorageOrder order, StorageUpLo upLo, Transpose conjugateA,
      const BETA &beta,
      VY *y, IndexType incY)
 {
+    CXXBLAS_DEBUG_OUT("hemv_generic (extension)");
+
     if (incX<0) {
         x -= incX*(n-1);
     }

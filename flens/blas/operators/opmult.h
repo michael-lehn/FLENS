@@ -43,20 +43,12 @@ namespace flens {
 
 struct OpMult {};
 
-//-- matrix-vector products ----------------------------------------------------
-// A*x
-template <typename M, typename V>
-    const VectorClosure<OpMult,
-                        typename M::Impl,
-                        typename V::Impl>
-    operator*(const Matrix<M> &A, const Vector<V> &x);
-
-// x*A
-template <typename M, typename V>
-    const VectorClosure<OpMult,
-                        typename V::Impl,
-                        typename M::Impl>
-    operator*(const Vector<V> &x, const Matrix<M> &A);
+//-- vector-vector products ----------------------------------------------------
+// x'*y
+template <typename VX, typename VY>
+    typename Promotion<typename VX::Impl::ElementType,
+                       typename VY::Impl::ElementType>::Type
+    operator*(const Vector<VX> &x, const Vector<VY> &y);
 
 //-- scalar-vector products ----------------------------------------------------
 // alpha*x
@@ -96,12 +88,28 @@ template <typename ALPHA, typename M>
         >::Type
     operator*(const Matrix<M> &A, const ALPHA &alpha);
 
-//-- vector-vector products ----------------------------------------------------
-// x'*y
-template <typename VX, typename VY>
-    typename Promotion<typename VX::Impl::ElementType,
-                       typename VY::Impl::ElementType>::Type
-    operator*(const Vector<VX> &x, const Vector<VY> &y);
+//-- matrix-vector products ----------------------------------------------------
+// A*x
+template <typename M, typename V>
+    const VectorClosure<OpMult,
+                        typename M::Impl,
+                        typename V::Impl>
+    operator*(const Matrix<M> &A, const Vector<V> &x);
+
+// x*A
+template <typename M, typename V>
+    const VectorClosure<OpMult,
+                        typename V::Impl,
+                        typename M::Impl>
+    operator*(const Vector<V> &x, const Matrix<M> &A);
+
+//-- matrix-matrix products ----------------------------------------------------
+// A*B
+template <typename MA, typename MB>
+    const MatrixClosure<OpMult,
+                        typename MA::Impl,
+                        typename MB::Impl>
+    operator*(const Matrix<MA> &A, const Matrix<MB> &B);
 
 } // namespace flens
 

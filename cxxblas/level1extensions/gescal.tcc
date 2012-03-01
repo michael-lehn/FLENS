@@ -43,6 +43,8 @@ gescal(StorageOrder order,
        IndexType m, IndexType n,
        const ALPHA &alpha, MA *A, IndexType ldA)
 {
+    CXXBLAS_DEBUG_OUT("gescal_generic");
+
     if (order==ColMajor) {
         std::swap(m,n);
     }

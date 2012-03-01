@@ -56,7 +56,12 @@ operation(const std::string &leftOperand, const std::string &rightOperand)
     }
     if (IsSame<Op, OpMult>::value)
     {
-        s << leftOperand << " * " << rightOperand;
+        s << "(" << leftOperand << " * " << rightOperand << ")";
+        return s.str();
+    }
+    if (IsSame<Op, OpDiv>::value)
+    {
+        s << "(" << leftOperand << "/" << rightOperand <<  ")";
         return s.str();
     }
     if (IsSame<Op, OpTrans>::value)

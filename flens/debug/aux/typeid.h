@@ -35,6 +35,7 @@
 
 #include <string>
 #include <flens/aux/issame.h>
+#include <flens/scalartypes/scalartypes.h>
 
 namespace flens { namespace verbose {
 

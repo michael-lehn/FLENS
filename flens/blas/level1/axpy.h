@@ -35,6 +35,7 @@
 
 #include <cxxblas/cxxblas.h>
 #include <flens/matrixtypes/matrixtypes.h>
+#include <flens/storage/storage.h>
 #include <flens/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>
 

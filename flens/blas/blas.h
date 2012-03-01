@@ -32,6 +32,7 @@
 
 #ifndef FLENS_BLAS_BLAS_H
 
+#include <flens/blas/assign.h>
 #include <flens/blas/closures/closures.h>
 #include <flens/blas/level1/level1.h>
 #include <flens/blas/level2/level2.h>

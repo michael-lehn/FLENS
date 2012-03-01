@@ -91,6 +91,8 @@ symv(StorageOrder order, StorageUpLo upLo,
      const BETA &beta,
      VY *y, IndexType incY)
 {
+    CXXBLAS_DEBUG_OUT("symv_generic");
+
     if (incX<0) {
         x -= incX*(n-1);
     }

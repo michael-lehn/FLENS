@@ -323,7 +323,7 @@ lahqr_generic(bool                  wantT,
 
                 IndexType nr = min(IndexType(3), i-k+1);
                 if (k>m) {
-                    blas::copy(H(_(k,k+nr-1),k-1), v(_(1,nr)));
+                    v(_(1,nr)) = H(_(k,k+nr-1),k-1);
                 }
                 larfg(nr, v(1), v(_(2,nr)), t1);
                 if (k>m) {

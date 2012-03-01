@@ -518,14 +518,6 @@ FullStorageView<T, Order, I, A>::viewRow(IndexType row,
     }
 #   endif
 
-    std::cerr << "fs: row = " << row
-              << ", firstRow = " << firstRow()
-              << ", lastRow = " << lastRow()
-              << std::endl;
-    std::cerr << "firstCol = " << firstCol
-              << ", lastCol = " << lastCol
-              << std::endl;
-
     ASSERT(row>=firstRow());
     ASSERT(row<=lastRow());
 

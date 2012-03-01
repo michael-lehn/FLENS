@@ -39,10 +39,16 @@
 
 namespace cxxblas {
 
+//
+//  B = A  or B = A^T
+//
+//  where B is a mxn triangular matrix as specified by upLo
+//
 template <typename IndexType, typename MA, typename MB>
     void
     trcopy(StorageOrder order, StorageUpLo upLo, Transpose trans, Diag diag,
-           IndexType n, const MA *A, IndexType ldA, MB *B, IndexType ldB);
+           IndexType m, IndexType n, const MA *A, IndexType ldA,
+           MB *B, IndexType ldB);
 
 } // namespace cxxblas
 

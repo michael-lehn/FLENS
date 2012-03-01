@@ -50,6 +50,8 @@ class ClosureLogStream
         std::ofstream   &_out;
 };
 
+ClosureLogStream &
+operator<<(ClosureLogStream &clStream, Side side);
 
 ClosureLogStream &
 operator<<(ClosureLogStream &clStream, Transpose trans);

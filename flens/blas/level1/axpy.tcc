@@ -35,8 +35,14 @@
 
 #include <cxxblas/cxxblas.h>
 #include <flens/aux/macros.h>
-#include <flens/blas/debugmacro.h>
+#include <flens/blas/closures/debugclosure.h>
 #include <flens/typedefs.h>
+
+#ifdef FLENS_DEBUG_CLOSURES
+#   include <flens/blas/blaslogon.h>
+#else
+#   include <flens/blas/blaslogoff.h>
+#endif
 
 namespace flens { namespace blas {
 
@@ -45,10 +51,13 @@ template <typename ALPHA, typename VX, typename VY>
 void
 axpy(const ALPHA &alpha, const DenseVector<VX> &x, DenseVector<VY> &y)
 {
-    FLENS_CLOSURELOG_BEGIN_AXPY(alpha, x, y);
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_AXPY(alpha, x, y);
 
     if (y.length()==0) {
-//      for axpy you have to fill resized vector with zeros!
+//
+//      So we allow  y += alpha*x  for an empty vector y
+//
         typedef typename DenseVector<VY>::ElementType  T;
         const T  Zero(0);
 
@@ -63,7 +72,9 @@ axpy(const ALPHA &alpha, const DenseVector<VX> &x, DenseVector<VY> &y)
 #   else
     ASSERT(0);
 #   endif
-    FLENS_CLOSURELOG_END;
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
 }
 
 //-- geaxpy
@@ -72,17 +83,21 @@ void
 axpy(Transpose trans,
      const ALPHA &alpha, const GeMatrix<MA> &A, GeMatrix<MB> &B)
 {
-    FLENS_CLOSURELOG_ADD_ENTRY_AXPY(alpha, A, B);
-
     if (B.numRows()==0 || B.numCols()==0) {
-//      for axpy you have to fill resized matrix with zeros!
+//
+//      So we allow  B += alpha*A  for an empty matrix B
+//
         typedef typename GeMatrix<MB>::ElementType  T;
         const T  Zero(0);
 
         if ((trans==NoTrans) || (trans==Conj)) {
-            B.resize(A.numRows(), A.numCols(), Zero);
+            B.resize(A.numRows(), A.numCols(),
+                     A.firstRow(), A.firstCol(),
+                     Zero);
         } else {
-            B.resize(A.numCols(), A.numRows(), Zero);
+            B.resize(A.numCols(), A.numRows(),
+                     A.firstCol(), A.firstRow(),
+                     Zero);
         }
     }
 
@@ -94,9 +109,38 @@ axpy(Transpose trans,
     }
 #   endif
 
+
     trans = (MA::order==MB::order)
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
+
+
+#   ifndef FLENS_DEBUG_CLOSURES
+#   ifndef NDEBUG
+    if (trans==Trans || trans==ConjTrans) {
+        ASSERT(!DEBUGCLOSURE::identical(A, B));
+    }
+#   endif
+#   else
+//
+//  If A and B are identical a temporary is needed if we want to use axpy
+//  for B += alpha*A^T or B+= alpha*A^H
+//
+    if ((trans==Trans || trans==ConjTrans) && DEBUGCLOSURE::identical(A, B)) {
+        typename GeMatrix<MA>::NoView _A;
+        FLENS_BLASLOG_TMP_ADD(_A);
+
+        copy(trans, A, _A);
+        axpy(NoTrans, alpha, A, B);
+
+        FLENS_BLASLOG_TMP_REMOVE(_A, A);
+        return;
+    }
+#   endif
+
+
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
 
 #   ifdef HAVE_CXXBLAS_GEAXPY
     geaxpy(MB::order, trans,
@@ -106,7 +150,8 @@ axpy(Transpose trans,
 #   else
     ASSERT(0);
 #   endif
-    FLENS_CLOSURELOG_END;
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
 }
 
 } } // namespace blas, flens

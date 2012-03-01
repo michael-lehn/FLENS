@@ -33,7 +33,8 @@
 #ifndef FLENS_DEBUG_AUX_TYPEID_TCC
 #define FLENS_DEBUG_AUX_TYPEID_TCC 1
 
-#include <flens/debug/aux/types.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace verbose {
 
@@ -66,6 +67,13 @@ std::string
 typeId(const GeMatrix<FS> &)
 {
     return "GeMatrix";
+}
+
+template <typename FS>
+std::string
+typeId(const TrMatrix<FS> &)
+{
+    return "TrMatrix";
 }
 
 template <typename I>

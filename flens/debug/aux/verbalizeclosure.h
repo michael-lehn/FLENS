@@ -36,6 +36,8 @@
 #include <string>
 #include <flens/aux/restrictto.h>
 #include <flens/debug/aux/variablepool.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace verbose {
 
@@ -46,6 +48,28 @@ template <typename T>
 template <typename T>
     typename RestrictTo<IsScalar<T>::value, std::string>::Type
     verbalizeClosure(VariablePool &variablePool, const T &x);
+
+template <typename T>
+    std::string
+    verbalizeClosure(VariablePool &variablePool, const ScalarValue<T> &x);
+
+template <typename I>
+    std::string
+    verbalizeClosure(VariablePool &variablePool, const Matrix<I> &x);
+
+template <typename I>
+    std::string
+    verbalizeClosure(VariablePool &variablePool, const Vector<I> &x);
+
+template <typename Op, typename L, typename R>
+    std::string
+    verbalizeClosure(VariablePool &variablePool,
+                     const VectorClosure<Op, L, R> &x);
+
+template <typename Op, typename L, typename R>
+    std::string
+    verbalizeClosure(VariablePool &variablePool,
+                     const MatrixClosure<Op, L, R> &x);
 
 } } // namespace verbose, namespace flens
 
