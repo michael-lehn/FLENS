@@ -75,6 +75,8 @@ syr(StorageOrder order, StorageUpLo upLo,
     const VX *x, IndexType incX,
     MA *A, IndexType ldA)
 {
+    CXXBLAS_DEBUG_OUT("syr_generic");
+
     if (incX<0) {
         x -= incX*(n-1);
     }

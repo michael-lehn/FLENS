@@ -41,6 +41,8 @@ template <typename IndexType, typename X, typename T>
 void
 nrm2_generic(IndexType n, const X *x, IndexType incX, T &norm)
 {
+    CXXBLAS_DEBUG_OUT("nrm2_generic");
+
     using std::abs;
     using std::pow;
     using std::sqrt;

@@ -35,38 +35,33 @@
 
 #include <cxxblas/cxxblas.h>
 #include <flens/aux/macros.h>
-#include <flens/blas/debugmacro.h>
+#include <flens/blas/closures/debugclosure.h>
 #include <flens/typedefs.h>
 
+#ifdef FLENS_DEBUG_CLOSURES
+#   include <flens/blas/blaslogon.h>
+#else
+#   include <flens/blas/blaslogoff.h>
+#endif
+
 namespace flens { namespace blas {
-
-//-- forwarding ----------------------------------------------------------------
-template <typename ALPHA, typename MA, typename MB>
-void
-axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
-{
-    CHECKPOINT_ENTER;
-    axpy(trans, alpha, A, B);
-    CHECKPOINT_LEAVE;
-}
-
-//-- common interface for vectors ----------------------------------------------
-template <typename ALPHA, typename VX, typename VY>
-void
-axpy(const ALPHA &alpha, const Vector<VX> &x, Vector<VY> &y)
-{
-    axpy(alpha, x.impl(), y.impl());
-}
 
 //-- axpy
 template <typename ALPHA, typename VX, typename VY>
 void
 axpy(const ALPHA &alpha, const DenseVector<VX> &x, DenseVector<VY> &y)
 {
-    FLENS_CLOSURELOG_ADD_ENTRY_AXPY(alpha, x, y);
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_AXPY(alpha, x, y);
 
     if (y.length()==0) {
-        y.resize(x, 0);
+//
+//      So we allow  y += alpha*x  for an empty vector y
+//
+        typedef typename DenseVector<VY>::ElementType  T;
+        const T  Zero(0);
+
+        y.resize(x, Zero);
     }
     ASSERT(y.length()==x.length());
 
@@ -77,15 +72,9 @@ axpy(const ALPHA &alpha, const DenseVector<VX> &x, DenseVector<VY> &y)
 #   else
     ASSERT(0);
 #   endif
-    FLENS_CLOSURELOG_END_ENTRY;
-}
 
-//-- common interface for matrices ---------------------------------------------
-template <typename ALPHA, typename MA, typename MB>
-void
-axpy(Transpose trans, const ALPHA &alpha, const Matrix<MA> &A, Matrix<MB> &B)
-{
-    axpy(trans, alpha, A.impl(), B.impl());
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
 }
 
 //-- geaxpy
@@ -94,16 +83,22 @@ void
 axpy(Transpose trans,
      const ALPHA &alpha, const GeMatrix<MA> &A, GeMatrix<MB> &B)
 {
-    FLENS_CLOSURELOG_ADD_ENTRY_AXPY(alpha, A, B);
+    if (B.numRows()==0 || B.numCols()==0) {
+//
+//      So we allow  B += alpha*A  for an empty matrix B
+//
+        typedef typename GeMatrix<MB>::ElementType  T;
+        const T  Zero(0);
 
-    if (B.numRows()*B.numCols()==0) {
         if ((trans==NoTrans) || (trans==Conj)) {
-            B.resize(A.numRows(), A.numCols());
+            B.resize(A.numRows(), A.numCols(),
+                     A.firstRow(), A.firstCol(),
+                     Zero);
         } else {
-            B.resize(A.numCols(), A.numRows());
+            B.resize(A.numCols(), A.numRows(),
+                     A.firstCol(), A.firstRow(),
+                     Zero);
         }
-        // fill with zeros!
-        B.fill();
     }
 
 #   ifndef NDEBUG
@@ -114,9 +109,38 @@ axpy(Transpose trans,
     }
 #   endif
 
+
     trans = (MA::order==MB::order)
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
+
+
+#   ifndef FLENS_DEBUG_CLOSURES
+#   ifndef NDEBUG
+    if (trans==Trans || trans==ConjTrans) {
+        ASSERT(!DEBUGCLOSURE::identical(A, B));
+    }
+#   endif
+#   else
+//
+//  If A and B are identical a temporary is needed if we want to use axpy
+//  for B += alpha*A^T or B+= alpha*A^H
+//
+    if ((trans==Trans || trans==ConjTrans) && DEBUGCLOSURE::identical(A, B)) {
+        typename GeMatrix<MA>::NoView _A;
+        FLENS_BLASLOG_TMP_ADD(_A);
+
+        copy(trans, A, _A);
+        axpy(NoTrans, alpha, A, B);
+
+        FLENS_BLASLOG_TMP_REMOVE(_A, A);
+        return;
+    }
+#   endif
+
+
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
 
 #   ifdef HAVE_CXXBLAS_GEAXPY
     geaxpy(MB::order, trans,
@@ -126,7 +150,8 @@ axpy(Transpose trans,
 #   else
     ASSERT(0);
 #   endif
-    FLENS_CLOSURELOG_END_ENTRY;
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
 }
 
 } } // namespace blas, flens

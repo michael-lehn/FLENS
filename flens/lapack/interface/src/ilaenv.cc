@@ -7,7 +7,7 @@ namespace flens { namespace lapack {
 
 extern "C" {
 
-//-- dgeev ---------------------------------------------------------------------
+//-- ilaenv --------------------------------------------------------------------
 INTEGER
 LAPACK_DECL(ilaenv)(const INTEGER   *SPEC,
                     const char      *NAME,

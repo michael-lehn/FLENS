@@ -35,13 +35,11 @@
 
 namespace flens {
 
-template <typename M>
-const MatrixClosure<OpTrans,
-                    typename M::Impl,
-                    typename M::Impl>
-transpose(const Matrix<M> &A)
+template <typename MA>
+const MatrixClosureOpTrans<typename MA::Impl>
+transpose(const Matrix<MA> &A)
 {
-    typedef MatrixClosure<OpTrans, typename M::Impl, typename M::Impl> MC;
+    typedef MatrixClosureOpTrans<typename MA::Impl>  MC;
     return MC(A.impl(), A.impl());
 }
 

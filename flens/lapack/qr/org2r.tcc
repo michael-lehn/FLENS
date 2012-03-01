@@ -31,6 +31,7 @@
  */
 
 /* Based on
+ *
       SUBROUTINE DORG2R( M, N, K, A, LDA, TAU, WORK, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
@@ -63,6 +64,7 @@ org2r_generic(IndexType                 k,
     const IndexType m = A.numRows();
     const IndexType n = A.numCols();
 
+    const T  Zero(0), One(1);
 //
 //  Quick return if possible
 //
@@ -73,10 +75,8 @@ org2r_generic(IndexType                 k,
 //  Initialise columns k+1:n to columns of the unit matrix
 //
     for (IndexType j=k+1; j<=n; ++j) {
-        for (IndexType l=1; l<=m; ++l) {
-            A(l,j) = T(0);
-        }
-        A(j,j) = 1;
+        A(_(1,m),j) = Zero;
+        A(j,j) = One;
     }
 
     for (IndexType i=k; i>=1; --i) {
@@ -84,19 +84,17 @@ org2r_generic(IndexType                 k,
 //      Apply H(i) to A(i:m,i+1:n) from the left
 //
         if (i<n) {
-            A(i,i) = 1;
+            A(i,i) = One;
             larf(Left, A(_(i,m),i), tau(i), A(_(i,m),_(i+1,n)), work);
         }
         if (i<m) {
             blas::scal(-tau(i), A(_(i+1,m),i));
         }
-        A(i,i) = T(1) - tau(i);
+        A(i,i) = One - tau(i);
 //
 //      Set A(1:i-1,i) to zero
 //
-        for (IndexType l=1; l<i; ++l) {
-            A(l,i) = T(0);
-        }
+        A(_(1,i-1),i) = Zero;
     }
 }
 

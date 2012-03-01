@@ -90,6 +90,11 @@ template <typename IndexType, typename T, typename MA>
     lascl(LASCL::Type type, IndexType kl, IndexType ku,
           const T &cFrom, const T &cTo, MA &&A);
 
+template <typename IndexType, typename T, typename VX>
+    void
+    lascl(LASCL::Type type, IndexType kl, IndexType ku,
+          const T &cFrom, const T &cTo, DenseVector<VX> &x);
+
 } } // namespace lapack, flens
 
 #endif // FLENS_LAPACK_AUX_LASCL_H

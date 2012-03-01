@@ -287,7 +287,7 @@
 *                        2*N+LWORK(DGEQRF), N+LWORK(DORMQR)). 
 *               Here LWORK(DORMQR) equals N*NB (for JOBU.EQ.'U') or 
 *               M*NB (for JOBU.EQ.'F').
-*               
+*
 *          If the full SVD is needed: (JOBU.EQ.'U' or JOBU.EQ.'F') and 
 *            -> if JOBV.EQ.'V'  
 *               the minimal requirement is LWORK >= max(2*M+N,6*N+2*N*N). 
@@ -1297,7 +1297,7 @@
             END IF
 *
 *        Second preconditioning finished; continue with Jacobi SVD
-*        The input matrix is lower trinagular.
+*        The input matrix is lower triangular.
 *
 *        Recover the right singular vectors as solution of a well
 *        conditioned triangular matrix equation.

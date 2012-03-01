@@ -50,6 +50,8 @@ gemv(StorageOrder order, Transpose transA, Transpose conjX,
      const BETA &beta,
      VY *y, IndexType incY)
 {
+    CXXBLAS_DEBUG_OUT("gemv_generic (extension)");
+
     if ((m==0) || (n==0)) {
         return;
     }

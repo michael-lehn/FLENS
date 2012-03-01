@@ -1,0 +1,30 @@
+=======================================
+Matrix Views (Referencing Matrix Parts)                                 [TOC]
+=======================================
+Referencing matrix parts and using these parts like regular matrices is a
+common need in numerical software development.  In FLENS we call references
+to matrix parts _views_.  You can use a matrix view like a normal matrix.  The
+only difference is that when you create a matrix view no extra memory gets
+allocated.
+
+
+Example Code
+============
+:import: flens/examples/tut01-page03-example.cc [stripped, downloadable]
+
+Comments on Example Code
+========================
+:import: flens/examples/tut01-page03-example.cc [brief]
+
+Compile and Run
+===============
+
+   *--[SHELL]---------------------------------------------------------------*
+   |                                                                        |
+   |  cd flens/examples                                                     |
+   |  clang++ -Wall -std=c++0x -I../.. tut01-page03-example.cc              |
+   |  ./a.out                                                               |
+   |                                                                        |
+   *------------------------------------------------------------------------*
+
+

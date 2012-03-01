@@ -98,7 +98,7 @@ template <typename RHS>
 DenseVector<A>::DenseVector(const Vector<RHS> &rhs)
     : _reverse(false)
 {
-    copy(rhs, *this);
+    assign(rhs, *this);
 }
 
 // -- operators --------------------------------------------------------
@@ -114,7 +114,9 @@ template <typename A>
 DenseVector<A> &
 DenseVector<A>::operator=(const DenseVector &rhs)
 {
-    copy(rhs, *this);
+    if (this!=&rhs) {
+        assign(rhs, *this);
+    }
     return *this;
 }
 
@@ -123,7 +125,7 @@ template <typename E>
 DenseVector<A> &
 DenseVector<A>::operator=(const Vector<E> &rhs)
 {
-    copy(rhs, *this);
+    assign(rhs, *this);
     return *this;
 }
 
@@ -132,7 +134,7 @@ template <typename E>
 DenseVector<A> &
 DenseVector<A>::operator+=(const Vector<E> &rhs)
 {
-    axpy(ElementType(1), rhs, *this);
+    plusAssign(rhs, *this);
     return *this;
 }
 
@@ -141,7 +143,7 @@ template <typename E>
 DenseVector<A> &
 DenseVector<A>::operator-=(const Vector<E> &rhs)
 {
-    axpy(ElementType(-1), rhs, *this);
+    minusAssign(rhs, *this);
     return *this;
 }
 
@@ -149,9 +151,9 @@ template <typename A>
 DenseVector<A> &
 DenseVector<A>::operator+=(const ElementType &alpha)
 {
-	for (int i=firstIndex(); i<=lastIndex(); ++i) {
-		(*this)(i) += alpha;
-	}
+    for (int i=firstIndex(); i<=lastIndex(); ++i) {
+        (*this)(i) += alpha;
+    }
     return *this;
 }
 
@@ -159,9 +161,9 @@ template <typename A>
 DenseVector<A> &
 DenseVector<A>::operator-=(const ElementType &alpha)
 {
-	for (int i=firstIndex(); i<=lastIndex(); ++i) {
-		(*this)(i) -= alpha;
-	}
+    for (int i=firstIndex(); i<=lastIndex(); ++i) {
+        (*this)(i) -= alpha;
+    }
     return *this;
 }
 
@@ -177,7 +179,7 @@ template <typename A>
 DenseVector<A> &
 DenseVector<A>::operator/=(const ElementType &alpha)
 {
-    blas::scal(ElementType(1)/alpha, *this);
+    blas::rscal(alpha, *this);
     return *this;
 }
 
@@ -216,7 +218,7 @@ template <typename A>
 typename DenseVector<A>::ElementClosure
 DenseVector<A>::operator()(IndexVariable &index)
 {
-    return ElementClosure(*this, index);    
+    return ElementClosure(*this, index);
 }
 
 //-- views ---------------------------------------------------------------------

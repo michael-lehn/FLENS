@@ -90,6 +90,8 @@ syrk(StorageOrder order, StorageUpLo upLo,
      const BETA &beta,
      MC *C, IndexType ldC)
 {
+    CXXBLAS_DEBUG_OUT("syrk_generic");
+
     syrk_generic(order, upLo, trans, n, k, alpha, A, ldA, beta, C, ldC);
 }
 

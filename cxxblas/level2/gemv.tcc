@@ -49,8 +49,6 @@ gemv_generic(StorageOrder order, Transpose transA, Transpose conjX,
              const BETA &beta,
              VY *y, IndexType incY)
 {
-    CXXBLAS_DEBUG_OUT("gemv_generic");
-
     if (order==ColMajor) {
         transA = Transpose(transA^Trans);
         gemv_generic(RowMajor, transA, conjX, n, m, alpha, A, ldA,
@@ -138,6 +136,8 @@ gemv(StorageOrder order, Transpose trans,
      const BETA &beta,
      VY *y, IndexType incY)
 {
+    CXXBLAS_DEBUG_OUT("gemv_generic");
+
     if ((m==0) || (n==0)) {
         return;
     }

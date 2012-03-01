@@ -8,17 +8,33 @@ that's exactly what it is:
 *A builing block for the implementation of other (higher-level) numerical
 libraries or numerical applications*
 
-This site is about a working branch that is focused on the __FLENS-LAPACK__ part
-of FLENS.  In the past FLENS only had a interface/binding to __LAPACK__.  Now
-we show how FLENS can be used to implement LAPACK in C++.  Of course it should
-produce the same results, run at the same speed and it should be easier to
-impelment a LAPACK routine with FLENS than with Fortran.
+Some key points
 
-Here we show how far we got right now ...
+- C++ library (requires a C++11 conform compiler)
+- Easy install as FLENS is *headers only*
+- FLENS gives you
+    - Matrix/vector types for dense linear algebra
+    - Generic implementation of BLAS (see __CXXBLAS__)
+    - Generic reimplementation of __LAPACK__ (see __FLENS-LAPACK__)
+    - Generic implementation means that you can use any element type for
+      your matrices/vectors that "acts like a double".  So in particular
+      types from the __QD Library__,  __mpfr__, ...
+- If high performance BLAS libraries like __ATLAS__/__GotoBLAS__/... are
+  available you simply can link against them and boost performance.
+- __FLENS-BLAS__ is a high-level and easy-to-use __BLAS__ interface
+- __FLENS-LAPACK__ is a high-level and easy-to-use C++ implementation of
+  __LAPACK__.
+- FLENS also allows using overloaded operators for accessing BLAS.  Most
+  important in this respect:
+    - Overloaded operators come without performance penalty!
+    - In a special debug mode you can exactly trace what is happening and
+      how you linear algebra expressions gets evaluated through BLAS
+      calls
+    - More features are explained in the __tutorial__.
 
 
-What you should read
-====================
+Examples and Tutorial
+=====================
 
 As the documentation is almost not existing you don't have much to read.  This
 is what we can offer you at the moment:
@@ -29,6 +45,10 @@ is what we can offer you at the moment:
     - computing __eigenvalues and eigenvectors__,
     - solving __systems of linear equations__.
 - Overview of all driver functions currently implemented in __FLENS-LAPACK__
+- We just started with a __tutorial__:
+    - Session 1: First steps with general matrices.
+    - Session 2: Triangular and symmetric matrices.
+    - Session 3: BLAS, CXXBLAS, FLENS-BLAS and Overloaded Operators.
 
 From the examples you also can see what compiler flags are needed.
 
@@ -51,6 +71,16 @@ Scope of this Branch
   source*).  We now use *restructured text*.
 
 
+Compiler Requirements
+=====================
+FLENS uses some of the C++11 features and therefore requires a recent C++
+compiler:
+
+  - __clang__ version 3.0 (or higher)
+  - __gcc__ version 4.7 (or higher)
+  - __icc__ version 12.1.2 (or higher)
+
+
 Git It
 ======
 
@@ -62,15 +92,55 @@ You can clone a public branch from __GitHub__
   |                                                                         |
   *-------------------------------------------------------------------------*
 
+Philosophy
+==========
 
+  *--[BOX]------------------------------------------------------------------*
+  |                                                                         |
+  |  We are *FLENS*.                                                        |
+  |                                                                         |
+  |  Resistance is futile.                                                  |
+  |                                                                         |
+  |  Advanced technology will be assimilated...                             |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+  This should answer the following questions:
+
+  - Why are the matrix/vector types in FLENS as they are?
+  - Why do we reimplement the LAPACK library with FLENS?
+  - What is the idea behind our CXXBLAS?
+
+  The answer is simple:
+
+  - LAPACK is the most advanced and best supported numerical library in the
+    world.  Improvements in numerical algorithms have a great chance to make
+    it soon into LAPACK.  If we keep FLENS-LAPACK up-to-date to current LAPACK
+    releases we keep up with some of the most sophisticated numerical
+    algorithms.
+  - LAPACK gains its performance from highly optimized BLAS kernel routines.
+    These implementations achieve peak performance on certain platforms.
+    When possible our CXXBLAS is just an interface to these implementations.
+  - For multi-precision data types CXXBLAS gives you a generic implementation
+    that does not give high performance (yet) but allows using LAPACK in
+    high precision.
+
+
+Mailing List
+============
+
+Join the mailing __list__!
 
 
 :links: __FLENS-LAPACK__ -> doc:flens/lapack/lapack
+        __FLENS-BLAS__   -> doc:flens/blas/blas
+        __BLAS__         -> http://www.netlib.org/blas/
         __LAPACK__       -> http://www.netlib.org/lapack/
         __systems of linear equations__   -> doc:flens/examples/lapack-gesv
         __LU factorization__              -> doc:flens/examples/lapack-getrf
         __QR factorization__              -> doc:flens/examples/lapack-geqrf
         __eigenvalues and eigenvectors__  -> doc:flens/examples/lapack-geev
+        __tutorial__    -> doc:flens/examples/tutorial
         __GeMatrix__    -> file:flens/matrixtypes/general/impl/gematrix.h
         __SyMatrix__    -> file:flens/matrixtypes/symmetric/impl/symatrix.h
         __TrMatrix__    -> file:flens/matrixtypes/triangular/impl/trmatrix.h
@@ -80,6 +150,9 @@ You can clone a public branch from __GitHub__
         __mpfr__        -> http://www.mpfr.org
         __ATLAS__       -> http://math-atlas.sourceforge.net
         __GotoBLAS__    -> http://www.tacc.utexas.edu/tacc-projects/gotoblas2
-        __FLENS-BLAS__  -> dir:flens/blas/
         __GitHub__      -> http://github.com/michael-lehn/FLENS
+        __clang__       -> http://clang.llvm.org/
+        __gcc__         -> http://gcc.gnu.org/
+        __icc__         -> http://software.intel.com/en-us/articles/intel-compilers/
+        __list__        -> https://imap.uni-ulm.de/lists/info/flens
 

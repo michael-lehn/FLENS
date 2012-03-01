@@ -57,11 +57,6 @@ qrf_generic(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
     using std::max;
     using std::min;
 
-    ASSERT(A.firstRow()==1);
-    ASSERT(A.firstCol()==1);
-    ASSERT(tau.firstIndex()==1);
-    ASSERT(work.firstIndex()==1);
-
     typedef typename GeMatrix<MA>::ElementType  T;
     typedef typename GeMatrix<MA>::IndexType    IndexType;
 
@@ -70,10 +65,6 @@ qrf_generic(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
     const IndexType m = A.numRows();
     const IndexType n = A.numCols();
     const IndexType k = min(m, n);
-
-    ASSERT(tau.length()>=k);
-    ASSERT((work.length()>=n) || (work.length()==0));
-
 //
 //  Perform and apply workspace query
 //
@@ -84,7 +75,6 @@ qrf_generic(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
         work.resize(max(lWorkOpt,IndexType(1)));
         work(1)=lWorkOpt;
     }
-
 //
 //  Quick return if possible
 //
@@ -116,7 +106,7 @@ qrf_generic(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 //
                 nb = work.length() / ldWork;
                 nbMin = max(IndexType(2),
-                            IndexType(ilaenv<T>(2, "GEQRF", 0, m, n)));
+                            IndexType(ilaenv<T>(2, "GEQRF", "", m, n)));
             }
         }
     }
@@ -133,7 +123,7 @@ qrf_generic(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 //          Compute the QR factorization of the current block
 //          A(i:m,i:i+ib-1)
 //
-            qr2(A(_(i,m),_(i,i+ib-1)), tau(_(i,i+ib-1)), work);
+            qr2(A(_(i,m),_(i,i+ib-1)), tau(_(i,i+ib-1)), work(_(1,ib)));
             if (i+ib<=n) {
 //
 //              Form the triangular factor of the block reflector
@@ -163,7 +153,7 @@ qrf_generic(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 //  Use unblocked code to factor the last or only block.
 //
     if (i<=k) {
-        qr2(A(_(i,m),_(i,n)), tau(_(i,k)), work);
+        qr2(A(_(i,m),_(i,n)), tau(_(i,k)), work(_(1,n-i+1)));
     }
     work(1) = iws;
 }
@@ -203,6 +193,11 @@ template <typename MA, typename VTAU, typename VWORK>
 void
 qrf(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 {
+    using std::min;
+    typedef typename GeMatrix<MA>::ElementType  ElementType;
+    typedef typename GeMatrix<MA>::IndexType    IndexType;
+
+#   ifndef NDEBUG
 //
 //  Test the input parameters
 //
@@ -211,13 +206,21 @@ qrf(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
     ASSERT(tau.firstIndex()==1);
     ASSERT(work.firstIndex()==1);
 
+    const IndexType m = A.numRows();
+    const IndexType n = A.numCols();
+    const IndexType k = min(m,n);
+
+    ASSERT(tau.length()==k);
+    ASSERT(work.length()>=n || work.length()==IndexType(0));
+#   endif
+
 #   ifdef CHECK_CXXLAPACK
 //
 //  Make copies of output arguments
 //
-    typename GeMatrix<MA>::NoView       _A      = A;
-    typename DenseVector<VTAU>::NoView  _tau    = tau;
-    typename DenseVector<VTAU>::NoView  _work   = work;
+    typename GeMatrix<MA>::NoView       A_org      = A;
+    typename DenseVector<VTAU>::NoView  tau_org    = tau;
+    typename DenseVector<VWORK>::NoView work_org   = work;
 #   endif
 
 //
@@ -227,30 +230,43 @@ qrf(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 
 #   ifdef CHECK_CXXLAPACK
 //
+//  Restore output arguments
+//
+    typename GeMatrix<MA>::NoView       A_generic      = A;
+    typename DenseVector<VTAU>::NoView  tau_generic    = tau;
+    typename DenseVector<VWORK>::NoView work_generic   = work;
+
+    A    = A_org;
+    tau  = tau_org;
+
+    // if the generic implementation resized work due to a work size query
+    // we must not restore the work array
+    if (work_org.length()>0) {
+        work = work_org;
+    } else {
+        work = 0;
+    }
+//
 //  Compare results
 //
-    if (work.length()!=_work.length()) {
-        // work got resized be the generic implementation
-        _work.resize(work.length());
-    }
-    qrf_native(_A, _tau, _work);
+    qrf_native(A, tau, work);
 
     bool failed = false;
-    if (! isIdentical(A, _A, " A", "_A")) {
-        std::cerr << "CXXLAPACK:  A = " << A << std::endl;
-        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+    if (! isIdentical(A_generic, A, "A_generic", "A")) {
+        std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
+        std::cerr << "F77LAPACK: A = " << A << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(tau, _tau, " tau", "_tau")) {
-        std::cerr << "CXXLAPACK:  tau = " << tau << std::endl;
-        std::cerr << "F77LAPACK: _tau = " << _tau << std::endl;
+    if (! isIdentical(tau_generic, tau, "tau_generic", "tau")) {
+        std::cerr << "CXXLAPACK: tau_generic = " << tau_generic << std::endl;
+        std::cerr << "F77LAPACK: tau = " << tau << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(work, _work, " work", "_work")) {
-        std::cerr << "CXXLAPACK:  work = " << work << std::endl;
-        std::cerr << "F77LAPACK: _work = " << _work << std::endl;
+    if (! isIdentical(work_generic, work, "work_generic", "work")) {
+        std::cerr << "CXXLAPACK: work_generic = " << work_generic << std::endl;
+        std::cerr << "F77LAPACK: work = " << work << std::endl;
         failed = true;
     }
 
@@ -265,7 +281,9 @@ template <typename MA, typename VTAU, typename VWORK>
 void
 qrf(MA &&A, VTAU &&tau, VWORK &&work)
 {
-    return qrf(A, tau, work);
+    CHECKPOINT_ENTER;
+    qrf(A, tau, work);
+    CHECKPOINT_LEAVE;
 }
 
 } } // namespace lapack, flens

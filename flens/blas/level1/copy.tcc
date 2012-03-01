@@ -33,24 +33,39 @@
 #ifndef FLENS_BLAS_LEVEL1_COPY_TCC
 #define FLENS_BLAS_LEVEL1_COPY_TCC 1
 
-#include <flens/aux/macros.h>
 #include <flens/blas/blas.h>
-#include <flens/blas/debugmacro.h>
 #include <flens/typedefs.h>
 
+#ifdef FLENS_DEBUG_CLOSURES
+#   include <flens/blas/blaslogon.h>
+#else
+#   include <flens/blas/blaslogoff.h>
+#endif
+
+
 namespace flens { namespace blas {
-
-namespace impl {
-
-//== specialized interfaces for vectors ========================================
 
 //-- copy
 template <typename VX, typename VY>
 void
 copy(const DenseVector<VX> &x, DenseVector<VY> &y)
 {
-    FLENS_CLOSURELOG_ADD_ENTRY_COPY(x, y);
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_COPY(x, y);
+
+//
+//  Resize left hand size if needed.  This is *usually* only alloweded
+//  when the left hand side is an empty vector (such that it is no actual
+//  resizing but rather an initialization).
+//
     if (y.length()!=x.length()) {
+#       ifndef FLENS_DEBUG_CLOSURES
+        ASSERT(y.length()==0);
+#       else
+        if (y.length()!=0) {
+            FLENS_BLASLOG_RESIZE_VECTOR(y, x.length());
+        }
+#       endif
         y.resize(x);
     }
     y.changeIndexBase(x.firstIndex());
@@ -61,31 +76,87 @@ copy(const DenseVector<VX> &x, DenseVector<VY> &y)
     ASSERT(0);
 #   endif
 
-    FLENS_CLOSURELOG_END_ENTRY
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
 }
-
-//== specialized interfaces for matrices =======================================
 
 //-- gecopy
 template <typename MA, typename MB>
 void
 copy(Transpose trans, const GeMatrix<MA> &A, GeMatrix<MB> &B)
 {
-    FLENS_CLOSURELOG_ADD_ENTRY_COPY(A, B);
+//
+//  check if this is an inplace transpose of A
+//
+    if (trans==Trans || trans==ConjTrans) {
+        if (DEBUGCLOSURE::identical(A, B)) {
+#           ifndef FLENS_DEBUG_CLOSURES
+//
+//          temporaries are not allowed
+//
+            ASSERT(A.numRows()==A.numCols());
+            gecotr(MB::order, trans, B.numRows(), B.numCols(),
+                   B.data(), B.leadingDimension());
+#           else
+//
+//          temporaries are allowed: check if this requires a temporary
+//
+            if (A.numRows()!=A.numCols()) {
+                typename Result<GeMatrix<MA> >::Type _A = A;
+                FLENS_BLASLOG_TMP_ADD(_A);
 
+                copy(trans, _A, B);
+
+                FLENS_BLASLOG_TMP_REMOVE(_A, A);
+                return;
+            } else {
+//
+//              otherwise perform inplace transpose
+//
+                gecotr(MB::order, trans, B.numRows(), B.numCols(),
+                       B.data(), B.leadingDimension());
+                return;
+            }
+#           endif
+        }
+    }
+
+//
+//  Resize left hand size if needed.  This is *usually* only alloweded
+//  when the left hand side is an empty matrix (such that it is no actual
+//  resizing but rather an initialization).
+//
     if (trans==NoTrans) {
         if ((A.numRows()!=B.numRows()) || (A.numCols()!=B.numCols())) {
+#           ifndef FLENS_DEBUG_CLOSURES
+            ASSERT(B.numRows()==0 || B.numCols()==0);
+#           else
+            if (B.numRows()!=0 || B.numCols()!=0) {
+                FLENS_BLASLOG_RESIZE_MATRIX(B, A.numRows(), A.numCols());
+            }
+#           endif
             B.resize(A);
         }
     } else {
         if ((A.numRows()!=B.numCols())  || (A.numCols()!=B.numRows())) {
+#           ifndef FLENS_DEBUG_CLOSURES
+            ASSERT(B.numRows()==0 && A.numCols()==0);
+#           else
+            if (B.numRows()!=0 || B.numCols()!=0) {
+                FLENS_BLASLOG_RESIZE_MATRIX(B, A.numCols(), A.numRows());
+            }
+#           endif
             B.resize(A.numCols(), A.numRows(),
                      A.firstCol(), A.firstRow());
         }
     }
+
     trans = (MA::order==MB::order)
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
+
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_MCOPY(trans, A, B);
 
 #   ifdef HAVE_CXXBLAS_GECOPY
     cxxblas::gecopy(MB::order, trans,
@@ -95,7 +166,9 @@ copy(Transpose trans, const GeMatrix<MA> &A, GeMatrix<MB> &B)
 #   else
     ASSERT(0);
 #   endif
-    FLENS_CLOSURELOG_END_ENTRY
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
 }
 
 //-- trcopy
@@ -103,20 +176,41 @@ template <typename MA, typename MB>
 void
 copy(Transpose trans, const TrMatrix<MA> &A, TrMatrix<MB> &B)
 {
-    FLENS_CLOSURELOG_ADD_ENTRY_COPY(A, B);
-
-    // TODO: change default resize policy such that resize is done:
-    //          1) if possible, e.g. no resize in an axpy
-    //          2) rhs-size is zero
-    if (B.dim()!=A.dim() && B.dim()==0) {
-        B.resize(A);
-        B.upLo() = A.upLo();
-        B.diag() = A.diag();
+//
+//  Resize left hand size if needed.  This is *usually* only alloweded
+//  when the left hand side is an empty matrix (such that it is no actual
+//  resizing but rather an initialization).
+//
+    if (trans==NoTrans) {
+        if ((A.numRows()!=B.numRows()) || (A.numCols()!=B.numCols())) {
+#           ifndef FLENS_DEBUG_CLOSURES
+            ASSERT(B.numRows()==0 || B.numCols()==0);
+#           else
+            if (B.numRows()!=0 && B.numCols()!=0) {
+                FLENS_BLASLOG_RESIZE_MATRIX(B, A.numRows(), A.numCols());
+            }
+#           endif
+            B.resize(A);
+        }
+    } else {
+        if ((A.numRows()!=B.numCols()) || (A.numCols()!=B.numRows())) {
+#           ifndef FLENS_DEBUG_CLOSURES
+            ASSERT(B.numRows()==0 || B.numCols()==0);
+#           else
+            if (B.numRows()!=0 && B.numCols()!=0) {
+                FLENS_BLASLOG_RESIZE_MATRIX(B, A.numCols(), A.numRows());
+            }
+#           endif
+            B.resize(A.numCols(), A.numRows(),
+                     A.firstCol(), A.firstRow());
+        }
     }
 
 #   ifndef NDEBUG
-    if (trans==NoTrans) {
+    if (trans==NoTrans || trans==Conj) {
         ASSERT(A.upLo()==B.upLo());
+    } else {
+        ASSERT(A.upLo()!=B.upLo());
     }
 #   endif
 
@@ -124,14 +218,20 @@ copy(Transpose trans, const TrMatrix<MA> &A, TrMatrix<MB> &B)
     ASSERT(A.order()==B.order());
     ASSERT(A.diag()==B.diag());
 
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_MCOPY(trans, A, B);
+
 #   ifdef HAVE_CXXBLAS_TRCOPY
-    cxxblas::trcopy(B.order(), B.upLo(), trans, B.diag(), B.dim(),
+    cxxblas::trcopy(B.order(), B.upLo(), trans, B.diag(),
+                    B.numRows(), B.numCols(),
                     A.data(), A.leadingDimension(),
                     B.data(), B.leadingDimension());
 #   else
     ASSERT(0);
 #   endif
-    FLENS_CLOSURELOG_END_ENTRY
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
 }
 
 //-- sycopy
@@ -139,81 +239,123 @@ template <typename MA, typename MB>
 void
 copy(const SyMatrix<MA> &A, SyMatrix<MB> &B)
 {
-    FLENS_CLOSURELOG_ADD_ENTRY_COPY(A, B);
-
-    // TODO: change default resize policy such that resize is done:
-    //          1) if possible, e.g. no resize in an axpy
-    //          2) rhs-size is zero
-    if (B.dim()!=A.dim() && B.dim()==0) {
+//
+//  Resize left hand size if needed.  This is *usually* only alloweded
+//  when the left hand side is an empty matrix (such that it is no actual
+//  resizing but rather an initialization).
+//
+    if (B.dim()!=A.dim()) {
+#       ifndef FLENS_DEBUG_CLOSURES
+        ASSERT(B.dim()==0);
+#       else
+        if (B.dim()!=0) {
+            FLENS_BLASLOG_RESIZE_MATRIX(B, A.dim(), A.dim());
+        }
+#       endif
         B.resize(A);
         B.upLo() = A.upLo();
     }
 
+    ASSERT(A.upLo()==B.upLo());
     // TODO: make this assertion unnecessary
     ASSERT(A.order()==B.order());
 
-#   ifdef HAVE_CXXBLAS_GECOPY
-    cxxblas::trcopy(B.order(), B.upLo(), NoTrans, NonUnit, B.dim(),
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_COPY(A, B);
+
+#   ifdef HAVE_CXXBLAS_TRCOPY
+    cxxblas::trcopy(B.order(), B.upLo(), NoTrans, NonUnit, B.dim(), B.dim(),
                     A.data(), A.leadingDimension(),
                     B.data(), B.leadingDimension());
 #   else
     ASSERT(0);
 #   endif
-    FLENS_CLOSURELOG_END_ENTRY
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
 }
 
-//== common interface for vectors ==============================================
-template <typename VX, typename VY>
-void
-copy(const Vector<VX> &x, Vector<VY> &y)
-{
-    CHECKPOINT_ENTER;
-    copy(x.impl(), y.impl());
-    CHECKPOINT_LEAVE;
-}
+//-- extensions ----------------------------------------------------------------
 
-//== common interface for matrices =============================================
+//-- copy: TrMatrix -> GeMatrix
 template <typename MA, typename MB>
 void
-copy(Transpose trans, const Matrix<MA> &A, Matrix<MB> &B)
+copy(Transpose trans, const TrMatrix<MA> &A, GeMatrix<MB> &B)
 {
-    CHECKPOINT_ENTER;
-    copy(trans, A.impl(), B.impl());
-    CHECKPOINT_LEAVE;
+    typename GeMatrix<MB>::ElementType  Zero(0);
+
+    if (trans==NoTrans) {
+        if (A.numRows()!=B.numRows() && A.numCols()!=B.numCols()) {
+#           ifndef FLENS_DEBUG_CLOSURES
+            ASSERT(B.numRows()==0 || B.numCols()==0);
+#           else
+            if (B.numRows()!=0 && B.numCols()!=0) {
+                FLENS_BLASLOG_RESIZE_MATRIX(B, A.numRows(), A.numCols());
+            }
+#           endif
+            B.resize(A.numRows(), A.numCols(),
+                     A.firstRow(), A.firstCol());
+        }
+    } else {
+        if (A.numRows()!=B.numCols() && A.numCols()!=B.numRows()) {
+#           ifndef FLENS_DEBUG_CLOSURES
+            ASSERT(B.numRows()==0 || B.numCols()==0);
+#           else
+            if (B.numRows()!=0 && B.numCols()!=0) {
+                FLENS_BLASLOG_RESIZE_MATRIX(B, A.numCols(), A.numRows());
+            }
+#           endif
+            B.resize(A.numCols(), A.numRows(),
+                     A.firstCol(), A.firstRow());
+         }
+    }
+
+    if (trans==NoTrans) {
+        if (A.upLo()==Upper) {
+            B.upper() = A;
+            B.strictLower() = Zero;
+        } else {
+            B.lower() = A;
+            B.strictUpper() = Zero;
+        }
+    } else if (trans==Trans) {
+        if (A.upLo()==Upper) {
+            B.lower() = transpose(A);
+            B.strictUpper() = Zero;
+        } else {
+            B.upper() = transpose(A);
+            B.strictLower() = Zero;
+        }
+    } else {
+        ASSERT(0);
+    }
 }
 
+//-- copy: SyMatrix -> GeMatrix
 template <typename MA, typename MB>
 void
-copy(Transpose trans, const SymmetricMatrix<MA> &A, SymmetricMatrix<MB> &B)
+copy(const SyMatrix<MA> &A, GeMatrix<MB> &B)
 {
-    //TODO: Lehn: this should become a warning instead of an error
-    ASSERT(trans==NoTrans);
+    if (A.numRows()!=B.numRows() && A.numCols()!=B.numCols()) {
+#       ifndef FLENS_DEBUG_CLOSURES
+        ASSERT(B.numRows()==0 || B.numCols()==0);
+#       else
+        if (B.numRows()!=0 && B.numCols()!=0) {
+            FLENS_BLASLOG_RESIZE_MATRIX(B, A.numRows(), A.numCols());
+        }
+#       endif
+        B.resize(A.numRows(), A.numCols(),
+                 A.firstRow(), A.firstCol());
+    }
 
-    CHECKPOINT_ENTER;
-    copy(A.impl(), B.impl());
-    CHECKPOINT_LEAVE;
+    if (A.upLo()==Upper) {
+        B.upper() = A.general().upper();
+        B.strictLower() = transpose(A.general().strictUpper());
+    } else {
+        B.lower() = A.general().lower();
+        B.strictUpper() = transpose(A.general().strictLower());
+    }
 }
 
-} // namespace impl
-
-//== entry points ==============================================================
-template <typename X, typename Y>
-void
-copy(const X &x, Y &&y)
-{
-    CHECKPOINT_ENTER;
-    impl::copy(x.impl(), y.impl());
-    CHECKPOINT_LEAVE;
-}
-
-template <typename MA, typename MB>
-void
-copy(Transpose trans, const MA &A, MB &&B)
-{
-    CHECKPOINT_ENTER;
-    impl::copy(trans, A.impl(), B.impl());
-    CHECKPOINT_LEAVE;
-}
 
 } } // namespace blas, flens
 

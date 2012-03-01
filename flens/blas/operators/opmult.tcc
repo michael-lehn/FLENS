@@ -40,30 +40,20 @@
 
 namespace flens {
 
-//-- matrix-vector products ----------------------------------------------------
-// A*x
-template <typename M, typename V>
-const VectorClosure<OpMult,
-                    typename M::Impl,
-                    typename V::Impl>
-operator*(const Matrix<M> &A, const Vector<V> &x)
+//-- vector-vector products ----------------------------------------------------
+// x^T*y
+template <typename VX, typename VY>
+typename Promotion<typename VX::Impl::ElementType,
+                   typename VY::Impl::ElementType>::Type
+operator*(const Vector<VX> &x, const Vector<VY> &y)
 {
-    typedef VectorClosure<OpMult, typename M::Impl, typename V::Impl> VC;
-    return VC(A.impl(), x.impl());
+    typedef typename VX::Impl::ElementType  TX;
+    typedef typename VY::Impl::ElementType  TY;
+
+    typename Promotion<TX,TY>::Type  result;
+    blas::dot(x.impl(), y.impl(), result);
+    return result;
 }
-
-
-// x*A
-template <typename M, typename V>
-const VectorClosure<OpMult,
-                    typename V::Impl,
-                    typename M::Impl>
-operator*(const Vector<V> &x, const Matrix<M> &A)
-{
-    typedef VectorClosure<OpMult, typename V::Impl, typename M::Impl> VC;
-    return VC(x.impl(), A.impl());
-}
-
 
 //-- scalar-vector products ----------------------------------------------------
 // alpha*x
@@ -119,37 +109,42 @@ operator*(const Matrix<M> &A, const ALPHA &alpha)
     return MC(alpha, A.impl());
 }
 
-//-- vector-vector products ----------------------------------------------------
-// x'*y
-template <typename VX, typename VY>
-typename Promotion<typename VX::Impl::ElementType,
-                   typename VY::Impl::ElementType>::Type
-operator*(const Vector<VX> &x, const Vector<VY> &y)
+//-- matrix-vector products ----------------------------------------------------
+// A*x
+template <typename M, typename V>
+const VectorClosure<OpMult,
+                    typename M::Impl,
+                    typename V::Impl>
+operator*(const Matrix<M> &A, const Vector<V> &x)
 {
-    using cxxblas::conjugate;
-
-    typedef PruneVectorClosure<typename VX::Impl> PVCX;
-    typedef PruneVectorClosure<typename VY::Impl> PVCY;
-
-    typedef typename Promotion<typename VX::Impl::ElementType,
-                               typename VY::Impl::ElementType>::Type  ALPHA;
-
-    ALPHA alpha;
-    Transpose xTrans = PVCX::updateTranspose(NoTrans);
-    Transpose yTrans = PVCY::updateTranspose(NoTrans);
-
-    if (Conj & (xTrans^yTrans)) {
-        blas::dot(PVCX::remainder(x.impl()), PVCY::remainder(y.impl()), alpha);
-        if (Conj & yTrans) {
-            alpha = conjugate(alpha);
-        }
-    } else {
-        blas::dotu(PVCX::remainder(x.impl()), PVCY::remainder(y.impl()), alpha);
-    }
-    alpha = PVCX::updateScalingFactor(alpha, x.impl());
-    alpha = PVCY::updateScalingFactor(alpha, y.impl());
-    return alpha;
+    typedef VectorClosure<OpMult, typename M::Impl, typename V::Impl> VC;
+    return VC(A.impl(), x.impl());
 }
+
+
+// x*A
+template <typename M, typename V>
+const VectorClosure<OpMult,
+                    typename V::Impl,
+                    typename M::Impl>
+operator*(const Vector<V> &x, const Matrix<M> &A)
+{
+    typedef VectorClosure<OpMult, typename V::Impl, typename M::Impl> VC;
+    return VC(x.impl(), A.impl());
+}
+
+//-- matrix-matrix products ----------------------------------------------------
+// A*B
+template <typename MA, typename MB>
+const MatrixClosure<OpMult,
+                    typename MA::Impl,
+                    typename MB::Impl>
+operator*(const Matrix<MA> &A, const Matrix<MB> &B)
+{
+    typedef MatrixClosure<OpMult, typename MA::Impl, typename MB::Impl> MC;
+    return MC(A.impl(), B.impl());
+}
+
 
 } // namespace flens
 

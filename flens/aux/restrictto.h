@@ -43,7 +43,7 @@ struct RestrictTo
 };
 
 template <typename T>
-struct RestrictTo<true, T> 
+struct RestrictTo<true, T>
 {
     typedef T Type;
 };

@@ -69,7 +69,7 @@ spr2_generic(StorageOrder order, StorageUpLo upLo,
                                            A+i*(i+1)/2, IndexType(1));
             axpy_generic(i+1, alpha*y[iY], x, incX,
                                            A+i*(i+1)/2, IndexType(1));
-        }        
+        }
     }
 }
 
@@ -83,6 +83,8 @@ spr2(StorageOrder order, StorageUpLo upLo,
      const VY *y, IndexType incY,
      MA *A)
 {
+    CXXBLAS_DEBUG_OUT("spr2_generic");
+
     if (incX<0) {
         x -= incX*(n-1);
     }

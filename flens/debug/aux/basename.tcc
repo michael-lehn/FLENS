@@ -33,7 +33,8 @@
 #ifndef FLENS_DEBUG_AUX_BASENAME_TCC
 #define FLENS_DEBUG_AUX_BASENAME_TCC 1
 
-#include <flens/debug/aux/types.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace verbose {
 
@@ -83,6 +84,13 @@ std::string
 basename(const SyMatrix<FS> &)
 {
     return "S";
+}
+
+template <typename FS>
+std::string
+basename(const TrMatrix<FS> &)
+{
+    return "T";
 }
 
 template <typename I>

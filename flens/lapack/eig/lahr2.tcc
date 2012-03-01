@@ -99,7 +99,7 @@ lahr2_generic(IndexType k, IndexType nb, GeMatrix<MA> &A,
 //
 //          w := V1**T * b1
 //
-            blas::copy(A(_(k+1,k+i-1),i), _Tr(_(1,i-1),nb));
+            _Tr(_(1,i-1),nb) = A(_(k+1,k+i-1),i);
             blas::mv(Trans, A(_(k+1,k+i-1),_(1,i-1)).lowerUnit(),
                      _Tr(_(1,i-1),nb));
 //

@@ -81,6 +81,8 @@ symm(StorageOrder order, Side side, StorageUpLo upLo,
      const BETA &beta,
      MC *C, IndexType ldC)
 {
+    CXXBLAS_DEBUG_OUT("symm_generic");
+
     symm_generic(order, side, upLo, m, n, alpha, A, ldA, B, ldB, beta, C, ldC);
 }
 

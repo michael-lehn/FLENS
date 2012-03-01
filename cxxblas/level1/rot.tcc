@@ -41,6 +41,8 @@ template <typename IndexType, typename X, typename Y, typename T>
 void
 rot_generic(IndexType n, X *x, IndexType incX, Y *y, IndexType incY, T c, T s)
 {
+    CXXBLAS_DEBUG_OUT("rot_generic");
+
     for (IndexType i=0, iX=0, iY=0; i<n; ++i, iX+=incX, iY+=incY) {
         X _x =  c*x[iX] + s*y[iY];
         Y _y = -s*x[iX] + c*y[iY];
@@ -66,6 +68,8 @@ template <typename A, typename B, typename T>
 void
 rotg(A &a, B &b, T &c, T &s)
 {
+    CXXBLAS_DEBUG_OUT("rotg (generic)");
+
     using std::abs;
     using std::sqrt;
 
@@ -95,7 +99,7 @@ rotg(A &a, B &b, T &c, T &s)
         z = s;
     }
     if ((absA < absB) && (c != 0)) {
-        z = 1/c;
+        z = T(1)/c;
     }
     a = r;
     b = z;

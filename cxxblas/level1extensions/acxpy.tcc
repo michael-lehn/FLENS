@@ -30,8 +30,8 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_LEVEL1_ACXPY_TCC
-#define CXXBLAS_LEVEL1_ACXPY_TCC 1
+#ifndef CXXBLAS_LEVEL1EXTENSIONS_ACXPY_TCC
+#define CXXBLAS_LEVEL1EXTENSIONS_ACXPY_TCC 1
 
 #include <cstdio>
 #include <cxxblas/aux/aux.h>
@@ -70,10 +70,10 @@ acxpy(IndexType n, const ALPHA &alpha, const X *x,
       IndexType incX, Y *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("acxpy_generic");
-    
+
     axpy(n, alpha, x, incX, y, incY);
 }
 
 } // namespace cxxblas
 
-#endif // CXXBLAS_LEVEL1_ACXPY_TCC
+#endif // CXXBLAS_LEVEL1EXTENSIONS_ACXPY_TCC

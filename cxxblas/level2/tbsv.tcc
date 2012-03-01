@@ -262,6 +262,8 @@ tbsv(StorageOrder order, StorageUpLo upLo,
      const MA *A, IndexType ldA,
      VX *x, IndexType incX)
 {
+    CXXBLAS_DEBUG_OUT("tbsv_generic");
+
     if (n==0) {
         return;
     }

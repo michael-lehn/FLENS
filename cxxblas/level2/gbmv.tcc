@@ -135,6 +135,8 @@ gbmv(StorageOrder order, Transpose trans,
      const BETA &beta,
      VY *y, IndexType incY)
 {
+    CXXBLAS_DEBUG_OUT("gbmv_generic");
+
     if ((m==0) || (n==0)) {
         return;
     }

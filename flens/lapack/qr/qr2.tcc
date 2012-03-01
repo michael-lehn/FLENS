@@ -30,42 +30,13 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- *   Copyright (c) 1992-2007 The University of Tennessee.  All rights reserved.
- *   
- *   $COPYRIGHT$
- *   
- *   Additional copyrights may follow
- *   
- *   $HEADER$
- *   
- *   Redistribution and use in source and binary forms, with or without
- *   modification, are permitted provided that the following conditions are
- *   met:
- *   
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer. 
- *     
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer listed
- *     in this license in the documentation and/or other materials
- *     provided with the distribution.
- *     
- *   - Neither the name of the copyright holders nor the names of its
- *     contributors may be used to endorse or promote products derived from
- *     this software without specific prior written permission.
- *     
- *   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- *   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT  
- *   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- *   A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
- *   OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- *   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- *   LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- *   DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- *   THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT  
- *   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+/* Based on
+       SUBROUTINE DGEQR2( M, N, A, LDA, TAU, WORK, INFO )
+ *
+ *  -- LAPACK routine (version 3.3.1) --
+ *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
+ *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
+ *  -- April 2011                                                      --
  */
 
 #ifndef FLENS_LAPACK_QR_QR2_TCC
@@ -158,17 +129,17 @@ qr2(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
     const IndexType n = A.numCols();
     const IndexType k = std::min(m, n);
 
-    ASSERT(tau.length()>=k);
-    ASSERT(work.length()>=n);
+    ASSERT(tau.length()==k);
+    ASSERT(work.length()==n);
 #   endif
 
 #   ifdef CHECK_CXXLAPACK
 //
 //  Make copies of output arguments
 //
-    typename GeMatrix<MA>::NoView       _A      = A;
-    typename DenseVector<VTAU>::NoView  _tau    = tau;
-    typename DenseVector<VTAU>::NoView  _work   = work;
+    typename GeMatrix<MA>::NoView       A_org      = A;
+    typename DenseVector<VTAU>::NoView  tau_org    = tau;
+    typename DenseVector<VTAU>::NoView  work_org   = work;
 #   endif
 
 //
@@ -178,26 +149,36 @@ qr2(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 
 #   ifdef CHECK_CXXLAPACK
 //
+//  Restore output arguments
+//
+    typename GeMatrix<MA>::NoView       A_generic      = A;
+    typename DenseVector<VTAU>::NoView  tau_generic    = tau;
+    typename DenseVector<VTAU>::NoView  work_generic   = work;
+
+    A    = A_org;
+    tau  = tau_org;
+    work = work_org;
+//
 //  Compare results
 //
-    qr2_native(_A, _tau, _work);
+    qr2_native(A, tau, work);
 
     bool failed = false;
-    if (! isIdentical(A, _A, " A", "_A")) {
-        std::cerr << "CXXLAPACK:  A = " << A << std::endl;
-        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+    if (! isIdentical(A_generic, A, "A_generic", "A")) {
+        std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
+        std::cerr << "F77LAPACK: A = " << A << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(tau, _tau, " tau", "_tau")) {
-        std::cerr << "CXXLAPACK:  tau = " << tau << std::endl;
-        std::cerr << "F77LAPACK: _tau = " << _tau << std::endl;
+    if (! isIdentical(tau_generic, tau, "tau_generic", "tau")) {
+        std::cerr << "CXXLAPACK: tau_generic = " << tau_generic << std::endl;
+        std::cerr << "F77LAPACK: tau = " << tau << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(work, _work, " work", "_work")) {
-        std::cerr << "CXXLAPACK:  work = " << work << std::endl;
-        std::cerr << "F77LAPACK: _work = " << _work << std::endl;
+    if (! isIdentical(work_generic, work, "work_generic", "work")) {
+        std::cerr << "CXXLAPACK: work_generic = " << work_generic << std::endl;
+        std::cerr << "F77LAPACK: work = " << work << std::endl;
         failed = true;
     }
 
@@ -212,7 +193,9 @@ template <typename MA, typename VTAU, typename VWORK>
 void
 qr2(MA &&A, VTAU &&tau, VWORK &&work)
 {
-    return qr2(A, tau, work);
+    CHECKPOINT_ENTER;
+    qr2(A, tau, work);
+    CHECKPOINT_LEAVE;
 }
 
 } } // namespace lapack, flens

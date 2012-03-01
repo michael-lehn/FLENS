@@ -46,6 +46,8 @@ her(StorageOrder order, StorageUpLo upLo, Transpose conjugateA,
     const VX *x, IndexType incX,
     MA *A, IndexType ldA)
 {
+    CXXBLAS_DEBUG_OUT("her_generic (extension)");
+
     if (incX<0) {
         x -= incX*(n-1);
     }

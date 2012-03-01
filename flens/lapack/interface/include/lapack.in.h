@@ -33,7 +33,7 @@ LAPACK_DECL(dbbcsd)(const char       *JOBU1,
                     const INTEGER    *P,
                     const INTEGER    *Q,
                     DOUBLE           *THETA,
-                    const DOUBLE     *PHI,
+                    DOUBLE           *PHI,
                     DOUBLE           *U1,
                     const INTEGER    *LDU1,
                     DOUBLE           *U2,
@@ -50,7 +50,7 @@ LAPACK_DECL(dbbcsd)(const char       *JOBU1,
                     const DOUBLE     *B21E,
                     const DOUBLE     *B22D,
                     const DOUBLE     *B22E,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO);
 
@@ -67,8 +67,8 @@ LAPACK_DECL(dbdsdc)(const char       *UPLO,
                     const INTEGER    *LDVT,
                     DOUBLE           *Q,
                     INTEGER          *IQ,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dbdsqr --------------------------------------------------------------------
@@ -86,7 +86,7 @@ LAPACK_DECL(dbdsqr)(const char       *UPLO,
                     const INTEGER    *LDU,
                     DOUBLE           *C,
                     const INTEGER    *LDC,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- ddisna --------------------------------------------------------------------
@@ -116,7 +116,7 @@ LAPACK_DECL(dgbbrd)(const char       *VECT,
                     const INTEGER    *LDPT,
                     DOUBLE           *C,
                     const INTEGER    *LDC,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dgbcon --------------------------------------------------------------------
@@ -130,8 +130,8 @@ LAPACK_DECL(dgbcon)(const char       *NORM,
                     const INTEGER    *IPIV,
                     const DOUBLE     *ANORM,
                     DOUBLE           *RCOND,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dgbequ --------------------------------------------------------------------
@@ -182,8 +182,8 @@ LAPACK_DECL(dgbrfs)(const char       *TRANS,
                     const INTEGER    *LDX,
                     DOUBLE           *FERR,
                     DOUBLE           *BERR,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dgbsv ---------------------------------------------------------------------
@@ -223,7 +223,7 @@ LAPACK_DECL(dgbsvx)(const char       *FACT,
                     DOUBLE           *FERR,
                     DOUBLE           *BERR,
                     DOUBLE           *WORK,
-                    const INTEGER    *IWORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dgbtf2 --------------------------------------------------------------------
@@ -296,7 +296,7 @@ LAPACK_DECL(dgebd2)(const INTEGER    *M,
                     DOUBLE           *E,
                     DOUBLE           *TAUQ,
                     DOUBLE           *TAUP,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dgebrd --------------------------------------------------------------------
@@ -321,8 +321,8 @@ LAPACK_DECL(dgecon)(const char       *NORM,
                     const INTEGER    *LDA,
                     const DOUBLE     *ANORM,
                     DOUBLE           *RCOND,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dgeequ --------------------------------------------------------------------
@@ -353,21 +353,21 @@ LAPACK_DECL(dgeequb)(const INTEGER    *M,
 
 //-- dgees ---------------------------------------------------------------------
 void
-LAPACK_DECL(dgees)(const char       *JOBVS,
-                   const char       *SORT,
-                   LOGICAL          (*SELECT)(const DOUBLE *, const DOUBLE *),
-                   const INTEGER    *N,
-                   DOUBLE           *A,
-                   const INTEGER    *LDA,
-                   INTEGER          *SDIM,
-                   DOUBLE           *WR,
-                   DOUBLE           *WI,
-                   DOUBLE           *VS,
-                   const INTEGER    *LDVS,
-                   DOUBLE           *WORK,
-                   const INTEGER    *LWORK,
-                   LOGICAL          *BWORK,
-                   INTEGER          *INFO);
+LAPACK_DECL(dgees)(const char           *JOBVS,
+                   const char           *SORT,
+                   LOGICAL           (*SELECT)(const DOUBLE *, const DOUBLE *),
+                   const INTEGER        *N,
+                   DOUBLE               *A,
+                   const INTEGER        *LDA,
+                   INTEGER              *SDIM,
+                   DOUBLE               *WR,
+                   DOUBLE               *WI,
+                   DOUBLE               *VS,
+                   const INTEGER        *LDVS,
+                   DOUBLE               *WORK,
+                   const INTEGER        *LWORK,
+                   LOGICAL              *BWORK,
+                   INTEGER              *INFO);
 
 //-- dgeesx --------------------------------------------------------------------
 void
@@ -508,7 +508,7 @@ LAPACK_DECL(dgejsv)(const char       *JOBA,
                     const char       *JOBP,
                     const INTEGER    *M,
                     const INTEGER    *N,
-                    const DOUBLE     *A,
+                    DOUBLE           *A,
                     const INTEGER    *LDA,
                     DOUBLE           *SVA,
                     DOUBLE           *U,
@@ -527,7 +527,7 @@ LAPACK_DECL(dgelq2)(const INTEGER    *M,
                     DOUBLE           *A,
                     const INTEGER    *LDA,
                     DOUBLE           *TAU,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dgelqf --------------------------------------------------------------------
@@ -569,7 +569,7 @@ LAPACK_DECL(dgelsd)(const INTEGER    *M,
                     INTEGER          *RANK,
                     DOUBLE           *WORK,
                     const INTEGER    *LWORK,
-                    const INTEGER    *IWORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dgelss --------------------------------------------------------------------
@@ -600,7 +600,7 @@ LAPACK_DECL(dgelsx)(const INTEGER    *M,
                     INTEGER          *JPVT,
                     const DOUBLE     *RCOND,
                     INTEGER          *RANK,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dgelsy --------------------------------------------------------------------
@@ -626,7 +626,7 @@ LAPACK_DECL(dgeql2)(const INTEGER    *M,
                     DOUBLE           *A,
                     const INTEGER    *LDA,
                     DOUBLE           *TAU,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dgeqlf --------------------------------------------------------------------
@@ -660,7 +660,7 @@ LAPACK_DECL(dgeqpf)(const INTEGER    *M,
                     const INTEGER    *LDA,
                     INTEGER          *JPVT,
                     DOUBLE           *TAU,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dgeqr2 --------------------------------------------------------------------
@@ -670,7 +670,7 @@ LAPACK_DECL(dgeqr2)(const INTEGER    *M,
                     DOUBLE           *A,
                     const INTEGER    *LDA,
                     DOUBLE           *TAU,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dgeqr2p -------------------------------------------------------------------
@@ -680,7 +680,7 @@ LAPACK_DECL(dgeqr2p)(const INTEGER    *M,
                      DOUBLE           *A,
                      const INTEGER    *LDA,
                      DOUBLE           *TAU,
-                     const DOUBLE     *WORK,
+                     DOUBLE           *WORK,
                      INTEGER          *INFO);
 
 //-- dgeqrf --------------------------------------------------------------------
@@ -721,8 +721,8 @@ LAPACK_DECL(dgerfs)(const char       *TRANS,
                     const INTEGER    *LDX,
                     DOUBLE           *FERR,
                     DOUBLE           *BERR,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dgerq2 --------------------------------------------------------------------
@@ -732,7 +732,7 @@ LAPACK_DECL(dgerq2)(const INTEGER    *M,
                     DOUBLE           *A,
                     const INTEGER    *LDA,
                     DOUBLE           *TAU,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dgerqf --------------------------------------------------------------------
@@ -770,7 +770,7 @@ LAPACK_DECL(dgesdd)(const char       *JOBZ,
                     const INTEGER    *LDVT,
                     DOUBLE           *WORK,
                     const INTEGER    *LWORK,
-                    const INTEGER    *IWORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dgesv ---------------------------------------------------------------------
@@ -840,7 +840,7 @@ LAPACK_DECL(dgesvx)(const char       *FACT,
                     DOUBLE           *FERR,
                     DOUBLE           *BERR,
                     DOUBLE           *WORK,
-                    const INTEGER    *IWORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dgetc2 --------------------------------------------------------------------
@@ -918,7 +918,7 @@ LAPACK_DECL(dggbal)(const char       *JOB,
                     INTEGER          *IHI,
                     DOUBLE           *LSCALE,
                     DOUBLE           *RSCALE,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dgges ---------------------------------------------------------------------
@@ -942,7 +942,7 @@ LAPACK_DECL(dgges)(const char           *JOBVSL,
                    const INTEGER        *LDVSR,
                    DOUBLE               *WORK,
                    const INTEGER        *LWORK,
-                   const LOGICAL        *BWORK,
+                   LOGICAL              *BWORK,
                    INTEGER              *INFO);
 
 //-- dggesx --------------------------------------------------------------------
@@ -969,9 +969,9 @@ LAPACK_DECL(dggesx)(const char       *JOBVSL,
                     DOUBLE           *RCONDV,
                     DOUBLE           *WORK,
                     const INTEGER    *LWORK,
-                    const INTEGER    *IWORK,
+                    INTEGER          *IWORK,
                     const INTEGER    *LIWORK,
-                    const LOGICAL    *BWORK,
+                    LOGICAL          *BWORK,
                     INTEGER          *INFO);
 
 //-- dggev ---------------------------------------------------------------------
@@ -1022,8 +1022,8 @@ LAPACK_DECL(dggevx)(const char       *BALANC,
                     DOUBLE           *RCONDV,
                     DOUBLE           *WORK,
                     const INTEGER    *LWORK,
-                    const INTEGER    *IWORK,
-                    const LOGICAL    *BWORK,
+                    INTEGER          *IWORK,
+                    LOGICAL          *BWORK,
                     INTEGER          *INFO);
 
 //-- dggglm --------------------------------------------------------------------
@@ -1127,7 +1127,7 @@ LAPACK_DECL(dggsvd)(const char       *JOBU,
                     const INTEGER    *LDV,
                     DOUBLE           *Q,
                     const INTEGER    *LDQ,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *IWORK,
                     INTEGER          *INFO);
 
@@ -1153,9 +1153,9 @@ LAPACK_DECL(dggsvp)(const char       *JOBU,
                     const INTEGER    *LDV,
                     DOUBLE           *Q,
                     const INTEGER    *LDQ,
-                    const INTEGER    *IWORK,
-                    const DOUBLE     *TAU,
-                    const DOUBLE     *WORK,
+                    INTEGER          *IWORK,
+                    DOUBLE           *TAU,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dgsvj0 --------------------------------------------------------------------
@@ -1174,7 +1174,7 @@ LAPACK_DECL(dgsvj0)(const char       *JOBV,
                     const DOUBLE     *SFMIN,
                     const DOUBLE     *TOL,
                     const INTEGER    *NSWEEP,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO);
 
@@ -1195,7 +1195,7 @@ LAPACK_DECL(dgsvj1)(const char       *JOBV,
                     const DOUBLE     *SFMIN,
                     const DOUBLE     *TOL,
                     const INTEGER    *NSWEEP,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO);
 
@@ -1210,8 +1210,8 @@ LAPACK_DECL(dgtcon)(const char       *NORM,
                     const INTEGER    *IPIV,
                     const DOUBLE     *ANORM,
                     DOUBLE           *RCOND,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dgtrfs --------------------------------------------------------------------
@@ -1233,8 +1233,8 @@ LAPACK_DECL(dgtrfs)(const char       *TRANS,
                     const INTEGER    *LDX,
                     DOUBLE           *FERR,
                     DOUBLE           *BERR,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dgtsv ---------------------------------------------------------------------
@@ -1269,8 +1269,8 @@ LAPACK_DECL(dgtsvx)(const char       *FACT,
                     DOUBLE           *RCOND,
                     DOUBLE           *FERR,
                     DOUBLE           *BERR,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dgttrf --------------------------------------------------------------------
@@ -1350,7 +1350,7 @@ LAPACK_DECL(dhsein)(const char       *SIDE,
                     const INTEGER    *LDVR,
                     const INTEGER    *MM,
                     INTEGER          *M,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *IFAILL,
                     INTEGER          *IFAILR,
                     INTEGER          *INFO);
@@ -1562,9 +1562,9 @@ LAPACK_DECL(dlabrd)(const INTEGER    *M,
 //-- dlacn2 --------------------------------------------------------------------
 void
 LAPACK_DECL(dlacn2)(const INTEGER    *N,
-                    const DOUBLE     *V,
+                    DOUBLE           *V,
                     DOUBLE           *X,
-                    const INTEGER    *ISGN,
+                    INTEGER          *ISGN,
                     DOUBLE           *EST,
                     INTEGER          *KASE,
                     INTEGER          *ISAVE);
@@ -1572,9 +1572,9 @@ LAPACK_DECL(dlacn2)(const INTEGER    *N,
 //-- dlacon --------------------------------------------------------------------
 void
 LAPACK_DECL(dlacon)(const INTEGER    *N,
-                    const DOUBLE     *V,
+                    DOUBLE           *V,
                     DOUBLE           *X,
-                    const INTEGER    *ISGN,
+                    INTEGER          *ISGN,
                     DOUBLE           *EST,
                     INTEGER          *KASE);
 
@@ -1624,8 +1624,8 @@ LAPACK_DECL(dlaebz)(const INTEGER    *IJOB,
                     DOUBLE           *C,
                     INTEGER          *MOUT,
                     INTEGER          *NAB,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dlaed0 --------------------------------------------------------------------
@@ -1637,10 +1637,10 @@ LAPACK_DECL(dlaed0)(const INTEGER    *ICOMPQ,
                     const DOUBLE     *E,
                     DOUBLE           *Q,
                     const INTEGER    *LDQ,
-                    const DOUBLE     *QSTORE,
+                    DOUBLE           *QSTORE,
                     const INTEGER    *LDQS,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dlaed1 --------------------------------------------------------------------
@@ -1652,8 +1652,8 @@ LAPACK_DECL(dlaed1)(const INTEGER    *N,
                     INTEGER          *INDXQ,
                     const DOUBLE     *RHO,
                     const INTEGER    *CUTPNT,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dlaed2 --------------------------------------------------------------------
@@ -1670,9 +1670,9 @@ LAPACK_DECL(dlaed2)(INTEGER          *K,
                     DOUBLE           *DLAMDA,
                     DOUBLE           *W,
                     DOUBLE           *Q2,
-                    const INTEGER    *INDX,
+                    INTEGER          *INDX,
                     INTEGER          *INDXC,
-                    const INTEGER    *INDXP,
+                    INTEGER          *INDXP,
                     INTEGER          *COLTYP,
                     INTEGER          *INFO);
 
@@ -1690,7 +1690,7 @@ LAPACK_DECL(dlaed3)(const INTEGER    *K,
                     const INTEGER    *INDX,
                     const INTEGER    *CTOT,
                     DOUBLE           *W,
-                    const DOUBLE     *S,
+                    DOUBLE           *S,
                     INTEGER          *INFO);
 
 //-- dlaed4 --------------------------------------------------------------------
@@ -1745,8 +1745,8 @@ LAPACK_DECL(dlaed7)(const INTEGER    *ICOMPQ,
                     const INTEGER    *GIVPTR,
                     const INTEGER    *GIVCOL,
                     const DOUBLE     *GIVNUM,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dlaed8 --------------------------------------------------------------------
@@ -1770,8 +1770,8 @@ LAPACK_DECL(dlaed8)(const INTEGER    *ICOMPQ,
                     INTEGER          *GIVPTR,
                     INTEGER          *GIVCOL,
                     DOUBLE           *GIVNUM,
-                    const INTEGER    *INDXP,
-                    const INTEGER    *INDX,
+                    INTEGER          *INDXP,
+                    INTEGER          *INDX,
                     INTEGER          *INFO);
 
 //-- dlaed9 --------------------------------------------------------------------
@@ -1781,7 +1781,7 @@ LAPACK_DECL(dlaed9)(const INTEGER    *K,
                     const INTEGER    *KSTOP,
                     const INTEGER    *N,
                     DOUBLE           *D,
-                    const DOUBLE     *Q,
+                    DOUBLE           *Q,
                     const INTEGER    *LDQ,
                     const DOUBLE     *RHO,
                     const DOUBLE     *DLAMDA,
@@ -1804,7 +1804,7 @@ LAPACK_DECL(dlaeda)(const INTEGER    *N,
                     const DOUBLE     *Q,
                     const INTEGER    *QPTR,
                     DOUBLE           *Z,
-                    const DOUBLE     *ZTEMP,
+                    DOUBLE           *ZTEMP,
                     INTEGER          *INFO);
 
 //-- dlaein --------------------------------------------------------------------
@@ -1818,9 +1818,9 @@ LAPACK_DECL(dlaein)(const LOGICAL    *RIGHTV,
                     const DOUBLE     *WI,
                     DOUBLE           *VR,
                     DOUBLE           *VI,
-                    const DOUBLE     *B,
+                    DOUBLE           *B,
                     const INTEGER    *LDB,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     const DOUBLE     *EPS3,
                     const DOUBLE     *SMLNUM,
                     const DOUBLE     *BIGNUM,
@@ -1847,7 +1847,7 @@ LAPACK_DECL(dlaexc)(const LOGICAL    *WANTQ,
                     const INTEGER    *J1,
                     const INTEGER    *N1,
                     const INTEGER    *N2,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dlag2 ---------------------------------------------------------------------
@@ -2033,7 +2033,7 @@ LAPACK_DECL(dlals0)(const INTEGER    *ICOMPQ,
                     const INTEGER    *NRHS,
                     DOUBLE           *B,
                     const INTEGER    *LDB,
-                    const DOUBLE     *BX,
+                    DOUBLE           *BX,
                     const INTEGER    *LDBX,
                     const INTEGER    *PERM,
                     const INTEGER    *GIVPTR,
@@ -2048,7 +2048,7 @@ LAPACK_DECL(dlals0)(const INTEGER    *ICOMPQ,
                     const INTEGER    *K,
                     const DOUBLE     *C,
                     const DOUBLE     *S,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dlalsa --------------------------------------------------------------------
@@ -2076,8 +2076,8 @@ LAPACK_DECL(dlalsa)(const INTEGER    *ICOMPQ,
                     const DOUBLE     *GIVNUM,
                     const DOUBLE     *C,
                     const DOUBLE     *S,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dlalsd --------------------------------------------------------------------
@@ -2092,8 +2092,8 @@ LAPACK_DECL(dlalsd)(const char       *UPLO,
                     const INTEGER    *LDB,
                     const DOUBLE     *RCOND,
                     INTEGER          *RANK,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dlamch --------------------------------------------------------------------
@@ -2126,7 +2126,7 @@ LAPACK_DECL(dlangb)(const char       *NORM,
                     const INTEGER    *KU,
                     const DOUBLE     *AB,
                     const INTEGER    *LDAB,
-                    const DOUBLE     *WORK);
+                    DOUBLE           *WORK);
 
 //-- dlange --------------------------------------------------------------------
 DOUBLE
@@ -2135,7 +2135,7 @@ LAPACK_DECL(dlange)(const char       *NORM,
                     const INTEGER    *N,
                     const DOUBLE     *A,
                     const INTEGER    *LDA,
-                    const DOUBLE     *WORK);
+                    DOUBLE           *WORK);
 
 //-- dlangt --------------------------------------------------------------------
 DOUBLE
@@ -2151,7 +2151,7 @@ LAPACK_DECL(dlanhs)(const char       *NORM,
                     const INTEGER    *N,
                     const DOUBLE     *A,
                     const INTEGER    *LDA,
-                    const DOUBLE     *WORK);
+                    DOUBLE           *WORK);
 
 //-- dlansb --------------------------------------------------------------------
 DOUBLE
@@ -2161,7 +2161,7 @@ LAPACK_DECL(dlansb)(const char       *NORM,
                     const INTEGER    *K,
                     const DOUBLE     *AB,
                     const INTEGER    *LDAB,
-                    const DOUBLE     *WORK);
+                    DOUBLE           *WORK);
 
 //-- dlansf --------------------------------------------------------------------
 DOUBLE
@@ -2170,7 +2170,7 @@ LAPACK_DECL(dlansf)(const char       *NORM,
                     const char       *UPLO,
                     const INTEGER    *N,
                     const DOUBLE     *A,
-                    const DOUBLE     *WORK);
+                    DOUBLE           *WORK);
 
 //-- dlansp --------------------------------------------------------------------
 DOUBLE
@@ -2178,7 +2178,7 @@ LAPACK_DECL(dlansp)(const char       *NORM,
                     const char       *UPLO,
                     const INTEGER    *N,
                     const DOUBLE     *AP,
-                    const DOUBLE     *WORK);
+                    DOUBLE           *WORK);
 
 //-- dlanst --------------------------------------------------------------------
 DOUBLE
@@ -2194,7 +2194,7 @@ LAPACK_DECL(dlansy)(const char       *NORM,
                     const INTEGER    *N,
                     const DOUBLE     *A,
                     const INTEGER    *LDA,
-                    const DOUBLE     *WORK);
+                    DOUBLE           *WORK);
 
 //-- dlantb --------------------------------------------------------------------
 DOUBLE
@@ -2205,7 +2205,7 @@ LAPACK_DECL(dlantb)(const char       *NORM,
                     const INTEGER    *K,
                     const DOUBLE     *AB,
                     const INTEGER    *LDAB,
-                    const DOUBLE     *WORK);
+                    DOUBLE           *WORK);
 
 //-- dlantp --------------------------------------------------------------------
 DOUBLE
@@ -2214,7 +2214,7 @@ LAPACK_DECL(dlantp)(const char       *NORM,
                     const char       *DIAG,
                     const INTEGER    *N,
                     const DOUBLE     *AP,
-                    const DOUBLE     *WORK);
+                    DOUBLE           *WORK);
 
 //-- dlantr --------------------------------------------------------------------
 DOUBLE
@@ -2225,7 +2225,7 @@ LAPACK_DECL(dlantr)(const char       *NORM,
                     const INTEGER    *N,
                     const DOUBLE     *A,
                     const INTEGER    *LDA,
-                    const DOUBLE     *WORK);
+                    DOUBLE           *WORK);
 
 //-- dlanv2 --------------------------------------------------------------------
 void
@@ -2317,7 +2317,7 @@ LAPACK_DECL(dlaqp2)(const INTEGER    *M,
                     DOUBLE           *TAU,
                     DOUBLE           *VN1,
                     DOUBLE           *VN2,
-                    const DOUBLE     *WORK);
+                    DOUBLE           *WORK);
 
 //-- dlaqps --------------------------------------------------------------------
 void
@@ -2384,15 +2384,15 @@ LAPACK_DECL(dlaqr2)(const LOGICAL    *WANTT,
                     INTEGER          *ND,
                     DOUBLE           *SR,
                     DOUBLE           *SI,
-                    const DOUBLE     *V,
+                    DOUBLE           *V,
                     const INTEGER    *LDV,
                     const INTEGER    *NH,
-                    const DOUBLE     *T,
+                    DOUBLE           *T,
                     const INTEGER    *LDT,
                     const INTEGER    *NV,
-                    const DOUBLE     *WV,
+                    DOUBLE           *WV,
                     const INTEGER    *LDWV,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     const INTEGER    *LWORK);
 
 //-- dlaqr3 --------------------------------------------------------------------
@@ -2413,15 +2413,15 @@ LAPACK_DECL(dlaqr3)(const LOGICAL    *WANTT,
                     INTEGER          *ND,
                     DOUBLE           *SR,
                     DOUBLE           *SI,
-                    const DOUBLE     *V,
+                    DOUBLE           *V,
                     const INTEGER    *LDV,
                     const INTEGER    *NH,
-                    const DOUBLE     *T,
+                    DOUBLE           *T,
                     const INTEGER    *LDT,
                     const INTEGER    *NV,
-                    const DOUBLE     *WV,
+                    DOUBLE           *WV,
                     const INTEGER    *LDWV,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     const INTEGER    *LWORK);
 
 //-- dlaqr4 --------------------------------------------------------------------
@@ -2460,15 +2460,15 @@ LAPACK_DECL(dlaqr5)(const LOGICAL    *WANTT,
                     const INTEGER    *IHIZ,
                     DOUBLE           *Z,
                     const INTEGER    *LDZ,
-                    const DOUBLE     *V,
+                    DOUBLE           *V,
                     const INTEGER    *LDV,
-                    const DOUBLE     *U,
+                    DOUBLE           *U,
                     const INTEGER    *LDU,
                     const INTEGER    *NV,
-                    const DOUBLE     *WV,
+                    DOUBLE           *WV,
                     const INTEGER    *LDWV,
                     const INTEGER    *NH,
-                    const DOUBLE     *WH,
+                    DOUBLE           *WH,
                     const INTEGER    *LDWH);
 
 //-- dlaqsb --------------------------------------------------------------------
@@ -2515,7 +2515,7 @@ LAPACK_DECL(dlaqtr)(const LOGICAL    *LTRAN,
                     const DOUBLE     *W,
                     DOUBLE           *SCALE,
                     DOUBLE           *X,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dlar1v --------------------------------------------------------------------
@@ -2540,7 +2540,7 @@ LAPACK_DECL(dlar1v)(const INTEGER    *N,
                     DOUBLE           *NRMINV,
                     DOUBLE           *RESID,
                     DOUBLE           *RQCORR,
-                    const DOUBLE     *WORK);
+                    DOUBLE           *WORK);
 
 //-- dlar2v --------------------------------------------------------------------
 void
@@ -2563,7 +2563,7 @@ LAPACK_DECL(dlarf)(const char           *SIDE,
                    const DOUBLE         *TAU,
                    DOUBLE               *C,
                    const INTEGER        *LDC,
-                   const DOUBLE         *WORK);
+                   DOUBLE               *WORK);
 
 //-- dlarfb --------------------------------------------------------------------
 void
@@ -2580,7 +2580,7 @@ LAPACK_DECL(dlarfb)(const char       *SIDE,
                     const INTEGER    *LDT,
                     DOUBLE           *C,
                     const INTEGER    *LDC,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     const INTEGER    *LDWORK);
 
 //-- dlarfg --------------------------------------------------------------------
@@ -2620,7 +2620,7 @@ LAPACK_DECL(dlarfx)(const char       *SIDE,
                     const DOUBLE     *TAU,
                     DOUBLE           *C,
                     const INTEGER    *LDC,
-                    const DOUBLE     *WORK);
+                    DOUBLE           *WORK);
 
 //-- dlargv --------------------------------------------------------------------
 void
@@ -2664,8 +2664,8 @@ LAPACK_DECL(dlarrb)(const INTEGER    *N,
                     DOUBLE           *W,
                     DOUBLE           *WGAP,
                     DOUBLE           *WERR,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     const DOUBLE     *PIVMIN,
                     const DOUBLE     *SPDIAM,
                     const INTEGER    *TWIST,
@@ -2709,8 +2709,8 @@ LAPACK_DECL(dlarrd)(const char       *RANGE,
                     DOUBLE           *WU,
                     INTEGER          *IBLOCK,
                     INTEGER          *INDEXW,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dlarre --------------------------------------------------------------------
@@ -2737,8 +2737,8 @@ LAPACK_DECL(dlarre)(const char       *RANGE,
                     INTEGER          *INDEXW,
                     DOUBLE           *GERS,
                     DOUBLE           *PIVMIN,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dlarrf --------------------------------------------------------------------
@@ -2759,7 +2759,7 @@ LAPACK_DECL(dlarrf)(const INTEGER    *N,
                     DOUBLE           *SIGMA,
                     DOUBLE           *DPLUS,
                     DOUBLE           *LPLUS,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dlarrj --------------------------------------------------------------------
@@ -2773,8 +2773,8 @@ LAPACK_DECL(dlarrj)(const INTEGER    *N,
                     const INTEGER    *OFFSET,
                     DOUBLE           *W,
                     DOUBLE           *WERR,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     const DOUBLE     *PIVMIN,
                     const DOUBLE     *SPDIAM,
                     INTEGER          *INFO);
@@ -2824,8 +2824,8 @@ LAPACK_DECL(dlarrv)(const INTEGER    *N,
                     DOUBLE           *Z,
                     const INTEGER    *LDZ,
                     INTEGER          *ISUPPZ,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dlarscl2 ------------------------------------------------------------------
@@ -2888,7 +2888,7 @@ LAPACK_DECL(dlarz)(const char           *SIDE,
                    const DOUBLE         *TAU,
                    DOUBLE               *C,
                    const INTEGER        *LDC,
-                   const DOUBLE         *WORK);
+                   DOUBLE               *WORK);
 
 //-- dlarzb --------------------------------------------------------------------
 void
@@ -2906,7 +2906,7 @@ LAPACK_DECL(dlarzb)(const char       *SIDE,
                     const INTEGER    *LDT,
                     DOUBLE           *C,
                     const INTEGER    *LDC,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     const INTEGER    *LDWORK);
 
 //-- dlarzt --------------------------------------------------------------------
@@ -2961,8 +2961,8 @@ LAPACK_DECL(dlasd0)(const INTEGER    *N,
                     DOUBLE           *VT,
                     const INTEGER    *LDVT,
                     const INTEGER    *SMLSIZ,
-                    const INTEGER    *IWORK,
-                    const DOUBLE     *WORK,
+                    INTEGER          *IWORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dlasd1 --------------------------------------------------------------------
@@ -2978,8 +2978,8 @@ LAPACK_DECL(dlasd1)(const INTEGER    *NL,
                     DOUBLE           *VT,
                     const INTEGER    *LDVT,
                     INTEGER          *IDXQ,
-                    const INTEGER    *IWORK,
-                    const DOUBLE     *WORK,
+                    INTEGER          *IWORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dlasd2 --------------------------------------------------------------------
@@ -3001,8 +3001,8 @@ LAPACK_DECL(dlasd2)(const INTEGER    *NL,
                     const INTEGER    *LDU2,
                     DOUBLE           *VT2,
                     const INTEGER    *LDVT2,
-                    const INTEGER    *IDXP,
-                    const INTEGER    *IDX,
+                    INTEGER          *IDXP,
+                    INTEGER          *IDX,
                     INTEGER          *IDXC,
                     INTEGER          *IDXQ,
                     INTEGER          *COLTYP,
@@ -3015,7 +3015,7 @@ LAPACK_DECL(dlasd3)(const INTEGER    *NL,
                     const INTEGER    *SQRE,
                     const INTEGER    *K,
                     DOUBLE           *D,
-                    const DOUBLE     *Q,
+                    DOUBLE           *Q,
                     const INTEGER    *LDQ,
                     const DOUBLE     *DSIGMA,
                     DOUBLE           *U,
@@ -3040,7 +3040,7 @@ LAPACK_DECL(dlasd4)(const INTEGER    *N,
                     DOUBLE           *DELTA,
                     const DOUBLE     *RHO,
                     DOUBLE           *SIGMA,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dlasd5 --------------------------------------------------------------------
@@ -3051,7 +3051,7 @@ LAPACK_DECL(dlasd5)(const INTEGER    *I,
                     DOUBLE           *DELTA,
                     const DOUBLE     *RHO,
                     DOUBLE           *DSIGMA,
-                    const DOUBLE     *WORK);
+                    DOUBLE           *WORK);
 
 //-- dlasd6 --------------------------------------------------------------------
 void
@@ -3078,8 +3078,8 @@ LAPACK_DECL(dlasd6)(const INTEGER    *ICOMPQ,
                     INTEGER          *K,
                     DOUBLE           *C,
                     DOUBLE           *S,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dlasd7 --------------------------------------------------------------------
@@ -3091,16 +3091,16 @@ LAPACK_DECL(dlasd7)(const INTEGER    *ICOMPQ,
                     INTEGER          *K,
                     DOUBLE           *D,
                     DOUBLE           *Z,
-                    const DOUBLE     *ZW,
+                    DOUBLE           *ZW,
                     DOUBLE           *VF,
-                    const DOUBLE     *VFW,
+                    DOUBLE           *VFW,
                     DOUBLE           *VL,
-                    const DOUBLE     *VLW,
+                    DOUBLE           *VLW,
                     const DOUBLE     *ALPHA,
                     const DOUBLE     *BETA,
                     DOUBLE           *DSIGMA,
-                    const INTEGER    *IDX,
-                    const INTEGER    *IDXP,
+                    INTEGER          *IDX,
+                    INTEGER          *IDXP,
                     const INTEGER    *IDXQ,
                     INTEGER          *PERM,
                     INTEGER          *GIVPTR,
@@ -3124,7 +3124,7 @@ LAPACK_DECL(dlasd8)(const INTEGER    *ICOMPQ,
                     DOUBLE           *DIFR,
                     const INTEGER    *LDDIFR,
                     DOUBLE           *DSIGMA,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dlasda --------------------------------------------------------------------
@@ -3150,8 +3150,8 @@ LAPACK_DECL(dlasda)(const INTEGER    *ICOMPQ,
                     DOUBLE           *GIVNUM,
                     DOUBLE           *C,
                     DOUBLE           *S,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dlasdq --------------------------------------------------------------------
@@ -3170,7 +3170,7 @@ LAPACK_DECL(dlasdq)(const char       *UPLO,
                     const INTEGER    *LDU,
                     DOUBLE           *C,
                     const INTEGER    *LDC,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dlasdt --------------------------------------------------------------------
@@ -3198,7 +3198,7 @@ void
 LAPACK_DECL(dlasq1)(const INTEGER    *N,
                     DOUBLE           *D,
                     DOUBLE           *E,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dlasq2 --------------------------------------------------------------------
@@ -3352,7 +3352,7 @@ LAPACK_DECL(dlasyf)(const char       *UPLO,
                     DOUBLE           *A,
                     const INTEGER    *LDA,
                     INTEGER          *IPIV,
-                    const DOUBLE     *W,
+                    DOUBLE           *W,
                     const INTEGER    *LDW,
                     INTEGER          *INFO);
 
@@ -3440,7 +3440,7 @@ LAPACK_DECL(dlatrz)(const INTEGER    *M,
                     DOUBLE           *A,
                     const INTEGER    *LDA,
                     DOUBLE           *TAU,
-                    const DOUBLE     *WORK);
+                    DOUBLE           *WORK);
 
 //-- dlatzm --------------------------------------------------------------------
 void
@@ -3453,7 +3453,7 @@ LAPACK_DECL(dlatzm)(const char       *SIDE,
                     DOUBLE           *C1,
                     DOUBLE           *C2,
                     const INTEGER    *LDC,
-                    const DOUBLE     *WORK);
+                    DOUBLE           *WORK);
 
 //-- dlauu2 --------------------------------------------------------------------
 void
@@ -3479,7 +3479,7 @@ LAPACK_DECL(dopgtr)(const char       *UPLO,
                     const DOUBLE     *TAU,
                     DOUBLE           *Q,
                     const INTEGER    *LDQ,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dopmtr --------------------------------------------------------------------
@@ -3493,7 +3493,7 @@ LAPACK_DECL(dopmtr)(const char       *SIDE,
                     const DOUBLE     *TAU,
                     DOUBLE           *C,
                     const INTEGER    *LDC,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dorbdb --------------------------------------------------------------------
@@ -3517,7 +3517,7 @@ LAPACK_DECL(dorbdb)(const char       *TRANS,
                     DOUBLE           *TAUP2,
                     DOUBLE           *TAUQ1,
                     DOUBLE           *TAUQ2,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO);
 
@@ -3549,9 +3549,9 @@ LAPACK_DECL(dorcsd)(const char       *JOBU1,
                     const INTEGER    *LDV1T,
                     DOUBLE           *V2T,
                     const INTEGER    *LDV2T,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     const INTEGER    *LWORK,
-                    const INTEGER    *IWORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dorg2l --------------------------------------------------------------------
@@ -3562,7 +3562,7 @@ LAPACK_DECL(dorg2l)(const INTEGER    *M,
                     DOUBLE           *A,
                     const INTEGER    *LDA,
                     const DOUBLE     *TAU,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dorg2r --------------------------------------------------------------------
@@ -3609,7 +3609,7 @@ LAPACK_DECL(dorgl2)(const INTEGER    *M,
                     DOUBLE           *A,
                     const INTEGER    *LDA,
                     const DOUBLE     *TAU,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dorglq --------------------------------------------------------------------
@@ -3656,7 +3656,7 @@ LAPACK_DECL(dorgr2)(const INTEGER    *M,
                     DOUBLE           *A,
                     const INTEGER    *LDA,
                     const DOUBLE     *TAU,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dorgrq --------------------------------------------------------------------
@@ -3694,7 +3694,7 @@ LAPACK_DECL(dorm2l)(const char       *SIDE,
                     const DOUBLE     *TAU,
                     DOUBLE           *C,
                     const INTEGER    *LDC,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dorm2r --------------------------------------------------------------------
@@ -3709,7 +3709,7 @@ LAPACK_DECL(dorm2r)(const char       *SIDE,
                     const DOUBLE     *TAU,
                     DOUBLE           *C,
                     const INTEGER    *LDC,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dormbr --------------------------------------------------------------------
@@ -3758,7 +3758,7 @@ LAPACK_DECL(dorml2)(const char       *SIDE,
                     const DOUBLE     *TAU,
                     DOUBLE           *C,
                     const INTEGER    *LDC,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dormlq --------------------------------------------------------------------
@@ -3821,7 +3821,7 @@ LAPACK_DECL(dormr2)(const char       *SIDE,
                     const DOUBLE     *TAU,
                     DOUBLE           *C,
                     const INTEGER    *LDC,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dormr3 --------------------------------------------------------------------
@@ -3837,7 +3837,7 @@ LAPACK_DECL(dormr3)(const char       *SIDE,
                     const DOUBLE     *TAU,
                     DOUBLE           *C,
                     const INTEGER    *LDC,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dormrq --------------------------------------------------------------------
@@ -3898,8 +3898,8 @@ LAPACK_DECL(dpbcon)(const char       *UPLO,
                     const INTEGER    *LDAB,
                     const DOUBLE     *ANORM,
                     DOUBLE           *RCOND,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dpbequ --------------------------------------------------------------------
@@ -3930,8 +3930,8 @@ LAPACK_DECL(dpbrfs)(const char       *UPLO,
                     const INTEGER    *LDX,
                     DOUBLE           *FERR,
                     DOUBLE           *BERR,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dpbstf --------------------------------------------------------------------
@@ -3975,8 +3975,8 @@ LAPACK_DECL(dpbsvx)(const char       *FACT,
                     DOUBLE           *RCOND,
                     DOUBLE           *FERR,
                     DOUBLE           *BERR,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dpbtf2 --------------------------------------------------------------------
@@ -4044,8 +4044,8 @@ LAPACK_DECL(dpocon)(const char       *UPLO,
                     const INTEGER    *LDA,
                     const DOUBLE     *ANORM,
                     DOUBLE           *RCOND,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dpoequ --------------------------------------------------------------------
@@ -4083,8 +4083,8 @@ LAPACK_DECL(dporfs)(const char       *UPLO,
                     const INTEGER    *LDX,
                     DOUBLE           *FERR,
                     DOUBLE           *BERR,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dposv ---------------------------------------------------------------------
@@ -4117,8 +4117,8 @@ LAPACK_DECL(dposvx)(const char       *FACT,
                     DOUBLE           *RCOND,
                     DOUBLE           *FERR,
                     DOUBLE           *BERR,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dpotf2 --------------------------------------------------------------------
@@ -4163,8 +4163,8 @@ LAPACK_DECL(dppcon)(const char       *UPLO,
                     const DOUBLE     *AP,
                     const DOUBLE     *ANORM,
                     DOUBLE           *RCOND,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dppequ --------------------------------------------------------------------
@@ -4190,8 +4190,8 @@ LAPACK_DECL(dpprfs)(const char       *UPLO,
                     const INTEGER    *LDX,
                     DOUBLE           *FERR,
                     DOUBLE           *BERR,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dppsv ---------------------------------------------------------------------
@@ -4221,8 +4221,8 @@ LAPACK_DECL(dppsvx)(const char       *FACT,
                     DOUBLE           *RCOND,
                     DOUBLE           *FERR,
                     DOUBLE           *BERR,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dpptrf --------------------------------------------------------------------
@@ -4258,7 +4258,7 @@ LAPACK_DECL(dpstf2)(const char       *UPLO,
                     INTEGER          *PIV,
                     INTEGER          *RANK,
                     const DOUBLE     *TOL,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dpstrf --------------------------------------------------------------------
@@ -4270,7 +4270,7 @@ LAPACK_DECL(dpstrf)(const char       *UPLO,
                     INTEGER          *PIV,
                     INTEGER          *RANK,
                     const DOUBLE     *TOL,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dptcon --------------------------------------------------------------------
@@ -4280,7 +4280,7 @@ LAPACK_DECL(dptcon)(const INTEGER    *N,
                     const DOUBLE     *E,
                     const DOUBLE     *ANORM,
                     DOUBLE           *RCOND,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dpteqr --------------------------------------------------------------------
@@ -4291,7 +4291,7 @@ LAPACK_DECL(dpteqr)(const char       *COMPZ,
                     DOUBLE           *E,
                     DOUBLE           *Z,
                     const INTEGER    *LDZ,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dptrfs --------------------------------------------------------------------
@@ -4308,7 +4308,7 @@ LAPACK_DECL(dptrfs)(const INTEGER    *N,
                     const INTEGER    *LDX,
                     DOUBLE           *FERR,
                     DOUBLE           *BERR,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dptsv ---------------------------------------------------------------------
@@ -4337,7 +4337,7 @@ LAPACK_DECL(dptsvx)(const char       *FACT,
                     DOUBLE           *RCOND,
                     DOUBLE           *FERR,
                     DOUBLE           *BERR,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dpttrf --------------------------------------------------------------------
@@ -4384,7 +4384,7 @@ LAPACK_DECL(dsbev)(const char           *JOBZ,
                    DOUBLE               *W,
                    DOUBLE               *Z,
                    const INTEGER        *LDZ,
-                   const DOUBLE         *WORK,
+                   DOUBLE               *WORK,
                    INTEGER              *INFO);
 
 //-- dsbevd --------------------------------------------------------------------
@@ -4424,8 +4424,8 @@ LAPACK_DECL(dsbevx)(const char       *JOBZ,
                     DOUBLE           *W,
                     DOUBLE           *Z,
                     const INTEGER    *LDZ,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *IFAIL,
                     INTEGER          *INFO);
 
@@ -4442,7 +4442,7 @@ LAPACK_DECL(dsbgst)(const char       *VECT,
                     const INTEGER    *LDBB,
                     DOUBLE           *X,
                     const INTEGER    *LDX,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dsbgv ---------------------------------------------------------------------
@@ -4459,7 +4459,7 @@ LAPACK_DECL(dsbgv)(const char           *JOBZ,
                    DOUBLE               *W,
                    DOUBLE               *Z,
                    const INTEGER        *LDZ,
-                   const DOUBLE         *WORK,
+                   DOUBLE               *WORK,
                    INTEGER              *INFO);
 
 //-- dsbgvd --------------------------------------------------------------------
@@ -4522,7 +4522,7 @@ LAPACK_DECL(dsbtrd)(const char       *VECT,
                     DOUBLE           *E,
                     DOUBLE           *Q,
                     const INTEGER    *LDQ,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dsecnd --------------------------------------------------------------------
@@ -4553,8 +4553,8 @@ LAPACK_DECL(dsgesv)(const INTEGER    *N,
                     const INTEGER    *LDB,
                     DOUBLE           *X,
                     const INTEGER    *LDX,
-                    const DOUBLE     *WORK,
-                    const FLOAT      *SWORK,
+                    DOUBLE           *WORK,
+                    FLOAT            *SWORK,
                     INTEGER          *ITER,
                     INTEGER          *INFO);
 
@@ -4566,8 +4566,8 @@ LAPACK_DECL(dspcon)(const char       *UPLO,
                     const INTEGER    *IPIV,
                     const DOUBLE     *ANORM,
                     DOUBLE           *RCOND,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dspev ---------------------------------------------------------------------
@@ -4579,7 +4579,7 @@ LAPACK_DECL(dspev)(const char           *JOBZ,
                    DOUBLE               *W,
                    DOUBLE               *Z,
                    const INTEGER        *LDZ,
-                   const DOUBLE         *WORK,
+                   DOUBLE               *WORK,
                    INTEGER              *INFO);
 
 //-- dspevd --------------------------------------------------------------------
@@ -4613,8 +4613,8 @@ LAPACK_DECL(dspevx)(const char       *JOBZ,
                     DOUBLE           *W,
                     DOUBLE           *Z,
                     const INTEGER    *LDZ,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *IFAIL,
                     INTEGER          *INFO);
 
@@ -4638,7 +4638,7 @@ LAPACK_DECL(dspgv)(const INTEGER        *ITYPE,
                    DOUBLE               *W,
                    DOUBLE               *Z,
                    const INTEGER        *LDZ,
-                   const DOUBLE         *WORK,
+                   DOUBLE               *WORK,
                    INTEGER              *INFO);
 
 //-- dspgvd --------------------------------------------------------------------
@@ -4676,8 +4676,8 @@ LAPACK_DECL(dspgvx)(const INTEGER    *ITYPE,
                     DOUBLE           *W,
                     DOUBLE           *Z,
                     const INTEGER    *LDZ,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *IFAIL,
                     INTEGER          *INFO);
 
@@ -4692,8 +4692,8 @@ LAPACK_DECL(dsposv)(const char       *UPLO,
                     const INTEGER    *LDB,
                     DOUBLE           *X,
                     const INTEGER    *LDX,
-                    const DOUBLE     *WORK,
-                    const FLOAT      *SWORK,
+                    DOUBLE           *WORK,
+                    FLOAT            *SWORK,
                     INTEGER          *ITER,
                     INTEGER          *INFO);
 
@@ -4711,8 +4711,8 @@ LAPACK_DECL(dsprfs)(const char       *UPLO,
                     const INTEGER    *LDX,
                     DOUBLE           *FERR,
                     DOUBLE           *BERR,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dspsv ---------------------------------------------------------------------
@@ -4742,8 +4742,8 @@ LAPACK_DECL(dspsvx)(const char       *FACT,
                     DOUBLE           *RCOND,
                     DOUBLE           *FERR,
                     DOUBLE           *BERR,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dsptrd --------------------------------------------------------------------
@@ -4770,7 +4770,7 @@ LAPACK_DECL(dsptri)(const char       *UPLO,
                     const INTEGER    *N,
                     DOUBLE           *AP,
                     const INTEGER    *IPIV,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dsptrs --------------------------------------------------------------------
@@ -4801,8 +4801,8 @@ LAPACK_DECL(dstebz)(const char       *RANGE,
                     DOUBLE           *W,
                     INTEGER          *IBLOCK,
                     INTEGER          *ISPLIT,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dstedc --------------------------------------------------------------------
@@ -4853,8 +4853,8 @@ LAPACK_DECL(dstein)(const INTEGER    *N,
                     const INTEGER    *ISPLIT,
                     DOUBLE           *Z,
                     const INTEGER    *LDZ,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *IFAIL,
                     INTEGER          *INFO);
 
@@ -4890,7 +4890,7 @@ LAPACK_DECL(dsteqr)(const char       *COMPZ,
                     DOUBLE           *E,
                     DOUBLE           *Z,
                     const INTEGER    *LDZ,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dsterf --------------------------------------------------------------------
@@ -4908,7 +4908,7 @@ LAPACK_DECL(dstev)(const char           *JOBZ,
                    DOUBLE               *E,
                    DOUBLE               *Z,
                    const INTEGER        *LDZ,
-                   const DOUBLE         *WORK,
+                   DOUBLE               *WORK,
                    INTEGER              *INFO);
 
 //-- dstevd --------------------------------------------------------------------
@@ -4964,8 +4964,8 @@ LAPACK_DECL(dstevx)(const char       *JOBZ,
                     DOUBLE           *W,
                     DOUBLE           *Z,
                     const INTEGER    *LDZ,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *IFAIL,
                     INTEGER          *INFO);
 
@@ -4978,8 +4978,8 @@ LAPACK_DECL(dsycon)(const char       *UPLO,
                     const INTEGER    *IPIV,
                     const DOUBLE     *ANORM,
                     DOUBLE           *RCOND,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dsyconv -------------------------------------------------------------------
@@ -4990,7 +4990,7 @@ LAPACK_DECL(dsyconv)(const char       *UPLO,
                      const DOUBLE     *A,
                      const INTEGER    *LDA,
                      const INTEGER    *IPIV,
-                     const DOUBLE     *WORK,
+                     DOUBLE           *WORK,
                      INTEGER          *INFO);
 
 //-- dsyequb -------------------------------------------------------------------
@@ -5002,7 +5002,7 @@ LAPACK_DECL(dsyequb)(const char       *UPLO,
                      DOUBLE           *S,
                      DOUBLE           *SCOND,
                      DOUBLE           *AMAX,
-                     const DOUBLE     *WORK,
+                     DOUBLE           *WORK,
                      INTEGER          *INFO);
 
 //-- dsyev ---------------------------------------------------------------------
@@ -5074,7 +5074,7 @@ LAPACK_DECL(dsyevx)(const char       *JOBZ,
                     const INTEGER    *LDZ,
                     DOUBLE           *WORK,
                     const INTEGER    *LWORK,
-                    const INTEGER    *IWORK,
+                    INTEGER          *IWORK,
                     INTEGER          *IFAIL,
                     INTEGER          *INFO);
 
@@ -5154,7 +5154,7 @@ LAPACK_DECL(dsygvx)(const INTEGER    *ITYPE,
                     const INTEGER    *LDZ,
                     DOUBLE           *WORK,
                     const INTEGER    *LWORK,
-                    const INTEGER    *IWORK,
+                    INTEGER          *IWORK,
                     INTEGER          *IFAIL,
                     INTEGER          *INFO);
 
@@ -5174,8 +5174,8 @@ LAPACK_DECL(dsyrfs)(const char       *UPLO,
                     const INTEGER    *LDX,
                     DOUBLE           *FERR,
                     DOUBLE           *BERR,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dsysv ---------------------------------------------------------------------
@@ -5212,7 +5212,7 @@ LAPACK_DECL(dsysvx)(const char       *FACT,
                     DOUBLE           *BERR,
                     DOUBLE           *WORK,
                     const INTEGER    *LWORK,
-                    const INTEGER    *IWORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dsyswapr ------------------------------------------------------------------
@@ -5275,7 +5275,7 @@ LAPACK_DECL(dsytri)(const char       *UPLO,
                     DOUBLE           *A,
                     const INTEGER    *LDA,
                     const INTEGER    *IPIV,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dsytri2 -------------------------------------------------------------------
@@ -5285,7 +5285,7 @@ LAPACK_DECL(dsytri2)(const char       *UPLO,
                      DOUBLE           *A,
                      const INTEGER    *LDA,
                      const INTEGER    *IPIV,
-                     const DOUBLE     *WORK,
+                     DOUBLE           *WORK,
                      const INTEGER    *LWORK,
                      INTEGER          *INFO);
 
@@ -5296,7 +5296,7 @@ LAPACK_DECL(dsytri2x)(const char       *UPLO,
                       DOUBLE           *A,
                       const INTEGER    *LDA,
                       const INTEGER    *IPIV,
-                      const DOUBLE     *WORK,
+                      DOUBLE           *WORK,
                       const INTEGER    *NB,
                       INTEGER          *INFO);
 
@@ -5322,7 +5322,7 @@ LAPACK_DECL(dsytrs2)(const char       *UPLO,
                      const INTEGER    *IPIV,
                      DOUBLE           *B,
                      const INTEGER    *LDB,
-                     const DOUBLE     *WORK,
+                     DOUBLE           *WORK,
                      INTEGER          *INFO);
 
 //-- dtbcon --------------------------------------------------------------------
@@ -5335,8 +5335,8 @@ LAPACK_DECL(dtbcon)(const char       *NORM,
                     const DOUBLE     *AB,
                     const INTEGER    *LDAB,
                     DOUBLE           *RCOND,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dtbrfs --------------------------------------------------------------------
@@ -5355,8 +5355,8 @@ LAPACK_DECL(dtbrfs)(const char       *UPLO,
                     const INTEGER    *LDX,
                     DOUBLE           *FERR,
                     DOUBLE           *BERR,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dtbtrs --------------------------------------------------------------------
@@ -5431,7 +5431,7 @@ LAPACK_DECL(dtgevc)(const char       *SIDE,
                     const INTEGER    *LDVR,
                     const INTEGER    *MM,
                     INTEGER          *M,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dtgex2 --------------------------------------------------------------------
@@ -5450,7 +5450,7 @@ LAPACK_DECL(dtgex2)(const LOGICAL    *WANTQ,
                     const INTEGER    *J1,
                     const INTEGER    *N1,
                     const INTEGER    *N2,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO);
 
@@ -5525,7 +5525,7 @@ LAPACK_DECL(dtgsja)(const char       *JOBU,
                     const INTEGER    *LDV,
                     DOUBLE           *Q,
                     const INTEGER    *LDQ,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *NCYCLE,
                     INTEGER          *INFO);
 
@@ -5549,7 +5549,7 @@ LAPACK_DECL(dtgsna)(const char       *JOB,
                     INTEGER          *M,
                     DOUBLE           *WORK,
                     const INTEGER    *LWORK,
-                    const INTEGER    *IWORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dtgsy2 --------------------------------------------------------------------
@@ -5573,7 +5573,7 @@ LAPACK_DECL(dtgsy2)(const char       *TRANS,
                     DOUBLE           *SCALE,
                     DOUBLE           *RDSUM,
                     DOUBLE           *RDSCAL,
-                    const INTEGER    *IWORK,
+                    INTEGER          *IWORK,
                     INTEGER          *PQ,
                     INTEGER          *INFO);
 
@@ -5599,7 +5599,7 @@ LAPACK_DECL(dtgsyl)(const char       *TRANS,
                     DOUBLE           *DIF,
                     DOUBLE           *WORK,
                     const INTEGER    *LWORK,
-                    const INTEGER    *IWORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dtpcon --------------------------------------------------------------------
@@ -5610,8 +5610,8 @@ LAPACK_DECL(dtpcon)(const char       *NORM,
                     const INTEGER    *N,
                     const DOUBLE     *AP,
                     DOUBLE           *RCOND,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dtprfs --------------------------------------------------------------------
@@ -5628,8 +5628,8 @@ LAPACK_DECL(dtprfs)(const char       *UPLO,
                     const INTEGER    *LDX,
                     DOUBLE           *FERR,
                     DOUBLE           *BERR,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dtptri --------------------------------------------------------------------
@@ -5679,8 +5679,8 @@ LAPACK_DECL(dtrcon)(const char       *NORM,
                     const DOUBLE     *A,
                     const INTEGER    *LDA,
                     DOUBLE           *RCOND,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dtrevc --------------------------------------------------------------------
@@ -5697,7 +5697,7 @@ LAPACK_DECL(dtrevc)(const char       *SIDE,
                     const INTEGER    *LDVR,
                     const INTEGER    *MM,
                     INTEGER          *M,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dtrexc --------------------------------------------------------------------
@@ -5710,7 +5710,7 @@ LAPACK_DECL(dtrexc)(const char       *COMPQ,
                     const INTEGER    *LDQ,
                     INTEGER          *IFST,
                     INTEGER          *ILST,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     INTEGER          *INFO);
 
 //-- dtrrfs --------------------------------------------------------------------
@@ -5728,8 +5728,8 @@ LAPACK_DECL(dtrrfs)(const char       *UPLO,
                     const INTEGER    *LDX,
                     DOUBLE           *FERR,
                     DOUBLE           *BERR,
-                    const DOUBLE     *WORK,
-                    const INTEGER    *IWORK,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dtrsen --------------------------------------------------------------------
@@ -5749,7 +5749,7 @@ LAPACK_DECL(dtrsen)(const char       *JOB,
                     DOUBLE           *SEP,
                     DOUBLE           *WORK,
                     const INTEGER    *LWORK,
-                    const INTEGER    *IWORK,
+                    INTEGER          *IWORK,
                     const INTEGER    *LIWORK,
                     INTEGER          *INFO);
 
@@ -5769,9 +5769,9 @@ LAPACK_DECL(dtrsna)(const char       *JOB,
                     DOUBLE           *SEP,
                     const INTEGER    *MM,
                     INTEGER          *M,
-                    const DOUBLE     *WORK,
+                    DOUBLE           *WORK,
                     const INTEGER    *LDWORK,
-                    const INTEGER    *IWORK,
+                    INTEGER          *IWORK,
                     INTEGER          *INFO);
 
 //-- dtrsyl --------------------------------------------------------------------
@@ -5908,26 +5908,11 @@ LAPACK_DECL(ilatrans)(const char       *TRANS);
 INTEGER
 LAPACK_DECL(ilauplo)(const char   *UPLO);
 
-// warning: VERS_MAJOR has unknown type
-// warning: VERS_MINOR has unknown type
-// warning: VERS_PATCH has unknown type
 //-- ilaver --------------------------------------------------------------------
 void
 LAPACK_DECL(ilaver)(INTEGER  *VERS_MAJOR,
                     INTEGER  *VERS_MINOR,
                     INTEGER  *VERS_PATCH);
-
-// warning: NAME has unknown type
-// warning: OPTS has unknown type
-//-- iparmq --------------------------------------------------------------------
-INTEGER
-LAPACK_DECL(iparmq)(const INTEGER    *ISPEC,
-                    UNKNOWN          *NAME,
-                    UNKNOWN          *OPTS,
-                    const INTEGER    *N,
-                    const INTEGER    *ILO,
-                    const INTEGER    *IHI,
-                    const INTEGER    *LWORK);
 
 //-- lsame ---------------------------------------------------------------------
 LOGICAL

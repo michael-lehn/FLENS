@@ -34,6 +34,8 @@
 #include <string>
 #include <flens/debug/aux/closurelog.h>
 #include <flens/debug/aux/closurelogstream.h>
+#include <flens/aux/macros.h>
+#include <iostream>
 
 namespace flens { namespace verbose {
 
@@ -43,14 +45,17 @@ ClosureLog::_started = false;
 int
 ClosureLog::_indentLevel = -1;
 
+std::string
+ClosureLog::_tag;
+
 std::ofstream
 ClosureLog::_out;
 
-VariablePool     
-ClosureLog::_variablePool;
+VariablePool
+ClosureLog::variablePool;
 
 ClosureLogStream
-ClosureLog::_closureLogStream = ClosureLogStream(ClosureLog::_variablePool,
+ClosureLog::_closureLogStream = ClosureLogStream(ClosureLog::variablePool,
                                                  ClosureLog::_out);
 
 void
@@ -61,6 +66,8 @@ ClosureLog::start(const char *filename, bool clearLog)
     _out.open(filename, mode | std::ios_base::out);
     _started = true;
     _indentLevel = 0;
+    _tag.assign("");
+
 }
 
 void
@@ -75,6 +82,24 @@ bool
 ClosureLog::started()
 {
     return _started;
+}
+
+void
+ClosureLog::separator()
+{
+    if (_started && _indentLevel==1) {
+        std::string sep(80, '-');
+        _out << std::endl << sep << std::endl;
+    }
+}
+
+bool
+ClosureLog::openEntry()
+{
+    if (_started) {
+        return true;
+    }
+    return false;
 }
 
 bool
@@ -95,11 +120,30 @@ ClosureLog::closeEntry()
     }
 }
 
-ClosureLogStream &
-ClosureLog::append()
+
+void
+ClosureLog::setTag(const char *tag)
 {
-    std::string indent(std::max((_indentLevel-1)*4, 0), ' ');
-    _out << std::endl << indent;
+    _tag.assign(tag);
+}
+
+void
+ClosureLog::unsetTag()
+{
+    _tag.assign("");
+}
+
+ClosureLogStream &
+ClosureLog::append(bool startNewLine)
+{
+    ASSERT(_started);
+
+
+    if (startNewLine) {
+        std::string indent(std::max((_indentLevel-1)*4, 0), ' ');
+        _out << std::endl;
+        _out << indent << _tag;
+    }
     return _closureLogStream;
 }
 

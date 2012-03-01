@@ -52,7 +52,6 @@ trapezoidalFill(StorageOrder order, StorageUpLo upLo,
             }
         }
         if (order==ColMajor) {
-            ++data;
             for (IndexType j=0; j<n; ++j, data+=ld) {
                 std::fill_n(data, min(j+1,m), value);
             }

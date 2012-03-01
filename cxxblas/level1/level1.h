@@ -40,6 +40,7 @@
 #include <cxxblas/level1/iamax.h>
 #include <cxxblas/level1/nrm2.h>
 #include <cxxblas/level1/rot.h>
+#include <cxxblas/level1/rotm.h>
 #include <cxxblas/level1/scal.h>
 #include <cxxblas/level1/swap.h>
 

@@ -83,6 +83,8 @@ hemm(StorageOrder order,
      const BETA &beta,
      MC *C, IndexType ldC)
 {
+    CXXBLAS_DEBUG_OUT("hemm_generic");
+
     hemm_generic(order, side, upLo, m, n, alpha, A, ldA, B, ldB, beta, C, ldC);
 }
 

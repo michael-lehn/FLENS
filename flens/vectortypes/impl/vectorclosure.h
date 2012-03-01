@@ -44,6 +44,9 @@ class VectorClosure
     : public Vector<VectorClosure<Op, L, R> >
 {
     public:
+        typedef L  Left;
+        typedef R  Right;
+
         typedef typename Promotion<typename L::ElementType,
                                    typename R::ElementType>::Type  ElementType;
 

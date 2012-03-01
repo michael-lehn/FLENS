@@ -38,6 +38,9 @@
 
 namespace cxxblas {
 
+//
+//  B = A  or B = A^T
+//
 template <typename IndexType, typename MA, typename MB>
 void
 gecopy(StorageOrder order,
@@ -45,6 +48,8 @@ gecopy(StorageOrder order,
        const MA *A, IndexType ldA,
        MB *B, IndexType ldB)
 {
+    CXXBLAS_DEBUG_OUT("gecopy_generic");
+
     if (order==ColMajor) {
         std::swap(m,n);
     }
@@ -65,6 +70,7 @@ gecopy(StorageOrder order,
         }
         return;
     }
+    // Lehn: Other cases will be implemented on demand
     assert(0);
 }
 

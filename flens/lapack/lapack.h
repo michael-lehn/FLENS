@@ -76,6 +76,7 @@
 #include <flens/lapack/aux/laswp.h>
 #include <flens/lapack/aux/lasy2.h>
 #include <flens/lapack/aux/nint.h>
+#include <flens/lapack/aux/pocon.h>
 #include <flens/lapack/aux/rscl.h>
 #include <flens/lapack/aux/sign.h>
 
@@ -125,12 +126,30 @@
 #include <flens/lapack/gesv/tri.h>
 #include <flens/lapack/gesv/trs.h>
 
-#include <flens/lapack/qr/qr2.h>
-#include <flens/lapack/qr/qrf.h>
+#include <flens/lapack/lq/lq2.h>
+#include <flens/lapack/lq/lqf.h>
+#include <flens/lapack/lq/orgl2.h>
+#include <flens/lapack/lq/orglq.h>
+#include <flens/lapack/lq/orml2.h>
+#include <flens/lapack/lq/ormlq.h>
+
+#include <flens/lapack/ls/ls.h>
+
+#include <flens/lapack/qr/laqp2.h>
+#include <flens/lapack/qr/laqps.h>
 #include <flens/lapack/qr/org2r.h>
 #include <flens/lapack/qr/orgqr.h>
 #include <flens/lapack/qr/orm2r.h>
 #include <flens/lapack/qr/ormqr.h>
+#include <flens/lapack/qr/qp3.h>
+#include <flens/lapack/qr/qr2.h>
+#include <flens/lapack/qr/qrf.h>
+#include <flens/lapack/qr/qrs.h>
+
+#include <flens/lapack/svd/jsv.h>
+#include <flens/lapack/svd/svj.h>
+#include <flens/lapack/svd/svj0.h>
+#include <flens/lapack/svd/svj1.h>
 
 
 #if defined CHECK_CXXLAPACK || defined USE_NATIVE_ILAENV

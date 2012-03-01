@@ -35,26 +35,11 @@
 
 #include <cxxblas/cxxblas.h>
 #include <flens/matrixtypes/matrixtypes.h>
+#include <flens/storage/storage.h>
 #include <flens/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace blas {
-
-//-- forwarding ----------------------------------------------------------------
-template <typename ALPHA, typename MA, typename MB>
-    void
-    axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
-
-//-- common interface for vectors ----------------------------------------------
-template <typename ALPHA, typename VX, typename VY>
-    void
-    axpy(const ALPHA &alpha, const Vector<VX> &x, Vector<VY> &y);
-
-//-- common interface for matrices ---------------------------------------------
-template <typename ALPHA, typename MA, typename MB>
-    void
-    axpy(Transpose trans,
-         const ALPHA &alpha, const Matrix<MA> &A, Matrix<MB> &B);
 
 //-- axpy
 template <typename ALPHA, typename VX, typename VY>

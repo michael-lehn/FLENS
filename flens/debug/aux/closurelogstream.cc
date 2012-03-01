@@ -45,6 +45,21 @@ ClosureLogStream::ClosureLogStream(VariablePool &variablePool,
 }
 
 ClosureLogStream &
+operator<<(ClosureLogStream &clStream, Side side)
+{
+    if (side==Left) {
+        clStream._out << "Left";
+        return clStream;
+    }
+    if (side==Right) {
+        clStream._out << "Right";
+        return clStream;
+    }
+    clStream._out << "?";
+    return clStream;
+}
+
+ClosureLogStream &
 operator<<(ClosureLogStream &clStream, Transpose trans)
 {
     if (trans==NoTrans) {

@@ -146,8 +146,11 @@ ConstArrayView<T, I, A>::view(IndexType from, IndexType to,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        from = firstIndex();
-        to = firstIndex();
+        return ConstArrayView<T, I, A>(length,              // length
+                                       0,                   // data
+                                       stride*_stride,      // stride
+                                       firstViewIndex,      // firstIndex in view
+                                       allocator());        // allocator
     }
 #   endif
 

@@ -154,7 +154,7 @@ cblas_srot(CBLAS_INT n,
            float *X, CBLAS_INT incX,
            float *Y, CBLAS_INT incY,
            float c, float s);
-           
+
 void
 cblas_drot(CBLAS_INT n,
            double *X, CBLAS_INT incX,
@@ -172,19 +172,19 @@ void
 cblas_srotm(CBLAS_INT n,
             float *X, CBLAS_INT incX,
             float *Y, CBLAS_INT incY,
-            float *P);
+            const float *P);
 
 void
 cblas_drotm(CBLAS_INT n,
             double *X, CBLAS_INT incX,
             double *Y, CBLAS_INT incY,
-            double *P);
+            const double *P);
 
 void
-cblas_srotmg(float *d1, float *d2, float *b1, float b2, float *P);
+cblas_srotmg(float *d1, float *d2, float *b1, float *b2, float *P);
 
 void
-cblas_drotmg(double *d1, double *d2, double *b1, double b2, double *P);
+cblas_drotmg(double *d1, double *d2, double *b1, double *b2, double *P);
 
 // scal
 void 

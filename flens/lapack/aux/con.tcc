@@ -30,11 +30,19 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
+/* Based on
+ *
+       SUBROUTINE DGECON( NORM, N, A, LDA, ANORM, RCOND, WORK, IWORK,
+      $                   INFO )
+ *
+ *  -- LAPACK routine (version 3.3.1) --
+ *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
+ *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
+ *  -- April 2011                                                      --
  */
 
-#ifndef FLENS_LAPACK_AUX_LACON_TCC
-#define FLENS_LAPACK_AUX_LACON_TCC 1
+#ifndef FLENS_LAPACK_AUX_CON_TCC
+#define FLENS_LAPACK_AUX_CON_TCC 1
 
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>
@@ -299,4 +307,4 @@ con(Norm         norm,
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_AUX_LACON_TCC
+#endif // FLENS_LAPACK_AUX_CON_TCC

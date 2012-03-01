@@ -44,6 +44,8 @@ geaxpy(StorageOrder order,
        const ALPHA &alpha, const MA *A, IndexType ldA,
        MB *B, IndexType ldB)
 {
+    CXXBLAS_DEBUG_OUT("geaxpy_generic");
+
     if (order==ColMajor) {
         std::swap(m,n);
     }

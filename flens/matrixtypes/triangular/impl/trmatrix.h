@@ -87,6 +87,13 @@ class TrMatrix
         typedef TrMatrix<EngineView>                View;
         typedef TrMatrix<EngineNoView>              NoView;
 
+        TrMatrix();
+
+        explicit
+        TrMatrix(IndexType dim);
+
+        TrMatrix(IndexType numRows, IndexType numCols);
+
         TrMatrix(const Engine &engine, StorageUpLo upLo, Diag diag = NonUnit);
 
         TrMatrix(const TrMatrix &rhs);

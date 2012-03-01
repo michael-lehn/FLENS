@@ -42,6 +42,9 @@ template <typename X, typename Y, typename T>
 void
 dot(const DenseVector<X> &x, const DenseVector<Y> &y, T &result)
 {
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_DOT(x, y);
+
     ASSERT(x.length()==y.length());
 
 #   ifdef HAVE_CXXBLAS_DOT
@@ -51,12 +54,18 @@ dot(const DenseVector<X> &x, const DenseVector<Y> &y, T &result)
 #   else
     ASSERT(0);
 #   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
 }
 
 template <typename X, typename Y, typename T>
 void
 dotu(const DenseVector<X> &x, const DenseVector<Y> &y, T &result)
 {
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_DOTU(x, y);
+
     ASSERT(x.length()==y.length());
 
 #   ifdef HAVE_CXXBLAS_DOTU
@@ -66,6 +75,9 @@ dotu(const DenseVector<X> &x, const DenseVector<Y> &y, T &result)
 #   else
     ASSERT(0);
 #   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
 }
 
 } } // namespace blas, flens

@@ -37,8 +37,17 @@
 #include <flens/aux/compatiblescalar.h>
 #include <flens/aux/explicit_cast.h>
 #include <flens/aux/ifelseif.h>
+#include <flens/aux/isclosure.h>
 #include <flens/aux/isconvertible.h>
+#include <flens/aux/isgeneralmatrix.h>
+#include <flens/aux/ishermitianmatrix.h>
+#include <flens/aux/ismatrix.h>
+#include <flens/aux/ismatrixclosure.h>
 #include <flens/aux/issame.h>
+#include <flens/aux/issymmetricmatrix.h>
+#include <flens/aux/istriangularmatrix.h>
+#include <flens/aux/isvector.h>
+#include <flens/aux/isvectorclosure.h>
 #include <flens/aux/macros.h>
 #include <flens/aux/max.h>
 #include <flens/aux/min.h>

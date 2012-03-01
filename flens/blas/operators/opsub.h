@@ -40,17 +40,13 @@ namespace flens {
 
 struct OpSub {};
 
-template <typename MA, typename MB>
-    const MatrixClosure<OpSub,
-                        typename MA::Impl,
-                        typename MB::Impl>
-    operator-(const Matrix<MA> &A, const Matrix<MB> &B);
-
 template <typename VX, typename VY>
-    const VectorClosure<OpSub,
-                        typename VX::Impl,
-                        typename VY::Impl>
+    const VectorClosure<OpSub, typename VX::Impl, typename VY::Impl>
     operator-(const Vector<VX> &x, const Vector<VY> &y);
+
+template <typename MA, typename MB>
+    const MatrixClosure<OpSub, typename MA::Impl, typename MB::Impl>
+    operator-(const Matrix<MA> &A, const Matrix<MB> &B);
 
 } // namespace flens
 

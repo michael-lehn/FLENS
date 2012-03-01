@@ -49,19 +49,19 @@
 namespace flens { namespace lapack {
 
 //== generic lapack implementation =============================================
+// getrs
 template <typename MA, typename VP, typename MB>
 void
 trs_generic(Transpose trans, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
             GeMatrix<MB> &B)
 {
-    using lapack::laswp;
-
     typedef typename GeMatrix<MA>::IndexType    IndexType;
     typedef typename GeMatrix<MA>::ElementType  T;
 
     const IndexType n       = A.numCols();
     const IndexType nRhs    = B.numCols();
 
+    const T  One(1);
 //
 //  Quick return if possible
 //
@@ -79,22 +79,22 @@ trs_generic(Transpose trans, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
 //
 //      Solve L*X = B, overwriting B with X.
 //
-        blas::sm(Left, trans, T(1), A.lowerUnit(), B);
+        blas::sm(Left, trans, One, A.lowerUnit(), B);
 //
 //      Solve U*X = B, overwriting B with X.
 //
-        blas::sm(Left, trans, T(1), A.upper(), B);
+        blas::sm(Left, trans, One, A.upper(), B);
     } else {
 //
 //      Solve A' * X = B.
 //
 //      Solve U'*X = B, overwriting B with X.
 //
-        blas::sm(Left, trans, T(1), A.upper(), B);
+        blas::sm(Left, trans, One, A.upper(), B);
 //
 //      Solve L'*X = B, overwriting B with X.
 //
-        blas::sm(Left, trans, T(1), A.lowerUnit(), B);
+        blas::sm(Left, trans, One, A.lowerUnit(), B);
 //
 //      Apply row interchanges to the solution vectors.
 //
@@ -102,10 +102,49 @@ trs_generic(Transpose trans, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
     }
 }
 
+// trtrs
+template <typename MA, typename MB>
+typename TrMatrix<MA>::IndexType
+trs_generic(Transpose trans, const TrMatrix<MA> &A, GeMatrix<MB> &B)
+{
+    typedef typename TrMatrix<MA>::IndexType    IndexType;
+    typedef typename TrMatrix<MA>::ElementType  T;
+
+    const IndexType n       = A.dim();
+
+    const T  Zero(0), One(1);
+
+    IndexType info = 0;
+//
+//  Quick return if possible
+//
+    if (n==0) {
+        return info;
+    }
+//
+//  Check for singularity.
+//
+    if (A.diag()!=Unit) {
+        for (info=1; info<=n; ++info) {
+            if (A(info,info)==Zero) {
+                return info;
+            }
+        }
+    }
+    info = 0;
+//
+//  Solve A * x = b  or  A**T * x = b.
+//
+    blas::sm(Left, trans, One, A, B);
+
+    return info;
+}
+
 //== interface for native lapack ===============================================
 
 #ifdef CHECK_CXXLAPACK
 
+// getrs
 template <typename MA, typename VP, typename MB>
 void
 trs_native(Transpose trans, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
@@ -137,10 +176,46 @@ trs_native(Transpose trans, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
     ASSERT(INFO==0);
 }
 
+// trtrs
+template <typename MA, typename MB>
+typename TrMatrix<MA>::IndexType
+trs_native(Transpose trans, const TrMatrix<MA> &A, GeMatrix<MB> &B)
+{
+    typedef typename TrMatrix<MA>::ElementType ElementType;
+
+    const char       UPLO = char(A.upLo());
+    const char       TRANS = getF77LapackChar(trans);
+    const char       DIAG  = char(A.diag());
+    const INTEGER    N     = A.dim();
+    const INTEGER    NRHS  = B.numCols();
+    const INTEGER    LDA   = A.leadingDimension();
+    const INTEGER    LDB   = B.leadingDimension();
+    INTEGER          INFO;
+
+
+    if (IsSame<ElementType, double>::value) {
+        LAPACK_IMPL(dtrtrs)(&UPLO,
+                            &TRANS,
+                            &DIAG,
+                            &N,
+                            &NRHS,
+                            A.data(),
+                            &LDA,
+                            B.data(),
+                            &LDB,
+                            &INFO);
+    } else {
+        ASSERT(0);
+    }
+    ASSERT(INFO>=0);
+    return INFO;
+}
+
 #endif // CHECK_CXXLAPACK
 
 //== public interface ==========================================================
 
+// getrs
 template <typename MA, typename VP, typename MB>
 void
 trs(Transpose trans, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
@@ -215,12 +290,103 @@ trs(Transpose trans, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
     return trs(trans, A, piv, B);
 }
 
+// trtrs
+template <typename MA, typename MB>
+typename TrMatrix<MA>::IndexType
+trs(Transpose trans, const TrMatrix<MA> &A, GeMatrix<MB> &B)
+{
+    typedef typename TrMatrix<MA>::IndexType  IndexType;
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+
+    const IndexType n = A.dim();
+
+    ASSERT(B.firstRow()==1);
+    ASSERT(B.firstCol()==1);
+    ASSERT(B.numRows()==n);
+#   endif
+
+//
+//  Make copies of output arguments
+//
+    typename GeMatrix<MB>::NoView  B_org   = B;
+//
+//  Call implementation
+//
+    IndexType info = trs_generic(trans, A, B);
+//
+//  Compare results
+//
+#   ifdef CHECK_CXXLAPACK
+    typename GeMatrix<MB>::NoView  B_generic   = B;
+
+    B   = B_org;
+
+    IndexType _info = trs_native(trans, A, B);
+
+    bool failed = false;
+    if (! isIdentical(B_generic, B, "B_generic", "B")) {
+        std::cerr << "CXXLAPACK: B_generic = " << B_generic << std::endl;
+        std::cerr << "F77LAPACK: B = " << B << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(info, _info, "info", "_info")) {
+        std::cerr << "CXXLAPACK: info = " << info << std::endl;
+        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    } else {
+        // std::cerr << "passed: (tr)trs.tcc" << std::endl;
+    }
+#   endif
+
+    return info;
+}
+
+template <typename MA, typename VB>
+typename TrMatrix<MA>::IndexType
+trs(Transpose trans, const TrMatrix<MA> &A, DenseVector<VB> &b)
+{
+    typedef typename DenseVector<VB>::ElementType  ElementType;
+    typedef typename DenseVector<VB>::IndexType    IndexType;
+
+    const IndexType    n     = b.length();
+    const StorageOrder order = TrMatrix<MA>::Engine::order;
+
+    GeMatrix<FullStorageView<ElementType, order> >  B(n, 1, b, n);
+
+    return trs(trans, A, B);
+}
+
 //-- forwarding ----------------------------------------------------------------
 template <typename MA, typename VP, typename MB>
 void
 trs(Transpose trans, const MA &A, const VP &piv, MB &&B)
 {
+    CHECKPOINT_ENTER;
     trs(trans, A, piv, B);
+    CHECKPOINT_LEAVE;
+}
+
+template <typename MA, typename MB>
+typename MA::IndexType
+trs(Transpose trans, const MA &A, MB &&B)
+{
+    typename MA::IndexType info;
+
+    CHECKPOINT_ENTER;
+    info = trs(trans, A, B);
+    CHECKPOINT_LEAVE;
+
+    return info;
 }
 
 } } // namespace lapack, flens

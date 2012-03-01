@@ -25,7 +25,7 @@ struct SelectFunction
 
 extern "C" {
 
-//-- dgeev ---------------------------------------------------------------------
+//-- dgeesx --------------------------------------------------------------------
 void
 LAPACK_DECL(dgeesx)(const char       *JOBVS,
                     const char       *SORT,

@@ -32,6 +32,7 @@
 
 #ifndef FLENS_BLAS_BLAS_TCC
 
+#include <flens/blas/assign.tcc>
 #include <flens/blas/closures/closures.tcc>
 #include <flens/blas/level1/level1.tcc>
 #include <flens/blas/level2/level2.tcc>

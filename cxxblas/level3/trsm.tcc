@@ -44,8 +44,6 @@ trsm_generic(StorageOrder order, Side sideA, StorageUpLo upLoA,
              const MA *A, IndexType ldA,
              MB *B, IndexType ldB)
 {
-    CXXBLAS_DEBUG_OUT("trsm_generic");
-
     if (order==ColMajor) {
         sideA = (sideA==Left) ? Right : Left;
         upLoA = (upLoA==Upper) ? Lower : Upper;
@@ -76,6 +74,8 @@ trsm(StorageOrder order, Side side, StorageUpLo upLo,
      const MA *A, IndexType ldA,
      MB *B, IndexType ldB)
 {
+    CXXBLAS_DEBUG_OUT("trsm_generic");
+
     trsm_generic(order, side, upLo, transA, diag, m, n, alpha, A, ldA, B, ldB);
 }
 

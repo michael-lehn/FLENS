@@ -36,11 +36,18 @@
 //-- ADDRESS -------------------------------------------------------------------
 #define ADDRESS(x) reinterpret_cast<const void *>(&x)
 
+//-- RAWPOINTER ----------------------------------------------------------------
+#define RAWPOINTER(x) reinterpret_cast<const void *>(x)
+
 //-- ASSERT -------------------------------------------------------------------
 #include <cassert>
 
 #ifndef ASSERT
 #define ASSERT(x) assert(x)
+#endif
+
+#ifndef ERROR_MSG
+#define ERROR_MSG(x) std::cerr << "ERROR: " << x << std::endl;
 #endif
 
 #ifndef NDEBUG

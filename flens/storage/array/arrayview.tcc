@@ -208,8 +208,11 @@ ArrayView<T, I, A>::view(IndexType from, IndexType to,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        from = firstIndex();
-        to = firstIndex();
+        return ConstView(length,                // length
+                         0,                     // data
+                         stride*_stride,        // stride
+                         firstViewIndex,        // firstIndex in view
+                         allocator());          // allocator
     }
 #   endif
 
@@ -234,7 +237,11 @@ ArrayView<T, I, A>::view(IndexType from, IndexType to,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        from = firstIndex();
+        return ArrayView(length,                // length
+                         0,                     // data
+                         stride*_stride,        // stride
+                         firstViewIndex,        // firstIndex in view
+                         allocator());          // allocator
     } else {
         ASSERT(firstIndex()<=from);
         ASSERT(lastIndex()>=to);

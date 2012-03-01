@@ -35,24 +35,20 @@
 
 namespace flens {
 
-template <typename MA, typename MB>
-const MatrixClosure<OpSub,
-                    typename MA::Impl,
-                    typename MB::Impl>
-operator-(const Matrix<MA> &A, const Matrix<MB> &B)
-{
-    typedef MatrixClosure<OpSub, typename MA::Impl, typename MB::Impl> MC;
-    return MC(A.impl(), B.impl());
-}
-
 template <typename VX, typename VY>
-const VectorClosure<OpSub,
-                    typename VX::Impl,
-                    typename VY::Impl>
+const VectorClosure<OpSub, typename VX::Impl,typename  VY::Impl>
 operator-(const Vector<VX> &x, const Vector<VY> &y)
 {
     typedef VectorClosure<OpSub, typename VX::Impl, typename VY::Impl> VC;
     return VC(x.impl(), y.impl());
+}
+
+template <typename MA, typename MB>
+const MatrixClosure<OpSub, typename MA::Impl, typename MB::Impl>
+operator-(const Matrix<MA> &A, const Matrix<MB> &B)
+{
+    typedef MatrixClosure<OpSub, typename MA::Impl, typename MB::Impl> MC;
+    return MC(A.impl(), B.impl());
 }
 
 } // namespace flens

@@ -107,41 +107,7 @@ template <typename T>
 T
 lamch_native(MachineParameter machineParameter)
 {
-    char c;
-    switch (machineParameter) {
-        case Eps:
-            c = 'E';
-            break;
-        case SafeMin:
-            c = 'S';
-            break;
-        case Base:
-            c = 'B';
-            break;
-        case Precision:
-            c = 'P';
-            break;
-        case Mantissa:
-            c = 'N';
-            break;
-        case Rounding:
-            c = 'R';
-            break;
-        case UnderflowExp:
-            c = 'M';
-            break;
-        case UnderflowThreshold:
-            c = 'U';
-            break;
-        case OverflowExp:
-            c = 'L';
-            break;
-        case OverflowThreshold:
-            c = 'O';
-            break;
-        default:
-            ASSERT(0);
-    }
+    char c = char(machineParameter);
 
     if (IsSame<T, double>::value) {
         return LAPACK_IMPL(dlamch)(&c);

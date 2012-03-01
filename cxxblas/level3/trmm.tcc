@@ -74,6 +74,8 @@ trmm(StorageOrder order, Side side, StorageUpLo upLo,
      const MA *A, IndexType ldA,
      MB *B, IndexType ldB)
 {
+    CXXBLAS_DEBUG_OUT("trmm_generic");
+
     trmm_generic(order, side, upLo, transA, diag, m, n, alpha, A, ldA, B, ldB);
 }
 

@@ -38,11 +38,21 @@
 
 namespace cxxblas {
 
+//
+//  B = A  or B = A^T
+//
 template <typename IndexType, typename MA, typename MB>
 void
 trcopy(StorageOrder order, StorageUpLo upLo, Transpose trans, Diag diag,
-       IndexType n, const MA *A, IndexType ldA, MB *B, IndexType ldB)
+       IndexType m, IndexType n, const MA *A, IndexType ldA,
+       MB *B, IndexType ldB)
 {
+    CXXBLAS_DEBUG_OUT("trcopy_generic");
+    using std::min;
+
+    // TODO: implement complex cases  B = conj(A) and B = A^H
+    ASSERT(trans==NoTrans || trans==Trans);
+
     if (order==RowMajor) {
         ASSERT(0);
     }
@@ -50,12 +60,24 @@ trcopy(StorageOrder order, StorageUpLo upLo, Transpose trans, Diag diag,
         if (trans==NoTrans) {
             if (upLo==Upper) {
                 for (IndexType j=0; j<n; ++j) {
-                    copy(j+1, A+j*ldA, IndexType(1),
-                              B+j*ldB, IndexType(1));
+                    copy(min(j+1,m), A+j*ldA, IndexType(1),
+                                     B+j*ldB, IndexType(1));
                 }
             } else {
+                for (IndexType j=0; j<min(m,n); ++j) {
+                    copy(m-j, A+j*(ldA+1), IndexType(1),
+                              B+j*(ldB+1), IndexType(1));
+                }
+            }
+        } else if (trans==Trans) {
+            if (upLo==Upper) {
                 for (IndexType j=0; j<n; ++j) {
-                    copy(n-j, A+j*(ldA+1), IndexType(1),
+                    copy(min(j+1,m), A+j, ldA,
+                                     B+j*ldB, IndexType(1));
+                }
+            } else {
+                for (IndexType j=0; j<min(m,n); ++j) {
+                    copy(m-j, A+j*(ldA+1), ldA,
                               B+j*(ldB+1), IndexType(1));
                 }
             }
@@ -67,12 +89,12 @@ trcopy(StorageOrder order, StorageUpLo upLo, Transpose trans, Diag diag,
         if (trans==NoTrans) {
             if (upLo==Upper) {
                 for (IndexType j=0; j<n; ++j) {
-                    copy(j, A+j*ldA, IndexType(1),
-                            B+j*ldB, IndexType(1));
+                    copy(min(j,m), A+j*ldA, IndexType(1),
+                                   B+j*ldB, IndexType(1));
                 }
             } else {
-                for (IndexType j=0; j<n; ++j) {
-                    copy(n-j-1, A+j*(ldA+1)+1, IndexType(1),
+                for (IndexType j=0; j<min(m,n); ++j) {
+                    copy(m-j-1, A+j*(ldA+1)+1, IndexType(1),
                                 B+j*(ldB+1)+1, IndexType(1));
                 }
             }

@@ -1,0 +1,27 @@
+===================================
+It All Starts With a General Matrix
+===================================
+
+We steup some general matrix and then create triangular and symmetric matric
+views that reference the upper or lower part.
+
+Example Code
+============
+:import: flens/examples/tut02-page01-example.cc [stripped, downloadable]
+
+Comments on Example Code
+========================
+:import: flens/examples/tut02-page01-example.cc [brief]
+
+Compile and Run
+===============
+
+   *--[SHELL]---------------------------------------------------------------*
+   |                                                                        |
+   |  cd flens/examples                                                     |
+   |  clang++ -Wall -std=c++0x -I../.. tut02-page01-example.cc              |
+   |  ./a.out                                                               |
+   |                                                                        |
+   *------------------------------------------------------------------------*
+
+

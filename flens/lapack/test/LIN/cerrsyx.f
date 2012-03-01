@@ -1,8 +1,8 @@
       SUBROUTINE CERRSY( PATH, NUNIT )
 *
-*  -- LAPACK test routine (version 3.2) --
+*  -- LAPACK test routine (version 3.3.1) --
 *     Univ. of Tennessee, Univ. of California Berkeley and NAG Ltd..
-*     November 2006
+*  -- April 2011                                                      --
 *
 *     .. Scalar Arguments ..
       CHARACTER*3        PATH
@@ -140,13 +140,13 @@
 *
          SRNAMT = 'CSYTRI2'
          INFOT = 1
-         CALL CSYTRI2( '/', 0, A, 1, IP, W, IW, INFO )
+         CALL CSYTRI2( '/', 0, A, 1, IP, W, 1, INFO )
          CALL CHKXER( 'CSYTRI2', INFOT, NOUT, LERR, OK )
          INFOT = 2
-         CALL CSYTRI2( 'U', -1, A, 1, IP, W, IW, INFO )
+         CALL CSYTRI2( 'U', -1, A, 1, IP, W, 1, INFO )
          CALL CHKXER( 'CSYTRI2', INFOT, NOUT, LERR, OK )
          INFOT = 4
-         CALL CSYTRI2( 'U', 2, A, 1, IP, W, IW, INFO )
+         CALL CSYTRI2( 'U', 2, A, 1, IP, W, 1, INFO )
          CALL CHKXER( 'CSYTRI2', INFOT, NOUT, LERR, OK )
 *
 *        CSYTRS

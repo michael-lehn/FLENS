@@ -83,6 +83,8 @@ syr2(StorageOrder order,  StorageUpLo upLo,
      const VY *y, IndexType incY,
      MA *A, IndexType ldA)
 {
+    CXXBLAS_DEBUG_OUT("syr2_generic");
+
     if (incX<0) {
         x -= incX*(n-1);
     }

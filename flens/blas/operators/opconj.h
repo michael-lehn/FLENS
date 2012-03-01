@@ -41,15 +41,18 @@ namespace flens {
 struct OpConj {};
 
 template <typename VX>
-    const VectorClosure<OpConj,
-                        typename VX::Impl,
-                        typename VX::Impl>
+using VectorClosureOpConj = VectorClosure<OpConj, VX, VX>;
+
+
+template <typename MA>
+using MatrixClosureOpConj = MatrixClosure<OpConj, MA, MA>;
+
+template <typename VX>
+    const VectorClosureOpConj<typename VX::Impl>
     conjugate(const Vector<VX> &x);
 
 template <typename MA>
-    const MatrixClosure<OpConj,
-                        typename MA::Impl,
-                        typename MA::Impl>
+    const MatrixClosureOpConj<typename MA::Impl>
     conjugate(const Matrix<MA> &A);
 
 } // namespace flens

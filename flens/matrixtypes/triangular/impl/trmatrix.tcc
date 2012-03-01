@@ -40,6 +40,23 @@
 namespace flens {
 
 template <typename FS>
+TrMatrix<FS>::TrMatrix()
+{
+}
+
+template <typename FS>
+TrMatrix<FS>::TrMatrix(IndexType dim)
+    : _engine(dim, dim)
+{
+}
+
+template <typename FS>
+TrMatrix<FS>::TrMatrix(IndexType numRows, IndexType numCols)
+    : _engine(numRows, numCols)
+{
+}
+
+template <typename FS>
 TrMatrix<FS>::TrMatrix(const Engine &engine, StorageUpLo upLo, Diag diag)
     : _engine(engine), _upLo(upLo), _diag(diag)
 {
@@ -70,7 +87,7 @@ template <typename FS>
 template <typename RHS>
 TrMatrix<FS>::TrMatrix(const Matrix<RHS> &rhs)
 {
-    blas::copy(rhs.impl(), *this);
+    assign(rhs, *this);
 }
 
 // -- operators ----------------------------------------------------------------
@@ -86,7 +103,9 @@ template <typename FS>
 TrMatrix<FS> &
 TrMatrix<FS>::operator=(const TrMatrix &rhs)
 {
-    blas::copy(NoTrans, rhs, *this);
+    if (this!=&rhs) {
+        assign(rhs, *this);
+    }
     return *this;
 }
 
@@ -95,7 +114,7 @@ template <typename RHS>
 TrMatrix<FS> &
 TrMatrix<FS>::operator=(const Matrix<RHS> &rhs)
 {
-    blas::copy(NoTrans, rhs, *this);
+    assign(rhs, *this);
     return *this;
 }
 

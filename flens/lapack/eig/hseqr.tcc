@@ -213,14 +213,14 @@ hseqr_generic(HSEQR::Job            job,
 //              .    tiny matrices must be copied into a larger
 //              .    array before calling DLAQR0. ====
 //
-                blas::copy(NoTrans, H, Hl(_(1,n),_(1,n)));
+                Hl(_(1,n),_(1,n)) = H;
                 Hl(n+1, n) = Zero;
                 Hl(_(1,nl),_(n+1,nl)) = Zero;
                 info = laqr0(wantT, wantZ,
                              iLo, kBot, Hl, wr, wi,
                              iLo, iHi, Z, workl);
                 if (wantT || (info!=0)) {
-                    blas::copy(NoTrans, Hl(_(1,n),_(1,n)), H);
+                    H = Hl(_(1,n),_(1,n));
                 }
             }
         }

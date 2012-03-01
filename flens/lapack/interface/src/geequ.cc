@@ -12,7 +12,7 @@ namespace flens { namespace lapack {
 
 extern "C" {
 
-//-- dlaqge --------------------------------------------------------------------
+//-- dgeequ --------------------------------------------------------------------
 void
 LAPACK_DECL(dgeequ)(const INTEGER    *M,
                     const INTEGER    *N,

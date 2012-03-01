@@ -199,6 +199,8 @@ trmv(StorageOrder order, StorageUpLo upLo,
      const MA *A, IndexType ldA,
      VX *x, IndexType incX)
 {
+    CXXBLAS_DEBUG_OUT("trmv_generic");
+
     if (incX<0) {
         x -= incX*(n-1);
     }

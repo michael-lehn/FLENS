@@ -60,6 +60,7 @@
 #include <flens/lapack/aux/laswp.tcc>
 #include <flens/lapack/aux/lasy2.tcc>
 #include <flens/lapack/aux/nint.tcc>
+#include <flens/lapack/aux/pocon.tcc>
 #include <flens/lapack/aux/rscl.tcc>
 #include <flens/lapack/aux/sign.tcc>
 
@@ -109,14 +110,29 @@
 #include <flens/lapack/gesv/tri.tcc>
 #include <flens/lapack/gesv/trs.tcc>
 
-#include <flens/lapack/qr/qr2.tcc>
-#include <flens/lapack/qr/qrf.tcc>
+#include <flens/lapack/lq/lq2.tcc>
+#include <flens/lapack/lq/lqf.tcc>
+#include <flens/lapack/lq/orgl2.tcc>
+#include <flens/lapack/lq/orglq.tcc>
+#include <flens/lapack/lq/orml2.tcc>
+#include <flens/lapack/lq/ormlq.tcc>
+
+#include <flens/lapack/ls/ls.tcc>
+
+#include <flens/lapack/qr/laqp2.tcc>
+#include <flens/lapack/qr/laqps.tcc>
 #include <flens/lapack/qr/org2r.tcc>
 #include <flens/lapack/qr/orgqr.tcc>
 #include <flens/lapack/qr/orm2r.tcc>
 #include <flens/lapack/qr/ormqr.tcc>
-
-/*
+#include <flens/lapack/qr/qp3.tcc>
+#include <flens/lapack/qr/qr2.tcc>
+#include <flens/lapack/qr/qrf.tcc>
 #include <flens/lapack/qr/qrs.tcc>
-*/
+
+#include <flens/lapack/svd/jsv.tcc>
+#include <flens/lapack/svd/svj.tcc>
+#include <flens/lapack/svd/svj0.tcc>
+#include <flens/lapack/svd/svj1.tcc>
+
 #endif // FLENS_LAPACK_LAPACK_TCC

@@ -1,0 +1,27 @@
+=====================================
+Creating a Matrix View from a C-Array                                   [TOC]
+=====================================
+
+If you have a plain C-array you can create a matrix-view that references this
+C-array.  By this you can wrap the C-array in a FLENS matrix.  The same trick
+allows interfacing FLENS with other numerical libraries.
+
+Example Code
+============
+:import: flens/examples/tut01-page04-example.cc [stripped, downloadable]
+
+Comments on Example Code
+========================
+:import: flens/examples/tut01-page04-example.cc [brief]
+
+Compile and Run
+===============
+
+   *--[SHELL]---------------------------------------------------------------*
+   |                                                                        |
+   |  cd flens/examples                                                     |
+   |  clang++ -Wall -std=c++0x -I../.. tut01-page04-example.cc              |
+   |  ./a.out                                                               |
+   |                                                                        |
+   *------------------------------------------------------------------------*
+

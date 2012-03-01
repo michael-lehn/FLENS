@@ -94,6 +94,8 @@ her2k(StorageOrder order, StorageUpLo upLo,
       const BETA &beta,
       MC *C, IndexType ldC)
 {
+    CXXBLAS_DEBUG_OUT("her2k_generic");
+
     her2k_generic(order, upLo, trans, n, k,
                   alpha, A, ldA, B, ldB,
                   beta,

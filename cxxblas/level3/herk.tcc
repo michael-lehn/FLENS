@@ -83,6 +83,8 @@ herk(StorageOrder order, StorageUpLo upLo,
      const BETA &beta,
      MC *C, IndexType ldC)
 {
+    CXXBLAS_DEBUG_OUT("herk_generic");
+
     herk_generic(order, upLo, trans, n, k, alpha, A, ldA, beta, C, ldC);
 }
 

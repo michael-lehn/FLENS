@@ -38,30 +38,23 @@
 #include <flens/storage/storage.h>
 #include <flens/typedefs.h>
 
+#ifdef FLENS_DEBUG_CLOSURES
+#   include <flens/blas/blaslogon.h>
+#else
+#   include <flens/blas/blaslogoff.h>
+#endif
+
 namespace flens { namespace blas {
 
-//-- forwarding ----------------------------------------------------------------
+//-- scal (forwarding)
 template <typename ALPHA, typename VY>
-void
+typename RestrictTo<IsSame<VY, typename VY::Impl>::value,
+                    void>::Type
 scal(const ALPHA &alpha, VY &&y)
 {
+    CHECKPOINT_ENTER;
     scal(alpha, y);
-}
-
-//-- common interface for vectors ----------------------------------------------
-template <typename ALPHA, typename VY>
-void
-scal(const ALPHA &alpha, Vector<VY> &y)
-{
-    scal(alpha, y.impl());
-}
-
-//-- common interface for matrices ---------------------------------------------
-template <typename ALPHA, typename MB>
-void
-scal(const ALPHA &alpha, Matrix<MB> &B)
-{
-    scal(alpha, B.impl());
+    CHECKPOINT_LEAVE;
 }
 
 //-- scal
@@ -69,11 +62,17 @@ template <typename ALPHA, typename VY>
 void
 scal(const ALPHA &alpha, DenseVector<VY> &y)
 {
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_SCAL(alpha, y);
+
 #   ifdef HAVE_CXXBLAS_SCAL
     cxxblas::scal(y.length(), alpha, y.data(), y.stride());
 #   else
     ASSERT(0);
 #   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
 }
 
 //-- gescal
@@ -81,12 +80,18 @@ template <typename ALPHA, typename MB>
 void
 scal(const ALPHA &alpha, GeMatrix<MB> &B)
 {
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
+
 #   ifdef HAVE_CXXBLAS_GESCAL
     cxxblas::gescal(MB::order, B.numRows(), B.numCols(),
                     alpha, B.data(), B.leadingDimension());
 #   else
     ASSERT(0);
 #   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
 }
 
 } } // namespace blas, flens

@@ -50,6 +50,7 @@
 
 #include <complex>
 #include <string>
+#include <cstring>
 
 #include <flens/aux/issame.h>
 #include <flens/lapack/lapack.h>

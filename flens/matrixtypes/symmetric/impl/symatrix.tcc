@@ -71,7 +71,7 @@ template <typename FS>
 template <typename RHS>
 SyMatrix<FS>::SyMatrix(const Matrix<RHS> &rhs)
 {
-    blas::copy(rhs.impl(), *this);
+    assign(rhs, *this);
 }
 
 // -- operators ----------------------------------------------------------------
@@ -87,7 +87,9 @@ template <typename FS>
 SyMatrix<FS> &
 SyMatrix<FS>::operator=(const SyMatrix &rhs)
 {
-    blas::copy(NoTrans, rhs, *this);
+    if (this!=&rhs) {
+        assign(rhs, *this);
+    }
     return *this;
 }
 
@@ -96,7 +98,7 @@ template <typename RHS>
 SyMatrix<FS> &
 SyMatrix<FS>::operator=(const Matrix<RHS> &rhs)
 {
-    blas::copy(NoTrans, rhs, *this);
+    assign(rhs, *this);
     return *this;
 }
 
@@ -300,6 +302,21 @@ SyMatrix<FS>::dim() const
 
     return _engine.numRows();
 }
+
+template <typename FS>
+typename SyMatrix<FS>::IndexType
+SyMatrix<FS>::numRows() const
+{
+    return _engine.numRows();
+}
+
+template <typename FS>
+typename SyMatrix<FS>::IndexType
+SyMatrix<FS>::numCols() const
+{
+    return _engine.numCols();
+}
+
 
 template <typename FS>
 typename SyMatrix<FS>::IndexType

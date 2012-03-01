@@ -106,6 +106,8 @@ sbmv(StorageOrder order, StorageUpLo upLo,
      const BETA &beta,
      VY *y, IndexType incY)
 {
+    CXXBLAS_DEBUG_OUT("sbmv_generic");
+
     if (n==0) {
         return;
     }

@@ -41,6 +41,8 @@ namespace flens { namespace verbose {
 class VariablePool
 {
     public:
+        VariablePool();
+
         template <typename T>
             std::string
             name(const T &var);
@@ -48,10 +50,21 @@ class VariablePool
         template <typename T>
             std::string
             name(const T &var) const;
-    
+
+        template <typename T>
+            void
+            addTemporary(const T &var);
+
+        template <typename T>
+            void
+            removeTemporary(const T &var);
+
+        bool tmpTron;
+
     private:
         std::map<std::string, int> _id;
         std::map<std::string, int> _typeCount;
+        std::map<std::string, int> _isTmp;
 };
 
 } } // namespace verbose, namespace flens

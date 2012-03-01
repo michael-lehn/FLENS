@@ -33,18 +33,45 @@
 #ifndef FLENS_DEBUG_AUX_VERBALIZECLOSURE_TCC
 #define FLENS_DEBUG_AUX_VERBALIZECLOSURE_TCC 1
 
+#include <sstream>
 #include <flens/blas/operators/operators.h>
 #include <flens/debug/aux/operation.h>
+#include <flens/debug/aux/typeid.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace verbose {
 
 template <typename T>
-std::string
+typename RestrictTo<!IsScalar<T>::value, std::string>::Type
 verbalizeClosure(VariablePool &variablePool, const T &x)
 {
     return variablePool.name(x);
+}
+
+template <typename T>
+typename RestrictTo<IsScalar<T>::value, std::string>::Type
+verbalizeClosure(VariablePool &variablePool, const T &x)
+{
+    std::stringstream sstream;
+    sstream << x;
+    return sstream.str();
+}
+
+template <typename T>
+std::string
+verbalizeClosure(VariablePool &variablePool, const ScalarValue<T> &x)
+{
+    std::stringstream sstream;
+    sstream << x.value();
+    return sstream.str();
+}
+
+template <typename I>
+std::string
+verbalizeClosure(VariablePool &variablePool, const Matrix<I> &x)
+{
+    return verbalizeClosure(variablePool, x.impl());
 }
 
 template <typename I>
@@ -56,8 +83,7 @@ verbalizeClosure(VariablePool &variablePool, const Vector<I> &x)
 
 template <typename Op, typename L, typename R>
 std::string
-verbalizeClosure(VariablePool &variablePool,
-                 const VectorClosure<Op, L, R> &x)
+verbalizeClosure(VariablePool &variablePool, const VectorClosure<Op, L, R> &x)
 {
     return operation<Op>(verbalizeClosure(variablePool, x.left()),
                          verbalizeClosure(variablePool, x.right()));
@@ -65,8 +91,7 @@ verbalizeClosure(VariablePool &variablePool,
 
 template <typename Op, typename L, typename R>
 std::string
-verbalizeClosure(VariablePool &variablePool,
-                 const MatrixClosure<Op, L, R> &x)
+verbalizeClosure(VariablePool &variablePool, const MatrixClosure<Op, L, R> &x)
 {
     return operation<Op>(verbalizeClosure(variablePool, x.left()),
                          verbalizeClosure(variablePool, x.right()));

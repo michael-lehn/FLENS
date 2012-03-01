@@ -5,7 +5,7 @@ namespace flens { namespace lapack {
 
 extern "C" {
 
-//-- dgeev ---------------------------------------------------------------------
+//-- dgeevx --------------------------------------------------------------------
 void
 LAPACK_DECL(dgeevx)(const char       *BALANC,
                     const char       *JOBVL,
