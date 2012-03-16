@@ -7,7 +7,7 @@ coefficient matrix is general, i.e. not necessarily symmetric.  We solve the
 system with __lapack::sv__ which is the FLENS port of LAPACK's __dgesv__.
 
 :links:  __lapack::sv__  -> file:flens/lapack/gesv/sv.h
-         __dgesv__       -> file:/cxxlapack/netlib/src/dgesv.f
+         __dgesv__       -> file:cxxlapack/netlib/src/dgesv.f
 
 
 Example Code
