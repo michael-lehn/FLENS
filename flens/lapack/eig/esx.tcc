@@ -74,6 +74,7 @@ esx_generic_wsq(bool                 computeSchurVectors,
     liWork = 1;
     if (n==0) {
         minWork = 1;
+        maxWork = 1;
         lWork = 1;
     } else {
         maxWork = 2*n + n*ilaenv<T>(1, "GEHRD", "", n, 1, n, 0);

@@ -96,29 +96,18 @@ laswp_generic(GeMatrix<MA> &A, const DenseVector<VP> &piv)
 
 template <typename MA, typename VP>
 void
-laswp_native(GeMatrix<MA> &_A, const DenseVector<VP> &piv)
+laswp_native(GeMatrix<MA> &A, const DenseVector<VP> &piv)
 {
     using std::max;
     using std::min;
 
-    typedef typename GeMatrix<MA>::ElementType  T;
-
-    const INTEGER    N = _A.numCols();
-    T               *A = _A.data();
-    const INTEGER    LDA = _A.leadingDimension();
-    const INTEGER    K1 = min(piv.firstIndex(), piv.lastIndex());
-    const INTEGER    K2 = max(piv.firstIndex(), piv.lastIndex());
+    const INTEGER    k1 = min(piv.firstIndex(), piv.lastIndex());
+    const INTEGER    k2 = max(piv.firstIndex(), piv.lastIndex());
 
     // set pointer IPIV such that IPIV[K1] points to piv.data()
-    // (assumes an index base of 1)
-    const INTEGER   *IPIV = piv.data() - K1 + 1;
-    INTEGER          INCX = piv.inc();
-
-    if (IsSame<T, DOUBLE>::value) {
-        LAPACK_IMPL(dlaswp)(&N, A, &LDA, &K1, &K2, IPIV, &INCX);
-    } else {
-        ASSERT(0);
-    }
+    cxxlapack::laswp<INTEGER>(A.numCols(), A.data(), A.leadingDimension(),
+                              k1, k2,
+                              piv.data()-k1+1, piv.inc());
 }
 
 #endif // CHECK_CXXLAPACK

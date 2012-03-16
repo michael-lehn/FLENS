@@ -44,7 +44,27 @@ template <typename ALPHA, typename VX, typename VY, typename MA>
 void
 r(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
 {
+    CHECKPOINT_ENTER;
     r(alpha, x, y, A);
+    CHECKPOINT_LEAVE;
+}
+
+template <typename ALPHA, typename VX, typename VY, typename MA>
+void
+ru(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
+{
+    CHECKPOINT_ENTER;
+    ru(alpha, x, y, A);
+    CHECKPOINT_LEAVE;
+}
+
+template <typename ALPHA, typename VX, typename VY, typename MA>
+void
+rc(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
+{
+    CHECKPOINT_ENTER;
+    rc(alpha, x, y, A);
+    CHECKPOINT_LEAVE;
 }
 
 //-- GeMatrix, DenseVector -----------------------------------------------------
@@ -65,6 +85,34 @@ r(const ALPHA &alpha,
                  x.data(), x.stride(),
                  y.data(), y.stride(),
                  A.data(), A.leadingDimension());
+}
+
+//-- geru
+template <typename ALPHA, typename VX, typename VY, typename MA>
+void
+ru(const ALPHA &alpha,
+   const DenseVector<VX> &x, const DenseVector<VY> &y,
+   GeMatrix<MA> &A)
+{
+    r(alpha, x, y, A);
+}
+
+//-- gerc
+template <typename ALPHA, typename VX, typename VY, typename MA>
+void
+rc(const ALPHA &alpha,
+   const DenseVector<VX> &x, const DenseVector<VY> &y,
+   GeMatrix<MA> &A)
+{
+    if ((x.length()!=A.numRows()) || (y.length()!=A.numCols())) {
+        A.resize(x.length(), y.length(), x.firstIndex(), y.firstIndex());
+    }
+    cxxblas::gerc(A.order(),
+                  A.numRows(), A.numCols(),
+                  alpha,
+                  x.data(), x.stride(),
+                  y.data(), y.stride(),
+                  A.data(), A.leadingDimension());
 }
 
 } } // namespace blas, flens

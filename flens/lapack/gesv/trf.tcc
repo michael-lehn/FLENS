@@ -153,24 +153,11 @@ trf_generic(GeMatrix<MA> &A, DenseVector<VP> &piv)
 
 template <typename MA, typename VP>
 typename GeMatrix<MA>::IndexType
-trf_native(GeMatrix<MA> &_A, DenseVector<VP> &piv)
+trf_native(GeMatrix<MA> &A, DenseVector<VP> &piv)
 {
-    typedef typename GeMatrix<MA>::ElementType  T;
-
-    const INTEGER    M = _A.numRows();
-    const INTEGER    N = _A.numCols();
-    T               *A = _A.data();
-    const INTEGER    LDA = _A.leadingDimension();
-    INTEGER         *IPIV = piv.data();
-    INTEGER          INFO;
-
-    if (IsSame<T, DOUBLE>::value) {
-        LAPACK_IMPL(dgetrf)(&M, &N, A, &LDA, IPIV, &INFO);
-    } else {
-        ASSERT(0);
-    }
-
-    return INFO;
+    return cxxlapack::getrf(A.numRows(), A.numCols(),
+                            A.data(), A.leadingDimension(),
+                            piv.data());
 }
 
 #endif // CHECK_CXXLAPACK

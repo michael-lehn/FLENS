@@ -104,7 +104,8 @@ trsen_generic_wsq(TRSEN::Job                job,
     IndexType n2 = n - m;
     IndexType nn = n1*n2;
 
-    IndexType workMin, iWorkMin;
+    IndexType workMin = 0,
+              iWorkMin = 0;
 
     if (wantSP) {
         workMin  = max(IndexType(1), 2*nn);

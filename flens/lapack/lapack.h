@@ -153,6 +153,7 @@
 
 
 #if defined CHECK_CXXLAPACK || defined USE_NATIVE_ILAENV
+#   include <flens/lapack/interface/include/cxxlapack.h>
 #   include <flens/lapack/interface/include/f77lapack.h>
 #endif
 

@@ -47,6 +47,7 @@
 #ifndef FLENS_LAPACK_AUX_LAMCH_TCC
 #define FLENS_LAPACK_AUX_LAMCH_TCC 1
 
+#include <complex>
 #include <limits>
 
 #include <flens/blas/blas.h>
@@ -121,10 +122,11 @@ lamch_native(MachineParameter machineParameter)
 
 //== public interface ==========================================================
 
-template <typename T>
-T
+template <typename TT>
+typename LAMCH::Real<TT>::Type
 lamch(MachineParameter machineParameter)
 {
+    typedef typename LAMCH::Real<TT>::Type T;
 //
 //  Call implementation
 //

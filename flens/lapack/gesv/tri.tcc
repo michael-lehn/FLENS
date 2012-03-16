@@ -57,7 +57,9 @@ namespace flens { namespace lapack {
 //-- (ge)tri
 template <typename MA, typename VP, typename VWORK>
 typename GeMatrix<MA>::IndexType
-tri_generic(GeMatrix<MA> &A, DenseVector<VP> &piv, DenseVector<VWORK> &work)
+tri_generic(GeMatrix<MA>            &A,
+            const DenseVector<VP>   &piv,
+            DenseVector<VWORK>      &work)
 {
     using std::max;
 
@@ -299,7 +301,9 @@ tri_generic(TrMatrix<MA> &A)
 //-- (ge)tri
 template <typename MA, typename VP, typename VWORK>
 typename GeMatrix<MA>::IndexType
-tri_native(GeMatrix<MA> &A, DenseVector<VP> &piv, DenseVector<VWORK> &work)
+tri_native(GeMatrix<MA>             &A,
+           const DenseVector<VP>    &piv,
+           DenseVector<VWORK>       &work)
 {
     typedef typename GeMatrix<MA>::ElementType  ElementType;
     typedef typename GeMatrix<MA>::IndexType    IndexType;
@@ -358,7 +362,7 @@ tri_native(TrMatrix<MA> &A)
 //-- (ge)tri
 template <typename MA, typename VP, typename VWORK>
 typename GeMatrix<MA>::IndexType
-tri(GeMatrix<MA> &A, DenseVector<VP> &piv, DenseVector<VWORK> &work)
+tri(GeMatrix<MA> &A, const DenseVector<VP> &piv, DenseVector<VWORK> &work)
 {
     using std::max;
 
@@ -385,7 +389,6 @@ tri(GeMatrix<MA> &A, DenseVector<VP> &piv, DenseVector<VWORK> &work)
 //
 #   ifdef CHECK_CXXLAPACK
     typename GeMatrix<MA>::NoView        A_org    = A;
-    typename DenseVector<VP>::NoView     piv_org  = piv;
     typename DenseVector<VWORK>::NoView  work_org = work;
 #   endif
 
@@ -399,11 +402,9 @@ tri(GeMatrix<MA> &A, DenseVector<VP> &piv, DenseVector<VWORK> &work)
 //
 #   ifdef CHECK_CXXLAPACK
     typename GeMatrix<MA>::NoView        A_generic    = A;
-    typename DenseVector<VP>::NoView     piv_generic  = piv;
     typename DenseVector<VWORK>::NoView  work_generic = work;
 
     A    = A_org;
-    piv  = piv_org;
     work = work_org;
 
     const IndexType _info = tri_native(A, piv, work);
@@ -412,12 +413,6 @@ tri(GeMatrix<MA> &A, DenseVector<VP> &piv, DenseVector<VWORK> &work)
     if (! isIdentical(A_generic, A, "A_generic", "A")) {
         std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
         std::cerr << "F77LAPACK: A = " << A << std::endl;
-        failed = true;
-    }
-
-    if (! isIdentical(piv_generic, piv, "piv_generic", "piv")) {
-        std::cerr << "CXXLAPACK: piv_generic = " << piv_generic << std::endl;
-        std::cerr << "F77LAPACK: piv = " << piv << std::endl;
         failed = true;
     }
 
@@ -506,7 +501,7 @@ tri(TrMatrix<MA> &A)
 //-- forwarding ----------------------------------------------------------------
 template <typename MA, typename VP, typename VWORK>
 typename MA::IndexType
-tri(MA &&A, VP &&piv, VWORK &&work)
+tri(MA &&A, const VP &&piv, VWORK &&work)
 {
     typedef typename MA::IndexType  IndexType;
 

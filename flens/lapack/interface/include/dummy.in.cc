@@ -12019,3 +12019,11827 @@ LAPACK_DECL(spotrs)(const char       *UPLO,
                         INFO);
 }
 
+//-- zbbcsd --------------------------------------------------------------------
+void
+LAPACK_DECL(zbbcsd)(const char       *JOBU1,
+                    const char       *JOBU2,
+                    const char       *JOBV1T,
+                    const char       *JOBV2T,
+                    const char       *TRANS,
+                    const INTEGER    *M,
+                    const INTEGER    *P,
+                    const INTEGER    *Q,
+                    DOUBLE           *THETA,
+                    DOUBLE           *PHI,
+                    DOUBLE_COMPLEX   *U1,
+                    const INTEGER    *LDU1,
+                    DOUBLE_COMPLEX   *U2,
+                    const INTEGER    *LDU2,
+                    DOUBLE_COMPLEX   *V1T,
+                    const INTEGER    *LDV1T,
+                    DOUBLE_COMPLEX   *V2T,
+                    const INTEGER    *LDV2T,
+                    DOUBLE           *B11D,
+                    DOUBLE           *B11E,
+                    DOUBLE           *B12D,
+                    DOUBLE           *B12E,
+                    const DOUBLE     *B21D,
+                    const DOUBLE     *B21E,
+                    const DOUBLE     *B22D,
+                    const DOUBLE     *B22E,
+                    DOUBLE           *RWORK,
+                    const INTEGER    *LRWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zbbcsd");
+    LAPACK_IMPL(zbbcsd)(JOBU1,
+                        JOBU2,
+                        JOBV1T,
+                        JOBV2T,
+                        TRANS,
+                        M,
+                        P,
+                        Q,
+                        THETA,
+                        PHI,
+                        U1,
+                        LDU1,
+                        U2,
+                        LDU2,
+                        V1T,
+                        LDV1T,
+                        V2T,
+                        LDV2T,
+                        B11D,
+                        B11E,
+                        B12D,
+                        B12E,
+                        B21D,
+                        B21E,
+                        B22D,
+                        B22E,
+                        RWORK,
+                        LRWORK,
+                        INFO);
+}
+
+//-- zbdsqr --------------------------------------------------------------------
+void
+LAPACK_DECL(zbdsqr)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NCVT,
+                    const INTEGER    *NRU,
+                    const INTEGER    *NCC,
+                    DOUBLE           *D,
+                    DOUBLE           *E,
+                    DOUBLE_COMPLEX   *VT,
+                    const INTEGER    *LDVT,
+                    DOUBLE_COMPLEX   *U,
+                    const INTEGER    *LDU,
+                    DOUBLE_COMPLEX   *C,
+                    const INTEGER    *LDC,
+                    DOUBLE           *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zbdsqr");
+    LAPACK_IMPL(zbdsqr)(UPLO,
+                        N,
+                        NCVT,
+                        NRU,
+                        NCC,
+                        D,
+                        E,
+                        VT,
+                        LDVT,
+                        U,
+                        LDU,
+                        C,
+                        LDC,
+                        RWORK,
+                        INFO);
+}
+
+//-- zcgesv --------------------------------------------------------------------
+void
+LAPACK_DECL(zcgesv)(const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    DOUBLE_COMPLEX           *A,
+                    const INTEGER            *LDA,
+                    INTEGER                  *IPIV,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    DOUBLE_COMPLEX           *X,
+                    const INTEGER            *LDX,
+                    DOUBLE_COMPLEX           *WORK,
+                    FLOAT_COMPLEX            *SWORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *ITER,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zcgesv");
+    LAPACK_IMPL(zcgesv)(N,
+                        NRHS,
+                        A,
+                        LDA,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        WORK,
+                        SWORK,
+                        RWORK,
+                        ITER,
+                        INFO);
+}
+
+//-- zcposv --------------------------------------------------------------------
+void
+LAPACK_DECL(zcposv)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    DOUBLE_COMPLEX           *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    DOUBLE_COMPLEX           *X,
+                    const INTEGER            *LDX,
+                    DOUBLE_COMPLEX           *WORK,
+                    FLOAT_COMPLEX            *SWORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *ITER,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zcposv");
+    LAPACK_IMPL(zcposv)(UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        WORK,
+                        SWORK,
+                        RWORK,
+                        ITER,
+                        INFO);
+}
+
+//-- zdrscl --------------------------------------------------------------------
+void
+LAPACK_DECL(zdrscl)(const INTEGER    *N,
+                    const DOUBLE     *SA,
+                    DOUBLE_COMPLEX   *SX,
+                    const INTEGER    *INCX)
+{
+    DEBUG_LAPACK_STUB("zdrscl");
+    LAPACK_IMPL(zdrscl)(N,
+                        SA,
+                        SX,
+                        INCX);
+}
+
+//-- zgbbrd --------------------------------------------------------------------
+void
+LAPACK_DECL(zgbbrd)(const char       *VECT,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *NCC,
+                    const INTEGER    *KL,
+                    const INTEGER    *KU,
+                    DOUBLE_COMPLEX   *AB,
+                    const INTEGER    *LDAB,
+                    DOUBLE           *D,
+                    DOUBLE           *E,
+                    DOUBLE_COMPLEX   *Q,
+                    const INTEGER    *LDQ,
+                    DOUBLE_COMPLEX   *PT,
+                    const INTEGER    *LDPT,
+                    DOUBLE_COMPLEX   *C,
+                    const INTEGER    *LDC,
+                    DOUBLE_COMPLEX   *WORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgbbrd");
+    LAPACK_IMPL(zgbbrd)(VECT,
+                        M,
+                        N,
+                        NCC,
+                        KL,
+                        KU,
+                        AB,
+                        LDAB,
+                        D,
+                        E,
+                        Q,
+                        LDQ,
+                        PT,
+                        LDPT,
+                        C,
+                        LDC,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zgbcon --------------------------------------------------------------------
+void
+LAPACK_DECL(zgbcon)(const char               *NORM,
+                    const INTEGER            *N,
+                    const INTEGER            *KL,
+                    const INTEGER            *KU,
+                    const DOUBLE_COMPLEX     *AB,
+                    const INTEGER            *LDAB,
+                    const INTEGER            *IPIV,
+                    const DOUBLE             *ANORM,
+                    DOUBLE                   *RCOND,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zgbcon");
+    LAPACK_IMPL(zgbcon)(NORM,
+                        N,
+                        KL,
+                        KU,
+                        AB,
+                        LDAB,
+                        IPIV,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zgbequ --------------------------------------------------------------------
+void
+LAPACK_DECL(zgbequ)(const INTEGER            *M,
+                    const INTEGER            *N,
+                    const INTEGER            *KL,
+                    const INTEGER            *KU,
+                    const DOUBLE_COMPLEX     *AB,
+                    const INTEGER            *LDAB,
+                    DOUBLE                   *R,
+                    DOUBLE                   *C,
+                    DOUBLE                   *ROWCND,
+                    DOUBLE                   *COLCND,
+                    DOUBLE                   *AMAX,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zgbequ");
+    LAPACK_IMPL(zgbequ)(M,
+                        N,
+                        KL,
+                        KU,
+                        AB,
+                        LDAB,
+                        R,
+                        C,
+                        ROWCND,
+                        COLCND,
+                        AMAX,
+                        INFO);
+}
+
+//-- zgbequb -------------------------------------------------------------------
+void
+LAPACK_DECL(zgbequb)(const INTEGER            *M,
+                     const INTEGER            *N,
+                     const INTEGER            *KL,
+                     const INTEGER            *KU,
+                     const DOUBLE_COMPLEX     *AB,
+                     const INTEGER            *LDAB,
+                     DOUBLE                   *R,
+                     DOUBLE                   *C,
+                     DOUBLE                   *ROWCND,
+                     DOUBLE                   *COLCND,
+                     DOUBLE                   *AMAX,
+                     INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zgbequb");
+    LAPACK_IMPL(zgbequb)(M,
+                         N,
+                         KL,
+                         KU,
+                         AB,
+                         LDAB,
+                         R,
+                         C,
+                         ROWCND,
+                         COLCND,
+                         AMAX,
+                         INFO);
+}
+
+//-- zgbrfs --------------------------------------------------------------------
+void
+LAPACK_DECL(zgbrfs)(const char               *TRANS,
+                    const INTEGER            *N,
+                    const INTEGER            *KL,
+                    const INTEGER            *KU,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *AB,
+                    const INTEGER            *LDAB,
+                    const DOUBLE_COMPLEX     *AFB,
+                    const INTEGER            *LDAFB,
+                    const INTEGER            *IPIV,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    DOUBLE_COMPLEX           *X,
+                    const INTEGER            *LDX,
+                    DOUBLE                   *FERR,
+                    DOUBLE                   *BERR,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zgbrfs");
+    LAPACK_IMPL(zgbrfs)(TRANS,
+                        N,
+                        KL,
+                        KU,
+                        NRHS,
+                        AB,
+                        LDAB,
+                        AFB,
+                        LDAFB,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zgbrfsx -------------------------------------------------------------------
+/*
+void
+LAPACK_DECL(zgbrfsx)(const char               *TRANS,
+                     const char               *EQUED,
+                     const INTEGER            *N,
+                     const INTEGER            *KL,
+                     const INTEGER            *KU,
+                     const INTEGER            *NRHS,
+                     const DOUBLE_COMPLEX     *AB,
+                     const INTEGER            *LDAB,
+                     const DOUBLE_COMPLEX     *AFB,
+                     const INTEGER            *LDAFB,
+                     const INTEGER            *IPIV,
+                     DOUBLE                   *R,
+                     DOUBLE                   *C,
+                     const DOUBLE_COMPLEX     *B,
+                     const INTEGER            *LDB,
+                     DOUBLE_COMPLEX           *X,
+                     const INTEGER            *LDX,
+                     DOUBLE                   *RCOND,
+                     DOUBLE                   *BERR,
+                     const INTEGER            *N_ERR_BNDS,
+                     DOUBLE                   *ERR_BNDS_NORM,
+                     DOUBLE                   *ERR_BNDS_COMP,
+                     const INTEGER            *NPARAMS,
+                     DOUBLE                   *PARAMS,
+                     DOUBLE_COMPLEX           *WORK,
+                     DOUBLE                   *RWORK,
+                     INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zgbrfsx");
+    LAPACK_IMPL(zgbrfsx)(TRANS,
+                         EQUED,
+                         N,
+                         KL,
+                         KU,
+                         NRHS,
+                         AB,
+                         LDAB,
+                         AFB,
+                         LDAFB,
+                         IPIV,
+                         R,
+                         C,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         RWORK,
+                         INFO);
+}
+*/
+
+//-- zgbsv ---------------------------------------------------------------------
+void
+LAPACK_DECL(zgbsv)(const INTEGER        *N,
+                   const INTEGER        *KL,
+                   const INTEGER        *KU,
+                   const INTEGER        *NRHS,
+                   DOUBLE_COMPLEX       *AB,
+                   const INTEGER        *LDAB,
+                   INTEGER              *IPIV,
+                   DOUBLE_COMPLEX       *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("zgbsv");
+    LAPACK_IMPL(zgbsv)(N,
+                       KL,
+                       KU,
+                       NRHS,
+                       AB,
+                       LDAB,
+                       IPIV,
+                       B,
+                       LDB,
+                       INFO);
+}
+
+//-- zgbsvx --------------------------------------------------------------------
+void
+LAPACK_DECL(zgbsvx)(const char       *FACT,
+                    const char       *TRANS,
+                    const INTEGER    *N,
+                    const INTEGER    *KL,
+                    const INTEGER    *KU,
+                    const INTEGER    *NRHS,
+                    DOUBLE_COMPLEX   *AB,
+                    const INTEGER    *LDAB,
+                    DOUBLE_COMPLEX   *AFB,
+                    const INTEGER    *LDAFB,
+                    INTEGER          *IPIV,
+                    char             *EQUED,
+                    DOUBLE           *R,
+                    DOUBLE           *C,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    DOUBLE_COMPLEX   *X,
+                    const INTEGER    *LDX,
+                    DOUBLE           *RCOND,
+                    DOUBLE           *FERR,
+                    DOUBLE           *BERR,
+                    DOUBLE_COMPLEX   *WORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgbsvx");
+    LAPACK_IMPL(zgbsvx)(FACT,
+                        TRANS,
+                        N,
+                        KL,
+                        KU,
+                        NRHS,
+                        AB,
+                        LDAB,
+                        AFB,
+                        LDAFB,
+                        IPIV,
+                        EQUED,
+                        R,
+                        C,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zgbsvxx -------------------------------------------------------------------
+/*
+void
+LAPACK_DECL(zgbsvxx)(const char       *FACT,
+                     const char       *TRANS,
+                     const INTEGER    *N,
+                     const INTEGER    *KL,
+                     const INTEGER    *KU,
+                     const INTEGER    *NRHS,
+                     DOUBLE_COMPLEX   *AB,
+                     const INTEGER    *LDAB,
+                     DOUBLE_COMPLEX   *AFB,
+                     const INTEGER    *LDAFB,
+                     INTEGER          *IPIV,
+                     char             *EQUED,
+                     DOUBLE           *R,
+                     DOUBLE           *C,
+                     DOUBLE_COMPLEX   *B,
+                     const INTEGER    *LDB,
+                     DOUBLE_COMPLEX   *X,
+                     const INTEGER    *LDX,
+                     DOUBLE           *RCOND,
+                     DOUBLE           *RPVGRW,
+                     DOUBLE           *BERR,
+                     const INTEGER    *N_ERR_BNDS,
+                     DOUBLE           *ERR_BNDS_NORM,
+                     DOUBLE           *ERR_BNDS_COMP,
+                     const INTEGER    *NPARAMS,
+                     DOUBLE           *PARAMS,
+                     DOUBLE_COMPLEX   *WORK,
+                     DOUBLE           *RWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgbsvxx");
+    LAPACK_IMPL(zgbsvxx)(FACT,
+                         TRANS,
+                         N,
+                         KL,
+                         KU,
+                         NRHS,
+                         AB,
+                         LDAB,
+                         AFB,
+                         LDAFB,
+                         IPIV,
+                         EQUED,
+                         R,
+                         C,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         RPVGRW,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         RWORK,
+                         INFO);
+}
+*/
+//-- zgbtf2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zgbtf2)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *KL,
+                    const INTEGER    *KU,
+                    DOUBLE_COMPLEX   *AB,
+                    const INTEGER    *LDAB,
+                    INTEGER          *IPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgbtf2");
+    LAPACK_IMPL(zgbtf2)(M,
+                        N,
+                        KL,
+                        KU,
+                        AB,
+                        LDAB,
+                        IPIV,
+                        INFO);
+}
+
+//-- zgbtrf --------------------------------------------------------------------
+void
+LAPACK_DECL(zgbtrf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *KL,
+                    const INTEGER    *KU,
+                    DOUBLE_COMPLEX   *AB,
+                    const INTEGER    *LDAB,
+                    INTEGER          *IPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgbtrf");
+    LAPACK_IMPL(zgbtrf)(M,
+                        N,
+                        KL,
+                        KU,
+                        AB,
+                        LDAB,
+                        IPIV,
+                        INFO);
+}
+
+//-- zgbtrs --------------------------------------------------------------------
+void
+LAPACK_DECL(zgbtrs)(const char               *TRANS,
+                    const INTEGER            *N,
+                    const INTEGER            *KL,
+                    const INTEGER            *KU,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *AB,
+                    const INTEGER            *LDAB,
+                    const INTEGER            *IPIV,
+                    DOUBLE_COMPLEX           *B,
+                    const INTEGER            *LDB,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zgbtrs");
+    LAPACK_IMPL(zgbtrs)(TRANS,
+                        N,
+                        KL,
+                        KU,
+                        NRHS,
+                        AB,
+                        LDAB,
+                        IPIV,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- zgebak --------------------------------------------------------------------
+void
+LAPACK_DECL(zgebak)(const char       *JOB,
+                    const char       *SIDE,
+                    const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    const DOUBLE     *SCALE,
+                    const INTEGER    *M,
+                    DOUBLE_COMPLEX   *V,
+                    const INTEGER    *LDV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgebak");
+    LAPACK_IMPL(zgebak)(JOB,
+                        SIDE,
+                        N,
+                        ILO,
+                        IHI,
+                        SCALE,
+                        M,
+                        V,
+                        LDV,
+                        INFO);
+}
+
+//-- zgebal --------------------------------------------------------------------
+void
+LAPACK_DECL(zgebal)(const char       *JOB,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *ILO,
+                    INTEGER          *IHI,
+                    DOUBLE           *SCALE,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgebal");
+    LAPACK_IMPL(zgebal)(JOB,
+                        N,
+                        A,
+                        LDA,
+                        ILO,
+                        IHI,
+                        SCALE,
+                        INFO);
+}
+
+//-- zgebd2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zgebd2)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE           *D,
+                    DOUBLE           *E,
+                    DOUBLE_COMPLEX   *TAUQ,
+                    DOUBLE_COMPLEX   *TAUP,
+                    DOUBLE_COMPLEX   *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgebd2");
+    LAPACK_IMPL(zgebd2)(M,
+                        N,
+                        A,
+                        LDA,
+                        D,
+                        E,
+                        TAUQ,
+                        TAUP,
+                        WORK,
+                        INFO);
+}
+
+//-- zgebrd --------------------------------------------------------------------
+void
+LAPACK_DECL(zgebrd)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE           *D,
+                    DOUBLE           *E,
+                    DOUBLE_COMPLEX   *TAUQ,
+                    DOUBLE_COMPLEX   *TAUP,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgebrd");
+    LAPACK_IMPL(zgebrd)(M,
+                        N,
+                        A,
+                        LDA,
+                        D,
+                        E,
+                        TAUQ,
+                        TAUP,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zgecon --------------------------------------------------------------------
+void
+LAPACK_DECL(zgecon)(const char               *NORM,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE             *ANORM,
+                    DOUBLE                   *RCOND,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zgecon");
+    LAPACK_IMPL(zgecon)(NORM,
+                        N,
+                        A,
+                        LDA,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zgeequ --------------------------------------------------------------------
+void
+LAPACK_DECL(zgeequ)(const INTEGER            *M,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    DOUBLE                   *R,
+                    DOUBLE                   *C,
+                    DOUBLE                   *ROWCND,
+                    DOUBLE                   *COLCND,
+                    DOUBLE                   *AMAX,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zgeequ");
+    LAPACK_IMPL(zgeequ)(M,
+                        N,
+                        A,
+                        LDA,
+                        R,
+                        C,
+                        ROWCND,
+                        COLCND,
+                        AMAX,
+                        INFO);
+}
+
+//-- zgeequb -------------------------------------------------------------------
+void
+LAPACK_DECL(zgeequb)(const INTEGER            *M,
+                     const INTEGER            *N,
+                     const DOUBLE_COMPLEX     *A,
+                     const INTEGER            *LDA,
+                     DOUBLE                   *R,
+                     DOUBLE                   *C,
+                     DOUBLE                   *ROWCND,
+                     DOUBLE                   *COLCND,
+                     DOUBLE                   *AMAX,
+                     INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zgeequb");
+    LAPACK_IMPL(zgeequb)(M,
+                         N,
+                         A,
+                         LDA,
+                         R,
+                         C,
+                         ROWCND,
+                         COLCND,
+                         AMAX,
+                         INFO);
+}
+
+//-- zgees ---------------------------------------------------------------------
+void
+LAPACK_DECL(zgees)(const char           *JOBVS,
+                   const char           *SORT,
+                   const LOGICAL        *SELECT,
+                   const INTEGER        *N,
+                   DOUBLE_COMPLEX       *A,
+                   const INTEGER        *LDA,
+                   INTEGER              *SDIM,
+                   DOUBLE_COMPLEX       *W,
+                   DOUBLE_COMPLEX       *VS,
+                   const INTEGER        *LDVS,
+                   DOUBLE_COMPLEX       *WORK,
+                   const INTEGER        *LWORK,
+                   DOUBLE               *RWORK,
+                   LOGICAL              *BWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("zgees");
+    LAPACK_IMPL(zgees)(JOBVS,
+                       SORT,
+                       SELECT,
+                       N,
+                       A,
+                       LDA,
+                       SDIM,
+                       W,
+                       VS,
+                       LDVS,
+                       WORK,
+                       LWORK,
+                       RWORK,
+                       BWORK,
+                       INFO);
+}
+
+//-- zgeesx --------------------------------------------------------------------
+void
+LAPACK_DECL(zgeesx)(const char       *JOBVS,
+                    const char       *SORT,
+                    const LOGICAL    *SELECT,
+                    const char       *SENSE,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *SDIM,
+                    DOUBLE_COMPLEX   *W,
+                    DOUBLE_COMPLEX   *VS,
+                    const INTEGER    *LDVS,
+                    DOUBLE           *RCONDE,
+                    DOUBLE           *RCONDV,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    DOUBLE           *RWORK,
+                    LOGICAL          *BWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgeesx");
+    LAPACK_IMPL(zgeesx)(JOBVS,
+                        SORT,
+                        SELECT,
+                        SENSE,
+                        N,
+                        A,
+                        LDA,
+                        SDIM,
+                        W,
+                        VS,
+                        LDVS,
+                        RCONDE,
+                        RCONDV,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        BWORK,
+                        INFO);
+}
+
+//-- zgeev ---------------------------------------------------------------------
+void
+LAPACK_DECL(zgeev)(const char           *JOBVL,
+                   const char           *JOBVR,
+                   const INTEGER        *N,
+                   DOUBLE_COMPLEX       *A,
+                   const INTEGER        *LDA,
+                   DOUBLE_COMPLEX       *W,
+                   DOUBLE_COMPLEX       *VL,
+                   const INTEGER        *LDVL,
+                   DOUBLE_COMPLEX       *VR,
+                   const INTEGER        *LDVR,
+                   DOUBLE_COMPLEX       *WORK,
+                   const INTEGER        *LWORK,
+                   DOUBLE               *RWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("zgeev");
+    LAPACK_IMPL(zgeev)(JOBVL,
+                       JOBVR,
+                       N,
+                       A,
+                       LDA,
+                       W,
+                       VL,
+                       LDVL,
+                       VR,
+                       LDVR,
+                       WORK,
+                       LWORK,
+                       RWORK,
+                       INFO);
+}
+
+//-- zgeevx --------------------------------------------------------------------
+void
+LAPACK_DECL(zgeevx)(const char       *BALANC,
+                    const char       *JOBVL,
+                    const char       *JOBVR,
+                    const char       *SENSE,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *W,
+                    DOUBLE_COMPLEX   *VL,
+                    const INTEGER    *LDVL,
+                    DOUBLE_COMPLEX   *VR,
+                    const INTEGER    *LDVR,
+                    INTEGER          *ILO,
+                    INTEGER          *IHI,
+                    DOUBLE           *SCALE,
+                    DOUBLE           *ABNRM,
+                    DOUBLE           *RCONDE,
+                    DOUBLE           *RCONDV,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgeevx");
+    LAPACK_IMPL(zgeevx)(BALANC,
+                        JOBVL,
+                        JOBVR,
+                        SENSE,
+                        N,
+                        A,
+                        LDA,
+                        W,
+                        VL,
+                        LDVL,
+                        VR,
+                        LDVR,
+                        ILO,
+                        IHI,
+                        SCALE,
+                        ABNRM,
+                        RCONDE,
+                        RCONDV,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zgegs ---------------------------------------------------------------------
+void
+LAPACK_DECL(zgegs)(const char           *JOBVSL,
+                   const char           *JOBVSR,
+                   const INTEGER        *N,
+                   DOUBLE_COMPLEX       *A,
+                   const INTEGER        *LDA,
+                   DOUBLE_COMPLEX       *B,
+                   const INTEGER        *LDB,
+                   DOUBLE_COMPLEX       *ALPHA,
+                   DOUBLE_COMPLEX       *BETA,
+                   DOUBLE_COMPLEX       *VSL,
+                   const INTEGER        *LDVSL,
+                   DOUBLE_COMPLEX       *VSR,
+                   const INTEGER        *LDVSR,
+                   DOUBLE_COMPLEX       *WORK,
+                   const INTEGER        *LWORK,
+                   DOUBLE               *RWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("zgegs");
+    LAPACK_IMPL(zgegs)(JOBVSL,
+                       JOBVSR,
+                       N,
+                       A,
+                       LDA,
+                       B,
+                       LDB,
+                       ALPHA,
+                       BETA,
+                       VSL,
+                       LDVSL,
+                       VSR,
+                       LDVSR,
+                       WORK,
+                       LWORK,
+                       RWORK,
+                       INFO);
+}
+
+//-- zgegv ---------------------------------------------------------------------
+void
+LAPACK_DECL(zgegv)(const char           *JOBVL,
+                   const char           *JOBVR,
+                   const INTEGER        *N,
+                   DOUBLE_COMPLEX       *A,
+                   const INTEGER        *LDA,
+                   DOUBLE_COMPLEX       *B,
+                   const INTEGER        *LDB,
+                   DOUBLE_COMPLEX       *ALPHA,
+                   DOUBLE_COMPLEX       *BETA,
+                   DOUBLE_COMPLEX       *VL,
+                   const INTEGER        *LDVL,
+                   DOUBLE_COMPLEX       *VR,
+                   const INTEGER        *LDVR,
+                   DOUBLE_COMPLEX       *WORK,
+                   const INTEGER        *LWORK,
+                   DOUBLE               *RWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("zgegv");
+    LAPACK_IMPL(zgegv)(JOBVL,
+                       JOBVR,
+                       N,
+                       A,
+                       LDA,
+                       B,
+                       LDB,
+                       ALPHA,
+                       BETA,
+                       VL,
+                       LDVL,
+                       VR,
+                       LDVR,
+                       WORK,
+                       LWORK,
+                       RWORK,
+                       INFO);
+}
+
+//-- zgehd2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zgehd2)(const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *TAU,
+                    DOUBLE_COMPLEX   *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgehd2");
+    LAPACK_IMPL(zgehd2)(N,
+                        ILO,
+                        IHI,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- zgehrd --------------------------------------------------------------------
+void
+LAPACK_DECL(zgehrd)(const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *TAU,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgehrd");
+    LAPACK_IMPL(zgehrd)(N,
+                        ILO,
+                        IHI,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zgelq2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zgelq2)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *TAU,
+                    DOUBLE_COMPLEX   *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgelq2");
+    LAPACK_IMPL(zgelq2)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- zgelqf --------------------------------------------------------------------
+void
+LAPACK_DECL(zgelqf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *TAU,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgelqf");
+    LAPACK_IMPL(zgelqf)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zgels ---------------------------------------------------------------------
+void
+LAPACK_DECL(zgels)(const char           *TRANS,
+                   const INTEGER        *M,
+                   const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   DOUBLE_COMPLEX       *A,
+                   const INTEGER        *LDA,
+                   DOUBLE_COMPLEX       *B,
+                   const INTEGER        *LDB,
+                   DOUBLE_COMPLEX       *WORK,
+                   const INTEGER        *LWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("zgels");
+    LAPACK_IMPL(zgels)(TRANS,
+                       M,
+                       N,
+                       NRHS,
+                       A,
+                       LDA,
+                       B,
+                       LDB,
+                       WORK,
+                       LWORK,
+                       INFO);
+}
+
+//-- zgelsd --------------------------------------------------------------------
+void
+LAPACK_DECL(zgelsd)(const INTEGER            *M,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    DOUBLE_COMPLEX           *B,
+                    const INTEGER            *LDB,
+                    DOUBLE                   *S,
+                    const DOUBLE             *RCOND,
+                    INTEGER                  *RANK,
+                    DOUBLE_COMPLEX           *WORK,
+                    const INTEGER            *LWORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *IWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zgelsd");
+    LAPACK_IMPL(zgelsd)(M,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        S,
+                        RCOND,
+                        RANK,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- zgelss --------------------------------------------------------------------
+void
+LAPACK_DECL(zgelss)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    DOUBLE           *S,
+                    const DOUBLE     *RCOND,
+                    INTEGER          *RANK,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgelss");
+    LAPACK_IMPL(zgelss)(M,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        S,
+                        RCOND,
+                        RANK,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zgelsx --------------------------------------------------------------------
+void
+LAPACK_DECL(zgelsx)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *JPVT,
+                    const DOUBLE     *RCOND,
+                    INTEGER          *RANK,
+                    DOUBLE_COMPLEX   *WORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgelsx");
+    LAPACK_IMPL(zgelsx)(M,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        JPVT,
+                        RCOND,
+                        RANK,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zgelsy --------------------------------------------------------------------
+void
+LAPACK_DECL(zgelsy)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *JPVT,
+                    const DOUBLE     *RCOND,
+                    INTEGER          *RANK,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgelsy");
+    LAPACK_IMPL(zgelsy)(M,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        JPVT,
+                        RCOND,
+                        RANK,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zgeql2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zgeql2)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *TAU,
+                    DOUBLE_COMPLEX   *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgeql2");
+    LAPACK_IMPL(zgeql2)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- zgeqlf --------------------------------------------------------------------
+void
+LAPACK_DECL(zgeqlf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *TAU,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgeqlf");
+    LAPACK_IMPL(zgeqlf)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zgeqp3 --------------------------------------------------------------------
+void
+LAPACK_DECL(zgeqp3)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *JPVT,
+                    DOUBLE_COMPLEX   *TAU,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgeqp3");
+    LAPACK_IMPL(zgeqp3)(M,
+                        N,
+                        A,
+                        LDA,
+                        JPVT,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zgeqpf --------------------------------------------------------------------
+void
+LAPACK_DECL(zgeqpf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *JPVT,
+                    DOUBLE_COMPLEX   *TAU,
+                    DOUBLE_COMPLEX   *WORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgeqpf");
+    LAPACK_IMPL(zgeqpf)(M,
+                        N,
+                        A,
+                        LDA,
+                        JPVT,
+                        TAU,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zgeqr2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zgeqr2)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *TAU,
+                    DOUBLE_COMPLEX   *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgeqr2");
+    LAPACK_IMPL(zgeqr2)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- zgeqr2p -------------------------------------------------------------------
+void
+LAPACK_DECL(zgeqr2p)(const INTEGER    *M,
+                     const INTEGER    *N,
+                     DOUBLE_COMPLEX   *A,
+                     const INTEGER    *LDA,
+                     DOUBLE_COMPLEX   *TAU,
+                     DOUBLE_COMPLEX   *WORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgeqr2p");
+    LAPACK_IMPL(zgeqr2p)(M,
+                         N,
+                         A,
+                         LDA,
+                         TAU,
+                         WORK,
+                         INFO);
+}
+
+//-- zgeqrf --------------------------------------------------------------------
+void
+LAPACK_DECL(zgeqrf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *TAU,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgeqrf");
+    LAPACK_IMPL(zgeqrf)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zgeqrfp -------------------------------------------------------------------
+void
+LAPACK_DECL(zgeqrfp)(const INTEGER    *M,
+                     const INTEGER    *N,
+                     DOUBLE_COMPLEX   *A,
+                     const INTEGER    *LDA,
+                     DOUBLE_COMPLEX   *TAU,
+                     DOUBLE_COMPLEX   *WORK,
+                     const INTEGER    *LWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgeqrfp");
+    LAPACK_IMPL(zgeqrfp)(M,
+                         N,
+                         A,
+                         LDA,
+                         TAU,
+                         WORK,
+                         LWORK,
+                         INFO);
+}
+
+//-- zgerfs --------------------------------------------------------------------
+void
+LAPACK_DECL(zgerfs)(const char               *TRANS,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *AF,
+                    const INTEGER            *LDAF,
+                    const INTEGER            *IPIV,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    DOUBLE_COMPLEX           *X,
+                    const INTEGER            *LDX,
+                    DOUBLE                   *FERR,
+                    DOUBLE                   *BERR,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zgerfs");
+    LAPACK_IMPL(zgerfs)(TRANS,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        AF,
+                        LDAF,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zgerfsx -------------------------------------------------------------------
+/*
+void
+LAPACK_DECL(zgerfsx)(const char               *TRANS,
+                     const char               *EQUED,
+                     const INTEGER            *N,
+                     const INTEGER            *NRHS,
+                     const DOUBLE_COMPLEX     *A,
+                     const INTEGER            *LDA,
+                     const DOUBLE_COMPLEX     *AF,
+                     const INTEGER            *LDAF,
+                     const INTEGER            *IPIV,
+                     const DOUBLE             *R,
+                     const DOUBLE             *C,
+                     const DOUBLE_COMPLEX     *B,
+                     const INTEGER            *LDB,
+                     DOUBLE_COMPLEX           *X,
+                     const INTEGER            *LDX,
+                     DOUBLE                   *RCOND,
+                     DOUBLE                   *BERR,
+                     const INTEGER            *N_ERR_BNDS,
+                     DOUBLE                   *ERR_BNDS_NORM,
+                     DOUBLE                   *ERR_BNDS_COMP,
+                     const INTEGER            *NPARAMS,
+                     DOUBLE                   *PARAMS,
+                     DOUBLE_COMPLEX           *WORK,
+                     DOUBLE                   *RWORK,
+                     INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zgerfsx");
+    LAPACK_IMPL(zgerfsx)(TRANS,
+                         EQUED,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         IPIV,
+                         R,
+                         C,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         RWORK,
+                         INFO);
+}
+*/
+
+//-- zgerq2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zgerq2)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *TAU,
+                    DOUBLE_COMPLEX   *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgerq2");
+    LAPACK_IMPL(zgerq2)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- zgerqf --------------------------------------------------------------------
+void
+LAPACK_DECL(zgerqf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *TAU,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgerqf");
+    LAPACK_IMPL(zgerqf)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zgesc2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zgesc2)(const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    DOUBLE_COMPLEX           *RHS,
+                    const INTEGER            *IPIV,
+                    const INTEGER            *JPIV,
+                    DOUBLE                   *SCALE)
+{
+    DEBUG_LAPACK_STUB("zgesc2");
+    LAPACK_IMPL(zgesc2)(N,
+                        A,
+                        LDA,
+                        RHS,
+                        IPIV,
+                        JPIV,
+                        SCALE);
+}
+
+//-- zgesdd --------------------------------------------------------------------
+void
+LAPACK_DECL(zgesdd)(const char       *JOBZ,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE           *S,
+                    DOUBLE_COMPLEX   *U,
+                    const INTEGER    *LDU,
+                    DOUBLE_COMPLEX   *VT,
+                    const INTEGER    *LDVT,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgesdd");
+    LAPACK_IMPL(zgesdd)(JOBZ,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        S,
+                        U,
+                        LDU,
+                        VT,
+                        LDVT,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- zgesv ---------------------------------------------------------------------
+void
+LAPACK_DECL(zgesv)(const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   DOUBLE_COMPLEX       *A,
+                   const INTEGER        *LDA,
+                   INTEGER              *IPIV,
+                   DOUBLE_COMPLEX       *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("zgesv");
+    LAPACK_IMPL(zgesv)(N,
+                       NRHS,
+                       A,
+                       LDA,
+                       IPIV,
+                       B,
+                       LDB,
+                       INFO);
+}
+
+//-- zgesvd --------------------------------------------------------------------
+void
+LAPACK_DECL(zgesvd)(const char       *JOBU,
+                    const char       *JOBVT,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE           *S,
+                    DOUBLE_COMPLEX   *U,
+                    const INTEGER    *LDU,
+                    DOUBLE_COMPLEX   *VT,
+                    const INTEGER    *LDVT,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgesvd");
+    LAPACK_IMPL(zgesvd)(JOBU,
+                        JOBVT,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        S,
+                        U,
+                        LDU,
+                        VT,
+                        LDVT,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zgesvx --------------------------------------------------------------------
+void
+LAPACK_DECL(zgesvx)(const char       *FACT,
+                    const char       *TRANS,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *AF,
+                    const INTEGER    *LDAF,
+                    INTEGER          *IPIV,
+                    char             *EQUED,
+                    DOUBLE           *R,
+                    DOUBLE           *C,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    DOUBLE_COMPLEX   *X,
+                    const INTEGER    *LDX,
+                    DOUBLE           *RCOND,
+                    DOUBLE           *FERR,
+                    DOUBLE           *BERR,
+                    DOUBLE_COMPLEX   *WORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgesvx");
+    LAPACK_IMPL(zgesvx)(FACT,
+                        TRANS,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        AF,
+                        LDAF,
+                        IPIV,
+                        EQUED,
+                        R,
+                        C,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zgesvxx -------------------------------------------------------------------
+/*
+void
+LAPACK_DECL(zgesvxx)(const char       *FACT,
+                     const char       *TRANS,
+                     const INTEGER    *N,
+                     const INTEGER    *NRHS,
+                     DOUBLE_COMPLEX   *A,
+                     const INTEGER    *LDA,
+                     DOUBLE_COMPLEX   *AF,
+                     const INTEGER    *LDAF,
+                     INTEGER          *IPIV,
+                     char             *EQUED,
+                     DOUBLE           *R,
+                     DOUBLE           *C,
+                     DOUBLE_COMPLEX   *B,
+                     const INTEGER    *LDB,
+                     DOUBLE_COMPLEX   *X,
+                     const INTEGER    *LDX,
+                     DOUBLE           *RCOND,
+                     DOUBLE           *RPVGRW,
+                     DOUBLE           *BERR,
+                     const INTEGER    *N_ERR_BNDS,
+                     DOUBLE           *ERR_BNDS_NORM,
+                     DOUBLE           *ERR_BNDS_COMP,
+                     const INTEGER    *NPARAMS,
+                     DOUBLE           *PARAMS,
+                     DOUBLE_COMPLEX   *WORK,
+                     DOUBLE           *RWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgesvxx");
+    LAPACK_IMPL(zgesvxx)(FACT,
+                         TRANS,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         IPIV,
+                         EQUED,
+                         R,
+                         C,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         RPVGRW,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         RWORK,
+                         INFO);
+}
+*/
+//-- zgetc2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zgetc2)(const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *IPIV,
+                    INTEGER          *JPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgetc2");
+    LAPACK_IMPL(zgetc2)(N,
+                        A,
+                        LDA,
+                        IPIV,
+                        JPIV,
+                        INFO);
+}
+
+//-- zgetf2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zgetf2)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *IPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgetf2");
+    LAPACK_IMPL(zgetf2)(M,
+                        N,
+                        A,
+                        LDA,
+                        IPIV,
+                        INFO);
+}
+
+//-- zgetrf --------------------------------------------------------------------
+/*
+void
+LAPACK_DECL(zgetrf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *IPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgetrf");
+    LAPACK_IMPL(zgetrf)(M,
+                        N,
+                        A,
+                        LDA,
+                        IPIV,
+                        INFO);
+}
+*/
+
+//-- zgetri --------------------------------------------------------------------
+void
+LAPACK_DECL(zgetri)(const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    const INTEGER    *IPIV,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgetri");
+    LAPACK_IMPL(zgetri)(N,
+                        A,
+                        LDA,
+                        IPIV,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zgetrs --------------------------------------------------------------------
+void
+LAPACK_DECL(zgetrs)(const char               *TRANS,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const INTEGER            *IPIV,
+                    DOUBLE_COMPLEX           *B,
+                    const INTEGER            *LDB,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zgetrs");
+    LAPACK_IMPL(zgetrs)(TRANS,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        IPIV,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- zggbak --------------------------------------------------------------------
+void
+LAPACK_DECL(zggbak)(const char       *JOB,
+                    const char       *SIDE,
+                    const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    const DOUBLE     *LSCALE,
+                    const DOUBLE     *RSCALE,
+                    const INTEGER    *M,
+                    DOUBLE_COMPLEX   *V,
+                    const INTEGER    *LDV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zggbak");
+    LAPACK_IMPL(zggbak)(JOB,
+                        SIDE,
+                        N,
+                        ILO,
+                        IHI,
+                        LSCALE,
+                        RSCALE,
+                        M,
+                        V,
+                        LDV,
+                        INFO);
+}
+
+//-- zggbal --------------------------------------------------------------------
+void
+LAPACK_DECL(zggbal)(const char       *JOB,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *ILO,
+                    INTEGER          *IHI,
+                    DOUBLE           *LSCALE,
+                    DOUBLE           *RSCALE,
+                    DOUBLE           *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zggbal");
+    LAPACK_IMPL(zggbal)(JOB,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        ILO,
+                        IHI,
+                        LSCALE,
+                        RSCALE,
+                        WORK,
+                        INFO);
+}
+
+//-- zgges ---------------------------------------------------------------------
+void
+LAPACK_DECL(zgges)(const char           *JOBVSL,
+                   const char           *JOBVSR,
+                   const char           *SORT,
+                   const LOGICAL        *SELCTG,
+                   const INTEGER        *N,
+                   DOUBLE_COMPLEX       *A,
+                   const INTEGER        *LDA,
+                   DOUBLE_COMPLEX       *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *SDIM,
+                   DOUBLE_COMPLEX       *ALPHA,
+                   DOUBLE_COMPLEX       *BETA,
+                   DOUBLE_COMPLEX       *VSL,
+                   const INTEGER        *LDVSL,
+                   DOUBLE_COMPLEX       *VSR,
+                   const INTEGER        *LDVSR,
+                   DOUBLE_COMPLEX       *WORK,
+                   const INTEGER        *LWORK,
+                   DOUBLE               *RWORK,
+                   LOGICAL              *BWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("zgges");
+    LAPACK_IMPL(zgges)(JOBVSL,
+                       JOBVSR,
+                       SORT,
+                       SELCTG,
+                       N,
+                       A,
+                       LDA,
+                       B,
+                       LDB,
+                       SDIM,
+                       ALPHA,
+                       BETA,
+                       VSL,
+                       LDVSL,
+                       VSR,
+                       LDVSR,
+                       WORK,
+                       LWORK,
+                       RWORK,
+                       BWORK,
+                       INFO);
+}
+
+//-- zggesx --------------------------------------------------------------------
+void
+LAPACK_DECL(zggesx)(const char       *JOBVSL,
+                    const char       *JOBVSR,
+                    const char       *SORT,
+                    const LOGICAL    *SELCTG,
+                    const char       *SENSE,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *SDIM,
+                    DOUBLE_COMPLEX   *ALPHA,
+                    DOUBLE_COMPLEX   *BETA,
+                    DOUBLE_COMPLEX   *VSL,
+                    const INTEGER    *LDVSL,
+                    DOUBLE_COMPLEX   *VSR,
+                    const INTEGER    *LDVSR,
+                    DOUBLE           *RCONDE,
+                    DOUBLE           *RCONDV,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    LOGICAL          *BWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zggesx");
+    LAPACK_IMPL(zggesx)(JOBVSL,
+                        JOBVSR,
+                        SORT,
+                        SELCTG,
+                        SENSE,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        SDIM,
+                        ALPHA,
+                        BETA,
+                        VSL,
+                        LDVSL,
+                        VSR,
+                        LDVSR,
+                        RCONDE,
+                        RCONDV,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        IWORK,
+                        LIWORK,
+                        BWORK,
+                        INFO);
+}
+
+//-- zggev ---------------------------------------------------------------------
+void
+LAPACK_DECL(zggev)(const char           *JOBVL,
+                   const char           *JOBVR,
+                   const INTEGER        *N,
+                   DOUBLE_COMPLEX       *A,
+                   const INTEGER        *LDA,
+                   DOUBLE_COMPLEX       *B,
+                   const INTEGER        *LDB,
+                   DOUBLE_COMPLEX       *ALPHA,
+                   DOUBLE_COMPLEX       *BETA,
+                   DOUBLE_COMPLEX       *VL,
+                   const INTEGER        *LDVL,
+                   DOUBLE_COMPLEX       *VR,
+                   const INTEGER        *LDVR,
+                   DOUBLE_COMPLEX       *WORK,
+                   const INTEGER        *LWORK,
+                   DOUBLE               *RWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("zggev");
+    LAPACK_IMPL(zggev)(JOBVL,
+                       JOBVR,
+                       N,
+                       A,
+                       LDA,
+                       B,
+                       LDB,
+                       ALPHA,
+                       BETA,
+                       VL,
+                       LDVL,
+                       VR,
+                       LDVR,
+                       WORK,
+                       LWORK,
+                       RWORK,
+                       INFO);
+}
+
+//-- zggevx --------------------------------------------------------------------
+void
+LAPACK_DECL(zggevx)(const char       *BALANC,
+                    const char       *JOBVL,
+                    const char       *JOBVR,
+                    const char       *SENSE,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    DOUBLE_COMPLEX   *ALPHA,
+                    DOUBLE_COMPLEX   *BETA,
+                    DOUBLE_COMPLEX   *VL,
+                    const INTEGER    *LDVL,
+                    DOUBLE_COMPLEX   *VR,
+                    const INTEGER    *LDVR,
+                    INTEGER          *ILO,
+                    INTEGER          *IHI,
+                    DOUBLE           *LSCALE,
+                    DOUBLE           *RSCALE,
+                    DOUBLE           *ABNRM,
+                    DOUBLE           *BBNRM,
+                    DOUBLE           *RCONDE,
+                    DOUBLE           *RCONDV,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *IWORK,
+                    LOGICAL          *BWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zggevx");
+    LAPACK_IMPL(zggevx)(BALANC,
+                        JOBVL,
+                        JOBVR,
+                        SENSE,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        ALPHA,
+                        BETA,
+                        VL,
+                        LDVL,
+                        VR,
+                        LDVR,
+                        ILO,
+                        IHI,
+                        LSCALE,
+                        RSCALE,
+                        ABNRM,
+                        BBNRM,
+                        RCONDE,
+                        RCONDV,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        IWORK,
+                        BWORK,
+                        INFO);
+}
+
+//-- zggglm --------------------------------------------------------------------
+void
+LAPACK_DECL(zggglm)(const INTEGER    *N,
+                    const INTEGER    *M,
+                    const INTEGER    *P,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    DOUBLE_COMPLEX   *D,
+                    DOUBLE_COMPLEX   *X,
+                    DOUBLE_COMPLEX   *Y,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zggglm");
+    LAPACK_IMPL(zggglm)(N,
+                        M,
+                        P,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        D,
+                        X,
+                        Y,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zgghrd --------------------------------------------------------------------
+void
+LAPACK_DECL(zgghrd)(const char       *COMPQ,
+                    const char       *COMPZ,
+                    const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    DOUBLE_COMPLEX   *Q,
+                    const INTEGER    *LDQ,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgghrd");
+    LAPACK_IMPL(zgghrd)(COMPQ,
+                        COMPZ,
+                        N,
+                        ILO,
+                        IHI,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        Q,
+                        LDQ,
+                        Z,
+                        LDZ,
+                        INFO);
+}
+
+//-- zgglse --------------------------------------------------------------------
+void
+LAPACK_DECL(zgglse)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *P,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    DOUBLE_COMPLEX   *C,
+                    DOUBLE_COMPLEX   *D,
+                    DOUBLE_COMPLEX   *X,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgglse");
+    LAPACK_IMPL(zgglse)(M,
+                        N,
+                        P,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        C,
+                        D,
+                        X,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zggqrf --------------------------------------------------------------------
+void
+LAPACK_DECL(zggqrf)(const INTEGER    *N,
+                    const INTEGER    *M,
+                    const INTEGER    *P,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *TAUA,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    DOUBLE_COMPLEX   *TAUB,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zggqrf");
+    LAPACK_IMPL(zggqrf)(N,
+                        M,
+                        P,
+                        A,
+                        LDA,
+                        TAUA,
+                        B,
+                        LDB,
+                        TAUB,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zggrqf --------------------------------------------------------------------
+void
+LAPACK_DECL(zggrqf)(const INTEGER    *M,
+                    const INTEGER    *P,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *TAUA,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    DOUBLE_COMPLEX   *TAUB,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zggrqf");
+    LAPACK_IMPL(zggrqf)(M,
+                        P,
+                        N,
+                        A,
+                        LDA,
+                        TAUA,
+                        B,
+                        LDB,
+                        TAUB,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zggsvd --------------------------------------------------------------------
+void
+LAPACK_DECL(zggsvd)(const char       *JOBU,
+                    const char       *JOBV,
+                    const char       *JOBQ,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *P,
+                    INTEGER          *K,
+                    INTEGER          *L,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    DOUBLE           *ALPHA,
+                    DOUBLE           *BETA,
+                    DOUBLE_COMPLEX   *U,
+                    const INTEGER    *LDU,
+                    DOUBLE_COMPLEX   *V,
+                    const INTEGER    *LDV,
+                    DOUBLE_COMPLEX   *Q,
+                    const INTEGER    *LDQ,
+                    DOUBLE_COMPLEX   *WORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zggsvd");
+    LAPACK_IMPL(zggsvd)(JOBU,
+                        JOBV,
+                        JOBQ,
+                        M,
+                        N,
+                        P,
+                        K,
+                        L,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        ALPHA,
+                        BETA,
+                        U,
+                        LDU,
+                        V,
+                        LDV,
+                        Q,
+                        LDQ,
+                        WORK,
+                        RWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- zggsvp --------------------------------------------------------------------
+void
+LAPACK_DECL(zggsvp)(const char       *JOBU,
+                    const char       *JOBV,
+                    const char       *JOBQ,
+                    const INTEGER    *M,
+                    const INTEGER    *P,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    const DOUBLE     *TOLA,
+                    const DOUBLE     *TOLB,
+                    INTEGER          *K,
+                    INTEGER          *L,
+                    DOUBLE_COMPLEX   *U,
+                    const INTEGER    *LDU,
+                    DOUBLE_COMPLEX   *V,
+                    const INTEGER    *LDV,
+                    DOUBLE_COMPLEX   *Q,
+                    const INTEGER    *LDQ,
+                    INTEGER          *IWORK,
+                    DOUBLE           *RWORK,
+                    DOUBLE_COMPLEX   *TAU,
+                    DOUBLE_COMPLEX   *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zggsvp");
+    LAPACK_IMPL(zggsvp)(JOBU,
+                        JOBV,
+                        JOBQ,
+                        M,
+                        P,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        TOLA,
+                        TOLB,
+                        K,
+                        L,
+                        U,
+                        LDU,
+                        V,
+                        LDV,
+                        Q,
+                        LDQ,
+                        IWORK,
+                        RWORK,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- zgtcon --------------------------------------------------------------------
+void
+LAPACK_DECL(zgtcon)(const char               *NORM,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *DL,
+                    const DOUBLE_COMPLEX     *D,
+                    const DOUBLE_COMPLEX     *DU,
+                    const DOUBLE_COMPLEX     *DU2,
+                    const INTEGER            *IPIV,
+                    const DOUBLE             *ANORM,
+                    DOUBLE                   *RCOND,
+                    DOUBLE_COMPLEX           *WORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zgtcon");
+    LAPACK_IMPL(zgtcon)(NORM,
+                        N,
+                        DL,
+                        D,
+                        DU,
+                        DU2,
+                        IPIV,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        INFO);
+}
+
+//-- zgtrfs --------------------------------------------------------------------
+void
+LAPACK_DECL(zgtrfs)(const char               *TRANS,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *DL,
+                    const DOUBLE_COMPLEX     *D,
+                    const DOUBLE_COMPLEX     *DU,
+                    const DOUBLE_COMPLEX     *DLF,
+                    const DOUBLE_COMPLEX     *DF,
+                    const DOUBLE_COMPLEX     *DUF,
+                    const DOUBLE_COMPLEX     *DU2,
+                    const INTEGER            *IPIV,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    DOUBLE_COMPLEX           *X,
+                    const INTEGER            *LDX,
+                    DOUBLE                   *FERR,
+                    DOUBLE                   *BERR,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zgtrfs");
+    LAPACK_IMPL(zgtrfs)(TRANS,
+                        N,
+                        NRHS,
+                        DL,
+                        D,
+                        DU,
+                        DLF,
+                        DF,
+                        DUF,
+                        DU2,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zgtsv ---------------------------------------------------------------------
+void
+LAPACK_DECL(zgtsv)(const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   DOUBLE_COMPLEX       *DL,
+                   DOUBLE_COMPLEX       *D,
+                   DOUBLE_COMPLEX       *DU,
+                   DOUBLE_COMPLEX       *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("zgtsv");
+    LAPACK_IMPL(zgtsv)(N,
+                       NRHS,
+                       DL,
+                       D,
+                       DU,
+                       B,
+                       LDB,
+                       INFO);
+}
+
+//-- zgtsvx --------------------------------------------------------------------
+void
+LAPACK_DECL(zgtsvx)(const char               *FACT,
+                    const char               *TRANS,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *DL,
+                    const DOUBLE_COMPLEX     *D,
+                    const DOUBLE_COMPLEX     *DU,
+                    DOUBLE_COMPLEX           *DLF,
+                    DOUBLE_COMPLEX           *DF,
+                    DOUBLE_COMPLEX           *DUF,
+                    DOUBLE_COMPLEX           *DU2,
+                    INTEGER                  *IPIV,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    DOUBLE_COMPLEX           *X,
+                    const INTEGER            *LDX,
+                    DOUBLE                   *RCOND,
+                    DOUBLE                   *FERR,
+                    DOUBLE                   *BERR,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zgtsvx");
+    LAPACK_IMPL(zgtsvx)(FACT,
+                        TRANS,
+                        N,
+                        NRHS,
+                        DL,
+                        D,
+                        DU,
+                        DLF,
+                        DF,
+                        DUF,
+                        DU2,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zgttrf --------------------------------------------------------------------
+void
+LAPACK_DECL(zgttrf)(const INTEGER    *N,
+                    DOUBLE_COMPLEX   *DL,
+                    DOUBLE_COMPLEX   *D,
+                    DOUBLE_COMPLEX   *DU,
+                    DOUBLE_COMPLEX   *DU2,
+                    INTEGER          *IPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zgttrf");
+    LAPACK_IMPL(zgttrf)(N,
+                        DL,
+                        D,
+                        DU,
+                        DU2,
+                        IPIV,
+                        INFO);
+}
+
+//-- zgttrs --------------------------------------------------------------------
+void
+LAPACK_DECL(zgttrs)(const char               *TRANS,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *DL,
+                    const DOUBLE_COMPLEX     *D,
+                    const DOUBLE_COMPLEX     *DU,
+                    const DOUBLE_COMPLEX     *DU2,
+                    const INTEGER            *IPIV,
+                    DOUBLE_COMPLEX           *B,
+                    const INTEGER            *LDB,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zgttrs");
+    LAPACK_IMPL(zgttrs)(TRANS,
+                        N,
+                        NRHS,
+                        DL,
+                        D,
+                        DU,
+                        DU2,
+                        IPIV,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- zgtts2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zgtts2)(const INTEGER            *ITRANS,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *DL,
+                    const DOUBLE_COMPLEX     *D,
+                    const DOUBLE_COMPLEX     *DU,
+                    const DOUBLE_COMPLEX     *DU2,
+                    const INTEGER            *IPIV,
+                    DOUBLE_COMPLEX           *B,
+                    const INTEGER            *LDB)
+{
+    DEBUG_LAPACK_STUB("zgtts2");
+    LAPACK_IMPL(zgtts2)(ITRANS,
+                        N,
+                        NRHS,
+                        DL,
+                        D,
+                        DU,
+                        DU2,
+                        IPIV,
+                        B,
+                        LDB);
+}
+
+//-- zhbev ---------------------------------------------------------------------
+void
+LAPACK_DECL(zhbev)(const char           *JOBZ,
+                   const char           *UPLO,
+                   const INTEGER        *N,
+                   const INTEGER        *KD,
+                   DOUBLE_COMPLEX       *AB,
+                   const INTEGER        *LDAB,
+                   DOUBLE               *W,
+                   DOUBLE_COMPLEX       *Z,
+                   const INTEGER        *LDZ,
+                   DOUBLE_COMPLEX       *WORK,
+                   DOUBLE               *RWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("zhbev");
+    LAPACK_IMPL(zhbev)(JOBZ,
+                       UPLO,
+                       N,
+                       KD,
+                       AB,
+                       LDAB,
+                       W,
+                       Z,
+                       LDZ,
+                       WORK,
+                       RWORK,
+                       INFO);
+}
+
+//-- zhbevd --------------------------------------------------------------------
+void
+LAPACK_DECL(zhbevd)(const char       *JOBZ,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    DOUBLE_COMPLEX   *AB,
+                    const INTEGER    *LDAB,
+                    DOUBLE           *W,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    DOUBLE           *RWORK,
+                    const INTEGER    *LRWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zhbevd");
+    LAPACK_IMPL(zhbevd)(JOBZ,
+                        UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        LRWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- zhbevx --------------------------------------------------------------------
+void
+LAPACK_DECL(zhbevx)(const char       *JOBZ,
+                    const char       *RANGE,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    DOUBLE_COMPLEX   *AB,
+                    const INTEGER    *LDAB,
+                    DOUBLE_COMPLEX   *Q,
+                    const INTEGER    *LDQ,
+                    const DOUBLE     *VL,
+                    const DOUBLE     *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const DOUBLE     *ABSTOL,
+                    INTEGER          *M,
+                    DOUBLE           *W,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    DOUBLE_COMPLEX   *WORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *IFAIL,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zhbevx");
+    LAPACK_IMPL(zhbevx)(JOBZ,
+                        RANGE,
+                        UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        Q,
+                        LDQ,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        RWORK,
+                        IWORK,
+                        IFAIL,
+                        INFO);
+}
+
+//-- zhbgst --------------------------------------------------------------------
+void
+LAPACK_DECL(zhbgst)(const char               *VECT,
+                    const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *KA,
+                    const INTEGER            *KB,
+                    DOUBLE_COMPLEX           *AB,
+                    const INTEGER            *LDAB,
+                    const DOUBLE_COMPLEX     *BB,
+                    const INTEGER            *LDBB,
+                    DOUBLE_COMPLEX           *X,
+                    const INTEGER            *LDX,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zhbgst");
+    LAPACK_IMPL(zhbgst)(VECT,
+                        UPLO,
+                        N,
+                        KA,
+                        KB,
+                        AB,
+                        LDAB,
+                        BB,
+                        LDBB,
+                        X,
+                        LDX,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zhbgv ---------------------------------------------------------------------
+void
+LAPACK_DECL(zhbgv)(const char           *JOBZ,
+                   const char           *UPLO,
+                   const INTEGER        *N,
+                   const INTEGER        *KA,
+                   const INTEGER        *KB,
+                   DOUBLE_COMPLEX       *AB,
+                   const INTEGER        *LDAB,
+                   DOUBLE_COMPLEX       *BB,
+                   const INTEGER        *LDBB,
+                   DOUBLE               *W,
+                   DOUBLE_COMPLEX       *Z,
+                   const INTEGER        *LDZ,
+                   DOUBLE_COMPLEX       *WORK,
+                   DOUBLE               *RWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("zhbgv");
+    LAPACK_IMPL(zhbgv)(JOBZ,
+                       UPLO,
+                       N,
+                       KA,
+                       KB,
+                       AB,
+                       LDAB,
+                       BB,
+                       LDBB,
+                       W,
+                       Z,
+                       LDZ,
+                       WORK,
+                       RWORK,
+                       INFO);
+}
+
+//-- zhbgvd --------------------------------------------------------------------
+void
+LAPACK_DECL(zhbgvd)(const char       *JOBZ,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KA,
+                    const INTEGER    *KB,
+                    DOUBLE_COMPLEX   *AB,
+                    const INTEGER    *LDAB,
+                    DOUBLE_COMPLEX   *BB,
+                    const INTEGER    *LDBB,
+                    DOUBLE           *W,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    DOUBLE           *RWORK,
+                    const INTEGER    *LRWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zhbgvd");
+    LAPACK_IMPL(zhbgvd)(JOBZ,
+                        UPLO,
+                        N,
+                        KA,
+                        KB,
+                        AB,
+                        LDAB,
+                        BB,
+                        LDBB,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        LRWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- zhbgvx --------------------------------------------------------------------
+void
+LAPACK_DECL(zhbgvx)(const char       *JOBZ,
+                    const char       *RANGE,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KA,
+                    const INTEGER    *KB,
+                    DOUBLE_COMPLEX   *AB,
+                    const INTEGER    *LDAB,
+                    DOUBLE_COMPLEX   *BB,
+                    const INTEGER    *LDBB,
+                    DOUBLE_COMPLEX   *Q,
+                    const INTEGER    *LDQ,
+                    const DOUBLE     *VL,
+                    const DOUBLE     *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const DOUBLE     *ABSTOL,
+                    INTEGER          *M,
+                    DOUBLE           *W,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    DOUBLE_COMPLEX   *WORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *IFAIL,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zhbgvx");
+    LAPACK_IMPL(zhbgvx)(JOBZ,
+                        RANGE,
+                        UPLO,
+                        N,
+                        KA,
+                        KB,
+                        AB,
+                        LDAB,
+                        BB,
+                        LDBB,
+                        Q,
+                        LDQ,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        RWORK,
+                        IWORK,
+                        IFAIL,
+                        INFO);
+}
+
+//-- zhbtrd --------------------------------------------------------------------
+void
+LAPACK_DECL(zhbtrd)(const char       *VECT,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    DOUBLE_COMPLEX   *AB,
+                    const INTEGER    *LDAB,
+                    DOUBLE           *D,
+                    DOUBLE           *E,
+                    DOUBLE_COMPLEX   *Q,
+                    const INTEGER    *LDQ,
+                    DOUBLE_COMPLEX   *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zhbtrd");
+    LAPACK_IMPL(zhbtrd)(VECT,
+                        UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        D,
+                        E,
+                        Q,
+                        LDQ,
+                        WORK,
+                        INFO);
+}
+
+//-- zhecon --------------------------------------------------------------------
+void
+LAPACK_DECL(zhecon)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const INTEGER            *IPIV,
+                    const DOUBLE             *ANORM,
+                    DOUBLE                   *RCOND,
+                    DOUBLE_COMPLEX           *WORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zhecon");
+    LAPACK_IMPL(zhecon)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        IPIV,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        INFO);
+}
+
+//-- zheequb -------------------------------------------------------------------
+void
+LAPACK_DECL(zheequb)(const char               *UPLO,
+                     const INTEGER            *N,
+                     const DOUBLE_COMPLEX     *A,
+                     const INTEGER            *LDA,
+                     DOUBLE                   *S,
+                     DOUBLE                   *SCOND,
+                     DOUBLE                   *AMAX,
+                     const DOUBLE_COMPLEX     *WORK,
+                     INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zheequb");
+    LAPACK_IMPL(zheequb)(UPLO,
+                         N,
+                         A,
+                         LDA,
+                         S,
+                         SCOND,
+                         AMAX,
+                         WORK,
+                         INFO);
+}
+
+//-- zheev ---------------------------------------------------------------------
+void
+LAPACK_DECL(zheev)(const char           *JOBZ,
+                   const char           *UPLO,
+                   const INTEGER        *N,
+                   DOUBLE_COMPLEX       *A,
+                   const INTEGER        *LDA,
+                   DOUBLE               *W,
+                   DOUBLE_COMPLEX       *WORK,
+                   const INTEGER        *LWORK,
+                   DOUBLE               *RWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("zheev");
+    LAPACK_IMPL(zheev)(JOBZ,
+                       UPLO,
+                       N,
+                       A,
+                       LDA,
+                       W,
+                       WORK,
+                       LWORK,
+                       RWORK,
+                       INFO);
+}
+
+//-- zheevd --------------------------------------------------------------------
+void
+LAPACK_DECL(zheevd)(const char       *JOBZ,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE           *W,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    DOUBLE           *RWORK,
+                    const INTEGER    *LRWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zheevd");
+    LAPACK_IMPL(zheevd)(JOBZ,
+                        UPLO,
+                        N,
+                        A,
+                        LDA,
+                        W,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        LRWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- zheevr --------------------------------------------------------------------
+void
+LAPACK_DECL(zheevr)(const char       *JOBZ,
+                    const char       *RANGE,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    const DOUBLE     *VL,
+                    const DOUBLE     *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const DOUBLE     *ABSTOL,
+                    INTEGER          *M,
+                    DOUBLE           *W,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    INTEGER          *ISUPPZ,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    DOUBLE           *RWORK,
+                    const INTEGER    *LRWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zheevr");
+    LAPACK_IMPL(zheevr)(JOBZ,
+                        RANGE,
+                        UPLO,
+                        N,
+                        A,
+                        LDA,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        ISUPPZ,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        LRWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- zheevx --------------------------------------------------------------------
+void
+LAPACK_DECL(zheevx)(const char       *JOBZ,
+                    const char       *RANGE,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    const DOUBLE     *VL,
+                    const DOUBLE     *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const DOUBLE     *ABSTOL,
+                    INTEGER          *M,
+                    DOUBLE           *W,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *IFAIL,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zheevx");
+    LAPACK_IMPL(zheevx)(JOBZ,
+                        RANGE,
+                        UPLO,
+                        N,
+                        A,
+                        LDA,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        IWORK,
+                        IFAIL,
+                        INFO);
+}
+
+//-- zhegs2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zhegs2)(const INTEGER            *ITYPE,
+                    const char               *UPLO,
+                    const INTEGER            *N,
+                    DOUBLE_COMPLEX           *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zhegs2");
+    LAPACK_IMPL(zhegs2)(ITYPE,
+                        UPLO,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- zhegst --------------------------------------------------------------------
+void
+LAPACK_DECL(zhegst)(const INTEGER            *ITYPE,
+                    const char               *UPLO,
+                    const INTEGER            *N,
+                    DOUBLE_COMPLEX           *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zhegst");
+    LAPACK_IMPL(zhegst)(ITYPE,
+                        UPLO,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- zhegv ---------------------------------------------------------------------
+void
+LAPACK_DECL(zhegv)(const INTEGER        *ITYPE,
+                   const char           *JOBZ,
+                   const char           *UPLO,
+                   const INTEGER        *N,
+                   DOUBLE_COMPLEX       *A,
+                   const INTEGER        *LDA,
+                   DOUBLE_COMPLEX       *B,
+                   const INTEGER        *LDB,
+                   DOUBLE               *W,
+                   DOUBLE_COMPLEX       *WORK,
+                   const INTEGER        *LWORK,
+                   DOUBLE               *RWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("zhegv");
+    LAPACK_IMPL(zhegv)(ITYPE,
+                       JOBZ,
+                       UPLO,
+                       N,
+                       A,
+                       LDA,
+                       B,
+                       LDB,
+                       W,
+                       WORK,
+                       LWORK,
+                       RWORK,
+                       INFO);
+}
+
+//-- zhegvd --------------------------------------------------------------------
+void
+LAPACK_DECL(zhegvd)(const INTEGER    *ITYPE,
+                    const char       *JOBZ,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    DOUBLE           *W,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    DOUBLE           *RWORK,
+                    const INTEGER    *LRWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zhegvd");
+    LAPACK_IMPL(zhegvd)(ITYPE,
+                        JOBZ,
+                        UPLO,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        W,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        LRWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- zhegvx --------------------------------------------------------------------
+void
+LAPACK_DECL(zhegvx)(const INTEGER    *ITYPE,
+                    const char       *JOBZ,
+                    const char       *RANGE,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    const DOUBLE     *VL,
+                    const DOUBLE     *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const DOUBLE     *ABSTOL,
+                    INTEGER          *M,
+                    DOUBLE           *W,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *IFAIL,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zhegvx");
+    LAPACK_IMPL(zhegvx)(ITYPE,
+                        JOBZ,
+                        RANGE,
+                        UPLO,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        IWORK,
+                        IFAIL,
+                        INFO);
+}
+
+//-- zherfs --------------------------------------------------------------------
+void
+LAPACK_DECL(zherfs)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *AF,
+                    const INTEGER            *LDAF,
+                    const INTEGER            *IPIV,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    DOUBLE_COMPLEX           *X,
+                    const INTEGER            *LDX,
+                    DOUBLE                   *FERR,
+                    DOUBLE                   *BERR,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zherfs");
+    LAPACK_IMPL(zherfs)(UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        AF,
+                        LDAF,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zherfsx -------------------------------------------------------------------
+/*
+void
+LAPACK_DECL(zherfsx)(const char               *UPLO,
+                     const char               *EQUED,
+                     const INTEGER            *N,
+                     const INTEGER            *NRHS,
+                     const DOUBLE_COMPLEX     *A,
+                     const INTEGER            *LDA,
+                     const DOUBLE_COMPLEX     *AF,
+                     const INTEGER            *LDAF,
+                     const INTEGER            *IPIV,
+                     DOUBLE                   *S,
+                     const DOUBLE_COMPLEX     *B,
+                     const INTEGER            *LDB,
+                     DOUBLE_COMPLEX           *X,
+                     const INTEGER            *LDX,
+                     DOUBLE                   *RCOND,
+                     DOUBLE                   *BERR,
+                     const INTEGER            *N_ERR_BNDS,
+                     DOUBLE                   *ERR_BNDS_NORM,
+                     DOUBLE                   *ERR_BNDS_COMP,
+                     const INTEGER            *NPARAMS,
+                     DOUBLE                   *PARAMS,
+                     DOUBLE_COMPLEX           *WORK,
+                     DOUBLE                   *RWORK,
+                     INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zherfsx");
+    LAPACK_IMPL(zherfsx)(UPLO,
+                         EQUED,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         IPIV,
+                         S,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         RWORK,
+                         INFO);
+}
+*/
+
+//-- zhesv ---------------------------------------------------------------------
+void
+LAPACK_DECL(zhesv)(const char           *UPLO,
+                   const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   DOUBLE_COMPLEX       *A,
+                   const INTEGER        *LDA,
+                   INTEGER              *IPIV,
+                   DOUBLE_COMPLEX       *B,
+                   const INTEGER        *LDB,
+                   DOUBLE_COMPLEX       *WORK,
+                   const INTEGER        *LWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("zhesv");
+    LAPACK_IMPL(zhesv)(UPLO,
+                       N,
+                       NRHS,
+                       A,
+                       LDA,
+                       IPIV,
+                       B,
+                       LDB,
+                       WORK,
+                       LWORK,
+                       INFO);
+}
+
+//-- zhesvx --------------------------------------------------------------------
+void
+LAPACK_DECL(zhesvx)(const char               *FACT,
+                    const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    DOUBLE_COMPLEX           *AF,
+                    const INTEGER            *LDAF,
+                    INTEGER                  *IPIV,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    DOUBLE_COMPLEX           *X,
+                    const INTEGER            *LDX,
+                    DOUBLE                   *RCOND,
+                    DOUBLE                   *FERR,
+                    DOUBLE                   *BERR,
+                    DOUBLE_COMPLEX           *WORK,
+                    const INTEGER            *LWORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zhesvx");
+    LAPACK_IMPL(zhesvx)(FACT,
+                        UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        AF,
+                        LDAF,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zhesvxx -------------------------------------------------------------------
+/*
+void
+LAPACK_DECL(zhesvxx)(const char       *FACT,
+                     const char       *UPLO,
+                     const INTEGER    *N,
+                     const INTEGER    *NRHS,
+                     DOUBLE_COMPLEX   *A,
+                     const INTEGER    *LDA,
+                     DOUBLE_COMPLEX   *AF,
+                     const INTEGER    *LDAF,
+                     INTEGER          *IPIV,
+                     char             *EQUED,
+                     DOUBLE           *S,
+                     DOUBLE_COMPLEX   *B,
+                     const INTEGER    *LDB,
+                     DOUBLE_COMPLEX   *X,
+                     const INTEGER    *LDX,
+                     DOUBLE           *RCOND,
+                     DOUBLE           *RPVGRW,
+                     DOUBLE           *BERR,
+                     const INTEGER    *N_ERR_BNDS,
+                     DOUBLE           *ERR_BNDS_NORM,
+                     DOUBLE           *ERR_BNDS_COMP,
+                     const INTEGER    *NPARAMS,
+                     DOUBLE           *PARAMS,
+                     DOUBLE_COMPLEX   *WORK,
+                     DOUBLE           *RWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zhesvxx");
+    LAPACK_IMPL(zhesvxx)(FACT,
+                         UPLO,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         IPIV,
+                         EQUED,
+                         S,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         RPVGRW,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         RWORK,
+                         INFO);
+}
+*/
+//-- zheswapr ------------------------------------------------------------------
+void
+LAPACK_DECL(zheswapr)(const char           *UPLO,
+                      const INTEGER        *N,
+                      DOUBLE_COMPLEX       *A,
+                      const INTEGER        *LDA,
+                      const INTEGER        *I1,
+                      const INTEGER        *I2)
+{
+    DEBUG_LAPACK_STUB("zheswapr");
+    LAPACK_IMPL(zheswapr)(UPLO,
+                          N,
+                          A,
+                          LDA,
+                          I1,
+                          I2);
+}
+
+//-- zhetd2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zhetd2)(const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE           *D,
+                    DOUBLE           *E,
+                    DOUBLE_COMPLEX   *TAU,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zhetd2");
+    LAPACK_IMPL(zhetd2)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        D,
+                        E,
+                        TAU,
+                        INFO);
+}
+
+//-- zhetf2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zhetf2)(const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *IPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zhetf2");
+    LAPACK_IMPL(zhetf2)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        IPIV,
+                        INFO);
+}
+
+//-- zhetrd --------------------------------------------------------------------
+void
+LAPACK_DECL(zhetrd)(const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE           *D,
+                    DOUBLE           *E,
+                    DOUBLE_COMPLEX   *TAU,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zhetrd");
+    LAPACK_IMPL(zhetrd)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        D,
+                        E,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zhetrf --------------------------------------------------------------------
+void
+LAPACK_DECL(zhetrf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *IPIV,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zhetrf");
+    LAPACK_IMPL(zhetrf)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        IPIV,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zhetri --------------------------------------------------------------------
+void
+LAPACK_DECL(zhetri)(const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    const INTEGER    *IPIV,
+                    DOUBLE_COMPLEX   *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zhetri");
+    LAPACK_IMPL(zhetri)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        IPIV,
+                        WORK,
+                        INFO);
+}
+
+//-- zhetri2 -------------------------------------------------------------------
+void
+LAPACK_DECL(zhetri2)(const char       *UPLO,
+                     const INTEGER    *N,
+                     DOUBLE_COMPLEX   *A,
+                     const INTEGER    *LDA,
+                     const INTEGER    *IPIV,
+                     DOUBLE_COMPLEX   *WORK,
+                     const INTEGER    *LWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zhetri2");
+    LAPACK_IMPL(zhetri2)(UPLO,
+                         N,
+                         A,
+                         LDA,
+                         IPIV,
+                         WORK,
+                         LWORK,
+                         INFO);
+}
+
+//-- zhetri2x ------------------------------------------------------------------
+void
+LAPACK_DECL(zhetri2x)(const char           *UPLO,
+                      const INTEGER        *N,
+                      DOUBLE_COMPLEX       *A,
+                      const INTEGER        *LDA,
+                      const INTEGER        *IPIV,
+                      DOUBLE_COMPLEX       *WORK,
+                      const INTEGER        *NB,
+                      INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("zhetri2x");
+    LAPACK_IMPL(zhetri2x)(UPLO,
+                          N,
+                          A,
+                          LDA,
+                          IPIV,
+                          WORK,
+                          NB,
+                          INFO);
+}
+
+//-- zhetrs --------------------------------------------------------------------
+void
+LAPACK_DECL(zhetrs)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const INTEGER            *IPIV,
+                    DOUBLE_COMPLEX           *B,
+                    const INTEGER            *LDB,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zhetrs");
+    LAPACK_IMPL(zhetrs)(UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        IPIV,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- zhetrs2 -------------------------------------------------------------------
+void
+LAPACK_DECL(zhetrs2)(const char       *UPLO,
+                     const INTEGER    *N,
+                     const INTEGER    *NRHS,
+                     DOUBLE_COMPLEX   *A,
+                     const INTEGER    *LDA,
+                     const INTEGER    *IPIV,
+                     DOUBLE_COMPLEX   *B,
+                     const INTEGER    *LDB,
+                     DOUBLE_COMPLEX   *WORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zhetrs2");
+    LAPACK_IMPL(zhetrs2)(UPLO,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         IPIV,
+                         B,
+                         LDB,
+                         WORK,
+                         INFO);
+}
+
+//-- zhfrk ---------------------------------------------------------------------
+void
+LAPACK_DECL(zhfrk)(const char               *TRANSR,
+                   const char               *UPLO,
+                   const char               *TRANS,
+                   const INTEGER            *N,
+                   const INTEGER            *K,
+                   const DOUBLE             *ALPHA,
+                   const DOUBLE_COMPLEX     *A,
+                   const INTEGER            *LDA,
+                   const DOUBLE             *BETA,
+                   DOUBLE_COMPLEX           *C)
+{
+    DEBUG_LAPACK_STUB("zhfrk");
+    LAPACK_IMPL(zhfrk)(TRANSR,
+                       UPLO,
+                       TRANS,
+                       N,
+                       K,
+                       ALPHA,
+                       A,
+                       LDA,
+                       BETA,
+                       C);
+}
+
+//-- zhgeqz --------------------------------------------------------------------
+void
+LAPACK_DECL(zhgeqz)(const char       *JOB,
+                    const char       *COMPQ,
+                    const char       *COMPZ,
+                    const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    DOUBLE_COMPLEX   *H,
+                    const INTEGER    *LDH,
+                    DOUBLE_COMPLEX   *T,
+                    const INTEGER    *LDT,
+                    DOUBLE_COMPLEX   *ALPHA,
+                    DOUBLE_COMPLEX   *BETA,
+                    DOUBLE_COMPLEX   *Q,
+                    const INTEGER    *LDQ,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zhgeqz");
+    LAPACK_IMPL(zhgeqz)(JOB,
+                        COMPQ,
+                        COMPZ,
+                        N,
+                        ILO,
+                        IHI,
+                        H,
+                        LDH,
+                        T,
+                        LDT,
+                        ALPHA,
+                        BETA,
+                        Q,
+                        LDQ,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zhpcon --------------------------------------------------------------------
+void
+LAPACK_DECL(zhpcon)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *AP,
+                    const INTEGER            *IPIV,
+                    const DOUBLE             *ANORM,
+                    DOUBLE                   *RCOND,
+                    DOUBLE_COMPLEX           *WORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zhpcon");
+    LAPACK_IMPL(zhpcon)(UPLO,
+                        N,
+                        AP,
+                        IPIV,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        INFO);
+}
+
+//-- zhpev ---------------------------------------------------------------------
+void
+LAPACK_DECL(zhpev)(const char           *JOBZ,
+                   const char           *UPLO,
+                   const INTEGER        *N,
+                   DOUBLE_COMPLEX       *AP,
+                   DOUBLE               *W,
+                   DOUBLE_COMPLEX       *Z,
+                   const INTEGER        *LDZ,
+                   DOUBLE_COMPLEX       *WORK,
+                   DOUBLE               *RWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("zhpev");
+    LAPACK_IMPL(zhpev)(JOBZ,
+                       UPLO,
+                       N,
+                       AP,
+                       W,
+                       Z,
+                       LDZ,
+                       WORK,
+                       RWORK,
+                       INFO);
+}
+
+//-- zhpevd --------------------------------------------------------------------
+void
+LAPACK_DECL(zhpevd)(const char       *JOBZ,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *AP,
+                    DOUBLE           *W,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    DOUBLE           *RWORK,
+                    const INTEGER    *LRWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zhpevd");
+    LAPACK_IMPL(zhpevd)(JOBZ,
+                        UPLO,
+                        N,
+                        AP,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        LRWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- zhpevx --------------------------------------------------------------------
+void
+LAPACK_DECL(zhpevx)(const char       *JOBZ,
+                    const char       *RANGE,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *AP,
+                    const DOUBLE     *VL,
+                    const DOUBLE     *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const DOUBLE     *ABSTOL,
+                    INTEGER          *M,
+                    DOUBLE           *W,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    DOUBLE_COMPLEX   *WORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *IFAIL,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zhpevx");
+    LAPACK_IMPL(zhpevx)(JOBZ,
+                        RANGE,
+                        UPLO,
+                        N,
+                        AP,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        RWORK,
+                        IWORK,
+                        IFAIL,
+                        INFO);
+}
+
+//-- zhpgst --------------------------------------------------------------------
+void
+LAPACK_DECL(zhpgst)(const INTEGER            *ITYPE,
+                    const char               *UPLO,
+                    const INTEGER            *N,
+                    DOUBLE_COMPLEX           *AP,
+                    const DOUBLE_COMPLEX     *BP,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zhpgst");
+    LAPACK_IMPL(zhpgst)(ITYPE,
+                        UPLO,
+                        N,
+                        AP,
+                        BP,
+                        INFO);
+}
+
+//-- zhpgv ---------------------------------------------------------------------
+void
+LAPACK_DECL(zhpgv)(const INTEGER        *ITYPE,
+                   const char           *JOBZ,
+                   const char           *UPLO,
+                   const INTEGER        *N,
+                   DOUBLE_COMPLEX       *AP,
+                   DOUBLE_COMPLEX       *BP,
+                   DOUBLE               *W,
+                   DOUBLE_COMPLEX       *Z,
+                   const INTEGER        *LDZ,
+                   DOUBLE_COMPLEX       *WORK,
+                   DOUBLE               *RWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("zhpgv");
+    LAPACK_IMPL(zhpgv)(ITYPE,
+                       JOBZ,
+                       UPLO,
+                       N,
+                       AP,
+                       BP,
+                       W,
+                       Z,
+                       LDZ,
+                       WORK,
+                       RWORK,
+                       INFO);
+}
+
+//-- zhpgvd --------------------------------------------------------------------
+void
+LAPACK_DECL(zhpgvd)(const INTEGER    *ITYPE,
+                    const char       *JOBZ,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *AP,
+                    DOUBLE_COMPLEX   *BP,
+                    DOUBLE           *W,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    DOUBLE           *RWORK,
+                    const INTEGER    *LRWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zhpgvd");
+    LAPACK_IMPL(zhpgvd)(ITYPE,
+                        JOBZ,
+                        UPLO,
+                        N,
+                        AP,
+                        BP,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        LRWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- zhpgvx --------------------------------------------------------------------
+void
+LAPACK_DECL(zhpgvx)(const INTEGER    *ITYPE,
+                    const char       *JOBZ,
+                    const char       *RANGE,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *AP,
+                    DOUBLE_COMPLEX   *BP,
+                    const DOUBLE     *VL,
+                    const DOUBLE     *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const DOUBLE     *ABSTOL,
+                    INTEGER          *M,
+                    DOUBLE           *W,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    DOUBLE_COMPLEX   *WORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *IFAIL,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zhpgvx");
+    LAPACK_IMPL(zhpgvx)(ITYPE,
+                        JOBZ,
+                        RANGE,
+                        UPLO,
+                        N,
+                        AP,
+                        BP,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        RWORK,
+                        IWORK,
+                        IFAIL,
+                        INFO);
+}
+
+//-- zhprfs --------------------------------------------------------------------
+void
+LAPACK_DECL(zhprfs)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *AP,
+                    const DOUBLE_COMPLEX     *AFP,
+                    const INTEGER            *IPIV,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    DOUBLE_COMPLEX           *X,
+                    const INTEGER            *LDX,
+                    DOUBLE                   *FERR,
+                    DOUBLE                   *BERR,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zhprfs");
+    LAPACK_IMPL(zhprfs)(UPLO,
+                        N,
+                        NRHS,
+                        AP,
+                        AFP,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zhpsv ---------------------------------------------------------------------
+void
+LAPACK_DECL(zhpsv)(const char           *UPLO,
+                   const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   DOUBLE_COMPLEX       *AP,
+                   INTEGER              *IPIV,
+                   DOUBLE_COMPLEX       *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("zhpsv");
+    LAPACK_IMPL(zhpsv)(UPLO,
+                       N,
+                       NRHS,
+                       AP,
+                       IPIV,
+                       B,
+                       LDB,
+                       INFO);
+}
+
+//-- zhpsvx --------------------------------------------------------------------
+void
+LAPACK_DECL(zhpsvx)(const char               *FACT,
+                    const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *AP,
+                    DOUBLE_COMPLEX           *AFP,
+                    INTEGER                  *IPIV,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    DOUBLE_COMPLEX           *X,
+                    const INTEGER            *LDX,
+                    DOUBLE                   *RCOND,
+                    DOUBLE                   *FERR,
+                    DOUBLE                   *BERR,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zhpsvx");
+    LAPACK_IMPL(zhpsvx)(FACT,
+                        UPLO,
+                        N,
+                        NRHS,
+                        AP,
+                        AFP,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zhptrd --------------------------------------------------------------------
+void
+LAPACK_DECL(zhptrd)(const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *AP,
+                    DOUBLE           *D,
+                    DOUBLE           *E,
+                    DOUBLE_COMPLEX   *TAU,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zhptrd");
+    LAPACK_IMPL(zhptrd)(UPLO,
+                        N,
+                        AP,
+                        D,
+                        E,
+                        TAU,
+                        INFO);
+}
+
+//-- zhptrf --------------------------------------------------------------------
+void
+LAPACK_DECL(zhptrf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *AP,
+                    INTEGER          *IPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zhptrf");
+    LAPACK_IMPL(zhptrf)(UPLO,
+                        N,
+                        AP,
+                        IPIV,
+                        INFO);
+}
+
+//-- zhptri --------------------------------------------------------------------
+void
+LAPACK_DECL(zhptri)(const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *AP,
+                    const INTEGER    *IPIV,
+                    DOUBLE_COMPLEX   *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zhptri");
+    LAPACK_IMPL(zhptri)(UPLO,
+                        N,
+                        AP,
+                        IPIV,
+                        WORK,
+                        INFO);
+}
+
+//-- zhptrs --------------------------------------------------------------------
+void
+LAPACK_DECL(zhptrs)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *AP,
+                    const INTEGER            *IPIV,
+                    DOUBLE_COMPLEX           *B,
+                    const INTEGER            *LDB,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zhptrs");
+    LAPACK_IMPL(zhptrs)(UPLO,
+                        N,
+                        NRHS,
+                        AP,
+                        IPIV,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- zhsein --------------------------------------------------------------------
+void
+LAPACK_DECL(zhsein)(const char               *SIDE,
+                    const char               *EIGSRC,
+                    const char               *INITV,
+                    const LOGICAL            *SELECT,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *H,
+                    const INTEGER            *LDH,
+                    DOUBLE_COMPLEX           *W,
+                    DOUBLE_COMPLEX           *VL,
+                    const INTEGER            *LDVL,
+                    DOUBLE_COMPLEX           *VR,
+                    const INTEGER            *LDVR,
+                    const INTEGER            *MM,
+                    INTEGER                  *M,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *IFAILL,
+                    INTEGER                  *IFAILR,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zhsein");
+    LAPACK_IMPL(zhsein)(SIDE,
+                        EIGSRC,
+                        INITV,
+                        SELECT,
+                        N,
+                        H,
+                        LDH,
+                        W,
+                        VL,
+                        LDVL,
+                        VR,
+                        LDVR,
+                        MM,
+                        M,
+                        WORK,
+                        RWORK,
+                        IFAILL,
+                        IFAILR,
+                        INFO);
+}
+
+//-- zhseqr --------------------------------------------------------------------
+void
+LAPACK_DECL(zhseqr)(const char       *JOB,
+                    const char       *COMPZ,
+                    const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    DOUBLE_COMPLEX   *H,
+                    const INTEGER    *LDH,
+                    DOUBLE_COMPLEX   *W,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zhseqr");
+    LAPACK_IMPL(zhseqr)(JOB,
+                        COMPZ,
+                        N,
+                        ILO,
+                        IHI,
+                        H,
+                        LDH,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zla_gbamv -----------------------------------------------------------------
+void
+LAPACK_DECL(zla_gbamv)(const INTEGER            *TRANS,
+                       const INTEGER            *M,
+                       const INTEGER            *N,
+                       const INTEGER            *KL,
+                       const INTEGER            *KU,
+                       const DOUBLE             *ALPHA,
+                       const DOUBLE_COMPLEX     *AB,
+                       const INTEGER            *LDAB,
+                       const DOUBLE_COMPLEX     *X,
+                       const INTEGER            *INCX,
+                       const DOUBLE             *BETA,
+                       DOUBLE                   *Y,
+                       const INTEGER            *INCY)
+{
+    DEBUG_LAPACK_STUB("zla_gbamv");
+    LAPACK_IMPL(zla_gbamv)(TRANS,
+                           M,
+                           N,
+                           KL,
+                           KU,
+                           ALPHA,
+                           AB,
+                           LDAB,
+                           X,
+                           INCX,
+                           BETA,
+                           Y,
+                           INCY);
+}
+
+//-- zla_gbrcond_c -------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zla_gbrcond_c)(const char               *TRANS,
+                           const INTEGER            *N,
+                           const INTEGER            *KL,
+                           const INTEGER            *KU,
+                           const DOUBLE_COMPLEX     *AB,
+                           const INTEGER            *LDAB,
+                           const DOUBLE_COMPLEX     *AFB,
+                           const INTEGER            *LDAFB,
+                           const INTEGER            *IPIV,
+                           const DOUBLE             *C,
+                           const LOGICAL            *CAPPLY,
+                           INTEGER                  *INFO,
+                           const DOUBLE_COMPLEX     *WORK,
+                           const DOUBLE             *RWORK)
+{
+    DEBUG_LAPACK_STUB("zla_gbrcond_c");
+    return LAPACK_IMPL(zla_gbrcond_c)(TRANS,
+                                      N,
+                                      KL,
+                                      KU,
+                                      AB,
+                                      LDAB,
+                                      AFB,
+                                      LDAFB,
+                                      IPIV,
+                                      C,
+                                      CAPPLY,
+                                      INFO,
+                                      WORK,
+                                      RWORK);
+}
+
+//-- zla_gbrcond_x -------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zla_gbrcond_x)(const char               *TRANS,
+                           const INTEGER            *N,
+                           const INTEGER            *KL,
+                           const INTEGER            *KU,
+                           const DOUBLE_COMPLEX     *AB,
+                           const INTEGER            *LDAB,
+                           const DOUBLE_COMPLEX     *AFB,
+                           const INTEGER            *LDAFB,
+                           const INTEGER            *IPIV,
+                           const DOUBLE_COMPLEX     *X,
+                           INTEGER                  *INFO,
+                           const DOUBLE_COMPLEX     *WORK,
+                           const DOUBLE             *RWORK)
+{
+    DEBUG_LAPACK_STUB("zla_gbrcond_x");
+    return LAPACK_IMPL(zla_gbrcond_x)(TRANS,
+                                      N,
+                                      KL,
+                                      KU,
+                                      AB,
+                                      LDAB,
+                                      AFB,
+                                      LDAFB,
+                                      IPIV,
+                                      X,
+                                      INFO,
+                                      WORK,
+                                      RWORK);
+}
+
+//-- zla_gbrfsx_extended -------------------------------------------------------
+/*
+void
+LAPACK_DECL(zla_gbrfsx_extended)(const INTEGER            *PREC_TYPE,
+                                 const INTEGER            *TRANS_TYPE,
+                                 const INTEGER            *N,
+                                 const INTEGER            *KL,
+                                 const INTEGER            *KU,
+                                 const INTEGER            *NRHS,
+                                 const DOUBLE_COMPLEX     *AB,
+                                 const INTEGER            *LDAB,
+                                 const DOUBLE_COMPLEX     *AFB,
+                                 const INTEGER            *LDAFB,
+                                 const INTEGER            *IPIV,
+                                 const LOGICAL            *COLEQU,
+                                 const DOUBLE             *C,
+                                 const DOUBLE_COMPLEX     *B,
+                                 const INTEGER            *LDB,
+                                 DOUBLE_COMPLEX           *Y,
+                                 const INTEGER            *LDY,
+                                 DOUBLE                   *BERR_OUT,
+                                 const INTEGER            *N_NORMS,
+                                 DOUBLE                   *ERR_BNDS_NORM,
+                                 DOUBLE                   *ERR_BNDS_COMP,
+                                 const DOUBLE_COMPLEX     *RES,
+                                 const DOUBLE             *AYB,
+                                 const DOUBLE_COMPLEX     *DY,
+                                 const DOUBLE_COMPLEX     *Y_TAIL,
+                                 const DOUBLE             *RCOND,
+                                 const INTEGER            *ITHRESH,
+                                 const DOUBLE             *RTHRESH,
+                                 const DOUBLE             *DZ_UB,
+                                 const LOGICAL            *IGNORE_CWISE,
+                                 INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zla_gbrfsx_extended");
+    LAPACK_IMPL(zla_gbrfsx_extended)(PREC_TYPE,
+                                     TRANS_TYPE,
+                                     N,
+                                     KL,
+                                     KU,
+                                     NRHS,
+                                     AB,
+                                     LDAB,
+                                     AFB,
+                                     LDAFB,
+                                     IPIV,
+                                     COLEQU,
+                                     C,
+                                     B,
+                                     LDB,
+                                     Y,
+                                     LDY,
+                                     BERR_OUT,
+                                     N_NORMS,
+                                     ERR_BNDS_NORM,
+                                     ERR_BNDS_COMP,
+                                     RES,
+                                     AYB,
+                                     DY,
+                                     Y_TAIL,
+                                     RCOND,
+                                     ITHRESH,
+                                     RTHRESH,
+                                     DZ_UB,
+                                     IGNORE_CWISE,
+                                     INFO);
+}
+*/
+
+//-- zla_gbrpvgrw --------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zla_gbrpvgrw)(const INTEGER            *N,
+                          const INTEGER            *KL,
+                          const INTEGER            *KU,
+                          const INTEGER            *NCOLS,
+                          const DOUBLE_COMPLEX     *AB,
+                          const INTEGER            *LDAB,
+                          const DOUBLE_COMPLEX     *AFB,
+                          const INTEGER            *LDAFB)
+{
+    DEBUG_LAPACK_STUB("zla_gbrpvgrw");
+    return LAPACK_IMPL(zla_gbrpvgrw)(N,
+                                     KL,
+                                     KU,
+                                     NCOLS,
+                                     AB,
+                                     LDAB,
+                                     AFB,
+                                     LDAFB);
+}
+
+//-- zla_geamv -----------------------------------------------------------------
+void
+LAPACK_DECL(zla_geamv)(const INTEGER            *TRANS,
+                       const INTEGER            *M,
+                       const INTEGER            *N,
+                       const DOUBLE             *ALPHA,
+                       const DOUBLE_COMPLEX     *A,
+                       const INTEGER            *LDA,
+                       const DOUBLE_COMPLEX     *X,
+                       const INTEGER            *INCX,
+                       const DOUBLE             *BETA,
+                       DOUBLE                   *Y,
+                       const INTEGER            *INCY)
+{
+    DEBUG_LAPACK_STUB("zla_geamv");
+    LAPACK_IMPL(zla_geamv)(TRANS,
+                           M,
+                           N,
+                           ALPHA,
+                           A,
+                           LDA,
+                           X,
+                           INCX,
+                           BETA,
+                           Y,
+                           INCY);
+}
+
+//-- zla_gercond_c -------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zla_gercond_c)(const char               *TRANS,
+                           const INTEGER            *N,
+                           const DOUBLE_COMPLEX     *A,
+                           const INTEGER            *LDA,
+                           const DOUBLE_COMPLEX     *AF,
+                           const INTEGER            *LDAF,
+                           const INTEGER            *IPIV,
+                           const DOUBLE             *C,
+                           const LOGICAL            *CAPPLY,
+                           INTEGER                  *INFO,
+                           const DOUBLE_COMPLEX     *WORK,
+                           const DOUBLE             *RWORK)
+{
+    DEBUG_LAPACK_STUB("zla_gercond_c");
+    return LAPACK_IMPL(zla_gercond_c)(TRANS,
+                                      N,
+                                      A,
+                                      LDA,
+                                      AF,
+                                      LDAF,
+                                      IPIV,
+                                      C,
+                                      CAPPLY,
+                                      INFO,
+                                      WORK,
+                                      RWORK);
+}
+
+//-- zla_gercond_x -------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zla_gercond_x)(const char               *TRANS,
+                           const INTEGER            *N,
+                           const DOUBLE_COMPLEX     *A,
+                           const INTEGER            *LDA,
+                           const DOUBLE_COMPLEX     *AF,
+                           const INTEGER            *LDAF,
+                           const INTEGER            *IPIV,
+                           const DOUBLE_COMPLEX     *X,
+                           INTEGER                  *INFO,
+                           const DOUBLE_COMPLEX     *WORK,
+                           const DOUBLE             *RWORK)
+{
+    DEBUG_LAPACK_STUB("zla_gercond_x");
+    return LAPACK_IMPL(zla_gercond_x)(TRANS,
+                                      N,
+                                      A,
+                                      LDA,
+                                      AF,
+                                      LDAF,
+                                      IPIV,
+                                      X,
+                                      INFO,
+                                      WORK,
+                                      RWORK);
+}
+
+//-- zla_gerfsx_extended -------------------------------------------------------
+/*
+void
+LAPACK_DECL(zla_gerfsx_extended)(const INTEGER            *PREC_TYPE,
+                                 const INTEGER            *TRANS_TYPE,
+                                 const INTEGER            *N,
+                                 const INTEGER            *NRHS,
+                                 const DOUBLE_COMPLEX     *A,
+                                 const INTEGER            *LDA,
+                                 const DOUBLE_COMPLEX     *AF,
+                                 const INTEGER            *LDAF,
+                                 const INTEGER            *IPIV,
+                                 const LOGICAL            *COLEQU,
+                                 const DOUBLE             *C,
+                                 const DOUBLE_COMPLEX     *B,
+                                 const INTEGER            *LDB,
+                                 DOUBLE_COMPLEX           *Y,
+                                 const INTEGER            *LDY,
+                                 DOUBLE                   *BERR_OUT,
+                                 const INTEGER            *N_NORMS,
+                                 const DOUBLE             *ERRS_N,
+                                 const DOUBLE             *ERRS_C,
+                                 const DOUBLE_COMPLEX     *RES,
+                                 const DOUBLE             *AYB,
+                                 const DOUBLE_COMPLEX     *DY,
+                                 const DOUBLE_COMPLEX     *Y_TAIL,
+                                 const DOUBLE             *RCOND,
+                                 const INTEGER            *ITHRESH,
+                                 const DOUBLE             *RTHRESH,
+                                 const DOUBLE             *DZ_UB,
+                                 const LOGICAL            *IGNORE_CWISE,
+                                 INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zla_gerfsx_extended");
+    LAPACK_IMPL(zla_gerfsx_extended)(PREC_TYPE,
+                                     TRANS_TYPE,
+                                     N,
+                                     NRHS,
+                                     A,
+                                     LDA,
+                                     AF,
+                                     LDAF,
+                                     IPIV,
+                                     COLEQU,
+                                     C,
+                                     B,
+                                     LDB,
+                                     Y,
+                                     LDY,
+                                     BERR_OUT,
+                                     N_NORMS,
+                                     ERRS_N,
+                                     ERRS_C,
+                                     RES,
+                                     AYB,
+                                     DY,
+                                     Y_TAIL,
+                                     RCOND,
+                                     ITHRESH,
+                                     RTHRESH,
+                                     DZ_UB,
+                                     IGNORE_CWISE,
+                                     INFO);
+}
+*/
+
+//-- zla_heamv -----------------------------------------------------------------
+void
+LAPACK_DECL(zla_heamv)(const INTEGER            *UPLO,
+                       const INTEGER            *N,
+                       const DOUBLE             *ALPHA,
+                       const DOUBLE_COMPLEX     *A,
+                       const INTEGER            *LDA,
+                       const DOUBLE_COMPLEX     *X,
+                       const INTEGER            *INCX,
+                       const DOUBLE             *BETA,
+                       DOUBLE                   *Y,
+                       const INTEGER            *INCY)
+{
+    DEBUG_LAPACK_STUB("zla_heamv");
+    LAPACK_IMPL(zla_heamv)(UPLO,
+                           N,
+                           ALPHA,
+                           A,
+                           LDA,
+                           X,
+                           INCX,
+                           BETA,
+                           Y,
+                           INCY);
+}
+
+//-- zla_hercond_c -------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zla_hercond_c)(const char               *UPLO,
+                           const INTEGER            *N,
+                           const DOUBLE_COMPLEX     *A,
+                           const INTEGER            *LDA,
+                           const DOUBLE_COMPLEX     *AF,
+                           const INTEGER            *LDAF,
+                           const INTEGER            *IPIV,
+                           const DOUBLE             *C,
+                           const LOGICAL            *CAPPLY,
+                           INTEGER                  *INFO,
+                           const DOUBLE_COMPLEX     *WORK,
+                           const DOUBLE             *RWORK)
+{
+    DEBUG_LAPACK_STUB("zla_hercond_c");
+    return LAPACK_IMPL(zla_hercond_c)(UPLO,
+                                      N,
+                                      A,
+                                      LDA,
+                                      AF,
+                                      LDAF,
+                                      IPIV,
+                                      C,
+                                      CAPPLY,
+                                      INFO,
+                                      WORK,
+                                      RWORK);
+}
+
+//-- zla_hercond_x -------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zla_hercond_x)(const char               *UPLO,
+                           const INTEGER            *N,
+                           const DOUBLE_COMPLEX     *A,
+                           const INTEGER            *LDA,
+                           const DOUBLE_COMPLEX     *AF,
+                           const INTEGER            *LDAF,
+                           const INTEGER            *IPIV,
+                           const DOUBLE_COMPLEX     *X,
+                           INTEGER                  *INFO,
+                           const DOUBLE_COMPLEX     *WORK,
+                           const DOUBLE             *RWORK)
+{
+    DEBUG_LAPACK_STUB("zla_hercond_x");
+    return LAPACK_IMPL(zla_hercond_x)(UPLO,
+                                      N,
+                                      A,
+                                      LDA,
+                                      AF,
+                                      LDAF,
+                                      IPIV,
+                                      X,
+                                      INFO,
+                                      WORK,
+                                      RWORK);
+}
+
+//-- zla_herfsx_extended -------------------------------------------------------
+/*
+void
+LAPACK_DECL(zla_herfsx_extended)(const INTEGER            *PREC_TYPE,
+                                 const char               *UPLO,
+                                 const INTEGER            *N,
+                                 const INTEGER            *NRHS,
+                                 const DOUBLE_COMPLEX     *A,
+                                 const INTEGER            *LDA,
+                                 const DOUBLE_COMPLEX     *AF,
+                                 const INTEGER            *LDAF,
+                                 const INTEGER            *IPIV,
+                                 const LOGICAL            *COLEQU,
+                                 const DOUBLE             *C,
+                                 const DOUBLE_COMPLEX     *B,
+                                 const INTEGER            *LDB,
+                                 DOUBLE_COMPLEX           *Y,
+                                 const INTEGER            *LDY,
+                                 DOUBLE                   *BERR_OUT,
+                                 const INTEGER            *N_NORMS,
+                                 DOUBLE                   *ERR_BNDS_NORM,
+                                 DOUBLE                   *ERR_BNDS_COMP,
+                                 const DOUBLE_COMPLEX     *RES,
+                                 const DOUBLE             *AYB,
+                                 const DOUBLE_COMPLEX     *DY,
+                                 const DOUBLE_COMPLEX     *Y_TAIL,
+                                 const DOUBLE             *RCOND,
+                                 const INTEGER            *ITHRESH,
+                                 const DOUBLE             *RTHRESH,
+                                 const DOUBLE             *DZ_UB,
+                                 const LOGICAL            *IGNORE_CWISE,
+                                 INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zla_herfsx_extended");
+    LAPACK_IMPL(zla_herfsx_extended)(PREC_TYPE,
+                                     UPLO,
+                                     N,
+                                     NRHS,
+                                     A,
+                                     LDA,
+                                     AF,
+                                     LDAF,
+                                     IPIV,
+                                     COLEQU,
+                                     C,
+                                     B,
+                                     LDB,
+                                     Y,
+                                     LDY,
+                                     BERR_OUT,
+                                     N_NORMS,
+                                     ERR_BNDS_NORM,
+                                     ERR_BNDS_COMP,
+                                     RES,
+                                     AYB,
+                                     DY,
+                                     Y_TAIL,
+                                     RCOND,
+                                     ITHRESH,
+                                     RTHRESH,
+                                     DZ_UB,
+                                     IGNORE_CWISE,
+                                     INFO);
+}
+*/
+
+//-- zla_herpvgrw --------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zla_herpvgrw)(const char               *UPLO,
+                          const INTEGER            *N,
+                          const INTEGER            *INFO,
+                          const DOUBLE_COMPLEX     *A,
+                          const INTEGER            *LDA,
+                          const DOUBLE_COMPLEX     *AF,
+                          const INTEGER            *LDAF,
+                          const INTEGER            *IPIV,
+                          const DOUBLE             *WORK)
+{
+    DEBUG_LAPACK_STUB("zla_herpvgrw");
+    return LAPACK_IMPL(zla_herpvgrw)(UPLO,
+                                     N,
+                                     INFO,
+                                     A,
+                                     LDA,
+                                     AF,
+                                     LDAF,
+                                     IPIV,
+                                     WORK);
+}
+
+//-- zla_lin_berr --------------------------------------------------------------
+void
+LAPACK_DECL(zla_lin_berr)(const INTEGER            *N,
+                          const INTEGER            *NZ,
+                          const INTEGER            *NRHS,
+                          const DOUBLE_COMPLEX     *RES,
+                          const DOUBLE             *AYB,
+                          DOUBLE                   *BERR)
+{
+    DEBUG_LAPACK_STUB("zla_lin_berr");
+    LAPACK_IMPL(zla_lin_berr)(N,
+                              NZ,
+                              NRHS,
+                              RES,
+                              AYB,
+                              BERR);
+}
+
+//-- zla_porcond_c -------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zla_porcond_c)(const char               *UPLO,
+                           const INTEGER            *N,
+                           const DOUBLE_COMPLEX     *A,
+                           const INTEGER            *LDA,
+                           const DOUBLE_COMPLEX     *AF,
+                           const INTEGER            *LDAF,
+                           const DOUBLE             *C,
+                           const LOGICAL            *CAPPLY,
+                           INTEGER                  *INFO,
+                           const DOUBLE_COMPLEX     *WORK,
+                           const DOUBLE             *RWORK)
+{
+    DEBUG_LAPACK_STUB("zla_porcond_c");
+    return LAPACK_IMPL(zla_porcond_c)(UPLO,
+                                      N,
+                                      A,
+                                      LDA,
+                                      AF,
+                                      LDAF,
+                                      C,
+                                      CAPPLY,
+                                      INFO,
+                                      WORK,
+                                      RWORK);
+}
+
+//-- zla_porcond_x -------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zla_porcond_x)(const char               *UPLO,
+                           const INTEGER            *N,
+                           const DOUBLE_COMPLEX     *A,
+                           const INTEGER            *LDA,
+                           const DOUBLE_COMPLEX     *AF,
+                           const INTEGER            *LDAF,
+                           const DOUBLE_COMPLEX     *X,
+                           INTEGER                  *INFO,
+                           const DOUBLE_COMPLEX     *WORK,
+                           const DOUBLE             *RWORK)
+{
+    DEBUG_LAPACK_STUB("zla_porcond_x");
+    return LAPACK_IMPL(zla_porcond_x)(UPLO,
+                                      N,
+                                      A,
+                                      LDA,
+                                      AF,
+                                      LDAF,
+                                      X,
+                                      INFO,
+                                      WORK,
+                                      RWORK);
+}
+
+//-- zla_porfsx_extended -------------------------------------------------------
+/*
+void
+LAPACK_DECL(zla_porfsx_extended)(const INTEGER            *PREC_TYPE,
+                                 const char               *UPLO,
+                                 const INTEGER            *N,
+                                 const INTEGER            *NRHS,
+                                 const DOUBLE_COMPLEX     *A,
+                                 const INTEGER            *LDA,
+                                 const DOUBLE_COMPLEX     *AF,
+                                 const INTEGER            *LDAF,
+                                 const LOGICAL            *COLEQU,
+                                 const DOUBLE             *C,
+                                 const DOUBLE_COMPLEX     *B,
+                                 const INTEGER            *LDB,
+                                 DOUBLE_COMPLEX           *Y,
+                                 const INTEGER            *LDY,
+                                 DOUBLE                   *BERR_OUT,
+                                 const INTEGER            *N_NORMS,
+                                 DOUBLE                   *ERR_BNDS_NORM,
+                                 DOUBLE                   *ERR_BNDS_COMP,
+                                 const DOUBLE_COMPLEX     *RES,
+                                 const DOUBLE             *AYB,
+                                 const DOUBLE_COMPLEX     *DY,
+                                 const DOUBLE_COMPLEX     *Y_TAIL,
+                                 const DOUBLE             *RCOND,
+                                 const INTEGER            *ITHRESH,
+                                 const DOUBLE             *RTHRESH,
+                                 const DOUBLE             *DZ_UB,
+                                 const LOGICAL            *IGNORE_CWISE,
+                                 INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zla_porfsx_extended");
+    LAPACK_IMPL(zla_porfsx_extended)(PREC_TYPE,
+                                     UPLO,
+                                     N,
+                                     NRHS,
+                                     A,
+                                     LDA,
+                                     AF,
+                                     LDAF,
+                                     COLEQU,
+                                     C,
+                                     B,
+                                     LDB,
+                                     Y,
+                                     LDY,
+                                     BERR_OUT,
+                                     N_NORMS,
+                                     ERR_BNDS_NORM,
+                                     ERR_BNDS_COMP,
+                                     RES,
+                                     AYB,
+                                     DY,
+                                     Y_TAIL,
+                                     RCOND,
+                                     ITHRESH,
+                                     RTHRESH,
+                                     DZ_UB,
+                                     IGNORE_CWISE,
+                                     INFO);
+}
+*/
+
+//-- zla_porpvgrw --------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zla_porpvgrw)(const char               *UPLO,
+                          const INTEGER            *NCOLS,
+                          const DOUBLE_COMPLEX     *A,
+                          const INTEGER            *LDA,
+                          const DOUBLE_COMPLEX     *AF,
+                          const INTEGER            *LDAF,
+                          const DOUBLE             *WORK)
+{
+    DEBUG_LAPACK_STUB("zla_porpvgrw");
+    return LAPACK_IMPL(zla_porpvgrw)(UPLO,
+                                     NCOLS,
+                                     A,
+                                     LDA,
+                                     AF,
+                                     LDAF,
+                                     WORK);
+}
+
+//-- zla_rpvgrw ----------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zla_rpvgrw)(const INTEGER            *N,
+                        const INTEGER            *NCOLS,
+                        const DOUBLE_COMPLEX     *A,
+                        const INTEGER            *LDA,
+                        const DOUBLE_COMPLEX     *AF,
+                        const INTEGER            *LDAF)
+{
+    DEBUG_LAPACK_STUB("zla_rpvgrw");
+    return LAPACK_IMPL(zla_rpvgrw)(N,
+                                   NCOLS,
+                                   A,
+                                   LDA,
+                                   AF,
+                                   LDAF);
+}
+
+//-- zla_syamv -----------------------------------------------------------------
+void
+LAPACK_DECL(zla_syamv)(const INTEGER            *UPLO,
+                       const INTEGER            *N,
+                       const DOUBLE             *ALPHA,
+                       const DOUBLE_COMPLEX     *A,
+                       const INTEGER            *LDA,
+                       const DOUBLE_COMPLEX     *X,
+                       const INTEGER            *INCX,
+                       const DOUBLE             *BETA,
+                       DOUBLE                   *Y,
+                       const INTEGER            *INCY)
+{
+    DEBUG_LAPACK_STUB("zla_syamv");
+    LAPACK_IMPL(zla_syamv)(UPLO,
+                           N,
+                           ALPHA,
+                           A,
+                           LDA,
+                           X,
+                           INCX,
+                           BETA,
+                           Y,
+                           INCY);
+}
+
+//-- zla_syrcond_c -------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zla_syrcond_c)(const char               *UPLO,
+                           const INTEGER            *N,
+                           const DOUBLE_COMPLEX     *A,
+                           const INTEGER            *LDA,
+                           const DOUBLE_COMPLEX     *AF,
+                           const INTEGER            *LDAF,
+                           const INTEGER            *IPIV,
+                           const DOUBLE             *C,
+                           const LOGICAL            *CAPPLY,
+                           INTEGER                  *INFO,
+                           const DOUBLE_COMPLEX     *WORK,
+                           const DOUBLE             *RWORK)
+{
+    DEBUG_LAPACK_STUB("zla_syrcond_c");
+    return LAPACK_IMPL(zla_syrcond_c)(UPLO,
+                                      N,
+                                      A,
+                                      LDA,
+                                      AF,
+                                      LDAF,
+                                      IPIV,
+                                      C,
+                                      CAPPLY,
+                                      INFO,
+                                      WORK,
+                                      RWORK);
+}
+
+//-- zla_syrcond_x -------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zla_syrcond_x)(const char               *UPLO,
+                           const INTEGER            *N,
+                           const DOUBLE_COMPLEX     *A,
+                           const INTEGER            *LDA,
+                           const DOUBLE_COMPLEX     *AF,
+                           const INTEGER            *LDAF,
+                           const INTEGER            *IPIV,
+                           const DOUBLE_COMPLEX     *X,
+                           INTEGER                  *INFO,
+                           const DOUBLE_COMPLEX     *WORK,
+                           const DOUBLE             *RWORK)
+{
+    DEBUG_LAPACK_STUB("zla_syrcond_x");
+    return LAPACK_IMPL(zla_syrcond_x)(UPLO,
+                                      N,
+                                      A,
+                                      LDA,
+                                      AF,
+                                      LDAF,
+                                      IPIV,
+                                      X,
+                                      INFO,
+                                      WORK,
+                                      RWORK);
+}
+
+//-- zla_syrfsx_extended -------------------------------------------------------
+/*
+void
+LAPACK_DECL(zla_syrfsx_extended)(const INTEGER            *PREC_TYPE,
+                                 const char               *UPLO,
+                                 const INTEGER            *N,
+                                 const INTEGER            *NRHS,
+                                 const DOUBLE_COMPLEX     *A,
+                                 const INTEGER            *LDA,
+                                 const DOUBLE_COMPLEX     *AF,
+                                 const INTEGER            *LDAF,
+                                 const INTEGER            *IPIV,
+                                 const LOGICAL            *COLEQU,
+                                 const DOUBLE             *C,
+                                 const DOUBLE_COMPLEX     *B,
+                                 const INTEGER            *LDB,
+                                 DOUBLE_COMPLEX           *Y,
+                                 const INTEGER            *LDY,
+                                 DOUBLE                   *BERR_OUT,
+                                 const INTEGER            *N_NORMS,
+                                 DOUBLE                   *ERR_BNDS_NORM,
+                                 DOUBLE                   *ERR_BNDS_COMP,
+                                 const DOUBLE_COMPLEX     *RES,
+                                 const DOUBLE             *AYB,
+                                 const DOUBLE_COMPLEX     *DY,
+                                 const DOUBLE_COMPLEX     *Y_TAIL,
+                                 const DOUBLE             *RCOND,
+                                 const INTEGER            *ITHRESH,
+                                 const DOUBLE             *RTHRESH,
+                                 const DOUBLE             *DZ_UB,
+                                 const LOGICAL            *IGNORE_CWISE,
+                                 INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zla_syrfsx_extended");
+    LAPACK_IMPL(zla_syrfsx_extended)(PREC_TYPE,
+                                     UPLO,
+                                     N,
+                                     NRHS,
+                                     A,
+                                     LDA,
+                                     AF,
+                                     LDAF,
+                                     IPIV,
+                                     COLEQU,
+                                     C,
+                                     B,
+                                     LDB,
+                                     Y,
+                                     LDY,
+                                     BERR_OUT,
+                                     N_NORMS,
+                                     ERR_BNDS_NORM,
+                                     ERR_BNDS_COMP,
+                                     RES,
+                                     AYB,
+                                     DY,
+                                     Y_TAIL,
+                                     RCOND,
+                                     ITHRESH,
+                                     RTHRESH,
+                                     DZ_UB,
+                                     IGNORE_CWISE,
+                                     INFO);
+}
+*/
+
+//-- zla_syrpvgrw --------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zla_syrpvgrw)(const char               *UPLO,
+                          const INTEGER            *N,
+                          const INTEGER            *INFO,
+                          const DOUBLE_COMPLEX     *A,
+                          const INTEGER            *LDA,
+                          const DOUBLE_COMPLEX     *AF,
+                          const INTEGER            *LDAF,
+                          const INTEGER            *IPIV,
+                          const DOUBLE             *WORK)
+{
+    DEBUG_LAPACK_STUB("zla_syrpvgrw");
+    return LAPACK_IMPL(zla_syrpvgrw)(UPLO,
+                                     N,
+                                     INFO,
+                                     A,
+                                     LDA,
+                                     AF,
+                                     LDAF,
+                                     IPIV,
+                                     WORK);
+}
+
+//-- zla_wwaddw ----------------------------------------------------------------
+void
+LAPACK_DECL(zla_wwaddw)(const INTEGER            *N,
+                        DOUBLE_COMPLEX           *X,
+                        DOUBLE_COMPLEX           *Y,
+                        const DOUBLE_COMPLEX     *W)
+{
+    DEBUG_LAPACK_STUB("zla_wwaddw");
+    LAPACK_IMPL(zla_wwaddw)(N,
+                            X,
+                            Y,
+                            W);
+}
+
+//-- zlabrd --------------------------------------------------------------------
+void
+LAPACK_DECL(zlabrd)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *NB,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE           *D,
+                    DOUBLE           *E,
+                    DOUBLE_COMPLEX   *TAUQ,
+                    DOUBLE_COMPLEX   *TAUP,
+                    DOUBLE_COMPLEX   *X,
+                    const INTEGER    *LDX,
+                    DOUBLE_COMPLEX   *Y,
+                    const INTEGER    *LDY)
+{
+    DEBUG_LAPACK_STUB("zlabrd");
+    LAPACK_IMPL(zlabrd)(M,
+                        N,
+                        NB,
+                        A,
+                        LDA,
+                        D,
+                        E,
+                        TAUQ,
+                        TAUP,
+                        X,
+                        LDX,
+                        Y,
+                        LDY);
+}
+
+//-- zlacgv --------------------------------------------------------------------
+void
+LAPACK_DECL(zlacgv)(const INTEGER    *N,
+                    DOUBLE_COMPLEX   *X,
+                    const INTEGER    *INCX)
+{
+    DEBUG_LAPACK_STUB("zlacgv");
+    LAPACK_IMPL(zlacgv)(N,
+                        X,
+                        INCX);
+}
+
+//-- zlacn2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zlacn2)(const INTEGER    *N,
+                    DOUBLE_COMPLEX   *V,
+                    DOUBLE_COMPLEX   *X,
+                    DOUBLE           *EST,
+                    INTEGER          *KASE,
+                    INTEGER          *ISAVE)
+{
+    DEBUG_LAPACK_STUB("zlacn2");
+    LAPACK_IMPL(zlacn2)(N,
+                        V,
+                        X,
+                        EST,
+                        KASE,
+                        ISAVE);
+}
+
+//-- zlacon --------------------------------------------------------------------
+void
+LAPACK_DECL(zlacon)(const INTEGER    *N,
+                    DOUBLE_COMPLEX   *V,
+                    DOUBLE_COMPLEX   *X,
+                    DOUBLE           *EST,
+                    INTEGER          *KASE)
+{
+    DEBUG_LAPACK_STUB("zlacon");
+    LAPACK_IMPL(zlacon)(N,
+                        V,
+                        X,
+                        EST,
+                        KASE);
+}
+
+//-- zlacp2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zlacp2)(const char       *UPLO,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const DOUBLE     *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB)
+{
+    DEBUG_LAPACK_STUB("zlacp2");
+    LAPACK_IMPL(zlacp2)(UPLO,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB);
+}
+
+//-- zlacpy --------------------------------------------------------------------
+void
+LAPACK_DECL(zlacpy)(const char               *UPLO,
+                    const INTEGER            *M,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    DOUBLE_COMPLEX           *B,
+                    const INTEGER            *LDB)
+{
+    DEBUG_LAPACK_STUB("zlacpy");
+    LAPACK_IMPL(zlacpy)(UPLO,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB);
+}
+
+//-- zlacrm --------------------------------------------------------------------
+void
+LAPACK_DECL(zlacrm)(const INTEGER            *M,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE             *B,
+                    const INTEGER            *LDB,
+                    const DOUBLE_COMPLEX     *C,
+                    const INTEGER            *LDC,
+                    DOUBLE                   *RWORK)
+{
+    DEBUG_LAPACK_STUB("zlacrm");
+    LAPACK_IMPL(zlacrm)(M,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        C,
+                        LDC,
+                        RWORK);
+}
+
+//-- zlacrt --------------------------------------------------------------------
+void
+LAPACK_DECL(zlacrt)(const INTEGER            *N,
+                    DOUBLE_COMPLEX           *CX,
+                    const INTEGER            *INCX,
+                    DOUBLE_COMPLEX           *CY,
+                    const INTEGER            *INCY,
+                    const DOUBLE_COMPLEX     *C,
+                    const DOUBLE_COMPLEX     *S)
+{
+    DEBUG_LAPACK_STUB("zlacrt");
+    LAPACK_IMPL(zlacrt)(N,
+                        CX,
+                        INCX,
+                        CY,
+                        INCY,
+                        C,
+                        S);
+}
+
+//-- zladiv --------------------------------------------------------------------
+/*
+UNKNOWN
+LAPACK_DECL(zladiv)(const DOUBLE_COMPLEX     *X,
+                    const DOUBLE_COMPLEX     *Y)
+{
+    DEBUG_LAPACK_STUB("zladiv");
+    return LAPACK_IMPL(zladiv)(X,
+                               Y);
+}
+*/
+
+//-- zlaed0 --------------------------------------------------------------------
+void
+LAPACK_DECL(zlaed0)(const INTEGER    *QSIZ,
+                    const INTEGER    *N,
+                    DOUBLE           *D,
+                    DOUBLE           *E,
+                    DOUBLE_COMPLEX   *Q,
+                    const INTEGER    *LDQ,
+                    DOUBLE_COMPLEX   *QSTORE,
+                    const INTEGER    *LDQS,
+                    DOUBLE           *RWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zlaed0");
+    LAPACK_IMPL(zlaed0)(QSIZ,
+                        N,
+                        D,
+                        E,
+                        Q,
+                        LDQ,
+                        QSTORE,
+                        LDQS,
+                        RWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- zlaed7 --------------------------------------------------------------------
+void
+LAPACK_DECL(zlaed7)(const INTEGER    *N,
+                    const INTEGER    *CUTPNT,
+                    const INTEGER    *QSIZ,
+                    const INTEGER    *TLVLS,
+                    const INTEGER    *CURLVL,
+                    const INTEGER    *CURPBM,
+                    DOUBLE           *D,
+                    DOUBLE_COMPLEX   *Q,
+                    const INTEGER    *LDQ,
+                    const DOUBLE     *RHO,
+                    INTEGER          *INDXQ,
+                    DOUBLE           *QSTORE,
+                    INTEGER          *QPTR,
+                    const INTEGER    *PRMPTR,
+                    const INTEGER    *PERM,
+                    const INTEGER    *GIVPTR,
+                    const INTEGER    *GIVCOL,
+                    const DOUBLE     *GIVNUM,
+                    DOUBLE_COMPLEX   *WORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zlaed7");
+    LAPACK_IMPL(zlaed7)(N,
+                        CUTPNT,
+                        QSIZ,
+                        TLVLS,
+                        CURLVL,
+                        CURPBM,
+                        D,
+                        Q,
+                        LDQ,
+                        RHO,
+                        INDXQ,
+                        QSTORE,
+                        QPTR,
+                        PRMPTR,
+                        PERM,
+                        GIVPTR,
+                        GIVCOL,
+                        GIVNUM,
+                        WORK,
+                        RWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- zlaed8 --------------------------------------------------------------------
+void
+LAPACK_DECL(zlaed8)(INTEGER          *K,
+                    const INTEGER    *N,
+                    const INTEGER    *QSIZ,
+                    DOUBLE_COMPLEX   *Q,
+                    const INTEGER    *LDQ,
+                    DOUBLE           *D,
+                    DOUBLE           *RHO,
+                    const INTEGER    *CUTPNT,
+                    const DOUBLE     *Z,
+                    DOUBLE           *DLAMDA,
+                    DOUBLE_COMPLEX   *Q2,
+                    const INTEGER    *LDQ2,
+                    DOUBLE           *W,
+                    INTEGER          *INDXP,
+                    INTEGER          *INDX,
+                    const INTEGER    *INDXQ,
+                    INTEGER          *PERM,
+                    INTEGER          *GIVPTR,
+                    INTEGER          *GIVCOL,
+                    DOUBLE           *GIVNUM,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zlaed8");
+    LAPACK_IMPL(zlaed8)(K,
+                        N,
+                        QSIZ,
+                        Q,
+                        LDQ,
+                        D,
+                        RHO,
+                        CUTPNT,
+                        Z,
+                        DLAMDA,
+                        Q2,
+                        LDQ2,
+                        W,
+                        INDXP,
+                        INDX,
+                        INDXQ,
+                        PERM,
+                        GIVPTR,
+                        GIVCOL,
+                        GIVNUM,
+                        INFO);
+}
+
+//-- zlaein --------------------------------------------------------------------
+void
+LAPACK_DECL(zlaein)(const LOGICAL            *RIGHTV,
+                    const LOGICAL            *NOINIT,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *H,
+                    const INTEGER            *LDH,
+                    const DOUBLE_COMPLEX     *W,
+                    DOUBLE_COMPLEX           *V,
+                    DOUBLE_COMPLEX           *B,
+                    const INTEGER            *LDB,
+                    DOUBLE                   *RWORK,
+                    const DOUBLE             *EPS3,
+                    const DOUBLE             *SMLNUM,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zlaein");
+    LAPACK_IMPL(zlaein)(RIGHTV,
+                        NOINIT,
+                        N,
+                        H,
+                        LDH,
+                        W,
+                        V,
+                        B,
+                        LDB,
+                        RWORK,
+                        EPS3,
+                        SMLNUM,
+                        INFO);
+}
+
+//-- zlaesy --------------------------------------------------------------------
+void
+LAPACK_DECL(zlaesy)(const DOUBLE_COMPLEX     *A,
+                    const DOUBLE_COMPLEX     *B,
+                    const DOUBLE_COMPLEX     *C,
+                    DOUBLE_COMPLEX           *RT1,
+                    DOUBLE_COMPLEX           *RT2,
+                    DOUBLE_COMPLEX           *EVSCAL,
+                    DOUBLE_COMPLEX           *CS1,
+                    DOUBLE_COMPLEX           *SN1)
+{
+    DEBUG_LAPACK_STUB("zlaesy");
+    LAPACK_IMPL(zlaesy)(A,
+                        B,
+                        C,
+                        RT1,
+                        RT2,
+                        EVSCAL,
+                        CS1,
+                        SN1);
+}
+
+//-- zlaev2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zlaev2)(const DOUBLE_COMPLEX     *A,
+                    const DOUBLE_COMPLEX     *B,
+                    const DOUBLE_COMPLEX     *C,
+                    DOUBLE                   *RT1,
+                    DOUBLE                   *RT2,
+                    DOUBLE                   *CS1,
+                    DOUBLE_COMPLEX           *SN1)
+{
+    DEBUG_LAPACK_STUB("zlaev2");
+    LAPACK_IMPL(zlaev2)(A,
+                        B,
+                        C,
+                        RT1,
+                        RT2,
+                        CS1,
+                        SN1);
+}
+
+//-- zlag2c --------------------------------------------------------------------
+void
+LAPACK_DECL(zlag2c)(const INTEGER            *M,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    FLOAT_COMPLEX            *SA,
+                    const INTEGER            *LDSA,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zlag2c");
+    LAPACK_IMPL(zlag2c)(M,
+                        N,
+                        A,
+                        LDA,
+                        SA,
+                        LDSA,
+                        INFO);
+}
+
+//-- zlags2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zlags2)(const LOGICAL            *UPPER,
+                    const DOUBLE             *A1,
+                    const DOUBLE_COMPLEX     *A2,
+                    const DOUBLE             *A3,
+                    const DOUBLE             *B1,
+                    const DOUBLE_COMPLEX     *B2,
+                    const DOUBLE             *B3,
+                    DOUBLE                   *CSU,
+                    DOUBLE_COMPLEX           *SNU,
+                    DOUBLE                   *CSV,
+                    DOUBLE_COMPLEX           *SNV,
+                    DOUBLE                   *CSQ,
+                    DOUBLE_COMPLEX           *SNQ)
+{
+    DEBUG_LAPACK_STUB("zlags2");
+    LAPACK_IMPL(zlags2)(UPPER,
+                        A1,
+                        A2,
+                        A3,
+                        B1,
+                        B2,
+                        B3,
+                        CSU,
+                        SNU,
+                        CSV,
+                        SNV,
+                        CSQ,
+                        SNQ);
+}
+
+//-- zlagtm --------------------------------------------------------------------
+void
+LAPACK_DECL(zlagtm)(const char               *TRANS,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE             *ALPHA,
+                    const DOUBLE_COMPLEX     *DL,
+                    const DOUBLE_COMPLEX     *D,
+                    const DOUBLE_COMPLEX     *DU,
+                    const DOUBLE_COMPLEX     *X,
+                    const INTEGER            *LDX,
+                    const DOUBLE             *BETA,
+                    DOUBLE_COMPLEX           *B,
+                    const INTEGER            *LDB)
+{
+    DEBUG_LAPACK_STUB("zlagtm");
+    LAPACK_IMPL(zlagtm)(TRANS,
+                        N,
+                        NRHS,
+                        ALPHA,
+                        DL,
+                        D,
+                        DU,
+                        X,
+                        LDX,
+                        BETA,
+                        B,
+                        LDB);
+}
+
+//-- zlahef --------------------------------------------------------------------
+void
+LAPACK_DECL(zlahef)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NB,
+                    INTEGER          *KB,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *IPIV,
+                    DOUBLE_COMPLEX   *W,
+                    const INTEGER    *LDW,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zlahef");
+    LAPACK_IMPL(zlahef)(UPLO,
+                        N,
+                        NB,
+                        KB,
+                        A,
+                        LDA,
+                        IPIV,
+                        W,
+                        LDW,
+                        INFO);
+}
+
+//-- zlahqr --------------------------------------------------------------------
+void
+LAPACK_DECL(zlahqr)(const LOGICAL    *WANTT,
+                    const LOGICAL    *WANTZ,
+                    const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    DOUBLE_COMPLEX   *H,
+                    const INTEGER    *LDH,
+                    DOUBLE_COMPLEX   *W,
+                    const INTEGER    *ILOZ,
+                    const INTEGER    *IHIZ,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zlahqr");
+    LAPACK_IMPL(zlahqr)(WANTT,
+                        WANTZ,
+                        N,
+                        ILO,
+                        IHI,
+                        H,
+                        LDH,
+                        W,
+                        ILOZ,
+                        IHIZ,
+                        Z,
+                        LDZ,
+                        INFO);
+}
+
+//-- zlahr2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zlahr2)(const INTEGER    *N,
+                    const INTEGER    *K,
+                    const INTEGER    *NB,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *TAU,
+                    DOUBLE_COMPLEX   *T,
+                    const INTEGER    *LDT,
+                    DOUBLE_COMPLEX   *Y,
+                    const INTEGER    *LDY)
+{
+    DEBUG_LAPACK_STUB("zlahr2");
+    LAPACK_IMPL(zlahr2)(N,
+                        K,
+                        NB,
+                        A,
+                        LDA,
+                        TAU,
+                        T,
+                        LDT,
+                        Y,
+                        LDY);
+}
+
+//-- zlahrd --------------------------------------------------------------------
+void
+LAPACK_DECL(zlahrd)(const INTEGER    *N,
+                    const INTEGER    *K,
+                    const INTEGER    *NB,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *TAU,
+                    DOUBLE_COMPLEX   *T,
+                    const INTEGER    *LDT,
+                    DOUBLE_COMPLEX   *Y,
+                    const INTEGER    *LDY)
+{
+    DEBUG_LAPACK_STUB("zlahrd");
+    LAPACK_IMPL(zlahrd)(N,
+                        K,
+                        NB,
+                        A,
+                        LDA,
+                        TAU,
+                        T,
+                        LDT,
+                        Y,
+                        LDY);
+}
+
+//-- zlaic1 --------------------------------------------------------------------
+void
+LAPACK_DECL(zlaic1)(const INTEGER            *JOB,
+                    const INTEGER            *J,
+                    const DOUBLE_COMPLEX     *X,
+                    const DOUBLE             *SEST,
+                    const DOUBLE_COMPLEX     *W,
+                    const DOUBLE_COMPLEX     *GAMMA,
+                    DOUBLE                   *SESTPR,
+                    DOUBLE_COMPLEX           *S,
+                    DOUBLE_COMPLEX           *C)
+{
+    DEBUG_LAPACK_STUB("zlaic1");
+    LAPACK_IMPL(zlaic1)(JOB,
+                        J,
+                        X,
+                        SEST,
+                        W,
+                        GAMMA,
+                        SESTPR,
+                        S,
+                        C);
+}
+
+//-- zlals0 --------------------------------------------------------------------
+void
+LAPACK_DECL(zlals0)(const INTEGER    *ICOMPQ,
+                    const INTEGER    *NL,
+                    const INTEGER    *NR,
+                    const INTEGER    *SQRE,
+                    const INTEGER    *NRHS,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    DOUBLE_COMPLEX   *BX,
+                    const INTEGER    *LDBX,
+                    const INTEGER    *PERM,
+                    const INTEGER    *GIVPTR,
+                    const INTEGER    *GIVCOL,
+                    const INTEGER    *LDGCOL,
+                    const DOUBLE     *GIVNUM,
+                    const INTEGER    *LDGNUM,
+                    const DOUBLE     *POLES,
+                    const DOUBLE     *DIFL,
+                    const DOUBLE     *DIFR,
+                    const DOUBLE     *Z,
+                    const INTEGER    *K,
+                    const DOUBLE     *C,
+                    const DOUBLE     *S,
+                    DOUBLE           *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zlals0");
+    LAPACK_IMPL(zlals0)(ICOMPQ,
+                        NL,
+                        NR,
+                        SQRE,
+                        NRHS,
+                        B,
+                        LDB,
+                        BX,
+                        LDBX,
+                        PERM,
+                        GIVPTR,
+                        GIVCOL,
+                        LDGCOL,
+                        GIVNUM,
+                        LDGNUM,
+                        POLES,
+                        DIFL,
+                        DIFR,
+                        Z,
+                        K,
+                        C,
+                        S,
+                        RWORK,
+                        INFO);
+}
+
+//-- zlalsa --------------------------------------------------------------------
+void
+LAPACK_DECL(zlalsa)(const INTEGER    *ICOMPQ,
+                    const INTEGER    *SMLSIZ,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    DOUBLE_COMPLEX   *BX,
+                    const INTEGER    *LDBX,
+                    const DOUBLE     *U,
+                    const INTEGER    *LDU,
+                    const DOUBLE     *VT,
+                    const INTEGER    *K,
+                    const DOUBLE     *DIFL,
+                    const DOUBLE     *DIFR,
+                    const DOUBLE     *Z,
+                    const DOUBLE     *POLES,
+                    const INTEGER    *GIVPTR,
+                    const INTEGER    *GIVCOL,
+                    const INTEGER    *LDGCOL,
+                    const INTEGER    *PERM,
+                    const DOUBLE     *GIVNUM,
+                    const DOUBLE     *C,
+                    const DOUBLE     *S,
+                    DOUBLE           *RWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zlalsa");
+    LAPACK_IMPL(zlalsa)(ICOMPQ,
+                        SMLSIZ,
+                        N,
+                        NRHS,
+                        B,
+                        LDB,
+                        BX,
+                        LDBX,
+                        U,
+                        LDU,
+                        VT,
+                        K,
+                        DIFL,
+                        DIFR,
+                        Z,
+                        POLES,
+                        GIVPTR,
+                        GIVCOL,
+                        LDGCOL,
+                        PERM,
+                        GIVNUM,
+                        C,
+                        S,
+                        RWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- zlalsd --------------------------------------------------------------------
+void
+LAPACK_DECL(zlalsd)(const char       *UPLO,
+                    const INTEGER    *SMLSIZ,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    DOUBLE           *D,
+                    DOUBLE           *E,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    const DOUBLE     *RCOND,
+                    INTEGER          *RANK,
+                    DOUBLE_COMPLEX   *WORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zlalsd");
+    LAPACK_IMPL(zlalsd)(UPLO,
+                        SMLSIZ,
+                        N,
+                        NRHS,
+                        D,
+                        E,
+                        B,
+                        LDB,
+                        RCOND,
+                        RANK,
+                        WORK,
+                        RWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- zlangb --------------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zlangb)(const char               *NORM,
+                    const INTEGER            *N,
+                    const INTEGER            *KL,
+                    const INTEGER            *KU,
+                    const DOUBLE_COMPLEX     *AB,
+                    const INTEGER            *LDAB,
+                    DOUBLE                   *WORK)
+{
+    DEBUG_LAPACK_STUB("zlangb");
+    return LAPACK_IMPL(zlangb)(NORM,
+                               N,
+                               KL,
+                               KU,
+                               AB,
+                               LDAB,
+                               WORK);
+}
+
+//-- zlange --------------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zlange)(const char               *NORM,
+                    const INTEGER            *M,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    DOUBLE                   *WORK)
+{
+    DEBUG_LAPACK_STUB("zlange");
+    return LAPACK_IMPL(zlange)(NORM,
+                               M,
+                               N,
+                               A,
+                               LDA,
+                               WORK);
+}
+
+//-- zlangt --------------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zlangt)(const char               *NORM,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *DL,
+                    const DOUBLE_COMPLEX     *D,
+                    const DOUBLE_COMPLEX     *DU)
+{
+    DEBUG_LAPACK_STUB("zlangt");
+    return LAPACK_IMPL(zlangt)(NORM,
+                               N,
+                               DL,
+                               D,
+                               DU);
+}
+
+//-- zlanhb --------------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zlanhb)(const char               *NORM,
+                    const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    const DOUBLE_COMPLEX     *AB,
+                    const INTEGER            *LDAB,
+                    DOUBLE                   *WORK)
+{
+    DEBUG_LAPACK_STUB("zlanhb");
+    return LAPACK_IMPL(zlanhb)(NORM,
+                               UPLO,
+                               N,
+                               K,
+                               AB,
+                               LDAB,
+                               WORK);
+}
+
+//-- zlanhe --------------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zlanhe)(const char               *NORM,
+                    const char               *UPLO,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    DOUBLE                   *WORK)
+{
+    DEBUG_LAPACK_STUB("zlanhe");
+    return LAPACK_IMPL(zlanhe)(NORM,
+                               UPLO,
+                               N,
+                               A,
+                               LDA,
+                               WORK);
+}
+
+//-- zlanhf --------------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zlanhf)(const char               *NORM,
+                    const char               *TRANSR,
+                    const char               *UPLO,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    DOUBLE                   *WORK)
+{
+    DEBUG_LAPACK_STUB("zlanhf");
+    return LAPACK_IMPL(zlanhf)(NORM,
+                               TRANSR,
+                               UPLO,
+                               N,
+                               A,
+                               WORK);
+}
+
+//-- zlanhp --------------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zlanhp)(const char               *NORM,
+                    const char               *UPLO,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *AP,
+                    DOUBLE                   *WORK)
+{
+    DEBUG_LAPACK_STUB("zlanhp");
+    return LAPACK_IMPL(zlanhp)(NORM,
+                               UPLO,
+                               N,
+                               AP,
+                               WORK);
+}
+
+//-- zlanhs --------------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zlanhs)(const char               *NORM,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    DOUBLE                   *WORK)
+{
+    DEBUG_LAPACK_STUB("zlanhs");
+    return LAPACK_IMPL(zlanhs)(NORM,
+                               N,
+                               A,
+                               LDA,
+                               WORK);
+}
+
+//-- zlanht --------------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zlanht)(const char               *NORM,
+                    const INTEGER            *N,
+                    const DOUBLE             *D,
+                    const DOUBLE_COMPLEX     *E)
+{
+    DEBUG_LAPACK_STUB("zlanht");
+    return LAPACK_IMPL(zlanht)(NORM,
+                               N,
+                               D,
+                               E);
+}
+
+//-- zlansb --------------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zlansb)(const char               *NORM,
+                    const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    const DOUBLE_COMPLEX     *AB,
+                    const INTEGER            *LDAB,
+                    DOUBLE                   *WORK)
+{
+    DEBUG_LAPACK_STUB("zlansb");
+    return LAPACK_IMPL(zlansb)(NORM,
+                               UPLO,
+                               N,
+                               K,
+                               AB,
+                               LDAB,
+                               WORK);
+}
+
+//-- zlansp --------------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zlansp)(const char               *NORM,
+                    const char               *UPLO,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *AP,
+                    DOUBLE                   *WORK)
+{
+    DEBUG_LAPACK_STUB("zlansp");
+    return LAPACK_IMPL(zlansp)(NORM,
+                               UPLO,
+                               N,
+                               AP,
+                               WORK);
+}
+
+//-- zlansy --------------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zlansy)(const char               *NORM,
+                    const char               *UPLO,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    DOUBLE                   *WORK)
+{
+    DEBUG_LAPACK_STUB("zlansy");
+    return LAPACK_IMPL(zlansy)(NORM,
+                               UPLO,
+                               N,
+                               A,
+                               LDA,
+                               WORK);
+}
+
+//-- zlantb --------------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zlantb)(const char               *NORM,
+                    const char               *UPLO,
+                    const char               *DIAG,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    const DOUBLE_COMPLEX     *AB,
+                    const INTEGER            *LDAB,
+                    DOUBLE                   *WORK)
+{
+    DEBUG_LAPACK_STUB("zlantb");
+    return LAPACK_IMPL(zlantb)(NORM,
+                               UPLO,
+                               DIAG,
+                               N,
+                               K,
+                               AB,
+                               LDAB,
+                               WORK);
+}
+
+//-- zlantp --------------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zlantp)(const char               *NORM,
+                    const char               *UPLO,
+                    const char               *DIAG,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *AP,
+                    DOUBLE                   *WORK)
+{
+    DEBUG_LAPACK_STUB("zlantp");
+    return LAPACK_IMPL(zlantp)(NORM,
+                               UPLO,
+                               DIAG,
+                               N,
+                               AP,
+                               WORK);
+}
+
+//-- zlantr --------------------------------------------------------------------
+DOUBLE
+LAPACK_DECL(zlantr)(const char               *NORM,
+                    const char               *UPLO,
+                    const char               *DIAG,
+                    const INTEGER            *M,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    DOUBLE                   *WORK)
+{
+    DEBUG_LAPACK_STUB("zlantr");
+    return LAPACK_IMPL(zlantr)(NORM,
+                               UPLO,
+                               DIAG,
+                               M,
+                               N,
+                               A,
+                               LDA,
+                               WORK);
+}
+
+//-- zlapll --------------------------------------------------------------------
+void
+LAPACK_DECL(zlapll)(const INTEGER    *N,
+                    DOUBLE_COMPLEX   *X,
+                    const INTEGER    *INCX,
+                    DOUBLE_COMPLEX   *Y,
+                    const INTEGER    *INCY,
+                    DOUBLE           *SSMIN)
+{
+    DEBUG_LAPACK_STUB("zlapll");
+    LAPACK_IMPL(zlapll)(N,
+                        X,
+                        INCX,
+                        Y,
+                        INCY,
+                        SSMIN);
+}
+
+//-- zlapmr --------------------------------------------------------------------
+void
+LAPACK_DECL(zlapmr)(const LOGICAL    *FORWRD,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *X,
+                    const INTEGER    *LDX,
+                    INTEGER          *K)
+{
+    DEBUG_LAPACK_STUB("zlapmr");
+    LAPACK_IMPL(zlapmr)(FORWRD,
+                        M,
+                        N,
+                        X,
+                        LDX,
+                        K);
+}
+
+//-- zlapmt --------------------------------------------------------------------
+void
+LAPACK_DECL(zlapmt)(const LOGICAL    *FORWRD,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *X,
+                    const INTEGER    *LDX,
+                    INTEGER          *K)
+{
+    DEBUG_LAPACK_STUB("zlapmt");
+    LAPACK_IMPL(zlapmt)(FORWRD,
+                        M,
+                        N,
+                        X,
+                        LDX,
+                        K);
+}
+
+//-- zlaqgb --------------------------------------------------------------------
+void
+LAPACK_DECL(zlaqgb)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *KL,
+                    const INTEGER    *KU,
+                    DOUBLE_COMPLEX   *AB,
+                    const INTEGER    *LDAB,
+                    const DOUBLE     *R,
+                    const DOUBLE     *C,
+                    const DOUBLE     *ROWCND,
+                    const DOUBLE     *COLCND,
+                    const DOUBLE     *AMAX,
+                    char             *EQUED)
+{
+    DEBUG_LAPACK_STUB("zlaqgb");
+    LAPACK_IMPL(zlaqgb)(M,
+                        N,
+                        KL,
+                        KU,
+                        AB,
+                        LDAB,
+                        R,
+                        C,
+                        ROWCND,
+                        COLCND,
+                        AMAX,
+                        EQUED);
+}
+
+//-- zlaqge --------------------------------------------------------------------
+void
+LAPACK_DECL(zlaqge)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    const DOUBLE     *R,
+                    const DOUBLE     *C,
+                    const DOUBLE     *ROWCND,
+                    const DOUBLE     *COLCND,
+                    const DOUBLE     *AMAX,
+                    char             *EQUED)
+{
+    DEBUG_LAPACK_STUB("zlaqge");
+    LAPACK_IMPL(zlaqge)(M,
+                        N,
+                        A,
+                        LDA,
+                        R,
+                        C,
+                        ROWCND,
+                        COLCND,
+                        AMAX,
+                        EQUED);
+}
+
+//-- zlaqhb --------------------------------------------------------------------
+void
+LAPACK_DECL(zlaqhb)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    DOUBLE_COMPLEX   *AB,
+                    const INTEGER    *LDAB,
+                    DOUBLE           *S,
+                    const DOUBLE     *SCOND,
+                    const DOUBLE     *AMAX,
+                    char             *EQUED)
+{
+    DEBUG_LAPACK_STUB("zlaqhb");
+    LAPACK_IMPL(zlaqhb)(UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        S,
+                        SCOND,
+                        AMAX,
+                        EQUED);
+}
+
+//-- zlaqhe --------------------------------------------------------------------
+void
+LAPACK_DECL(zlaqhe)(const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    const DOUBLE     *S,
+                    const DOUBLE     *SCOND,
+                    const DOUBLE     *AMAX,
+                    char             *EQUED)
+{
+    DEBUG_LAPACK_STUB("zlaqhe");
+    LAPACK_IMPL(zlaqhe)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        S,
+                        SCOND,
+                        AMAX,
+                        EQUED);
+}
+
+//-- zlaqhp --------------------------------------------------------------------
+void
+LAPACK_DECL(zlaqhp)(const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *AP,
+                    const DOUBLE     *S,
+                    const DOUBLE     *SCOND,
+                    const DOUBLE     *AMAX,
+                    char             *EQUED)
+{
+    DEBUG_LAPACK_STUB("zlaqhp");
+    LAPACK_IMPL(zlaqhp)(UPLO,
+                        N,
+                        AP,
+                        S,
+                        SCOND,
+                        AMAX,
+                        EQUED);
+}
+
+//-- zlaqp2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zlaqp2)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *OFFSET,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *JPVT,
+                    DOUBLE_COMPLEX   *TAU,
+                    DOUBLE           *VN1,
+                    DOUBLE           *VN2,
+                    DOUBLE_COMPLEX   *WORK)
+{
+    DEBUG_LAPACK_STUB("zlaqp2");
+    LAPACK_IMPL(zlaqp2)(M,
+                        N,
+                        OFFSET,
+                        A,
+                        LDA,
+                        JPVT,
+                        TAU,
+                        VN1,
+                        VN2,
+                        WORK);
+}
+
+//-- zlaqps --------------------------------------------------------------------
+void
+LAPACK_DECL(zlaqps)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *OFFSET,
+                    const INTEGER    *NB,
+                    INTEGER          *KB,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *JPVT,
+                    DOUBLE_COMPLEX   *TAU,
+                    DOUBLE           *VN1,
+                    DOUBLE           *VN2,
+                    DOUBLE_COMPLEX   *AUXV,
+                    DOUBLE_COMPLEX   *F,
+                    const INTEGER    *LDF)
+{
+    DEBUG_LAPACK_STUB("zlaqps");
+    LAPACK_IMPL(zlaqps)(M,
+                        N,
+                        OFFSET,
+                        NB,
+                        KB,
+                        A,
+                        LDA,
+                        JPVT,
+                        TAU,
+                        VN1,
+                        VN2,
+                        AUXV,
+                        F,
+                        LDF);
+}
+
+//-- zlaqr0 --------------------------------------------------------------------
+void
+LAPACK_DECL(zlaqr0)(const LOGICAL    *WANTT,
+                    const LOGICAL    *WANTZ,
+                    const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    DOUBLE_COMPLEX   *H,
+                    const INTEGER    *LDH,
+                    DOUBLE_COMPLEX   *W,
+                    const INTEGER    *ILOZ,
+                    const INTEGER    *IHIZ,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zlaqr0");
+    LAPACK_IMPL(zlaqr0)(WANTT,
+                        WANTZ,
+                        N,
+                        ILO,
+                        IHI,
+                        H,
+                        LDH,
+                        W,
+                        ILOZ,
+                        IHIZ,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zlaqr1 --------------------------------------------------------------------
+void
+LAPACK_DECL(zlaqr1)(const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *H,
+                    const INTEGER            *LDH,
+                    const DOUBLE_COMPLEX     *S1,
+                    const DOUBLE_COMPLEX     *S2,
+                    DOUBLE_COMPLEX           *V)
+{
+    DEBUG_LAPACK_STUB("zlaqr1");
+    LAPACK_IMPL(zlaqr1)(N,
+                        H,
+                        LDH,
+                        S1,
+                        S2,
+                        V);
+}
+
+//-- zlaqr2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zlaqr2)(const LOGICAL    *WANTT,
+                    const LOGICAL    *WANTZ,
+                    const INTEGER    *N,
+                    const INTEGER    *KTOP,
+                    const INTEGER    *KBOT,
+                    const INTEGER    *NW,
+                    DOUBLE_COMPLEX   *H,
+                    const INTEGER    *LDH,
+                    const INTEGER    *ILOZ,
+                    const INTEGER    *IHIZ,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    INTEGER          *NS,
+                    INTEGER          *ND,
+                    DOUBLE_COMPLEX   *SH,
+                    DOUBLE_COMPLEX   *V,
+                    const INTEGER    *LDV,
+                    const INTEGER    *NH,
+                    DOUBLE_COMPLEX   *T,
+                    const INTEGER    *LDT,
+                    const INTEGER    *NV,
+                    DOUBLE_COMPLEX   *WV,
+                    const INTEGER    *LDWV,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK)
+{
+    DEBUG_LAPACK_STUB("zlaqr2");
+    LAPACK_IMPL(zlaqr2)(WANTT,
+                        WANTZ,
+                        N,
+                        KTOP,
+                        KBOT,
+                        NW,
+                        H,
+                        LDH,
+                        ILOZ,
+                        IHIZ,
+                        Z,
+                        LDZ,
+                        NS,
+                        ND,
+                        SH,
+                        V,
+                        LDV,
+                        NH,
+                        T,
+                        LDT,
+                        NV,
+                        WV,
+                        LDWV,
+                        WORK,
+                        LWORK);
+}
+
+//-- zlaqr3 --------------------------------------------------------------------
+void
+LAPACK_DECL(zlaqr3)(const LOGICAL    *WANTT,
+                    const LOGICAL    *WANTZ,
+                    const INTEGER    *N,
+                    const INTEGER    *KTOP,
+                    const INTEGER    *KBOT,
+                    const INTEGER    *NW,
+                    DOUBLE_COMPLEX   *H,
+                    const INTEGER    *LDH,
+                    const INTEGER    *ILOZ,
+                    const INTEGER    *IHIZ,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    INTEGER          *NS,
+                    INTEGER          *ND,
+                    DOUBLE_COMPLEX   *SH,
+                    DOUBLE_COMPLEX   *V,
+                    const INTEGER    *LDV,
+                    const INTEGER    *NH,
+                    DOUBLE_COMPLEX   *T,
+                    const INTEGER    *LDT,
+                    const INTEGER    *NV,
+                    DOUBLE_COMPLEX   *WV,
+                    const INTEGER    *LDWV,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK)
+{
+    DEBUG_LAPACK_STUB("zlaqr3");
+    LAPACK_IMPL(zlaqr3)(WANTT,
+                        WANTZ,
+                        N,
+                        KTOP,
+                        KBOT,
+                        NW,
+                        H,
+                        LDH,
+                        ILOZ,
+                        IHIZ,
+                        Z,
+                        LDZ,
+                        NS,
+                        ND,
+                        SH,
+                        V,
+                        LDV,
+                        NH,
+                        T,
+                        LDT,
+                        NV,
+                        WV,
+                        LDWV,
+                        WORK,
+                        LWORK);
+}
+
+//-- zlaqr4 --------------------------------------------------------------------
+void
+LAPACK_DECL(zlaqr4)(const LOGICAL    *WANTT,
+                    const LOGICAL    *WANTZ,
+                    const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    DOUBLE_COMPLEX   *H,
+                    const INTEGER    *LDH,
+                    DOUBLE_COMPLEX   *W,
+                    const INTEGER    *ILOZ,
+                    const INTEGER    *IHIZ,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zlaqr4");
+    LAPACK_IMPL(zlaqr4)(WANTT,
+                        WANTZ,
+                        N,
+                        ILO,
+                        IHI,
+                        H,
+                        LDH,
+                        W,
+                        ILOZ,
+                        IHIZ,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zlaqr5 --------------------------------------------------------------------
+void
+LAPACK_DECL(zlaqr5)(const LOGICAL    *WANTT,
+                    const LOGICAL    *WANTZ,
+                    const INTEGER    *KACC22,
+                    const INTEGER    *N,
+                    const INTEGER    *KTOP,
+                    const INTEGER    *KBOT,
+                    const INTEGER    *NSHFTS,
+                    DOUBLE_COMPLEX   *S,
+                    DOUBLE_COMPLEX   *H,
+                    const INTEGER    *LDH,
+                    const INTEGER    *ILOZ,
+                    const INTEGER    *IHIZ,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    DOUBLE_COMPLEX   *V,
+                    const INTEGER    *LDV,
+                    DOUBLE_COMPLEX   *U,
+                    const INTEGER    *LDU,
+                    const INTEGER    *NV,
+                    DOUBLE_COMPLEX   *WV,
+                    const INTEGER    *LDWV,
+                    const INTEGER    *NH,
+                    DOUBLE_COMPLEX   *WH,
+                    const INTEGER    *LDWH)
+{
+    DEBUG_LAPACK_STUB("zlaqr5");
+    LAPACK_IMPL(zlaqr5)(WANTT,
+                        WANTZ,
+                        KACC22,
+                        N,
+                        KTOP,
+                        KBOT,
+                        NSHFTS,
+                        S,
+                        H,
+                        LDH,
+                        ILOZ,
+                        IHIZ,
+                        Z,
+                        LDZ,
+                        V,
+                        LDV,
+                        U,
+                        LDU,
+                        NV,
+                        WV,
+                        LDWV,
+                        NH,
+                        WH,
+                        LDWH);
+}
+
+//-- zlaqsb --------------------------------------------------------------------
+void
+LAPACK_DECL(zlaqsb)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    DOUBLE_COMPLEX   *AB,
+                    const INTEGER    *LDAB,
+                    const DOUBLE     *S,
+                    const DOUBLE     *SCOND,
+                    const DOUBLE     *AMAX,
+                    char             *EQUED)
+{
+    DEBUG_LAPACK_STUB("zlaqsb");
+    LAPACK_IMPL(zlaqsb)(UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        S,
+                        SCOND,
+                        AMAX,
+                        EQUED);
+}
+
+//-- zlaqsp --------------------------------------------------------------------
+void
+LAPACK_DECL(zlaqsp)(const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *AP,
+                    const DOUBLE     *S,
+                    const DOUBLE     *SCOND,
+                    const DOUBLE     *AMAX,
+                    char             *EQUED)
+{
+    DEBUG_LAPACK_STUB("zlaqsp");
+    LAPACK_IMPL(zlaqsp)(UPLO,
+                        N,
+                        AP,
+                        S,
+                        SCOND,
+                        AMAX,
+                        EQUED);
+}
+
+//-- zlaqsy --------------------------------------------------------------------
+void
+LAPACK_DECL(zlaqsy)(const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    const DOUBLE     *S,
+                    const DOUBLE     *SCOND,
+                    const DOUBLE     *AMAX,
+                    char             *EQUED)
+{
+    DEBUG_LAPACK_STUB("zlaqsy");
+    LAPACK_IMPL(zlaqsy)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        S,
+                        SCOND,
+                        AMAX,
+                        EQUED);
+}
+
+//-- zlar1v --------------------------------------------------------------------
+void
+LAPACK_DECL(zlar1v)(const INTEGER    *N,
+                    const INTEGER    *B1,
+                    const INTEGER    *BN,
+                    const DOUBLE     *LAMBDA,
+                    const DOUBLE     *D,
+                    const DOUBLE     *L,
+                    const DOUBLE     *LD,
+                    const DOUBLE     *LLD,
+                    const DOUBLE     *PIVMIN,
+                    const DOUBLE     *GAPTOL,
+                    DOUBLE_COMPLEX   *Z,
+                    const LOGICAL    *WANTNC,
+                    INTEGER          *NEGCNT,
+                    DOUBLE           *ZTZ,
+                    DOUBLE           *MINGMA,
+                    INTEGER          *R,
+                    INTEGER          *ISUPPZ,
+                    DOUBLE           *NRMINV,
+                    DOUBLE           *RESID,
+                    DOUBLE           *RQCORR,
+                    DOUBLE           *WORK)
+{
+    DEBUG_LAPACK_STUB("zlar1v");
+    LAPACK_IMPL(zlar1v)(N,
+                        B1,
+                        BN,
+                        LAMBDA,
+                        D,
+                        L,
+                        LD,
+                        LLD,
+                        PIVMIN,
+                        GAPTOL,
+                        Z,
+                        WANTNC,
+                        NEGCNT,
+                        ZTZ,
+                        MINGMA,
+                        R,
+                        ISUPPZ,
+                        NRMINV,
+                        RESID,
+                        RQCORR,
+                        WORK);
+}
+
+//-- zlar2v --------------------------------------------------------------------
+void
+LAPACK_DECL(zlar2v)(const INTEGER            *N,
+                    DOUBLE_COMPLEX           *X,
+                    DOUBLE_COMPLEX           *Y,
+                    DOUBLE_COMPLEX           *Z,
+                    const INTEGER            *INCX,
+                    const DOUBLE             *C,
+                    const DOUBLE_COMPLEX     *S,
+                    const INTEGER            *INCC)
+{
+    DEBUG_LAPACK_STUB("zlar2v");
+    LAPACK_IMPL(zlar2v)(N,
+                        X,
+                        Y,
+                        Z,
+                        INCX,
+                        C,
+                        S,
+                        INCC);
+}
+
+//-- zlarcm --------------------------------------------------------------------
+void
+LAPACK_DECL(zlarcm)(const INTEGER            *M,
+                    const INTEGER            *N,
+                    const DOUBLE             *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    const DOUBLE_COMPLEX     *C,
+                    const INTEGER            *LDC,
+                    DOUBLE                   *RWORK)
+{
+    DEBUG_LAPACK_STUB("zlarcm");
+    LAPACK_IMPL(zlarcm)(M,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        C,
+                        LDC,
+                        RWORK);
+}
+
+//-- zlarf ---------------------------------------------------------------------
+void
+LAPACK_DECL(zlarf)(const char               *SIDE,
+                   const INTEGER            *M,
+                   const INTEGER            *N,
+                   const DOUBLE_COMPLEX     *V,
+                   const INTEGER            *INCV,
+                   const DOUBLE_COMPLEX     *TAU,
+                   DOUBLE_COMPLEX           *C,
+                   const INTEGER            *LDC,
+                   DOUBLE_COMPLEX           *WORK)
+{
+    DEBUG_LAPACK_STUB("zlarf");
+    LAPACK_IMPL(zlarf)(SIDE,
+                       M,
+                       N,
+                       V,
+                       INCV,
+                       TAU,
+                       C,
+                       LDC,
+                       WORK);
+}
+
+//-- zlarfb --------------------------------------------------------------------
+void
+LAPACK_DECL(zlarfb)(const char               *SIDE,
+                    const char               *TRANS,
+                    const char               *DIRECT,
+                    const char               *STOREV,
+                    const INTEGER            *M,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    const DOUBLE_COMPLEX     *V,
+                    const INTEGER            *LDV,
+                    const DOUBLE_COMPLEX     *T,
+                    const INTEGER            *LDT,
+                    DOUBLE_COMPLEX           *C,
+                    const INTEGER            *LDC,
+                    DOUBLE_COMPLEX           *WORK,
+                    const INTEGER            *LDWORK)
+{
+    DEBUG_LAPACK_STUB("zlarfb");
+    LAPACK_IMPL(zlarfb)(SIDE,
+                        TRANS,
+                        DIRECT,
+                        STOREV,
+                        M,
+                        N,
+                        K,
+                        V,
+                        LDV,
+                        T,
+                        LDT,
+                        C,
+                        LDC,
+                        WORK,
+                        LDWORK);
+}
+
+//-- zlarfg --------------------------------------------------------------------
+void
+LAPACK_DECL(zlarfg)(const INTEGER    *N,
+                    DOUBLE_COMPLEX   *ALPHA,
+                    DOUBLE_COMPLEX   *X,
+                    const INTEGER    *INCX,
+                    DOUBLE_COMPLEX   *TAU)
+{
+    DEBUG_LAPACK_STUB("zlarfg");
+    LAPACK_IMPL(zlarfg)(N,
+                        ALPHA,
+                        X,
+                        INCX,
+                        TAU);
+}
+
+//-- zlarfgp -------------------------------------------------------------------
+void
+LAPACK_DECL(zlarfgp)(const INTEGER    *N,
+                     DOUBLE_COMPLEX   *ALPHA,
+                     DOUBLE_COMPLEX   *X,
+                     const INTEGER    *INCX,
+                     DOUBLE_COMPLEX   *TAU)
+{
+    DEBUG_LAPACK_STUB("zlarfgp");
+    LAPACK_IMPL(zlarfgp)(N,
+                         ALPHA,
+                         X,
+                         INCX,
+                         TAU);
+}
+
+//-- zlarft --------------------------------------------------------------------
+void
+LAPACK_DECL(zlarft)(const char               *DIRECT,
+                    const char               *STOREV,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    DOUBLE_COMPLEX           *V,
+                    const INTEGER            *LDV,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *T,
+                    const INTEGER            *LDT)
+{
+    DEBUG_LAPACK_STUB("zlarft");
+    LAPACK_IMPL(zlarft)(DIRECT,
+                        STOREV,
+                        N,
+                        K,
+                        V,
+                        LDV,
+                        TAU,
+                        T,
+                        LDT);
+}
+
+//-- zlarfx --------------------------------------------------------------------
+void
+LAPACK_DECL(zlarfx)(const char               *SIDE,
+                    const INTEGER            *M,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *V,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *C,
+                    const INTEGER            *LDC,
+                    DOUBLE_COMPLEX           *WORK)
+{
+    DEBUG_LAPACK_STUB("zlarfx");
+    LAPACK_IMPL(zlarfx)(SIDE,
+                        M,
+                        N,
+                        V,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK);
+}
+
+//-- zlargv --------------------------------------------------------------------
+void
+LAPACK_DECL(zlargv)(const INTEGER    *N,
+                    DOUBLE_COMPLEX   *X,
+                    const INTEGER    *INCX,
+                    DOUBLE_COMPLEX   *Y,
+                    const INTEGER    *INCY,
+                    DOUBLE           *C,
+                    const INTEGER    *INCC)
+{
+    DEBUG_LAPACK_STUB("zlargv");
+    LAPACK_IMPL(zlargv)(N,
+                        X,
+                        INCX,
+                        Y,
+                        INCY,
+                        C,
+                        INCC);
+}
+
+//-- zlarnv --------------------------------------------------------------------
+void
+LAPACK_DECL(zlarnv)(const INTEGER    *IDIST,
+                    INTEGER          *ISEED,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *X)
+{
+    DEBUG_LAPACK_STUB("zlarnv");
+    LAPACK_IMPL(zlarnv)(IDIST,
+                        ISEED,
+                        N,
+                        X);
+}
+
+//-- zlarrv --------------------------------------------------------------------
+void
+LAPACK_DECL(zlarrv)(const INTEGER    *N,
+                    const DOUBLE     *VL,
+                    const DOUBLE     *VU,
+                    DOUBLE           *D,
+                    DOUBLE           *L,
+                    const DOUBLE     *PIVMIN,
+                    const INTEGER    *ISPLIT,
+                    const INTEGER    *M,
+                    const INTEGER    *DOL,
+                    const INTEGER    *DOU,
+                    const DOUBLE     *MINRGP,
+                    const DOUBLE     *RTOL1,
+                    const DOUBLE     *RTOL2,
+                    DOUBLE           *W,
+                    DOUBLE           *WERR,
+                    DOUBLE           *WGAP,
+                    const INTEGER    *IBLOCK,
+                    const INTEGER    *INDEXW,
+                    const DOUBLE     *GERS,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    INTEGER          *ISUPPZ,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zlarrv");
+    LAPACK_IMPL(zlarrv)(N,
+                        VL,
+                        VU,
+                        D,
+                        L,
+                        PIVMIN,
+                        ISPLIT,
+                        M,
+                        DOL,
+                        DOU,
+                        MINRGP,
+                        RTOL1,
+                        RTOL2,
+                        W,
+                        WERR,
+                        WGAP,
+                        IBLOCK,
+                        INDEXW,
+                        GERS,
+                        Z,
+                        LDZ,
+                        ISUPPZ,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- zlarscl2 ------------------------------------------------------------------
+void
+LAPACK_DECL(zlarscl2)(const INTEGER        *M,
+                      const INTEGER        *N,
+                      const DOUBLE         *D,
+                      DOUBLE_COMPLEX       *X,
+                      const INTEGER        *LDX)
+{
+    DEBUG_LAPACK_STUB("zlarscl2");
+    LAPACK_IMPL(zlarscl2)(M,
+                          N,
+                          D,
+                          X,
+                          LDX);
+}
+
+//-- zlartg --------------------------------------------------------------------
+void
+LAPACK_DECL(zlartg)(const DOUBLE_COMPLEX     *F,
+                    const DOUBLE_COMPLEX     *G,
+                    DOUBLE                   *CS,
+                    DOUBLE_COMPLEX           *SN,
+                    DOUBLE_COMPLEX           *R)
+{
+    DEBUG_LAPACK_STUB("zlartg");
+    LAPACK_IMPL(zlartg)(F,
+                        G,
+                        CS,
+                        SN,
+                        R);
+}
+
+//-- zlartv --------------------------------------------------------------------
+void
+LAPACK_DECL(zlartv)(const INTEGER            *N,
+                    DOUBLE_COMPLEX           *X,
+                    const INTEGER            *INCX,
+                    DOUBLE_COMPLEX           *Y,
+                    const INTEGER            *INCY,
+                    const DOUBLE             *C,
+                    const DOUBLE_COMPLEX     *S,
+                    const INTEGER            *INCC)
+{
+    DEBUG_LAPACK_STUB("zlartv");
+    LAPACK_IMPL(zlartv)(N,
+                        X,
+                        INCX,
+                        Y,
+                        INCY,
+                        C,
+                        S,
+                        INCC);
+}
+
+//-- zlarz ---------------------------------------------------------------------
+void
+LAPACK_DECL(zlarz)(const char               *SIDE,
+                   const INTEGER            *M,
+                   const INTEGER            *N,
+                   const INTEGER            *L,
+                   const DOUBLE_COMPLEX     *V,
+                   const INTEGER            *INCV,
+                   const DOUBLE_COMPLEX     *TAU,
+                   DOUBLE_COMPLEX           *C,
+                   const INTEGER            *LDC,
+                   DOUBLE_COMPLEX           *WORK)
+{
+    DEBUG_LAPACK_STUB("zlarz");
+    LAPACK_IMPL(zlarz)(SIDE,
+                       M,
+                       N,
+                       L,
+                       V,
+                       INCV,
+                       TAU,
+                       C,
+                       LDC,
+                       WORK);
+}
+
+//-- zlarzb --------------------------------------------------------------------
+void
+LAPACK_DECL(zlarzb)(const char               *SIDE,
+                    const char               *TRANS,
+                    const char               *DIRECT,
+                    const char               *STOREV,
+                    const INTEGER            *M,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    const INTEGER            *L,
+                    const DOUBLE_COMPLEX     *V,
+                    const INTEGER            *LDV,
+                    const DOUBLE_COMPLEX     *T,
+                    const INTEGER            *LDT,
+                    DOUBLE_COMPLEX           *C,
+                    const INTEGER            *LDC,
+                    DOUBLE_COMPLEX           *WORK,
+                    const INTEGER            *LDWORK)
+{
+    DEBUG_LAPACK_STUB("zlarzb");
+    LAPACK_IMPL(zlarzb)(SIDE,
+                        TRANS,
+                        DIRECT,
+                        STOREV,
+                        M,
+                        N,
+                        K,
+                        L,
+                        V,
+                        LDV,
+                        T,
+                        LDT,
+                        C,
+                        LDC,
+                        WORK,
+                        LDWORK);
+}
+
+//-- zlarzt --------------------------------------------------------------------
+void
+LAPACK_DECL(zlarzt)(const char               *DIRECT,
+                    const char               *STOREV,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    DOUBLE_COMPLEX           *V,
+                    const INTEGER            *LDV,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *T,
+                    const INTEGER            *LDT)
+{
+    DEBUG_LAPACK_STUB("zlarzt");
+    LAPACK_IMPL(zlarzt)(DIRECT,
+                        STOREV,
+                        N,
+                        K,
+                        V,
+                        LDV,
+                        TAU,
+                        T,
+                        LDT);
+}
+
+//-- zlascl --------------------------------------------------------------------
+void
+LAPACK_DECL(zlascl)(const char       *TYPE,
+                    const INTEGER    *KL,
+                    const INTEGER    *KU,
+                    const DOUBLE     *CFROM,
+                    const DOUBLE     *CTO,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zlascl");
+    LAPACK_IMPL(zlascl)(TYPE,
+                        KL,
+                        KU,
+                        CFROM,
+                        CTO,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- zlascl2 -------------------------------------------------------------------
+void
+LAPACK_DECL(zlascl2)(const INTEGER    *M,
+                     const INTEGER    *N,
+                     const DOUBLE     *D,
+                     DOUBLE_COMPLEX   *X,
+                     const INTEGER    *LDX)
+{
+    DEBUG_LAPACK_STUB("zlascl2");
+    LAPACK_IMPL(zlascl2)(M,
+                         N,
+                         D,
+                         X,
+                         LDX);
+}
+
+//-- zlaset --------------------------------------------------------------------
+void
+LAPACK_DECL(zlaset)(const char               *UPLO,
+                    const INTEGER            *M,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *ALPHA,
+                    const DOUBLE_COMPLEX     *BETA,
+                    DOUBLE_COMPLEX           *A,
+                    const INTEGER            *LDA)
+{
+    DEBUG_LAPACK_STUB("zlaset");
+    LAPACK_IMPL(zlaset)(UPLO,
+                        M,
+                        N,
+                        ALPHA,
+                        BETA,
+                        A,
+                        LDA);
+}
+
+//-- zlasr ---------------------------------------------------------------------
+void
+LAPACK_DECL(zlasr)(const char           *SIDE,
+                   const char           *PIVOT,
+                   const char           *DIRECT,
+                   const INTEGER        *M,
+                   const INTEGER        *N,
+                   const DOUBLE         *C,
+                   const DOUBLE         *S,
+                   DOUBLE_COMPLEX       *A,
+                   const INTEGER        *LDA)
+{
+    DEBUG_LAPACK_STUB("zlasr");
+    LAPACK_IMPL(zlasr)(SIDE,
+                       PIVOT,
+                       DIRECT,
+                       M,
+                       N,
+                       C,
+                       S,
+                       A,
+                       LDA);
+}
+
+//-- zlassq --------------------------------------------------------------------
+void
+LAPACK_DECL(zlassq)(const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *X,
+                    const INTEGER            *INCX,
+                    DOUBLE                   *SCALE,
+                    DOUBLE                   *SUMSQ)
+{
+    DEBUG_LAPACK_STUB("zlassq");
+    LAPACK_IMPL(zlassq)(N,
+                        X,
+                        INCX,
+                        SCALE,
+                        SUMSQ);
+}
+
+//-- zlaswp --------------------------------------------------------------------
+void
+LAPACK_DECL(zlaswp)(const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    const INTEGER    *K1,
+                    const INTEGER    *K2,
+                    const INTEGER    *IPIV,
+                    const INTEGER    *INCX)
+{
+    DEBUG_LAPACK_STUB("zlaswp");
+    LAPACK_IMPL(zlaswp)(N,
+                        A,
+                        LDA,
+                        K1,
+                        K2,
+                        IPIV,
+                        INCX);
+}
+
+//-- zlasyf --------------------------------------------------------------------
+void
+LAPACK_DECL(zlasyf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NB,
+                    INTEGER          *KB,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *IPIV,
+                    DOUBLE_COMPLEX   *W,
+                    const INTEGER    *LDW,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zlasyf");
+    LAPACK_IMPL(zlasyf)(UPLO,
+                        N,
+                        NB,
+                        KB,
+                        A,
+                        LDA,
+                        IPIV,
+                        W,
+                        LDW,
+                        INFO);
+}
+
+//-- zlat2c --------------------------------------------------------------------
+void
+LAPACK_DECL(zlat2c)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    FLOAT_COMPLEX            *SA,
+                    const INTEGER            *LDSA,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zlat2c");
+    LAPACK_IMPL(zlat2c)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        SA,
+                        LDSA,
+                        INFO);
+}
+
+//-- zlatbs --------------------------------------------------------------------
+void
+LAPACK_DECL(zlatbs)(const char               *UPLO,
+                    const char               *TRANS,
+                    const char               *DIAG,
+                    const char               *NORMIN,
+                    const INTEGER            *N,
+                    const INTEGER            *KD,
+                    const DOUBLE_COMPLEX     *AB,
+                    const INTEGER            *LDAB,
+                    DOUBLE_COMPLEX           *X,
+                    DOUBLE                   *SCALE,
+                    DOUBLE                   *CNORM,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zlatbs");
+    LAPACK_IMPL(zlatbs)(UPLO,
+                        TRANS,
+                        DIAG,
+                        NORMIN,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        X,
+                        SCALE,
+                        CNORM,
+                        INFO);
+}
+
+//-- zlatdf --------------------------------------------------------------------
+void
+LAPACK_DECL(zlatdf)(const INTEGER            *IJOB,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *Z,
+                    const INTEGER            *LDZ,
+                    DOUBLE_COMPLEX           *RHS,
+                    DOUBLE                   *RDSUM,
+                    DOUBLE                   *RDSCAL,
+                    const INTEGER            *IPIV,
+                    const INTEGER            *JPIV)
+{
+    DEBUG_LAPACK_STUB("zlatdf");
+    LAPACK_IMPL(zlatdf)(IJOB,
+                        N,
+                        Z,
+                        LDZ,
+                        RHS,
+                        RDSUM,
+                        RDSCAL,
+                        IPIV,
+                        JPIV);
+}
+
+//-- zlatps --------------------------------------------------------------------
+void
+LAPACK_DECL(zlatps)(const char               *UPLO,
+                    const char               *TRANS,
+                    const char               *DIAG,
+                    const char               *NORMIN,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *AP,
+                    DOUBLE_COMPLEX           *X,
+                    DOUBLE                   *SCALE,
+                    DOUBLE                   *CNORM,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zlatps");
+    LAPACK_IMPL(zlatps)(UPLO,
+                        TRANS,
+                        DIAG,
+                        NORMIN,
+                        N,
+                        AP,
+                        X,
+                        SCALE,
+                        CNORM,
+                        INFO);
+}
+
+//-- zlatrd --------------------------------------------------------------------
+void
+LAPACK_DECL(zlatrd)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NB,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE           *E,
+                    DOUBLE_COMPLEX   *TAU,
+                    DOUBLE_COMPLEX   *W,
+                    const INTEGER    *LDW)
+{
+    DEBUG_LAPACK_STUB("zlatrd");
+    LAPACK_IMPL(zlatrd)(UPLO,
+                        N,
+                        NB,
+                        A,
+                        LDA,
+                        E,
+                        TAU,
+                        W,
+                        LDW);
+}
+
+//-- zlatrs --------------------------------------------------------------------
+void
+LAPACK_DECL(zlatrs)(const char               *UPLO,
+                    const char               *TRANS,
+                    const char               *DIAG,
+                    const char               *NORMIN,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    DOUBLE_COMPLEX           *X,
+                    DOUBLE                   *SCALE,
+                    DOUBLE                   *CNORM,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zlatrs");
+    LAPACK_IMPL(zlatrs)(UPLO,
+                        TRANS,
+                        DIAG,
+                        NORMIN,
+                        N,
+                        A,
+                        LDA,
+                        X,
+                        SCALE,
+                        CNORM,
+                        INFO);
+}
+
+//-- zlatrz --------------------------------------------------------------------
+void
+LAPACK_DECL(zlatrz)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *L,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *TAU,
+                    DOUBLE_COMPLEX   *WORK)
+{
+    DEBUG_LAPACK_STUB("zlatrz");
+    LAPACK_IMPL(zlatrz)(M,
+                        N,
+                        L,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK);
+}
+
+//-- zlatzm --------------------------------------------------------------------
+void
+LAPACK_DECL(zlatzm)(const char               *SIDE,
+                    const INTEGER            *M,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *V,
+                    const INTEGER            *INCV,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *C1,
+                    DOUBLE_COMPLEX           *C2,
+                    const INTEGER            *LDC,
+                    DOUBLE_COMPLEX           *WORK)
+{
+    DEBUG_LAPACK_STUB("zlatzm");
+    LAPACK_IMPL(zlatzm)(SIDE,
+                        M,
+                        N,
+                        V,
+                        INCV,
+                        TAU,
+                        C1,
+                        C2,
+                        LDC,
+                        WORK);
+}
+
+//-- zlauu2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zlauu2)(const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zlauu2");
+    LAPACK_IMPL(zlauu2)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- zlauum --------------------------------------------------------------------
+void
+LAPACK_DECL(zlauum)(const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zlauum");
+    LAPACK_IMPL(zlauum)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- zpbcon --------------------------------------------------------------------
+void
+LAPACK_DECL(zpbcon)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *KD,
+                    const DOUBLE_COMPLEX     *AB,
+                    const INTEGER            *LDAB,
+                    const DOUBLE             *ANORM,
+                    DOUBLE                   *RCOND,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zpbcon");
+    LAPACK_IMPL(zpbcon)(UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zpbequ --------------------------------------------------------------------
+void
+LAPACK_DECL(zpbequ)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *KD,
+                    const DOUBLE_COMPLEX     *AB,
+                    const INTEGER            *LDAB,
+                    DOUBLE                   *S,
+                    DOUBLE                   *SCOND,
+                    DOUBLE                   *AMAX,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zpbequ");
+    LAPACK_IMPL(zpbequ)(UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        S,
+                        SCOND,
+                        AMAX,
+                        INFO);
+}
+
+//-- zpbrfs --------------------------------------------------------------------
+void
+LAPACK_DECL(zpbrfs)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *KD,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *AB,
+                    const INTEGER            *LDAB,
+                    const DOUBLE_COMPLEX     *AFB,
+                    const INTEGER            *LDAFB,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    DOUBLE_COMPLEX           *X,
+                    const INTEGER            *LDX,
+                    DOUBLE                   *FERR,
+                    DOUBLE                   *BERR,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zpbrfs");
+    LAPACK_IMPL(zpbrfs)(UPLO,
+                        N,
+                        KD,
+                        NRHS,
+                        AB,
+                        LDAB,
+                        AFB,
+                        LDAFB,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zpbstf --------------------------------------------------------------------
+void
+LAPACK_DECL(zpbstf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    DOUBLE_COMPLEX   *AB,
+                    const INTEGER    *LDAB,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zpbstf");
+    LAPACK_IMPL(zpbstf)(UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        INFO);
+}
+
+//-- zpbsv ---------------------------------------------------------------------
+void
+LAPACK_DECL(zpbsv)(const char           *UPLO,
+                   const INTEGER        *N,
+                   const INTEGER        *KD,
+                   const INTEGER        *NRHS,
+                   DOUBLE_COMPLEX       *AB,
+                   const INTEGER        *LDAB,
+                   DOUBLE_COMPLEX       *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("zpbsv");
+    LAPACK_IMPL(zpbsv)(UPLO,
+                       N,
+                       KD,
+                       NRHS,
+                       AB,
+                       LDAB,
+                       B,
+                       LDB,
+                       INFO);
+}
+
+//-- zpbsvx --------------------------------------------------------------------
+void
+LAPACK_DECL(zpbsvx)(const char       *FACT,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    const INTEGER    *NRHS,
+                    DOUBLE_COMPLEX   *AB,
+                    const INTEGER    *LDAB,
+                    DOUBLE_COMPLEX   *AFB,
+                    const INTEGER    *LDAFB,
+                    char             *EQUED,
+                    DOUBLE           *S,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    DOUBLE_COMPLEX   *X,
+                    const INTEGER    *LDX,
+                    DOUBLE           *RCOND,
+                    DOUBLE           *FERR,
+                    DOUBLE           *BERR,
+                    DOUBLE_COMPLEX   *WORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zpbsvx");
+    LAPACK_IMPL(zpbsvx)(FACT,
+                        UPLO,
+                        N,
+                        KD,
+                        NRHS,
+                        AB,
+                        LDAB,
+                        AFB,
+                        LDAFB,
+                        EQUED,
+                        S,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zpbtf2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zpbtf2)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    DOUBLE_COMPLEX   *AB,
+                    const INTEGER    *LDAB,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zpbtf2");
+    LAPACK_IMPL(zpbtf2)(UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        INFO);
+}
+
+//-- zpbtrf --------------------------------------------------------------------
+void
+LAPACK_DECL(zpbtrf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    DOUBLE_COMPLEX   *AB,
+                    const INTEGER    *LDAB,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zpbtrf");
+    LAPACK_IMPL(zpbtrf)(UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        INFO);
+}
+
+//-- zpbtrs --------------------------------------------------------------------
+void
+LAPACK_DECL(zpbtrs)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *KD,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *AB,
+                    const INTEGER            *LDAB,
+                    DOUBLE_COMPLEX           *B,
+                    const INTEGER            *LDB,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zpbtrs");
+    LAPACK_IMPL(zpbtrs)(UPLO,
+                        N,
+                        KD,
+                        NRHS,
+                        AB,
+                        LDAB,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- zpftrf --------------------------------------------------------------------
+void
+LAPACK_DECL(zpftrf)(const char       *TRANSR,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zpftrf");
+    LAPACK_IMPL(zpftrf)(TRANSR,
+                        UPLO,
+                        N,
+                        A,
+                        INFO);
+}
+
+//-- zpftri --------------------------------------------------------------------
+void
+LAPACK_DECL(zpftri)(const char       *TRANSR,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zpftri");
+    LAPACK_IMPL(zpftri)(TRANSR,
+                        UPLO,
+                        N,
+                        A,
+                        INFO);
+}
+
+//-- zpftrs --------------------------------------------------------------------
+void
+LAPACK_DECL(zpftrs)(const char               *TRANSR,
+                    const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *A,
+                    DOUBLE_COMPLEX           *B,
+                    const INTEGER            *LDB,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zpftrs");
+    LAPACK_IMPL(zpftrs)(TRANSR,
+                        UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- zpocon --------------------------------------------------------------------
+void
+LAPACK_DECL(zpocon)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE             *ANORM,
+                    DOUBLE                   *RCOND,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zpocon");
+    LAPACK_IMPL(zpocon)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zpoequ --------------------------------------------------------------------
+void
+LAPACK_DECL(zpoequ)(const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    DOUBLE                   *S,
+                    DOUBLE                   *SCOND,
+                    DOUBLE                   *AMAX,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zpoequ");
+    LAPACK_IMPL(zpoequ)(N,
+                        A,
+                        LDA,
+                        S,
+                        SCOND,
+                        AMAX,
+                        INFO);
+}
+
+//-- zpoequb -------------------------------------------------------------------
+void
+LAPACK_DECL(zpoequb)(const INTEGER            *N,
+                     const DOUBLE_COMPLEX     *A,
+                     const INTEGER            *LDA,
+                     DOUBLE                   *S,
+                     DOUBLE                   *SCOND,
+                     DOUBLE                   *AMAX,
+                     INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zpoequb");
+    LAPACK_IMPL(zpoequb)(N,
+                         A,
+                         LDA,
+                         S,
+                         SCOND,
+                         AMAX,
+                         INFO);
+}
+
+//-- zporfs --------------------------------------------------------------------
+void
+LAPACK_DECL(zporfs)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *AF,
+                    const INTEGER            *LDAF,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    DOUBLE_COMPLEX           *X,
+                    const INTEGER            *LDX,
+                    DOUBLE                   *FERR,
+                    DOUBLE                   *BERR,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zporfs");
+    LAPACK_IMPL(zporfs)(UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        AF,
+                        LDAF,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zporfsx -------------------------------------------------------------------
+/*
+void
+LAPACK_DECL(zporfsx)(const char               *UPLO,
+                     const char               *EQUED,
+                     const INTEGER            *N,
+                     const INTEGER            *NRHS,
+                     const DOUBLE_COMPLEX     *A,
+                     const INTEGER            *LDA,
+                     const DOUBLE_COMPLEX     *AF,
+                     const INTEGER            *LDAF,
+                     DOUBLE                   *S,
+                     const DOUBLE_COMPLEX     *B,
+                     const INTEGER            *LDB,
+                     DOUBLE_COMPLEX           *X,
+                     const INTEGER            *LDX,
+                     DOUBLE                   *RCOND,
+                     DOUBLE                   *BERR,
+                     const INTEGER            *N_ERR_BNDS,
+                     DOUBLE                   *ERR_BNDS_NORM,
+                     DOUBLE                   *ERR_BNDS_COMP,
+                     const INTEGER            *NPARAMS,
+                     DOUBLE                   *PARAMS,
+                     DOUBLE_COMPLEX           *WORK,
+                     DOUBLE                   *RWORK,
+                     INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zporfsx");
+    LAPACK_IMPL(zporfsx)(UPLO,
+                         EQUED,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         S,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         RWORK,
+                         INFO);
+}
+*/
+//-- zposv ---------------------------------------------------------------------
+void
+LAPACK_DECL(zposv)(const char           *UPLO,
+                   const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   DOUBLE_COMPLEX       *A,
+                   const INTEGER        *LDA,
+                   DOUBLE_COMPLEX       *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("zposv");
+    LAPACK_IMPL(zposv)(UPLO,
+                       N,
+                       NRHS,
+                       A,
+                       LDA,
+                       B,
+                       LDB,
+                       INFO);
+}
+
+//-- zposvx --------------------------------------------------------------------
+void
+LAPACK_DECL(zposvx)(const char       *FACT,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *AF,
+                    const INTEGER    *LDAF,
+                    char             *EQUED,
+                    DOUBLE           *S,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    DOUBLE_COMPLEX   *X,
+                    const INTEGER    *LDX,
+                    DOUBLE           *RCOND,
+                    DOUBLE           *FERR,
+                    DOUBLE           *BERR,
+                    DOUBLE_COMPLEX   *WORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zposvx");
+    LAPACK_IMPL(zposvx)(FACT,
+                        UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        AF,
+                        LDAF,
+                        EQUED,
+                        S,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zposvxx -------------------------------------------------------------------
+/*
+void
+LAPACK_DECL(zposvxx)(const char       *FACT,
+                     const char       *UPLO,
+                     const INTEGER    *N,
+                     const INTEGER    *NRHS,
+                     DOUBLE_COMPLEX   *A,
+                     const INTEGER    *LDA,
+                     DOUBLE_COMPLEX   *AF,
+                     const INTEGER    *LDAF,
+                     char             *EQUED,
+                     DOUBLE           *S,
+                     DOUBLE_COMPLEX   *B,
+                     const INTEGER    *LDB,
+                     DOUBLE_COMPLEX   *X,
+                     const INTEGER    *LDX,
+                     DOUBLE           *RCOND,
+                     DOUBLE           *RPVGRW,
+                     DOUBLE           *BERR,
+                     const INTEGER    *N_ERR_BNDS,
+                     DOUBLE           *ERR_BNDS_NORM,
+                     DOUBLE           *ERR_BNDS_COMP,
+                     const INTEGER    *NPARAMS,
+                     DOUBLE           *PARAMS,
+                     DOUBLE_COMPLEX   *WORK,
+                     DOUBLE           *RWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zposvxx");
+    LAPACK_IMPL(zposvxx)(FACT,
+                         UPLO,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         EQUED,
+                         S,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         RPVGRW,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         RWORK,
+                         INFO);
+}
+*/
+
+//-- zpotf2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zpotf2)(const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zpotf2");
+    LAPACK_IMPL(zpotf2)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- zpotrf --------------------------------------------------------------------
+void
+LAPACK_DECL(zpotrf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zpotrf");
+    LAPACK_IMPL(zpotrf)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- zpotri --------------------------------------------------------------------
+void
+LAPACK_DECL(zpotri)(const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zpotri");
+    LAPACK_IMPL(zpotri)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- zpotrs --------------------------------------------------------------------
+void
+LAPACK_DECL(zpotrs)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    DOUBLE_COMPLEX           *B,
+                    const INTEGER            *LDB,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zpotrs");
+    LAPACK_IMPL(zpotrs)(UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- zppcon --------------------------------------------------------------------
+void
+LAPACK_DECL(zppcon)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *AP,
+                    const DOUBLE             *ANORM,
+                    DOUBLE                   *RCOND,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zppcon");
+    LAPACK_IMPL(zppcon)(UPLO,
+                        N,
+                        AP,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zppequ --------------------------------------------------------------------
+void
+LAPACK_DECL(zppequ)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *AP,
+                    DOUBLE                   *S,
+                    DOUBLE                   *SCOND,
+                    DOUBLE                   *AMAX,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zppequ");
+    LAPACK_IMPL(zppequ)(UPLO,
+                        N,
+                        AP,
+                        S,
+                        SCOND,
+                        AMAX,
+                        INFO);
+}
+
+//-- zpprfs --------------------------------------------------------------------
+void
+LAPACK_DECL(zpprfs)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *AP,
+                    const DOUBLE_COMPLEX     *AFP,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    DOUBLE_COMPLEX           *X,
+                    const INTEGER            *LDX,
+                    DOUBLE                   *FERR,
+                    DOUBLE                   *BERR,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zpprfs");
+    LAPACK_IMPL(zpprfs)(UPLO,
+                        N,
+                        NRHS,
+                        AP,
+                        AFP,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zppsv ---------------------------------------------------------------------
+void
+LAPACK_DECL(zppsv)(const char           *UPLO,
+                   const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   DOUBLE_COMPLEX       *AP,
+                   DOUBLE_COMPLEX       *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("zppsv");
+    LAPACK_IMPL(zppsv)(UPLO,
+                       N,
+                       NRHS,
+                       AP,
+                       B,
+                       LDB,
+                       INFO);
+}
+
+//-- zppsvx --------------------------------------------------------------------
+void
+LAPACK_DECL(zppsvx)(const char       *FACT,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    DOUBLE_COMPLEX   *AP,
+                    DOUBLE_COMPLEX   *AFP,
+                    char             *EQUED,
+                    DOUBLE           *S,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    DOUBLE_COMPLEX   *X,
+                    const INTEGER    *LDX,
+                    DOUBLE           *RCOND,
+                    DOUBLE           *FERR,
+                    DOUBLE           *BERR,
+                    DOUBLE_COMPLEX   *WORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zppsvx");
+    LAPACK_IMPL(zppsvx)(FACT,
+                        UPLO,
+                        N,
+                        NRHS,
+                        AP,
+                        AFP,
+                        EQUED,
+                        S,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zpptrf --------------------------------------------------------------------
+void
+LAPACK_DECL(zpptrf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *AP,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zpptrf");
+    LAPACK_IMPL(zpptrf)(UPLO,
+                        N,
+                        AP,
+                        INFO);
+}
+
+//-- zpptri --------------------------------------------------------------------
+void
+LAPACK_DECL(zpptri)(const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *AP,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zpptri");
+    LAPACK_IMPL(zpptri)(UPLO,
+                        N,
+                        AP,
+                        INFO);
+}
+
+//-- zpptrs --------------------------------------------------------------------
+void
+LAPACK_DECL(zpptrs)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *AP,
+                    DOUBLE_COMPLEX           *B,
+                    const INTEGER            *LDB,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zpptrs");
+    LAPACK_IMPL(zpptrs)(UPLO,
+                        N,
+                        NRHS,
+                        AP,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- zpstf2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zpstf2)(const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *PIV,
+                    INTEGER          *RANK,
+                    const DOUBLE     *TOL,
+                    DOUBLE           *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zpstf2");
+    LAPACK_IMPL(zpstf2)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        PIV,
+                        RANK,
+                        TOL,
+                        WORK,
+                        INFO);
+}
+
+//-- zpstrf --------------------------------------------------------------------
+void
+LAPACK_DECL(zpstrf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *PIV,
+                    INTEGER          *RANK,
+                    const DOUBLE     *TOL,
+                    DOUBLE           *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zpstrf");
+    LAPACK_IMPL(zpstrf)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        PIV,
+                        RANK,
+                        TOL,
+                        WORK,
+                        INFO);
+}
+
+//-- zptcon --------------------------------------------------------------------
+void
+LAPACK_DECL(zptcon)(const INTEGER            *N,
+                    const DOUBLE             *D,
+                    const DOUBLE_COMPLEX     *E,
+                    const DOUBLE             *ANORM,
+                    DOUBLE                   *RCOND,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zptcon");
+    LAPACK_IMPL(zptcon)(N,
+                        D,
+                        E,
+                        ANORM,
+                        RCOND,
+                        RWORK,
+                        INFO);
+}
+
+//-- zpteqr --------------------------------------------------------------------
+void
+LAPACK_DECL(zpteqr)(const char       *COMPZ,
+                    const INTEGER    *N,
+                    DOUBLE           *D,
+                    DOUBLE           *E,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    DOUBLE           *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zpteqr");
+    LAPACK_IMPL(zpteqr)(COMPZ,
+                        N,
+                        D,
+                        E,
+                        Z,
+                        LDZ,
+                        WORK,
+                        INFO);
+}
+
+//-- zptrfs --------------------------------------------------------------------
+void
+LAPACK_DECL(zptrfs)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE             *D,
+                    const DOUBLE_COMPLEX     *E,
+                    const DOUBLE             *DF,
+                    const DOUBLE_COMPLEX     *EF,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    DOUBLE_COMPLEX           *X,
+                    const INTEGER            *LDX,
+                    DOUBLE                   *FERR,
+                    DOUBLE                   *BERR,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zptrfs");
+    LAPACK_IMPL(zptrfs)(UPLO,
+                        N,
+                        NRHS,
+                        D,
+                        E,
+                        DF,
+                        EF,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zptsv ---------------------------------------------------------------------
+void
+LAPACK_DECL(zptsv)(const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   DOUBLE               *D,
+                   DOUBLE_COMPLEX       *E,
+                   DOUBLE_COMPLEX       *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("zptsv");
+    LAPACK_IMPL(zptsv)(N,
+                       NRHS,
+                       D,
+                       E,
+                       B,
+                       LDB,
+                       INFO);
+}
+
+//-- zptsvx --------------------------------------------------------------------
+void
+LAPACK_DECL(zptsvx)(const char               *FACT,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE             *D,
+                    const DOUBLE_COMPLEX     *E,
+                    DOUBLE                   *DF,
+                    DOUBLE_COMPLEX           *EF,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    DOUBLE_COMPLEX           *X,
+                    const INTEGER            *LDX,
+                    DOUBLE                   *RCOND,
+                    DOUBLE                   *FERR,
+                    DOUBLE                   *BERR,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zptsvx");
+    LAPACK_IMPL(zptsvx)(FACT,
+                        N,
+                        NRHS,
+                        D,
+                        E,
+                        DF,
+                        EF,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zpttrf --------------------------------------------------------------------
+void
+LAPACK_DECL(zpttrf)(const INTEGER    *N,
+                    DOUBLE           *D,
+                    DOUBLE_COMPLEX   *E,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zpttrf");
+    LAPACK_IMPL(zpttrf)(N,
+                        D,
+                        E,
+                        INFO);
+}
+
+//-- zpttrs --------------------------------------------------------------------
+void
+LAPACK_DECL(zpttrs)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE             *D,
+                    const DOUBLE_COMPLEX     *E,
+                    DOUBLE_COMPLEX           *B,
+                    const INTEGER            *LDB,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zpttrs");
+    LAPACK_IMPL(zpttrs)(UPLO,
+                        N,
+                        NRHS,
+                        D,
+                        E,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- zptts2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zptts2)(const INTEGER            *IUPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE             *D,
+                    const DOUBLE_COMPLEX     *E,
+                    DOUBLE_COMPLEX           *B,
+                    const INTEGER            *LDB)
+{
+    DEBUG_LAPACK_STUB("zptts2");
+    LAPACK_IMPL(zptts2)(IUPLO,
+                        N,
+                        NRHS,
+                        D,
+                        E,
+                        B,
+                        LDB);
+}
+
+//-- zrot ----------------------------------------------------------------------
+void
+LAPACK_DECL(zrot)(const INTEGER            *N,
+                  DOUBLE_COMPLEX           *CX,
+                  const INTEGER            *INCX,
+                  DOUBLE_COMPLEX           *CY,
+                  const INTEGER            *INCY,
+                  const DOUBLE             *C,
+                  const DOUBLE_COMPLEX     *S)
+{
+    DEBUG_LAPACK_STUB("zrot");
+    LAPACK_IMPL(zrot)(N,
+                      CX,
+                      INCX,
+                      CY,
+                      INCY,
+                      C,
+                      S);
+}
+
+//-- zspcon --------------------------------------------------------------------
+void
+LAPACK_DECL(zspcon)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *AP,
+                    const INTEGER            *IPIV,
+                    const DOUBLE             *ANORM,
+                    DOUBLE                   *RCOND,
+                    DOUBLE_COMPLEX           *WORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zspcon");
+    LAPACK_IMPL(zspcon)(UPLO,
+                        N,
+                        AP,
+                        IPIV,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        INFO);
+}
+
+//-- zspmv ---------------------------------------------------------------------
+void
+LAPACK_DECL(zspmv)(const char               *UPLO,
+                   const INTEGER            *N,
+                   const DOUBLE_COMPLEX     *ALPHA,
+                   const DOUBLE_COMPLEX     *AP,
+                   const DOUBLE_COMPLEX     *X,
+                   const INTEGER            *INCX,
+                   const DOUBLE_COMPLEX     *BETA,
+                   DOUBLE_COMPLEX           *Y,
+                   const INTEGER            *INCY)
+{
+    DEBUG_LAPACK_STUB("zspmv");
+    LAPACK_IMPL(zspmv)(UPLO,
+                       N,
+                       ALPHA,
+                       AP,
+                       X,
+                       INCX,
+                       BETA,
+                       Y,
+                       INCY);
+}
+
+//-- zspr ----------------------------------------------------------------------
+void
+LAPACK_DECL(zspr)(const char               *UPLO,
+                  const INTEGER            *N,
+                  const DOUBLE_COMPLEX     *ALPHA,
+                  const DOUBLE_COMPLEX     *X,
+                  const INTEGER            *INCX,
+                  DOUBLE_COMPLEX           *AP)
+{
+    DEBUG_LAPACK_STUB("zspr");
+    LAPACK_IMPL(zspr)(UPLO,
+                      N,
+                      ALPHA,
+                      X,
+                      INCX,
+                      AP);
+}
+
+//-- zsprfs --------------------------------------------------------------------
+void
+LAPACK_DECL(zsprfs)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *AP,
+                    const DOUBLE_COMPLEX     *AFP,
+                    const INTEGER            *IPIV,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    DOUBLE_COMPLEX           *X,
+                    const INTEGER            *LDX,
+                    DOUBLE                   *FERR,
+                    DOUBLE                   *BERR,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zsprfs");
+    LAPACK_IMPL(zsprfs)(UPLO,
+                        N,
+                        NRHS,
+                        AP,
+                        AFP,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zspsv ---------------------------------------------------------------------
+void
+LAPACK_DECL(zspsv)(const char           *UPLO,
+                   const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   DOUBLE_COMPLEX       *AP,
+                   INTEGER              *IPIV,
+                   DOUBLE_COMPLEX       *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("zspsv");
+    LAPACK_IMPL(zspsv)(UPLO,
+                       N,
+                       NRHS,
+                       AP,
+                       IPIV,
+                       B,
+                       LDB,
+                       INFO);
+}
+
+//-- zspsvx --------------------------------------------------------------------
+void
+LAPACK_DECL(zspsvx)(const char               *FACT,
+                    const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *AP,
+                    DOUBLE_COMPLEX           *AFP,
+                    INTEGER                  *IPIV,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    DOUBLE_COMPLEX           *X,
+                    const INTEGER            *LDX,
+                    DOUBLE                   *RCOND,
+                    DOUBLE                   *FERR,
+                    DOUBLE                   *BERR,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zspsvx");
+    LAPACK_IMPL(zspsvx)(FACT,
+                        UPLO,
+                        N,
+                        NRHS,
+                        AP,
+                        AFP,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zsptrf --------------------------------------------------------------------
+void
+LAPACK_DECL(zsptrf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *AP,
+                    INTEGER          *IPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zsptrf");
+    LAPACK_IMPL(zsptrf)(UPLO,
+                        N,
+                        AP,
+                        IPIV,
+                        INFO);
+}
+
+//-- zsptri --------------------------------------------------------------------
+void
+LAPACK_DECL(zsptri)(const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *AP,
+                    const INTEGER    *IPIV,
+                    DOUBLE_COMPLEX   *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zsptri");
+    LAPACK_IMPL(zsptri)(UPLO,
+                        N,
+                        AP,
+                        IPIV,
+                        WORK,
+                        INFO);
+}
+
+//-- zsptrs --------------------------------------------------------------------
+void
+LAPACK_DECL(zsptrs)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *AP,
+                    const INTEGER            *IPIV,
+                    DOUBLE_COMPLEX           *B,
+                    const INTEGER            *LDB,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zsptrs");
+    LAPACK_IMPL(zsptrs)(UPLO,
+                        N,
+                        NRHS,
+                        AP,
+                        IPIV,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- zstedc --------------------------------------------------------------------
+void
+LAPACK_DECL(zstedc)(const char       *COMPZ,
+                    const INTEGER    *N,
+                    DOUBLE           *D,
+                    DOUBLE           *E,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    DOUBLE           *RWORK,
+                    const INTEGER    *LRWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zstedc");
+    LAPACK_IMPL(zstedc)(COMPZ,
+                        N,
+                        D,
+                        E,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        LRWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- zstegr --------------------------------------------------------------------
+void
+LAPACK_DECL(zstegr)(const char       *JOBZ,
+                    const char       *RANGE,
+                    const INTEGER    *N,
+                    DOUBLE           *D,
+                    DOUBLE           *E,
+                    const DOUBLE     *VL,
+                    const DOUBLE     *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const DOUBLE     *ABSTOL,
+                    INTEGER          *M,
+                    DOUBLE           *W,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    INTEGER          *ISUPPZ,
+                    DOUBLE           *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zstegr");
+    LAPACK_IMPL(zstegr)(JOBZ,
+                        RANGE,
+                        N,
+                        D,
+                        E,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        ISUPPZ,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- zstein --------------------------------------------------------------------
+void
+LAPACK_DECL(zstein)(const INTEGER    *N,
+                    const DOUBLE     *D,
+                    const DOUBLE     *E,
+                    const INTEGER    *M,
+                    const DOUBLE     *W,
+                    const INTEGER    *IBLOCK,
+                    const INTEGER    *ISPLIT,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    DOUBLE           *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *IFAIL,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zstein");
+    LAPACK_IMPL(zstein)(N,
+                        D,
+                        E,
+                        M,
+                        W,
+                        IBLOCK,
+                        ISPLIT,
+                        Z,
+                        LDZ,
+                        WORK,
+                        IWORK,
+                        IFAIL,
+                        INFO);
+}
+
+//-- zstemr --------------------------------------------------------------------
+void
+LAPACK_DECL(zstemr)(const char       *JOBZ,
+                    const char       *RANGE,
+                    const INTEGER    *N,
+                    DOUBLE           *D,
+                    DOUBLE           *E,
+                    const DOUBLE     *VL,
+                    const DOUBLE     *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    INTEGER          *M,
+                    DOUBLE           *W,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    const INTEGER    *NZC,
+                    INTEGER          *ISUPPZ,
+                    LOGICAL          *TRYRAC,
+                    DOUBLE           *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zstemr");
+    LAPACK_IMPL(zstemr)(JOBZ,
+                        RANGE,
+                        N,
+                        D,
+                        E,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        NZC,
+                        ISUPPZ,
+                        TRYRAC,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- zsteqr --------------------------------------------------------------------
+void
+LAPACK_DECL(zsteqr)(const char       *COMPZ,
+                    const INTEGER    *N,
+                    DOUBLE           *D,
+                    DOUBLE           *E,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    DOUBLE           *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zsteqr");
+    LAPACK_IMPL(zsteqr)(COMPZ,
+                        N,
+                        D,
+                        E,
+                        Z,
+                        LDZ,
+                        WORK,
+                        INFO);
+}
+
+//-- zsycon --------------------------------------------------------------------
+void
+LAPACK_DECL(zsycon)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const INTEGER            *IPIV,
+                    const DOUBLE             *ANORM,
+                    DOUBLE                   *RCOND,
+                    DOUBLE_COMPLEX           *WORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zsycon");
+    LAPACK_IMPL(zsycon)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        IPIV,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        INFO);
+}
+
+//-- zsyconv -------------------------------------------------------------------
+void
+LAPACK_DECL(zsyconv)(const char       *UPLO,
+                     const char       *WAY,
+                     const INTEGER    *N,
+                     DOUBLE_COMPLEX   *A,
+                     const INTEGER    *LDA,
+                     const INTEGER    *IPIV,
+                     DOUBLE_COMPLEX   *WORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zsyconv");
+    LAPACK_IMPL(zsyconv)(UPLO,
+                         WAY,
+                         N,
+                         A,
+                         LDA,
+                         IPIV,
+                         WORK,
+                         INFO);
+}
+
+//-- zsyequb -------------------------------------------------------------------
+void
+LAPACK_DECL(zsyequb)(const char               *UPLO,
+                     const INTEGER            *N,
+                     const DOUBLE_COMPLEX     *A,
+                     const INTEGER            *LDA,
+                     DOUBLE                   *S,
+                     DOUBLE                   *SCOND,
+                     DOUBLE                   *AMAX,
+                     DOUBLE_COMPLEX           *WORK,
+                     INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zsyequb");
+    LAPACK_IMPL(zsyequb)(UPLO,
+                         N,
+                         A,
+                         LDA,
+                         S,
+                         SCOND,
+                         AMAX,
+                         WORK,
+                         INFO);
+}
+
+//-- zsymv ---------------------------------------------------------------------
+void
+LAPACK_DECL(zsymv)(const char               *UPLO,
+                   const INTEGER            *N,
+                   const DOUBLE_COMPLEX     *ALPHA,
+                   const DOUBLE_COMPLEX     *A,
+                   const INTEGER            *LDA,
+                   const DOUBLE_COMPLEX     *X,
+                   const INTEGER            *INCX,
+                   const DOUBLE_COMPLEX     *BETA,
+                   DOUBLE_COMPLEX           *Y,
+                   const INTEGER            *INCY)
+{
+    DEBUG_LAPACK_STUB("zsymv");
+    LAPACK_IMPL(zsymv)(UPLO,
+                       N,
+                       ALPHA,
+                       A,
+                       LDA,
+                       X,
+                       INCX,
+                       BETA,
+                       Y,
+                       INCY);
+}
+
+//-- zsyr ----------------------------------------------------------------------
+void
+LAPACK_DECL(zsyr)(const char               *UPLO,
+                  const INTEGER            *N,
+                  const DOUBLE_COMPLEX     *ALPHA,
+                  const DOUBLE_COMPLEX     *X,
+                  const INTEGER            *INCX,
+                  DOUBLE_COMPLEX           *A,
+                  const INTEGER            *LDA)
+{
+    DEBUG_LAPACK_STUB("zsyr");
+    LAPACK_IMPL(zsyr)(UPLO,
+                      N,
+                      ALPHA,
+                      X,
+                      INCX,
+                      A,
+                      LDA);
+}
+
+//-- zsyrfs --------------------------------------------------------------------
+void
+LAPACK_DECL(zsyrfs)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *AF,
+                    const INTEGER            *LDAF,
+                    const INTEGER            *IPIV,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    DOUBLE_COMPLEX           *X,
+                    const INTEGER            *LDX,
+                    DOUBLE                   *FERR,
+                    DOUBLE                   *BERR,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zsyrfs");
+    LAPACK_IMPL(zsyrfs)(UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        AF,
+                        LDAF,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zsyrfsx -------------------------------------------------------------------
+/*
+void
+LAPACK_DECL(zsyrfsx)(const char               *UPLO,
+                     const char               *EQUED,
+                     const INTEGER            *N,
+                     const INTEGER            *NRHS,
+                     const DOUBLE_COMPLEX     *A,
+                     const INTEGER            *LDA,
+                     const DOUBLE_COMPLEX     *AF,
+                     const INTEGER            *LDAF,
+                     const INTEGER            *IPIV,
+                     DOUBLE                   *S,
+                     const DOUBLE_COMPLEX     *B,
+                     const INTEGER            *LDB,
+                     DOUBLE_COMPLEX           *X,
+                     const INTEGER            *LDX,
+                     DOUBLE                   *RCOND,
+                     DOUBLE                   *BERR,
+                     const INTEGER            *N_ERR_BNDS,
+                     DOUBLE                   *ERR_BNDS_NORM,
+                     DOUBLE                   *ERR_BNDS_COMP,
+                     const INTEGER            *NPARAMS,
+                     DOUBLE                   *PARAMS,
+                     DOUBLE_COMPLEX           *WORK,
+                     DOUBLE                   *RWORK,
+                     INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zsyrfsx");
+    LAPACK_IMPL(zsyrfsx)(UPLO,
+                         EQUED,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         IPIV,
+                         S,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         RWORK,
+                         INFO);
+}
+*/
+
+//-- zsysv ---------------------------------------------------------------------
+void
+LAPACK_DECL(zsysv)(const char           *UPLO,
+                   const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   DOUBLE_COMPLEX       *A,
+                   const INTEGER        *LDA,
+                   INTEGER              *IPIV,
+                   DOUBLE_COMPLEX       *B,
+                   const INTEGER        *LDB,
+                   DOUBLE_COMPLEX       *WORK,
+                   const INTEGER        *LWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("zsysv");
+    LAPACK_IMPL(zsysv)(UPLO,
+                       N,
+                       NRHS,
+                       A,
+                       LDA,
+                       IPIV,
+                       B,
+                       LDB,
+                       WORK,
+                       LWORK,
+                       INFO);
+}
+
+//-- zsysvx --------------------------------------------------------------------
+void
+LAPACK_DECL(zsysvx)(const char               *FACT,
+                    const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    DOUBLE_COMPLEX           *AF,
+                    const INTEGER            *LDAF,
+                    INTEGER                  *IPIV,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    DOUBLE_COMPLEX           *X,
+                    const INTEGER            *LDX,
+                    DOUBLE                   *RCOND,
+                    DOUBLE                   *FERR,
+                    DOUBLE                   *BERR,
+                    DOUBLE_COMPLEX           *WORK,
+                    const INTEGER            *LWORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zsysvx");
+    LAPACK_IMPL(zsysvx)(FACT,
+                        UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        AF,
+                        LDAF,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- zsysvxx -------------------------------------------------------------------
+/*
+void
+LAPACK_DECL(zsysvxx)(const char       *FACT,
+                     const char       *UPLO,
+                     const INTEGER    *N,
+                     const INTEGER    *NRHS,
+                     DOUBLE_COMPLEX   *A,
+                     const INTEGER    *LDA,
+                     DOUBLE_COMPLEX   *AF,
+                     const INTEGER    *LDAF,
+                     INTEGER          *IPIV,
+                     char             *EQUED,
+                     DOUBLE           *S,
+                     DOUBLE_COMPLEX   *B,
+                     const INTEGER    *LDB,
+                     DOUBLE_COMPLEX   *X,
+                     const INTEGER    *LDX,
+                     DOUBLE           *RCOND,
+                     DOUBLE           *RPVGRW,
+                     DOUBLE           *BERR,
+                     const INTEGER    *N_ERR_BNDS,
+                     DOUBLE           *ERR_BNDS_NORM,
+                     DOUBLE           *ERR_BNDS_COMP,
+                     const INTEGER    *NPARAMS,
+                     DOUBLE           *PARAMS,
+                     DOUBLE_COMPLEX   *WORK,
+                     DOUBLE           *RWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zsysvxx");
+    LAPACK_IMPL(zsysvxx)(FACT,
+                         UPLO,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         IPIV,
+                         EQUED,
+                         S,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         RPVGRW,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         RWORK,
+                         INFO);
+}
+*/
+
+//-- zsyswapr ------------------------------------------------------------------
+void
+LAPACK_DECL(zsyswapr)(const char       *UPLO,
+                      const INTEGER    *N,
+                      DOUBLE_COMPLEX   *A,
+                      const INTEGER    *LDA,
+                      const INTEGER    *I1,
+                      const INTEGER    *I2)
+{
+    DEBUG_LAPACK_STUB("zsyswapr");
+    LAPACK_IMPL(zsyswapr)(UPLO,
+                          N,
+                          A,
+                          LDA,
+                          I1,
+                          I2);
+}
+
+//-- zsytf2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zsytf2)(const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *IPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zsytf2");
+    LAPACK_IMPL(zsytf2)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        IPIV,
+                        INFO);
+}
+
+//-- zsytrf --------------------------------------------------------------------
+void
+LAPACK_DECL(zsytrf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *IPIV,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zsytrf");
+    LAPACK_IMPL(zsytrf)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        IPIV,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zsytri --------------------------------------------------------------------
+void
+LAPACK_DECL(zsytri)(const char       *UPLO,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    const INTEGER    *IPIV,
+                    DOUBLE_COMPLEX   *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zsytri");
+    LAPACK_IMPL(zsytri)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        IPIV,
+                        WORK,
+                        INFO);
+}
+
+//-- zsytri2 -------------------------------------------------------------------
+void
+LAPACK_DECL(zsytri2)(const char       *UPLO,
+                     const INTEGER    *N,
+                     DOUBLE_COMPLEX   *A,
+                     const INTEGER    *LDA,
+                     const INTEGER    *IPIV,
+                     DOUBLE_COMPLEX   *WORK,
+                     const INTEGER    *LWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zsytri2");
+    LAPACK_IMPL(zsytri2)(UPLO,
+                         N,
+                         A,
+                         LDA,
+                         IPIV,
+                         WORK,
+                         LWORK,
+                         INFO);
+}
+
+//-- zsytri2x ------------------------------------------------------------------
+void
+LAPACK_DECL(zsytri2x)(const char       *UPLO,
+                      const INTEGER    *N,
+                      DOUBLE_COMPLEX   *A,
+                      const INTEGER    *LDA,
+                      const INTEGER    *IPIV,
+                      DOUBLE_COMPLEX   *WORK,
+                      const INTEGER    *NB,
+                      INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zsytri2x");
+    LAPACK_IMPL(zsytri2x)(UPLO,
+                          N,
+                          A,
+                          LDA,
+                          IPIV,
+                          WORK,
+                          NB,
+                          INFO);
+}
+
+//-- zsytrs --------------------------------------------------------------------
+void
+LAPACK_DECL(zsytrs)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const INTEGER            *IPIV,
+                    DOUBLE_COMPLEX           *B,
+                    const INTEGER            *LDB,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zsytrs");
+    LAPACK_IMPL(zsytrs)(UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        IPIV,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- zsytrs2 -------------------------------------------------------------------
+void
+LAPACK_DECL(zsytrs2)(const char       *UPLO,
+                     const INTEGER    *N,
+                     const INTEGER    *NRHS,
+                     DOUBLE_COMPLEX   *A,
+                     const INTEGER    *LDA,
+                     const INTEGER    *IPIV,
+                     DOUBLE_COMPLEX   *B,
+                     const INTEGER    *LDB,
+                     DOUBLE_COMPLEX   *WORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zsytrs2");
+    LAPACK_IMPL(zsytrs2)(UPLO,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         IPIV,
+                         B,
+                         LDB,
+                         WORK,
+                         INFO);
+}
+
+//-- ztbcon --------------------------------------------------------------------
+void
+LAPACK_DECL(ztbcon)(const char               *NORM,
+                    const char               *UPLO,
+                    const char               *DIAG,
+                    const INTEGER            *N,
+                    const INTEGER            *KD,
+                    const DOUBLE_COMPLEX     *AB,
+                    const INTEGER            *LDAB,
+                    DOUBLE                   *RCOND,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("ztbcon");
+    LAPACK_IMPL(ztbcon)(NORM,
+                        UPLO,
+                        DIAG,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        RCOND,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- ztbrfs --------------------------------------------------------------------
+void
+LAPACK_DECL(ztbrfs)(const char               *UPLO,
+                    const char               *TRANS,
+                    const char               *DIAG,
+                    const INTEGER            *N,
+                    const INTEGER            *KD,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *AB,
+                    const INTEGER            *LDAB,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    const DOUBLE_COMPLEX     *X,
+                    const INTEGER            *LDX,
+                    DOUBLE                   *FERR,
+                    DOUBLE                   *BERR,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("ztbrfs");
+    LAPACK_IMPL(ztbrfs)(UPLO,
+                        TRANS,
+                        DIAG,
+                        N,
+                        KD,
+                        NRHS,
+                        AB,
+                        LDAB,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- ztbtrs --------------------------------------------------------------------
+void
+LAPACK_DECL(ztbtrs)(const char               *UPLO,
+                    const char               *TRANS,
+                    const char               *DIAG,
+                    const INTEGER            *N,
+                    const INTEGER            *KD,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *AB,
+                    const INTEGER            *LDAB,
+                    DOUBLE_COMPLEX           *B,
+                    const INTEGER            *LDB,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("ztbtrs");
+    LAPACK_IMPL(ztbtrs)(UPLO,
+                        TRANS,
+                        DIAG,
+                        N,
+                        KD,
+                        NRHS,
+                        AB,
+                        LDAB,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- ztfsm ---------------------------------------------------------------------
+void
+LAPACK_DECL(ztfsm)(const char               *TRANSR,
+                   const char               *SIDE,
+                   const char               *UPLO,
+                   const char               *TRANS,
+                   const char               *DIAG,
+                   const INTEGER            *M,
+                   const INTEGER            *N,
+                   const DOUBLE_COMPLEX     *ALPHA,
+                   const DOUBLE_COMPLEX     *A,
+                   DOUBLE_COMPLEX           *B,
+                   const INTEGER            *LDB)
+{
+    DEBUG_LAPACK_STUB("ztfsm");
+    LAPACK_IMPL(ztfsm)(TRANSR,
+                       SIDE,
+                       UPLO,
+                       TRANS,
+                       DIAG,
+                       M,
+                       N,
+                       ALPHA,
+                       A,
+                       B,
+                       LDB);
+}
+
+//-- ztftri --------------------------------------------------------------------
+void
+LAPACK_DECL(ztftri)(const char       *TRANSR,
+                    const char       *UPLO,
+                    const char       *DIAG,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ztftri");
+    LAPACK_IMPL(ztftri)(TRANSR,
+                        UPLO,
+                        DIAG,
+                        N,
+                        A,
+                        INFO);
+}
+
+//-- ztfttp --------------------------------------------------------------------
+void
+LAPACK_DECL(ztfttp)(const char               *TRANSR,
+                    const char               *UPLO,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *ARF,
+                    DOUBLE_COMPLEX           *AP,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("ztfttp");
+    LAPACK_IMPL(ztfttp)(TRANSR,
+                        UPLO,
+                        N,
+                        ARF,
+                        AP,
+                        INFO);
+}
+
+//-- ztfttr --------------------------------------------------------------------
+void
+LAPACK_DECL(ztfttr)(const char               *TRANSR,
+                    const char               *UPLO,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *ARF,
+                    DOUBLE_COMPLEX           *A,
+                    const INTEGER            *LDA,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("ztfttr");
+    LAPACK_IMPL(ztfttr)(TRANSR,
+                        UPLO,
+                        N,
+                        ARF,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- ztgevc --------------------------------------------------------------------
+void
+LAPACK_DECL(ztgevc)(const char               *SIDE,
+                    const char               *HOWMNY,
+                    const LOGICAL            *SELECT,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *S,
+                    const INTEGER            *LDS,
+                    const DOUBLE_COMPLEX     *P,
+                    const INTEGER            *LDP,
+                    DOUBLE_COMPLEX           *VL,
+                    const INTEGER            *LDVL,
+                    DOUBLE_COMPLEX           *VR,
+                    const INTEGER            *LDVR,
+                    const INTEGER            *MM,
+                    INTEGER                  *M,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("ztgevc");
+    LAPACK_IMPL(ztgevc)(SIDE,
+                        HOWMNY,
+                        SELECT,
+                        N,
+                        S,
+                        LDS,
+                        P,
+                        LDP,
+                        VL,
+                        LDVL,
+                        VR,
+                        LDVR,
+                        MM,
+                        M,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- ztgex2 --------------------------------------------------------------------
+void
+LAPACK_DECL(ztgex2)(const LOGICAL    *WANTQ,
+                    const LOGICAL    *WANTZ,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    DOUBLE_COMPLEX   *Q,
+                    const INTEGER    *LDQ,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    const INTEGER    *J1,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ztgex2");
+    LAPACK_IMPL(ztgex2)(WANTQ,
+                        WANTZ,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        Q,
+                        LDQ,
+                        Z,
+                        LDZ,
+                        J1,
+                        INFO);
+}
+
+//-- ztgexc --------------------------------------------------------------------
+void
+LAPACK_DECL(ztgexc)(const LOGICAL    *WANTQ,
+                    const LOGICAL    *WANTZ,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    DOUBLE_COMPLEX   *Q,
+                    const INTEGER    *LDQ,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    const INTEGER    *IFST,
+                    INTEGER          *ILST,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ztgexc");
+    LAPACK_IMPL(ztgexc)(WANTQ,
+                        WANTZ,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        Q,
+                        LDQ,
+                        Z,
+                        LDZ,
+                        IFST,
+                        ILST,
+                        INFO);
+}
+
+//-- ztgsen --------------------------------------------------------------------
+void
+LAPACK_DECL(ztgsen)(const INTEGER    *IJOB,
+                    const LOGICAL    *WANTQ,
+                    const LOGICAL    *WANTZ,
+                    const LOGICAL    *SELECT,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    DOUBLE_COMPLEX   *ALPHA,
+                    DOUBLE_COMPLEX   *BETA,
+                    DOUBLE_COMPLEX   *Q,
+                    const INTEGER    *LDQ,
+                    DOUBLE_COMPLEX   *Z,
+                    const INTEGER    *LDZ,
+                    INTEGER          *M,
+                    DOUBLE           *PL,
+                    DOUBLE           *PR,
+                    DOUBLE           *DIF,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ztgsen");
+    LAPACK_IMPL(ztgsen)(IJOB,
+                        WANTQ,
+                        WANTZ,
+                        SELECT,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        ALPHA,
+                        BETA,
+                        Q,
+                        LDQ,
+                        Z,
+                        LDZ,
+                        M,
+                        PL,
+                        PR,
+                        DIF,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- ztgsja --------------------------------------------------------------------
+void
+LAPACK_DECL(ztgsja)(const char       *JOBU,
+                    const char       *JOBV,
+                    const char       *JOBQ,
+                    const INTEGER    *M,
+                    const INTEGER    *P,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    const INTEGER    *L,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *B,
+                    const INTEGER    *LDB,
+                    const DOUBLE     *TOLA,
+                    const DOUBLE     *TOLB,
+                    DOUBLE           *ALPHA,
+                    DOUBLE           *BETA,
+                    DOUBLE_COMPLEX   *U,
+                    const INTEGER    *LDU,
+                    DOUBLE_COMPLEX   *V,
+                    const INTEGER    *LDV,
+                    DOUBLE_COMPLEX   *Q,
+                    const INTEGER    *LDQ,
+                    DOUBLE_COMPLEX   *WORK,
+                    INTEGER          *NCYCLE,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ztgsja");
+    LAPACK_IMPL(ztgsja)(JOBU,
+                        JOBV,
+                        JOBQ,
+                        M,
+                        P,
+                        N,
+                        K,
+                        L,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        TOLA,
+                        TOLB,
+                        ALPHA,
+                        BETA,
+                        U,
+                        LDU,
+                        V,
+                        LDV,
+                        Q,
+                        LDQ,
+                        WORK,
+                        NCYCLE,
+                        INFO);
+}
+
+//-- ztgsna --------------------------------------------------------------------
+void
+LAPACK_DECL(ztgsna)(const char               *JOB,
+                    const char               *HOWMNY,
+                    const LOGICAL            *SELECT,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    const DOUBLE_COMPLEX     *VL,
+                    const INTEGER            *LDVL,
+                    const DOUBLE_COMPLEX     *VR,
+                    const INTEGER            *LDVR,
+                    DOUBLE                   *S,
+                    DOUBLE                   *DIF,
+                    const INTEGER            *MM,
+                    INTEGER                  *M,
+                    DOUBLE_COMPLEX           *WORK,
+                    const INTEGER            *LWORK,
+                    INTEGER                  *IWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("ztgsna");
+    LAPACK_IMPL(ztgsna)(JOB,
+                        HOWMNY,
+                        SELECT,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        VL,
+                        LDVL,
+                        VR,
+                        LDVR,
+                        S,
+                        DIF,
+                        MM,
+                        M,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- ztgsy2 --------------------------------------------------------------------
+void
+LAPACK_DECL(ztgsy2)(const char               *TRANS,
+                    const INTEGER            *IJOB,
+                    const INTEGER            *M,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    DOUBLE_COMPLEX           *C,
+                    const INTEGER            *LDC,
+                    const DOUBLE_COMPLEX     *D,
+                    const INTEGER            *LDD,
+                    const DOUBLE_COMPLEX     *E,
+                    const INTEGER            *LDE,
+                    DOUBLE_COMPLEX           *F,
+                    const INTEGER            *LDF,
+                    DOUBLE                   *SCALE,
+                    DOUBLE                   *RDSUM,
+                    DOUBLE                   *RDSCAL,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("ztgsy2");
+    LAPACK_IMPL(ztgsy2)(TRANS,
+                        IJOB,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        C,
+                        LDC,
+                        D,
+                        LDD,
+                        E,
+                        LDE,
+                        F,
+                        LDF,
+                        SCALE,
+                        RDSUM,
+                        RDSCAL,
+                        INFO);
+}
+
+//-- ztgsyl --------------------------------------------------------------------
+void
+LAPACK_DECL(ztgsyl)(const char               *TRANS,
+                    const INTEGER            *IJOB,
+                    const INTEGER            *M,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    DOUBLE_COMPLEX           *C,
+                    const INTEGER            *LDC,
+                    const DOUBLE_COMPLEX     *D,
+                    const INTEGER            *LDD,
+                    const DOUBLE_COMPLEX     *E,
+                    const INTEGER            *LDE,
+                    DOUBLE_COMPLEX           *F,
+                    const INTEGER            *LDF,
+                    DOUBLE                   *SCALE,
+                    DOUBLE                   *DIF,
+                    DOUBLE_COMPLEX           *WORK,
+                    const INTEGER            *LWORK,
+                    INTEGER                  *IWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("ztgsyl");
+    LAPACK_IMPL(ztgsyl)(TRANS,
+                        IJOB,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        C,
+                        LDC,
+                        D,
+                        LDD,
+                        E,
+                        LDE,
+                        F,
+                        LDF,
+                        SCALE,
+                        DIF,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- ztpcon --------------------------------------------------------------------
+void
+LAPACK_DECL(ztpcon)(const char               *NORM,
+                    const char               *UPLO,
+                    const char               *DIAG,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *AP,
+                    DOUBLE                   *RCOND,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("ztpcon");
+    LAPACK_IMPL(ztpcon)(NORM,
+                        UPLO,
+                        DIAG,
+                        N,
+                        AP,
+                        RCOND,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- ztprfs --------------------------------------------------------------------
+void
+LAPACK_DECL(ztprfs)(const char               *UPLO,
+                    const char               *TRANS,
+                    const char               *DIAG,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *AP,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    const DOUBLE_COMPLEX     *X,
+                    const INTEGER            *LDX,
+                    DOUBLE                   *FERR,
+                    DOUBLE                   *BERR,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("ztprfs");
+    LAPACK_IMPL(ztprfs)(UPLO,
+                        TRANS,
+                        DIAG,
+                        N,
+                        NRHS,
+                        AP,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- ztptri --------------------------------------------------------------------
+void
+LAPACK_DECL(ztptri)(const char       *UPLO,
+                    const char       *DIAG,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *AP,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ztptri");
+    LAPACK_IMPL(ztptri)(UPLO,
+                        DIAG,
+                        N,
+                        AP,
+                        INFO);
+}
+
+//-- ztptrs --------------------------------------------------------------------
+void
+LAPACK_DECL(ztptrs)(const char               *UPLO,
+                    const char               *TRANS,
+                    const char               *DIAG,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *AP,
+                    DOUBLE_COMPLEX           *B,
+                    const INTEGER            *LDB,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("ztptrs");
+    LAPACK_IMPL(ztptrs)(UPLO,
+                        TRANS,
+                        DIAG,
+                        N,
+                        NRHS,
+                        AP,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- ztpttf --------------------------------------------------------------------
+void
+LAPACK_DECL(ztpttf)(const char               *TRANSR,
+                    const char               *UPLO,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *AP,
+                    DOUBLE_COMPLEX           *ARF,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("ztpttf");
+    LAPACK_IMPL(ztpttf)(TRANSR,
+                        UPLO,
+                        N,
+                        AP,
+                        ARF,
+                        INFO);
+}
+
+//-- ztpttr --------------------------------------------------------------------
+void
+LAPACK_DECL(ztpttr)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *AP,
+                    DOUBLE_COMPLEX           *A,
+                    const INTEGER            *LDA,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("ztpttr");
+    LAPACK_IMPL(ztpttr)(UPLO,
+                        N,
+                        AP,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- ztrcon --------------------------------------------------------------------
+void
+LAPACK_DECL(ztrcon)(const char               *NORM,
+                    const char               *UPLO,
+                    const char               *DIAG,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    DOUBLE                   *RCOND,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("ztrcon");
+    LAPACK_IMPL(ztrcon)(NORM,
+                        UPLO,
+                        DIAG,
+                        N,
+                        A,
+                        LDA,
+                        RCOND,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- ztrevc --------------------------------------------------------------------
+void
+LAPACK_DECL(ztrevc)(const char       *SIDE,
+                    const char       *HOWMNY,
+                    const LOGICAL    *SELECT,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *T,
+                    const INTEGER    *LDT,
+                    DOUBLE_COMPLEX   *VL,
+                    const INTEGER    *LDVL,
+                    DOUBLE_COMPLEX   *VR,
+                    const INTEGER    *LDVR,
+                    const INTEGER    *MM,
+                    INTEGER          *M,
+                    DOUBLE_COMPLEX   *WORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ztrevc");
+    LAPACK_IMPL(ztrevc)(SIDE,
+                        HOWMNY,
+                        SELECT,
+                        N,
+                        T,
+                        LDT,
+                        VL,
+                        LDVL,
+                        VR,
+                        LDVR,
+                        MM,
+                        M,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- ztrexc --------------------------------------------------------------------
+void
+LAPACK_DECL(ztrexc)(const char       *COMPQ,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *T,
+                    const INTEGER    *LDT,
+                    DOUBLE_COMPLEX   *Q,
+                    const INTEGER    *LDQ,
+                    const INTEGER    *IFST,
+                    const INTEGER    *ILST,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ztrexc");
+    LAPACK_IMPL(ztrexc)(COMPQ,
+                        N,
+                        T,
+                        LDT,
+                        Q,
+                        LDQ,
+                        IFST,
+                        ILST,
+                        INFO);
+}
+
+//-- ztrrfs --------------------------------------------------------------------
+void
+LAPACK_DECL(ztrrfs)(const char               *UPLO,
+                    const char               *TRANS,
+                    const char               *DIAG,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    const DOUBLE_COMPLEX     *X,
+                    const INTEGER            *LDX,
+                    DOUBLE                   *FERR,
+                    DOUBLE                   *BERR,
+                    DOUBLE_COMPLEX           *WORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("ztrrfs");
+    LAPACK_IMPL(ztrrfs)(UPLO,
+                        TRANS,
+                        DIAG,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- ztrsen --------------------------------------------------------------------
+void
+LAPACK_DECL(ztrsen)(const char       *JOB,
+                    const char       *COMPQ,
+                    const LOGICAL    *SELECT,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *T,
+                    const INTEGER    *LDT,
+                    DOUBLE_COMPLEX   *Q,
+                    const INTEGER    *LDQ,
+                    DOUBLE_COMPLEX   *W,
+                    INTEGER          *M,
+                    DOUBLE           *S,
+                    DOUBLE           *SEP,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ztrsen");
+    LAPACK_IMPL(ztrsen)(JOB,
+                        COMPQ,
+                        SELECT,
+                        N,
+                        T,
+                        LDT,
+                        Q,
+                        LDQ,
+                        W,
+                        M,
+                        S,
+                        SEP,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- ztrsna --------------------------------------------------------------------
+void
+LAPACK_DECL(ztrsna)(const char               *JOB,
+                    const char               *HOWMNY,
+                    const LOGICAL            *SELECT,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *T,
+                    const INTEGER            *LDT,
+                    const DOUBLE_COMPLEX     *VL,
+                    const INTEGER            *LDVL,
+                    const DOUBLE_COMPLEX     *VR,
+                    const INTEGER            *LDVR,
+                    DOUBLE                   *S,
+                    DOUBLE                   *SEP,
+                    const INTEGER            *MM,
+                    INTEGER                  *M,
+                    DOUBLE_COMPLEX           *WORK,
+                    const INTEGER            *LDWORK,
+                    DOUBLE                   *RWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("ztrsna");
+    LAPACK_IMPL(ztrsna)(JOB,
+                        HOWMNY,
+                        SELECT,
+                        N,
+                        T,
+                        LDT,
+                        VL,
+                        LDVL,
+                        VR,
+                        LDVR,
+                        S,
+                        SEP,
+                        MM,
+                        M,
+                        WORK,
+                        LDWORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- ztrsyl --------------------------------------------------------------------
+void
+LAPACK_DECL(ztrsyl)(const char               *TRANA,
+                    const char               *TRANB,
+                    const INTEGER            *ISGN,
+                    const INTEGER            *M,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *B,
+                    const INTEGER            *LDB,
+                    DOUBLE_COMPLEX           *C,
+                    const INTEGER            *LDC,
+                    DOUBLE                   *SCALE,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("ztrsyl");
+    LAPACK_IMPL(ztrsyl)(TRANA,
+                        TRANB,
+                        ISGN,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        C,
+                        LDC,
+                        SCALE,
+                        INFO);
+}
+
+//-- ztrti2 --------------------------------------------------------------------
+void
+LAPACK_DECL(ztrti2)(const char       *UPLO,
+                    const char       *DIAG,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ztrti2");
+    LAPACK_IMPL(ztrti2)(UPLO,
+                        DIAG,
+                        N,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- ztrtri --------------------------------------------------------------------
+void
+LAPACK_DECL(ztrtri)(const char       *UPLO,
+                    const char       *DIAG,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ztrtri");
+    LAPACK_IMPL(ztrtri)(UPLO,
+                        DIAG,
+                        N,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- ztrtrs --------------------------------------------------------------------
+void
+LAPACK_DECL(ztrtrs)(const char               *UPLO,
+                    const char               *TRANS,
+                    const char               *DIAG,
+                    const INTEGER            *N,
+                    const INTEGER            *NRHS,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    DOUBLE_COMPLEX           *B,
+                    const INTEGER            *LDB,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("ztrtrs");
+    LAPACK_IMPL(ztrtrs)(UPLO,
+                        TRANS,
+                        DIAG,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- ztrttf --------------------------------------------------------------------
+void
+LAPACK_DECL(ztrttf)(const char               *TRANSR,
+                    const char               *UPLO,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    DOUBLE_COMPLEX           *ARF,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("ztrttf");
+    LAPACK_IMPL(ztrttf)(TRANSR,
+                        UPLO,
+                        N,
+                        A,
+                        LDA,
+                        ARF,
+                        INFO);
+}
+
+//-- ztrttp --------------------------------------------------------------------
+void
+LAPACK_DECL(ztrttp)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    DOUBLE_COMPLEX           *AP,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("ztrttp");
+    LAPACK_IMPL(ztrttp)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        AP,
+                        INFO);
+}
+
+//-- ztzrqf --------------------------------------------------------------------
+void
+LAPACK_DECL(ztzrqf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *TAU,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ztzrqf");
+    LAPACK_IMPL(ztzrqf)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        INFO);
+}
+
+//-- ztzrzf --------------------------------------------------------------------
+void
+LAPACK_DECL(ztzrzf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *TAU,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ztzrzf");
+    LAPACK_IMPL(ztzrzf)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zunbdb --------------------------------------------------------------------
+void
+LAPACK_DECL(zunbdb)(const char       *TRANS,
+                    const char       *SIGNS,
+                    const INTEGER    *M,
+                    const INTEGER    *P,
+                    const INTEGER    *Q,
+                    DOUBLE_COMPLEX   *X11,
+                    const INTEGER    *LDX11,
+                    DOUBLE_COMPLEX   *X12,
+                    const INTEGER    *LDX12,
+                    DOUBLE_COMPLEX   *X21,
+                    const INTEGER    *LDX21,
+                    DOUBLE_COMPLEX   *X22,
+                    const INTEGER    *LDX22,
+                    DOUBLE           *THETA,
+                    DOUBLE           *PHI,
+                    DOUBLE_COMPLEX   *TAUP1,
+                    DOUBLE_COMPLEX   *TAUP2,
+                    DOUBLE_COMPLEX   *TAUQ1,
+                    DOUBLE_COMPLEX   *TAUQ2,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("zunbdb");
+    LAPACK_IMPL(zunbdb)(TRANS,
+                        SIGNS,
+                        M,
+                        P,
+                        Q,
+                        X11,
+                        LDX11,
+                        X12,
+                        LDX12,
+                        X21,
+                        LDX21,
+                        X22,
+                        LDX22,
+                        THETA,
+                        PHI,
+                        TAUP1,
+                        TAUP2,
+                        TAUQ1,
+                        TAUQ2,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zuncsd --------------------------------------------------------------------
+void
+LAPACK_DECL(zuncsd)(const char               *JOBU1,
+                    const char               *JOBU2,
+                    const char               *JOBV1T,
+                    const char               *JOBV2T,
+                    const char               *TRANS,
+                    const char               *SIGNS,
+                    const INTEGER            *M,
+                    const INTEGER            *P,
+                    const INTEGER            *Q,
+                    const DOUBLE_COMPLEX     *X11,
+                    const INTEGER            *LDX11,
+                    const DOUBLE_COMPLEX     *X12,
+                    const INTEGER            *LDX12,
+                    const DOUBLE_COMPLEX     *X21,
+                    const INTEGER            *LDX21,
+                    const DOUBLE_COMPLEX     *X22,
+                    const INTEGER            *LDX22,
+                    DOUBLE                   *THETA,
+                    DOUBLE_COMPLEX           *U1,
+                    const INTEGER            *LDU1,
+                    DOUBLE_COMPLEX           *U2,
+                    const INTEGER            *LDU2,
+                    DOUBLE_COMPLEX           *V1T,
+                    const INTEGER            *LDV1T,
+                    DOUBLE_COMPLEX           *V2T,
+                    const INTEGER            *LDV2T,
+                    DOUBLE_COMPLEX           *WORK,
+                    const INTEGER            *LWORK,
+                    DOUBLE                   *RWORK,
+                    const INTEGER            *LRWORK,
+                    INTEGER                  *IWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zuncsd");
+    LAPACK_IMPL(zuncsd)(JOBU1,
+                        JOBU2,
+                        JOBV1T,
+                        JOBV2T,
+                        TRANS,
+                        SIGNS,
+                        M,
+                        P,
+                        Q,
+                        X11,
+                        LDX11,
+                        X12,
+                        LDX12,
+                        X21,
+                        LDX21,
+                        X22,
+                        LDX22,
+                        THETA,
+                        U1,
+                        LDU1,
+                        U2,
+                        LDU2,
+                        V1T,
+                        LDV1T,
+                        V2T,
+                        LDV2T,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        LRWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- zung2l --------------------------------------------------------------------
+void
+LAPACK_DECL(zung2l)(const INTEGER            *M,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    DOUBLE_COMPLEX           *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *WORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zung2l");
+    LAPACK_IMPL(zung2l)(M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- zung2r --------------------------------------------------------------------
+void
+LAPACK_DECL(zung2r)(const INTEGER            *M,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    DOUBLE_COMPLEX           *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *WORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zung2r");
+    LAPACK_IMPL(zung2r)(M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- zungbr --------------------------------------------------------------------
+void
+LAPACK_DECL(zungbr)(const char               *VECT,
+                    const INTEGER            *M,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    DOUBLE_COMPLEX           *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *WORK,
+                    const INTEGER            *LWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zungbr");
+    LAPACK_IMPL(zungbr)(VECT,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zunghr --------------------------------------------------------------------
+void
+LAPACK_DECL(zunghr)(const INTEGER            *N,
+                    const INTEGER            *ILO,
+                    const INTEGER            *IHI,
+                    DOUBLE_COMPLEX           *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *WORK,
+                    const INTEGER            *LWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zunghr");
+    LAPACK_IMPL(zunghr)(N,
+                        ILO,
+                        IHI,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zungl2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zungl2)(const INTEGER            *M,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    DOUBLE_COMPLEX           *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *WORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zungl2");
+    LAPACK_IMPL(zungl2)(M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- zunglq --------------------------------------------------------------------
+void
+LAPACK_DECL(zunglq)(const INTEGER            *M,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    DOUBLE_COMPLEX           *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *WORK,
+                    const INTEGER            *LWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zunglq");
+    LAPACK_IMPL(zunglq)(M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zungql --------------------------------------------------------------------
+void
+LAPACK_DECL(zungql)(const INTEGER            *M,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    DOUBLE_COMPLEX           *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *WORK,
+                    const INTEGER            *LWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zungql");
+    LAPACK_IMPL(zungql)(M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zungqr --------------------------------------------------------------------
+void
+LAPACK_DECL(zungqr)(const INTEGER            *M,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    DOUBLE_COMPLEX           *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *WORK,
+                    const INTEGER            *LWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zungqr");
+    LAPACK_IMPL(zungqr)(M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zungr2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zungr2)(const INTEGER            *M,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    DOUBLE_COMPLEX           *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *WORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zungr2");
+    LAPACK_IMPL(zungr2)(M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- zungrq --------------------------------------------------------------------
+void
+LAPACK_DECL(zungrq)(const INTEGER            *M,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    DOUBLE_COMPLEX           *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *WORK,
+                    const INTEGER            *LWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zungrq");
+    LAPACK_IMPL(zungrq)(M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zungtr --------------------------------------------------------------------
+void
+LAPACK_DECL(zungtr)(const char               *UPLO,
+                    const INTEGER            *N,
+                    DOUBLE_COMPLEX           *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *WORK,
+                    const INTEGER            *LWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zungtr");
+    LAPACK_IMPL(zungtr)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zunm2l --------------------------------------------------------------------
+void
+LAPACK_DECL(zunm2l)(const char               *SIDE,
+                    const char               *TRANS,
+                    const INTEGER            *M,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *C,
+                    const INTEGER            *LDC,
+                    DOUBLE_COMPLEX           *WORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zunm2l");
+    LAPACK_IMPL(zunm2l)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        INFO);
+}
+
+//-- zunm2r --------------------------------------------------------------------
+void
+LAPACK_DECL(zunm2r)(const char               *SIDE,
+                    const char               *TRANS,
+                    const INTEGER            *M,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *C,
+                    const INTEGER            *LDC,
+                    DOUBLE_COMPLEX           *WORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zunm2r");
+    LAPACK_IMPL(zunm2r)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        INFO);
+}
+
+//-- zunmbr --------------------------------------------------------------------
+void
+LAPACK_DECL(zunmbr)(const char               *VECT,
+                    const char               *SIDE,
+                    const char               *TRANS,
+                    const INTEGER            *M,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *C,
+                    const INTEGER            *LDC,
+                    DOUBLE_COMPLEX           *WORK,
+                    const INTEGER            *LWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zunmbr");
+    LAPACK_IMPL(zunmbr)(VECT,
+                        SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zunmhr --------------------------------------------------------------------
+void
+LAPACK_DECL(zunmhr)(const char               *SIDE,
+                    const char               *TRANS,
+                    const INTEGER            *M,
+                    const INTEGER            *N,
+                    const INTEGER            *ILO,
+                    const INTEGER            *IHI,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *C,
+                    const INTEGER            *LDC,
+                    DOUBLE_COMPLEX           *WORK,
+                    const INTEGER            *LWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zunmhr");
+    LAPACK_IMPL(zunmhr)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        ILO,
+                        IHI,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zunml2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zunml2)(const char               *SIDE,
+                    const char               *TRANS,
+                    const INTEGER            *M,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *C,
+                    const INTEGER            *LDC,
+                    DOUBLE_COMPLEX           *WORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zunml2");
+    LAPACK_IMPL(zunml2)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        INFO);
+}
+
+//-- zunmlq --------------------------------------------------------------------
+void
+LAPACK_DECL(zunmlq)(const char               *SIDE,
+                    const char               *TRANS,
+                    const INTEGER            *M,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *C,
+                    const INTEGER            *LDC,
+                    DOUBLE_COMPLEX           *WORK,
+                    const INTEGER            *LWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zunmlq");
+    LAPACK_IMPL(zunmlq)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zunmql --------------------------------------------------------------------
+void
+LAPACK_DECL(zunmql)(const char               *SIDE,
+                    const char               *TRANS,
+                    const INTEGER            *M,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *C,
+                    const INTEGER            *LDC,
+                    DOUBLE_COMPLEX           *WORK,
+                    const INTEGER            *LWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zunmql");
+    LAPACK_IMPL(zunmql)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zunmqr --------------------------------------------------------------------
+void
+LAPACK_DECL(zunmqr)(const char               *SIDE,
+                    const char               *TRANS,
+                    const INTEGER            *M,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *C,
+                    const INTEGER            *LDC,
+                    DOUBLE_COMPLEX           *WORK,
+                    const INTEGER            *LWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zunmqr");
+    LAPACK_IMPL(zunmqr)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zunmr2 --------------------------------------------------------------------
+void
+LAPACK_DECL(zunmr2)(const char               *SIDE,
+                    const char               *TRANS,
+                    const INTEGER            *M,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *C,
+                    const INTEGER            *LDC,
+                    DOUBLE_COMPLEX           *WORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zunmr2");
+    LAPACK_IMPL(zunmr2)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        INFO);
+}
+
+//-- zunmr3 --------------------------------------------------------------------
+void
+LAPACK_DECL(zunmr3)(const char               *SIDE,
+                    const char               *TRANS,
+                    const INTEGER            *M,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    const INTEGER            *L,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *C,
+                    const INTEGER            *LDC,
+                    DOUBLE_COMPLEX           *WORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zunmr3");
+    LAPACK_IMPL(zunmr3)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        L,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        INFO);
+}
+
+//-- zunmrq --------------------------------------------------------------------
+void
+LAPACK_DECL(zunmrq)(const char               *SIDE,
+                    const char               *TRANS,
+                    const INTEGER            *M,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *C,
+                    const INTEGER            *LDC,
+                    DOUBLE_COMPLEX           *WORK,
+                    const INTEGER            *LWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zunmrq");
+    LAPACK_IMPL(zunmrq)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zunmrz --------------------------------------------------------------------
+void
+LAPACK_DECL(zunmrz)(const char               *SIDE,
+                    const char               *TRANS,
+                    const INTEGER            *M,
+                    const INTEGER            *N,
+                    const INTEGER            *K,
+                    const INTEGER            *L,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *C,
+                    const INTEGER            *LDC,
+                    DOUBLE_COMPLEX           *WORK,
+                    const INTEGER            *LWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zunmrz");
+    LAPACK_IMPL(zunmrz)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        L,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zunmtr --------------------------------------------------------------------
+void
+LAPACK_DECL(zunmtr)(const char               *SIDE,
+                    const char               *UPLO,
+                    const char               *TRANS,
+                    const INTEGER            *M,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *C,
+                    const INTEGER            *LDC,
+                    DOUBLE_COMPLEX           *WORK,
+                    const INTEGER            *LWORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zunmtr");
+    LAPACK_IMPL(zunmtr)(SIDE,
+                        UPLO,
+                        TRANS,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- zupgtr --------------------------------------------------------------------
+void
+LAPACK_DECL(zupgtr)(const char               *UPLO,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *AP,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *Q,
+                    const INTEGER            *LDQ,
+                    DOUBLE_COMPLEX           *WORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zupgtr");
+    LAPACK_IMPL(zupgtr)(UPLO,
+                        N,
+                        AP,
+                        TAU,
+                        Q,
+                        LDQ,
+                        WORK,
+                        INFO);
+}
+
+//-- zupmtr --------------------------------------------------------------------
+void
+LAPACK_DECL(zupmtr)(const char               *SIDE,
+                    const char               *UPLO,
+                    const char               *TRANS,
+                    const INTEGER            *M,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *AP,
+                    const DOUBLE_COMPLEX     *TAU,
+                    DOUBLE_COMPLEX           *C,
+                    const INTEGER            *LDC,
+                    DOUBLE_COMPLEX           *WORK,
+                    INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("zupmtr");
+    LAPACK_IMPL(zupmtr)(SIDE,
+                        UPLO,
+                        TRANS,
+                        M,
+                        N,
+                        AP,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        INFO);
+}
+
+//-- cgetrf --------------------------------------------------------------------
+void
+LAPACK_DECL(cgetrf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *IPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgetrf");
+    LAPACK_IMPL(cgetrf)(M,
+                        N,
+                        A,
+                        LDA,
+                        IPIV,
+                        INFO);
+}
+
+//-- cgetrs --------------------------------------------------------------------
+void
+LAPACK_DECL(cgetrs)(const char       *TRANS,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    FLOAT_COMPLEX          *A,
+                    const INTEGER    *LDA,
+                    const INTEGER    *IPIV,
+                    FLOAT_COMPLEX          *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgetrs");
+    LAPACK_IMPL(cgetrs)(TRANS,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        IPIV,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- clag2z --------------------------------------------------------------------
+void
+LAPACK_DECL(clag2z)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX          *SA,
+                    const INTEGER    *LDSA,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("clag2z");
+    LAPACK_IMPL(clag2z)(M,
+                        N,
+                        SA,
+                        LDSA,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- cpotrf --------------------------------------------------------------------
+void
+LAPACK_DECL(cpotrf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX          *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cpotrf");
+    LAPACK_IMPL(cpotrf)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- cpotrs --------------------------------------------------------------------
+void
+LAPACK_DECL(cpotrs)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cpotrs");
+    LAPACK_IMPL(cpotrs)(UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- ilaprec -------------------------------------------------------------------
+INTEGER
+LAPACK_DECL(ilaprec)(const char   *PREC)
+{
+    DEBUG_LAPACK_STUB("ilaprec");
+    return LAPACK_IMPL(ilaprec)(PREC);
+}
+
+//-- chla_transtype ------------------------------------------------------------
+char
+LAPACK_DECL(chla_transtype)(const INTEGER    *TRANS)
+{
+    DEBUG_LAPACK_STUB("chla_transtype");
+    return LAPACK_IMPL(chla_transtype)(TRANS);
+}
+
+//-- claswp --------------------------------------------------------------------
+void
+LAPACK_DECL(claswp)(const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    const INTEGER    *K1,
+                    const INTEGER    *K2,
+                    const INTEGER    *IPIV,
+                    const INTEGER    *INCX)
+{
+    DEBUG_LAPACK_STUB("claswp");
+    LAPACK_IMPL(claswp)(N,
+                        A,
+                        LDA,
+                        K1,
+                        K2,
+                        IPIV,
+                        INCX);
+}
+
+//-- izmax1 --------------------------------------------------------------------
+INTEGER
+LAPACK_DECL(izmax1)(const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *CX,
+                    const INTEGER            *INCX)
+{
+    DEBUG_LAPACK_STUB("izmax1");
+    return LAPACK_IMPL(izmax1)(N,
+                               CX,
+                               INCX);
+}
+
+//-- ilazlc --------------------------------------------------------------------
+INTEGER
+LAPACK_DECL(ilazlc)(const INTEGER            *M,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA)
+{
+    DEBUG_LAPACK_STUB("ilazlc");
+    return LAPACK_IMPL(ilazlc)(M,
+                               N,
+                               A,
+                               LDA);
+}
+
+//-- ilazlr --------------------------------------------------------------------
+INTEGER
+LAPACK_DECL(ilazlr)(const INTEGER            *M,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA)
+{
+    DEBUG_LAPACK_STUB("ilazlr");
+    return LAPACK_IMPL(ilazlr)(M,
+                               N,
+                               A,
+                               LDA);
+}
+
+//-- cpotf2 --------------------------------------------------------------------
+void
+LAPACK_DECL(cpotf2)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cpotf2");
+    LAPACK_IMPL(cpotf2)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- clacgv --------------------------------------------------------------------
+void
+LAPACK_DECL(clacgv)(const INTEGER    *N,
+                    FLOAT_COMPLEX    *X,
+                    const INTEGER    *INCX)
+{
+    DEBUG_LAPACK_STUB("clacgv");
+    LAPACK_IMPL(clacgv)(N,
+                        X,
+                        INCX);
+}
+

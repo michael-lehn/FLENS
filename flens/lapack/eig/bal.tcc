@@ -83,7 +83,7 @@ bal_generic(BALANCE::Balance    job,
     IndexType k = 1;
     IndexType l = n;
 
-    IndexType j, m;
+    IndexType j = l, m;
 
     if (n==0) {
         goto DONE;

@@ -64,6 +64,8 @@ tf2_generic(GeMatrix<MA> &A, DenseVector<VP> &piv)
 
     const Underscore<IndexType> _;
 
+    const T  Zero(0), One(1);
+
     const IndexType m = A.numRows();
     const IndexType n = A.numCols();
 
@@ -72,13 +74,13 @@ tf2_generic(GeMatrix<MA> &A, DenseVector<VP> &piv)
 //
 //  Quick return if possible
 //
-    if ((m==0) || (n==0)) {
+    if (m==0 || n==0) {
         return info;
     }
 //
 //     Compute machine safe minimum 
 //
-    T safeMin = lamch<T>(SafeMin);
+    auto safeMin = lamch<T>(SafeMin);
 
     for (IndexType j=1; j<=min(m,n); ++j) {
 //
@@ -95,7 +97,7 @@ tf2_generic(GeMatrix<MA> &A, DenseVector<VP> &piv)
 //
         IndexType jp = j - 1 + blas::iamax(A(rows,j));
         piv(j) = jp;
-        if (A(jp, j)!=T(0)) {
+        if (A(jp,j)!=Zero) {
 //
 //          Apply the interchange to columns 1:N.
 //
@@ -107,10 +109,10 @@ tf2_generic(GeMatrix<MA> &A, DenseVector<VP> &piv)
 //
             if (j<m) {
                 if (abs(A(j,j))>=safeMin) {
-                    blas::scal(T(1)/A(j, j), A(_rows,j));
+                    blas::scal(One/A(j, j), A(_rows,j));
                 } else {
                     for (IndexType i=1; i<=m-j; ++i) {
-                        A(j+i,j) = A(j+i,j)/A(j,j);
+                        A(j+i,j) /= A(j,j);
                     }
                 }
             }
@@ -122,7 +124,9 @@ tf2_generic(GeMatrix<MA> &A, DenseVector<VP> &piv)
 //
 //      Update trailing submatrix A(j+1:M, j+1:N)
 //
-        blas::r(T(-1), A(_rows,j), A(j,_cols), A(_rows,_cols));
+        if (j<min(m,n)) {
+            blas::ru(-One, A(_rows,j), A(j,_cols), A(_rows,_cols));
+        }
     }
 
     return info;
@@ -134,23 +138,11 @@ tf2_generic(GeMatrix<MA> &A, DenseVector<VP> &piv)
 
 template <typename MA, typename VP>
 typename GeMatrix<MA>::IndexType
-tf2_native(GeMatrix<MA> &_A, DenseVector<VP> &piv)
+tf2_native(GeMatrix<MA> &A, DenseVector<VP> &piv)
 {
-    typedef typename GeMatrix<MA>::ElementType  T;
-
-    const INTEGER    M = _A.numRows();
-    const INTEGER    N = _A.numCols();
-    T               *A = _A.data();
-    const INTEGER    LDA = _A.leadingDimension();
-    INTEGER         *IPIV = piv.data();
-    INTEGER          INFO;
-
-    if (IsSame<T, DOUBLE>::value) {
-        LAPACK_IMPL(dgetf2)(&M, &N, A, &LDA, IPIV, &INFO);
-    } else {
-        ASSERT(0);
-    }
-    return INFO;
+    return cxxlapack::getf2<INTEGER>(A.numRows(), A.numCols(),
+                                     A.data(), A.leadingDimension(),
+                                     piv.data());
 }
 
 #endif // CHECK_CXXLAPACK
@@ -175,31 +167,43 @@ tf2(GeMatrix<MA> &A, DenseVector<VP> &piv)
 //
 //  Make copies of output arguments
 //
-    typename GeMatrix<MA>::NoView       _A      = A;
-    typename DenseVector<VP>::NoView    _piv    = piv;
+    typename GeMatrix<MA>::NoView       A_org      = A;
+    typename DenseVector<VP>::NoView    piv_org    = piv;
 #   endif
 
 //
 //  Call implementation
 //
+    std::cerr << "enter" << std::endl;
     IndexType info = tf2_generic(A, piv);
+    std::cerr << "leave" << std::endl;
 
 #   ifdef CHECK_CXXLAPACK
 //
+//  Make copies of results
+//
+    typename GeMatrix<MA>::NoView       A_generic      = A;
+    typename DenseVector<VP>::NoView    piv_generic    = piv;
+//
+//  Restore output arguments
+//
+    A   = A_org;
+    piv = piv_org;
+//
 //  Compare results
 //
-    IndexType _info = tf2_native(_A, _piv);
+    IndexType _info = tf2_native(A, piv);
 
     bool failed = false;
-    if (! isIdentical(A, _A, " A", "_A")) {
-        std::cerr << "CXXLAPACK:  A = " << A << std::endl;
-        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+    if (! isIdentical(A_generic, A, "A_generic", "A")) {
+        std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
+        std::cerr << "F77LAPACK: A = " << A << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(piv, _piv, " piv", "_piv")) {
-        std::cerr << "CXXLAPACK:  piv = " << piv << std::endl;
-        std::cerr << "F77LAPACK: _piv = " << _piv << std::endl;
+    if (! isIdentical(piv_generic, piv, "piv_generic", "piv")) {
+        std::cerr << "CXXLAPACK: piv_generic = " << piv_generic << std::endl;
+        std::cerr << "F77LAPACK: piv = " << piv << std::endl;
         failed = true;
     }
 
@@ -210,6 +214,7 @@ tf2(GeMatrix<MA> &A, DenseVector<VP> &piv)
     }
 
     if (failed) {
+        std::cerr << "A_org = " << A_org << std::endl;
         ASSERT(0);
     }
 #   endif

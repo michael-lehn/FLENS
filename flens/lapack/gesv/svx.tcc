@@ -439,7 +439,7 @@ svx(SVX::Fact           fact,
         failed = true;
     }
 
-    if (! isIdentical(equed_generic, equed, "equed_generic", "equed")) {
+    if (equed_generic!=equed) {
         std::cerr << "equed_org = " << equed_org << std::endl;
         std::cerr << "CXXLAPACK: equed_generic = "
                   << equed_generic << std::endl;

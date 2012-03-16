@@ -33,6 +33,8 @@
 #ifndef FLENS_LAPACK_DEBUG_ISIDENTICAL_TCC
 #define FLENS_LAPACK_DEBUG_ISIDENTICAL_TCC 1
 
+#include <complex>
+
 namespace flens { namespace lapack {
 
 template <typename X, typename Y>
@@ -40,11 +42,20 @@ bool
 isDifferent(const X &x, const Y &y)
 {
     using std::isnan;
-    
+
     if (isnan(x) && isnan(y)) {
         return false;
     }
     return x!=y;
+}
+
+template <typename X, typename Y>
+bool
+isDifferent(const std::complex<X> &x, const std::complex<Y> &y)
+{
+    using std::isnan;
+
+    return isDifferent(x.real(), y.real()) || isDifferent(x.imag(), y.imag());
 }
 
 template <typename X, typename Y>

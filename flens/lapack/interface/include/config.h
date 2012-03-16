@@ -22,7 +22,7 @@
 #define DOUBLE_COMPLEX      std::complex<double>
 #endif
 
-#include <flens/lapack/interface/include/cxxlapack.h>
+#include <flens/lapack/interface/include/clapack.h>
 #include <flens/lapack/interface/include/f77lapack.h>
 
 #ifdef LAPACK_DECL
@@ -61,6 +61,7 @@
 
 namespace flens {
 
+// matrix/vector types with DOUBLE
 typedef FullStorageView<DOUBLE, cxxblas::ColMajor>       DFSView;
 typedef ConstFullStorageView<DOUBLE, cxxblas::ColMajor>  DConstFSView;
 
@@ -73,11 +74,32 @@ typedef TrMatrix<DConstFSView>                           DConstTrMatrixView;
 typedef SyMatrix<DFSView>                                DSyMatrixView;
 typedef SyMatrix<DConstFSView>                           DConstSyMatrixView;
 
+typedef ArrayView<DOUBLE>                                DArrayView;
+typedef DenseVector<DArrayView>                          DDenseVectorView;
+
+typedef ConstArrayView<DOUBLE>                           DConstArrayView;
+typedef DenseVector<DConstArrayView>                     DConstDenseVectorView;
+
+// matrix/vector types with DOUBLE_COMPLEX
+typedef FullStorageView<DOUBLE_COMPLEX, cxxblas::ColMajor>       ZFSView;
+typedef ConstFullStorageView<DOUBLE_COMPLEX, cxxblas::ColMajor>  ZConstFSView;
+
+typedef GeMatrix<ZFSView>                                ZGeMatrixView;
+typedef GeMatrix<ZConstFSView>                           ZConstGeMatrixView;
+
+typedef ArrayView<DOUBLE_COMPLEX>                        ZArrayView;
+typedef DenseVector<ZArrayView>                          ZDenseVectorView;
+
+typedef ConstArrayView<DOUBLE_COMPLEX>                   ZConstArrayView;
+typedef DenseVector<ZConstArrayView>                     ZConstDenseVectorView;
+
+// matrix/vector types with bool
 typedef Array<bool>                                      BArray;
 typedef ArrayView<bool>                                  BArrayView;
 typedef DenseVector<BArray>                              BDenseVector;
 typedef DenseVector<BArrayView>                          BDenseVectorView;
 
+// matrix/vector types with INTEGER
 typedef Array<INTEGER>                                   IArray;
 typedef ArrayView<INTEGER>                               IArrayView;
 typedef ConstArrayView<INTEGER>                          IConstArrayView;
@@ -85,11 +107,6 @@ typedef DenseVector<IArray>                              IDenseVector;
 typedef DenseVector<IArrayView>                          IDenseVectorView;
 typedef DenseVector<IConstArrayView>                     IConstDenseVectorView;
 
-typedef ArrayView<DOUBLE>                                DArrayView;
-typedef DenseVector<DArrayView>                          DDenseVectorView;
-
-typedef ConstArrayView<DOUBLE>                           DConstArrayView;
-typedef DenseVector<DConstArrayView>                     DConstDenseVectorView;
 
 } // namespace flens
 

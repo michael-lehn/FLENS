@@ -1,0 +1,82 @@
+===================================
+Solving Systems of Linear Equations                               [TOC]
+===================================
+
+In this example we solve a system of linear equations $Ax = b$ were the
+coefficient matrix is general, i.e. not necessarily symmetric.  We solve the
+system with __lapack::sv__ which is the FLENS port of LAPACK's __dgesv__.
+
+:links:  __lapack::sv__  -> file:flens/lapack/gesv/sv.h
+         __dgesv__       -> file:flens/lapack/interface/ref_lapack/dgesv.f
+
+
+Example Code
+============
+:import: flens/examples/lapack-gesv.cc [stripped, downloadable]
+
+
+Comments on Example Code
+========================
+:import: flens/examples/lapack-gesv.cc
+
+
+Compile
+=======
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  clang++ -std=c++0x -Wall -I../.. -o lapack-gesv lapack-gesv.cc         |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Run
+===
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  ./lapack-gesv                                                          |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+Example with Complex Numbers
+============================
+
+Example Code
+------------
+:import: flens/examples/lapack-complex-gesv.cc [stripped, downloadable]
+
+
+Comments on Example Code
+------------------------
+:import: flens/examples/lapack-complex-gesv.cc
+
+
+Compile
+-------
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  clang++ -std=c++0x -Wall -I../.. -o lapack-complex-gesv             +++|
+  |          lapack-complex-gesv.cc                                         |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Run
+---
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  ./lapack-complex-gesv                                                  |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+:navigate: __up__    -> doc:flens/examples/tutorial
+           __back__  -> doc:flens/examples/tut04-page02
+           __next__  -> doc:flens/examples/tut04-page04

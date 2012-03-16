@@ -435,7 +435,7 @@ latrs_generic(Transpose             trans,
                 T xj = abs(x(j));
                 T uScale = tScale;
                 T rec = One / max(xMax, One);
-                T TjjS;
+                T TjjS = Zero;
 
                 if (cNorm(j)>(bigNum-xj)*rec) {
 //

@@ -631,10 +631,13 @@ const typename FullStorage<T, Order, I, A>::ConstArrayView
 FullStorage<T, Order, I, A>::viewDiag(IndexType d,
                                       IndexType firstViewIndex) const
 {
-    IndexType col = firstCol() + ( (d>0) ? d : 0 );
-    IndexType row = firstRow() + ( (d>0) ? 0 : -d );
+    IndexType _row = (d>0) ? 0 : -d;
+    IndexType _col = (d>0) ? d :  0;
 
-    return ConstArrayView(std::min(numRows(),numCols()) - std::abs(d),
+    IndexType row = firstRow() + _row;
+    IndexType col = firstCol() + _col;
+
+    return ConstArrayView(std::min(numRows()-_row, numCols()-_col),
                           &(this->operator()(row,col)),
                           leadingDimension()+1,
                           firstViewIndex,
@@ -646,9 +649,13 @@ typename FullStorage<T, Order, I, A>::ArrayView
 FullStorage<T, Order, I, A>::viewDiag(IndexType d,
                                       IndexType firstViewIndex)
 {
-    IndexType col = firstCol() + ( (d>0) ? d : 0 );
-    IndexType row = firstRow() + ( (d>0) ? 0 : -d );
-    return ArrayView(std::min(numRows(),numCols()) - std::abs(d),
+    IndexType _row = (d>0) ? 0 : -d;
+    IndexType _col = (d>0) ? d :  0;
+
+    IndexType row = firstRow() + _row;
+    IndexType col = firstCol() + _col;
+
+    return ArrayView(std::min(numRows()-_row, numCols()-_col),
                      &(this->operator()(row,col)),
                      leadingDimension()+1,
                      firstViewIndex,

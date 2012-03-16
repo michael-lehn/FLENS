@@ -10,7 +10,7 @@ void
 LAPACK_DECL(dgetri)(const INTEGER    *N,
                     DOUBLE           *A,
                     const INTEGER    *LDA,
-                    INTEGER          *IPIV,
+                    const INTEGER    *IPIV,
                     DOUBLE           *WORK,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO)
@@ -42,9 +42,9 @@ LAPACK_DECL(dgetri)(const INTEGER    *N,
 //
 //  Setup FLENS matrix/vector types
 //
-    DGeMatrixView       _A      = DFSView(*N, *N, A, *LDA);
-    IDenseVectorView    _IPIV   = IArrayView(*N, IPIV, 1);
-    DDenseVectorView    _WORK   = DArrayView(*LWORK, WORK, 1);
+    DGeMatrixView          _A      = DFSView(*N, *N, A, *LDA);
+    IConstDenseVectorView  _IPIV   = IConstArrayView(*N, IPIV, 1);
+    DDenseVectorView       _WORK   = DArrayView(*LWORK, WORK, 1);
 
 //
 //  Call FLENS implementation

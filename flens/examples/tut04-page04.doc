@@ -1,0 +1,135 @@
+==================================
+Eigenvalues (Non-Symmetric Matrix)                                      [TOC]
+==================================
+
+In this example we compute the eigenvalues $w \in \mathbb{C}$, left eigenvectors
+$V_L$ and right eigenvectors $V_R$ of a non-symmetric Matrix $A$.
+
+We use __lapack::ev__ which is the FLENS port of LAPACK's __dgeev__.
+
+:links:  __lapack::ev__  -> file:flens/lapack/eig/ev.h
+         __dgeev__       -> file:flens/lapack/interface/ref_lapack/dgeev.f
+
+
+Example Code
+============
+:import: flens/examples/lapack-geev.cc [stripped, downloadable]
+
+Comments on Example Code
+========================
+:import: flens/examples/lapack-geev.cc
+
+Compile
+=======
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  clang++ -std=c++0x -Wall -I../.. -o lapack-geev lapack-geev.cc         |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Run
+===
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  ./lapack-geev                                                          |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Using QD (Double-Double and Quad-Double Package)
+================================================
+The following description is taken from the __QD Library__ page:
+
+  *--[BOX]------------------------------------------------------------------*
+  |                                                                         |
+  | The __QD Library__ supports both a double-double datatype (approx. 32   |
+  | decimal digits) and a quad-double datatype (approx. 64 decimal digits). |
+  | The computational library is written in C++. Both C++ and Fortran-90    |
+  | high-level language interfaces are provided to permit one to use convert|
+  | an existing C++ or Fortran-90 program to use the library with only minor|
+  | changes to the source code. In most cases only a few type statements and|
+  | (for Fortran-90 programs) read/write statements need to be changed. PSLQ|
+  | and numerical quadrature programs are included.                         |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+:links: __QD Library__ -> http://crd-legacy.lbl.gov/~dhbailey/mpdist/
+
+
+Modified Example Code
+---------------------
+:import: flens/examples/qd-lapack-geev.cc [stripped, downloadable]
+
+Comments on Modifications
+-------------------------
+Only a few modifications were made which will be pointed out in the following:
+
+:import: flens/examples/qd-lapack-geev.cc  [brief]
+
+Compile and Run
+---------------
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  clang++ -Wall -std=c++0x -I../.. -I/opt/local/include/              +++|
+  |       -c qd-lapack-geev.cc                                              |
+  |  clang++ -o qd-lapack-getrf qd-lapack-geev.o /opt/local/lib/libqd.a     |
+  |  ./qd-lapack-geev                                                       |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Using mpfr::real (C++ Interface for mpfr)
+=========================================
+The following description is taken from the __mpfr::real__ page:
+
+  *--[BOX]------------------------------------------------------------------*
+  |                                                                         |
+  | The class __mpfr::real__ is a high-level C++ wrapper for the            |
+  | __GNU MPFR library__, _a C library for multiple-precision floating-point|
+  | computations with correct rounding_.                                    |
+  |                                                                         |
+  | The objects of `mpfr::real` can (almost) be used like doubles or other  |
+  | fundamental floating-point types, thus avoiding the use of C functions  |
+  | to manipulate `MPFR`'s low-level data type directly. In addition to     |
+  | all arithmetic and comparison operators available for fundamental       |
+  | floating-point types, `mpfr::real` also supports the set of             |
+  | mathematical functions for `double` from `math.h/cmath`.  Finally,      |
+  | `std::istream operator >>` and `std::ostream operator <<` are           |
+  | implemented for `mpfr::reals`. This allows to substitute `double` with  |
+  | `mpfr::real` with no further modifications of the code in many cases.   |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+:links:  __mpfr::real__        ->  http://chschneider.eu/programming/mpfr_real/
+         __GNU MPFR library__  ->  http://www.mpfr.org/
+
+Modified Example Code
+---------------------
+:import: flens/examples/mpfr-real-lapack-geev.cc [stripped, downloadable]
+
+Comments on Modifications
+-------------------------
+:import: flens/examples/mpfr-real-lapack-geev.cc  [brief]
+
+Compile and Run
+---------------
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  clang++ -Wall -std=c++0x -I../.. -I/opt/local/include               +++|
+  |       -o mpfr-real-lapack-geev mpfr-real-lapack-geev.cc              +++|
+  |       -L /opt/local/lib -lmpfr -lgmp                                    |
+  |  ./mpfr-real-lapack-geev                                                |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+:navigate: __up__    -> doc:flens/examples/tutorial
+           __back__  -> doc:flens/examples/tut04-page03

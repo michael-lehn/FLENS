@@ -1,0 +1,84 @@
+=============================================
+Using FLENS-BLAS through Overloaded Operators                            [TOC]
+=============================================
+
+Toy Example
+===========
+We use the same example as before, i.e. we compute $y = \beta y + \alpha\,A^T x
++ z$ where $\alpha, \beta$ are scalars, $x, y, z$ are (dense) vectors and $A$
+is a (general) matrix (with full storage).
+
+This time we just code it the natural way, i.e. as
+`y = beta*y + alpha*transpose(A)*x + z` and hope the best.
+
+However, afterwards we want to check how __FLENS-BLAS__ was internally utilized
+for the evaluation of the linear algebra expression.  We therefore log the
+evaluation.
+
+
+Example Code
+============
+:import: flens/examples/tut02-page03-example.cc [stripped, downloadable]
+
+Comments on Example Code
+========================
+:import: flens/examples/tut02-page03-example.cc [brief]
+
+
+Compile, Run and Examining the Log-File
+=======================================
+
+Compiling the code becomes slightly more complex.  But we hope the comments
+give enough glues to see what need to be done.
+
+   *--[SHELL]---------------------------------------------------------------*
+   |                                                                        |
+   |  cd flens/examples                                                     |
+   |  #                                                                     |
+   |  # cleanup old object files and compile some stuff needed for logging  |
+   |  #                                                                     |
+   |  rm -f *.o                                                             |
+   |  clang++ -Wall -DFLENS_DEBUG_CLOSURES -std=c++0x +++                   |
+   |          -I../.. -c ../../flens/debug/aux/*.cc                         |
+   |  #                                                                     |
+   |  # compile with -DFLENS_DEBUG_CLOSURES and link against the log stuff  |
+   |  #                                                                     |
+   |  clang++ -Wall -DFLENS_DEBUG_CLOSURES -std=c++0x +++                   |
+   |          -I../.. *.o tut02-page03-example.cc                           |
+   |  ./a.out                                                               |
+   |  #                                                                     |
+   |  # look what is in the log file                                        |
+   |  #                                                                     |
+   |  cat mylogfile                                                         |
+   |                                                                        |
+   *------------------------------------------------------------------------*
+
+In the log files you see a complete trace of function calls.  If you compile
+with `-DNDEBUG` instead most of these functions get inlined and only the
+functions marked with the arrows `-->` actually get called.  Not that this
+means that in *non-debug mode* the resulting code is equivalent to calling
+CXXBLAS directly.
+
+Note: The logging mechanism in FLENS gives different matrix/vector objects
+unique names.  The letter represents the matrix/vector types:
+
+   +--------+--------------------+
+   | Letter | Matrix/Vector Type |
+   +--------+--------------------+
+   | `x`    | `DenseVector`      |
+   +--------+--------------------+
+   | `A`    | `GeMatrix`         |
+   +--------+--------------------+
+   | `T`    | `TrMatrix`         |
+   +--------+--------------------+
+   | `S`    | `SyMatrix`         |
+   +--------+--------------------+
+
+Further, vectors and matrices of same type receive subsequent numbers (like in
+this example vectors receive names `x1`, `x2`, `x3`).
+
+:links: __FLENS-BLAS__  -> doc:flens/blas/blas
+
+:navigate: __up__    -> doc:flens/examples/tutorial
+           __back__  -> doc:flens/examples/tut02-page02
+           __next__  -> doc:flens/examples/tut02-page04

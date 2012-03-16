@@ -53,7 +53,7 @@ namespace flens { namespace lapack {
 //== (ge)tri ===================================================================
 template <typename MA, typename VP, typename VWORK>
     typename GeMatrix<MA>::IndexType
-    tri(GeMatrix<MA> &A, DenseVector<VP> &piv, DenseVector<VWORK> &work);
+    tri(GeMatrix<MA> &A, const DenseVector<VP> &piv, DenseVector<VWORK> &work);
 
 //== (tr)tri ===================================================================
 template <typename MA>
@@ -63,7 +63,7 @@ template <typename MA>
 //-- forwarding ----------------------------------------------------------------
 template <typename MA, typename VP, typename VWORK>
     typename MA::IndexType
-    tri(MA &&A, VP &&piv, VWORK &&work);
+    tri(MA &&A, const VP &&piv, VWORK &&work);
 
 template <typename MA>
     typename MA::IndexType

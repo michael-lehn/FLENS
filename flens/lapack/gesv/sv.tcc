@@ -173,6 +173,9 @@ sv(GeMatrix<MA> &A, DenseVector<VP> &piv, GeMatrix<MB> &B)
         std::cerr << "F77LAPACK: _info = " << _info << std::endl;
         failed = true;
     }
+    if (failed) {
+        ASSERT(0);
+    }
 
 #   endif
 

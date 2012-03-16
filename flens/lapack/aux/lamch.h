@@ -50,8 +50,24 @@
 
 namespace flens { namespace lapack {
 
+namespace LAMCH {
+
 template <typename T>
-    T
+struct Real
+{
+    typedef T Type;
+};
+
+template <typename T>
+struct Real<std::complex<T> >
+{
+    typedef T Type;
+};
+
+} // namespace LAMCH
+
+template <typename TT>
+    typename LAMCH::Real<TT>::Type
     lamch(MachineParameter machineParameter);
 
 } } // namespace lapack, flens

@@ -1,0 +1,55 @@
+==============================
+Computing the QR Factorization                                    [TOC]
+==============================
+
+In this example we compute the $QR$ factorization and use it for solving a
+system of linear equations.
+
+Consider the system of linear equations $Ax=b$.  We store the coefficient matrix
+$A$ and the right-hand side $b$ in a single matrix $Ab = (A,b)$.  We then
+compute the $QR$ factorization of $Ab$ with __lapack::qrf__ such that
+$QR = (A,b).$   Hence, we have $R = (Q^T A, Q^T b)$ where $R$ is an upper
+trapezoidal matrix and $Q^T A$ upper triangular.  We finally use the triangular
+solver __blas::sm__ to obtain the solution of $(Q^T A) x = (Q^T b)$.
+
+Function __lapack::qrf__ is the FLENS port of LAPACK's __geqrf__ and
+__blas::sm__ the port of the BLAS routine __trsm__.
+
+:links:  __lapack::qrf__  -> file:flens/lapack/qr/qrf.h
+         __geqrf__        -> file:flens/lapack/interface/ref_lapack/dgeqrf.f
+         __blas::sm__     -> file:flens/blas/level3/sm.h
+         __trsm__         -> file:flens/lapack/interface/ref_blas/dtrsm.f
+
+
+Example Code
+============
+:import: flens/examples/lapack-geqrf.cc [stripped, downloadable]
+
+Comments on Example Code
+========================
+:import: flens/examples/lapack-geqrf.cc
+
+Compile
+=======
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  clang++ -std=c++0x -Wall -I../.. -o lapack-geqrf lapack-geqrf.cc       |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Run
+===
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  ./lapack-geqrf                                                         |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+:navigate: __up__    -> doc:flens/examples/tutorial
+           __back__  -> doc:flens/examples/tut04-page01
+           __next__  -> doc:flens/examples/tut04-page03

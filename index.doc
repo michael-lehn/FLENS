@@ -36,21 +36,15 @@ Some key points
 Examples and Tutorial
 =====================
 
-As the documentation is almost not existing you don't have much to read.  This
-is what we can offer you at the moment:
-
-- Looking at examples is always a good start:
-    - Computing a __LU factorization__,
-    - computing a __QR factorization__,
-    - computing __eigenvalues and eigenvectors__,
-    - solving __systems of linear equations__.
 - Overview of all driver functions currently implemented in __FLENS-LAPACK__
 - We just started with a __tutorial__:
-    - Session 1: First steps with general matrices.
-    - Session 2: Triangular and symmetric matrices.
-    - Session 3: BLAS, CXXBLAS, FLENS-BLAS and Overloaded Operators.
-
-From the examples you also can see what compiler flags are needed.
+    - __Session 1__: General matrices and dense vectors.
+    - __Session 2__: BLAS, CXXBLAS, FLENS-BLAS and Overloaded Operators.
+    - __Session 3__: More on matrices: Triangular and symmetric matrices,
+      matrix views, ...
+    - __Session 4__: Using FLENS-LAPACK
+    - __Session 5__: Define your own matrix/vector types.
+    - __Session 6__: How to define a *kick-ass interface* for FLENS-LAPACK.
 
 
 Scope of this Branch
@@ -64,9 +58,8 @@ Scope of this Branch
 - Our generic BLAS implementation __CXXBLAS__.
 - Support for high and multipecission types from __QD Library__ and __mpfr__.
 - Support for native BLAS implementations like __ATLAS__ or __GotoBLAS__.
-- Overloaded operators for BLAS mostly work but are not well tested.
-  In FLENS-LAPACK we use the __FLENS-BLAS__ layer (e.g. blas::mv) which
-  is for the LAPACK part often more expressive.
+- __FLENS-BLAS__ and __FLENS-LAPACK__.
+- Overloaded operators for BLAS working ontop of the __FLENS-BLAS__ layer.
 - We improved our *doctool* (look at the bottom of each page for *document
   source*).  We now use *restructured text*.
 
@@ -136,23 +129,20 @@ Join the mailing __list__!
         __FLENS-BLAS__   -> doc:flens/blas/blas
         __BLAS__         -> http://www.netlib.org/blas/
         __LAPACK__       -> http://www.netlib.org/lapack/
-        __systems of linear equations__   -> doc:flens/examples/lapack-gesv
-        __LU factorization__              -> doc:flens/examples/lapack-getrf
-        __QR factorization__              -> doc:flens/examples/lapack-geqrf
-        __eigenvalues and eigenvectors__  -> doc:flens/examples/lapack-geev
-        __tutorial__    -> doc:flens/examples/tutorial
-        __GeMatrix__    -> file:flens/matrixtypes/general/impl/gematrix.h
-        __SyMatrix__    -> file:flens/matrixtypes/symmetric/impl/symatrix.h
-        __TrMatrix__    -> file:flens/matrixtypes/triangular/impl/trmatrix.h
-        __DenseVector__ -> file:flens/vectortypes/impl/densevector.h
-        __CXXBLAS__     -> dir:cxxblas/
-        __QD Library__  -> http://crd-legacy.lbl.gov/~dhbailey/mpdist
-        __mpfr__        -> http://www.mpfr.org
-        __ATLAS__       -> http://math-atlas.sourceforge.net
-        __GotoBLAS__    -> http://www.tacc.utexas.edu/tacc-projects/gotoblas2
-        __GitHub__      -> http://github.com/michael-lehn/FLENS
-        __clang__       -> http://clang.llvm.org/
-        __gcc__         -> http://gcc.gnu.org/
-        __icc__         -> http://software.intel.com/en-us/articles/intel-compilers/
-        __list__        -> https://imap.uni-ulm.de/lists/info/flens
+        __tutorial__     -> doc:flens/examples/tutorial
+        __Session (\d)__ -> doc:flens/examples/tutorial#$1
+        __GeMatrix__     -> file:flens/matrixtypes/general/impl/gematrix.h
+        __SyMatrix__     -> file:flens/matrixtypes/symmetric/impl/symatrix.h
+        __TrMatrix__     -> file:flens/matrixtypes/triangular/impl/trmatrix.h
+        __DenseVector__  -> file:flens/vectortypes/impl/densevector.h
+        __CXXBLAS__      -> dir:cxxblas/
+        __QD Library__   -> http://crd-legacy.lbl.gov/~dhbailey/mpdist
+        __mpfr__         -> http://www.mpfr.org
+        __ATLAS__        -> http://math-atlas.sourceforge.net
+        __GotoBLAS__     -> http://www.tacc.utexas.edu/tacc-projects/gotoblas2
+        __GitHub__       -> http://github.com/michael-lehn/FLENS
+        __clang__        -> http://clang.llvm.org/
+        __gcc__          -> http://gcc.gnu.org/
+        __icc__          -> http://software.intel.com/en-us/articles/intel-compilers/
+        __list__         -> https://imap.uni-ulm.de/lists/info/flens
 

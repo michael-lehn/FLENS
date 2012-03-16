@@ -135,4 +135,8 @@
 #include <flens/lapack/svd/svj0.tcc>
 #include <flens/lapack/svd/svj1.tcc>
 
+#if defined CHECK_CXXLAPACK || defined USE_NATIVE_ILAENV
+#   include <flens/lapack/interface/include/cxxlapack.tcc>
+#endif
+
 #endif // FLENS_LAPACK_LAPACK_TCC

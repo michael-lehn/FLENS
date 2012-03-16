@@ -44,6 +44,14 @@ template <typename ALPHA, typename VX, typename VY, typename MA>
     void
     r(const ALPHA &alpha, const VX &x, const VY &y, MA &&A);
 
+template <typename ALPHA, typename VX, typename VY, typename MA>
+    void
+    ru(const ALPHA &alpha, const VX &x, const VY &y, MA &&A);
+
+template <typename ALPHA, typename VX, typename VY, typename MA>
+    void
+    rc(const ALPHA &alpha, const VX &x, const VY &y, MA &&A);
+
 //-- GeMatrix, DenseVector -----------------------------------------------------
 
 //-- ger
@@ -52,6 +60,18 @@ template <typename ALPHA, typename VX, typename VY, typename MA>
     r(const ALPHA &alpha,
       const DenseVector<VX> &x, const DenseVector<VY> &y,
       GeMatrix<MA> &A);
+
+template <typename ALPHA, typename VX, typename VY, typename MA>
+    void
+    ru(const ALPHA &alpha,
+       const DenseVector<VX> &x, const DenseVector<VY> &y,
+       GeMatrix<MA> &A);
+
+template <typename ALPHA, typename VX, typename VY, typename MA>
+    void
+    rc(const ALPHA &alpha,
+       const DenseVector<VX> &x, const DenseVector<VY> &y,
+       GeMatrix<MA> &A);
 
 } } // namespace blas, flens
 

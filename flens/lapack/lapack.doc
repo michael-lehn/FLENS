@@ -3,8 +3,8 @@ FLENS-LAPACK Implementation                                             [TOC]
 ===========================
 
 At the moment we are working on a C++ port of __LAPACK__.  *Sound tedious?  It
-is a joy with FLENS*!  This is because gives you the right tools to get the
-job done.  These are the matrix/vector types and the high-level BLAS interface.
+is a joy with FLENS*!  This is because FLENS gives you easy-to-use tools for
+implementing efficient, robust and reliable numerical software.
 
 :links:  __LAPACK__ -> http://www.netlib.org/lapack/
 
@@ -158,9 +158,10 @@ Linear Equation Routines
  |          |           | matrix, using the $LU$ factorization.  |            |
  +----------+-----------+----------------------------------------+------------+
 
-:links: __(lapack-.+)__ -> doc:flens/examples/$1
-        __(d.+)__       -> file:flens/lapack/interface/ref_lapack/$1.f
-        __(.+)__        -> file:flens/lapack/gesv/$1.h
+:links: __lapack-gesv__  -> doc:flens/examples/tut04-page03
+        __lapack-getrf__ -> doc:flens/examples/tut04-page01
+        __(d.+)__        -> file:flens/lapack/interface/ref_lapack/$1.f
+        __(.+)__         -> file:flens/lapack/gesv/$1.h
 
 
 Orthogonal Factorizations
@@ -183,10 +184,10 @@ Orthogonal Factorizations
  |           | matrix from a $QR$ factorization.              |               |
  +-----------+------------------------------------------------+---------------+
 
-:links: __(lapack-.+)__ -> doc:flens/examples/$1
-        __(d.*)\[1\]__  -> file:flens/lapack/test/LIN/$1.f
-        __(d.*)__       -> file:flens/lapack/interface/ref_lapack/$1.f
-        __(.*)__        -> file:flens/lapack/qr/$1.h
+:links: __lapack-geqrf__ -> doc:flens/examples/tut04-page02
+        __(d.*)\[1\]__   -> file:flens/lapack/test/LIN/$1.f
+        __(d.*)__        -> file:flens/lapack/interface/ref_lapack/$1.f
+        __(.*)__         -> file:flens/lapack/qr/$1.h
 
 
 Non-Symmetric Eigenvalue Routines
@@ -230,9 +231,9 @@ Non-Symmetric Eigenvalue Routines
  |           | from a reduction to Hessenberg form.              |            |
  +-----------+---------------------------------------------------+------------+
 
-:links: __(lapack-.+)__ -> doc:flens/examples/$1
-        __(d.*)__  -> file:flens/lapack/interface/ref_lapack/$1.f
-        __(.*)__   -> file:flens/lapack/eig/$1.h
+:links: __lapack-geev__ -> doc:flens/examples/tut04-page04
+        __(d.*)__       -> file:flens/lapack/interface/ref_lapack/$1.f
+        __(.*)__        -> file:flens/lapack/eig/$1.h
 
 
 Todo
