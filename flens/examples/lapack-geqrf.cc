@@ -68,6 +68,6 @@ main()
 
 ///
 ///  :links: __lapack::qrf__ -> file:flens/lapack/qr/qrf.h
-///          __geqrf__        -> file:cxxlapack/netlib/src/dgeqrf.f
-///          __blas::sm__ -> file:flens/blas/level3/sm.h
+///          __dgeqrf__      -> file:cxxlapack/netlib/src/dgeqrf.f
+///          __blas::sm__    -> file:flens/blas/level3/sm.h
 ///
