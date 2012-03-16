@@ -1,30 +1,185 @@
-=======================================
-Matrix Views (Referencing Matrix Parts)                                 [TOC]
-=======================================
-Referencing matrix parts and using these parts like regular matrices is a
-common need in numerical software development.  In FLENS we call references
-to matrix parts _views_.  You can use a matrix view like a normal matrix.  The
-only difference is that when you create a matrix view no extra memory gets
-allocated.
+============
+Matrix Views                                                            [TOC]
+============
 
+Matrix Views Referencing Matrix Parts
+=====================================
+If you have setup a general matrix then you can use matrix views to reference
+matrix parts.  Matrix views act like references in C++.  Just like you can have
+_constant references_ and _non-constant references_ in C++ you can have
+_constant matrix views_ and _non-constant matrix views_.
 
 Example Code
-============
-:import: flens/examples/tut01-page03-example.cc [stripped, downloadable]
+------------
+:import: flens/examples/tut01-page03-example01.cc [stripped, downloadable]
 
 Comments on Example Code
-========================
-:import: flens/examples/tut01-page03-example.cc [brief]
+------------------------
+:import: flens/examples/tut01-page03-example01.cc [brief]
 
 Compile and Run
-===============
+---------------
 
    *--[SHELL]---------------------------------------------------------------*
    |                                                                        |
    |  cd flens/examples                                                     |
-   |  clang++ -Wall -std=c++0x -I../.. tut01-page03-example.cc              |
+   |  clang++ -Wall -std=c++0x -I../.. tut01-page03-example01.cc            |
    |  ./a.out                                                               |
    |                                                                        |
    *------------------------------------------------------------------------*
+
+
+Creating a Matrix View from a C-Array                                   [TOC]
+=======================================
+If you have a plain C-array you can create a matrix view that references this
+C-array.  That means you wrap the C-array into a FLENS matrix without copying
+any data.  This trick is essential for interfacing FLENS with other libraries.
+
+Example Code
+------------
+:import: flens/examples/tut01-page03-example02.cc [stripped, downloadable]
+
+Comments on Example Code
+------------------------
+:import: flens/examples/tut01-page03-example02.cc [brief]
+
+Compile and Run
+---------------
+
+   *--[SHELL]---------------------------------------------------------------*
+   |                                                                        |
+   |  cd flens/examples                                                     |
+   |  clang++ -Wall -std=c++0x -I../.. tut01-page03-example02.cc            |
+   |  ./a.out                                                               |
+   |                                                                        |
+   *------------------------------------------------------------------------*
+
+
+More on Matrix View Types
+=========================
+You saw that there are different ways to define a matrix view types
+
+- Get the matrix view types through typedefs in `GeMatrix`, e.g. by
+  `GeMatrix<MA>::View` or `GeMatrix<MA>::ConstView` were `MA` denotes
+  some full storage scheme.
+
+  *--[CODE]----------------------------------------------------------------*
+  |                                                                        |
+  |  typedef FullStorage<double, ColMajor>  MA;                            |
+  |  typedef GeMatrix<MA>             NoView;                              |
+  |                                                                        |
+  |  typedef GeMatrix<MA>::NoView     AlsoNoView;                          |
+  |  typedef GeMatrix<MA>::View       View;                                |
+  |  typedef GeMatrix<MA>::ConstView  ConstView;                           |
+  |                                                                        |
+  *------------------------------------------------------------------------*
+
+  *Note* that `NoView` and `AlsoNoView` are identical.
+
+- You can achieve the same by directly defining different storage types for
+  `GeMatrix`:
+
+  *--[CODE]----------------------------------------------------------------*
+  |                                                                        |
+  |  typedef FullStorage<double, ColMajor>           MA;                   |
+  |  typedef FullStorageView<double, ColMajor>       MAView;               |
+  |  typedef CosntFullStorageView<double, ColMajor>  MAConstView;          |
+  |                                                                        |
+  |  typedef GeMatrix<MA>           NoView;                                |
+  |  typedef GeMatrix<MAView>       View;                                  |
+  |  typedef GeMatrix<MAConstView>  ConstView;                             |
+  |                                                                        |
+  *------------------------------------------------------------------------*
+
+- As you can see: (Regular) matrices, matrix views and const matrix views are
+  just `GeMatrix` types with different stroage schemes:
+
+   - `FullStorage` is a storage scheme that actually allocates memory in its
+     constructor and releases it in its destructor.
+   - `FullStorageView` does not allocate or release memory but besides that acts
+     like `FullStorage` and
+   - `ConstFullStorage` acts like `FullStorageView` but only provides read-only
+     methods and operators.
+
+- In an assignment
+
+  *--[CODE]----------------------------------------------------------------*
+  |                                                                        |
+  | A = B;                                                                 |
+  |                                                                        |
+  *------------------------------------------------------------------------*
+
+  (were `A` and `B` are general matrices) data gets always copied (except `A`
+  and `B` are identical objects).  More precise, the memory referenced by `B`
+  gets copied to the memory referenced by `A`.  Again, this is analogously to
+  references in C++.
+
+- If you create a matrix view from an object `A` of type `GeMatrix<MA>` it will
+  either be of type `GeMatrix<MA>::View` or `GeMatrix<MA>::NoView`:
+
+   - If `A` is in const context any matrix view created from it will be of type
+     `GeMatrix<MA>::ConstView`.
+   - If `A` is in non-const context any matrix view created from it will be of
+     type `GeMatrix<MA>::View`.
+
+  *Attention*:  If a const matrix view is in non-const context and you create
+  a view from it it would be a non-const matrix view.  Obviously this would
+  not make sense and give you a compile time error.  We give an example for
+  this below and also show how to prevent such a problem.
+
+Using the `auto` keyword
+------------------------
+The `auto` keyword can make it easier to work with the matrix views.  This is
+because it can save typing.  However, you should always know what view type
+gets actually represented through an `auto` type.
+
+:import: flens/examples/tut01-page03-example03.cc [stripped, downloadable]
+
+Comments on the Code
+--------------------
+:import: flens/examples/tut01-page03-example03.cc [brief]
+
+Compile and Run
+---------------
+
+   *--[SHELL]---------------------------------------------------------------*
+   |                                                                        |
+   |  cd flens/examples                                                     |
+   |  clang++ -Wall -std=c++0x -I../.. tut01-page03-example03.cc            |
+   |  ./a.out                                                               |
+   |                                                                        |
+   *------------------------------------------------------------------------*
+
+
+More on `auto` and Const Context
+================================
+*In a shot*:  Always make sure that a const matrix view is in const context.
+
+Example Code
+------------
+:import: flens/examples/tut01-page03-example04.cc [stripped, downloadable]
+
+Comments on the Code
+--------------------
+:import: flens/examples/tut01-page03-example04.cc [brief]
+
+Compile and Analyze Compile Error
+---------------------------------
+
+   *--[SHELL]---------------------------------------------------------------*
+   |                                                                        |
+   |  cd flens/examples                                                     |
+   |  clang++ -Wall -std=c++0x -I../.. tut01-page03-example04.cc            |
+   |  ./a.out                                                               |
+   |                                                                        |
+   *------------------------------------------------------------------------*
+
+So the very first error message basically says that a conversion from
+`ConstFullStorageView` to `FullStorageView` (aka `GeMatrix::View`) would be
+required.
+
+:navigate: __up__    -> doc:flens/examples/tutorial
+           __back__  -> doc:flens/examples/tut01-page02
+           __next__  -> doc:flens/examples/tut01-page04
 
 

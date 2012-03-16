@@ -24,4 +24,6 @@ Compile and Run
    |                                                                        |
    *------------------------------------------------------------------------*
 
-
+:navigate: __up__    -> doc:flens/examples/tutorial
+           __back__  -> doc:flens/examples/tut01-page01
+           __next__  -> doc:flens/examples/tut01-page03

@@ -1,6 +1,26 @@
 ===========
 First Steps                                                             [TOC]
 ===========
+
+The term *general matrix* refers to a matrix that is not necessarily square or
+symmetric.  Further, *full storage* denotes that all $mn$ elements of a
+$m \times n$ matrix get stored.
+ - FLENS realizes this matrix type in class __GeMatrix__.
+ - For the full storage scheme there are three classes
+     - __FullStorage__,
+     - __FullStorageView__ and
+     - __ConstFullStorageView__.
+   The different storage schemes are used for providing matrix views (see below)
+   and ensure const correctness. In short one can say `View` means that no
+   memory gets allocated and `Const` that only read-access is granted.
+
+For *dense vectors* FLENS defines the
+ - class __DenseVector__ and
+ - corresponding storage schemes
+     - __Array__, 
+     - __ArrayView__ and
+     - __ConstArrayView__.
+
 In a first example we allocate and initialize a general matrix and play around
 with it.
 
@@ -23,4 +43,15 @@ Compile and Run
    |                                                                        |
    *------------------------------------------------------------------------*
 
+:links: __GeMatrix__        -> file:flens/matrixtypes/general/impl/gematrix.h
+        __FullStorage__     -> file:flens/storage/fullstorage/fullstorage.h
+        __FullStorageView__ -> file:flens/storage/fullstorage/fullstorageview.h
+        __ConstFullStorageView__ -> file:flens/storage/fullstorage/constfullstorageview.h
+        __DenseVector__     -> file:flens/vectortypes/impl/densevector.h
+        __Array__           -> file:flens/storage/array/array.h
+        __ArrayView__       -> file:flens/storage/array/arrayview.h
+        __ConstArrayView__  -> file:flens/storage/array/constarrayview.h
 
+
+:navigate: __up__    -> doc:flens/examples/tutorial
+           __next__  -> doc:flens/examples/tut01-page02

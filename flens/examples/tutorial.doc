@@ -2,98 +2,106 @@
 Tutorial                                                                [TOC]
 ========
 
-Looking how some common tasks get done gives you a good impression of the
-capabilities of FLENS.  All examples are commented and downloadable.
+FLENS has many great features.  Looking through all the examples given in
+this tutorial should give you a first impression and a quick start.
+
+More tutorials are on the way ...
+
+... so stay tuned.
 
 
 Session: General Matrix with Full Storage
 =========================================
 
-The term *general matrix* refers to a matrix that is not necessarily square or
-symmetric.  Further, *full storage* denotes that all $mn$ elements of a
-$m \times n$ matrix get stored.
- - FLENS realizes this matrix type  in class __GeMatrix__.
- - For the full storage scheme there are three classes
-     - __FullStorage__,
-     - __FullStorageView__ and
-     - __ConstFullStorageView__.
-   The different storage schemes are used for providing matrix views (see below)
-   and ensure const correctness. In short one can say `View` means that no
-   memory gets allocated and `Const` that only read-access is granted.
-
-For a first impression on how to use the __GeMatrix__ type have a look at the
-following pages:
-
  *--[BOX]--------------------------------------------------------------------*
  |                                                                           |
  |                                                                           |
- |    - __Page 1__: We show how to allocate and initialize a general         |
- |      matrix.                                                              |
- |    - __Page 2__: Shows how to change the default index base (which        |
- |      is like in math One).                                                |
- |    - __Page 3__: Introduction of our matrix views.  These are             |
- |      references of matrix parts.                                          |
- |    - __Page 4__: Finally we show how you can create a FLENS               |
- |      matrix(view) from an existing C-array.  The C-array only gets        |
- |      referenced not copied.  This is very useful for interfacing with     |
- |      other libraries.                                                     |
+ |  - __Page 1__: We show how to allocate and initialize a general matrix.   |
+ |  - __Page 2__: Shows how to change the default index base which is One.   |
+ |  - __Page 3__: We introduce the concept of matrix views.  Matrix views    |
+ |    can be used to reference other matrix parts.  Furthermore it allows    |
+ |    the creation of a FLENS matrix(view) from an existing C-array          |
+ |    copying the C-array. The latter is very useful for interfacing with    |
+ |    other libraries.                                                       |
+ |  - __Page 4__: We introduce dense vectors.                                |
  |                                                                           |
  *---------------------------------------------------------------------------*
 
-:links: __GeMatrix__    -> file:flens/matrixtypes/general/impl/gematrix.h
-        __FullStorage__ -> file:flens/storage/fullstorage/fullstorage.h
-        __FullStorageView__ -> file:flens/storage/fullstorage/fullstorageview.h
-        __ConstFullStorageView__ -> file:flens/storage/fullstorage/constfullstorageview.h
-        __Page (\d)__   -> doc:flens/examples/tut01-page0$1
-
-
-Session: Symmetric and Triangular Matrices with Full Storage
-============================================================
-
-Why would anybody want to use a full storage scheme for triangular or symmetric
-matrices?
-
-Only half the elements need to be stored!  So don't waste memory!
-
-Well, triangular and symmetric matrices with a full storage scheme are often
-matrix views that reference the upper or lower triangular part of a general
-matrix.  Just think of solving systems of linear equations.
-
- *--[BOX]--------------------------------------------------------------------*
- |                                                                           |
- |    - __Page 1__: We show how to create triangular and symmetric views     |
- |      from a general matrix.                                               |
- |                                                                           |
- *---------------------------------------------------------------------------*
-
-Of course the is also need for triangular and symmetric matrices that are
-stored more compactly.  For example, the *packed storage* format stores only
-the upper or lower half compact in memory.  At the moment the packed format
-waits to get ported from previous FLENS releases.
-
-:links: __Page (\d)__   -> doc:flens/examples/tut02-page0$1
+:links: __Page (\d)__       -> doc:flens/examples/tut01-page0$1
 
 
 Session:  BLAS, CXXBLAS, FLENS-BLAS and Overloaded Operators
 ============================================================
 
-
  *--[BOX]--------------------------------------------------------------------*
  |                                                                           |
- |    - __Page 1__: Using __CXXBLAS__ directly.  CXXBLAS provides a generic  |
- |      BLAS implementation but also can serve as a interface to high        |
- |      performance BLAS implementations.                                    |
- |    - __Page 2__: Using __FLENS-BLAS__ which is a high-level interface to  |
- |      CXXBLAS.                                                             |
- |    - __Page 3__: Using overloaded operators for BLAS operations.  This    |
- |      is an even higher-level BLAS interface.  FLENS has some nice feature |
- |      that allows logging how BLAS actually gets used for the evaluation   |
- |      of complex linear algebra operations.                                |
- |    - __Page 4__: How FLENS helps you avoiding the creation of temporaries |
- |      when evaluation linear algebra expressions.                          |
+ |  - __Page 1__: Using __CXXBLAS__ directly.  CXXBLAS provides a generic    |
+ |    BLAS implementation but also can serve as a interface to high          |
+ |    performance BLAS implementations.                                      |
+ |  - __Page 2__: Using __FLENS-BLAS__ which is a high-level interface to    |
+ |    CXXBLAS.                                                               |
+ |  - __Page 3__: Using overloaded operators for BLAS operations.  This is   |
+ |    an even higher-level BLAS interface.  FLENS has some nice feature that |
+ |    allows logging how BLAS actually gets used for the evaluation of       |
+ |    complex linear algebra operations.                                     |
+ |  - __Page 4__: How FLENS helps you avoiding the creation of temporaries   |
+ |    when evaluation linear algebra expressions.                            |
  |                                                                           |
  *---------------------------------------------------------------------------*
 
-:links: __Page (\d)__   -> doc:flens/examples/tut03-page0$1
+:links: __Page (\d)__   -> doc:flens/examples/tut02-page0$1
         __CXXBLAS__     -> dir:cxxblas/
         __FLENS-BLAS__  -> doc:flens/blas/blas
+
+
+Session: Symmetric and Triangular Matrices with Full Storage
+============================================================
+
+ *--[BOX]--------------------------------------------------------------------*
+ |                                                                           |
+ |  - __Page 1__: We show how to create triangular and symmetric views from  |
+ |    a general matrix.                                                      |
+ |                                                                           |
+ *---------------------------------------------------------------------------*
+
+:links: __Page (\d)__     -> doc:flens/examples/tut03-page0$1
+
+
+Session: FLENS-LAPACK
+=====================
+
+ *--[BOX]--------------------------------------------------------------------*
+ |                                                                           |
+ |  - __Page 1__: Computing a LU factorization.                              |
+ |  - __Page 2__: Computing a QR factorization.                              |
+ |  - __Page 3__: Solving systems of linear equations.                       |
+ |  - __Page 4__: Computing eigenvalues and eigenvectors.                    |
+ |                                                                           |
+ *---------------------------------------------------------------------------*
+
+:links: __Page (\d)__     -> doc:flens/examples/tut04-page0$1
+
+
+Session: Define your own Matrix/Vector Types
+============================================
+
+ *--[BOX]--------------------------------------------------------------------*
+ |                                                                           |
+ |  - __Page 1__: Permutation Matrix.                                        |
+ |  - __Page 2__: Matrix representing a (discrete) differential operator.    |
+ |                                                                           |
+ *---------------------------------------------------------------------------*
+
+:links: __Page (\d)__     -> doc:flens/examples/tut05-page0$1
+
+Session: Kick-Ass Interface for FLENS-LAPACK
+============================================
+
+ *--[BOX]--------------------------------------------------------------------*
+ |                                                                           |
+ |  - __Page 1__: LU Factorization `tupel(P,L,U) = lu(A)`                    |
+ |                                                                           |
+ *---------------------------------------------------------------------------*
+
+:links: __Page (\d)__     -> doc:flens/examples/tut06-page0$1
+

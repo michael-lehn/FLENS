@@ -1,37 +1,28 @@
-=============
-Using CXXBLAS
-=============
+===================================
+It All Starts With a General Matrix
+===================================
 
-FLENS matrix/vector types make iteraction with BLAS easy as you have access
-to
+In this session we introduce matrix types
+ - __SyMatrix__ and
+ - __TrMatrix__.
 
-- matrix/vector dimensions,
-- storage order,
-- leading dimensions and strides and
-- data pointers.
+Like the __GeMatrix__ type these matrix types use a *full storage* scheme for
+storing their elements.  Often you start we a __GeMatrix__ and then create
+*triangular views* or *symmetric views*.  Such an task often arises in the
+implementation of numerical algorithms. For example, in __FLENS-LAPACK__ this
+is a often used feature of FLENS.
 
-In addition __CXXBLAS__ makes it easy to reuse the same code for different
-element types like `float`, `double`, `std::complex<float>`,
-`std::complex<double>` or any other type that "can be used like a `double`",
-i.e. relevant operators (e.g. `+`, `*`, ...) are overloaded.
-
-Toy Example
-===========
-Assume you want to compute $y = \beta y + \alpha\,A^T x + z$ where $\alpha,
-\beta$ are scalars, $x, y, z$ are (dense) vectors and $A$ is a (general) matrix
-(with full storage).
-
-Using CXXBLAS for this task you will first call __gemv__ and subsequently
-__axpy__.
 
 Example Code
 ============
+We setup some general matrix and then create triangular and symmetric matric
+views that reference the upper or lower part.
+
 :import: flens/examples/tut03-page01-example.cc [stripped, downloadable]
 
 Comments on Example Code
 ========================
 :import: flens/examples/tut03-page01-example.cc [brief]
-
 
 Compile and Run
 ===============
@@ -44,7 +35,9 @@ Compile and Run
    |                                                                        |
    *------------------------------------------------------------------------*
 
+:links: __GeMatrix__      -> file:flens/matrixtypes/general/impl/gematrix.h
+        __SyMatrix__      -> file:flens/matrixtypes/symmetric/impl/symatrix.h
+        __TrMatrix__      -> file:flens/matrixtypes/triangular/impl/trmatrix.h
+        __FLENS-LAPACK__  -> doc:flens/lapack/lapack
 
-:links: __CXXBLAS__  -> dir:cxxblas/
-        __axpy__     -> file:cxxblas/level1/axpy.h
-        __gemv__     -> file:cxxblas/level2/gemv.h
+:navigate: __up__    -> doc:flens/examples/tutorial

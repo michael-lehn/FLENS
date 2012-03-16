@@ -7,38 +7,39 @@ using namespace std;
 int
 main()
 {
-    typedef double                               T;
-    typedef DenseVector<Array<T> >               DEVector;
-    typedef GeMatrix<FullStorage<T, ColMajor> >  GEMatrix;
+    typedef GeMatrix<FullStorage<double, ColMajor> >  GEMatrix;
 
-    const T  alpha = 1.5,
-             beta = 2.5;
+    GEMatrix A(4,4);
+    A = 1, 2, 3,  4,
+        5, 6, 7,  8,
+        9, 8, 7,  6,
+        5, 4, 3, 20;
 
-    DEVector x(3), y(3), z(3);
-    x = 1, 2, 3;
-    y = 2, 3, 4;
-    z = 3, 4, 5;
-
-    GEMatrix A(3,3);
-    A = 1, 2, 3,
-        5, 6, 7,
-        5, 4, 3;
+    cout << "A = " << A << endl;
 
     ///
-    /// Compute $y = \beta y + \alpha A^T x$
+    ///  ...
     ///
-    cxxblas::gemv(A.order(), Trans, A.numRows(), A.numCols(),
-                  alpha, A.data(), A.leadingDimension(),
-                  x.data(), x.stride(),
-                  beta,
-                  y.data(), y.stride());
+    auto U = A.upper();
+    cout << "U = " << U << endl;
 
     ///
-    /// Compute the update $y = y + z$
+    ///  ...
     ///
-    cxxblas::axpy(y.length(), T(1), z.data(), z.stride(), y.data(), y.stride());
+    auto SU = U.symmetric();
+    cout << "SU = " << SU << endl;
 
-    cout << "y = " << y << endl;
+    ///
+    ///  ...
+    ///
+    auto SL = A.lower().symmetric();
+    cout << "SL = " << SL << endl;
+
+    ///
+    ///  ...
+    ///
+    auto L = A.lowerUnit();
+    cout << "L = " << L << endl;
 
     return 0;
 }
