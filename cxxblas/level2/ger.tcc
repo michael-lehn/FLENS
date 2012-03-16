@@ -41,6 +41,31 @@ namespace cxxblas {
 template <typename IndexType, typename ALPHA, typename VX, typename VY,
           typename MA>
 void
+geru_generic(StorageOrder order,
+             IndexType m, IndexType n,
+             const ALPHA &alpha,
+             const VX *x, IndexType incX,
+             const VY *y, IndexType incY,
+             MA *A, IndexType ldA)
+{
+    CXXBLAS_DEBUG_OUT("geru_generic");
+    if (order==ColMajor) {
+        geru_generic(RowMajor, n, m,
+                     alpha, y, incY, x, incX,
+                     A, ldA);
+        return;
+    }
+    #ifdef CXXBLAS_USE_XERBLA
+        // insert error check here
+    #endif
+    for (IndexType i=0, iX=0; i<m; ++i, iX+=incX) {
+        axpy_generic(n, alpha*x[iX], y, incY, A+i*ldA, IndexType(1));
+    }
+}
+
+template <typename IndexType, typename ALPHA, typename VX, typename VY,
+          typename MA>
+void
 gerc_generic(StorageOrder order, Transpose conjugateA,
              IndexType m, IndexType n,
              const ALPHA &alpha,
@@ -72,32 +97,39 @@ gerc_generic(StorageOrder order, Transpose conjugateA,
     }
 }
 
+//------------------------------------------------------------------------------
+
 template <typename IndexType, typename ALPHA, typename VX, typename VY,
           typename MA>
 void
-geru_generic(StorageOrder order,
-             IndexType m, IndexType n,
-             const ALPHA &alpha,
-             const VX *x, IndexType incX,
-             const VY *y, IndexType incY,
-             MA *A, IndexType ldA)
+ger(StorageOrder order,
+    IndexType m, IndexType n,
+    const ALPHA &alpha,
+    const VX *x, IndexType incX,
+    const VY *y, IndexType incY,
+    MA *A, IndexType ldA)
 {
-    CXXBLAS_DEBUG_OUT("geru_generic");
-    if (order==ColMajor) {
-        geru_generic(RowMajor, n, m,
-                     alpha, y, incY, x, incX,
-                     A, ldA);
-        return;
-    }
-    #ifdef CXXBLAS_USE_XERBLA
-        // insert error check here
-    #endif
-    for (IndexType i=0, iX=0; i<m; ++i, iX+=incX) {
-        axpy_generic(n, alpha*x[iX], y, incY, A+i*ldA, IndexType(1));
-    }
+    geru(order, m, n, alpha, x, incX, y, incY, A, ldA);
 }
 
-//------------------------------------------------------------------------------
+template <typename IndexType, typename ALPHA, typename VX, typename VY,
+          typename MA>
+void
+geru(StorageOrder order,
+     IndexType m, IndexType n,
+     const ALPHA &alpha,
+     const VX *x, IndexType incX,
+     const VY *y, IndexType incY,
+     MA *A, IndexType ldA)
+{
+    if (incX<0) {
+        x -= incX*(m-1);
+    }
+    if (incY<0) {
+        y -= incY*(n-1);
+    }
+    geru_generic(order, m, n, alpha, x, incX, y, incY, A, ldA);
+}
 
 template <typename IndexType, typename ALPHA, typename VX, typename VY,
           typename MA>
@@ -118,38 +150,6 @@ gerc(StorageOrder order,
         y -= incY*(n-1);
     }
     gerc_generic(order, NoTrans, m, n, alpha, x, incX, y, incY, A, ldA);
-}
-
-template <typename IndexType, typename ALPHA, typename VX, typename VY,
-          typename MA>
-void
-ger(StorageOrder order,
-    IndexType m, IndexType n,
-    const ALPHA &alpha,
-    const VX *x, IndexType incX,
-    const VY *y, IndexType incY,
-    MA *A, IndexType ldA)
-{
-    gerc(order, m, n, alpha, x, incX, y, incY, A, ldA);
-}
-
-template <typename IndexType, typename ALPHA, typename VX, typename VY,
-          typename MA>
-void
-geru(StorageOrder order,
-     IndexType m, IndexType n,
-     const ALPHA &alpha,
-     const VX *x, IndexType incX,
-     const VY *y, IndexType incY,
-     MA *A, IndexType ldA)
-{
-    if (incX<0) {
-        x -= incX*(m-1);
-    }
-    if (incY<0) {
-        y -= incY*(n-1);
-    }
-    geru_generic(order, m, n, alpha, x, incX, y, incY, A, ldA);
 }
 
 #ifdef HAVE_CBLAS
@@ -192,6 +192,86 @@ ger(StorageOrder order,
                x, incX,
                y, incY,
                A, ldA);
+}
+
+// cgeru
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+geru(StorageOrder order,
+     IndexType m, IndexType n,
+     const ComplexFloat &alpha,
+     const ComplexFloat *x, IndexType incX,
+     const ComplexFloat *y, IndexType incY,
+     ComplexFloat *A, IndexType ldA)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_cgeru");
+
+    cblas_cgeru(CBLAS::getCblasType(order),
+                m, n,
+                reinterpret_cast<const float *>(&alpha),
+                reinterpret_cast<const float *>(x), incX,
+                reinterpret_cast<const float *>(y), incY,
+                reinterpret_cast<float *>(A), ldA);
+}
+
+// zgeru
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+geru(StorageOrder order,
+     IndexType m, IndexType n,
+     const ComplexDouble &alpha,
+     const ComplexDouble *x, IndexType incX,
+     const ComplexDouble *y, IndexType incY,
+     ComplexDouble *A, IndexType ldA)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zgeru");
+
+    cblas_zgeru(CBLAS::getCblasType(order),
+                m, n,
+                reinterpret_cast<const double *>(&alpha),
+                reinterpret_cast<const double *>(x), incX,
+                reinterpret_cast<const double *>(y), incY,
+                reinterpret_cast<double *>(A), ldA);
+}
+
+// cgerc
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+gerc(StorageOrder order,
+     IndexType m, IndexType n,
+     const ComplexFloat &alpha,
+     const ComplexFloat *x, IndexType incX,
+     const ComplexFloat *y, IndexType incY,
+     ComplexFloat *A, IndexType ldA)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_cgerc");
+
+    cblas_cgerc(CBLAS::getCblasType(order),
+                m, n,
+                reinterpret_cast<const float *>(&alpha),
+                reinterpret_cast<const float *>(x), incX,
+                reinterpret_cast<const float *>(y), incY,
+                reinterpret_cast<float *>(A), ldA);
+}
+
+// zgerc
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+gerc(StorageOrder order,
+     IndexType m, IndexType n,
+     const ComplexDouble &alpha,
+     const ComplexDouble *x, IndexType incX,
+     const ComplexDouble *y, IndexType incY,
+     ComplexDouble *A, IndexType ldA)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zgerc");
+
+    cblas_zgerc(CBLAS::getCblasType(order),
+                m, n,
+                reinterpret_cast<const double *>(&alpha),
+                reinterpret_cast<const double *>(x), incX,
+                reinterpret_cast<const double *>(y), incY,
+                reinterpret_cast<double *>(A), ldA);
 }
 
 #endif // HAVE_CBLAS

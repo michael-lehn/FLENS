@@ -40,6 +40,8 @@
 #   include <cxxblas/drivers/gotoblas.h>
 #elif defined (WITH_VECLIB)
 #   include <cxxblas/drivers/veclib.h>
+#elif defined (WITH_MKLBLAS)
+#   include <cxxblas/drivers/mklblas.h>
 #elif defined (WITH_REFBLAS)
 #   include <cxxblas/drivers/refblas.h>
 #endif
@@ -98,7 +100,7 @@ struct RestrictTo
 };
 
 template <typename T>
-struct RestrictTo<true, T> 
+struct RestrictTo<true, T>
 {
     typedef T Type;
 };

@@ -58,13 +58,13 @@ template <typename IndexType>
 // cscal
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
-    scal(IndexType n, const ComplexFloat *alpha,
+    scal(IndexType n, const ComplexFloat &alpha,
          ComplexFloat *x, IndexType incX);
 
 // zscal
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
-    scal(IndexType n, const ComplexDouble *alpha,
+    scal(IndexType n, const ComplexDouble &alpha,
          ComplexDouble *x, IndexType incX);
 
 // csscal

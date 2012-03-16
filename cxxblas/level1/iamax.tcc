@@ -108,7 +108,7 @@ iamax(IndexType n, const ComplexFloat *x, IndexType incX, IndexType &i)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_icamax");
 
-    i = cblas_icamax(n, x, incX);
+    i = cblas_icamax(n, reinterpret_cast<const float *>(x), incX);
 }
 
 // izamax
@@ -118,7 +118,7 @@ iamax(IndexType n, const ComplexDouble *x, IndexType incX, IndexType &i)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_izamax");
 
-    i = cblas_izamax(n, x, incX);
+    i = cblas_izamax(n, reinterpret_cast<const double *>(x), incX);
 }
 
 #endif // HAVE_CBLAS

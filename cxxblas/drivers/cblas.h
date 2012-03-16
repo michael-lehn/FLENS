@@ -194,10 +194,10 @@ void
 cblas_dscal(CBLAS_INT n, double alpha, double *x, CBLAS_INT incX);
 
 void
-cblas_cscal(CBLAS_INT n, float *alpha, float *x, CBLAS_INT incX);
+cblas_cscal(CBLAS_INT n, const float *alpha, float *x, CBLAS_INT incX);
 
 void
-cblas_zscal(CBLAS_INT n, double *alpha, double *x, CBLAS_INT incX);
+cblas_zscal(CBLAS_INT n, const double *alpha, double *x, CBLAS_INT incX);
 
 void
 cblas_csscal(CBLAS_INT n, float alpha, float *x, CBLAS_INT incX);

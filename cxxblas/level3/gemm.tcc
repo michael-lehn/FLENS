@@ -258,7 +258,7 @@ gemm(StorageOrder order,
                 reinterpret_cast<const float *>(A), ldA,
                 reinterpret_cast<const float *>(B), ldB,
                 reinterpret_cast<const float *>(&beta),
-                reinterpret_cast<const float *>(C), ldC);
+                reinterpret_cast<float *>(C), ldC);
 }
 
 // zgemm
@@ -282,7 +282,7 @@ gemm(StorageOrder order,
                 reinterpret_cast<const double *>(A), ldA,
                 reinterpret_cast<const double *>(B), ldB,
                 reinterpret_cast<const double *>(&beta),
-                reinterpret_cast<const double *>(C), ldC);
+                reinterpret_cast<double *>(C), ldC);
 }
 
 #endif // HAVE_CBLAS

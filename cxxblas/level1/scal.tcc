@@ -81,23 +81,23 @@ scal(IndexType n, double alpha, double *x, IndexType incX)
 // cscal
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
-scal(IndexType n, const ComplexFloat *alpha, ComplexFloat *x, IndexType incX)
+scal(IndexType n, const ComplexFloat &alpha, ComplexFloat *x, IndexType incX)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_cscal");
 
-    cblas_cscal(n, reinterpret_cast<const float *>(alpha),
-                   reinterpret_cast<const float *>(x), incX);
+    cblas_cscal(n, reinterpret_cast<const float *>(&alpha),
+                   reinterpret_cast<float *>(x), incX);
 }
 
 // zscal
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
-scal(IndexType n, const ComplexDouble *alpha, ComplexDouble *x, IndexType incX)
+scal(IndexType n, const ComplexDouble &alpha, ComplexDouble *x, IndexType incX)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zscal");
 
-    cblas_zscal(n, reinterpret_cast<const double *>(alpha),
-                   reinterpret_cast<const double *>(x), incX);
+    cblas_zscal(n, reinterpret_cast<const double *>(&alpha),
+                   reinterpret_cast<double *>(x), incX);
 }
 
 // csscal
@@ -107,7 +107,7 @@ scal(IndexType n, float alpha, ComplexFloat *x, IndexType incX)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_csscal");
 
-    cblas_csscal(n, alpha, reinterpret_cast<const float *>(x), incX);
+    cblas_csscal(n, alpha, reinterpret_cast<float *>(x), incX);
 }
 
 // zdscal
@@ -117,7 +117,7 @@ scal(IndexType n, double alpha, ComplexDouble *x, IndexType incX)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zdscal");
 
-    cblas_zdscal(n, alpha, reinterpret_cast<const double *>(x), incX);
+    cblas_zdscal(n, alpha, reinterpret_cast<double *>(x), incX);
 }
 
 #endif // HAVE_CBLAS

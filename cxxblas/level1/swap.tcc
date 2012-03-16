@@ -94,7 +94,8 @@ swap(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_cswap");
 
-    cblas_cswap(n, x, incX, y, incY);
+    cblas_cswap(n, reinterpret_cast<float *>(x), incX,
+                   reinterpret_cast<float *>(y), incY);
 }
 
 // zswap
@@ -106,7 +107,8 @@ swap(IndexType n,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zswap");
 
-    cblas_zswap(n, x, incX, y, incY);
+    cblas_zswap(n, reinterpret_cast<double *>(x), incX,
+                   reinterpret_cast<double *>(y), incY);
 }
 
 #endif // HAVE_CBLAS

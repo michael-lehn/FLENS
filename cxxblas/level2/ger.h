@@ -42,16 +42,6 @@ namespace cxxblas {
 template <typename IndexType, typename ALPHA, typename VX, typename VY,
           typename MA>
     void
-    gerc(StorageOrder order,
-         IndexType m, IndexType n,
-         const ALPHA &alpha,
-         const VX *x, IndexType incX,
-         const VY *y, IndexType incY,
-         MA *A, IndexType ldA);
-
-template <typename IndexType, typename ALPHA, typename VX, typename VY,
-          typename MA>
-    void
     ger(StorageOrder order,
         IndexType m, IndexType n,
         const ALPHA &alpha,
@@ -68,6 +58,17 @@ template <typename IndexType, typename ALPHA, typename VX, typename VY,
          const VX *x, IndexType incX,
          const VY *y, IndexType incY,
          MA *A, IndexType ldA);
+
+template <typename IndexType, typename ALPHA, typename VX, typename VY,
+          typename MA>
+    void
+    gerc(StorageOrder order,
+         IndexType m, IndexType n,
+         const ALPHA &alpha,
+         const VX *x, IndexType incX,
+         const VY *y, IndexType incY,
+         MA *A, IndexType ldA);
+
 
 #ifdef HAVE_CBLAS
 
@@ -90,6 +91,46 @@ typename If<IndexType>::isBlasCompatibleInteger
         const double *x, IndexType incX,
         const double *y, IndexType incY,
         double *A, IndexType ldA);
+
+// cgeru
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+    geru(StorageOrder order,
+         IndexType m, IndexType n,
+         const ComplexFloat &alpha,
+         const ComplexFloat *x, IndexType incX,
+         const ComplexFloat *y, IndexType incY,
+         ComplexFloat *A, IndexType ldA);
+
+// zgeru
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+    geru(StorageOrder order,
+         IndexType m, IndexType n,
+         const ComplexDouble &alpha,
+         const ComplexDouble *x, IndexType incX,
+         const ComplexDouble *y, IndexType incY,
+         ComplexDouble *A, IndexType ldA);
+
+// cgerc
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+    gerc(StorageOrder order,
+         IndexType m, IndexType n,
+         const ComplexFloat &alpha,
+         const ComplexFloat *x, IndexType incX,
+         const ComplexFloat *y, IndexType incY,
+         ComplexFloat *A, IndexType ldA);
+
+// zgerc
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+    gerc(StorageOrder order,
+         IndexType m, IndexType n,
+         const ComplexDouble &alpha,
+         const ComplexDouble *x, IndexType incX,
+         const ComplexDouble *y, IndexType incY,
+         ComplexDouble *A, IndexType ldA);
 
 #endif // HAVE_CBLAS
 
