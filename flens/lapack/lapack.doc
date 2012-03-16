@@ -174,7 +174,7 @@ Orthogonal Factorizations
  |           |                                                |               |
  |           | *Example:*  __lapack-geqrf__.                  |               |
  +-----------+------------------------------------------------+---------------+
- | __qrs__   | Solve the least squares problem                | __dgeqrs[1]__ |
+ | __qrs__   | Solve the least squares problem                | `dgeqrs[1]`   |
  |           | $\min\| AX - B \|$ using the $QR$ factorization|               |
  +-----------+------------------------------------------------+---------------+
  | __orgqr__ | Generates all or part of the orthogonal matrix | __dorgqr__    |
@@ -185,7 +185,6 @@ Orthogonal Factorizations
  +-----------+------------------------------------------------+---------------+
 
 :links: __lapack-geqrf__ -> doc:flens/examples/tut04-page02
-        __(d.*)\[1\]__   -> file:flens/lapack/test/LIN/$1.f
         __(d.+)__        -> file:cxxlapack/netlib/src/$1.f
         __(.*)__         -> file:flens/lapack/qr/$1.h
 
