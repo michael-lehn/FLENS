@@ -13,12 +13,11 @@ trapezoidal matrix and $Q^T A$ upper triangular.  We finally use the triangular
 solver __blas::sm__ to obtain the solution of $(Q^T A) x = (Q^T b)$.
 
 Function __lapack::qrf__ is the FLENS port of LAPACK's __geqrf__ and
-__blas::sm__ the port of the BLAS routine __trsm__.
+__blas::sm__ the port of the BLAS routine `trsm`.
 
 :links:  __lapack::qrf__  -> file:flens/lapack/qr/qrf.h
          __geqrf__        -> file:cxxlapack/netlib/src/dgeqrf.f
          __blas::sm__     -> file:flens/blas/level3/sm.h
-         __trsm__         -> file:cxxlapack/netlib/src/dtrsm.f
 
 
 Example Code
