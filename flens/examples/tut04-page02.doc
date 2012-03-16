@@ -16,9 +16,9 @@ Function __lapack::qrf__ is the FLENS port of LAPACK's __geqrf__ and
 __blas::sm__ the port of the BLAS routine __trsm__.
 
 :links:  __lapack::qrf__  -> file:flens/lapack/qr/qrf.h
-         __geqrf__        -> file:flens/lapack/interface/ref_lapack/dgeqrf.f
+         __geqrf__        -> file:cxxlapack/netlib/src/dgeqrf.f
          __blas::sm__     -> file:flens/blas/level3/sm.h
-         __trsm__         -> file:flens/lapack/interface/ref_blas/dtrsm.f
+         __trsm__         -> file:cxxlapack/netlib/src/dtrsm.f
 
 
 Example Code
