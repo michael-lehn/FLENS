@@ -96,8 +96,8 @@ the involved matrix types have full storage:
      - __gesv__ for solving systems of linear equations and
      - __qr__ for computing the QR factorization.
 
-:links:  __dgetrs__        -> file:flens/lapack/interface/ref_lapack/dgetrs.f
-         __dtrtrs__        -> file:flens/lapack/interface/ref_lapack/dtrtrs.f
+:links:  __dgetrs__        -> file:cxxlapack/netlib/src/dgetrs.f
+         __dtrtrs__        -> file:cxxlapack/netlib/src/dtrtrs.f
          __trs__           -> file:flens/lapack/gesv/trs.h
          __flens/lapack__  -> dir:flens/lapack/
          __(.+)__          -> dir:flens/lapack/$1/
@@ -160,7 +160,7 @@ Linear Equation Routines
 
 :links: __lapack-gesv__  -> doc:flens/examples/tut04-page03
         __lapack-getrf__ -> doc:flens/examples/tut04-page01
-        __(d.+)__        -> file:flens/lapack/interface/ref_lapack/$1.f
+        __(d.+)__        -> file:cxxlapack/netlib/src/$1.f
         __(.+)__         -> file:flens/lapack/gesv/$1.h
 
 
@@ -186,7 +186,7 @@ Orthogonal Factorizations
 
 :links: __lapack-geqrf__ -> doc:flens/examples/tut04-page02
         __(d.*)\[1\]__   -> file:flens/lapack/test/LIN/$1.f
-        __(d.*)__        -> file:flens/lapack/interface/ref_lapack/$1.f
+        __(d.+)__        -> file:cxxlapack/netlib/src/$1.f
         __(.*)__         -> file:flens/lapack/qr/$1.h
 
 
@@ -232,7 +232,7 @@ Non-Symmetric Eigenvalue Routines
  +-----------+---------------------------------------------------+------------+
 
 :links: __lapack-geev__ -> doc:flens/examples/tut04-page04
-        __(d.*)__       -> file:flens/lapack/interface/ref_lapack/$1.f
+        __(d.+)__       -> file:cxxlapack/netlib/src/$1.f
         __(.*)__        -> file:flens/lapack/eig/$1.h
 
 
