@@ -56,7 +56,7 @@ main()
     ///
     ///  Solve the system of linear equation $Ax =B$ using the triangular
     ///  solver __blas::sm__ which is the FLENS implementation of the BLAS
-    ///  routine __trsm__.  Note that `A.upper()` creates a triangular view.
+    ///  routine `trsm`.  Note that `A.upper()` creates a triangular view.
     ///
     const auto A = Ab(_,_(1,m));
     auto       B = Ab(_,_(m+1,n));
@@ -68,7 +68,6 @@ main()
 
 ///
 ///  :links: __lapack::qrf__ -> file:flens/lapack/qr/qrf.h
-///          __dgeqrf__ -> file:flens/lapack/interface/ref_lapack/dgeqrf.f
+///          __geqrf__        -> file:cxxlapack/netlib/src/dgeqrf.f
 ///          __blas::sm__ -> file:flens/blas/level3/sm.h
-///          __trsm__ -> file:flens/lapack/interface/ref_blas/dtrsm.f
 ///

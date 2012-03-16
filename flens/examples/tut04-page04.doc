@@ -8,7 +8,7 @@ $V_L$ and right eigenvectors $V_R$ of a non-symmetric Matrix $A$.
 We use __lapack::ev__ which is the FLENS port of LAPACK's __dgeev__.
 
 :links:  __lapack::ev__  -> file:flens/lapack/eig/ev.h
-         __dgeev__       -> file:flens/lapack/interface/ref_lapack/dgeev.f
+         __dgeev__       -> file:cxxlapack/netlib/src/dgeev.f
 
 
 Example Code
