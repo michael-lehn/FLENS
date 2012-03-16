@@ -17,7 +17,7 @@ Example Code
 
 Comments on Example Code
 ========================
-:import: flens/examples/lapack-gesv.cc
+:import: flens/examples/lapack-gesv.cc [brief]
 
 
 Compile
@@ -51,7 +51,7 @@ Example Code
 
 Comments on Example Code
 ------------------------
-:import: flens/examples/lapack-complex-gesv.cc
+:import: flens/examples/lapack-complex-gesv.cc [brief]
 
 
 Compile

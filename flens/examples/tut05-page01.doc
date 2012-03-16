@@ -1,0 +1,89 @@
+=========
+CXXLAPACK                                                               [TOC]
+=========
+
+__CXXLAPACK__ is a low-level interface for the original Fortran __LAPACK__.
+High-level interfaces for LAPACK can be built ontop of CXXLAPACK.
+
+If functionality in __FLENS-LAPACK__ is missing you can use CXXLAPACK as an
+alternative.  In this case you need a LAPACK implementation on your system.
+You either can receive it diretly from __Netlib__ or through packages like
+VecLib, MKL, ACML, etc.
+
+
+:links: __CXXLAPACK__    -> dir:cxxlapack/
+        __LAPACK__       -> http://www.netlib.org/lapack/
+        __FLENS-LAPACK__ -> doc:flens/lapack/lapack
+        __Netlib__       -> http://www.netlib.org/lapack/
+
+
+Example Code
+============
+:import: flens/examples/tut05-page01-example1.cc [stripped, downloadable]
+
+
+Comments on Example Code
+========================
+:import: flens/examples/tut05-page01-example1.cc [brief]
+
+
+Compile and Run
+===============
+
+In this example we link against vecLib which contains a LAPACK implementation.
+Note that the way we link against vecLib using the `framework` option is a
+Mac OS X specific feature.
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  clang++ -framework vecLib -std=c++0x -Wall -I../..                 +++ |
+  |          -o tut05-page01-example1                                   +++ |
+  |          tut05-page01-example1.cc                                       |
+  |  ./tut05-page01-example1                                                |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+Another Example: Complex Numbers
+================================
+
+We modify the previous example such that the matrix/vector element are complex
+valued.  The functions in CXXLAPACK are overloaded for different element types.
+That means
+  - __cxxlapack::getrf__ is an interface for __dgetrf__ and __zgetrf__,
+  - __cxxlapack::getrs__ is an interface for __dgetrs__ and __zgetrs__.
+
+:links: __cxxlapack::getrf__ -> file:cxxlapack/interface/getrf.h
+        __cxxlapack::getrs__ -> file:cxxlapack/interface/getrs.h
+        __dgetrf__           -> file:cxxlapack/netlib/src/dgetrf.f
+        __zgetrf__           -> file:cxxlapack/netlib/src/zgetrf.f
+        __dgetrs__           -> file:cxxlapack/netlib/src/dgetrs.f
+        __zgetrs__           -> file:cxxlapack/netlib/src/zgetrs.f
+
+Example Code
+------------
+:import: flens/examples/tut05-page01-example2.cc [stripped, downloadable]
+
+
+Comments on Example Code
+------------------------
+:import: flens/examples/tut05-page01-example2.cc [brief]
+
+
+Compile and Run
+---------------
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  clang++ -framework vecLib -std=c++0x -Wall -I../..                 +++ |
+  |          -o tut05-page01-example2                                   +++ |
+  |          tut05-page01-example2.cc                                       |
+  |  ./tut05-page01-example2                                                |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+
+:navigate: __up__    -> doc:flens/examples/tutorial
+           __next__  -> doc:flens/examples/tut05-page02

@@ -255,7 +255,7 @@ Related Projects
 
 - __LAPACK__ itself of course.
 - __mpack__ which is also a generic C++ port of LAPACK.  To our knowledge the
-    following strategy gets used for porting LAPACK:
+  following strategy gets used for porting LAPACK:
      - __f2c__ is used to create a C implementation of LAPACK
      - Various scripts (the magic ingredient) are used to create a generic C++
        implementation from the C code.

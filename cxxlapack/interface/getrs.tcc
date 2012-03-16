@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,25 +30,52 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_FLENS_CXX
-#define FLENS_FLENS_CXX 1
+#ifndef CXXLAPACK_INTERFACE_GETRS_TCC
+#define CXXLAPACK_INTERFACE_GETRS_TCC 1
 
-#ifdef FLENS_DEBUG_CLOSURES
-#   include <flens/debug/aux/aux.h>
-#endif
+#include <cxxlapack/aux/aux.h>
+#include <cxxlapack/netlib/netlib.h>
 
+namespace cxxlapack {
 
-#include <flens/flens.h>
-#include <flens/flens.tcc>
-#include <cxxblas/cxxblas.cxx>
+template <typename IndexType>
+IndexType
+getrs(Transpose         _trans,
+      IndexType         n,
+      IndexType         nRhs,
+      const double      *A,
+      IndexType         ldA,
+      const IndexType   *iPiv,
+      double            *B,
+      IndexType         ldB)
+{
+    IndexType info;
+    char trans = getF77LapackChar(_trans);
+    LAPACK_IMPL(dgetrs)(&trans, &n, &nRhs, A, &ldA, iPiv, B, &ldB, &info);
+    return info;
+}
 
-#ifdef USE_CXXLAPACK
-#   include <cxxlapack/cxxlapack.cxx>
-#endif
+template <typename IndexType>
+IndexType
+getrs(Transpose                     _trans,
+      IndexType                     n,
+      IndexType                     nRhs,
+      const std::complex<double>    *A,
+      IndexType                     ldA,
+      const IndexType               *iPiv,
+      std::complex<double>          *B,
+      IndexType                     ldB)
+{
+    IndexType info;
+    char trans = getF77LapackChar(_trans);
+    LAPACK_IMPL(zgetrs)(&trans, &n, &nRhs,
+                        reinterpret_cast<const double *>(A), &ldA,
+                        iPiv,
+                        reinterpret_cast<double *>(B), &ldB,
+                        &info);
+    return info;
+}
 
+} // namespace cxxlapack
 
-#ifdef FLENS_DEBUG_CLOSURES
-#   include <flens/debug/aux/aux.tcc>
-#endif
-
-#endif // FLENS_FLENS_CXX
+#endif // CXXLAPACK_INTERFACE_GETRS_TCC 1

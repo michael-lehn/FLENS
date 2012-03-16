@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,25 +30,10 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_FLENS_CXX
-#define FLENS_FLENS_CXX 1
+#ifndef CXXLAPACK_AUX_AUX_H
+#define CXXLAPACK_AUX_AUX_H 1
 
-#ifdef FLENS_DEBUG_CLOSURES
-#   include <flens/debug/aux/aux.h>
-#endif
+#include <cxxlapack/aux/getf77lapackchar.h>
+#include <cxxlapack/aux/typedefs.h>
 
-
-#include <flens/flens.h>
-#include <flens/flens.tcc>
-#include <cxxblas/cxxblas.cxx>
-
-#ifdef USE_CXXLAPACK
-#   include <cxxlapack/cxxlapack.cxx>
-#endif
-
-
-#ifdef FLENS_DEBUG_CLOSURES
-#   include <flens/debug/aux/aux.tcc>
-#endif
-
-#endif // FLENS_FLENS_CXX
+#endif // CXXLAPACK_AUX_AUX_H

@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,25 +30,38 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_FLENS_CXX
-#define FLENS_FLENS_CXX 1
+#ifndef CXXLAPACK_AUX_TYPEDEFS_H
+#define CXXLAPACK_AUX_TYPEDEFS_H 1
 
-#ifdef FLENS_DEBUG_CLOSURES
-#   include <flens/debug/aux/aux.h>
-#endif
+#include <complex>
+#include <cxxblas/cxxblas.h>
 
+namespace cxxlapack {
 
-#include <flens/flens.h>
-#include <flens/flens.tcc>
-#include <cxxblas/cxxblas.cxx>
+// import types from cxxblas
 
-#ifdef USE_CXXLAPACK
-#   include <cxxlapack/cxxlapack.cxx>
-#endif
+using cxxblas::StorageOrder;
+using cxxblas::ColMajor;
+using cxxblas::RowMajor;
 
+using cxxblas::StorageUpLo;
+using cxxblas::Upper;
+using cxxblas::Lower;
 
-#ifdef FLENS_DEBUG_CLOSURES
-#   include <flens/debug/aux/aux.tcc>
-#endif
+using cxxblas::Side;
+using cxxblas::Left;
+using cxxblas::Right;
 
-#endif // FLENS_FLENS_CXX
+using cxxblas::Transpose;
+using cxxblas::NoTrans;
+using cxxblas::Trans;
+using cxxblas::Conj;
+using cxxblas::ConjTrans;
+
+using cxxblas::Diag;
+using cxxblas::Unit;
+using cxxblas::NonUnit;
+
+} // namepsace flens
+
+#endif // CXXLAPACK_AUX_TYPEDEFS_H

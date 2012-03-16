@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,25 +30,41 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_FLENS_CXX
-#define FLENS_FLENS_CXX 1
+#ifndef CXXLAPACK_INTERFACE_GETRF_TCC
+#define CXXLAPACK_INTERFACE_GETRF_TCC 1
 
-#ifdef FLENS_DEBUG_CLOSURES
-#   include <flens/debug/aux/aux.h>
-#endif
+#include <cxxlapack/aux/aux.h>
+#include <cxxlapack/netlib/netlib.h>
 
+namespace cxxlapack {
 
-#include <flens/flens.h>
-#include <flens/flens.tcc>
-#include <cxxblas/cxxblas.cxx>
+template <typename IndexType>
+IndexType
+getrf(IndexType             m,
+      IndexType             n,
+      double                *A,
+      IndexType             ldA,
+      IndexType             *iPiv)
+{
+    IndexType info;
+    LAPACK_IMPL(dgetrf)(&m, &n, A, &ldA, iPiv, &info);
+    return info;
+}
 
-#ifdef USE_CXXLAPACK
-#   include <cxxlapack/cxxlapack.cxx>
-#endif
+template <typename IndexType>
+IndexType
+getrf(IndexType             m,
+      IndexType             n,
+      std::complex<double>  *A,
+      IndexType             ldA,
+      IndexType             *iPiv)
+{
+    IndexType info;
+    LAPACK_IMPL(zgetrf)(&m, &n, reinterpret_cast<double *>(A), &ldA,
+                        iPiv, &info);
+    return info;
+}
 
+} // namespace cxxlapack
 
-#ifdef FLENS_DEBUG_CLOSURES
-#   include <flens/debug/aux/aux.tcc>
-#endif
-
-#endif // FLENS_FLENS_CXX
+#endif // CXXLAPACK_INTERFACE_GETRF_TCC

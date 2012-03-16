@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2011, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,25 +30,46 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_FLENS_CXX
-#define FLENS_FLENS_CXX 1
+#ifndef CXXLAPACK_AUX_GETF77LAPACKCHAR_TCC
+#define CXXLAPACK_AUX_GETF77LAPACKCHAR_TCC 1
 
-#ifdef FLENS_DEBUG_CLOSURES
-#   include <flens/debug/aux/aux.h>
-#endif
+#include <cxxlapack/aux/typedefs.h>
 
+namespace cxxlapack {
 
-#include <flens/flens.h>
-#include <flens/flens.tcc>
-#include <cxxblas/cxxblas.cxx>
+template <typename CHAR, typename ENUM>
+CHAR
+convert(ENUM enumValue)
+{
+    return CHAR(enumValue);
+}
 
-#ifdef USE_CXXLAPACK
-#   include <cxxlapack/cxxlapack.cxx>
-#endif
+template <typename CHAR, typename ENUM>
+CHAR
+convert(Transpose trans)
+{
+    if (trans==NoTrans) {
+        return CHAR('N');
+    } else if (trans==Trans) {
+        return CHAR('T');
+    } else if (trans==Conj) {
+        return CHAR('R');
+    } else if (trans==ConjTrans) {
+        return CHAR('C');
+    }
+    ASSERT(0);
+    return CHAR('N');
+}
 
+//------------------------------------------------------------------------------
 
-#ifdef FLENS_DEBUG_CLOSURES
-#   include <flens/debug/aux/aux.tcc>
-#endif
+template <typename ENUM>
+char
+getF77LapackChar(ENUM enumValue)
+{
+    return convert<char, ENUM>(enumValue);
+}
 
-#endif // FLENS_FLENS_CXX
+} // namespace cxxlapack
+
+#endif // CXXLAPACK_AUX_GETF77LAPACKCHAR_TCC

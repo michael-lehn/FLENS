@@ -1,0 +1,41 @@
+==================================
+High-Level Interface for CXXLAPACK                                        [TOC]
+==================================
+
+You can easily create a high-level interface for __CXXLAPACK__ that can be
+used like __FLENS-LAPACK__.
+
+:links: __CXXLAPACK__    -> dir:cxxlapack/
+        __FLENS-LAPACK__ -> doc:flens/lapack/lapack
+
+
+Example Code
+============
+:import: flens/examples/tut05-page02-example1.cc [stripped, downloadable]
+
+
+Comments on Example Code
+========================
+:import: flens/examples/tut05-page02-example1.cc [brief]
+
+
+Compile and Run
+===============
+
+In this example we link against vecLib which contains a LAPACK implementation.
+Note that the way we link against vecLib using the `framework` option is a
+Mac OS X specific feature.
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  clang++ -framework vecLib -std=c++0x -Wall -I../..                 +++ |
+  |          -o tut05-page02-example1                                   +++ |
+  |          tut05-page02-example1.cc                                       |
+  |  ./tut05-page02-example1                                                |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+:navigate: __up__    -> doc:flens/examples/tutorial
+           __back__  -> doc:flens/examples/tut05-page01

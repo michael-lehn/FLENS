@@ -18,25 +18,29 @@ main()
     cout << "A = " << A << endl;
 
     ///
-    ///  ...
+    /// `U` is a triangular matrix referencing the upper triangular part.
     ///
     auto U = A.upper();
     cout << "U = " << U << endl;
 
     ///
-    ///  ...
+    /// `SU` is a symmetric matrix.  The upper triangular part of `SU` is
+    /// referencing `U` (which in turn references the upper part of `A`).
     ///
     auto SU = U.symmetric();
     cout << "SU = " << SU << endl;
 
     ///
-    ///  ...
+    /// `SL` is a symmetric matrix.  The lower triangular part of `SL` is
+    /// referencing the lower part of `A`).
     ///
     auto SL = A.lower().symmetric();
     cout << "SL = " << SL << endl;
 
     ///
-    ///  ...
+    /// `L` is a unit triangular matrix referencing the lower part of `A`.
+    /// The term "unit" denotes that elements on the diagonal are assumed to
+    /// be one.
     ///
     auto L = A.lowerUnit();
     cout << "L = " << L << endl;

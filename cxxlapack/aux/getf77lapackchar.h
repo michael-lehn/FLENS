@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2011, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,25 +30,17 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_FLENS_CXX
-#define FLENS_FLENS_CXX 1
+#ifndef CXXLAPACK_AUX_GETF77LAPACKCHAR_H
+#define CXXLAPACK_AUX_GETF77LAPACKCHAR_H 1
 
-#ifdef FLENS_DEBUG_CLOSURES
-#   include <flens/debug/aux/aux.h>
-#endif
+#include <cxxlapack/aux/typedefs.h>
 
+namespace cxxlapack {
 
-#include <flens/flens.h>
-#include <flens/flens.tcc>
-#include <cxxblas/cxxblas.cxx>
+template <typename ENUM>
+    char
+    getF77LapackChar(ENUM enumValue);
 
-#ifdef USE_CXXLAPACK
-#   include <cxxlapack/cxxlapack.cxx>
-#endif
+} // namespace cxxlapack
 
-
-#ifdef FLENS_DEBUG_CLOSURES
-#   include <flens/debug/aux/aux.tcc>
-#endif
-
-#endif // FLENS_FLENS_CXX
+#endif // CXXLAPACK_AUX_GETF77LAPACKCHAR_H

@@ -42,9 +42,10 @@ Examples and Tutorial
     - __Session 2__: BLAS, CXXBLAS, FLENS-BLAS and Overloaded Operators.
     - __Session 3__: More on matrices: Triangular and symmetric matrices,
       matrix views, ...
-    - __Session 4__: Using FLENS-LAPACK
-    - __Session 5__: Define your own matrix/vector types.
-    - __Session 6__: How to define a *kick-ass interface* for FLENS-LAPACK.
+    - __Session 4__: Using FLENS-LAPACK.
+    - __Session 5__: Using an external LAPACK implementation.
+    - __Session 6__: Define your own matrix/vector types.
+    - __Session 7__: How to define a *kick-ass interface* for FLENS-LAPACK.
 
 
 Scope of this Branch

@@ -170,7 +170,6 @@ Compile and Analyze Compile Error
    |                                                                        |
    |  cd flens/examples                                                     |
    |  clang++ -Wall -std=c++0x -I../.. tut01-page03-example04.cc            |
-   |  ./a.out                                                               |
    |                                                                        |
    *------------------------------------------------------------------------*
 
