@@ -174,9 +174,7 @@ tf2(GeMatrix<MA> &A, DenseVector<VP> &piv)
 //
 //  Call implementation
 //
-    std::cerr << "enter" << std::endl;
     IndexType info = tf2_generic(A, piv);
-    std::cerr << "leave" << std::endl;
 
 #   ifdef CHECK_CXXLAPACK
 //
