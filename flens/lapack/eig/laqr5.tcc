@@ -944,50 +944,50 @@ laqr5(bool                      wantT,
 
     bool failed = false;
     if (! isIdentical(sr_generic, sr, "sr_generic", "sr")) {
-//        std::cerr << "CXXLAPACK: sr_generic = " << sr_generic << std::endl;
-//        std::cerr << "F77LAPACK: sr = " << sr << std::endl;
+        std::cerr << "CXXLAPACK: sr_generic = " << sr_generic << std::endl;
+        std::cerr << "F77LAPACK: sr = " << sr << std::endl;
         failed = true;
     }
 
     if (! isIdentical(si_generic, si, "si_generic", "si")) {
-//        std::cerr << "CXXLAPACK: si_generic = " << si_generic << std::endl;
-//        std::cerr << "F77LAPACK: si = " << si << std::endl;
+        std::cerr << "CXXLAPACK: si_generic = " << si_generic << std::endl;
+        std::cerr << "F77LAPACK: si = " << si << std::endl;
         failed = true;
     }
 
     if (! isIdentical(H_generic, H, "H_generic", "H")) {
-//        std::cerr << "CXXLAPACK: H_generic = " << H_generic << std::endl;
-//        std::cerr << "F77LAPACK: H = " << H << std::endl;
+        std::cerr << "CXXLAPACK: H_generic = " << H_generic << std::endl;
+        std::cerr << "F77LAPACK: H = " << H << std::endl;
         failed = true;
     }
 
     if (! isIdentical(Z_generic, Z, "Z_generic", "Z")) {
-//        std::cerr << "CXXLAPACK: Z_generic = " << Z_generic << std::endl;
-//        std::cerr << "F77LAPACK: Z = " << Z << std::endl;
+        std::cerr << "CXXLAPACK: Z_generic = " << Z_generic << std::endl;
+        std::cerr << "F77LAPACK: Z = " << Z << std::endl;
         failed = true;
     }
 
     if (! isIdentical(V_generic, V, "V_generic", "V")) {
-//        std::cerr << "CXXLAPACK: V_generic = " << V_generic << std::endl;
-//        std::cerr << "F77LAPACK: V = " << V << std::endl;
+        std::cerr << "CXXLAPACK: V_generic = " << V_generic << std::endl;
+        std::cerr << "F77LAPACK: V = " << V << std::endl;
         failed = true;
     }
 
     if (! isIdentical(U_generic, U, "U_generic", "U")) {
-//        std::cerr << "CXXLAPACK: U_generic = " << U_generic << std::endl;
-//        std::cerr << "F77LAPACK: U = " << U << std::endl;
+        std::cerr << "CXXLAPACK: U_generic = " << U_generic << std::endl;
+        std::cerr << "F77LAPACK: U = " << U << std::endl;
         failed = true;
     }
 
     if (! isIdentical(WV_generic, WV, "WV_generic", "WV")) {
-//        std::cerr << "CXXLAPACK: WV_generic = " << WV_generic << std::endl;
-//        std::cerr << "F77LAPACK: WV = " << WV << std::endl;
+        std::cerr << "CXXLAPACK: WV_generic = " << WV_generic << std::endl;
+        std::cerr << "F77LAPACK: WV = " << WV << std::endl;
         failed = true;
     }
 
     if (! isIdentical(WH_generic, WH, "WH_generic", "WH")) {
-//        std::cerr << "CXXLAPACK: WH_generic = " << WH_generic << std::endl;
-//        std::cerr << "F77LAPACK: WH = " << WH << std::endl;
+        std::cerr << "CXXLAPACK: WH_generic = " << WH_generic << std::endl;
+        std::cerr << "F77LAPACK: WH = " << WH << std::endl;
         failed = true;
     }
 
