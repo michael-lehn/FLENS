@@ -85,7 +85,7 @@ main()
     cerr << "b = " << b << endl;
 
 ///
-/// We now can use the interface like the functions from __FLENS-LAPACK__ ...
+/// We now can use our interface just the way we are using __FLENS-LAPACK__ ...
 ///
 /// :links: __FLENS-LAPACK__ -> doc:flens/lapack/lapack
 ///
