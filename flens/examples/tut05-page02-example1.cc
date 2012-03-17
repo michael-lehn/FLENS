@@ -41,7 +41,6 @@ trs(Transpose trans, const GeMatrix<MA> &A, const DenseVector<VPIV> &piv,
     DenseVector<VB> &b)
 {
     typedef typename GeMatrix<MA>::IndexType IndexType;
-
     cxxlapack::getrs<IndexType>(trans,
                                 A.numRows(),
                                 1,
