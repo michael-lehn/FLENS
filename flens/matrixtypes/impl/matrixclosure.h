@@ -64,6 +64,12 @@ class MatrixClosure
         typename ConstRef<R>::Type _right;
 };
 
+template <typename Op, typename L, typename R>
+struct ConstRef<MatrixClosure<Op, L, R> >
+{
+    typedef MatrixClosure<Op,L,R> Type;
+};
+
 } // namespace flens
 
 #endif // FLENS_MATRIXTYPES_IMPL_MATRIXCLOSURE_H

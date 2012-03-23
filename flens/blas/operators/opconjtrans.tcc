@@ -35,9 +35,9 @@
 
 namespace flens {
 
-template <typename M>
+template <typename MA>
 const MatrixClosureOpConj<MatrixClosureOpTrans<typename MA::Impl> >
-conjTrans(const Matrix<M> &A)
+conjTrans(const Matrix<MA> &A)
 {
     typedef MatrixClosureOpConj<MatrixClosureOpTrans<typename MA::Impl> >  MC;
     return conjugate(transpose(A));

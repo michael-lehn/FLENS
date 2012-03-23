@@ -42,28 +42,31 @@ namespace flens { namespace blas {
 //-- gemm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 void
-mm(Transpose transA, Transpose transB,
+mm(Transpose transposeA, Transpose transposeB,
    const ALPHA &alpha,
    const GeMatrix<MA> &A, const GeMatrix<MB> &B,
    const BETA &beta,
    GeMatrix<MC> &C)
 {
+    const bool noTransA = (transposeA==NoTrans || transposeA==Conj);
+    const bool noTransB = (transposeB==NoTrans || transposeB==Conj);
+
 #   ifndef NDEBUG
-    int kA = (transA==NoTrans) ? A.numCols() : A.numRows();
-    int kB = (transB==NoTrans) ? B.numRows() : B.numCols();
+    int kA = (noTransA) ? A.numCols() : A.numRows();
+    int kB = (noTransB) ? B.numRows() : B.numCols();
     ASSERT(kA==kB);
 #   endif
 
     typedef typename GeMatrix<MC>::IndexType IndexType;
-    IndexType m = (transA==NoTrans) ? A.numRows() : A.numCols();
-    IndexType n = (transB==NoTrans) ? B.numCols() : B.numRows();
-    IndexType k = (transA==NoTrans) ? A.numCols() : A.numRows();
+    IndexType m = (noTransA) ? A.numRows() : A.numCols();
+    IndexType n = (noTransB) ? B.numCols() : B.numRows();
+    IndexType k = (noTransA) ? A.numCols() : A.numRows();
 
     if (MC::order!=MA::order) {
-        transA = Transpose(transA ^ Trans);
+        transposeA = Transpose(transposeA ^ Trans);
     }
     if (MC::order!=MB::order) {
-        transB = Transpose(transB ^ Trans);
+        transposeB = Transpose(transposeB ^ Trans);
     }
 
 #   ifndef NDEBUG
@@ -93,7 +96,7 @@ mm(Transpose transA, Transpose transB,
         if (beta!=BETA(0)) {
             _C = C;
         }
-        mm(transA, transB, alpha, A, B, beta, _C);
+        mm(transposeA, transposeB, alpha, A, B, beta, _C);
         C = _C;
 
         FLENS_BLASLOG_TMP_REMOVE(_C, C);
@@ -102,11 +105,11 @@ mm(Transpose transA, Transpose transB,
 #   endif
 
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_GEMM(transA, transB, alpha, A, B, beta, C);
+    FLENS_BLASLOG_BEGIN_GEMM(transposeA, transposeB, alpha, A, B, beta, C);
 
 #   ifdef HAVE_CXXBLAS_GEMM
     cxxblas::gemm(MC::order,
-                  transA, transB,
+                  transposeA, transposeB,
                   C.numRows(),
                   C.numCols(),
                   k,

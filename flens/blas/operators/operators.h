@@ -37,6 +37,7 @@
 #include <flens/blas/operators/opconj.h>
 #include <flens/blas/operators/opconjtrans.h>
 #include <flens/blas/operators/opdiv.h>
+#include <flens/blas/operators/opminus.h>
 #include <flens/blas/operators/opmult.h>
 #include <flens/blas/operators/opsub.h>
 #include <flens/blas/operators/optrans.h>

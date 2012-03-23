@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2007, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,38 +30,39 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_SCALARTYPES_IMPL_SCALARVALUE_H
-#define FLENS_SCALARTYPES_IMPL_SCALARVALUE_H 1
+#ifndef FLENS_BLAS_OPERATORS_OPMINUS_TCC
+#define FLENS_BLAS_OPERATORS_OPMINUS_TCC 1
 
-#include <flens/aux/constref.h>
-#include <flens/scalartypes/scalar.h>
+#include <flens/blas/closures/closures.h>
+#include <flens/blas/level1/dot.h>
+#include <flens/typedefs.h>
 
 namespace flens {
 
-template <typename T>
-class ScalarValue
-    : public Scalar<ScalarValue<T> >
+template <typename VX>
+const VectorClosure<OpMult,
+                     ScalarValue<typename VX::Impl::ElementType>,
+                     typename VX::Impl>
+operator-(const Vector<VX> &x)
 {
-    public:
-        typedef T   ElementType;
+    typedef typename VX::Impl::ElementType    T;
+    typedef VectorClosure<OpMult, ScalarValue<T>, typename VX::Impl>  VC;
 
-        ScalarValue(const ElementType &value);
+    return VC(T(-1), x.impl());
+}
 
-        const ElementType &
-        value() const;
-
-    private:
-        // TODO:  Create a ScalarValueReference class that keeps a
-        //        reference instead of a copy
-        const ElementType _value;
-};
-
-template <typename T>
-struct ConstRef<ScalarValue<T> >
+template <typename MA>
+const MatrixClosure<OpMult,
+                    ScalarValue<typename MA::Impl::ElementType>,
+                    typename MA::Impl>
+operator-(const Matrix<MA> &A)
 {
-    typedef ScalarValue<T> Type;
-};
+    typedef typename MA::Impl::ElementType    T;
+    typedef MatrixClosure<OpMult, ScalarValue<T>, typename MA::Impl>  MC;
+
+    return MC(T(-1), A.impl());
+}
 
 } // namespace flens
 
-#endif // FLENS_SCALARTYPES_IMPL_SCALARVALUE_H
+#endif // FLENS_BLAS_OPERATORS_OPMINUS_TCC
