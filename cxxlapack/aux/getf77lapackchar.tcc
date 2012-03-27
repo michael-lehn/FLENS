@@ -39,14 +39,14 @@ namespace cxxlapack {
 
 template <typename CHAR, typename ENUM>
 CHAR
-convert(ENUM enumValue)
+getF77LapackChar(ENUM enumValue)
 {
     return CHAR(enumValue);
 }
 
 template <typename CHAR, typename ENUM>
 CHAR
-convert(Transpose trans)
+getF77LapackChar(Transpose trans)
 {
     if (trans==NoTrans) {
         return CHAR('N');

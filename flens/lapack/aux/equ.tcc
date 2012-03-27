@@ -186,51 +186,44 @@ equ_generic(const GeMatrix<MA>  &A,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA, typename VR, typename VC,
           typename ROWCOND, typename COLCOND,
           typename AMAX>
-typename GeMatrix<MA>::ElementType
-equ_native(const GeMatrix<MA>  &A,
-           DenseVector<VR>     &r,
-           DenseVector<VC>     &c,
-           ROWCOND             &rowCond,
-           COLCOND             &colCond,
-           AMAX                &amax)
+typename GeMatrix<MA>::IndexType
+equ(const GeMatrix<MA>  &A,
+    DenseVector<VR>     &r,
+    DenseVector<VC>     &c,
+    ROWCOND             &rowCond,
+    COLCOND             &colCond,
+    AMAX                &amax)
 {
-    typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    const INTEGER  M = A.numRows();
-    const INTEGER  N = A.numCols();
-    const INTEGER  LDA = A.leadingDimension();
-    INTEGER        INFO;
-
-    if (IsSame<T,double>::value) {
-        LAPACK_IMPL(dgeequ)(&M,
-                            &N,
-                            A.data(),
-                            &LDA,
-                            r.data(),
-                            c.data(),
-                            &rowCond,
-                            &colCond,
-                            &amax,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-
-    if (INFO<0) {
-        std::cerr << "dgeequ: INFO = " << INFO << std::endl;
-    }
-    ASSERT(INFO>=0);
-    return INFO;
+    IndexType info = cxxlapack::geequ<IndexType>(A.numRows(),
+                                                 A.numCols(),
+                                                 A.data(),
+                                                 A.leadingDimension(),
+                                                 r.data(),
+                                                 c.data(),
+                                                 &rowCond,
+                                                 &colCond,
+                                                 &amax,
+                                                 &info);
+    ASSERT(info>=0);
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
+
 template <typename MA, typename VR, typename VC,
           typename ROWCOND, typename COLCOND,
           typename AMAX>
@@ -297,7 +290,7 @@ equ(const GeMatrix<MA>  &A,
 //
 //  Compare generic results with results from the native implementation
 //
-    const IndexType info_ = equ_native(A, r, c, rowCond, colCond, amax);
+    const IndexType info_ = external::equ(A, r, c, rowCond, colCond, amax);
 
     bool failed = false;
     if (! isIdentical(r_generic, r, "r_generic", "r")) {

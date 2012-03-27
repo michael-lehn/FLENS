@@ -59,8 +59,9 @@ tf2_generic(GeMatrix<MA> &A, DenseVector<VP> &piv)
     using std::abs;
     using std::min;
 
-    typedef typename GeMatrix<MA>::IndexType    IndexType;
-    typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MA>::IndexType         IndexType;
+    typedef typename GeMatrix<MA>::ElementType       T;
+    typedef typename ComplexTrait<T>::PrimitiveType  PT;
 
     const Underscore<IndexType> _;
 
@@ -80,7 +81,7 @@ tf2_generic(GeMatrix<MA> &A, DenseVector<VP> &piv)
 //
 //     Compute machine safe minimum 
 //
-    auto safeMin = lamch<T>(SafeMin);
+    const PT safeMin = lamch<PT>(SafeMin);
 
     for (IndexType j=1; j<=min(m,n); ++j) {
 //
@@ -132,20 +133,26 @@ tf2_generic(GeMatrix<MA> &A, DenseVector<VP> &piv)
     return info;
 }
 
-//== interface for native lapack ===============================================
+//== interface for external lapack =============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA, typename VP>
 typename GeMatrix<MA>::IndexType
-tf2_native(GeMatrix<MA> &A, DenseVector<VP> &piv)
+tf2(GeMatrix<MA> &A, DenseVector<VP> &piv)
 {
-    return cxxlapack::getf2<INTEGER>(A.numRows(), A.numCols(),
-                                     A.data(), A.leadingDimension(),
-                                     piv.data());
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
+
+    return cxxlapack::getf2<IndexType>(A.numRows(), A.numCols(),
+                                       A.data(), A.leadingDimension(),
+                                       piv.data());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -174,9 +181,7 @@ tf2(GeMatrix<MA> &A, DenseVector<VP> &piv)
 //
 //  Call implementation
 //
-    std::cerr << "enter" << std::endl;
     IndexType info = tf2_generic(A, piv);
-    std::cerr << "leave" << std::endl;
 
 #   ifdef CHECK_CXXLAPACK
 //
@@ -192,7 +197,7 @@ tf2(GeMatrix<MA> &A, DenseVector<VP> &piv)
 //
 //  Compare results
 //
-    IndexType _info = tf2_native(A, piv);
+    IndexType _info = external::tf2(A, piv);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {

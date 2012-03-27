@@ -826,7 +826,7 @@ trsyl_generic(Transpose             transA,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef TODO_CHECK_CXXLAPACK
 
 template <typename ISGN, typename MA, typename MB, typename MC, typename SCALE>
 typename GeMatrix<MC>::IndexType

@@ -86,30 +86,28 @@ lq2_generic(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA, typename VTAU, typename VWORK>
 void
 lq2_native(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 {
-    typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    const INTEGER    M = A.numRows();
-    const INTEGER    N = A.numCols();
-    const INTEGER    LDA = A.leadingDimension();
-    INTEGER          INFO;
-
-    if (IsSame<T, DOUBLE>::value) {
-        LAPACK_IMPL(dgelq2)(&M, &N, A.data(), &LDA,
-                            tau.data(), work.data(),
-                            &INFO);
-        assert(INFO==0);
-    } else {
-        ASSERT(0);
-    }
+    IndexType info = cxxlapack::gelq2<IndexType>(A.numRows(),
+                                                 A.numCols(),
+                                                 A.data(),
+                                                 A.leadingDimension(),
+                                                 tau.data(),
+                                                 work.data());
+    ASSERT(info==0);
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -164,7 +162,7 @@ lq2(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 //
 //  Compare results
 //
-    lq2_native(A, tau, work);
+    external::lq2(A, tau, work);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {

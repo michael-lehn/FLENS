@@ -44,6 +44,7 @@
 #define FLENS_LAPACK_AUX_LADIV_TCC 1
 
 #include <cmath>
+#include <complex>
 
 namespace flens { namespace lapack {
 
@@ -67,6 +68,15 @@ ladiv(const T &a, const T &b, const T &c, const T &d, T &p, T &q)
         p = ( b + a*e) / f;
         q = (-a + b*e) / f;
     }
+}
+
+template <typename T>
+std::complex<T>
+ladiv(const std::complex<T> &x, const std::complex<T> &y)
+{
+    std::complex<T> z;
+    ladiv(x.real(), x.imag(), y.real(), y.imag(), z.real(), z.imag());
+    return z;
 }
 
 } } // namespace lapack, flens

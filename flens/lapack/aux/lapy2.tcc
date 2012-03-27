@@ -73,21 +73,20 @@ lapy2_generic(const T &x, const T &y)
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename T>
 T
-lapy2_native(const T &x, const T &y)
+lapy2(const T &x, const T &y)
 {
-    if (IsSame<T, DOUBLE>::value) {
-        return LAPACK_IMPL(dlapy2)(&x,
-                                   &y);
-    } else {
-        ASSERT(0);
-    }
+    return cxxlapack::lapy2(x,y);
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -114,7 +113,7 @@ lapy2(const T &x, const T &y)
 //
 //  Compare results
 //
-    const T _result = lapy2_native(_x, _y);
+    const T _result = external::lapy2(_x, _y);
 
     bool failed = false;
     if (! isIdentical(x, _x, " x", "_x")) {

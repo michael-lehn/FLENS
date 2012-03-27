@@ -637,35 +637,30 @@ larfx_generic(Side side, const DenseVector<VV> &v, const TAU &tau,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename VV, typename TAU, typename MC, typename VWORK>
 void
-larfx_native(Side side, const DenseVector<VV> &v, const TAU &tau,
-             GeMatrix<MC> &C, DenseVector<VWORK> &work)
+larfx(Side side, const DenseVector<VV> &v, const TAU &tau,
+      GeMatrix<MC> &C, DenseVector<VWORK> &work)
 {
-    typedef typename GeMatrix<MC>::ElementType  T;
+    typedef typename GeMatrix<MC>::IndexType  IndexType;
 
-    const char      SIDE    = getF77LapackChar<Side>(side);
-    const INTEGER   M       = C.numRows();
-    const INTEGER   N       = C.numCols();
-    const INTEGER   LDC     = C.leadingDimension();
-
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dlarfx)(&SIDE,
-                            &M,
-                            &N,
-                            v.data(),
-                            &tau,
-                            C.data(),
-                            &LDC,
-                            work.data());
-    } else {
-        ASSERT(0);
-    }
+    cxxlapack::larfx<IndexType>(getF77Char(side),
+                                C.numRows(),
+                                C.numCols(),
+                                v.data(),
+                                tau,
+                                C.data(),
+                                C.leadingDimension(),
+                                work.data());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -729,7 +724,7 @@ larfx(Side side, const DenseVector<VV> &v, const TAU &tau,
 //
 //  Compare generic results with results from the native implementation
 //
-    larfx_native(side, v, tau, C, work);
+    external::larfx(side, v, tau, C, work);
 
     bool failed = false;
 

@@ -52,7 +52,7 @@
 #include <string>
 #include <cstring>
 
-#include <flens/aux/issame.h>
+#include <flens/aux/aux.h>
 #include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
@@ -70,24 +70,6 @@ isSame(const char *a, const char *b)
     }
     return true;
 }
-
-template <typename T>
-struct IsNotComplex
-{
-    static const bool value = true;
-};
-
-template <typename T>
-struct IsNotComplex<std::complex<T> >
-{
-    static const bool value = false;
-};
-
-template <typename T>
-struct IsComplex
-{
-    static const bool value = !IsNotComplex<T>::value;
-};
 
 template <typename T>
 int
@@ -444,19 +426,18 @@ ilaenv_generic(int spec, const char *name, const char *opts,
 #ifndef LAPACK_DECL
 #   define  LAPACK_DECL(x)    x##_
 
-#   define  INTEGER           int
 #endif
 
 extern "C" {
 
-INTEGER
-LAPACK_DECL(ilaenv)(const INTEGER   *SPEC,
+int
+LAPACK_DECL(ilaenv)(const int   *SPEC,
                     const char      *NAME,
                     const char      *OPTS,
-                    const INTEGER   *N1,
-                    const INTEGER   *N2,
-                    const INTEGER   *N3,
-                    const INTEGER   *N4,
+                    const int   *N1,
+                    const int   *N2,
+                    const int   *N3,
+                    const int   *N4,
                     int             NAME_LEN,
                     int             OPTS_LEN);
 
@@ -521,11 +502,14 @@ int
 ilaenv(int spec, const char *name, const char *opts,
        int n1, int n2, int n3, int n4)
 {
-#if defined CHECK_CXXLAPACK || defined USE_NATIVE_ILAENV
-    return ilaenv_LapackTest<T>(spec, name, opts, n1, n2, n3, n4);
+    int info;
+#if defined USE_ILAENV_WITH_UNDERSCORE
+    info = ilaenv_LapackTest<T>(spec, name, opts, n1, n2, n3, n4);
 #else
-    return ilaenv_generic<T>(spec, name, opts, n1, n2, n3, n4);
+    info = ilaenv_generic<T>(spec, name, opts, n1, n2, n3, n4);
 #endif
+    std::cerr << "info = " << info << std::endl;
+    return info;
 }
 
 } } // namespace lapack, flens

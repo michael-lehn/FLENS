@@ -35,10 +35,34 @@
 
 #include <cxxlapack/aux/aux.h>
 
+#include <cxxlapack/interface/gecon.h>
+#include <cxxlapack/interface/geequ.h>
+#include <cxxlapack/interface/geequ.h>
+#include <cxxlapack/interface/labad.h>
+#include <cxxlapack/interface/laln2.h>
+#include <cxxlapack/interface/lange.h>
+#include <cxxlapack/interface/lantr.h>
+#include <cxxlapack/interface/lapy2.h>
+#include <cxxlapack/interface/laqge.h>
+#include <cxxlapack/interface/larf.h>
+#include <cxxlapack/interface/larfb.h>
+#include <cxxlapack/interface/larfg.h>
+#include <cxxlapack/interface/larft.h>
+#include <cxxlapack/interface/larfx.h>
+#include <cxxlapack/interface/lartg.h>
+#include <cxxlapack/interface/lascl.h>
+#include <cxxlapack/interface/lassq.h>
+#include <cxxlapack/interface/lasy2.h>
+#include <cxxlapack/interface/latrs.h>
+#include <cxxlapack/interface/pocon.h>
+#include <cxxlapack/interface/rscl.h>
+
 #include <cxxlapack/interface/getf2.h>
 #include <cxxlapack/interface/getrf.h>
 #include <cxxlapack/interface/getrs.h>
+#include <cxxlapack/interface/lamch.h>
 #include <cxxlapack/interface/laswp.h>
+#include <cxxlapack/interface/trtrs.h>
 
 
 #endif // CXXLAPACK_INTERFACE_INTERFACE_H

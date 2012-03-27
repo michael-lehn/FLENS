@@ -959,7 +959,7 @@ trevc_generic(bool                          computeVL,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef TODO_CHECK_CXXLAPACK
 
 template <typename VSELECT, typename MT, typename MVL, typename MVR,
           typename IndexType, typename VWORK>

@@ -370,65 +370,47 @@ lasy2_generic(bool                  transLeft,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename SIGN, typename MTL, typename MTR, typename MB,
           typename SCALE, typename MX, typename XNORM>
 typename GeMatrix<MX>::IndexType
-lasy2_native(bool                  transLeft,
-             bool                  transRight,
-             SIGN                  sign,
-             const GeMatrix<MTL>   &TL,
-             const GeMatrix<MTR>   &TR,
-             const GeMatrix<MB>    &B,
-             SCALE                 &scale,
-             GeMatrix<MX>          &X,
-             XNORM                 &xNorm)
+lasy2(bool                  transLeft,
+      bool                  transRight,
+      SIGN                  sign,
+      const GeMatrix<MTL>   &TL,
+      const GeMatrix<MTR>   &TR,
+      const GeMatrix<MB>    &B,
+      SCALE                 &scale,
+      GeMatrix<MX>          &X,
+      XNORM                 &xNorm)
 {
-    typedef typename GeMatrix<MX>::ElementType ElementType;
+    typedef typename GeMatrix<MX>::IndexType  IndexType;
 
-    const LOGICAL    LTRANL     = transLeft;
-    const LOGICAL    LTRANR     = transRight;
-    const INTEGER    ISGN       = sign;
-    const INTEGER    N1         = TL.numRows();
-    const INTEGER    N2         = TR.numRows();
-    const INTEGER    LDTL       = TL.leadingDimension();
-    const INTEGER    LDTR       = TR.leadingDimension();
-    const INTEGER    LDB        = B.leadingDimension();
-    ElementType      _SCALE     = scale;
-    const INTEGER    LDX        = X.leadingDimension();
-    ElementType      _XNORM     = xNorm;
-    INTEGER          INFO;
-
-    if (IsSame<ElementType,DOUBLE>::value) {
-        LAPACK_IMPL(dlasy2)(&LTRANL,
-                            &LTRANR,
-                            &ISGN,
-                            &N1,
-                            &N2,
-                            TL.data(),
-                            &LDTL,
-                            TR.data(),
-                            &LDTR,
-                            B.data(),
-                            &LDB,
-                            &_SCALE,
-                            X.data(),
-                            &LDX,
-                            &_XNORM,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO>=0);
-
-    scale = _SCALE;
-    xNorm = _XNORM;
-
-    return INFO;
+    IndexType info = cxxlapack::lasy2<IndexType>(transLeft,
+                                                 transRight,
+                                                 sign,
+                                                 TL.numRows(),
+                                                 TR.numRows(),
+                                                 TL.data(),
+                                                 TL.leadingDimension(),
+                                                 TR.data(),
+                                                 TR.leadingDimension(),
+                                                 B.data(),
+                                                 B.leadingDimension(),
+                                                 scale,
+                                                 X.data(),
+                                                 X.leadingDimension(),
+                                                 xNorm);
+    ASSERT(info>=0);
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -509,9 +491,9 @@ lasy2(bool                  transLeft,
 //  Compare generic results with results from the native implementation
 //
 
-    IndexType _info = lasy2_native(transLeft, transRight, sign,
-                                   TL, TR, B,
-                                   scale, X, xNorm);
+    IndexType _info = external::lasy2(transLeft, transRight, sign,
+                                      TL, TR, B,
+                                      scale, X, xNorm);
 
     bool failed = false;
     if (! isIdentical(scale_generic, scale, "scale_generic", "scale")) {

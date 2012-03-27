@@ -121,45 +121,34 @@ orml2_generic(Side side, Transpose trans, GeMatrix<MA> &A,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA, typename VTAU, typename MC, typename VWORK>
 void
-orml2_native(Side side, Transpose trans, GeMatrix<MA> &A,
+orml2(Side side, Transpose trans, GeMatrix<MA> &A,
              const DenseVector<VTAU> &tau, GeMatrix<MC> &C,
              DenseVector<VWORK> &work)
 {
-    typedef typename GeMatrix<MC>::ElementType    T;
+    typedef typename GeMatrix<MC>::IndexType  IndexType;
 
-    const char      SIDE  = char(side);
-    const char      TRANS = getF77LapackChar(trans);
-    const INTEGER   M = C.numRows();
-    const INTEGER   N = C.numCols();
-    const INTEGER   K = A.numRows();
-    const INTEGER   LDA = A.leadingDimension();
-    const INTEGER   LDC = C.leadingDimension();
-    INTEGER         INFO;
-
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_DECL(dorml2)(&SIDE,
-                            &TRANS,
-                            &M,
-                            &N,
-                            &K,
-                            A.data(),
-                            &LDA,
-                            tau.data(),
-                            C.data(),
-                            &LDC,
-                            work.data(),
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO==0);
+    cxxlapack::orml2<IndexType>(getF77Char(side),
+                                getF77Char(trans),
+                                C.numRows(),
+                                C.numCols(),
+                                A.numRows(),
+                                A.data(),
+                                A.leadingDimension(),
+                                tau.data(),
+                                C.data(),
+                                C.leadingDimension(),
+                                work.data());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -227,7 +216,7 @@ orml2(Side side, Transpose trans, GeMatrix<MA> &A,
 //
 //  Compare generic results with results from the native implementation
 //
-    orml2_native(side, trans, A, tau, C, work);
+    external::orml2(side, trans, A, tau, C, work);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {

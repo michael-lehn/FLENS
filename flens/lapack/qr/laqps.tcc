@@ -214,7 +214,7 @@ laqps_generic(typename GeMatrix<MA>::IndexType  offset,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef TODO_CHECK_CXXLAPACK
 
 template <typename MA, typename JPIV, typename VTAU,
           typename VN1, typename VN2, typename VAUX,

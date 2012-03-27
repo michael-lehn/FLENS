@@ -407,7 +407,7 @@ evx_generic(BALANCE::Balance     balance,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef TODO_CHECK_CXXLAPACK
 
 template <typename MA>
 Pair<typename GeMatrix<MA>::IndexType>

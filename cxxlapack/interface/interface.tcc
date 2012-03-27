@@ -33,10 +33,13 @@
 #ifndef CXXLAPACK_INTERFACE_INTERFACE_TCC
 #define CXXLAPACK_INTERFACE_INTERFACE_TCC 1
 
+#include <cxxlapack/interface/gecon.tcc>
 #include <cxxlapack/interface/getf2.tcc>
 #include <cxxlapack/interface/getrf.tcc>
 #include <cxxlapack/interface/getrs.tcc>
+#include <cxxlapack/interface/lamch.tcc>
 #include <cxxlapack/interface/laswp.tcc>
+#include <cxxlapack/interface/trtrs.tcc>
 
 
 #endif // CXXLAPACK_INTERFACE_INTERFACE_TCC

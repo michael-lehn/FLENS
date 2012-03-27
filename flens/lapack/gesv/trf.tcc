@@ -47,8 +47,6 @@
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>
 
-#include <flens/lapack/interface/include/f77lapack.h>
-
 namespace flens { namespace lapack {
 
 //== generic lapack implementation =============================================
@@ -79,6 +77,11 @@ trf_generic(GeMatrix<MA> &A, DenseVector<VP> &piv)
 //  Determine the block size for this environment.
 //
     IndexType bs = ilaenv<T>(1, "GETRF", "", m, n, -1, -1);
+
+    std::cerr << "(trf) bs = " << bs
+              << ", m = " << m
+              << ", n = " << n
+              << std::endl;
 
     if ((bs<=1) || (bs>=min(m,n))) {
 //
@@ -149,18 +152,24 @@ trf_generic(GeMatrix<MA> &A, DenseVector<VP> &piv)
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA, typename VP>
 typename GeMatrix<MA>::IndexType
-trf_native(GeMatrix<MA> &A, DenseVector<VP> &piv)
+trf(GeMatrix<MA> &A, DenseVector<VP> &piv)
 {
-    return cxxlapack::getrf(A.numRows(), A.numCols(),
-                            A.data(), A.leadingDimension(),
-                            piv.data());
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
+
+    return cxxlapack::getrf<IndexType>(A.numRows(), A.numCols(),
+                                       A.data(), A.leadingDimension(),
+                                       piv.data());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -195,7 +204,7 @@ trf(GeMatrix<MA> &A, DenseVector<VP> &piv)
 //
 //  Compare results
 //
-    IndexType _info = trf_native(_A, _piv);
+    IndexType _info = external::trf(_A, _piv);
 
     bool failed = false;
     if (! isIdentical(A, _A, " A", "_A")) {

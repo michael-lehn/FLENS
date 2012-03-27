@@ -47,7 +47,6 @@
 #ifndef FLENS_LAPACK_AUX_LAMCH_TCC
 #define FLENS_LAPACK_AUX_LAMCH_TCC 1
 
-#include <complex>
 #include <limits>
 
 #include <flens/blas/blas.h>
@@ -102,31 +101,27 @@ lamch_generic(MachineParameter machineParameter)
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename T>
 T
-lamch_native(MachineParameter machineParameter)
+lamch(MachineParameter machineParameter)
 {
-    char c = char(machineParameter);
-
-    if (IsSame<T, double>::value) {
-        return LAPACK_IMPL(dlamch)(&c);
-    }
-
-    ASSERT(0);
-    return 0;
+    return cxxlapack::lamch<T>(char(machineParameter));
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
-template <typename TT>
-typename LAMCH::Real<TT>::Type
+template <typename T>
+typename RestrictTo<IsNotComplex<T>::value, T>::Type
 lamch(MachineParameter machineParameter)
 {
-    typedef typename LAMCH::Real<TT>::Type T;
 //
 //  Call implementation
 //
@@ -136,7 +131,7 @@ lamch(MachineParameter machineParameter)
 //
 //  Compare results
 //
-    const T f77_result = lamch_native<T>(machineParameter);
+    const T f77_result = external::lamch<T>(machineParameter);
 
     if (! isIdentical(cxx_result, f77_result, "cxx_result", "f77_result")) {
         ASSERT(0);

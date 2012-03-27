@@ -92,7 +92,7 @@ hd2_generic(IndexType           iLo,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef TODO_CHECK_CXXLAPACK
 
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
 void

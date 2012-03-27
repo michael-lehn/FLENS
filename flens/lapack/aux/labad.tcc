@@ -53,6 +53,9 @@ template <typename T>
 void
 labad_generic(T &small, T &large)
 {
+    if (!IsSame<T, double>) {
+        return;
+    }
 //
 //  If it looks like we're on a Cray, take the square root of
 //  SMALL and LARGE to avoid overflow and underflow problems.
@@ -65,21 +68,20 @@ labad_generic(T &small, T &large)
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename T>
 void
-labad_native(T &small, T &large)
+labad(T &small, T &large)
 {
-    if (IsSame<T, DOUBLE>::value) {
-        LAPACK_IMPL(dlabad)(&small,
-                            &large);
-    } else {
-        ASSERT(0);
-    }
+    cxxlapack::labad(small, large);
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -106,7 +108,7 @@ labad(T &small, T &large)
 //
 //  Compare results
 //
-    labad_native(_small, _large);
+    external::labad(_small, _large);
 
     bool failed = false;
     if (! isIdentical(small, _small, " small", "_small")) {

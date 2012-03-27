@@ -1,63 +1,34 @@
 #ifndef FLENS_LAPACK_INTERFACE_INLCUDE_CONFIG_H
 #define FLENS_LAPACK_INTERFACE_INLCUDE_CONFIG_H 1
 
-// #define CXXBLAS_DEBUG_OUT(x)    std::cerr << x << std::endl;
-
-
 #include <complex>
 #include <iomanip>
 #include <iostream>
-
-#ifndef INTEGER
-#   define INTEGER          int
-#endif
-
-#define UNKNOWN             void
-
-#define DOUBLE              double
-#define FLOAT               float
-#define LOGICAL             int
-
-#ifndef DOUBLE_COMPLEX
-#define DOUBLE_COMPLEX      std::complex<double>
-#endif
-
-#include <flens/lapack/interface/include/clapack.h>
-#include <flens/lapack/interface/include/f77lapack.h>
 
 #ifdef LAPACK_DECL
 #   undef   LAPACK_DECL
 #endif
 #define  LAPACK_DECL(x)     x##_
 
-#ifdef LAPACK_IMPL
-#   undef   LAPACK_IMPL
-#endif
-#define  LAPACK_IMPL(x)     x
-
-
-#ifdef DEBUG_LAPACK_CALLS
-#   define DEBUG_LAPACK_STUB(msg)      std::cerr << "LAPACK_STUB: " \
-                                                 << msg << std::endl;
-#else
-#   define DEBUG_LAPACK_STUB(msg)
-#endif
-
-
-#ifdef DEBUG_FLENS_LAPACK_CALLS
-#   define DEBUG_FLENS_LAPACK(msg)     std::cerr << "FLENS-LAPACK: " \
-                                                 << msg << std::endl;
-#else
-#   define DEBUG_FLENS_LAPACK(msg)
-#endif
-
-
-#define LAPACK_ERROR(name, info)    xerbla_(name, info, strlen(name));
+//#define DEBUG_FLENS_LAPACK(x)       std::cerr << x << std::endl;
+#define DEBUG_FLENS_LAPACK(x)
 
 //
 //  define typedefs for FLENS matrix and vector types
 //
+#ifndef USE_CXXLAPACK
+#define USE_CXXLAPACK
+#endif
 #include <flens/flens.cxx>
+
+#define DOUBLE              double
+#define DOUBLE_COMPLEX      double
+#define CXX_DOUBLE_COMPLEX  std::complex<double>
+
+void
+LAPACK_DECL(xerbla)(const char *SRNAME, const int *INFO, int SRNAME_LEN);
+
+#define LAPACK_ERROR(name, info)   LAPACK_DECL(xerbla)(name, info, strlen(name))
 
 namespace flens {
 
@@ -80,17 +51,19 @@ typedef DenseVector<DArrayView>                          DDenseVectorView;
 typedef ConstArrayView<DOUBLE>                           DConstArrayView;
 typedef DenseVector<DConstArrayView>                     DConstDenseVectorView;
 
-// matrix/vector types with DOUBLE_COMPLEX
-typedef FullStorageView<DOUBLE_COMPLEX, cxxblas::ColMajor>       ZFSView;
-typedef ConstFullStorageView<DOUBLE_COMPLEX, cxxblas::ColMajor>  ZConstFSView;
+// matrix/vector types with CXX_DOUBLE_COMPLEX
+typedef FullStorageView<CXX_DOUBLE_COMPLEX,
+                        cxxblas::ColMajor>               ZFSView;
+typedef ConstFullStorageView<CXX_DOUBLE_COMPLEX,
+                             cxxblas::ColMajor>          ZConstFSView;
 
 typedef GeMatrix<ZFSView>                                ZGeMatrixView;
 typedef GeMatrix<ZConstFSView>                           ZConstGeMatrixView;
 
-typedef ArrayView<DOUBLE_COMPLEX>                        ZArrayView;
+typedef ArrayView<CXX_DOUBLE_COMPLEX>                    ZArrayView;
 typedef DenseVector<ZArrayView>                          ZDenseVectorView;
 
-typedef ConstArrayView<DOUBLE_COMPLEX>                   ZConstArrayView;
+typedef ConstArrayView<CXX_DOUBLE_COMPLEX>               ZConstArrayView;
 typedef DenseVector<ZConstArrayView>                     ZConstDenseVectorView;
 
 // matrix/vector types with bool

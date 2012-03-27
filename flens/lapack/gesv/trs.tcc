@@ -30,7 +30,7 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/* Besed on
+/* Based on
  *
        SUBROUTINE DGETRS( TRANS, N, NRHS, A, LDA, IPIV, B, LDB, INFO )
  *
@@ -38,6 +38,15 @@
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
  *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
  *  -- April 2011                                                      --
+
+       SUBROUTINE DTRTRS( UPLO, TRANS, DIAG, N, NRHS, A, LDA, B, LDB,
+      $                   INFO )
+ *
+ *  -- LAPACK routine (version 3.2) --
+ *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
+ *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
+ *     November 2006
+ *
  */
 
 #ifndef FLENS_LAPACK_GESV_TRS_TCC
@@ -140,78 +149,54 @@ trs_generic(Transpose trans, const TrMatrix<MA> &A, GeMatrix<MB> &B)
     return info;
 }
 
-//== interface for native lapack ===============================================
+//== interface for external lapack =============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 // getrs
 template <typename MA, typename VP, typename MB>
 void
-trs_native(Transpose trans, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
-           GeMatrix<MB> &B)
+trs(Transpose trans, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
+    GeMatrix<MB> &B)
 {
-    typedef typename GeMatrix<MA>::ElementType ElementType;
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    const char       TRANS = getF77LapackChar(trans);
-    const INTEGER    N     = A.numRows();
-    const INTEGER    NRHS  = B.numCols();
-    const INTEGER    LDA   = A.leadingDimension();
-    const INTEGER    LDB   = B.leadingDimension();
-    INTEGER          INFO;
-
-
-    if (IsSame<ElementType, double>::value) {
-        LAPACK_IMPL(dgetrs)(&TRANS,
-                            &N,
-                            &NRHS,
-                            A.data(),
-                            &LDA,
-                            piv.data(),
-                            B.data(),
-                            &LDB,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO==0);
+    IndexType info = cxxlapack::getrs<IndexType>(getF77LapackChar(trans),
+                                                 A.numRows(),
+                                                 B.numCols(),
+                                                 A.data(),
+                                                 A.leadingDimension(),
+                                                 piv.data(),
+                                                 B.data(),
+                                                 B.leadingDimension());
+    ASSERT(info==0);
 }
 
 // trtrs
 template <typename MA, typename MB>
 typename TrMatrix<MA>::IndexType
-trs_native(Transpose trans, const TrMatrix<MA> &A, GeMatrix<MB> &B)
+trs(Transpose trans, const TrMatrix<MA> &A, GeMatrix<MB> &B)
 {
-    typedef typename TrMatrix<MA>::ElementType ElementType;
+    typedef typename TrMatrix<MA>::IndexType  IndexType;
 
-    const char       UPLO = char(A.upLo());
-    const char       TRANS = getF77LapackChar(trans);
-    const char       DIAG  = char(A.diag());
-    const INTEGER    N     = A.dim();
-    const INTEGER    NRHS  = B.numCols();
-    const INTEGER    LDA   = A.leadingDimension();
-    const INTEGER    LDB   = B.leadingDimension();
-    INTEGER          INFO;
-
-
-    if (IsSame<ElementType, double>::value) {
-        LAPACK_IMPL(dtrtrs)(&UPLO,
-                            &TRANS,
-                            &DIAG,
-                            &N,
-                            &NRHS,
-                            A.data(),
-                            &LDA,
-                            B.data(),
-                            &LDB,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO>=0);
-    return INFO;
+    IndexType info = cxxlapack::trtrs<IndexType>(A.upLo(),
+                                                 trans,
+                                                 A.diag(),
+                                                 A.dim(),
+                                                 B.numCols(),
+                                                 A.data(),
+                                                 A.leadingDimension(),
+                                                 B.data(),
+                                                 B.leadingDimension());
+    ASSERT(info>=0);
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -256,7 +241,7 @@ trs(Transpose trans, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
 
     B   = B_org;
 
-    trs_native(trans, A, piv, B);
+    external::trs(trans, A, piv, B);
 
     bool failed = false;
     if (! isIdentical(B_generic, B, "B_generic", "B")) {
@@ -326,7 +311,7 @@ trs(Transpose trans, const TrMatrix<MA> &A, GeMatrix<MB> &B)
 
     B   = B_org;
 
-    IndexType _info = trs_native(trans, A, B);
+    IndexType _info = external::trs(trans, A, B);
 
     bool failed = false;
     if (! isIdentical(B_generic, B, "B_generic", "B")) {

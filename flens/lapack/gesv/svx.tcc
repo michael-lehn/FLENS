@@ -259,73 +259,60 @@ svx_generic(SVX::Fact           fact,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA, typename MAF, typename VPIV, typename VR, typename VC,
           typename MB, typename MX, typename RCOND, typename FERR,
           typename BERR, typename VWORK, typename VIWORK>
 typename GeMatrix<MA>::IndexType
-svx_native(SVX::Fact           fact,
-           Transpose           trans,
-           GeMatrix<MA>        &A,
-           GeMatrix<MAF>       &AF,
-           DenseVector<VPIV>   &piv,
-           SVX::Equilibration  equed,
-           DenseVector<VR>     &r,
-           DenseVector<VC>     &c,
-           GeMatrix<MB>        &B,
-           GeMatrix<MX>        &X,
-           RCOND               &rCond,
-           DenseVector<FERR>   &fErr,
-           DenseVector<BERR>   &bErr,
-           DenseVector<VWORK>  &work,
-           DenseVector<VIWORK> &iwork)
+svx(SVX::Fact           fact,
+    Transpose           trans,
+    GeMatrix<MA>        &A,
+    GeMatrix<MAF>       &AF,
+    DenseVector<VPIV>   &piv,
+    SVX::Equilibration  equed,
+    DenseVector<VR>     &r,
+    DenseVector<VC>     &c,
+    GeMatrix<MB>        &B,
+    GeMatrix<MX>        &X,
+    RCOND               &rCond,
+    DenseVector<FERR>   &fErr,
+    DenseVector<BERR>   &bErr,
+    DenseVector<VWORK>  &work,
+    DenseVector<VIWORK> &iwork)
 {
-    typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    const char       FACT   = char(fact);
-    const char       TRANS  = getF77LapackChar(trans);
-    const INTEGER    N      = A.numRows();
-    const INTEGER    NRHS   = B.numCols();
-    const INTEGER    LDA    = A.leadingDimension();
-    const INTEGER    LDAF   = AF.leadingDimension();
-    char             EQUED  = char(equed);
-    const INTEGER    LDB    = B.leadingDimension();
-    const INTEGER    LDX    = X.leadingDimension();
-    INTEGER          INFO;
-
-    if (IsSame<T,double>::value) {
-        LAPACK_IMPL(dgesvx)(&FACT,
-                            &TRANS,
-                            &N,
-                            &NRHS,
-                            A.data(),
-                            &LDA,
-                            AF.data(),
-                            &LDAF,
-                            piv.data(),
-                            &EQUED,
-                            r.data(),
-                            c.data(),
-                            B.data(),
-                            &LDB,
-                            X.data(),
-                            &LDX,
-                            &rCond,
-                            fErr.data(),
-                            bErr.data(),
-                            work.data(),
-                            iwork.data(),
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO>=0);
-
-    return INFO;
+    IndexType info = external::gesvx<IndexType>(getF77Char(fact),
+                                                getF77Char(trans),
+                                                A.numRows(),
+                                                B.numCols(),
+                                                A.data(),
+                                                A.leadingDimension(),
+                                                AF.data(),
+                                                AF.leadingDimension(),
+                                                piv.data(),
+                                                getF77Char(equed),
+                                                r.data(),
+                                                c.data(),
+                                                B.data(),
+                                                B.leadingDimension(),
+                                                X.data(),
+                                                X.leadingDimension(),
+                                                rCond,
+                                                fErr.data(),
+                                                bErr.data(),
+                                                work.data(),
+                                                iwork.data());
+    ASSERT(info>=0);
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 template <typename MA, typename MAF, typename VPIV, typename VR, typename VC,

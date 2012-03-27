@@ -175,7 +175,7 @@ lahr2_generic(IndexType k, IndexType nb, GeMatrix<MA> &A,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef TODO_CHECK_CXXLAPACK
 
 template <typename IndexType, typename MA, typename VTAU,
           typename MTR, typename MY>

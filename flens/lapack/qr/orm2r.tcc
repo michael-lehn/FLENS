@@ -122,7 +122,7 @@ orm2r_generic(Side side, Transpose trans, GeMatrix<MA> &A,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef TODO_CHECK_CXXLAPACK
 
 template <typename MA, typename VTAU, typename MC, typename VWORK>
 void

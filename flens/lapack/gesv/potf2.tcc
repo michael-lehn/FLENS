@@ -47,8 +47,6 @@
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>
 
-#include <flens/lapack/interface/include/f77lapack.h>
-
 namespace flens { namespace lapack {
 
 //== generic lapack implementation =============================================
@@ -149,30 +147,27 @@ potf2_generic(SyMatrix<MA> &A)
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA>
 typename SyMatrix<MA>::IndexType
-potf2_native(SyMatrix<MA> &_A)
+potf2(SyMatrix<MA> &A)
 {
-    typedef typename SyMatrix<MA>::ElementType  T;
+    typedef typename SyMatrix<MA>::IndexType  IndexType;
 
-    const char       UPLO = char(_A.upLo());
-    const INTEGER    N = _A.dim();
-    T               *A = _A.data();
-    const INTEGER    LDA = _A.leadingDimension();
-    INTEGER          INFO;
-
-    if (IsSame<T, DOUBLE>::value) {
-        LAPACK_IMPL(dpotf2)(&UPLO, &N, A, &LDA, &INFO);
-    } else {
-        ASSERT(0);
-    }
-
-    return INFO;
+    IndexType info = cxxlapack::potf2<IndexType>(getF77Char(A.upLo()),
+                                                 A.dim(),
+                                                 A.data(),
+                                                 A.leadingDimension());
+    ASSERT(info>=0);
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -213,7 +208,7 @@ potf2(SyMatrix<MA> &A)
 //
 //  Compare results
 //
-    IndexType _info = potf2_native(A);
+    IndexType _info = external::potf2(A);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "_A")) {

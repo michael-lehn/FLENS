@@ -46,28 +46,13 @@
 #ifndef FLENS_LAPACK_AUX_LAMCH_H
 #define FLENS_LAPACK_AUX_LAMCH_H 1
 
+#include <flens/aux/aux.h>
 #include <flens/lapack/typedefs.h>
 
 namespace flens { namespace lapack {
 
-namespace LAMCH {
-
 template <typename T>
-struct Real
-{
-    typedef T Type;
-};
-
-template <typename T>
-struct Real<std::complex<T> >
-{
-    typedef T Type;
-};
-
-} // namespace LAMCH
-
-template <typename TT>
-    typename LAMCH::Real<TT>::Type
+    typename RestrictTo<IsNotComplex<T>::value, T>::Type
     lamch(MachineParameter machineParameter);
 
 } } // namespace lapack, flens

@@ -50,6 +50,10 @@ template <typename T>
     void
     ladiv(const T &a, const T &b, const T &c, const T &d, T &p, T &q);
 
+template <typename T>
+    std::complex<T>
+    ladiv(const std::complex<T> &x, const std::complex<T> &y);
+
 } } // namespace lapack, flens
 
 #endif // FLENS_LAPACK_AUX_LADIV_H

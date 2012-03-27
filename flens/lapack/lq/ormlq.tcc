@@ -254,93 +254,66 @@ ormlq_generic(Side                      side,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA, typename MC>
 typename GeMatrix<MC>::IndexType
-ormlq_native_wsq(Side              side,
-                 Transpose         trans,
-                 GeMatrix<MA>      &A,
-                 GeMatrix<MC>      &C)
+ormlq_wsq(Side              side,
+          Transpose         trans,
+          GeMatrix<MA>      &A,
+          GeMatrix<MC>      &C)
 {
+    typedef typename GeMatrix<MC>::IndexType    IndexType;
     typedef typename GeMatrix<MC>::ElementType  T;
 
-    const char      SIDE    = char(side);
-    const char      TRANS   = getF77LapackChar(trans);
-    const INTEGER   M       = C.numRows();
-    const INTEGER   N       = C.numCols();
-    const INTEGER   K       = A.numRows();
-    const INTEGER   LDA     = A.leadingDimension();
-    const INTEGER   LDC     = C.leadingDimension();
-    T               WORK, DUMMY;
-    const INTEGER   LWORK   = -1;
-    INTEGER         INFO;
+    T                   WORK, DUMMY;
+    const IndexType     LWORK   = -1;
 
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dormlq)(&SIDE,
-                            &TRANS,
-                            &M,
-                            &N,
-                            &K,
-                            A.data(),
-                            &LDA,
-                            &DUMMY,
-                            C.data(),
-                            &LDC,
-                            &WORK,
-                            &LWORK,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-
-    ASSERT(INFO>=0);
+    cxxlapack::ormlq<IndexType>(getF77Char(side),
+                                getF77Char(trans),
+                                C.numRows(),
+                                C.numCols(),
+                                A.numRows(),
+                                A.data(),
+                                A.leadingDimension(),
+                                &DUMMY,
+                                C.data(),
+                                C.leadingDimension(),
+                                &WORK,
+                                LWORK);
     return WORK;
 }
 
 template <typename MA, typename VTAU, typename MC, typename VWORK>
 void
-ormlq_native(Side                       side,
-             Transpose                  trans,
-             GeMatrix<MA>               &A,
-             const DenseVector<VTAU>    &tau,
-             GeMatrix<MC>               &C,
-             DenseVector<VWORK>         &work)
+ormlq(Side                       side,
+      Transpose                  trans,
+      GeMatrix<MA>               &A,
+      const DenseVector<VTAU>    &tau,
+      GeMatrix<MC>               &C,
+      DenseVector<VWORK>         &work)
 {
-    typedef typename GeMatrix<MC>::ElementType  T;
+    typedef typename GeMatrix<MC>::IndexType  IndexType;
 
-    const char      SIDE    = char(side);
-    const char      TRANS   = getF77LapackChar(trans);
-    const INTEGER   M       = C.numRows();
-    const INTEGER   N       = C.numCols();
-    const INTEGER   K       = A.numRows();
-    const INTEGER   LDA     = A.leadingDimension();
-    const INTEGER   LDC     = C.leadingDimension();
-    const INTEGER   LWORK   = work.length();
-    INTEGER         INFO;
-
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dormlq)(&SIDE,
-                            &TRANS,
-                            &M,
-                            &N,
-                            &K,
-                            A.data(),
-                            &LDA,
-                            tau.data(),
-                            C.data(),
-                            &LDC,
-                            work.data(),
-                            &LWORK,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-
-    ASSERT(INFO>=0);
+    cxxlapack::ormlq<IndexType>(getF77Char(side),
+                                getF77Char(trans),
+                                C.numRows(),
+                                C.numCols(),
+                                A.numRows(),
+                                A.data(),
+                                A.leadingDimension(),
+                                tau.data(),
+                                C.data(),
+                                C.leadingDimension(),
+                                work.data(),
+                                work.length());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 

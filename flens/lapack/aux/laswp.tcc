@@ -92,25 +92,30 @@ laswp_generic(GeMatrix<MA> &A, const DenseVector<VP> &piv)
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA, typename VP>
 void
-laswp_native(GeMatrix<MA> &A, const DenseVector<VP> &piv)
+laswp(GeMatrix<MA> &A, const DenseVector<VP> &piv)
 {
     using std::max;
     using std::min;
 
-    const INTEGER    k1 = min(piv.firstIndex(), piv.lastIndex());
-    const INTEGER    k2 = max(piv.firstIndex(), piv.lastIndex());
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    // set pointer IPIV such that IPIV[K1] points to piv.data()
-    cxxlapack::laswp<INTEGER>(A.numCols(), A.data(), A.leadingDimension(),
-                              k1, k2,
-                              piv.data()-k1+1, piv.inc());
+    const IndexType k1 = min(piv.firstIndex(), piv.lastIndex());
+    const IndexType k2 = max(piv.firstIndex(), piv.lastIndex());
+
+    cxxlapack::laswp<IndexType>(A.numCols(), A.data(), A.leadingDimension(),
+                                k1, k2,
+                                piv.data()-k1+1, piv.inc());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -145,7 +150,7 @@ laswp(GeMatrix<MA> &A, const DenseVector<VP> &piv)
 //
 //  Compare results
 //
-    laswp_native(_A, piv);
+    external::laswp(_A, piv);
 
     bool failed = false;
     if (! isIdentical(A, _A, " A", "_A")) {

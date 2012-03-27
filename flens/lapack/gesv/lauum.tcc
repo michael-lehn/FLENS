@@ -47,8 +47,6 @@
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>
 
-#include <flens/lapack/interface/include/f77lapack.h>
-
 namespace flens { namespace lapack {
 
 //== generic lapack implementation =============================================
@@ -142,32 +140,26 @@ lauum_generic(TrMatrix<MA> &A)
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA>
 void
-lauum_native(TrMatrix<MA> &A)
+lauum(TrMatrix<MA> &A)
 {
-    typedef typename TrMatrix<MA>::ElementType  ElementType;
+    typedef typename TrMatrix<MA>::IndexType  IndexType;
 
-    const char     UPLO(A.upLo());
-    const INTEGER  N     = A.dim();
-    const INTEGER  LDA   = A.leadingDimension();
-    INTEGER        INFO;
-
-    if (IsSame<ElementType,double>::value) {
-        LAPACK_DECL(dlauum)(&UPLO,
-                            &N,
-                            A.data(),
-                            &LDA,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO==0);
+    IndexType info = cxxlapack::lauum<IndexType>(getF77Char(A.upLo()),
+                                                 A.dim(),
+                                                 A.data(),
+                                                 A.leadingDimension());
+    ASSERT(info==0);
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -209,7 +201,7 @@ lauum(TrMatrix<MA> &A)
 //
 //  Compare results
 //
-    lauum_native(A);
+    external::lauum(A);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "_A")) {

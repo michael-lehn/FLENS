@@ -572,46 +572,37 @@ latrs_generic(Transpose             trans,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA, typename VX, typename SCALE, typename CNORM>
 void
-latrs_native(Transpose             trans,
-             bool                  normIn,
-             const TrMatrix<MA>    &A,
-             DenseVector<VX>       &x,
-             SCALE                 &scale,
-             DenseVector<CNORM>    &cNorm)
+latrs(Transpose             trans,
+      bool                  normIn,
+      const TrMatrix<MA>    &A,
+      DenseVector<VX>       &x,
+      SCALE                 &scale,
+      DenseVector<CNORM>    &cNorm)
 {
-    typedef typename TrMatrix<MA>::ElementType  T;
+    typedef typename TrMatrix<MA>::IndexType  IndexType;
 
-    const char       UPLO   = cxxblas::getF77BlasChar(A.upLo());
-    const char       TRANS  = cxxblas::getF77BlasChar(trans);
-    const char       DIAG   = cxxblas::getF77BlasChar(A.diag());
-    const char       NORMIN = (normIn) ? 'Y' : 'N';
-    const INTEGER    N      = A.dim();
-    const INTEGER    LDA    = A.leadingDimension();
-    INTEGER          INFO;
-
-    if (IsSame<T,double>::value) {
-        LAPACK_IMPL(dlatrs)(&UPLO,
-                            &TRANS,
-                            &DIAG,
-                            &NORMIN,
-                            &N,
-                            A.data(),
-                            &LDA,
-                            x.data(),
-                            &scale,
-                            cNorm.data(),
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO==0);
+    IndexType info = cxxlapack::latrs<IndexType>(getF77Char(A.upLo()),
+                                                 getF77Char(trans),
+                                                 getF77Char(A.diag()),
+                                                 (normIn) ? 'Y' : 'N',
+                                                 A.dim(),
+                                                 A.data(),
+                                                 A.leadingDimension(),
+                                                 x.data(),
+                                                 &scale,
+                                                 cNorm.data());
+    ASSERT(info==0);
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -649,7 +640,6 @@ latrs(Transpose             trans,
 //  Call implementation
 //
     latrs_generic(trans, normIn, A, x, scale, cNorm);
-    //latrs_native(trans, normIn, A, x, scale, cNorm);
 
 #   ifdef CHECK_CXXLAPACK
 //
@@ -663,7 +653,7 @@ latrs(Transpose             trans,
     scale = scale_org;
     cNorm = cNorm_org;
 
-    latrs_native(trans, normIn, A, x, scale, cNorm);
+    external::latrs(trans, normIn, A, x, scale, cNorm);
 
     bool failed = false;
     if (! isIdentical(x_generic, x, "x_generic", "x")) {

@@ -449,73 +449,54 @@ laln2_generic(bool                  transA,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename NW, typename SAFEMIN, typename CA, typename MA,
           typename D1, typename D2, typename MB, typename WR, typename WI,
           typename MX, typename SCALE, typename XNORM>
 typename GeMatrix<MX>::IndexType
-laln2_native(bool                  transA,
-             NW                    nw,
-             const SAFEMIN         &safeMin,
-             const CA              &ca,
-             const GeMatrix<MA>    &A,
-             const D1              &d1,
-             const D2              &d2,
-             const GeMatrix<MB>    &B,
-             const WR              &wr,
-             const WI              &wi,
-             GeMatrix<MX>          &X,
-             SCALE                 &scale,
-             XNORM                 &xNorm)
+laln2(bool                  transA,
+      NW                    nw,
+      const SAFEMIN         &safeMin,
+      const CA              &ca,
+      const GeMatrix<MA>    &A,
+      const D1              &d1,
+      const D2              &d2,
+      const GeMatrix<MB>    &B,
+      const WR              &wr,
+      const WI              &wi,
+      GeMatrix<MX>          &X,
+      SCALE                 &scale,
+      XNORM                 &xNorm)
 {
-    typedef typename GeMatrix<MX>::ElementType  T;
+    typedef typename GeMatrix<MX>::IndexType  IndexType;
 
-    const LOGICAL    LTRANS = transA;
-    const INTEGER    NA     = A.numRows();
-    const INTEGER    _NW    = nw;
-    const T          SMIN   = safeMin;
-    const T          _CA    = ca;
-    const INTEGER    LDA    = A.leadingDimension();
-    const T          _D1    = d1;
-    const T          _D2    = d2;
-    const INTEGER    LDB    = B.leadingDimension();
-    const T          _WR    = wr;
-    const T          _WI    = wi;
-    const INTEGER    LDX    = X.leadingDimension();
-    T                _SCALE = scale;
-    T                _XNORM = xNorm;
-    INTEGER          INFO;
-
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dlaln2)(&LTRANS,
-                            &NA,
-                            &_NW,
-                            &SMIN,
-                            &_CA,
-                            A.data(),
-                            &LDA,
-                            &_D1,
-                            &_D2,
-                            B.data(),
-                            &LDB,
-                            &_WR,
-                            &_WI,
-                            X.data(),
-                            &LDX,
-                            &_SCALE,
-                            &_XNORM,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    scale = _SCALE;
-    xNorm = _XNORM;
-    ASSERT(INFO>=0);
-    return INFO;
+    IndexType info = cxxlapack::laln2<IndexType>(getF77BlasChar(transA),
+                                                 A.numRows(),
+                                                 nw,
+                                                 safeMin,
+                                                 ca,
+                                                 A.data(),
+                                                 A.leadingDimension(),
+                                                 d1,
+                                                 d2,
+                                                 B.data(),
+                                                 ldB,
+                                                 wr,
+                                                 wi,
+                                                 X.data(),
+                                                 X.leadingDimension(),
+                                                 scale,
+                                                 xNorm);
+    ASSERT(info>=0);
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -592,9 +573,9 @@ laln2(bool                  transA,
 //
 //  Compare generic results with results from the native implementation
 //
-    const IndexType _info = laln2_native(transA, nw, safeMin, ca,
-                                         A, d1, d2, B, wr, wi,
-                                         X, scale, xNorm);
+    const IndexType _info = external::laln2(transA, nw, safeMin, ca,
+                                            A, d1, d2, B, wr, wi,
+                                            X, scale, xNorm);
 
     bool failed = false;
     if (! isIdentical(X_generic, X, "X_generic", "X")) {

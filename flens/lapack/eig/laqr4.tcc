@@ -586,7 +586,7 @@ laqr4_generic(bool                  wantT,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef TODO_CHECK_CXXLAPACK
 
 template <typename IndexType, typename MH>
 IndexType

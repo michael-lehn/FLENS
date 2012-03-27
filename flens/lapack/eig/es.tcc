@@ -364,7 +364,7 @@ es_generic(bool                 computeSchurVectors,
 
 //== interface for native lapack ===============================================
 
-#ifdef  CHECK_CXXLAPACK
+#ifdef  TODO_CHECK_CXXLAPACK
 
 template <typename MA>
 typename GeMatrix<MA>::IndexType

@@ -60,7 +60,8 @@ getf2(IndexType             m,
       IndexType             *iPiv)
 {
     IndexType info;
-    LAPACK_IMPL(zgetf2)(&m, &n, A, &ldA, iPiv, &info);
+    LAPACK_IMPL(zgetf2)(&m, &n, reinterpret_cast<double *>(A), &ldA,
+                        iPiv, &info);
     return info;
 }
 

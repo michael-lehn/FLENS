@@ -47,8 +47,6 @@
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>
 
-#include <flens/lapack/interface/include/f77lapack.h>
-
 namespace flens { namespace lapack {
 
 //== generic lapack implementation =============================================
@@ -102,32 +100,27 @@ potrs_generic(const SyMatrix<MA> &A, GeMatrix<MB> &B)
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA, typename MB>
 void
-potrs_native(const SyMatrix<MA> &A, GeMatrix<MB> &B)
+potrs(const SyMatrix<MA> &A, GeMatrix<MB> &B)
 {
-    typedef typename SyMatrix<MA>::ElementType  T;
+    typedef typename SyMatrix<MA>::IndexType  IndexType;
 
-    const char       UPLO = char(A.upLo());
-    const INTEGER    N    = A.dim();
-    const INTEGER    NRHS = B.numCols();
-    const INTEGER    LDA  = A.leadingDimension();
-    const INTEGER    LDB  = B.leadingDimension();
-    INTEGER          INFO;
-
-    if (IsSame<T, DOUBLE>::value) {
-        LAPACK_IMPL(dpotrs)(&UPLO, &N, &NRHS,
-                            A.data(), &LDA,
-                            B.data(), &LDB,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
+    IndexType info = cxxlapack::potrs<IndexType>(getF77Char(A.upLo()),
+                                                 A.dim(),
+                                                 A.leadingDimension(),
+                                                 B.numCols(),
+                                                 B.leadingDimension());
+    ASSERT(info==0);
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -173,7 +166,7 @@ potrs(const SyMatrix<MA> &A, GeMatrix<MB> &B)
 //
 //  Compare results
 //
-    potrs_native(A, B);
+    external::potrs(A, B);
 
     bool failed = false;
     if (! isIdentical(B_generic, B, "B_generic", "B")) {

@@ -192,55 +192,25 @@ QUIT:
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
 
+namespace external {
 
 template <typename  VV, typename VX, typename VSGN, typename EST,
           typename IndexType, typename VSAVE>
 void
-lacn2_native(DenseVector<VV> &v, DenseVector<VX> &x, DenseVector<VSGN> &sgn,
-             EST &est, IndexType &kase, DenseVector<VSAVE> &iSave)
+lacn2(DenseVector<VV> &v, DenseVector<VX> &x, DenseVector<VSGN> &sgn,
+      EST &est, IndexType &kase, DenseVector<VSAVE> &iSave)
 {
-    typedef typename DenseVector<VV>::ElementType   T;
+    typedef typename DenseVector<VV>::IndexType  IndexType;
 
-    const INTEGER                   N = v.length();
-    DenseVector<Array<INTEGER> >    _sgn(N);
-    T                               _EST = est;
-    INTEGER                         _KASE = kase;
-    DenseVector<Array<INTEGER> >    _iSave(3);
-
-    for (INTEGER i=1; i<=N; ++i) {
-        _sgn(i) = sgn(i);
-    }
-    for (INTEGER i=1; i<=3; ++i) {
-        _iSave(i) = iSave(i);
-    }
-    _iSave = iSave;
-
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dlacn2)(&N,
-                            v.data(),
-                            x.data(),
-                            _sgn.data(),
-                            &_EST,
-                            &_KASE,
-                            _iSave.data());
-    } else {
-        ASSERT(0);
-    }
-
-    est  = _EST;
-    kase = _KASE;
-
-    for (INTEGER i=1; i<=N; ++i) {
-        sgn(i) = _sgn(i);
-    }
-    for (INTEGER i=1; i<=3; ++i) {
-        iSave(i) = _iSave(i);
-    }
+    cxxlapack::lacn2<IndexType>(v.length(), v.data(), x.data(), sgn.data(),
+                                &est, &kase, iSave.data());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 template <typename  VV, typename VX, typename VSGN, typename EST,
@@ -309,7 +279,7 @@ lacn2(DenseVector<VV> &v, DenseVector<VX> &x, DenseVector<VSGN> &sgn,
 //
 //  Compare generic results with results from the native implementation
 //
-    lacn2_native(v, x, sgn, est, kase, iSave);
+    external::lacn2(v, x, sgn, est, kase, iSave);
 
     bool failed = false;
     if (! isIdentical(v_generic, v, "v_generic", "v")) {

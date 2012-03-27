@@ -372,7 +372,7 @@ trsna_generic(TRSNA::Job                    job,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef TODO_CHECK_CXXLAPACK
 
 template <typename VSELECT, typename MT, typename MVL, typename MVR,
           typename VS, typename VSEP, typename M, typename MM,

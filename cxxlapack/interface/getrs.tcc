@@ -40,7 +40,7 @@ namespace cxxlapack {
 
 template <typename IndexType>
 IndexType
-getrs(Transpose         _trans,
+getrs(char              trans,
       IndexType         n,
       IndexType         nRhs,
       const double      *A,
@@ -50,14 +50,13 @@ getrs(Transpose         _trans,
       IndexType         ldB)
 {
     IndexType info;
-    char trans = getF77LapackChar(_trans);
     LAPACK_IMPL(dgetrs)(&trans, &n, &nRhs, A, &ldA, iPiv, B, &ldB, &info);
     return info;
 }
 
 template <typename IndexType>
 IndexType
-getrs(Transpose                     _trans,
+getrs(char                          trans,
       IndexType                     n,
       IndexType                     nRhs,
       const std::complex<double>    *A,
@@ -67,7 +66,6 @@ getrs(Transpose                     _trans,
       IndexType                     ldB)
 {
     IndexType info;
-    char trans = getF77LapackChar(_trans);
     LAPACK_IMPL(zgetrs)(&trans, &n, &nRhs,
                         reinterpret_cast<const double *>(A), &ldA,
                         iPiv,

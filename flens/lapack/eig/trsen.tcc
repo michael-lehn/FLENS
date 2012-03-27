@@ -340,7 +340,7 @@ trsen_generic(TRSEN::Job                job,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef TODO_CHECK_CXXLAPACK
 
 template <typename SELECT, typename MT, typename MQ, typename WR, typename WI,
           typename IndexType, typename S, typename SEP,

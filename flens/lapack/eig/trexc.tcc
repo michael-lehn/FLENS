@@ -311,7 +311,7 @@ trexc_generic(bool                          computeQ,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef TODO_CHECK_CXXLAPACK
 
 template <typename MT, typename MQ, typename IndexType, typename VWORK>
 IndexType

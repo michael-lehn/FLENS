@@ -105,7 +105,9 @@ orgl2_generic(IndexType                 k,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
 void
@@ -114,30 +116,21 @@ orgl2_native(IndexType                 k,
              const DenseVector<VTAU>   &tau,
              DenseVector<VWORK>        &work)
 {
-    typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    const INTEGER    M      = A.numRows();
-    const INTEGER    N      = A.numCols();
-    const INTEGER    K      = k;
-    const INTEGER    LDA    = A.leadingDimension();
-    INTEGER          INFO;
-
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dorgl2)(&M,
-                            &N,
-                            &K,
-                            A.data(),
-                            &LDA,
-                            tau.data(),
-                            work.data(),
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO==0);
+    IndexType info = cxxlapack::orgl2<IndexType>(A.numRows(),
+                                                 A.numCols(),
+                                                 k,
+                                                 A.data(),
+                                                 A.leadingDimension(),
+                                                 tau.data(),
+                                                 work.data());
+    ASSERT(info==0);
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 

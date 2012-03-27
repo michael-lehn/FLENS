@@ -630,7 +630,7 @@ laqtr_generic(bool                  trans,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef TODO_CHECK_CXXLAPACK
 
 template <typename MT, typename VB, typename W, typename SCALE, typename VX,
           typename VWORK>

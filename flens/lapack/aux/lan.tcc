@@ -325,59 +325,43 @@ lan_generic(Norm norm, const TrMatrix<MA> &A, DenseVector<VWORK> &work)
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA, typename VWORK>
 typename GeMatrix<MA>::ElementType
-lan_native(Norm norm, const GeMatrix<MA> &A, DenseVector<VWORK> &work)
+lan(Norm norm, const GeMatrix<MA> &A, DenseVector<VWORK> &work)
 {
-    typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    const char      NORM    = getF77LapackChar<Norm>(norm);
-    const INTEGER   M       = A.numRows();
-    const INTEGER   N       = A.numCols();
-    const INTEGER   LDA     = A.leadingDimension();
-
-    if (IsSame<T, DOUBLE>::value) {
-        return LAPACK_IMPL(dlange)(&NORM,
-                                   &M,
-                                   &N,
-                                   A.data(),
-                                   &LDA,
-                                   work.data());
-    } else {
-        ASSERT(0);
-    }
+    return cxxlapack::lange<IndexType>(getF77Char(norm),
+                                       A.numRows(),
+                                       A.numCols(),
+                                       A.data(),
+                                       A.leadingDimension(),
+                                       work.data());
 }
 
 template <typename MA, typename VWORK>
 typename TrMatrix<MA>::ElementType
-lan_native(Norm norm, const TrMatrix<MA> &A, DenseVector<VWORK> &work)
+lan(Norm norm, const TrMatrix<MA> &A, DenseVector<VWORK> &work)
 {
-    typedef typename TrMatrix<MA>::ElementType  T;
+    typedef typename TrMatrix<MA>::IndexType  IndexType;
 
-    const char      NORM    = getF77LapackChar<Norm>(norm);
-    const char      UPLO    = getF77BlasChar(A.upLo());
-    const char      DIAG    = getF77BlasChar(A.diag());
-    const INTEGER   M       = A.numRows();
-    const INTEGER   N       = A.numCols();
-    const INTEGER   LDA     = A.leadingDimension();
-
-    if (IsSame<T, DOUBLE>::value) {
-        return LAPACK_IMPL(dlantr)(&NORM,
-                                   &UPLO,
-                                   &DIAG,
-                                   &M,
-                                   &N,
-                                   A.data(),
-                                   &LDA,
-                                   work.data());
-    } else {
-        ASSERT(0);
-    }
+    return cxxlapack::lantr<IndexType>(getF77Char(norm),
+                                       getF77Char(A.upLo()),
+                                       getF77Char(A.diag()),
+                                       A.numRows(),
+                                       A.numCols(),
+                                       A.data(),
+                                       A.leadingDimension(),
+                                       work.data());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -424,7 +408,7 @@ lan(Norm norm, const GeMatrix<MA> &A, DenseVector<VWORK> &work)
         _work.resize(work.length());
     }
 
-    T _result = lan_native(norm, A, _work);
+    T _result = external::lan(norm, A, _work);
 
     bool failed = false;
     if (! isIdentical(work, _work, " work", "_work")) {
@@ -488,7 +472,7 @@ lan(Norm norm, const TrMatrix<MA> &A, DenseVector<VWORK> &work)
         _work.resize(work.length());
     }
 
-    T _result = lan_native(norm, A, _work);
+    T _result = external::lan(norm, A, _work);
 
     bool failed = false;
     if (! isIdentical(work, _work, " work", "_work")) {

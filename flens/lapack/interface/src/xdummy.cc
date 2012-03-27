@@ -3,16 +3,27 @@
 
 #include <flens/lapack/interface/include/config.h>
 
-#define ASSERT(x)   assert(x)
+#ifdef LAPACK_IMPL
+#   undef   LAPACK_IMPL
+#endif
+#define  LAPACK_IMPL(x)     x
 
 extern "C" {
 
-#include <flens/lapack/interface/include/dummy.in.cc>
-
+INTEGER
+LAPACK_DECL(ilaenv)(const INTEGER *SPEC,
+                    const char *NAME,
+                    const char *OPTS,
+                    const INTEGER *N1,
+                    const INTEGER *N2,
+                    const INTEGER *N3,
+                    const INTEGER *N4,
+                    int NAME_LEN,
+                    int OPTS_LEN);
 
 //
-// for "ilaenv" we have to reverse the pass-through such that the
-// ilaenv version from the testsuit gets called
+// for "ilaenv" and "xerbla" we LAPACK_IMPL(..) calls the LAPACK_DECL(..)
+// such that the routines from the LAPACK test suite gets called
 //
 INTEGER
 LAPACK_IMPL(ilaenv)(const INTEGER *SPEC,

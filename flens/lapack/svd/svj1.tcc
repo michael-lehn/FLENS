@@ -492,7 +492,7 @@ svj1_generic(SVJ::JobV                                  jobV,
 
 
 //== interface for native lapack ===============================================
-#ifdef CHECK_CXXLAPACK
+#ifdef TODO_CHECK_CXXLAPACK
 
 template <typename MA, typename VD, typename VSVA, typename MV, typename VWORK>
 typename GeMatrix<MA>::IndexType

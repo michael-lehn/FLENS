@@ -130,20 +130,20 @@ lartg_generic(const T &f, const T &g, T &cs, T &sn, T &r)
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename T>
 void
-lartg_native(const T &f, const T &g, T &cs, T &sn, T &r)
+lartg(const T &f, const T &g, T &cs, T &sn, T &r)
 {
-    if (IsSame<T, DOUBLE>::value) {
-        LAPACK_IMPL(dlartg)(&f, &g, &cs, &sn, &r);
-    } else {
-        ASSERT(0);
-    }
+    cxxlapack::lartg(f, g, cs, sn, r);
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -171,7 +171,7 @@ lartg(const T &f, const T &g, T &cs, T &sn, T &r)
 //
 //  Compare results
 //
-    lartg_native(f, g, _cs, _sn, _r);
+    external::lartg(f, g, _cs, _sn, _r);
 
     bool failed = false;
     if (! isIdentical(cs, _cs, " cs", "_cs")) {

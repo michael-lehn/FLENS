@@ -39,19 +39,9 @@
 #endif // LAPACK_DEBUG_OUT
 
 
-#ifndef TRACE_INIT
-#       define TRACE_INIT    int count = 0
-#endif // TRACE_INIT
-
-#ifndef TRACE
-#       define TRACE(msg)    std::cerr << msg << ++count << std::endl
-#endif // TRACE
-
-
-
 #include <flens/lapack/aux/con.h>
-#include <flens/lapack/aux/convert.h>
 #include <flens/lapack/aux/equ.h>
+#include <flens/lapack/aux/getf77char.h>
 #include <flens/lapack/aux/ilaenv.h>
 #include <flens/lapack/aux/ilalc.h>
 #include <flens/lapack/aux/ilalr.h>
@@ -151,15 +141,9 @@
 #include <flens/lapack/svd/svj0.h>
 #include <flens/lapack/svd/svj1.h>
 
-
-#if defined CHECK_CXXLAPACK || defined USE_NATIVE_ILAENV
-#   include <flens/lapack/interface/include/cxxlapack.h>
-#   include <flens/lapack/interface/include/f77lapack.h>
+#ifdef USE_CXXLAPACK
+#   include <cxxlapack/cxxlapack.h>
 #endif
-
-/*
-#include <flens/lapack/qr/qrs.h>
-*/
 
 #include <flens/lapack/typedefs.h>
 

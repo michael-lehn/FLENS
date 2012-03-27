@@ -149,38 +149,31 @@ larft_generic(Direction direction, StoreVectors storeVectors, IndexType n,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename IndexType, typename MV, typename VTAU, typename MT>
 void
-larft_native(Direction direction, StoreVectors storeVectors, IndexType n,
-             GeMatrix<MV> &V, const DenseVector<VTAU> &tau, TrMatrix<MT> &Tr)
+larft(Direction direction, StoreVectors storeVectors, IndexType n,
+      GeMatrix<MV> &V, const DenseVector<VTAU> &tau, TrMatrix<MT> &Tr)
 {
-    typedef typename TrMatrix<MT>::ElementType  T;
+    typedef typename TrMatrix<MT>::IndexType  IndexType;
 
-    const char DIRECT = (direction==Forward) ? 'F' : 'B';
-    const char STOREV = (storeVectors==ColumnWise) ? 'C' : 'R';
-    const INTEGER N = n;
-    const INTEGER K = Tr.dim();
-    const INTEGER LDV = V.leadingDimension();
-    const INTEGER LDT = Tr.leadingDimension();
-
-    if (IsSame<T, DOUBLE>::value) {
-        LAPACK_IMPL(dlarft)(&DIRECT,
-                            &STOREV,
-                            &N,
-                            &K,
-                            V.data(),
-                            &LDV,
-                            tau.data(),
-                            Tr.data(),
-                            &LDT);
-    } else {
-        ASSERT(0);
-    }
+    cxxlapack::larft<IndexType>(getF77Char(direction),
+                                getF77Char(storeVectors),
+                                n,
+                                Tr.dim(),
+                                V.data(),
+                                V.leadingDimension(),
+                                tau.data(),
+                                Tr.data(),
+                                Tr.leadingDimension());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -226,7 +219,7 @@ larft(Direction direction, StoreVectors storeVectors, IndexType n,
 //
 //  Compare results
 //
-    larft_native(direction, storeVectors, n, V, tau, Tr);
+    external::larft(direction, storeVectors, n, V, tau, Tr);
 
     bool failed = false;
     if (! isIdentical(V_generic, V, "V_generic", "V")) {

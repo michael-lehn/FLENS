@@ -40,7 +40,7 @@ namespace cxxlapack {
 
 template <typename IndexType>
     IndexType
-    getrs(Transpose             trans,
+    getrs(char                  trans,
           IndexType             n,
           IndexType             nRhs,
           const double          *A,
@@ -51,7 +51,7 @@ template <typename IndexType>
 
 template <typename IndexType>
     IndexType
-    getrs(Transpose                     trans,
+    getrs(char                          trans,
           IndexType                     n,
           IndexType                     nRhs,
           const std::complex<double>    *A,

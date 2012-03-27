@@ -117,25 +117,22 @@ rscl_generic(const SA &sa, DenseVector<VSX> &sx)
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
+
 template <typename SA, typename VSX>
 void
-rscl_native(const SA &sa, DenseVector<VSX> &sx)
+rscl(const SA &sa, DenseVector<VSX> &sx)
 {
-    typedef typename DenseVector<VSX>::ElementType  T;
+    typedef typename DenseVector<VSX>::IndexType  IndexType;
 
-    const INTEGER    N    = sx.length();
-    const T          _SA  = sa;
-    const INTEGER    INCX = sx.stride();
-
-    if (IsSame<T,double>::value) {
-        LAPACK_IMPL(drscl)(&N, &_SA, sx.data(), &INCX);
-    } else {
-        ASSERT(0);
-    }
+    cxxlapack::rscl<IndexType>(sx.length(), sa, sx.data(), sx.stride());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 template <typename SA, typename VSX>
@@ -147,6 +144,7 @@ rscl(const SA &sa, DenseVector<VSX> &sx)
 //
 #   ifndef NDEBUG
     ASSERT(sx.firstIndex()==1);
+    ASSERT(sx.incX()>0);
 #   endif
 
 #   ifdef CHECK_CXXLAPACK
@@ -175,7 +173,7 @@ rscl(const SA &sa, DenseVector<VSX> &sx)
 //
 //  Compare generic results with results from the native implementation
 //
-    rscl_native(sa, sx);
+    external::rscl(sa, sx);
 
     bool failed = false;
     if (! isIdentical(sx_generic, sx, "sx_generic", "sx")) {

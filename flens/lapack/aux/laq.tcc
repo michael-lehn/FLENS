@@ -132,54 +132,41 @@ laq_generic(GeMatrix<MA>            &A,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA, typename VR, typename VC,
           typename ROWCOND, typename COLCOND,
           typename AMAX>
 LAQ::Equilibration
-laq_native(GeMatrix<MA>            &A,
-           const DenseVector<VR>   &r,
-           const DenseVector<VC>   &c,
-           const ROWCOND           &rowCond,
-           const COLCOND           &colCond,
-           const AMAX              &amax)
+laq(GeMatrix<MA>            &A,
+    const DenseVector<VR>   &r,
+    const DenseVector<VC>   &c,
+    const ROWCOND           &rowCond,
+    const COLCOND           &colCond,
+    const AMAX              &amax)
 {
-    typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
+    char equed;
 
-    const INTEGER  M = A.numRows();
-    const INTEGER  N = A.numCols();
-    const INTEGER  LDA = A.leadingDimension();
-    char           EQUED;
+    cxxlapack::laqge<IndexType>(A.numRows(),
+                                A.numCols(),
+                                A.data(),
+                                A.leadingDimension(),
+                                r.data(),
+                                c.data(),
+                                rowCond,
+                                colCond,
+                                amax,
+                                equed);
 
-    if (IsSame<T,double>::value) {
-        LAPACK_IMPL(dlaqge)(&M,
-                            &N,
-                            A.data(),
-                            &LDA,
-                            r.data(),
-                            c.data(),
-                            &rowCond,
-                            &colCond,
-                            &amax,
-                            &EQUED);
-    } else {
-        ASSERT(0);
-    }
-
-    if (EQUED=='B') {
-        return LAQ::Both;
-    } else if (EQUED=='R') {
-        return LAQ::Row;
-    } else if (EQUED=='C') {
-        return LAQ::Column;
-    }
-
-    ASSERT(EQUED=='N');
-    return LAQ::None;
+    return LAQ::Equilibration(equed);
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 template <typename MA, typename VR, typename VC,
@@ -236,7 +223,7 @@ laq(GeMatrix<MA>            &A,
 //
 //  Compare generic results with results from the native implementation
 //
-    const auto equed_ = laq_native(A, r, c, rowCond, colCond, amax);
+    const auto equed_ = external::laq(A, r, c, rowCond, colCond, amax);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {

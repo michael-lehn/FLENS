@@ -37,8 +37,8 @@
 
 namespace cxxlapack {
 
-template <typename ENUM>
-    char
+template <typename CHAR, typename ENUM>
+    CHAR
     getF77LapackChar(ENUM enumValue);
 
 } // namespace cxxlapack

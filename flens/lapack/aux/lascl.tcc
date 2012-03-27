@@ -239,43 +239,35 @@ lascl_generic(LASCL::Type   type,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename IndexType, typename T, typename MA>
 void
-lascl_native(LASCL::Type   type,
-             IndexType     kl,
-             IndexType     ku,
-             const T       cFrom,
-             const T       &cTo,
-             MA            &A)
+lascl(LASCL::Type   type,
+      IndexType     kl,
+      IndexType     ku,
+      const T       cFrom,
+      const T       &cTo,
+      MA            &A)
 {
-    const char       TYPE   = getF77LapackChar<LASCL::Type>(type);
-    const INTEGER    KL     = kl;
-    const INTEGER    KU     = ku;
-    const INTEGER    M      = A.numRows();
-    const INTEGER    N      = A.numCols();
-    const INTEGER    LDA    = A.leadingDimension();
-    INTEGER          INFO;
-
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dlascl)(&TYPE,
-                            &KL,
-                            &KU,
-                            &cFrom,
-                            &cTo,
-                            &M,
-                            &N,
-                            A.data(),
-                            &LDA,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO==0);
+    IndexType info = cxxlapack::lascl<IndexType>(getF77Char(type),
+                                                 kl,
+                                                 ku,
+                                                 cFrom,
+                                                 cTo,
+                                                 A.numRows(),
+                                                 A.numCols(),
+                                                 A.data(),
+                                                 A.leadingDimension());
+    ASSERT(info==0);
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -293,7 +285,7 @@ lascl(LASCL::Type type, IndexType kl, IndexType ku,
     lascl_generic(type, kl, ku, cFrom, cTo, A);
 
 #   ifdef CHECK_CXXLAPACK
-    lascl_native(type, kl, ku, cFrom, cTo, _A);
+    external::lascl(type, kl, ku, cFrom, cTo, _A);
     if (! isIdentical(A, _A, " A", "A_")) {
         std::cerr << "CXXLAPACK:  A = " << A << std::endl;
         std::cerr << "F77LAPACK: _A = " << _A << std::endl;

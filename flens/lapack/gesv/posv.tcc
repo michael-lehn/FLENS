@@ -47,8 +47,6 @@
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>
 
-#include <flens/lapack/interface/include/f77lapack.h>
-
 namespace flens { namespace lapack {
 
 //== generic lapack implementation =============================================
@@ -69,35 +67,30 @@ posv_generic(SyMatrix<MA> &A, GeMatrix<MB> &B)
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA, typename MB>
 typename SyMatrix<MA>::IndexType
-posv_native(SyMatrix<MA> &A, GeMatrix<MB> &B)
+posv(SyMatrix<MA> &A, GeMatrix<MB> &B)
 {
-    typedef typename SyMatrix<MA>::ElementType  T;
+    typedef typename SyMatrix<MA>::IndexType  IndexType;
 
-    const char       UPLO = char(A.upLo());
-    const INTEGER    N = A.dim();
-    const INTEGER    NRHS = B.numCols();
-    const INTEGER    LDA = A.leadingDimension();
-    const INTEGER    LDB = B.leadingDimension();
-    INTEGER          INFO;
-
-    if (IsSame<T, DOUBLE>::value) {
-        LAPACK_IMPL(dposv)(&UPLO, &N, &NRHS,
-                           A.data(), &LDA,
-                           B.data(), &LDB,
-                           &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO>=0);
-
-    return INFO;
+    IndexType info = cxxlapack::posv<IndexType>(getF77Char(A.upLo()),
+                                                A.dim(),
+                                                B.numCols(),
+                                                A.data(),
+                                                A.leadingDimension(),
+                                                B.data(),
+                                                B.leadingDimension());
+    ASSERT(info>=0);
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -139,7 +132,7 @@ posv(SyMatrix<MA> &A, GeMatrix<MB> &B)
     A = A_org;
     B = B_org;
 
-    const IndexType _info = posv_native(A, B);
+    const IndexType _info = external::posv(A, B);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {

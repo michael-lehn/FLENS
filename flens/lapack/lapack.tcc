@@ -34,8 +34,8 @@
 #define FLENS_LAPACK_LAPACK_TCC 1
 
 #include <flens/lapack/aux/con.tcc>
-#include <flens/lapack/aux/convert.tcc>
 #include <flens/lapack/aux/equ.tcc>
+#include <flens/lapack/aux/getf77char.h>
 #include <flens/lapack/aux/ilaenv.tcc>
 #include <flens/lapack/aux/ilalc.tcc>
 #include <flens/lapack/aux/ilalr.tcc>
@@ -135,8 +135,8 @@
 #include <flens/lapack/svd/svj0.tcc>
 #include <flens/lapack/svd/svj1.tcc>
 
-#if defined CHECK_CXXLAPACK || defined USE_NATIVE_ILAENV
-#   include <flens/lapack/interface/include/cxxlapack.tcc>
+#ifdef USE_CXXLAPACK
+#   include <cxxlapack/cxxlapack.tcc>
 #endif
 
 #endif // FLENS_LAPACK_LAPACK_TCC

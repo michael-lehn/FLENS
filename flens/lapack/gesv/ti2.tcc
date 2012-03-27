@@ -47,8 +47,6 @@
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>
 
-#include <flens/lapack/interface/include/f77lapack.h>
-
 namespace flens { namespace lapack {
 
 //== generic lapack implementation =============================================
@@ -126,35 +124,28 @@ ti2_generic(TrMatrix<MA> &A)
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA>
 typename TrMatrix<MA>::IndexType
-ti2_native(TrMatrix<MA> &A)
+ti2(TrMatrix<MA> &A)
 {
-    typedef typename GeMatrix<MA>::ElementType  ElementType;
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    const char       UPLO   = getF77BlasChar(A.upLo());
-    const char       DIAG   = getF77BlasChar(A.diag());
-    const INTEGER    N      = A.dim();
-    const INTEGER    LDA    = A.leadingDimension();
-    INTEGER          INFO;
-
-    if (IsSame<ElementType, DOUBLE>::value) {
-        LAPACK_IMPL(dtrti2)(&UPLO,
-                            &DIAG,
-                            &N,
-                            A.data(),
-                            &LDA,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO>=0);
-    return INFO;
+    IndexType info = external::trti2<IndexType>(getF77Char(A.upLo()),
+                                                getF77Char(A.diag()),
+                                                A.dim(),
+                                                A.data(),
+                                                A.leadingDimension());
+    ASSERT(info>=0);
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -191,7 +182,7 @@ ti2(TrMatrix<MA> &A)
 
     A = A_org;
 
-    const IndexType _info = ti2_native(A);
+    const IndexType _info = external::ti2(A);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {

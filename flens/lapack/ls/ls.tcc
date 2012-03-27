@@ -294,7 +294,9 @@ ls_generic(Transpose                 trans,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA, typename MB, typename VWORK>
 typename GeMatrix<MA>::IndexType
@@ -303,38 +305,25 @@ ls_native(Transpose                 trans,
           GeMatrix<MB>              &B,
           DenseVector<VWORK>        &work)
 {
-    typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    const char      TRANS = getF77LapackChar(trans);
-    const INTEGER   M = A.numRows();
-    const INTEGER   N = A.numCols();
-    const INTEGER   NRHS = B.numCols();
-    const INTEGER   LDA = A.leadingDimension();
-    const INTEGER   LDB = B.leadingDimension();
-    const INTEGER   LWORK = work.length();
-    INTEGER         INFO;
-
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dgels)(&TRANS,
-                           &M,
-                           &N,
-                           &NRHS,
-                           A.data(),
-                           &LDA,
-                           B.data(),
-                           &LDB,
-                           work.data(),
-                           &LWORK,
-                           &INFO);
-    } else {
-        ASSERT(0);
-    }
-
-    ASSERT(INFO>=0);
-    return INFO;
+    IndexType info = cxxlapack::gels<IndexType>(getF77Char(trans),
+                                                A.numRows(),
+                                                A.numCols(),
+                                                B.numCols(),
+                                                A.data(),
+                                                A.leadingDimension(),
+                                                B.data(),
+                                                B.leadingDimension(),
+                                                work.data(),
+                                                work.length());
+    ASSERT(info>=0);
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 

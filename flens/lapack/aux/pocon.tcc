@@ -151,44 +151,36 @@ pocon_generic(const SyMatrix<MA>  &A,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA, typename NORMA, typename RCOND,
           typename VWORK, typename VIWORK>
 void
-pocon_native(const SyMatrix<MA>  &A,
-             const NORMA         &normA,
-             RCOND               &rCond,
-             DenseVector<VWORK>  &work,
-             DenseVector<VIWORK> &iwork)
+pocon(const SyMatrix<MA>  &A,
+      const NORMA         &normA,
+      RCOND               &rCond,
+      DenseVector<VWORK>  &work,
+      DenseVector<VIWORK> &iwork)
 {
-    typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    const char       UPLO   = char(A.upLo());
-    const INTEGER    N      = A.dim();
-    const INTEGER    LDA    = A.leadingDimension();
-    const T          ANORM  = normA;
-    T                _RCOND = rCond;
-    INTEGER          INFO;
-
-    if (IsSame<T,double>::value) {
-        LAPACK_IMPL(dpocon)(&UPLO,
-                            &N,
-                            A.data(),
-                            &LDA,
-                            &ANORM,
-                            &_RCOND,
-                            work.data(),
-                            iwork.data(),
-                            &INFO);
-        rCond = _RCOND;
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO>=0);
+    IndexType info = pocon<IndexType>(getF77Char(A.upLo()),
+                                      A.dim(),
+                                      A.data(),
+                                      A.leadingDimension(),
+                                      normA,
+                                      rCond,
+                                      work.data(),
+                                      iwork.data());
+    ASSERT(info>=0);
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 template <typename MA, typename NORMA, typename RCOND,
@@ -243,7 +235,7 @@ pocon(const SyMatrix<MA>  &A,
     work  = work_org;
     iwork = iwork_org;
 
-    pocon_native(A, normA, rCond, work, iwork);
+    external::pocon(A, normA, rCond, work, iwork);
 
     bool failed = false;
     if (! isIdentical(rCond_generic, rCond, "rCond_generic", "rCond")) {

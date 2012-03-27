@@ -253,57 +253,48 @@ rfs_generic(Transpose               trans,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA, typename MAF, typename VPIV, typename MB, typename MX,
           typename VFERR, typename VBERR, typename VWORK, typename VIWORK>
 void
-rfs_native(Transpose               trans,
-           const GeMatrix<MA>      &A,
-           const GeMatrix<MAF>     &AF,
-           const DenseVector<VPIV> &piv,
-           const GeMatrix<MB>      &B,
-           GeMatrix<MX>            &X,
-           DenseVector<VFERR>      &fErr,
-           DenseVector<VBERR>      &bErr,
-           DenseVector<VWORK>      &work,
-           DenseVector<VIWORK>     &iwork)
+rfs(Transpose               trans,
+    const GeMatrix<MA>      &A,
+    const GeMatrix<MAF>     &AF,
+    const DenseVector<VPIV> &piv,
+    const GeMatrix<MB>      &B,
+    GeMatrix<MX>            &X,
+    DenseVector<VFERR>      &fErr,
+    DenseVector<VBERR>      &bErr,
+    DenseVector<VWORK>      &work,
+    DenseVector<VIWORK>     &iwork)
 {
-    typedef typename GeMatrix<MA>::ElementType T;
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    const char       TRANS   = getF77LapackChar(trans);
-    const INTEGER    N       = B.numRows();
-    const INTEGER    NRHS    = B.numCols();
-    const INTEGER    LDA     = A.leadingDimension();
-    const INTEGER    LDAF    = AF.leadingDimension();
-    const INTEGER    LDB     = B.leadingDimension();
-    const INTEGER    LDX     = X.leadingDimension();
-    INTEGER          INFO;
-
-    if (IsSame<T,double>::value) {
-        LAPACK_IMPL(dgerfs)(&TRANS,
-                            &N,
-                            &NRHS,
-                            A.data(),
-                            &LDA,
-                            AF.data(),
-                            &LDAF,
-                            piv.data(),
-                            B.data(),
-                            &LDB,
-                            X.data(),
-                            &LDX,
-                            fErr.data(),
-                            bErr.data(),
-                            work.data(),
-                            iwork.data(),
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
+    IndexType info = cxxlapack::gerfs<IndexType>(getF77Char(trans),
+                                                 B.numRows(),
+                                                 B.numCols(),
+                                                 A.data(),
+                                                 A.leadingDimension(),
+                                                 AF.data(),
+                                                 AF.leadingDimension(),
+                                                 piv.data(),
+                                                 B.data(),
+                                                 B.leadingDimension(),
+                                                 X.data(),
+                                                 X.leadingDimension(),
+                                                 fErr.data(),
+                                                 bErr.data(),
+                                                 work.data(),
+                                                 iwork.data());
+    ASSERT(info==0);
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 template <typename MA, typename MAF, typename VPIV, typename MB, typename MX,
@@ -392,7 +383,7 @@ rfs(Transpose               trans,
     work  = work_org;
     iwork = iwork_org;
 
-    rfs_native(trans, A, AF, piv, B, X, fErr, bErr, work, iwork);
+    external::rfs(trans, A, AF, piv, B, X, fErr, bErr, work, iwork);
 
     bool failed = false;
     if (! isIdentical(X_generic, X, "X_generic", "X")) {

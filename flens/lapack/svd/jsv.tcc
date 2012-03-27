@@ -1381,7 +1381,7 @@ jsv_generic(JSV::Accuracy             accuracy,
 }
 */
     //== interface for native lapack ===============================================
-#ifdef CHECK_CXXLAPACK
+#ifdef TODO_CHECK_CXXLAPACK
 
     template <typename MA, typename VSVA, typename MU, typename MV,
               typename VWORK, typename VIWORK>

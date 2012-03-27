@@ -41,8 +41,6 @@
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>
 
-#include <flens/lapack/interface/include/f77lapack.h>
-
 namespace flens { namespace lapack {
 
 //== generic lapack implementation =============================================
@@ -77,30 +75,27 @@ potri_generic(SyMatrix<MA> &A)
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA>
 typename SyMatrix<MA>::IndexType
-potri_native(SyMatrix<MA> &_A)
+potri(SyMatrix<MA> &A)
 {
-    typedef typename SyMatrix<MA>::ElementType  T;
+    typedef typename SyMatrix<MA>::IndexType  IndexType;
 
-    const char       UPLO = char(_A.upLo());
-    const INTEGER    N = _A.dim();
-    T               *A = _A.data();
-    const INTEGER    LDA = _A.leadingDimension();
-    INTEGER          INFO;
-
-    if (IsSame<T, DOUBLE>::value) {
-        LAPACK_IMPL(dpotri)(&UPLO, &N, A, &LDA, &INFO);
-    } else {
-        ASSERT(0);
-    }
-
-    return INFO;
+    IndexType info = cxxlapack::potri<IndexType>(getF77Char(A.upLo()),
+                                                 A.dim(),
+                                                 A.data(),
+                                                 A.leadingDimension());
+    ASSERT(info>=0);
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -142,7 +137,7 @@ potri(SyMatrix<MA> &A)
 //
 //  Compare results
 //
-    const IndexType _info = potri_native(A);
+    const IndexType _info = external::potri(A);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {

@@ -32,7 +32,7 @@
 
 /* Based on
  *
- *     INTEGER FUNCTION ILA?LC( M, N, A, LDA )
+      INTEGER FUNCTION ILA?LC( M, N, A, LDA )
  *
  *  -- LAPACK auxiliary routine (version 3.2.2)                        --
  *
@@ -86,6 +86,24 @@ ilalc_generic(const GeMatrix<MA> &A)
 
 //== interface for native lapack ===============================================
 
+#ifdef USE_CXXLAPACK
+
+namespace external {
+
+template <typename MA>
+typename GeMatrix<MA>::IndexType
+ilalc(const GeMatrix<MA> &A)
+{
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
+
+    return cxxlapack::ilalc<IndexType>(A.numRows(), A.numCols(),
+                                       A.data(),
+                                       A.leadingDimension());
+}
+
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 

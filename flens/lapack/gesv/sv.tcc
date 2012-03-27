@@ -72,34 +72,30 @@ sv_generic(GeMatrix<MA> &A, DenseVector<VP> &piv, GeMatrix<MB> &B)
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
+
 template <typename MA, typename VP, typename MB>
 typename GeMatrix<MA>::IndexType
-sv_native(GeMatrix<MA> &A, DenseVector<VP> &piv, GeMatrix<MB> &B)
+sv(GeMatrix<MA> &A, DenseVector<VP> &piv, GeMatrix<MB> &B)
 {
-    typedef typename GeMatrix<MA>::ElementType  ElementType;
-    const INTEGER N    = A.numRows();
-    const INTEGER NRHS = B.numCols();
-    const INTEGER LDA  = A.leadingDimension();
-    const INTEGER LDB  = B.leadingDimension();
-    INTEGER       INFO;
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    if (IsSame<ElementType, DOUBLE>::value) {
-        LAPACK_IMPL(dgesv)(&N,
-                           &NRHS,
-                           A.data(),
-                           &LDA,
-                           piv.data(),
-                           B.data(),
-                           &LDB,
-                           &INFO);
-   } else {
-        ASSERT(0);
-    }
-    return INFO;
+    IndexType info = cxxlapack::gesv<IndexType>(A.numRows(),
+                                                B.numCols(),
+                                                A.data(),
+                                                A.leadingDimension(),
+                                                piv.data(),
+                                                B.data(),
+                                                B.leadingDimension());
+    ASSERT(info>=0);
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -144,7 +140,7 @@ sv(GeMatrix<MA> &A, DenseVector<VP> &piv, GeMatrix<MB> &B)
     piv = piv_org;
     B   = B_org;
 
-    IndexType _info = sv_native(A, piv, B);
+    IndexType _info = external::sv<IndexType>(A, piv, B);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {

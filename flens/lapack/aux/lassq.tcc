@@ -63,7 +63,7 @@ lassq_generic(const DenseVector<VX> &x, T &scale, T &sumsq)
     const IndexType n = x.length();
 
     if (n>0) {
-        for (IndexType i=x.firstIndex(); i<=x.lastIndex(); ++i) {
+        for (IndexType i=1; i<=n; ++i) {
             if (x(i)!=T(0)) {
                 const T absXi = abs(x(i));
                 if (scale<absXi) {
@@ -79,33 +79,20 @@ lassq_generic(const DenseVector<VX> &x, T &scale, T &sumsq)
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename VX, typename T>
 void
-lassq_native(const DenseVector<VX> &x, T &scale, T &sumsq)
+lassq(const DenseVector<VX> &x, T &scale, T &sumsq)
 {
-    const INTEGER N     = x.length();
-    const INTEGER INCX  = x.inc();
-    T             SCALE = scale;
-    T             SUMSQ = sumsq;
-
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dlassq)(&N,
-                            x.data(),
-                            &INCX,
-                            &SCALE,
-                            &SUMSQ);
-    } else {
-        ASSERT(0);
-    }
-
-    scale = SCALE;
-    sumsq = SUMSQ;
+    cxxlapack::lassq(x.length(), x.data(), x.stride(), scale, sumsq);
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
 
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -137,7 +124,7 @@ lassq(const DenseVector<VX> &x, T &scale, T &sumsq)
 //
 //  Compare results
 //
-    lassq_native(x, _scale, _sumsq);
+    external::lassq(x, _scale, _sumsq);
 
     bool failed = false;
     if (! isIdentical(scale, _scale, " scale", "_scale")) {

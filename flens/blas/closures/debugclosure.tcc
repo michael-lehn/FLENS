@@ -95,7 +95,6 @@ typename RestrictTo<HasFullStorage<MA>::value && HasFullStorage<MB>::value,
          bool>::Type
 identical(const MA &A, const MB &B)
 {
-    std::cerr << "V2" << std::endl;
 //
 //  Quick return if possible
 //

@@ -148,7 +148,7 @@ bak_generic(BALANCE::Balance            job,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef TODO_CHECK_CXXLAPACK
 
 template <typename IndexType, typename VSCALE, typename MV>
 void

@@ -180,7 +180,7 @@ lanv2_generic(T &a, T &b, T &c, T &d,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef TODO_CHECK_CXXLAPACK
 
 template <typename T>
 void

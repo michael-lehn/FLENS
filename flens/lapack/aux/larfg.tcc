@@ -108,29 +108,22 @@ larfg_generic(IndexType n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename IndexType, typename ALPHA, typename VX, typename TAU>
 void
-larfg_native(IndexType n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
+larfg(IndexType n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
 {
-    typedef typename DenseVector<VX>::ElementType  T;
+    typedef typename DenseVector<VX>::IndexType  IndexType;
 
-    INTEGER N       = n;
-    INTEGER INCX    = x.inc();
-
-    if (IsSame<T, DOUBLE>::value) {
-        LAPACK_IMPL(dlarfg)(&N,
-                            &alpha,
-                            x.data(),
-                            &INCX,
-                            &tau);
-    } else {
-        ASSERT(0);
-    }
+    cxxlapack::larfg<IndexType>(n, alpha, x.data(), x.inc()*x.stride(), tau);
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -165,7 +158,7 @@ larfg(IndexType n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
 //
 //  Compare results
 //
-    larfg_native(n, _alpha, _x, _tau);
+    external::larfg(n, _alpha, _x, _tau);
 
     bool failed = false;
     if (alpha!=_alpha) {

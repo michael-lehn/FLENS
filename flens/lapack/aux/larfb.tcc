@@ -323,55 +323,43 @@ larfb_generic(Side                  side,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MV, typename MT, typename MC, typename MWORK>
 void
-larfb_native(Side                   side,
-             Transpose              transH,
-             Direction              direction,
-             StoreVectors           storeVectors,
-             const GeMatrix<MV>     &V,
-             const TrMatrix<MT>     &Tr,
-             GeMatrix<MC>           &C,
-             GeMatrix<MWORK>        &Work)
+larfb(Side                   side,
+      Transpose              trans,
+      Direction              direction,
+      StoreVectors           storeVectors,
+      const GeMatrix<MV>     &V,
+      const TrMatrix<MT>     &Tr,
+      GeMatrix<MC>           &C,
+      GeMatrix<MWORK>        &Work)
 {
-    typedef typename TrMatrix<MT>::ElementType  T;
+    typedef typename TrMatrix<MT>::IndexType  IndexType;
 
-    const char      SIDE    = char(side);
-    const char      TRANS   = getF77LapackChar(transH);
-    const char      DIRECT  = char(direction);
-    const char      STOREV  = char(storeVectors);
-    const INTEGER   M       = C.numRows();
-    const INTEGER   N       = C.numCols();
-    const INTEGER   K       = Tr.dim();
-    const INTEGER   LDV     = V.leadingDimension();
-    const INTEGER   LDT     = Tr.leadingDimension();
-    const INTEGER   LDC     = C.leadingDimension();
-    const INTEGER   LDWORK  = Work.leadingDimension();
-
-    if (IsSame<T, DOUBLE>::value) {
-        LAPACK_IMPL(dlarfb)(&SIDE,
-                            &TRANS,
-                            &DIRECT,
-                            &STOREV,
-                            &M,
-                            &N,
-                            &K,
-                            V.data(),
-                            &LDV,
-                            Tr.data(),
-                            &LDT,
-                            C.data(),
-                            &LDC,
-                            Work.data(),
-                            &LDWORK);
-    } else {
-        ASSERT(0);
-    }
+    cxxlapack::larfb<IndexType>(getF77Char(side),
+                                getF77Char(trans),
+                                getF77Char(direction),
+                                getF77Char(storeVectors),
+                                C.numRows(),
+                                C.numCols(),
+                                Tr.dim(),
+                                V.data(),
+                                V.leadingDimension(),
+                                Tr.data(),
+                                Tr.leadingDimension(),
+                                C.data(),
+                                C.leadingDimension(),
+                                Work.data(),
+                                Work.leadingDimension());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -427,7 +415,7 @@ larfb(Side                  side,
 //
 //  Compare results
 //
-    larfb_native(side, transH, direction, storeV, V, Tr, C, Work);
+    external::larfb(side, transH, direction, storeV, V, Tr, C, Work);
 
     bool failed = false;
     if (! isIdentical(C_generic, C, "C_generic", "C")) {

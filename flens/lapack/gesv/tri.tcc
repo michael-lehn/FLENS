@@ -49,8 +49,6 @@
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>
 
-#include <flens/lapack/interface/include/f77lapack.h>
-
 namespace flens { namespace lapack {
 
 //== generic lapack implementation =============================================
@@ -297,65 +295,48 @@ tri_generic(TrMatrix<MA> &A)
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
+
 //-- (ge)tri
 template <typename MA, typename VP, typename VWORK>
 typename GeMatrix<MA>::IndexType
-tri_native(GeMatrix<MA>             &A,
-           const DenseVector<VP>    &piv,
-           DenseVector<VWORK>       &work)
+tri(GeMatrix<MA>             &A,
+    const DenseVector<VP>    &piv,
+    DenseVector<VWORK>       &work)
 {
-    typedef typename GeMatrix<MA>::ElementType  ElementType;
     typedef typename GeMatrix<MA>::IndexType    IndexType;
 
-    const INTEGER    N      = A.numRows();
-    const INTEGER    LDA    = A.leadingDimension();
-    const INTEGER    LWORK  = work.length();
-    INTEGER          INFO;
-
-    if (IsSame<ElementType, DOUBLE>::value) {
-        LAPACK_IMPL(dgetri)(&N,
-                            A.data(),
-                            &LDA,
-                            piv.data(),
-                            work.data(),
-                            &LWORK,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO>=0);
-    return INFO;
+    IndexType info = cxxlapack::getri<IndexType>(A.numRows(),
+                                                 A.data(),
+                                                 A.leadingDimension(),
+                                                 piv.data(),
+                                                 work.data(),
+                                                 work.length());
+    ASSERT(info>=0);
+    return info;
 }
 
 //-- (tr)tri
 template <typename MA>
 typename GeMatrix<MA>::IndexType
-tri_native(TrMatrix<MA> &A)
+tri(TrMatrix<MA> &A)
 {
-    typedef typename GeMatrix<MA>::ElementType  ElementType;
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    const char       UPLO   = getF77BlasChar(A.upLo());
-    const char       DIAG   = getF77BlasChar(A.diag());
-    const INTEGER    N      = A.dim();
-    const INTEGER    LDA    = A.leadingDimension();
-    INTEGER          INFO;
-
-    if (IsSame<ElementType, DOUBLE>::value) {
-        LAPACK_IMPL(dtrtri)(&UPLO,
-                            &DIAG,
-                            &N,
-                            A.data(),
-                            &LDA,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO>=0);
-    return INFO;
+    IndexType info = cxxlapack::trtri<IndexType>(getF77Char(A.upLo()),
+                                                 getF77Char(A.diag()),
+                                                 A.dim(),
+                                                 A.data(),
+                                                 A.leadingDimension());
+    ASSERT(info>=0);
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -407,7 +388,7 @@ tri(GeMatrix<MA> &A, const DenseVector<VP> &piv, DenseVector<VWORK> &work)
     A    = A_org;
     work = work_org;
 
-    const IndexType _info = tri_native(A, piv, work);
+    const IndexType _info = cxxlapack::tri(A, piv, work);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {
@@ -473,7 +454,7 @@ tri(TrMatrix<MA> &A)
 
     A = A_org;
 
-    const IndexType _info = tri_native(A);
+    const IndexType _info = cxxlapack::tri(A);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {

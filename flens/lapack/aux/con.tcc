@@ -163,43 +163,30 @@ con_generic(Norm                norm,
 
 //== interface for native lapack ===============================================
 
-#ifdef CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA, typename NORMA, typename RCOND,
           typename VWORK, typename VIWORK>
 void
-con_native(Norm                norm,
-           const GeMatrix<MA>  &A,
-           const NORMA         &normA,
-           RCOND               &rCond,
-           DenseVector<VWORK>  &work,
-           DenseVector<VIWORK> &iwork)
+con(Norm                norm,
+    const GeMatrix<MA>  &A,
+    const NORMA         &normA,
+    RCOND               &rCond,
+    DenseVector<VWORK>  &work,
+    DenseVector<VIWORK> &iwork)
 {
-    typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    const char       NORM  = char(norm);
-    const INTEGER    N     = A.numRows();
-    const INTEGER    LDA   = A.leadingDimension();
-    const T          ANORM = normA;
-    INTEGER          INFO;
-
-    if (IsSame<T,double>::value) {
-        LAPACK_IMPL(dgecon)(&NORM,
-                            &N,
-                            A.data(),
-                            &LDA,
-                            &ANORM,
-                            &rCond,
-                            work.data(),
-                            iwork.data(),
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO>=0);
+    cxxlapack::gecon<IndexType>(char(norm),
+                                A.numRows(), A.data(), A.leadingDimension(),
+                                normA, rCond, work.data(), iwork.data());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 template <typename MA, typename NORMA, typename RCOND,
@@ -257,7 +244,7 @@ con(Norm                norm,
     work  = work_org;
     iwork = iwork_org;
 
-    con_native(norm, A, normA, rCond, work, iwork);
+    external::con(norm, A, normA, rCond, work, iwork);
 
     bool failed = false;
     if (! isIdentical(rCond_generic, rCond, "rCond_generic", "rCond")) {
