@@ -193,7 +193,6 @@ laqp2(typename GeMatrix<MA>::IndexType  offset,
       DenseVector<VN2>                  &vn2,
       DenseVector<VWORK>                &work)
 {
-    std::cerr << "enter: laqp2" << std::endl;
     using std::min;
     typedef typename GeMatrix<MA>::ElementType  ElementType;
     typedef typename GeMatrix<MA>::IndexType    IndexType;
@@ -305,8 +304,6 @@ laqp2(typename GeMatrix<MA>::IndexType  offset,
         ASSERT(0);
     }
 #   endif
-
-    std::cerr << "leave: laqp2" << std::endl;
 }
 
 //-- forwarding ----------------------------------------------------------------

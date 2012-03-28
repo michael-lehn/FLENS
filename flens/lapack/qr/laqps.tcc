@@ -271,7 +271,6 @@ laqps(typename GeMatrix<MA>::IndexType  offset,
       DenseVector<VAUX>                 &aux,
       GeMatrix<MF>                      &F)
 {
-    std::cerr << "enter: laqps" << std::endl;
     using std::min;
     typedef typename GeMatrix<MA>::ElementType  ElementType;
     typedef typename GeMatrix<MA>::IndexType    IndexType;
@@ -293,9 +292,6 @@ laqps(typename GeMatrix<MA>::IndexType  offset,
     const IndexType n = A.numCols();
 
     ASSERT(jPiv.length()==n);
-    std::cerr << "tau.length() = " << tau.length() << std::endl;
-    std::cerr << "nb = " << nb << std::endl;
-    std::cerr << "kb = " << kb << std::endl;
     ASSERT(tau.length()>=nb);
     ASSERT(vn1.length()==n);
     ASSERT(vn1.length()==n);
@@ -394,8 +390,6 @@ laqps(typename GeMatrix<MA>::IndexType  offset,
         ASSERT(0);
     }
 #   endif
-
-    std::cerr << "leave: laqps" << std::endl;
 }
 
 //-- forwarding ----------------------------------------------------------------

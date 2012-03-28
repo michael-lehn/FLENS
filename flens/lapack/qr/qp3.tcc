@@ -123,14 +123,10 @@ qp3_generic(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv, DenseVector<VTAU> &tau,
         auto A2 = A(_,_(na+1,n));
         auto tau1 = tau(_(1,na));
 
-        std::cerr << "-> qrf" << std::endl;
         qrf(A1, tau1, work);
-        std::cerr << "qrf." << std::endl;
         iws = max(iws, IndexType(work(1)));
         if (na<n) {
-            std::cerr << "-> ormqr" << std::endl;
             ormqr(Left, Trans, A1, tau1, A2, work);
-            std::cerr << "ormqr." << std::endl;
             iws = max(iws, IndexType(work(1)));
         }
     }
@@ -275,8 +271,6 @@ void
 qp3(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv, DenseVector<VTAU> &tau,
     DenseVector<VWORK> &work)
 {
-    std::cerr << "enter: qp3" << std::endl;
-
     using std::min;
     typedef typename GeMatrix<MA>::ElementType  ElementType;
     typedef typename GeMatrix<MA>::IndexType    IndexType;
@@ -369,8 +363,6 @@ qp3(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv, DenseVector<VTAU> &tau,
         ASSERT(0);
     }
 #   endif
-
-    std::cerr << "leave: qp3" << std::endl;
 }
 
 //-- forwarding ----------------------------------------------------------------
