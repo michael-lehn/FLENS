@@ -147,43 +147,38 @@ laqp2_generic(typename GeMatrix<MA>::IndexType  offset,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA, typename JPIV, typename VTAU,
           typename VN1, typename VN2, typename VWORK>
 void
-laqp2_native(typename GeMatrix<MA>::IndexType  offset,
-             GeMatrix<MA>                      &A,
-             DenseVector<JPIV>                 &jPiv,
-             DenseVector<VTAU>                 &tau,
-             DenseVector<VN1>                  &vn1,
-             DenseVector<VN2>                  &vn2,
-             DenseVector<VWORK>                &work)
+laqp2(typename GeMatrix<MA>::IndexType  offset,
+      GeMatrix<MA>                      &A,
+      DenseVector<JPIV>                 &jPiv,
+      DenseVector<VTAU>                 &tau,
+      DenseVector<VN1>                  &vn1,
+      DenseVector<VN2>                  &vn2,
+      DenseVector<VWORK>                &work)
 {
-    typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    const INTEGER    M      = A.numRows();
-    const INTEGER    N      = A.numCols();
-    const INTEGER    OFFSET = offset;
-    const INTEGER    LDA    = A.leadingDimension();
-
-    if (IsSame<T, DOUBLE>::value) {
-        LAPACK_DECL(dlaqp2)(&M,
-                            &N,
-                            &OFFSET,
-                            A.data(),
-                            &LDA,
-                            jPiv.data(),
-                            tau.data(),
-                            vn1.data(),
-                            vn2.data(),
-                            work.data());
-    } else {
-        ASSERT(0);
-    }
+    cxxlapack::laqp2<IndexType>(A.numRows(),
+                                A.numCols(),
+                                offset,
+                                A.data(),
+                                A.leadingDimension(),
+                                jPiv.data(),
+                                tau.data(),
+                                vn1.data(),
+                                vn2.data(),
+                                work.data());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -267,7 +262,7 @@ laqp2(typename GeMatrix<MA>::IndexType  offset,
 //
 //  Compare results
 //
-    laqp2_native(offset, A, jPiv, tau, vn1, vn2, work);
+    external::laqp2(offset, A, jPiv, tau, vn1, vn2, work);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {

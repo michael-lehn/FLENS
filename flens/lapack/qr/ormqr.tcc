@@ -256,93 +256,66 @@ ormqr_generic(Side                      side,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA, typename MC>
 typename GeMatrix<MC>::IndexType
-ormqr_native_wsq(Side              side,
-                 Transpose         trans,
-                 GeMatrix<MA>      &A,
-                 GeMatrix<MC>      &C)
+ormqr_wsq(Side              side,
+          Transpose         trans,
+          GeMatrix<MA>      &A,
+          GeMatrix<MC>      &C)
 {
     typedef typename GeMatrix<MC>::ElementType  T;
+    typedef typename GeMatrix<MC>::IndexType    IndexType;
 
-    const char      SIDE    = getF77LapackChar(side);
-    const char      TRANS   = getF77LapackChar(trans);
-    const INTEGER   M       = C.numRows();
-    const INTEGER   N       = C.numCols();
-    const INTEGER   K       = A.numCols();
-    const INTEGER   LDA     = A.leadingDimension();
-    const INTEGER   LDC     = C.leadingDimension();
     T               WORK, DUMMY;
-    const INTEGER   LWORK   = -1;
-    INTEGER         INFO;
+    const IndexType LWORK   = -1;
 
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dormqr)(&SIDE,
-                            &TRANS,
-                            &M,
-                            &N,
-                            &K,
-                            A.data(),
-                            &LDA,
-                            &DUMMY,
-                            C.data(),
-                            &LDC,
-                            &WORK,
-                            &LWORK,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-
-    ASSERT(INFO>=0);
+    cxxlapack::ormqr<IndexType>(getF77Char(side),
+                                getF77Char(trans),
+                                C.numRows(),
+                                C.numCols(),
+                                A.numCols(),
+                                A.data(),
+                                A.leadingDimension(),
+                                DUMMY,
+                                C.data(),
+                                C.leadingDimension(),
+                                WORK,
+                                LWORK);
     return WORK;
 }
 
 template <typename MA, typename VTAU, typename MC, typename VWORK>
 void
-ormqr_native(Side                       side,
-             Transpose                  trans,
-             GeMatrix<MA>               &A,
-             const DenseVector<VTAU>    &tau,
-             GeMatrix<MC>               &C,
-             DenseVector<VWORK>         &work)
+ormqr(Side                       side,
+      Transpose                  trans,
+      GeMatrix<MA>               &A,
+      const DenseVector<VTAU>    &tau,
+      GeMatrix<MC>               &C,
+      DenseVector<VWORK>         &work)
 {
-    typedef typename GeMatrix<MC>::ElementType  T;
+    typedef typename GeMatrix<MC>::IndexType  IndexType;
 
-    const char      SIDE    = getF77LapackChar(side);
-    const char      TRANS   = getF77LapackChar(trans);
-    const INTEGER   M       = C.numRows();
-    const INTEGER   N       = C.numCols();
-    const INTEGER   K       = A.numCols();
-    const INTEGER   LDA     = A.leadingDimension();
-    const INTEGER   LDC     = C.leadingDimension();
-    const INTEGER   LWORK   = work.length();
-    INTEGER         INFO;
-
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dormqr)(&SIDE,
-                            &TRANS,
-                            &M,
-                            &N,
-                            &K,
-                            A.data(),
-                            &LDA,
-                            tau.data(),
-                            C.data(),
-                            &LDC,
-                            work.data(),
-                            &LWORK,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-
-    ASSERT(INFO>=0);
+    cxxlapack::ormqr<IndexType>(getF77Char(side),
+                                getF77Char(trans),
+                                C.numRows(),
+                                C.numCols(),
+                                A.numCols(),
+                                A.data(),
+                                A.leadingDimension(),
+                                tau.data(),
+                                C.data(),
+                                C.leadingDimension(),
+                                work.data(),
+                                work.length());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -379,7 +352,7 @@ ormqr_wsq(Side              side,
 //
 //  Compare generic results with results from the native implementation
 //
-    const IndexType _info = ormqr_native(side, trans, A, C);
+    const IndexType _info = external::ormqr(side, trans, A, C);
 
     ASSERT(info==_info);
 #   endif
@@ -454,7 +427,7 @@ ormqr(Side                      side,
 //
 //  Compare generic results with results from the native implementation
 //
-    ormqr_native(side, trans, A, tau, C, work);
+    external::ormqr(side, trans, A, tau, C, work);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {

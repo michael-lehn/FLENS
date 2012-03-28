@@ -243,33 +243,30 @@ qp3_generic(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv, DenseVector<VTAU> &tau,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA, typename JPIV, typename VTAU, typename VWORK>
 void
-qp3_native(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv,  DenseVector<VTAU> &tau,
-           DenseVector<VWORK> &work)
+qp3(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv,  DenseVector<VTAU> &tau,
+    DenseVector<VWORK> &work)
 {
-    typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    const INTEGER    M = A.numRows();
-    const INTEGER    N = A.numCols();
-    const INTEGER    LDA = A.leadingDimension();
-    INTEGER          LWORK = work.length();
-    INTEGER          INFO;
-
-    if (IsSame<T, DOUBLE>::value) {
-        LAPACK_IMPL(dgeqp3)(&M, &N, A.data(), &LDA,
-                            jPiv.data(), tau.data(),
-                            work.data(), &LWORK,
-                            &INFO);
-        assert(INFO==0);
-    } else {
-        ASSERT(0);
-    }
+    cxxlapack::qp3<IndexType>(A.numRows(),
+                              A.numCols(),
+                              A.data(),
+                              A.leadingDimension(),
+                              jPiv.data(),
+                              tau.data(),
+                              work.data(),
+                              work.length());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -341,7 +338,7 @@ qp3(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv, DenseVector<VTAU> &tau,
 //
 //  Compare results
 //
-    qp3_native(A, jPiv, tau, work);
+    external::qp3(A, jPiv, tau, work);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {

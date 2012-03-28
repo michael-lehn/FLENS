@@ -49,14 +49,6 @@
 
 namespace flens { namespace lapack {
 
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VTAU, typename MB, typename VWORK>
-void
-qrs(MA &&A, const VTAU &tau, MB &&B, VWORK &&work)
-{
-    qrs(A, tau, B, work);
-}
-
 //-- qrs -----------------------------------------------------------------------
 template <typename MA, typename VTAU, typename MB, typename VWORK>
 void
@@ -88,6 +80,14 @@ qrs(GeMatrix<MA> &A, const DenseVector<VTAU> &tau, GeMatrix<MB> &B,
 //  Solve R*X = B(1:n,:)
 //
     blas::sm(Left, NoTrans, T(1), A.upper(), B);
+}
+
+//-- forwarding ----------------------------------------------------------------
+template <typename MA, typename VTAU, typename MB, typename VWORK>
+void
+qrs(MA &&A, const VTAU &tau, MB &&B, VWORK &&work)
+{
+    qrs(A, tau, B, work);
 }
 
 } } // namespace lapack, flens

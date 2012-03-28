@@ -122,45 +122,34 @@ orm2r_generic(Side side, Transpose trans, GeMatrix<MA> &A,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA, typename VTAU, typename MC, typename VWORK>
 void
-orm2r_native(Side side, Transpose trans, GeMatrix<MA> &A,
-             const DenseVector<VTAU> &tau, GeMatrix<MC> &C,
-             DenseVector<VWORK> &work)
+orm2r(Side side, Transpose trans, GeMatrix<MA> &A,
+      const DenseVector<VTAU> &tau, GeMatrix<MC> &C,
+      DenseVector<VWORK> &work)
 {
-    typedef typename GeMatrix<MC>::ElementType    T;
+    typedef typename GeMatrix<MC>::IndexType  IndexType;
 
-    const char      SIDE  = char(side);
-    const char      TRANS = getF77LapackChar(trans);
-    const INTEGER   M = C.numRows();
-    const INTEGER   N = C.numCols();
-    const INTEGER   K = A.numCols();
-    const INTEGER   LDA = A.leadingDimension();
-    const INTEGER   LDC = C.leadingDimension();
-    INTEGER         INFO;
-
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_DECL(dorm2r)(&SIDE,
-                            &TRANS,
-                            &M,
-                            &N,
-                            &K,
-                            A.data(),
-                            &LDA,
-                            tau.data(),
-                            C.data(),
-                            &LDC,
-                            work.data(),
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO==0);
+    cxxlapack::orm2r<IndexType>(getF77Char(side),
+                                getF77Char(trans),
+                                C.numRows(),
+                                C.numCols(),
+                                A.numCols(),
+                                A.data(),
+                                A.leadingDimension(),
+                                tau.data(),
+                                C.data(),
+                                C.leadingDimension(),
+                                work.data());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -228,7 +217,7 @@ orm2r(Side side, Transpose trans, GeMatrix<MA> &A,
 //
 //  Compare generic results with results from the native implementation
 //
-    orm2r_native(side, trans, A, tau, C, work);
+    cxxlapack::orm2r(side, trans, A, tau, C, work);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {

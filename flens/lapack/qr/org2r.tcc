@@ -100,39 +100,31 @@ org2r_generic(IndexType                 k,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
 void
-org2r_native(IndexType                 k,
-             GeMatrix<MA>              &A,
-             const DenseVector<VTAU>   &tau,
-             DenseVector<VWORK>        &work)
+org2r(IndexType                 k,
+      GeMatrix<MA>              &A,
+      const DenseVector<VTAU>   &tau,
+      DenseVector<VWORK>        &work)
 {
-    typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    const INTEGER    M      = A.numRows();
-    const INTEGER    N      = A.numCols();
-    const INTEGER    K      = k;
-    const INTEGER    LDA    = A.leadingDimension();
-    INTEGER          INFO;
-
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dorg2r)(&M,
-                            &N,
-                            &K,
-                            A.data(),
-                            &LDA,
-                            tau.data(),
-                            work.data(),
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO==0);
+    cxxlapack::org2r<IndexType>(A.numRows(),
+                                A.numCols(),
+                                k,
+                                A.data(),
+                                A.leadingDimension(),
+                                tau.data(),
+                                work.data());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -177,7 +169,7 @@ org2r(IndexType                 k,
 //  Compare results
 //
 #   ifdef CHECK_CXXLAPACK
-    org2r_native(k, _A, tau, _work);
+    external::org2r(k, _A, tau, _work);
 
     bool failed = false;
     if (! isIdentical(A, _A, " A", "A_")) {

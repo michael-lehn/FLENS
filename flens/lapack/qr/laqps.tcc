@@ -214,55 +214,46 @@ laqps_generic(typename GeMatrix<MA>::IndexType  offset,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA, typename JPIV, typename VTAU,
           typename VN1, typename VN2, typename VAUX,
           typename MF>
 void
-laqps_native(typename GeMatrix<MA>::IndexType  offset,
-             typename GeMatrix<MA>::IndexType  nb,
-             typename GeMatrix<MA>::IndexType  &kb,
-             GeMatrix<MA>                      &A,
-             DenseVector<JPIV>                 &jPiv,
-             DenseVector<VTAU>                 &tau,
-             DenseVector<VN1>                  &vn1,
-             DenseVector<VN2>                  &vn2,
-             DenseVector<VAUX>                 &aux,
-             GeMatrix<MF>                      &F)
+laqps(typename GeMatrix<MA>::IndexType  offset,
+      typename GeMatrix<MA>::IndexType  nb,
+      typename GeMatrix<MA>::IndexType  &kb,
+      GeMatrix<MA>                      &A,
+      DenseVector<JPIV>                 &jPiv,
+      DenseVector<VTAU>                 &tau,
+      DenseVector<VN1>                  &vn1,
+      DenseVector<VN2>                  &vn2,
+      DenseVector<VAUX>                 &aux,
+      GeMatrix<MF>                      &F)
 {
-    typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    const INTEGER    M      = A.numRows();
-    const INTEGER    N      = A.numCols();
-    const INTEGER    OFFSET = offset;
-    const INTEGER    NB     = nb;
-    INTEGER          KB     = kb;
-    const INTEGER    LDA    = A.leadingDimension();
-    const INTEGER    LDF    = F.leadingDimension();
-
-    if (IsSame<T, DOUBLE>::value) {
-        LAPACK_DECL(dlaqps)(&M,
-                            &N,
-                            &OFFSET,
-                            &NB,
-                            &KB,
-                            A.data(),
-                            &LDA,
-                            jPiv.data(),
-                            tau.data(),
-                            vn1.data(),
-                            vn2.data(),
-                            aux.data(),
-                            F.data(),
-                            &LDF);
-        kb = KB;
-    } else {
-        ASSERT(0);
-    }
+    cxxlapack::laqps<IndexType>(A.numRows(),
+                                A.numCols(),
+                                offset,
+                                nb,
+                                kb,
+                                A.data(),
+                                A.leadingDimension(),
+                                jPiv.data(),
+                                tau.data(),
+                                vn1.data(),
+                                vn2.data(),
+                                aux.data(),
+                                F.data(),
+                                F.leadingDimension());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 template <typename MA, typename JPIV, typename VTAU,
@@ -354,7 +345,7 @@ laqps(typename GeMatrix<MA>::IndexType  offset,
 //
 //  Compare results
 //
-    laqps_native(offset, nb, kb, A, jPiv, tau, vn1, vn2, aux, F);
+    external::laqps(offset, nb, kb, A, jPiv, tau, vn1, vn2, aux, F);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {
