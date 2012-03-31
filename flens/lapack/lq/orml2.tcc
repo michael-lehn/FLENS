@@ -128,8 +128,8 @@ namespace external {
 template <typename MA, typename VTAU, typename MC, typename VWORK>
 void
 orml2(Side side, Transpose trans, GeMatrix<MA> &A,
-             const DenseVector<VTAU> &tau, GeMatrix<MC> &C,
-             DenseVector<VWORK> &work)
+      const DenseVector<VTAU> &tau, GeMatrix<MC> &C,
+      DenseVector<VWORK> &work)
 {
     typedef typename GeMatrix<MC>::IndexType  IndexType;
 

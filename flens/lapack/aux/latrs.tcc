@@ -595,7 +595,7 @@ latrs(Transpose             trans,
                                                  A.data(),
                                                  A.leadingDimension(),
                                                  x.data(),
-                                                 &scale,
+                                                 scale,
                                                  cNorm.data());
     ASSERT(info==0);
 }

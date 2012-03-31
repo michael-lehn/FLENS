@@ -44,10 +44,10 @@ template <typename IndexType>
           IndexType         n,
           IndexType         iLo,
           IndexType         iHi,
-          const double      &scale,
+          const double      *scale,
           IndexType         m,
           double            *V,
-          IndexType         &ldV);
+          IndexType         ldV);
 
 template <typename IndexType>
     IndexType
@@ -56,7 +56,7 @@ template <typename IndexType>
           IndexType             n,
           IndexType             iLo,
           IndexType             iHi,
-          const double          &scale,
+          const double          *scale,
           IndexType             m,
           std::complex<double>  *V,
           IndexType             ldV);

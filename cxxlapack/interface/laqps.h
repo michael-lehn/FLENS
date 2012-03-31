@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2011, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,46 +30,47 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXLAPACK_AUX_GETF77LAPACKCHAR_TCC
-#define CXXLAPACK_AUX_GETF77LAPACKCHAR_TCC 1
+#ifndef CXXLAPACK_INTERFACE_LAQPS_H
+#define CXXLAPACK_INTERFACE_LAQPS_H 1
 
-#include <cxxlapack/aux/typedefs.h>
+#include <complex>
 
 namespace cxxlapack {
 
-template <typename CHAR, typename ENUM>
-CHAR
-getF77LapackChar(ENUM enumValue)
-{
-    return CHAR(enumValue);
-}
+template <typename IndexType>
+    void
+    laqps(IndexType     m,
+          IndexType     n,
+          IndexType     offset,
+          IndexType     nb,
+          IndexType     &kb,
+          double        *A,
+          IndexType     ldA,
+          IndexType     *jPvt,
+          double        *tau,
+          double        *vn1,
+          double        *vn2,
+          double        *auxv,
+          double        *F,
+          IndexType     ldF);
 
-template <typename CHAR, typename ENUM>
-CHAR
-getF77LapackChar(Transpose trans)
-{
-    if (trans==NoTrans) {
-        return CHAR('N');
-    } else if (trans==Trans) {
-        return CHAR('T');
-    } else if (trans==Conj) {
-        return CHAR('R');
-    } else if (trans==ConjTrans) {
-        return CHAR('C');
-    }
-    ASSERT(0);
-    return CHAR('N');
-}
-
-//------------------------------------------------------------------------------
-
-template <typename ENUM>
-char
-getF77LapackChar(ENUM enumValue)
-{
-    return convert<char, ENUM>(enumValue);
-}
+template <typename IndexType>
+    void
+    laqps(IndexType             m,
+          IndexType             n,
+          IndexType             offset,
+          IndexType             nb,
+          IndexType             &kb,
+          std::complex<double>  *A,
+          IndexType             ldA,
+          IndexType             *jPvt,
+          std::complex<double>  *tau,
+          double                *vn1,
+          double                *vn2,
+          std::complex<double>  *auxv,
+          std::complex<double>  *F,
+          IndexType     ldF);
 
 } // namespace cxxlapack
 
-#endif // CXXLAPACK_AUX_GETF77LAPACKCHAR_TCC
+#endif // CXXLAPACK_INTERFACE_LAQPS_H

@@ -163,14 +163,15 @@ trs(Transpose trans, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
 {
     typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    IndexType info = cxxlapack::getrs<IndexType>(getF77LapackChar(trans),
-                                                 A.numRows(),
-                                                 B.numCols(),
-                                                 A.data(),
-                                                 A.leadingDimension(),
-                                                 piv.data(),
-                                                 B.data(),
-                                                 B.leadingDimension());
+    IndexType info;
+    info = cxxlapack::getrs<IndexType>(getF77Char(trans),
+                                       A.numRows(),
+                                       B.numCols(),
+                                       A.data(),
+                                       A.leadingDimension(),
+                                       piv.data(),
+                                       B.data(),
+                                       B.leadingDimension());
     ASSERT(info==0);
 }
 
@@ -181,15 +182,16 @@ trs(Transpose trans, const TrMatrix<MA> &A, GeMatrix<MB> &B)
 {
     typedef typename TrMatrix<MA>::IndexType  IndexType;
 
-    IndexType info = cxxlapack::trtrs<IndexType>(A.upLo(),
-                                                 trans,
-                                                 A.diag(),
-                                                 A.dim(),
-                                                 B.numCols(),
-                                                 A.data(),
-                                                 A.leadingDimension(),
-                                                 B.data(),
-                                                 B.leadingDimension());
+    IndexType info;
+    info = cxxlapack::trtrs<IndexType>(getF77Char(A.upLo()),
+                                       getF77Char(trans),
+                                       getF77Char(A.diag()),
+                                       A.dim(),
+                                       B.numCols(),
+                                       A.data(),
+                                       A.leadingDimension(),
+                                       B.data(),
+                                       B.leadingDimension());
     ASSERT(info>=0);
     return info;
 }

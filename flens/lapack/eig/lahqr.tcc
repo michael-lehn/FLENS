@@ -463,57 +463,44 @@ lahqr_generic(bool                  wantT,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename IndexType, typename MH, typename VWR, typename VWI,
           typename MZ>
 IndexType
-lahqr_native(bool                   wantT,
-             bool                   wantZ,
-             IndexType              iLo,
-             IndexType              iHi,
-             GeMatrix<MH>           &H,
-             DenseVector<VWR>       &wr,
-             DenseVector<VWI>       &wi,
-             IndexType              iLoZ,
-             IndexType              iHiZ,
-             GeMatrix<MZ>           &Z)
+lahqr(bool                   wantT,
+      bool                   wantZ,
+      IndexType              iLo,
+      IndexType              iHi,
+      GeMatrix<MH>           &H,
+      DenseVector<VWR>       &wr,
+      DenseVector<VWI>       &wi,
+      IndexType              iLoZ,
+      IndexType              iHiZ,
+      GeMatrix<MZ>           &Z)
 {
-    typedef typename GeMatrix<MH>::ElementType  T;
-
-    const LOGICAL    WANTT  = wantT;
-    const LOGICAL    WANTZ  = wantZ;
-    const INTEGER    N      = H.numRows();
-    const INTEGER    ILO    = iLo;
-    const INTEGER    IHI    = iHi;
-    const INTEGER    LDH    = H.leadingDimension();
-    const INTEGER    ILOZ   = iLoZ;
-    const INTEGER    IHIZ   = iHiZ;
-    const INTEGER    LDZ    = Z.leadingDimension();
-    INTEGER          INFO;
-
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dlahqr)(&WANTT,
-                            &WANTZ,
-                            &N,
-                            &ILO,
-                            &IHI,
-                            H.data(),
-                            &LDH,
-                            wr.data(),
-                            wi.data(),
-                            &ILOZ,
-                            &IHIZ,
-                            Z.data(),
-                            &LDZ,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    return INFO;
+    IndexType  info;
+    info = cxxlapack::lahqr<IndexType>(wantT,
+                                       wantZ,
+                                       H.numRows(),
+                                       iLo,
+                                       iHi,
+                                       H.data(),
+                                       H.leadingDimension(),
+                                       wr.data(),
+                                       wi.data(),
+                                       iLoZ,
+                                       iHiZ,
+                                       Z.data(),
+                                       Z.leadingDimension());
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -582,8 +569,8 @@ lahqr(bool                  wantT,
 //  Compare results
 //
 #   ifdef CHECK_CXXLAPACK
-    IndexType _info = lahqr_native(wantT, wantZ, iLo,  iHi,
-                                   _H, _wr, _wi, iLoZ, iHiZ, _Z);
+    IndexType _info = external::lahqr(wantT, wantZ, iLo,  iHi,
+                                      _H, _wr, _wi, iLoZ, iHiZ, _Z);
 
     bool failed = false;
     if (! isIdentical(H, _H, " H", "_H")) {

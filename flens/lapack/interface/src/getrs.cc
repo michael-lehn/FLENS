@@ -49,7 +49,7 @@ LAPACK_DECL(dgetrs)(const char       *TRANS,
 //
 //  Call FLENS implementation
 //
-    Transpose              trans  = getFlensLapackEnum<Transpose>(*TRANS);
+    Transpose              trans  = convertTo<Transpose>(*TRANS);
     DConstGeMatrixView     _A     = DConstFSView(*N, *N, A, *LDA);
     IConstDenseVectorView  _IPIV  = IConstArrayView(*N, IPIV, 1);
     DGeMatrixView          _B     = DFSView(*N, *NRHS, B, *LDB);

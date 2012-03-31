@@ -745,80 +745,60 @@ laqr5_generic(bool                      wantT,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename IndexType, typename VSR, typename VSI, typename MH,
           typename MZ, typename MV, typename MU, typename MWV, typename MWH>
 void
-laqr5_native(bool                      wantT,
-             bool                      wantZ,
-             IndexType                 kacc22,
-             IndexType                 kTop,
-             IndexType                 kBot,
-             IndexType                 nShifts,
-             DenseVector<VSR>          &sr,
-             DenseVector<VSI>          &si,
-             GeMatrix<MH>              &H,
-             IndexType                 iLoZ,
-             IndexType                 iHiZ,
-             GeMatrix<MZ>              &Z,
-             GeMatrix<MV>              &V,
-             GeMatrix<MU>              &U,
-             GeMatrix<MWV>             &WV,
-             GeMatrix<MWH>             &WH)
+laqr5(bool                      wantT,
+      bool                      wantZ,
+      IndexType                 kacc22,
+      IndexType                 kTop,
+      IndexType                 kBot,
+      IndexType                 nShifts,
+      DenseVector<VSR>          &sr,
+      DenseVector<VSI>          &si,
+      GeMatrix<MH>              &H,
+      IndexType                 iLoZ,
+      IndexType                 iHiZ,
+      GeMatrix<MZ>              &Z,
+      GeMatrix<MV>              &V,
+      GeMatrix<MU>              &U,
+      GeMatrix<MWV>             &WV,
+      GeMatrix<MWH>             &WH)
 {
-    typedef typename GeMatrix<MH>::ElementType  T;
-
-    const LOGICAL    WANTT      = wantT;
-    const LOGICAL    WANTZ      = wantZ;
-    const INTEGER    KACC22     = kacc22;
-    const INTEGER    N          = H.numRows();
-    const INTEGER    KTOP       = kTop;
-    const INTEGER    KBOT       = kBot;
-    const INTEGER    NSHFTS     = nShifts;
-    const INTEGER    LDH        = H.leadingDimension();
-    const INTEGER    ILOZ       = iLoZ;
-    const INTEGER    IHIZ       = iHiZ;
-    const INTEGER    LDZ        = Z.leadingDimension();
-    const INTEGER    LDV        = V.leadingDimension();
-    const INTEGER    LDU        = U.leadingDimension();
-    const INTEGER    NV         = WV.numRows();
-    const INTEGER    LDWV       = WV.leadingDimension();
-    const INTEGER    NH         = WH.numCols();
-    const INTEGER    LDWH       = WH.leadingDimension();
-
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dlaqr5)(&WANTT,
-                            &WANTZ,
-                            &KACC22,
-                            &N,
-                            &KTOP,
-                            &KBOT,
-                            &NSHFTS,
-                            sr.data(),
-                            si.data(),
-                            H.data(),
-                            &LDH,
-                            &ILOZ,
-                            &IHIZ,
-                            Z.data(),
-                            &LDZ,
-                            V.data(),
-                            &LDV,
-                            U.data(),
-                            &LDU,
-                            &NV,
-                            WV.data(),
-                            &LDWV,
-                            &NH,
-                            WH.data(),
-                            &LDWH);
-    } else {
-        ASSERT(0);
-    }
+    cxxlapack::laqr5<IndexType>(wantT,
+                                wantZ,
+                                kacc22,
+                                H.numRows(),
+                                kTop,
+                                kBot,
+                                nShifts,
+                                sr.data(),
+                                si.data(),
+                                H.data(),
+                                H.leadingDimension(),
+                                iLoZ,
+                                iHiZ,
+                                Z.data(),
+                                Z.leadingDimension(),
+                                V.data(),
+                                V.leadingDimension(),
+                                U.data(),
+                                U.leadingDimension(),
+                                WV.numRows(),
+                                WV.data(),
+                                WV.leadingDimension(),
+                                WH.numCols(),
+                                WH.data(),
+                                WH.leadingDimension());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 template <typename IndexType, typename VSR, typename VSI, typename MH,
@@ -938,9 +918,9 @@ laqr5(bool                      wantT,
 //
 //  Compare generic results with results from the native implementation
 //
-    laqr5_native(wantT, wantZ, kacc22, kTop, kBot, nShifts,
-                 sr, si, H, iLoZ, iHiZ, Z,
-                 V, U, WV, WH);
+    external::laqr5(wantT, wantZ, kacc22, kTop, kBot, nShifts,
+                    sr, si, H, iLoZ, iHiZ, Z,
+                    V, U, WV, WH);
 
     bool failed = false;
     if (! isIdentical(sr_generic, sr, "sr_generic", "sr")) {

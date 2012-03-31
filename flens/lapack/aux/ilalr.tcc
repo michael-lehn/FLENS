@@ -97,11 +97,11 @@ namespace external {
 
 template <typename MA>
 typename GeMatrix<MA>::IndexType
-ilalc(const GeMatrix<MA> &A)
+ilalr(const GeMatrix<MA> &A)
 {
     typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    return cxxlapack::ilalc<IndexType>(A.numRows(), A.numCols(),
+    return cxxlapack::ilalr<IndexType>(A.numRows(), A.numCols(),
                                        A.data(),
                                        A.leadingDimension());
 }

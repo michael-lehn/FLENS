@@ -140,7 +140,7 @@ sv(GeMatrix<MA> &A, DenseVector<VP> &piv, GeMatrix<MB> &B)
     piv = piv_org;
     B   = B_org;
 
-    IndexType _info = external::sv<IndexType>(A, piv, B);
+    IndexType _info = external::sv(A, piv, B);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {

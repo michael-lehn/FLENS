@@ -407,147 +407,104 @@ evx_generic(BALANCE::Balance     balance,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA>
-Pair<typename GeMatrix<MA>::IndexType>
-evx_native_wsq(bool         computeVL,
-               bool         computeVR,
-               SENSE::Sense sense,
-               GeMatrix<MA> &A)
+typename GeMatrix<MA>::IndexType
+evx_wsq(bool         computeVL,
+        bool         computeVR,
+        SENSE::Sense sense,
+        GeMatrix<MA> &A)
 {
     typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MA>::IndexType    IndexType;
 
-    const char       BALANC = 'N';
-    const char       JOBVL  = (computeVL) ? 'V' : 'N';
-    const char       JOBVR  = (computeVR) ? 'V' : 'N';
-    const char       SENSE  = getF77LapackChar(sense);
-    const INTEGER    N      = A.numRows();
-    const INTEGER    LDA    = A.leadingDimension();
-    const INTEGER    LDVL   = N;
-    const INTEGER    LDVR   = N;
-    INTEGER          IDUMMY;
-    T                DUMMY;
-    const INTEGER    LWORK  = -1;
-    T                WORK;
-    INTEGER          INFO;
+    const IndexType     LDVL   = A.numRows();
+    const IndexType     LDVR   = A.numRows();
+    IndexType           IDUMMY;
+    T                   DUMMY;
+    const IndexType     LWORK  = -1;
+    T                   WORK;
 
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dgeevx)(&BALANC,
-                            &JOBVL,
-                            &JOBVR,
-                            &SENSE,
-                            &N,
-                            A.data(),
-                            &LDA,
-                            &DUMMY,
-                            &DUMMY,
-                            &DUMMY,
-                            &LDVL,
-                            &DUMMY,
-                            &LDVR,
-                            &IDUMMY,
-                            &IDUMMY,
-                            &DUMMY,
-                            &DUMMY,
-                            &DUMMY,
-                            &DUMMY,
-                            &WORK,
-                            &LWORK,
-                            &IDUMMY,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO>=0);
-
-    return Pair<typename GeMatrix<MA>::IndexType>(WORK, WORK);
+    cxxlapack::geevx<IndexType>('N',
+                                computeVL ? 'V' : 'N',
+                                computeVR ? 'V' : 'N',
+                                getF77Char(sense),
+                                A.numRows(),
+                                A.data(),
+                                A.leadingDimension(),
+                                &DUMMY,
+                                &DUMMY,
+                                &DUMMY,
+                                LDVL,
+                                &DUMMY,
+                                LDVR,
+                                IDUMMY,
+                                IDUMMY,
+                                &DUMMY,
+                                &DUMMY,
+                                &DUMMY,
+                                &DUMMY,
+                                &WORK,
+                                LWORK,
+                                &IDUMMY);
+    return IndexType(WORK);
 }
 
 template <typename MA, typename VWR, typename VWI, typename MVL, typename MVR,
           typename IndexType, typename VSCALE, typename ABNORM,
           typename RCONDE, typename RCONDV, typename VWORK, typename VIWORK>
 typename GeMatrix<MA>::IndexType
-evx_native(BALANCE::Balance     balance,
-           bool                 computeVL,
-           bool                 computeVR,
-           SENSE::Sense         sense,
-           GeMatrix<MA>         &A,
-           DenseVector<VWR>     &wr,
-           DenseVector<VWI>     &wi,
-           GeMatrix<MVL>        &VL,
-           GeMatrix<MVR>        &VR,
-           IndexType            &iLo,
-           IndexType            &iHi,
-           DenseVector<VSCALE>  &scale,
-           ABNORM               &abNorm,
-           DenseVector<RCONDE>  &rCondE,
-           DenseVector<RCONDV>  &rCondV,
-           DenseVector<VWORK>   &work,
-           DenseVector<VIWORK>  &iWork)
+evx(BALANCE::Balance     balance,
+    bool                 computeVL,
+    bool                 computeVR,
+    SENSE::Sense         sense,
+    GeMatrix<MA>         &A,
+    DenseVector<VWR>     &wr,
+    DenseVector<VWI>     &wi,
+    GeMatrix<MVL>        &VL,
+    GeMatrix<MVR>        &VR,
+    IndexType            &iLo,
+    IndexType            &iHi,
+    DenseVector<VSCALE>  &scale,
+    ABNORM               &abNorm,
+    DenseVector<RCONDE>  &rCondE,
+    DenseVector<RCONDV>  &rCondV,
+    DenseVector<VWORK>   &work,
+    DenseVector<VIWORK>  &iWork)
 {
-    typedef typename GeMatrix<MA>::ElementType  T;
-
-    const char       BALANC = char(balance);
-    const char       JOBVL  = (computeVL) ? 'V' : 'N';
-    const char       JOBVR  = (computeVR) ? 'V' : 'N';
-    const char       SENSE  = char(sense);
-    const INTEGER    N      = A.numRows();
-    const INTEGER    LDA    = A.leadingDimension();
-    const INTEGER    LDVL   = VL.leadingDimension();
-    const INTEGER    LDVR   = VR.leadingDimension();
-    INTEGER          ILO    = iLo;
-    INTEGER          IHI    = iHi;
-    T                _ABNRM = abNorm;
-    const INTEGER    LWORK  = work.length();
-    INTEGER          INFO;
-
-    DenseVector<Array<INTEGER> >    _iWork(iWork.length());
-    for (INTEGER i=1; i<=_iWork.length(); ++i) {
-        _iWork(i) = iWork(i);
-    }
-
-    ASSERT(BALANC==char(balance));
-
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dgeevx)(&BALANC,
-                            &JOBVL,
-                            &JOBVR,
-                            &SENSE,
-                            &N,
-                            A.data(),
-                            &LDA,
-                            wr.data(),
-                            wi.data(),
-                            VL.data(),
-                            &LDVL,
-                            VR.data(),
-                            &LDVR,
-                            &ILO,
-                            &IHI,
-                            scale.data(),
-                            &_ABNRM,
-                            rCondE.data(),
-                            rCondV.data(),
-                            work.data(),
-                            &LWORK,
-                            _iWork.data(),
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO>=0);
-
-    for (INTEGER i=1; i<=_iWork.length(); ++i) {
-        iWork(i) = _iWork(i);
-    }
-    iLo     = ILO;
-    iHi     = IHI;
-    abNorm  = _ABNRM;
-    return INFO;
+    IndexType  info;
+    info = cxxlapack::geevx<IndexType>(getF77Char(balance),
+                                       computeVL ? 'V' : 'N',
+                                       computeVR ? 'V' : 'N',
+                                       getF77Char(sense),
+                                       A.numRows(),
+                                       A.data(),
+                                       A.leadingDimension(),
+                                       wr.data(),
+                                       wi.data(),
+                                       VL.data(),
+                                       VL.leadingDimension(),
+                                       VR.data(),
+                                       VR.leadingDimension(),
+                                       iLo,
+                                       iHi,
+                                       scale.data(),
+                                       abNorm,
+                                       rCondE.data(),
+                                       rCondV.data(),
+                                       work.data(),
+                                       work.length(),
+                                       iWork.data());
+    ASSERT(info>=0);
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 template <typename MA>
@@ -688,9 +645,9 @@ evx(BALANCE::Balance     balance,
 //
 //  Compare generic results with results from the native implementation
 //
-    IndexType _info = evx_native(balance, computeVL, computeVR, sense,
-                                 A, wr, wi, VL, VR, iLo, iHi, scale, abNorm,
-                                 rCondE, rCondV, work, iWork);
+    IndexType _info = external::evx(balance, computeVL, computeVR, sense,
+                                    A, wr, wi, VL, VR, iLo, iHi, scale, abNorm,
+                                    rCondE, rCondV, work, iWork);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {

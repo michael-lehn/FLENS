@@ -250,14 +250,14 @@ qp3(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv,  DenseVector<VTAU> &tau,
 {
     typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    cxxlapack::qp3<IndexType>(A.numRows(),
-                              A.numCols(),
-                              A.data(),
-                              A.leadingDimension(),
-                              jPiv.data(),
-                              tau.data(),
-                              work.data(),
-                              work.length());
+    cxxlapack::geqp3<IndexType>(A.numRows(),
+                                A.numCols(),
+                                A.data(),
+                                A.leadingDimension(),
+                                jPiv.data(),
+                                tau.data(),
+                                work.data(),
+                                work.length());
 }
 
 } // namespace external

@@ -340,89 +340,52 @@ trsen_generic(TRSEN::Job                job,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename SELECT, typename MT, typename MQ, typename WR, typename WI,
           typename IndexType, typename S, typename SEP,
           typename WORK, typename IWORK>
 IndexType
-trsen_native(TRSEN::Job                job,
-             bool                      computeQ,
-             const DenseVector<SELECT> &select,
-             GeMatrix<MT>              &T,
-             GeMatrix<MQ>              &Q,
-             DenseVector<WR>           &wr,
-             DenseVector<WI>           &wi,
-             IndexType                 &m,
-             S                         &s,
-             SEP                       &sep,
-             DenseVector<WORK>         &work,
-             DenseVector<IWORK>        &iwork)
+trsen(TRSEN::Job                job,
+      bool                      computeQ,
+      const DenseVector<SELECT> &select,
+      GeMatrix<MT>              &T,
+      GeMatrix<MQ>              &Q,
+      DenseVector<WR>           &wr,
+      DenseVector<WI>           &wi,
+      IndexType                 &m,
+      S                         &s,
+      SEP                       &sep,
+      DenseVector<WORK>         &work,
+      DenseVector<IWORK>        &iwork)
 {
-    typedef typename GeMatrix<MT>::ElementType  ElementType;
-
-    const char       JOB    = job;
-    const char       COMPQ  = (computeQ) ? 'V' : 'N';
-    const INTEGER    N      = T.numRows();
-    const INTEGER    LDT    = T.leadingDimension();
-    const INTEGER    LDQ    = Q.leadingDimension();
-    INTEGER          _M     = m;
-    DOUBLE           _S     = s;
-    DOUBLE           _SEP   = sep;
-    const INTEGER    LWORK  = work.length();
-    INTEGER          LIWORK = iwork.length();
-    INTEGER          INFO;
-
-    ASSERT(JOB=='N' || JOB=='E' || JOB=='V' || JOB=='B');
-
-    DenseVector<Array<LOGICAL> >    _select(N);
-    for (IndexType i=1; i<=N; ++i) {
-        _select(i) = select(i);
-    }
-
-    DenseVector<Array<INTEGER> >    _iwork(iwork.length());
-    for (IndexType i=1; i<=iwork.length(); ++i) {
-        _iwork(i) = iwork(i);
-    }
-
-    if (IsSame<ElementType,DOUBLE>::value) {
-        LAPACK_IMPL(dtrsen)(&JOB,
-                            &COMPQ,
-                            _select.data(),
-                            &N,
-                            T.data(),
-                            &LDT,
-                            Q.data(),
-                            &LDQ,
-                            wr.data(),
-                            wi.data(),
-                            &_M,
-                            &_S,
-                            &_SEP,
-                            work.data(),
-                            &LWORK,
-                            _iwork.data(),
-                            &LIWORK,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    if (INFO<0) {
-        std::cerr << "dtrsen: INFO = " << INFO << std::endl;
-    }
-    ASSERT(INFO>=0);
-
-    m   = _M;
-    s   = _S;
-    sep = _SEP;
-    for (IndexType i=1; i<=iwork.length(); ++i) {
-        iwork(i) = _iwork(i);
-    }
-
-    return INFO;
+    IndexType  info;
+    info = cxxlapack::trsen<IndexType>(getF77Char(job),
+                                       computeQ ? 'V' : 'N',
+                                       select.data(),
+                                       T.numRows(),
+                                       T.data(),
+                                       T.leadingDimension(),
+                                       Q.data(),
+                                       Q.leadingDimension(),
+                                       wr.data(),
+                                       wi.data(),
+                                       m,
+                                       s,
+                                       sep,
+                                       work.data(),
+                                       work.length(),
+                                       iwork.data(),
+                                       iwork.length());
+    ASSERT(info>=0);
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -518,8 +481,8 @@ trsen(TRSEN::Job                job,
 //
 //  Compare generic results with results from the native implementation
 //
-    IndexType _info =  trsen_native(job, computeQ, select, T, Q, wr, wi,
-                                    m, s, sep, work, iwork);
+    IndexType _info =  external::trsen(job, computeQ, select, T, Q, wr, wi,
+                                       m, s, sep, work, iwork);
     bool failed = false;
     if (! isIdentical(T_generic, T, "T_generic", "T")) {
         std::cerr << "CXXLAPACK: T_generic = " << T_generic << std::endl;

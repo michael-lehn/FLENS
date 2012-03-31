@@ -148,46 +148,33 @@ bak_generic(BALANCE::Balance            job,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename IndexType, typename VSCALE, typename MV>
 void
-bak_native(BALANCE::Balance             job,
-           Side                         side,
-           IndexType                    iLo,
-           IndexType                    iHi,
-           const DenseVector<VSCALE>    &scale,
-           GeMatrix<MV>                 &V)
+bak(BALANCE::Balance             job,
+    Side                         side,
+    IndexType                    iLo,
+    IndexType                    iHi,
+    const DenseVector<VSCALE>    &scale,
+    GeMatrix<MV>                 &V)
 {
-    typedef typename GeMatrix<MV>::ElementType  T;
-
-    const char       JOB    = getF77LapackChar<BALANCE::Balance>(job);
-    const char       SIDE   = getF77LapackChar<Side>(side);
-    const INTEGER    N      = V.numRows();
-    const INTEGER    ILO    = iLo;
-    const INTEGER    IHI    = iHi;
-    const INTEGER    M      = V.numCols();
-    const INTEGER    LDV    = V.leadingDimension();
-    INTEGER          INFO;
-
-    if (IsSame<T, DOUBLE>::value) {
-        LAPACK_IMPL(dgebak)(&JOB,
-                            &SIDE,
-                            &N,
-                            &ILO,
-                            &IHI,
-                            scale.data(),
-                            &M,
-                            V.data(),
-                            &LDV,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO==0);
+    cxxlapack::gebak<IndexType>(getF77Char(job),
+                                getF77Char(side),
+                                V.numRows(),
+                                iLo,
+                                iHi,
+                                scale.data(),
+                                V.numCols(),
+                                V.data(),
+                                V.leadingDimension());
 }
 
-#endif
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -234,7 +221,7 @@ bak(BALANCE::Balance            job,
 //
 //  Compare results
 //
-    bak_native(job, side, iLo, iHi, scale, _V);
+    external::bak(job, side, iLo, iHi, scale, _V);
 
     if (! isIdentical(V, _V, " V", "_V")) {
         std::cerr << "CXXLAPACK:  V = " << V << std::endl;

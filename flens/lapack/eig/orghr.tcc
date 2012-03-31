@@ -139,78 +139,56 @@ orghr_generic(IndexType                 iLo,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename IndexType, typename  MA, typename  VTAU>
 IndexType
-orghr_native_wsq(IndexType                 iLo,
-                 IndexType                 iHi,
-                 const GeMatrix<MA>        &A,
-                 const DenseVector<VTAU>   &tau)
+orghr_wsq(IndexType                 iLo,
+          IndexType                 iHi,
+          const GeMatrix<MA>        &A,
+          const DenseVector<VTAU>   &tau)
 {
-    typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MA>::ElementType  ElementType;
 
-    const INTEGER    N      = A.numRows();
-    const INTEGER    ILO    = iLo;
-    const INTEGER    IHI    = iHi;
-    const INTEGER    LDA    = A.leadingDimension();
-    T                WORK;
-    T                DUMMY;
-    const INTEGER    LWORK  = -1;
-    INTEGER          INFO;
+    ElementType      WORK;
+    ElementType      DUMMY;
+    const IndexType  LWORK  = -1;
 
-    if (IsSame<T, DOUBLE>::value) {
-        LAPACK_IMPL(dorghr)(&N,
-                            &ILO,
-                            &IHI,
-                            &DUMMY,
-                            &LDA,
-                            tau.data(),
-                            &WORK,
-                            &LWORK,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO==0);
+    cxxlapack::orghr<IndexType>(A.numRows(),
+                                iLo,
+                                iHi,
+                                &DUMMY,
+                                A.leadingDimension(),
+                                tau.data(),
+                                &WORK,
+                                LWORK);
     return WORK;
 }
 
 
 template <typename IndexType, typename  MA, typename  VTAU, typename VW>
 void
-orghr_native(IndexType                 iLo,
-             IndexType                 iHi,
-             GeMatrix<MA>              &A,
-             const DenseVector<VTAU>   &tau,
-             DenseVector<VW>           &work)
+orghr(IndexType                 iLo,
+      IndexType                 iHi,
+      GeMatrix<MA>              &A,
+      const DenseVector<VTAU>   &tau,
+      DenseVector<VW>           &work)
 {
-    typedef typename GeMatrix<MA>::ElementType  T;
-
-    const INTEGER    N      = A.numRows();
-    const INTEGER    ILO    = iLo;
-    const INTEGER    IHI    = iHi;
-    const INTEGER    LDA    = A.leadingDimension();
-    const INTEGER    LWORK  = work.length();
-    INTEGER          INFO;
-
-    if (IsSame<T, DOUBLE>::value) {
-        LAPACK_IMPL(dorghr)(&N,
-                            &ILO,
-                            &IHI,
-                            A.data(),
-                            &LDA,
-                            tau.data(),
-                            work.data(),
-                            &LWORK,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO==0);
+    cxxlapack::orghr<IndexType>(A.numRows(),
+                                iLo,
+                                iHi,
+                                A.data(),
+                                A.leadingDimension(),
+                                tau.data(),
+                                work.data(),
+                                work.length());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -248,7 +226,7 @@ orghr_wsq(IndexType                 iLo,
 //
 //  Compare results
 //
-    IndexType _ws = orghr_native_wsq(iLo, iHi, A, tau);
+    IndexType _ws = external::orghr_wsq(iLo, iHi, A, tau);
 
     if (ws!=_ws) {
         std::cerr << "CXXLAPACK:  ws = " << ws << std::endl;
@@ -309,7 +287,7 @@ orghr(IndexType                 iLo,
     if (_work.length()==0) {
         _work.resize(work.length());
     }
-    orghr_native(iLo, iHi, _A, tau, _work);
+    external::orghr(iLo, iHi, _A, tau, _work);
 
     bool failed = false;
     if (! isIdentical(A, _A, " A", "A_")) {

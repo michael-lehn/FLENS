@@ -364,48 +364,46 @@ es_generic(bool                 computeSchurVectors,
 
 //== interface for native lapack ===============================================
 
-#ifdef  TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA>
 typename GeMatrix<MA>::IndexType
-es_native_wsq(bool                 computeSchurVectors,
-              const GeMatrix<MA>   &A)
+es_wsq(bool                 computeSchurVectors,
+       const GeMatrix<MA>   &A)
 {
     typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MA>::IndexType    IndexType;
 
-    const char           JOBVS   = (computeSchurVectors) ? 'V' : 'N';
-    const char           SORT    = 'N';
-    LOGICAL (*SELECT)(const T*, const T*) = 0;
-    const INTEGER        N       = A.numRows();
-    const INTEGER        LDA     = A.leadingDimension();
-    INTEGER              SDIM    = 0;
-    const INTEGER        LDVS    = LDA;
-    T                    DUMMY   = 0;
+//
+//  We need a bunch of dummy arguments ...
+//
+    int        (*SELECT)(const T*, const T*) = 0;
+    IndexType   SDIM    = 0;
+    T           DUMMY   = 0;
+    IndexType   BWORK;
+    IndexType   LDVS    = computeSchurVectors ? A.numRows() : 1;
+//
+//  ... and some arguments for the workspace query
+//
     T                    WORK    = 0;
-    const INTEGER        LWORK   = -1;
-    LOGICAL              BWORK;
-    INTEGER              INFO;
+    const IndexType      LWORK   = -1;
 
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dgees)(&JOBVS,
-                           &SORT,
-                           SELECT,
-                           &N,
-                           &DUMMY,
-                           &LDA,
-                           &SDIM,
-                           &DUMMY,
-                           &DUMMY,
-                           &DUMMY,
-                           &LDVS,
-                           &WORK,
-                           &LWORK,
-                           &BWORK,
-                           &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO>=0);
+    cxxlapack::gees<IndexType>(computeSchurVectors ? 'V' : 'N',
+                               'N',
+                               SELECT,
+                               A.numRows(),
+                               &DUMMY,
+                               A.leadingDimension(),
+                               SDIM,
+                               &DUMMY,
+                               &DUMMY,
+                               &DUMMY,
+                               LDVS,
+                               &WORK,
+                               LWORK,
+                               &BWORK);
     return WORK;
 }
 
@@ -413,64 +411,39 @@ template <typename SelectFunction, typename MA, typename IndexType,
           typename VWR, typename VWI, typename MVS,
           typename VWORK, typename BWORK>
 IndexType
-es_native(bool                 computeSchurVectors,
-          bool                 sortEigenvalues,
-          SelectFunction       selectFunction,
-          GeMatrix<MA>         &A,
-          IndexType            &sDim,
-          DenseVector<VWR>     &wr,
-          DenseVector<VWI>     &wi,
-          GeMatrix<MVS>        &VS,
-          DenseVector<VWORK>   &work,
-          DenseVector<BWORK>   &bWork)
+es(bool                 computeSchurVectors,
+   bool                 sortEigenvalues,
+   SelectFunction       selectFunction,
+   GeMatrix<MA>         &A,
+   IndexType            &sDim,
+   DenseVector<VWR>     &wr,
+   DenseVector<VWI>     &wi,
+   GeMatrix<MVS>        &VS,
+   DenseVector<VWORK>   &work,
+   DenseVector<BWORK>   &bWork)
 {
-    typedef typename GeMatrix<MA>::ElementType  T;
-
-    const char           JOBVS   = (computeSchurVectors) ? 'V' : 'N';
-    const char           SORT    = (sortEigenvalues) ? 'S' : 'N';
-    LOGICAL (*SELECT)(const T*, const T*) = selectFunction.select;
-    const INTEGER        N       = A.numRows();
-    const INTEGER        LDA     = A.leadingDimension();
-    INTEGER              SDIM    = sDim;
-    const INTEGER        LDVS    = VS.leadingDimension();
-    const INTEGER        LWORK   = work.length();
-    INTEGER              INFO;
-
-    DenseVector<Array<LOGICAL> >    _bWork(N);
-    for (IndexType i=1; i<=N; ++i) {
-        _bWork(i) = bWork(i);
-    }
-
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dgees)(&JOBVS,
-                           &SORT,
-                           SELECT,
-                           &N,
-                           A.data(),
-                           &LDA,
-                           &SDIM,
-                           wr.data(),
-                           wi.data(),
-                           VS.data(),
-                           &LDVS,
-                           work.data(),
-                           &LWORK,
-                           _bWork.data(),
-                           &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO>=0);
-
-    sDim = SDIM;
-    for (IndexType i=1; i<=N; ++i) {
-        bWork(i) = _bWork(i);
-    }
-
-    return INFO;
+    IndexType info;
+    info = cxxlapack::gees<IndexType>(computeSchurVectors ? 'V' : 'N',
+                                      sortEigenvalues ? 'S' : 'N',
+                                      selectFunction.select,
+                                      A.numRows(),
+                                      A.data(),
+                                      A.leadingDimension(),
+                                      sDim,
+                                      wr.data(),
+                                      wi.data(),
+                                      VS.data(),
+                                      VS.leadingDimension(),
+                                      work.data(),
+                                      work.length(),
+                                      bWork.data());
+    ASSERT(info>=0);
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -499,7 +472,7 @@ es_wsq(bool                 computeSchurVectors,
 //
 //  Compare results
 //
-    auto optWorkSize = es_native_wsq(computeSchurVectors, A);
+    auto optWorkSize = external::es_wsq(computeSchurVectors, A);
 
     if (! isIdentical(optWorkSize, ws.second, "optWorkSize", "ws.second")) {
         ASSERT(0);
@@ -611,16 +584,16 @@ es(bool                 computeSchurVectors,
 //
 //  Compare generic results with results from the native implementation
 //
-    IndexType _result = es_native(computeSchurVectors,
-                                  sortEigenvalues,
-                                  selectFunction,
-                                  A,
-                                  sDim,
-                                  wr,
-                                  wi,
-                                  VS,
-                                  work,
-                                  bWork);
+    IndexType _result = external::es(computeSchurVectors,
+                                     sortEigenvalues,
+                                     selectFunction,
+                                     A,
+                                     sDim,
+                                     wr,
+                                     wi,
+                                     VS,
+                                     work,
+                                     bWork);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {

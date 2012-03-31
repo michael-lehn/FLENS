@@ -41,14 +41,14 @@ template <typename IndexType>
     void
     rscl(IndexType          n,
          const double       &sa,
-         double             &sx,
+         double             *sx,
          IndexType          incX);
 
 template <typename IndexType>
     void
     rscl(IndexType              n,
          const double           &sa,
-         std::complex<double>   &sx,
+         std::complex<double>   *sx,
          IndexType              incX);
 
 } // namespace cxxlapack

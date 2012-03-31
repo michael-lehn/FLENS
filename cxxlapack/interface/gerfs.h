@@ -39,22 +39,22 @@ namespace cxxlapack {
 
 template <typename IndexType>
     IndexType
-    gerfs(char          trans,
-          IndexType     n,
-          IndexType     nRhs,
-          const double  *A,
-          IndexType     ldA,
-          const double  *AF,
-          IndexType     ldAF,
-          IndexType     *iPiv,
-          const double  *B,
-          IndexType     ldB,
-          double        *X,
-          IndexType     ldX,
-          double        *fErr,
-          double        *bErr,
-          double        *work,
-          IndexType     *iWork);
+    gerfs(char              trans,
+          IndexType         n,
+          IndexType         nRhs,
+          const double      *A,
+          IndexType         ldA,
+          const double      *AF,
+          IndexType         ldAF,
+          const IndexType   *iPiv,
+          const double      *B,
+          IndexType         ldB,
+          double            *X,
+          IndexType         ldX,
+          double            *fErr,
+          double            *bErr,
+          double            *work,
+          IndexType         *iWork);
 
 template <typename IndexType>
     IndexType

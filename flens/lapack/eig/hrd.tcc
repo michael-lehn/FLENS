@@ -211,77 +211,53 @@ hrd_generic(IndexType           iLo,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename IndexType, typename MA>
 IndexType
-hrd_native_wsq(IndexType            iLo,
-               IndexType            iHi,
-               const GeMatrix<MA>   &A)
+hrd_wsq(IndexType            iLo,
+        IndexType            iHi,
+        const GeMatrix<MA>   &A)
 {
     typedef typename GeMatrix<MA>::ElementType  T;
 
-    const INTEGER    N      = A.numRows();
-    const INTEGER    ILO    = iLo;
-    const INTEGER    IHI    = iHi;
-    const INTEGER    LDA    = A.leadingDimension();
-    T                WORK;
-    T                DUMMY;
-    const INTEGER    LWORK  = -1;
-    INTEGER          INFO;
+    T                   WORK, DUMMY;
+    const IndexType     LWORK  = -1;
 
-    if (IsSame<T, DOUBLE>::value) {
-        LAPACK_IMPL(dgehrd)(&N,
-                            &ILO,
-                            &IHI,
-                            &DUMMY,
-                            &LDA,
-                            &DUMMY,
-                            &WORK,
-                            &LWORK,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO==0);
+    cxxlapack::gehrd<IndexType>(A.numRows(),
+                                iLo,
+                                iHi,
+                                &DUMMY,
+                                A.leadingDimension(),
+                                &DUMMY,
+                                &WORK,
+                                LWORK);
     return WORK;
 }
 
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
 void
-hrd_native(IndexType            iLo,
-           IndexType            iHi,
-           GeMatrix<MA>         &A,
-           DenseVector<VTAU>    &tau,
-           DenseVector<VWORK>   &work)
+hrd(IndexType            iLo,
+    IndexType            iHi,
+    GeMatrix<MA>         &A,
+    DenseVector<VTAU>    &tau,
+    DenseVector<VWORK>   &work)
 {
-    typedef typename GeMatrix<MA>::ElementType  T;
-
-    const INTEGER    N      = A.numRows();
-    const INTEGER    ILO    = iLo;
-    const INTEGER    IHI    = iHi;
-    const INTEGER    LDA    = A.leadingDimension();
-    const INTEGER    LWORK  = work.length();
-    INTEGER          INFO;
-
-    if (IsSame<T, DOUBLE>::value) {
-        LAPACK_IMPL(dgehrd)(&N,
-                            &ILO,
-                            &IHI,
-                            A.data(),
-                            &LDA,
-                            tau.data(),
-                            work.data(),
-                            &LWORK,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-
-    ASSERT(INFO==0);
+    cxxlapack::gehrd<IndexType>(A.numRows(),
+                                iLo,
+                                iHi,
+                                A.data(),
+                                A.leadingDimension(),
+                                tau.data(),
+                                work.data(),
+                                work.length());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -311,7 +287,7 @@ hrd_wsq(IndexType           iLo,
 //
 //  Compare results
 //
-    IndexType _info = hrd_native_wsq(iLo, iHi, A);
+    IndexType _info = external::hrd_wsq(iLo, iHi, A);
 
     if (! isIdentical(info, _info, " info", "_info")) {
         ASSERT(0);
@@ -378,7 +354,7 @@ hrd(IndexType           iLo,
     if (_work.length()==0) {
         _work.resize(work.length());
     }
-    hrd_native(iLo, iHi, _A, _tau, _work);
+    external::hrd(iLo, iHi, _A, _tau, _work);
 
     bool failed = false;
     if (! isIdentical(A, _A, " A", "_A")) {

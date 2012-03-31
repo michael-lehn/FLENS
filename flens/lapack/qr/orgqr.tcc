@@ -188,8 +188,6 @@ orgqr(IndexType                  k,
       const DenseVector<VTAU>   &tau,
       DenseVector<VWORK>        &work)
 {
-    typedef typename  GeMatrix<MA>::IndexType  IndexType;
-
     cxxlapack::orgqr<IndexType>(A.numRows(),
                                 A.numCols(),
                                 k,

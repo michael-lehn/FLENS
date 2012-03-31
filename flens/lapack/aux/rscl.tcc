@@ -144,7 +144,7 @@ rscl(const SA &sa, DenseVector<VSX> &sx)
 //
 #   ifndef NDEBUG
     ASSERT(sx.firstIndex()==1);
-    ASSERT(sx.incX()>0);
+    ASSERT(sx.inc()>0);
 #   endif
 
 #   ifdef CHECK_CXXLAPACK

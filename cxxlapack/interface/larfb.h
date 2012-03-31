@@ -47,7 +47,7 @@ template <typename IndexType>
           IndexType         n,
           IndexType         k,
           const double      *V,
-          IndexType         ldV
+          IndexType         ldV,
           const double      *T,
           IndexType         ldT,
           double            *C,
@@ -68,9 +68,9 @@ template <typename IndexType>
           IndexType                     ldV,
           const std::complex<double>    *T,
           IndexType                     ldT,
-          double_COMPLEX                *C,
+          std::complex<double>          *C,
           IndexType                     ldC,
-          double_COMPLEX                *work,
+          std::complex<double>          *work,
           IndexType                     ldWork);
 
 } // namespace cxxlapack

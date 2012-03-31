@@ -33,7 +33,6 @@
 #ifndef CXXLAPACK_INTERFACE_TRTRS_TCC
 #define CXXLAPACK_INTERFACE_TRTRS_TCC 1
 
-#include <cxxlapack/aux/aux.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -51,7 +50,7 @@ trtrs(char              upLo,
       IndexType         ldB)
 {
     IndexType info;
-    LAPACK_IMPL(dgetrs)(&upLo, &trans, &diag, &n, &nRhs,
+    LAPACK_IMPL(dtrtrs)(&upLo, &trans, &diag, &n, &nRhs,
                         A, &ldA, B, &ldB, &info);
     return info;
 }
@@ -69,7 +68,7 @@ trtrs(char                          upLo,
       IndexType                     ldB)
 {
     IndexType info;
-    LAPACK_IMPL(zgetrs)(&upLo, &trans, &diag, &n, &nRhs,
+    LAPACK_IMPL(ztrtrs)(&upLo, &trans, &diag, &n, &nRhs,
                         reinterpret_cast<const double *>(A), &ldA,
                         reinterpret_cast<double *>(B), &ldB,
                         &info);

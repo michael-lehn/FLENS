@@ -47,7 +47,6 @@ template <typename IndexType>
           const double  *tau,
           double        *work);
 
-
 } // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_ORG2R_H

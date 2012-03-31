@@ -41,7 +41,7 @@ template <typename IndexType>
     IndexType
     gees(char           jobVS,
          char           sort,
-         bool           (*select)(const double *, const double *),
+         IndexType      (*select)(const double *, const double *),
          IndexType      n,
          double         *A,
          IndexType      ldA,
@@ -52,13 +52,13 @@ template <typename IndexType>
          IndexType      ldVS,
          double         *work,
          IndexType      lWork,
-         bool           *bWork);
+         IndexType      *bWork);
 
 template <typename IndexType>
     IndexType
     gees(char                   jobVS,
          char                   sort,
-         bool                   (*select)(const std::complex<double> *),
+         IndexType              (*select)(const std::complex<double> *),
          IndexType              n,
          std::complex<double>   *A,
          const IndexType        ldA,
@@ -69,9 +69,7 @@ template <typename IndexType>
          std::complex<double>   *work,
          const IndexType        lWork,
          double                 *rWork,
-         LOGICAL                *bWork);
-
-
+         IndexType              *bWork);
 
 } // namespace cxxlapack
 

@@ -353,95 +353,74 @@ ev_generic(bool computeVL, bool computeVR,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 //-- ev: workspace query
 template <typename MA>
 typename GeMatrix<MA>::IndexType
-ev_native_wsq(bool computeVL, bool computeVR, GeMatrix<MA> &A)
+ev_wsq(bool computeVL, bool computeVR, GeMatrix<MA> &A)
 {
     typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MA>::IndexType    IndexType;
 
-    const char      JOBVL = (computeVL) ? 'V' : 'N';
-    const char      JOBVR = (computeVR) ? 'V' : 'N';
-    const INTEGER   N     = A.numRows();
-    const INTEGER   LDA   = A.leadingDimension();
-    const INTEGER   LDVL  = (JOBVL=='V') ? LDA : 1;
-    const INTEGER   LDVR  = (JOBVR=='V') ? LDA : 1;
-    T               WORK  = 0;
-    T               DUMMY = 0;
-    const INTEGER   LWORK = -1;
-    INTEGER INFO;
+    T           DUMMY, WORK;
+    IndexType   LDVL = computeVL ? A.numRows() : 1,
+                LDVR = computeVR ? A.numRows() : 1;
+    IndexType   LWORK = -1;
 
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dgeev)(&JOBVL,
-                           &JOBVR,
-                           &N,
-                           A.data(),
-                           &LDA,
-                           &DUMMY,
-                           &DUMMY,
-                           &DUMMY,
-                           &LDVL,
-                           &DUMMY,
-                           &LDVR,
-                           &WORK,
-                           &LWORK,
-                           &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO>=0);
+    cxxlapack::geev<IndexType>(computeVL ? 'V' : 'N',
+                               computeVR ? 'V' : 'N',
+                               A.numRows(),
+                               A.data(),
+                               A.leadingDimension(),
+                               &DUMMY,
+                               &DUMMY,
+                               &DUMMY,
+                               LDVL,
+                               &DUMMY,
+                               LDVR,
+                               &WORK,
+                               LWORK);
     return WORK;
 }
 
 template <typename MA, typename VWR, typename VWI, typename MVL, typename MVR,
           typename VWORK>
 typename GeMatrix<MA>::IndexType
-ev_native(bool                  computeVL,
-          bool                  computeVR,
-          GeMatrix<MA>          &A,
-          DenseVector<VWR>      &wr,
-          DenseVector<VWI>      &wi,
-          GeMatrix<MVL>         &VL,
-          GeMatrix<MVR>         &VR,
-          DenseVector<VWORK>    &work)
+ev(bool                  computeVL,
+   bool                  computeVR,
+   GeMatrix<MA>          &A,
+   DenseVector<VWR>      &wr,
+   DenseVector<VWI>      &wi,
+   GeMatrix<MVL>         &VL,
+   GeMatrix<MVR>         &VR,
+   DenseVector<VWORK>    &work)
 {
-    typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    const char      JOBVL = (computeVL) ? 'V' : 'N';
-    const char      JOBVR = (computeVR) ? 'V' : 'N';
-    const INTEGER   N     = A.numRows();
-    const INTEGER   LDA   = A.leadingDimension();
-    const INTEGER   LDVL  = VL.leadingDimension();
-    const INTEGER   LDVR  = VR.leadingDimension();
-    const INTEGER   LWORK = work.length();
-    INTEGER INFO;
-
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dgeev)(&JOBVL,
-                           &JOBVR,
-                           &N,
+    IndexType  info;
+    info = cxxlapack::geev(computeVL ? 'V' : 'N',
+                           computeVR ? 'V' : 'N',
+                           A.numRows(),
                            A.data(),
-                           &LDA,
+                           A.leadingDimension(),
                            wr.data(),
                            wi.data(),
                            VL.data(),
-                           &LDVL,
+                           VL.leadingDimension(),
                            VR.data(),
-                           &LDVR,
+                           VR.leadingDimension(),
                            work.data(),
-                           &LWORK,
-                           &INFO);
-    } else {
-        ASSERT(0);
-    }
-
-    ASSERT(INFO>=0);
-    return INFO;
+                           work.length());
+    ASSERT(info>=0);
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -469,7 +448,7 @@ ev_wsq(bool computeVL, bool computeVR, GeMatrix<MA> &A)
 //
 //  Compare results
 //
-    auto optWorkSize = ev_native_wsq(computeVL, computeVR, A);
+    auto optWorkSize = external::ev_wsq(computeVL, computeVR, A);
     if (! isIdentical(optWorkSize, ws.second, "optWorkSize", "ws.second")) {
         ASSERT(0);
     }
@@ -570,9 +549,9 @@ ev(bool                 computeVL,
     if (_work.length()==0) {
         _work.resize(work.length());
     }
-    IndexType _result = ev_native(computeVL, computeVR,
-                                  _A, _wr, _wi, _VL, _VR,
-                                  _work);
+    IndexType _result = external::ev(computeVL, computeVR,
+                                     _A, _wr, _wi, _VL, _VR,
+                                     _work);
 
     bool failed = false;
     if (! isIdentical(A, _A, " A", "_A")) {

@@ -180,26 +180,23 @@ lanv2_generic(T &a, T &b, T &c, T &d,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename T>
 void
-lanv2_native(T &a, T &b, T &c, T &d,
-             T &rt1r, T &rt1i,
-             T &rt2r, T &rt2i,
-             T &cs, T &sn)
+lanv2(T &a, T &b, T &c, T &d,
+      T &rt1r, T &rt1i,
+      T &rt2r, T &rt2i,
+      T &cs, T &sn)
 {
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dlanv2)(&a, &b, &c, &d,
-                            &rt1r, &rt1i,
-                            &rt2r, &rt2i,
-                            &cs, &sn);
-    } else {
-        ASSERT(0);
-    }
+    cxxlapack::lanv2(a, b, c, d, rt1r, rt1i, rt2r, rt2i, cs, sn);
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -234,7 +231,7 @@ lanv2(T &a, T &b, T &c, T &d, T &rt1r, T &rt1i, T &rt2r, T &rt2i, T &cs, T &sn)
 //
 //  Compare results
 //
-    lanv2_native(_a, _b, _c, _d, _rt1r, _rt1i, _rt2r, _rt2i, _cs, _sn);
+    external::lanv2(_a, _b, _c, _d, _rt1r, _rt1i, _rt2r, _rt2i, _cs, _sn);
 
     bool failed = false;
     if (! isIdentical(a, _a, " a", "_a")) {

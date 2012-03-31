@@ -826,53 +826,43 @@ trsyl_generic(Transpose             transA,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename ISGN, typename MA, typename MB, typename MC, typename SCALE>
 typename GeMatrix<MC>::IndexType
-trsyl_native(Transpose             transA,
-             Transpose             transB,
-             ISGN                  iSign,
-             const GeMatrix<MA>    &A,
-             const GeMatrix<MB>    &B,
-             GeMatrix<MC>          &C,
-             SCALE                 &scale)
+trsyl(Transpose             transA,
+      Transpose             transB,
+      ISGN                  sign,
+      const GeMatrix<MA>    &A,
+      const GeMatrix<MB>    &B,
+      GeMatrix<MC>          &C,
+      SCALE                 &scale)
 {
-    typedef typename GeMatrix<MC>::ElementType   ElementType;
+    typedef typename GeMatrix<MC>::IndexType  IndexType;
 
-    const char       TRANA  = getF77LapackChar(transA);
-    const char       TRANB  = getF77LapackChar(transB);
-    const INTEGER    _ISGN  = iSign;
-    const INTEGER    M      = C.numRows();
-    const INTEGER    N      = C.numCols();
-    const INTEGER    LDA    = A.leadingDimension();
-    const INTEGER    LDB    = B.leadingDimension();
-    const INTEGER    LDC    = C.leadingDimension();
-    ElementType      _SCALE = scale;
-    INTEGER          INFO;
+    IndexType  info;
+    info = cxxlapack::trsyl<IndexType>(getF77Char(transA),
+                                       getF77Char(transB),
+                                       sign,
+                                       C.numRows(),
+                                       C.numCols(),
+                                       A.data(),
+                                       A.leadingDimension(),
+                                       B.data(),
+                                       B.leadingDimension(),
+                                       C.data(),
+                                       C.leadingDimension(),
+                                       scale);
 
-    if (IsSame<ElementType,DOUBLE>::value) {
-        LAPACK_IMPL(dtrsyl)(&TRANA,
-                            &TRANB,
-                            &_ISGN,
-                            &M,
-                            &N,
-                            A.data(),
-                            &LDA,
-                            B.data(),
-                            &LDB,
-                            C.data(),
-                            &LDC,
-                            &_SCALE,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    scale = _SCALE;
-    return INFO;
+    ASSERT(info>=0);
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 template <typename ISGN, typename MA, typename MB, typename MC, typename SCALE>
@@ -938,7 +928,7 @@ trsyl(Transpose             transA,
 //
 //  Compare generic results with results from the native implementation
 //
-    IndexType _info = trsyl_native(transA, transB, iSign, A, B, C, scale);
+    IndexType _info = external::trsyl(transA, transB, iSign, A, B, C, scale);
 
     bool failed = false;
     if (! isIdentical(C_generic, C, "C_generic", "C")) {

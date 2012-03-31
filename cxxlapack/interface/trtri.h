@@ -42,7 +42,7 @@ template <typename IndexType>
     trtri(char          upLo,
           char          diag,
           IndexType     n,
-          DOUBLE        *A,
+          double        *A,
           IndexType     ldA);
 
 template <typename IndexType>

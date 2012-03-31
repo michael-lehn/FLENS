@@ -959,78 +959,57 @@ trevc_generic(bool                          computeVL,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename VSELECT, typename MT, typename MVL, typename MVR,
           typename IndexType, typename VWORK>
 void
-trevc_native(bool                           computeVL,
-             bool                           computeVR,
-             TREVC::Job                     howMany,
-             DenseVector<VSELECT>           &select,
-             const GeMatrix<MT>             &T,
-             GeMatrix<MVL>                  &VL,
-             GeMatrix<MVR>                  &VR,
-             IndexType                      mm,
-             IndexType                      &m,
-             DenseVector<VWORK>             &work)
+trevc(bool                           computeVL,
+      bool                           computeVR,
+      TREVC::Job                     howMany,
+      DenseVector<VSELECT>           &select,
+      const GeMatrix<MT>             &T,
+      GeMatrix<MVL>                  &VL,
+      GeMatrix<MVR>                  &VR,
+      IndexType                      mm,
+      IndexType                      &m,
+      DenseVector<VWORK>             &work)
 {
     typedef typename GeMatrix<MT>::ElementType     ElementType;
 
-    char             SIDE;
+    char side = 'N';
     if (computeVL && computeVR) {
-        SIDE = 'B';
+        side = 'B';
     } else if (computeVL) {
-        SIDE = 'L';
+        side = 'L';
     } else if (computeVR) {
-        SIDE = 'R';
-    }
-
-    const char       HOWMNY = getF77LapackChar<TREVC::Job>(howMany);
-    LOGICAL          *SELECT = 0;
-    const INTEGER    N = T.numRows();
-    const INTEGER    LDT = T.leadingDimension();
-    const INTEGER    LDVL = VL.leadingDimension();
-    const INTEGER    LDVR = VR.leadingDimension();
-    const INTEGER    MM = mm;
-    INTEGER          M = m;
-    INTEGER          INFO;
-
-    if (howMany==TREVC::Selected) {
-        SELECT = new LOGICAL[N];
-        for (INTEGER i=1; i<=N; ++i) {
-            SELECT[i] = select(i);
-        }
-    }
-
-    if (IsSame<ElementType,DOUBLE>::value) {
-        LAPACK_IMPL(dtrevc)(&SIDE,
-                            &HOWMNY,
-                            SELECT,
-                            &N,
-                            T.data(),
-                            &LDT,
-                            VL.data(),
-                            &LDVL,
-                            VR.data(),
-                            &LDVR,
-                            &MM,
-                            &M,
-                            work.data(),
-                            &INFO);
+        side = 'R';
     } else {
         ASSERT(0);
     }
 
-    if (howMany==TREVC::Selected) {
-        ASSERT(SELECT);
-        delete [] SELECT;
-    }
+    DenseVector<Array<IndexType> > _select = select;
 
-    ASSERT(INFO>=0);
+    cxxlapack::trevc<IndexType>(side,
+                                getF77Char(howMany),
+                                _select.data(),
+                                T.numRows(),
+                                T.data(),
+                                T.leadingDimension(),
+                                VL.data(),
+                                VL.leadingDimension(),
+                                VR.data(),
+                                VR.leadingDimension(),
+                                mm,
+                                m,
+                                work.data());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -1095,8 +1074,8 @@ trevc(bool                          computeVL,
 //
 //  Compare results
 //
-    trevc_native(computeVL, computeVR, howMany, select,
-                 T, VL, VR, mm, m, work);
+    external::trevc(computeVL, computeVR, howMany, select,
+                    T, VL, VR, mm, m, work);
 
     bool failed = false;
     if (! isIdentical(VL_generic, VL, "VL_generic", "VL")) {

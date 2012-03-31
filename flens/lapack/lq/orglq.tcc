@@ -183,19 +183,16 @@ namespace external {
 
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
 void
-orglq_native(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
-             DenseVector<VWORK> &work)
+orglq(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
+      DenseVector<VWORK> &work)
 {
-    typedef typename GeMatrix<MA>::IndexType  IndexType;
-
     IndexType info = cxxlapack::orgl2<IndexType>(A.numRows(),
                                                  A.numCols(),
                                                  k,
                                                  A.data(),
                                                  A.leadingDimension(),
                                                  tau.data(),
-                                                 work.data(),
-                                                 work.length());
+                                                 work.data());
     ASSERT(info==0);
 }
 
@@ -259,7 +256,7 @@ orglq(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
 //
 //  Compare results
 //
-    orglq_native(k, A, tau, work);
+    external::orglq(k, A, tau, work);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {

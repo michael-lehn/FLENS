@@ -60,7 +60,6 @@ template <typename IndexType>
           IndexType             lWork,
           double                *rWork);
 
-
 } // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_GEQP3_H

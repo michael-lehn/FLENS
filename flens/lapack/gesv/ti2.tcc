@@ -134,11 +134,11 @@ ti2(TrMatrix<MA> &A)
 {
     typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    IndexType info = external::trti2<IndexType>(getF77Char(A.upLo()),
-                                                getF77Char(A.diag()),
-                                                A.dim(),
-                                                A.data(),
-                                                A.leadingDimension());
+    IndexType info = cxxlapack::trti2<IndexType>(getF77Char(A.upLo()),
+                                                 getF77Char(A.diag()),
+                                                 A.dim(),
+                                                 A.data(),
+                                                 A.leadingDimension());
     ASSERT(info>=0);
     return info;
 }

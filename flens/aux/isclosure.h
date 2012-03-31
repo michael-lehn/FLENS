@@ -45,7 +45,6 @@ struct IsClosure
                            || IsMatrixClosure<T>::value;
 };
 
-
 } // namespace flens
 
 #endif // FLENS_AUX_ISCLOSURE_H

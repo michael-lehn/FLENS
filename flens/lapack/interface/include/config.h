@@ -32,6 +32,25 @@ LAPACK_DECL(xerbla)(const char *SRNAME, const int *INFO, int SRNAME_LEN);
 
 namespace flens {
 
+template <typename ENUM>
+typename RestrictTo<IsSame<ENUM,Transpose>::value,
+                    Transpose>::Type
+convertTo(const char c)
+{
+    if (c=='N') {
+        return NoTrans;
+    } else if (c=='T') {
+        return Trans;
+    } else if (c=='H') {
+        return ConjTrans;
+    } else if (c=='R') {
+        return Conj;
+    }
+    ASSERT(0);
+    return NoTrans;
+}
+
+
 // matrix/vector types with DOUBLE
 typedef FullStorageView<DOUBLE, cxxblas::ColMajor>       DFSView;
 typedef ConstFullStorageView<DOUBLE, cxxblas::ColMajor>  DConstFSView;
@@ -67,8 +86,9 @@ typedef ConstArrayView<CXX_DOUBLE_COMPLEX>               ZConstArrayView;
 typedef DenseVector<ZConstArrayView>                     ZConstDenseVectorView;
 
 // matrix/vector types with bool
-typedef Array<bool>                                      BArray;
-typedef ArrayView<bool>                                  BArrayView;
+// TODO: using "bool" should be possible too
+typedef Array<INTEGER>                                   BArray;
+typedef ArrayView<INTEGER>                               BArrayView;
 typedef DenseVector<BArray>                              BDenseVector;
 typedef DenseVector<BArrayView>                          BDenseVectorView;
 

@@ -525,148 +525,106 @@ laqr3_generic(bool                      wantT,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename IndexType, typename MT>
 IndexType
-laqr3_native_wsq(IndexType                 kTop,
-                 IndexType                 kBot,
-                 IndexType                 nw,
-                 const GeMatrix<MT>        &T)
+laqr3_wsq(IndexType                 kTop,
+          IndexType                 kBot,
+          IndexType                 nw,
+          const GeMatrix<MT>        &T)
 {
     typedef typename GeMatrix<MT>::ElementType  ElementType;
 
-    const LOGICAL    WANTT  = false;
-    const LOGICAL    WANTZ  = false;
-    const INTEGER    N      = 1;
-    const INTEGER    KTOP   = kTop;
-    const INTEGER    KBOT   = kBot;
-    const INTEGER    NW     = nw;
-    const INTEGER    LDH    = 1;
-    const INTEGER    ILOZ   = 0;
-    const INTEGER    IHIZ   = 0;
-    const INTEGER    LDZ    = 1;
-    INTEGER          NS;
-    INTEGER          ND;
-    const INTEGER    LDV    = nw;
-    const INTEGER    NH     = T.numCols();
-    const INTEGER    LDT    = T.leadingDimension();
-    const INTEGER    NV     = nw;
-    const INTEGER    LDWV   = nw;
+    IndexType        NS;
+    IndexType        ND;
     ElementType      WORK;
-    const INTEGER    LWORK  = -1;
+    const IndexType  LWORK  = -1;
     ElementType      DUMMY;
 
-    if (IsSame<ElementType,DOUBLE>::value) {
-        LAPACK_IMPL(dlaqr3)(&WANTT,
-                            &WANTZ,
-                            &N,
-                            &KTOP,
-                            &KBOT,
-                            &NW,
-                            &DUMMY,
-                            &LDH,
-                            &ILOZ,
-                            &IHIZ,
-                            &DUMMY,
-                            &LDZ,
-                            &NS,
-                            &ND,
-                            &DUMMY,
-                            &DUMMY,
-                            &DUMMY,
-                            &LDV,
-                            &NH,
-                            &DUMMY,
-                            &LDT,
-                            &NV,
-                            &DUMMY,
-                            &LDWV,
-                            &WORK,
-                            &LWORK);
-    } else {
-        ASSERT(0);
-    }
+    cxxlapack::laqr3<IndexType>(false,                // wantT
+                                false,                // wantZ
+                                IndexType(1),         // n
+                                kTop,
+                                kBot,
+                                nw,
+                                &DUMMY,               // H
+                                IndexType(1),         // ldH
+                                IndexType(1),         // iLoZ
+                                IndexType(1),         // iHiZ
+                                &DUMMY,               // Z
+                                IndexType(1),         // ldZ
+                                NS,                   // dummy output parameter
+                                ND,                   // dummy output parameter
+                                &DUMMY,               // sr
+                                &DUMMY,               // si
+                                &DUMMY,               // V
+                                nw,                   // ldV
+                                T.numCols(),          // nh
+                                &DUMMY,               // T.data()
+                                T.leadingDimension(),
+                                nw,                   // nv = nw
+                                &DUMMY,               // WV
+                                nw,                   // ldWV
+                                &WORK,
+                                LWORK);
     return WORK;
 }
 
 template <typename IndexType, typename MH, typename MZ, typename VSR,
           typename VSI, typename MV, typename MT, typename MWV, typename VWORK>
 void
-laqr3_native(bool                      wantT,
-             bool                      wantZ,
-             IndexType                 kTop,
-             IndexType                 kBot,
-             IndexType                 nw,
-             GeMatrix<MH>              &H,
-             IndexType                 iLoZ,
-             IndexType                 iHiZ,
-             GeMatrix<MZ>              &Z,
-             IndexType                 &ns,
-             IndexType                 &nd,
-             DenseVector<VSR>          &sr,
-             DenseVector<VSI>          &si,
-             GeMatrix<MV>              &V,
-             GeMatrix<MT>              &T,
-             GeMatrix<MWV>             &WV,
-             DenseVector<VWORK>        &work)
+laqr3(bool                      wantT,
+      bool                      wantZ,
+      IndexType                 kTop,
+      IndexType                 kBot,
+      IndexType                 nw,
+      GeMatrix<MH>              &H,
+      IndexType                 iLoZ,
+      IndexType                 iHiZ,
+      GeMatrix<MZ>              &Z,
+      IndexType                 &ns,
+      IndexType                 &nd,
+      DenseVector<VSR>          &sr,
+      DenseVector<VSI>          &si,
+      GeMatrix<MV>              &V,
+      GeMatrix<MT>              &T,
+      GeMatrix<MWV>             &WV,
+      DenseVector<VWORK>        &work)
 {
-    typedef typename GeMatrix<MH>::ElementType  ElementType;
-
-    const LOGICAL    WANTT  = wantT;
-    const LOGICAL    WANTZ  = wantZ;
-    const INTEGER    N      = H.numRows();
-    const INTEGER    KTOP   = kTop;
-    const INTEGER    KBOT   = kBot;
-    const INTEGER    NW     = nw;
-    const INTEGER    LDH    = H.leadingDimension();
-    const INTEGER    ILOZ   = iLoZ;
-    const INTEGER    IHIZ   = iHiZ;
-    const INTEGER    LDZ    = Z.leadingDimension();
-    INTEGER          NS     = ns;
-    INTEGER          ND     = nd;
-    const INTEGER    LDV    = V.leadingDimension();
-    const INTEGER    NH     = T.numCols();
-    const INTEGER    LDT    = T.leadingDimension();
-    const INTEGER    NV     = WV.numRows();
-    const INTEGER    LDWV   = WV.leadingDimension();
-    const INTEGER    LWORK  = work.length();
-
-    if (IsSame<ElementType,DOUBLE>::value) {
-        LAPACK_IMPL(dlaqr3)(&WANTT,
-                            &WANTZ,
-                            &N,
-                            &KTOP,
-                            &KBOT,
-                            &NW,
-                            H.data(),
-                            &LDH,
-                            &ILOZ,
-                            &IHIZ,
-                            Z.data(),
-                            &LDZ,
-                            &NS,
-                            &ND,
-                            sr.data(),
-                            si.data(),
-                            V.data(),
-                            &LDV,
-                            &NH,
-                            T.data(),
-                            &LDT,
-                            &NV,
-                            WV.data(),
-                            &LDWV,
-                            work.data(),
-                            &LWORK);
-    } else {
-        ASSERT(0);
-    }
-    ns = NS;
-    nd = ND;
+    cxxlapack::laqr3<IndexType>(wantT,
+                                wantZ,
+                                H.numRows(),
+                                kTop,
+                                kBot,
+                                nw,
+                                H.data(),
+                                H.leadingDimension(),
+                                iLoZ,
+                                iHiZ,
+                                Z.data(),
+                                Z.leadingDimension(),
+                                ns,
+                                nd,
+                                sr.data(),
+                                si.data(),
+                                V.data(),
+                                V.leadingDimension(),
+                                T.numCols(),
+                                T.data(),
+                                T.leadingDimension(),
+                                WV.numRows(),
+                                WV.data(),
+                                WV.leadingDimension(),
+                                work.data(),
+                                work.length());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 template <typename IndexType, typename MT>
@@ -696,7 +654,7 @@ laqr3_wsq(IndexType                 kTop,
 //
 //  Compare results
 //
-    IndexType _info = laqr3_native_wsq(kTop, kBot, nw, T);
+    IndexType _info = external::laqr3_wsq(kTop, kBot, nw, T);
 
     if (info!=_info) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
@@ -828,9 +786,9 @@ laqr3(bool                      wantT,
 //
 //  Compare generic results with results from the native implementation
 //
-    laqr3_native(wantT, wantZ, kTop, kBot, nw, H,
-                 iLoZ, iHiZ, Z, ns, nd, sr, si,
-                 V, T, WV, work);
+    external::laqr3(wantT, wantZ, kTop, kBot, nw, H,
+                    iLoZ, iHiZ, Z, ns, nd, sr, si,
+                    V, T, WV, work);
 
     bool failed = false;
     if (! isIdentical(H_generic, H, "H_generic", "H")) {

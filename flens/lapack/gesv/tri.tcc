@@ -388,7 +388,7 @@ tri(GeMatrix<MA> &A, const DenseVector<VP> &piv, DenseVector<VWORK> &work)
     A    = A_org;
     work = work_org;
 
-    const IndexType _info = cxxlapack::tri(A, piv, work);
+    const IndexType _info = external::tri(A, piv, work);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {
@@ -454,7 +454,7 @@ tri(TrMatrix<MA> &A)
 
     A = A_org;
 
-    const IndexType _info = cxxlapack::tri(A);
+    const IndexType _info = external::tri(A);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {

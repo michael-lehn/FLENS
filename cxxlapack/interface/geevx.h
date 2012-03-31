@@ -56,8 +56,8 @@ template <typename IndexType>
           IndexType     &iHi,
           double        *scale,
           double        &ABnorm,
-          double        &rCondE,
-          double        &rCondV,
+          double        *rCondE,
+          double        *rCondV,
           double        *work,
           IndexType     lWork,
           IndexType     *iWork);

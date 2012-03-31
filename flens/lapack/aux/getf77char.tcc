@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn
+ *   Copyright (c) 2011, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,10 +30,46 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXLAPACK_AUX_AUX_H
-#define CXXLAPACK_AUX_AUX_H 1
+#ifndef FLENS_LAPACK_AUX_GETF77CHAR_TCC
+#define FLENS_LAPACK_AUX_GETF77CHAR_TCC 1
 
-#include <cxxlapack/aux/getf77lapackchar.h>
-#include <cxxlapack/aux/typedefs.h>
+#include <flens/typedefs.h>
 
-#endif // CXXLAPACK_AUX_AUX_H
+namespace flens { namespace lapack {
+
+template <typename ENUM, typename CHAR=char>
+const CHAR
+getF77Char(ENUM enumValue)
+{
+    return CHAR(enumValue);
+}
+
+template <typename CHAR=char>
+const CHAR
+getF77Char(Transpose trans)
+{
+    if (trans==NoTrans) {
+        return CHAR('N');
+    } else if (trans==Trans) {
+        return CHAR('T');
+    } else if (trans==Conj) {
+        return CHAR('R');
+    } else if (trans==ConjTrans) {
+        return CHAR('C');
+    }
+    ASSERT(0);
+    return CHAR('N');
+}
+
+//------------------------------------------------------------------------------
+
+template <typename ENUM>
+char
+getF77LapackChar(ENUM enumValue)
+{
+    return convert<char, ENUM>(enumValue);
+}
+
+} } // namespace lapack, flens
+
+#endif // FLENS_LAPACK_AUX_GETF77CHAR_TCC 1

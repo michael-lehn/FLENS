@@ -300,10 +300,10 @@ namespace external {
 
 template <typename MA, typename MB, typename VWORK>
 typename GeMatrix<MA>::IndexType
-ls_native(Transpose                 trans,
-          GeMatrix<MA>              &A,
-          GeMatrix<MB>              &B,
-          DenseVector<VWORK>        &work)
+ls(Transpose                 trans,
+   GeMatrix<MA>              &A,
+   GeMatrix<MB>              &B,
+   DenseVector<VWORK>        &work)
 {
     typedef typename GeMatrix<MA>::IndexType  IndexType;
 
@@ -386,7 +386,7 @@ ls(Transpose                 trans,
 //
 //  Compare generic results with results from the native implementation
 //
-    IndexType _info = ls_native(trans, A, B, work);
+    IndexType _info = external::ls(trans, A, B, work);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {

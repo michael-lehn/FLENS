@@ -38,7 +38,7 @@
 namespace cxxlapack {
 
 template <typename IndexType>
-    void
+    IndexType
     gels(char           trans,
          IndexType      m,
          IndexType      n,
@@ -51,7 +51,7 @@ template <typename IndexType>
          IndexType      lWork);
 
 template <typename IndexType>
-    void
+    IndexType
     gels(char                   trans,
          IndexType              m,
          IndexType              n,

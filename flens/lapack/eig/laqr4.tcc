@@ -586,109 +586,79 @@ laqr4_generic(bool                  wantT,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename IndexType, typename MH>
 IndexType
-laqr4_native_wsq(bool                  wantT,
-                 bool                  wantZ,
-                 IndexType             iLo,
-                 IndexType             iHi,
-                 const GeMatrix<MH>    &H)
+laqr4_wsq(bool                  wantT,
+          bool                  wantZ,
+          IndexType             iLo,
+          IndexType             iHi,
+          const GeMatrix<MH>    &H)
 {
-    typedef typename GeMatrix<MH>::ElementType  T;
+    typedef typename GeMatrix<MH>::ElementType  ElementType;
 
-    const LOGICAL   WANTT   = wantT;
-    const LOGICAL   WANTZ   = wantZ;
-    const INTEGER   N       = H.numRows();
-    const INTEGER   ILO     = iLo;
-    const INTEGER   IHI     = iHi;
-    const INTEGER   LDH     = H.leadingDimension();
-    const INTEGER   ILOZ    = 1;
-    const INTEGER   IHIZ    = 0;
-    const INTEGER   LDZ     = 1;
-    T               WORK;
-    T               DUMMY;
-    const INTEGER   LWORK   = -1;
-    INTEGER         INFO;
+    ElementType  DUMMY, WORK;
+    IndexType    LWORK = -1;
 
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dlaqr4)(&WANTT,
-                            &WANTZ,
-                            &N,
-                            &ILO,
-                            &IHI,
-                            &DUMMY,
-                            &LDH,
-                            &DUMMY,
-                            &DUMMY,
-                            &ILOZ,
-                            &IHIZ,
-                            &DUMMY,
-                            &LDZ,
-                            &WORK,
-                            &LWORK,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
+    cxxlapack::laqr4<IndexType>(wantT,
+                                wantZ,
+                                H.numRows(),
+                                iLo,
+                                iHi,
+                                &DUMMY,
+                                H.leadingDimension(),
+                                &DUMMY,
+                                &DUMMY,
+                                IndexType(1),  // iLoZ
+                                IndexType(0),  // iHiZ
+                                &DUMMY,
+                                IndexType(1),  // ldZ
+                                &WORK,
+                                LWORK);
     return WORK;
 }
 
 template <typename IndexType, typename MH, typename VWR, typename VWI,
           typename MZ, typename VWORK>
 IndexType
-laqr4_native(bool                  wantT,
-             bool                  wantZ,
-             IndexType             iLo,
-             IndexType             iHi,
-             GeMatrix<MH>          &H,
-             DenseVector<VWR>      &wr,
-             DenseVector<VWI>      &wi,
-             IndexType             iLoZ,
-             IndexType             iHiZ,
-             GeMatrix<MZ>          &Z,
-             DenseVector<VWORK>    &work)
+laqr4(bool                  wantT,
+      bool                  wantZ,
+      IndexType             iLo,
+      IndexType             iHi,
+      GeMatrix<MH>          &H,
+      DenseVector<VWR>      &wr,
+      DenseVector<VWI>      &wi,
+      IndexType             iLoZ,
+      IndexType             iHiZ,
+      GeMatrix<MZ>          &Z,
+      DenseVector<VWORK>    &work)
 {
-    typedef typename GeMatrix<MH>::ElementType  T;
-
-    const LOGICAL   WANTT   = wantT;
-    const LOGICAL   WANTZ   = wantZ;
-    const INTEGER   N       = H.numRows();
-    const INTEGER   ILO     = iLo;
-    const INTEGER   IHI     = iHi;
-    const INTEGER   LDH     = H.leadingDimension();
-    const INTEGER   ILOZ    = iLoZ;
-    const INTEGER   IHIZ    = iHiZ;
-    const INTEGER   LDZ     = Z.leadingDimension();
-    const INTEGER   LWORK   = work.length();
-    INTEGER         INFO;
-
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dlaqr4)(&WANTT,
-                            &WANTZ,
-                            &N,
-                            &ILO,
-                            &IHI,
-                            H.data(),
-                            &LDH,
-                            wr.data(),
-                            wi.data(),
-                            &ILOZ,
-                            &IHIZ,
-                            Z.data(),
-                            &LDZ,
-                            work.data(),
-                            &LWORK,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO>=0);
-    return INFO;
+    IndexType  info;
+    info = cxxlapack::laqr4<IndexType>(wantT,
+                                       wantZ,
+                                       H.numRows(),
+                                       iLo,
+                                       iHi,
+                                       H.data(),
+                                       H.leadingDimension(),
+                                       wr.data(),
+                                       wi.data(),
+                                       iLoZ,
+                                       iHiZ,
+                                       Z.data(),
+                                       Z.leadingDimension(),
+                                       work.data(),
+                                       work.length());
+    ASSERT(info>=0);
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 template <typename IndexType, typename MH>
@@ -734,7 +704,7 @@ laqr4_wsq(bool                  wantT,
 //
 //  Compare results
 //
-    IndexType _info = laqr4_native_wsq(wantT, wantZ, iLo, iHi, H);
+    IndexType _info = external::laqr4_wsq(wantT, wantZ, iLo, iHi, H);
 
     if (info!=_info) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
@@ -841,8 +811,8 @@ laqr4(bool                  wantT,
 //
 //  Compare results
 //
-    IndexType _info = laqr4_native(wantT, wantZ, iLo, iHi, H, wr, wi,
-                                   iLoZ, iHiZ, Z, work);
+    IndexType _info = external::laqr4(wantT, wantZ, iLo, iHi, H, wr, wi,
+                                      iLoZ, iHiZ, Z, work);
 
     bool failed = false;
     if (! isIdentical(H_generic, H, "H_generic", "H")) {

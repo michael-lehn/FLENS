@@ -92,7 +92,7 @@ LAPACK_DECL(dgeesx)(const char       *JOBVS,
 //
     typedef DGeMatrixView::IndexType IndexType;
 
-    SENSE::Sense sense = getFlensLapackEnum<SENSE::Sense>(*SENSE);
+    SENSE::Sense sense = SENSE::Sense(*SENSE);
 
     DGeMatrixView       _A      = DFSView(*N, *N, A, *LDA);
     IndexType           _SDIM   = *SDIM;

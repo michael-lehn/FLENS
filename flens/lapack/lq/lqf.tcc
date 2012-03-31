@@ -246,7 +246,7 @@ lqf(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 //
 //  Compare results
 //
-    cxxlapack::lqf(A, tau, work);
+    external::lqf(A, tau, work);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {

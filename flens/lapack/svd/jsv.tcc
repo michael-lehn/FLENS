@@ -1381,68 +1381,54 @@ jsv_generic(JSV::Accuracy             accuracy,
 }
 */
     //== interface for native lapack ===============================================
-#ifdef TODO_CHECK_CXXLAPACK
 
-    template <typename MA, typename VSVA, typename MU, typename MV,
-              typename VWORK, typename VIWORK>
+#ifdef USE_CXXLAPACK
+
+namespace external {
+
+template <typename MA, typename VSVA, typename MU, typename MV,
+          typename VWORK, typename VIWORK>
 typename GeMatrix<MA>::IndexType
-jsv_native(JSV::Accuracy             accuracy,
-           JSV::JobU                 jobU,
-           JSV::JobV                 jobV,
-           bool                      restrictedRange,
-           bool                      considerTransA,
-           bool                      perturb,
-           GeMatrix<MA>              &A,
-           DenseVector<VSVA>         &sva,
-           GeMatrix<MU>              &U,
-           GeMatrix<MV>              &V,
-           DenseVector<VWORK>        &work,
-           DenseVector<VIWORK>       &iwork)
+jsv(JSV::Accuracy             accuracy,
+    JSV::JobU                 jobU,
+    JSV::JobV                 jobV,
+    bool                      restrictedRange,
+    bool                      considerTransA,
+    bool                      perturb,
+    GeMatrix<MA>              &A,
+    DenseVector<VSVA>         &sva,
+    GeMatrix<MU>              &U,
+    GeMatrix<MV>              &V,
+    DenseVector<VWORK>        &work,
+    DenseVector<VIWORK>       &iwork)
 {
-    typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    const char       JOBA = char(accuracy);
-    const char       JOBU = char(jobU);
-    const char       JOBV = char(jobV);
-    const char       JOBR = (restrictedRange) ? 'R' : 'N';
-    const char       JOBT = (considerTransA) ? 'T' : 'N';
-    const char       JOBP = (perturb) ? 'P' : 'N';
-    const INTEGER    M = A.numRows();
-    const INTEGER    N = A.numCols();
-    const INTEGER    LDA = A.leadingDimension();
-    const INTEGER    LDU = U.leadingDimension();
-    const INTEGER    LDV = V.leadingDimension();
-    const INTEGER    LWORK = work.length();
-    INTEGER          INFO;
-
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dgejsv)(&JOBA,
-                            &JOBU,
-                            &JOBV,
-                            &JOBR,
-                            &JOBT,
-                            &JOBP,
-                            &M,
-                            &N,
-                            A.data(),
-                            &LDA,
-                            sva.data(),
-                            U.data(),
-                            &LDU,
-                            V.data(),
-                            &LDV,
-                            work.data(),
-                            &LWORK,
-                            iwork.data(),
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    return INFO;
+    IndexType  info;
+    info = cxxlapack::gejsv<IndexType>(getF77Char(accuracy),
+                                       getF77Char(jobU),
+                                       getF77Char(jobV),
+                                       restrictedRange ? 'R' : 'N',
+                                       considerTransA ? 'T' : 'N',
+                                       perturb ? 'P' : 'N',
+                                       A.numRows(),
+                                       A.numCols(),
+                                       A.data(),
+                                       A.leadingDimension(),
+                                       sva.data(),
+                                       U.data(),
+                                       U.leadingDimension(),
+                                       V.data(),
+                                       V.leadingDimension(),
+                                       work.data(),
+                                       work.length(),
+                                       iwork.data());
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
 
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 template <typename MA, typename VSVA, typename MU, typename MV,
@@ -1506,9 +1492,9 @@ jsv(JSV::Accuracy             accuracy,
                                  restrictedRange, considerTransA, perturb,
                                  A, sva, U, V, work);
     */
-    IndexType info = jsv_native(accuracy, jobU, jobV,
-                                restrictedRange, considerTransA, perturb,
-                                A, sva, U, V, work, iwork);
+    IndexType info = external::jsv(accuracy, jobU, jobV,
+                                   restrictedRange, considerTransA, perturb,
+                                   A, sva, U, V, work, iwork);
 
 #   ifdef CHECK_CXXLAPACK
 //
@@ -1530,9 +1516,9 @@ jsv(JSV::Accuracy             accuracy,
 //
 //  Compare generic results with results from the native implementation
 //
-    IndexType _info = jsv_native(accuracy, jobU, jobV,
-                                 restrictedRange, considerTransA, perturb,
-                                 A, sva, U, V, work, iwork);
+    IndexType _info = external::jsv(accuracy, jobU, jobV,
+                                    restrictedRange, considerTransA, perturb,
+                                    A, sva, U, V, work, iwork);
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {
         std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;

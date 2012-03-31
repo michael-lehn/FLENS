@@ -41,7 +41,7 @@ template <typename IndexType>
     IndexType
     trevc(char          side,
           char          howMany,
-          bool          (*select)(IndexType),
+          IndexType     *select,
           IndexType     n,
           const double  *T,
           IndexType     ldT,
@@ -57,7 +57,7 @@ template <typename IndexType>
     IndexType
     trevc(char                  side,
           char                  howMany,
-          bool                  (*select)(IndexType),
+          IndexType             *select,
           IndexType             n,
           std::complex<double>  *T,
           IndexType             ldT,

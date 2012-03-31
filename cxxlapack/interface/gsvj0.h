@@ -30,38 +30,32 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXLAPACK_AUX_TYPEDEFS_H
-#define CXXLAPACK_AUX_TYPEDEFS_H 1
+#ifndef CXXLAPACK_INTERFACE_GSVJ0_H
+#define CXXLAPACK_INTERFACE_GSVJ0_H 1
 
 #include <complex>
-#include <cxxblas/cxxblas.h>
 
 namespace cxxlapack {
 
-// import types from cxxblas
+template <typename IndexType>
+    IndexType
+    gsvj0(char          jobV,
+          IndexType     m,
+          IndexType     n,
+          double        *A,
+          IndexType     ldA,
+          double        *D,
+          double        *sva,
+          IndexType     mv,
+          double        *V,
+          IndexType     ldV,
+          const double  &eps,
+          const double  &sfMin,
+          const double  &tol,
+          IndexType     nSweep,
+          double        *work,
+          IndexType     lWork);
 
-using cxxblas::StorageOrder;
-using cxxblas::ColMajor;
-using cxxblas::RowMajor;
+} // namespace cxxlapack
 
-using cxxblas::StorageUpLo;
-using cxxblas::Upper;
-using cxxblas::Lower;
-
-using cxxblas::Side;
-using cxxblas::Left;
-using cxxblas::Right;
-
-using cxxblas::Transpose;
-using cxxblas::NoTrans;
-using cxxblas::Trans;
-using cxxblas::Conj;
-using cxxblas::ConjTrans;
-
-using cxxblas::Diag;
-using cxxblas::Unit;
-using cxxblas::NonUnit;
-
-} // namepsace flens
-
-#endif // CXXLAPACK_AUX_TYPEDEFS_H
+#endif // CXXLAPACK_INTERFACE_GSVJ0_H

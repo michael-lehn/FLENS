@@ -53,7 +53,7 @@ template <typename T>
 void
 labad_generic(T &small, T &large)
 {
-    if (!IsSame<T, double>) {
+    if (!IsSame<T, double>::value) {
         return;
     }
 //

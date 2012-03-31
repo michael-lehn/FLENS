@@ -355,50 +355,38 @@ laexc_generic(bool                          computeQ,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MT, typename MQ, typename IndexType, typename VWORK>
 IndexType
-laexc_native(bool                          computeQ,
-             GeMatrix<MT>                  &T,
-             GeMatrix<MQ>                  &Q,
-             IndexType                     j1,
-             IndexType                     n1,
-             IndexType                     n2,
-             DenseVector<VWORK>            &work)
+laexc(bool                          computeQ,
+      GeMatrix<MT>                  &T,
+      GeMatrix<MQ>                  &Q,
+      IndexType                     j1,
+      IndexType                     n1,
+      IndexType                     n2,
+      DenseVector<VWORK>            &work)
 {
-    typedef typename GeMatrix<MT>::ElementType ElementType;
-
-    const LOGICAL   WANTQ  = computeQ;
-    const INTEGER   N      = T.numRows();
-    const INTEGER   LDT    = T.leadingDimension();
-    const INTEGER   LDQ    = Q.leadingDimension();
-    const INTEGER   J1     = j1;
-    const INTEGER   N1     = n1;
-    const INTEGER   N2     = n2;
-    INTEGER         INFO;
-
-    if (IsSame<ElementType,DOUBLE>::value) {
-        LAPACK_IMPL(dlaexc)(&WANTQ,
-                            &N,
-                            T.data(),
-                            &LDT,
-                            Q.data(),
-                            &LDQ,
-                            &J1,
-                            &N1,
-                            &N2,
-                            work.data(),
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO>=0);
-
-    return INFO;
+    IndexType  info;
+    info = cxxlapack::laexc<IndexType>(computeQ,
+                                       T.numRows(),
+                                       T.data(),
+                                       T.leadingDimension(),
+                                       Q.data(),
+                                       Q.leadingDimension(),
+                                       j1,
+                                       n1,
+                                       n2,
+                                       work.data());
+    ASSERT(info>=0);
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -472,7 +460,7 @@ laexc(bool                          computeQ,
 //  Compare generic results with results from the native implementation
 //
 
-    IndexType _info = laexc_native(computeQ, T, Q, j1, n1, n2, work);
+    IndexType _info = external::laexc(computeQ, T, Q, j1, n1, n2, work);
 
     bool failed = false;
     if (! isIdentical(T_generic, T, "T_generic", "T")) {

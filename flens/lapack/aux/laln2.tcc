@@ -473,7 +473,7 @@ laln2(bool                  transA,
 {
     typedef typename GeMatrix<MX>::IndexType  IndexType;
 
-    IndexType info = cxxlapack::laln2<IndexType>(getF77BlasChar(transA),
+    IndexType info = cxxlapack::laln2<IndexType>(getF77Char(transA),
                                                  A.numRows(),
                                                  nw,
                                                  safeMin,
@@ -483,7 +483,7 @@ laln2(bool                  transA,
                                                  d1,
                                                  d2,
                                                  B.data(),
-                                                 ldB,
+                                                 B.leadingDimension(),
                                                  wr,
                                                  wi,
                                                  X.data(),

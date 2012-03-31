@@ -241,108 +241,74 @@ hseqr_generic(HSEQR::Job            job,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename IndexType, typename MH>
 IndexType
-hseqr_native_wsq(HSEQR::Job         job,
-                 HSEQR::ComputeZ    computeZ,
-                 IndexType          iLo,
-                 IndexType          iHi,
-                 const GeMatrix<MH> &H)
+hseqr_wsq(HSEQR::Job         job,
+          HSEQR::ComputeZ    computeZ,
+          IndexType          iLo,
+          IndexType          iHi,
+          const GeMatrix<MH> &H)
 {
     typedef typename GeMatrix<MH>::ElementType  T;
 
-    const char JOB      = getF77LapackChar<HSEQR::Job>(job);
-    const char COMPZ    = getF77LapackChar<HSEQR::ComputeZ>(computeZ);
-    const INTEGER N     = H.numCols();
-    const INTEGER ILO  = iLo;
-    const INTEGER IHI  = iHi;
-    const INTEGER LDH   = H.leadingDimension();
-    const INTEGER LDZ   = H.leadingDimension();
-    T WORK              = 0;
-    T DUMMY             = 0;
-    const INTEGER LWORK = -1;
-    INTEGER INFO;
+    T               WORK  = 0;
+    T               DUMMY = 0;
+    const IndexType LWORK = -1;
 
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dhseqr)(&JOB,
-                            &COMPZ,
-                            &N,
-                            &ILO,
-                            &IHI,
-                            &DUMMY,
-                            &LDH,
-                            &DUMMY,
-                            &DUMMY,
-                            &DUMMY,
-                            &LDZ,
-                            &WORK,
-                            &LWORK,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-
-#   ifndef NDEBUG
-    if (INFO!=0) {
-        std::cerr << "INFO = " << INFO << std::endl;
-        ASSERT(INFO==0);
-    }
-#   endif
-
+    cxxlapack::hseqr<IndexType>(getF77Char(job),
+                                getF77Char(computeZ),
+                                H.numCols(),
+                                iLo,
+                                iHi,
+                                H.data(),
+                                H.leadingDimension(),
+                                &DUMMY,
+                                &DUMMY,
+                                &DUMMY,
+                                H.leadingDimension(),
+                                &WORK,
+                                LWORK);
     return WORK;
 }
 
 template <typename IndexType, typename MH, typename VWR, typename VWI,
           typename MZ, typename VWORK>
 IndexType
-hseqr_native(HSEQR::Job            job,
-             HSEQR::ComputeZ       computeZ,
-             IndexType             iLo,
-             IndexType             iHi,
-             GeMatrix<MH>          &H,
-             DenseVector<VWR>      &wr,
-             DenseVector<VWI>      &wi,
-             GeMatrix<MZ>          &Z,
-             DenseVector<VWORK>    &work)
+hseqr(HSEQR::Job            job,
+      HSEQR::ComputeZ       computeZ,
+      IndexType             iLo,
+      IndexType             iHi,
+      GeMatrix<MH>          &H,
+      DenseVector<VWR>      &wr,
+      DenseVector<VWI>      &wi,
+      GeMatrix<MZ>          &Z,
+      DenseVector<VWORK>    &work)
 {
-    typedef typename GeMatrix<MH>::ElementType  T;
-
-    const char JOB      = getF77LapackChar<HSEQR::Job>(job);
-    const char COMPZ    = getF77LapackChar<HSEQR::ComputeZ>(computeZ);
-    const INTEGER N     = H.numCols();
-    const INTEGER ILO   = iLo;
-    const INTEGER IHI   = iHi;
-    const INTEGER LDH   = H.leadingDimension();
-    const INTEGER LDZ   = Z.leadingDimension();
-    const INTEGER LWORK = work.length();
-    INTEGER INFO;
-
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dhseqr)(&JOB,
-                            &COMPZ,
-                            &N,
-                            &ILO,
-                            &IHI,
-                            H.data(),
-                            &LDH,
-                            wr.data(),
-                            wi.data(),
-                            Z.data(),
-                            &LDZ,
-                            work.data(),
-                            &LWORK,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO>=0);
-
-    return INFO;
+    IndexType  info;
+    info = cxxlapack::hseqr<IndexType>(getF77Char(job),
+                                       getF77Char(computeZ),
+                                       H.numCols(),
+                                       iLo,
+                                       iHi,
+                                       H.data(),
+                                       H.leadingDimension(),
+                                       wr.data(),
+                                       wi.data(),
+                                       Z.data(),
+                                       Z.leadingDimension(),
+                                       work.data(),
+                                       work.length());
+    ASSERT(info>=0);
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -372,7 +338,7 @@ hseqr_wsq(HSEQR::Job            job,
 //
 //  Compare results
 //
-    IndexType _info =  hseqr_native_wsq(job, computeZ, iLo, iHi, H);
+    IndexType _info =  hseqr_wsq(job, computeZ, iLo, iHi, H);
 
     if (info!=_info) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;
@@ -440,8 +406,8 @@ hseqr(HSEQR::Job                job,
         _work.resize(work.length());
     }
 
-    IndexType _info = hseqr_native(job, computeZ, iLo, iHi, _H,
-                                   _wr, _wi, _Z, _work);
+    IndexType _info = hseqr(job, computeZ, iLo, iHi, _H,
+                            _wr, _wi, _Z, _work);
 
     bool failed = false;
     if (! isIdentical(H, _H, " H", "_H")) {

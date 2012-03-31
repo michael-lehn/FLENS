@@ -34,7 +34,6 @@
 #define CXXLAPACK_INTERFACE_GETRS_H 1
 
 #include <complex>
-#include <cxxlapack/aux/aux.h>
 
 namespace cxxlapack {
 

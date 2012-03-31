@@ -372,91 +372,54 @@ trsna_generic(TRSNA::Job                    job,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename VSELECT, typename MT, typename MVL, typename MVR,
           typename VS, typename VSEP, typename M, typename MM,
           typename MWORK, typename VIWORK>
 void
-trsna_native(TRSNA::Job                    job,
-             TRSNA::HowMany                howMany,
-             const DenseVector<VSELECT>    &select,
-             const GeMatrix<MT>            &T,
-             const GeMatrix<MVL>           &VL,
-             const GeMatrix<MVR>           &VR,
-             DenseVector<VS>               &s,
-             DenseVector<VSEP>             &sep,
-             const MM                      &mm,
-             M                             &m,
-             GeMatrix<MWORK>               &Work,
-             DenseVector<VIWORK>           &iWork)
+trsna(TRSNA::Job                    job,
+      TRSNA::HowMany                howMany,
+      const DenseVector<VSELECT>    &select,
+      const GeMatrix<MT>            &T,
+      const GeMatrix<MVL>           &VL,
+      const GeMatrix<MVR>           &VR,
+      DenseVector<VS>               &s,
+      DenseVector<VSEP>             &sep,
+      const MM                      &mm,
+      M                             &m,
+      GeMatrix<MWORK>               &Work,
+      DenseVector<VIWORK>           &iWork)
 {
     typedef typename GeMatrix<MT>::ElementType   ElementType;
     typedef typename GeMatrix<MT>::IndexType     IndexType;
 
-    const char       JOB    = char(job);
-    const char       HOWMNY = char(howMany);
-    LOGICAL          *SELECT = 0;
-    const INTEGER    N = T.numRows();
-    const INTEGER    LDT = T.leadingDimension();
-    const INTEGER    LDVL = VL.leadingDimension();
-    const INTEGER    LDVR = VR.leadingDimension();
-    const INTEGER    _MM = mm;
-    INTEGER          _M = m;
-    INTEGER          LDWORK = Work.leadingDimension();
-    INTEGER          INFO;
+    DenseVector<Array<IndexType> > _select = select;
 
-    if (howMany==TRSNA::Selected) {
-        SELECT = new LOGICAL[N];
-        for (INTEGER i=1; i<=N; ++i) {
-            SELECT[i] = select(i);
-        }
-    }
-
-    DenseVector<Array<INTEGER> >    _iWork(2*(N-1));
-    ASSERT(_iWork.length()>=iWork.length());
-    for (IndexType i=1; i<=iWork.length(); ++i) {
-        _iWork(i) = iWork(i);
-    }
-
-    if (IsSame<ElementType,DOUBLE>::value) {
-        LAPACK_IMPL(dtrsna)(&JOB,
-                            &HOWMNY,
-                            SELECT,
-                            &N,
-                            T.data(),
-                            &LDT,
-                            VL.data(),
-                            &LDVL,
-                            VR.data(),
-                            &LDVR,
-                            s.data(),
-                            sep.data(),
-                            &_MM,
-                            &_M,
-                            Work.data(),
-                            &LDWORK,
-                            _iWork.data(),
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO==0);
-
-    if (howMany==TRSNA::Selected) {
-        ASSERT(SELECT);
-        delete [] SELECT;
-    }
-
-    m = _M;
-
-    for (IndexType i=1; i<=iWork.length(); ++i) {
-        iWork(i) = _iWork(i);
-    }
-
+    cxxlapack::trsna<IndexType>(getF77Char(job),
+                                getF77Char(howMany),
+                                _select.data(),
+                                T.numRows(),
+                                T.data(),
+                                T.leadingDimension(),
+                                VL.data(),
+                                VL.leadingDimension(),
+                                VR.data(),
+                                VR.leadingDimension(),
+                                s.data(),
+                                sep.data(),
+                                mm,
+                                m,
+                                Work.data(),
+                                Work.leadingDimension(),
+                                iWork.data());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -552,7 +515,8 @@ trsna(TRSNA::Job                    job,
     Work    = Work_org;
     iWork   = iWork_org;
 
-    trsna_native(job, howMany, select, T, VL, VR, s, sep, mm, m, Work, iWork);
+    external::trsna(job, howMany, select, T, VL, VR,
+                    s, sep, mm, m, Work, iWork);
 
     bool failed = false;
     if (! isIdentical(s_generic, s, "s_generic", "s")) {

@@ -92,41 +92,30 @@ hd2_generic(IndexType           iLo,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
 void
-hd2_native(IndexType iLo, IndexType iHi, GeMatrix<MA> &A,
-           DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
+hd2(IndexType iLo, IndexType iHi, GeMatrix<MA> &A,
+    DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 {
-    // TODO: add this assertion to other ..._native implementations
-    assert(A.order()==ColMajor);
-    typedef typename  GeMatrix<MA>::ElementType     T;
+    // TODO: add this assertion to other lapack::external wrapper
+    ASSERT(A.order()==ColMajor);
 
-    const INTEGER N     = A.numCols();
-    const INTEGER ILO   = iLo;
-    const INTEGER IHI   = iHi;
-    const INTEGER LDA   = A.leadingDimension();
-
-    INTEGER INFO;
-
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dgehd2)(&N,
-                            &ILO,
-                            &IHI,
-                            A.data(),
-                            &LDA,
-                            tau.data(),
-                            work.data(),
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-
-    ASSERT(INFO==0);
+    cxxlapack::gehd2<IndexType>(A.numCols(),
+                                iLo,
+                                iHi,
+                                A.data(),
+                                A.leadingDimension(),
+                                tau.data(),
+                                work.data());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -174,7 +163,7 @@ hd2(IndexType           iLo,
 //
 //  Compare results
 //
-    hd2_native(iLo, iHi, _A, _tau, _work);
+    external::hd2(iLo, iHi, _A, _tau, _work);
 
     if (! isIdentical(A, _A, "A", "A_")) {
         std::cerr << "CXXLAPACK:  A = " << A << std::endl;

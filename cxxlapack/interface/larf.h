@@ -43,8 +43,8 @@ template <typename IndexType>
          IndexType      m,
          IndexType      n,
          const double   *V,
-         IndexType      incV
-         const double   &tau
+         IndexType      incV,
+         const double   &tau,
          double         *C,
          IndexType      ldC,
          double         *work);
@@ -57,7 +57,7 @@ template <typename IndexType>
          const std::complex<double>     *V,
          IndexType                      incV,
          const std::complex<double>     &tau,
-         double_COMPLEX                 *C,
+         std::complex<double>           *C,
          IndexType                      &ldC,
          std::complex<double>           *work);
 

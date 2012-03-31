@@ -33,7 +33,6 @@
 #ifndef CXXLAPACK_CXXLAPACK_H
 #define CXXLAPACK_CXXLAPACK_H 1
 
-#include <cxxlapack/aux/aux.h>
 #include <cxxlapack/interface/interface.h>
 
 #endif // CXXLAPACK_CXXLAPACK_H 1

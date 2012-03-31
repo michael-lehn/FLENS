@@ -755,62 +755,47 @@ svj0_generic(SVJ::JobV                                  jobV,
 }
 
 //== interface for native lapack ===============================================
-#ifdef TODO_CHECK_CXXLAPACK
+
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA, typename VD, typename VSVA, typename MV, typename VWORK>
 typename GeMatrix<MA>::IndexType
-svj0_native(SVJ::JobV                                  jobV,
-            GeMatrix<MA>                               &A,
-            DenseVector<VD>                            &d,
-            DenseVector<VSVA>                          &sva,
-            GeMatrix<MV>                               &V,
-            const typename GeMatrix<MA>::ElementType   &eps,
-            const typename GeMatrix<MA>::ElementType   &safeMin,
-            const typename GeMatrix<MA>::ElementType   &tol,
-            typename GeMatrix<MA>::IndexType           nSweep,
-            DenseVector<VWORK>                         &work)
+svj0(SVJ::JobV                                  jobV,
+     GeMatrix<MA>                               &A,
+     DenseVector<VD>                            &d,
+     DenseVector<VSVA>                          &sva,
+     GeMatrix<MV>                               &V,
+     const typename GeMatrix<MA>::ElementType   &eps,
+     const typename GeMatrix<MA>::ElementType   &safeMin,
+     const typename GeMatrix<MA>::ElementType   &tol,
+     typename GeMatrix<MA>::IndexType           nSweep,
+     DenseVector<VWORK>                         &work)
 {
-    typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    const char       JOBV = char(jobV);
-    const INTEGER    M = A.numRows();
-    const INTEGER    N = A.numCols();
-    const INTEGER    LDA = A.leadingDimension();
-    const INTEGER    _MV = V.numRows();
-    const INTEGER    LDV = V.leadingDimension();
-    const DOUBLE     EPS = eps;
-    const DOUBLE     SFMIN = safeMin;
-    const DOUBLE     TOL = tol;
-    const INTEGER    NSWEEP = nSweep;
-    const INTEGER    LWORK = work.length();
-    INTEGER          INFO;
-
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_DECL(dgsvj0)(&JOBV,
-                            &M,
-                            &N,
-                            A.data(),
-                            &LDA,
-                            d.data(),
-                            sva.data(),
-                            &_MV,
-                            V.data(),
-                            &LDV,
-                            &EPS,
-                            &SFMIN,
-                            &TOL,
-                            &NSWEEP,
-                            work.data(),
-                            &LWORK,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO>=0);
-    return INFO;
+    return cxxlapack::gsvj0<IndexType>(getF77Char(jobV),
+                                       A.numRows(),
+                                       A.numCols(),
+                                       A.data(),
+                                       A.leadingDimension(),
+                                       d.data(),
+                                       sva.data(),
+                                       V.numRows(),
+                                       V.data(),
+                                       V.leadingDimension(),
+                                       eps,
+                                       safeMin,
+                                       tol,
+                                       nSweep,
+                                       work.data(),
+                                       work.length());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 template <typename MA, typename VD, typename VSVA, typename MV, typename VWORK>
@@ -901,8 +886,8 @@ svj0(SVJ::JobV                                  jobV,
 //
 //  Compare generic results with results from the native implementation
 //
-    IndexType _info = svj0_native(jobV, A, d, sva, V, eps, safeMin, tol,
-                                  nSweep, work);
+    IndexType _info = external::svj0(jobV, A, d, sva, V, eps, safeMin, tol,
+                                     nSweep, work);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {

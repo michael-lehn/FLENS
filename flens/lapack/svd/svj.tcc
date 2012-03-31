@@ -1173,53 +1173,41 @@ svj_generic(SVJ::TypeA                typeA,
 }
 
 //== interface for native lapack ===============================================
-#ifdef TODO_CHECK_CXXLAPACK
+
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA, typename VSVA, typename MV, typename VWORK>
 typename GeMatrix<MA>::IndexType
-svj_native(SVJ::TypeA                typeA,
-           SVJ::JobU                 jobU,
-           SVJ::JobV                 jobV,
-           GeMatrix<MA>              &A,
-           DenseVector<VSVA>         &sva,
-           GeMatrix<MV>              &V,
-           DenseVector<VWORK>        &work)
+svj(SVJ::TypeA                typeA,
+    SVJ::JobU                 jobU,
+    SVJ::JobV                 jobV,
+    GeMatrix<MA>              &A,
+    DenseVector<VSVA>         &sva,
+    GeMatrix<MV>              &V,
+    DenseVector<VWORK>        &work)
 {
-    typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    const char       JOBA = char(typeA);
-    const char       JOBU = char(jobU);
-    const char       JOBV = char(jobV);
-    const INTEGER    M = A.numRows();
-    const INTEGER    N = A.numCols();
-    const INTEGER    LDA = A.leadingDimension();
-    const INTEGER    _MV = V.numRows();
-    const INTEGER    LDV = V.leadingDimension();
-    const INTEGER    LWORK = work.length();
-    INTEGER          INFO;
-
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dgesvj)(&JOBA,
-                            &JOBU,
-                            &JOBV,
-                            &M,
-                            &N,
-                            A.data(),
-                            &LDA,
-                            sva.data(),
-                            &_MV,
-                            V.data(),
-                            &LDV,
-                            work.data(),
-                            &LWORK,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    return INFO;
+    return cxxlapack::gesvj<IndexType>(getF77Char(typeA),
+                                       getF77Char(jobU),
+                                       getF77Char(jobV),
+                                       A.numRows(),
+                                       A.numCols(),
+                                       A.data(),
+                                       A.leadingDimension(),
+                                       sva.data(),
+                                       V.numRows(),
+                                       V.data(),
+                                       V.leadingDimension(),
+                                       work.data(),
+                                       work.length());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 template <typename MA, typename VSVA, typename MV, typename VWORK>
@@ -1300,7 +1288,7 @@ svj_(SVJ::TypeA                typeA,
 //
 //  Compare generic results with results from the native implementation
 //
-    IndexType _info = svj_native(typeA, jobU, jobV, A, sva, V, work);
+    IndexType _info = external::svj(typeA, jobU, jobV, A, sva, V, work);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {

@@ -92,7 +92,7 @@ namespace external {
 
 template <typename MA, typename VTAU, typename VWORK>
 void
-lq2_native(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
+lq2(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 {
     typedef typename GeMatrix<MA>::IndexType  IndexType;
 

@@ -51,7 +51,6 @@ template <typename IndexType>
           std::complex<double>  *A,
           IndexType             ldA);
 
-
 } // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_LAUU2_H

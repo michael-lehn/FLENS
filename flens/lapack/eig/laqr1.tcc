@@ -95,35 +95,34 @@ laqr1_generic(GeMatrix<MH>              &H,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MH, typename T, typename VV>
 void
-laqr1_native(GeMatrix<MH>              &H,
-             const T                   &sr1,
-             const T                   &si1,
-             const T                   &sr2,
-             const T                   &si2,
-             DenseVector<VV>           &v)
+laqr1(GeMatrix<MH>              &H,
+      const T                   &sr1,
+      const T                   &si1,
+      const T                   &sr2,
+      const T                   &si2,
+      DenseVector<VV>           &v)
 {
-    const INTEGER   N   = H.numRows();
-    const INTEGER   LDH = H.leadingDimension();
+    typedef typename GeMatrix<MH>::IndexType  IndexType;
 
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dlaqr1)(&N,
-                            H.data(),
-                            &LDH,
-                            &sr1,
-                            &si1,
-                            &sr2,
-                            &si2,
-                            v.data());
-    } else {
-        ASSERT(0);
-    }
+    cxxlapack::laqr1<IndexType>(H.numRows(),
+                                H.data(),
+                                H.leadingDimension(),
+                                sr1,
+                                si1,
+                                sr2,
+                                si2,
+                                v.data());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -182,7 +181,7 @@ laqr1(GeMatrix<MH>              &H,
 //
 //  Compare results
 //
-    laqr1_native(H, sr1, si1, sr2, si2, v);
+    external::laqr1(H, sr1, si1, sr2, si2, v);
 
     bool failed = false;
     if (! isIdentical(H_generic, H, "H_generic", "H")) {

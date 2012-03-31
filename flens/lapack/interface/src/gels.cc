@@ -7,7 +7,6 @@
 
 #include <flens/lapack/interface/include/config.h>
 
-
 namespace flens { namespace lapack {
 
 extern "C" {
@@ -58,7 +57,7 @@ LAPACK_DECL(dgels)(const char           *TRANS,
 //
 //  Call FLENS implementation
 //
-    Transpose           trans  = getFlensLapackEnum<Transpose>(*TRANS);
+    Transpose           trans  = convertTo<Transpose>(*TRANS);
     DGeMatrixView       _A     = DFSView(*M, *N, A, *LDA);
 
     const INTEGER numRowsB = std::max(*M,*N);

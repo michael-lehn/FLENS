@@ -51,14 +51,15 @@ namespace flens { namespace lapack {
 
 //== generic lapack implementation =============================================
 template <typename  VV, typename VX, typename VSGN, typename EST,
-          typename IndexType, typename VSAVE>
+          typename KASE, typename VSAVE>
 void
 lacn2_generic(DenseVector<VV> &v, DenseVector<VX> &x, DenseVector<VSGN> &sgn,
-              EST &est, IndexType &kase, DenseVector<VSAVE> &iSave)
+              EST &est, KASE &kase, DenseVector<VSAVE> &iSave)
 {
     using std::abs;
 
-    typedef typename DenseVector<VV>::ElementType    T;
+    typedef typename DenseVector<VV>::ElementType   T;
+    typedef typename DenseVector<VV>::IndexType     IndexType;
     const T Zero(0), One(1), Two(2);
 
     const IndexType itMax = 5;
@@ -197,15 +198,15 @@ QUIT:
 namespace external {
 
 template <typename  VV, typename VX, typename VSGN, typename EST,
-          typename IndexType, typename VSAVE>
+          typename KASE, typename VSAVE>
 void
 lacn2(DenseVector<VV> &v, DenseVector<VX> &x, DenseVector<VSGN> &sgn,
-      EST &est, IndexType &kase, DenseVector<VSAVE> &iSave)
+      EST &est, KASE &kase, DenseVector<VSAVE> &iSave)
 {
     typedef typename DenseVector<VV>::IndexType  IndexType;
 
     cxxlapack::lacn2<IndexType>(v.length(), v.data(), x.data(), sgn.data(),
-                                &est, &kase, iSave.data());
+                                est, kase, iSave.data());
 }
 
 } // namespace external
@@ -214,11 +215,12 @@ lacn2(DenseVector<VV> &v, DenseVector<VX> &x, DenseVector<VSGN> &sgn,
 
 //== public interface ==========================================================
 template <typename  VV, typename VX, typename VSGN, typename EST,
-          typename IndexType, typename VSAVE>
+          typename KASE, typename VSAVE>
 void
 lacn2(DenseVector<VV> &v, DenseVector<VX> &x, DenseVector<VSGN> &sgn,
-      EST &est, IndexType &kase, DenseVector<VSAVE> &iSave)
+      EST &est, KASE &kase, DenseVector<VSAVE> &iSave)
 {
+    typedef typename DenseVector<VV>::IndexType  IndexType;
 //
 //  Test the input parameters
 //
@@ -325,9 +327,9 @@ lacn2(DenseVector<VV> &v, DenseVector<VX> &x, DenseVector<VSGN> &sgn,
 
 //-- forwarding ----------------------------------------------------------------
 template <typename  VV, typename VX, typename VSGN, typename EST,
-          typename IndexType, typename VSAVE>
+          typename KASE, typename VSAVE>
 void
-lacn2(VV &&v, VX &&x, VSGN &&sgn, EST &&est, IndexType &&kase, VSAVE &&iSave)
+lacn2(VV &&v, VX &&x, VSGN &&sgn, EST &&est, KASE &&kase, VSAVE &&iSave)
 {
     lacn2(v, x, sgn, est, kase, iSave);
 }

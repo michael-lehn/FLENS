@@ -166,16 +166,14 @@ pocon(const SyMatrix<MA>  &A,
 {
     typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    IndexType info = pocon<IndexType>(getF77Char(A.upLo()),
-                                      A.dim(),
-                                      A.data(),
-                                      A.leadingDimension(),
-                                      normA,
-                                      rCond,
-                                      work.data(),
-                                      iwork.data());
-    ASSERT(info>=0);
-    return info;
+    cxxlapack::pocon<IndexType>(getF77Char(A.upLo()),
+                                A.dim(),
+                                A.data(),
+                                A.leadingDimension(),
+                                normA,
+                                rCond,
+                                work.data(),
+                                iwork.data());
 }
 
 } // namespace external

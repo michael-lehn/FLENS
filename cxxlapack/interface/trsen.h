@@ -39,29 +39,29 @@ namespace cxxlapack {
 
 template <typename IndexType>
     IndexType
-    trsen(char          job,
-          char          compQ,
-          bool          (*select)(IndexType),
-          IndexType     n,
-          double        *T,
-          IndexType     ldT,
-          double        *Q,
-          IndexType     ldQ,
-          double        *wr,
-          double        *wi,
-          IndexType     &m,
-          double        &s,
-          double        &sep,
-          double        *work,
-          IndexType     lWork,
-          IndexType     *iWork,
-          IndexType     liWork);
+    trsen(char              job,
+          char              compQ,
+          const IndexType   *select,
+          IndexType         n,
+          double            *T,
+          IndexType         ldT,
+          double            *Q,
+          IndexType         ldQ,
+          double            *wr,
+          double            *wi,
+          IndexType         &m,
+          double            &s,
+          double            &sep,
+          double            *work,
+          IndexType         lWork,
+          IndexType         *iWork,
+          IndexType         liWork);
 
 template <typename IndexType>
     IndexType
     trsen(char                  job,
           char                  compQ,
-          bool                  (*select)(IndexType),
+          const IndexType       *select,
           IndexType             n,
           std::complex<double>  *T,
           const IndexType       ldT,

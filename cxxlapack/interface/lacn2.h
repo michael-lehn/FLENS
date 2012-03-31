@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2011, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -20,7 +20,7 @@
  *   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- *   A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ ,*   A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
  *   OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
  *   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
  *   LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
@@ -30,17 +30,32 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXLAPACK_AUX_GETF77LAPACKCHAR_H
-#define CXXLAPACK_AUX_GETF77LAPACKCHAR_H 1
+#ifndef CXXLAPACK_INTERFACE_LACN2_H
+#define CXXLAPACK_INTERFACE_LACN2_H 1
 
-#include <cxxlapack/aux/typedefs.h>
+#include <complex>
 
 namespace cxxlapack {
 
-template <typename CHAR, typename ENUM>
-    CHAR
-    getF77LapackChar(ENUM enumValue);
+template <typename IndexType>
+    void
+    lacn2(IndexType         n,
+          double            *v,
+          double            *x,
+          IndexType         *isgn,
+          double            &est,
+          IndexType         &kase,
+          IndexType         *iSave);
+
+template <typename IndexType>
+    void
+    lacn2(IndexType             n,
+          std::complex<double>  *v,
+          std::complex<double>  *x,
+          double                &est,
+          IndexType             &kase,
+          IndexType             *iSave);
 
 } // namespace cxxlapack
 
-#endif // CXXLAPACK_AUX_GETF77LAPACKCHAR_H
+#endif // CXXLAPACK_INTERFACE_LACN2_H

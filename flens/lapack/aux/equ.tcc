@@ -210,10 +210,9 @@ equ(const GeMatrix<MA>  &A,
                                                  A.leadingDimension(),
                                                  r.data(),
                                                  c.data(),
-                                                 &rowCond,
-                                                 &colCond,
-                                                 &amax,
-                                                 &info);
+                                                 rowCond,
+                                                 colCond,
+                                                 amax);
     ASSERT(info>=0);
     return info;
 }

@@ -111,8 +111,6 @@ org2r(IndexType                 k,
       const DenseVector<VTAU>   &tau,
       DenseVector<VWORK>        &work)
 {
-    typedef typename GeMatrix<MA>::IndexType  IndexType;
-
     cxxlapack::org2r<IndexType>(A.numRows(),
                                 A.numCols(),
                                 k,

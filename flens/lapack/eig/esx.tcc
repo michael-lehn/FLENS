@@ -421,97 +421,57 @@ esx_generic(bool                 computeSchurVectors,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename SelectFunction, typename MA, typename IndexType,
           typename VWR, typename VWI, typename MVS,
           typename RCONDE, typename RCONDV,
           typename VWORK, typename VIWORK, typename BWORK>
 IndexType
-esx_native(bool                 computeSchurVectors,
-           bool                 sortEigenvalues,
-           SelectFunction       selectFunction,
-           SENSE::Sense         sense,
-           GeMatrix<MA>         &A,
-           IndexType            &sDim,
-           DenseVector<VWR>     &wr,
-           DenseVector<VWI>     &wi,
-           GeMatrix<MVS>        &VS,
-           RCONDE               &rCondE,
-           RCONDV               &rCondV,
-           DenseVector<VWORK>   &work,
-           DenseVector<VIWORK>  &iWork,
-           DenseVector<BWORK>   &bWork)
+esx(bool                 computeSchurVectors,
+    bool                 sortEigenvalues,
+    SelectFunction       selectFunction,
+    SENSE::Sense         sense,
+    GeMatrix<MA>         &A,
+    IndexType            &sDim,
+    DenseVector<VWR>     &wr,
+    DenseVector<VWI>     &wi,
+    GeMatrix<MVS>        &VS,
+    RCONDE               &rCondE,
+    RCONDV               &rCondV,
+    DenseVector<VWORK>   &work,
+    DenseVector<VIWORK>  &iWork,
+    DenseVector<BWORK>   &bWork)
 {
-    typedef typename GeMatrix<MA>::ElementType  T;
-
-    const char           JOBVS             = (computeSchurVectors) ? 'V' : 'N';
-    const char           SORT              = (sortEigenvalues) ? 'S' : 'N';
-    const char           SENSE             = sense;
-    LOGICAL (*SELECT)(const T*, const T*)  = selectFunction.select;
-    const INTEGER        N                 = A.numRows();
-    const INTEGER        LDA               = A.leadingDimension();
-    INTEGER              SDIM              = sDim;
-    const INTEGER        LDVS              = VS.leadingDimension();
-    T                    _RCONDE           = rCondE;
-    T                    _RCONDV           = rCondV;
-    const INTEGER        LWORK             = work.length();
-    const INTEGER        LIWORK            = iWork.length();
-    INTEGER              INFO;
-
-    DenseVector<Array<INTEGER> >    _iWork(LIWORK);
-    for (IndexType i=1; i<=LIWORK; ++i) {
-        _iWork(i) = iWork(i);
-    }
-    DenseVector<Array<LOGICAL> >    _bWork(N);
-    for (IndexType i=1; i<=N; ++i) {
-        _bWork(i) = bWork(i);
-    }
-
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dgeesx)(&JOBVS,
-                            &SORT,
-                            SELECT,
-                            &SENSE,
-                            &N,
-                            A.data(),
-                            &LDA,
-                            &SDIM,
-                            wr.data(),
-                            wi.data(),
-                            VS.data(),
-                            &LDVS,
-                            &_RCONDE,
-                            &_RCONDV,
-                            work.data(),
-                            &LWORK,
-                            _iWork.data(),
-                            &LIWORK,
-                            _bWork.data(),
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    if (INFO<0) {
-        std::cerr << "dgeesx: INFO = " << INFO << std::endl;
-    }
-    ASSERT(INFO>=0);
-
-    sDim = SDIM;
-    rCondE = _RCONDE;
-    rCondV = _RCONDV;
-
-    for (IndexType i=1; i<=LIWORK; ++i) {
-        iWork(i) = _iWork(i);
-    }
-    for (IndexType i=1; i<=N; ++i) {
-        bWork(i) = _bWork(i);
-    }
-
-    return INFO;
+    IndexType info;
+    info = cxxlapack::geesx<IndexType>(computeSchurVectors ? 'V' : 'N',
+                                       sortEigenvalues ? 'S' : 'N',
+                                       selectFunction.select,
+                                       getF77Char(sense),
+                                       A.numRows(),
+                                       A.data(),
+                                       A.leadingDimension(),
+                                       sDim,
+                                       wr.data(),
+                                       wi.data(),
+                                       VS.data(),
+                                       VS.leadingDimension(),
+                                       &rCondE,
+                                       &rCondV,
+                                       work.data(),
+                                       work.length(),
+                                       iWork.data(),
+                                       iWork.length(),
+                                       bWork.data());
+    ASSERT(info>=0);
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 template <typename MA>
@@ -645,20 +605,20 @@ esx(bool                 computeSchurVectors,
 //
 //  Compare generic results with results from the native implementation
 //
-    IndexType _result = esx_native(computeSchurVectors,
-                                   sortEigenvalues,
-                                   selectFunction,
-                                   sense,
-                                   A,
-                                   sDim,
-                                   wr,
-                                   wi,
-                                   VS,
-                                   rCondE,
-                                   rCondV,
-                                   work,
-                                   iWork,
-                                   bWork);
+    IndexType _result = external::esx(computeSchurVectors,
+                                      sortEigenvalues,
+                                      selectFunction,
+                                      sense,
+                                      A,
+                                      sDim,
+                                      wr,
+                                      wi,
+                                      VS,
+                                      rCondE,
+                                      rCondV,
+                                      work,
+                                      iWork,
+                                      bWork);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {
@@ -741,8 +701,6 @@ esx(bool                 computeSchurVectors,
 
     return result;
 }
-
-//-- forwarding ----------------------------------------------------------------
 
 } } // namespace lapack, flens
 

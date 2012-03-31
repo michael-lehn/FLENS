@@ -252,17 +252,15 @@ lascl(LASCL::Type   type,
       const T       &cTo,
       MA            &A)
 {
-    IndexType info = cxxlapack::lascl<IndexType>(getF77Char(type),
-                                                 kl,
-                                                 ku,
-                                                 cFrom,
-                                                 cTo,
-                                                 A.numRows(),
-                                                 A.numCols(),
-                                                 A.data(),
-                                                 A.leadingDimension());
-    ASSERT(info==0);
-    return info;
+    cxxlapack::lascl<IndexType>(getF77Char(type),
+                                kl,
+                                ku,
+                                cFrom,
+                                cTo,
+                                A.numRows(),
+                                A.numCols(),
+                                A.data(),
+                                A.leadingDimension());
 }
 
 } // namespace external

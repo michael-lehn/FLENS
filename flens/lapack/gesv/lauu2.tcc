@@ -126,10 +126,10 @@ lauu2(TrMatrix<MA> &A)
 {
     typedef typename TrMatrix<MA>::IndexType  IndexType;
 
-    IndexType info = lauu2<IndexType>(getF77Char(A.upLo()),
-                                      A.dim(),
-                                      A.data(),
-                                      A.leadingDimension());
+    IndexType info = cxxlapack::lauu2<IndexType>(getF77Char(A.upLo()),
+                                                 A.dim(),
+                                                 A.data(),
+                                                 A.leadingDimension());
     ASSERT(info==0);
 }
 

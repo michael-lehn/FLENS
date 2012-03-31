@@ -155,8 +155,8 @@ larf(Side side, const DenseVector<VV> &v, const TAU &tau,
     typedef typename GeMatrix<MC>::IndexType  IndexType;
 
     cxxlapack::larf<IndexType>(getF77Char(side),
-                               A.numRows(),
-                               A.numCols(),
+                               C.numRows(),
+                               C.numCols(),
                                v.data(),
                                v.inc()*v.stride(),
                                tau,

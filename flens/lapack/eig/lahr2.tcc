@@ -175,41 +175,32 @@ lahr2_generic(IndexType k, IndexType nb, GeMatrix<MA> &A,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename IndexType, typename MA, typename VTAU,
           typename MTR, typename MY>
 void
-lahr2_native(IndexType k, IndexType nb, GeMatrix<MA> &A,
-             DenseVector<VTAU> &tau,   TrMatrix<MTR> &Tr,
-             GeMatrix<MY> &Y)
+lahr2(IndexType k, IndexType nb, GeMatrix<MA> &A,
+      DenseVector<VTAU> &tau,   TrMatrix<MTR> &Tr,
+      GeMatrix<MY> &Y)
 {
-    typedef typename  GeMatrix<MY>::ElementType     T;
-
-    const INTEGER N     = A.numRows();
-    const INTEGER K     = k;
-    const INTEGER NB    = nb;
-    const INTEGER LDA   = A.leadingDimension();
-    const INTEGER LDT   = Tr.leadingDimension();
-    const INTEGER LDY   = Y.leadingDimension();
-
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dlahr2)(&N,
-                            &K,
-                            &NB,
-                            A.data(),
-                            &LDA,
-                            tau.data(),
-                            Tr.data(),
-                            &LDT,
-                            Y.data(),
-                            &LDY);
-    } else {
-        ASSERT(0);
-    }
+    cxxlapack::lahr2<IndexType>(A.numRows(),
+                                k,
+                                nb,
+                                A.data(),
+                                A.leadingDimension(),
+                                tau.data(),
+                                Tr.data(),
+                                Tr.leadingDimension(),
+                                Y.data(),
+                                Y.leadingDimension());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -254,7 +245,7 @@ lahr2(IndexType k, IndexType nb, GeMatrix<MA> &A, DenseVector<VTAU> &tau,
 //  Compare results
 //
 #   ifdef CHECK_CXXLAPACK
-    lahr2_native(k, nb, _A, _tau, _Tr, _Y);
+    external::lahr2(k, nb, _A, _tau, _Tr, _Y);
 
     bool failed = false;
     if (! isIdentical(A, _A, " A", "A_")) {

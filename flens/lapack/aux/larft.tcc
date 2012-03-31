@@ -50,17 +50,18 @@ namespace flens { namespace lapack {
 
 //== generic lapack implementation =============================================
 
-template <typename IndexType, typename MV, typename VTAU, typename MT>
+template <typename N, typename MV, typename VTAU, typename MT>
 void
-larft_generic(Direction direction, StoreVectors storeVectors, IndexType n,
+larft_generic(Direction direction, StoreVectors storeVectors, N n,
               GeMatrix<MV> &V, const DenseVector<VTAU> &tau, TrMatrix<MT> &Tr)
 {
     using std::max;
     using std::min;
 
-    const Underscore<IndexType> _;
+    typedef typename TrMatrix<MT>::IndexType    IndexType;
+    typedef typename TrMatrix<MT>::ElementType  T;
 
-    typedef typename GeMatrix<MV>::ElementType  T;
+    const Underscore<IndexType> _;
 
     const T Zero(0);
 
@@ -153,9 +154,9 @@ larft_generic(Direction direction, StoreVectors storeVectors, IndexType n,
 
 namespace external {
 
-template <typename IndexType, typename MV, typename VTAU, typename MT>
+template <typename N, typename MV, typename VTAU, typename MT>
 void
-larft(Direction direction, StoreVectors storeVectors, IndexType n,
+larft(Direction direction, StoreVectors storeVectors, N n,
       GeMatrix<MV> &V, const DenseVector<VTAU> &tau, TrMatrix<MT> &Tr)
 {
     typedef typename TrMatrix<MT>::IndexType  IndexType;
@@ -177,11 +178,13 @@ larft(Direction direction, StoreVectors storeVectors, IndexType n,
 
 //== public interface ==========================================================
 
-template <typename IndexType, typename MV, typename VTAU, typename MT>
+template <typename N, typename MV, typename VTAU, typename MT>
 void
-larft(Direction direction, StoreVectors storeVectors, IndexType n,
+larft(Direction direction, StoreVectors storeVectors, N n,
       GeMatrix<MV> &V, const DenseVector<VTAU> &tau, TrMatrix<MT> &Tr)
 {
+    typedef typename TrMatrix<MT>::IndexType  IndexType;
+
     LAPACK_DEBUG_OUT("larft");
 
 //
@@ -242,9 +245,9 @@ larft(Direction direction, StoreVectors storeVectors, IndexType n,
 }
 
 //-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename MV, typename VTAU, typename MT>
+template <typename N, typename MV, typename VTAU, typename MT>
 void
-larft(Direction direction, StoreVectors storeVectors, IndexType n,
+larft(Direction direction, StoreVectors storeVectors, N n,
       MV &&V, const VTAU &tau, MT &&Tr)
 {
     larft(direction, storeVectors, n, V, tau, Tr);

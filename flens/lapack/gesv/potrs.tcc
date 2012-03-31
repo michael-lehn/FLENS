@@ -110,12 +110,13 @@ potrs(const SyMatrix<MA> &A, GeMatrix<MB> &B)
 {
     typedef typename SyMatrix<MA>::IndexType  IndexType;
 
-    IndexType info = cxxlapack::potrs<IndexType>(getF77Char(A.upLo()),
-                                                 A.dim(),
-                                                 A.leadingDimension(),
-                                                 B.numCols(),
-                                                 B.leadingDimension());
-    ASSERT(info==0);
+    cxxlapack::potrs<IndexType>(getF77Char(A.upLo()),
+                                A.dim(),
+                                B.numCols(),
+                                A.data(),
+                                A.leadingDimension(),
+                                B.data(),
+                                B.leadingDimension());
 }
 
 } // namespace external

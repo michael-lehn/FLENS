@@ -61,7 +61,6 @@ struct IsVectorClosure
     static const bool value = sizeof(_VectorClosureChecker::check(var))==1;
 };
 
-
 } // namespace flens
 
 #endif // FLENS_AUX_ISVECTORCLOSURE_H

@@ -43,8 +43,8 @@ template <typename IndexType>
           const IndexType       n,
           const double          *A,
           const IndexType       ldA,
-          double                &r,
-          double                &c,
+          double                *r,
+          double                *c,
           double                &rowCnd,
           double                &colCnd,
           double                &maxA);
@@ -55,8 +55,8 @@ template <typename IndexType>
           const IndexType               n,
           const std::complex<double>    *A,
           const IndexType               ldA,
-          double                        &r,
-          double                        &c,
+          double                        *r,
+          double                        *c,
           double                        &rowCnd,
           double                        &colCnd,
           double                        &maxA);

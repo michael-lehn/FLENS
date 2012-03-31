@@ -50,17 +50,17 @@ namespace flens { namespace lapack {
 
 //== lacn2 =====================================================================
 template <typename  VV, typename VX, typename VSGN, typename EST,
-          typename IndexType, typename VSAVE>
+          typename KASE, typename VSAVE>
     void
     lacn2(DenseVector<VV> &v, DenseVector<VX> &x, DenseVector<VSGN> &sgn,
-          EST &est, IndexType &kase, DenseVector<VSAVE> &iSave);
+          EST &est, KASE &kase, DenseVector<VSAVE> &iSave);
 
 //-- forwarding ----------------------------------------------------------------
 template <typename  VV, typename VX, typename VSGN, typename EST,
-          typename IndexType, typename VSAVE>
+          typename KASE, typename VSAVE>
     void
     lacn2(VV &&v, VX &&x, VSGN &&sgn, EST &&est,
-          IndexType &&kase, VSAVE &&iSave);
+          KASE &&kase, VSAVE &&iSave);
 
 } } // namespace lapack, flens
 

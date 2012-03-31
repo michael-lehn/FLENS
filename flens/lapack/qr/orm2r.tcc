@@ -217,7 +217,7 @@ orm2r(Side side, Transpose trans, GeMatrix<MA> &A,
 //
 //  Compare generic results with results from the native implementation
 //
-    cxxlapack::orm2r(side, trans, A, tau, C, work);
+    external::orm2r(side, trans, A, tau, C, work);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {

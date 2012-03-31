@@ -425,7 +425,7 @@ ormlq(Side                      side,
 //
 //  Compare generic results with results from the native implementation
 //
-    ormlq_native(side, trans, A, tau, C, work);
+    external::ormlq(side, trans, A, tau, C, work);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {

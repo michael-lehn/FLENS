@@ -311,49 +311,36 @@ trexc_generic(bool                          computeQ,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MT, typename MQ, typename IndexType, typename VWORK>
 IndexType
-trexc_native(bool                          computeQ,
-             GeMatrix<MT>                  &T,
-             GeMatrix<MQ>                  &Q,
-             IndexType                     &iFirst,
-             IndexType                     &iLast,
-             DenseVector<VWORK>            &work)
+trexc(bool                          computeQ,
+      GeMatrix<MT>                  &T,
+      GeMatrix<MQ>                  &Q,
+      IndexType                     &iFirst,
+      IndexType                     &iLast,
+      DenseVector<VWORK>            &work)
 {
-    typedef typename GeMatrix<MT>::ElementType ElementType;
-
-    const char       COMPQ  = (computeQ) ? 'V' : 'N';
-    const INTEGER    N      = T.numRows();
-    const INTEGER    LDT    = T.leadingDimension();
-    const INTEGER    LDQ    = Q.leadingDimension();
-    INTEGER          IFST   = iFirst;
-    INTEGER          ILST   = iLast;
-    INTEGER          INFO;
-
-    if (IsSame<ElementType,DOUBLE>::value) {
-        LAPACK_IMPL(dtrexc)(&COMPQ,
-                            &N,
-                            T.data(),
-                            &LDT,
-                            Q.data(),
-                            &LDQ,
-                            &IFST,
-                            &ILST,
-                            work.data(),
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO>=0);
-
-    iFirst  = IFST;
-    iLast   = ILST;
-    return INFO;
+    IndexType  info;
+    info = cxxlapack::trexc<IndexType>(getF77Char(computeQ),
+                                       T.numRows(),
+                                       T.data(),
+                                       T.leadingDimension(),
+                                       Q.data(),
+                                       Q.leadingDimension(),
+                                       iFirst,
+                                       iLast,
+                                       work.data());
+    ASSERT(info>=0);
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -427,7 +414,7 @@ trexc(bool                          computeQ,
 //
 //  Compare results
 //
-    IndexType _info = trexc_native(computeQ, T, Q, iFirst, iLast, work);
+    IndexType _info = external::trexc(computeQ, T, Q, iFirst, iLast, work);
 
     bool failed = false;
     if (! isIdentical(T_generic, T, "T_generic", "T")) {

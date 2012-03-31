@@ -74,8 +74,8 @@ ormhr_generic_wsq(Side                      side,
 
 //  TODO: implement a better way for setting up the opt string
     char opt[3];
-    opt[0] = getF77LapackChar(side);
-    opt[1] = getF77LapackChar(trans);
+    opt[0] = getF77Char(side);
+    opt[1] = getF77Char(trans);
     opt[2] = 0;
 
     IndexType nb;
@@ -116,8 +116,8 @@ ormhr_generic(Side                      side,
 
 //  TODO: implement a better way for setting up the opt string
     char opt[3];
-    opt[0] = getF77LapackChar(side);
-    opt[1] = getF77LapackChar(trans);
+    opt[0] = getF77Char(side);
+    opt[1] = getF77Char(trans);
     opt[2] = 0;
 
     IndexType nb;
@@ -164,106 +164,76 @@ ormhr_generic(Side                      side,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename IndexType, typename  MC>
 IndexType
-ormhr_native_wsq(Side                      side,
-                 Transpose                 trans,
-                 IndexType                 iLo,
-                 IndexType                 iHi,
-                 const GeMatrix<MC>        &C)
+ormhr_wsq(Side                      side,
+          Transpose                 trans,
+          IndexType                 iLo,
+          IndexType                 iHi,
+          const GeMatrix<MC>        &C)
 {
     using std::max;
 
-    typedef typename GeMatrix<MC>::ElementType  T;
+    typedef typename GeMatrix<MC>::ElementType  ElementType;
 
     IndexType m = C.numRows();
     IndexType n = C.numCols();
 
-    const char       SIDE   = getF77LapackChar(side);
-    const char       TRANS  = getF77LapackChar(trans);
-    const INTEGER    M      = m;
-    const INTEGER    N      = n;
-    const INTEGER    ILO    = iLo;
-    const INTEGER    IHI    = iHi;
-    const INTEGER    LDA    = (SIDE=='L') ? max(IndexType(1), m)
-                                          : max(IndexType(1), n);
-    const INTEGER    LDC    = C.leadingDimension();
-    T                WORK;
-    T                DUMMY;
-    const INTEGER    LWORK  = -1;
-    INTEGER          INFO;
+    const IndexType     LDA    = (side==Left) ? max(IndexType(1), m)
+                                              : max(IndexType(1), n);
+    ElementType         WORK, DUMMY;
+    const IndexType     LWORK  = -1;
 
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dormhr)(&SIDE,
-                            &TRANS,
-                            &M,
-                            &N,
-                            &ILO,
-                            &IHI,
-                            &DUMMY,
-                            &LDA,
-                            &DUMMY,
-                            &DUMMY,
-                            &LDC,
-                            &WORK,
-                            &LWORK,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO==0);
+    cxxlapack::ormhr<IndexType>(getF77Char(side),
+                                getF77Char(trans),
+                                C.numRows(),
+                                C.numCols(),
+                                iLo,
+                                iHi,
+                                &DUMMY,
+                                LDA,
+                                &DUMMY,
+                                &DUMMY,
+                                C.leadingDimension(),
+                                &WORK,
+                                LWORK);
     return WORK;
 }
 
 template <typename IndexType, typename  MA, typename  VTAU,
           typename  MC, typename  VWORK>
 void
-ormhr_native(Side                      side,
-             Transpose                 trans,
-             IndexType                 iLo,
-             IndexType                 iHi,
-             GeMatrix<MA>              &A,
-             const DenseVector<VTAU>   &tau,
-             GeMatrix<MC>              &C,
-             DenseVector<VWORK>        &work)
+ormhr(Side                      side,
+      Transpose                 trans,
+      IndexType                 iLo,
+      IndexType                 iHi,
+      GeMatrix<MA>              &A,
+      const DenseVector<VTAU>   &tau,
+      GeMatrix<MC>              &C,
+      DenseVector<VWORK>        &work)
 {
-    typedef typename GeMatrix<MC>::ElementType  T;
-
-    const char       SIDE   = getF77LapackChar(side);
-    const char       TRANS  = getF77LapackChar(trans);
-    const INTEGER    M      = C.numRows();
-    const INTEGER    N      = C.numCols();
-    const INTEGER    ILO    = iLo;
-    const INTEGER    IHI    = iHi;
-    const INTEGER    LDA    = A.leadingDimension();
-    const INTEGER    LDC    = C.leadingDimension();
-    const INTEGER    LWORK  = work.length();
-    INTEGER          INFO;
-
-    if (IsSame<T,DOUBLE>::value) {
-        LAPACK_IMPL(dormhr)(&SIDE,
-                            &TRANS,
-                            &M,
-                            &N,
-                            &ILO,
-                            &IHI,
-                            A.data(),
-                            &LDA,
-                            tau.data(),
-                            C.data(),
-                            &LDC,
-                            work.data(),
-                            &LWORK,
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO==0);
+    cxxlapack::ormhr<IndexType>(getF77Char(side),
+                                getF77Char(trans),
+                                C.numRows(),
+                                C.numCols(),
+                                iLo,
+                                iHi,
+                                A.data(),
+                                A.leadingDimension(),
+                                tau.data(),
+                                C.data(),
+                                C.leadingDimension(),
+                                work.data(),
+                                work.length());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -315,7 +285,7 @@ ormhr_wsq(Side                      side,
 //  Compare results
 //
 #   ifdef CHECK_CXXLAPACK
-    IndexType _ws = ormhr_native_wsq(side, trans, iLo, iHi, C);
+    IndexType _ws = external::ormhr_wsq(side, trans, iLo, iHi, C);
 
     if (ws!=_ws) {
         std::cerr << "CXXLAPACK:  ws = " << ws << std::endl;
@@ -412,7 +382,7 @@ ormhr(Side                      side,
 //
 //  Compare generic results with results from the native implementation
 //
-    ormhr_native(side, trans, iLo, iHi, A, tau, C, work);
+    external::ormhr(side, trans, iLo, iHi, A, tau, C, work);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {

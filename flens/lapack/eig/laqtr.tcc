@@ -630,53 +630,42 @@ laqtr_generic(bool                  trans,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MT, typename VB, typename W, typename SCALE, typename VX,
           typename VWORK>
 typename DenseVector<VX>::IndexType
-laqtr_native(bool                  trans,
-             bool                  real,
-             const GeMatrix<MT>    &T,
-             const DenseVector<VB> &b,
-             const W               &w,
-             SCALE                 &scale,
-             DenseVector<VX>       &x,
-             DenseVector<VWORK>    &work)
+laqtr(bool                  trans,
+      bool                  real,
+      const GeMatrix<MT>    &T,
+      const DenseVector<VB> &b,
+      const W               &w,
+      SCALE                 &scale,
+      DenseVector<VX>       &x,
+      DenseVector<VWORK>    &work)
 {
-    typedef typename DenseVector<VX>::ElementType  ElementType;
+    typedef typename DenseVector<VX>::IndexType  IndexType;
 
-    const LOGICAL    LTRAN  = trans;
-    const LOGICAL    LREAL  = real;
-    const INTEGER    N      = T.numRows();
-    const INTEGER    LDT    = T.leadingDimension();
-    const DOUBLE     _W     = w;
-    DOUBLE           _SCALE = scale;
-    INTEGER          INFO;
-
-    if (IsSame<ElementType, DOUBLE>::value) {
-        LAPACK_IMPL(dlaqtr)(&LTRAN,
-                            &LREAL,
-                            &N,
-                            T.data(),
-                            &LDT,
-                            b.data(),
-                            &_W,
-                            &_SCALE,
-                            x.data(),
-                            work.data(),
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-    ASSERT(INFO>=0);
-
-    scale   = _SCALE;
-
-    return INFO;
+    IndexType  info;
+    info = cxxlapack::laqtr<IndexType>(trans,
+                                       real,
+                                       T.numRows(),
+                                       T.data(),
+                                       T.leadingDimension(),
+                                       b.data(),
+                                       w,
+                                       scale,
+                                       x.data(),
+                                       work.data());
+    ASSERT(info>=0);
+    return info;
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 template <typename MT, typename VB, typename W, typename SCALE, typename VX,
@@ -739,7 +728,7 @@ laqtr(bool                  trans,
 //
 //  Compare results
 //
-    IndexType _info = laqtr_native(trans, real, T, b, w, scale, x, work);
+    IndexType _info = external::laqtr(trans, real, T, b, w, scale, x, work);
 
     bool failed = false;
     if (! isIdentical(scale_generic, scale, "scale_generic", "scale")) {

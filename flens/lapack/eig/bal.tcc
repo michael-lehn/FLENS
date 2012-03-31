@@ -273,45 +273,30 @@ bal_generic(BALANCE::Balance    job,
 
 //== interface for native lapack ===============================================
 
-#ifdef TODO_CHECK_CXXLAPACK
+#ifdef USE_CXXLAPACK
+
+namespace external {
 
 template <typename MA, typename IndexType, typename VSCALE>
 void
-bal_native(BALANCE::Balance    job,
-           GeMatrix<MA>        &A,
-           IndexType           &iLo,
-           IndexType           &iHi,
-           DenseVector<VSCALE> &scale)
+bal(BALANCE::Balance    job,
+    GeMatrix<MA>        &A,
+    IndexType           &iLo,
+    IndexType           &iHi,
+    DenseVector<VSCALE> &scale)
 {
-    typedef typename GeMatrix<MA>::ElementType  T;
-
-    const char       JOB    = getF77LapackChar<BALANCE::Balance>(job);
-    const INTEGER    N      = A.numRows();
-    const INTEGER    LDA    = A.leadingDimension();
-    INTEGER          _ILO   = iLo;
-    INTEGER          _IHI   = iHi;
-    INTEGER          INFO;
-
-    if (IsSame<T, DOUBLE>::value) {
-        LAPACK_IMPL(dgebal)(&JOB,
-                            &N,
-                            A.data(),
-                            &LDA,
-                            &_ILO,
-                            &_IHI,
-                            scale.data(),
-                            &INFO);
-    } else {
-        ASSERT(0);
-    }
-
-    iLo     = _ILO;
-    iHi     = _IHI;
-
-    ASSERT(INFO==0);
+    cxxlapack::gebal<IndexType>(getF77Char(job),
+                                A.numRows(),
+                                A.data(),
+                                A.leadingDimension(),
+                                iLo,
+                                iHi,
+                                scale.data());
 }
 
-#endif // CHECK_CXXLAPACK
+} // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -353,7 +338,7 @@ bal(BALANCE::Balance    job,
 //
 //  Compare results
 //
-    bal_native(job, _A, _iLo, _iHi, _scale);
+    external::bal(job, _A, _iLo, _iHi, _scale);
 
     bool failed = false;
     if (! isIdentical(A, _A, " A", "_A")) {

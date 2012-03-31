@@ -33,7 +33,6 @@
 #ifndef CXXLAPACK_INTERFACE_GETRS_TCC
 #define CXXLAPACK_INTERFACE_GETRS_TCC 1
 
-#include <cxxlapack/aux/aux.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {

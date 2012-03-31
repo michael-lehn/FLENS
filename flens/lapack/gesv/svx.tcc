@@ -285,27 +285,28 @@ svx(SVX::Fact           fact,
 {
     typedef typename GeMatrix<MA>::IndexType  IndexType;
 
-    IndexType info = external::gesvx<IndexType>(getF77Char(fact),
-                                                getF77Char(trans),
-                                                A.numRows(),
-                                                B.numCols(),
-                                                A.data(),
-                                                A.leadingDimension(),
-                                                AF.data(),
-                                                AF.leadingDimension(),
-                                                piv.data(),
-                                                getF77Char(equed),
-                                                r.data(),
-                                                c.data(),
-                                                B.data(),
-                                                B.leadingDimension(),
-                                                X.data(),
-                                                X.leadingDimension(),
-                                                rCond,
-                                                fErr.data(),
-                                                bErr.data(),
-                                                work.data(),
-                                                iwork.data());
+    IndexType info;
+    info = cxxlapack::gesvx<IndexType>(getF77Char(fact),
+                                       getF77Char(trans),
+                                       A.numRows(),
+                                       B.numCols(),
+                                       A.data(),
+                                       A.leadingDimension(),
+                                       AF.data(),
+                                       AF.leadingDimension(),
+                                       piv.data(),
+                                       getF77Char(equed),
+                                       r.data(),
+                                       c.data(),
+                                       B.data(),
+                                       B.leadingDimension(),
+                                       X.data(),
+                                       X.leadingDimension(),
+                                       rCond,
+                                       fErr.data(),
+                                       bErr.data(),
+                                       work.data(),
+                                       iwork.data());
     ASSERT(info>=0);
     return info;
 }
@@ -400,9 +401,9 @@ svx(SVX::Fact           fact,
     work    = work_org;
     iwork   = iwork_org;
 
-    IndexType _info = svx_native(fact, trans, A, AF, piv, equed,
-                                 r, c, B, X, rCond, fErr, bErr,
-                                 work, iwork);
+    IndexType _info = external::svx(fact, trans, A, AF, piv, equed,
+                                    r, c, B, X, rCond, fErr, bErr,
+                                    work, iwork);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {
