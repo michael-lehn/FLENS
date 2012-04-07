@@ -1,17 +1,8 @@
-#include <iostream>
-/*
-#define CXXBLAS_DEBUG_OUT(X)                                                \
-   flens::verbose::ClosureLog::append(false) << "   => BLAS: " << X << ";"; \
-*/
-
-
-#include <flens/debug/aux/aux.h>
 #include <flens/flens.cxx>
-#include <flens/debug/aux/aux.tcc>
+#include <iostream>
 
-using namespace std;
 using namespace flens;
-
+using namespace std;
 
 int
 main()
@@ -30,6 +21,5 @@ main()
     cerr << "hex(x) =      " << lapack::hex(x) << endl;
     cerr << "hex(y) =      " << lapack::hex(y) << endl;
     cerr << "hex(result) = " << lapack::hex(result) << endl;
-
 }
 

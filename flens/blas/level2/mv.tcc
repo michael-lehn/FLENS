@@ -43,23 +43,24 @@ namespace flens { namespace blas {
 //-- gemv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
 void
-mv(Transpose trans,
+mv(Transpose transpose,
    const ALPHA &alpha, const GeMatrix<MA> &A, const DenseVector<VX> &x,
    const BETA &beta, DenseVector<VY> &y)
 {
-    ASSERT(x.length()==((trans==NoTrans) ? A.numCols()
-                                         : A.numRows()));
+    const bool noTrans = (transpose==NoTrans || transpose==Conj);
+
+    ASSERT(x.length()==(noTrans ? A.numCols()
+                                : A.numRows()));
 
     typedef typename GeMatrix<MA>::IndexType IndexType;
-    IndexType yLength = (trans==NoTrans) ? A.numRows()
-                                         : A.numCols();
+    IndexType yLength = noTrans ? A.numRows()
+                                : A.numCols();
 
     ASSERT(beta==BETA(0) || y.length()==yLength || y.length()==0);
 
     if (y.length()!=yLength) {
         typedef typename DenseVector<VY>::ElementType  T;
         const T  Zero(0);
-
         FLENS_BLASLOG_RESIZE_VECTOR(y, yLength);
         y.resize(yLength, y.firstIndex(), Zero);
     }
@@ -76,7 +77,7 @@ mv(Transpose trans,
         FLENS_BLASLOG_TMP_ADD(_x);
         _x = x;
 
-        mv(trans, alpha, A, _x, beta, y);
+        mv(transpose, alpha, A, _x, beta, y);
 
         FLENS_BLASLOG_TMP_REMOVE(_x, x);
         return;
@@ -84,11 +85,11 @@ mv(Transpose trans,
 #   endif
 
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_GEMV(trans, alpha, A, x, beta, y);
+    FLENS_BLASLOG_BEGIN_GEMV(transpose, alpha, A, x, beta, y);
 
 #   ifdef HAVE_CXXBLAS_GEMV
     cxxblas::gemv(MA::order,
-                  trans,
+                  transpose,
                   A.numRows(), A.numCols(),
                   alpha,
                   A.data(), A.leadingDimension(),

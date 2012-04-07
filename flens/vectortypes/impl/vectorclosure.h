@@ -64,6 +64,12 @@ class VectorClosure
         typename ConstRef<R>::Type _right;
 };
 
+template <typename Op, typename L, typename R>
+struct ConstRef<VectorClosure<Op, L, R> >
+{
+    typedef VectorClosure<Op,L,R> Type;
+};
+
 } // namespace flens
 
 #endif // FLENS_VECTORTYPES_IMPL_VECTORCLOSURE_H
