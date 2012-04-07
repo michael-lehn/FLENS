@@ -64,7 +64,7 @@ template <typename IndexType>
           IndexType             iHi,
           std::complex<double>  *H,
           IndexType             ldH,
-          std::complex<double>  *W,
+          std::complex<double>  *w,
           IndexType             iLoZ,
           IndexType             iHiZ,
           std::complex<double>  *Z,

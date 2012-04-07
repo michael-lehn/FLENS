@@ -22,8 +22,8 @@ LAPACK_DECL(ilaenv)(const INTEGER *SPEC,
                     int OPTS_LEN);
 
 //
-// for "ilaenv" and "xerbla" we LAPACK_IMPL(..) calls the LAPACK_DECL(..)
-// such that the routines from the LAPACK test suite gets called
+// for "ilaenv" and "xerbla" LAPACK_IMPL(..) calls the LAPACK_DECL(..)
+// such that the routines from the LAPACK test suite get called
 //
 INTEGER
 LAPACK_IMPL(ilaenv)(const INTEGER *SPEC,

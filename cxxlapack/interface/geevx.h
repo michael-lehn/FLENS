@@ -63,7 +63,7 @@ template <typename IndexType>
           IndexType     *iWork);
 
 template <typename IndexType>
-    void
+    IndexType
     geevx(char                    balanc,
           char                    jobVL,
           char                    jobVR,
@@ -84,7 +84,7 @@ template <typename IndexType>
           double                  &rCondV,
           std::complex<double>    *work,
           IndexType               lWork,
-          double                  *iWork);
+          double                  *rWork);
 
 } // namespace cxxlapack
 

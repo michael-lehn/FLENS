@@ -50,10 +50,10 @@ template <typename IndexType>
 
 template <typename IndexType>
     IndexType
-    pocon(const char                    upLo,
-          const IndexType               n,
+    pocon(char                          upLo,
+          IndexType                     n,
           const std::complex<double>    *A,
-          const IndexType               ldA,
+          IndexType                     ldA,
           const double                  &normA,
           double                        &rCond,
           std::complex<double>          *work,

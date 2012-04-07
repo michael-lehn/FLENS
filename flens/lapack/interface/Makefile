@@ -1,5 +1,5 @@
-#CXX  = g++
-CXX  = clang++
+CXX  = g++
+#CXX  = clang++
 
 CXXFLAGS += -std=c++0x -Wall -Wextra -Werror
 CXXFLAGS += -I../../..
@@ -24,7 +24,7 @@ FLENSLAPACK  = lapack_FLENS.a
 all : $(FLENSLAPACK)
 
 $(FLENSLAPACK) : $(OBJECT_FILES)
-	ar cru $(FLENSLAPACK) $(OBJECT_FILES)
+	ar crs $(FLENSLAPACK) $(OBJECT_FILES)
 	ranlib $(FLENSLAPACK)
 
 %.o : %.f

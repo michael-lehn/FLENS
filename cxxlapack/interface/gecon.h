@@ -38,22 +38,22 @@
 namespace cxxlapack {
 
 template <typename IndexType>
-    void
+    IndexType
     gecon(char                          norm,
-          const IndexType               n,
+          IndexType                     n,
           const double                  *A,
-          const IndexType               lda,
+          IndexType                     lda,
           const double                  &normA,
           double                        &rCond,
           double                        *work,
           IndexType                     *iwork);
 
 template <typename IndexType>
-    void
+    IndexType
     gecon(char                          norm,
-          const IndexType               n,
+          IndexType                     n,
           const std::complex<double>    *A,
-          const IndexType               lda,
+          IndexType                     lda,
           const double                  &normA,
           double                        &rCond,
           std::complex<double>          *work,

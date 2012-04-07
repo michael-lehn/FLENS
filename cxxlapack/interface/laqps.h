@@ -69,7 +69,7 @@ template <typename IndexType>
           double                *vn2,
           std::complex<double>  *auxv,
           std::complex<double>  *F,
-          IndexType     ldF);
+          IndexType             ldF);
 
 } // namespace cxxlapack
 

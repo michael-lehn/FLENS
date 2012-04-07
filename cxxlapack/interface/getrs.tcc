@@ -49,7 +49,22 @@ getrs(char              trans,
       IndexType         ldB)
 {
     IndexType info;
-    LAPACK_IMPL(dgetrs)(&trans, &n, &nRhs, A, &ldA, iPiv, B, &ldB, &info);
+    LAPACK_IMPL(dgetrs)(&trans,
+                        &n,
+                        &nRhs,
+                        A,
+                        &ldA,
+                        iPiv,
+                        B,
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "trans = " << trans << std::endl;
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
     return info;
 }
 
@@ -65,11 +80,21 @@ getrs(char                          trans,
       IndexType                     ldB)
 {
     IndexType info;
-    LAPACK_IMPL(zgetrs)(&trans, &n, &nRhs,
-                        reinterpret_cast<const double *>(A), &ldA,
+    LAPACK_IMPL(zgetrs)(&trans,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<const double *>(A),
+                        &ldA,
                         iPiv,
-                        reinterpret_cast<double *>(B), &ldB,
+                        reinterpret_cast<double *>(B),
+                        &ldB,
                         &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
     return info;
 }
 

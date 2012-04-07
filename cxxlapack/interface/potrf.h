@@ -39,17 +39,17 @@ namespace cxxlapack {
 
 template <typename IndexType>
     IndexType
-    potrf(const char        upLo,
-          const IndexType   n,
-          double            *A,
-          const IndexType   ldA);
+    potrf(char        upLo,
+          IndexType   n,
+          double      *A,
+          IndexType   ldA);
 
 template <typename IndexType>
     IndexType
-    potrf(const char            upLo,
-          const IndexType       n,
+    potrf(char                  upLo,
+          IndexType             n,
           std::complex<double>  *A,
-          const IndexType       ldA);
+          IndexType             ldA);
 
 } // namespace cxxlapack
 

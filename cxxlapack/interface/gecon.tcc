@@ -38,15 +38,15 @@
 namespace cxxlapack {
 
 template <typename IndexType>
-void
-gecon(const char                    norm,
-      const IndexType               n,
-      const double                  *A,
-      const IndexType               ldA,
-      const double                  normA,
-      double                        &rCond,
-      double                        *work,
-      IndexType                     *iwork)
+IndexType
+gecon(char                  norm,
+      IndexType             n,
+      const double          *A,
+      IndexType             ldA,
+      const double          &normA,
+      double                &rCond,
+      double                *work,
+      IndexType             *iwork)
 {
     IndexType info;
     LAPACK_IMPL(dgecon)(&norm,
@@ -58,16 +58,22 @@ gecon(const char                    norm,
                         work,
                         iwork,
                         &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
     ASSERT(info>=0);
+    return info;
 }
 
 template <typename IndexType>
-void
-gecon(const char                    norm,
-      const IndexType               n,
+IndexType
+gecon(char                          norm,
+      IndexType                     n,
       const std::complex<double>    *A,
-      const IndexType               ldA,
-      const double                  normA,
+      IndexType                     ldA,
+      const double                  &normA,
       double                        &rCond,
       std::complex<double>          *work,
       double                        *rwork)
@@ -75,14 +81,20 @@ gecon(const char                    norm,
     IndexType info;
     LAPACK_IMPL(zgecon)(&norm,
                         &n,
-                        A,
+                        reinterpret_cast<const double *>(A),
                         &ldA,
                         &normA,
                         &rCond,
-                        work,
+                        reinterpret_cast<double *>(work),
                         rwork,
                         &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
     ASSERT(info>=0);
+    return info;
 }
 
 } // namespace cxxlapack

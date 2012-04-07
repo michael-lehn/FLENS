@@ -47,7 +47,13 @@ laswp(IndexType             n,
       const IndexType       *iPiv,
       IndexType             incX)
 {
-    LAPACK_IMPL(dlaswp)(&n, A, &ldA, &k1, &k2, iPiv, &incX);
+    LAPACK_IMPL(dlaswp)(&n,
+                        A,
+                        &ldA,
+                        &k1,
+                        &k2,
+                        iPiv,
+                        &incX);
 }
 
 template <typename IndexType>
@@ -60,8 +66,13 @@ laswp(IndexType             n,
       const IndexType       *iPiv,
       IndexType             incX)
 {
-    LAPACK_IMPL(zlaswp)(&n, reinterpret_cast<double *>(A), &ldA,
-                        &k1, &k2, iPiv, &incX);
+    LAPACK_IMPL(zlaswp)(&n,
+                        reinterpret_cast<double *>(A),
+                        &ldA,
+                        &k1,
+                        &k2,
+                        iPiv,
+                        &incX);
 }
 
 } // namespace cxxlapack

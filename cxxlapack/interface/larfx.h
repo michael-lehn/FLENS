@@ -57,7 +57,7 @@ template <typename IndexType>
           const std::complex<double>    &tau,
           std::complex<double>          *C,
           IndexType                     ldC,
-          std::complex<double>          *WORK);
+          std::complex<double>          *work);
 
 } // namespace cxxlapack
 

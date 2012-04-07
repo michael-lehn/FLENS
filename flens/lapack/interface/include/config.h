@@ -21,12 +21,21 @@
 #endif
 #include <flens/flens.cxx>
 
+#ifndef INTEGER
+#define INTEGER             int
+#endif // INTEGER
+
 #define DOUBLE              double
 #define DOUBLE_COMPLEX      double
 #define CXX_DOUBLE_COMPLEX  std::complex<double>
 
+
+extern "C" {
+
 void
 LAPACK_DECL(xerbla)(const char *SRNAME, const int *INFO, int SRNAME_LEN);
+
+} // extern "C"
 
 #define LAPACK_ERROR(name, info)   LAPACK_DECL(xerbla)(name, info, strlen(name))
 
@@ -41,11 +50,12 @@ convertTo(const char c)
         return NoTrans;
     } else if (c=='T') {
         return Trans;
-    } else if (c=='H') {
+    } else if (c=='C') {
         return ConjTrans;
     } else if (c=='R') {
         return Conj;
     }
+    std::cerr << "c = " << c << std::endl;
     ASSERT(0);
     return NoTrans;
 }

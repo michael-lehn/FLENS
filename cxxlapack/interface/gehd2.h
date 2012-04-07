@@ -41,7 +41,7 @@ template <typename IndexType>
     IndexType
     gehd2(IndexType    n,
           IndexType    iLo,
-          IndexType    iHo,
+          IndexType    iHi,
           double       *A,
           IndexType    ldA,
           double       *tau,

@@ -37,8 +37,9 @@
 
 namespace cxxlapack {
 
-void
-labad(double &small, double &large);
+template <typename VOID=void>
+    void
+    labad(double &small, double &large);
 
 } // namespace cxxlapack
 

@@ -50,8 +50,22 @@ trtrs(char              upLo,
       IndexType         ldB)
 {
     IndexType info;
-    LAPACK_IMPL(dtrtrs)(&upLo, &trans, &diag, &n, &nRhs,
-                        A, &ldA, B, &ldB, &info);
+    LAPACK_IMPL(dtrtrs)(&upLo,
+                        &trans,
+                        &diag,
+                        &n,
+                        &nRhs,
+                        A,
+                        &ldA,
+                        B,
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
     return info;
 }
 
@@ -68,10 +82,22 @@ trtrs(char                          upLo,
       IndexType                     ldB)
 {
     IndexType info;
-    LAPACK_IMPL(ztrtrs)(&upLo, &trans, &diag, &n, &nRhs,
-                        reinterpret_cast<const double *>(A), &ldA,
-                        reinterpret_cast<double *>(B), &ldB,
+    LAPACK_IMPL(ztrtrs)(&upLo,
+                        &trans,
+                        &diag,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<const double *>(A),
+                        &ldA,
+                        reinterpret_cast<double *>(B),
+                        &ldB,
                         &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
     return info;
 }
 

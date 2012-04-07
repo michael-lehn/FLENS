@@ -8,10 +8,10 @@ and then use the triangular solver __blas::sm__ to finish the job.  In a
 __later__ example we show how to call the LAPACK driver function __lapack::sv__
 which does internnally what you see here.
 
-:links: __lapack::trf__ -> file:flens/lapack/gesv/trf.h
+:links: __lapack::trf__ -> file:flens/lapack/impl/trf.h
         __blas::sm__    -> file:flens/blas/level3/sm.h
         __later__       -> doc:flens/examples/tut04-page03
-        __lapack::sv__  -> file:flens/lapack/gesv/sv.h
+        __lapack::sv__  -> file:flens/lapack/impl/sv.h
 
 
 Example Code

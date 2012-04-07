@@ -46,7 +46,18 @@ getrf(IndexType             m,
       IndexType             *iPiv)
 {
     IndexType info;
-    LAPACK_IMPL(dgetrf)(&m, &n, A, &ldA, iPiv, &info);
+    LAPACK_IMPL(dgetrf)(&m,
+                        &n,
+                        A,
+                        &ldA,
+                        iPiv,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
     return info;
 }
 
@@ -59,8 +70,18 @@ getrf(IndexType             m,
       IndexType             *iPiv)
 {
     IndexType info;
-    LAPACK_IMPL(zgetrf)(&m, &n, reinterpret_cast<double *>(A), &ldA,
-                        iPiv, &info);
+    LAPACK_IMPL(zgetrf)(&m,
+                        &n,
+                        reinterpret_cast<double *>(A),
+                        &ldA,
+                        iPiv,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
     return info;
 }
 

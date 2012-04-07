@@ -88,19 +88,12 @@ the involved matrix types have full storage:
     types.  For example, the LAPACK functions __dgetrs__ and __dtrtrs__ resulted
     in the FLENS-LAPACK function __trs__ which is overloaded for `GeMatrix` and
     `TrMatrix`.
-  - All LAPACK routines are located in directory __flens/lapack__ and loosely
-    grouped in subdiretories:
-     - __aux__ contains various auxiliary routines
-     - __eig__ contains routines most relevant for the computation of
-       eigenvalues and eigenvectors,
-     - __gesv__ for solving systems of linear equations and
-     - __qr__ for computing the QR factorization.
+  - All LAPACK routines are located in directory __flens/lapack/impl__.
 
-:links:  __dgetrs__        -> file:cxxlapack/netlib/src/dgetrs.f
-         __dtrtrs__        -> file:cxxlapack/netlib/src/dtrtrs.f
-         __trs__           -> file:flens/lapack/gesv/trs.h
-         __flens/lapack__  -> dir:flens/lapack/
-         __(.+)__          -> dir:flens/lapack/$1/
+:links:  __dgetrs__             -> file:cxxlapack/netlib/lapack/dgetrs.f
+         __dtrtrs__             -> file:cxxlapack/netlib/lapack/dtrtrs.f
+         __trs__                -> file:flens/lapack/impl/trs.h
+         __flens/lapack/impl__  -> dir:flens/lapack/impl/
 
 But before you get lost in the details you might be interested in the following
 LAPACK driver routines that are currently implemented in FLENS.
@@ -160,8 +153,8 @@ Linear Equation Routines
 
 :links: __lapack-gesv__  -> doc:flens/examples/tut04-page03
         __lapack-getrf__ -> doc:flens/examples/tut04-page01
-        __(d.+)__        -> file:cxxlapack/netlib/src/$1.f
-        __(.+)__         -> file:flens/lapack/gesv/$1.h
+        __(d.+)__        -> file:cxxlapack/netlib/lapack/$1.f
+        __(.+)__         -> file:flens/lapack/impl/$1.h
 
 
 Orthogonal Factorizations
@@ -185,8 +178,8 @@ Orthogonal Factorizations
  +-----------+------------------------------------------------+---------------+
 
 :links: __lapack-geqrf__ -> doc:flens/examples/tut04-page02
-        __(d.+)__        -> file:cxxlapack/netlib/src/$1.f
-        __(.*)__         -> file:flens/lapack/qr/$1.h
+        __(d.+)__        -> file:cxxlapack/netlib/lapack/$1.f
+        __(.*)__         -> file:flens/lapack/impl/$1.h
 
 
 Non-Symmetric Eigenvalue Routines
@@ -231,8 +224,8 @@ Non-Symmetric Eigenvalue Routines
  +-----------+---------------------------------------------------+------------+
 
 :links: __lapack-geev__ -> doc:flens/examples/tut04-page04
-        __(d.+)__       -> file:cxxlapack/netlib/src/$1.f
-        __(.*)__        -> file:flens/lapack/eig/$1.h
+        __(d.+)__       -> file:cxxlapack/netlib/lapack/$1.f
+        __(.*)__        -> file:flens/lapack/impl/$1.h
 
 
 Todo

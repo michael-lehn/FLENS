@@ -54,7 +54,7 @@ template <typename IndexType>
     trexc(char                  compQ,
           IndexType             n,
           std::complex<double>  *T,
-          IndexType             lT,
+          IndexType             ldT,
           std::complex<double>  *Q,
           IndexType             ldQ,
           IndexType             iFirst,

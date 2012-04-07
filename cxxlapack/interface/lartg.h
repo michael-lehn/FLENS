@@ -37,19 +37,21 @@
 
 namespace cxxlapack {
 
-void
-lartg(const double     &f,
-      const double     &g,
-      double           &cs,
-      double           &sn,
-      double           &r);
+template <typename VOID=void>
+    void
+    lartg(const double     &f,
+          const double     &g,
+          double           &cs,
+          double           &sn,
+          double           &r);
 
-void
-lartg(const std::complex<double>    &f,
-      const std::complex<double>    &g,
-      double                        &cs,
-      std::complex<double>          &sn,
-      std::complex<double>          &r);
+template <typename VOID=void>
+    void
+    lartg(const std::complex<double>    &f,
+          const std::complex<double>    &g,
+          double                        &cs,
+          std::complex<double>          &sn,
+          std::complex<double>          &r);
 
 } // namespace cxxlapack
 

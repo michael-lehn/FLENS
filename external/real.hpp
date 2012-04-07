@@ -3961,4 +3961,15 @@ namespace mpfr {
 
 }  // namespace mpfr
 
+//
+// import math functions into std
+//
+
+namespace std {
+
+using mpfr::pow;
+
+} // namespace std
+
+
 #endif  // MPFR_REAL_HPP

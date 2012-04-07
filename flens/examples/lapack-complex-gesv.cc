@@ -48,7 +48,7 @@ main()
     ///
     /// And solve it with __lapack::sv__
     ///
-    /// :links: __lapack::sv__ -> file:flens/lapack/gesv/sv.h
+    /// :links: __lapack::sv__ -> file:flens/lapack/impl/sv.h
     lapack::sv(A, piv, b);
 
     cerr << "A = " << A << endl;

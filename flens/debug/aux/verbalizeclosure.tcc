@@ -51,7 +51,7 @@ verbalizeClosure(VariablePool &variablePool, const T &x)
 
 template <typename T>
 typename RestrictTo<IsScalar<T>::value, std::string>::Type
-verbalizeClosure(VariablePool &variablePool, const T &x)
+verbalizeClosure(VariablePool &, const T &x)
 {
     std::stringstream sstream;
     sstream << x;

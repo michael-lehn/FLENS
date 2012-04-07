@@ -43,7 +43,7 @@ template <typename IndexType>
          IndexType  nRhs,
          double     *A,
          IndexType  ldA,
-         IndexType  *ipiv,
+         IndexType  *iPiv,
          double     *B,
          IndexType  ldB);
 

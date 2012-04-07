@@ -37,8 +37,9 @@
 
 namespace cxxlapack {
 
-double
-lapy2(double x, double y);
+template <typename VOID=void>
+    double
+    lapy2(double x, double y);
 
 } // namespace cxxlapack
 

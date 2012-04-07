@@ -55,10 +55,10 @@ That means
 
 :links: __cxxlapack::getrf__ -> file:cxxlapack/interface/getrf.h
         __cxxlapack::getrs__ -> file:cxxlapack/interface/getrs.h
-        __dgetrf__           -> file:cxxlapack/netlib/src/dgetrf.f
-        __zgetrf__           -> file:cxxlapack/netlib/src/zgetrf.f
-        __dgetrs__           -> file:cxxlapack/netlib/src/dgetrs.f
-        __zgetrs__           -> file:cxxlapack/netlib/src/zgetrs.f
+        __dgetrf__           -> file:cxxlapack/netlib/lapack/dgetrf.f
+        __zgetrf__           -> file:cxxlapack/netlib/lapack/zgetrf.f
+        __dgetrs__           -> file:cxxlapack/netlib/lapack/dgetrs.f
+        __zgetrs__           -> file:cxxlapack/netlib/lapack/zgetrs.f
 
 Example Code
 ------------
