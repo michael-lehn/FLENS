@@ -681,7 +681,7 @@ copy(Transpose trans, const MatrixClosure<OpMult, MA, MB> &AB, Matrix<MC> &C)
     FLENS_BLASLOG_BEGIN_MCOPY(trans, AB, C);
 
 //
-//  Call mv switch
+//  Call mm switch
 //
     typedef typename MA::Impl::ElementType  TA;
     typedef typename MC::Impl::ElementType  TC;

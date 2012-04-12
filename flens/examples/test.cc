@@ -4,6 +4,14 @@
 using namespace flens;
 using namespace std;
 
+#ifdef FLENS_DEBUG_CLOSURES
+#   define CLOSURELOG_START(x) verbose::ClosureLog::start(x)
+#   define CLOSURELOG_STOP     verbose::ClosureLog::stop()
+#else
+#   define CLOSURELOG_START(x)
+#   define CLOSURELOG_STOP
+#endif
+
 int
 main()
 {
@@ -11,41 +19,27 @@ main()
     typedef DenseVector<Array<T> >               DEVector;
     typedef GeMatrix<FullStorage<T, ColMajor> >  GEMatrix;
 
-    DEVector x(3);
-    x = 1, 2, 3;
-
-    GEMatrix A(3,3);
+    GEMatrix A(3,3), B(3,3), C;
     A = 1, 2, 3,
         5, 6, 7,
         5, 4, 3;
 
-    DEVector y(3);
-    ///
-    /// We turn on logging of the closure evaluation, i.e. the evaluation
-    /// of linear algebra expressions that are coded through overloaded
-    /// operators.
-    ///
-    verbose::ClosureLog::start("mylogfile");
+    B = 9, 4, 2,
+        5, 1, 9,
+        6, 7, 1;
+
+    CLOSURELOG_START("mylogfile");
 
     ///
-    /// Compute $y = A x$
+    /// Compute $C = 2 A B$
     ///
-    y = -A*x;
+    C = 2*A*B;
 
-    cout << "x = " << x << endl;
     cout << "A = " << A << endl;
-    cout << "y = " << y << endl;
+    cout << "B = " << B << endl;
+    cout << "C = " << C << endl;
 
-    //y = conjugate(transpose(A))*x;
-    y = conjTrans(A)*x;
-    cout << "x = " << x << endl;
-    cout << "A = " << A << endl;
-    cout << "y = " << y << endl;
-
-    ///
-    /// Stop logging.
-    ///
-    verbose::ClosureLog::stop();
+    CLOSURELOG_STOP;
 
     return 0;
 }
