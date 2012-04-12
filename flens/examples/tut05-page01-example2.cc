@@ -57,7 +57,7 @@ main()
 ///
 ///     :links: __cxxlapack::getrs__ -> file:cxxlapack/interface/getrs.h
 ///
-        cxxlapack::getrs(NoTrans,
+        cxxlapack::getrs(lapack::getF77Char(NoTrans),
                          A.numRows(),
                          IndexType(1),
                          A.data(),

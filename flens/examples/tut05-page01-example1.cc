@@ -59,7 +59,7 @@ main()
 ///
 ///     :links: __cxxlapack::getrs__ -> file:cxxlapack/interface/getrs.h
 ///
-        cxxlapack::getrs(NoTrans,
+        cxxlapack::getrs(lapack::getF77Char(NoTrans),
                          A.numRows(),
                          IndexType(1),
                          A.data(),
@@ -72,7 +72,7 @@ main()
 ///     As an alternative we could specify the template parameter explictly:
 ///
 /*
-        cxxlapack::getrs<IndexType>(NoTrans,
+        cxxlapack::getrs<IndexType>(lapack::getF77Char(NoTrans),
                                     A.numRows(),
                                     1,
                                     A.data(),

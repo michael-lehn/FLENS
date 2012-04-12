@@ -33,14 +33,13 @@
 #ifndef CXXLAPACK_INTERFACE_GETRS_TCC
 #define CXXLAPACK_INTERFACE_GETRS_TCC 1
 
-#include <cxxlapack/aux/aux.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
 
 template <typename IndexType>
 IndexType
-getrs(Transpose         _trans,
+getrs(char              trans,
       IndexType         n,
       IndexType         nRhs,
       const double      *A,
@@ -50,14 +49,28 @@ getrs(Transpose         _trans,
       IndexType         ldB)
 {
     IndexType info;
-    char trans = getF77LapackChar(_trans);
-    LAPACK_IMPL(dgetrs)(&trans, &n, &nRhs, A, &ldA, iPiv, B, &ldB, &info);
+    LAPACK_IMPL(dgetrs)(&trans,
+                        &n,
+                        &nRhs,
+                        A,
+                        &ldA,
+                        iPiv,
+                        B,
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "trans = " << trans << std::endl;
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
     return info;
 }
 
 template <typename IndexType>
 IndexType
-getrs(Transpose                     _trans,
+getrs(char                          trans,
       IndexType                     n,
       IndexType                     nRhs,
       const std::complex<double>    *A,
@@ -67,12 +80,21 @@ getrs(Transpose                     _trans,
       IndexType                     ldB)
 {
     IndexType info;
-    char trans = getF77LapackChar(_trans);
-    LAPACK_IMPL(zgetrs)(&trans, &n, &nRhs,
-                        reinterpret_cast<const double *>(A), &ldA,
+    LAPACK_IMPL(zgetrs)(&trans,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<const double *>(A),
+                        &ldA,
                         iPiv,
-                        reinterpret_cast<double *>(B), &ldB,
+                        reinterpret_cast<double *>(B),
+                        &ldB,
                         &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
     return info;
 }
 

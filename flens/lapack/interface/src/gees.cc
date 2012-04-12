@@ -13,7 +13,7 @@ struct SelectFunction
     {
     }
 
-    bool
+    LOGICAL
     operator()(const T &a, const T &b)
     {
         return select(&a, &b);

@@ -65,6 +65,6 @@ main()
 }
 
 ///
-///  :links: __lapack::trf__ -> file:flens/lapack/gesv/trf.h
+///  :links: __lapack::trf__ -> file:flens/lapack/impl/trf.h
 ///          __blas::sm__ -> file:flens/blas/level3/sm.h
 ///

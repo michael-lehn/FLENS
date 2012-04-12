@@ -35,10 +35,11 @@
 
 #include <flens/aux/constref.h>
 #include <flens/aux/compatiblescalar.h>
-#include <flens/aux/complex.h>
+#include <flens/aux/complextrait.h>
 #include <flens/aux/explicit_cast.h>
 #include <flens/aux/ifelseif.h>
 #include <flens/aux/isclosure.h>
+#include <flens/aux/iscomplex.h>
 #include <flens/aux/isconvertible.h>
 #include <flens/aux/isgeneralmatrix.h>
 #include <flens/aux/ishermitianmatrix.h>

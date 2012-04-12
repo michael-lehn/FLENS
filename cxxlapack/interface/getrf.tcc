@@ -33,7 +33,6 @@
 #ifndef CXXLAPACK_INTERFACE_GETRF_TCC
 #define CXXLAPACK_INTERFACE_GETRF_TCC 1
 
-#include <cxxlapack/aux/aux.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -47,7 +46,18 @@ getrf(IndexType             m,
       IndexType             *iPiv)
 {
     IndexType info;
-    LAPACK_IMPL(dgetrf)(&m, &n, A, &ldA, iPiv, &info);
+    LAPACK_IMPL(dgetrf)(&m,
+                        &n,
+                        A,
+                        &ldA,
+                        iPiv,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
     return info;
 }
 
@@ -60,8 +70,18 @@ getrf(IndexType             m,
       IndexType             *iPiv)
 {
     IndexType info;
-    LAPACK_IMPL(zgetrf)(&m, &n, reinterpret_cast<double *>(A), &ldA,
-                        iPiv, &info);
+    LAPACK_IMPL(zgetrf)(&m,
+                        &n,
+                        reinterpret_cast<double *>(A),
+                        &ldA,
+                        iPiv,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
     return info;
 }
 

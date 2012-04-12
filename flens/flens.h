@@ -39,8 +39,8 @@
 #include <flens/io/io.h>
 #include <flens/lapack/lapack.h>
 #include <flens/matrixtypes/matrixtypes.h>
-#include <flens/scalartypes/scalartypes.h>
 #include <flens/scalaroperations/scalaroperations.h>
+#include <flens/scalartypes/scalartypes.h>
 #include <flens/storage/storage.h>
 #include <flens/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>

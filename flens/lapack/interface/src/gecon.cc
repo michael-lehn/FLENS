@@ -47,7 +47,7 @@ LAPACK_DECL(dgecon)(const char       *NORM,
 //
 //  Call FLENS implementation
 //
-    Norm                norm = getFlensLapackEnum<Norm>(*NORM);
+    Norm                norm  = Norm(*NORM);
     DConstGeMatrixView  _A    = DConstFSView(*N, *N, A, *LDA);
     DDenseVectorView    work  = DArrayView(*N*4, WORK, 1);
     IDenseVectorView    iwork = IArrayView(*N, IWORK, 1);

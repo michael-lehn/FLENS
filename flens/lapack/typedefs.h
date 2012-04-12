@@ -63,12 +63,6 @@ enum Norm {
     MaximumNorm = 'M'
 };
 
-enum ProbabilityDistribution {
-    Uniform01,
-    Uniform_11,
-    StandardNormal
-};
-
 enum Direction {
     Forward   = 'F',
     Backward  = 'B'

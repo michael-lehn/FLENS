@@ -34,13 +34,12 @@
 #define CXXLAPACK_INTERFACE_GETRS_H 1
 
 #include <complex>
-#include <cxxlapack/aux/aux.h>
 
 namespace cxxlapack {
 
 template <typename IndexType>
     IndexType
-    getrs(Transpose             trans,
+    getrs(char                  trans,
           IndexType             n,
           IndexType             nRhs,
           const double          *A,
@@ -51,7 +50,7 @@ template <typename IndexType>
 
 template <typename IndexType>
     IndexType
-    getrs(Transpose                     trans,
+    getrs(char                          trans,
           IndexType                     n,
           IndexType                     nRhs,
           const std::complex<double>    *A,

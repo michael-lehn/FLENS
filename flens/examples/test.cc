@@ -15,10 +15,6 @@ using namespace std;
 int
 main()
 {
-    typedef double                               T;
-    typedef DenseVector<Array<T> >               DEVector;
-    typedef GeMatrix<FullStorage<T, ColMajor> >  GEMatrix;
-
     GEMatrix A(3,3), B(3,3), C;
     A = 1, 2, 3,
         5, 6, 7,
@@ -43,3 +39,4 @@ main()
 
     return 0;
 }
+

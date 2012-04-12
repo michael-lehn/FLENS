@@ -10,8 +10,14 @@
 #   define CBLAS_INT int
 #endif // CBLAS_INT
 
+#ifndef CBLAS_INDEX
+#   define CBLAS_INDEX int
+#endif // CBLAS_INT
 
+
+#ifdef __cplusplus
 extern "C" {
+#endif
 
 enum CBLAS_ORDER        {CblasRowMajor=101, CblasColMajor=102};
 enum CBLAS_TRANSPOSE    {CblasNoTrans=111, CblasTrans=112,
@@ -744,6 +750,8 @@ cblas_ztrsm(enum CBLAS_ORDER order, enum CBLAS_SIDE side, enum CBLAS_UPLO upLo,
             const double *A, CBLAS_INT ldA,
             double *B, CBLAS_INT ldB);
 
+#ifdef __cplusplus
 } // extern "C"
+#endif
 
 #endif // CXXBLAS_DRIVERS_CBLAS_H

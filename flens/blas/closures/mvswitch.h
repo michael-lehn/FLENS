@@ -55,9 +55,9 @@ namespace flens { namespace blas {
 //  Entry point for mvSwitch
 //
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-    typename RestrictTo<IsSame<MA, typename MA::Impl>::value &&
-                        IsSame<VX, typename VX::Impl>::value &&
-                        IsSame<VY, typename VY::Impl>::value,
+    typename RestrictTo<IsSame<MA, typename MA::Impl>::value
+                     && IsSame<VX, typename VX::Impl>::value
+                     && IsSame<VY, typename VY::Impl>::value,
              void>::Type
     mvSwitch(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,
              const BETA &beta, VY &y);

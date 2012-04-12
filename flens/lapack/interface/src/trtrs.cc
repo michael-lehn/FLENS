@@ -26,7 +26,6 @@ LAPACK_DECL(dtrtrs)(const char       *UPLO,
                     INTEGER          *INFO)
 {
     DEBUG_FLENS_LAPACK("dtrtrs");
-    std::cerr << "calling my dtrtrs!" << std::endl;
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
