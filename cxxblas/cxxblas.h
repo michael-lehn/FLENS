@@ -42,7 +42,7 @@
 #endif // CXXBLAS_DEBUG_OUT
 
 #include <cxxblas/drivers/drivers.h>
-#include <cxxblas/aux/complex.h>
+#include <cxxblas/auxiliary/complex.h>
 #include <cxxblas/typedefs.h>
 
 #include <cxxblas/level1/level1.h>

@@ -33,8 +33,8 @@
 #ifndef FLENS_BLAS_OPERATORS_OPDIV_H
 #define FLENS_BLAS_OPERATORS_OPDIV_H 1
 
-#include <flens/aux/isconvertible.h>
-#include <flens/aux/restrictto.h>
+#include <flens/auxiliary/isconvertible.h>
+#include <flens/auxiliary/restrictto.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/scalartypes/scalartypes.h>
 #include <flens/vectortypes/vectortypes.h>

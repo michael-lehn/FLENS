@@ -33,6 +33,6 @@
 #ifndef FLENS_DEBUG_DEBUG_H
 #define FLENS_DEBUG_DEBUG_H 1
 
-#include <flens/debug/aux/aux.h>
+#include <flens/debug/auxiliary/auxiliary.h>
 
 #endif // FLENS_DEBUG_DEBUG_H

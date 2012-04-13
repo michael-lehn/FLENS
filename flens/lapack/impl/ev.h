@@ -44,7 +44,7 @@
 #ifndef FLENS_LAPACK_IMPL_EV_H
 #define FLENS_LAPACK_IMPL_EV_H 1
 
-#include <flens/aux/aux.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 

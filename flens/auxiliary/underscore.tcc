@@ -33,8 +33,6 @@
 #ifndef FLENS_AUXILIARY_UNDERSCORE_TCC
 #define FLENS_AUXILIARY_UNDERSCORE_TCC 1
 
-#include <flens/aux/range.h>
-
 namespace flens {
 
 template <typename IndexType>

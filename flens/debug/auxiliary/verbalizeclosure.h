@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2009, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,39 +30,47 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_DEBUG_AUX_CLOSURELOGSTREAM_H
-#define FLENS_DEBUG_AUX_CLOSURELOGSTREAM_H 1
+#ifndef FLENS_DEBUG_AUXILIARY_VERBALIZECLOSURE_H
+#define FLENS_DEBUG_AUXILIARY_VERBALIZECLOSURE_H 1
 
-#include <fstream>
-#include <cxxblas/typedefs.h>
-#include <flens/debug/aux/closurelog.h>
-#include <flens/debug/aux/variablepool.h>
-#include <flens/typedefs.h>
+#include <string>
+#include <flens/auxiliary/restrictto.h>
+#include <flens/debug/auxiliary/variablepool.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace verbose {
 
-class ClosureLogStream
-{
-    public:
-        ClosureLogStream(VariablePool &variablePool, std::ofstream &out);
-
-        VariablePool    &_variablePool;
-        std::ofstream   &_out;
-};
-
-ClosureLogStream &
-operator<<(ClosureLogStream &clStream, Side side);
-
-ClosureLogStream &
-operator<<(ClosureLogStream &clStream, Transpose trans);
-
-ClosureLogStream &
-operator<<(ClosureLogStream &closureLogStream, const char *msg);
+template <typename T>
+    typename RestrictTo<!IsScalar<T>::value, std::string>::Type
+    verbalizeClosure(VariablePool &variablePool, const T &x);
 
 template <typename T>
-    ClosureLogStream &
-    operator<<(ClosureLogStream &closureLogStream, const T &x);
+    typename RestrictTo<IsScalar<T>::value, std::string>::Type
+    verbalizeClosure(VariablePool &variablePool, const T &x);
+
+template <typename T>
+    std::string
+    verbalizeClosure(VariablePool &variablePool, const ScalarValue<T> &x);
+
+template <typename I>
+    std::string
+    verbalizeClosure(VariablePool &variablePool, const Matrix<I> &x);
+
+template <typename I>
+    std::string
+    verbalizeClosure(VariablePool &variablePool, const Vector<I> &x);
+
+template <typename Op, typename L, typename R>
+    std::string
+    verbalizeClosure(VariablePool &variablePool,
+                     const VectorClosure<Op, L, R> &x);
+
+template <typename Op, typename L, typename R>
+    std::string
+    verbalizeClosure(VariablePool &variablePool,
+                     const MatrixClosure<Op, L, R> &x);
 
 } } // namespace verbose, namespace flens
 
-#endif // FLENS_DEBUG_AUX_CLOSURELOG_H
+#endif // FLENS_DEBUG_AUXILIARY_VERBALIZECLOSURE_H

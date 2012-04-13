@@ -52,7 +52,7 @@
 #include <string>
 #include <cstring>
 
-#include <flens/aux/aux.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {

@@ -34,7 +34,7 @@
 #define FLENS_BLAS_LEVEL1_SCAL_TCC 1
 
 #include <cxxblas/cxxblas.h>
-#include <flens/aux/macros.h>
+#include <flens/auxiliary/macros.h>
 #include <flens/storage/storage.h>
 #include <flens/typedefs.h>
 

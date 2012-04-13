@@ -33,7 +33,7 @@
 #ifndef FLENS_BLAS_LEVEL1_DOT_TCC
 #define FLENS_BLAS_LEVEL1_DOT_TCC 1
 
-#include <flens/aux/macros.h>
+#include <flens/auxiliary/macros.h>
 #include <flens/typedefs.h>
 
 namespace flens { namespace blas {

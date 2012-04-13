@@ -35,7 +35,7 @@
 #define FLENS_VECTORTYPES_IMPL_DV_INITIALIZER_TCC 1
 
 #include <algorithm>
-#include <flens/aux/macros.h>
+#include <flens/auxiliary/macros.h>
 #include <flens/vectortypes/impl/densevector.h>
 
 namespace flens { namespace densevector {

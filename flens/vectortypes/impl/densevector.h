@@ -34,8 +34,8 @@
 #ifndef FLENS_VECTORTYPES_IMPL_DENSEVECTOR_H
 #define FLENS_VECTORTYPES_IMPL_DENSEVECTOR_H 1
 
-#include <flens/aux/range.h>
-#include <flens/aux/underscore.h>
+#include <flens/auxiliary/range.h>
+#include <flens/auxiliary/underscore.h>
 #include <flens/scalartypes/scalar.h>
 #include <flens/vectortypes/vector.h>
 #include <flens/vectortypes/impl/dv/constelementclosure.h>

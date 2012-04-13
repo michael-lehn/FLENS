@@ -34,7 +34,7 @@
 #ifndef FLENS_MATRIXTYPES_GENERAL_IMPL_GEMATRIXINITIALIZER_TCC
 #define FLENS_MATRIXTYPES_GENERAL_IMPL_GEMATRIXINITIALIZER_TCC 1
 
-#include <flens/aux/macros.h>
+#include <flens/auxiliary/macros.h>
 #include <flens/matrixtypes/general/impl/gematrix.h>
 
 namespace flens {

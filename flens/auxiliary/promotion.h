@@ -33,8 +33,8 @@
 #ifndef FLENS_AUXILIARY_PROMOTION_H
 #define FLENS_AUXILIARY_PROMOTION_H 1
 
-#include <flens/aux/ifelseif.h>
-#include <flens/aux/isconvertible.h>
+#include <flens/auxiliary/ifelseif.h>
+#include <flens/auxiliary/isconvertible.h>
 
 namespace flens {
 

@@ -33,8 +33,8 @@
 #ifndef FLENS_VECTORTYPES_IMPL_VECTORCLOSURE_H
 #define FLENS_VECTORTYPES_IMPL_VECTORCLOSURE_H 1
 
-#include <flens/aux/constref.h>
-#include <flens/aux/promotion.h>
+#include <flens/auxiliary/constref.h>
+#include <flens/auxiliary/promotion.h>
 #include <flens/vectortypes/vector.h>
 
 namespace flens {

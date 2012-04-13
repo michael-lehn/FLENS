@@ -34,7 +34,7 @@
 #define FLENS_BLAS_CLOSURES_PRUNEMATRIXCLOSURE_H 1
 
 #include <cxxblas/typedefs.h>
-#include <flens/aux/promotion.h>
+#include <flens/auxiliary/promotion.h>
 #include <flens/blas/operators/operators.h>
 #include <flens/matrixtypes/impl/matrixclosure.h>
 #include <flens/typedefs.h>

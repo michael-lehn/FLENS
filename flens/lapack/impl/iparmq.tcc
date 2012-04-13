@@ -45,7 +45,7 @@
 #include <complex>
 #include <string>
 
-#include <flens/aux/issame.h>
+#include <flens/auxiliary/issame.h>
 #include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {

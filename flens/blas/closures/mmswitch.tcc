@@ -33,7 +33,6 @@
 #ifndef FLENS_BLAS_CLOSURES_MMSWITCH_TCC
 #define FLENS_BLAS_CLOSURES_MMSWITCH_TCC 1
 
-#include <flens/aux/aux.h>
 #include <flens/blas/closures/debugclosure.h>
 #include <flens/blas/closures/prune.h>
 #include <flens/blas/level1/level1.h>
@@ -63,9 +62,9 @@ namespace flens { namespace blas {
 //  Entry point for mmSwitch
 //
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-typename RestrictTo<IsSame<MA, typename MA::Impl>::value
-                 && IsSame<MB, typename MB::Impl>::value
-                 && IsSame<MC, typename MC::Impl>::value,
+typename RestrictTo<IsSame<MA, typename MA::Impl>::value &&
+                    IsSame<MB, typename MB::Impl>::value &&
+                    IsSame<MC, typename MC::Impl>::value,
          void>::Type
 mmSwitch(Transpose transA, Transpose transB, const ALPHA &alpha,
          const MA &A, const MB &B, const BETA &beta, MC &C)

@@ -33,7 +33,7 @@
 #ifndef FLENS_AUXILIARY_ISSYMMETRICMATRIX_H
 #define FLENS_AUXILIARY_ISSYMMETRICMATRIX_H 1
 
-#include <flens/aux/isconvertible.h>
+#include <flens/auxiliary/isconvertible.h>
 #include <flens/matrixtypes/symmetric/symmetricmatrix.h>
 
 namespace flens {

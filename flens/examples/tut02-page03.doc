@@ -39,7 +39,7 @@ give enough glues to see what need to be done.
    |  #                                                                     |
    |  rm -f *.o                                                             |
    |  clang++ -Wall -DFLENS_DEBUG_CLOSURES -std=c++0x +++                   |
-   |          -I../.. -c ../../flens/debug/aux/*.cc                         |
+   |          -I../.. -c ../../flens/debug/auxiliary/*.cc                   |
    |  #                                                                     |
    |  # compile with -DFLENS_DEBUG_CLOSURES and link against the log stuff  |
    |  #                                                                     |

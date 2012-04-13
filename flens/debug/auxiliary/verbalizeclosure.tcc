@@ -30,13 +30,13 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_DEBUG_AUX_VERBALIZECLOSURE_TCC
-#define FLENS_DEBUG_AUX_VERBALIZECLOSURE_TCC 1
+#ifndef FLENS_DEBUG_AUXILIARY_VERBALIZECLOSURE_TCC
+#define FLENS_DEBUG_AUXILIARY_VERBALIZECLOSURE_TCC 1
 
 #include <sstream>
 #include <flens/blas/operators/operators.h>
-#include <flens/debug/aux/operation.h>
-#include <flens/debug/aux/typeid.h>
+#include <flens/debug/auxiliary/operation.h>
+#include <flens/debug/auxiliary/typeid.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 
@@ -99,4 +99,4 @@ verbalizeClosure(VariablePool &variablePool, const MatrixClosure<Op, L, R> &x)
 
 } } // namespace verbose, namespace flens
 
-#endif // FLENS_DEBUG_AUX_VERBALIZECLOSURE_TCC
+#endif // FLENS_DEBUG_AUXILIARY_VERBALIZECLOSURE_TCC

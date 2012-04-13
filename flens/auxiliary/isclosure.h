@@ -33,8 +33,8 @@
 #ifndef FLENS_AUXILIARY_ISCLOSURE_H
 #define FLENS_AUXILIARY_ISCLOSURE_H 1
 
-#include <flens/aux/ismatrixclosure.h>
-#include <flens/aux/isvectorclosure.h>
+#include <flens/auxiliary/ismatrixclosure.h>
+#include <flens/auxiliary/isvectorclosure.h>
 
 namespace flens {
 

@@ -30,54 +30,14 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_DEBUG_AUX_OPERATION_TCC
-#define FLENS_DEBUG_AUX_OPERATION_TCC 1
+#ifndef FLENS_DEBUG_AUXILIARY_AUXILIARY_TCC
+#define FLENS_DEBUG_AUXILIARY_AUXILIARY_TCC 1
 
-#include <flens/aux/issame.h>
-#include <flens/blas/operators/operators.h>
+#include <flens/debug/auxiliary/basename.tcc>
+#include <flens/debug/auxiliary/closurelogstream.tcc>
+#include <flens/debug/auxiliary/operation.tcc>
+#include <flens/debug/auxiliary/typeid.tcc>
+#include <flens/debug/auxiliary/variablepool.tcc>
+#include <flens/debug/auxiliary/verbalizeclosure.tcc>
 
-namespace flens { namespace verbose {
-
-template <typename Op>
-std::string
-operation(const std::string &leftOperand, const std::string &rightOperand)
-{
-    std::ostringstream s;
-
-    if (IsSame<Op, OpAdd>::value)
-    {
-        s << "("<< leftOperand << " + " << rightOperand << ")";
-        return s.str();
-    }
-    if (IsSame<Op, OpSub>::value)
-    {
-        s << "("<< leftOperand << " - " << rightOperand << ")";
-        return s.str();
-    }
-    if (IsSame<Op, OpMult>::value)
-    {
-        s << "(" << leftOperand << " * " << rightOperand << ")";
-        return s.str();
-    }
-    if (IsSame<Op, OpDiv>::value)
-    {
-        s << "(" << leftOperand << "/" << rightOperand <<  ")";
-        return s.str();
-    }
-    if (IsSame<Op, OpTrans>::value)
-    {
-        s << "(" << leftOperand << ")^T";
-        return s.str();
-    }
-    if (IsSame<Op, OpConj>::value)
-    {
-        s << "conj(" << leftOperand << ")";
-        return s.str();
-    }
-    s << "unknown_op(" << leftOperand << ", " << rightOperand << ")";
-    return s.str();
-}
-
-} } // namespace verbose, namespace flens
-
-#endif // FLENS_DEBUG_AUX_OPERATION_TCC
+#endif // FLENS_DEBUG_AUXILIARY_AUXILIARY_TCC

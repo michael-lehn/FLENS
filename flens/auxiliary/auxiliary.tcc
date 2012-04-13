@@ -30,15 +30,15 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_AUX_AUX_TCC
-#define FLENS_AUX_AUX_TCC 1
+#ifndef FLENS_AUXILIARY_AUXILIARY_TCC
+#define FLENS_AUXILIARY_AUXILIARY_TCC 1
 
-#include <flens/aux/explicit_cast.tcc>
-#include <flens/aux/max.tcc>
-#include <flens/aux/min.tcc>
-#include <flens/aux/pair.tcc>
-#include <flens/aux/quadruple.tcc>
-#include <flens/aux/range.tcc>
-#include <flens/aux/underscore.tcc>
+#include <flens/auxiliary/explicit_cast.tcc>
+#include <flens/auxiliary/max.tcc>
+#include <flens/auxiliary/min.tcc>
+#include <flens/auxiliary/pair.tcc>
+#include <flens/auxiliary/quadruple.tcc>
+#include <flens/auxiliary/range.tcc>
+#include <flens/auxiliary/underscore.tcc>
 
-#endif // FLENS_AUX_AUX_TCC
+#endif // FLENS_AUXILIARY_AUXILIARY_TCC

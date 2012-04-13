@@ -46,7 +46,7 @@ Compile, Run and Examine the Log-File
 =====================================
 
 Like in the last example we compile the example with `-DFLENS_DEBUG_CLOSURES`
-and link against some auxiliary object files from the `flens/debug/aux`
+and link against some auxiliary object files from the `flens/debug/auxiliary`
 directory.
 
    *--[SHELL]---------------------------------------------------------------*
@@ -57,7 +57,7 @@ directory.
    |  #                                                                     |
    |  rm -f *.o                                                             |
    |  clang++ -Wall -DFLENS_DEBUG_CLOSURES -std=c++0x +++                   |
-   |          -I../.. -c ../../flens/debug/aux/*.cc                         |
+   |          -I../.. -c ../../flens/debug/auxiliary/*.cc                   |
    |  #                                                                     |
    |  # compile with -DFLENS_DEBUG_CLOSURES and link against the log stuff  |
    |  #                                                                     |
@@ -110,7 +110,7 @@ Like before ...
    |  #                                                                     |
    |  rm -f *.o                                                             |
    |  clang++ -Wall -DFLENS_DEBUG_CLOSURES -std=c++0x +++                   |
-   |          -I../.. -c ../../flens/debug/aux/*.cc                         |
+   |          -I../.. -c ../../flens/debug/auxiliary/*.cc                   |
    |  #                                                                     |
    |  # compile with -DFLENS_DEBUG_CLOSURES and link against the log stuff  |
    |  #                                                                     |

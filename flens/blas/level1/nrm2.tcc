@@ -34,7 +34,7 @@
 #define FLENS_BLAS_LEVEL1_NRM2_TCC 1
 
 #include <cxxblas/cxxblas.h>
-#include <flens/aux/macros.h>
+#include <flens/auxiliary/macros.h>
 #include <flens/typedefs.h>
 #include <flens/vectortypes/impl/densevector.h>
 

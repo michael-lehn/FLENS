@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn
+ *   Copyright (c) 2010, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,13 +30,59 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <flens/debug/aux/variablepool.h>
+#include <fstream>
+#include <flens/debug/auxiliary/closurelog.h>
+#include <flens/debug/auxiliary/closurelogstream.h>
+#include <flens/debug/auxiliary/variablepool.h>
+#include <flens/typedefs.h>
 
 namespace flens { namespace verbose {
 
-VariablePool::VariablePool()
-    : tmpTron(false)
+ClosureLogStream::ClosureLogStream(VariablePool &variablePool,
+                                   std::ofstream &out)
+    : _variablePool(variablePool), _out(out)
 {
+}
+
+ClosureLogStream &
+operator<<(ClosureLogStream &clStream, Side side)
+{
+    if (side==Left) {
+        clStream._out << "Left";
+        return clStream;
+    }
+    if (side==Right) {
+        clStream._out << "Right";
+        return clStream;
+    }
+    clStream._out << "?";
+    return clStream;
+}
+
+ClosureLogStream &
+operator<<(ClosureLogStream &clStream, Transpose trans)
+{
+    if (trans==NoTrans) {
+        clStream._out << "NoTrans";
+        return clStream;
+    }
+    if (trans==Conj) {
+        clStream._out << "Conj";
+        return clStream;
+    }
+    if (trans==Trans) {
+        clStream._out << "Trans";
+        return clStream;
+    }
+    clStream._out << "ConjTrans";
+    return clStream;
+}
+
+ClosureLogStream &
+operator<<(ClosureLogStream &clStream, const char *msg)
+{
+    clStream._out << msg;
+    return clStream;
 }
 
 } } // namespace verbose, namespace flens

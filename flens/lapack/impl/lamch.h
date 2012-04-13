@@ -46,7 +46,7 @@
 #ifndef FLENS_LAPACK_IMPL_LAMCH_H
 #define FLENS_LAPACK_IMPL_LAMCH_H 1
 
-#include <flens/aux/aux.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/lapack/typedefs.h>
 
 namespace flens { namespace lapack {

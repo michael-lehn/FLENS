@@ -33,7 +33,7 @@
 #ifndef CXXBLAS_LEVEL1_DOT_TCC
 #define CXXBLAS_LEVEL1_DOT_TCC 1
 
-#include <cxxblas/aux/complex.h>
+#include <cxxblas/auxiliary/complex.h>
 
 namespace cxxblas {
 

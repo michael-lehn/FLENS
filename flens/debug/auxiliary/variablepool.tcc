@@ -30,15 +30,15 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_DEBUG_AUX_VARIABLEPOOL_TCC
-#define FLENS_DEBUG_AUX_VARIABLEPOOL_TCC 1
+#ifndef FLENS_DEBUG_AUXILIARY_VARIABLEPOOL_TCC
+#define FLENS_DEBUG_AUXILIARY_VARIABLEPOOL_TCC 1
 
 #include <iostream>
 #include <string>
 #include <sstream>
-#include <flens/aux/issame.h>
-#include <flens/debug/aux/basename.h>
-#include <flens/debug/aux/typeid.h>
+#include <flens/auxiliary/issame.h>
+#include <flens/debug/auxiliary/basename.h>
+#include <flens/debug/auxiliary/typeid.h>
 
 namespace flens { namespace verbose {
 
@@ -132,4 +132,4 @@ VariablePool::removeTemporary(const T &var)
 
 } } // namespace verbose, namespace flens
 
-#endif // FLENS_DEBUG_AUX_VARIABLEPOOL_TCC
+#endif // FLENS_DEBUG_AUXILIARY_VARIABLEPOOL_TCC

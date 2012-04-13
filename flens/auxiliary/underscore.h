@@ -33,7 +33,7 @@
 #ifndef FLENS_AUXILIARY_UNDERSCORE_H
 #define FLENS_AUXILIARY_UNDERSCORE_H 1
 
-#include <flens/aux/range.h>
+#include <flens/auxiliary/range.h>
 #include <flens/storage/indexoptions.h>
 
 namespace flens {

@@ -43,7 +43,7 @@
 #ifndef FLENS_LAPACK_IMPL_BAL_TCC
 #define FLENS_LAPACK_IMPL_BAL_TCC 1
 
-#include <flens/aux/aux.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>
 

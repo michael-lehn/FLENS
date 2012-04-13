@@ -33,7 +33,7 @@
 #ifndef FLENS_BLAS_CLOSURES_MMSWITCH_H
 #define FLENS_BLAS_CLOSURES_MMSWITCH_H 1
 
-#include <flens/aux/aux.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/scalartypes/scalartypes.h>
 #include <flens/typedefs.h>

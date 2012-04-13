@@ -33,7 +33,7 @@
 #ifndef FLENS_SCALAROPERATIONS_MINUS_H
 #define FLENS_SCALAROPERATIONS_MINUS_H 1
 
-#include <flens/aux/aux.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/scalartypes/impl/scalarclosure.h>
 
 namespace flens {

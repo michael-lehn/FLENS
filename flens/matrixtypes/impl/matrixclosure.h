@@ -33,8 +33,8 @@
 #ifndef FLENS_MATRIXTYPES_IMPL_MATRIXCLOSURE_H
 #define FLENS_MATRIXTYPES_IMPL_MATRIXCLOSURE_H 1
 
-#include <flens/aux/constref.h>
-#include <flens/aux/promotion.h>
+#include <flens/auxiliary/constref.h>
+#include <flens/auxiliary/promotion.h>
 #include <flens/matrixtypes/matrix.h>
 
 namespace flens {

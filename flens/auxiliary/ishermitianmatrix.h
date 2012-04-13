@@ -33,7 +33,7 @@
 #ifndef FLENS_AUXILIARY_ISHERMITIANMATRIX_H
 #define FLENS_AUXILIARY_ISHERMITIANMATRIX_H 1
 
-#include <flens/aux/isconvertible.h>
+#include <flens/auxiliary/isconvertible.h>
 #include <flens/matrixtypes/hermitian/hermitianmatrix.h>
 
 namespace flens {

@@ -44,7 +44,7 @@
 #define FLENS_LAPACK_IMPL_LASCL_H 1
 
 
-#include <flens/aux/aux.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 

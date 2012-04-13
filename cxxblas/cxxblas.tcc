@@ -37,7 +37,7 @@
 #define CXXBLAS_DEBUG_OUT(msg)
 #endif // CXXBLAS_DEBUG_OUT
 
-#include <cxxblas/aux/complex.tcc>
+#include <cxxblas/auxiliary/complex.tcc>
 #include <cxxblas/drivers/drivers.tcc>
 
 #include <cxxblas/level1/level1.tcc>

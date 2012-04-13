@@ -32,9 +32,9 @@
 
 #include <algorithm>
 #include <string>
-#include <flens/debug/aux/closurelog.h>
-#include <flens/debug/aux/closurelogstream.h>
-#include <flens/aux/macros.h>
+#include <flens/debug/auxiliary/closurelog.h>
+#include <flens/debug/auxiliary/closurelogstream.h>
+#include <flens/auxiliary/macros.h>
 #include <iostream>
 
 namespace flens { namespace verbose {

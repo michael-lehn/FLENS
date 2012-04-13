@@ -33,7 +33,7 @@
 #ifndef FLENS_VECTORTYPES_IMPL_DV_CONSTELEMENTCLOSURE_H
 #define FLENS_VECTORTYPES_IMPL_DV_CONSTELEMENTCLOSURE_H 1
 
-#include <flens/aux/constref.h>
+#include <flens/auxiliary/constref.h>
 #include <flens/scalartypes/scalar.h>
 
 namespace flens { namespace densevector {

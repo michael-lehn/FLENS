@@ -34,7 +34,7 @@
 #define FLENS_FLENS_CXX 1
 
 #ifdef FLENS_DEBUG_CLOSURES
-#   include <flens/debug/aux/aux.h>
+#   include <flens/debug/auxiliary/auxiliary.h>
 #endif
 
 
@@ -48,7 +48,7 @@
 
 
 #ifdef FLENS_DEBUG_CLOSURES
-#   include <flens/debug/aux/aux.tcc>
+#   include <flens/debug/auxiliary/auxiliary.tcc>
 #endif
 
 #endif // FLENS_FLENS_CXX

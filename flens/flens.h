@@ -33,7 +33,7 @@
 #ifndef FLENS_FLENS_H
 #define FLENS_FLENS_H 1
 
-#include <flens/aux/aux.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/blas/blas.h>
 #include <flens/hacks/hacks.h>
 #include <flens/io/io.h>

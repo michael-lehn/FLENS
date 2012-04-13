@@ -34,7 +34,7 @@
 #define FLENS_BLAS_CLOSURES_PRUNEVECTORCLOSURE_H 1
 
 #include <cxxblas/typedefs.h>
-#include <flens/aux/promotion.h>
+#include <flens/auxiliary/promotion.h>
 #include <flens/blas/operators/operators.h>
 #include <flens/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>

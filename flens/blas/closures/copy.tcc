@@ -33,7 +33,7 @@
 #ifndef FLENS_BLAS_CLOSURES_COPY_TCC
 #define FLENS_BLAS_CLOSURES_COPY_TCC 1
 
-#include <flens/aux/aux.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/blas/closures/debugclosure.h>
 #include <flens/blas/closures/mmswitch.h>
 #include <flens/blas/closures/mvswitch.h>

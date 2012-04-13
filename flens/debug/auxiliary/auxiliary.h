@@ -30,15 +30,15 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_DEBUG_AUX_AUX_H
-#define FLENS_DEBUG_AUX_AUX_H 1
+#ifndef FLENS_DEBUG_AUXILIARY_AUXILIARY_H
+#define FLENS_DEBUG_AUXILIARY_AUXILIARY_H 1
 
-#include <flens/debug/aux/basename.h>
-#include <flens/debug/aux/closurelog.h>
-#include <flens/debug/aux/closurelogstream.h>
-#include <flens/debug/aux/operation.h>
-#include <flens/debug/aux/typeid.h>
-#include <flens/debug/aux/variablepool.h>
-#include <flens/debug/aux/verbalizeclosure.h>
+#include <flens/debug/auxiliary/basename.h>
+#include <flens/debug/auxiliary/closurelog.h>
+#include <flens/debug/auxiliary/closurelogstream.h>
+#include <flens/debug/auxiliary/operation.h>
+#include <flens/debug/auxiliary/typeid.h>
+#include <flens/debug/auxiliary/variablepool.h>
+#include <flens/debug/auxiliary/verbalizeclosure.h>
 
-#endif // FLENS_DEBUG_AUX_AUX_H
+#endif // FLENS_DEBUG_AUXILIARY_AUXILIARY_H

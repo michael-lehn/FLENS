@@ -30,11 +30,11 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_DEBUG_AUX_CLOSURELOG_H
-#define FLENS_DEBUG_AUX_CLOSURELOG_H 1
+#ifndef FLENS_DEBUG_AUXILIARY_CLOSURELOG_H
+#define FLENS_DEBUG_AUXILIARY_CLOSURELOG_H 1
 
 #include <fstream>
-#include <flens/debug/aux/variablepool.h>
+#include <flens/debug/auxiliary/variablepool.h>
 
 namespace flens { namespace verbose {
 
@@ -86,4 +86,4 @@ struct ClosureLog
 
 } } // namespace verbose, namespace flens
 
-#endif // FLENS_DEBUG_AUX_CLOSURELOG_H
+#endif // FLENS_DEBUG_AUXILIARY_CLOSURELOG_H

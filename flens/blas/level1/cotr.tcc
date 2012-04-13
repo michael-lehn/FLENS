@@ -33,7 +33,7 @@
 #ifndef FLENS_BLAS_LEVEL1_COTR_TCC
 #define FLENS_BLAS_LEVEL1_COTR_TCC 1
 
-#include <flens/aux/macros.h>
+#include <flens/auxiliary/macros.h>
 #include <flens/blas/blas.h>
 #include <flens/typedefs.h>
 

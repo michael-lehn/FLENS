@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2009, Michael Lehn
+ *   Copyright (c) 2010, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,28 +30,39 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_DEBUG_AUX_TYPEID_H
-#define FLENS_DEBUG_AUX_TYPEID_H 1
+#ifndef FLENS_DEBUG_AUXILIARY_CLOSURELOGSTREAM_H
+#define FLENS_DEBUG_AUXILIARY_CLOSURELOGSTREAM_H 1
 
-#include <string>
-#include <flens/aux/issame.h>
-#include <flens/scalartypes/scalartypes.h>
+#include <fstream>
+#include <cxxblas/typedefs.h>
+#include <flens/debug/auxiliary/closurelog.h>
+#include <flens/debug/auxiliary/variablepool.h>
+#include <flens/typedefs.h>
 
 namespace flens { namespace verbose {
 
-template <typename T>
-struct IsScalar
+class ClosureLogStream
 {
-    static const bool value = (IsSame<T,int>::value)
-                           || (IsSame<T,long>::value)
-                           || (IsSame<T,float>::value)
-                           || (IsSame<T,double>::value);
+    public:
+        ClosureLogStream(VariablePool &variablePool, std::ofstream &out);
+
+        VariablePool    &_variablePool;
+        std::ofstream   &_out;
 };
 
+ClosureLogStream &
+operator<<(ClosureLogStream &clStream, Side side);
+
+ClosureLogStream &
+operator<<(ClosureLogStream &clStream, Transpose trans);
+
+ClosureLogStream &
+operator<<(ClosureLogStream &closureLogStream, const char *msg);
+
 template <typename T>
-    std::string
-    typeId(const T &);
+    ClosureLogStream &
+    operator<<(ClosureLogStream &closureLogStream, const T &x);
 
 } } // namespace verbose, namespace flens
 
-#endif // FLENS_DEBUG_AUX_TYPEID_H
+#endif // FLENS_DEBUG_AUXILIARY_CLOSURELOG_H

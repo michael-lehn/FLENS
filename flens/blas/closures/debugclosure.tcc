@@ -33,7 +33,7 @@
 #ifndef FLENS_BLAS_CLOSURES_DEBUGCLOSURE_TCC
 #define FLENS_BLAS_CLOSURES_DEBUGCLOSURE_TCC 1
 
-#include <flens/aux/aux.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/vectortypes/vectortypes.h>
 
 //
