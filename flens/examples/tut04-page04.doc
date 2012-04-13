@@ -79,7 +79,7 @@ Compile and Run
   |  cd flens/examples                                                      |
   |  clang++ -Wall -std=c++0x -I../.. -I/opt/local/include/              +++|
   |       -c qd-lapack-geev.cc                                              |
-  |  clang++ -o qd-lapack-getrf qd-lapack-geev.o /opt/local/lib/libqd.a     |
+  |  clang++ -o qd-lapack-geev qd-lapack-geev.o /opt/local/lib/libqd.a      |
   |  ./qd-lapack-geev                                                       |
   |                                                                         |
   *-------------------------------------------------------------------------*
