@@ -33,6 +33,9 @@
 #ifndef CXXLAPACK_INTERFACE_INTERFACE_TCC
 #define CXXLAPACK_INTERFACE_INTERFACE_TCC 1
 
+#include <cxxlapack/interface/gbsv.tcc>
+#include <cxxlapack/interface/gbtrf.tcc>
+#include <cxxlapack/interface/gbtrs.tcc>
 #include <cxxlapack/interface/gebak.tcc>
 #include <cxxlapack/interface/gebal.tcc>
 #include <cxxlapack/interface/gecon.tcc>
@@ -47,11 +50,14 @@
 #include <cxxlapack/interface/gelq2.tcc>
 #include <cxxlapack/interface/gelqf.tcc>
 #include <cxxlapack/interface/gels.tcc>
+#include <cxxlapack/interface/gelss.tcc>
 #include <cxxlapack/interface/geqp3.tcc>
 #include <cxxlapack/interface/geqr2.tcc>
 #include <cxxlapack/interface/geqrf.tcc>
 #include <cxxlapack/interface/gerfs.tcc>
+#include <cxxlapack/interface/gesdd.tcc>
 #include <cxxlapack/interface/gesv.tcc>
+#include <cxxlapack/interface/gesvd.tcc>
 #include <cxxlapack/interface/gesvj.tcc>
 #include <cxxlapack/interface/gesvx.tcc>
 #include <cxxlapack/interface/getf2.tcc>
@@ -60,6 +66,9 @@
 #include <cxxlapack/interface/getrs.tcc>
 #include <cxxlapack/interface/gsvj0.tcc>
 #include <cxxlapack/interface/gsvj1.tcc>
+#include <cxxlapack/interface/hbev.tcc>
+#include <cxxlapack/interface/heev.tcc>
+#include <cxxlapack/interface/hpev.tcc>
 #include <cxxlapack/interface/hseqr.tcc>
 #include <cxxlapack/interface/ilalc.tcc>
 #include <cxxlapack/interface/ilalr.tcc>
@@ -74,6 +83,7 @@
 #include <cxxlapack/interface/lantr.tcc>
 #include <cxxlapack/interface/lanv2.tcc>
 #include <cxxlapack/interface/lapy2.tcc>
+#include <cxxlapack/interface/lapy3.tcc>
 #include <cxxlapack/interface/laqge.tcc>
 #include <cxxlapack/interface/laqp2.tcc>
 #include <cxxlapack/interface/laqps.tcc>
@@ -114,6 +124,8 @@
 #include <cxxlapack/interface/potri.tcc>
 #include <cxxlapack/interface/potrs.tcc>
 #include <cxxlapack/interface/rscl.tcc>
+#include <cxxlapack/interface/sbev.tcc>
+#include <cxxlapack/interface/syev.tcc>
 #include <cxxlapack/interface/trevc.tcc>
 #include <cxxlapack/interface/trexc.tcc>
 #include <cxxlapack/interface/trsen.tcc>
@@ -122,5 +134,7 @@
 #include <cxxlapack/interface/trti2.tcc>
 #include <cxxlapack/interface/trtri.tcc>
 #include <cxxlapack/interface/trtrs.tcc>
+#include <cxxlapack/interface/ungqr.tcc>
+#include <cxxlapack/interface/unmqr.tcc>
 
 #endif // CXXLAPACK_INTERFACE_INTERFACE_TCC

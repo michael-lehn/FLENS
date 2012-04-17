@@ -33,6 +33,9 @@
 #ifndef CXXLAPACK_INTERFACE_INTERFACE_H
 #define CXXLAPACK_INTERFACE_INTERFACE_H 1
 
+#include <cxxlapack/interface/gbsv.h>
+#include <cxxlapack/interface/gbtrf.h>
+#include <cxxlapack/interface/gbtrs.h>
 #include <cxxlapack/interface/gebak.h>
 #include <cxxlapack/interface/gebal.h>
 #include <cxxlapack/interface/gecon.h>
@@ -47,11 +50,14 @@
 #include <cxxlapack/interface/gelq2.h>
 #include <cxxlapack/interface/gelqf.h>
 #include <cxxlapack/interface/gels.h>
+#include <cxxlapack/interface/gelss.h>
 #include <cxxlapack/interface/geqp3.h>
 #include <cxxlapack/interface/geqr2.h>
 #include <cxxlapack/interface/geqrf.h>
 #include <cxxlapack/interface/gerfs.h>
+#include <cxxlapack/interface/gesdd.h>
 #include <cxxlapack/interface/gesv.h>
+#include <cxxlapack/interface/gesvd.h>
 #include <cxxlapack/interface/gesvj.h>
 #include <cxxlapack/interface/gesvx.h>
 #include <cxxlapack/interface/getf2.h>
@@ -60,6 +66,9 @@
 #include <cxxlapack/interface/getrs.h>
 #include <cxxlapack/interface/gsvj0.h>
 #include <cxxlapack/interface/gsvj1.h>
+#include <cxxlapack/interface/hbev.h>
+#include <cxxlapack/interface/heev.h>
+#include <cxxlapack/interface/hpev.h>
 #include <cxxlapack/interface/hseqr.h>
 #include <cxxlapack/interface/ilalc.h>
 #include <cxxlapack/interface/ilalr.h>
@@ -74,6 +83,7 @@
 #include <cxxlapack/interface/lantr.h>
 #include <cxxlapack/interface/lanv2.h>
 #include <cxxlapack/interface/lapy2.h>
+#include <cxxlapack/interface/lapy3.h>
 #include <cxxlapack/interface/laqge.h>
 #include <cxxlapack/interface/laqp2.h>
 #include <cxxlapack/interface/laqps.h>
@@ -114,6 +124,8 @@
 #include <cxxlapack/interface/potri.h>
 #include <cxxlapack/interface/potrs.h>
 #include <cxxlapack/interface/rscl.h>
+#include <cxxlapack/interface/sbev.h>
+#include <cxxlapack/interface/syev.h>
 #include <cxxlapack/interface/trevc.h>
 #include <cxxlapack/interface/trexc.h>
 #include <cxxlapack/interface/trsen.h>
@@ -122,5 +134,7 @@
 #include <cxxlapack/interface/trti2.h>
 #include <cxxlapack/interface/trtri.h>
 #include <cxxlapack/interface/trtrs.h>
+#include <cxxlapack/interface/ungqr.h>
+#include <cxxlapack/interface/unmqr.h>
 
 #endif // CXXLAPACK_INTERFACE_INTERFACE_H
