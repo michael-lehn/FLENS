@@ -419,7 +419,7 @@ evx_impl(BALANCE::Balance     balance,
 namespace external {
 
 template <typename MA>
-typename GeMatrix<MA>::IndexType
+Pair<typename GeMatrix<MA>::IndexType>
 evx_wsq_impl(bool         computeVL,
              bool         computeVR,
              SENSE::Sense sense,
@@ -451,13 +451,13 @@ evx_wsq_impl(bool         computeVL,
                                 IDUMMY,
                                 IDUMMY,
                                 &DUMMY,
-                                &DUMMY,
+                                DUMMY,
                                 &DUMMY,
                                 &DUMMY,
                                 &WORK,
                                 LWORK,
                                 &IDUMMY);
-    return IndexType(WORK);
+    return Pair<IndexType>(WORK, WORK);
 }
 
 template <typename MA, typename VWR, typename VWI, typename MVL, typename MVR,

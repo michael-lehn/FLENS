@@ -1491,11 +1491,14 @@ jsv(JSV::Accuracy             accuracy,
     IndexType info = jsv_generic(accuracy, jobU, jobV,
                                  restrictedRange, considerTransA, perturb,
                                  A, sva, U, V, work);
+    */
+#   ifdef USE_CXXLAPACK
     IndexType info = external::jsv_impl(accuracy, jobU, jobV,
                                        restrictedRange, considerTransA, perturb,
                                        A, sva, U, V, work, iwork);
-    */
+#   else
     IndexType info = -1;
+#   endif
 
 #   ifdef CHECK_CXXLAPACK
 //

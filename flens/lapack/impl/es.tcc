@@ -373,7 +373,7 @@ es_impl(bool                 computeSchurVectors,
 namespace external {
 
 template <typename MA>
-typename GeMatrix<MA>::IndexType
+Pair<typename GeMatrix<MA>::IndexType>
 es_wsq_impl(bool                 computeSchurVectors,
             const GeMatrix<MA>   &A)
 {
@@ -408,7 +408,7 @@ es_wsq_impl(bool                 computeSchurVectors,
                                &WORK,
                                LWORK,
                                &BWORK);
-    return WORK;
+    return Pair<IndexType>(WORK, WORK);
 }
 
 template <typename SelectFunction, typename MA, typename IndexType,
@@ -478,13 +478,14 @@ es_wsq(bool                 computeSchurVectors,
 //
     auto optWorkSize = external::es_wsq_impl(computeSchurVectors, A);
 
-    if (! isIdentical(optWorkSize, ws.second, "optWorkSize", "ws.second")) {
+    if (! isIdentical(optWorkSize.second, ws.second,
+                      "optWorkSize", "ws.second"))
+    {
         ASSERT(0);
     }
 #   endif
 
     return ws;
-
 }
 
 template <typename SelectFunction, typename MA, typename IndexType,

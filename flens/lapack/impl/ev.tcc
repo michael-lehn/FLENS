@@ -364,7 +364,7 @@ namespace external {
 
 //-- ev: workspace query
 template <typename MA>
-typename GeMatrix<MA>::IndexType
+Pair<typename GeMatrix<MA>::IndexType>
 ev_wsq_impl(bool computeVL, bool computeVR, GeMatrix<MA> &A)
 {
     typedef typename GeMatrix<MA>::ElementType  T;
@@ -388,7 +388,7 @@ ev_wsq_impl(bool computeVL, bool computeVR, GeMatrix<MA> &A)
                                LDVR,
                                &WORK,
                                LWORK);
-    return WORK;
+    return Pair<IndexType>(WORK, WORK);
 }
 
 template <typename MA, typename VWR, typename VWI, typename MVL, typename MVR,
@@ -454,7 +454,9 @@ ev_wsq(bool computeVL, bool computeVR, GeMatrix<MA> &A)
 //  Compare results
 //
     auto optWorkSize = external::ev_wsq_impl(computeVL, computeVR, A);
-    if (! isIdentical(optWorkSize, ws.second, "optWorkSize", "ws.second")) {
+    if (! isIdentical(optWorkSize.second, ws.second,
+                      "optWorkSize", "ws.second"))
+    {
         ASSERT(0);
     }
 #   endif
