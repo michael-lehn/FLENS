@@ -33,6 +33,8 @@
 /*
        SUBROUTINE DLATRS( UPLO, TRANS, DIAG, NORMIN, N, A, LDA, X, SCALE,
       $                   CNORM, INFO )
+       SUBROUTINE ZLATRS( UPLO, TRANS, DIAG, NORMIN, N, A, LDA, X, SCALE,
+      $                   CNORM, INFO )
  *
  *  -- LAPACK auxiliary routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -49,24 +51,42 @@
 namespace flens { namespace lapack {
 
 //== latrs =====================================================================
+//
+//  Real variant
+//
 template <typename MA, typename VX, typename SCALE, typename CNORM>
-    void
-    latrs(Transpose             trans,
-          bool                  normIn,
-          const TrMatrix<MA>    &A,
-          DenseVector<VX>       &x,
-          SCALE                 &scale,
-          DenseVector<CNORM>    &cNorm);
+    typename RestrictTo<IsRealTrMatrix<MA>::value
+                     && IsRealDenseVector<VX>::value
+                     && IsNotComplex<SCALE>::value
+                     && IsRealDenseVector<CNORM>::value,
+             void>::Type
+    latrs(Transpose trans,
+          bool      normIn,
+          const MA  &A,
+          VX        &&x,
+          SCALE     &&scale,
+          CNORM     &&cNorm);
 
-//-- forwarding ----------------------------------------------------------------
+
+#ifdef USE_CXXLAPACK
+//
+//  Complex variant
+//
 template <typename MA, typename VX, typename SCALE, typename CNORM>
-    void
-    latrs(Transpose  trans,
-          bool       normIn,
-          const MA   &A,
-          VX         &&x,
-          SCALE      &&scale,
-          CNORM      &&cNorm);
+    typename RestrictTo<IsComplexTrMatrix<MA>::value
+                     && IsComplexDenseVector<VX>::value
+                     && IsNotComplex<SCALE>::value
+                     && IsRealDenseVector<CNORM>::value,
+             void>::Type
+    latrs(Transpose trans,
+          bool      normIn,
+          const MA  &A,
+          VX        &&x,
+          SCALE     &&scale,
+          CNORM     &&cNorm);
+
+#endif // USE_CXXLAPACK
+
 
 } } // namespace lapack, flens
 

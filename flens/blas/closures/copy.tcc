@@ -592,6 +592,25 @@ copy(Transpose trans,
 
 //------------------------------------------------------------------------------
 //
+//  B = op(conjugate(A))
+//
+template <typename MA, typename MB>
+void
+copy(Transpose trans, const MatrixClosureOpConj<MA> &A, Matrix<MB> &B)
+{
+    using namespace DEBUGCLOSURE;
+
+    FLENS_BLASLOG_BEGIN_MCOPY(trans, A, B);
+
+    Transpose _trans = Transpose(trans^Conj);
+
+    copy(_trans, A.left(), B.impl());
+
+    FLENS_BLASLOG_END;
+}
+
+//------------------------------------------------------------------------------
+//
 //  B = op(A^T)
 //
 template <typename MA, typename MB>

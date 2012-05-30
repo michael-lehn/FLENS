@@ -34,7 +34,7 @@ Compile
   *--[SHELL]----------------------------------------------------------------*
   |                                                                         |
   |  cd flens/examples                                                      |
-  |  clang++ -std=c++0x -Wall -I../.. -o lapack-geqrf lapack-geqrf.cc       |
+  |  g++ -std=c++11 -Wall -I../.. -o lapack-geqrf lapack-geqrf.cc           |
   |                                                                         |
   *-------------------------------------------------------------------------*
 

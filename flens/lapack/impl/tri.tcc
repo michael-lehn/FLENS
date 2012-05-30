@@ -33,8 +33,10 @@
 /* Baesed on
  *
       SUBROUTINE DGETRI( N, A, LDA, IPIV, WORK, LWORK, INFO )
+      SUBROUTINE ZGETRI( N, A, LDA, IPIV, WORK, LWORK, INFO )
 
       SUBROUTINE DTRTRI( UPLO, DIAG, N, A, LDA, INFO )
+      SUBROUTINE ZTRTRI( UPLO, DIAG, N, A, LDA, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -52,8 +54,10 @@
 namespace flens { namespace lapack {
 
 //== generic lapack implementation =============================================
-//-- (ge)tri
+
 namespace generic {
+
+//-- (ge)tri [real variant] ----------------------------------------------------
 
 template <typename MA, typename VP, typename VWORK>
 typename GeMatrix<MA>::IndexType
@@ -180,7 +184,8 @@ tri_impl(GeMatrix<MA>            &A,
     return info;
 }
 
-//-- (tr)tri
+//-- (tr)tri [real variant] ----------------------------------------------------
+
 template <typename MA>
 typename GeMatrix<MA>::IndexType
 tri_impl(TrMatrix<MA> &A)
@@ -303,7 +308,8 @@ tri_impl(TrMatrix<MA> &A)
 
 namespace external {
 
-//-- (ge)tri
+//-- (ge)tri [real and complex variant] ----------------------------------------
+
 template <typename MA, typename VP, typename VWORK>
 typename GeMatrix<MA>::IndexType
 tri_impl(GeMatrix<MA>             &A,
@@ -322,7 +328,8 @@ tri_impl(GeMatrix<MA>             &A,
     return info;
 }
 
-//-- (tr)tri
+//-- (tr)tri [real and complex variant] ----------------------------------------
+
 template <typename MA>
 typename GeMatrix<MA>::IndexType
 tri_impl(TrMatrix<MA> &A)
@@ -344,14 +351,25 @@ tri_impl(TrMatrix<MA> &A)
 
 //== public interface ==========================================================
 
-//-- (ge)tri
-template <typename MA, typename VP, typename VWORK>
-typename GeMatrix<MA>::IndexType
-tri(GeMatrix<MA> &A, const DenseVector<VP> &piv, DenseVector<VWORK> &work)
+//-- (ge)tri [real variant] ----------------------------------------------------
+
+template <typename MA, typename VPIV, typename VWORK>
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                 && IsIntegerDenseVector<VPIV>::value
+                 && IsRealDenseVector<VWORK>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+tri(MA &&A, const VPIV &piv, VWORK &&work)
 {
     using std::max;
 
-    typedef typename GeMatrix<MA>::IndexType IndexType;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+    typedef typename RemoveRef<VPIV>::Type  VectorPiv;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+
 //
 //  Test the input parameters
 //
@@ -366,15 +384,15 @@ tri(GeMatrix<MA> &A, const DenseVector<VP> &piv, DenseVector<VWORK> &work)
     ASSERT(piv.length()==n);
 
     const bool lQuery = (work.length()==0);
-    ASSERT(lQuery || work.length()>=n);
+    ASSERT(lQuery || work.length()>=max(IndexType(1),n));
 #   endif
 
 //
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-    typename GeMatrix<MA>::NoView        A_org    = A;
-    typename DenseVector<VWORK>::NoView  work_org = work;
+    typename MatrixA::NoView        A_org    = A;
+    typename VectorWork::NoView     work_org = work;
 #   endif
 
 //
@@ -386,8 +404,8 @@ tri(GeMatrix<MA> &A, const DenseVector<VP> &piv, DenseVector<VWORK> &work)
 //  Compare results
 //
 #   ifdef CHECK_CXXLAPACK
-    typename GeMatrix<MA>::NoView        A_generic    = A;
-    typename DenseVector<VWORK>::NoView  work_generic = work;
+    typename MatrixA::NoView        A_generic    = A;
+    typename VectorWork::NoView     work_generic = work;
 
     A    = A_org;
     work = work_org;
@@ -423,12 +441,74 @@ tri(GeMatrix<MA> &A, const DenseVector<VP> &piv, DenseVector<VWORK> &work)
     return info;
 }
 
-//-- (tr)tri
-template <typename MA>
-typename GeMatrix<MA>::IndexType
-tri(TrMatrix<MA> &A)
+//-- (ge)tri [complex variant] -------------------------------------------------
+
+#ifdef USE_CXXLAPACK
+
+template <typename MA, typename VPIV, typename VWORK>
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                 && IsIntegerDenseVector<VPIV>::value
+                 && IsComplexDenseVector<VWORK>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+tri(MA &&A, const VPIV &piv, VWORK &&work)
 {
-    typedef typename GeMatrix<MA>::IndexType IndexType;
+    using std::max;
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+    typedef typename RemoveRef<VPIV>::Type  VectorPiv;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(A.numRows()==A.numCols());
+
+    const IndexType n = A.numRows();
+
+    ASSERT(piv.firstIndex()==1);
+    ASSERT(piv.length()==n);
+
+    const bool lQuery = (work.length()==0);
+    ASSERT(lQuery || work.length()>=max(IndexType(1),n));
+#   endif
+
+//
+//  Make copies of output arguments
+//
+#   ifdef CHECK_CXXLAPACK
+    typename MatrixA::NoView        A_org    = A;
+    typename VectorWork::NoView     work_org = work;
+#   endif
+
+//
+//  Call implementation
+//
+    const IndexType info = external::tri_impl(A, piv, work);
+
+    return info;
+}
+
+#endif // USE_CXXLAPACK
+
+//-- (tr)tri [real variant] ----------------------------------------------------
+
+template <typename MA>
+typename RestrictTo<IsRealTrMatrix<MA>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+tri(MA &&A)
+{
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
 
 //
 //  Test the input parameters
@@ -442,7 +522,7 @@ tri(TrMatrix<MA> &A)
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-    typename TrMatrix<MA>::NoView   A_org = A;
+    typename MatrixA::NoView   A_org = A;
 #   endif
 
 //
@@ -454,7 +534,7 @@ tri(TrMatrix<MA> &A)
 //  Compare results
 //
 #   ifdef CHECK_CXXLAPACK
-    typename TrMatrix<MA>::NoView   A_generic = A;
+    typename MatrixA::NoView   A_generic = A;
 
     A = A_org;
 
@@ -483,32 +563,46 @@ tri(TrMatrix<MA> &A)
     return info;
 }
 
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VP, typename VWORK>
-typename MA::IndexType
-tri(MA &&A, const VP &&piv, VWORK &&work)
-{
-    typedef typename MA::IndexType  IndexType;
+//-- (tr)tri [complex variant] -------------------------------------------------
 
-    CHECKPOINT_ENTER;
-    IndexType info = tri(A, piv, work);
-    CHECKPOINT_LEAVE;
-
-    return info;
-}
+#ifdef USE_CXXLAPACK
 
 template <typename MA>
-typename MA::IndexType
+typename RestrictTo<IsComplexTrMatrix<MA>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
 tri(MA &&A)
 {
-    typedef typename MA::IndexType  IndexType;
+    std::cerr << "(tr)tri [complex variant]" << std::endl;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
 
-    CHECKPOINT_ENTER;
-    IndexType info = tri(A);
-    CHECKPOINT_LEAVE;
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+#   endif
+
+//
+//  Make copies of output arguments
+//
+#   ifdef CHECK_CXXLAPACK
+    typename MatrixA::NoView   A_org = A;
+#   endif
+
+//
+//  Call implementation
+//
+    const IndexType info = LAPACK_SELECT::tri_impl(A);
 
     return info;
 }
+
+#endif // USE_CXXLAPACK
 
 } } // namespace lapack, flens
 

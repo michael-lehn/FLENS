@@ -32,6 +32,13 @@
 
 /* Based on
  *
+       SUBROUTINE DPOTRI( UPLO, N, A, LDA, INFO )
+       SUBROUTINE ZPOTRI( UPLO, N, A, LDA, INFO )
+ *
+ *  -- LAPACK routine (version 3.3.1) --
+ *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
+ *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
+ *  -- April 2011                                                      --
  */
 
 #ifndef FLENS_LAPACK_IMPL_POTRI_TCC
@@ -46,6 +53,8 @@ namespace flens { namespace lapack {
 //== generic lapack implementation =============================================
 
 namespace generic {
+
+//-- potri [real variant] ------------------------------------------------------
 
 template <typename MA>
 typename SyMatrix<MA>::IndexType
@@ -83,11 +92,29 @@ potri_impl(SyMatrix<MA> &A)
 
 namespace external {
 
+//-- potri [real variant] ------------------------------------------------------
+
 template <typename MA>
 typename SyMatrix<MA>::IndexType
 potri_impl(SyMatrix<MA> &A)
 {
     typedef typename SyMatrix<MA>::IndexType  IndexType;
+
+    IndexType info = cxxlapack::potri<IndexType>(getF77Char(A.upLo()),
+                                                 A.dim(),
+                                                 A.data(),
+                                                 A.leadingDimension());
+    ASSERT(info>=0);
+    return info;
+}
+
+//-- potri [complex variant] ---------------------------------------------------
+
+template <typename MA>
+typename HeMatrix<MA>::IndexType
+potri_impl(HeMatrix<MA> &A)
+{
+    typedef typename HeMatrix<MA>::IndexType  IndexType;
 
     IndexType info = cxxlapack::potri<IndexType>(getF77Char(A.upLo()),
                                                  A.dim(),
@@ -103,11 +130,18 @@ potri_impl(SyMatrix<MA> &A)
 
 //== public interface ==========================================================
 
+//-- potri [real variant] ------------------------------------------------------
+
 template <typename MA>
-typename SyMatrix<MA>::IndexType
-potri(SyMatrix<MA> &A)
+typename RestrictTo<IsRealSyMatrix<MA>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+potri(MA &&A)
 {
-    typedef typename SyMatrix<MA>::IndexType    IndexType;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
 
 //
 //  Test the input parameters
@@ -121,7 +155,7 @@ potri(SyMatrix<MA> &A)
 //
 //  Make copies of output arguments
 //
-    typename SyMatrix<MA>::NoView  A_org = A;
+    typename MatrixA::NoView  A_org = A;
 #   endif
 
 //
@@ -133,7 +167,7 @@ potri(SyMatrix<MA> &A)
 //
 //  Make copies of generic results
 //
-    typename SyMatrix<MA>::NoView  A_generic = A;
+    typename MatrixA::NoView  A_generic = A;
 //
 //  restore output parameters
 //
@@ -166,19 +200,38 @@ potri(SyMatrix<MA> &A)
     return info;
 }
 
-//-- forwarding ----------------------------------------------------------------
+//-- potri [complex variant] ------------------------------------------------------
+
+#ifdef USE_CXXLAPACK
+
 template <typename MA>
-typename MA::IndexType
+typename RestrictTo<IsHeMatrix<MA>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
 potri(MA &&A)
 {
-    typedef typename MA::IndexType  IndexType;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
 
-    CHECKPOINT_ENTER;
-    const IndexType info =  potri(A);
-    CHECKPOINT_LEAVE;
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+#   endif
+
+//
+//  Call implementation
+//
+    const IndexType info = external::potri_impl(A);
 
     return info;
 }
+
+#endif // USE_CXXLAPACK
 
 } } // namespace lapack, flens
 

@@ -33,6 +33,7 @@
 #ifndef FLENS_MATRIXTYPES_GENERAL_IMPL_GEMATRIX_H
 #define FLENS_MATRIXTYPES_GENERAL_IMPL_GEMATRIX_H 1
 
+#include <flens/auxiliary/iscomplex.h>
 #include <flens/auxiliary/range.h>
 #include <flens/auxiliary/underscore.h>
 #include <flens/matrixtypes/general/generalmatrix.h>
@@ -369,6 +370,57 @@ class GeMatrix
 
     private:
         Engine _engine;
+};
+
+//-- Traits --------------------------------------------------------------------
+//
+//  IsGeMatrix
+//
+struct _GeMatrixChecker
+{
+
+    struct Two {
+        char x;
+        char y;
+    };
+
+    static Two
+    check(_AnyConversion);
+
+    template <typename Any>
+        static char
+        check(GeMatrix<Any>);
+};
+
+template <typename T>
+struct IsGeMatrix
+{
+    static T var;
+    static const bool value = sizeof(_GeMatrixChecker::check(var))==1;
+};
+
+//
+//  IsRealGeMatrix
+//
+template <typename T>
+struct IsRealGeMatrix
+{
+    typedef typename std::remove_reference<T>::type  TT;
+
+    static const bool value = IsGeMatrix<TT>::value
+                           && IsNotComplex<typename TT::ElementType>::value;
+};
+
+//
+//  IsComplexGeMatrix
+//
+template <typename T>
+struct IsComplexGeMatrix
+{
+    typedef typename std::remove_reference<T>::type  TT;
+
+    static const bool value = IsGeMatrix<TT>::value
+                           && IsComplex<typename TT::ElementType>::value;
 };
 
 } // namespace flens

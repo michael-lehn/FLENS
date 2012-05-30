@@ -56,12 +56,12 @@ directory.
    |  # cleanup old object files and compile some stuff needed for logging  |
    |  #                                                                     |
    |  rm -f *.o                                                             |
-   |  clang++ -Wall -DFLENS_DEBUG_CLOSURES -std=c++0x +++                   |
+   |  g++ -Wall -DFLENS_DEBUG_CLOSURES -std=c++11                        +++|
    |          -I../.. -c ../../flens/debug/auxiliary/*.cc                   |
    |  #                                                                     |
    |  # compile with -DFLENS_DEBUG_CLOSURES and link against the log stuff  |
    |  #                                                                     |
-   |  clang++ -Wall -DFLENS_DEBUG_CLOSURES -std=c++0x +++                   |
+   |  g++ -Wall -DFLENS_DEBUG_CLOSURES -std=c++11                        +++|
    |          -I../.. *.o tut02-page04-example1.cc                          |
    |  ./a.out                                                               |
    |  #                                                                     |
@@ -109,12 +109,12 @@ Like before ...
    |  # cleanup old object files and compile some stuff needed for logging  |
    |  #                                                                     |
    |  rm -f *.o                                                             |
-   |  clang++ -Wall -DFLENS_DEBUG_CLOSURES -std=c++0x +++                   |
+   |  g++ -Wall -DFLENS_DEBUG_CLOSURES -std=c++11                        +++|
    |          -I../.. -c ../../flens/debug/auxiliary/*.cc                   |
    |  #                                                                     |
    |  # compile with -DFLENS_DEBUG_CLOSURES and link against the log stuff  |
    |  #                                                                     |
-   |  clang++ -Wall -DFLENS_DEBUG_CLOSURES -std=c++0x +++                   |
+   |  g++ -Wall -DFLENS_DEBUG_CLOSURES -std=c++11                        +++|
    |          -I../.. *.o tut02-page04-example2.cc                          |
    |  ./a.out                                                               |
    |  #                                                                     |

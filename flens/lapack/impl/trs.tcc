@@ -33,14 +33,15 @@
 /* Based on
  *
        SUBROUTINE DGETRS( TRANS, N, NRHS, A, LDA, IPIV, B, LDB, INFO )
+       SUBROUTINE ZGETRS( TRANS, N, NRHS, A, LDA, IPIV, B, LDB, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
  *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
  *  -- April 2011                                                      --
 
-       SUBROUTINE DTRTRS( UPLO, TRANS, DIAG, N, NRHS, A, LDA, B, LDB,
-      $                   INFO )
+       SUBROUTINE DTRTRS( UPLO, TRANS, DIAG, N, NRHS, A, LDA, B, LDB, INFO )
+       SUBROUTINE ZTRTRS( UPLO, TRANS, DIAG, N, NRHS, A, LDA, B, LDB, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -58,8 +59,10 @@
 namespace flens { namespace lapack {
 
 //== generic lapack implementation =============================================
-// getrs
+
 namespace generic {
+
+//-- (ge)trs [real and complex variant] ----------------------------------------
 
 template <typename MA, typename VP, typename MB>
 void
@@ -113,7 +116,8 @@ trs_impl(Transpose trans, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
     }
 }
 
-// trtrs
+//-- (tr)trs [real and complex variant] ----------------------------------------
+
 template <typename MA, typename MB>
 typename TrMatrix<MA>::IndexType
 trs_impl(Transpose trans, const TrMatrix<MA> &A, GeMatrix<MB> &B)
@@ -153,13 +157,15 @@ trs_impl(Transpose trans, const TrMatrix<MA> &A, GeMatrix<MB> &B)
 
 } // namespace generic
 
+
 //== interface for external lapack =============================================
 
 #ifdef USE_CXXLAPACK
 
 namespace external {
 
-// getrs
+//-- (ge)trs [real and complex variant] ----------------------------------------
+
 template <typename MA, typename VP, typename MB>
 void
 trs_impl(Transpose trans, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
@@ -179,7 +185,8 @@ trs_impl(Transpose trans, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
     ASSERT(info==0);
 }
 
-// trtrs
+//-- (tr)trs [real and complex variant] ----------------------------------------
+
 template <typename MA, typename MB>
 typename TrMatrix<MA>::IndexType
 trs_impl(Transpose trans, const TrMatrix<MA> &A, GeMatrix<MB> &B)
@@ -204,15 +211,25 @@ trs_impl(Transpose trans, const TrMatrix<MA> &A, GeMatrix<MB> &B)
 
 #endif // USE_CXXLAPACK
 
+
 //== public interface ==========================================================
 
-// getrs
-template <typename MA, typename VP, typename MB>
-void
-trs(Transpose trans, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
-    GeMatrix<MB> &B)
+//-- (ge)trs [real and complex variant] ----------------------------------------
+
+template <typename MA, typename VPIV, typename MB>
+typename RestrictTo<IsGeMatrix<MA>::value
+                 && IsIntegerDenseVector<VPIV>::value
+                 && IsGeMatrix<MB>::value,
+         void>::Type
+trs(Transpose trans, const MA &A, const VPIV &piv, MB &&B)
 {
-    typedef typename GeMatrix<MA>::IndexType  IndexType;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type     MatrixA;
+    typedef typename MatrixA::IndexType      IndexType;
+    typedef typename RemoveRef<MB>::Type     MatrixB;
+
 //
 //  Test the input parameters
 //
@@ -234,7 +251,7 @@ trs(Transpose trans, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
 //
 //  Make copies of output arguments
 //
-    typename GeMatrix<MB>::NoView  B_org   = B;
+    typename MatrixB::NoView  B_org   = B;
 //
 //  Call implementation
 //
@@ -243,7 +260,7 @@ trs(Transpose trans, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
 //  Compare results
 //
 #   ifdef CHECK_CXXLAPACK
-    typename GeMatrix<MB>::NoView  B_generic   = B;
+    typename MatrixB::NoView  B_generic   = B;
 
     B   = B_org;
 
@@ -261,32 +278,54 @@ trs(Transpose trans, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
     } else {
         // std::cerr << "passed: (ge)trs.tcc" << std::endl;
     }
-
 #   endif
 }
 
-template <typename MA, typename VP, typename VB>
-void
-trs(Transpose trans, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
-    DenseVector<VB> &b)
+//-- (ge)trs [variant if rhs is vector] ----------------------------------------
+
+template <typename MA, typename VPIV, typename VB>
+typename RestrictTo<IsGeMatrix<MA>::value
+                 && IsIntegerDenseVector<VPIV>::value
+                 && IsDenseVector<VB>::value,
+         void>::Type
+trs(Transpose trans, const MA &A, const VPIV &piv, VB &b)
 {
-    typedef typename DenseVector<VB>::ElementType  ElementType;
-    typedef typename DenseVector<VB>::IndexType    IndexType;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type     MatrixA;
+    typedef typename RemoveRef<VB>::Type     VectorB;
+
+//
+//  Create matrix view from vector b and call above variant
+//
+    typedef typename VectorB::ElementType  ElementType;
+    typedef typename VectorB::IndexType    IndexType;
 
     const IndexType    n     = b.length();
-    const StorageOrder order = GeMatrix<MA>::Engine::order;
+    const StorageOrder order = MatrixA::Engine::order;
 
     GeMatrix<FullStorageView<ElementType, order> >  B(n, 1, b, n);
 
-    return trs(trans, A, piv, B);
+    trs(trans, A, piv, B);
 }
 
-// trtrs
+//-- (tr)trs [real and complex variant] ----------------------------------------
+
 template <typename MA, typename MB>
-typename TrMatrix<MA>::IndexType
-trs(Transpose trans, const TrMatrix<MA> &A, GeMatrix<MB> &B)
+typename RestrictTo<IsTrMatrix<MA>::value
+                 && IsGeMatrix<MB>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+trs(Transpose trans, const MA &A, MB &&B)
 {
-    typedef typename TrMatrix<MA>::IndexType  IndexType;
+    std::cerr << "(tr)trs [real/complex]" << std::endl;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+    typedef typename RemoveRef<MB>::Type    MatrixB;
+
 //
 //  Test the input parameters
 //
@@ -304,7 +343,7 @@ trs(Transpose trans, const TrMatrix<MA> &A, GeMatrix<MB> &B)
 //
 //  Make copies of output arguments
 //
-    typename GeMatrix<MB>::NoView  B_org   = B;
+    typename MatrixB::NoView  B_org   = B;
 //
 //  Call implementation
 //
@@ -313,7 +352,7 @@ trs(Transpose trans, const TrMatrix<MA> &A, GeMatrix<MB> &B)
 //  Compare results
 //
 #   ifdef CHECK_CXXLAPACK
-    typename GeMatrix<MB>::NoView  B_generic   = B;
+    typename MatrixB::NoView  B_generic   = B;
 
     B   = B_org;
 
@@ -342,42 +381,32 @@ trs(Transpose trans, const TrMatrix<MA> &A, GeMatrix<MB> &B)
     return info;
 }
 
+//-- (tr)trs [variant if rhs is vector] ----------------------------------------
+
 template <typename MA, typename VB>
-typename TrMatrix<MA>::IndexType
-trs(Transpose trans, const TrMatrix<MA> &A, DenseVector<VB> &b)
+typename RestrictTo<IsTrMatrix<MA>::value
+                 && IsDenseVector<VB>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+trs(Transpose trans, const MA &A, VB &&b)
 {
-    typedef typename DenseVector<VB>::ElementType  ElementType;
-    typedef typename DenseVector<VB>::IndexType    IndexType;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename RemoveRef<VB>::Type    VectorB;
+
+//
+//  Create matrix view from vector b and call above variant
+//
+    typedef typename VectorB::ElementType  ElementType;
+    typedef typename VectorB::IndexType    IndexType;
 
     const IndexType    n     = b.length();
-    const StorageOrder order = TrMatrix<MA>::Engine::order;
+    const StorageOrder order = MatrixA::Engine::order;
 
     GeMatrix<FullStorageView<ElementType, order> >  B(n, 1, b, n);
 
     return trs(trans, A, B);
-}
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VP, typename MB>
-void
-trs(Transpose trans, const MA &A, const VP &piv, MB &&B)
-{
-    CHECKPOINT_ENTER;
-    trs(trans, A, piv, B);
-    CHECKPOINT_LEAVE;
-}
-
-template <typename MA, typename MB>
-typename MA::IndexType
-trs(Transpose trans, const MA &A, MB &&B)
-{
-    typename MA::IndexType info;
-
-    CHECKPOINT_ENTER;
-    info = trs(trans, A, B);
-    CHECKPOINT_LEAVE;
-
-    return info;
 }
 
 } } // namespace lapack, flens

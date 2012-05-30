@@ -51,28 +51,25 @@
 namespace flens { namespace lapack {
 
 //== (ge)equ ===================================================================
+//
+//  Real variant
+//
 template <typename MA, typename VR, typename VC,
           typename ROWCOND, typename COLCOND,
           typename AMAX>
-typename GeMatrix<MA>::IndexType
-equ(const GeMatrix<MA>  &A,
-    DenseVector<VR>     &r,
-    DenseVector<VC>     &c,
-    ROWCOND             &rowCond,
-    COLCOND             &colCond,
-    AMAX                &amax);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VR, typename VC,
-          typename ROWCOND, typename COLCOND,
-          typename AMAX>
-typename MA::IndexType
-equ(const MA  &A,
-    VR        &&r,
-    VC        &&c,
-    ROWCOND   &&rowCond,
-    COLCOND   &&colCond,
-    AMAX      &&amax);
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsRealDenseVector<VR>::value
+                     && IsRealDenseVector<VC>::value
+                     && IsNotComplex<ROWCOND>::value
+                     && IsNotComplex<COLCOND>::value
+                     && IsNotComplex<AMAX>::value,
+             typename MA::IndexType>::Type
+    equ(const MA  &A,
+        VR        &&r,
+        VC        &&c,
+        ROWCOND   &rowCond,
+        COLCOND   &colCond,
+        AMAX      &amax);
 
 } } // namespace lapack, flens
 

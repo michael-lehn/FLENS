@@ -63,6 +63,7 @@ geevx(char          balanc,
       IndexType     *iWork)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("dgeevx");
     LAPACK_IMPL(dgeevx)(&balanc,
                         &jobVL,
                         &jobVR,
@@ -113,13 +114,14 @@ geevx(char                    balanc,
       IndexType               &iHi,
       double                  *scale,
       double                  &ABnorm,
-      double                  &rCondE,
-      double                  &rCondV,
+      double                  *rCondE,
+      double                  *rCondV,
       std::complex<double>    *work,
       IndexType               lWork,
       double                  *rWork)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("zgeevx");
     LAPACK_IMPL(zgeevx)(&balanc,
                         &jobVL,
                         &jobVR,

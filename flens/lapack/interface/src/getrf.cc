@@ -72,14 +72,13 @@ LAPACK_DECL(zgetrf)(const INTEGER    *M,
 //
 //  Call FLENS implementation
 //
-    ZGeMatrixView    _A    = ZFSView(*M, *N,
-                                     reinterpret_cast<CXX_DOUBLE_COMPLEX *>(A),
-                                     *LDA);
+    auto zA = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(A);
+
+    ZGeMatrixView    _A    = ZFSView(*M, *N, zA, *LDA);
     IDenseVectorView _IPIV = IArrayView(*M, IPIV, 1);
 
     *INFO = trf(_A, _IPIV);
 }
-
 
 } // extern "C"
 

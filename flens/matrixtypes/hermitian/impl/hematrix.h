@@ -34,6 +34,9 @@
 #define FLENS_MATRIXTYPES_HERMITIAN_IMPL_HEMATRIX_H 1
 
 #include <cxxblas/typedefs.h>
+#include <flens/auxiliary/iscomplex.h>
+#include <flens/auxiliary/range.h>
+#include <flens/auxiliary/underscore.h>
 #include <flens/typedefs.h>
 #include <flens/matrixtypes/hermitian/hermitianmatrix.h>
 
@@ -93,8 +96,7 @@ class HeMatrix
         explicit
         HeMatrix(IndexType dim);
 
-        HeMatrix(IndexType dim,
-                 IndexType firstRow, IndexType firstCol);
+        HeMatrix(IndexType dim, IndexType firstRow, IndexType firstCol);
 
         HeMatrix(const Engine &engine, StorageUpLo upLo);
 
@@ -110,12 +112,74 @@ class HeMatrix
             HeMatrix(const Matrix<RHS> &rhs);
 
         // -- operators --------------------------------------------------------
+        void
+        operator=(const ElementType &value);
+
+        HeMatrix &
+        operator=(const HeMatrix &rhs);
+
+        template <typename RHS>
+            HeMatrix &
+            operator=(const Matrix<RHS> &rhs);
 
         const ElementType &
         operator()(IndexType row, IndexType col) const;
 
         ElementType &
         operator()(IndexType row, IndexType col);
+
+        // rectangular views
+        const ConstGeneralView
+        operator()(const Range<IndexType> &rows,
+                   const Range<IndexType> &cols) const;
+
+        GeneralView
+        operator()(const Range<IndexType> &rows,
+                   const Range<IndexType> &cols);
+
+        // rectangular views (all rows selected)
+        const ConstGeneralView
+        operator()(const Underscore<IndexType> &,
+                   const Range<IndexType> &cols) const;
+
+        GeneralView
+        operator()(const Underscore<IndexType> &,
+                   const Range<IndexType> &cols);
+
+        // rectangular views (all columns selected)
+        const ConstGeneralView
+        operator()(const Range<IndexType> &rows,
+                   const Underscore<IndexType> &) const;
+
+        GeneralView
+        operator()(const Range<IndexType> &rows,
+                   const Underscore<IndexType> &);
+
+        // row view (vector view)
+        const ConstVectorView
+        operator()(IndexType row, const Underscore<IndexType> &) const;
+
+        VectorView
+        operator()(IndexType row, const Underscore<IndexType> &);
+
+        const ConstVectorView
+        operator()(IndexType row, const Range<IndexType> &cols) const;
+
+        VectorView
+        operator()(IndexType row, const Range<IndexType> &cols);
+
+        // column view (vector view)
+        const ConstVectorView
+        operator()(const Underscore<IndexType> &, IndexType col) const;
+
+        VectorView
+        operator()(const Underscore<IndexType> &, IndexType col);
+
+        const ConstVectorView
+        operator()(const Range<IndexType> &rows, IndexType col) const;
+
+        VectorView
+        operator()(const Range<IndexType> &rows, IndexType col);
 
         // -- views ------------------------------------------------------------
 
@@ -126,10 +190,30 @@ class HeMatrix
         GeneralView
         general();
 
+        // symmetric views
+        const ConstSymmetricView
+        symmetric() const;
+
+        SymmetricView
+        symmetric();
+
+        // triangular views
+        const ConstTriangularView
+        triangular() const;
+
+        TriangularView
+        triangular();
+
         // -- methods ----------------------------------------------------------
 
         IndexType
         dim() const;
+
+        IndexType
+        numRows() const;
+
+        IndexType
+        numCols() const;
 
         IndexType
         firstRow() const;
@@ -152,6 +236,19 @@ class HeMatrix
         IndexType
         leadingDimension() const;
 
+        StorageOrder
+        order() const;
+
+        template <typename RHS>
+            bool
+            resize(const HeMatrix<RHS> &rhs,
+                   const ElementType &value = ElementType());
+
+        bool
+        resize(IndexType dim,
+               IndexType firstIndex = Engine::defaultIndexBase,
+               const ElementType &value = ElementType());
+
         // -- implementation ---------------------------------------------------
 
         const Engine &
@@ -169,6 +266,33 @@ class HeMatrix
     private:
         Engine      _engine;
         StorageUpLo _upLo;
+};
+
+//-- Traits --------------------------------------------------------------------
+//
+//  IsHeMatrix
+//
+struct _HeMatrixChecker
+{
+
+    struct Two {
+        char x;
+        char y;
+    };
+
+    static Two
+    check(_AnyConversion);
+
+    template <typename Any>
+        static char
+        check(HeMatrix<Any>);
+};
+
+template <typename T>
+struct IsHeMatrix
+{
+    static T var;
+    static const bool value = sizeof(_HeMatrixChecker::check(var))==1;
 };
 
 } // namespace flens

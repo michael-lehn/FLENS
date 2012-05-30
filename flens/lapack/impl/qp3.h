@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DGEQP3( M, N, A, LDA, JPVT, TAU, WORK, LWORK, INFO )
+       SUBROUTINE ZGEQP3( M, N, A, LDA, JPVT, TAU, WORK, LWORK, RWORK, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -49,15 +50,41 @@
 namespace flens { namespace lapack {
 
 //== geqp3 =====================================================================
-template <typename MA, typename JPIV, typename VTAU, typename VWORK>
-    void
-    qp3(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv,  DenseVector<VTAU> &tau,
-        DenseVector<VWORK> &work);
+//
+//  Real variant
+//
+template <typename MA, typename VJPIV, typename VTAU, typename VWORK>
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsIntegerDenseVector<VJPIV>::value
+                     && IsRealDenseVector<VTAU>::value
+                     && IsRealDenseVector<VWORK>::value,
+             void>::Type
+    qp3(MA      &&A,
+        VJPIV   &&jPiv,
+        VTAU    &&tau,
+        VWORK   &&work);
 
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename JPIV, typename VTAU, typename VWORK>
-    void
-    qp3(MA &&A, JPIV &&jPiv, VTAU &&tau, VWORK &&work);
+
+#ifdef USE_CXXLAPACK
+//
+//  Complex variant
+//
+template <typename MA, typename VJPIV, typename VTAU, typename VWORK,
+          typename VRWORK>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsIntegerDenseVector<VJPIV>::value
+                     && IsComplexDenseVector<VTAU>::value
+                     && IsComplexDenseVector<VWORK>::value
+                     && IsRealDenseVector<VRWORK>::value,
+             void>::Type
+    qp3(MA      &&A,
+        VJPIV   &&jPiv,
+        VTAU    &&tau,
+        VWORK   &&work,
+        VRWORK  &&rWork);
+
+#endif // USE_CXXLAPACK
+
 
 } } // namespace lapack, flens
 

@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DGELQF( M, N, A, LDA, TAU, WORK, LWORK, INFO )
+       SUBROUTINE ZGELQF( M, N, A, LDA, TAU, WORK, LWORK, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -49,14 +50,30 @@
 namespace flens { namespace lapack {
 
 //== gelqf =====================================================================
+//
+//  Real variant
+//
 template <typename MA, typename VTAU, typename VWORK>
-    void
-    lqf(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VTAU, typename VWORK>
-    void
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsRealDenseVector<VTAU>::value
+                     && IsRealDenseVector<VWORK>::value,
+             void>::Type
     lqf(MA &&A, VTAU &&tau, VWORK &&work);
+
+
+#ifdef USE_CXXLAPACK
+//
+//  Complex variant
+//
+template <typename MA, typename VTAU, typename VWORK>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsComplexDenseVector<VTAU>::value
+                     && IsComplexDenseVector<VWORK>::value,
+             void>::Type
+    lqf(MA &&A, VTAU &&tau, VWORK &&work);
+
+#endif // USE_CXXLAPACK
+
 
 } } // namespace lapack, flens
 

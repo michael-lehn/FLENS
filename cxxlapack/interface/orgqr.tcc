@@ -49,6 +49,7 @@ orgqr(IndexType     m,
       IndexType     lWork)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("dorgqr");
     LAPACK_IMPL(dorgqr)(&m,
                         &n,
                         &k,

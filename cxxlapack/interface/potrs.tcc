@@ -48,6 +48,7 @@ potrs(char          upLo,
       IndexType     ldB)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("dpotrs");
     LAPACK_IMPL(dpotrs)(&upLo,
                         &n,
                         &nRhs,
@@ -76,6 +77,7 @@ potrs(char                          upLo,
       IndexType                     ldB)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("zpotrs");
     LAPACK_IMPL(zpotrs)(&upLo,
                         &n,
                         &nRhs,

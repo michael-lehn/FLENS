@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DGELQF( M, N, A, LDA, TAU, WORK, LWORK, INFO )
+       SUBROUTINE ZGELQF( M, N, A, LDA, TAU, WORK, LWORK, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -49,7 +50,10 @@
 namespace flens { namespace lapack {
 
 //== generic lapack implementation =============================================
+
 namespace generic {
+
+//-- (ge)lqf [real variant] ----------------------------------------------------
 
 template <typename MA, typename VTAU, typename VWORK>
 void
@@ -163,11 +167,14 @@ lqf_impl(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 
 } // namespace generic
 
+
 //== interface for native lapack ===============================================
 
 #ifdef USE_CXXLAPACK
 
 namespace external {
+
+//-- (ge)lqf [real and complex variant] ----------------------------------------
 
 template <typename MA, typename VTAU, typename VWORK>
 void
@@ -189,19 +196,32 @@ lqf_impl(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 
 #endif // USE_CXXLAPACK
 
+
 //== public interface ==========================================================
 
+//-- (ge)lqf [real variant] ----------------------------------------------------
+
 template <typename MA, typename VTAU, typename VWORK>
-void
-lqf(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                 && IsRealDenseVector<VTAU>::value
+                 && IsRealDenseVector<VWORK>::value,
+         void>::Type
+lqf(MA &&A, VTAU &&tau, VWORK &&work)
 {
     using std::min;
-    typedef typename GeMatrix<MA>::ElementType  ElementType;
-    typedef typename GeMatrix<MA>::IndexType    IndexType;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::ElementType   ElementType;
+    typedef typename MatrixA::IndexType     IndexType;
+    typedef typename RemoveRef<VTAU>::Type  VectorTau;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+
+#   ifndef NDEBUG
 //
 //  Test the input parameters
 //
-#   ifndef NDEBUG
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
     ASSERT(tau.firstIndex()==1);
@@ -219,9 +239,9 @@ lqf(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 //
 //  Make copies of output arguments
 //
-    typename GeMatrix<MA>::NoView       A_org    = A;
-    typename DenseVector<VTAU>::NoView  tau_org  = tau;
-    typename DenseVector<VTAU>::NoView  work_org = work;
+    typename MatrixA::NoView        A_org    = A;
+    typename VectorTau::NoView      tau_org  = tau;
+    typename VectorWork::NoView     work_org = work;
 #   endif
 
 //
@@ -233,9 +253,9 @@ lqf(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 //
 //  Restore output parameters
 //
-    typename GeMatrix<MA>::NoView       A_generic    = A;
-    typename DenseVector<VTAU>::NoView  tau_generic  = tau;
-    typename DenseVector<VTAU>::NoView  work_generic = work;
+    typename Matrix<MA>::NoView     A_generic    = A;
+    typename VectorTau::NoView      tau_generic  = tau;
+    typename VectorWork::NoView     work_generic = work;
 
     A = A_org;
     tau = tau_org;
@@ -277,15 +297,60 @@ lqf(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 #   endif
 }
 
-//-- forwarding ----------------------------------------------------------------
+//-- (ge)lqf [complex variant] -------------------------------------------------
+
+#ifdef USE_CXXLAPACK
+
 template <typename MA, typename VTAU, typename VWORK>
-void
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                 && IsComplexDenseVector<VTAU>::value
+                 && IsComplexDenseVector<VWORK>::value,
+         void>::Type
 lqf(MA &&A, VTAU &&tau, VWORK &&work)
 {
-    CHECKPOINT_ENTER;
-    lqf(A, tau, work);
-    CHECKPOINT_LEAVE;
+    using std::min;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::ElementType   ElementType;
+    typedef typename MatrixA::IndexType     IndexType;
+    typedef typename RemoveRef<VTAU>::Type  VectorTau;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+
+#   ifndef NDEBUG
+//
+//  Test the input parameters
+//
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(tau.firstIndex()==1);
+    ASSERT(work.firstIndex()==1);
+
+    const IndexType m = A.numRows();
+    const IndexType n = A.numCols();
+    const IndexType k = min(m,n);
+
+    ASSERT(tau.length()==k);
+    ASSERT(work.length()>=m || work.length()==IndexType(0));
+#   endif
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    typename MatrixA::NoView        A_org    = A;
+    typename VectorTau::NoView      tau_org  = tau;
+    typename VectorWork::NoView     work_org = work;
+#   endif
+
+//
+//  Call implementation
+//
+    external::lqf_impl(A, tau, work);
 }
+
+#endif // USE_CXXLAPACK
 
 } } // namespace lapack, flens
 

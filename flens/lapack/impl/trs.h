@@ -33,14 +33,15 @@
 /* Based on
  *
        SUBROUTINE DGETRS( TRANS, N, NRHS, A, LDA, IPIV, B, LDB, INFO )
+       SUBROUTINE ZGETRS( TRANS, N, NRHS, A, LDA, IPIV, B, LDB, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
  *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
  *  -- April 2011                                                      --
 
-       SUBROUTINE DTRTRS( UPLO, TRANS, DIAG, N, NRHS, A, LDA, B, LDB,
-      $                   INFO )
+       SUBROUTINE DTRTRS( UPLO, TRANS, DIAG, N, NRHS, A, LDA, B, LDB, INFO )
+       SUBROUTINE ZTRTRS( UPLO, TRANS, DIAG, N, NRHS, A, LDA, B, LDB, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -58,36 +59,45 @@
 
 namespace flens { namespace lapack {
 
-//== generic lapack implementation =============================================
-// getrs
-template <typename MA, typename VP, typename MB>
-    void
-    trs(Transpose trans, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
-        GeMatrix<MB> &B);
+//== (ge)trs ===================================================================
+//
+//  Real and complex variant
+//
+template <typename MA, typename VPIV, typename MB>
+    typename RestrictTo<IsGeMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsGeMatrix<MB>::value,
+             void>::Type
+    trs(Transpose trans, const MA &A, const VPIV &piv, MB &&B);
 
-template <typename MA, typename VP, typename VB>
-    void
-    trs(Transpose trans, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
-        DenseVector<VB> &b);
+//
+//  Variant for convenience: Rhs b is vector
+//
+template <typename MA, typename VPIV, typename VB>
+    typename RestrictTo<IsGeMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsDenseVector<VB>::value,
+             void>::Type
+    trs(Transpose trans, const MA &A, const VPIV &piv, VB &&b);
 
-// trtrs
-template <typename MA, typename VP, typename MB>
-    void
-    trs(Transpose trans, const TrMatrix<MA> &A, GeMatrix<MB> &B);
-
-template <typename MA, typename VP, typename VB>
-    void
-    trs(Transpose trans, const TrMatrix<MA> &A, DenseVector<VB> &b);
-
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VP, typename MB>
-    void
-    trs(Transpose trans, const MA &A, const VP &piv, MB &&B);
-
+//== (tr)trs ===================================================================
+//
+//  Real and complex variant
+//
 template <typename MA, typename MB>
-    typename MA::IndexType
+    typename RestrictTo<IsTrMatrix<MA>::value
+                     && IsGeMatrix<MB>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
     trs(Transpose trans, const MA &A, MB &&B);
+
+//
+//  Variant for convenience: Rhs b is vector
+//
+template <typename MA, typename VB>
+    typename RestrictTo<IsTrMatrix<MA>::value
+                     && IsDenseVector<VB>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    trs(Transpose trans, const MA &A, VB &&b);
 
 } } // namespace lapack, flens
 

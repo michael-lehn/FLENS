@@ -47,6 +47,8 @@ gesv(IndexType  n,
      double     *B,
      IndexType  ldB)
 {
+    DEBUG_CXXLAPACK("dgesv");
+
     IndexType info;
     LAPACK_IMPL(dgesv)(&n,
                        &nRhs,
@@ -75,6 +77,8 @@ gesv(IndexType              n,
      std::complex<double>   *B,
      IndexType              ldB)
 {
+    DEBUG_CXXLAPACK("zgesv");
+
     IndexType info;
     LAPACK_IMPL(zgesv)(&n,
                        &nRhs,

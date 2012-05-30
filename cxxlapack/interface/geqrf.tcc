@@ -48,6 +48,7 @@ geqrf(IndexType   m,
       IndexType   lWork)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("dgeqrf");
     LAPACK_IMPL(dgeqrf)(&m,
                         &n,
                         A,
@@ -76,6 +77,7 @@ geqrf(IndexType             m,
       IndexType             lWork)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("zgeqrf");
     LAPACK_IMPL(zgeqrf)(&m,
                         &n,
                         reinterpret_cast<double *>(A),

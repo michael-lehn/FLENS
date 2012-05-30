@@ -305,14 +305,24 @@ bal_impl(BALANCE::Balance    job,
 //== public interface ==========================================================
 
 template <typename MA, typename IndexType, typename VSCALE>
-void
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                 && IsInteger<IndexType>::value
+                 && IsRealDenseVector<VSCALE>::value,
+         void>::Type
 bal(BALANCE::Balance    job,
-    GeMatrix<MA>        &A,
+    MA                  &&A,
     IndexType           &iLo,
     IndexType           &iHi,
-    DenseVector<VSCALE> &scale)
+    VSCALE              &&scale)
 {
     LAPACK_DEBUG_OUT("bal");
+
+//
+//  Remove references from the types
+//
+    typedef typename RemoveRef<MA>::Type      MatrixA;
+    typedef typename RemoveRef<VSCALE>::Type  VectorScale;
+
 
 #   ifndef NDEBUG
 //
@@ -327,10 +337,10 @@ bal(BALANCE::Balance    job,
 //
 //  Make copies of output arguments
 //
-    typename GeMatrix<MA>::NoView           _A      = A;
-    IndexType                               _iLo    = iLo;
-    IndexType                               _iHi    = iHi;
-    typename DenseVector<VSCALE>::NoView    _scale  = scale;
+    typename MatrixA::NoView        A_org      = A;
+    IndexType                       iLo_org    = iLo;
+    IndexType                       iHi_org    = iHi;
+    typename VectorScale::NoView    scale_org  = scale;
 #   endif
 
 //
@@ -342,26 +352,38 @@ bal(BALANCE::Balance    job,
 //
 //  Compare results
 //
-    external::bal_impl(job, _A, _iLo, _iHi, _scale);
+    typename MatrixA::NoView        A_generic      = A;
+    IndexType                       iLo_generic    = iLo;
+    IndexType                       iHi_generic    = iHi;
+    typename VectorScale::NoView    scale_generic  = scale;
+
+    A = A_org;
+    iLo = iLo_org;
+    iHi = iHi_org;
+    scale = scale_org;
+
+    external::bal_impl(job, A, iLo, iHi, scale);
 
     bool failed = false;
-    if (! isIdentical(A, _A, " A", "_A")) {
-        std::cerr << "CXXLAPACK:  A = " << A << std::endl;
-        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+    if (! isIdentical(A_generic, A, "A_generic", "A")) {
+        std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
+        std::cerr << "F77LAPACK: A = " << A << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(iLo, _iLo, " iLo", "_iLo")) {
+    if (! isIdentical(iLo_generic, iLo, "iLo_generic", "iLo")) {
         failed = true;
     }
 
-    if (! isIdentical(iHi, _iHi, " iHi", "_iHi")) {
+    if (! isIdentical(iHi_generic, iHi, "iHi_generic", "iHi")) {
         failed = true;
     }
 
-    if (! isIdentical(scale, _scale, " scale", "_scale")) {
-        std::cerr << "CXXLAPACK:  scale = " << scale << std::endl;
-        std::cerr << "F77LAPACK: _scale = " << _scale << std::endl;
+    if (! isIdentical(scale_generic, scale, "scale_generic", "scale")) {
+        std::cerr << "CXXLAPACK: scale_generic = "
+                  << scale_generic << std::endl;
+        std::cerr << "F77LAPACK: scale = "
+                  << scale << std::endl;
         failed = true;
     }
 
@@ -370,21 +392,6 @@ bal(BALANCE::Balance    job,
     }
 #   endif
 }
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename IndexType, typename VSCALE>
-void
-bal(BALANCE::Balance    job,
-    MA                  &&A,
-    IndexType           &&iLo,
-    IndexType           &&iHi,
-    VSCALE              &&scale)
-{
-    CHECKPOINT_ENTER;
-    bal(job, A, iLo, iHi, scale);
-    CHECKPOINT_LEAVE;
-}
-
 
 } } // namespace lapack, flens
 

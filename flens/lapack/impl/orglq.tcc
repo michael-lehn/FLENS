@@ -49,7 +49,10 @@
 namespace flens { namespace lapack {
 
 //== generic lapack implementation =============================================
+
 namespace generic {
+
+//-- orglq ---------------------------------------------------------------------
 
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
 void
@@ -184,20 +187,23 @@ orglq_impl(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
 
 namespace external {
 
+//-- orglq ---------------------------------------------------------------------
+
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
 void
-orglq_impl(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
-           DenseVector<VWORK> &work)
+orglq_impl(IndexType                k,
+           GeMatrix<MA>             &A,
+           const DenseVector<VTAU>  &tau,
+           DenseVector<VWORK>       &work)
 {
-    IndexType info = cxxlapack::orglq<IndexType>(A.numRows(),
-                                                 A.numCols(),
-                                                 k,
-                                                 A.data(),
-                                                 A.leadingDimension(),
-                                                 tau.data(),
-                                                 work.data(),
-                                                 work.length());
-    ASSERT(info==0);
+    cxxlapack::orglq<IndexType>(A.numRows(),
+                                A.numCols(),
+                                k,
+                                A.data(),
+                                A.leadingDimension(),
+                                tau.data(),
+                                work.data(),
+                                work.length());
 }
 
 } // namespace external
@@ -206,12 +212,22 @@ orglq_impl(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
 
 //== public interface ==========================================================
 
+//-- orglq ---------------------------------------------------------------------
+
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
-void
-orglq(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
-      DenseVector<VWORK> &work)
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                 && IsRealDenseVector<VTAU>::value
+                 && IsRealDenseVector<VWORK>::value,
+         void>::Type
+orglq(IndexType k, MA &&A, const VTAU &tau, VWORK &&work)
 {
-    typedef typename GeMatrix<MA>::ElementType  ElementType;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::ElementType   ElementType;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+
 //
 //  Test the input parameters
 //
@@ -234,8 +250,8 @@ orglq(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-    typename GeMatrix<MA>::NoView       A_org      = A;
-    typename DenseVector<VWORK>::NoView work_org   = work;
+    typename MatrixA::NoView    A_org      = A;
+    typename VectorWork::NoView work_org   = work;
 #   endif
 
 //
@@ -277,24 +293,11 @@ orglq(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
 
     if (failed) {
         std::cerr << "error in: orglq.tcc" << std::endl;
-        std::cerr << "m = " << m << std::endl;
-        std::cerr << "n = " << n << std::endl;
-        std::cerr << "k = " << k << std::endl;
         ASSERT(0);
     } else {
 //        std::cerr << "passed: orglq.tcc" << std::endl;
     }
 #   endif
-}
-
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
-void
-orglq(IndexType k, MA &&A, const VTAU &tau, VWORK &&work)
-{
-    CHECKPOINT_ENTER;
-    orglq(k, A, tau, work);
-    CHECKPOINT_LEAVE;
 }
 
 } } // namespace lapack, flens

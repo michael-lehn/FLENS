@@ -29,8 +29,8 @@ Mac OS X specific feature.
   *--[SHELL]----------------------------------------------------------------*
   |                                                                         |
   |  cd flens/examples                                                      |
-  |  clang++ -framework vecLib -std=c++0x -Wall -I../..                 +++ |
-  |          -o tut05-page02-example1                                   +++ |
+  |  g++ -framework vecLib -std=c++11 -Wall -I../..                      +++|
+  |          -o tut05-page02-example1                                    +++|
   |          tut05-page02-example1.cc                                       |
   |  ./tut05-page02-example1                                                |
   |                                                                         |

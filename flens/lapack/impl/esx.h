@@ -35,6 +35,9 @@
       SUBROUTINE DGEESX( JOBVS, SORT, SELECT, SENSE, N, A, LDA, SDIM,
      $                   WR, WI, VS, LDVS, RCONDE, RCONDV, WORK, LWORK,
      $                   IWORK, LIWORK, BWORK, INFO )
+      SUBROUTINE ZGEESX( JOBVS, SORT, SELECT, SENSE, N, A, LDA, SDIM, W,
+     $                   VS, LDVS, RCONDE, RCONDV, WORK, LWORK, RWORK,
+     $                   BWORK, INFO )
  *
  *  -- LAPACK driver routine (version 3.2.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -51,34 +54,96 @@
 
 namespace flens { namespace lapack {
 
-//== esx =======================================================================
+//== (ge)esx ===================================================================
+//
+//  Real variant
+//
+template <typename SelectFunction, typename MA, typename IndexType,
+          typename VWR, typename VWI, typename MVS,
+          typename RCONDE, typename RCONDV,
+          typename VWORK, typename VIWORK, typename VBWORK>
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsInteger<IndexType>::value
+                     && IsRealDenseVector<VWR>::value
+                     && IsRealDenseVector<VWI>::value
+                     && IsRealGeMatrix<MVS>::value
+                     && IsNotComplex<RCONDE>::value
+                     && IsNotComplex<RCONDV>::value
+                     && IsRealDenseVector<VWORK>::value
+                     && IsRealDenseVector<VIWORK>::value
+                     && IsRealDenseVector<VBWORK>::value,
+             IndexType>::Type
+    esx(bool                computeSchurVectors,
+        bool                sortEigenvalues,
+        SelectFunction      selectFunction,
+        SENSE::Sense        sense,
+        MA                  &&A,
+        IndexType           &sDim,
+        VWR                 &&wr,
+        VWI                 &&wi,
+        MVS                 &&VS,
+        RCONDE              &rCondE,
+        RCONDV              &rCondV,
+        VWORK               &&work,
+        VIWORK              &&iWork,
+        VBWORK              &&bWork);
+
+#ifdef USE_CXXLAPACK
+//
+//  Complex variant
+//
+template <typename SelectFunction, typename MA, typename IndexType,
+          typename VW, typename MVS, typename RCONDE, typename RCONDV,
+          typename VWORK, typename VRWORK, typename VBWORK>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsInteger<IndexType>::value
+                     && IsComplexDenseVector<VW>::value
+                     && IsComplexGeMatrix<MVS>::value
+                     && IsNotComplex<RCONDE>::value
+                     && IsNotComplex<RCONDV>::value
+                     && IsComplexDenseVector<VWORK>::value
+                     && IsRealDenseVector<VRWORK>::value
+                     && IsRealDenseVector<VBWORK>::value,
+             IndexType>::Type
+    esx(bool                computeSchurVectors,
+        bool                sortEigenvalues,
+        SelectFunction      selectFunction,
+        SENSE::Sense        sense,
+        MA                  &&A,
+        IndexType           &sDim,
+        VW                  &&w,
+        MVS                 &&VS,
+        RCONDE              &rCondE,
+        RCONDV              &rCondV,
+        VWORK               &&work,
+        VRWORK              &&rWork,
+        VBWORK              &&bWork);
+
+#endif // USE_CXXLAPACK
+
+//== workspace query ===========================================================
+//
+//  Real variant
+//
 template <typename MA>
-    Quadruple<typename GeMatrix<MA>::IndexType>
+    typename RestrictTo<IsNotComplex<typename MA::ElementType>::value,
+             Quadruple<typename MA::IndexType> >::Type
     esx_wsq(bool                 computeSchurVectors,
             SENSE::Sense         sense,
             const GeMatrix<MA>   &A);
 
-template <typename SelectFunction, typename MA, typename IndexType,
-          typename VWR, typename VWI, typename MVS,
-          typename RCONDE, typename RCONDV,
-          typename VWORK, typename VIWORK, typename BWORK>
-    IndexType
-    esx(bool                 computeSchurVectors,
-        bool                 sortEigenvalues,
-        SelectFunction       selectFunction,
-        SENSE::Sense         sense,
-        GeMatrix<MA>         &A,
-        IndexType            &sDim,
-        DenseVector<VWR>     &wr,
-        DenseVector<VWI>     &wi,
-        GeMatrix<MVS>        &VS,
-        RCONDE               &rCondE,
-        RCONDV               &rCondV,
-        DenseVector<VWORK>   &work,
-        DenseVector<VIWORK>  &iWork,
-        DenseVector<BWORK>   &bWork);
+#ifdef USE_CXXLAPACK
+//
+//  Complex variant
+//
+template <typename MA>
+    typename RestrictTo<IsComplex<typename MA::ElementType>::value,
+             Triple<typename MA::IndexType> >::Type
+    esx_wsq(bool                 computeSchurVectors,
+            SENSE::Sense         sense,
+            const GeMatrix<MA>   &A);
 
-//-- forwarding ----------------------------------------------------------------
+#endif // USE_CXXLAPACK
 
 } } // namespace lapack, flens
 

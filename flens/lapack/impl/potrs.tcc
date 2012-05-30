@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DPOTRS( UPLO, N, NRHS, A, LDA, B, LDB, INFO )
+       SUBROUTINE ZPOTRS( UPLO, N, NRHS, A, LDA, B, LDB, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -52,6 +53,8 @@ namespace flens { namespace lapack {
 //== generic lapack implementation =============================================
 
 namespace generic {
+
+//-- potrs [real variant] ------------------------------------------------------
 
 template <typename MA, typename MB>
 void
@@ -102,11 +105,14 @@ potrs_impl(const SyMatrix<MA> &A, GeMatrix<MB> &B)
 
 } // namespace generic
 
+
 //== interface for native lapack ===============================================
 
 #ifdef USE_CXXLAPACK
 
 namespace external {
+
+//-- potrs [real variant] ------------------------------------------------------
 
 template <typename MA, typename MB>
 void
@@ -123,17 +129,44 @@ potrs_impl(const SyMatrix<MA> &A, GeMatrix<MB> &B)
                                 B.leadingDimension());
 }
 
+//-- potrs [complex variant] ---------------------------------------------------
+
+template <typename MA, typename MB>
+void
+potrs_impl(const HeMatrix<MA> &A, GeMatrix<MB> &B)
+{
+    typedef typename HeMatrix<MA>::IndexType  IndexType;
+
+    cxxlapack::potrs<IndexType>(getF77Char(A.upLo()),
+                                A.dim(),
+                                B.numCols(),
+                                A.data(),
+                                A.leadingDimension(),
+                                B.data(),
+                                B.leadingDimension());
+}
+
 } // namespace external
 
 #endif // USE_CXXLAPACK
 
+
 //== public interface ==========================================================
 
+//-- potrs [real variant] ------------------------------------------------------
+
 template <typename MA, typename MB>
-void
-potrs(const SyMatrix<MA> &A, GeMatrix<MB> &B)
+typename RestrictTo<IsRealSyMatrix<MA>::value
+                 && IsRealGeMatrix<MB>::value,
+         void>::Type
+potrs(const MA &A, MB &&B)
 {
-    typedef typename SyMatrix<MA>::IndexType    IndexType;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+    typedef typename RemoveRef<MB>::Type    MatrixB;
 
 //
 //  Test the input parameters
@@ -150,7 +183,7 @@ potrs(const SyMatrix<MA> &A, GeMatrix<MB> &B)
 //
 //  Make copies of output arguments
 //
-    typename GeMatrix<MB>::NoView B_org = B;
+    typename MatrixB::NoView B_org = B;
 #   endif
 
 //
@@ -162,7 +195,7 @@ potrs(const SyMatrix<MA> &A, GeMatrix<MB> &B)
 //
 //  Make copies of generic results
 //
-    typename GeMatrix<MB>::NoView B_generic = B;
+    typename MatrixB::NoView B_generic = B;
 //
 //  Restore output arguments
 //
@@ -186,15 +219,48 @@ potrs(const SyMatrix<MA> &A, GeMatrix<MB> &B)
 #   endif
 }
 
-//-- forwarding ----------------------------------------------------------------
+//-- potrs [complex variant] ---------------------------------------------------
+
+#ifdef USE_CXXLAPACK
+
 template <typename MA, typename MB>
-void
+typename RestrictTo<IsHeMatrix<MA>::value
+                 && IsComplexGeMatrix<MB>::value,
+         void>::Type
 potrs(const MA &A, MB &&B)
 {
-    CHECKPOINT_ENTER;
-    potrs(A, B);
-    CHECKPOINT_LEAVE;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+    typedef typename RemoveRef<MB>::Type    MatrixB;
+
+//
+//  Test the input parameters
+//
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+
+    ASSERT(B.firstRow()==1);
+    ASSERT(B.firstCol()==1);
+
+    ASSERT(A.dim()==B.numRows());
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    typename MatrixB::NoView B_org = B;
+#   endif
+
+//
+//  Call implementation
+//
+    external::potrs_impl(A, B);
 }
+
+#endif // USE_CXXLAPACK
 
 } } // namespace lapack, flens
 

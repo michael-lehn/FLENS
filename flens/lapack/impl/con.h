@@ -32,8 +32,8 @@
 
 /* Based on
  *
-       SUBROUTINE DGECON( NORM, N, A, LDA, ANORM, RCOND, WORK, IWORK,
-      $                   INFO )
+       SUBROUTINE DGECON( NORM, N, A, LDA, ANORM, RCOND, WORK, IWORK, INFO )
+       SUBROUTINE ZGECON( NORM, N, A, LDA, ANORM, RCOND, WORK, RWORK, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -51,26 +51,47 @@
 namespace flens { namespace lapack {
 
 //== (ge)con ===================================================================
+//
+//  Real variant
+//
 template <typename MA, typename NORMA, typename RCOND,
           typename VWORK, typename VIWORK>
-    void
-    con(Norm                norm,
-        const GeMatrix<MA>  &A,
-        const NORMA         &normA,
-        RCOND               &rCond,
-        DenseVector<VWORK>  &work,
-        DenseVector<VIWORK> &iwork);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename NORMA, typename RCOND,
-          typename VWORK, typename VIWORK>
-    void
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsNotComplex<NORMA>::value
+                     && IsNotComplex<RCOND>::value
+                     && IsRealDenseVector<VWORK>::value
+                     && IsIntegerDenseVector<VIWORK>::value,
+             void>::Type
     con(Norm         norm,
         const MA     &A,
         const NORMA  &normA,
-        RCOND        &&rCond,
+        RCOND        &rCond,
         VWORK        &&work,
         VIWORK       &&iwork);
+
+
+#ifdef USE_CXXLAPACK
+
+//
+//  Complex variant
+//
+template <typename MA, typename NORMA, typename RCOND,
+          typename VWORK, typename VRWORK>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsNotComplex<NORMA>::value
+                     && IsNotComplex<RCOND>::value
+                     && IsComplexDenseVector<VWORK>::value
+                     && IsRealDenseVector<VRWORK>::value,
+             void>::Type
+    con(Norm         norm,
+        const MA     &A,
+        const NORMA  &normA,
+        RCOND        &rCond,
+        VWORK        &&work,
+        VRWORK       &&rwork);
+
+#endif // USE_CXXLAPACK
+
 
 } } // namespace lapack, flens
 

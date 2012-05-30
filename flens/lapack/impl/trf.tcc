@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DGETRF( M, N, A, LDA, IPIV, INFO )
+       SUBROUTINE ZGETRF( M, N, A, LDA, IPIV, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -52,6 +53,8 @@ namespace flens { namespace lapack {
 //== generic lapack implementation =============================================
 
 namespace generic {
+
+//-- (ge)trf [real and complex variant] ----------------------------------------
 
 template <typename MA, typename VP>
 typename GeMatrix<MA>::IndexType
@@ -155,6 +158,8 @@ trf_impl(GeMatrix<MA> &A, DenseVector<VP> &piv)
 
 namespace external {
 
+//-- (ge)trf [real and complex variant] ----------------------------------------
+
 template <typename MA, typename VP>
 typename GeMatrix<MA>::IndexType
 trf_impl(GeMatrix<MA> &A, DenseVector<VP> &piv)
@@ -172,11 +177,20 @@ trf_impl(GeMatrix<MA> &A, DenseVector<VP> &piv)
 
 //== public interface ==========================================================
 
-template <typename MA, typename VP>
-typename GeMatrix<MA>::IndexType
-trf(GeMatrix<MA> &A, DenseVector<VP> &piv)
+//-- (ge)trf [real and complex variant] ----------------------------------------
+
+template <typename MA, typename VPIV>
+typename RestrictTo<IsGeMatrix<MA>::value
+                 && IsIntegerDenseVector<VPIV>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+trf(MA &&A, VPIV &&piv)
 {
-    typedef typename GeMatrix<MA>::IndexType    IndexType;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+    typedef typename RemoveRef<VPIV>::Type  VectorPiv;
 
 //
 //  Test the input parameters
@@ -190,8 +204,8 @@ trf(GeMatrix<MA> &A, DenseVector<VP> &piv)
 //
 //  Make copies of output arguments
 //
-    typename GeMatrix<MA>::NoView       _A      = A;
-    typename DenseVector<VP>::NoView    _piv    = piv;
+    typename MatrixA::NoView    _A      = A;
+    typename VectorPiv::NoView  _piv    = piv;
 #   endif
 
 //
@@ -229,20 +243,6 @@ trf(GeMatrix<MA> &A, DenseVector<VP> &piv)
     }
 
 #   endif
-
-    return info;
-}
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VP>
-typename MA::IndexType
-trf(MA &&A, VP &&piv)
-{
-    typedef typename MA::IndexType  IndexType;
-
-    CHECKPOINT_ENTER;
-    IndexType info =  trf(A, piv);
-    CHECKPOINT_LEAVE;
 
     return info;
 }

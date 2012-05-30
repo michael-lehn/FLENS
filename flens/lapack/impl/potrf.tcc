@@ -32,7 +32,8 @@
 
 /* Based on
  *
-    SUBROUTINE DPOTRF( UPLO, N, A, LDA, INFO )
+       SUBROUTINE DPOTRF( UPLO, N, A, LDA, INFO )
+       SUBROUTINE ZPOTRF( UPLO, N, A, LDA, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -52,6 +53,8 @@ namespace flens { namespace lapack {
 //== generic lapack implementation =============================================
 
 namespace generic {
+
+//-- potrf [real variant] ------------------------------------------------------
 
 template <typename MA>
 typename SyMatrix<MA>::IndexType
@@ -176,6 +179,8 @@ potrf_impl(SyMatrix<MA> &A)
 
 namespace external {
 
+//-- potrf [real variant] ------------------------------------------------------
+
 template <typename MA>
 typename SyMatrix<MA>::IndexType
 potrf_impl(SyMatrix<MA> &A)
@@ -190,17 +195,41 @@ potrf_impl(SyMatrix<MA> &A)
     return info;
 }
 
+//-- potrf [complex variant] ---------------------------------------------------
+
+template <typename MA>
+typename HeMatrix<MA>::IndexType
+potrf_impl(HeMatrix<MA> &A)
+{
+    typedef typename HeMatrix<MA>::IndexType  IndexType;
+
+    IndexType info = cxxlapack::potrf<IndexType>(getF77Char(A.upLo()),
+                                                 A.dim(),
+                                                 A.data(),
+                                                 A.leadingDimension());
+    ASSERT(info>=0);
+    return info;
+}
+
+
 } // namespace external
 
 #endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
+//-- potrf [real variant] ------------------------------------------------------
+
 template <typename MA>
-typename SyMatrix<MA>::IndexType
-potrf(SyMatrix<MA> &A)
+typename RestrictTo<IsRealSyMatrix<MA>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+potrf(MA &&A)
 {
-    typedef typename SyMatrix<MA>::IndexType    IndexType;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
 
 //
 //  Test the input parameters
@@ -212,7 +241,7 @@ potrf(SyMatrix<MA> &A)
 //
 //  Make copies of output arguments
 //
-    typename SyMatrix<MA>::NoView       _A      = A;
+    typename MatrixA::NoView       _A      = A;
 #   endif
 
 //
@@ -248,19 +277,36 @@ potrf(SyMatrix<MA> &A)
     return info;
 }
 
-//-- forwarding ----------------------------------------------------------------
+#ifdef USE_CXXLAPACK
+
+//-- potrf [complex variant] ---------------------------------------------------
+
 template <typename MA>
-typename MA::IndexType
+typename RestrictTo<IsHeMatrix<MA>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
 potrf(MA &&A)
 {
-    typedef typename MA::IndexType  IndexType;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
 
-    CHECKPOINT_ENTER;
-    const IndexType info =  potrf(A);
-    CHECKPOINT_LEAVE;
+//
+//  Test the input parameters
+//
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+
+//
+//  Call implementation
+//
+    const IndexType info = external::potrf_impl(A);
 
     return info;
 }
+
+#endif // USE_CXXLAPACK
 
 } } // namespace lapack, flens
 

@@ -43,7 +43,7 @@ struct RestrictTo
 template <typename T>
 struct RestrictTo<true, T>
 {
-    typedef T Type;
+    typedef typename std::remove_reference<T>::type Type;
 };
 
 } // namespace flens

@@ -25,7 +25,7 @@ Compile
   *--[SHELL]----------------------------------------------------------------*
   |                                                                         |
   |  cd flens/examples                                                      |
-  |  clang++ -std=c++0x -Wall -I../.. -o lapack-geev lapack-geev.cc         |
+  |  g++ -std=c++11 -Wall -I../.. -o lapack-geev lapack-geev.cc             |
   |                                                                         |
   *-------------------------------------------------------------------------*
 
@@ -74,15 +74,14 @@ Only a few modifications were made which will be pointed out in the following:
 Compile and Run
 ---------------
 
-  *--[SHELL]----------------------------------------------------------------*
-  |                                                                         |
-  |  cd flens/examples                                                      |
-  |  clang++ -Wall -std=c++0x -I../.. -I/opt/local/include/              +++|
-  |       -c qd-lapack-geev.cc                                              |
-  |  clang++ -o qd-lapack-geev qd-lapack-geev.o /opt/local/lib/libqd.a      |
-  |  ./qd-lapack-geev                                                       |
-  |                                                                         |
-  *-------------------------------------------------------------------------*
+  *--[SHELL]-----------------------------------------------------------------*
+  |                                                                          |
+  |  cd flens/examples                                                       |
+  |  g++ -Wall -std=c++11 -I../.. -I/opt/local/include/ -c qd-lapack-geev.cc |
+  |  g++ -o qd-lapack-geev qd-lapack-geev.o /opt/local/lib/libqd.a           |
+  |  ./qd-lapack-geev                                                        |
+  |                                                                          |
+  *--------------------------------------------------------------------------*
 
 
 Using mpfr::real (C++ Interface for mpfr)
@@ -124,7 +123,7 @@ Compile and Run
   *--[SHELL]----------------------------------------------------------------*
   |                                                                         |
   |  cd flens/examples                                                      |
-  |  clang++ -Wall -std=c++0x -I../.. -I/opt/local/include               +++|
+  |  g++ -Wall -std=c++11 -I../.. -I/opt/local/include                   +++|
   |       -o mpfr-real-lapack-geev mpfr-real-lapack-geev.cc              +++|
   |       -L /opt/local/lib -lmpfr -lgmp                                    |
   |  ./mpfr-real-lapack-geev                                                |

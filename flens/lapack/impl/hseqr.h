@@ -52,15 +52,15 @@ namespace flens { namespace lapack {
 namespace HSEQR {
 
     enum Job {
-        Eigenvalues,    // compute eigenvalues only
-        Schur           // compute eigenvalues and the Schur form T
+        Eigenvalues = 'E', // compute eigenvalues only
+        Schur       = 'S'  // compute eigenvalues and the Schur form T
     };
 
     enum ComputeZ {
-        No,             // no Schur vectors are computed;
-        Init,           // Z is initialized to the unit matrix and the matrix Z
+        No     = 'N',   // no Schur vectors are computed;
+        Init   = 'I',   // Z is initialized to the unit matrix and the matrix Z
                         // of Schur vectors of H is returned;
-        NoInit,         // Z must contain an orthogonal matrix Q on entry, and
+        NoInit = 'V',   // Z must contain an orthogonal matrix Q on entry, and
                         // the product Q*Z is returned.
     };
 

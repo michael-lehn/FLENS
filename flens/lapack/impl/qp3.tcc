@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DGEQP3( M, N, A, LDA, JPVT, TAU, WORK, LWORK, INFO )
+       SUBROUTINE ZGEQP3( M, N, A, LDA, JPVT, TAU, WORK, LWORK, RWORK, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -51,6 +52,8 @@ namespace flens { namespace lapack {
 //== generic lapack implementation =============================================
 
 namespace generic {
+
+//-- (ge)qp3 [real variant] ----------------------------------------------------
 
 template <typename MA, typename JPIV, typename VTAU, typename VWORK>
 void
@@ -247,9 +250,13 @@ qp3_impl(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv, DenseVector<VTAU> &tau,
 
 namespace external {
 
+//-- (ge)qp3 [real variant] ----------------------------------------------------
+
 template <typename MA, typename JPIV, typename VTAU, typename VWORK>
 void
-qp3_impl(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv,  DenseVector<VTAU> &tau,
+qp3_impl(GeMatrix<MA>       &A,
+         DenseVector<JPIV>  &jPiv,
+         DenseVector<VTAU>  &tau,
          DenseVector<VWORK> &work)
 {
     typedef typename GeMatrix<MA>::IndexType  IndexType;
@@ -264,20 +271,59 @@ qp3_impl(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv,  DenseVector<VTAU> &tau,
                                 work.length());
 }
 
+//-- (ge)qp3 [complex variant] ----------------------------------------------------
+
+template <typename MA, typename JPIV, typename VTAU, typename VWORK,
+          typename VRWORK>
+void
+qp3_impl(GeMatrix<MA>        &A,
+         DenseVector<JPIV>   &jPiv,
+         DenseVector<VTAU>   &tau,
+         DenseVector<VWORK>  &work,
+         DenseVector<VRWORK> &rWork)
+{
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
+
+    cxxlapack::geqp3<IndexType>(A.numRows(),
+                                A.numCols(),
+                                A.data(),
+                                A.leadingDimension(),
+                                jPiv.data(),
+                                tau.data(),
+                                work.data(),
+                                work.length(),
+                                rWork.data());
+}
+
 } // namespace external
 
 #endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
-template <typename MA, typename JPIV, typename VTAU, typename VWORK>
-void
-qp3(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv, DenseVector<VTAU> &tau,
-    DenseVector<VWORK> &work)
+//-- (ge)qp3 [real variant] ----------------------------------------------------
+
+template <typename MA, typename VJPIV, typename VTAU, typename VWORK>
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                 && IsIntegerDenseVector<VJPIV>::value
+                 && IsRealDenseVector<VTAU>::value
+                 && IsRealDenseVector<VWORK>::value,
+         void>::Type
+qp3(MA      &&A,
+    VJPIV   &&jPiv,
+    VTAU    &&tau,
+    VWORK   &&work)
 {
     using std::min;
-    typedef typename GeMatrix<MA>::ElementType  ElementType;
-    typedef typename GeMatrix<MA>::IndexType    IndexType;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type        MatrixA;
+    typedef typename MatrixA::ElementType       ElementType;
+    typedef typename MatrixA::IndexType         IndexType;
+    typedef typename RemoveRef<VJPIV>::Type     VectorJPiv;
+    typedef typename RemoveRef<VTAU>::Type      VectorTau;
+    typedef typename RemoveRef<VWORK>::Type     VectorWork;
 
 #   ifndef NDEBUG
 //
@@ -302,10 +348,10 @@ qp3(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv, DenseVector<VTAU> &tau,
 //
 //  Make copies of output arguments
 //
-    typename GeMatrix<MA>::NoView       A_org      = A;
-    typename DenseVector<JPIV>::NoView  jPiv_org   = jPiv;
-    typename DenseVector<VTAU>::NoView  tau_org    = tau;
-    typename DenseVector<VWORK>::NoView work_org   = work;
+    typename MatrixA::NoView     A_org      = A;
+    typename VectorJPiv::NoView  jPiv_org   = jPiv;
+    typename VectorTau::NoView   tau_org    = tau;
+    typename VectorWork::NoView  work_org   = work;
 #   endif
 
 //
@@ -317,10 +363,10 @@ qp3(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv, DenseVector<VTAU> &tau,
 //
 //  Restore output arguments
 //
-    typename GeMatrix<MA>::NoView       A_generic    = A;
-    typename DenseVector<JPIV>::NoView  jPiv_generic = jPiv;
-    typename DenseVector<VTAU>::NoView  tau_generic  = tau;
-    typename DenseVector<VWORK>::NoView work_generic = work;
+    typename MatrixA::NoView     A_generic    = A;
+    typename VectorJPiv::NoView  jPiv_generic = jPiv;
+    typename VectorTau::NoView   tau_generic  = tau;
+    typename VectorWork::NoView  work_generic = work;
 
     A    = A_org;
     jPiv = jPiv_org;
@@ -369,15 +415,62 @@ qp3(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv, DenseVector<VTAU> &tau,
 #   endif
 }
 
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename JPIV, typename VTAU, typename VWORK>
-void
-qp3(MA &&A, JPIV &&jPiv, VTAU &&tau, VWORK &&work)
+#ifdef USE_CXXLAPACK
+//
+//  Complex variant
+//
+template <typename MA, typename VJPIV, typename VTAU, typename VWORK,
+          typename VRWORK>
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                 && IsIntegerDenseVector<VJPIV>::value
+                 && IsComplexDenseVector<VTAU>::value
+                 && IsComplexDenseVector<VWORK>::value
+                 && IsRealDenseVector<VRWORK>::value,
+         void>::Type
+qp3(MA      &&A,
+    VJPIV   &&jPiv,
+    VTAU    &&tau,
+    VWORK   &&work,
+    VRWORK  &&rWork)
 {
-    CHECKPOINT_ENTER;
-    qp3(A, jPiv, tau, work);
-    CHECKPOINT_LEAVE;
+    using std::min;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type        MatrixA;
+    typedef typename MatrixA::ElementType       ElementType;
+    typedef typename MatrixA::IndexType         IndexType;
+    typedef typename RemoveRef<VJPIV>::Type     VectorJPiv;
+    typedef typename RemoveRef<VTAU>::Type      VectorTau;
+    typedef typename RemoveRef<VWORK>::Type     VectorWork;
+
+#   ifndef NDEBUG
+//
+//  Test the input parameters
+//
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(jPiv.firstIndex()==1);
+    ASSERT(tau.firstIndex()==1);
+    ASSERT(work.firstIndex()==1);
+
+    const IndexType m = A.numRows();
+    const IndexType n = A.numCols();
+    const IndexType k = min(m, n);
+
+    ASSERT(jPiv.length()==n);
+    ASSERT(tau.length()==k);
+    ASSERT(work.length()>=n+1 || work.length()==IndexType(0));
+    ASSERT(rWork.length()>=2*n);
+#   endif
+
+//
+//  Call implementation
+//
+    external::qp3_impl(A, jPiv, tau, work, rWork);
 }
+
+#endif // USE_CXXLAPACK
 
 } } // namespace lapack, flens
 

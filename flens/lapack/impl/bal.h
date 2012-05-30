@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2011, Michael Lehn
+ *   Copyright (c) 2011-2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -48,22 +48,19 @@
 
 namespace flens { namespace lapack {
 
-//-- bal -----------------------------------------------------------------------
+//== (ge)bal ===================================================================
+//
+//  Real variant
+//
 template <typename MA, typename IndexType, typename VSCALE>
-    void
-    bal(BALANCE::Balance    job,
-        GeMatrix<MA>        &A,
-        IndexType           &iLo,
-        IndexType           &iHi,
-        DenseVector<VSCALE> &scale);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename IndexType, typename VSCALE>
-    void
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsInteger<IndexType>::value
+                     && IsRealDenseVector<VSCALE>::value,
+             void>::Type
     bal(BALANCE::Balance    job,
         MA                  &&A,
-        IndexType           &&iLo,
-        IndexType           &&iHi,
+        IndexType           &iLo,
+        IndexType           &iHi,
         VSCALE              &&scale);
 
 } } // namespace lapack, flens

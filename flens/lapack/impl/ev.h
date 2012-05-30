@@ -34,6 +34,8 @@
  *
       SUBROUTINE DGEEV( JOBVL, JOBVR, N, A, LDA, WR, WI, VL, LDVL, VR,
      $                  LDVR, WORK, LWORK, INFO )
+      SUBROUTINE ZGEEV( JOBVL, JOBVR, N, A, LDA, W, VL, LDVL, VR, LDVR,
+     $                  WORK, LWORK, RWORK, INFO )
  *
  *  -- LAPACK driver routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -50,33 +52,59 @@
 
 namespace flens { namespace lapack {
 
-//== ev_wsq (workspace query) ==================================================
+//== (ge)ev ====================================================================
+//
+//  Real variant
+//
+template <typename MA, typename VWR, typename VWI, typename MVL, typename MVR,
+          typename VWORK>
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsRealDenseVector<VWR>::value
+                     && IsRealDenseVector<VWI>::value
+                     && IsRealGeMatrix<MVL>::value
+                     && IsRealGeMatrix<MVR>::value
+                     && IsRealDenseVector<VWORK>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    ev(bool     computeVL,
+       bool     computeVR,
+       MA       &&A,
+       VWR      &&wr,
+       VWI      &&wi,
+       MVL      &&VL,
+       MVR      &&VR,
+       VWORK    &&work);
+
+
+#ifdef USE_CXXLAPACK
+
+//
+//  Complex variant
+//
+template <typename MA, typename VW, typename MVL, typename MVR, typename VWORK,
+          typename VRWORK>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsComplexDenseVector<VW>::value
+                     && IsComplexGeMatrix<MVL>::value
+                     && IsComplexGeMatrix<MVR>::value
+                     && IsComplexDenseVector<VWORK>::value
+                     && IsRealDenseVector<VRWORK>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    ev(bool     computeVL,
+       bool     computeVR,
+       MA       &&A,
+       VW       &&w,
+       MVL      &&VL,
+       MVR      &&VR,
+       VWORK    &&work,
+       VRWORK   &&rWork);
+
+#endif // USE_CXXLAPACK
+
+
+//== workspace query ===========================================================
 template <typename MA>
     Pair<typename GeMatrix<MA>::IndexType>
     ev_wsq(bool computeVL, bool computeVR, GeMatrix<MA> &A);
-
-//== ev ========================================================================
-template <typename MA, typename VWR, typename VWI, typename MVL, typename MVR,
-          typename VWORK>
-    typename GeMatrix<MA>::IndexType
-    ev(bool computeVL, bool computeVR,
-       GeMatrix<MA> &A,
-       DenseVector<VWR> &wr, DenseVector<VWI> &wi,
-       GeMatrix<MVL> &VL, GeMatrix<MVR> &VR,
-       DenseVector<VWORK> &work);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA>
-    typename MA::IndexType
-    ev_wsq(bool computeVL, bool computeVR, MA &&A);
-
-template <typename MA, typename VWR, typename VWI, typename MVL, typename MVR,
-          typename VWORK>
-    typename MA::IndexType
-    ev(bool computeVL, bool computeVR,
-       MA &&A,  VWR &&wr, VWI &&wi,
-       MVL &&VL, MVR &&VR,
-       VWORK &&work);
 
 } } // namespace lapack, flens
 

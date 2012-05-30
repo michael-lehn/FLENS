@@ -32,8 +32,8 @@
 
 /* Based on
  *
-       SUBROUTINE DGECON( NORM, N, A, LDA, ANORM, RCOND, WORK, IWORK,
-      $                   INFO )
+       SUBROUTINE DGECON( NORM, N, A, LDA, ANORM, RCOND, WORK, IWORK, INFO )
+       SUBROUTINE ZGECON( NORM, N, A, LDA, ANORM, RCOND, WORK, RWORK, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -52,6 +52,8 @@ namespace flens { namespace lapack {
 //== generic lapack implementation =============================================
 
 namespace generic {
+
+//-- (ge)con [real variant] ----------------------------------------------------
 
 template <typename MA, typename NORMA, typename RCOND,
           typename VWORK, typename VIWORK>
@@ -166,45 +168,64 @@ con_impl(Norm                norm,
 
 } // namespace generic
 
+
 //== interface for native lapack ===============================================
 
 #ifdef USE_CXXLAPACK
 
 namespace external {
 
+//-- (ge)con [real and complex variant] ----------------------------------------
+
 template <typename MA, typename NORMA, typename RCOND,
-          typename VWORK, typename VIWORK>
+          typename VWORK, typename VWORK2>
 void
 con_impl(Norm                norm,
          const GeMatrix<MA>  &A,
          const NORMA         &normA,
          RCOND               &rCond,
          DenseVector<VWORK>  &work,
-         DenseVector<VIWORK> &iwork)
+         DenseVector<VWORK2> &work2)
 {
     typedef typename GeMatrix<MA>::IndexType  IndexType;
 
     cxxlapack::gecon<IndexType>(char(norm),
                                 A.numRows(), A.data(), A.leadingDimension(),
-                                normA, rCond, work.data(), iwork.data());
+                                normA, rCond, work.data(), work2.data());
 }
 
 } // namespace external
 
 #endif // USE_CXXLAPACK
 
+
 //== public interface ==========================================================
+
+//-- (ge)con [real variant] ----------------------------------------------------
+
 template <typename MA, typename NORMA, typename RCOND,
           typename VWORK, typename VIWORK>
-void
-con(Norm                norm,
-    const GeMatrix<MA>  &A,
-    const NORMA         &normA,
-    RCOND               &rCond,
-    DenseVector<VWORK>  &work,
-    DenseVector<VIWORK> &iwork)
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                 && IsNotComplex<NORMA>::value
+                 && IsNotComplex<RCOND>::value
+                 && IsRealDenseVector<VWORK>::value
+                 && IsIntegerDenseVector<VIWORK>::value,
+         void>::Type
+con(Norm            norm,
+    const MA        &A,
+    const NORMA     &normA,
+    RCOND           &rCond,
+    VWORK           &&work,
+    VIWORK          &&iwork)
 {
-    typedef typename GeMatrix<MA>::IndexType  IndexType;
+    typedef typename MA::IndexType            IndexType;
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<VWORK>::Type   VectorWork;
+    typedef typename RemoveRef<VIWORK>::Type  VectorIWork;
+
 //
 //  Test the input parameters
 //
@@ -227,9 +248,9 @@ con(Norm                norm,
 //
 //  Make copies of output arguments
 //
-    RCOND                                rCond_org = rCond;
-    typename DenseVector<VWORK>::NoView  work_org  = work;
-    typename DenseVector<VIWORK>::NoView iwork_org = iwork;
+    RCOND                         rCond_org = rCond;
+    typename VectorWork::NoView   work_org  = work;
+    typename VectorIWork::NoView  iwork_org = iwork;
 #   endif
 
 //
@@ -241,9 +262,9 @@ con(Norm                norm,
 //
 //  Compare results
 //
-    RCOND                                rCond_generic = rCond;
-    typename DenseVector<VWORK>::NoView  work_generic  = work;
-    typename DenseVector<VIWORK>::NoView iwork_generic = iwork;
+    RCOND                         rCond_generic = rCond;
+    typename VectorWork::NoView   work_generic  = work;
+    typename VectorIWork::NoView  iwork_generic = iwork;
 
     rCond = rCond_org;
     work  = work_org;
@@ -281,21 +302,58 @@ con(Norm                norm,
 #   endif
 }
 
-//-- forwarding ----------------------------------------------------------------
+//-- (ge)con [complex variant] ----------------------------------------------------
+
+#ifdef USE_CXXLAPACK
+
 template <typename MA, typename NORMA, typename RCOND,
-          typename VWORK, typename VIWORK>
-void
-con(Norm         norm,
-    const MA     &A,
-    const NORMA  &normA,
-    RCOND        &&rCond,
-    VWORK        &&work,
-    VIWORK       &&iwork)
+          typename VWORK, typename VRWORK>
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                 && IsNotComplex<NORMA>::value
+                 && IsNotComplex<RCOND>::value
+                 && IsComplexDenseVector<VWORK>::value
+                 && IsRealDenseVector<VRWORK>::value,
+         void>::Type
+con(Norm                norm,
+    const MA            &A,
+    const NORMA         &normA,
+    RCOND               &rCond,
+    VWORK               &&work,
+    VRWORK              &&rwork)
 {
-    CHECKPOINT_ENTER;
-    con(norm, A, normA, rCond, work, iwork);
-    CHECKPOINT_LEAVE;
+    typedef typename MA::IndexType            IndexType;
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<VWORK>::Type   VectorWork;
+    typedef typename RemoveRef<VRWORK>::Type  VectorRWork;
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(norm==InfinityNorm || norm==OneNorm);
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(A.numRows()==A.numCols());
+
+    const IndexType n = A.numRows();
+
+    ASSERT(work.firstIndex()==1);
+    ASSERT(work.length()==2*n);
+
+    ASSERT(rwork.firstIndex()==1);
+    ASSERT(rwork.length()==2*n);
+#   endif
+
+//
+//  Call implementation
+//
+    external::con_impl(norm, A, normA, rCond, work, rwork);
 }
+
+#endif // USE_CXXLAPACK
 
 } } // namespace lapack, flens
 

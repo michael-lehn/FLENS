@@ -180,18 +180,28 @@ bak_impl(BALANCE::Balance             job,
 
 #endif // USE_CXXLAPACK
 
-//== public interface ==========================================================
 
+//== (ge)bak ===================================================================
+//
+// Real variant
+//
 template <typename IndexType, typename VSCALE, typename MV>
-void
-bak(BALANCE::Balance            job,
-    Side                        side,
-    IndexType                   iLo,
-    IndexType                   iHi,
-    const DenseVector<VSCALE>   &scale,
-    GeMatrix<MV>                &V)
+typename RestrictTo<IsRealDenseVector<VSCALE>::value
+                 && IsRealGeMatrix<MV>::value,
+         void>::Type
+bak(BALANCE::Balance    job,
+    Side                side,
+    IndexType           iLo,
+    IndexType           iHi,
+    const VSCALE        &scale,
+    MV                  &&V)
 {
     LAPACK_DEBUG_OUT("bak");
+
+//
+//  Remove references from the types
+//
+    typedef typename RemoveRef<MV>::Type  MatrixV;
 
 #   ifndef NDEBUG
 //
@@ -213,7 +223,7 @@ bak(BALANCE::Balance            job,
 //
 //  Make copies of output arguments
 //
-    typename GeMatrix<MV>::NoView   _V = V;
+    typename MatrixV::NoView   V_org = V;
 #   endif
 
 //
@@ -225,29 +235,18 @@ bak(BALANCE::Balance            job,
 //
 //  Compare results
 //
-    external::bak_impl(job, side, iLo, iHi, scale, _V);
+    typename MatrixV::NoView   V_generic = V;
 
-    if (! isIdentical(V, _V, " V", "_V")) {
-        std::cerr << "CXXLAPACK:  V = " << V << std::endl;
-        std::cerr << "F77LAPACK: _V = " << _V << std::endl;
+    V = V_org;
+
+    external::bak_impl(job, side, iLo, iHi, scale, V);
+
+    if (! isIdentical(V_generic, V, "V_generic", "V")) {
+        std::cerr << "CXXLAPACK: V_generic = " << V_generic << std::endl;
+        std::cerr << "F77LAPACK: V = " << V << std::endl;
         ASSERT(0);
     }
 #   endif
-}
-
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename SCALE, typename MV>
-void
-bak(BALANCE::Balance    job,
-    Side                side,
-    IndexType           iLo,
-    IndexType           iHi,
-    const SCALE         &scale,
-    MV                  &&V)
-{
-    CHECKPOINT_ENTER;
-    bak(job, side, iLo, iHi, scale, V);
-    CHECKPOINT_LEAVE;
 }
 
 } } // namespace lapack, flens

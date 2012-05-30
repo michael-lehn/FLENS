@@ -49,19 +49,11 @@
 
 namespace flens { namespace lapack {
 
-//== bak =======================================================================
+//== (ge)bak ===================================================================
 template <typename IndexType, typename VSCALE, typename MV>
-    void
-    bak(BALANCE::Balance            job,
-        Side                        side,
-        IndexType                   iLo,
-        IndexType                   iHi,
-        const DenseVector<VSCALE>   &scale,
-        GeMatrix<MV>                &V);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename VSCALE, typename MV>
-    void
+    typename RestrictTo<IsRealDenseVector<VSCALE>::value
+                     && IsRealGeMatrix<MV>::value,
+             void>::Type
     bak(BALANCE::Balance            job,
         Side                        side,
         IndexType                   iLo,

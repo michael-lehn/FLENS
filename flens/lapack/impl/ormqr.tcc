@@ -53,6 +53,8 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
+//-- ormqr_wsq [worksize query] ------------------------------------------------
+
 template <typename MA, typename MC>
 typename GeMatrix<MC>::IndexType
 ormqr_wsq_impl(Side              side,
@@ -100,6 +102,8 @@ ormqr_wsq_impl(Side              side,
     IndexType nb = min(nbMax, IndexType(ilaenv<T>(1, "ORMQR", opt, m, n, k)));
     return max(IndexType(1), nw)*nb;
 }
+
+//-- ormqr ---------------------------------------------------------------------
 
 template <typename MA, typename VTAU, typename MC, typename VWORK>
 void
@@ -258,11 +262,14 @@ ormqr_impl(Side                      side,
 
 } // namespace generic
 
+
 //== interface for native lapack ===============================================
 
 #ifdef USE_CXXLAPACK
 
 namespace external {
+
+//-- ormqr_wsq [worksize query] ------------------------------------------------
 
 template <typename MA, typename MC>
 typename GeMatrix<MC>::IndexType
@@ -291,6 +298,8 @@ ormqr_wsq_impl(Side              side,
                                 LWORK);
     return WORK;
 }
+
+//-- ormqr ---------------------------------------------------------------------
 
 template <typename MA, typename VTAU, typename MC, typename VWORK>
 void
@@ -321,58 +330,31 @@ ormqr_impl(Side                       side,
 
 #endif // USE_CXXLAPACK
 
+
 //== public interface ==========================================================
 
-template <typename MA, typename MC>
-typename GeMatrix<MC>::IndexType
-ormqr_wsq(Side              side,
-          Transpose         trans,
-          GeMatrix<MA>      &A,
-          GeMatrix<MC>      &C)
-{
-    typedef typename GeMatrix<MC>::IndexType    IndexType;
-
-//
-//  Test the input parameters
-//
-#   ifndef NDEBUG
-    const IndexType m = C.numRows();
-    const IndexType n = C.numCols();
-    const IndexType k = A.numCols();
-
-    if (side==Left) {
-        ASSERT(A.numRows()==m);
-    } else {
-        ASSERT(A.numCols()==n);
-    }
-#   endif
-
-//
-//  Call implementation
-//
-    const IndexType info = LAPACK_SELECT::ormqr_wsq_impl(side, trans, A, C);
-
-#   ifdef CHECK_CXXLAPACK
-//
-//  Compare generic results with results from the native implementation
-//
-    const IndexType _info = external::ormqr_wsq_impl(side, trans, A, C);
-
-    ASSERT(info==_info);
-#   endif
-    return info;
-}
+//-- ormqr ---------------------------------------------------------------------
 
 template <typename MA, typename VTAU, typename MC, typename VWORK>
-void
-ormqr(Side                      side,
-      Transpose                 trans,
-      GeMatrix<MA>              &A,
-      const DenseVector<VTAU>   &tau,
-      GeMatrix<MC>              &C,
-      DenseVector<VWORK>        &work)
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                 && IsRealDenseVector<VTAU>::value
+                 && IsRealGeMatrix<MC>::value
+                 && IsRealDenseVector<VWORK>::value,
+         void>::Type
+ormqr(Side         side,
+      Transpose    trans,
+      MA           &&A,
+      const VTAU   &tau,
+      MC           &&C,
+      VWORK        &&work)
 {
-    typedef typename GeMatrix<MC>::IndexType    IndexType;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename RemoveRef<MC>::Type    MatrixC;
+    typedef typename MatrixC::IndexType     IndexType;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
 
 //
 //  Test the input parameters
@@ -403,9 +385,9 @@ ormqr(Side                      side,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-    typename GeMatrix<MA>::NoView       A_org      = A;
-    typename GeMatrix<MC>::NoView       C_org      = C;
-    typename DenseVector<VWORK>::NoView work_org   = work;
+    typename MatrixA::NoView    A_org      = A;
+    typename MatrixC::NoView    C_org      = C;
+    typename VectorWork::NoView work_org   = work;
 #   endif
 
 //
@@ -417,9 +399,9 @@ ormqr(Side                      side,
 //
 //  Make copies of results computed by the generic implementation
 //
-    typename GeMatrix<MA>::NoView       A_generic       = A;
-    typename GeMatrix<MC>::NoView       C_generic       = C;
-    typename DenseVector<VWORK>::NoView work_generic    = work;
+    typename MatrixA::NoView    A_generic       = A;
+    typename MatrixC::NoView    C_generic       = C;
+    typename VectorWork::NoView work_generic    = work;
 
 //
 //  restore output arguments
@@ -459,35 +441,49 @@ ormqr(Side                      side,
 #   endif
 }
 
-//-- forwarding ----------------------------------------------------------------
+//-- ormqr_wsq [worksize query] ------------------------------------------------
+
 template <typename MA, typename MC>
-typename MC::IndexType
-ormqr_wsq(Side          side,
-          Transpose     trans,
-          MA            &&A,
-          MC            &&C)
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                 && IsRealGeMatrix<MC>::value,
+         typename RemoveRef<MC>::Type::IndexType>::Type
+ormqr_wsq(Side        side,
+          Transpose   trans,
+          MA          &&A,
+          MC          &&C)
 {
-    typedef typename MC::IndexType IndexType;
+    typedef typename RemoveRef<MC>::Type    MatrixC;
+    typedef typename MatrixC::IndexType     IndexType;
 
-    CHECKPOINT_ENTER;
-    const IndexType info = ormqr_wsq(side, trans, A, C);
-    CHECKPOINT_LEAVE;
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    const IndexType m = C.numRows();
+    const IndexType n = C.numCols();
+    const IndexType k = A.numCols();
 
+    if (side==Left) {
+        ASSERT(A.numRows()==m);
+    } else {
+        ASSERT(A.numCols()==n);
+    }
+#   endif
+
+//
+//  Call implementation
+//
+    const IndexType info = LAPACK_SELECT::ormqr_wsq_impl(side, trans, A, C);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare generic results with results from the native implementation
+//
+    const IndexType _info = external::ormqr_wsq_impl(side, trans, A, C);
+
+    ASSERT(info==_info);
+#   endif
     return info;
-}
-
-template <typename MA, typename VTAU, typename MC, typename VWORK>
-void
-ormqr(Side              side,
-      Transpose         trans,
-      MA                &&A,
-      const VTAU        &tau,
-      MC                &&C,
-      VWORK             &&work)
-{
-    CHECKPOINT_ENTER;
-    ormqr(side, trans, A, tau, C, work);
-    CHECKPOINT_LEAVE;
 }
 
 } } // namespace lapack, flens

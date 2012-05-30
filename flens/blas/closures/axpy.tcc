@@ -728,6 +728,24 @@ axpy(Transpose trans, const ALPHA &alpha,
 
 //------------------------------------------------------------------------------
 //
+//  B += op(conjugate(A))
+//
+template <typename ALPHA, typename MA, typename MB>
+void
+axpy(Transpose trans, const ALPHA &alpha,
+     const MatrixClosureOpConj<MA> &A, Matrix<MB> &B)
+{
+    FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
+
+    trans = Transpose(trans^Conj);
+
+    axpy(trans, alpha, A.left(), B.impl());
+
+    FLENS_BLASLOG_END;
+}
+
+//------------------------------------------------------------------------------
+//
 //  B += op(A^T)
 //
 template <typename ALPHA, typename MA, typename MB>
@@ -777,6 +795,7 @@ template <typename ALPHA, typename Op, typename ML, typename MR, typename MB>
 void
 axpy(Transpose, const ALPHA &, const MatrixClosure<Op, ML, MR> &, Matrix<MB> &)
 {
+    ERROR_MSG("B += <Unknown Closure>");
     ASSERT(0);
 }
 
@@ -788,6 +807,7 @@ axpy(Transpose trans, const ALPHA &alpha,
      const MatrixClosure<Op, ML, MR> &A, Matrix<MB> &B)
 {
     FLENS_BLASLOG_ERROR_MAXPY(trans, alpha, A, B);
+    ERROR_MSG("B += <Unknown Closure>");
     ASSERT(0);
 }
 

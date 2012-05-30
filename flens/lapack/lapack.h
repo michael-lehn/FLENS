@@ -36,8 +36,8 @@
 //
 //  Control debugging of LAPACK functions
 //
-#ifdef LAPACK_DEBUG_OUT
-#   define LAPACK_DEBUG_OUT(msg)    std::cerr << msg << std::endl
+#ifdef LAPACK_DEBUG
+#   define LAPACK_DEBUG_OUT(msg)    std::cerr << "debug: " << msg << std::endl
 #else
 #   define LAPACK_DEBUG_OUT(msg)
 #endif
@@ -162,5 +162,9 @@
 #include <flens/lapack/impl/trsen.h>
 #include <flens/lapack/impl/trsna.h>
 #include <flens/lapack/impl/trsyl.h>
+#include <flens/lapack/impl/unglq.h>
+#include <flens/lapack/impl/ungqr.h>
+#include <flens/lapack/impl/unmlq.h>
+#include <flens/lapack/impl/unmqr.h>
 
 #endif // FLENS_LAPACK_LAPACK_H

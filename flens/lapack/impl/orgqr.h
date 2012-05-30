@@ -49,14 +49,14 @@
 namespace flens { namespace lapack {
 
 //== orgqr =====================================================================
+//
+//  Real variant
+//
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
-    void
-    orgqr(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
-          DenseVector<VWORK> &work);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
-    void
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsRealDenseVector<VTAU>::value
+                     && IsRealDenseVector<VWORK>::value,
+             void>::Type
     orgqr(IndexType k, MA &&A, const VTAU &tau, VWORK &&work);
 
 } } // namespace lapack, flens

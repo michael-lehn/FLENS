@@ -51,6 +51,7 @@ gels(char           trans,
      IndexType      lWork)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("dgels");
     LAPACK_IMPL(dgels)(&trans,
                        &m,
                        &n,
@@ -85,6 +86,7 @@ gels(char                   trans,
      IndexType              lWork)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("zgels");
     LAPACK_IMPL(zgels)(&trans,
                        &m,
                        &n,

@@ -50,7 +50,10 @@
 namespace flens { namespace lapack {
 
 //== generic lapack implementation =============================================
+
 namespace generic {
+
+//-- pocon [real variant] ------------------------------------------------------
 
 template <typename MA, typename NORMA, typename RCOND,
           typename VWORK, typename VIWORK>
@@ -153,20 +156,23 @@ pocon_impl(const SyMatrix<MA>  &A,
 
 } // namespace generic
 
+
 //== interface for native lapack ===============================================
 
 #ifdef USE_CXXLAPACK
 
 namespace external {
 
+//-- pocon [real variant] ------------------------------------------------------
+
 template <typename MA, typename NORMA, typename RCOND,
-          typename VWORK, typename VIWORK>
+          typename VWORK, typename VWORK2>
 void
 pocon_impl(const SyMatrix<MA>  &A,
            const NORMA         &normA,
            RCOND               &rCond,
            DenseVector<VWORK>  &work,
-           DenseVector<VIWORK> &iwork)
+           DenseVector<VWORK2> &work2)
 {
     typedef typename GeMatrix<MA>::IndexType  IndexType;
 
@@ -177,24 +183,63 @@ pocon_impl(const SyMatrix<MA>  &A,
                                 normA,
                                 rCond,
                                 work.data(),
-                                iwork.data());
+                                work2.data());
+}
+
+//-- pocon [complex variant] ---------------------------------------------------
+
+template <typename MA, typename NORMA, typename RCOND,
+          typename VWORK, typename VWORK2>
+void
+pocon_impl(const HeMatrix<MA>  &A,
+           const NORMA         &normA,
+           RCOND               &rCond,
+           DenseVector<VWORK>  &work,
+           DenseVector<VWORK2> &work2)
+{
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
+
+    cxxlapack::pocon<IndexType>(getF77Char(A.upLo()),
+                                A.dim(),
+                                A.data(),
+                                A.leadingDimension(),
+                                normA,
+                                rCond,
+                                work.data(),
+                                work2.data());
 }
 
 } // namespace external
 
 #endif // USE_CXXLAPACK
 
+
 //== public interface ==========================================================
+
+//-- pocon [real variant] ------------------------------------------------------
+
 template <typename MA, typename NORMA, typename RCOND,
           typename VWORK, typename VIWORK>
-void
-pocon(const SyMatrix<MA>  &A,
-      const NORMA         &normA,
-      RCOND               &rCond,
-      DenseVector<VWORK>  &work,
-      DenseVector<VIWORK> &iwork)
+typename RestrictTo<IsRealSyMatrix<MA>::value
+                 && IsNotComplex<NORMA>::value
+                 && IsNotComplex<RCOND>::value
+                 && IsRealDenseVector<VWORK>::value
+                 && IsIntegerDenseVector<VIWORK>::value,
+         void>::Type
+pocon(const MA      &A,
+      const NORMA   &normA,
+      RCOND         &rCond,
+      VWORK         &&work,
+      VIWORK        &&iwork)
 {
-    typedef typename GeMatrix<MA>::IndexType  IndexType;
+    typedef typename MA::IndexType            IndexType;
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<VWORK>::Type   VectorWork;
+    typedef typename RemoveRef<VIWORK>::Type  VectorIWork;
+
 //
 //  Test the input parameters
 //
@@ -215,9 +260,9 @@ pocon(const SyMatrix<MA>  &A,
 //
 //  Make copies of output arguments
 //
-    RCOND                                rCond_org = rCond;
-    typename DenseVector<VWORK>::NoView  work_org  = work;
-    typename DenseVector<VIWORK>::NoView iwork_org = iwork;
+    RCOND                           rCond_org = rCond;
+    typename VectorWork::NoView     work_org  = work;
+    typename VectorIWork::NoView    iwork_org = iwork;
 #   endif
 
 //
@@ -229,9 +274,9 @@ pocon(const SyMatrix<MA>  &A,
 //
 //  Compare results
 //
-    RCOND                                rCond_generic = rCond;
-    typename DenseVector<VWORK>::NoView  work_generic  = work;
-    typename DenseVector<VIWORK>::NoView iwork_generic = iwork;
+    RCOND                           rCond_generic = rCond;
+    typename VectorWork::NoView     work_generic  = work;
+    typename VectorIWork::NoView    iwork_generic = iwork;
 
     rCond = rCond_org;
     work  = work_org;
@@ -269,20 +314,55 @@ pocon(const SyMatrix<MA>  &A,
 #   endif
 }
 
-//-- forwarding ----------------------------------------------------------------
+//-- pocon [complex variant] ------------------------------------------------------
+
+#ifdef USE_CXXLAPACK
+
 template <typename MA, typename NORMA, typename RCOND,
-          typename VWORK, typename VIWORK>
-void
-pocon(const MA     &A,
-      const NORMA  &normA,
-      RCOND        &&rCond,
-      VWORK        &&work,
-      VIWORK       &&iwork)
+          typename VWORK, typename VRWORK>
+typename RestrictTo<IsHeMatrix<MA>::value
+                 && IsNotComplex<NORMA>::value
+                 && IsNotComplex<RCOND>::value
+                 && IsComplexDenseVector<VWORK>::value
+                 && IsRealDenseVector<VRWORK>::value,
+         void>::Type
+pocon(const MA      &A,
+      const NORMA   &normA,
+      RCOND         &rCond,
+      VWORK         &&work,
+      VRWORK        &&rwork)
 {
-    CHECKPOINT_ENTER;
-    pocon(A, normA, rCond, work, iwork);
-    CHECKPOINT_LEAVE;
+    typedef typename MA::IndexType            IndexType;
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<VWORK>::Type   VectorWork;
+    typedef typename RemoveRef<VRWORK>::Type  VectorRWork;
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+
+    const IndexType n = A.dim();
+
+    ASSERT(work.firstIndex()==1);
+    ASSERT(work.length()==2*n);
+
+    ASSERT(rwork.firstIndex()==1);
+    ASSERT(rwork.length()==n);
+#   endif
+
+//
+//  Call implementation
+//
+    external::pocon_impl(A, normA, rCond, work, rwork);
 }
+
+#endif // USE_CXXLAPACK
 
 } } // namespace lapack, flens
 

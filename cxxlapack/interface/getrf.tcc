@@ -46,6 +46,7 @@ getrf(IndexType             m,
       IndexType             *iPiv)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("dgetrf");
     LAPACK_IMPL(dgetrf)(&m,
                         &n,
                         A,
@@ -70,6 +71,7 @@ getrf(IndexType             m,
       IndexType             *iPiv)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("zgetrf");
     LAPACK_IMPL(zgetrf)(&m,
                         &n,
                         reinterpret_cast<double *>(A),

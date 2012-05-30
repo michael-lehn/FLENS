@@ -47,6 +47,7 @@ getri(IndexType         n,
       IndexType         lWork)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("dgetri");
     LAPACK_IMPL(dgetri)(&n,
                         A,
                         &ldA,
@@ -73,6 +74,7 @@ getri(IndexType             n,
       IndexType             lWork)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("zgetri");
     LAPACK_IMPL(zgetri)(&n,
                         reinterpret_cast<double *>(A),
                         &ldA,

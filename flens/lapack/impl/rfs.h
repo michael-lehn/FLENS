@@ -34,6 +34,8 @@
  *
        SUBROUTINE DGERFS( TRANS, N, NRHS, A, LDA, AF, LDAF, IPIV, B, LDB,
       $                   X, LDX, FERR, BERR, WORK, IWORK, INFO )
+       SUBROUTINE ZGERFS( TRANS, N, NRHS, A, LDA, AF, LDAF, IPIV, B, LDB,
+      $                   X, LDX, FERR, BERR, WORK, RWORK, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -51,34 +53,62 @@
 namespace flens { namespace lapack {
 
 //== (ge)rfs ===================================================================
+//
+//  Real variant
+//
 template <typename MA, typename MAF, typename VPIV, typename MB, typename MX,
           typename VFERR, typename VBERR, typename VWORK, typename VIWORK>
-    void
-    rfs(Transpose               trans,
-        const GeMatrix<MA>      &A,
-        const GeMatrix<MAF>     &AF,
-        const DenseVector<VPIV> &piv,
-        const GeMatrix<MB>      &B,
-        GeMatrix<MX>            &X,
-        DenseVector<VFERR>      &fErr,
-        DenseVector<VBERR>      &bErr,
-        DenseVector<VWORK>      &work,
-        DenseVector<VIWORK>     &iwork);
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsRealGeMatrix<MAF>::value
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsRealGeMatrix<MB>::value
+                     && IsRealGeMatrix<MX>::value
+                     && IsRealDenseVector<VFERR>::value
+                     && IsRealDenseVector<VBERR>::value
+                     && IsRealDenseVector<VWORK>::value
+                     && IsIntegerDenseVector<VIWORK>::value,
+             void>::Type
+    rfs(Transpose   trans,
+        const MA    &A,
+        const MAF   &AF,
+        const VPIV  &piv,
+        const MB    &B,
+        MX          &&X,
+        VFERR       &&fErr,
+        VBERR       &&bErr,
+        VWORK       &&work,
+        VIWORK      &&iwork);
 
-//-- forwarding ----------------------------------------------------------------
+
+#ifdef USE_CXXLAPACK
+//
+//  Complex variant
+//
 template <typename MA, typename MAF, typename VPIV, typename MB, typename MX,
-          typename VFERR, typename VBERR, typename VWORK, typename VIWORK>
-    void
-    rfs(Transpose    trans,
-        const MA     &A,
-        const MAF    &AF,
-        const VPIV   &piv,
-        const MB     &B,
-        MX           &&X,
-        VFERR        &&fErr,
-        VBERR        &&bErr,
-        VWORK        &&work,
-        VIWORK       &&iwork);
+          typename VFERR, typename VBERR, typename VWORK, typename VRWORK>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsComplexGeMatrix<MAF>::value
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsComplexGeMatrix<MB>::value
+                     && IsComplexGeMatrix<MX>::value
+                     && IsRealDenseVector<VFERR>::value
+                     && IsRealDenseVector<VBERR>::value
+                     && IsComplexDenseVector<VWORK>::value
+                     && IsRealDenseVector<VRWORK>::value,
+             void>::Type
+    rfs(Transpose   trans,
+        const MA    &A,
+        const MAF   &AF,
+        const VPIV  &piv,
+        const MB    &B,
+        MX          &&X,
+        VFERR       &&fErr,
+        VBERR       &&bErr,
+        VWORK       &&work,
+        VRWORK      &&rwork);
+
+#endif // USE_CXXLAPACK
+
 
 } } // namespace lapack, flens
 

@@ -52,13 +52,13 @@ namespace flens { namespace lapack {
 namespace TREVC {
 
     enum Job {
-        All,             // 'A':  compute all right and/or left eigenvectors;
-        Backtransform,   // 'B':  compute all right and/or left eigenvectors,
-                         //       backtransformed by the matrices in VR
-                         //       and/or VL;
-        Selected         // 'S':  compute selected right and/or left
-                         //       eigenvectors, as indicated by the logical
-                         //       array SELECT.
+        All = 'A',             // compute all right and/or left eigenvectors;
+        Backtransform = 'B',   // compute all right and/or left eigenvectors,
+                               // backtransformed by the matrices in VR
+                               // and/or VL;
+        Selected = 'S'         // compute selected right and/or left
+                               // eigenvectors, as indicated by the logical
+                               // array SELECT.
     };
 
 }

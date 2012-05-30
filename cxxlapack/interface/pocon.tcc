@@ -49,6 +49,7 @@ pocon(char              upLo,
       IndexType         *iWork)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("dpocon");
     LAPACK_IMPL(dpocon)(&upLo,
                         &n,
                         A,
@@ -79,6 +80,7 @@ pocon(char                          upLo,
       double                        *rWork)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("zpocon");
     LAPACK_IMPL(zpocon)(&upLo,
                         &n,
                         reinterpret_cast<const double *>(A),

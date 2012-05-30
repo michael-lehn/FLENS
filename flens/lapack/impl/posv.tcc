@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DPOSV( UPLO, N, NRHS, A, LDA, B, LDB, INFO )
+       SUBROUTINE ZPOSV( UPLO, N, NRHS, A, LDA, B, LDB, INFO )
  *
  *  -- LAPACK driver routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -53,6 +54,8 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
+//-- posv [real variant] -------------------------------------------------------
+
 template <typename MA, typename MB>
 typename SyMatrix<MA>::IndexType
 posv_impl(SyMatrix<MA> &A, GeMatrix<MB> &B)
@@ -69,11 +72,14 @@ posv_impl(SyMatrix<MA> &A, GeMatrix<MB> &B)
 
 } // namespace generic
 
+
 //== interface for native lapack ===============================================
 
 #ifdef USE_CXXLAPACK
 
 namespace external {
+
+//-- posv [real variant] -------------------------------------------------------
 
 template <typename MA, typename MB>
 typename SyMatrix<MA>::IndexType
@@ -92,17 +98,49 @@ posv_impl(SyMatrix<MA> &A, GeMatrix<MB> &B)
     return info;
 }
 
+//-- posv [complex variant] ----------------------------------------------------
+
+template <typename MA, typename MB>
+typename HeMatrix<MA>::IndexType
+posv_impl(HeMatrix<MA> &A, GeMatrix<MB> &B)
+{
+    typedef typename HeMatrix<MA>::IndexType  IndexType;
+
+    IndexType info = cxxlapack::posv<IndexType>(getF77Char(A.upLo()),
+                                                A.dim(),
+                                                B.numCols(),
+                                                A.data(),
+                                                A.leadingDimension(),
+                                                B.data(),
+                                                B.leadingDimension());
+    ASSERT(info>=0);
+    return info;
+}
+
 } // namespace external
 
 #endif // USE_CXXLAPACK
 
+
 //== public interface ==========================================================
 
+//-- posv [real variant] -------------------------------------------------------
+
 template <typename MA, typename MB>
-typename SyMatrix<MA>::IndexType
-posv(SyMatrix<MA> &A, GeMatrix<MB> &B)
+typename RestrictTo<IsRealSyMatrix<MA>::value
+                 && IsRealGeMatrix<MB>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+posv(MA &&A, MB &&B)
 {
-    typedef typename SyMatrix<MA>::IndexType    IndexType;
+    LAPACK_DEBUG_OUT("posv [real]");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+    typedef typename RemoveRef<MB>::Type    MatrixB;
+
 //
 //  Test the input parameters
 //
@@ -118,8 +156,8 @@ posv(SyMatrix<MA> &A, GeMatrix<MB> &B)
 //
 //  Make copies of output arguments
 //
-    typename SyMatrix<MA>::NoView  A_org = A;
-    typename GeMatrix<MB>::NoView  B_org = B;
+    typename MatrixA::NoView  A_org = A;
+    typename MatrixM::NoView  B_org = B;
 #   endif
 
 //
@@ -131,8 +169,8 @@ posv(SyMatrix<MA> &A, GeMatrix<MB> &B)
 //
 //  Compare results
 //
-    typename SyMatrix<MA>::NoView  A_generic = A;
-    typename GeMatrix<MB>::NoView  B_generic = B;
+    typename MatrixA::NoView  A_generic = A;
+    typename MatrixB::NoView  B_generic = B;
     A = A_org;
     B = B_org;
 
@@ -168,18 +206,72 @@ posv(SyMatrix<MA> &A, GeMatrix<MB> &B)
     return info;
 }
 
-//-- forwarding ----------------------------------------------------------------
+#ifdef USE_CXXLAPACK
+//
+//  Complex variant
+//
 template <typename MA, typename MB>
-typename MA::IndexType
+typename RestrictTo<IsHeMatrix<MA>::value
+                 && IsComplexGeMatrix<MB>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
 posv(MA &&A, MB &&B)
 {
-    typedef typename MA::IndexType  IndexType;
+    LAPACK_DEBUG_OUT("posv [complex]");
 
-    CHECKPOINT_ENTER;
-    const IndexType info =  posv(A, B);
-    CHECKPOINT_LEAVE;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+    typedef typename RemoveRef<MB>::Type    MatrixB;
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+
+    ASSERT(B.firstRow()==1);
+    ASSERT(B.firstCol()==1);
+
+    ASSERT(B.numRows()==A.dim());
+#   endif
+
+//
+//  Call implementation
+//
+    const IndexType info = external::posv_impl(A, B);
 
     return info;
+}
+
+#endif // USE_CXXLAPACK
+
+
+//-- posv [variant if rhs is vector] -----------------------------------------
+
+template <typename MA, typename VB>
+typename RestrictTo<(IsSyMatrix<MA>::value || IsHeMatrix<MA>::value)
+                 && IsDenseVector<VB>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+posv(MA &&A, VB &&b)
+{
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename RemoveRef<VB>::Type    VectorB;
+
+    typedef typename VectorB::ElementType  ElementType;
+    typedef typename VectorB::IndexType    IndexType;
+
+    const IndexType    n     = b.length();
+    const StorageOrder order = MatrixA::Engine::order;
+
+    GeMatrix<FullStorageView<ElementType, order> >  B(n, 1, b, n);
+
+    return sv(A, B);
 }
 
 } } // namespace lapack, flens

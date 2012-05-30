@@ -135,5 +135,9 @@
 #include <flens/lapack/impl/trsen.tcc>
 #include <flens/lapack/impl/trsna.tcc>
 #include <flens/lapack/impl/trsyl.tcc>
+#include <flens/lapack/impl/unglq.tcc>
+#include <flens/lapack/impl/ungqr.tcc>
+#include <flens/lapack/impl/unmlq.tcc>
+#include <flens/lapack/impl/unmqr.tcc>
 
 #endif // FLENS_LAPACK_LAPACK_TCC

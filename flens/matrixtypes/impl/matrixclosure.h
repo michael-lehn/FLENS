@@ -64,6 +64,12 @@ class MatrixClosure
         typename ConstRef<R>::Type _right;
 };
 
+//
+//  If an operand is a closure we need to keep a copy.  Otherwise we can not
+//  do things like in the implementation of conjTrans, i.e. creating nested
+//  closures inside on a function stack and then return it for later usage.
+//
+
 template <typename Op, typename L, typename R>
 struct ConstRef<MatrixClosure<Op, L, R> >
 {

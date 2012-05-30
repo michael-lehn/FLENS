@@ -53,6 +53,7 @@ ormlq(char          side,
       IndexType     lWork)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("dormlq");
     LAPACK_IMPL(dormlq)(&side,
                         &trans,
                         &m,

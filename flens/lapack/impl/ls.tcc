@@ -32,8 +32,8 @@
 
 /* Based on
  *
-       SUBROUTINE DGELS( TRANS, M, N, NRHS, A, LDA, B, LDB, WORK, LWORK,
-      $                  INFO )
+       SUBROUTINE DGELS( TRANS, M, N, NRHS, A, LDA, B, LDB, WORK, LWORK, INFO )
+       SUBROUTINE ZGELS( TRANS, M, N, NRHS, A, LDA, B, LDB, WORK, LWORK, INFO )
  *
  *  -- LAPACK driver routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -52,6 +52,8 @@ namespace flens { namespace lapack {
 //== generic lapack implementation =============================================
 
 namespace generic {
+
+//-- (ge)ls [real variant] -----------------------------------------------------
 
 template <typename MA, typename MB, typename VWORK>
 typename GeMatrix<MA>::IndexType
@@ -302,6 +304,8 @@ ls_impl(Transpose                 trans,
 
 namespace external {
 
+//-- (ge)ls [real and complex variant] -----------------------------------------
+
 template <typename MA, typename MB, typename VWORK>
 typename GeMatrix<MA>::IndexType
 ls_impl(Transpose                 trans,
@@ -331,21 +335,35 @@ ls_impl(Transpose                 trans,
 
 //== public interface ==========================================================
 
+//-- (ge)ls [real variant] -----------------------------------------------------
+
 template <typename MA, typename MB, typename VWORK>
-typename GeMatrix<MA>::IndexType
-ls(Transpose                 trans,
-   GeMatrix<MA>              &A,
-   GeMatrix<MB>              &B,
-   DenseVector<VWORK>        &work)
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                 && IsRealGeMatrix<MB>::value
+                 && IsRealDenseVector<VWORK>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+ls(Transpose    trans,
+   MA           &&A,
+   MB           &&B,
+   VWORK        &&work)
 {
     using std::max;
     using std::min;
+
+    LAPACK_DEBUG_OUT("(ge)ls [real]");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+    typedef typename RemoveRef<MB>::Type    MatrixB;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
-    typedef typename GeMatrix<MA>::IndexType    IndexType;
-
     const IndexType m = A.numRows();
     const IndexType n = A.numCols();
     const IndexType nRhs = B.numCols();
@@ -362,9 +380,9 @@ ls(Transpose                 trans,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-    typename GeMatrix<MA>::NoView       A_org      = A;
-    typename GeMatrix<MB>::NoView       B_org      = B;
-    typename DenseVector<VWORK>::NoView work_org   = work;
+    typename MatrixA::NoView        A_org      = A;
+    typename MatrixB::NoView        B_org      = B;
+    typename VectorWork::NoView     work_org   = work;
 #   endif
 
 //
@@ -376,9 +394,9 @@ ls(Transpose                 trans,
 //
 //  Make copies of results computed by the generic implementation
 //
-    typename GeMatrix<MA>::NoView       A_generic       = A;
-    typename GeMatrix<MB>::NoView       B_generic       = B;
-    typename DenseVector<VWORK>::NoView work_generic    = work;
+    typename MatrixA::NoView        A_generic       = A;
+    typename MatrixB::NoView        B_generic       = B;
+    typename VectorWork::NoView     work_generic    = work;
 
 //
 //  restore output arguments
@@ -425,21 +443,95 @@ ls(Transpose                 trans,
     return info;
 }
 
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename MB, typename VWORK>
-typename MA::IndexType
-ls(Transpose               trans,
-   MA                      &&A,
-   MB                      &&B,
-   VWORK                   &&work)
-{
-    typename MA::IndexType info;
+//-- (ge)ls [complex variant] --------------------------------------------------
 
-    CHECKPOINT_ENTER;
-    info = ls(trans, A, B, work);
-    CHECKPOINT_LEAVE;
+#ifdef USE_CXXLAPACK
+
+template <typename MA, typename MB, typename VWORK>
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                 && IsComplexGeMatrix<MB>::value
+                 && IsComplexDenseVector<VWORK>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+ls(Transpose    trans,
+   MA           &&A,
+   MB           &&B,
+   VWORK        &&work)
+{
+    using std::max;
+    using std::min;
+
+    LAPACK_DEBUG_OUT("(ge)ls [complex]");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+    typedef typename RemoveRef<MB>::Type    MatrixB;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    const IndexType m = A.numRows();
+    const IndexType n = A.numCols();
+    const IndexType nRhs = B.numCols();
+
+    ASSERT(B.numRows()==max(m,n));
+
+    if (work.length()>0) {
+        const IndexType mn = min(m, n);
+        ASSERT(work.length()>=max(IndexType(1),mn+max(mn,nRhs)));
+    }
+#   endif
+
+//
+//  Make copies of output arguments
+//
+#   ifdef CHECK_CXXLAPACK
+    typename MatrixA::NoView        A_org      = A;
+    typename MatrixB::NoView        B_org      = B;
+    typename VectorWork::NoView     work_org   = work;
+#   endif
+
+//
+//  Call implementation
+//
+    IndexType info = external::ls_impl(trans, A, B, work);
 
     return info;
+}
+
+#endif // USE_CXXLAPACK
+
+//-- (ge)ls [variant if rhs is vector] -----------------------------------------
+
+template <typename MA, typename VB, typename VWORK>
+typename RestrictTo<IsGeMatrix<MA>::value
+                 && IsDenseVector<VB>::value
+                 && IsDenseVector<VWORK>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+ls(Transpose    trans,
+   MA           &&A,
+   VB           &&b,
+   VWORK        &&work)
+{
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename RemoveRef<VB>::Type    VectorB;
+
+    typedef typename VectorB::ElementType  ElementType;
+    typedef typename VectorB::IndexType    IndexType;
+
+    const IndexType    n     = b.length();
+    const StorageOrder order = MatrixA::Engine::order;
+
+    GeMatrix<FullStorageView<ElementType, order> >  B(n, 1, b, n);
+
+    return ls(trans, A, b, work);
 }
 
 } } // namespace lapack, flens

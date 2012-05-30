@@ -10,8 +10,10 @@
 #endif
 #define  LAPACK_DECL(x)     x##_
 
-//#define DEBUG_FLENS_LAPACK(x)       std::cerr << x << std::endl;
-#define DEBUG_FLENS_LAPACK(x)
+#define DEBUG_FLENS_LAPACK(x)   std::cerr << x << std::endl;
+#define DEBUG_CXXLAPACK(x)      std::cerr << "cxxlapack: " << x << std::endl;
+// #define DEBUG_FLENS_LAPACK(x)
+// #define DEBUG_CXXLAPACK(x)
 
 //
 //  define typedefs for FLENS matrix and vector types
@@ -88,6 +90,15 @@ typedef ConstFullStorageView<CXX_DOUBLE_COMPLEX,
 
 typedef GeMatrix<ZFSView>                                ZGeMatrixView;
 typedef GeMatrix<ZConstFSView>                           ZConstGeMatrixView;
+
+typedef SyMatrix<ZFSView>                                ZSyMatrixView;
+typedef SyMatrix<ZConstFSView>                           ZConstSyMatrixView;
+
+typedef HeMatrix<ZFSView>                                ZHeMatrixView;
+typedef HeMatrix<ZConstFSView>                           ZConstHeMatrixView;
+
+typedef TrMatrix<ZFSView>                                ZTrMatrixView;
+typedef TrMatrix<ZConstFSView>                           ZConstTrMatrixView;
 
 typedef ArrayView<CXX_DOUBLE_COMPLEX>                    ZArrayView;
 typedef DenseVector<ZArrayView>                          ZDenseVectorView;

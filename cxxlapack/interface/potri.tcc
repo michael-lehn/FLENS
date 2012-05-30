@@ -45,6 +45,7 @@ potri(char          upLo,
       IndexType     ldA)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("dpotri");
     LAPACK_IMPL(dpotri)(&upLo,
                         &n,
                         A,
@@ -67,6 +68,7 @@ potri(char                  upLo,
       IndexType             ldA)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("zpotri");
     LAPACK_IMPL(zpotri)(&upLo,
                         &n,
                         reinterpret_cast<double *>(A),

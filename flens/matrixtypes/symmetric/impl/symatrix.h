@@ -34,6 +34,9 @@
 #define FLENS_MATRIXTYPES_SYMMETRIC_IMPL_SYMATRIX_H 1
 
 #include <cxxblas/typedefs.h>
+#include <flens/auxiliary/iscomplex.h>
+#include <flens/auxiliary/range.h>
+#include <flens/auxiliary/underscore.h>
 #include <flens/matrixtypes/symmetric/symmetricmatrix.h>
 #include <flens/typedefs.h>
 
@@ -88,6 +91,13 @@ class SyMatrix
         typedef TrMatrix<EngineView>                TriangularView;
         typedef TrMatrix<EngineNoView>              TriangularNoView;
 
+        SyMatrix();
+
+        explicit
+        SyMatrix(IndexType dim);
+
+        SyMatrix(IndexType dim, IndexType firstRow, IndexType firstCol);
+
         SyMatrix(const Engine &engine, StorageUpLo upLo);
 
         SyMatrix(const SyMatrix &rhs);
@@ -102,6 +112,7 @@ class SyMatrix
             SyMatrix(const Matrix<RHS> &rhs);
 
         // -- operators --------------------------------------------------------
+
         void
         operator=(const ElementType &value);
 
@@ -256,6 +267,57 @@ class SyMatrix
     private:
         Engine      _engine;
         StorageUpLo _upLo;
+};
+
+//-- Traits --------------------------------------------------------------------
+//
+//  IsSyMatrix
+//
+struct _SyMatrixChecker
+{
+
+    struct Two {
+        char x;
+        char y;
+    };
+
+    static Two
+    check(_AnyConversion);
+
+    template <typename Any>
+        static char
+        check(SyMatrix<Any>);
+};
+
+template <typename T>
+struct IsSyMatrix
+{
+    static T var;
+    static const bool value = sizeof(_SyMatrixChecker::check(var))==1;
+};
+
+//
+//  IsRealSyMatrix
+//
+template <typename T>
+struct IsRealSyMatrix
+{
+    typedef typename std::remove_reference<T>::type  TT;
+
+    static const bool value = IsSyMatrix<TT>::value
+                           && IsNotComplex<typename TT::ElementType>::value;
+};
+
+//
+//  IsComplexSyMatrix
+//
+template <typename T>
+struct IsComplexSyMatrix
+{
+    typedef typename std::remove_reference<T>::type  TT;
+
+    static const bool value = IsSyMatrix<TT>::value
+                           && IsComplex<typename TT::ElementType>::value;
 };
 
 } // namespace flens

@@ -329,7 +329,7 @@ trexc_impl(bool                          computeQ,
            DenseVector<VWORK>            &work)
 {
     IndexType  info;
-    info = cxxlapack::trexc<IndexType>(getF77Char(computeQ),
+    info = cxxlapack::trexc<IndexType>(computeQ ? 'V' : 'N',
                                        T.numRows(),
                                        T.data(),
                                        T.leadingDimension(),

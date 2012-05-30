@@ -46,6 +46,7 @@ trtri(char          upLo,
       IndexType     ldA)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("dtrtri");
     LAPACK_IMPL(dtrtri)(&upLo,
                         &diag,
                         &n,
@@ -70,6 +71,7 @@ trtri(char                  upLo,
       IndexType             ldA)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("ztrtri");
     LAPACK_IMPL(ztrtri)(&upLo,
                         &diag,
                         &n,

@@ -49,6 +49,7 @@ ungqr(IndexType                     m,
       IndexType                     lWork)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("zungqr");
     LAPACK_IMPL(zungqr)(&m,
                         &n,
                         &k,

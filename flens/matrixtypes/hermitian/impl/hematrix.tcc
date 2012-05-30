@@ -95,6 +95,32 @@ HeMatrix<FS>::HeMatrix(const Matrix<RHS> &rhs)
 // -- operators ----------------------------------------------------------------
 
 template <typename FS>
+void
+HeMatrix<FS>::operator=(const ElementType &value)
+{
+    engine().fill(_upLo, value);
+}
+
+template <typename FS>
+HeMatrix<FS> &
+HeMatrix<FS>::operator=(const HeMatrix &rhs)
+{
+    if (this!=&rhs) {
+        assign(rhs, *this);
+    }
+    return *this;
+}
+
+template <typename FS>
+template <typename RHS>
+HeMatrix<FS> &
+HeMatrix<FS>::operator=(const Matrix<RHS> &rhs)
+{
+    assign(rhs, *this);
+    return *this;
+}
+
+template <typename FS>
 const typename HeMatrix<FS>::ElementType &
 HeMatrix<FS>::operator()(IndexType row, IndexType col) const
 {
@@ -122,6 +148,115 @@ HeMatrix<FS>::operator()(IndexType row, IndexType col)
     return _engine(row, col);
 }
 
+// rectangular views
+template <typename FS>
+const typename HeMatrix<FS>::ConstGeneralView
+HeMatrix<FS>::operator()(const Range<IndexType> &rows,
+                         const Range<IndexType> &cols) const
+{
+    return general()(rows, cols);
+}
+
+template <typename FS>
+typename HeMatrix<FS>::GeneralView
+HeMatrix<FS>::operator()(const Range<IndexType> &rows,
+                         const Range<IndexType> &cols)
+{
+    return general()(rows, cols);
+}
+
+// rectangular views (all rows selected)
+template <typename FS>
+const typename HeMatrix<FS>::ConstGeneralView
+HeMatrix<FS>::operator()(const Underscore<IndexType> &_,
+                         const Range<IndexType> &cols) const
+{
+    return general()(_,cols);
+}
+
+template <typename FS>
+typename HeMatrix<FS>::GeneralView
+HeMatrix<FS>::operator()(const Underscore<IndexType> &_,
+                         const Range<IndexType> &cols)
+{
+    return general()(_,cols);
+}
+
+// rectangular views (all columns selected)
+template <typename FS>
+const typename HeMatrix<FS>::ConstGeneralView
+HeMatrix<FS>::operator()(const Range<IndexType> &rows,
+                         const Underscore<IndexType> &_) const
+{
+    return general()(rows,_);
+}
+
+template <typename FS>
+typename HeMatrix<FS>::GeneralView
+HeMatrix<FS>::operator()(const Range<IndexType> &rows,
+                         const Underscore<IndexType> &_)
+{
+    return general()(rows,_);
+}
+
+// row view (vector view)
+template <typename FS>
+const typename HeMatrix<FS>::ConstVectorView
+HeMatrix<FS>::operator()(IndexType row, const Underscore<IndexType> &_) const
+{
+    return general()(row,_);
+}
+
+template <typename FS>
+typename HeMatrix<FS>::VectorView
+HeMatrix<FS>::operator()(IndexType row, const Underscore<IndexType> &_)
+{
+    return general()(row,_);
+}
+
+template <typename FS>
+const typename HeMatrix<FS>::ConstVectorView
+HeMatrix<FS>::operator()(IndexType row, const Range<IndexType> &cols) const
+{
+    return general()(row,cols);
+}
+
+template <typename FS>
+typename HeMatrix<FS>::VectorView
+HeMatrix<FS>::operator()(IndexType row, const Range<IndexType> &cols)
+{
+    return general()(row,cols);
+}
+
+// column view (vector view)
+template <typename FS>
+const typename HeMatrix<FS>::ConstVectorView
+HeMatrix<FS>::operator()(const Underscore<IndexType> &_, IndexType col) const
+{
+    return general()(_,col);
+}
+
+template <typename FS>
+typename HeMatrix<FS>::VectorView
+HeMatrix<FS>::operator()(const Underscore<IndexType> &_, IndexType col)
+{
+    return general()(_,col);
+}
+
+template <typename FS>
+const typename HeMatrix<FS>::ConstVectorView
+HeMatrix<FS>::operator()(const Range<IndexType> &rows, IndexType col) const
+{
+    return general()(rows,col);
+}
+
+template <typename FS>
+typename HeMatrix<FS>::VectorView
+HeMatrix<FS>::operator()(const Range<IndexType> &rows, IndexType col)
+{
+    return general()(rows,col);
+}
+
 // -- views --------------------------------------------------------------------
 
 // general views
@@ -139,6 +274,42 @@ HeMatrix<FS>::general()
     return _engine;
 }
 
+// symmetric views
+template <typename FS>
+const typename HeMatrix<FS>::ConstSymmetricView
+HeMatrix<FS>::symmetric() const
+{
+    return ConstSymmetricView(_engine, upLo());
+}
+
+template <typename FS>
+typename HeMatrix<FS>::SymmetricView
+HeMatrix<FS>::symmetric()
+{
+    return SymmetricView(_engine, upLo());
+}
+
+// triangular views
+template <typename FS>
+const typename HeMatrix<FS>::ConstTriangularView
+HeMatrix<FS>::triangular() const
+{
+    if (upLo()==Upper) {
+        return general().upper();
+    }
+    return general().lower();
+}
+
+template <typename FS>
+typename HeMatrix<FS>::TriangularView
+HeMatrix<FS>::triangular()
+{
+    if (upLo()==Upper) {
+        return general().upper();
+    }
+    return general().lower();
+}
+
 // -- methods ------------------------------------------------------------------
 
 template <typename FS>
@@ -148,6 +319,20 @@ HeMatrix<FS>::dim() const
     ASSERT(_engine.numRows()==_engine.numCols());
 
     return _engine.numRows();
+}
+
+template <typename FS>
+typename HeMatrix<FS>::IndexType
+HeMatrix<FS>::numRows() const
+{
+    return _engine.numRows();
+}
+
+template <typename FS>
+typename HeMatrix<FS>::IndexType
+HeMatrix<FS>::numCols() const
+{
+    return _engine.numCols();
 }
 
 template <typename FS>
@@ -197,6 +382,30 @@ typename HeMatrix<FS>::IndexType
 HeMatrix<FS>::leadingDimension() const
 {
     return _engine.leadingDimension();
+}
+
+template <typename FS>
+StorageOrder
+HeMatrix<FS>::order() const
+{
+    return _engine.order;
+}
+
+template <typename FS>
+template <typename RHS>
+bool
+HeMatrix<FS>::resize(const HeMatrix<RHS> &rhs,
+                     const ElementType &value)
+{
+    return _engine.resize(rhs.engine(), value);
+}
+
+template <typename FS>
+bool
+HeMatrix<FS>::resize(IndexType dim, IndexType firstIndex,
+                     const ElementType &value)
+{
+    return _engine.resize(dim, dim, firstIndex, firstIndex, value);
 }
 
 // -- implementation -----------------------------------------------------------

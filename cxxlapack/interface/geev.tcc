@@ -54,6 +54,7 @@ geev(char           jobVL,
      IndexType      lWork)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("dgeev");
     LAPACK_IMPL(dgeev)(&jobVL,
                        &jobVR,
                        &n,
@@ -94,6 +95,7 @@ geev(char                   jobVL,
      double                 *rWork)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("zgeev");
     LAPACK_IMPL(zgeev)(&jobVL,
                        &jobVR,
                        &n,

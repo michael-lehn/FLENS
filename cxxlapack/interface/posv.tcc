@@ -48,6 +48,7 @@ posv(char           upLo,
      IndexType      ldB)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("dposv");
     LAPACK_IMPL(dposv)(&upLo,
                        &n,
                        &nRhs,
@@ -76,6 +77,7 @@ posv(char                   upLo,
      IndexType              ldB)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("zposv");
     LAPACK_IMPL(zposv)(&upLo,
                        &n,
                        &nRhs,

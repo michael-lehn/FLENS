@@ -188,9 +188,7 @@ equ_impl(const GeMatrix<MA>  &A,
 
 } // namespace generic
 
-
 //== interface for native lapack ===============================================
-
 
 #ifdef USE_CXXLAPACK
 
@@ -226,20 +224,36 @@ equ_impl(const GeMatrix<MA>  &A,
 
 #endif // USE_CXXLAPACK
 
-//== public interface ==========================================================
-
+//== (ge)equ ===================================================================
+//
+//  Real Variant
+//
 template <typename MA, typename VR, typename VC,
           typename ROWCOND, typename COLCOND,
           typename AMAX>
-typename GeMatrix<MA>::IndexType
-equ(const GeMatrix<MA>  &A,
-    DenseVector<VR>     &r,
-    DenseVector<VC>     &c,
-    ROWCOND             &rowCond,
-    COLCOND             &colCond,
-    AMAX                &amax)
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsRealDenseVector<VR>::value
+                     && IsRealDenseVector<VC>::value
+                     && IsNotComplex<ROWCOND>::value
+                     && IsNotComplex<COLCOND>::value
+                     && IsNotComplex<AMAX>::value,
+             typename MA::IndexType>::Type
+equ(const MA    &A,
+    VR          &&r,
+    VC          &&c,
+    ROWCOND     &rowCond,
+    COLCOND     &colCond,
+    AMAX        &amax)
 {
-    typedef typename GeMatrix<MA>::IndexType  IndexType;
+    LAPACK_DEBUG_OUT("(ge)equ [real]");
+
+    typedef typename MA::IndexType  IndexType;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<VR>::Type  VectorR;
+    typedef typename RemoveRef<VC>::Type  VectorC;
+
 //
 //  Test the input parameters
 //
@@ -261,11 +275,11 @@ equ(const GeMatrix<MA>  &A,
 //
 //  Make copies of output arguments
 //
-    typename DenseVector<VR>::NoView  r_org       = r;
-    typename DenseVector<VC>::NoView  c_org       = c;
-    ROWCOND                           rowCond_org = rowCond;
-    COLCOND                           colCond_org = colCond;
-    AMAX                              amax_org    = amax;
+    typename VectorR::NoView  r_org       = r;
+    typename VectorC::NoView  c_org       = c;
+    ROWCOND                   rowCond_org = rowCond;
+    COLCOND                   colCond_org = colCond;
+    AMAX                      amax_org    = amax;
 #   endif
 
 //
@@ -278,11 +292,11 @@ equ(const GeMatrix<MA>  &A,
 //
 //  Make copies of results computed by the generic implementation
 //
-    typename DenseVector<VR>::NoView  r_generic       = r;
-    typename DenseVector<VC>::NoView  c_generic       = c;
-    ROWCOND                           rowCond_generic = rowCond;
-    COLCOND                           colCond_generic = colCond;
-    AMAX                              amax_generic    = amax;
+    typename VectorR::NoView  r_generic       = r;
+    typename VectorC::NoView  c_generic       = c;
+    ROWCOND                   rowCond_generic = rowCond;
+    COLCOND                   colCond_generic = colCond;
+    AMAX                      amax_generic    = amax;
 //
 //  restore output arguments
 //
@@ -348,26 +362,6 @@ equ(const GeMatrix<MA>  &A,
 //        std::cerr << "passed: equ.tcc" << std::endl;
     }
 #   endif
-
-    return info;
-}
-
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VR, typename VC,
-          typename ROWCOND, typename COLCOND,
-          typename AMAX>
-typename MA::IndexType
-equ(const MA  &A,
-    VR        &&r,
-    VC        &&c,
-    ROWCOND   &&rowCond,
-    COLCOND   &&colCond,
-    AMAX      &&amax)
-{
-    CHECKPOINT_ENTER;
-    const auto info = equ(A, r, c, rowCond, colCond, amax);
-    CHECKPOINT_LEAVE;
 
     return info;
 }

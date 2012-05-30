@@ -342,7 +342,7 @@ hseqr_wsq(HSEQR::Job            job,
 //
 //  Compare results
 //
-    IndexType _info =  hseqr_wsq(job, computeZ, iLo, iHi, H);
+    IndexType _info =  external::hseqr_wsq_impl(job, computeZ, iLo, iHi, H);
 
     if (info!=_info) {
         std::cerr << "CXXLAPACK:  info = " << info << std::endl;

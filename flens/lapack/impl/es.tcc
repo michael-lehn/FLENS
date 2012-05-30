@@ -34,6 +34,8 @@
  *
        SUBROUTINE DGEES( JOBVS, SORT, SELECT, N, A, LDA, SDIM, WR, WI,
       $                  VS, LDVS, WORK, LWORK, BWORK, INFO )
+       SUBROUTINE ZGEES( JOBVS, SORT, SELECT, N, A, LDA, SDIM, W, VS,
+      $                  LDVS, WORK, LWORK, RWORK, BWORK, INFO )
  *
  *  -- LAPACK driver routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -54,6 +56,8 @@ namespace flens { namespace lapack {
 //== generic lapack implementation =============================================
 
 namespace generic {
+
+//-- (ge)es_wsq [real variant] -------------------------------------------------
 
 template <typename MA>
 Pair<typename GeMatrix<MA>::IndexType>
@@ -91,6 +95,8 @@ es_wsq_impl(bool                 computeSchurVectors,
     }
     return Pair<IndexType>(minWork, maxWork);
 }
+
+//-- (ge)es [real variant] -----------------------------------------------------
 
 template <typename SelectFunction, typename MA, typename IndexType,
           typename VWR, typename VWI, typename MVS,
@@ -372,22 +378,34 @@ es_impl(bool                 computeSchurVectors,
 
 namespace external {
 
+//-- (ge)es_wsq [real variant] -------------------------------------------------
+
 template <typename MA>
-Pair<typename GeMatrix<MA>::IndexType>
+typename RestrictTo<IsNotComplex<typename MA::ElementType>::value,
+         Pair<typename MA::IndexType> >::Type
 es_wsq_impl(bool                 computeSchurVectors,
             const GeMatrix<MA>   &A)
 {
+    using std::max;
+
     typedef typename GeMatrix<MA>::ElementType  T;
     typedef typename GeMatrix<MA>::IndexType    IndexType;
 
 //
+//  Compute minimal workspace
+//
+    IndexType  n = A.numRows();
+    IndexType  minWork = (n==0) ? 1
+                                : 3*n;
+
+//
 //  We need a bunch of dummy arguments ...
 //
-    int        (*SELECT)(const T*, const T*) = 0;
     IndexType   SDIM    = 0;
     T           DUMMY   = 0;
     IndexType   BWORK;
-    IndexType   LDVS    = computeSchurVectors ? A.numRows() : 1;
+    IndexType   LDVS    = computeSchurVectors ? max(A.numRows(), IndexType(1))
+                                              : 1;
 //
 //  ... and some arguments for the workspace query
 //
@@ -396,7 +414,7 @@ es_wsq_impl(bool                 computeSchurVectors,
 
     cxxlapack::gees<IndexType>(computeSchurVectors ? 'V' : 'N',
                                'N',
-                               SELECT,
+                               0,
                                A.numRows(),
                                &DUMMY,
                                A.leadingDimension(),
@@ -408,8 +426,63 @@ es_wsq_impl(bool                 computeSchurVectors,
                                &WORK,
                                LWORK,
                                &BWORK);
-    return Pair<IndexType>(WORK, WORK);
+    return Pair<IndexType>(minWork, WORK);
 }
+
+//-- (ge)es_wsq [complex variant] ----------------------------------------------
+
+template <typename MA>
+typename RestrictTo<IsComplex<typename MA::ElementType>::value,
+         Pair<typename MA::IndexType> >::Type
+es_wsq_impl(bool                 computeSchurVectors,
+            const GeMatrix<MA>   &A)
+{
+    using std::max;
+
+    typedef typename GeMatrix<MA>::ElementType        T;
+    typedef typename ComplexTrait<T>::PrimitiveType   RT;
+    typedef typename GeMatrix<MA>::IndexType          IndexType;
+
+//
+//  Compute minimal workspace
+//
+    IndexType  n = A.numRows();
+    IndexType  minWork = (n==0) ? 1
+                                : 3*n;
+
+//
+//  We need a bunch of dummy arguments ...
+//
+    IndexType   SDIM   = 0;
+    T           DUMMY  = 0;
+    RT          RDUMMY = 0;
+    IndexType   BWORK;
+    IndexType   LDVS    = computeSchurVectors ? max(A.numRows(), IndexType(1))
+                                              : 1;
+//
+//  ... and some arguments for the workspace query
+//
+    T                    WORK    = 0;
+    const IndexType      LWORK   = -1;
+
+    cxxlapack::gees<IndexType>(computeSchurVectors ? 'V' : 'N',
+                               'N',
+                               0,
+                               A.numRows(),
+                               &DUMMY,
+                               A.leadingDimension(),
+                               SDIM,
+                               &DUMMY,
+                               &DUMMY,
+                               LDVS,
+                               &WORK,
+                               LWORK,
+                               &RDUMMY,
+                               &BWORK);
+    return Pair<IndexType>(minWork, WORK.real());
+}
+
+//-- (ge)es [real variant] -----------------------------------------------------
 
 template <typename SelectFunction, typename MA, typename IndexType,
           typename VWR, typename VWI, typename MVS,
@@ -426,6 +499,11 @@ es_impl(bool                 computeSchurVectors,
         DenseVector<VWORK>   &work,
         DenseVector<BWORK>   &bWork)
 {
+    if (work.length()==0) {
+        const auto ws = es_wsq_impl(computeSchurVectors, A);
+        work.resize(ws.second, 1);
+    }
+
     IndexType info;
     info = cxxlapack::gees<IndexType>(computeSchurVectors ? 'V' : 'N',
                                       sortEigenvalues ? 'S' : 'N',
@@ -445,108 +523,152 @@ es_impl(bool                 computeSchurVectors,
     return info;
 }
 
+//-- (ge)es [complex variant] --------------------------------------------------
+
+template <typename SelectFunction, typename MA, typename IndexType,
+          typename VW, typename MVS, typename VWORK, typename VRWORK,
+          typename VBWORK>
+IndexType
+es_impl(bool                 computeSchurVectors,
+        bool                 sortEigenvalues,
+        SelectFunction       selectFunction,
+        GeMatrix<MA>         &A,
+        IndexType            &sDim,
+        DenseVector<VW>      &w,
+        GeMatrix<MVS>        &VS,
+        DenseVector<VWORK>   &work,
+        DenseVector<VRWORK>  &rWork,
+        DenseVector<VBWORK>  &bWork)
+{
+    if (work.length()==0) {
+        const auto ws = es_wsq_impl(computeSchurVectors, A);
+        work.resize(ws.second, 1);
+    }
+
+    IndexType info;
+    info = cxxlapack::gees<IndexType>(computeSchurVectors ? 'V' : 'N',
+                                      sortEigenvalues ? 'S' : 'N',
+                                      selectFunction.select,
+                                      A.numRows(),
+                                      A.data(),
+                                      A.leadingDimension(),
+                                      sDim,
+                                      w.data(),
+                                      VS.data(),
+                                      VS.leadingDimension(),
+                                      work.data(),
+                                      work.length(),
+                                      rWork.data(),
+                                      bWork.data());
+    ASSERT(info>=0);
+    return info;
+}
+
 } // namespace external
 
 #endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
-template <typename MA>
-Pair<typename GeMatrix<MA>::IndexType>
-es_wsq(bool                 computeSchurVectors,
-       const GeMatrix<MA>   &A)
-{
-    LAPACK_DEBUG_OUT("es_wsq");
-
-//
-//  Test the input parameters
-//
-#   ifndef NDEBUG
-    ASSERT(A.numRows()==A.numCols());
-    ASSERT(A.firstRow()==1);
-    ASSERT(A.firstCol()==1);
-#   endif
-
-//
-//  Call implementation
-//
-    const auto ws = LAPACK_SELECT::es_wsq_impl(computeSchurVectors, A);
-
-#   ifdef CHECK_CXXLAPACK
-//
-//  Compare results
-//
-    auto optWorkSize = external::es_wsq_impl(computeSchurVectors, A);
-
-    if (! isIdentical(optWorkSize.second, ws.second,
-                      "optWorkSize", "ws.second"))
-    {
-        ASSERT(0);
-    }
-#   endif
-
-    return ws;
-}
+//-- (ge)es [real variant] -----------------------------------------------------
 
 template <typename SelectFunction, typename MA, typename IndexType,
           typename VWR, typename VWI, typename MVS,
-          typename VWORK, typename BWORK>
-IndexType
+          typename VWORK, typename VBWORK>
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                 && IsInteger<IndexType>::value
+                 && IsRealDenseVector<VWR>::value
+                 && IsRealDenseVector<VWI>::value
+                 && IsRealGeMatrix<MVS>::value
+                 && IsRealDenseVector<VWORK>::value
+                 && IsRealDenseVector<VBWORK>::value,
+         IndexType>::Type
 es(bool                 computeSchurVectors,
    bool                 sortEigenvalues,
    SelectFunction       selectFunction,
-   GeMatrix<MA>         &A,
+   MA                   &&A,
    IndexType            &sDim,
-   DenseVector<VWR>     &wr,
-   DenseVector<VWI>     &wi,
-   GeMatrix<MVS>        &VS,
-   DenseVector<VWORK>   &work,
-   DenseVector<BWORK>   &bWork)
+   VWR                  &&wr,
+   VWI                  &&wi,
+   MVS                  &&VS,
+   VWORK                &&work,
+   VBWORK               &&bWork)
 {
-    LAPACK_DEBUG_OUT("es");
+    LAPACK_DEBUG_OUT("(ge)es [real]");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type        MatrixA;
+    typedef typename RemoveRef<VWR>::Type       VectorWR;
+    typedef typename RemoveRef<VWI>::Type       VectorWI;
+    typedef typename RemoveRef<MVS>::Type       MatrixVS;
+    typedef typename RemoveRef<VWORK>::Type     VectorWork;
+    typedef typename RemoveRef<VBWORK>::Type    VectorBWork;
 
 //
 //  Test the input parameters
 //
+    const IndexType n = A.numRows();
+
 #   ifndef NDEBUG
     ASSERT(A.numRows()==A.numCols());
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
     ASSERT(work.firstIndex()==1);
-
-    typename GeMatrix<MA>::IndexType n = A.numRows();
+    ASSERT(bWork.firstIndex()==1);
 
     ASSERT(wr.firstIndex()==1);
-    ASSERT(wr.length()==n);
+    ASSERT(wr.length()==0 || wr.length()==n);
 
     ASSERT(wi.firstIndex()==1);
-    ASSERT(wi.length()==n);
+    ASSERT(wi.length()==0 || wi.length()==n);
 
     if (computeSchurVectors) {
         ASSERT(VS.numRows()==VS.numCols());
-        ASSERT(VS.numRows()==n);
+        ASSERT(VS.numRows()==0 || VS.numRows()==n);
         ASSERT(VS.firstRow()==1);
         ASSERT(VS.firstCol()==1);
     }
 
+    const auto ws = es_wsq(computeSchurVectors, A);
+    ASSERT(work.length()==0 || work.length()>=ws.first);
+
     if (sortEigenvalues) {
         ASSERT(bWork.firstIndex()==1);
-        ASSERT(bWork.length()>=n);
+        ASSERT(bWork.length()==0 || bWork.length()>=n);
     }
 #   endif
+
+//
+//  Resize output arguments.
+//  Note: work gets resized by the actual implementation.
+//
+    if (wr.length()==0) {
+        wr.resize(n, 1);
+    }
+    if (wi.length()==0) {
+        wi.resize(n, 1);
+    }
+    if (computeSchurVectors && VS.numRows()==0) {
+        VS.resize(n, n, 1, 1);
+    }
+    if (sortEigenvalues && bWork.length()==0) {
+        bWork.resize(n, 1);
+    }
 
 //
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
 
-    typename GeMatrix<MA>::NoView         A_org     = A;
-    IndexType                             sDim_org  = sDim;
-    typename DenseVector<VWR>::NoView     wr_org    = wr;
-    typename DenseVector<VWI>::NoView     wi_org    = wi;
-    typename GeMatrix<MVS>::NoView        VS_org    = VS;
-    typename DenseVector<VWORK>::NoView   work_org  = work;
-    typename DenseVector<BWORK>::NoView   bWork_org = bWork;
+    typename MatrixA::NoView      A_org     = A;
+    IndexType                     sDim_org  = sDim;
+    typename VectorWR::NoView     wr_org    = wr;
+    typename VectorWI::NoView     wi_org    = wi;
+    typename MatrixVS::NoView     VS_org    = VS;
+    typename VectorWork::NoView   work_org  = work;
+    typename VectorBWork::NoView  bWork_org = bWork;
 
 #   endif
 
@@ -568,13 +690,13 @@ es(bool                 computeSchurVectors,
 //
 //  Make copies of results computed by the generic implementation
 //
-    typename GeMatrix<MA>::NoView         A_generic     = A;
-    IndexType                             sDim_generic  = sDim;
-    typename DenseVector<VWR>::NoView     wr_generic    = wr;
-    typename DenseVector<VWI>::NoView     wi_generic    = wi;
-    typename GeMatrix<MVS>::NoView        VS_generic    = VS;
-    typename DenseVector<VWORK>::NoView   work_generic  = work;
-    typename DenseVector<BWORK>::NoView   bWork_generic = bWork;
+    typename MatrixA::NoView      A_generic     = A;
+    IndexType                     sDim_generic  = sDim;
+    typename VectorWR::NoView     wr_generic    = wr;
+    typename VectorWI::NoView     wi_generic    = wi;
+    typename MatrixVS::NoView     VS_generic    = VS;
+    typename VectorWork::NoView   work_generic  = work;
+    typename VectorBWork::NoView  bWork_generic = bWork;
 //
 //  restore output arguments
 //
@@ -661,36 +783,149 @@ es(bool                 computeSchurVectors,
     return result;
 }
 
-//-- forwarding ----------------------------------------------------------------
+#ifdef USE_CXXLAPACK
+
+//-- (ge)es [complex variant] --------------------------------------------------
+
 template <typename SelectFunction, typename MA, typename IndexType,
-          typename VWR, typename VWI, typename MVS,
-          typename VWORK, typename BWORK>
-IndexType
+          typename VW, typename MVS, typename VWORK, typename VRWORK,
+          typename VBWORK>
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                 && IsInteger<IndexType>::value
+                 && IsComplexDenseVector<VW>::value
+                 && IsComplexGeMatrix<MVS>::value
+                 && IsComplexDenseVector<VWORK>::value
+                 && IsRealDenseVector<VRWORK>::value
+                 && IsRealDenseVector<VBWORK>::value,
+         IndexType>::Type
 es(bool                 computeSchurVectors,
    bool                 sortEigenvalues,
-   SelectFunction       selectFunction,
+   SelectFunction       select,
    MA                   &&A,
-   IndexType            &&sDim,
-   VWR                  &&wr,
-   VWI                  &&wi,
+   IndexType            &sDim,
+   VW                   &&w,
    MVS                  &&VS,
    VWORK                &&work,
-   BWORK                &&bWork)
+   VRWORK               &&rWork,
+   VBWORK               &&bWork)
 {
-    CHECKPOINT_ENTER;
-    const IndexType info = es(computeSchurVectors,
-                              sortEigenvalues,
-                              selectFunction,
-                              A,
-                              sDim,
-                              wr,
-                              wi,
-                              VS,
-                              work,
-                              bWork);
-    CHECKPOINT_LEAVE;
+    LAPACK_DEBUG_OUT("(ge)es [complex]");
 
-    return info;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type        MatrixA;
+    typedef typename RemoveRef<VW>::Type        VectorW;
+    typedef typename RemoveRef<MVS>::Type       MatrixVS;
+    typedef typename RemoveRef<VWORK>::Type     VectorWork;
+    typedef typename RemoveRef<VRWORK>::Type    VectorRWork;
+    typedef typename RemoveRef<VBWORK>::Type    VectorBWork;
+
+//
+//  Test the input parameters
+//
+    const IndexType n = A.numRows();
+
+#   ifndef NDEBUG
+    ASSERT(A.numRows()==A.numCols());
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(work.firstIndex()==1);
+    ASSERT(rWork.firstIndex()==1);
+    ASSERT(bWork.firstIndex()==1);
+
+    ASSERT(w.firstIndex()==1);
+    ASSERT(w.length()==0 || w.length()==n);
+
+    if (computeSchurVectors) {
+        ASSERT(VS.numRows()==VS.numCols());
+        ASSERT(VS.numRows()==0 || VS.numRows()==n);
+        ASSERT(VS.firstRow()==1);
+        ASSERT(VS.firstCol()==1);
+    }
+
+    const auto ws = es_wsq(computeSchurVectors, A);
+    ASSERT(work.length()==0 || work.length()>=ws.first);
+
+    ASSERT(rWork.firstIndex()==1);
+    ASSERT(rWork.length()==0 || rWork.length()==n);
+
+    if (sortEigenvalues) {
+        ASSERT(bWork.firstIndex()==1);
+        ASSERT(bWork.length()==0 || bWork.length()>=n);
+    }
+#   endif
+
+//
+//  Resize output arguments.
+//  Note: work gets resized by the actual implementation.
+//
+    if (w.length()==0) {
+        w.resize(n, 1);
+    }
+    if (computeSchurVectors && VS.numRows()==0) {
+        VS.resize(n, n, 1, 1);
+    }
+    if (rWork.length()==0) {
+        rWork.resize(n, 1);
+    }
+    if (sortEigenvalues && bWork.length()==0) {
+        bWork.resize(n, 1);
+    }
+
+    IndexType _result = external::es_impl(computeSchurVectors,
+                                          sortEigenvalues,
+                                          select,
+                                          A,
+                                          sDim,
+                                          w,
+                                          VS,
+                                          work,
+                                          rWork,
+                                          bWork);
+    return _result;
+}
+
+#endif // USE_CXXLAPACK
+
+//-- (ge)es_wsq [real and complex variant] -------------------------------------
+
+template <typename MA>
+Pair<typename GeMatrix<MA>::IndexType>
+es_wsq(bool                 computeSchurVectors,
+       const GeMatrix<MA>   &A)
+{
+    LAPACK_DEBUG_OUT("es_wsq");
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.numRows()==A.numCols());
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+#   endif
+
+//
+//  Call implementation
+//
+    const auto ws = LAPACK_SELECT::es_wsq_impl(computeSchurVectors, A);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    const auto _ws = external::es_wsq_impl(computeSchurVectors, A);
+
+    if (! isIdentical(_ws.first, _ws.first, "_ws.first", "_ws.first")) {
+        ASSERT(0);
+    }
+    if (! isIdentical(_ws.second, _ws.second, "_ws.second", "_ws.second")) {
+        ASSERT(0);
+    }
+#   endif
+
+    return ws;
 }
 
 } } // namespace lapack, flens

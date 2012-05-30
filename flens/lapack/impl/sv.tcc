@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DGESV( N, NRHS, A, LDA, IPIV, B, LDB, INFO )
+       SUBROUTINE ZGESV( N, NRHS, A, LDA, IPIV, B, LDB, INFO )
  *
  *  -- LAPACK driver routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -49,11 +50,14 @@
 namespace flens { namespace lapack {
 
 //== generic lapack implementation =============================================
+
 namespace generic {
 
-template <typename MA, typename VP, typename MB>
+//-- (ge)sv [real and compelx variant] -----------------------------------------
+
+template <typename MA, typename VPIV, typename MB>
 typename GeMatrix<MA>::IndexType
-sv_impl(GeMatrix<MA> &A, DenseVector<VP> &piv, GeMatrix<MB> &B)
+sv_impl(GeMatrix<MA> &A, DenseVector<VPIV> &piv, GeMatrix<MB> &B)
 {
     typedef typename GeMatrix<MA>::IndexType IndexType;
 
@@ -74,15 +78,18 @@ sv_impl(GeMatrix<MA> &A, DenseVector<VP> &piv, GeMatrix<MB> &B)
 
 } // namespace generic
 
+
 //== interface for native lapack ===============================================
 
 #ifdef USE_CXXLAPACK
 
 namespace external {
 
-template <typename MA, typename VP, typename MB>
+//-- (ge)sv [real and complex variant] -----------------------------------------
+
+template <typename MA, typename VPIV, typename MB>
 typename GeMatrix<MA>::IndexType
-sv_impl(GeMatrix<MA> &A, DenseVector<VP> &piv, GeMatrix<MB> &B)
+sv_impl(GeMatrix<MA> &A, DenseVector<VPIV> &piv, GeMatrix<MB> &B)
 {
     typedef typename GeMatrix<MA>::IndexType  IndexType;
 
@@ -103,11 +110,25 @@ sv_impl(GeMatrix<MA> &A, DenseVector<VP> &piv, GeMatrix<MB> &B)
 
 //== public interface ==========================================================
 
-template <typename MA, typename VP, typename MB>
-typename GeMatrix<MA>::IndexType
-sv(GeMatrix<MA> &A, DenseVector<VP> &piv, GeMatrix<MB> &B)
+//-- (ge)sv [real and complex variant] -----------------------------------------
+
+template <typename MA, typename VPIV, typename MB>
+typename RestrictTo<IsGeMatrix<MA>::value
+                 && IsIntegerDenseVector<VPIV>::value
+                 && IsGeMatrix<MB>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+sv(MA &&A, VPIV &&piv, MB &&B)
 {
-    typedef typename GeMatrix<MA>::IndexType    IndexType;
+    LAPACK_DEBUG_OUT("(ge)sv [real/complex]");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+    typedef typename RemoveRef<VPIV>::Type  VectorPiv;
+    typedef typename RemoveRef<MB>::Type    MatrixB;
+
 //
 //  Test the input parameters
 //
@@ -124,9 +145,9 @@ sv(GeMatrix<MA> &A, DenseVector<VP> &piv, GeMatrix<MB> &B)
 //
 //  Make copies of output arguments
 //
-    typename GeMatrix<MA>::NoView    A_org   = A;
-    typename DenseVector<VP>::NoView piv_org = piv;
-    typename GeMatrix<MB>::NoView    B_org   = B;
+    typename MatrixA::NoView    A_org   = A;
+    typename VectorPiv::NoView  piv_org = piv;
+    typename MatrixB::NoView    B_org   = B;
 //
 //  Call implementation
 //
@@ -136,9 +157,9 @@ sv(GeMatrix<MA> &A, DenseVector<VP> &piv, GeMatrix<MB> &B)
 //
 //  Compare results
 //
-    typename GeMatrix<MA>::NoView    A_generic   = A;
-    typename DenseVector<VP>::NoView piv_generic = piv;
-    typename GeMatrix<MB>::NoView    B_generic   = B;
+    typename MatrixA::NoView    A_generic   = A;
+    typename VectorPiv::NoView  piv_generic = piv;
+    typename MatrixB::NoView    B_generic   = B;
 
     A   = A_org;
     piv = piv_org;
@@ -182,31 +203,30 @@ sv(GeMatrix<MA> &A, DenseVector<VP> &piv, GeMatrix<MB> &B)
     return info;
 }
 
-template <typename MA, typename VP, typename VB>
-typename GeMatrix<MA>::IndexType
-sv(GeMatrix<MA> &A, DenseVector<VP> &piv, DenseVector<VB> &b)
+//-- (ge)sv [variant if rhs is vector] -----------------------------------------
+
+template <typename MA, typename VPIV, typename VB>
+typename RestrictTo<IsGeMatrix<MA>::value
+                 && IsIntegerDenseVector<VPIV>::value
+                 && IsDenseVector<VB>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+sv(MA &&A, VPIV &&piv, VB &&b)
 {
-    typedef typename DenseVector<VB>::ElementType  ElementType;
-    typedef typename DenseVector<VB>::IndexType    IndexType;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename RemoveRef<VB>::Type    VectorB;
+
+    typedef typename VectorB::ElementType  ElementType;
+    typedef typename VectorB::IndexType    IndexType;
 
     const IndexType    n     = b.length();
-    const StorageOrder order = GeMatrix<MA>::Engine::order;
+    const StorageOrder order = MatrixA::Engine::order;
 
     GeMatrix<FullStorageView<ElementType, order> >  B(n, 1, b, n);
 
     return sv(A, piv, B);
-}
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VP, typename MB>
-typename MA::IndexType
-sv(MA &&A, VP &&piv, MB &&B)
-{
-    typedef typename MA::IndexType    IndexType;
-    CHECKPOINT_ENTER;
-    const IndexType info =  sv(A, piv, B);
-    CHECKPOINT_LEAVE;
-    return info;
 }
 
 } } // namespace lapack, flens

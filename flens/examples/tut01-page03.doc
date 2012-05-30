@@ -20,13 +20,13 @@ Comments on Example Code
 Compile and Run
 ---------------
 
-   *--[SHELL]---------------------------------------------------------------*
-   |                                                                        |
-   |  cd flens/examples                                                     |
-   |  clang++ -Wall -std=c++0x -I../.. tut01-page03-example01.cc            |
-   |  ./a.out                                                               |
-   |                                                                        |
-   *------------------------------------------------------------------------*
+ *--[SHELL]-------------------------------------------------------------------*
+ |                                                                            |
+ |  cd flens/examples                                                         |
+ |  g++ -Wall -std=c++11 -I../.. tut01-page03-example01.cc                    |
+ |  ./a.out                                                                   |
+ |                                                                            |
+ *----------------------------------------------------------------------------*
 
 
 Creating a Matrix View from a C-Array                                   [TOC]
@@ -46,13 +46,13 @@ Comments on Example Code
 Compile and Run
 ---------------
 
-   *--[SHELL]---------------------------------------------------------------*
-   |                                                                        |
-   |  cd flens/examples                                                     |
-   |  clang++ -Wall -std=c++0x -I../.. tut01-page03-example02.cc            |
-   |  ./a.out                                                               |
-   |                                                                        |
-   *------------------------------------------------------------------------*
+ *--[SHELL]-------------------------------------------------------------------*
+ |                                                                            |
+ |  cd flens/examples                                                         |
+ |  g++ -Wall -std=c++11 -I../.. tut01-page03-example02.cc                    |
+ |  ./a.out                                                                   |
+ |                                                                            |
+ *----------------------------------------------------------------------------*
 
 
 More on Matrix View Types
@@ -142,13 +142,13 @@ Comments on the Code
 Compile and Run
 ---------------
 
-   *--[SHELL]---------------------------------------------------------------*
-   |                                                                        |
-   |  cd flens/examples                                                     |
-   |  clang++ -Wall -std=c++0x -I../.. tut01-page03-example03.cc            |
-   |  ./a.out                                                               |
-   |                                                                        |
-   *------------------------------------------------------------------------*
+ *--[SHELL]-------------------------------------------------------------------*
+ |                                                                            |
+ |  cd flens/examples                                                         |
+ |  g++ -Wall -std=c++11 -I../.. tut01-page03-example03.cc                    |
+ |  ./a.out                                                                   |
+ |                                                                            |
+ *----------------------------------------------------------------------------*
 
 
 More on `auto` and Const Context
@@ -166,16 +166,16 @@ Comments on the Code
 Compile and Analyze Compile Error
 ---------------------------------
 
-   *--[SHELL]---------------------------------------------------------------*
-   |                                                                        |
-   |  cd flens/examples                                                     |
-   |  clang++ -Wall -std=c++0x -I../.. tut01-page03-example04.cc            |
-   |                                                                        |
-   *------------------------------------------------------------------------*
+ *--[SHELL]-------------------------------------------------------------------*
+ |                                                                            |
+ |  cd flens/examples                                                         |
+ |  g++ -Wall -std=c++11 -I../.. tut01-page03-example04.cc                    |
+ |                                                                            |
+ *----------------------------------------------------------------------------*
 
-So the very first error message basically says that a conversion from
-`ConstFullStorageView` to `FullStorageView` (aka `GeMatrix::View`) would be
-required.
+The error message basically says that a conversion from `ConstFullStorageView`
+to `FullStorageView` (aka `GeMatrix::View`) would be require.  As this is not
+possible we get a compile time error.
 
 :navigate: __up__    -> doc:flens/examples/tutorial
            __back__  -> doc:flens/examples/tut01-page02

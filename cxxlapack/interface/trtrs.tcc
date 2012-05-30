@@ -50,6 +50,7 @@ trtrs(char              upLo,
       IndexType         ldB)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("dtrtrs");
     LAPACK_IMPL(dtrtrs)(&upLo,
                         &trans,
                         &diag,
@@ -82,6 +83,7 @@ trtrs(char                          upLo,
       IndexType                     ldB)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("ztrtrs");
     LAPACK_IMPL(ztrtrs)(&upLo,
                         &trans,
                         &diag,

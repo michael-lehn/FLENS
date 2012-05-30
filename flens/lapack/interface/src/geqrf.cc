@@ -58,6 +58,63 @@ LAPACK_DECL(dgeqrf)(const INTEGER    *M,
     qrf(_A, _TAU, _WORK);
 }
 
+//-- zgeqrf --------------------------------------------------------------------
+void
+LAPACK_DECL(zgeqrf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *TAU,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_FLENS_LAPACK("zgeqrf");
+
+    using std::max;
+    using std::min;
+//
+//  Test the input parameters so that we pass LAPACK error checks
+//
+    bool lQuery = (*LWORK==-1);
+
+    *INFO = 0;
+    if (*M<0) {
+        *INFO = -1;
+    } else if (*N<0) {
+        *INFO = -2;
+    } else if (*LDA<std::max(INTEGER(1), *M)) {
+        *INFO = -4;
+    } else if ((*LWORK<max(INTEGER(1), *N)) && (!lQuery)) {
+        *INFO = -7;
+    }
+    if (*INFO!=0) {
+        *INFO = -(*INFO);
+        LAPACK_ERROR("ZGEQRF", INFO);
+        *INFO = -(*INFO);
+        return;
+    }
+//
+//  Handle worksize query
+//
+    if (lQuery) {
+        // TODO: implement qrf_wsq
+        ASSERT(0);
+    }
+//
+//  Call FLENS implementation
+//
+    auto zA     = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(A);
+    auto zTAU   = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(TAU);
+    auto zWORK  = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(WORK);
+
+    ZGeMatrixView       _A      = ZFSView(*M, *N, zA, *LDA);
+    ZDenseVectorView    _TAU    = ZArrayView(min(*M,*N), zTAU, 1);
+    ZDenseVectorView    _WORK   = ZArrayView(*LWORK, zWORK, 1);
+
+    qrf(_A, _TAU, _WORK);
+}
+
 } // extern "C"
 
 } } // namespace lapack, flens

@@ -49,6 +49,7 @@ geqp3(IndexType    m,
       IndexType    lWork)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("dgeqp3");
     LAPACK_IMPL(dgeqp3)(&m,
                         &n,
                         A,
@@ -80,6 +81,7 @@ geqp3(IndexType             m,
       double                *rWork)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("zgeqp3");
     LAPACK_IMPL(zgeqp3)(&m,
                         &n,
                         reinterpret_cast<double *>(A),

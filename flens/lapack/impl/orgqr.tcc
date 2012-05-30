@@ -31,7 +31,8 @@
  */
 
 /* Based on
-      SUBROUTINE DORGQR( M, N, K, A, LDA, TAU, WORK, LWORK, INFO )
+ *
+       SUBROUTINE DORGQR( M, N, K, A, LDA, TAU, WORK, LWORK, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -50,6 +51,8 @@ namespace flens { namespace lapack {
 //== generic lapack implementation =============================================
 
 namespace generic {
+
+//-- orgqr ---------------------------------------------------------------------
 
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
 void
@@ -185,6 +188,8 @@ orgqr_impl(IndexType                 k,
 
 namespace external {
 
+//-- orgqr ---------------------------------------------------------------------
+
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
 void
 orgqr_impl(IndexType                  k,
@@ -208,14 +213,22 @@ orgqr_impl(IndexType                  k,
 
 //== public interface ==========================================================
 
+//-- orgqr ---------------------------------------------------------------------
+
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
-void
-orgqr(IndexType                 k,
-      GeMatrix<MA>              &A,
-      const DenseVector<VTAU>   &tau,
-      DenseVector<VWORK>        &work)
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                 && IsRealDenseVector<VTAU>::value
+                 && IsRealDenseVector<VWORK>::value,
+         void>::Type
+orgqr(IndexType k, MA &&A, const VTAU &tau, VWORK &&work)
 {
-    typedef typename GeMatrix<MA>::ElementType  ElementType;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::ElementType   ElementType;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+
 //
 //  Test the input parameters
 //
@@ -232,14 +245,14 @@ orgqr(IndexType                 k,
     ASSERT(n<=m);
     ASSERT(k<=n);
     ASSERT(0<=k);
-#   endif 
+#   endif
 
 //
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-    typename GeMatrix<MA>::NoView       A_org      = A;
-    typename DenseVector<VWORK>::NoView work_org   = work;
+    typename MatrixA::NoView        A_org      = A;
+    typename VectorWork::NoView     work_org   = work;
 #   endif
 
 //
@@ -286,17 +299,6 @@ orgqr(IndexType                 k,
 //        std::cerr << "passed: orgqr.tcc" << std::endl;
     }
 #   endif
-}
-
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
-void
-orgqr(IndexType     k,
-      MA            &&A,
-      const VTAU    &tau,
-      VWORK         &&work)
-{
-    orgqr(k, A, tau, work);
 }
 
 } } // namespace lapack, flens

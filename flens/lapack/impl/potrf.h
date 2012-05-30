@@ -32,7 +32,8 @@
 
 /* Based on
  *
-    SUBROUTINE DPOTRF( UPLO, N, A, LDA, INFO )
+       SUBROUTINE DPOTRF( UPLO, N, A, LDA, INFO )
+       SUBROUTINE ZPOTRF( UPLO, N, A, LDA, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -49,14 +50,25 @@
 namespace flens { namespace lapack {
 
 //== potrf =====================================================================
+//
+//  Real variant
+//
 template <typename MA>
-    typename SyMatrix<MA>::IndexType
-    potrf(SyMatrix<MA> &A);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA>
-    typename MA::IndexType
+    typename RestrictTo<IsRealSyMatrix<MA>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
     potrf(MA &&A);
+
+
+#ifdef USE_CXXLAPACK
+//
+//  Complex variant
+//
+template <typename MA>
+    typename RestrictTo<IsHeMatrix<MA>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    potrf(MA &&A);
+
+#endif // USE_CXXLAPACK
 
 
 } } // namespace lapack, flens

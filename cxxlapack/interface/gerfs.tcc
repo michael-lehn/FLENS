@@ -57,6 +57,7 @@ gerfs(char              trans,
       IndexType         *iWork)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("dgerfs");
     LAPACK_IMPL(dgerfs)(&trans,
                         &n,
                         &nRhs,
@@ -103,6 +104,7 @@ gerfs(char                          trans,
       double                        *rWork)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("zgerfs");
     LAPACK_IMPL(zgerfs)(&trans,
                         &n,
                         &nRhs,

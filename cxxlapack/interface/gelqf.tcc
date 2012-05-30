@@ -48,6 +48,7 @@ gelqf(IndexType    m,
       IndexType    lWork)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("dgelqf");
     LAPACK_IMPL(dgelqf)(&m,
                         &n,
                         A,
@@ -76,6 +77,7 @@ gelqf(IndexType             m,
       IndexType             lWork)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("zgelqf");
     LAPACK_IMPL(zgelqf)(&m,
                         &n,
                         reinterpret_cast<double *>(A),

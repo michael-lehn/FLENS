@@ -53,6 +53,7 @@ unmqr(char                        side,
       IndexType                   lWork)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("zunmqr");
     LAPACK_IMPL(zunmqr)(&side,
                         &trans,
                         &m,

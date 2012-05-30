@@ -43,6 +43,7 @@
 #include <flens/auxiliary/isconvertible.h>
 #include <flens/auxiliary/isgeneralmatrix.h>
 #include <flens/auxiliary/ishermitianmatrix.h>
+#include <flens/auxiliary/isinteger.h>
 #include <flens/auxiliary/ismatrix.h>
 #include <flens/auxiliary/ismatrixclosure.h>
 #include <flens/auxiliary/issame.h>
@@ -57,7 +58,9 @@
 #include <flens/auxiliary/promotion.h>
 #include <flens/auxiliary/quadruple.h>
 #include <flens/auxiliary/range.h>
+#include <flens/auxiliary/removeref.h>
 #include <flens/auxiliary/restrictto.h>
+#include <flens/auxiliary/triple.h>
 #include <flens/auxiliary/underscore.h>
 
 #endif // FLENS_AUXILIARY_AUXILIARY_H

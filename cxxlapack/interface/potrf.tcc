@@ -45,6 +45,7 @@ potrf(char        upLo,
       IndexType   ldA)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("dpotrf");
     LAPACK_IMPL(dpotrf)(&upLo,
                         &n,
                         A,
@@ -67,6 +68,7 @@ potrf(char                  upLo,
       IndexType             ldA)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("zpotrf");
     LAPACK_IMPL(zpotrf)(&upLo,
                         &n,
                         reinterpret_cast<double *>(A),

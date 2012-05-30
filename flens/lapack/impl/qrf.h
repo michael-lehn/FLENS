@@ -33,11 +33,12 @@
 /* Based on
  *
       SUBROUTINE DGEQRF( M, N, A, LDA, TAU, WORK, LWORK, INFO )
+      SUBROUTINE ZGEQRF( M, N, A, LDA, TAU, WORK, LWORK, INFO )
  *
- *  -- LAPACK routine (version 3.2) --
+ *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
  *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
- *     November 2006
+ *  -- April 2011                                                      --
  */
 
 #ifndef FLENS_LAPACK_IMPL_QRF_H
@@ -48,15 +49,31 @@
 
 namespace flens { namespace lapack {
 
-//-- forwarding ----------------------------------------------------------------
+//== (ge)qrf ===================================================================
+//
+//  Real variant
+//
 template <typename MA, typename VTAU, typename VWORK>
-    void
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsRealDenseVector<VTAU>::value
+                     && IsRealDenseVector<VWORK>::value,
+             void>::Type
     qrf(MA &&A, VTAU &&tau, VWORK &&work);
 
-//-- geqrf ---------------------------------------------------------------------
+
+#ifdef USE_CXXLAPACK
+//
+//  Complex variant
+//
 template <typename MA, typename VTAU, typename VWORK>
-    void
-    qrf(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work);
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsComplexDenseVector<VTAU>::value
+                     && IsComplexDenseVector<VWORK>::value,
+             void>::Type
+    qrf(MA &&A, VTAU &&tau, VWORK &&work);
+
+#endif // USE_CXXLAPACK
+
 
 } } // namespace lapack, flens
 

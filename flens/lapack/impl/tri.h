@@ -33,8 +33,10 @@
 /* Baesed on
  *
       SUBROUTINE DGETRI( N, A, LDA, IPIV, WORK, LWORK, INFO )
+      SUBROUTINE ZGETRI( N, A, LDA, IPIV, WORK, LWORK, INFO )
 
       SUBROUTINE DTRTRI( UPLO, DIAG, N, A, LDA, INFO )
+      SUBROUTINE ZTRTRI( UPLO, DIAG, N, A, LDA, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -51,23 +53,54 @@
 namespace flens { namespace lapack {
 
 //== (ge)tri ===================================================================
-template <typename MA, typename VP, typename VWORK>
-    typename GeMatrix<MA>::IndexType
-    tri(GeMatrix<MA> &A, const DenseVector<VP> &piv, DenseVector<VWORK> &work);
+//
+//  Real variant
+//
+template <typename MA, typename VPIV, typename VWORK>
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsRealDenseVector<VWORK>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    tri(MA &&A, const VPIV &piv, VWORK &&work);
+
+
+#ifdef USE_CXXLAPACK
+
+//
+//  Complex variant
+//
+template <typename MA, typename VPIV, typename VWORK>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsComplexDenseVector<VWORK>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    tri(MA &&A, const VPIV &piv, VWORK &&work);
+
+#endif // USE_CXXLAPACK
+
 
 //== (tr)tri ===================================================================
+//
+//  Real variant
+//
 template <typename MA>
-    typename GeMatrix<MA>::IndexType
-    tri(TrMatrix<MA> &A);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VP, typename VWORK>
-    typename MA::IndexType
-    tri(MA &&A, const VP &&piv, VWORK &&work);
-
-template <typename MA>
-    typename MA::IndexType
+    typename RestrictTo<IsRealTrMatrix<MA>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
     tri(MA &&A);
+
+
+#ifdef USE_CXXLAPACK
+
+//
+//  Complex variant
+//
+template <typename MA>
+    typename RestrictTo<IsComplexTrMatrix<MA>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    tri(MA &&A);
+
+#endif // USE_CXXLAPACK
+
 
 } } // namespace lapack, flens
 

@@ -50,38 +50,30 @@
 namespace flens { namespace lapack {
 
 //== ormlq =====================================================================
-template <typename MA, typename MC>
-    typename GeMatrix<MC>::IndexType
-    ormlq_wsq(Side                  side,
-              Transpose             trans,
-              GeMatrix<MA>          &A,
-              GeMatrix<MC>          &C);
 
 template <typename MA, typename VTAU, typename MC, typename VWORK>
-    void
-    ormlq(Side                      side,
-          Transpose                 trans,
-          GeMatrix<MA>              &A,
-          const DenseVector<VTAU>   &tau,
-          GeMatrix<MC>              &C,
-          DenseVector<VWORK>        &work);
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsRealDenseVector<VTAU>::value
+                     && IsRealGeMatrix<MC>::value
+                     && IsRealDenseVector<VWORK>::value,
+             void>::Type
+    ormlq(Side          side,
+          Transpose     trans,
+          MA            &&A,
+          const VTAU    &tau,
+          MC            &&C,
+          VWORK         &&work);
 
-//-- forwarding ----------------------------------------------------------------
+//== workspace query ===========================================================
+
 template <typename MA, typename MC>
-      typename MC::IndexType
-      ormlq_wsq(Side                side,
-                Transpose           trans,
-                MA                  &&A,
-                MC                  &&C);
-
-template <typename MA, typename VTAU, typename MC, typename VWORK>
-      void
-      ormlq(Side                    side,
-            Transpose               trans,
-            MA                      &&A,
-            const VTAU              &tau,
-            MC                      &&C,
-            VWORK                   &&work);
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsRealGeMatrix<MC>::value,
+             typename RemoveRef<MC>::Type::IndexType>::Type
+    ormlq_wsq(Side          side,
+              Transpose     trans,
+              MA            &&A,
+              MC            &&C);
 
 } } // namespace lapack, flens
 

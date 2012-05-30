@@ -49,6 +49,7 @@ getrs(char              trans,
       IndexType         ldB)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("dgetrs");
     LAPACK_IMPL(dgetrs)(&trans,
                         &n,
                         &nRhs,
@@ -80,6 +81,7 @@ getrs(char                          trans,
       IndexType                     ldB)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("zgetrs");
     LAPACK_IMPL(zgetrs)(&trans,
                         &n,
                         &nRhs,

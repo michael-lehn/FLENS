@@ -49,6 +49,7 @@ gecon(char                  norm,
       IndexType             *iwork)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("dgecon");
     LAPACK_IMPL(dgecon)(&norm,
                         &n,
                         A,
@@ -79,6 +80,7 @@ gecon(char                          norm,
       double                        *rwork)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("zgecon");
     LAPACK_IMPL(zgecon)(&norm,
                         &n,
                         reinterpret_cast<const double *>(A),

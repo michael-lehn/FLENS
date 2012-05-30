@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DPOTRS( UPLO, N, NRHS, A, LDA, B, LDB, INFO )
+       SUBROUTINE ZPOTRS( UPLO, N, NRHS, A, LDA, B, LDB, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -49,14 +50,28 @@
 namespace flens { namespace lapack {
 
 //== potrs =====================================================================
+//
+//  Real variant
+//
 template <typename MA, typename MB>
-    void
-    potrs(const SyMatrix<MA> &A, GeMatrix<MB> &B);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename MB>
-    void
+    typename RestrictTo<IsRealSyMatrix<MA>::value
+                     && IsRealGeMatrix<MB>::value,
+             void>::Type
     potrs(const MA &A, MB &&B);
+
+
+#ifdef USE_CXXLAPACK
+//
+//  Complex variant
+//
+template <typename MA, typename MB>
+    typename RestrictTo<IsHeMatrix<MA>::value
+                     && IsComplexGeMatrix<MB>::value,
+             void>::Type
+    potrs(const MA &A, MB &&B);
+
+#endif // USE_CXXLAPACK
+
 
 } } // namespace lapack, flens
 

@@ -40,6 +40,25 @@
 namespace flens {
 
 template <typename FS>
+SyMatrix<FS>::SyMatrix()
+{
+}
+
+template <typename FS>
+SyMatrix<FS>::SyMatrix(IndexType dim)
+    : _engine(dim, dim)
+{
+    ASSERT(dim>=0);
+}
+
+template <typename FS>
+SyMatrix<FS>::SyMatrix(IndexType dim, IndexType firstRow, IndexType firstCol)
+    : _engine(dim, dim, firstRow, firstCol)
+{
+    ASSERT(dim>=0);
+}
+
+template <typename FS>
 SyMatrix<FS>::SyMatrix(const Engine &engine, StorageUpLo upLo)
     : _engine(engine), _upLo(upLo)
 {
@@ -242,6 +261,7 @@ SyMatrix<FS>::operator()(const Range<IndexType> &rows, IndexType col)
 }
 
 // -- views --------------------------------------------------------------------
+
 // general views
 template <typename FS>
 const typename SyMatrix<FS>::ConstGeneralView
@@ -294,6 +314,7 @@ SyMatrix<FS>::triangular()
 }
 
 // -- methods ------------------------------------------------------------------
+
 template <typename FS>
 typename SyMatrix<FS>::IndexType
 SyMatrix<FS>::dim() const
@@ -316,7 +337,6 @@ SyMatrix<FS>::numCols() const
 {
     return _engine.numCols();
 }
-
 
 template <typename FS>
 typename SyMatrix<FS>::IndexType

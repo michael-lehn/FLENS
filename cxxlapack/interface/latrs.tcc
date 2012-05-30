@@ -51,6 +51,7 @@ latrs(char          uplo,
       double        *cNorm)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("dlatrs");
     LAPACK_IMPL(dlatrs)(&uplo,
                         &trans,
                         &diag,
@@ -85,6 +86,7 @@ latrs(char                          upLo,
       double                        *cNorm)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("zlatrs");
     LAPACK_IMPL(zlatrs)(&upLo,
                         &trans,
                         &diag,

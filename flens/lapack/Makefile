@@ -13,4 +13,5 @@ clean : test/
 	$(MAKE) -C interface clean
 
 distclean :
+	$(MAKE) -C interface clean
 	$(RM) -rf test/

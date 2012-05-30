@@ -134,7 +134,9 @@
 #include <cxxlapack/interface/trti2.tcc>
 #include <cxxlapack/interface/trtri.tcc>
 #include <cxxlapack/interface/trtrs.tcc>
+#include <cxxlapack/interface/unglq.tcc>
 #include <cxxlapack/interface/ungqr.tcc>
+#include <cxxlapack/interface/unmlq.tcc>
 #include <cxxlapack/interface/unmqr.tcc>
 
 #endif // CXXLAPACK_INTERFACE_INTERFACE_TCC

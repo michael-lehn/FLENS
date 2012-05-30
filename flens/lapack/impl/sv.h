@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DGESV( N, NRHS, A, LDA, IPIV, B, LDB, INFO )
+       SUBROUTINE ZGESV( N, NRHS, A, LDA, IPIV, B, LDB, INFO )
  *
  *  -- LAPACK driver routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -50,18 +51,26 @@
 namespace flens { namespace lapack {
 
 //== (ge)sv ====================================================================
-template <typename MA, typename VP, typename MB>
-    typename GeMatrix<MA>::IndexType
-    sv(GeMatrix<MA> &A, DenseVector<VP> &piv, GeMatrix<MB> &B);
+//
+//  Real and complex variant
+//
+template <typename MA, typename VPIV, typename MB>
+    typename RestrictTo<IsGeMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsGeMatrix<MB>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    sv(MA &&A, VPIV &&piv, MB &&B);
 
-template <typename MA, typename VP, typename VB>
-    typename GeMatrix<MA>::IndexType
-    sv(GeMatrix<MA> &A, DenseVector<VP> &piv, DenseVector<VB> &b);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VP, typename MB>
-    typename MA::IndexType
-    sv(MA &&A, VP &&piv, MB &&B);
+//== (ge)sv variant if rhs is vector ===========================================
+//
+//  Real and complex
+//
+template <typename MA, typename VPIV, typename VB>
+    typename RestrictTo<IsGeMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsDenseVector<VB>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    sv(MA &&A, VPIV &&piv, VB &&b);
 
 } } // namespace lapack, flens
 

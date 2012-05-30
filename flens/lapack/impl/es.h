@@ -34,6 +34,8 @@
  *
        SUBROUTINE DGEES( JOBVS, SORT, SELECT, N, A, LDA, SDIM, WR, WI,
       $                  VS, LDVS, WORK, LWORK, BWORK, INFO )
+       SUBROUTINE ZGEES( JOBVS, SORT, SELECT, N, A, LDA, SDIM, W, VS,
+      $                  LDVS, WORK, LWORK, RWORK, BWORK, INFO )
  *
  *  -- LAPACK driver routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -51,43 +53,69 @@
 
 namespace flens { namespace lapack {
 
-//== es ========================================================================
-template <typename MA>
-   Pair<typename GeMatrix<MA>::IndexType>
-   es_wsq(bool                 computeSchurVectors,
-          const GeMatrix<MA>   &A);
-
-
+//== (ge)es ====================================================================
+//
+//  Real variant
+//
 template <typename SelectFunction, typename MA, typename IndexType,
           typename VWR, typename VWI, typename MVS,
-          typename VWORK, typename BWORK>
-    IndexType
-    es(bool                 computeSchurVectors,
-       bool                 sortEigenvalues,
-       SelectFunction       select,
-       GeMatrix<MA>         &A,
-       IndexType            &sDim,
-       DenseVector<VWR>     &wr,
-       DenseVector<VWI>     &wi,
-       GeMatrix<MVS>        &VS,
-       DenseVector<VWORK>   &work,
-       DenseVector<BWORK>   &bWork);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename SelectFunction, typename MA, typename IndexType,
-          typename VWR, typename VWI, typename MVS,
-          typename VWORK, typename BWORK>
-    IndexType
+          typename VWORK, typename VBWORK>
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsInteger<IndexType>::value
+                     && IsRealDenseVector<VWR>::value
+                     && IsRealDenseVector<VWI>::value
+                     && IsRealGeMatrix<MVS>::value
+                     && IsRealDenseVector<VWORK>::value
+                     && IsRealDenseVector<VBWORK>::value,
+             IndexType>::Type
     es(bool                 computeSchurVectors,
        bool                 sortEigenvalues,
        SelectFunction       select,
        MA                   &&A,
-       IndexType            &&sDim,
+       IndexType            &sDim,
        VWR                  &&wr,
        VWI                  &&wi,
        MVS                  &&VS,
        VWORK                &&work,
-       BWORK                &&bWork);
+       VBWORK               &&bWork);
+
+
+#ifdef USE_CXXLAPACK
+
+//
+//  Complex variant
+//
+template <typename SelectFunction, typename MA, typename IndexType,
+          typename VW, typename MVS, typename VWORK, typename VRWORK,
+          typename VBWORK>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsInteger<IndexType>::value
+                     && IsComplexDenseVector<VW>::value
+                     && IsComplexGeMatrix<MVS>::value
+                     && IsComplexDenseVector<VWORK>::value
+                     && IsRealDenseVector<VRWORK>::value
+                     && IsRealDenseVector<VBWORK>::value,
+             IndexType>::Type
+    es(bool                 computeSchurVectors,
+       bool                 sortEigenvalues,
+       SelectFunction       select,
+       MA                   &&A,
+       IndexType            &sDim,
+       VW                   &&w,
+       MVS                  &&VS,
+       VWORK                &&work,
+       VRWORK               &&rwork,
+       VBWORK               &&bWork);
+
+#endif // USE_CXXLAPACK
+
+
+//== workspace query ===========================================================
+
+template <typename MA>
+    Pair<typename GeMatrix<MA>::IndexType>
+    es_wsq(bool                 computeSchurVectors,
+           const GeMatrix<MA>   &A);
 
 } } // namespace lapack, flens
 

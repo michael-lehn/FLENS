@@ -134,7 +134,9 @@
 #include <cxxlapack/interface/trti2.h>
 #include <cxxlapack/interface/trtri.h>
 #include <cxxlapack/interface/trtrs.h>
+#include <cxxlapack/interface/unglq.h>
 #include <cxxlapack/interface/ungqr.h>
+#include <cxxlapack/interface/unmlq.h>
 #include <cxxlapack/interface/unmqr.h>
 
 #endif // CXXLAPACK_INTERFACE_INTERFACE_H

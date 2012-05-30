@@ -32,8 +32,12 @@
 
 /* Based on
  *
-      SUBROUTINE DGEEV( JOBVL, JOBVR, N, A, LDA, WR, WI, VL, LDVL, VR,
-     $                  LDVR, WORK, LWORK, INFO )
+      SUBROUTINE DGEEVX( BALANC, JOBVL, JOBVR, SENSE, N, A, LDA, WR, WI,
+     $                   VL, LDVL, VR, LDVR, ILO, IHI, SCALE, ABNRM,
+     $                   RCONDE, RCONDV, WORK, LWORK, IWORK, INFO )
+      SUBROUTINE ZGEEVX( BALANC, JOBVL, JOBVR, SENSE, N, A, LDA, W, VL,
+     $                   LDVL, VR, LDVR, ILO, IHI, SCALE, ABNRM, RCONDE,
+     $                   RCONDV, WORK, LWORK, RWORK, INFO )
  *
  *  -- LAPACK driver routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -52,6 +56,8 @@ namespace flens { namespace lapack {
 //== generic lapack implementation =============================================
 
 namespace generic {
+
+//-- (ge)evx_wsq [worksize query, real variant] --------------------------------
 
 template <typename MA>
 Pair<typename GeMatrix<MA>::IndexType>
@@ -120,6 +126,8 @@ evx_wsq_impl(bool         computeVL,
 
     return Pair<typename GeMatrix<MA>::IndexType>(minWork, maxWork);
 }
+
+//-- (ge)evx [real variant] ----------------------------------------------------
 
 template <typename MA, typename VWR, typename VWI, typename MVL, typename MVR,
           typename IndexType, typename VSCALE, typename ABNORM,
@@ -261,10 +269,10 @@ evx_impl(BALANCE::Balance     balance,
                      wr, wi, VL, hseqrWork);
 
         if (computeVR) {
-// 
+//
 //          Want left and right eigenvectors
 //          Copy Schur vectors to VR
-// 
+//
             VR = VL;
         }
 
@@ -418,16 +426,49 @@ evx_impl(BALANCE::Balance     balance,
 
 namespace external {
 
+//-- (ge)evx_wsq [worksize query, real variant] --------------------------------
+
 template <typename MA>
-Pair<typename GeMatrix<MA>::IndexType>
+typename RestrictTo<IsNotComplex<typename MA::ElementType>::value,
+         Pair<typename MA::IndexType> >::Type
 evx_wsq_impl(bool         computeVL,
              bool         computeVR,
              SENSE::Sense sense,
              GeMatrix<MA> &A)
 {
+    using std::max;
+
     typedef typename GeMatrix<MA>::ElementType  T;
     typedef typename GeMatrix<MA>::IndexType    IndexType;
 
+    const bool wantSN = (sense==SENSE::None);
+    const bool wantSE = (sense==SENSE::EigenvaluesOnly);
+
+//
+//  Compute minimal worksize
+//
+    IndexType  n = A.numRows();
+    IndexType  minWork;
+
+    if (n==0) {
+        minWork = 1;
+    } else {
+        if ((!computeVL) && (!computeVR)) {
+            minWork = 2*n;
+            if (!wantSN) {
+                minWork = max(minWork, n*n+6*n);
+            }
+        } else {
+            minWork = 3*n;
+            if ((!wantSN) && (!wantSE)) {
+                minWork = max(minWork, n*n + 6*n);
+            }
+        }
+    }
+
+//
+//  Compute optimal worksize
+//
     const IndexType     LDVL   = A.numRows();
     const IndexType     LDVR   = A.numRows();
     IndexType           IDUMMY;
@@ -457,8 +498,79 @@ evx_wsq_impl(bool         computeVL,
                                 &WORK,
                                 LWORK,
                                 &IDUMMY);
-    return Pair<IndexType>(WORK, WORK);
+    return Pair<IndexType>(minWork, WORK);
 }
+
+//-- (ge)evx_wsq [worksize query, complex variant] -----------------------------
+
+template <typename MA>
+typename RestrictTo<IsComplex<typename MA::ElementType>::value,
+         Pair<typename MA::IndexType> >::Type
+evx_wsq_impl(bool         computeVL,
+             bool         computeVR,
+             SENSE::Sense sense,
+             GeMatrix<MA> &A)
+{
+    using std::max;
+
+    typedef typename GeMatrix<MA>::ElementType          T;
+    typedef typename ComplexTrait<T>::PrimitiveType     RT;
+    typedef typename GeMatrix<MA>::IndexType            IndexType;
+
+    const bool wantSN = (sense==SENSE::None);
+    const bool wantSE = (sense==SENSE::EigenvaluesOnly);
+
+//
+//  Compute minimal worksize
+//
+    IndexType  n = A.numRows();
+    IndexType  minWork;
+
+    if (n==0) {
+        minWork = 1;
+    } else {
+        minWork = 2*n;
+        if (!wantSN && !wantSE) {
+            minWork = max(minWork, n*n+2*n);
+        }
+    }
+
+//
+//  Compute optimal worksize
+//
+    const IndexType     LDVL   = A.numRows();
+    const IndexType     LDVR   = A.numRows();
+    IndexType           IDUMMY;
+    T                   DUMMY;
+    RT                  RDUMMY;
+    const IndexType     LWORK  = -1;
+    T                   WORK;
+
+    cxxlapack::geevx<IndexType>('N',
+                                computeVL ? 'V' : 'N',
+                                computeVR ? 'V' : 'N',
+                                getF77Char(sense),
+                                A.numRows(),
+                                A.data(),
+                                A.leadingDimension(),
+                                &DUMMY,                     // w
+                                &DUMMY,                     // VL
+                                LDVL,                       // ldVL
+                                &DUMMY,                     // VR
+                                LDVR,                       // ldVR
+                                IDUMMY,                     // iLo
+                                IDUMMY,                     // iHi
+                                &RDUMMY,                    // scale
+                                RDUMMY,                     // ABnorm
+                                &RDUMMY,                    // rCondE
+                                &RDUMMY,                    // rCondV
+                                &WORK,                      // work
+                                LWORK,                      // lWork
+                                &RDUMMY);                   // rWork
+    return Pair<IndexType>(minWork, WORK.real());
+}
+
+//-- (ge)evx [real variant] ----------------------------------------------------
 
 template <typename MA, typename VWR, typename VWI, typename MVL, typename MVR,
           typename IndexType, typename VSCALE, typename ABNORM,
@@ -482,6 +594,11 @@ evx_impl(BALANCE::Balance     balance,
          DenseVector<VWORK>   &work,
          DenseVector<VIWORK>  &iWork)
 {
+    if (work.length()==0) {
+        const auto ws = evx_wsq_impl(computeVL, computeVR, sense, A);
+        work.resize(ws.second, 1);
+    }
+
     IndexType  info;
     info = cxxlapack::geevx<IndexType>(getF77Char(balance),
                                        computeVL ? 'V' : 'N',
@@ -509,44 +626,119 @@ evx_impl(BALANCE::Balance     balance,
     return info;
 }
 
+//-- (ge)evx [complex variant] ----------------------------------------------------
+
+template <typename MA, typename VW, typename MVL, typename MVR,
+          typename IndexType, typename VSCALE, typename ABNORM,
+          typename RCONDE, typename RCONDV, typename VWORK, typename VRWORK>
+typename GeMatrix<MA>::IndexType
+evx_impl(BALANCE::Balance     balance,
+         bool                 computeVL,
+         bool                 computeVR,
+         SENSE::Sense         sense,
+         GeMatrix<MA>         &A,
+         DenseVector<VW>      &w,
+         GeMatrix<MVL>        &VL,
+         GeMatrix<MVR>        &VR,
+         IndexType            &iLo,
+         IndexType            &iHi,
+         DenseVector<VSCALE>  &scale,
+         ABNORM               &abNorm,
+         DenseVector<RCONDE>  &rCondE,
+         DenseVector<RCONDV>  &rCondV,
+         DenseVector<VWORK>   &work,
+         DenseVector<VRWORK>  &rWork)
+{
+    if (work.length()==0) {
+        const auto ws = evx_wsq_impl(computeVL, computeVR, sense, A);
+        work.resize(ws.second, 1);
+    }
+
+    IndexType  info;
+    info = cxxlapack::geevx<IndexType>(getF77Char(balance),
+                                       computeVL ? 'V' : 'N',
+                                       computeVR ? 'V' : 'N',
+                                       getF77Char(sense),
+                                       A.numRows(),
+                                       A.data(),
+                                       A.leadingDimension(),
+                                       w.data(),
+                                       VL.data(),
+                                       VL.leadingDimension(),
+                                       VR.data(),
+                                       VR.leadingDimension(),
+                                       iLo,
+                                       iHi,
+                                       scale.data(),
+                                       abNorm,
+                                       rCondE.data(),
+                                       rCondV.data(),
+                                       work.data(),
+                                       work.length(),
+                                       rWork.data());
+    ASSERT(info>=0);
+    return info;
+}
+
 } // namespace external
 
 #endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
-template <typename MA>
-Pair<typename GeMatrix<MA>::IndexType>
-evx_wsq(bool             computeVL,
-        bool             computeVR,
-        SENSE::Sense     sense,
-        GeMatrix<MA>     &A)
-{
-    return LAPACK_SELECT::evx_wsq_impl(computeVL, computeVR, sense, A);
-}
+
+//-- (ge)evx [real variant] ----------------------------------------------------
 
 template <typename MA, typename VWR, typename VWI, typename MVL, typename MVR,
           typename IndexType, typename VSCALE, typename ABNORM,
-          typename RCONDE, typename RCONDV, typename VWORK, typename VIWORK>
-typename GeMatrix<MA>::IndexType
+          typename VRCONDE, typename VRCONDV, typename VWORK, typename VIWORK>
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                 && IsRealDenseVector<VWR>::value
+                 && IsRealDenseVector<VWI>::value
+                 && IsRealGeMatrix<MVL>::value
+                 && IsRealGeMatrix<MVR>::value
+                 && IsInteger<IndexType>::value
+                 && IsRealDenseVector<VSCALE>::value
+                 && IsNotComplex<ABNORM>::value
+                 && IsRealDenseVector<VRCONDE>::value
+                 && IsRealDenseVector<VRCONDV>::value
+                 && IsRealDenseVector<VWORK>::value
+                 && IsIntegerDenseVector<VIWORK>::value,
+         IndexType>::Type
 evx(BALANCE::Balance     balance,
     bool                 computeVL,
     bool                 computeVR,
     SENSE::Sense         sense,
-    GeMatrix<MA>         &A,
-    DenseVector<VWR>     &wr,
-    DenseVector<VWI>     &wi,
-    GeMatrix<MVL>        &VL,
-    GeMatrix<MVR>        &VR,
+    MA                   &&A,
+    VWR                  &&wr,
+    VWI                  &&wi,
+    MVL                  &&VL,
+    MVR                  &&VR,
     IndexType            &iLo,
     IndexType            &iHi,
-    DenseVector<VSCALE>  &scale,
+    VSCALE               &&scale,
     ABNORM               &abNorm,
-    DenseVector<RCONDE>  &rCondE,
-    DenseVector<RCONDV>  &rCondV,
-    DenseVector<VWORK>   &work,
-    DenseVector<VIWORK>  &iWork)
+    VRCONDE              &&rCondE,
+    VRCONDV              &&rCondV,
+    VWORK                &&work,
+    VIWORK               &&iWork)
 {
-    LAPACK_DEBUG_OUT("evx");
+    LAPACK_DEBUG_OUT("(ge)evx [real]");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type        MatrixA;
+    typedef typename RemoveRef<VWR>::Type       VectorWR;
+    typedef typename RemoveRef<VWI>::Type       VectorWI;
+    typedef typename RemoveRef<MVL>::Type       MatrixVL;
+    typedef typename RemoveRef<MVR>::Type       MatrixVR;
+    typedef typename RemoveRef<VSCALE>::Type    VectorScale;
+    typedef typename RemoveRef<VRCONDE>::Type   VectorRCondE;
+    typedef typename RemoveRef<VRCONDV>::Type   VectorRCondV;
+    typedef typename RemoveRef<VWORK>::Type     VectorWork;
+    typedef typename RemoveRef<VIWORK>::Type    VectorIWork;
+
+    const IndexType n = A.numRows();
 
 //
 //  Test the input parameters
@@ -557,57 +749,82 @@ evx(BALANCE::Balance     balance,
     ASSERT(A.firstCol()==1);
     ASSERT(work.firstIndex()==1);
 
-    typename GeMatrix<MA>::IndexType n = A.numRows();
-
     ASSERT(wr.firstIndex()==1);
-    ASSERT(wr.length()==n);
+    ASSERT(wr.length()==0 || wr.length()==n);
 
     ASSERT(wi.firstIndex()==1);
-    ASSERT(wi.length()==n);
+    ASSERT(wi.length()==0 || wi.length()==n);
 
     if (computeVL) {
         ASSERT(VL.numRows()==VL.numCols());
-        ASSERT(VL.numRows()==n);
+        ASSERT(VL.numRows()==0 || VL.numRows()==n);
         ASSERT(VL.firstRow()==1);
         ASSERT(VL.firstCol()==1);
     }
 
     if (computeVR) {
         ASSERT(VR.numRows()==VR.numCols());
-        ASSERT(VR.numRows()==n);
+        ASSERT(VR.numRows()==0 || VR.numRows()==n);
         ASSERT(VR.firstRow()==1);
         ASSERT(VR.firstCol()==1);
     }
 
     ASSERT(scale.firstIndex()==1);
-    ASSERT(scale.length()==n);
+    ASSERT(scale.length()==0 || scale.length()==n);
 
     ASSERT(rCondE.firstIndex()==1);
-    ASSERT(rCondE.length()==n);
+    ASSERT(rCondE.length()==0 || rCondE.length()==n);
 
     ASSERT(rCondV.firstIndex()==1);
-    ASSERT(rCondV.length()==n);
+    ASSERT(rCondV.length()==0 || rCondV.length()==n);
 
-    ASSERT(iWork.length()==2*(n-1));
+    ASSERT(iWork.length()==0 || iWork.length()==2*(n-1));
 #   endif
 
+//
+//  Resize output arguments if they are empty and needed
+//
+    if (wr.length()==0) {
+        wr.resize(n, 1);
+    }
+    if (wi.length()==0) {
+        wi.resize(n, 1);
+    }
+    if (computeVL && VL.numRows()==0) {
+        VL.resize(n, n, 1, 1);
+    }
+    if (computeVR && VR.numRows()==0) {
+        VR.resize(n, n, 1, 1);
+    }
+    if (scale.length()==0) {
+        scale.resize(n, 1);
+    }
+    if (rCondE.length()==0) {
+        rCondE.resize(n, 1);
+    }
+    if (rCondV.length()==0) {
+        rCondV.resize(n, 1);
+    }
+    if (iWork.length()==0) {
+        iWork.resize(2*(n-1), 1);
+    }
 //
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-    typename GeMatrix<MA>::NoView           A_org       = A;
-    typename DenseVector<VWR>::NoView       wr_org      = wr;
-    typename DenseVector<VWI>::NoView       wi_org      = wi;
-    typename GeMatrix<MVL>::NoView          VL_org      = VL;
-    typename GeMatrix<MVR>::NoView          VR_org      = VR;
-    IndexType                               iLo_org     = iLo;
-    IndexType                               iHi_org     = iHi;
-    typename DenseVector<VSCALE>::NoView    scale_org   = scale;
-    ABNORM                                  abNorm_org  = abNorm;
-    typename DenseVector<RCONDE>::NoView    rCondE_org  = rCondE;
-    typename DenseVector<RCONDV>::NoView    rCondV_org  = rCondV;
-    typename DenseVector<VWORK>::NoView     work_org    = work;
-    typename DenseVector<VIWORK>::NoView    iWork_org   = iWork;
+    typename MatrixA::NoView        A_org       = A;
+    typename VectorWR::NoView       wr_org      = wr;
+    typename VectorWI::NoView       wi_org      = wi;
+    typename MatrixVL::NoView       VL_org      = VL;
+    typename MatrixVR::NoView       VR_org      = VR;
+    IndexType                       iLo_org     = iLo;
+    IndexType                       iHi_org     = iHi;
+    typename VectorScale::NoView    scale_org   = scale;
+    ABNORM                          abNorm_org  = abNorm;
+    typename VectorRCondE::NoView   rCondE_org  = rCondE;
+    typename VectorRCondV::NoView   rCondV_org  = rCondV;
+    typename VectorWork::NoView     work_org    = work;
+    typename VectorIWork::NoView    iWork_org   = iWork;
 #   endif
 
 //
@@ -621,19 +838,19 @@ evx(BALANCE::Balance     balance,
 //
 //  Make copies of results computed by the generic implementation
 //
-    typename GeMatrix<MA>::NoView           A_generic       = A;
-    typename DenseVector<VWR>::NoView       wr_generic      = wr;
-    typename DenseVector<VWI>::NoView       wi_generic      = wi;
-    typename GeMatrix<MVL>::NoView          VL_generic      = VL;
-    typename GeMatrix<MVR>::NoView          VR_generic      = VR;
-    IndexType                               iLo_generic     = iLo;
-    IndexType                               iHi_generic     = iHi;
-    typename DenseVector<VSCALE>::NoView    scale_generic   = scale;
-    ABNORM                                  abNorm_generic  = abNorm;
-    typename DenseVector<RCONDE>::NoView    rCondE_generic  = rCondE;
-    typename DenseVector<RCONDV>::NoView    rCondV_generic  = rCondV;
-    typename DenseVector<VWORK>::NoView     work_generic    = work;
-    typename DenseVector<VIWORK>::NoView    iWork_generic   = iWork;
+    typename MatrixA::NoView        A_generic       = A;
+    typename VectorWR::NoView       wr_generic      = wr;
+    typename VectorWI::NoView       wi_generic      = wi;
+    typename MatrixVL::NoView       VL_generic      = VL;
+    typename MatrixVR::NoView       VR_generic      = VR;
+    IndexType                       iLo_generic     = iLo;
+    IndexType                       iHi_generic     = iHi;
+    typename VectorScale::NoView    scale_generic   = scale;
+    ABNORM                          abNorm_generic  = abNorm;
+    typename VectorRCondE::NoView   rCondE_generic  = rCondE;
+    typename VectorRCondV::NoView   rCondV_generic  = rCondV;
+    typename VectorWork::NoView     work_generic    = work;
+    typename VectorIWork::NoView    iWork_generic   = iWork;
 //
 //  restore output arguments
 //
@@ -758,7 +975,146 @@ evx(BALANCE::Balance     balance,
     return info;
 }
 
-//-- forwarding ----------------------------------------------------------------
+
+#ifdef USE_CXXLAPACK
+
+//-- (ge)evx [complex variant] ----------------------------------------------------
+
+template <typename MA, typename VW, typename MVL, typename MVR,
+          typename IndexType, typename VSCALE, typename ABNORM,
+          typename VRCONDE, typename VRCONDV, typename VWORK, typename VRWORK>
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                 && IsComplexDenseVector<VW>::value
+                 && IsComplexGeMatrix<MVL>::value
+                 && IsComplexGeMatrix<MVR>::value
+                 && IsInteger<IndexType>::value
+                 && IsRealDenseVector<VSCALE>::value
+                 && IsNotComplex<ABNORM>::value
+                 && IsRealDenseVector<VRCONDE>::value
+                 && IsRealDenseVector<VRCONDV>::value
+                 && IsComplexDenseVector<VWORK>::value
+                 && IsRealDenseVector<VRWORK>::value,
+         IndexType>::Type
+evx(BALANCE::Balance     balance,
+    bool                 computeVL,
+    bool                 computeVR,
+    SENSE::Sense         sense,
+    MA                   &&A,
+    VW                   &&w,
+    MVL                  &&VL,
+    MVR                  &&VR,
+    IndexType            &iLo,
+    IndexType            &iHi,
+    VSCALE               &&scale,
+    ABNORM               &abNorm,
+    VRCONDE              &&rCondE,
+    VRCONDV              &&rCondV,
+    VWORK                &&work,
+    VRWORK               &&rWork)
+{
+    LAPACK_DEBUG_OUT("(ge)evx [complex]");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type        MatrixA;
+    typedef typename RemoveRef<VW>::Type        VectorW;
+    typedef typename RemoveRef<MVL>::Type       MatrixVL;
+    typedef typename RemoveRef<MVR>::Type       MatrixVR;
+    typedef typename RemoveRef<VSCALE>::Type    VectorScale;
+    typedef typename RemoveRef<VRCONDE>::Type   VectorRCondE;
+    typedef typename RemoveRef<VRCONDV>::Type   VectorRCondV;
+    typedef typename RemoveRef<VWORK>::Type     VectorWork;
+    typedef typename RemoveRef<VRWORK>::Type    VectorRWork;
+
+    const IndexType n = A.numRows();
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.numRows()==A.numCols());
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(work.firstIndex()==1);
+
+    ASSERT(w.firstIndex()==1);
+    ASSERT(w.length()==0 || w.length()==n);
+
+    if (computeVL) {
+        ASSERT(VL.numRows()==VL.numCols());
+        ASSERT(VL.numRows()==0 || VL.numRows()==n);
+        ASSERT(VL.firstRow()==1);
+        ASSERT(VL.firstCol()==1);
+    }
+
+    if (computeVR) {
+        ASSERT(VR.numRows()==VR.numCols());
+        ASSERT(VR.numRows()==0 || VR.numRows()==n);
+        ASSERT(VR.firstRow()==1);
+        ASSERT(VR.firstCol()==1);
+    }
+
+    ASSERT(scale.firstIndex()==1);
+    ASSERT(scale.length()==0 || scale.length()==n);
+
+    ASSERT(rCondE.firstIndex()==1);
+    ASSERT(rCondE.length()==0 || rCondE.length()==n);
+
+    ASSERT(rCondV.firstIndex()==1);
+    ASSERT(rCondV.length()==0 || rCondV.length()==n);
+
+    ASSERT(rWork.length()==0 || rWork.length()==2*n);
+#   endif
+
+//
+//  Resize output arguments if they are empty (and needed).
+//
+    if (w.length()==0) {
+        w.resize(n, 1);
+    }
+    if (computeVL && VL.numRows()==0) {
+        VL.resize(n, n, 1, 1);
+    }
+    if (computeVR && VR.numRows()==0) {
+        VR.resize(n, n, 1, 1);
+    }
+    if (scale.length()==0) {
+        scale.resize(n, 1);
+    }
+    if (rCondE.length()==0) {
+        rCondE.resize(n, 1);
+    }
+    if (rCondV.length()==0) {
+        rCondV.resize(n, 1);
+    }
+    if (rWork.length()==0) {
+        rWork.resize(2*n, 1);
+    }
+
+//
+//  Call external implementation
+//
+    IndexType info = external::evx_impl(balance, computeVL, computeVR,
+                                        sense, A, w, VL, VR,
+                                        iLo, iHi, scale, abNorm,
+                                        rCondE, rCondV, work, rWork);
+    return info;
+}
+
+#endif // USE_CXXLAPACK
+
+//-- (ge)evx_wsq [worksize query, real and complex variant] --------------------
+
+template <typename MA>
+Pair<typename GeMatrix<MA>::IndexType>
+evx_wsq(bool             computeVL,
+        bool             computeVR,
+        SENSE::Sense     sense,
+        GeMatrix<MA>     &A)
+{
+    return LAPACK_SELECT::evx_wsq_impl(computeVL, computeVR, sense, A);
+}
 
 } } // namespace lapack, flens
 

@@ -11,6 +11,10 @@
 #define     LAPACK_IMPL(x)           x
 #endif
 
+#ifndef DEBUG_CXXLAPACK
+#   define  DEBUG_CXXLAPACK(x)
+#endif
+
 extern "C" {
 #   include <cxxlapack/netlib/interface/lapack.in.h>
 } // extern "C"

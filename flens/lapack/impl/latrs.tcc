@@ -33,6 +33,8 @@
 /*
        SUBROUTINE DLATRS( UPLO, TRANS, DIAG, NORMIN, N, A, LDA, X, SCALE,
       $                   CNORM, INFO )
+       SUBROUTINE ZLATRS( UPLO, TRANS, DIAG, NORMIN, N, A, LDA, X, SCALE,
+      $                   CNORM, INFO )
  *
  *  -- LAPACK auxiliary routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -49,7 +51,10 @@
 namespace flens { namespace lapack {
 
 //== generic lapack implementation =============================================
+
 namespace generic {
+
+//-- latrs [real variant] ------------------------------------------------------
 
 template <typename MA, typename VX, typename SCALE, typename CNORM>
 void
@@ -580,6 +585,8 @@ latrs_impl(Transpose             trans,
 
 namespace external {
 
+//-- latrs [real and complex variant] ------------------------------------------
+
 template <typename MA, typename VX, typename SCALE, typename CNORM>
 void
 latrs_impl(Transpose             trans,
@@ -610,15 +617,31 @@ latrs_impl(Transpose             trans,
 
 //== public interface ==========================================================
 
-template <typename MA, typename VX, typename SCALE, typename CNORM>
-void
-latrs(Transpose             trans,
-      bool                  normIn,
-      const TrMatrix<MA>    &A,
-      DenseVector<VX>       &x,
-      SCALE                 &scale,
-      DenseVector<CNORM>    &cNorm)
+//-- latrs [real variant] ------------------------------------------------------
+
+template <typename MA, typename VX, typename SCALE, typename VCNORM>
+typename RestrictTo<IsRealTrMatrix<MA>::value
+                 && IsRealDenseVector<VX>::value
+                 && IsNotComplex<SCALE>::value
+                 && IsRealDenseVector<VCNORM>::value,
+         void>::Type
+latrs(Transpose trans,
+      bool      normIn,
+      const MA  &A,
+      VX        &&x,
+      SCALE     &&scale,
+      VCNORM    &&cNorm)
 {
+    LAPACK_DEBUG_OUT("latrs [real]");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type        MatrixA;
+    typedef typename RemoveRef<VX>::Type        VectorX;
+    typedef typename RemoveRef<SCALE>::Type     Scale;
+    typedef typename RemoveRef<VCNORM>::Type    VectorCNorm;
+
 //
 //  Test the input parameters
 //
@@ -635,9 +658,9 @@ latrs(Transpose             trans,
 //
 //  Make copies of output arguments
 //
-    typename DenseVector<VX>::NoView     x_org     = x;
-    SCALE                                scale_org = scale;
-    typename DenseVector<CNORM>::NoView  cNorm_org = cNorm;
+    typename VectorX::NoView    x_org     = x;
+    Scale                       scale_org = scale;
+    typename VectorCNorm        cNorm_org = cNorm;
 #   endif
 
 //
@@ -649,9 +672,9 @@ latrs(Transpose             trans,
 //
 //  Compare results
 //
-    typename DenseVector<VX>::NoView     x_generic     = x;
-    SCALE                                scale_generic = scale;
-    typename DenseVector<CNORM>::NoView  cNorm_generic = cNorm;
+    typename VectorX::NoView     x_generic     = x;
+    Scale                        scale_generic = scale;
+    typename VectorCNorm::NoView cNorm_generic = cNorm;
 
     x     = x_org;
     scale = scale_org;
@@ -691,20 +714,61 @@ latrs(Transpose             trans,
 #   endif
 }
 
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VX, typename SCALE, typename CNORM>
-void
-latrs(Transpose  trans,
-      bool       normIn,
-      const MA   &A,
-      VX         &&x,
-      SCALE      &&scale,
-      CNORM      &&cNorm)
+//-- latrs [complex variant] ---------------------------------------------------
+
+#ifdef USE_CXXLAPACK
+
+template <typename MA, typename VX, typename SCALE, typename VCNORM>
+typename RestrictTo<IsComplexTrMatrix<MA>::value
+                 && IsComplexDenseVector<VX>::value
+                 && IsNotComplex<SCALE>::value
+                 && IsRealDenseVector<VCNORM>::value,
+         void>::Type
+latrs(Transpose trans,
+      bool      normIn,
+      const MA  &A,
+      VX        &&x,
+      SCALE     &&scale,
+      VCNORM    &&cNorm)
 {
-    CHECKPOINT_ENTER;
-    latrs(trans, normIn, A, x, scale, cNorm);
-    CHECKPOINT_LEAVE;
+    LAPACK_DEBUG_OUT("latrs [real]");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type        MatrixA;
+    typedef typename RemoveRef<VX>::Type        VectorX;
+    typedef typename RemoveRef<SCALE>::Type     Scale;
+    typedef typename RemoveRef<VCNORM>::Type    VectorCNorm;
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(x.firstIndex()==1);
+    ASSERT(x.length()==A.dim());
+    ASSERT(cNorm.firstIndex()==1);
+    ASSERT(cNorm.length()==A.dim());
+#   endif
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    typename VectorX::NoView    x_org     = x;
+    Scale                       scale_org = scale;
+    typename VectorCNorm        cNorm_org = cNorm;
+#   endif
+
+//
+//  Call implementation
+//
+    external::latrs_impl(trans, normIn, A, x, scale, cNorm);
 }
+
+#endif // USE_CXXLAPACK
 
 } } // namespace lapack, flens
 

@@ -55,6 +55,7 @@ gees(char           jobVS,
      IndexType      *bWork)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("dgees");
     LAPACK_IMPL(dgees)(&jobVS,
                        &sort,
                        select,
@@ -96,10 +97,13 @@ gees(char                   jobVS,
      double                 *rWork,
      IndexType              *bWork)
 {
+    typedef IndexType (*LapackSelect)(const double *);
+
     IndexType info;
+    DEBUG_CXXLAPACK("zgees");
     LAPACK_IMPL(zgees)(&jobVS,
                        &sort,
-                       select,
+                       reinterpret_cast<LapackSelect>(select),
                        &n,
                        reinterpret_cast<double *>(A),
                        &ldA,

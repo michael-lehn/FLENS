@@ -37,9 +37,9 @@ Mac OS X specific feature.
   *--[SHELL]----------------------------------------------------------------*
   |                                                                         |
   |  cd flens/examples                                                      |
-  |  clang++ -framework vecLib -std=c++0x -Wall -I../..                 +++ |
-  |          -o tut05-page01-example1                                   +++ |
-  |          tut05-page01-example1.cc                                       |
+  |  g++ -framework vecLib -std=c++11 -Wall -I../..                      +++|
+  |      -o tut05-page01-example1                                        +++|
+  |      tut05-page01-example1.cc                                           |
   |  ./tut05-page01-example1                                                |
   |                                                                         |
   *-------------------------------------------------------------------------*
@@ -76,7 +76,7 @@ Compile and Run
   *--[SHELL]----------------------------------------------------------------*
   |                                                                         |
   |  cd flens/examples                                                      |
-  |  clang++ -framework vecLib -std=c++0x -Wall -I../..                 +++ |
+  |  g++ -framework vecLib -std=c++11 -Wall -I../..                     +++ |
   |          -o tut05-page01-example2                                   +++ |
   |          tut05-page01-example2.cc                                       |
   |  ./tut05-page01-example2                                                |

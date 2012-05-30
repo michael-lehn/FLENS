@@ -117,6 +117,12 @@ template <typename ALPHA, typename MA, typename T, typename MB>
     axpy(Transpose trans, const ALPHA &alpha,
          const MatrixClosure<OpDiv, MA, ScalarValue<T> > &A, Matrix<MB> &B);
 
+//  B += op(conjugate(A))
+template <typename ALPHA, typename MA, typename MB>
+    void
+    axpy(Transpose trans, const ALPHA &alpha,
+         const MatrixClosureOpConj<MA> &A, Matrix<MB> &B);
+
 //  B += op(A^T)
 template <typename ALPHA, typename MA, typename MB>
     void

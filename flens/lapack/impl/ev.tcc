@@ -34,6 +34,8 @@
  *
       SUBROUTINE DGEEV( JOBVL, JOBVR, N, A, LDA, WR, WI, VL, LDVL, VR,
      $                  LDVR, WORK, LWORK, INFO )
+      SUBROUTINE ZGEEV( JOBVL, JOBVR, N, A, LDA, W, VL, LDVL, VR, LDVR,
+     $                  WORK, LWORK, RWORK, INFO )
  *
  *  -- LAPACK driver routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -51,8 +53,9 @@ namespace flens { namespace lapack {
 
 //== generic lapack implementation =============================================
 
-//-- ev: workspace query
 namespace generic {
+
+//-- (ge)ev_wsq [worksize query, real variant] ---------------------------------
 
 template <typename MA>
 Pair<typename GeMatrix<MA>::IndexType>
@@ -99,16 +102,19 @@ ev_wsq_impl(bool computeVL, bool computeVR, GeMatrix<MA> &A)
     return Pair<IndexType>(minWork, maxWork);
 }
 
-//-- ev: computation
+//-- (ge)ev [real variant] -----------------------------------------------------
 
 template <typename MA, typename VWR, typename VWI, typename MVL, typename MVR,
           typename VWORK>
 typename GeMatrix<MA>::IndexType
-ev_impl(bool computeVL, bool computeVR,
-        GeMatrix<MA> &A,
-        DenseVector<VWR> &wr, DenseVector<VWI> &wi,
-        GeMatrix<MVL> &VL, GeMatrix<MVR> &VR,
-        DenseVector<VWORK> &work)
+ev_impl(bool                computeVL,
+        bool                computeVR,
+        GeMatrix<MA>        &A,
+        DenseVector<VWR>    &wr,
+        DenseVector<VWI>    &wi,
+        GeMatrix<MVL>       &VL,
+        GeMatrix<MVR>       &VR,
+        DenseVector<VWORK>  &work)
 {
     using flens::pow;
     using std::sqrt;
@@ -362,19 +368,41 @@ ev_impl(bool computeVL, bool computeVR,
 
 namespace external {
 
-//-- ev: workspace query
+//-- (ge)ev_wsq [worksize query, real variant] ---------------------------------
+
 template <typename MA>
-Pair<typename GeMatrix<MA>::IndexType>
+typename RestrictTo<IsNotComplex<typename MA::ElementType>::value,
+         Pair<typename MA::IndexType> >::Type
 ev_wsq_impl(bool computeVL, bool computeVR, GeMatrix<MA> &A)
 {
+    using std::max;
+
     typedef typename GeMatrix<MA>::ElementType  T;
     typedef typename GeMatrix<MA>::IndexType    IndexType;
 
-    T           DUMMY, WORK;
-    IndexType   LDVL = computeVL ? A.numRows() : 1,
-                LDVR = computeVR ? A.numRows() : 1;
-    IndexType   LWORK = -1;
+//
+//  Compute minimal workspace
+//
+    IndexType  n = A.numRows();
+    IndexType  minWork;
 
+    if (n==0) {
+        minWork = 1;
+    } else {
+        if (computeVL || computeVR) {
+            minWork = 4*n;
+        } else {
+            minWork = 3*n;
+        }
+    }
+
+//
+//  Get optimal workspace from external LAPACK
+//
+    T           DUMMY, WORK;
+    IndexType   LDVL = computeVL ? max(A.numRows(), IndexType(1)) : 1,
+                LDVR = computeVR ? max(A.numRows(), IndexType(1)) : 1;
+    IndexType   LWORK = -1;
     cxxlapack::geev<IndexType>(computeVL ? 'V' : 'N',
                                computeVR ? 'V' : 'N',
                                A.numRows(),
@@ -388,8 +416,59 @@ ev_wsq_impl(bool computeVL, bool computeVR, GeMatrix<MA> &A)
                                LDVR,
                                &WORK,
                                LWORK);
-    return Pair<IndexType>(WORK, WORK);
+    return Pair<IndexType>(minWork, WORK);
 }
+
+//-- (ge)ev_wsq [worksize query, complex variant] ------------------------------
+
+template <typename MA>
+typename RestrictTo<IsComplex<typename MA::ElementType>::value,
+         Pair<typename MA::IndexType> >::Type
+ev_wsq_impl(bool computeVL, bool computeVR, GeMatrix<MA> &A)
+{
+    using std::max;
+
+    typedef typename GeMatrix<MA>::ElementType          T;
+    typedef typename ComplexTrait<T>::PrimitiveType     RT;
+    typedef typename GeMatrix<MA>::IndexType            IndexType;
+
+//
+//  Compute minimal workspace
+//
+    IndexType  n = A.numRows();
+    IndexType  minWork;
+
+    if (n==0) {
+        minWork = 1;
+    } else {
+        minWork = 2*n;
+    }
+
+//
+//  Get optimal workspace from external LAPACK
+//
+    T           DUMMY, WORK;
+    RT          RDUMMY;
+    IndexType   LDVL = computeVL ? max(A.numRows(), IndexType(1)) : 1,
+                LDVR = computeVR ? max(A.numRows(), IndexType(1)) : 1;
+    IndexType   LWORK = -1;
+    cxxlapack::geev<IndexType>(computeVL ? 'V' : 'N',
+                               computeVR ? 'V' : 'N',
+                               A.numRows(),
+                               A.data(),
+                               A.leadingDimension(),
+                               &DUMMY,
+                               &DUMMY,
+                               LDVL,
+                               &DUMMY,
+                               LDVR,
+                               &WORK,
+                               LWORK,
+                               &RDUMMY);
+    return Pair<IndexType>(minWork, WORK.real());
+}
+
+//-- (ge)ev [real variant] -----------------------------------------------------
 
 template <typename MA, typename VWR, typename VWI, typename MVL, typename MVR,
           typename VWORK>
@@ -404,6 +483,11 @@ ev_impl(bool                  computeVL,
         DenseVector<VWORK>    &work)
 {
     typedef typename GeMatrix<MA>::IndexType  IndexType;
+
+    if (work.length()==0) {
+        const auto ws = ev_wsq_impl(computeVL, computeVR, A);
+        work.resize(ws.second, 1);
+    }
 
     IndexType  info;
     info = cxxlapack::geev(computeVL ? 'V' : 'N',
@@ -423,62 +507,83 @@ ev_impl(bool                  computeVL,
     return info;
 }
 
+//-- (ge)ev [complex variant] --------------------------------------------------
+
+template <typename MA, typename VW, typename MVL, typename MVR, typename VWORK,
+          typename VRWORK>
+typename GeMatrix<MA>::IndexType
+ev_impl(bool                  computeVL,
+        bool                  computeVR,
+        GeMatrix<MA>          &A,
+        DenseVector<VW>       &w,
+        GeMatrix<MVL>         &VL,
+        GeMatrix<MVR>         &VR,
+        DenseVector<VWORK>    &work,
+        DenseVector<VRWORK>   &rWork)
+{
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
+
+    if (work.length()==0) {
+        const auto ws = ev_wsq_impl(computeVL, computeVR, A);
+        work.resize(ws.second, 1);
+    }
+
+    IndexType  info;
+    info = cxxlapack::geev(computeVL ? 'V' : 'N',
+                           computeVR ? 'V' : 'N',
+                           A.numRows(),
+                           A.data(),
+                           A.leadingDimension(),
+                           w.data(),
+                           VL.data(),
+                           VL.leadingDimension(),
+                           VR.data(),
+                           VR.leadingDimension(),
+                           work.data(),
+                           work.length(),
+                           rWork.data());
+    ASSERT(info>=0);
+    return info;
+}
+
 } // namespace external
 
 #endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
-template <typename MA>
-Pair<typename GeMatrix<MA>::IndexType>
-ev_wsq(bool computeVL, bool computeVR, GeMatrix<MA> &A)
-{
-    LAPACK_DEBUG_OUT("ev_wsq");
-
-//
-//  Test the input parameters
-//
-#   ifndef NDEBUG
-    ASSERT(A.numRows()==A.numCols());
-    ASSERT(A.firstRow()==1);
-    ASSERT(A.firstCol()==1);
-#   endif
-
-//
-//  Call implementation
-//
-    const auto ws = LAPACK_SELECT::ev_wsq_impl(computeVL, computeVR, A);
-
-#   ifdef CHECK_CXXLAPACK
-//
-//  Compare results
-//
-    auto optWorkSize = external::ev_wsq_impl(computeVL, computeVR, A);
-    if (! isIdentical(optWorkSize.second, ws.second,
-                      "optWorkSize", "ws.second"))
-    {
-        ASSERT(0);
-    }
-#   endif
-
-    return ws;
-}
+//-- (ge)ev [real variant] -----------------------------------------------------
 
 template <typename MA, typename VWR, typename VWI, typename MVL, typename MVR,
           typename VWORK>
-typename GeMatrix<MA>::IndexType
-ev(bool                 computeVL,
-   bool                 computeVR,
-   GeMatrix<MA>         &A,
-   DenseVector<VWR>     &wr,
-   DenseVector<VWI>     &wi,
-   GeMatrix<MVL>        &VL,
-   GeMatrix<MVR>        &VR,
-   DenseVector<VWORK>   &work)
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                 && IsRealDenseVector<VWR>::value
+                 && IsRealDenseVector<VWI>::value
+                 && IsRealGeMatrix<MVL>::value
+                 && IsRealGeMatrix<MVR>::value
+                 && IsRealDenseVector<VWORK>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+ev(bool     computeVL,
+   bool     computeVR,
+   MA       &&A,
+   VWR      &&wr,
+   VWI      &&wi,
+   MVL      &&VL,
+   MVR      &&VR,
+   VWORK    &&work)
 {
-    LAPACK_DEBUG_OUT("ev");
+    LAPACK_DEBUG_OUT("(ge)ev [real]");
 
-    typedef typename GeMatrix<MA>::IndexType    IndexType;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type     MatrixA;
+    typedef typename MatrixA::IndexType      IndexType;
+    typedef typename RemoveRef<VWR>::Type    VectorWR;
+    typedef typename RemoveRef<VWI>::Type    VectorWI;
+    typedef typename RemoveRef<MVL>::Type    MatrixVL;
+    typedef typename RemoveRef<MVR>::Type    MatrixVR;
+    typedef typename RemoveRef<VWORK>::Type  VectorWork;
 
     const IndexType n = A.numRows();
 
@@ -517,30 +622,28 @@ ev(bool                 computeVL,
 //  Resize output arguments if they are empty and needed
 //
     if (wr.length()==0) {
-        wr.resize(n);
+        wr.resize(n, 1);
     }
     if (wi.length()==0) {
-        wi.resize(n);
+        wi.resize(n, 1);
     }
     if (computeVL && VL.numRows()==0) {
-        VL.resize(n, n);
+        VL.resize(n, n, 1, 1);
     }
     if (computeVR && VR.numRows()==0) {
-        VR.resize(n, n);
+        VR.resize(n, n, 1, 1);
     }
 
 //
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-    typename GeMatrix<MA>::NoView         A_org = A;
-
-    typename GeMatrix<MA>::NoView         _A    = A;
-    typename DenseVector<VWR>::NoView     _wr   = wr;
-    typename DenseVector<VWI>::NoView     _wi   = wi;
-    typename GeMatrix<MVL>::NoView        _VL   = VL;
-    typename GeMatrix<MVR>::NoView        _VR   = VR;
-    typename DenseVector<VWORK>::NoView   _work = work;
+    typename MatrixA::NoView      A_org = A;
+    typename VectorWR::NoView     wr_org   = wr;
+    typename VectorWI::NoView     wi_org   = wi;
+    typename MatrixVL::NoView     VL_org   = VL;
+    typename MatrixVR::NoView     VR_org   = VR;
+    typename VectorWork::NoView   work_org = work;
 #   endif
 
 //
@@ -553,47 +656,58 @@ ev(bool                 computeVL,
 //
 //  Compare results
 //
-    if (_work.length()==0) {
-        _work.resize(work.length());
-    }
+    typename MatrixA::NoView      A_generic = A;
+    typename VectorWR::NoView     wr_generic   = wr;
+    typename VectorWI::NoView     wi_generic   = wi;
+    typename MatrixVL::NoView     VL_generic   = VL;
+    typename MatrixVR::NoView     VR_generic   = VR;
+    typename VectorWork::NoView   work_generic = work;
+
+    A    = A_org;
+    wr   = wr_org;
+    wi   = wi_org;
+    VL   = VL_org;
+    VR   = VR_org;
+    work = work_org;
+
     IndexType _result = external::ev_impl(computeVL, computeVR,
-                                          _A, _wr, _wi, _VL, _VR,
-                                          _work);
+                                          A, wr, wi, VL, VR,
+                                          work);
 
     bool failed = false;
-    if (! isIdentical(A, _A, " A", "_A")) {
-        std::cerr << "CXXLAPACK:  A = " << A << std::endl;
-        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+    if (! isIdentical(A_generic, A, "A_generic", "A")) {
+        std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
+        std::cerr << "F77LAPACK: A = " << A << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(wr, _wr, " wr", "_wr")) {
-        std::cerr << "CXXLAPACK:  wr = " << wr << std::endl;
-        std::cerr << "F77LAPACK: _wr = " << _wr << std::endl;
+    if (! isIdentical(wr_generic, wr, " wr_generic", "wr")) {
+        std::cerr << "CXXLAPACK: wr_generic = " << wr_generic << std::endl;
+        std::cerr << "F77LAPACK: wr = " << wr << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(wi, _wi, " wi", "_wi")) {
-        std::cerr << "CXXLAPACK:  wi = " << wi << std::endl;
-        std::cerr << "F77LAPACK: _wi = " << _wi << std::endl;
+    if (! isIdentical(wi_generic, wi, " wi_generic", "wi")) {
+        std::cerr << "CXXLAPACK: wi_generic = " << wi_generic << std::endl;
+        std::cerr << "F77LAPACK: wi = " << wi << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(VL, _VL, " VL", "_VL")) {
-        std::cerr << "CXXLAPACK:  VL = " << VL << std::endl;
-        std::cerr << "F77LAPACK: _VL = " << _VL << std::endl;
+    if (! isIdentical(VL_generic, VL, " VL_generic", "VL")) {
+        std::cerr << "CXXLAPACK: VL_generic = " << VL_generic << std::endl;
+        std::cerr << "F77LAPACK: VL = " << VL << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(VR, _VR, " VR", "_VR")) {
-        std::cerr << "CXXLAPACK:  VR = " << VR << std::endl;
-        std::cerr << "F77LAPACK: _VR = " << _VR << std::endl;
+    if (! isIdentical(VR_generic, VR, " VR_generic", "VR")) {
+        std::cerr << "CXXLAPACK: VR_generic = " << VR_generic << std::endl;
+        std::cerr << "F77LAPACK: VR = " << VR << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(work, _work, " work", "_work")) {
-        std::cerr << "CXXLAPACK:  work = " << work << std::endl;
-        std::cerr << "F77LAPACK: _work = " << _work << std::endl;
+    if (! isIdentical(work_generic, work, "work_generic", "work")) {
+        std::cerr << "CXXLAPACK: work_generic = " << work_generic << std::endl;
+        std::cerr << "F77LAPACK: work = " << work << std::endl;
         failed = true;
     }
 
@@ -604,33 +718,6 @@ ev(bool                 computeVL,
     }
 
     if (failed) {
-        std::cerr << "-- List of all matrices/vectors --------------------"
-                  << std::endl;
-
-        std::cerr << "ORIGINAL  A =   " << A_org << std::endl;
-
-        std::cerr << "CXXLAPACK:  A = " << A << std::endl;
-        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
-
-        std::cerr << "CXXLAPACK:  wr = " << wr << std::endl;
-        std::cerr << "F77LAPACK: _wr = " << _wr << std::endl;
-
-        std::cerr << "CXXLAPACK:  wi = " << wi << std::endl;
-        std::cerr << "F77LAPACK: _wi = " << _wi << std::endl;
-
-        std::cerr << "CXXLAPACK:  VL = " << VL << std::endl;
-        std::cerr << "F77LAPACK: _VL = " << _VL << std::endl;
-
-        std::cerr << "CXXLAPACK:  VR = " << VR << std::endl;
-        std::cerr << "F77LAPACK: _VR = " << _VR << std::endl;
-
-        std::cerr << "CXXLAPACK:  work = " << work << std::endl;
-        std::cerr << "F77LAPACK: _work = " << _work << std::endl;
-
-        std::cerr << "CXXLAPACK:  result = " << result << std::endl;
-        std::cerr << "F77LAPACK: _result = " << _result << std::endl;
-
-        std::cerr << "---------------------------------------" << std::endl;
         ASSERT(0);
     } else {
 //        std::cerr << "passed: ev.tcc" << std::endl;
@@ -641,33 +728,129 @@ ev(bool                 computeVL,
     return result;
 }
 
-//-- forwarding ----------------------------------------------------------------
-template <typename MA>
-Pair<typename MA::IndexType>
-ev_wsq(bool computeVL, bool computeVR, MA &&A)
-{
-    CHECKPOINT_ENTER;
-    const Pair<typename MA::IndexType> result = ev_wsq(computeVL, computeVR, A);
-    CHECKPOINT_LEAVE;
+//-- (ge)ev [complex variant] -----------------------------------------------------
 
+#ifdef USE_CXXLAPACK
+
+template <typename MA, typename VW, typename MVL, typename MVR, typename VWORK,
+          typename VRWORK>
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                 && IsComplexDenseVector<VW>::value
+                 && IsComplexGeMatrix<MVL>::value
+                 && IsComplexGeMatrix<MVR>::value
+                 && IsComplexDenseVector<VWORK>::value
+                 && IsRealDenseVector<VRWORK>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+ev(bool     computeVL,
+   bool     computeVR,
+   MA       &&A,
+   VW       &&w,
+   MVL      &&VL,
+   MVR      &&VR,
+   VWORK    &&work,
+   VRWORK   &&rWork)
+{
+    LAPACK_DEBUG_OUT("(ge)ev [complex]");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type      MatrixA;
+    typedef typename MatrixA::IndexType       IndexType;
+    typedef typename RemoveRef<VW>::Type      VectorWR;
+    typedef typename RemoveRef<MVL>::Type     MatrixVL;
+    typedef typename RemoveRef<MVR>::Type     MatrixVR;
+    typedef typename RemoveRef<VWORK>::Type   VectorWork;
+    typedef typename RemoveRef<VRWORK>::Type  VectorRWork;
+
+    const IndexType n = A.numRows();
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.numRows()==A.numCols());
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(work.firstIndex()==1);
+    ASSERT(rWork.firstIndex()==1);
+
+    ASSERT(w.firstIndex()==1);
+    ASSERT(w.length()==0 || w.length()==n);
+
+    if (computeVL) {
+        ASSERT(VL.numRows()==VL.numCols());
+        ASSERT(VL.numRows()==0 || VL.numRows()==n);
+        ASSERT(VL.firstRow()==1);
+        ASSERT(VL.firstCol()==1);
+    }
+
+    if (computeVR) {
+        ASSERT(VR.numRows()==VR.numCols());
+        ASSERT(VR.numRows()==0 || VR.numRows()==n);
+        ASSERT(VR.firstRow()==1);
+        ASSERT(VR.firstCol()==1);
+    }
+#   endif
+
+//
+//  Resize output arguments if they are empty and needed
+//
+    if (w.length()==0) {
+        w.resize(n, 1);
+    }
+    if (computeVL && VL.numRows()==0) {
+        VL.resize(n, n, 1, 1);
+    }
+    if (computeVR && VR.numRows()==0) {
+        VR.resize(n, n, 1, 1);
+    }
+
+//
+//  Call external implementation
+//
+    IndexType result = external::ev_impl(computeVL, computeVR, A, w, VL, VR,
+                                         work, rWork);
     return result;
 }
 
-template <typename MA, typename VWR, typename VWI, typename MVL, typename MVR,
-          typename VWORK>
-typename MA::IndexType
-ev(bool computeVL, bool computeVR,
-   MA &&A,  VWR &&wr, VWI &&wi,
-   MVL &&VL, MVR &&VR,
-   VWORK &&work)
+#endif // USE_CXXLAPACK
+
+//-- (ge)ev_wsq [worksize query, real and complex variant] ---------------------
+
+template <typename MA>
+Pair<typename GeMatrix<MA>::IndexType>
+ev_wsq(bool computeVL, bool computeVR, GeMatrix<MA> &A)
 {
-    typedef typename MA::IndexType  IndexType;
+    LAPACK_DEBUG_OUT("ev_wsq");
 
-    CHECKPOINT_ENTER;
-    const IndexType info = ev(computeVL, computeVR, A, wr, wi, VL, VR, work);
-    CHECKPOINT_LEAVE;
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.numRows()==A.numCols());
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+#   endif
 
-    return info;
+//
+//  Call implementation
+//
+    const auto ws = LAPACK_SELECT::ev_wsq_impl(computeVL, computeVR, A);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    auto optWorkSize = external::ev_wsq_impl(computeVL, computeVR, A);
+    if (! isIdentical(optWorkSize.second, ws.second,
+                      "optWorkSize", "ws.second"))
+    {
+        ASSERT(0);
+    }
+#   endif
+
+    return ws;
 }
 
 } } // namespace lapack, flens

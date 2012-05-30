@@ -99,6 +99,7 @@ getCxxBlasEnum(char trans)
     } else if ((trans=='R') || (trans=='r')) {
         return Conj;
     }
+    ASSERT(0);
     return NoTrans;
 }
 
@@ -109,6 +110,7 @@ getCxxBlasEnum(char diag)
     if (diag=='U') {
         return Unit;
     }
+    ASSERT(diag=='N');
     return NonUnit;
 }
 
@@ -119,6 +121,7 @@ getCxxBlasEnum(char upLo)
     if (upLo=='U') {
         return Upper;
     }
+    ASSERT(upLo=='L');
     return Lower;
 }
 

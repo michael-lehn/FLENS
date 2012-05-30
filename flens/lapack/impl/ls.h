@@ -32,8 +32,8 @@
 
 /* Based on
  *
-       SUBROUTINE DGELS( TRANS, M, N, NRHS, A, LDA, B, LDB, WORK, LWORK,
-      $                  INFO )
+       SUBROUTINE DGELS( TRANS, M, N, NRHS, A, LDA, B, LDB, WORK, LWORK, INFO )
+       SUBROUTINE ZGELS( TRANS, M, N, NRHS, A, LDA, B, LDB, WORK, LWORK, INFO )
  *
  *  -- LAPACK driver routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -49,21 +49,51 @@
 
 namespace flens { namespace lapack {
 
-//== ls ========================================================================
+//== (ge)ls ====================================================================
+//
+//  Real variant
+//
 template <typename MA, typename MB, typename VWORK>
-    typename GeMatrix<MA>::IndexType
-    ls(Transpose                 trans,
-       GeMatrix<MA>              &A,
-       GeMatrix<MB>              &B,
-       DenseVector<VWORK>        &work);
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsRealGeMatrix<MB>::value
+                     && IsRealDenseVector<VWORK>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    ls(Transpose    trans,
+       MA           &&A,
+       MB           &&B,
+       VWORK        &&work);
 
-//-- forwarding ----------------------------------------------------------------
+
+#ifdef USE_CXXLAPACK
+//
+//  Complex variant
+//
 template <typename MA, typename MB, typename VWORK>
-    typename MA::IndexType
-    ls(Transpose               trans,
-       MA                      &&A,
-       MB                      &&B,
-       VWORK                   &&work);
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsComplexGeMatrix<MB>::value
+                     && IsComplexDenseVector<VWORK>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    ls(Transpose    trans,
+       MA           &&A,
+       MB           &&B,
+       VWORK        &&work);
+
+#endif // USE_CXXLAPACK
+
+
+//== (ge)ls variant if rhs is vector ===========================================
+//
+//  Real and complex
+//
+template <typename MA, typename VB, typename VWORK>
+    typename RestrictTo<IsGeMatrix<MA>::value
+                     && IsDenseVector<VB>::value
+                     && IsDenseVector<VWORK>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    ls(Transpose    trans,
+       MA           &&A,
+       VB           &&b,
+       VWORK        &&work);
 
 } } // namespace lapack, flens
 

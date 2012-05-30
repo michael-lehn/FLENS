@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DPOTRI( UPLO, N, A, LDA, INFO )
+       SUBROUTINE ZPOTRI( UPLO, N, A, LDA, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -49,14 +50,26 @@
 namespace flens { namespace lapack {
 
 //== potri =====================================================================
+//
+//  Real variant
+//
 template <typename MA>
-    typename TrMatrix<MA>::IndexType
-    potri(TrMatrix<MA> &A);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA>
-    typename MA::IndexType
+    typename RestrictTo<IsRealSyMatrix<MA>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
     potri(MA &&A);
+
+
+#ifdef USE_CXXLAPACK
+//
+//  Complex variant
+//
+template <typename MA>
+    typename RestrictTo<IsHeMatrix<MA>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    potri(MA &&A);
+
+#endif // USE_CXXLAPACK
+
 
 } } // namespace lapack, flens
 

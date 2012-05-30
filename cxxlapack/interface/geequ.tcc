@@ -50,6 +50,7 @@ geequ(const IndexType       m,
       double                &maxA)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("dgeequ");
     LAPACK_IMPL(dgeequ)(&m,
                         &n,
                         A,
@@ -82,6 +83,7 @@ geequ(const IndexType               m,
       double                        &maxA)
 {
     IndexType info;
+    DEBUG_CXXLAPACK("zgeequ");
     LAPACK_IMPL(zgeequ)(&m,
                         &n,
                         reinterpret_cast<const double *>(A),

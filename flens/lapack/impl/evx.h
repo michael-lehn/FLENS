@@ -35,6 +35,9 @@
       SUBROUTINE DGEEVX( BALANC, JOBVL, JOBVR, SENSE, N, A, LDA, WR, WI,
      $                   VL, LDVL, VR, LDVR, ILO, IHI, SCALE, ABNRM,
      $                   RCONDE, RCONDV, WORK, LWORK, IWORK, INFO )
+      SUBROUTINE ZGEEVX( BALANC, JOBVL, JOBVR, SENSE, N, A, LDA, W, VL,
+     $                   LDVL, VR, LDVR, ILO, IHI, SCALE, ABNRM, RCONDE,
+     $                   RCONDV, WORK, LWORK, RWORK, INFO )
  *
  *  -- LAPACK driver routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -51,36 +54,90 @@
 
 namespace flens { namespace lapack {
 
-//== evx_wsq (workspace query) ==================================================
-template <typename MA>
-    Pair<typename GeMatrix<MA>::IndexType>
-    evx_wsq(bool computeVL, bool computeVR, SENSE::Sense sense,
-            GeMatrix<MA> &A);
-
-//== evx ========================================================================
+//== (ge)evx ===================================================================
+//
+//  Real variant
+//
 template <typename MA, typename VWR, typename VWI, typename MVL, typename MVR,
           typename IndexType, typename VSCALE, typename ABNORM,
-          typename RCONDE, typename RCONDV, typename VWORK, typename VIWORK>
-    typename GeMatrix<MA>::IndexType
+          typename VRCONDE, typename VRCONDV, typename VWORK, typename VIWORK>
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsRealDenseVector<VWR>::value
+                     && IsRealDenseVector<VWI>::value
+                     && IsRealGeMatrix<MVL>::value
+                     && IsRealGeMatrix<MVR>::value
+                     && IsInteger<IndexType>::value
+                     && IsRealDenseVector<VSCALE>::value
+                     && IsNotComplex<ABNORM>::value
+                     && IsRealDenseVector<VRCONDE>::value
+                     && IsRealDenseVector<VRCONDV>::value
+                     && IsRealDenseVector<VWORK>::value
+                     && IsIntegerDenseVector<VIWORK>::value,
+             IndexType>::Type
     evx(BALANCE::Balance     balance,
         bool                 computeVL,
         bool                 computeVR,
         SENSE::Sense         sense,
-        GeMatrix<MA>         &A,
-        DenseVector<VWR>     &wr,
-        DenseVector<VWI>     &wi,
-        GeMatrix<MVL>        &VL,
-        GeMatrix<MVR>        &VR,
+        MA                   &&A,
+        VWR                  &&wr,
+        VWI                  &&wi,
+        MVL                  &&VL,
+        MVR                  &&VR,
         IndexType            &iLo,
         IndexType            &iHi,
-        DenseVector<VSCALE>  &scale,
+        VSCALE               &&scale,
         ABNORM               &abNorm,
-        DenseVector<RCONDE>  &rCondE,
-        DenseVector<RCONDV>  &rCondV,
-        DenseVector<VWORK>   &work,
-        DenseVector<VIWORK>  &iWork);
+        VRCONDE              &&rCondE,
+        VRCONDV              &&rCondV,
+        VWORK                &&work,
+        VIWORK               &&iWork);
 
-//-- forwarding ----------------------------------------------------------------
+
+#ifdef USE_CXXLAPACK
+
+//
+//  Complex variant
+//
+template <typename MA, typename VW, typename MVL, typename MVR,
+          typename IndexType, typename VSCALE, typename ABNORM,
+          typename VRCONDE, typename VRCONDV, typename VWORK, typename VRWORK>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsComplexDenseVector<VW>::value
+                     && IsComplexGeMatrix<MVL>::value
+                     && IsComplexGeMatrix<MVR>::value
+                     && IsInteger<IndexType>::value
+                     && IsRealDenseVector<VSCALE>::value
+                     && IsNotComplex<ABNORM>::value
+                     && IsRealDenseVector<VRCONDE>::value
+                     && IsRealDenseVector<VRCONDV>::value
+                     && IsComplexDenseVector<VWORK>::value
+                     && IsRealDenseVector<VRWORK>::value,
+             IndexType>::Type
+    evx(BALANCE::Balance     balance,
+        bool                 computeVL,
+        bool                 computeVR,
+        SENSE::Sense         sense,
+        MA                   &&A,
+        VW                   &&w,
+        MVL                  &&VL,
+        MVR                  &&VR,
+        IndexType            &iLo,
+        IndexType            &iHi,
+        VSCALE               &&scale,
+        ABNORM               &abNorm,
+        VRCONDE              &&rCondE,
+        VRCONDV              &&rCondV,
+        VWORK                &&work,
+        VRWORK               &&rWork);
+
+#endif // USE_CXXLAPACK
+
+
+//== workspace query ===========================================================
+template <typename MA>
+    Pair<typename GeMatrix<MA>::IndexType>
+    evx_wsq(bool computeVL, bool computeVR, SENSE::Sense sense,
+            GeMatrix<MA> &A);
 
 } } // namespace lapack, flens
 

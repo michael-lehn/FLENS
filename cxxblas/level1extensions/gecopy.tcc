@@ -51,7 +51,8 @@ gecopy(StorageOrder order,
     CXXBLAS_DEBUG_OUT("gecopy_generic");
 
     if (order==ColMajor) {
-        std::swap(m,n);
+        gecopy(RowMajor, trans, n, m, A, ldA, B, ldB);
+        return;
     }
     if (trans==NoTrans) {
         if ((ldA==n) && (ldB==n)) {
@@ -64,14 +65,17 @@ gecopy(StorageOrder order,
             return;
         }
     }
-    if (trans==Trans) {
+    if (trans==Trans || trans==ConjTrans) {
         for (IndexType i=0; i<m; ++i) {
             copy(n, A+i, ldA, B+i*ldB, IndexType(1));
         }
-        return;
     }
-    // Lehn: Other cases will be implemented on demand
-    assert(0);
+    if (trans==Conj) {
+        gecotr(order, Conj, m, n, B, ldB);
+    }
+    if (trans==ConjTrans) {
+        gecotr(order, Conj, n, m, B, ldB);
+    }
 }
 
 } // namespace cxxblas

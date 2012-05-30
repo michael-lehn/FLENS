@@ -32,7 +32,8 @@
 
 /* Based on
  *
-    SUBROUTINE DGETRF( M, N, A, LDA, IPIV, INFO )
+       SUBROUTINE DGETRF( M, N, A, LDA, IPIV, INFO )
+       SUBROUTINE ZGETRF( M, N, A, LDA, IPIV, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -48,15 +49,15 @@
 
 namespace flens { namespace lapack {
 
-//== getf2 =====================================================================
-template <typename MA, typename VP>
-    typename GeMatrix<MA>::IndexType
-    trf(GeMatrix<MA> &A, DenseVector<VP> &piv);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VP>
-    typename MA::IndexType
-    trf(MA &&A, VP &&piv);
+//== (ge)trf =====================================================================
+//
+//  Real and complex variant
+//
+template <typename MA, typename VPIV>
+    typename RestrictTo<IsGeMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    trf(MA &&A, VPIV &&piv);
 
 } } // namespace lapack, flens
 

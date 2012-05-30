@@ -34,6 +34,8 @@
  *
        SUBROUTINE DGERFS( TRANS, N, NRHS, A, LDA, AF, LDAF, IPIV, B, LDB,
       $                   X, LDX, FERR, BERR, WORK, IWORK, INFO )
+       SUBROUTINE ZGERFS( TRANS, N, NRHS, A, LDA, AF, LDAF, IPIV, B, LDB,
+      $                   X, LDX, FERR, BERR, WORK, RWORK, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -50,7 +52,10 @@
 namespace flens { namespace lapack {
 
 //== generic lapack implementation =============================================
+
 namespace generic {
+
+//-- (ge)rfs [real variant] ----------------------------------------------------
 
 template <typename MA, typename MAF, typename VPIV, typename MB, typename MX,
           typename VFERR, typename VBERR, typename VWORK, typename VIWORK>
@@ -261,8 +266,10 @@ rfs_impl(Transpose               trans,
 
 namespace external {
 
+//-- (ge)rfs [real and complex variant] ----------------------------------------
+
 template <typename MA, typename MAF, typename VPIV, typename MB, typename MX,
-          typename VFERR, typename VBERR, typename VWORK, typename VIWORK>
+          typename VFERR, typename VBERR, typename VWORK, typename VWORK2>
 void
 rfs_impl(Transpose               trans,
          const GeMatrix<MA>      &A,
@@ -273,7 +280,7 @@ rfs_impl(Transpose               trans,
          DenseVector<VFERR>      &fErr,
          DenseVector<VBERR>      &bErr,
          DenseVector<VWORK>      &work,
-         DenseVector<VIWORK>     &iwork)
+         DenseVector<VWORK2>     &work2)
 {
     typedef typename GeMatrix<MA>::IndexType  IndexType;
 
@@ -292,7 +299,7 @@ rfs_impl(Transpose               trans,
                                                  fErr.data(),
                                                  bErr.data(),
                                                  work.data(),
-                                                 iwork.data());
+                                                 work2.data());
     ASSERT(info==0);
 }
 
@@ -301,21 +308,48 @@ rfs_impl(Transpose               trans,
 #endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
+
+//-- (ge)rfs [real variant] ----------------------------------------------------
+
 template <typename MA, typename MAF, typename VPIV, typename MB, typename MX,
           typename VFERR, typename VBERR, typename VWORK, typename VIWORK>
-void
-rfs(Transpose               trans,
-    const GeMatrix<MA>      &A,
-    const GeMatrix<MAF>     &AF,
-    const DenseVector<VPIV> &piv,
-    const GeMatrix<MB>      &B,
-    GeMatrix<MX>            &X,
-    DenseVector<VFERR>      &fErr,
-    DenseVector<VBERR>      &bErr,
-    DenseVector<VWORK>      &work,
-    DenseVector<VIWORK>     &iwork)
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                 && IsRealGeMatrix<MAF>::value
+                 && IsIntegerDenseVector<VPIV>::value
+                 && IsRealGeMatrix<MB>::value
+                 && IsRealGeMatrix<MX>::value
+                 && IsRealDenseVector<VFERR>::value
+                 && IsRealDenseVector<VBERR>::value
+                 && IsRealDenseVector<VWORK>::value
+                 && IsIntegerDenseVector<VIWORK>::value,
+         void>::Type
+rfs(Transpose   trans,
+    const MA    &A,
+    const MAF   &AF,
+    const VPIV  &piv,
+    const MB    &B,
+    MX          &&X,
+    VFERR       &&fErr,
+    VBERR       &&bErr,
+    VWORK       &&work,
+    VIWORK      &&iwork)
 {
-    typedef typename GeMatrix<MA>::IndexType  IndexType;
+    LAPACK_DEBUG_OUT("(ge)rfs [real]");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type     MatrixA;
+    typedef typename MatrixA::IndexType      IndexType;
+    typedef typename RemoveRef<MAF>::Type    MatrixAF;
+    typedef typename RemoveRef<VPIV>::Type   VectorPiv;
+    typedef typename RemoveRef<MB>::Type     MatrixB;
+    typedef typename RemoveRef<MX>::Type     MatrixX;
+    typedef typename RemoveRef<VFERR>::Type  VectorFErr;
+    typedef typename RemoveRef<VBERR>::Type  VectorBErr;
+    typedef typename RemoveRef<VWORK>::Type  VectorWork;
+    typedef typename RemoveRef<VIWORK>::Type VectorIWork;
+
 //
 //  Test the input parameters
 //
@@ -361,11 +395,11 @@ rfs(Transpose               trans,
 //
 //  Make copies of output arguments
 //
-    typename GeMatrix<MX>::NoView        X_org     = X;
-    typename DenseVector<VFERR>::NoView  fErr_org  = fErr;
-    typename DenseVector<VBERR>::NoView  bErr_org  = bErr;
-    typename DenseVector<VWORK>::NoView  work_org  = work;
-    typename DenseVector<VIWORK>::NoView iwork_org = iwork;
+    typename MatrixX::NoView     X_org     = X;
+    typename VectorFErr::NoView  fErr_org  = fErr;
+    typename VectorBErr::NoView  bErr_org  = bErr;
+    typename VectorWork::NoView  work_org  = work;
+    typename VectorIWork::NoView iwork_org = iwork;
 //
 //  Call implementation
 //
@@ -375,11 +409,11 @@ rfs(Transpose               trans,
 //
 //  Compare results
 //
-    typename GeMatrix<MX>::NoView        X_generic     = X;
-    typename DenseVector<VFERR>::NoView  fErr_generic  = fErr;
-    typename DenseVector<VBERR>::NoView  bErr_generic  = bErr;
-    typename DenseVector<VWORK>::NoView  work_generic  = work;
-    typename DenseVector<VIWORK>::NoView iwork_generic = iwork;
+    typename MatrixX::NoView     X_generic     = X;
+    typename VectorFErr::NoView  fErr_generic  = fErr;
+    typename VectorBErr::NoView  bErr_generic  = bErr;
+    typename VectorWork::NoView  work_generic  = work;
+    typename VectorIWork::NoView iwork_generic = iwork;
 
     X     = X_org;
     fErr  = fErr_org;
@@ -427,25 +461,98 @@ rfs(Transpose               trans,
 #   endif
 }
 
-//-- forwarding ----------------------------------------------------------------
+//-- (ge)rfs [complex variant] -------------------------------------------------
+
+#ifdef USE_CXXLAPACK
+
 template <typename MA, typename MAF, typename VPIV, typename MB, typename MX,
-          typename VFERR, typename VBERR, typename VWORK, typename VIWORK>
-void
-rfs(Transpose    trans,
-    const MA     &A,
-    const MAF    &AF,
-    const VPIV   &piv,
-    const MB     &B,
-    MX           &&X,
-    VFERR        &&fErr,
-    VBERR        &&bErr,
-    VWORK        &&work,
-    VIWORK       &&iwork)
+          typename VFERR, typename VBERR, typename VWORK, typename VRWORK>
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                 && IsComplexGeMatrix<MAF>::value
+                 && IsIntegerDenseVector<VPIV>::value
+                 && IsComplexGeMatrix<MB>::value
+                 && IsComplexGeMatrix<MX>::value
+                 && IsRealDenseVector<VFERR>::value
+                 && IsRealDenseVector<VBERR>::value
+                 && IsComplexDenseVector<VWORK>::value
+                 && IsRealDenseVector<VRWORK>::value,
+         void>::Type
+rfs(Transpose   trans,
+    const MA    &A,
+    const MAF   &AF,
+    const VPIV  &piv,
+    const MB    &B,
+    MX          &&X,
+    VFERR       &&fErr,
+    VBERR       &&bErr,
+    VWORK       &&work,
+    VRWORK      &&rwork)
 {
-    CHECKPOINT_ENTER;
-    rfs(trans, A, AF, piv, B, X, fErr, bErr, work, iwork);
-    CHECKPOINT_LEAVE;
+    LAPACK_DEBUG_OUT("(ge)rfs [complex]");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type     MatrixA;
+    typedef typename MatrixA::IndexType      IndexType;
+    typedef typename RemoveRef<MAF>::Type    MatrixAF;
+    typedef typename RemoveRef<VPIV>::Type   VectorPiv;
+    typedef typename RemoveRef<MB>::Type     MatrixB;
+    typedef typename RemoveRef<MX>::Type     MatrixX;
+    typedef typename RemoveRef<VFERR>::Type  VectorFErr;
+    typedef typename RemoveRef<VBERR>::Type  VectorBErr;
+    typedef typename RemoveRef<VWORK>::Type  VectorWork;
+    typedef typename RemoveRef<VRWORK>::Type VectorRWork;
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(A.numRows()==A.numCols());
+
+    const IndexType n = A.numRows();
+
+    ASSERT(AF.firstRow()==1);
+    ASSERT(AF.firstCol()==1);
+    ASSERT(AF.numRows()==n);
+    ASSERT(AF.numCols()==n);
+
+    ASSERT(piv.firstIndex()==1);
+    ASSERT(piv.length()==n);
+
+    ASSERT(B.firstRow()==1);
+    ASSERT(B.firstCol()==1);
+    ASSERT(B.numRows()==n);
+
+    const IndexType nRhs = B.numCols();
+
+    ASSERT(X.firstRow()==1);
+    ASSERT(X.firstCol()==1);
+    ASSERT(X.numRows()==n);
+    ASSERT(X.numCols()==nRhs);
+
+    ASSERT(fErr.firstIndex()==1);
+    ASSERT(fErr.length()==nRhs);
+
+    ASSERT(bErr.firstIndex()==1);
+    ASSERT(bErr.length()==nRhs);
+
+    ASSERT(work.firstIndex()==1);
+    ASSERT(work.length()==2*n);
+
+    ASSERT(rwork.firstIndex()==1);
+    ASSERT(rwork.length()==n);
+#   endif
+
+//
+//  Call implementation
+//
+    external::rfs_impl(trans, A, AF, piv, B, X, fErr, bErr, work, rwork);
 }
+
+#endif // USE_CXXLAPACK
 
 } } // namespace lapack, flens
 

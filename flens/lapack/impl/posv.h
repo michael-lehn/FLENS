@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DPOSV( UPLO, N, NRHS, A, LDA, B, LDB, INFO )
+       SUBROUTINE ZPOSV( UPLO, N, NRHS, A, LDA, B, LDB, INFO )
  *
  *  -- LAPACK driver routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -49,14 +50,38 @@
 namespace flens { namespace lapack {
 
 //== posv =====================================================================
+//
+//  Real variant
+//
 template <typename MA, typename MB>
-    typename SyMatrix<MA>::IndexType
-    posv(SyMatrix<MA> &A, GeMatrix<MB> &B);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename MB>
-    typename MA::IndexType
+    typename RestrictTo<IsRealSyMatrix<MA>::value
+                     && IsRealGeMatrix<MB>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
     posv(MA &&A, MB &&B);
+
+
+#ifdef USE_CXXLAPACK
+//
+//  Complex variant
+//
+template <typename MA, typename MB>
+    typename RestrictTo<IsHeMatrix<MA>::value
+                     && IsComplexGeMatrix<MB>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    posv(MA &&A, MB &&B);
+
+#endif // USE_CXXLAPACK
+
+
+//== (po)sv variant if rhs is vector ===========================================
+//
+//  Real and complex
+//
+template <typename MA, typename VB>
+    typename RestrictTo<(IsSyMatrix<MA>::value || IsHeMatrix<MA>::value)
+                     && IsDenseVector<VB>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    sv(MA &&A, VB &&b);
 
 } } // namespace lapack, flens
 

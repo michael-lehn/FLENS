@@ -68,7 +68,6 @@ copy(const DenseVector<VX> &x, DenseVector<VY> &y)
 #       endif
         y.resize(x);
     }
-    y.changeIndexBase(x.firstIndex());
 
 #   ifdef HAVE_CXXBLAS_COPY
     cxxblas::copy(x.length(), x.data(), x.stride(), y.data(), y.stride());
@@ -95,8 +94,9 @@ copy(Transpose trans, const GeMatrix<MA> &A, GeMatrix<MB> &B)
 //          temporaries are not allowed
 //
             ASSERT(A.numRows()==A.numCols());
-            gecotr(MB::order, trans, B.numRows(), B.numCols(),
-                   B.data(), B.leadingDimension());
+            cxxblas::gecotr(MB::order, trans, B.numRows(), B.numCols(),
+                            B.data(), B.leadingDimension());
+            return;
 #           else
 //
 //          temporaries are allowed: check if this requires a temporary
@@ -113,8 +113,8 @@ copy(Transpose trans, const GeMatrix<MA> &A, GeMatrix<MB> &B)
 //
 //              otherwise perform inplace transpose
 //
-                gecotr(MB::order, trans, B.numRows(), B.numCols(),
-                       B.data(), B.leadingDimension());
+                cxxblas::gecotr(MB::order, trans, B.numRows(), B.numCols(),
+                                B.data(), B.leadingDimension());
                 return;
             }
 #           endif
