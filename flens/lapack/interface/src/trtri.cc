@@ -14,7 +14,6 @@ LAPACK_DECL(dtrtri)(const char       *UPLO,
                     const INTEGER    *LDA,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("dtrtri");
     using std::max;
     using std::min;
 //
@@ -63,7 +62,6 @@ LAPACK_DECL(ztrtri)(const char       *UPLO,
                     const INTEGER    *LDA,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("ztrtri");
     using std::max;
     using std::min;
 //

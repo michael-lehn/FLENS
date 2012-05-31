@@ -888,12 +888,13 @@ es(bool                 computeSchurVectors,
 
 #endif // USE_CXXLAPACK
 
-//-- (ge)es_wsq [real and complex variant] -------------------------------------
+//-- (ge)es_wsq [real variant] -------------------------------------------------
 
 template <typename MA>
-Pair<typename GeMatrix<MA>::IndexType>
-es_wsq(bool                 computeSchurVectors,
-       const GeMatrix<MA>   &A)
+typename RestrictTo<IsRealGeMatrix<MA>::value,
+         Pair<typename MA::IndexType> >::Type
+es_wsq(bool     computeSchurVectors,
+       const MA &A)
 {
     LAPACK_DEBUG_OUT("es_wsq");
 
@@ -927,6 +928,39 @@ es_wsq(bool                 computeSchurVectors,
 
     return ws;
 }
+
+//-- (ge)es_wsq [complex variant] ----------------------------------------------
+
+
+#ifdef USE_CXXLAPACK
+
+template <typename MA>
+typename RestrictTo<IsComplexGeMatrix<MA>::value,
+         Pair<typename MA::IndexType> >::Type
+es_wsq(bool     computeSchurVectors,
+       const MA &A)
+{
+    LAPACK_DEBUG_OUT("es_wsq");
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.numRows()==A.numCols());
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+#   endif
+
+//
+//  Call implementation
+//
+    const auto ws = external::es_wsq_impl(computeSchurVectors, A);
+
+    return ws;
+}
+
+#endif // USE_CXXLAPACK
+
 
 } } // namespace lapack, flens
 

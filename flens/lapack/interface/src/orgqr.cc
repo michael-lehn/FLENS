@@ -17,8 +17,6 @@ LAPACK_DECL(dorgqr)(const INTEGER    *M,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("dorgqr");
-
     using std::max;
     using std::min;
 //

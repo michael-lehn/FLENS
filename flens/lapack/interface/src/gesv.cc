@@ -1,5 +1,3 @@
-//#define CXXBLAS_DEBUG_OUT(x)      std::cerr << x << std::endl;
-
 #define STR(x)      #x
 #define STRING(x)   STR(x)
 
@@ -23,7 +21,6 @@ LAPACK_DECL(dgesv)(const INTEGER        *N,
                    const INTEGER        *LDB,
                    INTEGER              *INFO)
 {
-    DEBUG_FLENS_LAPACK("dgesv");
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -64,7 +61,6 @@ LAPACK_DECL(zgesv)(const INTEGER        *N,
                    const INTEGER        *LDB,
                    INTEGER              *INFO)
 {
-    DEBUG_FLENS_LAPACK("-> zgesv");
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //

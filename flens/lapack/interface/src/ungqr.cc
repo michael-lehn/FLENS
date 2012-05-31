@@ -17,8 +17,6 @@ LAPACK_DECL(zungqr)(const INTEGER            *M,
                     const INTEGER            *LWORK,
                     INTEGER                  *INFO)
 {
-    DEBUG_FLENS_LAPACK("zungqr");
-
     using std::max;
     using std::min;
 //

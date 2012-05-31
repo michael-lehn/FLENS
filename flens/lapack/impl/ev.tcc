@@ -59,7 +59,7 @@ namespace generic {
 
 template <typename MA>
 Pair<typename GeMatrix<MA>::IndexType>
-ev_wsq_impl(bool computeVL, bool computeVR, GeMatrix<MA> &A)
+ev_wsq_impl(bool computeVL, bool computeVR, const GeMatrix<MA> &A)
 {
     using std::max;
 
@@ -373,7 +373,7 @@ namespace external {
 template <typename MA>
 typename RestrictTo<IsNotComplex<typename MA::ElementType>::value,
          Pair<typename MA::IndexType> >::Type
-ev_wsq_impl(bool computeVL, bool computeVR, GeMatrix<MA> &A)
+ev_wsq_impl(bool computeVL, bool computeVR, const GeMatrix<MA> &A)
 {
     using std::max;
 
@@ -406,7 +406,7 @@ ev_wsq_impl(bool computeVL, bool computeVR, GeMatrix<MA> &A)
     cxxlapack::geev<IndexType>(computeVL ? 'V' : 'N',
                                computeVR ? 'V' : 'N',
                                A.numRows(),
-                               A.data(),
+                               &DUMMY,
                                A.leadingDimension(),
                                &DUMMY,
                                &DUMMY,
@@ -424,7 +424,7 @@ ev_wsq_impl(bool computeVL, bool computeVR, GeMatrix<MA> &A)
 template <typename MA>
 typename RestrictTo<IsComplex<typename MA::ElementType>::value,
          Pair<typename MA::IndexType> >::Type
-ev_wsq_impl(bool computeVL, bool computeVR, GeMatrix<MA> &A)
+ev_wsq_impl(bool computeVL, bool computeVR, const GeMatrix<MA> &A)
 {
     using std::max;
 
@@ -455,7 +455,7 @@ ev_wsq_impl(bool computeVL, bool computeVR, GeMatrix<MA> &A)
     cxxlapack::geev<IndexType>(computeVL ? 'V' : 'N',
                                computeVR ? 'V' : 'N',
                                A.numRows(),
-                               A.data(),
+                               &DUMMY,
                                A.leadingDimension(),
                                &DUMMY,
                                &DUMMY,
@@ -816,13 +816,14 @@ ev(bool     computeVL,
 
 #endif // USE_CXXLAPACK
 
-//-- (ge)ev_wsq [worksize query, real and complex variant] ---------------------
+//-- (ge)ev_wsq [worksize query, real variant] ---------------------------------
 
 template <typename MA>
-Pair<typename GeMatrix<MA>::IndexType>
-ev_wsq(bool computeVL, bool computeVR, GeMatrix<MA> &A)
+typename RestrictTo<IsRealGeMatrix<MA>::value,
+         Pair<typename MA::IndexType> >::Type
+ev_wsq(bool computeVL, bool computeVR, const MA &A)
 {
-    LAPACK_DEBUG_OUT("ev_wsq");
+    LAPACK_DEBUG_OUT("ev_wsq [real]");
 
 //
 //  Test the input parameters
@@ -852,6 +853,38 @@ ev_wsq(bool computeVL, bool computeVR, GeMatrix<MA> &A)
 
     return ws;
 }
+
+//-- (ge)ev_wsq [worksize query, complex variant] ------------------------------
+
+
+#ifdef USE_CXXLAPACK
+
+template <typename MA>
+typename RestrictTo<IsComplexGeMatrix<MA>::value,
+         Pair<typename MA::IndexType> >::Type
+ev_wsq(bool computeVL, bool computeVR, const MA &A)
+{
+    LAPACK_DEBUG_OUT("ev_wsq [complex]");
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.numRows()==A.numCols());
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+#   endif
+
+//
+//  Call implementation
+//
+    const auto ws = external::ev_wsq_impl(computeVL, computeVR, A);
+
+    return ws;
+}
+
+#endif // USE_CXXLAPACK
+
 
 } } // namespace lapack, flens
 

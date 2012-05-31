@@ -134,10 +134,27 @@ template <typename MA, typename VW, typename MVL, typename MVR,
 
 
 //== workspace query ===========================================================
+//
+//  Real variant
+//
 template <typename MA>
-    Pair<typename GeMatrix<MA>::IndexType>
-    evx_wsq(bool computeVL, bool computeVR, SENSE::Sense sense,
-            GeMatrix<MA> &A);
+    typename RestrictTo<IsRealGeMatrix<MA>::value,
+             Pair<typename MA::IndexType> >::Type
+    evx_wsq(bool computeVL, bool computeVR, SENSE::Sense sense, const MA &A);
+
+
+#ifdef USE_CXXLAPACK
+
+//
+//  Complex variant
+//
+template <typename MA>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value,
+             Pair<typename MA::IndexType> >::Type
+    evx_wsq(bool computeVL, bool computeVR, SENSE::Sense sense, const MA &A);
+
+#endif // USE_CXXLAPACK
+
 
 } } // namespace lapack, flens
 

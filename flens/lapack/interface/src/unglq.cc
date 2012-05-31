@@ -17,8 +17,6 @@ LAPACK_DECL(zunglq)(const INTEGER    *M,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("zunglq");
-
     using std::max;
     using std::min;
 //

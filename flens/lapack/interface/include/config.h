@@ -10,11 +10,6 @@
 #endif
 #define  LAPACK_DECL(x)     x##_
 
-#define DEBUG_FLENS_LAPACK(x)   std::cerr << x << std::endl;
-#define DEBUG_CXXLAPACK(x)      std::cerr << "cxxlapack: " << x << std::endl;
-// #define DEBUG_FLENS_LAPACK(x)
-// #define DEBUG_CXXLAPACK(x)
-
 //
 //  define typedefs for FLENS matrix and vector types
 //

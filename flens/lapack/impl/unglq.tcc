@@ -117,7 +117,7 @@ unglq(IndexType k, MA &&A, const VTAU &tau, VWORK &&work)
     ASSERT(n>=m);
     ASSERT(m>=k);
     ASSERT(k>=0);
-#   endif 
+#   endif
 
 //
 //  Call implementation

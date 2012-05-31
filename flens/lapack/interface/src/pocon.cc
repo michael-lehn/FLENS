@@ -1,5 +1,3 @@
-//#define CXXBLAS_DEBUG_OUT(x)      std::cerr << x << std::endl;
-
 #define STR(x)      #x
 #define STRING(x)   STR(x)
 
@@ -24,7 +22,6 @@ LAPACK_DECL(dpocon)(const char       *UPLO,
                     INTEGER          *IWORK,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("-> dpocon");
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -68,7 +65,6 @@ LAPACK_DECL(zpocon)(const char               *UPLO,
                     DOUBLE                   *RWORK,
                     INTEGER                  *INFO)
 {
-    DEBUG_FLENS_LAPACK("zpocon");
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //

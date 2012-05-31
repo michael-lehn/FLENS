@@ -436,7 +436,6 @@ esx_impl(bool                 computeSchurVectors,
 
 namespace external {
 
-
 //-- (ge)esx_wsq [worksize query real variant] ---------------------------------
 
 template <typename MA>
@@ -1063,7 +1062,7 @@ esx_wsq(bool                 computeSchurVectors,
 //
 //  Compare results
 //
-    const auto _ws = external::ev_wsq_impl(computeSchurVectors, sense, A);
+    const auto _ws = external::esx_wsq_impl(computeSchurVectors, sense, A);
     if (! isIdentical(ws.first, _ws.first, "ws.first", "_ws.first")) {
         ASSERT(0);
     }
@@ -1077,6 +1076,7 @@ esx_wsq(bool                 computeSchurVectors,
 
     return ws;
 }
+
 
 #ifdef USE_CXXLAPACK
 
@@ -1109,6 +1109,7 @@ esx_wsq(bool                 computeSchurVectors,
 }
 
 #endif // USE_CXXLAPACK
+
 
 } } // namespace lapack, flens
 

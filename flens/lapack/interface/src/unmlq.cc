@@ -21,8 +21,6 @@ LAPACK_DECL(zunmlq)(const char               *SIDE,
                     const INTEGER            *LWORK,
                     INTEGER                  *INFO)
 {
-    DEBUG_FLENS_LAPACK("zunmlq");
-
     using std::max;
     using std::min;
 //

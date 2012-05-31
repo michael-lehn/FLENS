@@ -1,5 +1,3 @@
-//#define CXXBLAS_DEBUG_OUT(x)      std::cerr << x << std::endl;
-
 #define STR(x)      #x
 #define STRING(x)   STR(x)
 
@@ -25,7 +23,6 @@ LAPACK_DECL(dlaqge)(const INTEGER    *M,
                     const DOUBLE     *AMAX,
                     char             *EQUED)
 {
-    DEBUG_FLENS_LAPACK("dlaqge");
 //
 //  Call FLENS implementation
 //

@@ -111,11 +111,28 @@ template <typename SelectFunction, typename MA, typename IndexType,
 
 
 //== workspace query ===========================================================
-
+//
+//  Real variant
+//
 template <typename MA>
-    Pair<typename GeMatrix<MA>::IndexType>
-    es_wsq(bool                 computeSchurVectors,
-           const GeMatrix<MA>   &A);
+    typename RestrictTo<IsRealGeMatrix<MA>::value,
+             Pair<typename MA::IndexType> >::Type
+    es_wsq(bool     computeSchurVectors,
+           const MA &A);
+
+
+#ifdef USE_CXXLAPACK
+//
+//  Complex variant
+//
+template <typename MA>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value,
+             Pair<typename MA::IndexType> >::Type
+    es_wsq(bool     computeSchurVectors,
+           const MA &A);
+
+#endif // USE_CXXLAPACK
+
 
 } } // namespace lapack, flens
 

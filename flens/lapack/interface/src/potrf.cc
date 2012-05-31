@@ -1,5 +1,3 @@
-//#define CXXBLAS_DEBUG_OUT(x)      std::cerr << x << std::endl;
-
 #define STR(x)      #x
 #define STRING(x)   STR(x)
 
@@ -20,7 +18,6 @@ LAPACK_DECL(dpotrf)(const char       *UPLO,
                     const INTEGER    *LDA,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("dpotrf");
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -56,7 +53,6 @@ LAPACK_DECL(zpotrf)(const char       *UPLO,
                     const INTEGER    *LDA,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("zpotrf");
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //

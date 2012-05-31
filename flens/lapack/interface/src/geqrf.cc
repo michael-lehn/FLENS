@@ -16,8 +16,6 @@ LAPACK_DECL(dgeqrf)(const INTEGER    *M,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("dgeqrf");
-
     using std::max;
     using std::min;
 //
@@ -69,8 +67,6 @@ LAPACK_DECL(zgeqrf)(const INTEGER    *M,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("zgeqrf");
-
     using std::max;
     using std::min;
 //

@@ -31,7 +31,7 @@ LAPACK_DECL(dgeevx)(const char       *BALANC,
                     INTEGER          *IWORK,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("dgeevx");
+    std::cerr << "dgeevx: N = " << *N << std::endl;
 
     using std::max;
     using std::min;
@@ -155,8 +155,6 @@ LAPACK_DECL(zgeevx)(const char       *BALANC,
                     DOUBLE           *RWORK,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("zgeevx");
-
     using std::max;
     using std::min;
 //

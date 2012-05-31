@@ -64,7 +64,7 @@ LAPACK_DECL(dgees)(const char       *JOBVS,
                    LOGICAL          *BWORK,
                    INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("dgees");
+    std::cerr << "dgees: N = " << *N << std::endl;
 
     using std::max;
     using std::min;
@@ -156,8 +156,6 @@ LAPACK_DECL(zgees)(const char           *JOBVS,
                    LOGICAL              *BWORK,
                    INTEGER              *INFO)
 {
-    DEBUG_FLENS_LAPACK("zgees");
-
     using std::max;
     using std::min;
 //

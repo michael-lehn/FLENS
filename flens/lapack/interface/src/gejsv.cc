@@ -1,5 +1,3 @@
-//#define CXXBLAS_DEBUG_OUT(x)      std::cerr << x << std::endl;
-
 #define STR(x)      #x
 #define STRING(x)   STR(x)
 
@@ -12,7 +10,7 @@ namespace flens { namespace lapack {
 
 extern "C" {
 
-//-- dgetrs --------------------------------------------------------------------
+//-- dgejsv --------------------------------------------------------------------
 void
 LAPACK_DECL(dgejsv)(const char       *JOBA,
                     const char       *JOBU,
@@ -34,7 +32,6 @@ LAPACK_DECL(dgejsv)(const char       *JOBA,
                     INTEGER          *IWORK,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("dgejsv");
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //

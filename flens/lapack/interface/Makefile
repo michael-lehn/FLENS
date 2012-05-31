@@ -12,7 +12,7 @@ CXXFLAGS += -DWITH_REFBLAS
 
 #CXXFLAGS += -DLAPACK_DEBUG
 
-test_external_binding = yes
+test_external_binding =
 
 ifndef test_external_binding
 #

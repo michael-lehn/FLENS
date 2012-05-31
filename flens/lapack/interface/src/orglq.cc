@@ -17,8 +17,6 @@ LAPACK_DECL(dorglq)(const INTEGER    *M,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("dorglq");
-
     using std::max;
     using std::min;
 //

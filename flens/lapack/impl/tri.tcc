@@ -480,14 +480,6 @@ tri(MA &&A, const VPIV &piv, VWORK &&work)
 #   endif
 
 //
-//  Make copies of output arguments
-//
-#   ifdef CHECK_CXXLAPACK
-    typename MatrixA::NoView        A_org    = A;
-    typename VectorWork::NoView     work_org = work;
-#   endif
-
-//
 //  Call implementation
 //
     const IndexType info = external::tri_impl(A, piv, work);
@@ -597,7 +589,7 @@ tri(MA &&A)
 //
 //  Call implementation
 //
-    const IndexType info = LAPACK_SELECT::tri_impl(A);
+    const IndexType info = external::tri_impl(A);
 
     return info;
 }

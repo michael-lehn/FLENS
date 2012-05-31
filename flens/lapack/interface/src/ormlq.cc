@@ -21,8 +21,6 @@ LAPACK_DECL(dormlq)(const char       *SIDE,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("dormlq");
-
     using std::max;
     using std::min;
 //

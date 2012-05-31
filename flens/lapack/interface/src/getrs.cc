@@ -1,5 +1,3 @@
-//#define CXXBLAS_DEBUG_OUT(x)      std::cerr << x << std::endl;
-
 #define STR(x)      #x
 #define STRING(x)   STR(x)
 
@@ -24,7 +22,6 @@ LAPACK_DECL(dgetrs)(const char       *TRANS,
                     const INTEGER    *LDB,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("dgetrs");
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -69,7 +66,6 @@ LAPACK_DECL(zgetrs)(const char               *TRANS,
                     const INTEGER            *LDB,
                     INTEGER                  *INFO)
 {
-    DEBUG_FLENS_LAPACK("zgetrs");
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //

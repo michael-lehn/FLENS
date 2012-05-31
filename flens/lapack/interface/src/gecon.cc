@@ -1,5 +1,3 @@
-//#define CXXBLAS_DEBUG_OUT(x)      std::cerr << x << std::endl;
-
 #define STR(x)      #x
 #define STRING(x)   STR(x)
 
@@ -24,7 +22,6 @@ LAPACK_DECL(dgecon)(const char       *NORM,
                     INTEGER          *IWORK,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("-> dgecon");
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -67,7 +64,6 @@ LAPACK_DECL(zgecon)(const char               *NORM,
                     DOUBLE                   *RWORK,
                     INTEGER                  *INFO)
 {
-    DEBUG_FLENS_LAPACK("zgecon");
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //

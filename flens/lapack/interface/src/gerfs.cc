@@ -1,5 +1,3 @@
-//#define CXXBLAS_DEBUG_OUT(x)      std::cerr << x << std::endl;
-
 #define STR(x)      #x
 #define STRING(x)   STR(x)
 
@@ -32,7 +30,6 @@ LAPACK_DECL(dgerfs)(const char       *TRANS,
                     INTEGER          *IWORK,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("dgerfs");
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -95,7 +92,6 @@ LAPACK_DECL(zgerfs)(const char               *TRANS,
                     DOUBLE                   *RWORK,
                     INTEGER                  *INFO)
 {
-    DEBUG_FLENS_LAPACK("zgerfs");
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //

@@ -1,5 +1,3 @@
-//#define CXXBLAS_DEBUG_OUT(x)      std::cerr << x << std::endl;
-
 #define STR(x)      #x
 #define STRING(x)   STR(x)
 
@@ -29,7 +27,6 @@ LAPACK_DECL(dgesvj)(const char       *JOBA,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("dgesvj");
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //

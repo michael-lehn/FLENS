@@ -264,8 +264,8 @@ orgqr(IndexType k, MA &&A, const VTAU &tau, VWORK &&work)
 //
 //  Restore output arguments
 //
-    typename GeMatrix<MA>::NoView       A_generic      = A;
-    typename DenseVector<VWORK>::NoView work_generic   = work;
+    typename MatrixA::NoView        A_generic      = A;
+    typename VectorWork::NoView     work_generic   = work;
 
     A = A_org;
 

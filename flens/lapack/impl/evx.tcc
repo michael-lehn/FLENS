@@ -61,10 +61,10 @@ namespace generic {
 
 template <typename MA>
 Pair<typename GeMatrix<MA>::IndexType>
-evx_wsq_impl(bool         computeVL,
-             bool         computeVR,
-             SENSE::Sense sense,
-             GeMatrix<MA> &A)
+evx_wsq_impl(bool               computeVL,
+             bool               computeVR,
+             SENSE::Sense       sense,
+             const GeMatrix<MA> &A)
 {
     using std::max;
 
@@ -431,10 +431,10 @@ namespace external {
 template <typename MA>
 typename RestrictTo<IsNotComplex<typename MA::ElementType>::value,
          Pair<typename MA::IndexType> >::Type
-evx_wsq_impl(bool         computeVL,
-             bool         computeVR,
-             SENSE::Sense sense,
-             GeMatrix<MA> &A)
+evx_wsq_impl(bool               computeVL,
+             bool               computeVR,
+             SENSE::Sense       sense,
+             const GeMatrix<MA> &A)
 {
     using std::max;
 
@@ -481,7 +481,7 @@ evx_wsq_impl(bool         computeVL,
                                 computeVR ? 'V' : 'N',
                                 getF77Char(sense),
                                 A.numRows(),
-                                A.data(),
+                                &DUMMY,
                                 A.leadingDimension(),
                                 &DUMMY,
                                 &DUMMY,
@@ -506,10 +506,10 @@ evx_wsq_impl(bool         computeVL,
 template <typename MA>
 typename RestrictTo<IsComplex<typename MA::ElementType>::value,
          Pair<typename MA::IndexType> >::Type
-evx_wsq_impl(bool         computeVL,
-             bool         computeVR,
-             SENSE::Sense sense,
-             GeMatrix<MA> &A)
+evx_wsq_impl(bool               computeVL,
+             bool               computeVR,
+             SENSE::Sense       sense,
+             const GeMatrix<MA> &A)
 {
     using std::max;
 
@@ -551,7 +551,7 @@ evx_wsq_impl(bool         computeVL,
                                 computeVR ? 'V' : 'N',
                                 getF77Char(sense),
                                 A.numRows(),
-                                A.data(),
+                                &DUMMY,
                                 A.leadingDimension(),
                                 &DUMMY,                     // w
                                 &DUMMY,                     // VL
@@ -1104,17 +1104,30 @@ evx(BALANCE::Balance     balance,
 
 #endif // USE_CXXLAPACK
 
-//-- (ge)evx_wsq [worksize query, real and complex variant] --------------------
+//-- (ge)evx_wsq [worksize query, real variant] --------------------------------
 
 template <typename MA>
-Pair<typename GeMatrix<MA>::IndexType>
-evx_wsq(bool             computeVL,
-        bool             computeVR,
-        SENSE::Sense     sense,
-        GeMatrix<MA>     &A)
+typename RestrictTo<IsRealGeMatrix<MA>::value,
+         Pair<typename MA::IndexType> >::Type
+evx_wsq(bool computeVL, bool computeVR, SENSE::Sense sense, const MA &A)
 {
     return LAPACK_SELECT::evx_wsq_impl(computeVL, computeVR, sense, A);
 }
+
+//-- (ge)evx_wsq [worksize query, complex variant] -----------------------------
+
+#ifdef USE_CXXLAPACK
+
+template <typename MA>
+typename RestrictTo<IsComplexGeMatrix<MA>::value,
+         Pair<typename MA::IndexType> >::Type
+evx_wsq(bool computeVL, bool computeVR, SENSE::Sense sense, const MA &A)
+{
+    return external::evx_wsq_impl(computeVL, computeVR, sense, A);
+}
+
+#endif // USE_CXXLAPACK
+
 
 } } // namespace lapack, flens
 

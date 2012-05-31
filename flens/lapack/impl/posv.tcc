@@ -157,7 +157,7 @@ posv(MA &&A, MB &&B)
 //  Make copies of output arguments
 //
     typename MatrixA::NoView  A_org = A;
-    typename MatrixM::NoView  B_org = B;
+    typename MatrixB::NoView  B_org = B;
 #   endif
 
 //

@@ -1,5 +1,3 @@
-//#define CXXBLAS_DEBUG_OUT(x)      std::cerr << x << std::endl;
-
 #define STR(x)      #x
 #define STRING(x)   STR(x)
 
@@ -25,7 +23,6 @@ LAPACK_DECL(dgeequ)(const INTEGER    *M,
                     DOUBLE           *AMAX,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("dgeequ");
 //
 //  Call FLENS implementation
 //
@@ -65,7 +62,6 @@ LAPACK_DECL(zgeequ)(const INTEGER            *M,
                     DOUBLE                   *AMAX,
                     INTEGER                  *INFO)
 {
-    DEBUG_FLENS_LAPACK("zgeequ");
 //
 //  Call FLENS implementation
 //

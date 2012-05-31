@@ -223,6 +223,7 @@ typename RestrictTo<IsGeMatrix<MA>::value
          void>::Type
 trs(Transpose trans, const MA &A, const VPIV &piv, MB &&B)
 {
+    LAPACK_DEBUG_OUT("(ge)trs [real/complex]");
 //
 //  Remove references from rvalue types
 //
@@ -288,7 +289,7 @@ typename RestrictTo<IsGeMatrix<MA>::value
                  && IsIntegerDenseVector<VPIV>::value
                  && IsDenseVector<VB>::value,
          void>::Type
-trs(Transpose trans, const MA &A, const VPIV &piv, VB &b)
+trs(Transpose trans, const MA &A, const VPIV &piv, VB &&b)
 {
 //
 //  Remove references from rvalue types
@@ -318,7 +319,7 @@ typename RestrictTo<IsTrMatrix<MA>::value
          typename RemoveRef<MA>::Type::IndexType>::Type
 trs(Transpose trans, const MA &A, MB &&B)
 {
-    std::cerr << "(tr)trs [real/complex]" << std::endl;
+    LAPACK_DEBUG_OUT("(tr)trs [real/complex]");
 //
 //  Remove references from rvalue types
 //

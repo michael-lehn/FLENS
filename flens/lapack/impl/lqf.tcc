@@ -253,7 +253,7 @@ lqf(MA &&A, VTAU &&tau, VWORK &&work)
 //
 //  Restore output parameters
 //
-    typename Matrix<MA>::NoView     A_generic    = A;
+    typename MatrixA::NoView        A_generic    = A;
     typename VectorTau::NoView      tau_generic  = tau;
     typename VectorWork::NoView     work_generic = work;
 

@@ -17,8 +17,6 @@ LAPACK_DECL(dgeqp3)(const INTEGER    *M,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("dgeqp3");
-
     using std::max;
     using std::min;
 //
@@ -62,8 +60,6 @@ LAPACK_DECL(zgeqp3)(const INTEGER    *M,
                     DOUBLE           *RWORK,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("zgeqp3");
-
     using std::max;
     using std::min;
 //

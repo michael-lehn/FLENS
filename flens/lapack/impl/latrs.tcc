@@ -658,9 +658,9 @@ latrs(Transpose trans,
 //
 //  Make copies of output arguments
 //
-    typename VectorX::NoView    x_org     = x;
-    Scale                       scale_org = scale;
-    typename VectorCNorm        cNorm_org = cNorm;
+    typename VectorX::NoView        x_org     = x;
+    Scale                           scale_org = scale;
+    typename VectorCNorm::NoView    cNorm_org = cNorm;
 #   endif
 
 //
@@ -757,9 +757,9 @@ latrs(Transpose trans,
 //
 //  Make copies of output arguments
 //
-    typename VectorX::NoView    x_org     = x;
-    Scale                       scale_org = scale;
-    typename VectorCNorm        cNorm_org = cNorm;
+    typename VectorX::NoView        x_org     = x;
+    Scale                           scale_org = scale;
+    typename VectorCNorm::NoView    cNorm_org = cNorm;
 #   endif
 
 //
