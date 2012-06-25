@@ -47,6 +47,47 @@ template <typename IndexType, typename MA, typename VX>
          const MA *A,
          VX *x, IndexType incX);
 
+    
+#ifdef HAVE_CBLAS
+
+// stpmv
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    tpmv(StorageOrder order, StorageUpLo upLo,
+         Transpose transA, Diag diag,
+         IndexType n,
+         const float *A, 
+         float *x, IndexType incX);
+
+// dtpmv
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    tpmv(StorageOrder order, StorageUpLo upLo,
+         Transpose transA, Diag diag,
+         IndexType n,
+         const double *A, 
+         double *x, IndexType incX);
+
+// ctpmv
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    tpmv(StorageOrder order, StorageUpLo upLo,
+         Transpose transA, Diag diag,
+         IndexType n,
+         const ComplexFloat *A, 
+         ComplexFloat *x, IndexType incX);
+
+// ztpmv
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    tpmv(StorageOrder order, StorageUpLo upLo,
+         Transpose transA, Diag diag,
+         IndexType n,
+         const ComplexDouble *A, 
+         ComplexDouble *x, IndexType incX);
+
+#endif // HAVE_CBLAS
+    
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_TPMV_H

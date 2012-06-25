@@ -47,6 +47,29 @@ spr2(StorageOrder order, StorageUpLo upLo,
      const VY *y, IndexType incY,
      MA *A);
 
+#ifdef HAVE_CBLAS    
+// sspr2
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    spr2(StorageOrder order,   StorageUpLo upLo,
+         IndexType n,
+         float alpha,
+         const float *x, IndexType incX,
+         const float *y, IndexType incY,
+         float *A);
+
+// dspr2
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    spr2(StorageOrder order,   StorageUpLo upLo,
+         IndexType n,
+         double alpha,
+         const double *x, IndexType incX,
+         const double *y, IndexType incY,
+         double *A);
+
+#endif // HAVE_CBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_SPR2_H

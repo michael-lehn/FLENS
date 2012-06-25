@@ -50,6 +50,33 @@ template <typename IndexType, typename ALPHA, typename MA, typename VX,
          const BETA &beta,
          VY *y, IndexType incY);
 
+    
+#ifdef HAVE_CBLAS
+
+// ssbmv
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    sbmv(StorageOrder order, StorageUpLo upLo,
+         IndexType n, IndexType k,
+         float alpha,
+         const float *A, IndexType ldA,
+         const float *x, IndexType incX,
+         float beta,
+         float *y, IndexType incY);
+
+// dsbmv
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    sbmv(StorageOrder order, StorageUpLo upLo,
+         IndexType n, IndexType k,
+         double alpha,
+         const double *A, IndexType ldA,
+         const double *x, IndexType incX,
+         double &beta,
+         double *y, IndexType incY);
+
+#endif // HAVE_CBLAS
+    
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_SBMV_H

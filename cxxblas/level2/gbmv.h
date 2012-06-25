@@ -50,7 +50,59 @@ template <typename IndexType, typename ALPHA, typename MA, typename VX,
          const VX *x, IndexType incX,
          const BETA &beta,
          VY *y, IndexType incY);
+    
+    
+#ifdef HAVE_CBLAS
 
+// sgbmv
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    gbmv(StorageOrder order, Transpose trans,
+         IndexType m, IndexType n,
+         IndexType ku, IndexType kl,
+         float alpha,
+         const float *A, IndexType ldA,
+         const float *x, IndexType incX,
+         float beta,
+         float *y, IndexType incY);
+
+// dgbmv
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    gbmv(StorageOrder order, Transpose trans,
+         IndexType m, IndexType n,
+         IndexType ku, IndexType kl,
+         double alpha,
+         const double *A, IndexType ldA,
+         const double *x, IndexType incX,
+         double beta,
+         double *y, IndexType incY);
+
+// cgbmv
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    gbmv(StorageOrder order, Transpose trans,
+         IndexType m, IndexType n,
+         IndexType ku, IndexType kl,
+         const ComplexFloat &alpha,
+         const ComplexFloat *A, IndexType ldA,
+         const ComplexFloat *x, IndexType incX,
+         const ComplexFloat &beta,
+         ComplexFloat *y, IndexType incY);
+
+// zgbmv
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    gbmv(StorageOrder order, Transpose trans,
+         IndexType m, IndexType n,
+         IndexType ku, IndexType kl,
+         const ComplexDouble &alpha,
+         const ComplexDouble *A, IndexType ldA,
+         const ComplexDouble *x, IndexType incX,
+         const ComplexDouble &beta,
+         ComplexDouble *y, IndexType incY);
+
+#endif // HAVE_CBLAS
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_GBMV_H

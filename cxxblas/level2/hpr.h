@@ -47,6 +47,27 @@ template <typename IndexType, typename ALPHA, typename VX, typename MA>
         const VX *x, IndexType incX,
         MA *A);
 
+#ifdef HAVE_CBLAS    
+// chpr
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    hpr(StorageOrder order,   StorageUpLo upLo,
+         IndexType n,
+         float alpha,
+         const ComplexFloat *x, IndexType incX,
+         ComplexFloat *A);
+
+// zhpr
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    hpr(StorageOrder order,   StorageUpLo upLo,
+         IndexType n,
+         double alpha,
+         const ComplexDouble *x, IndexType incX,
+         ComplexDouble *A);
+
+#endif // HAVE_CBLAS
+    
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_HPR_H

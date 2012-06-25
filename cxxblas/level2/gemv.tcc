@@ -197,10 +197,10 @@ template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 gemv(StorageOrder order, Transpose trans,
      IndexType m, IndexType n,
-     ComplexFloat &alpha,
+     const ComplexFloat &alpha,
      const ComplexFloat *A, IndexType ldA,
      const ComplexFloat *x, IndexType incX,
-     ComplexFloat &beta,
+     const ComplexFloat &beta,
      ComplexFloat *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_cgemv");
@@ -211,7 +211,7 @@ gemv(StorageOrder order, Transpose trans,
                 reinterpret_cast<const float *>(A), ldA,
                 reinterpret_cast<const float *>(x), incX,
                 reinterpret_cast<const float *>(&beta),
-                reinterpret_cast<const float *>(y), incY);
+                reinterpret_cast<float *>(y), incY);
 }
 
 // zgemv
@@ -219,10 +219,10 @@ template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 gemv(StorageOrder order, Transpose trans,
      IndexType m, IndexType n,
-     ComplexDouble &alpha,
+     const ComplexDouble &alpha,
      const ComplexDouble *A, IndexType ldA,
      const ComplexDouble *x, IndexType incX,
-     ComplexDouble &beta,
+     const ComplexDouble &beta,
      ComplexDouble *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zgemv");
@@ -233,7 +233,7 @@ gemv(StorageOrder order, Transpose trans,
                 reinterpret_cast<const double *>(A), ldA,
                 reinterpret_cast<const double *>(x), incX,
                 reinterpret_cast<const double *>(&beta),
-                reinterpret_cast<const double *>(y), incY);
+                reinterpret_cast<double *>(y), incY);
 }
 
 #endif // HAVE_CBLAS

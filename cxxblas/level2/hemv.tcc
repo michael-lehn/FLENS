@@ -134,10 +134,11 @@ hemv(StorageOrder order, StorageUpLo upLo,
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 hemv(StorageOrder order, StorageUpLo upLo,
-     IndexType n, ComplexDouble &alpha,
+     IndexType n, 
+     const ComplexFloat &alpha,
      const ComplexFloat *A, IndexType ldA,
      const ComplexFloat *x, IndexType incX,
-     ComplexDouble &beta,
+     const ComplexFloat &beta,
      ComplexFloat *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_chemv");
@@ -147,17 +148,18 @@ hemv(StorageOrder order, StorageUpLo upLo,
                 reinterpret_cast<const float *>(A), ldA,
                 reinterpret_cast<const float *>(x), incX,
                 reinterpret_cast<const float *>(&beta),
-                reinterpret_cast<const float *>(y), incY);
+                reinterpret_cast<float *>(y), incY);
 }
 
 // zhemv
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 hemv(StorageOrder order, StorageUpLo upLo,
-     IndexType n, ComplexDouble &alpha,
+     IndexType n, 
+     const ComplexDouble &alpha,
      const ComplexDouble *A, IndexType ldA,
      const ComplexDouble *x, IndexType incX,
-     ComplexDouble &beta,
+     const ComplexDouble &beta,
      ComplexDouble *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zhemv");
@@ -167,7 +169,7 @@ hemv(StorageOrder order, StorageUpLo upLo,
                 reinterpret_cast<const double *>(A), ldA,
                 reinterpret_cast<const double *>(x), incX,
                 reinterpret_cast<const double *>(&beta),
-                reinterpret_cast<const double *>(y), incY);
+                reinterpret_cast<double *>(y), incY);
 }
 
 #endif // HAVE_CBLAS

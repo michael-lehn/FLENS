@@ -80,6 +80,29 @@ dotu(const DenseVector<X> &x, const DenseVector<Y> &y, T &result)
     FLENS_BLASLOG_UNSETTAG;
 }
 
+template <typename X, typename Y>
+typename RestrictTo<IsSame<typename X::ElementType, 
+                           typename Y::ElementType>::value, 
+                           typename X::ElementType>::Type
+dot(const DenseVector<X> &x, const DenseVector<Y> &y)
+{
+    typename X::ElementType val;
+    dot(x, y, val);
+    return val;
+}
+
+template <typename X, typename Y>
+typename RestrictTo<IsSame<typename X::ElementType, 
+                           typename Y::ElementType>::value, 
+                           typename X::ElementType>::Type
+dotu(const DenseVector<X> &x, const DenseVector<Y> &y)
+{
+    typename X::ElementType val;
+    dotu(x, y, val);
+    return val;
+}
+
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1_DOT_TCC

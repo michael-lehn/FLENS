@@ -131,6 +131,54 @@ hpmv(StorageOrder order, StorageUpLo upLo,
     hpmv_generic(order, upLo, NoTrans, n, alpha, A, x, incX, beta, y, incY);
 }
 
+
+#ifdef HAVE_CBLAS
+
+// chpmv
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+hpmv(StorageOrder order, StorageUpLo upLo,
+     IndexType n, 
+     const ComplexFloat &alpha,
+     const ComplexFloat *A, 
+     const ComplexFloat *x, IndexType incX,
+     const ComplexFloat &beta,
+     ComplexFloat *y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_chpmv");
+
+    cblas_chpmv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo), n, 
+                reinterpret_cast<const float *>(&alpha),
+                reinterpret_cast<const float *>(A), 
+                reinterpret_cast<const float *>(x), incX,
+                reinterpret_cast<const float *>(&beta),
+                reinterpret_cast<float *>(y), incY);
+}
+
+// zhpmv
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+hpmv(StorageOrder order, StorageUpLo upLo,
+     IndexType n, 
+     const ComplexDouble &alpha,
+     const ComplexDouble *A,
+     const ComplexDouble *x, IndexType incX,
+     const ComplexDouble &beta,
+     ComplexDouble *y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zhpmv");
+
+    cblas_zhpmv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo), n,
+                reinterpret_cast<const double *>(&alpha),
+                reinterpret_cast<const double *>(A),
+                reinterpret_cast<const double *>(x), incX,
+                reinterpret_cast<const double *>(&beta),
+                reinterpret_cast<double *>(y), incY);
+}
+
+#endif // HAVE_CBLAS
+
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_HPMV_TCC

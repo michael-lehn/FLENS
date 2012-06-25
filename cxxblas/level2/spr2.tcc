@@ -94,6 +94,50 @@ spr2(StorageOrder order, StorageUpLo upLo,
     spr2_generic(order, upLo, n, alpha, x, incX, y, incY, A);
 }
 
+#ifdef HAVE_CBLAS
+
+// sspr2
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+spr2(StorageOrder order,   StorageUpLo upLo,
+      IndexType n,
+      float alpha,
+      const float *x, IndexType incX,
+      const float *y, IndexType incY,
+      float *A)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_sspr2");
+
+    cblas_ssp2r(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo), 
+               n,
+               reinterpret_cast<const float *>(&alpha),
+               reinterpret_cast<const float *>(x), incX,
+               reinterpret_cast<const float *>(y), incY,
+               reinterpret_cast<float *>(A));
+}
+
+// dspr2
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+spr2(StorageOrder order,   StorageUpLo upLo,
+      IndexType n,
+      double alpha,
+      const double *x, IndexType incX,
+      const double *y, IndexType incY,
+      double *A)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_dspr2");
+
+    cblas_dspr2(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo), 
+                n,
+                reinterpret_cast<const double *>(&alpha),
+                reinterpret_cast<const double *>(x), incX,
+                reinterpret_cast<const double *>(y), incY,
+                reinterpret_cast<double *>(A));
+}
+
+#endif // HAVE_CBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_SPR2_TCC
