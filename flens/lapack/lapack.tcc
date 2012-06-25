@@ -121,6 +121,7 @@
 #include <flens/lapack/impl/rfs.tcc>
 #include <flens/lapack/impl/rscl.tcc>
 #include <flens/lapack/impl/sv.tcc>
+#include <flens/lapack/impl/svd.tcc>
 #include <flens/lapack/impl/svj.tcc>
 #include <flens/lapack/impl/svj0.tcc>
 #include <flens/lapack/impl/svj1.tcc>
