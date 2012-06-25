@@ -355,7 +355,7 @@ axpy(const ALPHA &alpha,
 //  Call mv implementation
 //
     typename VY::Impl::ElementType  One(1);
-    mvSwitch(Transpose(Trans^trans), alpha, A, x, One, y.impl());
+    mvSwitch(trans, alpha, A, x, One, y.impl());
 
 //
 //  If a temporary was created and registered before we now unregister it
