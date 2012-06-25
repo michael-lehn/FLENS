@@ -53,7 +53,7 @@ namespace flens { namespace lapack {
 namespace generic {
 
 template <typename MA, typename VWORK>
-typename GeMatrix<MA>::ElementType
+typename ComplexTrait<typename GeMatrix<MA>::ElementType>::PrimitiveType
 lan_impl(Norm norm, const GeMatrix<MA> &A, DenseVector<VWORK> &work)
 {
     using std::abs;
@@ -61,7 +61,8 @@ lan_impl(Norm norm, const GeMatrix<MA> &A, DenseVector<VWORK> &work)
     using std::min;
     using std::sqrt;
 
-    typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MA>::ElementType                ElementType;
+    typedef typename ComplexTrait<ElementType>::PrimitiveType T;
     typedef typename GeMatrix<MA>::IndexType    IndexType;
 
     const Underscore<IndexType> _;
@@ -131,7 +132,7 @@ lan_impl(Norm norm, const GeMatrix<MA> &A, DenseVector<VWORK> &work)
 }
 
 template <typename MA, typename VWORK>
-typename TrMatrix<MA>::ElementType
+typename ComplexTrait<typename TrMatrix<MA>::ElementType>::PrimitiveType
 lan_impl(Norm norm, const TrMatrix<MA> &A, DenseVector<VWORK> &work)
 {
     using std::abs;
@@ -139,8 +140,9 @@ lan_impl(Norm norm, const TrMatrix<MA> &A, DenseVector<VWORK> &work)
     using std::min;
     using std::sqrt;
 
-    typedef typename TrMatrix<MA>::ElementType  T;
-    typedef typename TrMatrix<MA>::IndexType    IndexType;
+    typedef typename TrMatrix<MA>::ElementType                ElementType;
+    typedef typename ComplexTrait<ElementType>::PrimitiveType T;
+    typedef typename TrMatrix<MA>::IndexType                  IndexType;
 
     const Underscore<IndexType> _;
     const IndexType m = A.numRows();
@@ -334,7 +336,7 @@ lan_impl(Norm norm, const TrMatrix<MA> &A, DenseVector<VWORK> &work)
 namespace external {
 
 template <typename MA, typename VWORK>
-typename GeMatrix<MA>::ElementType
+typename ComplexTrait<typename TrMatrix<MA>::ElementType>::PrimitiveType
 lan_impl(Norm norm, const GeMatrix<MA> &A, DenseVector<VWORK> &work)
 {
     typedef typename GeMatrix<MA>::IndexType  IndexType;
@@ -348,7 +350,7 @@ lan_impl(Norm norm, const GeMatrix<MA> &A, DenseVector<VWORK> &work)
 }
 
 template <typename MA, typename VWORK>
-typename TrMatrix<MA>::ElementType
+typename ComplexTrait<typename TrMatrix<MA>::ElementType>::PrimitiveType
 lan_impl(Norm norm, const TrMatrix<MA> &A, DenseVector<VWORK> &work)
 {
     typedef typename TrMatrix<MA>::IndexType  IndexType;
@@ -371,21 +373,21 @@ lan_impl(Norm norm, const TrMatrix<MA> &A, DenseVector<VWORK> &work)
 
 //-- lan(ge)
 template <typename MA>
-typename GeMatrix<MA>::ElementType
+typename ComplexTrait<typename GeMatrix<MA>::ElementType>::PrimitiveType
 lan(Norm norm, const GeMatrix<MA> &A)
 {
     ASSERT(norm!=InfinityNorm);
 
-    typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename ComplexTrait<typename GeMatrix<MA>::ElementType>::PrimitiveType  T;
     DenseVector<Array<T> >  dummy;
     return lan(norm, A, dummy);
 }
 
 template <typename MA, typename VWORK>
-typename GeMatrix<MA>::ElementType
+typename ComplexTrait<typename GeMatrix<MA>::ElementType>::PrimitiveType
 lan(Norm norm, const GeMatrix<MA> &A, DenseVector<VWORK> &work)
 {
-    typedef typename GeMatrix<MA>::ElementType T;
+    typedef typename ComplexTrait<typename GeMatrix<MA>::ElementType>::PrimitiveType T;
 //
 //  Test the input parameters
 //
@@ -435,21 +437,21 @@ lan(Norm norm, const GeMatrix<MA> &A, DenseVector<VWORK> &work)
 
 //-- lan(tr)
 template <typename MA>
-typename TrMatrix<MA>::ElementType
+typename ComplexTrait<typename TrMatrix<MA>::ElementType>::PrimitiveType
 lan(Norm norm, const TrMatrix<MA> &A)
 {
     ASSERT(norm!=InfinityNorm);
 
-    typedef typename TrMatrix<MA>::ElementType  T;
+    typedef typename ComplexTrait<typename TrMatrix<MA>::ElementType>::PrimitiveType T;
     DenseVector<Array<T> >  dummy;
     return lan(norm, A, dummy);
 }
 
 template <typename MA, typename VWORK>
-typename TrMatrix<MA>::ElementType
+typename ComplexTrait<typename TrMatrix<MA>::ElementType>::PrimitiveType
 lan(Norm norm, const TrMatrix<MA> &A, DenseVector<VWORK> &work)
 {
-    typedef typename TrMatrix<MA>::ElementType T;
+    typedef typename ComplexTrait<typename TrMatrix<MA>::ElementType>::PrimitiveType T;
 //
 //  Test the input parameters
 //
@@ -499,10 +501,10 @@ lan(Norm norm, const TrMatrix<MA> &A, DenseVector<VWORK> &work)
 
 //-- forwarding ----------------------------------------------------------------
 template <typename MA>
-typename MA::ElementType
+typename ComplexTrait<typename MA::ElementType>::PrimitiveType
 lan(Norm norm, const MA &A)
 {
-    typedef typename MA::ElementType  T;
+    typedef typename ComplexTrait<typename MA::ElementType>::PrimitiveType  T;
 
     CHECKPOINT_ENTER;
     const T result = lan(norm, A);
@@ -512,10 +514,10 @@ lan(Norm norm, const MA &A)
 }
 
 template <typename MA, typename VWORK>
-typename MA::ElementType
+typename ComplexTrait<typename MA::ElementType>::PrimitiveType
 lan(Norm norm, const MA &A, VWORK &&work)
 {
-    typedef typename MA::ElementType  T;
+    typedef typename ComplexTrait<typename MA::ElementType>::PrimitiveType  T;
 
     CHECKPOINT_ENTER;
     const T result = lan(norm, A, work);

@@ -60,29 +60,29 @@ namespace flens { namespace lapack {
 
 //== lan(ge) ===================================================================
 template <typename MA, typename VWORK>
-    typename GeMatrix<MA>::ElementType
+    typename ComplexTrait<typename GeMatrix<MA>::ElementType>::PrimitiveType
     lan(Norm norm, const GeMatrix<MA> &A);
 
 template <typename MA, typename VWORK>
-    typename GeMatrix<MA>::ElementType
+    typename ComplexTrait<typename GeMatrix<MA>::ElementType>::PrimitiveType
     lan(Norm norm, const GeMatrix<MA> &A, DenseVector<VWORK> &work);
 
 //== lan(tr) ===================================================================
 template <typename MA, typename VWORK>
-    typename TrMatrix<MA>::ElementType
+    typename ComplexTrait<typename TrMatrix<MA>::ElementType>::PrimitiveType
     lan(Norm norm, const TrMatrix<MA> &A);
 
 template <typename MA, typename VWORK>
-    typename TrMatrix<MA>::ElementType
+    typename ComplexTrait<typename TrMatrix<MA>::ElementType>::PrimitiveType
     lan(Norm norm, const TrMatrix<MA> &A, DenseVector<VWORK> &work);
 
 //-- forwarding ----------------------------------------------------------------
 template <typename MA, typename VWORK>
-    typename MA::ElementType
+    typename ComplexTrait<typename MA::ElementType>::PrimitiveType
     lan(Norm norm, const MA &A);
 
 template <typename MA, typename VWORK>
-    typename MA::ElementType
+    typename ComplexTrait<typename MA::ElementType>::PrimitiveType
     lan(Norm norm, const MA &A, VWORK &&work);
 
 } } // namespace lapack, flens
