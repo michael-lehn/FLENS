@@ -718,6 +718,9 @@ esx(bool                computeSchurVectors,
 //
 //  Test the input parameters
 //
+    
+    IndexType n = A.numRows();
+    
 #   ifndef NDEBUG
     ASSERT(A.numRows()==A.numCols());
     ASSERT(A.firstRow()==1);
@@ -725,8 +728,6 @@ esx(bool                computeSchurVectors,
     ASSERT(work.firstIndex()==1);
     ASSERT(iWork.firstIndex()==1);
     ASSERT(bWork.firstIndex()==1);
-
-    IndexType n = A.numRows();
 
     ASSERT(wr.firstIndex()==1);
     ASSERT(wr.length()==0 || wr.length()==n);
