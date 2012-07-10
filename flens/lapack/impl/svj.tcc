@@ -1227,12 +1227,13 @@ svj_(SVJ::TypeA                typeA,
 {
     using std::max;
     using std::min;
+
+    typedef typename GeMatrix<MA>::IndexType    IndexType;
+
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
-    typedef typename GeMatrix<MA>::IndexType    IndexType;
-
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
 

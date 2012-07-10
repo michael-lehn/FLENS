@@ -81,7 +81,7 @@ tf2_impl(GeMatrix<MA> &A, DenseVector<VP> &piv)
         return info;
     }
 //
-//     Compute machine safe minimum 
+//  Compute machine safe minimum
 //
     const PT safeMin = lamch<PT>(SafeMin);
 

@@ -733,7 +733,6 @@ esx(bool                computeSchurVectors,
     ASSERT(iWork.firstIndex()==1);
     ASSERT(bWork.firstIndex()==1);
 
-
     ASSERT(wr.firstIndex()==1);
     ASSERT(wr.length()==0 || wr.length()==n);
 
@@ -976,6 +975,8 @@ esx(bool                computeSchurVectors,
     typedef typename RemoveRef<VRWORK>::Type    VectorRWork;
     typedef typename RemoveRef<VBWORK>::Type    VectorBWork;
 
+    IndexType n = A.numRows();
+
 //
 //  Test the input parameters
 //
@@ -986,8 +987,6 @@ esx(bool                computeSchurVectors,
     ASSERT(work.firstIndex()==1);
     ASSERT(rWork.firstIndex()==1);
     ASSERT(bWork.firstIndex()==1);
-
-    IndexType n = A.numRows();
 
     ASSERT(w.firstIndex()==1);
     ASSERT(w.length()==0 || w.length()==n);

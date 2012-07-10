@@ -49,6 +49,29 @@ template <typename IndexType, typename ALPHA, typename VX, typename VY,
         const VY *y, IndexType incY,
         MA *A, IndexType ldA);
 
+#ifdef HAVE_CBLAS
+// cher
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+    her2(StorageOrder order, StorageUpLo upLo,
+         IndexType n,
+         float alpha,
+         const ComplexFloat *x, IndexType incX,
+         const ComplexFloat *y, IndexType incY,
+         ComplexFloat *A, IndexType ldA);
+
+// zher
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+    her2(StorageOrder order, StorageUpLo upLo,
+         IndexType n,
+         double alpha,
+         const ComplexDouble *x, IndexType incX,
+         const ComplexDouble *y, IndexType incY,
+         ComplexDouble *A, IndexType ldA);
+
+#endif // HAVE_CBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_SYR_H

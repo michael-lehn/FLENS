@@ -112,7 +112,7 @@ nrm2(IndexType n, const ComplexFloat *x, IndexType incX, float &norm)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_scnrm2");
 
-    norm = cblas_scnrm2(n, x, incX);
+    norm = cblas_scnrm2(n, reinterpret_cast<const float *>(x), incX);
 }
 
 // dznrm2
@@ -122,7 +122,7 @@ nrm2(IndexType n, const ComplexDouble *x, IndexType incX, double &norm)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_dznrm2");
 
-    norm = cblas_dznrm2(n, x, incX);
+    norm = cblas_dznrm2(n, reinterpret_cast<const double *>(x), incX);
 }
 
 #endif // HAVE_CBLAS

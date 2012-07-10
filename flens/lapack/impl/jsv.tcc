@@ -1447,11 +1447,12 @@ jsv(JSV::Accuracy             accuracy,
     DenseVector<VWORK>        &work,
     DenseVector<VIWORK>       &iwork)
 {
+
+    typedef typename GeMatrix<MA>::IndexType    IndexType;
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
-    typedef typename GeMatrix<MA>::IndexType    IndexType;
 
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);

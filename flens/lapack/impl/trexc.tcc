@@ -263,7 +263,7 @@ trexc_impl(bool                          computeQ,
                 if (info!=0) {
                     iLast = here;
                     return info;
-                } 
+                }
                 if (nBlockNext==1) {
 //
 //                  Swap two 1 by 1 blocks, no problems possible

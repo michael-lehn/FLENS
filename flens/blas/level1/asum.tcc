@@ -41,7 +41,7 @@
 namespace flens { namespace blas {
 
 template <typename X, typename T>
-void
+typename RestrictTo<IsNotComplex<T>::value, void>::Type
 asum(const DenseVector<X> &x, T &absoluteSum)
 {
 #   ifdef HAVE_CXXBLAS_ASUM
@@ -52,10 +52,10 @@ asum(const DenseVector<X> &x, T &absoluteSum)
 }
 
 template <typename X>
-const typename DenseVector<X>::ElementType
+const typename ComplexTrait<typename X::ElementType>::PrimitiveType
 asum(const DenseVector<X> &x)
 {
-    typename DenseVector<X>::ElementType  absoluteSum;
+    typename ComplexTrait<typename X::ElementType>::PrimitiveType  absoluteSum;
 
     asum(x, absoluteSum);
     return absoluteSum;

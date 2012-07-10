@@ -47,6 +47,27 @@ template <typename IndexType, typename ALPHA, typename VX, typename MA>
         const VX *x, IndexType incX,
         MA *A);
 
+#ifdef HAVE_CBLAS
+// sspr
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    spr(StorageOrder order,   StorageUpLo upLo,
+         IndexType n,
+         float alpha,
+         const float *x, IndexType incX,
+         float *A);
+
+// dspr
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    spr(StorageOrder order,   StorageUpLo upLo,
+         IndexType n,
+         double alpha,
+         const double *x, IndexType incX,
+         double *A);
+
+#endif // HAVE_CBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_SPR_H

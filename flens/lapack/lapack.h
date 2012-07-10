@@ -156,6 +156,7 @@
 #include <flens/lapack/impl/rfs.h>
 #include <flens/lapack/impl/rscl.h>
 #include <flens/lapack/impl/sv.h>
+#include <flens/lapack/impl/svd.h>
 #include <flens/lapack/impl/svj.h>
 #include <flens/lapack/impl/svj0.h>
 #include <flens/lapack/impl/svj1.h>

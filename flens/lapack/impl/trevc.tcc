@@ -514,8 +514,8 @@ trevc_impl(bool                          computeVL,
                     }
 
                     const ElementType reMax = One / eMax;
-                    VR(_(1,ki),is-1)  *= reMax; 
-                    VR(_(1,ki),is)    *= reMax; 
+                    VR(_(1,ki),is-1)  *= reMax;
+                    VR(_(1,ki),is)    *= reMax;
 
                     VR(_(ki+1,n),is-1)  = Zero;
                     VR(_(ki+1,n),is)    = Zero;

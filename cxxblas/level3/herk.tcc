@@ -107,7 +107,7 @@ herk(StorageOrder order, StorageUpLo upLo,
                 alpha,
                 reinterpret_cast<const float *>(A), ldA,
                 beta,
-                reinterpret_cast<const float *>(C), ldC);
+                reinterpret_cast<float *>(C), ldC);
 }
 
 // zherk
@@ -127,7 +127,7 @@ herk(StorageOrder order, StorageUpLo upLo,
                 alpha,
                 reinterpret_cast<const double *>(A), ldA,
                 beta,
-                reinterpret_cast<const double *>(C), ldC);
+                reinterpret_cast<double *>(C), ldC);
 }
 
 #endif // HAVE_CBLAS

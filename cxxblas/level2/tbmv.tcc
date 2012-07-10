@@ -271,6 +271,82 @@ tbmv(StorageOrder order, StorageUpLo upLo,
     tbmv_generic(order, upLo, transA, diag, n, k, A, ldA, x, incX);
 }
 
+
+#ifdef HAVE_CBLAS
+
+// stbmv
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+tbmv(StorageOrder order, Transpose trans,
+     Transpose transA, Diag diag,
+     IndexType n, IndexType k,
+     const float *A, IndexType ldA,
+     float *x, IndexType incX)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_stbmv");
+
+    cblas_stbmv(CBLAS::getCblasType(order), CBLAS::getCblasType(transA),
+                CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
+                n, k,
+                A, ldA,
+                x, incX);
+}
+
+// dtbmv
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+tbmv(StorageOrder order, Transpose trans,
+     Transpose transA, Diag diag,
+     IndexType n, IndexType k,
+     const double *A, IndexType ldA,
+     double *x, IndexType incX)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_dtbmv");
+
+    cblas_dtbmv(CBLAS::getCblasType(order), CBLAS::getCblasType(transA),
+                CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
+                n, k,
+                A, ldA,
+                x, incX);
+}
+
+// ctbmv
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+tbmv(StorageOrder order, Transpose trans,
+     Transpose transA, Diag diag,
+     IndexType n, IndexType k,
+     const ComplexFloat *A, IndexType ldA,
+     ComplexFloat *x, IndexType incX)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ctbmv");
+
+    cblas_ctbmv(CBLAS::getCblasType(order), CBLAS::getCblasType(transA),
+                CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
+                n, k,
+                reinterpret_cast<const float *>(A), ldA,
+                reinterpret_cast<float *>(x), incX);
+}
+
+// ztbmv
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+tbmv(StorageOrder order, Transpose trans,
+     Transpose transA, Diag diag,
+     IndexType n, IndexType k,
+     const ComplexDouble *A, IndexType ldA,
+     ComplexDouble *x, IndexType incX)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ztbmv");
+
+    cblas_ztbmv(CBLAS::getCblasType(order), CBLAS::getCblasType(transA),
+                CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
+                n, k,
+                reinterpret_cast<const double *>(A), ldA,
+                reinterpret_cast<double *>(x), incX);
+}
+#endif // HAVE_CBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_TBMV_TCC

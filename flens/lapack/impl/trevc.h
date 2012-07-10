@@ -82,7 +82,7 @@ template <typename VSELECT, typename MTR, typename MVL, typename MVR,
 template <typename VSELECT, typename MTR, typename MVL, typename MVR,
           typename IndexType, typename VWORK>
     void
-    trevc(bool                          computeVL, 
+    trevc(bool                          computeVL,
           bool                          computeVR,
           TREVC::Job                    howMany,
           const VSELECT                 &select,

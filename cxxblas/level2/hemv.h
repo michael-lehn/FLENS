@@ -56,20 +56,22 @@ template <typename IndexType, typename ALPHA, typename MA, typename VX,
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     hemv(StorageOrder order, StorageUpLo upLo,
-         IndexType n, ComplexDouble &alpha,
+         IndexType n,
+         const ComplexFloat &alpha,
          const ComplexFloat *A, IndexType ldA,
          const ComplexFloat *x, IndexType incX,
-         ComplexDouble &beta,
+         const ComplexFloat &beta,
          ComplexFloat *y, IndexType incY);
 
 // zhemv
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     hemv(StorageOrder order, StorageUpLo upLo,
-         IndexType n, ComplexDouble &alpha,
+         IndexType n,
+         const ComplexDouble &alpha,
          const ComplexDouble *A, IndexType ldA,
          const ComplexDouble *x, IndexType incX,
-         ComplexDouble &beta,
+         const ComplexDouble &beta,
          ComplexDouble *y, IndexType incY);
 
 #endif // HAVE_CBLAS

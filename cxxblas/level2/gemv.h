@@ -79,10 +79,10 @@ template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     gemv(StorageOrder order, Transpose trans,
          IndexType m, IndexType n,
-         ComplexFloat &alpha,
+         const ComplexFloat &alpha,
          const ComplexFloat *A, IndexType ldA,
          const ComplexFloat *x, IndexType incX,
-         ComplexFloat &beta,
+         const ComplexFloat &beta,
          ComplexFloat *y, IndexType incY);
 
 // zgemv
@@ -90,10 +90,10 @@ template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     gemv(StorageOrder order, Transpose trans,
          IndexType m, IndexType n,
-         ComplexDouble &alpha,
+         const ComplexDouble &alpha,
          const ComplexDouble *A, IndexType ldA,
          const ComplexDouble *x, IndexType incX,
-         ComplexDouble &beta,
+         const ComplexDouble &beta,
          ComplexDouble *y, IndexType incY);
 
 #endif // HAVE_CBLAS

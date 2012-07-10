@@ -160,7 +160,7 @@ syrk(StorageOrder order, StorageUpLo upLo,
                 reinterpret_cast<const float *>(&alpha),
                 reinterpret_cast<const float *>(A), ldA,
                 reinterpret_cast<const float *>(&beta),
-                reinterpret_cast<const float *>(C), ldC);
+                reinterpret_cast<float *>(C), ldC);
 }
 
 // zsyrk
@@ -182,7 +182,7 @@ syrk(StorageOrder order, StorageUpLo upLo,
                 reinterpret_cast<const double *>(&alpha),
                 reinterpret_cast<const double *>(A), ldA,
                 reinterpret_cast<const double *>(&beta),
-                reinterpret_cast<const double *>(C), ldC);
+                reinterpret_cast<double *>(C), ldC);
 }
 
 #endif // HAVE_CBLAS

@@ -50,6 +50,33 @@ template <typename IndexType, typename ALPHA, typename MA, typename VX,
          const BETA &beta,
          VY *y, IndexType incY);
 
+
+#ifdef HAVE_CBLAS
+
+// chpmv
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    hpmv(StorageOrder order, StorageUpLo upLo,
+         IndexType n,
+         const ComplexFloat &alpha,
+         const ComplexFloat *A,
+         const ComplexFloat *x, IndexType incX,
+         const ComplexFloat &beta,
+         ComplexFloat *y, IndexType incY);
+
+// zhpmv
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    hpmv(StorageOrder order, StorageUpLo upLo,
+         IndexType n,
+         const ComplexDouble &alpha,
+         const ComplexDouble *A,
+         const ComplexDouble *x, IndexType incX,
+         const ComplexDouble &beta,
+         ComplexDouble *y, IndexType incY);
+
+#endif // HAVE_CBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_HPMV_H
