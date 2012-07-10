@@ -262,6 +262,36 @@ potrs(const MA &A, MB &&B)
 
 #endif // USE_CXXLAPACK
 
+
+//-- potrs [variant if rhs is vector] ------------------------------------------
+
+template <typename MA, typename VB>
+typename RestrictTo<(IsSyMatrix<MA>::value || IsHeMatrix<MA>::value)
+                 && IsDenseVector<VB>::value,
+         void>::Type
+potrs(const MA &A, VB &&b)
+{
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type     MatrixA;
+    typedef typename RemoveRef<VB>::Type     VectorB;
+
+//
+//  Create matrix view from vector b and call above variant
+//
+    typedef typename VectorB::ElementType  ElementType;
+    typedef typename VectorB::IndexType    IndexType;
+
+    const IndexType    n     = b.length();
+    const StorageOrder order = MatrixA::Engine::order;
+
+    GeMatrix<FullStorageView<ElementType, order> >  B(n, 1, b, n);
+
+    potrs(A, B);
+}
+
+
 } } // namespace lapack, flens
 
 #endif // FLENS_LAPACK_IMPL_POTRS_TCC

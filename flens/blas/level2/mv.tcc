@@ -49,8 +49,13 @@ mv(Transpose transpose,
 {
     const bool noTrans = (transpose==NoTrans || transpose==Conj);
 
-    ASSERT(x.length()==(noTrans ? A.numCols()
-                                : A.numRows()));
+#   ifndef NDEBUG
+    if (noTrans) {
+        ASSERT(x.length()==A.numCols());
+    } else {
+        ASSERT(x.length()==A.numRows());
+    }
+#   endif
 
     typedef typename GeMatrix<MA>::IndexType IndexType;
     IndexType yLength = noTrans ? A.numRows()

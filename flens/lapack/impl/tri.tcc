@@ -316,14 +316,30 @@ tri_impl(GeMatrix<MA>             &A,
          const DenseVector<VP>    &piv,
          DenseVector<VWORK>       &work)
 {
+    typedef typename GeMatrix<MA>::ElementType  ElementType;
     typedef typename GeMatrix<MA>::IndexType    IndexType;
 
-    IndexType info = cxxlapack::getri<IndexType>(A.numRows(),
-                                                 A.data(),
-                                                 A.leadingDimension(),
-                                                 piv.data(),
-                                                 work.data(),
-                                                 work.length());
+    IndexType info;
+
+    if (work.length()==0) {
+        ElementType  WORK;
+        IndexType    LWORK = -1;
+
+        info = cxxlapack::getri<IndexType>(A.numRows(),
+                                           A.data(),
+                                           A.leadingDimension(),
+                                           piv.data(),
+                                           &WORK,
+                                           LWORK);
+        work.resize(IndexType(cxxblas::real(WORK)));
+    }
+
+    info = cxxlapack::getri<IndexType>(A.numRows(),
+                                       A.data(),
+                                       A.leadingDimension(),
+                                       piv.data(),
+                                       work.data(),
+                                       work.length());
     ASSERT(info>=0);
     return info;
 }
@@ -358,7 +374,9 @@ typename RestrictTo<IsRealGeMatrix<MA>::value
                  && IsIntegerDenseVector<VPIV>::value
                  && IsRealDenseVector<VWORK>::value,
          typename RemoveRef<MA>::Type::IndexType>::Type
-tri(MA &&A, const VPIV &piv, VWORK &&work)
+tri(MA          &&A,
+    const VPIV  &piv,
+    VWORK       &&work)
 {
     using std::max;
 
@@ -489,6 +507,21 @@ tri(MA &&A, const VPIV &piv, VWORK &&work)
 
 #endif // USE_CXXLAPACK
 
+//-- (ge)tri [real/complex variant with temporary workspace] -------------------
+template <typename MA, typename VPIV>
+typename RestrictTo<IsGeMatrix<MA>::value
+                 && IsIntegerDenseVector<VPIV>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+tri(MA          &&A,
+    const VPIV  &piv)
+{
+    typedef typename RemoveRef<MA>::Type::Vector WorkVector;
+
+    WorkVector  work;
+    return tri(A, piv, work);
+}
+
+
 //-- (tr)tri [real variant] ----------------------------------------------------
 
 template <typename MA>
@@ -564,7 +597,6 @@ typename RestrictTo<IsComplexTrMatrix<MA>::value,
          typename RemoveRef<MA>::Type::IndexType>::Type
 tri(MA &&A)
 {
-    std::cerr << "(tr)tri [complex variant]" << std::endl;
 //
 //  Remove references from rvalue types
 //

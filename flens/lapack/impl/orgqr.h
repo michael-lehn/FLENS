@@ -49,15 +49,22 @@
 namespace flens { namespace lapack {
 
 //== orgqr =====================================================================
-//
-//  Real variant
-//
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+
+template <typename MA, typename VTAU, typename VWORK>
     typename RestrictTo<IsRealGeMatrix<MA>::value
                      && IsRealDenseVector<VTAU>::value
                      && IsRealDenseVector<VWORK>::value,
              void>::Type
-    orgqr(IndexType k, MA &&A, const VTAU &tau, VWORK &&work);
+    orgqr(MA &&A, const VTAU &tau, VWORK &&work);
+
+//
+//  Variant with temporary workspace
+//
+template <typename MA, typename VTAU>
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsRealDenseVector<VTAU>::value,
+             void>::Type
+    orgqr(MA &&A, const VTAU &tau);
 
 } } // namespace lapack, flens
 

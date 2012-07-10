@@ -1,6 +1,5 @@
 #include <flens/lapack/interface/include/config.h>
 
-
 namespace flens { namespace lapack {
 
 extern "C" {
@@ -60,7 +59,7 @@ LAPACK_DECL(zungqr)(const INTEGER            *M,
     ZConstDenseVectorView  _TAU    = ZConstArrayView(*K, zTAU, 1);
     ZDenseVectorView       _WORK   = ZArrayView(*LWORK, zWORK, 1);
 
-    ungqr(*K, _A, _TAU, _WORK);
+    ungqr(_A, _TAU, _WORK);
 }
 
 } // extern "C"

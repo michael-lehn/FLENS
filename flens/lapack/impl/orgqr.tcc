@@ -54,10 +54,9 @@ namespace generic {
 
 //-- orgqr ---------------------------------------------------------------------
 
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+template <typename MA, typename VTAU, typename VWORK>
 void
-orgqr_impl(IndexType                 k,
-           GeMatrix<MA>              &A,
+orgqr_impl(GeMatrix<MA>              &A,
            const DenseVector<VTAU>   &tau,
            DenseVector<VWORK>        &work)
 {
@@ -65,11 +64,13 @@ orgqr_impl(IndexType                 k,
     using std::min;
 
     typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MA>::IndexType    IndexType;
     const T  Zero(0);
 
     const Underscore<IndexType> _;
     const IndexType m = A.numRows();
     const IndexType n = A.numCols();
+    const IndexType k = tau.length();
 //
 //  Perform and apply workspace query
 //
@@ -96,7 +97,8 @@ orgqr_impl(IndexType                 k,
 //
 //      Determine when to cross over from blocked to unblocked code.
 //
-        nx = max(IndexType(0), IndexType(ilaenv<T>(3, "ORGQR", "", m, n, k)));
+        nx = max(IndexType(0),
+                 IndexType(ilaenv<T>(3, "ORGQR", "", m, n, k)));
         if (nx<k) {
 //
 //          Determine if workspace is large enough for blocked code.
@@ -190,16 +192,31 @@ namespace external {
 
 //-- orgqr ---------------------------------------------------------------------
 
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+template <typename MA, typename VTAU, typename VWORK>
 void
-orgqr_impl(IndexType                  k,
-           GeMatrix<MA>              &A,
+orgqr_impl(GeMatrix<MA>              &A,
            const DenseVector<VTAU>   &tau,
            DenseVector<VWORK>        &work)
 {
+    typedef typename GeMatrix<MA>::ElementType  ElementType;
+    typedef typename GeMatrix<MA>::IndexType    IndexType;
+
+    if (work.length()==0) {
+        IndexType    LWORK = -1;
+        ElementType  WORK;
+        cxxlapack::orgqr<IndexType>(A.numRows(),
+                                    A.numCols(),
+                                    tau.length(),
+                                    A.data(),
+                                    A.leadingDimension(),
+                                    tau.data(),
+                                    &WORK,
+                                    LWORK);
+        work.resize(IndexType(WORK));
+    }
     cxxlapack::orgqr<IndexType>(A.numRows(),
                                 A.numCols(),
-                                k,
+                                tau.length(),
                                 A.data(),
                                 A.leadingDimension(),
                                 tau.data(),
@@ -215,18 +232,19 @@ orgqr_impl(IndexType                  k,
 
 //-- orgqr ---------------------------------------------------------------------
 
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+template <typename MA, typename VTAU, typename VWORK>
 typename RestrictTo<IsRealGeMatrix<MA>::value
                  && IsRealDenseVector<VTAU>::value
                  && IsRealDenseVector<VWORK>::value,
          void>::Type
-orgqr(IndexType k, MA &&A, const VTAU &tau, VWORK &&work)
+orgqr(MA &&A, const VTAU &tau, VWORK &&work)
 {
 //
 //  Remove references from rvalue types
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::ElementType   ElementType;
+    typedef typename MatrixA::IndexType     IndexType;
     typedef typename RemoveRef<VWORK>::Type VectorWork;
 
 //
@@ -236,11 +254,11 @@ orgqr(IndexType k, MA &&A, const VTAU &tau, VWORK &&work)
     ASSERT(A.firstRow()==IndexType(1));
     ASSERT(A.firstCol()==IndexType(1));
     ASSERT(tau.firstIndex()==IndexType(1));
-    ASSERT(tau.length()==k);
     ASSERT((work.length()==0) || (work.length()>=A.numCols()));
 
     const IndexType m = A.numRows();
     const IndexType n = A.numCols();
+    const IndexType k = tau.length();
 
     ASSERT(n<=m);
     ASSERT(k<=n);
@@ -258,7 +276,7 @@ orgqr(IndexType k, MA &&A, const VTAU &tau, VWORK &&work)
 //
 //  Call implementation
 //
-    LAPACK_SELECT::orgqr_impl(k, A, tau, work);
+    LAPACK_SELECT::orgqr_impl(A, tau, work);
 
 #   ifdef CHECK_CXXLAPACK
 //
@@ -277,7 +295,7 @@ orgqr(IndexType k, MA &&A, const VTAU &tau, VWORK &&work)
 //
 //  Compare results
 //
-    external::orgqr_impl(k, A, tau, work);
+    external::orgqr_impl(A, tau, work);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {
@@ -299,6 +317,20 @@ orgqr(IndexType k, MA &&A, const VTAU &tau, VWORK &&work)
 //        std::cerr << "passed: orgqr.tcc" << std::endl;
     }
 #   endif
+}
+
+//-- orgqr [Variant with temporary workspace] ----------------------------------
+
+template <typename MA, typename VTAU>
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                 && IsRealDenseVector<VTAU>::value,
+         void>::Type
+orgqr(MA &&A, const VTAU &tau)
+{
+    typedef typename RemoveRef<MA>::Type::Vector  WorkVector;
+
+    WorkVector  work;
+    orgqr(A, tau, work);
 }
 
 } } // namespace lapack, flens

@@ -51,6 +51,7 @@
 #include <cxxlapack/interface/gelqf.tcc>
 #include <cxxlapack/interface/gels.tcc>
 #include <cxxlapack/interface/gelss.tcc>
+#include <cxxlapack/interface/gelsy.tcc>
 #include <cxxlapack/interface/geqp3.tcc>
 #include <cxxlapack/interface/geqr2.tcc>
 #include <cxxlapack/interface/geqrf.tcc>
@@ -77,6 +78,7 @@
 #include <cxxlapack/interface/laexc.tcc>
 #include <cxxlapack/interface/lahqr.tcc>
 #include <cxxlapack/interface/lahr2.tcc>
+#include <cxxlapack/interface/laic1.tcc>
 #include <cxxlapack/interface/laln2.tcc>
 #include <cxxlapack/interface/lamch.tcc>
 #include <cxxlapack/interface/lange.tcc>
@@ -100,11 +102,15 @@
 #include <cxxlapack/interface/larft.tcc>
 #include <cxxlapack/interface/larfx.tcc>
 #include <cxxlapack/interface/lartg.tcc>
+#include <cxxlapack/interface/larz.tcc>
+#include <cxxlapack/interface/larzb.tcc>
+#include <cxxlapack/interface/larzt.tcc>
 #include <cxxlapack/interface/lascl.tcc>
 #include <cxxlapack/interface/lassq.tcc>
 #include <cxxlapack/interface/laswp.tcc>
 #include <cxxlapack/interface/lasy2.tcc>
 #include <cxxlapack/interface/latrs.tcc>
+#include <cxxlapack/interface/latrz.tcc>
 #include <cxxlapack/interface/lauu2.tcc>
 #include <cxxlapack/interface/lauum.tcc>
 #include <cxxlapack/interface/org2r.tcc>
@@ -117,6 +123,8 @@
 #include <cxxlapack/interface/orml2.tcc>
 #include <cxxlapack/interface/ormlq.tcc>
 #include <cxxlapack/interface/ormqr.tcc>
+#include <cxxlapack/interface/ormr3.tcc>
+#include <cxxlapack/interface/ormrz.tcc>
 #include <cxxlapack/interface/pocon.tcc>
 #include <cxxlapack/interface/posv.tcc>
 #include <cxxlapack/interface/potf2.tcc>
@@ -134,9 +142,12 @@
 #include <cxxlapack/interface/trti2.tcc>
 #include <cxxlapack/interface/trtri.tcc>
 #include <cxxlapack/interface/trtrs.tcc>
+#include <cxxlapack/interface/tzrzf.tcc>
 #include <cxxlapack/interface/unglq.tcc>
 #include <cxxlapack/interface/ungqr.tcc>
 #include <cxxlapack/interface/unmlq.tcc>
 #include <cxxlapack/interface/unmqr.tcc>
+#include <cxxlapack/interface/unmr3.tcc>
+#include <cxxlapack/interface/unmrz.tcc>
 
 #endif // CXXLAPACK_INTERFACE_INTERFACE_TCC

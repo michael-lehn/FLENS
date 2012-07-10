@@ -75,25 +75,25 @@ namespace LASCL {
 // TODO: provide an interface for different matrix types, i.e. GeMatrix,
 //       TrMatrix, SbMatrix, HessenbergMatrix, vector types and scalars
 //-- lascl ---------------------------------------------------------------------
-template <typename IndexType, typename T, typename MA>
+template <typename Int, typename T, typename MA>
     typename RestrictTo<IsSame<typename MA::ElementType, T>::value, void>::Type
-    lascl(LASCL::Type type, IndexType kl, IndexType ku,
+    lascl(LASCL::Type type, Int kl, Int ku,
           const T &cFrom, const T &cTo, MA &A);
 
-template <typename IndexType, typename T, typename MA>
+template <typename Int, typename T, typename MA>
     typename RestrictTo<IsSame<MA, T>::value, void>::Type
-    lascl(LASCL::Type type, IndexType kl, IndexType ku,
+    lascl(LASCL::Type type, Int kl, Int ku,
           const T &cFrom, const T &cTo, MA &A);
 
 //-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename T, typename MA>
+template <typename Int, typename T, typename MA>
     typename RestrictTo<IsSame<typename MA::ElementType, T>::value, void>::Type
-    lascl(LASCL::Type type, IndexType kl, IndexType ku,
+    lascl(LASCL::Type type, Int kl, Int ku,
           const T &cFrom, const T &cTo, MA &&A);
 
-template <typename IndexType, typename T, typename VX>
+template <typename Int, typename T, typename VX>
     void
-    lascl(LASCL::Type type, IndexType kl, IndexType ku,
+    lascl(LASCL::Type type, Int kl, Int ku,
           const T &cFrom, const T &cTo, DenseVector<VX> &x);
 
 } } // namespace lapack, flens

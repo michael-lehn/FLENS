@@ -10,12 +10,17 @@
 #endif
 #define  LAPACK_DECL(x)     x##_
 
+//#define FLENS_DEFAULT_INDEXTYPE long
+//#define INTEGER                 long
+//#define LOGICAL                 long
+
 //
 //  define typedefs for FLENS matrix and vector types
 //
 #ifndef USE_CXXLAPACK
 #define USE_CXXLAPACK
 #endif
+
 #include <flens/flens.cxx>
 
 #ifndef INTEGER
@@ -30,7 +35,7 @@
 extern "C" {
 
 void
-LAPACK_DECL(xerbla)(const char *SRNAME, const int *INFO, int SRNAME_LEN);
+LAPACK_DECL(xerbla)(const char *SRNAME, const INTEGER *INFO, int SRNAME_LEN);
 
 } // extern "C"
 
@@ -103,8 +108,8 @@ typedef DenseVector<ZConstArrayView>                     ZConstDenseVectorView;
 
 // matrix/vector types with bool
 // TODO: using "bool" should be possible too
-typedef Array<INTEGER>                                   BArray;
-typedef ArrayView<INTEGER>                               BArrayView;
+typedef Array<LOGICAL>                                   BArray;
+typedef ArrayView<LOGICAL>                               BArrayView;
 typedef DenseVector<BArray>                              BDenseVector;
 typedef DenseVector<BArrayView>                          BDenseVectorView;
 

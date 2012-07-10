@@ -54,19 +54,21 @@ namespace generic {
 
 //-- orglq ---------------------------------------------------------------------
 
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+template <typename MA, typename VTAU, typename VWORK>
 void
-orglq_impl(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
+orglq_impl(GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
            DenseVector<VWORK> &work)
 {
     using std::max;
     using std::min;
 
+    typedef typename GeMatrix<MA>::IndexType    IndexType;
     typedef typename GeMatrix<MA>::ElementType  T;
 
     const Underscore<IndexType> _;
     const IndexType m = A.numRows();
     const IndexType n = A.numCols();
+    const IndexType k = tau.length();
 
     const T Zero(0);
 
@@ -189,16 +191,33 @@ namespace external {
 
 //-- orglq ---------------------------------------------------------------------
 
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+template <typename MA, typename VTAU, typename VWORK>
 void
-orglq_impl(IndexType                k,
-           GeMatrix<MA>             &A,
+orglq_impl(GeMatrix<MA>             &A,
            const DenseVector<VTAU>  &tau,
            DenseVector<VWORK>       &work)
 {
+    typedef typename GeMatrix<MA>::ElementType  ElementType;
+    typedef typename GeMatrix<MA>::IndexType    IndexType;
+
+    if (work.length()==0) {
+        ElementType     WORK;
+        IndexType       LWORK = -1;
+
+        cxxlapack::orglq<IndexType>(A.numRows(),
+                                    A.numCols(),
+                                    tau.length(),
+                                    A.data(),
+                                    A.leadingDimension(),
+                                    tau.data(),
+                                    &WORK,
+                                    LWORK);
+        work.resize(IndexType(WORK));
+    }
+
     cxxlapack::orglq<IndexType>(A.numRows(),
                                 A.numCols(),
-                                k,
+                                tau.length(),
                                 A.data(),
                                 A.leadingDimension(),
                                 tau.data(),
@@ -214,18 +233,19 @@ orglq_impl(IndexType                k,
 
 //-- orglq ---------------------------------------------------------------------
 
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+template <typename MA, typename VTAU, typename VWORK>
 typename RestrictTo<IsRealGeMatrix<MA>::value
                  && IsRealDenseVector<VTAU>::value
                  && IsRealDenseVector<VWORK>::value,
          void>::Type
-orglq(IndexType k, MA &&A, const VTAU &tau, VWORK &&work)
+orglq(MA &&A, const VTAU &tau, VWORK &&work)
 {
 //
 //  Remove references from rvalue types
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::ElementType   ElementType;
+    typedef typename MatrixA::IndexType     IndexType;
     typedef typename RemoveRef<VWORK>::Type VectorWork;
 
 //
@@ -235,11 +255,11 @@ orglq(IndexType k, MA &&A, const VTAU &tau, VWORK &&work)
     ASSERT(A.firstRow()==IndexType(1));
     ASSERT(A.firstCol()==IndexType(1));
     ASSERT(tau.firstIndex()==IndexType(1));
-    ASSERT(tau.length()==k);
     ASSERT((work.length()==0) || (work.length()>=A.numRows()));
 
     const IndexType m = A.numRows();
     const IndexType n = A.numCols();
+    const IndexType k = tau.length();
 
     ASSERT(n>=m);
     ASSERT(m>=k);
@@ -257,7 +277,7 @@ orglq(IndexType k, MA &&A, const VTAU &tau, VWORK &&work)
 //
 //  Call implementation
 //
-    LAPACK_SELECT::orglq_impl(k, A, tau, work);
+    LAPACK_SELECT::orglq_impl(A, tau, work);
 
 #   ifdef CHECK_CXXLAPACK
 //
@@ -276,7 +296,7 @@ orglq(IndexType k, MA &&A, const VTAU &tau, VWORK &&work)
 //
 //  Compare results
 //
-    external::orglq_impl(k, A, tau, work);
+    external::orglq_impl(A, tau, work);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {
@@ -299,6 +319,21 @@ orglq(IndexType k, MA &&A, const VTAU &tau, VWORK &&work)
     }
 #   endif
 }
+
+//-- orglq [Variant with temporary workspace] ----------------------------------
+
+template <typename MA, typename VTAU>
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                 && IsRealDenseVector<VTAU>::value,
+         void>::Type
+orglq(MA &&A, const VTAU &tau)
+{
+    typedef typename RemoveRef<MA>::Type::Vector  WorkVector;
+
+    WorkVector  work;
+    orglq(A, tau, work);
+}
+
 
 } } // namespace lapack, flens
 

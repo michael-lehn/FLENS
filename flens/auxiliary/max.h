@@ -33,16 +33,41 @@
 #ifndef FLENS_AUXILIARY_MAX_H
 #define FLENS_AUXILIARY_MAX_H 1
 
+#include <flens/auxiliary/issame.h>
+#include <flens/auxiliary/promotion.h>
+#include <flens/auxiliary/restrictto.h>
+
 namespace flens {
 
+//
+//  Variant 1:
+//  All arguments have same type.  Function returns a const reference.
+//
 template <typename T>
     const T &
     max(const T &a);
 
-template <typename T, typename ... Args>
+template <typename T>
     const T &
-    max(const T &a, const T &b, const Args &... args);
+    max(const T &a, const T &b);
 
-} // namespace flens
+template <typename T, typename ...Args>
+    const typename RestrictTo<IsSame<T,Args...>::value, T>::Type &
+    max(const T &a, const T &b, const Args &...args);
+
+//
+//  Variant 2:
+//  Arguments have different types.  Function returns a copy
+//
+template <typename T1, typename T2>
+    const typename Promotion<T1, T2>::Type
+    max(const T1 &a, const T2 &b);
+
+template <typename T1, typename T2, typename ...Args>
+    const typename RestrictTo<!IsSame<T1, T2, Args...>::value,
+                              typename Promotion<T1, T2, Args...>::Type>::Type
+    max(const T1 &a, const T2 &b, const Args & ...args);
+
+} // namespace std
 
 #endif // FLENS_AUXILIARY_MAX_H

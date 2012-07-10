@@ -62,7 +62,7 @@ ls_impl(Transpose                 trans,
         GeMatrix<MB>              &B,
         DenseVector<VWORK>        &work)
 {
-    using std::max;
+    using flens::max;
     using flens::min;
 
     typedef typename GeMatrix<MB>::ElementType  ElementType;
@@ -298,6 +298,7 @@ ls_impl(Transpose                 trans,
 
 } // namespace generic
 
+
 //== interface for native lapack ===============================================
 
 #ifdef USE_CXXLAPACK
@@ -313,7 +314,24 @@ ls_impl(Transpose                 trans,
         GeMatrix<MB>              &B,
         DenseVector<VWORK>        &work)
 {
-    typedef typename GeMatrix<MA>::IndexType  IndexType;
+    typedef typename GeMatrix<MA>::ElementType  ElementType;
+    typedef typename GeMatrix<MA>::IndexType    IndexType;
+
+    if (work.length()==0) {
+        ElementType  WORK;
+        IndexType    LWORK = -1;
+        cxxlapack::gels<IndexType>(getF77Char(trans),
+                                   A.numRows(),
+                                   A.numCols(),
+                                   B.numCols(),
+                                   A.data(),
+                                   A.leadingDimension(),
+                                   B.data(),
+                                   B.leadingDimension(),
+                                   &WORK,
+                                   LWORK);
+        work.resize(IndexType(cxxblas::real(WORK)));
+    }
 
     IndexType info = cxxlapack::gels<IndexType>(getF77Char(trans),
                                                 A.numRows(),
@@ -332,6 +350,7 @@ ls_impl(Transpose                 trans,
 } // namespace external
 
 #endif // USE_CXXLAPACK
+
 
 //== public interface ==========================================================
 
@@ -505,6 +524,23 @@ ls(Transpose    trans,
 
 #endif // USE_CXXLAPACK
 
+//-- (ge)ls [real/complex variant with temporary workspace] --------------------
+
+template <typename MA, typename MB>
+typename RestrictTo<IsGeMatrix<MA>::value
+                 && IsGeMatrix<MB>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+ls(Transpose    trans,
+   MA           &&A,
+   MB           &&B)
+{
+    typedef typename RemoveRef<MA>::Type::Vector WorkVector;
+
+    WorkVector  work;
+    return ls(trans, A, B, work);
+}
+
+
 //-- (ge)ls [variant if rhs is vector] -----------------------------------------
 
 template <typename MA, typename VB, typename VWORK>
@@ -531,6 +567,22 @@ ls(Transpose    trans,
 
     GeMatrix<FullStorageView<ElementType, order> >  B(n, 1, b, n);
 
+    return ls(trans, A, B, work);
+}
+
+//-- (ge)ls [real/complex variant with temporary workspace] --------------------
+
+template <typename MA, typename VB>
+typename RestrictTo<IsGeMatrix<MA>::value
+                 && IsDenseVector<VB>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+ls(Transpose    trans,
+   MA           &&A,
+   VB           &&b)
+{
+    typedef typename RemoveRef<MA>::Type::Vector WorkVector;
+
+    WorkVector  work;
     return ls(trans, A, b, work);
 }
 

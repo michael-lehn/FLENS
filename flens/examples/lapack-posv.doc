@@ -1,0 +1,79 @@
+================================================================
+Solving a Symmetric Positive Definite System of Linear Equations          [TOC]
+================================================================
+
+In this example we solve a system of linear equations $Sx = b$ were the
+coefficient matrix is symmetric and positiv definite.  We solve the
+system with __lapack::posv__ which is the FLENS port of LAPACK's __dposv__.
+
+:links:  __lapack::posv__  -> file:flens/lapack/impl/posv.h
+         __dposv__         -> file:cxxlapack/netlib/lapack/dposv.f
+
+Example Code
+============
+:import: flens/examples/lapack-posv.cc [stripped, downloadable]
+
+
+Comments on Example Code
+========================
+:import: flens/examples/lapack-posv.cc [brief]
+
+
+Compile
+=======
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  g++ -std=c++11 -Wall -I../.. -o lapack-posv lapack-posv.cc             |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Run
+===
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  ./lapack-posv                                                          |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Example with Complex Numbers
+============================
+
+Example Code
+------------
+:import: flens/examples/lapack-complex-posv.cc [stripped, downloadable]
+
+Comments on Example Code
+------------------------
+:import: flens/examples/lapack-complex-posv.cc
+
+Compile
+-------
+Note that an external LAPACK implementation is needed for the complex variant
+of `lapack::posv`
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  g++ -DUSE_CXXLAPACK -framework vecLib                                +++|
+ |      -std=c++11 -Wall -I../.. -o lapack-complex-posv                  +++|
+ |      lapack-complex-posv.cc                                              |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+Run
+---
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  ./lapack-complex-posv                                                   |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+

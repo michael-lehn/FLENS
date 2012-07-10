@@ -1,10 +1,7 @@
 #define STR(x)      #x
 #define STRING(x)   STR(x)
 
-#define FLENS_DEFAULT_INDEXTYPE int
-
 #include <flens/lapack/interface/include/config.h>
-
 
 namespace flens { namespace lapack {
 

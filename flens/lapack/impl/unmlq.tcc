@@ -85,7 +85,7 @@ unmlq_wsq_impl(Side              side,
                                 C.leadingDimension(),
                                 &WORK,
                                 LWORK);
-    return WORK;
+    return cxxblas::real(WORK);
 }
 
 //-- unmlq ---------------------------------------------------------------------
@@ -100,6 +100,10 @@ unmlq_impl(Side                       side,
            DenseVector<VWORK>         &work)
 {
     typedef typename GeMatrix<MC>::IndexType  IndexType;
+
+    if (work.length()==0) {
+        work.resize(unmlq_wsq_impl(side, trans, A, C));
+    }
 
     cxxlapack::unmlq<IndexType>(getF77Char(side),
                                 getF77Char(trans),
@@ -177,6 +181,92 @@ unmlq(Side         side,
 //
     external::unmlq_impl(side, trans, A, tau, C, work);
 }
+
+//
+//  Variant with temporary workspace
+//
+template <typename MA, typename VTAU, typename MC>
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                 && IsComplexDenseVector<VTAU>::value
+                 && IsComplexGeMatrix<MC>::value,
+         void>::Type
+unmlq(Side         side,
+      Transpose    trans,
+      MA           &&A,
+      const VTAU   &tau,
+      MC           &&C)
+{
+    typedef typename RemoveRef<MA>::Type::Vector WorkVector;
+
+    WorkVector  work;
+    unmlq(side, trans, A, tau, C, work);
+}
+
+//
+//  Variant for convenience: c is vector
+//
+template <typename MA, typename VTAU, typename VC, typename VWORK>
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                 && IsComplexDenseVector<VTAU>::value
+                 && IsComplexDenseVector<VC>::value
+                 && IsComplexDenseVector<VWORK>::value,
+         void>::Type
+unmlq(Side         side,
+      Transpose    trans,
+      MA           &&A,
+      const VTAU   &tau,
+      VC           &&c,
+      VWORK        &&work)
+{
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename RemoveRef<VC>::Type    VectorC;
+
+    typedef typename VectorC::ElementType  ElementType;
+    typedef typename VectorC::IndexType    IndexType;
+
+    const IndexType    n     = c.length();
+    const StorageOrder order = MatrixA::Engine::order;
+
+    GeMatrix<FullStorageView<ElementType, order> >  C(n, 1, c, n);
+
+    unmlq(side, trans, A, tau, C, work);
+}
+
+//
+//  Variant for convenience: c is vector and workspace gets created
+//                           temporarily.
+//
+template <typename MA, typename VTAU, typename VC>
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                 && IsComplexDenseVector<VTAU>::value
+                 && IsComplexDenseVector<VC>::value,
+         void>::Type
+unmlq(Side         side,
+      Transpose    trans,
+      MA           &&A,
+      const VTAU   &tau,
+      VC           &&c)
+{
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename RemoveRef<VC>::Type    VectorC;
+
+    typedef typename VectorC::ElementType  ElementType;
+    typedef typename VectorC::IndexType    IndexType;
+
+    const IndexType    n     = c.length();
+    const StorageOrder order = MatrixA::Engine::order;
+
+    GeMatrix<FullStorageView<ElementType, order> >  C(n, 1, c, n);
+
+    unmlq(side, trans, A, tau, C);
+}
+
 
 //-- unmlq_wsq [worksize query] ------------------------------------------------
 

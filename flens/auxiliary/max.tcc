@@ -37,6 +37,10 @@
 
 namespace flens {
 
+//
+//  Variant 1:
+//  All arguments have same type.  Function returns a const reference.
+//
 template <typename T>
 const T &
 max(const T &a)
@@ -44,11 +48,37 @@ max(const T &a)
     return a;
 }
 
-template <typename T, typename ... Args>
+template <typename T>
 const T &
-max(const T &a, const T &b, const Args &... args)
+max(const T &a, const T &b)
 {
-    return flens::max(std::max(a,b), args...);
+    return std::max(a, b);
+}
+
+template <typename T, typename ...Args>
+const typename RestrictTo<IsSame<T,Args...>::value, T>::Type &
+max(const T &a, const T &b, const Args &...args)
+{
+    return flens::max(flens::max(a, b), args...);
+}
+
+//
+//  Variant 2:
+//  Arguments have different types.  Function returns a copy
+//
+template <typename T1, typename T2>
+const typename Promotion<T1, T2>::Type
+max(const T1 &a, const T2 &b)
+{
+    return (a>b) ? a : b;
+}
+
+template <typename T1, typename T2, typename ...Args>
+const typename RestrictTo<!IsSame<T1, T2, Args...>::value,
+                          typename Promotion<T1, T2, Args...>::Type>::Type
+max(const T1 &a, const T2 &b, const Args & ...args)
+{
+    return max(max(a, b), args...);
 }
 
 } // namespace flens

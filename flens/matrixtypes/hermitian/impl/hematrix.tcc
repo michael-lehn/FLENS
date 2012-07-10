@@ -310,6 +310,37 @@ HeMatrix<FS>::triangular()
     return general().lower();
 }
 
+// diag views
+template <typename FS>
+const typename HeMatrix<FS>::ConstVectorView
+HeMatrix<FS>::diag(IndexType d) const
+{
+#   ifndef NDEBUG
+    if (upLo()==Upper) {
+        ASSERT(d>=0);
+    } else {
+        ASSERT(d<=0);
+    }
+#   endif
+
+    return general().diag(d);
+}
+
+template <typename FS>
+typename HeMatrix<FS>::VectorView
+HeMatrix<FS>::diag(IndexType d)
+{
+#   ifndef NDEBUG
+    if (upLo()==Upper) {
+        ASSERT(d>=0);
+    } else {
+        ASSERT(d<=0);
+    }
+#   endif
+
+    return general().diag(d);
+}
+
 // -- methods ------------------------------------------------------------------
 
 template <typename FS>

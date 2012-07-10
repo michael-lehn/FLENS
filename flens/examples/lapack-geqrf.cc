@@ -13,6 +13,7 @@ typedef double   T;
 int
 main()
 {
+
     ///
     ///  Define some convenient typedefs for the matrix/vector types
     ///
@@ -42,12 +43,14 @@ main()
     ///  (see __dgeqrf__ for details).  Vector `work` is used as workspace
     ///  and, if empty, gets resized by __lapack::qrf__ to optimal size.
     ///
-    DenseVector tau(min(m,n));
+    DenseVector tau(std::min(m,n));
     DenseVector work;
 
     ///
     ///  Compute the $QR$ factorization of $A$ with __lapack::qrf__ the
     ///  FLENS port of LAPACK's __dgeqrf__.
+    ///  Note:  With `lapack::qrf(Ab, tau)` the workspace gets created
+    ///  internally and temporarily.
     ///
     lapack::qrf(Ab, tau, work);
     cout << "Ab = " << Ab << endl;

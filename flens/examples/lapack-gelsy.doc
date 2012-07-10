@@ -1,0 +1,115 @@
+====================================
+Rank Deficient Least Square Problems                                      [TOC]
+====================================
+
+Computes the *minimum-norm solution* to a real linear least squares problem:
+minimize $\| A  X - B \|$ using a complete orthogonal factorization of $A$.
+$A$ is an $m \times n$ matrix which may be *rank-deficient*.  The rank of
+$A$ gets determined using a __incremental condition estimation__.
+
+The routine first computes a $QR$ factorization with column pivoting:
+ *--[LATEX]-----------------------------------------------------------------*
+ |                                                                          |
+ |  A P = Q \begin{pmatrix}                                                 |
+ |          R_{11}     & R_{12} \\                                          |
+ |          \mathbb{0} & R_{22}                                             |
+ |          \end{pmatrix}                                                   |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+with $R_{11}$ defined as the largest leading submatrix whose estimated
+condition number is less than $1/\text{rCond}$ (where $\text{rCond}$ is a input
+parameter).  The order of $R_{11}$ is the effective rank of $A$.
+
+Then, $R_{22}$ is considered to be negligible, and $R_{12}$ is annihilated
+by unitary transformations from the right, arriving at the complete orthogonal
+factorization:
+ *--[LATEX]-----------------------------------------------------------------*
+ |                                                                          |
+ | A P = Q \begin{pmatrix}                                                  |
+ |         T_{11}     & \mathbb{0} \\                                       |
+ |         \mathbb{0} & \mathbb{0}                                          |
+ |         \end{pmatrix} Z                                                  |
+ |     =  \begin{pmatrix} Q_1 & Q_2 \end{pmatrix}                           |
+ |        \begin{pmatrix}                                                   |
+ |         T_{11}     & \mathbb{0} \\                                       |
+ |         \mathbb{0} & \mathbb{0}                                          |
+ |         \end{pmatrix} Z                                                  |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+The minimum-norm solution is then
+ *--[LATEX]-----------------------------------------------------------------*
+ |                                                                          |
+ | X = P  Z^T \begin{pmatrix}                                               |
+ |             T_{11}^{-1} Q_1^T B \\                                       |
+ |             \mathbb{0}                                                   |
+ |             \end{pmatrix}                                                |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+where $Q_1$ consists of the first $\text{rank}$ columns of $Q$.
+
+
+Example Code
+============
+:import: flens/examples/lapack-gelsy.cc [stripped, downloadable]
+
+Comments on Example Code
+========================
+:import: flens/examples/lapack-gelsy.cc [brief]
+
+Compile
+=======
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  g++ -std=c++11 -Wall -I../.. -o lapack-gelsy lapack-gelsy.cc            |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+Run
+===
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  ./lapack-gelsy                                                          |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+
+Example with Complex Numbers
+============================
+
+Example Code
+------------
+:import: flens/examples/lapack-complex-gelsy.cc [stripped, downloadable]
+
+Comments on Example Code
+------------------------
+:import: flens/examples/lapack-complex-gelsy.cc [brief]
+
+Compile
+-------
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  g++ -DUSE_CXXLAPACK -framework vecLib                                +++|
+ |      -std=c++11 -Wall -I../.. -o lapack-complex-gelsy                 +++|
+ |      lapack-complex-gelsy.cc                                             |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+Run
+---
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  ./lapack-complex-gelsy                                                  |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+
+:links: __incremental condition estimation__ -> http://www.netlib.org/lapack/lawnspdf/lawn33.pdf
+

@@ -50,12 +50,23 @@ namespace flens { namespace lapack {
 
 //== unglq =====================================================================
 
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+template <typename MA, typename VTAU, typename VWORK>
     typename RestrictTo<IsComplexGeMatrix<MA>::value
                      && IsComplexDenseVector<VTAU>::value
                      && IsComplexDenseVector<VWORK>::value,
              void>::Type
-    unglq(IndexType k, MA &&A, const VTAU &tau, VWORK &&work);
+    unglq(MA &&A, const VTAU &tau, VWORK &&work);
+
+
+//
+//  Variant with temporary workspace
+//
+template <typename MA, typename VTAU>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsComplexDenseVector<VTAU>::value,
+             void>::Type
+    unglq(MA &&A, const VTAU &tau);
+
 
 } } // namespace lapack, flens
 

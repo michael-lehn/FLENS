@@ -1,8 +1,6 @@
 #define STR(x)      #x
 #define STRING(x)   STR(x)
 
-#define FLENS_DEFAULT_INDEXTYPE int
-
 #include <flens/lapack/interface/include/config.h>
 
 namespace flens { namespace lapack {
@@ -23,6 +21,7 @@ LAPACK_DECL(dgels)(const char           *TRANS,
                    const INTEGER        *LWORK,
                    INTEGER              *INFO)
 {
+    std::cerr << "dgels" << std::endl;
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //

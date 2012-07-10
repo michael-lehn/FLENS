@@ -46,6 +46,7 @@
 #define FLENS_LAPACK_IMPL_LARFB_H 1
 
 #include <flens/blas/blas.h>
+#include <flens/lapack/typedefs.h>
 
 namespace flens { namespace lapack {
 

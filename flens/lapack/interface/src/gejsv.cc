@@ -1,8 +1,6 @@
 #define STR(x)      #x
 #define STRING(x)   STR(x)
 
-#define FLENS_DEFAULT_INDEXTYPE int
-
 #include <flens/lapack/interface/include/config.h>
 
 
@@ -47,8 +45,8 @@ LAPACK_DECL(dgejsv)(const char       *JOBA,
     const bool defr   = (*JOBR=='N');
     const bool l2pert = (*JOBP=='P');
 
-    const INTEGER m = *M;
-    const INTEGER n = *N;
+    const int m = *M;
+    const int n = *N;
 
     *INFO = 0;
     if (!(rowpiv || l2rank || l2aber || errest || *JOBA=='C')) {

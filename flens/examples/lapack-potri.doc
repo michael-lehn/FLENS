@@ -1,0 +1,81 @@
+===========================================================
+Compute the Inverse of a Symmetric Positive Definite Matrix               [TOC]
+===========================================================
+
+In this example we compute the inverse $S^{-1}$ of a symmetric positive
+definite matrix $S$.  We first compute the Cholesky factoriation $S=L L^T$.
+The inverse $S^{-1}$ then gets computed by __lapack::potri__ which is the
+FLENS port of LAPACK's __dpotri__.
+
+:links:  __lapack::potri__  -> file:flens/lapack/impl/potri.h
+         __dpotri__         -> file:cxxlapack/netlib/lapack/dpotri.f
+
+
+Example Code
+============
+:import: flens/examples/lapack-potri.cc [stripped, downloadable]
+
+
+Comments on Example Code
+========================
+:import: flens/examples/lapack-potri.cc [brief]
+
+
+Compile
+=======
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  g++ -std=c++11 -Wall -I../.. -o lapack-potri lapack-potri.cc           |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Run
+===
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  ./lapack-potri                                                         |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Example with Complex Numbers
+============================
+
+Example Code
+------------
+:import: flens/examples/lapack-complex-potri.cc [stripped, downloadable]
+
+Comments on Example Code
+------------------------
+:import: flens/examples/lapack-complex-potri.cc
+
+Compile
+-------
+Note that an external LAPACK implementation is needed for the complex variant
+of `lapack::potrs`
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  g++ -DUSE_CXXLAPACK -framework vecLib                                +++|
+ |      -std=c++11 -Wall -I../.. -o lapack-complex-potri                 +++|
+ |      lapack-complex-potri.cc                                             |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+Run
+---
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  ./lapack-complex-potri                                                  |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+

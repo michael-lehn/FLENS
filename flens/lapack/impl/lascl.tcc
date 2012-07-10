@@ -72,16 +72,18 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
-template <typename IndexType, typename T, typename MA>
+template <typename Int, typename T, typename MA>
 typename RestrictTo<IsSame<typename MA::ElementType, T>::value, void>::Type
 lascl_impl(LASCL::Type   type,
-           IndexType     kl,
-           IndexType     ku,
+           Int           kl,
+           Int           ku,
            const T       &cFrom,
            const T       &cTo,
            MA            &A)
 {
     using namespace LASCL;
+
+    typedef typename MA::IndexType  IndexType;
 
     using std::abs;
     using std::isnan;
@@ -247,15 +249,17 @@ lascl_impl(LASCL::Type   type,
 
 namespace external {
 
-template <typename IndexType, typename T, typename MA>
+template <typename Int, typename T, typename MA>
 void
 lascl_impl(LASCL::Type   type,
-           IndexType     kl,
-           IndexType     ku,
+           Int           kl,
+           Int           ku,
            const T       &cFrom,
            const T       &cTo,
            MA            &A)
 {
+    typedef typename MA::IndexType  IndexType;
+
     cxxlapack::lascl<IndexType>(getF77Char(type),
                                 kl,
                                 ku,
@@ -273,9 +277,9 @@ lascl_impl(LASCL::Type   type,
 
 //== public interface ==========================================================
 
-template <typename IndexType, typename T, typename MA>
+template <typename Int, typename T, typename MA>
 typename RestrictTo<IsSame<typename MA::ElementType, T>::value, void>::Type
-lascl(LASCL::Type type, IndexType kl, IndexType ku,
+lascl(LASCL::Type type, Int kl, Int ku,
       const T &cFrom, const T &cTo, MA &A)
 {
     LAPACK_DEBUG_OUT("lascl");
@@ -297,18 +301,18 @@ lascl(LASCL::Type type, IndexType kl, IndexType ku,
 }
 
 //-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename T, typename MA>
+template <typename Int, typename T, typename MA>
 typename RestrictTo<IsSame<typename MA::ElementType, T>::value, void>::Type
-lascl(LASCL::Type type, IndexType kl, IndexType ku,
+lascl(LASCL::Type type, Int kl, Int ku,
       const T &cFrom, const T &cTo, MA &&A)
 {
     lascl(type, kl, ku, cFrom, cTo, A);
 }
 
 //-- convert vector to matrix --------------------------------------------------
-template <typename IndexType, typename T, typename VX>
+template <typename Int, typename T, typename VX>
 void
-lascl(LASCL::Type type, IndexType kl, IndexType ku,
+lascl(LASCL::Type type, Int kl, Int ku,
       const T &cFrom, const T &cTo, DenseVector<VX> &x)
 {
     using namespace LASCL;
@@ -322,11 +326,11 @@ lascl(LASCL::Type type, IndexType kl, IndexType ku,
 }
 
 //-- convert scalar to matrix --------------------------------------------------
-template <typename IndexType, typename T, typename MA>
+template <typename Int, typename T, typename MA>
 typename RestrictTo<IsSame<MA, T>::value, void>::Type
 lascl(LASCL::Type   type,
-      IndexType     kl,
-      IndexType     ku,
+      Int           kl,
+      Int           ku,
       const T       &cFrom,
       const T       &cTo,
       MA            &scalar)
@@ -339,9 +343,9 @@ lascl(LASCL::Type   type,
     lascl(type, kl, ku, cFrom, cTo, A);
 }
 
-template <typename IndexType, typename T, typename VX>
+template <typename Int, typename T, typename VX>
 void
-lascl(LASCL::Type type, IndexType kl, IndexType ku,
+lascl(LASCL::Type type, Int kl, Int ku,
       const T &cFrom, const T &cTo, DenseVector<VX> &&x)
 {
     lascl(type, kl, ku, cFrom, cTo, x);

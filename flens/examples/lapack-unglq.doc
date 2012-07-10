@@ -1,0 +1,45 @@
+===================================
+LQ Factorization  (Complex Variant)                                      [TOC]
+===================================
+
+In this example we __again__ compute the $LQ$ factorization and use it for
+solving a system of linear equations.  In this example we setup matrix $Q$
+explicitly.  See __lapack-gelqf__ for an example that avoids the explicit
+generation of $Q$.
+
+
+:links: __again__           -> doc:flens/examples/lapack-gelqf
+        __lapack-gelqf__    -> doc:flens/examples/lapack-gelqf
+
+
+Example Code
+============
+:import: flens/examples/lapack-complex-unglq.cc [stripped, downloadable]
+
+Comments on Example Code
+========================
+:import: flens/examples/lapack-complex-unglq.cc [brief]
+
+Compile
+=======
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  g++ -DUSE_CXXLAPACK -framework vecLib                                +++|
+ |      -std=c++11 -Wall -I../.. -o lapack-complex-unglq                 +++|
+ |      lapack-complex-unglq.cc                                             |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+Run
+===
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  ./lapack-complex-unglq                                                  |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+

@@ -47,7 +47,6 @@ typename RestrictTo<!HasFullStorage<X>::value || !HasFullStorage<Y>::value,
          bool>::Type
 identical(const X &x, const Y &y)
 {
-    std::cerr << "V1" << std::endl;
     return ADDRESS(x)==ADDRESS(y);
 }
 

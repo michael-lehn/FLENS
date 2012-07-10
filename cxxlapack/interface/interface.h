@@ -51,6 +51,7 @@
 #include <cxxlapack/interface/gelqf.h>
 #include <cxxlapack/interface/gels.h>
 #include <cxxlapack/interface/gelss.h>
+#include <cxxlapack/interface/gelsy.h>
 #include <cxxlapack/interface/geqp3.h>
 #include <cxxlapack/interface/geqr2.h>
 #include <cxxlapack/interface/geqrf.h>
@@ -77,6 +78,7 @@
 #include <cxxlapack/interface/laexc.h>
 #include <cxxlapack/interface/lahqr.h>
 #include <cxxlapack/interface/lahr2.h>
+#include <cxxlapack/interface/laic1.h>
 #include <cxxlapack/interface/laln2.h>
 #include <cxxlapack/interface/lamch.h>
 #include <cxxlapack/interface/lange.h>
@@ -100,11 +102,15 @@
 #include <cxxlapack/interface/larft.h>
 #include <cxxlapack/interface/larfx.h>
 #include <cxxlapack/interface/lartg.h>
+#include <cxxlapack/interface/larz.h>
+#include <cxxlapack/interface/larzb.h>
+#include <cxxlapack/interface/larzt.h>
 #include <cxxlapack/interface/lascl.h>
 #include <cxxlapack/interface/lassq.h>
 #include <cxxlapack/interface/laswp.h>
 #include <cxxlapack/interface/lasy2.h>
 #include <cxxlapack/interface/latrs.h>
+#include <cxxlapack/interface/latrz.h>
 #include <cxxlapack/interface/lauu2.h>
 #include <cxxlapack/interface/lauum.h>
 #include <cxxlapack/interface/org2r.h>
@@ -117,6 +123,8 @@
 #include <cxxlapack/interface/orml2.h>
 #include <cxxlapack/interface/ormlq.h>
 #include <cxxlapack/interface/ormqr.h>
+#include <cxxlapack/interface/ormr3.h>
+#include <cxxlapack/interface/ormrz.h>
 #include <cxxlapack/interface/pocon.h>
 #include <cxxlapack/interface/posv.h>
 #include <cxxlapack/interface/potf2.h>
@@ -134,9 +142,12 @@
 #include <cxxlapack/interface/trti2.h>
 #include <cxxlapack/interface/trtri.h>
 #include <cxxlapack/interface/trtrs.h>
+#include <cxxlapack/interface/tzrzf.h>
 #include <cxxlapack/interface/unglq.h>
 #include <cxxlapack/interface/ungqr.h>
 #include <cxxlapack/interface/unmlq.h>
 #include <cxxlapack/interface/unmqr.h>
+#include <cxxlapack/interface/unmr3.h>
+#include <cxxlapack/interface/unmrz.h>
 
 #endif // CXXLAPACK_INTERFACE_INTERFACE_H

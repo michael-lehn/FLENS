@@ -38,17 +38,35 @@
 
 namespace flens {
 
-template <typename A, typename B>
+template <typename... Args>
 struct Promotion
 {
-    typedef typename IfElseIf<sizeof(B)<=sizeof(A), A,
-                              sizeof(A)<=sizeof(B), B>::Type     Type;
 };
 
-template <typename A>
-struct Promotion<A, A>
+template <typename T>
+struct Promotion<T>
 {
-    typedef A  Type;
+    typedef T Type;
+};
+
+template <typename T>
+struct Promotion<T, T>
+{
+    typedef T Type;
+};
+
+template <typename T, typename... Args>
+struct Promotion<T, Args...>
+{
+    typedef typename Promotion<Args... >::Type  ArgsT;
+    typedef typename Promotion<T, ArgsT>::Type  Type;
+};
+
+template <typename T1, typename T2>
+struct Promotion<T1, T2>
+{
+    typedef typename IfElseIf<sizeof(T2)<=sizeof(T1), T1,
+                              sizeof(T1)<=sizeof(T2), T2>::Type     Type;
 };
 
 //-- int, float ----------------------------------------------------------------

@@ -53,14 +53,22 @@ namespace flens { namespace lapack {
 //== larft =====================================================================
 template <typename N, typename MV, typename VTAU, typename MT>
     void
-    larft(Direction direction, StoreVectors storeVectors, N n,
-          GeMatrix<MV> &V, const DenseVector<VTAU> &tau, TrMatrix<MT> &T);
+    larft(Direction                 direction,
+          StoreVectors              storeVectors,
+          N                         n,
+          GeMatrix<MV>              &V,
+          const DenseVector<VTAU>   &tau,
+          TrMatrix<MT>              &T);
 
 //-- forwarding ----------------------------------------------------------------
 template <typename N, typename MV, typename VTAU, typename MT>
     void
-    larft(Direction direction, StoreVectors storeVectors, N n,
-          MV &&V, const VTAU &tau, MT &&T);
+    larft(Direction     direction,
+          StoreVectors  storeVectors,
+          N             n,
+          MV            &&V,
+          const VTAU    &tau,
+          MT            &&T);
 
 } } // namespace lapack, flens
 

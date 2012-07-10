@@ -180,7 +180,22 @@ template <typename MA, typename VTAU, typename VWORK>
 void
 lqf_impl(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 {
-    typedef typename GeMatrix<MA>::IndexType  IndexType;
+    typedef typename GeMatrix<MA>::ElementType  ElementType;
+    typedef typename GeMatrix<MA>::IndexType    IndexType;
+
+    if (work.length()==0) {
+        ElementType  WORK;
+        IndexType    LWORK = -1;
+
+        cxxlapack::gelqf<IndexType>(A.numRows(),
+                                    A.numCols(),
+                                    A.data(),
+                                    A.leadingDimension(),
+                                    tau.data(),
+                                    &WORK,
+                                    LWORK);
+        work.resize(IndexType(cxxblas::real(WORK)));
+    }
 
     IndexType info = cxxlapack::gelqf<IndexType>(A.numRows(),
                                                  A.numCols(),
@@ -218,6 +233,10 @@ lqf(MA &&A, VTAU &&tau, VWORK &&work)
     typedef typename RemoveRef<VTAU>::Type  VectorTau;
     typedef typename RemoveRef<VWORK>::Type VectorWork;
 
+    const IndexType m = A.numRows();
+    const IndexType n = A.numCols();
+    const IndexType k = min(m,n);
+
 #   ifndef NDEBUG
 //
 //  Test the input parameters
@@ -227,13 +246,13 @@ lqf(MA &&A, VTAU &&tau, VWORK &&work)
     ASSERT(tau.firstIndex()==1);
     ASSERT(work.firstIndex()==1);
 
-    const IndexType m = A.numRows();
-    const IndexType n = A.numCols();
-    const IndexType k = min(m,n);
-
-    ASSERT(tau.length()==k);
+    ASSERT(tau.length()==0 || tau.length()==k);
     ASSERT(work.length()>=m || work.length()==IndexType(0));
 #   endif
+
+    if (tau.length()==0) {
+        tau.resize(k);
+    }
 
 #   ifdef CHECK_CXXLAPACK
 //
@@ -318,6 +337,10 @@ lqf(MA &&A, VTAU &&tau, VWORK &&work)
     typedef typename RemoveRef<VTAU>::Type  VectorTau;
     typedef typename RemoveRef<VWORK>::Type VectorWork;
 
+    const IndexType m = A.numRows();
+    const IndexType n = A.numCols();
+    const IndexType k = min(m,n);
+
 #   ifndef NDEBUG
 //
 //  Test the input parameters
@@ -327,13 +350,13 @@ lqf(MA &&A, VTAU &&tau, VWORK &&work)
     ASSERT(tau.firstIndex()==1);
     ASSERT(work.firstIndex()==1);
 
-    const IndexType m = A.numRows();
-    const IndexType n = A.numCols();
-    const IndexType k = min(m,n);
-
-    ASSERT(tau.length()==k);
+    ASSERT(tau.length()==0 || tau.length()==k);
     ASSERT(work.length()>=m || work.length()==IndexType(0));
 #   endif
+
+    if (tau.length()==0) {
+        tau.resize(k);
+    }
 
 #   ifdef CHECK_CXXLAPACK
 //
@@ -351,6 +374,23 @@ lqf(MA &&A, VTAU &&tau, VWORK &&work)
 }
 
 #endif // USE_CXXLAPACK
+
+
+//
+//  Real/complex variant with temporary workspace
+//
+template <typename MA, typename VTAU>
+typename RestrictTo<IsGeMatrix<MA>::value
+                 && IsDenseVector<VTAU>::value,
+         void>::Type
+lqf(MA &&A, VTAU &&tau)
+{
+    typedef typename RemoveRef<MA>::Type::Vector WorkVector;
+
+    WorkVector  work;
+    lqf(A, tau, work);
+}
+
 
 } } // namespace lapack, flens
 

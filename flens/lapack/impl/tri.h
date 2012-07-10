@@ -61,7 +61,9 @@ template <typename MA, typename VPIV, typename VWORK>
                      && IsIntegerDenseVector<VPIV>::value
                      && IsRealDenseVector<VWORK>::value,
              typename RemoveRef<MA>::Type::IndexType>::Type
-    tri(MA &&A, const VPIV &piv, VWORK &&work);
+    tri(MA          &&A,
+        const VPIV  &piv,
+        VWORK       &&work);
 
 
 #ifdef USE_CXXLAPACK
@@ -74,9 +76,21 @@ template <typename MA, typename VPIV, typename VWORK>
                      && IsIntegerDenseVector<VPIV>::value
                      && IsComplexDenseVector<VWORK>::value,
              typename RemoveRef<MA>::Type::IndexType>::Type
-    tri(MA &&A, const VPIV &piv, VWORK &&work);
+    tri(MA          &&A,
+        const VPIV  &piv,
+        VWORK       &&work);
 
 #endif // USE_CXXLAPACK
+
+//
+//  Real/complex variant with temporary workspace
+//
+template <typename MA, typename VPIV>
+    typename RestrictTo<IsGeMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    tri(MA          &&A,
+        const VPIV  &piv);
 
 
 //== (tr)tri ===================================================================

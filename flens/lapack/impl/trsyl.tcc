@@ -64,6 +64,7 @@ trsyl_impl(Transpose             transA,
            SCALE                 &scale)
 {
     using std::abs;
+    using flens::max;
 
     typedef typename GeMatrix<MC>::ElementType  T;
     typedef typename GeMatrix<MC>::IndexType    IndexType;

@@ -94,6 +94,7 @@
 #include <flens/lapack/impl/laexc.h>
 #include <flens/lapack/impl/lahqr.h>
 #include <flens/lapack/impl/lahr2.h>
+#include <flens/lapack/impl/laic1.h>
 #include <flens/lapack/impl/laln2.h>
 #include <flens/lapack/impl/lamch.h>
 #include <flens/lapack/impl/lan.h>
@@ -115,16 +116,21 @@
 #include <flens/lapack/impl/larft.h>
 #include <flens/lapack/impl/larfx.h>
 #include <flens/lapack/impl/lartg.h>
+#include <flens/lapack/impl/larz.h>
+#include <flens/lapack/impl/larzb.h>
+#include <flens/lapack/impl/larzt.h>
 #include <flens/lapack/impl/lascl.h>
 #include <flens/lapack/impl/lassq.h>
 #include <flens/lapack/impl/laswp.h>
 #include <flens/lapack/impl/lasy2.h>
 #include <flens/lapack/impl/latrs.h>
+#include <flens/lapack/impl/latrz.h>
 #include <flens/lapack/impl/lauu2.h>
 #include <flens/lapack/impl/lauum.h>
 #include <flens/lapack/impl/lq2.h>
 #include <flens/lapack/impl/lqf.h>
 #include <flens/lapack/impl/ls.h>
+#include <flens/lapack/impl/lsy.h>
 #include <flens/lapack/impl/org2r.h>
 #include <flens/lapack/impl/orghr.h>
 #include <flens/lapack/impl/orgl2.h>
@@ -135,6 +141,8 @@
 #include <flens/lapack/impl/orml2.h>
 #include <flens/lapack/impl/ormlq.h>
 #include <flens/lapack/impl/ormqr.h>
+#include <flens/lapack/impl/ormr3.h>
+#include <flens/lapack/impl/ormrz.h>
 #include <flens/lapack/impl/pocon.h>
 #include <flens/lapack/impl/posv.h>
 #include <flens/lapack/impl/potf2.h>
@@ -162,6 +170,7 @@
 #include <flens/lapack/impl/trsen.h>
 #include <flens/lapack/impl/trsna.h>
 #include <flens/lapack/impl/trsyl.h>
+#include <flens/lapack/impl/tzrzf.h>
 #include <flens/lapack/impl/unglq.h>
 #include <flens/lapack/impl/ungqr.h>
 #include <flens/lapack/impl/unmlq.h>

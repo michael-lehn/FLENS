@@ -1,16 +1,23 @@
-===========================
-FLENS-LAPACK Implementation                                             [TOC]
-===========================
+============
+FLENS-LAPACK                                                            [TOC:2]
+============
 
 At the moment we are working on a C++ port of __LAPACK__.  *Sound tedious?  It
 is a joy with FLENS*!  This is because FLENS gives you easy-to-use tools for
 implementing efficient, robust and reliable numerical software.
 
-:links:  __LAPACK__ -> http://www.netlib.org/lapack/
+Not all LAPACK function have been ported so far.  However, if you have an
+external LAPACK implementation on your system then you can use FLENS-LAPACK
+as a high-level interface.  FLENS-LAPACK accesses the external LAPACK library
+through the low-level CXXLAPACK layer.  The usage and concept of this high-level
+(CXX)LAPACK interface is illustrated in the __tutorial__.
+
+:links:  __LAPACK__   -> http://www.netlib.org/lapack/
+         __tutorial__ -> doc:flens/examples/tut05-page01
 
 
-Purpose
-=======
+Generic FLENS-LAPACK: Purpose
+=============================
 FLENS is a comfortable tool for the implementation of numerical algorithms.  At
 the same time we avoid negative impacts on efficiency due to abstraction.  But
 only claiming that we can achieve this two goals is one thing.  The other thing
@@ -25,14 +32,19 @@ features:
     algorithm.  It is like the algorithm gets lost in all these C++ template
     tricks and tweaks.
 
-    The Fortan implementation of LAPACK is much easier to read and understand.
-    Even if you are not very familiar with Fortran!  Well, maybe there is one
-    drawback.  As there are now actual matrix/vector types many parameters
-    have to be passed to LAPACK routines.  This is sometime error-prone and
-    hard to read.
+    The Fortan implementation of LAPACK is much easier to read and understand
+    than all these C++ implementations.  Even if you are not very familiar with
+    Fortran!  So even if some C++ nerds don't like to hear it Fortran LAPACK
+    is great.  However, there is one drawback.  As there are no actual
+    matrix/vector types many parameters have to be passed to LAPACK routines.
+    This is sometime error-prone and hard to read.  But still better than
+    many other C++ implementations.
 
-    Anyway, the FLENS-LAPACK implementation of these algorithms is *really*
-    readable.
+    The FLENS-LAPACK not only competes in terms of readability with the FORTRAN
+    implementation but even exceeds it.  FLENS provides a very expressive
+    notation for numerical linear algebra.  Therefore FLENS-LAPACK
+    implementation of numerical algorithms is *really readable*.  You can
+    consider FLENS-LAPACK as an improved reimplementation of Fortran LAPACK.
 
   - *Same results as the Fortran Implementation of LAPACK*
 
@@ -65,96 +77,114 @@ features:
         __GotoBLAS__ -> http://www.tacc.utexas.edu/tacc-projects/gotoblas2
         __OpenBLAS__ -> http://xianyi.github.com/OpenBLAS/
 
+
 Current Status
 ==============
-While it is a joy to port LAPACK to C++ we are still far from complete.  And
-as we require that the resulting implementation is readable and understandable
-we can not completely automate the process:
+In the following we give an overview of the functionality currently provided by
+FLENS-LAPACK.  Function names of FLENS-LAPACK are derived from corresponding
+LAPACK.  We removed letters from the function names that merely specify the
+argument types:
 
-  - The Fortran implementation of LAPACK uses a lot of `goto` statements.  In
-    our implementation we try to avoid them were possible and appropriate.
-  - ... and other reasons.
+- __sv__ in FLENS-LAPACK corresponds to __dgesv__ and __zgesv__ in LAPACK
+- __trs__ in FLENS-LAPACK corresponds to __dgetrs__, __zgetrs__, __dtrtrs__ and
+  __ztrtrs__ in LAPACK
+- ...
 
-At the moment we focus on porting LAPACK routines were data types are real and
-the involved matrix types have full storage:
+At the moment some generic function of FLENS-LAPACK do not support complex
+element types.  However, this functionality is available through an external
+LAPACK library.
 
-  - We picked LAPACK routines for double precision and turned them in generic
-    C++ code that uses FLENS matrix/vector types.  While they should also work
-    in single and multi-precision we have not tested this so far.
-  - Involved FLENS matrix types are `GeMatrix`, `TrMatrix` and `SyMatrix`
-    and FLENS vector type `DenseVector`.
-  - As the LAPACK naming is well known we stick with it in our port.  However,
-    we removed letters from the function names that merely specify the argument
-    types.  For example, the LAPACK functions __dgetrs__ and __dtrtrs__ resulted
-    in the FLENS-LAPACK function __trs__ which is overloaded for `GeMatrix` and
-    `TrMatrix`.
-  - All LAPACK routines are located in directory __flens/lapack/impl__.
+Have a look into the __tutorial__ for learning how to use an external LAPACK
+implementation.  By default FLENS-LAPACK will prefer a generic LAPACK
+implementation over a external implementation.  An external implementation only
+gets called if no generic implementation is available.  You can change this
+default behavior through macros as described in the tutorial.
 
-:links:  __dgetrs__             -> file:cxxlapack/netlib/lapack/dgetrs.f
-         __dtrtrs__             -> file:cxxlapack/netlib/lapack/dtrtrs.f
-         __trs__                -> file:flens/lapack/impl/trs.h
-         __flens/lapack/impl__  -> dir:flens/lapack/impl/
-
-But before you get lost in the details you might be interested in the following
-LAPACK driver routines that are currently implemented in FLENS.
 
 Linear Equation Routines
 ------------------------
- +----------+-----------+----------------------------------------+------------+
- | TYPE     | FLENS     | DESCRIPTION                            | LAPACK     |
- +==========+===========+========================================+============+
- | General  | __sv__    | Solves a general system of linear      | __dgesv__  |
- |          |           | equations $AX=B$.                      |            |
- |          |           |                                        |            |
- |          |           | *Example:*  __lapack-gesv__.           |            |
- +          +-----------+----------------------------------------+------------+
- |          | __svx__   | Solves a general system of linear      | __dgesvx__ |
- |          |           | equations $AX=B$.  Error bounds on     |            |
- |          |           | the solution and a condition estimate  |            |
- |          |           | are also provided.                     |            |
- +          +-----------+----------------------------------------+------------+
- |          | __trf__   | Computes an $LU$ factorization of a    | __dgetrf__ |
- |          |           | general matrix, using partial pivoting |            |
- |          |           | with row interchanges.                 |            |
- |          |           |                                        |            |
- |          |           | *Example:*  __lapack-getrf__.          |            |
- +          +-----------+----------------------------------------+------------+
- |          | __trs__   | Solves a general system of linear      | __dgetrs__ |
- |          |           | equations $AX=B,$ $A^T X=B,$ or        |            |
- |          |           | $A^H X=B,$ using the  $LU$             |            |
- |          |           | factorization.                         |            |
- +          +-----------+----------------------------------------+------------+
- |          | __tri__   | Computes the inverse of a general      | __dgetri__ |
- |          |           | matrix, using the $LU$ factorization.  |            |
- +----------+-----------+----------------------------------------+------------+
- | Positive | __posv__  | Solves a symmetric positive definite   | __dposv__  |
- | Definite |           | system of linear equations $AX=B.$     |            |
- +          +-----------+----------------------------------------+------------+
- |          | __potrf__ | Computes the Cholesky factorization    | __dpotrf__ |
- |          |           | of a symmetric positive definite       |            |
- |          |           | matrix.                                |            |
- +          +-----------+----------------------------------------+------------+
- |          | __potrs__ | Solves a symmetric positive definite   | __dpotrs__ |
- |          |           | system of linear equations $AX=B,$     |            |
- |          |           | using the Cholesky factorization.      |            |
- +          +-----------+----------------------------------------+------------+
- |          | __potri__ | Computes the inverse of a general      | __dpotri__ |
- |          |           | matrix, using the Cholesky             |            |
- |          |           | factorization.                         |            |
- +----------+-----------+----------------------------------------+------------+
- |Triangular| __trs__   | Solves a triangular system of linear   | __dtrtrs__ |
- |          |           | equations $AX=B,$ $A^T X=B,$ or        |            |
- |          |           | $A^H X=B,$ using the  $LU$             |            |
- |          |           | factorization.                         |            |
- +          +-----------+----------------------------------------+------------+
- |          | __tri__   | Computes the inverse of a triangular   | __dtrtri__ |
- |          |           | matrix, using the $LU$ factorization.  |            |
- +----------+-----------+----------------------------------------+------------+
+ +----------+---------------+----------------------------------------+----------------+
+ | TYPE     | FLENS-LAPACK  | DESCRIPTION                            | LAPACK         |
+ +==========+===============+========================================+================+
+ | General  | __sv__        | Solves a general system of linear      | __dgesv__,     |
+ |          |               | equations $AX=B$.                      | __zgesv__      |
+ |          |               |                                        |                |
+ |          |               | *Example:*  __lapack-gesv__.           |                |
+ +          +---------------+----------------------------------------+----------------+
+ |          | __svx__       | Solves a general system of linear      | __dgesvx__     |
+ |          |               | equations $AX=B$.  Error bounds on     |                |
+ |          |               | the solution and a condition estimate  |                |
+ |          |               | are also provided.                     |                |
+ +          +---------------+----------------------------------------+----------------+
+ |          | __trf__       | Computes an $LU$ factorization of a    | __dgetrf__,    |
+ |          |               | general matrix, using partial pivoting | __zgetrf__     |
+ |          |               | with row interchanges.                 |                |
+ |          |               |                                        |                |
+ |          |               | *Example:*  __lapack-getrf__.          |                |
+ +          +---------------+----------------------------------------+----------------+
+ |          | __trs__       | Solves a general system of linear      | __dgetrs__,    |
+ |          |               | equations $AX=B,$ $A^T X=B,$ or        | __zgetrs__     |
+ |          |               | $A^H X=B,$ using the  $LU$             |                |
+ |          |               | factorization.                         |                |
+ |          |               |                                        |                |
+ |          |               | *Example:*  __lapack-getrs__.          |                |
+ +          +---------------+----------------------------------------+----------------+
+ |          | __tri__       | Computes the inverse of a general      | __dgetri__,    |
+ |          |               | matrix, using the $LU$ factorization.  | __zgetri__^[1] |
+ |          |               |                                        |                |
+ |          |               | *Example:*  __lapack-getri__.          |                |
+ +----------+---------------+----------------------------------------+----------------+
+ | Positive | __posv__      | Solves a symmetric positive definite   | __dposv__      |
+ | Definite |               | system of linear equations $AX=B.$     | __zposv__^[1]  |
+ |          |               |                                        |                |
+ |          |               | *Example:*  __lapack-posv__.           |                |
+ +          +---------------+----------------------------------------+----------------+
+ |          | __potrf__     | Computes the Cholesky factorization    | __dpotrf__,    |
+ |          |               | of a symmetric positive definite       | __zpotrf__^[1] |
+ |          |               | matrix.                                |                |
+ |          |               |                                        |                |
+ |          |               | *Example:*  __lapack-potrs__,          |                |
+ |          |               | __lapack-potri__.                      |                |
+ +          +---------------+----------------------------------------+----------------+
+ |          | __potrs__     | Solves a symmetric positive definite   | __dpotrs__,    |
+ |          |               | system of linear equations $AX=B,$     | __zpotrs__^[1] |
+ |          |               | using the Cholesky factorization       |                |
+ |          |               | computed by __potrf__.                 |                |
+ |          |               |                                        |                |
+ |          |               | *Example:*  __lapack-potrs__.          |                |
+ +          +---------------+----------------------------------------+----------------+
+ |          | __potri__     | Computes the inverse of a positive     | __dpotri__,    |
+ |          |               | definite matrix, using the Cholesky    | __zpotri__^[1] |
+ |          |               | factorization computed by __potrf__.   |                |
+ |          |               |                                        |                |
+ |          |               | *Example:*  __lapack-potri__.          |                |
+ +----------+---------------+----------------------------------------+----------------+
+ |Triangular| __trs__       | Solves a triangular system of linear   | __dtrtrs__,    |
+ |          |               | equations $AX=B,$ $A^T X=B,$ or        | __ztrtrs__     |
+ |          |               | $A^H X=B,$ using the  $LU$             |                |
+ |          |               | factorization.                         |                |
+ |          |               |                                        |                |
+ |          |               | *Example:*  __lapack-trtrs__.          |                |
+ +          +---------------+----------------------------------------+----------------+
+ |          | __tri__       | Computes the inverse of a triangular   | __dtrtri__,    |
+ |          |               | matrix, using the $LU$ factorization.  | __ztrtri__^[1] |
+ |          |               |                                        |                |
+ |          |               | *Example:*  __lapack-trtri__.          |                |
+ +----------+---------------+----------------------------------------+----------------+
 
-:links: __lapack-gesv__  -> doc:flens/examples/tut04-page03
-        __lapack-getrf__ -> doc:flens/examples/tut04-page01
-        __(d.+)__        -> file:cxxlapack/netlib/lapack/$1.f
-        __(.+)__         -> file:flens/lapack/impl/$1.h
+:links:     __lapack-gesv__  -> doc:flens/examples/tut04-page03
+            __lapack-getrf__ -> doc:flens/examples/tut04-page01
+            __lapack-getrs__ -> doc:flens/examples/lapack-getrs
+            __lapack-getri__ -> doc:flens/examples/lapack-getri
+            __lapack-posv__  -> doc:flens/examples/lapack-posv
+            __lapack-potrs__ -> doc:flens/examples/lapack-potrs
+            __lapack-potri__ -> doc:flens/examples/lapack-potri
+            __lapack-trtrs__ -> doc:flens/examples/lapack-trtrs
+            __lapack-trtri__ -> doc:flens/examples/lapack-trtri
+            __tutorial__     -> doc:flens/examples/tut05-page01
+            __(d.+)__        -> file:cxxlapack/netlib/lapack/$1.f
+            __(z.+)__        -> file:cxxlapack/netlib/lapack/$1.f
+            __(.+)__         -> file:flens/lapack/impl/$1.h
 
 
 Orthogonal Factorizations
@@ -162,24 +192,107 @@ Orthogonal Factorizations
  +-----------+------------------------------------------------+---------------+
  | FLENS     |  DESCRIPTION                                   | LAPACK        |
  +===========+================================================+===============+
- | __qrf__   | Computes a $QR$ factorization of a general     | __dgeqrf__    |
- |           | rectangular matrix.                            |               |
+ | __qrf__   | Computes a $QR$ factorization of a general     | __dgeqrf__,   |
+ |           | rectangular matrix.                            | __zgeqrf__^[1]|
  |           |                                                |               |
- |           | *Example:*  __lapack-geqrf__.                  |               |
+ |           | *Example:* __lapack-geqrf__.                   |               |
  +-----------+------------------------------------------------+---------------+
- | __qrs__   | Solve the least squares problem                | `dgeqrs[1]`   |
- |           | $\min\| AX - B \|$ using the $QR$ factorization|               |
+ | __qp3__   | Computes a $QR$ factorization with column      | __dgeqp3__,   |
+ |           | pivoting of a matrix $A$ such that $AP = QP$.  | __zgeqp3__^[1]|
+ |           |                                                |               |
+ |           | *Example:* __lapack-geqp3__.                   |               |
  +-----------+------------------------------------------------+---------------+
- | __orgqr__ | Generates all or part of the orthogonal matrix | __dorgqr__    |
- |           | $Q$ from a $QR$ factorization.                 |               |
+ | __orgqr__,| Generates all or part of the orthogonal/unitary| __dorgqr__,   |
+ | __ungqr__ | matrix $Q$ from a $QR$ factorization.          | __zungqr__^[1]|
+ |           |                                                |               |
+ |           | *Example:* __lapack-orgqr__, __lapack-ungqr__. |               |
  +-----------+------------------------------------------------+---------------+
- | __ormqr__ | Multiplies a general matrix by the orthogonal  | __dormqr__    |
- |           | matrix from a $QR$ factorization.              |               |
+ | __ormqr__,| Multiplies a general matrix by the             | __dormqr__,   |
+ | __unmqr__ | orthogonal/unitary matrix $Q$ from a $QR$      | __zunmqr__^[1]|
+ |           | factorization.                                 |               |
+ |           |                                                |               |
+ |           | *Example:* __lapack-ormqr__, __lapack-unmqr__. |               |
+ +-----------+------------------------------------------------+---------------+
+ | __lqf__   | Computes a $LQ$ factorization of a general     | __dgelqf__,   |
+ |           | rectangular matrix.                            | __zgelqf__^[1]|
+ |           |                                                |               |
+ |           | *Example:* __lapack-gelqf__.                   |               |
+ +-----------+------------------------------------------------+---------------+
+ | __ormlq__,| Multiplies a general matrix by the             | __dormlq__,   |
+ | __unmlq__ | orthogonal/unitary matrix $Q$ from a $LQ$      | __zunmlq__^[1]|
+ |           | factorization.                                 |               |
+ |           |                                                |               |
+ |           | *Example:* see __lapack-gelqf__.               |               |
+ +-----------+------------------------------------------------+---------------+
+ | __orglq__,| Generates all or part of the orthogonal/unitary| __dorglq__,   |
+ | __unglq__ | matrix $Q$ from a $LQ$ factorization.          | __zunglq__^[1]|
+ |           |                                                |               |
+ |           | *Example:* __lapack-orglq__, __lapack-unglq__. |               |
  +-----------+------------------------------------------------+---------------+
 
-:links: __lapack-geqrf__ -> doc:flens/examples/tut04-page02
-        __(d.+)__        -> file:cxxlapack/netlib/lapack/$1.f
-        __(.*)__         -> file:flens/lapack/impl/$1.h
+:links:     __lapack-geqrf__ -> doc:flens/examples/tut04-page02
+            __lapack-geqp3__ -> doc:flens/examples/lapack-geqp3
+            __lapack-orgqr__ -> doc:flens/examples/lapack-orgqr
+            __lapack-ungqr__ -> doc:flens/examples/lapack-ungqr
+            __lapack-ormqr__ -> doc:flens/examples/lapack-ormqr
+            __lapack-unmqr__ -> doc:flens/examples/lapack-unmqr
+            __lapack-gelqf__ -> doc:flens/examples/lapack-gelqf
+            __lapack-orglq__ -> doc:flens/examples/lapack-orglq
+            __lapack-unglq__ -> doc:flens/examples/lapack-unglq
+            __(d.+)__        -> file:cxxlapack/netlib/lapack/$1.f
+            __(z.+)__        -> file:cxxlapack/netlib/lapack/$1.f
+            __(.*)__         -> file:flens/lapack/impl/$1.h
+
+
+Least Square Problems
+---------------------
+ +-----------+------------------------------------------------+---------------+
+ | FLENS     |  DESCRIPTION                                   | LAPACK        |
+ +===========+================================================+===============+
+ | __ls__    | Solves overdetermined or underdetermined real  | __dgels__,    |
+ |           | linear systems involving an $m \times n$       | __zgels__^[1] |
+ |           | matrix $A$, or its transpose, using a $QR$ or  |               |
+ |           | $LQ$ factorization of $A$.  It is assumed that |               |
+ |           | $A$ has *full rank*.                           |               |
+ |           |                                                |               |
+ |           | The following options are provided:            |               |
+ |           |                                                |               |
+ |           | - If $m \geq n$:                               |               |
+ |           |    - find the least squares solution of an     |               |
+ |           |      overdetermined system, i.e., solve the    |               |
+ |           |      least squares problem: minimize           |               |
+ |           |      $\| B - AX \|$ or                         |               |
+ |           |    - find the minimum norm solution of an      |               |
+ |           |      undetermined system $A^T X = B$ (or       |               |
+ |           |      $A^H X =B$).                              |               |
+ |           | - If $m < n$:                                  |               |
+ |           |    - find the minimum norm solution of an      |               |
+ |           |      underdetermined system $A X = B$ or       |               |
+ |           |    - find the least squares solution of an     |               |
+ |           |      overdetermined system, i.e., solve the    |               |
+ |           |      least squares problem minimize            |               |
+ |           |      $\| B - A^T X \|$ (or $\| B - A^H X \|$). |               |
+ |           |                                                |               |
+ |           | *Example:* __lapack-gels__.                    |               |
+ +-----------+------------------------------------------------+---------------+
+ | __lsy__   | Computes the *minimum-norm solution* to a real | __dgelsy__,   |
+ |           | linear least squares problem:                  | __zgelsy__^[1]|
+ |           | minimize $\| A  X - B \|$ using a complete     |               |
+ |           | orthogonal factorization of $A$.  $A$ is an    |               |
+ |           | $m \times n$ matrix which may be               |               |
+ |           | *rank-deficient*.  The rank of $A$ gets        |               |
+ |           | determined using a                             |               |
+ |           | __incremental condition estimation__.          |               |
+ |           |                                                |               |
+ |           | *Example:* __lapack-gelsy__.                   |               |
+ +-----------+------------------------------------------------+---------------+
+
+:links:  __lapack-gels__                      -> doc:flens/examples/lapack-gels
+         __incremental condition estimation__ -> http://www.netlib.org/lapack/lawnspdf/lawn33.pdf
+         __lapack-gelsy__                     -> doc:flens/examples/lapack-gelsy
+         __(d.+)__                            -> file:cxxlapack/netlib/lapack/$1.f
+         __(z.+)__                            -> file:cxxlapack/netlib/lapack/$1.f
+         __(.*)__                             -> file:flens/lapack/impl/$1.h
 
 
 Non-Symmetric Eigenvalue Routines
@@ -259,9 +372,18 @@ Related Projects
      - *Cons:*  The automatic generated code is hard to read (as is typical for
        f2c-generated code).
 
-:links:  __LAPACK__ -> http://www.netlib.org/lapack/
-         __mpack__  -> http://mplapack.sourceforge.net/
-         __f2c__    -> http://en.wikipedia.org/wiki/F2c
-         __GMP__    -> http://gmplib.org/
-         __MPFR__   -> http://www.mpfr.org/
-         __QD__     -> http://crd-legacy.lbl.gov/~dhbailey/mpdist/
+:links:     __LAPACK__ -> http://www.netlib.org/lapack/
+            __mpack__  -> http://mplapack.sourceforge.net/
+            __f2c__    -> http://en.wikipedia.org/wiki/F2c
+            __GMP__    -> http://gmplib.org/
+            __MPFR__   -> http://www.mpfr.org/
+            __QD__     -> http://crd-legacy.lbl.gov/~dhbailey/mpdist/
+
+
+Footnotes
+=========
+:footnotes: [1] This functionality is only available through an external LAPACK
+                implementation.  See the examples or the __CXXLAPACK__ section
+                of the tutorial for further details on using an external LAPACK.
+
+:links:   __CXXLAPACK__     -> doc:flens/examples/tut05-page01

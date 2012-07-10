@@ -38,28 +38,28 @@
 namespace cxxlapack {
 
 template <typename IndexType>
-IndexType
-trtrs(char              upLo,
-      char              trans,
-      char              diag,
-      IndexType         n,
-      IndexType         nRhs,
-      const double      *A,
-      IndexType         ldA,
-      double            *B,
-      IndexType         ldB);
+    IndexType
+    trtrs(char              upLo,
+          char              trans,
+          char              diag,
+          IndexType         n,
+          IndexType         nRhs,
+          const double      *A,
+          IndexType         ldA,
+          double            *B,
+          IndexType         ldB);
 
 template <typename IndexType>
-IndexType
-trtrs(char                          upLo,
-      char                          trans,
-      char                          diag,
-      IndexType                     n,
-      IndexType                     nRhs,
-      const std::complex<double>    *A,
-      IndexType                     ldA,
-      std::complex<double>          *B,
-      IndexType                     ldB);
+    IndexType
+    trtrs(char                          upLo,
+          char                          trans,
+          char                          diag,
+          IndexType                     n,
+          IndexType                     nRhs,
+          const std::complex<double>    *A,
+          IndexType                     ldA,
+          std::complex<double>          *B,
+          IndexType                     ldB);
 
 } // namespace cxxlapack
 

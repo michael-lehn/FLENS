@@ -34,6 +34,7 @@
 #define FLENS_BLAS_CLOSURES_PRUNEMATRIXCLOSURE_H 1
 
 #include <cxxblas/typedefs.h>
+#include <flens/auxiliary/constref.h>
 #include <flens/auxiliary/promotion.h>
 #include <flens/blas/operators/operators.h>
 #include <flens/matrixtypes/impl/matrixclosure.h>
@@ -55,7 +56,7 @@ struct PruneMatrixClosure
     static Transpose
     updateTranspose(Transpose trans);
 
-    static const Remainder &
+    static typename ConstRef<Remainder>::Type
     remainder(const Matrix &matrix);
 };
 

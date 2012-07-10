@@ -37,6 +37,10 @@
 
 namespace flens {
 
+//
+//  Variant 1:
+//  All arguments have same type.  Function returns a const reference.
+//
 template <typename T>
 const T &
 min(const T &a)
@@ -44,11 +48,37 @@ min(const T &a)
     return a;
 }
 
-template <typename T, typename ... Args>
+template <typename T>
 const T &
-min(const T &a, const T &b, const Args &... args)
+min(const T &a, const T &b)
 {
-    return flens::min(std::min(a,b), args...);
+    return std::min(a, b);
+}
+
+template <typename T, typename...Args>
+const typename RestrictTo<IsSame<T,Args...>::value, T>::Type &
+min(const T &a, const T &b, const Args &...args)
+{
+    return flens::min(flens::min(a,b), args...);
+}
+
+//
+//  Variant 2:
+//  Arguments have different types.  Function returns a copy
+//
+template <typename T1, typename T2>
+const typename Promotion<T1, T2>::Type
+min(const T1 &a, const T2 &b)
+{
+    return (a<b) ? a : b;
+}
+
+template <typename T1, typename T2, typename ...Args>
+const typename RestrictTo<!IsSame<T1, T2, Args...>::value,
+                          typename Promotion<T1, T2, Args...>::Type>::Type
+min(const T1 &a, const T2 &b, const Args & ...args)
+{
+    return min(min(a, b), args...);
 }
 
 } // namespace flens

@@ -38,7 +38,6 @@ Compile
   |                                                                         |
   *-------------------------------------------------------------------------*
 
-
 Run
 ===
 
@@ -48,6 +47,79 @@ Run
   |  ./lapack-geqrf                                                         |
   |                                                                         |
   *-------------------------------------------------------------------------*
+
+Example with Implicit Workspace Creation
+========================================
+In this simplified variant of the above example the workspace gets created
+implicit.  This simplifies the usage of FLENS-LAPACK routines.  However,
+if you are doing this inside a loop it might lead to a considerable performance
+penalty.
+
+
+Example Code
+------------
+:import: flens/examples/lapack-simple-geqrf.cc [stripped, downloadable]
+
+Comments on Example Code
+------------------------
+:import: flens/examples/lapack-simple-geqrf.cc [brief]
+
+Compile
+-------
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  g++ -DUSE_CXXLAPACK -framework vecLib                               +++|
+  |      -std=c++11 -Wall -I../.. -o lapack-simple-geqrf                 +++|
+  |      lapack-simple-geqrf.cc                                             |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+Run
+---
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  ./lapack-simple-geqrf                                                  |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Example with Complex Numbers
+============================
+
+Example Code
+------------
+:import: flens/examples/lapack-complex-geqrf.cc [stripped, downloadable]
+
+Comments on Example Code
+------------------------
+:import: flens/examples/lapack-complex-geqrf.cc [brief]
+
+Compile
+-------
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  g++ -DUSE_CXXLAPACK -framework vecLib                               +++|
+  |      -std=c++11 -Wall -I../.. -o lapack-complex-geqrf                +++|
+  |      lapack-complex-geqrf.cc                                            |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+Run
+---
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  ./lapack-complex-geqrf                                                 |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
 
 :navigate: __up__    -> doc:flens/examples/tutorial
            __back__  -> doc:flens/examples/tut04-page01

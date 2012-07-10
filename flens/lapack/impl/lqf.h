@@ -75,6 +75,16 @@ template <typename MA, typename VTAU, typename VWORK>
 #endif // USE_CXXLAPACK
 
 
+//
+//  Real/complex variant with temporary workspace
+//
+template <typename MA, typename VTAU>
+    typename RestrictTo<IsGeMatrix<MA>::value
+                     && IsDenseVector<VTAU>::value,
+             void>::Type
+    lqf(MA &&A, VTAU &&tau);
+
+
 } } // namespace lapack, flens
 
 #endif // FLENS_LAPACK_IMPL_LQF_H

@@ -73,6 +73,15 @@ template <typename MA, typename MB>
 #endif // USE_CXXLAPACK
 
 
+//
+//  Variant for convenience: Rhs b is vector
+//
+template <typename MA, typename VB>
+    typename RestrictTo<(IsSyMatrix<MA>::value || IsHeMatrix<MA>::value)
+                     && IsDenseVector<VB>::value,
+             void>::Type
+    potrs(const MA &A, VB &&b);
+
 } } // namespace lapack, flens
 
 #endif // FLENS_LAPACK_IMPL_POTRS_H

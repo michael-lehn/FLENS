@@ -203,6 +203,13 @@ class TrMatrix
         SymmetricView
         symmetric();
 
+        // diag views
+        const ConstVectorView
+        diag(IndexType d) const;
+
+        VectorView
+        diag(IndexType d);
+
         // -- methods ----------------------------------------------------------
         IndexType
         dim() const;

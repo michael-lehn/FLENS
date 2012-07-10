@@ -33,15 +33,40 @@
 #ifndef FLENS_AUXILIARY_MIN_H
 #define FLENS_AUXILIARY_MIN_H 1
 
+#include <flens/auxiliary/issame.h>
+#include <flens/auxiliary/promotion.h>
+#include <flens/auxiliary/restrictto.h>
+
 namespace flens {
 
+//
+//  Variant 1:
+//  All arguments have same type.  Function returns a const reference.
+//
 template <typename T>
     const T &
     min(const T &a);
 
-template <typename T, typename ... Args>
+template <typename T>
     const T &
-    min(const T &a, const T &b, const Args &... args);
+    min(const T &a, const T &b);
+
+template <typename T, typename ...Args>
+    const typename RestrictTo<IsSame<T,Args...>::value, T>::Type &
+    min(const T &a, const T &b, const Args &...args);
+
+//
+//  Variant 2:
+//  Arguments have different types.  Function returns a copy
+//
+template <typename T1, typename T2>
+    const typename Promotion<T1, T2>::Type
+    min(const T1 &a, const T2 &b);
+
+template <typename T1, typename T2, typename ...Args>
+    const typename RestrictTo<!IsSame<T1, T2, Args...>::value,
+                              typename Promotion<T1, T2, Args...>::Type>::Type
+    min(const T1 &a, const T2 &b, const Args & ...args);
 
 } // namespace flens
 

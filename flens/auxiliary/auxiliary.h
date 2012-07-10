@@ -46,6 +46,7 @@
 #include <flens/auxiliary/isinteger.h>
 #include <flens/auxiliary/ismatrix.h>
 #include <flens/auxiliary/ismatrixclosure.h>
+#include <flens/auxiliary/isreal.h>
 #include <flens/auxiliary/issame.h>
 #include <flens/auxiliary/issymmetricmatrix.h>
 #include <flens/auxiliary/istriangularmatrix.h>

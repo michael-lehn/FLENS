@@ -53,6 +53,34 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
+//-- worksize query ------------------------------------------------------------
+
+template <typename MA>
+typename GeMatrix<MA>::IndexType
+qp3_wsq_impl(const GeMatrix<MA> &A)
+{
+    typedef typename GeMatrix<MA>::ElementType  ElementType;
+    typedef typename GeMatrix<MA>::IndexType    IndexType;
+
+    const IndexType m     = A.numRows();
+    const IndexType n     = A.numCols();
+    const IndexType minmn = min(m, n);
+
+    IndexType iws, lwOpt;
+
+    if (minmn==0) {
+        iws   = 1;
+        lwOpt = 1;
+    } else {
+        iws = 3*n + 1;
+        const IndexType nb = ilaenv<ElementType>(1, "GEQRF", "", m, n);
+        lwOpt = 2*n +(n+1)*nb;
+    }
+
+    return lwOpt;
+}
+
+
 //-- (ge)qp3 [real variant] ----------------------------------------------------
 
 template <typename MA, typename JPIV, typename VTAU, typename VWORK>
@@ -76,12 +104,11 @@ qp3_impl(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv, DenseVector<VTAU> &tau,
 
     if (minmn==0) {
         iws   = 1;
-        lwOpt = 1;
     } else {
         iws = 3*n + 1;
-        const IndexType nb = ilaenv<T>(1, "GEQRF", "", m, n);
-        lwOpt = 2*n +(n+1)*nb;
     }
+
+    lwOpt = qp3_wsq(A);
 
     if (work.length()==0) {
         work.resize(lwOpt);
@@ -250,6 +277,57 @@ qp3_impl(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv, DenseVector<VTAU> &tau,
 
 namespace external {
 
+//-- worksize query ------------------------------------------------------------
+
+template <typename MA>
+typename RestrictTo<IsRealGeMatrix<MA>::value,
+         typename MA::IndexType>::Type
+qp3_wsq_impl(const MA &A)
+{
+    typedef typename MA::ElementType  ElementType;
+    typedef typename MA::IndexType    IndexType;
+
+    ElementType  DUMMY, WORK;
+    IndexType    IDUMMY;
+    IndexType    LWORK = -1;
+
+    cxxlapack::geqp3<IndexType>(A.numRows(),
+                                A.numCols(),
+                                &DUMMY,
+                                A.leadingDimension(),
+                                &IDUMMY,
+                                &DUMMY,
+                                &WORK,
+                                LWORK);
+    return WORK;
+}
+
+template <typename MA>
+typename RestrictTo<IsComplexGeMatrix<MA>::value,
+         typename MA::IndexType>::Type
+qp3_wsq_impl(const MA &A)
+{
+    typedef typename MA::ElementType                            ElementType;
+    typedef typename ComplexTrait<ElementType>::PrimitiveType   RealType;
+    typedef typename MA::IndexType                              IndexType;
+
+    ElementType  DUMMY, WORK;
+    RealType     RWORK;
+    IndexType    IDUMMY;
+    IndexType    LWORK = -1;
+
+    cxxlapack::geqp3<IndexType>(A.numRows(),
+                                A.numCols(),
+                                &DUMMY,
+                                A.leadingDimension(),
+                                &IDUMMY,
+                                &DUMMY,
+                                &WORK,
+                                LWORK,
+                                &RWORK);
+    return WORK.real();
+}
+
 //-- (ge)qp3 [real variant] ----------------------------------------------------
 
 template <typename MA, typename JPIV, typename VTAU, typename VWORK>
@@ -271,7 +349,7 @@ qp3_impl(GeMatrix<MA>       &A,
                                 work.length());
 }
 
-//-- (ge)qp3 [complex variant] ----------------------------------------------------
+//-- (ge)qp3 [complex variant] -------------------------------------------------
 
 template <typename MA, typename JPIV, typename VTAU, typename VWORK,
           typename VRWORK>
@@ -299,6 +377,7 @@ qp3_impl(GeMatrix<MA>        &A,
 
 #endif // USE_CXXLAPACK
 
+
 //== public interface ==========================================================
 
 //-- (ge)qp3 [real variant] ----------------------------------------------------
@@ -325,6 +404,10 @@ qp3(MA      &&A,
     typedef typename RemoveRef<VTAU>::Type      VectorTau;
     typedef typename RemoveRef<VWORK>::Type     VectorWork;
 
+    const IndexType m = A.numRows();
+    const IndexType n = A.numCols();
+    const IndexType k = min(m, n);
+
 #   ifndef NDEBUG
 //
 //  Test the input parameters
@@ -335,14 +418,23 @@ qp3(MA      &&A,
     ASSERT(tau.firstIndex()==1);
     ASSERT(work.firstIndex()==1);
 
-    const IndexType m = A.numRows();
-    const IndexType n = A.numCols();
-    const IndexType k = min(m, n);
-
-    ASSERT(jPiv.length()==n);
-    ASSERT(tau.length()==k);
+    ASSERT(jPiv.length()==0 || jPiv.length()==n);
+    ASSERT(tau.length()==0 || tau.length()==k);
     ASSERT(work.length()>=3*n+1 || work.length()==IndexType(0));
 #   endif
+
+//
+//  Resize vector output arguments and workspace if needed
+//
+    if (jPiv.length()==0) {
+        jPiv.resize(n);
+    }
+    if (tau.length()==0) {
+        tau.resize(k);
+    }
+    if (work.length()==0) {
+        work.resize(qp3_wsq(A));
+    }
 
 #   ifdef CHECK_CXXLAPACK
 //
@@ -415,9 +507,27 @@ qp3(MA      &&A,
 #   endif
 }
 
+//
+//-- (ge)qp3 [real variant (with temporary workspace) ] ------------------------
+//
+template <typename MA, typename VJPIV, typename VTAU>
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                 && IsIntegerDenseVector<VJPIV>::value
+                 && IsRealDenseVector<VTAU>::value,
+         void>::Type
+qp3(MA      &&A,
+    VJPIV   &&jPiv,
+    VTAU    &&tau)
+{
+    typename RemoveRef<MA>::Type::Vector  work;
+
+    qp3(A, jPiv, tau, work);
+}
+
+
 #ifdef USE_CXXLAPACK
 //
-//  Complex variant
+//-- (ge)qp3 [complex variant] -------------------------------------------------
 //
 template <typename MA, typename VJPIV, typename VTAU, typename VWORK,
           typename VRWORK>
@@ -444,6 +554,10 @@ qp3(MA      &&A,
     typedef typename RemoveRef<VTAU>::Type      VectorTau;
     typedef typename RemoveRef<VWORK>::Type     VectorWork;
 
+    const IndexType m = A.numRows();
+    const IndexType n = A.numCols();
+    const IndexType k = min(m, n);
+
 #   ifndef NDEBUG
 //
 //  Test the input parameters
@@ -454,15 +568,27 @@ qp3(MA      &&A,
     ASSERT(tau.firstIndex()==1);
     ASSERT(work.firstIndex()==1);
 
-    const IndexType m = A.numRows();
-    const IndexType n = A.numCols();
-    const IndexType k = min(m, n);
-
-    ASSERT(jPiv.length()==n);
-    ASSERT(tau.length()==k);
+    ASSERT(jPiv.length()==0 || jPiv.length()==n);
+    ASSERT(tau.length()==0 || tau.length()==k);
     ASSERT(work.length()>=n+1 || work.length()==IndexType(0));
-    ASSERT(rWork.length()>=2*n);
+    ASSERT(rWork.length()==0 || rWork.length()>=2*n);
 #   endif
+
+//
+//  Resize vector output arguments and workspace if needed
+//
+    if (jPiv.length()==0) {
+        jPiv.resize(n);
+    }
+    if (tau.length()==0) {
+        tau.resize(k);
+    }
+    if (work.length()==0) {
+        work.resize(qp3_wsq(A));
+    }
+    if (rWork.length()==0) {
+        rWork.resize(2*n);
+    }
 
 //
 //  Call implementation
@@ -470,7 +596,57 @@ qp3(MA      &&A,
     external::qp3_impl(A, jPiv, tau, work, rWork);
 }
 
+//
+//-- (ge)qp3 [complex variant (with temporary workspace) ] ---------------------
+//
+template <typename MA, typename VJPIV, typename VTAU>
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                 && IsIntegerDenseVector<VJPIV>::value
+                 && IsComplexDenseVector<VTAU>::value,
+         void>::Type
+qp3(MA      &&A,
+    VJPIV   &&jPiv,
+    VTAU    &&tau)
+{
+    typedef typename RemoveRef<MA>::Type::Vector    Vector;
+
+    typedef typename RemoveRef<MA>::Type::ElementType   T;
+    typedef typename ComplexTrait<T>::PrimitiveType     PT;
+    typedef DenseVector<Array<PT> >                     RealVector;
+
+    Vector      work;
+    RealVector  realWork;
+
+
+    qp3(A, jPiv, tau, work, realWork);
+}
+
 #endif // USE_CXXLAPACK
+
+
+//== workspace query ===========================================================
+
+template <typename MA>
+typename RestrictTo<IsGeMatrix<MA>::value,
+         typename MA::IndexType>::Type
+qp3_wsq(const MA &A)
+{
+    typedef typename MA::IndexType     IndexType;
+//
+//  Call implementation
+//
+    const IndexType info = LAPACK_SELECT::qp3_wsq_impl(A);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare generic results with results from the native implementation
+//
+    const IndexType _info = external::qp3_wsq_impl(A);
+
+    ASSERT(info==_info);
+#   endif
+    return info;
+}
 
 } } // namespace lapack, flens
 

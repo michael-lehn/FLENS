@@ -1,0 +1,81 @@
+================================================================
+Solving a Symmetric Positive Definite System of Linear Equations          [TOC]
+================================================================
+
+In this example we solve a system of linear equations $Sx = b$ were the
+coefficient matrix is symmetric and positiv definite.  Basically we do the
+same as in example __lapack-posv__.  However, in this example we explicitly
+use __lapack::trs__ which is the FLENS port of LAPACK's __dtrtrs__.
+
+:links:  __lapack-posv__   -> doc:flens/examples/lapack-posv
+         __lapack::trs__   -> file:flens/lapack/impl/trs.h
+         __dtrtrs__        -> file:cxxlapack/netlib/lapack/dtrtrs.f
+
+Example Code
+============
+:import: flens/examples/lapack-trtrs.cc [stripped, downloadable]
+
+
+Comments on Example Code
+========================
+:import: flens/examples/lapack-trtrs.cc [brief]
+
+
+Compile
+=======
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  g++ -std=c++11 -Wall -I../.. -o lapack-trtrs lapack-trtrs.cc           |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Run
+===
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  ./lapack-trtrs                                                         |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Example with Complex Numbers
+============================
+
+Example Code
+------------
+:import: flens/examples/lapack-complex-trtrs.cc [stripped, downloadable]
+
+Comments on Example Code
+------------------------
+:import: flens/examples/lapack-complex-trtrs.cc
+
+Compile
+-------
+Note that an external LAPACK implementation is needed for the complex variant
+of `lapack::trs`
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  g++ -DUSE_CXXLAPACK -framework vecLib                                +++|
+ |      -std=c++11 -Wall -I../.. -o lapack-complex-trtrs                 +++|
+ |      lapack-complex-trtrs.cc                                             |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+Run
+---
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  ./lapack-complex-trtrs                                                  |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+

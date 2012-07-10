@@ -225,7 +225,7 @@ evx_impl(BALANCE::Balance     balance,
         cScale = bigNum;
     }
     if (scaleA) {
-        lascl(LASCL::FullMatrix, 0, 0, ANorm, cScale, A);
+        lascl(LASCL::FullMatrix, IndexType(0), IndexType(0), ANorm, cScale, A);
     }
 //
 //  Balance the matrix and compute ABNRM
@@ -233,7 +233,8 @@ evx_impl(BALANCE::Balance     balance,
     bal(balance, A, iLo, iHi, scale);
     ABNorm = lan(OneNorm, A);
     if (scaleA) {
-        lascl(LASCL::FullMatrix, 0, 0, cScale, ANorm, ABNorm);
+        lascl(LASCL::FullMatrix, IndexType(0), IndexType(0),
+              cScale, ANorm, ABNorm);
     }
 //
 //  Reduce to upper Hessenberg form
@@ -401,16 +402,21 @@ evx_impl(BALANCE::Balance     balance,
 //  Undo scaling if necessary
 //
     if (scaleA) {
-        lascl(LASCL::FullMatrix, 0, 0, cScale, ANorm, wr(_(info+1,n)));
-        lascl(LASCL::FullMatrix, 0, 0, cScale, ANorm, wi(_(info+1,n)));
+        lascl(LASCL::FullMatrix, IndexType(0), IndexType(0),
+              cScale, ANorm, wr(_(info+1,n)));
+        lascl(LASCL::FullMatrix, IndexType(0), IndexType(0),
+              cScale, ANorm, wi(_(info+1,n)));
 
         if (info==0) {
             if ((wantSV || wantSB) && iCond==0) {
-                lascl(LASCL::FullMatrix, 0, 0, cScale, ANorm, rCondV);
+                lascl(LASCL::FullMatrix, IndexType(0), IndexType(0),
+                      cScale, ANorm, rCondV);
             }
         } else {
-            lascl(LASCL::FullMatrix, 0, 0, cScale, ANorm, wr(_(1,iLo-1)));
-            lascl(LASCL::FullMatrix, 0, 0, cScale, ANorm, wi(_(1,iLo-1)));
+            lascl(LASCL::FullMatrix, IndexType(0), IndexType(0),
+                  cScale, ANorm, wr(_(1,iLo-1)));
+            lascl(LASCL::FullMatrix, IndexType(0), IndexType(0),
+                  cScale, ANorm, wi(_(1,iLo-1)));
         }
     }
 

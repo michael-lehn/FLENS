@@ -56,7 +56,7 @@ PruneMatrixClosure<Matrix>::updateTranspose(Transpose trans)
 }
 
 template <typename Matrix>
-const typename PruneMatrixClosure<Matrix>::Remainder &
+typename ConstRef<PruneMatrixClosure<Matrix>::Remainder>::Type
 PruneMatrixClosure<Matrix>::remainder(const Matrix &matrix)
 {
     return matrix;
@@ -87,7 +87,7 @@ struct PruneMatrixClosure<MatrixClosure<OpMult, ScalarValue<L>, R> >
         return PruneMatrixClosure<R>::updateTranspose(trans);
     }
 
-    static const Remainder &
+    static ConstRef<Remainder>::Type
     remainder(const MC &mc)
     {
         return PruneMatrixClosure<R>::remainder(mc.right());
@@ -117,7 +117,7 @@ struct PruneMatrixClosure<MatrixClosure<OpTrans, R, R> >
         return Transpose(trans^Trans);
     }
 
-    static const Remainder &
+    static ConstRef<Remainder>::Type
     remainder(const MC &mc)
     {
         return PruneMatrixClosure<R>::remainder(mc.right());
@@ -147,7 +147,7 @@ struct PruneMatrixClosure<MatrixClosure<OpConj, R, R> >
         return Transpose(trans^Conj);
     }
 
-    static const Remainder &
+    static ConstRef<Remainder>::Type
     remainder(const MC &mc)
     {
         return PruneMatrixClosure<R>::remainder(mc.right());

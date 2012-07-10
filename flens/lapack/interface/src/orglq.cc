@@ -1,6 +1,5 @@
 #include <flens/lapack/interface/include/config.h>
 
-
 namespace flens { namespace lapack {
 
 extern "C" {
@@ -56,7 +55,7 @@ LAPACK_DECL(dorglq)(const INTEGER    *M,
     DConstDenseVectorView  _TAU    = DConstArrayView(*K, TAU, 1);
     DDenseVectorView       _WORK   = DArrayView(*LWORK, WORK, 1);
 
-    orglq(*K, _A, _TAU, _WORK);
+    orglq(_A, _TAU, _WORK);
 }
 
 } // extern "C"

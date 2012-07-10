@@ -81,7 +81,7 @@ template <typename MA, typename VB>
     typename RestrictTo<(IsSyMatrix<MA>::value || IsHeMatrix<MA>::value)
                      && IsDenseVector<VB>::value,
              typename RemoveRef<MA>::Type::IndexType>::Type
-    sv(MA &&A, VB &&b);
+    posv(MA &&A, VB &&b);
 
 } } // namespace lapack, flens
 

@@ -222,7 +222,7 @@ esx_impl(bool                 computeSchurVectors,
         cScale = bigNum;
     }
     if (scaleA) {
-        lascl(LASCL::FullMatrix, 0, 0, normA, cScale, A);
+        lascl(LASCL::FullMatrix, IndexType(0), IndexType(0), normA, cScale, A);
     }
 
 //
@@ -278,8 +278,10 @@ esx_impl(bool                 computeSchurVectors,
 //
     if (sortEigenvalues && info==0) {
         if (scaleA) {
-            lascl(LASCL::FullMatrix, 0, 0, cScale, normA, wr);
-            lascl(LASCL::FullMatrix, 0, 0, cScale, normA, wi);
+            lascl(LASCL::FullMatrix, IndexType(0), IndexType(0),
+                  cScale, normA, wr);
+            lascl(LASCL::FullMatrix, IndexType(0), IndexType(0),
+                  cScale, normA, wi);
         }
         for (IndexType i=1; i<=n; ++i) {
             bWork(i) = selectFunction(wr(i), wi(i));
@@ -318,11 +320,13 @@ esx_impl(bool                 computeSchurVectors,
 //
 //      Undo scaling for the Schur form of A
 //
-        lascl(LASCL::UpperHessenberg, 0, 0, cScale, normA, A);
+        lascl(LASCL::UpperHessenberg, IndexType(0), IndexType(0),
+              cScale, normA, A);
         wr = A.diag(0);
         if ((wantSV || wantSB) && info==0) {
             dum(1) = rCondV;
-            lascl(LASCL::FullMatrix, 0, 0, cScale, normA, dum);
+            lascl(LASCL::FullMatrix, IndexType(0), IndexType(0),
+                  cScale, normA, dum);
             rCondV = dum(1);
         }
         if (cScale==smallNum) {
@@ -335,7 +339,8 @@ esx_impl(bool                 computeSchurVectors,
             if (iEval>0) {
                 i1 = iEval + 1;
                 i2 = iHi - 1;
-                lascl(LASCL::FullMatrix, 0, 0, cScale, normA, wi(_(1,iLo-1)));
+                lascl(LASCL::FullMatrix, IndexType(0), IndexType(0),
+                      cScale, normA, wi(_(1,iLo-1)));
             } else if (sortEigenvalues) {
                 i1 = 1;
                 i2 = n - 1;
@@ -371,7 +376,8 @@ esx_impl(bool                 computeSchurVectors,
                 }
             }
         }
-        lascl(LASCL::FullMatrix, 0, 0, cScale, normA, wi(_(iEval+1,n)));
+        lascl(LASCL::FullMatrix, IndexType(0), IndexType(0),
+              cScale, normA, wi(_(iEval+1,n)));
     }
 
     if (sortEigenvalues && info==0) {
@@ -718,6 +724,7 @@ esx(bool                computeSchurVectors,
 //
 //  Test the input parameters
 //
+    IndexType n = A.numRows();
 #   ifndef NDEBUG
     ASSERT(A.numRows()==A.numCols());
     ASSERT(A.firstRow()==1);
@@ -726,7 +733,6 @@ esx(bool                computeSchurVectors,
     ASSERT(iWork.firstIndex()==1);
     ASSERT(bWork.firstIndex()==1);
 
-    IndexType n = A.numRows();
 
     ASSERT(wr.firstIndex()==1);
     ASSERT(wr.length()==0 || wr.length()==n);

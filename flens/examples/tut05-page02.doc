@@ -3,25 +3,57 @@ High-Level Interface for CXXLAPACK                                        [TOC]
 ==================================
 
 You can easily create a high-level interface for __CXXLAPACK__ that can be
-used like __FLENS-LAPACK__.
+used like __FLENS-LAPACK__.  This means that a user can use LAPACK without
+dealing with things like pointers, strides and leading dimensions.  Only
+matrices and vectors get passed to the high-level interface.  The low-level
+stuff happens inside of these functions.
 
-:links: __CXXLAPACK__    -> dir:cxxlapack/
-        __FLENS-LAPACK__ -> doc:flens/lapack/lapack
+We hope that at the end of this page you understand
+
+- the meaning of function declarations like in __trs.h__ or  __trf.h__ and
+- the idea behind an implementation like in __trs.tcc__ or __trf.tcc__.
+
 
 
 Example Code
 ============
+Instead of calling __cxxlapack::getrf__ and __cxxlapack::getrs__ directly we
+wrap them into functions that receive FLENS matrix/vector types.  Inside of this
+wrapper we then extract information like stride, leading dimension and pointers
+and delegate functionality to the CXXLAPACK layer.
+
+:import: flens/examples/tut05-mylapack-version1.h [stripped, downloadable]
+
+A system of linear equations can now be solved easily.  We use the functions
+`mylapack::trf` and `mylapack:trs` just like their __FLENS-LAPACK__ counter
+parts:
+
 :import: flens/examples/tut05-page02-example1.cc [stripped, downloadable]
+
+:links: __CXXLAPACK__         -> dir:cxxlapack/
+        __FLENS-LAPACK__      -> doc:flens/lapack/lapack
+        __trf.h__             -> file:flens/lapack/impl/trf.h
+        __trs.h__             -> file:flens/lapack/impl/trs.h
+        __trf.tcc__           -> file:flens/lapack/impl/trf.tcc
+        __trs.tcc__           -> file:flens/lapack/impl/trs.tcc
+        __cxxlapack::(.*)__   -> file:cxxlapack/interface/$1.h
 
 
 Comments on Example Code
 ========================
+Let's have a closer look at the wrapper and how it gets used.
+
+High-Level Interface (tut05-mylapack-version1.h)
+------------------------------------------------
+:import: flens/examples/tut05-mylapack-version1.h [brief]
+
+Main Routine (tut05-page02-example1.cc)
+---------------------------------------
 :import: flens/examples/tut05-page02-example1.cc [brief]
 
 
 Compile and Run
 ===============
-
 In this example we link against vecLib which contains a LAPACK implementation.
 Note that the way we link against vecLib using the `framework` option is a
 Mac OS X specific feature.
@@ -37,5 +69,145 @@ Mac OS X specific feature.
   *-------------------------------------------------------------------------*
 
 
+Trouble (Part 1):  Dealing with Views
+=====================================
+We only apply minor modifications to the example code above:
+
+:import: flens/examples/tut05-page02-example2.cc [stripped, downloadable]
+
+:import: flens/examples/tut05-page02-example2.cc [brief]
+
+So let's have a look at the compiler errors:
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  g++ -framework vecLib -std=c++11 -Wall -I../..                      +++|
+  |          -o tut05-page02-example2                                    +++|
+  |          tut05-page02-example2.cc                                       |
+  |  ./tut05-page02-example2                                                |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+Actually the compiler even tells us how we can solve the problem!
+
+
+Let's Fix It (Part 1)
+=====================
+The C++11 standard allows the definition of functions that receive non-const
+rvalue objects.  So we change the definition of `mylapack::trf` and
+`mylapack:trs`:
+
+:import: flens/examples/tut05-mylapack-version2.h [stripped, downloadable]
+
+:import: flens/examples/tut05-mylapack-version2.h [brief]
+
+We modify the second example such that it now includes our new versions of
+`mylapack::trf` and `mylapack::trs`:
+
+:import: flens/examples/tut05-page02-example3.cc [stripped, downloadable]
+
+Now it compiles like a charm:
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  g++ -framework vecLib -std=c++11 -Wall -I../..                      +++|
+  |          -o tut05-page02-example3                                    +++|
+  |          tut05-page02-example3.cc                                       |
+  |  ./tut05-page02-example3                                                |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+Trouble (Part 2):  Let's go nuts!!!
+===================================
+Let's modify our very first example (where views did not occur at all) such that
+it also includes our new version of `mylapack`.
+
+:import: flens/examples/tut05-page02-example4.cc [stripped, downloadable]
+
+:import: flens/examples/tut05-page02-example4.cc [brief]
+
+For some fucking stupid reasons (long story) this will not compile:
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  g++ -framework vecLib -std=c++11 -Wall -I../..                      +++|
+  |          -o tut05-page02-example4                                    +++|
+  |          tut05-page02-example4.cc                                       |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Let's Fit It (Final Part)
+=========================
+The trick is exploiting a special template argument deduction rule for function
+templates.  We don't want to go through the whole C++11 standard here.  Just
+consider this declaration:
+
+  *--[CODE]-----------------------------------------------------------------*
+  |                                                                         |
+  | template <typename T>                                                   |
+  |     void                                                                |
+  |     dummy(T &&t);                                                       |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+Note that here `T` is not part of a user defined type (i.e. we don't have
+something like `GeMatrix<T>` here).  In this case we can pass either a lvalue
+or rvalue object to `dummy`:
+
+ - If you pass a lvalue of type `A` then `t` is of type `A &` and
+ - if you pass a rvalue of type `A` then `t` is of type `A &&`.
+
+We realize a few things:
+
+ - This (almost) solves our problem.
+ - Don't take drugs when you are in bed with C++ (you are already brain fucked).
+
+However, we are not completely done yet.  We don't want unrestricted template
+parameters.  For this reason we provide some traits:
+
+ - `IsGeMatrix<M>::value` is true if `M` is a `GeMatrix` type.
+ - `IsRealGeMatrix<M>::value` is true if `M` is a `GeMatrix` type and elements
+    are real.
+ - `IsComplexGeMatrix<M>::value` is true if `M` is a `GeMatrix` type and
+    elements are complex.
+
+Analogously we provide traits for all other matrix and vector types:
+
+ - `IsDenseVector<V>::value`, `IsIntegerDenseVector`,
+   `IsRealDenseVector<V>::value`, `IsComplexDenseVector<V>::value`,
+ - `IsTrMatrix<M>::value`, `IsRealTrMatrix<M>::value`,
+   `IsComplexTrMatrix<M>::value`,
+ - `IsSyMatrix<M>::value`, `IsRealSyMatrix<M>::value`,
+   `IsComplexSyMatrix<M>::value`.
+
+This can be combined with the `RestrictTo` trait as we show in the final
+version for our `mylapack` functions
+
+:import: flens/examples/tut05-mylapack-version3.h [stripped, downloadable]
+
+:import: flens/examples/tut05-mylapack-version3.h [brief]
+
+We can now conclude with an example using `mylapack`
+
+:import: flens/examples/tut05-page02-example5.cc [stripped, downloadable]
+
+... and finally ...
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  g++ -framework vecLib -std=c++11 -Wall -I../..                      +++|
+  |          -o tut05-page02-example5                                    +++|
+  |          tut05-page02-example5.cc                                       |
+  |  ./tut05-page02-example5                                                |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
 :navigate: __up__    -> doc:flens/examples/tutorial
            __back__  -> doc:flens/examples/tut05-page01
+           __next__  -> doc:flens/examples/tut05-page03

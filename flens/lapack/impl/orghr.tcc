@@ -134,7 +134,7 @@ orghr_impl(IndexType                 iLo,
 //
 //      Generate Q(ilo+1:ihi,ilo+1:ihi)
 //
-        orgqr(nh, A(_(iLo+1,iHi),_(iLo+1,iHi)), tau(_(iLo,iHi-1)), work);
+        orgqr(A(_(iLo+1,iHi),_(iLo+1,iHi)), tau(_(iLo,iHi-1)), work);
     }
     work(1) = lWorkOpt;
 }

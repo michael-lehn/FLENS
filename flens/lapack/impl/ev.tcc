@@ -177,7 +177,7 @@ ev_impl(bool                computeVL,
         cScale = bigNum;
     }
     if (scaleA) {
-        lascl(LASCL::FullMatrix, 0, 0, ANorm, cScale, A);
+        lascl(LASCL::FullMatrix, IndexType(0), IndexType(0), ANorm, cScale, A);
     }
 //
 //  Balance the matrix
@@ -347,12 +347,16 @@ ev_impl(bool                computeVL,
 //  Undo scaling if necessary
 //
     if (scaleA) {
-        lascl(LASCL::FullMatrix, 0, 0, cScale, ANorm, wr(_(info+1,n)));
-        lascl(LASCL::FullMatrix, 0, 0, cScale, ANorm, wi(_(info+1,n)));
+        lascl(LASCL::FullMatrix, IndexType(0), IndexType(0),
+              cScale, ANorm, wr(_(info+1,n)));
+        lascl(LASCL::FullMatrix, IndexType(0), IndexType(0),
+              cScale, ANorm, wi(_(info+1,n)));
 
         if (info>0) {
-            lascl(LASCL::FullMatrix, 0, 0, cScale, ANorm, wr(_(1,iLo-1)));
-            lascl(LASCL::FullMatrix, 0, 0, cScale, ANorm, wi(_(1,iLo-1)));
+            lascl(LASCL::FullMatrix, IndexType(0), IndexType(0),
+                  cScale, ANorm, wr(_(1,iLo-1)));
+            lascl(LASCL::FullMatrix, IndexType(0), IndexType(0),
+                  cScale, ANorm, wi(_(1,iLo-1)));
         }
     }
 

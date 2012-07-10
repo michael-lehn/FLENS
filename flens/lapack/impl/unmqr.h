@@ -67,6 +67,51 @@ template <typename MA, typename VTAU, typename MC, typename VWORK>
           MC           &&C,
           VWORK        &&work);
 
+//
+//  Variant with temporary workspace
+//
+template <typename MA, typename VTAU, typename MC>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsComplexDenseVector<VTAU>::value
+                     && IsComplexGeMatrix<MC>::value,
+             void>::Type
+    unmqr(Side         side,
+          Transpose    trans,
+          MA           &&A,
+          const VTAU   &tau,
+          MC           &&C);
+
+//
+//  Variant for convenience: c is vector
+//
+template <typename MA, typename VTAU, typename VC, typename VWORK>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsComplexDenseVector<VTAU>::value
+                     && IsComplexDenseVector<VC>::value
+                     && IsComplexDenseVector<VWORK>::value,
+             void>::Type
+    unmqr(Side         side,
+          Transpose    trans,
+          MA           &&A,
+          const VTAU   &tau,
+          VC           &&c,
+          VWORK        &&work);
+
+//
+//  Variant for convenience: c is vector and workspace gets created
+//                           temporarily.
+//
+template <typename MA, typename VTAU, typename VC>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsComplexDenseVector<VTAU>::value
+                     && IsComplexDenseVector<VC>::value,
+             void>::Type
+    unmqr(Side         side,
+          Transpose    trans,
+          MA           &&A,
+          const VTAU   &tau,
+          VC           &&c);
+
 //== workspace query ===========================================================
 
 template <typename MA, typename MC>

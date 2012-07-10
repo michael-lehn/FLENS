@@ -64,6 +64,18 @@ template <typename MA, typename VJPIV, typename VTAU, typename VWORK>
         VTAU    &&tau,
         VWORK   &&work);
 
+//
+//  Real variant (with temporary workspace)
+//
+template <typename MA, typename VJPIV, typename VTAU>
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsIntegerDenseVector<VJPIV>::value
+                     && IsRealDenseVector<VTAU>::value,
+             void>::Type
+    qp3(MA      &&A,
+        VJPIV   &&jPiv,
+        VTAU    &&tau);
+
 
 #ifdef USE_CXXLAPACK
 //
@@ -83,8 +95,26 @@ template <typename MA, typename VJPIV, typename VTAU, typename VWORK,
         VWORK   &&work,
         VRWORK  &&rWork);
 
+//
+//  Complex variant (with temporary workspace)
+//
+template <typename MA, typename VJPIV, typename VTAU>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsIntegerDenseVector<VJPIV>::value
+                     && IsComplexDenseVector<VTAU>::value,
+             void>::Type
+    qp3(MA      &&A,
+        VJPIV   &&jPiv,
+        VTAU    &&tau);
+
 #endif // USE_CXXLAPACK
 
+//== workspace query ===========================================================
+
+template <typename MA>
+    typename RestrictTo<IsGeMatrix<MA>::value,
+             typename MA::IndexType>::Type
+    qp3_wsq(const MA &A);
 
 } } // namespace lapack, flens
 

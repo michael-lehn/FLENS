@@ -6,9 +6,9 @@ __CXXLAPACK__ is a low-level interface for the original Fortran __LAPACK__.
 High-level interfaces for LAPACK can be built ontop of CXXLAPACK.
 
 If functionality in __FLENS-LAPACK__ is missing you can use CXXLAPACK as an
-alternative.  In this case you need a LAPACK implementation on your system.
-You either can receive it diretly from __Netlib__ or through packages like
-VecLib, MKL, ACML, etc.
+alternative.  In this case you need an external LAPACK implementation on your
+system.  You either can receive it diretly from __Netlib__ or through packages
+like VecLib, MKL, ACML, etc.
 
 
 :links: __CXXLAPACK__    -> dir:cxxlapack/

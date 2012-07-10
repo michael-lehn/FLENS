@@ -35,16 +35,28 @@
 
 namespace flens {
 
-template <typename A, typename B>
+template <typename ...Args>
 struct IsSame
 {
     static const bool value = false;
 };
 
-template <typename A>
-struct IsSame<A,A>
+template <typename T>
+struct IsSame<T>
 {
     static const bool value = true;
+};
+
+template <typename T>
+struct IsSame<T, T>
+{
+    static const bool value = true;
+};
+
+template <typename T, typename ...Args>
+struct IsSame<T, T, Args...>
+{
+    static const bool value = IsSame<T,Args...>::value;
 };
 
 } // namespace flens

@@ -73,7 +73,7 @@ laln2_impl(bool                  transA,
            XNORM                 &xNorm)
 {
     using std::abs;
-    using flens::max;
+    using std::max;
     using flens::pow;
 
     typedef typename GeMatrix<MX>::ElementType  T;

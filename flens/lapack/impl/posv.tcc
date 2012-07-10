@@ -271,7 +271,7 @@ posv(MA &&A, VB &&b)
 
     GeMatrix<FullStorageView<ElementType, order> >  B(n, 1, b, n);
 
-    return sv(A, B);
+    return posv(A, B);
 }
 
 } } // namespace lapack, flens

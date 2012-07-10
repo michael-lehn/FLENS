@@ -81,6 +81,17 @@ template <typename MA, typename MB, typename VWORK>
 #endif // USE_CXXLAPACK
 
 
+//
+//  Real/complex variant with temporary workspace
+//
+template <typename MA, typename MB>
+    typename RestrictTo<IsGeMatrix<MA>::value
+                     && IsGeMatrix<MB>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    ls(Transpose    trans,
+       MA           &&A,
+       MB           &&B);
+
 //== (ge)ls variant if rhs is vector ===========================================
 //
 //  Real and complex
@@ -94,6 +105,18 @@ template <typename MA, typename VB, typename VWORK>
        MA           &&A,
        VB           &&b,
        VWORK        &&work);
+
+//
+//  Real/complex variant with temporary workspace
+//
+template <typename MA, typename VB>
+    typename RestrictTo<IsGeMatrix<MA>::value
+                     && IsDenseVector<VB>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    ls(Transpose    trans,
+       MA           &&A,
+       VB           &&b);
+
 
 } } // namespace lapack, flens
 

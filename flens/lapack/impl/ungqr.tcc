@@ -59,16 +59,33 @@ namespace external {
 
 //-- ungqr ---------------------------------------------------------------------
 
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+template <typename MA, typename VTAU, typename VWORK>
 void
-ungqr_impl(IndexType                  k,
-           GeMatrix<MA>              &A,
+ungqr_impl(GeMatrix<MA>              &A,
            const DenseVector<VTAU>   &tau,
            DenseVector<VWORK>        &work)
 {
+    typedef typename GeMatrix<MA>::ElementType   ElementType;
+    typedef typename GeMatrix<MA>::IndexType     IndexType;
+
+    if (work.length()==0) {
+        ElementType  WORK;
+        IndexType    LWORK = -1;
+
+        cxxlapack::ungqr<IndexType>(A.numRows(),
+                                    A.numCols(),
+                                    tau.length(),
+                                    A.data(),
+                                    A.leadingDimension(),
+                                    tau.data(),
+                                    &WORK,
+                                    LWORK);
+        work.resize(IndexType(cxxblas::real(WORK)));
+    }
+
     cxxlapack::ungqr<IndexType>(A.numRows(),
                                 A.numCols(),
-                                k,
+                                tau.length(),
                                 A.data(),
                                 A.leadingDimension(),
                                 tau.data(),
@@ -87,18 +104,19 @@ ungqr_impl(IndexType                  k,
 
 //-- ungqr ---------------------------------------------------------------------
 
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+template <typename MA, typename VTAU, typename VWORK>
 typename RestrictTo<IsComplexGeMatrix<MA>::value
                  && IsComplexDenseVector<VTAU>::value
                  && IsComplexDenseVector<VWORK>::value,
          void>::Type
-ungqr(IndexType k, MA &&A, const VTAU &tau, VWORK &&work)
+ungqr(MA &&A, const VTAU &tau, VWORK &&work)
 {
 //
 //  Remove references from rvalue types
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::ElementType   ElementType;
+    typedef typename MatrixA::IndexType     IndexType;
     typedef typename RemoveRef<VWORK>::Type VectorWork;
 
 //
@@ -108,11 +126,11 @@ ungqr(IndexType k, MA &&A, const VTAU &tau, VWORK &&work)
     ASSERT(A.firstRow()==IndexType(1));
     ASSERT(A.firstCol()==IndexType(1));
     ASSERT(tau.firstIndex()==IndexType(1));
-    ASSERT(tau.length()==k);
     ASSERT((work.length()==0) || (work.length()>=A.numCols()));
 
     const IndexType m = A.numRows();
     const IndexType n = A.numCols();
+    const IndexType k = tau.length();
 
     ASSERT(n<=m);
     ASSERT(k<=n);
@@ -122,10 +140,26 @@ ungqr(IndexType k, MA &&A, const VTAU &tau, VWORK &&work)
 //
 //  Call implementation
 //
-    external::ungqr_impl(k, A, tau, work);
+    external::ungqr_impl(A, tau, work);
 }
 
 #endif // USE_CXXLAPACK
+
+
+//-- ungqr [Variant with temporary workspace] ----------------------------------
+
+template <typename MA, typename VTAU>
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                 && IsComplexDenseVector<VTAU>::value,
+         void>::Type
+ungqr(MA &&A, const VTAU &tau)
+{
+    typedef typename RemoveRef<MA>::Type::Vector  WorkVector;
+
+    WorkVector  work;
+    ungqr(A, tau, work);
+}
+
 
 } } // namespace lapack, flens
 

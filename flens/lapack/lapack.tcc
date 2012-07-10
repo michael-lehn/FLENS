@@ -67,6 +67,7 @@
 #include <flens/lapack/impl/laexc.tcc>
 #include <flens/lapack/impl/lahqr.tcc>
 #include <flens/lapack/impl/lahr2.tcc>
+#include <flens/lapack/impl/laic1.tcc>
 #include <flens/lapack/impl/laln2.tcc>
 #include <flens/lapack/impl/lamch.tcc>
 #include <flens/lapack/impl/lan.tcc>
@@ -88,16 +89,21 @@
 #include <flens/lapack/impl/larft.tcc>
 #include <flens/lapack/impl/larfx.tcc>
 #include <flens/lapack/impl/lartg.tcc>
+#include <flens/lapack/impl/larz.tcc>
+#include <flens/lapack/impl/larzb.tcc>
+#include <flens/lapack/impl/larzt.tcc>
 #include <flens/lapack/impl/lascl.tcc>
 #include <flens/lapack/impl/lassq.tcc>
 #include <flens/lapack/impl/laswp.tcc>
 #include <flens/lapack/impl/lasy2.tcc>
 #include <flens/lapack/impl/latrs.tcc>
+#include <flens/lapack/impl/latrz.tcc>
 #include <flens/lapack/impl/lauu2.tcc>
 #include <flens/lapack/impl/lauum.tcc>
 #include <flens/lapack/impl/lq2.tcc>
 #include <flens/lapack/impl/lqf.tcc>
 #include <flens/lapack/impl/ls.tcc>
+#include <flens/lapack/impl/lsy.tcc>
 #include <flens/lapack/impl/org2r.tcc>
 #include <flens/lapack/impl/orghr.tcc>
 #include <flens/lapack/impl/orgl2.tcc>
@@ -108,6 +114,8 @@
 #include <flens/lapack/impl/orml2.tcc>
 #include <flens/lapack/impl/ormlq.tcc>
 #include <flens/lapack/impl/ormqr.tcc>
+#include <flens/lapack/impl/ormr3.tcc>
+#include <flens/lapack/impl/ormrz.tcc>
 #include <flens/lapack/impl/pocon.tcc>
 #include <flens/lapack/impl/posv.tcc>
 #include <flens/lapack/impl/potf2.tcc>
@@ -135,6 +143,7 @@
 #include <flens/lapack/impl/trsen.tcc>
 #include <flens/lapack/impl/trsna.tcc>
 #include <flens/lapack/impl/trsyl.tcc>
+#include <flens/lapack/impl/tzrzf.tcc>
 #include <flens/lapack/impl/unglq.tcc>
 #include <flens/lapack/impl/ungqr.tcc>
 #include <flens/lapack/impl/unmlq.tcc>

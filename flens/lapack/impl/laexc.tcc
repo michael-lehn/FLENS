@@ -65,6 +65,7 @@ laexc_impl(bool                          computeQ,
            DenseVector<VWORK>            &work)
 {
     using std::abs;
+    using flens::max;
 
     typedef typename GeMatrix<MT>::View         GeMatrixView;
     typedef typename GeMatrix<MT>::VectorView   DenseVectorView;

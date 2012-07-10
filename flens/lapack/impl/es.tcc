@@ -178,7 +178,7 @@ es_impl(bool                 computeSchurVectors,
         cScale = bigNum;
     }
     if (scaleA) {
-        lascl(LASCL::FullMatrix, 0, 0, normA, cScale, A);
+        lascl(LASCL::FullMatrix, IndexType(0), IndexType(0), normA, cScale, A);
     }
 //
 //  Permute the matrix to make it more nearly triangular
@@ -233,8 +233,10 @@ es_impl(bool                 computeSchurVectors,
 //
     if (sortEigenvalues && info==0) {
         if (scaleA) {
-            lascl(LASCL::FullMatrix, 0, 0, cScale, normA, wr);
-            lascl(LASCL::FullMatrix, 0, 0, cScale, normA, wi);
+            lascl(LASCL::FullMatrix, IndexType(0), IndexType(0),
+                  cScale, normA, wr);
+            lascl(LASCL::FullMatrix, IndexType(0), IndexType(0),
+                  cScale, normA, wi);
         }
         for (IndexType i=1; i<=n; ++i) {
             bWork(i) = selectFunction(wr(i), wi(i));
@@ -245,7 +247,7 @@ es_impl(bool                 computeSchurVectors,
 //
         T sep, s;
         // TODO: I dislike that a dummy vector is needed
-        DenseVector<Array<int> > dummy(1);
+        DenseVector<Array<IndexType> >   dummy(1);
         IndexType iCond = trsen(TRSEN::None, computeSchurVectors, bWork,
                                 A, VS, wr, wi, sDim, s, sep,
                                 hseqrWork, dummy);
@@ -266,7 +268,8 @@ es_impl(bool                 computeSchurVectors,
 //
 //      Undo scaling for the Schur form of A
 //
-        lascl(LASCL::UpperHessenberg, 0, 0, cScale, normA, A);
+        lascl(LASCL::UpperHessenberg, IndexType(0), IndexType(0),
+              cScale, normA, A);
         wr = A.diag(0);
         if (cScale==smallNum) {
 //
@@ -278,7 +281,8 @@ es_impl(bool                 computeSchurVectors,
             if (iEval>0) {
                 i1 = iEval + 1;
                 i2 = iHi - 1;
-                lascl(LASCL::FullMatrix, 0, 0, cScale, normA, wi(_(1,iLo-1)));
+                lascl(LASCL::FullMatrix, IndexType(0), IndexType(0),
+                      cScale, normA, wi(_(1,iLo-1)));
             } else if (sortEigenvalues) {
                 i1 = 1;
                 i2 = n - 1;
@@ -319,7 +323,8 @@ es_impl(bool                 computeSchurVectors,
 //
 //      Undo scaling for the imaginary part of the eigenvalues
 //
-        lascl(LASCL::FullMatrix, 0, 0, cScale, normA, wi(_(iEval+1,n)));
+        lascl(LASCL::FullMatrix, IndexType(0), IndexType(0),
+              cScale, normA, wi(_(iEval+1,n)));
     }
 
     if (sortEigenvalues && info==0) {

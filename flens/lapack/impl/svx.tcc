@@ -519,8 +519,6 @@ svx(SVX::Fact           fact,
     return info;
 }
 
-//-- forwarding ----------------------------------------------------------------
-
 } } // namespace lapack, flens
 
 #endif // FLENS_LAPACK_IMPL_SVX_TCC

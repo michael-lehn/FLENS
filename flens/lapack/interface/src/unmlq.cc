@@ -1,6 +1,5 @@
 #include <flens/lapack/interface/include/config.h>
 
-
 namespace flens { namespace lapack {
 
 extern "C" {

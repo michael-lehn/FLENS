@@ -1,0 +1,42 @@
+==================================
+QR Factorization (Complex Variant)                                       [TOC]
+==================================
+
+In this example we __again__ compute the $QR$ factorization and use it for
+solving a system of linear equations.  However, in this example we do not setup
+matrix $Q$ explicitly.
+
+:links: __again__ -> doc:flens/examples/lapack-ungqr
+
+
+Example Code
+============
+:import: flens/examples/lapack-complex-unmqr.cc [stripped, downloadable]
+
+Comments on Example Code
+========================
+:import: flens/examples/lapack-complex-unmqr.cc [brief]
+
+Compile
+=======
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  g++ -DUSE_CXXLAPACK -framework vecLib                                +++|
+ |      -std=c++11 -Wall -I../.. -o lapack-complex-unmqr                 +++|
+ |      lapack-complex-unmqr.cc                                             |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+Run
+===
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  ./lapack-complex-unmqr                                                  |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+

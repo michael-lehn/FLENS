@@ -434,16 +434,16 @@ ilaenv_impl(int spec, const char *name, const char *opts,
 
 extern "C" {
 
-int
-LAPACK_DECL(ilaenv)(const int   *SPEC,
-                    const char  *NAME,
-                    const char  *OPTS,
-                    const int   *N1,
-                    const int   *N2,
-                    const int   *N3,
-                    const int   *N4,
-                    int         NAME_LEN,
-                    int         OPTS_LEN);
+INTEGER
+LAPACK_DECL(ilaenv)(const INTEGER *SPEC,
+                    const char *NAME,
+                    const char *OPTS,
+                    const INTEGER *N1,
+                    const INTEGER *N2,
+                    const INTEGER *N3,
+                    const INTEGER *N4,
+                    int NAME_LEN,
+                    int OPTS_LEN);
 
 } // extern "C"
 
@@ -472,8 +472,18 @@ ilaenv_LapackTest(int spec, const char *_name, const char *_opts,
     }
 
 #if defined CHECK_CXXLAPACK || defined USE_NATIVE_ILAENV
-    int result = LAPACK_DECL(ilaenv)(&spec, name.c_str(), opts.c_str(),
-                                     &n1, &n2, &n3, &n4,
+    INTEGER _spec = spec;
+    INTEGER _n1 = n1;
+    INTEGER _n2 = n2;
+    INTEGER _n3 = n3;
+    INTEGER _n4 = n4;
+    int result = LAPACK_DECL(ilaenv)(&_spec,
+                                     name.c_str(),
+                                     opts.c_str(),
+                                     &_n1,
+                                     &_n2,
+                                     &_n3,
+                                     &_n4,
                                      strlen(name.c_str()),
                                      strlen(opts.c_str()));
     return result;

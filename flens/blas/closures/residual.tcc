@@ -50,7 +50,7 @@ residual(const Vector<VB> &b, const Matrix<MA> &A, const Vector<VX> &x,
     typedef typename VY::Impl::ElementType  TY;
 
     copy(b.impl(), y.impl());
-    mv(NoTrans, TA(1), A.impl(), x.impl(), TY(1), y.impl());
+    mv(NoTrans, TA(-1), A.impl(), x.impl(), TY(1), y.impl());
 
     FLENS_BLASLOG_END;
 }
