@@ -271,7 +271,7 @@ svd(SVD::Job        jobU,
     typedef typename MatrixA::IndexType      IndexType;
     typedef typename RemoveRef<VS>::Type     VectorS;
     typedef typename RemoveRef<MU>::Type     MatrixU;
-    typedef typename RemoveRef<MVT>::Type    MatrixV;
+    typedef typename RemoveRef<MVT>::Type    MatrixVT;
     typedef typename RemoveRef<VWORK>::Type  VectorWork;
 
 #   ifndef NDEBUG
@@ -433,7 +433,7 @@ typename RestrictTo<IsComplexGeMatrix<MA>::value
                   && IsRealDenseVector<VRWORK>::value,
           void>::Type
 svd(SVD::Job    jobU,
-    SVD::Job    bVT,
+    SVD::Job    jobVT,
     MA          &&A,
     VS          &&s,
     MU          &&U,
@@ -446,14 +446,14 @@ svd(SVD::Job    jobU,
 //
 //  Remove references from rvalue types
 //
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::ElementType   ElementType;
-    typedef typename MatrixA::IndexType     IndexType;
-    typedef typename RemoveRef<VS>::Type    VectorS;
-    typedef typename RemoveRef<MU>::Type    MatrixU;
-    typedef typename RemoveRef<MVT>::Type    MatrixV;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
-    typedef typename RemoveRef<VRWORK>::Type VectorrWork;
+    typedef typename RemoveRef<MA>::Type      MatrixA;
+    typedef typename MatrixA::ElementType     ElementType;
+    typedef typename MatrixA::IndexType       IndexType;
+    typedef typename RemoveRef<VS>::Type      VectorS;
+    typedef typename RemoveRef<MU>::Type      MatrixU;
+    typedef typename RemoveRef<MVT>::Type     MatrixVT;
+    typedef typename RemoveRef<VWORK>::Type   VectorWork;
+    typedef typename RemoveRef<VRWORK>::Type  VectorRWork;
 
 #   ifndef NDEBUG
 //
