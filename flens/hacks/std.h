@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2011, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,37 +30,59 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_FLENS_CXX
-#define FLENS_FLENS_CXX 1
-
-#ifdef __INTEL_COMPILER
-#    define STD_HACK
-#elif __clang__
-#    define STD_HACK
-#elif __GNUC__
-#    define GCC_HACK
-#endif
+#ifndef FLENS_HACKS_STD_H
+#define FLENS_HACKS_STD_H 1
 
 #ifdef STD_HACK
-#   include <flens/hacks/std.h>
-#endif
 
-#ifdef FLENS_DEBUG_CLOSURES
-#   include <flens/debug/auxiliary/auxiliary.h>
-#endif
+#include <flens/auxiliary/issame.h>
+
+namespace std {
+
+//
+// remove_reference
+//
+template <typename T>
+struct remove_reference
+{
+    typedef T type;
+};
+
+template <typename T>
+struct remove_reference<T &>
+{
+    typedef T type;
+};
+
+template <typename T>
+struct remove_reference<T &&>
+{
+    typedef T type;
+};
+
+//
+// is_floating_point
+//
+template <typename T>
+struct is_floating_point
+{
+    static const bool value = flens::IsSame<T, float>::value
+                           || flens::IsSame<T, double>::value;
+};
+
+//
+// is_integral
+//
+template <typename T>
+struct is_integral
+{
+    static const bool value = flens::IsSame<T, int>::value
+                           || flens::IsSame<T, long>::value;
+};
 
 
-#include <flens/flens.h>
-#include <flens/flens.tcc>
-#include <cxxblas/cxxblas.cxx>
+} // namespace std
 
-#ifdef USE_CXXLAPACK
-#   include <cxxlapack/cxxlapack.cxx>
-#endif
+#endif // STD_HACK
 
-
-#ifdef FLENS_DEBUG_CLOSURES
-#   include <flens/debug/auxiliary/auxiliary.tcc>
-#endif
-
-#endif // FLENS_FLENS_CXX
+#endif // FLENS_HACKS_STD_H

@@ -71,13 +71,13 @@ class VectorClosure
 //  do things like in the implementation of conjTrans, i.e. creating nested
 //  closures inside on a function stack and then return it for later usage.
 //
-
-template <typename Op, typename L, typename R>
-struct ConstRef<VectorClosure<Op, L, R> >
-{
-    typedef VectorClosure<Op,L,R> Type;
-};
-
+#ifndef GCC_HACK
+    template <typename Op, typename L, typename R>
+    struct ConstRef<VectorClosure<Op, L, R> >
+    {
+        typedef VectorClosure<Op,L,R> Type;
+    };
+#endif
 } // namespace flens
 
 #endif // FLENS_VECTORTYPES_IMPL_VECTORCLOSURE_H
