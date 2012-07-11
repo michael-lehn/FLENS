@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2012, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,51 +30,41 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_IO_ARRAY_OUT_TCC
-#define FLENS_IO_ARRAY_OUT_TCC 1
+#ifndef FLENS_IO_FULLSTORAGE_LOAD_H
+#define FLENS_IO_FULLSTORAGE_LOAD_H 1
 
-#include <flens/auxiliary/iscomplex.h>
+#include <iostream>
+#include <string>
+
+#include <flens/matrixtypes/general/impl/gematrix.h>
+#include <flens/matrixtypes/hermitian/impl/hematrix.h>
+#include <flens/matrixtypes/symmetric/impl/symatrix.h>
+#include <flens/matrixtypes/triangular/impl/trmatrix.h>
 
 namespace flens {
 
-template <typename A>
-std::ostream &
-operator<<(std::ostream &out, const DenseVector<A> &x)
-{
-    typedef typename DenseVector<A>::IndexType IndexType;
-    typedef typename DenseVector<A>::ElementType ElementType;    
-    
-#   ifdef FLENS_IO_WITH_RANGES
-    IndexType defaultIndexBase = A::defaultIndexBase;
+template <typename FS>
+    bool
+    load(std::string filename, GeMatrix<FS> &A);
 
-    out << std::endl << "[";
-    if ((x.firstIndex()==defaultIndexBase) && (x.inc()>0)) {
-        out << x.length();
-    } else {
-        out << x.firstIndex()
-            << ".."
-            << x.lastIndex();
-    }
-    out << "] ";
-#   endif // FLENS_IO_WITH_RANGES
+template <typename FS>
+    bool
+    load(std::string filename, HeMatrix<FS> &A);
 
-    out << std::endl;
+template <typename FS>
+    bool
+    load(std::string filename, SyMatrix<FS> &A);
 
-    for (IndexType i=x.firstIndex(); i!=x.endIndex(); i+=x.inc()) {
-        if (IsNotComplex<ElementType>::value)
-                out.width(13);
-            else
-                out.width(28);
+template <typename FS>
+    bool
+    load(std::string filename, TrMatrix<FS> &A);
 
-        out << x(i) << " ";
-        if (i!=x.lastIndex()) {
-            out << " ";
-        }
-    }
-    out << std::endl;
-    return out;
-}
+//-- forwarding ---------------------------------------------------------------
 
+template <typename MA>
+    typename RestrictTo<IsMatrix<MA>::value,
+                        bool>::Type
+    load(std::string filename, MA &&A);
 } // namespace flens
 
-#endif // FLENS_IO_ARRAY_OUT_TCC
+#endif // FLENS_IO_FULLSTORAGE_LOAD_H

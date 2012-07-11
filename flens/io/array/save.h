@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2012, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,51 +30,27 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_IO_ARRAY_OUT_TCC
-#define FLENS_IO_ARRAY_OUT_TCC 1
+#ifndef FLENS_IO_ARRAY_SAVE_H
+#define FLENS_IO_ARRAY_SAVE_H 1
 
-#include <flens/auxiliary/iscomplex.h>
+#include <iostream>
+#include <string>
+
+#include <flens/vectortypes/vectortypes.h>
 
 namespace flens {
 
 template <typename A>
-std::ostream &
-operator<<(std::ostream &out, const DenseVector<A> &x)
-{
-    typedef typename DenseVector<A>::IndexType IndexType;
-    typedef typename DenseVector<A>::ElementType ElementType;    
-    
-#   ifdef FLENS_IO_WITH_RANGES
-    IndexType defaultIndexBase = A::defaultIndexBase;
+    bool
+    save(std::string filename, const DenseVector<A> &x);
 
-    out << std::endl << "[";
-    if ((x.firstIndex()==defaultIndexBase) && (x.inc()>0)) {
-        out << x.length();
-    } else {
-        out << x.firstIndex()
-            << ".."
-            << x.lastIndex();
-    }
-    out << "] ";
-#   endif // FLENS_IO_WITH_RANGES
+//-- forwarding ---------------------------------------------------------------
 
-    out << std::endl;
-
-    for (IndexType i=x.firstIndex(); i!=x.endIndex(); i+=x.inc()) {
-        if (IsNotComplex<ElementType>::value)
-                out.width(13);
-            else
-                out.width(28);
-
-        out << x(i) << " ";
-        if (i!=x.lastIndex()) {
-            out << " ";
-        }
-    }
-    out << std::endl;
-    return out;
-}
+template <typename V>
+    typename RestrictTo<IsVector<V>::value,
+                        bool>::Type
+    save(std::string filename, const V &&x);
 
 } // namespace flens
 
-#endif // FLENS_IO_ARRAY_OUT_TCC
+#endif // FLENS_IO_ARRAY_SAVE_H

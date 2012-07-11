@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2012, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,51 +30,50 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_IO_ARRAY_OUT_TCC
-#define FLENS_IO_ARRAY_OUT_TCC 1
+#ifndef FLENS_IO_ARRAY_SAVE_TCC
+#define FLENS_IO_ARRAY_SAVE_TCC 1
 
-#include <flens/auxiliary/iscomplex.h>
+#include <fstream>
 
 namespace flens {
 
 template <typename A>
-std::ostream &
-operator<<(std::ostream &out, const DenseVector<A> &x)
+bool
+save(std::string filename, const DenseVector<A> &x)
 {
-    typedef typename DenseVector<A>::IndexType IndexType;
-    typedef typename DenseVector<A>::ElementType ElementType;    
+
+    typedef typename A::IndexType   IndexType;
+    typedef typename A::ElementType ElementType;
+
+    std::ofstream ofs( filename.c_str(), std::ios::binary );
     
-#   ifdef FLENS_IO_WITH_RANGES
-    IndexType defaultIndexBase = A::defaultIndexBase;
+    if (ofs.is_open() == false)
+        return false;
+    
+    IndexType length     = x.length();
+    IndexType firstIndex = x.firstIndex();
 
-    out << std::endl << "[";
-    if ((x.firstIndex()==defaultIndexBase) && (x.inc()>0)) {
-        out << x.length();
-    } else {
-        out << x.firstIndex()
-            << ".."
-            << x.lastIndex();
+    ofs.write( reinterpret_cast<char*>(&length), sizeof(IndexType) );
+    ofs.write( reinterpret_cast<char*>(&firstIndex), sizeof(IndexType) );   
+
+    for (IndexType i=x.firstIndex(); i<=x.lastIndex(); ++i) {
+        ofs.write( reinterpret_cast<const char*>(&(x(i))), sizeof(ElementType) );
     }
-    out << "] ";
-#   endif // FLENS_IO_WITH_RANGES
 
-    out << std::endl;
+    ofs.close();
+    return true;
+}
 
-    for (IndexType i=x.firstIndex(); i!=x.endIndex(); i+=x.inc()) {
-        if (IsNotComplex<ElementType>::value)
-                out.width(13);
-            else
-                out.width(28);
+//-- forwarding ---------------------------------------------------------------
 
-        out << x(i) << " ";
-        if (i!=x.lastIndex()) {
-            out << " ";
-        }
-    }
-    out << std::endl;
-    return out;
+template <typename V>
+typename RestrictTo<IsVector<V>::value,
+                    bool>::Type
+save(std::string filename, const V &&x)
+{
+    return save(filename, x);
 }
 
 } // namespace flens
 
-#endif // FLENS_IO_ARRAY_OUT_TCC
+#endif // FLENS_IO_ARRAY_SAVE_TCC

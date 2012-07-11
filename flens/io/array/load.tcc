@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2012, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,51 +30,54 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_IO_ARRAY_OUT_TCC
-#define FLENS_IO_ARRAY_OUT_TCC 1
+#ifndef FLENS_IO_ARRAY_LOAD_TCC
+#define FLENS_IO_ARRAY_LOAD_TCC 1
 
-#include <flens/auxiliary/iscomplex.h>
+#include <fstream>
 
 namespace flens {
 
 template <typename A>
-std::ostream &
-operator<<(std::ostream &out, const DenseVector<A> &x)
+bool
+load(std::string filename, DenseVector<A> &x)
 {
-    typedef typename DenseVector<A>::IndexType IndexType;
-    typedef typename DenseVector<A>::ElementType ElementType;    
+
+    typedef typename A::IndexType   IndexType;
+    typedef typename A::ElementType ElementType;
+
+    std::ifstream ifs( filename.c_str(), std::ios::binary );
     
-#   ifdef FLENS_IO_WITH_RANGES
-    IndexType defaultIndexBase = A::defaultIndexBase;
+    if (ifs.is_open() == false)
+        return false;
+    
+    IndexType length     ;
+    IndexType firstIndex ;
 
-    out << std::endl << "[";
-    if ((x.firstIndex()==defaultIndexBase) && (x.inc()>0)) {
-        out << x.length();
-    } else {
-        out << x.firstIndex()
-            << ".."
-            << x.lastIndex();
+    ifs.read( reinterpret_cast<char*>(&length), sizeof(IndexType) );
+    ifs.read( reinterpret_cast<char*>(&firstIndex), sizeof(IndexType) );   
+ 
+    x.resize(length, firstIndex);
+
+    for (IndexType i=x.firstIndex(); i<=x.lastIndex(); ++i) {
+        ifs.read( reinterpret_cast<char*>(&(x(i))), sizeof(ElementType) );
     }
-    out << "] ";
-#   endif // FLENS_IO_WITH_RANGES
 
-    out << std::endl;
+    ifs.close();
+    return true;
 
-    for (IndexType i=x.firstIndex(); i!=x.endIndex(); i+=x.inc()) {
-        if (IsNotComplex<ElementType>::value)
-                out.width(13);
-            else
-                out.width(28);
 
-        out << x(i) << " ";
-        if (i!=x.lastIndex()) {
-            out << " ";
-        }
-    }
-    out << std::endl;
-    return out;
+}
+
+//-- forwarding ---------------------------------------------------------------
+
+template <typename V>
+typename RestrictTo<IsVector<V>::value,
+                    bool>::Type
+load(std::string filename, V &&x)
+{
+    return load(filename, x);
 }
 
 } // namespace flens
 
-#endif // FLENS_IO_ARRAY_OUT_TCC
+#endif // FLENS_IO_ARRAY_LOAD_TCC

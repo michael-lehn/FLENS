@@ -33,7 +33,11 @@
 #ifndef FLENS_IO_IO_TCC
 #define FLENS_IO_IO_TCC 1
 
+#include <flens/io/array/load.tcc>
 #include <flens/io/array/out.tcc>
+#include <flens/io/array/save.tcc>
+#include <flens/io/fullstorage/load.tcc>
 #include <flens/io/fullstorage/out.tcc>
+#include <flens/io/fullstorage/save.tcc>
 
 #endif // FLENS_IO_IO_TCC
