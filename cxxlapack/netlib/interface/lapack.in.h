@@ -1,5 +1,9 @@
 #ifndef INTEGER
-#define INTEGER int
+#    ifndef MKL_ILP64
+#        define INTEGER int
+#    else
+#        define INTEGER long
+#    endif
 #endif
 
 #ifndef FLOAT
@@ -11,11 +15,11 @@
 #endif
 
 #ifndef FLOAT_COMPLEX
-#define FLOAT_COMPLEX double
+#define FLOAT_COMPLEX float 
 #endif
 
 #ifndef DOUBLE_COMPLEX
-#define DOUBLE_COMPLEX double
+#define DOUBLE_COMPLEX double 
 #endif
 
 #ifndef LOGICAL
