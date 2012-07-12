@@ -33,9 +33,13 @@
 #ifndef FLENS_IO_FULLSTORAGE_SAVE_TCC
 #define FLENS_IO_FULLSTORAGE_SAVE_TCC 1
 
+
 #include <fstream>
+#include <iomanip>
 
 #include <cxxblas/typedefs.h>
+#include <flens/auxiliary/iscomplex.h>
+#include <flens/auxiliary/isinteger.h>
 
 namespace flens {
 
@@ -194,6 +198,181 @@ save(std::string filename, const TrMatrix<FS> &A)
     return true;
 }
 
+
+template <typename FS>
+bool
+saveMatrixMarket(std::string filename, const GeMatrix<FS> &A, 
+                 std::string comment, int precision)
+{
+    using std::endl;
+    using std::setprecision;
+    using std::setw;
+    
+    typedef typename FS::IndexType   IndexType;
+    typedef typename FS::ElementType ElementType;
+
+    std::ofstream ofs( filename.c_str(), std::ios::out );
+    
+    if (ofs.is_open() == false)
+        return false;  
+    
+    if (IsInteger<ElementType>::value)
+      ofs << "%%MatrixMarket matrix array integer general" << endl;      
+    else if (IsNotComplex<ElementType>::value)
+      ofs << "%%MatrixMarket matrix array real general" << endl;
+    else
+      ofs << "%%MatrixMarket matrix array complex general" << endl;
+    
+    if (comment != "")
+    {
+        size_t j = comment.find_first_of('\n');
+        while(j != std::string::npos)
+        {
+            comment.replace(j, 1, "\n% ");
+            j = comment.find_first_of('\n', j+3);
+        }
+        ofs << "% " << comment << endl;
+    }
+    
+    ofs << A.numRows() << " " << A.numCols() << endl;
+    
+    for (IndexType i = A.firstRow(); i <= A.lastRow(); ++i)
+    {
+        for (IndexType j = A.firstCol(); j <= A.lastCol(); ++j)
+        {
+            ofs << setw(precision+6) << setprecision(precision) <<  cxxblas::real(A(i,j));
+            if (IsComplex<ElementType>::value)
+                 ofs << setw(precision+7) << setprecision(precision) << cxxblas::imag(A(i,j));
+            ofs << endl;;
+        }
+    }
+    ofs.close();
+    return true;
+    
+}
+
+template <typename FS>
+bool
+saveMatrixMarket(std::string filename, const SyMatrix<FS> &A, 
+                 std::string comment, int precision)
+{
+    using std::endl;
+    using std::setprecision;
+    using std::setw;
+    
+    typedef typename FS::IndexType   IndexType;
+    typedef typename FS::ElementType ElementType;
+
+    std::ofstream ofs( filename.c_str(), std::ios::out );
+    
+    if (ofs.is_open() == false)
+        return false;  
+    
+    if (IsInteger<ElementType>::value)
+      ofs << "%%MatrixMarket matrix array integer symmetric" << endl;      
+    else if (IsNotComplex<ElementType>::value)
+      ofs << "%%MatrixMarket matrix array real symmetric" << endl;
+    else
+      ofs << "%%MatrixMarket matrix array complex symmetric" << endl;
+    
+    if (comment != "")
+    {
+        size_t j = comment.find_first_of('\n');
+        while(j != std::string::npos)
+        {
+            comment.replace(j, 1, "\n% ");
+            j = comment.find_first_of('\n', j+3);
+        }
+        ofs << "% " << comment << endl;
+    }
+    
+    ofs << A.numRows() << " " << A.numCols() << endl;
+    
+    for (IndexType i = A.firstRow(); i <= A.lastRow(); ++i)
+    {
+        for (IndexType j = i; j <= A.lastCol(); ++j)
+        {
+            if (A.upLo() == Upper)
+            {
+              ofs << setw(precision+6) << setprecision(precision) << cxxblas::real(A(i,j));
+              if (IsComplex<ElementType>::value)
+                ofs << setw(precision+7) << setprecision(precision) << cxxblas::imag(A(i,j));
+            }
+            else
+            {
+              ofs << setw(precision+6) << setprecision(precision) <<  cxxblas::real(A(j,i));
+              if (IsComplex<ElementType>::value)
+                ofs << setw(precision+7) << setprecision(precision) << cxxblas::imag(A(j,i));
+            }
+            ofs << endl;;
+        }
+    }
+    ofs.close();
+    return true;
+    
+}
+
+template <typename FS>
+typename RestrictTo<IsComplex<typename FS::ElementType>::value, bool>::Type
+saveMatrixMarket(std::string filename, const HeMatrix<FS> &A, 
+                 std::string comment, int precision)
+{
+    using std::endl;
+    using std::setprecision;
+    using std::setw;
+    
+    typedef typename FS::IndexType   IndexType;
+    typedef typename FS::ElementType ElementType;
+
+    std::ofstream ofs( filename.c_str(), std::ios::out );
+    
+    if (ofs.is_open() == false)
+        return false;  
+    
+    ofs << "%%MatrixMarket matrix array complex hermitian" << endl;
+    
+    if (comment != "")
+    {
+        size_t j = comment.find_first_of('\n');
+        while(j != std::string::npos)
+        {
+            comment.replace(j, 1, "\n% ");
+            j = comment.find_first_of('\n', j+3);
+        }
+        ofs << "% " << comment << endl;
+    }
+    
+    ofs << A.numRows() << " " << A.numCols() << endl;
+    
+    for (IndexType i = A.firstRow(); i <= A.lastRow(); ++i)
+    {
+        for (IndexType j = i; j <= A.lastCol(); ++j)
+        {
+            if (A.upLo() == Upper)
+            {
+                ofs << setw(precision+6) << setprecision(precision) <<  cxxblas::real(A(i,j));
+                if (i == j)
+                    ofs << setw(precision+7) << setprecision(precision) << 0;
+                else
+                    ofs << setw(precision+7) << setprecision(precision) << -cxxblas::imag(A(i,j));
+                 
+            }
+            else
+            {
+                ofs << setw(precision+6) << setprecision(precision) <<  cxxblas::real(A(j,i));
+                if (i == j)
+                    ofs << setw(precision+7) << setprecision(precision) << 0;
+                else
+                ofs << setw(precision+7) << setprecision(precision) << cxxblas::imag(A(j,i));
+            }
+            ofs << endl;;
+        }
+    }
+    ofs.close();
+    return true;
+    
+}
+
 //-- forwarding ---------------------------------------------------------------
 template <typename MA>
 typename RestrictTo<IsMatrix<MA>::value,
@@ -203,6 +382,16 @@ save(std::string filename, const MA &&A)
     return save(filename, A);
 }
 
+template <typename MA>
+typename RestrictTo<IsMatrix<MA>::value,
+                    bool>::Type
+saveMatrixMarket(std::string filename, const MA &&A, 
+                 std::string comment, int precision)
+{
+    return saveMatrixMarket(filename, A, comment, precision);
+}
+
 } // namespace flens
 
 #endif // FLENS_IO_FULLSTORAGE_SAVE_TCC
+

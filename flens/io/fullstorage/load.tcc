@@ -33,6 +33,8 @@
 #ifndef FLENS_IO_FULLSTORAGE_LOAD_TCC
 #define FLENS_IO_FULLSTORAGE_LOAD_TCC 1
 
+#include <functional>
+#include <locale>
 #include <fstream>
 
 #include <cxxblas/typedefs.h>
@@ -211,6 +213,388 @@ load(std::string filename, TrMatrix<FS> &A)
     return true;
 }
 
+template <typename FS>
+typename RestrictTo<IsReal<typename FS::ElementType>::value, bool>::Type
+loadMatrixMarket(std::string filename, GeMatrix<FS> &A)
+{
+    using std::string;
+    
+    typedef typename FS::IndexType                            IndexType;
+    typedef typename FS::ElementType                          ElementType;
+
+    string line;
+    
+    std::ifstream ifs( filename.c_str(), std::ios::in );
+    
+    if (ifs.is_open() == false)
+        return false;
+
+    IndexType numRows, numCols;
+    
+    std::getline (ifs,line);
+
+    #   ifndef NDEBUG
+    // transform line to lower case
+    std::transform(line.begin(), line.end(), line.begin(), 
+             std::bind2nd(std::ptr_fun(&std::tolower<char>), std::locale("")));
+    
+    std::stringstream ss (line);
+    std::string buf;
+    ss >> buf;
+    ASSERT(buf == "%%matrixmarket");
+    ss >> buf;
+    ASSERT(buf == "matrix");
+    ss >> buf;
+    ASSERT(buf == "array");
+    ss >> buf;
+    ASSERT((buf == "real") || (buf == "complex"));
+    ss >> buf;
+    ASSERT(buf == "general");
+#   endif
+    
+    while ( ifs.good() && (line.c_str()[0] == '%') )
+      std::getline (ifs,line);
+
+    
+    std::stringstream sline;
+    sline <<  line;
+    sline >> numRows >> numCols;
+    if ((A.numRows() == 0) && (A.numCols() == 0))
+        A.resize(numRows, numCols);
+    
+#   ifndef NDEBUG
+    ASSERT(A.numRows() == numRows);
+    ASSERT(A.numCols() == numCols);
+#   endif
+
+    
+    for (IndexType i = A.firstRow(); i <= A.lastRow(); ++i)
+    {
+        for (IndexType j = A.firstCol(); j <= A.lastCol(); ++j)
+        {
+            if (ifs.good())
+                std::getline (ifs,line);
+            else
+                return false;
+            std::stringstream ssline(line);
+            ssline >> A(i,j);  
+        }
+    }
+    ifs.close();
+    return true;
+}
+
+
+template <typename FS>
+typename RestrictTo<IsComplex<typename FS::ElementType>::value, bool>::Type
+loadMatrixMarket(std::string filename, GeMatrix<FS> &A)
+{
+    using std::string;
+    
+    typedef typename FS::IndexType                            IndexType;
+    typedef typename FS::ElementType                          ElementType;
+    typedef typename ComplexTrait<ElementType>::PrimitiveType PrimitiveType;
+
+    string line;
+    
+    std::ifstream ifs( filename.c_str(), std::ios::in );
+    
+    if (ifs.is_open() == false)
+        return false;
+
+    IndexType numRows, numCols;
+    
+    std::getline (ifs,line);
+
+    #   ifndef NDEBUG
+    // transform line to lower case
+    std::transform(line.begin(), line.end(), line.begin(), 
+             std::bind2nd(std::ptr_fun(&std::tolower<char>), std::locale("")));
+    
+    std::stringstream ss (line);
+    std::string buf;
+    ss >> buf;
+    ASSERT(buf == "%%matrixmarket");
+    ss >> buf;
+    ASSERT(buf == "matrix");
+    ss >> buf;
+    ASSERT(buf == "array");
+    ss >> buf;
+    ASSERT(buf == "complex");
+    ss >> buf;
+    ASSERT(buf == "general");
+#   endif
+    
+    while ( ifs.good() && (line.c_str()[0] == '%') )
+      std::getline (ifs,line);
+
+    
+    std::stringstream sline;
+    sline <<  line;
+    sline >> numRows >> numCols;
+    if ((A.numRows() == 0) && (A.numCols() == 0))
+        A.resize(numRows, numCols);
+    
+#   ifndef NDEBUG
+    ASSERT(A.numRows() == numRows);
+    ASSERT(A.numCols() == numCols);
+#   endif
+
+    
+    for (IndexType i = A.firstRow(); i <= A.lastRow(); ++i)
+    {
+        for (IndexType j = A.firstCol(); j <= A.lastCol(); ++j)
+        {
+            if (ifs.good())
+                std::getline (ifs,line);
+            else
+                return false;
+            std::stringstream ssline(line);
+            PrimitiveType a, b;
+            ssline >> a >> b;
+            A(i,j) = ElementType(a, b);
+        }
+    }
+    ifs.close();
+    return true;
+}
+
+template <typename FS>
+typename RestrictTo<IsReal<typename FS::ElementType>::value, bool>::Type
+loadMatrixMarket(std::string filename, SyMatrix<FS> &A)
+{
+    using std::string;
+    
+    typedef typename FS::IndexType                            IndexType;
+    typedef typename FS::ElementType                          ElementType;
+
+    string line;
+    
+    std::ifstream ifs( filename.c_str(), std::ios::in );
+    
+    if (ifs.is_open() == false)
+        return false;
+
+    IndexType numRows, numCols;
+    
+    std::getline (ifs,line);
+    
+#   ifndef NDEBUG
+    // transform line to lower case
+    std::transform(line.begin(), line.end(), line.begin(), 
+             std::bind2nd(std::ptr_fun(&std::tolower<char>), std::locale("")));
+    
+    std::stringstream ss (line);
+    std::string buf;
+    ss >> buf;
+    ASSERT(buf == "%%matrixmarket");
+    ss >> buf;
+    ASSERT(buf == "matrix");
+    ss >> buf;
+    ASSERT(buf == "array");
+    ss >> buf;
+    ASSERT((buf == "integer") || (buf == "real"));
+    ss >> buf;
+    ASSERT(buf == "symmetric");
+#   endif
+    
+    while ( ifs.good() && (line.c_str()[0] == '%') )
+      std::getline (ifs,line);
+
+    
+    std::stringstream sline;
+    sline <<  line;
+    sline >> numRows >> numCols;
+    if ((A.numRows() == 0) && (A.numCols() == 0))
+        A.resize(numRows, numCols);
+    
+#   ifndef NDEBUG
+    ASSERT(A.numRows() == numRows);
+    ASSERT(A.numCols() == numCols);
+#   endif
+
+    
+    for (IndexType i = A.firstRow(); i <= A.lastRow(); ++i)
+    {
+        for (IndexType j = i; j <= A.lastCol(); ++j)
+        {
+            if (ifs.good())
+                std::getline (ifs,line);
+            else
+                return false;
+            std::stringstream ssline(line);
+            
+            if (A.upLo() == Upper)
+                ssline >> A(i,j);  
+            else
+                ssline >> A(j,i);  
+        }
+    }
+    ifs.close();
+    return true;
+}
+
+
+template <typename FS>
+typename RestrictTo<IsComplex<typename FS::ElementType>::value, bool>::Type
+loadMatrixMarket(std::string filename, SyMatrix<FS> &A)
+{
+    using std::string;
+    
+    typedef typename FS::IndexType                            IndexType;
+    typedef typename FS::ElementType                          ElementType;
+    typedef typename ComplexTrait<ElementType>::PrimitiveType PrimitiveType;
+
+    string line;
+    
+    std::ifstream ifs( filename.c_str(), std::ios::in );
+    
+    if (ifs.is_open() == false)
+        return false;
+
+    IndexType numRows, numCols;
+    
+    std::getline (ifs,line);
+    
+#   ifndef NDEBUG
+    // transform line to lower case
+    std::transform(line.begin(), line.end(), line.begin(), 
+             std::bind2nd(std::ptr_fun(&std::tolower<char>), std::locale("")));
+    
+    std::stringstream ss (line);
+    std::string buf;
+    ss >> buf;
+    ASSERT(buf == "%%matrixmarket");
+    ss >> buf;
+    ASSERT(buf == "matrix");
+    ss >> buf;
+    ASSERT(buf == "array");
+    ss >> buf;
+    ASSERT(buf == "complex");
+    ss >> buf;
+    ASSERT(buf == "symmetric");
+#   endif
+    
+    while ( ifs.good() && (line.c_str()[0] == '%') )
+      std::getline (ifs,line);
+
+    
+    std::stringstream sline;
+    sline <<  line;
+    sline >> numRows >> numCols;
+    if ((A.numRows() == 0) && (A.numCols() == 0))
+        A.resize(numRows, numCols);
+    
+#   ifndef NDEBUG
+    ASSERT(A.numRows() == numRows);
+    ASSERT(A.numCols() == numCols);
+#   endif
+
+    
+    for (IndexType i = A.firstRow(); i <= A.lastRow(); ++i)
+    {
+        for (IndexType j = i; j <= A.lastCol(); ++j)
+        {
+            if (ifs.good())
+                std::getline (ifs,line);
+            else
+                return false;
+            
+            std::stringstream ssline(line);
+            PrimitiveType a, b;
+            ssline >> a >> b;
+            if (A.upLo() == Upper)
+                A(i,j) = ElementType(a, b);  
+            else
+                A(j,i) = ElementType(a, b);
+
+            
+        }
+    }
+    ifs.close();
+    return true;
+}
+
+template <typename FS>
+typename RestrictTo<IsComplex<typename FS::ElementType>::value, bool>::Type
+loadMatrixMarket(std::string filename, HeMatrix<FS> &A)
+{
+   
+    typedef typename FS::IndexType                            IndexType;
+    typedef typename FS::ElementType                          ElementType;
+    typedef typename ComplexTrait<ElementType>::PrimitiveType PrimitiveType;
+
+    std::string line;
+    IndexType numRows, numCols;
+
+    std::ifstream ifs( filename.c_str(), std::ios::in );
+    
+    if (ifs.is_open() == false)
+        return false;
+    
+    std::getline (ifs,line);
+    
+#   ifndef NDEBUG
+    // transform line to lower case
+    std::transform(line.begin(), line.end(), line.begin(), 
+             std::bind2nd(std::ptr_fun(&std::tolower<char>), std::locale("")));
+    
+    std::stringstream ss (line);
+    std::string buf;
+    ss >> buf;
+    ASSERT(buf == "%%matrixmarket");
+    ss >> buf;
+    ASSERT(buf == "matrix");
+    ss >> buf;
+    ASSERT(buf == "array");
+    ss >> buf;
+    ASSERT(buf == "complex");
+    ASSERT( IsComplex<ElementType>::value );
+    ss >> buf;
+    ASSERT(buf == "hermitian");
+#   endif
+
+    while ( ifs.good() && (line.c_str()[0] == '%') )
+      std::getline (ifs,line);
+
+    
+    std::stringstream sline;
+    sline <<  line;
+    sline >> numRows >> numCols;
+    if ((A.numRows() == 0) && (A.numCols() == 0))
+        A.resize(numRows, numCols);
+    
+#   ifndef NDEBUG
+    ASSERT(A.numRows() == numRows);
+    ASSERT(A.numCols() == numCols);
+#   endif
+
+    
+    for (IndexType i = A.firstRow(); i <= A.lastRow(); ++i)
+    {
+        for (IndexType j = i; j <= A.lastCol(); ++j)
+        {
+            if (ifs.good())
+                std::getline (ifs,line);
+            else
+                return false;
+            
+            std::stringstream ssline(line);
+            PrimitiveType a, b;
+            ssline >> a >> b;
+            
+            if (A.upLo() == Upper)
+                A(i,j) = ElementType(a, -b);  
+            else
+                A(j,i) = ElementType(a, b); 
+
+            
+        }
+    }
+    ifs.close();
+    return true;
+}
+
 
 //-- forwarding ---------------------------------------------------------------
 template <typename MA>
@@ -221,6 +605,14 @@ load(std::string filename, MA &&A)
     return load(filename, A);
 }
 
+template <typename MA>
+typename RestrictTo<IsMatrix<MA>::value,
+                    bool>::Type
+loadMatrixMarket(std::string filename, MA &&A)
+{
+    return loadMatrixMarket(filename, A);
+}
 } // namespace flens
 
 #endif // FLENS_IO_FULLSTORAGE_LOAD_TCC
+
