@@ -205,7 +205,7 @@ tpsv(StorageOrder order, StorageUpLo upLo,
 // stpsv
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
-tpsv(StorageOrder order, Transpose trans,
+tpsv(StorageOrder order, StorageUpLo upLo,
       Transpose transA, Diag diag,
      IndexType n,
      const float *A,
@@ -213,7 +213,7 @@ tpsv(StorageOrder order, Transpose trans,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_stpsv");
 
-    cblas_stpsv(CBLAS::getCblasType(order), CBLAS::getCblasType(transA),
+    cblas_stpsv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 n,
                 A,
@@ -223,7 +223,7 @@ tpsv(StorageOrder order, Transpose trans,
 // dtpsv
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
-tpsv(StorageOrder order, Transpose trans,
+tpsv(StorageOrder order, StorageUpLo upLo,
       Transpose transA, Diag diag,
      IndexType n,
      const double *A,
@@ -231,7 +231,7 @@ tpsv(StorageOrder order, Transpose trans,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_dtpsv");
 
-    cblas_dtpsv(CBLAS::getCblasType(order), CBLAS::getCblasType(transA),
+    cblas_dtpsv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 n,
                 A,
@@ -241,7 +241,7 @@ tpsv(StorageOrder order, Transpose trans,
 // ctpsv
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
-tpsv(StorageOrder order, Transpose trans,
+tpsv(StorageOrder order, StorageUpLo upLo,
       Transpose transA, Diag diag,
      IndexType n,
      const ComplexFloat *A,
@@ -249,7 +249,7 @@ tpsv(StorageOrder order, Transpose trans,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ctpsv");
 
-    cblas_ctpsv(CBLAS::getCblasType(order), CBLAS::getCblasType(transA),
+    cblas_ctpsv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 n,
                 reinterpret_cast<const float *>(A),
@@ -259,7 +259,7 @@ tpsv(StorageOrder order, Transpose trans,
 // ztpsv
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
-tpsv(StorageOrder order, Transpose trans,
+tpsv(StorageOrder order, StorageUpLo upLo,
       Transpose transA, Diag diag,
      IndexType n,
      const ComplexDouble *A,
@@ -267,7 +267,7 @@ tpsv(StorageOrder order, Transpose trans,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ztpsv");
 
-    cblas_ztpsv(CBLAS::getCblasType(order), CBLAS::getCblasType(transA),
+    cblas_ztpsv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 n,
                 reinterpret_cast<const double *>(A),

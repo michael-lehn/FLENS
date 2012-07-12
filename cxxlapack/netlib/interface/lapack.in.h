@@ -8770,12 +8770,11 @@ LAPACK_IMPL(zlacrt)(const INTEGER            *N,
                     const DOUBLE_COMPLEX     *S);
 
 //-- zladiv --------------------------------------------------------------------
-/*
-void
-LAPACK_IMPL(zladiv)(DOUBLE_COMPLEX           *ret,
-                    const DOUBLE_COMPLEX     *X,
+
+DOUBLE_COMPLEX
+LAPACK_IMPL(zladiv)(const DOUBLE_COMPLEX     *X,
                     const DOUBLE_COMPLEX     *Y);
-*/
+
 
 //-- zlaed0 --------------------------------------------------------------------
 void
