@@ -46,12 +46,52 @@ template <typename ALPHA, typename VX, typename VY>
     void
     axpy(const ALPHA &alpha, const DenseVector<VX> &x, DenseVector<VY> &y);
 
+//-- gbaxpy
+template <typename ALPHA, typename MA, typename MB>
+    void
+    axpy(Transpose trans,
+         const ALPHA &alpha, const GbMatrix<MA> &A, GbMatrix<MB> &B);
+    
 //-- geaxpy
 template <typename ALPHA, typename MA, typename MB>
     void
     axpy(Transpose trans,
          const ALPHA &alpha, const GeMatrix<MA> &A, GeMatrix<MB> &B);
 
+//-- hbaxpy
+template <typename ALPHA, typename MA, typename MB>
+    void
+    axpy(Transpose trans,
+         const ALPHA &alpha, const HbMatrix<MA> &A, HbMatrix<MB> &B);
+
+//-- hpaxpy
+template <typename ALPHA, typename MA, typename MB>
+    void
+    axpy(Transpose trans,
+         const ALPHA &alpha, const HpMatrix<MA> &A, HpMatrix<MB> &B);
+//-- sbaxpy
+template <typename ALPHA, typename MA, typename MB>
+    void
+    axpy(Transpose trans,
+         const ALPHA &alpha, const SbMatrix<MA> &A, SbMatrix<MB> &B);
+//-- spaxpy
+template <typename ALPHA, typename MA, typename MB>
+    void
+    axpy(Transpose trans,
+         const ALPHA &alpha, const SpMatrix<MA> &A, SpMatrix<MB> &B);
+    
+//-- tbaxpy
+template <typename ALPHA, typename MA, typename MB>
+    void
+    axpy(Transpose trans,
+         const ALPHA &alpha, const TbMatrix<MA> &A, TbMatrix<MB> &B);
+    
+//-- tpaxpy
+template <typename ALPHA, typename MA, typename MB>
+    void
+    axpy(Transpose trans,
+         const ALPHA &alpha, const TpMatrix<MA> &A, TpMatrix<MB> &B);
+    
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1_AXPY_H

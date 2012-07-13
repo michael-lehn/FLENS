@@ -45,5 +45,6 @@
 #include <cxxblas/level2/level2.tcc>
 #include <cxxblas/level2extensions/level2extensions.tcc>
 #include <cxxblas/level3/level3.tcc>
+#include <cxxblas/level3extensions/level3extensions.tcc>
 
 #endif // CXXBLAS_CXXBLAS_TCC

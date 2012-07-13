@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -33,6 +33,7 @@
 #ifndef FLENS_MATRIXTYPES_TRIANGULAR_IMPL_IMPL_TCC
 #define FLENS_MATRIXTYPES_TRIANGULAR_IMPL_IMPL_TCC 1
 
+#include <flens/matrixtypes/triangular/impl/tbmatrix.tcc>
 #include <flens/matrixtypes/triangular/impl/trmatrix.tcc>
-
+#include <flens/matrixtypes/triangular/impl/tpmatrix.tcc>
 #endif // FLENS_MATRIXTYPES_TRIANGULAR_IMPL_IMPL_TCC

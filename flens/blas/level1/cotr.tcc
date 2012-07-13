@@ -46,6 +46,56 @@
 
 namespace flens { namespace blas {
 
+//-- gbcotr
+template <typename MA>
+void
+cotr(Transpose trans, GbMatrix<MA> &A)
+{
+//
+//  If matrix is not square no inplace transpose is possible
+//
+#   ifndef FLENS_DEBUG_CLOSURES
+#   ifndef NDEBUG
+    if (trans==Trans || trans==ConjTrans) {
+        ASSERT(A.numRows()==A.numCols());
+        ASSERT(A.numSubDiags()==A.numSuperDiags());
+    }
+#   endif
+#   else
+    if ((trans==Trans || trans==ConjTrans) && (A.numRows()!=A.numCols()) || (A.numSubDiags()!=A.numSuperDiags())) {
+        typename GeMatrix<MA>::NoView B = A;
+        FLENS_BLASLOG_TMP_ADD(B);
+
+        copy(trans, B, A);
+
+        FLENS_BLASLOG_TMP_REMOVE(B, A);
+        return;
+    }
+#   endif
+
+//
+//  Quick return if possible
+//
+    if (trans==NoTrans) {
+        return;
+    }
+
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_MCOTR(trans, A);
+
+#   ifdef HAVE_CXXBLAS_GBCOTR
+    cxxblas::gbcotr(MA::order, trans, A.numRows(), A.numCols(),
+                    A.numSubDiags(), A.numSuperDiags(),
+                    A.data(), A.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
+
 //-- gecotr
 template <typename MA>
 void

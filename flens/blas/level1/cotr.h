@@ -40,6 +40,11 @@
 
 namespace flens { namespace blas {
 
+//-- gbcotr
+template <typename MA>
+    void
+    cotr(Transpose trans, GbMatrix<MA> &A);
+
 //-- gecotr
 template <typename MA>
     void

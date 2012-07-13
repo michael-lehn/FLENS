@@ -39,10 +39,19 @@
 #include <flens/storage/array/arrayview.h>
 #include <flens/storage/array/array.h>
 
+#include <flens/storage/bandstorage/constbandstorageview.h>
+#include <flens/storage/bandstorage/bandstorageview.h>
+#include <flens/storage/bandstorage/bandstorage.h>
+
 #include <flens/storage/fullstorage/constfullstorageview.h>
 #include <flens/storage/fullstorage/fullstorageview.h>
 #include <flens/storage/fullstorage/fullstorage.h>
 #include <flens/storage/fullstorage/isfullstorage.h>
 #include <flens/storage/fullstorage/trapezoidalfill.h>
+
+#include <flens/storage/packedstorage/constpackedstorageview.h>
+#include <flens/storage/packedstorage/packedstorageview.h>
+#include <flens/storage/packedstorage/packedstorage.h>
+#include <flens/storage/packedstorage/ispackedstorage.h>
 
 #endif // FLENS_STORAGE_STORAGE_H

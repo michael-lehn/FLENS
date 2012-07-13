@@ -76,6 +76,51 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
        const BETA &beta, GeMatrix<MC> &C);
 
 
+//== GeneralBandedMatrix - GeneralMatrix products ====================================
+
+//-- gbmm
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+    void
+    mm(Transpose transA, Transpose transB, const ALPHA &alpha,
+       const GbMatrix<MA> &A, const GeMatrix<MB> &B,
+       const BETA &beta, GeMatrix<MC> &C);
+ 
+//== GeneralMatrix - GeneralBandedMatrix products ====================================
+
+//-- gbmm
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+    void
+    mm(Transpose transA, Transpose transB, const ALPHA &alpha,
+       const GeMatrix<MA> &A, const GbMatrix<MB> &B,
+       const BETA &beta, GeMatrix<MC> &C);
+
+//== HermitianBandedMatrix - GeneralMatrix products ==================================
+
+//-- hbmm
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+    void
+    mm(Side side,
+       const ALPHA &alpha, const HbMatrix<MA> &A, const GeMatrix<MB> &B,
+       const BETA &beta, GeMatrix<MC> &C);  
+    
+//== SymmetricBandedMatrix - GeneralMatrix products ==================================
+
+//-- sbmm
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+    void
+    mm(Side side,
+       const ALPHA &alpha, const SbMatrix<MA> &A, const GeMatrix<MB> &B,
+       const BETA &beta, GeMatrix<MC> &C);
+    
+//== TriangularBandedMatrix - GeneralMatrix products =================================
+
+//-- tpmm
+template <typename ALPHA, typename MA, typename MB>
+    void
+    mm(Side side,
+       Transpose transA, const ALPHA &alpha, const TbMatrix<MA> &A,
+       GeMatrix<MB> &B);    
+    
 //== Forwarding ================================================================
 
 //-- GeneralMatrix - GeneralMatrix products

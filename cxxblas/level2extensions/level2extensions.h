@@ -33,6 +33,7 @@
 #ifndef CXXBLAS_LEVEL2EXTENSIONS_LEVEL2EXTENSIONS_H
 #define CXXBLAS_LEVEL2EXTENSIONS_LEVEL2EXTENSIONS_H 1
 
+#include <cxxblas/level2extensions/gbmv.h>
 #include <cxxblas/level2extensions/gemv.h>
 #include <cxxblas/level2extensions/hemv.h>
 #include <cxxblas/level2extensions/her.h>

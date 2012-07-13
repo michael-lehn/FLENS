@@ -94,6 +94,159 @@ scal(const ALPHA &alpha, GeMatrix<MB> &B)
     FLENS_BLASLOG_UNSETTAG;
 }
 
+//-- gbscal
+template <typename ALPHA, typename MB>
+void
+scal(const ALPHA &alpha, GbMatrix<MB> &B)
+{
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
+
+#   ifdef HAVE_CXXBLAS_GBSCAL
+    cxxblas::gbscal(MB::order, B.numRows(), B.numCols(),
+                    B.numSubDiags(), B.numSuperDiags(),
+                    alpha, B.data(), B.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
+//-- hbscal
+template <typename ALPHA, typename MB>
+void
+scal(const ALPHA &alpha, HbMatrix<MB> &B)
+{
+    ASSERT(cxxblas::imag(alpha)==0);
+    
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
+
+    typedef typename HbMatrix<MB>::IndexType  IndexType;
+    
+    const IndexType numSubDiags   = (B.upLo()==Upper) ? 0 : B.numOffDiags();
+    const IndexType numSuperDiags = (B.upLo()==Upper) ? B.numOffDiags() : 0;
+    
+#   ifdef HAVE_CXXBLAS_GBSCAL
+    cxxblas::gbscal(MB::order, B.dim(), B.dim(),
+                    numSubDiags, numSuperDiags,
+                    alpha, B.data(), B.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
+//-- hpscal
+template <typename ALPHA, typename MB>
+void
+scal(const ALPHA &alpha, HpMatrix<MB> &B)
+{
+    ASSERT(cxxblas::imag(alpha)==0);
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
+
+#   ifdef HAVE_CXXBLAS_TPSCAL
+    cxxblas::tpscal(MB::order, B.upLo(), B.diag(),
+                    B.dim(), 
+                    alpha, B.data());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
+//-- sbscal
+template <typename ALPHA, typename MB>
+void
+scal(const ALPHA &alpha, SbMatrix<MB> &B)
+{
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
+
+    typedef typename SbMatrix<MB>::IndexType  IndexType;
+    
+    const IndexType numSubDiags   = (B.upLo()==Upper) ? 0 : B.numOffDiags();
+    const IndexType numSuperDiags = (B.upLo()==Upper) ? B.numOffDiags() : 0;
+    
+#   ifdef HAVE_CXXBLAS_GBSCAL
+    cxxblas::gbscal(MB::order, B.dim(), B.dim(),
+                    numSubDiags, numSuperDiags,
+                    alpha, B.data(), B.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
+//-- spscal
+template <typename ALPHA, typename MB>
+void
+scal(const ALPHA &alpha, SpMatrix<MB> &B)
+{
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
+
+#   ifdef HAVE_CXXBLAS_TPSCAL
+    cxxblas::tpscal(MB::order, B.upLo(), B.diag(),
+                    B.dim(), 
+                    alpha, B.data());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
+//-- tbscal
+template <typename ALPHA, typename MB>
+void
+scal(const ALPHA &alpha, TbMatrix<MB> &B)
+{
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
+
+#   ifdef HAVE_CXXBLAS_GBSCAL
+    cxxblas::gbscal(MB::order, B.numRows(), B.numCols(),
+                    B.numSubDiags(), B.numSuperDiags(),
+                    alpha, B.data(), B.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
+//-- tpscal
+template <typename ALPHA, typename MB>
+void
+scal(const ALPHA &alpha, TpMatrix<MB> &B)
+{
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
+
+#   ifdef HAVE_CXXBLAS_TPSCAL
+    cxxblas::tpscal(MB::order, B.upLo(), B.diag(),
+                    B.dim(), 
+                    alpha, B.data());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1_SCAL_TCC

@@ -53,7 +53,42 @@ template <typename ALPHA, typename VY>
 template <typename ALPHA, typename MB>
     void
     scal(const ALPHA &alpha, GeMatrix<MB> &B);
-
+    
+//-- gbscal
+template <typename ALPHA, typename MB>
+    void
+    scal(const ALPHA &alpha, GbMatrix<MB> &B);
+    
+//-- hbscal
+template <typename ALPHA, typename MB>
+    void
+    scal(const ALPHA &alpha, HbMatrix<MB> &B);
+    
+//-- hpscal
+template <typename ALPHA, typename MB>
+    void
+    scal(const ALPHA &alpha, HpMatrix<MB> &B);
+    
+//-- sbscal
+template <typename ALPHA, typename MB>
+    void
+    scal(const ALPHA &alpha, SbMatrix<MB> &B);
+    
+//-- spscal
+template <typename ALPHA, typename MB>
+    void
+    scal(const ALPHA &alpha, SpMatrix<MB> &B);
+    
+//-- tbscal
+template <typename ALPHA, typename MB>
+    void
+    scal(const ALPHA &alpha, TbMatrix<MB> &B);
+    
+//-- tpscal
+template <typename ALPHA, typename MB>
+    void
+    scal(const ALPHA &alpha, TpMatrix<MB> &B);
+    
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1_SCAL_H

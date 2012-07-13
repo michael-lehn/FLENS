@@ -41,7 +41,7 @@ namespace cxxblas {
 template <typename IndexType, typename ALPHA, typename MA, typename VX,
           typename BETA, typename VY>
 void
-gbmv_generic(StorageOrder order, Transpose trans,
+gbmv_generic(StorageOrder order, Transpose trans, Transpose conjX, 
              IndexType m, IndexType n,
              IndexType kl, IndexType ku,
              const ALPHA &alpha,
@@ -52,7 +52,7 @@ gbmv_generic(StorageOrder order, Transpose trans,
 {
     if (order==ColMajor) {
         trans = Transpose(trans^Trans);
-        gbmv_generic(RowMajor, trans, n, m, ku, kl, alpha, A, ldA,
+        gbmv_generic(RowMajor, trans, conjX, n, m, ku, kl, alpha, A, ldA,
                      x, incX, beta, y, incY);
         return;
     }
@@ -65,28 +65,56 @@ gbmv_generic(StorageOrder order, Transpose trans,
         }
         scal_generic(m, beta, y, incY);
         if (trans==NoTrans) {
-            for (IndexType i=0, iY=0; i<m; ++i, iY+=incY) {
-                IndexType iA = std::max(kl-i, IndexType(0));
-                IndexType len = std::min(kl+ku+1, kl-i+n) - iA;
-                IndexType iX = std::max(i-kl, IndexType(0))*incX;
+            if (conjX == NoTrans)
+            {
+                for (IndexType i=0, iY=0; i<m; ++i, iY+=incY) {
+                    IndexType iA  = std::max(kl-i, IndexType(0));
+                    IndexType len = std::min(kl+ku+1, kl-i+n) - iA;
+                    IndexType iX  = std::max(i-kl, IndexType(0))*incX;
 
-                VY _y;
-                dotu_generic(len, A+ldA*i+iA, IndexType(1),
-                                 x+iX, IndexType(incX),
-                                 _y);
-                y[iY] += alpha*_y;
+                    VY _y;
+                    dotu_generic(len, A+ldA*i+iA, IndexType(1),
+                                    x+iX, IndexType(incX), _y);
+                    y[iY] += alpha*_y;
+                }
+            } else {
+                for (IndexType i=0, iY=0; i<m; ++i, iY+=incY) {
+                    IndexType iA  = std::max(kl-i, IndexType(0));
+                    IndexType len = std::min(kl+ku+1, kl-i+n) - iA;
+                    IndexType iX  = std::max(i-kl, IndexType(0))*incX;
+
+                    VY _y;
+                    dot_generic(len, x+iX, IndexType(incX),
+                                     A+ldA*i+iA, IndexType(1), _y);
+                    y[iY] += alpha*_y;
+                }
             }
         } else {
-            for (IndexType i=0, iY=0; i<m; ++i, iY+=incY) {
-                IndexType iA = std::max(kl-i, IndexType(0));
-                IndexType len = std::min(kl+ku+1, kl-i+n) - iA;
-                IndexType iX = std::max(i-kl, IndexType(0))*incX;
+            if ( conjX == NoTrans)
+            {
+                for (IndexType i=0, iY=0; i<m; ++i, iY+=incY) {
+                    IndexType iA = std::max(kl-i, IndexType(0));
+                    IndexType len = std::min(kl+ku+1, kl-i+n) - iA;
+                    IndexType iX = std::max(i-kl, IndexType(0))*incX;
 
-                VY _y;
-                dot_generic(len, A+ldA*i+iA, IndexType(1),
-                                 x+iX, IndexType(incX),
-                                 _y);
-                y[iY] += alpha*_y;
+                    VY _y;
+                    dot_generic(len, A+ldA*i+iA, IndexType(1),
+                                    x+iX, IndexType(incX),
+                                    _y);
+                    y[iY] += alpha*_y;
+                }
+            } else {
+                for (IndexType i=0, iY=0; i<m; ++i, iY+=incY) {
+                    IndexType iA = std::max(kl-i, IndexType(0));
+                    IndexType len = std::min(kl+ku+1, kl-i+n) - iA;
+                    IndexType iX = std::max(i-kl, IndexType(0))*incX;
+
+                    VY _y;
+                    dotu_generic(len, A+ldA*i+iA, IndexType(1),
+                                    x+iX, IndexType(incX),
+                                    _y);
+                    y[iY] += alpha*conjugate(_y);
+                }
             }
         }
     } else {
@@ -98,24 +126,52 @@ gbmv_generic(StorageOrder order, Transpose trans,
         }
         scal_generic(n, beta, y, incY);
         if (trans==Trans) {
-            for (IndexType i=0, iX=0; i<m; ++i, iX+=incX) {
-                IndexType iA = std::max(kl-i, IndexType(0));
-                IndexType len = std::min(kl+ku+1, kl-i+n) - iA;
-                IndexType iY = std::max(i - kl, IndexType(0))*incY;
+            if (conjX == NoTrans)
+            {
+                for (IndexType i=0, iX=0; i<m; ++i, iX+=incX) {
+                    IndexType iA  = std::max(kl-i, IndexType(0));
+                    IndexType len = std::min(kl+ku+1, kl-i+n) - iA;
+                    IndexType iY  = std::max(i - kl, IndexType(0))*incY;
 
-                axpy_generic(len, x[iX] * alpha,
-                                  A+ldA*i+iA, IndexType(1),
-                                  y+iY, incY);
+                    axpy_generic(len, x[iX] * alpha,
+                                      A+ldA*i+iA, IndexType(1),
+                                      y+iY, incY);
+                }
+            } else {
+                      for (IndexType i=0, iX=0; i<m; ++i, iX+=incX) {
+                    IndexType iA  = std::max(kl-i, IndexType(0));
+                    IndexType len = std::min(kl+ku+1, kl-i+n) - iA;
+                    IndexType iY  = std::max(i - kl, IndexType(0))*incY;
+
+                    VY _x = conjugate(x[iX]);
+                    axpy_generic(len, _x * alpha,
+                                      A+ldA*i+iA, IndexType(1),
+                                      y+iY, incY);
+                }
             }
         } else {
-            for (IndexType i=0, iX=0; i<m; ++i, iX+=incX) {
-                IndexType iA = std::max(kl-i, IndexType(0));
-                IndexType len = std::min(kl+ku+1, kl-i+n) - iA;
-                IndexType iY = std::max(i - kl, IndexType(0))*incY;
+            if (conjX == NoTrans)
+            {
+                for (IndexType i=0, iX=0; i<m; ++i, iX+=incX) {
+                    IndexType iA = std::max(kl-i, IndexType(0));
+                    IndexType len = std::min(kl+ku+1, kl-i+n) - iA;
+                    IndexType iY = std::max(i - kl, IndexType(0))*incY;
 
-                acxpy_generic(len, x[iX] * alpha,
-                                   A+ldA*i+iA, IndexType(1),
-                                   y+iY, incY);
+                    acxpy_generic(len, x[iX] * alpha,
+                                      A+ldA*i+iA, IndexType(1),
+                                      y+iY, incY);
+                }
+            } else {
+                      for (IndexType i=0, iX=0; i<m; ++i, iX+=incX) {
+                    IndexType iA = std::max(kl-i, IndexType(0));
+                    IndexType len = std::min(kl+ku+1, kl-i+n) - iA;
+                    IndexType iY = std::max(i - kl, IndexType(0))*incY;
+
+                    VY _x = conjugate(x[iX]);
+                    acxpy_generic(len, _x * alpha,
+                                      A+ldA*i+iA, IndexType(1),
+                                      y+iY, incY);
+                }
             }
         }
     }
@@ -140,7 +196,7 @@ gbmv(StorageOrder order, Transpose trans,
     if ((m==0) || (n==0)) {
         return;
     }
-    gbmv_generic(order, trans, m, n, kl, ku, alpha, A, ldA,
+    gbmv_generic(order, trans, NoTrans, m, n, kl, ku, alpha, A, ldA,
                  x, incX, beta, y, incY);
 }
 

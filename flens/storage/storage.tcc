@@ -37,9 +37,17 @@
 #include <flens/storage/array/arrayview.tcc>
 #include <flens/storage/array/array.tcc>
 
+#include <flens/storage/bandstorage/constbandstorageview.tcc>
+#include <flens/storage/bandstorage/bandstorageview.tcc>
+#include <flens/storage/bandstorage/bandstorage.tcc>
+
 #include <flens/storage/fullstorage/constfullstorageview.tcc>
 #include <flens/storage/fullstorage/fullstorageview.tcc>
 #include <flens/storage/fullstorage/fullstorage.tcc>
 #include <flens/storage/fullstorage/trapezoidalfill.tcc>
+
+#include <flens/storage/packedstorage/constpackedstorageview.tcc>
+#include <flens/storage/packedstorage/packedstorageview.tcc>
+#include <flens/storage/packedstorage/packedstorage.tcc>
 
 #endif // FLENS_STORAGE_STORAGE_TCC

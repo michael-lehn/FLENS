@@ -185,7 +185,50 @@
     }
 
 //------------------------------------------------------------------------------
-
+    
+#define FLENS_BLASLOG_RESIZE_GBMATRIX(A, m, n, kl, ku)                      \
+    if (verbose::ClosureLog::openEntry()) {                                 \
+        verbose::ClosureLog::append() << "WARNING: Resizing " << A          \
+                 << " old dim = " << A.numRows() << " x " << A.numCols()    \
+                 << A.numSubDiags() << " SubDiags, " << A.numSuperDiags()   \
+                 << " SuperDiags, "                                         \
+                 << ", new dim = " << m << " x " << n << ", "               \
+                 << kl << " SubDiags, " << ku << " SuperDiags";             \
+    }
+//------------------------------------------------------------------------------
+    
+#define FLENS_BLASLOG_RESIZE_HBMATRIX(A, n, k)                              \
+    if (verbose::ClosureLog::openEntry()) {                                 \
+        verbose::ClosureLog::append() << "WARNING: Resizing " << A          \
+                 << " old dim = " << A.dim() << " x " << A.dim()            \
+                 << A.numOffDiags() << " OffDiags, "                        \
+                 << ", new dim = " << n << " x " << n << ", "               \
+                 << k << " OffDiags ";                                      \
+    }
+    
+//------------------------------------------------------------------------------
+    
+#define FLENS_BLASLOG_RESIZE_TBMATRIX(A, n, k)                              \
+    if (verbose::ClosureLog::openEntry()) {                                 \
+        verbose::ClosureLog::append() << "WARNING: Resizing " << A          \
+                 << " old dim = " << A.dim() << " x " << A.dim()            \
+                 << A.numOffDiags() << " OffDiags, "                        \
+                 << ", new dim = " << n << " x " << n << ", "               \
+                 << k << " OffDiags ";                                      \
+    }
+    
+//------------------------------------------------------------------------------
+    
+#define FLENS_BLASLOG_RESIZE_SBMATRIX(A, n, k)                              \
+    if (verbose::ClosureLog::openEntry()) {                                 \
+        verbose::ClosureLog::append() << "WARNING: Resizing " << A          \
+                 << " old dim = " << A.dim() << " x " << A.dim()            \
+                 << A.numOffDiags() << " OffDiags, "                        \
+                 << ", new dim = " << n << " x " << n << ", "               \
+                 << k << " OffDiags ";                                      \
+    }
+    
+//------------------------------------------------------------------------------
 #define FLENS_BLASLOG_BEGIN_COPY(X, Y)                                      \
     if (verbose::ClosureLog::createEntry()) {                               \
         verbose::ClosureLog::append() << "flens::blas::copy("               \
@@ -288,7 +331,98 @@
                                       << BETA << ", "                       \
                                       << Y << ");";                         \
     }
+    
+//------------------------------------------------------------------------------
 
+#define FLENS_BLASLOG_BEGIN_GBMV(TRANS, ALPHA, A, X, BETA, Y)               \
+    if (verbose::ClosureLog::createEntry()) {                               \
+        verbose::ClosureLog::append() << "flens::blas::mv("                 \
+                                      << TRANS << ", " << ALPHA << ", "     \
+                                      << A << ", " << X << ", "             \
+                                      << BETA << ", "                       \
+                                      << Y << ");";                         \
+    }
+//------------------------------------------------------------------------------
+
+#define FLENS_BLASLOG_BEGIN_HBMV(ALPHA, A, X, BETA, Y)                      \
+    if (verbose::ClosureLog::createEntry()) {                               \
+        verbose::ClosureLog::append() << "flens::blas::mv("                 \
+                                      << ", " << ALPHA << ", "              \
+                                      << A << ", " << X << ", "             \
+                                      << BETA << ", "                       \
+                                      << Y << ");";                         \
+    }
+//------------------------------------------------------------------------------
+
+#define FLENS_BLASLOG_BEGIN_HEMV(ALPHA, A, X, BETA, Y)                      \
+    if (verbose::ClosureLog::createEntry()) {                               \
+        verbose::ClosureLog::append() << "flens::blas::mv("                 \
+                                      << ", " << ALPHA << ", "              \
+                                      << A << ", " << X << ", "             \
+                                      << BETA << ", "                       \
+                                      << Y << ");";                         \
+    }
+//------------------------------------------------------------------------------
+
+#define FLENS_BLASLOG_BEGIN_HPMV(ALPHA, A, X, BETA, Y)                      \
+    if (verbose::ClosureLog::createEntry()) {                               \
+        verbose::ClosureLog::append() << "flens::blas::mv("                 \
+                                      << ", " << ALPHA << ", "              \
+                                      << A << ", " << X << ", "             \
+                                      << BETA << ", "                       \
+                                      << Y << ");";                         \
+    }
+
+//------------------------------------------------------------------------------
+
+#define FLENS_BLASLOG_BEGIN_SBMV(ALPHA, A, X, BETA, Y)                      \
+    if (verbose::ClosureLog::createEntry()) {                               \
+        verbose::ClosureLog::append() << "flens::blas::mv("                 \
+                                      << ", " << ALPHA << ", "              \
+                                      << A << ", " << X << ", "             \
+                                      << BETA << ", "                       \
+                                      << Y << ");";                         \
+    }
+//------------------------------------------------------------------------------
+
+#define FLENS_BLASLOG_BEGIN_SPMV(ALPHA, A, X, BETA, Y)                      \
+    if (verbose::ClosureLog::createEntry()) {                               \
+        verbose::ClosureLog::append() << "flens::blas::mv("                 \
+                                      << TRANS << ", "                      \
+                                      << A << ", " << X                     \
+                                      << ");";                              \
+    }
+//------------------------------------------------------------------------------
+
+#define FLENS_BLASLOG_BEGIN_SYMV(ALPHA, A, X, BETA, Y)                      \
+    if (verbose::ClosureLog::createEntry()) {                               \
+        verbose::ClosureLog::append() << "flens::blas::mv("                 \
+                                      << ", " << ALPHA << ", "              \
+                                      << A << ", " << X << ", "             \
+                                      << BETA << ", "                       \
+                                      << Y << ");";                         \
+    }
+
+//------------------------------------------------------------------------------
+
+#define FLENS_BLASLOG_BEGIN_TBMV(TRANS, A, X)                               \
+    if (verbose::ClosureLog::createEntry()) {                               \
+        verbose::ClosureLog::append() << "flens::blas::mv("                 \
+                                      << TRANS << ", "                      \
+                                      << A << ", " << X                     \
+                                      << ");";                              \
+    }
+    
+//------------------------------------------------------------------------------
+
+#define FLENS_BLASLOG_BEGIN_TPMV(TRANS, A, X)                               \
+    if (verbose::ClosureLog::createEntry()) {                               \
+        verbose::ClosureLog::append() << "flens::blas::mv("                 \
+                                      << TRANS << ", "                      \
+                                      << A << ", " << X                     \
+                                      << ");";                              \
+    }
+    
 //------------------------------------------------------------------------------
 
 #define FLENS_BLASLOG_BEGIN_TRMV(TRANS, A, X)                               \
@@ -312,6 +446,18 @@
                                       << C << ");";                         \
     }
 
+//------------------------------------------------------------------------------
+
+#define FLENS_BLASLOG_BEGIN_GBMM(transA, transB, alpha, A, B, beta, C)      \
+    if (verbose::ClosureLog::createEntry()) {                               \
+        verbose::ClosureLog::append() << "flens::blas::mm("                 \
+                                      << transA << ", " << transB << ", "   \
+                                      << alpha << ", "                      \
+                                      << A << ", " << B << ", "             \
+                                      << beta << ", "                       \
+                                      << C << ");";                         \
+    }    
+    
 //------------------------------------------------------------------------------
 
 #define FLENS_BLASLOG_BEGIN_TRMM(side, transA, alpha, A, B)                 \

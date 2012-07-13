@@ -49,32 +49,68 @@ template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
        const ALPHA &alpha, const GeMatrix<MA> &A, const DenseVector<VX> &x,
        const BETA &beta, DenseVector<VY> &y);
 
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+    void
+    mv(Transpose trans,
+       const ALPHA &alpha, const GbMatrix<MA> &A, const DenseVector<VX> &x,
+       const BETA &beta, DenseVector<VY> &y);
 
 //== TriangularMatrix - Vector products ========================================
+
+//-- tbmv
+template <typename MA, typename VX>
+    void
+    mv(Transpose trans, const TbMatrix<MA> &A, DenseVector<VX> &x);
 
 //-- trmv
 template <typename MA, typename VX>
     void
     mv(Transpose trans, const TrMatrix<MA> &A, DenseVector<VX> &x);
 
-
+//-- tpmv
+template <typename MA, typename VX>
+    void
+    mv(Transpose trans, const TpMatrix<MA> &A, DenseVector<VX> &x);
+    
 //== SymmetricMatrix - Vector products =========================================
 
+//-- sbmv
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+    void
+    mv(const ALPHA &alpha, const SbMatrix<MA> &A, const DenseVector<VX> &x,
+       const BETA &beta, DenseVector<VY> &y);
+
+//-- spmv
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+    void
+    mv(const ALPHA &alpha, const SpMatrix<MA> &A, const DenseVector<VX> &x,
+       const BETA &beta, DenseVector<VY> &y);
+    
 //-- symv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
     void
     mv(const ALPHA &alpha, const SyMatrix<MA> &A, const DenseVector<VX> &x,
        const BETA &beta, DenseVector<VY> &y);
 
-
 //== HermitianMatrix - Vector products =========================================
+
+//-- hbmv
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+    void
+    mv(const ALPHA &alpha, const HbMatrix<MA> &A, const DenseVector<VX> &x,
+       const BETA &beta, DenseVector<VY> &y);
 
 //-- hemv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
     void
     mv(const ALPHA &alpha, const HeMatrix<MA> &A, const DenseVector<VX> &x,
        const BETA &beta, DenseVector<VY> &y);
-
+    
+//-- hpmv
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+    void
+    mv(const ALPHA &alpha, const HpMatrix<MA> &A, const DenseVector<VX> &x,
+       const BETA &beta, DenseVector<VY> &y);
 
 //== forwarding ================================================================
 

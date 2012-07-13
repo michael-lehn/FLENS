@@ -46,15 +46,50 @@ template <typename VX, typename VY>
     void
     copy(const DenseVector<VX> &x, DenseVector<VY> &y);
 
+//-- gbcopy
+template <typename MA, typename MB>
+    void
+    copy(Transpose trans, const GbMatrix<MA> &A, GbMatrix<MB> &B);
+
 //-- gecopy
 template <typename MA, typename MB>
     void
     copy(Transpose trans, const GeMatrix<MA> &A, GeMatrix<MB> &B);
 
+//-- hbcopy
+template <typename MA, typename MB>
+    void
+    copy(Transpose trans, const HbMatrix<MA> &A, HbMatrix<MB> &B);
+
+//-- hpcopy
+template <typename MA, typename MB>
+    void
+    copy(Transpose trans, const HpMatrix<MA> &A, HpMatrix<MB> &B);
+    
+//-- tbcopy
+template <typename MA, typename MB>
+    void
+    copy(Transpose trans, const TbMatrix<MA> &A, TbMatrix<MB> &B);    
+
 //-- trcopy
 template <typename MA, typename MB>
     void
     copy(Transpose trans, const TrMatrix<MA> &A, TrMatrix<MB> &B);
+
+//-- tpcopy
+template <typename MA, typename MB>
+    void
+    copy(Transpose trans, const TpMatrix<MA> &A, TpMatrix<MB> &B);
+
+//-- sbcopy
+template <typename MA, typename MB>
+    void
+    copy(const SbMatrix<MA> &A, SbMatrix<MB> &B);
+
+//-- spcopy
+template <typename MA, typename MB>
+    void
+    copy(const SpMatrix<MA> &A, SpMatrix<MB> &B);
 
 //-- sycopy
 template <typename MA, typename MB>
@@ -63,6 +98,16 @@ template <typename MA, typename MB>
 
 //-- extensions ----------------------------------------------------------------
 
+//-- copy: HbMatrix -> GbMatrix
+template <typename MA, typename MB>
+    void
+    copy(const HbMatrix<MA> &A, GbMatrix<MB> &B);  
+
+//-- copy: TbMatrix -> GbMatrix
+template <typename MA, typename MB>
+    void
+    copy(Transpose trans, const TbMatrix<MA> &A, GbMatrix<MB> &B);  
+    
 //-- copy: TrMatrix -> GeMatrix
 template <typename MA, typename MB>
     void
@@ -72,6 +117,11 @@ template <typename MA, typename MB>
 template <typename MA, typename MB>
     void
     copy(Transpose trans, const GeMatrix<MA> &A, TrMatrix<MB> &B);
+   
+//-- copy: SbMatrix -> GbMatrix
+template <typename MA, typename MB>
+    void
+    copy(const SbMatrix<MA> &A, GbMatrix<MB> &B);
 
 //-- copy: SyMatrix -> GeMatrix
 template <typename MA, typename MB>

@@ -109,8 +109,107 @@ mv(Transpose transpose,
     FLENS_BLASLOG_UNSETTAG;
 }
 
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+void
+mv(Transpose transpose,
+   const ALPHA &alpha, const GbMatrix<MA> &A, const DenseVector<VX> &x,
+   const BETA &beta, DenseVector<VY> &y)
+{
+    const bool noTrans = (transpose==NoTrans || transpose==Conj);
+
+#   ifndef NDEBUG
+    if (noTrans) {
+        ASSERT(x.length()==A.numCols());
+    } else {
+        ASSERT(x.length()==A.numRows());
+    }
+#   endif
+
+    typedef typename GeMatrix<MA>::IndexType IndexType;
+    IndexType yLength = noTrans ? A.numRows()
+                                : A.numCols();
+
+    ASSERT(beta==BETA(0) || y.length()==yLength || y.length()==0);
+
+    if (y.length()!=yLength) {
+        typedef typename DenseVector<VY>::ElementType  T;
+        const T  Zero(0);
+        FLENS_BLASLOG_RESIZE_VECTOR(y, yLength);
+        y.resize(yLength, y.firstIndex(), Zero);
+    }
+
+
+#   ifndef FLENS_DEBUG_CLOSURES
+    ASSERT(!DEBUGCLOSURE::identical(x, y));
+#   else
+//
+//  If x and y are identical an temporary is needed if we want to use mv
+//
+    if (DEBUGCLOSURE::identical(x, y)) {
+        typename Result<DenseVector<VX> >::Type _x;
+        FLENS_BLASLOG_TMP_ADD(_x);
+        _x = x;
+
+        mv(transpose, alpha, A, _x, beta, y);
+
+        FLENS_BLASLOG_TMP_REMOVE(_x, x);
+        return;
+    }
+#   endif
+
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_GBMV(transpose, alpha, A, x, beta, y);
+
+#   ifdef HAVE_CXXBLAS_GBMV
+    cxxblas::gbmv(MA::order,
+                  transpose,
+                  A.numRows(), A.numCols(),
+                  A.numSubDiags(), A.numSuperDiags(),
+                  alpha,
+                  A.data(), A.leadingDimension(),
+                  x.data(), x.stride(),
+                  beta,
+                  y.data(), y.stride());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
 
 //== TriangularMatrix - Vector products ========================================
+
+//-- tbmv
+template <typename MA, typename VX>
+void
+mv(Transpose trans, const TbMatrix<MA> &A, DenseVector<VX> &x)
+{
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_TBMV(trans, A, x);
+
+#   ifndef NDEBUG
+    if (NoTrans) {
+        ASSERT(x.length()==A.numCols());
+    } else {
+        ASSERT(x.length()==A.numRows());
+    }
+#   endif
+
+#   ifdef HAVE_CXXBLAS_TRMV
+    cxxblas::tbmv(MA::order, A.upLo(),
+                  trans, A.diag(),
+                  A.dim(), A.numOffDiags(),
+                  A.data(), A.leadingDimension(),
+                  x.data(), x.stride());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
 
 //-- trmv
 template <typename MA, typename VX>
@@ -136,8 +235,85 @@ mv(Transpose trans, const TrMatrix<MA> &A, DenseVector<VX> &x)
     FLENS_BLASLOG_UNSETTAG;
 }
 
+//-- tpmv
+template <typename MA, typename VX>
+void
+mv(Transpose trans, const TpMatrix<MA> &A, DenseVector<VX> &x)
+{
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_TPMV(trans, A, x);
+
+    ASSERT(x.length()==A.dim());
+
+#   ifdef HAVE_CXXBLAS_TRMV
+    cxxblas::tpmv(MA::order, A.upLo(),
+                  trans, A.diag(),
+                  A.dim(),
+                  A.data(),
+                  x.data(), x.stride());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
 
 //== SymmetricMatrix - Vector products =========================================
+
+//-- sbmv
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+void
+mv(const ALPHA &alpha, const SbMatrix<MA> &A, const DenseVector<VX> &x,
+   const BETA &beta, DenseVector<VY> &y)
+{
+    ASSERT(ADDRESS(y)!=ADDRESS(x));
+    ASSERT(x.length()==A.dim());
+    ASSERT((beta==BETA(0)) || (y.length()==A.dim()));
+
+    if (y.length()!=A.dim()) {
+        y.resize(A.dim(), 0);
+    }
+
+#   ifdef HAVE_CXXBLAS_SBMV
+    cxxblas::sbmv(MA::order, A.upLo(),
+                  A.dim(), A.numOffDiags(),
+                  alpha,
+                  A.data(), A.leadingDimension(),
+                  x.data(), x.stride(),
+                  beta,
+                  y.data(), y.stride());
+#   else
+    ASSERT(0);
+#   endif
+}
+
+//-- spmv
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+void
+mv(const ALPHA &alpha, const SpMatrix<MA> &A, const DenseVector<VX> &x,
+   const BETA &beta, DenseVector<VY> &y)
+{
+    ASSERT(ADDRESS(y)!=ADDRESS(x));
+    ASSERT(x.length()==A.dim());
+    ASSERT((beta==BETA(0)) || (y.length()==A.dim()));
+
+    if (y.length()!=A.dim()) {
+        y.resize(A.dim(), 0);
+    }
+
+#   ifdef HAVE_CXXBLAS_SPMV
+    cxxblas::spmv(MA::order, A.upLo(),
+                  A.dim(),
+                  alpha,
+                  A.data(),
+                  x.data(), x.stride(),
+                  beta,
+                  y.data(), y.stride());
+#   else
+    ASSERT(0);
+#   endif
+}
 
 //-- symv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
@@ -166,10 +342,35 @@ mv(const ALPHA &alpha, const SyMatrix<MA> &A, const DenseVector<VX> &x,
 #   endif
 }
 
-
 //== HermitianMatrix - Vector products =========================================
 
-//-- hemv
+//-- hbmv
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+void
+mv(const ALPHA &alpha, const HbMatrix<MA> &A, const DenseVector<VX> &x,
+   const BETA &beta, DenseVector<VY> &y)
+{
+    ASSERT(ADDRESS(y)!=ADDRESS(x));
+    ASSERT(x.length()==A.dim());
+    ASSERT((beta==BETA(0)) || (y.length()==A.dim()));
+
+    if (y.length()!=A.dim()) {
+        y.resize(A.dim(), 0);
+    }
+
+#   ifdef HAVE_CXXBLAS_HBMV
+    cxxblas::hbmv(MA::order, A.upLo(),
+                  A.dim(), A.numOffDiags(),
+                  alpha,
+                  A.data(), A.leadingDimension(),
+                  x.data(), x.stride(),
+                  beta,
+                  y.data(), y.stride());
+#   else
+    ASSERT(0);
+#   endif
+}
+
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
 void
 mv(const ALPHA &alpha, const HeMatrix<MA> &A, const DenseVector<VX> &x,
@@ -196,6 +397,32 @@ mv(const ALPHA &alpha, const HeMatrix<MA> &A, const DenseVector<VX> &x,
 #   endif
 }
 
+//-- hpmv
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+void
+mv(const ALPHA &alpha, const HpMatrix<MA> &A, const DenseVector<VX> &x,
+   const BETA &beta, DenseVector<VY> &y)
+{
+    ASSERT(ADDRESS(y)!=ADDRESS(x));
+    ASSERT(x.length()==A.dim());
+    ASSERT((beta==BETA(0)) || (y.length()==A.dim()));
+
+    if (y.length()!=A.dim()) {
+        y.resize(A.dim(), 0);
+    }
+
+#   ifdef HAVE_CXXBLAS_HPMV
+    cxxblas::hpmv(MA::order, A.upLo(),
+                  A.dim(),
+                  alpha,
+                  A.data(),
+                  x.data(), x.stride(),
+                  beta,
+                  y.data(), y.stride());
+#   else
+    ASSERT(0);
+#   endif
+}
 
 //== forwarding ================================================================
 

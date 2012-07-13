@@ -245,6 +245,94 @@ mm(Transpose transA, Transpose transB, const ALPHA &alpha,
 
 //== HermitianMatrix - GeneralMatrix products ==================================
 
+
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+void
+hemm(Side side, Transpose transB, const ALPHA &alpha,
+     const HermitianMatrix<MA> &_A, const GeneralMatrix<MB> &_B,
+     const BETA &beta, Matrix<MC> &C)
+{
+    using namespace DEBUGCLOSURE;
+
+    typedef typename Result<typename MA::Impl>::Type  RMA;
+    typedef typename Result<typename MB::Impl>::Type  RMB;
+    typedef typename Result<typename MC::Impl>::Type  RMC;
+
+//
+//  In non-closure debug mode we do not allow temporaries for A or B.
+//
+#   ifndef FLENS_DEBUG_CLOSURES
+    static_assert(IsSame<RMA, typename Result<RMA>::Type>::value,
+                  "temporary required");
+    static_assert(IsSame<RMB, typename Result<RMB>::Type>::value,
+                  "temporary required");
+    ASSERT(transB==NoTrans);
+#   endif
+
+//
+//  If _A or _B is a closure temporaries get created
+//
+    FLENS_BLASLOG_TMP_TRON;
+    const RMA &A = _A.impl();
+    const RMB &B = _B.impl();
+    FLENS_BLASLOG_TMP_TROFF;
+
+//
+//  call (he)mm
+//
+#   ifndef FLENS_DEBUG_CLOSURES
+    mm(side, alpha, A.impl(), B.impl(), beta, C.impl());
+#   else
+//
+//  if transB is not NoTrans we need another temporary
+//
+    if (transB==NoTrans) {
+        mm(side, alpha, A, B, beta, C.impl());
+    } else {
+        typename RMB::NoView _B;
+        FLENS_BLASLOG_TMP_ADD(_B);
+        copy(transB, B, _B);
+        mm(side, alpha, A, _B, beta, C.impl());
+        FLENS_BLASLOG_TMP_REMOVE(_B, B);
+    }
+#   endif
+
+#   ifdef FLENS_DEBUG_CLOSURES
+    if (!IsSame<RMA, typename Result<RMA>::Type>::value) {
+        FLENS_BLASLOG_TMP_REMOVE(A, _A);
+    }
+    if (!IsSame<RMB, typename Result<RMB>::Type>::value) {
+        FLENS_BLASLOG_TMP_REMOVE(B, _B);
+    }
+#   endif
+}
+
+
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+void
+mm(Transpose transA, Transpose transB, const ALPHA &alpha,
+   const HermitianMatrix<MA> &A, const GeneralMatrix<MB> &B,
+   const BETA &beta, Matrix<MC> &C)
+{
+    ASSERT(transA==NoTrans || transA==Trans);
+    hemm(Left, transB, alpha, A.impl(), B.impl(), beta, C.impl());
+}
+
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+void
+mm(Transpose transA, Transpose transB, const ALPHA &alpha,
+   const GeneralMatrix<MA> &A, const HermitianMatrix<MB> &B,
+   const BETA &beta, Matrix<MC> &C)
+{
+    ASSERT(transA==NoTrans || transA==Trans);
+    hemm(Right, transB, alpha, B.impl(), A.impl(), beta, C.impl());
+}
+
+
+
+
+
+
 //== Matrix - Matrix products ==================================================
 //
 //  This gets called if everything else fails

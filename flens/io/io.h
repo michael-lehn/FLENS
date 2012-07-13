@@ -36,8 +36,10 @@
 #include <flens/io/array/load.h>
 #include <flens/io/array/out.h>
 #include <flens/io/array/save.h>
+#include <flens/io/bandstorage/out.h>
 #include <flens/io/fullstorage/load.h>
 #include <flens/io/fullstorage/out.h>
 #include <flens/io/fullstorage/save.h>
+#include <flens/io/packedstorage/out.h>
 
 #endif // FLENS_IO_IO_H

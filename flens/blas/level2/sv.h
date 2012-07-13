@@ -45,11 +45,25 @@ template <typename MA, typename VX>
     void
     sv(Transpose trans, const TriangularMatrix<MA> &A, Vector<VX> &x);
 
+//-- tbsv
+template <typename MA, typename VX>
+    void
+    sv(Transpose trans, const TbMatrix<MA> &A, DenseVector<VX> &x);
+
+//-- trsv
+template <typename MA, typename VX>
+    void
+    sv(Transpose trans, const TbMatrix<MA> &A, DenseVector<VX> &x);
+    
 //-- trsv
 template <typename MA, typename VX>
     void
     sv(Transpose trans, const TrMatrix<MA> &A, DenseVector<VX> &x);
 
+//-- tpsv
+template <typename MA, typename VX>
+    void
+    sv(Transpose trans, const TpMatrix<MA> &A, DenseVector<VX> &x);
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL3_SV_H

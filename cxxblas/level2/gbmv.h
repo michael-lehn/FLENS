@@ -44,7 +44,7 @@ template <typename IndexType, typename ALPHA, typename MA, typename VX,
     void
     gbmv(StorageOrder order, Transpose trans,
          IndexType m, IndexType n,
-         IndexType ku, IndexType kl,
+         IndexType kl, IndexType ku,
          const ALPHA &alpha,
          const MA *A, IndexType ldA,
          const VX *x, IndexType incX,
@@ -58,7 +58,7 @@ template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     gbmv(StorageOrder order, Transpose trans,
          IndexType m, IndexType n,
-         IndexType ku, IndexType kl,
+         IndexType kl, IndexType ku,
          float alpha,
          const float *A, IndexType ldA,
          const float *x, IndexType incX,
@@ -70,7 +70,7 @@ template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     gbmv(StorageOrder order, Transpose trans,
          IndexType m, IndexType n,
-         IndexType ku, IndexType kl,
+         IndexType kl, IndexType ku,
          double alpha,
          const double *A, IndexType ldA,
          const double *x, IndexType incX,
@@ -82,7 +82,7 @@ template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     gbmv(StorageOrder order, Transpose trans,
          IndexType m, IndexType n,
-         IndexType ku, IndexType kl,
+         IndexType kl, IndexType ku,
          const ComplexFloat &alpha,
          const ComplexFloat *A, IndexType ldA,
          const ComplexFloat *x, IndexType incX,
@@ -94,7 +94,7 @@ template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     gbmv(StorageOrder order, Transpose trans,
          IndexType m, IndexType n,
-         IndexType ku, IndexType kl,
+         IndexType kl, IndexType ku,
          const ComplexDouble &alpha,
          const ComplexDouble *A, IndexType ldA,
          const ComplexDouble *x, IndexType incX,

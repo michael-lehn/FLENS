@@ -45,6 +45,23 @@ sv(Transpose trans, const TriangularMatrix<MA> &A, Vector<VX> &x)
     sv(trans, A.impl(), x.impl());
 }
 
+//-- tbsv
+template <typename MA, typename VX>
+void
+sv(Transpose trans, const TbMatrix<MA> &A, DenseVector<VX> &x)
+{
+    ASSERT(x.length()==A.dim());
+#   ifdef HAVE_CXXBLAS_TBSV
+    cxxblas::tbsv(MA::order, A.upLo(),
+                  trans, A.diag(),
+                  A.dim(), A.numOffDiags(),
+                  A.data(), A.leadingDimension(),
+                  x.data(), x.stride());
+#   else
+    ASSERT(0);
+#   endif
+}
+
 //-- trsv
 template <typename MA, typename VX>
 void
@@ -56,6 +73,23 @@ sv(Transpose trans, const TrMatrix<MA> &A, DenseVector<VX> &x)
                   trans, A.diag(),
                   A.dim(),
                   A.data(), A.leadingDimension(),
+                  x.data(), x.stride());
+#   else
+    ASSERT(0);
+#   endif
+}
+
+//-- tpsv
+template <typename MA, typename VX>
+void
+sv(Transpose trans, const TpMatrix<MA> &A, DenseVector<VX> &x)
+{
+    ASSERT(x.length()==A.dim());
+#   ifdef HAVE_CXXBLAS_TPSV
+    cxxblas::tpsv(MA::order, A.upLo(),
+                  trans, A.diag(),
+                  A.dim(),
+                  A.data(),
                   x.data(), x.stride());
 #   else
     ASSERT(0);
