@@ -51,7 +51,6 @@ hbmv_generic(StorageOrder order, StorageUpLo upLo, Transpose conjugateA,
 {
     using std::max;
     using std::min;
-    // TODO:  using cxxblas::real <- causes an error
 
     if (order==ColMajor) {
         upLo = (upLo==Upper) ? Lower : Upper;

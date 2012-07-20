@@ -55,7 +55,6 @@ gemv_generic(StorageOrder order, Transpose transA, Transpose conjX,
                      x, incX, beta, y, incY);
         return;
     }
-    VX *_x = 0;
 
     if ((transA==NoTrans) || (transA==Conj)) {
         if (incX<0) {
@@ -64,27 +63,35 @@ gemv_generic(StorageOrder order, Transpose transA, Transpose conjX,
         if (incY<0) {
             y -= incY*(m-1);
         }
-        if (conjX==Conj) {
-            _x = new VX[n];
-            for (IndexType j=0, jX=0; j<n; ++j, jX+=incX) {
-                _x[j] = conjugate(x[jX]);
-            }
-            x = _x;
-            incX = IndexType(1);
-        }
 
         scal_generic(m, beta, y, incY);
-        if (transA==Conj) {
-            for (IndexType i=0, iY=0; i<m; ++i, iY+=incY) {
-                VY _y;
-                dot_generic(n, A+i*ldA, IndexType(1), x, incX, _y);
-                y[iY] += alpha*_y;
+        if (conjX==NoTrans) {
+            if (transA==Conj) {
+                for (IndexType i=0, iY=0; i<m; ++i, iY+=incY) {
+                    VY _y;
+                    dot_generic(n, A+i*ldA, IndexType(1), x, incX, _y);
+                    y[iY] += alpha*_y;
+                }
+            } else {
+                for (IndexType i=0, iY=0; i<m; ++i, iY+=incY) {
+                    VY _y;
+                    dotu_generic(n, A+i*ldA, IndexType(1), x, incX, _y);
+                    y[iY] += alpha*_y;
+                }
             }
-        } else {
-            for (IndexType i=0, iY=0; i<m; ++i, iY+=incY) {
-                VY _y;
-                dotu_generic(n, A+i*ldA, IndexType(1), x, incX, _y);
-                y[iY] += alpha*_y;
+        } else if (conjX==Conj) {
+            if (transA==Conj) {
+                for (IndexType i=0, iY=0; i<m; ++i, iY+=incY) {
+                    VY _y;
+                    dotu_generic(n, A+i*ldA, IndexType(1), x, incX, _y);
+                    y[iY] += alpha*cxxblas::conjugate(_y);
+                }
+            } else {
+                for (IndexType i=0, iY=0; i<m; ++i, iY+=incY) {
+                    VY _y;
+                    dot_generic(n, x, incX, A+i*ldA, IndexType(1), _y);
+                    y[iY] += alpha*_y;
+                }
             }
         }
     } else {
@@ -94,32 +101,37 @@ gemv_generic(StorageOrder order, Transpose transA, Transpose conjX,
         if (incY<0) {
             y -= incY*(n-1);
         }
-        if (conjX==Conj) {
-            _x = new VX[m];
-            for (IndexType j=0, jX=0; j<m; ++j, jX+=incX) {
-                _x[j] = conjugate(x[jX]);
-            }
-            x = _x;
-            incX = IndexType(1);
-        }
 
         scal_generic(n, beta, y, incY);
-        if (transA==ConjTrans) {
+        if (conjX==NoTrans) {
+            if (transA==ConjTrans) {
+                for (IndexType i=0, iY=0; i<n; ++i, iY+=incY) {
+                    VY _y;
+                    dot_generic(m, A+i, ldA, x, incX, _y);
+                    y[iY] += alpha*_y;
+                }
+            } else {
+                for (IndexType i=0, iY=0; i<n; ++i, iY+=incY) {
+                    VY _y;
+                    dotu_generic(m, A+i, ldA, x, incX, _y);
+                    y[iY] += alpha*_y;
+                }
+            }
+        } else if (conjX==Conj) {
+          if (transA==ConjTrans) {
             for (IndexType i=0, iY=0; i<n; ++i, iY+=incY) {
                 VY _y;
-                dot_generic(m, A+i, ldA, x, incX, _y);
-                y[iY] += alpha*_y;
+                dotu_generic(m, A+i, ldA, x, incX, _y);
+                y[iY] += alpha*cxxblas::conjugate(_y);
             }
         } else {
             for (IndexType i=0, iY=0; i<n; ++i, iY+=incY) {
                 VY _y;
-                dotu_generic(m, A+i, ldA, x, incX, _y);
+                dot_generic(m, x, incX, A+i, ldA, _y);
                 y[iY] += alpha*_y;
             }
         }
-    }
-    if (conjX==Conj) {
-        delete [] _x;
+        }
     }
 }
 
@@ -204,7 +216,25 @@ gemv(StorageOrder order, Transpose trans,
      ComplexFloat *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_cgemv");
-
+    
+    if (trans==Conj) {
+        order  = (order==RowMajor) ? ColMajor : RowMajor;
+        gemv(order, ConjTrans, n, m, alpha, A, ldA,
+                     x, incX, beta, y, incY);
+        return;
+    }
+    
+#   ifdef CXXBLAS_NO_TEMPORARY
+        if (order==RowMajor && trans==ConjTrans) {
+      
+            CXXBLAS_DEBUG_OUT("gemv_generic");
+            gemv_generic(order, trans, NoTrans, m, n,
+                     alpha, A, ldA, x, incX,
+                     beta, y, incY);
+            return; 
+        } 
+#   endif    
+    
     cblas_cgemv(CBLAS::getCblasType(order), CBLAS::getCblasType(trans),
                 m,  n,
                 reinterpret_cast<const float *>(&alpha),
@@ -226,6 +256,24 @@ gemv(StorageOrder order, Transpose trans,
      ComplexDouble *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zgemv");
+    
+    if (trans==Conj) {
+        order  = (order==RowMajor) ? ColMajor : RowMajor;
+        gemv(order, ConjTrans, n, m, alpha, A, ldA,
+                     x, incX, beta, y, incY);
+        return;
+    }
+    
+#   ifdef CXXBLAS_NO_TEMPORARY
+        if (order==RowMajor && trans==ConjTrans) {
+      
+            CXXBLAS_DEBUG_OUT("gemv_generic");
+            gemv_generic(order, trans, NoTrans, m, n,
+                     alpha, A, ldA, x, incX,
+                     beta, y, incY);
+            return; 
+        } 
+#   endif    
 
     cblas_zgemv(CBLAS::getCblasType(order), CBLAS::getCblasType(trans),
                 m,  n,
