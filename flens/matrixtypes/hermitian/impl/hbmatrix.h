@@ -225,6 +225,33 @@ class HbMatrix
         StorageUpLo  _upLo;
 };
 
+//-- Traits --------------------------------------------------------------------
+//
+//  IsHbMatrix
+//
+struct _HbMatrixChecker
+{
+
+    struct Two {
+        char x;
+        char y;
+    };
+
+    static Two
+    check(_AnyConversion);
+
+    template <typename Any>
+        static char
+        check(HbMatrix<Any>);
+};
+
+template <typename T>
+struct IsHbMatrix
+{
+    static T var;
+    static const bool value = sizeof(_HbMatrixChecker::check(var))==1;
+};
+
 } // namespace flens
 
 #endif // FLENS_MATRIXTYPES_HERMITIAN_IMPL_HBMATRIX_H

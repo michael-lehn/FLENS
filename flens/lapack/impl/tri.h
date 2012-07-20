@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2011, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -86,7 +86,11 @@ template <typename MA, typename VPIV, typename VWORK>
 //  Real/complex variant with temporary workspace
 //
 template <typename MA, typename VPIV>
-    typename RestrictTo<IsGeMatrix<MA>::value
+    typename RestrictTo< (IsGeMatrix<MA>::value ||
+                          IsHeMatrix<MA>::value ||
+                          IsSyMatrix<MA>::value ||
+                          IsHpMatrix<MA>::value ||
+                          IsSpMatrix<MA>::value )
                      && IsIntegerDenseVector<VPIV>::value,
              typename RemoveRef<MA>::Type::IndexType>::Type
     tri(MA          &&A,
@@ -105,6 +109,7 @@ template <typename MA>
 
 #ifdef USE_CXXLAPACK
 
+//== (tr)tri ===================================================================    
 //
 //  Complex variant
 //
@@ -112,9 +117,70 @@ template <typename MA>
     typename RestrictTo<IsComplexTrMatrix<MA>::value,
              typename RemoveRef<MA>::Type::IndexType>::Type
     tri(MA &&A);
-
+    
+//== (he)tri ===================================================================    
+//
+//  Complex variant
+//
+template <typename MA, typename VPIV, typename VWORK>
+    typename RestrictTo<IsHeMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsComplexDenseVector<VWORK>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    tri(MA          &&A,
+        const VPIV  &piv,
+        VWORK       &&work);
+    
+//== (sy)tri ===================================================================    
+//
+//  Real and complex variant
+//
+template <typename MA, typename VPIV, typename VWORK>
+    typename RestrictTo<IsSyMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsDenseVector<VWORK>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    tri(MA          &&A,
+        const VPIV  &piv,
+        VWORK       &&work);
+    
+//== (tp)tri ===================================================================    
+//
+//  Complex variant
+//
+template <typename MA>
+    typename RestrictTo<IsComplexTpMatrix<MA>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    tri(MA &&A);    
+    
+//== (hp)tri ===================================================================    
+//
+//  Complex variant
+//
+template <typename MA, typename VPIV, typename VWORK>
+    typename RestrictTo<IsHpMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsComplexDenseVector<VWORK>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    tri(MA          &&A,
+        const VPIV  &piv,
+        VWORK       &&work);
+    
+//== (sp)tri ===================================================================    
+//
+//  Real and complex variant
+//
+template <typename MA, typename VPIV, typename VWORK>
+    typename RestrictTo<IsSpMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsDenseVector<VWORK>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    tri(MA          &&A,
+        const VPIV  &piv,
+        VWORK       &&work);    
 #endif // USE_CXXLAPACK
 
+    
 
 } } // namespace lapack, flens
 

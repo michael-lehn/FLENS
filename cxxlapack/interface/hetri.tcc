@@ -53,7 +53,7 @@ hetri(char                  uplo,
                         reinterpret_cast<double *>(A),
                         &ldA,
                         iPiv,
-                        work,
+                        reinterpret_cast<double *>(work),
                         &info);
 #   ifndef NDEBUG
     if (info<0) {

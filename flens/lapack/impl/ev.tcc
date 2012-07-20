@@ -531,7 +531,9 @@ ev_impl(bool                  computeVL,
         const auto ws = ev_wsq_impl(computeVL, computeVR, A);
         work.resize(ws.second, 1);
     }
-
+    if (rWork.length()==0) {
+        rWork.resize(2*A.numRows());
+    }
     IndexType  info;
     info = cxxlapack::geev(computeVL ? 'V' : 'N',
                            computeVR ? 'V' : 'N',
@@ -889,6 +891,61 @@ ev_wsq(bool computeVL, bool computeVR, const MA &A)
 
 #endif // USE_CXXLAPACK
 
+//-- (ge)ev [real variant with temporary workspace] -----------------------------------------------------
+
+template <typename MA, typename VWR, typename VWI, typename MVL, typename MVR>
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                 && IsRealDenseVector<VWR>::value
+                 && IsRealDenseVector<VWI>::value
+                 && IsRealGeMatrix<MVL>::value
+                 && IsRealGeMatrix<MVR>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+ev(bool     computeVL,
+   bool     computeVR,
+   MA       &&A,
+   VWR      &&wr,
+   VWI      &&wi,
+   MVL      &&VL,
+   MVR      &&VR)
+{
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type::Vector WorkVector;
+    WorkVector work;
+    return ev(computeVL, computeVR, A, wr, wi, VL, VR, work);
+}
+
+#ifdef USE_CXXLAPACK
+//-- (ge)ev [complex variant with temporary workspace] -----------------------------------------------------
+
+template <typename MA, typename VW, typename MVL, typename MVR>
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                  && IsComplexDenseVector<VW>::value
+                  && IsComplexGeMatrix<MVL>::value
+                  && IsComplexGeMatrix<MVR>::value,
+          typename RemoveRef<MA>::Type::IndexType>::Type
+ev(bool     computeVL,
+   bool     computeVR,
+   MA       &&A,
+   VW       &&w,
+   MVL      &&VL,
+   MVR      &&VR)
+{
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type::Vector        WorkVector;
+    typedef typename RemoveRef<MA>::Type::ElementType   T;
+    typedef typename ComplexTrait<T>::PrimitiveType     PT;
+    typedef DenseVector<Array<PT> >                     RealWorkVector;
+
+    WorkVector      work;
+    RealWorkVector  rwork;
+    
+    return ev(computeVL, computeVR, A, w, VL, VR, work, rwork);
+}
+#endif
 
 } } // namespace lapack, flens
 

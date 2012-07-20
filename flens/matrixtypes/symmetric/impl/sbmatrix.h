@@ -231,6 +231,58 @@ class SbMatrix
         StorageUpLo  _upLo;
 };
 
+//-- Traits --------------------------------------------------------------------
+//
+//  IsSbMatrix
+//
+struct _SbMatrixChecker
+{
+
+    struct Two {
+        char x;
+        char y;
+    };
+
+    static Two
+    check(_AnyConversion);
+
+    template <typename Any>
+        static char
+        check(SbMatrix<Any>);
+};
+
+template <typename T>
+struct IsSbMatrix
+{
+    static T var;
+    static const bool value = sizeof(_SbMatrixChecker::check(var))==1;
+};
+
+//
+//  IsRealSbMatrix
+//
+template <typename T>
+struct IsRealSbMatrix
+{
+    typedef typename std::remove_reference<T>::type  TT;
+
+    static const bool value = IsSbMatrix<TT>::value
+                           && IsNotComplex<typename TT::ElementType>::value;
+};
+
+//
+//  IsComplexSbMatrix
+//
+template <typename T>
+struct IsComplexSbMatrix
+{
+    typedef typename std::remove_reference<T>::type  TT;
+
+    static const bool value = IsSbMatrix<TT>::value
+                           && IsComplex<typename TT::ElementType>::value;
+};
+
+
 } // namespace flens
 
 #endif // FLENS_MATRIXTYPES_SYMMETRIC_IMPL_SBMATRIX_H

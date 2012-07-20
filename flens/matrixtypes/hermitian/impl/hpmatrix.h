@@ -60,7 +60,15 @@ class HpMatrix
         typedef typename Engine::View               EngineView;
         typedef typename Engine::NoView             EngineNoView;
 
+        typedef typename Engine::ConstArrayView     ConstArrayView;
+        typedef typename Engine::ArrayView          ArrayView;
+        typedef typename Engine::Array              Array;
+
         // view types
+        typedef DenseVector<ConstArrayView>         ConstVectorView;
+        typedef DenseVector<ArrayView>              VectorView;
+        typedef DenseVector<Array>                  Vector;
+
         typedef HpMatrix<EngineConstView>           ConstView;
         typedef HpMatrix<EngineView>                View;
         typedef HpMatrix<EngineNoView>              NoView;
@@ -187,6 +195,33 @@ class HpMatrix
 
     private:
         Engine      _engine;
+};
+
+//-- Traits --------------------------------------------------------------------
+//
+//  IsHpMatrix
+//
+struct _HpMatrixChecker
+{
+
+    struct Two {
+        char x;
+        char y;
+    };
+
+    static Two
+    check(_AnyConversion);
+
+    template <typename Any>
+        static char
+        check(HpMatrix<Any>);
+};
+
+template <typename T>
+struct IsHpMatrix
+{
+    static T var;
+    static const bool value = sizeof(_HpMatrixChecker::check(var))==1;
 };
 
 } // namespace flens

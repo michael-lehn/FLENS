@@ -51,64 +51,6 @@
 
 namespace flens { namespace lapack {
 
-//== generic lapack implementation =============================================
-
-namespace generic {
-
-//-- (ge)svd [real variant] ----------------------------------------------------
-
-template <typename MA>
-typename RestrictTo<IsRealGeMatrix<MA>::value,
-         typename RemoveRef<MA>::Type::IndexType>::Type
-svd_wsq_impl(SVD::Job           jobU,
-             SVD::Job           jobVT,
-             GeMatrix<MA>       &A)
-{
-    ASSERT(0);
-}
-
-template <typename MA, typename VS, typename MU, typename MVT, typename VWORK>
-void
-svd_impl(SVD::Job               jobU,
-         SVD::Job               jobVT,
-         GeMatrix<MA>           &A,
-         DenseVector<VS>        &s,
-         GeMatrix<MU>           &U,
-         GeMatrix<MVT>          &VT,
-         DenseVector<VWORK>     &work)
-{
-    ASSERT(0);
-}
-
-//-- (ge)svd [complex variant] ----------------------------------------------------
-
-template <typename MA>
-typename RestrictTo<IsComplexGeMatrix<MA>::value,
-         typename RemoveRef<MA>::Type::IndexType>::Type
-svd_wsq_impl(SVD::Job           jobU,
-             SVD::Job           jobVT,
-             GeMatrix<MA>       &A)
-{
-    ASSERT(0);
-}
-
-template <typename MA, typename VS, typename MU, typename MVT,
-          typename VWORK, typename VRWORK>
-void
-svd_impl(SVD::Job               jobU,
-         SVD::Job               jobVT,
-         GeMatrix<MA>           &A,
-         DenseVector<VS>        &s,
-         GeMatrix<MU>           &U,
-         GeMatrix<MVT>          &VT,
-         DenseVector<VWORK>     &work,
-         DenseVector<VRWORK>    &rwork)
-{
-    ASSERT(0);
-}
-
-} // namespace generic
-
 //== interface for native lapack ===============================================
 
 #ifdef USE_CXXLAPACK
@@ -136,12 +78,12 @@ svd_wsq_impl(SVD::Job           jobU,
                                 A.numCols(),
                                 A.data(),
                                 A.leadingDimension(),
-                                DUMMY,
-                                DUMMY,
+                                &DUMMY,
+                                &DUMMY,
                                 ONE,
-                                DUMMY,
+                                &DUMMY,
                                 ONE,
-                                WORK,
+                                &WORK,
                                 LWORK);
 
     return WORK;
@@ -157,8 +99,27 @@ svd_impl(SVD::Job               jobU,
          GeMatrix<MVT>          &VT,
          DenseVector<VWORK>     &work)
 {
-    typedef typename GeMatrix<MA>::IndexType  IndexType;
+    typedef typename GeMatrix<MA>::ElementType  ElementType;
+    typedef typename GeMatrix<MA>::IndexType    IndexType;
+    
+    if (work.length()==0) {
+        ElementType     WORK;
+        IndexType       LWORK = -1;
 
+        cxxlapack::gesvd<IndexType>(getF77Char(jobU), getF77Char(jobVT),
+                                    A.numRows(),
+                                    A.numCols(),
+                                    A.data(),
+                                    A.leadingDimension(),
+                                    s.data(),
+                                    U.data(),
+                                    U.leadingDimension(),
+                                    VT.data(),
+                                    VT.leadingDimension(),
+                                    &WORK,
+                                    LWORK);
+        work.resize(cxxblas::real(WORK));
+    }
     cxxlapack::gesvd<IndexType>(getF77Char(jobU), getF77Char(jobVT),
                                 A.numRows(),
                                 A.numCols(),
@@ -196,14 +157,14 @@ svd_wsq_impl(SVD::Job           jobU,
                                 A.numCols(),
                                 A.data(),
                                 A.leadingDimension(),
-                                RDUMMY,
-                                DUMMY,
+                                &RDUMMY,
+                                &DUMMY,
                                 ONE,
-                                DUMMY,
+                                &DUMMY,
                                 ONE,
-                                WORK,
+                                &WORK,
                                 LWORK,
-                                RWORK);
+                                &RWORK);
 
     return cxxblas::real(WORK);
 }
@@ -220,6 +181,35 @@ svd_impl(SVD::Job               jobU,
          DenseVector<VWORK>     &work,
          DenseVector<VRWORK>    &rwork)
 {
+    using std::min;
+    
+    typedef typename GeMatrix<MA>::ElementType      ElementType;
+    typedef typename GeMatrix<MA>::IndexType        IndexType;
+
+    if (work.length()==0) {
+        ElementType     WORK;
+        IndexType       LWORK = -1;
+
+        cxxlapack::gesvd<IndexType>(getF77Char(jobU), getF77Char(jobVT),
+                                    A.numRows(),
+                                    A.numCols(),
+                                    A.data(),
+                                    A.leadingDimension(),
+                                    s.data(),
+                                    U.data(),
+                                    U.leadingDimension(),
+                                    VT.data(),
+                                    VT.leadingDimension(),
+                                    &WORK,
+                                    LWORK,
+                                    rwork.data());
+        work.resize(cxxblas::real(WORK));
+    }
+    
+    if (rwork.length()==0) {
+        rwork.resize(5*min(A.numRows(), A.numCols()));
+    }
+    
     typedef typename GeMatrix<MA>::IndexType  IndexType;
 
     cxxlapack::gesvd<IndexType>(getF77Char(jobU), getF77Char(jobVT),
@@ -239,8 +229,6 @@ svd_impl(SVD::Job               jobU,
 
 } // namespace external
 
-#endif // USE_CXXLAPACK
-
 //== public interface ==========================================================
 
 //-- (ge)svd [real variant] ----------------------------------------------------
@@ -252,28 +240,28 @@ typename RestrictTo<IsRealGeMatrix<MA>::value
                   && IsRealGeMatrix<MVT>::value
                   && IsRealDenseVector<VWORK>::value,
           void>::Type
-svd(SVD::Job        jobU,
-    SVD::Job        jobVT,
-    MA              &&A,
-    VS              &&s,
-    MU              &&U,
-    MVT             &&VT,
-    VWORK           &&work)
+svd(SVD::Job    jobU,
+    SVD::Job    jobVT,
+    MA          &&A,
+    VS          &&s,
+    MU          &&U,
+    MVT         &&VT,
+    VWORK       &&work)
 {
     using std::min;
-
 
 //
 //  Remove references from rvalue types
 //
-    typedef typename RemoveRef<MA>::Type     MatrixA;
-    typedef typename MatrixA::ElementType    ElementType;
-    typedef typename MatrixA::IndexType      IndexType;
-    typedef typename RemoveRef<VS>::Type     VectorS;
-    typedef typename RemoveRef<MU>::Type     MatrixU;
-    typedef typename RemoveRef<MVT>::Type    MatrixVT;
-    typedef typename RemoveRef<VWORK>::Type  VectorWork;
+    typedef typename RemoveRef<MA>::Type      MatrixA;
+    typedef typename MatrixA::ElementType     ElementType;
+    typedef typename MatrixA::IndexType       IndexType;
+    typedef typename RemoveRef<VS>::Type      VectorS;
+    typedef typename RemoveRef<MU>::Type      MatrixU;
+    typedef typename RemoveRef<MVT>::Type     MatrixVT;
+    typedef typename RemoveRef<VWORK>::Type   VectorWork;
 
+    
 #   ifndef NDEBUG
 //
 //  Test the input parameters
@@ -286,142 +274,19 @@ svd(SVD::Job        jobU,
 
     const IndexType m = A.numRows();
     const IndexType n = A.numCols();
-    const IndexType k = min(m,n);
 
     ASSERT(s.length()==std::min(m,n));
-    ASSERT(work.length()>=max(3*min(m,n)+max(m,n),5*min(m,n)));
-#   endif
-
-#   ifdef CHECK_CXXLAPACK
-//
-//  Make copies of output arguments
-//
-    typename MatrixA::NoView     A_org      = A;
-    typename VectorS::NoView     s_org      = s;
-    typename MatrixU::NoView     U_org      = U;
-    typename MatrixVT::NoView    VT_org     = VT;
-    typename VectorWork::NoView  work_org   = work;
 #   endif
 
 //
 //  Call implementation
-//
-    LAPACK_SELECT::svd_impl(jobU, jobVT, A, s, U, VT, work);
-
-#   ifdef CHECK_CXXLAPACK
-//
-//  Make copies of results computed by the generic implementation
-//
-    typename MatrixA::NoView     A_generic      = A;
-    typename VectorS::NoView     s_generic      = s;
-    typename MatrixU::NoView     U_generic      = U;
-    typename MatrixVT::NoView    VT_generic     = VT;
-    typename VectorWork::NoView  work_generic   = work;
-
-//
-//  restore output arguments
-//
-    A    = A_org;
-    s    = s_org;
-    U    = U_org;
-    VT   = VT_org;
-    work = work_org;
-
-//
-//  Compare generic results with results from the native implementation
 //
     external::svd_impl(jobU, jobVT, A, s, U, VT, work);
-
-    bool failed = false;
-    if (! isIdentical(A_generic, A, "A_generic", "A")) {
-        std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
-        std::cerr << "F77LAPACK: A = " << A << std::endl;
-        failed = true;
-    }
-    if (! isIdentical(s_generic, s, "s_generic", "s")) {
-        std::cerr << "CXXLAPACK: s_generic = " << s_generic << std::endl;
-        std::cerr << "F77LAPACK: s = " << s << std::endl;
-        failed = true;
-    }
-    if (! isIdentical(U_generic, U, "U_generic", "U")) {
-        std::cerr << "CXXLAPACK: U_generic = " << U_generic << std::endl;
-        std::cerr << "F77LAPACK: U = " << U << std::endl;
-        failed = true;
-    }
-    if (! isIdentical(VT_generic, VT, "VT_generic", "VT")) {
-        std::cerr << "CXXLAPACK: VT_generic = " << VT_generic << std::endl;
-        std::cerr << "F77LAPACK: VT = " << VT << std::endl;
-        failed = true;
-    }
-    if (! isIdentical(work_generic, work, "work_generic", "work")) {
-        std::cerr << "CXXLAPACK: work_generic = " << work_generic << std::endl;
-        std::cerr << "F77LAPACK: work = " << work << std::endl;
-        failed = true;
-    }
-
-    if (failed) {
-        std::cerr << "error in: svd.tcc" << std::endl;
-        ASSERT(0);
-    }
-#   endif
 }
 
-
-//-- svd_wsq [worksize query] ------------------------------------------------
-template <typename MA, typename VS, typename MU, typename MVT, typename VWORK>
-typename RestrictTo<IsGeMatrix<MA>::value,
-         typename RemoveRef<MA>::Type::IndexType>::Type
-svd_wsq(SVD::Job    jobU,
-        SVD::Job    jobVT,
-        MA          &&A)
-{
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::IndexType     IndexType;
-
-//
-//  Test the input parameters
-//
-#   ifndef NDEBUG
-        ASSERT((jobU != SVD::Overwrite) || (jobVT != SVD::Overwrite));
-#   endif
-
-#   ifdef CHECK_CXXLAPACK
-//
-//  Make copies of output arguments
-//
-    typename MatrixA::NoView     A_org      = A;
-#   endif
-
-//
-//  Call implementation
-//
-    const IndexType info = LAPACK_SELECT::svd_wsq_impl(jobU, jobVT, A);
-
-#   ifdef CHECK_CXXLAPACK
-//
-//  Make copies of results computed by the generic implementation
-//
-    typename MatrixA::NoView     A_generic      = A;
-
-//
-//  restore output arguments
-//
-    A    = A_org;
-
-//
-//  Compare generic results with results from the native implementation
-//
-    const IndexType _info = external::svd_wsq_impl(jobU, jobVT, A);
-
-    ASSERT(info==_info);
-#   endif
-
-    return info;
-}
 
 //-- (ge)svd [complex variant] -------------------------------------------------
 
-#ifdef USE_CXXLAPACK
 
 template <typename MA, typename VS, typename MU, typename MVT, typename VWORK,
           typename VRWORK>
@@ -454,7 +319,7 @@ svd(SVD::Job    jobU,
     typedef typename RemoveRef<MVT>::Type     MatrixVT;
     typedef typename RemoveRef<VWORK>::Type   VectorWork;
     typedef typename RemoveRef<VRWORK>::Type  VectorRWork;
-
+    
 #   ifndef NDEBUG
 //
 //  Test the input parameters
@@ -468,17 +333,97 @@ svd(SVD::Job    jobU,
 
     const IndexType m = A.numRows();
     const IndexType n = A.numCols();
-    const IndexType k = min(m,n);
 
     ASSERT(s.length()==std::min(m,n));
-    ASSERT(work.length()>=2*std::min(m,n)+std::max(m,n));
-    ASSERT(rwork.length()>=5*std::min(m,n));
 #   endif
 
 //
 //  Call implementation
 //
     external::svd_impl(jobU, jobVT, A, s, U, VT, work, rwork);
+}
+
+
+//
+//  Real variant with temporary workspace
+//
+template <typename MA, typename VS, typename MU, typename MVT>
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                  && IsRealDenseVector<VS>::value
+                  && IsRealGeMatrix<MU>::value
+                  && IsRealGeMatrix<MVT>::value,
+          void>::Type
+svd(SVD::Job    jobU,
+    SVD::Job    jobVT,
+    MA          &&A,
+    VS          &&s,
+    MU          &&U,
+    MVT         &&VT)
+{
+//
+//  Remove references from rvalue types
+//  
+    typedef typename RemoveRef<MA>::Type::Vector WorkVector;
+    WorkVector work;
+    svd(jobU, jobVT, A, s, U, VT, work);
+}
+
+
+//
+//  Complex variant with temporary workspace
+//
+template <typename MA, typename VS, typename MU, typename MVT>
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                  && IsRealDenseVector<VS>::value
+                  && IsComplexGeMatrix<MU>::value
+                  && IsComplexGeMatrix<MVT>::value,
+          void>::Type
+svd(SVD::Job    jobU,
+    SVD::Job    jobVT,
+    MA          &&A,
+    VS          &&s,
+    MU          &&U,
+    MVT         &&VT)
+{
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type::Vector        WorkVector;
+    typedef typename RemoveRef<MA>::Type::ElementType   T;
+    typedef typename ComplexTrait<T>::PrimitiveType     PT;
+    typedef DenseVector<Array<PT> >                     RealWorkVector;
+
+    WorkVector      work;
+    RealWorkVector  rwork;
+    
+    svd(jobU, jobVT, A, s, U, VT, work, rwork);
+}
+
+
+//-- svd_wsq [worksize query] ------------------------------------------------
+template <typename MA, typename VS, typename MU, typename MVT, typename VWORK>
+typename RestrictTo<IsGeMatrix<MA>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+svd_wsq(SVD::Job    jobU,
+        SVD::Job    jobVT,
+        MA          &&A)
+{
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+        ASSERT((jobU != SVD::Overwrite) || (jobVT != SVD::Overwrite));
+#   endif
+
+//
+//  Call implementation
+//
+    const IndexType info = external::svd_wsq_impl(jobU, jobVT, A);
+
+    return info;
 }
 
 #endif // USE_CXXLAPACK

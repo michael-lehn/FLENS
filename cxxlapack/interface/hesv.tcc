@@ -58,10 +58,9 @@ hesv (char                  uplo,
                        reinterpret_cast<double *>(A),
                        &ldA,
                        iPiv,
-                       B,
                        reinterpret_cast<double *>(B),
                        &ldB,
-                       work,
+                       reinterpret_cast<double *>(work),
                        &lWork,
                        &info);
 #   ifndef NDEBUG

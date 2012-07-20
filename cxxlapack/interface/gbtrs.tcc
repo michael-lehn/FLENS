@@ -93,7 +93,7 @@ gbtrs(char                       trans,
                         reinterpret_cast<const double *>(Ab),
                         &ldAb,
                         iPiv,
-                        reinterpret_cast<const double *>(B),
+                        reinterpret_cast<double *>(B),
                         &ldB,
                         &info);
 #   ifndef NDEBUG

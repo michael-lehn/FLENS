@@ -123,6 +123,46 @@ template <typename MA>
 
 #endif // USE_CXXLAPACK
 
+    
+//
+//  Real variant with temporary workspace
+//
+template <typename MA, typename VWR, typename VWI, typename MVL, typename MVR,
+          typename VWORK>
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsRealDenseVector<VWR>::value
+                     && IsRealDenseVector<VWI>::value
+                     && IsRealGeMatrix<MVL>::value
+                     && IsRealGeMatrix<MVR>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    ev(bool     computeVL,
+       bool     computeVR,
+       MA       &&A,
+       VWR      &&wr,
+       VWI      &&wi,
+       MVL      &&VL,
+       MVR      &&VR);
+
+    
+#ifdef USE_CXXLAPACK
+
+//
+//  Complex variant with temporary workspace
+//
+template <typename MA, typename VW, typename MVL, typename MVR>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsComplexDenseVector<VW>::value
+                     && IsComplexGeMatrix<MVL>::value
+                     && IsComplexGeMatrix<MVR>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    ev(bool     computeVL,
+       bool     computeVR,
+       MA       &&A,
+       VW       &&w,
+       MVL      &&VL,
+       MVR      &&VR);
+
+#endif // USE_CXXLAPACK
 
 } } // namespace lapack, flens
 

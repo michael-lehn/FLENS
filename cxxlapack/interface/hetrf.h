@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,52 +30,23 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_LEVEL2_SPMV_H
-#define CXXBLAS_LEVEL2_SPMV_H 1
+#ifndef CXXLAPACK_INTERFACE_HETRF_H
+#define CXXLAPACK_INTERFACE_HETRF_H 1
 
-#include <cxxblas/typedefs.h>
+#include <complex>
 
-#define HAVE_CXXBLAS_SPMV 1
+namespace cxxlapack {
 
-namespace cxxblas {
-
-template <typename IndexType, typename ALPHA, typename MA, typename VX,
-          typename BETA, typename VY>
-    void
-    spmv(StorageOrder order, StorageUpLo upLo,
-         IndexType n,
-         const ALPHA &alpha,
-         const MA *A,
-         const VX *x, IndexType incX,
-         const BETA &beta,
-         VY *y, IndexType incY);
-
-#ifdef HAVE_CBLAS
-
-// sspmv
 template <typename IndexType>
-    typename If<IndexType>::isBlasCompatibleInteger
-    spmv(StorageOrder order, StorageUpLo upLo,
-         IndexType n,
-         float alpha,
-         const float *A,
-         const float *x, IndexType incX,
-         float beta,
-         float *y, IndexType incY);
+    IndexType
+    hetrf(char                  uplo,
+          IndexType             n,
+          std::complex<double>  *A,
+          IndexType             ldA,
+          IndexType             *iPiv,
+          std::complex<double>  *work,
+          IndexType             lwork);
 
-// dspmv
-template <typename IndexType>
-    typename If<IndexType>::isBlasCompatibleInteger
-    spmv(StorageOrder order, StorageUpLo upLo,
-         IndexType n,
-         double alpha,
-         const double *A,
-         const double *x, IndexType incX,
-         double beta,
-         double *y, IndexType incY);
+} // namespace cxxlapack
 
-#endif // HAVE_CBLAS
-
-} // namespace cxxblas
-
-#endif // CXXBLAS_LEVEL2_SPMV_H
+#endif // CXXLAPACK_INTERFACE_HETRI_H

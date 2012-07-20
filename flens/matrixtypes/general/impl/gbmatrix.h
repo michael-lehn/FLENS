@@ -243,6 +243,57 @@ class GbMatrix
         Engine       _engine;
 };
 
+//-- Traits --------------------------------------------------------------------
+//
+//  IsGbMatrix
+//
+struct _GbMatrixChecker
+{
+
+    struct Two {
+        char x;
+        char y;
+    };
+
+    static Two
+    check(_AnyConversion);
+
+    template <typename Any>
+        static char
+        check(GbMatrix<Any>);
+};
+
+template <typename T>
+struct IsGbMatrix
+{
+    static T var;
+    static const bool value = sizeof(_GbMatrixChecker::check(var))==1;
+};
+
+//
+//  IsRealGbMatrix
+//
+template <typename T>
+struct IsRealGbMatrix
+{
+    typedef typename std::remove_reference<T>::type  TT;
+
+    static const bool value = IsGbMatrix<TT>::value
+                           && IsNotComplex<typename TT::ElementType>::value;
+};
+
+//
+//  IsComplexGbMatrix
+//
+template <typename T>
+struct IsComplexGbMatrix
+{
+    typedef typename std::remove_reference<T>::type  TT;
+
+    static const bool value = IsGbMatrix<TT>::value
+                           && IsComplex<typename TT::ElementType>::value;
+};
+
 } // namespace flens
 
 #endif // FLENS_MATRIXTYPES_GENERAL_IMPL_GBMATRIX_H

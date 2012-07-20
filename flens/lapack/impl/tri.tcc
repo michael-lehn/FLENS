@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2011, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -350,13 +350,135 @@ template <typename MA>
 typename GeMatrix<MA>::IndexType
 tri_impl(TrMatrix<MA> &A)
 {
-    typedef typename GeMatrix<MA>::IndexType  IndexType;
+    typedef typename TrMatrix<MA>::IndexType  IndexType;
 
     IndexType info = cxxlapack::trtri<IndexType>(getF77Char(A.upLo()),
                                                  getF77Char(A.diag()),
                                                  A.dim(),
                                                  A.data(),
                                                  A.leadingDimension());
+    ASSERT(info>=0);
+    return info;
+}
+
+//-- (he)tri [complex variant] ----------------------------------------
+
+template <typename MA, typename VP, typename VWORK>
+typename HeMatrix<MA>::IndexType
+tri_impl(HeMatrix<MA>             &A,
+         const DenseVector<VP>    &piv,
+         DenseVector<VWORK>       &work)
+{
+    typedef typename HeMatrix<MA>::ElementType  ElementType;
+    typedef typename HeMatrix<MA>::IndexType    IndexType;
+
+    IndexType info;
+
+    if (work.length()==0) {
+        work.resize(A.dim());
+    }
+
+    info = cxxlapack::hetri<IndexType>(getF77Char(A.upLo()),
+                                       A.dim(),
+                                       A.data(),
+                                       A.leadingDimension(),
+                                       piv.data(),
+                                       work.data());
+    ASSERT(info>=0);
+    return info;
+}
+
+//-- (sy)tri [real variant] ----------------------------------------
+
+template <typename MA, typename VP, typename VWORK>
+typename SyMatrix<MA>::IndexType
+tri_impl(SyMatrix<MA>             &A,
+         const DenseVector<VP>    &piv,
+         DenseVector<VWORK>       &work)
+{
+    typedef typename SyMatrix<MA>::ElementType  ElementType;
+    typedef typename SyMatrix<MA>::IndexType    IndexType;
+
+    IndexType info;
+
+    if (work.length()==0) {
+        work.resize(A.dim());
+    }
+
+    info = cxxlapack::sytri<IndexType>(getF77Char(A.upLo()),
+                                       A.dim(),
+                                       A.data(),
+                                       A.leadingDimension(),
+                                       piv.data(),
+                                       work.data());
+    ASSERT(info>=0);
+    return info;
+}
+
+//-- (tp)tri [real and complex variant] ----------------------------------------
+
+template <typename MA>
+typename GeMatrix<MA>::IndexType
+tri_impl(TpMatrix<MA> &A)
+{
+    typedef typename TpMatrix<MA>::IndexType  IndexType;
+
+    IndexType info = cxxlapack::tptri<IndexType>(getF77Char(A.upLo()),
+                                                 getF77Char(A.diag()),
+                                                 A.dim(),
+                                                 A.data());
+    ASSERT(info>=0);
+    return info;
+}
+
+//-- (hp)tri [complex variant] ----------------------------------------
+
+template <typename MA, typename VP, typename VWORK>
+typename HpMatrix<MA>::IndexType
+tri_impl(HpMatrix<MA>             &A,
+         const DenseVector<VP>    &piv,
+         DenseVector<VWORK>       &work)
+{
+    typedef typename HpMatrix<MA>::ElementType  ElementType;
+    typedef typename HpMatrix<MA>::IndexType    IndexType;
+
+    IndexType info;
+
+    if (work.length()==0) {
+        work.resize(A.dim());
+    }
+
+    info = cxxlapack::hptri<IndexType>(getF77Char(A.upLo()),
+                                       A.dim(),
+                                       A.data(),
+                                       piv.data(),
+                                       work.data());
+    ASSERT(info>=0);
+    return info;
+}
+
+//-- (sp)tri [real variant] ----------------------------------------
+
+template <typename MA, typename VP, typename VWORK>
+typename SpMatrix<MA>::IndexType
+tri_impl(SpMatrix<MA>             &A,
+         const DenseVector<VP>    &piv,
+         DenseVector<VWORK>       &work)
+{
+    typedef typename SpMatrix<MA>::ElementType  ElementType;
+    typedef typename SpMatrix<MA>::IndexType    IndexType;
+
+    IndexType info;
+
+    if (work.length()==0) {
+        work.resize(A.dim());
+    }
+
+    info = cxxlapack::sptri<IndexType>(getF77Char(A.upLo()),
+                                       A.dim(),
+                                       A.data(),
+                                       piv.data(),
+                                       work.data());
     ASSERT(info>=0);
     return info;
 }
@@ -509,7 +631,11 @@ tri(MA &&A, const VPIV &piv, VWORK &&work)
 
 //-- (ge)tri [real/complex variant with temporary workspace] -------------------
 template <typename MA, typename VPIV>
-typename RestrictTo<IsGeMatrix<MA>::value
+typename RestrictTo<(IsGeMatrix<MA>::value ||
+                          IsHeMatrix<MA>::value ||
+                          IsSyMatrix<MA>::value ||
+                          IsHpMatrix<MA>::value ||
+                          IsSpMatrix<MA>::value )
                  && IsIntegerDenseVector<VPIV>::value,
          typename RemoveRef<MA>::Type::IndexType>::Type
 tri(MA          &&A,
@@ -622,6 +748,206 @@ tri(MA &&A)
 //  Call implementation
 //
     const IndexType info = external::tri_impl(A);
+
+    return info;
+}
+
+template <typename MA, typename VPIV, typename VWORK>
+typename RestrictTo<IsHeMatrix<MA>::value
+                 && IsIntegerDenseVector<VPIV>::value
+                 && IsComplexDenseVector<VWORK>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+tri(MA &&A, const VPIV &piv, VWORK &&work)
+{
+    using std::max;
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+    typedef typename RemoveRef<VPIV>::Type  VectorPiv;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(A.numRows()==A.numCols());
+
+    const IndexType n = A.numRows();
+
+    ASSERT(piv.firstIndex()==1);
+    ASSERT(piv.length()==n);
+
+    const bool lQuery = (work.length()==0);
+    ASSERT(lQuery || work.length()>=max(IndexType(1),n));
+#   endif
+
+//
+//  Call implementation
+//
+    const IndexType info = external::tri_impl(A, piv, work);
+
+    return info;
+}
+
+template <typename MA, typename VPIV, typename VWORK>
+typename RestrictTo<IsSyMatrix<MA>::value
+                 && IsIntegerDenseVector<VPIV>::value
+                 && IsDenseVector<VWORK>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+tri(MA &&A, const VPIV &piv, VWORK &&work)
+{
+    using std::max;
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+    typedef typename RemoveRef<VPIV>::Type  VectorPiv;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(A.numRows()==A.numCols());
+
+    const IndexType n = A.numRows();
+
+    ASSERT(piv.firstIndex()==1);
+    ASSERT(piv.length()==n);
+
+    const bool lQuery = (work.length()==0);
+    ASSERT(lQuery || work.length()>=max(IndexType(1),n));
+#   endif
+
+//
+//  Call implementation
+//
+    const IndexType info = external::tri_impl(A, piv, work);
+
+    return info;
+}
+
+//-- (tp)tri [real and complex variant] -------------------------------------------------
+
+template <typename MA>
+typename RestrictTo<IsTpMatrix<MA>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+tri(MA &&A)
+{
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+#   endif
+
+//
+//  Make copies of output arguments
+//
+#   ifdef CHECK_CXXLAPACK
+    typename MatrixA::NoView   A_org = A;
+#   endif
+
+//
+//  Call implementation
+//
+    const IndexType info = external::tri_impl(A);
+
+    return info;
+}
+
+template <typename MA, typename VPIV, typename VWORK>
+typename RestrictTo<IsHpMatrix<MA>::value
+                 && IsIntegerDenseVector<VPIV>::value
+                 && IsComplexDenseVector<VWORK>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+tri(MA &&A, const VPIV &piv, VWORK &&work)
+{
+    using std::max;
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+    typedef typename RemoveRef<VPIV>::Type  VectorPiv;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstIndex()==1);
+
+    const IndexType n = A.dim();
+
+    ASSERT(piv.firstIndex()==1);
+    ASSERT(piv.length()==n);
+
+    const bool lQuery = (work.length()==0);
+    ASSERT(lQuery || work.length()>=max(IndexType(1),n));
+#   endif
+
+//
+//  Call implementation
+//
+    const IndexType info = external::tri_impl(A, piv, work);
+
+    return info;
+}
+
+template <typename MA, typename VPIV, typename VWORK>
+typename RestrictTo<IsSpMatrix<MA>::value
+                 && IsIntegerDenseVector<VPIV>::value
+                 && IsDenseVector<VWORK>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+tri(MA &&A, const VPIV &piv, VWORK &&work)
+{
+    using std::max;
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+    typedef typename RemoveRef<VPIV>::Type  VectorPiv;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstIndex()==1);
+
+    const IndexType n = A.dim();
+
+    ASSERT(piv.firstIndex()==1);
+    ASSERT(piv.length()==n);
+
+    const bool lQuery = (work.length()==0);
+    ASSERT(lQuery || work.length()>=max(IndexType(1),n));
+#   endif
+
+//
+//  Call implementation
+//
+    const IndexType info = external::tri_impl(A, piv, work);
 
     return info;
 }

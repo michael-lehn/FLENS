@@ -49,7 +49,7 @@ hptri(char                  uplo,
     LAPACK_IMPL(zhptri)(&uplo,
                         &n,
                         reinterpret_cast<double *>(Ap),
-                        *iPiv,
+                        iPiv,
                         reinterpret_cast<double *>(work),
                         &info);
 #   ifndef NDEBUG

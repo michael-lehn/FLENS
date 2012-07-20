@@ -55,7 +55,6 @@ hetrs(char                        uplo,
                         reinterpret_cast<const double *>(A),
                         &ldA,
                         iPiv,
-                        B,
                         reinterpret_cast<double *>(B),
                         &ldB,
                         &info);

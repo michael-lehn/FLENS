@@ -194,6 +194,58 @@ class TpMatrix
         Diag         _diag;
 };
 
+//-- Traits --------------------------------------------------------------------
+//
+//  IsTpMatrix
+//
+struct _TpMatrixChecker
+{
+
+    struct Two {
+        char x;
+        char y;
+    };
+
+    static Two
+    check(_AnyConversion);
+
+    template <typename Any>
+        static char
+        check(TpMatrix<Any>);
+};
+
+template <typename T>
+struct IsTpMatrix
+{
+    static T var;
+    static const bool value = sizeof(_TpMatrixChecker::check(var))==1;
+};
+
+//
+//  IsRealTpMatrix
+//
+template <typename T>
+struct IsRealTpMatrix
+{
+    typedef typename std::remove_reference<T>::type  TT;
+
+    static const bool value = IsTpMatrix<TT>::value
+                           && IsNotComplex<typename TT::ElementType>::value;
+};
+
+//
+//  IsComplexTpMatrix
+//
+template <typename T>
+struct IsComplexTpMatrix
+{
+    typedef typename std::remove_reference<T>::type  TT;
+
+    static const bool value = IsTpMatrix<TT>::value
+                           && IsComplex<typename TT::ElementType>::value;
+};
+
+
 } // namespace flens
 
 #endif // FLENS_MATRIXTYPES_TRIANGULAR_IMPL_TPMATRIX_H

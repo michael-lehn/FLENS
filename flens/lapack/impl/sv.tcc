@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2011, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -104,6 +104,148 @@ sv_impl(GeMatrix<MA> &A, DenseVector<VPIV> &piv, GeMatrix<MB> &B)
     return info;
 }
 
+//-- (he)sv [complex variant] -----------------------------------------
+
+template <typename MA, typename VPIV, typename MB, typename VWORK>
+typename HeMatrix<MA>::IndexType
+sv_impl(HeMatrix<MA> &A, DenseVector<VPIV> &piv, GeMatrix<MB> &B, 
+        DenseVector<VWORK> &work)
+{
+    typedef typename HeMatrix<MA>::IndexType    IndexType;
+    typedef typename HeMatrix<MA>::ElementType  ElementType;
+    
+    if (work.length()==0) {
+        ElementType     WORK;
+        IndexType       LWORK = -1;
+        
+        cxxlapack::hesv<IndexType>(getF77Char(A.upLo()),
+                                   A.dim(),
+                                   B.numCols(),
+                                   A.data(),
+                                   A.leadingDimension(),
+                                   piv.data(),
+                                   B.data(),
+                                   B.leadingDimension(),
+                                   &WORK,
+                                   LWORK);
+        work.resize(cxxblas::real(WORK));        
+    }
+    
+    IndexType info = cxxlapack::hesv<IndexType>(getF77Char(A.upLo()),
+                                                A.dim(),
+                                                B.numCols(),
+                                                A.data(),
+                                                A.leadingDimension(),
+                                                piv.data(),
+                                                B.data(),
+                                                B.leadingDimension(),
+                                                work.data(),
+                                                work.length());
+    ASSERT(info>=0);
+    return info;
+}
+
+//-- (sy)sv [complex variant] -----------------------------------------
+
+template <typename MA, typename VPIV, typename MB, typename VWORK>
+typename SyMatrix<MA>::IndexType
+sv_impl(SyMatrix<MA> &A, DenseVector<VPIV> &piv, GeMatrix<MB> &B, 
+        DenseVector<VWORK> &work)
+{
+    typedef typename SyMatrix<MA>::IndexType    IndexType;
+    typedef typename SyMatrix<MA>::ElementType  ElementType;
+    
+    if (work.length()==0) {
+        ElementType     WORK;
+        IndexType       LWORK = -1;
+        
+        cxxlapack::sysv<IndexType>(getF77Char(A.upLo()),
+                                   A.dim(),
+                                   B.numCols(),
+                                   A.data(),
+                                   A.leadingDimension(),
+                                   piv.data(),
+                                   B.data(),
+                                   B.leadingDimension(),
+                                   &WORK,
+                                   LWORK);
+        work.resize(cxxblas::real(WORK));        
+    }
+
+
+    IndexType info = cxxlapack::sysv<IndexType>(getF77Char(A.upLo()),
+                                                A.dim(),
+                                                B.numCols(),
+                                                A.data(),
+                                                A.leadingDimension(),
+                                                piv.data(),
+                                                B.data(),
+                                                B.leadingDimension(),
+                                                work.data(),
+                                                work.length());
+    ASSERT(info>=0);
+    return info;
+}
+
+//-- (gb)sv [real and complex variant] -----------------------------------------
+
+template <typename MA, typename VPIV, typename MB>
+typename GbMatrix<MA>::IndexType
+sv_impl(GbMatrix<MA> &A, DenseVector<VPIV> &piv, GeMatrix<MB> &B)
+{
+    typedef typename GbMatrix<MA>::IndexType  IndexType;
+
+    IndexType info = cxxlapack::gbsv<IndexType>(A.numRows(),
+                                                A.numSubDiags(),
+                                                A.numSuperDiags()-A.numSubDiags(),
+                                                B.numCols(),
+                                                A.data(),
+                                                A.leadingDimension(),
+                                                piv.data(),
+                                                B.data(),
+                                                B.leadingDimension());
+    ASSERT(info>=0);
+    return info;
+}
+
+//-- (sp)sv [complex variant] -----------------------------------------
+
+template <typename MA, typename VPIV, typename MB>
+typename HpMatrix<MA>::IndexType
+sv_impl(HpMatrix<MA> &A, DenseVector<VPIV> &piv, GeMatrix<MB> &B)
+{
+    typedef typename HpMatrix<MA>::IndexType  IndexType;
+
+    IndexType info = cxxlapack::hpsv<IndexType>(getF77Char(A.upLo()),
+                                                A.dim(),
+                                                B.numCols(),
+                                                A.data(),
+                                                piv.data(),
+                                                B.data(),
+                                                B.leadingDimension());
+    ASSERT(info>=0);
+    return info;
+}
+
+//-- (sp)sv [real variant] -----------------------------------------
+
+template <typename MA, typename VPIV, typename MB>
+typename SpMatrix<MA>::IndexType
+sv_impl(SpMatrix<MA> &A, DenseVector<VPIV> &piv, GeMatrix<MB> &B)
+{
+    typedef typename SpMatrix<MA>::IndexType  IndexType;
+
+    IndexType info = cxxlapack::spsv<IndexType>(getF77Char(A.upLo()),
+                                                A.dim(),
+                                                B.numCols(),
+                                                A.data(),
+                                                piv.data(),
+                                                B.data(),
+                                                B.leadingDimension());
+    ASSERT(info>=0);
+    return info;
+}
+
 } // namespace external
 
 #endif // USE_CXXLAPACK
@@ -128,7 +270,10 @@ sv(MA &&A, VPIV &&piv, MB &&B)
     typedef typename MatrixA::IndexType     IndexType;
     typedef typename RemoveRef<VPIV>::Type  VectorPiv;
     typedef typename RemoveRef<MB>::Type    MatrixB;
-
+ 
+    if (piv.length()<A.numRows()) {
+        piv.resize(A.numRows());
+    }
 //
 //  Test the input parameters
 //
@@ -142,12 +287,16 @@ sv(MA &&A, VPIV &&piv, MB &&B)
     ASSERT(B.firstCol()==1);
     ASSERT(B.numRows()==A.numRows());
 #   endif
+    
+#   ifdef CHECK_CXXLAPACK
 //
 //  Make copies of output arguments
 //
     typename MatrixA::NoView    A_org   = A;
     typename VectorPiv::NoView  piv_org = piv;
     typename MatrixB::NoView    B_org   = B;
+    
+#   endif    
 //
 //  Call implementation
 //
@@ -206,7 +355,12 @@ sv(MA &&A, VPIV &&piv, MB &&B)
 //-- (ge)sv [variant if rhs is vector] -----------------------------------------
 
 template <typename MA, typename VPIV, typename VB>
-typename RestrictTo<IsGeMatrix<MA>::value
+typename RestrictTo<(IsGeMatrix<MA>::value ||
+                     IsHeMatrix<MA>::value ||
+                     IsSyMatrix<MA>::value ||
+                     IsGbMatrix<MA>::value || 
+                     IsHpMatrix<MA>::value || 
+                     IsSpMatrix<MA>::value)
                  && IsIntegerDenseVector<VPIV>::value
                  && IsDenseVector<VB>::value,
          typename RemoveRef<MA>::Type::IndexType>::Type
@@ -229,6 +383,297 @@ sv(MA &&A, VPIV &&piv, VB &&b)
     return sv(A, piv, B);
 }
 
+
+#ifdef USE_CXXLAPACK
+
+
+//-- (he)sv [complex variant] -----------------------------------------
+template <typename MA, typename VPIV, typename MB, typename VWORK>
+typename RestrictTo<IsHeMatrix<MA>::value
+                  && IsIntegerDenseVector<VPIV>::value
+                  && IsComplexGeMatrix<MB>::value
+                  && IsComplexDenseVector<VWORK>::value,
+          typename RemoveRef<MA>::Type::IndexType>::Type
+sv(MA &&A, VPIV &&piv, MB &&B, VWORK && work)
+{
+    LAPACK_DEBUG_OUT("(he)sv [complex]");
+    
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+    
+    if (piv.length()<A.dim()) {
+        piv.resize(A.dim());
+    }
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT((piv.inc()>0 && piv.firstIndex()==1)
+        || (piv.inc()<0 && piv.firstIndex()==A.dim()));
+    ASSERT(B.firstRow()==1);
+    ASSERT(B.firstCol()==1);
+    ASSERT(B.numRows()==A.dim());
+#   endif
+//
+//  Call implementation
+//
+    IndexType info = external::sv_impl(A, piv, B, work);
+
+    return info;    
+}
+
+//-- (he)sv [complex variant, if rhs is vector] ------------------------
+template <typename MA, typename VPIV, typename VB, typename VWORK>
+typename RestrictTo<IsHeMatrix<MA>::value
+                  && IsIntegerDenseVector<VPIV>::value
+                  && IsComplexDenseVector<VB>::value
+                  && IsComplexDenseVector<VWORK>::value,
+          typename RemoveRef<MA>::Type::IndexType>::Type
+sv(MA &&A, VPIV &&piv, VB &&b, VWORK && work)
+{
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename RemoveRef<VB>::Type    VectorB;
+
+    typedef typename VectorB::ElementType  ElementType;
+    typedef typename VectorB::IndexType    IndexType;
+
+    const IndexType    n     = b.length();
+    const StorageOrder order = MatrixA::Engine::order;
+
+    GeMatrix<FullStorageView<ElementType, order> >  B(n, 1, b, n);
+    
+    return sv(A, piv, B, work);
+}
+
+//-- (he)sv [complex variant with temporary workspace] ----------------
+template <typename MA, typename VPIV, typename MB>
+typename RestrictTo<IsHeMatrix<MA>::value
+                 && IsIntegerDenseVector<VPIV>::value
+                 && IsComplexGeMatrix<MB>::value ,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+sv(MA &&A, VPIV &&piv, MB &&B)
+{
+    typedef typename RemoveRef<MA>::Type::Vector WorkVector;
+
+    WorkVector  work;
+    
+    return sv(A, piv, B, work);
+}
+    
+//-- (sy)sv [real and complex variant] -------------------------------
+template <typename MA, typename VPIV, typename MB, typename VWORK>
+typename RestrictTo<IsSyMatrix<MA>::value
+                  && IsIntegerDenseVector<VPIV>::value
+                  && IsGeMatrix<MB>::value
+                  && IsDenseVector<VWORK>::value,
+          typename RemoveRef<MA>::Type::IndexType>::Type
+sv(MA &&A, VPIV &&piv, MB &&B, VWORK && work)
+{
+    LAPACK_DEBUG_OUT("(sy)sv [real/complex]");
+    
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+
+    if (piv.length()<A.dim()) {
+        piv.resize(A.dim());
+    }
+    
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT((piv.inc()>0 && piv.firstIndex()==1)
+        || (piv.inc()<0 && piv.firstIndex()==A.dim()));
+    ASSERT(B.firstRow()==1);
+    ASSERT(B.firstCol()==1);
+    ASSERT(B.numRows()==A.dim());
+#   endif
+//
+//  Call implementation
+//
+    IndexType info = external::sv_impl(A, piv, B, work);
+
+    return info;    
+}
+
+//-- (sy)sv [real and complex variant, rhs is vector] ---------------------------
+template <typename MA, typename VPIV, typename VB, typename VWORK>
+typename RestrictTo<IsSyMatrix<MA>::value
+                  && IsIntegerDenseVector<VPIV>::value
+                  && IsDenseVector<VB>::value
+                  && IsDenseVector<VWORK>::value,
+          typename RemoveRef<MA>::Type::IndexType>::Type
+sv(MA &&A, VPIV &&piv, VB &&b, VWORK && work)
+{
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename RemoveRef<VB>::Type    VectorB;
+
+    typedef typename VectorB::ElementType  ElementType;
+    typedef typename VectorB::IndexType    IndexType;
+
+    const IndexType    n     = b.length();
+    const StorageOrder order = MatrixA::Engine::order;
+
+    GeMatrix<FullStorageView<ElementType, order> >  B(n, 1, b, n);
+    
+    return sv(A, piv, B, work);
+}
+
+//-- (sy)sv [real and complex variant with temporary workspace] -----------------
+
+template <typename MA, typename VPIV, typename MB>
+typename RestrictTo<IsSyMatrix<MA>::value
+                 && IsIntegerDenseVector<VPIV>::value
+                 && IsGeMatrix<MB>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+sv(MA &&A, VPIV &&piv, MB &&B)
+{
+    typedef typename RemoveRef<MA>::Type::Vector WorkVector;
+
+    WorkVector  work;
+    
+    return sv(A, piv, B, work);
+}
+
+//-- (gb)sv [real and complex variant] -----------------------------------------
+
+template <typename MA, typename VPIV, typename MB>
+typename RestrictTo<IsGbMatrix<MA>::value
+                 && IsIntegerDenseVector<VPIV>::value
+                 && IsGeMatrix<MB>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+sv(MA &&A, VPIV &&piv, MB &&B)
+{
+    LAPACK_DEBUG_OUT("(gb)sv [real/complex]");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+
+    if (piv.length()<A.numRows()) {
+        piv.resize(A.numRows());
+    }
+    
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(A.numRows()==A.numCols());
+    ASSERT((piv.inc()>0 && piv.firstIndex()==1)
+        || (piv.inc()<0 && piv.firstIndex()==A.numRows()));
+    ASSERT(B.firstRow()==1);
+    ASSERT(B.firstCol()==1);
+    ASSERT(B.numRows()==A.numRows());
+#   endif
+//
+//  Call implementation
+//
+    IndexType info = external::sv_impl(A, piv, B);
+
+    return info;
+}
+
+//-- (hp)sv [complex variant] -----------------------------------------
+
+template <typename MA, typename VPIV, typename MB>
+typename RestrictTo<IsHpMatrix<MA>::value
+                 && IsIntegerDenseVector<VPIV>::value
+                 && IsComplexGeMatrix<MB>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+sv(MA &&A, VPIV &&piv, MB &&B)
+{
+    LAPACK_DEBUG_OUT("(hp)sv [complex]");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+
+    if (piv.length()<A.dim()) {
+        piv.resize(A.dim());
+    }
+    
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstIndex()==1);
+    ASSERT((piv.inc()>0 && piv.firstIndex()==1)
+        || (piv.inc()<0 && piv.firstIndex()==A.dim()));
+    ASSERT(B.firstRow()==1);
+    ASSERT(B.firstCol()==1);
+    ASSERT(B.numRows()==A.dim());
+#   endif
+//
+//  Call implementation
+//
+    IndexType info = external::sv_impl(A, piv, B);
+
+    return info;
+}
+
+//-- (sp)sv [real/complex variant] ---------------------------------
+
+template <typename MA, typename VPIV, typename MB>
+typename RestrictTo<IsSpMatrix<MA>::value
+                 && IsIntegerDenseVector<VPIV>::value
+                 && IsGeMatrix<MB>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+sv(MA &&A, VPIV &&piv, MB &&B)
+{
+    LAPACK_DEBUG_OUT("(sp)sv [real/complex]");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+
+    if (piv.length()<A.dim()) {
+        piv.resize(A.dim());
+    }
+    
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstIndex()==1);
+    ASSERT((piv.inc()>0 && piv.firstIndex()==1)
+        || (piv.inc()<0 && piv.firstIndex()==A.dim()));
+    ASSERT(B.firstRow()==1);
+    ASSERT(B.firstCol()==1);
+    ASSERT(B.numRows()==A.dim());
+#   endif
+//
+//  Call implementation
+//
+    IndexType info = external::sv_impl(A, piv, B);
+
+    return info;
+}
+
+#endif // USE_CXXLAPACK
 } } // namespace lapack, flens
 
 #endif // FLENS_LAPACK_IMPL_SV_TCC

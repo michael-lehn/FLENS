@@ -66,6 +66,10 @@ class SpMatrix
         typedef typename Engine::Array              Array;
 
         // view types for
+        // view types for
+        typedef DenseVector<ConstArrayView>         ConstVectorView;
+        typedef DenseVector<ArrayView>              VectorView;
+        typedef DenseVector<Array>                  Vector;
 
         typedef HpMatrix<EngineConstView>           ConstHermitianView;
         typedef HpMatrix<EngineView>                HermitianView;
@@ -197,6 +201,58 @@ class SpMatrix
         Engine      _engine;
         StorageUpLo _upLo;
 };
+
+//-- Traits --------------------------------------------------------------------
+//
+//  IsSpMatrix
+//
+struct _SpMatrixChecker
+{
+
+    struct Two {
+        char x;
+        char y;
+    };
+
+    static Two
+    check(_AnyConversion);
+
+    template <typename Any>
+        static char
+        check(SpMatrix<Any>);
+};
+
+template <typename T>
+struct IsSpMatrix
+{
+    static T var;
+    static const bool value = sizeof(_SpMatrixChecker::check(var))==1;
+};
+
+//
+//  IsRealSpMatrix
+//
+template <typename T>
+struct IsRealSpMatrix
+{
+    typedef typename std::remove_reference<T>::type  TT;
+
+    static const bool value = IsSpMatrix<TT>::value
+                           && IsNotComplex<typename TT::ElementType>::value;
+};
+
+//
+//  IsComplexSpMatrix
+//
+template <typename T>
+struct IsComplexSpMatrix
+{
+    typedef typename std::remove_reference<T>::type  TT;
+
+    static const bool value = IsSpMatrix<TT>::value
+                           && IsComplex<typename TT::ElementType>::value;
+};
+
 
 } // namespace flens
 

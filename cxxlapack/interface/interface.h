@@ -144,6 +144,7 @@
 #include <cxxlapack/interface/hetd2.h>
 #include <cxxlapack/interface/hetf2.h>
 #include <cxxlapack/interface/hetrd.h>
+#include <cxxlapack/interface/hetrf.h>
 #include <cxxlapack/interface/hetri2.h>
 #include <cxxlapack/interface/hetri2x.h>
 #include <cxxlapack/interface/hetri.h>

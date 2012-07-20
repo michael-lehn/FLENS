@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,52 +30,42 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_LEVEL2_SPMV_H
-#define CXXBLAS_LEVEL2_SPMV_H 1
+#ifndef CXXLAPACK_INTERFACE_HETRF_TCC
+#define CXXLAPACK_INTERFACE_HETRF_TCC 1
 
-#include <cxxblas/typedefs.h>
+#include <cxxlapack/netlib/netlib.h>
 
-#define HAVE_CXXBLAS_SPMV 1
+namespace cxxlapack {
 
-namespace cxxblas {
 
-template <typename IndexType, typename ALPHA, typename MA, typename VX,
-          typename BETA, typename VY>
-    void
-    spmv(StorageOrder order, StorageUpLo upLo,
-         IndexType n,
-         const ALPHA &alpha,
-         const MA *A,
-         const VX *x, IndexType incX,
-         const BETA &beta,
-         VY *y, IndexType incY);
-
-#ifdef HAVE_CBLAS
-
-// sspmv
 template <typename IndexType>
-    typename If<IndexType>::isBlasCompatibleInteger
-    spmv(StorageOrder order, StorageUpLo upLo,
-         IndexType n,
-         float alpha,
-         const float *A,
-         const float *x, IndexType incX,
-         float beta,
-         float *y, IndexType incY);
+IndexType
+hetrf(char                  uplo,
+      IndexType             n,
+      std::complex<double>  *A,
+      IndexType             ldA,
+      IndexType       *iPiv,
+      std::complex<double>  *work,
+      IndexType             lwork)
+{
+    IndexType info;
+    LAPACK_IMPL(zhetrf)(&uplo,
+                        &n,
+                        reinterpret_cast<double *>(A),
+                        &ldA,
+                        iPiv,
+                        reinterpret_cast<double *>(work),
+                        &lwork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
 
-// dspmv
-template <typename IndexType>
-    typename If<IndexType>::isBlasCompatibleInteger
-    spmv(StorageOrder order, StorageUpLo upLo,
-         IndexType n,
-         double alpha,
-         const double *A,
-         const double *x, IndexType incX,
-         double beta,
-         double *y, IndexType incY);
+} // namespace cxxlapack
 
-#endif // HAVE_CBLAS
-
-} // namespace cxxblas
-
-#endif // CXXBLAS_LEVEL2_SPMV_H
+#endif // CXXLAPACK_INTERFACE_HETRF_TCC

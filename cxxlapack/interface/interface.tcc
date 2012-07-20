@@ -144,6 +144,7 @@
 #include <cxxlapack/interface/hetd2.tcc>
 #include <cxxlapack/interface/hetf2.tcc>
 #include <cxxlapack/interface/hetrd.tcc>
+#include <cxxlapack/interface/hetrf.tcc>
 #include <cxxlapack/interface/hetri2.tcc>
 #include <cxxlapack/interface/hetri2x.tcc>
 #include <cxxlapack/interface/hetri.tcc>

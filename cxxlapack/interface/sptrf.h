@@ -42,14 +42,14 @@ template <typename IndexType>
     sptrf(char                  uplo,
           IndexType             n,
           double                *Ap,
-          IndexType             iPiv);
+          IndexType             *iPiv);
 
 template <typename IndexType>
     IndexType
     sptrf(char                  uplo,
           IndexType             n,
           std::complex<double>  *Ap,
-          IndexType             iPiv);
+          IndexType             *iPiv);
 
 } // namespace cxxlapack
 

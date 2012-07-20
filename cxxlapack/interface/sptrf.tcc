@@ -42,7 +42,7 @@ IndexType
 sptrf(char                  uplo,
       IndexType             n,
       double                *Ap,
-      IndexType             iPiv)
+      IndexType             *iPiv)
 {
     IndexType info;
     LAPACK_IMPL(dsptrf)(&uplo,
@@ -64,7 +64,7 @@ IndexType
 sptrf(char                  uplo,
       IndexType             n,
       std::complex<double>  *Ap,
-      IndexType             iPiv)
+      IndexType             *iPiv)
 {
     IndexType info;
     LAPACK_IMPL(zsptrf)(&uplo,
