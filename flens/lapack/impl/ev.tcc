@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2011, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -36,6 +36,16 @@
      $                  LDVR, WORK, LWORK, INFO )
       SUBROUTINE ZGEEV( JOBVL, JOBVR, N, A, LDA, W, VL, LDVL, VR, LDVR,
      $                  WORK, LWORK, RWORK, INFO )
+      SUBROUTINE DSYEV( JOBZ, UPLO, N, A, LDA, W, WORK, LWORK, INFO )
+      SUBROUTINE ZHEEV( JOBZ, UPLO, N, A, LDA, W, WORK, LWORK, RWORK,
+     $                  INFO )
+       SUBROUTINE DSBEV( JOBZ, UPLO, N, KD, AB, LDAB, W, Z, LDZ, WORK,
+     $                  INFO )
+      SUBROUTINE ZHBEV( JOBZ, UPLO, N, KD, AB, LDAB, W, Z, LDZ, WORK,
+     $                  RWORK, INFO )
+      SUBROUTINE DSPEV( JOBZ, UPLO, N, AP, W, Z, LDZ, WORK, INFO )
+      SUBROUTINE ZHPEV( JOBZ, UPLO, N, AP, W, Z, LDZ, WORK, RWORK,
+     $                  INFO )
  *
  *  -- LAPACK driver routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -472,6 +482,92 @@ ev_wsq_impl(bool computeVL, bool computeVR, const GeMatrix<MA> &A)
     return Pair<IndexType>(minWork, WORK.real());
 }
 
+//-- (he)ev [real variant] -----------------------------------------------------
+
+template <typename MA>
+typename RestrictTo<IsComplex<typename MA::ElementType>::value,
+         Pair<typename MA::IndexType> >::Type
+ev_wsq_impl(bool                  computeV,
+        HeMatrix<MA>          &A)
+{
+    using std::max;
+
+    typedef typename HeMatrix<MA>::ElementType          T;
+    typedef typename ComplexTrait<T>::PrimitiveType     PT;
+    typedef typename HeMatrix<MA>::IndexType            IndexType;
+
+//
+//  Compute minimal workspace
+//
+    IndexType  n = A.dim();
+    IndexType  minWork;
+
+    if (n==0) {
+        minWork = 1;
+    } else {
+        minWork = max(1,2*n-1);
+    }
+
+//
+//  Get optimal workspace from external LAPACK
+//
+    T           DUMMY, WORK;
+    PT          RDUMMY, RWORK;
+    IndexType   LWORK = -1;
+     cxxlapack::heev(computeV ? 'V' : 'N',
+			   getF77Char(A.upLo()),
+                           A.dim(),
+                           &DUMMY,
+                           A.leadingDimension(),
+                           &RDUMMY,
+                           &WORK,
+                           LWORK,
+			    &RWORK);
+    return Pair<IndexType>(minWork,WORK.real());
+}
+
+
+//-- (sy)ev [real variant] -----------------------------------------------------
+
+template <typename MA>
+typename RestrictTo<IsReal<typename MA::ElementType>::value,
+         Pair<typename MA::IndexType> >::Type
+ev_wsq_impl(bool                  computeV,
+            SyMatrix<MA>          &A)
+{
+    using std::max;
+
+    typedef typename SyMatrix<MA>::ElementType          T;
+    typedef typename SyMatrix<MA>::IndexType            IndexType;
+
+//
+//  Compute minimal workspace
+//
+    IndexType  n = A.dim();
+    IndexType  minWork;
+
+    if (n==0) {
+        minWork = 1;
+    } else {
+        minWork = max(1,3*n-1);
+    }
+
+//
+//  Get optimal workspace from external LAPACK
+//
+    T           DUMMY, WORK;
+    IndexType   LWORK = -1;
+     cxxlapack::syev(computeV ? 'V' : 'N',
+			   getF77Char(A.upLo()),
+                           A.dim(),
+                           &DUMMY,
+                           A.leadingDimension(),
+                           &DUMMY,
+                           &WORK,
+                           LWORK);
+    return Pair<IndexType>(minWork, WORK);
+}
+
 //-- (ge)ev [real variant] -----------------------------------------------------
 
 template <typename MA, typename VWR, typename VWI, typename MVL, typename MVR,
@@ -551,6 +647,210 @@ ev_impl(bool                  computeVL,
     ASSERT(info>=0);
     return info;
 }
+
+//-- (he)ev [real variant] -----------------------------------------------------
+
+template <typename MA, typename VW, typename VWORK, typename VRWORK>
+typename HeMatrix<MA>::IndexType
+ev_impl(bool                  computeV,
+        HeMatrix<MA>          &A,
+        DenseVector<VW>      &w,
+        DenseVector<VWORK>    &work,
+	DenseVector<VRWORK>   &rWork)
+{
+    using std::max;
+    
+    typedef typename HeMatrix<MA>::IndexType  IndexType;
+
+    if (work.length()==0) {
+        const auto ws = ev_wsq_impl(computeV, A);
+        work.resize(ws.second, 1);
+    }
+    if (rWork.length()==0) {
+        rWork.resize(max(1,3*A.dim()-2));
+    }
+    IndexType  info;
+    info = cxxlapack::heev(computeV ? 'V' : 'N',
+			   getF77Char(A.upLo()),
+                           A.dim(),
+                           A.data(),
+                           A.leadingDimension(),
+                           w.data(),
+                           work.data(),
+                           work.length(),
+			   rWork.data());
+    ASSERT(info>=0);
+    return info;
+}
+
+
+//-- (sy)ev [real variant] -----------------------------------------------------
+
+template <typename MA, typename VW, typename VWORK>
+typename SyMatrix<MA>::IndexType
+ev_impl(bool                  computeV,
+        SyMatrix<MA>          &A,
+        DenseVector<VW>      &w,
+        DenseVector<VWORK>    &work)
+{
+    typedef typename SyMatrix<MA>::IndexType  IndexType;
+
+    if (work.length()==0) {
+        const auto ws = ev_wsq_impl(computeV, A);
+        work.resize(ws.second, 1);
+    }
+
+    IndexType  info;
+    info = cxxlapack::syev(computeV ? 'V' : 'N',
+			   getF77Char(A.upLo()),
+                           A.dim(),
+                           A.data(),
+                           A.leadingDimension(),
+                           w.data(),
+                           work.data(),
+                           work.length());
+    ASSERT(info>=0);
+    return info;
+}
+
+//-- (hb)ev [real variant] -----------------------------------------------------
+
+template <typename MA, typename VW, typename MZ,
+          typename VWORK, typename VRWORK>
+typename HbMatrix<MA>::IndexType
+ev_impl(bool                  computeZ,
+        HbMatrix<MA>          &A,
+        DenseVector<VW>       &w,
+        GeMatrix<MZ>          &Z,
+        DenseVector<VWORK>    &work,
+        DenseVector<VRWORK>   &rwork)
+{
+    using std::max;
+    
+    typedef typename HbMatrix<MA>::IndexType  IndexType;
+
+    if (work.length()==0) {
+        work.resize(A.dim(), 1);
+    }
+    if (rwork.length()==0) {
+        rwork.resize(max(1, 3*A.dim()-2));
+    }
+    
+    IndexType  info;
+    info = cxxlapack::hbev(computeZ ? 'V' : 'N',
+                           getF77Char(A.upLo()),
+                            A.dim(),
+                           A.numOffDiags(),
+                           A.data(),
+                           A.leadingDimension(),
+                           w.data(),
+                           Z.data(),
+                           Z.leadingDimension(),
+                           work.data(),
+                           rwork.data());
+    ASSERT(info>=0);
+    return info;
+}
+
+//-- (sb)ev [real variant] -----------------------------------------------------
+
+template <typename MA, typename VW, typename MZ,
+          typename VWORK>
+typename SbMatrix<MA>::IndexType
+ev_impl(bool                  computeZ,
+        SbMatrix<MA>          &A,
+        DenseVector<VW>       &w,
+        GeMatrix<MZ>          &Z,
+        DenseVector<VWORK>    &work)
+{
+    typedef typename SbMatrix<MA>::IndexType  IndexType;
+
+    if (work.length()==0) {
+        work.resize(max(1, 3*A.dim()-2));
+    }
+
+    IndexType  info;
+    info = cxxlapack::sbev(computeZ ? 'V' : 'N',
+                           getF77Char(A.upLo()),
+                           A.dim(),
+                           A.numOffDiags(),
+                           A.data(),
+                           A.leadingDimension(),
+                           w.data(),
+                           Z.data(),
+                           Z.leadingDimension(),
+                           work.data());
+    ASSERT(info>=0);
+    return info;
+}
+
+//-- (hp)ev [real variant] -----------------------------------------------------
+
+template <typename MA, typename VW, typename MZ,
+          typename VWORK, typename VRWORK>
+typename HpMatrix<MA>::IndexType
+ev_impl(bool                  computeZ,
+        HpMatrix<MA>          &A,
+        DenseVector<VW>       &w,
+        GeMatrix<MZ>          &Z,
+        DenseVector<VWORK>    &work,
+        DenseVector<VRWORK>   &rwork)
+{
+    using std::max;
+    
+    typedef typename HpMatrix<MA>::IndexType  IndexType;
+
+    if (work.length()==0) {
+        work.resize(max(1, 2*A.dim()-1), 1);
+    }
+    if (rwork.length()==0) {
+        rwork.resize(max(1, 3*A.dim()-2));
+    }
+    
+    IndexType  info;
+    info = cxxlapack::hpev(computeZ ? 'V' : 'N',
+                           getF77Char(A.upLo()),
+                           A.dim(),
+                           A.data(),
+                           w.data(),
+                           Z.data(),
+                           Z.leadingDimension(),
+                           work.data(),
+                           rwork.data());
+    ASSERT(info>=0);
+    return info;
+}
+
+//-- (sp)ev [real variant] -----------------------------------------------------
+
+template <typename MA, typename VW, typename MZ,
+          typename VWORK>
+typename SpMatrix<MA>::IndexType
+ev_impl(bool                  computeZ,
+        SpMatrix<MA>          &A,
+        DenseVector<VW>       &w,
+        GeMatrix<MZ>          &Z,
+        DenseVector<VWORK>    &work)
+{
+    typedef typename SbMatrix<MA>::IndexType  IndexType;
+
+    if (work.length()==0) {
+        work.resize(3*A.dim());
+    }
+
+    IndexType  info;
+    info = cxxlapack::spev(computeZ ? 'V' : 'N',
+                           getF77Char(A.upLo()),
+                           A.dim(),
+                           A.data(),
+                           w.data(),
+                           Z.data(),
+                           Z.leadingDimension(),
+                           work.data());
+    ASSERT(info>=0);
+    return info;
+}
+
 
 } // namespace external
 
@@ -734,9 +1034,9 @@ ev(bool     computeVL,
     return result;
 }
 
-//-- (ge)ev [complex variant] -----------------------------------------------------
 
 #ifdef USE_CXXLAPACK
+//-- (ge)ev [complex variant] -----------------------------------------------------
 
 template <typename MA, typename VW, typename MVL, typename MVR, typename VWORK,
           typename VRWORK>
@@ -820,6 +1120,372 @@ ev(bool     computeVL,
     return result;
 }
 
+//-- (he)ev [complex variant] -----------------------------------------------------
+template <typename MA, typename VW, typename VWORK, typename VRWORK>
+typename RestrictTo<IsHeMatrix<MA>::value
+                 && IsRealDenseVector<VW>::value
+                 && IsComplexDenseVector<VWORK>::value
+                 && IsRealDenseVector<VRWORK>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+ev(bool     computeV,
+   MA       &&A,
+   VW       &&w,
+   VWORK    &&work,
+   VRWORK   &&rWork)
+{
+    LAPACK_DEBUG_OUT("(he)ev [complex]");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type      MatrixA;
+    typedef typename MatrixA::IndexType       IndexType;
+    typedef typename RemoveRef<VW>::Type      VectorW;
+    typedef typename RemoveRef<VWORK>::Type   VectorWork;
+    typedef typename RemoveRef<VRWORK>::Type  VectorRWork;
+
+    const IndexType n = A.dim();
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(work.firstIndex()==1);
+    ASSERT(rWork.firstIndex()==1);
+
+    ASSERT(w.firstIndex()==1);
+    ASSERT(w.length()==0 || w.length()==n);
+
+#   endif
+
+//
+//  Resize output arguments if they are empty and needed
+//
+    if (w.length()==0) {
+        w.resize(n, 1);
+    }
+
+//
+//  Call external implementation
+//
+    IndexType result = external::ev_impl(computeV, A, w, work, rWork);
+    return result;
+}
+
+//-- (sy)ev [complex variant] -----------------------------------------------------
+template <typename MA, typename VW, typename VWORK>
+typename RestrictTo<IsRealSyMatrix<MA>::value
+                 && IsRealDenseVector<VW>::value
+                 && IsRealDenseVector<VWORK>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+ev(bool     computeV,
+   MA       &&A,
+   VW       &&w,
+   VWORK    &&work)
+{
+    LAPACK_DEBUG_OUT("(he)ev [complex]");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type      MatrixA;
+    typedef typename MatrixA::IndexType       IndexType;
+    typedef typename RemoveRef<VW>::Type      VectorW;
+    typedef typename RemoveRef<VWORK>::Type   VectorWork;
+
+    const IndexType n = A.dim();
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(work.firstIndex()==1);
+
+    ASSERT(w.firstIndex()==1);
+    ASSERT(w.length()==0 || w.length()==n);
+
+#   endif
+
+//
+//  Resize output arguments if they are empty and needed
+//
+    if (w.length()==0) {
+        w.resize(n, 1);
+    }
+
+//
+//  Call external implementation
+//
+    IndexType result = external::ev_impl(computeV, A, w, work);
+    return result;
+}
+
+//-- (hb)ev [complex variant] -----------------------------------------------------
+template <typename MA, typename VW, typename MZ, typename VWORK,
+          typename VRWORK>
+typename RestrictTo<IsHbMatrix<MA>::value
+                 && IsRealDenseVector<VW>::value
+                 && IsComplexGeMatrix<MZ>::value
+                 && IsComplexDenseVector<VWORK>::value
+                 && IsRealDenseVector<VRWORK>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+ev(bool     computeZ,
+   MA       &&A,
+   VW       &&w,
+   MZ       &&Z,
+   VWORK    &&work,
+   VRWORK   &&rWork)
+{
+    LAPACK_DEBUG_OUT("(hb)ev [complex]");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type      MatrixA;
+    typedef typename MatrixA::IndexType       IndexType;
+    typedef typename RemoveRef<VW>::Type      VectorW;
+    typedef typename RemoveRef<MZ>::Type     MatrixZ;
+    typedef typename RemoveRef<VWORK>::Type   VectorWork;
+    typedef typename RemoveRef<VRWORK>::Type  VectorRWork;
+    
+    const IndexType n = A.numRows();
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstIndex()==1);
+    ASSERT(work.firstIndex()==1);
+    ASSERT(rWork.firstIndex()==1);
+
+    ASSERT(w.firstIndex()==1);
+    ASSERT(w.length()==0 || w.length()==n);
+
+    if (computeZ) {
+        ASSERT(Z.numRows()==Z.numCols());
+        ASSERT(Z.numRows()==0 || Z.numRows()==n);
+        ASSERT(Z.firstRow()==1);
+        ASSERT(Z.firstCol()==1);
+    }
+#   endif
+
+//
+//  Resize output arguments if they are empty and needed
+//
+    if (w.length()==0) {
+        w.resize(n, 1);
+    }
+    if (computeZ && Z.numRows()==0) {
+        Z.resize(n, n, 1, 1);
+    }
+
+//
+//  Call external implementation
+//
+    IndexType result = external::ev_impl(computeZ, A, w, Z,
+                                         work, rWork);
+    return result;
+}
+
+
+//-- (sb)ev [real variant] -----------------------------------------------------
+
+template <typename MA, typename VW, typename MZ, typename VWORK>
+typename RestrictTo<IsRealSbMatrix<MA>::value
+                 && IsRealDenseVector<VW>::value
+                 && IsRealGeMatrix<MZ>::value
+                 && IsRealDenseVector<VWORK>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+ev(bool     computeZ,
+   MA       &&A,
+   VW       &&w,
+   MZ       &&Z,
+   VWORK    &&work)
+{
+    LAPACK_DEBUG_OUT("(sb)ev [real]");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type      MatrixA;
+    typedef typename MatrixA::IndexType       IndexType;
+    typedef typename RemoveRef<VW>::Type      VectorW;
+    typedef typename RemoveRef<MZ>::Type     MatrixZ;
+    typedef typename RemoveRef<VWORK>::Type   VectorWork;
+
+    const IndexType n = A.numRows();
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstIndex()==1);
+    ASSERT(work.firstIndex()==1);
+
+    ASSERT(w.firstIndex()==1);
+    ASSERT(w.length()==0 || w.length()==n);
+
+    if (computeZ) {
+        ASSERT(Z.numRows()==Z.numCols());
+        ASSERT(Z.numRows()==0 || Z.numRows()==n);
+        ASSERT(Z.firstRow()==1);
+        ASSERT(Z.firstCol()==1);
+    }
+#   endif
+
+//
+//  Resize output arguments if they are empty and needed
+//
+    if (w.length()==0) {
+        w.resize(n, 1);
+    }
+    if (computeZ && Z.numRows()==0) {
+        Z.resize(n, n, 1, 1);
+    }
+
+//
+//  Call external implementation
+//
+    IndexType result = external::ev_impl(computeZ, A, w, Z,
+                                         work);
+    return result;
+}
+
+
+//-- (hp)ev [complex variant] -----------------------------------------------------
+template <typename MA, typename VW, typename MZ, typename VWORK,
+          typename VRWORK>
+typename RestrictTo<IsHpMatrix<MA>::value
+                 && IsRealDenseVector<VW>::value
+                 && IsComplexGeMatrix<MZ>::value
+                 && IsComplexDenseVector<VWORK>::value
+                 && IsRealDenseVector<VRWORK>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+ev(bool     computeZ,
+   MA       &&A,
+   VW       &&w,
+   MZ       &&Z,
+   VWORK    &&work,
+   VRWORK   &&rWork)
+{
+    LAPACK_DEBUG_OUT("(hp)ev [complex]");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type      MatrixA;
+    typedef typename MatrixA::IndexType       IndexType;
+    typedef typename RemoveRef<VW>::Type      VectorW;
+    typedef typename RemoveRef<MZ>::Type     MatrixZ;
+    typedef typename RemoveRef<VWORK>::Type   VectorWork;
+    typedef typename RemoveRef<VRWORK>::Type  VectorRWork;
+    
+    const IndexType n = A.dim();
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstIndex()==1);
+    ASSERT(work.firstIndex()==1);
+    ASSERT(rWork.firstIndex()==1);
+
+    ASSERT(w.firstIndex()==1);
+    ASSERT(w.length()==0 || w.length()==n);
+
+    if (computeZ) {
+        ASSERT(Z.numRows()==Z.numCols());
+        ASSERT(Z.numRows()==0 || Z.numRows()==n);
+        ASSERT(Z.firstRow()==1);
+        ASSERT(Z.firstCol()==1);
+    }
+#   endif
+
+//
+//  Resize output arguments if they are empty and needed
+//
+    if (w.length()==0) {
+        w.resize(n, 1);
+    }
+    if (computeZ && Z.numRows()==0) {
+        Z.resize(n, n, 1, 1);
+    }
+
+//
+//  Call external implementation
+//
+    IndexType result = external::ev_impl(computeZ, A, w, Z,
+                                         work, rWork);
+    return result;
+}
+
+
+//-- (sp)ev [real variant] -----------------------------------------------------
+
+template <typename MA, typename VW, typename MZ, typename VWORK>
+typename RestrictTo<IsRealSpMatrix<MA>::value
+                 && IsRealDenseVector<VW>::value
+                 && IsRealGeMatrix<MZ>::value
+                 && IsRealDenseVector<VWORK>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+ev(bool     computeZ,
+   MA       &&A,
+   VW       &&w,
+   MZ       &&Z,
+   VWORK    &&work)
+{
+    LAPACK_DEBUG_OUT("(sp)ev [real]");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type      MatrixA;
+    typedef typename MatrixA::IndexType       IndexType;
+    typedef typename RemoveRef<VW>::Type      VectorW;
+    typedef typename RemoveRef<MZ>::Type     MatrixZ;
+    typedef typename RemoveRef<VWORK>::Type   VectorWork;
+
+    const IndexType n = A.dim();
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstIndex()==1);
+    ASSERT(work.firstIndex()==1);
+
+    ASSERT(w.firstIndex()==1);
+    ASSERT(w.length()==0 || w.length()==n);
+
+    if (computeZ) {
+        ASSERT(Z.numRows()==Z.numCols());
+        ASSERT(Z.numRows()==0 || Z.numRows()==n);
+        ASSERT(Z.firstRow()==1);
+        ASSERT(Z.firstCol()==1);
+    }
+#   endif
+
+//
+//  Resize output arguments if they are empty and needed
+//
+    if (w.length()==0) {
+        w.resize(n, 1);
+    }
+    if (computeZ && Z.numRows()==0) {
+        Z.resize(n, n, 1, 1);
+    }
+
+//
+//  Call external implementation
+//
+    IndexType result = external::ev_impl(computeZ, A, w, Z,
+                                         work);
+    return result;
+}
 #endif // USE_CXXLAPACK
 
 //-- (ge)ev_wsq [worksize query, real variant] ---------------------------------
@@ -889,6 +1555,28 @@ ev_wsq(bool computeVL, bool computeVR, const MA &A)
     return ws;
 }
 
+template <typename MA>
+typename RestrictTo<IsRealSbMatrix<MA>::value,
+         Pair<typename MA::IndexType> >::Type
+ev_wsq(bool computeZ, const MA &A)
+{
+    LAPACK_DEBUG_OUT("ev_wsq [complex]");
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstIndex()==1);
+#   endif
+
+//
+//  Call implementation
+//
+    const auto ws = external::ev_wsq_impl(computeZ, A);
+
+    return ws;
+}
+
 #endif // USE_CXXLAPACK
 
 //-- (ge)ev [real variant with temporary workspace] -----------------------------------------------------
@@ -945,6 +1633,148 @@ ev(bool     computeVL,
     
     return ev(computeVL, computeVR, A, w, VL, VR, work, rwork);
 }
+
+//-- (he)ev [real variant with temporary workspace] -----------------------------------------------------
+
+template <typename MA, typename VW>
+typename RestrictTo<IsHeMatrix<MA>::value
+                 && IsRealDenseVector<VW>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+ev(bool     computeV,
+   MA       &&A,
+   VW       &&w)
+{
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type::Vector        WorkVector;
+    typedef typename RemoveRef<MA>::Type::ElementType   T;
+    typedef typename ComplexTrait<T>::PrimitiveType     PT;
+    typedef DenseVector<Array<PT> >                     RealWorkVector;
+
+    WorkVector      work;
+    RealWorkVector  rWork;
+    
+    return ev(computeV, A, w, work, rWork);
+}
+
+
+//-- (sy)ev [real variant with temporary workspace] -----------------------------------------------------
+
+template <typename MA, typename VW>
+typename RestrictTo<IsRealSyMatrix<MA>::value
+                 && IsRealDenseVector<VW>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+ev(bool     computeV,
+   MA       &&A,
+   VW       &&w)
+{
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type::Vector WorkVector;
+    WorkVector work;
+    return ev(computeV, A, w, work);
+}
+
+//-- (hb)ev [complex variant with temporary workspace] -----------------------------------------------------
+
+template <typename MA, typename VW, typename MZ>
+typename RestrictTo<IsHbMatrix<MA>::value
+                  && IsRealDenseVector<VW>::value
+                  && IsComplexGeMatrix<MZ>::value,
+          typename RemoveRef<MA>::Type::IndexType>::Type
+ev(bool     computeZ,
+   MA       &&A,
+   VW       &&w,
+   MZ       &&Z)
+{
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type::Vector        WorkVector;
+    typedef typename RemoveRef<MA>::Type::ElementType   T;
+    typedef typename ComplexTrait<T>::PrimitiveType     PT;
+    typedef DenseVector<Array<PT> >                     RealWorkVector;
+
+    WorkVector      work;
+    RealWorkVector  rwork;
+    
+    return ev(computeZ, A, w, Z, work, rwork);
+}
+
+
+//-- (sb)ev [real variant with temporary workspace] -----------------------------------------------------
+
+template <typename MA, typename VW, typename MZ>
+typename RestrictTo<IsRealSbMatrix<MA>::value
+                  && IsRealDenseVector<VW>::value
+                  && IsRealGeMatrix<MZ>::value,
+          typename RemoveRef<MA>::Type::IndexType>::Type
+ev(bool     computeZ,
+   MA       &&A,
+   VW       &&w,
+   MZ       &&Z)
+{
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type::Vector        WorkVector;
+
+    WorkVector      work;
+    
+    return ev(computeZ, A, w, Z, work);
+}
+
+//-- (hp)ev [complex variant with temporary workspace] -----------------------------------------------------
+
+template <typename MA, typename VW, typename MZ>
+typename RestrictTo<IsHpMatrix<MA>::value
+                  && IsRealDenseVector<VW>::value
+                  && IsComplexGeMatrix<MZ>::value,
+          typename RemoveRef<MA>::Type::IndexType>::Type
+ev(bool     computeZ,
+   MA       &&A,
+   VW       &&w,
+   MZ       &&Z)
+{
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type::Vector        WorkVector;
+    typedef typename RemoveRef<MA>::Type::ElementType   T;
+    typedef typename ComplexTrait<T>::PrimitiveType     PT;
+    typedef DenseVector<Array<PT> >                     RealWorkVector;
+
+    WorkVector      work;
+    RealWorkVector  rwork;
+    
+    return ev(computeZ, A, w, Z, work, rwork);
+}
+
+
+//-- (sp)ev [real variant with temporary workspace] -----------------------------------------------------
+
+template <typename MA, typename VW, typename MZ>
+typename RestrictTo<IsRealSpMatrix<MA>::value
+                  && IsRealDenseVector<VW>::value
+                  && IsRealGeMatrix<MZ>::value,
+          typename RemoveRef<MA>::Type::IndexType>::Type
+ev(bool     computeZ,
+   MA       &&A,
+   VW       &&w,
+   MZ       &&Z)
+{
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type::Vector        WorkVector;
+
+    WorkVector      work;
+    
+    return ev(computeZ, A, w, Z, work);
+}
+
 #endif
 
 } } // namespace lapack, flens

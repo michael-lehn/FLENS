@@ -37,6 +37,17 @@
 
       SUBROUTINE DTRTRI( UPLO, DIAG, N, A, LDA, INFO )
       SUBROUTINE ZTRTRI( UPLO, DIAG, N, A, LDA, INFO )
+      
+      SUBROUTINE DSYTRI( UPLO, N, A, LDA, IPIV, WORK, INFO )
+      SUBROUTINE ZSYTRI( UPLO, N, A, LDA, IPIV, WORK, INFO )      
+      SUBROUTINE ZHETRI( UPLO, N, A, LDA, IPIV, WORK, INFO )
+      
+      SUBROUTINE DTPTRI( UPLO, DIAG, N, AP, INFO )
+      SUBROUTINE ZTPTRI( UPLO, DIAG, N, AP, INFO )
+                  
+      SUBROUTINE DSPTRI( UPLO, N, AP, IPIV, WORK, INFO )
+      SUBROUTINE ZSPTRI( UPLO, N, AP, IPIV, WORK, INFO )
+      SUBROUTINE ZHPTRI( UPLO, N, AP, IPIV, WORK, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --

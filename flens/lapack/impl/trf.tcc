@@ -34,6 +34,12 @@
  *
        SUBROUTINE DGETRF( M, N, A, LDA, IPIV, INFO )
        SUBROUTINE ZGETRF( M, N, A, LDA, IPIV, INFO )
+       SUBROUTINE ZSYTRF( UPLO, N, A, LDA, IPIV, WORK, LWORK, INFO )
+       SUBROUTINE ZHETRF( UPLO, N, A, LDA, IPIV, WORK, LWORK, INFO )
+       SUBROUTINE DGBTRF( M, N, KL, KU, AB, LDAB, IPIV, INFO )
+       SUBROUTINE ZGBTRF( M, N, KL, KU, AB, LDAB, IPIV, INFO )
+       SUBROUTINE DSPTRF( UPLO, N, AP, IPIV, INFO )
+       SUBROUTINE ZHPTRF( UPLO, N, AP, IPIV, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
