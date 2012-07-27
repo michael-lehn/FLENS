@@ -45,7 +45,7 @@ zsum1(IndexType                   n,
 {
 
     return LAPACK_IMPL(dzsum1)(&n,
-                               reinterpret_cast<double *>(cx),
+                               reinterpret_cast<const double *>(cx),
                                &incx);
 }
 

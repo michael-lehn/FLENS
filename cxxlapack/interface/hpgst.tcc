@@ -50,7 +50,7 @@ hpgst(IndexType                  itype,
                         &uplo,
                         &n,
                         reinterpret_cast<double *>(Ap),
-                        reinterpret_cast<double *>(Bp),
+                        reinterpret_cast<const double *>(Bp),
                         &info);
 #   ifndef NDEBUG
     if (info<0) {

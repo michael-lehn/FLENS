@@ -48,7 +48,7 @@ la_gerCond_x(char                        trans,
              const IndexType             *iPiv,
              const std::complex<double>  *x,
              IndexType                   &info,
-             const std::complex<double>  *work,
+             std::complex<double>        *work,
              double                      *rWork)
 {
 
@@ -59,7 +59,7 @@ la_gerCond_x(char                        trans,
                                       reinterpret_cast<const double *>(Af)
                                       &ldAf,
                                       iPiv,
-                                      reinterpret_cast<double *>(x),
+                                      reinterpret_cast<const double *>(x),
                                       &info,
                                       reinterpret_cast<double *>(work),
                                       rWork);

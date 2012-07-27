@@ -49,7 +49,7 @@ template <typename IndexType>
                  const double                *c,
                  bool                        capply,
                  IndexType                   &info,
-                 const std::complex<double>  *work,
+                 std::complex<double>        *work,
                  double                      *rWork);
 
 } // namespace cxxlapack

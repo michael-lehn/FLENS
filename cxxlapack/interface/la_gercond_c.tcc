@@ -49,7 +49,7 @@ la_gerCond_c(char                        trans,
              const double                *c,
              bool                        capply,
              IndexType                   &info,
-             const std::complex<double>  *work,
+             std::complex<double>        *work,
              double                      *rWork)
 {
 

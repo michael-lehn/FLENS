@@ -49,7 +49,7 @@ lanhp(char                        norm,
     return LAPACK_IMPL(zlanhp)(&norm,
                                &uplo,
                                &n,
-                               reinterpret_cast<double *>(Ap),
+                               reinterpret_cast<const double *>(Ap),
                                work);
 
 }

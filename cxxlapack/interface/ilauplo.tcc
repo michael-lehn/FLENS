@@ -42,7 +42,7 @@ IndexType
 ilauplo(char                uplo)
 {
 
-     return LAPACK_IMPL(ilauplo)(uplo);
+     return LAPACK_IMPL(ilauplo)(&uplo);
 }
 
 
