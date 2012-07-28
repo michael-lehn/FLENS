@@ -30,8 +30,8 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_IO_FULLSTORAGE_LOAD_TCC
-#define FLENS_IO_FULLSTORAGE_LOAD_TCC 1
+#ifndef FLENS_IO_PACKEDSTORAGE_LOAD_TCC
+#define FLENS_IO_PACKEDSTORAGE_LOAD_TCC 1
 
 #include <functional>
 #include <locale>
@@ -43,41 +43,7 @@ namespace flens {
 
 template <typename FS>
 bool
-load(std::string filename, GeMatrix<FS> &A)
-{
-    typedef typename FS::IndexType   IndexType;
-    typedef typename FS::ElementType ElementType;
-
-    std::ifstream ifs( filename.c_str(), std::ios::binary );
-    
-    if (ifs.is_open() == false)
-        return false;
-
-    IndexType numRows, numCols;
-    IndexType firstRow, firstCol;    
-
-    ifs.read( reinterpret_cast<char*>(&numRows), sizeof(IndexType) );
-    ifs.read( reinterpret_cast<char*>(&numCols), sizeof(IndexType) );
-    ifs.read( reinterpret_cast<char*>(&firstRow), sizeof(IndexType) );
-    ifs.read( reinterpret_cast<char*>(&firstCol), sizeof(IndexType) );
-   
-    A.resize(numRows, numCols, firstRow, firstCol);
-
-
-    for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
-        for (IndexType j=A.firstCol(); j<=A.lastCol(); ++j) {
-            ifs.read( reinterpret_cast<char*>(&A(i,j)), sizeof(ElementType) );
-        }
-    }
-
-    ifs.close();
-    return true;
-}
-
-
-template <typename FS>
-bool
-load(std::string filename, HeMatrix<FS> &A)
+load(std::string filename, HpMatrix<FS> &A)
 {
     typedef typename FS::IndexType   IndexType;
     typedef typename FS::ElementType ElementType;
@@ -88,7 +54,7 @@ load(std::string filename, HeMatrix<FS> &A)
         return false;
 
     IndexType dim = A.dim();
-    IndexType firstIndex = A.firstRow();
+    IndexType firstIndex = A.firstIndex();
 
     ifs.read( reinterpret_cast<char*>(&dim), sizeof(IndexType) );
     ifs.read( reinterpret_cast<char*>(&firstIndex), sizeof(IndexType) );
@@ -96,8 +62,8 @@ load(std::string filename, HeMatrix<FS> &A)
     A.resize(dim, firstIndex);
 
 
-    for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
-        for (IndexType j=A.firstCol(); j<=i; ++j) {
+    for (IndexType i=A.firstIndex(); i<=A.lastIndex(); ++i) {
+        for (IndexType j=A.firstIndex(); j<=i; ++j) {
             if (A.upLo()==cxxblas::Lower) {
                 ifs.read( reinterpret_cast<char*>(&(A(i,j))), sizeof(ElementType) );
             } else {
@@ -115,7 +81,7 @@ load(std::string filename, HeMatrix<FS> &A)
 
 template <typename FS>
 bool
-load(std::string filename, SyMatrix<FS> &A)
+load(std::string filename, SpMatrix<FS> &A)
 {
     typedef typename FS::IndexType   IndexType;
     typedef typename FS::ElementType ElementType;
@@ -126,7 +92,7 @@ load(std::string filename, SyMatrix<FS> &A)
         return false;
 
     IndexType dim = A.dim();
-    IndexType firstIndex = A.firstRow();
+    IndexType firstIndex = A.firstIndex();
 
     ifs.read( reinterpret_cast<char*>(&dim), sizeof(IndexType) );
     ifs.read( reinterpret_cast<char*>(&firstIndex), sizeof(IndexType) );
@@ -134,8 +100,8 @@ load(std::string filename, SyMatrix<FS> &A)
     A.resize(dim, firstIndex);
 
 
-    for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
-        for (IndexType j=A.firstCol(); j<=i; ++j) {
+    for (IndexType i=A.firstIndex(); i<=A.lastIndex(); ++i) {
+        for (IndexType j=A.firstIndex(); j<=i; ++j) {
             if (A.upLo()==cxxblas::Lower) {
                 ifs.read( reinterpret_cast<char*>(&(A(i,j))), sizeof(ElementType) );
             } else {
@@ -150,7 +116,7 @@ load(std::string filename, SyMatrix<FS> &A)
 
 template <typename FS>
 bool
-load(std::string filename, TrMatrix<FS> &A)
+load(std::string filename, TpMatrix<FS> &A)
 {
     typedef typename FS::IndexType   IndexType;
     typedef typename FS::ElementType ElementType;
@@ -160,49 +126,45 @@ load(std::string filename, TrMatrix<FS> &A)
     if (ifs.is_open() == false)
         return false;
 
-    IndexType numRows, numCols;
-    IndexType firstRow, firstCol;
+    IndexType dim;
+    IndexType firstIndex;
     StorageUpLo  upLo;
     Diag         diag;
 
-    ifs.read( reinterpret_cast<char*>(&numRows), sizeof(IndexType) );
-    ifs.read( reinterpret_cast<char*>(&numCols), sizeof(IndexType) );
-    ifs.read( reinterpret_cast<char*>(&firstRow), sizeof(IndexType) );
-    ifs.read( reinterpret_cast<char*>(&firstCol), sizeof(IndexType) );
+    ifs.read( reinterpret_cast<char*>(&dim), sizeof(IndexType) );
+    ifs.read( reinterpret_cast<char*>(&firstIndex), sizeof(IndexType) );
     ifs.read( reinterpret_cast<char*>(&upLo), sizeof(StorageUpLo) );
     ifs.read( reinterpret_cast<char*>(&diag), sizeof(Diag) );
     
     ASSERT(upLo==A.upLo()); 
     ASSERT((diag==A.diag()) || (A.diag()==cxxblas::NonUnit));
 
-    A.resize(numRows, numCols, firstRow, firstCol);
+    A.resize(dim, firstIndex);
 
 
     if (upLo == cxxblas::Lower) {
-        for (IndexType i=A.firstRow(); i <= A.lastRow(); ++i){
-            const IndexType jmax = i-A.firstRow()+A.firstCol();
+        for (IndexType i=A.firstIndex(); i <= A.lastIndex(); ++i){
 
-            for (IndexType j=A.firstCol(); j<jmax; ++j) {
+            for (IndexType j=A.firstIndex(); j<i; ++j) {
                 ifs.read( reinterpret_cast<char*>(&(A(i,j))), sizeof(ElementType) );
             }
 
             if (diag == cxxblas::NonUnit)
-                ifs.read( reinterpret_cast<char*>(&(A(i,jmax))), sizeof(ElementType) );
+                ifs.read( reinterpret_cast<char*>(&(A(i,i))), sizeof(ElementType) );
             else if ((A.diag()==cxxblas::NonUnit) && (diag==cxxblas::Unit))
-                A(i,jmax) = ElementType(1);
+                A(i,i) = ElementType(1);
         }
     }
     else
     {
-        for (IndexType i=A.firstRow(); i <= A.lastRow(); ++i){
-            const IndexType jmin = i-A.firstRow()+A.firstCol();
+        for (IndexType i=A.firstIndex(); i <= A.lastIndex(); ++i){
 
             if (diag == cxxblas::NonUnit)
-                ifs.read( reinterpret_cast<char*>(&(A(i,jmin))), sizeof(ElementType) );
+                ifs.read( reinterpret_cast<char*>(&(A(i,i))), sizeof(ElementType) );
             else if ((A.diag()==cxxblas::NonUnit) && (diag==cxxblas::Unit))
-                A(i, jmin) = ElementType(1);
+                A(i, i) = ElementType(1);
 
-            for (IndexType j=jmin+1; j<=A.lastCol(); ++j) {
+            for (IndexType j=i+1; j<=A.lastIndex(); ++j) {
                 ifs.read( reinterpret_cast<char*>(&(A(i,j))), sizeof(ElementType) );
             }
 
@@ -213,149 +175,13 @@ load(std::string filename, TrMatrix<FS> &A)
     return true;
 }
 
-template <typename FS>
-typename RestrictTo<IsReal<typename FS::ElementType>::value, bool>::Type
-loadMatrixMarket(std::string filename, GeMatrix<FS> &A)
-{
-    using std::string;
-    
-    typedef typename FS::IndexType                            IndexType;
-    typedef typename FS::ElementType                          ElementType;
-
-    string line;
-    
-    std::ifstream ifs( filename.c_str(), std::ios::in );
-    
-    if (ifs.is_open() == false)
-        return false;
-
-    IndexType numRows, numCols;
-    
-    std::getline (ifs,line);
-
-    #   ifndef NDEBUG
-    // transform line to lower case
-    std::transform(line.begin(), line.end(), line.begin(), 
-             std::bind2nd(std::ptr_fun(&std::tolower<char>), std::locale("")));
-    
-    std::stringstream ss (line);
-    std::string buf;
-    ss >> buf;
-    ASSERT(buf == "%%matrixmarket");
-    ss >> buf;
-    ASSERT(buf == "matrix");
-    ss >> buf;
-    ASSERT(buf == "array");
-    ss >> buf;
-    ASSERT((buf == "real") || (buf == "complex"));
-    ss >> buf;
-    ASSERT(buf == "general");
-#   endif
-    
-    while ( ifs.good() && (line.c_str()[0] == '%') )
-      std::getline (ifs,line);
-
-    
-    std::stringstream sline;
-    sline <<  line;
-    sline >> numRows >> numCols;
-    
-    A.resize(numRows, numCols);
-    
-    for (IndexType i = A.firstRow(); i <= A.lastRow(); ++i)
-    {
-        for (IndexType j = A.firstCol(); j <= A.lastCol(); ++j)
-        {
-            if (ifs.good())
-                std::getline (ifs,line);
-            else
-                return false;
-            std::stringstream ssline(line);
-            ssline >> A(i,j);  
-        }
-    }
-    ifs.close();
-    return true;
-}
 
 
-template <typename FS>
-typename RestrictTo<IsComplex<typename FS::ElementType>::value, bool>::Type
-loadMatrixMarket(std::string filename, GeMatrix<FS> &A)
-{
-    using std::string;
-    
-    typedef typename FS::IndexType                            IndexType;
-    typedef typename FS::ElementType                          ElementType;
-    typedef typename ComplexTrait<ElementType>::PrimitiveType PrimitiveType;
 
-    string line;
-    
-    std::ifstream ifs( filename.c_str(), std::ios::in );
-    
-    if (ifs.is_open() == false)
-        return false;
-
-    IndexType numRows, numCols;
-    
-    std::getline (ifs,line);
-
-    #   ifndef NDEBUG
-    // transform line to lower case
-    std::transform(line.begin(), line.end(), line.begin(), 
-             std::bind2nd(std::ptr_fun(&std::tolower<char>), std::locale("")));
-    
-    std::stringstream ss (line);
-    std::string buf;
-    ss >> buf;
-    ASSERT(buf == "%%matrixmarket");
-    ss >> buf;
-    ASSERT(buf == "matrix");
-    ss >> buf;
-    ASSERT(buf == "array");
-    ss >> buf;
-    ASSERT(buf == "complex");
-    ss >> buf;
-    ASSERT(buf == "general");
-#   endif
-    
-    while ( ifs.good() && (line.c_str()[0] == '%') )
-      std::getline (ifs,line);
-
-    
-    std::stringstream sline;
-    sline <<  line;
-    sline >> numRows >> numCols;
-    if ((A.numRows() == 0) && (A.numCols() == 0))
-        A.resize(numRows, numCols);
-    
-#   ifndef NDEBUG
-    ASSERT(A.numRows() == numRows);
-    ASSERT(A.numCols() == numCols);
-#   endif
-
-    
-    for (IndexType i = A.firstRow(); i <= A.lastRow(); ++i)
-    {
-        for (IndexType j = A.firstCol(); j <= A.lastCol(); ++j)
-        {
-            if (ifs.good())
-                std::getline (ifs,line);
-            else
-                return false;
-            std::stringstream ssline(line);
-            PrimitiveType a, b;
-            ssline >> a >> b;
-            A(i,j) = ElementType(a, b);
-        }
-    }
-    ifs.close();
-    return true;
-}
 
 template <typename FS>
 typename RestrictTo<IsReal<typename FS::ElementType>::value, bool>::Type
-loadMatrixMarket(std::string filename, SyMatrix<FS> &A)
+loadMatrixMarket(std::string filename, SpMatrix<FS> &A)
 {
     using std::string;
     
@@ -400,11 +226,13 @@ loadMatrixMarket(std::string filename, SyMatrix<FS> &A)
     sline <<  line;
     sline >> numRows >> numCols;
     
-    A.resize(numRows, numCols);
+    ASSERT(numRows==numCols);
+    A.resize(numRows);
+
     
-    for (IndexType i = A.firstRow(); i <= A.lastRow(); ++i)
+    for (IndexType i = A.firstIndex(); i <= A.lastIndex(); ++i)
     {
-        for (IndexType j = i; j <= A.lastCol(); ++j)
+        for (IndexType j = i; j <= A.lastIndex(); ++j)
         {
             if (ifs.good())
                 std::getline (ifs,line);
@@ -425,7 +253,7 @@ loadMatrixMarket(std::string filename, SyMatrix<FS> &A)
 
 template <typename FS>
 typename RestrictTo<IsComplex<typename FS::ElementType>::value, bool>::Type
-loadMatrixMarket(std::string filename, SyMatrix<FS> &A)
+loadMatrixMarket(std::string filename, SpMatrix<FS> &A)
 {
     using std::string;
     
@@ -470,13 +298,13 @@ loadMatrixMarket(std::string filename, SyMatrix<FS> &A)
     std::stringstream sline;
     sline <<  line;
     sline >> numRows >> numCols;
-
-    A.resize(numRows, numCols);
     
+    ASSERT(numRows==numCols);
+    A.resize(numRows);
     
-    for (IndexType i = A.firstRow(); i <= A.lastRow(); ++i)
+    for (IndexType i = A.firstIndex(); i <= A.lastIndex(); ++i)
     {
-        for (IndexType j = i; j <= A.lastCol(); ++j)
+        for (IndexType j = i; j <= A.lastIndex(); ++j)
         {
             if (ifs.good())
                 std::getline (ifs,line);
@@ -500,7 +328,7 @@ loadMatrixMarket(std::string filename, SyMatrix<FS> &A)
 
 template <typename FS>
 typename RestrictTo<IsComplex<typename FS::ElementType>::value, bool>::Type
-loadMatrixMarket(std::string filename, HeMatrix<FS> &A)
+loadMatrixMarket(std::string filename, HpMatrix<FS> &A)
 {
    
     typedef typename FS::IndexType                            IndexType;
@@ -545,12 +373,14 @@ loadMatrixMarket(std::string filename, HeMatrix<FS> &A)
     sline <<  line;
     sline >> numRows >> numCols;
     
-    A.resize(numRows, numCols);
+    ASSERT(numRows==numCols);
+    A.resize(numRows);
+    
 
     
-    for (IndexType i = A.firstRow(); i <= A.lastRow(); ++i)
+    for (IndexType i = A.firstIndex(); i <= A.lastIndex(); ++i)
     {
-        for (IndexType j = i; j <= A.lastCol(); ++j)
+        for (IndexType j = i; j <= A.lastIndex(); ++j)
         {
             if (ifs.good())
                 std::getline (ifs,line);
@@ -576,10 +406,9 @@ loadMatrixMarket(std::string filename, HeMatrix<FS> &A)
 
 //-- forwarding ---------------------------------------------------------------
 template <typename MA>
-typename RestrictTo<IsGeMatrix<MA>::value ||
-                    IsHeMatrix<MA>::value ||
-                    IsSyMatrix<MA>::value ||
-                    IsTrMatrix<MA>::value,
+typename RestrictTo<IsHpMatrix<MA>::value ||
+                    IsSpMatrix<MA>::value ||
+                    IsTpMatrix<MA>::value,
                     bool>::Type
 load(std::string filename, MA &&A)
 {
@@ -587,10 +416,8 @@ load(std::string filename, MA &&A)
 }
 
 template <typename MA>
-typename RestrictTo<IsGeMatrix<MA>::value ||
-                    IsHeMatrix<MA>::value ||
-                    IsSyMatrix<MA>::value ||
-                    IsTrMatrix<MA>::value,
+typename RestrictTo<IsHpMatrix<MA>::value ||
+                    IsSpMatrix<MA>::value,
                     bool>::Type
 loadMatrixMarket(std::string filename, MA &&A)
 {
@@ -598,5 +425,5 @@ loadMatrixMarket(std::string filename, MA &&A)
 }
 } // namespace flens
 
-#endif // FLENS_IO_FULLSTORAGE_LOAD_TCC
+#endif // FLENS_IO_PACKEDSTORAGE_LOAD_TCC
 

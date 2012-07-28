@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2012, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,19 +30,45 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_IO_IO_H
-#define FLENS_IO_IO_H 1
+#ifndef FLENS_IO_BANDSTORAGE_SAVE_H
+#define FLENS_IO_BANDSTORAGE_SAVE_H 1
 
-#include <flens/io/array/load.h>
-#include <flens/io/array/out.h>
-#include <flens/io/array/save.h>
-#include <flens/io/bandstorage/load.h>
-#include <flens/io/bandstorage/out.h>
-#include <flens/io/bandstorage/save.h>
-#include <flens/io/fullstorage/load.h>
-#include <flens/io/fullstorage/out.h>
-#include <flens/io/fullstorage/save.h>
-#include <flens/io/packedstorage/load.h>
-#include <flens/io/packedstorage/out.h>
-#include <flens/io/packedstorage/save.h>
-#endif // FLENS_IO_IO_H
+#include <iostream>
+#include <limits>
+#include <string>
+
+#include <flens/matrixtypes/general/impl/gbmatrix.h>
+#include <flens/matrixtypes/hermitian/impl/hbmatrix.h>
+#include <flens/matrixtypes/symmetric/impl/sbmatrix.h>
+#include <flens/matrixtypes/triangular/impl/tbmatrix.h>
+
+namespace flens {
+
+template <typename FS>
+    bool
+    save(std::string filename, const GbMatrix<FS> &A);
+
+template <typename FS>
+    bool
+    save(std::string filename, const HbMatrix<FS> &A);
+
+template <typename FS>
+    bool
+    save(std::string filename, const SbMatrix<FS> &A);
+
+template <typename FS>
+    bool
+    save(std::string filename, const TbMatrix<FS> &A);
+
+//-- forwarding ---------------------------------------------------------------
+template <typename MA>
+    typename RestrictTo<IsGbMatrix<MA>::value ||
+                        IsHbMatrix<MA>::value ||
+                        IsSbMatrix<MA>::value ||
+                        IsTbMatrix<MA>::value,
+                        bool>::Type
+    save(std::string filename, const MA &&A);
+       
+} // namespace flens
+
+#endif // FLENS_IO_BANDSTORAGE_SAVE_H

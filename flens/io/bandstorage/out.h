@@ -31,14 +31,14 @@
  */
 
 #ifndef FLENS_IO_BANDSTORAGE_OUT_H
-#define FLENS_IO_BANDSTORAGE_OUT_H 1
+#define FLENS_IO_BANDSTORAGE_OUT_H 1 
 
 #include <iostream>
 
-// #include <flens/matrixtypes/general/impl/gbmatrix.h>
-// #include <flens/matrixtypes/hermitian/impl/hbmatrix.h>
-// #include <flens/matrixtypes/symmetric/impl/sbmatrix.h>
-// #include <flens/matrixtypes/triangular/impl/tbmatrix.h>
+#include <flens/matrixtypes/general/impl/gbmatrix.h>
+#include <flens/matrixtypes/hermitian/impl/hbmatrix.h>
+#include <flens/matrixtypes/symmetric/impl/sbmatrix.h>
+#include <flens/matrixtypes/triangular/impl/tbmatrix.h>
 
 namespace flens {
 

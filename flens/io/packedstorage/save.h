@@ -30,78 +30,62 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_IO_FULLSTORAGE_LOAD_H
-#define FLENS_IO_FULLSTORAGE_LOAD_H 1
+#ifndef FLENS_IO_PACKEDSTORAGE_SAVE_H
+#define FLENS_IO_PACKEDSTORAGE_SAVE_H 1
 
 #include <iostream>
+#include <limits>
 #include <string>
 
-#include <flens/matrixtypes/general/impl/gematrix.h>
-#include <flens/matrixtypes/hermitian/impl/hematrix.h>
-#include <flens/matrixtypes/symmetric/impl/symatrix.h>
-#include <flens/matrixtypes/triangular/impl/trmatrix.h>
+#include <flens/matrixtypes/hermitian/impl/hpmatrix.h>
+#include <flens/matrixtypes/symmetric/impl/spmatrix.h>
+#include <flens/matrixtypes/triangular/impl/tpmatrix.h>
 
 namespace flens {
 
 template <typename FS>
     bool
-    load(std::string filename, GeMatrix<FS> &A);
+    save(std::string filename, const HpMatrix<FS> &A);
 
 template <typename FS>
     bool
-    load(std::string filename, HeMatrix<FS> &A);
+    save(std::string filename, const SpMatrix<FS> &A);
 
 template <typename FS>
     bool
-    load(std::string filename, SyMatrix<FS> &A);
-
+    save(std::string filename, const TpMatrix<FS> &A);
+    
 template <typename FS>
     bool
-    load(std::string filename, TrMatrix<FS> &A);
+    saveMatrixMarket(std::string filename, const SpMatrix<FS> &A,
+                     std::string comment = "",
+                     int precision = std::numeric_limits<typename ComplexTrait
+                     <typename FS::ElementType>::PrimitiveType >::digits10);
     
 template <typename FS>
-    typename RestrictTo<IsReal<typename FS::ElementType>::value,
-                        bool>::Type
-    loadMatrixMarket(std::string filename, GeMatrix<FS> &A);
-
-template <typename FS>
-    typename RestrictTo<IsComplex<typename FS::ElementType>::value,
-                        bool>::Type
-    loadMatrixMarket(std::string filename, GeMatrix<FS> &A);
-
-template <typename FS>
-    typename RestrictTo<IsReal<typename FS::ElementType>::value,
-                        bool>::Type
-    loadMatrixMarket(std::string filename, SyMatrix<FS> &A);
+    typename RestrictTo<IsComplex<typename FS::ElementType>::value, bool>::Type
+    saveMatrixMarket(std::string filename, const HpMatrix<FS> &A,
+                     std::string comment = "",
+                     int precision = std::numeric_limits<typename ComplexTrait
+                     <typename FS::ElementType>::PrimitiveType >::digits10);
     
-template <typename FS>
-    typename RestrictTo<IsComplex<typename FS::ElementType>::value,
-                        bool>::Type
-    loadMatrixMarket(std::string filename, SyMatrix<FS> &A);
-    
-template <typename FS>
-    typename RestrictTo<IsComplex<typename FS::ElementType>::value,
-                        bool>::Type
-    loadMatrixMarket(std::string filename, HeMatrix<FS> &A);
-
 //-- forwarding ---------------------------------------------------------------
-
 template <typename MA>
-    typename RestrictTo<IsGeMatrix<MA>::value ||
-                        IsHeMatrix<MA>::value ||
-                        IsSyMatrix<MA>::value ||
-                        IsTrMatrix<MA>::value,
+    typename RestrictTo<IsHpMatrix<MA>::value ||
+                        IsSpMatrix<MA>::value ||
+                        IsTpMatrix<MA>::value,
                         bool>::Type
-    load(std::string filename, MA &&A);
-
+    save(std::string filename, const MA &&A);
+    
 template <typename MA>
-    typename RestrictTo<IsGeMatrix<MA>::value ||
-                        IsHeMatrix<MA>::value ||
-                        IsSyMatrix<MA>::value ||
-                        IsTrMatrix<MA>::value,
+    typename RestrictTo<IsHpMatrix<MA>::value ||
+                        IsSpMatrix<MA>::value,
                         bool>::Type
-    loadMatrixMarket(std::string filename, MA &&A);
-
+    saveMatrixMarket(std::string filename, const MA &&A,
+                     std::string comment = "",
+                     int precision = std::numeric_limits<typename ComplexTrait
+                     <typename MA::ElementType>::PrimitiveType >::digits10);
+    
 } // namespace flens
 
-#endif // FLENS_IO_FULLSTORAGE_LOAD_H
+#endif // FLENS_IO_PACKEDSTORAGE_SAVE_H
