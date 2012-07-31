@@ -30,8 +30,8 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXLAPACK_INTERFACE_SYTRS_H
-#define CXXLAPACK_INTERFACE_SYTRS_H 1
+#ifndef CXXLAPACK_INTERFACE_SYTRS2_H
+#define CXXLAPACK_INTERFACE_SYTRS2_H 1
 
 #include <complex>
 
@@ -39,26 +39,16 @@ namespace cxxlapack {
 
 template <typename IndexType>
     IndexType
-    sytrs(char                  uplo,
-/*          */IndexType             n,
-          IndexType             nRhs,
-          const double          *A,
-          IndexType             ldA,
-          const IndexType       *iPiv,
-          double                *B,
-          IndexType             ldB);
-
-template <typename IndexType>
-    IndexType
-    sytrs(char                        uplo,
-          IndexType                   n,
-          IndexType                   nRhs,
-          const std::complex<double>  *A,
-          IndexType                   ldA,
-          const IndexType             *iPiv,
-          std::complex<double>        *B,
-          IndexType                   ldB);
+    sytrs2(char                        uplo,
+           IndexType                   n,
+           IndexType                   nRhs,
+           const std::complex<double>  *A,
+           IndexType                   ldA,
+           const IndexType             *iPiv,
+           std::complex<double>        *B,
+           IndexType                   ldB,
+           std::complex<double>        *work);
 
 } // namespace cxxlapack
 
-#endif // CXXLAPACK_INTERFACE_SYTRS_H
+#endif // CXXLAPACK_INTERFACE_SYTRS2_H

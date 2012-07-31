@@ -79,7 +79,7 @@ sytrs2(char                        uplo,
        const IndexType             *iPiv,
        std::complex<double>        *B,
        IndexType                   ldB,
-       std::complex<double>        work)
+       std::complex<double>        *work)
 {
     IndexType info;
     LAPACK_IMPL(zsytrs2)(&uplo,

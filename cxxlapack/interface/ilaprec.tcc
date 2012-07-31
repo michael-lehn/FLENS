@@ -42,7 +42,7 @@ IndexType
 ilaprec(char               prec)
 {
 
-    return LAPACK_IMPL(ilaprec)(prec);
+    return LAPACK_IMPL(ilaprec)(&prec);
 }
 
 } // namespace cxxlapack

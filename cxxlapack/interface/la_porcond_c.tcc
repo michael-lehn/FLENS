@@ -49,7 +49,7 @@ la_porCond_c(char                        uplo,
              const double                *c,
              bool                        capply,
              IndexType                   &info,
-             std::complex<double>        work,
+             std::complex<double>        *work,
              double                      *rWork)
 {  
 

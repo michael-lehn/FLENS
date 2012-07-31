@@ -48,7 +48,7 @@ template <typename IndexType>
                  const IndexType             *iPiv,
                  const std::complex<double>  *x,
                  IndexType                   &info,
-                 const std::complex<double>  *work,
+                 std::complex<double>        *work,
                  double                      *rWork);
 
 } // namespace cxxlapack

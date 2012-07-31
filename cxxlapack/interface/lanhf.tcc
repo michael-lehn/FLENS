@@ -51,7 +51,7 @@ lanhf(char                        norm,
                                &trans,
                                &uplo,
                                &n,
-                               reinterpret_cast<double *>(A),
+                               reinterpret_cast<const double *>(A),
                                work);
 
 }

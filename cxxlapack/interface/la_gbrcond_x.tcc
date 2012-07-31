@@ -63,7 +63,7 @@ la_gbrCond_x(char                        trans,
                                       reinterpret_cast<const double *>(Afb),
                                       &ldAfb,
                                       iPiv,
-                                      reinterpret_cast<double *>(x)
+                                      reinterpret_cast<const double *>(x)
                                       &info,
                                       reinterpret_cast<double *>(work),
                                       rWork);

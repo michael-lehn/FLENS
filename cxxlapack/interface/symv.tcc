@@ -58,7 +58,7 @@ symv (char                        uplo,
                        &ldA,
                        reinterpret_cast<const double *>(x),
                        &incx,
-                       reinterpret_cast<const double *>(beta),
+                       reinterpret_cast<const double *>(&beta),
                        reinterpret_cast<double *>(y),
                        &incy);
 

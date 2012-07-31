@@ -45,7 +45,7 @@ ismax1(IndexType                   n,
 {
 
     return LAPACK_IMPL(ismax1)(&n,
-                               reinterpret_cast<double *>(cx),
+                               reinterpret_cast<const double *>(cx),
                                &incx);
 
 }

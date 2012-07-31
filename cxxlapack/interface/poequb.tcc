@@ -74,7 +74,7 @@ poequb(IndexType                   n,
 {
     IndexType info;
     LAPACK_IMPL(zpoequb)(&n,
-                         reinterpret_cast<double *>(A),
+                         reinterpret_cast<const double *>(A),
                          &ldA,
                          s,
                          &scond,
