@@ -30,78 +30,60 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_IO_FULLSTORAGE_LOAD_H
-#define FLENS_IO_FULLSTORAGE_LOAD_H 1
+#ifndef FLENS_IO_PACKEDSTORAGE_LOAD_H
+#define FLENS_IO_PACKEDSTORAGE_LOAD_H 1
 
 #include <iostream>
 #include <string>
 
-#include <flens/matrixtypes/general/impl/gematrix.h>
-#include <flens/matrixtypes/hermitian/impl/hematrix.h>
-#include <flens/matrixtypes/symmetric/impl/symatrix.h>
-#include <flens/matrixtypes/triangular/impl/trmatrix.h>
+#include <flens/matrixtypes/hermitian/impl/hpmatrix.h>
+#include <flens/matrixtypes/symmetric/impl/spmatrix.h>
+#include <flens/matrixtypes/triangular/impl/tpmatrix.h>
 
 namespace flens {
 
 template <typename FS>
     bool
-    load(std::string filename, GeMatrix<FS> &A);
+    load(std::string filename, HpMatrix<FS> &A);
 
 template <typename FS>
     bool
-    load(std::string filename, HeMatrix<FS> &A);
+    load(std::string filename, SpMatrix<FS> &A);
 
 template <typename FS>
     bool
-    load(std::string filename, SyMatrix<FS> &A);
-
-template <typename FS>
-    bool
-    load(std::string filename, TrMatrix<FS> &A);
-    
-template <typename FS>
-    typename RestrictTo<IsReal<typename FS::ElementType>::value,
-                        bool>::Type
-    loadMatrixMarket(std::string filename, GeMatrix<FS> &A);
-
-template <typename FS>
-    typename RestrictTo<IsComplex<typename FS::ElementType>::value,
-                        bool>::Type
-    loadMatrixMarket(std::string filename, GeMatrix<FS> &A);
+    load(std::string filename, TpMatrix<FS> &A);
 
 template <typename FS>
     typename RestrictTo<IsReal<typename FS::ElementType>::value,
                         bool>::Type
-    loadMatrixMarket(std::string filename, SyMatrix<FS> &A);
+    loadMatrixMarket(std::string filename, SpMatrix<FS> &A);
     
 template <typename FS>
     typename RestrictTo<IsComplex<typename FS::ElementType>::value,
                         bool>::Type
-    loadMatrixMarket(std::string filename, SyMatrix<FS> &A);
+    loadMatrixMarket(std::string filename, SpMatrix<FS> &A);
     
 template <typename FS>
     typename RestrictTo<IsComplex<typename FS::ElementType>::value,
                         bool>::Type
-    loadMatrixMarket(std::string filename, HeMatrix<FS> &A);
+    loadMatrixMarket(std::string filename, HpMatrix<FS> &A);
 
 //-- forwarding ---------------------------------------------------------------
 
 template <typename MA>
-    typename RestrictTo<IsGeMatrix<MA>::value ||
-                        IsHeMatrix<MA>::value ||
-                        IsSyMatrix<MA>::value ||
-                        IsTrMatrix<MA>::value,
+    typename RestrictTo<IsHpMatrix<MA>::value ||
+                        IsSpMatrix<MA>::value ||
+                        IsTpMatrix<MA>::value,
                         bool>::Type
     load(std::string filename, MA &&A);
 
 template <typename MA>
-    typename RestrictTo<IsGeMatrix<MA>::value ||
-                        IsHeMatrix<MA>::value ||
-                        IsSyMatrix<MA>::value ||
-                        IsTrMatrix<MA>::value,
+    typename RestrictTo<IsHpMatrix<MA>::value ||
+                        IsSpMatrix<MA>::value,
                         bool>::Type
     loadMatrixMarket(std::string filename, MA &&A);
 
 } // namespace flens
 
-#endif // FLENS_IO_FULLSTORAGE_LOAD_H
+#endif // FLENS_IO_PACKEDSTORAGE_LOAD_H

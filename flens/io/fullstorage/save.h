@@ -83,12 +83,18 @@ template <typename FS>
 
 //-- forwarding ---------------------------------------------------------------
 template <typename MA>
-    typename RestrictTo<IsMatrix<MA>::value,
+    typename RestrictTo<IsGeMatrix<MA>::value ||
+                        IsHeMatrix<MA>::value ||
+                        IsSyMatrix<MA>::value ||
+                        IsTrMatrix<MA>::value,
                         bool>::Type
     save(std::string filename, const MA &&A);
     
 template <typename MA>
-    typename RestrictTo<IsMatrix<MA>::value,
+    typename RestrictTo<IsGeMatrix<MA>::value ||
+                        IsHeMatrix<MA>::value ||
+                        IsSyMatrix<MA>::value ||
+                        IsTrMatrix<MA>::value,
                         bool>::Type
     saveMatrixMarket(std::string filename, const MA &&A,
                      std::string comment = "", 
