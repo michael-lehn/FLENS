@@ -33,6 +33,8 @@
 #ifndef FLENS_MATRIXTYPES_MATRIX_TCC
 #define FLENS_MATRIXTYPES_MATRIX_TCC 1
 
+#include <flens/matrixtypes/matrix.h>
+
 namespace flens {
 
 template <typename I>

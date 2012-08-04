@@ -44,6 +44,7 @@
 #ifndef FLENS_LAPACK_IMPL_LAIC1_TCC
 #define FLENS_LAPACK_IMPL_LAIC1_TCC 1
 
+#include <flens/lapack/lapack.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 

@@ -33,6 +33,8 @@
 #ifndef FLENS_SCALAROPERATIONS_MINUS_TCC
 #define FLENS_SCALAROPERATIONS_MINUS_TCC 1
 
+#include <flens/scalaroperations/minus.h>
+
 namespace flens {
 
 template <typename L, typename R>

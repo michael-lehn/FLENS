@@ -33,8 +33,9 @@
 #ifndef CXXBLAS_LEVEL2EXTENSIONS_HEMV_TCC
 #define CXXBLAS_LEVEL2EXTENSIONS_HEMV_TCC 1
 
-namespace cxxblas {
+#include <cxxblas/cxxblas.h>
 
+namespace cxxblas {
 
 template <typename IndexType, typename ALPHA, typename MA, typename VX,
           typename BETA, typename VY>

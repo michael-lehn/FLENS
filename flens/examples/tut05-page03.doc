@@ -9,7 +9,7 @@ this respect it follows the ideas introduced on the previous pages.
 
 Generic or External LAPACK:  How to select?
 ===========================================
-Consider a LAPACK function like `xGETRF`.   In FLENS-LAPACK we provide its
+Consider a LAPACK function like `xGETRF`.  In FLENS-LAPACK we provide its
 functionality through the routine `lapack::trf`.  Using macros you can control
 whether it calls a generic implementation or an external LAPACK implementation:
 

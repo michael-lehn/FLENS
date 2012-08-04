@@ -1,3 +1,5 @@
+#include <cxxlapack/netlib/netlib.h>
+
 #ifndef INTEGER
 #define INTEGER int
 #endif

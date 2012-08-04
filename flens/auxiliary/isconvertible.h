@@ -44,7 +44,8 @@ struct _AnyConversion
 template<typename A>
 struct _Checker
 {
-    struct Two {
+    struct Two
+    {
         char x;
         char y;
     };

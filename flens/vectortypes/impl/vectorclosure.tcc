@@ -33,6 +33,8 @@
 #ifndef FLENS_VECTORTYPES_IMPL_VECTORCLOSURE_TCC
 #define FLENS_VECTORTYPES_IMPL_VECTORCLOSURE_TCC 1
 
+#include <flens/vectortypes/impl/vectorclosure.h>
+
 namespace flens {
 
 template <typename Op, typename L, typename R>

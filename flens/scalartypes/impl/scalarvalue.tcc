@@ -33,6 +33,8 @@
 #ifndef FLENS_SCALARTYPES_IMPL_SCALARVALUE_TCC
 #define FLENS_SCALARTYPES_IMPL_SCALARVALUE_TCC 1
 
+#include <flens/scalartypes/impl/scalarvalue.h>
+
 namespace flens {
 
 template <typename T>

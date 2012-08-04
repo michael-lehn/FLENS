@@ -1,3 +1,9 @@
+///
+/// Define `USE_CXXLAPACK` before you include the FLENS headers
+///
+#define USE_CXXLAPACK
+#include <flens/flens.cxx>
+
 using namespace flens;
 
 ///

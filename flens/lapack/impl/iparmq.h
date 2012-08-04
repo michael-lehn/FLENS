@@ -42,7 +42,6 @@
 #ifndef FLENS_LAPACK_IMPL_IPARMQ_H
 #define FLENS_LAPACK_IMPL_IPARMQ_H 1
 
-
 namespace flens { namespace lapack {
 
 //-- iparmq--------------------------------------------------------------------

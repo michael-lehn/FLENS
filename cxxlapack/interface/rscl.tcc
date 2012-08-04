@@ -1,10 +1,10 @@
- /*
-  *   Copyright (c) 2012, Michael Lehn
-  *
-  *   All rights reserved.
-  *
-  *   Redistribution and use in source and binary forms, with or without
-  *   modification, are permitted provided that the following conditions
+/*
+ *   Copyright (c) 2012, Michael Lehn
+ *
+ *   All rights reserved.
+ *
+ *   Redistribution and use in source and binary forms, with or without
+ *   modification, are permitted provided that the following conditions
  *   are met:
  *
  *   1) Redistributions of source code must retain the above copyright
@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_RSCL_TCC
 #define CXXLAPACK_INTERFACE_RSCL_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {

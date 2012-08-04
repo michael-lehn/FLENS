@@ -1,12 +1,6 @@
 #include <iostream>
 
 ///
-/// Define `USE_CXXLAPACK` before you include the FLENS headers
-///
-#define USE_CXXLAPACK
-#include <flens/flens.cxx>
-
-///
 /// Include our code snippet containing the high-level interface
 ///
 #include "tut05-mylapack-version1.h"

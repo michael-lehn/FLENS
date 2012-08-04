@@ -33,6 +33,8 @@
 #ifndef FLENS_BLAS_OPERATORS_OPSUB_TCC
 #define FLENS_BLAS_OPERATORS_OPSUB_TCC 1
 
+#include <flens/blas/operators/opsub.h>
+
 namespace flens {
 
 template <typename VX, typename VY>

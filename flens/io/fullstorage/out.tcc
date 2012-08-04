@@ -34,6 +34,7 @@
 #define FLENS_IO_FULLSTORAGE_OUT_TCC 1
 
 #include <cxxblas/typedefs.h>
+#include <flens/io/fullstorage/out.h>
 
 namespace flens {
 

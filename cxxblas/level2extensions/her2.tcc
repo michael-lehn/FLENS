@@ -34,7 +34,7 @@
 #define CXXBLAS_LEVEL2EXTENSIONS_HER2_TCC 1
 
 #include <complex>
-#include <cxxblas/level2/level2.h>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 

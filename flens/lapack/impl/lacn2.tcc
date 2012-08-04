@@ -46,6 +46,7 @@
 
 #include <cmath>
 #include <limits>
+#include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
 

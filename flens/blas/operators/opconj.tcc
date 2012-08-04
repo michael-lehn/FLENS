@@ -33,6 +33,8 @@
 #ifndef FLENS_BLAS_OPERATORS_OPCONJ_TCC
 #define FLENS_BLAS_OPERATORS_OPCONJ_TCC 1
 
+#include <flens/blas/operators/opconj.h>
+
 namespace flens {
 
 template <typename VX>

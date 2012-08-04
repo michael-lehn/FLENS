@@ -33,6 +33,7 @@
 #ifndef FLENS_DEBUG_AUX_TYPEID_TCC
 #define FLENS_DEBUG_AUX_TYPEID_TCC 1
 
+#include <flens/debug/auxiliary/typeid.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 

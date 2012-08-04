@@ -33,6 +33,8 @@
 #ifndef FLENS_DEBUG_AUX_CLOSURELOGSTREAM_TCC
 #define FLENS_DEBUG_AUX_CLOSURELOGSTREAM_TCC 1
 
+#include <flens/debug/auxiliary/closurelogstream.h>
+
 namespace flens { namespace verbose {
 
 template <typename T>

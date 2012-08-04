@@ -33,6 +33,8 @@
 #ifndef FLENS_SCALARTYPES_IMPL_INDEXVARIABLE_TCC
 #define FLENS_SCALARTYPES_IMPL_INDEXVARIABLE_TCC 1
 
+#include <flens/scalartypes/impl/indexvariable.h>
+
 namespace flens {
 
 template <typename IndexType>

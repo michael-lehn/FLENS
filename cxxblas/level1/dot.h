@@ -33,7 +33,7 @@
 #ifndef CXXBLAS_LEVEL1_DOT_H
 #define CXXBLAS_LEVEL1_DOT_H 1
 
-#include <cxxblas/typedefs.h>
+#include <cxxblas/cxxblas.h>
 
 #define HAVE_CXXBLAS_DOT 1
 #define HAVE_CXXBLAS_DOTU 1

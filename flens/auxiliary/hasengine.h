@@ -42,7 +42,8 @@ template <typename T>
 struct HasEngine
 {
 
-    struct Two {
+    struct Two
+    {
         char x;
         char y;
     };

@@ -33,6 +33,8 @@
 #ifndef FLENS_MATRIXTYPES_GENERAL_IMPL_GE_CONSTELEMENTCLOSURE_TCC
 #define FLENS_MATRIXTYPES_GENERAL_IMPL_GE_CONSTELEMENTCLOSURE_TCC 1
 
+#include <flens/matrixtypes/general/impl/ge/constelementclosure.h>
+
 namespace flens { namespace gematrix {
 
 template <typename M, typename I>

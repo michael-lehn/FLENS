@@ -39,6 +39,10 @@
 #   include <flens/blas/blaslogoff.h>
 #endif
 
+#include <flens/blas/blas.h>
+#include <flens/matrixtypes/matrix.h>
+#include <flens/vectortypes/vector.h>
+
 namespace flens {
 
 //-- vector closures

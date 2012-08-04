@@ -33,6 +33,9 @@
 #ifndef FLENS_MATRIXTYPES_IMPL_MATRIXCLOSURE_TCC
 #define FLENS_MATRIXTYPES_IMPL_MATRIXCLOSURE_TCC 1
 
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/matrixtypes/impl/matrixclosure.h>
+
 namespace flens {
 
 template <typename Op, typename L, typename R>

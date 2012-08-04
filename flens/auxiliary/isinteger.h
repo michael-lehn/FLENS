@@ -33,6 +33,8 @@
 #ifndef FLENS_AUXILIARY_ISINTEGER_H
 #define FLENS_AUXILIARY_ISINTEGER_H 1
 
+#include <type_traits>
+
 namespace flens {
 
 template <typename T>

@@ -35,6 +35,7 @@
 
 #include <flens/blas/closures/closures.h>
 #include <flens/blas/level1/dot.h>
+#include <flens/blas/operators/opminus.h>
 #include <flens/typedefs.h>
 
 namespace flens {

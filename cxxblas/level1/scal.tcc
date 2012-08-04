@@ -33,6 +33,8 @@
 #ifndef CXXBLAS_LEVEL1_SCAL_TCC
 #define CXXBLAS_LEVEL1_SCAL_TCC 1
 
+#include <cxxblas/cxxblas.h>
+
 namespace cxxblas {
 
 template <typename IndexType, typename ALPHA, typename Y>

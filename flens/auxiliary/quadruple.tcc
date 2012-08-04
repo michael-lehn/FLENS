@@ -34,6 +34,7 @@
 #define FLENS_AUXILIARY_QUADRUPLE_TCC 1
 
 #include <iostream>
+#include <flens/auxiliary/quadruple.h>
 
 namespace flens {
 

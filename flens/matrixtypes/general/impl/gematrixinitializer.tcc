@@ -36,6 +36,7 @@
 
 #include <flens/auxiliary/macros.h>
 #include <flens/matrixtypes/general/impl/gematrix.h>
+#include <flens/matrixtypes/general/impl/gematrixinitializer.h>
 
 namespace flens {
 

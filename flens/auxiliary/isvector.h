@@ -33,6 +33,7 @@
 #ifndef FLENS_AUXILIARY_ISVECTOR_H
 #define FLENS_AUXILIARY_ISVECTOR_H 1
 
+#include <flens/auxiliary/isconvertible.h>
 #include <flens/vectortypes/vector.h>
 
 namespace flens {
@@ -40,7 +41,8 @@ namespace flens {
 struct _VectorChecker
 {
 
-    struct Two {
+    struct Two
+    {
         char x;
         char y;
     };

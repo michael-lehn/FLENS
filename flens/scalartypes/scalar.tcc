@@ -33,6 +33,8 @@
 #ifndef FLENS_SCALARTYPES_SCALAR_TCC
 #define FLENS_SCALARTYPES_SCALAR_TCC 1
 
+#include <flens/scalartypes/scalar.h>
+
 namespace flens {
 
 template <typename I>

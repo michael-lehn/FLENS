@@ -34,6 +34,7 @@
 #define FLENS_STORAGE_FULLSTORAGE_FULLSTORAGE_H 1
 
 #include <cxxblas/typedefs.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/storage/indexoptions.h>
 #include <flens/typedefs.h>
 

@@ -39,6 +39,7 @@
 #include <flens/auxiliary/issame.h>
 #include <flens/debug/auxiliary/basename.h>
 #include <flens/debug/auxiliary/typeid.h>
+#include <flens/debug/auxiliary/variablepool.h>
 
 namespace flens { namespace verbose {
 

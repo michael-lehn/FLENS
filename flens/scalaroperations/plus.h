@@ -34,7 +34,7 @@
 #define FLENS_SCALAROPERATIONS_PLUS_H 1
 
 #include <flens/auxiliary/auxiliary.h>
-#include <flens/scalartypes/impl/scalarclosure.h>
+#include <flens/scalartypes/scalartypes.h>
 
 namespace flens {
 
@@ -52,8 +52,8 @@ template <typename L, typename R>
     operator+(const Scalar<L> &l, const Scalar<R> &r);
 
 template <typename ALPHA, typename R>
-    const typename 
-    RestrictTo<CompatibleScalar<ALPHA, R>::value, 
+    const typename
+    RestrictTo<CompatibleScalar<ALPHA, R>::value,
         ScalarClosure<ScalarOpPlus,
                       ScalarValue<ALPHA>,
                       typename R::Impl>
@@ -61,7 +61,7 @@ template <typename ALPHA, typename R>
     operator+(const ALPHA &alpha, const Scalar<R> &r);
 
 template <typename L, typename ALPHA>
-    const typename 
+    const typename
     RestrictTo<CompatibleScalar<ALPHA, L>::value, 
         ScalarClosure<ScalarOpPlus,
                       typename L::Impl,

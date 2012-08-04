@@ -33,6 +33,8 @@
 #ifndef FLENS_AUXILIARY_ISCOMPLEX_H
 #define FLENS_AUXILIARY_ISCOMPLEX_H 1
 
+#include <complex>
+
 namespace flens {
 
 template <typename T>

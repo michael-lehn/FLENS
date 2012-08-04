@@ -33,6 +33,7 @@
 #ifndef CXXBLAS_LEVEL1_COPY_H
 #define CXXBLAS_LEVEL1_COPY_H 1
 
+#include <cxxblas/drivers/drivers.h>
 #include <cxxblas/typedefs.h>
 
 #define HAVE_CXXBLAS_COPY 1

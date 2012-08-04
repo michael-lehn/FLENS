@@ -33,6 +33,8 @@
 #ifndef FLENS_SCALAROPERATIONS_PLUS_TCC
 #define FLENS_SCALAROPERATIONS_PLUS_TCC 1
 
+#include <flens/scalaroperations/plus.h>
+
 namespace flens {
 
 template <typename L, typename R>

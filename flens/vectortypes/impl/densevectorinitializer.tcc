@@ -36,6 +36,7 @@
 
 #include <flens/auxiliary/macros.h>
 #include <flens/vectortypes/impl/densevector.h>
+#include <flens/vectortypes/impl/densevectorinitializer.h>
 
 namespace flens {
 

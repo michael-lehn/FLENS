@@ -43,6 +43,7 @@
 #ifndef FLENS_LAPACK_IMPL_LARZ_TCC
 #define FLENS_LAPACK_IMPL_LARZ_TCC 1
 
+#include <flens/lapack/lapack.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 

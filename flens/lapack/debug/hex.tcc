@@ -37,6 +37,7 @@
 #include <string>
 #include <cstring>
 #include <cstdlib>
+#include <flens/auxiliary/auxiliary.h>
 
 namespace flens { namespace lapack {
 
