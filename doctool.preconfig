@@ -5,4 +5,4 @@ export AUTHOR_WEBSITE="http://www.mathematik.uni-ulm.de/~lehn"
 export YEAR=`date +%Y`
 
 export CODE_DIR=${PWD}
-export CXXFLAGS=-x c++ -std=c++11 -stdlib=libc++ -Wall -I${PWD}
+export CXXFLAGS=-x c++ -std=c++11 -stdlib=libc++ -Wall -DWITH_VECLIB -DUSE_CXXLAPACK -I${PWD} -I/opt/local/include

@@ -37,7 +37,7 @@
 #include <flens/blas/closures/result.h>
 #include <flens/blas/level1/level1.h>
 
-#if (FLENS_DEBUG_CLOSURES>=2)
+#ifdef FLENS_DEBUG_CLOSURES
 #   include <flens/blas/blaslogon.h>
 #else
 #   include <flens/blas/blaslogoff.h>

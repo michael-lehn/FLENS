@@ -1,3 +1,10 @@
+///
+///  Define the macro for debugging closures
+///
+#ifndef FLENS_DEBUG_CLOSURES
+#define FLENS_DEBUG_CLOSURES
+#endif
+
 #include <flens/flens.cxx>
 #include <iostream>
 
