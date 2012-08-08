@@ -37,7 +37,7 @@
 
 //-- CXXBLAS_DEBUG_OUT ---------------------------------------------------------
 #ifndef CXXBLAS_DEBUG_OUT
-#define CXXBLAS_DEBUG_OUT(msg)   std::cerr << "CXXBLAS: " << msg << std::endl;
+#define CXXBLAS_DEBUG_OUT(msg)
 #endif //CXXBLAS_DEBUG_OUT
 
 #include <cassert>

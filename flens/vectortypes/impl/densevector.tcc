@@ -407,6 +407,13 @@ DenseVector<A>::resize(IndexType length, IndexType firstIndex,
 }
 
 template <typename A>
+bool
+DenseVector<A>::fill(const ElementType &value)
+{
+    return _array.fill(value);
+}
+
+template <typename A>
 void
 DenseVector<A>::changeIndexBase(IndexType firstIndex)
 {
