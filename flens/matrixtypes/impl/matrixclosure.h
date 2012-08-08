@@ -33,8 +33,8 @@
 #ifndef FLENS_MATRIXTYPES_IMPL_MATRIXCLOSURE_H
 #define FLENS_MATRIXTYPES_IMPL_MATRIXCLOSURE_H 1
 
-#include <flens/aux/constref.h>
-#include <flens/aux/promotion.h>
+#include <flens/auxiliary/constref.h>
+#include <flens/auxiliary/promotion.h>
 #include <flens/matrixtypes/matrix.h>
 
 namespace flens {
@@ -62,7 +62,15 @@ class MatrixClosure
     private:
         typename ConstRef<L>::Type _left;
         typename ConstRef<R>::Type _right;
+        // L _left;
+        // R _right;
 };
+
+//
+//  If an operand is a closure we need to keep a copy.  Otherwise we can not
+//  do things like in the implementation of conjTrans, i.e. creating nested
+//  closures inside on a function stack and then return it for later usage.
+//
 
 template <typename Op, typename L, typename R>
 struct ConstRef<MatrixClosure<Op, L, R> >

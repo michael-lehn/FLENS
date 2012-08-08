@@ -33,12 +33,16 @@
 #ifndef FLENS_MATRIXTYPES_TRIANGULAR_IMPL_TRMATRIX_H
 #define FLENS_MATRIXTYPES_TRIANGULAR_IMPL_TRMATRIX_H 1
 
-#include <cxxblas/typedefs.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/matrixtypes/triangular/triangularmatrix.h>
+#include <flens/typedefs.h>
 
 namespace flens {
 
 // forward declarations
+template <typename A>
+    class DenseVector;
+
 template <typename FS>
     class GeMatrix;
 
@@ -200,6 +204,13 @@ class TrMatrix
         SymmetricView
         symmetric();
 
+        // diag views
+        const ConstVectorView
+        diag(IndexType d) const;
+
+        VectorView
+        diag(IndexType d);
+
         // -- methods ----------------------------------------------------------
         IndexType
         dim() const;
@@ -270,6 +281,58 @@ class TrMatrix
         StorageUpLo  _upLo;
         Diag         _diag;
 };
+
+//-- Traits --------------------------------------------------------------------
+//
+//  IsTrMatrix
+//
+struct _TrMatrixChecker
+{
+
+    struct Two {
+        char x;
+        char y;
+    };
+
+    static Two
+    check(_AnyConversion);
+
+    template <typename Any>
+        static char
+        check(TrMatrix<Any>);
+};
+
+template <typename T>
+struct IsTrMatrix
+{
+    static T var;
+    static const bool value = sizeof(_TrMatrixChecker::check(var))==1;
+};
+
+//
+//  IsRealTrMatrix
+//
+template <typename T>
+struct IsRealTrMatrix
+{
+    typedef typename std::remove_reference<T>::type  TT;
+
+    static const bool value = IsTrMatrix<TT>::value
+                           && IsNotComplex<typename TT::ElementType>::value;
+};
+
+//
+//  IsComplexTrMatrix
+//
+template <typename T>
+struct IsComplexTrMatrix
+{
+    typedef typename std::remove_reference<T>::type  TT;
+
+    static const bool value = IsTrMatrix<TT>::value
+                           && IsComplex<typename TT::ElementType>::value;
+};
+
 
 } // namespace flens
 

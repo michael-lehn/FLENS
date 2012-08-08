@@ -33,7 +33,8 @@
 #ifndef FLENS_BLAS_CLOSURES_COPY_TCC
 #define FLENS_BLAS_CLOSURES_COPY_TCC 1
 
-#include <flens/aux/aux.h>
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/blas/closures/copy.h>
 #include <flens/blas/closures/debugclosure.h>
 #include <flens/blas/closures/mmswitch.h>
 #include <flens/blas/closures/mvswitch.h>
@@ -592,6 +593,25 @@ copy(Transpose trans,
 
 //------------------------------------------------------------------------------
 //
+//  B = op(conjugate(A))
+//
+template <typename MA, typename MB>
+void
+copy(Transpose trans, const MatrixClosureOpConj<MA> &A, Matrix<MB> &B)
+{
+    using namespace DEBUGCLOSURE;
+
+    FLENS_BLASLOG_BEGIN_MCOPY(trans, A, B);
+
+    Transpose _trans = Transpose(trans^Conj);
+
+    copy(_trans, A.left(), B.impl());
+
+    FLENS_BLASLOG_END;
+}
+
+//------------------------------------------------------------------------------
+//
 //  B = op(A^T)
 //
 template <typename MA, typename MB>
@@ -681,7 +701,7 @@ copy(Transpose trans, const MatrixClosure<OpMult, MA, MB> &AB, Matrix<MC> &C)
     FLENS_BLASLOG_BEGIN_MCOPY(trans, AB, C);
 
 //
-//  Call mv switch
+//  Call mm switch
 //
     typedef typename MA::Impl::ElementType  TA;
     typedef typename MC::Impl::ElementType  TC;

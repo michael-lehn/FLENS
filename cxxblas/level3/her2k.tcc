@@ -33,6 +33,8 @@
 #ifndef CXXBLAS_LEVEL3_HER2K_TCC
 #define CXXBLAS_LEVEL3_HER2K_TCC 1
 
+#include <cxxblas/cxxblas.h>
+
 namespace cxxblas {
 
 template <typename IndexType, typename ALPHA, typename MA, typename MB,
@@ -125,7 +127,7 @@ her2k(StorageOrder order, StorageUpLo upLo,
                  reinterpret_cast<const float *>(A), ldA,
                  reinterpret_cast<const float *>(B), ldB,
                  beta,
-                 reinterpret_cast<const float *>(C), ldC);
+                 reinterpret_cast<float *>(C), ldC);
 }
 
 // zher2k
@@ -149,7 +151,7 @@ her2k(StorageOrder order, StorageUpLo upLo,
                  reinterpret_cast<const double *>(A), ldA,
                  reinterpret_cast<const double *>(B), ldB,
                  beta,
-                 reinterpret_cast<const double *>(C), ldC);
+                 reinterpret_cast<double *>(C), ldC);
 }
 
 #endif // HAVE_CBLAS

@@ -33,7 +33,8 @@
 #ifndef FLENS_BLAS_CLOSURES_MVSWITCH_H
 #define FLENS_BLAS_CLOSURES_MVSWITCH_H 1
 
-#include <flens/aux/aux.h>
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/blas/operators/opmult.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/scalartypes/scalartypes.h>
 #include <flens/typedefs.h>
@@ -55,9 +56,9 @@ namespace flens { namespace blas {
 //  Entry point for mvSwitch
 //
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-    typename RestrictTo<IsSame<MA, typename MA::Impl>::value &&
-                        IsSame<VX, typename VX::Impl>::value &&
-                        IsSame<VY, typename VY::Impl>::value,
+    typename RestrictTo<IsSame<MA, typename MA::Impl>::value
+                     && IsSame<VX, typename VX::Impl>::value
+                     && IsSame<VY, typename VY::Impl>::value,
              void>::Type
     mvSwitch(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,
              const BETA &beta, VY &y);

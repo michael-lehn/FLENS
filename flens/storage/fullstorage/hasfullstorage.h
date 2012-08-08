@@ -33,7 +33,7 @@
 #ifndef FLENS_STORAGE_FULLSTORAGE_HASFULLSTORAGE_H
 #define FLENS_STORAGE_FULLSTORAGE_HASFULLSTORAGE_H 1
 
-#include <flens/aux/hasengine.h>
+#include <flens/auxiliary/hasengine.h>
 #include <flens/storage/fullstorage/isfullstorage.h>
 
 namespace flens {

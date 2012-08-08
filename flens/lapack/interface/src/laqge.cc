@@ -1,9 +1,5 @@
-//#define CXXBLAS_DEBUG_OUT(x)      std::cerr << x << std::endl;
-
 #define STR(x)      #x
 #define STRING(x)   STR(x)
-
-#define FLENS_DEFAULT_INDEXTYPE int
 
 #include <flens/lapack/interface/include/config.h>
 
@@ -25,7 +21,6 @@ LAPACK_DECL(dlaqge)(const INTEGER    *M,
                     const DOUBLE     *AMAX,
                     char             *EQUED)
 {
-    DEBUG_FLENS_LAPACK("dlaqge");
 //
 //  Call FLENS implementation
 //

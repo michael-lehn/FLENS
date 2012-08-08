@@ -33,6 +33,8 @@
 #ifndef FLENS_BLAS_OPERATORS_OPADD_TCC
 #define FLENS_BLAS_OPERATORS_OPADD_TCC 1
 
+#include <flens/blas/operators/opadd.h>
+
 namespace flens {
 
 template <typename VX, typename VY>

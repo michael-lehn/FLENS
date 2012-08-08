@@ -33,6 +33,8 @@
 #ifndef FLENS_BLAS_CLOSURES_PRUNEVECTORCLOSURE_TCC
 #define FLENS_BLAS_CLOSURES_PRUNEVECTORCLOSURE_TCC 1
 
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/blas/closures/prunevectorclosure.h>
 #include <flens/typedefs.h>
 
 namespace flens {
@@ -56,7 +58,7 @@ PruneVectorClosure<Vector>::updateTranspose(Transpose trans)
 }
 
 template <typename Vector>
-const typename PruneVectorClosure<Vector>::Remainder &
+typename ConstRef<typename PruneVectorClosure<Vector>::Remainder>::Type
 PruneVectorClosure<Vector>::remainder(const Vector &vector)
 {
     return vector;
@@ -68,11 +70,11 @@ template <typename L, typename R>
 struct PruneVectorClosure<VectorClosure<OpMult, ScalarValue<L>, R> >
 {
     typedef VectorClosure<OpMult, ScalarValue<L>, R>  VC;
-    
+
     typedef typename PruneVectorClosure<R>::ScalingFactor  _ScalingFactor;
     typedef typename Promotion<L, _ScalingFactor>::Type    ScalingFactor;
     typedef typename PruneVectorClosure<R>::Remainder      Remainder;
-    
+
     template <typename ALPHA>
     static const typename Promotion<ALPHA, ScalingFactor>::Type
     updateScalingFactor(const ALPHA &alpha, const VC &vc)
@@ -87,7 +89,7 @@ struct PruneVectorClosure<VectorClosure<OpMult, ScalarValue<L>, R> >
         return PruneVectorClosure<R>::updateTranspose(trans);
     }
 
-    static const Remainder &
+    static typename ConstRef<Remainder>::Type
     remainder(const VC &vc)
     {
         return PruneVectorClosure<R>::remainder(vc.right());
@@ -99,10 +101,10 @@ template <typename R>
 struct PruneVectorClosure<VectorClosure<OpConj, R, R> >
 {
     typedef VectorClosure<OpConj, R, R>  VC;
-    
+
     typedef typename PruneVectorClosure<R>::ScalingFactor  ScalingFactor;
     typedef typename PruneVectorClosure<R>::Remainder      Remainder;
-    
+
     template <typename ALPHA>
     static const typename Promotion<ALPHA, ScalingFactor>::Type
     updateScalingFactor(const ALPHA &alpha, const VC &vc)
@@ -117,7 +119,7 @@ struct PruneVectorClosure<VectorClosure<OpConj, R, R> >
         return Transpose(trans^Conj);
     }
 
-    static const Remainder &
+    static typename ConstRef<Remainder>::Type
     remainder(const VC &vc)
     {
         return PruneVectorClosure<R>::remainder(vc.right());

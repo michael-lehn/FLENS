@@ -40,9 +40,13 @@
 
 namespace flens {
 
+#define conjTrans(x)   conjugate(transpose(x))
+
+/*
 template <typename MA>
     const MatrixClosureOpConj<MatrixClosureOpTrans<typename MA::Impl> >
     conjTrans(const Matrix<MA> &A);
+*/
 
 } // namespace flens
 

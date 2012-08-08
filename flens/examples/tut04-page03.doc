@@ -6,8 +6,8 @@ In this example we solve a system of linear equations $Ax = b$ were the
 coefficient matrix is general, i.e. not necessarily symmetric.  We solve the
 system with __lapack::sv__ which is the FLENS port of LAPACK's __dgesv__.
 
-:links:  __lapack::sv__  -> file:flens/lapack/gesv/sv.h
-         __dgesv__       -> file:cxxlapack/netlib/src/dgesv.f
+:links:  __lapack::sv__  -> file:flens/lapack/impl/sv.h
+         __dgesv__       -> file:cxxlapack/netlib/lapack/dgesv.f
 
 
 Example Code
@@ -26,7 +26,7 @@ Compile
   *--[SHELL]----------------------------------------------------------------*
   |                                                                         |
   |  cd flens/examples                                                      |
-  |  clang++ -std=c++0x -Wall -I../.. -o lapack-gesv lapack-gesv.cc         |
+  |  g++ -std=c++11 -Wall -I../.. -o lapack-gesv lapack-gesv.cc             |
   |                                                                         |
   *-------------------------------------------------------------------------*
 
@@ -60,8 +60,8 @@ Compile
   *--[SHELL]----------------------------------------------------------------*
   |                                                                         |
   |  cd flens/examples                                                      |
-  |  clang++ -std=c++0x -Wall -I../.. -o lapack-complex-gesv             +++|
-  |          lapack-complex-gesv.cc                                         |
+  |  g++ -std=c++11 -Wall -I../.. -o lapack-complex-gesv                 +++|
+  |      lapack-complex-gesv.cc                                             |
   |                                                                         |
   *-------------------------------------------------------------------------*
 

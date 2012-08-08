@@ -34,7 +34,7 @@
 #define FLENS_BLAS_LEVEL1_COPY_H 1
 
 #include <cxxblas/cxxblas.h>
-#include <flens/aux/aux.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>

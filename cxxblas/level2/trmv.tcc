@@ -33,6 +33,8 @@
 #ifndef CXXBLAS_LEVEL2_TRMV_TCC
 #define CXXBLAS_LEVEL2_TRMV_TCC 1
 
+#include <cxxblas/cxxblas.h>
+
 namespace cxxblas {
 
 template <typename IndexType, typename MA, typename VX>
@@ -260,7 +262,7 @@ trmv(StorageOrder order, StorageUpLo upLo,
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 n,
                 reinterpret_cast<const float *>(A), ldA,
-                reinterpret_cast<const float *>(x), incX);
+                reinterpret_cast<float *>(x), incX);
 }
 
 // ztrmv
@@ -278,7 +280,7 @@ trmv(StorageOrder order, StorageUpLo upLo,
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 n,
                 reinterpret_cast<const double *>(A), ldA,
-                reinterpret_cast<const double *>(x), incX);
+                reinterpret_cast<double *>(x), incX);
 }
 
 #endif // HAVE_CBLAS

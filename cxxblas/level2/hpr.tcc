@@ -34,7 +34,7 @@
 #define CXXBLAS_LEVEL2_HPR_TCC 1
 
 #include <complex>
-#include <cxxblas/level1/level1.h>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 
@@ -108,6 +108,47 @@ hpr(StorageOrder order, StorageUpLo upLo,
     }
     hpr_generic(order, upLo, NoTrans, n, alpha, x, incX, A);
 }
+
+
+#ifdef HAVE_CBLAS
+
+// chpr
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+hpr(StorageOrder order,   StorageUpLo upLo,
+      IndexType n,
+      float alpha,
+      const ComplexFloat *x, IndexType incX,
+      ComplexFloat *A)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_chpr");
+
+    cblas_chpr(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
+               n,
+               reinterpret_cast<const float *>(&alpha),
+               reinterpret_cast<const float *>(x), incX,
+               reinterpret_cast<float *>(A));
+}
+
+// zhpr
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+hpr(StorageOrder order,   StorageUpLo upLo,
+      IndexType n,
+      double alpha,
+      const ComplexDouble *x, IndexType incX,
+      ComplexDouble *A)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zhpr");
+
+    cblas_zhpr(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
+               n,
+               reinterpret_cast<const double *>(&alpha),
+               reinterpret_cast<const double *>(x), incX,
+               reinterpret_cast<double *>(A));
+}
+
+#endif // HAVE_CBLAS
 
 } // namespace cxxblas
 

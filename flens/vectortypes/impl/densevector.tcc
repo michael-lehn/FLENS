@@ -34,6 +34,10 @@
 #ifndef FLENS_VECTORTYPES_IMPL_DENSEVECTOR_TCC
 #define FLENS_VECTORTYPES_IMPL_DENSEVECTOR_TCC 1
 
+#include <flens/blas/blas.h>
+#include <flens/typedefs.h>
+
+#include <flens/vectortypes/impl/densevector.h>
 #include <flens/vectortypes/impl/dv/constelementclosure.tcc>
 #include <flens/vectortypes/impl/dv/elementclosure.tcc>
 #include <flens/vectortypes/impl/dv/initializer.tcc>

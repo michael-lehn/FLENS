@@ -1,0 +1,83 @@
+================================================================
+Solving a Symmetric Positive Definite System of Linear Equations          [TOC]
+================================================================
+
+In this example we solve a system of linear equations $Sx = b$ were the
+coefficient matrix is symmetric and positiv definite.  We first compute the
+Cholesky factorization $S = L L^T$ with __lapack::potrf__ which is the FLENS
+port of LAPACK's __dpotrf__.  We then solve $Lu=b$ and then $L^T x = u$ using
+__lapack::potrs__ which is the port of __dpotrs__.
+
+:links:  __lapack::potrf__ -> file:flens/lapack/impl/potrf.h
+         __lapack::potrs__ -> file:flens/lapack/impl/potrs.h
+         __dpotrf__        -> file:cxxlapack/netlib/lapack/dpotrf.f
+         __dpotrs__        -> file:cxxlapack/netlib/lapack/dpotrs.f
+
+Example Code
+============
+:import: flens/examples/lapack-potrs.cc [stripped, downloadable]
+
+
+Comments on Example Code
+========================
+:import: flens/examples/lapack-potrs.cc [brief]
+
+
+Compile
+=======
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  g++ -std=c++11 -Wall -I../.. -o lapack-potrs lapack-potrs.cc           |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Run
+===
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  ./lapack-potrs                                                         |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Example with Complex Numbers
+============================
+
+Example Code
+------------
+:import: flens/examples/lapack-complex-potrs.cc [stripped, downloadable]
+
+Comments on Example Code
+------------------------
+:import: flens/examples/lapack-complex-potrs.cc
+
+Compile
+-------
+Note that an external LAPACK implementation is needed for the complex variant
+of `lapack::potrs`
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  g++ -DUSE_CXXLAPACK -framework vecLib                                +++|
+ |      -std=c++11 -Wall -I../.. -o lapack-complex-potrs                 +++|
+ |      lapack-complex-potrs.cc                                             |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+Run
+---
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  ./lapack-complex-potrs                                                  |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+

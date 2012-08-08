@@ -40,6 +40,25 @@
 namespace flens {
 
 template <typename FS>
+SyMatrix<FS>::SyMatrix()
+{
+}
+
+template <typename FS>
+SyMatrix<FS>::SyMatrix(IndexType dim)
+    : _engine(dim, dim)
+{
+    ASSERT(dim>=0);
+}
+
+template <typename FS>
+SyMatrix<FS>::SyMatrix(IndexType dim, IndexType firstRow, IndexType firstCol)
+    : _engine(dim, dim, firstRow, firstCol)
+{
+    ASSERT(dim>=0);
+}
+
+template <typename FS>
 SyMatrix<FS>::SyMatrix(const Engine &engine, StorageUpLo upLo)
     : _engine(engine), _upLo(upLo)
 {
@@ -242,6 +261,7 @@ SyMatrix<FS>::operator()(const Range<IndexType> &rows, IndexType col)
 }
 
 // -- views --------------------------------------------------------------------
+
 // general views
 template <typename FS>
 const typename SyMatrix<FS>::ConstGeneralView
@@ -293,7 +313,39 @@ SyMatrix<FS>::triangular()
     return general().lower();
 }
 
+// diag views
+template <typename FS>
+const typename SyMatrix<FS>::ConstVectorView
+SyMatrix<FS>::diag(IndexType d) const
+{
+#   ifndef NDEBUG
+    if (upLo()==Upper) {
+        ASSERT(d>=0);
+    } else {
+        ASSERT(d<=0);
+    }
+#   endif
+
+    return general().diag(d);
+}
+
+template <typename FS>
+typename SyMatrix<FS>::VectorView
+SyMatrix<FS>::diag(IndexType d)
+{
+#   ifndef NDEBUG
+    if (upLo()==Upper) {
+        ASSERT(d>=0);
+    } else {
+        ASSERT(d<=0);
+    }
+#   endif
+
+    return general().diag(d);
+}
+
 // -- methods ------------------------------------------------------------------
+
 template <typename FS>
 typename SyMatrix<FS>::IndexType
 SyMatrix<FS>::dim() const
@@ -316,7 +368,6 @@ SyMatrix<FS>::numCols() const
 {
     return _engine.numCols();
 }
-
 
 template <typename FS>
 typename SyMatrix<FS>::IndexType

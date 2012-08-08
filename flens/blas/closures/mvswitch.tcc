@@ -33,8 +33,7 @@
 #ifndef FLENS_BLAS_CLOSURES_MVSWITCH_TCC
 #define FLENS_BLAS_CLOSURES_MVSWITCH_TCC 1
 
-#include <flens/aux/aux.h>
-#include <flens/blas/closures/debugclosure.h>
+#include <flens/blas/closures/closures.h>
 #include <flens/blas/closures/prune.h>
 #include <flens/blas/level1/level1.h>
 #include <flens/blas/level2/level2.h>
@@ -97,8 +96,11 @@ mvSwitch(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,
         FLENS_BLASLOG_TMP_REMOVE(_x, x);
     }
 #   else
-    static_assert(IsSame<VX, typename Result<VX>::Type>::value,
-                  "temporary required");
+    const bool check = IsSame<VX, typename Result<VX>::Type>::value;
+    if (!check) {
+        std::cerr << "ERROR: Temporary required." << std::endl;
+    }
+    ASSERT(check);
 #   endif
 }
 
@@ -150,7 +152,11 @@ mvCase(Transpose trans, const ALPHA &alpha,
         FLENS_BLASLOG_TMP_REMOVE(A, _A);
     }
 #   else
-    static_assert(IsSame<_MA, RMA>::value, "temporary required");
+    const bool check = IsSame<_MA, RMA>::value;
+    if (!check) {
+        std::cerr << "ERROR: Temporary required." << std::endl;
+    }
+    ASSERT(check);
 #   endif
 }
 
@@ -183,7 +189,11 @@ mvCase(Transpose trans, const ALPHA &alpha, const MatrixClosure<Op, L, R> &A,
         FLENS_BLASLOG_TMP_REMOVE(_A, A);
     }
 #   else
-    static_assert(IsSame<MC, MA>::value, "temporary required");
+    const bool check = IsSame<MC, MA>::value;
+    if (!check) {
+        std::cerr << "ERROR: Temporary required." << std::endl;
+    }
+    ASSERT(check);
 #   endif
 }
 

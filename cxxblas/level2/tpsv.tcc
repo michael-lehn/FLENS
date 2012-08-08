@@ -33,6 +33,8 @@
 #ifndef CXXBLAS_LEVEL2_TPSV_TCC
 #define CXXBLAS_LEVEL2_TPSV_TCC 1
 
+#include <cxxblas/cxxblas.h>
+
 namespace cxxblas {
 
 template <typename IndexType, typename MA, typename VX>
@@ -198,6 +200,82 @@ tpsv(StorageOrder order, StorageUpLo upLo,
     }
     tpsv_generic(order, upLo, transA, diag, n, A, x, incX);
 }
+
+
+#ifdef HAVE_CBLAS
+
+// stpsv
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+tpsv(StorageOrder order, Transpose trans,
+      Transpose transA, Diag diag,
+     IndexType n,
+     const float *A,
+     float *x, IndexType incX)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_stpsv");
+
+    cblas_stpsv(CBLAS::getCblasType(order), CBLAS::getCblasType(transA),
+                CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
+                n,
+                A,
+                x, incX);
+}
+
+// dtpsv
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+tpsv(StorageOrder order, Transpose trans,
+      Transpose transA, Diag diag,
+     IndexType n,
+     const double *A,
+     double *x, IndexType incX)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_dtpsv");
+
+    cblas_dtpsv(CBLAS::getCblasType(order), CBLAS::getCblasType(transA),
+                CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
+                n,
+                A,
+                x, incX);
+}
+
+// ctpsv
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+tpsv(StorageOrder order, Transpose trans,
+      Transpose transA, Diag diag,
+     IndexType n,
+     const ComplexFloat *A,
+     ComplexFloat *x, IndexType incX)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ctpsv");
+
+    cblas_ctpsv(CBLAS::getCblasType(order), CBLAS::getCblasType(transA),
+                CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
+                n,
+                reinterpret_cast<const float *>(A),
+                reinterpret_cast<float *>(x), incX);
+}
+
+// ztpsv
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+tpsv(StorageOrder order, Transpose trans,
+      Transpose transA, Diag diag,
+     IndexType n,
+     const ComplexDouble *A,
+     ComplexDouble *x, IndexType incX)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ztpsv");
+
+    cblas_ztpsv(CBLAS::getCblasType(order), CBLAS::getCblasType(transA),
+                CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
+                n,
+                reinterpret_cast<const double *>(A),
+                reinterpret_cast<double *>(x), incX);
+}
+#endif // HAVE_CBLAS
 
 } // namespace flens
 

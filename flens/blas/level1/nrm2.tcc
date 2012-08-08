@@ -34,14 +34,21 @@
 #define FLENS_BLAS_LEVEL1_NRM2_TCC 1
 
 #include <cxxblas/cxxblas.h>
-#include <flens/aux/macros.h>
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/blas/closures/closures.h>
+#include <flens/blas/level1/level1.h>
 #include <flens/typedefs.h>
-#include <flens/vectortypes/impl/densevector.h>
+
+#ifdef FLENS_DEBUG_CLOSURES
+#   include <flens/blas/blaslogon.h>
+#else
+#   include <flens/blas/blaslogoff.h>
+#endif
 
 namespace flens { namespace blas {
 
 template <typename X, typename T>
-void
+typename RestrictTo<IsNotComplex<T>::value, void>::Type
 nrm2(const DenseVector<X> &x, T &norm)
 {
 #   ifdef HAVE_CXXBLAS_NRM2
@@ -52,10 +59,10 @@ nrm2(const DenseVector<X> &x, T &norm)
 }
 
 template <typename X>
-typename DenseVector<X>::ElementType
+typename ComplexTrait<typename X::ElementType>::PrimitiveType
 nrm2(const DenseVector<X> &x)
 {
-    typename DenseVector<X>::ElementType norm;
+    typename ComplexTrait<typename X::ElementType>::PrimitiveType norm;
     nrm2(x, norm);
     return norm;
 }

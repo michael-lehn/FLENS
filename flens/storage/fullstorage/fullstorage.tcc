@@ -34,6 +34,7 @@
 #define FLENS_STORAGE_FULLSTORAGE_FULLSTORAGE_TCC 1
 
 #include <cxxblas/level1extensions/gecopy.h>
+#include <flens/storage/fullstorage/fullstorage.h>
 #include <flens/storage/fullstorage/trapezoidalfill.h>
 #include <flens/typedefs.h>
 
@@ -206,6 +207,9 @@ FullStorage<T, Order, I, A>::data() const
     }
 #   endif
 
+    if (_data==0) {
+        std::cerr << "... _data = " << _data << std::endl;
+    }
     ASSERT(_data);
     return &(this->operator()(_firstRow, _firstCol));
 }
@@ -670,7 +674,7 @@ FullStorage<T, Order, I, A>::_setIndexBase(IndexType firstRow,
                                            IndexType firstCol)
 {
     // assume: _data points to allocated memory
-    
+
     if (Order==RowMajor) {
         _data -= firstRow*_numCols + firstCol;
     }
@@ -705,7 +709,7 @@ void
 FullStorage<T, Order, I, A>::_allocate(const ElementType &value)
 {
     const IndexType numElements = numRows()*numCols();
-    
+
     if (numElements==0) {
         return;
     }

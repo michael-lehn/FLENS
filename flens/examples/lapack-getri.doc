@@ -1,0 +1,81 @@
+=======================================
+Compute the Inverse of a General Matrix                                   [TOC]
+=======================================
+
+In this example we compute the inverse $A^{-1}$ of a general $m \times n$
+matrix $A$.  We first compute the $LU$ factorization.  The inverse $A^{-1}$
+then gets computed by __lapack::tri__ which is the FLENS port of LAPACK's
+__dgetri__.
+
+:links:  __lapack::tri__  -> file:flens/lapack/impl/tri.h
+         __dgetri__       -> file:cxxlapack/netlib/lapack/dgetri.f
+
+
+Example Code
+============
+:import: flens/examples/lapack-getri.cc [stripped, downloadable]
+
+
+Comments on Example Code
+========================
+:import: flens/examples/lapack-getri.cc [brief]
+
+
+Compile
+=======
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  g++ -std=c++11 -Wall -I../.. -o lapack-getri lapack-getri.cc           |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Run
+===
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  ./lapack-getri                                                         |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Example with Complex Numbers
+============================
+
+Example Code
+------------
+:import: flens/examples/lapack-complex-getri.cc [stripped, downloadable]
+
+Comments on Example Code
+------------------------
+:import: flens/examples/lapack-complex-getri.cc
+
+Compile
+-------
+Note that an external LAPACK implementation is needed for the complex variant
+of `lapack::tri`
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  g++ -DUSE_CXXLAPACK -framework vecLib                                +++|
+ |      -std=c++11 -Wall -I../.. -o lapack-complex-getri                 +++|
+ |      lapack-complex-getri.cc                                             |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+Run
+---
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  ./lapack-complex-getri                                                  |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+

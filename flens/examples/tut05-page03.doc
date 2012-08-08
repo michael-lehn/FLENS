@@ -1,0 +1,37 @@
+========================================
+Using FLENS-LAPACK as CXXLAPACK Font-End                                  [TOC]
+========================================
+
+FLENS-LAPACK not only provides a generic implementation for a set of certain
+LAPACK functions.  It also serves as a high-level interface for CXXLAPACK.  In
+this respect it follows the ideas introduced on the previous pages.
+
+
+Generic or External LAPACK:  How to select?
+===========================================
+Consider a LAPACK function like `xGETRF`.  In FLENS-LAPACK we provide its
+functionality through the routine `lapack::trf`.  Using macros you can control
+whether it calls a generic implementation or an external LAPACK implementation:
+
+- By default and if possible FLENS-LAPACK will always call the generic
+  implementation of a LAPACK routine.
+- If the `USE_CXXLAPACK` macro is defined *and* no generic implementation is
+  available then the external implementation gets called.  This happens through
+  the CXXLAPCK layer.
+- If the `ALWAYS_USE_CXXLAPACK` macro is defined then all FLENS-LAPACK routines
+  will delegate functionality to the external LAPACK implementation.  If you
+  define this macro then the `USE_CXXLAPACK` gets automatically defined (see
+  __lapack-header__).
+
+You can be even more selective.  For each function call you can explicitly
+specify whether the generic or external function gets called:
+
+- `lapack::generic::trf_impl` is the generic implementation of `lapack::trf` and
+- `lapack::external::trf_impl` is a high-level interface for `cxxlapack::getrf`.
+
+
+:links:  __lapack-header__  -> file:flens/lapack/lapack.h
+
+
+:navigate: __up__    -> doc:flens/examples/tutorial
+           __back__  -> doc:flens/examples/tut05-page02

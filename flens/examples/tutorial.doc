@@ -81,13 +81,13 @@ Session: FLENS-LAPACK
 
 :links: __Page (\d)__     -> doc:flens/examples/tut04-page0$1
 
-Session: Calling Netlib LAPACK (or VecLib MKL, ACML,...)
-========================================================
+Session: Using an external LAPACK implementation
+================================================
 
  *--[BOX]--------------------------------------------------------------------*
  |                                                                           |
  |  - __Page 1__: Using CXXLAPACK (Low-Level LAPACK interface) directly.     |
- |  - __Page 2__: The FLENS High-Level interface for CXXLAPACK.              |
+ |  - __Page 2__: Creating a high-level interface for CXXLAPACK.             |
  |                                                                           |
  *---------------------------------------------------------------------------*
 

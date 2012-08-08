@@ -1,0 +1,79 @@
+=====================================
+QR Factorization with Column Pivoting                                     [TOC]
+=====================================
+
+In this example we compute a $QR$ factorization with column pivoting and use
+it for solving a system of linear equations.  Another (more interesting)
+of this method are __rank deficient least square problems__.
+
+For a general $m \times n$ matrix $A$ the FLENS-LAPACK function __lapack::qp3__
+the factorization $AP = QR$ where $P$ is a permutation matrix, $Q$ a
+orthogonal/unitary matrix and $R$ an upper triangular or trapezoidal matrix.
+
+Example Code
+============
+:import: flens/examples/lapack-geqp3.cc [stripped, downloadable]
+
+Comments on Example Code
+========================
+:import: flens/examples/lapack-geqp3.cc [brief]
+
+Compile
+=======
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  g++ -std=c++11 -Wall -I../.. -o lapack-geqp3 lapack-geqp3.cc           |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+Run
+===
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  ./lapack-geqp3                                                         |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+Example with Complex Numbers
+============================
+
+Example Code
+------------
+:import: flens/examples/lapack-complex-geqp3.cc [stripped, downloadable]
+
+Comments on Example Code
+------------------------
+:import: flens/examples/lapack-complex-geqp3.cc [brief]
+
+Compile
+-------
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  g++ -DUSE_CXXLAPACK -framework vecLib                               +++|
+  |      -std=c++11 -Wall -I../.. -o lapack-complex-geqp3                +++|
+  |      lapack-complex-geqp3.cc                                            |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+Run
+---
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  ./lapack-complex-geqp3                                                 |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+
+:links: __rank deficient least square problems__ -> doc:flens/examples/lapack-gelsy
+        __lapack::qp3__                          -> file:flens/lapack/impl/qp3.h
+
+

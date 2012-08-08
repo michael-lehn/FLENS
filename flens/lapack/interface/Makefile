@@ -1,53 +1,54 @@
-#CXX      = clang++
-CXX      = g++
+CXX  = g++
+#CXX  = clang++
 
-FC = gfortran
+CXXFLAGS += -std=c++0x -Wall -Wextra -Werror
+CXXFLAGS += -I../../..
 
-#INTEGER = long
-INTEGER = int
-
-CXXFLAGS += -Wall -Wextra
-#CXXFLAGS += -Wc++0x-extensions
-CXXFLAGS += -Werror
-CXXFLAGS += -g
-CXXFLAGS += -O3 -std=c++0x -I ../../.. -DINTEGER=$(INTEGER)
+#
+# FLENS-LAPACK checks its results by calling REFLAPACK and REFBALS functions
+# without underscore
+#
 CXXFLAGS += -DWITH_REFBLAS
 
-CXXFLAGS += -DCHECK_CXXLAPACK
-#CXXFLAGS += -DUSE_NATIVE_ILAENV
-#CXXFLAGS += -DNDEBUG
+#CXXFLAGS += -DLAPACK_DEBUG
 
-FCFLAGS  += -g -fno-underscoring
+test_external_binding =
 
-# trace calls to interface
-CXXFLAGS += -DDEBUG_INTERFACE
+ifndef test_external_binding
+#
+# Call generic FLENS-LAPACK implementation and compare results with REFLAPACK
+#
+    CXXFLAGS += -DUSE_CXXLAPACK -DCXXLAPACK_NO_UNDERSCORE -DCHECK_CXXLAPACK \
+                -DUSE_ILAENV_WITH_UNDERSCORE
+else
+#
+# Call external LAPACK implementation (e.g. REFLAPACK).  We have define the
+# macro "USE_NATIVE_ILAENV" such that the ilaenv function from the LAPACK
+# test suite gets called.
+#
+    CXXFLAGS += -DUSE_CXXLAPACK -DCXXLAPACK_NO_UNDERSCORE \
+                -DALWAYS_USE_CXXLAPACK \
+                -DUSE_ILAENV_WITH_UNDERSCORE -DUSE_NATIVE_ILAENV
+endif
 
-CXXFLAGS += -DDEBUG_LAPACK_CALLS
-CXXFLAGS += -DDEBUG_FLENS_LAPACK_CALLS
+REFLAPACK = ../../cxxlapack/netlib/libreflapack_nu.a
+REFBLAS   = ../../cxxblas/netlib/libblas_REF_nu.a
 
 
 SOURCE_FILES = $(wildcard src/*.cc)
+#SOURCE_FILES = src/getrf.cc src/xdummy.cc
 
-FORTRAN_FILES = $(wildcard ref_lapack/*.f) \
-                $(wildcard ref_blas/*.f)
+OBJECT_FILES =  $(patsubst %.cc,%.o,$(SOURCE_FILES))
+FLENSLAPACK  = lapack_FLENS.a
 
-OBJECT_FILES =  $(patsubst %.cc,%.o,$(SOURCE_FILES)) \
-                $(patsubst %.f,%.o,$(FORTRAN_FILES))
+all : $(FLENSLAPACK)
 
-FLENSLAPACK = lapack_FLENS.a
+$(FLENSLAPACK) : $(OBJECT_FILES)
+	ar crs $(FLENSLAPACK) $(OBJECT_FILES)
+	ranlib $(FLENSLAPACK)
 
-all : $(OBJECT_FILES)
-	ar cru $(FLENSLAPACK) $(OBJECT_FILES)
-
-%.o : %.cc
+%.o : %.f
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
-
-ref_lapack/%.o : ref_lapack/%.f
-	$(FC) $(FCFLAGS) -c -o $@ $<
-
-ref_blas/%.o : ref_blas/%.f
-	$(FC) $(FCFLAGS) -c -o $@ $<
 
 clean :
 	rm -f $(OBJECT_FILES) $(FLENSLAPACK)
-

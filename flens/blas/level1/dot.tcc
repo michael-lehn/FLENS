@@ -33,8 +33,17 @@
 #ifndef FLENS_BLAS_LEVEL1_DOT_TCC
 #define FLENS_BLAS_LEVEL1_DOT_TCC 1
 
-#include <flens/aux/macros.h>
+#include <cxxblas/cxxblas.h>
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/blas/closures/closures.h>
+#include <flens/blas/level1/level1.h>
 #include <flens/typedefs.h>
+
+#ifdef FLENS_DEBUG_CLOSURES
+#   include <flens/blas/blaslogon.h>
+#else
+#   include <flens/blas/blaslogoff.h>
+#endif
 
 namespace flens { namespace blas {
 
@@ -79,6 +88,29 @@ dotu(const DenseVector<X> &x, const DenseVector<Y> &y, T &result)
     FLENS_BLASLOG_END;
     FLENS_BLASLOG_UNSETTAG;
 }
+
+template <typename X, typename Y>
+typename RestrictTo<IsSame<typename X::ElementType,
+                           typename Y::ElementType>::value,
+                           typename X::ElementType>::Type
+dot(const DenseVector<X> &x, const DenseVector<Y> &y)
+{
+    typename X::ElementType val;
+    dot(x, y, val);
+    return val;
+}
+
+template <typename X, typename Y>
+typename RestrictTo<IsSame<typename X::ElementType,
+                           typename Y::ElementType>::value,
+                           typename X::ElementType>::Type
+dotu(const DenseVector<X> &x, const DenseVector<Y> &y)
+{
+    typename X::ElementType val;
+    dotu(x, y, val);
+    return val;
+}
+
 
 } } // namespace blas, flens
 

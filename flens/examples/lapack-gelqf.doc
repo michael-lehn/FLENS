@@ -1,0 +1,73 @@
+================
+LQ Factorization                                                         [TOC]
+================
+
+In this example we compute the $LQ$ factorization and use it for solving a
+system of linear equations.  In this example we do not setup matrix $Q$
+explicitly.
+
+
+Example Code
+============
+:import: flens/examples/lapack-gelqf.cc [stripped, downloadable]
+
+Comments on Example Code
+========================
+:import: flens/examples/lapack-gelqf.cc [brief]
+
+Compile
+=======
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  g++ -std=c++11 -Wall -I../.. -o lapack-gelqf                         +++|
+ |      lapack-gelqf.cc                                                     |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+Run
+===
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  ./lapack-gelqf                                                          |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+
+Example with Complex Numbers
+============================
+
+Example Code
+------------
+:import: flens/examples/lapack-complex-gelqf.cc [stripped, downloadable]
+
+Comments on Example Code
+------------------------
+:import: flens/examples/lapack-complex-gelqf.cc [brief]
+
+Compile
+-------
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  g++ -DUSE_CXXLAPACK -framework vecLib                                +++|
+ |      -std=c++11 -Wall -I../.. -o lapack-complex-gelqf                 +++|
+ |      lapack-complex-gelqf.cc                                             |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+Run
+---
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  ./lapack-complex-gelqf                                                  |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+

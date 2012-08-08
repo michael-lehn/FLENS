@@ -34,7 +34,7 @@
 #define CXXBLAS_LEVEL1EXTENSIONS_ACXPY_TCC 1
 
 #include <cstdio>
-#include <cxxblas/aux/aux.h>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 

@@ -34,6 +34,7 @@
 #define CXXBLAS_LEVEL1EXTENSIONS_GEAXPY_TCC 1
 
 #include <cassert>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 
@@ -59,11 +60,27 @@ geaxpy(StorageOrder order,
             }
             return;
         }
-    } 
-    if (trans==Trans) {
+    }
+    if (trans==Conj) {
+        if ((ldA==n) && (ldB==n)) {
+            acxpy(m*n, alpha, A, IndexType(1), B, IndexType(1));
+            return;
+        } else {
+            for (IndexType i=0; i<m; ++i) {
+                acxpy(n, alpha, A+i*ldA, IndexType(1), B+i*ldB, IndexType(1));
+            }
+            return;
+        }
+    }
+     if (trans==Trans) {
         for (IndexType i=0; i<m; ++i) {
             axpy(n, alpha, A+i, ldA, B+i*ldB, IndexType(1));
-            //axpy(n, A+i*ldA, IndexType(1), B+i, ldB);
+        }
+        return;
+    }
+    if (trans==ConjTrans) {
+        for (IndexType i=0; i<m; ++i) {
+            acxpy(n, alpha, A+i, ldA, B+i*ldB, IndexType(1));
         }
         return;
     }

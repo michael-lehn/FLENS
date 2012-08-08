@@ -1,0 +1,79 @@
+==========================================
+Compute the Inverse of a Triangular Matrix                               [TOC]
+==========================================
+
+In this example we compute the inverse $T^{-1}$ of a triangular matrix $T$.
+The inverse $T^{-1}$ gets computed by __lapack::tri__ which is the FLENS port
+of LAPACK's __dtrtri__.
+
+:links:  __lapack::tri__  -> file:flens/lapack/impl/tri.h
+         __dtrtri__       -> file:cxxlapack/netlib/lapack/dtrtri.f
+
+Example Code
+============
+:import: flens/examples/lapack-trtri.cc [stripped, downloadable]
+
+
+Comments on Example Code
+========================
+:import: flens/examples/lapack-trtri.cc [brief]
+
+
+Compile
+=======
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  g++ -std=c++11 -Wall -I../.. -o lapack-trtri lapack-trtri.cc           |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Run
+===
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  ./lapack-trtri                                                         |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Example with Complex Numbers
+============================
+
+Example Code
+------------
+:import: flens/examples/lapack-complex-trtri.cc [stripped, downloadable]
+
+Comments on Example Code
+------------------------
+:import: flens/examples/lapack-complex-trtri.cc
+
+Compile
+-------
+Note that an external LAPACK implementation is needed for the complex variant
+of `lapack::tri`
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  g++ -DUSE_CXXLAPACK -framework vecLib                                +++|
+ |      -std=c++11 -Wall -I../.. -o lapack-complex-trtri                 +++|
+ |      lapack-complex-trtri.cc                                             |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+Run
+---
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  ./lapack-complex-trtri                                                  |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+

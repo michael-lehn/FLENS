@@ -34,12 +34,12 @@
 #define FLENS_HACKS_MPFR_REAL_H 1
 
 #include <limits>
-#include <flens/aux/explicit_cast.h>
+#include <flens/auxiliary/explicit_cast.h>
 
 namespace mpfr {
 
 //
-// aux-functions used in numeric_limits
+// auxiliary-functions used in numeric_limits
 //
 
 template <mpfr::real_prec_t _prec, mpfr::real_rnd_t _rnd>

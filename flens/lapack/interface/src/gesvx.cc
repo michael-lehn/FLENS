@@ -1,9 +1,5 @@
-//#define CXXBLAS_DEBUG_OUT(x)      std::cerr << x << std::endl;
-
 #define STR(x)      #x
 #define STRING(x)   STR(x)
-
-#define FLENS_DEFAULT_INDEXTYPE int
 
 #include <flens/lapack/interface/include/config.h>
 
@@ -37,7 +33,6 @@ LAPACK_DECL(dgesvx)(const char       *FACT,
                     INTEGER          *IWORK,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("dgesvx");
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //

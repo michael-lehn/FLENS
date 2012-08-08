@@ -44,6 +44,8 @@ trapezoidalFill(StorageOrder order, StorageUpLo upLo,
                 const T &value,
                 IndexType m, IndexType n, T *data, IndexType ld)
 {
+    using std::min;
+
     // fill the upper trapezoidal part
     if (upLo==Upper) {
         if (order==RowMajor) {

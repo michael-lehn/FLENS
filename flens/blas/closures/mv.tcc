@@ -33,6 +33,8 @@
 #ifndef FLENS_BLAS_CLOSURES_MV_TCC
 #define FLENS_BLAS_CLOSURES_MV_TCC 1
 
+#include <flens/blas/closures/closures.h>
+
 #ifdef FLENS_DEBUG_CLOSURES
 #   include <flens/blas/blaslogon.h>
 #else
@@ -122,7 +124,32 @@ template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
 void
 mv(Transpose trans,
    const ALPHA &alpha, const HermitianMatrix<MA> &A, const Vector<VX> &x,
-   const BETA &beta, Vector<VY> &y);
+   const BETA &beta, Vector<VY> &y)
+{
+#   ifdef FLENS_DEBUG_CLOSURES
+
+    if (trans==NoTrans || trans==ConjTrans) {
+        mv(alpha, A.impl(), x.impl(), beta, y.impl());
+    } else {
+        typedef typename MA::Impl::ElementType        TA;
+        typedef GeMatrix<FullStorage<TA, ColMajor> >  RMA;
+
+        RMA _A;
+        FLENS_BLASLOG_TMP_ADD(_A);
+
+        copy(trans, A, _A);
+
+        FLENS_BLASLOG_TMP_REMOVE(_A, A);
+        mv(NoTrans, alpha, _A, x.impl(), beta, y.impl());
+    }
+
+#   else
+
+    ASSERT(trans==NoTrans || trans==ConjTrans);
+    mv(alpha, A.impl(), x.impl(), beta, y.impl());
+
+#   endif
+}
 
 
 //== Matrix - Vector products ==================================================

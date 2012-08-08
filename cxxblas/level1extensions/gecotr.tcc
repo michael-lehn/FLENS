@@ -35,6 +35,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 
@@ -53,17 +54,23 @@ gecotr(StorageOrder order, Transpose trans,
     if (trans==NoTrans) {
         return;
     }
-    if (trans==Trans) {
+    if (trans==Trans || trans==ConjTrans) {
         ASSERT(m==n);
         for (IndexType i=0; i<n; ++i) {
             for (IndexType j=0; j<i; ++j) {
                 std::swap(A[i+ldA*j], A[j+ldA*i]);
             }
         }
-        return;
     }
-    // Lehn: Other cases will be implemented on demand
-    assert(0);
+    if (trans==Conj || trans==ConjTrans) {
+        ASSERT(m==n);
+        for (IndexType j=0; j<n; ++j) {
+            for (IndexType i=0; i<n; ++i) {
+                A[i+ldA*j] = cxxblas::conjugate(A[i+ldA*j]);
+            }
+        }
+
+    }
 }
 
 } // namespace cxxblas

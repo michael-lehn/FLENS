@@ -34,8 +34,7 @@
 #ifndef FLENS_VECTORTYPES_IMPL_DENSEVECTOR_H
 #define FLENS_VECTORTYPES_IMPL_DENSEVECTOR_H 1
 
-#include <flens/aux/range.h>
-#include <flens/aux/underscore.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/scalartypes/scalar.h>
 #include <flens/vectortypes/vector.h>
 #include <flens/vectortypes/impl/dv/constelementclosure.h>
@@ -237,6 +236,76 @@ class DenseVector
     private:
         A    _array;
         bool _reverse;
+};
+
+//-- Traits --------------------------------------------------------------------
+
+//
+//  IsDenseVector
+//
+
+struct _DenseVectorChecker
+{
+
+    struct Two
+    {
+        char x;
+        char y;
+    };
+
+    static Two
+    check(_AnyConversion);
+
+    template <typename Any>
+        static char
+        check(DenseVector<Any>);
+};
+
+template <typename T>
+struct IsDenseVector
+{
+    static T var;
+    static const bool value = sizeof(_DenseVectorChecker::check(var))==1;
+};
+
+//
+//  IsIntegerDenseVector
+//
+
+template <typename T>
+struct IsIntegerDenseVector
+{
+    typedef typename std::remove_reference<T>::type  TT;
+
+    static const bool value = IsDenseVector<TT>::value
+                           && IsInteger<typename TT::ElementType>::value;
+};
+
+
+//
+//  IsRealDenseVector
+//
+
+template <typename T>
+struct IsRealDenseVector
+{
+    typedef typename std::remove_reference<T>::type  TT;
+
+    static const bool value = IsDenseVector<TT>::value
+                           && IsNotComplex<typename TT::ElementType>::value;
+};
+
+//
+//  IsComplexDenseVector
+//
+
+template <typename T>
+struct IsComplexDenseVector
+{
+    typedef typename std::remove_reference<T>::type  TT;
+
+    static const bool value = IsDenseVector<TT>::value
+                           && IsComplex<typename TT::ElementType>::value;
 };
 
 } // namespace flens

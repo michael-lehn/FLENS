@@ -1,9 +1,5 @@
-//#define CXXBLAS_DEBUG_OUT(x)      std::cerr << x << std::endl;
-
 #define STR(x)      #x
 #define STRING(x)   STR(x)
-
-#define FLENS_DEFAULT_INDEXTYPE int
 
 #include <flens/lapack/interface/include/config.h>
 
@@ -12,7 +8,7 @@ namespace flens { namespace lapack {
 
 extern "C" {
 
-//-- dgetrs --------------------------------------------------------------------
+//-- dgejsv --------------------------------------------------------------------
 void
 LAPACK_DECL(dgejsv)(const char       *JOBA,
                     const char       *JOBU,
@@ -34,7 +30,6 @@ LAPACK_DECL(dgejsv)(const char       *JOBA,
                     INTEGER          *IWORK,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("dgejsv");
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -50,8 +45,8 @@ LAPACK_DECL(dgejsv)(const char       *JOBA,
     const bool defr   = (*JOBR=='N');
     const bool l2pert = (*JOBP=='P');
 
-    const INTEGER m = *M;
-    const INTEGER n = *N;
+    const int m = *M;
+    const int n = *N;
 
     *INFO = 0;
     if (!(rowpiv || l2rank || l2aber || errest || *JOBA=='C')) {

@@ -33,7 +33,8 @@
 #ifndef FLENS_BLAS_CLOSURES_DEBUGCLOSURE_TCC
 #define FLENS_BLAS_CLOSURES_DEBUGCLOSURE_TCC 1
 
-#include <flens/aux/aux.h>
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/blas/closures/debugclosure.h>
 #include <flens/vectortypes/vectortypes.h>
 
 //
@@ -47,7 +48,6 @@ typename RestrictTo<!HasFullStorage<X>::value || !HasFullStorage<Y>::value,
          bool>::Type
 identical(const X &x, const Y &y)
 {
-    std::cerr << "V1" << std::endl;
     return ADDRESS(x)==ADDRESS(y);
 }
 
@@ -95,7 +95,6 @@ typename RestrictTo<HasFullStorage<MA>::value && HasFullStorage<MB>::value,
          bool>::Type
 identical(const MA &A, const MB &B)
 {
-    std::cerr << "V2" << std::endl;
 //
 //  Quick return if possible
 //

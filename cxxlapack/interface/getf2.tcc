@@ -33,7 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_GETF2_TCC
 #define CXXLAPACK_INTERFACE_GETF2_TCC 1
 
-#include <cxxlapack/aux/aux.h>
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -47,7 +48,18 @@ getf2(IndexType     m,
       IndexType     *iPiv)
 {
     IndexType info;
-    LAPACK_IMPL(dgetf2)(&m, &n, A, &ldA, iPiv, &info);
+    LAPACK_IMPL(dgetf2)(&m,
+                        &n,
+                        A,
+                        &ldA,
+                        iPiv,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
     return info;
 }
 
@@ -60,7 +72,18 @@ getf2(IndexType             m,
       IndexType             *iPiv)
 {
     IndexType info;
-    LAPACK_IMPL(zgetf2)(&m, &n, A, &ldA, iPiv, &info);
+    LAPACK_IMPL(zgetf2)(&m,
+                        &n,
+                        reinterpret_cast<double *>(A),
+                        &ldA,
+                        iPiv,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
     return info;
 }
 

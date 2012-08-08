@@ -34,6 +34,7 @@
 #define CXXBLAS_LEVEL1_ASUM_TCC 1
 
 #include <cmath>
+#include <cxxblas/cxxblas.h>
 
 
 namespace cxxblas {
@@ -42,7 +43,7 @@ template <typename IndexType, typename X, typename T>
 void
 asum_generic(IndexType n, const X *x, IndexType incX, T &absSum)
 {
-    CXXBLAS_DEBUG_OUT("[ asum_generic");
+    CXXBLAS_DEBUG_OUT("asum_generic");
 
     using std::abs;
 
@@ -90,7 +91,7 @@ asum(IndexType n, const ComplexFloat *x, IndexType incX, float &absSum)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_scasum");
 
-    absSum = cblas_scasum(n, x, incX);
+    absSum = cblas_scasum(n, reinterpret_cast<const float *>(x), incX);
 }
 
 // dzasum
@@ -100,7 +101,7 @@ asum(IndexType n, const ComplexDouble *x, IndexType incX, double &absSum)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_dzasum");
 
-    absSum = cblas_dzasum(n, x, incX);
+    absSum = cblas_dzasum(n, reinterpret_cast<const double *>(x), incX);
 }
 
 #endif // HAVE_CBLAS

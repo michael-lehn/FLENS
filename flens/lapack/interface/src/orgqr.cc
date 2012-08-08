@@ -17,8 +17,6 @@ LAPACK_DECL(dorgqr)(const INTEGER    *M,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("dorgqr");
-
     using std::max;
     using std::min;
 //
@@ -58,7 +56,7 @@ LAPACK_DECL(dorgqr)(const INTEGER    *M,
     DConstDenseVectorView  _TAU    = DConstArrayView(*K, TAU, 1);
     DDenseVectorView       _WORK   = DArrayView(*LWORK, WORK, 1);
 
-    orgqr(*K, _A, _TAU, _WORK);
+    orgqr(_A, _TAU, _WORK);
 }
 
 } // extern "C"

@@ -33,134 +33,148 @@
 #ifndef FLENS_LAPACK_LAPACK_H
 #define FLENS_LAPACK_LAPACK_H 1
 
-#ifndef LAPACK_DEBUG_OUT
-//#       define LAPACK_DEBUG_OUT(msg)    std::cerr << msg << std::endl
-#       define LAPACK_DEBUG_OUT(msg)
-#endif // LAPACK_DEBUG_OUT
-
-
-#ifndef TRACE_INIT
-#       define TRACE_INIT    int count = 0
-#endif // TRACE_INIT
-
-#ifndef TRACE
-#       define TRACE(msg)    std::cerr << msg << ++count << std::endl
-#endif // TRACE
-
-
-
-#include <flens/lapack/aux/con.h>
-#include <flens/lapack/aux/convert.h>
-#include <flens/lapack/aux/equ.h>
-#include <flens/lapack/aux/ilaenv.h>
-#include <flens/lapack/aux/ilalc.h>
-#include <flens/lapack/aux/ilalr.h>
-#include <flens/lapack/aux/iparmq.h>
-#include <flens/lapack/aux/labad.h>
-#include <flens/lapack/aux/lacn2.h>
-#include <flens/lapack/aux/ladiv.h>
-#include <flens/lapack/aux/laln2.h>
-#include <flens/lapack/aux/lamch.h>
-#include <flens/lapack/aux/lan.h>
-#include <flens/lapack/aux/laq.h>
-#include <flens/lapack/aux/larf.h>
-#include <flens/lapack/aux/larfb.h>
-#include <flens/lapack/aux/larfg.h>
-#include <flens/lapack/aux/larft.h>
-#include <flens/lapack/aux/larfx.h>
-#include <flens/lapack/aux/lartg.h>
-#include <flens/lapack/aux/lascl.h>
-#include <flens/lapack/aux/latrs.h>
-#include <flens/lapack/aux/lapy2.h>
-#include <flens/lapack/aux/lassq.h>
-#include <flens/lapack/aux/laswp.h>
-#include <flens/lapack/aux/lasy2.h>
-#include <flens/lapack/aux/nint.h>
-#include <flens/lapack/aux/pocon.h>
-#include <flens/lapack/aux/rscl.h>
-#include <flens/lapack/aux/sign.h>
-
-#include <flens/lapack/debug/isidentical.h>
-
-#include <flens/lapack/eig/bak.h>
-#include <flens/lapack/eig/bal.h>
-#include <flens/lapack/eig/es.h>
-#include <flens/lapack/eig/esx.h>
-#include <flens/lapack/eig/ev.h>
-#include <flens/lapack/eig/evx.h>
-#include <flens/lapack/eig/hd2.h>
-#include <flens/lapack/eig/hrd.h>
-#include <flens/lapack/eig/hseqr.h>
-#include <flens/lapack/eig/lahr2.h>
-#include <flens/lapack/eig/laexc.h>
-#include <flens/lapack/eig/lahqr.h>
-#include <flens/lapack/eig/lanv2.h>
-#include <flens/lapack/eig/laqr0.h>
-#include <flens/lapack/eig/laqr1.h>
-#include <flens/lapack/eig/laqr2.h>
-#include <flens/lapack/eig/laqr3.h>
-#include <flens/lapack/eig/laqr4.h>
-#include <flens/lapack/eig/laqr5.h>
-#include <flens/lapack/eig/laqtr.h>
-#include <flens/lapack/eig/orghr.h>
-#include <flens/lapack/eig/ormhr.h>
-#include <flens/lapack/eig/trevc.h>
-#include <flens/lapack/eig/trexc.h>
-#include <flens/lapack/eig/trsen.h>
-#include <flens/lapack/eig/trsna.h>
-#include <flens/lapack/eig/trsyl.h>
-
-#include <flens/lapack/gesv/lauu2.h>
-#include <flens/lapack/gesv/lauum.h>
-#include <flens/lapack/gesv/potf2.h>
-#include <flens/lapack/gesv/posv.h>
-#include <flens/lapack/gesv/potrf.h>
-#include <flens/lapack/gesv/potri.h>
-#include <flens/lapack/gesv/potrs.h>
-#include <flens/lapack/gesv/rfs.h>
-#include <flens/lapack/gesv/sv.h>
-#include <flens/lapack/gesv/svx.h>
-#include <flens/lapack/gesv/tf2.h>
-#include <flens/lapack/gesv/trf.h>
-#include <flens/lapack/gesv/ti2.h>
-#include <flens/lapack/gesv/tri.h>
-#include <flens/lapack/gesv/trs.h>
-
-#include <flens/lapack/lq/lq2.h>
-#include <flens/lapack/lq/lqf.h>
-#include <flens/lapack/lq/orgl2.h>
-#include <flens/lapack/lq/orglq.h>
-#include <flens/lapack/lq/orml2.h>
-#include <flens/lapack/lq/ormlq.h>
-
-#include <flens/lapack/ls/ls.h>
-
-#include <flens/lapack/qr/laqp2.h>
-#include <flens/lapack/qr/laqps.h>
-#include <flens/lapack/qr/org2r.h>
-#include <flens/lapack/qr/orgqr.h>
-#include <flens/lapack/qr/orm2r.h>
-#include <flens/lapack/qr/ormqr.h>
-#include <flens/lapack/qr/qp3.h>
-#include <flens/lapack/qr/qr2.h>
-#include <flens/lapack/qr/qrf.h>
-#include <flens/lapack/qr/qrs.h>
-
-#include <flens/lapack/svd/jsv.h>
-#include <flens/lapack/svd/svj.h>
-#include <flens/lapack/svd/svj0.h>
-#include <flens/lapack/svd/svj1.h>
-
-
-#if defined CHECK_CXXLAPACK || defined USE_NATIVE_ILAENV
-#   include <flens/lapack/interface/include/cxxlapack.h>
-#   include <flens/lapack/interface/include/f77lapack.h>
+//
+//  Control debugging of LAPACK functions
+//
+#ifdef LAPACK_DEBUG
+#   define LAPACK_DEBUG_OUT(msg)    std::cerr << "debug: " << msg << std::endl
+#else
+#   define LAPACK_DEBUG_OUT(msg)
 #endif
 
-/*
-#include <flens/lapack/qr/qrs.h>
-*/
+//
+//  Select LAPACK preferences generic vs external implementation.
+//
+#ifdef ALWAYS_USE_CXXLAPACK
+#   ifndef USE_CXXLAPACK
+#       define USE_CXXLAPACK
+#   endif
+#   define LAPACK_SELECT  external
+#else
+#   define LAPACK_SELECT  generic
+#endif
 
+//
+//  If an external LAPACK implementation is available include headers
+//
+#ifdef USE_CXXLAPACK
+#   include <cxxlapack/cxxlapack.h>
+#endif
+
+#include <cmath>
 #include <flens/lapack/typedefs.h>
+
+#include <flens/lapack/debug/isidentical.h>
+#include <flens/lapack/debug/hex.h>
+
+#include <flens/lapack/auxiliary/getf77char.h>
+#include <flens/lapack/auxiliary/nint.h>
+#include <flens/lapack/auxiliary/pow.h>
+#include <flens/lapack/auxiliary/sign.h>
+
+#include <flens/lapack/impl/bak.h>
+#include <flens/lapack/impl/bal.h>
+#include <flens/lapack/impl/con.h>
+#include <flens/lapack/impl/equ.h>
+#include <flens/lapack/impl/es.h>
+#include <flens/lapack/impl/esx.h>
+#include <flens/lapack/impl/ev.h>
+#include <flens/lapack/impl/evx.h>
+#include <flens/lapack/impl/hd2.h>
+#include <flens/lapack/impl/hrd.h>
+#include <flens/lapack/impl/hseqr.h>
+#include <flens/lapack/impl/ilaenv.h>
+#include <flens/lapack/impl/ilalc.h>
+#include <flens/lapack/impl/ilalr.h>
+#include <flens/lapack/impl/iparmq.h>
+#include <flens/lapack/impl/jsv.h>
+#include <flens/lapack/impl/labad.h>
+#include <flens/lapack/impl/lacn2.h>
+#include <flens/lapack/impl/ladiv.h>
+#include <flens/lapack/impl/laexc.h>
+#include <flens/lapack/impl/lahqr.h>
+#include <flens/lapack/impl/lahr2.h>
+#include <flens/lapack/impl/laic1.h>
+#include <flens/lapack/impl/laln2.h>
+#include <flens/lapack/impl/lamch.h>
+#include <flens/lapack/impl/lan.h>
+#include <flens/lapack/impl/lanv2.h>
+#include <flens/lapack/impl/lapy2.h>
+#include <flens/lapack/impl/laq.h>
+#include <flens/lapack/impl/laqp2.h>
+#include <flens/lapack/impl/laqps.h>
+#include <flens/lapack/impl/laqr0.h>
+#include <flens/lapack/impl/laqr1.h>
+#include <flens/lapack/impl/laqr2.h>
+#include <flens/lapack/impl/laqr3.h>
+#include <flens/lapack/impl/laqr4.h>
+#include <flens/lapack/impl/laqr5.h>
+#include <flens/lapack/impl/laqtr.h>
+#include <flens/lapack/impl/larf.h>
+#include <flens/lapack/impl/larfb.h>
+#include <flens/lapack/impl/larfg.h>
+#include <flens/lapack/impl/larft.h>
+#include <flens/lapack/impl/larfx.h>
+#include <flens/lapack/impl/lartg.h>
+#include <flens/lapack/impl/larz.h>
+#include <flens/lapack/impl/larzb.h>
+#include <flens/lapack/impl/larzt.h>
+#include <flens/lapack/impl/lascl.h>
+#include <flens/lapack/impl/lassq.h>
+#include <flens/lapack/impl/laswp.h>
+#include <flens/lapack/impl/lasy2.h>
+#include <flens/lapack/impl/latrs.h>
+#include <flens/lapack/impl/latrz.h>
+#include <flens/lapack/impl/lauu2.h>
+#include <flens/lapack/impl/lauum.h>
+#include <flens/lapack/impl/lq2.h>
+#include <flens/lapack/impl/lqf.h>
+#include <flens/lapack/impl/ls.h>
+#include <flens/lapack/impl/lsy.h>
+#include <flens/lapack/impl/org2r.h>
+#include <flens/lapack/impl/orghr.h>
+#include <flens/lapack/impl/orgl2.h>
+#include <flens/lapack/impl/orglq.h>
+#include <flens/lapack/impl/orgqr.h>
+#include <flens/lapack/impl/orm2r.h>
+#include <flens/lapack/impl/ormhr.h>
+#include <flens/lapack/impl/orml2.h>
+#include <flens/lapack/impl/ormlq.h>
+#include <flens/lapack/impl/ormqr.h>
+#include <flens/lapack/impl/ormr3.h>
+#include <flens/lapack/impl/ormrz.h>
+#include <flens/lapack/impl/pocon.h>
+#include <flens/lapack/impl/posv.h>
+#include <flens/lapack/impl/potf2.h>
+#include <flens/lapack/impl/potrf.h>
+#include <flens/lapack/impl/potri.h>
+#include <flens/lapack/impl/potrs.h>
+#include <flens/lapack/impl/qp3.h>
+#include <flens/lapack/impl/qr2.h>
+#include <flens/lapack/impl/qrf.h>
+#include <flens/lapack/impl/qrs.h>
+#include <flens/lapack/impl/rfs.h>
+#include <flens/lapack/impl/rscl.h>
+#include <flens/lapack/impl/sv.h>
+#include <flens/lapack/impl/svd.h>
+#include <flens/lapack/impl/svj.h>
+#include <flens/lapack/impl/svj0.h>
+#include <flens/lapack/impl/svj1.h>
+#include <flens/lapack/impl/svx.h>
+#include <flens/lapack/impl/tf2.h>
+#include <flens/lapack/impl/ti2.h>
+#include <flens/lapack/impl/trevc.h>
+#include <flens/lapack/impl/trexc.h>
+#include <flens/lapack/impl/trf.h>
+#include <flens/lapack/impl/tri.h>
+#include <flens/lapack/impl/trs.h>
+#include <flens/lapack/impl/trsen.h>
+#include <flens/lapack/impl/trsna.h>
+#include <flens/lapack/impl/trsyl.h>
+#include <flens/lapack/impl/tzrzf.h>
+#include <flens/lapack/impl/unglq.h>
+#include <flens/lapack/impl/ungqr.h>
+#include <flens/lapack/impl/unmlq.h>
+#include <flens/lapack/impl/unmqr.h>
 
 #endif // FLENS_LAPACK_LAPACK_H

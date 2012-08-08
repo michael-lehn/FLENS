@@ -33,6 +33,8 @@
 #ifndef CXXBLAS_LEVEL3_SYR2K_TCC
 #define CXXBLAS_LEVEL3_SYR2K_TCC 1
 
+#include <cxxblas/cxxblas.h>
+
 namespace cxxblas {
 
 template <typename IndexType, typename ALPHA, typename MA, typename MB,
@@ -178,7 +180,7 @@ syr2k(StorageOrder order, StorageUpLo upLo,
                  reinterpret_cast<const float *>(A), ldA,
                  reinterpret_cast<const float *>(B), ldB,
                  reinterpret_cast<const float *>(&beta),
-                 reinterpret_cast<const float *>(C), ldC);
+                 reinterpret_cast<float *>(C), ldC);
 }
 
 // zsyr2k
@@ -202,7 +204,7 @@ syr2k(StorageOrder order, StorageUpLo upLo,
                  reinterpret_cast<const double *>(A), ldA,
                  reinterpret_cast<const double *>(B), ldB,
                  reinterpret_cast<const double *>(&beta),
-                 reinterpret_cast<const double *>(C), ldC);
+                 reinterpret_cast<double *>(C), ldC);
 }
 
 #endif // HAVE_CBLAS

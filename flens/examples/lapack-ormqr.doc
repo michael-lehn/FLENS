@@ -1,0 +1,41 @@
+================
+QR Factorization                                                         [TOC]
+================
+
+In this example we __again__ compute the $QR$ factorization and use it for
+solving a system of linear equations.  However, in this example we do not setup
+matrix $Q$ explicitly.
+
+:links: __again__ -> doc:flens/examples/lapack-orgqr
+
+
+Example Code
+============
+:import: flens/examples/lapack-ormqr.cc [stripped, downloadable]
+
+Comments on Example Code
+========================
+:import: flens/examples/lapack-ormqr.cc [brief]
+
+Compile
+=======
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  g++ -std=c++11 -Wall -I../.. -o lapack-ormqr                         +++|
+ |      lapack-ormqr.cc                                                     |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+Run
+===
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  ./lapack-ormqr                                                          |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+

@@ -34,7 +34,14 @@
 #define FLENS_BLAS_LEVEL2_MV_TCC 1
 
 #include <flens/blas/closures/debugclosure.h>
+#include <flens/blas/level2/level2.h>
 #include <flens/typedefs.h>
+
+#ifdef FLENS_DEBUG_CLOSURES
+#   include <flens/blas/blaslogon.h>
+#else
+#   include <flens/blas/blaslogoff.h>
+#endif
 
 namespace flens { namespace blas {
 
@@ -49,8 +56,13 @@ mv(Transpose transpose,
 {
     const bool noTrans = (transpose==NoTrans || transpose==Conj);
 
-    ASSERT(x.length()==(noTrans ? A.numCols()
-                                : A.numRows()));
+#   ifndef NDEBUG
+    if (noTrans) {
+        ASSERT(x.length()==A.numCols());
+    } else {
+        ASSERT(x.length()==A.numRows());
+    }
+#   endif
 
     typedef typename GeMatrix<MA>::IndexType IndexType;
     IndexType yLength = noTrans ? A.numRows()

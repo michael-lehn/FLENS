@@ -33,7 +33,10 @@
 #ifndef FLENS_BLAS_LEVEL1_COPY_TCC
 #define FLENS_BLAS_LEVEL1_COPY_TCC 1
 
-#include <flens/blas/blas.h>
+#include <cxxblas/cxxblas.h>
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/blas/closures/closures.h>
+#include <flens/blas/level1/level1.h>
 #include <flens/typedefs.h>
 
 #ifdef FLENS_DEBUG_CLOSURES
@@ -41,7 +44,6 @@
 #else
 #   include <flens/blas/blaslogoff.h>
 #endif
-
 
 namespace flens { namespace blas {
 
@@ -94,8 +96,9 @@ copy(Transpose trans, const GeMatrix<MA> &A, GeMatrix<MB> &B)
 //          temporaries are not allowed
 //
             ASSERT(A.numRows()==A.numCols());
-            gecotr(MB::order, trans, B.numRows(), B.numCols(),
-                   B.data(), B.leadingDimension());
+            cxxblas::gecotr(MB::order, trans, B.numRows(), B.numCols(),
+                            B.data(), B.leadingDimension());
+            return;
 #           else
 //
 //          temporaries are allowed: check if this requires a temporary
@@ -112,8 +115,8 @@ copy(Transpose trans, const GeMatrix<MA> &A, GeMatrix<MB> &B)
 //
 //              otherwise perform inplace transpose
 //
-                gecotr(MB::order, trans, B.numRows(), B.numCols(),
-                       B.data(), B.leadingDimension());
+                cxxblas::gecotr(MB::order, trans, B.numRows(), B.numCols(),
+                                B.data(), B.leadingDimension());
                 return;
             }
 #           endif

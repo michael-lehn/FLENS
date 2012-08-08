@@ -33,6 +33,8 @@
 #ifndef FLENS_SCALAROPERATIONS_DIV_TCC
 #define FLENS_SCALAROPERATIONS_DIV_TCC 1
 
+#include <flens/scalaroperations/div.h>
+
 namespace flens {
 
 template <typename L, typename R>

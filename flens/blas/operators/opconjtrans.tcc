@@ -33,8 +33,11 @@
 #ifndef FLENS_BLAS_OPERATORS_OPCONJTRANS_TCC
 #define FLENS_BLAS_OPERATORS_OPCONJTRANS_TCC 1
 
+#include <flens/blas/operators/opconjtrans.h>
+
 namespace flens {
 
+/*
 template <typename MA>
 const MatrixClosureOpConj<MatrixClosureOpTrans<typename MA::Impl> >
 conjTrans(const Matrix<MA> &A)
@@ -42,6 +45,7 @@ conjTrans(const Matrix<MA> &A)
     typedef MatrixClosureOpConj<MatrixClosureOpTrans<typename MA::Impl> >  MC;
     return conjugate(transpose(A));
 }
+*/
 
 } // namespace flens
 

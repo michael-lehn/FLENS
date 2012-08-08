@@ -34,7 +34,7 @@
 #define CXXBLAS_LEVEL2_HER2_TCC 1
 
 #include <complex>
-#include <cxxblas/level1/level1.h>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 
@@ -128,6 +128,51 @@ her2(StorageOrder order,  StorageUpLo upLo,
     }
     her2_generic(order, upLo, NoTrans, n, alpha, x, incX, y, incY, A, ldA);
 }
+
+
+#ifdef HAVE_CBLAS
+
+// cgerc
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+her2(StorageOrder order,   StorageUpLo upLo,
+      IndexType n,
+      float alpha,
+      const ComplexFloat *x, IndexType incX,
+      const ComplexFloat *y, IndexType incY,
+      ComplexFloat *A, IndexType ldA)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_cher2");
+
+    cblas_che2r(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
+                n,
+                reinterpret_cast<const float *>(&alpha),
+                reinterpret_cast<const float *>(x), incX,
+                reinterpret_cast<const float *>(y), incY,
+                reinterpret_cast<float *>(A), ldA);
+}
+
+// zgerc
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+her2(StorageOrder order, StorageUpLo upLo,
+      IndexType n,
+      double alpha,
+      const ComplexDouble *x, IndexType incX,
+      const ComplexDouble *y, IndexType incY,
+      ComplexDouble *A, IndexType ldA)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zher2");
+
+    cblas_zher2(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
+                n,
+                reinterpret_cast<const double *>(&alpha),
+                reinterpret_cast<const double *>(x), incX,
+                reinterpret_cast<const double *>(y), incY,
+                reinterpret_cast<double *>(A), ldA);
+}
+
+#endif // HAVE_CBLAS
 
 } // namespace cxxblas
 

@@ -8,10 +8,10 @@ and then use the triangular solver __blas::sm__ to finish the job.  In a
 __later__ example we show how to call the LAPACK driver function __lapack::sv__
 which does internnally what you see here.
 
-:links: __lapack::trf__ -> file:flens/lapack/gesv/trf.h
+:links: __lapack::trf__ -> file:flens/lapack/impl/trf.h
         __blas::sm__    -> file:flens/blas/level3/sm.h
         __later__       -> doc:flens/examples/tut04-page03
-        __lapack::sv__  -> file:flens/lapack/gesv/sv.h
+        __lapack::sv__  -> file:flens/lapack/impl/sv.h
 
 
 Example Code
@@ -25,40 +25,40 @@ Comments on Example Code
 Compile
 =======
 
-  *--[SHELL]----------------------------------------------------------------*
-  |                                                                         |
-  |  cd flens/examples                                                      |
-  |  clang++ -std=c++0x -Wall -I../.. -o lapack-getrf lapack-getrf.cc       |
-  |                                                                         |
-  *-------------------------------------------------------------------------*
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  g++ -std=c++11 -Wall -I../.. -o lapack-getrf lapack-getrf.cc            |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
 
 Run
 ===
 
-  *--[SHELL]----------------------------------------------------------------*
-  |                                                                         |
-  |  cd flens/examples                                                      |
-  |  ./lapack-getrf                                                         |
-  |                                                                         |
-  *-------------------------------------------------------------------------*
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  ./lapack-getrf                                                          |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
 
 
 Using QD (Double-Double and Quad-Double Package)
 ================================================
 The following description is taken from the __QD Library__ page:
 
-  *--[BOX]------------------------------------------------------------------*
-  |                                                                         |
-  | The __QD Library__ supports both a double-double datatype (approx. 32   |
-  | decimal digits) and a quad-double datatype (approx. 64 decimal digits). |
-  | The computational library is written in C++. Both C++ and Fortran-90    |
-  | high-level language interfaces are provided to permit one to use convert|
-  | an existing C++ or Fortran-90 program to use the library with only minor|
-  | changes to the source code. In most cases only a few type statements and|
-  | (for Fortran-90 programs) read/write statements need to be changed. PSLQ|
-  | and numerical quadrature programs are included.                         |
-  |                                                                         |
-  *-------------------------------------------------------------------------*
+ *--[BOX]-------------------------------------------------------------------*
+ |                                                                          |
+ | The __QD Library__ supports both a double-double datatype (approx. 32    |
+ | decimal digits) and a quad-double datatype (approx. 64 decimal digits).  |
+ | The computational library is written in C++. Both C++ and Fortran-90     |
+ | high-level language interfaces are provided to permit one to use convert |
+ | an existing C++ or Fortran-90 program to use the library with only minor |
+ | changes to the source code. In most cases only a few type statements and |
+ | (for Fortran-90 programs) read/write statements need to be changed. PSLQ |
+ | and numerical quadrature programs are included.                          |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
 
 :links: __QD Library__ -> http://crd-legacy.lbl.gov/~dhbailey/mpdist/
 
@@ -76,37 +76,37 @@ Only a few modifications were made which will be pointed out in the following:
 Compile and Run
 ---------------
 
-  *--[SHELL]----------------------------------------------------------------------*
-  |                                                                               |
-  |  cd flens/examples                                                            |
-  |  clang++ -Wall -std=c++0x -I../.. -I/opt/local/include/ -c qd-lapack-getrf.cc |
-  |  clang++ -o qd-lapack-getrf qd-lapack-getrf.o /opt/local/lib/libqd.a          |
-  |  ./qd-lapack-getrf                                                            |
-  |                                                                               |
-  *-------------------------------------------------------------------------------*
+ *--[SHELL]------------------------------------------------------------------*
+ |                                                                           |
+ |  cd flens/examples                                                        |
+ |  g++ -Wall -std=c++11 -I../.. -I/opt/local/include/ -c qd-lapack-getrf.cc |
+ |  g++ -o qd-lapack-getrf qd-lapack-getrf.o /opt/local/lib/libqd.a          |
+ |  ./qd-lapack-getrf                                                        |
+ |                                                                           |
+ *---------------------------------------------------------------------------*
 
 
 Using mpfr::real (C++ Interface for mpfr)
 =========================================
 The following description is taken from the __mpfr::real__ page:
 
-  *--[BOX]------------------------------------------------------------------*
-  |                                                                         |
-  | The class __mpfr::real__ is a high-level C++ wrapper for the            |
-  | __GNU MPFR library__, _a C library for multiple-precision floating-point|
-  | computations with correct rounding_.                                    |
-  |                                                                         |
-  | The objects of `mpfr::real` can (almost) be used like doubles or other  |
-  | fundamental floating-point types, thus avoiding the use of C functions  |
-  | to manipulate `MPFR`'s low-level data type directly. In addition to     |
-  | all arithmetic and comparison operators available for fundamental       |
-  | floating-point types, `mpfr::real` also supports the set of             |
-  | mathematical functions for `double` from `math.h/cmath`.  Finally,      |
-  | `std::istream operator >>` and `std::ostream operator <<` are           |
-  | implemented for `mpfr::reals`. This allows to substitute `double` with  |
-  | `mpfr::real` with no further modifications of the code in many cases.   |
-  |                                                                         |
-  *-------------------------------------------------------------------------*
+  *--[BOX]-------------------------------------------------------------------*
+  |                                                                          |
+  | The class __mpfr::real__ is a high-level C++ wrapper for the             |
+  | __GNU MPFR library__, _a C library for multiple-precision floating-point |
+  | computations with correct rounding_.                                     |
+  |                                                                          |
+  | The objects of `mpfr::real` can (almost) be used like doubles or other   |
+  | fundamental floating-point types, thus avoiding the use of C functions   |
+  | to manipulate `MPFR`'s low-level data type directly. In addition to      |
+  | all arithmetic and comparison operators available for fundamental        |
+  | floating-point types, `mpfr::real` also supports the set of              |
+  | mathematical functions for `double` from `math.h/cmath`.  Finally,       |
+  | `std::istream operator >>` and `std::ostream operator <<` are            |
+  | implemented for `mpfr::reals`. This allows to substitute `double` with   |
+  | `mpfr::real` with no further modifications of the code in many cases.    |
+  |                                                                          |
+  *--------------------------------------------------------------------------*
 
 :links:  __mpfr::real__        ->  http://chschneider.eu/programming/mpfr_real/
          __GNU MPFR library__  ->  http://www.mpfr.org/
@@ -122,15 +122,15 @@ Comments on Modifications
 Compile and Run
 ---------------
 
-  *--[SHELL]----------------------------------------------------------------*
-  |                                                                         |
-  |  cd flens/examples                                                      |
-  |  clang++ -Wall -std=c++0x -I../.. -I/opt/local/include +++              |
-  |       -o mpfr-real-lapack-getrf mpfr-real-lapack-getrf.cc +++           |
-  |       -L /opt/local/lib -lmpfr -lgmp                                    |
-  |  ./mpfr-real-lapack-getrf                                               |
-  |                                                                         |
-  *-------------------------------------------------------------------------*
+  *--[SHELL]-----------------------------------------------------------------*
+  |                                                                          |
+  |  cd flens/examples                                                       |
+  |  g++ -Wall -std=c++11 -I../.. -I/opt/local/include                    +++|
+  |      -o mpfr-real-lapack-getrf mpfr-real-lapack-getrf.cc              +++|
+  |      -L /opt/local/lib -lmpfr -lgmp                                      |
+  |  ./mpfr-real-lapack-getrf                                                |
+  |                                                                          |
+  *--------------------------------------------------------------------------*
 
 
 For Performance: Link with ATLAS
@@ -139,31 +139,28 @@ For Performance: Link with ATLAS
 For high performance you have to link with an optimized BLAS implementation
 like __GotoBLAS__ or __ATLAS__.  For ATLAS pass `-DWITH_ATLAS` to the compiler:
 
-  *--[SHELL]----------------------------------------------------------------*
-  |                                                                         |
-  |  cd flens/examples                                                      |
-  |  clang++ -DWITH_ATLAS                                                +++|
-  |          -Wall -std=c++0x -I../..                                    +++|
-  |          -I/opt/local/include -o atlas-lapack-getrf lapack-getrf.cc  +++|
-  |          -latlas -lcblas                                                |
-  |  ./atlas-lapack-getrf                                                   |
-  |                                                                         |
-  *-------------------------------------------------------------------------*
+  *--[SHELL]-----------------------------------------------------------------*
+  |                                                                          |
+  |  cd flens/examples                                                       |
+  |  g++ -DWITH_ATLAS -Wall -std=c++11 -I../.. -I/opt/local/include       +++|
+  |      -o atlas-lapack-getrf lapack-getrf.cc -latlas -lcblas               |
+  |  ./atlas-lapack-getrf                                                    |
+  |                                                                          |
+  *--------------------------------------------------------------------------*
 
 If you want to check which BLAS function gets called also pass `-DDEBUG_CXXBLAS`
 to the compiler and grep and sort for `CXXBLAS` (note that the problem size in
 this example is so small that no LEVEL 3 BLAS function gets used):
 
-  *--[SHELL]----------------------------------------------------------------*
-  |                                                                         |
-  |  cd flens/examples                                                      |
-  |  clang++ -DWITH_ATLAS -DCXXBLAS_DEBUG                                +++|
-  |          -Wall -std=c++0x -I../..                                    +++|
-  |          -I/opt/local/include -o atlas-lapack-getrf lapack-getrf.cc  +++|
-  |          -latlas -lcblas                                                |
-  |  ./atlas-lapack-getrf 2>&1 | grep CXXBLAS | sort -u                     |
-  |                                                                         |
-  *-------------------------------------------------------------------------*
+  *--[SHELL]-----------------------------------------------------------------*
+  |                                                                          |
+  |  cd flens/examples                                                       |
+  |  g++ -DWITH_ATLAS -DCXXBLAS_DEBUG -Wall -std=c++11 -I../..            +++|
+  |          -I/opt/local/include -o atlas-lapack-getrf lapack-getrf.cc   +++|
+  |          -latlas -lcblas                                                 |
+  |  ./atlas-lapack-getrf 2>&1 | grep CXXBLAS | sort -u                      |
+  |                                                                          |
+  *--------------------------------------------------------------------------*
 
 For optimal performance also pass `-DNDEBUG` and `-O3`.
 

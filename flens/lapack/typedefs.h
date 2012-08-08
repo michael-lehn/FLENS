@@ -38,7 +38,15 @@
 #include <cxxblas/cxxblas.h>
 #include <flens/storage/storage.h>
 
-namespace flens { namespace lapack {
+namespace flens {
+
+// forward declaration
+template <typename A>
+    class DenseVector;
+
+// forward declaration
+template <typename FS>
+    class GeMatrix;
 
 // vector views
 template <typename T>
@@ -55,18 +63,15 @@ using GeMatrixConstView = GeMatrix<ConstFullStorageView<T, ColMajor> >;
 template <typename T>
 using GeMatrixView = GeMatrix<FullStorageView<T, ColMajor> >;
 
+} // namespace flens
+
+namespace flens { namespace lapack {
 
 enum Norm {
     OneNorm = 'O',
     InfinityNorm = 'I',
     FrobeniusNorm = 'F',
     MaximumNorm = 'M'
-};
-
-enum ProbabilityDistribution {
-    Uniform01,
-    Uniform_11,
-    StandardNormal
 };
 
 enum Direction {

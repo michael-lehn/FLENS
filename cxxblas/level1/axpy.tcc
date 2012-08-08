@@ -34,7 +34,7 @@
 #define CXXBLAS_LEVEL1_AXPY_TCC 1
 
 #include <cstdio>
-#include <cxxblas/aux/aux.h>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 
@@ -98,7 +98,7 @@ axpy(IndexType n, const ComplexFloat &alpha,
 
     cblas_caxpy(n, reinterpret_cast<const float *>(&alpha),
                    reinterpret_cast<const float *>(x), incX,
-                   reinterpret_cast<const float *>(y), incY);
+                   reinterpret_cast<float *>(y), incY);
 }
 
 // zaxpy
@@ -112,7 +112,7 @@ axpy(IndexType n, const ComplexDouble &alpha,
 
     cblas_zaxpy(n, reinterpret_cast<const double *>(&alpha),
                    reinterpret_cast<const double *>(x), incX,
-                   reinterpret_cast<const double *>(y), incY);
+                   reinterpret_cast<double *>(y), incY);
 }
 
 #endif // HAVE_CBLAS

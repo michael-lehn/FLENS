@@ -6,9 +6,9 @@ __CXXLAPACK__ is a low-level interface for the original Fortran __LAPACK__.
 High-level interfaces for LAPACK can be built ontop of CXXLAPACK.
 
 If functionality in __FLENS-LAPACK__ is missing you can use CXXLAPACK as an
-alternative.  In this case you need a LAPACK implementation on your system.
-You either can receive it diretly from __Netlib__ or through packages like
-VecLib, MKL, ACML, etc.
+alternative.  In this case you need an external LAPACK implementation on your
+system.  You either can receive it diretly from __Netlib__ or through packages
+like VecLib, MKL, ACML, etc.
 
 
 :links: __CXXLAPACK__    -> dir:cxxlapack/
@@ -37,9 +37,9 @@ Mac OS X specific feature.
   *--[SHELL]----------------------------------------------------------------*
   |                                                                         |
   |  cd flens/examples                                                      |
-  |  clang++ -framework vecLib -std=c++0x -Wall -I../..                 +++ |
-  |          -o tut05-page01-example1                                   +++ |
-  |          tut05-page01-example1.cc                                       |
+  |  g++ -framework vecLib -std=c++11 -Wall -I../..                      +++|
+  |      -o tut05-page01-example1                                        +++|
+  |      tut05-page01-example1.cc                                           |
   |  ./tut05-page01-example1                                                |
   |                                                                         |
   *-------------------------------------------------------------------------*
@@ -55,10 +55,10 @@ That means
 
 :links: __cxxlapack::getrf__ -> file:cxxlapack/interface/getrf.h
         __cxxlapack::getrs__ -> file:cxxlapack/interface/getrs.h
-        __dgetrf__           -> file:cxxlapack/netlib/src/dgetrf.f
-        __zgetrf__           -> file:cxxlapack/netlib/src/zgetrf.f
-        __dgetrs__           -> file:cxxlapack/netlib/src/dgetrs.f
-        __zgetrs__           -> file:cxxlapack/netlib/src/zgetrs.f
+        __dgetrf__           -> file:cxxlapack/netlib/lapack/dgetrf.f
+        __zgetrf__           -> file:cxxlapack/netlib/lapack/zgetrf.f
+        __dgetrs__           -> file:cxxlapack/netlib/lapack/dgetrs.f
+        __zgetrs__           -> file:cxxlapack/netlib/lapack/zgetrs.f
 
 Example Code
 ------------
@@ -76,7 +76,7 @@ Compile and Run
   *--[SHELL]----------------------------------------------------------------*
   |                                                                         |
   |  cd flens/examples                                                      |
-  |  clang++ -framework vecLib -std=c++0x -Wall -I../..                 +++ |
+  |  g++ -framework vecLib -std=c++11 -Wall -I../..                     +++ |
   |          -o tut05-page01-example2                                   +++ |
   |          tut05-page01-example2.cc                                       |
   |  ./tut05-page01-example2                                                |

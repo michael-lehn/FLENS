@@ -34,8 +34,8 @@
 #define FLENS_SCALAROPERATIONS_COMPLEX_H 1
 
 #include <cmath>
-#include <flens/aux/aux.h>
-#include <flens/scalartypes/impl/scalarclosure.h>
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/scalartypes/scalartypes.h>
 
 namespace flens {
 

@@ -34,7 +34,7 @@
 #define CXXBLAS_LEVEL2_SYR_TCC 1
 
 #include <complex>
-#include <cxxblas/level1/level1.h>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 
@@ -63,7 +63,7 @@ syr_generic(StorageOrder order, StorageUpLo upLo,
         for (IndexType i=0, iX=0; i<n; ++i, iX+=incX) {
             axpy_generic(i+1, alpha*x[iX], x, incX,
                                            A+i*ldA, IndexType(1));
-        }        
+        }
     }
 }
 
@@ -82,6 +82,47 @@ syr(StorageOrder order, StorageUpLo upLo,
     }
     syr_generic(order, upLo, n, alpha, x, incX, A, ldA);
 }
+
+
+#ifdef HAVE_CBLAS
+
+// ssyr
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+syr(StorageOrder order,   StorageUpLo upLo,
+      IndexType n,
+      float alpha,
+      const float *x, IndexType incX,
+      float *A, IndexType ldA)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ssyr");
+
+    cblas_ssyr(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
+               n,
+               alpha,
+               x, incX,
+               A, ldA);
+}
+
+// dsyr
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+syr(StorageOrder order,   StorageUpLo upLo,
+      IndexType n,
+      double alpha,
+      const double *x, IndexType incX,
+      double *A, IndexType ldA)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_dsyr");
+
+    cblas_dsyr(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
+               n,
+               alpha,
+               x, incX,
+               A, ldA);
+}
+
+#endif // HAVE_CBLAS
 
 } // namespace cxxblas
 

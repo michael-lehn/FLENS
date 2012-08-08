@@ -34,7 +34,9 @@
 #define FLENS_BLAS_LEVEL1_RAXPY_TCC 1
 
 #include <cxxblas/cxxblas.h>
-#include <flens/aux/macros.h>
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/blas/closures/closures.h>
+#include <flens/blas/level1/level1.h>
 #include <flens/typedefs.h>
 
 #ifdef FLENS_DEBUG_CLOSURES

@@ -47,6 +47,30 @@ hpr2(StorageOrder order, StorageUpLo upLo,
      const VY *y, IndexType incY,
      MA *A);
 
+
+#ifdef HAVE_CBLAS
+// cher
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+    hpr2(StorageOrder order, StorageUpLo upLo,
+         IndexType n,
+         float alpha,
+         const ComplexFloat *x, IndexType incX,
+         const ComplexFloat *y, IndexType incY,
+         ComplexFloat *A);
+
+// zher
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+    hpr2(StorageOrder order, StorageUpLo upLo,
+         IndexType n,
+         double alpha,
+         const ComplexDouble *x, IndexType incX,
+         const ComplexDouble *y, IndexType incY,
+         ComplexDouble *A);
+
+#endif // HAVE_CBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2_HPR2_H

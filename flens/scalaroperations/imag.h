@@ -33,8 +33,8 @@
 #ifndef FLENS_SCALAROPERATIONS_IMAG_H
 #define FLENS_SCALAROPERATIONS_IMAG_H 1
 
-#include <cxxblas/aux/complex.h>
-#include <flens/aux/aux.h>
+#include <cxxblas/auxiliary/complex.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/scalartypes/impl/scalarclosure.h>
 
 namespace flens {

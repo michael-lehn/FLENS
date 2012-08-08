@@ -14,7 +14,6 @@ LAPACK_DECL(dgetrf)(const INTEGER    *M,
                     INTEGER          *IPIV,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("dgetrf");
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -51,7 +50,6 @@ LAPACK_DECL(zgetrf)(const INTEGER    *M,
                     INTEGER          *IPIV,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("zgetrf");
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -72,13 +70,13 @@ LAPACK_DECL(zgetrf)(const INTEGER    *M,
 //
 //  Call FLENS implementation
 //
+    auto zA = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(A);
 
-    ZGeMatrixView       _A      = ZFSView(*M, *N, A, *LDA);
-    IDenseVectorView    _IPIV   = IArrayView(*M, IPIV, 1);
+    ZGeMatrixView    _A    = ZFSView(*M, *N, zA, *LDA);
+    IDenseVectorView _IPIV = IArrayView(*M, IPIV, 1);
 
     *INFO = trf(_A, _IPIV);
 }
-
 
 } // extern "C"
 

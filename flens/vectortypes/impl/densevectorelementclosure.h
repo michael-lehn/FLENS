@@ -33,7 +33,7 @@
 #ifndef FLENS_VECTORTYPES_IMPL_DENSEVECTORELEMENTCLOSURE_H
 #define FLENS_VECTORTYPES_IMPL_DENSEVECTORELEMENTCLOSURE_H 1
 
-#include <flens/aux/range.h>
+#include <flens/auxiliary/range.h>
 #include <flens/scalartypes/scalar.h>
 #include <flens/vectortypes/vector.h>
 

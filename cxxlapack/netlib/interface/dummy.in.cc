@@ -1,3 +1,5 @@
+#ifdef LAPACK_DECL
+
 //-- dbbcsd --------------------------------------------------------------------
 void
 LAPACK_DECL(dbbcsd)(const char       *JOBU1,
@@ -11532,6 +11534,7 @@ LAPACK_DECL(dtrtri)(const char       *UPLO,
                     const INTEGER    *LDA,
                     INTEGER          *INFO)
 {
+    std::cerr << "warning: dtrtri from dummy.in.cc called" << std::endl;
     DEBUG_LAPACK_STUB("dtrtri");
     LAPACK_IMPL(dtrtri)(UPLO,
                         DIAG,
@@ -11554,6 +11557,7 @@ LAPACK_DECL(dtrtrs)(const char       *UPLO,
                     INTEGER          *INFO)
 {
     DEBUG_LAPACK_STUB("dtrtrs");
+    std::cerr << "warning: dtrtrs from dummy.in.cc called" << std::endl;
     LAPACK_IMPL(dtrtrs)(UPLO,
                         TRANS,
                         DIAG,
@@ -22616,6 +22620,7 @@ LAPACK_DECL(ztrtri)(const char       *UPLO,
                     const INTEGER    *LDA,
                     INTEGER          *INFO)
 {
+    std::cerr << "warning: ztrtri from dummy.in.cc called" << std::endl;
     DEBUG_LAPACK_STUB("ztrtri");
     LAPACK_IMPL(ztrtri)(UPLO,
                         DIAG,
@@ -22639,6 +22644,7 @@ LAPACK_DECL(ztrtrs)(const char               *UPLO,
                     INTEGER                  *INFO)
 {
     DEBUG_LAPACK_STUB("ztrtrs");
+    std::cerr << "warning: ztrtrs from dummy.in.cc called" << std::endl;
     LAPACK_IMPL(ztrtrs)(UPLO,
                         TRANS,
                         DIAG,
@@ -23773,3 +23779,4 @@ LAPACK_DECL(clacgv)(const INTEGER    *N,
                         INCX);
 }
 
+#endif // LAPACK_DECL

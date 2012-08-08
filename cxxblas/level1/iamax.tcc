@@ -35,6 +35,7 @@
 
 #include <complex>
 #include <cmath>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 
@@ -47,14 +48,41 @@ iamax_generic(IndexType n, const X *x, IndexType incX, IndexType &iAbsMaxX)
     using std::abs;
 
     iAbsMaxX = 0;
-    X maxX = x[iAbsMaxX];
+    X absMaxX = abs(x[iAbsMaxX]);
     for (IndexType i=0, iX=0; i<n; ++i, iX+=incX) {
-        if (abs(x[iX])>abs(maxX)) {
+        if (abs(x[iX])>absMaxX) {
             iAbsMaxX = i;
-            maxX = x[iX];
+            absMaxX = abs(x[iX]);
         }
     }
 }
+
+template <typename T>
+T
+abs1(const std::complex<T> &x)
+{
+    return std::abs(x.real()) + std::abs(x.imag());
+}
+
+template <typename IndexType, typename X>
+void
+iamax_generic(IndexType n, const std::complex<X> *x, IndexType incX,
+              IndexType &iAbsMaxX)
+{
+    CXXBLAS_DEBUG_OUT("iamax_generic");
+
+    using std::abs;
+
+    iAbsMaxX = 0;
+    X absMaxX = abs1(x[iAbsMaxX]);
+    for (IndexType i=0, iX=0; i<n; ++i, iX+=incX) {
+        if (abs1(x[iX])>absMaxX) {
+            iAbsMaxX = i;
+            absMaxX = abs1(x[iX]);
+        }
+    }
+}
+
 
 template <typename IndexType, typename X>
 void
@@ -76,7 +104,7 @@ iamax(IndexType n, const X *x, IndexType incX)
 {
     IndexType iAbsMaxX = IndexType(0);
 
-    iamax_generic(n, x, incX, iAbsMaxX);
+    iamax(n, x, incX, iAbsMaxX);
     return iAbsMaxX;
 }
 

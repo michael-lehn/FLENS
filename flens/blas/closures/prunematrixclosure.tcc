@@ -33,6 +33,8 @@
 #ifndef FLENS_BLAS_CLOSURES_PRUNEMATRIXCLOSURE_TCC
 #define FLENS_BLAS_CLOSURES_PRUNEMATRIXCLOSURE_TCC 1
 
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/blas/closures/prunematrixclosure.h>
 #include <flens/typedefs.h>
 
 namespace flens {
@@ -56,7 +58,7 @@ PruneMatrixClosure<Matrix>::updateTranspose(Transpose trans)
 }
 
 template <typename Matrix>
-const typename PruneMatrixClosure<Matrix>::Remainder &
+typename ConstRef<typename PruneMatrixClosure<Matrix>::Remainder>::Type
 PruneMatrixClosure<Matrix>::remainder(const Matrix &matrix)
 {
     return matrix;
@@ -87,7 +89,7 @@ struct PruneMatrixClosure<MatrixClosure<OpMult, ScalarValue<L>, R> >
         return PruneMatrixClosure<R>::updateTranspose(trans);
     }
 
-    static const Remainder &
+    static typename ConstRef<Remainder>::Type
     remainder(const MC &mc)
     {
         return PruneMatrixClosure<R>::remainder(mc.right());
@@ -117,7 +119,7 @@ struct PruneMatrixClosure<MatrixClosure<OpTrans, R, R> >
         return Transpose(trans^Trans);
     }
 
-    static const Remainder &
+    static typename ConstRef<Remainder>::Type
     remainder(const MC &mc)
     {
         return PruneMatrixClosure<R>::remainder(mc.right());
@@ -147,7 +149,7 @@ struct PruneMatrixClosure<MatrixClosure<OpConj, R, R> >
         return Transpose(trans^Conj);
     }
 
-    static const Remainder &
+    static typename ConstRef<Remainder>::Type
     remainder(const MC &mc)
     {
         return PruneMatrixClosure<R>::remainder(mc.right());

@@ -8,15 +8,15 @@ system of linear equations.
 Consider the system of linear equations $Ax=b$.  We store the coefficient matrix
 $A$ and the right-hand side $b$ in a single matrix $Ab = (A,b)$.  We then
 compute the $QR$ factorization of $Ab$ with __lapack::qrf__ such that
-$QR = (A,b).$   Hence, we have $R = (Q^T A, Q^T b)$ where $R$ is an upper
+$QR = (A,b).$  Hence, we have $R = (Q^T A, Q^T b)$ where $R$ is an upper
 trapezoidal matrix and $Q^T A$ upper triangular.  We finally use the triangular
 solver __blas::sm__ to obtain the solution of $(Q^T A) x = (Q^T b)$.
 
 Function __lapack::qrf__ is the FLENS port of LAPACK's __geqrf__ and
 __blas::sm__ the port of the BLAS routine `trsm`.
 
-:links:  __lapack::qrf__  -> file:flens/lapack/qr/qrf.h
-         __geqrf__        -> file:cxxlapack/netlib/src/dgeqrf.f
+:links:  __lapack::qrf__  -> file:flens/lapack/impl/qrf.h
+         __geqrf__        -> file:cxxlapack/netlib/lapack/dgeqrf.f
          __blas::sm__     -> file:flens/blas/level3/sm.h
 
 
@@ -34,10 +34,9 @@ Compile
   *--[SHELL]----------------------------------------------------------------*
   |                                                                         |
   |  cd flens/examples                                                      |
-  |  clang++ -std=c++0x -Wall -I../.. -o lapack-geqrf lapack-geqrf.cc       |
+  |  g++ -std=c++11 -Wall -I../.. -o lapack-geqrf lapack-geqrf.cc           |
   |                                                                         |
   *-------------------------------------------------------------------------*
-
 
 Run
 ===
@@ -48,6 +47,79 @@ Run
   |  ./lapack-geqrf                                                         |
   |                                                                         |
   *-------------------------------------------------------------------------*
+
+Example with Implicit Workspace Creation
+========================================
+In this simplified variant of the above example the workspace gets created
+implicit.  This simplifies the usage of FLENS-LAPACK routines.  However,
+if you are doing this inside a loop it might lead to a considerable performance
+penalty.
+
+
+Example Code
+------------
+:import: flens/examples/lapack-simple-geqrf.cc [stripped, downloadable]
+
+Comments on Example Code
+------------------------
+:import: flens/examples/lapack-simple-geqrf.cc [brief]
+
+Compile
+-------
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  g++ -DUSE_CXXLAPACK -framework vecLib                               +++|
+  |      -std=c++11 -Wall -I../.. -o lapack-simple-geqrf                 +++|
+  |      lapack-simple-geqrf.cc                                             |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+Run
+---
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  ./lapack-simple-geqrf                                                  |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Example with Complex Numbers
+============================
+
+Example Code
+------------
+:import: flens/examples/lapack-complex-geqrf.cc [stripped, downloadable]
+
+Comments on Example Code
+------------------------
+:import: flens/examples/lapack-complex-geqrf.cc [brief]
+
+Compile
+-------
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  g++ -DUSE_CXXLAPACK -framework vecLib                               +++|
+  |      -std=c++11 -Wall -I../.. -o lapack-complex-geqrf                +++|
+  |      lapack-complex-geqrf.cc                                            |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+Run
+---
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  ./lapack-complex-geqrf                                                 |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
 
 :navigate: __up__    -> doc:flens/examples/tutorial
            __back__  -> doc:flens/examples/tut04-page01

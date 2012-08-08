@@ -33,7 +33,7 @@
 #ifndef FLENS_FLENS_TCC
 #define FLENS_FLENS_TCC 1
 
-#include <flens/aux/aux.tcc>
+#include <flens/auxiliary/auxiliary.tcc>
 #include <flens/blas/blas.tcc>
 #include <flens/hacks/hacks.tcc>
 #include <flens/io/io.tcc>

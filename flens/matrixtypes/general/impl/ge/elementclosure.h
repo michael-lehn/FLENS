@@ -33,7 +33,7 @@
 #ifndef FLENS_MATRIXTYPES_GENERAL_IMPL_GE_ELEMENTCLOSURE_H
 #define FLENS_MATRIXTYPES_GENERAL_IMPL_GE_ELEMENTCLOSURE_H 1
 
-#include <flens/aux/range.h>
+#include <flens/auxiliary/range.h>
 #include <flens/scalartypes/scalar.h>
 #include <flens/vectortypes/vector.h>
 

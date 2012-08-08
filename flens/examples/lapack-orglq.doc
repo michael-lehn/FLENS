@@ -1,0 +1,40 @@
+================
+LQ Factorization                                                         [TOC]
+================
+
+In this example we __again__ compute the $LQ$ factorization and use it for
+solving a system of linear equations.  However, in this example we do not setup
+matrix $Q$ explicitly.
+
+:links: __again__ -> doc:flens/examples/lapack-gelqf
+
+
+Example Code
+============
+:import: flens/examples/lapack-orglq.cc [stripped, downloadable]
+
+Comments on Example Code
+========================
+:import: flens/examples/lapack-orglq.cc [brief]
+
+Compile
+=======
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  g++ -std=c++11 -Wall -I../.. -o lapack-orglq lapack-orglq.cc            |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+Run
+===
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  ./lapack-orglq                                                          |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+

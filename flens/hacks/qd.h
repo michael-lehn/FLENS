@@ -33,7 +33,7 @@
 #if defined(QD_API) && !defined(FLENS_HACKS_QD_H)
 #define FLENS_HACKS_QD_H 1
 
-#include <flens/aux/explicit_cast.h>
+#include <flens/auxiliary/explicit_cast.h>
 
 namespace std {
 

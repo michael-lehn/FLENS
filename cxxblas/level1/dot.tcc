@@ -33,7 +33,7 @@
 #ifndef CXXBLAS_LEVEL1_DOT_TCC
 #define CXXBLAS_LEVEL1_DOT_TCC 1
 
-#include <cxxblas/aux/complex.h>
+#include <cxxblas/auxiliary/auxiliary.h>
 
 namespace cxxblas {
 
@@ -163,7 +163,7 @@ dotu(IndexType n,
 
     cblas_cdotu_sub(n, reinterpret_cast<const float *>(x), incX,
                        reinterpret_cast<const float *>(y), incY,
-                       reinterpret_cast<const float *>(&result));
+                       reinterpret_cast<float *>(&result));
 }
 
 
@@ -179,7 +179,7 @@ dot(IndexType n,
 
     cblas_cdotc_sub(n, reinterpret_cast<const float *>(x), incX,
                        reinterpret_cast<const float *>(y), incY,
-                       reinterpret_cast<const float *>(&result));
+                       reinterpret_cast<float *>(&result));
 }
 
 // zdotu_sub
@@ -194,7 +194,7 @@ dotu(IndexType n,
 
     cblas_zdotu_sub(n, reinterpret_cast<const double *>(x), incX,
                        reinterpret_cast<const double *>(y), incY,
-                       reinterpret_cast<const double *>(&result));
+                       reinterpret_cast<double *>(&result));
 }
 
 // zdotc_sub
@@ -209,7 +209,7 @@ dot(IndexType n,
 
     cblas_zdotc_sub(n, reinterpret_cast<const double *>(x), incX,
                        reinterpret_cast<const double *>(y), incY,
-                       reinterpret_cast<const double *>(&result));
+                       reinterpret_cast<double *>(&result));
 }
 
 #endif // HAVE_CBLAS

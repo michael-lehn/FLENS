@@ -34,7 +34,7 @@
 #define CXXBLAS_LEVEL2_SBMV_TCC 1
 
 #include <complex>
-#include <cxxblas/level1/level1.h>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 
@@ -119,6 +119,56 @@ sbmv(StorageOrder order, StorageUpLo upLo,
     }
     sbmv_generic(order, upLo, n, k, alpha, A, ldA, x, incX, beta, y, incY);
 }
+
+
+
+#ifdef HAVE_CBLAS
+
+// ssbmv
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+sbmv(StorageOrder order, Transpose trans,
+     IndexType n, IndexType k,
+     float alpha,
+     const float *A, IndexType ldA,
+     const float *x, IndexType incX,
+     float beta,
+     float *y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ssbmv");
+
+    cblas_ssbmv(CBLAS::getCblasType(order), CBLAS::getCblasType(trans),
+                n, k,
+                alpha,
+                A, ldA,
+                x, incX,
+                beta,
+                y, incY);
+}
+
+// dsbmv
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+sbmv(StorageOrder order, Transpose trans,
+     IndexType n, IndexType k,
+     double alpha,
+     const double *A, IndexType ldA,
+     const double *x, IndexType incX,
+     double beta,
+     double *y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_dsbmv");
+
+    cblas_dsbmv(CBLAS::getCblasType(order), CBLAS::getCblasType(trans),
+                n, k,
+                alpha,
+                A, ldA,
+                x, incX,
+                beta,
+                y, incY);
+}
+
+#endif // HAVE_CBLAS
 
 } // namespace cxxblas
 

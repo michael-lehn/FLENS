@@ -33,7 +33,7 @@
 #ifndef FLENS_BLAS_CLOSURES_CLOSURETYPE_H
 #define FLENS_BLAS_CLOSURES_CLOSURETYPE_H 1
 
-#include <flens/aux/aux.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/blas/closures/prune.h>
 #include <flens/blas/operators/operators.h>
 

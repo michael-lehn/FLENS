@@ -34,6 +34,8 @@
 #define FLENS_LAPACK_DEBUG_ISIDENTICAL_TCC 1
 
 #include <complex>
+#include <flens/lapack/debug/hex.h>
+#include <flens/lapack/debug/isidentical.h>
 
 namespace flens { namespace lapack {
 
@@ -63,7 +65,7 @@ bool
 isIdentical(const X &x, const Y &y, const char *xName, const char *yName)
 {
     if (isDifferent(x,y)) {
-        std::cerr.precision(150);
+        std::cerr.precision(50);
         std::cerr << xName << " = " << x
                   << std::endl
                   << yName << " = " << y
@@ -71,7 +73,14 @@ isIdentical(const X &x, const Y &y, const char *xName, const char *yName)
                   << xName << " - " << yName << " = "
                   << x - y
                   << std::endl;
-            return false;
+        std::cerr << "hex(" << xName << ") = " << hex(x)
+                  << std::endl
+                  << "hex(" << yName << ") = " << hex(y)
+                  << std::endl
+                  << "hex(" << xName << " - " << yName << ") = "
+                  << hex(x - y)
+                  << std::endl;
+        return false;
     }
     return true;
 }
@@ -110,7 +119,7 @@ isIdentical(const DenseVector<VX> &x, const DenseVector<VY> &y,
 
     for (IndexType i=x.firstIndex(); i!=x.endIndex(); i+=x.inc()) {
         if (isDifferent(x(i), y(i))) {
-            std::cerr.precision(150);
+            std::cerr.precision(50);
             std::cerr << xName << "(" << i << ") = " << x(i)
                       << std::endl
                       << yName << "(" << i << ") = " << y(i)
@@ -118,6 +127,14 @@ isIdentical(const DenseVector<VX> &x, const DenseVector<VY> &y,
                       << xName << "(" << i << ") - "
                       << yName << "(" << i << ") = "
                       << x(i) - y(i)
+                      << std::endl;
+            std::cerr << "hex(" << xName << "(" << i << " )) = " << hex(x(i))
+                      << std::endl
+                      << "hex(" << yName << "(" << i << " )) = " << hex(y(i))
+                      << std::endl
+                      << "hex(" << xName << "(" << i << ") - "
+                                << yName << "(" << i << ")) = "
+                      << hex(x(i) - y(i))
                       << std::endl;
             return false;
         }
@@ -176,16 +193,22 @@ isIdentical(const GeMatrix<MA> &A, const GeMatrix<MB> &B,
     for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
         for (IndexType j=A.firstCol(); j<=A.lastCol(); ++j) {
             if (isDifferent(A(i,j), B(i,j))) {
-                std::cerr.precision(150);
+                std::cerr.precision(50);
                 std::cerr << AName << "(" << i << ", " << j << ") = " << A(i,j)
                           << std::endl
                           << BName << "(" << i << ", " << j << ") = " << B(i,j)
                           << std::endl
                           << AName << "(" << i << ", " << j << ") - "
                           << BName << "(" << i << ", " << j << ") = "
-                          << A(i,j) - B(i,j)
-                          << std::endl;
-                return false;
+                          << A(i,j) - B(i,j) << std::endl;
+                std::cerr << "hex(" << AName << "(" << i << ", " << j << ")) = "
+                          << hex(A(i,j)) << std::endl
+                          << "hex(" << BName << "(" << i << ", " << j << ")) = " 
+                          << hex(B(i,j)) << std::endl
+                          << "hex(" << AName << "(" << i << ", " << j << ")) - "
+                          << "hex(" << BName << "(" << i << ", " << j << ")) = "
+                          << hex(A(i,j) - B(i,j)) << std::endl;
+                 return false;
             }
         }
     }
@@ -257,7 +280,7 @@ isIdentical(const TrMatrix<MA> &A, const TrMatrix<MB> &B,
                 failed = isDifferent(A(i,j), B(i,j));
             }
             if (failed) {
-                std::cerr.precision(150);
+                std::cerr.precision(50);
                 std::cerr << AName << "(" << i << ", " << j << ") = "
                           << A(i,j) << std::endl
                           << BName << "(" << i << ", " << j << ") = "
@@ -265,6 +288,14 @@ isIdentical(const TrMatrix<MA> &A, const TrMatrix<MB> &B,
                           << AName << "(" << i << ", " << j << ") - "
                           << BName << "(" << i << ", " << j << ") = "
                           << A(i,j) - B(i,j)
+                          << std::endl;
+                std::cerr << "hex(" << AName << "(" << i << ", " << j << ")) = "
+                          << hex(A(i,j)) << std::endl
+                          << "hex(" << BName << "(" << i << ", " << j << ")) = "
+                          << hex(B(i,j)) << std::endl
+                          << "hex(" << AName << "(" << i << ", " << j << ")) - "
+                          << "hex(" << BName << "(" << i << ", " << j << ")) = "
+                          << hex(A(i,j) - B(i,j))
                           << std::endl;
                 return false;
             }
@@ -334,7 +365,7 @@ isIdentical(const SyMatrix<MA> &A, const SyMatrix<MB> &B,
                 failed = isDifferent(A(i,j), B(i,j));
             }
             if (failed) {
-                std::cerr.precision(150);
+                std::cerr.precision(50);
                 std::cerr << AName << "(" << i << ", " << j << ") = "
                           << A(i,j) << std::endl
                           << BName << "(" << i << ", " << j << ") = "
@@ -343,7 +374,15 @@ isIdentical(const SyMatrix<MA> &A, const SyMatrix<MB> &B,
                           << BName << "(" << i << ", " << j << ") = "
                           << A(i,j) - B(i,j)
                           << std::endl;
-                return false;
+                std::cerr << "hex(" << AName << "(" << i << ", " << j << ")) = "
+                          << hex(A(i,j)) << std::endl
+                          << "hex(" << BName << "(" << i << ", " << j << ")) = "
+                          << hex(B(i,j)) << std::endl
+                          << "hex(" << AName << "(" << i << ", " << j << ")) - "
+                          << "hex(" << BName << "(" << i << ", " << j << ")) = "
+                          << hex(A(i,j) - B(i,j))
+                          << std::endl;
+                 return false;
             }
         }
     }

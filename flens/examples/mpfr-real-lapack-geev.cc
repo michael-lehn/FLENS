@@ -52,7 +52,7 @@ main()
     ///  Call __lapack::ev__ to compute eigenvalues $w = w_r+i w_i$,
     ///  left eigenvectors $V_L$ and right eigenvectors $V_R$.
     ///
-    ///  :links: __lapack::ev__ -> file:flens/lapack/eig/ev.h
+    ///  :links: __lapack::ev__ -> file:flens/lapack/impl/ev.h
     lapack::ev(true, true, A, wr, wi, VL, VR, work);
 
     cerr << "wr = " << wr << endl;

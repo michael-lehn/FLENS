@@ -33,9 +33,7 @@
 #ifndef FLENS_BLAS_CLOSURES_MMSWITCH_TCC
 #define FLENS_BLAS_CLOSURES_MMSWITCH_TCC 1
 
-#include <flens/aux/aux.h>
-#include <flens/blas/closures/debugclosure.h>
-#include <flens/blas/closures/prune.h>
+#include <flens/blas/closures/closures.h>
 #include <flens/blas/level1/level1.h>
 #include <flens/blas/level2/level2.h>
 #include <flens/typedefs.h>
@@ -102,8 +100,11 @@ mmSwitch(Transpose transA, Transpose transB, const ALPHA &alpha,
         FLENS_BLASLOG_TMP_REMOVE(_B, PruneConjTrans<MB>::remainder(B));
     }
 #   else
-    static_assert(IsSame<RMB, typename Result<RMB>::Type>::value,
-                  "temporary required");
+    const bool check = IsSame<RMB, typename Result<RMB>::Type>::value;
+    if (!check) {
+        std::cerr << "ERROR: Temporary required." << std::endl;
+    }
+    ASSERT(check);
 #   endif
 }
 
@@ -155,8 +156,11 @@ mmCase(Transpose transA, Transpose transB, const ALPHA &alpha,
         FLENS_BLASLOG_TMP_REMOVE(A, _A);
     }
 #   else
-    static_assert(IsSame<RMA, typename Result<RMA>::Type>::value,
-                  "temporary required");
+    const bool check = IsSame<RMA, typename Result<RMA>::Type>::value;
+    if (!check) {
+        std::cerr << "ERROR: Temporary required." << std::endl;
+    }
+    ASSERT(check);
 #   endif
 }
 
@@ -189,7 +193,11 @@ mmCase(Transpose transA, Transpose transB, const ALPHA &alpha,
         FLENS_BLASLOG_TMP_REMOVE(_A, A);
     }
 #   else
-    static_assert(IsSame<ClosureType, MA>::value, "temporary required");
+    const bool check = IsSame<ClosureType, MA>::value;
+    if (!check) {
+        std::cerr << "ERROR: Temporary required." << std::endl;
+    }
+    ASSERT(check);
 #   endif
 }
 

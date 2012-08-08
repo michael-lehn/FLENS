@@ -33,9 +33,10 @@
 #ifndef FLENS_BLAS_OPERATORS_OPDIV_TCC
 #define FLENS_BLAS_OPERATORS_OPDIV_TCC 1
 
-#include <cxxblas/aux/complex.h>
+#include <cxxblas/auxiliary/complex.h>
 #include <flens/blas/closures/closures.h>
 #include <flens/blas/level1/dot.h>
+#include <flens/blas/operators/opdiv.h>
 #include <flens/typedefs.h>
 
 namespace flens {

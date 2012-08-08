@@ -33,9 +33,9 @@
 #ifndef FLENS_SCALARTYPES_IMPL_SCALARCLOSURE_H
 #define FLENS_SCALARTYPES_IMPL_SCALARCLOSURE_H 1
 
-#include <flens/aux/constref.h>
-#include <flens/aux/promotion.h>
-#include <flens/aux/elementtype.h>
+#include <flens/auxiliary/constref.h>
+#include <flens/auxiliary/promotion.h>
+#include <flens/auxiliary/elementtype.h>
 #include <flens/scalartypes/scalar.h>
 
 namespace flens {

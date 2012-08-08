@@ -47,10 +47,10 @@ _getMachineParameter(const char c)
 }
 
 //-- dlamch --------------------------------------------------------------------
+// TODO: change this back to "LAPACK_DECL(dlamch)"
 DOUBLE
-LAPACK_DECL(dlamch)(const char *c)
+LAPACK_DECL(__dlamch)(const char *c)
 {
-    DEBUG_FLENS_LAPACK("dlamch");
     return lamch<DOUBLE>(_getMachineParameter(*c));
 }
 

@@ -27,13 +27,13 @@ Comments on Example Code
 Compile and Run
 ===============
 
-   *--[SHELL]---------------------------------------------------------------*
-   |                                                                        |
-   |  cd flens/examples                                                     |
-   |  clang++ -Wall -std=c++0x -I../.. tut03-page01-example.cc              |
-   |  ./a.out                                                               |
-   |                                                                        |
-   *------------------------------------------------------------------------*
+ *--[SHELL]-------------------------------------------------------------------*
+ |                                                                            |
+ |  cd flens/examples                                                         |
+ |  g++ -Wall -std=c++11 -I../.. tut03-page01-example.cc                      |
+ |  ./a.out                                                                   |
+ |                                                                            |
+ *----------------------------------------------------------------------------*
 
 :links: __GeMatrix__      -> file:flens/matrixtypes/general/impl/gematrix.h
         __SyMatrix__      -> file:flens/matrixtypes/symmetric/impl/symatrix.h

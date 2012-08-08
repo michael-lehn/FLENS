@@ -31,7 +31,7 @@ LAPACK_DECL(dgeevx)(const char       *BALANC,
                     INTEGER          *IWORK,
                     INTEGER          *INFO)
 {
-    DEBUG_FLENS_LAPACK("dgeevx");
+    std::cerr << "dgeevx: N = " << *N << std::endl;
 
     using std::max;
     using std::min;
@@ -125,6 +125,125 @@ LAPACK_DECL(dgeevx)(const char       *BALANC,
     for (int i=1; i<=_IWORK.length(); ++i) {
         IWORK[i-1] = _IWORK(i);
     }
+
+    *ILO = _ILO;
+    *IHI = _IHI;
+}
+
+//-- zgeevx --------------------------------------------------------------------
+void
+LAPACK_DECL(zgeevx)(const char       *BALANC,
+                    const char       *JOBVL,
+                    const char       *JOBVR,
+                    const char       *_SENSE,
+                    const INTEGER    *N,
+                    DOUBLE_COMPLEX   *A,
+                    const INTEGER    *LDA,
+                    DOUBLE_COMPLEX   *W,
+                    DOUBLE_COMPLEX   *VL,
+                    const INTEGER    *LDVL,
+                    DOUBLE_COMPLEX   *VR,
+                    const INTEGER    *LDVR,
+                    INTEGER          *ILO,
+                    INTEGER          *IHI,
+                    DOUBLE           *SCALE,
+                    DOUBLE           *ABNRM,
+                    DOUBLE           *RCONDE,
+                    DOUBLE           *RCONDV,
+                    DOUBLE_COMPLEX   *WORK,
+                    const INTEGER    *LWORK,
+                    DOUBLE           *RWORK,
+                    INTEGER          *INFO)
+{
+    using std::max;
+    using std::min;
+//
+//  Test the input parameters so that we pass LAPACK error checks
+//
+    *INFO = 0;
+    const bool lQuery = (*LWORK==-1);
+    const bool wantVL = (*JOBVL=='V');
+    const bool wantVR = (*JOBVR=='V');
+    const bool wantSNN = (*_SENSE=='N');
+    const bool wantSNE = (*_SENSE=='E');
+    const bool wantSNV = (*_SENSE=='V');
+    const bool wantSNB = (*_SENSE=='B');
+
+    if (*BALANC!='N' && *BALANC!='S' && *BALANC!='P' && *BALANC!='B') {
+        *INFO = 1;
+    } else if ((!wantVL) && (*JOBVL!='N')) {
+        *INFO = 2;
+    } else if ((!wantVR) && (*JOBVR!='N')) {
+        *INFO = 3;
+    } else if (!(wantSNN || wantSNE || wantSNB || wantSNV)
+            || ((wantSNE || wantSNB ) && !(wantVL && wantVR)))
+    {
+        *INFO = 4;
+    } else if (*N<0) {
+        *INFO = 5;
+    } else if (*LDA<max(INTEGER(1),*N)) {
+        *INFO = 7;
+    } else if (*LDVL<1 || (wantVL && *LDVL<*N)) {
+        *INFO = 10;
+    } else if (*LDVR<1 || (wantVR && *LDVR<*N)) {
+        *INFO = 12;
+    }
+
+    if (*INFO!=0) {
+        LAPACK_ERROR("ZGEEVX", INFO);
+        *INFO = -(*INFO);
+        return;
+    }
+
+//
+//  Setup FLENS matrix/vector types
+//
+    BALANCE::Balance  balance = BALANCE::Balance(*BALANC);
+    SENSE::Sense      sense   = SENSE::Sense(*_SENSE);
+
+    ASSERT(char(balance)==*BALANC);
+    ASSERT(char(sense)==*_SENSE);
+
+    typedef typename DGeMatrixView::IndexType   IndexType;
+
+    auto zA     = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(A);
+    auto zW     = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(W);
+    auto zVL    = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(VL);
+    auto zVR    = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(VR);
+    auto zWORK  = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(WORK);
+
+    ZGeMatrixView       _A      = ZFSView(*N, *N, zA, *LDA);
+    ZDenseVectorView    _W      = ZArrayView(*N, zW, 1);
+    ZGeMatrixView       _VL     = ZFSView(*N, *N, zVL, *LDVL);
+    ZGeMatrixView       _VR     = ZFSView(*N, *N, zVR, *LDVR);
+    IndexType           _ILO    = *ILO;
+    IndexType           _IHI    = *IHI;
+    DDenseVectorView    _SCALE  = DArrayView(*N, SCALE, 1);
+    DDenseVectorView    _RCONDE = DArrayView(*N, RCONDE, 1);
+    DDenseVectorView    _RCONDV = DArrayView(*N, RCONDV, 1);
+    ZDenseVectorView    _WORK   = ZArrayView(*LWORK, zWORK, 1);
+    DDenseVectorView    _RWORK  = DArrayView(2*(*N), RWORK, 1);
+
+//
+//  Test if work has at least minimal worksize
+//
+    auto ws = evx_wsq(wantVL, wantVR, sense, _A);
+
+    if (*LWORK<ws.first && !lQuery) {
+        *INFO = 20;
+    }
+
+    if (*INFO!=0) {
+        LAPACK_ERROR("ZGEEVX", INFO);
+        *INFO = -(*INFO);
+        return;
+    }
+//
+//  Call FLENS implementation
+//
+
+    evx(balance, wantVL, wantVR, sense, _A, _W, _VL, _VR, _ILO, _IHI,
+        _SCALE, *ABNRM, _RCONDE, _RCONDV, _WORK, _RWORK);
 
     *ILO = _ILO;
     *IHI = _IHI;

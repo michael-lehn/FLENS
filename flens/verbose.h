@@ -44,7 +44,7 @@ if (flens::verbose::ClosureLog::started()) {                          \
 #include <flens/flens.h>
 
 // dirty hack for avoiding makefiles
-#include <flens/debug/aux/closurelog.cc>
-#include <flens/debug/aux/closurelogstream.cc>
+#include <flens/debug/auxiliary/closurelog.cc>
+#include <flens/debug/auxiliary/closurelogstream.cc>
 
 #endif // FLENS_VERBOSE_H

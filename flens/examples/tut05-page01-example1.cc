@@ -3,7 +3,9 @@
 ///
 /// Define `USE_CXXLAPACK` before you include the FLENS headers
 ///
+#ifndef USE_CXXLAPACK
 #define USE_CXXLAPACK
+#endif
 #include <flens/flens.cxx>
 
 using namespace std;
@@ -59,7 +61,7 @@ main()
 ///
 ///     :links: __cxxlapack::getrs__ -> file:cxxlapack/interface/getrs.h
 ///
-        cxxlapack::getrs(NoTrans,
+        cxxlapack::getrs(lapack::getF77Char(NoTrans),
                          A.numRows(),
                          IndexType(1),
                          A.data(),
@@ -72,7 +74,7 @@ main()
 ///     As an alternative we could specify the template parameter explictly:
 ///
 /*
-        cxxlapack::getrs<IndexType>(NoTrans,
+        cxxlapack::getrs<IndexType>(lapack::getF77Char(NoTrans),
                                     A.numRows(),
                                     1,
                                     A.data(),

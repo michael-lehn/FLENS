@@ -35,6 +35,7 @@
 
 #include <flens/matrixtypes/general/impl/gematrix.h>
 #include <flens/matrixtypes/symmetric/impl/symatrix.h>
+#include <flens/matrixtypes/triangular/impl/trmatrix.h>
 #include <flens/typedefs.h>
 
 namespace flens {
@@ -305,6 +306,37 @@ TrMatrix<FS>::symmetric()
 {
     ASSERT(numRows()==numCols());
     return SymmetricView(_engine, upLo());
+}
+
+// diag views
+template <typename FS>
+const typename TrMatrix<FS>::ConstVectorView
+TrMatrix<FS>::diag(IndexType d) const
+{
+#   ifndef NDEBUG
+    if (upLo()==Upper) {
+        ASSERT(d>=0);
+    } else {
+        ASSERT(d<=0);
+    }
+#   endif
+
+    return general().diag(d);
+}
+
+template <typename FS>
+typename TrMatrix<FS>::VectorView
+TrMatrix<FS>::diag(IndexType d)
+{
+#   ifndef NDEBUG
+    if (upLo()==Upper) {
+        ASSERT(d>=0);
+    } else {
+        ASSERT(d<=0);
+    }
+#   endif
+
+    return general().diag(d);
 }
 
 // -- methods ------------------------------------------------------------------

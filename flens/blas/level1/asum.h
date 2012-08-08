@@ -38,11 +38,11 @@
 namespace flens { namespace blas {
 
 template <typename X, typename T>
-    void
+    typename RestrictTo<IsNotComplex<T>::value, void>::Type
     asum(const DenseVector<X> &x, T &absoluteSum);
 
 template <typename X>
-    const typename DenseVector<X>::ElementType
+    const typename ComplexTrait<typename X::ElementType>::PrimitiveType
     asum(const DenseVector<X> &x);
 
 } } // namespace blas, flens

@@ -34,7 +34,7 @@
 #define CXXBLAS_LEVEL2_SPR_TCC 1
 
 #include <complex>
-#include <cxxblas/level1/level1.h>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 
@@ -82,6 +82,46 @@ spr(StorageOrder order, StorageUpLo upLo,
     }
     spr_generic(order, upLo, n, alpha, x, incX, A);
 }
+
+#ifdef HAVE_CBLAS
+
+// sspr
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+spr(StorageOrder order,   StorageUpLo upLo,
+      IndexType n,
+      float alpha,
+      const float *x, IndexType incX,
+      float *A)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_sspr");
+
+    cblas_sspr(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
+               n,
+               alpha,
+               x, incX,
+               A);
+}
+
+// dspr
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+spr(StorageOrder order,   StorageUpLo upLo,
+      IndexType n,
+      double alpha,
+      const double *x, IndexType incX,
+      double *A)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_dspr");
+
+    cblas_dspr(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
+               n,
+               alpha,
+               x, incX,
+               A);
+}
+
+#endif // HAVE_CBLAS
 
 } // namespace cxxblas
 

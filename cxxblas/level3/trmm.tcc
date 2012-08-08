@@ -33,6 +33,8 @@
 #ifndef CXXBLAS_LEVEL3_TRMM_TCC
 #define CXXBLAS_LEVEL3_TRMM_TCC 1
 
+#include <cxxblas/cxxblas.h>
+
 namespace cxxblas {
 
 template <typename IndexType, typename ALPHA, typename MA, typename MB>
@@ -141,7 +143,7 @@ trmm(StorageOrder order, Side side, StorageUpLo upLo,
                 m, n,
                 reinterpret_cast<const float *>(&alpha),
                 reinterpret_cast<const float *>(A), ldA,
-                reinterpret_cast<const float *>(B), ldB);
+                reinterpret_cast<float *>(B), ldB);
 }
 
 // ztrmm
@@ -162,7 +164,7 @@ trmm(StorageOrder order, Side side, StorageUpLo upLo,
                 m, n,
                 reinterpret_cast<const double *>(&alpha),
                 reinterpret_cast<const double *>(A), ldA,
-                reinterpret_cast<const double *>(B), ldB);
+                reinterpret_cast<double *>(B), ldB);
 }
 
 #endif // HAVE_CBLAS

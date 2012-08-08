@@ -33,7 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LASWP_TCC
 #define CXXLAPACK_INTERFACE_LASWP_TCC 1
 
-#include <cxxlapack/aux/aux.h>
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +49,13 @@ laswp(IndexType             n,
       const IndexType       *iPiv,
       IndexType             incX)
 {
-    LAPACK_IMPL(dlaswp)(&n, A, &ldA, &k1, &k2, iPiv, &incX);
+    LAPACK_IMPL(dlaswp)(&n,
+                        A,
+                        &ldA,
+                        &k1,
+                        &k2,
+                        iPiv,
+                        &incX);
 }
 
 template <typename IndexType>
@@ -61,7 +68,13 @@ laswp(IndexType             n,
       const IndexType       *iPiv,
       IndexType             incX)
 {
-    LAPACK_IMPL(zlaswp)(&n, A, &ldA, &k1, &k2, iPiv, &incX);
+    LAPACK_IMPL(zlaswp)(&n,
+                        reinterpret_cast<double *>(A),
+                        &ldA,
+                        &k1,
+                        &k2,
+                        iPiv,
+                        &incX);
 }
 
 } // namespace cxxlapack

@@ -4,7 +4,16 @@
 #ifdef LAPACK_IMPL
 #   undef   LAPACK_IMPL
 #endif
-#define  LAPACK_IMPL(x)           x##_
+
+#ifndef CXXLAPACK_NO_UNDERSCORE
+#define     LAPACK_IMPL(x)           x##_
+#else
+#define     LAPACK_IMPL(x)           x
+#endif
+
+#ifndef DEBUG_CXXLAPACK
+#   define  DEBUG_CXXLAPACK(x)
+#endif
 
 extern "C" {
 #   include <cxxlapack/netlib/interface/lapack.in.h>

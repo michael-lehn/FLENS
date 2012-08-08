@@ -34,7 +34,7 @@
 #define CXXBLAS_LEVEL2_HBMV_TCC 1
 
 #include <complex>
-#include <cxxblas/level1/level1.h>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 
@@ -164,6 +164,56 @@ hbmv(StorageOrder order, StorageUpLo upLo,
                  beta,
                  y, incY);
 }
+
+
+#ifdef HAVE_CBLAS
+
+// chbmv
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+hbmv(StorageOrder order, Transpose trans,
+     IndexType n, IndexType k,
+     const ComplexFloat &alpha,
+     const ComplexFloat *A, IndexType ldA,
+     const ComplexFloat *x, IndexType incX,
+     const ComplexFloat &beta,
+     ComplexFloat *y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_chbmv");
+
+    cblas_chbmv(CBLAS::getCblasType(order), CBLAS::getCblasType(trans),
+                n, k,
+                reinterpret_cast<const float *>(&alpha),
+                reinterpret_cast<const float *>(A), ldA,
+                reinterpret_cast<const float *>(x), incX,
+                reinterpret_cast<const float *>(&beta),
+                reinterpret_cast<float *>(y), incY);
+}
+
+// zhbmv
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+hbmv(StorageOrder order, Transpose trans,
+     IndexType n, IndexType k,
+     const ComplexDouble &alpha,
+     const ComplexDouble *A, IndexType ldA,
+     const ComplexDouble *x, IndexType incX,
+     const ComplexDouble &beta,
+     ComplexDouble *y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zhbmv");
+
+    cblas_zhbmv(CBLAS::getCblasType(order), CBLAS::getCblasType(trans),
+                n, k,
+                reinterpret_cast<const double *>(&alpha),
+                reinterpret_cast<const double *>(A), ldA,
+                reinterpret_cast<const double *>(x), incX,
+                reinterpret_cast<const double *>(&beta),
+                reinterpret_cast<double *>(y), incY);
+}
+
+#endif // HAVE_CBLAS
+
 
 } // namespace cxxblas
 

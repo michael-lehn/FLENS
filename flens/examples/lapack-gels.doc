@@ -1,0 +1,387 @@
+=====================
+Least Square Solution                                                    [TOC]
+=====================
+
+`lapack::ls` solves an overdetermined or underdetermined real linear systems
+involving an $m \times n$ matrix $A$, or its transpose, using a $QR$ or $LQ$
+factorization of $A$.  It is assumed that $A$ has full rank.
+
+The following options are provided:
+
+- If $m \geq n$:
+   - find the least squares solution of an overdetermined system, i.e., solve
+     the least squares problem: minimize $\| B - AX \|$ or
+   - find the minimum norm solution of an undetermined system $A^T X = B$ (or
+     $A^H X =B$).
+- If $m < n$:
+   - find the minimum norm solution of an underdetermined system $A X = B$ or
+   - find the least squares solution of an overdetermined system, i.e., solve
+     the least squares problem minimize $\| B - A^T X \|$
+     (or $\| B - A^H X \|$).
+
+
+Case: Least Squares Solution of an Overdetermined System
+========================================================
+In this case we compute the least squares solution of an overdetermined system,
+i.e., we solve the least squares problem: minimize $\| B - AX \|$ where
+ - $A$ is an $m \times n$ matrix,
+ - $B$ is a $m \times k$ matrix (or a vector of length $m$),
+ - $X$ is a $n \times k$ matrix (or vector of length $n$) and
+ - $m \geq n$.
+On input the FLENS-LAPACK function `lapack::ls` receives $A$ and $B$.  On exit
+the first $n$ rows of $B$ will be overwritten with the least square solution
+$X$.  Matrix (or vector) views can be helpful and convenient.  Just let $X$ be
+a matrix view (or vector) that references the first $n$ rows (or elements) of
+$X$.
+
+
+Example Code
+------------
+:import: flens/examples/lapack-gels-case1.cc [stripped, downloadable]
+
+Comments on Example Code
+------------------------
+:import: flens/examples/lapack-gels-case1.cc [brief]
+
+Compile
+-------
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  g++ -std=c++11 -Wall -I../.. -o lapack-gels-case1 lapack-gels-case1.cc  |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+Run
+---
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  ./lapack-gels-case1                                                     |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+
+Case: Minimum Norm Solution of an Undetermined System
+=====================================================
+In this case we compute the minimum norm solution of the underdetermined system
+$A^T X = B$ where
+ - $A$ is an $m \times n$ matrix,
+ - $B$ is a $n \times k$ matrix (or a vector of length $n$),
+ - $X$ is a $m \times k$ matrix (or vector of length $m$) and
+ - $m \geq n$.
+On input the first $n$ rows of matrix $X$ contain the matrix $B$.  Then the
+FLENS-LAPACK function `lapack::ls` receives $A$ and $X$.  On exit $X$ will
+be overwritten with the minimal norm solution.  Again, matrix views can be
+convenient as $X$ and $B$ partially share the same data.  More precise, matrix
+$B$ is a matrix view that references the first $n$ rows of $X$.
+
+
+Example Code
+------------
+:import: flens/examples/lapack-gels-case2.cc [stripped, downloadable]
+
+Comments on Example Code
+------------------------
+:import: flens/examples/lapack-gels-case2.cc [brief]
+
+Compile
+-------
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  g++ -std=c++11 -Wall -I../.. -o lapack-gels-case2 lapack-gels-case2.cc  |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+Run
+---
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  ./lapack-gels-case2                                                     |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+
+Case: Minimum Norm Solution of an Undetermined System
+=====================================================
+In this case we compute the minimum norm solution of the underdetermined system
+$AX = B$ where
+ - $A$ is an $m \times n$ matrix,
+ - $B$ is a $m \times k$ matrix (or a vector of length $m$),
+ - $X$ is a $n \times k$ matrix (or vector of length $n$) and
+ - $m < n$.
+On input the first $m$ rows of matrix $X$ contain the matrix $B$.  The
+FLENS-LAPACK function `lapack::ls` receives $A$ and $X$.  On exit $X$ will
+be overwritten with the minimal norm solution.  Again, matrix views can be
+convenient as $X$ and $B$ partially share the same data.  More precise, matrix
+$B$ is a matrix view that references the first $m$ rows of $X$.
+
+
+Example Code
+------------
+:import: flens/examples/lapack-gels-case3.cc [stripped, downloadable]
+
+Comments on Example Code
+------------------------
+:import: flens/examples/lapack-gels-case3.cc [brief]
+
+Compile
+-------
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  g++ -std=c++11 -Wall -I../.. -o lapack-gels-case3 lapack-gels-case3.cc  |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+Run
+---
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  ./lapack-gels-case3                                                     |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+
+Case: Least Squares Solution of an Overdetermined System
+========================================================
+In this case we compute the least squares solution of an overdetermined system,
+i.e., we solve the least squares problem: minimize $\| B - A^T X \|$ where
+ - $A$ is an $m \times n$ matrix,
+ - $B$ is a $n \times k$ matrix (or a vector of length $n$),
+ - $X$ is a $m \times k$ matrix (or vector of length $m$) and
+ - $m < n$.
+On input the FLENS-LAPACK function `lapack::ls` receives $A$ and $B$.  On exit
+the first $m$ rows of $B$ will be overwritten with the least square solution
+$X$.  Matrix (or vector) views can be helpful and convenient.  Just let $X$ be
+a matrix view (or vector) that references the first $m$ rows (or elements) of
+$X$.
+
+
+Example Code
+------------
+:import: flens/examples/lapack-gels-case4.cc [stripped, downloadable]
+
+Comments on Example Code
+------------------------
+:import: flens/examples/lapack-gels-case4.cc [brief]
+
+Compile
+-------
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  g++ -std=c++11 -Wall -I../.. -o lapack-gels-case4 lapack-gels-case4.cc  |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+Run
+---
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  ./lapack-gels-case4                                                     |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+
+Examples with Complex Numbers
+=============================
+Currently complex numbers for `lapack::ls` require an external LAPACK
+implementation as computational back-end.
+
+Case: Least Squares Solution of an Overdetermined System
+--------------------------------------------------------
+In this case we compute the least squares solution of an overdetermined system,
+i.e., we solve the least squares problem: minimize $\| B - AX \|$ where
+ - $A$ is an $m \times n$ matrix,
+ - $B$ is a $m \times k$ matrix (or a vector of length $m$),
+ - $X$ is a $n \times k$ matrix (or vector of length $n$) and
+ - $m \geq n$.
+On input the FLENS-LAPACK function `lapack::ls` receives $A$ and $B$.  On exit
+the first $n$ rows of $B$ will be overwritten with the least square solution
+$X$.  Matrix (or vector) views can be helpful and convenient.  Just let $X$ be
+a matrix view (or vector) that references the first $n$ rows (or elements) of
+$X$.
+
+
+Example Code
+~~~~~~~~~~~~
+:import: flens/examples/lapack-complex-gels-case1.cc [stripped, downloadable]
+
+Comments on Example Code
+~~~~~~~~~~~~~~~~~~~~~~~~
+:import: flens/examples/lapack-complex-gels-case1.cc [brief]
+
+Compile
+~~~~~~~
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  g++ -DUSE_CXXLAPACK -framework vecLib                                +++|
+ |      -std=c++11 -Wall -I../.. -o lapack-complex-gels-case1            +++|
+ |      lapack-complex-gels-case1.cc                                        |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+Run
+~~~
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  ./lapack-complex-gels-case1                                             |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+
+Case: Minimum Norm Solution of an Undetermined System
+-----------------------------------------------------
+In this case we compute the minimum norm solution of the underdetermined system
+$A^T X = B$ where
+ - $A$ is an $m \times n$ matrix,
+ - $B$ is a $n \times k$ matrix (or a vector of length $n$),
+ - $X$ is a $m \times k$ matrix (or vector of length $m$) and
+ - $m \geq n$.
+On input the first $n$ rows of matrix $X$ contain the matrix $B$.  Then the
+FLENS-LAPACK function `lapack::ls` receives $A$ and $X$.  On exit $X$ will
+be overwritten with the minimal norm solution.  Again, matrix views can be
+convenient as $X$ and $B$ partially share the same data.  More precise, matrix
+$B$ is a matrix view that references the first $n$ rows of $X$.
+
+
+Example Code
+~~~~~~~~~~~~
+:import: flens/examples/lapack-complex-gels-case2.cc [stripped, downloadable]
+
+Comments on Example Code
+~~~~~~~~~~~~~~~~~~~~~~~~
+:import: flens/examples/lapack-complex-gels-case2.cc [brief]
+
+Compile
+~~~~~~~
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  g++ -DUSE_CXXLAPACK -framework vecLib                                +++|
+ |      -std=c++11 -Wall -I../.. -o lapack-complex-gels-case2            +++|
+ |      lapack-complex-gels-case2.cc                                        |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+Run
+~~~
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  ./lapack-complex-gels-case2                                             |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+
+Case: Minimum Norm Solution of an Undetermined System
+-----------------------------------------------------
+In this case we compute the minimum norm solution of the underdetermined system
+$AX = B$ where
+ - $A$ is an $m \times n$ matrix,
+ - $B$ is a $m \times k$ matrix (or a vector of length $m$),
+ - $X$ is a $n \times k$ matrix (or vector of length $n$) and
+ - $m < n$.
+On input the first $m$ rows of matrix $X$ contain the matrix $B$.  The
+FLENS-LAPACK function `lapack::ls` receives $A$ and $X$.  On exit $X$ will
+be overwritten with the minimal norm solution.  Again, matrix views can be
+convenient as $X$ and $B$ partially share the same data.  More precise, matrix
+$B$ is a matrix view that references the first $m$ rows of $X$.
+
+
+Example Code
+~~~~~~~~~~~~
+:import: flens/examples/lapack-complex-gels-case3.cc [stripped, downloadable]
+
+Comments on Example Code
+~~~~~~~~~~~~~~~~~~~~~~~~
+:import: flens/examples/lapack-complex-gels-case3.cc [brief]
+
+Compile
+~~~~~~~
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  g++ -DUSE_CXXLAPACK -framework vecLib                                +++|
+ |      -std=c++11 -Wall -I../.. -o lapack-complex-gels-case3            +++|
+ |      lapack-complex-gels-case3.cc                                        |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+Run
+~~~
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  ./lapack-complex-gels-case3                                             |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+
+Case: Least Squares Solution of an Overdetermined System
+--------------------------------------------------------
+In this case we compute the least squares solution of an overdetermined system,
+i.e., we solve the least squares problem: minimize $\| B - A^T X \|$ where
+ - $A$ is an $m \times n$ matrix,
+ - $B$ is a $n \times k$ matrix (or a vector of length $n$),
+ - $X$ is a $m \times k$ matrix (or vector of length $m$) and
+ - $m < n$.
+On input the FLENS-LAPACK function `lapack::ls` receives $A$ and $B$.  On exit
+the first $m$ rows of $B$ will be overwritten with the least square solution
+$X$.  Matrix (or vector) views can be helpful and convenient.  Just let $X$ be
+a matrix view (or vector) that references the first $m$ rows (or elements) of
+$X$.
+
+
+Example Code
+~~~~~~~~~~~~
+:import: flens/examples/lapack-complex-gels-case4.cc [stripped, downloadable]
+
+Comments on Example Code
+~~~~~~~~~~~~~~~~~~~~~~~~
+:import: flens/examples/lapack-complex-gels-case4.cc [brief]
+
+Compile
+~~~~~~~
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  g++ -DUSE_CXXLAPACK -framework vecLib                                +++|
+ |      -std=c++11 -Wall -I../.. -o lapack-complex-gels-case4            +++|
+ |      lapack-complex-gels-case4.cc                                        |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+Run
+~~~
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  ./lapack-complex-gels-case4                                             |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+

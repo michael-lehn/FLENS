@@ -1,0 +1,74 @@
+===================================
+Solving Systems of Linear Equations                               [TOC]
+===================================
+
+In this example we will solve a system of linear equations $Ax=b$.  For this
+purpose we first compute the $LU$ factorization of $A$ with __lapack::trf__
+and then use the triangular solver __lapack::trs__ to finish the job.
+
+:links: __lapack::trf__ -> file:flens/lapack/impl/trf.h
+        __lapack::trs__ -> file:flens/lapack/impl/trs.h
+
+
+Example Code
+============
+:import: flens/examples/lapack-getrs.cc [stripped, downloadable]
+
+Comments on Example Code
+========================
+:import: flens/examples/lapack-getrs.cc
+
+Compile
+=======
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  g++ -std=c++11 -Wall -I../.. -o lapack-getrs lapack-getrs.cc            |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+Run
+===
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  ./lapack-getrs                                                          |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+
+Example with Complex Numbers
+============================
+
+Example Code
+------------
+:import: flens/examples/lapack-complex-getrs.cc [stripped, downloadable]
+
+Comments on Example Code
+------------------------
+:import: flens/examples/lapack-complex-getrs.cc
+
+Compile
+-------
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  g++ -std=c++11 -Wall -I../.. -o lapack-complex-getrs                 +++|
+ |                                  lapack-complex-getrs.cc                 |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+Run
+---
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  ./lapack-complex-getrs                                                  |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+

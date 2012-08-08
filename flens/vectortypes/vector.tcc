@@ -33,6 +33,8 @@
 #ifndef FLENS_VECTORTYPES_VECTOR_TCC
 #define FLENS_VECTORTYPES_VECTOR_TCC 1
 
+#include <flens/flens.h>
+
 namespace flens {
 
 template <typename I>
