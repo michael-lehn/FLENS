@@ -1,4 +1,4 @@
-export DOC_PROJECT=FLENS-TEST
+export DOC_PROJECT=FLENS
 
 export AUTHOR="Michael Lehn"
 export AUTHOR_WEBSITE="http://www.mathematik.uni-ulm.de/~lehn"
