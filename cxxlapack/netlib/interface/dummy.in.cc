@@ -1,3 +1,5 @@
+#ifdef LAPACK_DECL
+
 //-- dbbcsd --------------------------------------------------------------------
 void
 LAPACK_DECL(dbbcsd)(const char       *JOBU1,
@@ -23777,3 +23779,4 @@ LAPACK_DECL(clacgv)(const INTEGER    *N,
                         INCX);
 }
 
+#endif // LAPACK_DECL

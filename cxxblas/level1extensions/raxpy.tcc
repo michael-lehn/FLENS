@@ -34,7 +34,7 @@
 #define CXXBLAS_LEVEL1EXTENSIONS_RAXPY_TCC 1
 
 #include <cstdio>
-#include <cxxblas/auxiliary/auxiliary.h>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 

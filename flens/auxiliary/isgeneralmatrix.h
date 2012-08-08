@@ -41,7 +41,8 @@ namespace flens {
 struct _GeneralMatrixChecker
 {
 
-    struct Two {
+    struct Two
+    {
         char x;
         char y;
     };

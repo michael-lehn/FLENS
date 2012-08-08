@@ -33,6 +33,8 @@
 #ifndef FLENS_BLAS_OPERATORS_OPTRANS_TCC
 #define FLENS_BLAS_OPERATORS_OPTRANS_TCC 1
 
+#include <flens/blas/operators/optrans.h>
+
 namespace flens {
 
 template <typename MA>

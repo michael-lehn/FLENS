@@ -33,6 +33,10 @@
 #ifndef FLENS_BLAS_CLOSURES_MM_TCC
 #define FLENS_BLAS_CLOSURES_MM_TCC 1
 
+#include <flens/blas/closures/debugclosure.h>
+#include <flens/blas/closures/result.h>
+#include <flens/blas/closures/mm.h>
+
 #ifdef FLENS_DEBUG_CLOSURES
 #   include <flens/blas/blaslogon.h>
 #else

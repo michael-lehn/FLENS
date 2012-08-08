@@ -33,6 +33,8 @@
 #ifndef FLENS_SCALAROPERATIONS_MULT_TCC
 #define FLENS_SCALAROPERATIONS_MULT_TCC 1
 
+#include <flens/scalaroperations/mult.h>
+
 namespace flens {
 
 template <typename L, typename R>

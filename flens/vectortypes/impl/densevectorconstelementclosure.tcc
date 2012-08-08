@@ -33,6 +33,8 @@
 #ifndef FLENS_VECTORTYPES_IMPL_DENSEVECTORCONSTELEMENTCLOSURE_TCC
 #define FLENS_VECTORTYPES_IMPL_DENSEVECTORCONSTELEMENTCLOSURE_TCC 1
 
+#include <flens/vectortypes/impl/densevectorconstelementclosure.h>
+
 namespace flens {
 
 template <typename V, typename I>

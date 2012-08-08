@@ -33,6 +33,7 @@
 #ifndef FLENS_AUXILIARY_EXPLICIT_CAST_TCC
 #define FLENS_AUXILIARY_EXPLICIT_CAST_TCC 1
 
+#include <flens/auxiliary/explicit_cast.h>
 
 namespace flens {
 

@@ -33,10 +33,11 @@
 #ifndef FLENS_BLAS_CLOSURES_DOT_TCC
 #define FLENS_BLAS_CLOSURES_DOT_TCC 1
 
+#include <flens/blas/closures/dot.h>
 #include <flens/blas/closures/result.h>
 #include <flens/blas/level1/level1.h>
 
-#if (FLENS_DEBUG_CLOSURES>=2)
+#ifdef FLENS_DEBUG_CLOSURES
 #   include <flens/blas/blaslogon.h>
 #else
 #   include <flens/blas/blaslogoff.h>

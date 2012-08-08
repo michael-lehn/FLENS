@@ -34,6 +34,7 @@
 #define FLENS_BLAS_CLOSURES_DEBUGCLOSURE_TCC 1
 
 #include <flens/auxiliary/auxiliary.h>
+#include <flens/blas/closures/debugclosure.h>
 #include <flens/vectortypes/vectortypes.h>
 
 //

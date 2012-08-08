@@ -34,7 +34,7 @@
 #define CXXBLAS_LEVEL1EXTENSIONS_GERSCAL_TCC 1
 
 #include <cassert>
-#include <cxxblas/level1extensions/rscal.h>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 

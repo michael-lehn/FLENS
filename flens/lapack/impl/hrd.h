@@ -43,6 +43,7 @@
 #ifndef FLENS_LAPACK_IMPL_HRD_H
 #define FLENS_LAPACK_IMPL_HRD_H 1
 
+#include <flens/lapack/typedefs.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 

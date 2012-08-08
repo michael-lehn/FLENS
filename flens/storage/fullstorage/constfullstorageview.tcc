@@ -33,6 +33,7 @@
 #ifndef FLENS_STORAGE_FULLSTORAGE_CONSTFULLSTORAGEVIEW_TCC
 #define FLENS_STORAGE_FULLSTORAGE_CONSTFULLSTORAGEVIEW_TCC 1
 
+#include <flens/storage/fullstorage/constfullstorageview.h>
 #include <flens/typedefs.h>
 
 namespace flens {

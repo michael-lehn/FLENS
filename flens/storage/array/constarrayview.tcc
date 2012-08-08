@@ -36,6 +36,7 @@
 #include <cassert>
 #include <flens/storage/array/array.h>
 #include <flens/storage/array/arrayview.h>
+#include <flens/storage/array/constarrayview.h>
 
 
 namespace flens {

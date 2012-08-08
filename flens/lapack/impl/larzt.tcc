@@ -76,8 +76,6 @@ larzt_impl(Direction                 direction,
     ASSERT(direction==Backward);
 
     const IndexType k = T.dim();
-    const IndexType n = (storeVectors==RowWise) ? V.numCols()
-                                                : V.numRows();
 
     for (IndexType i=k; i>=1; --i) {
         if (tau(i)==Zero) {

@@ -34,6 +34,7 @@
 #define FLENS_BLAS_LEVEL3_MM_H
 
 #include <cxxblas/cxxblas.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/typedefs.h>
 

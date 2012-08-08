@@ -35,6 +35,7 @@
 
 #include <complex>
 #include <flens/lapack/debug/hex.h>
+#include <flens/lapack/debug/isidentical.h>
 
 namespace flens { namespace lapack {
 

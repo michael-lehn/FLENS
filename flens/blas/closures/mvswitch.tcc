@@ -33,7 +33,7 @@
 #ifndef FLENS_BLAS_CLOSURES_MVSWITCH_TCC
 #define FLENS_BLAS_CLOSURES_MVSWITCH_TCC 1
 
-#include <flens/blas/closures/debugclosure.h>
+#include <flens/blas/closures/closures.h>
 #include <flens/blas/closures/prune.h>
 #include <flens/blas/level1/level1.h>
 #include <flens/blas/level2/level2.h>

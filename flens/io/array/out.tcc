@@ -33,6 +33,8 @@
 #ifndef FLENS_IO_ARRAY_OUT_TCC
 #define FLENS_IO_ARRAY_OUT_TCC 1
 
+#include <flens/io/array/out.h>
+
 namespace flens {
 
 template <typename A>

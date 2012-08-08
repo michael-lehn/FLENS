@@ -33,8 +33,15 @@
 #ifndef FLENS_BLAS_CLOSURES_RESIDUAL_TCC
 #define FLENS_BLAS_CLOSURES_RESIDUAL_TCC 1
 
+#include <flens/blas/closures/residual.h>
 #include <flens/blas/level1/level1.h>
 #include <flens/blas/level2/level2.h>
+
+#ifdef FLENS_DEBUG_CLOSURES
+#   include <flens/blas/blaslogon.h>
+#else
+#   include <flens/blas/blaslogoff.h>
+#endif
 
 namespace flens { namespace blas {
 

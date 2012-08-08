@@ -34,10 +34,7 @@
 #ifndef FLENS_VECTORTYPES_IMPL_DENSEVECTOR_H
 #define FLENS_VECTORTYPES_IMPL_DENSEVECTOR_H 1
 
-#include <flens/auxiliary/iscomplex.h>
-#include <flens/auxiliary/isinteger.h>
-#include <flens/auxiliary/range.h>
-#include <flens/auxiliary/underscore.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/scalartypes/scalar.h>
 #include <flens/vectortypes/vector.h>
 #include <flens/vectortypes/impl/dv/constelementclosure.h>
@@ -250,7 +247,8 @@ class DenseVector
 struct _DenseVectorChecker
 {
 
-    struct Two {
+    struct Two
+    {
         char x;
         char y;
     };

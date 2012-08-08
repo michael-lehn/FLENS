@@ -34,6 +34,7 @@
 #define CXXBLAS_LEVEL1_ASUM_H 1
 
 #include <cxxblas/typedefs.h>
+#include <cxxblas/drivers/drivers.h>
 
 #define HAVE_CXXBLAS_ASUM 1
 

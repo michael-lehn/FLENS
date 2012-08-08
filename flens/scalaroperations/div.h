@@ -34,7 +34,7 @@
 #define FLENS_SCALAROPERATIONS_DIV_H 1
 
 #include <flens/auxiliary/auxiliary.h>
-#include <flens/scalartypes/impl/scalarclosure.h>
+#include <flens/scalartypes/scalartypes.h>
 
 namespace flens {
 

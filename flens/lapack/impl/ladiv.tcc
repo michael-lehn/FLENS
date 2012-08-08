@@ -44,7 +44,7 @@
 #define FLENS_LAPACK_IMPL_LADIV_TCC 1
 
 #include <cmath>
-#include <complex>
+#include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
 

@@ -34,7 +34,8 @@
 #define FLENS_BLAS_LEVEL1_ASUM_TCC 1
 
 #include <cxxblas/cxxblas.h>
-#include <flens/auxiliary/macros.h>
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/blas/level1/level1.h>
 #include <flens/typedefs.h>
 
 

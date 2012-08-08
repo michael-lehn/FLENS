@@ -46,7 +46,6 @@
 #ifndef FLENS_LAPACK_IMPL_ILAENV_H
 #define FLENS_LAPACK_IMPL_ILAENV_H 1
 
-
 namespace flens { namespace lapack {
 
 //-- ilaenv --------------------------------------------------------------------

@@ -33,6 +33,8 @@
 #ifndef FLENS_AUXILIARY_UNDERSCORE_TCC
 #define FLENS_AUXILIARY_UNDERSCORE_TCC 1
 
+#include <flens/auxiliary/underscore.h>
+
 namespace flens {
 
 template <typename IndexType>

@@ -33,9 +33,7 @@
 #ifndef FLENS_MATRIXTYPES_GENERAL_IMPL_GEMATRIX_H
 #define FLENS_MATRIXTYPES_GENERAL_IMPL_GEMATRIX_H 1
 
-#include <flens/auxiliary/iscomplex.h>
-#include <flens/auxiliary/range.h>
-#include <flens/auxiliary/underscore.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/matrixtypes/general/generalmatrix.h>
 #include <flens/matrixtypes/general/impl/ge/constelementclosure.h>
 #include <flens/matrixtypes/general/impl/ge/elementclosure.h>

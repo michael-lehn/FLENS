@@ -43,6 +43,8 @@
 #ifndef FLENS_LAPACK_IMPL_LADIV_H
 #define FLENS_LAPACK_IMPL_LADIV_H 1
 
+#include <complex>
+
 namespace flens { namespace lapack {
 
 //-- ladiv ---------------------------------------------------------------------
