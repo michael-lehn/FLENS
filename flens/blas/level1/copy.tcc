@@ -68,7 +68,6 @@ copy(const DenseVector<VX> &x, DenseVector<VY> &y)
 #       endif
         y.resize(x);
     }
-    y.changeIndexBase(x.firstIndex());
 
 #   ifdef HAVE_CXXBLAS_COPY
     cxxblas::copy(x.length(), x.data(), x.stride(), y.data(), y.stride());
