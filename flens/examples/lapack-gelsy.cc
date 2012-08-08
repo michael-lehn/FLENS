@@ -51,7 +51,7 @@ main()
     cout << "x = " << x << endl;
 
 ///
-/// Output of permuation $P$ and the effective rank.
+/// Output of permutation $P$ and the effective rank.
 ///
     cout << endl << endl << endl
          << "Some additional information:"

@@ -12,7 +12,6 @@ amazing job.
 Also have a look at the __tutorial__ for getting an impression on how using
 FLENS-BLAS.
 
-
 :links: __BLAS__     -> http://www.netlib.org/blas/
         __CXXBLAS__  -> dir:cxxblas/
         __ATLAS__    -> http://math-atlas.sourceforge.net/
@@ -64,6 +63,7 @@ Purpose
   As an example: `dgemv` from CBLAS requires `12` arguments while its FLENS-BLAS
   counterpart `mv` only requires `6` arguments.  Besides convenient usage this
   also provides increased safety and improves correctness.
+
 
 Level 1 BLAS
 ============
