@@ -1,0 +1,52 @@
+==============================
+Triangular Factorization (trf)
+==============================
+
+*trf* computes an $LU$ factorization of a general $m \times n$ matrix $A$
+using partial pivoting with row interchanges.
+
+The factorization has the form
+ *--[LATEX]-----*
+ |              |
+ |  A = P L U   |
+ |              |
+ *--------------*
+where $P$ is a permutation matrix, $L$ is lower triangular with unit
+diagonal elements (lower trapezoidal if $m > n$), and $U$ is upper
+triangular (upper trapezoidal if $m < n$).
+
+
+Interface
+=========
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV>                                    |
+|      typename RestrictTo<IsGeMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value,               |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      trf(MA &&A, VPIV &&piv);                                             |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                              [c:@N@flens@N@lapack@FT@>2#T#Ttrf#&t0.0#&t0.1#]
+
+    A       `(input/output) real or complex valued GeMatrix` +
+            On entry, the $m \times n$ matrix to be factored. +
+            On exit, the factors $L$ and $U$ from the factorization
+            $A = PLU$.  The unit diagonal elements of $L$ are not stored.
+
+    piv     `(output) integer valued DenseVector` +
+            The pivot indices.  For $1 \leq i \leq \min\{m, n\}$, row $i$ of
+            the matrix was interchanged with row $piv_i$.
+
+Notes
+=====
+
+- *Example*: __lapack-getrf__.
+- This is the right-looking Level 3 BLAS version of the algorithm.
+- *trf* is a port of __dgetrf__ and __zgetrf__.  Also this documentation is
+  taken from there.
+
+:links: lapack-getrf -> doc:flens/examples/tut04-page01
+        (d.+)        -> file:cxxlapack/netlib/lapack/$1.f
+        (z.+)        -> file:cxxlapack/netlib/lapack/$1.f

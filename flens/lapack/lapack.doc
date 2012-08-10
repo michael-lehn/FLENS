@@ -184,7 +184,7 @@ Linear Equation Routines
             __tutorial__     -> doc:flens/examples/tut05-page01
             __(d.+)__        -> file:cxxlapack/netlib/lapack/$1.f
             __(z.+)__        -> file:cxxlapack/netlib/lapack/$1.f
-            __(.+)__         -> file:flens/lapack/impl/$1.h
+            __(.+)__         -> doc:flens/lapack/impl/$1
 
 
 Orthogonal Factorizations
