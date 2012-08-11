@@ -2,13 +2,15 @@
 Solve a System of Linear Equations (svx)                              [TOC:2]
 ========================================
 
-*svx* uses the $LU$ factorization to compute the solution to a real system of
-linear equations
+*svx* (defined in namespace `flens::lapack`) uses the $LU$ factorization to
+compute the solution to a real system of linear equations
+
     *--[LATEX]-----*
     |              |
     |  A X = B,    |
     |              |
     *--------------*
+
 where $A$ is an $n \times n$ matrix and $X$ and $B$ are $n \times n_{rhs}$
 matrices.
 
@@ -114,7 +116,7 @@ Interface
              Equilibrate    The matrix $A$ will be equilibrated if necessary,
                             then copied to $AF$ and factored.
 
-    trans    `(input)`
+    trans    `(input)`                                                         +
              Specifies the form of the system of equations:
 
              NoTrans        $A   X = B$
@@ -194,7 +196,7 @@ Interface
              _Both_, each element of $c$ must be positive.
 
     B        `(input/output) real valued GeMatrix`                             +
-             On entry, the $n \times n_{rhs}$ right hand side matrix $B$.       +
+             On entry, the $n \times n_{rhs}$ right hand side matrix $B$.      +
              On exit,
               - if _equed = None_, $B$ is not modified;
               - if _trans = NoTrans_ and _equed = Row_ or _Both_, $B$ is

@@ -1,0 +1,37 @@
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename X, typename Y>                                        |
+|      void                                                                 |
+|      swap(X &&x, Y &&y);                                                  |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                               [c:@N@flens@N@blas@FT@>2#T#Tswap#&t0.0#&t0.1#]
+
+    Defined in namespace `flens::blas`.
+    Function `swap` with 2 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename X, typename Y>                                        |
+|      void                                                                 |
+|      swap(DenseVector<X> &x, DenseVector<Y> &y);                          |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tswap#&>@N@flens@CT>1#T@]
+                         [DenseVector1t0.0#&>@N@flens@CT>1#T@DenseVector1t0.]
+                         [1#                                                ]
+
+    Defined in namespace `flens::blas`.
+    Function `swap` with 2 template parameters.
+
+
+

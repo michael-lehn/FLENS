@@ -2,8 +2,8 @@
 Triangular Factorization (trf)
 ==============================
 
-*trf* computes an $LU$ factorization of a general $m \times n$ matrix $A$
-using partial pivoting with row interchanges.
+*trf* (defined in namespace `flens::lapack`) computes an $LU$ factorization of
+a general $m \times n$ matrix $A$ using partial pivoting with row interchanges.
 
 The factorization has the form
  *--[LATEX]-----*

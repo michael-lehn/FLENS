@@ -2,7 +2,8 @@
 Triangular Solver (trs)                                               [TOC:2]
 =======================
 
-*trs* solves a system of linear equations
+*trs* (defined in namespace `flens::lapack`) solves a system of linear equations
+
     *--[LATEX]----------------------------------------*
     |                                                 |
     |  A X = B    \quad\text{or}\quad    A^T X = B    |

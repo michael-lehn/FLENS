@@ -1,0 +1,22 @@
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename X>                                                    |
+|      typename DenseVector<X>::IndexType                                   |
+|      iamax(const DenseVector<X> &x);                                      |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>1#Tiamax#&1>@N@flens@CT>1#T@]
+                         [DenseVector1t0.0#                                 ]
+
+    Defined in namespace `flens::blas`.
+    Function `iamax` with 1 template parameters.
+
+
+

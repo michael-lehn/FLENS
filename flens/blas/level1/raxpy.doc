@@ -1,0 +1,40 @@
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]---------------------------------------------------------------------*
+|                                                                                |
+|  template <typename ALPHA, typename VX, typename VY>                           |
+|      void                                                                      |
+|      raxpy(const ALPHA &alpha, const DenseVector<VX> &x, DenseVector<VY> &y);  |
+|                                                                                |
+*--------------------------------------------------------------------------------*
+                           [c:@N@flens@N@blas@FT@>3#T#T#Traxpy#&1t0.0#&1>@N@flens]
+                           [@CT>1#T@DenseVector1t0.1#&>@N@flens@CT>1#T@DenseVecto]
+                           [r1t0.2#                                              ]
+
+    Defined in namespace `flens::blas`.
+    Function `raxpy` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename MA, typename MB>                      |
+|      void                                                                 |
+|      raxpy(Transpose trans,                                               |
+|            const ALPHA &alpha, const GeMatrix<MA> &A, GeMatrix<MB> &B);   |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>3#T#T#Traxpy#$@N@cxxblas@E@T]
+                         [ranspose#&1t0.0#&1>@N@flens@CT>1#T@GeMatrix1t0.1#&]
+                         [>@N@flens@CT>1#T@GeMatrix1t0.2#                   ]
+
+    Defined in namespace `flens::blas`.
+    Function `raxpy` with 3 template parameters.
+
+
+

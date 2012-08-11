@@ -1,0 +1,148 @@
+==================
+Level 1 BLAS: copy                                                     [TOC:2]
+==================
+
+*copy* (defined in namespace `flens::blas`) copies a vector to another vector,
+i.e. $y \leftarrow x$.
+
+We also provide variants for
+ - copying matrices, i.e.
+    - $B \leftarrow A$,
+    - $B \leftarrow A^T$ or
+    - $B \leftarrow A^H$,
+ - copy-conversion of different matrix types, e.g. copy a matrix of type
+   `TrMatrix` to a matrix of type `GeMatrix`.
+
+
+Vector Variant
+==============
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename VX, typename VY>                                      |
+|      void                                                                 |
+|      copy(const DenseVector<VX> &x, DenseVector<VY> &y);                  |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#&1>@N@flens@CT>1#T]
+                         [@DenseVector1t0.0#&>@N@flens@CT>1#T@DenseVector1t0]
+                         [.1#                                               ]
+
+    x    `(input) real or complex valued DenseVector`                          +
+         Vector $x$.
+    y    `(output) real or complex valued DenseVector`                         +
+         Vector $y$
+
+
+Matrix Variants
+===============
+
+GeMatrix
+--------
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      void                                                                 |
+|      copy(Transpose trans, const GeMatrix<MA> &A, GeMatrix<MB> &B);       |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#$@N@cxxblas@E@Tran]
+                         [spose#&1>@N@flens@CT>1#T@GeMatrix1t0.0#&>@N@flens@]
+                         [CT>1#T@GeMatrix1t0.1#                             ]
+
+    trans    `(input)`                                                         +
+             Specifiy the operation, i.e.
+              - $B \leftarrow A$ (_NoTrans_),
+              - $B \leftarrow A^T$ (_Trans_),
+              - $B \leftarrow A^H$ (_ConjTrans_).
+    A        `(input) real or complex valued GeMatrix`                         +
+             Matrix $A$.
+    B        `(output) real or complex valued GeMatrix`                        +
+             Matrix $B$.
+
+
+TrMatrix
+--------
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      void                                                                 |
+|      copy(Transpose trans, const TrMatrix<MA> &A, TrMatrix<MB> &B);       |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#$@N@cxxblas@E@Tran]
+                         [spose#&1>@N@flens@CT>1#T@TrMatrix1t0.0#&>@N@flens@]
+                         [CT>1#T@TrMatrix1t0.1#                             ]
+
+    trans    `(input)`                                                         +
+             Specifiy the operation, i.e.
+              - $B \leftarrow A$ (_NoTrans_),
+              - $B \leftarrow A^T$ (_Trans_),
+              - $B \leftarrow A^H$ (_ConjTrans_).
+    A        `(input) real or complex valued TrMatrix`                         +
+             Triangular matrix $A$.
+    B        `(output) real or complex valued TrMatrix`                        +
+             Triangular matrix $B$.
+
+
+
+SyMatrix
+--------
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      void                                                                 |
+|      copy(const SyMatrix<MA> &A, SyMatrix<MB> &B);                        |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#&1>@N@flens@CT>1#T]
+                         [@SyMatrix1t0.0#&>@N@flens@CT>1#T@SyMatrix1t0.1#   ]
+
+    A        `(input) real or complex valued SyMatrix`                         +
+             Symmetric matrix $A$.
+    B        `(output) real or complex valued SyMatrix`                        +
+             Symmetric matrix $B$.
+
+
+Copy-Conversion
+===============
+
+TrMatrix to GeMatrix
+--------------------
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      void                                                                 |
+|      copy(Transpose trans, const TrMatrix<MA> &A, GeMatrix<MB> &B);       |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#$@N@cxxblas@E@Tran]
+                         [spose#&1>@N@flens@CT>1#T@TrMatrix1t0.0#&>@N@flens@]
+                         [CT>1#T@GeMatrix1t0.1#                             ]
+    trans    `(input)`                                                         +
+             Specifiy the operation, i.e.
+              - $B \leftarrow A$ (_NoTrans_),
+              - $B \leftarrow A^T$ (_Trans_),
+              - $B \leftarrow A^H$ (_ConjTrans_).
+    A        `(input) real or complex valued TrMatrix`                         +
+             Triangular matrix $A$.
+    B        `(output) real or complex valued GeMatrix`                        +
+             Matrix $B$.
+
+
+SyMatrix to GeMatrix
+--------------------
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      void                                                                 |
+|      copy(const SyMatrix<MA> &A, GeMatrix<MB> &B);                        |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#&1>@N@flens@CT>1#T]
+                         [@SyMatrix1t0.0#&>@N@flens@CT>1#T@GeMatrix1t0.1#   ]
+
+    A        `(input) real or complex valued SyMatrix`                         +
+             Symmetric matrix $A$.
+    B        `(output) real or complex valued SyMatrix`                        +
+             Matrix $B$.
+

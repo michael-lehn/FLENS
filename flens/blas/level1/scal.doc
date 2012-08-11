@@ -1,0 +1,52 @@
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename VY>                                   |
+|      typename RestrictTo<IsSame<VY, typename VY::Impl>::value,            |
+|                          void>::Type                                      |
+|      scal(const ALPHA &alpha, VY &&y);                                    |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                              [c:@N@flens@N@blas@FT@>2#T#Tscal#&1t0.0#&t0.1#]
+
+    Defined in namespace `flens::blas`.
+    Function `scal` with 2 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename VY>                                   |
+|      void                                                                 |
+|      scal(const ALPHA &alpha, DenseVector<VY> &y);                        |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tscal#&1t0.0#&>@N@flens@]
+                         [CT>1#T@DenseVector1t0.1#                          ]
+
+    Defined in namespace `flens::blas`.
+    Function `scal` with 2 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename MB>                                   |
+|      void                                                                 |
+|      scal(const ALPHA &alpha, GeMatrix<MB> &B);                           |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tscal#&1t0.0#&>@N@flens@]
+                         [CT>1#T@GeMatrix1t0.1#                             ]
+
+    Defined in namespace `flens::blas`.
+    Function `scal` with 2 template parameters.
+
+
+

@@ -1,0 +1,53 @@
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename T, typename VP>                                       |
+|      void                                                                 |
+|      rotmg(T &a, T &b, T &c, T &s, DenseVector<VP> &p);                   |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Trotmg#&t0.0#S0_#S0_#S0_]
+                         [#&>@N@flens@CT>1#T@DenseVector1t0.1#              ]
+
+    Defined in namespace `flens::blas`.
+    Function `rotmg` with 2 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename VX, typename VY, typename VP>                         |
+|      void                                                                 |
+|      rotm(VX &&x, VY &&y, const VP &p);                                   |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>3#T#T#Trotm#&t0.0#&t0.1#&1t0]
+                         [.2#                                               ]
+
+    Defined in namespace `flens::blas`.
+    Function `rotm` with 3 template parameters.
+
+
+
+*--[CODEREF]--------------------------------------------------------------------*
+|                                                                               |
+|  template <typename VX, typename VY, typename VP>                             |
+|      void                                                                     |
+|      rotm(DenseVector<VX> &x, DenseVector<VY> &y, const DenseVector<VP> &p);  |
+|                                                                               |
+*-------------------------------------------------------------------------------*
+                           [c:@N@flens@N@blas@FT@>3#T#T#Trotm#&>@N@flens@CT>1#T@]
+                           [DenseVector1t0.0#&>@N@flens@CT>1#T@DenseVector1t0.1#]
+                           [&1>@N@flens@CT>1#T@DenseVector1t0.2#                ]
+
+    Defined in namespace `flens::blas`.
+    Function `rotm` with 3 template parameters.
+
+
+

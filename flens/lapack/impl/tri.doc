@@ -2,7 +2,8 @@
 Computing the Inverse of a Matrix (tri)                               [TOC:2]
 =======================================
 
-For the computation of $A^{-1}$ two variants are provided:
+*tri* (defined in namespace `flens::lapack`) computes the inverse of a matrix
+$A$.  For the computation of $A^{-1}$ two variants are provided:
  - For a general $n \times n$ matrix $A$ containing the $LU$ factorization
    computed by __trf__.
  - For a triangular matrix $A$.
