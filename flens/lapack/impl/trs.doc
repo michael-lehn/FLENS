@@ -1,0 +1,144 @@
+=======================
+Triangular Solver (trs)                                               [TOC:2]
+=======================
+
+*trs* solves a system of linear equations
+    *--[LATEX]----------------------------------------*
+    |                                                 |
+    |  A X = B    \quad\text{or}\quad    A^T X = B    |
+    |                                                 |
+    *-------------------------------------------------*
+
+Two variants are provided:
+ - For a general $n \times n$ matrix $A$ containing the $LU$ factorization
+   computed by __trf__.
+ - For a triangular matrix $A$.
+
+Further subvariants are provided for cases where the right hand side $B$ is
+a matrix or vector.
+
+
+Variant: System of Linear Equations
+===================================
+
+
+Multiple Right-Hand Sides
+-------------------------
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV, typename MB>                       |
+|      typename RestrictTo<IsGeMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value                |
+|                       && IsGeMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      trs(Transpose trans, const MA &A, const VPIV &piv, MB &&B);          |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>3#T#T#Ttrs#$@N@cxxblas@E@T]
+                         [ranspose#&1t0.0#&1t0.1#&t0.2##variant             ]
+
+    trans    `(input) bool`                                                    +
+             Solve $AX=B$, $A^T X=B$ or $A^H X = B$
+    A        `(input) real or complex valued GeMatrix`                         +
+             The factors $L$ and $U$ from the factorization $A = PLU$ as
+             computed __trf__.
+    piv      `(input) integer valued DenseVector`                              +
+             The pivot indices as returned from __trf__.
+    B        `(input/output) real or complex valued GeMatrix`                  +
+             On entry, the $n \times n_{rhs}$ right hand side matrix $B$.      +
+             On exit, the solution matrix $X$.
+
+
+Single Right-Hand Side
+----------------------
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV, typename VB>                       |
+|      typename RestrictTo<IsGeMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value                |
+|                       && IsDenseVector<VB>::value,                        |
+|               void>::Type                                                 |
+|      trs(Transpose trans, const MA &A, const VPIV &piv, VB &&b);          |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>3#T#T#Ttrs#$@N@cxxblas@E@T]
+                         [ranspose#&1t0.0#&1t0.1#&t0.2#                     ]
+
+    trans    `(input) bool`                                                    +
+             Solve $AX=B$, $A^T X=B$ or $A^H X = B$
+    A        `(input) real or complex valued GeMatrix`                         +
+             The factors $L$ and $U$ from the factorization $A = PLU$ as
+             computed __trf__.
+    piv      `(input) integer valued DenseVector`                              +
+             The pivot indices as returned from __trf__.
+    b        `(input/output) real or complex valued DenseVector`               +
+             On entry, the right hand side vector $b$.                         +
+             On exit, the solution vector $x$.
+
+
+
+Variant: Triangular System
+==========================
+
+Multiple Right-Hand Sides
+-------------------------
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsTrMatrix<MA>::value                            |
+|                       && IsGeMatrix<MB>::value,                           |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      trs(Transpose trans, const MA &A, MB &&B);                           |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>2#T#Ttrs#$@N@cxxblas@E@Tra]
+                         [nspose#&1t0.0#&t0.1##variant                      ]
+
+    trans    `(input) bool`                                                    +
+             Solve $AX=B$, $A^T X=B$ or $A^H X = B$
+    A        `(input) real or complex valued TrMatrix`                         +
+             The $n \times n$ triangular matrix.
+    B        `(input/output) real or complex valued GeMatrix`                  +
+             On entry, the $n \times n_{rhs}$ right hand side matrix $B$.      +
+             On exit, the solution matrix $X$.
+
+
+Single Right-Hand Side
+----------------------
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VB>                                      |
+|      typename RestrictTo<IsTrMatrix<MA>::value                            |
+|                       && IsDenseVector<VB>::value,                        |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      trs(Transpose trans, const MA &A, VB &&b);                           |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>2#T#Ttrs#$@N@cxxblas@E@Tra]
+                         [nspose#&1t0.0#&t0.1#                              ]
+
+    trans    `(input) bool`                                                    +
+             Solve $AX=B$, $A^T X=B$ or $A^H X = B$
+    A        `(input) real or complex valued TrMatrix`                         +
+             The $n \times n$ triangular matrix.
+    b        `(input/output) real or complex valued DenseVector`               +
+             On entry, the $n \times n_{rhs}$ right hand side vector $b$.      +
+             On exit, the solution vector $x$.
+
+Notes
+=====
+
+- *Examples*: __lapack-getrs__ and __lapack-trtrs__.
+- *trs* is a port of __dgetrs__, __zgetrs__, __dtrtrs__ and __ztrtrs__.  Also
+  this documentation is taken from there.
+
+
+:links: lapack-getrs -> doc:flens/examples/lapack-getrs
+        lapack-trtrs -> doc:flens/examples/lapack-trtrs
+        (d.+)        -> file:cxxlapack/netlib/lapack/$1.f
+        (z.+)        -> file:cxxlapack/netlib/lapack/$1.f
+        (.+)         -> doc:flens/lapack/impl/$1
