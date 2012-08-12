@@ -1,0 +1,17 @@
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VX>                                      |
+|      typename RestrictTo<IsTrMatrix<MA>::value                            |
+|                       && IsDenseVector<VX>::value,                        |
+|               void>::Type                                                 |
+|      sv(Transpose trans, const MA &A, VX &&x);                            |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tsv#$@N@cxxblas@E@Transp]
+                         [ose#&1t0.0#&t0.1#                                 ]
+
+    Defined in namespace `flens::blas`.
+    Function `sv` with 2 template parameters.
+
+
+

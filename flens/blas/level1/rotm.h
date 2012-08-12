@@ -41,17 +41,14 @@ namespace flens { namespace blas {
 //-- rotmg
 template <typename T, typename VP>
     void
-    rotmg(T &a, T &b, T &c, T &s, DenseVector<VP> &p);
-
-//-- forwarding: rotm ----------------------------------------------------------
-template <typename VX, typename VY, typename VP>
-    void
-    rotm(VX &&x, VY &&y, const VP &p);
+    rotmg(T &d1, T &d2, T &b1, T &b2, DenseVector<VP> &p);
 
 //-- rotm
 template <typename VX, typename VY, typename VP>
-    void
-    rotm(DenseVector<VX> &x, DenseVector<VY> &y, const DenseVector<VP> &p);
+    typename RestrictTo<IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
+             void>::Type
+    rotm(VX &&x, VY &&y, const DenseVector<VP> &p);
 
 } } // namespace blas, flens
 

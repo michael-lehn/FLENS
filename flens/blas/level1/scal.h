@@ -38,21 +38,17 @@
 
 namespace flens { namespace blas {
 
-//-- scal (forwarding)
-template <typename ALPHA, typename VY>
-    typename RestrictTo<IsSame<VY, typename VY::Impl>::value,
-                        void>::Type
-    scal(const ALPHA &alpha, VY &&y);
-
 //-- scal
 template <typename ALPHA, typename VY>
-    void
-    scal(const ALPHA &alpha, DenseVector<VY> &y);
+    typename RestrictTo<IsDenseVector<VY>::value,
+             void>::Type
+    scal(const ALPHA &alpha, VY &&y);
 
 //-- gescal
 template <typename ALPHA, typename MB>
-    void
-    scal(const ALPHA &alpha, GeMatrix<MB> &B);
+    typename RestrictTo<IsGeMatrix<MB>::value,
+             void>::Type
+    scal(const ALPHA &alpha, MB &&B);
 
 } } // namespace blas, flens
 

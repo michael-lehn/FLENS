@@ -1,0 +1,28 @@
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename MA, typename MB>                      |
+|      typename RestrictTo<IsTrMatrix<MA>::value                            |
+|                       && IsGeMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      sm(Side             side,                                            |
+|         Transpose        transA,                                          |
+|         const ALPHA      &alpha,                                          |
+|         const MA         &A,                                              |
+|         MB               &&B);                                            |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>3#T#T#Tsm#$@N@cxxblas@E@Side]
+                         [#$@N@cxxblas@E@Transpose#&1t0.0#&1t0.1#&t0.2#     ]
+
+    Defined in namespace `flens::blas`.
+    Function `sm` with 3 template parameters.
+
+
+

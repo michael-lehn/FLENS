@@ -50,34 +50,29 @@ namespace flens { namespace blas {
 //-- rotmg
 template <typename T, typename VP>
 void
-rotmg(T &a, T &b, T &c, T &s, DenseVector<VP> &p)
+rotmg(T &d1, T &d2, T &b1, T &b2, DenseVector<VP> &p)
 {
 #   ifdef HAVE_CXXBLAS_ROTMG
     typedef typename DenseVector<VP>::IndexType  IndexType;
 
     ASSERT(p.length()==IndexType(5));
 
-    cxxblas::rotmg(p.length(), a, b, c, s, p.data());
+    cxxblas::rotmg(p.length(), d1, d2, b1, b2, p.data());
 #   else
     ASSERT(0);
 #   endif
 }
 
-//-- forwarding: rotm ----------------------------------------------------------
-template <typename VX, typename VY, typename VP>
-void
-rotm(VX &&x, VY &&y, const VP &p)
-{
-    rotm(x, y, p);
-}
-
 //-- rotm
 template <typename VX, typename VY, typename VP>
-void
-rotm(DenseVector<VX> &x, DenseVector<VY> &y, const DenseVector<VP> &p)
+typename RestrictTo<IsDenseVector<VX>::value
+                 && IsDenseVector<VY>::value,
+         void>::Type
+rotm(VX &&x, VY &&y, const DenseVector<VP> &p)
 {
 #   ifdef HAVE_CXXBLAS_ROTM
-    typedef typename DenseVector<VX>::IndexType  IndexType;
+    typedef typename RemoveRef<VX>::Type    VectorX;
+    typedef typename VectorX::IndexType     IndexType;
 
     ASSERT(p.length()==IndexType(5));
     ASSERT(x.length()==y.length());

@@ -43,45 +43,47 @@ namespace flens { namespace blas {
 
 //-- copy
 template <typename VX, typename VY>
-    void
-    copy(const DenseVector<VX> &x, DenseVector<VY> &y);
+    typename RestrictTo<IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
+             void>::Type
+    copy(const VX &x, VY &&y);
 
 //-- gecopy
 template <typename MA, typename MB>
-    void
-    copy(Transpose trans, const GeMatrix<MA> &A, GeMatrix<MB> &B);
+    typename RestrictTo<IsGeMatrix<MA>::value
+                     && IsGeMatrix<MB>::value,
+             void>::Type
+    copy(Transpose trans, const MA &A, MB &&B);
 
 //-- trcopy
 template <typename MA, typename MB>
-    void
-    copy(Transpose trans, const TrMatrix<MA> &A, TrMatrix<MB> &B);
+    typename RestrictTo<IsTrMatrix<MA>::value
+                     && IsTrMatrix<MB>::value,
+             void>::Type
+    copy(Transpose trans, const MA &A, MB &&B);
 
 //-- sycopy
 template <typename MA, typename MB>
-    void
-    copy(const SyMatrix<MA> &A, SyMatrix<MB> &B);
+    typename RestrictTo<IsSyMatrix<MA>::value
+                     && IsSyMatrix<MB>::value,
+             void>::Type
+    copy(const MA &A, MB &&B);
 
 //-- extensions ----------------------------------------------------------------
 
 //-- copy: TrMatrix -> GeMatrix
 template <typename MA, typename MB>
-    void
-    copy(Transpose trans, const TrMatrix<MA> &A, GeMatrix<MB> &B);
-
-//-- copy: GeMatrix -> TrMatrix
-template <typename MA, typename MB>
-    void
-    copy(Transpose trans, const GeMatrix<MA> &A, TrMatrix<MB> &B);
+    typename RestrictTo<IsTrMatrix<MA>::value
+                     && IsGeMatrix<MB>::value,
+             void>::Type
+    copy(Transpose trans, const MA &A, MB &&B);
 
 //-- copy: SyMatrix -> GeMatrix
 template <typename MA, typename MB>
-    void
-    copy(const SyMatrix<MA> &A, GeMatrix<MB> &B);
-
-//-- copy: GeMatrix -> SyMatrix
-template <typename MA, typename MB>
-    void
-    copy(const GeMatrix<MA> &A, SyMatrix<MB> &B);
+    typename RestrictTo<IsSyMatrix<MA>::value
+                     && IsGeMatrix<MB>::value,
+             void>::Type
+    copy(const MA &A, MB &&B);
 
 } } // namespace blas, flens
 

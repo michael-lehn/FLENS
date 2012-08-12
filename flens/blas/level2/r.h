@@ -35,43 +35,34 @@
 
 #include <cxxblas/cxxblas.h>
 #include <flens/matrixtypes/matrixtypes.h>
+#include <flens/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace blas {
-
-//-- forwarding ----------------------------------------------------------------
-template <typename ALPHA, typename VX, typename VY, typename MA>
-    void
-    r(const ALPHA &alpha, const VX &x, const VY &y, MA &&A);
-
-template <typename ALPHA, typename VX, typename VY, typename MA>
-    void
-    ru(const ALPHA &alpha, const VX &x, const VY &y, MA &&A);
-
-template <typename ALPHA, typename VX, typename VY, typename MA>
-    void
-    rc(const ALPHA &alpha, const VX &x, const VY &y, MA &&A);
 
 //-- GeMatrix, DenseVector -----------------------------------------------------
 
 //-- ger
 template <typename ALPHA, typename VX, typename VY, typename MA>
-    void
-    r(const ALPHA &alpha,
-      const DenseVector<VX> &x, const DenseVector<VY> &y,
-      GeMatrix<MA> &A);
+    typename RestrictTo<IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value
+                     && IsGeMatrix<MA>::value,
+             void>::Type
+    r(const ALPHA &alpha, const VX &x, const VY &y, MA &&A);
 
 template <typename ALPHA, typename VX, typename VY, typename MA>
-    void
-    ru(const ALPHA &alpha,
-       const DenseVector<VX> &x, const DenseVector<VY> &y,
-       GeMatrix<MA> &A);
+    typename RestrictTo<IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value
+                     && IsGeMatrix<MA>::value,
+             void>::Type
+    ru(const ALPHA &alpha, const VX &x, const VY &y, MA &&A);
 
 template <typename ALPHA, typename VX, typename VY, typename MA>
-    void
-    rc(const ALPHA &alpha,
-       const DenseVector<VX> &x, const DenseVector<VY> &y,
-       GeMatrix<MA> &A);
+    typename RestrictTo<IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value
+                     && IsGeMatrix<MA>::value,
+             void>::Type
+    rc(const ALPHA &alpha, const VX &x, const VY &y, MA &&A);
 
 } } // namespace blas, flens
 

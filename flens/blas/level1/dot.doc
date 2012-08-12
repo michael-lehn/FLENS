@@ -1,5 +1,5 @@
 =======================
-Level 1 BLAS: dot, dotu                                                [TOC:2]
+BLAS Level 1: dot, dotu                                                [TOC:2]
 =======================
 
 *dot, dotu* (defined in namespace `flens::blas`) compute vector-vector dot

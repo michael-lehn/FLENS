@@ -1,10 +1,10 @@
-===================
-Level 1 BLAS: axpy                                                       [TOC]
-===================
+==================
+BLAS Level 1: axpy                                                       [TOC]
+==================
 
 *axpy* (defined in namespace `flens::blas`) computes $y \leftarrow y +\alpha x$
 where $x, y$ are vectors and $\alpha$ is a constant scalar. *axpy* is short
-for *a*lpha *x* *p*lus *y*.
+for *a*lpha times *x* *p*lus *y*.
 
 We also provide a variant that does the computation for matrices instead of
 vectors.
@@ -12,16 +12,17 @@ vectors.
 
 Vector Variant
 ==============
-*--[CODEREF]--------------------------------------------------------------------*
-|                                                                               |
-|  template <typename ALPHA, typename VX, typename VY>                          |
-|      void                                                                     |
-|      axpy(const ALPHA &alpha, const DenseVector<VX> &x, DenseVector<VY> &y);  |
-|                                                                               |
-*-------------------------------------------------------------------------------*
-                           [c:@N@flens@N@blas@FT@>3#T#T#Taxpy#&1t0.0#&1>@N@flens]
-                           [@CT>1#T@DenseVector1t0.1#&>@N@flens@CT>1#T@DenseVect]
-                           [or1t0.2#                                            ]
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename VX, typename VY>                      |
+|      typename RestrictTo<IsDenseVector<VX>::value                         |
+|                       && IsDenseVector<VY>::value,                        |
+|               void>::Type                                                 |
+|      axpy(const ALPHA &alpha, const VX &x, VY &&y);                       |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>3#T#T#Taxpy#&1t0.0#&1t0.1#&t]
+                         [0.2#                                              ]
 
     alpha    `(input) real scalar`                                             +
              Scaling factor for the values in $x$.
@@ -36,14 +37,14 @@ Matrix Variant (Level 1 Extension)
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
 |  template <typename ALPHA, typename MA, typename MB>                      |
-|      void                                                                 |
-|      axpy(Transpose trans,                                                |
-|           const ALPHA &alpha, const GeMatrix<MA> &A, GeMatrix<MB> &B);    |
+|      typename RestrictTo<IsGeMatrix<MA>::value                            |
+|                       && IsGeMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);      |
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>3#T#T#Taxpy#$@N@cxxblas@E@Tr]
-                         [anspose#&1t0.0#&1>@N@flens@CT>1#T@GeMatrix1t0.1#&>]
-                         [@N@flens@CT>1#T@GeMatrix1t0.2#                    ]
+                         [anspose#&1t0.0#&1t0.1#&t0.2#                      ]
 
     alpha    `(input) real scalar`                                             +
              Scaling factor for the values in $x$.
@@ -51,4 +52,3 @@ Matrix Variant (Level 1 Extension)
              Matrix $A$.
     B        `(input/output) real or complex valued GeMatrix`                  +
              Matrix $B$.
-

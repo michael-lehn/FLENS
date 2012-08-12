@@ -49,8 +49,9 @@ namespace flens { namespace blas {
 
 //-- gecotr
 template <typename MA>
-void
-cotr(Transpose trans, GeMatrix<MA> &A)
+typename RestrictTo<IsGeMatrix<MA>::value,
+         void>::Type
+cotr(Transpose trans, MA &&A)
 {
 //
 //  If matrix is not square no inplace transpose is possible
@@ -63,7 +64,7 @@ cotr(Transpose trans, GeMatrix<MA> &A)
 #   endif
 #   else
     if ((trans==Trans || trans==ConjTrans) && A.numRows()!=A.numCols()) {
-        typename GeMatrix<MA>::NoView B = A;
+        typename RemoveRef<MA>::Type::NoView  B = A;
         FLENS_BLASLOG_TMP_ADD(B);
 
         copy(trans, B, A);
@@ -84,7 +85,7 @@ cotr(Transpose trans, GeMatrix<MA> &A)
     FLENS_BLASLOG_BEGIN_MCOTR(trans, A);
 
 #   ifdef HAVE_CXXBLAS_GECOTR
-    cxxblas::gecotr(MA::order, trans, A.numRows(), A.numCols(),
+    cxxblas::gecotr(A.order(), trans, A.numRows(), A.numCols(),
                     A.data(), A.leadingDimension());
 #   else
     ASSERT(0);

@@ -1,0 +1,43 @@
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename VX, typename VY, typename MA>         |
+|      typename RestrictTo<IsDenseVector<VX>::value                         |
+|                       && IsDenseVector<VY>::value                         |
+|                       && IsGeMatrix<MA>::value,                           |
+|               void>::Type                                                 |
+|      ru(const ALPHA &alpha, const VX &x, const VY &y, MA &&A);            |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>4#T#T#T#Tru#&1t0.0#&1t0.1#&1]
+                         [t0.2#&t0.3#                                       ]
+
+    Defined in namespace `flens::blas`.
+    Function `ru` with 4 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename VX, typename VY, typename MA>         |
+|      typename RestrictTo<IsDenseVector<VX>::value                         |
+|                       && IsDenseVector<VY>::value                         |
+|                       && IsGeMatrix<MA>::value,                           |
+|               void>::Type                                                 |
+|      rc(const ALPHA &alpha, const VX &x, const VY &y, MA &&A);            |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>4#T#T#T#Trc#&1t0.0#&1t0.1#&1]
+                         [t0.2#&t0.3#                                       ]
+
+    Defined in namespace `flens::blas`.
+    Function `rc` with 4 template parameters.
+
+
+

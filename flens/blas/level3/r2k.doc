@@ -1,0 +1,53 @@
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]------------------------------------------------------------------------*
+|                                                                                   |
+|  template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>  |
+|      typename RestrictTo<IsGeMatrix<MA>::value                                    |
+|                       && IsGeMatrix<MB>::value                                    |
+|                       && IsHeMatrix<MC>::value,                                   |
+|               void>::Type                                                         |
+|      r2k(Transpose       trans,                                                   |
+|          const ALPHA     &alpha,                                                  |
+|          const MA        &A,                                                      |
+|          const MB        &B,                                                      |
+|          const BETA      &beta,                                                   |
+|          MC              &&C);                                                    |
+|                                                                                   |
+*-----------------------------------------------------------------------------------*
+                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tr2k#$@N@cxxblas@E@Tran]
+                            [spose#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4##variant       ]
+
+    Defined in namespace `flens::blas`.
+    Function `r2k` with 5 template parameters.
+
+
+
+*--[CODEREF]------------------------------------------------------------------------*
+|                                                                                   |
+|  template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>  |
+|      typename RestrictTo<IsGeMatrix<MA>::value                                    |
+|                       && IsGeMatrix<MB>::value                                    |
+|                       && IsSyMatrix<MC>::value,                                   |
+|               void>::Type                                                         |
+|      r2k(Transpose       trans,                                                   |
+|          const ALPHA     &alpha,                                                  |
+|          const MA        &A,                                                      |
+|          const MB        &B,                                                      |
+|          const BETA      &beta,                                                   |
+|          MC              &&C);                                                    |
+|                                                                                   |
+*-----------------------------------------------------------------------------------*
+                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tr2k#$@N@cxxblas@E@Tran]
+                            [spose#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#               ]
+
+    Defined in namespace `flens::blas`.
+    Function `r2k` with 5 template parameters.
+
+
+

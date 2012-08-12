@@ -47,19 +47,11 @@
 
 namespace flens { namespace blas {
 
-//-- rscal (forwarding)
-template <typename ALPHA, typename VY>
-void
-rscal(const ALPHA &alpha, VY &&y)
-{
-    rscal(alpha, y);
-}
-
-
 //-- rscal
 template <typename ALPHA, typename VY>
-void
-rscal(const ALPHA &alpha, DenseVector<VY> &y)
+typename RestrictTo<IsDenseVector<VY>::value,
+         void>::Type
+rscal(const ALPHA &alpha, VY &&y)
 {
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_RSCAL(alpha, y);
@@ -76,14 +68,16 @@ rscal(const ALPHA &alpha, DenseVector<VY> &y)
 
 //-- gerscal
 template <typename ALPHA, typename MB>
-void
-rscal(const ALPHA &alpha, GeMatrix<MB> &B)
+typename RestrictTo<IsGeMatrix<MB>::value,
+         void>::Type
+rscal(const ALPHA &alpha, MB &&B)
 {
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_RSCAL(alpha, B);
 
 #   ifdef HAVE_CXXBLAS_GERSCAL
-    cxxblas::gerscal(MB::order, B.numRows(), B.numCols(),
+    typedef typename RemoveRef<MB>::Type   MatrixB;
+    cxxblas::gerscal(B.order(), B.numRows(), B.numCols(),
                      alpha, B.data(), B.leadingDimension());
 #   else
     ASSERT(0);

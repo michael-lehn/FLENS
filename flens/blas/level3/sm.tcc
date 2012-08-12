@@ -38,37 +38,25 @@
 
 namespace flens { namespace blas {
 
-//-- forwarding ----------------------------------------------------------------
-template <typename ALPHA, typename MA, typename MB>
-void
-sm(Side side, Transpose transA,
-   const ALPHA &alpha, const MA &A, MB &&B)
-{
-    CHECKPOINT_ENTER;
-    sm(side, transA, alpha, A, B);
-    CHECKPOINT_LEAVE;
-}
-
-//-- common interface ----------------------------------------------------------
-template <typename ALPHA, typename MA, typename MB>
-void
-sm(Side side, Transpose transA,
-   const ALPHA &alpha, const TriangularMatrix<MA> &A, Matrix<MB> &B)
-{
-    sm(side, transA, alpha, A.impl(), B.impl());
-}
-
 //-- trsm
 template <typename ALPHA, typename MA, typename MB>
-void
-sm(Side side, Transpose transA,
-   const ALPHA &alpha, const TrMatrix<MA> &A, GeMatrix<MB> &B)
+typename RestrictTo<IsTrMatrix<MA>::value
+                 && IsGeMatrix<MB>::value,
+             void>::Type
+sm(Side             side,
+   Transpose        transA,
+   const ALPHA      &alpha,
+   const MA         &A,
+   MB               &&B)
 {
-    ASSERT(MB::order==MA::order);
+    typedef typename RemoveRef<MA>::Type MatrixA;
+    typedef typename RemoveRef<MB>::Type MatrixB;
+
+    ASSERT(B.order()==A.order());
     ASSERT(A.dim() == (side==Left) ? B.numRows() : B.numCols());
 
 #   ifdef HAVE_CXXBLAS_TRSM
-    cxxblas::trsm(MA::order, side, A.upLo(),
+    cxxblas::trsm(A.order(), side, A.upLo(),
                   transA, A.diag(),
                   B.numRows(), B.numCols(),
                   alpha,

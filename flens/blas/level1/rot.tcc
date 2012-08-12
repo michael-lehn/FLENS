@@ -55,19 +55,12 @@ rotg(T &a, T &b, T &c, T &s)
 #   endif
 }
 
-
-//-- forwarding: rot -----------------------------------------------------------
-template <typename VX, typename VY, typename T>
-void
-rot(VX &&x, VY &&y, const T &c, const T &s)
-{
-    rot(x, y, c, s);
-}
-
 //-- rot
 template <typename VX, typename VY, typename T>
-void
-rot(DenseVector<VX> &x, DenseVector<VY> &y, const T &c, const T &s)
+typename RestrictTo<IsDenseVector<VX>::value
+                 && IsDenseVector<VY>::value,
+         void>::Type
+rot(VX &&x, VY &&y, const T &c, const T &s)
 {
     ASSERT(x.length()==y.length());
 #   ifdef HAVE_CXXBLAS_ROT

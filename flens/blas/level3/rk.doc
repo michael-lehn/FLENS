@@ -1,0 +1,49 @@
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename MA, typename BETA, typename MC>       |
+|      typename RestrictTo<IsGeMatrix<MA>::value                            |
+|                       && IsHeMatrix<MC>::value,                           |
+|               void>::Type                                                 |
+|      rk(Transpose        trans,                                           |
+|         const ALPHA      &alpha,                                          |
+|         const MA         &A,                                              |
+|         const BETA       &beta,                                           |
+|         MC               &&C);                                            |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>4#T#T#T#Trk#$@N@cxxblas@E@Tr]
+                         [anspose#&1t0.0#&1t0.1#&1t0.2#&t0.3##variant       ]
+
+    Defined in namespace `flens::blas`.
+    Function `rk` with 4 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename MA, typename BETA, typename MC>       |
+|      typename RestrictTo<IsGeMatrix<MA>::value                            |
+|                       && IsSyMatrix<MC>::value,                           |
+|               void>::Type                                                 |
+|      rk(Transpose        trans,                                           |
+|         const ALPHA      &alpha,                                          |
+|         const MA         &A,                                              |
+|         const BETA       &beta,                                           |
+|         MC               &&C);                                            |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>4#T#T#T#Trk#$@N@cxxblas@E@Tr]
+                         [anspose#&1t0.0#&1t0.1#&1t0.2#&t0.3#               ]
+
+    Defined in namespace `flens::blas`.
+    Function `rk` with 4 template parameters.
+
+
+

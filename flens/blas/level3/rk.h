@@ -41,21 +41,25 @@ namespace flens { namespace blas {
 
 //-- herk
 template <typename ALPHA, typename MA, typename BETA, typename MC>
-    void
-    rk(Transpose trans,
-       const ALPHA &alpha,
-       const GeMatrix<MA> &A,
-       const BETA &beta,
-       HeMatrix<MC> &C);
+    typename RestrictTo<IsGeMatrix<MA>::value
+                     && IsHeMatrix<MC>::value,
+             void>::Type
+    rk(Transpose        trans,
+       const ALPHA      &alpha,
+       const MA         &A,
+       const BETA       &beta,
+       MC               &&C);
 
 //-- syrk
 template <typename ALPHA, typename MA, typename BETA, typename MC>
-    void
-    rk(Transpose trans,
-       const ALPHA &alpha,
-       const GeMatrix<MA> &A,
-       const BETA &beta,
-       SyMatrix<MC> &C);
+    typename RestrictTo<IsGeMatrix<MA>::value
+                     && IsSyMatrix<MC>::value,
+             void>::Type
+    rk(Transpose        trans,
+       const ALPHA      &alpha,
+       const MA         &A,
+       const BETA       &beta,
+       MC               &&C);
 
 } } // namespace blas, flens
 

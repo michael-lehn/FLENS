@@ -44,85 +44,60 @@ namespace flens { namespace blas {
 
 //-- gemm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-    void
-    mm(Transpose transA, Transpose transB, const ALPHA &alpha,
-       const GeMatrix<MA> &A, const GeMatrix<MB> &B,
-       const BETA &beta, GeMatrix<MC> &C);
+    typename RestrictTo<IsGeMatrix<MA>::value
+                     && IsGeMatrix<MB>::value
+                     && IsGeMatrix<MC>::value,
+             void>::Type
+    mm(Transpose        transA,
+       Transpose        transB,
+       const ALPHA      &alpha,
+       const MA         &A,
+       const MB         &B,
+       const BETA       &beta,
+       MC               &&C);
 
 //== TriangularMatrix - GeneralMatrix products =================================
 
 //-- trmm
 template <typename ALPHA, typename MA, typename MB>
-    void
-    mm(Side side,
-       Transpose transA, const ALPHA &alpha, const TrMatrix<MA> &A,
-       GeMatrix<MB> &B);
+    typename RestrictTo<IsTrMatrix<MA>::value
+                     && IsGeMatrix<MB>::value,
+             void>::Type
+    mm(Side             side,
+       Transpose        transA,
+       const ALPHA      &alpha,
+       const MA         &A,
+       MB               &&B);
 
 //== SymmetricMatrix - GeneralMatrix products ==================================
 
 //-- symm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-    void
-    mm(Side side,
-       const ALPHA &alpha, const SyMatrix<MA> &A, const GeMatrix<MB> &B,
-       const BETA &beta, GeMatrix<MC> &C);
+    typename RestrictTo<IsSyMatrix<MA>::value
+                     && IsGeMatrix<MB>::value
+                     && IsGeMatrix<MC>::value,
+             void>::Type
+    mm(Side             side,
+       const ALPHA      &alpha,
+       const MA         &A,
+       const MB         &B,
+       const BETA       &beta,
+       MC               &&C);
 
 //== HermitianMatrix - GeneralMatrix products ==================================
 
 //-- hemm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-    void
-    mm(Side side,
-       const ALPHA &alpha, const HeMatrix<MA> &A, const GeMatrix<MB> &B,
-       const BETA &beta, GeMatrix<MC> &C);
-
-
-//== Forwarding ================================================================
-
-//-- GeneralMatrix - GeneralMatrix products
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-    typename RestrictTo<IsGeneralMatrix<MA>::value &&
-                        IsGeneralMatrix<MB>::value &&
-                       !IsClosure<MA>::value &&
-                       !IsClosure<MB>::value &&
-                        IsSame<MC, typename MC::Impl>::value,
+    typename RestrictTo<IsHeMatrix<MA>::value
+                     && IsGeMatrix<MB>::value
+                     && IsGeMatrix<MC>::value,
              void>::Type
-    mm(Transpose transA, Transpose transB, const ALPHA &alpha,
-       const MA &A, const MB &B,
-       const BETA &beta, MC &&C);
-
-//-- TriangularMatrix - GeneralMatrix products
-template <typename ALPHA, typename MA, typename MB>
-    typename RestrictTo<IsTriangularMatrix<MA>::value &&
-                        IsGeneralMatrix<MB>::value &&
-                       !IsClosure<MA>::value &&
-                        IsSame<MB, typename MB::Impl>::value,
-             void>::Type
-    mm(Side side, Transpose transA,
-       const ALPHA &alpha, const MA &A, MB &&B);
-
-
-//-- SymmetricMatrix - GeneralMatrix products
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-    typename RestrictTo<IsSymmetricMatrix<MA>::value &&
-                        IsGeneralMatrix<MB>::value &&
-                       !IsClosure<MA>::value &&
-                       !IsClosure<MB>::value &&
-                        IsSame<MC, typename MC::Impl>::value,
-             void>::Type
-    mm(Side side, const ALPHA &alpha, const MA &A, const MB &B,
-       const BETA &beta, MC &&C);
-
-//-- HermitianMatrix - GeneralMatrix products
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-    typename RestrictTo<IsHermitianMatrix<MA>::value &&
-                        IsGeneralMatrix<MB>::value &&
-                       !IsClosure<MA>::value &&
-                       !IsClosure<MB>::value &&
-                        IsSame<MC, typename MC::Impl>::value,
-             void>::Type
-    mm(Side side, const ALPHA &alpha, const MA &A, const MB &B,
-       const BETA &beta, MC &&C);
+    mm(Side             side,
+       const ALPHA      &alpha,
+       const MA         &A,
+       const MB         &B,
+       const BETA       &beta,
+       MC               &&C);
 
 } } // namespace blas, flens
 

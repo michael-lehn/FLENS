@@ -42,8 +42,9 @@ namespace flens { namespace blas {
 
 //-- gecotr
 template <typename MA>
-    void
-    cotr(Transpose trans, GeMatrix<MA> &A);
+    typename RestrictTo<IsGeMatrix<MA>::value,
+             void>::Type
+    cotr(Transpose trans, MA &&A);
 
 } } // namespace blas, flens
 

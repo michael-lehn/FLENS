@@ -49,8 +49,10 @@ namespace flens { namespace blas {
 
 //-- axpy
 template <typename ALPHA, typename VX, typename VY>
-void
-axpy(const ALPHA &alpha, const DenseVector<VX> &x, DenseVector<VY> &y)
+typename RestrictTo<IsDenseVector<VX>::value
+                 && IsDenseVector<VY>::value,
+         void>::Type
+axpy(const ALPHA &alpha, const VX &x, VY &&y)
 {
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_AXPY(alpha, x, y);
@@ -59,7 +61,8 @@ axpy(const ALPHA &alpha, const DenseVector<VX> &x, DenseVector<VY> &y)
 //
 //      So we allow  y += alpha*x  for an empty vector y
 //
-        typedef typename DenseVector<VY>::ElementType  T;
+        typedef typename RemoveRef<VY>::Type   VectorY;
+        typedef typename VectorY::ElementType  T;
         const T  Zero(0);
 
         y.resize(x, Zero);
@@ -80,15 +83,19 @@ axpy(const ALPHA &alpha, const DenseVector<VX> &x, DenseVector<VY> &y)
 
 //-- geaxpy
 template <typename ALPHA, typename MA, typename MB>
-void
-axpy(Transpose trans,
-     const ALPHA &alpha, const GeMatrix<MA> &A, GeMatrix<MB> &B)
+typename RestrictTo<IsGeMatrix<MA>::value
+                 && IsGeMatrix<MB>::value,
+         void>::Type
+axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 {
+    typedef typename RemoveRef<MA>::Type   MatrixA;
+    typedef typename RemoveRef<MB>::Type   MatrixB;
+
     if (B.numRows()==0 || B.numCols()==0) {
 //
 //      So we allow  B += alpha*A  for an empty matrix B
 //
-        typedef typename GeMatrix<MB>::ElementType  T;
+        typedef typename MatrixB::ElementType  T;
         const T  Zero(0);
 
         if ((trans==NoTrans) || (trans==Conj)) {
@@ -111,7 +118,7 @@ axpy(Transpose trans,
 #   endif
 
 
-    trans = (MA::order==MB::order)
+    trans = (A.order()==B.order())
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
 
@@ -128,7 +135,7 @@ axpy(Transpose trans,
 //  for B += alpha*A^T or B+= alpha*A^H
 //
     if ((trans==Trans || trans==ConjTrans) && DEBUGCLOSURE::identical(A, B)) {
-        typename GeMatrix<MA>::NoView _A;
+        typename Result<MatrixA>::Type _A = A;
         FLENS_BLASLOG_TMP_ADD(_A);
 
         copy(trans, A, _A);
@@ -144,8 +151,7 @@ axpy(Transpose trans,
     FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
 
 #   ifdef HAVE_CXXBLAS_GEAXPY
-    geaxpy(MB::order, trans,
-           B.numRows(), B.numCols(), alpha,
+    geaxpy(B.order(), trans, B.numRows(), B.numCols(), alpha,
            A.data(), A.leadingDimension(),
            B.data(), B.leadingDimension());
 #   else

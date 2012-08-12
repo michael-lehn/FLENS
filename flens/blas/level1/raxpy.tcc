@@ -49,8 +49,10 @@ namespace flens { namespace blas {
 
 //-- raxpy
 template <typename ALPHA, typename VX, typename VY>
-void
-raxpy(const ALPHA &alpha, const DenseVector<VX> &x, DenseVector<VY> &y)
+typename RestrictTo<IsDenseVector<VX>::value
+                 && IsDenseVector<VY>::value,
+         void>::Type
+raxpy(const ALPHA &alpha, const VX &x, VY &&y)
 {
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_RAXPY(alpha, x, y);
@@ -59,7 +61,8 @@ raxpy(const ALPHA &alpha, const DenseVector<VX> &x, DenseVector<VY> &y)
 //
 //      So we allow  y += 1/alpha*x  for an empty vector y
 //
-        typedef typename DenseVector<VY>::ElementType  T;
+        typedef typename RemoveRef<VY>::Type   VectorY;
+        typedef typename VectorY::ElementType  T;
         const T  Zero(0);
 
         y.resize(x, Zero);
@@ -82,15 +85,20 @@ raxpy(const ALPHA &alpha, const DenseVector<VX> &x, DenseVector<VY> &y)
 //  B += A/alpha
 //
 template <typename ALPHA, typename MA, typename MB>
-void
-raxpy(Transpose trans,
-      const ALPHA &alpha, const GeMatrix<MA> &A, GeMatrix<MB> &B)
+typename RestrictTo<IsGeMatrix<MA>::value
+                 && IsGeMatrix<MB>::value,
+         void>::Type
+raxpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 {
+    typedef typename RemoveRef<MA>::Type MatrixA;
+    typedef typename RemoveRef<MB>::Type MatrixB;
+
     if (B.numRows()==0 || B.numCols()==0) {
 //
 //      So we allow  B += 1/alpha*A  for an empty matrix B
 //
-        typedef typename GeMatrix<MB>::ElementType  T;
+        typedef typename RemoveRef<MB>::Type   MatrixB;
+        typedef typename MatrixB::ElementType  T;
         const T  Zero(0);
 
         if ((trans==NoTrans) || (trans==Conj)) {
@@ -109,7 +117,7 @@ raxpy(Transpose trans,
 #   endif
 
 
-    trans = (MA::order==MB::order)
+    trans = (A.order()==B.order())
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
 
@@ -126,7 +134,9 @@ raxpy(Transpose trans,
 //  for B += A^T/alpha or B+= A^H/alpha
 //
     if ((trans==Trans || trans==ConjTrans) && DEBUGCLOSURE::identical(A, B)) {
-        typename Result<GeMatrix<MA> >::Type _A = A;
+        typedef typename RemoveRef<MA>::Type  MatrixA;
+
+        typename Result<MatrixA>::Type _A = A;
         FLENS_BLASLOG_TMP_ADD(_A);
 
         axpy(trans, alpha, _A, B);
@@ -140,8 +150,7 @@ raxpy(Transpose trans,
     FLENS_BLASLOG_BEGIN_MRAXPY(trans, alpha, A, B);
 
 #   ifdef HAVE_CXXBLAS_GERAXPY
-    geraxpy(MB::order, trans,
-            B.numRows(), B.numCols(), alpha,
+    geraxpy(B.order(), trans, B.numRows(), B.numCols(), alpha,
             A.data(), A.leadingDimension(),
             B.data(), B.leadingDimension());
 #   else

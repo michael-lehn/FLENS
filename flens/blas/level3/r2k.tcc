@@ -40,14 +40,19 @@ namespace flens { namespace blas {
 
 //-- her2k
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-void
-r2k(Transpose trans,
-    const ALPHA &alpha,
-    const GeMatrix<MA> &A, const GeMatrix<MB> &B,
-    const BETA &beta,
-    HeMatrix<MC> &C)
+typename RestrictTo<IsGeMatrix<MA>::value
+                 && IsGeMatrix<MB>::value
+                 && IsHeMatrix<MC>::value,
+         void>::Type
+r2k(Transpose           trans,
+    const ALPHA         &alpha,
+    const MA            &A,
+    const MB            &B,
+    const BETA          &beta,
+    MC                  &&C)
 {
-    typedef typename GeMatrix<MA>::IndexType IndexType;
+    typedef typename RemoveRef<MC>::Type MatrixC;
+    typedef typename MatrixC::IndexType  IndexType;
 
     IndexType n = (trans==NoTrans) ? A.numRows()
                                    : A.numCols();
@@ -63,7 +68,7 @@ r2k(Transpose trans,
     }
 
 #   ifdef HAVE_CXXBLAS_HER2K
-    cxxblas::her2k(MC::order, C.upLo(), trans,
+    cxxblas::her2k(C.order(), C.upLo(), trans,
                    n, k,
                    alpha,
                    A.data(), A.leadingDimension(),
@@ -77,14 +82,19 @@ r2k(Transpose trans,
 
 //-- syr2k
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-void
-r2k(Transpose trans,
-    const ALPHA &alpha,
-    const GeMatrix<MA> &A, const GeMatrix<MB> &B,
-    const BETA &beta,
-    SyMatrix<MC> &C)
+typename RestrictTo<IsGeMatrix<MA>::value
+                 && IsGeMatrix<MB>::value
+                 && IsSyMatrix<MC>::value,
+         void>::Type
+r2k(Transpose           trans,
+    const ALPHA         &alpha,
+    const MA            &A,
+    const MB            &B,
+    const BETA          &beta,
+    MC                  &&C)
 {
-    typedef typename GeMatrix<MA>::IndexType IndexType;
+    typedef typename RemoveRef<MC>::Type MatrixC;
+    typedef typename MatrixC::IndexType  IndexType;
 
     IndexType n = (trans==NoTrans) ? A.numRows()
                                    : A.numCols();
@@ -100,7 +110,7 @@ r2k(Transpose trans,
     }
 
 #   ifdef HAVE_CXXBLAS_SYR2K
-    cxxblas::syr2k(MC::order, C.upLo(), trans,
+    cxxblas::syr2k(C.order(), C.upLo(), trans,
                    n, k,
                    alpha,
                    A.data(), A.leadingDimension(),

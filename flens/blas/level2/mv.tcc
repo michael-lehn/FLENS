@@ -49,10 +49,12 @@ namespace flens { namespace blas {
 
 //-- gemv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-void
-mv(Transpose transpose,
-   const ALPHA &alpha, const GeMatrix<MA> &A, const DenseVector<VX> &x,
-   const BETA &beta, DenseVector<VY> &y)
+typename RestrictTo<IsGeMatrix<MA>::value
+                 && IsDenseVector<VX>::value
+                 && IsDenseVector<VY>::value,
+         void>::Type
+mv(Transpose transpose, const ALPHA &alpha, const MA &A, const VX &x,
+   const BETA &beta, VY &&y)
 {
     const bool noTrans = (transpose==NoTrans || transpose==Conj);
 
@@ -64,14 +66,17 @@ mv(Transpose transpose,
     }
 #   endif
 
-    typedef typename GeMatrix<MA>::IndexType IndexType;
+    typedef typename RemoveRef<MA>::Type  MatrixA;
+    typedef typename MatrixA::IndexType   IndexType;
     IndexType yLength = noTrans ? A.numRows()
                                 : A.numCols();
 
     ASSERT(beta==BETA(0) || y.length()==yLength || y.length()==0);
 
     if (y.length()!=yLength) {
-        typedef typename DenseVector<VY>::ElementType  T;
+        typedef typename RemoveRef<VY>::Type   VectorY;
+        typedef typename VectorY::ElementType  T;
+
         const T  Zero(0);
         FLENS_BLASLOG_RESIZE_VECTOR(y, yLength);
         y.resize(yLength, y.firstIndex(), Zero);
@@ -85,7 +90,9 @@ mv(Transpose transpose,
 //  If x and y are identical an temporary is needed if we want to use mv
 //
     if (DEBUGCLOSURE::identical(x, y)) {
-        typename Result<DenseVector<VX> >::Type _x;
+        typedef typename RemoveRef<VX>::Type  VectorX;
+
+        typename Result<VectorX>::Type  _x;
         FLENS_BLASLOG_TMP_ADD(_x);
         _x = x;
 
@@ -100,7 +107,7 @@ mv(Transpose transpose,
     FLENS_BLASLOG_BEGIN_GEMV(transpose, alpha, A, x, beta, y);
 
 #   ifdef HAVE_CXXBLAS_GEMV
-    cxxblas::gemv(MA::order,
+    cxxblas::gemv(A.order(),
                   transpose,
                   A.numRows(), A.numCols(),
                   alpha,
@@ -121,8 +128,10 @@ mv(Transpose transpose,
 
 //-- trmv
 template <typename MA, typename VX>
-void
-mv(Transpose trans, const TrMatrix<MA> &A, DenseVector<VX> &x)
+typename RestrictTo<IsTrMatrix<MA>::value
+                 && IsDenseVector<VX>::value,
+         void>::Type
+mv(Transpose trans, const MA &A, VX &&x)
 {
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_TRMV(trans, A, x);
@@ -130,7 +139,9 @@ mv(Transpose trans, const TrMatrix<MA> &A, DenseVector<VX> &x)
     ASSERT(x.length()==A.dim());
 
 #   ifdef HAVE_CXXBLAS_TRMV
-    cxxblas::trmv(MA::order, A.upLo(),
+    typedef typename RemoveRef<MA>::Type   MatrixA;
+
+    cxxblas::trmv(A.order(), A.upLo(),
                   trans, A.diag(),
                   A.dim(),
                   A.data(), A.leadingDimension(),
@@ -148,9 +159,11 @@ mv(Transpose trans, const TrMatrix<MA> &A, DenseVector<VX> &x)
 
 //-- symv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-void
-mv(const ALPHA &alpha, const SyMatrix<MA> &A, const DenseVector<VX> &x,
-   const BETA &beta, DenseVector<VY> &y)
+typename RestrictTo<IsSyMatrix<MA>::value
+                 && IsDenseVector<VX>::value
+                 && IsDenseVector<VY>::value,
+         void>::Type
+mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
 {
     ASSERT(ADDRESS(y)!=ADDRESS(x));
     ASSERT(x.length()==A.dim());
@@ -161,7 +174,9 @@ mv(const ALPHA &alpha, const SyMatrix<MA> &A, const DenseVector<VX> &x,
     }
 
 #   ifdef HAVE_CXXBLAS_SYMV
-    cxxblas::symv(MA::order, A.upLo(),
+    typedef typename RemoveRef<MA>::Type   MatrixA;
+
+    cxxblas::symv(A.order(), A.upLo(),
                   A.dim(),
                   alpha,
                   A.data(), A.leadingDimension(),
@@ -178,9 +193,11 @@ mv(const ALPHA &alpha, const SyMatrix<MA> &A, const DenseVector<VX> &x,
 
 //-- hemv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-void
-mv(const ALPHA &alpha, const HeMatrix<MA> &A, const DenseVector<VX> &x,
-   const BETA &beta, DenseVector<VY> &y)
+typename RestrictTo<IsHeMatrix<MA>::value
+                 && IsDenseVector<VX>::value
+                 && IsDenseVector<VY>::value,
+         void>::Type
+mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
 {
     ASSERT(ADDRESS(y)!=ADDRESS(x));
     ASSERT(x.length()==A.dim());
@@ -191,7 +208,9 @@ mv(const ALPHA &alpha, const HeMatrix<MA> &A, const DenseVector<VX> &x,
     }
 
 #   ifdef HAVE_CXXBLAS_HEMV
-    cxxblas::hemv(MA::order, A.upLo(),
+    typedef typename RemoveRef<MA>::Type   MatrixA;
+
+    cxxblas::hemv(A.order(), A.upLo(),
                   A.dim(),
                   alpha,
                   A.data(), A.leadingDimension(),
@@ -202,63 +221,6 @@ mv(const ALPHA &alpha, const HeMatrix<MA> &A, const DenseVector<VX> &x,
     ASSERT(0);
 #   endif
 }
-
-
-//== forwarding ================================================================
-
-//-- GeneralMatrix - Vector products
-template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-typename RestrictTo<IsGeneralMatrix<MA>::value &&
-                   !IsClosure<MA>::value && !IsClosure<VX>::value &&
-                    IsSame<VY, typename VY::Impl>::value,
-                    void>::Type
-mv(Transpose trans,
-   const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
-{
-    CHECKPOINT_ENTER;
-    mv(trans, alpha, A, x, beta, y);
-    CHECKPOINT_LEAVE;
-}
-
-//-- TriangularMatrix - Vector products
-template <typename MA, typename VX>
-typename RestrictTo<IsTriangularMatrix<MA>::value &&
-                   !IsClosure<MA>::value &&
-                    IsSame<VX, typename VX::Impl>::value,
-                    void>::Type
-mv(Transpose trans,  const MA &A, VX &&x)
-{
-    CHECKPOINT_ENTER;
-    mv(trans, A, x);
-    CHECKPOINT_LEAVE;
-}
-
-//-- Symmetric Matrix - Vector products
-template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-typename RestrictTo<IsSymmetricMatrix<MA>::value &&
-                   !IsClosure<MA>::value && !IsClosure<VX>::value &&
-                    IsSame<VY, typename VY::Impl>::value,
-                    void>::Type
-mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
-{
-    CHECKPOINT_ENTER;
-    mv(alpha, A, x, beta, y);
-    CHECKPOINT_LEAVE;
-}
-
-//-- Hermitian Matrix - Vector products
-template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-typename RestrictTo<IsHermitianMatrix<MA>::value &&
-                   !IsClosure<MA>::value && !IsClosure<VX>::value &&
-                    IsSame<VY, typename VY::Impl>::value,
-                    void>::Type
-mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
-{
-    CHECKPOINT_ENTER;
-    mv(alpha, A, x, beta, y);
-    CHECKPOINT_LEAVE;
-}
-
 
 } } // namespace blas, flens
 

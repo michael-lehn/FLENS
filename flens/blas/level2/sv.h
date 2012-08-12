@@ -40,15 +40,12 @@
 
 namespace flens { namespace blas {
 
-//-- common interface ----------------------------------------------------------
-template <typename MA, typename VX>
-    void
-    sv(Transpose trans, const TriangularMatrix<MA> &A, Vector<VX> &x);
-
 //-- trsv
 template <typename MA, typename VX>
-    void
-    sv(Transpose trans, const TrMatrix<MA> &A, DenseVector<VX> &x);
+    typename RestrictTo<IsTrMatrix<MA>::value
+                     && IsDenseVector<VX>::value,
+             void>::Type
+    sv(Transpose trans, const MA &A, VX &&x);
 
 } } // namespace blas, flens
 

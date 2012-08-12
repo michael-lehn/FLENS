@@ -1,0 +1,98 @@
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]------------------------------------------------------------------------*
+|                                                                                   |
+|  template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>  |
+|      typename RestrictTo<IsGeMatrix<MA>::value                                    |
+|                       && IsGeMatrix<MB>::value                                    |
+|                       && IsGeMatrix<MC>::value,                                   |
+|               void>::Type                                                         |
+|      mm(Transpose        transA,                                                  |
+|         Transpose        transB,                                                  |
+|         const ALPHA      &alpha,                                                  |
+|         const MA         &A,                                                      |
+|         const MB         &B,                                                      |
+|         const BETA       &beta,                                                   |
+|         MC               &&C);                                                    |
+|                                                                                   |
+*-----------------------------------------------------------------------------------*
+                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmm#$@N@cxxblas@E@Trans]
+                            [pose#S0_#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#            ]
+
+    Defined in namespace `flens::blas`.
+    Function `mm` with 5 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename MA, typename MB>                      |
+|      typename RestrictTo<IsTrMatrix<MA>::value                            |
+|                       && IsGeMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      mm(Side             side,                                            |
+|         Transpose        transA,                                          |
+|         const ALPHA      &alpha,                                          |
+|         const MA         &A,                                              |
+|         MB               &&B);                                            |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>3#T#T#Tmm#$@N@cxxblas@E@Side]
+                         [#$@N@cxxblas@E@Transpose#&1t0.0#&1t0.1#&t0.2#     ]
+
+    Defined in namespace `flens::blas`.
+    Function `mm` with 3 template parameters.
+
+
+
+*--[CODEREF]------------------------------------------------------------------------*
+|                                                                                   |
+|  template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>  |
+|      typename RestrictTo<IsSyMatrix<MA>::value                                    |
+|                       && IsGeMatrix<MB>::value                                    |
+|                       && IsGeMatrix<MC>::value,                                   |
+|               void>::Type                                                         |
+|      mm(Side             side,                                                    |
+|         const ALPHA      &alpha,                                                  |
+|         const MA         &A,                                                      |
+|         const MB         &B,                                                      |
+|         const BETA       &beta,                                                   |
+|         MC               &&C);                                                    |
+|                                                                                   |
+*-----------------------------------------------------------------------------------*
+                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmm#$@N@cxxblas@E@Side#]
+                            [&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#                     ]
+
+    Defined in namespace `flens::blas`.
+    Function `mm` with 5 template parameters.
+
+
+
+*--[CODEREF]------------------------------------------------------------------------*
+|                                                                                   |
+|  template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>  |
+|      typename RestrictTo<IsHeMatrix<MA>::value                                    |
+|                       && IsGeMatrix<MB>::value                                    |
+|                       && IsGeMatrix<MC>::value,                                   |
+|               void>::Type                                                         |
+|      mm(Side             side,                                                    |
+|         const ALPHA      &alpha,                                                  |
+|         const MA         &A,                                                      |
+|         const MB         &B,                                                      |
+|         const BETA       &beta,                                                   |
+|         MC               &&C);                                                    |
+|                                                                                   |
+*-----------------------------------------------------------------------------------*
+                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmm#$@N@cxxblas@E@Side#]
+                            [&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4##variant             ]
+
+    Defined in namespace `flens::blas`.
+    Function `mm` with 5 template parameters.
+
+
+

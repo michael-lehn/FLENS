@@ -1,5 +1,5 @@
 ==================
-Level 1 BLAS: asum                                                     [TOC]
+BLAS Level 1: asum                                                     [TOC]
 ==================
 
 *asum* (defined in namespace `flens::blas`) computes the sum of the absolute
@@ -19,7 +19,6 @@ Two variants are provided:
 
 Subroutine Variant
 ==================
-
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
 |  template <typename X, typename T>                                        |
@@ -39,7 +38,6 @@ Subroutine Variant
 
 Function Variant
 ================
-
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
 |  template <typename X>                                                    |
@@ -56,7 +54,3 @@ Function Variant
     *Return value:*
 
     The computed sum of absolute values of elements of vector $x$.
-
-
-
-
