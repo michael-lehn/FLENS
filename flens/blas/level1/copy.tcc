@@ -111,7 +111,7 @@ copy(Transpose trans, const MA &A, MB &&B)
 //          temporaries are allowed: check if this requires a temporary
 //
             if (A.numRows()!=A.numCols()) {
-                typedef typename RemoveRef<MA>::Type   MatrixA
+                typedef typename RemoveRef<MA>::Type   MatrixA;
 
                 typename Result<MatrixA>::Type _A = A;
                 FLENS_BLASLOG_TMP_ADD(_A);

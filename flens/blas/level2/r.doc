@@ -41,3 +41,28 @@
 
 
 
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename VX, typename VY, typename MA>         |
+|      typename RestrictTo<IsDenseVector<VX>::value                         |
+|                       && IsDenseVector<VY>::value                         |
+|                       && IsGeMatrix<MA>::value,                           |
+|               void>::Type                                                 |
+|      r(const ALPHA &alpha, const VX &x, const VY &y, MA &&A);             |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>4#T#T#T#Tr#&1t0.0#&1t0.1#&1t]
+                         [0.2#&t0.3#                                        ]
+
+    Defined in namespace `flens::blas`.
+    Function `r` with 4 template parameters.
+
+
+

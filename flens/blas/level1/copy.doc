@@ -98,8 +98,8 @@ SyMatrix
 |      copy(const MA &A, MB &&B);                                           |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#&1t0.0#&t0.1##vari]
-                         [ant                                               ]
+                         [M#c:@N@flens@N@blas@FT@>2#T#Tcopy#&1t0.0#&t0.1##va]
+                         [riant#variant                                     ]
 
     A        `(input) real or complex valued SyMatrix`                         +
              Symmetric matrix $A$.
@@ -146,8 +146,8 @@ SyMatrix to GeMatrix
 |      copy(const MA &A, MB &&B);                                           |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#&1t0.0#&t0.1##vari]
-                         [ant#variant                                       ]
+                         [M#c:@N@flens@N@blas@FT@>2#T#Tcopy#&1t0.0#&t0.1##va]
+                         [riant                                             ]
 
     A        `(input) real or complex valued SyMatrix`                         +
              Symmetric matrix $A$.

@@ -70,7 +70,7 @@ template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
                      && IsDenseVector<VX>::value
                      && IsDenseVector<VY>::value,
              void>::Type
-    mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &y);
+    mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y);
 
 
 //== HermitianMatrix - Vector products =========================================
@@ -81,7 +81,7 @@ template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
                      && IsDenseVector<VX>::value
                      && IsDenseVector<VY>::value,
              void>::Type
-    mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &y);
+    mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y);
 
 } } // namespace blas, flens
 

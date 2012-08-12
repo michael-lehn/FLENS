@@ -18,8 +18,7 @@ Vector Variant
 |      rscal(const ALPHA &alpha, VY &&y);                                   |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@flens@N@blas@FT@>2#T#Trscal#&1t0.0#&t0.1##var]
-                         [iant                                              ]
+                           [M#c:@N@flens@N@blas@FT@>2#T#Trscal#&1t0.0#&t0.1#]
 
     alpha    `(input) real scalar`                                             +
              Reciprocal scaling factor for the values in $y$.
@@ -37,7 +36,8 @@ Matrix Variant (Level 1 Extension)
 |      rscal(const ALPHA &alpha, MB &&B);                                   |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                             [c:@N@flens@N@blas@FT@>2#T#Trscal#&1t0.0#&t0.1#]
+                         [M#c:@N@flens@N@blas@FT@>2#T#Trscal#&1t0.0#&t0.1##v]
+                         [ariant                                            ]
 
     alpha    `(input) real scalar`                                             +
              Reciprocal scaling factor for the values in $y$.
