@@ -33,6 +33,8 @@
 #ifndef FLENS_BLAS_OPERATORS_OPCONJTRANS_TCC
 #define FLENS_BLAS_OPERATORS_OPCONJTRANS_TCC 1
 
+#include <flens/blas/operators/opconjtrans.h>
+
 namespace flens {
 
 #ifndef GCC_HACK

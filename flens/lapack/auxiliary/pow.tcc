@@ -34,6 +34,7 @@
 #define FLENS_LAPACK_AUXILIARY_POW_TCC 1
 
 #include <cmath>
+#include <flens/lapack/auxiliary/pow.h>
 
 namespace flens {
 

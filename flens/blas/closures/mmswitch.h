@@ -34,6 +34,7 @@
 #define FLENS_BLAS_CLOSURES_MMSWITCH_H 1
 
 #include <flens/auxiliary/auxiliary.h>
+#include <flens/blas/operators/opmult.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/scalartypes/scalartypes.h>
 #include <flens/typedefs.h>

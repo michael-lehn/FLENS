@@ -45,6 +45,9 @@
 #define FLENS_LAPACK_IMPL_LACN2_H 1
 
 #include <cmath>
+#include <flens/lapack/typedefs.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace lapack {
 

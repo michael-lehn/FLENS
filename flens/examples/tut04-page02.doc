@@ -8,7 +8,7 @@ system of linear equations.
 Consider the system of linear equations $Ax=b$.  We store the coefficient matrix
 $A$ and the right-hand side $b$ in a single matrix $Ab = (A,b)$.  We then
 compute the $QR$ factorization of $Ab$ with __lapack::qrf__ such that
-$QR = (A,b).$   Hence, we have $R = (Q^T A, Q^T b)$ where $R$ is an upper
+$QR = (A,b).$  Hence, we have $R = (Q^T A, Q^T b)$ where $R$ is an upper
 trapezoidal matrix and $Q^T A$ upper triangular.  We finally use the triangular
 solver __blas::sm__ to obtain the solution of $(Q^T A) x = (Q^T b)$.
 

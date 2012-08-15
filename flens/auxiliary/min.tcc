@@ -34,6 +34,8 @@
 #define FLENS_AUXILIARY_MIN_TCC 1
 
 #include <algorithm>
+#include <flens/auxiliary/min.h>
+#include <flens/auxiliary/restrictto.h>
 
 namespace flens {
 

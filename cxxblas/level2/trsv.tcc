@@ -33,6 +33,8 @@
 #ifndef CXXBLAS_LEVEL2_TRSV_TCC
 #define CXXBLAS_LEVEL2_TRSV_TCC 1
 
+#include <cxxblas/cxxblas.h>
+
 namespace cxxblas {
 
 template <typename IndexType, typename MA, typename VX>

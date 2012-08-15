@@ -33,15 +33,16 @@
 #ifndef FLENS_MATRIXTYPES_TRIANGULAR_IMPL_TRMATRIX_H
 #define FLENS_MATRIXTYPES_TRIANGULAR_IMPL_TRMATRIX_H 1
 
-#include <cxxblas/typedefs.h>
-#include <flens/auxiliary/iscomplex.h>
-#include <flens/auxiliary/range.h>
-#include <flens/auxiliary/underscore.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/matrixtypes/triangular/triangularmatrix.h>
+#include <flens/typedefs.h>
 
 namespace flens {
 
 // forward declarations
+template <typename A>
+    class DenseVector;
+
 template <typename FS>
     class GeMatrix;
 

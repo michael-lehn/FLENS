@@ -33,7 +33,7 @@
 #ifndef CXXBLAS_LEVEL1_NRM2_TCC
 #define CXXBLAS_LEVEL1_NRM2_TCC 1
 
-#include <cxxblas/auxiliary/complex.h>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 

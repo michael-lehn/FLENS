@@ -33,6 +33,7 @@
 #ifndef FLENS_BLAS_CLOSURES_DEBUGCLOSURE_H
 #define FLENS_BLAS_CLOSURES_DEBUGCLOSURE_H 1
 
+#include <flens/vectortypes/impl/densevector.h>
 #include <flens/storage/fullstorage/hasfullstorage.h>
 
 namespace flens {
@@ -50,6 +51,7 @@ namespace DEBUGCLOSURE {
                  bool>::Type
         identical(const X &x, const Y &y);
 
+    // TODO: Use a 'HasArrayStorage' instead of DenseVector
     template <typename VX, typename VY>
         bool
         identical(const DenseVector<VX> &x, const DenseVector<VY> &y);

@@ -33,6 +33,8 @@
 #ifndef FLENS_STORAGE_FULLSTORAGE_FULLSTORAGEVIEW_TCC
 #define FLENS_STORAGE_FULLSTORAGE_FULLSTORAGEVIEW_TCC 1
 
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/storage/fullstorage/fullstorageview.h>
 #include <flens/storage/fullstorage/trapezoidalfill.h>
 #include <flens/typedefs.h>
 

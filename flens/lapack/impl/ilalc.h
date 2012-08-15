@@ -46,7 +46,8 @@
 #define FLENS_LAPACK_IMPL_ILALC_H 1
 
 #include <flens/blas/blas.h>
-#include <flens/lapack/lapack.h>
+#include <flens/lapack/typedefs.h>
+#include <flens/matrixtypes/matrixtypes.h>
 
 namespace flens { namespace lapack {
 

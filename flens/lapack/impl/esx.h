@@ -49,6 +49,7 @@
 #define FLENS_LAPACK_IMPL_ESX_H 1
 
 #include <cmath>
+#include <flens/lapack/typedefs.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 

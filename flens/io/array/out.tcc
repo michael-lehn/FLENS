@@ -34,6 +34,7 @@
 #define FLENS_IO_ARRAY_OUT_TCC 1
 
 #include <flens/auxiliary/iscomplex.h>
+#include <flens/io/array/out.h>
 
 namespace flens {
 

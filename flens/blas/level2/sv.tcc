@@ -33,6 +33,8 @@
 #ifndef FLENS_BLAS_LEVEL2_SV_TCC
 #define FLENS_BLAS_LEVEL2_SV_TCC
 
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
 #include <flens/typedefs.h>
 
 namespace flens { namespace blas {

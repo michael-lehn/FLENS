@@ -45,6 +45,7 @@
 #define FLENS_LAPACK_IMPL_LARFT_TCC 1
 
 #include <flens/blas/blas.h>
+#include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
 

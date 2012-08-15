@@ -36,6 +36,7 @@
 #include <flens/blas/blas.h>
 #include <flens/typedefs.h>
 
+#include <flens/matrixtypes/general/impl/gematrix.h>
 #include <flens/matrixtypes/general/impl/ge/constelementclosure.tcc>
 #include <flens/matrixtypes/general/impl/ge/elementclosure.tcc>
 #include <flens/matrixtypes/general/impl/ge/initializer.tcc>

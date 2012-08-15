@@ -33,6 +33,8 @@
 #ifndef FLENS_VECTORTYPES_IMPL_DV_CONSTELEMENTCLOSURE_TCC
 #define FLENS_VECTORTYPES_IMPL_DV_CONSTELEMENTCLOSURE_TCC 1
 
+#include <flens/vectortypes/impl/dv/constelementclosure.h>
+
 namespace flens { namespace densevector {
 
 template <typename V, typename I>

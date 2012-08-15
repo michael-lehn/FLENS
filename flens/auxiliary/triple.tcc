@@ -34,6 +34,7 @@
 #define FLENS_AUXILIARY_TRIPLE_TCC 1
 
 #include <iostream>
+#include <flens/auxiliary/triple.h>
 
 namespace flens {
 

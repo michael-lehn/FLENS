@@ -37,6 +37,7 @@
 #include <flens/blas/operators/operators.h>
 #include <flens/debug/auxiliary/operation.h>
 #include <flens/debug/auxiliary/typeid.h>
+#include <flens/debug/auxiliary/verbalizeclosure.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 

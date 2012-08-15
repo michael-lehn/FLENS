@@ -35,6 +35,7 @@
 
 #include <complex>
 #include <cmath>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 

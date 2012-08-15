@@ -40,7 +40,8 @@ namespace flens {
 struct _VectorClosureChecker
 {
 
-    struct Two {
+    struct Two
+    {
         char x;
         char y;
     };

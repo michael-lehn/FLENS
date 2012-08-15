@@ -33,6 +33,8 @@
 #ifndef CXXBLAS_LEVEL3_HER2K_TCC
 #define CXXBLAS_LEVEL3_HER2K_TCC 1
 
+#include <cxxblas/cxxblas.h>
+
 namespace cxxblas {
 
 template <typename IndexType, typename ALPHA, typename MA, typename MB,

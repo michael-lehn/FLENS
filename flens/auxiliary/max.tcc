@@ -34,6 +34,8 @@
 #define FLENS_AUXILIARY_MAX_TCC 1
 
 #include <algorithm>
+#include <flens/auxiliary/max.h>
+#include <flens/auxiliary/restrictto.h>
 
 namespace flens {
 

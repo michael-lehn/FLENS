@@ -35,6 +35,7 @@
 
 #include <cassert>
 #include <cxxblas/level1/copy.h>
+#include <flens/storage/array/array.h>
 #include <flens/storage/array/arrayview.h>
 #include <flens/storage/array/constarrayview.h>
 

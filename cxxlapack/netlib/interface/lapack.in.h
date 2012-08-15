@@ -1,3 +1,5 @@
+#include <cxxlapack/netlib/netlib.h>
+
 #ifndef INTEGER
 #    ifndef MKL_ILP64
 #        define INTEGER int

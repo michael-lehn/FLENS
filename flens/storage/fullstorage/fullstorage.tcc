@@ -34,6 +34,7 @@
 #define FLENS_STORAGE_FULLSTORAGE_FULLSTORAGE_TCC 1
 
 #include <cxxblas/level1extensions/gecopy.h>
+#include <flens/storage/fullstorage/fullstorage.h>
 #include <flens/storage/fullstorage/trapezoidalfill.h>
 #include <flens/typedefs.h>
 

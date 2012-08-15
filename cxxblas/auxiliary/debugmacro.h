@@ -33,8 +33,18 @@
 #ifndef CXXBLAS_AUXILIARY_DEBUGMACRO_H
 #define CXXBLAS_AUXILIARY_DEBUGMACRO_H 1
 
+#include <iostream>
+
+//-- CXXBLAS_DEBUG_OUT ---------------------------------------------------------
 #ifndef CXXBLAS_DEBUG_OUT
-#       define CXXBLAS_DEBUG_OUT(msg)
+#define CXXBLAS_DEBUG_OUT(msg)
 #endif //CXXBLAS_DEBUG_OUT
+
+#include <cassert>
+
+//-- ASSERT -------------------------------------------------------------------
+#ifndef ASSERT
+#define ASSERT(x) assert(x)
+#endif
 
 #endif // CXXBLAS_AUXILIARY_DEBUGMACRO_H

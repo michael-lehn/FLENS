@@ -35,6 +35,7 @@
 
 #include <flens/auxiliary/iscomplex.h>
 #include <cxxblas/typedefs.h>
+#include <flens/io/fullstorage/out.h>
 
 namespace flens {
 

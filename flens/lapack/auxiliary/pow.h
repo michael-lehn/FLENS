@@ -33,6 +33,8 @@
 #ifndef FLENS_LAPACK_AUXILIARY_POW_H
 #define FLENS_LAPACK_AUXILIARY_POW_H 1
 
+#include <flens/auxiliary/auxiliary.h>
+
 namespace flens {
 
 template <typename T>

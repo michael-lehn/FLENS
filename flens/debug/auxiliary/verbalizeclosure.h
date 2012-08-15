@@ -34,7 +34,8 @@
 #define FLENS_DEBUG_AUXILIARY_VERBALIZECLOSURE_H 1
 
 #include <string>
-#include <flens/auxiliary/restrictto.h>
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/debug/auxiliary/typeid.h>
 #include <flens/debug/auxiliary/variablepool.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>

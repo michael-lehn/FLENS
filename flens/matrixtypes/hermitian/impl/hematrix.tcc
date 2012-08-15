@@ -34,6 +34,7 @@
 #define FLENS_MATRIXTYPES_HERMITIAN_IMPL_HEMATRIX_TCC 1
 
 #include <flens/blas/level1/copy.h>
+#include <flens/matrixtypes/hermitian/impl/hematrix.h>
 #include <flens/typedefs.h>
 
 namespace flens {

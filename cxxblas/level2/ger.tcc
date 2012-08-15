@@ -34,7 +34,7 @@
 #define CXXBLAS_LEVEL2_GER_TCC 1
 
 #include <complex>
-#include <cxxblas/level1/level1.h>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 

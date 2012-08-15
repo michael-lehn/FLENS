@@ -54,20 +54,19 @@ namespace flens { namespace lapack {
 //  Real variant
 //
 template <typename MA, typename MB, typename VJPIV, typename RCOND,
-          typename RANK, typename VWORK>
+          typename VWORK>
     typename RestrictTo<IsRealGeMatrix<MA>::value
                      && IsRealGeMatrix<MB>::value
                      && IsIntegerDenseVector<VJPIV>::value
                      && IsReal<RCOND>::value
-                     && IsInteger<RANK>::value
                      && IsRealDenseVector<VWORK>::value,
-             void>::Type
+             typename RemoveRef<MA>::Type::IndexType>::Type
     lsy(MA           &&A,
         MB           &&B,
         VJPIV        &&jPiv,
         RCOND        rCond,
-        RANK         &rank,
         VWORK        &&work);
+
 
 
 #ifdef USE_CXXLAPACK

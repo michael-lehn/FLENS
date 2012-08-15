@@ -33,7 +33,9 @@
 #ifndef CXXLAPACK_INTERFACE_TZRZF_TCC
 #define CXXLAPACK_INTERFACE_TZRZF_TCC 1
 
-#include <complex>
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
+#include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
 
