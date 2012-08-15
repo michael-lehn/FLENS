@@ -46,6 +46,8 @@ lag2c(IndexType                   m,
       std::complex<float>         *Sa,
       IndexType                   ldSa)
 {
+    CXXLAPACK_DEBUG_OUT("zlag2c");
+    
     IndexType info;
     LAPACK_IMPL(zlag2c)(&m,
                         &n,

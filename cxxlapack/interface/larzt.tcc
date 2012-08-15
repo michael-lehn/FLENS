@@ -43,12 +43,40 @@ larzt(char            direct,
       char            storeV,
       IndexType       n,
       IndexType       k,
+      float           *V,
+      const IndexType ldV,
+      const float     *tau,
+      float           *T,
+      const IndexType ldT)
+{
+    CXXLAPACK_DEBUG_OUT("slarzt");
+  
+    LAPACK_IMPL(slarzt)(&direct,
+                        &storeV,
+                        &n,
+                        &k,
+                        V,
+                        &ldV,
+                        tau,
+                        T,
+                        &ldT);
+}
+
+
+template <typename IndexType>
+void
+larzt(char            direct,
+      char            storeV,
+      IndexType       n,
+      IndexType       k,
       double          *V,
       const IndexType ldV,
       const double    *tau,
       double          *T,
       const IndexType ldT)
 {
+    CXXLAPACK_DEBUG_OUT("dlarzt");
+  
     LAPACK_IMPL(dlarzt)(&direct,
                         &storeV,
                         &n,
@@ -66,12 +94,39 @@ larzt(char                        direct,
       char                        storeV,
       IndexType                   n,
       IndexType                   k,
+      std::complex<float >        *V,
+      IndexType                   ldV,
+      const std::complex<float >  *tau,
+      std::complex<float >        *T,
+      IndexType                   ldT)
+{
+    CXXLAPACK_DEBUG_OUT("clarzt");
+  
+    LAPACK_IMPL(clarzt)(&direct,
+                        &storeV,
+                        &n,
+                        &k,
+                        reinterpret_cast<float  *>(V),
+                        &ldV,
+                        reinterpret_cast<const float  *>(tau),
+                        reinterpret_cast<float  *>(T),
+                        &ldT);
+}
+
+template <typename IndexType>
+void
+larzt(char                        direct,
+      char                        storeV,
+      IndexType                   n,
+      IndexType                   k,
       std::complex<double>        *V,
       IndexType                   ldV,
       const std::complex<double>  *tau,
       std::complex<double>        *T,
       IndexType                   ldT)
 {
+    CXXLAPACK_DEBUG_OUT("zlarzt");
+  
     LAPACK_IMPL(zlarzt)(&direct,
                         &storeV,
                         &n,

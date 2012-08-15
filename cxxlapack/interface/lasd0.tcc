@@ -41,6 +41,44 @@ template <typename IndexType>
 IndexType
 lasd0(IndexType             n,
       IndexType             sqre,
+      float                 *d,
+      const float           *e,
+      float                 *U,
+      IndexType             ldU,
+      float                 *Vt,
+      IndexType             ldVt,
+      IndexType             smlsiz,
+      IndexType             *iWork,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("slasd0");
+    
+    IndexType info;
+    LAPACK_IMPL(slasd0)(&n,
+                        &sqre,
+                        d,
+                        e,
+                        U,
+                        &ldU,
+                        Vt,
+                        &ldVt,
+                        &smlsiz,
+                        iWork,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+lasd0(IndexType             n,
+      IndexType             sqre,
       double                *d,
       const double          *e,
       double                *U,
@@ -51,6 +89,8 @@ lasd0(IndexType             n,
       IndexType             *iWork,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dlasd0");
+    
     IndexType info;
     LAPACK_IMPL(dlasd0)(&n,
                         &sqre,

@@ -41,6 +41,40 @@ template <typename IndexType>
 IndexType
 sytrd(char                  uplo,
       IndexType             n,
+      float                 *A,
+      IndexType             ldA,
+      float                 *d,
+      float                 *e,
+      float                 *tau,
+      float                 *work,
+      IndexType             lWork)
+{
+    CXXLAPACK_DEBUG_OUT("ssytrd");
+ 
+    IndexType info;
+    LAPACK_IMPL(ssytrd)(&uplo,
+                        &n,
+                        A,
+                        &ldA,
+                        d,
+                        e,
+                        tau,
+                        work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+sytrd(char                  uplo,
+      IndexType             n,
       double                *A,
       IndexType             ldA,
       double                *d,
@@ -49,6 +83,8 @@ sytrd(char                  uplo,
       double                *work,
       IndexType             lWork)
 {
+    CXXLAPACK_DEBUG_OUT("dsytrd");
+ 
     IndexType info;
     LAPACK_IMPL(dsytrd)(&uplo,
                         &n,

@@ -46,6 +46,8 @@ lag2s(IndexType             m,
       float                 *SA,
       IndexType             ldSA)
 {
+    CXXLAPACK_DEBUG_OUT("dlag2s");
+    
     IndexType info;
     LAPACK_IMPL(dlag2s)(&m,
                         &n,

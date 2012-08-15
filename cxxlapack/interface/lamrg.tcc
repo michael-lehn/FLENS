@@ -41,11 +41,32 @@ template <typename IndexType>
 void
 lamrg(IndexType             n1,
       IndexType             n2,
+      const float           *A,
+      IndexType             dtrd1,
+      IndexType             dtrd2,
+      IndexType             *index)
+{
+    CXXLAPACK_DEBUG_OUT("slamrg");
+    
+    LAPACK_IMPL(slamrg)(&n1,
+                        &n2,
+                        A,
+                        &dtrd1,
+                        &dtrd2,
+                        index);
+}
+
+template <typename IndexType>
+void
+lamrg(IndexType             n1,
+      IndexType             n2,
       const double          *A,
       IndexType             dtrd1,
       IndexType             dtrd2,
       IndexType             *index)
 {
+    CXXLAPACK_DEBUG_OUT("dlamrg");
+    
     LAPACK_IMPL(dlamrg)(&n1,
                         &n2,
                         A,

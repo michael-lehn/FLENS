@@ -41,6 +41,41 @@ template <typename IndexType>
 IndexType
 trexc(char          compQ,
       IndexType     n,
+      float         *T,
+      IndexType     ldT,
+      float         *Q,
+      IndexType     ldQ,
+      IndexType     &iFirst,
+      IndexType     &iLast,
+      float         *work)
+{
+    CXXLAPACK_DEBUG_OUT("strexc");
+ 
+    IndexType info;
+    LAPACK_IMPL(strexc)(&compQ,
+                        &n,
+                        T,
+                        &ldT,
+                        Q,
+                        &ldQ,
+                        &iFirst,
+                        &iLast,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+trexc(char          compQ,
+      IndexType     n,
       double        *T,
       IndexType     ldT,
       double        *Q,
@@ -49,6 +84,8 @@ trexc(char          compQ,
       IndexType     &iLast,
       double        *work)
 {
+    CXXLAPACK_DEBUG_OUT("dtrexc");
+ 
     IndexType info;
     LAPACK_IMPL(dtrexc)(&compQ,
                         &n,
@@ -73,6 +110,38 @@ template <typename IndexType>
 IndexType
 trexc(char                  compQ,
       IndexType             n,
+      std::complex<float >  *T,
+      IndexType             ldT,
+      std::complex<float >  *Q,
+      IndexType             ldQ,
+      IndexType             iFirst,
+      IndexType             iLast)
+{
+    CXXLAPACK_DEBUG_OUT("ctrexc");
+ 
+    IndexType info;
+    LAPACK_IMPL(ctrexc)(&compQ,
+                        &n,
+                        reinterpret_cast<float  *>(T),
+                        &ldT,
+                        reinterpret_cast<float  *>(Q),
+                        &ldQ,
+                        &iFirst,
+                        &iLast,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+trexc(char                  compQ,
+      IndexType             n,
       std::complex<double>  *T,
       IndexType             ldT,
       std::complex<double>  *Q,
@@ -80,6 +149,8 @@ trexc(char                  compQ,
       IndexType             iFirst,
       IndexType             iLast)
 {
+    CXXLAPACK_DEBUG_OUT("ztrexc");
+ 
     IndexType info;
     LAPACK_IMPL(ztrexc)(&compQ,
                         &n,

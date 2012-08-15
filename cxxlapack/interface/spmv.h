@@ -36,18 +36,30 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
 template <typename IndexType>
     void
     spmv (char                       uplo,
-      IndexType                  n,
-      std::complex<double>       alpha,
-      const std::complex<double> *Ap,
-      const std::complex<double> *x,
-      IndexType                  incx,
-      const std::complex<double> beta,
-      std::complex<double>       *y,
-      IndexType                  incy);
+          IndexType                  n,
+          std::complex<float >       alpha,
+          const std::complex<float > *Ap,
+          const std::complex<float > *x,
+          IndexType                  incx,
+          const std::complex<float > beta,
+          std::complex<float >       *y,
+          IndexType                  incy);
+    
+template <typename IndexType>
+    void
+    spmv (char                       uplo,
+          IndexType                  n,
+          std::complex<double>       alpha,
+          const std::complex<double> *Ap,
+          const std::complex<double> *x,
+          IndexType                  incx,
+          const std::complex<double> beta,
+          std::complex<double>       *y,
+          IndexType                  incy);
 
 } // namespace cxxlapack
 

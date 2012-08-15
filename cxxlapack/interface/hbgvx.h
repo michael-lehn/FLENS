@@ -36,7 +36,34 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    hbgvx(char                  jobz,
+          char                  range,
+          IndexType             n,
+          IndexType             ka,
+          IndexType             kb,
+          std::complex<float >  *Ab,
+          IndexType             ldAb,
+          std::complex<float >  *Bb,
+          IndexType             ldBb,
+          std::complex<float >  *Q,
+          IndexType             ldQ,
+          float                 vl,
+          float                 vu,
+          IndexType             il,
+          IndexType             iu,
+          float                 abstol,
+          IndexType             &m,
+          float                 *w,
+          std::complex<float >  *Z,
+          IndexType             ldZ,
+          std::complex<float >  *work,
+          float                 *rWork,
+          IndexType             *iWork,
+          IndexType             *ifail);
+    
 template <typename IndexType>
     IndexType
     hbgvx(char                  jobz,

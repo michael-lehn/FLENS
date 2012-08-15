@@ -37,6 +37,43 @@
 
 namespace cxxlapack {
 
+template <typename IndexType>
+IndexType
+hpgv (IndexType             itype,
+      char                  jobz,
+      char                  uplo,
+      IndexType             n,
+      std::complex<float >  *Ap,
+      std::complex<float >  *Bp,
+      float                 *w,
+      std::complex<float >  *Z,
+      IndexType             ldZ,
+      std::complex<float >  *work,
+      float                 *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("chpgv");
+    
+    IndexType info;
+    LAPACK_IMPL(chpgv)(&itype,
+                       &jobz,
+                       &uplo,
+                       &n,
+                       reinterpret_cast<float  *>(Ap),
+                       reinterpret_cast<float  *>(Bp),
+                       w,
+                       reinterpret_cast<float  *>(Z),
+                       &ldZ,
+                       reinterpret_cast<float  *>(work),
+                       rWork,
+                       &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
 
 template <typename IndexType>
 IndexType
@@ -52,6 +89,8 @@ hpgv (IndexType             itype,
       std::complex<double>  *work,
       double                *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zhpgv");
+    
     IndexType info;
     LAPACK_IMPL(zhpgv)(&itype,
                        &jobz,

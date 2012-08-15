@@ -41,6 +41,36 @@ template <typename IndexType>
 void
 tzrzf(IndexType    m,
       IndexType    n,
+      float        *A,
+      IndexType    ldA,
+      float        *tau,
+      float        *work,
+      IndexType    lWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("stzrzf");
+    LAPACK_IMPL(stzrzf)(&m,
+                        &n,
+                        A,
+                        &ldA,
+                        tau,
+                        work,
+                        &lWork,
+                        &info);
+
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+}
+
+
+template <typename IndexType>
+void
+tzrzf(IndexType    m,
+      IndexType    n,
       double       *A,
       IndexType    ldA,
       double       *tau,
@@ -48,13 +78,42 @@ tzrzf(IndexType    m,
       IndexType    lWork)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("dtzrzf");
+    CXXLAPACK_DEBUG_OUT("dtzrzf");
     LAPACK_IMPL(dtzrzf)(&m,
                         &n,
                         A,
                         &ldA,
                         tau,
                         work,
+                        &lWork,
+                        &info);
+
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+}
+
+template <typename IndexType>
+void
+tzrzf(IndexType             m,
+      IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      std::complex<float >  *tau,
+      std::complex<float >  *work,
+      IndexType             lWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("ctzrzf");
+    LAPACK_IMPL(ctzrzf)(&m,
+                        &n,
+                        reinterpret_cast<float *>(A),
+                        &ldA,
+                        reinterpret_cast<float *>(tau),
+                        reinterpret_cast<float *>(work),
                         &lWork,
                         &info);
 
@@ -77,8 +136,8 @@ tzrzf(IndexType             m,
       IndexType             lWork)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("ztzrzf");
-    LAPACK_IMPL(dtzrzf)(&m,
+    CXXLAPACK_DEBUG_OUT("ztzrzf");
+    LAPACK_IMPL(ztzrzf)(&m,
                         &n,
                         reinterpret_cast<double *>(A),
                         &ldA,

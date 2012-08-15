@@ -42,13 +42,38 @@ template <typename IndexType>
     laqsb(char                  uplo,
           IndexType             n,
           IndexType             kd,
+          float                 *Ab,
+          IndexType             ldAb,
+          const float           *s,
+          float                 scond,
+          float                 amax,
+          char                  &equed);
+
+    
+template <typename IndexType>
+    IndexType
+    laqsb(char                  uplo,
+          IndexType             n,
+          IndexType             kd,
           double                *Ab,
           IndexType             ldAb,
           const double          *s,
           double                scond,
           double                amax,
           char                  &equed);
-
+    
+template <typename IndexType>
+    IndexType
+    laqsb(char                  uplo,
+          IndexType             n,
+          IndexType             kd,
+          std::complex<float >  *Ab,
+          IndexType             ldAb,
+          const float           *s,
+          float                 scond,
+          float                 amax,
+          char                  &equed);
+    
 template <typename IndexType>
     IndexType
     laqsb(char                  uplo,

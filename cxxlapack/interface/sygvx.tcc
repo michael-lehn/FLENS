@@ -44,6 +44,66 @@ sygvx(IndexType             itype,
       char                  range,
       char                  uplo,
       IndexType             n,
+      float                 *A,
+      IndexType             ldA,
+      float                 *B,
+      IndexType             ldB,
+      float                 vl,
+      float                 vu,
+      IndexType             il,
+      IndexType             iu,
+      float                 abstol,
+      IndexType             &m,
+      float                 *w,
+      float                 *Z,
+      IndexType             ldZ,
+      float                 *work,
+      IndexType             lWork,
+      IndexType             *iWork,
+      IndexType             *ifail)
+{
+    CXXLAPACK_DEBUG_OUT("ssygvx");
+ 
+    IndexType info;
+    LAPACK_IMPL(ssygvx)(&itype,
+                        &jobz,
+                        &range,
+                        &uplo,
+                        &n,
+                        A,
+                        &ldA,
+                        B,
+                        &ldB,
+                        &vl,
+                        &vu,
+                        &il,
+                        &iu,
+                        &abstol,
+                        &m,
+                        w,
+                        Z,
+                        &ldZ,
+                        work,
+                        &lWork,
+                        iWork,
+                        ifail,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+sygvx(IndexType             itype,
+      char                  jobz,
+      char                  range,
+      char                  uplo,
+      IndexType             n,
       double                *A,
       IndexType             ldA,
       double                *B,
@@ -62,6 +122,8 @@ sygvx(IndexType             itype,
       IndexType             *iWork,
       IndexType             *ifail)
 {
+    CXXLAPACK_DEBUG_OUT("dsygvx");
+ 
     IndexType info;
     LAPACK_IMPL(dsygvx)(&itype,
                         &jobz,

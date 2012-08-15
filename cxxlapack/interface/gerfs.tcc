@@ -42,6 +42,53 @@ IndexType
 gerfs(char              trans,
       IndexType         n,
       IndexType         nRhs,
+      const float       *A,
+      IndexType         ldA,
+      const float       *AF,
+      IndexType         ldAF,
+      const IndexType   *iPiv,
+      const float       *B,
+      IndexType         ldB,
+      float             *X,
+      IndexType         ldX,
+      float             *fErr,
+      float             *bErr,
+      float             *work,
+      IndexType         *iWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgerfs");
+    LAPACK_IMPL(sgerfs)(&trans,
+                        &n,
+                        &nRhs,
+                        A,
+                        &ldA,
+                        AF,
+                        &ldAF,
+                        iPiv,
+                        B,
+                        &ldB,
+                        X,
+                        &ldX,
+                        fErr,
+                        bErr,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gerfs(char              trans,
+      IndexType         n,
+      IndexType         nRhs,
       const double      *A,
       IndexType         ldA,
       const double      *AF,
@@ -57,7 +104,7 @@ gerfs(char              trans,
       IndexType         *iWork)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("dgerfs");
+    CXXLAPACK_DEBUG_OUT("dgerfs");
     LAPACK_IMPL(dgerfs)(&trans,
                         &n,
                         &nRhs,
@@ -89,6 +136,53 @@ IndexType
 gerfs(char                          trans,
       IndexType                     n,
       IndexType                     nRhs,
+      const std::complex<float >    *A,
+      IndexType                     ldA,
+      const std::complex<float >    *AF,
+      IndexType                     ldAF,
+      const IndexType               *iPiv,
+      const std::complex<float >    *B,
+      IndexType                     ldB,
+      std::complex<float >          *X,
+      IndexType                     ldX,
+      float                         *fErr,
+      float                         *bErr,
+      std::complex<float >          *work,
+      float                         *rWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgerfs");
+    LAPACK_IMPL(cgerfs)(&trans,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        reinterpret_cast<const float  *>(AF),
+                        &ldAF,
+                        iPiv,
+                        reinterpret_cast<const float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(X),
+                        &ldX,
+                        fErr,
+                        bErr,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gerfs(char                          trans,
+      IndexType                     n,
+      IndexType                     nRhs,
       const std::complex<double>    *A,
       IndexType                     ldA,
       const std::complex<double>    *AF,
@@ -104,7 +198,7 @@ gerfs(char                          trans,
       double                        *rWork)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("zgerfs");
+    CXXLAPACK_DEBUG_OUT("zgerfs");
     LAPACK_IMPL(zgerfs)(&trans,
                         &n,
                         &nRhs,

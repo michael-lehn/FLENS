@@ -41,6 +41,19 @@ template <typename IndexType>
     void
     latdf(IndexType             ijob,
           IndexType             n,
+          const float           *Z,
+          IndexType             ldZ,
+          float                 *rhs,
+          float                 &rdsum,
+          float                 &rdscal,
+          const IndexType       *iPiv,
+          const IndexType       *jpiv);
+    
+    
+template <typename IndexType>
+    void
+    latdf(IndexType             ijob,
+          IndexType             n,
           const double          *Z,
           IndexType             ldZ,
           double                *rhs,
@@ -48,6 +61,18 @@ template <typename IndexType>
           double                &rdscal,
           const IndexType       *iPiv,
           const IndexType       *jpiv);
+    
+template <typename IndexType>
+    void
+    latdf(IndexType                  ijob,
+          IndexType                  n,
+          const std::complex<float > *Z,
+          IndexType                  ldZ,
+          std::complex<float >       *rhs,
+          float                      &rdsum,
+          float                      &rdscal,
+          const IndexType           *iPiv,
+          const IndexType           *jpiv);
 
 template <typename IndexType>
     void

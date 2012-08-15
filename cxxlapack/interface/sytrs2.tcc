@@ -42,13 +42,50 @@ IndexType
 sytrs2(char                  uplo,
        IndexType             n,
        IndexType             nRhs,
+       const float           *A,
+       IndexType             ldA,
+       const IndexType       *iPiv,
+       float                 *B,
+       IndexType             ldB,
+       float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("ssyrts2");
+ 
+    IndexType info;
+    LAPACK_IMPL(ssytrs2)(&uplo,
+                        &n,
+                        &nRhs,
+                        A,
+                        &ldA,
+                        iPiv,
+                        B,
+                        &ldB,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+sytrs2(char                  uplo,
+       IndexType             n,
+       IndexType             nRhs,
        const double          *A,
        IndexType             ldA,
        const IndexType       *iPiv,
        double                *B,
        IndexType             ldB,
-       double               *work)
+       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dsyrts2");
+ 
     IndexType info;
     LAPACK_IMPL(dsytrs2)(&uplo,
                         &n,
@@ -74,6 +111,40 @@ IndexType
 sytrs2(char                        uplo,
        IndexType                   n,
        IndexType                   nRhs,
+       const std::complex<float >  *A,
+       IndexType                   ldA,
+       const IndexType             *iPiv,
+       std::complex<float >        *B,
+       IndexType                   ldB,
+       std::complex<float >        *work)
+{
+    CXXLAPACK_DEBUG_OUT("csyrts2");
+ 
+    IndexType info;
+    LAPACK_IMPL(csytrs2)(&uplo,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        iPiv,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(work),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+sytrs2(char                        uplo,
+       IndexType                   n,
+       IndexType                   nRhs,
        const std::complex<double>  *A,
        IndexType                   ldA,
        const IndexType             *iPiv,
@@ -81,6 +152,8 @@ sytrs2(char                        uplo,
        IndexType                   ldB,
        std::complex<double>        *work)
 {
+    CXXLAPACK_DEBUG_OUT("zsyrts2");
+ 
     IndexType info;
     LAPACK_IMPL(zsytrs2)(&uplo,
                         &n,

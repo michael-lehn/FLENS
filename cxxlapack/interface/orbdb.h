@@ -36,7 +36,31 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    orbdb(char                  trans,
+          char                  signs,
+          IndexType             m,
+          IndexType             p,
+          IndexType             q,
+          float                 *X11,
+          IndexType             ldX11,
+          float                 *X12,
+          IndexType             ldX12,
+          float                 *X21,
+          IndexType             ldX21,
+          float                 *X22,
+          IndexType             ldX22,
+          float                 *theta,
+          float                 *phi,
+          float                 *taup1,
+          float                 *taup2,
+          float                 *tauq1,
+          float                 *tauq2,
+          float                 *work,
+          IndexType             lWork);
+    
 template <typename IndexType>
     IndexType
     orbdb(char                  trans,

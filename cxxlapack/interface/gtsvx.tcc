@@ -43,6 +43,64 @@ gtsvx(char                  fact,
       char                  trans,
       IndexType             n,
       IndexType             nRhs,
+      const float           *dl,
+      const float           *d,
+      const float           *du,
+      float                 *dlf,
+      float                 *df,
+      float                 *duf,
+      float                 *du2,
+      IndexType             *iPiv,
+      const float           *B,
+      IndexType             ldB,
+      float                 *X,
+      IndexType             ldX,
+      float                 &rCond,
+      float                 *ferr,
+      float                 *berr,
+      float                 *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("sgtsvx");
+    
+    IndexType info;
+    LAPACK_IMPL(sgtsvx)(&fact,
+                        &trans,
+                        &n,
+                        &nRhs,
+                        dl,
+                        d,
+                        du,
+                        dlf,
+                        df,
+                        duf,
+                        du2,
+                        iPiv,
+                        B,
+                        &ldB,
+                        X,
+                        &ldX,
+                        &rCond,
+                        ferr,
+                        berr,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gtsvx(char                  fact,
+      char                  trans,
+      IndexType             n,
+      IndexType             nRhs,
       const double          *dl,
       const double          *d,
       const double          *du,
@@ -61,6 +119,8 @@ gtsvx(char                  fact,
       double                *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("dgtsvx");
+    
     IndexType info;
     LAPACK_IMPL(dgtsvx)(&fact,
                         &trans,
@@ -99,6 +159,64 @@ gtsvx(char                        fact,
       char                        trans,
       IndexType                   n,
       IndexType                   nRhs,
+      const std::complex<float >  *dl,
+      const std::complex<float >  *d,
+      const std::complex<float >  *du,
+      std::complex<float >        *dlf,
+      std::complex<float >        *df,
+      std::complex<float >        *duf,
+      std::complex<float >        *du2,
+      IndexType                   *iPiv,
+      const std::complex<float >  *B,
+      IndexType                   ldB,
+      std::complex<float >        *X,
+      IndexType                   ldX,
+      float                       &rCond,
+      float                       *ferr,
+      float                       *berr,
+      std::complex<float >        *work,
+      float                       *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("cgtsvx");
+    
+    IndexType info;
+    LAPACK_IMPL(cgtsvx)(&fact,
+                        &trans,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<const float  *>(dl),
+                        reinterpret_cast<const float  *>(d),
+                        reinterpret_cast<const float  *>(du),
+                        reinterpret_cast<float  *>(dlf),
+                        reinterpret_cast<float  *>(df),
+                        reinterpret_cast<float  *>(duf),
+                        reinterpret_cast<float  *>(du2),
+                        iPiv,
+                        reinterpret_cast<const float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(X),
+                        &ldX,
+                        &rCond,
+                        ferr,
+                        berr,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gtsvx(char                        fact,
+      char                        trans,
+      IndexType                   n,
+      IndexType                   nRhs,
       const std::complex<double>  *dl,
       const std::complex<double>  *d,
       const std::complex<double>  *du,
@@ -117,6 +235,8 @@ gtsvx(char                        fact,
       std::complex<double>        *work,
       double                      *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zgtsvx");
+    
     IndexType info;
     LAPACK_IMPL(zgtsvx)(&fact,
                         &trans,

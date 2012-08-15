@@ -44,6 +44,41 @@ gbtrs(char                  trans,
       IndexType             kl,
       IndexType             ku,
       IndexType             nRhs,
+      const float           *Ab,
+      IndexType             ldAb,
+      const IndexType       *iPiv,
+      float                 *B,
+      IndexType             ldB)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgbtrs");
+    LAPACK_IMPL(sgbtrs)(&trans,
+                        &n,
+                        &kl,
+                        &ku,
+                        &nRhs,
+                        Ab,
+                        &ldAb,
+                        iPiv,
+                        B,
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gbtrs(char                  trans,
+      IndexType             n,
+      IndexType             kl,
+      IndexType             ku,
+      IndexType             nRhs,
       const double          *Ab,
       IndexType             ldAb,
       const IndexType       *iPiv,
@@ -51,6 +86,7 @@ gbtrs(char                  trans,
       IndexType             ldB)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("dgbtrs");
     LAPACK_IMPL(dgbtrs)(&trans,
                         &n,
                         &kl,
@@ -78,6 +114,41 @@ gbtrs(char                       trans,
       IndexType                  kl,
       IndexType                  ku,
       IndexType                  nRhs,
+      const std::complex<float > *Ab,
+      IndexType                  ldAb,
+      const IndexType            *iPiv,
+      std::complex<float >       *B,
+      IndexType                  ldB)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgbtrs");
+    LAPACK_IMPL(cgbtrs)(&trans,
+                        &n,
+                        &kl,
+                        &ku,
+                        &nRhs,
+                        reinterpret_cast<const float  *>(Ab),
+                        &ldAb,
+                        iPiv,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gbtrs(char                       trans,
+      IndexType                  n,
+      IndexType                  kl,
+      IndexType                  ku,
+      IndexType                  nRhs,
       const std::complex<double> *Ab,
       IndexType                  ldAb,
       const IndexType            *iPiv,
@@ -85,6 +156,7 @@ gbtrs(char                       trans,
       IndexType                  ldB)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("zgbtrs");
     LAPACK_IMPL(zgbtrs)(&trans,
                         &n,
                         &kl,

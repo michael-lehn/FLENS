@@ -43,6 +43,52 @@ hegvd(IndexType             itype,
       char                  jobz,
       char                  uplo,
       IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      std::complex<float >  *B,
+      IndexType             ldB,
+      float                 *w,
+      std::complex<float >  *work,
+      IndexType             lWork,
+      float                 *rWork,
+      IndexType             lrWork,
+      IndexType             *iWork,
+      IndexType             liWork)
+{
+    CXXLAPACK_DEBUG_OUT("chegvd");
+    
+    IndexType info;
+    LAPACK_IMPL(chegvd)(&itype,
+                        &jobz,
+                        &uplo,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        w,
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        rWork,
+                        &lrWork,
+                        iWork,
+                        &liWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hegvd(IndexType             itype,
+      char                  jobz,
+      char                  uplo,
+      IndexType             n,
       std::complex<double>  *A,
       IndexType             ldA,
       std::complex<double>  *B,
@@ -55,6 +101,8 @@ hegvd(IndexType             itype,
       IndexType             *iWork,
       IndexType             liWork)
 {
+    CXXLAPACK_DEBUG_OUT("zhegvd");
+    
     IndexType info;
     LAPACK_IMPL(zhegvd)(&itype,
                         &jobz,

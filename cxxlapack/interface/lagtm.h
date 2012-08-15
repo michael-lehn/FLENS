@@ -42,6 +42,21 @@ template <typename IndexType>
     lagtm(char                  trans,
           IndexType             n,
           IndexType             nRhs,
+          float                 alpha,
+          const float           *dl,
+          const float           *d,
+          const float           *du,
+          const float           *X,
+          IndexType             ldX,
+          float                 beta,
+          float                 *B,
+          IndexType             ldB);
+    
+template <typename IndexType>
+    IndexType
+    lagtm(char                  trans,
+          IndexType             n,
+          IndexType             nRhs,
           double                alpha,
           const double          *dl,
           const double          *d,
@@ -51,7 +66,22 @@ template <typename IndexType>
           double                beta,
           double                *B,
           IndexType             ldB);
-
+    
+template <typename IndexType>
+    IndexType
+    lagtm(char                        trans,
+          IndexType                   n,
+          IndexType                   nRhs,
+          float                       alpha,
+          const std::complex<float >  *dl,
+          const std::complex<float >  *d,
+          const std::complex<float >  *du,
+          const std::complex<float >  *X,
+          IndexType                   ldX,
+          float                       beta,
+          std::complex<float >        *B,
+          IndexType                   ldB);
+    
 template <typename IndexType>
     IndexType
     lagtm(char                        trans,

@@ -42,11 +42,34 @@ void
 lacp2(char                  uplo,
       IndexType             m,
       IndexType             n,
+      const float           *A,
+      IndexType             ldA,
+      std::complex<float >  *B,
+      IndexType             ldB)
+{
+    CXXLAPACK_DEBUG_OUT("clacp2");
+
+    LAPACK_IMPL(clacp2)(&uplo,
+                        &m,
+                        &n,
+                        A,
+                        &ldA,
+                        reinterpret_cast<float  *>(B),
+                        &ldB);
+
+}
+
+template <typename IndexType>
+void
+lacp2(char                  uplo,
+      IndexType             m,
+      IndexType             n,
       const double          *A,
       IndexType             ldA,
       std::complex<double>  *B,
       IndexType             ldB)
 {
+    CXXLAPACK_DEBUG_OUT("zlacp2");
 
     LAPACK_IMPL(zlacp2)(&uplo,
                         &m,

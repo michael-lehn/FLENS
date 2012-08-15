@@ -41,12 +41,35 @@ template <typename IndexType>
 double
 la_porpvgrw(char                  uplo,
             IndexType             ncols,
+            const float           *A,
+            IndexType             ldA,
+            const float           *Af,
+            IndexType             ldAf,
+            float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("sla_porpvgrw");
+
+    return LAPACK_IMPL(sla_porpvgrw)(&uplo,
+                                     &ncols,
+                                     A,
+                                     &ldA,
+                                     Af,
+                                     &ldAf,
+                                     work);
+  
+}
+
+template <typename IndexType>
+double
+la_porpvgrw(char                  uplo,
+            IndexType             ncols,
             const double          *A,
             IndexType             ldA,
             const double          *Af,
             IndexType             ldAf,
             double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dla_porpvgrw");
 
     return LAPACK_IMPL(dla_porpvgrw)(&uplo,
                                      &ncols,
@@ -58,6 +81,27 @@ la_porpvgrw(char                  uplo,
   
 }
 
+template <typename IndexType>
+double
+la_porpvgrw(char                        uplo,
+            IndexType                   ncols,
+            const std::complex<float >  *A,
+            IndexType                   ldA,
+            const std::complex<float >  *Af,
+            IndexType                   ldAf,
+            float                       *work)
+{
+    CXXLAPACK_DEBUG_OUT("cla_porpvgrw");
+
+    return LAPACK_IMPL(cla_porpvgrw)(&uplo,
+                                     &ncols,
+                                     reinterpret_cast<const float  *>(A),
+                                     &ldA,
+                                     reinterpret_cast<const float  *>(Af),
+                                     &ldAf,
+                                     work);
+  
+}
 
 template <typename IndexType>
 double
@@ -69,6 +113,7 @@ la_porpvgrw(char                        uplo,
             IndexType                   ldAf,
             double                      *work)
 {
+    CXXLAPACK_DEBUG_OUT("zla_porpvgrw");
 
     return LAPACK_IMPL(zla_porpvgrw)(&uplo,
                                      &ncols,

@@ -54,6 +54,7 @@ cposv(char                        uplo,
       IndexType                   &iter)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("zcposv");
     LAPACK_IMPL(zcposv)(&uplo,
                         &n,
                         &nRhs,

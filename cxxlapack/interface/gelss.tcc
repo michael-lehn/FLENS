@@ -42,6 +42,45 @@ IndexType
 gelss(IndexType             m,
       IndexType             n,
       IndexType             nRhs,
+      float                 *A,
+      IndexType             ldA,
+      float                 *B,
+      IndexType             ldB,
+      float                 *s,
+      float                 rCond,
+      IndexType             rank,
+      float                 *work,
+      IndexType             lWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgelss");
+    LAPACK_IMPL(sgelss)(&m,
+                        &n,
+                        &nRhs,
+                        A,
+                        &ldA,
+                        B,
+                        &ldB,
+                        s,
+                        &rCond,
+                        &rank,
+                        work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gelss(IndexType             m,
+      IndexType             n,
+      IndexType             nRhs,
       double                *A,
       IndexType             ldA,
       double                *B,
@@ -53,6 +92,7 @@ gelss(IndexType             m,
       IndexType             lWork)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("dgelss");
     LAPACK_IMPL(dgelss)(&m,
                         &n,
                         &nRhs,
@@ -80,6 +120,47 @@ IndexType
 gelss(IndexType             m,
       IndexType             n,
       IndexType             nRhs,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      std::complex<float >  *B,
+      IndexType             ldB,
+      std::complex<float >  *s,
+      float                 rCond,
+      IndexType             rank,
+      std::complex<float >  *work,
+      float                 rWork,
+      IndexType             lWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgelss");
+    LAPACK_IMPL(cgelss)(&m,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(s),
+                        &rCond,
+                        &rank,
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gelss(IndexType             m,
+      IndexType             n,
+      IndexType             nRhs,
       std::complex<double>  *A,
       IndexType             ldA,
       std::complex<double>  *B,
@@ -92,6 +173,7 @@ gelss(IndexType             m,
       IndexType             lWork)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("zgelss");
     LAPACK_IMPL(zgelss)(&m,
                         &n,
                         &nRhs,

@@ -45,6 +45,48 @@ ormbr(char                  vect,
       IndexType             m,
       IndexType             n,
       IndexType             k,
+      const float           *A,
+      IndexType             ldA,
+      const float           *tau,
+      float                 *C,
+      IndexType             ldC,
+      float                 *work,
+      IndexType             lWork)
+{
+    CXXLAPACK_DEBUG_OUT("sormbr");
+  
+    IndexType info;
+    LAPACK_IMPL(sormbr)(&vect,
+                        &side,
+                        &trans,
+                        &m,
+                        &n,
+                        &k,
+                        A,
+                        &ldA,
+                        tau,
+                        C,
+                        &ldC,
+                        work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ormbr(char                  vect,
+      char                  side,
+      char                  trans,
+      IndexType             m,
+      IndexType             n,
+      IndexType             k,
       const double          *A,
       IndexType             ldA,
       const double          *tau,
@@ -53,6 +95,8 @@ ormbr(char                  vect,
       double                *work,
       IndexType             lWork)
 {
+    CXXLAPACK_DEBUG_OUT("dormbr");
+  
     IndexType info;
     LAPACK_IMPL(dormbr)(&vect,
                         &side,

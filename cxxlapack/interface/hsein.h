@@ -44,6 +44,27 @@ namespace cxxlapack {
 //           char                  initv,
 //           bool                  *select,
 //           IndexType             n,
+//           const float           *H,
+//           IndexType             ldH,
+//           float                 *wr,
+//           const float           *wi,
+//           float                 *VL,
+//           IndexType             ldVL,
+//           float                 *VR,
+//           IndexType             ldVR,
+//           IndexType             mm,
+//           IndexType             &m,
+//           float                 *work,
+//           IndexType             *ifaill,
+//           IndexType             *ifailr);
+//
+// template <typename IndexType>
+//     IndexType
+//     hsein(char                  side,
+//           char                  eigsrc,
+//           char                  initv,
+//           bool                  *select,
+//           IndexType             n,
 //           const double          *H,
 //           IndexType             ldH,
 //           double                *wr,
@@ -57,7 +78,28 @@ namespace cxxlapack {
 //           double                *work,
 //           IndexType             *ifaill,
 //           IndexType             *ifailr);
-// 
+//
+// template <typename IndexType>
+//     IndexType
+//     hsein(char                        side,
+//           char                        eigsrc,
+//           char                        initv,
+//           bool                        *select,
+//           IndexType                   n,
+//           const std::complex<float >  *H,
+//           IndexType                   ldH,
+//           std::complex<float >        *w,
+//           std::complex<float >        *VL,
+//           IndexType                   ldVL,
+//           std::complex<float >        *VR,
+//           IndexType                   ldVR,
+//           IndexType                   mm,
+//           IndexType                   &m,
+//           std::complex<float >        *work,
+//           float                       *rWork,
+//           IndexType                   *ifaill,
+//           IndexType                   *ifailr);
+//
 // template <typename IndexType>
 //     IndexType
 //     hsein(char                        side,

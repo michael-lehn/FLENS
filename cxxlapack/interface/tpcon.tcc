@@ -43,11 +43,45 @@ tpcon(char                  norm,
       char                  uplo,
       char                  diag,
       IndexType             n,
+      const float           *Ap,
+      float                 &rCond,
+      float                 *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("stpcon");
+ 
+    IndexType info;
+    LAPACK_IMPL(stpcon)(&norm,
+                        &uplo,
+                        &diag,
+                        &n,
+                        Ap,
+                        &rCond,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+tpcon(char                  norm,
+      char                  uplo,
+      char                  diag,
+      IndexType             n,
       const double          *Ap,
       double                &rCond,
       double                *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("dtpcon");
+ 
     IndexType info;
     LAPACK_IMPL(dtpcon)(&norm,
                         &uplo,
@@ -74,11 +108,46 @@ tpcon(char                        norm,
       char                        uplo,
       char                        diag,
       IndexType                   n,
+      const std::complex<float >  *Ap,
+      float                       &rCond,
+      std::complex<float >        *work,
+      float                       *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("ctpcon");
+ 
+    IndexType info;
+    LAPACK_IMPL(ctpcon)(&norm,
+                        &uplo,
+                        &diag,
+                        &n,
+                        reinterpret_cast<const float  *>(Ap),
+                        &rCond,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+tpcon(char                        norm,
+      char                        uplo,
+      char                        diag,
+      IndexType                   n,
       const std::complex<double>  *Ap,
       double                      &rCond,
       std::complex<double>        *work,
       double                      *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("ztpcon");
+ 
     IndexType info;
     LAPACK_IMPL(ztpcon)(&norm,
                         &uplo,

@@ -40,10 +40,37 @@ namespace cxxlapack {
 template <typename IndexType>
 IndexType
 lasq1(IndexType             n,
+      float                 *d,
+      float                 *e,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("slasq1");
+    
+    IndexType info;
+    LAPACK_IMPL(slasq1)(&n,
+                        d,
+                        e,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+lasq1(IndexType             n,
       double                *d,
       double                *e,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dlasq1");
+    
     IndexType info;
     LAPACK_IMPL(dlasq1)(&n,
                         d,

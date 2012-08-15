@@ -42,9 +42,38 @@ IndexType
 pbstf(char                  uplo,
       IndexType             n,
       IndexType             kd,
+      float                 *Ab,
+      IndexType             ldAb)
+{
+    CXXLAPACK_DEBUG_OUT("spbstf");
+  
+    IndexType info;
+    LAPACK_IMPL(spbstf)(&uplo,
+                        &n,
+                        &kd,
+                        Ab,
+                        &ldAb,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+pbstf(char                  uplo,
+      IndexType             n,
+      IndexType             kd,
       double                *Ab,
       IndexType             ldAb)
 {
+    CXXLAPACK_DEBUG_OUT("dpbstf");
+  
     IndexType info;
     LAPACK_IMPL(dpbstf)(&uplo,
                         &n,
@@ -67,9 +96,37 @@ IndexType
 pbstf(char                  uplo,
       IndexType             n,
       IndexType             kd,
+      std::complex<float >  *Ab,
+      IndexType             ldAb)
+{
+    CXXLAPACK_DEBUG_OUT("cpbstf");
+  
+    IndexType info;
+    LAPACK_IMPL(cpbstf)(&uplo,
+                        &n,
+                        &kd,
+                        reinterpret_cast<float  *>(Ab),
+                        &ldAb,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+pbstf(char                  uplo,
+      IndexType             n,
+      IndexType             kd,
       std::complex<double>  *Ab,
       IndexType             ldAb)
 {
+    CXXLAPACK_DEBUG_OUT("zpbstf");
+  
     IndexType info;
     LAPACK_IMPL(zpbstf)(&uplo,
                         &n,

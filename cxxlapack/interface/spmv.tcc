@@ -41,6 +41,32 @@ template <typename IndexType>
 void
 spmv (char                       uplo,
       IndexType                  n,
+      std::complex<float >       alpha,
+      const std::complex<float > *Ap,
+      const std::complex<float > *x,
+      IndexType                  incx,
+      const std::complex<float > beta,
+      std::complex<float >       *y,
+      IndexType                  incy)
+{
+    CXXLAPACK_DEBUG_OUT("cspmv");
+
+    LAPACK_IMPL(cspmv)(&uplo,
+                       &n,
+                       reinterpret_cast<const float  *>(&alpha),
+                       reinterpret_cast<const float  *>(Ap),
+                       reinterpret_cast<const float  *>(x),
+                       &incx,
+                       reinterpret_cast<const float  *>(&beta),
+                       reinterpret_cast<float  *>(y),
+                       &incy);
+
+}
+
+template <typename IndexType>
+void
+spmv (char                       uplo,
+      IndexType                  n,
       std::complex<double>       alpha,
       const std::complex<double> *Ap,
       const std::complex<double> *x,
@@ -49,6 +75,7 @@ spmv (char                       uplo,
       std::complex<double>       *y,
       IndexType                  incy)
 {
+    CXXLAPACK_DEBUG_OUT("zspmv");
 
     LAPACK_IMPL(zspmv)(&uplo,
                        &n,

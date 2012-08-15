@@ -38,6 +38,44 @@
 namespace cxxlapack {
 
 template <typename IndexType>
+float 
+la_syrCond(char                  uplo,
+           IndexType             n,
+           const float           *A,
+           IndexType             ldA,
+           const float           *Af,
+           IndexType             ldAf,
+           const IndexType       *iPiv,
+           IndexType             cmode,
+           const float           *c,
+           IndexType             &info,
+           float                 *work,
+           IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("sla_syrcond");
+    
+    float  val = LAPACK_IMPL(sla_syrcond)(&uplo,
+                                          &n,
+                                          A,
+                                          &ldA,
+                                          Af,
+                                          &ldAf,
+                                          iPiv,
+                                          &cmode,
+                                          c,
+                                          &info,
+                                          work,
+                                          iWork);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return val;
+}
+
+template <typename IndexType>
 double
 la_syrCond(char                  uplo,
            IndexType             n,
@@ -52,7 +90,9 @@ la_syrCond(char                  uplo,
            double                *work,
            IndexType             *iWork)
 {
-    double val = LAPACK_IMPL(dla_syrCond)(&uplo,
+    CXXLAPACK_DEBUG_OUT("dla_syrcond");
+    
+    double val = LAPACK_IMPL(dla_syrcond)(&uplo,
                                           &n,
                                           A,
                                           &ldA,

@@ -52,6 +52,8 @@ sgesv(IndexType             n,
       float                 *swork,
       IndexType             &iter)
 {
+    CXXLAPACK_DEBUG_OUT("dsgesv");
+    
     IndexType info;
     LAPACK_IMPL(dsgesv)(&n,
                         &nRhs,

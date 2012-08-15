@@ -41,6 +41,43 @@ template <typename IndexType>
 IndexType
 stedc(char                  compz,
       IndexType             n,
+      float                 *d,
+      float                 *e,
+      float                 *Z,
+      IndexType             ldZ,
+      float                 *work,
+      IndexType             lWork,
+      IndexType             *iWork,
+      IndexType             liWork)
+{
+    CXXLAPACK_DEBUG_OUT("sstebc");
+   
+    IndexType info;
+    LAPACK_IMPL(sstedc)(&compz,
+                        &n,
+                        d,
+                        e,
+                        Z,
+                        &ldZ,
+                        work,
+                        &lWork,
+                        iWork,
+                        &liWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+stedc(char                  compz,
+      IndexType             n,
       double                *d,
       double                *e,
       double                *Z,
@@ -50,6 +87,8 @@ stedc(char                  compz,
       IndexType             *iWork,
       IndexType             liWork)
 {
+    CXXLAPACK_DEBUG_OUT("dstebc");
+   
     IndexType info;
     LAPACK_IMPL(dstedc)(&compz,
                         &n,
@@ -59,6 +98,46 @@ stedc(char                  compz,
                         &ldZ,
                         work,
                         &lWork,
+                        iWork,
+                        &liWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+stedc(char                  compz,
+      IndexType             n,
+      float                 *d,
+      float                 *e,
+      std::complex<float >  *Z,
+      IndexType             ldZ,
+      std::complex<float >  *work,
+      IndexType             lWork,
+      float                 *rWork,
+      IndexType             lrWork,
+      IndexType             *iWork,
+      IndexType             liWork)
+{
+    CXXLAPACK_DEBUG_OUT("cstebc");
+   
+    IndexType info;
+    LAPACK_IMPL(cstedc)(&compz,
+                        &n,
+                        d,
+                        e,
+                        reinterpret_cast<float  *>(Z),
+                        &ldZ,
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        rWork,
+                        lrWork,
                         iWork,
                         &liWork,
                         &info);
@@ -86,6 +165,8 @@ stedc(char                  compz,
       IndexType             *iWork,
       IndexType             liWork)
 {
+    CXXLAPACK_DEBUG_OUT("zstebc");
+   
     IndexType info;
     LAPACK_IMPL(zstedc)(&compz,
                         &n,

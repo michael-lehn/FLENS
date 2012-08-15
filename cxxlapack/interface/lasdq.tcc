@@ -45,6 +45,52 @@ lasdq(char                  uplo,
       IndexType             ncvt,
       IndexType             nru,
       IndexType             ncc,
+      float                 *d,
+      float                 *e,
+      float                 *Vt,
+      IndexType             ldVt,
+      float                 *U,
+      IndexType             ldU,
+      float                 *C,
+      IndexType             ldC,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("slasdq");
+    
+    IndexType info;
+    LAPACK_IMPL(slasdq)(&uplo,
+                        &sqre,
+                        &n,
+                        &ncvt,
+                        &nru,
+                        &ncc,
+                        d,
+                        e,
+                        Vt,
+                        &ldVt,
+                        U,
+                        &ldU,
+                        C,
+                        &ldC,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+lasdq(char                  uplo,
+      IndexType             sqre,
+      IndexType             n,
+      IndexType             ncvt,
+      IndexType             nru,
+      IndexType             ncc,
       double                *d,
       double                *e,
       double                *Vt,
@@ -55,6 +101,8 @@ lasdq(char                  uplo,
       IndexType             ldC,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dlasdq");
+    
     IndexType info;
     LAPACK_IMPL(dlasdq)(&uplo,
                         &sqre,

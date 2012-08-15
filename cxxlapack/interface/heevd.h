@@ -36,7 +36,22 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    heevd(char                   jobZ,
+          char                   upLo,
+          IndexType              n,
+          std::complex<float >   *A,
+          IndexType              ldA,
+          float                  *w,
+          std::complex<float >   *work,
+          IndexType              lWork,
+          float                  *rWork,
+          IndexType              lrWork,
+          IndexType              *iWork,
+          IndexType              liWork);
+    
 template <typename IndexType>
     IndexType
     heevd(char                   jobZ,

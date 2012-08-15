@@ -44,10 +44,34 @@ template <typename IndexType>
           char                  diag,
           char                  normin,
           IndexType             n,
+          const float           *Ap,
+          float                 *x,
+          float                 &scale,
+          float                 &cnorm);
+    
+template <typename IndexType>
+    IndexType
+    latps(char                  uplo,
+          char                  trans,
+          char                  diag,
+          char                  normin,
+          IndexType             n,
           const double          *Ap,
           double                *x,
           double                &scale,
           double                &cnorm);
+    
+template <typename IndexType>
+    IndexType
+    latps(char                       uplo,
+          char                       trans,
+          char                       diag,
+          char                       normin,
+          IndexType                  n,
+          const std::complex<float > *Ap,
+          std::complex<float >       *x,
+          float                      &scale,
+          float                      &cnorm);
 
 template <typename IndexType>
     IndexType

@@ -42,11 +42,43 @@ IndexType
 sptrs(char                  uplo,
       IndexType             n,
       IndexType             nRhs,
+      const float           *Ap,
+      const IndexType       *iPiv,
+      float                 *B,
+      IndexType             ldB)
+{
+    CXXLAPACK_DEBUG_OUT("ssptrs");
+
+    IndexType info;
+    LAPACK_IMPL(ssptrs)(&uplo,
+                        &n,
+                        &nRhs,
+                        Ap,
+                        iPiv,
+                        B,
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+sptrs(char                  uplo,
+      IndexType             n,
+      IndexType             nRhs,
       const double          *Ap,
       const IndexType       *iPiv,
       double                *B,
       IndexType             ldB)
 {
+    CXXLAPACK_DEBUG_OUT("dsptrs");
+
     IndexType info;
     LAPACK_IMPL(dsptrs)(&uplo,
                         &n,
@@ -65,6 +97,35 @@ sptrs(char                  uplo,
     return info;
 }
 
+template <typename IndexType>
+IndexType
+sptrs(char                       uplo,
+      IndexType                  n,
+      IndexType                  nRhs,
+      const std::complex<float > *Ap,
+      const IndexType            *iPiv,
+      std::complex<float >       *B,
+      IndexType                  ldB)
+{
+    CXXLAPACK_DEBUG_OUT("csptrs");
+
+    IndexType info;
+    LAPACK_IMPL(csptrs)(&uplo,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<const float  *>(Ap),
+                        iPiv,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
 
 template <typename IndexType>
 IndexType
@@ -76,6 +137,8 @@ sptrs(char                       uplo,
       std::complex<double>       *B,
       IndexType                  ldB)
 {
+    CXXLAPACK_DEBUG_OUT("zsptrs");
+
     IndexType info;
     LAPACK_IMPL(zsptrs)(&uplo,
                         &n,

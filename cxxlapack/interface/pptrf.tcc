@@ -41,8 +41,32 @@ template <typename IndexType>
 IndexType
 pptrf(char                  uplo,
       IndexType             n,
+      float                 *Ap)
+{
+    CXXLAPACK_DEBUG_OUT("spptrf");
+ 
+    IndexType info;
+    LAPACK_IMPL(spptrf)(&uplo,
+                        &n,
+                        Ap,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+pptrf(char                  uplo,
+      IndexType             n,
       double                *Ap)
 {
+    CXXLAPACK_DEBUG_OUT("dpptrf");
+ 
     IndexType info;
     LAPACK_IMPL(dpptrf)(&uplo,
                         &n,
@@ -57,6 +81,27 @@ pptrf(char                  uplo,
     return info;
 }
 
+template <typename IndexType>
+IndexType
+pptrf(char                  uplo,
+      IndexType             n,
+      std::complex<float >  *Ap)
+{
+    CXXLAPACK_DEBUG_OUT("cpptrf");
+ 
+    IndexType info;
+    LAPACK_IMPL(cpptrf)(&uplo,
+                        &n,
+                        reinterpret_cast<float  *>(Ap),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
 
 template <typename IndexType>
 IndexType
@@ -64,6 +109,8 @@ pptrf(char                  uplo,
       IndexType             n,
       std::complex<double>  *Ap)
 {
+    CXXLAPACK_DEBUG_OUT("zpptrf");
+ 
     IndexType info;
     LAPACK_IMPL(zpptrf)(&uplo,
                         &n,

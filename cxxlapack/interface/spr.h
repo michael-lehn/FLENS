@@ -36,7 +36,16 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    void
+    spr  (char                       uplo,
+          IndexType                  n,
+          std::complex<float >       alpha,
+          const std::complex<float > *x,
+          IndexType                  incx,
+          std::complex<float >       *Ap);
+    
 template <typename IndexType>
     void
     spr  (char                       uplo,

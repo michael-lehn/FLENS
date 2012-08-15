@@ -45,12 +45,53 @@ latbs(char                  uplo,
       char                  normin,
       IndexType             n,
       IndexType             kd,
+      const float           *Ab,
+      IndexType             ldAb,
+      float                 *x,
+      float                 &scale,
+      float                 *cnorm)
+{
+    CXXLAPACK_DEBUG_OUT("slatbs");
+    
+    IndexType info;
+    LAPACK_IMPL(slatbs)(&uplo,
+                        &trans,
+                        &diag,
+                        &normin,
+                        &n,
+                        &kd,
+                        Ab,
+                        &ldAb,
+                        x,
+                        &scale,
+                        cnorm,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+latbs(char                  uplo,
+      char                  trans,
+      char                  diag,
+      char                  normin,
+      IndexType             n,
+      IndexType             kd,
       const double          *Ab,
       IndexType             ldAb,
       double                *x,
       double                &scale,
       double                *cnorm)
 {
+    CXXLAPACK_DEBUG_OUT("dlatbs");
+  
     IndexType info;
     LAPACK_IMPL(dlatbs)(&uplo,
                         &trans,
@@ -81,12 +122,52 @@ latbs(char                         uplo,
       char                         normin,
       IndexType                    n,
       IndexType                    kd,
+      const std::complex<float >  *Ab,
+      IndexType                    ldAb,
+      std::complex<float >         *x,
+      float                        &scale,
+      float                        *cnorm)
+{
+    CXXLAPACK_DEBUG_OUT("clatbs");
+  
+    IndexType info;
+    LAPACK_IMPL(clatbs)(&uplo,
+                        &trans,
+                        &diag,
+                        &normin,
+                        &n,
+                        &kd,
+                        reinterpret_cast<const float  *>(Ab),
+                        &ldAb,
+                        reinterpret_cast<float  *>(x),
+                        &scale,
+                        cnorm,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+latbs(char                         uplo,
+      char                         trans,
+      char                         diag,
+      char                         normin,
+      IndexType                    n,
+      IndexType                    kd,
       const std::complex<double>  *Ab,
       IndexType                    ldAb,
       std::complex<double>         *x,
       double                       &scale,
       double                       *cnorm)
 {
+    CXXLAPACK_DEBUG_OUT("zlatbs");
+  
     IndexType info;
     LAPACK_IMPL(zlatbs)(&uplo,
                         &trans,

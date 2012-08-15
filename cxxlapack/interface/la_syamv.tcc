@@ -41,6 +41,33 @@ template <typename IndexType>
 void
 la_syamv(char                  uplo,
          IndexType             n,
+         float                 alpha,
+         const float           *A,
+         IndexType             ldA,
+         const float           *x,
+         IndexType             incx,
+         float                 beta,
+         float                 *y,
+         IndexType             incy)
+{
+    CXXLAPACK_DEBUG_OUT("sla_syamv");
+    
+    LAPACK_IMPL(sla_syamv)(&uplo,
+                           &n,
+                           &alpha,
+                           A,
+                           &ldA,
+                           x,
+                           &incx,
+                           &beta,
+                           y,
+                           &incy);
+}
+
+template <typename IndexType>
+void
+la_syamv(char                  uplo,
+         IndexType             n,
          double                alpha,
          const double          *A,
          IndexType             ldA,
@@ -50,12 +77,41 @@ la_syamv(char                  uplo,
          double                *y,
          IndexType             incy)
 {
+    CXXLAPACK_DEBUG_OUT("dla_syamv");
+    
     LAPACK_IMPL(dla_syamv)(&uplo,
                            &n,
                            &alpha,
                            A,
                            &ldA,
                            x,
+                           &incx,
+                           &beta,
+                           y,
+                           &incy);
+}
+
+template <typename IndexType>
+void
+la_syamv(char                        uplo,
+         IndexType                   n,
+         float                       alpha,
+         const std::complex<float >  *A,
+         IndexType                   ldA,
+         const std::complex<float >  *x,
+         IndexType                   incx,
+         float                       beta,
+         float                       *y,
+         IndexType                   incy)
+{
+    CXXLAPACK_DEBUG_OUT("cla_syamv");
+    
+    LAPACK_IMPL(cla_syamv)(&uplo,
+                           &n,
+                           &alpha,
+                           reinterpret_cast<const float  *>(A),
+                           &ldA,
+                           reinterpret_cast<const float  *>(x),
                            &incx,
                            &beta,
                            y,
@@ -75,6 +131,8 @@ la_syamv(char                        uplo,
          double                      *y,
          IndexType                   incy)
 {
+    CXXLAPACK_DEBUG_OUT("zla_syamv");
+    
     LAPACK_IMPL(zla_syamv)(&uplo,
                            &n,
                            &alpha,

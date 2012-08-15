@@ -36,7 +36,17 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    void
+    syr  (char                        uplo,
+          IndexType                   n,
+          std::complex<float >        alpha,
+          const std::complex<float >  *x,
+          IndexType                   incx,
+          std::complex<float >        *A,
+          IndexType                   ldA);
+    
 template <typename IndexType>
     void
     syr  (char                        uplo,

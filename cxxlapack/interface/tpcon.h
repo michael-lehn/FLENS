@@ -43,11 +43,33 @@ template <typename IndexType>
           char                  uplo,
           char                  diag,
           IndexType             n,
+          const float           *Ap,
+          float                 &rCond,
+          float                 *work,
+          IndexType             *iWork);
+     
+template <typename IndexType>
+    IndexType
+    tpcon(char                  norm,
+          char                  uplo,
+          char                  diag,
+          IndexType             n,
           const double          *Ap,
           double                &rCond,
           double                *work,
           IndexType             *iWork);
-
+    
+template <typename IndexType>
+    IndexType
+    tpcon(char                        norm,
+          char                        uplo,
+          char                        diag,
+          IndexType                   n,
+          const std::complex<float >  *Ap,
+          float                       &rCond,
+          std::complex<float >        *work,
+          float                       *rWork);
+    
 template <typename IndexType>
     IndexType
     tpcon(char                        norm,

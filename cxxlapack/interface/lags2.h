@@ -40,6 +40,22 @@ namespace cxxlapack {
 template <typename VOID=void>
     void
     lags2(bool                  upper,
+          float                 a1,
+          float                 a2,
+          float                 a3,
+          float                 b1,
+          float                 b2,
+          float                 b3,
+          float                 &csu,
+          float                 &snu,
+          float                 &csv,
+          float                 &snv,
+          float                 &csq,
+          float                 &snq);
+    
+template <typename VOID=void>
+    void
+    lags2(bool                  upper,
           double                a1,
           double                a2,
           double                a3,
@@ -52,7 +68,23 @@ template <typename VOID=void>
           double                &snv,
           double                &csq,
           double                &snq);
-
+    
+template <typename VOID=void>
+    void
+    lags2(bool                  upper,
+          float                 a1,
+          std::complex<float >  a2,
+          float                 a3,
+          float                 b1,
+          std::complex<float >  b2,
+          float                 b3,
+          float                 &csu,
+          std::complex<float >  &snu,
+          float                 &csv,
+          std::complex<float >  &snv,
+          float                 &csq,
+          std::complex<float >  &snq);
+    
 template <typename VOID=void>
     void
     lags2(bool                  upper,

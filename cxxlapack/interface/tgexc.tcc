@@ -42,6 +42,54 @@ IndexType
 tgexc(bool                  wantq,
       bool                  wantz,
       IndexType             n,
+      float                 *A,
+      IndexType             ldA,
+      float                 *B,
+      IndexType             ldB,
+      float                 *Q,
+      IndexType             ldQ,
+      float                 *Z,
+      IndexType             ldZ,
+      IndexType             ifst,
+      IndexType             ilst,
+      float                 *work,
+      IndexType             lWork)
+{
+    CXXLAPACK_DEBUG_OUT("stgexc");
+ 
+    IndexType info;
+    IndexType _wantq = wantq;
+    IndexType _wantz = wantz;
+    LAPACK_IMPL(stgexc)(&_wantq,
+                        &_wantz,
+                        &n,
+                        A,
+                        &ldA,
+                        B,
+                        &ldB,
+                        Q,
+                        &ldQ,
+                        Z,
+                        &ldZ,
+                        &ifst,
+                        &ilst,
+                        work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+tgexc(bool                  wantq,
+      bool                  wantz,
+      IndexType             n,
       double                *A,
       IndexType             ldA,
       double                *B,
@@ -55,6 +103,8 @@ tgexc(bool                  wantq,
       double                *work,
       IndexType             lWork)
 {
+    CXXLAPACK_DEBUG_OUT("dtgexc");
+ 
     IndexType info;
     IndexType _wantq = wantq;
     IndexType _wantz = wantz;
@@ -89,6 +139,50 @@ IndexType
 tgexc(bool                  wantq,
       bool                  wantz,
       IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      std::complex<float >  *B,
+      IndexType             ldB,
+      std::complex<float >  *Q,
+      IndexType             ldQ,
+      std::complex<float >  *Z,
+      IndexType             ldZ,
+      IndexType             ifst,
+      IndexType             ilst)
+{
+    CXXLAPACK_DEBUG_OUT("ctgexc");
+ 
+    IndexType info;
+    IndexType _wantq = wantq;
+    IndexType _wantz = wantz;
+    LAPACK_IMPL(ctgexc)(&_wantq,
+                        &_wantz,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(Q),
+                        &ldQ,
+                        reinterpret_cast<float  *>(Z),
+                        &ldZ,
+                        &ifst,
+                        &ilst,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+tgexc(bool                  wantq,
+      bool                  wantz,
+      IndexType             n,
       std::complex<double>  *A,
       IndexType             ldA,
       std::complex<double>  *B,
@@ -100,6 +194,8 @@ tgexc(bool                  wantq,
       IndexType             ifst,
       IndexType             ilst)
 {
+    CXXLAPACK_DEBUG_OUT("ztgexc");
+ 
     IndexType info;
     IndexType _wantq = wantq;
     IndexType _wantz = wantz;

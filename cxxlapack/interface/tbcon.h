@@ -44,12 +44,38 @@ template <typename IndexType>
           char                  diag,
           IndexType             n,
           IndexType             kd,
+          const float           *Ab,
+          IndexType             ldAb,
+          float                 &rCond,
+          float                 *work,
+          IndexType             *iWork);
+    
+template <typename IndexType>
+    IndexType
+    tbcon(char                  norm,
+          char                  uplo,
+          char                  diag,
+          IndexType             n,
+          IndexType             kd,
           const double          *Ab,
           IndexType             ldAb,
           double                &rCond,
           double                *work,
           IndexType             *iWork);
-
+    
+template <typename IndexType>
+    IndexType
+    tbcon(char                        norm,
+          char                        uplo,
+          char                        diag,
+          IndexType                   n,
+          IndexType                   kd,
+          const std::complex<float >  *Ab,
+          IndexType                   ldAb,
+          float                       &rCond,
+          std::complex<float >        *work,
+          float                       *rWork);
+    
 template <typename IndexType>
     IndexType
     tbcon(char                        norm,

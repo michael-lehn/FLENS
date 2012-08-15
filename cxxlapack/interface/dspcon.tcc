@@ -41,6 +41,38 @@ template <typename IndexType>
 IndexType
 spcon(char                  uplo,
       IndexType             n,
+      const float           *Ap,
+      IndexType             *iPiv,
+      float                 anorm,
+      float                 &rCond,
+      float                 *work,
+      IndexType             *iWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sspcon");
+    LAPACK_IMPL(sspcon)(&uplo,
+                        &n,
+                        Ap,
+                        iPiv,
+                        &anorm,
+                        &rCond,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+spcon(char                  uplo,
+      IndexType             n,
       const double          *Ap,
       IndexType             *iPiv,
       double                anorm,
@@ -49,6 +81,7 @@ spcon(char                  uplo,
       IndexType             *iWork)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("dspcon");
     LAPACK_IMPL(dspcon)(&uplo,
                         &n,
                         Ap,
@@ -72,6 +105,35 @@ template <typename IndexType>
 IndexType
 spcon(char                        uplo,
       IndexType                   n,
+      const std::complex<float >  *Ap,
+      IndexType                   *iPiv,
+      float                       anorm,
+      float                       &rCond,
+      std::complex<float >        *work)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cspcon");
+    LAPACK_IMPL(cspcon)(&uplo,
+                        &n,
+                        reinterpret_cast<const float  *>(Ap),
+                        iPiv,
+                        &anorm,
+                        &rCond,
+                        reinterpret_cast<float  *>(work),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+spcon(char                        uplo,
+      IndexType                   n,
       const std::complex<double>  *Ap,
       IndexType                   *iPiv,
       double                      anorm,
@@ -79,6 +141,7 @@ spcon(char                        uplo,
       std::complex<double>        *work)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("zspcon");
     LAPACK_IMPL(zspcon)(&uplo,
                         &n,
                         reinterpret_cast<const double *>(Ap),

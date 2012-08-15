@@ -43,11 +43,33 @@ template <typename IndexType>
                 IndexType             kl,
                 IndexType             ku,
                 IndexType             ncols,
+                const float           *Ab,
+                IndexType             ldAb,
+                const float           *Afb,
+                IndexType             ldAfb);
+    
+template <typename IndexType>
+    double
+    la_gbrpvgrw(IndexType             n,
+                IndexType             kl,
+                IndexType             ku,
+                IndexType             ncols,
                 const double          *Ab,
                 IndexType             ldAb,
                 const double          *Afb,
                 IndexType             ldAfb);
-
+    
+template <typename IndexType>
+    double
+    la_gbrpvgrw(IndexType                     n,
+                IndexType                     kl,
+                IndexType                     ku,
+                IndexType                     ncols,
+                const std::complex<float >    *Ab,
+                IndexType                     ldAb,
+                const std::complex<float >    *Afb,
+                IndexType                     ldAfb);
+    
 template <typename IndexType>
     double
     la_gbrpvgrw(IndexType                     n,

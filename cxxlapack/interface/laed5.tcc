@@ -40,12 +40,42 @@ namespace cxxlapack {
 template <typename IndexType>
 IndexType
 laed5(IndexType             i,
+      const float           *d,
+      const float          *z,
+      float                 *delta,
+      float                 rho,
+      float                 &dlam)
+{
+    CXXLAPACK_DEBUG_OUT("slaed5");
+    
+    IndexType info;
+    LAPACK_IMPL(slaed5)(&i,
+                        d,
+                        z,
+                        delta,
+                        &rho,
+                        &dlam,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+laed5(IndexType             i,
       const double          *d,
       const double          *z,
       double                *delta,
       double                rho,
       double                &dlam)
 {
+    CXXLAPACK_DEBUG_OUT("dlaed5");
+    
     IndexType info;
     LAPACK_IMPL(dlaed5)(&i,
                         d,

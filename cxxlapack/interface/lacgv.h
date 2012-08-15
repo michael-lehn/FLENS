@@ -40,7 +40,7 @@ namespace cxxlapack {
 template <typename IndexType>
     void
     lacgv(IndexType             n,
-          std::complex<float>  *x,
+          std::complex<float>   *x,
           IndexType             incx);
     
 template <typename IndexType>

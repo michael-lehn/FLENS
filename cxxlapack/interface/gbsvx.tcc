@@ -45,6 +45,67 @@ gbsvx(char                  fact,
       IndexType             kl,
       IndexType             ku,
       IndexType             nRhs,
+      float                 *Ab,
+      IndexType             ldAb,
+      float                 *Afb,
+      IndexType             ldAfb,
+      IndexType             *iPiv,
+      char                  &equed,
+      float                 *r,
+      float                 *c,
+      float                 *B,
+      IndexType             ldB,
+      float                 *X,
+      IndexType             ldX,
+      float                 &rCond,
+      float                 *ferr,
+      float                 *berr,
+      float                 *work,
+      IndexType             *iWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgbsvx");
+    LAPACK_IMPL(sgbsvx)(&fact,
+                        &trans,
+                        &n,
+                        &kl,
+                        &ku,
+                        &nRhs,
+                        Ab,
+                        &ldAb,
+                        Afb,
+                        ldAfb,
+                        iPiv,
+                        &equed,
+                        r,
+                        c,
+                        B,
+                        ldB,
+                        X,
+                        ldX,
+                        &rCond,
+                        &ferr,
+                        &berr,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gbsvx(char                  fact,
+      char                  trans,
+      IndexType             n,
+      IndexType             kl,
+      IndexType             ku,
+      IndexType             nRhs,
       double                *Ab,
       IndexType             ldAb,
       double                *Afb,
@@ -64,6 +125,7 @@ gbsvx(char                  fact,
       IndexType             *iWork)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("dgbsvx");
     LAPACK_IMPL(dgbsvx)(&fact,
                         &trans,
                         &n,
@@ -106,6 +168,67 @@ gbsvx(char                  fact,
       IndexType             kl,
       IndexType             ku,
       IndexType             nRhs,
+      std::complex<float >  *Ab,
+      IndexType             ldAb,
+      std::complex<float >  *Afb,
+      IndexType             ldAfb,
+      IndexType             *iPiv,
+      char                  &equed,
+      float                 *r,
+      float                 *c,
+      std::complex<float >  *B,
+      IndexType             ldB,
+      std::complex<float >  *X,
+      IndexType             ldX,
+      float                 &rCond,
+      float                 *ferr,
+      float                 *berr,
+      std::complex<float >  *work,
+      float                 *rWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgbsvx");
+    LAPACK_IMPL(cgbsvx)(&fact,
+                        &trans,
+                        &n,
+                        &kl,
+                        &ku,
+                        &nRhs,
+                        reinterpret_cast<float  *>(Ab),
+                        &ldAb,
+                        reinterpret_cast<float  *>(Afb),
+                        ldAfb,
+                        iPiv,
+                        &equed,
+                        r,
+                        c,
+                        reinterpret_cast<float  *>(B),
+                        ldB,
+                        reinterpret_cast<float  *>(X),
+                        ldX,
+                        &rCond,
+                        &ferr,
+                        &berr,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gbsvx(char                  fact,
+      char                  trans,
+      IndexType             n,
+      IndexType             kl,
+      IndexType             ku,
+      IndexType             nRhs,
       std::complex<double>  *Ab,
       IndexType             ldAb,
       std::complex<double>  *Afb,
@@ -125,6 +248,7 @@ gbsvx(char                  fact,
       double                *rWork)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("zgbsvx");
     LAPACK_IMPL(zgbsvx)(&fact,
                         &trans,
                         &n,

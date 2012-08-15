@@ -41,10 +41,38 @@ template <typename IndexType>
 IndexType
 tzrqf(IndexType             m,
       IndexType             n,
+      float                 *A,
+      IndexType             ldA,
+      float                 *tau)
+{
+    CXXLAPACK_DEBUG_OUT("stzrqf");
+ 
+    IndexType info;
+    LAPACK_IMPL(stzrqf)(&m,
+                        &n,
+                        A,
+                        &ldA,
+                        tau,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+tzrqf(IndexType             m,
+      IndexType             n,
       double                *A,
       IndexType             ldA,
       double                *tau)
 {
+    CXXLAPACK_DEBUG_OUT("dtzrqf");
+ 
     IndexType info;
     LAPACK_IMPL(dtzrqf)(&m,
                         &n,
@@ -66,10 +94,38 @@ template <typename IndexType>
 IndexType
 tzrqf(IndexType             m,
       IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      std::complex<float >  *tau)
+{
+    CXXLAPACK_DEBUG_OUT("ctzrqf");
+ 
+    IndexType info;
+    LAPACK_IMPL(ctzrqf)(&m,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(tau),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+tzrqf(IndexType             m,
+      IndexType             n,
       std::complex<double>  *A,
       IndexType             ldA,
       std::complex<double>  *tau)
 {
+    CXXLAPACK_DEBUG_OUT("ztzrqf");
+ 
     IndexType info;
     LAPACK_IMPL(ztzrqf)(&m,
                         &n,

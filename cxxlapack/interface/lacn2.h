@@ -40,13 +40,32 @@ namespace cxxlapack {
 template <typename IndexType>
     void
     lacn2(IndexType         n,
+          float             *v,
+          float             *x,
+          IndexType         *isgn,
+          float             &est,
+          IndexType         &kase,
+          IndexType         *iSave);
+    
+template <typename IndexType>
+    void
+    lacn2(IndexType         n,
           double            *v,
           double            *x,
           IndexType         *isgn,
           double            &est,
           IndexType         &kase,
           IndexType         *iSave);
-
+    
+template <typename IndexType>
+    void
+    lacn2(IndexType             n,
+          std::complex<float >  *v,
+          std::complex<float >  *x,
+          float                 &est,
+          IndexType             &kase,
+          IndexType             *iSave);
+    
 template <typename IndexType>
     void
     lacn2(IndexType             n,

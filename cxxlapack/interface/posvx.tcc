@@ -43,24 +43,26 @@ posvx(char                  fact,
       char                  uplo,
       IndexType             n,
       IndexType             nRhs,
-      double                *A,
+      float                 *A,
       IndexType             ldA,
-      double                *Af,
+      float                 *Af,
       IndexType             ldAf,
       char                  &equed,
-      double                *s,
-      double                *B,
+      float                 *s,
+      float                 *B,
       IndexType             ldB,
-      double                *X,
+      float                 *X,
       IndexType             ldX,
-      double                &rCond,
-      double                *ferr,
-      double                *berr,
-      double                *work,
+      float                 &rCond,
+      float                 *ferr,
+      float                 *berr,
+      float                 *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("sposvx");
+    
     IndexType info;
-    LAPACK_IMPL(dposvx)(&fact,
+    LAPACK_IMPL(sposvx)(&fact,
                         &uplo,
                         &n,
                         &nRhs,
@@ -96,6 +98,114 @@ posvx(char                  fact,
       char                  uplo,
       IndexType             n,
       IndexType             nRhs,
+      double                *A,
+      IndexType             ldA,
+      double                *Af,
+      IndexType             ldAf,
+      char                  &equed,
+      double                *s,
+      double                *B,
+      IndexType             ldB,
+      double                *X,
+      IndexType             ldX,
+      double                &rCond,
+      double                *ferr,
+      double                *berr,
+      double                *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("dposvx");
+    
+    IndexType info;
+    LAPACK_IMPL(dposvx)(&fact,
+                        &uplo,
+                        &n,
+                        &nRhs,
+                        A,
+                        &ldA,
+                        Af,
+                        &ldAf,
+                        &equed,
+                        s,
+                        B,
+                        &ldB,
+                        X,
+                        &ldX,
+                        &rCond,
+                        ferr,
+                        berr,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+posvx(char                  fact,
+      char                  uplo,
+      IndexType             n,
+      IndexType             nRhs,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      std::complex<float >  *Af,
+      IndexType             ldAf,
+      char                  &equed,
+      float                 *s,
+      std::complex<float >  *B,
+      IndexType             ldB,
+      std::complex<float >  *X,
+      IndexType             ldX,
+      float                 &rCond,
+      float                 *ferr,
+      float                 *berr,
+      std::complex<float >  *work,
+      float                 *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("cposvx");
+    
+    IndexType info;
+    LAPACK_IMPL(cposvx)(&fact,
+                        &uplo,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(Af),
+                        &ldAf,
+                        &equed,
+                        s,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(X),
+                        &ldX,
+                        &rCond,
+                        ferr,
+                        berr,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+posvx(char                  fact,
+      char                  uplo,
+      IndexType             n,
+      IndexType             nRhs,
       std::complex<double>  *A,
       IndexType             ldA,
       std::complex<double>  *Af,
@@ -112,6 +222,8 @@ posvx(char                  fact,
       std::complex<double>  *work,
       double                *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zposvx");
+    
     IndexType info;
     LAPACK_IMPL(zposvx)(&fact,
                         &uplo,

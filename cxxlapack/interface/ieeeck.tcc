@@ -43,7 +43,8 @@ ieeeck(IndexType             ispec,
        float                 zero,
        float                 one)
 {
-
+    CXXLAPACK_DEBUG_OUT("ieeeck");
+    
     return LAPACK_IMPL(ieeeck)(&ispec,
                                &zero,
                                &one);

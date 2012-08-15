@@ -41,6 +41,44 @@ template <typename IndexType>
 IndexType
 ggbal(char                  job,
       IndexType             n,
+      float                 *A,
+      IndexType             ldA,
+      float                 *B,
+      IndexType             ldB,
+      IndexType             ilo,
+      IndexType             ihi,
+      float                 *lscale,
+      float                 *rscale,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("sggbal"); 
+    
+    IndexType info;
+    LAPACK_IMPL(sggbal)(&job,
+                        &n,
+                        A,
+                        &ldA,
+                        B,
+                        &ldB,
+                        &ilo,
+                        &ihi,
+                        lscale,
+                        rscale,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ggbal(char                  job,
+      IndexType             n,
       double                *A,
       IndexType             ldA,
       double                *B,
@@ -51,6 +89,8 @@ ggbal(char                  job,
       double                *rscale,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dggbal");
+    
     IndexType info;
     LAPACK_IMPL(dggbal)(&job,
                         &n,
@@ -78,6 +118,44 @@ template <typename IndexType>
 IndexType
 ggbal(char                  job,
       IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      std::complex<float >  *B,
+      IndexType             ldB,
+      IndexType             ilo,
+      IndexType             ihi,
+      float                 *lscale,
+      float                  *rscale,
+      double                *work)
+{
+    CXXLAPACK_DEBUG_OUT("cggbal");
+    
+    IndexType info;
+    LAPACK_IMPL(cggbal)(&job,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        &ilo,
+                        &ihi,
+                        lscale,
+                        rscale,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ggbal(char                  job,
+      IndexType             n,
       std::complex<double>  *A,
       IndexType             ldA,
       std::complex<double>  *B,
@@ -88,6 +166,8 @@ ggbal(char                  job,
       double                *rscale,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("zggbal");
+    
     IndexType info;
     LAPACK_IMPL(zggbal)(&job,
                         &n,

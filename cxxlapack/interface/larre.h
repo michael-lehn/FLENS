@@ -36,7 +36,34 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    larre(char                  range,
+          IndexType             n,
+          float                 &vl,
+          float                 &vu,
+          IndexType             il,
+          IndexType             iu,
+          float                 *d,
+          float                 *e,
+          float                 *e2,
+          float                 rtol1,
+          float                 rtol2,
+          float                 spltol,
+          IndexType             &nsplit,
+          IndexType             *isplit,
+          IndexType             &m,
+          float                 *w,
+          float                 *werr,
+          float                 *wgap,
+          IndexType             *iblock,
+          IndexType             *indexw,
+          float                 *gers,
+          float                 &pivmin,
+          float                 *work,
+          IndexType             *iWork);
+    
 template <typename IndexType>
     IndexType
     larre(char                  range,

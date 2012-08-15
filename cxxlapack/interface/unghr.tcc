@@ -42,12 +42,46 @@ IndexType
 unghr(IndexType                  n,
       IndexType                  iLo,
       IndexType                  iHi,
+      std::complex<float >       *A,
+      IndexType                  ldA,
+      const std::complex<float >  *tau,
+      std::complex<float >        *work,
+      IndexType                   lWork)
+{
+    CXXLAPACK_DEBUG_OUT("cunghr");
+ 
+    IndexType info;
+    LAPACK_IMPL(cunghr)(&n,
+                        &iLo,
+                        &iHi,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<const float  *>(tau),
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+unghr(IndexType                  n,
+      IndexType                  iLo,
+      IndexType                  iHi,
       std::complex<double>       *A,
       IndexType                  ldA,
       const std::complex<double>  *tau,
       std::complex<double>        *work,
       IndexType                   lWork)
 {
+    CXXLAPACK_DEBUG_OUT("zunghr");
+ 
     IndexType info;
     LAPACK_IMPL(zunghr)(&n,
                         &iLo,

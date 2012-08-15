@@ -43,6 +43,29 @@ template <typename IndexType>
           char                  uplo,
           IndexType             n,
           IndexType             nRhs,
+          float                 *A,
+          IndexType             ldA,
+          float                 *Af,
+          IndexType             ldAf,
+          char                  &equed,
+          float                 *s,
+          float                 *B,
+          IndexType             ldB,
+          float                 *X,
+          IndexType             ldX,
+          float                 &rCond,
+          float                 *ferr,
+          float                 *berr,
+          float                 *work,
+          IndexType             *iWork);
+    
+    
+template <typename IndexType>
+    IndexType
+    posvx(char                  fact,
+          char                  uplo,
+          IndexType             n,
+          IndexType             nRhs,
           double                *A,
           IndexType             ldA,
           double                *Af,
@@ -58,6 +81,28 @@ template <typename IndexType>
           double                *berr,
           double                *work,
           IndexType             *iWork);
+    
+template <typename IndexType>
+    IndexType
+    posvx(char                  fact,
+          char                  uplo,
+          IndexType             n,
+          IndexType             nRhs,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          std::complex<float >  *Af,
+          IndexType             ldAf,
+          char                  &equed,
+          float                 *s,
+          std::complex<float >  *B,
+          IndexType             ldB,
+          std::complex<float >  *X,
+          IndexType             ldX,
+          float                 &rCond,
+          float                 *ferr,
+          float                 *berr,
+          std::complex<float >  *work,
+          float                 *rWork);
 
 template <typename IndexType>
     IndexType

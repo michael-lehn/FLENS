@@ -41,6 +41,22 @@ template <typename IndexType>
     IndexType
     ptrfs(IndexType             n,
           IndexType             nRhs,
+          const float           *d,
+          const float           *e,
+          const float           *df,
+          const float           *ef,
+          const float           *B,
+          IndexType             ldB,
+          float                 *X,
+          IndexType             ldX,
+          float                 *ferr,
+          float                 *berr,
+          float                 *work);
+
+template <typename IndexType>
+    IndexType
+    ptrfs(IndexType             n,
+          IndexType             nRhs,
           const double          *d,
           const double          *e,
           const double          *df,
@@ -52,7 +68,23 @@ template <typename IndexType>
           double                *ferr,
           double                *berr,
           double                *work);
-
+    
+template <typename IndexType>
+    IndexType
+    ptrfs(IndexType                   n,
+          IndexType                   nRhs,
+          const float                 *d,
+          const std::complex<float >  *e,
+          const float                 *df,
+          const std::complex<float >  *ef,
+          const std::complex<float >  *B,
+          IndexType                   ldB,
+          std::complex<float >        *X,
+          IndexType                   ldX,
+          float                       *ferr,
+          float                       *berr,
+          std::complex<float >        *work);
+    
 template <typename IndexType>
     IndexType
     ptrfs(IndexType                   n,

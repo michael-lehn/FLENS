@@ -42,6 +42,46 @@ IndexType
 sygvd(IndexType             itype,
       char                  jobz,
       IndexType             n,
+      float                 *A,
+      IndexType             ldA,
+      float                 *B,
+      IndexType             ldB,
+      float                 *w,
+      float                 *work,
+      IndexType             lWork,
+      IndexType             *iWork,
+      IndexType             liWork)
+{
+    CXXLAPACK_DEBUG_OUT("ssyevd");
+ 
+    IndexType info;
+    LAPACK_IMPL(ssyevd)(&itype,
+                        &jobz,
+                        &n,
+                        A,
+                        &ldA,
+                        B,
+                        &ldB,
+                        w,
+                        work,
+                        &lWork,
+                        iWork,
+                        &liWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+sygvd(IndexType             itype,
+      char                  jobz,
+      IndexType             n,
       double                *A,
       IndexType             ldA,
       double                *B,
@@ -52,6 +92,8 @@ sygvd(IndexType             itype,
       IndexType             *iWork,
       IndexType             liWork)
 {
+    CXXLAPACK_DEBUG_OUT("dsyevd");
+ 
     IndexType info;
     LAPACK_IMPL(dsyevd)(&itype,
                         &jobz,

@@ -43,6 +43,7 @@ lacgv(IndexType             n,
       std::complex<float>  *x,
       IndexType             incx)
 {
+    CXXLAPACK_DEBUG_OUT("clacgv");
 
     LAPACK_IMPL(clacgv)(&n,
                         reinterpret_cast<float *>(x),
@@ -55,7 +56,8 @@ lacgv(IndexType             n,
       std::complex<double>  *x,
       IndexType             incx)
 {
-
+    CXXLAPACK_DEBUG_OUT("zlacgv");
+    
     LAPACK_IMPL(zlacgv)(&n,
                         reinterpret_cast<double *>(x),
                         &incx);

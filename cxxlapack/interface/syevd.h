@@ -36,7 +36,20 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    syevd(char           jobZ,
+          char           upLo,
+          IndexType      n,
+          float          *A,
+          IndexType      ldA,
+          float          *w,
+          float          *work,
+          IndexType      lWork,
+          IndexType      *iWork,
+          IndexType       liWork);
+    
 template <typename IndexType>
     IndexType
     syevd(char           jobZ,

@@ -44,11 +44,39 @@ lasr (char                  side,
       char                  direct,
       IndexType             m,
       IndexType             n,
+      const float           *c,
+      const float           *s,
+      float                 *A,
+      IndexType             ldA)
+{
+    CXXLAPACK_DEBUG_OUT("slasr");
+    
+    LAPACK_IMPL(slasr) (&side,
+                        &pivot,
+                        &direct,
+                        &m,
+                        &n,
+                        c,
+                        s,
+                        A,
+                        &ldA);
+}
+
+
+template <typename IndexType>
+void
+lasr (char                  side,
+      char                  pivot,
+      char                  direct,
+      IndexType             m,
+      IndexType             n,
       const double          *c,
       const double          *s,
       double                *A,
       IndexType             ldA)
 {
+    CXXLAPACK_DEBUG_OUT("dlasr");
+    
     LAPACK_IMPL(dlasr) (&side,
                         &pivot,
                         &direct,
@@ -67,11 +95,38 @@ lasr (char                  side,
       char                  direct,
       IndexType             m,
       IndexType             n,
+      const float           *c,
+      const float           *s,
+      std::complex<float >  *A,
+      IndexType             ldA)
+{
+    CXXLAPACK_DEBUG_OUT("clasr");
+    
+    LAPACK_IMPL(clasr) (&side,
+                        &pivot,
+                        &direct,
+                        &m,
+                        &n,
+                        c,
+                        s,
+                        reinterpret_cast<float  *>(A),
+                        &ldA);
+}
+
+template <typename IndexType>
+void
+lasr (char                  side,
+      char                  pivot,
+      char                  direct,
+      IndexType             m,
+      IndexType             n,
       const double          *c,
       const double          *s,
       std::complex<double>  *A,
       IndexType             ldA)
 {
+    CXXLAPACK_DEBUG_OUT("zlasr");
+    
     LAPACK_IMPL(zlasr) (&side,
                         &pivot,
                         &direct,

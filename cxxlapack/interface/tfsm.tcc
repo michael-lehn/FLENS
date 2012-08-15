@@ -46,11 +46,42 @@ tfsm (char                  transr,
       char                  diag,
       IndexType             m,
       IndexType             n,
+      float                 alpha,
+      const float           *A,
+      float                 *B,
+      IndexType             ldB)
+{
+    CXXLAPACK_DEBUG_OUT("stfsm");
+ 
+    LAPACK_IMPL(stfsm) (&transr,
+                        &side,
+                        &uplo,
+                        &trans,
+                        &diag,
+                        &m,
+                        &n,
+                        &alpha,
+                        A,
+                        B,
+                        &ldB);
+}
+
+template <typename IndexType>
+void
+tfsm (char                  transr,
+      char                  side,
+      char                  uplo,
+      char                  trans,
+      char                  diag,
+      IndexType             m,
+      IndexType             n,
       double                alpha,
       const double          *A,
       double                *B,
       IndexType             ldB)
 {
+    CXXLAPACK_DEBUG_OUT("dtfsm");
+ 
     LAPACK_IMPL(dtfsm) (&transr,
                         &side,
                         &uplo,
@@ -74,11 +105,42 @@ tfsm (char                        transr,
       char                        diag,
       IndexType                   m,
       IndexType                   n,
+      std::complex<float >        alpha,
+      const std::complex<float >  *A,
+      std::complex<float >        *B,
+      IndexType                   ldB)
+{
+    CXXLAPACK_DEBUG_OUT("ctfsm");
+ 
+    LAPACK_IMPL(ctfsm) (&transr,
+                        &side,
+                        &uplo,
+                        &trans,
+                        &diag,
+                        &m,
+                        &n,
+                        reinterpret_cast<const float  *>(&alpha),
+                        reinterpret_cast<const float  *>(A),
+                        reinterpret_cast<float  *>(B),
+                        &ldB);
+}
+
+template <typename IndexType>
+void
+tfsm (char                        transr,
+      char                        side,
+      char                        uplo,
+      char                        trans,
+      char                        diag,
+      IndexType                   m,
+      IndexType                   n,
       std::complex<double>        alpha,
       const std::complex<double>  *A,
       std::complex<double>        *B,
       IndexType                   ldB)
 {
+    CXXLAPACK_DEBUG_OUT("ztfsm");
+ 
     LAPACK_IMPL(ztfsm) (&transr,
                         &side,
                         &uplo,

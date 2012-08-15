@@ -42,6 +42,61 @@ IndexType
 gges(char                  jobvsl,
      char                  jobvsr,
      char                  sort,
+     IndexType             (*select)(const float  *, const float  *),
+     IndexType             n,
+     float                 *A,
+     IndexType             ldA,
+     float                 *B,
+     IndexType             ldB,
+     IndexType             &sdim,
+     float                 *alpha,
+     float                 *beta,
+     float                 *Vsl,
+     IndexType             ldVsl,
+     float                 *Vsr,
+     IndexType             ldVsr,
+     float                 *work,
+     IndexType             lWork,
+     bool                  *bwork)
+{
+    CXXLAPACK_DEBUG_OUT("sgges");
+    
+    IndexType info;
+    // TODO: Convert bwork into a logical array!
+    LAPACK_IMPL(sgges)(&jobvsl,
+                       &jobvsr,
+                       &sort,
+                       select,
+                       &n,
+                       A,
+                       &ldA,
+                       B,
+                       &ldB,
+                       &sdim,
+                       alpha,
+                       beta,
+                       Vsl,
+                       &ldVsl,
+                       Vsr,
+                       &ldVsr,
+                       work,
+                       &lWork,
+                       bwork,
+                       &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gges(char                  jobvsl,
+     char                  jobvsr,
+     char                  sort,
      IndexType             (*select)(const double *, const double *),
      IndexType             n,
      double                *A,
@@ -59,6 +114,8 @@ gges(char                  jobvsl,
      IndexType             lWork,
      bool                  *bwork)
 {
+    CXXLAPACK_DEBUG_OUT("dgges");
+    
     IndexType info;
     // TODO: Convert bwork into a logical array!
     LAPACK_IMPL(dgges)(&jobvsl,
@@ -95,6 +152,63 @@ IndexType
 gges(char                  jobvsl,
      char                  jobvsr,
      char                  sort,
+     IndexType              (*select)(const std::complex<float > *),
+     IndexType             n,
+     std::complex<float >  *A,
+     IndexType             ldA,
+     std::complex<float >  *B,
+     IndexType             ldB,
+     IndexType             &sdim,
+     std::complex<float >  *alpha,
+     std::complex<float >  *beta,
+     std::complex<float >  *Vsl,
+     IndexType             ldVsl,
+     std::complex<float >  *Vsr,
+     IndexType             ldVsr,
+     std::complex<float >  *work,
+     IndexType             lWork,
+     double                rWork,
+     bool                  *bwork)
+{
+    CXXLAPACK_DEBUG_OUT("cgges");
+    
+    IndexType info;
+    // TODO: Convert bwork into a logical array!
+    LAPACK_IMPL(cgges)(&jobvsl,
+                       &jobvsr,
+                       &sort,
+                       &select,
+                       &n,
+                       reinterpret_cast<float  *>(A),
+                       &ldA,
+                       reinterpret_cast<float  *>(B),
+                       &ldB,
+                       &sdim,
+                       reinterpret_cast<float  *>(alpha),
+                       reinterpret_cast<float  *>(beta),
+                       reinterpret_cast<float  *>(Vsl),
+                       &ldVsl,
+                       reinterpret_cast<float  *>(Vsr),
+                       &ldVsr,
+                       reinterpret_cast<float  *>(work),
+                       &lWork,
+                       rWork,
+                       bwork,
+                       &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gges(char                  jobvsl,
+     char                  jobvsr,
+     char                  sort,
      IndexType              (*select)(const std::complex<double> *),
      IndexType             n,
      std::complex<double>  *A,
@@ -113,6 +227,8 @@ gges(char                  jobvsl,
      double                rWork,
      bool                  *bwork)
 {
+    CXXLAPACK_DEBUG_OUT("zgges");
+    
     IndexType info;
     // TODO: Convert bwork into a logical array!
     LAPACK_IMPL(zgges)(&jobvsl,

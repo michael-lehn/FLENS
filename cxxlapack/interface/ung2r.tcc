@@ -42,11 +42,43 @@ IndexType
 ung2r(IndexType                   m,
       IndexType                   n,
       IndexType                   k,
+      std::complex<float >        *A,
+      IndexType                   ldA,
+      const std::complex<float >  *tau,
+      std::complex<float >        *work)
+{
+    CXXLAPACK_DEBUG_OUT("cung2r");
+ 
+    IndexType info;
+    LAPACK_IMPL(cung2r)(&m,
+                        &n,
+                        &k,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<const float  *>(tau),
+                        reinterpret_cast<float  *>(work),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ung2r(IndexType                   m,
+      IndexType                   n,
+      IndexType                   k,
       std::complex<double>        *A,
       IndexType                   ldA,
       const std::complex<double>  *tau,
       std::complex<double>        *work)
 {
+    CXXLAPACK_DEBUG_OUT("zung2r");
+ 
     IndexType info;
     LAPACK_IMPL(zung2r)(&m,
                         &n,

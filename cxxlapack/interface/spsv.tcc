@@ -42,11 +42,44 @@ IndexType
 spsv (char                  uplo,
       IndexType             n,
       IndexType             nRhs,
+      float                 *Ap,
+      IndexType             *iPiv,
+      float                 *B,
+      IndexType             ldB)
+{
+    CXXLAPACK_DEBUG_OUT("sspsv");
+
+    IndexType info;
+    LAPACK_IMPL(sspsv) (&uplo,
+                        &n,
+                        &nRhs,
+                        Ap,
+                        iPiv,
+                        B,
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+spsv (char                  uplo,
+      IndexType             n,
+      IndexType             nRhs,
       double                *Ap,
       IndexType             *iPiv,
       double                *B,
       IndexType             ldB)
 {
+    CXXLAPACK_DEBUG_OUT("dspsv");
+
     IndexType info;
     LAPACK_IMPL(dspsv) (&uplo,
                         &n,
@@ -71,11 +104,43 @@ IndexType
 spsv (char                  uplo,
       IndexType             n,
       IndexType             nRhs,
+      std::complex<float >  *Ap,
+      IndexType             *iPiv,
+      std::complex<float >  *B,
+      IndexType             ldB)
+{
+    CXXLAPACK_DEBUG_OUT("cspsv");
+
+    IndexType info;
+    LAPACK_IMPL(cspsv) (&uplo,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<float  *>(Ap),
+                        iPiv,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+spsv (char                  uplo,
+      IndexType             n,
+      IndexType             nRhs,
       std::complex<double>  *Ap,
       IndexType             *iPiv,
       std::complex<double>  *B,
       IndexType             ldB)
 {
+    CXXLAPACK_DEBUG_OUT("zspsv");
+
     IndexType info;
     LAPACK_IMPL(zspsv) (&uplo,
                         &n,

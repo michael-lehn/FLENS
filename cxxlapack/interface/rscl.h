@@ -40,10 +40,24 @@ namespace cxxlapack {
 template <typename IndexType>
     void
     rscl(IndexType          n,
+         const float        &sa,
+         float              *sx,
+         IndexType          incX);
+    
+template <typename IndexType>
+    void
+    rscl(IndexType          n,
          const double       &sa,
          double             *sx,
          IndexType          incX);
-
+    
+template <typename IndexType>
+    void
+    rscl(IndexType              n,
+         const float            &sa,
+         std::complex<float >   *sx,
+         IndexType              incX);
+    
 template <typename IndexType>
     void
     rscl(IndexType              n,

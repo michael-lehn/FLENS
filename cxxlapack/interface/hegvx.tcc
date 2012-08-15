@@ -44,6 +44,68 @@ hegvx(IndexType             itype,
       char                  range,
       char                  uplo,
       IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      std::complex<float >  *B,
+      IndexType             ldB,
+      float                 vl,
+      float                 vu,
+      IndexType             il,
+      IndexType             iu,
+      float                 abstol,
+      IndexType             &m,
+      float                 *w,
+      std::complex<float >  *Z,
+      IndexType             ldZ,
+      std::complex<float >  *work,
+      IndexType             lWork,
+      float                 *rWork,
+      IndexType             *iWork,
+      IndexType             *ifail)
+{
+    CXXLAPACK_DEBUG_OUT("chegvx");
+    
+    IndexType info;
+    LAPACK_IMPL(chegvx)(&itype,
+                        &jobz,
+                        &range,
+                        &uplo,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        &vl,
+                        &vu,
+                        &il,
+                        &iu,
+                        &abstol,
+                        &m,
+                        w,
+                        reinterpret_cast<float  *>(Z),
+                        &ldZ,
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        rWork,
+                        iWork,
+                        ifail,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hegvx(IndexType             itype,
+      char                  jobz,
+      char                  range,
+      char                  uplo,
+      IndexType             n,
       std::complex<double>  *A,
       IndexType             ldA,
       std::complex<double>  *B,
@@ -63,6 +125,8 @@ hegvx(IndexType             itype,
       IndexType             *iWork,
       IndexType             *ifail)
 {
+    CXXLAPACK_DEBUG_OUT("zhegvx");
+    
     IndexType info;
     LAPACK_IMPL(zhegvx)(&itype,
                         &jobz,

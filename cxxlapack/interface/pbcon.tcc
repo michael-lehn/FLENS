@@ -42,15 +42,17 @@ IndexType
 pbcon(char                  uplo,
       IndexType             n,
       IndexType             nd,
-      const double          *Ab,
+      const float           *Ab,
       IndexType             ldAb,
-      double                anorm,
-      double                &rCond,
-      double                *work,
+      float                 anorm,
+      float                 &rCond,
+      float                 *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("spbcon");
+  
     IndexType info;
-    LAPACK_IMPL(dpbcon)(&uplo,
+    LAPACK_IMPL(spbcon)(&uplo,
                         &n,
                         &nd,
                         Ab,
@@ -72,6 +74,75 @@ pbcon(char                  uplo,
 
 template <typename IndexType>
 IndexType
+pbcon(char                  uplo,
+      IndexType             n,
+      IndexType             nd,
+      const double          *Ab,
+      IndexType             ldAb,
+      double                anorm,
+      double                &rCond,
+      double                *work,
+      IndexType             *iWork)
+{
+
+    CXXLAPACK_DEBUG_OUT("dpbocn");
+  
+    IndexType info;
+    LAPACK_IMPL(dpbcon)(&uplo,
+                        &n,
+                        &nd,
+                        Ab,
+                        &ldAb,
+                        &anorm,
+                        &rCond,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+pbcon(char                        uplo,
+      IndexType                   n,
+      IndexType                   nd,
+      const std::complex<float >  *Ab,
+      IndexType                   ldAb,
+      float                       anorm,
+      float                       &rCond,
+      std::complex<float >        *work,
+      float                       *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("cpbcon");
+  
+    IndexType info;
+    LAPACK_IMPL(cpbcon)(&uplo,
+                        &n,
+                        &nd,
+                        reinterpret_cast<const float  *>(Ab),
+                        &ldAb,
+                        &anorm,
+                        &rCond,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
 pbcon(char                        uplo,
       IndexType                   n,
       IndexType                   nd,
@@ -82,6 +153,8 @@ pbcon(char                        uplo,
       std::complex<double>        *work,
       double                      *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zpbcon");
+  
     IndexType info;
     LAPACK_IMPL(zpbcon)(&uplo,
                         &n,

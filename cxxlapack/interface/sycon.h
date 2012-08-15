@@ -41,12 +41,36 @@ template <typename IndexType>
     IndexType
     sycon(char                        uplo,
           IndexType                   n,
+          const float                 *A,
+          IndexType                   ldA,
+          const IndexType             *iPiv,
+          float                       anorm,
+          float                       &rCond,
+          float                       *work,
+          IndexType                   *iWork);
+    
+template <typename IndexType>
+    IndexType
+    sycon(char                        uplo,
+          IndexType                   n,
           const double                *A,
           IndexType                   ldA,
           const IndexType             *iPiv,
           double                      anorm,
           double                      &rCond,
-          std::complex<double>        *work,
+          double                      *work,
+          IndexType                   *iWork);
+    
+template <typename IndexType>
+    IndexType
+    sycon(char                        uplo,
+          IndexType                   n,
+          const std::complex<float >  *A,
+          IndexType                   ldA,
+          const IndexType             *iPiv,
+          float                       anorm,
+          float                       &rCond,
+          std::complex<float >        *work,
           IndexType                   *iWork);
 
 template <typename IndexType>

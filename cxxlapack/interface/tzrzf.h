@@ -41,11 +41,32 @@ template <typename IndexType>
     void
     tzrzf(IndexType    m,
           IndexType    n,
+          float        *A,
+          IndexType    ldA,
+          float        *tau,
+          float        *work,
+          IndexType    lWork);
+    
+    
+template <typename IndexType>
+    void
+    tzrzf(IndexType    m,
+          IndexType    n,
           double       *A,
           IndexType    ldA,
           double       *tau,
           double       *work,
           IndexType    lWork);
+    
+template <typename IndexType>
+    void
+    tzrzf(IndexType             m,
+          IndexType             n,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          std::complex<float >  *tau,
+          std::complex<float >  *work,
+          IndexType             lWork);
 
 template <typename IndexType>
     void

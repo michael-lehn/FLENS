@@ -42,6 +42,51 @@ IndexType
 gegs(char                  jobvsl,
      char                  jobvsr,
      IndexType             n,
+     float                 *A,
+     IndexType             ldA,
+     float                 *B,
+     IndexType             ldB,
+     float                 *alpha,
+     float                 *beta,
+     float                 *Vsl,
+     IndexType             ldVsl,
+     float                 *Vsr,
+     IndexType             ldVsr,
+     float                 *work,
+     IndexType             lWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgegs");
+    LAPACK_IMPL(sgegs)(&jobvsl,
+                       &jobvsr,
+                       &n,
+                       A,
+                       &ldA,
+                       B,
+                       &ldB,
+                       alpha,
+                       beta,
+                       Vsl,
+                       &ldVsl,
+                       Vsr,
+                       &ldVsr,
+                       work,
+                       &lWork,
+                       &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}  
+  
+template <typename IndexType>
+IndexType
+gegs(char                  jobvsl,
+     char                  jobvsr,
+     IndexType             n,
      double                *A,
      IndexType             ldA,
      double                *B,
@@ -56,6 +101,7 @@ gegs(char                  jobvsl,
      IndexType             lWork)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("dgegs");
     LAPACK_IMPL(dgegs)(&jobvsl,
                        &jobvsr,
                        &n,
@@ -86,6 +132,53 @@ IndexType
 gegs(char                  jobvsl,
      char                  jobvsr,
      IndexType             n,
+     std::complex<float >  *A,
+     IndexType             ldA,
+     std::complex<float >  *B,
+     IndexType             ldB,
+     std::complex<float >  *alpha,
+     std::complex<float >  *beta,
+     std::complex<float >  *Vsl,
+     IndexType             ldVsl,
+     std::complex<float >  *Vsr,
+     IndexType             ldVsr,
+     std::complex<float >  *work,
+     IndexType             lWork,
+     double                *rWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgegs");
+    LAPACK_IMPL(cgegs)(&jobvsl,
+                       &jobvsr,
+                       &n,
+                       reinterpret_cast<float  *>(A),
+                       &ldA,
+                       reinterpret_cast<float  *>(B),
+                       &ldB,
+                       reinterpret_cast<float  *>(alpha),
+                       reinterpret_cast<float  *>(beta),
+                       reinterpret_cast<float  *>(Vsl),
+                       &ldVsl,
+                       reinterpret_cast<float  *>(Vsr),
+                       &ldVsr,
+                       reinterpret_cast<float  *>(work),
+                       &lWork,
+                       rWork,
+                       &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gegs(char                  jobvsl,
+     char                  jobvsr,
+     IndexType             n,
      std::complex<double>  *A,
      IndexType             ldA,
      std::complex<double>  *B,
@@ -101,6 +194,7 @@ gegs(char                  jobvsl,
      double                *rWork)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("zgegs");
     LAPACK_IMPL(zgegs)(&jobvsl,
                        &jobvsr,
                        &n,

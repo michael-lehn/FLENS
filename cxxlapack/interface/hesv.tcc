@@ -37,7 +37,41 @@
 
 namespace cxxlapack {
 
-
+template <typename IndexType>
+IndexType
+hesv (char                  uplo,
+      IndexType             n,
+      IndexType             nRhs,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      IndexType             *iPiv,
+      std::complex<float >  *B,
+      IndexType             ldB,
+      std::complex<float >  *work,
+      IndexType             lWork)
+{
+    CXXLAPACK_DEBUG_OUT("chesv");
+    
+    IndexType info;
+    LAPACK_IMPL(chesv)(&uplo,
+                       &n,
+                       &nRhs,
+                       reinterpret_cast<float  *>(A),
+                       &ldA,
+                       iPiv,
+                       reinterpret_cast<float  *>(B),
+                       &ldB,
+                       reinterpret_cast<float  *>(work),
+                       &lWork,
+                       &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
 template <typename IndexType>
 IndexType
 hesv (char                  uplo,
@@ -51,6 +85,8 @@ hesv (char                  uplo,
       std::complex<double>  *work,
       IndexType             lWork)
 {
+    CXXLAPACK_DEBUG_OUT("zhesv");
+    
     IndexType info;
     LAPACK_IMPL(zhesv)(&uplo,
                        &n,

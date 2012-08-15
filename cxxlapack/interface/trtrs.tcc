@@ -44,13 +44,51 @@ trtrs(char              upLo,
       char              diag,
       IndexType         n,
       IndexType         nRhs,
+      const float       *A,
+      IndexType         ldA,
+      float             *B,
+      IndexType         ldB)
+{
+    CXXLAPACK_DEBUG_OUT("strtrs");
+ 
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("strtrs");
+    LAPACK_IMPL(strtrs)(&upLo,
+                        &trans,
+                        &diag,
+                        &n,
+                        &nRhs,
+                        A,
+                        &ldA,
+                        B,
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+trtrs(char              upLo,
+      char              trans,
+      char              diag,
+      IndexType         n,
+      IndexType         nRhs,
       const double      *A,
       IndexType         ldA,
       double            *B,
       IndexType         ldB)
 {
+    CXXLAPACK_DEBUG_OUT("dtrtrs");
+ 
     IndexType info;
-    DEBUG_CXXLAPACK("dtrtrs");
+    CXXLAPACK_DEBUG_OUT("dtrtrs");
     LAPACK_IMPL(dtrtrs)(&upLo,
                         &trans,
                         &diag,
@@ -77,13 +115,50 @@ trtrs(char                          upLo,
       char                          diag,
       IndexType                     n,
       IndexType                     nRhs,
+      const std::complex<float >    *A,
+      IndexType                     ldA,
+      std::complex<float >          *B,
+      IndexType                     ldB)
+{
+    CXXLAPACK_DEBUG_OUT("ctrtrs");
+ 
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("ctrtrs");
+    LAPACK_IMPL(ctrtrs)(&upLo,
+                        &trans,
+                        &diag,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+trtrs(char                          upLo,
+      char                          trans,
+      char                          diag,
+      IndexType                     n,
+      IndexType                     nRhs,
       const std::complex<double>    *A,
       IndexType                     ldA,
       std::complex<double>          *B,
       IndexType                     ldB)
 {
+    CXXLAPACK_DEBUG_OUT("ztrtrs");
+ 
     IndexType info;
-    DEBUG_CXXLAPACK("ztrtrs");
+    CXXLAPACK_DEBUG_OUT("ztrtrs");
     LAPACK_IMPL(ztrtrs)(&upLo,
                         &trans,
                         &diag,

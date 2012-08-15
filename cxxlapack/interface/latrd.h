@@ -42,12 +42,37 @@ template <typename IndexType>
     latrd(char                  uplo,
           IndexType             n,
           IndexType             nb,
+          const float           *A,
+          IndexType             ldA,
+          float                 *e,
+          float                 *tau,
+          float                 *W,
+          IndexType             ldW);
+    
+    
+template <typename IndexType>
+    void
+    latrd(char                  uplo,
+          IndexType             n,
+          IndexType             nb,
           const double          *A,
           IndexType             ldA,
           double                *e,
           double                *tau,
           double                *W,
           IndexType             ldW);
+    
+template <typename IndexType>
+    void
+    latrd(char                       uplo,
+          IndexType                  n,
+          IndexType                  nb,
+          const std::complex<float > *A,
+          IndexType                  ldA,
+          float                      *e,
+          std::complex<float >       *tau,
+          std::complex<float >       *W,
+          IndexType                  ldW);
 
 template <typename IndexType>
     void

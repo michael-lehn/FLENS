@@ -38,9 +38,20 @@
 namespace cxxlapack {
 
 template <typename VOID>
+float
+lapy3(float x, float y, float z)
+{
+    CXXLAPACK_DEBUG_OUT("slapy3");
+    
+    return LAPACK_IMPL(slapy3)(&x, &y, &z);
+}
+
+template <typename VOID>
 double
 lapy3(double x, double y, double z)
 {
+    CXXLAPACK_DEBUG_OUT("dlapy3");
+    
     return LAPACK_IMPL(dlapy3)(&x, &y, &z);
 }
 

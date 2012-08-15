@@ -43,6 +43,26 @@ template <typename IndexType>
           char                  uplo,
           IndexType             n,
           IndexType             nRhs,
+          float                 *Ap,
+          float                 *Afp,
+          char                  &equed,
+          float                 *s,
+          float                 *B,
+          IndexType             ldB,
+          float                 *X,
+          IndexType             ldX,
+          float                 &rCond,
+          float                 *ferr,
+          float                 *berr,
+          float                 *work,
+          IndexType             *iWork);
+    
+template <typename IndexType>
+    IndexType
+    ppsvx(char                  fact,
+          char                  uplo,
+          IndexType             n,
+          IndexType             nRhs,
           double                *Ap,
           double                *Afp,
           char                  &equed,
@@ -55,6 +75,26 @@ template <typename IndexType>
           double                *ferr,
           double                *berr,
           double                *work,
+          IndexType             *iWork);
+    
+template <typename IndexType>
+    IndexType
+    ppsvx(char                  fact,
+          char                  uplo,
+          IndexType             n,
+          IndexType             nRhs,
+          std::complex<float >  *Ap,
+          std::complex<float >  *Afp,
+          char                  &equed,
+          float                 *s,
+          std::complex<float >  *B,
+          IndexType             ldB,
+          std::complex<float >  *X,
+          IndexType             ldX,
+          float                 &rCond,
+          float                 *ferr,
+          float                 *berr,
+          std::complex<float >  *work,
           IndexType             *iWork);
 
 template <typename IndexType>

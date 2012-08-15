@@ -36,7 +36,20 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    sfrk (char                  transr,
+          char                  uplo,
+          char                  trans,
+          IndexType             n,
+          IndexType             k,
+          float                 alpha,
+          const float           *A,
+          IndexType             ldA,
+          float                 beta,
+          float                 *C);
+    
 template <typename IndexType>
     IndexType
     sfrk (char                  transr,

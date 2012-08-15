@@ -44,11 +44,36 @@ template <typename IndexType>
           char                  direct,
           IndexType             m,
           IndexType             n,
+          const float           *c,
+          const float           *s,
+          float                 *A,
+          IndexType             ldA);
+
+    
+template <typename IndexType>
+    void
+    lasr (char                  side,
+          char                  pivot,
+          char                  direct,
+          IndexType             m,
+          IndexType             n,
           const double          *c,
           const double          *s,
           double                *A,
           IndexType             ldA);
-
+    
+template <typename IndexType>
+    void
+    lasr (char                  side,
+          char                  pivot,
+          char                  direct,
+          IndexType             m,
+          IndexType             n,
+          const float           *c,
+          const float           *s,
+          std::complex<float >  *A,
+          IndexType             ldA);
+    
 template <typename IndexType>
     void
     lasr (char                  side,

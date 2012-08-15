@@ -41,11 +41,29 @@ template <typename IndexType>
     IndexType
     pttrs(IndexType             n,
           IndexType             nRhs,
+          const float           *d,
+          const float           *e,
+          float                 *B,
+          IndexType             ldB);
+    
+template <typename IndexType>
+    IndexType
+    pttrs(IndexType             n,
+          IndexType             nRhs,
           const double          *d,
           const double          *e,
           double                *B,
           IndexType             ldB);
-
+    
+template <typename IndexType>
+    IndexType
+    pttrs(IndexType                   n,
+          IndexType                   nRhs,
+          const float                 *d,
+          const std::complex<float >  *e,
+          std::complex<float >        *B,
+          IndexType                   ldB);
+    
 template <typename IndexType>
     IndexType
     pttrs(IndexType                   n,

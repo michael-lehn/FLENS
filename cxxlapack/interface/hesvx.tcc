@@ -43,6 +43,60 @@ hesvx(char                        fact,
       char                        uplo,
       IndexType                   n,
       IndexType                   nRhs,
+      const std::complex<float >  *A,
+      IndexType                   ldA,
+      std::complex<float >        *Af,
+      IndexType                   ldAf,
+      IndexType                   *iPiv,
+      const std::complex<float >  *B,
+      IndexType                   ldB,
+      std::complex<float >        *X,
+      IndexType                   ldX,
+      float                       &rCond,
+      float                       *ferr,
+      float                       *berr,
+      std::complex<float >        *work,
+      IndexType                   lWork,
+      float                       *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("chesvx");
+    
+    IndexType info;
+    LAPACK_IMPL(chesvx)(&fact,
+                        &uplo,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(Af),
+                        &ldAf,
+                        iPiv,
+                        reinterpret_cast<const float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(X),
+                        &ldX,
+                        &rCond,
+                        ferr,
+                        berr,
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hesvx(char                        fact,
+      char                        uplo,
+      IndexType                   n,
+      IndexType                   nRhs,
       const std::complex<double>  *A,
       IndexType                   ldA,
       std::complex<double>        *Af,
@@ -59,6 +113,8 @@ hesvx(char                        fact,
       IndexType                   lWork,
       double                      *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zhesvx");
+    
     IndexType info;
     LAPACK_IMPL(zhesvx)(&fact,
                         &uplo,

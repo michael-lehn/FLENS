@@ -41,6 +41,36 @@ template <typename IndexType>
 double
 la_gerCond_x(char                        trans,
              IndexType                   n,
+             const std::complex<float >  *A,
+             IndexType                   ldA,
+             const std::complex<float >  *Af,
+             IndexType                   ldAf,
+             const IndexType             *iPiv,
+             const std::complex<float >  *x,
+             IndexType                   &info,
+             std::complex<float >        *work,
+             float                       *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("cla_gercond_x");
+
+    return LAPACK_IMPL(cla_gercond_x)(&trans,
+                                      &n,
+                                      reinterpret_cast<const float  *>(A),
+                                      &ldA,
+                                      reinterpret_cast<const float  *>(Af)
+                                      &ldAf,
+                                      iPiv,
+                                      reinterpret_cast<const float  *>(x),
+                                      &info,
+                                      reinterpret_cast<float  *>(work),
+                                      rWork);
+
+}
+
+template <typename IndexType>
+double
+la_gerCond_x(char                        trans,
+             IndexType                   n,
              const std::complex<double>  *A,
              IndexType                   ldA,
              const std::complex<double>  *Af,
@@ -51,8 +81,9 @@ la_gerCond_x(char                        trans,
              std::complex<double>        *work,
              double                      *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zla_gercond_x");
 
-    return LAPACK_IMPL(zla_gerCond_x)(&trans,
+    return LAPACK_IMPL(zla_gercond_x)(&trans,
                                       &n,
                                       reinterpret_cast<const double *>(A),
                                       &ldA,

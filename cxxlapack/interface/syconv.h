@@ -42,10 +42,30 @@ template <typename IndexType>
     syconv(char                  uplo,
            char                  way,
            IndexType             n,
+           const float           *A,
+           IndexType             ldA,
+           const IndexType       *iPiv,
+           float                 *work);
+    
+template <typename IndexType>
+    IndexType
+    syconv(char                  uplo,
+           char                  way,
+           IndexType             n,
            const double          *A,
            IndexType             ldA,
            const IndexType       *iPiv,
            double                *work);
+    
+template <typename IndexType>
+    IndexType
+    syconv(char                        uplo,
+           char                        way,
+           IndexType                   n,
+           const std::complex<float >  *A,
+           IndexType                   ldA,
+           const IndexType             *iPiv,
+           std::complex<float >        *work);
 
 template <typename IndexType>
     IndexType

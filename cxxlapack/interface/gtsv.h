@@ -41,12 +41,32 @@ template <typename IndexType>
     IndexType
     gtsv(IndexType             n,
          IndexType             nRhs,
+         float                 *dl,
+         float                 *d,
+         float                 *du,
+         float                 *B,
+         IndexType             ldB);
+    
+template <typename IndexType>
+    IndexType
+    gtsv(IndexType             n,
+         IndexType             nRhs,
          double                *dl,
          double                *d,
          double                *du,
          double                *B,
          IndexType             ldB);
-
+    
+template <typename IndexType>
+    IndexType
+    gtsv(IndexType             n,
+         IndexType             nRhs,
+         std::complex<float >  *dl,
+         std::complex<float >  *d,
+         std::complex<float >  *du,
+         std::complex<float >  *B,
+         IndexType             ldB);
+    
 template <typename IndexType>
     IndexType
     gtsv(IndexType             n,

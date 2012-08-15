@@ -36,7 +36,20 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename VOID=void>
+    void
+    lanv2(float    &a,
+          float    &b,
+          float    &c,
+          float    &d,
+          float    &rt1r,
+          float    &rt1i,
+          float    &rt2r,
+          float    &rt2i,
+          float    &cs,
+          float    &sn);
+    
 template <typename VOID=void>
     void
     lanv2(double   &a,

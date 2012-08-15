@@ -41,11 +41,33 @@ template <typename IndexType>
     void
     laqsy(char                  uplo,
           IndexType             n,
+          float                 *A,
+          IndexType             ldA,
+          const float           *s,
+          float                 scond,
+          float                 amax,
+          char                  &equed);
+    
+template <typename IndexType>
+    void
+    laqsy(char                  uplo,
+          IndexType             n,
           double                *A,
           IndexType             ldA,
           const double          *s,
           double                scond,
           double                amax,
+          char                  &equed);
+    
+template <typename IndexType>
+    void
+    laqsy(char                  uplo,
+          IndexType             n,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          const float           *s,
+          float                 scond,
+          float                 amax,
           char                  &equed);
 
 template <typename IndexType>

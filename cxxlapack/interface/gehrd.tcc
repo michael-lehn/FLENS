@@ -42,6 +42,37 @@ IndexType
 gehrd(IndexType     n,
       IndexType     iLo,
       IndexType     iHi,
+      float         *A,
+      IndexType     ldA,
+      float         *tau,
+      float         *work,
+      IndexType     lWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgehrd");
+    LAPACK_IMPL(sgehrd)(&n,
+                        &iLo,
+                        &iHi,
+                        A,
+                        &ldA,
+                        tau,
+                        work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gehrd(IndexType     n,
+      IndexType     iLo,
+      IndexType     iHi,
       double        *A,
       IndexType     ldA,
       double        *tau,
@@ -49,6 +80,7 @@ gehrd(IndexType     n,
       IndexType     lWork)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("dgehrd");
     LAPACK_IMPL(dgehrd)(&n,
                         &iLo,
                         &iHi,
@@ -72,6 +104,37 @@ IndexType
 gehrd(IndexType             n,
       IndexType             iLo,
       IndexType             iHi,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      std::complex<float >  *tau,
+      std::complex<float >  *work,
+      IndexType             lWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgehrd");
+    LAPACK_IMPL(cgehrd)(&n,
+                        &iLo,
+                        &iHi,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(tau),
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gehrd(IndexType             n,
+      IndexType             iLo,
+      IndexType             iHi,
       std::complex<double>  *A,
       IndexType             ldA,
       std::complex<double>  *tau,
@@ -79,6 +142,7 @@ gehrd(IndexType             n,
       IndexType             lWork)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("zgehrd");
     LAPACK_IMPL(zgehrd)(&n,
                         &iLo,
                         &iHi,

@@ -36,14 +36,22 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
 template <typename VOID=void>
 void
-lae2(double                a,
-      double                b,
-      double                c,
-      double                &rt1,
-      double                &rt2);
+    lae2(float                 a,
+         float                 b,
+         float                 c,
+         float                 &rt1,
+         float                 &rt2);
+    
+template <typename VOID=void>
+void
+    lae2(double                a,
+         double                b,
+         double                c,
+         double                &rt1,
+         double                &rt2);
 
 } // namespace cxxlapack
 

@@ -44,7 +44,8 @@ iladlc(IndexType             m,
        const double          *A,
        IndexType             ldA)
 {
-
+    CXXLAPACK_DEBUG_OUT("iladlc");
+    
     return LAPACK_IMPL(iladlc)(&m,
                                &n,
                                A,

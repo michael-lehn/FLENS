@@ -41,11 +41,31 @@ template <typename IndexType>
     IndexType
     ppcon(char                  uplo,
           IndexType             n,
+          const float           *Ap,
+          float                 anorm,
+          float                 &rCond,
+          float                 *work,
+          IndexType             *iWork);
+    
+template <typename IndexType>
+    IndexType
+    ppcon(char                  uplo,
+          IndexType             n,
           const double          *Ap,
           double                anorm,
           double                &rCond,
           double                *work,
           IndexType             *iWork);
+    
+template <typename IndexType>
+    IndexType
+    ppcon(char                       uplo,
+          IndexType                  n,
+          const std::complex<float > *Ap,
+          float                      anorm,
+          float                      &rCond,
+          std::complex<float >       *work,
+          float                      *rWork);
 
 template <typename IndexType>
     IndexType

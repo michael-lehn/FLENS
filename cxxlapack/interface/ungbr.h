@@ -36,7 +36,19 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    ungbr(char                         vect,
+          IndexType                    m,
+          IndexType                    n,
+          IndexType                    k,
+          std::complex<float >         *A,
+          IndexType                    ldA,
+          const std::complex<float >   *tau,
+          std::complex<float >         *work,
+          IndexType                    lWork);
+    
 template <typename IndexType>
     IndexType
     ungbr(char                         vect,

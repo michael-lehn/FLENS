@@ -41,13 +41,43 @@ template <typename IndexType>
 IndexType
 gesv(IndexType  n,
      IndexType  nRhs,
+     float      *A,
+     IndexType  ldA,
+     IndexType  *iPiv,
+     float      *B,
+     IndexType  ldB)
+{
+    CXXLAPACK_DEBUG_OUT("sgesv");
+
+    IndexType info;
+    LAPACK_IMPL(sgesv)(&n,
+                       &nRhs,
+                       A,
+                       &ldA,
+                       iPiv,
+                       B,
+                       &ldB,
+                       &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gesv(IndexType  n,
+     IndexType  nRhs,
      double     *A,
      IndexType  ldA,
      IndexType  *iPiv,
      double     *B,
      IndexType  ldB)
 {
-    DEBUG_CXXLAPACK("dgesv");
+    CXXLAPACK_DEBUG_OUT("dgesv");
 
     IndexType info;
     LAPACK_IMPL(dgesv)(&n,
@@ -71,13 +101,43 @@ template <typename IndexType>
 IndexType
 gesv(IndexType              n,
      IndexType              nRhs,
+     std::complex<float >   *A,
+     IndexType              ldA,
+     IndexType              *iPiv,
+     std::complex<float >   *B,
+     IndexType              ldB)
+{
+    CXXLAPACK_DEBUG_OUT("cgesv");
+
+    IndexType info;
+    LAPACK_IMPL(cgesv)(&n,
+                       &nRhs,
+                       reinterpret_cast<float  *>(A),
+                       &ldA,
+                       iPiv,
+                       reinterpret_cast<float  *>(B),
+                       &ldB,
+                       &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gesv(IndexType              n,
+     IndexType              nRhs,
      std::complex<double>   *A,
      IndexType              ldA,
      IndexType              *iPiv,
      std::complex<double>   *B,
      IndexType              ldB)
 {
-    DEBUG_CXXLAPACK("zgesv");
+    CXXLAPACK_DEBUG_OUT("zgesv");
 
     IndexType info;
     LAPACK_IMPL(zgesv)(&n,

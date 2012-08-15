@@ -40,14 +40,68 @@ namespace cxxlapack {
 template <typename IndexType>
 IndexType
 getc2(IndexType             n,
+      float                 *A,
+      IndexType             ldA,
+      IndexType             *iPiv,
+      IndexType             *jpiv)
+{
+    CXXLAPACK_DEBUG_OUT("sgetc2");
+    
+    IndexType info;
+    LAPACK_IMPL(sgetc2)(&n,
+                        A,
+                        &ldA,
+                        iPiv,
+                        jpiv,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+getc2(IndexType             n,
       double                *A,
       IndexType             ldA,
       IndexType             *iPiv,
       IndexType             *jpiv)
 {
+    CXXLAPACK_DEBUG_OUT("dgetc2");
+    
     IndexType info;
     LAPACK_IMPL(dgetc2)(&n,
                         A,
+                        &ldA,
+                        iPiv,
+                        jpiv,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+getc2(IndexType             n,
+      std::complex<float>   *A,
+      IndexType             ldA,
+      IndexType             *iPiv,
+      IndexType             *jpiv)
+{
+    CXXLAPACK_DEBUG_OUT("cgetc2");
+    
+    IndexType info;
+    LAPACK_IMPL(cgetc2)(&n,
+                        reinterpret_cast<float *>(A),
                         &ldA,
                         iPiv,
                         jpiv,
@@ -69,6 +123,8 @@ getc2(IndexType             n,
       IndexType             *iPiv,
       IndexType             *jpiv)
 {
+    CXXLAPACK_DEBUG_OUT("zgetc2");
+    
     IndexType info;
     LAPACK_IMPL(zgetc2)(&n,
                         reinterpret_cast<double *>(A),

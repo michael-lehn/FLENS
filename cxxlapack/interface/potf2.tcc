@@ -41,9 +41,35 @@ template <typename IndexType>
 IndexType
 potf2(char          upLo,
       IndexType     n,
+      float         *A,
+      IndexType     ldA)
+{
+    CXXLAPACK_DEBUG_OUT("spotf2");
+    
+    IndexType info;
+    LAPACK_IMPL(spotf2)(&upLo,
+                        &n,
+                        A,
+                        &ldA,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+potf2(char          upLo,
+      IndexType     n,
       double        *A,
       IndexType     ldA)
 {
+    CXXLAPACK_DEBUG_OUT("dpotf2");
+    
     IndexType info;
     LAPACK_IMPL(dpotf2)(&upLo,
                         &n,
@@ -63,9 +89,35 @@ template <typename IndexType>
 IndexType
 potf2(char                  upLo,
       IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA)
+{
+    CXXLAPACK_DEBUG_OUT("cpotf2");
+    
+    IndexType info;
+    LAPACK_IMPL(cpotf2)(&upLo,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+potf2(char                  upLo,
+      IndexType             n,
       std::complex<double>  *A,
       IndexType             ldA)
 {
+    CXXLAPACK_DEBUG_OUT("zpotf2");
+    
     IndexType info;
     LAPACK_IMPL(zpotf2)(&upLo,
                         &n,

@@ -41,8 +41,9 @@ template <typename IndexType>
 IndexType
 ilauplo(char                uplo)
 {
-
-     return LAPACK_IMPL(ilauplo)(&uplo);
+    CXXLAPACK_DEBUG_OUT("ilauplo");
+    
+    return LAPACK_IMPL(ilauplo)(&uplo);
 }
 
 

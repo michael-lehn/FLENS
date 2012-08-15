@@ -40,10 +40,26 @@ namespace cxxlapack {
 template <typename IndexType>
     void
     larfg(IndexType     n,
+          float         &alpha,
+          float         *x,
+          IndexType     incX,
+          float         &tau);
+    
+template <typename IndexType>
+    void
+    larfg(IndexType     n,
           double        &alpha,
           double        *x,
           IndexType     incX,
           double        &tau);
+    
+template <typename IndexType>
+    void
+    larfg(IndexType               n,
+          std::complex<float >    &alpha,
+          std::complex<float >    *x,
+          IndexType               incX,
+          std::complex<float >    &tau);
 
 template <typename IndexType>
     void

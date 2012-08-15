@@ -42,9 +42,38 @@ IndexType
 tpttf(char                  transr,
       char                  uplo,
       IndexType             n,
+      const float           *Ap,
+      float                 *Arf)
+{
+    CXXLAPACK_DEBUG_OUT("stpttf");
+ 
+    IndexType info;
+    LAPACK_IMPL(stpttf)(&transr,
+                        &uplo,
+                        &n,
+                        Ap,
+                        Arf,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+tpttf(char                  transr,
+      char                  uplo,
+      IndexType             n,
       const double          *Ap,
       double                *Arf)
 {
+    CXXLAPACK_DEBUG_OUT("dtpttf");
+ 
     IndexType info;
     LAPACK_IMPL(dtpttf)(&transr,
                         &uplo,
@@ -66,9 +95,37 @@ IndexType
 tpttf(char                       transr,
       char                       uplo,
       IndexType                  n,
+      const std::complex<float > *Ap,
+      std::complex<float >       *Arf)
+{
+    CXXLAPACK_DEBUG_OUT("ctpttf");
+ 
+    IndexType info;
+    LAPACK_IMPL(ctpttf)(&transr,
+                        &uplo,
+                        &n,
+                        reinterpret_cast<const float  *>(Ap),
+                        reinterpret_cast<float  *>(Arf),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+tpttf(char                       transr,
+      char                       uplo,
+      IndexType                  n,
       const std::complex<double> *Ap,
       std::complex<double>       *Arf)
 {
+    CXXLAPACK_DEBUG_OUT("ztpttf");
+ 
     IndexType info;
     LAPACK_IMPL(ztpttf)(&transr,
                         &uplo,

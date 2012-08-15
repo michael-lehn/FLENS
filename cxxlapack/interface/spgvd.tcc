@@ -43,6 +43,48 @@ spgvd(IndexType             itype,
       char                  jobz,
       char                  uplo,
       IndexType             n,
+      float                 *Ap,
+      float                 *Bp,
+      float                 *w,
+      float                 *Z,
+      IndexType             ldZ,
+      float                 *work,
+      IndexType             lWork,
+      IndexType             *iWork,
+      IndexType             liWork)
+{
+    CXXLAPACK_DEBUG_OUT("sspgvd");
+  
+    IndexType info;
+    LAPACK_IMPL(sspgvd)(&itype,
+                        &jobz,
+                        &uplo,
+                        &n,
+                        Ap,
+                        Bp,
+                        w,
+                        Z,
+                        &ldZ,
+                        work,
+                        &lWork,
+                        iWork,
+                        &liWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+spgvd(IndexType             itype,
+      char                  jobz,
+      char                  uplo,
+      IndexType             n,
       double                *Ap,
       double                *Bp,
       double                *w,
@@ -53,6 +95,8 @@ spgvd(IndexType             itype,
       IndexType             *iWork,
       IndexType             liWork)
 {
+    CXXLAPACK_DEBUG_OUT("dspgvd");
+  
     IndexType info;
     LAPACK_IMPL(dspgvd)(&itype,
                         &jobz,

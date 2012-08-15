@@ -42,6 +42,35 @@ void
 laqp2(IndexType     m,
       IndexType     n,
       IndexType     offset,
+      float         *A,
+      IndexType     ldA,
+      IndexType     *jPvt,
+      float         *tau,
+      float         *vn1,
+      float         *vn2,
+      float         *work)
+{
+    CXXLAPACK_DEBUG_OUT("slaqp2");
+ 
+    LAPACK_IMPL(slaqp2)(&m,
+                        &n,
+                        &offset,
+                        A,
+                        &ldA,
+                        jPvt,
+                        tau,
+                        vn1,
+                        vn2,
+                        work);
+
+}
+
+
+template <typename IndexType>
+void
+laqp2(IndexType     m,
+      IndexType     n,
+      IndexType     offset,
       double        *A,
       IndexType     ldA,
       IndexType     *jPvt,
@@ -50,6 +79,8 @@ laqp2(IndexType     m,
       double        *vn2,
       double        *work)
 {
+    CXXLAPACK_DEBUG_OUT("dlaqp2");
+ 
     LAPACK_IMPL(dlaqp2)(&m,
                         &n,
                         &offset,
@@ -68,6 +99,33 @@ void
 laqp2(IndexType             m,
       IndexType             n,
       IndexType             offset,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      IndexType             *jPvt,
+      std::complex<float >  *tau,
+      float                 *vn1,
+      float                 *vn2,
+      std::complex<float >  *work)
+{
+    CXXLAPACK_DEBUG_OUT("claqp2");
+ 
+    LAPACK_IMPL(claqp2)(&m,
+                        &n,
+                        &offset,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        jPvt,
+                        reinterpret_cast<float  *>(tau),
+                        vn1,
+                        vn2,
+                        reinterpret_cast<float  *>(work));
+}
+
+template <typename IndexType>
+void
+laqp2(IndexType             m,
+      IndexType             n,
+      IndexType             offset,
       std::complex<double>  *A,
       IndexType             ldA,
       IndexType             *jPvt,
@@ -76,6 +134,8 @@ laqp2(IndexType             m,
       double                *vn2,
       std::complex<double>  *work)
 {
+    CXXLAPACK_DEBUG_OUT("zlaqp2");
+ 
     LAPACK_IMPL(zlaqp2)(&m,
                         &n,
                         &offset,

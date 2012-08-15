@@ -41,6 +41,42 @@ template <typename IndexType>
 IndexType
 gtcon(char                  norm,
       IndexType             n,
+      const float           *dl,
+      const float           *d,
+      const float           *du,
+      const float           *du2,
+      const IndexType       *iPiv,
+      float                 anorm,
+      float                 &rCond,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("sgtcon");
+    
+    IndexType info;
+    LAPACK_IMPL(sgtcon)(&norm,
+                        &n,
+                        dl,
+                        d,
+                        du,
+                        du2,
+                        iPiv,
+                        &anorm,
+                        &rCond,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gtcon(char                  norm,
+      IndexType             n,
       const double          *dl,
       const double          *d,
       const double          *du,
@@ -50,6 +86,8 @@ gtcon(char                  norm,
       double                &rCond,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dgtcon");
+    
     IndexType info;
     LAPACK_IMPL(dgtcon)(&norm,
                         &n,
@@ -76,6 +114,42 @@ template <typename IndexType>
 IndexType
 gtcon(char                        norm,
       IndexType                   n,
+      const std::complex<float >  *dl,
+      const std::complex<float >  *d,
+      const std::complex<float >  *du,
+      const std::complex<float >  *du2,
+      const IndexType             *iPiv,
+      float                       anorm,
+      float                       &rCond,
+      std::complex<float >       *work)
+{
+    CXXLAPACK_DEBUG_OUT("cgtcon");
+    
+    IndexType info;
+    LAPACK_IMPL(cgtcon)(&norm,
+                        &n,
+                        reinterpret_cast<const float  *>(dl),
+                        reinterpret_cast<const float  *>(d),
+                        reinterpret_cast<const float  *>(du),
+                        reinterpret_cast<const float  *>(du2),
+                        iPiv,
+                        &anorm,
+                        &rCond,
+                        reinterpret_cast<float  *>(work),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gtcon(char                        norm,
+      IndexType                   n,
       const std::complex<double>  *dl,
       const std::complex<double>  *d,
       const std::complex<double>  *du,
@@ -85,6 +159,8 @@ gtcon(char                        norm,
       double                      &rCond,
       std::complex<double>       *work)
 {
+    CXXLAPACK_DEBUG_OUT("zgtcon");
+    
     IndexType info;
     LAPACK_IMPL(zgtcon)(&norm,
                         &n,

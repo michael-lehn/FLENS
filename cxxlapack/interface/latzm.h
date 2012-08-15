@@ -42,6 +42,20 @@ template <typename IndexType>
     latzm(char                  side,
           IndexType             m,
           IndexType             n,
+          const float           *v,
+          IndexType             incv,
+          float                 tau,
+          float                 *C1,
+          float                 *C2,
+          IndexType             ldC,
+          float                 *work);
+    
+    
+template <typename IndexType>
+    IndexType
+    latzm(char                  side,
+          IndexType             m,
+          IndexType             n,
           const double          *v,
           IndexType             incv,
           double                tau,
@@ -49,6 +63,19 @@ template <typename IndexType>
           double                *C2,
           IndexType             ldC,
           double                *work);
+    
+template <typename IndexType>
+    IndexType
+    latzm(char                       side,
+          IndexType                  m,
+          IndexType                  n,
+          const std::complex<float > *v,
+          IndexType                  incv,
+          std::complex<float >       tau,
+          std::complex<float >       *C1,
+          std::complex<float >       *C2,
+          IndexType                  ldC,
+          std::complex<float >       *work);
 
 template <typename IndexType>
     IndexType

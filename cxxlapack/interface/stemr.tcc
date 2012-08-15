@@ -42,6 +42,58 @@ IndexType
 stemr(char                  jobz,
       char                  range,
       IndexType             n,
+      float                 *d,
+      float                 *e,
+      float                 vl,
+      float                 vu,
+      IndexType             il,
+      IndexType             iu,
+      IndexType             &m,
+      float                 *w,
+      float                 *Z,
+      IndexType             ldZ,
+      IndexType             nzc,
+      IndexType             *isuppz,
+      bool                  tryrac,
+      float                 *work,
+      IndexType             lWork)
+{
+    CXXLAPACK_DEBUG_OUT("sstemr");
+   
+    IndexType info;
+    IndexType _tryrac = tryrac;
+    LAPACK_IMPL(sstemr)(&jobz,
+                        &range,
+                        d,
+                        e,
+                        &vl,
+                        &vu,
+                        &il,
+                        &iu,
+                        &m,
+                        w,
+                        Z,
+                        &ldZ,
+                        &nzc,
+                        isuppz,
+                        &_tryrac,
+                        work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+stemr(char                  jobz,
+      char                  range,
+      IndexType             n,
       double                *d,
       double                *e,
       double                vl,
@@ -58,6 +110,8 @@ stemr(char                  jobz,
       double                *work,
       IndexType             lWork)
 {
+    CXXLAPACK_DEBUG_OUT("dstemr");
+  
     IndexType info;
     IndexType _tryrac = tryrac;
     LAPACK_IMPL(dstemr)(&jobz,
@@ -87,6 +141,61 @@ stemr(char                  jobz,
     return info;
 }
 
+template <typename IndexType>
+IndexType
+stemr(char                  jobz,
+      char                  range,
+      IndexType             n,
+      float                 *d,
+      float                 *e,
+      float                 vl,
+      float                 vu,
+      IndexType             il,
+      IndexType             iu,
+      IndexType             &m,
+      float                 *w,
+      std::complex<float >  *Z,
+      IndexType             ldZ,
+      IndexType             nzc,
+      IndexType             *isuppz,
+      bool                  tryrac,
+      float                 *work,
+      IndexType             lWork,
+      IndexType             *iWork,
+      IndexType             liWork)
+{
+    CXXLAPACK_DEBUG_OUT("cstemr");
+  
+    IndexType info;
+    IndexType _tryrac = tryrac;
+    LAPACK_IMPL(cstemr)(&jobz,
+                        &range,
+                        d,
+                        e,
+                        &vl,
+                        &vu,
+                        &il,
+                        &iu,
+                        &m,
+                        w,
+                        reinterpret_cast<float  *>(Z),
+                        &ldZ,
+                        &nzc,
+                        isuppz,
+                        &_tryrac,
+                        work,
+                        &lWork,
+                        iWork,
+                        &liWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
 
 template <typename IndexType>
 IndexType
@@ -111,6 +220,8 @@ stemr(char                  jobz,
       IndexType             *iWork,
       IndexType             liWork)
 {
+    CXXLAPACK_DEBUG_OUT("zstemr");
+  
     IndexType info;
     IndexType _tryrac = tryrac;
     LAPACK_IMPL(zstemr)(&jobz,
@@ -141,6 +252,7 @@ stemr(char                  jobz,
     ASSERT(info>=0);
     return info;
 }
+
 } // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_STEMR_TCC

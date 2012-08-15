@@ -44,6 +44,39 @@ la_gbamv(IndexType             trans,
          IndexType             n,
          IndexType             kl,
          IndexType             ku,
+         float                 alpha,
+         const float           *AB,
+         IndexType             ldAB,
+         const float           *x,
+         IndexType             incx,
+         float                 beta,
+         float                 *y,
+         IndexType             incy)
+{
+    CXXLAPACK_DEBUG_OUT("sla_gbamv");
+    
+    LAPACK_IMPL(sla_gbamv)(&trans,
+                           &m,
+                           &n,
+                           &kl,
+                           &ku,
+                           &alpha,
+                           AB,
+                           &ldAB,
+                           x,
+                           &incx,
+                           &beta,
+                           y,
+                           &incy);
+}
+
+template <typename IndexType>
+void
+la_gbamv(IndexType             trans,
+         IndexType             m,
+         IndexType             n,
+         IndexType             kl,
+         IndexType             ku,
          double                alpha,
          const double          *AB,
          IndexType             ldAB,
@@ -53,6 +86,8 @@ la_gbamv(IndexType             trans,
          double                *y,
          IndexType             incy)
 {
+    CXXLAPACK_DEBUG_OUT("dla_gbamv");
+    
     LAPACK_IMPL(dla_gbamv)(&trans,
                            &m,
                            &n,
@@ -75,6 +110,39 @@ la_gbamv(IndexType                   trans,
 	  IndexType                   n,
 	  IndexType                   kl,
 	  IndexType                   ku,
+	  float                       alpha,
+	  const std::complex<float >  *AB,
+	  IndexType                   ldAB,
+	  const std::complex<float >  *x,
+	  IndexType                   incx,
+	  float                       beta,
+	  float                       *y,
+	  IndexType                   incy)
+{
+    CXXLAPACK_DEBUG_OUT("cla_gbamv");
+    
+    LAPACK_IMPL(cla_gbamv)(&trans,
+                           &m,
+                           &n,
+                           &kl,
+                           &ku,
+                           &alpha,
+                           reinterpret_cast<const float  *>(AB),
+                           &ldAB,
+                           reinterpret_cast<const float  *>(x),
+                           &incx,
+                           &beta,
+                           y,
+                           &incy);
+}
+
+template <typename IndexType>
+void
+la_gbamv(IndexType                   trans,
+	  IndexType                   m,
+	  IndexType                   n,
+	  IndexType                   kl,
+	  IndexType                   ku,
 	  double                      alpha,
 	  const std::complex<double>  *AB,
 	  IndexType                   ldAB,
@@ -84,6 +152,8 @@ la_gbamv(IndexType                   trans,
 	  double                      *y,
 	  IndexType                   incy)
 {
+    CXXLAPACK_DEBUG_OUT("zla_gbamv");
+    
     LAPACK_IMPL(zla_gbamv)(&trans,
                            &m,
                            &n,

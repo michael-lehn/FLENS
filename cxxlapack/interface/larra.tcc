@@ -40,6 +40,38 @@ namespace cxxlapack {
 template <typename IndexType>
 IndexType
 larra(IndexType             n,
+      const float           *d,
+      float                 *e,
+      float                 *e2,
+      float                 spltol,
+      float                 tnrm,
+      IndexType             &nsplit,
+      IndexType             &isplit)
+{
+    CXXLAPACK_DEBUG_OUT("slarra");
+ 
+    IndexType info;
+    LAPACK_IMPL(slarra)(&n,
+                        d,
+                        e,
+                        e2,
+                        &spltol,
+                        &tnrm,
+                        &nsplit,
+                        &isplit,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+larra(IndexType             n,
       const double          *d,
       double                *e,
       double                *e2,
@@ -48,6 +80,8 @@ larra(IndexType             n,
       IndexType             &nsplit,
       IndexType             &isplit)
 {
+    CXXLAPACK_DEBUG_OUT("dlarra");
+ 
     IndexType info;
     LAPACK_IMPL(dlarra)(&n,
                         d,

@@ -41,10 +41,30 @@ template <typename IndexType>
     IndexType
     sytrf(char                  uplo,
           IndexType             n,
+          float                 *A,
+          IndexType             ldA,
+          IndexType             *iPiv,
+          float                 *work,
+          IndexType             lWork);
+    
+template <typename IndexType>
+    IndexType
+    sytrf(char                  uplo,
+          IndexType             n,
           double                *A,
           IndexType             ldA,
           IndexType             *iPiv,
           double                *work,
+          IndexType             lWork);
+    
+template <typename IndexType>
+    IndexType
+    sytrf(char                  uplo,
+          IndexType             n,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          IndexType             *iPiv,
+          std::complex<float >  *work,
           IndexType             lWork);
 
 template <typename IndexType>

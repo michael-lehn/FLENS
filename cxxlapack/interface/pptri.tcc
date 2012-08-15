@@ -41,8 +41,33 @@ template <typename IndexType>
 IndexType
 pptri(char                  uplo,
       IndexType             n,
+      float                 *Ap)
+{
+    CXXLAPACK_DEBUG_OUT("spptri");
+ 
+    IndexType info;
+    LAPACK_IMPL(spptri)(&uplo,
+                        &n,
+                        Ap,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+pptri(char                  uplo,
+      IndexType             n,
       double                *Ap)
 {
+    CXXLAPACK_DEBUG_OUT("dpptri");
+ 
     IndexType info;
     LAPACK_IMPL(dpptri)(&uplo,
                         &n,
@@ -62,8 +87,32 @@ template <typename IndexType>
 IndexType
 pptri(char                  uplo,
       IndexType             n,
+      std::complex<float >  *Ap)
+{
+    CXXLAPACK_DEBUG_OUT("cpptri");
+ 
+    IndexType info;
+    LAPACK_IMPL(cpptri)(&uplo,
+                        &n,
+                        reinterpret_cast<float  *>(Ap),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+pptri(char                  uplo,
+      IndexType             n,
       std::complex<double>  *Ap)
 {
+    CXXLAPACK_DEBUG_OUT("dpptri");
+ 
     IndexType info;
     LAPACK_IMPL(zpptri)(&uplo,
                         &n,

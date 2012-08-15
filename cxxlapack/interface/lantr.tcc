@@ -38,6 +38,30 @@
 namespace cxxlapack {
 
 template <typename IndexType>
+float 
+lantr(char              norm,
+      char              upLo,
+      char              diag,
+      IndexType         m,
+      IndexType         n,
+      const float       *A,
+      IndexType         ldA,
+      float             *work)
+{
+    CXXLAPACK_DEBUG_OUT("slantr");
+   
+    return LAPACK_IMPL(slantr)(&norm,
+                               &upLo,
+                               &diag,
+                               &m,
+                               &n,
+                               A,
+                               &ldA,
+                               work);
+}
+
+
+template <typename IndexType>
 double
 lantr(char              norm,
       char              upLo,
@@ -48,12 +72,37 @@ lantr(char              norm,
       IndexType         ldA,
       double            *work)
 {
+    CXXLAPACK_DEBUG_OUT("dlantr");
+   
     return LAPACK_IMPL(dlantr)(&norm,
                                &upLo,
                                &diag,
                                &m,
                                &n,
                                A,
+                               &ldA,
+                               work);
+}
+
+template <typename IndexType>
+float 
+lantr(char                          norm,
+      char                          upLo,
+      char                          diag,
+      IndexType                     m,
+      IndexType                     n,
+      const std::complex<float >    *A,
+      IndexType                     ldA,
+      float                         *work)
+{
+    CXXLAPACK_DEBUG_OUT("clantr");
+   
+    return LAPACK_IMPL(clantr)(&norm,
+                               &upLo,
+                               &diag,
+                               &m,
+                               &n,
+                               reinterpret_cast<const float  *>(A),
                                &ldA,
                                work);
 }
@@ -69,6 +118,8 @@ lantr(char                          norm,
       IndexType                     ldA,
       double                        *work)
 {
+    CXXLAPACK_DEBUG_OUT("zlantr");
+   
     return LAPACK_IMPL(zlantr)(&norm,
                                &upLo,
                                &diag,

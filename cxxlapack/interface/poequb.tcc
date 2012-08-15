@@ -40,15 +40,74 @@ namespace cxxlapack {
 template <typename IndexType>
 IndexType
 poequb(IndexType             n,
+       const float           *A,
+       IndexType             ldA,
+       float                 *s,
+       float                 &scond,
+       float                 &amax)
+{
+    CXXLAPACK_DEBUG_OUT("spoequb");
+    
+    IndexType info;
+    LAPACK_IMPL(spoequb)(&n,
+                         A,
+                         &ldA,
+                         s,
+                         &scond,
+                         &amax,
+                         &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+poequb(IndexType             n,
        const double          *A,
        IndexType             ldA,
        double                *s,
        double                &scond,
        double                &amax)
 {
+    CXXLAPACK_DEBUG_OUT("dpoequb");
+    
     IndexType info;
     LAPACK_IMPL(dpoequb)(&n,
                          A,
+                         &ldA,
+                         s,
+                         &scond,
+                         &amax,
+                         &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+poequb(IndexType                   n,
+       const std::complex<float >  *A,
+       IndexType                   ldA,
+       float                       *s,
+       float                       &scond,
+       float                       &amax)
+{
+    CXXLAPACK_DEBUG_OUT("cpoequb");
+    
+    IndexType info;
+    LAPACK_IMPL(cpoequb)(&n,
+                         reinterpret_cast<const float  *>(A),
                          &ldA,
                          s,
                          &scond,
@@ -72,6 +131,8 @@ poequb(IndexType                   n,
        double                      &scond,
        double                      &amax)
 {
+    CXXLAPACK_DEBUG_OUT("zpoequb");
+    
     IndexType info;
     LAPACK_IMPL(zpoequb)(&n,
                          reinterpret_cast<const double *>(A),

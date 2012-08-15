@@ -41,6 +41,40 @@ template <typename IndexType>
 IndexType
 lagts(IndexType             job,
       IndexType             n,
+      const float           *a,
+      const float           *b,
+      const float           *c,
+      const float           *d,
+      const IndexType       *in,
+      float                 *y,
+      float                 &tol)
+{
+    CXXLAPACK_DEBUG_OUT("slagts");
+    
+    IndexType info;
+    LAPACK_IMPL(slagts)(&job,
+                        &n,
+                        a,
+                        b,
+                        c,
+                        d,
+                        in,
+                        y,
+                        &tol,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+lagts(IndexType             job,
+      IndexType             n,
       const double          *a,
       const double          *b,
       const double          *c,
@@ -49,6 +83,8 @@ lagts(IndexType             job,
       double                *y,
       double                &tol)
 {
+    CXXLAPACK_DEBUG_OUT("dlagts");
+    
     IndexType info;
     LAPACK_IMPL(dlagts)(&job,
                         &n,

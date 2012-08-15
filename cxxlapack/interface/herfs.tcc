@@ -42,6 +42,54 @@ IndexType
 herfs(char                        uplo,
       IndexType                   n,
       IndexType                   nRhs,
+      const std::complex<float >  *A,
+      IndexType                   ldA,
+      const std::complex<float >  *Af,
+      IndexType                   ldAf,
+      IndexType                   *iPiv,
+      const std::complex<float >  *B,
+      IndexType                   ldB,
+      std::complex<float >        *X,
+      IndexType                   ldX,
+      float                       *ferr,
+      float                       *berr,
+      std::complex<float >        *work,
+      float                       *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("cherfs");
+    
+    IndexType info;
+    LAPACK_IMPL(cherfs)(&uplo,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        reinterpret_cast<const float  *>(Af),
+                        &ldAf,
+                        iPiv,
+                        reinterpret_cast<const float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(X),
+                        &ldX,
+                        ferr,
+                        berr,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+herfs(char                        uplo,
+      IndexType                   n,
+      IndexType                   nRhs,
       const std::complex<double>  *A,
       IndexType                   ldA,
       const std::complex<double>  *Af,
@@ -56,6 +104,8 @@ herfs(char                        uplo,
       std::complex<double>        *work,
       double                      *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zherfs");
+    
     IndexType info;
     LAPACK_IMPL(zherfs)(&uplo,
                         &n,

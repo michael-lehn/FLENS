@@ -39,12 +39,30 @@ namespace cxxlapack {
 
 template <typename VOID>
 void
+lartgs(float                 x,
+       float                 y,
+       float                 sigma,
+       float                 &cs,
+       float                 &sn)
+{
+    CXXLAPACK_DEBUG_OUT("slartgs");
+
+    LAPACK_IMPL(slartgs)(&x,
+                         &y,
+                         &sigma,
+                         &cs,
+                         &sn);
+}
+
+template <typename VOID>
+void
 lartgs(double                x,
        double                y,
        double                sigma,
        double                &cs,
        double                &sn)
 {
+    CXXLAPACK_DEBUG_OUT("dlartgs");
 
     LAPACK_IMPL(dlartgs)(&x,
                          &y,

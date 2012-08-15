@@ -41,12 +41,44 @@ template <typename IndexType>
 IndexType
 hpcon(char                        uplo,
       IndexType                   n,
+      const std::complex<float >  *Ap,
+      const IndexType             *iPiv,
+      float                       anorm,
+      float                       &rCond,
+      std::complex<float >        *work)
+{
+    CXXLAPACK_DEBUG_OUT("chpcon");
+    
+    IndexType info;
+    LAPACK_IMPL(chpcon)(&uplo,
+                        &n,
+                        reinterpret_cast<const float  *>(Ap),
+                        iPiv,
+                        &anorm,
+                        &rCond,
+                        reinterpret_cast<float  *>(work),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hpcon(char                        uplo,
+      IndexType                   n,
       const std::complex<double>  *Ap,
       const IndexType             *iPiv,
       double                      anorm,
       double                      &rCond,
       std::complex<double>        *work)
 {
+    CXXLAPACK_DEBUG_OUT("zhpcon");
+    
     IndexType info;
     LAPACK_IMPL(zhpcon)(&uplo,
                         &n,
@@ -54,7 +86,7 @@ hpcon(char                        uplo,
                         iPiv,
                         &anorm,
                         &rCond,
-                        work,
+                        reinterpret_cast<double *>(work),
                         &info);
 #   ifndef NDEBUG
     if (info<0) {

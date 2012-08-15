@@ -41,6 +41,42 @@ template <typename IndexType>
 IndexType
 stevd(char                  jobz,
       IndexType             n,
+      float                 *d,
+      float                 *e,
+      float                 *Z,
+      IndexType             ldZ,
+      float                 *work,
+      IndexType             lWork,
+      IndexType             *iWork,
+      IndexType             liWork)
+{
+    CXXLAPACK_DEBUG_OUT("sstevd");
+ 
+    IndexType info;
+    LAPACK_IMPL(sstevd)(&jobz,
+                        &n,
+                        d,
+                        e,
+                        Z,
+                        &ldZ,
+                        work,
+                        &lWork,
+                        iWork,
+                        &liWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+stevd(char                  jobz,
+      IndexType             n,
       double                *d,
       double                *e,
       double                *Z,
@@ -50,6 +86,8 @@ stevd(char                  jobz,
       IndexType             *iWork,
       IndexType             liWork)
 {
+    CXXLAPACK_DEBUG_OUT("dstevd");
+ 
     IndexType info;
     LAPACK_IMPL(dstevd)(&jobz,
                         &n,

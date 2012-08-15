@@ -43,6 +43,55 @@ pbrfs(char                  uplo,
       IndexType             n,
       IndexType             kd,
       IndexType             nRhs,
+      const float           *Ab,
+      IndexType             ldAb,
+      const float           *Afb,
+      IndexType             ldAfb,
+      const float           *B,
+      IndexType             ldB,
+      float                 *X,
+      IndexType             ldX,
+      float                 *ferr,
+      float                 *berr,
+      float                 *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("spbrfs");
+  
+    IndexType info;
+    LAPACK_IMPL(spbrfs)(&uplo,
+                        &n,
+                        &kd,
+                        &nRhs,
+                        Ab,
+                        &ldAb,
+                        Afb,
+                        &ldAfb,
+                        B,
+                        &ldB,
+                        X,
+                        &ldX,
+                        ferr,
+                        berr,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+pbrfs(char                  uplo,
+      IndexType             n,
+      IndexType             kd,
+      IndexType             nRhs,
       const double          *Ab,
       IndexType             ldAb,
       const double          *Afb,
@@ -56,6 +105,8 @@ pbrfs(char                  uplo,
       double                *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("spbrfs");
+  
     IndexType info;
     LAPACK_IMPL(dpbrfs)(&uplo,
                         &n,
@@ -89,6 +140,54 @@ pbrfs(char                        uplo,
       IndexType                   n,
       IndexType                   kd,
       IndexType                   nRhs,
+      const std::complex<float >  *Ab,
+      IndexType                   ldAb,
+      const std::complex<float >  *Afb,
+      IndexType                   ldAfb,
+      const std::complex<float >  *B,
+      IndexType                   ldB,
+      std::complex<float >        *X,
+      IndexType                   ldX,
+      float                      *ferr,
+      float                      *berr,
+      std::complex<float >       *work,
+      float                      *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("cpbrfs");
+  
+    IndexType info;
+    LAPACK_IMPL(cpbrfs)(&uplo,
+                        &n,
+                        &kd,
+                        &nRhs,
+                        reinterpret_cast<const float  *>(Ab),
+                        &ldAb,
+                        reinterpret_cast<const float  *>(Afb),
+                        &ldAfb,
+                        reinterpret_cast<const float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(X),
+                        &ldX,
+                        ferr,
+                        berr,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+pbrfs(char                        uplo,
+      IndexType                   n,
+      IndexType                   kd,
+      IndexType                   nRhs,
       const std::complex<double>  *Ab,
       IndexType                   ldAb,
       const std::complex<double>  *Afb,
@@ -102,6 +201,8 @@ pbrfs(char                        uplo,
       std::complex<double>       *work,
       double                     *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zpbrfs");
+  
     IndexType info;
     LAPACK_IMPL(zpbrfs)(&uplo,
                         &n,

@@ -44,6 +44,8 @@ ismax1(IndexType                   n,
        IndexType                   incx)
 {
 
+    CXXLAPACK_DEBUG_OUT("ismax1");
+    
     return LAPACK_IMPL(ismax1)(&n,
                                reinterpret_cast<const double *>(cx),
                                &incx);

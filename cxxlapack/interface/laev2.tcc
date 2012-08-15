@@ -39,6 +39,28 @@ namespace cxxlapack {
 
 template <typename VOID>
 void
+laev2(float                 a,
+      float                 b,
+      float                 c,
+      float                 &rt1,
+      float                 &rt2,
+      float                 &cs1,
+      float                 &sn1)
+{
+    CXXLAPACK_DEBUG_OUT("slaev2");
+    
+    LAPACK_IMPL(slaev2)(&a,
+                        &b,
+                        &c,
+                        &rt1,
+                        &rt2,
+                        &cs1,
+                        &sn1);
+}
+
+
+template <typename VOID>
+void
 laev2(double                a,
       double                b,
       double                c,
@@ -47,6 +69,7 @@ laev2(double                a,
       double                &cs1,
       double                &sn1)
 {
+    CXXLAPACK_DEBUG_OUT("dlaev2");
 
     LAPACK_IMPL(dlaev2)(&a,
                         &b,
@@ -59,6 +82,27 @@ laev2(double                a,
 
 template <typename VOID>
 void
+laev2(std::complex<float >  a,
+      std::complex<float >  b,
+      std::complex<float >  c,
+      float                 &rt1,
+      float                 &rt2,
+      float                 &cs1,
+      std::complex<float >  &sn1)
+{
+    CXXLAPACK_DEBUG_OUT("claev2");
+
+    LAPACK_IMPL(claev2)(reinterpret_cast<const float  *>(&a),
+                        reinterpret_cast<const float  *>(&b),
+                        reinterpret_cast<const float  *>(&c),
+                        &rt1,
+                        &rt2,
+                        &cs1,
+                        reinterpret_cast<float  *>(&sn1));
+}
+
+template <typename VOID>
+void
 laev2(std::complex<double>  a,
       std::complex<double>  b,
       std::complex<double>  c,
@@ -67,6 +111,7 @@ laev2(std::complex<double>  a,
       double                &cs1,
       std::complex<double>  &sn1)
 {
+    CXXLAPACK_DEBUG_OUT("zlaev2");
 
     LAPACK_IMPL(zlaev2)(reinterpret_cast<const double *>(&a),
                         reinterpret_cast<const double *>(&b),

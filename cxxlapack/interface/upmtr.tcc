@@ -37,6 +37,43 @@
 
 namespace cxxlapack {
 
+
+template <typename IndexType>
+IndexType
+upmtr(char                        side,
+      char                        uplo,
+      char                        trans,
+      IndexType                   m,
+      IndexType                   n,
+      const std::complex<float >  *Ap,
+      const std::complex<float >  *tau,
+      std::complex<float >        *C,
+      IndexType                   ldC,
+      std::complex<float >        *work)
+{
+    CXXLAPACK_DEBUG_OUT("cupmtr");
+ 
+    IndexType info;
+    LAPACK_IMPL(cupmtr)(&side,
+                        &uplo,
+                        &trans,
+                        &m,
+                        &n,
+                        reinterpret_cast<const float  *>(Ap),
+                        reinterpret_cast<const float  *>(tau),
+                        reinterpret_cast<float  *>(C),
+                        &ldC,
+                        reinterpret_cast<float  *>(work),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
 template <typename IndexType>
 IndexType
 upmtr(char                        side,
@@ -50,6 +87,8 @@ upmtr(char                        side,
       IndexType                   ldC,
       std::complex<double>        *work)
 {
+    CXXLAPACK_DEBUG_OUT("zupmtr");
+ 
     IndexType info;
     LAPACK_IMPL(zupmtr)(&side,
                         &uplo,

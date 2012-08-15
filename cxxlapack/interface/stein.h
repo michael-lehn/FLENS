@@ -40,6 +40,21 @@ namespace cxxlapack {
 template <typename IndexType>
     IndexType
     stein(IndexType             n,
+          const float           *d,
+          const float           *e,
+          IndexType             m,
+          const float           *w,
+          const IndexType       *iblock,
+          const IndexType       *isplit,
+          float                 *Z,
+          IndexType             ldZ,
+          float                 *work,
+          IndexType             *iWork,
+          IndexType             *ifail);
+    
+template <typename IndexType>
+    IndexType
+    stein(IndexType             n,
           const double          *d,
           const double          *e,
           IndexType             m,
@@ -49,6 +64,21 @@ template <typename IndexType>
           double                *Z,
           IndexType             ldZ,
           double                *work,
+          IndexType             *iWork,
+          IndexType             *ifail);
+    
+template <typename IndexType>
+    IndexType
+    stein(IndexType             n,
+          const float           *d,
+          const float           *e,
+          IndexType             m,
+          const float           *w,
+          const IndexType       *iblock,
+          const IndexType       *isplit,
+          std::complex<float >  *Z,
+          IndexType             ldZ,
+          float                 *work,
           IndexType             *iWork,
           IndexType             *ifail);
     

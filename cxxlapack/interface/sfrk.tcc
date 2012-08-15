@@ -44,12 +44,50 @@ sfrk (char                  transr,
       char                  trans,
       IndexType             n,
       IndexType             k,
+      float                 alpha,
+      const float           *A,
+      IndexType             ldA,
+      float                 beta,
+      float                 *C)
+{
+    CXXLAPACK_DEBUG_OUT("ssfrk");
+ 
+    IndexType info;
+    LAPACK_IMPL(ssfrk) (&transr,
+                        &uplo,
+                        &trans,
+                        &n,
+                        &k,
+                        &alpha,
+                        A,
+                        &ldA,
+                        &beta,
+                        C,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+sfrk (char                  transr,
+      char                  uplo,
+      char                  trans,
+      IndexType             n,
+      IndexType             k,
       double                alpha,
       const double          *A,
       IndexType             ldA,
       double                beta,
       double                *C)
 {
+    CXXLAPACK_DEBUG_OUT("dsfrk");
+ 
     IndexType info;
     LAPACK_IMPL(dsfrk) (&transr,
                         &uplo,

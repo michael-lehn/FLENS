@@ -40,11 +40,32 @@ namespace cxxlapack {
 template <typename IndexType>
     IndexType
     largv(IndexType             n,
+          float                 *x,
+          IndexType             incx,
+          float                 *y,
+          IndexType             incy,
+          float                 *c,
+          IndexType             incc);
+    
+    
+template <typename IndexType>
+    IndexType
+    largv(IndexType             n,
           double                *x,
           IndexType             incx,
           double                *y,
           IndexType             incy,
           double                *c,
+          IndexType             incc);
+    
+template <typename IndexType>
+    void
+    largv(IndexType             n,
+          std::complex<float >  *x,
+          IndexType             incx,
+          std::complex<float >  *y,
+          IndexType             incy,
+          float                 *c,
           IndexType             incc);
 
 template <typename IndexType>

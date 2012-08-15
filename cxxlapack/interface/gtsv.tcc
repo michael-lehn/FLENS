@@ -41,12 +41,44 @@ template <typename IndexType>
 IndexType
 gtsv(IndexType             n,
      IndexType             nRhs,
+     float                 *dl,
+     float                 *d,
+     float                 *du,
+     float                 *B,
+     IndexType             ldB)
+{
+    CXXLAPACK_DEBUG_OUT("sgtsv");
+    
+    IndexType info;
+    LAPACK_IMPL(sgtsv)(&n,
+                       &nRhs,
+                       dl,
+                       d,
+                       du,
+                       B,
+                       &ldB,
+                       &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gtsv(IndexType             n,
+     IndexType             nRhs,
      double                *dl,
      double                *d,
      double                *du,
      double                *B,
      IndexType             ldB)
 {
+    CXXLAPACK_DEBUG_OUT("dgtsv");
+    
     IndexType info;
     LAPACK_IMPL(dgtsv)(&n,
                        &nRhs,
@@ -69,12 +101,44 @@ template <typename IndexType>
 IndexType
 gtsv(IndexType             n,
      IndexType             nRhs,
+     std::complex<float >  *dl,
+     std::complex<float >  *d,
+     std::complex<float >  *du,
+     std::complex<float >  *B,
+     IndexType             ldB)
+{
+    CXXLAPACK_DEBUG_OUT("cgtsv");
+    
+    IndexType info;
+    LAPACK_IMPL(cgtsv)(&n,
+                       &nRhs,
+                       reinterpret_cast<float  *>(dl),
+                       reinterpret_cast<float  *>(d),
+                       reinterpret_cast<float  *>(du),
+                       reinterpret_cast<float  *>(B),
+                       &ldB,
+                       &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gtsv(IndexType             n,
+     IndexType             nRhs,
      std::complex<double>  *dl,
      std::complex<double>  *d,
      std::complex<double>  *du,
      std::complex<double>  *B,
      IndexType             ldB)
 {
+    CXXLAPACK_DEBUG_OUT("zgtsv");
+    
     IndexType info;
     LAPACK_IMPL(zgtsv)(&n,
                        &nRhs,

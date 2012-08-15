@@ -40,12 +40,42 @@ namespace cxxlapack {
 template <typename IndexType>
 IndexType
 gttrf(IndexType             n,
+      float                 *dl,
+      float                 *d,
+      float                 *du,
+      float                 *du2,
+      IndexType             *iPiv)
+{
+    CXXLAPACK_DEBUG_OUT("sgttrf");
+    
+    IndexType info;
+    LAPACK_IMPL(sgttrf)(&n,
+                        dl,
+                        d,
+                        du,
+                        du2,
+                        iPiv,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gttrf(IndexType             n,
       double                *dl,
       double                *d,
       double                *du,
       double                *du2,
       IndexType             *iPiv)
 {
+    CXXLAPACK_DEBUG_OUT("dgttrf");
+    
     IndexType info;
     LAPACK_IMPL(dgttrf)(&n,
                         dl,
@@ -66,12 +96,42 @@ gttrf(IndexType             n,
 template <typename IndexType>
 IndexType
 gttrf(IndexType             n,
+      std::complex<float >  *dl,
+      std::complex<float >  *d,
+      std::complex<float >  *du,
+      std::complex<float >  *du2,
+      IndexType             *iPiv)
+{
+    CXXLAPACK_DEBUG_OUT("cgttrf");
+    
+    IndexType info;
+    LAPACK_IMPL(cgttrf)(&n,
+                        reinterpret_cast<float  *>(dl),
+                        reinterpret_cast<float  *>(d),
+                        reinterpret_cast<float  *>(du),
+                        reinterpret_cast<float  *>(du2),
+                        iPiv,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gttrf(IndexType             n,
       std::complex<double>  *dl,
       std::complex<double>  *d,
       std::complex<double>  *du,
       std::complex<double>  *du2,
       IndexType             *iPiv)
 {
+    CXXLAPACK_DEBUG_OUT("zgttrf");
+    
     IndexType info;
     LAPACK_IMPL(zgttrf)(&n,
                         reinterpret_cast<double *>(dl),

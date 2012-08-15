@@ -42,6 +42,24 @@ template <typename IndexType>
     laein(bool                  rightv,
           bool                  noinit,
           IndexType             n,
+          const float           *H,
+          IndexType             ldH,
+          const float           wr,
+          const float           wi,
+          float                 *vr,
+          float                 *vi,
+          float                 *B,
+          IndexType             ldB,
+          float                 *work,
+          float                 eps3,
+          float                 smlnum,
+          float                 bignum);
+    
+template <typename IndexType>
+    IndexType
+    laein(bool                  rightv,
+          bool                  noinit,
+          IndexType             n,
           const double          *H,
           IndexType             ldH,
           const double          wr,
@@ -54,7 +72,23 @@ template <typename IndexType>
           double                eps3,
           double                smlnum,
           double                bignum);
-
+    
+template <typename IndexType>
+    IndexType
+    laein(bool                        rightv,
+          bool                        noinit,
+          IndexType                   n,
+          const std::complex<float >  *H,
+          IndexType                   ldH,
+          const std::complex<float >  w,
+          std::complex<float >        *v,
+          std::complex<float >        *B,
+          IndexType                   ldB,
+          float                       *rWork,
+          float                       eps3,
+          float                       smlnum,
+          float                       bignum);
+    
 template <typename IndexType>
     IndexType
     laein(bool                        rightv,

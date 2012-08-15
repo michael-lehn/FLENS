@@ -37,6 +37,30 @@
 
 namespace cxxlapack {
 
+template <typename VOID>
+void
+laesy(std::complex<float >  a,
+      std::complex<float >  b,
+      std::complex<float >  c,
+      std::complex<float >  &rt1,
+      std::complex<float >  &rt2,
+      std::complex<float >  &evscal,
+      std::complex<float >  &cs1,
+      std::complex<float >  &sn1)
+      
+{
+    CXXLAPACK_DEBUG_OUT("claesy");
+
+    LAPACK_IMPL(claesy)(reinterpret_cast<const float  *>(&a),
+                        reinterpret_cast<const float  *>(&b),
+                        reinterpret_cast<const float  *>(&c),
+                        reinterpret_cast<float  *>(&rt1),
+                        reinterpret_cast<float  *>(&rt2),
+                        reinterpret_cast<float  *>(&evscal),
+                        reinterpret_cast<float  *>(&cs1),
+                        reinterpret_cast<float  *>(&sn1));
+
+}
 
 template <typename VOID>
 void
@@ -50,6 +74,8 @@ laesy(std::complex<double>  a,
       std::complex<double>  &sn1)
       
 {
+    CXXLAPACK_DEBUG_OUT("zlaesy");
+    
     LAPACK_IMPL(zlaesy)(reinterpret_cast<const double *>(&a),
                         reinterpret_cast<const double *>(&b),
                         reinterpret_cast<const double *>(&c),

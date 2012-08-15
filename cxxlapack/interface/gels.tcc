@@ -43,6 +43,41 @@ gels(char           trans,
      IndexType      m,
      IndexType      n,
      IndexType      nRhs,
+     float          *A,
+     IndexType      ldA,
+     float          *B,
+     IndexType      ldB,
+     float          *work,
+     IndexType      lWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgels");
+    LAPACK_IMPL(sgels)(&trans,
+                       &m,
+                       &n,
+                       &nRhs,
+                       A,
+                       &ldA,
+                       B,
+                       &ldB,
+                       work,
+                       &lWork,
+                       &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gels(char           trans,
+     IndexType      m,
+     IndexType      n,
+     IndexType      nRhs,
      double         *A,
      IndexType      ldA,
      double         *B,
@@ -51,7 +86,7 @@ gels(char           trans,
      IndexType      lWork)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("dgels");
+    CXXLAPACK_DEBUG_OUT("dgels");
     LAPACK_IMPL(dgels)(&trans,
                        &m,
                        &n,
@@ -78,6 +113,41 @@ gels(char                   trans,
      IndexType              m,
      IndexType              n,
      IndexType              nRhs,
+     std::complex<float >   *A,
+     IndexType              ldA,
+     std::complex<float >   *B,
+     IndexType              ldB,
+     std::complex<float >   *work,
+     IndexType              lWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgels");
+    LAPACK_IMPL(cgels)(&trans,
+                       &m,
+                       &n,
+                       &nRhs,
+                       reinterpret_cast<float  *>(A),
+                       &ldA,
+                       reinterpret_cast<float  *>(B),
+                       &ldB,
+                       reinterpret_cast<float  *>(work),
+                       &lWork,
+                       &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gels(char                   trans,
+     IndexType              m,
+     IndexType              n,
+     IndexType              nRhs,
      std::complex<double>   *A,
      IndexType              ldA,
      std::complex<double>   *B,
@@ -86,7 +156,7 @@ gels(char                   trans,
      IndexType              lWork)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("zgels");
+    CXXLAPACK_DEBUG_OUT("zgels");
     LAPACK_IMPL(zgels)(&trans,
                        &m,
                        &n,

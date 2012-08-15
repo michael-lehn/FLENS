@@ -41,6 +41,32 @@ template <typename IndexType>
 void
 larcm(IndexType                  m,
       IndexType                  n,
+      const float                *A,
+      IndexType                  ldA,
+      const std::complex<float > *B,
+      IndexType                  ldB,
+      std::complex<float >       *C,
+      IndexType                  ldC,
+      float                      *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("clarcm");
+ 
+    LAPACK_IMPL(clarcm)(&m,
+                        &n,
+                        A,
+                        &ldA,
+                        reinterpret_cast<const float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(C),
+                        &ldC,
+                        rWork);
+
+}
+
+template <typename IndexType>
+void
+larcm(IndexType                  m,
+      IndexType                  n,
       const double               *A,
       IndexType                  ldA,
       const std::complex<double> *B,
@@ -49,6 +75,8 @@ larcm(IndexType                  m,
       IndexType                  ldC,
       double                     *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zlarcm");
+ 
     LAPACK_IMPL(zlarcm)(&m,
                         &n,
                         A,

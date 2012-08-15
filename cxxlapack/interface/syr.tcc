@@ -41,12 +41,34 @@ template <typename IndexType>
 void
 syr  (char                        uplo,
       IndexType                   n,
+      std::complex<float >        alpha,
+      const std::complex<float >  *x,
+      IndexType                   incx,
+      std::complex<float >        *A,
+      IndexType                   ldA)
+{
+    CXXLAPACK_DEBUG_OUT("csyr");
+ 
+    LAPACK_IMPL(csyr) (&uplo,
+                       &n,
+                       reinterpret_cast<const float  *>(&alpha),
+                       reinterpret_cast<const float  *>(x),
+                       &incx,
+                       reinterpret_cast<float  *>(A),
+                       &ldA);
+}
+
+template <typename IndexType>
+void
+syr  (char                        uplo,
+      IndexType                   n,
       std::complex<double>        alpha,
       const std::complex<double>  *x,
       IndexType                   incx,
       std::complex<double>        *A,
       IndexType                   ldA)
 {
+    CXXLAPACK_DEBUG_OUT("zsyr");
 
     LAPACK_IMPL(zsyr) (&uplo,
                        &n,

@@ -42,6 +42,22 @@ template <typename IndexType>
     gelsd(IndexType             m,
           IndexType             n,
           IndexType             nRhs,
+          const float           *A,
+          IndexType             ldA,
+          float                 *B,
+          IndexType             ldB,
+          float                 *s,
+          float                 rCond,
+          IndexType             &rank,
+          float                 *work,
+          IndexType             lWork,
+          IndexType             *iWork);
+    
+template <typename IndexType>
+    IndexType
+    gelsd(IndexType             m,
+          IndexType             n,
+          IndexType             nRhs,
           const double          *A,
           IndexType             ldA,
           double                *B,
@@ -52,7 +68,24 @@ template <typename IndexType>
           double                *work,
           IndexType             lWork,
           IndexType             *iWork);
-
+    
+template <typename IndexType>
+    IndexType
+    gelsd(IndexType                     m,
+          IndexType                     n,
+          IndexType                     nRhs,
+          const std::complex<float >    *A,
+          IndexType                     ldA,
+          std::complex<float >          *B,
+          IndexType                     ldB,
+          float                         *s,
+          float                         rCond,
+          IndexType                     &rank,
+          std::complex<float >          *work,
+          IndexType                     lWork,
+          float                         *rWork,
+          IndexType                     *iWork);
+    
 template <typename IndexType>
     IndexType
     gelsd(IndexType                     m,

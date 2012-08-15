@@ -43,6 +43,66 @@ lasd2(IndexType             nl,
       IndexType             nr,
       IndexType             sqre,
       IndexType             &k,
+      float                 *d,
+      float                 *z,
+      float                 alpha,
+      float                 beta,
+      float                 *U,
+      IndexType             ldU,
+      float                 *Vt,
+      IndexType             ldVt,
+      float                 *dsigma,
+      float                 *U2,
+      IndexType             ldU2,
+      float                 *Vt2,
+      IndexType             ldVt2,
+      IndexType             *idxp,
+      IndexType             *idx,
+      IndexType             *idxc,
+      IndexType             *idxq,
+      IndexType             *coltype)
+{   
+    CXXLAPACK_DEBUG_OUT("slasd2");
+    
+    IndexType info;
+    LAPACK_IMPL(slasd2)(&nl,
+                        &nr,
+                        &sqre,
+                        &k,
+                        d,
+                        z,
+                        &alpha,
+                        &beta,
+                        U,
+                        &ldU,
+                        Vt,
+                        &ldVt,
+                        dsigma,
+                        U2,
+                        &ldU2,
+                        Vt2,
+                        &ldVt2,
+                        idxp,
+                        idx,
+                        idxc,
+                        idxq,
+                        coltype,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+lasd2(IndexType             nl,
+      IndexType             nr,
+      IndexType             sqre,
+      IndexType             &k,
       double                *d,
       double                *z,
       double                alpha,
@@ -61,7 +121,9 @@ lasd2(IndexType             nl,
       IndexType             *idxc,
       IndexType             *idxq,
       IndexType             *coltype)
-{
+{   
+    CXXLAPACK_DEBUG_OUT("dlasd2");
+    
     IndexType info;
     LAPACK_IMPL(dlasd2)(&nl,
                         &nr,

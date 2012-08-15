@@ -36,7 +36,21 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    hbtrd(char                  vect,
+          char                  uplo,
+          IndexType             n,
+          IndexType             kd,
+          std::complex<float >  *Ab,
+          IndexType             ldAb,
+          float                 *d,
+          float                 *e,
+          std::complex<float >  *Q,
+          IndexType             ldQ,
+          std::complex<float >  *work);
+    
 template <typename IndexType>
     IndexType
     hbtrd(char                  vect,

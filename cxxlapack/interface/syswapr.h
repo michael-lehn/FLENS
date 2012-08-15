@@ -41,11 +41,29 @@ template <typename IndexType>
     IndexType
     syswapr(char                  uplo,
             IndexType             n,
+            float                 *A,
+            IndexType             ldA,
+            IndexType             i1,
+            IndexType             i2);
+    
+template <typename IndexType>
+    IndexType
+    syswapr(char                  uplo,
+            IndexType             n,
             double                *A,
             IndexType             ldA,
             IndexType             i1,
             IndexType             i2);
-
+    
+template <typename IndexType>
+    IndexType
+    syswapr(char                  uplo,
+            IndexType             n,
+            std::complex<float >  *A,
+            IndexType             ldA,
+            IndexType             i1,
+            IndexType             i2);
+    
 template <typename IndexType>
     IndexType
     syswapr(char                  uplo,

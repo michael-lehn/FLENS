@@ -42,9 +42,27 @@ template <typename IndexType>
     trttf(char                  transr,
           char                  uplo,
           IndexType             n,
+          const float           *A,
+          IndexType             ldA,
+          float                 *Arf);
+    
+template <typename IndexType>
+    IndexType
+    trttf(char                  transr,
+          char                  uplo,
+          IndexType             n,
           const double          *A,
           IndexType             ldA,
           double                *Arf);
+    
+template <typename IndexType>
+    IndexType
+    trttf(char                        transr,
+          char                        uplo,
+          IndexType                   n,
+          const std::complex<float >  *A,
+          IndexType                   ldA,
+          std::complex<float >        *Arf);
 
 template <typename IndexType>
     IndexType

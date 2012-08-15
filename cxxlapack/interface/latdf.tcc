@@ -41,6 +41,32 @@ template <typename IndexType>
 void
 latdf(IndexType             ijob,
       IndexType             n,
+      const float           *Z,
+      IndexType             ldZ,
+      float                 *rhs,
+      float                 &rdsum,
+      float                 &rdscal,
+      const IndexType       *iPiv,
+      const IndexType       *jpiv)
+{
+    CXXLAPACK_DEBUG_OUT("slatdf");
+  
+    LAPACK_IMPL(slatdf)(&ijob,
+                        &n,
+                        Z,
+                        &ldZ,
+                        rhs,
+                        &rdsum,
+                        &rdscal,
+                        iPiv,
+                        jpiv);
+}
+
+
+template <typename IndexType>
+void
+latdf(IndexType             ijob,
+      IndexType             n,
       const double          *Z,
       IndexType             ldZ,
       double                *rhs,
@@ -49,11 +75,38 @@ latdf(IndexType             ijob,
       const IndexType       *iPiv,
       const IndexType       *jpiv)
 {
+    CXXLAPACK_DEBUG_OUT("dlatdf");
+  
     LAPACK_IMPL(dlatdf)(&ijob,
                         &n,
                         Z,
                         &ldZ,
                         rhs,
+                        &rdsum,
+                        &rdscal,
+                        iPiv,
+                        jpiv);
+}
+
+template <typename IndexType>
+void 
+latdf(IndexType                  ijob,
+      IndexType                  n,
+      const std::complex<float > *Z,
+      IndexType                  ldZ,
+      std::complex<float >       *rhs,
+      float                      &rdsum,
+      float                      &rdscal,
+      const IndexType           *iPiv,
+      const IndexType           *jpiv)
+{
+    CXXLAPACK_DEBUG_OUT("clatdf");
+  
+    LAPACK_IMPL(clatdf)(&ijob,
+                        &n,
+                        reinterpret_cast<const float  *>(Z),
+                        &ldZ,
+                        reinterpret_cast<float  *>(rhs),
                         &rdsum,
                         &rdscal,
                         iPiv,
@@ -72,6 +125,8 @@ latdf(IndexType                  ijob,
       const IndexType           *iPiv,
       const IndexType           *jpiv)
 {
+    CXXLAPACK_DEBUG_OUT("zlatdf");
+  
     LAPACK_IMPL(zlatdf)(&ijob,
                         &n,
                         reinterpret_cast<const double *>(Z),

@@ -45,6 +45,28 @@ template <typename IndexType>
           IndexType             n,
           IndexType             ilo,
           IndexType             ihi,
+          float                 *H,
+          IndexType             ldH,
+          float                 *T,
+          IndexType             ldT,
+          float                 *alphaar,
+          float                 *alphaai,
+          float                 *beta,
+          float                 *Q,
+          IndexType             ldQ,
+          float                 *Z,
+          IndexType             ldZ,
+          float                 *work,
+          IndexType             lWork);
+    
+template <typename IndexType>
+    IndexType
+    hgeqz(char                  job,
+          char                  compq,
+          char                  compz,
+          IndexType             n,
+          IndexType             ilo,
+          IndexType             ihi,
           double                *H,
           IndexType             ldH,
           double                *T,
@@ -58,7 +80,29 @@ template <typename IndexType>
           IndexType             ldZ,
           double                *work,
           IndexType             lWork);
-
+    
+template <typename IndexType>
+    IndexType
+    hgeqz(char                  job,
+          char                  compq,
+          char                  compz,
+          IndexType             n,
+          IndexType             ilo,
+          IndexType             ihi,
+          std::complex<float >  *H,
+          IndexType             ldH,
+          std::complex<float >  *T,
+          IndexType             ldT,
+          std::complex<float >  *alpha,
+          std::complex<float >  *beta,
+          std::complex<float >  *Q,
+          IndexType             ldQ,
+          std::complex<float >  *Z,
+          IndexType             ldZ,
+          std::complex<float >  *work,
+          IndexType             lWork,
+          float                 *rWork);
+    
 template <typename IndexType>
     IndexType
     hgeqz(char                  job,

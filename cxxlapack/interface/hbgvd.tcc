@@ -44,6 +44,58 @@ hbgvd(char                       vect,
       IndexType                  n,
       IndexType                  ka,
       IndexType                  kb,
+      std::complex<float >       *Ab,
+      IndexType                  ldAb,
+      std::complex<float >       *Bb,
+      IndexType                  ldBb,
+      float                      *w,
+      std::complex<float >       *X,
+      IndexType                  ldX,
+      std::complex<float >       *work,
+      IndexType                  lWork,
+      float                      *rWork,
+      IndexType                  lrWork,
+      IndexType                  *iWork,
+      IndexType                  liWork)
+{
+    CXXLAPACK_DEBUG_OUT("chbgvd");
+    
+    IndexType info;
+    LAPACK_IMPL(chbgvd)(&vect,
+                        &uplo,
+                        &n,
+                        &ka,
+                        &kb,
+                        reinterpret_cast<float  *>(Ab),
+                        &ldAb,
+                        reinterpret_cast<float  *>(Bb),
+                        &ldBb,
+                        w,
+                        reinterpret_cast<float  *>(X),
+                        &ldX,
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        rWork,
+                        &lrWork,
+                        iWork,
+                        &liWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hbgvd(char                       vect,
+      char                       uplo,
+      IndexType                  n,
+      IndexType                  ka,
+      IndexType                  kb,
       std::complex<double>       *Ab,
       IndexType                  ldAb,
       std::complex<double>       *Bb,
@@ -58,6 +110,8 @@ hbgvd(char                       vect,
       IndexType                  *iWork,
       IndexType                  liWork)
 {
+    CXXLAPACK_DEBUG_OUT("zhbgvd");
+    
     IndexType info;
     LAPACK_IMPL(zhbgvd)(&vect,
                         &uplo,

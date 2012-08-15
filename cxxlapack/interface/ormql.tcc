@@ -44,6 +44,46 @@ ormql(char                  side,
       IndexType             m,
       IndexType             n,
       IndexType             k,
+      const float           *A,
+      IndexType             ldA,
+      const float           *tau,
+      float                 *C,
+      IndexType             ldC,
+      float                 *work,
+      IndexType             lWork)
+{
+    CXXLAPACK_DEBUG_OUT("sormql");
+  
+    IndexType info;
+    LAPACK_IMPL(sormql)(&side,
+                        &trans,
+                        &m,
+                        &n,
+                        &k,
+                        A,
+                        &ldA,
+                        tau,
+                        C,
+                        &ldC,
+                        work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ormql(char                  side,
+      char                  trans,
+      IndexType             m,
+      IndexType             n,
+      IndexType             k,
       const double          *A,
       IndexType             ldA,
       const double          *tau,
@@ -52,6 +92,8 @@ ormql(char                  side,
       double                *work,
       IndexType             lWork)
 {
+    CXXLAPACK_DEBUG_OUT("dormql");
+  
     IndexType info;
     LAPACK_IMPL(dormql)(&side,
                         &trans,

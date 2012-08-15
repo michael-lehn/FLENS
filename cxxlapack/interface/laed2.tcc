@@ -42,6 +42,53 @@ IndexType
 laed2(IndexType             &k,
       IndexType             n,
       IndexType             n1,
+      float                 *d,
+      float                 *Q,
+      IndexType             ldQ,
+      IndexType             *indxq,
+      float                 &rho,
+      const float           *z,
+      float                 *dlambda,
+      float                 *w,
+      float                 *q2,
+      IndexType             *indx,
+      IndexType             *indxc,
+      IndexType             *indxp,
+      IndexType             *coltyp)
+{
+    CXXLAPACK_DEBUG_OUT("slaed2");
+    
+    IndexType info;
+    LAPACK_IMPL(slaed2)(&k,
+                        &n,
+                        &n1,
+                        d,
+                        Q,
+                        &ldQ,
+                        indxq,
+                        &rho,
+                        z,
+                        dlambda,
+                        q2,
+                        indx,
+                        indxc,
+                        indxp,
+                        coltyp,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+laed2(IndexType             &k,
+      IndexType             n,
+      IndexType             n1,
       double                *d,
       double                *Q,
       IndexType             ldQ,
@@ -56,6 +103,8 @@ laed2(IndexType             &k,
       IndexType             *indxp,
       IndexType             *coltyp)
 {
+    CXXLAPACK_DEBUG_OUT("dlaed2");
+    
     IndexType info;
     LAPACK_IMPL(dlaed2)(&k,
                         &n,

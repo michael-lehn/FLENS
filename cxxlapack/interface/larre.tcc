@@ -41,6 +41,70 @@ template <typename IndexType>
 IndexType
 larre(char                  range,
       IndexType             n,
+      float                 &vl,
+      float                 &vu,
+      IndexType             il,
+      IndexType             iu,
+      float                 *d,
+      float                 *e,
+      float                 *e2,
+      float                 rtol1,
+      float                 rtol2,
+      float                 spltol,
+      IndexType             &nsplit,
+      IndexType             *isplit,
+      IndexType             &m,
+      float                 *w,
+      float                 *werr,
+      float                 *wgap,
+      IndexType             *iblock,
+      IndexType             *indexw,
+      float                 *gers,
+      float                 &pivmin,
+      float                 *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("slarre");
+    
+    IndexType info;
+    LAPACK_IMPL(slarre)(&range,
+                        &n,
+                        &vl,
+                        &vu,
+                        &il,
+                        &iu,
+                        d,
+                        e,
+                        e2,
+                        &rtol1,
+                        &rtol2,
+                        &spltol,
+                        &nsplit,
+                        isplit,
+                        &m,
+                        w,
+                        werr,
+                        wgap,
+                        iblock,
+                        indexw,
+                        gers,
+                        &pivmin,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+larre(char                  range,
+      IndexType             n,
       double                &vl,
       double                &vu,
       IndexType             il,
@@ -64,6 +128,8 @@ larre(char                  range,
       double                *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("dlarre");
+    
     IndexType info;
     LAPACK_IMPL(dlarre)(&range,
                         &n,

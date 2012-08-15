@@ -41,11 +41,41 @@ template <typename IndexType>
 IndexType
 hptrd(char                  uplo,
       IndexType             n,
+      std::complex<float >  *Ap,
+      float                 *d,
+      float                 *e,
+      std::complex<float >  *tau)
+{
+    CXXLAPACK_DEBUG_OUT("chptrd");
+    
+    IndexType info;
+    LAPACK_IMPL(chptrd)(&uplo,
+                        &n,
+                        reinterpret_cast<float  *>(Ap),
+                        d,
+                        e,
+                        reinterpret_cast<float  *>(tau),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hptrd(char                  uplo,
+      IndexType             n,
       std::complex<double>  *Ap,
       double                *d,
       double                *e,
       std::complex<double>  *tau)
 {
+    CXXLAPACK_DEBUG_OUT("zhptrd");
+    
     IndexType info;
     LAPACK_IMPL(zhptrd)(&uplo,
                         &n,

@@ -47,6 +47,33 @@ template <typename IndexType>
           IndexType             m,
           IndexType             p,
           IndexType             q,
+          float                 *theta,
+          float                 *phi,
+          float                 *U1,
+          IndexType             ldU1,
+          float                 *U2,
+          IndexType             ldU2,
+          float                 *V1t,
+          IndexType             ldV1t,
+          float                 *V2t,
+          IndexType             ldV2t,
+          const float           *b11d,
+          const float           *b11e,
+          const float           *b12d,
+          const float           *b12e,
+          float                 *work,
+          IndexType             lWork);
+    
+template <typename IndexType>
+    IndexType
+    bbcsd(char                  jobu1,
+          char                  jobu2,
+          char                  jobv1t,
+          char                  jobv2t,
+          char                  trans,
+          IndexType             m,
+          IndexType             p,
+          IndexType             q,
           double                *theta,
           double                *phi,
           double                *U1,
@@ -63,7 +90,34 @@ template <typename IndexType>
           const double          *b12e,
           double                *work,
           IndexType             lWork);
-
+    
+template <typename IndexType>
+    IndexType
+    bbcsd(char                  jobu1,
+          char                  jobu2,
+          char                  jobv1t,
+          char                  jobv2t,
+          char                  trans,
+          IndexType             m,
+          IndexType             p,
+          IndexType             q,
+          float                 *theta,
+          float                 *phi,
+          std::complex<float>   *U1,
+          IndexType             ldU1,
+          std::complex<float>   *U2,
+          IndexType             ldU2,
+          std::complex<float>   *V1t,
+          IndexType             ldV1t,
+          std::complex<float>   *V2t,
+          IndexType             ldV2t,
+          const float           *b11d,
+          const float           *b11e,
+          const float           *b12d,
+          const float           *b12e,
+          float             	    *work,
+          IndexType             lWork);
+    
 template <typename IndexType>
     IndexType
     bbcsd(char                  jobu1,

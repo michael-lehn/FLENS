@@ -42,10 +42,41 @@ IndexType
 trttf(char                  transr,
       char                  uplo,
       IndexType             n,
+      const float           *A,
+      IndexType             ldA,
+      float                 *Arf)
+{
+    CXXLAPACK_DEBUG_OUT("strttf");
+ 
+    IndexType info;
+    LAPACK_IMPL(strttf)(&transr,
+                        &uplo,
+                        &n,
+                        A,
+                        &ldA,
+                        Arf,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+trttf(char                  transr,
+      char                  uplo,
+      IndexType             n,
       const double          *A,
       IndexType             ldA,
       double                *Arf)
 {
+    CXXLAPACK_DEBUG_OUT("dtrttf");
+ 
     IndexType info;
     LAPACK_IMPL(dtrttf)(&transr,
                         &uplo,
@@ -68,10 +99,40 @@ IndexType
 trttf(char                        transr,
       char                        uplo,
       IndexType                   n,
+      const std::complex<float >  *A,
+      IndexType                   ldA,
+      std::complex<float >        *Arf)
+{
+    CXXLAPACK_DEBUG_OUT("ctrttf");
+ 
+    IndexType info;
+    LAPACK_IMPL(ctrttf)(&transr,
+                        &uplo,
+                        &n,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(Arf),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+trttf(char                        transr,
+      char                        uplo,
+      IndexType                   n,
       const std::complex<double>  *A,
       IndexType                   ldA,
       std::complex<double>        *Arf)
 {
+    CXXLAPACK_DEBUG_OUT("ztrttf");
+ 
     IndexType info;
     LAPACK_IMPL(ztrttf)(&transr,
                         &uplo,

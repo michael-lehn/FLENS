@@ -36,7 +36,18 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    void
+    laqhe(char                  uplo,
+          IndexType             n,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          const float           *s,
+          float                 scond,
+          float                 amax,
+          char                  &equed);
+    
 template <typename IndexType>
     void
     laqhe(char                  uplo,

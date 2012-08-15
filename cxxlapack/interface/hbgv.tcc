@@ -44,6 +44,50 @@ hbgv (char                       vect,
       IndexType                  n,
       IndexType                  ka,
       IndexType                  kb,
+      std::complex<float >       *Ab,
+      IndexType                  ldAb,
+      std::complex<float >       *Bb,
+      IndexType                  ldBb,
+      float                      *w,
+      std::complex<float >       *X,
+      IndexType                  ldX,
+      std::complex<float >       *work,
+      float                      *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("chbgv");
+    
+    IndexType info;
+    LAPACK_IMPL(chbgv) (&vect,
+                        &uplo,
+                        &n,
+                        &ka,
+                        &kb,
+                        reinterpret_cast<float  *>(Ab),
+                        &ldAb,
+                        reinterpret_cast<float  *>(Bb),
+                        &ldBb,
+                        w,
+                        reinterpret_cast<float  *>(X),
+                        &ldX,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hbgv (char                       vect,
+      char                       uplo,
+      IndexType                  n,
+      IndexType                  ka,
+      IndexType                  kb,
       std::complex<double>       *Ab,
       IndexType                  ldAb,
       std::complex<double>       *Bb,
@@ -54,6 +98,8 @@ hbgv (char                       vect,
       std::complex<double>       *work,
       double                     *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zhbgv");
+    
     IndexType info;
     LAPACK_IMPL(zhbgv) (&vect,
                         &uplo,

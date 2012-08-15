@@ -41,11 +41,31 @@ template <typename IndexType>
     IndexType
     steqr(char                  compz,
           IndexType             n,
+          float                 *d,
+          float                 *e,
+          float                 *Z,
+          IndexType             ldZ,
+          float                 *work);
+    
+template <typename IndexType>
+    IndexType
+    steqr(char                  compz,
+          IndexType             n,
           double                *d,
           double                *e,
           double                *Z,
           IndexType             ldZ,
           double                *work);
+    
+template <typename IndexType>
+    IndexType
+    steqr(char                  compz,
+          IndexType             n,
+          float                 *d,
+          float                 *e,
+          std::complex<float >  *Z,
+          IndexType             ldZ,
+          float                 *work);
     
 template <typename IndexType>
     IndexType    

@@ -36,7 +36,18 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    larra(IndexType             n,
+          const float           *d,
+          float                 *e,
+          float                 *e2,
+          float                 spltol,
+          float                 tnrm,
+          IndexType             &nsplit,
+          IndexType             &isplit);
+    
 template <typename IndexType>
     IndexType
     larra(IndexType             n,

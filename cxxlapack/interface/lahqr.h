@@ -44,6 +44,22 @@ template <typename IndexType>
           IndexType     n,
           IndexType     iLo,
           IndexType     iHi,
+          float         *H,
+          IndexType     ldH,
+          float         *wr,
+          float         *wi,
+          IndexType     iLoZ,
+          IndexType     iHiZ,
+          float         *Z,
+          IndexType     ldZ);
+    
+template <typename IndexType>
+    IndexType
+    lahqr(bool          wantT,
+          bool          wantZ,
+          IndexType     n,
+          IndexType     iLo,
+          IndexType     iHi,
           double        *H,
           IndexType     ldH,
           double        *wr,
@@ -52,7 +68,22 @@ template <typename IndexType>
           IndexType     iHiZ,
           double        *Z,
           IndexType     ldZ);
-
+    
+template <typename IndexType>
+    IndexType
+    lahqr(bool                      wantT,
+          bool                      wantZ,
+          IndexType                 n,
+          IndexType                 iLo,
+          IndexType                 iHi,
+          std::complex<float >      *H,
+          IndexType                 ldH,
+          std::complex<float >      *w,
+          IndexType                 iLoZ,
+          IndexType                 iHiZ,
+          std::complex<float >      *Z,
+          IndexType                 ldZ);
+    
 template <typename IndexType>
     IndexType
     lahqr(bool                      wantT,

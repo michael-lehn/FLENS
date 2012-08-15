@@ -43,6 +43,20 @@ template <typename IndexType>
           IndexType             n,
           IndexType             kl,
           IndexType             ku,
+          const float           *Ab,
+          IndexType             ldAb,
+          const IndexType       *iPiv,
+          float                 anorm,
+          float                 &rCond,
+          float                 *work,
+          IndexType             *iWork);
+    
+template <typename IndexType>
+    IndexType
+    gbcon(char                  norm,
+          IndexType             n,
+          IndexType             kl,
+          IndexType             ku,
           const double          *Ab,
           IndexType             ldAb,
           const IndexType       *iPiv,
@@ -50,7 +64,21 @@ template <typename IndexType>
           double                &rCond,
           double                *work,
           IndexType             *iWork);
-
+    
+template <typename IndexType>
+    IndexType
+    gbcon(char                        norm,
+          IndexType                   n,
+          IndexType                   kl,
+          IndexType                   ku,
+          const std::complex<float >  *Ab,
+          IndexType                   ldAb,
+          const IndexType             *iPiv,
+          float                       anorm,
+          float                       &rCond,
+          std::complex<float >        *work,
+          IndexType                   *iWork);
+    
 template <typename IndexType>
     IndexType
     gbcon(char                        norm,

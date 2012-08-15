@@ -40,9 +40,33 @@ namespace cxxlapack {
 template <typename IndexType>
 IndexType
 pttrf(IndexType             n,
+      float                 *d,
+      float                 *e)
+{
+    CXXLAPACK_DEBUG_OUT("spttrf");
+ 
+    IndexType info;
+    LAPACK_IMPL(spttrf)(&n,
+                        d,
+                        e,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+pttrf(IndexType             n,
       double                *d,
       double                *e)
 {
+    CXXLAPACK_DEBUG_OUT("dpttrf");
+ 
     IndexType info;
     LAPACK_IMPL(dpttrf)(&n,
                         d,
@@ -61,9 +85,33 @@ pttrf(IndexType             n,
 template <typename IndexType>
 IndexType
 pttrf(IndexType             n,
+      float                 *d,
+      std::complex<float >  *e)
+{
+    CXXLAPACK_DEBUG_OUT("cpttrf");
+ 
+    IndexType info;
+    LAPACK_IMPL(cpttrf)(&n,
+                        d,
+                        reinterpret_cast<float  *>(e),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+pttrf(IndexType             n,
       double                *d,
       std::complex<double>  *e)
 {
+    CXXLAPACK_DEBUG_OUT("zpttrf");
+ 
     IndexType info;
     LAPACK_IMPL(zpttrf)(&n,
                         d,

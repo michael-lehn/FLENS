@@ -41,11 +41,41 @@ template <typename IndexType>
 IndexType
 heswapr(char                  uplo,
         IndexType             n,
+        std::complex<float>  *A,
+        IndexType             ldA,
+        IndexType             i1,
+        IndexType             i2)
+{
+    CXXLAPACK_DEBUG_OUT("cheswapr");
+    
+    IndexType info;
+    LAPACK_IMPL(cheswapr)(&uplo,
+                          &n,
+                          reinterpret_cast<float *>(A),
+                          &ldA,
+                          &i1,
+                          &i2,
+                          &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+heswapr(char                  uplo,
+        IndexType             n,
         std::complex<double>  *A,
         IndexType             ldA,
         IndexType             i1,
         IndexType             i2)
 {
+    CXXLAPACK_DEBUG_OUT("zheswapr");
+    
     IndexType info;
     LAPACK_IMPL(zheswapr)(&uplo,
                           &n,

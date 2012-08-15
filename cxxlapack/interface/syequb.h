@@ -41,12 +41,34 @@ template <typename IndexType>
     IndexType
     syequb(char                  uplo,
            IndexType             n,
+           const float           *A,
+           IndexType             ldA,
+           float                 *s,
+           float                 &scond,
+           float                 &amax,
+           float                 *work);
+    
+template <typename IndexType>
+    IndexType
+    syequb(char                  uplo,
+           IndexType             n,
            const double          *A,
            IndexType             ldA,
            double                *s,
            double                &scond,
            double                &amax,
            double                *work);
+    
+template <typename IndexType>
+    IndexType
+    syequb(char                        uplo,
+           IndexType                   n,
+           const std::complex<float >  *A,
+           IndexType                   ldA,
+           float                       *s,
+           float                       &scond,
+           float                       &amax,
+           std::complex<float >        *work);
 
 template <typename IndexType>
     IndexType

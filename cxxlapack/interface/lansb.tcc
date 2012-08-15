@@ -38,6 +38,28 @@
 namespace cxxlapack {
 
 template <typename IndexType>
+float 
+lansb(char                  norm,
+      char                  uplo,
+      IndexType             n,
+      IndexType             k,
+      const float           *Ab,
+      IndexType             ldAb,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("slansb");
+   
+    return LAPACK_IMPL(slansb)(&norm,
+                               &uplo,
+                               &n,
+                               &k,
+                               Ab,
+                               &ldAb,
+                               work);
+}  
+
+
+template <typename IndexType>
 double
 lansb(char                  norm,
       char                  uplo,
@@ -47,11 +69,34 @@ lansb(char                  norm,
       IndexType             ldAb,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dlansb");
+   
     return LAPACK_IMPL(dlansb)(&norm,
                                &uplo,
                                &n,
                                &k,
                                Ab,
+                               &ldAb,
+                               work);
+}  
+
+template  <typename IndexType>
+float 
+lansb(char                        norm,
+      char                        uplo,
+      IndexType                   n,
+      IndexType                   k,
+      const std::complex<float >  *Ab,
+      IndexType                   ldAb,
+      float                       *work)
+{
+    CXXLAPACK_DEBUG_OUT("clansb");
+   
+    return LAPACK_IMPL(clansb)(&norm,
+                               &uplo,
+                               &n,
+                               &k,
+                               reinterpret_cast<const float  *>(Ab),
                                &ldAb,
                                work);
 }  
@@ -66,6 +111,8 @@ lansb(char                        norm,
       IndexType                   ldAb,
       double                      *work)
 {
+    CXXLAPACK_DEBUG_OUT("zlansb");
+   
     return LAPACK_IMPL(zlansb)(&norm,
                                &uplo,
                                &n,

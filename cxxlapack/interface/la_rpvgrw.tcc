@@ -41,11 +41,32 @@ template <typename IndexType>
 double
 la_rpvgrw(IndexType             n,
           IndexType             ncols,
+          const float           *A,
+          IndexType             ldA,
+          const float           *Af,
+          IndexType             ldAf)
+{
+    CXXLAPACK_DEBUG_OUT("sla_rpvgrw");
+    
+    return LAPACK_IMPL(sla_rpvgrw)(&n,
+                                   &ncols,
+                                   A,
+                                   &ldA,
+                                   Af,
+                                   &ldAf);
+}
+
+template <typename IndexType>
+double
+la_rpvgrw(IndexType             n,
+          IndexType             ncols,
           const double          *A,
           IndexType             ldA,
           const double          *Af,
           IndexType             ldAf)
 {
+    CXXLAPACK_DEBUG_OUT("dla_rpvgrw");
+    
     return LAPACK_IMPL(dla_rpvgrw)(&n,
                                    &ncols,
                                    A,
@@ -58,11 +79,32 @@ template <typename IndexType>
 double
 la_rpvgrw(IndexType                   n,
           IndexType                   ncols,
+          const std::complex<float >  *A,
+          IndexType                   ldA,
+          const std::complex<float >  *Af,
+          IndexType                   ldAf)
+{
+    CXXLAPACK_DEBUG_OUT("cla_rpvgrw");
+    
+    return LAPACK_IMPL(cla_rpvgrw)(&n,
+                                   &ncols,
+                                   reinterpret_cast<const float  *>(A),
+                                   &ldA,
+                                   reinterpret_cast<const float  *>(Af),
+                                   &ldAf);
+}
+
+template <typename IndexType>
+double
+la_rpvgrw(IndexType                   n,
+          IndexType                   ncols,
           const std::complex<double>  *A,
           IndexType                   ldA,
           const std::complex<double>  *Af,
           IndexType                   ldAf)
 {
+    CXXLAPACK_DEBUG_OUT("zla_rpvgrw");
+    
     return LAPACK_IMPL(zla_rpvgrw)(&n,
                                    &ncols,
                                    reinterpret_cast<const double *>(A),

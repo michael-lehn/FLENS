@@ -42,12 +42,34 @@ template <typename IndexType>
     gehrd(IndexType     n,
           IndexType     iLo,
           IndexType     iHi,
+          float         *A,
+          IndexType     ldA,
+          float         *tau,
+          float         *work,
+          IndexType     lWork);
+    
+template <typename IndexType>
+    IndexType
+    gehrd(IndexType     n,
+          IndexType     iLo,
+          IndexType     iHi,
           double        *A,
           IndexType     ldA,
           double        *tau,
           double        *work,
           IndexType     lWork);
-
+    
+template <typename IndexType>
+    IndexType
+    gehrd(IndexType             n,
+          IndexType             iLo,
+          IndexType             iHi,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          std::complex<float >  *tau,
+          std::complex<float >  *work,
+          IndexType             lWork);
+    
 template <typename IndexType>
     IndexType
     gehrd(IndexType             n,

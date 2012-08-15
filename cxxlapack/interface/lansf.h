@@ -36,7 +36,16 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    float 
+    lansf(char                  norm,
+          char                  transr,
+          char                  uplo,
+          IndexType             n,
+          const float           *A,
+          float                 *work);
+    
 template <typename IndexType>
     double
     lansf(char                  norm,

@@ -41,6 +41,19 @@ template <typename IndexType>
     IndexType
     gtcon(char                  norm,
           IndexType             n,
+          const float           *dl,
+          const float           *d,
+          const float           *du,
+          const float           *du2,
+          const IndexType       *iPiv,
+          float                 anorm,
+          float                 &rCond,
+          float                 *work);
+
+template <typename IndexType>
+    IndexType
+    gtcon(char                  norm,
+          IndexType             n,
           const double          *dl,
           const double          *d,
           const double          *du,
@@ -49,7 +62,20 @@ template <typename IndexType>
           double                anorm,
           double                &rCond,
           double                *work);
-
+    
+template <typename IndexType>
+    IndexType
+    gtcon(char                        norm,
+          IndexType                   n,
+          const std::complex<float >  *dl,
+          const std::complex<float >  *d,
+          const std::complex<float >  *du,
+          const std::complex<float >  *du2,
+          const IndexType             *iPiv,
+          float                       anorm,
+          float                       &rCond,
+          std::complex<float >       *work);
+    
 template <typename IndexType>
     IndexType
     gtcon(char                        norm,

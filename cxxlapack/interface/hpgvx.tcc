@@ -44,6 +44,62 @@ hpgvx(IndexType             itype,
       char                  range,
       char                  uplo,
       IndexType             n,
+      std::complex<float >  *Ap,
+      std::complex<float >  *Bp,
+      float                 vl,
+      float                 vu,
+      IndexType             il,
+      IndexType             iu,
+      float                 abstol,
+      IndexType             &m,
+      float                 *w,
+      std::complex<float >  *Z,
+      IndexType             ldZ,
+      std::complex<float >  *work,
+      float                 *rWork,
+      IndexType             *iWork,
+      IndexType             *ifail)
+{
+    CXXLAPACK_DEBUG_OUT("chpevx");
+    
+    IndexType info;
+    LAPACK_IMPL(chpevx)(&itype,
+                        &jobz,
+                        &range,
+                        &uplo,
+                        &n,
+                        reinterpret_cast<float  *>(Ap),
+                        reinterpret_cast<float  *>(Bp),
+                        &vl,
+                        &vu,
+                        &il,
+                        &iu,
+                        &abstol,
+                        &m,
+                        w,
+                        reinterpret_cast<float  *>(Z),
+                        &ldZ,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        iWork,
+                        ifail,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hpgvx(IndexType             itype,
+      char                  jobz,
+      char                  range,
+      char                  uplo,
+      IndexType             n,
       std::complex<double>  *Ap,
       std::complex<double>  *Bp,
       double                vl,
@@ -60,6 +116,8 @@ hpgvx(IndexType             itype,
       IndexType             *iWork,
       IndexType             *ifail)
 {
+    CXXLAPACK_DEBUG_OUT("zhpevx");
+    
     IndexType info;
     LAPACK_IMPL(zhpevx)(&itype,
                         &jobz,
@@ -75,9 +133,9 @@ hpgvx(IndexType             itype,
                         &abstol,
                         &m,
                         w,
-                        Z,
+                        reinterpret_cast<double *>(Z),
                         &ldZ,
-                        work,
+                        reinterpret_cast<double *>(work),
                         rWork,
                         iWork,
                         ifail,

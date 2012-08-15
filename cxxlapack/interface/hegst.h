@@ -36,7 +36,17 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    hegst(IndexType                  itype,
+          char                       uplo,
+          IndexType                  n,
+          std::complex<float >       *A,
+          IndexType                  ldA,
+          const std::complex<float > *B,
+          IndexType                  ldB);
+    
 template <typename IndexType>
     IndexType
     hegst(IndexType                  itype,

@@ -43,6 +43,41 @@ la_gbrCond(char                  trans,
            IndexType             n,
            IndexType             kl,
            IndexType             ku,
+           const float           *Ab,
+           IndexType             ldAb,
+           const float           *Afb,
+           IndexType             ldAfb,
+           const IndexType       *iPiv,
+           IndexType             cmode,
+           const float           *c,
+           IndexType             &info,
+           float                 *work,
+           IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("sla_gbrcond");
+    
+    return LAPACK_IMPL(sla_gbrcond)(&trans,
+                                    &n,
+                                    &kl,
+                                    &ku,
+                                    Ab,
+                                    &ldAb,
+                                    Afb,
+                                    &ldAfb,
+                                    iPiv,
+                                    &cmode,
+                                    c,
+                                    &info,
+                                    work,
+                                    iWork);
+}
+
+template <typename IndexType>
+double
+la_gbrCond(char                  trans,
+           IndexType             n,
+           IndexType             kl,
+           IndexType             ku,
            const double          *Ab,
            IndexType             ldAb,
            const double          *Afb,
@@ -54,7 +89,9 @@ la_gbrCond(char                  trans,
            double                *work,
            IndexType             *iWork)
 {
-    return LAPACK_IMPL(dla_gbrCond)(&trans,
+    CXXLAPACK_DEBUG_OUT("dla_gbrcond");
+    
+    return LAPACK_IMPL(dla_gbrcond)(&trans,
                                     &n,
                                     &kl,
                                     &ku,

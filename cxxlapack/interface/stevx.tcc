@@ -42,6 +42,58 @@ IndexType
 stevx(char                  jobz,
       char                  range,
       IndexType             n,
+      float                 *d,
+      float                 *e,
+      float                 vl,
+      float                 vu,
+      IndexType             il,
+      IndexType             iu,
+      float                 abstol,
+      IndexType             &m,
+      float                 *w,
+      float                 *Z,
+      IndexType             ldZ,
+      IndexType             *isuppz,
+      float                 *work,
+      IndexType             *iWork,
+      IndexType             *ifail)
+{
+    CXXLAPACK_DEBUG_OUT("sstevx");
+ 
+    IndexType info;
+    LAPACK_IMPL(sstevx)(&jobz,
+                        &range
+                        &n,
+                        d,
+                        e,
+                        &vl,
+                        &vu,
+                        &il,
+                        &iu,
+                        &abstol,
+                        &m,
+                        w,
+                        Z,
+                        &ldZ,
+                        isuppz,
+                        work,
+                        iWork,
+                        ifail,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+stevx(char                  jobz,
+      char                  range,
+      IndexType             n,
       double                *d,
       double                *e,
       double                vl,
@@ -58,6 +110,8 @@ stevx(char                  jobz,
       IndexType             *iWork,
       IndexType             *ifail)
 {
+    CXXLAPACK_DEBUG_OUT("dstevx");
+ 
     IndexType info;
     LAPACK_IMPL(dstevx)(&jobz,
                         &range

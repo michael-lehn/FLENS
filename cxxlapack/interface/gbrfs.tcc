@@ -44,6 +44,56 @@ gbrfs(char                  trans,
       IndexType             kl,
       IndexType             ku,
       IndexType             nRhs,
+      const float           *Ab,
+      IndexType             ldAb,
+      const float           *Afb,
+      IndexType             ldAfb,
+      const IndexType       *iPiv,
+      const float           *B,
+      IndexType             ldB,
+      float                 *X,
+      IndexType             ldX,
+      float                 *ferr,
+      float                 *berr,
+      float                 *work,
+      IndexType             *iWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgbrfs");
+    LAPACK_IMPL(sgbrfs)(&trans,
+                        &n
+                        &kl,
+                        &nRhs,
+                        Ab,
+                        &ldAb,
+                        Afb,
+                        &ldAfb,
+                        iPiv,
+                        B,
+                        &ldB,
+                        X,
+                        &ldX,
+                        ferr,
+                        berr,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gbrfs(char                  trans,
+      IndexType             n,
+      IndexType             kl,
+      IndexType             ku,
+      IndexType             nRhs,
       const double          *Ab,
       IndexType             ldAb,
       const double          *Afb,
@@ -59,6 +109,7 @@ gbrfs(char                  trans,
       IndexType             *iWork)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("dgbrfs");
     LAPACK_IMPL(dgbrfs)(&trans,
                         &n
                         &kl,
@@ -86,6 +137,55 @@ gbrfs(char                  trans,
     return info;
 }
 
+template <typename IndexType>
+IndexType
+gbrfs(char                        trans,
+      IndexType                   n,
+      IndexType                   kl,
+      IndexType                   ku,
+      IndexType                   nRhs,
+      const std::complex<float >  *Ab,
+      IndexType                   ldAb,
+      const std::complex<float >  *Afb,
+      IndexType                   ldAfb,
+      const IndexType             *iPiv,
+      const std::complex<float >  *B,
+      IndexType                   ldB,
+      std::complex<float >        *X,
+      IndexType                   ldX,
+      float                       *ferr,
+      float                       *berr,
+      std::complex<float >        *work,
+      float                       *rWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgbrfs");
+    LAPACK_IMPL(cgbrfs)(&trans,
+                        &n
+                        &kl,
+                        &nRhs,
+                        reinterpret_cast<const float  *>(Ab),
+                        &ldAb,
+                        reinterpret_cast<const float  *>(Afb),
+                        &ldAfb,
+                        iPiv,
+                        reinterpret_cast<const float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(X),
+                        &ldX,
+                         ferr,
+                        berr,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
 
 template <typename IndexType>
 IndexType
@@ -109,6 +209,7 @@ gbrfs(char                        trans,
       double                      *rWork)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("zgbrfs");
     LAPACK_IMPL(zgbrfs)(&trans,
                         &n
                         &kl,

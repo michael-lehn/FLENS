@@ -39,17 +39,54 @@ namespace cxxlapack {
 
 template <typename VOID>
 void
+lartg(const float      &f,
+      const float      &g,
+      float            &cs,
+      float            &sn,
+      float            &r)
+{
+    CXXLAPACK_DEBUG_OUT("slartg");
+   
+    LAPACK_IMPL(slartg)(&f,
+                        &g,
+                        &cs,
+                        &sn,
+                        &r);
+}
+
+
+template <typename VOID>
+void
 lartg(const double     &f,
       const double     &g,
       double           &cs,
       double           &sn,
       double           &r)
 {
+    CXXLAPACK_DEBUG_OUT("dlartg");
+  
     LAPACK_IMPL(dlartg)(&f,
                         &g,
                         &cs,
                         &sn,
                         &r);
+}
+
+template <typename VOID>
+void
+lartg(const std::complex<float >    &f,
+      const std::complex<float >    &g,
+      float                         &cs,
+      std::complex<float >          &sn,
+      std::complex<float >          &r)
+{
+    CXXLAPACK_DEBUG_OUT("clartg");
+  
+    LAPACK_IMPL(clartg)(reinterpret_cast<const float  *>(&f),
+                        reinterpret_cast<const float  *>(&g),
+                        &cs,
+                        reinterpret_cast<float  *>(&sn),
+                        reinterpret_cast<float  *>(&r));
 }
 
 template <typename VOID>
@@ -60,6 +97,8 @@ lartg(const std::complex<double>    &f,
       std::complex<double>          &sn,
       std::complex<double>          &r)
 {
+    CXXLAPACK_DEBUG_OUT("zlartg");
+  
     LAPACK_IMPL(zlartg)(reinterpret_cast<const double *>(&f),
                         reinterpret_cast<const double *>(&g),
                         &cs,

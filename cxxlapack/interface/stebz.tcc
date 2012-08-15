@@ -42,6 +42,56 @@ IndexType
 stebz(char                  range,
       char                  order,
       IndexType             n,
+      float                 vl,
+      float                 vu,
+      IndexType             il,
+      IndexType             iu,
+      float                 abstol,
+      const float           *d,
+      const float           *e,
+      IndexType             &m,
+      IndexType             &nsplit,
+      float                 *w,
+      IndexType             *iblock,
+      IndexType             *isplit,
+      float                 *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("sstebz");
+    
+    IndexType info;
+    LAPACK_IMPL(sstebz)(&range,
+                        &order,
+                        &n,
+                        &vl,
+                        &vu,
+                        &il,
+                        &iu,
+                        &abstol,
+                        d,
+                        e,
+                        &m,
+                        &nsplit,
+                        w,
+                        iblock,
+                        isplit,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+stebz(char                  range,
+      char                  order,
+      IndexType             n,
       double                vl,
       double                vu,
       IndexType             il,
@@ -57,6 +107,8 @@ stebz(char                  range,
       double                *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("dstebz");
+   
     IndexType info;
     LAPACK_IMPL(dstebz)(&range,
                         &order,

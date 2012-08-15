@@ -41,10 +41,31 @@ template <typename IndexType>
     void
     laqsp(char                  uplo,
           IndexType             n,
+          float                 *Ap,
+          const float           *s,
+          float                 scond,
+          float                 amax,
+          char                  &equed);
+    
+    
+template <typename IndexType>
+    void
+    laqsp(char                  uplo,
+          IndexType             n,
           double                *Ap,
           const double          *s,
           double                scond,
           double                amax,
+          char                  &equed);
+    
+template <typename IndexType>
+    void
+    laqsp(char                  uplo,
+          IndexType             n,
+          std::complex<float >  *Ap,
+          const float           *s,
+          float                 scond,
+          float                 amax,
           char                  &equed);
 
 template <typename IndexType>

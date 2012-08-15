@@ -41,6 +41,40 @@ template <typename IndexType>
 IndexType
 hetrd(char                  uplo,
       IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      float                 *d,
+      float                 *e,
+      std::complex<float >  *tau,
+      std::complex<float >  *work,
+      IndexType             lWork)
+{
+    CXXLAPACK_DEBUG_OUT("chetrd");
+    
+    IndexType info;
+    LAPACK_IMPL(chetrd)(&uplo,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        d,
+                        e,
+                        reinterpret_cast<float  *>(tau),
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hetrd(char                  uplo,
+      IndexType             n,
       std::complex<double>  *A,
       IndexType             ldA,
       double                *d,
@@ -49,6 +83,8 @@ hetrd(char                  uplo,
       std::complex<double>  *work,
       IndexType             lWork)
 {
+    CXXLAPACK_DEBUG_OUT("zhetrd");
+    
     IndexType info;
     LAPACK_IMPL(zhetrd)(&uplo,
                         &n,

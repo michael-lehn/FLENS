@@ -41,6 +41,36 @@ template <typename IndexType>
 double
 la_syrCond_x(char                        uplo,
              IndexType                   n,
+             const std::complex<float >  *A,
+             IndexType                   ldA,
+             const std::complex<float >  *Af,
+             IndexType                   ldAf,
+             const IndexType             *iPiv,
+             const std::complex<float >  *x,
+             IndexType                   &info,
+             std::complex<float >        *work,
+             float                       *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("cla_syrcond_x");
+
+    return LAPACK_IMPL(cla_syrcond_x)(&uplo,
+                                      &n,
+                                      reinterpret_cast<const float  *>(A),
+                                      &ldA,
+                                      reinterpret_cast<const float  *>(Af),
+                                      &ldAf,
+                                      iPiv,
+                                      reinterpret_cast<const float  *>(x),
+                                      &info,
+                                      reinterpret_cast<float  *>(work),
+                                      rWork);
+
+}
+
+template <typename IndexType>
+double
+la_syrCond_x(char                        uplo,
+             IndexType                   n,
              const std::complex<double>  *A,
              IndexType                   ldA,
              const std::complex<double>  *Af,
@@ -51,8 +81,9 @@ la_syrCond_x(char                        uplo,
              std::complex<double>        *work,
              double                      *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zla_syrcond_x");
 
-    return LAPACK_IMPL(zla_syrCond_x)(&uplo,
+    return LAPACK_IMPL(zla_syrcond_x)(&uplo,
                                       &n,
                                       reinterpret_cast<const double *>(A),
                                       &ldA,

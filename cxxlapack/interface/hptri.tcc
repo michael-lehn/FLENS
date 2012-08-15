@@ -41,10 +41,38 @@ template <typename IndexType>
 IndexType
 hptri(char                  uplo,
       IndexType             n,
+      std::complex<float >  *Ap,
+      const IndexType       *iPiv,
+      std::complex<float >  *work)
+{
+    CXXLAPACK_DEBUG_OUT("chptri");
+    
+    IndexType info;
+    LAPACK_IMPL(chptri)(&uplo,
+                        &n,
+                        reinterpret_cast<float  *>(Ap),
+                        iPiv,
+                        reinterpret_cast<float  *>(work),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hptri(char                  uplo,
+      IndexType             n,
       std::complex<double>  *Ap,
       const IndexType       *iPiv,
       std::complex<double>  *work)
 {
+    CXXLAPACK_DEBUG_OUT("zhptri");
+    
     IndexType info;
     LAPACK_IMPL(zhptri)(&uplo,
                         &n,

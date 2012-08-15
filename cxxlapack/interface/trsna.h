@@ -43,6 +43,27 @@ template <typename IndexType>
           char              howMany,
           const IndexType   *select,
           IndexType         n,
+          const float       *T,
+          IndexType         ldT,
+          const float       *VL,
+          IndexType         ldVL,
+          const float       *VR,
+          IndexType         ldVR,
+          float             *s,
+          float             *sep,
+          IndexType         mm,
+          IndexType         &m,
+          float             *work,
+          IndexType         ldWork,
+          IndexType         *iWork);
+    
+    
+template <typename IndexType>
+    IndexType
+    trsna(char              job,
+          char              howMany,
+          const IndexType   *select,
+          IndexType         n,
           const double      *T,
           IndexType         ldT,
           const double      *VL,
@@ -56,6 +77,26 @@ template <typename IndexType>
           double            *work,
           IndexType         ldWork,
           IndexType         *iWork);
+    
+template <typename IndexType>
+    IndexType
+    trsna(char                          job,
+          char                          howMany,
+          const IndexType               *select,
+          const IndexType               n,
+          const std::complex<float >    *T,
+          const IndexType               ldT,
+          const std::complex<float >    *VL,
+          const IndexType               ldVL,
+          const std::complex<float >    *VR,
+          const IndexType               ldVR,
+          float                         *s,
+          float                         *sep,
+          const IndexType               mm,
+          IndexType                     &m,
+          std::complex<float >          *work,
+          const IndexType               ldWork,
+          float                         *rWork);
 
 template <typename IndexType>
     IndexType

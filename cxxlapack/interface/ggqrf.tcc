@@ -42,6 +42,44 @@ IndexType
 ggqrf(IndexType             n,
       IndexType             m,
       IndexType             p,
+      float                 *A,
+      IndexType             ldA,
+      float                 *taua,
+      float                 *B,
+      IndexType             ldB,
+      float                 *taub,
+      float                 *work,
+      IndexType             lWork)
+{
+    CXXLAPACK_DEBUG_OUT("sggqrf");
+    
+    IndexType info;
+    LAPACK_IMPL(sggqrf)(&n,
+                        &m,
+                        &p,
+                        A,
+                        &ldA,
+                        taua,
+                        B,
+                        &ldB,
+                        taub,
+                        work,
+                        &lWork
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ggqrf(IndexType             n,
+      IndexType             m,
+      IndexType             p,
       double                *A,
       IndexType             ldA,
       double                *taua,
@@ -51,6 +89,8 @@ ggqrf(IndexType             n,
       double                *work,
       IndexType             lWork)
 {
+    CXXLAPACK_DEBUG_OUT("dggqrf");
+    
     IndexType info;
     LAPACK_IMPL(dggqrf)(&n,
                         &m,
@@ -78,6 +118,44 @@ IndexType
 ggqrf(IndexType             n,
       IndexType             m,
       IndexType             p,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      std::complex<float >  *taua,
+      std::complex<float >  *B,
+      IndexType             ldB,
+      std::complex<float >  *taub,
+      std::complex<float >  *work,
+      IndexType             lWork)
+{
+    CXXLAPACK_DEBUG_OUT("cggqrf");
+    
+    IndexType info;
+    LAPACK_IMPL(cggqrf)(&n,
+                        &m,
+                        &p,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(taua),
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(taub),
+                        reinterpret_cast<float  *>(work),
+                        &lWork
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ggqrf(IndexType             n,
+      IndexType             m,
+      IndexType             p,
       std::complex<double>  *A,
       IndexType             ldA,
       std::complex<double>  *taua,
@@ -87,6 +165,8 @@ ggqrf(IndexType             n,
       std::complex<double>  *work,
       IndexType             lWork)
 {
+    CXXLAPACK_DEBUG_OUT("zggqrf");
+    
     IndexType info;
     LAPACK_IMPL(zggqrf)(&n,
                         &m,

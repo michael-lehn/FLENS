@@ -36,7 +36,16 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    laed5(IndexType             i,
+          float                 *d,
+          const float           *z,
+          const float           *delta,
+          float                 rho,
+          float                 &dlam);
+    
 template <typename IndexType>
     IndexType
     laed5(IndexType             i,

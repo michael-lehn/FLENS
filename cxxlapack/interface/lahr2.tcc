@@ -42,6 +42,34 @@ void
 lahr2(IndexType     n,
       IndexType     k,
       IndexType     nb,
+      float         *A,
+      IndexType     ldA,
+      float         *tau,
+      float         *T,
+      IndexType     ldT,
+      float         *Y,
+      IndexType     ldY)
+{
+    CXXLAPACK_DEBUG_OUT("slahr2");
+  
+    LAPACK_IMPL(slahr2)(&n,
+                        &k,
+                        &nb,
+                        A,
+                        &ldA,
+                        tau,
+                        T,
+                        &ldT,
+                        Y,
+                        &ldY);
+}
+
+
+template <typename IndexType>
+void
+lahr2(IndexType     n,
+      IndexType     k,
+      IndexType     nb,
       double        *A,
       IndexType     ldA,
       double        *tau,
@@ -50,6 +78,8 @@ lahr2(IndexType     n,
       double        *Y,
       IndexType     ldY)
 {
+    CXXLAPACK_DEBUG_OUT("dlahr2");
+  
     LAPACK_IMPL(dlahr2)(&n,
                         &k,
                         &nb,
@@ -68,6 +98,33 @@ void
 lahr2(IndexType                 n,
       IndexType                 k,
       IndexType                 nb,
+      std::complex<float >      *A,
+      IndexType                 ldA,
+      std::complex<float >      *tau,
+      std::complex<float >      *T,
+      IndexType                 ldT,
+      std::complex<float >      *Y,
+      IndexType                 ldY)
+{
+    CXXLAPACK_DEBUG_OUT("clahr2");
+  
+    LAPACK_IMPL(clahr2)(&n,
+                        &k,
+                        &nb,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(tau),
+                        reinterpret_cast<float  *>(T),
+                        &ldT,
+                        reinterpret_cast<float  *>(Y),
+                        &ldY);
+}
+
+template <typename IndexType>
+void
+lahr2(IndexType                 n,
+      IndexType                 k,
+      IndexType                 nb,
       std::complex<double>      *A,
       IndexType                 ldA,
       std::complex<double>      *tau,
@@ -76,6 +133,8 @@ lahr2(IndexType                 n,
       std::complex<double>      *Y,
       IndexType                 ldY)
 {
+    CXXLAPACK_DEBUG_OUT("zlahr2");
+  
     LAPACK_IMPL(zlahr2)(&n,
                         &k,
                         &nb,

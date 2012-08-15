@@ -41,11 +41,41 @@ template <typename IndexType>
 IndexType
 pttrs(IndexType             n,
       IndexType             nRhs,
+      const float           *d,
+      const float           *e,
+      float                 *B,
+      IndexType             ldB)
+{
+    CXXLAPACK_DEBUG_OUT("spttrs");
+ 
+    IndexType info;
+    LAPACK_IMPL(spttrs)(&n,
+                        &nRhs,
+                        d,
+                        e,
+                        B,
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+pttrs(IndexType             n,
+      IndexType             nRhs,
       const double          *d,
       const double          *e,
       double                *B,
       IndexType             ldB)
 {
+    CXXLAPACK_DEBUG_OUT("dpttrs");
+ 
     IndexType info;
     LAPACK_IMPL(dpttrs)(&n,
                         &nRhs,
@@ -67,11 +97,41 @@ template <typename IndexType>
 IndexType
 pttrs(IndexType                   n,
       IndexType                   nRhs,
+      const float                 *d,
+      const std::complex<float >  *e,
+      std::complex<float >        *B,
+      IndexType                   ldB)
+{
+    CXXLAPACK_DEBUG_OUT("cpttrs");
+ 
+    IndexType info;
+    LAPACK_IMPL(cpttrs)(&n,
+                        &nRhs,
+                        d,
+                        reinterpret_cast<const float  *>(e),
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+pttrs(IndexType                   n,
+      IndexType                   nRhs,
       const double                *d,
       const std::complex<double>  *e,
       std::complex<double>        *B,
       IndexType                   ldB)
 {
+    CXXLAPACK_DEBUG_OUT("zpttrs");
+ 
     IndexType info;
     LAPACK_IMPL(zpttrs)(&n,
                         &nRhs,

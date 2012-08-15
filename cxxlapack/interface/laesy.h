@@ -36,7 +36,18 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename VOID=void>
+    void
+    laesy(std::complex<float >  a,
+          std::complex<float >  b,
+          std::complex<float >  c,
+          std::complex<float >  &rt1,
+          std::complex<float >  &rt2,
+          std::complex<float >  &evscal,
+          std::complex<float >  &cs1,
+          std::complex<float >  &sn1);
+    
 template <typename VOID=void>
     void
     laesy(std::complex<double>  a,

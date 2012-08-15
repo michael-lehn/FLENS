@@ -40,6 +40,30 @@ namespace cxxlapack {
 template <typename IndexType>
 void
 laqr1(IndexType         n,
+      const float       *H,
+      IndexType         ldH,
+      const float       &sr1,
+      const float       &si1,
+      const float       &sr2,
+      const float       &si2,
+      float             *v)
+{
+    CXXLAPACK_DEBUG_OUT("slaqr1");
+ 
+    LAPACK_IMPL(slaqr1)(&n,
+                        H,
+                        &ldH,
+                        &sr1,
+                        &si1,
+                        &sr2,
+                        &si2,
+                        v);
+}
+
+
+template <typename IndexType>
+void
+laqr1(IndexType         n,
       const double      *H,
       IndexType         ldH,
       const double      &sr1,
@@ -48,6 +72,8 @@ laqr1(IndexType         n,
       const double      &si2,
       double            *v)
 {
+    CXXLAPACK_DEBUG_OUT("dlaqr1");
+ 
     LAPACK_IMPL(dlaqr1)(&n,
                         H,
                         &ldH,
@@ -61,12 +87,33 @@ laqr1(IndexType         n,
 template <typename IndexType>
 void
 laqr1(IndexType                     n,
+      const std::complex<float >    *H,
+      IndexType                     ldH,
+      const std::complex<float >    &s1,
+      const std::complex<float >    &s2,
+      std::complex<float >          &v)
+{
+    CXXLAPACK_DEBUG_OUT("claqr1");
+ 
+    LAPACK_IMPL(claqr1)(&n,
+                        reinterpret_cast<const float  *>(H),
+                        &ldH,
+                        reinterpret_cast<const float  *>(&s1),
+                        reinterpret_cast<const float  *>(&s2),
+                        reinterpret_cast<float  *>(&v));
+}
+
+template <typename IndexType>
+void
+laqr1(IndexType                     n,
       const std::complex<double>    *H,
       IndexType                     ldH,
       const std::complex<double>    &s1,
       const std::complex<double>    &s2,
       std::complex<double>          &v)
 {
+    CXXLAPACK_DEBUG_OUT("zlaqr1");
+ 
     LAPACK_IMPL(zlaqr1)(&n,
                         reinterpret_cast<const double *>(H),
                         &ldH,

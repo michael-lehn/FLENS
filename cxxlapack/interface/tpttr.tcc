@@ -41,10 +41,39 @@ template <typename IndexType>
 IndexType
 tpttr(char                  uplo,
       IndexType             n,
+      const float           *Ap,
+      float                 *A,
+      IndexType             ldA)
+{
+    CXXLAPACK_DEBUG_OUT("stpttr");
+ 
+    IndexType info;
+    LAPACK_IMPL(stpttr)(&uplo,
+                        &n,
+                        Ap,
+                        A,
+                        &ldA,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+tpttr(char                  uplo,
+      IndexType             n,
       const double          *Ap,
       double                *A,
       IndexType             ldA)
 {
+    CXXLAPACK_DEBUG_OUT("dtpttr");
+ 
     IndexType info;
     LAPACK_IMPL(dtpttr)(&uplo,
                         &n,
@@ -65,10 +94,38 @@ template <typename IndexType>
 IndexType
 tpttr(char                       uplo,
       IndexType                  n,
+      const std::complex<float > *Ap,
+      std::complex<float >       *A,
+      IndexType                  ldA)
+{
+    CXXLAPACK_DEBUG_OUT("ctpttr");
+ 
+    IndexType info;
+    LAPACK_IMPL(ctpttr)(&uplo,
+                        &n,
+                        reinterpret_cast<const float  *>(Ap),
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+tpttr(char                       uplo,
+      IndexType                  n,
       const std::complex<double> *Ap,
       std::complex<double>       *A,
       IndexType                  ldA)
 {
+    CXXLAPACK_DEBUG_OUT("ztpttr");
+ 
     IndexType info;
     LAPACK_IMPL(ztpttr)(&uplo,
                         &n,

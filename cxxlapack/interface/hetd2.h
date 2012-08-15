@@ -36,7 +36,17 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    hetd2(char                  uplo,
+          IndexType             n,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          float                 *d,
+          float                 *e,
+          std::complex<float >  *tau);
+    
 template <typename IndexType>
     IndexType
     hetd2(char                  uplo,

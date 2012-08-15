@@ -43,6 +43,20 @@ template <typename IndexType>
           IndexType             n,
           IndexType             kl,
           IndexType             ku,
+          const float           *Ab,
+          IndexType             ldAb,
+          float                 *r,
+          float                 *c,
+          float                 &rowcnd,
+          float                 &colcnd,
+          float                 &amax);
+    
+template <typename IndexType>
+    IndexType
+    gbequ(IndexType             m,
+          IndexType             n,
+          IndexType             kl,
+          IndexType             ku,
           const double          *Ab,
           IndexType             ldAb,
           double                *r,
@@ -50,7 +64,21 @@ template <typename IndexType>
           double                &rowcnd,
           double                &colcnd,
           double                &amax);
-
+    
+template <typename IndexType>
+    IndexType
+    gbequ(IndexType                    m,
+          IndexType                    n,
+          IndexType                    kl,
+          IndexType                    ku,
+          const std::complex<float >  *Ab,
+          IndexType                    ldAb,
+          float                        *r,
+          float                        *c,
+          float                        &rowcnd,
+          float                        &colcnd,
+          float                        &amax);
+    
 template <typename IndexType>
     IndexType
     gbequ(IndexType                    m,

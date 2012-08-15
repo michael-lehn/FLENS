@@ -30,8 +30,8 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXLAPACK_INTERFACE_DUMMY_H
-#define CXXLAPACK_INTERFACE_DUMMY_H 1
+#ifndef CXXLAPACK_INTERFACE_TRCON_H
+#define CXXLAPACK_INTERFACE_TRCON_H 1
 
 #include <complex>
 
@@ -39,16 +39,28 @@ namespace cxxlapack {
 
 template <typename IndexType>
     IndexType
-    dummy(IndexType             m,
+    trcon(IndexType             m,
           IndexType             n,
-          double                *A);
-
+          float                 *A);
+    
 template <typename IndexType>
     IndexType
-    dummy(IndexType             n,
+    trcon(IndexType             m,
+          IndexType             n,
+          double                *A);
+    
+template <typename IndexType>
+    IndexType
+    trcon(IndexType             n,
+          IndexType             m,
+          std::complex<float >  *A);
+    
+template <typename IndexType>
+    IndexType
+    trcon(IndexType             n,
           IndexType             m,
           std::complex<double>  *A);
 
 } // namespace cxxlapack
 
-#endif // CXXLAPACK_INTERFACE_DUMMY_H
+#endif // CXXLAPACK_INTERFACE_TRCON_H

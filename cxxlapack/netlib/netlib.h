@@ -11,8 +11,12 @@
 #define     LAPACK_IMPL(x)           x
 #endif
 
-#ifndef DEBUG_CXXLAPACK
-#   define  DEBUG_CXXLAPACK(x)
+#ifdef  CXXLAPACK_DEBUG
+#   define  CXXLAPACK_DEBUG_OUT(msg) std::cerr << "CXXLAPACK: " << msg << std::endl;
+#endif
+
+#ifndef CXXLAPACK_DEBUG_OUT
+#   define  CXXLAPACK_DEBUG_OUT(msg)
 #endif
 
 extern "C" {

@@ -45,6 +45,30 @@ template <typename IndexType>
           IndexType             tlvls,
           IndexType             curlvl,
           IndexType             curpbm,
+          float                 *d,
+          float                 *Q,
+          IndexType             ldQ,
+          IndexType             *indxq,
+          float                 rho,
+          IndexType             cutpnt,
+          float                 *qstore,
+          const IndexType       *qptr,
+          const IndexType       *prmptr,
+          const IndexType       *perm,
+          const IndexType       *givptr,
+          const IndexType       *givcol,
+          const float           *givnum,
+          float                 *work,
+          IndexType             *iWork);
+    
+template <typename IndexType>
+    IndexType
+    laed7(IndexType             icompq,
+          IndexType             n,
+          IndexType             qsiz,
+          IndexType             tlvls,
+          IndexType             curlvl,
+          IndexType             curpbm,
           double                *d,
           double                *Q,
           IndexType             ldQ,
@@ -60,7 +84,31 @@ template <typename IndexType>
           const double          *givnum,
           double                *work,
           IndexType             *iWork);
-
+    
+    
+    template <typename IndexType>
+    IndexType
+    laed7(IndexType             icompq,
+          IndexType             n,
+          IndexType             qsiz,
+          IndexType             tlvls,
+          IndexType             curlvl,
+          IndexType             curpbm,
+          float                 *d,
+          std::complex<float >  *Q,
+          IndexType             ldQ,
+          float                 rho,
+          IndexType             *indxq,
+          float                 *qstore,
+          const IndexType       *qptr,
+          const IndexType       *prmptr,
+          const IndexType       *perm,
+          const IndexType       *givptr,
+          const IndexType       *givcol,
+          const float           *givnum,
+          std::complex<float >  *work,
+          float                 *rWork,
+          IndexType             *iWork);
     
 template <typename IndexType>
     IndexType   

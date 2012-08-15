@@ -36,7 +36,11 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename VOID=void>
+    void
+    labad(float  &small, float  &large);
+    
 template <typename VOID=void>
     void
     labad(double &small, double &large);

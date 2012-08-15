@@ -42,6 +42,44 @@ IndexType
 laqtr(bool              trans,
       bool              real,
       IndexType         n,
+      const float       *T,
+      IndexType         ldT,
+      const float       *B,
+      const float       &w,
+      float             &scale,
+      float             *x,
+      float             *work)
+{
+    CXXLAPACK_DEBUG_OUT("slaqtr");
+ 
+    IndexType info;
+    IndexType _trans = trans;
+    IndexType _real = real;
+    LAPACK_IMPL(slaqtr)(&_trans,
+                        &_real,
+                        &n,
+                        T,
+                        &ldT,
+                        B,
+                        &w,
+                        &scale,
+                        x,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+laqtr(bool              trans,
+      bool              real,
+      IndexType         n,
       const double      *T,
       IndexType         ldT,
       const double      *B,
@@ -50,6 +88,8 @@ laqtr(bool              trans,
       double            *x,
       double            *work)
 {
+    CXXLAPACK_DEBUG_OUT("dlaqtr");
+ 
     IndexType info;
     IndexType _trans = trans;
     IndexType _real = real;

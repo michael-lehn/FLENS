@@ -45,6 +45,32 @@ template <typename IndexType>
           IndexType             m,
           IndexType             p,
           IndexType             n,
+          float                 *A,
+          IndexType             ldA,
+          float                 *B,
+          IndexType             ldB,
+          float                 tola,
+          float                 tolb,
+          IndexType             &k,
+          IndexType             &l,
+          float                 *U,
+          IndexType             ldU,
+          float                 *V,
+          IndexType             ldV,
+          float                 *Q,
+          IndexType             ldQ,
+          IndexType             *iWork,
+          float                 *tau,
+          float                 *work);
+    
+template <typename IndexType>
+    IndexType
+    ggsvp(char                  jobu,
+          char                  jobv,
+          char                  jobq,
+          IndexType             m,
+          IndexType             p,
+          IndexType             n,
           double                *A,
           IndexType             ldA,
           double                *B,
@@ -62,7 +88,34 @@ template <typename IndexType>
           IndexType             *iWork,
           double                *tau,
           double                *work);
-
+    
+template <typename IndexType>
+    IndexType
+    ggsvp(char                  jobu,
+          char                  jobv,
+          char                  jobq,
+          IndexType             m,
+          IndexType             p,
+          IndexType             n,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          std::complex<float >  *B,
+          IndexType             ldB,
+          float                 tola,
+          float                 tolb,
+          IndexType             &k,
+          IndexType             &l,
+          std::complex<float >  *U,
+          IndexType             ldU,
+          std::complex<float >  *V,
+          IndexType             ldV,
+          std::complex<float >  *Q,
+          IndexType             ldQ,
+          IndexType             *iWork,
+          float                 *rWork,
+          std::complex<float >  *tau,
+          std::complex<float >  *work);
+    
 template <typename IndexType>
     IndexType
     ggsvp(char                  jobu,

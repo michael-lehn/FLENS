@@ -43,6 +43,43 @@ gbcon(char                  norm,
       IndexType             n,
       IndexType             kl,
       IndexType             ku,
+      const float           *Ab,
+      IndexType             ldAb,
+      const IndexType       *iPiv,
+      float                 anorm,
+      float                 &rCond,
+      float                 *work,
+      IndexType             *iWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgbcon");
+    LAPACK_IMPL(sgbcon)(&norm,
+                        &n,
+                        &kl,
+                        &ku,
+                        Ab,
+                        &ldAb,
+                        iPiv,
+                        &anorm,
+                        &rCond,
+                        work,
+                        &iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gbcon(char                  norm,
+      IndexType             n,
+      IndexType             kl,
+      IndexType             ku,
       const double          *Ab,
       IndexType             ldAb,
       const IndexType       *iPiv,
@@ -52,6 +89,7 @@ gbcon(char                  norm,
       IndexType             *iWork)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("dgbcon");
     LAPACK_IMPL(dgbcon)(&norm,
                         &n,
                         &kl,
@@ -79,6 +117,43 @@ gbcon(char                        norm,
       IndexType                   n,
       IndexType                   kl,
       IndexType                   ku,
+      const std::complex<float >  *Ab,
+      IndexType                   ldAb,
+      const IndexType             *iPiv,
+      float                       anorm,
+      float                       &rCond,
+      std::complex<float >        *work,
+      IndexType                   *iWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgbcon");
+    LAPACK_IMPL(cgbcon)(&norm,
+                        &n,
+                        &kl,
+                        &ku,
+                        reinterpret_cast<const float  *>(Ab),
+                        &ldAb,
+                        iPiv,
+                        &anorm,
+                        &rCond,
+                        reinterpret_cast<float  *>(work),
+                        &iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gbcon(char                        norm,
+      IndexType                   n,
+      IndexType                   kl,
+      IndexType                   ku,
       const std::complex<double>  *Ab,
       IndexType                   ldAb,
       const IndexType             *iPiv,
@@ -88,6 +163,7 @@ gbcon(char                        norm,
       IndexType                   *iWork)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("zgbcon");
     LAPACK_IMPL(zgbcon)(&norm,
                         &n,
                         &kl,

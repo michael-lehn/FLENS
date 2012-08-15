@@ -42,6 +42,55 @@ IndexType
 syrfs(char                  uplo,
       IndexType             n,
       IndexType             nRhs,
+      const float           *A,
+      IndexType             ldA,
+      const float           *Af,
+      IndexType             ldAf,
+      const IndexType       *iPiv,
+      const float           *B,
+      IndexType             ldB,
+      float                 *X,
+      IndexType             ldX,
+      float                 *ferr,
+      float                 *berr,
+      float                 *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("ssyrfs");
+ 
+    IndexType info;
+    LAPACK_IMPL(ssyrfs)(&uplo,
+                        &n,
+                        &nRhs,
+                        A,
+                        &ldA,
+                        Af,
+                        &ldAf,
+                        iPiv,
+                        B,
+                        &ldB,
+                        X,
+                        &ldX,
+                        ferr,
+                        berr,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+syrfs(char                  uplo,
+      IndexType             n,
+      IndexType             nRhs,
       const double          *A,
       IndexType             ldA,
       const double          *Af,
@@ -56,6 +105,8 @@ syrfs(char                  uplo,
       double                *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("dsyrfs");
+ 
     IndexType info;
     LAPACK_IMPL(dsyrfs)(&uplo,
                         &n,
@@ -88,6 +139,54 @@ IndexType
 syrfs(char                        uplo,
       IndexType                   n,
       IndexType                   nRhs,
+      const std::complex<float >  *A,
+      IndexType                   ldA,
+      const std::complex<float >  *Af,
+      IndexType                   ldAf,
+      const IndexType             *iPiv,
+      const std::complex<float >  *B,
+      IndexType                   ldB,
+      std::complex<float >        *X,
+      IndexType                   ldX,
+      float                       *ferr,
+      float                       *berr,
+      std::complex<float >        *work,
+      float                       *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("csyrfs");
+ 
+    IndexType info;
+    LAPACK_IMPL(csyrfs)(&uplo,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        reinterpret_cast<const float  *>(Af),
+                        &ldAf,
+                        iPiv,
+                        reinterpret_cast<const float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(X),
+                        &ldX,
+                        ferr,
+                        berr,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType   
+syrfs(char                        uplo,
+      IndexType                   n,
+      IndexType                   nRhs,
       const std::complex<double>  *A,
       IndexType                   ldA,
       const std::complex<double>  *Af,
@@ -102,6 +201,8 @@ syrfs(char                        uplo,
       std::complex<double>        *work,
       double                      *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zsyrfs");
+ 
     IndexType info;
     LAPACK_IMPL(zsyrfs)(&uplo,
                         &n,

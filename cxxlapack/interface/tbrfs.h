@@ -44,6 +44,24 @@ template <typename IndexType>
           char                  diag,
           IndexType             n,
           IndexType             kd,
+          const float           *Ab,
+          IndexType             ldAb,
+          const float           *B,
+          IndexType             ldB,
+          const float           *X,
+          IndexType             ldX,
+          float                 *ferr,
+          float                 *berr,
+          float                 *work,
+          IndexType             *iWork);
+    
+template <typename IndexType>
+    IndexType
+    tbrfs(char                  uplo,
+          char                  trans,
+          char                  diag,
+          IndexType             n,
+          IndexType             kd,
           const double          *Ab,
           IndexType             ldAb,
           const double          *B,
@@ -54,7 +72,25 @@ template <typename IndexType>
           double                *berr,
           double                *work,
           IndexType             *iWork);
-
+    
+template <typename IndexType>
+    IndexType
+    tbrfs(char                       uplo,
+          char                       trans,
+          char                       diag,
+          IndexType                  n,
+          IndexType                  kd,
+          const std::complex<float > *Ab,
+          IndexType                  ldAb,
+          const std::complex<float > *B,
+          IndexType                  ldB,
+          const std::complex<float > *X,
+          IndexType                  ldX,
+          float                      *ferr,
+          float                      *berr,
+          std::complex<float >       *work,
+          float                      *rWork);
+    
 template <typename IndexType>
     IndexType
     tbrfs(char                       uplo,

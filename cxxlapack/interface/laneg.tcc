@@ -40,12 +40,33 @@ namespace cxxlapack {
 template <typename IndexType>
 IndexType
 laneg(IndexType             n,
+      const float           *d,
+      const float           *lld,
+      float                 sigma,
+      float                 pivmin,
+      IndexType             r)
+{
+    CXXLAPACK_DEBUG_OUT("slaneg");
+    
+    return LAPACK_IMPL(slaneg)(&n,
+                               d,
+                               lld,
+                               &sigma,
+                               &pivmin,
+                               &r);
+}
+
+template <typename IndexType>
+IndexType
+laneg(IndexType             n,
       const double          *d,
       const double          *lld,
       double                sigma,
       double                pivmin,
       IndexType             r)
 {
+    CXXLAPACK_DEBUG_OUT("dlaneg");
+    
     return LAPACK_IMPL(dlaneg)(&n,
                                d,
                                lld,

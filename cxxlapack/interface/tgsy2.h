@@ -43,6 +43,31 @@ template <typename IndexType>
           IndexType             ijob,
           IndexType             m,
           IndexType             n,
+          const float           *A,
+          IndexType             ldA,
+          const float           *B,
+          IndexType             ldB,
+          float                 *C,
+          IndexType             ldC,
+          const float           *D,
+          IndexType             ldD,
+          const float           *E,
+          IndexType             ldE,
+          float                 *F,
+          IndexType             ldF,
+          float                 &scale,
+          float                 &rdsum,
+          float                 &rdscal,
+          IndexType             *iWork,
+          IndexType             &pq);
+
+    
+template <typename IndexType>
+    IndexType
+    tgsy2(char                  trans,
+          IndexType             ijob,
+          IndexType             m,
+          IndexType             n,
           const double          *A,
           IndexType             ldA,
           const double          *B,
@@ -60,7 +85,29 @@ template <typename IndexType>
           double                &rdscal,
           IndexType             *iWork,
           IndexType             &pq);
-
+    
+template <typename IndexType>
+    IndexType
+    tgsy2(char                        trans,
+          IndexType                   ijob,
+          IndexType                   m,
+          IndexType                   n,
+          const std::complex<float >  *A,
+          IndexType                   ldA,
+          const std::complex<float >  *B,
+          IndexType                   ldB,
+          std::complex<float >        *C,
+          IndexType                   ldC,
+          const std::complex<float >  *D,
+          IndexType                   ldD,
+          const std::complex<float >  *E,
+          IndexType                   ldE,
+          std::complex<float >        *F,
+          IndexType                   ldF,
+          float                       &scale,
+          float                       &rdsum,
+          float                       &rdscal);
+    
 template <typename IndexType>
     IndexType
     tgsy2(char                        trans,

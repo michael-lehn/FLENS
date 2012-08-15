@@ -41,6 +41,35 @@ template <typename IndexType>
 IndexType
 geqrf(IndexType   m,
       IndexType   n,
+      float       *A,
+      IndexType   ldA,
+      float       *tau,
+      float       *work,
+      IndexType   lWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgeqrf");
+    LAPACK_IMPL(sgeqrf)(&m,
+                        &n,
+                        A,
+                        &ldA,
+                        tau,
+                        work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+geqrf(IndexType   m,
+      IndexType   n,
       double      *A,
       IndexType   ldA,
       double      *tau,
@@ -48,13 +77,42 @@ geqrf(IndexType   m,
       IndexType   lWork)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("dgeqrf");
+    CXXLAPACK_DEBUG_OUT("dgeqrf");
     LAPACK_IMPL(dgeqrf)(&m,
                         &n,
                         A,
                         &ldA,
                         tau,
                         work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+geqrf(IndexType             m,
+      IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      std::complex<float >  *tau,
+      std::complex<float >  *work,
+      IndexType             lWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgeqrf");
+    LAPACK_IMPL(cgeqrf)(&m,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(tau),
+                        reinterpret_cast<float  *>(work),
                         &lWork,
                         &info);
 #   ifndef NDEBUG
@@ -77,7 +135,7 @@ geqrf(IndexType             m,
       IndexType             lWork)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("zgeqrf");
+    CXXLAPACK_DEBUG_OUT("zgeqrf");
     LAPACK_IMPL(zgeqrf)(&m,
                         &n,
                         reinterpret_cast<double *>(A),

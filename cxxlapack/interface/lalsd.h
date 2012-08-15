@@ -43,6 +43,22 @@ template <typename IndexType>
           IndexType             smlsiz,
           IndexType             n,
           IndexType             nRhs,
+          float                 *d,
+          float                 *e,
+          float                 *B,
+          IndexType             ldB,
+          float                 rCond,
+          IndexType             &rank,
+          float                 *work,
+          IndexType             *iWork);
+
+    
+template <typename IndexType>
+    IndexType
+    lalsd(char                  uplo,
+          IndexType             smlsiz,
+          IndexType             n,
+          IndexType             nRhs,
           double                *d,
           double                *e,
           double                *B,
@@ -51,7 +67,23 @@ template <typename IndexType>
           IndexType             &rank,
           double                *work,
           IndexType             *iWork);
-
+    
+template <typename IndexType>
+    IndexType
+    lalsd(char                  uplo,
+          IndexType             smlsiz,
+          IndexType             n,
+          IndexType             nRhs,
+          float                 *d,
+          float                 *e,
+          std::complex<float >  *B,
+          IndexType             ldB,
+          float                 rCond,
+          IndexType             &rank,
+          std::complex<float >  *work,
+          float                 *rWork,
+          IndexType             *iWork);
+    
 template <typename IndexType>
     IndexType
     lalsd(char                  uplo,

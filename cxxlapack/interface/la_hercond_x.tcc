@@ -41,6 +41,36 @@ template <typename IndexType>
 double
 la_herCond_x(char                        uplo,
              IndexType                   n,
+             const std::complex<float >  *A,
+             IndexType                   ldA,
+             const std::complex<float >  *Af,
+             IndexType                   ldAf,
+             IndexType                   *iPiv,
+             const std::complex<float >  *x,
+             IndexType                   &info,
+             std::complex<float >        *work,
+             float                       *rWork)             
+{
+    CXXLAPACK_DEBUG_OUT("cla_hercond_x");
+    
+    return LAPACK_IMPL(cla_hercond_x)(&uplo,
+                                      &n,
+                                      reinterpret_cast<const float  *>(A),
+                                      &ldA,
+                                      reinterpret_cast<const float  *>(Af),
+                                      &ldAf,
+                                      iPiv,
+                                      reinterpret_cast<const float  *>(x),
+                                      &info,
+                                      reinterpret_cast<float  *>(work),
+                                      rWork);
+
+}
+
+template <typename IndexType>
+double
+la_herCond_x(char                        uplo,
+             IndexType                   n,
              const std::complex<double>  *A,
              IndexType                   ldA,
              const std::complex<double>  *Af,
@@ -51,7 +81,9 @@ la_herCond_x(char                        uplo,
              std::complex<double>        *work,
              double                      *rWork)             
 {
-    return LAPACK_IMPL(zla_herCond_x)(&uplo,
+    CXXLAPACK_DEBUG_OUT("zla_hercond_x");
+    
+    return LAPACK_IMPL(zla_hercond_x)(&uplo,
                                       &n,
                                       reinterpret_cast<const double *>(A),
                                       &ldA,
@@ -61,7 +93,6 @@ la_herCond_x(char                        uplo,
                                       reinterpret_cast<const double *>(x),
                                       &info,
                                       reinterpret_cast<double *>(work),
-                                      rWork,
                                       rWork);
 
 }

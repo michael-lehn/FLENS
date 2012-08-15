@@ -42,6 +42,53 @@ IndexType
 porfs(char                  uplo,
       IndexType             n,
       IndexType             nRhs,
+      const float           *A,
+      IndexType             ldA,
+      const float           *Af,
+      IndexType             ldAf,
+      const float           *B,
+      IndexType             ldB,
+      float                 *X,
+      IndexType             ldX,
+      float                 *ferr,
+      float                 *berr,
+      float                 *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("sporfs");
+    
+    IndexType info;
+    LAPACK_IMPL(sporfs)(&uplo,
+                        &n,
+                        &nRhs,
+                        A,
+                        &ldA,
+                        Af,
+                        &ldAf,
+                        B,
+                        &ldB,
+                        X,
+                        &ldX,
+                        ferr,
+                        berr,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+porfs(char                  uplo,
+      IndexType             n,
+      IndexType             nRhs,
       const double          *A,
       IndexType             ldA,
       const double          *Af,
@@ -55,6 +102,8 @@ porfs(char                  uplo,
       double                *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("dporfs");
+    
     IndexType info;
     LAPACK_IMPL(dporfs)(&uplo,
                         &n,
@@ -87,6 +136,52 @@ IndexType
 porfs(char                        uplo,
       IndexType                   n,
       IndexType                   nRhs,
+      const std::complex<float >  *A,
+      IndexType                   ldA,
+      const std::complex<float >  *Af,
+      IndexType                   ldAf,
+      const std::complex<float >  *B,
+      IndexType                   ldB,
+      std::complex<float >        *X,
+      IndexType                   ldX,
+      float                       *ferr,
+      float                       *berr,
+      std::complex<float >        *work,
+      float                       *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("cporfs");
+    
+    IndexType info;
+    LAPACK_IMPL(cporfs)(&uplo,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        reinterpret_cast<const float  *>(Af),
+                        &ldAf,
+                        reinterpret_cast<const float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(X),
+                        &ldX,
+                        ferr,
+                        berr,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+porfs(char                        uplo,
+      IndexType                   n,
+      IndexType                   nRhs,
       const std::complex<double>  *A,
       IndexType                   ldA,
       const std::complex<double>  *Af,
@@ -100,6 +195,8 @@ porfs(char                        uplo,
       std::complex<double>        *work,
       double                      *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zporfs");
+    
     IndexType info;
     LAPACK_IMPL(zporfs)(&uplo,
                         &n,

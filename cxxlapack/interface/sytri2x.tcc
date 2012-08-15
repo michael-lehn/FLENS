@@ -41,12 +41,45 @@ template <typename IndexType>
 IndexType
 sytri2x(char                  uplo,
         IndexType             n,
+        float                 *A,
+        IndexType             ldA,
+        const IndexType       *iPiv,
+        float                 *work,
+        IndexType             nb)
+{
+    CXXLAPACK_DEBUG_OUT("ssytri2x");
+ 
+    IndexType info;
+    LAPACK_IMPL(ssytri2x)(&uplo,
+                          &n,
+                          A,
+                          &ldA,
+                          iPiv,
+                          work,
+                          &nb,
+                          &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+sytri2x(char                  uplo,
+        IndexType             n,
         double                *A,
         IndexType             ldA,
         const IndexType       *iPiv,
         double                *work,
         IndexType             nb)
 {
+    CXXLAPACK_DEBUG_OUT("dsytri2x");
+ 
     IndexType info;
     LAPACK_IMPL(dsytri2x)(&uplo,
                           &n,
@@ -69,12 +102,44 @@ template <typename IndexType>
 IndexType
 sytri2x(char                  uplo,
       IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      const IndexType       *iPiv,
+      std::complex<float >  *work,
+      IndexType             nb)
+{
+    CXXLAPACK_DEBUG_OUT("csytri2x");
+ 
+    IndexType info;
+    LAPACK_IMPL(csytri2x)(&uplo,
+                          &n,
+                          reinterpret_cast<float  *>(A),
+                          &ldA,
+                          iPiv,
+                          reinterpret_cast<float  *>(work),
+                          &nb,
+                          &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+sytri2x(char                  uplo,
+      IndexType             n,
       std::complex<double>  *A,
       IndexType             ldA,
       const IndexType       *iPiv,
       std::complex<double>  *work,
       IndexType             nb)
 {
+    CXXLAPACK_DEBUG_OUT("zsytri2x");
+ 
     IndexType info;
     LAPACK_IMPL(zsytri2x)(&uplo,
                           &n,

@@ -36,7 +36,16 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    sptrd(char                  uplo,
+          IndexType             n,
+          float                 *Ap,
+          float                 *d,
+          float                 *e,
+          float                 *tau);
+    
 template <typename IndexType>
     IndexType
     sptrd(char                  uplo,

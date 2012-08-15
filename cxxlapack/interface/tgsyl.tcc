@@ -43,6 +43,65 @@ tgsyl(char                  trans,
       IndexType             ijob,
       IndexType             m,
       IndexType             n,
+      const float           *A,
+      IndexType             ldA,
+      const float           *B,
+      IndexType             ldB,
+      float                 *C,
+      IndexType             ldC,
+      const float           *D,
+      IndexType             ldD,
+      const float           *E,
+      IndexType             ldE,
+      float                 *F,
+      IndexType             ldF,
+      float                 &scale,
+      float                 &dif,
+      float                 *work,
+      IndexType             lWork,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("stgsyl");
+ 
+    IndexType info;
+    LAPACK_IMPL(stgsyl)(&trans,
+                        &ijob,
+                        &m,
+                        &n,
+                        A,
+                        &ldA,
+                        B,
+                        &ldB,
+                        C,
+                        &ldC,
+                        D,
+                        &ldD,
+                        E,
+                        &ldE,
+                        F,
+                        &ldF,
+                        &scale,
+                        &dif,
+                        work,
+                        &lWork,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+tgsyl(char                  trans,
+      IndexType             ijob,
+      IndexType             m,
+      IndexType             n,
       const double          *A,
       IndexType             ldA,
       const double          *B,
@@ -60,8 +119,9 @@ tgsyl(char                  trans,
       double                *work,
       IndexType             lWork,
       IndexType             *iWork)
-      
 {
+    CXXLAPACK_DEBUG_OUT("dtgsyl");
+ 
     IndexType info;
     LAPACK_IMPL(dtgsyl)(&trans,
                         &ijob,
@@ -101,6 +161,64 @@ tgsyl(char                        trans,
       IndexType                   ijob,
       IndexType                   m,
       IndexType                   n,
+      const std::complex<float >  *A,
+      IndexType                   ldA,
+      const std::complex<float >  *B,
+      IndexType                   ldB,
+      std::complex<float >        *C,
+      IndexType                   ldC,
+      const std::complex<float >  *D,
+      IndexType                   ldD,
+      const std::complex<float >  *E,
+      IndexType                   ldE,
+      std::complex<float >        *F,
+      IndexType                   ldF,
+      float                       &scale,
+      float                       &dif,
+      std::complex<float >        *work,
+      IndexType                   lWork,
+      IndexType                   *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("ctgsyl");
+ 
+    IndexType info;
+    LAPACK_IMPL(ctgsyl)(&trans,
+                        &ijob,
+                        &m,
+                        &n,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        reinterpret_cast<const float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(C),
+                        &ldC,
+                        reinterpret_cast<const float  *>(D),
+                        &ldD,
+                        reinterpret_cast<const float  *>(E),
+                        &ldE,
+                        reinterpret_cast<float  *>(F),
+                        &ldF,
+                        &scale,
+                        &dif,
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+tgsyl(char                        trans,
+      IndexType                   ijob,
+      IndexType                   m,
+      IndexType                   n,
       const std::complex<double>  *A,
       IndexType                   ldA,
       const std::complex<double>  *B,
@@ -120,6 +238,8 @@ tgsyl(char                        trans,
       IndexType                   *iWork)
       
 {
+    CXXLAPACK_DEBUG_OUT("ztgsyl");
+ 
     IndexType info;
     LAPACK_IMPL(ztgsyl)(&trans,
                         &ijob,

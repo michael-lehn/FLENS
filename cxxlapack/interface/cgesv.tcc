@@ -54,6 +54,7 @@ cgesv(IndexType                  n,
       IndexType                  &iter)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("zcgesv");
     LAPACK_IMPL(zcgesv)(&n,
                         &nRhs,
                         reinterpret_cast<double *>(A),

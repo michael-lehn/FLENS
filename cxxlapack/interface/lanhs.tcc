@@ -38,6 +38,24 @@
 namespace cxxlapack {
 
 template <typename IndexType>
+float  
+lanhs(char                  norm,
+      IndexType             n,
+      const float           *A,
+      IndexType             ldA,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("slanhs");
+   
+    return LAPACK_IMPL(slanhs)(&norm,
+                               &n,
+                               A,
+                               &ldA,
+                               work);
+}
+
+
+template <typename IndexType>
 double 
 lanhs(char                  norm,
       IndexType             n,
@@ -45,9 +63,28 @@ lanhs(char                  norm,
       IndexType             ldA,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dlanhs");
+   
     return LAPACK_IMPL(dlanhs)(&norm,
                                &n,
                                A,
+                               &ldA,
+                               work);
+}
+
+template <typename IndexType>
+float  
+lanhs(char                        norm,
+      IndexType                   n,
+      const std::complex<float >  *A,
+      IndexType                   ldA,
+      float                       *work)
+{
+    CXXLAPACK_DEBUG_OUT("clanhs");
+   
+    return LAPACK_IMPL(clanhs)(&norm,
+                               &n,
+                               reinterpret_cast<const float  *>(A),
                                &ldA,
                                work);
 }
@@ -60,6 +97,8 @@ lanhs(char                        norm,
       IndexType                   ldA,
       double                      *work)
 {
+    CXXLAPACK_DEBUG_OUT("zlanhs");
+   
     return LAPACK_IMPL(zlanhs)(&norm,
                                &n,
                                reinterpret_cast<const double *>(A),

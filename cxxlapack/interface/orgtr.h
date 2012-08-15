@@ -36,7 +36,17 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    orgtr(char                  uplo,
+          IndexType             n,
+          float                 *A,
+          IndexType             ldA,
+          const float           *tau,
+          float                 *work,
+          IndexType             lWork);
+    
 template <typename IndexType>
     IndexType
     orgtr(char                  uplo,

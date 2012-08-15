@@ -42,6 +42,20 @@ template <typename IndexType>
     laed0(IndexType             icompq,
           IndexType             qsiz,
           IndexType             n,
+          float                 *d,
+          const float           *e,
+          float                 *Q,
+          IndexType             ldQ,
+          float                 *Qstore,
+          IndexType             ldQs,
+          float                 *work,
+          IndexType             *iWork);
+    
+template <typename IndexType>
+    IndexType
+    laed0(IndexType             icompq,
+          IndexType             qsiz,
+          IndexType             n,
           double                *d,
           const double          *e,
           double                *Q,
@@ -50,7 +64,21 @@ template <typename IndexType>
           IndexType             ldQs,
           double                *work,
           IndexType             *iWork);
-
+    
+template <typename IndexType>
+    IndexType
+    laed0(IndexType             icompq,
+          IndexType             qsiz,
+          IndexType             n,
+          float                 *d,
+          const float           *e,
+          std::complex<float >  *Q,
+          IndexType             ldQ,
+          std::complex<float >  *Qstore,
+          IndexType             ldQs,
+          float                 *rWork,
+          IndexType             *iWork);
+    
 template <typename IndexType>
     IndexType
     laed0(IndexType             icompq,

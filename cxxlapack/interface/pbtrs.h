@@ -43,10 +43,32 @@ template <typename IndexType>
           IndexType             n,
           IndexType             kd,
           IndexType             nRhs,
+          const float           *Ab,
+          IndexType             ldAb,
+          float                 *B,
+          IndexType             ldB);
+    
+template <typename IndexType>
+    IndexType
+    pbtrs(char                  uplo,
+          IndexType             n,
+          IndexType             kd,
+          IndexType             nRhs,
           const double          *Ab,
           IndexType             ldAb,
           double                *B,
           IndexType             ldB);
+    
+template <typename IndexType>
+    IndexType
+    pbtrs(char                        uplo,
+          IndexType                   n,
+          IndexType                   kd,
+          IndexType                   nRhs,
+          const std::complex<float >  *Ab,
+          IndexType                    ldAb,
+          std::complex<float >         *B,
+          IndexType                    ldB);
 
 template <typename IndexType>
     IndexType

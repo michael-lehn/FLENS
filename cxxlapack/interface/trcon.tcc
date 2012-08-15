@@ -43,12 +43,49 @@ trcon(char                  norm,
       char                  uplo,
       char                  diag,
       IndexType             n,
+      const float           *A,
+      IndexType             ldA,
+      float                 &rCond,
+      float                 *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("strcon");
+ 
+    IndexType info;
+    LAPACK_IMPL(strcon)(&norm,
+                        &uplo,
+                        &diag,
+                        &n,
+                        A,
+                        &ldA,
+                        &rCond,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+trcon(char                  norm,
+      char                  uplo,
+      char                  diag,
+      IndexType             n,
       const double          *A,
       IndexType             ldA,
       double                &rCond,
       double                *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("dtrcon");
+ 
     IndexType info;
     LAPACK_IMPL(dtrcon)(&norm,
                         &uplo,
@@ -75,12 +112,48 @@ trcon(char                        norm,
       char                        uplo,
       char                        diag,
       IndexType                   n,
+      const std::complex<float >  *A,
+      IndexType                   ldA,
+      float                       &rCond,
+      std::complex<float >        *work,
+      float                       *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("ctrcon");
+ 
+    IndexType info;
+    LAPACK_IMPL(ctrcon)(&norm,
+                        &uplo,
+                        &diag,
+                        &n,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        &rCond,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+trcon(char                        norm,
+      char                        uplo,
+      char                        diag,
+      IndexType                   n,
       const std::complex<double>  *A,
       IndexType                   ldA,
       double                      &rCond,
       std::complex<double>        *work,
       double                      *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("ztrcon");
+ 
     IndexType info;
     LAPACK_IMPL(ztrcon)(&norm,
                         &uplo,

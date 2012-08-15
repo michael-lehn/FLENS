@@ -42,6 +42,32 @@ double
 la_herpvgrg(char                        uplo,
             IndexType                   n,
             IndexType                   info,
+            const std::complex<float >  *A,
+            IndexType                   ldA,
+            const std::complex<float >  *Af,
+            IndexType                   ldAf,
+            const IndexType             *iPiv,
+            float                       *work)
+{
+    CXXLAPACK_DEBUG_OUT("cla_herpvgrg");
+
+    return LAPACK_IMPL(cla_herpvgrg)(&uplo,
+                                     &n,
+                                     &info,
+                                     reinterpret_cast<const float  *>(A),
+                                     &ldA,
+                                     reinterpret_cast<const float  *>(Af),
+                                     &ldAf,
+                                     iPiv,
+                                     work);
+
+}
+
+template <typename IndexType>
+double
+la_herpvgrg(char                        uplo,
+            IndexType                   n,
+            IndexType                   info,
             const std::complex<double>  *A,
             IndexType                   ldA,
             const std::complex<double>  *Af,
@@ -49,6 +75,7 @@ la_herpvgrg(char                        uplo,
             const IndexType             *iPiv,
             double                      *work)
 {
+    CXXLAPACK_DEBUG_OUT("zla_herpvgrg");
 
     return LAPACK_IMPL(zla_herpvgrg)(&uplo,
                                      &n,

@@ -44,6 +44,51 @@ tprfs(char                  uplo,
       char                  diag,
       IndexType             n,
       IndexType             nRhs,
+      const float           *Ap,
+      const float           *B,
+      IndexType             ldB,
+      const float           *X,
+      IndexType             ldX,
+      float                 *ferr,
+      float                 *berr,
+      float                 *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("stprfs");
+ 
+    IndexType info;
+    LAPACK_IMPL(stprfs)(&uplo,
+                        &trans,
+                        &diag,
+                        &n,
+                        &nRhs,
+                        Ap,
+                        B,
+                        &ldB,
+                        X,
+                        &ldX,
+                        ferr,
+                        berr,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+tprfs(char                  uplo,
+      char                  trans,
+      char                  diag,
+      IndexType             n,
+      IndexType             nRhs,
       const double          *Ap,
       const double          *B,
       IndexType             ldB,
@@ -54,6 +99,8 @@ tprfs(char                  uplo,
       double                *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("dtprfs");
+ 
     IndexType info;
     LAPACK_IMPL(dtprfs)(&uplo,
                         &trans,
@@ -87,6 +134,50 @@ tprfs(char                        uplo,
       char                        diag,
       IndexType                   n,
       IndexType                   nRhs,
+      const std::complex<float >  *Ap,
+      const std::complex<float >  *B,
+      IndexType                   ldB,
+      const std::complex<float >  *X,
+      IndexType                   ldX,
+      float                       *ferr,
+      float                       *berr,
+      std::complex<float >        *work,
+      float                       *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("ctprfs");
+ 
+    IndexType info;
+    LAPACK_IMPL(ctprfs)(&uplo,
+                        &trans,
+                        &diag,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<const float  *>(Ap),
+                        reinterpret_cast<const float  *>(B),
+                        &ldB,
+                        reinterpret_cast<const float  *>(X),
+                        &ldX,
+                        ferr,
+                        berr,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+tprfs(char                        uplo,
+      char                        trans,
+      char                        diag,
+      IndexType                   n,
+      IndexType                   nRhs,
       const std::complex<double>  *Ap,
       const std::complex<double>  *B,
       IndexType                   ldB,
@@ -97,6 +188,8 @@ tprfs(char                        uplo,
       std::complex<double>        *work,
       double                      *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("ztprfs");
+ 
     IndexType info;
     LAPACK_IMPL(ztprfs)(&uplo,
                         &trans,

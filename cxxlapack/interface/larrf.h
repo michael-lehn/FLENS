@@ -36,7 +36,27 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    larrf(char                  range,
+          const float           *d,
+          const float           *l,
+          const float           *ld,
+          IndexType             clstrt,
+          IndexType             clend,
+          const float           *w,
+          float                 *wgap,
+          const float           *werr,
+          float                 spdiam,
+          float                 clgapl,
+          float                 clgapr,
+          float                 pivmin,
+          float                 &sigma,
+          float                 *dplus,
+          float                 *lplus,
+          float                 *work);
+    
 template <typename IndexType>
     IndexType
     larrf(char                  range,

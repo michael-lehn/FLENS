@@ -36,7 +36,30 @@
 #include <complex>
 
 namespace cxxlapack {
+    
+template <typename IndexType>
+    IndexType
+    stevr(char                  jobz,
+          char                  range,
+          IndexType             n,
+          float                 *d,
+          float                 *e,
+          float                 vl,
+          float                 vu,
+          IndexType             il,
+          IndexType             iu,
+          float                 abstol,
+          IndexType             &m,
+          float                 *w,
+          float                 *Z,
+          IndexType             ldZ,
+          IndexType             *isuppz,
+          float                 *work,
+          IndexType             lWork,
+          IndexType             *iWork,
+          IndexType             liWork);
 
+    
 template <typename IndexType>
     IndexType
     stevr(char                  jobz,

@@ -41,12 +41,46 @@ template <typename IndexType>
 IndexType
 laed6(IndexType             kniter,
       bool                  orgati,
+      float                 rho,
+      const float           *d,
+      const float           *z,
+      float                 finit,
+      float                 &tau)
+{
+    CXXLAPACK_DEBUG_OUT("slaed6");
+    
+    IndexType info;
+    IndexType _orgati = orgati;
+    LAPACK_IMPL(slaed6)(&kniter,
+                        &_orgati,
+                        &rho,
+                        d,
+                        z,
+                        &finit,
+                        &tau,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+laed6(IndexType             kniter,
+      bool                  orgati,
       double                rho,
       const double          *d,
       const double          *z,
       double                finit,
       double                &tau)
 {
+    CXXLAPACK_DEBUG_OUT("dlaed6");
+    
     IndexType info;
     IndexType _orgati = orgati;
     LAPACK_IMPL(dlaed6)(&kniter,

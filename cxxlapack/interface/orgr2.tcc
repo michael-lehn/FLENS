@@ -42,11 +42,43 @@ IndexType
 orgr2(IndexType             m,
       IndexType             n,
       IndexType             k,
+      float                 *A,
+      IndexType             ldA,
+      const float           *tau,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("sorgr2");
+  
+    IndexType info;
+    LAPACK_IMPL(sorgr2)(&m,
+                        &n,
+                        &k,
+                        A,
+                        &ldA,
+                        tau,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+orgr2(IndexType             m,
+      IndexType             n,
+      IndexType             k,
       double                *A,
       IndexType             ldA,
       const double          *tau,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dorgr2");
+  
     IndexType info;
     LAPACK_IMPL(dorgr2)(&m,
                         &n,

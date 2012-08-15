@@ -36,7 +36,22 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    double
+    la_herCond_c(char                        uplo,
+                 IndexType                   n,
+                 const std::complex<float >  *A,
+                 IndexType                   ldA,
+                 const std::complex<float >  *Af,
+                 IndexType                   ldAf,
+                 IndexType                   *iPiv,
+                 float                       *c,
+                 bool                        capply,
+                 IndexType                   &info,
+                 std::complex<float >        *work,
+                 float                       *rWork);
+    
 template <typename IndexType>
     double
     la_herCond_c(char                        uplo,

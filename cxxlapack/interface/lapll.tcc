@@ -42,10 +42,33 @@ void
 lapll(IndexType             n,
       double                *x,
       IndexType             incx,
+      float                 *y,
+      float                 incy,
+      float                 &ssmin)
+{
+    CXXLAPACK_DEBUG_OUT("slapll");
+   
+    LAPACK_IMPL(slapll)(&n,
+                        x,
+                        &incx,
+                        y,
+                        &incy,
+                        &ssmin);
+
+}
+
+
+template <typename IndexType>
+void
+lapll(IndexType             n,
+      double                *x,
+      IndexType             incx,
       double                *y,
       double                incy,
       double                &ssmin)
 {
+    CXXLAPACK_DEBUG_OUT("dlapll");
+   
     LAPACK_IMPL(dlapll)(&n,
                         x,
                         &incx,
@@ -59,12 +82,34 @@ lapll(IndexType             n,
 template <typename IndexType>
 void
 lapll(IndexType             n,
+      std::complex<float >  *x,
+      IndexType             incx,
+      std::complex<float >  *y,
+      float                 incy,
+      float                 &ssmin)
+{
+    CXXLAPACK_DEBUG_OUT("clapll");
+   
+    LAPACK_IMPL(clapll)(&n,
+                        reinterpret_cast<float  *>(x),
+                        &incx,
+                        reinterpret_cast<float  *>(y),
+                        &incy,
+                        &ssmin);
+
+}
+
+template <typename IndexType>
+void
+lapll(IndexType             n,
       std::complex<double>  *x,
       IndexType             incx,
       std::complex<double>  *y,
       double                incy,
       double                &ssmin)
 {
+    CXXLAPACK_DEBUG_OUT("zlapll");
+   
     LAPACK_IMPL(zlapll)(&n,
                         reinterpret_cast<double *>(x),
                         &incx,

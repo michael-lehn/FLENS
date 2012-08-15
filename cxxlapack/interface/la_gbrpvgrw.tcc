@@ -43,11 +43,35 @@ la_gbrpvgrw(IndexType             n,
             IndexType             kl,
             IndexType             ku,
             IndexType             ncols,
+            const float           *Ab,
+            IndexType             ldAb,
+            const float           *Afb,
+            IndexType             ldAfb)
+{
+    CXXLAPACK_DEBUG_OUT("sla_gbrpvgrw");
+
+    return LAPACK_IMPL(sla_gbrpvgrw)(&n,
+                                     &kl,
+                                     &ku,
+                                     &ncols,
+                                     Ab,
+                                     &ldAb,
+                                     Afb,
+                                     &ldAfb);
+}
+
+template <typename IndexType>
+double
+la_gbrpvgrw(IndexType             n,
+            IndexType             kl,
+            IndexType             ku,
+            IndexType             ncols,
             const double          *Ab,
             IndexType             ldAb,
             const double          *Afb,
             IndexType             ldAfb)
 {
+    CXXLAPACK_DEBUG_OUT("dla_gbrpvgrw");
 
     return LAPACK_IMPL(dla_gbrpvgrw)(&n,
                                      &kl,
@@ -59,6 +83,28 @@ la_gbrpvgrw(IndexType             n,
                                      &ldAfb);
 }
 
+template <typename IndexType>
+double
+la_gbrpvgrw(IndexType                     n,
+            IndexType                     kl,
+            IndexType                     ku,
+            IndexType                     ncols,
+            const std::complex<float >    *Ab,
+            IndexType                     ldAb,
+            const std::complex<float >    *Afb,
+            IndexType                     ldAfb)
+{
+    CXXLAPACK_DEBUG_OUT("cla_gbrpvgrw");
+
+    return LAPACK_IMPL(cla_gbrpvgrw)(&n,
+                                     &kl,
+                                     &ku,
+                                     &ncols,
+                                     reinterpret_cast<const float  *>(Ab),
+                                     &ldAb,
+                                     reinterpret_cast<const float  *>(Afb),
+                                     &ldAfb);
+}
 
 template <typename IndexType>
 double
@@ -71,8 +117,9 @@ la_gbrpvgrw(IndexType                     n,
             const std::complex<double>    *Afb,
             IndexType                     ldAfb)
 {
+    CXXLAPACK_DEBUG_OUT("zla_gbrpvgrw");
 
-    return LAPACK_IMPL(dla_gbrpvgrw)(&n,
+    return LAPACK_IMPL(zla_gbrpvgrw)(&n,
                                      &kl,
                                      &ku,
                                      &ncols,

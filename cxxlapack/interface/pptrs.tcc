@@ -42,10 +42,41 @@ IndexType
 pptrs(char                  uplo,
       IndexType             n,
       IndexType             nRhs,
+      const float           *Ap,
+      float                 *B,
+      IndexType             ldB)      
+{
+    CXXLAPACK_DEBUG_OUT("spptrs");
+ 
+    IndexType info;
+    LAPACK_IMPL(spptrs)(&uplo,
+                        &n,
+                        &nRhs,
+                        Ap,
+                        B,
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+pptrs(char                  uplo,
+      IndexType             n,
+      IndexType             nRhs,
       const double          *Ap,
       double                *B,
       IndexType             ldB)      
 {
+    CXXLAPACK_DEBUG_OUT("dpptrs");
+ 
     IndexType info;
     LAPACK_IMPL(dpptrs)(&uplo,
                         &n,
@@ -68,10 +99,40 @@ IndexType
 pptrs(char                         uplo,
       IndexType                    n,
       IndexType                    nRhs,
+      const std::complex<float >   *Ap,
+      std::complex<float >         *B,
+      IndexType                    ldB)      
+{
+    CXXLAPACK_DEBUG_OUT("cpptrs");
+ 
+    IndexType info;
+    LAPACK_IMPL(cpptrs)(&uplo,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<const float  *>(Ap),
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+pptrs(char                         uplo,
+      IndexType                    n,
+      IndexType                    nRhs,
       const std::complex<double>   *Ap,
       std::complex<double>         *B,
       IndexType                    ldB)      
 {
+    CXXLAPACK_DEBUG_OUT("zpptrs");
+ 
     IndexType info;
     LAPACK_IMPL(zpptrs)(&uplo,
                         &n,

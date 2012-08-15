@@ -42,6 +42,24 @@ template <typename IndexType>
     gegv(char                  jobvsl,
          char                  jobvsr,
          IndexType             n,
+         float                 *A,
+         IndexType             ldA,
+         float                 *B,
+         IndexType             ldB,
+         float                 *alpha,
+         float                 *beta,
+         float                 *VL,
+         IndexType             ldVL,
+         float                 *VR,
+         IndexType             ldVR,
+         float                 *work,
+         IndexType             lWork);
+    
+template <typename IndexType>
+    IndexType
+    gegv(char                  jobvsl,
+         char                  jobvsr,
+         IndexType             n,
          double                *A,
          IndexType             ldA,
          double                *B,
@@ -54,6 +72,25 @@ template <typename IndexType>
          IndexType             ldVR,
          double                *work,
          IndexType             lWork);
+    
+template <typename IndexType>
+    IndexType
+    gegv(char                  jobvsl,
+         char                  jobvsr,
+         IndexType             n,
+         std::complex<float >  *A,
+         IndexType             ldA,
+         std::complex<float >  *B,
+         IndexType             ldB,
+         std::complex<float >  *alpha,
+         std::complex<float >  *beta,
+         std::complex<float >  *VL,
+         IndexType             ldVL,
+         std::complex<float >  *VR,
+         IndexType             ldVR,
+         std::complex<float >  *work,
+         IndexType             lWork,
+         float                 *rWork);
 
 template <typename IndexType>
     IndexType

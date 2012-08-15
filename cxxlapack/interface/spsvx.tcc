@@ -43,6 +43,55 @@ spsvx(char                  fact,
       char                  uplo,
       IndexType             n,
       IndexType             nRhs,
+      const float           *Ap,
+      float                 *Afp,
+      IndexType             *iPiv,
+      const float           *B,
+      IndexType             ldB,
+      float                 *X,
+      IndexType             ldX,
+      float                 &rCond,
+      float                 *ferr,
+      float                 *berr,
+      float                 *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("sspsvx");
+
+    IndexType info;
+    LAPACK_IMPL(sspsvx)(&fact,
+                        &uplo,
+                        &n,
+                        &nRhs,
+                        Ap,
+                        Afp,
+                        iPiv,
+                        B,
+                        &ldB,
+                        X,
+                        &ldX,
+                        &rCond,
+                        ferr,
+                        berr,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+spsvx(char                  fact,
+      char                  uplo,
+      IndexType             n,
+      IndexType             nRhs,
       const double          *Ap,
       double                *Afp,
       IndexType             *iPiv,
@@ -56,6 +105,8 @@ spsvx(char                  fact,
       double                *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("dspsvx");
+
     IndexType info;
     LAPACK_IMPL(dspsvx)(&fact,
                         &uplo,
@@ -89,6 +140,54 @@ spsvx(char                        fact,
       char                        uplo,
       IndexType                   n,
       IndexType                   nRhs,
+      const std::complex<float >  *Ap,
+      std::complex<float >        *Afp,
+      IndexType                   *iPiv,
+      const std::complex<float >  *B,
+      IndexType                   ldB,
+      std::complex<float >        *X,
+      IndexType                   ldX,
+      float                       &rCond,
+      float                       *ferr,
+      float                       *berr,
+      std::complex<float >        *work,
+      float                       *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("cspsvx");
+
+    IndexType info;
+    LAPACK_IMPL(cspsvx)(&fact,
+                        &uplo,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<const float  *>(Ap),
+                        reinterpret_cast<float  *>(Afp),
+                        iPiv,
+                        reinterpret_cast<const float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(X),
+                        &ldX,
+                        &rCond,
+                        ferr,
+                        berr,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+spsvx(char                        fact,
+      char                        uplo,
+      IndexType                   n,
+      IndexType                   nRhs,
       const std::complex<double>  *Ap,
       std::complex<double>        *Afp,
       IndexType                   *iPiv,
@@ -102,6 +201,8 @@ spsvx(char                        fact,
       std::complex<double>        *work,
       double                      *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zspsvx");
+
     IndexType info;
     LAPACK_IMPL(zspsvx)(&fact,
                         &uplo,

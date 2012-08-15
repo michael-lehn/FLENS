@@ -36,7 +36,19 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+    template <typename IndexType>
+    void
+    laqhb(char                  uplo,
+          IndexType             n,
+          IndexType             kd,
+          std::complex<float >  *Ab,
+          IndexType             ldAb,
+          const float           *s,
+          float                 scond,
+          float                 amax,
+          char                  &equed);
+    
 template <typename IndexType>
     void
     laqhb(char                  uplo,

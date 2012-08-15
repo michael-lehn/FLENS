@@ -40,6 +40,42 @@ namespace cxxlapack {
 template <typename VOID>
 void
 lags2(bool                  upper,
+      float                 a1,
+      float                 a2,
+      float                 a3,
+      float                 b1,
+      float                 b2,
+      float                 b3,
+      float                 &csu,
+      float                 &snu,
+      float                 &csv,
+      float                 &snv,
+      float                 &csq,
+      float                 &snq)
+{
+    CXXLAPACK_DEBUG_OUT("slags2");
+    
+    int _upper = upper;
+    LAPACK_IMPL(slags2)(&_upper,
+                        &a1,
+                        &a2,
+                        &a3,
+                        &b1,
+                        &b2,
+                        &b3,
+                        &csu,
+                        &snu,
+                        &csv,
+                        &snv,
+                        &csq,
+                        &snq);
+
+}
+
+
+template <typename VOID>
+void
+lags2(bool                  upper,
       double                a1,
       double                a2,
       double                a3,
@@ -53,6 +89,8 @@ lags2(bool                  upper,
       double                &csq,
       double                &snq)
 {
+    CXXLAPACK_DEBUG_OUT("dlags2");
+    
     int _upper = upper;
     LAPACK_IMPL(dlags2)(&_upper,
                         &a1,
@@ -73,6 +111,42 @@ lags2(bool                  upper,
 template <typename VOID>
 void
 lags2(bool                  upper,
+      float                 a1,
+      std::complex<float >  a2,
+      float                 a3,
+      float                 b1,
+      std::complex<float >  b2,
+      float                 b3,
+      float                 &csu,
+      std::complex<float >  &snu,
+      float                 &csv,
+      std::complex<float >  &snv,
+      float                 &csq,
+      std::complex<float >  &snq)
+{
+
+    CXXLAPACK_DEBUG_OUT("clags2");
+    
+    int _upper = upper;
+    LAPACK_IMPL(clags2)(&_upper,
+                        &a1,
+                        reinterpret_cast<const float  *>(&a2),
+                        &a3,
+                        &b1,
+                        reinterpret_cast<const float  *>(&b2),
+                        &b3,
+                        &csu,
+                        reinterpret_cast<float  *>(&snu),
+                        &csv,
+                        reinterpret_cast<float  *>(&snv),
+                        &csq,
+                        reinterpret_cast<float  *>(&snq));
+
+}
+
+template <typename VOID>
+void
+lags2(bool                  upper,
       double                a1,
       std::complex<double>  a2,
       double                a3,
@@ -86,6 +160,8 @@ lags2(bool                  upper,
       double                &csq,
       std::complex<double>  &snq)
 {
+    CXXLAPACK_DEBUG_OUT("zlags2");
+    
     int _upper = upper;
     LAPACK_IMPL(zlags2)(&_upper,
                         &a1,

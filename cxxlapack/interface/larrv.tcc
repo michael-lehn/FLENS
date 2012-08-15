@@ -40,6 +40,71 @@ namespace cxxlapack {
 template <typename IndexType>
 IndexType
 larrv(IndexType             n,
+      float                 vl,
+      float                 vu,
+      float                 *d,
+      float                 *l,
+      float                 pivmin,
+      IndexType             *isplit,
+      float                 m,
+      IndexType             dol,
+      IndexType             dou,
+      float                 minrgp,
+      float                 rtol1,
+      float                 rtol2,
+      float                 *w,
+      float                 *werr,
+      float                 *wgap,
+      const IndexType       *iblock,
+      const IndexType       *indexw,
+      const float           *gers,
+      float                 *Z,
+      IndexType             ldZ,
+      IndexType             *isuppz,
+      float                 *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("slarrv");
+    
+    IndexType info;
+    LAPACK_IMPL(slarrv)(&n,
+                        &vl,
+                        &vu,
+                        d,
+                        l,
+                        &pivmin,
+                        isplit,
+                        &m,
+                        &dol,
+                        &dou,
+                        &minrgp,
+                        &rtol1,
+                        &rtol2,
+                        w,
+                        werr,
+                        wgap,
+                        iblock,
+                        indexw,
+                        gers,
+                        Z,
+                        &ldZ,
+                        isuppz,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+larrv(IndexType             n,
       double                vl,
       double                vu,
       double                *d,
@@ -64,6 +129,8 @@ larrv(IndexType             n,
       double                *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("dlarrv");
+   
     IndexType info;
     LAPACK_IMPL(dlarrv)(&n,
                         &vl,
@@ -85,6 +152,70 @@ larrv(IndexType             n,
                         indexw,
                         gers,
                         Z,
+                        &ldZ,
+                        isuppz,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+larrv(IndexType             n,
+      float                 vl,
+      float                 vu,
+      float                 *d,
+      float                 *l,
+      float                 pivmin,
+      IndexType             *isplit,
+      float                 m,
+      IndexType             dol,
+      IndexType             dou,
+      float                 minrgp,
+      float                 rtol1,
+      float                 rtol2,
+      float                 *w,
+      float                 *werr,
+      float                 *wgap,
+      const IndexType       *iblock,
+      const IndexType       *indexw,
+      const float           *gers,
+      std::complex<float >  *Z,
+      IndexType             ldZ,
+      IndexType             *isuppz,
+      float                 *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("clarrv");
+   
+    IndexType info;
+    LAPACK_IMPL(clarrv)(&n,
+                        &vl,
+                        &vu,
+                        d,
+                        l,
+                        &pivmin,
+                        isplit,
+                        &m,
+                        &dol,
+                        &dou,
+                        &minrgp,
+                        &rtol1,
+                        &rtol2,
+                        w,
+                        werr,
+                        wgap,
+                        iblock,
+                        indexw,
+                        gers,
+                        reinterpret_cast<float  *>(Z),
                         &ldZ,
                         isuppz,
                         work,
@@ -126,6 +257,8 @@ larrv(IndexType             n,
       double                *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("zlarrv");
+   
     IndexType info;
     LAPACK_IMPL(zlarrv)(&n,
                         &vl,

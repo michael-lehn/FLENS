@@ -42,11 +42,31 @@ template <typename IndexType>
     spsv (char                  uplo,
           IndexType             n,
           IndexType             nRhs,
+          float                 *Ap,
+          IndexType             *iPiv,
+          float                 *B,
+          IndexType             ldB);
+    
+template <typename IndexType>
+    IndexType
+    spsv (char                  uplo,
+          IndexType             n,
+          IndexType             nRhs,
           double                *Ap,
           IndexType             *iPiv,
           double                *B,
           IndexType             ldB);
-
+    
+template <typename IndexType>
+    IndexType
+    spsv (char                  uplo,
+          IndexType             n,
+          IndexType             nRhs,
+          std::complex<float >  *Ap,
+          IndexType             *iPiv,
+          std::complex<float >  *B,
+          IndexType             ldB);
+    
 template <typename IndexType>
     IndexType
     spsv (char                  uplo,

@@ -40,6 +40,27 @@ namespace cxxlapack {
 template <typename IndexType>
 void
 largv(IndexType             n,
+      float                 *x,
+      IndexType             incx,
+      float                 *y,
+      IndexType             incy,
+      float                 *c,
+      IndexType             incc)
+{
+    CXXLAPACK_DEBUG_OUT("slargv");
+ 
+    LAPACK_IMPL(slargv)(&n,
+                        x
+                        &incx,
+                        y,
+                        &incy,
+                        c,
+                        &incc);
+}
+
+template <typename IndexType>
+void
+largv(IndexType             n,
       double                *x,
       IndexType             incx,
       double                *y,
@@ -47,10 +68,33 @@ largv(IndexType             n,
       double                *c,
       IndexType             incc)
 {
+    CXXLAPACK_DEBUG_OUT("dlargv");
+ 
     LAPACK_IMPL(dlargv)(&n,
                         x
                         &incx,
                         y,
+                        &incy,
+                        c,
+                        &incc);
+}
+
+template <typename IndexType>
+void
+largv(IndexType             n,
+      std::complex<float >  *x,
+      IndexType             incx,
+      std::complex<float >  *y,
+      IndexType             incy,
+      float                 *c,
+      IndexType             incc)
+{
+    CXXLAPACK_DEBUG_OUT("clargv");
+ 
+    LAPACK_IMPL(clargv)(&n,
+                        reinterpret_cast<float  *>(x)
+                        &incx,
+                        reinterpret_cast<float  *>(y),
                         &incy,
                         c,
                         &incc);
@@ -66,6 +110,8 @@ largv(IndexType             n,
       double                *c,
       IndexType             incc)
 {
+    CXXLAPACK_DEBUG_OUT("zlargv");
+ 
     LAPACK_IMPL(zlargv)(&n,
                         reinterpret_cast<double *>(x)
                         &incx,

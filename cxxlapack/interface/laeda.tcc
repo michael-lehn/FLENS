@@ -47,12 +47,56 @@ laeda(IndexType             n,
       const IndexType       *perm,
       const IndexType       *givptr,
       const IndexType       *givcol,
+      const float           *givnum,
+      const float           *q,
+      const IndexType       *qptr,
+      float                 *z,
+      float                 *ztemp)
+{
+    CXXLAPACK_DEBUG_OUT("slaeda");
+    
+    IndexType info;
+    LAPACK_IMPL(slaeda)(&n,
+                        &tlvls,
+                        &curlvl,
+                        &curpbm,
+                        prmptr,
+                        perm,
+                        givptr,
+                        givcol,
+                        givnum,
+                        q,
+                        qptr,
+                        z,
+                        ztemp,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+laeda(IndexType             n,
+      IndexType             tlvls,
+      IndexType             curlvl,
+      IndexType             curpbm,
+      const IndexType       *prmptr,
+      const IndexType       *perm,
+      const IndexType       *givptr,
+      const IndexType       *givcol,
       const double          *givnum,
       const double          *q,
       const IndexType       *qptr,
       double                *z,
       double                *ztemp)
 {
+    CXXLAPACK_DEBUG_OUT("dlaeda");
+    
     IndexType info;
     LAPACK_IMPL(dlaeda)(&n,
                         &tlvls,

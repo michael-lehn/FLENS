@@ -43,11 +43,46 @@ pbsv (char                  uplo,
       IndexType             n,
       IndexType             kd,
       IndexType             nRhs,
+      float                 *Ab,
+      IndexType             ldAb,
+      float                 *B,
+      IndexType             ldB)
+{
+    CXXLAPACK_DEBUG_OUT("spbsv");
+  
+    IndexType info;
+    LAPACK_IMPL(spbsv) (&uplo,
+                        &n,
+                        &kd,
+                        &nRhs,
+                        Ab,
+                        &ldAb,
+                        B,
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+pbsv (char                  uplo,
+      IndexType             n,
+      IndexType             kd,
+      IndexType             nRhs,
       double                *Ab,
       IndexType             ldAb,
       double                *B,
       IndexType             ldB)
 {
+    CXXLAPACK_DEBUG_OUT("dpbsv");
+  
     IndexType info;
     LAPACK_IMPL(dpbsv) (&uplo,
                         &n,
@@ -73,11 +108,45 @@ pbsv (char                  uplo,
       IndexType             n,
       IndexType             kd,
       IndexType             nRhs,
+      std::complex<float >  *Ab,
+      IndexType             ldAb,
+      std::complex<float >  *B,
+      IndexType             ldB)
+{
+    CXXLAPACK_DEBUG_OUT("cpbsv");
+  
+    IndexType info;
+    LAPACK_IMPL(cpbsv) (&uplo,
+                        &n,
+                        &kd,
+                        &nRhs,
+                        reinterpret_cast<float  *>(Ab),
+                        &ldAb,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+pbsv (char                  uplo,
+      IndexType             n,
+      IndexType             kd,
+      IndexType             nRhs,
       std::complex<double>  *Ab,
       IndexType             ldAb,
       std::complex<double>  *B,
       IndexType             ldB)
 {
+    CXXLAPACK_DEBUG_OUT("zpbsv");
+  
     IndexType info;
     LAPACK_IMPL(zpbsv) (&uplo,
                         &n,

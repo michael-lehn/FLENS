@@ -38,6 +38,31 @@
 namespace cxxlapack {
 
 template <typename IndexType>
+float 
+lantb(char                  norm,
+      char                  uplo,
+      char                  diag,
+      IndexType             n,
+      IndexType             k,
+      const float           *Ab,
+      IndexType             ldAb,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("slantb");
+   
+    return LAPACK_IMPL(slantb)(&norm,
+                               &uplo,
+                               &diag,
+                               &n,
+                               &k,
+                               Ab,
+                               &ldAb,
+                               work);
+
+}
+
+
+template <typename IndexType>
 double
 lantb(char                  norm,
       char                  uplo,
@@ -48,13 +73,38 @@ lantb(char                  norm,
       IndexType             ldAb,
       double                *work)
 {
-
+    CXXLAPACK_DEBUG_OUT("dlantb");
+   
     return LAPACK_IMPL(dlantb)(&norm,
                                &uplo,
                                &diag,
                                &n,
                                &k,
                                Ab,
+                               &ldAb,
+                               work);
+
+}
+
+template <typename IndexType>
+float 
+lantb(char                        norm,
+      char                        uplo,
+      char                        diag,
+      IndexType                   n,
+      IndexType                   k,
+      const std::complex<float >  *Ab,
+      IndexType                   ldAb,
+      float                       *work)
+{
+    CXXLAPACK_DEBUG_OUT("clantb");
+   
+    return LAPACK_IMPL(clantb)(&norm,
+                               &uplo,
+                               &diag,
+                               &n,
+                               &k,
+                               reinterpret_cast<const float  *>(Ab),
                                &ldAb,
                                work);
 
@@ -71,7 +121,8 @@ lantb(char                        norm,
       IndexType                   ldAb,
       double                      *work)
 {
-
+    CXXLAPACK_DEBUG_OUT("zlantb");
+   
     return LAPACK_IMPL(zlantb)(&norm,
                                &uplo,
                                &diag,

@@ -41,13 +41,43 @@ template <typename IndexType>
 IndexType
 laqhp(char                  uplo,
       IndexType             n,
+      std::complex<float >  *Ap,
+      const float           *s,
+      float                 scond,
+      float                 amax,
+      char                  &equed)
+{
+    CXXLAPACK_DEBUG_OUT("claqhp");
+ 
+    IndexType info;
+    LAPACK_IMPL(claqhp)(&uplo,
+                        &n,
+                        reinterpret_cast<float  *>(Ap),
+                        s,
+                        &scond,
+                        &amax,
+                        &equed);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+laqhp(char                  uplo,
+      IndexType             n,
       std::complex<double>  *Ap,
       const double          *s,
       double                scond,
       double                amax,
       char                  &equed)
-      
 {
+    CXXLAPACK_DEBUG_OUT("zlaqhp");
+ 
     IndexType info;
     LAPACK_IMPL(zlaqhp)(&uplo,
                         &n,

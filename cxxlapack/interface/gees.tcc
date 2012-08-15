@@ -41,6 +41,49 @@ template <typename IndexType>
 IndexType
 gees(char           jobVS,
      char           sort,
+     IndexType      (*select)(const float *, const float *),
+     IndexType      n,
+     float          *A,
+     IndexType      ldA,
+     IndexType      &sdim,
+     float          *wr,
+     float          *wi,
+     float          *VS,
+     IndexType      ldVS,
+     float          *work,
+     IndexType      lWork,
+     IndexType      *bWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgees");
+    LAPACK_IMPL(sgees)(&jobVS,
+                       &sort,
+                       select,
+                       &n,
+                       A,
+                       &ldA,
+                       &sdim,
+                       wr,
+                       wi,
+                       VS,
+                       &ldVS,
+                       work,
+                       &lWork,
+                       bWork,
+                       &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gees(char           jobVS,
+     char           sort,
      IndexType      (*select)(const double *, const double *),
      IndexType      n,
      double         *A,
@@ -55,7 +98,7 @@ gees(char           jobVS,
      IndexType      *bWork)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("dgees");
+    CXXLAPACK_DEBUG_OUT("dgees");
     LAPACK_IMPL(dgees)(&jobVS,
                        &sort,
                        select,
@@ -69,6 +112,51 @@ gees(char           jobVS,
                        &ldVS,
                        work,
                        &lWork,
+                       bWork,
+                       &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gees(char                   jobVS,
+     char                   sort,
+     IndexType              (*select)(const std::complex<float > *),
+     IndexType              n,
+     std::complex<float >   *A,
+     const IndexType        ldA,
+     IndexType              &sdim,
+     std::complex<float >   *w,
+     std::complex<float >   *VS,
+     const IndexType        ldVS,
+     std::complex<float >   *work,
+     const IndexType        lWork,
+     float                  *rWork,
+     IndexType              *bWork)
+{
+    typedef IndexType (*LapackSelect)(const float  *);
+
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgees");
+    LAPACK_IMPL(cgees)(&jobVS,
+                       &sort,
+                       reinterpret_cast<LapackSelect>(select),
+                       &n,
+                       reinterpret_cast<float  *>(A),
+                       &ldA,
+                       &sdim,
+                       reinterpret_cast<float  *>(w),
+                       reinterpret_cast<float  *>(VS),
+                       &ldVS,
+                       reinterpret_cast<float  *>(work),
+                       &lWork,
+                       rWork,
                        bWork,
                        &info);
 #   ifndef NDEBUG
@@ -100,7 +188,7 @@ gees(char                   jobVS,
     typedef IndexType (*LapackSelect)(const double *);
 
     IndexType info;
-    DEBUG_CXXLAPACK("zgees");
+    CXXLAPACK_DEBUG_OUT("zgees");
     LAPACK_IMPL(zgees)(&jobVS,
                        &sort,
                        reinterpret_cast<LapackSelect>(select),

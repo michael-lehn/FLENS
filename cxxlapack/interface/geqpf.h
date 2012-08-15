@@ -41,12 +41,33 @@ template <typename IndexType>
     IndexType
     geqpf(IndexType    m,
           IndexType    n,
-          double       *A,
+          float        *A,
           IndexType    ldA,
           IndexType    *jPvt,
-          double       *tau,
-          double       *work);
-
+          float        *tau,
+          float        *work);
+    
+template <typename IndexType>
+    IndexType
+    geqpf(IndexType    m,
+          IndexType    n,
+          float        *A,
+          IndexType    ldA,
+          IndexType    *jPvt,
+          float        *tau,
+          float        *work);
+    
+template <typename IndexType>
+    IndexType
+    geqpf(IndexType             m,
+          IndexType             n,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          IndexType             *jPvt,
+          std::complex<float >  *tau,
+          std::complex<float >  *work,
+          float                 *rWork);
+    
 template <typename IndexType>
     IndexType
     geqpf(IndexType             m,

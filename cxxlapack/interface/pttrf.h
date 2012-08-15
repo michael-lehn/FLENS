@@ -40,8 +40,20 @@ namespace cxxlapack {
 template <typename IndexType>
     IndexType
     pttrf(IndexType             n,
+          float                 *d,
+          float                 *e);
+    
+template <typename IndexType>
+    IndexType
+    pttrf(IndexType             n,
           double                *d,
           double                *e);
+    
+template <typename IndexType>
+    IndexType
+    dpttrf(IndexType             n,
+           float                 *d,
+           std::complex<float >  *e);
 
 template <typename IndexType>
     IndexType

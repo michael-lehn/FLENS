@@ -40,6 +40,38 @@ namespace cxxlapack {
 template <typename IndexType>
 IndexType
 lagtf(IndexType             n,
+      float                 *a,
+      IndexType             lambda,
+      float                 *b,
+      float                 *c,
+      float                 tol,
+      float                 *d,
+      IndexType             *in)
+{
+    CXXLAPACK_DEBUG_OUT("slagtf2");
+    
+    IndexType info;
+    LAPACK_IMPL(slagtf)(&n,
+                        a,
+                        &lambda,
+                        b,
+                        c,
+                        &tol,
+                        d,
+                        in,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+lagtf(IndexType             n,
       double                *a,
       IndexType             lambda,
       double                *b,
@@ -48,6 +80,8 @@ lagtf(IndexType             n,
       double                *d,
       IndexType             *in)
 {
+    CXXLAPACK_DEBUG_OUT("dlagtf2");
+    
     IndexType info;
     LAPACK_IMPL(dlagtf)(&n,
                         a,

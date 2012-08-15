@@ -42,6 +42,37 @@ IndexType
 unglq(IndexType                     m,
       IndexType                     n,
       IndexType                     k,
+      std::complex<float >          *A,
+      IndexType                     ldA,
+      const std::complex<float >    *tau,
+      std::complex<float >          *work,
+      IndexType                     lWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cunglq");
+    LAPACK_IMPL(cunglq)(&m,
+                        &n,
+                        &k,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<const float  *>(tau),
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+unglq(IndexType                     m,
+      IndexType                     n,
+      IndexType                     k,
       std::complex<double>          *A,
       IndexType                     ldA,
       const std::complex<double>    *tau,
@@ -49,7 +80,7 @@ unglq(IndexType                     m,
       IndexType                     lWork)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("zunglq");
+    CXXLAPACK_DEBUG_OUT("zunglq");
     LAPACK_IMPL(zunglq)(&m,
                         &n,
                         &k,

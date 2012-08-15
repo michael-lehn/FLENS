@@ -44,6 +44,27 @@ template <typename IndexType>
           IndexType             kl,
           IndexType             ku,
           IndexType             nRhs,
+          const float           *Ab,
+          IndexType             ldAb,
+          const float           *Afb,
+          IndexType             ldAfb,
+          const IndexType       *iPiv,
+          const float           *B,
+          IndexType             ldB,
+          float                 *X,
+          IndexType             ldX,
+          float                 *ferr,
+          float                 *berr,
+          float                 *work,
+          IndexType             *iWork);
+    
+template <typename IndexType>
+    IndexType
+    gbrfs(char                  trans,
+          IndexType             n,
+          IndexType             kl,
+          IndexType             ku,
+          IndexType             nRhs,
           const double          *Ab,
           IndexType             ldAb,
           const double          *Afb,
@@ -57,7 +78,28 @@ template <typename IndexType>
           double                *berr,
           double                *work,
           IndexType             *iWork);
-
+    
+template <typename IndexType>
+    IndexType
+    gbrfs(char                        trans,
+          IndexType                   n,
+          IndexType                   kl,
+          IndexType                   ku,
+          IndexType                   nRhs,
+          const std::complex<float >  *Ab,
+          IndexType                   ldAb,
+          const std::complex<float >  *Afb,
+          IndexType                   ldAfb,
+          const IndexType             *iPiv,
+          const std::complex<float >  *B,
+          IndexType                   ldB,
+          std::complex<float >        *X,
+          IndexType                   ldX,
+          float                       *ferr,
+          float                       *berr,
+          std::complex<float >        *work,
+          float                       *rWork);
+    
 template <typename IndexType>
     IndexType
     gbrfs(char                        trans,

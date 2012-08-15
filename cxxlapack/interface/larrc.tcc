@@ -41,6 +41,42 @@ template <typename IndexType>
 IndexType
 larrc(char                  jobt,
       IndexType             n,
+      float                 vl,
+      float                 vu,
+      const float           *d,
+      const float           *e,
+      float                 pivmin,
+      IndexType             &eigcnt,
+      IndexType             &lcnt,
+      IndexType             &rcnt)
+{
+    CXXLAPACK_DEBUG_OUT("slarrc");
+    
+    IndexType info;
+    LAPACK_IMPL(slarrc)(&jobt,
+                        &n,
+                        &vl,
+                        &vu,
+                        d,
+                        e,
+                        &pivmin,
+                        &eigcnt,
+                        &lcnt,
+                        &rcnt,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+larrc(char                  jobt,
+      IndexType             n,
       double                vl,
       double                vu,
       const double          *d,
@@ -50,6 +86,8 @@ larrc(char                  jobt,
       IndexType             &lcnt,
       IndexType             &rcnt)
 {
+    CXXLAPACK_DEBUG_OUT("dlarrc");
+    
     IndexType info;
     LAPACK_IMPL(dlarrc)(&jobt,
                         &n,

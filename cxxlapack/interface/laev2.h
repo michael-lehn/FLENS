@@ -39,6 +39,17 @@ namespace cxxlapack {
 
 template <typename VOID=void>
     void
+    laev2(float                 a,
+          float                 b,
+          float                 c,
+          float                 &rt1,
+          float                 &rt2,
+          float                 &cs1,
+          float                 &sn1);
+
+    
+template <typename VOID=void>
+    void
     laev2(double                a,
           double                b,
           double                c,
@@ -46,7 +57,17 @@ template <typename VOID=void>
           double                &rt2,
           double                &cs1,
           double                &sn1);
-
+    
+template <typename VOID=void>
+    void
+    laev2(std::complex<float >  a,
+          std::complex<float >  b,
+          std::complex<float >  c,
+          float                 &rt1,
+          float                 &rt2,
+          float                 &cs1,
+          std::complex<float >  &sn1);
+    
 template <typename VOID=void>
     void
     laev2(std::complex<double>  a,

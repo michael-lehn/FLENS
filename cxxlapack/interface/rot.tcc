@@ -37,6 +37,27 @@
 
 namespace cxxlapack {
 
+template <typename IndexType>
+void
+rot  (IndexType             m,
+      std::complex<float >  *cx,
+      IndexType             incx,
+      std::complex<float >  *cy,
+      IndexType             incy,
+      float                 c,
+      float                 s)
+{
+    CXXLAPACK_DEBUG_OUT("crot");
+ 
+    LAPACK_IMPL(crot) (&m,
+                       reinterpret_cast<float  *>(cx),
+                       &incx,
+                       reinterpret_cast<float  *>(cy),
+                       &incy,
+                       &c,
+                       &s);
+
+}
 
 template <typename IndexType>
 void
@@ -48,7 +69,8 @@ rot  (IndexType             m,
       double                c,
       double                s)
 {
-
+    CXXLAPACK_DEBUG_OUT("zrot");
+ 
     LAPACK_IMPL(zrot) (&m,
                        reinterpret_cast<double *>(cx),
                        &incx,

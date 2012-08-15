@@ -42,6 +42,47 @@ IndexType
 bdsdc(char                  upLo,
       char                  compq,
       IndexType             n,
+      float                 *d,
+      float                 *e,
+      float                 *U,
+      IndexType             ldU,
+      float                 *VT,
+      IndexType             ldVT,
+      float                 *q,
+      IndexType             *iq,
+      float                 *work,
+      IndexType             *iWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cbdsdc");
+    LAPACK_IMPL(cbdsdc)(&upLo,
+                        &compq,
+                        &n,
+                        d,
+                        e,
+                        U,
+                        &ldU,
+                        VT,
+                        &ldVT,
+                        q,
+                        iq,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+bdsdc(char                  upLo,
+      char                  compq,
+      IndexType             n,
       double                *d,
       double                *e,
       double                *U,
@@ -54,6 +95,7 @@ bdsdc(char                  upLo,
       IndexType             *iWork)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("dbdsdc");
     LAPACK_IMPL(dbdsdc)(&upLo,
                         &compq,
                         &n,

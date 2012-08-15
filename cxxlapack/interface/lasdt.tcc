@@ -47,7 +47,8 @@ lasdt(IndexType             n,
       IndexType             *ndimr,
       IndexType             msub)
 {
-
+    CXXLAPACK_DEBUG_OUT("dlasdt");
+    
     LAPACK_IMPL(dlasdt)(&n,
                         &lvl,
                         &nd,

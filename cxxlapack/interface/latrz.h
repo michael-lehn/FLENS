@@ -42,11 +42,31 @@ template <typename IndexType>
     latrz(IndexType m,
           IndexType n,
           IndexType l,
+          float     *A,
+          IndexType ldA,
+          float     *tau,
+          float     *work);
+    
+template <typename IndexType>
+    void
+    latrz(IndexType m,
+          IndexType n,
+          IndexType l,
           double    *A,
           IndexType ldA,
           double    *tau,
           double    *work);
-
+    
+template <typename IndexType>
+    void
+    latrz(IndexType             m,
+          IndexType             n,
+          IndexType             l,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          std::complex<float >  *tau,
+          std::complex<float >  *work);
+    
 template <typename IndexType>
     void
     latrz(IndexType             m,

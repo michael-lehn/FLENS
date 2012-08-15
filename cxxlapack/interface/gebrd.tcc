@@ -41,6 +41,40 @@ template <typename IndexType>
 IndexType
 gebrd(IndexType             m,
       IndexType             n,
+      float                 *A,
+      IndexType             ldA,
+      float                 *d,
+      float                 *e,
+      float                 *tauq,
+      float                 *taup,
+      float                 *work,
+      IndexType             lWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgebrd");
+    LAPACK_IMPL(sgebrd)(&m,
+                        &n,
+                        A,
+                        &ldA,
+                        d,
+                        e,
+                        tauq,
+                        taup,
+                        work,
+                        &lWork
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+  template <typename IndexType>
+IndexType
+gebrd(IndexType             m,
+      IndexType             n,
       double                *A,
       IndexType             ldA,
       double                *d,
@@ -51,6 +85,7 @@ gebrd(IndexType             m,
       IndexType             lWork)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("dgebrd");
     LAPACK_IMPL(dgebrd)(&m,
                         &n,
                         A,
@@ -75,6 +110,41 @@ template <typename IndexType>
 IndexType
 gebrd(IndexType             m,
       IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      float                 *d,
+      float                 *e,
+      std::complex<float >  *tauq,
+      std::complex<float >  *taup,
+      std::complex<float >  *work,
+      IndexType             lWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgebrd");
+    LAPACK_IMPL(cgebrd)(&m,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        d,
+                        e,
+                        reinterpret_cast<float  *>(tauq),
+                        reinterpret_cast<float  *>(taup),
+                        reinterpret_cast<float  *>(work),
+                        &lWork
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gebrd(IndexType             m,
+      IndexType             n,
       std::complex<double>  *A,
       IndexType             ldA,
       double                *d,
@@ -85,6 +155,7 @@ gebrd(IndexType             m,
       IndexType             lWork)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("zgebrd");
     LAPACK_IMPL(zgebrd)(&m,
                         &n,
                         reinterpret_cast<double *>(A),

@@ -42,12 +42,38 @@ void
 larfx(char            side,
       IndexType       m,
       IndexType       n,
+      const float     *V,
+      const float     &tau,
+      float           *C,
+      IndexType       ldC,
+      float           *work)
+{
+    CXXLAPACK_DEBUG_OUT("slarfx");
+ 
+    LAPACK_IMPL(slarfx)(&side,
+                        &m,
+                        &n,
+                        V,
+                        &tau,
+                        C,
+                        &ldC,
+                        work);
+}
+
+
+template <typename IndexType>
+void
+larfx(char            side,
+      IndexType       m,
+      IndexType       n,
       const double    *V,
       const double    &tau,
       double          *C,
       IndexType       ldC,
       double          *work)
 {
+    CXXLAPACK_DEBUG_OUT("dlarfx");
+ 
     LAPACK_IMPL(dlarfx)(&side,
                         &m,
                         &n,
@@ -63,12 +89,37 @@ void
 larfx(char                          side,
       IndexType                     m,
       IndexType                     n,
+      const std::complex<float >    *V,
+      const std::complex<float >    &tau,
+      std::complex<float >          *C,
+      IndexType                     ldC,
+      std::complex<float >          *work)
+{
+    CXXLAPACK_DEBUG_OUT("clarfx");
+ 
+    LAPACK_IMPL(clarfx)(&side,
+                        &m,
+                        &n,
+                        reinterpret_cast<const float  *>(V),
+                        reinterpret_cast<const float  *>(&tau),
+                        reinterpret_cast<float  *>(C),
+                        &ldC,
+                        reinterpret_cast<float  *>(work));
+}
+
+template <typename IndexType>
+void
+larfx(char                          side,
+      IndexType                     m,
+      IndexType                     n,
       const std::complex<double>    *V,
       const std::complex<double>    &tau,
       std::complex<double>          *C,
       IndexType                     ldC,
       std::complex<double>          *work)
 {
+    CXXLAPACK_DEBUG_OUT("zlarfx");
+ 
     LAPACK_IMPL(zlarfx)(&side,
                         &m,
                         &n,

@@ -47,6 +47,46 @@ larzb(char          side,
       IndexType     n,
       IndexType     k,
       IndexType     l,
+      const float   *V,
+      IndexType     ldV,
+      const float   *T,
+      IndexType     ldT,
+      float         *C,
+      IndexType     ldC,
+      float         *work,
+      IndexType     ldWork)
+{
+    CXXLAPACK_DEBUG_OUT("slarzb");
+  
+    LAPACK_IMPL(slarzb)(&side,
+                        &trans,
+                        &direct,
+                        &storeV,
+                        &m,
+                        &n,
+                        &k,
+                        &l,
+                        V,
+                        &ldV,
+                        T,
+                        &ldT,
+                        C,
+                        &ldC,
+                        work,
+                        &ldWork);
+}
+
+
+template <typename IndexType>
+void
+larzb(char          side,
+      char          trans,
+      char          direct,
+      char          storeV,
+      IndexType     m,
+      IndexType     n,
+      IndexType     k,
+      IndexType     l,
       const double  *V,
       IndexType     ldV,
       const double  *T,
@@ -56,6 +96,8 @@ larzb(char          side,
       double        *work,
       IndexType     ldWork)
 {
+    CXXLAPACK_DEBUG_OUT("dlarzb");
+  
     LAPACK_IMPL(dlarzb)(&side,
                         &trans,
                         &direct,
@@ -84,6 +126,45 @@ larzb(char                        side,
       IndexType                   n,
       IndexType                   k,
       IndexType                   l,
+      const std::complex<float >  *V,
+      IndexType                   ldV,
+      const std::complex<float >  *T,
+      IndexType                   ldT,
+      std::complex<float >        *C,
+      IndexType                   ldC,
+      std::complex<float >        *work,
+      IndexType                   ldWork)
+{
+    CXXLAPACK_DEBUG_OUT("clarzb");
+  
+    LAPACK_IMPL(clarzb)(&side,
+                        &trans,
+                        &direct,
+                        &storeV,
+                        &m,
+                        &n,
+                        &k,
+                        &l,
+                        reinterpret_cast<const float  *>(V),
+                        &ldV,
+                        reinterpret_cast<const float  *>(T),
+                        &ldT,
+                        reinterpret_cast<float  *>(C),
+                        &ldC,
+                        reinterpret_cast<float  *>(work),
+                        &ldWork);
+}
+
+template <typename IndexType>
+void
+larzb(char                        side,
+      char                        trans,
+      char                        direct,
+      char                        storeV,
+      IndexType                   m,
+      IndexType                   n,
+      IndexType                   k,
+      IndexType                   l,
       const std::complex<double>  *V,
       IndexType                   ldV,
       const std::complex<double>  *T,
@@ -93,6 +174,8 @@ larzb(char                        side,
       std::complex<double>        *work,
       IndexType                   ldWork)
 {
+    CXXLAPACK_DEBUG_OUT("zlarzb");
+  
     LAPACK_IMPL(zlarzb)(&side,
                         &trans,
                         &direct,

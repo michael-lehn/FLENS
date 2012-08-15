@@ -42,11 +42,43 @@ IndexType
 syconv(char                  uplo,
        char                  way,
        IndexType             n,
+       const float           *A,
+       IndexType             ldA,
+       const IndexType       *iPiv,
+       float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("ssyconv");
+ 
+    IndexType info;
+    LAPACK_IMPL(ssyconv)(&uplo,
+                         &way,
+                         &n,
+                         A,
+                         &ldA,
+                         iPiv,
+                         work,
+                         &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+syconv(char                  uplo,
+       char                  way,
+       IndexType             n,
        const double          *A,
        IndexType             ldA,
        const IndexType       *iPiv,
        double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dsyconv");
+ 
     IndexType info;
     LAPACK_IMPL(dsyconv)(&uplo,
                          &way,
@@ -65,6 +97,35 @@ syconv(char                  uplo,
     return info;
 }
 
+template <typename IndexType>
+IndexType
+syconv(char                        uplo,
+       char                        way,
+       IndexType                   n,
+       const std::complex<float >  *A,
+       IndexType                   ldA,
+       const IndexType             *iPiv,
+       std::complex<float >        *work)
+{
+    CXXLAPACK_DEBUG_OUT("csyconv");
+ 
+    IndexType info;
+    LAPACK_IMPL(csyconv)(&uplo,
+                         &way,
+                         &n,
+                         reinterpret_cast<const float  *>(A),
+                         &ldA,
+                         iPiv,
+                         reinterpret_cast<float  *>(work),
+                         &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
 
 template <typename IndexType>
 IndexType
@@ -76,6 +137,8 @@ syconv(char                        uplo,
        const IndexType             *iPiv,
        std::complex<double>        *work)
 {
+    CXXLAPACK_DEBUG_OUT("zsyconv");
+ 
     IndexType info;
     LAPACK_IMPL(zsyconv)(&uplo,
                          &way,

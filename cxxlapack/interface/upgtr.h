@@ -36,7 +36,17 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    upgtr(char                        uplo,
+          IndexType                   n,
+          const std::complex<float >  *Ap,
+          const std::complex<float >  *tau,
+          std::complex<float >        *Q,
+          IndexType                   ldQ,
+          std::complex<float >        *work);
+    
 template <typename IndexType>
     IndexType
     upgtr(char                        uplo,

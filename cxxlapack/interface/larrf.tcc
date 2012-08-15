@@ -40,6 +40,56 @@ namespace cxxlapack {
 template <typename IndexType>
 IndexType
 larrf(char                  range,
+      const float           *d,
+      const float           *l,
+      const float           *ld,
+      IndexType             clstrt,
+      IndexType             clend,
+      const float           *w,
+      float                 *wgap,
+      const float           *werr,
+      float                 spdiam,
+      float                 clgapl,
+      float                 clgapr,
+      float                 pivmin,
+      float                 &sigma,
+      float                 *dplus,
+      float                 *lplus,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("slarrf");
+    
+    IndexType info;
+    LAPACK_IMPL(slarrf)(&range,
+                        d,
+                        l,
+                        ld,
+                        &clstrt,
+                        &clend,
+                        w,
+                        wgap,
+                        werr,
+                        &spdiam,
+                        &clgapl,
+                        &clgapr,
+                        &pivmin,
+                        &sigma,
+                        dplus,
+                        lplus,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+larrf(char                  range,
       const double          *d,
       const double          *l,
       const double          *ld,
@@ -57,6 +107,8 @@ larrf(char                  range,
       double                *lplus,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dlarrf");
+    
     IndexType info;
     LAPACK_IMPL(dlarrf)(&range,
                         d,

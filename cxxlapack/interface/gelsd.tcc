@@ -42,6 +42,47 @@ IndexType
 gelsd(IndexType             m,
       IndexType             n,
       IndexType             nRhs,
+      const float           *A,
+      IndexType             ldA,
+      float                 *B,
+      IndexType             ldB,
+      float                 *s,
+      float                 rCond,
+      IndexType             &rank,
+      float                 *work,
+      IndexType             lWork,
+      IndexType             *iWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgelsd");
+    LAPACK_IMPL(sgelsd)(&m,
+                        &n,
+                        &nRhs,
+                        A,
+                        &ldA,
+                        B,
+                        &ldB,
+                        s,
+                        &rCond,
+                        &rank,
+                        work,
+                        &lWork,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gelsd(IndexType             m,
+      IndexType             n,
+      IndexType             nRhs,
       const double          *A,
       IndexType             ldA,
       double                *B,
@@ -54,6 +95,7 @@ gelsd(IndexType             m,
       IndexType             *iWork)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("dgelsd");
     LAPACK_IMPL(dgelsd)(&m,
                         &n,
                         &nRhs,
@@ -66,6 +108,49 @@ gelsd(IndexType             m,
                         &rank,
                         work,
                         &lWork,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gelsd(IndexType                     m,
+      IndexType                     n,
+      IndexType                     nRhs,
+      const std::complex<float >    *A,
+      IndexType                     ldA,
+      std::complex<float >          *B,
+      IndexType                     ldB,
+      float                         *s,
+      float                         rCond,
+      IndexType                     &rank,
+      std::complex<float >          *work,
+      IndexType                     lWork,
+      float                         *rWork,         
+      IndexType                     *iWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgelsd");
+    LAPACK_IMPL(cgelsd)(&m,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        s,
+                        &rCond,
+                        &rank,
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        rWork,
                         iWork,
                         &info);
 #   ifndef NDEBUG
@@ -95,6 +180,7 @@ gelsd(IndexType                     m,
       IndexType                     *iWork)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("zgelsd");
     LAPACK_IMPL(zgelsd)(&m,
                         &n,
                         &nRhs,

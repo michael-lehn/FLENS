@@ -36,7 +36,23 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    larrj(IndexType             n,
+          const float           *d,
+          const float           *e2,
+          IndexType             ifirst,
+          IndexType             ilast,
+          float                 rtol,
+          IndexType             offset,
+          float                 *w,
+          float                 *werr,
+          float                 *work,
+          IndexType             *iWork,
+          float                 pivmin,
+          float                 spmin);
+    
 template <typename IndexType>
     IndexType
     larrj(IndexType             n,

@@ -41,6 +41,35 @@ template <typename IndexType>
 void
 lasq6(IndexType             i0,
       IndexType             n0,
+      const float           *z,
+      IndexType             pp,
+      float                 &dmin,
+      float                 &dmin1,
+      float                 &dmin2,
+      float                 &dn,
+      float                 &dnm1,
+      float                 &dnm2)
+{
+    CXXLAPACK_DEBUG_OUT("slasq6");
+    
+    IndexType info;
+    LAPACK_IMPL(slasq6)(&i0,
+                        &n0,
+                        z,
+                        &pp,
+                        &dmin,
+                        &dmin1,
+                        &dmin2,
+                        &dn,
+                        &dnm1,
+                        &dnm2);
+
+}
+
+template <typename IndexType>
+void
+lasq6(IndexType             i0,
+      IndexType             n0,
       const double          *z,
       IndexType             pp,
       double                &dmin,
@@ -50,6 +79,8 @@ lasq6(IndexType             i0,
       double                &dnm1,
       double                &dnm2)
 {
+    CXXLAPACK_DEBUG_OUT("dlasq6");
+    
     IndexType info;
     LAPACK_IMPL(dlasq6)(&i0,
                         &n0,

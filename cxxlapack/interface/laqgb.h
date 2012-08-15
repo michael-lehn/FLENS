@@ -43,6 +43,22 @@ template <typename IndexType>
           IndexType             n,
           IndexType             kl,
           IndexType             ku,
+          float                 *Ab,
+          IndexType             ldAb,
+          const float           *r,
+          const float           *c,
+          float                 rowcnd,
+          float                 colcnd,
+          float                 amax,
+          char                  &equed);
+    
+    
+template <typename IndexType>
+    void
+    laqgb(IndexType             m,
+          IndexType             n,
+          IndexType             kl,
+          IndexType             ku,
           double                *Ab,
           IndexType             ldAb,
           const double          *r,
@@ -50,6 +66,21 @@ template <typename IndexType>
           double                rowcnd,
           double                colcnd,
           double                amax,
+          char                  &equed);
+    
+template <typename IndexType>
+    void
+    laqgb(IndexType             m,
+          IndexType             n,
+          IndexType             kl,
+          IndexType             ku,
+          std::complex<float >  *Ab,
+          IndexType             ldAb,
+          const float           *r,
+          const float           *c,
+          float                 rowcnd,
+          float                 colcnd,
+          float                 amax,
           char                  &equed);
 
 template <typename IndexType>

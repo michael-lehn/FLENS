@@ -42,11 +42,31 @@ template <typename IndexType>
     lacpy(char                  uplo,
           IndexType             m,
           IndexType             n,
+          const float           *A,
+          IndexType             ldA,
+          float                 *B,
+          IndexType             ldB);
+    
+template <typename IndexType>
+    void
+    lacpy(char                  uplo,
+          IndexType             m,
+          IndexType             n,
           const double          *A,
           IndexType             ldA,
           double                *B,
           IndexType             ldB);
-
+    
+template <typename IndexType>
+    void
+    lacpy(char                        uplo,
+          IndexType                   m,
+          IndexType                   n,
+          const std::complex<float >  *A,
+          IndexType                   ldA,
+          std::complex<float >        *B,
+          IndexType                   ldB);
+    
 template <typename IndexType>
     void
     lacpy(char                        uplo,

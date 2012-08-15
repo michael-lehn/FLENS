@@ -44,6 +44,44 @@ ormtr(char                  side,
       char                  trans,
       IndexType             m,
       IndexType             n,
+      const float           *A,
+      IndexType             ldA,
+      float                 *C,
+      IndexType             ldC,
+      float                 *work,
+      IndexType             lWork)
+{
+    CXXLAPACK_DEBUG_OUT("sormtr");
+  
+    IndexType info;
+    LAPACK_IMPL(sormtr)(&side,
+                        &uplo,
+                        &trans,
+                        &m,
+                        &n,
+                        A,
+                        &ldA,
+                        C,
+                        &ldC,
+                        work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ormtr(char                  side,
+      char                  uplo,
+      char                  trans,
+      IndexType             m,
+      IndexType             n,
       const double          *A,
       IndexType             ldA,
       double                *C,
@@ -51,6 +89,8 @@ ormtr(char                  side,
       double                *work,
       IndexType             lWork)
 {
+    CXXLAPACK_DEBUG_OUT("dormtr");
+  
     IndexType info;
     LAPACK_IMPL(dormtr)(&side,
                         &uplo,

@@ -42,6 +42,46 @@ IndexType
 heevd(char                   jobZ,
       char                   upLo,
       IndexType              n,
+      std::complex<float >   *A,
+      IndexType              ldA,
+      float                  *w,
+      std::complex<float >   *work,
+      IndexType              lWork,
+      float                  *rWork,
+      IndexType              lrWork,
+      IndexType              *iWork,
+      IndexType              liWork)
+{
+    CXXLAPACK_DEBUG_OUT("cheevd");
+    
+    IndexType info;
+    LAPACK_IMPL(cheevd)(&jobZ,
+                        &upLo,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        w,
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        rWork,
+                        &lrWork,
+                        iWork,
+                        &liWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+heevd(char                   jobZ,
+      char                   upLo,
+      IndexType              n,
       std::complex<double>   *A,
       IndexType              ldA,
       double                 *w,
@@ -52,6 +92,8 @@ heevd(char                   jobZ,
       IndexType              *iWork,
       IndexType              liWork)
 {
+    CXXLAPACK_DEBUG_OUT("zheevd");
+    
     IndexType info;
     LAPACK_IMPL(zheevd)(&jobZ,
                         &upLo,

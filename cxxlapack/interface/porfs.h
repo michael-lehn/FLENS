@@ -42,6 +42,25 @@ template <typename IndexType>
     porfs(char                  uplo,
           IndexType             n,
           IndexType             nRhs,
+          const float           *A,
+          IndexType             ldA,
+          const float           *Af,
+          IndexType             ldAf,
+          const float           *B,
+          IndexType             ldB,
+          float                 *X,
+          IndexType             ldX,
+          float                 *ferr,
+          float                 *berr,
+          float                 *work,
+          IndexType             *iWork);
+    
+    
+template <typename IndexType>
+    IndexType
+    porfs(char                  uplo,
+          IndexType             n,
+          IndexType             nRhs,
           const double          *A,
           IndexType             ldA,
           const double          *Af,
@@ -54,6 +73,25 @@ template <typename IndexType>
           double                *berr,
           double                *work,
           IndexType             *iWork);
+    
+template <typename IndexType>
+    IndexType
+    porfs(char                        uplo,
+          IndexType                   n,
+          IndexType                   nRhs,
+          const std::complex<float >  *A,
+          IndexType                   ldA,
+          const std::complex<float >  *Af,
+          IndexType                   ldAf,
+          const std::complex<float >  *B,
+          IndexType                   ldB,
+          std::complex<float >        *X,
+          IndexType                   ldX,
+          float                       *ferr,
+          float                       *berr,
+          std::complex<float >        *work,
+          float                       *rWork);
+    
 
 template <typename IndexType>
     IndexType

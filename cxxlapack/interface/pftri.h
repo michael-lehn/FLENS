@@ -42,7 +42,21 @@ template <typename IndexType>
     pftri(char                  transr,
           char                  uplo,
           IndexType             n,
+          float                 *A);
+        
+template <typename IndexType>
+    IndexType
+    pftri(char                  transr,
+          char                  uplo,
+          IndexType             n,
           double                *A);
+    
+template <typename IndexType>
+    IndexType
+    pftri(char                  transr,
+          char                  uplo,
+          IndexType             n,
+          std::complex<float >  *A);
 
 template <typename IndexType>
     IndexType

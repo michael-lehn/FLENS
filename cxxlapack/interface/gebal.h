@@ -41,12 +41,32 @@ template <typename IndexType>
     IndexType
     gebal(char          job,
           IndexType     n,
+          float         *A,
+          IndexType     ldA,
+          IndexType     &iLo,
+          IndexType     &iHi,
+          float         *scale);
+   
+template <typename IndexType>
+    IndexType
+    gebal(char          job,
+          IndexType     n,
           double        *A,
           IndexType     ldA,
           IndexType     &iLo,
           IndexType     &iHi,
           double        *scale);
-
+    
+template <typename IndexType>
+    IndexType
+    gebal(char                  job,
+          IndexType             n,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          IndexType             &iLo,
+          IndexType             &iHi,
+          float                 *scale);
+    
 template <typename IndexType>
     IndexType
     gebal(char                  job,

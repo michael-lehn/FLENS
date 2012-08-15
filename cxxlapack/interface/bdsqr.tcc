@@ -44,18 +44,19 @@ bdsqr(char                  upLo,
       IndexType             ncvt,
       IndexType             nru,
       IndexType             ncc,
-      double                *d,
-      double                *e,
-      double                *VT,
+      float                 *d,
+      float                 *e,
+      float                 *VT,
       IndexType             ldVT,
-      double                *U,
+      float                 *U,
       IndexType             ldU,
-      double                *C,
+      float                 *C,
       IndexType             ldC,
-      double                *work)
+      float                 *work)
 {
     IndexType info;
-    LAPACK_IMPL(dbdsqr)(&upLo,
+    CXXLAPACK_DEBUG_OUT("sbdsqr");
+    LAPACK_IMPL(sbdsqr)(&upLo,
                         &n,
                         &ncvt,
                         &nru,
@@ -88,6 +89,92 @@ bdsqr(char                  upLo,
       IndexType             ncc,
       double                *d,
       double                *e,
+      double                *VT,
+      IndexType             ldVT,
+      double                *U,
+      IndexType             ldU,
+      double                *C,
+      IndexType             ldC,
+      double                *work)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("dbdsqr");
+    LAPACK_IMPL(dbdsqr)(&upLo,
+                        &n,
+                        &ncvt,
+                        &nru,
+                        &ncc,
+                        d,
+                        e,
+                        VT,
+                        &ldVT,
+                        U,
+                        &ldU,
+                        C,
+                        &ldC,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+bdsqr(char                  upLo,
+      IndexType             n,
+      IndexType             ncvt,
+      IndexType             nru,
+      IndexType             ncc,
+      float                 *d,
+      float                 *e,
+      std::complex<float >  *VT,
+      IndexType             ldVT,
+      std::complex<float >  *U,
+      IndexType             ldU,
+      std::complex<float >  *C,
+      IndexType             ldC,
+      float                 *rWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cbdsqr");
+    LAPACK_IMPL(cbdsqr)(&upLo,
+                        &n,
+                        &ncvt,
+                        &nru,
+                        &ncc,
+                        d,
+                        e,
+                        reinterpret_cast<float  *>(VT),
+                        &ldVT,
+                        reinterpret_cast<float  *>(U),
+                        &ldU,
+                        reinterpret_cast<float  *>(C),
+                        &ldC,
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+bdsqr(char                  upLo,
+      IndexType             n,
+      IndexType             ncvt,
+      IndexType             nru,
+      IndexType             ncc,
+      double                *d,
+      double                *e,
       std::complex<double>  *VT,
       IndexType             ldVT,
       std::complex<double>  *U,
@@ -97,6 +184,7 @@ bdsqr(char                  upLo,
       double                *rWork)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("zbdsqr");
     LAPACK_IMPL(zbdsqr)(&upLo,
                         &n,
                         &ncvt,

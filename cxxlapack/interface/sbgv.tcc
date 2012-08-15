@@ -44,6 +44,48 @@ sbgv (char                  jobz,
       IndexType             n,
       IndexType             kA,
       IndexType             kB,
+      float                 *Ab,
+      IndexType             ldAb,
+      float                 Bb,
+      IndexType             ldBb,
+      float                 *w,
+      float                 *Z,
+      IndexType             ldZ,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("ssbgv");
+ 
+    IndexType info;
+    LAPACK_IMPL(ssbgv) (&jobz,
+                        &uplo,
+                        &n,
+                        &kA,
+                        &kB,
+                        Ab,
+                        &ldAb,
+                        Bb,
+                        &ldBb,
+                        w,
+                        Z,
+                        &ldZ,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+sbgv (char                  jobz,
+      char                  uplo,
+      IndexType             n,
+      IndexType             kA,
+      IndexType             kB,
       double                *Ab,
       IndexType             ldAb,
       double                Bb,
@@ -53,6 +95,8 @@ sbgv (char                  jobz,
       IndexType             ldZ,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dsbgv");
+ 
     IndexType info;
     LAPACK_IMPL(dsbgv) (&jobz,
                         &uplo,

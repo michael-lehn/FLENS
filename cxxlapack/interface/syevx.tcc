@@ -43,6 +43,62 @@ syevx(char                  jobz,
       char                  range,
       char                  uplo,
       IndexType             n,
+      float                 *A,
+      IndexType             ldA,
+      float                 vl,
+      float                 vu,
+      IndexType             il,
+      IndexType             iu,
+      float                 abstol,
+      IndexType             &m,
+      float                 *w,
+      float                 *Z,
+      IndexType             ldZ,
+      IndexType             *isuppz,
+      float                 *work,
+      IndexType             lWork,
+      IndexType             *iWork,
+      IndexType             *ifail)
+{
+    CXXLAPACK_DEBUG_OUT("ssyevx");
+  
+    IndexType info;
+    LAPACK_IMPL(ssyevx)(&jobz,
+                        &range,
+                        &uplo,
+                        &n,
+                        A,
+                        &ldA,
+                        &vl,
+                        &vu,
+                        &il,
+                        &iu,
+                        &abstol,
+                        &m,
+                        w,
+                        Z,
+                        &ldZ,
+                        isuppz,
+                        work,
+                        &lWork,
+                        iWork,
+                        ifail,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+syevx(char                  jobz,
+      char                  range,
+      char                  uplo,
+      IndexType             n,
       double                *A,
       IndexType             ldA,
       double                vl,
@@ -60,6 +116,8 @@ syevx(char                  jobz,
       IndexType             *iWork,
       IndexType             *ifail)
 {
+    CXXLAPACK_DEBUG_OUT("dsyevx");
+  
     IndexType info;
     LAPACK_IMPL(dsyevx)(&jobz,
                         &range,

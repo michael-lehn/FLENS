@@ -41,10 +41,38 @@ template <typename IndexType>
 IndexType
 hetf2(char                  uplo,
       IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      IndexType             *iPiv)
+{
+    CXXLAPACK_DEBUG_OUT("chetf2");
+    
+    IndexType info;
+    LAPACK_IMPL(chetf2)(&uplo,
+                        &n,
+                        reinterpret_cast<float  *>(A),  
+                        &ldA,
+                        iPiv,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hetf2(char                  uplo,
+      IndexType             n,
       std::complex<double>  *A,
       IndexType             ldA,
       IndexType             *iPiv)
 {
+    CXXLAPACK_DEBUG_OUT("zhetf2");
+    
     IndexType info;
     LAPACK_IMPL(zhetf2)(&uplo,
                         &n,

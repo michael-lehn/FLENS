@@ -42,13 +42,37 @@ template <typename IndexType>
     pbcon(char                  uplo,
           IndexType             n,
           IndexType             nd,
+          const float           *Ab,
+          IndexType             ldAb,
+          float                 anorm,
+          float                 &rCond,
+          float                 *work,
+          IndexType             *iWork);
+    
+template <typename IndexType>
+    IndexType
+    pbcon(char                  uplo,
+          IndexType             n,
+          IndexType             nd,
           const double          *Ab,
           IndexType             ldAb,
           double                anorm,
           double                &rCond,
           double                *work,
           IndexType             *iWork);
-
+    
+template <typename IndexType>
+    IndexType
+    pbcon(char                        uplo,
+          IndexType                   n,
+          IndexType                   nd,
+          const std::complex<float >  *Ab,
+          IndexType                   ldAb,
+          float                       anorm,
+          float                       &rCond,
+          std::complex<float >        *work,
+          float                       *rWork);
+    
 template <typename IndexType>
     IndexType
     pbcon(char                        uplo,

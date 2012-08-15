@@ -43,6 +43,53 @@ tgevc(char                  side,
       char                  howmny,
       bool                  select,
       IndexType             n,
+      const float           *S,
+      IndexType             ldS,
+      const float           *P,
+      IndexType             ldP,
+      float                 *VL,
+      IndexType             ldVL,
+      float                 *VR,
+      IndexType             ldVR,
+      IndexType             mm,
+      IndexType             &m,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("stgevc");
+ 
+    IndexType info;
+    IndexType _select = select;
+    LAPACK_IMPL(stgevc)(&side,
+                        &howmny,
+                        &_select,
+                        &n,
+                        S,
+                        &ldS,
+                        P,
+                        &ldP,
+                        VL,
+                        &ldVL,
+                        VR,
+                        &ldVR,
+                        &mm,
+                        &m,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+tgevc(char                  side,
+      char                  howmny,
+      bool                  select,
+      IndexType             n,
       const double          *S,
       IndexType             ldS,
       const double          *P,
@@ -55,6 +102,8 @@ tgevc(char                  side,
       IndexType             &m,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dtgevc");
+ 
     IndexType info;
     IndexType _select = select;
     LAPACK_IMPL(dtgevc)(&side,
@@ -89,6 +138,55 @@ tgevc(char                        side,
       char                        howmny,
       bool                        select,
       IndexType                   n,
+      const std::complex<float >  *S,
+      IndexType                   ldS,
+      const std::complex<float >  *P,
+      IndexType                   ldP,
+      std::complex<float >        *VL,
+      IndexType                   ldVL,
+      std::complex<float >        *VR,
+      IndexType                   ldVR,
+      IndexType                   mm,
+      IndexType                   &m,
+      std::complex<float >        *work,
+      double                      *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("ctgevc");
+ 
+    IndexType info;
+    IndexType _select = select;
+    LAPACK_IMPL(ctgevc)(&side,
+                        &howmny,
+                        &_select,
+                        &n,
+                        reinterpret_cast<const float  *>(S),
+                        &ldS,
+                        reinterpret_cast<const float  *>(P),
+                        &ldP,
+                        reinterpret_cast<float  *>(VL),
+                        &ldVL,
+                        reinterpret_cast<float  *>(VR),
+                        &ldVR,
+                        &mm,
+                        &m,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+tgevc(char                        side,
+      char                        howmny,
+      bool                        select,
+      IndexType                   n,
       const std::complex<double>  *S,
       IndexType                   ldS,
       const std::complex<double>  *P,
@@ -102,6 +200,8 @@ tgevc(char                        side,
       std::complex<double>        *work,
       double                      *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("ztgevc");
+ 
     IndexType info;
     IndexType _select = select;
     LAPACK_IMPL(ztgevc)(&side,

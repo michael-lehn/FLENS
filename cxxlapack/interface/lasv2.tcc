@@ -39,6 +39,32 @@ namespace cxxlapack {
 
 template <typename VOID>
 void
+lasv2(float                 f,
+      float                 g,
+      float                 h,
+      float                 &ssmin,
+      float                 &ssmax,
+      float                 &snr,
+      float                 &csr,
+      float                 &snl,
+      float                 &csl)
+{
+    CXXLAPACK_DEBUG_OUT("slasv2");
+    
+    LAPACK_IMPL(slasv2)(&f,
+                        &g,
+                        &h,
+                        &ssmin,
+                        &ssmax,
+                        &snr,
+                        &csr,
+                        &snl,
+                        &csl);
+
+}
+
+template <typename VOID>
+void
 lasv2(double                f,
       double                g,
       double                h,
@@ -49,6 +75,8 @@ lasv2(double                f,
       double                &snl,
       double                &csl)
 {
+    CXXLAPACK_DEBUG_OUT("dlasv2");
+    
     LAPACK_IMPL(dlasv2)(&f,
                         &g,
                         &h,
@@ -60,6 +88,7 @@ lasv2(double                f,
                         &csl);
 
 }
+
 } // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_LASV2_TCC

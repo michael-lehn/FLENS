@@ -41,14 +41,55 @@ template <typename IndexType>
 void
 syswapr(char                  uplo,
         IndexType             n,
+        float                 *A,
+        IndexType             ldA,
+        IndexType             i1,
+        IndexType             i2)
+{
+    CXXLAPACK_DEBUG_OUT("ssyswapr");
+ 
+    LAPACK_IMPL(ssyswapr)(&uplo,
+                          &n,
+                          A,
+                          &ldA,
+                          &i1
+                          &i2);
+}
+
+
+template <typename IndexType>
+void
+syswapr(char                  uplo,
+        IndexType             n,
         double                *A,
         IndexType             ldA,
         IndexType             i1,
         IndexType             i2)
 {
+    CXXLAPACK_DEBUG_OUT("dsyswapr");
+ 
     LAPACK_IMPL(dsyswapr)(&uplo,
                           &n,
                           A,
+                          &ldA,
+                          &i1
+                          &i2);
+}
+
+template <typename IndexType>
+void
+syswapr(char                  uplo,
+        IndexType             n,
+        std::complex<float >  *A,
+        IndexType             ldA,
+        IndexType             i1,
+        IndexType             i2)
+{
+    CXXLAPACK_DEBUG_OUT("csyswapr");
+ 
+    LAPACK_IMPL(csyswapr)(&uplo,
+                          &n,
+                          reinterpret_cast<float  *>(A),
                           &ldA,
                           &i1
                           &i2);
@@ -63,9 +104,11 @@ syswapr(char                  uplo,
         IndexType             i1,
         IndexType             i2)
 {
+    CXXLAPACK_DEBUG_OUT("zsyswapr");
+ 
     LAPACK_IMPL(zsyswapr)(&uplo,
                           &n,
-                           reinterpret_cast<double *>(A),
+                          reinterpret_cast<double *>(A),
                           &ldA,
                           &i1
                           &i2);

@@ -47,6 +47,8 @@ ladiv(double                a,
       double                &p,
       double                &q)
 {
+    CXXLAPACK_DEBUG_OUT("dladiv");
+    
     LAPACK_IMPL(dladiv)(&a,
                         &b,
                         &c,
@@ -61,6 +63,7 @@ std::complex<double>
 ladiv(std::complex<double>  x,
       std::complex<double>  y)
 {
+    CXXLAPACK_DEBUG_OUT("zladiv");
     
     return LAPACK_IMPL(zladiv)(reinterpret_cast<const double *>(&x),
                                reinterpret_cast<const double *>(&y));

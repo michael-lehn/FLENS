@@ -42,9 +42,37 @@ IndexType
 hpgst(IndexType                  itype,
       char                       uplo,
       IndexType                  n,
+      std::complex<float >       *Ap,
+      const std::complex<float > *Bp)
+{
+    CXXLAPACK_DEBUG_OUT("chpgst");
+    
+    IndexType info;
+    LAPACK_IMPL(chpgst)(&itype,
+                        &uplo,
+                        &n,
+                        reinterpret_cast<float  *>(Ap),
+                        reinterpret_cast<const float  *>(Bp),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType  
+hpgst(IndexType                  itype,
+      char                       uplo,
+      IndexType                  n,
       std::complex<double>       *Ap,
       const std::complex<double> *Bp)
 {
+    CXXLAPACK_DEBUG_OUT("zhpgst");
+    
     IndexType info;
     LAPACK_IMPL(zhpgst)(&itype,
                         &uplo,

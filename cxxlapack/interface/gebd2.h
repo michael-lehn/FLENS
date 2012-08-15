@@ -41,6 +41,18 @@ template <typename IndexType>
     IndexType
     gebd2(IndexType             m,
           IndexType             n,
+          float                 *A,
+          IndexType             ldA,
+          float                 *d,
+          float                 *e,
+          float                 *tauq,
+          float                 *taup,
+          float                 *work);
+    
+template <typename IndexType>
+    IndexType
+    gebd2(IndexType             m,
+          IndexType             n,
           double                *A,
           IndexType             ldA,
           double                *d,
@@ -48,7 +60,19 @@ template <typename IndexType>
           double                *tauq,
           double                *taup,
           double                *work);
-
+    
+template <typename IndexType>
+    IndexType
+    gebd2(IndexType             m,
+          IndexType             n,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          float                 *d,
+          float                 *e,
+          std::complex<float >  *tauq,
+          std::complex<float >  *taup,
+          std::complex<float >  *work);
+    
 template <typename IndexType>
     IndexType
     gebd2(IndexType             m,

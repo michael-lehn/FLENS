@@ -44,6 +44,55 @@ laqr4(bool              wantT,
       IndexType         n,
       const IndexType   iLo,
       const IndexType   iHi,
+      float             *H,
+      const IndexType   ldH,
+      float             *wr,
+      float             *wi,
+      const IndexType   iLoZ,
+      const IndexType   iHiZ,
+      float             *Z,
+      const IndexType   ldZ,
+      float             *work,
+      const IndexType   lWork)
+{
+    CXXLAPACK_DEBUG_OUT("slaqr4");
+ 
+    IndexType  info;
+    IndexType  _wantT = wantT;
+    IndexType  _wantZ = wantZ;
+    LAPACK_IMPL(slaqr4)(&_wantT,
+                        &_wantZ,
+                        &n,
+                        &iLo,
+                        &iHi,
+                        H,
+                        &ldH,
+                        wr,
+                        wi,
+                        &iLoZ,
+                        &iHiZ,
+                        Z,
+                        &ldZ,
+                        work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+laqr4(bool              wantT,
+      bool              wantZ,
+      IndexType         n,
+      const IndexType   iLo,
+      const IndexType   iHi,
       double            *H,
       const IndexType   ldH,
       double            *wr,
@@ -55,6 +104,8 @@ laqr4(bool              wantT,
       double            *work,
       const IndexType   lWork)
 {
+    CXXLAPACK_DEBUG_OUT("dlaqr4");
+ 
     IndexType  info;
     IndexType  _wantT = wantT;
     IndexType  _wantZ = wantZ;
@@ -90,6 +141,52 @@ laqr4(bool                  wantT,
       IndexType             n,
       IndexType             iLo,
       IndexType             iHi,
+      std::complex<float >  *H,
+      IndexType             ldH,
+      std::complex<float >  *w,
+      IndexType             iLoZ,
+      IndexType             iHiZ,
+      std::complex<float >  *Z,
+      IndexType             ldZ,
+      std::complex<float >  *work,
+      IndexType             lWork)
+{
+    CXXLAPACK_DEBUG_OUT("claqr4");
+ 
+    IndexType info;
+    IndexType _wantT = wantT;
+    IndexType _wantZ = wantZ;
+    LAPACK_IMPL(claqr4)(&_wantT,
+                        &_wantZ,
+                        &n,
+                        &iLo,
+                        &iHi,
+                        reinterpret_cast<float  *>(H),
+                        &ldH,
+                        reinterpret_cast<float  *>(w),
+                        &iLoZ,
+                        &iHiZ,
+                        reinterpret_cast<float  *>(Z),
+                        &ldZ,
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+laqr4(bool                  wantT,
+      bool                  wantZ,
+      IndexType             n,
+      IndexType             iLo,
+      IndexType             iHi,
       std::complex<double>  *H,
       IndexType             ldH,
       std::complex<double>  *w,
@@ -100,6 +197,8 @@ laqr4(bool                  wantT,
       std::complex<double>  *work,
       IndexType             lWork)
 {
+    CXXLAPACK_DEBUG_OUT("zlaqr4");
+ 
     IndexType info;
     IndexType _wantT = wantT;
     IndexType _wantZ = wantZ;

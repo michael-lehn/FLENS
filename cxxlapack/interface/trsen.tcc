@@ -43,6 +43,57 @@ trsen(char              job,
       char              compQ,
       const IndexType   *select,
       IndexType         n,
+      float             *T,
+      IndexType         ldT,
+      double            *Q,
+      IndexType         ldQ,
+      float             *wr,
+      float             *wi,
+      IndexType         &m,
+      float             &s,
+      float             &sep,
+      float             *work,
+      IndexType         lWork,
+      IndexType         *iWork,
+      IndexType         liWork)
+{
+    CXXLAPACK_DEBUG_OUT("strsen");
+ 
+    IndexType info;
+    LAPACK_IMPL(strsen)(&job,
+                        &compQ,
+                        select,
+                        &n,
+                        T,
+                        &ldT,
+                        Q,
+                        &ldQ,
+                        wr,
+                        wi,
+                        &m,
+                        &s,
+                        &sep,
+                        work,
+                        &lWork,
+                        iWork,
+                        &liWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+trsen(char              job,
+      char              compQ,
+      const IndexType   *select,
+      IndexType         n,
       double            *T,
       IndexType         ldT,
       double            *Q,
@@ -57,6 +108,8 @@ trsen(char              job,
       IndexType         *iWork,
       IndexType         liWork)
 {
+    CXXLAPACK_DEBUG_OUT("dtrsen");
+ 
     IndexType info;
     LAPACK_IMPL(dtrsen)(&job,
                         &compQ,
@@ -91,6 +144,50 @@ trsen(char                  job,
       char                  compQ,
       const IndexType       *select,
       IndexType             n,
+      std::complex<float >  *T,
+      const IndexType       ldT,
+      std::complex<float >  *Q,
+      const IndexType       ldQ,
+      std::complex<float >  *w,
+      IndexType             &m,
+      float                 &s,
+      float                 &sep,
+      std::complex<float >  *work,
+      IndexType             lWork)
+{
+    CXXLAPACK_DEBUG_OUT("ctrsen");
+ 
+    IndexType info;
+    LAPACK_IMPL(ctrsen)(&job,
+                        &compQ,
+                        *select,
+                        &n,
+                        reinterpret_cast<float  *>(T),
+                        &ldT,
+                        reinterpret_cast<float  *>(Q),
+                        &ldQ,
+                        reinterpret_cast<float  *>(w),
+                        &m,
+                        &s,
+                        &sep,
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+trsen(char                  job,
+      char                  compQ,
+      const IndexType       *select,
+      IndexType             n,
       std::complex<double>  *T,
       const IndexType       ldT,
       std::complex<double>  *Q,
@@ -100,8 +197,10 @@ trsen(char                  job,
       double                &s,
       double                &sep,
       std::complex<double>  *work,
-      const IndexType       *lWork)
+      IndexType             lWork)
 {
+    CXXLAPACK_DEBUG_OUT("ztrsen");
+ 
     IndexType info;
     LAPACK_IMPL(ztrsen)(&job,
                         &compQ,
@@ -116,7 +215,7 @@ trsen(char                  job,
                         &s,
                         &sep,
                         reinterpret_cast<double *>(work),
-                        lWork,
+                        &lWork,
                         &info);
 #   ifndef NDEBUG
     if (info<0) {

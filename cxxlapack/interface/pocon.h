@@ -41,13 +41,35 @@ template <typename IndexType>
     IndexType
     pocon(char              upLo,
           IndexType         n,
+          const float       *A,
+          IndexType         ldA,
+          const float       &normA,
+          float             &rCond,
+          float             *work,
+          IndexType         *iWork);
+
+template <typename IndexType>
+    IndexType
+    pocon(char              upLo,
+          IndexType         n,
           const double      *A,
           IndexType         ldA,
           const double      &normA,
           double            &rCond,
           double            *work,
           IndexType         *iWork);
-
+    
+template <typename IndexType>
+    IndexType
+    pocon(char                          upLo,
+          IndexType                     n,
+          const std::complex<float >    *A,
+          IndexType                     ldA,
+          const float                   &normA,
+          float                         &rCond,
+          std::complex<float >          *work,
+          float                         *rWork);
+    
 template <typename IndexType>
     IndexType
     pocon(char                          upLo,

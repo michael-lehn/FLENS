@@ -36,7 +36,34 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    larrd(char                  range,
+          char                  order,
+          IndexType             n,
+          float                 vl,
+          float                 vu,
+          IndexType             il,
+          IndexType             iu,
+          const float           *gers,
+          float                 reltol,
+          const float           *d,
+          const float           *e,
+          const float           *e2,
+          const float           pivmin,
+          IndexType             nsplit,
+          IndexType             *isplit,
+          IndexType             &m,
+          float                 *w,
+          float                 *werr,
+          float                 &wl,
+          float                 &wu,
+          IndexType             *iblock,
+          IndexType             *indexw,
+          float                 *work,
+          IndexType             *iWork);
+    
 template <typename IndexType>
     IndexType
     larrd(char                  range,

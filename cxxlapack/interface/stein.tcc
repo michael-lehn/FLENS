@@ -40,6 +40,46 @@ namespace cxxlapack {
 template <typename IndexType>
 IndexType
 stein(IndexType             n,
+      const float           *d,
+      const float           *e,
+      IndexType             m,
+      const float           *w,
+      const IndexType       *iblock,
+      const IndexType       *isplit,
+      float                 *Z,
+      IndexType             ldZ,
+      float                 *work,
+      IndexType             *iWork,
+      IndexType             *ifail)
+{
+    CXXLAPACK_DEBUG_OUT("sstein");
+   
+    IndexType info;
+    LAPACK_IMPL(sstein)(&n,
+                        d,
+                        e,
+                        &m,
+                        w,
+                        iblock,
+                        isplit,
+                        Z,
+                        &ldZ,
+                        work,
+                        iWork,
+                        ifail,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+stein(IndexType             n,
       const double          *d,
       const double          *e,
       IndexType             m,
@@ -52,6 +92,8 @@ stein(IndexType             n,
       IndexType             *iWork,
       IndexType             *ifail)
 {
+    CXXLAPACK_DEBUG_OUT("dstein");
+   
     IndexType info;
     LAPACK_IMPL(dstein)(&n,
                         d,
@@ -75,6 +117,45 @@ stein(IndexType             n,
     return info;
 }
 
+template <typename IndexType>
+IndexType
+stein(IndexType             n,
+      const float           *d,
+      const float           *e,
+      IndexType             m,
+      const float           *w,
+      const IndexType       *iblock,
+      const IndexType       *isplit,
+      std::complex<float >  *Z,
+      IndexType             ldZ,
+      float                 *work,
+      IndexType             *iWork,
+      IndexType             *ifail)
+{
+    CXXLAPACK_DEBUG_OUT("cstein");
+   
+    IndexType info;
+    LAPACK_IMPL(cstein)(&n,
+                        d,
+                        e,
+                        &m,
+                        w,
+                        iblock,
+                        isplit,
+                        reinterpret_cast<float  *>(Z),
+                        &ldZ,
+                        work,
+                        iWork,
+                        ifail,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
 
 template <typename IndexType>
 IndexType
@@ -91,6 +172,8 @@ stein(IndexType             n,
       IndexType             *iWork,
       IndexType             *ifail)
 {
+    CXXLAPACK_DEBUG_OUT("zstein");
+   
     IndexType info;
     LAPACK_IMPL(zstein)(&n,
                         d,

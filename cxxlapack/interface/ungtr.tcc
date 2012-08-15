@@ -41,12 +41,44 @@ template <typename IndexType>
 IndexType
 ungtr(char                        uplo,
       IndexType                   n,
+      std::complex<float >        *A,
+      IndexType                   ldA,
+      const std::complex<float >  *tau,
+      std::complex<float >        *work,
+      IndexType                   lWork)
+{
+    CXXLAPACK_DEBUG_OUT("cungtr");
+ 
+    IndexType info;
+    LAPACK_IMPL(cungtr)(&uplo,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<const float  *>(tau),
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ungtr(char                        uplo,
+      IndexType                   n,
       std::complex<double>        *A,
       IndexType                   ldA,
       const std::complex<double>  *tau,
       std::complex<double>        *work,
       IndexType                   lWork)
 {
+    CXXLAPACK_DEBUG_OUT("zungtr");
+ 
     IndexType info;
     LAPACK_IMPL(zungtr)(&uplo,
                         &n,

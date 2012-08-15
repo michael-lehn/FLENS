@@ -30,26 +30,39 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXLAPACK_INTERFACE_OPMTR_H
-#define CXXLAPACK_INTERFACE_OPMTR_H 1
+#ifndef CXXLAPACK_INTERFACE_UPMTR_H
+#define CXXLAPACK_INTERFACE_UPMTR_H 1
 
 #include <complex>
 
 namespace cxxlapack {
-
+    
 template <typename IndexType>
     IndexType
-    opmtr(char                  side,
-          char                  uplo,
-          char                  trans,
-          IndexType             m,
-          IndexType             n,
-          const double          *Ap,
-          const double          *tau,
-          double                *C,
-          IndexType             ldC,
-          double                *work);
+    upmtr(char                        side,
+          char                        uplo,
+          char                        trans,
+          IndexType                   m,
+          IndexType                   n,
+          const std::complex<float >  *Ap,
+          const std::complex<float >  *tau,
+          std::complex<float >        *C,
+          IndexType                   ldC,
+          std::complex<float >        *work);
+    
+template <typename IndexType>
+    IndexType
+    upmtr(char                        side,
+          char                        uplo,
+          char                        trans,
+          IndexType                   m,
+          IndexType                   n,
+          const std::complex<double>  *Ap,
+          const std::complex<double>  *tau,
+          std::complex<double>        *C,
+          IndexType                   ldC,
+          std::complex<double>        *work);
 
 } // namespace cxxlapack
 
-#endif // CXXLAPACK_INTERFACE_OPMTR_H
+#endif // CXXLAPACK_INTERFACE_UPMTR_H

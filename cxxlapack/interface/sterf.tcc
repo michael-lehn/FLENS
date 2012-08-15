@@ -40,9 +40,33 @@ namespace cxxlapack {
 template <typename IndexType>
 IndexType
 sterf(IndexType             n,
+      float                 *d,
+      float                 *e)
+{
+    CXXLAPACK_DEBUG_OUT("ssterf");
+ 
+    IndexType info;
+    LAPACK_IMPL(ssterf)(&n,
+                        d,
+                        e,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+sterf(IndexType             n,
       double                *d,
       double                *e)
 {
+    CXXLAPACK_DEBUG_OUT("dsterf");
+ 
     IndexType info;
     LAPACK_IMPL(dsterf)(&n,
                         d,

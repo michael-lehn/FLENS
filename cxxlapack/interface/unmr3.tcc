@@ -45,6 +45,44 @@ unmr3(char                        side,
       IndexType                   n,
       IndexType                   k,
       IndexType                   l,
+      const std::complex<float >  *A,
+      IndexType                   ldA,
+      const std::complex<float >  *tau,
+      std::complex<float >        *C,
+      IndexType                   ldC,
+      std::complex<float >        *work)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cunmr3");
+    LAPACK_IMPL(cunmr3)(&side,
+                        &trans,
+                        &m,
+                        &n,
+                        &k,
+                        &l,
+                        reinterpret_cast<const float *>(A),
+                        &ldA,
+                        reinterpret_cast<const float *>(tau),
+                        reinterpret_cast<float *>(C),
+                        &ldC,
+                        reinterpret_cast<float *>(work),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+}
+
+template <typename IndexType>
+void
+unmr3(char                        side,
+      char                        trans,
+      IndexType                   m,
+      IndexType                   n,
+      IndexType                   k,
+      IndexType                   l,
       const std::complex<double>  *A,
       IndexType                   ldA,
       const std::complex<double>  *tau,
@@ -53,19 +91,19 @@ unmr3(char                        side,
       std::complex<double>        *work)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("zormr3");
+    CXXLAPACK_DEBUG_OUT("zunmr3");
     LAPACK_IMPL(zunmr3)(&side,
                         &trans,
                         &m,
                         &n,
                         &k,
                         &l,
-                        A,
+                        reinterpret_cast<const double *>(A),
                         &ldA,
-                        tau,
-                        C,
+                        reinterpret_cast<const double *>(tau),
+                        reinterpret_cast<double *>(C),
                         &ldC,
-                        work,
+                        reinterpret_cast<double *>(work),
                         &info);
 #   ifndef NDEBUG
     if (info<0) {

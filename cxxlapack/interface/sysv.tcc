@@ -42,6 +42,43 @@ IndexType
 sysv (char                  uplo,
       IndexType             n,
       IndexType             nRhs,
+      float                 *A,
+      IndexType             ldA,
+      IndexType             *iPiv,
+      float                 *B,
+      IndexType             ldB,
+      float                 *work,
+      IndexType             lWork)
+{
+    CXXLAPACK_DEBUG_OUT("ssysv");
+ 
+    IndexType info;
+    LAPACK_IMPL(ssysv) (&uplo,
+                        &n,
+                        &nRhs,
+                        A,
+                        &ldA,
+                        iPiv,
+                        B,
+                        &ldB,
+                        work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+sysv (char                  uplo,
+      IndexType             n,
+      IndexType             nRhs,
       double                *A,
       IndexType             ldA,
       IndexType             *iPiv,
@@ -50,6 +87,8 @@ sysv (char                  uplo,
       double                *work,
       IndexType             lWork)
 {
+    CXXLAPACK_DEBUG_OUT("dsysv");
+ 
     IndexType info;
     LAPACK_IMPL(dsysv) (&uplo,
                         &n,
@@ -76,6 +115,42 @@ IndexType
 sysv (char                  uplo,
       IndexType             n,
       IndexType             nRhs,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      IndexType             *iPiv,
+      std::complex<float >  *B,
+      IndexType             ldB,
+      std::complex<float >  *work,
+      IndexType             lWork)
+{
+    CXXLAPACK_DEBUG_OUT("csysv");
+ 
+    IndexType info;
+    LAPACK_IMPL(csysv) (&uplo,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        iPiv,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+sysv (char                  uplo,
+      IndexType             n,
+      IndexType             nRhs,
       std::complex<double>  *A,
       IndexType             ldA,
       IndexType             *iPiv,
@@ -84,6 +159,8 @@ sysv (char                  uplo,
       std::complex<double>  *work,
       IndexType             lWork)
 {
+    CXXLAPACK_DEBUG_OUT("zsysv");
+ 
     IndexType info;
     LAPACK_IMPL(zsysv) (&uplo,
                         &n,

@@ -40,7 +40,27 @@ namespace cxxlapack {
 template <typename IndexType>
     void
     laswp(IndexType             n,
+          float                 *A,
+          IndexType             ldA,
+          IndexType             k1,
+          IndexType             k2,
+          const IndexType       *iPiv,
+          IndexType             incX);
+    
+template <typename IndexType>
+    void
+    laswp(IndexType             n,
           double                *A,
+          IndexType             ldA,
+          IndexType             k1,
+          IndexType             k2,
+          const IndexType       *iPiv,
+          IndexType             incX);
+    
+template <typename IndexType>
+    void
+    laswp(IndexType             n,
+          std::complex<float >  *A,
           IndexType             ldA,
           IndexType             k1,
           IndexType             k2,

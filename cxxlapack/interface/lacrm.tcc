@@ -41,6 +41,31 @@ template <typename IndexType>
 void
 lacrm(IndexType                   m,
       IndexType                   n,
+      const std::complex<float >  *A,
+      IndexType                   ldA,
+      const float                 *B,
+      IndexType                   ldB,
+      std::complex<float >        *C,
+      IndexType                   ldC,
+      float                       *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("clacrm");
+
+    LAPACK_IMPL(clacrm)(&m,
+                        &n,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        B,
+                        &ldB,
+                        reinterpret_cast<float  *>(C),
+                        &ldC,
+                        rWork);
+}
+
+template <typename IndexType>
+void
+lacrm(IndexType                   m,
+      IndexType                   n,
       const std::complex<double>  *A,
       IndexType                   ldA,
       const double                *B,
@@ -49,6 +74,7 @@ lacrm(IndexType                   m,
       IndexType                   ldC,
       double                      *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zlacrm");
 
     LAPACK_IMPL(zlacrm)(&m,
                         &n,

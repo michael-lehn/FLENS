@@ -41,6 +41,8 @@ template <typename VOID>
 bool
 isnan(float                 sin)
 {
+    CXXLAPACK_DEBUG_OUT("sisnan");
+    
     return LAPACK_IMPL(sisnan)(&sin);
 }
 

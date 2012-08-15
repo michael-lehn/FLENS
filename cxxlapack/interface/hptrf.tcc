@@ -41,9 +41,35 @@ template <typename IndexType>
 IndexType
 hptrf(char                  uplo,
       IndexType             n,
+      std::complex<float >  *Ap,
+      IndexType             *iPiv)
+{
+    CXXLAPACK_DEBUG_OUT("chptrf");
+    
+    IndexType info;
+    LAPACK_IMPL(chptrf)(&uplo,
+                        &n,
+                        reinterpret_cast<float  *>(Ap),
+                        iPiv,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hptrf(char                  uplo,
+      IndexType             n,
       std::complex<double>  *Ap,
       IndexType             *iPiv)
 {
+    CXXLAPACK_DEBUG_OUT("zhptrf");
+    
     IndexType info;
     LAPACK_IMPL(zhptrf)(&uplo,
                         &n,

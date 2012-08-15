@@ -36,7 +36,15 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    spgst(IndexType             itype,
+          char                  uplo,
+          IndexType             n,
+          float                 *Ap,
+          const float           *Bp);
+    
 template <typename IndexType>
     IndexType
     spgst(IndexType             itype,

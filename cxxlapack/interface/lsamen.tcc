@@ -43,6 +43,8 @@ lsamen(IndexType             n,
        char                  ca,
        char                  cb)
 {
+    CXXLAPACK_DEBUG_OUT("lsamen");
+    
     return LAPACK_IMPL(lsamen)(&n,
                                &ca,
                                &cb);

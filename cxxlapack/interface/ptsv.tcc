@@ -41,13 +41,15 @@ template <typename IndexType>
 IndexType
 ptsv (IndexType             n,
       IndexType             nRhs,
-      double                *d,
-      double                *e,
-      double                *B,
+      float                 *d,
+      float                 *e,
+      float                 *B,
       IndexType             &ldB)
 {
+    CXXLAPACK_DEBUG_OUT("sptsv");
+ 
     IndexType info;
-    LAPACK_IMPL(dptsv) (&n,
+    LAPACK_IMPL(sptsv) (&n,
                         &nRhs,
                         d,
                         e,
@@ -68,11 +70,69 @@ template <typename IndexType>
 IndexType
 ptsv (IndexType             n,
       IndexType             nRhs,
+      double                *d,
+      double                *e,
+      double                *B,
+      IndexType             &ldB)
+{
+    CXXLAPACK_DEBUG_OUT("dptsv");
+ 
+    IndexType info;
+    LAPACK_IMPL(dptsv) (&n,
+                        &nRhs,
+                        d,
+                        e,
+                        B,
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ptsv (IndexType             n,
+      IndexType             nRhs,
+      std::complex<float >  *d,
+      std::complex<float >  *e,
+      std::complex<float >  *B,
+      IndexType             &ldB)
+{
+    CXXLAPACK_DEBUG_OUT("cptsv");
+ 
+    IndexType info;
+    LAPACK_IMPL(cptsv) (&n,
+                        &nRhs,
+                        reinterpret_cast<float  *>(d),
+                        reinterpret_cast<float  *>(e),
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ptsv (IndexType             n,
+      IndexType             nRhs,
       std::complex<double>  *d,
       std::complex<double>  *e,
       std::complex<double>  *B,
       IndexType             &ldB)
 {
+    CXXLAPACK_DEBUG_OUT("zptsv");
+ 
     IndexType info;
     LAPACK_IMPL(zptsv) (&n,
                         &nRhs,

@@ -43,8 +43,24 @@ template <typename IndexType>
           char                  uplo,
           char                  diag,
           IndexType             n,
+          float                 *A);
+    
+template <typename IndexType>
+    IndexType
+    tftri(char                  transr,
+          char                  uplo,
+          char                  diag,
+          IndexType             n,
           double                *A);
-
+    
+template <typename IndexType>
+    IndexType
+    tftri(char                  transr,
+          char                  uplo,
+          char                  diag,
+          IndexType             n,
+          std::complex<float >  *A);
+    
 template <typename IndexType>
     IndexType
     tftri(char                  transr,

@@ -42,6 +42,38 @@ IndexType
 getrs(char              trans,
       IndexType         n,
       IndexType         nRhs,
+      const float       *A,
+      IndexType         ldA,
+      const IndexType   *iPiv,
+      float             *B,
+      IndexType         ldB)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgetrs");
+    LAPACK_IMPL(sgetrs)(&trans,
+                        &n,
+                        &nRhs,
+                        A,
+                        &ldA,
+                        iPiv,
+                        B,
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "trans = " << trans << std::endl;
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+getrs(char              trans,
+      IndexType         n,
+      IndexType         nRhs,
       const double      *A,
       IndexType         ldA,
       const IndexType   *iPiv,
@@ -49,7 +81,7 @@ getrs(char              trans,
       IndexType         ldB)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("dgetrs");
+    CXXLAPACK_DEBUG_OUT("dgetrs");
     LAPACK_IMPL(dgetrs)(&trans,
                         &n,
                         &nRhs,
@@ -74,6 +106,37 @@ IndexType
 getrs(char                          trans,
       IndexType                     n,
       IndexType                     nRhs,
+      const std::complex<float >    *A,
+      IndexType                     ldA,
+      const IndexType               *iPiv,
+      std::complex<float >          *B,
+      IndexType                     ldB)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgetrs");
+    LAPACK_IMPL(cgetrs)(&trans,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        iPiv,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+getrs(char                          trans,
+      IndexType                     n,
+      IndexType                     nRhs,
       const std::complex<double>    *A,
       IndexType                     ldA,
       const IndexType               *iPiv,
@@ -81,7 +144,7 @@ getrs(char                          trans,
       IndexType                     ldB)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("zgetrs");
+    CXXLAPACK_DEBUG_OUT("zgetrs");
     LAPACK_IMPL(zgetrs)(&trans,
                         &n,
                         &nRhs,

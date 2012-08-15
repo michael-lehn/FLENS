@@ -44,6 +44,53 @@ trrfs(char                  uplo,
       char                  diag,
       IndexType             n,
       IndexType             nRhs,
+      const float           *A,
+      IndexType             ldA,
+      const float           *B,
+      IndexType             ldB,
+      const float           *X,
+      IndexType             ldX,
+      float                 *ferr,
+      float                 *berr,
+      float                 *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("strrfs");
+ 
+    IndexType info;
+    LAPACK_IMPL(strrfs)(&uplo,
+                        &trans,
+                        &diag,
+                        &n,
+                        &nRhs,
+                        A,
+                        &ldA,
+                        B,
+                        &ldB,
+                        X,
+                        &ldX,
+                        ferr,
+                        berr,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+trrfs(char                  uplo,
+      char                  trans,
+      char                  diag,
+      IndexType             n,
+      IndexType             nRhs,
       const double          *A,
       IndexType             ldA,
       const double          *B,
@@ -55,6 +102,8 @@ trrfs(char                  uplo,
       double                *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("dtrrfs");
+ 
     IndexType info;
     LAPACK_IMPL(dtrrfs)(&uplo,
                         &trans,
@@ -88,6 +137,52 @@ trrfs(char                        uplo,
       char                        diag,
       IndexType                   n,
       IndexType                   nRhs,
+      const std::complex<float >  *A,
+      IndexType                   ldA,
+      const std::complex<float >  *B,
+      IndexType                   ldB,
+      const std::complex<float >  *X,
+      IndexType                   ldX,
+      float                       *ferr,
+      float                       *berr,
+      std::complex<float >        *work,
+      float                       *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("ctrrfs");
+ 
+    IndexType info;
+    LAPACK_IMPL(ctrrfs)(&uplo,
+                        &trans,
+                        &diag,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        reinterpret_cast<const float  *>(B),
+                        &ldB,
+                        reinterpret_cast<const float  *>(X),
+                        &ldX,
+                        ferr,
+                        berr,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+trrfs(char                        uplo,
+      char                        trans,
+      char                        diag,
+      IndexType                   n,
+      IndexType                   nRhs,
       const std::complex<double>  *A,
       IndexType                   ldA,
       const std::complex<double>  *B,
@@ -99,6 +194,8 @@ trrfs(char                        uplo,
       std::complex<double>        *work,
       double                      *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("ztrrfs");
+ 
     IndexType info;
     LAPACK_IMPL(ztrrfs)(&uplo,
                         &trans,

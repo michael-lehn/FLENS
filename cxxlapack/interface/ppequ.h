@@ -41,11 +41,29 @@ template <typename IndexType>
     IndexType
     ppequ(char                  uplo,
           IndexType             n,
+          const float           *Ap,
+          float                 *s,
+          float                 &scond,
+          float                 &amax);
+    
+template <typename IndexType>
+    IndexType
+    ppequ(char                  uplo,
+          IndexType             n,
           const double          *Ap,
           double                *s,
           double                &scond,
           double                &amax);
-
+    
+template <typename IndexType>
+    IndexType
+    ppequ(char                        uplo,
+          IndexType                   n,
+          const std::complex<float >  *Ap,
+          float                       *s,
+          float                       &scond,
+          float                       &amax);
+    
 template <typename IndexType>
     IndexType
     ppequ(char                        uplo,

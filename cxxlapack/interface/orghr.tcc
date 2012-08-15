@@ -42,12 +42,46 @@ IndexType
 orghr(IndexType     n,
       IndexType     iLo,
       IndexType     iHi,
+      float         *A,
+      IndexType     ldA,
+      const float   *tau,
+      float         *work,
+      IndexType     lWork)
+{
+    CXXLAPACK_DEBUG_OUT("sorghr");
+  
+    IndexType info;
+    LAPACK_IMPL(sorghr)(&n,
+                        &iLo,
+                        &iHi,
+                        A,
+                        &ldA,
+                        tau,
+                        work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+orghr(IndexType     n,
+      IndexType     iLo,
+      IndexType     iHi,
       double        *A,
       IndexType     ldA,
       const double  *tau,
       double        *work,
       IndexType     lWork)
 {
+    CXXLAPACK_DEBUG_OUT("dorghr");
+  
     IndexType info;
     LAPACK_IMPL(dorghr)(&n,
                         &iLo,

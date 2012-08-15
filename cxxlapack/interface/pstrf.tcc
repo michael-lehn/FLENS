@@ -41,6 +41,38 @@ template <typename IndexType>
 IndexType
 pstrf(char                  uplo,
       IndexType             n,
+      float                 *A,
+      IndexType             ldA,
+      IndexType             *iPiv,
+      IndexType             &rank,
+      float                 tol,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("spstrf");
+ 
+    IndexType info;
+    LAPACK_IMPL(spstrf)(&uplo,
+                        &n,
+                        A,
+                        &ldA,
+                        iPiv,
+                        &rank,
+                        &tol,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+pstrf(char                  uplo,
+      IndexType             n,
       double                *A,
       IndexType             ldA,
       IndexType             *iPiv,
@@ -48,10 +80,44 @@ pstrf(char                  uplo,
       double                tol,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dpstrf");
+ 
     IndexType info;
     LAPACK_IMPL(dpstrf)(&uplo,
                         &n,
                         A,
+                        &ldA,
+                        iPiv,
+                        &rank,
+                        &tol,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+pstrf(char                  uplo,
+      IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      IndexType             *iPiv,
+      IndexType             &rank,
+      float                 tol,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("cpstrf");
+ 
+    IndexType info;
+    LAPACK_IMPL(cpstrf)(&uplo,
+                        &n,
+                        reinterpret_cast<float  *>(A),
                         &ldA,
                         iPiv,
                         &rank,
@@ -78,6 +144,8 @@ pstrf(char                  uplo,
       double                tol,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("zpstrf");
+ 
     IndexType info;
     LAPACK_IMPL(zpstrf)(&uplo,
                         &n,

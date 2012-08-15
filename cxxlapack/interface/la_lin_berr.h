@@ -42,10 +42,28 @@ template <typename IndexType>
     la_lin_berr(IndexType             n,
                 IndexType             nz,
                 IndexType             nRhs,
+                float                 *res,
+                const float           *ayb,
+                const float           *berr);
+    
+template <typename IndexType>
+    void
+    la_lin_berr(IndexType             n,
+                IndexType             nz,
+                IndexType             nRhs,
                 double                *res,
                 const double          *ayb,
                 const double          *berr);
-
+    
+template <typename IndexType>
+    void
+    la_lin_berr(IndexType                   n,
+                IndexType                   nz,
+                IndexType                   nRhs,
+                const std::complex<float >  *res,
+                const float                 *ayb,
+                float                       *berr);
+    
 template <typename IndexType>
     void
     la_lin_berr(IndexType                   n,

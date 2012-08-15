@@ -41,6 +41,35 @@ template <typename IndexType>
 IndexType
 gebal(char          job,
       IndexType     n,
+      float         *A,
+      IndexType     ldA,
+      IndexType     &iLo,
+      IndexType     &iHi,
+      float         *scale)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgebal");
+    LAPACK_IMPL(sgebal)(&job,
+                        &n,
+                        A,
+                        &ldA,
+                        &iLo,
+                        &iHi,
+                        scale,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gebal(char          job,
+      IndexType     n,
       double        *A,
       IndexType     ldA,
       IndexType     &iLo,
@@ -48,9 +77,39 @@ gebal(char          job,
       double        *scale)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("dgebal");
     LAPACK_IMPL(dgebal)(&job,
                         &n,
                         A,
+                        &ldA,
+                        &iLo,
+                        &iHi,
+                        scale,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gebal(char                  job,
+      IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      IndexType             &iLo,
+      IndexType             &iHi,
+      float                 *scale)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgebal");
+    LAPACK_IMPL(cgebal)(&job,
+                        &n,
+                        reinterpret_cast<float  *>(A),
                         &ldA,
                         &iLo,
                         &iHi,
@@ -76,6 +135,7 @@ gebal(char                  job,
       double                *scale)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("zgebal");
     LAPACK_IMPL(zgebal)(&job,
                         &n,
                         reinterpret_cast<double *>(A),

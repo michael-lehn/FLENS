@@ -38,12 +38,29 @@
 namespace cxxlapack {
 
 template <typename IndexType>
+float 
+lanst(char                  norm,
+      IndexType             n,
+      const float           *d,
+      const float           *e)
+{
+    CXXLAPACK_DEBUG_OUT("slanst");
+   
+    return LAPACK_IMPL(slanst)(&norm,
+                               &n,
+                               d,
+                               e);
+}
+
+template <typename IndexType>
 double
 lanst(char                  norm,
       IndexType             n,
       const double          *d,
       const double          *e)
 {
+    CXXLAPACK_DEBUG_OUT("dlanst");
+   
     return LAPACK_IMPL(dlanst)(&norm,
                                &n,
                                d,

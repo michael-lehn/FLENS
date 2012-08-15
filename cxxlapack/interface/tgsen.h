@@ -44,6 +44,33 @@ namespace cxxlapack {
 //           bool                  wantz,
 //           bool                  *select,
 //           IndexType             n,
+//           float                 *A,
+//           IndexType             ldA,
+//           float                 *B,
+//           IndexType             ldB,
+//           float                 *alphar,
+//           float                 *alphai,
+//           float                 *beta,
+//           float                 *Q,
+//           IndexType             ldQ,
+//           float                 *Z,
+//           IndexType             ldZ,
+//           IndexType             &m,
+//           float                 &pl,
+//           float                 &pr,
+//           float                 *dif,
+//           float                 *work,
+//           IndexType             lWork,
+//           IndexType             *iWork,
+//           IndexType             liWork);
+//
+// template <typename IndexType>
+//     IndexType
+//     tgsen(IndexType             ijob,
+//           bool                  wantq,
+//           bool                  wantz,
+//           bool                  *select,
+//           IndexType             n,
 //           double                *A,
 //           IndexType             ldA,
 //           double                *B,
@@ -63,7 +90,33 @@ namespace cxxlapack {
 //           IndexType             lWork,
 //           IndexType             *iWork,
 //           IndexType             liWork);
-// 
+//
+// template <typename IndexType>
+//     IndexType
+//     tgsen(IndexType             ijob,
+//           bool                  wantq,
+//           bool                  wantz,
+//           bool                  *select,
+//           IndexType             n,
+//           std::complex<float >  *A,
+//           IndexType             ldA,
+//           std::complex<float >  *B,
+//           IndexType             ldB,
+//           std::complex<float >  *alpha,
+//           std::complex<float >  *beta,
+//           std::complex<float >  *Q,
+//           IndexType             ldQ,
+//           std::complex<float >  *Z,
+//           IndexType             ldZ,
+//           IndexType             &m,
+//           double                &pl,
+//           double                &pr,
+//           double                *dif,
+//           std::complex<float >  *work,
+//           IndexType             lWork,
+//           IndexType             *iWork,
+//           IndexType             liWork);
+    
 // template <typename IndexType>
 //     IndexType
 //     tgsen(IndexType             ijob,

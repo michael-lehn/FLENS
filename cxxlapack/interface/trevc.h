@@ -43,6 +43,23 @@ template <typename IndexType>
           char          howMany,
           IndexType     *select,
           IndexType     n,
+          const float   *T,
+          IndexType     ldT,
+          float         *VL,
+          IndexType     ldVL,
+          float         *VR,
+          IndexType     ldVR,
+          IndexType     mm,
+          IndexType     &m,
+          float         *work);
+    
+    
+template <typename IndexType>
+    IndexType
+    trevc(char          side,
+          char          howMany,
+          IndexType     *select,
+          IndexType     n,
           const double  *T,
           IndexType     ldT,
           double        *VL,
@@ -52,6 +69,23 @@ template <typename IndexType>
           IndexType     mm,
           IndexType     &m,
           double        *work);
+    
+template <typename IndexType>
+    IndexType
+    trevc(char                  side,
+          char                  howMany,
+          IndexType             *select,
+          IndexType             n,
+          std::complex<float >  *T,
+          IndexType             ldT,
+          std::complex<float >  *VL,
+          IndexType             ldVL,
+          std::complex<float >  *VR,
+          IndexType             ldVR,
+          IndexType             mm,
+          IndexType             &m,
+          std::complex<float >  *work,
+          float                 *rWork);
 
 template <typename IndexType>
     IndexType

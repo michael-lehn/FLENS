@@ -45,6 +45,22 @@ template <typename IndexType>
              IndexType             kl,
              IndexType             ku,
              double                alpha,
+             const float           *AB,
+             IndexType             ldAB,
+             const float           *x,
+             IndexType             incx,
+             float                 beta,
+             float                 *y,
+             IndexType             incy);
+    
+template <typename IndexType>
+    void
+    la_gbamv(IndexType             trans,
+             IndexType             m,
+             IndexType             n,
+             IndexType             kl,
+             IndexType             ku,
+             double                alpha,
              const double          *AB,
              IndexType             ldAB,
              const double          *x,
@@ -52,7 +68,23 @@ template <typename IndexType>
              double                beta,
              double                *y,
              IndexType             incy);
-
+    
+template <typename IndexType>
+    void
+    la_gbamv(IndexType                   trans,
+             IndexType                   m,
+             IndexType                   n,
+             IndexType                   kl,
+             IndexType                   ku,
+             float                       alpha,
+             const std::complex<float >  *AB,
+             IndexType                   ldAB,
+             const std::complex<float >  *x,
+             IndexType                   incx,
+             float                       beta,
+             float                       *y,
+             IndexType                   incy);
+    
 template <typename IndexType>
     void
     la_gbamv(IndexType                   trans,

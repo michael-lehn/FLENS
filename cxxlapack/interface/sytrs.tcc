@@ -42,12 +42,46 @@ IndexType
 sytrs(char                  uplo,
       IndexType             n,
       IndexType             nRhs,
+      const float           *A,
+      IndexType             ldA,
+      const IndexType       *iPiv,
+      float                 *B,
+      IndexType             ldB)
+{
+    CXXLAPACK_DEBUG_OUT("ssyrts");
+ 
+    IndexType info;
+    LAPACK_IMPL(ssytrs)(&uplo,
+                        &n,
+                        &nRhs,
+                        A,
+                        &ldA,
+                        iPiv,
+                        B,
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+sytrs(char                  uplo,
+      IndexType             n,
+      IndexType             nRhs,
       const double          *A,
       IndexType             ldA,
       const IndexType       *iPiv,
       double                *B,
       IndexType             ldB)
 {
+    CXXLAPACK_DEBUG_OUT("dsyrts");
+ 
     IndexType info;
     LAPACK_IMPL(dsytrs)(&uplo,
                         &n,
@@ -72,12 +106,46 @@ IndexType
 sytrs(char                        uplo,
       IndexType                   n,
       IndexType                   nRhs,
+      const std::complex<float >  *A,
+      IndexType                   ldA,
+      const IndexType             *iPiv,
+      std::complex<float >        *B,
+      IndexType                   ldB)
+{
+    CXXLAPACK_DEBUG_OUT("csyrts");
+ 
+    IndexType info;
+    LAPACK_IMPL(csytrs)(&uplo,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        iPiv,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+sytrs(char                        uplo,
+      IndexType                   n,
+      IndexType                   nRhs,
       const std::complex<double>  *A,
       IndexType                   ldA,
       const IndexType             *iPiv,
       std::complex<double>        *B,
       IndexType                   ldB)
 {
+    CXXLAPACK_DEBUG_OUT("zsyrts");
+ 
     IndexType info;
     LAPACK_IMPL(zsytrs)(&uplo,
                         &n,

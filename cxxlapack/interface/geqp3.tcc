@@ -41,6 +41,37 @@ template <typename IndexType>
 IndexType
 geqp3(IndexType    m,
       IndexType    n,
+      float        *A,
+      IndexType    ldA,
+      IndexType    *jPvt,
+      float        *tau,
+      float        *work,
+      IndexType    lWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgeqp3");
+    LAPACK_IMPL(sgeqp3)(&m,
+                        &n,
+                        A,
+                        &ldA,
+                        jPvt,
+                        tau,
+                        work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+geqp3(IndexType    m,
+      IndexType    n,
       double       *A,
       IndexType    ldA,
       IndexType    *jPvt,
@@ -49,7 +80,7 @@ geqp3(IndexType    m,
       IndexType    lWork)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("dgeqp3");
+    CXXLAPACK_DEBUG_OUT("dgeqp3");
     LAPACK_IMPL(dgeqp3)(&m,
                         &n,
                         A,
@@ -58,6 +89,39 @@ geqp3(IndexType    m,
                         tau,
                         work,
                         &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+geqp3(IndexType             m,
+      IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      IndexType             *jPvt,
+      std::complex<float >  *tau,
+      std::complex<float >  *work,
+      IndexType             lWork,
+      float                 *rWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgeqp3");
+    LAPACK_IMPL(cgeqp3)(&m,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        jPvt,
+                        reinterpret_cast<float  *>(tau),
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        rWork,
                         &info);
 #   ifndef NDEBUG
     if (info<0) {
@@ -81,7 +145,7 @@ geqp3(IndexType             m,
       double                *rWork)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("zgeqp3");
+    CXXLAPACK_DEBUG_OUT("zgeqp3");
     LAPACK_IMPL(zgeqp3)(&m,
                         &n,
                         reinterpret_cast<double *>(A),

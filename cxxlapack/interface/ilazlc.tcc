@@ -44,7 +44,8 @@ ilazlc(IndexType                   m,
        const std::complex<double>  *A,
        IndexType                   ldA)
 {
-
+    CXXLAPACK_DEBUG_OUT("ilazlc");
+    
     return LAPACK_IMPL(ilazlc)(&m,
                                &n,
                                reinterpret_cast<const double *>(A),

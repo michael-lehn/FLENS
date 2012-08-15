@@ -42,11 +42,35 @@ void
 laset(char                  uplo,
       IndexType             m,
       IndexType             n,
+      float                 alpha,
+      float                 beta,
+      float                 *A,
+      IndexType             ldA)
+{
+    CXXLAPACK_DEBUG_OUT("slaset");
+    
+    LAPACK_IMPL(slaset)(&uplo,
+                        &m,
+                        &n,
+                        &alpha,
+                        &beta,
+                        A,
+                        &ldA);
+}
+
+
+template <typename IndexType>
+void
+laset(char                  uplo,
+      IndexType             m,
+      IndexType             n,
       double                alpha,
       double                beta,
       double                *A,
       IndexType             ldA)
 {
+    CXXLAPACK_DEBUG_OUT("dlaset");
+   
     LAPACK_IMPL(dlaset)(&uplo,
                         &m,
                         &n,
@@ -62,11 +86,34 @@ void
 laset(char                  uplo,
       IndexType             m,
       IndexType             n,
+      std::complex<float >  alpha,
+      std::complex<float >  beta,
+      std::complex<float >  *A,
+      IndexType             ldA)
+{
+    CXXLAPACK_DEBUG_OUT("claset");
+   
+    LAPACK_IMPL(claset)(&uplo,
+                        &m,
+                        &n,
+                        reinterpret_cast<const float  *>(&alpha),
+                        reinterpret_cast<const float  *>(&beta),
+                        reinterpret_cast<float  *>(A),
+                        &ldA);
+}
+
+template <typename IndexType>
+void
+laset(char                  uplo,
+      IndexType             m,
+      IndexType             n,
       std::complex<double>  alpha,
       std::complex<double>  beta,
       std::complex<double>  *A,
       IndexType             ldA)
 {
+    CXXLAPACK_DEBUG_OUT("zlaset");
+   
     LAPACK_IMPL(zlaset)(&uplo,
                         &m,
                         &n,

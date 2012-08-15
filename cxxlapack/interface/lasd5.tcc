@@ -40,6 +40,27 @@ namespace cxxlapack {
 template <typename IndexType>
 void
 lasd5(IndexType             i,
+      const float           *d,
+      const float           *z,
+      float                 *delta,
+      float                 rho,
+      float                 &sigma,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("slasd5");
+    
+    LAPACK_IMPL(slasd5)(&i,
+                        d,
+                        z,
+                        delta,
+                        &rho,
+                        &sigma,
+                        work);
+}
+
+template <typename IndexType>
+void
+lasd5(IndexType             i,
       const double          *d,
       const double          *z,
       double                *delta,
@@ -47,7 +68,8 @@ lasd5(IndexType             i,
       double                &sigma,
       double                *work)
 {
-
+    CXXLAPACK_DEBUG_OUT("dlasd5");
+    
     LAPACK_IMPL(dlasd5)(&i,
                         d,
                         z,

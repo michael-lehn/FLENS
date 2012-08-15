@@ -41,6 +41,37 @@ template <typename IndexType>
 IndexType
 gecon(char                  norm,
       IndexType             n,
+      const float           *A,
+      IndexType             ldA,
+      const float           &normA,
+      float                 &rCond,
+      float                 *work,
+      IndexType             *iwork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgecon");
+    LAPACK_IMPL(sgecon)(&norm,
+                        &n,
+                        A,
+                        &ldA,
+                        &normA,
+                        &rCond,
+                        work,
+                        iwork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gecon(char                  norm,
+      IndexType             n,
       const double          *A,
       IndexType             ldA,
       const double          &normA,
@@ -49,7 +80,7 @@ gecon(char                  norm,
       IndexType             *iwork)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("dgecon");
+    CXXLAPACK_DEBUG_OUT("dgecon");
     LAPACK_IMPL(dgecon)(&norm,
                         &n,
                         A,
@@ -72,6 +103,37 @@ template <typename IndexType>
 IndexType
 gecon(char                          norm,
       IndexType                     n,
+      const std::complex<float >    *A,
+      IndexType                     ldA,
+      const float                   &normA,
+      float                         &rCond,
+      std::complex<float >          *work,
+      double                        *rwork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgecon");
+    LAPACK_IMPL(cgecon)(&norm,
+                        &n,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        &normA,
+                        &rCond,
+                        reinterpret_cast<float  *>(work),
+                        rwork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gecon(char                          norm,
+      IndexType                     n,
       const std::complex<double>    *A,
       IndexType                     ldA,
       const double                  &normA,
@@ -80,7 +142,7 @@ gecon(char                          norm,
       double                        *rwork)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("zgecon");
+    CXXLAPACK_DEBUG_OUT("zgecon");
     LAPACK_IMPL(zgecon)(&norm,
                         &n,
                         reinterpret_cast<const double *>(A),

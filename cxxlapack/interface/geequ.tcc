@@ -43,6 +43,39 @@ geequ(const IndexType       m,
       const IndexType       n,
       const double          *A,
       const IndexType       ldA,
+      float                 *r,
+      float                 *c,
+      float                 &rowCnd,
+      float                 &colCnd,
+      float                 &maxA)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgeequ");
+    LAPACK_IMPL(sgeequ)(&m,
+                        &n,
+                        A,
+                        &ldA,
+                        r,
+                        c,
+                        &rowCnd,
+                        &colCnd,
+                        &maxA,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+geequ(const IndexType       m,
+      const IndexType       n,
+      const double          *A,
+      const IndexType       ldA,
       double                *r,
       double                *c,
       double                &rowCnd,
@@ -50,10 +83,43 @@ geequ(const IndexType       m,
       double                &maxA)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("dgeequ");
+    CXXLAPACK_DEBUG_OUT("dgeequ");
     LAPACK_IMPL(dgeequ)(&m,
                         &n,
                         A,
+                        &ldA,
+                        r,
+                        c,
+                        &rowCnd,
+                        &colCnd,
+                        &maxA,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+geequ(const IndexType               m,
+      const IndexType               n,
+      const std::complex<float >    *A,
+      const IndexType               ldA,
+      float                         *r,
+      float                         *c,
+      float                         &rowCnd,
+      float                         &colCnd,
+      float                         &maxA)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgeequ");
+    LAPACK_IMPL(cgeequ)(&m,
+                        &n,
+                        reinterpret_cast<const float  *>(A),
                         &ldA,
                         r,
                         c,
@@ -83,7 +149,7 @@ geequ(const IndexType               m,
       double                        &maxA)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("zgeequ");
+    CXXLAPACK_DEBUG_OUT("zgeequ");
     LAPACK_IMPL(zgeequ)(&m,
                         &n,
                         reinterpret_cast<const double *>(A),

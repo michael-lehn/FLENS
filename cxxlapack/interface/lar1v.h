@@ -42,6 +42,31 @@ template <typename IndexType>
     lar1v(IndexType             n,
           IndexType             b1,
           IndexType             bn,
+          float                 lambda,
+          const float           *d,
+          const float           *l,
+          const float           *ld,
+          const float           *lld,
+          float                 pivmin,
+          float                 gaptol,
+          float                 *z,
+          bool                  wantnc,
+          IndexType             &negcnt,
+          float                 &ztz,
+          float                 &mingma,
+          IndexType             &r,
+          IndexType             *isuppz,
+          float                 &nrminv,
+          float                 &resid,
+          float                 &rqcorr,
+          float                 *work);
+    
+    
+template <typename IndexType>
+    void
+    lar1v(IndexType             n,
+          IndexType             b1,
+          IndexType             bn,
           double                lambda,
           const double          *d,
           const double          *l,
@@ -60,6 +85,30 @@ template <typename IndexType>
           double                &resid,
           double                &rqcorr,
           double                *work);
+    
+template <typename IndexType>
+    void
+    lar1v(IndexType             n,
+          IndexType             b1,
+          IndexType             bn,
+          float                 lambda,
+          const float           *d,
+          const float           *l,
+          const float           *ld,
+          const float           *lld,
+          float                 pivmin,
+          float                 gaptol,
+          std::complex<float >  *z,
+          bool                  wantnc,
+          IndexType             &negcnt,
+          float                 &ztz,
+          float                 &mingma,
+          IndexType             &r,
+          IndexType             *isuppz,
+          float                 &nrminv,
+          float                 &resid,
+          float                 &rqcorr,
+          float                 *work);
 
 template <typename IndexType>
     void

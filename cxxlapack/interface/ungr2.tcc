@@ -42,11 +42,43 @@ IndexType
 ungr2(IndexType                   m,
       IndexType                   n,
       IndexType                   k,
+      std::complex<float >        *A,
+      IndexType                   ldA,
+      const std::complex<float >  *tau,
+      std::complex<float >        *work)
+{
+    CXXLAPACK_DEBUG_OUT("cungr2");
+ 
+    IndexType info;
+    LAPACK_IMPL(cungr2)(&m,
+                        &n,
+                        &k,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<const float  *>(tau),
+                        reinterpret_cast<float  *>(work),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ungr2(IndexType                   m,
+      IndexType                   n,
+      IndexType                   k,
       std::complex<double>        *A,
       IndexType                   ldA,
       const std::complex<double>  *tau,
       std::complex<double>        *work)
 {
+    CXXLAPACK_DEBUG_OUT("zungr2");
+ 
     IndexType info;
     LAPACK_IMPL(zungr2)(&m,
                         &n,

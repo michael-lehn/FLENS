@@ -36,7 +36,21 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    spevd(char                  jobz,
+          char                  uplo,
+          IndexType             n,
+          float                 *Ap,
+          float                 *w,
+          float                 *Z,
+          IndexType             ldZ,
+          float                 *work,
+          IndexType             lWork,
+          IndexType             *iWork,
+          IndexType             liWork);
+    
 template <typename IndexType>
     IndexType
     spevd(char                  jobz,

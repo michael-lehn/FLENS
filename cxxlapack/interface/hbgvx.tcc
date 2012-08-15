@@ -44,6 +44,70 @@ hbgvx(char                  jobz,
       IndexType             n,
       IndexType             ka,
       IndexType             kb,
+      std::complex<float >  *Ab,
+      IndexType             ldAb,
+      std::complex<float >  *Bb,
+      IndexType             ldBb,
+      std::complex<float >  *Q,
+      IndexType             ldQ,
+      float                 vl,
+      float                 vu,
+      IndexType             il,
+      IndexType             iu,
+      float                 abstol,
+      IndexType             &m,
+      float                 *w,
+      std::complex<float >  *Z,
+      IndexType             ldZ,
+      std::complex<float >  *work,
+      float                 *rWork,
+      IndexType             *iWork,
+      IndexType             *ifail)
+{
+    CXXLAPACK_DEBUG_OUT("chbgvx");
+    
+    IndexType info;
+    LAPACK_IMPL(chbgvx)(&jobz,
+                        &range,
+                        &n,
+                        &ka,
+                        &kb,
+                        reinterpret_cast<float  *>(Ab),
+                        &ldAb,
+                        reinterpret_cast<float  *>(Bb),
+                        &ldBb,
+                        reinterpret_cast<float  *>(Q),
+                        &ldQ,
+                        &vl,
+                        &vu,
+                        &il,
+                        &iu,
+                        &abstol,
+                        &m,
+                        w,
+                        reinterpret_cast<float  *>(Z),
+                        &ldZ,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        iWork,
+                        ifail,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hbgvx(char                  jobz,
+      char                  range,
+      IndexType             n,
+      IndexType             ka,
+      IndexType             kb,
       std::complex<double>  *Ab,
       IndexType             ldAb,
       std::complex<double>  *Bb,
@@ -64,6 +128,8 @@ hbgvx(char                  jobz,
       IndexType             *iWork,
       IndexType             *ifail)
 {
+    CXXLAPACK_DEBUG_OUT("zhbgvx");
+    
     IndexType info;
     LAPACK_IMPL(zhbgvx)(&jobz,
                         &range,
@@ -83,9 +149,9 @@ hbgvx(char                  jobz,
                         &abstol,
                         &m,
                         w,
-                        Z,
+                        reinterpret_cast<double *>(Z),
                         &ldZ,
-                        work,
+                        reinterpret_cast<double *>(work),
                         rWork,
                         iWork,
                         ifail,

@@ -42,23 +42,25 @@ IndexType
 stegr(char                  jobz,
       char                  range,
       IndexType             n,
-      double                *d,
-      double                *e,
-      double                vl,
-      double                vu,
+      float                 *d,
+      float                 *e,
+      float                 vl,
+      float                 vu,
       IndexType             il,
       IndexType             iu,
-      double                abstol,
+      float                 abstol,
       IndexType             &m,
-      double                *w,
-      double                *Z,
+      float                 *w,
+      float                 *Z,
       IndexType             ldZ,
       IndexType             *isuppz,
-      double                *work,
+      float                 *work,
       IndexType             lWork)
 {
+    CXXLAPACK_DEBUG_OUT("sstegr");
+   
     IndexType info;
-    LAPACK_IMPL(dstegr)(&jobz,
+    LAPACK_IMPL(sstegr)(&jobz,
                         &range,
                         &n,
                         d,
@@ -100,6 +102,110 @@ stegr(char                  jobz,
       double                abstol,
       IndexType             &m,
       double                *w,
+      double                *Z,
+      IndexType             ldZ,
+      IndexType             *isuppz,
+      double                *work,
+      IndexType             lWork)
+{
+    CXXLAPACK_DEBUG_OUT("dstegr");
+   
+    IndexType info;
+    LAPACK_IMPL(dstegr)(&jobz,
+                        &range,
+                        &n,
+                        d,
+                        e,
+                        &vl,
+                        &vu,
+                        &il,
+                        &iu,
+                        &abstol,
+                        &m,
+                        w,
+                        Z,
+                        &ldZ,
+                        isuppz,
+                        work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+stegr(char                  jobz,
+      char                  range,
+      IndexType             n,
+      float                 *d,
+      float                 *e,
+      float                 vl,
+      float                 vu,
+      IndexType             il,
+      IndexType             iu,
+      float                 abstol,
+      IndexType             &m,
+      float                 *w,
+      std::complex<float >  *Z,
+      IndexType             ldZ,
+      IndexType             *isuppz,
+      float                 *work,
+      IndexType             lWork,
+      IndexType             *iWork,
+      IndexType             liWork)
+{
+    CXXLAPACK_DEBUG_OUT("cstegr");
+   
+    IndexType info;
+    LAPACK_IMPL(cstegr)(&jobz,
+                        &range,
+                        &n,
+                        d,
+                        e,
+                        &vl,
+                        &vu,
+                        &il,
+                        &iu,
+                        &abstol,
+                        &m,
+                        w,
+                        reinterpret_cast<float  *>(Z),
+                        &ldZ,
+                        isuppz,
+                        work,
+                        &lWork,
+                        iWork,
+                        &liWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+stegr(char                  jobz,
+      char                  range,
+      IndexType             n,
+      double                *d,
+      double                *e,
+      double                vl,
+      double                vu,
+      IndexType             il,
+      IndexType             iu,
+      double                abstol,
+      IndexType             &m,
+      double                *w,
       std::complex<double>  *Z,
       IndexType             ldZ,
       IndexType             *isuppz,
@@ -108,6 +214,8 @@ stegr(char                  jobz,
       IndexType             *iWork,
       IndexType             liWork)
 {
+    CXXLAPACK_DEBUG_OUT("z‚stegr");
+   
     IndexType info;
     LAPACK_IMPL(zstegr)(&jobz,
                         &range,

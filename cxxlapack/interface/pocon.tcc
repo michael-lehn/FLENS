@@ -41,6 +41,38 @@ template <typename IndexType>
 IndexType
 pocon(char              upLo,
       IndexType         n,
+      const float       *A,
+      IndexType         ldA,
+      const float       &normA,
+      float             &rCond,
+      float             *work,
+      IndexType         *iWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("spocon");
+    LAPACK_IMPL(spocon)(&upLo,
+                        &n,
+                        A,
+                        &ldA,
+                        &normA,
+                        &rCond,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+pocon(char              upLo,
+      IndexType         n,
       const double      *A,
       IndexType         ldA,
       const double      &normA,
@@ -49,7 +81,7 @@ pocon(char              upLo,
       IndexType         *iWork)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("dpocon");
+    CXXLAPACK_DEBUG_OUT("dpocon");
     LAPACK_IMPL(dpocon)(&upLo,
                         &n,
                         A,
@@ -72,6 +104,37 @@ template <typename IndexType>
 IndexType
 pocon(char                          upLo,
       IndexType                     n,
+      const std::complex<float >    *A,
+      IndexType                     ldA,
+      const float                   &normA,
+      float                         &rCond,
+      std::complex<float >          *work,
+      float                         *rWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cpocon");
+    LAPACK_IMPL(cpocon)(&upLo,
+                        &n,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        &normA,
+                        &rCond,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+pocon(char                          upLo,
+      IndexType                     n,
       const std::complex<double>    *A,
       IndexType                     ldA,
       const double                  &normA,
@@ -80,7 +143,7 @@ pocon(char                          upLo,
       double                        *rWork)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("zpocon");
+    CXXLAPACK_DEBUG_OUT("zpocon");
     LAPACK_IMPL(zpocon)(&upLo,
                         &n,
                         reinterpret_cast<const double *>(A),

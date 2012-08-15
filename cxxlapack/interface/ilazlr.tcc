@@ -44,6 +44,7 @@ ilazlr(IndexType                   m,
        const std::complex<double>  *A,
        IndexType                   ldA)
 {
+    CXXLAPACK_DEBUG_OUT("ilazlr");
 
     return LAPACK_IMPL(ilazlr)(&m,
                                &n,

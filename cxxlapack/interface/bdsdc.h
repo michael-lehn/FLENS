@@ -36,7 +36,22 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    template <typename IndexType>
+    IndexType
+    bdsdc(char                  upLo,
+          char                  compq,
+          IndexType             n,
+          float                 *d,
+          float                 *e,
+          float                 *U,
+          IndexType             ldU,
+          float                 *VT,
+          IndexType             ldVT,
+          float                 *q,
+          IndexType             *iq,
+          float                 *work,
+          IndexType             *iWork);
+    
 template <typename IndexType>
     IndexType
     bdsdc(char                  upLo,

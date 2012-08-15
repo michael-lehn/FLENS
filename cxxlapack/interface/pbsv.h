@@ -43,9 +43,31 @@ template <typename IndexType>
           IndexType             n,
           IndexType             kd,
           IndexType             nRhs,
+          float                 *Ab,
+          IndexType             ldAb,
+          float                 *B,
+          IndexType             ldB);
+    
+template <typename IndexType>
+    IndexType
+    pbsv (char                  uplo,
+          IndexType             n,
+          IndexType             kd,
+          IndexType             nRhs,
           double                *Ab,
           IndexType             ldAb,
           double                *B,
+          IndexType             ldB);
+    
+template <typename IndexType>
+    IndexType
+    pbsv (char                  uplo,
+          IndexType             n,
+          IndexType             kd,
+          IndexType             nRhs,
+          std::complex<float >  *Ab,
+          IndexType             ldAb,
+          std::complex<float >  *B,
           IndexType             ldB);
 
 template <typename IndexType>

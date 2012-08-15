@@ -44,10 +44,33 @@ template <typename IndexType>
           char                  diag,
           IndexType             n,
           IndexType             nRhs,
+          const float           *Ap,
+          float                 *B,
+          IndexType             ldB);
+    
+template <typename IndexType>
+    IndexType
+    tptrs(char                  uplo,
+          char                  trans,
+          char                  diag,
+          IndexType             n,
+          IndexType             nRhs,
           const double          *Ap,
           double                *B,
           IndexType             ldB);
-
+    
+template <typename IndexType>
+    IndexType
+    tptrs(char                        uplo,
+          char                        trans,
+          char                        diag,
+          IndexType                   n,
+          IndexType                   nRhs,
+          const std::complex<float >  *Ap,
+          std::complex<float >        *B,
+          IndexType                   ldB);
+    
+    
 template <typename IndexType>
     IndexType
     tptrs(char                        uplo,

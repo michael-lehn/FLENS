@@ -41,6 +41,16 @@ template <typename IndexType>
     IndexType
     hetri2x(char                  uplo,
             IndexType             n,
+            std::complex<float >  *A,
+            IndexType             ldA,
+            const IndexType       *iPiv,
+            std::complex<float >  *work,
+            IndexType             nb);
+    
+template <typename IndexType>
+    IndexType
+    hetri2x(char                  uplo,
+            IndexType             n,
             std::complex<double>  *A,
             IndexType             ldA,
             const IndexType       *iPiv,

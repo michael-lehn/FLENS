@@ -41,12 +41,40 @@ template <typename IndexType>
 IndexType
 geqr2p(IndexType    m,
        IndexType    n,
+       float        *A,
+       IndexType    ldA,
+       float        *tau,
+       float        *work)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgeqr2p");
+    LAPACK_IMPL(sgeqr2p)(&m,
+                         &n,
+                         A,
+                         &ldA,
+                         tau,
+                         work,
+                         &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+geqr2p(IndexType    m,
+       IndexType    n,
        double       *A,
        IndexType    ldA,
        double       *tau,
        double       *work)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("dgeqrp2");
     LAPACK_IMPL(dgeqr2p)(&m,
                          &n,
                          A,
@@ -67,12 +95,40 @@ template <typename IndexType>
 IndexType
 geqr2p(IndexType             m,
        IndexType             n,
+       std::complex<float >  *A,
+       IndexType             ldA,
+       std::complex<float >  *tau,
+       std::complex<float >  *work)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgeqr2p");
+    LAPACK_IMPL(cgeqr2p)(&m,
+                         &n,
+                         reinterpret_cast<float  *>(A),
+                         &ldA,
+                         reinterpret_cast<float  *>(tau),
+                         reinterpret_cast<float  *>(work),
+                         &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+geqr2p(IndexType             m,
+       IndexType             n,
        std::complex<double>  *A,
        IndexType             ldA,
        std::complex<double>  *tau,
        std::complex<double>  *work)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("zgeqr2p");
     LAPACK_IMPL(zgeqr2p)(&m,
                          &n,
                          reinterpret_cast<double *>(A),

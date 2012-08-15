@@ -36,7 +36,20 @@
 #include <complex>
 
 namespace cxxlapack {
+    
+template <typename IndexType>
+    IndexType
+    orgbr(char                  vect,
+          IndexType             m,
+          IndexType             n,
+          IndexType             k,
+          float                 *A,
+          IndexType             ldA,
+          const float           *tau,
+          float                 *work,
+          IndexType             lWork);
 
+    
 template <typename IndexType>
     IndexType
     orgbr(char                  vect,

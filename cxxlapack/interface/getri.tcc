@@ -40,6 +40,33 @@ namespace cxxlapack {
 template <typename IndexType>
 IndexType
 getri(IndexType         n,
+      float             *A,
+      IndexType         ldA,
+      const IndexType   *iPiv,
+      float             *work,
+      IndexType         lWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgetri");
+    LAPACK_IMPL(sgetri)(&n,
+                        A,
+                        &ldA,
+                        iPiv,
+                        work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+getri(IndexType         n,
       double            *A,
       IndexType         ldA,
       const IndexType   *iPiv,
@@ -47,12 +74,39 @@ getri(IndexType         n,
       IndexType         lWork)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("dgetri");
+    CXXLAPACK_DEBUG_OUT("dgetri");
     LAPACK_IMPL(dgetri)(&n,
                         A,
                         &ldA,
                         iPiv,
                         work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+getri(IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      const IndexType       *iPiv,
+      std::complex<float >  *work,
+      IndexType             lWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgetri");
+    LAPACK_IMPL(cgetri)(&n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        iPiv,
+                        reinterpret_cast<float  *>(work),
                         &lWork,
                         &info);
 #   ifndef NDEBUG
@@ -74,7 +128,7 @@ getri(IndexType             n,
       IndexType             lWork)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("zgetri");
+    CXXLAPACK_DEBUG_OUT("zgetri");
     LAPACK_IMPL(zgetri)(&n,
                         reinterpret_cast<double *>(A),
                         &ldA,

@@ -42,11 +42,43 @@ IndexType
 hegst(IndexType                  itype,
       char                       uplo,
       IndexType                  n,
+      std::complex<float >       *A,
+      IndexType                  ldA,
+      const std::complex<float > *B,
+      IndexType                  ldB)
+{
+    CXXLAPACK_DEBUG_OUT("chegst");
+    
+    IndexType info;
+    LAPACK_IMPL(chegst)(&itype,
+                        &uplo,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<const float  *>(B),
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG 
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hegst(IndexType                  itype,
+      char                       uplo,
+      IndexType                  n,
       std::complex<double>       *A,
       IndexType                  ldA,
       const std::complex<double> *B,
       IndexType                  ldB)
 {
+    CXXLAPACK_DEBUG_OUT("zhegst");
+    
     IndexType info;
     LAPACK_IMPL(zhegst)(&itype,
                         &uplo,

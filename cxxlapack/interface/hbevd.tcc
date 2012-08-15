@@ -43,6 +43,52 @@ hbevd(char                  jobz,
       char                  uplo,
       IndexType             n,
       IndexType             kd,
+      std::complex<float >  *Ab,
+      IndexType             ldAb,
+      float                 *w,
+      std::complex<float >  *Z,
+      IndexType             ldZ,
+      std::complex<float >  *work,
+      IndexType             lWork,
+      float                 *rWork,
+      IndexType             lrWork,
+      IndexType             *iWork,
+      IndexType             liWork)
+{
+    CXXLAPACK_DEBUG_OUT("chbevd");
+    
+    IndexType info;
+    LAPACK_IMPL(chbevd)(&jobz,
+                        &uplo,
+                        &n,
+                        &kd,
+                        reinterpret_cast<float  *>(Ab),
+                        &ldAb,
+                        w,
+                        reinterpret_cast<float  *>(Z),
+                        &ldZ,
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        rWork,
+                        lrWork,
+                        iWork,
+                        liWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hbevd(char                  jobz,
+      char                  uplo,
+      IndexType             n,
+      IndexType             kd,
       std::complex<double>  *Ab,
       IndexType             ldAb,
       double                *w,
@@ -55,6 +101,8 @@ hbevd(char                  jobz,
       IndexType             *iWork,
       IndexType             liWork)
 {
+    CXXLAPACK_DEBUG_OUT("zhbevd");
+    
     IndexType info;
     LAPACK_IMPL(zhbevd)(&jobz,
                         &uplo,

@@ -38,6 +38,26 @@
 namespace cxxlapack {
 
 template <typename IndexType>
+float 
+lange(char              norm,
+      IndexType         m,
+      IndexType         n,
+      const float       *A,
+      const IndexType   ldA,
+      float             *work)
+{
+    CXXLAPACK_DEBUG_OUT("slange");
+    
+    return LAPACK_IMPL(slange)(&norm,
+                               &m,
+                               &n,
+                               A,
+                               &ldA,
+                               work);
+}
+
+
+template <typename IndexType>
 double
 lange(char              norm,
       IndexType         m,
@@ -46,10 +66,31 @@ lange(char              norm,
       const IndexType   ldA,
       double            *work)
 {
+    CXXLAPACK_DEBUG_OUT("dlange");
+   
     return LAPACK_IMPL(dlange)(&norm,
                                &m,
                                &n,
                                A,
+                               &ldA,
+                               work);
+}
+
+template <typename IndexType>
+float 
+lange(char                        norm,
+      IndexType                   m,
+      IndexType                   n,
+      const std::complex<float >  *A,
+      IndexType                   ldA,
+      float                       *work)
+{
+    CXXLAPACK_DEBUG_OUT("clange");
+   
+    return LAPACK_IMPL(clange)(&norm,
+                               &m,
+                               &n,
+                               reinterpret_cast<const float  *>(A),
                                &ldA,
                                work);
 }
@@ -63,6 +104,8 @@ lange(char                        norm,
       IndexType                   ldA,
       double                      *work)
 {
+    CXXLAPACK_DEBUG_OUT("zlange");
+   
     return LAPACK_IMPL(zlange)(&norm,
                                &m,
                                &n,

@@ -44,6 +44,64 @@ hbevx(char                  jobz,
       char                  uplo,
       IndexType             n,
       IndexType             kd,
+      std::complex<float >  *Ab,
+      IndexType             ldAb,
+      std::complex<float >  *Q,
+      IndexType             ldQ,
+      float                 vl,
+      float                 vu,
+      IndexType             il,
+      IndexType             iu,
+      float                 abstol,
+      IndexType             &m,
+      float                 *w,
+      std::complex<float >  *Z,
+      IndexType             ldZ,
+      std::complex<float >  *work,
+      float                 *rWork,
+      IndexType             *ifail)
+{
+    CXXLAPACK_DEBUG_OUT("chbevx");
+    
+    IndexType info;
+    LAPACK_IMPL(chbevx)(&jobz,
+                        &range,
+                        &uplo,
+                        &n,
+                        &kd,
+                        reinterpret_cast<float  *>(Ab),
+                        &ldAb,
+                        reinterpret_cast<float  *>(Q),
+                        &ldQ,
+                        &vl,
+                        &vu,
+                        &il,
+                        &iu,
+                        &abstol,
+                        &m,
+                        w,
+                        reinterpret_cast<float  *>(Z),
+                        &ldZ,
+                        reinterpret_cast<float *>(work),
+                        rWork,
+                        ifail,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hbevx(char                  jobz,
+      char                  range,
+      char                  uplo,
+      IndexType             n,
+      IndexType             kd,
       std::complex<double>  *Ab,
       IndexType             ldAb,
       std::complex<double>  *Q,
@@ -61,6 +119,8 @@ hbevx(char                  jobz,
       double                *rWork,
       IndexType             *ifail)
 {
+    CXXLAPACK_DEBUG_OUT("zhbevx");
+    
     IndexType info;
     LAPACK_IMPL(zhbevx)(&jobz,
                         &range,
@@ -78,9 +138,9 @@ hbevx(char                  jobz,
                         &abstol,
                         &m,
                         w,
-                        Z,
+                        reinterpret_cast<double *>(Z),
                         &ldZ,
-                        work,
+                        reinterpret_cast<double *>(work),
                         rWork,
                         ifail,
                         &info);

@@ -43,13 +43,39 @@ template <typename IndexType>
          IndexType      m,
          IndexType      n,
          IndexType      nRhs,
+         float          *A,
+         IndexType      ldA,
+         float          *B,
+         IndexType      ldB,
+         float          *work,
+         IndexType      lWork);
+
+template <typename IndexType>
+    IndexType
+    gels(char           trans,
+         IndexType      m,
+         IndexType      n,
+         IndexType      nRhs,
          double         *A,
          IndexType      ldA,
          double         *B,
          IndexType      ldB,
          double         *work,
          IndexType      lWork);
-
+    
+template <typename IndexType>
+    IndexType
+    gels(char                   trans,
+         IndexType              m,
+         IndexType              n,
+         IndexType              nRhs,
+         std::complex<float >   *A,
+         IndexType              ldA,
+         std::complex<float >   *B,
+         IndexType              ldB,
+         std::complex<float >   *work,
+         IndexType              lWork);
+    
 template <typename IndexType>
     IndexType
     gels(char                   trans,

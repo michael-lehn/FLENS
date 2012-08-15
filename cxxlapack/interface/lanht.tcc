@@ -38,12 +38,30 @@
 namespace cxxlapack {
 
 template <typename IndexType>
+float 
+lanht(char                        norm,
+      IndexType                   n,
+      const float                 *d,
+      const std::complex<float >  *e)
+{
+    CXXLAPACK_DEBUG_OUT("clanht");
+   
+    return LAPACK_IMPL(clanht)(&norm,
+                               &n,
+                               d,
+                               reinterpret_cast<const float  *>(e));
+
+}
+
+template <typename IndexType>
 double
 lanht(char                        norm,
       IndexType                   n,
       const double                *d,
       const std::complex<double>  *e)
 {
+    CXXLAPACK_DEBUG_OUT("zlanht");
+   
     return LAPACK_IMPL(zlanht)(&norm,
                                &n,
                                d,

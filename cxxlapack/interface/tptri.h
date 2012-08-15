@@ -42,8 +42,23 @@ template <typename IndexType>
     tptri(char                  uplo,
           char                  diag,
           IndexType             n,
+          float                 *Ap);
+    
+template <typename IndexType>
+    IndexType
+    tptri(char                  uplo,
+          char                  diag,
+          IndexType             n,
           double                *Ap);
+    
+template <typename IndexType>
+    IndexType
+    tptri(char                  uplo,
+          char                  diag,
+          IndexType             n,
+          std::complex<float >  *Ap);
 
+    
 template <typename IndexType>
     IndexType
     tptri(char                  uplo,

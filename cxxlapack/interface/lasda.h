@@ -36,7 +36,33 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    dlasda(IndexType             icompq,
+           IndexType             smlsiz,
+           IndexType             n,
+           IndexType             sqre,
+           float                 *d,
+           const float           *e,
+           float                 *U,
+           IndexType             ldU,
+           float                 *Vt,
+           IndexType             &k,
+           float                 *Difl,
+           float                 *Difr,
+           float                 *Z,
+           float                 *Poles,
+           IndexType             *Givptr,
+           IndexType             *Givcol,
+           IndexType             ldGcol,
+           IndexType             *Perm,
+           float                 *Givnum,
+           float                 *c,
+           float                 *s,
+           float                 *work,
+           IndexType             *iWork);
+    
 template <typename IndexType>
     IndexType
     dlasda(IndexType             icompq,

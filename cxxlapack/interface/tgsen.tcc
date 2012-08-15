@@ -37,134 +37,270 @@
 
 namespace cxxlapack {
 
-// template <typename IndexType>
-// IndexType
-// tgsen(IndexType             ijob,
-//       bool                  wantq,
-//       bool                  wantz,
-//       bool                  *select,
-//       IndexType             n,
-//       double                *A,
-//       IndexType             ldA,
-//       double                *B,
-//       IndexType             ldB,
-//       double                *alphar,
-//       double                *alphai,
-//       double                *beta,
-//       double                *Q,
-//       IndexType             ldQ,
-//       double                *Z,
-//       IndexType             ldZ,
-//       IndexType             &m,
-//       double                &pl,
-//       double                &pr,
-//       double                *dif,
-//       double                *work,
-//       IndexType             lWork,
-//       IndexType             *iWork,
-//       IndexType             liWork)
-// {
-//     IndexType info;
-//     IndexType _wantq = wantq;
-//     IndexType _wantz = wantz;
-//     // TODO: Convert select into a logical array!
-//     LAPACK_IMPL(dtgsen)(&ijob,
-//                         &_wantq,
-//                         &_wantz,
-//                         select,
-//                         &n,
-//                         A,
-//                         &ldA,
-//                         B,
-//                         &ldB,
-//                         alphar,
-//                         alphai,
-//                         beta,
-//                         Q,
-//                         &ldQ,
-//                         Z,
-//                         &ldZ,
-//                         &m,
-//                         &pl,
-//                         &pr,
-//                         dif,
-//                         work,
-//                         &lWork,
-//                         iWork,
-//                         &liWork,
-//                         &info);
-// #   ifndef NDEBUG
-//     if (info<0) {
-//         std::cerr << "info = " << info << std::endl;
-//     }
-// #   endif
-//     ASSERT(info>=0);
-//     return info;
-// }
-// 
-// 
-// template <typename IndexType>
-// IndexType
-// tgsen(IndexType             ijob,
-//       bool                  wantq,
-//       bool                  wantz,
-//       bool                  *select,
-//       IndexType             n,
-//       std::complex<double>  *A,
-//       IndexType             ldA,
-//       std::complex<double>  *B,
-//       IndexType             ldB,
-//       std::complex<double>  *alpha,
-//       std::complex<double>  *beta,
-//       std::complex<double>  *Q,
-//       IndexType             ldQ,
-//       std::complex<double>  *Z,
-//       IndexType             ldZ,
-//       IndexType             &m,
-//       double                &pl,
-//       double                &pr,
-//       double                *dif,
-//       std::complex<double>  *work,
-//       IndexType             lWork,
-//       IndexType             *iWork,
-//       IndexType             liWork)
-// {
-//     IndexType info;
-//     IndexType _wantq = wantq;
-//     IndexType _wantz = wantz;
-//     // TODO: Convert select into a logical array!
-//     LAPACK_IMPL(ztgsen)(&ijob,
-//                         &_wantq,
-//                         &_wantz,
-//                         select,
-//                         &n,
-//                         reinterpret_cast<double *>(A),
-//                         &ldA,
-//                         reinterpret_cast<double *>(B),
-//                         &ldB,
-//                         reinterpret_cast<double *>(alpha),
-//                         reinterpret_cast<double *>(beta),
-//                         reinterpret_cast<double *>(Q),
-//                         &ldQ,
-//                         reinterpret_cast<double *>(Z),
-//                         &ldZ,
-//                         &m,
-//                         &pl,
-//                         &pr,
-//                         dif,
-//                         reinterpret_cast<double *>(work),
-//                         &lWork,
-//                         iWork,
-//                         &liWork,
-//                         &info);
-// #   ifndef NDEBUG
-//     if (info<0) {
-//         std::cerr << "info = " << info << std::endl;
-//     }
-// #   endif
-//     ASSERT(info>=0);
-//     return info;
-// }
+/*template <typename IndexType>
+IndexType
+tgsen(IndexType             ijob,
+       bool                  wantq,
+       bool                  wantz,
+       bool                  *select,
+       IndexType             n,
+       float                 *A,
+       IndexType             ldA,
+       float                 *B,
+       IndexType             ldB,
+       float                 *alphar,
+       float                 *alphai,
+       float                 *beta,
+       float                 *Q,
+       IndexType             ldQ,
+       float                 *Z,
+       IndexType             ldZ,
+       IndexType             &m,
+       float                 &pl,
+       float                 &pr,
+       float                 *dif,
+       float                 *work,
+       IndexType             lWork,
+       IndexType             *iWork,
+       IndexType             liWork)
+{
+    CXXLAPACK_DEBUG_OUT("stgsen");
+ 
+     IndexType info;
+     IndexType _wantq = wantq;
+     IndexType _wantz = wantz;
+     //TODO: Convert select into a logical array!
+     LAPACK_IMPL(stgsen)(&ijob,
+                         &_wantq,
+                         &_wantz,
+                         select,
+                         &n,
+                         A,
+                         &ldA,
+                         B,
+                         &ldB,
+                         alphar,
+                         alphai,
+                         beta,
+                         Q,
+                         &ldQ,
+                         Z,
+                         &ldZ,
+                         &m,
+                         &pl,
+                         &pr,
+                         dif,
+                         work,
+                         &lWork,
+                         iWork,
+                         &liWork,
+                         &info);
+ #   ifndef NDEBUG
+     if (info<0) {
+         std::cerr << "info = " << info << std::endl;
+     }
+ #   endif
+     ASSERT(info>=0);
+     return info;
+}
+
+template <typename IndexType>
+IndexType
+tgsen(IndexType             ijob,
+       bool                  wantq,
+       bool                  wantz,
+       bool                  *select,
+       IndexType             n,
+       double                *A,
+       IndexType             ldA,
+       double                *B,
+       IndexType             ldB,
+       double                *alphar,
+       double                *alphai,
+       double                *beta,
+       double                *Q,
+       IndexType             ldQ,
+       double                *Z,
+       IndexType             ldZ,
+       IndexType             &m,
+       double                &pl,
+       double                &pr,
+       double                *dif,
+       double                *work,
+       IndexType             lWork,
+       IndexType             *iWork,
+       IndexType             liWork)
+{
+     CXXLAPACK_DEBUG_OUT("dtgsen");
+ 
+     IndexType info;
+     IndexType _wantq = wantq;
+     IndexType _wantz = wantz;
+     //TODO: Convert select into a logical array!
+     LAPACK_IMPL(dtgsen)(&ijob,
+                         &_wantq,
+                         &_wantz,
+                         select,
+                         &n,
+                         A,
+                         &ldA,
+                         B,
+                         &ldB,
+                         alphar,
+                         alphai,
+                         beta,
+                         Q,
+                         &ldQ,
+                         Z,
+                         &ldZ,
+                         &m,
+                         &pl,
+                         &pr,
+                         dif,
+                         work,
+                         &lWork,
+                         iWork,
+                         &liWork,
+                         &info);
+ #   ifndef NDEBUG
+     if (info<0) {
+         std::cerr << "info = " << info << std::endl;
+     }
+ #   endif
+     ASSERT(info>=0);
+     return info;
+}
+ 
+ 
+template <typename IndexType>
+IndexType
+tgsen(IndexType             ijob,
+       bool                  wantq,
+       bool                  wantz,
+       bool                  *select,
+       IndexType             n,
+       std::complex<float >  *A,
+       IndexType             ldA,
+       std::complex<float >  *B,
+       IndexType             ldB,
+       std::complex<float >  *alpha,
+       std::complex<float >  *beta,
+       std::complex<float >  *Q,
+       IndexType             ldQ,
+       std::complex<float >  *Z,
+       IndexType             ldZ,
+       IndexType             &m,
+       double                &pl,
+       double                &pr,
+       double                *dif,
+       std::complex<float >  *work,
+       IndexType             lWork,
+       IndexType             *iWork,
+       IndexType             liWork)
+{
+     CXXLAPACK_DEBUG_OUT("ctgsen");
+ 
+     IndexType info;
+     IndexType _wantq = wantq;
+     IndexType _wantz = wantz;
+     //TODO: Convert select into a logical array!
+     LAPACK_IMPL(ctgsen)(&ijob,
+                         &_wantq,
+                         &_wantz,
+                         select,
+                         &n,
+                         reinterpret_cast<float  *>(A),
+                         &ldA,
+                         reinterpret_cast<float  *>(B),
+                         &ldB,
+                         reinterpret_cast<float  *>(alpha),
+                         reinterpret_cast<float  *>(beta),
+                         reinterpret_cast<float  *>(Q),
+                         &ldQ,
+                         reinterpret_cast<float  *>(Z),
+                         &ldZ,
+                         &m,
+                         &pl,
+                         &pr,
+                         dif,
+                         reinterpret_cast<float  *>(work),
+                         &lWork,
+                         iWork,
+                         &liWork,
+                         &info);
+ #   ifndef NDEBUG
+     if (info<0) {
+         std::cerr << "info = " << info << std::endl;
+     }
+ #   endif
+     ASSERT(info>=0);
+     return info;
+} 
+ 
+template <typename IndexType>
+IndexType
+tgsen(IndexType             ijob,
+       bool                  wantq,
+       bool                  wantz,
+       bool                  *select,
+       IndexType             n,
+       std::complex<double>  *A,
+       IndexType             ldA,
+       std::complex<double>  *B,
+       IndexType             ldB,
+       std::complex<double>  *alpha,
+       std::complex<double>  *beta,
+       std::complex<double>  *Q,
+       IndexType             ldQ,
+       std::complex<double>  *Z,
+       IndexType             ldZ,
+       IndexType             &m,
+       double                &pl,
+       double                &pr,
+       double                *dif,
+       std::complex<double>  *work,
+       IndexType             lWork,
+       IndexType             *iWork,
+       IndexType             liWork)
+{
+     CXXLAPACK_DEBUG_OUT("ztgsen");
+ 
+     IndexType info;
+     IndexType _wantq = wantq;
+     IndexType _wantz = wantz;
+     //TODO: Convert select into a logical array!
+     LAPACK_IMPL(ztgsen)(&ijob,
+                         &_wantq,
+                         &_wantz,
+                         select,
+                         &n,
+                         reinterpret_cast<double *>(A),
+                         &ldA,
+                         reinterpret_cast<double *>(B),
+                         &ldB,
+                         reinterpret_cast<double *>(alpha),
+                         reinterpret_cast<double *>(beta),
+                         reinterpret_cast<double *>(Q),
+                         &ldQ,
+                         reinterpret_cast<double *>(Z),
+                         &ldZ,
+                         &m,
+                         &pl,
+                         &pr,
+                         dif,
+                         reinterpret_cast<double *>(work),
+                         &lWork,
+                         iWork,
+                         &liWork,
+                         &info);
+ #   ifndef NDEBUG
+     if (info<0) {
+         std::cerr << "info = " << info << std::endl;
+     }
+ #   endif
+     ASSERT(info>=0);
+     return info;
+}*/
 
 } // namespace cxxlapack
 

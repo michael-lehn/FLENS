@@ -44,6 +44,21 @@ template <typename IndexType>
           IndexType             n,
           IndexType             kA,
           IndexType             kB,
+          float                 *Ab,
+          IndexType             ldAb,
+          const float           *BB,
+          IndexType             ldBB,
+          float                 *X,
+          IndexType             ldX,
+          float                 *work);
+    
+template <typename IndexType>
+    IndexType
+    sbgst(char                  vect,
+          char                  uplo,
+          IndexType             n,
+          IndexType             kA,
+          IndexType             kB,
           double                *Ab,
           IndexType             ldAb,
           const double          *BB,
@@ -51,7 +66,6 @@ template <typename IndexType>
           double                *X,
           IndexType             ldX,
           double                *work);
-
 } // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_SBGST_H

@@ -42,6 +42,34 @@ void
 latzm(char                  side,
       IndexType             m,
       IndexType             n,
+      const float           *v,
+      IndexType             incv,
+      float                 tau,
+      float                 *C1,
+      float                 *C2,
+      IndexType             ldC,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("slatzm");
+  
+    LAPACK_IMPL(slatzm)(&side,
+                        &m,
+                        &n,
+                        v,
+                        &incv,
+                        &tau,
+                        C1,
+                        C2,
+                        &ldC,
+                        work);
+}
+
+
+template <typename IndexType>
+void
+latzm(char                  side,
+      IndexType             m,
+      IndexType             n,
       const double          *v,
       IndexType             incv,
       double                tau,
@@ -50,6 +78,8 @@ latzm(char                  side,
       IndexType             ldC,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dlatzm");
+  
     LAPACK_IMPL(dlatzm)(&side,
                         &m,
                         &n,
@@ -67,6 +97,33 @@ void
 latzm(char                       side,
       IndexType                  m,
       IndexType                  n,
+      const std::complex<float > *v,
+      IndexType                  incv,
+      std::complex<float >       tau,
+      std::complex<float >       *C1,
+      std::complex<float >       *C2,
+      IndexType                  ldC,
+      std::complex<float >       *work)
+{
+    CXXLAPACK_DEBUG_OUT("clatzm");
+  
+    LAPACK_IMPL(clatzm)(&side,
+                        &m,
+                        &n,
+                        reinterpret_cast<const float  *>(v),
+                        &incv,
+                        reinterpret_cast<const float  *>(&tau),
+                        reinterpret_cast<float  *>(C1),
+                        reinterpret_cast<float  *>(C2),
+                        &ldC,
+                        reinterpret_cast<float  *>(work));
+}
+
+template <typename IndexType>
+void
+latzm(char                       side,
+      IndexType                  m,
+      IndexType                  n,
       const std::complex<double> *v,
       IndexType                  incv,
       std::complex<double>       tau,
@@ -75,6 +132,8 @@ latzm(char                       side,
       IndexType                  ldC,
       std::complex<double>       *work)
 {
+    CXXLAPACK_DEBUG_OUT("zlatzm");
+  
     LAPACK_IMPL(zlatzm)(&side,
                         &m,
                         &n,

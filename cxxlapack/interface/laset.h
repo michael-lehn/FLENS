@@ -42,11 +42,31 @@ template <typename IndexType>
     laset(char                  uplo,
           IndexType             m,
           IndexType             n,
+          float                 alpha,
+          float                 beta,
+          float                 *A,
+          IndexType             ldA);
+
+template <typename IndexType>
+    IndexType
+    laset(char                  uplo,
+          IndexType             m,
+          IndexType             n,
           double                alpha,
           double                beta,
           double                *A,
           IndexType             ldA);
-
+    
+template <typename IndexType>
+    IndexType
+    laset(char                  uplo,
+          IndexType             m,
+          IndexType             n,
+          std::complex<float >  alpha,
+          std::complex<float >  beta,
+          std::complex<float >  *A,
+          IndexType             ldA);
+    
 template <typename IndexType>
     IndexType
     laset(char                  uplo,

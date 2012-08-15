@@ -36,7 +36,28 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    hpevx(char                  jobz,
+          char                  range,
+          char                  uplo,
+          IndexType             n,
+          std::complex<float >  *Ap,
+          float                 vl,
+          float                 vu,
+          IndexType             il,
+          IndexType             iu,
+          float                 abstol,
+          IndexType             &m,
+          float                 *w,
+          std::complex<float >  *Z,
+          IndexType             ldZ,
+          std::complex<float >  *work,
+          float                 *rWork,
+          IndexType             *iWork,
+          IndexType             *ifail);
+    
 template <typename IndexType>
     IndexType
     hpevx(char                  jobz,

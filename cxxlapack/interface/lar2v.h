@@ -40,6 +40,17 @@ namespace cxxlapack {
 template <typename IndexType>
     void
     lar2v(IndexType             n,
+          float                 *x,
+          float                 *y,
+          float                 *z,
+          IndexType             incx,
+          const float           *c,
+          const float           *s,
+          IndexType             incc);
+    
+template <typename IndexType>
+    void
+    lar2v(IndexType             n,
           double                *x,
           double                *y,
           double                *z,
@@ -47,10 +58,21 @@ template <typename IndexType>
           const double          *c,
           const double          *s,
           IndexType             incc);
+    
+template <typename IndexType>
+    void
+    lar2v(IndexType                     n,
+          std::complex<float >          *x,
+          std::complex<float >          *y,
+          std::complex<float >          *z,
+          IndexType                     incx,
+          const float                   *c,
+          const std::complex<float >    *s,
+          IndexType                     incc);
 
 template <typename IndexType>
     void
-    lar2v(IndexType                      n,
+    lar2v(IndexType                     n,
           std::complex<double>          *x,
           std::complex<double>          *y,
           std::complex<double>          *z,

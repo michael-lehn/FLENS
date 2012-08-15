@@ -41,6 +41,30 @@ template <typename IndexType>
 void
 laqsy(char                  uplo,
       IndexType             n,
+      float                 *A,
+      IndexType             ldA,
+      const float           *s,
+      float                 scond,
+      float                 amax,
+      char                  &equed)
+{
+    CXXLAPACK_DEBUG_OUT("slaqsy");
+ 
+    LAPACK_IMPL(slaqsy)(&uplo,
+                        &n,
+                        A,
+                        &ldA,
+                        s,
+                        &scond,
+                        &amax,
+                        &equed);
+}
+
+
+template <typename IndexType>
+void
+laqsy(char                  uplo,
+      IndexType             n,
       double                *A,
       IndexType             ldA,
       const double          *s,
@@ -48,9 +72,34 @@ laqsy(char                  uplo,
       double                amax,
       char                  &equed)
 {
+    CXXLAPACK_DEBUG_OUT("dlaqsy");
+ 
     LAPACK_IMPL(dlaqsy)(&uplo,
                         &n,
                         A,
+                        &ldA,
+                        s,
+                        &scond,
+                        &amax,
+                        &equed);
+}
+
+template <typename IndexType>
+void
+laqsy(char                  uplo,
+      IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      const float           *s,
+      float                 scond,
+      float                 amax,
+      char                  &equed)
+{
+    CXXLAPACK_DEBUG_OUT("claqsy");
+ 
+    LAPACK_IMPL(claqsy)(&uplo,
+                        &n,
+                        reinterpret_cast<float  *>(A),
                         &ldA,
                         s,
                         &scond,
@@ -69,6 +118,8 @@ laqsy(char                  uplo,
       double                amax,
       char                  &equed)
 {
+    CXXLAPACK_DEBUG_OUT("zlaqsy");
+ 
     LAPACK_IMPL(zlaqsy)(&uplo,
                         &n,
                         reinterpret_cast<double *>(A),

@@ -43,6 +43,43 @@ la_gbrCond_c(char                        trans,
              IndexType                   n,
              IndexType                   kl,
              IndexType                   ku,            
+             const std::complex<float >  *Ab,
+             IndexType                   ldAb,
+             const std::complex<float >  *Afb,
+             IndexType                   ldAfb,
+             const IndexType             *iPiv,
+             const float                 *c,
+             bool                        capply,
+             IndexType                   &info,
+             std::complex<float >        *work,
+             float                       *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("cla_gbrcond_c");
+    
+    IndexType _capply = capply;
+    return LAPACK_IMPL(cla_gbrcond_c)(&trans,
+                                      &n,
+                                      &kl,
+                                      &ku,
+                                      reinterpret_cast<const float  *>(Ab),
+                                      &ldAb,
+                                      reinterpret_cast<const float  *>(Afb),
+                                      &ldAfb,
+                                      iPiv,
+                                      c,
+                                      &_capply,
+                                      &info,
+                                      reinterpret_cast<float  *>(work),
+                                      rWork);
+
+}
+
+template <typename IndexType>
+double 
+la_gbrCond_c(char                        trans,
+             IndexType                   n,
+             IndexType                   kl,
+             IndexType                   ku,            
              const std::complex<double>  *Ab,
              IndexType                   ldAb,
              const std::complex<double>  *Afb,
@@ -54,8 +91,10 @@ la_gbrCond_c(char                        trans,
              std::complex<double>        *work,
              double                      *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zla_gbrcond_c");
+    
     IndexType _capply = capply;
-    return LAPACK_IMPL(zla_gbrCond_c)(&trans,
+    return LAPACK_IMPL(zla_gbrcond_c)(&trans,
                                       &n,
                                       &kl,
                                       &ku,

@@ -43,6 +43,24 @@ template <typename IndexType>
           char                  howmny,
           bool                  select,
           IndexType             n,
+          const float           *S,
+          IndexType             ldS,
+          const float           *P,
+          IndexType             ldP,
+          float                 *VL,
+          IndexType             ldVL,
+          float                 *VR,
+          IndexType             ldVR,
+          IndexType             mm,
+          IndexType             &m,
+          float                 *work);
+    
+template <typename IndexType>
+    IndexType
+    tgevc(char                  side,
+          char                  howmny,
+          bool                  select,
+          IndexType             n,
           const double          *S,
           IndexType             ldS,
           const double          *P,
@@ -54,7 +72,26 @@ template <typename IndexType>
           IndexType             mm,
           IndexType             &m,
           double                *work);
-
+    
+template <typename IndexType>
+    IndexType
+    tgevc(char                        side,
+          char                        howmny,
+          bool                        select,
+          IndexType                   n,
+          const std::complex<float >  *S,
+          IndexType                   ldS,
+          const std::complex<float >  *P,
+          IndexType                   ldP,
+          std::complex<float >        *VL,
+          IndexType                   ldVL,
+          std::complex<float >        *VR,
+          IndexType                   ldVR,
+          IndexType                   mm,
+          IndexType                   &m,
+          std::complex<float >        *work,
+          float                       *rWork);
+    
 template <typename IndexType>
     IndexType
     tgevc(char                        side,
