@@ -42,10 +42,34 @@ void
 lapmt(bool                  forwrd,
       IndexType             m,
       IndexType             n,
+      float                 *X,
+      IndexType             ldX,
+      IndexType             &k)
+{
+    CXXLAPACK_DEBUG_OUT("slapmt");
+   
+    IndexType _forwrd = forwrd;
+    LAPACK_IMPL(slapmt)(&_forwrd,
+                        &m,
+                        &n,
+                        X,
+                        &ldX,
+                        &k);
+
+}
+
+
+template <typename IndexType>
+void
+lapmt(bool                  forwrd,
+      IndexType             m,
+      IndexType             n,
       double                *X,
       IndexType             ldX,
       IndexType             &k)
 {
+    CXXLAPACK_DEBUG_OUT("dlapmt");
+   
     IndexType _forwrd = forwrd;
     LAPACK_IMPL(dlapmt)(&_forwrd,
                         &m,
@@ -61,10 +85,33 @@ void
 lapmt(bool                  forwrd,
       IndexType             m,
       IndexType             n,
+      std::complex<float >  *X,
+      IndexType             ldX,
+      IndexType             &k)
+{
+    CXXLAPACK_DEBUG_OUT("clapmt");
+   
+    IndexType _forwrd = forwrd;
+    LAPACK_IMPL(clapmt)(&_forwrd,
+                        &m,
+                        &n,
+                        reinterpret_cast<float  *>(X),
+                        &ldX,
+                        &k);
+
+}
+
+template <typename IndexType>
+void
+lapmt(bool                  forwrd,
+      IndexType             m,
+      IndexType             n,
       std::complex<double>  *X,
       IndexType             ldX,
       IndexType             &k)
 {
+    CXXLAPACK_DEBUG_OUT("zlapmt");
+   
     IndexType _forwrd = forwrd;
     LAPACK_IMPL(zlapmt)(&_forwrd,
                         &m,

@@ -41,6 +41,55 @@ template <typename IndexType>
 void
 lasq3(IndexType             i0,
       IndexType             &n0,
+      const float           *z,
+      IndexType             &pp,
+      float                 &dmin,
+      float                 &sigma,
+      float                 &desig,
+      float                 qmax,
+      IndexType             &nfail,
+      IndexType             &iter,
+      IndexType             &ndiv,
+      bool                  ieee,
+      IndexType             &ttype,
+      float                 &dmin1,
+      float                 &dmin2,
+      float                 &dn,
+      float                 &dn1,
+      float                 &dn2,
+      float                 &g,
+      float                 &tau)
+{
+    CXXLAPACK_DEBUG_OUT("slasq3");
+    
+    IndexType _ieee = ieee;
+    LAPACK_IMPL(slasq3)(&i0,
+                        &n0,
+                        z,
+                        &pp,
+                        &dmin,
+                        &sigma,
+                        &desig,
+                        &qmax,
+                        &nfail,
+                        &iter,
+                        &ndiv,
+                        &_ieee,
+                        &ttype,
+                        &dmin1,
+                        &dmin2,
+                        &dn,
+                        &dn1,
+                        &dn2,
+                        &g,
+                        &tau);
+
+}
+
+template <typename IndexType>
+void
+lasq3(IndexType             i0,
+      IndexType             &n0,
       const double          *z,
       IndexType             &pp,
       double                &dmin,
@@ -60,6 +109,8 @@ lasq3(IndexType             i0,
       double                &g,
       double                &tau)
 {
+    CXXLAPACK_DEBUG_OUT("dlasq3");
+    
     IndexType _ieee = ieee;
     LAPACK_IMPL(dlasq3)(&i0,
                         &n0,

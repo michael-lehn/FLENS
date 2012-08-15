@@ -42,6 +42,48 @@ IndexType
 lasd1(IndexType             nl,
       IndexType             nr,
       IndexType             sqre,
+      float                 *d,
+      float                 &alpha,
+      float                 &beta,
+      float                 *U,
+      IndexType             ldU,
+      float                 *Vt,
+      IndexType             ldVt,
+      IndexType             *idxq,
+      IndexType             *iWork,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("slasd1");
+    
+    IndexType info;
+    LAPACK_IMPL(slasd1)(&nl,
+                        &nr,
+                        &sqre,
+                        d,
+                        &alpha,
+                        &beta,
+                        U,
+                        &ldU,
+                        Vt,
+                        &ldVt,
+                        idxq,
+                        iWork,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+lasd1(IndexType             nl,
+      IndexType             nr,
+      IndexType             sqre,
       double                *d,
       double                &alpha,
       double                &beta,
@@ -53,6 +95,8 @@ lasd1(IndexType             nl,
       IndexType             *iWork,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dlasd1");
+    
     IndexType info;
     LAPACK_IMPL(dlasd1)(&nl,
                         &nr,

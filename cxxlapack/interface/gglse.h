@@ -42,6 +42,21 @@ template <typename IndexType>
     gglse(IndexType             m,
           IndexType             n,
           IndexType             p,
+          float                 *A,
+          IndexType             ldA,
+          float                 *B,
+          IndexType             ldB,
+          float                 *c,
+          float                 *d,
+          float                 *x,
+          float                 *work,
+          IndexType             lWork);
+    
+template <typename IndexType>
+    IndexType
+    gglse(IndexType             m,
+          IndexType             n,
+          IndexType             p,
           double                *A,
           IndexType             ldA,
           double                *B,
@@ -51,7 +66,22 @@ template <typename IndexType>
           double                *x,
           double                *work,
           IndexType             lWork);
-
+    
+template <typename IndexType>
+    IndexType
+    gglse(IndexType             m,
+          IndexType             n,
+          IndexType             p,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          std::complex<float >  *B,
+          IndexType             ldB,
+          std::complex<float >  *c,
+          std::complex<float >  *d,
+          std::complex<float >  *x,
+          std::complex<float >  *work,
+          IndexType             lWork);
+    
 template <typename IndexType>
     IndexType
     gglse(IndexType             m,

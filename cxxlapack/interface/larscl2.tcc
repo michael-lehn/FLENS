@@ -41,10 +41,30 @@ template <typename IndexType>
 void
 larscl2(IndexType             m,
         IndexType             n,
+        const float           *d,
+        float                 *X,
+        IndexType             ldX)
+{
+    CXXLAPACK_DEBUG_OUT("slarscl2");
+   
+    LAPACK_IMPL(slarscl2)(&m,
+                          &n,
+                          d,
+                          X,
+                          &ldX);
+}
+
+
+template <typename IndexType>
+void
+larscl2(IndexType             m,
+        IndexType             n,
         const double          *d,
         double                *X,
         IndexType             ldX)
 {
+    CXXLAPACK_DEBUG_OUT("dlarscl2");
+   
     LAPACK_IMPL(dlarscl2)(&m,
                           &n,
                           d,
@@ -56,10 +76,29 @@ template <typename IndexType>
 void
 larscl2(IndexType             m,
         IndexType             n,
+        const float           *d,
+        std::complex<float >  *X,
+        IndexType             ldX)
+{
+    CXXLAPACK_DEBUG_OUT("clarscl2");
+   
+    LAPACK_IMPL(clarscl2)(&m,
+                          &n,
+                          d,
+                          reinterpret_cast<float  *>(X),
+                          &ldX);
+}
+
+template <typename IndexType>
+void
+larscl2(IndexType             m,
+        IndexType             n,
         const double          *d,
         std::complex<double>  *X,
         IndexType             ldX)
 {
+    CXXLAPACK_DEBUG_OUT("zlarscl2");
+   
     LAPACK_IMPL(zlarscl2)(&m,
                           &n,
                           d,

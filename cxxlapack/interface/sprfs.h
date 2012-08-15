@@ -42,6 +42,23 @@ template <typename IndexType>
     sprfs(char                  uplo,
           IndexType             n,
           IndexType             nRhs,
+          const float           *Ap,
+          const float           *Afp,
+          const IndexType       *iPiv,
+          const float           *B,
+          IndexType             ldB,
+          float                 *X,
+          IndexType             ldX,
+          float                 *ferr,
+          float                 *berr,
+          float                 *work,
+          IndexType             *iWork);
+    
+template <typename IndexType>
+    IndexType
+    sprfs(char                  uplo,
+          IndexType             n,
+          IndexType             nRhs,
           const double          *Ap,
           const double          *Afp,
           const IndexType       *iPiv,
@@ -53,7 +70,24 @@ template <typename IndexType>
           double                *berr,
           double                *work,
           IndexType             *iWork);
-
+    
+template <typename IndexType>
+    IndexType
+    sprfs(char                        uplo,
+          IndexType                   n,
+          IndexType                   nRhs,
+          const std::complex<float >  *Ap,
+          const std::complex<float >  *Afp,
+          const IndexType             *iPiv,
+          const std::complex<float >  *B,
+          IndexType                   ldB,
+          std::complex<float >        *X,
+          IndexType                   ldX,
+          float                       *ferr,
+          float                       *berr,
+          std::complex<float >        *work,
+          float                       *rWork);
+    
 template <typename IndexType>
     IndexType
     sprfs(char                        uplo,

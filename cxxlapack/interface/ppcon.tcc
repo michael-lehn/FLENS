@@ -41,12 +41,44 @@ template <typename IndexType>
 IndexType
 ppcon(char                  uplo,
       IndexType             n,
+      const float           *Ap,
+      float                 anorm,
+      float                 &rCond,
+      float                 *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("sppcon");
+    
+    IndexType info;
+    LAPACK_IMPL(sppcon)(&uplo,
+                        &n,
+                        Ap,
+                        &anorm,
+                        &rCond,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ppcon(char                  uplo,
+      IndexType             n,
       const double          *Ap,
       double                anorm,
       double                &rCond,
       double                *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("dppcon");
+    
     IndexType info;
     LAPACK_IMPL(dppcon)(&uplo,
                         &n,
@@ -70,12 +102,44 @@ template <typename IndexType>
 IndexType
 ppcon(char                       uplo,
       IndexType                  n,
+      const std::complex<float > *Ap,
+      float                      anorm,
+      float                      &rCond,
+      std::complex<float >       *work,
+      float                      *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("cppcon");
+    
+    IndexType info;
+    LAPACK_IMPL(cppcon)(&uplo,
+                        &n,
+                        reinterpret_cast<const float  *>(Ap),
+                        &anorm,
+                        &rCond,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ppcon(char                       uplo,
+      IndexType                  n,
       const std::complex<double> *Ap,
       double                     anorm,
       double                     &rCond,
       std::complex<double>       *work,
       double                     *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zppcon");
+    
     IndexType info;
     LAPACK_IMPL(zppcon)(&uplo,
                         &n,

@@ -36,7 +36,20 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    void
+    symv (char                        uplo,
+          IndexType                   n,
+          std::complex<float >        alpha,
+          const std::complex<float >  *A,
+          IndexType                   ldA,
+          const std::complex<float >  *x,
+          IndexType                   incx,
+          std::complex<float >        beta,
+          std::complex<float >        *Y,
+          IndexType                   incy);
+    
 template <typename IndexType>
     void
     symv (char                        uplo,

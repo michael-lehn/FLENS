@@ -38,16 +38,28 @@
 namespace cxxlapack {
 
 template <typename IndexType>
-    IndexType
-    dummy(IndexType             m,
-          IndexType             n,
-          double                *A);
+    float
+    la_herpvgrg(char                        uplo,
+                IndexType                   n,
+                IndexType                   info,
+                const std::complex<float >  *A,
+                IndexType                   ldA,
+                const std::complex<float >  *Af,
+                IndexType                   ldAf,
+                const IndexType             *iPiv,
+                float                       *work);
 
 template <typename IndexType>
-    IndexType
-    dummy(IndexType             n,
-          IndexType             m,
-          std::complex<double>  *A);
+    double
+    la_herpvgrg(char                        uplo,
+                IndexType                   n,
+                IndexType                   info,
+                const std::complex<double>  *A,
+                IndexType                   ldA,
+                const std::complex<double>  *Af,
+                IndexType                   ldAf,
+                const IndexType             *iPiv,
+                double                      *work);
 
 } // namespace cxxlapack
 

@@ -41,10 +41,39 @@ template <typename IndexType>
 IndexType
 trttp(char                  uplo,
       IndexType             n,
+      const float           *A,
+      IndexType             ldA,
+      float                 *Ap)
+{
+    CXXLAPACK_DEBUG_OUT("strttp");
+ 
+    IndexType info;
+    LAPACK_IMPL(strttp)(&uplo,
+                        &n,
+                        A,
+                        &ldA,
+                        Ap,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+trttp(char                  uplo,
+      IndexType             n,
       const double          *A,
       IndexType             ldA,
       double                *Ap)
 {
+    CXXLAPACK_DEBUG_OUT("dtrttp");
+ 
     IndexType info;
     LAPACK_IMPL(dtrttp)(&uplo,
                         &n,
@@ -65,10 +94,38 @@ template <typename IndexType>
 IndexType
 trttp(char                        uplo,
       IndexType                   n,
+      const std::complex<float >  *A,
+      IndexType                   ldA,
+      std::complex<float >        *Ap)
+{
+    CXXLAPACK_DEBUG_OUT("ctrttp");
+ 
+    IndexType info;
+    LAPACK_IMPL(ctrttp)(&uplo,
+                        &n,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(Ap),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+trttp(char                        uplo,
+      IndexType                   n,
       const std::complex<double>  *A,
       IndexType                   ldA,
       std::complex<double>        *Ap)
 {
+    CXXLAPACK_DEBUG_OUT("ztrttp");
+ 
     IndexType info;
     LAPACK_IMPL(ztrttp)(&uplo,
                         &n,

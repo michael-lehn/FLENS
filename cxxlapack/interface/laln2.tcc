@@ -44,6 +44,57 @@ IndexType
 laln2(bool              trans,
       IndexType         na,
       IndexType         nw,
+      const float       &sMin,
+      const float       &ca,
+      const float       *A,
+      IndexType         ldA,
+      const float       &d1,
+      const float       &d2,
+      const float       *B,
+      IndexType         ldB,
+      const float       &wr,
+      const float       &wi,
+      float             *X,
+      IndexType         ldX,
+      float             &scale,
+      float             &normX)
+{
+    CXXLAPACK_DEBUG_OUT("slaln2");
+    
+    IndexType info;
+    IndexType _trans = trans;
+    LAPACK_IMPL(slaln2)(&_trans,
+                        &na,
+                        &nw,
+                        &sMin,
+                        &ca,
+                        A,
+                        &ldA,
+                        &d1,
+                        &d2,
+                        B,
+                        &ldB,
+                        &wr,
+                        &wi,
+                        X,
+                        &ldX,
+                        &scale,
+                        &normX,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+laln2(bool              trans,
+      IndexType         na,
+      IndexType         nw,
       const double      &sMin,
       const double      &ca,
       const double      *A,
@@ -59,6 +110,8 @@ laln2(bool              trans,
       double            &scale,
       double            &normX)
 {
+    CXXLAPACK_DEBUG_OUT("dlaln2");
+    
     IndexType info;
     IndexType _trans = trans;
     LAPACK_IMPL(dlaln2)(&_trans,

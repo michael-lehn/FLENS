@@ -43,11 +43,46 @@ pbtrs(char                  uplo,
       IndexType             n,
       IndexType             kd,
       IndexType             nRhs,
+      const float           *Ab,
+      IndexType             ldAb,
+      float                 *B,
+      IndexType             ldB)
+{
+    CXXLAPACK_DEBUG_OUT("spbtrs");
+  
+    IndexType info;
+    LAPACK_IMPL(spbtrs)(&uplo,
+                        &n,
+                        &kd,
+                        &nRhs,
+                        Ab,
+                        &ldAb,
+                        B,
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+pbtrs(char                  uplo,
+      IndexType             n,
+      IndexType             kd,
+      IndexType             nRhs,
       const double          *Ab,
       IndexType             ldAb,
       double                *B,
       IndexType             ldB)
 {
+    CXXLAPACK_DEBUG_OUT("dpbtrs");
+  
     IndexType info;
     LAPACK_IMPL(dpbtrs)(&uplo,
                         &n,
@@ -73,11 +108,45 @@ pbtrs(char                        uplo,
       IndexType                   n,
       IndexType                   kd,
       IndexType                   nRhs,
+      const std::complex<float >  *Ab,
+      IndexType                    ldAb,
+      std::complex<float >         *B,
+      IndexType                    ldB)
+{
+    CXXLAPACK_DEBUG_OUT("cpbtrs");
+  
+    IndexType info;
+    LAPACK_IMPL(cpbtrs)(&uplo,
+                        &n,
+                        &kd,
+                        &nRhs,
+                        reinterpret_cast<const float  *>(Ab),
+                        &ldAb,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+pbtrs(char                        uplo,
+      IndexType                   n,
+      IndexType                   kd,
+      IndexType                   nRhs,
       const std::complex<double>  *Ab,
       IndexType                    ldAb,
       std::complex<double>         *B,
       IndexType                    ldB)
 {
+    CXXLAPACK_DEBUG_OUT("zpbtrs");
+  
     IndexType info;
     LAPACK_IMPL(zpbtrs)(&uplo,
                         &n,

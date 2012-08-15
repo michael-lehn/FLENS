@@ -36,7 +36,15 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename VOID=void>
+    void
+    lartgp(float                 f,
+           float                 g,
+           float                 &cs,
+           float                 &sn,
+           float                 &r);
+    
 template <typename VOID=void>
     void
     lartgp(double                f,

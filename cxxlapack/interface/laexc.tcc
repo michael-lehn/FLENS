@@ -43,6 +43,43 @@ template <typename IndexType>
 IndexType
 laexc(bool          wantQ,
       IndexType     n,
+      float         *T,
+      IndexType     ldT,
+      float         *Q,
+      IndexType     ldQ,
+      IndexType     j1,
+      IndexType     n1,
+      IndexType     n2,
+      float         *work)
+{
+    CXXLAPACK_DEBUG_OUT("slaexc");
+    
+    IndexType info;
+    IndexType _wantQ = wantQ;
+    LAPACK_IMPL(slaexc)(&_wantQ,
+                        &n,
+                        T,
+                        &ldT,
+                        Q,
+                        &ldQ,
+                        &j1,
+                        &n1,
+                        &n2,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+laexc(bool          wantQ,
+      IndexType     n,
       double        *T,
       IndexType     ldT,
       double        *Q,
@@ -52,6 +89,8 @@ laexc(bool          wantQ,
       IndexType     n2,
       double        *work)
 {
+    CXXLAPACK_DEBUG_OUT("dlaexc");
+    
     IndexType info;
     IndexType _wantQ = wantQ;
     LAPACK_IMPL(dlaexc)(&_wantQ,

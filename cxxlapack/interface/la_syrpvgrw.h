@@ -42,13 +42,37 @@ template <typename IndexType>
     la_syrpvgrw(char                  uplo,
                 IndexType             n,
                 IndexType             info,
+                const float           *A,
+                IndexType             ldA,
+                const float           *Af,
+                IndexType             ldAf,
+                const IndexType       *iPiv,
+                float                 *work);
+    
+template <typename IndexType>
+    double
+    la_syrpvgrw(char                  uplo,
+                IndexType             n,
+                IndexType             info,
                 const double          *A,
                 IndexType             ldA,
                 const double          *Af,
                 IndexType             ldAf,
                 const IndexType       *iPiv,
                 double                *work);
-
+    
+template <typename IndexType>
+    double
+    la_syrpvgrw(char                        uplo,
+                IndexType                   n,
+                IndexType                   info,
+                const std::complex<float >  *A,
+                IndexType                   ldA,
+                const std::complex<float >  *Af,
+                IndexType                   ldAf,
+                const IndexType             *iPiv,
+                float                       *work);
+    
 template <typename IndexType>
     double
     la_syrpvgrw(char                        uplo,

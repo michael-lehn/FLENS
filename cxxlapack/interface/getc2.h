@@ -40,11 +40,27 @@ namespace cxxlapack {
 template <typename IndexType>
     IndexType
     getc2(IndexType             n,
+          float                 *A,
+          IndexType             ldA,
+          IndexType             *iPiv,
+          IndexType             *jpiv);
+    
+template <typename IndexType>
+    IndexType
+    getc2(IndexType             n,
           double                *A,
           IndexType             ldA,
           IndexType             *iPiv,
           IndexType             *jpiv);
 
+template <typename IndexType>
+    IndexType
+    getc2(IndexType             n,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          IndexType             *iPiv,
+          IndexType             *jpiv);
+    
 template <typename IndexType>
     IndexType
     getc2(IndexType             n,

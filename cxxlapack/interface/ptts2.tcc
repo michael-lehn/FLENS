@@ -41,11 +41,32 @@ template <typename IndexType>
 void
 pttrs(IndexType             n,
       IndexType             nRhs,
+      const float           *d,
+      const float           *e,
+      float                 *B,
+      IndexType             ldB)
+{
+    CXXLAPACK_DEBUG_OUT("sptts2");
+ 
+    LAPACK_IMPL(sptts2)(&n,
+                        &nRhs,
+                        d,
+                        e,
+                        B,
+                        &ldB);
+}
+
+template <typename IndexType>
+void
+pttrs(IndexType             n,
+      IndexType             nRhs,
       const double          *d,
       const double          *e,
       double                *B,
       IndexType             ldB)
 {
+    CXXLAPACK_DEBUG_OUT("dptts2");
+ 
     LAPACK_IMPL(dptts2)(&n,
                         &nRhs,
                         d,
@@ -58,12 +79,32 @@ template <typename IndexType>
 void
 ptts2(IndexType                   n,
       IndexType                   nRhs,
+      const float                 *d,
+      const std::complex<float >  *e,
+      std::complex<float >        *B,
+      IndexType                   ldB)
+{
+    CXXLAPACK_DEBUG_OUT("cptts2");
+ 
+    LAPACK_IMPL(cptts2)(&n,
+                        &nRhs,
+                        d,
+                        reinterpret_cast<const float  *>(e),
+                        reinterpret_cast<float  *>(B),
+                        &ldB);
+}
+
+template <typename IndexType>
+void
+ptts2(IndexType                   n,
+      IndexType                   nRhs,
       const double                *d,
       const std::complex<double>  *e,
       std::complex<double>        *B,
       IndexType                   ldB)
 {
-
+    CXXLAPACK_DEBUG_OUT("zptts2");
+ 
     LAPACK_IMPL(zptts2)(&n,
                         &nRhs,
                         d,

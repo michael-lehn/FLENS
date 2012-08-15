@@ -37,6 +37,35 @@
 
 namespace cxxlapack {
 
+template <typename IndexType>
+IndexType
+hetd2(char                  uplo,
+      IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      float                 *d,
+      float                 *e,
+      std::complex<float >  *tau)
+{
+    CXXLAPACK_DEBUG_OUT("chetd2");
+    
+    IndexType info;
+    LAPACK_IMPL(chetd2)(&uplo,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        d,
+                        e,
+                        reinterpret_cast<float  *>(tau),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
 
 template <typename IndexType>
 IndexType
@@ -48,6 +77,8 @@ hetd2(char                  uplo,
       double                *e,
       std::complex<double>  *tau)
 {
+    CXXLAPACK_DEBUG_OUT("zhetd2");
+    
     IndexType info;
     LAPACK_IMPL(zhetd2)(&uplo,
                         &n,

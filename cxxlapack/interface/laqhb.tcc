@@ -42,6 +42,32 @@ void
 laqhb(char                  uplo,
       IndexType             n,
       IndexType             kd,
+      std::complex<float >  *Ab,
+      IndexType             ldAb,
+      const float           *s,
+      float                 scond,
+      float                 amax,
+      char                  &equed)
+{
+    CXXLAPACK_DEBUG_OUT("claqhb");
+ 
+    LAPACK_IMPL(claqhb)(&uplo,
+                        &n,
+                        &kd,
+                        reinterpret_cast<float  *>(Ab),
+                        &ldAb,
+                        s,
+                        &scond,
+                        &amax,
+                        &equed);
+
+}
+
+template <typename IndexType>
+void
+laqhb(char                  uplo,
+      IndexType             n,
+      IndexType             kd,
       std::complex<double>  *Ab,
       IndexType             ldAb,
       const double          *s,
@@ -49,7 +75,8 @@ laqhb(char                  uplo,
       double                amax,
       char                  &equed)
 {
-
+    CXXLAPACK_DEBUG_OUT("zlaqhb");
+ 
     LAPACK_IMPL(zlaqhb)(&uplo,
                         &n,
                         &kd,

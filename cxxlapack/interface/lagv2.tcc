@@ -39,6 +39,36 @@ namespace cxxlapack {
 
 template <typename IndexType>
 void
+lagv2(float                 A,
+      IndexType             ldA,
+      float                 *B,
+      IndexType             ldB,
+      float                 *alphar,
+      float                 *alphai,
+      float                 *beta,
+      float                 &csl,
+      float                 &snl,
+      float                 &csr,
+      float                 &snr)
+{
+    CXXLAPACK_DEBUG_OUT("slagv2");
+    
+    LAPACK_IMPL(slagv2)(A,
+                        &ldA,
+                        B,
+                        &ldB,
+                        alphar,
+                        alphai,
+                        beta,
+                        &csl,
+                        &snl,
+                        &csr,
+                        &snr);
+
+}
+
+template <typename IndexType>
+void
 lagv2(double                A,
       IndexType             ldA,
       double                *B,
@@ -51,6 +81,8 @@ lagv2(double                A,
       double                &csr,
       double                &snr)
 {
+    CXXLAPACK_DEBUG_OUT("dlagv2");
+    
     LAPACK_IMPL(dlagv2)(A,
                         &ldA,
                         B,

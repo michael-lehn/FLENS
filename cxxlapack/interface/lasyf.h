@@ -43,10 +43,35 @@ template <typename IndexType>
           IndexType             n,
           IndexType             nb,
           IndexType             &kb,
+          float                 *A,
+          IndexType             ldA,
+          IndexType             *iPiv,
+          float                 *W,
+          IndexType             ldW);
+    
+    
+template <typename IndexType>
+    IndexType
+    lasyf(char                  uplo,
+          IndexType             n,
+          IndexType             nb,
+          IndexType             &kb,
           double                *A,
           IndexType             ldA,
           IndexType             *iPiv,
           double                *W,
+          IndexType             ldW);
+    
+template <typename IndexType>
+    IndexType
+    lasyf(char                  uplo,
+          IndexType             n,
+          IndexType             nb,
+          IndexType             &kb,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          IndexType             *iPiv,
+          std::complex<float >  *W,
           IndexType             ldW);
 
 template <typename IndexType>

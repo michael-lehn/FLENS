@@ -43,6 +43,65 @@ tgsy2(char                  trans,
       IndexType             ijob,
       IndexType             m,
       IndexType             n,
+      const float           *A,
+      IndexType             ldA,
+      const float           *B,
+      IndexType             ldB,
+      float                 *C,
+      IndexType             ldC,
+      const float           *D,
+      IndexType             ldD,
+      const float           *E,
+      IndexType             ldE,
+      float                 *F,
+      IndexType             ldF,
+      float                 &scale,
+      float                 &rdsum,
+      float                 &rdscal,
+      IndexType             *iWork,
+      IndexType             &pq)
+      
+{
+    CXXLAPACK_DEBUG_OUT("stgsy2");
+ 
+    IndexType info;
+    LAPACK_IMPL(stgsy2)(&trans,
+                        &ijob,
+                        &m,
+                        &n,
+                        A,
+                        &ldA,
+                        B,
+                        &ldB,
+                        C,
+                        &ldC,
+                        D,
+                        &ldD,
+                        E,
+                        &ldE,
+                        F,
+                        &ldF,
+                        &scale,
+                        &rdsum,
+                        &rdscal,
+                        iWork,
+                        &pq,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+tgsy2(char                  trans,
+      IndexType             ijob,
+      IndexType             m,
+      IndexType             n,
       const double          *A,
       IndexType             ldA,
       const double          *B,
@@ -62,6 +121,8 @@ tgsy2(char                  trans,
       IndexType             &pq)
       
 {
+    CXXLAPACK_DEBUG_OUT("dtgsy2");
+ 
     IndexType info;
     LAPACK_IMPL(dtgsy2)(&trans,
                         &ijob,
@@ -101,6 +162,61 @@ tgsy2(char                        trans,
       IndexType                   ijob,
       IndexType                   m,
       IndexType                   n,
+      const std::complex<float >  *A,
+      IndexType                   ldA,
+      const std::complex<float >  *B,
+      IndexType                   ldB,
+      std::complex<float >        *C,
+      IndexType                   ldC,
+      const std::complex<float >  *D,
+      IndexType                   ldD,
+      const std::complex<float >  *E,
+      IndexType                   ldE,
+      std::complex<float >        *F,
+      IndexType                   ldF,
+      float                       &scale,
+      float                       &rdsum,
+      float                       &rdscal)
+      
+{
+    CXXLAPACK_DEBUG_OUT("ctgsy2");
+ 
+    IndexType info;
+    LAPACK_IMPL(ctgsy2)(&trans,
+                        &ijob,
+                        &m,
+                        &n,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        reinterpret_cast<const float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(C),
+                        &ldC,
+                        reinterpret_cast<const float  *>(D),
+                        &ldD,
+                        reinterpret_cast<const float  *>(E),
+                        &ldE,
+                        reinterpret_cast<float  *>(F),
+                        &ldF,
+                        &scale,
+                        &rdsum,
+                        &rdscal,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+tgsy2(char                        trans,
+      IndexType                   ijob,
+      IndexType                   m,
+      IndexType                   n,
       const std::complex<double>  *A,
       IndexType                   ldA,
       const std::complex<double>  *B,
@@ -116,8 +232,9 @@ tgsy2(char                        trans,
       double                      &scale,
       double                      &rdsum,
       double                      &rdscal)
-      
 {
+    CXXLAPACK_DEBUG_OUT("ztgsy2");
+ 
     IndexType info;
     LAPACK_IMPL(ztgsy2)(&trans,
                         &ijob,

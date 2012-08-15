@@ -43,6 +43,44 @@ hbtrd(char                  vect,
       char                  uplo,
       IndexType             n,
       IndexType             kd,
+      std::complex<float >  *Ab,
+      IndexType             ldAb,
+      float                 *d,
+      float                 *e,
+      std::complex<float >  *Q,
+      IndexType             ldQ,
+      std::complex<float >  *work)
+{
+    CXXLAPACK_DEBUG_OUT("chbtrd");
+    
+    IndexType info;
+    LAPACK_IMPL(chbtrd)(&vect,
+                        &uplo,
+                        &n,
+                        &kd,
+                        reinterpret_cast<float  *>(Ab),
+                        &ldAb,
+                        d,
+                        e,
+                        reinterpret_cast<float  *>(Q),
+                        &ldQ,
+                        reinterpret_cast<float  *>(work),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hbtrd(char                  vect,
+      char                  uplo,
+      IndexType             n,
+      IndexType             kd,
       std::complex<double>  *Ab,
       IndexType             ldAb,
       double                *d,
@@ -51,6 +89,8 @@ hbtrd(char                  vect,
       IndexType             ldQ,
       std::complex<double>  *work)
 {
+    CXXLAPACK_DEBUG_OUT("zhbtrd");
+    
     IndexType info;
     LAPACK_IMPL(zhbtrd)(&vect,
                         &uplo,

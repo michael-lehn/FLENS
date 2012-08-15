@@ -36,7 +36,21 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    void
+    lagv2(float                 A,
+          IndexType             ldA,
+          float                 *B,
+          IndexType             ldB,
+          float                 *alphar,
+          float                 *alphai,
+          float                 *beta,
+          float                 &csl,
+          float                 &snl,
+          float                 &csr,
+          float                 &snr);
+    
 template <typename IndexType>
     void
     lagv2(double                A,

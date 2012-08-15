@@ -39,15 +39,15 @@ namespace cxxlapack {
 
 template <typename IndexType>
     IndexType
-    dummy(IndexType             m,
-          IndexType             n,
-          double                *A);
-
+    heswap(IndexType             m,
+           IndexType             n,
+           std::complex<float>   *A);
+    
 template <typename IndexType>
     IndexType
-    dummy(IndexType             n,
-          IndexType             m,
-          std::complex<double>  *A);
+    heswap(IndexType             n,
+           IndexType             m,
+           std::complex<double>  *A);
 
 } // namespace cxxlapack
 

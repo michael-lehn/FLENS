@@ -40,12 +40,42 @@ namespace cxxlapack {
 template <typename IndexType>
 IndexType
 ptcon(IndexType             n,
+      const float           *d,
+      const float           *e,
+      float                 anorm,
+      float                 &rCond,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("sptcon");
+ 
+    IndexType info;
+    LAPACK_IMPL(sptcon)(&n,
+                        d,
+                        e,
+                        &anorm,
+                        &rCond,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ptcon(IndexType             n,
       const double          *d,
       const double          *e,
       double                anorm,
       double                &rCond,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dptcon");
+ 
     IndexType info;
     LAPACK_IMPL(dptcon)(&n,
                         d,
@@ -66,12 +96,42 @@ ptcon(IndexType             n,
 template <typename IndexType>
 IndexType
 ptcon(IndexType                   n,
+      const float                 *d,
+      const std::complex<float >  *e,
+      float                       anorm,
+      float                       &rCond,
+      float                       *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("cptcon");
+ 
+    IndexType info;
+    LAPACK_IMPL(cptcon)(&n,
+                        d,
+                        reinterpret_cast<const float  *>(e),
+                        &anorm,
+                        &rCond,
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ptcon(IndexType                   n,
       const double                *d,
       const std::complex<double>  *e,
       double                      anorm,
       double                      &rCond,
       double                      *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zptcon");
+ 
     IndexType info;
     LAPACK_IMPL(zptcon)(&n,
                         d,

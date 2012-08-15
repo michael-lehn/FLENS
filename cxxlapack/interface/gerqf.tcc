@@ -41,6 +41,35 @@ template <typename IndexType>
 IndexType
 gerqf(IndexType             m,
       IndexType             n,
+      float                 *A,
+      IndexType             ldA,
+      float                 *tau,
+      float                 *work,
+      IndexType             lWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgerqf");
+    LAPACK_IMPL(sgerqf)(&m,
+                        &n,
+                        A,
+                        &ldA,
+                        tau,
+                        work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gerqf(IndexType             m,
+      IndexType             n,
       double                *A,
       IndexType             ldA,
       double                *tau,
@@ -48,12 +77,42 @@ gerqf(IndexType             m,
       IndexType             lWork)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("dgerqf");
     LAPACK_IMPL(dgerqf)(&m,
                         &n,
                         A,
                         &ldA,
                         tau,
                         work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gerqf(IndexType             m,
+      IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      std::complex<float >  *tau,
+      std::complex<float >  *work,
+      IndexType             lWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgerqf");
+    LAPACK_IMPL(cgerqf)(&m,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(tau),
+                        reinterpret_cast<float  *>(work),
                         &lWork,
                         &info);
 #   ifndef NDEBUG
@@ -76,6 +135,7 @@ gerqf(IndexType             m,
       IndexType             lWork)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("zgerqf");
     LAPACK_IMPL(zgerqf)(&m,
                         &n,
                         reinterpret_cast<double *>(A),

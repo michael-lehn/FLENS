@@ -42,7 +42,23 @@ template <typename IndexType>
     pbtrf(char                  uplo,
           IndexType             n,
           IndexType             kd,
+          float                 *Ab,
+          IndexType             ldAb);
+    
+template <typename IndexType>
+    IndexType
+    pbtrf(char                  uplo,
+          IndexType             n,
+          IndexType             kd,
           double                *Ab,
+          IndexType             ldAb);
+    
+template <typename IndexType>
+    IndexType
+    pbtrf(char                  uplo,
+          IndexType             n,
+          IndexType             kd,
+          std::complex<float >  *Ab,
           IndexType             ldAb);
 
 template <typename IndexType>

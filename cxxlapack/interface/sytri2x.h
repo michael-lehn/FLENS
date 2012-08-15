@@ -41,10 +41,30 @@ template <typename IndexType>
     IndexType
     sytri2x(char                  uplo,
             IndexType             n,
+            float                 *A,
+            IndexType             ldA,
+            const IndexType       *iPiv,
+            float                 *work,
+            IndexType             nb);
+    
+template <typename IndexType>
+    IndexType
+    sytri2x(char                  uplo,
+            IndexType             n,
             double                *A,
             IndexType             ldA,
             const IndexType       *iPiv,
             double                *work,
+            IndexType             nb);
+    
+template <typename IndexType>
+    IndexType
+    sytri2x(char                  uplo,
+            IndexType             n,
+            std::complex<float >  *A,
+            IndexType             ldA,
+            const IndexType       *iPiv,
+            std::complex<float >  *work,
             IndexType             nb);
 
 template <typename IndexType>

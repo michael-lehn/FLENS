@@ -40,6 +40,17 @@ namespace cxxlapack {
 template <typename IndexType>
     void
     lartv(IndexType             n,
+          float                 *x,
+          IndexType             incx,
+          float                 *y,
+          IndexType             incy,
+          const float           *c,
+          const float           *s,
+          IndexType             incc);
+    
+template <typename IndexType>
+    void
+    lartv(IndexType             n,
           double                *x,
           IndexType             incx,
           double                *y,
@@ -47,7 +58,18 @@ template <typename IndexType>
           const double          *c,
           const double          *s,
           IndexType             incc);
-
+    
+template <typename IndexType>
+    void
+    lartv(IndexType                   n,
+          std::complex<float >        *x,
+          IndexType                   incx,
+          std::complex<float >        *y,
+          IndexType                   incy,
+          const float                 *c,
+          const std::complex<float >  *s,
+          IndexType                    incc);
+    
 template <typename IndexType>
     void
     lartv(IndexType                   n,

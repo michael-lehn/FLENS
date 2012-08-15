@@ -43,10 +43,30 @@ template <typename IndexType>
           IndexType             n,
           IndexType             kl,
           IndexType             ku,
+          float                 *Ab,
+          IndexType             ldAb,
+          IndexType             *iPiv);
+    
+template <typename IndexType>
+    IndexType
+    gbtf2(IndexType             m,
+          IndexType             n,
+          IndexType             kl,
+          IndexType             ku,
           double                *Ab,
           IndexType             ldAb,
           IndexType             *iPiv);
-
+    
+template <typename IndexType>
+    IndexType
+    gbtf2(IndexType             m,
+          IndexType             n,
+          IndexType             kl,
+          IndexType             ku,
+          std::complex<float >  *Ab,
+          IndexType             ldAb,
+          IndexType             *iPiv);
+    
 template <typename IndexType>
     IndexType
     gbtf2(IndexType             m,

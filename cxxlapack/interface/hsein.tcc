@@ -44,6 +44,59 @@ namespace cxxlapack {
 //       char                  initv,
 //       bool                  *select,
 //       IndexType             n,
+//       const float           *H,
+//       IndexType             ldH,
+//       float                 *wr,
+//       const float           *wi,
+//       float                 *VL,
+//       IndexType             ldVL,
+//       float                 *VR,
+//       IndexType             ldVR,
+//       IndexType             mm,
+//       IndexType             &m,
+//       float                 *work,
+//       IndexType             *ifaill,
+//       IndexType             *ifailr)
+// {
+//     CXXLAPACK_DEBUG_OUT("shsein");
+//    
+//     IndexType info;
+//     //IndexType *_select = ???
+// 
+//     LAPACK_IMPL(shsein)(&side,
+//                         &eigsrc,
+//                         &initv,
+//                         select,
+//                         &n,
+//                         H,
+//                         &ldH,
+//                         wr,
+//                         wi,
+//                         VL,
+//                         &ldVL,
+//                         VR,
+//                         &ldVR,
+//                         mm,
+//                         m,
+//                         work,
+//                         ifaill,
+//                         ifailr,
+//                         &info);
+// #   ifndef NDEBUG
+//     if (info<0) {
+//         std::cerr << "info = " << info << std::endl;
+//     }
+// #   endif
+//     ASSERT(info>=0);
+//     return info;
+// }
+// template <typename IndexType>
+// IndexType
+// hsein(char                  side,
+//       char                  eigsrc,
+//       char                  initv,
+//       bool                  *select,
+//       IndexType             n,
 //       const double          *H,
 //       IndexType             ldH,
 //       double                *wr,
@@ -58,6 +111,8 @@ namespace cxxlapack {
 //       IndexType             *ifaill,
 //       IndexType             *ifailr)
 // {
+//    CXXLAPACK_DEBUG_OUT("dhsein");
+//    
 //     IndexType info;
 //     //IndexType *_select = ???
 // 
@@ -96,6 +151,58 @@ namespace cxxlapack {
 //       char                        initv,
 //       bool                        *select,
 //       IndexType                   n,
+//       const std::complex<float >  *H,
+//       IndexType                   ldH,
+//       std::complex<float >        *w,
+//       std::complex<float >        *VL,
+//       IndexType                   ldVL,
+//       std::complex<float >        *VR,
+//       IndexType                   ldVR,
+//       IndexType                   mm,
+//       IndexType                   &m,
+//       std::complex<float >        *work,
+//       float                       *rWork,
+//       IndexType                   *ifaill,
+//       IndexType                   *ifailr)
+// {
+//    CXXLAPACK_DEBUG_OUT("chsein");
+//    
+//     IndexType info;
+//     //IndexType *_select = ???
+//     LAPACK_IMPL(chsein)(&side,
+//                         &eigsrc,
+//                         &initv,
+//                         select,
+//                         &n,
+//                         reinterpret_cast<const float  *>(H),
+//                         &ldH,
+//                         reinterpret_cast<float  *>(w),
+//                         reinterpret_cast<float  *>(VL),
+//                         &ldVL,
+//                         reinterpret_cast<float  *>(VR),
+//                         &ldVR,
+//                         mm,
+//                         m,
+//                         reinterpret_cast<float  *>(work),
+//                         rWork,
+//                         ifaill,
+//                         ifailr,
+//                         &info);
+// #   ifndef NDEBUG
+//     if (info<0) {
+//         std::cerr << "info = " << info << std::endl;
+//     }
+// #   endif
+//     ASSERT(info>=0);
+//     return info;
+// } 
+// template <typename IndexType>
+// IndexType
+// hsein(char                        side,
+//       char                        eigsrc,
+//       char                        initv,
+//       bool                        *select,
+//       IndexType                   n,
 //       const std::complex<double>  *H,
 //       IndexType                   ldH,
 //       std::complex<double>        *w,
@@ -110,6 +217,8 @@ namespace cxxlapack {
 //       IndexType                   *ifaill,
 //       IndexType                   *ifailr)
 // {
+//    CXXLAPACK_DEBUG_OUT("zhsein");
+//    
 //     IndexType info;
 //     //IndexType *_select = ???
 //     LAPACK_IMPL(zhsein)(&side,

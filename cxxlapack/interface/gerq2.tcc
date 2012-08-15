@@ -41,12 +41,40 @@ template <typename IndexType>
 IndexType
 gerq2(IndexType             m,
       IndexType             n,
+      float                 *A,
+      IndexType             ldA,
+      float                 *tau,
+      float                 *work)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgerq2");
+    LAPACK_IMPL(sgerq2)(&m,
+                        &n,
+                        A,
+                        &ldA,
+                        tau,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gerq2(IndexType             m,
+      IndexType             n,
       double                *A,
       IndexType             ldA,
       double                *tau,
       double                *work)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("dgerq2");
     LAPACK_IMPL(dgerq2)(&m,
                         &n,
                         A,
@@ -67,12 +95,40 @@ template <typename IndexType>
 IndexType
 gerq2(IndexType             m,
       IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      std::complex<float >  *tau,
+      std::complex<float >  *work)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgerq2");
+    LAPACK_IMPL(cgerq2)(&m,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(tau),
+                        reinterpret_cast<float  *>(work),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gerq2(IndexType             m,
+      IndexType             n,
       std::complex<double>  *A,
       IndexType             ldA,
       std::complex<double>  *tau,
       std::complex<double>  *work)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("zgerq2");
     LAPACK_IMPL(zgerq2)(&m,
                         &n,
                         reinterpret_cast<double *>(A),

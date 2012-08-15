@@ -36,7 +36,23 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    laed3(IndexType             k,
+          IndexType             n,
+          IndexType             n1,
+          float                 *d,
+          float                 *Q,
+          IndexType             ldQ,
+          float                 &rho,
+          float                 *dlambda,
+          const float           *q2,
+          const IndexType       *indx,
+          const IndexType       *ctot,
+          float                 *w,
+          float                 *s);
+    
 template <typename IndexType>
     IndexType
     laed3(IndexType             k,

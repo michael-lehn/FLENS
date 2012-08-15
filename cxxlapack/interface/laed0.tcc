@@ -42,17 +42,19 @@ IndexType
 laed0(IndexType             icompq,
       IndexType             qsiz,
       IndexType             n,
-      double                *d,
-      const double          *e,
-      double                *Q,
+      float                 *d,
+      const float           *e,
+      float                 *Q,
       IndexType             ldQ,
-      double                *Qstore,
+      float                 *Qstore,
       IndexType             ldQs,
-      double                *work,
+      float                 *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("slaed0");
+
     IndexType info;
-    LAPACK_IMPL(dlaed0)(&icompq,
+    LAPACK_IMPL(slaed0)(&icompq,
                         &qsiz,
                         &n,
                         d,
@@ -80,6 +82,82 @@ laed0(IndexType             icompq,
       IndexType             n,
       double                *d,
       const double          *e,
+      double                *Q,
+      IndexType             ldQ,
+      double                *Qstore,
+      IndexType             ldQs,
+      double                *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("dlaed0");
+
+    IndexType info;
+    LAPACK_IMPL(dlaed0)(&icompq,
+                        &qsiz,
+                        &n,
+                        d,
+                        e,
+                        Q,
+                        &ldQ,
+                        Qstore,
+                        &ldQs,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+laed0(IndexType             icompq,
+      IndexType             qsiz,
+      IndexType             n,
+      float                 *d,
+      const float           *e,
+      std::complex<float >  *Q,
+      IndexType             ldQ,
+      std::complex<float >  *Qstore,
+      IndexType             ldQs,
+      float                 *rWork,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("claed0");
+    
+    IndexType info;
+    LAPACK_IMPL(claed0)(&icompq,
+                        &qsiz,
+                        &n,
+                        d,
+                        e,
+                        reinterpret_cast<float  *>(Q),
+                        &ldQ,
+                        reinterpret_cast<float  *>(Qstore),
+                        &ldQs,
+                        rWork,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+laed0(IndexType             icompq,
+      IndexType             qsiz,
+      IndexType             n,
+      double                *d,
+      const double          *e,
       std::complex<double>  *Q,
       IndexType             ldQ,
       std::complex<double>  *Qstore,
@@ -87,6 +165,8 @@ laed0(IndexType             icompq,
       double                *rWork,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("zlaed0");
+    
     IndexType info;
     LAPACK_IMPL(zlaed0)(&icompq,
                         &qsiz,

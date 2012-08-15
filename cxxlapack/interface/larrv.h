@@ -40,6 +40,34 @@ namespace cxxlapack {
 template <typename IndexType>
     IndexType
     larrv(IndexType             n,
+          float                 vl,
+          float                 vu,
+          float                 *d,
+          float                 *l,
+          float                 pivmin,
+          IndexType             *isplit,
+          float                 m,
+          IndexType             dol,
+          IndexType             dou,
+          float                 minrgp,
+          float                 rtol1,
+          float                 rtol2,
+          float                 *w,
+          float                 *werr,
+          float                 *wgap,
+          const IndexType       *iblock,
+          const IndexType       *indexw,
+          const float           *gers,
+          float                 *Z,
+          IndexType             ldZ,
+          IndexType             *isuppz,
+          float                 *work,
+          IndexType             *iWork);
+    
+    
+template <typename IndexType>
+    IndexType
+    larrv(IndexType             n,
           double                vl,
           double                vu,
           double                *d,
@@ -62,6 +90,33 @@ template <typename IndexType>
           IndexType             ldZ,
           IndexType             *isuppz,
           double                *work,
+          IndexType             *iWork);
+    
+template <typename IndexType>
+    IndexType
+    larrv(IndexType             n,
+          float                 vl,
+          float                 vu,
+          float                 *d,
+          float                 *l,
+          float                 pivmin,
+          IndexType             *isplit,
+          float                 m,
+          IndexType             dol,
+          IndexType             dou,
+          float                 minrgp,
+          float                 rtol1,
+          float                 rtol2,
+          float                 *w,
+          float                 *werr,
+          float                 *wgap,
+          const IndexType       *iblock,
+          const IndexType       *indexw,
+          const float           *gers,
+          std::complex<float >  *Z,
+          IndexType             ldZ,
+          IndexType             *isuppz,
+          float                 *work,
           IndexType             *iWork);
 
 template <typename IndexType>

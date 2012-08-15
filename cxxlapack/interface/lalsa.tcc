@@ -43,6 +43,73 @@ lalsa(IndexType             icompq,
       IndexType             smlsiz,
       IndexType             n,
       IndexType             nRhs,
+      float                 *B,
+      IndexType             ldB,
+      float                 *Bx,
+      IndexType             ldBx,
+      const float           *U,
+      IndexType             ldU,
+      const float           *VT,
+      const IndexType       *k,
+      const float           *Difl,
+      const float           *Difr,
+      const float           *Z,
+      const float           *Poles,
+      const IndexType       *Givptr,
+      const IndexType       *Givcol,
+      IndexType             ldGcol,
+      const IndexType       *Perm,
+      const float           *Givnum,
+      const float           *c,
+      const float           *s,
+      double                *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("slalsa");
+    
+    IndexType info;
+    LAPACK_IMPL(slalsa)(&icompq,
+                        &smlsiz,
+                        &n,
+                        &nRhs,
+                        B,
+                        &ldB,
+                        Bx,
+                        &ldBx,
+                        U,
+                        &ldU,
+                        VT,
+                        k,
+                        Difl,
+                        Difr,
+                        Z,
+                        Poles,
+                        Givptr,
+                        Givcol,
+                        &ldGcol,
+                        Perm,
+                        Givnum,
+                        c,
+                        s,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+lalsa(IndexType             icompq,
+      IndexType             smlsiz,
+      IndexType             n,
+      IndexType             nRhs,
       double                *B,
       IndexType             ldB,
       double                *Bx,
@@ -65,6 +132,8 @@ lalsa(IndexType             icompq,
       double                *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("dlalsa");
+    
     IndexType info;
     LAPACK_IMPL(dlalsa)(&icompq,
                         &smlsiz,
@@ -73,6 +142,72 @@ lalsa(IndexType             icompq,
                         B,
                         &ldB,
                         Bx,
+                        &ldBx,
+                        U,
+                        &ldU,
+                        VT,
+                        k,
+                        Difl,
+                        Difr,
+                        Z,
+                        Poles,
+                        Givptr,
+                        Givcol,
+                        &ldGcol,
+                        Perm,
+                        Givnum,
+                        c,
+                        s,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+lalsa(IndexType             icompq,
+      IndexType             smlsiz,
+      IndexType             n,
+      IndexType             nRhs,
+      std::complex<float >  *B,
+      IndexType             ldB,
+      std::complex<float >  *Bx,
+      IndexType             ldBx,
+      const float           *U,
+      IndexType             ldU,
+      const float           *VT,
+      const IndexType       *k,
+      const float           *Difl,
+      const float           *Difr,
+      const float           *Z,
+      const float           *Poles,
+      const IndexType       *Givptr,
+      const IndexType       *Givcol,
+      IndexType             ldGcol,
+      const IndexType       *Perm,
+      const float           *Givnum,
+      const float           *c,
+      const float           *s,
+      float                 *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("clalsa");
+    
+    IndexType info;
+    LAPACK_IMPL(clalsa)(&icompq,
+                        &smlsiz,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(Bx),
                         &ldBx,
                         U,
                         &ldU,
@@ -129,6 +264,8 @@ lalsa(IndexType             icompq,
       double                *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("zlalsa");
+    
     IndexType info;
     LAPACK_IMPL(zlalsa)(&icompq,
                         &smlsiz,

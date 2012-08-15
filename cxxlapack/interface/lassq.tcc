@@ -42,13 +42,50 @@ namespace cxxlapack {
 template <typename IndexType>
 void
 lassq(IndexType         n,
+      const float       *x,
+      IndexType         incX,
+      float             &scale,
+      float             &sumsq)
+{
+    CXXLAPACK_DEBUG_OUT("slassq");
+    
+    LAPACK_IMPL(slassq)(&n,
+                        x,
+                        &incX,
+                        &scale,
+                        &sumsq);
+}
+
+
+template <typename IndexType>
+void
+lassq(IndexType         n,
       const double      *x,
       IndexType         incX,
       double            &scale,
       double            &sumsq)
 {
+    CXXLAPACK_DEBUG_OUT("dlassq");
+  
     LAPACK_IMPL(dlassq)(&n,
                         x,
+                        &incX,
+                        &scale,
+                        &sumsq);
+}
+
+template <typename IndexType>
+void
+lassq(IndexType                     n,
+      const std::complex<float >    *x,
+      IndexType                     incX,
+      float                         &scale,
+      float                         &sumsq)
+{
+    CXXLAPACK_DEBUG_OUT("classq");
+  
+    LAPACK_IMPL(classq)(&n,
+                        reinterpret_cast<const float  *>(x),
                         &incX,
                         &scale,
                         &sumsq);
@@ -62,6 +99,8 @@ lassq(IndexType                     n,
       double                        &scale,
       double                        &sumsq)
 {
+    CXXLAPACK_DEBUG_OUT("zlassq");
+  
     LAPACK_IMPL(zlassq)(&n,
                         reinterpret_cast<const double *>(x),
                         &incX,

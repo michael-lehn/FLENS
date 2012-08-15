@@ -42,10 +42,10 @@ template <typename IndexType>
     pptrs(char                  uplo,
           IndexType             n,
           IndexType             nRhs,
-          const double          *Ap,
-          double                *B,
+          const float           *Ap,
+          float                 *B,
           IndexType             ldB);
-
+    
 template <typename IndexType>
     IndexType
     pptrs(char                  uplo,
@@ -54,6 +54,24 @@ template <typename IndexType>
           const double          *Ap,
           double                *B,
           IndexType             ldB);
+    
+template <typename IndexType>
+    IndexType
+    pptrs(char                        uplo,
+          IndexType                   n,
+          IndexType                   nRhs,
+          const std::complex<float >  *Ap,
+          std::complex<float >        *B,
+          IndexType                   ldB);
+
+template <typename IndexType>
+    IndexType
+    pptrs(char                        uplo,
+          IndexType                   n,
+          IndexType                   nRhs,
+          const std::complex<double>  *Ap,
+          std::complex<double>        *B,
+          IndexType                   ldB);
 
 } // namespace cxxlapack
 

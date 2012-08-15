@@ -42,8 +42,35 @@ IndexType
 pftrf(char                  transr,
       char                  uplo,
       IndexType             n,
+      float                 *A)
+{
+    CXXLAPACK_DEBUG_OUT("spftrf");
+  
+    IndexType info;
+    LAPACK_IMPL(spftrf)(&transr,
+                        &uplo,
+                        &n,
+                        A,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+pftrf(char                  transr,
+      char                  uplo,
+      IndexType             n,
       double                *A)
 {
+    CXXLAPACK_DEBUG_OUT("dpftrf");
+  
     IndexType info;
     LAPACK_IMPL(dpftrf)(&transr,
                         &uplo,
@@ -64,8 +91,34 @@ IndexType
 pftrf(char                  transr,
       char                  uplo,
       IndexType             n,
+      std::complex<float >  *A)
+{
+    CXXLAPACK_DEBUG_OUT("cpftrf");
+  
+    IndexType info;
+    LAPACK_IMPL(cpftrf)(&transr,
+                        &uplo,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+pftrf(char                  transr,
+      char                  uplo,
+      IndexType             n,
       std::complex<double>  *A)
 {
+    CXXLAPACK_DEBUG_OUT("zpftrf");
+  
     IndexType info;
     LAPACK_IMPL(zpftrf)(&transr,
                         &uplo,

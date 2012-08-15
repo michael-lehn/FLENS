@@ -41,9 +41,25 @@ template <typename IndexType>
     IndexType
     trttp(char                  uplo,
           IndexType             n,
+          const float           *A,
+          IndexType             ldA,
+          float                 *Ap);
+    
+template <typename IndexType>
+    IndexType
+    trttp(char                  uplo,
+          IndexType             n,
           const double          *A,
           IndexType             ldA,
           double                *Ap);
+    
+template <typename IndexType>
+    IndexType
+    trttp(char                        uplo,
+          IndexType                   n,
+          const std::complex<float >  *A,
+          IndexType                   ldA,
+          std::complex<float >        *Ap);
 
 template <typename IndexType>
     IndexType

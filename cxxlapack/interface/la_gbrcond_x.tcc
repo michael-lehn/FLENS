@@ -43,6 +43,40 @@ la_gbrCond_x(char                        trans,
              IndexType                   n,
              IndexType                   kl,
              IndexType                   ku,            
+             const std::complex<float >  *Ab,
+             IndexType                   ldAb,
+             const std::complex<float >  *Afb,
+             IndexType                   ldAfb,
+             const IndexType             *iPiv,
+             const std::complex<float >  *x,
+             IndexType                   &info,
+             std::complex<float >        *work,
+             float                       *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("cla_gbrcond_x");
+    
+    return LAPACK_IMPL(cla_gbrcond_x)(&trans,
+                                      &n,
+                                      &kl,
+                                      &ku,
+                                      reinterpret_cast<const float  *>(Ab),
+                                      &ldAb,
+                                      reinterpret_cast<const float  *>(Afb),
+                                      &ldAfb,
+                                      iPiv,
+                                      reinterpret_cast<const float  *>(x)
+                                      &info,
+                                      reinterpret_cast<float  *>(work),
+                                      rWork);
+
+}
+
+template <typename IndexType>
+double 
+la_gbrCond_x(char                        trans,
+             IndexType                   n,
+             IndexType                   kl,
+             IndexType                   ku,            
              const std::complex<double>  *Ab,
              IndexType                   ldAb,
              const std::complex<double>  *Afb,
@@ -53,8 +87,9 @@ la_gbrCond_x(char                        trans,
              std::complex<double>        *work,
              double                      *rWork)
 {
-
-    return LAPACK_IMPL(zla_gbrCond_x)(&trans,
+    CXXLAPACK_DEBUG_OUT("zla_gbrcond_x");
+    
+    return LAPACK_IMPL(zla_gbrcond_x)(&trans,
                                       &n,
                                       &kl,
                                       &ku,

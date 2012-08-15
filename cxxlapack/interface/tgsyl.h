@@ -43,6 +43,30 @@ template <typename IndexType>
           IndexType             ijob,
           IndexType             m,
           IndexType             n,
+          const float           *A,
+          IndexType             ldA,
+          const float           *B,
+          IndexType             ldB,
+          float                 *C,
+          IndexType             ldC,
+          const float           *D,
+          IndexType             ldD,
+          const float           *E,
+          IndexType             ldE,
+          float                 *F,
+          IndexType             ldF,
+          float                 &scale,
+          float                 &dif,
+          float                 *work,
+          IndexType             lWork,
+          IndexType             *iWork);
+    
+template <typename IndexType>
+    IndexType
+    tgsyl(char                  trans,
+          IndexType             ijob,
+          IndexType             m,
+          IndexType             n,
           const double          *A,
           IndexType             ldA,
           const double          *B,
@@ -60,7 +84,31 @@ template <typename IndexType>
           double                *work,
           IndexType             lWork,
           IndexType             *iWork);
-
+    
+template <typename IndexType>
+    IndexType
+    tgsyl(char                        trans,
+          IndexType                   ijob,
+          IndexType                   m,
+          IndexType                   n,
+          const std::complex<float >  *A,
+          IndexType                   ldA,
+          const std::complex<float >  *B,
+          IndexType                   ldB,
+          std::complex<float >        *C,
+          IndexType                   ldC,
+          const std::complex<float >  *D,
+          IndexType                   ldD,
+          const std::complex<float >  *E,
+          IndexType                   ldE,
+          std::complex<float >        *F,
+          IndexType                   ldF,
+          float                       &scale,
+          float                       &dif,
+          std::complex<float >        *work,
+          IndexType                   lWork,
+          IndexType                   *iWork);
+    
 template <typename IndexType>
     IndexType
     tgsyl(char                        trans,

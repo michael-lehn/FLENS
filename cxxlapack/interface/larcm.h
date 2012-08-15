@@ -36,7 +36,19 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    larcm(IndexType                  m,
+          IndexType                  n,
+          const float                *A,
+          IndexType                  ldA,
+          const std::complex<float > *B,
+          IndexType                  ldB,
+          std::complex<float >       *C,
+          IndexType                  ldC,
+          float                      *rWork);
+    
 template <typename IndexType>
     IndexType
     larcm(IndexType                  m,

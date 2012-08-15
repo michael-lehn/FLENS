@@ -42,6 +42,34 @@ void
 lahrd(IndexType             n,
       IndexType             k,
       IndexType             nb,
+      float                 *A,
+      IndexType             ldA,
+      float                 *tau,
+      float                 *T,
+      IndexType             ldT,
+      float                 *Y,
+      IndexType             ldY)
+{
+    CXXLAPACK_DEBUG_OUT("slahrd");
+  
+    LAPACK_IMPL(slahrd)(&n,
+                        &k,
+                        &nb,
+                        A,
+                        &ldA,
+                        tau,
+                        T,
+                        &ldT,
+                        Y,
+                        &ldY);
+}
+
+
+template <typename IndexType>
+void
+lahrd(IndexType             n,
+      IndexType             k,
+      IndexType             nb,
       double                *A,
       IndexType             ldA,
       double                *tau,
@@ -50,6 +78,8 @@ lahrd(IndexType             n,
       double                *Y,
       IndexType             ldY)
 {
+    CXXLAPACK_DEBUG_OUT("dlahrd");
+  
     LAPACK_IMPL(dlahrd)(&n,
                         &k,
                         &nb,
@@ -68,6 +98,33 @@ void
 lahrd(IndexType             n,
       IndexType             k,
       IndexType             nb,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      std::complex<float >  *tau,
+      std::complex<float >  *T,
+      IndexType             ldT,
+      std::complex<float >  *Y,
+      IndexType             ldY)
+{
+    CXXLAPACK_DEBUG_OUT("clahrd");
+  
+    LAPACK_IMPL(clahrd)(&n,
+                        &k,
+                        &nb,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(tau),
+                        reinterpret_cast<float  *>(T),
+                        &ldT,
+                        reinterpret_cast<float  *>(Y),
+                        &ldY);
+}
+
+template <typename IndexType>
+void
+lahrd(IndexType             n,
+      IndexType             k,
+      IndexType             nb,
       std::complex<double>  *A,
       IndexType             ldA,
       std::complex<double>  *tau,
@@ -76,6 +133,8 @@ lahrd(IndexType             n,
       std::complex<double>  *Y,
       IndexType             ldY)
 {
+    CXXLAPACK_DEBUG_OUT("zlahrd");
+  
     LAPACK_IMPL(zlahrd)(&n,
                         &k,
                         &nb,

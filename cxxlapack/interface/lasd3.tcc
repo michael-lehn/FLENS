@@ -43,6 +43,61 @@ lasd3(IndexType             nl,
       IndexType             nr,
       IndexType             sqre,
       IndexType             k,
+      float                 *d,
+      float                 *D,
+      IndexType             ldD,
+      const float           dsigma,
+      float                 *U,
+      IndexType             ldU,
+      float                 *U2,
+      IndexType             ldU2,
+      float                 *Vt,
+      IndexType             ldVt,
+      float                 *Vt2,
+      IndexType             ldVt2,
+      const IndexType       *idxc,
+      const IndexType       *ctot,
+      const float           *z)
+{
+    CXXLAPACK_DEBUG_OUT("slasd3");
+    
+    IndexType info;
+    LAPACK_IMPL(slasd3)(&nl,
+                        &nr,
+                        &sqre,
+                        &k,
+                        d,
+                        D,
+                        &ldD,
+                        &dsigma,
+                        U,
+                        &ldU,
+                        U2,
+                        &ldU2,
+                        Vt,
+                        &ldVt,
+                        Vt2,
+                        &ldVt2,
+                        idxc,
+                        ctot,
+                        z,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+lasd3(IndexType             nl,
+      IndexType             nr,
+      IndexType             sqre,
+      IndexType             k,
       double                *d,
       double                *D,
       IndexType             ldD,
@@ -59,6 +114,8 @@ lasd3(IndexType             nl,
       const IndexType       *ctot,
       const double          *z)
 {
+    CXXLAPACK_DEBUG_OUT("dlasd3");
+    
     IndexType info;
     LAPACK_IMPL(dlasd3)(&nl,
                         &nr,

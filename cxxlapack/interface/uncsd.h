@@ -36,7 +36,41 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    uncsd(char                         jobu1,
+          char                         jobu2,
+          char                         jobv1t,
+          char                         jobv2t,
+          char                         trans,
+          char                         signs,
+          IndexType                    m,
+          IndexType                    p,
+          IndexType                    q,
+          const std::complex<float >   *X11,
+          IndexType                    ldX11,
+          const std::complex<float >   *X12,
+          IndexType                    ldX12,
+          const std::complex<float >   *X21,
+          IndexType                    ldX21,
+          const std::complex<float >   *X22,
+          IndexType                    ldX22,
+          float                        *theta,
+          std::complex<float >         *U1,
+          IndexType                    ldU1,
+          std::complex<float >         *U2,
+          IndexType                    ldU2,
+          std::complex<float >         *V1t,
+          IndexType                    ldV1t,
+          std::complex<float >         *V2t,
+          IndexType                    ldV2t,
+          std::complex<float >         *work,
+          IndexType                    lWork,
+          float                        *rWork,
+          IndexType                    lrWork,
+          IndexType                    *iWork);
+    
 template <typename IndexType>
     IndexType
     uncsd(char                         jobu1,

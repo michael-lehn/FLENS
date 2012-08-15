@@ -36,7 +36,22 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    double
+    la_gerCond_c(char                        trans,
+                 IndexType                   n,
+                 const std::complex<float >  *A,
+                 IndexType                   ldA,
+                 const std::complex<float >  *Af,
+                 IndexType                   ldAf,
+                 const IndexType             *iPiv,
+                 const float                 *c,
+                 bool                        capply,
+                 IndexType                   &info,
+                 std::complex<float >        *work,
+                 float                       *rWork);
+    
 template <typename IndexType>
     double
     la_gerCond_c(char                        trans,

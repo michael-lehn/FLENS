@@ -36,7 +36,39 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    orcsd(char                  jobu1,
+          char                  jobu2,
+          char                  jobv1t,
+          char                  jobv2t,
+          char                  trans,
+          char                  signs,
+          IndexType             m,
+          IndexType             p,
+          IndexType             q,
+          const float           *X11,
+          IndexType             ldX11,
+          const float           *X12,
+          IndexType             ldX12,
+          const float           *X21,
+          IndexType             ldX21,
+          const float           *X22,
+          IndexType             ldX22,
+          float                 *theta,
+          float                 *U1,
+          IndexType             ldU1,
+          float                 *U2,
+          IndexType             ldU2,
+          float                 *V1t,
+          IndexType             ldV1t,
+          float                 *V2t,
+          IndexType             ldV2t,
+          float                 *work,
+          IndexType             lWork,
+          IndexType             *iWork);
+    
 template <typename IndexType>
     IndexType
     orcsd(char                  jobu1,

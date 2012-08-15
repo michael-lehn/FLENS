@@ -44,6 +44,37 @@ IndexType
 orgqr(IndexType     m,
       IndexType     n,
       IndexType     k,
+      float         *A,
+      IndexType     ldA,
+      const float   *tau,
+      float         *work,
+      IndexType     lWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sorgqr");
+    LAPACK_IMPL(sorgqr)(&m,
+                        &n,
+                        &k,
+                        A,
+                        &ldA,
+                        tau,
+                        work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+orgqr(IndexType     m,
+      IndexType     n,
+      IndexType     k,
       double        *A,
       IndexType     ldA,
       const double  *tau,
@@ -51,7 +82,7 @@ orgqr(IndexType     m,
       IndexType     lWork)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("dorgqr");
+    CXXLAPACK_DEBUG_OUT("dorgqr");
     LAPACK_IMPL(dorgqr)(&m,
                         &n,
                         &k,

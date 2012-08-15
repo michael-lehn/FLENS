@@ -42,6 +42,41 @@ IndexType
 hetrs2(char                        uplo,
        IndexType                   n,
        IndexType                   nRhs,
+       const std::complex<float >  *A,
+       IndexType                   ldA,
+       const IndexType             *iPiv,
+       std::complex<float >        *B,
+       IndexType                   ldB,
+       std::complex<float >        *work)
+{
+    CXXLAPACK_DEBUG_OUT("chetrs2");
+    
+    IndexType info;
+    LAPACK_IMPL(chetrs2)(&uplo,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        iPiv,
+                        B,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(work),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hetrs2(char                        uplo,
+       IndexType                   n,
+       IndexType                   nRhs,
        const std::complex<double>  *A,
        IndexType                   ldA,
        const IndexType             *iPiv,
@@ -49,6 +84,8 @@ hetrs2(char                        uplo,
        IndexType                   ldB,
        std::complex<double>        *work)
 {
+    CXXLAPACK_DEBUG_OUT("zhetrs2");
+    
     IndexType info;
     LAPACK_IMPL(zhetrs2)(&uplo,
                         &n,

@@ -36,7 +36,19 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    void
+    lacrm(IndexType                   m,
+          IndexType                   n,
+          const std::complex<float >  *A,
+          IndexType                   ldA,
+          const float                 *B,
+          IndexType                   ldB,
+          std::complex<float >        *C,
+          IndexType                   ldC,
+          float                       *rWork);
+    
 template <typename IndexType>
     void
     lacrm(IndexType                   m,

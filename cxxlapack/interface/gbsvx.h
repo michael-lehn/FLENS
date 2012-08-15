@@ -45,6 +45,32 @@ template <typename IndexType>
           IndexType             kl,
           IndexType             ku,
           IndexType             nRhs,
+          float                 *Ab,
+          IndexType             ldAb,
+          float                 *Afb,
+          IndexType             ldAfb,
+          IndexType             *iPiv,
+          char                  &equed,
+          float                 *r,
+          float                 *c,
+          float                 *B,
+          IndexType             ldB,
+          float                 *X,
+          IndexType             ldX,
+          float                 &rCond,
+          float                 *ferr,
+          float                 *berr,
+          float                 *work,
+          IndexType             *iWork);
+    
+template <typename IndexType>
+    IndexType
+    gbsvx(char                  fact,
+          char                  trans,
+          IndexType             n,
+          IndexType             kl,
+          IndexType             ku,
+          IndexType             nRhs,
           double                *Ab,
           IndexType             ldAb,
           double                *Afb,
@@ -62,7 +88,33 @@ template <typename IndexType>
           double                *berr,
           double                *work,
           IndexType             *iWork);
-
+    
+template <typename IndexType>
+    IndexType
+    gbsvx(char                  fact,
+          char                  trans,
+          IndexType             n,
+          IndexType             kl,
+          IndexType             ku,
+          IndexType             nRhs,
+          std::complex<float >  *Ab,
+          IndexType             ldAb,
+          std::complex<float >  *Afb,
+          IndexType             ldAfb,
+          IndexType             *iPiv,
+          char                  &equed,
+          float                 *r,
+          float                 *c,
+          std::complex<float >  *B,
+          IndexType             ldB,
+          std::complex<float >  *X,
+          IndexType             ldX,
+          float                 &rCond,
+          float                 *ferr,
+          float                 *berr,
+          std::complex<float >  *work,
+          float                 *rWork);
+    
 template <typename IndexType>
     IndexType
     gbsvx(char                  fact,

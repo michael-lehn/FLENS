@@ -44,6 +44,37 @@ template <typename IndexType>
           char                  jobvr,
           char                  sense,
           IndexType             n,
+          float                 *A,
+          IndexType             ldA,
+          float                 *B,
+          IndexType             ldB,
+          float                 *alphar,
+          float                 *alphai,
+          float                 *beta,
+          float                 *VL,
+          IndexType             ldVL,
+          float                 *VR,
+          IndexType             ldVR,
+          IndexType             &ilo,
+          IndexType             &ihi,
+          float                 *lscale,
+          float                 *rscale,
+          float                 &abnrm,
+          float                 &bbnrm,
+          float                 *rConde,
+          float                 *rCondv,
+          float                 *work,
+          IndexType             lWork,
+          IndexType             *iWork,
+          bool                  *bwork);
+    
+template <typename IndexType>
+    IndexType
+    ggevx(char                  balanc,
+          char                  jobVL,
+          char                  jobvr,
+          char                  sense,
+          IndexType             n,
           double                *A,
           IndexType             ldA,
           double                *B,
@@ -66,8 +97,39 @@ template <typename IndexType>
           double                *work,
           IndexType             lWork,
           IndexType             *iWork,
-          bool                  *bwork)    ;
-
+          bool                  *bwork);
+    
+template <typename IndexType>
+    IndexType
+    ggevx(char                  balanc,
+          char                  jobVL,
+          char                  jobvr,
+          char                  sense,
+          IndexType             n,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          std::complex<float >  *B,
+          IndexType             ldB,
+          std::complex<float >  *alpha,
+          std::complex<float >  *beta,
+          std::complex<float >  *VL,
+          IndexType             ldVL,
+          std::complex<float >  *VR,
+          IndexType             ldVR,
+          IndexType             &ilo,
+          IndexType             &ihi,
+          float                 *lscale,
+          float                 *rscale,
+          float                 &abnrm,
+          float                 &bbnrm,
+          float                 *rConde,
+          float                 *rCondv,
+          std::complex<float >  *work,
+          IndexType             lWork,
+          float                 *rWork,
+          IndexType             *iWork,
+          bool                  *bwork);
+    
 template <typename IndexType>
     IndexType
     ggevx(char                  balanc,
@@ -97,7 +159,7 @@ template <typename IndexType>
           IndexType             lWork,
           double                *rWork,
           IndexType             *iWork,
-          bool                  *bwork)   ;
+          bool                  *bwork);
 
 } // namespace cxxlapack
 

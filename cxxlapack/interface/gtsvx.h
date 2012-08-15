@@ -43,6 +43,30 @@ template <typename IndexType>
           char                  trans,
           IndexType             n,
           IndexType             nRhs,
+          const float           *dl,
+          const float           *d,
+          const float           *du,
+          float                 *dlf,
+          float                 *df,
+          float                 *duf,
+          float                 *du2,
+          IndexType             *iPiv,
+          const float           *B,
+          IndexType             ldB,
+          float                 *X,
+          IndexType             ldX,
+          float                 &rCond,
+          float                 *ferr,
+          float                 *berr,
+          float                 *work,
+          IndexType             *iWork);
+
+template <typename IndexType>
+    IndexType
+    gtsvx(char                  fact,
+          char                  trans,
+          IndexType             n,
+          IndexType             nRhs,
           const double          *dl,
           const double          *d,
           const double          *du,
@@ -61,6 +85,30 @@ template <typename IndexType>
           double                *work,
           IndexType             *iWork);
 
+template <typename IndexType>
+    IndexType
+    gtsvx(char                        fact,
+          char                        trans,
+          IndexType                   n,
+          IndexType                   nRhs,
+          const std::complex<float >  *dl,
+          const std::complex<float >  *d,
+          const std::complex<float >  *du,
+          std::complex<float >        *dlf,
+          std::complex<float >        *df,
+          std::complex<float >        *duf,
+          std::complex<float >        *du2,
+          IndexType                   *iPiv,
+          const std::complex<float >  *B,
+          IndexType                   ldB,
+          std::complex<float >        *X,
+          IndexType                   ldX,
+          float                       &rCond,
+          float                       *ferr,
+          float                       *berr,
+          std::complex<float >        *work,
+          float                       *rWork);
+    
 template <typename IndexType>
     IndexType
     gtsvx(char                        fact,

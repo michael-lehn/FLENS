@@ -42,6 +42,46 @@ IndexType
 gglse(IndexType             m,
       IndexType             n,
       IndexType             p,
+      float                 *A,
+      IndexType             ldA,
+      float                 *B,
+      IndexType             ldB,
+      float                 *c,
+      float                 *d,
+      float                 *x,
+      float                 *work,
+      IndexType             lWork)
+{
+    CXXLAPACK_DEBUG_OUT("sgglse");
+    
+    IndexType info;
+    LAPACK_IMPL(sgglse)(&m,
+                        &n,
+                        &p,
+                        A,
+                        &ldA,
+                        B,
+                        &ldB,
+                        c,
+                        d,
+                        x,
+                        work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gglse(IndexType             m,
+      IndexType             n,
+      IndexType             p,
       double                *A,
       IndexType             ldA,
       double                *B,
@@ -52,6 +92,8 @@ gglse(IndexType             m,
       double                *work,
       IndexType             lWork)
 {
+    CXXLAPACK_DEBUG_OUT("dgglse");
+    
     IndexType info;
     LAPACK_IMPL(dgglse)(&m,
                         &n,
@@ -80,6 +122,46 @@ IndexType
 gglse(IndexType             m,
       IndexType             n,
       IndexType             p,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      std::complex<float >  *B,
+      IndexType             ldB,
+      std::complex<float >  *c,
+      std::complex<float >  *d,
+      std::complex<float >  *x,
+      std::complex<float >  *work,
+      IndexType             lWork)
+{
+    CXXLAPACK_DEBUG_OUT("cgglse");
+    
+    IndexType info;
+    LAPACK_IMPL(cgglse)(&m,
+                        &n,
+                        &p,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(c),
+                        reinterpret_cast<float  *>(d),
+                        reinterpret_cast<float  *>(x),
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gglse(IndexType             m,
+      IndexType             n,
+      IndexType             p,
       std::complex<double>  *A,
       IndexType             ldA,
       std::complex<double>  *B,
@@ -90,6 +172,8 @@ gglse(IndexType             m,
       std::complex<double>  *work,
       IndexType             lWork)
 {
+    CXXLAPACK_DEBUG_OUT("zgglse");
+    
     IndexType info;
     LAPACK_IMPL(zgglse)(&m,
                         &n,

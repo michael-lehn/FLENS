@@ -42,6 +42,40 @@ void
 labrd(IndexType             m,
       IndexType             n,
       IndexType             nb,
+      float                 *A,
+      IndexType             ldA,
+      float                 *d,
+      float                 *e,
+      float                 *tauq,
+      float                 *taup,
+      float                 *X,
+      IndexType             ldX,
+      float                 *Y,
+      IndexType             ldY)
+{
+    CXXLAPACK_DEBUG_OUT("slabrd");
+    
+    IndexType info;
+    LAPACK_IMPL(slabrd)(&m,
+                        &n,
+                        &nb,
+                        A,
+                        &ldA,
+                        d,
+                        e,
+                        tauq,
+                        taup,
+                        X,
+                        &ldX,
+                        Y,
+                        &ldY);
+}
+
+template <typename IndexType>
+void
+labrd(IndexType             m,
+      IndexType             n,
+      IndexType             nb,
       double                *A,
       IndexType             ldA,
       double                *d,
@@ -53,6 +87,8 @@ labrd(IndexType             m,
       double                *Y,
       IndexType             ldY)
 {
+    CXXLAPACK_DEBUG_OUT("dlabrd");
+    
     IndexType info;
     LAPACK_IMPL(dlabrd)(&m,
                         &n,
@@ -74,6 +110,40 @@ void
 labrd(IndexType             m,
       IndexType             n,
       IndexType             nb,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      float                 *d,
+      float                 *e,
+      std::complex<float >  *tauq,
+      std::complex<float >  *taup,
+      std::complex<float >  *X,
+      IndexType             ldX,
+      std::complex<float >  *Y,
+      IndexType             ldY)
+{
+    CXXLAPACK_DEBUG_OUT("clabrd");
+    
+    IndexType info;
+    LAPACK_IMPL(clabrd)(&m,
+                        &n,
+                        &nb,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        d,
+                        e,
+                        reinterpret_cast<float  *>(tauq),
+                        reinterpret_cast<float  *>(taup),
+                        reinterpret_cast<float  *>(X),
+                        &ldX,
+                        reinterpret_cast<float  *>(Y),
+                        &ldY);
+}
+
+template <typename IndexType>
+void
+labrd(IndexType             m,
+      IndexType             n,
+      IndexType             nb,
       std::complex<double>  *A,
       IndexType             ldA,
       double                *d,
@@ -85,6 +155,8 @@ labrd(IndexType             m,
       std::complex<double>  *Y,
       IndexType             ldY)
 {
+    CXXLAPACK_DEBUG_OUT("zlabrd");
+    
     IndexType info;
     LAPACK_IMPL(zlabrd)(&m,
                         &n,

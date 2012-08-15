@@ -51,6 +51,8 @@ sposv(char                  uplo,
       float                 *swork,
       IndexType             &iter)
 {
+    CXXLAPACK_DEBUG_OUT("dsposv");
+
     IndexType info;
     LAPACK_IMPL(dsposv)(&uplo,
                         &n,

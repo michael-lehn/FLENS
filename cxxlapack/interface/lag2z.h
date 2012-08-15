@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
 template <typename IndexType>
     IndexType
     lag2z(IndexType             m,
@@ -44,7 +44,7 @@ template <typename IndexType>
           std::complex<float>   *Sa,
           IndexType             ldSa,
           std::complex<double>  *A,
-          IndexType             ldA) ;
+          IndexType             ldA);
 
 } // namespace cxxlapack
 

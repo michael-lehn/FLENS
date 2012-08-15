@@ -42,6 +42,8 @@ IndexType
 ilaprec(char               prec)
 {
 
+    CXXLAPACK_DEBUG_OUT("ilaprec");
+    
     return LAPACK_IMPL(ilaprec)(&prec);
 }
 

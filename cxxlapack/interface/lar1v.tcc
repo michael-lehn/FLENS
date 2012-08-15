@@ -42,6 +42,57 @@ void
 lar1v(IndexType             n,
       IndexType             b1,
       IndexType             bn,
+      float                 lambda,
+      const float           *d,
+      const float           *l,
+      const float           *ld,
+      const float           *lld,
+      float                 pivmin,
+      float                 gaptol,
+      float                 *z,
+      bool                  wantnc,
+      IndexType             &negcnt,
+      float                 &ztz,
+      float                 &mingma,
+      IndexType             &r,
+      IndexType             *isuppz,
+      float                 &nrminv,
+      float                 &resid,
+      float                 &rqcorr,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("slaq1v");
+ 
+    bool _wantnc = wantnc;
+    LAPACK_IMPL(slar1v)(&n,
+                        &b1,
+                        &bn,
+                        &lambda,
+                        d,
+                        l,
+                        ld,
+                        lld,
+                        &pivmin,
+                        &gaptol,
+                        z,
+                        &_wantnc,
+                        &negcnt,
+                        &ztz,
+                        &mingma,
+                        &r,
+                        isuppz,
+                        &nrminv,
+                        &resid,
+                        &rqcorr,
+                        work);
+}
+
+
+template <typename IndexType>
+void
+lar1v(IndexType             n,
+      IndexType             b1,
+      IndexType             bn,
       double                lambda,
       const double          *d,
       const double          *l,
@@ -61,6 +112,8 @@ lar1v(IndexType             n,
       double                &rqcorr,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dlaq1v");
+ 
     bool _wantnc = wantnc;
     LAPACK_IMPL(dlar1v)(&n,
                         &b1,
@@ -73,6 +126,56 @@ lar1v(IndexType             n,
                         &pivmin,
                         &gaptol,
                         z,
+                        &_wantnc,
+                        &negcnt,
+                        &ztz,
+                        &mingma,
+                        &r,
+                        isuppz,
+                        &nrminv,
+                        &resid,
+                        &rqcorr,
+                        work);
+}
+
+template <typename IndexType>
+void
+lar1v(IndexType             n,
+      IndexType             b1,
+      IndexType             bn,
+      float                 lambda,
+      const float           *d,
+      const float           *l,
+      const float           *ld,
+      const float           *lld,
+      float                 pivmin,
+      float                 gaptol,
+      std::complex<float >  *z,
+      bool                  wantnc,
+      IndexType             &negcnt,
+      float                 &ztz,
+      float                 &mingma,
+      IndexType             &r,
+      IndexType             *isuppz,
+      float                 &nrminv,
+      float                 &resid,
+      float                 &rqcorr,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("claq1v");
+ 
+    bool _wantnc = wantnc;
+    LAPACK_IMPL(clar1v)(&n,
+                        &b1,
+                        &bn,
+                        &lambda,
+                        d,
+                        l,
+                        ld,
+                        lld,
+                        &pivmin,
+                        &gaptol,
+                        reinterpret_cast<float  *>(z),
                         &_wantnc,
                         &negcnt,
                         &ztz,
@@ -109,6 +212,8 @@ lar1v(IndexType             n,
       double                &rqcorr,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("zlaq1v");
+ 
     bool _wantnc = wantnc;
     LAPACK_IMPL(zlar1v)(&n,
                         &b1,

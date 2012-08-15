@@ -43,10 +43,38 @@ template <typename IndexType>
 IndexType
 getf2(IndexType     m,
       IndexType     n,
+      float         *A,
+      IndexType     ldA,
+      IndexType     *iPiv)
+{
+    CXXLAPACK_DEBUG_OUT("sgetf2");
+    
+    IndexType info;
+    LAPACK_IMPL(sgetf2)(&m,
+                        &n,
+                        A,
+                        &ldA,
+                        iPiv,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+getf2(IndexType     m,
+      IndexType     n,
       double        *A,
       IndexType     ldA,
       IndexType     *iPiv)
 {
+    CXXLAPACK_DEBUG_OUT("dgetf2");
+    
     IndexType info;
     LAPACK_IMPL(dgetf2)(&m,
                         &n,
@@ -67,10 +95,38 @@ template <typename IndexType>
 IndexType
 getf2(IndexType             m,
       IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      IndexType             *iPiv)
+{
+    CXXLAPACK_DEBUG_OUT("cgetf2");
+    
+    IndexType info;
+    LAPACK_IMPL(cgetf2)(&m,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        iPiv,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+getf2(IndexType             m,
+      IndexType             n,
       std::complex<double>  *A,
       IndexType             ldA,
       IndexType             *iPiv)
 {
+    CXXLAPACK_DEBUG_OUT("zgetf2");
+    
     IndexType info;
     LAPACK_IMPL(zgetf2)(&m,
                         &n,

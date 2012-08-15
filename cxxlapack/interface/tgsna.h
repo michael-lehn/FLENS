@@ -36,51 +36,95 @@
 #include <complex>
 
 namespace cxxlapack {
-
-// template <typename IndexType>
-//     IndexType
-//     tgsna(char                  job,
-//           char                  howmny,
-//           bool                  *select,
-//           IndexType             n,
-//           const double          *A,
-//           IndexType             ldA,
-//           const double          *B,
-//           IndexType             ldB,
-//           const double          *VL,
-//           IndexType             ldVL,
-//           const double          *VR,
-//           IndexType             ldVR,
-//           double                *s,
-//           double                *dif,
-//           IndexType             mm,
-//           IndexType             &m,
-//           double                *work,
-//           IndexType             lWork,
-//           IndexType             *iWork);
-// 
-// template <typename IndexType>
-//     IndexType
-//     tgsna(char                       job,
-//           char                       howmny,
-//           bool                       *select,
-//           IndexType                   n,
-//           const std::complex<double>  *A,
-//           IndexType                   ldA,
-//           const std::complex<double>  *B,
-//           IndexType                   ldB,
-//           const std::complex<double>  *VL,
-//           IndexType                   ldVL,
-//           const std::complex<double>  *VR,
-//           IndexType                   ldVR,
-//           double                      *s,
-//           double                      *dif,
-//           IndexType                   mm,
-//           IndexType                   &m,
-//           std::complex<double>        *work,
-//           IndexType                   lWork,
-//           IndexType                   *iWork);
-
-} // namespace cxxlapack
+/*
+template <typename IndexType>
+     IndexType
+     tgsna(char                  job,
+           char                  howmny,
+           bool                  *select,
+           IndexType             n,
+           const float           *A,
+           IndexType             ldA,
+           const float           *B,
+           IndexType             ldB,
+           const float           *VL,
+           IndexType             ldVL,
+           const float           *VR,
+           IndexType             ldVR,
+           float                 *s,
+           float                 *dif,
+           IndexType             mm,
+           IndexType             &m,
+           float                 *work,
+           IndexType             lWork,
+           IndexType             *iWork);
+    
+template <typename IndexType>
+    IndexType
+    tgsna(char                  job,
+          char                  howmny,
+          bool                  *select,
+          IndexType             n,
+          const double          *A,
+          IndexType             ldA,
+          const double          *B,
+          IndexType             ldB,
+          const double          *VL,
+          IndexType             ldVL,
+          const double          *VR,
+          IndexType             ldVR,
+          double                *s,
+          double                *dif,
+          IndexType             mm,
+          IndexType             &m,
+          double                *work,
+          IndexType             lWork,
+          IndexType             *iWork);
+    
+template <typename IndexType>
+    IndexType
+    tgsna(char                       job,
+          char                       howmny,
+          bool                       *select,
+          IndexType                   n,
+          const std::complex<float >  *A,
+          IndexType                   ldA,
+          const std::complex<float >  *B,
+          IndexType                   ldB,
+          const std::complex<float >  *VL,
+          IndexType                   ldVL,
+          const std::complex<float >  *VR,
+          IndexType                   ldVR,
+          float                       *s,
+          float                       *dif,
+          IndexType                   mm,
+          IndexType                   &m,
+          std::complex<float >        *work,
+          IndexType                   lWork,
+          IndexType                   *iWork);
+    
+template <typename IndexType>
+     IndexType
+     tgsna(char                       job,
+           char                       howmny,
+           bool                       *select,
+           IndexType                   n,
+           const std::complex<double>  *A,
+           IndexType                   ldA,
+           const std::complex<double>  *B,
+           IndexType                   ldB,
+           const std::complex<double>  *VL,
+           IndexType                   ldVL,
+           const std::complex<double>  *VR,
+           IndexType                   ldVR,
+           double                      *s,
+           double                      *dif,
+           IndexType                   mm,
+           IndexType                   &m,
+           std::complex<double>        *work,
+           IndexType                   lWork,
+           IndexType                   *iWork);
+*/
+}  // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_TGSNA_H

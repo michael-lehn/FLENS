@@ -47,6 +47,44 @@ ormr3(char          side,
       IndexType     n,
       IndexType     k,
       IndexType     l,
+      const float   *A,
+      IndexType     ldA,
+      const float   *tau,
+      float         *C,
+      IndexType     ldC,
+      float         *work)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sormr3");
+    LAPACK_IMPL(sormr3)(&side,
+                        &trans,
+                        &m,
+                        &n,
+                        &k,
+                        &l,
+                        A,
+                        &ldA,
+                        tau,
+                        C,
+                        &ldC,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+}
+
+template <typename IndexType>
+void
+ormr3(char          side,
+      char          trans,
+      IndexType     m,
+      IndexType     n,
+      IndexType     k,
+      IndexType     l,
       const double  *A,
       IndexType     ldA,
       const double  *tau,
@@ -55,7 +93,7 @@ ormr3(char          side,
       double        *work)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("dormr3");
+    CXXLAPACK_DEBUG_OUT("dormr3");
     LAPACK_IMPL(dormr3)(&side,
                         &trans,
                         &m,

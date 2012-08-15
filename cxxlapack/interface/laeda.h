@@ -36,7 +36,23 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    laeda(IndexType             n,
+          IndexType             tlvls,
+          IndexType             curlvl,
+          IndexType             curpbm,
+          const IndexType       *prmptr,
+          const IndexType       *perm,
+          const IndexType       *givptr,
+          const IndexType       *givcol,
+          const float           *givnum,
+          const float           *q,
+          const IndexType       *qptr,
+          float                 *z,
+          float                 *ztemp);
+    
 template <typename IndexType>
     IndexType
     laeda(IndexType             n,

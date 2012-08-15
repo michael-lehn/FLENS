@@ -42,6 +42,8 @@ bool
 lsame(char                  ca,
       char                  cb)
 {
+    CXXLAPACK_DEBUG_OUT("lsame");
+    
     return LAPACK_IMPL(lsame)(&ca,
                               &cb);
 

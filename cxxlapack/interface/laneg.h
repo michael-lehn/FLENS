@@ -36,7 +36,16 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    laneg(IndexType             n,
+          const float           *d,
+          const float           *lld,
+          float                 sigma,
+          float                 pivmin,
+          IndexType             r);
+    
 template <typename IndexType>
     IndexType
     laneg(IndexType             n,

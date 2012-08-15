@@ -44,6 +44,48 @@ gghrd(char                  compq,
       IndexType             n,
       IndexType             ilo,
       IndexType             ihi,
+      float                 *A,
+      IndexType             ldA,
+      float                 *B,
+      IndexType             ldB,
+      float                 *Q,
+      IndexType             ldQ,
+      float                 *Z,
+      IndexType             ldZ)
+{
+    CXXLAPACK_DEBUG_OUT("sgghrd");
+    
+    IndexType info;
+    LAPACK_IMPL(sgghrd)(&compq,
+                        &compz
+                        &n,
+                        &ilo,
+                        &ihi,
+                        A,
+                        &ldA,
+                        B,
+                        &ldB,
+                        Q,
+                        &ldQ,
+                        Z,
+                        &ldZ,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gghrd(char                  compq,
+      char                  compz,
+      IndexType             n,
+      IndexType             ilo,
+      IndexType             ihi,
       double                *A,
       IndexType             ldA,
       double                *B,
@@ -53,6 +95,8 @@ gghrd(char                  compq,
       double                *Z,
       IndexType             ldZ)
 {
+    CXXLAPACK_DEBUG_OUT("dgghrd");
+    
     IndexType info;
     LAPACK_IMPL(dgghrd)(&compq,
                         &compz
@@ -84,6 +128,48 @@ gghrd(char                  compq,
       IndexType             n,
       IndexType             ilo,
       IndexType             ihi,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      std::complex<float >  *B,
+      IndexType             ldB,
+      std::complex<float >  *Q,
+      IndexType             ldQ,
+      std::complex<float >  *Z,
+      IndexType             ldZ)
+{
+    CXXLAPACK_DEBUG_OUT("cgghrd");
+    
+    IndexType info;
+    LAPACK_IMPL(cgghrd)(&compq,
+                        &compz
+                        &n,
+                        &ilo,
+                        &ihi,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(Q),
+                        &ldQ,
+                        reinterpret_cast<float  *>(Z),
+                        &ldZ,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gghrd(char                  compq,
+      char                  compz,
+      IndexType             n,
+      IndexType             ilo,
+      IndexType             ihi,
       std::complex<double>  *A,
       IndexType             ldA,
       std::complex<double>  *B,
@@ -93,6 +179,8 @@ gghrd(char                  compq,
       std::complex<double>  *Z,
       IndexType             ldZ)
 {
+    CXXLAPACK_DEBUG_OUT("zgghrd");
+    
     IndexType info;
     LAPACK_IMPL(zgghrd)(&compq,
                         &compz

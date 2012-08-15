@@ -41,8 +41,24 @@ template <typename IndexType>
     IndexType
     lascl2(IndexType             m,
            IndexType             n,
+           const float           *d,
+           float                 *X,
+           IndexType             ldX);
+    
+template <typename IndexType>
+    IndexType
+    lascl2(IndexType             m,
+           IndexType             n,
            const double          *d,
            double                *X,
+           IndexType             ldX);
+    
+template <typename IndexType>
+    IndexType
+    lascl2(IndexType             m,
+           IndexType             n,
+           const float           *d,
+           std::complex<float >  *X,
            IndexType             ldX);
 
 template <typename IndexType>

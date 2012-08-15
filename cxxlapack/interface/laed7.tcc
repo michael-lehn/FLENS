@@ -45,6 +45,65 @@ laed7(IndexType             icompq,
       IndexType             tlvls,
       IndexType             curlvl,
       IndexType             curpbm,
+      float                 *d,
+      float                 *Q,
+      IndexType             ldQ,
+      IndexType             *indxq,
+      float                 rho,
+      IndexType             cutpnt,
+      float                 *qstore,
+      const IndexType       *qptr,
+      const IndexType       *prmptr,
+      const IndexType       *perm,
+      const IndexType       *givptr,
+      const IndexType       *givcol,
+      const float           *givnum,
+      float                 *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("slaed7");
+    
+    IndexType info;
+    LAPACK_IMPL(slaed7)(&icompq,
+                        &n,
+                        &qsiz,
+                        &tlvls,
+                        &curlvl,
+                        &curpbm,
+                        d,
+                        Q,
+                        &ldQ,
+                        indxq,
+                        rho,
+                        &cutpnt,
+                        qstore,
+                        qptr,
+                        prmptr,
+                        perm,
+                        givptr,
+                        givcol,
+                        givnum,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+laed7(IndexType             icompq,
+      IndexType             n,
+      IndexType             qsiz,
+      IndexType             tlvls,
+      IndexType             curlvl,
+      IndexType             curpbm,
       double                *d,
       double                *Q,
       IndexType             ldQ,
@@ -61,6 +120,8 @@ laed7(IndexType             icompq,
       double                *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("slaed7");
+    
     IndexType info;
     LAPACK_IMPL(dlaed7)(&icompq,
                         &n,
@@ -102,6 +163,64 @@ laed7(IndexType             icompq,
       IndexType             tlvls,
       IndexType             curlvl,
       IndexType             curpbm,
+      float                 *d,
+      std::complex<float >  *Q,
+      IndexType             ldQ,
+      float                 rho,
+      IndexType             *indxq,
+      float                 *qstore,
+      const IndexType       *qptr,
+      const IndexType       *prmptr,
+      const IndexType       *perm,
+      const IndexType       *givptr,
+      const IndexType       *givcol,
+      const float           *givnum,
+      std::complex<float >  *work,
+      float                 *rWork,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("claed7");
+    
+    IndexType info;
+    LAPACK_IMPL(claed7)(&icompq,
+                        &n,
+                        &qsiz,
+                        &tlvls,
+                        &curlvl,
+                        &curpbm,
+                        d,
+                        reinterpret_cast<float  *>(Q),
+                        &ldQ,
+                        rho,
+                        indxq,
+                        qstore,
+                        qptr,
+                        prmptr,
+                        perm,
+                        givptr,
+                        givcol,
+                        givnum,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+laed7(IndexType             icompq,
+      IndexType             n,
+      IndexType             qsiz,
+      IndexType             tlvls,
+      IndexType             curlvl,
+      IndexType             curpbm,
       double                *d,
       std::complex<double>  *Q,
       IndexType             ldQ,
@@ -118,6 +237,8 @@ laed7(IndexType             icompq,
       double                *rWork,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("zlaed7");
+    
     IndexType info;
     LAPACK_IMPL(zlaed7)(&icompq,
                         &n,

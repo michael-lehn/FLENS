@@ -37,6 +37,35 @@
 
 namespace cxxlapack {
 
+template <typename IndexType>
+double
+la_porCond_c(char                        uplo,
+             IndexType                   n,
+             const std::complex<float >  *A,
+             IndexType                   ldA,
+             const std::complex<float >  *Af,
+             IndexType                   ldAf,
+             const float                 *c,
+             bool                        capply,
+             IndexType                   &info,
+             std::complex<float >        *work,
+             float                       *rWork)
+{  
+    CXXLAPACK_DEBUG_OUT("cla_porcond_c");
+
+    IndexType _capply = capply;
+    return LAPACK_IMPL(cla_porcond_c)(&uplo,
+                                      &n,
+                                      reinterpret_cast<const float  *>(A),
+                                      &ldA,
+                                      reinterpret_cast<const float  *>(Af),
+                                      &ldAf,
+                                      c,
+                                      &_capply,
+                                      &info,
+                                      reinterpret_cast<float  *>(work),
+                                      rWork);
+}
 
 template <typename IndexType>
 double
@@ -52,9 +81,10 @@ la_porCond_c(char                        uplo,
              std::complex<double>        *work,
              double                      *rWork)
 {  
+    CXXLAPACK_DEBUG_OUT("zla_porcond_c");
 
     IndexType _capply = capply;
-    return LAPACK_IMPL(zla_porCond_c)(&uplo,
+    return LAPACK_IMPL(zla_porcond_c)(&uplo,
                                       &n,
                                       reinterpret_cast<const double *>(A),
                                       &ldA,

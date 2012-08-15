@@ -36,7 +36,27 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    stebz(char                  range,
+          char                  order,
+          IndexType             n,
+          float                 vl,
+          float                 vu,
+          IndexType             il,
+          IndexType             iu,
+          float                 abstol,
+          const float           *d,
+          const float           *e,
+          IndexType             &m,
+          IndexType             &nsplit,
+          float                 *w,
+          IndexType             *iblock,
+          IndexType             *isplit,
+          float                 *work,
+          IndexType             *iWork);
+    
 template <typename IndexType>
     IndexType
     stebz(char                  range,

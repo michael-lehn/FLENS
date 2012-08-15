@@ -42,6 +42,22 @@ template <typename IndexType>
     labrd(IndexType             m,
           IndexType             n,
           IndexType             nb,
+          float                 *A,
+          IndexType             ldA,
+          float                 *d,
+          float                 *e,
+          float                 *tauq,
+          float                 *taup,
+          float                 *X,
+          IndexType             ldX,
+          float                 *Y,
+          IndexType             ldY);
+    
+template <typename IndexType>
+    void
+    labrd(IndexType             m,
+          IndexType             n,
+          IndexType             nb,
           double                *A,
           IndexType             ldA,
           double                *d,
@@ -52,7 +68,23 @@ template <typename IndexType>
           IndexType             ldX,
           double                *Y,
           IndexType             ldY);
-
+    
+template <typename IndexType>
+    void
+    labrd(IndexType             m,
+          IndexType             n,
+          IndexType             nb,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          float                 *d,
+          float                 *e,
+          std::complex<float >  *tauq,
+          std::complex<float >  *taup,
+          std::complex<float >  *X,
+          IndexType             ldX,
+          std::complex<float >  *Y,
+          IndexType             ldY);
+    
 template <typename IndexType>
     void
     labrd(IndexType             m,

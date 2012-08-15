@@ -41,6 +41,42 @@ template <typename IndexType>
 IndexType
 lasq5(IndexType             i0,
       IndexType             n0,
+      const float           *z,
+      IndexType             pp,
+      IndexType             n0in,
+      float                 dmin,
+      float                 dmin1,
+      float                 dmin2,
+      float                 dn,
+      float                 dn1,
+      float                 dn2,
+      float                 &tau,
+      IndexType             &ttype,
+      float                 &g)
+{
+    CXXLAPACK_DEBUG_OUT("slasq5");
+    
+    LAPACK_IMPL(slasq5)(&i0,
+                        &n0,
+                        z,
+                        &pp,
+                        &n0in,
+                        &dmin,
+                        &dmin1,
+                        &dmin2,
+                        &dn,
+                        &dn1,
+                        &dn2,
+                        &tau,
+                        &ttype,
+                        &g);
+
+}
+
+template <typename IndexType>
+IndexType
+lasq5(IndexType             i0,
+      IndexType             n0,
       const double          *z,
       IndexType             pp,
       IndexType             n0in,
@@ -54,6 +90,8 @@ lasq5(IndexType             i0,
       IndexType             &ttype,
       double                &g)
 {
+    CXXLAPACK_DEBUG_OUT("dlasq5");
+    
     LAPACK_IMPL(dlasq5)(&i0,
                         &n0,
                         z,

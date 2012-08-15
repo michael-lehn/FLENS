@@ -43,6 +43,52 @@ hpgvd(IndexType             itype,
       char                  jobz,
       char                  uplo,
       IndexType             n,
+      std::complex<float >  *Ap,
+      std::complex<float >  *Bp,
+      float                 *w,
+      std::complex<float >  *Z,
+      IndexType             ldZ,
+      std::complex<float >  *work,
+      IndexType             lWork,
+      float                 *rWork,
+      IndexType             lrWork,
+      IndexType             *iWork,
+      IndexType             liWork)
+{
+    CXXLAPACK_DEBUG_OUT("chpgvd");
+    
+    IndexType info;
+    LAPACK_IMPL(chpgvd)(&itype,
+                        &jobz,
+                        &uplo,
+                        &n,
+                        reinterpret_cast<float  *>(Ap),
+                        reinterpret_cast<float  *>(Bp),
+                        w,
+                        reinterpret_cast<float  *>(Z),
+                        &ldZ,
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        rWork,
+                        &lrWork,
+                        iWork,
+                        liWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hpgvd(IndexType             itype,
+      char                  jobz,
+      char                  uplo,
+      IndexType             n,
       std::complex<double>  *Ap,
       std::complex<double>  *Bp,
       double                *w,
@@ -50,11 +96,13 @@ hpgvd(IndexType             itype,
       IndexType             ldZ,
       std::complex<double>  *work,
       IndexType             lWork,
-      std::complex<double>  *rWork,
+      double                *rWork,
       IndexType             lrWork,
       IndexType             *iWork,
       IndexType             liWork)
 {
+    CXXLAPACK_DEBUG_OUT("zhpgvd");
+    
     IndexType info;
     LAPACK_IMPL(zhpgvd)(&itype,
                         &jobz,

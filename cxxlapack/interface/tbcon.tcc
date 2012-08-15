@@ -44,12 +44,50 @@ tbcon(char                  norm,
       char                  diag,
       IndexType             n,
       IndexType             kd,
+      const float           *Ab,
+      IndexType             ldAb,
+      float                 &rCond,
+      float                 *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("stbcon");
+ 
+    IndexType info;
+    LAPACK_IMPL(stbcon)(&norm,
+                        &uplo,
+                        &diag,
+                        &n,
+                        &kd,
+                        Ab,
+                        ldAb,
+                        &rCond,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+tbcon(char                  norm,
+      char                  uplo,
+      char                  diag,
+      IndexType             n,
+      IndexType             kd,
       const double          *Ab,
       IndexType             ldAb,
       double                &rCond,
       double                *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("dtbcon");
+ 
     IndexType info;
     LAPACK_IMPL(dtbcon)(&norm,
                         &uplo,
@@ -79,12 +117,50 @@ tbcon(char                        norm,
       char                        diag,
       IndexType                   n,
       IndexType                   kd,
+      const std::complex<float >  *Ab,
+      IndexType                   ldAb,
+      float                       &rCond,
+      std::complex<float >        *work,
+      float                       *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("ctbcon");
+ 
+    IndexType info;
+    LAPACK_IMPL(ctbcon)(&norm,
+                        &uplo,
+                        &diag,
+                        &n,
+                        &kd,
+                        reinterpret_cast<const float  *>(Ab),
+                        ldAb,
+                        &rCond,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+tbcon(char                        norm,
+      char                        uplo,
+      char                        diag,
+      IndexType                   n,
+      IndexType                   kd,
       const std::complex<double>  *Ab,
       IndexType                   ldAb,
       double                      &rCond,
       std::complex<double>        *work,
       double                      *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("ztbcon");
+ 
     IndexType info;
     LAPACK_IMPL(ztbcon)(&norm,
                         &uplo,

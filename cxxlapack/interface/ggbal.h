@@ -41,6 +41,20 @@ template <typename IndexType>
     IndexType
     ggbal(char                  job,
           IndexType             n,
+          float                 *A,
+          IndexType             ldA,
+          float                 *B,
+          IndexType             ldB,
+          IndexType             ilo,
+          IndexType             ihi,
+          float                 *lscale,
+          float                 *rscale,
+          float                 *work);
+    
+template <typename IndexType>
+    IndexType
+    ggbal(char                  job,
+          IndexType             n,
           double                *A,
           IndexType             ldA,
           double                *B,
@@ -50,7 +64,21 @@ template <typename IndexType>
           double                *lscale,
           double                *rscale,
           double                *work);
-
+    
+template <typename IndexType>
+    IndexType
+    ggbal(char                  job,
+          IndexType             n,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          std::complex<float >  *B,
+          IndexType             ldB,
+          IndexType             ilo,
+          IndexType             ihi,
+          float                 *lscale,
+          float                 *rscale,
+          float                 *work);
+    
 template <typename IndexType>
     IndexType
     ggbal(char                  job,

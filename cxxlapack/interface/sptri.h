@@ -41,9 +41,26 @@ template <typename IndexType>
     IndexType
     sptri(char                  uplo,
           IndexType             n,
+          float                 *Ap,
+          const IndexType       *iPiv,
+          float                 *work);
+    
+    
+template <typename IndexType>
+    IndexType
+    sptri(char                  uplo,
+          IndexType             n,
           double                *Ap,
           const IndexType       *iPiv,
           double                *work);
+    
+template <typename IndexType>
+    IndexType
+    sptri(char                  uplo,
+          IndexType             n,
+          std::complex<float >  *Ap,
+          const IndexType       *iPiv,
+          std::complex<float >  *work);
 
 template <typename IndexType>
     IndexType

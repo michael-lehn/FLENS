@@ -44,6 +44,44 @@ unml2(char                        side,
       IndexType                   m,
       IndexType                   n,
       IndexType                   k,
+      const std::complex<float >  *A,
+      IndexType                   ldA,
+      const std::complex<float >  *tau,
+      std::complex<float >        *C,
+      IndexType                   ldC,
+      std::complex<float >        *work)
+{
+    CXXLAPACK_DEBUG_OUT("cunml2");
+ 
+    IndexType info;
+    LAPACK_IMPL(cunml2)(&side,
+                        &trans,
+                        &m,
+                        &n,
+                        &k,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        reinterpret_cast<const float  *>(tau),
+                        reinterpret_cast<float  *>(C),
+                        &ldC,
+                        reinterpret_cast<float  *>(work),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+unml2(char                        side,
+      char                        trans,
+      IndexType                   m,
+      IndexType                   n,
+      IndexType                   k,
       const std::complex<double>  *A,
       IndexType                   ldA,
       const std::complex<double>  *tau,
@@ -51,6 +89,8 @@ unml2(char                        side,
       IndexType                   ldC,
       std::complex<double>        *work)
 {
+    CXXLAPACK_DEBUG_OUT("zunml2");
+ 
     IndexType info;
     LAPACK_IMPL(zunml2)(&side,
                         &trans,

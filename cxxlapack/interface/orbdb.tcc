@@ -44,6 +44,64 @@ orbdb(char                  trans,
       IndexType             m,
       IndexType             p,
       IndexType             q,
+      float                 *X11,
+      IndexType             ldX11,
+      float                 *X12,
+      IndexType             ldX12,
+      float                 *X21,
+      IndexType             ldX21,
+      float                 *X22,
+      IndexType             ldX22,
+      float                 *theta,
+      float                 *phi,
+      float                 *taup1,
+      float                 *taup2,
+      float                 *tauq1,
+      float                 *tauq2,
+      float                 *work,
+      IndexType             lWork)
+{
+    CXXLAPACK_DEBUG_OUT("sorbdb");
+  
+    IndexType info;
+    LAPACK_IMPL(sorbdb)(&trans,
+                        &signs,
+                        &m,
+                        &p,
+                        &q,
+                        X11,
+                        &ldX11,
+                        X12,
+                        &ldX12,
+                        X21,
+                        &ldX21,
+                        X22,
+                        &ldX22,
+                        theta,
+                        phi,
+                        taup1,
+                        taup2,
+                        tauq1,
+                        tauq2,
+                        work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+orbdb(char                  trans,
+      char                  signs,
+      IndexType             m,
+      IndexType             p,
+      IndexType             q,
       double                *X11,
       IndexType             ldX11,
       double                *X12,
@@ -61,6 +119,8 @@ orbdb(char                  trans,
       double                *work,
       IndexType             lWork)
 {
+    CXXLAPACK_DEBUG_OUT("dorbdb");
+  
     IndexType info;
     LAPACK_IMPL(dorbdb)(&trans,
                         &signs,

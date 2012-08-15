@@ -38,7 +38,26 @@
 namespace cxxlapack {
 
 template <typename IndexType>
-IndexType
+float 
+lansf(char                  norm,
+      char                  transr,
+      char                  uplo,
+      IndexType             n,
+      const float           *A,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("slansf");
+   
+    return LAPACK_IMPL(slansf)(&norm,
+                               &transr,
+                               &uplo,
+                               &n,
+                               A,
+                               work);
+}
+
+template <typename IndexType>
+double
 lansf(char                  norm,
       char                  transr,
       char                  uplo,
@@ -46,7 +65,8 @@ lansf(char                  norm,
       const double          *A,
       double                *work)
 {
-
+    CXXLAPACK_DEBUG_OUT("dlansf");
+   
     return LAPACK_IMPL(dlansf)(&norm,
                                &transr,
                                &uplo,

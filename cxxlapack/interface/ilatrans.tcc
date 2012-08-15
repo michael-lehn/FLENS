@@ -41,8 +41,9 @@ template <typename IndexType>
 IndexType
 ilatrans(char                trans)
 {
-
-     return LAPACK_IMPL(ilatrans)(&trans);
+    CXXLAPACK_DEBUG_OUT("ilatrans");
+    
+    return LAPACK_IMPL(ilatrans)(&trans);
 }
 
 

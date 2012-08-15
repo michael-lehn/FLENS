@@ -42,17 +42,84 @@ IndexType
 pbequ(char                  uplo,
       IndexType             n,
       IndexType             kd,
+      const float           *Ab,
+      IndexType             ldAb,
+      float                 *s,
+      float                 &scond,
+      float                 &amax)
+{
+    CXXLAPACK_DEBUG_OUT("spbequ");
+  
+    IndexType info;
+    LAPACK_IMPL(spbequ)(&uplo,
+                        &n,
+                        &kd,
+                        Ab,
+                        &ldAb,
+                        s,
+                        &scond,
+                        &amax,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+pbequ(char                  uplo,
+      IndexType             n,
+      IndexType             kd,
       const double          *Ab,
       IndexType             ldAb,
       double                *s,
       double                &scond,
       double                &amax)
 {
+    CXXLAPACK_DEBUG_OUT("dpbequ");
+  
     IndexType info;
     LAPACK_IMPL(dpbequ)(&uplo,
                         &n,
                         &kd,
                         Ab,
+                        &ldAb,
+                        s,
+                        &scond,
+                        &amax,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+pbequ(char                        uplo,
+      IndexType                   n,
+      IndexType                   kd,
+      const std::complex<float >  *Ab,
+      IndexType                   ldAb,
+      float                       *s,
+      float                       &scond,
+      float                       &amax)
+{
+    CXXLAPACK_DEBUG_OUT("cpbequ");
+  
+    IndexType info;
+    LAPACK_IMPL(cpbequ)(&uplo,
+                        &n,
+                        &kd,
+                        reinterpret_cast<const float  *>(Ab),
                         &ldAb,
                         s,
                         &scond,
@@ -78,6 +145,8 @@ pbequ(char                        uplo,
       double                      &scond,
       double                      &amax)
 {
+    CXXLAPACK_DEBUG_OUT("zpbequ");
+  
     IndexType info;
     LAPACK_IMPL(zpbequ)(&uplo,
                         &n,
@@ -96,6 +165,7 @@ pbequ(char                        uplo,
     ASSERT(info>=0);
     return info;
 }
+
 } // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_PBEQU_TCC

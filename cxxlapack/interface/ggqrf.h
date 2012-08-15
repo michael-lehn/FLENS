@@ -42,6 +42,20 @@ template <typename IndexType>
     ggqrf(IndexType             n,
           IndexType             m,
           IndexType             p,
+          float                 *A,
+          IndexType             ldA,
+          float                 *taua,
+          float                 *B,
+          IndexType             ldB,
+          float                 *taub,
+          float                 *work,
+          IndexType             lWork);
+    
+template <typename IndexType>
+    IndexType
+    ggqrf(IndexType             n,
+          IndexType             m,
+          IndexType             p,
           double                *A,
           IndexType             ldA,
           double                *taua,
@@ -50,7 +64,21 @@ template <typename IndexType>
           double                *taub,
           double                *work,
           IndexType             lWork);
-
+    
+template <typename IndexType>
+    IndexType
+    ggqrf(IndexType             n,
+          IndexType             m,
+          IndexType             p,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          std::complex<float >  *taua,
+          std::complex<float >  *B,
+          IndexType             ldB,
+          std::complex<float >  *taub,
+          std::complex<float >  *work,
+          IndexType             lWork);
+    
 template <typename IndexType>
     IndexType
     ggqrf(IndexType             n,

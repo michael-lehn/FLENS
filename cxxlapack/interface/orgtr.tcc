@@ -41,12 +41,44 @@ template <typename IndexType>
 IndexType
 orgtr(char                  uplo,
       IndexType             n,
+      float                 *A,
+      IndexType             ldA,
+      const float           *tau,
+      float                 *work,
+      IndexType             lWork)
+{
+    CXXLAPACK_DEBUG_OUT("sorgtr");
+  
+    IndexType info;
+    LAPACK_IMPL(sorgtr)(&uplo,
+                        &n,
+                        A,
+                        &ldA,
+                        tau,
+                        work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+orgtr(char                  uplo,
+      IndexType             n,
       double                *A,
       IndexType             ldA,
       const double          *tau,
       double                *work,
       IndexType             lWork)
 {
+    CXXLAPACK_DEBUG_OUT("dorgtr");
+  
     IndexType info;
     LAPACK_IMPL(dorgtr)(&uplo,
                         &n,

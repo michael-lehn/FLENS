@@ -42,6 +42,31 @@ double
 la_syrpvgrw(char                  uplo,
             IndexType             n,
             IndexType             info,
+            const float           *A,
+            IndexType             ldA,
+            const float           *Af,
+            IndexType             ldAf,
+            const IndexType       *iPiv,
+            float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("sla_syrpvgrw");
+    
+    return LAPACK_IMPL(sla_syrpvgrw)(&uplo,
+                                     &n,
+                                     &info,
+                                     A,
+                                     &ldA,
+                                     Af,
+                                     &ldAf,
+                                     iPiv,
+                                     work);
+}
+
+template <typename IndexType>
+double
+la_syrpvgrw(char                  uplo,
+            IndexType             n,
+            IndexType             info,
             const double          *A,
             IndexType             ldA,
             const double          *Af,
@@ -49,12 +74,39 @@ la_syrpvgrw(char                  uplo,
             const IndexType       *iPiv,
             double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dla_syrpvgrw");
+    
     return LAPACK_IMPL(dla_syrpvgrw)(&uplo,
                                      &n,
                                      &info,
                                      A,
                                      &ldA,
                                      Af,
+                                     &ldAf,
+                                     iPiv,
+                                     work);
+}
+
+template <typename IndexType>
+double
+la_syrpvgrw(char                        uplo,
+            IndexType                   n,
+            IndexType                   info,
+            const std::complex<float >  *A,
+            IndexType                   ldA,
+            const std::complex<float >  *Af,
+            IndexType                   ldAf,
+            const IndexType             *iPiv,
+            float                       *work)
+{
+    CXXLAPACK_DEBUG_OUT("cla_syrpvgrw");
+    
+    return LAPACK_IMPL(cla_syrpvgrw)(&uplo,
+                                     &n,
+                                     &info,
+                                     reinterpret_cast<const float  *>(A),
+                                     &ldA,
+                                     reinterpret_cast<const float  *>(Af),
                                      &ldAf,
                                      iPiv,
                                      work);
@@ -72,6 +124,8 @@ la_syrpvgrw(char                        uplo,
             const IndexType             *iPiv,
             double                      *work)
 {
+    CXXLAPACK_DEBUG_OUT("zla_syrpvgrw");
+    
     return LAPACK_IMPL(zla_syrpvgrw)(&uplo,
                                      &n,
                                      &info,

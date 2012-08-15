@@ -46,6 +46,8 @@ lat2c(char                        uplo,
       std::complex<float>         *Sa,
       IndexType                   ldSa)
 {
+    CXXLAPACK_DEBUG_OUT("zlat2c");
+    
     IndexType info;
     LAPACK_IMPL(zlat2c)(&uplo,
                         &n,

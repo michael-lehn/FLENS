@@ -41,9 +41,27 @@ template <typename IndexType>
     IndexType
     tzrqf(IndexType             m,
           IndexType             n,
+          float                 *A,
+          IndexType             ldA,
+          float                 *tau);
+    
+    
+template <typename IndexType>
+    IndexType
+    tzrqf(IndexType             m,
+          IndexType             n,
           double                *A,
           IndexType             ldA,
           double                *tau);
+    
+template <typename IndexType>
+    IndexType
+    tzrqf(IndexType             m,
+          IndexType             n,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          std::complex<float >  *tau);
+
 
 template <typename IndexType>
     IndexType

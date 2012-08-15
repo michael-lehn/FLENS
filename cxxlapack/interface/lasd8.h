@@ -36,7 +36,21 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    lasd8(IndexType             icompq,
+          IndexType             k,
+          float                 *d,
+          float                 *z,
+          float                 *vf,
+          float                 *vl,
+          float                 *difl,
+          float                 *Difr,
+          IndexType             ldDifr,
+          float                 *dsigma,
+          float                 *work);
+    
 template <typename IndexType>
     IndexType
     lasd8(IndexType             icompq,

@@ -41,8 +41,32 @@ template <typename IndexType>
 IndexType
 lasrt(char                  id,
       IndexType             n,
+      float                 *d)
+{
+    CXXLAPACK_DEBUG_OUT("slasrt");
+    
+    IndexType info;
+    LAPACK_IMPL(slasrt)(&id,
+                        &n,
+                        d,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+lasrt(char                  id,
+      IndexType             n,
       double                *d)
 {
+    CXXLAPACK_DEBUG_OUT("dlasrt");
+    
     IndexType info;
     LAPACK_IMPL(dlasrt)(&id,
                         &n,

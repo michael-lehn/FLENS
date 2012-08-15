@@ -46,6 +46,25 @@ template <typename IndexType>
           IndexType         m,
           IndexType         n,
           IndexType         k,
+          const float       *V,
+          IndexType         ldV,
+          const float       *T,
+          IndexType         ldT,
+          float             *C,
+          IndexType         ldC,
+          float             *work,
+          const IndexType   ldWork);
+    
+    
+template <typename IndexType>
+    void
+    larfb(char              side,
+          char              trans,
+          char              direct,
+          char              storev,
+          IndexType         m,
+          IndexType         n,
+          IndexType         k,
           const double      *V,
           IndexType         ldV,
           const double      *T,
@@ -54,6 +73,24 @@ template <typename IndexType>
           IndexType         ldC,
           double            *work,
           const IndexType   ldWork);
+    
+template <typename IndexType>
+    void
+    larfb(char                          side,
+          char                          trans,
+          char                          direct,
+          char                          storev,
+          IndexType                     m,
+          IndexType                     n,
+          IndexType                     k,
+          const std::complex<float >    *V,
+          IndexType                     ldV,
+          const std::complex<float >    *T,
+          IndexType                     ldT,
+          std::complex<float >          *C,
+          IndexType                     ldC,
+          std::complex<float >          *work,
+          IndexType                     ldWork);
 
 template <typename IndexType>
     void

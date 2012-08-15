@@ -42,11 +42,34 @@ template <typename IndexType>
     larfx(char            side,
           IndexType       m,
           IndexType       n,
+          const float     *V,
+          const float     &tau,
+          float           *C,
+          IndexType       ldC,
+          float           *work);
+    
+    
+template <typename IndexType>
+    void
+    larfx(char            side,
+          IndexType       m,
+          IndexType       n,
           const double    *V,
           const double    &tau,
           double          *C,
           IndexType       ldC,
           double          *work);
+    
+template <typename IndexType>
+    void
+    larfx(char                          side,
+          IndexType                     m,
+          IndexType                     n,
+          const std::complex<float >    *V,
+          const std::complex<float >    &tau,
+          std::complex<float >          *C,
+          IndexType                     ldC,
+          std::complex<float >          *work);
 
 template <typename IndexType>
     void

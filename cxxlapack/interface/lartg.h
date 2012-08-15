@@ -39,12 +39,28 @@ namespace cxxlapack {
 
 template <typename VOID=void>
     void
+    lartg(const float      &f,
+          const float      &g,
+          float            &cs,
+          float            &sn,
+          float            &r);
+
+template <typename VOID=void>
+    void
     lartg(const double     &f,
           const double     &g,
           double           &cs,
           double           &sn,
           double           &r);
-
+    
+template <typename VOID=void>
+    void
+    lartg(const std::complex<float >    &f,
+          const std::complex<float >    &g,
+          float                         &cs,
+          std::complex<float >          &sn,
+          std::complex<float >          &r);
+    
 template <typename VOID=void>
     void
     lartg(const std::complex<double>    &f,

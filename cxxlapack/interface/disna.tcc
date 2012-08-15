@@ -42,10 +42,36 @@ IndexType
 disna(char                  job,
       IndexType             m,
       IndexType             n,
+      const float           *d,
+      float                 *sep)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sdisna");
+    LAPACK_IMPL(sdisna)(&job,
+                        &m,
+                        &n,
+                        d,
+                        sep,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+disna(char                  job,
+      IndexType             m,
+      IndexType             n,
       const double          *d,
       double                *sep)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("ddisna");
     LAPACK_IMPL(ddisna)(&job,
                         &m,
                         &n,

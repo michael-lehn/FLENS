@@ -41,6 +41,42 @@ template <typename IndexType>
 IndexType
 larrk(IndexType             n,
       IndexType             iw,
+      float                 gl,
+      float                 gu,
+      const float           *d,
+      const float           *e2,
+      float                 pivmin,
+      float                 reltol,
+      float                 &w,
+      float                 &werr)
+{
+    CXXLAPACK_DEBUG_OUT("slarrk");
+    
+    IndexType info;
+    LAPACK_IMPL(slarrk)(&n,
+                        &iw,
+                        &gl,
+                        &gu,
+                        d,
+                        e2,
+                        &pivmin,
+                        &reltol,
+                        w,
+                        werr,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+larrk(IndexType             n,
+      IndexType             iw,
       double                gl,
       double                gu,
       const double          *d,
@@ -50,6 +86,8 @@ larrk(IndexType             n,
       double                &w,
       double                &werr)
 {
+    CXXLAPACK_DEBUG_OUT("dlarrk");
+    
     IndexType info;
     LAPACK_IMPL(dlarrk)(&n,
                         &iw,

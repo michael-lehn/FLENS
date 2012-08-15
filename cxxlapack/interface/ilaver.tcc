@@ -43,7 +43,8 @@ ilaver(IndexType             &vers_major,
        IndexType             &vers_minor,
        IndexType             &vers_patch)
 {
-
+    CXXLAPACK_DEBUG_OUT("ilaver");
+    
     LAPACK_IMPL(ilaver)(&vers_major,
                         &vers_minor,
                         &vers_patch);

@@ -44,12 +44,46 @@ IndexType
 syev(char           jobZ,
      char           upLo,
      IndexType      n,
+     float          *A,
+     IndexType      ldA,
+     float          *w,
+     float          *work,
+     IndexType      lWork)
+{
+    CXXLAPACK_DEBUG_OUT("ssyev");
+    
+    IndexType info;
+    LAPACK_IMPL(ssyev)(&jobZ,
+                       &upLo,
+                       &n,
+                       A,
+                       &ldA,
+                       w,
+                       work,
+                       &lWork,
+                       &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+syev(char           jobZ,
+     char           upLo,
+     IndexType      n,
      double         *A,
      IndexType      ldA,
      double         *w,
      double         *work,
      IndexType      lWork)
 {
+    CXXLAPACK_DEBUG_OUT("dsyev");
+  
     IndexType info;
     LAPACK_IMPL(dsyev)(&jobZ,
                        &upLo,
@@ -68,6 +102,7 @@ syev(char           jobZ,
     ASSERT(info>=0);
     return info;
 }
+
 } // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_SYEV_TCC

@@ -42,11 +42,43 @@ IndexType
 hegs2(IndexType                  itype,
       char                       uplo,
       IndexType                  n,
+      std::complex<float >       *A,
+      IndexType                  ldA,
+      const std::complex<float > *B,
+      IndexType                  ldB)
+{
+    CXXLAPACK_DEBUG_OUT("chegs2");
+    
+    IndexType info;
+    LAPACK_IMPL(chegs2)(&itype,
+                        &uplo,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<const float  *>(B),
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG 
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hegs2(IndexType                  itype,
+      char                       uplo,
+      IndexType                  n,
       std::complex<double>       *A,
       IndexType                  ldA,
       const std::complex<double> *B,
       IndexType                  ldB)
 {
+    CXXLAPACK_DEBUG_OUT("zhegs2");
+    
     IndexType info;
     LAPACK_IMPL(zhegs2)(&itype,
                         &uplo,

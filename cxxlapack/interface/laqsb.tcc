@@ -42,6 +42,33 @@ void
 laqsb(char                  uplo,
       IndexType             n,
       IndexType             kd,
+      float                 *Ab,
+      IndexType             ldAb,
+      const float           *s,
+      float                 scond,
+      float                 amax,
+      char                  &equed)
+{
+    CXXLAPACK_DEBUG_OUT("slaqsb");
+ 
+    LAPACK_IMPL(slaqsb)(&uplo,
+                        &n,
+                        &kd,
+                        Ab,
+                        &ldAb,
+                        s,
+                        &scond,
+                        &amax,
+                        &equed);
+
+}
+
+
+template <typename IndexType>
+void
+laqsb(char                  uplo,
+      IndexType             n,
+      IndexType             kd,
       double                *Ab,
       IndexType             ldAb,
       const double          *s,
@@ -49,10 +76,38 @@ laqsb(char                  uplo,
       double                amax,
       char                  &equed)
 {
+    CXXLAPACK_DEBUG_OUT("dlaqsb");
+ 
     LAPACK_IMPL(dlaqsb)(&uplo,
                         &n,
                         &kd,
                         Ab,
+                        &ldAb,
+                        s,
+                        &scond,
+                        &amax,
+                        &equed);
+
+}
+
+template <typename IndexType>
+void
+laqsb(char                  uplo,
+      IndexType             n,
+      IndexType             kd,
+      std::complex<float >  *Ab,
+      IndexType             ldAb,
+      const float           *s,
+      float                 scond,
+      float                 amax,
+      char                  &equed)
+{
+    CXXLAPACK_DEBUG_OUT("claqsb");
+ 
+    LAPACK_IMPL(claqsb)(&uplo,
+                        &n,
+                        &kd,
+                        reinterpret_cast<float  *>(Ab),
                         &ldAb,
                         s,
                         &scond,
@@ -73,6 +128,8 @@ laqsb(char                  uplo,
       double                amax,
       char                  &equed)
 {
+    CXXLAPACK_DEBUG_OUT("zlaqsb");
+ 
     LAPACK_IMPL(zlaqsb)(&uplo,
                         &n,
                         &kd,

@@ -38,15 +38,32 @@
 namespace cxxlapack {
 
 template <typename IndexType>
-    IndexType
+    float 
+    langt(char                  norm,
+          IndexType             n,
+          const float           *dl,
+          const float           *d,
+          const float           *du);
+    
+template <typename IndexType>
+    double
     langt(char                  norm,
           IndexType             n,
           const double          *dl,
           const double          *d,
           const double          *du);
-
+    
 template <typename IndexType>
-    IndexType
+    float 
+    langt(char                        norm,
+          IndexType                   n,
+          const std::complex<float >  *dl,
+          const std::complex<float >  *d,
+          const std::complex<float >  *du);
+    
+    
+template <typename IndexType>
+    double
     langt(char                        norm,
           IndexType                   n,
           const std::complex<double>  *dl,

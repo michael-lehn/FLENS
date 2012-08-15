@@ -41,6 +41,39 @@ template <typename IndexType>
 IndexType
 syequb(char                  uplo,
        IndexType             n,
+       const float           *A,
+       IndexType             ldA,
+       float                 *s,
+       float                 &scond,
+       float                 &amax,
+       float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("ssyequb");
+ 
+    IndexType info;
+    LAPACK_IMPL(ssyequb)(&uplo,
+                         &n,
+                         A,
+                         &ldA,
+                         s,
+                         &scond,
+                         &amax,
+                         work,
+                         &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+syequb(char                  uplo,
+       IndexType             n,
        const double          *A,
        IndexType             ldA,
        double                *s,
@@ -48,6 +81,8 @@ syequb(char                  uplo,
        double                &amax,
        double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dsyequb");
+ 
     IndexType info;
     LAPACK_IMPL(dsyequb)(&uplo,
                          &n,
@@ -71,6 +106,38 @@ template <typename IndexType>
 IndexType
 syequb(char                        uplo,
        IndexType                   n,
+       const std::complex<float >  *A,
+       IndexType                   ldA,
+       float                       *s,
+       float                       &scond,
+       float                       &amax,
+       std::complex<float >        *work)
+{
+    CXXLAPACK_DEBUG_OUT("csyequb");
+ 
+    IndexType info;
+    LAPACK_IMPL(csyequb)(&uplo,
+                         &n,
+                         reinterpret_cast<const float  *>(A),
+                         &ldA,
+                         s,
+                         &scond,
+                         &amax,
+                         reinterpret_cast<float  *>(work),
+                         &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+syequb(char                        uplo,
+       IndexType                   n,
        const std::complex<double>  *A,
        IndexType                   ldA,
        double                      *s,
@@ -78,6 +145,8 @@ syequb(char                        uplo,
        double                      &amax,
        std::complex<double>        *work)
 {
+    CXXLAPACK_DEBUG_OUT("zsyequb");
+ 
     IndexType info;
     LAPACK_IMPL(zsyequb)(&uplo,
                          &n,

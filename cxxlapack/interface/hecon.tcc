@@ -41,6 +41,38 @@ template <typename IndexType>
 IndexType
 hecon(char                        uplo,
       IndexType                   n,
+      const std::complex<float >  *A,
+      IndexType                   ldA,
+      IndexType                   *iPiv,
+      float                       anorm,
+      float                       &rCond,
+      std::complex<float >        *work)
+{
+    CXXLAPACK_DEBUG_OUT("checon");
+    
+    IndexType info;
+    LAPACK_IMPL(checon)(&uplo,
+                        &n,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        iPiv,
+                        &anorm,
+                        &rCond,
+                        reinterpret_cast<float *>(work),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hecon(char                        uplo,
+      IndexType                   n,
       const std::complex<double>  *A,
       IndexType                   ldA,
       IndexType                   *iPiv,
@@ -48,6 +80,8 @@ hecon(char                        uplo,
       double                      &rCond,
       std::complex<double>        *work)
 {
+    CXXLAPACK_DEBUG_OUT("zhecon");
+    
     IndexType info;
     LAPACK_IMPL(zhecon)(&uplo,
                         &n,
@@ -56,7 +90,7 @@ hecon(char                        uplo,
                         iPiv,
                         &anorm,
                         &rCond,
-                        reinterpret_cast<const double *>(work),
+                        reinterpret_cast<double *>(work),
                         &info);
 #   ifndef NDEBUG
     if (info<0) {

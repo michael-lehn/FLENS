@@ -43,6 +43,65 @@ heevr(char                  jobz,
       char                  range,
       char                  uplo,
       IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      float                 vl,
+      float                 vu,
+      IndexType             il,
+      IndexType             iu,
+      float                 abstol,
+      IndexType             &m,
+      float                 *w,
+      std::complex<float >  *Z,
+      IndexType             ldZ,
+      std::complex<float >  *work,
+      IndexType             lWork,
+      float                 *rWork,
+      IndexType             lrWork,
+      IndexType             *iWork,
+      IndexType             liWork)
+{
+    CXXLAPACK_DEBUG_OUT("cheevr");
+    
+    IndexType info;
+    LAPACK_IMPL(cheevr)(&jobz,
+                        &range,
+                        &uplo,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        &vl,
+                        &vu,
+                        &il,
+                        &iu,
+                        &abstol,
+                        &m,
+                        w,
+                        reinterpret_cast<float  *>(Z),
+                        &ldZ,
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        rWork,
+                        &lrWork,
+                        iWork,
+                        &liWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+heevr(char                  jobz,
+      char                  range,
+      char                  uplo,
+      IndexType             n,
       std::complex<double>  *A,
       IndexType             ldA,
       double                vl,
@@ -61,6 +120,8 @@ heevr(char                  jobz,
       IndexType             *iWork,
       IndexType             liWork)
 {
+    CXXLAPACK_DEBUG_OUT("zheevr");
+    
     IndexType info;
     LAPACK_IMPL(zheevr)(&jobz,
                         &range,

@@ -42,8 +42,26 @@ void
 larnv(IndexType             idist,
       IndexType             iseed,
       IndexType             n,
+      float                 *x)
+{
+    CXXLAPACK_DEBUG_OUT("slarnv");
+ 
+    LAPACK_IMPL(slarnv)(&idist,
+                        &iseed,
+                        &n,
+                        x);
+}
+
+
+template <typename IndexType>
+void
+larnv(IndexType             idist,
+      IndexType             iseed,
+      IndexType             n,
       double                *x)
 {
+    CXXLAPACK_DEBUG_OUT("dlarnv");
+ 
     LAPACK_IMPL(dlarnv)(&idist,
                         &iseed,
                         &n,
@@ -55,8 +73,25 @@ void
 larnv(IndexType             idist,
       IndexType             iseed,
       IndexType             n,
+      std::complex<float >  *x)
+{
+    CXXLAPACK_DEBUG_OUT("clarnv");
+ 
+    LAPACK_IMPL(clarnv)(&idist,
+                        &iseed,
+                        &n,
+                        reinterpret_cast<float  *>(x));
+}
+
+template <typename IndexType>
+void
+larnv(IndexType             idist,
+      IndexType             iseed,
+      IndexType             n,
       std::complex<double>  *x)
 {
+    CXXLAPACK_DEBUG_OUT("zlarnv");
+ 
     LAPACK_IMPL(zlarnv)(&idist,
                         &iseed,
                         &n,

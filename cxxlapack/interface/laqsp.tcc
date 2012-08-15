@@ -41,15 +41,60 @@ template <typename IndexType>
 void
 laqsp(char                  uplo,
       IndexType             n,
+      float                 *Ap,
+      const float           *s,
+      float                 scond,
+      float                 amax,
+      char                  &equed)
+{
+    CXXLAPACK_DEBUG_OUT("slaqsp");
+ 
+    LAPACK_IMPL(slaqsp)(&uplo,
+                        &n,
+                        Ap,
+                        s,
+                        &scond,
+                        &amax,
+                        &equed);
+}
+
+
+template <typename IndexType>
+void
+laqsp(char                  uplo,
+      IndexType             n,
       double                *Ap,
       const double          *s,
       double                scond,
       double                amax,
       char                  &equed)
 {
+    CXXLAPACK_DEBUG_OUT("dlaqsp");
+ 
     LAPACK_IMPL(dlaqsp)(&uplo,
                         &n,
                         Ap,
+                        s,
+                        &scond,
+                        &amax,
+                        &equed);
+}
+
+template <typename IndexType>
+void
+laqsp(char                  uplo,
+      IndexType             n,
+      std::complex<float >  *Ap,
+      const float           *s,
+      float                 scond,
+      float                 amax,
+      char                  &equed)
+{
+    CXXLAPACK_DEBUG_OUT("claqsp");
+ 
+    LAPACK_IMPL(claqsp)(&uplo,
+                        &n,
+                        reinterpret_cast<float  *>(Ap),
                         s,
                         &scond,
                         &amax,
@@ -66,6 +111,8 @@ laqsp(char                  uplo,
       double                amax,
       char                  &equed)
 {
+    CXXLAPACK_DEBUG_OUT("zlaqsp");
+ 
     LAPACK_IMPL(zlaqsp)(&uplo,
                         &n,
                         reinterpret_cast<double *>(Ap),

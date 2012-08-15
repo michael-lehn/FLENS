@@ -41,6 +41,19 @@ template <typename IndexType>
     void
     la_syamv(char                  uplo,
              IndexType             n,
+             float                 alpha,
+             const float           *A,
+             IndexType             ldA,
+             const float           *x,
+             IndexType             incx,
+             float                 beta,
+             float                 *y,
+             IndexType             incy);
+    
+template <typename IndexType>
+    void
+    la_syamv(char                  uplo,
+             IndexType             n,
              double                alpha,
              const double          *A,
              IndexType             ldA,
@@ -49,7 +62,20 @@ template <typename IndexType>
              double                beta,
              double                *y,
              IndexType             incy);
-
+    
+template <typename IndexType>
+    void
+    la_syamv(char                        uplo,
+             IndexType                   n,
+             float                       alpha,
+             const std::complex<float >  *A,
+             IndexType                   ldA,
+             const std::complex<float >  *x,
+             IndexType                   incx,
+             float                       beta,
+             float                       *y,
+             IndexType                   incy);
+    
 template <typename IndexType>
     void
     la_syamv(char                        uplo,

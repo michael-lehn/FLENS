@@ -36,7 +36,18 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    lagtf(IndexType             n,
+          float                 *a,
+          IndexType             lambda,
+          float                 *b,
+          float                 *c,
+          float                 tol,
+          float                 *d,
+          IndexType             *in);
+    
 template <typename IndexType>
     IndexType
     lagtf(IndexType             n,

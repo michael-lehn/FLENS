@@ -44,6 +44,47 @@ sbgst(char                  vect,
       IndexType             n,
       IndexType             kA,
       IndexType             kB,
+      float                 *Ab,
+      IndexType             ldAb,
+      const float           *BB,
+      IndexType             ldBB,
+      float                 *X,
+      IndexType             ldX,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("ssbgst");
+ 
+    IndexType info;
+    LAPACK_IMPL(ssbgst)(&vect,
+                        &uplo,
+                        &n,
+                        &kA,
+                        &kB,
+                        Ab,
+                        &ldAb,
+                        BB,
+                        &ldBB,
+                        X,
+                        &ldX,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+sbgst(char                  vect,
+      char                  uplo,
+      IndexType             n,
+      IndexType             kA,
+      IndexType             kB,
       double                *Ab,
       IndexType             ldAb,
       const double          *BB,
@@ -52,6 +93,8 @@ sbgst(char                  vect,
       IndexType             ldX,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dsbgst");
+ 
     IndexType info;
     LAPACK_IMPL(dsbgst)(&vect,
                         &uplo,

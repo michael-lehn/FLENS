@@ -43,6 +43,35 @@ template <typename IndexType>
 void
 laqge(IndexType     m,
       IndexType     n,
+      float         *A,
+      IndexType     ldA,
+      const float   *r,
+      const float   *c,
+      const float   &rowCond,
+      const float   &colCond,
+      const float   &maxA,
+      char          &equed)
+{
+    CXXLAPACK_DEBUG_OUT("slaqge");
+ 
+    LAPACK_IMPL(slaqge)(&m,
+                        &n,
+                        A,
+                        &ldA,
+                        r,
+                        c,
+                        &rowCond,
+                        &colCond,
+                        &maxA,
+                        &equed);
+
+}
+
+
+template <typename IndexType>
+void
+laqge(IndexType     m,
+      IndexType     n,
       double        *A,
       IndexType     ldA,
       const double  *r,
@@ -52,6 +81,8 @@ laqge(IndexType     m,
       const double  &maxA,
       char          &equed)
 {
+    CXXLAPACK_DEBUG_OUT("dlaqge");
+ 
     LAPACK_IMPL(dlaqge)(&m,
                         &n,
                         A,
@@ -69,6 +100,33 @@ template <typename IndexType>
 void
 laqge(const IndexType       m,
       const IndexType       n,
+      std::complex<float >  *A,
+      const IndexType       ldA,
+      const float           *r,
+      const float           *c,
+      const float           &rowCond,
+      const float           &colCond,
+      const float           &maxA,
+      char                  &equed)
+{
+    CXXLAPACK_DEBUG_OUT("claqge");
+ 
+    LAPACK_IMPL(claqge)(&m,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        r,
+                        c,
+                        &rowCond,
+                        &colCond,
+                        &maxA,
+                        &equed);
+}
+
+template <typename IndexType>
+void
+laqge(const IndexType       m,
+      const IndexType       n,
       std::complex<double>  *A,
       const IndexType       ldA,
       const double          *r,
@@ -78,6 +136,8 @@ laqge(const IndexType       m,
       const double          &maxA,
       char                  &equed)
 {
+    CXXLAPACK_DEBUG_OUT("zlaqge");
+ 
     LAPACK_IMPL(zlaqge)(&m,
                         &n,
                         reinterpret_cast<double *>(A),

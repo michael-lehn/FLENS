@@ -36,7 +36,15 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    float 
+    lanhp(char                        norm,
+          char                        uplo,
+          IndexType                   n,
+          const std::complex<float >  *A,
+          float                       *work);
+    
 template <typename IndexType>
     double
     lanhp(char                        norm,

@@ -42,11 +42,33 @@ template <typename IndexType>
     pbequ(char                  uplo,
           IndexType             n,
           IndexType             kd,
+          const float           *Ab,
+          IndexType             ldAb,
+          float                 *s,
+          float                 &scond,
+          float                 &amax);
+        
+template <typename IndexType>
+    IndexType
+    pbequ(char                  uplo,
+          IndexType             n,
+          IndexType             kd,
           const double          *Ab,
           IndexType             ldAb,
           double                *s,
           double                &scond,
           double                &amax);
+    
+template <typename IndexType>
+    IndexType
+    pbequ(char                        uplo,
+          IndexType                   n,
+          IndexType                   kd,
+          const std::complex<float >  *Ab,
+          IndexType                   ldAb,
+          float                       *s,
+          float                       &scond,
+          float                       &amax);
 
 template <typename IndexType>
     IndexType

@@ -43,12 +43,49 @@ lasyf(char                  uplo,
       IndexType             n,
       IndexType             nb,
       IndexType             &kb,
+      float                 *A,
+      IndexType             ldA,
+      IndexType             *iPiv,
+      float                 *W,
+      IndexType             ldW)
+{
+    CXXLAPACK_DEBUG_OUT("slasyf");
+    
+    IndexType info;
+    LAPACK_IMPL(slasyf)(&uplo,
+                        &n,
+                        &nb,
+                        &kb,
+                        A,
+                        &ldA,
+                        iPiv,
+                        W,
+                        &ldW,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+lasyf(char                  uplo,
+      IndexType             n,
+      IndexType             nb,
+      IndexType             &kb,
       double                *A,
       IndexType             ldA,
       IndexType             *iPiv,
       double                *W,
       IndexType             ldW)
 {
+    CXXLAPACK_DEBUG_OUT("dlasyf");
+    
     IndexType info;
     LAPACK_IMPL(dlasyf)(&uplo,
                         &n,
@@ -81,6 +118,8 @@ lasyf(char                  uplo,
       std::complex<double>  *W,
       IndexType             ldW)
 {
+    CXXLAPACK_DEBUG_OUT("zlasyf");
+    
     IndexType info;
     LAPACK_IMPL(zlasyf)(&uplo,
                         &n,
@@ -90,6 +129,40 @@ lasyf(char                  uplo,
                         &ldA,
                         iPiv,
                         reinterpret_cast<double *>(W),
+                        &ldW,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+lasyf(char                  uplo,
+      IndexType             n,
+      IndexType             nb,
+      IndexType             &kb,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      IndexType             *iPiv,
+      std::complex<float >  *W,
+      IndexType             ldW)
+{
+    CXXLAPACK_DEBUG_OUT("clasyf");
+    
+    IndexType info;
+    LAPACK_IMPL(clasyf)(&uplo,
+                        &n,
+                        &nb,
+                        &kb,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        iPiv,
+                        reinterpret_cast<float  *>(W),
                         &ldW,
                         &info);
 #   ifndef NDEBUG

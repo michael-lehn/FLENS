@@ -44,6 +44,23 @@ template <typename IndexType>
           IndexType             ncvt,
           IndexType             nru,
           IndexType             ncc,
+          float                 *d,
+          float                 *e,
+          float                 *VT,
+          IndexType             ldVT,
+          float                 *U,
+          IndexType             ldU,
+          float                 *C,
+          IndexType             ldC,
+          float                 *work);
+    
+template <typename IndexType>
+    IndexType
+    bdsqr(char                  upLo,
+          IndexType             n,
+          IndexType             ncvt,
+          IndexType             nru,
+          IndexType             ncc,
           double                *d,
           double                *e,
           double                *VT,
@@ -53,7 +70,24 @@ template <typename IndexType>
           double                *C,
           IndexType             ldC,
           double                *work);
-
+    
+template <typename IndexType>
+    IndexType
+    bdsqr(char                  upLo,
+          IndexType             n,
+          IndexType             ncvt,
+          IndexType             nru,
+          IndexType             ncc,
+          float                 *d,
+          float                 *e,
+          std::complex<float >  *VT,
+          IndexType             ldVT,
+          std::complex<float >  *U,
+          IndexType             ldU,
+          std::complex<float >  *C,
+          IndexType             ldC,
+          float                 *rWork);
+    
 template <typename IndexType>
     IndexType
     bdsqr(char                  upLo,

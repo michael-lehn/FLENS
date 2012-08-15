@@ -45,6 +45,55 @@ gbbrd(char                  vect,
       IndexType             ncc,
       IndexType             kl,
       IndexType             ku,
+      float                 *Ab,
+      IndexType             ldAb,
+      float                 *d,
+      float                 *e,
+      float                 *Q,
+      IndexType             ldQ,
+      float                 *PT,
+      IndexType             ldPT,
+      float                 *C,
+      IndexType             ldC,
+      float                 *work)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgbbrd");
+    LAPACK_IMPL(sgbbrd)(&vect,
+                        &m,
+                        &n,
+                        &ncc,
+                        &kl,
+                        &ku,
+                        Ab,
+                        &ldAb,
+                        d,
+                        e,
+                        Q,
+                        &ldQ,
+                        PT,
+                        &ldPT,
+                        C,
+                        &ldC,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gbbrd(char                  vect,
+      IndexType             m,
+      IndexType             n,
+      IndexType             ncc,
+      IndexType             kl,
+      IndexType             ku,
       double                *Ab,
       IndexType             ldAb,
       double                *d,
@@ -58,6 +107,7 @@ gbbrd(char                  vect,
       double                *work)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("dgbbrd");
     LAPACK_IMPL(dgbbrd)(&vect,
                         &m,
                         &n,
@@ -93,6 +143,57 @@ gbbrd(char                  vect,
       IndexType             ncc,
       IndexType             kl,
       IndexType             ku,
+      std::complex<float >  *Ab,
+      IndexType             ldAb,
+      float                 *d,
+      float                 *e,
+      std::complex<float >  *Q,
+      IndexType             ldQ,
+      std::complex<float >  *PT,
+      IndexType             ldPT,
+      std::complex<float >  *C,
+      IndexType             ldC,
+      std::complex<float >  *work,
+      float                 *rWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgbbrd");
+    LAPACK_IMPL(cgbbrd)(&vect,
+                        &m,
+                        &n,
+                        &ncc,
+                        &kl,
+                        &ku,
+                        reinterpret_cast<float  *>(Ab),
+                        &ldAb,
+                        d,
+                        e,
+                        reinterpret_cast<float  *>(Q),
+                        &ldQ,
+                        reinterpret_cast<float  *>(PT),
+                        &ldPT,
+                        reinterpret_cast<float  *>(C),
+                        &ldC,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gbbrd(char                  vect,
+      IndexType             m,
+      IndexType             n,
+      IndexType             ncc,
+      IndexType             kl,
+      IndexType             ku,
       std::complex<double>  *Ab,
       IndexType             ldAb,
       double                *d,
@@ -107,6 +208,7 @@ gbbrd(char                  vect,
       double                *rWork)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("zgbbrd");
     LAPACK_IMPL(zgbbrd)(&vect,
                         &m,
                         &n,

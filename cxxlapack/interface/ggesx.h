@@ -44,6 +44,32 @@ template <typename IndexType>
           char                  sort,
           bool                  selctg,
           IndexType             n,
+          float                 *A,
+          IndexType             ldA,
+          float                 *B,
+          IndexType             ldB,
+          IndexType             &sdim,
+          float                 *alpha,
+          float                 *beta,
+          float                 *Vsl,
+          IndexType             ldVsl,
+          float                 *Vsr,
+          IndexType             ldVsr,
+          float                 *rConde,
+          float                 *rCondv,
+          float                 *work,
+          IndexType             lWork,
+          IndexType             *iWork,
+          IndexType             liWork,
+          bool                  *bwork);
+    
+template <typename IndexType>
+    IndexType
+    ggesx(char                  jobvsl,
+          char                  jobvsr,
+          char                  sort,
+          bool                  selctg,
+          IndexType             n,
           double                *A,
           IndexType             ldA,
           double                *B,
@@ -62,7 +88,35 @@ template <typename IndexType>
           IndexType             *iWork,
           IndexType             liWork,
           bool                  *bwork);
+    
+template <typename IndexType>
+    IndexType
+    ggesx(char                  jobvsl,
+          char                  jobvsr,
+          char                  sort,
+          bool                  selctg,
+          IndexType             n,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          std::complex<float >  *B,
+          IndexType             ldB,
+          IndexType             &sdim,
+          std::complex<float >  *alpha,
+          std::complex<float >  *beta,
+          std::complex<float >  *Vsl,
+          IndexType             ldVsl,
+          std::complex<float >  *Vsr,
+          IndexType             ldVsr,
+          float                 *rConde,
+          float                 *rCondv,
+          std::complex<float >  *work,
+          IndexType             lWork,
+          float                 rWork,
+          IndexType             *iWork,
+          IndexType             liWork,
+          bool                  *bwork);
 
+    
 template <typename IndexType>
     IndexType
     ggesx(char                  jobvsl,

@@ -45,6 +45,70 @@ sbgvx(char                  jobz,
       IndexType             n,
       IndexType             kA,
       IndexType             kB,
+      float                 *Ab,
+      IndexType             ldAb,
+      float                 *Bb,
+      IndexType             ldBb,
+      float                 *Q,
+      IndexType             ldQ,
+      float                 vl,
+      float                 vu,
+      IndexType             il,
+      IndexType             iu,
+      float                 abstol,
+      IndexType             &m,
+      float                 *w,
+      float                 *Z,
+      IndexType             ldZ,
+      float                 *work,
+      IndexType             *iWork,
+      IndexType             *ifail)
+{
+    CXXLAPACK_DEBUG_OUT("ssbgvx");
+ 
+    IndexType info;
+    LAPACK_IMPL(ssbgvx)(&jobz,
+                        &range,
+                        &uplo,
+                        &n,
+                        &kA,
+                        &kB,
+                        Ab,
+                        &ldAb,
+                        Bb,
+                        &ldBb,
+                        Q,
+                        &ldQ,
+                        &vl,
+                        &vu,
+                        &il,
+                        &iu,
+                        &abstol,
+                        &m,
+                        w,
+                        Z,
+                        &ldZ,
+                        work,
+                        iWork,
+                        ifail,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+sbgvx(char                  jobz,
+      char                  range,
+      char                  uplo,
+      IndexType             n,
+      IndexType             kA,
+      IndexType             kB,
       double                *Ab,
       IndexType             ldAb,
       double                *Bb,
@@ -64,6 +128,8 @@ sbgvx(char                  jobz,
       IndexType             *iWork,
       IndexType             *ifail)
 {
+    CXXLAPACK_DEBUG_OUT("dsbgvx");
+ 
     IndexType info;
     LAPACK_IMPL(dsbgvx)(&jobz,
                         &range,

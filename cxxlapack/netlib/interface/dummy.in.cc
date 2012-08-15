@@ -1,4 +1,11529 @@
-#ifdef LAPACK_DECL
+//-- cbbcsd --------------------------------------------------------------------
+void
+LAPACK_DECL(cbbcsd)(const char       *JOBU1,
+                    const char       *JOBU2,
+                    const char       *JOBV1T,
+                    const char       *JOBV2T,
+                    const char       *TRANS,
+                    const INTEGER    *M,
+                    const INTEGER    *P,
+                    const INTEGER    *Q,
+                    FLOAT            *THETA,
+                    FLOAT            *PHI,
+                    FLOAT_COMPLEX    *U1,
+                    const INTEGER    *LDU1,
+                    FLOAT_COMPLEX    *U2,
+                    const INTEGER    *LDU2,
+                    FLOAT_COMPLEX    *V1T,
+                    const INTEGER    *LDV1T,
+                    FLOAT_COMPLEX    *V2T,
+                    const INTEGER    *LDV2T,
+                    FLOAT            *B11D,
+                    FLOAT            *B11E,
+                    FLOAT            *B12D,
+                    FLOAT            *B12E,
+                    const FLOAT      *B21D,
+                    const FLOAT      *B21E,
+                    const FLOAT      *B22D,
+                    const FLOAT      *B22E,
+                    FLOAT            *RWORK,
+                    const INTEGER    *LRWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cbbcsd");
+    LAPACK_IMPL(cbbcsd)(JOBU1,
+                        JOBU2,
+                        JOBV1T,
+                        JOBV2T,
+                        TRANS,
+                        M,
+                        P,
+                        Q,
+                        THETA,
+                        PHI,
+                        U1,
+                        LDU1,
+                        U2,
+                        LDU2,
+                        V1T,
+                        LDV1T,
+                        V2T,
+                        LDV2T,
+                        B11D,
+                        B11E,
+                        B12D,
+                        B12E,
+                        B21D,
+                        B21E,
+                        B22D,
+                        B22E,
+                        RWORK,
+                        LRWORK,
+                        INFO);
+}
+
+//-- cbdsqr --------------------------------------------------------------------
+void
+LAPACK_DECL(cbdsqr)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NCVT,
+                    const INTEGER    *NRU,
+                    const INTEGER    *NCC,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT_COMPLEX    *VT,
+                    const INTEGER    *LDVT,
+                    FLOAT_COMPLEX    *U,
+                    const INTEGER    *LDU,
+                    FLOAT_COMPLEX    *C,
+                    const INTEGER    *LDC,
+                    FLOAT            *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cbdsqr");
+    LAPACK_IMPL(cbdsqr)(UPLO,
+                        N,
+                        NCVT,
+                        NRU,
+                        NCC,
+                        D,
+                        E,
+                        VT,
+                        LDVT,
+                        U,
+                        LDU,
+                        C,
+                        LDC,
+                        RWORK,
+                        INFO);
+}
+
+//-- cgbbrd --------------------------------------------------------------------
+void
+LAPACK_DECL(cgbbrd)(const char       *VECT,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *NCC,
+                    const INTEGER    *KL,
+                    const INTEGER    *KU,
+                    FLOAT_COMPLEX    *AB,
+                    const INTEGER    *LDAB,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT_COMPLEX    *Q,
+                    const INTEGER    *LDQ,
+                    FLOAT_COMPLEX    *PT,
+                    const INTEGER    *LDPT,
+                    FLOAT_COMPLEX    *C,
+                    const INTEGER    *LDC,
+                    FLOAT_COMPLEX    *WORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgbbrd");
+    LAPACK_IMPL(cgbbrd)(VECT,
+                        M,
+                        N,
+                        NCC,
+                        KL,
+                        KU,
+                        AB,
+                        LDAB,
+                        D,
+                        E,
+                        Q,
+                        LDQ,
+                        PT,
+                        LDPT,
+                        C,
+                        LDC,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cgbcon --------------------------------------------------------------------
+void
+LAPACK_DECL(cgbcon)(const char           *NORM,
+                    const INTEGER        *N,
+                    const INTEGER        *KL,
+                    const INTEGER        *KU,
+                    const FLOAT_COMPLEX  *AB,
+                    const INTEGER        *LDAB,
+                    const INTEGER        *IPIV,
+                    const FLOAT          *ANORM,
+                    FLOAT                *RCOND,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cgbcon");
+    LAPACK_IMPL(cgbcon)(NORM,
+                        N,
+                        KL,
+                        KU,
+                        AB,
+                        LDAB,
+                        IPIV,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cgbequ --------------------------------------------------------------------
+void
+LAPACK_DECL(cgbequ)(const INTEGER        *M,
+                    const INTEGER        *N,
+                    const INTEGER        *KL,
+                    const INTEGER        *KU,
+                    const FLOAT_COMPLEX  *AB,
+                    const INTEGER        *LDAB,
+                    FLOAT                *R,
+                    FLOAT                *C,
+                    FLOAT                *ROWCND,
+                    FLOAT                *COLCND,
+                    FLOAT                *AMAX,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cgbequ");
+    LAPACK_IMPL(cgbequ)(M,
+                        N,
+                        KL,
+                        KU,
+                        AB,
+                        LDAB,
+                        R,
+                        C,
+                        ROWCND,
+                        COLCND,
+                        AMAX,
+                        INFO);
+}
+
+//-- cgbequb -------------------------------------------------------------------
+void
+LAPACK_DECL(cgbequb)(const INTEGER            *M,
+                     const INTEGER            *N,
+                     const INTEGER            *KL,
+                     const INTEGER            *KU,
+                     const FLOAT_COMPLEX      *AB,
+                     const INTEGER            *LDAB,
+                     FLOAT                    *R,
+                     FLOAT                    *C,
+                     FLOAT                    *ROWCND,
+                     FLOAT                    *COLCND,
+                     FLOAT                    *AMAX,
+                     INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("cgbequb");
+    LAPACK_IMPL(cgbequb)(M,
+                         N,
+                         KL,
+                         KU,
+                         AB,
+                         LDAB,
+                         R,
+                         C,
+                         ROWCND,
+                         COLCND,
+                         AMAX,
+                         INFO);
+}
+
+//-- cgbrfs --------------------------------------------------------------------
+void
+LAPACK_DECL(cgbrfs)(const char           *TRANS,
+                    const INTEGER        *N,
+                    const INTEGER        *KL,
+                    const INTEGER        *KU,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *AB,
+                    const INTEGER        *LDAB,
+                    const FLOAT_COMPLEX  *AFB,
+                    const INTEGER        *LDAFB,
+                    const INTEGER        *IPIV,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    FLOAT_COMPLEX        *X,
+                    const INTEGER        *LDX,
+                    FLOAT                *FERR,
+                    FLOAT                *BERR,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cgbrfs");
+    LAPACK_IMPL(cgbrfs)(TRANS,
+                        N,
+                        KL,
+                        KU,
+                        NRHS,
+                        AB,
+                        LDAB,
+                        AFB,
+                        LDAFB,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cgbrfsx -------------------------------------------------------------------
+void
+LAPACK_DECL(cgbrfsx)(const char               *TRANS,
+                     const char               *EQUED,
+                     const INTEGER            *N,
+                     const INTEGER            *KL,
+                     const INTEGER            *KU,
+                     const INTEGER            *NRHS,
+                     const FLOAT_COMPLEX      *AB,
+                     const INTEGER            *LDAB,
+                     const FLOAT_COMPLEX      *AFB,
+                     const INTEGER            *LDAFB,
+                     const INTEGER            *IPIV,
+                     FLOAT                    *R,
+                     FLOAT                    *C,
+                     const FLOAT_COMPLEX      *B,
+                     const INTEGER            *LDB,
+                     FLOAT_COMPLEX            *X,
+                     const INTEGER            *LDX,
+                     FLOAT                    *RCOND,
+                     FLOAT                    *BERR,
+                     const INTEGER            *N_ERR_BNDS,
+                     FLOAT                    *ERR_BNDS_NORM,
+                     FLOAT                    *ERR_BNDS_COMP,
+                     const INTEGER            *NPARAMS,
+                     FLOAT                    *PARAMS,
+                     FLOAT_COMPLEX            *WORK,
+                     FLOAT                    *RWORK,
+                     INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("cgbrfsx");
+    LAPACK_IMPL(cgbrfsx)(TRANS,
+                         EQUED,
+                         N,
+                         KL,
+                         KU,
+                         NRHS,
+                         AB,
+                         LDAB,
+                         AFB,
+                         LDAFB,
+                         IPIV,
+                         R,
+                         C,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         RWORK,
+                         INFO);
+}
+
+//-- cgbsv ---------------------------------------------------------------------
+void
+LAPACK_DECL(cgbsv)(const INTEGER        *N,
+                   const INTEGER        *KL,
+                   const INTEGER        *KU,
+                   const INTEGER        *NRHS,
+                   FLOAT_COMPLEX        *AB,
+                   const INTEGER        *LDAB,
+                   INTEGER              *IPIV,
+                   FLOAT_COMPLEX        *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cgbsv");
+    LAPACK_IMPL(cgbsv)(N,
+                       KL,
+                       KU,
+                       NRHS,
+                       AB,
+                       LDAB,
+                       IPIV,
+                       B,
+                       LDB,
+                       INFO);
+}
+
+//-- cgbsvx --------------------------------------------------------------------
+void
+LAPACK_DECL(cgbsvx)(const char       *FACT,
+                    const char       *TRANS,
+                    const INTEGER    *N,
+                    const INTEGER    *KL,
+                    const INTEGER    *KU,
+                    const INTEGER    *NRHS,
+                    FLOAT_COMPLEX    *AB,
+                    const INTEGER    *LDAB,
+                    FLOAT_COMPLEX    *AFB,
+                    const INTEGER    *LDAFB,
+                    INTEGER          *IPIV,
+                    char             *EQUED,
+                    FLOAT            *R,
+                    FLOAT            *C,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    FLOAT_COMPLEX    *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *RCOND,
+                    FLOAT            *FERR,
+                    FLOAT            *BERR,
+                    FLOAT_COMPLEX    *WORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgbsvx");
+    LAPACK_IMPL(cgbsvx)(FACT,
+                        TRANS,
+                        N,
+                        KL,
+                        KU,
+                        NRHS,
+                        AB,
+                        LDAB,
+                        AFB,
+                        LDAFB,
+                        IPIV,
+                        EQUED,
+                        R,
+                        C,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+// warning: KL has unknown type
+// warning: KU has unknown type
+//-- cgbsvxx -------------------------------------------------------------------
+void
+LAPACK_DECL(cgbsvxx)(const char       *FACT,
+                     const char       *TRANS,
+                     const INTEGER    *N,
+                     UNKNOWN          *KL,
+                     UNKNOWN          *KU,
+                     const INTEGER    *NRHS,
+                     FLOAT_COMPLEX    *AB,
+                     const INTEGER    *LDAB,
+                     FLOAT_COMPLEX    *AFB,
+                     const INTEGER    *LDAFB,
+                     INTEGER          *IPIV,
+                     char             *EQUED,
+                     FLOAT            *R,
+                     FLOAT            *C,
+                     FLOAT_COMPLEX    *B,
+                     const INTEGER    *LDB,
+                     FLOAT_COMPLEX    *X,
+                     const INTEGER    *LDX,
+                     FLOAT            *RCOND,
+                     FLOAT            *RPVGRW,
+                     FLOAT            *BERR,
+                     const INTEGER    *N_ERR_BNDS,
+                     FLOAT            *ERR_BNDS_NORM,
+                     FLOAT            *ERR_BNDS_COMP,
+                     const INTEGER    *NPARAMS,
+                     FLOAT            *PARAMS,
+                     FLOAT_COMPLEX    *WORK,
+                     FLOAT            *RWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgbsvxx");
+    LAPACK_IMPL(cgbsvxx)(FACT,
+                         TRANS,
+                         N,
+                         KL,
+                         KU,
+                         NRHS,
+                         AB,
+                         LDAB,
+                         AFB,
+                         LDAFB,
+                         IPIV,
+                         EQUED,
+                         R,
+                         C,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         RPVGRW,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         RWORK,
+                         INFO);
+}
+
+//-- cgbtf2 --------------------------------------------------------------------
+void
+LAPACK_DECL(cgbtf2)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *KL,
+                    const INTEGER    *KU,
+                    FLOAT_COMPLEX    *AB,
+                    const INTEGER    *LDAB,
+                    INTEGER          *IPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgbtf2");
+    LAPACK_IMPL(cgbtf2)(M,
+                        N,
+                        KL,
+                        KU,
+                        AB,
+                        LDAB,
+                        IPIV,
+                        INFO);
+}
+
+//-- cgbtrf --------------------------------------------------------------------
+void
+LAPACK_DECL(cgbtrf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *KL,
+                    const INTEGER    *KU,
+                    FLOAT_COMPLEX    *AB,
+                    const INTEGER    *LDAB,
+                    INTEGER          *IPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgbtrf");
+    LAPACK_IMPL(cgbtrf)(M,
+                        N,
+                        KL,
+                        KU,
+                        AB,
+                        LDAB,
+                        IPIV,
+                        INFO);
+}
+
+//-- cgbtrs --------------------------------------------------------------------
+void
+LAPACK_DECL(cgbtrs)(const char           *TRANS,
+                    const INTEGER        *N,
+                    const INTEGER        *KL,
+                    const INTEGER        *KU,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *AB,
+                    const INTEGER        *LDAB,
+                    const INTEGER        *IPIV,
+                    FLOAT_COMPLEX        *B,
+                    const INTEGER        *LDB,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cgbtrs");
+    LAPACK_IMPL(cgbtrs)(TRANS,
+                        N,
+                        KL,
+                        KU,
+                        NRHS,
+                        AB,
+                        LDAB,
+                        IPIV,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- cgebak --------------------------------------------------------------------
+void
+LAPACK_DECL(cgebak)(const char       *JOB,
+                    const char       *SIDE,
+                    const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    const FLOAT      *SCALE,
+                    const INTEGER    *M,
+                    FLOAT_COMPLEX    *V,
+                    const INTEGER    *LDV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgebak");
+    LAPACK_IMPL(cgebak)(JOB,
+                        SIDE,
+                        N,
+                        ILO,
+                        IHI,
+                        SCALE,
+                        M,
+                        V,
+                        LDV,
+                        INFO);
+}
+
+//-- cgebal --------------------------------------------------------------------
+void
+LAPACK_DECL(cgebal)(const char       *JOB,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *ILO,
+                    INTEGER          *IHI,
+                    FLOAT            *SCALE,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgebal");
+    LAPACK_IMPL(cgebal)(JOB,
+                        N,
+                        A,
+                        LDA,
+                        ILO,
+                        IHI,
+                        SCALE,
+                        INFO);
+}
+
+//-- cgebd2 --------------------------------------------------------------------
+void
+LAPACK_DECL(cgebd2)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT_COMPLEX    *TAUQ,
+                    FLOAT_COMPLEX    *TAUP,
+                    FLOAT_COMPLEX    *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgebd2");
+    LAPACK_IMPL(cgebd2)(M,
+                        N,
+                        A,
+                        LDA,
+                        D,
+                        E,
+                        TAUQ,
+                        TAUP,
+                        WORK,
+                        INFO);
+}
+
+//-- cgebrd --------------------------------------------------------------------
+void
+LAPACK_DECL(cgebrd)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT_COMPLEX    *TAUQ,
+                    FLOAT_COMPLEX    *TAUP,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgebrd");
+    LAPACK_IMPL(cgebrd)(M,
+                        N,
+                        A,
+                        LDA,
+                        D,
+                        E,
+                        TAUQ,
+                        TAUP,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cgecon --------------------------------------------------------------------
+void
+LAPACK_DECL(cgecon)(const char           *NORM,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const FLOAT          *ANORM,
+                    FLOAT                *RCOND,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cgecon");
+    LAPACK_IMPL(cgecon)(NORM,
+                        N,
+                        A,
+                        LDA,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cgeequ --------------------------------------------------------------------
+void
+LAPACK_DECL(cgeequ)(const INTEGER        *M,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    FLOAT                *R,
+                    FLOAT                *C,
+                    FLOAT                *ROWCND,
+                    FLOAT                *COLCND,
+                    FLOAT                *AMAX,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cgeequ");
+    LAPACK_IMPL(cgeequ)(M,
+                        N,
+                        A,
+                        LDA,
+                        R,
+                        C,
+                        ROWCND,
+                        COLCND,
+                        AMAX,
+                        INFO);
+}
+
+//-- cgeequb -------------------------------------------------------------------
+void
+LAPACK_DECL(cgeequb)(const INTEGER            *M,
+                     const INTEGER            *N,
+                     const FLOAT_COMPLEX      *A,
+                     const INTEGER            *LDA,
+                     FLOAT                    *R,
+                     FLOAT                    *C,
+                     FLOAT                    *ROWCND,
+                     FLOAT                    *COLCND,
+                     FLOAT                    *AMAX,
+                     INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("cgeequb");
+    LAPACK_IMPL(cgeequb)(M,
+                         N,
+                         A,
+                         LDA,
+                         R,
+                         C,
+                         ROWCND,
+                         COLCND,
+                         AMAX,
+                         INFO);
+}
+
+//-- cgees ---------------------------------------------------------------------
+void
+LAPACK_DECL(cgees)(const char           *JOBVS,
+                   const char           *SORT,
+                   const LOGICAL        *SELECT,
+                   const INTEGER        *N,
+                   FLOAT_COMPLEX        *A,
+                   const INTEGER        *LDA,
+                   INTEGER              *SDIM,
+                   FLOAT_COMPLEX        *W,
+                   FLOAT_COMPLEX        *VS,
+                   const INTEGER        *LDVS,
+                   FLOAT_COMPLEX        *WORK,
+                   const INTEGER        *LWORK,
+                   FLOAT                *RWORK,
+                   LOGICAL              *BWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cgees");
+    LAPACK_IMPL(cgees)(JOBVS,
+                       SORT,
+                       SELECT,
+                       N,
+                       A,
+                       LDA,
+                       SDIM,
+                       W,
+                       VS,
+                       LDVS,
+                       WORK,
+                       LWORK,
+                       RWORK,
+                       BWORK,
+                       INFO);
+}
+
+//-- cgeesx --------------------------------------------------------------------
+void
+LAPACK_DECL(cgeesx)(const char       *JOBVS,
+                    const char       *SORT,
+                    const LOGICAL    *SELECT,
+                    const char       *SENSE,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *SDIM,
+                    FLOAT_COMPLEX    *W,
+                    FLOAT_COMPLEX    *VS,
+                    const INTEGER    *LDVS,
+                    FLOAT            *RCONDE,
+                    FLOAT            *RCONDV,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    FLOAT            *RWORK,
+                    LOGICAL          *BWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgeesx");
+    LAPACK_IMPL(cgeesx)(JOBVS,
+                        SORT,
+                        SELECT,
+                        SENSE,
+                        N,
+                        A,
+                        LDA,
+                        SDIM,
+                        W,
+                        VS,
+                        LDVS,
+                        RCONDE,
+                        RCONDV,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        BWORK,
+                        INFO);
+}
+
+//-- cgeev ---------------------------------------------------------------------
+void
+LAPACK_DECL(cgeev)(const char           *JOBVL,
+                   const char           *JOBVR,
+                   const INTEGER        *N,
+                   FLOAT_COMPLEX        *A,
+                   const INTEGER        *LDA,
+                   FLOAT_COMPLEX        *W,
+                   FLOAT_COMPLEX        *VL,
+                   const INTEGER        *LDVL,
+                   FLOAT_COMPLEX        *VR,
+                   const INTEGER        *LDVR,
+                   FLOAT_COMPLEX        *WORK,
+                   const INTEGER        *LWORK,
+                   FLOAT                *RWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cgeev");
+    LAPACK_IMPL(cgeev)(JOBVL,
+                       JOBVR,
+                       N,
+                       A,
+                       LDA,
+                       W,
+                       VL,
+                       LDVL,
+                       VR,
+                       LDVR,
+                       WORK,
+                       LWORK,
+                       RWORK,
+                       INFO);
+}
+
+//-- cgeevx --------------------------------------------------------------------
+void
+LAPACK_DECL(cgeevx)(const char       *BALANC,
+                    const char       *JOBVL,
+                    const char       *JOBVR,
+                    const char       *SENSE,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *W,
+                    FLOAT_COMPLEX    *VL,
+                    const INTEGER    *LDVL,
+                    FLOAT_COMPLEX    *VR,
+                    const INTEGER    *LDVR,
+                    INTEGER          *ILO,
+                    INTEGER          *IHI,
+                    FLOAT            *SCALE,
+                    FLOAT            *ABNRM,
+                    FLOAT            *RCONDE,
+                    FLOAT            *RCONDV,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgeevx");
+    LAPACK_IMPL(cgeevx)(BALANC,
+                        JOBVL,
+                        JOBVR,
+                        SENSE,
+                        N,
+                        A,
+                        LDA,
+                        W,
+                        VL,
+                        LDVL,
+                        VR,
+                        LDVR,
+                        ILO,
+                        IHI,
+                        SCALE,
+                        ABNRM,
+                        RCONDE,
+                        RCONDV,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cgegs ---------------------------------------------------------------------
+void
+LAPACK_DECL(cgegs)(const char           *JOBVSL,
+                   const char           *JOBVSR,
+                   const INTEGER        *N,
+                   FLOAT_COMPLEX        *A,
+                   const INTEGER        *LDA,
+                   FLOAT_COMPLEX        *B,
+                   const INTEGER        *LDB,
+                   FLOAT_COMPLEX        *ALPHA,
+                   FLOAT_COMPLEX        *BETA,
+                   FLOAT_COMPLEX        *VSL,
+                   const INTEGER        *LDVSL,
+                   FLOAT_COMPLEX        *VSR,
+                   const INTEGER        *LDVSR,
+                   FLOAT_COMPLEX        *WORK,
+                   const INTEGER        *LWORK,
+                   FLOAT                *RWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cgegs");
+    LAPACK_IMPL(cgegs)(JOBVSL,
+                       JOBVSR,
+                       N,
+                       A,
+                       LDA,
+                       B,
+                       LDB,
+                       ALPHA,
+                       BETA,
+                       VSL,
+                       LDVSL,
+                       VSR,
+                       LDVSR,
+                       WORK,
+                       LWORK,
+                       RWORK,
+                       INFO);
+}
+
+//-- cgegv ---------------------------------------------------------------------
+void
+LAPACK_DECL(cgegv)(const char           *JOBVL,
+                   const char           *JOBVR,
+                   const INTEGER        *N,
+                   FLOAT_COMPLEX        *A,
+                   const INTEGER        *LDA,
+                   FLOAT_COMPLEX        *B,
+                   const INTEGER        *LDB,
+                   FLOAT_COMPLEX        *ALPHA,
+                   FLOAT_COMPLEX        *BETA,
+                   FLOAT_COMPLEX        *VL,
+                   const INTEGER        *LDVL,
+                   FLOAT_COMPLEX        *VR,
+                   const INTEGER        *LDVR,
+                   FLOAT_COMPLEX        *WORK,
+                   const INTEGER        *LWORK,
+                   FLOAT                *RWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cgegv");
+    LAPACK_IMPL(cgegv)(JOBVL,
+                       JOBVR,
+                       N,
+                       A,
+                       LDA,
+                       B,
+                       LDB,
+                       ALPHA,
+                       BETA,
+                       VL,
+                       LDVL,
+                       VR,
+                       LDVR,
+                       WORK,
+                       LWORK,
+                       RWORK,
+                       INFO);
+}
+
+//-- cgehd2 --------------------------------------------------------------------
+void
+LAPACK_DECL(cgehd2)(const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *TAU,
+                    FLOAT_COMPLEX    *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgehd2");
+    LAPACK_IMPL(cgehd2)(N,
+                        ILO,
+                        IHI,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- cgehrd --------------------------------------------------------------------
+void
+LAPACK_DECL(cgehrd)(const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *TAU,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgehrd");
+    LAPACK_IMPL(cgehrd)(N,
+                        ILO,
+                        IHI,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cgelq2 --------------------------------------------------------------------
+void
+LAPACK_DECL(cgelq2)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *TAU,
+                    FLOAT_COMPLEX    *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgelq2");
+    LAPACK_IMPL(cgelq2)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- cgelqf --------------------------------------------------------------------
+void
+LAPACK_DECL(cgelqf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *TAU,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgelqf");
+    LAPACK_IMPL(cgelqf)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cgels ---------------------------------------------------------------------
+void
+LAPACK_DECL(cgels)(const char           *TRANS,
+                   const INTEGER        *M,
+                   const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   FLOAT_COMPLEX        *A,
+                   const INTEGER        *LDA,
+                   FLOAT_COMPLEX        *B,
+                   const INTEGER        *LDB,
+                   FLOAT_COMPLEX        *WORK,
+                   const INTEGER        *LWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cgels");
+    LAPACK_IMPL(cgels)(TRANS,
+                       M,
+                       N,
+                       NRHS,
+                       A,
+                       LDA,
+                       B,
+                       LDB,
+                       WORK,
+                       LWORK,
+                       INFO);
+}
+
+//-- cgelsd --------------------------------------------------------------------
+void
+LAPACK_DECL(cgelsd)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *S,
+                    const FLOAT      *RCOND,
+                    INTEGER          *RANK,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgelsd");
+    LAPACK_IMPL(cgelsd)(M,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        S,
+                        RCOND,
+                        RANK,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- cgelss --------------------------------------------------------------------
+void
+LAPACK_DECL(cgelss)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *S,
+                    const FLOAT      *RCOND,
+                    INTEGER          *RANK,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgelss");
+    LAPACK_IMPL(cgelss)(M,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        S,
+                        RCOND,
+                        RANK,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cgelsx --------------------------------------------------------------------
+void
+LAPACK_DECL(cgelsx)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *JPVT,
+                    const FLOAT      *RCOND,
+                    INTEGER          *RANK,
+                    FLOAT_COMPLEX    *WORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgelsx");
+    LAPACK_IMPL(cgelsx)(M,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        JPVT,
+                        RCOND,
+                        RANK,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cgelsy --------------------------------------------------------------------
+void
+LAPACK_DECL(cgelsy)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *JPVT,
+                    const FLOAT      *RCOND,
+                    INTEGER          *RANK,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgelsy");
+    LAPACK_IMPL(cgelsy)(M,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        JPVT,
+                        RCOND,
+                        RANK,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cgeql2 --------------------------------------------------------------------
+void
+LAPACK_DECL(cgeql2)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *TAU,
+                    FLOAT_COMPLEX    *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgeql2");
+    LAPACK_IMPL(cgeql2)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- cgeqlf --------------------------------------------------------------------
+void
+LAPACK_DECL(cgeqlf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *TAU,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgeqlf");
+    LAPACK_IMPL(cgeqlf)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cgeqp3 --------------------------------------------------------------------
+void
+LAPACK_DECL(cgeqp3)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *JPVT,
+                    FLOAT_COMPLEX    *TAU,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgeqp3");
+    LAPACK_IMPL(cgeqp3)(M,
+                        N,
+                        A,
+                        LDA,
+                        JPVT,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cgeqpf --------------------------------------------------------------------
+void
+LAPACK_DECL(cgeqpf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *JPVT,
+                    FLOAT_COMPLEX    *TAU,
+                    FLOAT_COMPLEX    *WORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgeqpf");
+    LAPACK_IMPL(cgeqpf)(M,
+                        N,
+                        A,
+                        LDA,
+                        JPVT,
+                        TAU,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cgeqr2 --------------------------------------------------------------------
+void
+LAPACK_DECL(cgeqr2)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *TAU,
+                    FLOAT_COMPLEX    *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgeqr2");
+    LAPACK_IMPL(cgeqr2)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- cgeqr2p -------------------------------------------------------------------
+void
+LAPACK_DECL(cgeqr2p)(const INTEGER    *M,
+                     const INTEGER    *N,
+                     FLOAT_COMPLEX    *A,
+                     const INTEGER    *LDA,
+                     FLOAT_COMPLEX    *TAU,
+                     FLOAT_COMPLEX    *WORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgeqr2p");
+    LAPACK_IMPL(cgeqr2p)(M,
+                         N,
+                         A,
+                         LDA,
+                         TAU,
+                         WORK,
+                         INFO);
+}
+
+//-- cgeqrf --------------------------------------------------------------------
+void
+LAPACK_DECL(cgeqrf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *TAU,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgeqrf");
+    LAPACK_IMPL(cgeqrf)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cgeqrfp -------------------------------------------------------------------
+void
+LAPACK_DECL(cgeqrfp)(const INTEGER    *M,
+                     const INTEGER    *N,
+                     FLOAT_COMPLEX    *A,
+                     const INTEGER    *LDA,
+                     FLOAT_COMPLEX    *TAU,
+                     FLOAT_COMPLEX    *WORK,
+                     const INTEGER    *LWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgeqrfp");
+    LAPACK_IMPL(cgeqrfp)(M,
+                         N,
+                         A,
+                         LDA,
+                         TAU,
+                         WORK,
+                         LWORK,
+                         INFO);
+}
+
+//-- cgerfs --------------------------------------------------------------------
+void
+LAPACK_DECL(cgerfs)(const char           *TRANS,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *AF,
+                    const INTEGER        *LDAF,
+                    const INTEGER        *IPIV,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    FLOAT_COMPLEX        *X,
+                    const INTEGER        *LDX,
+                    FLOAT                *FERR,
+                    FLOAT                *BERR,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cgerfs");
+    LAPACK_IMPL(cgerfs)(TRANS,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        AF,
+                        LDAF,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cgerfsx -------------------------------------------------------------------
+void
+LAPACK_DECL(cgerfsx)(const char               *TRANS,
+                     const char               *EQUED,
+                     const INTEGER            *N,
+                     const INTEGER            *NRHS,
+                     const FLOAT_COMPLEX      *A,
+                     const INTEGER            *LDA,
+                     const FLOAT_COMPLEX      *AF,
+                     const INTEGER            *LDAF,
+                     const INTEGER            *IPIV,
+                     const FLOAT              *R,
+                     const FLOAT              *C,
+                     const FLOAT_COMPLEX      *B,
+                     const INTEGER            *LDB,
+                     FLOAT_COMPLEX            *X,
+                     const INTEGER            *LDX,
+                     FLOAT                    *RCOND,
+                     FLOAT                    *BERR,
+                     const INTEGER            *N_ERR_BNDS,
+                     FLOAT                    *ERR_BNDS_NORM,
+                     FLOAT                    *ERR_BNDS_COMP,
+                     const INTEGER            *NPARAMS,
+                     FLOAT                    *PARAMS,
+                     FLOAT_COMPLEX            *WORK,
+                     FLOAT                    *RWORK,
+                     INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("cgerfsx");
+    LAPACK_IMPL(cgerfsx)(TRANS,
+                         EQUED,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         IPIV,
+                         R,
+                         C,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         RWORK,
+                         INFO);
+}
+
+//-- cgerq2 --------------------------------------------------------------------
+void
+LAPACK_DECL(cgerq2)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *TAU,
+                    FLOAT_COMPLEX    *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgerq2");
+    LAPACK_IMPL(cgerq2)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- cgerqf --------------------------------------------------------------------
+void
+LAPACK_DECL(cgerqf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *TAU,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgerqf");
+    LAPACK_IMPL(cgerqf)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cgesc2 --------------------------------------------------------------------
+void
+LAPACK_DECL(cgesc2)(const INTEGER        *N,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    FLOAT_COMPLEX        *RHS,
+                    const INTEGER        *IPIV,
+                    const INTEGER        *JPIV,
+                    FLOAT                *SCALE)
+{
+    DEBUG_LAPACK_STUB("cgesc2");
+    LAPACK_IMPL(cgesc2)(N,
+                        A,
+                        LDA,
+                        RHS,
+                        IPIV,
+                        JPIV,
+                        SCALE);
+}
+
+//-- cgesdd --------------------------------------------------------------------
+void
+LAPACK_DECL(cgesdd)(const char       *JOBZ,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *S,
+                    FLOAT_COMPLEX    *U,
+                    const INTEGER    *LDU,
+                    FLOAT_COMPLEX    *VT,
+                    const INTEGER    *LDVT,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgesdd");
+    LAPACK_IMPL(cgesdd)(JOBZ,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        S,
+                        U,
+                        LDU,
+                        VT,
+                        LDVT,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- cgesv ---------------------------------------------------------------------
+void
+LAPACK_DECL(cgesv)(const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   FLOAT_COMPLEX        *A,
+                   const INTEGER        *LDA,
+                   INTEGER              *IPIV,
+                   FLOAT_COMPLEX        *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cgesv");
+    LAPACK_IMPL(cgesv)(N,
+                       NRHS,
+                       A,
+                       LDA,
+                       IPIV,
+                       B,
+                       LDB,
+                       INFO);
+}
+
+//-- cgesvd --------------------------------------------------------------------
+void
+LAPACK_DECL(cgesvd)(const char       *JOBU,
+                    const char       *JOBVT,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *S,
+                    FLOAT_COMPLEX    *U,
+                    const INTEGER    *LDU,
+                    FLOAT_COMPLEX    *VT,
+                    const INTEGER    *LDVT,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgesvd");
+    LAPACK_IMPL(cgesvd)(JOBU,
+                        JOBVT,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        S,
+                        U,
+                        LDU,
+                        VT,
+                        LDVT,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cgesvx --------------------------------------------------------------------
+void
+LAPACK_DECL(cgesvx)(const char       *FACT,
+                    const char       *TRANS,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *AF,
+                    const INTEGER    *LDAF,
+                    INTEGER          *IPIV,
+                    char             *EQUED,
+                    FLOAT            *R,
+                    FLOAT            *C,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    FLOAT_COMPLEX    *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *RCOND,
+                    FLOAT            *FERR,
+                    FLOAT            *BERR,
+                    FLOAT_COMPLEX    *WORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgesvx");
+    LAPACK_IMPL(cgesvx)(FACT,
+                        TRANS,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        AF,
+                        LDAF,
+                        IPIV,
+                        EQUED,
+                        R,
+                        C,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cgesvxx -------------------------------------------------------------------
+void
+LAPACK_DECL(cgesvxx)(const char       *FACT,
+                     const char       *TRANS,
+                     const INTEGER    *N,
+                     const INTEGER    *NRHS,
+                     FLOAT_COMPLEX    *A,
+                     const INTEGER    *LDA,
+                     FLOAT_COMPLEX    *AF,
+                     const INTEGER    *LDAF,
+                     INTEGER          *IPIV,
+                     char             *EQUED,
+                     FLOAT            *R,
+                     FLOAT            *C,
+                     FLOAT_COMPLEX    *B,
+                     const INTEGER    *LDB,
+                     FLOAT_COMPLEX    *X,
+                     const INTEGER    *LDX,
+                     FLOAT            *RCOND,
+                     FLOAT            *RPVGRW,
+                     FLOAT            *BERR,
+                     const INTEGER    *N_ERR_BNDS,
+                     FLOAT            *ERR_BNDS_NORM,
+                     FLOAT            *ERR_BNDS_COMP,
+                     const INTEGER    *NPARAMS,
+                     FLOAT            *PARAMS,
+                     FLOAT_COMPLEX    *WORK,
+                     FLOAT            *RWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgesvxx");
+    LAPACK_IMPL(cgesvxx)(FACT,
+                         TRANS,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         IPIV,
+                         EQUED,
+                         R,
+                         C,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         RPVGRW,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         RWORK,
+                         INFO);
+}
+
+//-- cgetc2 --------------------------------------------------------------------
+void
+LAPACK_DECL(cgetc2)(const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *IPIV,
+                    INTEGER          *JPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgetc2");
+    LAPACK_IMPL(cgetc2)(N,
+                        A,
+                        LDA,
+                        IPIV,
+                        JPIV,
+                        INFO);
+}
+
+//-- cgetf2 --------------------------------------------------------------------
+void
+LAPACK_DECL(cgetf2)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *IPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgetf2");
+    LAPACK_IMPL(cgetf2)(M,
+                        N,
+                        A,
+                        LDA,
+                        IPIV,
+                        INFO);
+}
+
+//-- cgetrf --------------------------------------------------------------------
+void
+LAPACK_DECL(cgetrf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *IPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgetrf");
+    LAPACK_IMPL(cgetrf)(M,
+                        N,
+                        A,
+                        LDA,
+                        IPIV,
+                        INFO);
+}
+
+//-- cgetri --------------------------------------------------------------------
+void
+LAPACK_DECL(cgetri)(const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    const INTEGER    *IPIV,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgetri");
+    LAPACK_IMPL(cgetri)(N,
+                        A,
+                        LDA,
+                        IPIV,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cgetrs --------------------------------------------------------------------
+void
+LAPACK_DECL(cgetrs)(const char           *TRANS,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const INTEGER        *IPIV,
+                    FLOAT_COMPLEX        *B,
+                    const INTEGER        *LDB,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cgetrs");
+    LAPACK_IMPL(cgetrs)(TRANS,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        IPIV,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- cggbak --------------------------------------------------------------------
+void
+LAPACK_DECL(cggbak)(const char       *JOB,
+                    const char       *SIDE,
+                    const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    const FLOAT      *LSCALE,
+                    const FLOAT      *RSCALE,
+                    const INTEGER    *M,
+                    FLOAT_COMPLEX    *V,
+                    const INTEGER    *LDV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cggbak");
+    LAPACK_IMPL(cggbak)(JOB,
+                        SIDE,
+                        N,
+                        ILO,
+                        IHI,
+                        LSCALE,
+                        RSCALE,
+                        M,
+                        V,
+                        LDV,
+                        INFO);
+}
+
+//-- cggbal --------------------------------------------------------------------
+void
+LAPACK_DECL(cggbal)(const char       *JOB,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *ILO,
+                    INTEGER          *IHI,
+                    FLOAT            *LSCALE,
+                    FLOAT            *RSCALE,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cggbal");
+    LAPACK_IMPL(cggbal)(JOB,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        ILO,
+                        IHI,
+                        LSCALE,
+                        RSCALE,
+                        WORK,
+                        INFO);
+}
+
+//-- cgges ---------------------------------------------------------------------
+void
+LAPACK_DECL(cgges)(const char           *JOBVSL,
+                   const char           *JOBVSR,
+                   const char           *SORT,
+                   const LOGICAL        *SELCTG,
+                   const INTEGER        *N,
+                   FLOAT_COMPLEX        *A,
+                   const INTEGER        *LDA,
+                   FLOAT_COMPLEX        *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *SDIM,
+                   FLOAT_COMPLEX        *ALPHA,
+                   FLOAT_COMPLEX        *BETA,
+                   FLOAT_COMPLEX        *VSL,
+                   const INTEGER        *LDVSL,
+                   FLOAT_COMPLEX        *VSR,
+                   const INTEGER        *LDVSR,
+                   FLOAT_COMPLEX        *WORK,
+                   const INTEGER        *LWORK,
+                   FLOAT                *RWORK,
+                   LOGICAL              *BWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cgges");
+    LAPACK_IMPL(cgges)(JOBVSL,
+                       JOBVSR,
+                       SORT,
+                       SELCTG,
+                       N,
+                       A,
+                       LDA,
+                       B,
+                       LDB,
+                       SDIM,
+                       ALPHA,
+                       BETA,
+                       VSL,
+                       LDVSL,
+                       VSR,
+                       LDVSR,
+                       WORK,
+                       LWORK,
+                       RWORK,
+                       BWORK,
+                       INFO);
+}
+
+//-- cggesx --------------------------------------------------------------------
+void
+LAPACK_DECL(cggesx)(const char       *JOBVSL,
+                    const char       *JOBVSR,
+                    const char       *SORT,
+                    const LOGICAL    *SELCTG,
+                    const char       *SENSE,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *SDIM,
+                    FLOAT_COMPLEX    *ALPHA,
+                    FLOAT_COMPLEX    *BETA,
+                    FLOAT_COMPLEX    *VSL,
+                    const INTEGER    *LDVSL,
+                    FLOAT_COMPLEX    *VSR,
+                    const INTEGER    *LDVSR,
+                    FLOAT            *RCONDE,
+                    FLOAT            *RCONDV,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    LOGICAL          *BWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cggesx");
+    LAPACK_IMPL(cggesx)(JOBVSL,
+                        JOBVSR,
+                        SORT,
+                        SELCTG,
+                        SENSE,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        SDIM,
+                        ALPHA,
+                        BETA,
+                        VSL,
+                        LDVSL,
+                        VSR,
+                        LDVSR,
+                        RCONDE,
+                        RCONDV,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        IWORK,
+                        LIWORK,
+                        BWORK,
+                        INFO);
+}
+
+//-- cggev ---------------------------------------------------------------------
+void
+LAPACK_DECL(cggev)(const char           *JOBVL,
+                   const char           *JOBVR,
+                   const INTEGER        *N,
+                   FLOAT_COMPLEX        *A,
+                   const INTEGER        *LDA,
+                   FLOAT_COMPLEX        *B,
+                   const INTEGER        *LDB,
+                   FLOAT_COMPLEX        *ALPHA,
+                   FLOAT_COMPLEX        *BETA,
+                   FLOAT_COMPLEX        *VL,
+                   const INTEGER        *LDVL,
+                   FLOAT_COMPLEX        *VR,
+                   const INTEGER        *LDVR,
+                   FLOAT_COMPLEX        *WORK,
+                   const INTEGER        *LWORK,
+                   FLOAT                *RWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cggev");
+    LAPACK_IMPL(cggev)(JOBVL,
+                       JOBVR,
+                       N,
+                       A,
+                       LDA,
+                       B,
+                       LDB,
+                       ALPHA,
+                       BETA,
+                       VL,
+                       LDVL,
+                       VR,
+                       LDVR,
+                       WORK,
+                       LWORK,
+                       RWORK,
+                       INFO);
+}
+
+//-- cggevx --------------------------------------------------------------------
+void
+LAPACK_DECL(cggevx)(const char       *BALANC,
+                    const char       *JOBVL,
+                    const char       *JOBVR,
+                    const char       *SENSE,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    FLOAT_COMPLEX    *ALPHA,
+                    FLOAT_COMPLEX    *BETA,
+                    FLOAT_COMPLEX    *VL,
+                    const INTEGER    *LDVL,
+                    FLOAT_COMPLEX    *VR,
+                    const INTEGER    *LDVR,
+                    INTEGER          *ILO,
+                    INTEGER          *IHI,
+                    FLOAT            *LSCALE,
+                    FLOAT            *RSCALE,
+                    FLOAT            *ABNRM,
+                    FLOAT            *BBNRM,
+                    FLOAT            *RCONDE,
+                    FLOAT            *RCONDV,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *IWORK,
+                    LOGICAL          *BWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cggevx");
+    LAPACK_IMPL(cggevx)(BALANC,
+                        JOBVL,
+                        JOBVR,
+                        SENSE,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        ALPHA,
+                        BETA,
+                        VL,
+                        LDVL,
+                        VR,
+                        LDVR,
+                        ILO,
+                        IHI,
+                        LSCALE,
+                        RSCALE,
+                        ABNRM,
+                        BBNRM,
+                        RCONDE,
+                        RCONDV,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        IWORK,
+                        BWORK,
+                        INFO);
+}
+
+//-- cggglm --------------------------------------------------------------------
+void
+LAPACK_DECL(cggglm)(const INTEGER    *N,
+                    const INTEGER    *M,
+                    const INTEGER    *P,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    FLOAT_COMPLEX    *D,
+                    FLOAT_COMPLEX    *X,
+                    FLOAT_COMPLEX    *Y,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cggglm");
+    LAPACK_IMPL(cggglm)(N,
+                        M,
+                        P,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        D,
+                        X,
+                        Y,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cgghrd --------------------------------------------------------------------
+void
+LAPACK_DECL(cgghrd)(const char       *COMPQ,
+                    const char       *COMPZ,
+                    const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    FLOAT_COMPLEX    *Q,
+                    const INTEGER    *LDQ,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgghrd");
+    LAPACK_IMPL(cgghrd)(COMPQ,
+                        COMPZ,
+                        N,
+                        ILO,
+                        IHI,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        Q,
+                        LDQ,
+                        Z,
+                        LDZ,
+                        INFO);
+}
+
+//-- cgglse --------------------------------------------------------------------
+void
+LAPACK_DECL(cgglse)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *P,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    FLOAT_COMPLEX    *C,
+                    FLOAT_COMPLEX    *D,
+                    FLOAT_COMPLEX    *X,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgglse");
+    LAPACK_IMPL(cgglse)(M,
+                        N,
+                        P,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        C,
+                        D,
+                        X,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cggqrf --------------------------------------------------------------------
+void
+LAPACK_DECL(cggqrf)(const INTEGER    *N,
+                    const INTEGER    *M,
+                    const INTEGER    *P,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *TAUA,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    FLOAT_COMPLEX    *TAUB,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cggqrf");
+    LAPACK_IMPL(cggqrf)(N,
+                        M,
+                        P,
+                        A,
+                        LDA,
+                        TAUA,
+                        B,
+                        LDB,
+                        TAUB,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cggrqf --------------------------------------------------------------------
+void
+LAPACK_DECL(cggrqf)(const INTEGER    *M,
+                    const INTEGER    *P,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *TAUA,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    FLOAT_COMPLEX    *TAUB,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cggrqf");
+    LAPACK_IMPL(cggrqf)(M,
+                        P,
+                        N,
+                        A,
+                        LDA,
+                        TAUA,
+                        B,
+                        LDB,
+                        TAUB,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cggsvd --------------------------------------------------------------------
+void
+LAPACK_DECL(cggsvd)(const char       *JOBU,
+                    const char       *JOBV,
+                    const char       *JOBQ,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *P,
+                    INTEGER          *K,
+                    INTEGER          *L,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *ALPHA,
+                    FLOAT            *BETA,
+                    FLOAT_COMPLEX    *U,
+                    const INTEGER    *LDU,
+                    FLOAT_COMPLEX    *V,
+                    const INTEGER    *LDV,
+                    FLOAT_COMPLEX    *Q,
+                    const INTEGER    *LDQ,
+                    FLOAT_COMPLEX    *WORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cggsvd");
+    LAPACK_IMPL(cggsvd)(JOBU,
+                        JOBV,
+                        JOBQ,
+                        M,
+                        N,
+                        P,
+                        K,
+                        L,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        ALPHA,
+                        BETA,
+                        U,
+                        LDU,
+                        V,
+                        LDV,
+                        Q,
+                        LDQ,
+                        WORK,
+                        RWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- cggsvp --------------------------------------------------------------------
+void
+LAPACK_DECL(cggsvp)(const char       *JOBU,
+                    const char       *JOBV,
+                    const char       *JOBQ,
+                    const INTEGER    *M,
+                    const INTEGER    *P,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    const FLOAT      *TOLA,
+                    const FLOAT      *TOLB,
+                    INTEGER          *K,
+                    INTEGER          *L,
+                    FLOAT_COMPLEX    *U,
+                    const INTEGER    *LDU,
+                    FLOAT_COMPLEX    *V,
+                    const INTEGER    *LDV,
+                    FLOAT_COMPLEX    *Q,
+                    const INTEGER    *LDQ,
+                    INTEGER          *IWORK,
+                    FLOAT            *RWORK,
+                    FLOAT_COMPLEX    *TAU,
+                    FLOAT_COMPLEX    *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cggsvp");
+    LAPACK_IMPL(cggsvp)(JOBU,
+                        JOBV,
+                        JOBQ,
+                        M,
+                        P,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        TOLA,
+                        TOLB,
+                        K,
+                        L,
+                        U,
+                        LDU,
+                        V,
+                        LDV,
+                        Q,
+                        LDQ,
+                        IWORK,
+                        RWORK,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- cgtcon --------------------------------------------------------------------
+void
+LAPACK_DECL(cgtcon)(const char           *NORM,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *DL,
+                    const FLOAT_COMPLEX  *D,
+                    const FLOAT_COMPLEX  *DU,
+                    const FLOAT_COMPLEX  *DU2,
+                    const INTEGER        *IPIV,
+                    const FLOAT          *ANORM,
+                    FLOAT                *RCOND,
+                    FLOAT_COMPLEX        *WORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cgtcon");
+    LAPACK_IMPL(cgtcon)(NORM,
+                        N,
+                        DL,
+                        D,
+                        DU,
+                        DU2,
+                        IPIV,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        INFO);
+}
+
+//-- cgtrfs --------------------------------------------------------------------
+void
+LAPACK_DECL(cgtrfs)(const char           *TRANS,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *DL,
+                    const FLOAT_COMPLEX  *D,
+                    const FLOAT_COMPLEX  *DU,
+                    const FLOAT_COMPLEX  *DLF,
+                    const FLOAT_COMPLEX  *DF,
+                    const FLOAT_COMPLEX  *DUF,
+                    const FLOAT_COMPLEX  *DU2,
+                    const INTEGER        *IPIV,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    FLOAT_COMPLEX        *X,
+                    const INTEGER        *LDX,
+                    FLOAT                *FERR,
+                    FLOAT                *BERR,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cgtrfs");
+    LAPACK_IMPL(cgtrfs)(TRANS,
+                        N,
+                        NRHS,
+                        DL,
+                        D,
+                        DU,
+                        DLF,
+                        DF,
+                        DUF,
+                        DU2,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cgtsv ---------------------------------------------------------------------
+void
+LAPACK_DECL(cgtsv)(const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   FLOAT_COMPLEX        *DL,
+                   FLOAT_COMPLEX        *D,
+                   FLOAT_COMPLEX        *DU,
+                   FLOAT_COMPLEX        *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cgtsv");
+    LAPACK_IMPL(cgtsv)(N,
+                       NRHS,
+                       DL,
+                       D,
+                       DU,
+                       B,
+                       LDB,
+                       INFO);
+}
+
+//-- cgtsvx --------------------------------------------------------------------
+void
+LAPACK_DECL(cgtsvx)(const char           *FACT,
+                    const char           *TRANS,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *DL,
+                    const FLOAT_COMPLEX  *D,
+                    const FLOAT_COMPLEX  *DU,
+                    FLOAT_COMPLEX        *DLF,
+                    FLOAT_COMPLEX        *DF,
+                    FLOAT_COMPLEX        *DUF,
+                    FLOAT_COMPLEX        *DU2,
+                    INTEGER              *IPIV,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    FLOAT_COMPLEX        *X,
+                    const INTEGER        *LDX,
+                    FLOAT                *RCOND,
+                    FLOAT                *FERR,
+                    FLOAT                *BERR,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cgtsvx");
+    LAPACK_IMPL(cgtsvx)(FACT,
+                        TRANS,
+                        N,
+                        NRHS,
+                        DL,
+                        D,
+                        DU,
+                        DLF,
+                        DF,
+                        DUF,
+                        DU2,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cgttrf --------------------------------------------------------------------
+void
+LAPACK_DECL(cgttrf)(const INTEGER    *N,
+                    FLOAT_COMPLEX    *DL,
+                    FLOAT_COMPLEX    *D,
+                    FLOAT_COMPLEX    *DU,
+                    FLOAT_COMPLEX    *DU2,
+                    INTEGER          *IPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cgttrf");
+    LAPACK_IMPL(cgttrf)(N,
+                        DL,
+                        D,
+                        DU,
+                        DU2,
+                        IPIV,
+                        INFO);
+}
+
+//-- cgttrs --------------------------------------------------------------------
+void
+LAPACK_DECL(cgttrs)(const char           *TRANS,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *DL,
+                    const FLOAT_COMPLEX  *D,
+                    const FLOAT_COMPLEX  *DU,
+                    const FLOAT_COMPLEX  *DU2,
+                    const INTEGER        *IPIV,
+                    FLOAT_COMPLEX        *B,
+                    const INTEGER        *LDB,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cgttrs");
+    LAPACK_IMPL(cgttrs)(TRANS,
+                        N,
+                        NRHS,
+                        DL,
+                        D,
+                        DU,
+                        DU2,
+                        IPIV,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- cgtts2 --------------------------------------------------------------------
+void
+LAPACK_DECL(cgtts2)(const INTEGER        *ITRANS,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *DL,
+                    const FLOAT_COMPLEX  *D,
+                    const FLOAT_COMPLEX  *DU,
+                    const FLOAT_COMPLEX  *DU2,
+                    const INTEGER        *IPIV,
+                    FLOAT_COMPLEX        *B,
+                    const INTEGER        *LDB)
+{
+    DEBUG_LAPACK_STUB("cgtts2");
+    LAPACK_IMPL(cgtts2)(ITRANS,
+                        N,
+                        NRHS,
+                        DL,
+                        D,
+                        DU,
+                        DU2,
+                        IPIV,
+                        B,
+                        LDB);
+}
+
+//-- chbev ---------------------------------------------------------------------
+void
+LAPACK_DECL(chbev)(const char           *JOBZ,
+                   const char           *UPLO,
+                   const INTEGER        *N,
+                   const INTEGER        *KD,
+                   FLOAT_COMPLEX        *AB,
+                   const INTEGER        *LDAB,
+                   FLOAT                *W,
+                   FLOAT_COMPLEX        *Z,
+                   const INTEGER        *LDZ,
+                   FLOAT_COMPLEX        *WORK,
+                   FLOAT                *RWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("chbev");
+    LAPACK_IMPL(chbev)(JOBZ,
+                       UPLO,
+                       N,
+                       KD,
+                       AB,
+                       LDAB,
+                       W,
+                       Z,
+                       LDZ,
+                       WORK,
+                       RWORK,
+                       INFO);
+}
+
+//-- chbevd --------------------------------------------------------------------
+void
+LAPACK_DECL(chbevd)(const char       *JOBZ,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    FLOAT_COMPLEX    *AB,
+                    const INTEGER    *LDAB,
+                    FLOAT            *W,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    FLOAT            *RWORK,
+                    const INTEGER    *LRWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("chbevd");
+    LAPACK_IMPL(chbevd)(JOBZ,
+                        UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        LRWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- chbevx --------------------------------------------------------------------
+void
+LAPACK_DECL(chbevx)(const char       *JOBZ,
+                    const char       *RANGE,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    FLOAT_COMPLEX    *AB,
+                    const INTEGER    *LDAB,
+                    FLOAT_COMPLEX    *Q,
+                    const INTEGER    *LDQ,
+                    const FLOAT      *VL,
+                    const FLOAT      *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const FLOAT      *ABSTOL,
+                    INTEGER          *M,
+                    FLOAT            *W,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT_COMPLEX    *WORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *IFAIL,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("chbevx");
+    LAPACK_IMPL(chbevx)(JOBZ,
+                        RANGE,
+                        UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        Q,
+                        LDQ,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        RWORK,
+                        IWORK,
+                        IFAIL,
+                        INFO);
+}
+
+//-- chbgst --------------------------------------------------------------------
+void
+LAPACK_DECL(chbgst)(const char           *VECT,
+                    const char           *UPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *KA,
+                    const INTEGER        *KB,
+                    FLOAT_COMPLEX        *AB,
+                    const INTEGER        *LDAB,
+                    const FLOAT_COMPLEX  *BB,
+                    const INTEGER        *LDBB,
+                    FLOAT_COMPLEX        *X,
+                    const INTEGER        *LDX,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("chbgst");
+    LAPACK_IMPL(chbgst)(VECT,
+                        UPLO,
+                        N,
+                        KA,
+                        KB,
+                        AB,
+                        LDAB,
+                        BB,
+                        LDBB,
+                        X,
+                        LDX,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- chbgv ---------------------------------------------------------------------
+void
+LAPACK_DECL(chbgv)(const char           *JOBZ,
+                   const char           *UPLO,
+                   const INTEGER        *N,
+                   const INTEGER        *KA,
+                   const INTEGER        *KB,
+                   FLOAT_COMPLEX        *AB,
+                   const INTEGER        *LDAB,
+                   FLOAT_COMPLEX        *BB,
+                   const INTEGER        *LDBB,
+                   FLOAT                *W,
+                   FLOAT_COMPLEX        *Z,
+                   const INTEGER        *LDZ,
+                   FLOAT_COMPLEX        *WORK,
+                   FLOAT                *RWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("chbgv");
+    LAPACK_IMPL(chbgv)(JOBZ,
+                       UPLO,
+                       N,
+                       KA,
+                       KB,
+                       AB,
+                       LDAB,
+                       BB,
+                       LDBB,
+                       W,
+                       Z,
+                       LDZ,
+                       WORK,
+                       RWORK,
+                       INFO);
+}
+
+//-- chbgvd --------------------------------------------------------------------
+void
+LAPACK_DECL(chbgvd)(const char       *JOBZ,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KA,
+                    const INTEGER    *KB,
+                    FLOAT_COMPLEX    *AB,
+                    const INTEGER    *LDAB,
+                    FLOAT_COMPLEX    *BB,
+                    const INTEGER    *LDBB,
+                    FLOAT            *W,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    FLOAT            *RWORK,
+                    const INTEGER    *LRWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("chbgvd");
+    LAPACK_IMPL(chbgvd)(JOBZ,
+                        UPLO,
+                        N,
+                        KA,
+                        KB,
+                        AB,
+                        LDAB,
+                        BB,
+                        LDBB,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        LRWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- chbgvx --------------------------------------------------------------------
+void
+LAPACK_DECL(chbgvx)(const char       *JOBZ,
+                    const char       *RANGE,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KA,
+                    const INTEGER    *KB,
+                    FLOAT_COMPLEX    *AB,
+                    const INTEGER    *LDAB,
+                    FLOAT_COMPLEX    *BB,
+                    const INTEGER    *LDBB,
+                    FLOAT_COMPLEX    *Q,
+                    const INTEGER    *LDQ,
+                    const FLOAT      *VL,
+                    const FLOAT      *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const FLOAT      *ABSTOL,
+                    INTEGER          *M,
+                    FLOAT            *W,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT_COMPLEX    *WORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *IFAIL,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("chbgvx");
+    LAPACK_IMPL(chbgvx)(JOBZ,
+                        RANGE,
+                        UPLO,
+                        N,
+                        KA,
+                        KB,
+                        AB,
+                        LDAB,
+                        BB,
+                        LDBB,
+                        Q,
+                        LDQ,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        RWORK,
+                        IWORK,
+                        IFAIL,
+                        INFO);
+}
+
+//-- chbtrd --------------------------------------------------------------------
+void
+LAPACK_DECL(chbtrd)(const char       *VECT,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    FLOAT_COMPLEX    *AB,
+                    const INTEGER    *LDAB,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT_COMPLEX    *Q,
+                    const INTEGER    *LDQ,
+                    FLOAT_COMPLEX    *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("chbtrd");
+    LAPACK_IMPL(chbtrd)(VECT,
+                        UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        D,
+                        E,
+                        Q,
+                        LDQ,
+                        WORK,
+                        INFO);
+}
+
+//-- checon --------------------------------------------------------------------
+void
+LAPACK_DECL(checon)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const INTEGER        *IPIV,
+                    const FLOAT          *ANORM,
+                    FLOAT                *RCOND,
+                    FLOAT_COMPLEX        *WORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("checon");
+    LAPACK_IMPL(checon)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        IPIV,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        INFO);
+}
+
+//-- cheequb -------------------------------------------------------------------
+void
+LAPACK_DECL(cheequb)(const char               *UPLO,
+                     const INTEGER            *N,
+                     const FLOAT_COMPLEX      *A,
+                     const INTEGER            *LDA,
+                     FLOAT                    *S,
+                     FLOAT                    *SCOND,
+                     FLOAT                    *AMAX,
+                     const FLOAT_COMPLEX      *WORK,
+                     INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("cheequb");
+    LAPACK_IMPL(cheequb)(UPLO,
+                         N,
+                         A,
+                         LDA,
+                         S,
+                         SCOND,
+                         AMAX,
+                         WORK,
+                         INFO);
+}
+
+//-- cheev ---------------------------------------------------------------------
+void
+LAPACK_DECL(cheev)(const char           *JOBZ,
+                   const char           *UPLO,
+                   const INTEGER        *N,
+                   FLOAT_COMPLEX        *A,
+                   const INTEGER        *LDA,
+                   FLOAT                *W,
+                   FLOAT_COMPLEX        *WORK,
+                   const INTEGER        *LWORK,
+                   FLOAT                *RWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cheev");
+    LAPACK_IMPL(cheev)(JOBZ,
+                       UPLO,
+                       N,
+                       A,
+                       LDA,
+                       W,
+                       WORK,
+                       LWORK,
+                       RWORK,
+                       INFO);
+}
+
+//-- cheevd --------------------------------------------------------------------
+void
+LAPACK_DECL(cheevd)(const char       *JOBZ,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *W,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    FLOAT            *RWORK,
+                    const INTEGER    *LRWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cheevd");
+    LAPACK_IMPL(cheevd)(JOBZ,
+                        UPLO,
+                        N,
+                        A,
+                        LDA,
+                        W,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        LRWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- cheevr --------------------------------------------------------------------
+void
+LAPACK_DECL(cheevr)(const char       *JOBZ,
+                    const char       *RANGE,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *VL,
+                    const FLOAT      *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const FLOAT      *ABSTOL,
+                    INTEGER          *M,
+                    FLOAT            *W,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    INTEGER          *ISUPPZ,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    FLOAT            *RWORK,
+                    const INTEGER    *LRWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cheevr");
+    LAPACK_IMPL(cheevr)(JOBZ,
+                        RANGE,
+                        UPLO,
+                        N,
+                        A,
+                        LDA,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        ISUPPZ,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        LRWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- cheevx --------------------------------------------------------------------
+void
+LAPACK_DECL(cheevx)(const char       *JOBZ,
+                    const char       *RANGE,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *VL,
+                    const FLOAT      *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const FLOAT      *ABSTOL,
+                    INTEGER          *M,
+                    FLOAT            *W,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *IFAIL,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cheevx");
+    LAPACK_IMPL(cheevx)(JOBZ,
+                        RANGE,
+                        UPLO,
+                        N,
+                        A,
+                        LDA,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        IWORK,
+                        IFAIL,
+                        INFO);
+}
+
+//-- chegs2 --------------------------------------------------------------------
+void
+LAPACK_DECL(chegs2)(const INTEGER        *ITYPE,
+                    const char           *UPLO,
+                    const INTEGER        *N,
+                    FLOAT_COMPLEX        *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("chegs2");
+    LAPACK_IMPL(chegs2)(ITYPE,
+                        UPLO,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- chegst --------------------------------------------------------------------
+void
+LAPACK_DECL(chegst)(const INTEGER        *ITYPE,
+                    const char           *UPLO,
+                    const INTEGER        *N,
+                    FLOAT_COMPLEX        *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("chegst");
+    LAPACK_IMPL(chegst)(ITYPE,
+                        UPLO,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- chegv ---------------------------------------------------------------------
+void
+LAPACK_DECL(chegv)(const INTEGER        *ITYPE,
+                   const char           *JOBZ,
+                   const char           *UPLO,
+                   const INTEGER        *N,
+                   FLOAT_COMPLEX        *A,
+                   const INTEGER        *LDA,
+                   FLOAT_COMPLEX        *B,
+                   const INTEGER        *LDB,
+                   FLOAT                *W,
+                   FLOAT_COMPLEX        *WORK,
+                   const INTEGER        *LWORK,
+                   FLOAT                *RWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("chegv");
+    LAPACK_IMPL(chegv)(ITYPE,
+                       JOBZ,
+                       UPLO,
+                       N,
+                       A,
+                       LDA,
+                       B,
+                       LDB,
+                       W,
+                       WORK,
+                       LWORK,
+                       RWORK,
+                       INFO);
+}
+
+//-- chegvd --------------------------------------------------------------------
+void
+LAPACK_DECL(chegvd)(const INTEGER    *ITYPE,
+                    const char       *JOBZ,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *W,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    FLOAT            *RWORK,
+                    const INTEGER    *LRWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("chegvd");
+    LAPACK_IMPL(chegvd)(ITYPE,
+                        JOBZ,
+                        UPLO,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        W,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        LRWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- chegvx --------------------------------------------------------------------
+void
+LAPACK_DECL(chegvx)(const INTEGER    *ITYPE,
+                    const char       *JOBZ,
+                    const char       *RANGE,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    const FLOAT      *VL,
+                    const FLOAT      *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const FLOAT      *ABSTOL,
+                    INTEGER          *M,
+                    FLOAT            *W,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *IFAIL,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("chegvx");
+    LAPACK_IMPL(chegvx)(ITYPE,
+                        JOBZ,
+                        RANGE,
+                        UPLO,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        IWORK,
+                        IFAIL,
+                        INFO);
+}
+
+//-- cherfs --------------------------------------------------------------------
+void
+LAPACK_DECL(cherfs)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *AF,
+                    const INTEGER        *LDAF,
+                    const INTEGER        *IPIV,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    FLOAT_COMPLEX        *X,
+                    const INTEGER        *LDX,
+                    FLOAT                *FERR,
+                    FLOAT                *BERR,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cherfs");
+    LAPACK_IMPL(cherfs)(UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        AF,
+                        LDAF,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cherfsx -------------------------------------------------------------------
+void
+LAPACK_DECL(cherfsx)(const char               *UPLO,
+                     const char               *EQUED,
+                     const INTEGER            *N,
+                     const INTEGER            *NRHS,
+                     const FLOAT_COMPLEX      *A,
+                     const INTEGER            *LDA,
+                     const FLOAT_COMPLEX      *AF,
+                     const INTEGER            *LDAF,
+                     const INTEGER            *IPIV,
+                     FLOAT                    *S,
+                     const FLOAT_COMPLEX      *B,
+                     const INTEGER            *LDB,
+                     FLOAT_COMPLEX            *X,
+                     const INTEGER            *LDX,
+                     FLOAT                    *RCOND,
+                     FLOAT                    *BERR,
+                     const INTEGER            *N_ERR_BNDS,
+                     FLOAT                    *ERR_BNDS_NORM,
+                     FLOAT                    *ERR_BNDS_COMP,
+                     const INTEGER            *NPARAMS,
+                     FLOAT                    *PARAMS,
+                     FLOAT_COMPLEX            *WORK,
+                     FLOAT                    *RWORK,
+                     INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("cherfsx");
+    LAPACK_IMPL(cherfsx)(UPLO,
+                         EQUED,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         IPIV,
+                         S,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         RWORK,
+                         INFO);
+}
+
+//-- chesv ---------------------------------------------------------------------
+void
+LAPACK_DECL(chesv)(const char           *UPLO,
+                   const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   FLOAT_COMPLEX        *A,
+                   const INTEGER        *LDA,
+                   INTEGER              *IPIV,
+                   FLOAT_COMPLEX        *B,
+                   const INTEGER        *LDB,
+                   FLOAT_COMPLEX        *WORK,
+                   const INTEGER        *LWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("chesv");
+    LAPACK_IMPL(chesv)(UPLO,
+                       N,
+                       NRHS,
+                       A,
+                       LDA,
+                       IPIV,
+                       B,
+                       LDB,
+                       WORK,
+                       LWORK,
+                       INFO);
+}
+
+//-- chesvx --------------------------------------------------------------------
+void
+LAPACK_DECL(chesvx)(const char           *FACT,
+                    const char           *UPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    FLOAT_COMPLEX        *AF,
+                    const INTEGER        *LDAF,
+                    INTEGER              *IPIV,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    FLOAT_COMPLEX        *X,
+                    const INTEGER        *LDX,
+                    FLOAT                *RCOND,
+                    FLOAT                *FERR,
+                    FLOAT                *BERR,
+                    FLOAT_COMPLEX        *WORK,
+                    const INTEGER        *LWORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("chesvx");
+    LAPACK_IMPL(chesvx)(FACT,
+                        UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        AF,
+                        LDAF,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- chesvxx -------------------------------------------------------------------
+void
+LAPACK_DECL(chesvxx)(const char       *FACT,
+                     const char       *UPLO,
+                     const INTEGER    *N,
+                     const INTEGER    *NRHS,
+                     FLOAT_COMPLEX    *A,
+                     const INTEGER    *LDA,
+                     FLOAT_COMPLEX    *AF,
+                     const INTEGER    *LDAF,
+                     INTEGER          *IPIV,
+                     char             *EQUED,
+                     FLOAT            *S,
+                     FLOAT_COMPLEX    *B,
+                     const INTEGER    *LDB,
+                     FLOAT_COMPLEX    *X,
+                     const INTEGER    *LDX,
+                     FLOAT            *RCOND,
+                     FLOAT            *RPVGRW,
+                     FLOAT            *BERR,
+                     const INTEGER    *N_ERR_BNDS,
+                     FLOAT            *ERR_BNDS_NORM,
+                     FLOAT            *ERR_BNDS_COMP,
+                     const INTEGER    *NPARAMS,
+                     FLOAT            *PARAMS,
+                     FLOAT_COMPLEX    *WORK,
+                     FLOAT            *RWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("chesvxx");
+    LAPACK_IMPL(chesvxx)(FACT,
+                         UPLO,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         IPIV,
+                         EQUED,
+                         S,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         RPVGRW,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         RWORK,
+                         INFO);
+}
+
+//-- cheswapr ------------------------------------------------------------------
+void
+LAPACK_DECL(cheswapr)(const char       *UPLO,
+                      const INTEGER    *N,
+                      FLOAT_COMPLEX    *A,
+                      const INTEGER    *LDA,
+                      const INTEGER    *I1,
+                      const INTEGER    *I2)
+{
+    DEBUG_LAPACK_STUB("cheswapr");
+    LAPACK_IMPL(cheswapr)(UPLO,
+                          N,
+                          A,
+                          LDA,
+                          I1,
+                          I2);
+}
+
+//-- chetd2 --------------------------------------------------------------------
+void
+LAPACK_DECL(chetd2)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT_COMPLEX    *TAU,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("chetd2");
+    LAPACK_IMPL(chetd2)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        D,
+                        E,
+                        TAU,
+                        INFO);
+}
+
+//-- chetf2 --------------------------------------------------------------------
+void
+LAPACK_DECL(chetf2)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *IPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("chetf2");
+    LAPACK_IMPL(chetf2)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        IPIV,
+                        INFO);
+}
+
+//-- chetrd --------------------------------------------------------------------
+void
+LAPACK_DECL(chetrd)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT_COMPLEX    *TAU,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("chetrd");
+    LAPACK_IMPL(chetrd)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        D,
+                        E,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- chetrf --------------------------------------------------------------------
+void
+LAPACK_DECL(chetrf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *IPIV,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("chetrf");
+    LAPACK_IMPL(chetrf)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        IPIV,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- chetri --------------------------------------------------------------------
+void
+LAPACK_DECL(chetri)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    const INTEGER    *IPIV,
+                    FLOAT_COMPLEX    *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("chetri");
+    LAPACK_IMPL(chetri)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        IPIV,
+                        WORK,
+                        INFO);
+}
+
+//-- chetri2 -------------------------------------------------------------------
+void
+LAPACK_DECL(chetri2)(const char       *UPLO,
+                     const INTEGER    *N,
+                     FLOAT_COMPLEX    *A,
+                     const INTEGER    *LDA,
+                     const INTEGER    *IPIV,
+                     FLOAT_COMPLEX    *WORK,
+                     const INTEGER    *LWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("chetri2");
+    LAPACK_IMPL(chetri2)(UPLO,
+                         N,
+                         A,
+                         LDA,
+                         IPIV,
+                         WORK,
+                         LWORK,
+                         INFO);
+}
+
+//-- chetri2x ------------------------------------------------------------------
+void
+LAPACK_DECL(chetri2x)(const char       *UPLO,
+                      const INTEGER    *N,
+                      FLOAT_COMPLEX    *A,
+                      const INTEGER    *LDA,
+                      const INTEGER    *IPIV,
+                      FLOAT_COMPLEX    *WORK,
+                      const INTEGER    *NB,
+                      INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("chetri2x");
+    LAPACK_IMPL(chetri2x)(UPLO,
+                          N,
+                          A,
+                          LDA,
+                          IPIV,
+                          WORK,
+                          NB,
+                          INFO);
+}
+
+//-- chetrs --------------------------------------------------------------------
+void
+LAPACK_DECL(chetrs)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const INTEGER        *IPIV,
+                    FLOAT_COMPLEX        *B,
+                    const INTEGER        *LDB,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("chetrs");
+    LAPACK_IMPL(chetrs)(UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        IPIV,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- chetrs2 -------------------------------------------------------------------
+void
+LAPACK_DECL(chetrs2)(const char               *UPLO,
+                     const INTEGER            *N,
+                     const INTEGER            *NRHS,
+                     const FLOAT_COMPLEX      *A,
+                     const INTEGER            *LDA,
+                     const INTEGER            *IPIV,
+                     FLOAT_COMPLEX            *B,
+                     const INTEGER            *LDB,
+                     FLOAT_COMPLEX            *WORK,
+                     INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("chetrs2");
+    LAPACK_IMPL(chetrs2)(UPLO,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         IPIV,
+                         B,
+                         LDB,
+                         WORK,
+                         INFO);
+}
+
+//-- chfrk ---------------------------------------------------------------------
+void
+LAPACK_DECL(chfrk)(const char               *TRANSR,
+                   const char               *UPLO,
+                   const char               *TRANS,
+                   const INTEGER            *N,
+                   const INTEGER            *K,
+                   const FLOAT              *ALPHA,
+                   const FLOAT_COMPLEX      *A,
+                   const INTEGER            *LDA,
+                   const FLOAT              *BETA,
+                   FLOAT_COMPLEX            *C)
+{
+    DEBUG_LAPACK_STUB("chfrk");
+    LAPACK_IMPL(chfrk)(TRANSR,
+                       UPLO,
+                       TRANS,
+                       N,
+                       K,
+                       ALPHA,
+                       A,
+                       LDA,
+                       BETA,
+                       C);
+}
+
+//-- chgeqz --------------------------------------------------------------------
+void
+LAPACK_DECL(chgeqz)(const char       *JOB,
+                    const char       *COMPQ,
+                    const char       *COMPZ,
+                    const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    FLOAT_COMPLEX    *H,
+                    const INTEGER    *LDH,
+                    FLOAT_COMPLEX    *T,
+                    const INTEGER    *LDT,
+                    FLOAT_COMPLEX    *ALPHA,
+                    FLOAT_COMPLEX    *BETA,
+                    FLOAT_COMPLEX    *Q,
+                    const INTEGER    *LDQ,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("chgeqz");
+    LAPACK_IMPL(chgeqz)(JOB,
+                        COMPQ,
+                        COMPZ,
+                        N,
+                        ILO,
+                        IHI,
+                        H,
+                        LDH,
+                        T,
+                        LDT,
+                        ALPHA,
+                        BETA,
+                        Q,
+                        LDQ,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- chla_transtype ------------------------------------------------------------
+UNKNOWN
+LAPACK_DECL(chla_transtype)(const INTEGER    *TRANS)
+{
+    DEBUG_LAPACK_STUB("chla_transtype");
+    return LAPACK_IMPL(chla_transtype)(TRANS);
+}
+
+//-- chpcon --------------------------------------------------------------------
+void
+LAPACK_DECL(chpcon)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *AP,
+                    const INTEGER        *IPIV,
+                    const FLOAT          *ANORM,
+                    FLOAT                *RCOND,
+                    FLOAT_COMPLEX        *WORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("chpcon");
+    LAPACK_IMPL(chpcon)(UPLO,
+                        N,
+                        AP,
+                        IPIV,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        INFO);
+}
+
+//-- chpev ---------------------------------------------------------------------
+void
+LAPACK_DECL(chpev)(const char           *JOBZ,
+                   const char           *UPLO,
+                   const INTEGER        *N,
+                   FLOAT_COMPLEX        *AP,
+                   FLOAT                *W,
+                   FLOAT_COMPLEX        *Z,
+                   const INTEGER        *LDZ,
+                   FLOAT_COMPLEX        *WORK,
+                   FLOAT                *RWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("chpev");
+    LAPACK_IMPL(chpev)(JOBZ,
+                       UPLO,
+                       N,
+                       AP,
+                       W,
+                       Z,
+                       LDZ,
+                       WORK,
+                       RWORK,
+                       INFO);
+}
+
+//-- chpevd --------------------------------------------------------------------
+void
+LAPACK_DECL(chpevd)(const char       *JOBZ,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *AP,
+                    FLOAT            *W,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    FLOAT            *RWORK,
+                    const INTEGER    *LRWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("chpevd");
+    LAPACK_IMPL(chpevd)(JOBZ,
+                        UPLO,
+                        N,
+                        AP,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        LRWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- chpevx --------------------------------------------------------------------
+void
+LAPACK_DECL(chpevx)(const char       *JOBZ,
+                    const char       *RANGE,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *AP,
+                    const FLOAT      *VL,
+                    const FLOAT      *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const FLOAT      *ABSTOL,
+                    INTEGER          *M,
+                    FLOAT            *W,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT_COMPLEX    *WORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *IFAIL,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("chpevx");
+    LAPACK_IMPL(chpevx)(JOBZ,
+                        RANGE,
+                        UPLO,
+                        N,
+                        AP,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        RWORK,
+                        IWORK,
+                        IFAIL,
+                        INFO);
+}
+
+//-- chpgst --------------------------------------------------------------------
+void
+LAPACK_DECL(chpgst)(const INTEGER        *ITYPE,
+                    const char           *UPLO,
+                    const INTEGER        *N,
+                    FLOAT_COMPLEX        *AP,
+                    const FLOAT_COMPLEX  *BP,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("chpgst");
+    LAPACK_IMPL(chpgst)(ITYPE,
+                        UPLO,
+                        N,
+                        AP,
+                        BP,
+                        INFO);
+}
+
+//-- chpgv ---------------------------------------------------------------------
+void
+LAPACK_DECL(chpgv)(const INTEGER        *ITYPE,
+                   const char           *JOBZ,
+                   const char           *UPLO,
+                   const INTEGER        *N,
+                   FLOAT_COMPLEX        *AP,
+                   FLOAT_COMPLEX        *BP,
+                   FLOAT                *W,
+                   FLOAT_COMPLEX        *Z,
+                   const INTEGER        *LDZ,
+                   FLOAT_COMPLEX        *WORK,
+                   FLOAT                *RWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("chpgv");
+    LAPACK_IMPL(chpgv)(ITYPE,
+                       JOBZ,
+                       UPLO,
+                       N,
+                       AP,
+                       BP,
+                       W,
+                       Z,
+                       LDZ,
+                       WORK,
+                       RWORK,
+                       INFO);
+}
+
+//-- chpgvd --------------------------------------------------------------------
+void
+LAPACK_DECL(chpgvd)(const INTEGER    *ITYPE,
+                    const char       *JOBZ,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *AP,
+                    FLOAT_COMPLEX    *BP,
+                    FLOAT            *W,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    FLOAT            *RWORK,
+                    const INTEGER    *LRWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("chpgvd");
+    LAPACK_IMPL(chpgvd)(ITYPE,
+                        JOBZ,
+                        UPLO,
+                        N,
+                        AP,
+                        BP,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        LRWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- chpgvx --------------------------------------------------------------------
+void
+LAPACK_DECL(chpgvx)(const INTEGER    *ITYPE,
+                    const char       *JOBZ,
+                    const char       *RANGE,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *AP,
+                    FLOAT_COMPLEX    *BP,
+                    const FLOAT      *VL,
+                    const FLOAT      *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const FLOAT      *ABSTOL,
+                    INTEGER          *M,
+                    FLOAT            *W,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT_COMPLEX    *WORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *IFAIL,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("chpgvx");
+    LAPACK_IMPL(chpgvx)(ITYPE,
+                        JOBZ,
+                        RANGE,
+                        UPLO,
+                        N,
+                        AP,
+                        BP,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        RWORK,
+                        IWORK,
+                        IFAIL,
+                        INFO);
+}
+
+//-- chprfs --------------------------------------------------------------------
+void
+LAPACK_DECL(chprfs)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *AP,
+                    const FLOAT_COMPLEX  *AFP,
+                    const INTEGER        *IPIV,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    FLOAT_COMPLEX        *X,
+                    const INTEGER        *LDX,
+                    FLOAT                *FERR,
+                    FLOAT                *BERR,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("chprfs");
+    LAPACK_IMPL(chprfs)(UPLO,
+                        N,
+                        NRHS,
+                        AP,
+                        AFP,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- chpsv ---------------------------------------------------------------------
+void
+LAPACK_DECL(chpsv)(const char           *UPLO,
+                   const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   FLOAT_COMPLEX        *AP,
+                   INTEGER              *IPIV,
+                   FLOAT_COMPLEX        *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("chpsv");
+    LAPACK_IMPL(chpsv)(UPLO,
+                       N,
+                       NRHS,
+                       AP,
+                       IPIV,
+                       B,
+                       LDB,
+                       INFO);
+}
+
+//-- chpsvx --------------------------------------------------------------------
+void
+LAPACK_DECL(chpsvx)(const char           *FACT,
+                    const char           *UPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *AP,
+                    FLOAT_COMPLEX        *AFP,
+                    INTEGER              *IPIV,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    FLOAT_COMPLEX        *X,
+                    const INTEGER        *LDX,
+                    FLOAT                *RCOND,
+                    FLOAT                *FERR,
+                    FLOAT                *BERR,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("chpsvx");
+    LAPACK_IMPL(chpsvx)(FACT,
+                        UPLO,
+                        N,
+                        NRHS,
+                        AP,
+                        AFP,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- chptrd --------------------------------------------------------------------
+void
+LAPACK_DECL(chptrd)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *AP,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT_COMPLEX    *TAU,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("chptrd");
+    LAPACK_IMPL(chptrd)(UPLO,
+                        N,
+                        AP,
+                        D,
+                        E,
+                        TAU,
+                        INFO);
+}
+
+//-- chptrf --------------------------------------------------------------------
+void
+LAPACK_DECL(chptrf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *AP,
+                    INTEGER          *IPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("chptrf");
+    LAPACK_IMPL(chptrf)(UPLO,
+                        N,
+                        AP,
+                        IPIV,
+                        INFO);
+}
+
+//-- chptri --------------------------------------------------------------------
+void
+LAPACK_DECL(chptri)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *AP,
+                    const INTEGER    *IPIV,
+                    FLOAT_COMPLEX    *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("chptri");
+    LAPACK_IMPL(chptri)(UPLO,
+                        N,
+                        AP,
+                        IPIV,
+                        WORK,
+                        INFO);
+}
+
+//-- chptrs --------------------------------------------------------------------
+void
+LAPACK_DECL(chptrs)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *AP,
+                    const INTEGER        *IPIV,
+                    FLOAT_COMPLEX        *B,
+                    const INTEGER        *LDB,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("chptrs");
+    LAPACK_IMPL(chptrs)(UPLO,
+                        N,
+                        NRHS,
+                        AP,
+                        IPIV,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- chsein --------------------------------------------------------------------
+void
+LAPACK_DECL(chsein)(const char           *SIDE,
+                    const char           *EIGSRC,
+                    const char           *INITV,
+                    const LOGICAL        *SELECT,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *H,
+                    const INTEGER        *LDH,
+                    FLOAT_COMPLEX        *W,
+                    FLOAT_COMPLEX        *VL,
+                    const INTEGER        *LDVL,
+                    FLOAT_COMPLEX        *VR,
+                    const INTEGER        *LDVR,
+                    const INTEGER        *MM,
+                    INTEGER              *M,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *IFAILL,
+                    INTEGER              *IFAILR,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("chsein");
+    LAPACK_IMPL(chsein)(SIDE,
+                        EIGSRC,
+                        INITV,
+                        SELECT,
+                        N,
+                        H,
+                        LDH,
+                        W,
+                        VL,
+                        LDVL,
+                        VR,
+                        LDVR,
+                        MM,
+                        M,
+                        WORK,
+                        RWORK,
+                        IFAILL,
+                        IFAILR,
+                        INFO);
+}
+
+//-- chseqr --------------------------------------------------------------------
+void
+LAPACK_DECL(chseqr)(const char       *JOB,
+                    const char       *COMPZ,
+                    const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    FLOAT_COMPLEX    *H,
+                    const INTEGER    *LDH,
+                    FLOAT_COMPLEX    *W,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("chseqr");
+    LAPACK_IMPL(chseqr)(JOB,
+                        COMPZ,
+                        N,
+                        ILO,
+                        IHI,
+                        H,
+                        LDH,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cla_gbamv -----------------------------------------------------------------
+void
+LAPACK_DECL(cla_gbamv)(const INTEGER            *TRANS,
+                       const INTEGER            *M,
+                       const INTEGER            *N,
+                       const INTEGER            *KL,
+                       const INTEGER            *KU,
+                       const FLOAT              *ALPHA,
+                       const FLOAT_COMPLEX      *AB,
+                       const INTEGER            *LDAB,
+                       const FLOAT_COMPLEX      *X,
+                       const INTEGER            *INCX,
+                       const FLOAT              *BETA,
+                       FLOAT                    *Y,
+                       const INTEGER            *INCY)
+{
+    DEBUG_LAPACK_STUB("cla_gbamv");
+    LAPACK_IMPL(cla_gbamv)(TRANS,
+                           M,
+                           N,
+                           KL,
+                           KU,
+                           ALPHA,
+                           AB,
+                           LDAB,
+                           X,
+                           INCX,
+                           BETA,
+                           Y,
+                           INCY);
+}
+
+//-- cla_gbrcond_c -------------------------------------------------------------
+FLOAT
+LAPACK_DECL(cla_gbrcond_c)(const char               *TRANS,
+                           const INTEGER            *N,
+                           const INTEGER            *KL,
+                           const INTEGER            *KU,
+                           const FLOAT_COMPLEX      *AB,
+                           const INTEGER            *LDAB,
+                           const FLOAT_COMPLEX      *AFB,
+                           const INTEGER            *LDAFB,
+                           const INTEGER            *IPIV,
+                           const FLOAT              *C,
+                           const LOGICAL            *CAPPLY,
+                           INTEGER                  *INFO,
+                           const FLOAT_COMPLEX      *WORK,
+                           const FLOAT              *RWORK)
+{
+    DEBUG_LAPACK_STUB("cla_gbrcond_c");
+    return LAPACK_IMPL(cla_gbrcond_c)(TRANS,
+                                      N,
+                                      KL,
+                                      KU,
+                                      AB,
+                                      LDAB,
+                                      AFB,
+                                      LDAFB,
+                                      IPIV,
+                                      C,
+                                      CAPPLY,
+                                      INFO,
+                                      WORK,
+                                      RWORK);
+}
+
+//-- cla_gbrcond_x -------------------------------------------------------------
+FLOAT
+LAPACK_DECL(cla_gbrcond_x)(const char               *TRANS,
+                           const INTEGER            *N,
+                           const INTEGER            *KL,
+                           const INTEGER            *KU,
+                           const FLOAT_COMPLEX      *AB,
+                           const INTEGER            *LDAB,
+                           const FLOAT_COMPLEX      *AFB,
+                           const INTEGER            *LDAFB,
+                           const INTEGER            *IPIV,
+                           const FLOAT_COMPLEX      *X,
+                           INTEGER                  *INFO,
+                           const FLOAT_COMPLEX      *WORK,
+                           const FLOAT              *RWORK)
+{
+    DEBUG_LAPACK_STUB("cla_gbrcond_x");
+    return LAPACK_IMPL(cla_gbrcond_x)(TRANS,
+                                      N,
+                                      KL,
+                                      KU,
+                                      AB,
+                                      LDAB,
+                                      AFB,
+                                      LDAFB,
+                                      IPIV,
+                                      X,
+                                      INFO,
+                                      WORK,
+                                      RWORK);
+}
+
+//-- cla_gbrfsx_extended -------------------------------------------------------
+void
+LAPACK_DECL(cla_gbrfsx_extended)(const INTEGER            *PREC_TYPE,
+                                 const INTEGER            *TRANS_TYPE,
+                                 const INTEGER            *N,
+                                 const INTEGER            *KL,
+                                 const INTEGER            *KU,
+                                 const INTEGER            *NRHS,
+                                 const FLOAT_COMPLEX      *AB,
+                                 const INTEGER            *LDAB,
+                                 const FLOAT_COMPLEX      *AFB,
+                                 const INTEGER            *LDAFB,
+                                 const INTEGER            *IPIV,
+                                 const LOGICAL            *COLEQU,
+                                 const FLOAT              *C,
+                                 const FLOAT_COMPLEX      *B,
+                                 const INTEGER            *LDB,
+                                 FLOAT_COMPLEX            *Y,
+                                 const INTEGER            *LDY,
+                                 FLOAT                    *BERR_OUT,
+                                 const INTEGER            *N_NORMS,
+                                 FLOAT                    *ERR_BNDS_NORM,
+                                 FLOAT                    *ERR_BNDS_COMP,
+                                 const FLOAT_COMPLEX      *RES,
+                                 const FLOAT              *AYB,
+                                 const FLOAT_COMPLEX      *DY,
+                                 const FLOAT_COMPLEX      *Y_TAIL,
+                                 const FLOAT              *RCOND,
+                                 const INTEGER            *ITHRESH,
+                                 const FLOAT              *RTHRESH,
+                                 const FLOAT              *DZ_UB,
+                                 const LOGICAL            *IGNORE_CWISE,
+                                 INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("cla_gbrfsx_extended");
+    ASSERT(0);
+    /*
+    LAPACK_IMPL(cla_gbrfsx_extended)(PREC_TYPE,
+                                     TRANS_TYPE,
+                                     N,
+                                     KL,
+                                     KU,
+                                     NRHS,
+                                     AB,
+                                     LDAB,
+                                     AFB,
+                                     LDAFB,
+                                     IPIV,
+                                     COLEQU,
+                                     C,
+                                     B,
+                                     LDB,
+                                     Y,
+                                     LDY,
+                                     BERR_OUT,
+                                     N_NORMS,
+                                     ERR_BNDS_NORM,
+                                     ERR_BNDS_COMP,
+                                     RES,
+                                     AYB,
+                                     DY,
+                                     Y_TAIL,
+                                     RCOND,
+                                     ITHRESH,
+                                     RTHRESH,
+                                     DZ_UB,
+                                     IGNORE_CWISE,
+                                     INFO);
+    */
+}
+
+//-- cla_gbrpvgrw --------------------------------------------------------------
+FLOAT
+LAPACK_DECL(cla_gbrpvgrw)(const INTEGER            *N,
+                          const INTEGER            *KL,
+                          const INTEGER            *KU,
+                          const INTEGER            *NCOLS,
+                          const FLOAT_COMPLEX      *AB,
+                          const INTEGER            *LDAB,
+                          const FLOAT_COMPLEX      *AFB,
+                          const INTEGER            *LDAFB)
+{
+    DEBUG_LAPACK_STUB("cla_gbrpvgrw");
+    return LAPACK_IMPL(cla_gbrpvgrw)(N,
+                                     KL,
+                                     KU,
+                                     NCOLS,
+                                     AB,
+                                     LDAB,
+                                     AFB,
+                                     LDAFB);
+}
+
+//-- cla_geamv -----------------------------------------------------------------
+void
+LAPACK_DECL(cla_geamv)(const INTEGER            *TRANS,
+                       const INTEGER            *M,
+                       const INTEGER            *N,
+                       const FLOAT              *ALPHA,
+                       const FLOAT_COMPLEX      *A,
+                       const INTEGER            *LDA,
+                       const FLOAT_COMPLEX      *X,
+                       const INTEGER            *INCX,
+                       const FLOAT              *BETA,
+                       FLOAT                    *Y,
+                       const INTEGER            *INCY)
+{
+    DEBUG_LAPACK_STUB("cla_geamv");
+    LAPACK_IMPL(cla_geamv)(TRANS,
+                           M,
+                           N,
+                           ALPHA,
+                           A,
+                           LDA,
+                           X,
+                           INCX,
+                           BETA,
+                           Y,
+                           INCY);
+}
+
+//-- cla_gercond_c -------------------------------------------------------------
+FLOAT
+LAPACK_DECL(cla_gercond_c)(const char               *TRANS,
+                           const INTEGER            *N,
+                           const FLOAT_COMPLEX      *A,
+                           const INTEGER            *LDA,
+                           const FLOAT_COMPLEX      *AF,
+                           const INTEGER            *LDAF,
+                           const INTEGER            *IPIV,
+                           const FLOAT              *C,
+                           const LOGICAL            *CAPPLY,
+                           INTEGER                  *INFO,
+                           const FLOAT_COMPLEX      *WORK,
+                           const FLOAT              *RWORK)
+{
+    DEBUG_LAPACK_STUB("cla_gercond_c");
+    return LAPACK_IMPL(cla_gercond_c)(TRANS,
+                                      N,
+                                      A,
+                                      LDA,
+                                      AF,
+                                      LDAF,
+                                      IPIV,
+                                      C,
+                                      CAPPLY,
+                                      INFO,
+                                      WORK,
+                                      RWORK);
+}
+
+//-- cla_gercond_x -------------------------------------------------------------
+FLOAT
+LAPACK_DECL(cla_gercond_x)(const char               *TRANS,
+                           const INTEGER            *N,
+                           const FLOAT_COMPLEX      *A,
+                           const INTEGER            *LDA,
+                           const FLOAT_COMPLEX      *AF,
+                           const INTEGER            *LDAF,
+                           const INTEGER            *IPIV,
+                           const FLOAT_COMPLEX      *X,
+                           INTEGER                  *INFO,
+                           const FLOAT_COMPLEX      *WORK,
+                           const FLOAT              *RWORK)
+{
+    DEBUG_LAPACK_STUB("cla_gercond_x");
+    return LAPACK_IMPL(cla_gercond_x)(TRANS,
+                                      N,
+                                      A,
+                                      LDA,
+                                      AF,
+                                      LDAF,
+                                      IPIV,
+                                      X,
+                                      INFO,
+                                      WORK,
+                                      RWORK);
+}
+
+//-- cla_gerfsx_extended -------------------------------------------------------
+void
+LAPACK_DECL(cla_gerfsx_extended)(const INTEGER            *PREC_TYPE,
+                                 const INTEGER            *TRANS_TYPE,
+                                 const INTEGER            *N,
+                                 const INTEGER            *NRHS,
+                                 const FLOAT_COMPLEX      *A,
+                                 const INTEGER            *LDA,
+                                 const FLOAT_COMPLEX      *AF,
+                                 const INTEGER            *LDAF,
+                                 const INTEGER            *IPIV,
+                                 const LOGICAL            *COLEQU,
+                                 const FLOAT              *C,
+                                 const FLOAT_COMPLEX      *B,
+                                 const INTEGER            *LDB,
+                                 FLOAT_COMPLEX            *Y,
+                                 const INTEGER            *LDY,
+                                 FLOAT                    *BERR_OUT,
+                                 const INTEGER            *N_NORMS,
+                                 const FLOAT              *ERRS_N,
+                                 const FLOAT              *ERRS_C,
+                                 const FLOAT_COMPLEX      *RES,
+                                 const FLOAT              *AYB,
+                                 const FLOAT_COMPLEX      *DY,
+                                 const FLOAT_COMPLEX      *Y_TAIL,
+                                 const FLOAT              *RCOND,
+                                 const INTEGER            *ITHRESH,
+                                 const FLOAT              *RTHRESH,
+                                 const FLOAT              *DZ_UB,
+                                 const LOGICAL            *IGNORE_CWISE,
+                                 INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("cla_gerfsx_extended");
+    ASSERT(0);
+    /*
+    LAPACK_IMPL(cla_gerfsx_extended)(PREC_TYPE,
+                                     TRANS_TYPE,
+                                     N,
+                                     NRHS,
+                                     A,
+                                     LDA,
+                                     AF,
+                                     LDAF,
+                                     IPIV,
+                                     COLEQU,
+                                     C,
+                                     B,
+                                     LDB,
+                                     Y,
+                                     LDY,
+                                     BERR_OUT,
+                                     N_NORMS,
+                                     ERRS_N,
+                                     ERRS_C,
+                                     RES,
+                                     AYB,
+                                     DY,
+                                     Y_TAIL,
+                                     RCOND,
+                                     ITHRESH,
+                                     RTHRESH,
+                                     DZ_UB,
+                                     IGNORE_CWISE,
+                                     INFO);
+    */
+}
+
+//-- cla_heamv -----------------------------------------------------------------
+void
+LAPACK_DECL(cla_heamv)(const INTEGER            *UPLO,
+                       const INTEGER            *N,
+                       const FLOAT              *ALPHA,
+                       const FLOAT_COMPLEX      *A,
+                       const INTEGER            *LDA,
+                       const FLOAT_COMPLEX      *X,
+                       const INTEGER            *INCX,
+                       const FLOAT              *BETA,
+                       FLOAT                    *Y,
+                       const INTEGER            *INCY)
+{
+    DEBUG_LAPACK_STUB("cla_heamv");
+    LAPACK_IMPL(cla_heamv)(UPLO,
+                           N,
+                           ALPHA,
+                           A,
+                           LDA,
+                           X,
+                           INCX,
+                           BETA,
+                           Y,
+                           INCY);
+}
+
+//-- cla_hercond_c -------------------------------------------------------------
+FLOAT
+LAPACK_DECL(cla_hercond_c)(const char               *UPLO,
+                           const INTEGER            *N,
+                           const FLOAT_COMPLEX      *A,
+                           const INTEGER            *LDA,
+                           const FLOAT_COMPLEX      *AF,
+                           const INTEGER            *LDAF,
+                           const INTEGER            *IPIV,
+                           const FLOAT              *C,
+                           const LOGICAL            *CAPPLY,
+                           INTEGER                  *INFO,
+                           const FLOAT_COMPLEX      *WORK,
+                           const FLOAT              *RWORK)
+{
+    DEBUG_LAPACK_STUB("cla_hercond_c");
+    return LAPACK_IMPL(cla_hercond_c)(UPLO,
+                                      N,
+                                      A,
+                                      LDA,
+                                      AF,
+                                      LDAF,
+                                      IPIV,
+                                      C,
+                                      CAPPLY,
+                                      INFO,
+                                      WORK,
+                                      RWORK);
+}
+
+//-- cla_hercond_x -------------------------------------------------------------
+FLOAT
+LAPACK_DECL(cla_hercond_x)(const char               *UPLO,
+                           const INTEGER            *N,
+                           const FLOAT_COMPLEX      *A,
+                           const INTEGER            *LDA,
+                           const FLOAT_COMPLEX      *AF,
+                           const INTEGER            *LDAF,
+                           const INTEGER            *IPIV,
+                           const FLOAT_COMPLEX      *X,
+                           INTEGER                  *INFO,
+                           const FLOAT_COMPLEX      *WORK,
+                           const FLOAT              *RWORK)
+{
+    DEBUG_LAPACK_STUB("cla_hercond_x");
+    return LAPACK_IMPL(cla_hercond_x)(UPLO,
+                                      N,
+                                      A,
+                                      LDA,
+                                      AF,
+                                      LDAF,
+                                      IPIV,
+                                      X,
+                                      INFO,
+                                      WORK,
+                                      RWORK);
+}
+
+//-- cla_herfsx_extended -------------------------------------------------------
+void
+LAPACK_DECL(cla_herfsx_extended)(const INTEGER            *PREC_TYPE,
+                                 const char               *UPLO,
+                                 const INTEGER            *N,
+                                 const INTEGER            *NRHS,
+                                 const FLOAT_COMPLEX      *A,
+                                 const INTEGER            *LDA,
+                                 const FLOAT_COMPLEX      *AF,
+                                 const INTEGER            *LDAF,
+                                 const INTEGER            *IPIV,
+                                 const LOGICAL            *COLEQU,
+                                 const FLOAT              *C,
+                                 const FLOAT_COMPLEX      *B,
+                                 const INTEGER            *LDB,
+                                 FLOAT_COMPLEX            *Y,
+                                 const INTEGER            *LDY,
+                                 FLOAT                    *BERR_OUT,
+                                 const INTEGER            *N_NORMS,
+                                 FLOAT                    *ERR_BNDS_NORM,
+                                 FLOAT                    *ERR_BNDS_COMP,
+                                 const FLOAT_COMPLEX      *RES,
+                                 const FLOAT              *AYB,
+                                 const FLOAT_COMPLEX      *DY,
+                                 const FLOAT_COMPLEX      *Y_TAIL,
+                                 const FLOAT              *RCOND,
+                                 const INTEGER            *ITHRESH,
+                                 const FLOAT              *RTHRESH,
+                                 const FLOAT              *DZ_UB,
+                                 const LOGICAL            *IGNORE_CWISE,
+                                 INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("cla_herfsx_extended");
+    ASSERT(0);
+    /*
+    LAPACK_IMPL(cla_herfsx_extended)(PREC_TYPE,
+                                     UPLO,
+                                     N,
+                                     NRHS,
+                                     A,
+                                     LDA,
+                                     AF,
+                                     LDAF,
+                                     IPIV,
+                                     COLEQU,
+                                     C,
+                                     B,
+                                     LDB,
+                                     Y,
+                                     LDY,
+                                     BERR_OUT,
+                                     N_NORMS,
+                                     ERR_BNDS_NORM,
+                                     ERR_BNDS_COMP,
+                                     RES,
+                                     AYB,
+                                     DY,
+                                     Y_TAIL,
+                                     RCOND,
+                                     ITHRESH,
+                                     RTHRESH,
+                                     DZ_UB,
+                                     IGNORE_CWISE,
+                                     INFO);
+    */
+}
+
+//-- cla_herpvgrw --------------------------------------------------------------
+FLOAT
+LAPACK_DECL(cla_herpvgrw)(const char               *UPLO,
+                          const INTEGER            *N,
+                          const INTEGER            *INFO,
+                          const FLOAT_COMPLEX      *A,
+                          const INTEGER            *LDA,
+                          const FLOAT_COMPLEX      *AF,
+                          const INTEGER            *LDAF,
+                          const INTEGER            *IPIV,
+                          const FLOAT              *WORK)
+{
+    DEBUG_LAPACK_STUB("cla_herpvgrw");
+    return LAPACK_IMPL(cla_herpvgrw)(UPLO,
+                                     N,
+                                     INFO,
+                                     A,
+                                     LDA,
+                                     AF,
+                                     LDAF,
+                                     IPIV,
+                                     WORK);
+}
+
+//-- cla_lin_berr --------------------------------------------------------------
+void
+LAPACK_DECL(cla_lin_berr)(const INTEGER            *N,
+                          const INTEGER            *NZ,
+                          const INTEGER            *NRHS,
+                          const FLOAT_COMPLEX      *RES,
+                          const FLOAT              *AYB,
+                          FLOAT                    *BERR)
+{
+    DEBUG_LAPACK_STUB("cla_lin_berr");
+    LAPACK_IMPL(cla_lin_berr)(N,
+                              NZ,
+                              NRHS,
+                              RES,
+                              AYB,
+                              BERR);
+}
+
+//-- cla_porcond_c -------------------------------------------------------------
+FLOAT
+LAPACK_DECL(cla_porcond_c)(const char               *UPLO,
+                           const INTEGER            *N,
+                           const FLOAT_COMPLEX      *A,
+                           const INTEGER            *LDA,
+                           const FLOAT_COMPLEX      *AF,
+                           const INTEGER            *LDAF,
+                           const FLOAT              *C,
+                           const LOGICAL            *CAPPLY,
+                           INTEGER                  *INFO,
+                           const FLOAT_COMPLEX      *WORK,
+                           const FLOAT              *RWORK)
+{
+    DEBUG_LAPACK_STUB("cla_porcond_c");
+    return LAPACK_IMPL(cla_porcond_c)(UPLO,
+                                      N,
+                                      A,
+                                      LDA,
+                                      AF,
+                                      LDAF,
+                                      C,
+                                      CAPPLY,
+                                      INFO,
+                                      WORK,
+                                      RWORK);
+}
+
+//-- cla_porcond_x -------------------------------------------------------------
+FLOAT
+LAPACK_DECL(cla_porcond_x)(const char               *UPLO,
+                           const INTEGER            *N,
+                           const FLOAT_COMPLEX      *A,
+                           const INTEGER            *LDA,
+                           const FLOAT_COMPLEX      *AF,
+                           const INTEGER            *LDAF,
+                           const FLOAT_COMPLEX      *X,
+                           INTEGER                  *INFO,
+                           const FLOAT_COMPLEX      *WORK,
+                           const FLOAT              *RWORK)
+{
+    DEBUG_LAPACK_STUB("cla_porcond_x");
+    return LAPACK_IMPL(cla_porcond_x)(UPLO,
+                                      N,
+                                      A,
+                                      LDA,
+                                      AF,
+                                      LDAF,
+                                      X,
+                                      INFO,
+                                      WORK,
+                                      RWORK);
+}
+
+//-- cla_porfsx_extended -------------------------------------------------------
+void
+LAPACK_DECL(cla_porfsx_extended)(const INTEGER            *PREC_TYPE,
+                                 const char               *UPLO,
+                                 const INTEGER            *N,
+                                 const INTEGER            *NRHS,
+                                 const FLOAT_COMPLEX      *A,
+                                 const INTEGER            *LDA,
+                                 const FLOAT_COMPLEX      *AF,
+                                 const INTEGER            *LDAF,
+                                 const LOGICAL            *COLEQU,
+                                 const FLOAT              *C,
+                                 const FLOAT_COMPLEX      *B,
+                                 const INTEGER            *LDB,
+                                 FLOAT_COMPLEX            *Y,
+                                 const INTEGER            *LDY,
+                                 FLOAT                    *BERR_OUT,
+                                 const INTEGER            *N_NORMS,
+                                 FLOAT                    *ERR_BNDS_NORM,
+                                 FLOAT                    *ERR_BNDS_COMP,
+                                 const FLOAT_COMPLEX      *RES,
+                                 const FLOAT              *AYB,
+                                 const FLOAT_COMPLEX      *DY,
+                                 const FLOAT_COMPLEX      *Y_TAIL,
+                                 const FLOAT              *RCOND,
+                                 const INTEGER            *ITHRESH,
+                                 const FLOAT              *RTHRESH,
+                                 const FLOAT              *DZ_UB,
+                                 const LOGICAL            *IGNORE_CWISE,
+                                 INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("cla_porfsx_extended");
+    ASSERT(0);
+    /*
+    LAPACK_IMPL(cla_porfsx_extended)(PREC_TYPE,
+                                     UPLO,
+                                     N,
+                                     NRHS,
+                                     A,
+                                     LDA,
+                                     AF,
+                                     LDAF,
+                                     COLEQU,
+                                     C,
+                                     B,
+                                     LDB,
+                                     Y,
+                                     LDY,
+                                     BERR_OUT,
+                                     N_NORMS,
+                                     ERR_BNDS_NORM,
+                                     ERR_BNDS_COMP,
+                                     RES,
+                                     AYB,
+                                     DY,
+                                     Y_TAIL,
+                                     RCOND,
+                                     ITHRESH,
+                                     RTHRESH,
+                                     DZ_UB,
+                                     IGNORE_CWISE,
+                                     INFO);
+    */
+}
+
+//-- cla_porpvgrw --------------------------------------------------------------
+FLOAT
+LAPACK_DECL(cla_porpvgrw)(const char               *UPLO,
+                          const INTEGER            *NCOLS,
+                          const FLOAT_COMPLEX      *A,
+                          const INTEGER            *LDA,
+                          const FLOAT_COMPLEX      *AF,
+                          const INTEGER            *LDAF,
+                          const FLOAT              *WORK)
+{
+    DEBUG_LAPACK_STUB("cla_porpvgrw");
+    return LAPACK_IMPL(cla_porpvgrw)(UPLO,
+                                     NCOLS,
+                                     A,
+                                     LDA,
+                                     AF,
+                                     LDAF,
+                                     WORK);
+}
+
+//-- cla_rpvgrw ----------------------------------------------------------------
+FLOAT
+LAPACK_DECL(cla_rpvgrw)(const INTEGER        *N,
+                        const INTEGER        *NCOLS,
+                        const FLOAT_COMPLEX  *A,
+                        const INTEGER        *LDA,
+                        const FLOAT_COMPLEX  *AF,
+                        const INTEGER        *LDAF)
+{
+    DEBUG_LAPACK_STUB("cla_rpvgrw");
+    return LAPACK_IMPL(cla_rpvgrw)(N,
+                                   NCOLS,
+                                   A,
+                                   LDA,
+                                   AF,
+                                   LDAF);
+}
+
+//-- cla_syamv -----------------------------------------------------------------
+void
+LAPACK_DECL(cla_syamv)(const INTEGER            *UPLO,
+                       const INTEGER            *N,
+                       const FLOAT              *ALPHA,
+                       const FLOAT_COMPLEX      *A,
+                       const INTEGER            *LDA,
+                       const FLOAT_COMPLEX      *X,
+                       const INTEGER            *INCX,
+                       const FLOAT              *BETA,
+                       FLOAT                    *Y,
+                       const INTEGER            *INCY)
+{
+    DEBUG_LAPACK_STUB("cla_syamv");
+    LAPACK_IMPL(cla_syamv)(UPLO,
+                           N,
+                           ALPHA,
+                           A,
+                           LDA,
+                           X,
+                           INCX,
+                           BETA,
+                           Y,
+                           INCY);
+}
+
+//-- cla_syrcond_c -------------------------------------------------------------
+FLOAT
+LAPACK_DECL(cla_syrcond_c)(const char               *UPLO,
+                           const INTEGER            *N,
+                           const FLOAT_COMPLEX      *A,
+                           const INTEGER            *LDA,
+                           const FLOAT_COMPLEX      *AF,
+                           const INTEGER            *LDAF,
+                           const INTEGER            *IPIV,
+                           const FLOAT              *C,
+                           const LOGICAL            *CAPPLY,
+                           INTEGER                  *INFO,
+                           const FLOAT_COMPLEX      *WORK,
+                           const FLOAT              *RWORK)
+{
+    DEBUG_LAPACK_STUB("cla_syrcond_c");
+    return LAPACK_IMPL(cla_syrcond_c)(UPLO,
+                                      N,
+                                      A,
+                                      LDA,
+                                      AF,
+                                      LDAF,
+                                      IPIV,
+                                      C,
+                                      CAPPLY,
+                                      INFO,
+                                      WORK,
+                                      RWORK);
+}
+
+//-- cla_syrcond_x -------------------------------------------------------------
+FLOAT
+LAPACK_DECL(cla_syrcond_x)(const char               *UPLO,
+                           const INTEGER            *N,
+                           const FLOAT_COMPLEX      *A,
+                           const INTEGER            *LDA,
+                           const FLOAT_COMPLEX      *AF,
+                           const INTEGER            *LDAF,
+                           const INTEGER            *IPIV,
+                           const FLOAT_COMPLEX      *X,
+                           INTEGER                  *INFO,
+                           const FLOAT_COMPLEX      *WORK,
+                           const FLOAT              *RWORK)
+{
+    DEBUG_LAPACK_STUB("cla_syrcond_x");
+    return LAPACK_IMPL(cla_syrcond_x)(UPLO,
+                                      N,
+                                      A,
+                                      LDA,
+                                      AF,
+                                      LDAF,
+                                      IPIV,
+                                      X,
+                                      INFO,
+                                      WORK,
+                                      RWORK);
+}
+
+//-- cla_syrfsx_extended -------------------------------------------------------
+void
+LAPACK_DECL(cla_syrfsx_extended)(const INTEGER            *PREC_TYPE,
+                                 const char               *UPLO,
+                                 const INTEGER            *N,
+                                 const INTEGER            *NRHS,
+                                 const FLOAT_COMPLEX      *A,
+                                 const INTEGER            *LDA,
+                                 const FLOAT_COMPLEX      *AF,
+                                 const INTEGER            *LDAF,
+                                 const INTEGER            *IPIV,
+                                 const LOGICAL            *COLEQU,
+                                 const FLOAT              *C,
+                                 const FLOAT_COMPLEX      *B,
+                                 const INTEGER            *LDB,
+                                 FLOAT_COMPLEX            *Y,
+                                 const INTEGER            *LDY,
+                                 FLOAT                    *BERR_OUT,
+                                 const INTEGER            *N_NORMS,
+                                 FLOAT                    *ERR_BNDS_NORM,
+                                 FLOAT                    *ERR_BNDS_COMP,
+                                 const FLOAT_COMPLEX      *RES,
+                                 const FLOAT              *AYB,
+                                 const FLOAT_COMPLEX      *DY,
+                                 const FLOAT_COMPLEX      *Y_TAIL,
+                                 const FLOAT              *RCOND,
+                                 const INTEGER            *ITHRESH,
+                                 const FLOAT              *RTHRESH,
+                                 const FLOAT              *DZ_UB,
+                                 const LOGICAL            *IGNORE_CWISE,
+                                 INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("cla_syrfsx_extended");
+    ASSERT(0);
+    /*
+    LAPACK_IMPL(cla_syrfsx_extended)(PREC_TYPE,
+                                     UPLO,
+                                     N,
+                                     NRHS,
+                                     A,
+                                     LDA,
+                                     AF,
+                                     LDAF,
+                                     IPIV,
+                                     COLEQU,
+                                     C,
+                                     B,
+                                     LDB,
+                                     Y,
+                                     LDY,
+                                     BERR_OUT,
+                                     N_NORMS,
+                                     ERR_BNDS_NORM,
+                                     ERR_BNDS_COMP,
+                                     RES,
+                                     AYB,
+                                     DY,
+                                     Y_TAIL,
+                                     RCOND,
+                                     ITHRESH,
+                                     RTHRESH,
+                                     DZ_UB,
+                                     IGNORE_CWISE,
+                                     INFO);
+    */
+}
+
+//-- cla_syrpvgrw --------------------------------------------------------------
+FLOAT
+LAPACK_DECL(cla_syrpvgrw)(const char               *UPLO,
+                          const INTEGER            *N,
+                          const INTEGER            *INFO,
+                          const FLOAT_COMPLEX      *A,
+                          const INTEGER            *LDA,
+                          const FLOAT_COMPLEX      *AF,
+                          const INTEGER            *LDAF,
+                          const INTEGER            *IPIV,
+                          const FLOAT              *WORK)
+{
+    DEBUG_LAPACK_STUB("cla_syrpvgrw");
+    return LAPACK_IMPL(cla_syrpvgrw)(UPLO,
+                                     N,
+                                     INFO,
+                                     A,
+                                     LDA,
+                                     AF,
+                                     LDAF,
+                                     IPIV,
+                                     WORK);
+}
+
+//-- cla_wwaddw ----------------------------------------------------------------
+void
+LAPACK_DECL(cla_wwaddw)(const INTEGER        *N,
+                        FLOAT_COMPLEX        *X,
+                        FLOAT_COMPLEX        *Y,
+                        const FLOAT_COMPLEX  *W)
+{
+    DEBUG_LAPACK_STUB("cla_wwaddw");
+    LAPACK_IMPL(cla_wwaddw)(N,
+                            X,
+                            Y,
+                            W);
+}
+
+//-- clabrd --------------------------------------------------------------------
+void
+LAPACK_DECL(clabrd)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *NB,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT_COMPLEX    *TAUQ,
+                    FLOAT_COMPLEX    *TAUP,
+                    FLOAT_COMPLEX    *X,
+                    const INTEGER    *LDX,
+                    FLOAT_COMPLEX    *Y,
+                    const INTEGER    *LDY)
+{
+    DEBUG_LAPACK_STUB("clabrd");
+    LAPACK_IMPL(clabrd)(M,
+                        N,
+                        NB,
+                        A,
+                        LDA,
+                        D,
+                        E,
+                        TAUQ,
+                        TAUP,
+                        X,
+                        LDX,
+                        Y,
+                        LDY);
+}
+
+//-- clacgv --------------------------------------------------------------------
+void
+LAPACK_DECL(clacgv)(const INTEGER    *N,
+                    FLOAT_COMPLEX    *X,
+                    const INTEGER    *INCX)
+{
+    DEBUG_LAPACK_STUB("clacgv");
+    LAPACK_IMPL(clacgv)(N,
+                        X,
+                        INCX);
+}
+
+//-- clacn2 --------------------------------------------------------------------
+void
+LAPACK_DECL(clacn2)(const INTEGER    *N,
+                    FLOAT_COMPLEX    *V,
+                    FLOAT_COMPLEX    *X,
+                    FLOAT            *EST,
+                    INTEGER          *KASE,
+                    INTEGER          *ISAVE)
+{
+    DEBUG_LAPACK_STUB("clacn2");
+    LAPACK_IMPL(clacn2)(N,
+                        V,
+                        X,
+                        EST,
+                        KASE,
+                        ISAVE);
+}
+
+//-- clacon --------------------------------------------------------------------
+void
+LAPACK_DECL(clacon)(const INTEGER    *N,
+                    FLOAT_COMPLEX    *V,
+                    FLOAT_COMPLEX    *X,
+                    FLOAT            *EST,
+                    INTEGER          *KASE)
+{
+    DEBUG_LAPACK_STUB("clacon");
+    LAPACK_IMPL(clacon)(N,
+                        V,
+                        X,
+                        EST,
+                        KASE);
+}
+
+//-- clacp2 --------------------------------------------------------------------
+void
+LAPACK_DECL(clacp2)(const char       *UPLO,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB)
+{
+    DEBUG_LAPACK_STUB("clacp2");
+    LAPACK_IMPL(clacp2)(UPLO,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB);
+}
+
+//-- clacpy --------------------------------------------------------------------
+void
+LAPACK_DECL(clacpy)(const char           *UPLO,
+                    const INTEGER        *M,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    FLOAT_COMPLEX        *B,
+                    const INTEGER        *LDB)
+{
+    DEBUG_LAPACK_STUB("clacpy");
+    LAPACK_IMPL(clacpy)(UPLO,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB);
+}
+
+//-- clacrm --------------------------------------------------------------------
+void
+LAPACK_DECL(clacrm)(const INTEGER        *M,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const FLOAT          *B,
+                    const INTEGER        *LDB,
+                    const FLOAT_COMPLEX  *C,
+                    const INTEGER        *LDC,
+                    FLOAT                *RWORK)
+{
+    DEBUG_LAPACK_STUB("clacrm");
+    LAPACK_IMPL(clacrm)(M,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        C,
+                        LDC,
+                        RWORK);
+}
+
+//-- clacrt --------------------------------------------------------------------
+void
+LAPACK_DECL(clacrt)(const INTEGER        *N,
+                    FLOAT_COMPLEX        *CX,
+                    const INTEGER        *INCX,
+                    FLOAT_COMPLEX        *CY,
+                    const INTEGER        *INCY,
+                    const FLOAT_COMPLEX  *C,
+                    const FLOAT_COMPLEX  *S)
+{
+    DEBUG_LAPACK_STUB("clacrt");
+    LAPACK_IMPL(clacrt)(N,
+                        CX,
+                        INCX,
+                        CY,
+                        INCY,
+                        C,
+                        S);
+}
+
+//-- cladiv --------------------------------------------------------------------
+UNKNOWN
+LAPACK_DECL(cladiv)(const FLOAT_COMPLEX  *X,
+                    const FLOAT_COMPLEX  *Y)
+{
+    DEBUG_LAPACK_STUB("cladiv");
+    return LAPACK_IMPL(cladiv)(X,
+                               Y);
+}
+
+//-- claed0 --------------------------------------------------------------------
+void
+LAPACK_DECL(claed0)(const INTEGER    *QSIZ,
+                    const INTEGER    *N,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT_COMPLEX    *Q,
+                    const INTEGER    *LDQ,
+                    FLOAT_COMPLEX    *QSTORE,
+                    const INTEGER    *LDQS,
+                    FLOAT            *RWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("claed0");
+    LAPACK_IMPL(claed0)(QSIZ,
+                        N,
+                        D,
+                        E,
+                        Q,
+                        LDQ,
+                        QSTORE,
+                        LDQS,
+                        RWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- claed7 --------------------------------------------------------------------
+void
+LAPACK_DECL(claed7)(const INTEGER    *N,
+                    const INTEGER    *CUTPNT,
+                    const INTEGER    *QSIZ,
+                    const INTEGER    *TLVLS,
+                    const INTEGER    *CURLVL,
+                    const INTEGER    *CURPBM,
+                    FLOAT            *D,
+                    FLOAT_COMPLEX    *Q,
+                    const INTEGER    *LDQ,
+                    const FLOAT      *RHO,
+                    INTEGER          *INDXQ,
+                    FLOAT            *QSTORE,
+                    INTEGER          *QPTR,
+                    const INTEGER    *PRMPTR,
+                    const INTEGER    *PERM,
+                    const INTEGER    *GIVPTR,
+                    const INTEGER    *GIVCOL,
+                    const FLOAT      *GIVNUM,
+                    FLOAT_COMPLEX    *WORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("claed7");
+    LAPACK_IMPL(claed7)(N,
+                        CUTPNT,
+                        QSIZ,
+                        TLVLS,
+                        CURLVL,
+                        CURPBM,
+                        D,
+                        Q,
+                        LDQ,
+                        RHO,
+                        INDXQ,
+                        QSTORE,
+                        QPTR,
+                        PRMPTR,
+                        PERM,
+                        GIVPTR,
+                        GIVCOL,
+                        GIVNUM,
+                        WORK,
+                        RWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- claed8 --------------------------------------------------------------------
+void
+LAPACK_DECL(claed8)(INTEGER          *K,
+                    const INTEGER    *N,
+                    const INTEGER    *QSIZ,
+                    FLOAT_COMPLEX    *Q,
+                    const INTEGER    *LDQ,
+                    FLOAT            *D,
+                    FLOAT            *RHO,
+                    const INTEGER    *CUTPNT,
+                    const FLOAT      *Z,
+                    FLOAT            *DLAMDA,
+                    FLOAT_COMPLEX    *Q2,
+                    const INTEGER    *LDQ2,
+                    FLOAT            *W,
+                    INTEGER          *INDXP,
+                    INTEGER          *INDX,
+                    const INTEGER    *INDXQ,
+                    INTEGER          *PERM,
+                    INTEGER          *GIVPTR,
+                    INTEGER          *GIVCOL,
+                    FLOAT            *GIVNUM,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("claed8");
+    LAPACK_IMPL(claed8)(K,
+                        N,
+                        QSIZ,
+                        Q,
+                        LDQ,
+                        D,
+                        RHO,
+                        CUTPNT,
+                        Z,
+                        DLAMDA,
+                        Q2,
+                        LDQ2,
+                        W,
+                        INDXP,
+                        INDX,
+                        INDXQ,
+                        PERM,
+                        GIVPTR,
+                        GIVCOL,
+                        GIVNUM,
+                        INFO);
+}
+
+//-- claein --------------------------------------------------------------------
+void
+LAPACK_DECL(claein)(const LOGICAL        *RIGHTV,
+                    const LOGICAL        *NOINIT,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *H,
+                    const INTEGER        *LDH,
+                    const FLOAT_COMPLEX  *W,
+                    FLOAT_COMPLEX        *V,
+                    FLOAT_COMPLEX        *B,
+                    const INTEGER        *LDB,
+                    FLOAT                *RWORK,
+                    const FLOAT          *EPS3,
+                    const FLOAT          *SMLNUM,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("claein");
+    LAPACK_IMPL(claein)(RIGHTV,
+                        NOINIT,
+                        N,
+                        H,
+                        LDH,
+                        W,
+                        V,
+                        B,
+                        LDB,
+                        RWORK,
+                        EPS3,
+                        SMLNUM,
+                        INFO);
+}
+
+//-- claesy --------------------------------------------------------------------
+void
+LAPACK_DECL(claesy)(const FLOAT_COMPLEX  *A,
+                    const FLOAT_COMPLEX  *B,
+                    const FLOAT_COMPLEX  *C,
+                    FLOAT_COMPLEX        *RT1,
+                    FLOAT_COMPLEX        *RT2,
+                    FLOAT_COMPLEX        *EVSCAL,
+                    FLOAT_COMPLEX        *CS1,
+                    FLOAT_COMPLEX        *SN1)
+{
+    DEBUG_LAPACK_STUB("claesy");
+    LAPACK_IMPL(claesy)(A,
+                        B,
+                        C,
+                        RT1,
+                        RT2,
+                        EVSCAL,
+                        CS1,
+                        SN1);
+}
+
+//-- claev2 --------------------------------------------------------------------
+void
+LAPACK_DECL(claev2)(const FLOAT_COMPLEX  *A,
+                    const FLOAT_COMPLEX  *B,
+                    const FLOAT_COMPLEX  *C,
+                    FLOAT                *RT1,
+                    FLOAT                *RT2,
+                    FLOAT                *CS1,
+                    FLOAT_COMPLEX        *SN1)
+{
+    DEBUG_LAPACK_STUB("claev2");
+    LAPACK_IMPL(claev2)(A,
+                        B,
+                        C,
+                        RT1,
+                        RT2,
+                        CS1,
+                        SN1);
+}
+
+//-- clag2z --------------------------------------------------------------------
+void
+LAPACK_DECL(clag2z)(const INTEGER        *M,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *SA,
+                    const INTEGER        *LDSA,
+                    DOUBLE_COMPLEX       *A,
+                    const INTEGER        *LDA,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("clag2z");
+    LAPACK_IMPL(clag2z)(M,
+                        N,
+                        SA,
+                        LDSA,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- clags2 --------------------------------------------------------------------
+void
+LAPACK_DECL(clags2)(const LOGICAL        *UPPER,
+                    const FLOAT          *A1,
+                    const FLOAT_COMPLEX  *A2,
+                    const FLOAT          *A3,
+                    const FLOAT          *B1,
+                    const FLOAT_COMPLEX  *B2,
+                    const FLOAT          *B3,
+                    FLOAT                *CSU,
+                    FLOAT_COMPLEX        *SNU,
+                    FLOAT                *CSV,
+                    FLOAT_COMPLEX        *SNV,
+                    FLOAT                *CSQ,
+                    FLOAT_COMPLEX        *SNQ)
+{
+    DEBUG_LAPACK_STUB("clags2");
+    LAPACK_IMPL(clags2)(UPPER,
+                        A1,
+                        A2,
+                        A3,
+                        B1,
+                        B2,
+                        B3,
+                        CSU,
+                        SNU,
+                        CSV,
+                        SNV,
+                        CSQ,
+                        SNQ);
+}
+
+//-- clagtm --------------------------------------------------------------------
+void
+LAPACK_DECL(clagtm)(const char           *TRANS,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT          *ALPHA,
+                    const FLOAT_COMPLEX  *DL,
+                    const FLOAT_COMPLEX  *D,
+                    const FLOAT_COMPLEX  *DU,
+                    const FLOAT_COMPLEX  *X,
+                    const INTEGER        *LDX,
+                    const FLOAT          *BETA,
+                    FLOAT_COMPLEX        *B,
+                    const INTEGER        *LDB)
+{
+    DEBUG_LAPACK_STUB("clagtm");
+    LAPACK_IMPL(clagtm)(TRANS,
+                        N,
+                        NRHS,
+                        ALPHA,
+                        DL,
+                        D,
+                        DU,
+                        X,
+                        LDX,
+                        BETA,
+                        B,
+                        LDB);
+}
+
+//-- clahef --------------------------------------------------------------------
+void
+LAPACK_DECL(clahef)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NB,
+                    INTEGER          *KB,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *IPIV,
+                    FLOAT_COMPLEX    *W,
+                    const INTEGER    *LDW,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("clahef");
+    LAPACK_IMPL(clahef)(UPLO,
+                        N,
+                        NB,
+                        KB,
+                        A,
+                        LDA,
+                        IPIV,
+                        W,
+                        LDW,
+                        INFO);
+}
+
+//-- clahqr --------------------------------------------------------------------
+void
+LAPACK_DECL(clahqr)(const LOGICAL    *WANTT,
+                    const LOGICAL    *WANTZ,
+                    const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    FLOAT_COMPLEX    *H,
+                    const INTEGER    *LDH,
+                    FLOAT_COMPLEX    *W,
+                    const INTEGER    *ILOZ,
+                    const INTEGER    *IHIZ,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("clahqr");
+    LAPACK_IMPL(clahqr)(WANTT,
+                        WANTZ,
+                        N,
+                        ILO,
+                        IHI,
+                        H,
+                        LDH,
+                        W,
+                        ILOZ,
+                        IHIZ,
+                        Z,
+                        LDZ,
+                        INFO);
+}
+
+//-- clahr2 --------------------------------------------------------------------
+void
+LAPACK_DECL(clahr2)(const INTEGER    *N,
+                    const INTEGER    *K,
+                    const INTEGER    *NB,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *TAU,
+                    FLOAT_COMPLEX    *T,
+                    const INTEGER    *LDT,
+                    FLOAT_COMPLEX    *Y,
+                    const INTEGER    *LDY)
+{
+    DEBUG_LAPACK_STUB("clahr2");
+    LAPACK_IMPL(clahr2)(N,
+                        K,
+                        NB,
+                        A,
+                        LDA,
+                        TAU,
+                        T,
+                        LDT,
+                        Y,
+                        LDY);
+}
+
+//-- clahrd --------------------------------------------------------------------
+void
+LAPACK_DECL(clahrd)(const INTEGER    *N,
+                    const INTEGER    *K,
+                    const INTEGER    *NB,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *TAU,
+                    FLOAT_COMPLEX    *T,
+                    const INTEGER    *LDT,
+                    FLOAT_COMPLEX    *Y,
+                    const INTEGER    *LDY)
+{
+    DEBUG_LAPACK_STUB("clahrd");
+    LAPACK_IMPL(clahrd)(N,
+                        K,
+                        NB,
+                        A,
+                        LDA,
+                        TAU,
+                        T,
+                        LDT,
+                        Y,
+                        LDY);
+}
+
+//-- claic1 --------------------------------------------------------------------
+void
+LAPACK_DECL(claic1)(const INTEGER        *JOB,
+                    const INTEGER        *J,
+                    const FLOAT_COMPLEX  *X,
+                    const FLOAT          *SEST,
+                    const FLOAT_COMPLEX  *W,
+                    const FLOAT_COMPLEX  *GAMMA,
+                    FLOAT                *SESTPR,
+                    FLOAT_COMPLEX        *S,
+                    FLOAT_COMPLEX        *C)
+{
+    DEBUG_LAPACK_STUB("claic1");
+    LAPACK_IMPL(claic1)(JOB,
+                        J,
+                        X,
+                        SEST,
+                        W,
+                        GAMMA,
+                        SESTPR,
+                        S,
+                        C);
+}
+
+//-- clals0 --------------------------------------------------------------------
+void
+LAPACK_DECL(clals0)(const INTEGER    *ICOMPQ,
+                    const INTEGER    *NL,
+                    const INTEGER    *NR,
+                    const INTEGER    *SQRE,
+                    const INTEGER    *NRHS,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    FLOAT_COMPLEX    *BX,
+                    const INTEGER    *LDBX,
+                    const INTEGER    *PERM,
+                    const INTEGER    *GIVPTR,
+                    const INTEGER    *GIVCOL,
+                    const INTEGER    *LDGCOL,
+                    const FLOAT      *GIVNUM,
+                    const INTEGER    *LDGNUM,
+                    const FLOAT      *POLES,
+                    const FLOAT      *DIFL,
+                    const FLOAT      *DIFR,
+                    const FLOAT      *Z,
+                    const INTEGER    *K,
+                    const FLOAT      *C,
+                    const FLOAT      *S,
+                    FLOAT            *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("clals0");
+    LAPACK_IMPL(clals0)(ICOMPQ,
+                        NL,
+                        NR,
+                        SQRE,
+                        NRHS,
+                        B,
+                        LDB,
+                        BX,
+                        LDBX,
+                        PERM,
+                        GIVPTR,
+                        GIVCOL,
+                        LDGCOL,
+                        GIVNUM,
+                        LDGNUM,
+                        POLES,
+                        DIFL,
+                        DIFR,
+                        Z,
+                        K,
+                        C,
+                        S,
+                        RWORK,
+                        INFO);
+}
+
+//-- clalsa --------------------------------------------------------------------
+void
+LAPACK_DECL(clalsa)(const INTEGER    *ICOMPQ,
+                    const INTEGER    *SMLSIZ,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    FLOAT_COMPLEX    *BX,
+                    const INTEGER    *LDBX,
+                    const FLOAT      *U,
+                    const INTEGER    *LDU,
+                    const FLOAT      *VT,
+                    const INTEGER    *K,
+                    const FLOAT      *DIFL,
+                    const FLOAT      *DIFR,
+                    const FLOAT      *Z,
+                    const FLOAT      *POLES,
+                    const INTEGER    *GIVPTR,
+                    const INTEGER    *GIVCOL,
+                    const INTEGER    *LDGCOL,
+                    const INTEGER    *PERM,
+                    const FLOAT      *GIVNUM,
+                    const FLOAT      *C,
+                    const FLOAT      *S,
+                    FLOAT            *RWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("clalsa");
+    LAPACK_IMPL(clalsa)(ICOMPQ,
+                        SMLSIZ,
+                        N,
+                        NRHS,
+                        B,
+                        LDB,
+                        BX,
+                        LDBX,
+                        U,
+                        LDU,
+                        VT,
+                        K,
+                        DIFL,
+                        DIFR,
+                        Z,
+                        POLES,
+                        GIVPTR,
+                        GIVCOL,
+                        LDGCOL,
+                        PERM,
+                        GIVNUM,
+                        C,
+                        S,
+                        RWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- clalsd --------------------------------------------------------------------
+void
+LAPACK_DECL(clalsd)(const char       *UPLO,
+                    const INTEGER    *SMLSIZ,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    const FLOAT      *RCOND,
+                    INTEGER          *RANK,
+                    FLOAT_COMPLEX    *WORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("clalsd");
+    LAPACK_IMPL(clalsd)(UPLO,
+                        SMLSIZ,
+                        N,
+                        NRHS,
+                        D,
+                        E,
+                        B,
+                        LDB,
+                        RCOND,
+                        RANK,
+                        WORK,
+                        RWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- clangb --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(clangb)(const char           *NORM,
+                    const INTEGER        *N,
+                    const INTEGER        *KL,
+                    const INTEGER        *KU,
+                    const FLOAT_COMPLEX  *AB,
+                    const INTEGER        *LDAB,
+                    FLOAT                *WORK)
+{
+    DEBUG_LAPACK_STUB("clangb");
+    return LAPACK_IMPL(clangb)(NORM,
+                               N,
+                               KL,
+                               KU,
+                               AB,
+                               LDAB,
+                               WORK);
+}
+
+//-- clange --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(clange)(const char           *NORM,
+                    const INTEGER        *M,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    FLOAT                *WORK)
+{
+    DEBUG_LAPACK_STUB("clange");
+    return LAPACK_IMPL(clange)(NORM,
+                               M,
+                               N,
+                               A,
+                               LDA,
+                               WORK);
+}
+
+//-- clangt --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(clangt)(const char           *NORM,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *DL,
+                    const FLOAT_COMPLEX  *D,
+                    const FLOAT_COMPLEX  *DU)
+{
+    DEBUG_LAPACK_STUB("clangt");
+    return LAPACK_IMPL(clangt)(NORM,
+                               N,
+                               DL,
+                               D,
+                               DU);
+}
+
+//-- clanhb --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(clanhb)(const char           *NORM,
+                    const char           *UPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    const FLOAT_COMPLEX  *AB,
+                    const INTEGER        *LDAB,
+                    FLOAT                *WORK)
+{
+    DEBUG_LAPACK_STUB("clanhb");
+    return LAPACK_IMPL(clanhb)(NORM,
+                               UPLO,
+                               N,
+                               K,
+                               AB,
+                               LDAB,
+                               WORK);
+}
+
+//-- clanhe --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(clanhe)(const char           *NORM,
+                    const char           *UPLO,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    FLOAT                *WORK)
+{
+    DEBUG_LAPACK_STUB("clanhe");
+    return LAPACK_IMPL(clanhe)(NORM,
+                               UPLO,
+                               N,
+                               A,
+                               LDA,
+                               WORK);
+}
+
+//-- clanhf --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(clanhf)(const char           *NORM,
+                    const char           *TRANSR,
+                    const char           *UPLO,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *A,
+                    FLOAT                *WORK)
+{
+    DEBUG_LAPACK_STUB("clanhf");
+    return LAPACK_IMPL(clanhf)(NORM,
+                               TRANSR,
+                               UPLO,
+                               N,
+                               A,
+                               WORK);
+}
+
+//-- clanhp --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(clanhp)(const char           *NORM,
+                    const char           *UPLO,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *AP,
+                    FLOAT                *WORK)
+{
+    DEBUG_LAPACK_STUB("clanhp");
+    return LAPACK_IMPL(clanhp)(NORM,
+                               UPLO,
+                               N,
+                               AP,
+                               WORK);
+}
+
+//-- clanhs --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(clanhs)(const char           *NORM,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    FLOAT                *WORK)
+{
+    DEBUG_LAPACK_STUB("clanhs");
+    return LAPACK_IMPL(clanhs)(NORM,
+                               N,
+                               A,
+                               LDA,
+                               WORK);
+}
+
+//-- clanht --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(clanht)(const char           *NORM,
+                    const INTEGER        *N,
+                    const FLOAT          *D,
+                    const FLOAT_COMPLEX  *E)
+{
+    DEBUG_LAPACK_STUB("clanht");
+    return LAPACK_IMPL(clanht)(NORM,
+                               N,
+                               D,
+                               E);
+}
+
+//-- clansb --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(clansb)(const char           *NORM,
+                    const char           *UPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    const FLOAT_COMPLEX  *AB,
+                    const INTEGER        *LDAB,
+                    FLOAT                *WORK)
+{
+    DEBUG_LAPACK_STUB("clansb");
+    return LAPACK_IMPL(clansb)(NORM,
+                               UPLO,
+                               N,
+                               K,
+                               AB,
+                               LDAB,
+                               WORK);
+}
+
+//-- clansp --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(clansp)(const char           *NORM,
+                    const char           *UPLO,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *AP,
+                    FLOAT                *WORK)
+{
+    DEBUG_LAPACK_STUB("clansp");
+    return LAPACK_IMPL(clansp)(NORM,
+                               UPLO,
+                               N,
+                               AP,
+                               WORK);
+}
+
+//-- clansy --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(clansy)(const char           *NORM,
+                    const char           *UPLO,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    FLOAT                *WORK)
+{
+    DEBUG_LAPACK_STUB("clansy");
+    return LAPACK_IMPL(clansy)(NORM,
+                               UPLO,
+                               N,
+                               A,
+                               LDA,
+                               WORK);
+}
+
+//-- clantb --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(clantb)(const char           *NORM,
+                    const char           *UPLO,
+                    const char           *DIAG,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    const FLOAT_COMPLEX  *AB,
+                    const INTEGER        *LDAB,
+                    FLOAT                *WORK)
+{
+    DEBUG_LAPACK_STUB("clantb");
+    return LAPACK_IMPL(clantb)(NORM,
+                               UPLO,
+                               DIAG,
+                               N,
+                               K,
+                               AB,
+                               LDAB,
+                               WORK);
+}
+
+//-- clantp --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(clantp)(const char           *NORM,
+                    const char           *UPLO,
+                    const char           *DIAG,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *AP,
+                    FLOAT                *WORK)
+{
+    DEBUG_LAPACK_STUB("clantp");
+    return LAPACK_IMPL(clantp)(NORM,
+                               UPLO,
+                               DIAG,
+                               N,
+                               AP,
+                               WORK);
+}
+
+//-- clantr --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(clantr)(const char           *NORM,
+                    const char           *UPLO,
+                    const char           *DIAG,
+                    const INTEGER        *M,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    FLOAT                *WORK)
+{
+    DEBUG_LAPACK_STUB("clantr");
+    return LAPACK_IMPL(clantr)(NORM,
+                               UPLO,
+                               DIAG,
+                               M,
+                               N,
+                               A,
+                               LDA,
+                               WORK);
+}
+
+//-- clapll --------------------------------------------------------------------
+void
+LAPACK_DECL(clapll)(const INTEGER    *N,
+                    FLOAT_COMPLEX    *X,
+                    const INTEGER    *INCX,
+                    FLOAT_COMPLEX    *Y,
+                    const INTEGER    *INCY,
+                    FLOAT            *SSMIN)
+{
+    DEBUG_LAPACK_STUB("clapll");
+    LAPACK_IMPL(clapll)(N,
+                        X,
+                        INCX,
+                        Y,
+                        INCY,
+                        SSMIN);
+}
+
+//-- clapmr --------------------------------------------------------------------
+void
+LAPACK_DECL(clapmr)(const LOGICAL    *FORWRD,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *X,
+                    const INTEGER    *LDX,
+                    INTEGER          *K)
+{
+    DEBUG_LAPACK_STUB("clapmr");
+    LAPACK_IMPL(clapmr)(FORWRD,
+                        M,
+                        N,
+                        X,
+                        LDX,
+                        K);
+}
+
+//-- clapmt --------------------------------------------------------------------
+void
+LAPACK_DECL(clapmt)(const LOGICAL    *FORWRD,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *X,
+                    const INTEGER    *LDX,
+                    INTEGER          *K)
+{
+    DEBUG_LAPACK_STUB("clapmt");
+    LAPACK_IMPL(clapmt)(FORWRD,
+                        M,
+                        N,
+                        X,
+                        LDX,
+                        K);
+}
+
+//-- claqgb --------------------------------------------------------------------
+void
+LAPACK_DECL(claqgb)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *KL,
+                    const INTEGER    *KU,
+                    FLOAT_COMPLEX    *AB,
+                    const INTEGER    *LDAB,
+                    const FLOAT      *R,
+                    const FLOAT      *C,
+                    const FLOAT      *ROWCND,
+                    const FLOAT      *COLCND,
+                    const FLOAT      *AMAX,
+                    char             *EQUED)
+{
+    DEBUG_LAPACK_STUB("claqgb");
+    LAPACK_IMPL(claqgb)(M,
+                        N,
+                        KL,
+                        KU,
+                        AB,
+                        LDAB,
+                        R,
+                        C,
+                        ROWCND,
+                        COLCND,
+                        AMAX,
+                        EQUED);
+}
+
+//-- claqge --------------------------------------------------------------------
+void
+LAPACK_DECL(claqge)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *R,
+                    const FLOAT      *C,
+                    const FLOAT      *ROWCND,
+                    const FLOAT      *COLCND,
+                    const FLOAT      *AMAX,
+                    char             *EQUED)
+{
+    DEBUG_LAPACK_STUB("claqge");
+    LAPACK_IMPL(claqge)(M,
+                        N,
+                        A,
+                        LDA,
+                        R,
+                        C,
+                        ROWCND,
+                        COLCND,
+                        AMAX,
+                        EQUED);
+}
+
+//-- claqhb --------------------------------------------------------------------
+void
+LAPACK_DECL(claqhb)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    FLOAT_COMPLEX    *AB,
+                    const INTEGER    *LDAB,
+                    FLOAT            *S,
+                    const FLOAT      *SCOND,
+                    const FLOAT      *AMAX,
+                    char             *EQUED)
+{
+    DEBUG_LAPACK_STUB("claqhb");
+    LAPACK_IMPL(claqhb)(UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        S,
+                        SCOND,
+                        AMAX,
+                        EQUED);
+}
+
+//-- claqhe --------------------------------------------------------------------
+void
+LAPACK_DECL(claqhe)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *S,
+                    const FLOAT      *SCOND,
+                    const FLOAT      *AMAX,
+                    char             *EQUED)
+{
+    DEBUG_LAPACK_STUB("claqhe");
+    LAPACK_IMPL(claqhe)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        S,
+                        SCOND,
+                        AMAX,
+                        EQUED);
+}
+
+//-- claqhp --------------------------------------------------------------------
+void
+LAPACK_DECL(claqhp)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *AP,
+                    const FLOAT      *S,
+                    const FLOAT      *SCOND,
+                    const FLOAT      *AMAX,
+                    char             *EQUED)
+{
+    DEBUG_LAPACK_STUB("claqhp");
+    LAPACK_IMPL(claqhp)(UPLO,
+                        N,
+                        AP,
+                        S,
+                        SCOND,
+                        AMAX,
+                        EQUED);
+}
+
+//-- claqp2 --------------------------------------------------------------------
+void
+LAPACK_DECL(claqp2)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *OFFSET,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *JPVT,
+                    FLOAT_COMPLEX    *TAU,
+                    FLOAT            *VN1,
+                    FLOAT            *VN2,
+                    FLOAT_COMPLEX    *WORK)
+{
+    DEBUG_LAPACK_STUB("claqp2");
+    LAPACK_IMPL(claqp2)(M,
+                        N,
+                        OFFSET,
+                        A,
+                        LDA,
+                        JPVT,
+                        TAU,
+                        VN1,
+                        VN2,
+                        WORK);
+}
+
+//-- claqps --------------------------------------------------------------------
+void
+LAPACK_DECL(claqps)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *OFFSET,
+                    const INTEGER    *NB,
+                    INTEGER          *KB,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *JPVT,
+                    FLOAT_COMPLEX    *TAU,
+                    FLOAT            *VN1,
+                    FLOAT            *VN2,
+                    FLOAT_COMPLEX    *AUXV,
+                    FLOAT_COMPLEX    *F,
+                    const INTEGER    *LDF)
+{
+    DEBUG_LAPACK_STUB("claqps");
+    LAPACK_IMPL(claqps)(M,
+                        N,
+                        OFFSET,
+                        NB,
+                        KB,
+                        A,
+                        LDA,
+                        JPVT,
+                        TAU,
+                        VN1,
+                        VN2,
+                        AUXV,
+                        F,
+                        LDF);
+}
+
+//-- claqr0 --------------------------------------------------------------------
+void
+LAPACK_DECL(claqr0)(const LOGICAL    *WANTT,
+                    const LOGICAL    *WANTZ,
+                    const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    FLOAT_COMPLEX    *H,
+                    const INTEGER    *LDH,
+                    FLOAT_COMPLEX    *W,
+                    const INTEGER    *ILOZ,
+                    const INTEGER    *IHIZ,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("claqr0");
+    LAPACK_IMPL(claqr0)(WANTT,
+                        WANTZ,
+                        N,
+                        ILO,
+                        IHI,
+                        H,
+                        LDH,
+                        W,
+                        ILOZ,
+                        IHIZ,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- claqr1 --------------------------------------------------------------------
+void
+LAPACK_DECL(claqr1)(const INTEGER        *N,
+                    const FLOAT_COMPLEX  *H,
+                    const INTEGER        *LDH,
+                    const FLOAT_COMPLEX  *S1,
+                    const FLOAT_COMPLEX  *S2,
+                    FLOAT_COMPLEX        *V)
+{
+    DEBUG_LAPACK_STUB("claqr1");
+    LAPACK_IMPL(claqr1)(N,
+                        H,
+                        LDH,
+                        S1,
+                        S2,
+                        V);
+}
+
+//-- claqr2 --------------------------------------------------------------------
+void
+LAPACK_DECL(claqr2)(const LOGICAL    *WANTT,
+                    const LOGICAL    *WANTZ,
+                    const INTEGER    *N,
+                    const INTEGER    *KTOP,
+                    const INTEGER    *KBOT,
+                    const INTEGER    *NW,
+                    FLOAT_COMPLEX    *H,
+                    const INTEGER    *LDH,
+                    const INTEGER    *ILOZ,
+                    const INTEGER    *IHIZ,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    INTEGER          *NS,
+                    INTEGER          *ND,
+                    FLOAT_COMPLEX    *SH,
+                    FLOAT_COMPLEX    *V,
+                    const INTEGER    *LDV,
+                    const INTEGER    *NH,
+                    FLOAT_COMPLEX    *T,
+                    const INTEGER    *LDT,
+                    const INTEGER    *NV,
+                    FLOAT_COMPLEX    *WV,
+                    const INTEGER    *LDWV,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK)
+{
+    DEBUG_LAPACK_STUB("claqr2");
+    LAPACK_IMPL(claqr2)(WANTT,
+                        WANTZ,
+                        N,
+                        KTOP,
+                        KBOT,
+                        NW,
+                        H,
+                        LDH,
+                        ILOZ,
+                        IHIZ,
+                        Z,
+                        LDZ,
+                        NS,
+                        ND,
+                        SH,
+                        V,
+                        LDV,
+                        NH,
+                        T,
+                        LDT,
+                        NV,
+                        WV,
+                        LDWV,
+                        WORK,
+                        LWORK);
+}
+
+//-- claqr3 --------------------------------------------------------------------
+void
+LAPACK_DECL(claqr3)(const LOGICAL    *WANTT,
+                    const LOGICAL    *WANTZ,
+                    const INTEGER    *N,
+                    const INTEGER    *KTOP,
+                    const INTEGER    *KBOT,
+                    const INTEGER    *NW,
+                    FLOAT_COMPLEX    *H,
+                    const INTEGER    *LDH,
+                    const INTEGER    *ILOZ,
+                    const INTEGER    *IHIZ,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    INTEGER          *NS,
+                    INTEGER          *ND,
+                    FLOAT_COMPLEX    *SH,
+                    FLOAT_COMPLEX    *V,
+                    const INTEGER    *LDV,
+                    const INTEGER    *NH,
+                    FLOAT_COMPLEX    *T,
+                    const INTEGER    *LDT,
+                    const INTEGER    *NV,
+                    FLOAT_COMPLEX    *WV,
+                    const INTEGER    *LDWV,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK)
+{
+    DEBUG_LAPACK_STUB("claqr3");
+    LAPACK_IMPL(claqr3)(WANTT,
+                        WANTZ,
+                        N,
+                        KTOP,
+                        KBOT,
+                        NW,
+                        H,
+                        LDH,
+                        ILOZ,
+                        IHIZ,
+                        Z,
+                        LDZ,
+                        NS,
+                        ND,
+                        SH,
+                        V,
+                        LDV,
+                        NH,
+                        T,
+                        LDT,
+                        NV,
+                        WV,
+                        LDWV,
+                        WORK,
+                        LWORK);
+}
+
+//-- claqr4 --------------------------------------------------------------------
+void
+LAPACK_DECL(claqr4)(const LOGICAL    *WANTT,
+                    const LOGICAL    *WANTZ,
+                    const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    FLOAT_COMPLEX    *H,
+                    const INTEGER    *LDH,
+                    FLOAT_COMPLEX    *W,
+                    const INTEGER    *ILOZ,
+                    const INTEGER    *IHIZ,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("claqr4");
+    LAPACK_IMPL(claqr4)(WANTT,
+                        WANTZ,
+                        N,
+                        ILO,
+                        IHI,
+                        H,
+                        LDH,
+                        W,
+                        ILOZ,
+                        IHIZ,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- claqr5 --------------------------------------------------------------------
+void
+LAPACK_DECL(claqr5)(const LOGICAL    *WANTT,
+                    const LOGICAL    *WANTZ,
+                    const INTEGER    *KACC22,
+                    const INTEGER    *N,
+                    const INTEGER    *KTOP,
+                    const INTEGER    *KBOT,
+                    const INTEGER    *NSHFTS,
+                    FLOAT_COMPLEX    *S,
+                    FLOAT_COMPLEX    *H,
+                    const INTEGER    *LDH,
+                    const INTEGER    *ILOZ,
+                    const INTEGER    *IHIZ,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT_COMPLEX    *V,
+                    const INTEGER    *LDV,
+                    FLOAT_COMPLEX    *U,
+                    const INTEGER    *LDU,
+                    const INTEGER    *NV,
+                    FLOAT_COMPLEX    *WV,
+                    const INTEGER    *LDWV,
+                    const INTEGER    *NH,
+                    FLOAT_COMPLEX    *WH,
+                    const INTEGER    *LDWH)
+{
+    DEBUG_LAPACK_STUB("claqr5");
+    LAPACK_IMPL(claqr5)(WANTT,
+                        WANTZ,
+                        KACC22,
+                        N,
+                        KTOP,
+                        KBOT,
+                        NSHFTS,
+                        S,
+                        H,
+                        LDH,
+                        ILOZ,
+                        IHIZ,
+                        Z,
+                        LDZ,
+                        V,
+                        LDV,
+                        U,
+                        LDU,
+                        NV,
+                        WV,
+                        LDWV,
+                        NH,
+                        WH,
+                        LDWH);
+}
+
+//-- claqsb --------------------------------------------------------------------
+void
+LAPACK_DECL(claqsb)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    FLOAT_COMPLEX    *AB,
+                    const INTEGER    *LDAB,
+                    const FLOAT      *S,
+                    const FLOAT      *SCOND,
+                    const FLOAT      *AMAX,
+                    char             *EQUED)
+{
+    DEBUG_LAPACK_STUB("claqsb");
+    LAPACK_IMPL(claqsb)(UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        S,
+                        SCOND,
+                        AMAX,
+                        EQUED);
+}
+
+//-- claqsp --------------------------------------------------------------------
+void
+LAPACK_DECL(claqsp)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *AP,
+                    const FLOAT      *S,
+                    const FLOAT      *SCOND,
+                    const FLOAT      *AMAX,
+                    char             *EQUED)
+{
+    DEBUG_LAPACK_STUB("claqsp");
+    LAPACK_IMPL(claqsp)(UPLO,
+                        N,
+                        AP,
+                        S,
+                        SCOND,
+                        AMAX,
+                        EQUED);
+}
+
+//-- claqsy --------------------------------------------------------------------
+void
+LAPACK_DECL(claqsy)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *S,
+                    const FLOAT      *SCOND,
+                    const FLOAT      *AMAX,
+                    char             *EQUED)
+{
+    DEBUG_LAPACK_STUB("claqsy");
+    LAPACK_IMPL(claqsy)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        S,
+                        SCOND,
+                        AMAX,
+                        EQUED);
+}
+
+//-- clar1v --------------------------------------------------------------------
+void
+LAPACK_DECL(clar1v)(const INTEGER    *N,
+                    const INTEGER    *B1,
+                    const INTEGER    *BN,
+                    const FLOAT      *LAMBDA,
+                    const FLOAT      *D,
+                    const FLOAT      *L,
+                    const FLOAT      *LD,
+                    const FLOAT      *LLD,
+                    const FLOAT      *PIVMIN,
+                    const FLOAT      *GAPTOL,
+                    FLOAT_COMPLEX    *Z,
+                    const LOGICAL    *WANTNC,
+                    INTEGER          *NEGCNT,
+                    FLOAT            *ZTZ,
+                    FLOAT            *MINGMA,
+                    INTEGER          *R,
+                    INTEGER          *ISUPPZ,
+                    FLOAT            *NRMINV,
+                    FLOAT            *RESID,
+                    FLOAT            *RQCORR,
+                    FLOAT            *WORK)
+{
+    DEBUG_LAPACK_STUB("clar1v");
+    LAPACK_IMPL(clar1v)(N,
+                        B1,
+                        BN,
+                        LAMBDA,
+                        D,
+                        L,
+                        LD,
+                        LLD,
+                        PIVMIN,
+                        GAPTOL,
+                        Z,
+                        WANTNC,
+                        NEGCNT,
+                        ZTZ,
+                        MINGMA,
+                        R,
+                        ISUPPZ,
+                        NRMINV,
+                        RESID,
+                        RQCORR,
+                        WORK);
+}
+
+//-- clar2v --------------------------------------------------------------------
+void
+LAPACK_DECL(clar2v)(const INTEGER        *N,
+                    FLOAT_COMPLEX        *X,
+                    FLOAT_COMPLEX        *Y,
+                    FLOAT_COMPLEX        *Z,
+                    const INTEGER        *INCX,
+                    const FLOAT          *C,
+                    const FLOAT_COMPLEX  *S,
+                    const INTEGER        *INCC)
+{
+    DEBUG_LAPACK_STUB("clar2v");
+    LAPACK_IMPL(clar2v)(N,
+                        X,
+                        Y,
+                        Z,
+                        INCX,
+                        C,
+                        S,
+                        INCC);
+}
+
+//-- clarcm --------------------------------------------------------------------
+void
+LAPACK_DECL(clarcm)(const INTEGER        *M,
+                    const INTEGER        *N,
+                    const FLOAT          *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    const FLOAT_COMPLEX  *C,
+                    const INTEGER        *LDC,
+                    FLOAT                *RWORK)
+{
+    DEBUG_LAPACK_STUB("clarcm");
+    LAPACK_IMPL(clarcm)(M,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        C,
+                        LDC,
+                        RWORK);
+}
+
+//-- clarf ---------------------------------------------------------------------
+void
+LAPACK_DECL(clarf)(const char               *SIDE,
+                   const INTEGER            *M,
+                   const INTEGER            *N,
+                   const FLOAT_COMPLEX      *V,
+                   const INTEGER            *INCV,
+                   const FLOAT_COMPLEX      *TAU,
+                   FLOAT_COMPLEX            *C,
+                   const INTEGER            *LDC,
+                   FLOAT_COMPLEX            *WORK)
+{
+    DEBUG_LAPACK_STUB("clarf");
+    LAPACK_IMPL(clarf)(SIDE,
+                       M,
+                       N,
+                       V,
+                       INCV,
+                       TAU,
+                       C,
+                       LDC,
+                       WORK);
+}
+
+//-- clarfb --------------------------------------------------------------------
+void
+LAPACK_DECL(clarfb)(const char           *SIDE,
+                    const char           *TRANS,
+                    const char           *DIRECT,
+                    const char           *STOREV,
+                    const INTEGER        *M,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    const FLOAT_COMPLEX  *V,
+                    const INTEGER        *LDV,
+                    const FLOAT_COMPLEX  *T,
+                    const INTEGER        *LDT,
+                    FLOAT_COMPLEX        *C,
+                    const INTEGER        *LDC,
+                    FLOAT_COMPLEX        *WORK,
+                    const INTEGER        *LDWORK)
+{
+    DEBUG_LAPACK_STUB("clarfb");
+    LAPACK_IMPL(clarfb)(SIDE,
+                        TRANS,
+                        DIRECT,
+                        STOREV,
+                        M,
+                        N,
+                        K,
+                        V,
+                        LDV,
+                        T,
+                        LDT,
+                        C,
+                        LDC,
+                        WORK,
+                        LDWORK);
+}
+
+//-- clarfg --------------------------------------------------------------------
+void
+LAPACK_DECL(clarfg)(const INTEGER    *N,
+                    FLOAT_COMPLEX    *ALPHA,
+                    FLOAT_COMPLEX    *X,
+                    const INTEGER    *INCX,
+                    FLOAT_COMPLEX    *TAU)
+{
+    DEBUG_LAPACK_STUB("clarfg");
+    LAPACK_IMPL(clarfg)(N,
+                        ALPHA,
+                        X,
+                        INCX,
+                        TAU);
+}
+
+//-- clarfgp -------------------------------------------------------------------
+void
+LAPACK_DECL(clarfgp)(const INTEGER    *N,
+                     FLOAT_COMPLEX    *ALPHA,
+                     FLOAT_COMPLEX    *X,
+                     const INTEGER    *INCX,
+                     FLOAT_COMPLEX    *TAU)
+{
+    DEBUG_LAPACK_STUB("clarfgp");
+    LAPACK_IMPL(clarfgp)(N,
+                         ALPHA,
+                         X,
+                         INCX,
+                         TAU);
+}
+
+//-- clarft --------------------------------------------------------------------
+void
+LAPACK_DECL(clarft)(const char           *DIRECT,
+                    const char           *STOREV,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    FLOAT_COMPLEX        *V,
+                    const INTEGER        *LDV,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *T,
+                    const INTEGER        *LDT)
+{
+    DEBUG_LAPACK_STUB("clarft");
+    LAPACK_IMPL(clarft)(DIRECT,
+                        STOREV,
+                        N,
+                        K,
+                        V,
+                        LDV,
+                        TAU,
+                        T,
+                        LDT);
+}
+
+//-- clarfx --------------------------------------------------------------------
+void
+LAPACK_DECL(clarfx)(const char           *SIDE,
+                    const INTEGER        *M,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *V,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *C,
+                    const INTEGER        *LDC,
+                    FLOAT_COMPLEX        *WORK)
+{
+    DEBUG_LAPACK_STUB("clarfx");
+    LAPACK_IMPL(clarfx)(SIDE,
+                        M,
+                        N,
+                        V,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK);
+}
+
+//-- clargv --------------------------------------------------------------------
+void
+LAPACK_DECL(clargv)(const INTEGER    *N,
+                    FLOAT_COMPLEX    *X,
+                    const INTEGER    *INCX,
+                    FLOAT_COMPLEX    *Y,
+                    const INTEGER    *INCY,
+                    FLOAT            *C,
+                    const INTEGER    *INCC)
+{
+    DEBUG_LAPACK_STUB("clargv");
+    LAPACK_IMPL(clargv)(N,
+                        X,
+                        INCX,
+                        Y,
+                        INCY,
+                        C,
+                        INCC);
+}
+
+//-- clarnv --------------------------------------------------------------------
+void
+LAPACK_DECL(clarnv)(const INTEGER    *IDIST,
+                    INTEGER          *ISEED,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *X)
+{
+    DEBUG_LAPACK_STUB("clarnv");
+    LAPACK_IMPL(clarnv)(IDIST,
+                        ISEED,
+                        N,
+                        X);
+}
+
+//-- clarrv --------------------------------------------------------------------
+void
+LAPACK_DECL(clarrv)(const INTEGER    *N,
+                    const FLOAT      *VL,
+                    const FLOAT      *VU,
+                    FLOAT            *D,
+                    FLOAT            *L,
+                    const FLOAT      *PIVMIN,
+                    const INTEGER    *ISPLIT,
+                    const INTEGER    *M,
+                    const INTEGER    *DOL,
+                    const INTEGER    *DOU,
+                    const FLOAT      *MINRGP,
+                    const FLOAT      *RTOL1,
+                    const FLOAT      *RTOL2,
+                    FLOAT            *W,
+                    FLOAT            *WERR,
+                    FLOAT            *WGAP,
+                    const INTEGER    *IBLOCK,
+                    const INTEGER    *INDEXW,
+                    const FLOAT      *GERS,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    INTEGER          *ISUPPZ,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("clarrv");
+    LAPACK_IMPL(clarrv)(N,
+                        VL,
+                        VU,
+                        D,
+                        L,
+                        PIVMIN,
+                        ISPLIT,
+                        M,
+                        DOL,
+                        DOU,
+                        MINRGP,
+                        RTOL1,
+                        RTOL2,
+                        W,
+                        WERR,
+                        WGAP,
+                        IBLOCK,
+                        INDEXW,
+                        GERS,
+                        Z,
+                        LDZ,
+                        ISUPPZ,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- clarscl2 ------------------------------------------------------------------
+void
+LAPACK_DECL(clarscl2)(const INTEGER    *M,
+                      const INTEGER    *N,
+                      const FLOAT      *D,
+                      FLOAT_COMPLEX    *X,
+                      const INTEGER    *LDX)
+{
+    DEBUG_LAPACK_STUB("clarscl2");
+    LAPACK_IMPL(clarscl2)(M,
+                          N,
+                          D,
+                          X,
+                          LDX);
+}
+
+//-- clartg --------------------------------------------------------------------
+void
+LAPACK_DECL(clartg)(const FLOAT_COMPLEX  *F,
+                    const FLOAT_COMPLEX  *G,
+                    FLOAT                *CS,
+                    FLOAT_COMPLEX        *SN,
+                    FLOAT_COMPLEX        *R)
+{
+    DEBUG_LAPACK_STUB("clartg");
+    LAPACK_IMPL(clartg)(F,
+                        G,
+                        CS,
+                        SN,
+                        R);
+}
+
+//-- clartv --------------------------------------------------------------------
+void
+LAPACK_DECL(clartv)(const INTEGER        *N,
+                    FLOAT_COMPLEX        *X,
+                    const INTEGER        *INCX,
+                    FLOAT_COMPLEX        *Y,
+                    const INTEGER        *INCY,
+                    const FLOAT          *C,
+                    const FLOAT_COMPLEX  *S,
+                    const INTEGER        *INCC)
+{
+    DEBUG_LAPACK_STUB("clartv");
+    LAPACK_IMPL(clartv)(N,
+                        X,
+                        INCX,
+                        Y,
+                        INCY,
+                        C,
+                        S,
+                        INCC);
+}
+
+//-- clarz ---------------------------------------------------------------------
+void
+LAPACK_DECL(clarz)(const char               *SIDE,
+                   const INTEGER            *M,
+                   const INTEGER            *N,
+                   const INTEGER            *L,
+                   const FLOAT_COMPLEX      *V,
+                   const INTEGER            *INCV,
+                   const FLOAT_COMPLEX      *TAU,
+                   FLOAT_COMPLEX            *C,
+                   const INTEGER            *LDC,
+                   FLOAT_COMPLEX            *WORK)
+{
+    DEBUG_LAPACK_STUB("clarz");
+    LAPACK_IMPL(clarz)(SIDE,
+                       M,
+                       N,
+                       L,
+                       V,
+                       INCV,
+                       TAU,
+                       C,
+                       LDC,
+                       WORK);
+}
+
+//-- clarzb --------------------------------------------------------------------
+void
+LAPACK_DECL(clarzb)(const char           *SIDE,
+                    const char           *TRANS,
+                    const char           *DIRECT,
+                    const char           *STOREV,
+                    const INTEGER        *M,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    const INTEGER        *L,
+                    const FLOAT_COMPLEX  *V,
+                    const INTEGER        *LDV,
+                    const FLOAT_COMPLEX  *T,
+                    const INTEGER        *LDT,
+                    FLOAT_COMPLEX        *C,
+                    const INTEGER        *LDC,
+                    FLOAT_COMPLEX        *WORK,
+                    const INTEGER        *LDWORK)
+{
+    DEBUG_LAPACK_STUB("clarzb");
+    LAPACK_IMPL(clarzb)(SIDE,
+                        TRANS,
+                        DIRECT,
+                        STOREV,
+                        M,
+                        N,
+                        K,
+                        L,
+                        V,
+                        LDV,
+                        T,
+                        LDT,
+                        C,
+                        LDC,
+                        WORK,
+                        LDWORK);
+}
+
+//-- clarzt --------------------------------------------------------------------
+void
+LAPACK_DECL(clarzt)(const char           *DIRECT,
+                    const char           *STOREV,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    FLOAT_COMPLEX        *V,
+                    const INTEGER        *LDV,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *T,
+                    const INTEGER        *LDT)
+{
+    DEBUG_LAPACK_STUB("clarzt");
+    LAPACK_IMPL(clarzt)(DIRECT,
+                        STOREV,
+                        N,
+                        K,
+                        V,
+                        LDV,
+                        TAU,
+                        T,
+                        LDT);
+}
+
+//-- clascl --------------------------------------------------------------------
+void
+LAPACK_DECL(clascl)(const char       *TYPE,
+                    const INTEGER    *KL,
+                    const INTEGER    *KU,
+                    const FLOAT      *CFROM,
+                    const FLOAT      *CTO,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("clascl");
+    LAPACK_IMPL(clascl)(TYPE,
+                        KL,
+                        KU,
+                        CFROM,
+                        CTO,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- clascl2 -------------------------------------------------------------------
+void
+LAPACK_DECL(clascl2)(const INTEGER    *M,
+                     const INTEGER    *N,
+                     const FLOAT      *D,
+                     FLOAT_COMPLEX    *X,
+                     const INTEGER    *LDX)
+{
+    DEBUG_LAPACK_STUB("clascl2");
+    LAPACK_IMPL(clascl2)(M,
+                         N,
+                         D,
+                         X,
+                         LDX);
+}
+
+//-- claset --------------------------------------------------------------------
+void
+LAPACK_DECL(claset)(const char           *UPLO,
+                    const INTEGER        *M,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *ALPHA,
+                    const FLOAT_COMPLEX  *BETA,
+                    FLOAT_COMPLEX        *A,
+                    const INTEGER        *LDA)
+{
+    DEBUG_LAPACK_STUB("claset");
+    LAPACK_IMPL(claset)(UPLO,
+                        M,
+                        N,
+                        ALPHA,
+                        BETA,
+                        A,
+                        LDA);
+}
+
+//-- clasr ---------------------------------------------------------------------
+void
+LAPACK_DECL(clasr)(const char           *SIDE,
+                   const char           *PIVOT,
+                   const char           *DIRECT,
+                   const INTEGER        *M,
+                   const INTEGER        *N,
+                   const FLOAT          *C,
+                   const FLOAT          *S,
+                   FLOAT_COMPLEX        *A,
+                   const INTEGER        *LDA)
+{
+    DEBUG_LAPACK_STUB("clasr");
+    LAPACK_IMPL(clasr)(SIDE,
+                       PIVOT,
+                       DIRECT,
+                       M,
+                       N,
+                       C,
+                       S,
+                       A,
+                       LDA);
+}
+
+//-- classq --------------------------------------------------------------------
+void
+LAPACK_DECL(classq)(const INTEGER        *N,
+                    const FLOAT_COMPLEX  *X,
+                    const INTEGER        *INCX,
+                    FLOAT                *SCALE,
+                    FLOAT                *SUMSQ)
+{
+    DEBUG_LAPACK_STUB("classq");
+    LAPACK_IMPL(classq)(N,
+                        X,
+                        INCX,
+                        SCALE,
+                        SUMSQ);
+}
+
+//-- claswp --------------------------------------------------------------------
+void
+LAPACK_DECL(claswp)(const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    const INTEGER    *K1,
+                    const INTEGER    *K2,
+                    const INTEGER    *IPIV,
+                    const INTEGER    *INCX)
+{
+    DEBUG_LAPACK_STUB("claswp");
+    LAPACK_IMPL(claswp)(N,
+                        A,
+                        LDA,
+                        K1,
+                        K2,
+                        IPIV,
+                        INCX);
+}
+
+//-- clasyf --------------------------------------------------------------------
+void
+LAPACK_DECL(clasyf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NB,
+                    INTEGER          *KB,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *IPIV,
+                    FLOAT_COMPLEX    *W,
+                    const INTEGER    *LDW,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("clasyf");
+    LAPACK_IMPL(clasyf)(UPLO,
+                        N,
+                        NB,
+                        KB,
+                        A,
+                        LDA,
+                        IPIV,
+                        W,
+                        LDW,
+                        INFO);
+}
+
+//-- clatbs --------------------------------------------------------------------
+void
+LAPACK_DECL(clatbs)(const char           *UPLO,
+                    const char           *TRANS,
+                    const char           *DIAG,
+                    const char           *NORMIN,
+                    const INTEGER        *N,
+                    const INTEGER        *KD,
+                    const FLOAT_COMPLEX  *AB,
+                    const INTEGER        *LDAB,
+                    FLOAT_COMPLEX        *X,
+                    FLOAT                *SCALE,
+                    FLOAT                *CNORM,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("clatbs");
+    LAPACK_IMPL(clatbs)(UPLO,
+                        TRANS,
+                        DIAG,
+                        NORMIN,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        X,
+                        SCALE,
+                        CNORM,
+                        INFO);
+}
+
+//-- clatdf --------------------------------------------------------------------
+void
+LAPACK_DECL(clatdf)(const INTEGER        *IJOB,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *Z,
+                    const INTEGER        *LDZ,
+                    FLOAT_COMPLEX        *RHS,
+                    FLOAT                *RDSUM,
+                    FLOAT                *RDSCAL,
+                    const INTEGER        *IPIV,
+                    const INTEGER        *JPIV)
+{
+    DEBUG_LAPACK_STUB("clatdf");
+    LAPACK_IMPL(clatdf)(IJOB,
+                        N,
+                        Z,
+                        LDZ,
+                        RHS,
+                        RDSUM,
+                        RDSCAL,
+                        IPIV,
+                        JPIV);
+}
+
+//-- clatps --------------------------------------------------------------------
+void
+LAPACK_DECL(clatps)(const char           *UPLO,
+                    const char           *TRANS,
+                    const char           *DIAG,
+                    const char           *NORMIN,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *AP,
+                    FLOAT_COMPLEX        *X,
+                    FLOAT                *SCALE,
+                    FLOAT                *CNORM,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("clatps");
+    LAPACK_IMPL(clatps)(UPLO,
+                        TRANS,
+                        DIAG,
+                        NORMIN,
+                        N,
+                        AP,
+                        X,
+                        SCALE,
+                        CNORM,
+                        INFO);
+}
+
+//-- clatrd --------------------------------------------------------------------
+void
+LAPACK_DECL(clatrd)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NB,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *E,
+                    FLOAT_COMPLEX    *TAU,
+                    FLOAT_COMPLEX    *W,
+                    const INTEGER    *LDW)
+{
+    DEBUG_LAPACK_STUB("clatrd");
+    LAPACK_IMPL(clatrd)(UPLO,
+                        N,
+                        NB,
+                        A,
+                        LDA,
+                        E,
+                        TAU,
+                        W,
+                        LDW);
+}
+
+//-- clatrs --------------------------------------------------------------------
+void
+LAPACK_DECL(clatrs)(const char           *UPLO,
+                    const char           *TRANS,
+                    const char           *DIAG,
+                    const char           *NORMIN,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    FLOAT_COMPLEX        *X,
+                    FLOAT                *SCALE,
+                    FLOAT                *CNORM,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("clatrs");
+    LAPACK_IMPL(clatrs)(UPLO,
+                        TRANS,
+                        DIAG,
+                        NORMIN,
+                        N,
+                        A,
+                        LDA,
+                        X,
+                        SCALE,
+                        CNORM,
+                        INFO);
+}
+
+//-- clatrz --------------------------------------------------------------------
+void
+LAPACK_DECL(clatrz)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *L,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *TAU,
+                    FLOAT_COMPLEX    *WORK)
+{
+    DEBUG_LAPACK_STUB("clatrz");
+    LAPACK_IMPL(clatrz)(M,
+                        N,
+                        L,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK);
+}
+
+//-- clatzm --------------------------------------------------------------------
+void
+LAPACK_DECL(clatzm)(const char           *SIDE,
+                    const INTEGER        *M,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *V,
+                    const INTEGER        *INCV,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *C1,
+                    FLOAT_COMPLEX        *C2,
+                    const INTEGER        *LDC,
+                    FLOAT_COMPLEX        *WORK)
+{
+    DEBUG_LAPACK_STUB("clatzm");
+    LAPACK_IMPL(clatzm)(SIDE,
+                        M,
+                        N,
+                        V,
+                        INCV,
+                        TAU,
+                        C1,
+                        C2,
+                        LDC,
+                        WORK);
+}
+
+//-- clauu2 --------------------------------------------------------------------
+void
+LAPACK_DECL(clauu2)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("clauu2");
+    LAPACK_IMPL(clauu2)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- clauum --------------------------------------------------------------------
+void
+LAPACK_DECL(clauum)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("clauum");
+    LAPACK_IMPL(clauum)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- cpbcon --------------------------------------------------------------------
+void
+LAPACK_DECL(cpbcon)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *KD,
+                    const FLOAT_COMPLEX  *AB,
+                    const INTEGER        *LDAB,
+                    const FLOAT          *ANORM,
+                    FLOAT                *RCOND,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cpbcon");
+    LAPACK_IMPL(cpbcon)(UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cpbequ --------------------------------------------------------------------
+void
+LAPACK_DECL(cpbequ)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *KD,
+                    const FLOAT_COMPLEX  *AB,
+                    const INTEGER        *LDAB,
+                    FLOAT                *S,
+                    FLOAT                *SCOND,
+                    FLOAT                *AMAX,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cpbequ");
+    LAPACK_IMPL(cpbequ)(UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        S,
+                        SCOND,
+                        AMAX,
+                        INFO);
+}
+
+//-- cpbrfs --------------------------------------------------------------------
+void
+LAPACK_DECL(cpbrfs)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *KD,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *AB,
+                    const INTEGER        *LDAB,
+                    const FLOAT_COMPLEX  *AFB,
+                    const INTEGER        *LDAFB,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    FLOAT_COMPLEX        *X,
+                    const INTEGER        *LDX,
+                    FLOAT                *FERR,
+                    FLOAT                *BERR,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cpbrfs");
+    LAPACK_IMPL(cpbrfs)(UPLO,
+                        N,
+                        KD,
+                        NRHS,
+                        AB,
+                        LDAB,
+                        AFB,
+                        LDAFB,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cpbstf --------------------------------------------------------------------
+void
+LAPACK_DECL(cpbstf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    FLOAT_COMPLEX    *AB,
+                    const INTEGER    *LDAB,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cpbstf");
+    LAPACK_IMPL(cpbstf)(UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        INFO);
+}
+
+//-- cpbsv ---------------------------------------------------------------------
+void
+LAPACK_DECL(cpbsv)(const char           *UPLO,
+                   const INTEGER        *N,
+                   const INTEGER        *KD,
+                   const INTEGER        *NRHS,
+                   FLOAT_COMPLEX        *AB,
+                   const INTEGER        *LDAB,
+                   FLOAT_COMPLEX        *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cpbsv");
+    LAPACK_IMPL(cpbsv)(UPLO,
+                       N,
+                       KD,
+                       NRHS,
+                       AB,
+                       LDAB,
+                       B,
+                       LDB,
+                       INFO);
+}
+
+//-- cpbsvx --------------------------------------------------------------------
+void
+LAPACK_DECL(cpbsvx)(const char       *FACT,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    const INTEGER    *NRHS,
+                    FLOAT_COMPLEX    *AB,
+                    const INTEGER    *LDAB,
+                    FLOAT_COMPLEX    *AFB,
+                    const INTEGER    *LDAFB,
+                    char             *EQUED,
+                    FLOAT            *S,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    FLOAT_COMPLEX    *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *RCOND,
+                    FLOAT            *FERR,
+                    FLOAT            *BERR,
+                    FLOAT_COMPLEX    *WORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cpbsvx");
+    LAPACK_IMPL(cpbsvx)(FACT,
+                        UPLO,
+                        N,
+                        KD,
+                        NRHS,
+                        AB,
+                        LDAB,
+                        AFB,
+                        LDAFB,
+                        EQUED,
+                        S,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cpbtf2 --------------------------------------------------------------------
+void
+LAPACK_DECL(cpbtf2)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    FLOAT_COMPLEX    *AB,
+                    const INTEGER    *LDAB,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cpbtf2");
+    LAPACK_IMPL(cpbtf2)(UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        INFO);
+}
+
+//-- cpbtrf --------------------------------------------------------------------
+void
+LAPACK_DECL(cpbtrf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    FLOAT_COMPLEX    *AB,
+                    const INTEGER    *LDAB,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cpbtrf");
+    LAPACK_IMPL(cpbtrf)(UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        INFO);
+}
+
+//-- cpbtrs --------------------------------------------------------------------
+void
+LAPACK_DECL(cpbtrs)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *KD,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *AB,
+                    const INTEGER        *LDAB,
+                    FLOAT_COMPLEX        *B,
+                    const INTEGER        *LDB,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cpbtrs");
+    LAPACK_IMPL(cpbtrs)(UPLO,
+                        N,
+                        KD,
+                        NRHS,
+                        AB,
+                        LDAB,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- cpftrf --------------------------------------------------------------------
+void
+LAPACK_DECL(cpftrf)(const char       *TRANSR,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cpftrf");
+    LAPACK_IMPL(cpftrf)(TRANSR,
+                        UPLO,
+                        N,
+                        A,
+                        INFO);
+}
+
+//-- cpftri --------------------------------------------------------------------
+void
+LAPACK_DECL(cpftri)(const char       *TRANSR,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cpftri");
+    LAPACK_IMPL(cpftri)(TRANSR,
+                        UPLO,
+                        N,
+                        A,
+                        INFO);
+}
+
+//-- cpftrs --------------------------------------------------------------------
+void
+LAPACK_DECL(cpftrs)(const char           *TRANSR,
+                    const char           *UPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *A,
+                    FLOAT_COMPLEX        *B,
+                    const INTEGER        *LDB,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cpftrs");
+    LAPACK_IMPL(cpftrs)(TRANSR,
+                        UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- cpocon --------------------------------------------------------------------
+void
+LAPACK_DECL(cpocon)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const FLOAT          *ANORM,
+                    FLOAT                *RCOND,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cpocon");
+    LAPACK_IMPL(cpocon)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cpoequ --------------------------------------------------------------------
+void
+LAPACK_DECL(cpoequ)(const INTEGER        *N,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    FLOAT                *S,
+                    FLOAT                *SCOND,
+                    FLOAT                *AMAX,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cpoequ");
+    LAPACK_IMPL(cpoequ)(N,
+                        A,
+                        LDA,
+                        S,
+                        SCOND,
+                        AMAX,
+                        INFO);
+}
+
+//-- cpoequb -------------------------------------------------------------------
+void
+LAPACK_DECL(cpoequb)(const INTEGER            *N,
+                     const FLOAT_COMPLEX      *A,
+                     const INTEGER            *LDA,
+                     FLOAT                    *S,
+                     FLOAT                    *SCOND,
+                     FLOAT                    *AMAX,
+                     INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("cpoequb");
+    LAPACK_IMPL(cpoequb)(N,
+                         A,
+                         LDA,
+                         S,
+                         SCOND,
+                         AMAX,
+                         INFO);
+}
+
+//-- cporfs --------------------------------------------------------------------
+void
+LAPACK_DECL(cporfs)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *AF,
+                    const INTEGER        *LDAF,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    FLOAT_COMPLEX        *X,
+                    const INTEGER        *LDX,
+                    FLOAT                *FERR,
+                    FLOAT                *BERR,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cporfs");
+    LAPACK_IMPL(cporfs)(UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        AF,
+                        LDAF,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cporfsx -------------------------------------------------------------------
+void
+LAPACK_DECL(cporfsx)(const char               *UPLO,
+                     const char               *EQUED,
+                     const INTEGER            *N,
+                     const INTEGER            *NRHS,
+                     const FLOAT_COMPLEX      *A,
+                     const INTEGER            *LDA,
+                     const FLOAT_COMPLEX      *AF,
+                     const INTEGER            *LDAF,
+                     FLOAT                    *S,
+                     const FLOAT_COMPLEX      *B,
+                     const INTEGER            *LDB,
+                     FLOAT_COMPLEX            *X,
+                     const INTEGER            *LDX,
+                     FLOAT                    *RCOND,
+                     FLOAT                    *BERR,
+                     const INTEGER            *N_ERR_BNDS,
+                     FLOAT                    *ERR_BNDS_NORM,
+                     FLOAT                    *ERR_BNDS_COMP,
+                     const INTEGER            *NPARAMS,
+                     FLOAT                    *PARAMS,
+                     FLOAT_COMPLEX            *WORK,
+                     FLOAT                    *RWORK,
+                     INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("cporfsx");
+    LAPACK_IMPL(cporfsx)(UPLO,
+                         EQUED,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         S,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         RWORK,
+                         INFO);
+}
+
+//-- cposv ---------------------------------------------------------------------
+void
+LAPACK_DECL(cposv)(const char           *UPLO,
+                   const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   FLOAT_COMPLEX        *A,
+                   const INTEGER        *LDA,
+                   FLOAT_COMPLEX        *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cposv");
+    LAPACK_IMPL(cposv)(UPLO,
+                       N,
+                       NRHS,
+                       A,
+                       LDA,
+                       B,
+                       LDB,
+                       INFO);
+}
+
+//-- cposvx --------------------------------------------------------------------
+void
+LAPACK_DECL(cposvx)(const char       *FACT,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *AF,
+                    const INTEGER    *LDAF,
+                    char             *EQUED,
+                    FLOAT            *S,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    FLOAT_COMPLEX    *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *RCOND,
+                    FLOAT            *FERR,
+                    FLOAT            *BERR,
+                    FLOAT_COMPLEX    *WORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cposvx");
+    LAPACK_IMPL(cposvx)(FACT,
+                        UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        AF,
+                        LDAF,
+                        EQUED,
+                        S,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cposvxx -------------------------------------------------------------------
+void
+LAPACK_DECL(cposvxx)(const char       *FACT,
+                     const char       *UPLO,
+                     const INTEGER    *N,
+                     const INTEGER    *NRHS,
+                     FLOAT_COMPLEX    *A,
+                     const INTEGER    *LDA,
+                     FLOAT_COMPLEX    *AF,
+                     const INTEGER    *LDAF,
+                     char             *EQUED,
+                     FLOAT            *S,
+                     FLOAT_COMPLEX    *B,
+                     const INTEGER    *LDB,
+                     FLOAT_COMPLEX    *X,
+                     const INTEGER    *LDX,
+                     FLOAT            *RCOND,
+                     FLOAT            *RPVGRW,
+                     FLOAT            *BERR,
+                     const INTEGER    *N_ERR_BNDS,
+                     FLOAT            *ERR_BNDS_NORM,
+                     FLOAT            *ERR_BNDS_COMP,
+                     const INTEGER    *NPARAMS,
+                     FLOAT            *PARAMS,
+                     FLOAT_COMPLEX    *WORK,
+                     FLOAT            *RWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cposvxx");
+    LAPACK_IMPL(cposvxx)(FACT,
+                         UPLO,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         EQUED,
+                         S,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         RPVGRW,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         RWORK,
+                         INFO);
+}
+
+//-- cpotf2 --------------------------------------------------------------------
+void
+LAPACK_DECL(cpotf2)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cpotf2");
+    LAPACK_IMPL(cpotf2)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- cpotrf --------------------------------------------------------------------
+void
+LAPACK_DECL(cpotrf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cpotrf");
+    LAPACK_IMPL(cpotrf)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- cpotri --------------------------------------------------------------------
+void
+LAPACK_DECL(cpotri)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cpotri");
+    LAPACK_IMPL(cpotri)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- cpotrs --------------------------------------------------------------------
+void
+LAPACK_DECL(cpotrs)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    FLOAT_COMPLEX        *B,
+                    const INTEGER        *LDB,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cpotrs");
+    LAPACK_IMPL(cpotrs)(UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- cppcon --------------------------------------------------------------------
+void
+LAPACK_DECL(cppcon)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *AP,
+                    const FLOAT          *ANORM,
+                    FLOAT                *RCOND,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cppcon");
+    LAPACK_IMPL(cppcon)(UPLO,
+                        N,
+                        AP,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cppequ --------------------------------------------------------------------
+void
+LAPACK_DECL(cppequ)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *AP,
+                    FLOAT                *S,
+                    FLOAT                *SCOND,
+                    FLOAT                *AMAX,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cppequ");
+    LAPACK_IMPL(cppequ)(UPLO,
+                        N,
+                        AP,
+                        S,
+                        SCOND,
+                        AMAX,
+                        INFO);
+}
+
+//-- cpprfs --------------------------------------------------------------------
+void
+LAPACK_DECL(cpprfs)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *AP,
+                    const FLOAT_COMPLEX  *AFP,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    FLOAT_COMPLEX        *X,
+                    const INTEGER        *LDX,
+                    FLOAT                *FERR,
+                    FLOAT                *BERR,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cpprfs");
+    LAPACK_IMPL(cpprfs)(UPLO,
+                        N,
+                        NRHS,
+                        AP,
+                        AFP,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cppsv ---------------------------------------------------------------------
+void
+LAPACK_DECL(cppsv)(const char           *UPLO,
+                   const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   FLOAT_COMPLEX        *AP,
+                   FLOAT_COMPLEX        *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cppsv");
+    LAPACK_IMPL(cppsv)(UPLO,
+                       N,
+                       NRHS,
+                       AP,
+                       B,
+                       LDB,
+                       INFO);
+}
+
+//-- cppsvx --------------------------------------------------------------------
+void
+LAPACK_DECL(cppsvx)(const char       *FACT,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    FLOAT_COMPLEX    *AP,
+                    FLOAT_COMPLEX    *AFP,
+                    char             *EQUED,
+                    FLOAT            *S,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    FLOAT_COMPLEX    *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *RCOND,
+                    FLOAT            *FERR,
+                    FLOAT            *BERR,
+                    FLOAT_COMPLEX    *WORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cppsvx");
+    LAPACK_IMPL(cppsvx)(FACT,
+                        UPLO,
+                        N,
+                        NRHS,
+                        AP,
+                        AFP,
+                        EQUED,
+                        S,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cpptrf --------------------------------------------------------------------
+void
+LAPACK_DECL(cpptrf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *AP,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cpptrf");
+    LAPACK_IMPL(cpptrf)(UPLO,
+                        N,
+                        AP,
+                        INFO);
+}
+
+//-- cpptri --------------------------------------------------------------------
+void
+LAPACK_DECL(cpptri)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *AP,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cpptri");
+    LAPACK_IMPL(cpptri)(UPLO,
+                        N,
+                        AP,
+                        INFO);
+}
+
+//-- cpptrs --------------------------------------------------------------------
+void
+LAPACK_DECL(cpptrs)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *AP,
+                    FLOAT_COMPLEX        *B,
+                    const INTEGER        *LDB,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cpptrs");
+    LAPACK_IMPL(cpptrs)(UPLO,
+                        N,
+                        NRHS,
+                        AP,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- cpstf2 --------------------------------------------------------------------
+void
+LAPACK_DECL(cpstf2)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *PIV,
+                    INTEGER          *RANK,
+                    const FLOAT      *TOL,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cpstf2");
+    LAPACK_IMPL(cpstf2)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        PIV,
+                        RANK,
+                        TOL,
+                        WORK,
+                        INFO);
+}
+
+//-- cpstrf --------------------------------------------------------------------
+void
+LAPACK_DECL(cpstrf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *PIV,
+                    INTEGER          *RANK,
+                    const FLOAT      *TOL,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cpstrf");
+    LAPACK_IMPL(cpstrf)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        PIV,
+                        RANK,
+                        TOL,
+                        WORK,
+                        INFO);
+}
+
+//-- cptcon --------------------------------------------------------------------
+void
+LAPACK_DECL(cptcon)(const INTEGER        *N,
+                    const FLOAT          *D,
+                    const FLOAT_COMPLEX  *E,
+                    const FLOAT          *ANORM,
+                    FLOAT                *RCOND,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cptcon");
+    LAPACK_IMPL(cptcon)(N,
+                        D,
+                        E,
+                        ANORM,
+                        RCOND,
+                        RWORK,
+                        INFO);
+}
+
+//-- cpteqr --------------------------------------------------------------------
+void
+LAPACK_DECL(cpteqr)(const char       *COMPZ,
+                    const INTEGER    *N,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cpteqr");
+    LAPACK_IMPL(cpteqr)(COMPZ,
+                        N,
+                        D,
+                        E,
+                        Z,
+                        LDZ,
+                        WORK,
+                        INFO);
+}
+
+//-- cptrfs --------------------------------------------------------------------
+void
+LAPACK_DECL(cptrfs)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT          *D,
+                    const FLOAT_COMPLEX  *E,
+                    const FLOAT          *DF,
+                    const FLOAT_COMPLEX  *EF,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    FLOAT_COMPLEX        *X,
+                    const INTEGER        *LDX,
+                    FLOAT                *FERR,
+                    FLOAT                *BERR,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cptrfs");
+    LAPACK_IMPL(cptrfs)(UPLO,
+                        N,
+                        NRHS,
+                        D,
+                        E,
+                        DF,
+                        EF,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cptsv ---------------------------------------------------------------------
+void
+LAPACK_DECL(cptsv)(const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   FLOAT                *D,
+                   FLOAT_COMPLEX        *E,
+                   FLOAT_COMPLEX        *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cptsv");
+    LAPACK_IMPL(cptsv)(N,
+                       NRHS,
+                       D,
+                       E,
+                       B,
+                       LDB,
+                       INFO);
+}
+
+//-- cptsvx --------------------------------------------------------------------
+void
+LAPACK_DECL(cptsvx)(const char           *FACT,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT          *D,
+                    const FLOAT_COMPLEX  *E,
+                    FLOAT                *DF,
+                    FLOAT_COMPLEX        *EF,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    FLOAT_COMPLEX        *X,
+                    const INTEGER        *LDX,
+                    FLOAT                *RCOND,
+                    FLOAT                *FERR,
+                    FLOAT                *BERR,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cptsvx");
+    LAPACK_IMPL(cptsvx)(FACT,
+                        N,
+                        NRHS,
+                        D,
+                        E,
+                        DF,
+                        EF,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cpttrf --------------------------------------------------------------------
+void
+LAPACK_DECL(cpttrf)(const INTEGER    *N,
+                    FLOAT            *D,
+                    FLOAT_COMPLEX    *E,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cpttrf");
+    LAPACK_IMPL(cpttrf)(N,
+                        D,
+                        E,
+                        INFO);
+}
+
+//-- cpttrs --------------------------------------------------------------------
+void
+LAPACK_DECL(cpttrs)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT          *D,
+                    const FLOAT_COMPLEX  *E,
+                    FLOAT_COMPLEX        *B,
+                    const INTEGER        *LDB,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cpttrs");
+    LAPACK_IMPL(cpttrs)(UPLO,
+                        N,
+                        NRHS,
+                        D,
+                        E,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- cptts2 --------------------------------------------------------------------
+void
+LAPACK_DECL(cptts2)(const INTEGER        *IUPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT          *D,
+                    const FLOAT_COMPLEX  *E,
+                    FLOAT_COMPLEX        *B,
+                    const INTEGER        *LDB)
+{
+    DEBUG_LAPACK_STUB("cptts2");
+    LAPACK_IMPL(cptts2)(IUPLO,
+                        N,
+                        NRHS,
+                        D,
+                        E,
+                        B,
+                        LDB);
+}
+
+//-- crot ----------------------------------------------------------------------
+void
+LAPACK_DECL(crot)(const INTEGER            *N,
+                  FLOAT_COMPLEX            *CX,
+                  const INTEGER            *INCX,
+                  FLOAT_COMPLEX            *CY,
+                  const INTEGER            *INCY,
+                  const FLOAT              *C,
+                  const FLOAT_COMPLEX      *S)
+{
+    DEBUG_LAPACK_STUB("crot");
+    LAPACK_IMPL(crot)(N,
+                      CX,
+                      INCX,
+                      CY,
+                      INCY,
+                      C,
+                      S);
+}
+
+//-- cspcon --------------------------------------------------------------------
+void
+LAPACK_DECL(cspcon)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *AP,
+                    const INTEGER        *IPIV,
+                    const FLOAT          *ANORM,
+                    FLOAT                *RCOND,
+                    FLOAT_COMPLEX        *WORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cspcon");
+    LAPACK_IMPL(cspcon)(UPLO,
+                        N,
+                        AP,
+                        IPIV,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        INFO);
+}
+
+//-- cspmv ---------------------------------------------------------------------
+void
+LAPACK_DECL(cspmv)(const char               *UPLO,
+                   const INTEGER            *N,
+                   const FLOAT_COMPLEX      *ALPHA,
+                   const FLOAT_COMPLEX      *AP,
+                   const FLOAT_COMPLEX      *X,
+                   const INTEGER            *INCX,
+                   const FLOAT_COMPLEX      *BETA,
+                   FLOAT_COMPLEX            *Y,
+                   const INTEGER            *INCY)
+{
+    DEBUG_LAPACK_STUB("cspmv");
+    LAPACK_IMPL(cspmv)(UPLO,
+                       N,
+                       ALPHA,
+                       AP,
+                       X,
+                       INCX,
+                       BETA,
+                       Y,
+                       INCY);
+}
+
+//-- cspr ----------------------------------------------------------------------
+void
+LAPACK_DECL(cspr)(const char               *UPLO,
+                  const INTEGER            *N,
+                  const FLOAT_COMPLEX      *ALPHA,
+                  const FLOAT_COMPLEX      *X,
+                  const INTEGER            *INCX,
+                  FLOAT_COMPLEX            *AP)
+{
+    DEBUG_LAPACK_STUB("cspr");
+    LAPACK_IMPL(cspr)(UPLO,
+                      N,
+                      ALPHA,
+                      X,
+                      INCX,
+                      AP);
+}
+
+//-- csprfs --------------------------------------------------------------------
+void
+LAPACK_DECL(csprfs)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *AP,
+                    const FLOAT_COMPLEX  *AFP,
+                    const INTEGER        *IPIV,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    FLOAT_COMPLEX        *X,
+                    const INTEGER        *LDX,
+                    FLOAT                *FERR,
+                    FLOAT                *BERR,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("csprfs");
+    LAPACK_IMPL(csprfs)(UPLO,
+                        N,
+                        NRHS,
+                        AP,
+                        AFP,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- cspsv ---------------------------------------------------------------------
+void
+LAPACK_DECL(cspsv)(const char           *UPLO,
+                   const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   FLOAT_COMPLEX        *AP,
+                   INTEGER              *IPIV,
+                   FLOAT_COMPLEX        *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cspsv");
+    LAPACK_IMPL(cspsv)(UPLO,
+                       N,
+                       NRHS,
+                       AP,
+                       IPIV,
+                       B,
+                       LDB,
+                       INFO);
+}
+
+//-- cspsvx --------------------------------------------------------------------
+void
+LAPACK_DECL(cspsvx)(const char           *FACT,
+                    const char           *UPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *AP,
+                    FLOAT_COMPLEX        *AFP,
+                    INTEGER              *IPIV,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    FLOAT_COMPLEX        *X,
+                    const INTEGER        *LDX,
+                    FLOAT                *RCOND,
+                    FLOAT                *FERR,
+                    FLOAT                *BERR,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cspsvx");
+    LAPACK_IMPL(cspsvx)(FACT,
+                        UPLO,
+                        N,
+                        NRHS,
+                        AP,
+                        AFP,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- csptrf --------------------------------------------------------------------
+void
+LAPACK_DECL(csptrf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *AP,
+                    INTEGER          *IPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("csptrf");
+    LAPACK_IMPL(csptrf)(UPLO,
+                        N,
+                        AP,
+                        IPIV,
+                        INFO);
+}
+
+//-- csptri --------------------------------------------------------------------
+void
+LAPACK_DECL(csptri)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *AP,
+                    const INTEGER    *IPIV,
+                    FLOAT_COMPLEX    *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("csptri");
+    LAPACK_IMPL(csptri)(UPLO,
+                        N,
+                        AP,
+                        IPIV,
+                        WORK,
+                        INFO);
+}
+
+//-- csptrs --------------------------------------------------------------------
+void
+LAPACK_DECL(csptrs)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *AP,
+                    const INTEGER        *IPIV,
+                    FLOAT_COMPLEX        *B,
+                    const INTEGER        *LDB,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("csptrs");
+    LAPACK_IMPL(csptrs)(UPLO,
+                        N,
+                        NRHS,
+                        AP,
+                        IPIV,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- csrscl --------------------------------------------------------------------
+void
+LAPACK_DECL(csrscl)(const INTEGER    *N,
+                    const FLOAT      *SA,
+                    FLOAT_COMPLEX    *SX,
+                    const INTEGER    *INCX)
+{
+    DEBUG_LAPACK_STUB("csrscl");
+    LAPACK_IMPL(csrscl)(N,
+                        SA,
+                        SX,
+                        INCX);
+}
+
+//-- cstedc --------------------------------------------------------------------
+void
+LAPACK_DECL(cstedc)(const char       *COMPZ,
+                    const INTEGER    *N,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    FLOAT            *RWORK,
+                    const INTEGER    *LRWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cstedc");
+    LAPACK_IMPL(cstedc)(COMPZ,
+                        N,
+                        D,
+                        E,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        LRWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- cstegr --------------------------------------------------------------------
+void
+LAPACK_DECL(cstegr)(const char       *JOBZ,
+                    const char       *RANGE,
+                    const INTEGER    *N,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    const FLOAT      *VL,
+                    const FLOAT      *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const FLOAT      *ABSTOL,
+                    INTEGER          *M,
+                    FLOAT            *W,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    INTEGER          *ISUPPZ,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cstegr");
+    LAPACK_IMPL(cstegr)(JOBZ,
+                        RANGE,
+                        N,
+                        D,
+                        E,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        ISUPPZ,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- cstein --------------------------------------------------------------------
+void
+LAPACK_DECL(cstein)(const INTEGER    *N,
+                    const FLOAT      *D,
+                    const FLOAT      *E,
+                    const INTEGER    *M,
+                    const FLOAT      *W,
+                    const INTEGER    *IBLOCK,
+                    const INTEGER    *ISPLIT,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *IFAIL,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cstein");
+    LAPACK_IMPL(cstein)(N,
+                        D,
+                        E,
+                        M,
+                        W,
+                        IBLOCK,
+                        ISPLIT,
+                        Z,
+                        LDZ,
+                        WORK,
+                        IWORK,
+                        IFAIL,
+                        INFO);
+}
+
+//-- cstemr --------------------------------------------------------------------
+void
+LAPACK_DECL(cstemr)(const char       *JOBZ,
+                    const char       *RANGE,
+                    const INTEGER    *N,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    const FLOAT      *VL,
+                    const FLOAT      *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    INTEGER          *M,
+                    FLOAT            *W,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    const INTEGER    *NZC,
+                    INTEGER          *ISUPPZ,
+                    LOGICAL          *TRYRAC,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cstemr");
+    LAPACK_IMPL(cstemr)(JOBZ,
+                        RANGE,
+                        N,
+                        D,
+                        E,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        NZC,
+                        ISUPPZ,
+                        TRYRAC,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- csteqr --------------------------------------------------------------------
+void
+LAPACK_DECL(csteqr)(const char       *COMPZ,
+                    const INTEGER    *N,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("csteqr");
+    LAPACK_IMPL(csteqr)(COMPZ,
+                        N,
+                        D,
+                        E,
+                        Z,
+                        LDZ,
+                        WORK,
+                        INFO);
+}
+
+//-- csycon --------------------------------------------------------------------
+void
+LAPACK_DECL(csycon)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const INTEGER        *IPIV,
+                    const FLOAT          *ANORM,
+                    FLOAT                *RCOND,
+                    FLOAT_COMPLEX        *WORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("csycon");
+    LAPACK_IMPL(csycon)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        IPIV,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        INFO);
+}
+
+//-- csyconv -------------------------------------------------------------------
+void
+LAPACK_DECL(csyconv)(const char               *UPLO,
+                     const char               *WAY,
+                     const INTEGER            *N,
+                     const FLOAT_COMPLEX      *A,
+                     const INTEGER            *LDA,
+                     const INTEGER            *IPIV,
+                     FLOAT_COMPLEX            *WORK,
+                     INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("csyconv");
+    LAPACK_IMPL(csyconv)(UPLO,
+                         WAY,
+                         N,
+                         A,
+                         LDA,
+                         IPIV,
+                         WORK,
+                         INFO);
+}
+
+//-- csyequb -------------------------------------------------------------------
+void
+LAPACK_DECL(csyequb)(const char               *UPLO,
+                     const INTEGER            *N,
+                     const FLOAT_COMPLEX      *A,
+                     const INTEGER            *LDA,
+                     FLOAT                    *S,
+                     FLOAT                    *SCOND,
+                     FLOAT                    *AMAX,
+                     FLOAT_COMPLEX            *WORK,
+                     INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("csyequb");
+    LAPACK_IMPL(csyequb)(UPLO,
+                         N,
+                         A,
+                         LDA,
+                         S,
+                         SCOND,
+                         AMAX,
+                         WORK,
+                         INFO);
+}
+
+//-- csymv ---------------------------------------------------------------------
+void
+LAPACK_DECL(csymv)(const char               *UPLO,
+                   const INTEGER            *N,
+                   const FLOAT_COMPLEX      *ALPHA,
+                   const FLOAT_COMPLEX      *A,
+                   const INTEGER            *LDA,
+                   const FLOAT_COMPLEX      *X,
+                   const INTEGER            *INCX,
+                   const FLOAT_COMPLEX      *BETA,
+                   FLOAT_COMPLEX            *Y,
+                   const INTEGER            *INCY)
+{
+    DEBUG_LAPACK_STUB("csymv");
+    LAPACK_IMPL(csymv)(UPLO,
+                       N,
+                       ALPHA,
+                       A,
+                       LDA,
+                       X,
+                       INCX,
+                       BETA,
+                       Y,
+                       INCY);
+}
+
+//-- csyr ----------------------------------------------------------------------
+void
+LAPACK_DECL(csyr)(const char               *UPLO,
+                  const INTEGER            *N,
+                  const FLOAT_COMPLEX      *ALPHA,
+                  const FLOAT_COMPLEX      *X,
+                  const INTEGER            *INCX,
+                  FLOAT_COMPLEX            *A,
+                  const INTEGER            *LDA)
+{
+    DEBUG_LAPACK_STUB("csyr");
+    LAPACK_IMPL(csyr)(UPLO,
+                      N,
+                      ALPHA,
+                      X,
+                      INCX,
+                      A,
+                      LDA);
+}
+
+//-- csyrfs --------------------------------------------------------------------
+void
+LAPACK_DECL(csyrfs)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *AF,
+                    const INTEGER        *LDAF,
+                    const INTEGER        *IPIV,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    FLOAT_COMPLEX        *X,
+                    const INTEGER        *LDX,
+                    FLOAT                *FERR,
+                    FLOAT                *BERR,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("csyrfs");
+    LAPACK_IMPL(csyrfs)(UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        AF,
+                        LDAF,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- csyrfsx -------------------------------------------------------------------
+void
+LAPACK_DECL(csyrfsx)(const char               *UPLO,
+                     const char               *EQUED,
+                     const INTEGER            *N,
+                     const INTEGER            *NRHS,
+                     const FLOAT_COMPLEX      *A,
+                     const INTEGER            *LDA,
+                     const FLOAT_COMPLEX      *AF,
+                     const INTEGER            *LDAF,
+                     const INTEGER            *IPIV,
+                     FLOAT                    *S,
+                     const FLOAT_COMPLEX      *B,
+                     const INTEGER            *LDB,
+                     FLOAT_COMPLEX            *X,
+                     const INTEGER            *LDX,
+                     FLOAT                    *RCOND,
+                     FLOAT                    *BERR,
+                     const INTEGER            *N_ERR_BNDS,
+                     FLOAT                    *ERR_BNDS_NORM,
+                     FLOAT                    *ERR_BNDS_COMP,
+                     const INTEGER            *NPARAMS,
+                     FLOAT                    *PARAMS,
+                     FLOAT_COMPLEX            *WORK,
+                     FLOAT                    *RWORK,
+                     INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("csyrfsx");
+    LAPACK_IMPL(csyrfsx)(UPLO,
+                         EQUED,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         IPIV,
+                         S,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         RWORK,
+                         INFO);
+}
+
+//-- csysv ---------------------------------------------------------------------
+void
+LAPACK_DECL(csysv)(const char           *UPLO,
+                   const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   FLOAT_COMPLEX        *A,
+                   const INTEGER        *LDA,
+                   INTEGER              *IPIV,
+                   FLOAT_COMPLEX        *B,
+                   const INTEGER        *LDB,
+                   FLOAT_COMPLEX        *WORK,
+                   const INTEGER        *LWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("csysv");
+    LAPACK_IMPL(csysv)(UPLO,
+                       N,
+                       NRHS,
+                       A,
+                       LDA,
+                       IPIV,
+                       B,
+                       LDB,
+                       WORK,
+                       LWORK,
+                       INFO);
+}
+
+//-- csysvx --------------------------------------------------------------------
+void
+LAPACK_DECL(csysvx)(const char           *FACT,
+                    const char           *UPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    FLOAT_COMPLEX        *AF,
+                    const INTEGER        *LDAF,
+                    INTEGER              *IPIV,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    FLOAT_COMPLEX        *X,
+                    const INTEGER        *LDX,
+                    FLOAT                *RCOND,
+                    FLOAT                *FERR,
+                    FLOAT                *BERR,
+                    FLOAT_COMPLEX        *WORK,
+                    const INTEGER        *LWORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("csysvx");
+    LAPACK_IMPL(csysvx)(FACT,
+                        UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        AF,
+                        LDAF,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- csysvxx -------------------------------------------------------------------
+void
+LAPACK_DECL(csysvxx)(const char       *FACT,
+                     const char       *UPLO,
+                     const INTEGER    *N,
+                     const INTEGER    *NRHS,
+                     FLOAT_COMPLEX    *A,
+                     const INTEGER    *LDA,
+                     FLOAT_COMPLEX    *AF,
+                     const INTEGER    *LDAF,
+                     INTEGER          *IPIV,
+                     char             *EQUED,
+                     FLOAT            *S,
+                     FLOAT_COMPLEX    *B,
+                     const INTEGER    *LDB,
+                     FLOAT_COMPLEX    *X,
+                     const INTEGER    *LDX,
+                     FLOAT            *RCOND,
+                     FLOAT            *RPVGRW,
+                     FLOAT            *BERR,
+                     const INTEGER    *N_ERR_BNDS,
+                     FLOAT            *ERR_BNDS_NORM,
+                     FLOAT            *ERR_BNDS_COMP,
+                     const INTEGER    *NPARAMS,
+                     FLOAT            *PARAMS,
+                     FLOAT_COMPLEX    *WORK,
+                     FLOAT            *RWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("csysvxx");
+    LAPACK_IMPL(csysvxx)(FACT,
+                         UPLO,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         IPIV,
+                         EQUED,
+                         S,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         RPVGRW,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         RWORK,
+                         INFO);
+}
+
+//-- csyswapr ------------------------------------------------------------------
+void
+LAPACK_DECL(csyswapr)(const char       *UPLO,
+                      const INTEGER    *N,
+                      FLOAT_COMPLEX    *A,
+                      const INTEGER    *LDA,
+                      const INTEGER    *I1,
+                      const INTEGER    *I2)
+{
+    DEBUG_LAPACK_STUB("csyswapr");
+    LAPACK_IMPL(csyswapr)(UPLO,
+                          N,
+                          A,
+                          LDA,
+                          I1,
+                          I2);
+}
+
+//-- csytf2 --------------------------------------------------------------------
+void
+LAPACK_DECL(csytf2)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *IPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("csytf2");
+    LAPACK_IMPL(csytf2)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        IPIV,
+                        INFO);
+}
+
+//-- csytrf --------------------------------------------------------------------
+void
+LAPACK_DECL(csytrf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *IPIV,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("csytrf");
+    LAPACK_IMPL(csytrf)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        IPIV,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- csytri --------------------------------------------------------------------
+void
+LAPACK_DECL(csytri)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    const INTEGER    *IPIV,
+                    FLOAT_COMPLEX    *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("csytri");
+    LAPACK_IMPL(csytri)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        IPIV,
+                        WORK,
+                        INFO);
+}
+
+//-- csytri2 -------------------------------------------------------------------
+void
+LAPACK_DECL(csytri2)(const char       *UPLO,
+                     const INTEGER    *N,
+                     FLOAT_COMPLEX    *A,
+                     const INTEGER    *LDA,
+                     const INTEGER    *IPIV,
+                     FLOAT_COMPLEX    *WORK,
+                     const INTEGER    *LWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("csytri2");
+    LAPACK_IMPL(csytri2)(UPLO,
+                         N,
+                         A,
+                         LDA,
+                         IPIV,
+                         WORK,
+                         LWORK,
+                         INFO);
+}
+
+//-- csytri2x ------------------------------------------------------------------
+void
+LAPACK_DECL(csytri2x)(const char       *UPLO,
+                      const INTEGER    *N,
+                      FLOAT_COMPLEX    *A,
+                      const INTEGER    *LDA,
+                      const INTEGER    *IPIV,
+                      FLOAT_COMPLEX    *WORK,
+                      const INTEGER    *NB,
+                      INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("csytri2x");
+    LAPACK_IMPL(csytri2x)(UPLO,
+                          N,
+                          A,
+                          LDA,
+                          IPIV,
+                          WORK,
+                          NB,
+                          INFO);
+}
+
+//-- csytrs --------------------------------------------------------------------
+void
+LAPACK_DECL(csytrs)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const INTEGER        *IPIV,
+                    FLOAT_COMPLEX        *B,
+                    const INTEGER        *LDB,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("csytrs");
+    LAPACK_IMPL(csytrs)(UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        IPIV,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- csytrs2 -------------------------------------------------------------------
+void
+LAPACK_DECL(csytrs2)(const char               *UPLO,
+                     const INTEGER            *N,
+                     const INTEGER            *NRHS,
+                     const FLOAT_COMPLEX      *A,
+                     const INTEGER            *LDA,
+                     const INTEGER            *IPIV,
+                     FLOAT_COMPLEX            *B,
+                     const INTEGER            *LDB,
+                     FLOAT_COMPLEX            *WORK,
+                     INTEGER                  *INFO)
+{
+    DEBUG_LAPACK_STUB("csytrs2");
+    LAPACK_IMPL(csytrs2)(UPLO,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         IPIV,
+                         B,
+                         LDB,
+                         WORK,
+                         INFO);
+}
+
+//-- ctbcon --------------------------------------------------------------------
+void
+LAPACK_DECL(ctbcon)(const char           *NORM,
+                    const char           *UPLO,
+                    const char           *DIAG,
+                    const INTEGER        *N,
+                    const INTEGER        *KD,
+                    const FLOAT_COMPLEX  *AB,
+                    const INTEGER        *LDAB,
+                    FLOAT                *RCOND,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("ctbcon");
+    LAPACK_IMPL(ctbcon)(NORM,
+                        UPLO,
+                        DIAG,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        RCOND,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- ctbrfs --------------------------------------------------------------------
+void
+LAPACK_DECL(ctbrfs)(const char           *UPLO,
+                    const char           *TRANS,
+                    const char           *DIAG,
+                    const INTEGER        *N,
+                    const INTEGER        *KD,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *AB,
+                    const INTEGER        *LDAB,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    const FLOAT_COMPLEX  *X,
+                    const INTEGER        *LDX,
+                    FLOAT                *FERR,
+                    FLOAT                *BERR,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("ctbrfs");
+    LAPACK_IMPL(ctbrfs)(UPLO,
+                        TRANS,
+                        DIAG,
+                        N,
+                        KD,
+                        NRHS,
+                        AB,
+                        LDAB,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- ctbtrs --------------------------------------------------------------------
+void
+LAPACK_DECL(ctbtrs)(const char           *UPLO,
+                    const char           *TRANS,
+                    const char           *DIAG,
+                    const INTEGER        *N,
+                    const INTEGER        *KD,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *AB,
+                    const INTEGER        *LDAB,
+                    FLOAT_COMPLEX        *B,
+                    const INTEGER        *LDB,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("ctbtrs");
+    LAPACK_IMPL(ctbtrs)(UPLO,
+                        TRANS,
+                        DIAG,
+                        N,
+                        KD,
+                        NRHS,
+                        AB,
+                        LDAB,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- ctfsm ---------------------------------------------------------------------
+void
+LAPACK_DECL(ctfsm)(const char               *TRANSR,
+                   const char               *SIDE,
+                   const char               *UPLO,
+                   const char               *TRANS,
+                   const char               *DIAG,
+                   const INTEGER            *M,
+                   const INTEGER            *N,
+                   const FLOAT_COMPLEX      *ALPHA,
+                   const FLOAT_COMPLEX      *A,
+                   FLOAT_COMPLEX            *B,
+                   const INTEGER            *LDB)
+{
+    DEBUG_LAPACK_STUB("ctfsm");
+    LAPACK_IMPL(ctfsm)(TRANSR,
+                       SIDE,
+                       UPLO,
+                       TRANS,
+                       DIAG,
+                       M,
+                       N,
+                       ALPHA,
+                       A,
+                       B,
+                       LDB);
+}
+
+//-- ctftri --------------------------------------------------------------------
+void
+LAPACK_DECL(ctftri)(const char       *TRANSR,
+                    const char       *UPLO,
+                    const char       *DIAG,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ctftri");
+    LAPACK_IMPL(ctftri)(TRANSR,
+                        UPLO,
+                        DIAG,
+                        N,
+                        A,
+                        INFO);
+}
+
+//-- ctfttp --------------------------------------------------------------------
+void
+LAPACK_DECL(ctfttp)(const char           *TRANSR,
+                    const char           *UPLO,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *ARF,
+                    FLOAT_COMPLEX        *AP,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("ctfttp");
+    LAPACK_IMPL(ctfttp)(TRANSR,
+                        UPLO,
+                        N,
+                        ARF,
+                        AP,
+                        INFO);
+}
+
+//-- ctfttr --------------------------------------------------------------------
+void
+LAPACK_DECL(ctfttr)(const char           *TRANSR,
+                    const char           *UPLO,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *ARF,
+                    FLOAT_COMPLEX        *A,
+                    const INTEGER        *LDA,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("ctfttr");
+    LAPACK_IMPL(ctfttr)(TRANSR,
+                        UPLO,
+                        N,
+                        ARF,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- ctgevc --------------------------------------------------------------------
+void
+LAPACK_DECL(ctgevc)(const char           *SIDE,
+                    const char           *HOWMNY,
+                    const LOGICAL        *SELECT,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *S,
+                    const INTEGER        *LDS,
+                    const FLOAT_COMPLEX  *P,
+                    const INTEGER        *LDP,
+                    FLOAT_COMPLEX        *VL,
+                    const INTEGER        *LDVL,
+                    FLOAT_COMPLEX        *VR,
+                    const INTEGER        *LDVR,
+                    const INTEGER        *MM,
+                    INTEGER              *M,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("ctgevc");
+    LAPACK_IMPL(ctgevc)(SIDE,
+                        HOWMNY,
+                        SELECT,
+                        N,
+                        S,
+                        LDS,
+                        P,
+                        LDP,
+                        VL,
+                        LDVL,
+                        VR,
+                        LDVR,
+                        MM,
+                        M,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- ctgex2 --------------------------------------------------------------------
+void
+LAPACK_DECL(ctgex2)(const LOGICAL    *WANTQ,
+                    const LOGICAL    *WANTZ,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    FLOAT_COMPLEX    *Q,
+                    const INTEGER    *LDQ,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    const INTEGER    *J1,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ctgex2");
+    LAPACK_IMPL(ctgex2)(WANTQ,
+                        WANTZ,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        Q,
+                        LDQ,
+                        Z,
+                        LDZ,
+                        J1,
+                        INFO);
+}
+
+//-- ctgexc --------------------------------------------------------------------
+void
+LAPACK_DECL(ctgexc)(const LOGICAL    *WANTQ,
+                    const LOGICAL    *WANTZ,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    FLOAT_COMPLEX    *Q,
+                    const INTEGER    *LDQ,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    const INTEGER    *IFST,
+                    INTEGER          *ILST,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ctgexc");
+    LAPACK_IMPL(ctgexc)(WANTQ,
+                        WANTZ,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        Q,
+                        LDQ,
+                        Z,
+                        LDZ,
+                        IFST,
+                        ILST,
+                        INFO);
+}
+
+//-- ctgsen --------------------------------------------------------------------
+void
+LAPACK_DECL(ctgsen)(const INTEGER    *IJOB,
+                    const LOGICAL    *WANTQ,
+                    const LOGICAL    *WANTZ,
+                    const LOGICAL    *SELECT,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    FLOAT_COMPLEX    *ALPHA,
+                    FLOAT_COMPLEX    *BETA,
+                    FLOAT_COMPLEX    *Q,
+                    const INTEGER    *LDQ,
+                    FLOAT_COMPLEX    *Z,
+                    const INTEGER    *LDZ,
+                    INTEGER          *M,
+                    FLOAT            *PL,
+                    FLOAT            *PR,
+                    FLOAT            *DIF,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ctgsen");
+    LAPACK_IMPL(ctgsen)(IJOB,
+                        WANTQ,
+                        WANTZ,
+                        SELECT,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        ALPHA,
+                        BETA,
+                        Q,
+                        LDQ,
+                        Z,
+                        LDZ,
+                        M,
+                        PL,
+                        PR,
+                        DIF,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- ctgsja --------------------------------------------------------------------
+void
+LAPACK_DECL(ctgsja)(const char       *JOBU,
+                    const char       *JOBV,
+                    const char       *JOBQ,
+                    const INTEGER    *M,
+                    const INTEGER    *P,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    const INTEGER    *L,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *B,
+                    const INTEGER    *LDB,
+                    const FLOAT      *TOLA,
+                    const FLOAT      *TOLB,
+                    FLOAT            *ALPHA,
+                    FLOAT            *BETA,
+                    FLOAT_COMPLEX    *U,
+                    const INTEGER    *LDU,
+                    FLOAT_COMPLEX    *V,
+                    const INTEGER    *LDV,
+                    FLOAT_COMPLEX    *Q,
+                    const INTEGER    *LDQ,
+                    FLOAT_COMPLEX    *WORK,
+                    INTEGER          *NCYCLE,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ctgsja");
+    LAPACK_IMPL(ctgsja)(JOBU,
+                        JOBV,
+                        JOBQ,
+                        M,
+                        P,
+                        N,
+                        K,
+                        L,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        TOLA,
+                        TOLB,
+                        ALPHA,
+                        BETA,
+                        U,
+                        LDU,
+                        V,
+                        LDV,
+                        Q,
+                        LDQ,
+                        WORK,
+                        NCYCLE,
+                        INFO);
+}
+
+//-- ctgsna --------------------------------------------------------------------
+void
+LAPACK_DECL(ctgsna)(const char           *JOB,
+                    const char           *HOWMNY,
+                    const LOGICAL        *SELECT,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    const FLOAT_COMPLEX  *VL,
+                    const INTEGER        *LDVL,
+                    const FLOAT_COMPLEX  *VR,
+                    const INTEGER        *LDVR,
+                    FLOAT                *S,
+                    FLOAT                *DIF,
+                    const INTEGER        *MM,
+                    INTEGER              *M,
+                    FLOAT_COMPLEX        *WORK,
+                    const INTEGER        *LWORK,
+                    INTEGER              *IWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("ctgsna");
+    LAPACK_IMPL(ctgsna)(JOB,
+                        HOWMNY,
+                        SELECT,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        VL,
+                        LDVL,
+                        VR,
+                        LDVR,
+                        S,
+                        DIF,
+                        MM,
+                        M,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- ctgsy2 --------------------------------------------------------------------
+void
+LAPACK_DECL(ctgsy2)(const char           *TRANS,
+                    const INTEGER        *IJOB,
+                    const INTEGER        *M,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    FLOAT_COMPLEX        *C,
+                    const INTEGER        *LDC,
+                    const FLOAT_COMPLEX  *D,
+                    const INTEGER        *LDD,
+                    const FLOAT_COMPLEX  *E,
+                    const INTEGER        *LDE,
+                    FLOAT_COMPLEX        *F,
+                    const INTEGER        *LDF,
+                    FLOAT                *SCALE,
+                    FLOAT                *RDSUM,
+                    FLOAT                *RDSCAL,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("ctgsy2");
+    LAPACK_IMPL(ctgsy2)(TRANS,
+                        IJOB,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        C,
+                        LDC,
+                        D,
+                        LDD,
+                        E,
+                        LDE,
+                        F,
+                        LDF,
+                        SCALE,
+                        RDSUM,
+                        RDSCAL,
+                        INFO);
+}
+
+//-- ctgsyl --------------------------------------------------------------------
+void
+LAPACK_DECL(ctgsyl)(const char           *TRANS,
+                    const INTEGER        *IJOB,
+                    const INTEGER        *M,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    FLOAT_COMPLEX        *C,
+                    const INTEGER        *LDC,
+                    const FLOAT_COMPLEX  *D,
+                    const INTEGER        *LDD,
+                    const FLOAT_COMPLEX  *E,
+                    const INTEGER        *LDE,
+                    FLOAT_COMPLEX        *F,
+                    const INTEGER        *LDF,
+                    FLOAT                *SCALE,
+                    FLOAT                *DIF,
+                    FLOAT_COMPLEX        *WORK,
+                    const INTEGER        *LWORK,
+                    INTEGER              *IWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("ctgsyl");
+    LAPACK_IMPL(ctgsyl)(TRANS,
+                        IJOB,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        C,
+                        LDC,
+                        D,
+                        LDD,
+                        E,
+                        LDE,
+                        F,
+                        LDF,
+                        SCALE,
+                        DIF,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- ctpcon --------------------------------------------------------------------
+void
+LAPACK_DECL(ctpcon)(const char           *NORM,
+                    const char           *UPLO,
+                    const char           *DIAG,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *AP,
+                    FLOAT                *RCOND,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("ctpcon");
+    LAPACK_IMPL(ctpcon)(NORM,
+                        UPLO,
+                        DIAG,
+                        N,
+                        AP,
+                        RCOND,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- ctprfs --------------------------------------------------------------------
+void
+LAPACK_DECL(ctprfs)(const char           *UPLO,
+                    const char           *TRANS,
+                    const char           *DIAG,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *AP,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    const FLOAT_COMPLEX  *X,
+                    const INTEGER        *LDX,
+                    FLOAT                *FERR,
+                    FLOAT                *BERR,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("ctprfs");
+    LAPACK_IMPL(ctprfs)(UPLO,
+                        TRANS,
+                        DIAG,
+                        N,
+                        NRHS,
+                        AP,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- ctptri --------------------------------------------------------------------
+void
+LAPACK_DECL(ctptri)(const char       *UPLO,
+                    const char       *DIAG,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *AP,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ctptri");
+    LAPACK_IMPL(ctptri)(UPLO,
+                        DIAG,
+                        N,
+                        AP,
+                        INFO);
+}
+
+//-- ctptrs --------------------------------------------------------------------
+void
+LAPACK_DECL(ctptrs)(const char           *UPLO,
+                    const char           *TRANS,
+                    const char           *DIAG,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *AP,
+                    FLOAT_COMPLEX        *B,
+                    const INTEGER        *LDB,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("ctptrs");
+    LAPACK_IMPL(ctptrs)(UPLO,
+                        TRANS,
+                        DIAG,
+                        N,
+                        NRHS,
+                        AP,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- ctpttf --------------------------------------------------------------------
+void
+LAPACK_DECL(ctpttf)(const char           *TRANSR,
+                    const char           *UPLO,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *AP,
+                    FLOAT_COMPLEX        *ARF,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("ctpttf");
+    LAPACK_IMPL(ctpttf)(TRANSR,
+                        UPLO,
+                        N,
+                        AP,
+                        ARF,
+                        INFO);
+}
+
+//-- ctpttr --------------------------------------------------------------------
+void
+LAPACK_DECL(ctpttr)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *AP,
+                    FLOAT_COMPLEX        *A,
+                    const INTEGER        *LDA,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("ctpttr");
+    LAPACK_IMPL(ctpttr)(UPLO,
+                        N,
+                        AP,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- ctrcon --------------------------------------------------------------------
+void
+LAPACK_DECL(ctrcon)(const char           *NORM,
+                    const char           *UPLO,
+                    const char           *DIAG,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    FLOAT                *RCOND,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("ctrcon");
+    LAPACK_IMPL(ctrcon)(NORM,
+                        UPLO,
+                        DIAG,
+                        N,
+                        A,
+                        LDA,
+                        RCOND,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- ctrevc --------------------------------------------------------------------
+void
+LAPACK_DECL(ctrevc)(const char       *SIDE,
+                    const char       *HOWMNY,
+                    const LOGICAL    *SELECT,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *T,
+                    const INTEGER    *LDT,
+                    FLOAT_COMPLEX    *VL,
+                    const INTEGER    *LDVL,
+                    FLOAT_COMPLEX    *VR,
+                    const INTEGER    *LDVR,
+                    const INTEGER    *MM,
+                    INTEGER          *M,
+                    FLOAT_COMPLEX    *WORK,
+                    FLOAT            *RWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ctrevc");
+    LAPACK_IMPL(ctrevc)(SIDE,
+                        HOWMNY,
+                        SELECT,
+                        N,
+                        T,
+                        LDT,
+                        VL,
+                        LDVL,
+                        VR,
+                        LDVR,
+                        MM,
+                        M,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- ctrexc --------------------------------------------------------------------
+void
+LAPACK_DECL(ctrexc)(const char       *COMPQ,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *T,
+                    const INTEGER    *LDT,
+                    FLOAT_COMPLEX    *Q,
+                    const INTEGER    *LDQ,
+                    const INTEGER    *IFST,
+                    const INTEGER    *ILST,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ctrexc");
+    LAPACK_IMPL(ctrexc)(COMPQ,
+                        N,
+                        T,
+                        LDT,
+                        Q,
+                        LDQ,
+                        IFST,
+                        ILST,
+                        INFO);
+}
+
+//-- ctrrfs --------------------------------------------------------------------
+void
+LAPACK_DECL(ctrrfs)(const char           *UPLO,
+                    const char           *TRANS,
+                    const char           *DIAG,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    const FLOAT_COMPLEX  *X,
+                    const INTEGER        *LDX,
+                    FLOAT                *FERR,
+                    FLOAT                *BERR,
+                    FLOAT_COMPLEX        *WORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("ctrrfs");
+    LAPACK_IMPL(ctrrfs)(UPLO,
+                        TRANS,
+                        DIAG,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- ctrsen --------------------------------------------------------------------
+void
+LAPACK_DECL(ctrsen)(const char       *JOB,
+                    const char       *COMPQ,
+                    const LOGICAL    *SELECT,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *T,
+                    const INTEGER    *LDT,
+                    FLOAT_COMPLEX    *Q,
+                    const INTEGER    *LDQ,
+                    FLOAT_COMPLEX    *W,
+                    INTEGER          *M,
+                    FLOAT            *S,
+                    FLOAT            *SEP,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ctrsen");
+    LAPACK_IMPL(ctrsen)(JOB,
+                        COMPQ,
+                        SELECT,
+                        N,
+                        T,
+                        LDT,
+                        Q,
+                        LDQ,
+                        W,
+                        M,
+                        S,
+                        SEP,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- ctrsna --------------------------------------------------------------------
+void
+LAPACK_DECL(ctrsna)(const char           *JOB,
+                    const char           *HOWMNY,
+                    const LOGICAL        *SELECT,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *T,
+                    const INTEGER        *LDT,
+                    const FLOAT_COMPLEX  *VL,
+                    const INTEGER        *LDVL,
+                    const FLOAT_COMPLEX  *VR,
+                    const INTEGER        *LDVR,
+                    FLOAT                *S,
+                    FLOAT                *SEP,
+                    const INTEGER        *MM,
+                    INTEGER              *M,
+                    FLOAT_COMPLEX        *WORK,
+                    const INTEGER        *LDWORK,
+                    FLOAT                *RWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("ctrsna");
+    LAPACK_IMPL(ctrsna)(JOB,
+                        HOWMNY,
+                        SELECT,
+                        N,
+                        T,
+                        LDT,
+                        VL,
+                        LDVL,
+                        VR,
+                        LDVR,
+                        S,
+                        SEP,
+                        MM,
+                        M,
+                        WORK,
+                        LDWORK,
+                        RWORK,
+                        INFO);
+}
+
+//-- ctrsyl --------------------------------------------------------------------
+void
+LAPACK_DECL(ctrsyl)(const char           *TRANA,
+                    const char           *TRANB,
+                    const INTEGER        *ISGN,
+                    const INTEGER        *M,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *B,
+                    const INTEGER        *LDB,
+                    FLOAT_COMPLEX        *C,
+                    const INTEGER        *LDC,
+                    FLOAT                *SCALE,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("ctrsyl");
+    LAPACK_IMPL(ctrsyl)(TRANA,
+                        TRANB,
+                        ISGN,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        C,
+                        LDC,
+                        SCALE,
+                        INFO);
+}
+
+//-- ctrti2 --------------------------------------------------------------------
+void
+LAPACK_DECL(ctrti2)(const char       *UPLO,
+                    const char       *DIAG,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ctrti2");
+    LAPACK_IMPL(ctrti2)(UPLO,
+                        DIAG,
+                        N,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- ctrtri --------------------------------------------------------------------
+void
+LAPACK_DECL(ctrtri)(const char       *UPLO,
+                    const char       *DIAG,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ctrtri");
+    LAPACK_IMPL(ctrtri)(UPLO,
+                        DIAG,
+                        N,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- ctrtrs --------------------------------------------------------------------
+void
+LAPACK_DECL(ctrtrs)(const char           *UPLO,
+                    const char           *TRANS,
+                    const char           *DIAG,
+                    const INTEGER        *N,
+                    const INTEGER        *NRHS,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    FLOAT_COMPLEX        *B,
+                    const INTEGER        *LDB,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("ctrtrs");
+    LAPACK_IMPL(ctrtrs)(UPLO,
+                        TRANS,
+                        DIAG,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- ctrttf --------------------------------------------------------------------
+void
+LAPACK_DECL(ctrttf)(const char           *TRANSR,
+                    const char           *UPLO,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    FLOAT_COMPLEX        *ARF,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("ctrttf");
+    LAPACK_IMPL(ctrttf)(TRANSR,
+                        UPLO,
+                        N,
+                        A,
+                        LDA,
+                        ARF,
+                        INFO);
+}
+
+//-- ctrttp --------------------------------------------------------------------
+void
+LAPACK_DECL(ctrttp)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    FLOAT_COMPLEX        *AP,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("ctrttp");
+    LAPACK_IMPL(ctrttp)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        AP,
+                        INFO);
+}
+
+//-- ctzrqf --------------------------------------------------------------------
+void
+LAPACK_DECL(ctzrqf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *TAU,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ctzrqf");
+    LAPACK_IMPL(ctzrqf)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        INFO);
+}
+
+//-- ctzrzf --------------------------------------------------------------------
+void
+LAPACK_DECL(ctzrzf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT_COMPLEX    *A,
+                    const INTEGER    *LDA,
+                    FLOAT_COMPLEX    *TAU,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ctzrzf");
+    LAPACK_IMPL(ctzrzf)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cunbdb --------------------------------------------------------------------
+void
+LAPACK_DECL(cunbdb)(const char       *TRANS,
+                    const char       *SIGNS,
+                    const INTEGER    *M,
+                    const INTEGER    *P,
+                    const INTEGER    *Q,
+                    FLOAT_COMPLEX    *X11,
+                    const INTEGER    *LDX11,
+                    FLOAT_COMPLEX    *X12,
+                    const INTEGER    *LDX12,
+                    FLOAT_COMPLEX    *X21,
+                    const INTEGER    *LDX21,
+                    FLOAT_COMPLEX    *X22,
+                    const INTEGER    *LDX22,
+                    FLOAT            *THETA,
+                    FLOAT            *PHI,
+                    FLOAT_COMPLEX    *TAUP1,
+                    FLOAT_COMPLEX    *TAUP2,
+                    FLOAT_COMPLEX    *TAUQ1,
+                    FLOAT_COMPLEX    *TAUQ2,
+                    FLOAT_COMPLEX    *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("cunbdb");
+    LAPACK_IMPL(cunbdb)(TRANS,
+                        SIGNS,
+                        M,
+                        P,
+                        Q,
+                        X11,
+                        LDX11,
+                        X12,
+                        LDX12,
+                        X21,
+                        LDX21,
+                        X22,
+                        LDX22,
+                        THETA,
+                        PHI,
+                        TAUP1,
+                        TAUP2,
+                        TAUQ1,
+                        TAUQ2,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cuncsd --------------------------------------------------------------------
+void
+LAPACK_DECL(cuncsd)(const char           *JOBU1,
+                    const char           *JOBU2,
+                    const char           *JOBV1T,
+                    const char           *JOBV2T,
+                    const char           *TRANS,
+                    const char           *SIGNS,
+                    const INTEGER        *M,
+                    const INTEGER        *P,
+                    const INTEGER        *Q,
+                    const FLOAT_COMPLEX  *X11,
+                    const INTEGER        *LDX11,
+                    const FLOAT_COMPLEX  *X12,
+                    const INTEGER        *LDX12,
+                    const FLOAT_COMPLEX  *X21,
+                    const INTEGER        *LDX21,
+                    const FLOAT_COMPLEX  *X22,
+                    const INTEGER        *LDX22,
+                    FLOAT                *THETA,
+                    FLOAT_COMPLEX        *U1,
+                    const INTEGER        *LDU1,
+                    FLOAT_COMPLEX        *U2,
+                    const INTEGER        *LDU2,
+                    FLOAT_COMPLEX        *V1T,
+                    const INTEGER        *LDV1T,
+                    FLOAT_COMPLEX        *V2T,
+                    const INTEGER        *LDV2T,
+                    FLOAT_COMPLEX        *WORK,
+                    const INTEGER        *LWORK,
+                    FLOAT                *RWORK,
+                    const INTEGER        *LRWORK,
+                    INTEGER              *IWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cuncsd");
+    LAPACK_IMPL(cuncsd)(JOBU1,
+                        JOBU2,
+                        JOBV1T,
+                        JOBV2T,
+                        TRANS,
+                        SIGNS,
+                        M,
+                        P,
+                        Q,
+                        X11,
+                        LDX11,
+                        X12,
+                        LDX12,
+                        X21,
+                        LDX21,
+                        X22,
+                        LDX22,
+                        THETA,
+                        U1,
+                        LDU1,
+                        U2,
+                        LDU2,
+                        V1T,
+                        LDV1T,
+                        V2T,
+                        LDV2T,
+                        WORK,
+                        LWORK,
+                        RWORK,
+                        LRWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- cung2l --------------------------------------------------------------------
+void
+LAPACK_DECL(cung2l)(const INTEGER        *M,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    FLOAT_COMPLEX        *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *WORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cung2l");
+    LAPACK_IMPL(cung2l)(M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- cung2r --------------------------------------------------------------------
+void
+LAPACK_DECL(cung2r)(const INTEGER        *M,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    FLOAT_COMPLEX        *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *WORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cung2r");
+    LAPACK_IMPL(cung2r)(M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- cungbr --------------------------------------------------------------------
+void
+LAPACK_DECL(cungbr)(const char           *VECT,
+                    const INTEGER        *M,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    FLOAT_COMPLEX        *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *WORK,
+                    const INTEGER        *LWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cungbr");
+    LAPACK_IMPL(cungbr)(VECT,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cunghr --------------------------------------------------------------------
+void
+LAPACK_DECL(cunghr)(const INTEGER        *N,
+                    const INTEGER        *ILO,
+                    const INTEGER        *IHI,
+                    FLOAT_COMPLEX        *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *WORK,
+                    const INTEGER        *LWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cunghr");
+    LAPACK_IMPL(cunghr)(N,
+                        ILO,
+                        IHI,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cungl2 --------------------------------------------------------------------
+void
+LAPACK_DECL(cungl2)(const INTEGER        *M,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    FLOAT_COMPLEX        *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *WORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cungl2");
+    LAPACK_IMPL(cungl2)(M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- cunglq --------------------------------------------------------------------
+void
+LAPACK_DECL(cunglq)(const INTEGER        *M,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    FLOAT_COMPLEX        *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *WORK,
+                    const INTEGER        *LWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cunglq");
+    LAPACK_IMPL(cunglq)(M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cungql --------------------------------------------------------------------
+void
+LAPACK_DECL(cungql)(const INTEGER        *M,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    FLOAT_COMPLEX        *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *WORK,
+                    const INTEGER        *LWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cungql");
+    LAPACK_IMPL(cungql)(M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cungqr --------------------------------------------------------------------
+void
+LAPACK_DECL(cungqr)(const INTEGER        *M,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    FLOAT_COMPLEX        *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *WORK,
+                    const INTEGER        *LWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cungqr");
+    LAPACK_IMPL(cungqr)(M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cungr2 --------------------------------------------------------------------
+void
+LAPACK_DECL(cungr2)(const INTEGER        *M,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    FLOAT_COMPLEX        *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *WORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cungr2");
+    LAPACK_IMPL(cungr2)(M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- cungrq --------------------------------------------------------------------
+void
+LAPACK_DECL(cungrq)(const INTEGER        *M,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    FLOAT_COMPLEX        *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *WORK,
+                    const INTEGER        *LWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cungrq");
+    LAPACK_IMPL(cungrq)(M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cungtr --------------------------------------------------------------------
+void
+LAPACK_DECL(cungtr)(const char           *UPLO,
+                    const INTEGER        *N,
+                    FLOAT_COMPLEX        *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *WORK,
+                    const INTEGER        *LWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cungtr");
+    LAPACK_IMPL(cungtr)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cunm2l --------------------------------------------------------------------
+void
+LAPACK_DECL(cunm2l)(const char           *SIDE,
+                    const char           *TRANS,
+                    const INTEGER        *M,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *C,
+                    const INTEGER        *LDC,
+                    FLOAT_COMPLEX        *WORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cunm2l");
+    LAPACK_IMPL(cunm2l)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        INFO);
+}
+
+//-- cunm2r --------------------------------------------------------------------
+void
+LAPACK_DECL(cunm2r)(const char           *SIDE,
+                    const char           *TRANS,
+                    const INTEGER        *M,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *C,
+                    const INTEGER        *LDC,
+                    FLOAT_COMPLEX        *WORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cunm2r");
+    LAPACK_IMPL(cunm2r)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        INFO);
+}
+
+//-- cunmbr --------------------------------------------------------------------
+void
+LAPACK_DECL(cunmbr)(const char           *VECT,
+                    const char           *SIDE,
+                    const char           *TRANS,
+                    const INTEGER        *M,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *C,
+                    const INTEGER        *LDC,
+                    FLOAT_COMPLEX        *WORK,
+                    const INTEGER        *LWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cunmbr");
+    LAPACK_IMPL(cunmbr)(VECT,
+                        SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cunmhr --------------------------------------------------------------------
+void
+LAPACK_DECL(cunmhr)(const char           *SIDE,
+                    const char           *TRANS,
+                    const INTEGER        *M,
+                    const INTEGER        *N,
+                    const INTEGER        *ILO,
+                    const INTEGER        *IHI,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *C,
+                    const INTEGER        *LDC,
+                    FLOAT_COMPLEX        *WORK,
+                    const INTEGER        *LWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cunmhr");
+    LAPACK_IMPL(cunmhr)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        ILO,
+                        IHI,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cunml2 --------------------------------------------------------------------
+void
+LAPACK_DECL(cunml2)(const char           *SIDE,
+                    const char           *TRANS,
+                    const INTEGER        *M,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *C,
+                    const INTEGER        *LDC,
+                    FLOAT_COMPLEX        *WORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cunml2");
+    LAPACK_IMPL(cunml2)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        INFO);
+}
+
+//-- cunmlq --------------------------------------------------------------------
+void
+LAPACK_DECL(cunmlq)(const char           *SIDE,
+                    const char           *TRANS,
+                    const INTEGER        *M,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *C,
+                    const INTEGER        *LDC,
+                    FLOAT_COMPLEX        *WORK,
+                    const INTEGER        *LWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cunmlq");
+    LAPACK_IMPL(cunmlq)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cunmql --------------------------------------------------------------------
+void
+LAPACK_DECL(cunmql)(const char           *SIDE,
+                    const char           *TRANS,
+                    const INTEGER        *M,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *C,
+                    const INTEGER        *LDC,
+                    FLOAT_COMPLEX        *WORK,
+                    const INTEGER        *LWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cunmql");
+    LAPACK_IMPL(cunmql)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cunmqr --------------------------------------------------------------------
+void
+LAPACK_DECL(cunmqr)(const char           *SIDE,
+                    const char           *TRANS,
+                    const INTEGER        *M,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *C,
+                    const INTEGER        *LDC,
+                    FLOAT_COMPLEX        *WORK,
+                    const INTEGER        *LWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cunmqr");
+    LAPACK_IMPL(cunmqr)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cunmr2 --------------------------------------------------------------------
+void
+LAPACK_DECL(cunmr2)(const char           *SIDE,
+                    const char           *TRANS,
+                    const INTEGER        *M,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *C,
+                    const INTEGER        *LDC,
+                    FLOAT_COMPLEX        *WORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cunmr2");
+    LAPACK_IMPL(cunmr2)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        INFO);
+}
+
+//-- cunmr3 --------------------------------------------------------------------
+void
+LAPACK_DECL(cunmr3)(const char           *SIDE,
+                    const char           *TRANS,
+                    const INTEGER        *M,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    const INTEGER        *L,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *C,
+                    const INTEGER        *LDC,
+                    FLOAT_COMPLEX        *WORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cunmr3");
+    LAPACK_IMPL(cunmr3)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        L,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        INFO);
+}
+
+//-- cunmrq --------------------------------------------------------------------
+void
+LAPACK_DECL(cunmrq)(const char           *SIDE,
+                    const char           *TRANS,
+                    const INTEGER        *M,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *C,
+                    const INTEGER        *LDC,
+                    FLOAT_COMPLEX        *WORK,
+                    const INTEGER        *LWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cunmrq");
+    LAPACK_IMPL(cunmrq)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cunmrz --------------------------------------------------------------------
+void
+LAPACK_DECL(cunmrz)(const char           *SIDE,
+                    const char           *TRANS,
+                    const INTEGER        *M,
+                    const INTEGER        *N,
+                    const INTEGER        *K,
+                    const INTEGER        *L,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *C,
+                    const INTEGER        *LDC,
+                    FLOAT_COMPLEX        *WORK,
+                    const INTEGER        *LWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cunmrz");
+    LAPACK_IMPL(cunmrz)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        L,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cunmtr --------------------------------------------------------------------
+void
+LAPACK_DECL(cunmtr)(const char           *SIDE,
+                    const char           *UPLO,
+                    const char           *TRANS,
+                    const INTEGER        *M,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *C,
+                    const INTEGER        *LDC,
+                    FLOAT_COMPLEX        *WORK,
+                    const INTEGER        *LWORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cunmtr");
+    LAPACK_IMPL(cunmtr)(SIDE,
+                        UPLO,
+                        TRANS,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- cupgtr --------------------------------------------------------------------
+void
+LAPACK_DECL(cupgtr)(const char           *UPLO,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *AP,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *Q,
+                    const INTEGER        *LDQ,
+                    FLOAT_COMPLEX        *WORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cupgtr");
+    LAPACK_IMPL(cupgtr)(UPLO,
+                        N,
+                        AP,
+                        TAU,
+                        Q,
+                        LDQ,
+                        WORK,
+                        INFO);
+}
+
+//-- cupmtr --------------------------------------------------------------------
+void
+LAPACK_DECL(cupmtr)(const char           *SIDE,
+                    const char           *UPLO,
+                    const char           *TRANS,
+                    const INTEGER        *M,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *AP,
+                    const FLOAT_COMPLEX  *TAU,
+                    FLOAT_COMPLEX        *C,
+                    const INTEGER        *LDC,
+                    FLOAT_COMPLEX        *WORK,
+                    INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("cupmtr");
+    LAPACK_IMPL(cupmtr)(SIDE,
+                        UPLO,
+                        TRANS,
+                        M,
+                        N,
+                        AP,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        INFO);
+}
 
 //-- dbbcsd --------------------------------------------------------------------
 void
@@ -328,6 +11853,66 @@ LAPACK_DECL(dgbrfs)(const char       *TRANS,
                         INFO);
 }
 
+//-- dgbrfsx -------------------------------------------------------------------
+void
+LAPACK_DECL(dgbrfsx)(const char       *TRANS,
+                     const char       *EQUED,
+                     const INTEGER    *N,
+                     const INTEGER    *KL,
+                     const INTEGER    *KU,
+                     const INTEGER    *NRHS,
+                     const DOUBLE     *AB,
+                     const INTEGER    *LDAB,
+                     const DOUBLE     *AFB,
+                     const INTEGER    *LDAFB,
+                     const INTEGER    *IPIV,
+                     DOUBLE           *R,
+                     DOUBLE           *C,
+                     const DOUBLE     *B,
+                     const INTEGER    *LDB,
+                     DOUBLE           *X,
+                     const INTEGER    *LDX,
+                     DOUBLE           *RCOND,
+                     DOUBLE           *BERR,
+                     const INTEGER    *N_ERR_BNDS,
+                     DOUBLE           *ERR_BNDS_NORM,
+                     DOUBLE           *ERR_BNDS_COMP,
+                     const INTEGER    *NPARAMS,
+                     DOUBLE           *PARAMS,
+                     DOUBLE           *WORK,
+                     INTEGER          *IWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("dgbrfsx");
+    LAPACK_IMPL(dgbrfsx)(TRANS,
+                         EQUED,
+                         N,
+                         KL,
+                         KU,
+                         NRHS,
+                         AB,
+                         LDAB,
+                         AFB,
+                         LDAFB,
+                         IPIV,
+                         R,
+                         C,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         IWORK,
+                         INFO);
+}
+
 //-- dgbsv ---------------------------------------------------------------------
 void
 LAPACK_DECL(dgbsv)(const INTEGER        *N,
@@ -406,6 +11991,70 @@ LAPACK_DECL(dgbsvx)(const char       *FACT,
                         WORK,
                         IWORK,
                         INFO);
+}
+
+//-- dgbsvxx -------------------------------------------------------------------
+void
+LAPACK_DECL(dgbsvxx)(const char       *FACT,
+                     const char       *TRANS,
+                     const INTEGER    *N,
+                     const INTEGER    *KL,
+                     const INTEGER    *KU,
+                     const INTEGER    *NRHS,
+                     DOUBLE           *AB,
+                     const INTEGER    *LDAB,
+                     DOUBLE           *AFB,
+                     const INTEGER    *LDAFB,
+                     INTEGER          *IPIV,
+                     char             *EQUED,
+                     DOUBLE           *R,
+                     DOUBLE           *C,
+                     DOUBLE           *B,
+                     const INTEGER    *LDB,
+                     DOUBLE           *X,
+                     const INTEGER    *LDX,
+                     DOUBLE           *RCOND,
+                     DOUBLE           *RPVGRW,
+                     DOUBLE           *BERR,
+                     const INTEGER    *N_ERR_BNDS,
+                     DOUBLE           *ERR_BNDS_NORM,
+                     DOUBLE           *ERR_BNDS_COMP,
+                     const INTEGER    *NPARAMS,
+                     DOUBLE           *PARAMS,
+                     DOUBLE           *WORK,
+                     INTEGER          *IWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("dgbsvxx");
+    LAPACK_IMPL(dgbsvxx)(FACT,
+                         TRANS,
+                         N,
+                         KL,
+                         KU,
+                         NRHS,
+                         AB,
+                         LDAB,
+                         AFB,
+                         LDAFB,
+                         IPIV,
+                         EQUED,
+                         R,
+                         C,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         RPVGRW,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         IWORK,
+                         INFO);
 }
 
 //-- dgbtf2 --------------------------------------------------------------------
@@ -605,6 +12254,7 @@ LAPACK_DECL(dgecon)(const char       *NORM,
                         IWORK,
                         INFO);
 }
+
 //-- dgeequ --------------------------------------------------------------------
 void
 LAPACK_DECL(dgeequ)(const INTEGER    *M,
@@ -630,6 +12280,7 @@ LAPACK_DECL(dgeequ)(const INTEGER    *M,
                         AMAX,
                         INFO);
 }
+
 //-- dgeequb -------------------------------------------------------------------
 void
 LAPACK_DECL(dgeequb)(const INTEGER    *M,
@@ -691,6 +12342,7 @@ LAPACK_DECL(dgees)(const char           *JOBVS,
                        BWORK,
                        INFO);
 }
+
 //-- dgeesx --------------------------------------------------------------------
 void
 LAPACK_DECL(dgeesx)(const char       *JOBVS,
@@ -736,6 +12388,7 @@ LAPACK_DECL(dgeesx)(const char       *JOBVS,
                         BWORK,
                         INFO);
 }
+
 //-- dgeev ---------------------------------------------------------------------
 void
 LAPACK_DECL(dgeev)(const char           *JOBVL,
@@ -769,6 +12422,7 @@ LAPACK_DECL(dgeev)(const char           *JOBVL,
                        LWORK,
                        INFO);
 }
+
 //-- dgeevx --------------------------------------------------------------------
 void
 LAPACK_DECL(dgeevx)(const char       *BALANC,
@@ -820,6 +12474,7 @@ LAPACK_DECL(dgeevx)(const char       *BALANC,
                         IWORK,
                         INFO);
 }
+
 //-- dgegs ---------------------------------------------------------------------
 void
 LAPACK_DECL(dgegs)(const char           *JOBVSL,
@@ -989,6 +12644,7 @@ LAPACK_DECL(dgejsv)(const char       *JOBA,
                         IWORK,
                         INFO);
 }
+
 //-- dgelq2 --------------------------------------------------------------------
 void
 LAPACK_DECL(dgelq2)(const INTEGER    *M,
@@ -1030,6 +12686,7 @@ LAPACK_DECL(dgelqf)(const INTEGER    *M,
                         LWORK,
                         INFO);
 }
+
 //-- dgels ---------------------------------------------------------------------
 void
 LAPACK_DECL(dgels)(const char           *TRANS,
@@ -1057,6 +12714,7 @@ LAPACK_DECL(dgels)(const char           *TRANS,
                        LWORK,
                        INFO);
 }
+
 //-- dgelsd --------------------------------------------------------------------
 void
 LAPACK_DECL(dgelsd)(const INTEGER    *M,
@@ -1334,6 +12992,7 @@ LAPACK_DECL(dgeqrf)(const INTEGER    *M,
                         LWORK,
                         INFO);
 }
+
 //-- dgeqrfp -------------------------------------------------------------------
 void
 LAPACK_DECL(dgeqrfp)(const INTEGER    *M,
@@ -1395,6 +13054,63 @@ LAPACK_DECL(dgerfs)(const char       *TRANS,
                         IWORK,
                         INFO);
 }
+
+//-- dgerfsx -------------------------------------------------------------------
+void
+LAPACK_DECL(dgerfsx)(const char       *TRANS,
+                     const char       *EQUED,
+                     const INTEGER    *N,
+                     const INTEGER    *NRHS,
+                     const DOUBLE     *A,
+                     const INTEGER    *LDA,
+                     const DOUBLE     *AF,
+                     const INTEGER    *LDAF,
+                     const INTEGER    *IPIV,
+                     const DOUBLE     *R,
+                     const DOUBLE     *C,
+                     const DOUBLE     *B,
+                     const INTEGER    *LDB,
+                     DOUBLE           *X,
+                     const INTEGER    *LDX,
+                     DOUBLE           *RCOND,
+                     DOUBLE           *BERR,
+                     const INTEGER    *N_ERR_BNDS,
+                     DOUBLE           *ERR_BNDS_NORM,
+                     DOUBLE           *ERR_BNDS_COMP,
+                     const INTEGER    *NPARAMS,
+                     DOUBLE           *PARAMS,
+                     DOUBLE           *WORK,
+                     INTEGER          *IWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("dgerfsx");
+    LAPACK_IMPL(dgerfsx)(TRANS,
+                         EQUED,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         IPIV,
+                         R,
+                         C,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         IWORK,
+                         INFO);
+}
+
 //-- dgerq2 --------------------------------------------------------------------
 void
 LAPACK_DECL(dgerq2)(const INTEGER    *M,
@@ -1512,6 +13228,7 @@ LAPACK_DECL(dgesv)(const INTEGER        *N,
                        LDB,
                        INFO);
 }
+
 //-- dgesvd --------------------------------------------------------------------
 void
 LAPACK_DECL(dgesvd)(const char       *JOBU,
@@ -1579,6 +13296,7 @@ LAPACK_DECL(dgesvj)(const char       *JOBA,
                         LWORK,
                         INFO);
 }
+
 //-- dgesvx --------------------------------------------------------------------
 void
 LAPACK_DECL(dgesvx)(const char       *FACT,
@@ -1628,6 +13346,67 @@ LAPACK_DECL(dgesvx)(const char       *FACT,
                         IWORK,
                         INFO);
 }
+
+//-- dgesvxx -------------------------------------------------------------------
+void
+LAPACK_DECL(dgesvxx)(const char       *FACT,
+                     const char       *TRANS,
+                     const INTEGER    *N,
+                     const INTEGER    *NRHS,
+                     DOUBLE           *A,
+                     const INTEGER    *LDA,
+                     DOUBLE           *AF,
+                     const INTEGER    *LDAF,
+                     INTEGER          *IPIV,
+                     char             *EQUED,
+                     DOUBLE           *R,
+                     DOUBLE           *C,
+                     DOUBLE           *B,
+                     const INTEGER    *LDB,
+                     DOUBLE           *X,
+                     const INTEGER    *LDX,
+                     DOUBLE           *RCOND,
+                     DOUBLE           *RPVGRW,
+                     DOUBLE           *BERR,
+                     const INTEGER    *N_ERR_BNDS,
+                     DOUBLE           *ERR_BNDS_NORM,
+                     DOUBLE           *ERR_BNDS_COMP,
+                     const INTEGER    *NPARAMS,
+                     DOUBLE           *PARAMS,
+                     DOUBLE           *WORK,
+                     INTEGER          *IWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("dgesvxx");
+    LAPACK_IMPL(dgesvxx)(FACT,
+                         TRANS,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         IPIV,
+                         EQUED,
+                         R,
+                         C,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         RPVGRW,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         IWORK,
+                         INFO);
+}
+
 //-- dgetc2 --------------------------------------------------------------------
 void
 LAPACK_DECL(dgetc2)(const INTEGER    *N,
@@ -1681,6 +13460,7 @@ LAPACK_DECL(dgetrf)(const INTEGER    *M,
                         IPIV,
                         INFO);
 }
+
 //-- dgetri --------------------------------------------------------------------
 void
 LAPACK_DECL(dgetri)(const INTEGER    *N,
@@ -1700,6 +13480,7 @@ LAPACK_DECL(dgetri)(const INTEGER    *N,
                         LWORK,
                         INFO);
 }
+
 //-- dgetrs --------------------------------------------------------------------
 void
 LAPACK_DECL(dgetrs)(const char       *TRANS,
@@ -1723,6 +13504,7 @@ LAPACK_DECL(dgetrs)(const char       *TRANS,
                         LDB,
                         INFO);
 }
+
 //-- dggbak --------------------------------------------------------------------
 void
 LAPACK_DECL(dggbak)(const char       *JOB,
@@ -2757,6 +14539,77 @@ LAPACK_DECL(dla_gbrcond)(const char       *TRANS,
                                     IWORK);
 }
 
+//-- dla_gbrfsx_extended -------------------------------------------------------
+void
+LAPACK_DECL(dla_gbrfsx_extended)(const INTEGER    *PREC_TYPE,
+                                 const INTEGER    *TRANS_TYPE,
+                                 const INTEGER    *N,
+                                 const INTEGER    *KL,
+                                 const INTEGER    *KU,
+                                 const INTEGER    *NRHS,
+                                 const DOUBLE     *AB,
+                                 const INTEGER    *LDAB,
+                                 const DOUBLE     *AFB,
+                                 const INTEGER    *LDAFB,
+                                 const INTEGER    *IPIV,
+                                 const LOGICAL    *COLEQU,
+                                 const DOUBLE     *C,
+                                 const DOUBLE     *B,
+                                 const INTEGER    *LDB,
+                                 DOUBLE           *Y,
+                                 const INTEGER    *LDY,
+                                 DOUBLE           *BERR_OUT,
+                                 const INTEGER    *N_NORMS,
+                                 DOUBLE           *ERR_BNDS_NORM,
+                                 DOUBLE           *ERR_BNDS_COMP,
+                                 const DOUBLE     *RES,
+                                 const DOUBLE     *AYB,
+                                 const DOUBLE     *DY,
+                                 const DOUBLE     *Y_TAIL,
+                                 const DOUBLE     *RCOND,
+                                 const INTEGER    *ITHRESH,
+                                 const DOUBLE     *RTHRESH,
+                                 const DOUBLE     *DZ_UB,
+                                 const LOGICAL    *IGNORE_CWISE,
+                                 INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("dla_gbrfsx_extended");
+    ASSERT(0);
+    /*
+    LAPACK_IMPL(dla_gbrfsx_extended)(PREC_TYPE,
+                                     TRANS_TYPE,
+                                     N,
+                                     KL,
+                                     KU,
+                                     NRHS,
+                                     AB,
+                                     LDAB,
+                                     AFB,
+                                     LDAFB,
+                                     IPIV,
+                                     COLEQU,
+                                     C,
+                                     B,
+                                     LDB,
+                                     Y,
+                                     LDY,
+                                     BERR_OUT,
+                                     N_NORMS,
+                                     ERR_BNDS_NORM,
+                                     ERR_BNDS_COMP,
+                                     RES,
+                                     AYB,
+                                     DY,
+                                     Y_TAIL,
+                                     RCOND,
+                                     ITHRESH,
+                                     RTHRESH,
+                                     DZ_UB,
+                                     IGNORE_CWISE,
+                                     INFO);
+    */
+}
+
 //-- dla_gbrpvgrw --------------------------------------------------------------
 DOUBLE
 LAPACK_DECL(dla_gbrpvgrw)(const INTEGER    *N,
@@ -2837,6 +14690,73 @@ LAPACK_DECL(dla_gercond)(const char       *TRANS,
                                     IWORK);
 }
 
+//-- dla_gerfsx_extended -------------------------------------------------------
+void
+LAPACK_DECL(dla_gerfsx_extended)(const INTEGER    *PREC_TYPE,
+                                 const INTEGER    *TRANS_TYPE,
+                                 const INTEGER    *N,
+                                 const INTEGER    *NRHS,
+                                 const DOUBLE     *A,
+                                 const INTEGER    *LDA,
+                                 const DOUBLE     *AF,
+                                 const INTEGER    *LDAF,
+                                 const INTEGER    *IPIV,
+                                 const LOGICAL    *COLEQU,
+                                 const DOUBLE     *C,
+                                 const DOUBLE     *B,
+                                 const INTEGER    *LDB,
+                                 DOUBLE           *Y,
+                                 const INTEGER    *LDY,
+                                 DOUBLE           *BERR_OUT,
+                                 const INTEGER    *N_NORMS,
+                                 const DOUBLE     *ERRS_N,
+                                 const DOUBLE     *ERRS_C,
+                                 const DOUBLE     *RES,
+                                 const DOUBLE     *AYB,
+                                 const DOUBLE     *DY,
+                                 const DOUBLE     *Y_TAIL,
+                                 const DOUBLE     *RCOND,
+                                 const INTEGER    *ITHRESH,
+                                 const DOUBLE     *RTHRESH,
+                                 const DOUBLE     *DZ_UB,
+                                 const LOGICAL    *IGNORE_CWISE,
+                                 INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("dla_gerfsx_extended");
+    ASSERT(0);
+    /*
+    LAPACK_IMPL(dla_gerfsx_extended)(PREC_TYPE,
+                                     TRANS_TYPE,
+                                     N,
+                                     NRHS,
+                                     A,
+                                     LDA,
+                                     AF,
+                                     LDAF,
+                                     IPIV,
+                                     COLEQU,
+                                     C,
+                                     B,
+                                     LDB,
+                                     Y,
+                                     LDY,
+                                     BERR_OUT,
+                                     N_NORMS,
+                                     ERRS_N,
+                                     ERRS_C,
+                                     RES,
+                                     AYB,
+                                     DY,
+                                     Y_TAIL,
+                                     RCOND,
+                                     ITHRESH,
+                                     RTHRESH,
+                                     DZ_UB,
+                                     IGNORE_CWISE,
+                                     INFO);
+    */
+}
+
 //-- dla_lin_berr --------------------------------------------------------------
 void
 LAPACK_DECL(dla_lin_berr)(const INTEGER    *N,
@@ -2881,6 +14801,71 @@ LAPACK_DECL(dla_porcond)(const char       *UPLO,
                                     INFO,
                                     WORK,
                                     IWORK);
+}
+
+//-- dla_porfsx_extended -------------------------------------------------------
+void
+LAPACK_DECL(dla_porfsx_extended)(const INTEGER    *PREC_TYPE,
+                                 const char       *UPLO,
+                                 const INTEGER    *N,
+                                 const INTEGER    *NRHS,
+                                 const DOUBLE     *A,
+                                 const INTEGER    *LDA,
+                                 const DOUBLE     *AF,
+                                 const INTEGER    *LDAF,
+                                 const LOGICAL    *COLEQU,
+                                 const DOUBLE     *C,
+                                 const DOUBLE     *B,
+                                 const INTEGER    *LDB,
+                                 DOUBLE           *Y,
+                                 const INTEGER    *LDY,
+                                 DOUBLE           *BERR_OUT,
+                                 const INTEGER    *N_NORMS,
+                                 DOUBLE           *ERR_BNDS_NORM,
+                                 DOUBLE           *ERR_BNDS_COMP,
+                                 const DOUBLE     *RES,
+                                 const DOUBLE     *AYB,
+                                 const DOUBLE     *DY,
+                                 const DOUBLE     *Y_TAIL,
+                                 const DOUBLE     *RCOND,
+                                 const INTEGER    *ITHRESH,
+                                 const DOUBLE     *RTHRESH,
+                                 const DOUBLE     *DZ_UB,
+                                 const LOGICAL    *IGNORE_CWISE,
+                                 INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("dla_porfsx_extended");
+    ASSERT(0);
+    /*
+    LAPACK_IMPL(dla_porfsx_extended)(PREC_TYPE,
+                                     UPLO,
+                                     N,
+                                     NRHS,
+                                     A,
+                                     LDA,
+                                     AF,
+                                     LDAF,
+                                     COLEQU,
+                                     C,
+                                     B,
+                                     LDB,
+                                     Y,
+                                     LDY,
+                                     BERR_OUT,
+                                     N_NORMS,
+                                     ERR_BNDS_NORM,
+                                     ERR_BNDS_COMP,
+                                     RES,
+                                     AYB,
+                                     DY,
+                                     Y_TAIL,
+                                     RCOND,
+                                     ITHRESH,
+                                     RTHRESH,
+                                     DZ_UB,
+                                     IGNORE_CWISE,
+                                     INFO);
+    */
 }
 
 //-- dla_porpvgrw --------------------------------------------------------------
@@ -2975,6 +14960,73 @@ LAPACK_DECL(dla_syrcond)(const char       *UPLO,
                                     INFO,
                                     WORK,
                                     IWORK);
+}
+
+//-- dla_syrfsx_extended -------------------------------------------------------
+void
+LAPACK_DECL(dla_syrfsx_extended)(const INTEGER    *PREC_TYPE,
+                                 const char       *UPLO,
+                                 const INTEGER    *N,
+                                 const INTEGER    *NRHS,
+                                 const DOUBLE     *A,
+                                 const INTEGER    *LDA,
+                                 const DOUBLE     *AF,
+                                 const INTEGER    *LDAF,
+                                 const INTEGER    *IPIV,
+                                 const LOGICAL    *COLEQU,
+                                 const DOUBLE     *C,
+                                 const DOUBLE     *B,
+                                 const INTEGER    *LDB,
+                                 DOUBLE           *Y,
+                                 const INTEGER    *LDY,
+                                 DOUBLE           *BERR_OUT,
+                                 const INTEGER    *N_NORMS,
+                                 DOUBLE           *ERR_BNDS_NORM,
+                                 DOUBLE           *ERR_BNDS_COMP,
+                                 const DOUBLE     *RES,
+                                 const DOUBLE     *AYB,
+                                 const DOUBLE     *DY,
+                                 const DOUBLE     *Y_TAIL,
+                                 const DOUBLE     *RCOND,
+                                 const INTEGER    *ITHRESH,
+                                 const DOUBLE     *RTHRESH,
+                                 const DOUBLE     *DZ_UB,
+                                 const LOGICAL    *IGNORE_CWISE,
+                                 INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("dla_syrfsx_extended");
+    ASSERT(0);
+    /*
+    LAPACK_IMPL(dla_syrfsx_extended)(PREC_TYPE,
+                                     UPLO,
+                                     N,
+                                     NRHS,
+                                     A,
+                                     LDA,
+                                     AF,
+                                     LDAF,
+                                     IPIV,
+                                     COLEQU,
+                                     C,
+                                     B,
+                                     LDB,
+                                     Y,
+                                     LDY,
+                                     BERR_OUT,
+                                     N_NORMS,
+                                     ERR_BNDS_NORM,
+                                     ERR_BNDS_COMP,
+                                     RES,
+                                     AYB,
+                                     DY,
+                                     Y_TAIL,
+                                     RCOND,
+                                     ITHRESH,
+                                     RTHRESH,
+                                     DZ_UB,
+                                     IGNORE_CWISE,
+                                     INFO);
+    */
 }
 
 //-- dla_syrpvgrw --------------------------------------------------------------
@@ -4131,13 +16183,6 @@ LAPACK_DECL(dlalsd)(const char       *UPLO,
                         INFO);
 }
 
-//-- dlamch --------------------------------------------------------------------
-DOUBLE
-LAPACK_DECL(dlamch)(const char   *CMACH)
-{
-    DEBUG_LAPACK_STUB("dlamch");
-    return LAPACK_IMPL(dlamch)(CMACH);
-}
 //-- dlamrg --------------------------------------------------------------------
 void
 LAPACK_DECL(dlamrg)(const INTEGER    *N1,
@@ -4549,6 +16594,7 @@ LAPACK_DECL(dlaqge)(const INTEGER    *M,
                         AMAX,
                         EQUED);
 }
+
 //-- dlaqp2 --------------------------------------------------------------------
 void
 LAPACK_DECL(dlaqp2)(const INTEGER    *M,
@@ -6351,6 +18397,7 @@ LAPACK_DECL(dlasq2)(const INTEGER    *N,
                         INFO);
 }
 
+// warning: TTYPE has unknown type
 //-- dlasq3 --------------------------------------------------------------------
 void
 LAPACK_DECL(dlasq3)(const INTEGER    *I0,
@@ -6365,7 +18412,7 @@ LAPACK_DECL(dlasq3)(const INTEGER    *I0,
                     INTEGER          *ITER,
                     INTEGER          *NDIV,
                     const LOGICAL    *IEEE,
-                    INTEGER          *TTYPE,
+                    UNKNOWN          *TTYPE,
                     DOUBLE           *DMIN1,
                     DOUBLE           *DMIN2,
                     DOUBLE           *DN,
@@ -6800,6 +18847,7 @@ LAPACK_DECL(dlatrs)(const char       *UPLO,
                         CNORM,
                         INFO);
 }
+
 //-- dlatrz --------------------------------------------------------------------
 void
 LAPACK_DECL(dlatrz)(const INTEGER    *M,
@@ -7183,6 +19231,7 @@ LAPACK_DECL(dorglq)(const INTEGER    *M,
                         LWORK,
                         INFO);
 }
+
 //-- dorgql --------------------------------------------------------------------
 void
 LAPACK_DECL(dorgql)(const INTEGER    *M,
@@ -7230,6 +19279,7 @@ LAPACK_DECL(dorgqr)(const INTEGER    *M,
                         LWORK,
                         INFO);
 }
+
 //-- dorgr2 --------------------------------------------------------------------
 void
 LAPACK_DECL(dorgr2)(const INTEGER    *M,
@@ -7487,6 +19537,7 @@ LAPACK_DECL(dormlq)(const char       *SIDE,
                         LWORK,
                         INFO);
 }
+
 //-- dormql --------------------------------------------------------------------
 void
 LAPACK_DECL(dormql)(const char       *SIDE,
@@ -7550,6 +19601,7 @@ LAPACK_DECL(dormqr)(const char       *SIDE,
                         LWORK,
                         INFO);
 }
+
 //-- dormr2 --------------------------------------------------------------------
 void
 LAPACK_DECL(dormr2)(const char       *SIDE,
@@ -8027,6 +20079,7 @@ LAPACK_DECL(dpocon)(const char       *UPLO,
                         IWORK,
                         INFO);
 }
+
 //-- dpoequ --------------------------------------------------------------------
 void
 LAPACK_DECL(dpoequ)(const INTEGER    *N,
@@ -8105,6 +20158,58 @@ LAPACK_DECL(dporfs)(const char       *UPLO,
                         INFO);
 }
 
+//-- dporfsx -------------------------------------------------------------------
+void
+LAPACK_DECL(dporfsx)(const char       *UPLO,
+                     const char       *EQUED,
+                     const INTEGER    *N,
+                     const INTEGER    *NRHS,
+                     const DOUBLE     *A,
+                     const INTEGER    *LDA,
+                     const DOUBLE     *AF,
+                     const INTEGER    *LDAF,
+                     DOUBLE           *S,
+                     const DOUBLE     *B,
+                     const INTEGER    *LDB,
+                     DOUBLE           *X,
+                     const INTEGER    *LDX,
+                     DOUBLE           *RCOND,
+                     DOUBLE           *BERR,
+                     const INTEGER    *N_ERR_BNDS,
+                     DOUBLE           *ERR_BNDS_NORM,
+                     DOUBLE           *ERR_BNDS_COMP,
+                     const INTEGER    *NPARAMS,
+                     DOUBLE           *PARAMS,
+                     DOUBLE           *WORK,
+                     INTEGER          *IWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("dporfsx");
+    LAPACK_IMPL(dporfsx)(UPLO,
+                         EQUED,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         S,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         IWORK,
+                         INFO);
+}
+
 //-- dposv ---------------------------------------------------------------------
 void
 LAPACK_DECL(dposv)(const char           *UPLO,
@@ -8126,6 +20231,7 @@ LAPACK_DECL(dposv)(const char           *UPLO,
                        LDB,
                        INFO);
 }
+
 //-- dposvx --------------------------------------------------------------------
 void
 LAPACK_DECL(dposvx)(const char       *FACT,
@@ -8172,6 +20278,62 @@ LAPACK_DECL(dposvx)(const char       *FACT,
                         INFO);
 }
 
+//-- dposvxx -------------------------------------------------------------------
+void
+LAPACK_DECL(dposvxx)(const char       *FACT,
+                     const char       *UPLO,
+                     const INTEGER    *N,
+                     const INTEGER    *NRHS,
+                     DOUBLE           *A,
+                     const INTEGER    *LDA,
+                     DOUBLE           *AF,
+                     const INTEGER    *LDAF,
+                     char             *EQUED,
+                     DOUBLE           *S,
+                     DOUBLE           *B,
+                     const INTEGER    *LDB,
+                     DOUBLE           *X,
+                     const INTEGER    *LDX,
+                     DOUBLE           *RCOND,
+                     DOUBLE           *RPVGRW,
+                     DOUBLE           *BERR,
+                     const INTEGER    *N_ERR_BNDS,
+                     DOUBLE           *ERR_BNDS_NORM,
+                     DOUBLE           *ERR_BNDS_COMP,
+                     const INTEGER    *NPARAMS,
+                     DOUBLE           *PARAMS,
+                     DOUBLE           *WORK,
+                     INTEGER          *IWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("dposvxx");
+    LAPACK_IMPL(dposvxx)(FACT,
+                         UPLO,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         EQUED,
+                         S,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         RPVGRW,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         IWORK,
+                         INFO);
+}
+
 //-- dpotf2 --------------------------------------------------------------------
 void
 LAPACK_DECL(dpotf2)(const char       *UPLO,
@@ -8203,6 +20365,7 @@ LAPACK_DECL(dpotrf)(const char       *UPLO,
                         LDA,
                         INFO);
 }
+
 //-- dpotri --------------------------------------------------------------------
 void
 LAPACK_DECL(dpotri)(const char       *UPLO,
@@ -8218,6 +20381,7 @@ LAPACK_DECL(dpotri)(const char       *UPLO,
                         LDA,
                         INFO);
 }
+
 //-- dpotrs --------------------------------------------------------------------
 void
 LAPACK_DECL(dpotrs)(const char       *UPLO,
@@ -8239,6 +20403,7 @@ LAPACK_DECL(dpotrs)(const char       *UPLO,
                         LDB,
                         INFO);
 }
+
 //-- dppcon --------------------------------------------------------------------
 void
 LAPACK_DECL(dppcon)(const char       *UPLO,
@@ -8975,14 +21140,6 @@ LAPACK_DECL(dsbtrd)(const char       *VECT,
                         LDQ,
                         WORK,
                         INFO);
-}
-
-//-- dsecnd --------------------------------------------------------------------
-DOUBLE
-LAPACK_DECL(dsecnd)()
-{
-    DEBUG_LAPACK_STUB("dsecnd");
-    return LAPACK_IMPL(dsecnd)();
 }
 
 //-- dsfrk ---------------------------------------------------------------------
@@ -10283,6 +22440,60 @@ LAPACK_DECL(dsyrfs)(const char       *UPLO,
                         INFO);
 }
 
+//-- dsyrfsx -------------------------------------------------------------------
+void
+LAPACK_DECL(dsyrfsx)(const char       *UPLO,
+                     const char       *EQUED,
+                     const INTEGER    *N,
+                     const INTEGER    *NRHS,
+                     const DOUBLE     *A,
+                     const INTEGER    *LDA,
+                     const DOUBLE     *AF,
+                     const INTEGER    *LDAF,
+                     const INTEGER    *IPIV,
+                     DOUBLE           *S,
+                     const DOUBLE     *B,
+                     const INTEGER    *LDB,
+                     DOUBLE           *X,
+                     const INTEGER    *LDX,
+                     DOUBLE           *RCOND,
+                     DOUBLE           *BERR,
+                     const INTEGER    *N_ERR_BNDS,
+                     DOUBLE           *ERR_BNDS_NORM,
+                     DOUBLE           *ERR_BNDS_COMP,
+                     const INTEGER    *NPARAMS,
+                     DOUBLE           *PARAMS,
+                     DOUBLE           *WORK,
+                     INTEGER          *IWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("dsyrfsx");
+    LAPACK_IMPL(dsyrfsx)(UPLO,
+                         EQUED,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         IPIV,
+                         S,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         IWORK,
+                         INFO);
+}
+
 //-- dsysv ---------------------------------------------------------------------
 void
 LAPACK_DECL(dsysv)(const char           *UPLO,
@@ -10355,6 +22566,64 @@ LAPACK_DECL(dsysvx)(const char       *FACT,
                         LWORK,
                         IWORK,
                         INFO);
+}
+
+//-- dsysvxx -------------------------------------------------------------------
+void
+LAPACK_DECL(dsysvxx)(const char       *FACT,
+                     const char       *UPLO,
+                     const INTEGER    *N,
+                     const INTEGER    *NRHS,
+                     DOUBLE           *A,
+                     const INTEGER    *LDA,
+                     DOUBLE           *AF,
+                     const INTEGER    *LDAF,
+                     INTEGER          *IPIV,
+                     char             *EQUED,
+                     DOUBLE           *S,
+                     DOUBLE           *B,
+                     const INTEGER    *LDB,
+                     DOUBLE           *X,
+                     const INTEGER    *LDX,
+                     DOUBLE           *RCOND,
+                     DOUBLE           *RPVGRW,
+                     DOUBLE           *BERR,
+                     const INTEGER    *N_ERR_BNDS,
+                     DOUBLE           *ERR_BNDS_NORM,
+                     DOUBLE           *ERR_BNDS_COMP,
+                     const INTEGER    *NPARAMS,
+                     DOUBLE           *PARAMS,
+                     DOUBLE           *WORK,
+                     INTEGER          *IWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("dsysvxx");
+    LAPACK_IMPL(dsysvxx)(FACT,
+                         UPLO,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         IPIV,
+                         EQUED,
+                         S,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         RPVGRW,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         IWORK,
+                         INFO);
 }
 
 //-- dsyswapr ------------------------------------------------------------------
@@ -11534,7 +23803,6 @@ LAPACK_DECL(dtrtri)(const char       *UPLO,
                     const INTEGER    *LDA,
                     INTEGER          *INFO)
 {
-    std::cerr << "warning: dtrtri from dummy.in.cc called" << std::endl;
     DEBUG_LAPACK_STUB("dtrtri");
     LAPACK_IMPL(dtrtri)(UPLO,
                         DIAG,
@@ -11543,6 +23811,7 @@ LAPACK_DECL(dtrtri)(const char       *UPLO,
                         LDA,
                         INFO);
 }
+
 //-- dtrtrs --------------------------------------------------------------------
 void
 LAPACK_DECL(dtrtrs)(const char       *UPLO,
@@ -11557,7 +23826,6 @@ LAPACK_DECL(dtrtrs)(const char       *UPLO,
                     INTEGER          *INFO)
 {
     DEBUG_LAPACK_STUB("dtrtrs");
-    std::cerr << "warning: dtrtrs from dummy.in.cc called" << std::endl;
     LAPACK_IMPL(dtrtrs)(UPLO,
                         TRANS,
                         DIAG,
@@ -11569,6 +23837,7 @@ LAPACK_DECL(dtrtrs)(const char       *UPLO,
                         LDB,
                         INFO);
 }
+
 //-- dtrttf --------------------------------------------------------------------
 void
 LAPACK_DECL(dtrttf)(const char       *TRANSR,
@@ -11659,6 +23928,18 @@ LAPACK_DECL(dzsum1)(const INTEGER            *N,
                                INCX);
 }
 
+//-- icmax1 --------------------------------------------------------------------
+INTEGER
+LAPACK_DECL(icmax1)(const INTEGER        *N,
+                    const FLOAT_COMPLEX  *CX,
+                    const INTEGER        *INCX)
+{
+    DEBUG_LAPACK_STUB("icmax1");
+    return LAPACK_IMPL(icmax1)(N,
+                               CX,
+                               INCX);
+}
+
 //-- ieeeck --------------------------------------------------------------------
 INTEGER
 LAPACK_DECL(ieeeck)(const INTEGER    *ISPEC,
@@ -11669,6 +23950,42 @@ LAPACK_DECL(ieeeck)(const INTEGER    *ISPEC,
     return LAPACK_IMPL(ieeeck)(ISPEC,
                                ZERO,
                                ONE);
+}
+
+//-- ilaclc --------------------------------------------------------------------
+INTEGER
+LAPACK_DECL(ilaclc)(const INTEGER        *M,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA)
+{
+    DEBUG_LAPACK_STUB("ilaclc");
+    return LAPACK_IMPL(ilaclc)(M,
+                               N,
+                               A,
+                               LDA);
+}
+
+//-- ilaclr --------------------------------------------------------------------
+INTEGER
+LAPACK_DECL(ilaclr)(const INTEGER        *M,
+                    const INTEGER        *N,
+                    const FLOAT_COMPLEX  *A,
+                    const INTEGER        *LDA)
+{
+    DEBUG_LAPACK_STUB("ilaclr");
+    return LAPACK_IMPL(ilaclr)(M,
+                               N,
+                               A,
+                               LDA);
+}
+
+//-- iladiag -------------------------------------------------------------------
+INTEGER
+LAPACK_DECL(iladiag)(const char   *DIAG)
+{
+    DEBUG_LAPACK_STUB("iladiag");
+    return LAPACK_IMPL(iladiag)(DIAG);
 }
 
 //-- iladlc --------------------------------------------------------------------
@@ -11697,6 +24014,36 @@ LAPACK_DECL(iladlr)(const INTEGER    *M,
                                N,
                                A,
                                LDA);
+}
+
+// warning: NAME has unknown type
+// warning: OPTS has unknown type
+//-- ilaenv --------------------------------------------------------------------
+INTEGER
+LAPACK_DECL(ilaenv)(const INTEGER    *ISPEC,
+                    UNKNOWN          *NAME,
+                    UNKNOWN          *OPTS,
+                    const INTEGER    *N1,
+                    const INTEGER    *N2,
+                    const INTEGER    *N3,
+                    const INTEGER    *N4)
+{
+    DEBUG_LAPACK_STUB("ilaenv");
+    return LAPACK_IMPL(ilaenv)(ISPEC,
+                               NAME,
+                               OPTS,
+                               N1,
+                               N2,
+                               N3,
+                               N4);
+}
+
+//-- ilaprec -------------------------------------------------------------------
+INTEGER
+LAPACK_DECL(ilaprec)(const char   *PREC)
+{
+    DEBUG_LAPACK_STUB("ilaprec");
+    return LAPACK_IMPL(ilaprec)(PREC);
 }
 
 //-- ilaslc --------------------------------------------------------------------
@@ -11743,11 +24090,14 @@ LAPACK_DECL(ilauplo)(const char   *UPLO)
     return LAPACK_IMPL(ilauplo)(UPLO);
 }
 
+// warning: VERS_MAJOR has unknown type
+// warning: VERS_MINOR has unknown type
+// warning: VERS_PATCH has unknown type
 //-- ilaver --------------------------------------------------------------------
 void
-LAPACK_DECL(ilaver)(INTEGER  *VERS_MAJOR,
-                    INTEGER  *VERS_MINOR,
-                    INTEGER  *VERS_PATCH)
+LAPACK_DECL(ilaver)(UNKNOWN  *VERS_MAJOR,
+                    UNKNOWN  *VERS_MINOR,
+                    UNKNOWN  *VERS_PATCH)
 {
     DEBUG_LAPACK_STUB("ilaver");
     LAPACK_IMPL(ilaver)(VERS_MAJOR,
@@ -11755,26 +24105,1996 @@ LAPACK_DECL(ilaver)(INTEGER  *VERS_MAJOR,
                         VERS_PATCH);
 }
 
-//-- lsame ---------------------------------------------------------------------
-LOGICAL
-LAPACK_DECL(lsame)(const char       *CA,
-                   const char       *CB)
+//-- ilazlc --------------------------------------------------------------------
+INTEGER
+LAPACK_DECL(ilazlc)(const INTEGER            *M,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA)
 {
-    DEBUG_LAPACK_STUB("lsame");
-    return LAPACK_IMPL(lsame)(CA,
-                              CB);
+    DEBUG_LAPACK_STUB("ilazlc");
+    return LAPACK_IMPL(ilazlc)(M,
+                               N,
+                               A,
+                               LDA);
 }
+
+//-- ilazlr --------------------------------------------------------------------
+INTEGER
+LAPACK_DECL(ilazlr)(const INTEGER            *M,
+                    const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *A,
+                    const INTEGER            *LDA)
+{
+    DEBUG_LAPACK_STUB("ilazlr");
+    return LAPACK_IMPL(ilazlr)(M,
+                               N,
+                               A,
+                               LDA);
+}
+
+// warning: NAME has unknown type
+// warning: OPTS has unknown type
+//-- iparmq --------------------------------------------------------------------
+INTEGER
+LAPACK_DECL(iparmq)(const INTEGER    *ISPEC,
+                    UNKNOWN          *NAME,
+                    UNKNOWN          *OPTS,
+                    const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    const INTEGER    *LWORK)
+{
+    DEBUG_LAPACK_STUB("iparmq");
+    return LAPACK_IMPL(iparmq)(ISPEC,
+                               NAME,
+                               OPTS,
+                               N,
+                               ILO,
+                               IHI,
+                               LWORK);
+}
+
+//-- izmax1 --------------------------------------------------------------------
+INTEGER
+LAPACK_DECL(izmax1)(const INTEGER            *N,
+                    const DOUBLE_COMPLEX     *CX,
+                    const INTEGER            *INCX)
+{
+    DEBUG_LAPACK_STUB("izmax1");
+    return LAPACK_IMPL(izmax1)(N,
+                               CX,
+                               INCX);
+}
+
+// warning: CA has unknown type
+// warning: CB has unknown type
 //-- lsamen --------------------------------------------------------------------
 LOGICAL
 LAPACK_DECL(lsamen)(const INTEGER    *N,
-                    const char       *CA,
-                    const char       *CB)
+                    UNKNOWN          *CA,
+                    UNKNOWN          *CB)
 {
     DEBUG_LAPACK_STUB("lsamen");
     return LAPACK_IMPL(lsamen)(N,
                                CA,
                                CB);
 }
+
+//-- sbbcsd --------------------------------------------------------------------
+void
+LAPACK_DECL(sbbcsd)(const char       *JOBU1,
+                    const char       *JOBU2,
+                    const char       *JOBV1T,
+                    const char       *JOBV2T,
+                    const char       *TRANS,
+                    const INTEGER    *M,
+                    const INTEGER    *P,
+                    const INTEGER    *Q,
+                    FLOAT            *THETA,
+                    FLOAT            *PHI,
+                    FLOAT            *U1,
+                    const INTEGER    *LDU1,
+                    FLOAT            *U2,
+                    const INTEGER    *LDU2,
+                    FLOAT            *V1T,
+                    const INTEGER    *LDV1T,
+                    FLOAT            *V2T,
+                    const INTEGER    *LDV2T,
+                    FLOAT            *B11D,
+                    FLOAT            *B11E,
+                    FLOAT            *B12D,
+                    FLOAT            *B12E,
+                    const FLOAT      *B21D,
+                    const FLOAT      *B21E,
+                    const FLOAT      *B22D,
+                    const FLOAT      *B22E,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sbbcsd");
+    LAPACK_IMPL(sbbcsd)(JOBU1,
+                        JOBU2,
+                        JOBV1T,
+                        JOBV2T,
+                        TRANS,
+                        M,
+                        P,
+                        Q,
+                        THETA,
+                        PHI,
+                        U1,
+                        LDU1,
+                        U2,
+                        LDU2,
+                        V1T,
+                        LDV1T,
+                        V2T,
+                        LDV2T,
+                        B11D,
+                        B11E,
+                        B12D,
+                        B12E,
+                        B21D,
+                        B21E,
+                        B22D,
+                        B22E,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sbdsdc --------------------------------------------------------------------
+void
+LAPACK_DECL(sbdsdc)(const char       *UPLO,
+                    const char       *COMPQ,
+                    const INTEGER    *N,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT            *U,
+                    const INTEGER    *LDU,
+                    FLOAT            *VT,
+                    const INTEGER    *LDVT,
+                    FLOAT            *Q,
+                    INTEGER          *IQ,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sbdsdc");
+    LAPACK_IMPL(sbdsdc)(UPLO,
+                        COMPQ,
+                        N,
+                        D,
+                        E,
+                        U,
+                        LDU,
+                        VT,
+                        LDVT,
+                        Q,
+                        IQ,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- sbdsqr --------------------------------------------------------------------
+void
+LAPACK_DECL(sbdsqr)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NCVT,
+                    const INTEGER    *NRU,
+                    const INTEGER    *NCC,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT            *VT,
+                    const INTEGER    *LDVT,
+                    FLOAT            *U,
+                    const INTEGER    *LDU,
+                    FLOAT            *C,
+                    const INTEGER    *LDC,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sbdsqr");
+    LAPACK_IMPL(sbdsqr)(UPLO,
+                        N,
+                        NCVT,
+                        NRU,
+                        NCC,
+                        D,
+                        E,
+                        VT,
+                        LDVT,
+                        U,
+                        LDU,
+                        C,
+                        LDC,
+                        WORK,
+                        INFO);
+}
+
+//-- scsum1 --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(scsum1)(const INTEGER        *N,
+                    const FLOAT_COMPLEX  *CX,
+                    const INTEGER        *INCX)
+{
+    DEBUG_LAPACK_STUB("scsum1");
+    return LAPACK_IMPL(scsum1)(N,
+                               CX,
+                               INCX);
+}
+
+//-- sdisna --------------------------------------------------------------------
+void
+LAPACK_DECL(sdisna)(const char       *JOB,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const FLOAT      *D,
+                    FLOAT            *SEP,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sdisna");
+    LAPACK_IMPL(sdisna)(JOB,
+                        M,
+                        N,
+                        D,
+                        SEP,
+                        INFO);
+}
+
+//-- sgbbrd --------------------------------------------------------------------
+void
+LAPACK_DECL(sgbbrd)(const char       *VECT,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *NCC,
+                    const INTEGER    *KL,
+                    const INTEGER    *KU,
+                    FLOAT            *AB,
+                    const INTEGER    *LDAB,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT            *Q,
+                    const INTEGER    *LDQ,
+                    FLOAT            *PT,
+                    const INTEGER    *LDPT,
+                    FLOAT            *C,
+                    const INTEGER    *LDC,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgbbrd");
+    LAPACK_IMPL(sgbbrd)(VECT,
+                        M,
+                        N,
+                        NCC,
+                        KL,
+                        KU,
+                        AB,
+                        LDAB,
+                        D,
+                        E,
+                        Q,
+                        LDQ,
+                        PT,
+                        LDPT,
+                        C,
+                        LDC,
+                        WORK,
+                        INFO);
+}
+
+//-- sgbcon --------------------------------------------------------------------
+void
+LAPACK_DECL(sgbcon)(const char       *NORM,
+                    const INTEGER    *N,
+                    const INTEGER    *KL,
+                    const INTEGER    *KU,
+                    const FLOAT      *AB,
+                    const INTEGER    *LDAB,
+                    const INTEGER    *IPIV,
+                    const FLOAT      *ANORM,
+                    FLOAT            *RCOND,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgbcon");
+    LAPACK_IMPL(sgbcon)(NORM,
+                        N,
+                        KL,
+                        KU,
+                        AB,
+                        LDAB,
+                        IPIV,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- sgbequ --------------------------------------------------------------------
+void
+LAPACK_DECL(sgbequ)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *KL,
+                    const INTEGER    *KU,
+                    const FLOAT      *AB,
+                    const INTEGER    *LDAB,
+                    FLOAT            *R,
+                    FLOAT            *C,
+                    FLOAT            *ROWCND,
+                    FLOAT            *COLCND,
+                    FLOAT            *AMAX,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgbequ");
+    LAPACK_IMPL(sgbequ)(M,
+                        N,
+                        KL,
+                        KU,
+                        AB,
+                        LDAB,
+                        R,
+                        C,
+                        ROWCND,
+                        COLCND,
+                        AMAX,
+                        INFO);
+}
+
+//-- sgbequb -------------------------------------------------------------------
+void
+LAPACK_DECL(sgbequb)(const INTEGER    *M,
+                     const INTEGER    *N,
+                     const INTEGER    *KL,
+                     const INTEGER    *KU,
+                     const FLOAT      *AB,
+                     const INTEGER    *LDAB,
+                     FLOAT            *R,
+                     FLOAT            *C,
+                     FLOAT            *ROWCND,
+                     FLOAT            *COLCND,
+                     FLOAT            *AMAX,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgbequb");
+    LAPACK_IMPL(sgbequb)(M,
+                         N,
+                         KL,
+                         KU,
+                         AB,
+                         LDAB,
+                         R,
+                         C,
+                         ROWCND,
+                         COLCND,
+                         AMAX,
+                         INFO);
+}
+
+//-- sgbrfs --------------------------------------------------------------------
+void
+LAPACK_DECL(sgbrfs)(const char       *TRANS,
+                    const INTEGER    *N,
+                    const INTEGER    *KL,
+                    const INTEGER    *KU,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *AB,
+                    const INTEGER    *LDAB,
+                    const FLOAT      *AFB,
+                    const INTEGER    *LDAFB,
+                    const INTEGER    *IPIV,
+                    const FLOAT      *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *FERR,
+                    FLOAT            *BERR,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgbrfs");
+    LAPACK_IMPL(sgbrfs)(TRANS,
+                        N,
+                        KL,
+                        KU,
+                        NRHS,
+                        AB,
+                        LDAB,
+                        AFB,
+                        LDAFB,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- sgbrfsx -------------------------------------------------------------------
+void
+LAPACK_DECL(sgbrfsx)(const char       *TRANS,
+                     const char       *EQUED,
+                     const INTEGER    *N,
+                     const INTEGER    *KL,
+                     const INTEGER    *KU,
+                     const INTEGER    *NRHS,
+                     const FLOAT      *AB,
+                     const INTEGER    *LDAB,
+                     const FLOAT      *AFB,
+                     const INTEGER    *LDAFB,
+                     const INTEGER    *IPIV,
+                     FLOAT            *R,
+                     FLOAT            *C,
+                     const FLOAT      *B,
+                     const INTEGER    *LDB,
+                     FLOAT            *X,
+                     const INTEGER    *LDX,
+                     FLOAT            *RCOND,
+                     FLOAT            *BERR,
+                     const INTEGER    *N_ERR_BNDS,
+                     FLOAT            *ERR_BNDS_NORM,
+                     FLOAT            *ERR_BNDS_COMP,
+                     const INTEGER    *NPARAMS,
+                     FLOAT            *PARAMS,
+                     FLOAT            *WORK,
+                     INTEGER          *IWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgbrfsx");
+    LAPACK_IMPL(sgbrfsx)(TRANS,
+                         EQUED,
+                         N,
+                         KL,
+                         KU,
+                         NRHS,
+                         AB,
+                         LDAB,
+                         AFB,
+                         LDAFB,
+                         IPIV,
+                         R,
+                         C,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         IWORK,
+                         INFO);
+}
+
+//-- sgbsv ---------------------------------------------------------------------
+void
+LAPACK_DECL(sgbsv)(const INTEGER        *N,
+                   const INTEGER        *KL,
+                   const INTEGER        *KU,
+                   const INTEGER        *NRHS,
+                   FLOAT                *AB,
+                   const INTEGER        *LDAB,
+                   INTEGER              *IPIV,
+                   FLOAT                *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("sgbsv");
+    LAPACK_IMPL(sgbsv)(N,
+                       KL,
+                       KU,
+                       NRHS,
+                       AB,
+                       LDAB,
+                       IPIV,
+                       B,
+                       LDB,
+                       INFO);
+}
+
+//-- sgbsvx --------------------------------------------------------------------
+void
+LAPACK_DECL(sgbsvx)(const char       *FACT,
+                    const char       *TRANS,
+                    const INTEGER    *N,
+                    const INTEGER    *KL,
+                    const INTEGER    *KU,
+                    const INTEGER    *NRHS,
+                    FLOAT            *AB,
+                    const INTEGER    *LDAB,
+                    FLOAT            *AFB,
+                    const INTEGER    *LDAFB,
+                    INTEGER          *IPIV,
+                    char             *EQUED,
+                    FLOAT            *R,
+                    FLOAT            *C,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *RCOND,
+                    FLOAT            *FERR,
+                    FLOAT            *BERR,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgbsvx");
+    LAPACK_IMPL(sgbsvx)(FACT,
+                        TRANS,
+                        N,
+                        KL,
+                        KU,
+                        NRHS,
+                        AB,
+                        LDAB,
+                        AFB,
+                        LDAFB,
+                        IPIV,
+                        EQUED,
+                        R,
+                        C,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+// warning: KL has unknown type
+// warning: KU has unknown type
+//-- sgbsvxx -------------------------------------------------------------------
+void
+LAPACK_DECL(sgbsvxx)(const char       *FACT,
+                     const char       *TRANS,
+                     const INTEGER    *N,
+                     UNKNOWN          *KL,
+                     UNKNOWN          *KU,
+                     const INTEGER    *NRHS,
+                     FLOAT            *AB,
+                     const INTEGER    *LDAB,
+                     FLOAT            *AFB,
+                     const INTEGER    *LDAFB,
+                     INTEGER          *IPIV,
+                     char             *EQUED,
+                     FLOAT            *R,
+                     FLOAT            *C,
+                     FLOAT            *B,
+                     const INTEGER    *LDB,
+                     FLOAT            *X,
+                     const INTEGER    *LDX,
+                     FLOAT            *RCOND,
+                     FLOAT            *RPVGRW,
+                     FLOAT            *BERR,
+                     const INTEGER    *N_ERR_BNDS,
+                     FLOAT            *ERR_BNDS_NORM,
+                     FLOAT            *ERR_BNDS_COMP,
+                     const INTEGER    *NPARAMS,
+                     FLOAT            *PARAMS,
+                     FLOAT            *WORK,
+                     INTEGER          *IWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgbsvxx");
+    LAPACK_IMPL(sgbsvxx)(FACT,
+                         TRANS,
+                         N,
+                         KL,
+                         KU,
+                         NRHS,
+                         AB,
+                         LDAB,
+                         AFB,
+                         LDAFB,
+                         IPIV,
+                         EQUED,
+                         R,
+                         C,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         RPVGRW,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         IWORK,
+                         INFO);
+}
+
+//-- sgbtf2 --------------------------------------------------------------------
+void
+LAPACK_DECL(sgbtf2)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *KL,
+                    const INTEGER    *KU,
+                    FLOAT            *AB,
+                    const INTEGER    *LDAB,
+                    INTEGER          *IPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgbtf2");
+    LAPACK_IMPL(sgbtf2)(M,
+                        N,
+                        KL,
+                        KU,
+                        AB,
+                        LDAB,
+                        IPIV,
+                        INFO);
+}
+
+//-- sgbtrf --------------------------------------------------------------------
+void
+LAPACK_DECL(sgbtrf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *KL,
+                    const INTEGER    *KU,
+                    FLOAT            *AB,
+                    const INTEGER    *LDAB,
+                    INTEGER          *IPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgbtrf");
+    LAPACK_IMPL(sgbtrf)(M,
+                        N,
+                        KL,
+                        KU,
+                        AB,
+                        LDAB,
+                        IPIV,
+                        INFO);
+}
+
+//-- sgbtrs --------------------------------------------------------------------
+void
+LAPACK_DECL(sgbtrs)(const char       *TRANS,
+                    const INTEGER    *N,
+                    const INTEGER    *KL,
+                    const INTEGER    *KU,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *AB,
+                    const INTEGER    *LDAB,
+                    const INTEGER    *IPIV,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgbtrs");
+    LAPACK_IMPL(sgbtrs)(TRANS,
+                        N,
+                        KL,
+                        KU,
+                        NRHS,
+                        AB,
+                        LDAB,
+                        IPIV,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- sgebak --------------------------------------------------------------------
+void
+LAPACK_DECL(sgebak)(const char       *JOB,
+                    const char       *SIDE,
+                    const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    const FLOAT      *SCALE,
+                    const INTEGER    *M,
+                    FLOAT            *V,
+                    const INTEGER    *LDV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgebak");
+    LAPACK_IMPL(sgebak)(JOB,
+                        SIDE,
+                        N,
+                        ILO,
+                        IHI,
+                        SCALE,
+                        M,
+                        V,
+                        LDV,
+                        INFO);
+}
+
+//-- sgebal --------------------------------------------------------------------
+void
+LAPACK_DECL(sgebal)(const char       *JOB,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *ILO,
+                    INTEGER          *IHI,
+                    FLOAT            *SCALE,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgebal");
+    LAPACK_IMPL(sgebal)(JOB,
+                        N,
+                        A,
+                        LDA,
+                        ILO,
+                        IHI,
+                        SCALE,
+                        INFO);
+}
+
+//-- sgebd2 --------------------------------------------------------------------
+void
+LAPACK_DECL(sgebd2)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT            *TAUQ,
+                    FLOAT            *TAUP,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgebd2");
+    LAPACK_IMPL(sgebd2)(M,
+                        N,
+                        A,
+                        LDA,
+                        D,
+                        E,
+                        TAUQ,
+                        TAUP,
+                        WORK,
+                        INFO);
+}
+
+//-- sgebrd --------------------------------------------------------------------
+void
+LAPACK_DECL(sgebrd)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT            *TAUQ,
+                    FLOAT            *TAUP,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgebrd");
+    LAPACK_IMPL(sgebrd)(M,
+                        N,
+                        A,
+                        LDA,
+                        D,
+                        E,
+                        TAUQ,
+                        TAUP,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sgecon --------------------------------------------------------------------
+void
+LAPACK_DECL(sgecon)(const char       *NORM,
+                    const INTEGER    *N,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *ANORM,
+                    FLOAT            *RCOND,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgecon");
+    LAPACK_IMPL(sgecon)(NORM,
+                        N,
+                        A,
+                        LDA,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- sgeequ --------------------------------------------------------------------
+void
+LAPACK_DECL(sgeequ)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *R,
+                    FLOAT            *C,
+                    FLOAT            *ROWCND,
+                    FLOAT            *COLCND,
+                    FLOAT            *AMAX,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgeequ");
+    LAPACK_IMPL(sgeequ)(M,
+                        N,
+                        A,
+                        LDA,
+                        R,
+                        C,
+                        ROWCND,
+                        COLCND,
+                        AMAX,
+                        INFO);
+}
+
+//-- sgeequb -------------------------------------------------------------------
+void
+LAPACK_DECL(sgeequb)(const INTEGER    *M,
+                     const INTEGER    *N,
+                     const FLOAT      *A,
+                     const INTEGER    *LDA,
+                     FLOAT            *R,
+                     FLOAT            *C,
+                     FLOAT            *ROWCND,
+                     FLOAT            *COLCND,
+                     FLOAT            *AMAX,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgeequb");
+    LAPACK_IMPL(sgeequb)(M,
+                         N,
+                         A,
+                         LDA,
+                         R,
+                         C,
+                         ROWCND,
+                         COLCND,
+                         AMAX,
+                         INFO);
+}
+
+//-- sgees ---------------------------------------------------------------------
+void
+LAPACK_DECL(sgees)(const char           *JOBVS,
+                   const char           *SORT,
+                   const LOGICAL        *SELECT,
+                   const INTEGER        *N,
+                   FLOAT                *A,
+                   const INTEGER        *LDA,
+                   INTEGER              *SDIM,
+                   FLOAT                *WR,
+                   FLOAT                *WI,
+                   FLOAT                *VS,
+                   const INTEGER        *LDVS,
+                   FLOAT                *WORK,
+                   const INTEGER        *LWORK,
+                   LOGICAL              *BWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("sgees");
+    LAPACK_IMPL(sgees)(JOBVS,
+                       SORT,
+                       SELECT,
+                       N,
+                       A,
+                       LDA,
+                       SDIM,
+                       WR,
+                       WI,
+                       VS,
+                       LDVS,
+                       WORK,
+                       LWORK,
+                       BWORK,
+                       INFO);
+}
+
+//-- sgeesx --------------------------------------------------------------------
+void
+LAPACK_DECL(sgeesx)(const char       *JOBVS,
+                    const char       *SORT,
+                    const LOGICAL    *SELECT,
+                    const char       *SENSE,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *SDIM,
+                    FLOAT            *WR,
+                    FLOAT            *WI,
+                    FLOAT            *VS,
+                    const INTEGER    *LDVS,
+                    FLOAT            *RCONDE,
+                    FLOAT            *RCONDV,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    LOGICAL          *BWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgeesx");
+    LAPACK_IMPL(sgeesx)(JOBVS,
+                        SORT,
+                        SELECT,
+                        SENSE,
+                        N,
+                        A,
+                        LDA,
+                        SDIM,
+                        WR,
+                        WI,
+                        VS,
+                        LDVS,
+                        RCONDE,
+                        RCONDV,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        LIWORK,
+                        BWORK,
+                        INFO);
+}
+
+//-- sgeev ---------------------------------------------------------------------
+void
+LAPACK_DECL(sgeev)(const char           *JOBVL,
+                   const char           *JOBVR,
+                   const INTEGER        *N,
+                   FLOAT                *A,
+                   const INTEGER        *LDA,
+                   FLOAT                *WR,
+                   FLOAT                *WI,
+                   FLOAT                *VL,
+                   const INTEGER        *LDVL,
+                   FLOAT                *VR,
+                   const INTEGER        *LDVR,
+                   FLOAT                *WORK,
+                   const INTEGER        *LWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("sgeev");
+    LAPACK_IMPL(sgeev)(JOBVL,
+                       JOBVR,
+                       N,
+                       A,
+                       LDA,
+                       WR,
+                       WI,
+                       VL,
+                       LDVL,
+                       VR,
+                       LDVR,
+                       WORK,
+                       LWORK,
+                       INFO);
+}
+
+//-- sgeevx --------------------------------------------------------------------
+void
+LAPACK_DECL(sgeevx)(const char       *BALANC,
+                    const char       *JOBVL,
+                    const char       *JOBVR,
+                    const char       *SENSE,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *WR,
+                    FLOAT            *WI,
+                    FLOAT            *VL,
+                    const INTEGER    *LDVL,
+                    FLOAT            *VR,
+                    const INTEGER    *LDVR,
+                    INTEGER          *ILO,
+                    INTEGER          *IHI,
+                    FLOAT            *SCALE,
+                    FLOAT            *ABNRM,
+                    FLOAT            *RCONDE,
+                    FLOAT            *RCONDV,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgeevx");
+    LAPACK_IMPL(sgeevx)(BALANC,
+                        JOBVL,
+                        JOBVR,
+                        SENSE,
+                        N,
+                        A,
+                        LDA,
+                        WR,
+                        WI,
+                        VL,
+                        LDVL,
+                        VR,
+                        LDVR,
+                        ILO,
+                        IHI,
+                        SCALE,
+                        ABNRM,
+                        RCONDE,
+                        RCONDV,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- sgegs ---------------------------------------------------------------------
+void
+LAPACK_DECL(sgegs)(const char           *JOBVSL,
+                   const char           *JOBVSR,
+                   const INTEGER        *N,
+                   FLOAT                *A,
+                   const INTEGER        *LDA,
+                   FLOAT                *B,
+                   const INTEGER        *LDB,
+                   FLOAT                *ALPHAR,
+                   FLOAT                *ALPHAI,
+                   FLOAT                *BETA,
+                   FLOAT                *VSL,
+                   const INTEGER        *LDVSL,
+                   FLOAT                *VSR,
+                   const INTEGER        *LDVSR,
+                   FLOAT                *WORK,
+                   const INTEGER        *LWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("sgegs");
+    LAPACK_IMPL(sgegs)(JOBVSL,
+                       JOBVSR,
+                       N,
+                       A,
+                       LDA,
+                       B,
+                       LDB,
+                       ALPHAR,
+                       ALPHAI,
+                       BETA,
+                       VSL,
+                       LDVSL,
+                       VSR,
+                       LDVSR,
+                       WORK,
+                       LWORK,
+                       INFO);
+}
+
+//-- sgegv ---------------------------------------------------------------------
+void
+LAPACK_DECL(sgegv)(const char           *JOBVL,
+                   const char           *JOBVR,
+                   const INTEGER        *N,
+                   FLOAT                *A,
+                   const INTEGER        *LDA,
+                   FLOAT                *B,
+                   const INTEGER        *LDB,
+                   FLOAT                *ALPHAR,
+                   FLOAT                *ALPHAI,
+                   FLOAT                *BETA,
+                   FLOAT                *VL,
+                   const INTEGER        *LDVL,
+                   FLOAT                *VR,
+                   const INTEGER        *LDVR,
+                   FLOAT                *WORK,
+                   const INTEGER        *LWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("sgegv");
+    LAPACK_IMPL(sgegv)(JOBVL,
+                       JOBVR,
+                       N,
+                       A,
+                       LDA,
+                       B,
+                       LDB,
+                       ALPHAR,
+                       ALPHAI,
+                       BETA,
+                       VL,
+                       LDVL,
+                       VR,
+                       LDVR,
+                       WORK,
+                       LWORK,
+                       INFO);
+}
+
+//-- sgehd2 --------------------------------------------------------------------
+void
+LAPACK_DECL(sgehd2)(const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *TAU,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgehd2");
+    LAPACK_IMPL(sgehd2)(N,
+                        ILO,
+                        IHI,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- sgehrd --------------------------------------------------------------------
+void
+LAPACK_DECL(sgehrd)(const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *TAU,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgehrd");
+    LAPACK_IMPL(sgehrd)(N,
+                        ILO,
+                        IHI,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sgejsv --------------------------------------------------------------------
+void
+LAPACK_DECL(sgejsv)(const char       *JOBA,
+                    const char       *JOBU,
+                    const char       *JOBV,
+                    const char       *JOBR,
+                    const char       *JOBT,
+                    const char       *JOBP,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *SVA,
+                    const FLOAT      *U,
+                    const INTEGER    *LDU,
+                    const FLOAT      *V,
+                    const INTEGER    *LDV,
+                    const FLOAT      *WORK,
+                    const INTEGER    *LWORK,
+                    const INTEGER    *IWORK,
+                    const INTEGER    *INFO)
+{
+    DEBUG_LAPACK_STUB("sgejsv");
+    LAPACK_IMPL(sgejsv)(JOBA,
+                        JOBU,
+                        JOBV,
+                        JOBR,
+                        JOBT,
+                        JOBP,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        SVA,
+                        U,
+                        LDU,
+                        V,
+                        LDV,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- sgelq2 --------------------------------------------------------------------
+void
+LAPACK_DECL(sgelq2)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *TAU,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgelq2");
+    LAPACK_IMPL(sgelq2)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- sgelqf --------------------------------------------------------------------
+void
+LAPACK_DECL(sgelqf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *TAU,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgelqf");
+    LAPACK_IMPL(sgelqf)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sgels ---------------------------------------------------------------------
+void
+LAPACK_DECL(sgels)(const char           *TRANS,
+                   const INTEGER        *M,
+                   const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   FLOAT                *A,
+                   const INTEGER        *LDA,
+                   FLOAT                *B,
+                   const INTEGER        *LDB,
+                   FLOAT                *WORK,
+                   const INTEGER        *LWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("sgels");
+    LAPACK_IMPL(sgels)(TRANS,
+                       M,
+                       N,
+                       NRHS,
+                       A,
+                       LDA,
+                       B,
+                       LDB,
+                       WORK,
+                       LWORK,
+                       INFO);
+}
+
+//-- sgelsd --------------------------------------------------------------------
+void
+LAPACK_DECL(sgelsd)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *S,
+                    const FLOAT      *RCOND,
+                    INTEGER          *RANK,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgelsd");
+    LAPACK_IMPL(sgelsd)(M,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        S,
+                        RCOND,
+                        RANK,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- sgelss --------------------------------------------------------------------
+void
+LAPACK_DECL(sgelss)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *S,
+                    const FLOAT      *RCOND,
+                    INTEGER          *RANK,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgelss");
+    LAPACK_IMPL(sgelss)(M,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        S,
+                        RCOND,
+                        RANK,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sgelsx --------------------------------------------------------------------
+void
+LAPACK_DECL(sgelsx)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *JPVT,
+                    const FLOAT      *RCOND,
+                    INTEGER          *RANK,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgelsx");
+    LAPACK_IMPL(sgelsx)(M,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        JPVT,
+                        RCOND,
+                        RANK,
+                        WORK,
+                        INFO);
+}
+
+//-- sgelsy --------------------------------------------------------------------
+void
+LAPACK_DECL(sgelsy)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *JPVT,
+                    const FLOAT      *RCOND,
+                    INTEGER          *RANK,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgelsy");
+    LAPACK_IMPL(sgelsy)(M,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        JPVT,
+                        RCOND,
+                        RANK,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sgeql2 --------------------------------------------------------------------
+void
+LAPACK_DECL(sgeql2)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *TAU,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgeql2");
+    LAPACK_IMPL(sgeql2)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- sgeqlf --------------------------------------------------------------------
+void
+LAPACK_DECL(sgeqlf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *TAU,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgeqlf");
+    LAPACK_IMPL(sgeqlf)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sgeqp3 --------------------------------------------------------------------
+void
+LAPACK_DECL(sgeqp3)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *JPVT,
+                    FLOAT            *TAU,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgeqp3");
+    LAPACK_IMPL(sgeqp3)(M,
+                        N,
+                        A,
+                        LDA,
+                        JPVT,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sgeqpf --------------------------------------------------------------------
+void
+LAPACK_DECL(sgeqpf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *JPVT,
+                    FLOAT            *TAU,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgeqpf");
+    LAPACK_IMPL(sgeqpf)(M,
+                        N,
+                        A,
+                        LDA,
+                        JPVT,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- sgeqr2 --------------------------------------------------------------------
+void
+LAPACK_DECL(sgeqr2)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *TAU,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgeqr2");
+    LAPACK_IMPL(sgeqr2)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- sgeqr2p -------------------------------------------------------------------
+void
+LAPACK_DECL(sgeqr2p)(const INTEGER    *M,
+                     const INTEGER    *N,
+                     FLOAT            *A,
+                     const INTEGER    *LDA,
+                     FLOAT            *TAU,
+                     FLOAT            *WORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgeqr2p");
+    LAPACK_IMPL(sgeqr2p)(M,
+                         N,
+                         A,
+                         LDA,
+                         TAU,
+                         WORK,
+                         INFO);
+}
+
+//-- sgeqrf --------------------------------------------------------------------
+void
+LAPACK_DECL(sgeqrf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *TAU,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgeqrf");
+    LAPACK_IMPL(sgeqrf)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sgeqrfp -------------------------------------------------------------------
+void
+LAPACK_DECL(sgeqrfp)(const INTEGER    *M,
+                     const INTEGER    *N,
+                     FLOAT            *A,
+                     const INTEGER    *LDA,
+                     FLOAT            *TAU,
+                     FLOAT            *WORK,
+                     const INTEGER    *LWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgeqrfp");
+    LAPACK_IMPL(sgeqrfp)(M,
+                         N,
+                         A,
+                         LDA,
+                         TAU,
+                         WORK,
+                         LWORK,
+                         INFO);
+}
+
+//-- sgerfs --------------------------------------------------------------------
+void
+LAPACK_DECL(sgerfs)(const char       *TRANS,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *AF,
+                    const INTEGER    *LDAF,
+                    const INTEGER    *IPIV,
+                    const FLOAT      *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *FERR,
+                    FLOAT            *BERR,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgerfs");
+    LAPACK_IMPL(sgerfs)(TRANS,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        AF,
+                        LDAF,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- sgerfsx -------------------------------------------------------------------
+void
+LAPACK_DECL(sgerfsx)(const char       *TRANS,
+                     const char       *EQUED,
+                     const INTEGER    *N,
+                     const INTEGER    *NRHS,
+                     const FLOAT      *A,
+                     const INTEGER    *LDA,
+                     const FLOAT      *AF,
+                     const INTEGER    *LDAF,
+                     const INTEGER    *IPIV,
+                     const FLOAT      *R,
+                     const FLOAT      *C,
+                     const FLOAT      *B,
+                     const INTEGER    *LDB,
+                     FLOAT            *X,
+                     const INTEGER    *LDX,
+                     FLOAT            *RCOND,
+                     FLOAT            *BERR,
+                     const INTEGER    *N_ERR_BNDS,
+                     FLOAT            *ERR_BNDS_NORM,
+                     FLOAT            *ERR_BNDS_COMP,
+                     const INTEGER    *NPARAMS,
+                     FLOAT            *PARAMS,
+                     FLOAT            *WORK,
+                     INTEGER          *IWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgerfsx");
+    LAPACK_IMPL(sgerfsx)(TRANS,
+                         EQUED,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         IPIV,
+                         R,
+                         C,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         IWORK,
+                         INFO);
+}
+
+//-- sgerq2 --------------------------------------------------------------------
+void
+LAPACK_DECL(sgerq2)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *TAU,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgerq2");
+    LAPACK_IMPL(sgerq2)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- sgerqf --------------------------------------------------------------------
+void
+LAPACK_DECL(sgerqf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *TAU,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgerqf");
+    LAPACK_IMPL(sgerqf)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sgesc2 --------------------------------------------------------------------
+void
+LAPACK_DECL(sgesc2)(const INTEGER    *N,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *RHS,
+                    const INTEGER    *IPIV,
+                    const INTEGER    *JPIV,
+                    FLOAT            *SCALE)
+{
+    DEBUG_LAPACK_STUB("sgesc2");
+    LAPACK_IMPL(sgesc2)(N,
+                        A,
+                        LDA,
+                        RHS,
+                        IPIV,
+                        JPIV,
+                        SCALE);
+}
+
+//-- sgesdd --------------------------------------------------------------------
+void
+LAPACK_DECL(sgesdd)(const char       *JOBZ,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *S,
+                    FLOAT            *U,
+                    const INTEGER    *LDU,
+                    FLOAT            *VT,
+                    const INTEGER    *LDVT,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgesdd");
+    LAPACK_IMPL(sgesdd)(JOBZ,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        S,
+                        U,
+                        LDU,
+                        VT,
+                        LDVT,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- sgesv ---------------------------------------------------------------------
+void
+LAPACK_DECL(sgesv)(const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   FLOAT                *A,
+                   const INTEGER        *LDA,
+                   INTEGER              *IPIV,
+                   FLOAT                *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("sgesv");
+    LAPACK_IMPL(sgesv)(N,
+                       NRHS,
+                       A,
+                       LDA,
+                       IPIV,
+                       B,
+                       LDB,
+                       INFO);
+}
+
+//-- sgesvd --------------------------------------------------------------------
+void
+LAPACK_DECL(sgesvd)(const char       *JOBU,
+                    const char       *JOBVT,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *S,
+                    FLOAT            *U,
+                    const INTEGER    *LDU,
+                    FLOAT            *VT,
+                    const INTEGER    *LDVT,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgesvd");
+    LAPACK_IMPL(sgesvd)(JOBU,
+                        JOBVT,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        S,
+                        U,
+                        LDU,
+                        VT,
+                        LDVT,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sgesvj --------------------------------------------------------------------
+void
+LAPACK_DECL(sgesvj)(const char       *JOBA,
+                    const char       *JOBU,
+                    const char       *JOBV,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *SVA,
+                    const INTEGER    *MV,
+                    FLOAT            *V,
+                    const INTEGER    *LDV,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgesvj");
+    LAPACK_IMPL(sgesvj)(JOBA,
+                        JOBU,
+                        JOBV,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        SVA,
+                        MV,
+                        V,
+                        LDV,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sgesvx --------------------------------------------------------------------
+void
+LAPACK_DECL(sgesvx)(const char       *FACT,
+                    const char       *TRANS,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *AF,
+                    const INTEGER    *LDAF,
+                    INTEGER          *IPIV,
+                    char             *EQUED,
+                    FLOAT            *R,
+                    FLOAT            *C,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *RCOND,
+                    FLOAT            *FERR,
+                    FLOAT            *BERR,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgesvx");
+    LAPACK_IMPL(sgesvx)(FACT,
+                        TRANS,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        AF,
+                        LDAF,
+                        IPIV,
+                        EQUED,
+                        R,
+                        C,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- sgesvxx -------------------------------------------------------------------
+void
+LAPACK_DECL(sgesvxx)(const char       *FACT,
+                     const char       *TRANS,
+                     const INTEGER    *N,
+                     const INTEGER    *NRHS,
+                     FLOAT            *A,
+                     const INTEGER    *LDA,
+                     FLOAT            *AF,
+                     const INTEGER    *LDAF,
+                     INTEGER          *IPIV,
+                     char             *EQUED,
+                     FLOAT            *R,
+                     FLOAT            *C,
+                     FLOAT            *B,
+                     const INTEGER    *LDB,
+                     FLOAT            *X,
+                     const INTEGER    *LDX,
+                     FLOAT            *RCOND,
+                     FLOAT            *RPVGRW,
+                     FLOAT            *BERR,
+                     const INTEGER    *N_ERR_BNDS,
+                     FLOAT            *ERR_BNDS_NORM,
+                     FLOAT            *ERR_BNDS_COMP,
+                     const INTEGER    *NPARAMS,
+                     FLOAT            *PARAMS,
+                     FLOAT            *WORK,
+                     INTEGER          *IWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgesvxx");
+    LAPACK_IMPL(sgesvxx)(FACT,
+                         TRANS,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         IPIV,
+                         EQUED,
+                         R,
+                         C,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         RPVGRW,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         IWORK,
+                         INFO);
+}
+
+//-- sgetc2 --------------------------------------------------------------------
+void
+LAPACK_DECL(sgetc2)(const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *IPIV,
+                    INTEGER          *JPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgetc2");
+    LAPACK_IMPL(sgetc2)(N,
+                        A,
+                        LDA,
+                        IPIV,
+                        JPIV,
+                        INFO);
+}
+
 //-- sgetf2 --------------------------------------------------------------------
 void
 LAPACK_DECL(sgetf2)(const INTEGER    *M,
@@ -11811,6 +26131,26 @@ LAPACK_DECL(sgetrf)(const INTEGER    *M,
                         INFO);
 }
 
+//-- sgetri --------------------------------------------------------------------
+void
+LAPACK_DECL(sgetri)(const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    const INTEGER    *IPIV,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgetri");
+    LAPACK_IMPL(sgetri)(N,
+                        A,
+                        LDA,
+                        IPIV,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
 //-- sgetrs --------------------------------------------------------------------
 void
 LAPACK_DECL(sgetrs)(const char       *TRANS,
@@ -11835,12 +26175,2216 @@ LAPACK_DECL(sgetrs)(const char       *TRANS,
                         INFO);
 }
 
+//-- sggbak --------------------------------------------------------------------
+void
+LAPACK_DECL(sggbak)(const char       *JOB,
+                    const char       *SIDE,
+                    const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    const FLOAT      *LSCALE,
+                    const FLOAT      *RSCALE,
+                    const INTEGER    *M,
+                    FLOAT            *V,
+                    const INTEGER    *LDV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sggbak");
+    LAPACK_IMPL(sggbak)(JOB,
+                        SIDE,
+                        N,
+                        ILO,
+                        IHI,
+                        LSCALE,
+                        RSCALE,
+                        M,
+                        V,
+                        LDV,
+                        INFO);
+}
+
+//-- sggbal --------------------------------------------------------------------
+void
+LAPACK_DECL(sggbal)(const char       *JOB,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *ILO,
+                    INTEGER          *IHI,
+                    FLOAT            *LSCALE,
+                    FLOAT            *RSCALE,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sggbal");
+    LAPACK_IMPL(sggbal)(JOB,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        ILO,
+                        IHI,
+                        LSCALE,
+                        RSCALE,
+                        WORK,
+                        INFO);
+}
+
+//-- sgges ---------------------------------------------------------------------
+void
+LAPACK_DECL(sgges)(const char           *JOBVSL,
+                   const char           *JOBVSR,
+                   const char           *SORT,
+                   const LOGICAL        *SELCTG,
+                   const INTEGER        *N,
+                   FLOAT                *A,
+                   const INTEGER        *LDA,
+                   FLOAT                *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *SDIM,
+                   FLOAT                *ALPHAR,
+                   FLOAT                *ALPHAI,
+                   FLOAT                *BETA,
+                   FLOAT                *VSL,
+                   const INTEGER        *LDVSL,
+                   FLOAT                *VSR,
+                   const INTEGER        *LDVSR,
+                   FLOAT                *WORK,
+                   const INTEGER        *LWORK,
+                   LOGICAL              *BWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("sgges");
+    LAPACK_IMPL(sgges)(JOBVSL,
+                       JOBVSR,
+                       SORT,
+                       SELCTG,
+                       N,
+                       A,
+                       LDA,
+                       B,
+                       LDB,
+                       SDIM,
+                       ALPHAR,
+                       ALPHAI,
+                       BETA,
+                       VSL,
+                       LDVSL,
+                       VSR,
+                       LDVSR,
+                       WORK,
+                       LWORK,
+                       BWORK,
+                       INFO);
+}
+
+//-- sggesx --------------------------------------------------------------------
+void
+LAPACK_DECL(sggesx)(const char       *JOBVSL,
+                    const char       *JOBVSR,
+                    const char       *SORT,
+                    const LOGICAL    *SELCTG,
+                    const char       *SENSE,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *SDIM,
+                    FLOAT            *ALPHAR,
+                    FLOAT            *ALPHAI,
+                    FLOAT            *BETA,
+                    FLOAT            *VSL,
+                    const INTEGER    *LDVSL,
+                    FLOAT            *VSR,
+                    const INTEGER    *LDVSR,
+                    FLOAT            *RCONDE,
+                    FLOAT            *RCONDV,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    LOGICAL          *BWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sggesx");
+    LAPACK_IMPL(sggesx)(JOBVSL,
+                        JOBVSR,
+                        SORT,
+                        SELCTG,
+                        SENSE,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        SDIM,
+                        ALPHAR,
+                        ALPHAI,
+                        BETA,
+                        VSL,
+                        LDVSL,
+                        VSR,
+                        LDVSR,
+                        RCONDE,
+                        RCONDV,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        LIWORK,
+                        BWORK,
+                        INFO);
+}
+
+//-- sggev ---------------------------------------------------------------------
+void
+LAPACK_DECL(sggev)(const char           *JOBVL,
+                   const char           *JOBVR,
+                   const INTEGER        *N,
+                   FLOAT                *A,
+                   const INTEGER        *LDA,
+                   FLOAT                *B,
+                   const INTEGER        *LDB,
+                   FLOAT                *ALPHAR,
+                   FLOAT                *ALPHAI,
+                   FLOAT                *BETA,
+                   FLOAT                *VL,
+                   const INTEGER        *LDVL,
+                   FLOAT                *VR,
+                   const INTEGER        *LDVR,
+                   FLOAT                *WORK,
+                   const INTEGER        *LWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("sggev");
+    LAPACK_IMPL(sggev)(JOBVL,
+                       JOBVR,
+                       N,
+                       A,
+                       LDA,
+                       B,
+                       LDB,
+                       ALPHAR,
+                       ALPHAI,
+                       BETA,
+                       VL,
+                       LDVL,
+                       VR,
+                       LDVR,
+                       WORK,
+                       LWORK,
+                       INFO);
+}
+
+//-- sggevx --------------------------------------------------------------------
+void
+LAPACK_DECL(sggevx)(const char       *BALANC,
+                    const char       *JOBVL,
+                    const char       *JOBVR,
+                    const char       *SENSE,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *ALPHAR,
+                    FLOAT            *ALPHAI,
+                    FLOAT            *BETA,
+                    FLOAT            *VL,
+                    const INTEGER    *LDVL,
+                    FLOAT            *VR,
+                    const INTEGER    *LDVR,
+                    INTEGER          *ILO,
+                    INTEGER          *IHI,
+                    FLOAT            *LSCALE,
+                    FLOAT            *RSCALE,
+                    FLOAT            *ABNRM,
+                    FLOAT            *BBNRM,
+                    FLOAT            *RCONDE,
+                    FLOAT            *RCONDV,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    LOGICAL          *BWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sggevx");
+    LAPACK_IMPL(sggevx)(BALANC,
+                        JOBVL,
+                        JOBVR,
+                        SENSE,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        ALPHAR,
+                        ALPHAI,
+                        BETA,
+                        VL,
+                        LDVL,
+                        VR,
+                        LDVR,
+                        ILO,
+                        IHI,
+                        LSCALE,
+                        RSCALE,
+                        ABNRM,
+                        BBNRM,
+                        RCONDE,
+                        RCONDV,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        BWORK,
+                        INFO);
+}
+
+//-- sggglm --------------------------------------------------------------------
+void
+LAPACK_DECL(sggglm)(const INTEGER    *N,
+                    const INTEGER    *M,
+                    const INTEGER    *P,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *D,
+                    FLOAT            *X,
+                    FLOAT            *Y,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sggglm");
+    LAPACK_IMPL(sggglm)(N,
+                        M,
+                        P,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        D,
+                        X,
+                        Y,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sgghrd --------------------------------------------------------------------
+void
+LAPACK_DECL(sgghrd)(const char       *COMPQ,
+                    const char       *COMPZ,
+                    const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *Q,
+                    const INTEGER    *LDQ,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgghrd");
+    LAPACK_IMPL(sgghrd)(COMPQ,
+                        COMPZ,
+                        N,
+                        ILO,
+                        IHI,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        Q,
+                        LDQ,
+                        Z,
+                        LDZ,
+                        INFO);
+}
+
+//-- sgglse --------------------------------------------------------------------
+void
+LAPACK_DECL(sgglse)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *P,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *C,
+                    FLOAT            *D,
+                    FLOAT            *X,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgglse");
+    LAPACK_IMPL(sgglse)(M,
+                        N,
+                        P,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        C,
+                        D,
+                        X,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sggqrf --------------------------------------------------------------------
+void
+LAPACK_DECL(sggqrf)(const INTEGER    *N,
+                    const INTEGER    *M,
+                    const INTEGER    *P,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *TAUA,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *TAUB,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sggqrf");
+    LAPACK_IMPL(sggqrf)(N,
+                        M,
+                        P,
+                        A,
+                        LDA,
+                        TAUA,
+                        B,
+                        LDB,
+                        TAUB,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sggrqf --------------------------------------------------------------------
+void
+LAPACK_DECL(sggrqf)(const INTEGER    *M,
+                    const INTEGER    *P,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *TAUA,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *TAUB,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sggrqf");
+    LAPACK_IMPL(sggrqf)(M,
+                        P,
+                        N,
+                        A,
+                        LDA,
+                        TAUA,
+                        B,
+                        LDB,
+                        TAUB,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sggsvd --------------------------------------------------------------------
+void
+LAPACK_DECL(sggsvd)(const char       *JOBU,
+                    const char       *JOBV,
+                    const char       *JOBQ,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *P,
+                    INTEGER          *K,
+                    INTEGER          *L,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *ALPHA,
+                    FLOAT            *BETA,
+                    FLOAT            *U,
+                    const INTEGER    *LDU,
+                    FLOAT            *V,
+                    const INTEGER    *LDV,
+                    FLOAT            *Q,
+                    const INTEGER    *LDQ,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sggsvd");
+    LAPACK_IMPL(sggsvd)(JOBU,
+                        JOBV,
+                        JOBQ,
+                        M,
+                        N,
+                        P,
+                        K,
+                        L,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        ALPHA,
+                        BETA,
+                        U,
+                        LDU,
+                        V,
+                        LDV,
+                        Q,
+                        LDQ,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- sggsvp --------------------------------------------------------------------
+void
+LAPACK_DECL(sggsvp)(const char       *JOBU,
+                    const char       *JOBV,
+                    const char       *JOBQ,
+                    const INTEGER    *M,
+                    const INTEGER    *P,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    const FLOAT      *TOLA,
+                    const FLOAT      *TOLB,
+                    INTEGER          *K,
+                    INTEGER          *L,
+                    FLOAT            *U,
+                    const INTEGER    *LDU,
+                    FLOAT            *V,
+                    const INTEGER    *LDV,
+                    FLOAT            *Q,
+                    const INTEGER    *LDQ,
+                    INTEGER          *IWORK,
+                    FLOAT            *TAU,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sggsvp");
+    LAPACK_IMPL(sggsvp)(JOBU,
+                        JOBV,
+                        JOBQ,
+                        M,
+                        P,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        TOLA,
+                        TOLB,
+                        K,
+                        L,
+                        U,
+                        LDU,
+                        V,
+                        LDV,
+                        Q,
+                        LDQ,
+                        IWORK,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- sgsvj0 --------------------------------------------------------------------
+void
+LAPACK_DECL(sgsvj0)(const char       *JOBV,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *D,
+                    FLOAT            *SVA,
+                    const INTEGER    *MV,
+                    FLOAT            *V,
+                    const INTEGER    *LDV,
+                    const FLOAT      *EPS,
+                    const FLOAT      *SFMIN,
+                    const FLOAT      *TOL,
+                    const INTEGER    *NSWEEP,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgsvj0");
+    LAPACK_IMPL(sgsvj0)(JOBV,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        D,
+                        SVA,
+                        MV,
+                        V,
+                        LDV,
+                        EPS,
+                        SFMIN,
+                        TOL,
+                        NSWEEP,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sgsvj1 --------------------------------------------------------------------
+void
+LAPACK_DECL(sgsvj1)(const char       *JOBV,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *N1,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *D,
+                    FLOAT            *SVA,
+                    const INTEGER    *MV,
+                    FLOAT            *V,
+                    const INTEGER    *LDV,
+                    const FLOAT      *EPS,
+                    const FLOAT      *SFMIN,
+                    const FLOAT      *TOL,
+                    const INTEGER    *NSWEEP,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgsvj1");
+    LAPACK_IMPL(sgsvj1)(JOBV,
+                        M,
+                        N,
+                        N1,
+                        A,
+                        LDA,
+                        D,
+                        SVA,
+                        MV,
+                        V,
+                        LDV,
+                        EPS,
+                        SFMIN,
+                        TOL,
+                        NSWEEP,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sgtcon --------------------------------------------------------------------
+void
+LAPACK_DECL(sgtcon)(const char       *NORM,
+                    const INTEGER    *N,
+                    const FLOAT      *DL,
+                    const FLOAT      *D,
+                    const FLOAT      *DU,
+                    const FLOAT      *DU2,
+                    const INTEGER    *IPIV,
+                    const FLOAT      *ANORM,
+                    FLOAT            *RCOND,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgtcon");
+    LAPACK_IMPL(sgtcon)(NORM,
+                        N,
+                        DL,
+                        D,
+                        DU,
+                        DU2,
+                        IPIV,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- sgtrfs --------------------------------------------------------------------
+void
+LAPACK_DECL(sgtrfs)(const char       *TRANS,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *DL,
+                    const FLOAT      *D,
+                    const FLOAT      *DU,
+                    const FLOAT      *DLF,
+                    const FLOAT      *DF,
+                    const FLOAT      *DUF,
+                    const FLOAT      *DU2,
+                    const INTEGER    *IPIV,
+                    const FLOAT      *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *FERR,
+                    FLOAT            *BERR,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgtrfs");
+    LAPACK_IMPL(sgtrfs)(TRANS,
+                        N,
+                        NRHS,
+                        DL,
+                        D,
+                        DU,
+                        DLF,
+                        DF,
+                        DUF,
+                        DU2,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- sgtsv ---------------------------------------------------------------------
+void
+LAPACK_DECL(sgtsv)(const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   FLOAT                *DL,
+                   FLOAT                *D,
+                   FLOAT                *DU,
+                   FLOAT                *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("sgtsv");
+    LAPACK_IMPL(sgtsv)(N,
+                       NRHS,
+                       DL,
+                       D,
+                       DU,
+                       B,
+                       LDB,
+                       INFO);
+}
+
+//-- sgtsvx --------------------------------------------------------------------
+void
+LAPACK_DECL(sgtsvx)(const char       *FACT,
+                    const char       *TRANS,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *DL,
+                    const FLOAT      *D,
+                    const FLOAT      *DU,
+                    FLOAT            *DLF,
+                    FLOAT            *DF,
+                    FLOAT            *DUF,
+                    FLOAT            *DU2,
+                    INTEGER          *IPIV,
+                    const FLOAT      *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *RCOND,
+                    FLOAT            *FERR,
+                    FLOAT            *BERR,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgtsvx");
+    LAPACK_IMPL(sgtsvx)(FACT,
+                        TRANS,
+                        N,
+                        NRHS,
+                        DL,
+                        D,
+                        DU,
+                        DLF,
+                        DF,
+                        DUF,
+                        DU2,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- sgttrf --------------------------------------------------------------------
+void
+LAPACK_DECL(sgttrf)(const INTEGER    *N,
+                    FLOAT            *DL,
+                    FLOAT            *D,
+                    FLOAT            *DU,
+                    FLOAT            *DU2,
+                    INTEGER          *IPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgttrf");
+    LAPACK_IMPL(sgttrf)(N,
+                        DL,
+                        D,
+                        DU,
+                        DU2,
+                        IPIV,
+                        INFO);
+}
+
+//-- sgttrs --------------------------------------------------------------------
+void
+LAPACK_DECL(sgttrs)(const char       *TRANS,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *DL,
+                    const FLOAT      *D,
+                    const FLOAT      *DU,
+                    const FLOAT      *DU2,
+                    const INTEGER    *IPIV,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sgttrs");
+    LAPACK_IMPL(sgttrs)(TRANS,
+                        N,
+                        NRHS,
+                        DL,
+                        D,
+                        DU,
+                        DU2,
+                        IPIV,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- sgtts2 --------------------------------------------------------------------
+void
+LAPACK_DECL(sgtts2)(const INTEGER    *ITRANS,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *DL,
+                    const FLOAT      *D,
+                    const FLOAT      *DU,
+                    const FLOAT      *DU2,
+                    const INTEGER    *IPIV,
+                    FLOAT            *B,
+                    const INTEGER    *LDB)
+{
+    DEBUG_LAPACK_STUB("sgtts2");
+    LAPACK_IMPL(sgtts2)(ITRANS,
+                        N,
+                        NRHS,
+                        DL,
+                        D,
+                        DU,
+                        DU2,
+                        IPIV,
+                        B,
+                        LDB);
+}
+
+//-- shgeqz --------------------------------------------------------------------
+void
+LAPACK_DECL(shgeqz)(const char       *JOB,
+                    const char       *COMPQ,
+                    const char       *COMPZ,
+                    const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    FLOAT            *H,
+                    const INTEGER    *LDH,
+                    FLOAT            *T,
+                    const INTEGER    *LDT,
+                    FLOAT            *ALPHAR,
+                    FLOAT            *ALPHAI,
+                    FLOAT            *BETA,
+                    FLOAT            *Q,
+                    const INTEGER    *LDQ,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("shgeqz");
+    LAPACK_IMPL(shgeqz)(JOB,
+                        COMPQ,
+                        COMPZ,
+                        N,
+                        ILO,
+                        IHI,
+                        H,
+                        LDH,
+                        T,
+                        LDT,
+                        ALPHAR,
+                        ALPHAI,
+                        BETA,
+                        Q,
+                        LDQ,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- shsein --------------------------------------------------------------------
+void
+LAPACK_DECL(shsein)(const char       *SIDE,
+                    const char       *EIGSRC,
+                    const char       *INITV,
+                    LOGICAL          *SELECT,
+                    const INTEGER    *N,
+                    const FLOAT      *H,
+                    const INTEGER    *LDH,
+                    FLOAT            *WR,
+                    const FLOAT      *WI,
+                    FLOAT            *VL,
+                    const INTEGER    *LDVL,
+                    FLOAT            *VR,
+                    const INTEGER    *LDVR,
+                    const INTEGER    *MM,
+                    INTEGER          *M,
+                    FLOAT            *WORK,
+                    INTEGER          *IFAILL,
+                    INTEGER          *IFAILR,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("shsein");
+    LAPACK_IMPL(shsein)(SIDE,
+                        EIGSRC,
+                        INITV,
+                        SELECT,
+                        N,
+                        H,
+                        LDH,
+                        WR,
+                        WI,
+                        VL,
+                        LDVL,
+                        VR,
+                        LDVR,
+                        MM,
+                        M,
+                        WORK,
+                        IFAILL,
+                        IFAILR,
+                        INFO);
+}
+
+//-- shseqr --------------------------------------------------------------------
+void
+LAPACK_DECL(shseqr)(const char       *JOB,
+                    const char       *COMPZ,
+                    const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    FLOAT            *H,
+                    const INTEGER    *LDH,
+                    FLOAT            *WR,
+                    FLOAT            *WI,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("shseqr");
+    LAPACK_IMPL(shseqr)(JOB,
+                        COMPZ,
+                        N,
+                        ILO,
+                        IHI,
+                        H,
+                        LDH,
+                        WR,
+                        WI,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
 //-- sisnan --------------------------------------------------------------------
 LOGICAL
 LAPACK_DECL(sisnan)(const FLOAT  *SIN)
 {
     DEBUG_LAPACK_STUB("sisnan");
     return LAPACK_IMPL(sisnan)(SIN);
+}
+
+//-- sla_gbamv -----------------------------------------------------------------
+void
+LAPACK_DECL(sla_gbamv)(const INTEGER        *TRANS,
+                       const INTEGER        *M,
+                       const INTEGER        *N,
+                       const INTEGER        *KL,
+                       const INTEGER        *KU,
+                       const FLOAT          *ALPHA,
+                       const FLOAT          *AB,
+                       const INTEGER        *LDAB,
+                       const FLOAT          *X,
+                       const INTEGER        *INCX,
+                       const FLOAT          *BETA,
+                       FLOAT                *Y,
+                       const INTEGER        *INCY)
+{
+    DEBUG_LAPACK_STUB("sla_gbamv");
+    LAPACK_IMPL(sla_gbamv)(TRANS,
+                           M,
+                           N,
+                           KL,
+                           KU,
+                           ALPHA,
+                           AB,
+                           LDAB,
+                           X,
+                           INCX,
+                           BETA,
+                           Y,
+                           INCY);
+}
+
+//-- sla_gbrcond ---------------------------------------------------------------
+FLOAT
+LAPACK_DECL(sla_gbrcond)(const char       *TRANS,
+                         const INTEGER    *N,
+                         const INTEGER    *KL,
+                         const INTEGER    *KU,
+                         const FLOAT      *AB,
+                         const INTEGER    *LDAB,
+                         const FLOAT      *AFB,
+                         const INTEGER    *LDAFB,
+                         const INTEGER    *IPIV,
+                         const INTEGER    *CMODE,
+                         const FLOAT      *C,
+                         INTEGER          *INFO,
+                         const FLOAT      *WORK,
+                         const INTEGER    *IWORK)
+{
+    DEBUG_LAPACK_STUB("sla_gbrcond");
+    return LAPACK_IMPL(sla_gbrcond)(TRANS,
+                                    N,
+                                    KL,
+                                    KU,
+                                    AB,
+                                    LDAB,
+                                    AFB,
+                                    LDAFB,
+                                    IPIV,
+                                    CMODE,
+                                    C,
+                                    INFO,
+                                    WORK,
+                                    IWORK);
+}
+
+//-- sla_gbrfsx_extended -------------------------------------------------------
+void
+LAPACK_DECL(sla_gbrfsx_extended)(const INTEGER    *PREC_TYPE,
+                                 const INTEGER    *TRANS_TYPE,
+                                 const INTEGER    *N,
+                                 const INTEGER    *KL,
+                                 const INTEGER    *KU,
+                                 const INTEGER    *NRHS,
+                                 const FLOAT      *AB,
+                                 const INTEGER    *LDAB,
+                                 const FLOAT      *AFB,
+                                 const INTEGER    *LDAFB,
+                                 const INTEGER    *IPIV,
+                                 const LOGICAL    *COLEQU,
+                                 const FLOAT      *C,
+                                 const FLOAT      *B,
+                                 const INTEGER    *LDB,
+                                 FLOAT            *Y,
+                                 const INTEGER    *LDY,
+                                 FLOAT            *BERR_OUT,
+                                 const INTEGER    *N_NORMS,
+                                 FLOAT            *ERR_BNDS_NORM,
+                                 FLOAT            *ERR_BNDS_COMP,
+                                 const FLOAT      *RES,
+                                 const FLOAT      *AYB,
+                                 const FLOAT      *DY,
+                                 const FLOAT      *Y_TAIL,
+                                 const FLOAT      *RCOND,
+                                 const INTEGER    *ITHRESH,
+                                 const FLOAT      *RTHRESH,
+                                 const FLOAT      *DZ_UB,
+                                 const LOGICAL    *IGNORE_CWISE,
+                                 INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sla_gbrfsx_extended");
+    ASSERT(0);
+    /*
+    LAPACK_IMPL(sla_gbrfsx_extended)(PREC_TYPE,
+                                     TRANS_TYPE,
+                                     N,
+                                     KL,
+                                     KU,
+                                     NRHS,
+                                     AB,
+                                     LDAB,
+                                     AFB,
+                                     LDAFB,
+                                     IPIV,
+                                     COLEQU,
+                                     C,
+                                     B,
+                                     LDB,
+                                     Y,
+                                     LDY,
+                                     BERR_OUT,
+                                     N_NORMS,
+                                     ERR_BNDS_NORM,
+                                     ERR_BNDS_COMP,
+                                     RES,
+                                     AYB,
+                                     DY,
+                                     Y_TAIL,
+                                     RCOND,
+                                     ITHRESH,
+                                     RTHRESH,
+                                     DZ_UB,
+                                     IGNORE_CWISE,
+                                     INFO);
+    */
+}
+
+//-- sla_gbrpvgrw --------------------------------------------------------------
+FLOAT
+LAPACK_DECL(sla_gbrpvgrw)(const INTEGER    *N,
+                          const INTEGER    *KL,
+                          const INTEGER    *KU,
+                          const INTEGER    *NCOLS,
+                          const FLOAT      *AB,
+                          const INTEGER    *LDAB,
+                          const FLOAT      *AFB,
+                          const INTEGER    *LDAFB)
+{
+    DEBUG_LAPACK_STUB("sla_gbrpvgrw");
+    return LAPACK_IMPL(sla_gbrpvgrw)(N,
+                                     KL,
+                                     KU,
+                                     NCOLS,
+                                     AB,
+                                     LDAB,
+                                     AFB,
+                                     LDAFB);
+}
+
+//-- sla_geamv -----------------------------------------------------------------
+void
+LAPACK_DECL(sla_geamv)(const INTEGER        *TRANS,
+                       const INTEGER        *M,
+                       const INTEGER        *N,
+                       const FLOAT          *ALPHA,
+                       const FLOAT          *A,
+                       const INTEGER        *LDA,
+                       const FLOAT          *X,
+                       const INTEGER        *INCX,
+                       const FLOAT          *BETA,
+                       FLOAT                *Y,
+                       const INTEGER        *INCY)
+{
+    DEBUG_LAPACK_STUB("sla_geamv");
+    LAPACK_IMPL(sla_geamv)(TRANS,
+                           M,
+                           N,
+                           ALPHA,
+                           A,
+                           LDA,
+                           X,
+                           INCX,
+                           BETA,
+                           Y,
+                           INCY);
+}
+
+//-- sla_gercond ---------------------------------------------------------------
+FLOAT
+LAPACK_DECL(sla_gercond)(const char       *TRANS,
+                         const INTEGER    *N,
+                         const FLOAT      *A,
+                         const INTEGER    *LDA,
+                         const FLOAT      *AF,
+                         const INTEGER    *LDAF,
+                         const INTEGER    *IPIV,
+                         const INTEGER    *CMODE,
+                         const FLOAT      *C,
+                         INTEGER          *INFO,
+                         const FLOAT      *WORK,
+                         const INTEGER    *IWORK)
+{
+    DEBUG_LAPACK_STUB("sla_gercond");
+    return LAPACK_IMPL(sla_gercond)(TRANS,
+                                    N,
+                                    A,
+                                    LDA,
+                                    AF,
+                                    LDAF,
+                                    IPIV,
+                                    CMODE,
+                                    C,
+                                    INFO,
+                                    WORK,
+                                    IWORK);
+}
+
+//-- sla_gerfsx_extended -------------------------------------------------------
+void
+LAPACK_DECL(sla_gerfsx_extended)(const INTEGER    *PREC_TYPE,
+                                 const INTEGER    *TRANS_TYPE,
+                                 const INTEGER    *N,
+                                 const INTEGER    *NRHS,
+                                 const FLOAT      *A,
+                                 const INTEGER    *LDA,
+                                 const FLOAT      *AF,
+                                 const INTEGER    *LDAF,
+                                 const INTEGER    *IPIV,
+                                 const LOGICAL    *COLEQU,
+                                 const FLOAT      *C,
+                                 const FLOAT      *B,
+                                 const INTEGER    *LDB,
+                                 FLOAT            *Y,
+                                 const INTEGER    *LDY,
+                                 FLOAT            *BERR_OUT,
+                                 const INTEGER    *N_NORMS,
+                                 FLOAT            *ERR_BNDS_NORM,
+                                 FLOAT            *ERR_BNDS_COMP,
+                                 const FLOAT      *RES,
+                                 const FLOAT      *AYB,
+                                 const FLOAT      *DY,
+                                 const FLOAT      *Y_TAIL,
+                                 const FLOAT      *RCOND,
+                                 const INTEGER    *ITHRESH,
+                                 const FLOAT      *RTHRESH,
+                                 const FLOAT      *DZ_UB,
+                                 const LOGICAL    *IGNORE_CWISE,
+                                 INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sla_gerfsx_extended");
+    ASSERT(0);
+    /*
+    LAPACK_IMPL(sla_gerfsx_extended)(PREC_TYPE,
+                                     TRANS_TYPE,
+                                     N,
+                                     NRHS,
+                                     A,
+                                     LDA,
+                                     AF,
+                                     LDAF,
+                                     IPIV,
+                                     COLEQU,
+                                     C,
+                                     B,
+                                     LDB,
+                                     Y,
+                                     LDY,
+                                     BERR_OUT,
+                                     N_NORMS,
+                                     ERR_BNDS_NORM,
+                                     ERR_BNDS_COMP,
+                                     RES,
+                                     AYB,
+                                     DY,
+                                     Y_TAIL,
+                                     RCOND,
+                                     ITHRESH,
+                                     RTHRESH,
+                                     DZ_UB,
+                                     IGNORE_CWISE,
+                                     INFO);
+    */
+}
+
+//-- sla_lin_berr --------------------------------------------------------------
+void
+LAPACK_DECL(sla_lin_berr)(const INTEGER    *N,
+                          const INTEGER    *NZ,
+                          const INTEGER    *NRHS,
+                          const FLOAT      *RES,
+                          const FLOAT      *AYB,
+                          FLOAT            *BERR)
+{
+    DEBUG_LAPACK_STUB("sla_lin_berr");
+    LAPACK_IMPL(sla_lin_berr)(N,
+                              NZ,
+                              NRHS,
+                              RES,
+                              AYB,
+                              BERR);
+}
+
+//-- sla_porcond ---------------------------------------------------------------
+FLOAT
+LAPACK_DECL(sla_porcond)(const char       *UPLO,
+                         const INTEGER    *N,
+                         const FLOAT      *A,
+                         const INTEGER    *LDA,
+                         const FLOAT      *AF,
+                         const INTEGER    *LDAF,
+                         const INTEGER    *CMODE,
+                         const FLOAT      *C,
+                         INTEGER          *INFO,
+                         const FLOAT      *WORK,
+                         const INTEGER    *IWORK)
+{
+    DEBUG_LAPACK_STUB("sla_porcond");
+    return LAPACK_IMPL(sla_porcond)(UPLO,
+                                    N,
+                                    A,
+                                    LDA,
+                                    AF,
+                                    LDAF,
+                                    CMODE,
+                                    C,
+                                    INFO,
+                                    WORK,
+                                    IWORK);
+}
+
+//-- sla_porfsx_extended -------------------------------------------------------
+void
+LAPACK_DECL(sla_porfsx_extended)(const INTEGER    *PREC_TYPE,
+                                 const char       *UPLO,
+                                 const INTEGER    *N,
+                                 const INTEGER    *NRHS,
+                                 const FLOAT      *A,
+                                 const INTEGER    *LDA,
+                                 const FLOAT      *AF,
+                                 const INTEGER    *LDAF,
+                                 const LOGICAL    *COLEQU,
+                                 const FLOAT      *C,
+                                 const FLOAT      *B,
+                                 const INTEGER    *LDB,
+                                 FLOAT            *Y,
+                                 const INTEGER    *LDY,
+                                 FLOAT            *BERR_OUT,
+                                 const INTEGER    *N_NORMS,
+                                 FLOAT            *ERR_BNDS_NORM,
+                                 FLOAT            *ERR_BNDS_COMP,
+                                 const FLOAT      *RES,
+                                 const FLOAT      *AYB,
+                                 const FLOAT      *DY,
+                                 const FLOAT      *Y_TAIL,
+                                 const FLOAT      *RCOND,
+                                 const INTEGER    *ITHRESH,
+                                 const FLOAT      *RTHRESH,
+                                 const FLOAT      *DZ_UB,
+                                 const LOGICAL    *IGNORE_CWISE,
+                                 INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sla_porfsx_extended");
+    ASSERT(0);
+    /*
+    LAPACK_IMPL(sla_porfsx_extended)(PREC_TYPE,
+                                     UPLO,
+                                     N,
+                                     NRHS,
+                                     A,
+                                     LDA,
+                                     AF,
+                                     LDAF,
+                                     COLEQU,
+                                     C,
+                                     B,
+                                     LDB,
+                                     Y,
+                                     LDY,
+                                     BERR_OUT,
+                                     N_NORMS,
+                                     ERR_BNDS_NORM,
+                                     ERR_BNDS_COMP,
+                                     RES,
+                                     AYB,
+                                     DY,
+                                     Y_TAIL,
+                                     RCOND,
+                                     ITHRESH,
+                                     RTHRESH,
+                                     DZ_UB,
+                                     IGNORE_CWISE,
+                                     INFO);
+    */
+}
+
+//-- sla_porpvgrw --------------------------------------------------------------
+FLOAT
+LAPACK_DECL(sla_porpvgrw)(const char       *UPLO,
+                          const INTEGER    *NCOLS,
+                          const FLOAT      *A,
+                          const INTEGER    *LDA,
+                          const FLOAT      *AF,
+                          const INTEGER    *LDAF,
+                          const FLOAT      *WORK)
+{
+    DEBUG_LAPACK_STUB("sla_porpvgrw");
+    return LAPACK_IMPL(sla_porpvgrw)(UPLO,
+                                     NCOLS,
+                                     A,
+                                     LDA,
+                                     AF,
+                                     LDAF,
+                                     WORK);
+}
+
+//-- sla_rpvgrw ----------------------------------------------------------------
+FLOAT
+LAPACK_DECL(sla_rpvgrw)(const INTEGER    *N,
+                        const INTEGER    *NCOLS,
+                        const FLOAT      *A,
+                        const INTEGER    *LDA,
+                        const FLOAT      *AF,
+                        const INTEGER    *LDAF)
+{
+    DEBUG_LAPACK_STUB("sla_rpvgrw");
+    return LAPACK_IMPL(sla_rpvgrw)(N,
+                                   NCOLS,
+                                   A,
+                                   LDA,
+                                   AF,
+                                   LDAF);
+}
+
+//-- sla_syamv -----------------------------------------------------------------
+void
+LAPACK_DECL(sla_syamv)(const INTEGER        *UPLO,
+                       const INTEGER        *N,
+                       const FLOAT          *ALPHA,
+                       const FLOAT          *A,
+                       const INTEGER        *LDA,
+                       const FLOAT          *X,
+                       const INTEGER        *INCX,
+                       const FLOAT          *BETA,
+                       FLOAT                *Y,
+                       const INTEGER        *INCY)
+{
+    DEBUG_LAPACK_STUB("sla_syamv");
+    LAPACK_IMPL(sla_syamv)(UPLO,
+                           N,
+                           ALPHA,
+                           A,
+                           LDA,
+                           X,
+                           INCX,
+                           BETA,
+                           Y,
+                           INCY);
+}
+
+//-- sla_syrcond ---------------------------------------------------------------
+FLOAT
+LAPACK_DECL(sla_syrcond)(const char       *UPLO,
+                         const INTEGER    *N,
+                         const FLOAT      *A,
+                         const INTEGER    *LDA,
+                         const FLOAT      *AF,
+                         const INTEGER    *LDAF,
+                         const INTEGER    *IPIV,
+                         const INTEGER    *CMODE,
+                         const FLOAT      *C,
+                         INTEGER          *INFO,
+                         const FLOAT      *WORK,
+                         const INTEGER    *IWORK)
+{
+    DEBUG_LAPACK_STUB("sla_syrcond");
+    return LAPACK_IMPL(sla_syrcond)(UPLO,
+                                    N,
+                                    A,
+                                    LDA,
+                                    AF,
+                                    LDAF,
+                                    IPIV,
+                                    CMODE,
+                                    C,
+                                    INFO,
+                                    WORK,
+                                    IWORK);
+}
+
+//-- sla_syrfsx_extended -------------------------------------------------------
+void
+LAPACK_DECL(sla_syrfsx_extended)(const INTEGER    *PREC_TYPE,
+                                 const char       *UPLO,
+                                 const INTEGER    *N,
+                                 const INTEGER    *NRHS,
+                                 const FLOAT      *A,
+                                 const INTEGER    *LDA,
+                                 const FLOAT      *AF,
+                                 const INTEGER    *LDAF,
+                                 const INTEGER    *IPIV,
+                                 const LOGICAL    *COLEQU,
+                                 const FLOAT      *C,
+                                 const FLOAT      *B,
+                                 const INTEGER    *LDB,
+                                 FLOAT            *Y,
+                                 const INTEGER    *LDY,
+                                 FLOAT            *BERR_OUT,
+                                 const INTEGER    *N_NORMS,
+                                 FLOAT            *ERR_BNDS_NORM,
+                                 FLOAT            *ERR_BNDS_COMP,
+                                 const FLOAT      *RES,
+                                 const FLOAT      *AYB,
+                                 const FLOAT      *DY,
+                                 const FLOAT      *Y_TAIL,
+                                 const FLOAT      *RCOND,
+                                 const INTEGER    *ITHRESH,
+                                 const FLOAT      *RTHRESH,
+                                 const FLOAT      *DZ_UB,
+                                 const LOGICAL    *IGNORE_CWISE,
+                                 INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sla_syrfsx_extended");
+    ASSERT(0);
+    /*
+    LAPACK_IMPL(sla_syrfsx_extended)(PREC_TYPE,
+                                     UPLO,
+                                     N,
+                                     NRHS,
+                                     A,
+                                     LDA,
+                                     AF,
+                                     LDAF,
+                                     IPIV,
+                                     COLEQU,
+                                     C,
+                                     B,
+                                     LDB,
+                                     Y,
+                                     LDY,
+                                     BERR_OUT,
+                                     N_NORMS,
+                                     ERR_BNDS_NORM,
+                                     ERR_BNDS_COMP,
+                                     RES,
+                                     AYB,
+                                     DY,
+                                     Y_TAIL,
+                                     RCOND,
+                                     ITHRESH,
+                                     RTHRESH,
+                                     DZ_UB,
+                                     IGNORE_CWISE,
+                                     INFO);
+    */
+}
+
+//-- sla_syrpvgrw --------------------------------------------------------------
+FLOAT
+LAPACK_DECL(sla_syrpvgrw)(const char       *UPLO,
+                          const INTEGER    *N,
+                          const INTEGER    *INFO,
+                          const FLOAT      *A,
+                          const INTEGER    *LDA,
+                          const FLOAT      *AF,
+                          const INTEGER    *LDAF,
+                          const INTEGER    *IPIV,
+                          const FLOAT      *WORK)
+{
+    DEBUG_LAPACK_STUB("sla_syrpvgrw");
+    return LAPACK_IMPL(sla_syrpvgrw)(UPLO,
+                                     N,
+                                     INFO,
+                                     A,
+                                     LDA,
+                                     AF,
+                                     LDAF,
+                                     IPIV,
+                                     WORK);
+}
+
+//-- sla_wwaddw ----------------------------------------------------------------
+void
+LAPACK_DECL(sla_wwaddw)(const INTEGER    *N,
+                        FLOAT            *X,
+                        FLOAT            *Y,
+                        const FLOAT      *W)
+{
+    DEBUG_LAPACK_STUB("sla_wwaddw");
+    LAPACK_IMPL(sla_wwaddw)(N,
+                            X,
+                            Y,
+                            W);
+}
+
+//-- slabad --------------------------------------------------------------------
+void
+LAPACK_DECL(slabad)(FLOAT    *SMALL,
+                    FLOAT    *LARGE)
+{
+    DEBUG_LAPACK_STUB("slabad");
+    LAPACK_IMPL(slabad)(SMALL,
+                        LARGE);
+}
+
+//-- slabrd --------------------------------------------------------------------
+void
+LAPACK_DECL(slabrd)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *NB,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT            *TAUQ,
+                    FLOAT            *TAUP,
+                    FLOAT            *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *Y,
+                    const INTEGER    *LDY)
+{
+    DEBUG_LAPACK_STUB("slabrd");
+    LAPACK_IMPL(slabrd)(M,
+                        N,
+                        NB,
+                        A,
+                        LDA,
+                        D,
+                        E,
+                        TAUQ,
+                        TAUP,
+                        X,
+                        LDX,
+                        Y,
+                        LDY);
+}
+
+//-- slacn2 --------------------------------------------------------------------
+void
+LAPACK_DECL(slacn2)(const INTEGER    *N,
+                    FLOAT            *V,
+                    FLOAT            *X,
+                    INTEGER          *ISGN,
+                    FLOAT            *EST,
+                    INTEGER          *KASE,
+                    INTEGER          *ISAVE)
+{
+    DEBUG_LAPACK_STUB("slacn2");
+    LAPACK_IMPL(slacn2)(N,
+                        V,
+                        X,
+                        ISGN,
+                        EST,
+                        KASE,
+                        ISAVE);
+}
+
+//-- slacon --------------------------------------------------------------------
+void
+LAPACK_DECL(slacon)(const INTEGER    *N,
+                    FLOAT            *V,
+                    FLOAT            *X,
+                    INTEGER          *ISGN,
+                    FLOAT            *EST,
+                    INTEGER          *KASE)
+{
+    DEBUG_LAPACK_STUB("slacon");
+    LAPACK_IMPL(slacon)(N,
+                        V,
+                        X,
+                        ISGN,
+                        EST,
+                        KASE);
+}
+
+//-- slacpy --------------------------------------------------------------------
+void
+LAPACK_DECL(slacpy)(const char       *UPLO,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *B,
+                    const INTEGER    *LDB)
+{
+    DEBUG_LAPACK_STUB("slacpy");
+    LAPACK_IMPL(slacpy)(UPLO,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB);
+}
+
+//-- sladiv --------------------------------------------------------------------
+void
+LAPACK_DECL(sladiv)(const FLOAT  *A,
+                    const FLOAT  *B,
+                    const FLOAT  *C,
+                    const FLOAT  *D,
+                    FLOAT        *P,
+                    FLOAT        *Q)
+{
+    DEBUG_LAPACK_STUB("sladiv");
+    LAPACK_IMPL(sladiv)(A,
+                        B,
+                        C,
+                        D,
+                        P,
+                        Q);
+}
+
+//-- slae2 ---------------------------------------------------------------------
+void
+LAPACK_DECL(slae2)(const FLOAT      *A,
+                   const FLOAT      *B,
+                   const FLOAT      *C,
+                   FLOAT            *RT1,
+                   FLOAT            *RT2)
+{
+    DEBUG_LAPACK_STUB("slae2");
+    LAPACK_IMPL(slae2)(A,
+                       B,
+                       C,
+                       RT1,
+                       RT2);
+}
+
+//-- slaebz --------------------------------------------------------------------
+void
+LAPACK_DECL(slaebz)(const INTEGER    *IJOB,
+                    const INTEGER    *NITMAX,
+                    const INTEGER    *N,
+                    const INTEGER    *MMAX,
+                    const INTEGER    *MINP,
+                    const INTEGER    *NBMIN,
+                    const FLOAT      *ABSTOL,
+                    const FLOAT      *RELTOL,
+                    const FLOAT      *PIVMIN,
+                    const FLOAT      *D,
+                    const FLOAT      *E,
+                    const FLOAT      *E2,
+                    INTEGER          *NVAL,
+                    FLOAT            *AB,
+                    FLOAT            *C,
+                    INTEGER          *MOUT,
+                    INTEGER          *NAB,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slaebz");
+    LAPACK_IMPL(slaebz)(IJOB,
+                        NITMAX,
+                        N,
+                        MMAX,
+                        MINP,
+                        NBMIN,
+                        ABSTOL,
+                        RELTOL,
+                        PIVMIN,
+                        D,
+                        E,
+                        E2,
+                        NVAL,
+                        AB,
+                        C,
+                        MOUT,
+                        NAB,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- slaed0 --------------------------------------------------------------------
+void
+LAPACK_DECL(slaed0)(const INTEGER    *ICOMPQ,
+                    const INTEGER    *QSIZ,
+                    const INTEGER    *N,
+                    FLOAT            *D,
+                    const FLOAT      *E,
+                    FLOAT            *Q,
+                    const INTEGER    *LDQ,
+                    FLOAT            *QSTORE,
+                    const INTEGER    *LDQS,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slaed0");
+    LAPACK_IMPL(slaed0)(ICOMPQ,
+                        QSIZ,
+                        N,
+                        D,
+                        E,
+                        Q,
+                        LDQ,
+                        QSTORE,
+                        LDQS,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- slaed1 --------------------------------------------------------------------
+void
+LAPACK_DECL(slaed1)(const INTEGER    *N,
+                    FLOAT            *D,
+                    FLOAT            *Q,
+                    const INTEGER    *LDQ,
+                    INTEGER          *INDXQ,
+                    const FLOAT      *RHO,
+                    const INTEGER    *CUTPNT,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slaed1");
+    LAPACK_IMPL(slaed1)(N,
+                        D,
+                        Q,
+                        LDQ,
+                        INDXQ,
+                        RHO,
+                        CUTPNT,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- slaed2 --------------------------------------------------------------------
+void
+LAPACK_DECL(slaed2)(INTEGER          *K,
+                    const INTEGER    *N,
+                    const INTEGER    *N1,
+                    FLOAT            *D,
+                    FLOAT            *Q,
+                    const INTEGER    *LDQ,
+                    INTEGER          *INDXQ,
+                    FLOAT            *RHO,
+                    const FLOAT      *Z,
+                    FLOAT            *DLAMDA,
+                    FLOAT            *W,
+                    FLOAT            *Q2,
+                    INTEGER          *INDX,
+                    INTEGER          *INDXC,
+                    INTEGER          *INDXP,
+                    INTEGER          *COLTYP,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slaed2");
+    LAPACK_IMPL(slaed2)(K,
+                        N,
+                        N1,
+                        D,
+                        Q,
+                        LDQ,
+                        INDXQ,
+                        RHO,
+                        Z,
+                        DLAMDA,
+                        W,
+                        Q2,
+                        INDX,
+                        INDXC,
+                        INDXP,
+                        COLTYP,
+                        INFO);
+}
+
+//-- slaed3 --------------------------------------------------------------------
+void
+LAPACK_DECL(slaed3)(const INTEGER    *K,
+                    const INTEGER    *N,
+                    const INTEGER    *N1,
+                    FLOAT            *D,
+                    FLOAT            *Q,
+                    const INTEGER    *LDQ,
+                    const FLOAT      *RHO,
+                    FLOAT            *DLAMDA,
+                    const FLOAT      *Q2,
+                    const INTEGER    *INDX,
+                    const INTEGER    *CTOT,
+                    FLOAT            *W,
+                    FLOAT            *S,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slaed3");
+    LAPACK_IMPL(slaed3)(K,
+                        N,
+                        N1,
+                        D,
+                        Q,
+                        LDQ,
+                        RHO,
+                        DLAMDA,
+                        Q2,
+                        INDX,
+                        CTOT,
+                        W,
+                        S,
+                        INFO);
+}
+
+//-- slaed4 --------------------------------------------------------------------
+void
+LAPACK_DECL(slaed4)(const INTEGER    *N,
+                    const INTEGER    *I,
+                    const FLOAT      *D,
+                    const FLOAT      *Z,
+                    FLOAT            *DELTA,
+                    const FLOAT      *RHO,
+                    FLOAT            *DLAM,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slaed4");
+    LAPACK_IMPL(slaed4)(N,
+                        I,
+                        D,
+                        Z,
+                        DELTA,
+                        RHO,
+                        DLAM,
+                        INFO);
+}
+
+//-- slaed5 --------------------------------------------------------------------
+void
+LAPACK_DECL(slaed5)(const INTEGER    *I,
+                    const FLOAT      *D,
+                    const FLOAT      *Z,
+                    FLOAT            *DELTA,
+                    const FLOAT      *RHO,
+                    FLOAT            *DLAM)
+{
+    DEBUG_LAPACK_STUB("slaed5");
+    LAPACK_IMPL(slaed5)(I,
+                        D,
+                        Z,
+                        DELTA,
+                        RHO,
+                        DLAM);
+}
+
+//-- slaed6 --------------------------------------------------------------------
+void
+LAPACK_DECL(slaed6)(const INTEGER    *KNITER,
+                    const LOGICAL    *ORGATI,
+                    const FLOAT      *RHO,
+                    const FLOAT      *D,
+                    const FLOAT      *Z,
+                    const FLOAT      *FINIT,
+                    FLOAT            *TAU,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slaed6");
+    LAPACK_IMPL(slaed6)(KNITER,
+                        ORGATI,
+                        RHO,
+                        D,
+                        Z,
+                        FINIT,
+                        TAU,
+                        INFO);
+}
+
+//-- slaed7 --------------------------------------------------------------------
+void
+LAPACK_DECL(slaed7)(const INTEGER    *ICOMPQ,
+                    const INTEGER    *N,
+                    const INTEGER    *QSIZ,
+                    const INTEGER    *TLVLS,
+                    const INTEGER    *CURLVL,
+                    const INTEGER    *CURPBM,
+                    FLOAT            *D,
+                    FLOAT            *Q,
+                    const INTEGER    *LDQ,
+                    INTEGER          *INDXQ,
+                    const FLOAT      *RHO,
+                    const INTEGER    *CUTPNT,
+                    FLOAT            *QSTORE,
+                    INTEGER          *QPTR,
+                    const INTEGER    *PRMPTR,
+                    const INTEGER    *PERM,
+                    const INTEGER    *GIVPTR,
+                    const INTEGER    *GIVCOL,
+                    const FLOAT      *GIVNUM,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slaed7");
+    LAPACK_IMPL(slaed7)(ICOMPQ,
+                        N,
+                        QSIZ,
+                        TLVLS,
+                        CURLVL,
+                        CURPBM,
+                        D,
+                        Q,
+                        LDQ,
+                        INDXQ,
+                        RHO,
+                        CUTPNT,
+                        QSTORE,
+                        QPTR,
+                        PRMPTR,
+                        PERM,
+                        GIVPTR,
+                        GIVCOL,
+                        GIVNUM,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- slaed8 --------------------------------------------------------------------
+void
+LAPACK_DECL(slaed8)(const INTEGER    *ICOMPQ,
+                    INTEGER          *K,
+                    const INTEGER    *N,
+                    const INTEGER    *QSIZ,
+                    FLOAT            *D,
+                    FLOAT            *Q,
+                    const INTEGER    *LDQ,
+                    const INTEGER    *INDXQ,
+                    FLOAT            *RHO,
+                    const INTEGER    *CUTPNT,
+                    const FLOAT      *Z,
+                    FLOAT            *DLAMDA,
+                    FLOAT            *Q2,
+                    const INTEGER    *LDQ2,
+                    FLOAT            *W,
+                    INTEGER          *PERM,
+                    INTEGER          *GIVPTR,
+                    INTEGER          *GIVCOL,
+                    FLOAT            *GIVNUM,
+                    INTEGER          *INDXP,
+                    INTEGER          *INDX,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slaed8");
+    LAPACK_IMPL(slaed8)(ICOMPQ,
+                        K,
+                        N,
+                        QSIZ,
+                        D,
+                        Q,
+                        LDQ,
+                        INDXQ,
+                        RHO,
+                        CUTPNT,
+                        Z,
+                        DLAMDA,
+                        Q2,
+                        LDQ2,
+                        W,
+                        PERM,
+                        GIVPTR,
+                        GIVCOL,
+                        GIVNUM,
+                        INDXP,
+                        INDX,
+                        INFO);
+}
+
+//-- slaed9 --------------------------------------------------------------------
+void
+LAPACK_DECL(slaed9)(const INTEGER    *K,
+                    const INTEGER    *KSTART,
+                    const INTEGER    *KSTOP,
+                    const INTEGER    *N,
+                    FLOAT            *D,
+                    FLOAT            *Q,
+                    const INTEGER    *LDQ,
+                    const FLOAT      *RHO,
+                    const FLOAT      *DLAMDA,
+                    const FLOAT      *W,
+                    FLOAT            *S,
+                    const INTEGER    *LDS,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slaed9");
+    LAPACK_IMPL(slaed9)(K,
+                        KSTART,
+                        KSTOP,
+                        N,
+                        D,
+                        Q,
+                        LDQ,
+                        RHO,
+                        DLAMDA,
+                        W,
+                        S,
+                        LDS,
+                        INFO);
+}
+
+//-- slaeda --------------------------------------------------------------------
+void
+LAPACK_DECL(slaeda)(const INTEGER    *N,
+                    const INTEGER    *TLVLS,
+                    const INTEGER    *CURLVL,
+                    const INTEGER    *CURPBM,
+                    const INTEGER    *PRMPTR,
+                    const INTEGER    *PERM,
+                    const INTEGER    *GIVPTR,
+                    const INTEGER    *GIVCOL,
+                    const FLOAT      *GIVNUM,
+                    const FLOAT      *Q,
+                    const INTEGER    *QPTR,
+                    FLOAT            *Z,
+                    FLOAT            *ZTEMP,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slaeda");
+    LAPACK_IMPL(slaeda)(N,
+                        TLVLS,
+                        CURLVL,
+                        CURPBM,
+                        PRMPTR,
+                        PERM,
+                        GIVPTR,
+                        GIVCOL,
+                        GIVNUM,
+                        Q,
+                        QPTR,
+                        Z,
+                        ZTEMP,
+                        INFO);
+}
+
+//-- slaein --------------------------------------------------------------------
+void
+LAPACK_DECL(slaein)(const LOGICAL    *RIGHTV,
+                    const LOGICAL    *NOINIT,
+                    const INTEGER    *N,
+                    const FLOAT      *H,
+                    const INTEGER    *LDH,
+                    const FLOAT      *WR,
+                    const FLOAT      *WI,
+                    FLOAT            *VR,
+                    FLOAT            *VI,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *WORK,
+                    const FLOAT      *EPS3,
+                    const FLOAT      *SMLNUM,
+                    const FLOAT      *BIGNUM,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slaein");
+    LAPACK_IMPL(slaein)(RIGHTV,
+                        NOINIT,
+                        N,
+                        H,
+                        LDH,
+                        WR,
+                        WI,
+                        VR,
+                        VI,
+                        B,
+                        LDB,
+                        WORK,
+                        EPS3,
+                        SMLNUM,
+                        BIGNUM,
+                        INFO);
+}
+
+//-- slaev2 --------------------------------------------------------------------
+void
+LAPACK_DECL(slaev2)(const FLOAT  *A,
+                    const FLOAT  *B,
+                    const FLOAT  *C,
+                    FLOAT        *RT1,
+                    FLOAT        *RT2,
+                    FLOAT        *CS1,
+                    FLOAT        *SN1)
+{
+    DEBUG_LAPACK_STUB("slaev2");
+    LAPACK_IMPL(slaev2)(A,
+                        B,
+                        C,
+                        RT1,
+                        RT2,
+                        CS1,
+                        SN1);
+}
+
+//-- slaexc --------------------------------------------------------------------
+void
+LAPACK_DECL(slaexc)(const LOGICAL    *WANTQ,
+                    const INTEGER    *N,
+                    FLOAT            *T,
+                    const INTEGER    *LDT,
+                    FLOAT            *Q,
+                    const INTEGER    *LDQ,
+                    const INTEGER    *J1,
+                    const INTEGER    *N1,
+                    const INTEGER    *N2,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slaexc");
+    LAPACK_IMPL(slaexc)(WANTQ,
+                        N,
+                        T,
+                        LDT,
+                        Q,
+                        LDQ,
+                        J1,
+                        N1,
+                        N2,
+                        WORK,
+                        INFO);
+}
+
+//-- slag2 ---------------------------------------------------------------------
+void
+LAPACK_DECL(slag2)(const FLOAT          *A,
+                   const INTEGER        *LDA,
+                   const FLOAT          *B,
+                   const INTEGER        *LDB,
+                   const FLOAT          *SAFMIN,
+                   FLOAT                *SCALE1,
+                   FLOAT                *SCALE2,
+                   FLOAT                *WR1,
+                   FLOAT                *WR2,
+                   FLOAT                *WI)
+{
+    DEBUG_LAPACK_STUB("slag2");
+    LAPACK_IMPL(slag2)(A,
+                       LDA,
+                       B,
+                       LDB,
+                       SAFMIN,
+                       SCALE1,
+                       SCALE2,
+                       WR1,
+                       WR2,
+                       WI);
 }
 
 //-- slag2d --------------------------------------------------------------------
@@ -11863,6 +28407,256 @@ LAPACK_DECL(slag2d)(const INTEGER    *M,
                         INFO);
 }
 
+//-- slags2 --------------------------------------------------------------------
+void
+LAPACK_DECL(slags2)(const LOGICAL    *UPPER,
+                    const FLOAT      *A1,
+                    const FLOAT      *A2,
+                    const FLOAT      *A3,
+                    const FLOAT      *B1,
+                    const FLOAT      *B2,
+                    const FLOAT      *B3,
+                    FLOAT            *CSU,
+                    FLOAT            *SNU,
+                    FLOAT            *CSV,
+                    FLOAT            *SNV,
+                    FLOAT            *CSQ,
+                    FLOAT            *SNQ)
+{
+    DEBUG_LAPACK_STUB("slags2");
+    LAPACK_IMPL(slags2)(UPPER,
+                        A1,
+                        A2,
+                        A3,
+                        B1,
+                        B2,
+                        B3,
+                        CSU,
+                        SNU,
+                        CSV,
+                        SNV,
+                        CSQ,
+                        SNQ);
+}
+
+//-- slagtf --------------------------------------------------------------------
+void
+LAPACK_DECL(slagtf)(const INTEGER    *N,
+                    FLOAT            *A,
+                    const FLOAT      *LAMBDA,
+                    FLOAT            *B,
+                    FLOAT            *C,
+                    const FLOAT      *TOL,
+                    FLOAT            *D,
+                    INTEGER          *IN,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slagtf");
+    LAPACK_IMPL(slagtf)(N,
+                        A,
+                        LAMBDA,
+                        B,
+                        C,
+                        TOL,
+                        D,
+                        IN,
+                        INFO);
+}
+
+//-- slagtm --------------------------------------------------------------------
+void
+LAPACK_DECL(slagtm)(const char       *TRANS,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *ALPHA,
+                    const FLOAT      *DL,
+                    const FLOAT      *D,
+                    const FLOAT      *DU,
+                    const FLOAT      *X,
+                    const INTEGER    *LDX,
+                    const FLOAT      *BETA,
+                    FLOAT            *B,
+                    const INTEGER    *LDB)
+{
+    DEBUG_LAPACK_STUB("slagtm");
+    LAPACK_IMPL(slagtm)(TRANS,
+                        N,
+                        NRHS,
+                        ALPHA,
+                        DL,
+                        D,
+                        DU,
+                        X,
+                        LDX,
+                        BETA,
+                        B,
+                        LDB);
+}
+
+//-- slagts --------------------------------------------------------------------
+void
+LAPACK_DECL(slagts)(const INTEGER    *JOB,
+                    const INTEGER    *N,
+                    const FLOAT      *A,
+                    const FLOAT      *B,
+                    const FLOAT      *C,
+                    const FLOAT      *D,
+                    const INTEGER    *IN,
+                    FLOAT            *Y,
+                    FLOAT            *TOL,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slagts");
+    LAPACK_IMPL(slagts)(JOB,
+                        N,
+                        A,
+                        B,
+                        C,
+                        D,
+                        IN,
+                        Y,
+                        TOL,
+                        INFO);
+}
+
+//-- slagv2 --------------------------------------------------------------------
+void
+LAPACK_DECL(slagv2)(FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *ALPHAR,
+                    FLOAT            *ALPHAI,
+                    FLOAT            *BETA,
+                    FLOAT            *CSL,
+                    FLOAT            *SNL,
+                    FLOAT            *CSR,
+                    FLOAT            *SNR)
+{
+    DEBUG_LAPACK_STUB("slagv2");
+    LAPACK_IMPL(slagv2)(A,
+                        LDA,
+                        B,
+                        LDB,
+                        ALPHAR,
+                        ALPHAI,
+                        BETA,
+                        CSL,
+                        SNL,
+                        CSR,
+                        SNR);
+}
+
+//-- slahqr --------------------------------------------------------------------
+void
+LAPACK_DECL(slahqr)(const LOGICAL    *WANTT,
+                    const LOGICAL    *WANTZ,
+                    const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    FLOAT            *H,
+                    const INTEGER    *LDH,
+                    FLOAT            *WR,
+                    FLOAT            *WI,
+                    const INTEGER    *ILOZ,
+                    const INTEGER    *IHIZ,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slahqr");
+    LAPACK_IMPL(slahqr)(WANTT,
+                        WANTZ,
+                        N,
+                        ILO,
+                        IHI,
+                        H,
+                        LDH,
+                        WR,
+                        WI,
+                        ILOZ,
+                        IHIZ,
+                        Z,
+                        LDZ,
+                        INFO);
+}
+
+//-- slahr2 --------------------------------------------------------------------
+void
+LAPACK_DECL(slahr2)(const INTEGER    *N,
+                    const INTEGER    *K,
+                    const INTEGER    *NB,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *TAU,
+                    FLOAT            *T,
+                    const INTEGER    *LDT,
+                    FLOAT            *Y,
+                    const INTEGER    *LDY)
+{
+    DEBUG_LAPACK_STUB("slahr2");
+    LAPACK_IMPL(slahr2)(N,
+                        K,
+                        NB,
+                        A,
+                        LDA,
+                        TAU,
+                        T,
+                        LDT,
+                        Y,
+                        LDY);
+}
+
+//-- slahrd --------------------------------------------------------------------
+void
+LAPACK_DECL(slahrd)(const INTEGER    *N,
+                    const INTEGER    *K,
+                    const INTEGER    *NB,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *TAU,
+                    FLOAT            *T,
+                    const INTEGER    *LDT,
+                    FLOAT            *Y,
+                    const INTEGER    *LDY)
+{
+    DEBUG_LAPACK_STUB("slahrd");
+    LAPACK_IMPL(slahrd)(N,
+                        K,
+                        NB,
+                        A,
+                        LDA,
+                        TAU,
+                        T,
+                        LDT,
+                        Y,
+                        LDY);
+}
+
+//-- slaic1 --------------------------------------------------------------------
+void
+LAPACK_DECL(slaic1)(const INTEGER    *JOB,
+                    const INTEGER    *J,
+                    const FLOAT      *X,
+                    const FLOAT      *SEST,
+                    const FLOAT      *W,
+                    const FLOAT      *GAMMA,
+                    FLOAT            *SESTPR,
+                    FLOAT            *S,
+                    FLOAT            *C)
+{
+    DEBUG_LAPACK_STUB("slaic1");
+    LAPACK_IMPL(slaic1)(JOB,
+                        J,
+                        X,
+                        SEST,
+                        W,
+                        GAMMA,
+                        SESTPR,
+                        S,
+                        C);
+}
+
 //-- slaisnan ------------------------------------------------------------------
 LOGICAL
 LAPACK_DECL(slaisnan)(const FLOAT      *SIN1,
@@ -11873,12 +28667,2619 @@ LAPACK_DECL(slaisnan)(const FLOAT      *SIN1,
                                  SIN2);
 }
 
-//-- slamch --------------------------------------------------------------------
-FLOAT
-LAPACK_DECL(slamch)(const char   *CMACH)
+//-- slaln2 --------------------------------------------------------------------
+void
+LAPACK_DECL(slaln2)(const LOGICAL    *LTRANS,
+                    const INTEGER    *NA,
+                    const INTEGER    *NW,
+                    const FLOAT      *SMIN,
+                    const FLOAT      *CA,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *D1,
+                    const FLOAT      *D2,
+                    const FLOAT      *B,
+                    const INTEGER    *LDB,
+                    const FLOAT      *WR,
+                    const FLOAT      *WI,
+                    FLOAT            *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *SCALE,
+                    FLOAT            *XNORM,
+                    INTEGER          *INFO)
 {
-    DEBUG_LAPACK_STUB("slamch");
-    return LAPACK_IMPL(slamch)(CMACH);
+    DEBUG_LAPACK_STUB("slaln2");
+    LAPACK_IMPL(slaln2)(LTRANS,
+                        NA,
+                        NW,
+                        SMIN,
+                        CA,
+                        A,
+                        LDA,
+                        D1,
+                        D2,
+                        B,
+                        LDB,
+                        WR,
+                        WI,
+                        X,
+                        LDX,
+                        SCALE,
+                        XNORM,
+                        INFO);
+}
+
+//-- slals0 --------------------------------------------------------------------
+void
+LAPACK_DECL(slals0)(const INTEGER    *ICOMPQ,
+                    const INTEGER    *NL,
+                    const INTEGER    *NR,
+                    const INTEGER    *SQRE,
+                    const INTEGER    *NRHS,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *BX,
+                    const INTEGER    *LDBX,
+                    const INTEGER    *PERM,
+                    const INTEGER    *GIVPTR,
+                    const INTEGER    *GIVCOL,
+                    const INTEGER    *LDGCOL,
+                    const FLOAT      *GIVNUM,
+                    const INTEGER    *LDGNUM,
+                    const FLOAT      *POLES,
+                    const FLOAT      *DIFL,
+                    const FLOAT      *DIFR,
+                    const FLOAT      *Z,
+                    const INTEGER    *K,
+                    const FLOAT      *C,
+                    const FLOAT      *S,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slals0");
+    LAPACK_IMPL(slals0)(ICOMPQ,
+                        NL,
+                        NR,
+                        SQRE,
+                        NRHS,
+                        B,
+                        LDB,
+                        BX,
+                        LDBX,
+                        PERM,
+                        GIVPTR,
+                        GIVCOL,
+                        LDGCOL,
+                        GIVNUM,
+                        LDGNUM,
+                        POLES,
+                        DIFL,
+                        DIFR,
+                        Z,
+                        K,
+                        C,
+                        S,
+                        WORK,
+                        INFO);
+}
+
+//-- slalsa --------------------------------------------------------------------
+void
+LAPACK_DECL(slalsa)(const INTEGER    *ICOMPQ,
+                    const INTEGER    *SMLSIZ,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *BX,
+                    const INTEGER    *LDBX,
+                    const FLOAT      *U,
+                    const INTEGER    *LDU,
+                    const FLOAT      *VT,
+                    const INTEGER    *K,
+                    const FLOAT      *DIFL,
+                    const FLOAT      *DIFR,
+                    const FLOAT      *Z,
+                    const FLOAT      *POLES,
+                    const INTEGER    *GIVPTR,
+                    const INTEGER    *GIVCOL,
+                    const INTEGER    *LDGCOL,
+                    const INTEGER    *PERM,
+                    const FLOAT      *GIVNUM,
+                    const FLOAT      *C,
+                    const FLOAT      *S,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slalsa");
+    LAPACK_IMPL(slalsa)(ICOMPQ,
+                        SMLSIZ,
+                        N,
+                        NRHS,
+                        B,
+                        LDB,
+                        BX,
+                        LDBX,
+                        U,
+                        LDU,
+                        VT,
+                        K,
+                        DIFL,
+                        DIFR,
+                        Z,
+                        POLES,
+                        GIVPTR,
+                        GIVCOL,
+                        LDGCOL,
+                        PERM,
+                        GIVNUM,
+                        C,
+                        S,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- slalsd --------------------------------------------------------------------
+void
+LAPACK_DECL(slalsd)(const char       *UPLO,
+                    const INTEGER    *SMLSIZ,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    const FLOAT      *RCOND,
+                    INTEGER          *RANK,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slalsd");
+    LAPACK_IMPL(slalsd)(UPLO,
+                        SMLSIZ,
+                        N,
+                        NRHS,
+                        D,
+                        E,
+                        B,
+                        LDB,
+                        RCOND,
+                        RANK,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- slamrg --------------------------------------------------------------------
+void
+LAPACK_DECL(slamrg)(const INTEGER    *N1,
+                    const INTEGER    *N2,
+                    const FLOAT      *A,
+                    const INTEGER    *STRD1,
+                    const INTEGER    *STRD2,
+                    INTEGER          *INDEX)
+{
+    DEBUG_LAPACK_STUB("slamrg");
+    LAPACK_IMPL(slamrg)(N1,
+                        N2,
+                        A,
+                        STRD1,
+                        STRD2,
+                        INDEX);
+}
+
+//-- slaneg --------------------------------------------------------------------
+INTEGER
+LAPACK_DECL(slaneg)(const INTEGER    *N,
+                    const FLOAT      *D,
+                    const FLOAT      *LLD,
+                    const FLOAT      *SIGMA,
+                    const FLOAT      *PIVMIN,
+                    const INTEGER    *R)
+{
+    DEBUG_LAPACK_STUB("slaneg");
+    return LAPACK_IMPL(slaneg)(N,
+                               D,
+                               LLD,
+                               SIGMA,
+                               PIVMIN,
+                               R);
+}
+
+//-- slangb --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(slangb)(const char       *NORM,
+                    const INTEGER    *N,
+                    const INTEGER    *KL,
+                    const INTEGER    *KU,
+                    const FLOAT      *AB,
+                    const INTEGER    *LDAB,
+                    FLOAT            *WORK)
+{
+    DEBUG_LAPACK_STUB("slangb");
+    return LAPACK_IMPL(slangb)(NORM,
+                               N,
+                               KL,
+                               KU,
+                               AB,
+                               LDAB,
+                               WORK);
+}
+
+//-- slange --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(slange)(const char       *NORM,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *WORK)
+{
+    DEBUG_LAPACK_STUB("slange");
+    return LAPACK_IMPL(slange)(NORM,
+                               M,
+                               N,
+                               A,
+                               LDA,
+                               WORK);
+}
+
+//-- slangt --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(slangt)(const char       *NORM,
+                    const INTEGER    *N,
+                    const FLOAT      *DL,
+                    const FLOAT      *D,
+                    const FLOAT      *DU)
+{
+    DEBUG_LAPACK_STUB("slangt");
+    return LAPACK_IMPL(slangt)(NORM,
+                               N,
+                               DL,
+                               D,
+                               DU);
+}
+
+//-- slanhs --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(slanhs)(const char       *NORM,
+                    const INTEGER    *N,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *WORK)
+{
+    DEBUG_LAPACK_STUB("slanhs");
+    return LAPACK_IMPL(slanhs)(NORM,
+                               N,
+                               A,
+                               LDA,
+                               WORK);
+}
+
+//-- slansb --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(slansb)(const char       *NORM,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    const FLOAT      *AB,
+                    const INTEGER    *LDAB,
+                    FLOAT            *WORK)
+{
+    DEBUG_LAPACK_STUB("slansb");
+    return LAPACK_IMPL(slansb)(NORM,
+                               UPLO,
+                               N,
+                               K,
+                               AB,
+                               LDAB,
+                               WORK);
+}
+
+//-- slansf --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(slansf)(const char       *NORM,
+                    const char       *TRANSR,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const FLOAT      *A,
+                    FLOAT            *WORK)
+{
+    DEBUG_LAPACK_STUB("slansf");
+    return LAPACK_IMPL(slansf)(NORM,
+                               TRANSR,
+                               UPLO,
+                               N,
+                               A,
+                               WORK);
+}
+
+//-- slansp --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(slansp)(const char       *NORM,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const FLOAT      *AP,
+                    FLOAT            *WORK)
+{
+    DEBUG_LAPACK_STUB("slansp");
+    return LAPACK_IMPL(slansp)(NORM,
+                               UPLO,
+                               N,
+                               AP,
+                               WORK);
+}
+
+//-- slanst --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(slanst)(const char       *NORM,
+                    const INTEGER    *N,
+                    const FLOAT      *D,
+                    const FLOAT      *E)
+{
+    DEBUG_LAPACK_STUB("slanst");
+    return LAPACK_IMPL(slanst)(NORM,
+                               N,
+                               D,
+                               E);
+}
+
+//-- slansy --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(slansy)(const char       *NORM,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *WORK)
+{
+    DEBUG_LAPACK_STUB("slansy");
+    return LAPACK_IMPL(slansy)(NORM,
+                               UPLO,
+                               N,
+                               A,
+                               LDA,
+                               WORK);
+}
+
+//-- slantb --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(slantb)(const char       *NORM,
+                    const char       *UPLO,
+                    const char       *DIAG,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    const FLOAT      *AB,
+                    const INTEGER    *LDAB,
+                    FLOAT            *WORK)
+{
+    DEBUG_LAPACK_STUB("slantb");
+    return LAPACK_IMPL(slantb)(NORM,
+                               UPLO,
+                               DIAG,
+                               N,
+                               K,
+                               AB,
+                               LDAB,
+                               WORK);
+}
+
+//-- slantp --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(slantp)(const char       *NORM,
+                    const char       *UPLO,
+                    const char       *DIAG,
+                    const INTEGER    *N,
+                    const FLOAT      *AP,
+                    FLOAT            *WORK)
+{
+    DEBUG_LAPACK_STUB("slantp");
+    return LAPACK_IMPL(slantp)(NORM,
+                               UPLO,
+                               DIAG,
+                               N,
+                               AP,
+                               WORK);
+}
+
+//-- slantr --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(slantr)(const char       *NORM,
+                    const char       *UPLO,
+                    const char       *DIAG,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *WORK)
+{
+    DEBUG_LAPACK_STUB("slantr");
+    return LAPACK_IMPL(slantr)(NORM,
+                               UPLO,
+                               DIAG,
+                               M,
+                               N,
+                               A,
+                               LDA,
+                               WORK);
+}
+
+//-- slanv2 --------------------------------------------------------------------
+void
+LAPACK_DECL(slanv2)(FLOAT    *A,
+                    FLOAT    *B,
+                    FLOAT    *C,
+                    FLOAT    *D,
+                    FLOAT    *RT1R,
+                    FLOAT    *RT1I,
+                    FLOAT    *RT2R,
+                    FLOAT    *RT2I,
+                    FLOAT    *CS,
+                    FLOAT    *SN)
+{
+    DEBUG_LAPACK_STUB("slanv2");
+    LAPACK_IMPL(slanv2)(A,
+                        B,
+                        C,
+                        D,
+                        RT1R,
+                        RT1I,
+                        RT2R,
+                        RT2I,
+                        CS,
+                        SN);
+}
+
+//-- slapll --------------------------------------------------------------------
+void
+LAPACK_DECL(slapll)(const INTEGER    *N,
+                    FLOAT            *X,
+                    const INTEGER    *INCX,
+                    FLOAT            *Y,
+                    const INTEGER    *INCY,
+                    FLOAT            *SSMIN)
+{
+    DEBUG_LAPACK_STUB("slapll");
+    LAPACK_IMPL(slapll)(N,
+                        X,
+                        INCX,
+                        Y,
+                        INCY,
+                        SSMIN);
+}
+
+//-- slapmr --------------------------------------------------------------------
+void
+LAPACK_DECL(slapmr)(const LOGICAL    *FORWRD,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT            *X,
+                    const INTEGER    *LDX,
+                    INTEGER          *K)
+{
+    DEBUG_LAPACK_STUB("slapmr");
+    LAPACK_IMPL(slapmr)(FORWRD,
+                        M,
+                        N,
+                        X,
+                        LDX,
+                        K);
+}
+
+//-- slapmt --------------------------------------------------------------------
+void
+LAPACK_DECL(slapmt)(const LOGICAL    *FORWRD,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT            *X,
+                    const INTEGER    *LDX,
+                    INTEGER          *K)
+{
+    DEBUG_LAPACK_STUB("slapmt");
+    LAPACK_IMPL(slapmt)(FORWRD,
+                        M,
+                        N,
+                        X,
+                        LDX,
+                        K);
+}
+
+//-- slapy2 --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(slapy2)(const FLOAT  *X,
+                    const FLOAT  *Y)
+{
+    DEBUG_LAPACK_STUB("slapy2");
+    return LAPACK_IMPL(slapy2)(X,
+                               Y);
+}
+
+//-- slapy3 --------------------------------------------------------------------
+FLOAT
+LAPACK_DECL(slapy3)(const FLOAT  *X,
+                    const FLOAT  *Y,
+                    const FLOAT  *Z)
+{
+    DEBUG_LAPACK_STUB("slapy3");
+    return LAPACK_IMPL(slapy3)(X,
+                               Y,
+                               Z);
+}
+
+//-- slaqgb --------------------------------------------------------------------
+void
+LAPACK_DECL(slaqgb)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *KL,
+                    const INTEGER    *KU,
+                    FLOAT            *AB,
+                    const INTEGER    *LDAB,
+                    const FLOAT      *R,
+                    const FLOAT      *C,
+                    const FLOAT      *ROWCND,
+                    const FLOAT      *COLCND,
+                    const FLOAT      *AMAX,
+                    char             *EQUED)
+{
+    DEBUG_LAPACK_STUB("slaqgb");
+    LAPACK_IMPL(slaqgb)(M,
+                        N,
+                        KL,
+                        KU,
+                        AB,
+                        LDAB,
+                        R,
+                        C,
+                        ROWCND,
+                        COLCND,
+                        AMAX,
+                        EQUED);
+}
+
+//-- slaqge --------------------------------------------------------------------
+void
+LAPACK_DECL(slaqge)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *R,
+                    const FLOAT      *C,
+                    const FLOAT      *ROWCND,
+                    const FLOAT      *COLCND,
+                    const FLOAT      *AMAX,
+                    char             *EQUED)
+{
+    DEBUG_LAPACK_STUB("slaqge");
+    LAPACK_IMPL(slaqge)(M,
+                        N,
+                        A,
+                        LDA,
+                        R,
+                        C,
+                        ROWCND,
+                        COLCND,
+                        AMAX,
+                        EQUED);
+}
+
+//-- slaqp2 --------------------------------------------------------------------
+void
+LAPACK_DECL(slaqp2)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *OFFSET,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *JPVT,
+                    FLOAT            *TAU,
+                    FLOAT            *VN1,
+                    FLOAT            *VN2,
+                    FLOAT            *WORK)
+{
+    DEBUG_LAPACK_STUB("slaqp2");
+    LAPACK_IMPL(slaqp2)(M,
+                        N,
+                        OFFSET,
+                        A,
+                        LDA,
+                        JPVT,
+                        TAU,
+                        VN1,
+                        VN2,
+                        WORK);
+}
+
+//-- slaqps --------------------------------------------------------------------
+void
+LAPACK_DECL(slaqps)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *OFFSET,
+                    const INTEGER    *NB,
+                    INTEGER          *KB,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *JPVT,
+                    FLOAT            *TAU,
+                    FLOAT            *VN1,
+                    FLOAT            *VN2,
+                    FLOAT            *AUXV,
+                    FLOAT            *F,
+                    const INTEGER    *LDF)
+{
+    DEBUG_LAPACK_STUB("slaqps");
+    LAPACK_IMPL(slaqps)(M,
+                        N,
+                        OFFSET,
+                        NB,
+                        KB,
+                        A,
+                        LDA,
+                        JPVT,
+                        TAU,
+                        VN1,
+                        VN2,
+                        AUXV,
+                        F,
+                        LDF);
+}
+
+//-- slaqr0 --------------------------------------------------------------------
+void
+LAPACK_DECL(slaqr0)(const LOGICAL    *WANTT,
+                    const LOGICAL    *WANTZ,
+                    const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    FLOAT            *H,
+                    const INTEGER    *LDH,
+                    FLOAT            *WR,
+                    FLOAT            *WI,
+                    const INTEGER    *ILOZ,
+                    const INTEGER    *IHIZ,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slaqr0");
+    LAPACK_IMPL(slaqr0)(WANTT,
+                        WANTZ,
+                        N,
+                        ILO,
+                        IHI,
+                        H,
+                        LDH,
+                        WR,
+                        WI,
+                        ILOZ,
+                        IHIZ,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- slaqr1 --------------------------------------------------------------------
+void
+LAPACK_DECL(slaqr1)(const INTEGER    *N,
+                    const FLOAT      *H,
+                    const INTEGER    *LDH,
+                    const FLOAT      *SR1,
+                    const FLOAT      *SI1,
+                    const FLOAT      *SR2,
+                    const FLOAT      *SI2,
+                    FLOAT            *V)
+{
+    DEBUG_LAPACK_STUB("slaqr1");
+    LAPACK_IMPL(slaqr1)(N,
+                        H,
+                        LDH,
+                        SR1,
+                        SI1,
+                        SR2,
+                        SI2,
+                        V);
+}
+
+//-- slaqr2 --------------------------------------------------------------------
+void
+LAPACK_DECL(slaqr2)(const LOGICAL    *WANTT,
+                    const LOGICAL    *WANTZ,
+                    const INTEGER    *N,
+                    const INTEGER    *KTOP,
+                    const INTEGER    *KBOT,
+                    const INTEGER    *NW,
+                    FLOAT            *H,
+                    const INTEGER    *LDH,
+                    const INTEGER    *ILOZ,
+                    const INTEGER    *IHIZ,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    INTEGER          *NS,
+                    INTEGER          *ND,
+                    FLOAT            *SR,
+                    FLOAT            *SI,
+                    FLOAT            *V,
+                    const INTEGER    *LDV,
+                    const INTEGER    *NH,
+                    FLOAT            *T,
+                    const INTEGER    *LDT,
+                    const INTEGER    *NV,
+                    FLOAT            *WV,
+                    const INTEGER    *LDWV,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK)
+{
+    DEBUG_LAPACK_STUB("slaqr2");
+    LAPACK_IMPL(slaqr2)(WANTT,
+                        WANTZ,
+                        N,
+                        KTOP,
+                        KBOT,
+                        NW,
+                        H,
+                        LDH,
+                        ILOZ,
+                        IHIZ,
+                        Z,
+                        LDZ,
+                        NS,
+                        ND,
+                        SR,
+                        SI,
+                        V,
+                        LDV,
+                        NH,
+                        T,
+                        LDT,
+                        NV,
+                        WV,
+                        LDWV,
+                        WORK,
+                        LWORK);
+}
+
+//-- slaqr3 --------------------------------------------------------------------
+void
+LAPACK_DECL(slaqr3)(const LOGICAL    *WANTT,
+                    const LOGICAL    *WANTZ,
+                    const INTEGER    *N,
+                    const INTEGER    *KTOP,
+                    const INTEGER    *KBOT,
+                    const INTEGER    *NW,
+                    FLOAT            *H,
+                    const INTEGER    *LDH,
+                    const INTEGER    *ILOZ,
+                    const INTEGER    *IHIZ,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    INTEGER          *NS,
+                    INTEGER          *ND,
+                    FLOAT            *SR,
+                    FLOAT            *SI,
+                    FLOAT            *V,
+                    const INTEGER    *LDV,
+                    const INTEGER    *NH,
+                    FLOAT            *T,
+                    const INTEGER    *LDT,
+                    const INTEGER    *NV,
+                    FLOAT            *WV,
+                    const INTEGER    *LDWV,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK)
+{
+    DEBUG_LAPACK_STUB("slaqr3");
+    LAPACK_IMPL(slaqr3)(WANTT,
+                        WANTZ,
+                        N,
+                        KTOP,
+                        KBOT,
+                        NW,
+                        H,
+                        LDH,
+                        ILOZ,
+                        IHIZ,
+                        Z,
+                        LDZ,
+                        NS,
+                        ND,
+                        SR,
+                        SI,
+                        V,
+                        LDV,
+                        NH,
+                        T,
+                        LDT,
+                        NV,
+                        WV,
+                        LDWV,
+                        WORK,
+                        LWORK);
+}
+
+//-- slaqr4 --------------------------------------------------------------------
+void
+LAPACK_DECL(slaqr4)(const LOGICAL    *WANTT,
+                    const LOGICAL    *WANTZ,
+                    const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    FLOAT            *H,
+                    const INTEGER    *LDH,
+                    FLOAT            *WR,
+                    FLOAT            *WI,
+                    const INTEGER    *ILOZ,
+                    const INTEGER    *IHIZ,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slaqr4");
+    LAPACK_IMPL(slaqr4)(WANTT,
+                        WANTZ,
+                        N,
+                        ILO,
+                        IHI,
+                        H,
+                        LDH,
+                        WR,
+                        WI,
+                        ILOZ,
+                        IHIZ,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- slaqr5 --------------------------------------------------------------------
+void
+LAPACK_DECL(slaqr5)(const LOGICAL    *WANTT,
+                    const LOGICAL    *WANTZ,
+                    const INTEGER    *KACC22,
+                    const INTEGER    *N,
+                    const INTEGER    *KTOP,
+                    const INTEGER    *KBOT,
+                    const INTEGER    *NSHFTS,
+                    FLOAT            *SR,
+                    FLOAT            *SI,
+                    FLOAT            *H,
+                    const INTEGER    *LDH,
+                    const INTEGER    *ILOZ,
+                    const INTEGER    *IHIZ,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT            *V,
+                    const INTEGER    *LDV,
+                    FLOAT            *U,
+                    const INTEGER    *LDU,
+                    const INTEGER    *NV,
+                    FLOAT            *WV,
+                    const INTEGER    *LDWV,
+                    const INTEGER    *NH,
+                    FLOAT            *WH,
+                    const INTEGER    *LDWH)
+{
+    DEBUG_LAPACK_STUB("slaqr5");
+    LAPACK_IMPL(slaqr5)(WANTT,
+                        WANTZ,
+                        KACC22,
+                        N,
+                        KTOP,
+                        KBOT,
+                        NSHFTS,
+                        SR,
+                        SI,
+                        H,
+                        LDH,
+                        ILOZ,
+                        IHIZ,
+                        Z,
+                        LDZ,
+                        V,
+                        LDV,
+                        U,
+                        LDU,
+                        NV,
+                        WV,
+                        LDWV,
+                        NH,
+                        WH,
+                        LDWH);
+}
+
+//-- slaqsb --------------------------------------------------------------------
+void
+LAPACK_DECL(slaqsb)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    FLOAT            *AB,
+                    const INTEGER    *LDAB,
+                    const FLOAT      *S,
+                    const FLOAT      *SCOND,
+                    const FLOAT      *AMAX,
+                    char             *EQUED)
+{
+    DEBUG_LAPACK_STUB("slaqsb");
+    LAPACK_IMPL(slaqsb)(UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        S,
+                        SCOND,
+                        AMAX,
+                        EQUED);
+}
+
+//-- slaqsp --------------------------------------------------------------------
+void
+LAPACK_DECL(slaqsp)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *AP,
+                    const FLOAT      *S,
+                    const FLOAT      *SCOND,
+                    const FLOAT      *AMAX,
+                    char             *EQUED)
+{
+    DEBUG_LAPACK_STUB("slaqsp");
+    LAPACK_IMPL(slaqsp)(UPLO,
+                        N,
+                        AP,
+                        S,
+                        SCOND,
+                        AMAX,
+                        EQUED);
+}
+
+//-- slaqsy --------------------------------------------------------------------
+void
+LAPACK_DECL(slaqsy)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *S,
+                    const FLOAT      *SCOND,
+                    const FLOAT      *AMAX,
+                    char             *EQUED)
+{
+    DEBUG_LAPACK_STUB("slaqsy");
+    LAPACK_IMPL(slaqsy)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        S,
+                        SCOND,
+                        AMAX,
+                        EQUED);
+}
+
+//-- slaqtr --------------------------------------------------------------------
+void
+LAPACK_DECL(slaqtr)(const LOGICAL    *LTRAN,
+                    const LOGICAL    *LREAL,
+                    const INTEGER    *N,
+                    const FLOAT      *T,
+                    const INTEGER    *LDT,
+                    const FLOAT      *B,
+                    const FLOAT      *W,
+                    FLOAT            *SCALE,
+                    FLOAT            *X,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slaqtr");
+    LAPACK_IMPL(slaqtr)(LTRAN,
+                        LREAL,
+                        N,
+                        T,
+                        LDT,
+                        B,
+                        W,
+                        SCALE,
+                        X,
+                        WORK,
+                        INFO);
+}
+
+//-- slar1v --------------------------------------------------------------------
+void
+LAPACK_DECL(slar1v)(const INTEGER    *N,
+                    const INTEGER    *B1,
+                    const INTEGER    *BN,
+                    const FLOAT      *LAMBDA,
+                    const FLOAT      *D,
+                    const FLOAT      *L,
+                    const FLOAT      *LD,
+                    const FLOAT      *LLD,
+                    const FLOAT      *PIVMIN,
+                    const FLOAT      *GAPTOL,
+                    FLOAT            *Z,
+                    const LOGICAL    *WANTNC,
+                    INTEGER          *NEGCNT,
+                    FLOAT            *ZTZ,
+                    FLOAT            *MINGMA,
+                    INTEGER          *R,
+                    INTEGER          *ISUPPZ,
+                    FLOAT            *NRMINV,
+                    FLOAT            *RESID,
+                    FLOAT            *RQCORR,
+                    FLOAT            *WORK)
+{
+    DEBUG_LAPACK_STUB("slar1v");
+    LAPACK_IMPL(slar1v)(N,
+                        B1,
+                        BN,
+                        LAMBDA,
+                        D,
+                        L,
+                        LD,
+                        LLD,
+                        PIVMIN,
+                        GAPTOL,
+                        Z,
+                        WANTNC,
+                        NEGCNT,
+                        ZTZ,
+                        MINGMA,
+                        R,
+                        ISUPPZ,
+                        NRMINV,
+                        RESID,
+                        RQCORR,
+                        WORK);
+}
+
+//-- slar2v --------------------------------------------------------------------
+void
+LAPACK_DECL(slar2v)(const INTEGER    *N,
+                    FLOAT            *X,
+                    FLOAT            *Y,
+                    FLOAT            *Z,
+                    const INTEGER    *INCX,
+                    const FLOAT      *C,
+                    const FLOAT      *S,
+                    const INTEGER    *INCC)
+{
+    DEBUG_LAPACK_STUB("slar2v");
+    LAPACK_IMPL(slar2v)(N,
+                        X,
+                        Y,
+                        Z,
+                        INCX,
+                        C,
+                        S,
+                        INCC);
+}
+
+//-- slarf ---------------------------------------------------------------------
+void
+LAPACK_DECL(slarf)(const char           *SIDE,
+                   const INTEGER        *M,
+                   const INTEGER        *N,
+                   const FLOAT          *V,
+                   const INTEGER        *INCV,
+                   const FLOAT          *TAU,
+                   FLOAT                *C,
+                   const INTEGER        *LDC,
+                   FLOAT                *WORK)
+{
+    DEBUG_LAPACK_STUB("slarf");
+    LAPACK_IMPL(slarf)(SIDE,
+                       M,
+                       N,
+                       V,
+                       INCV,
+                       TAU,
+                       C,
+                       LDC,
+                       WORK);
+}
+
+//-- slarfb --------------------------------------------------------------------
+void
+LAPACK_DECL(slarfb)(const char       *SIDE,
+                    const char       *TRANS,
+                    const char       *DIRECT,
+                    const char       *STOREV,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    const FLOAT      *V,
+                    const INTEGER    *LDV,
+                    const FLOAT      *T,
+                    const INTEGER    *LDT,
+                    FLOAT            *C,
+                    const INTEGER    *LDC,
+                    FLOAT            *WORK,
+                    const INTEGER    *LDWORK)
+{
+    DEBUG_LAPACK_STUB("slarfb");
+    LAPACK_IMPL(slarfb)(SIDE,
+                        TRANS,
+                        DIRECT,
+                        STOREV,
+                        M,
+                        N,
+                        K,
+                        V,
+                        LDV,
+                        T,
+                        LDT,
+                        C,
+                        LDC,
+                        WORK,
+                        LDWORK);
+}
+
+//-- slarfg --------------------------------------------------------------------
+void
+LAPACK_DECL(slarfg)(const INTEGER    *N,
+                    FLOAT            *ALPHA,
+                    FLOAT            *X,
+                    const INTEGER    *INCX,
+                    FLOAT            *TAU)
+{
+    DEBUG_LAPACK_STUB("slarfg");
+    LAPACK_IMPL(slarfg)(N,
+                        ALPHA,
+                        X,
+                        INCX,
+                        TAU);
+}
+
+//-- slarfgp -------------------------------------------------------------------
+void
+LAPACK_DECL(slarfgp)(const INTEGER    *N,
+                     FLOAT            *ALPHA,
+                     FLOAT            *X,
+                     const INTEGER    *INCX,
+                     FLOAT            *TAU)
+{
+    DEBUG_LAPACK_STUB("slarfgp");
+    LAPACK_IMPL(slarfgp)(N,
+                         ALPHA,
+                         X,
+                         INCX,
+                         TAU);
+}
+
+//-- slarft --------------------------------------------------------------------
+void
+LAPACK_DECL(slarft)(const char       *DIRECT,
+                    const char       *STOREV,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    FLOAT            *V,
+                    const INTEGER    *LDV,
+                    const FLOAT      *TAU,
+                    FLOAT            *T,
+                    const INTEGER    *LDT)
+{
+    DEBUG_LAPACK_STUB("slarft");
+    LAPACK_IMPL(slarft)(DIRECT,
+                        STOREV,
+                        N,
+                        K,
+                        V,
+                        LDV,
+                        TAU,
+                        T,
+                        LDT);
+}
+
+//-- slarfx --------------------------------------------------------------------
+void
+LAPACK_DECL(slarfx)(const char       *SIDE,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const FLOAT      *V,
+                    const FLOAT      *TAU,
+                    FLOAT            *C,
+                    const INTEGER    *LDC,
+                    FLOAT            *WORK)
+{
+    DEBUG_LAPACK_STUB("slarfx");
+    LAPACK_IMPL(slarfx)(SIDE,
+                        M,
+                        N,
+                        V,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK);
+}
+
+//-- slargv --------------------------------------------------------------------
+void
+LAPACK_DECL(slargv)(const INTEGER    *N,
+                    FLOAT            *X,
+                    const INTEGER    *INCX,
+                    FLOAT            *Y,
+                    const INTEGER    *INCY,
+                    FLOAT            *C,
+                    const INTEGER    *INCC)
+{
+    DEBUG_LAPACK_STUB("slargv");
+    LAPACK_IMPL(slargv)(N,
+                        X,
+                        INCX,
+                        Y,
+                        INCY,
+                        C,
+                        INCC);
+}
+
+//-- slarnv --------------------------------------------------------------------
+void
+LAPACK_DECL(slarnv)(const INTEGER    *IDIST,
+                    INTEGER          *ISEED,
+                    const INTEGER    *N,
+                    FLOAT            *X)
+{
+    DEBUG_LAPACK_STUB("slarnv");
+    LAPACK_IMPL(slarnv)(IDIST,
+                        ISEED,
+                        N,
+                        X);
+}
+
+//-- slarra --------------------------------------------------------------------
+void
+LAPACK_DECL(slarra)(const INTEGER    *N,
+                    const FLOAT      *D,
+                    FLOAT            *E,
+                    FLOAT            *E2,
+                    const FLOAT      *SPLTOL,
+                    const FLOAT      *TNRM,
+                    INTEGER          *NSPLIT,
+                    INTEGER          *ISPLIT,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slarra");
+    LAPACK_IMPL(slarra)(N,
+                        D,
+                        E,
+                        E2,
+                        SPLTOL,
+                        TNRM,
+                        NSPLIT,
+                        ISPLIT,
+                        INFO);
+}
+
+//-- slarrb --------------------------------------------------------------------
+void
+LAPACK_DECL(slarrb)(const INTEGER    *N,
+                    const FLOAT      *D,
+                    const FLOAT      *LLD,
+                    const INTEGER    *IFIRST,
+                    const INTEGER    *ILAST,
+                    const FLOAT      *RTOL1,
+                    const FLOAT      *RTOL2,
+                    const INTEGER    *OFFSET,
+                    FLOAT            *W,
+                    FLOAT            *WGAP,
+                    FLOAT            *WERR,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    const FLOAT      *PIVMIN,
+                    const FLOAT      *SPDIAM,
+                    const INTEGER    *TWIST,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slarrb");
+    LAPACK_IMPL(slarrb)(N,
+                        D,
+                        LLD,
+                        IFIRST,
+                        ILAST,
+                        RTOL1,
+                        RTOL2,
+                        OFFSET,
+                        W,
+                        WGAP,
+                        WERR,
+                        WORK,
+                        IWORK,
+                        PIVMIN,
+                        SPDIAM,
+                        TWIST,
+                        INFO);
+}
+
+//-- slarrc --------------------------------------------------------------------
+void
+LAPACK_DECL(slarrc)(const char       *JOBT,
+                    const INTEGER    *N,
+                    const FLOAT      *VL,
+                    const FLOAT      *VU,
+                    const FLOAT      *D,
+                    const FLOAT      *E,
+                    const FLOAT      *PIVMIN,
+                    INTEGER          *EIGCNT,
+                    INTEGER          *LCNT,
+                    INTEGER          *RCNT,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slarrc");
+    LAPACK_IMPL(slarrc)(JOBT,
+                        N,
+                        VL,
+                        VU,
+                        D,
+                        E,
+                        PIVMIN,
+                        EIGCNT,
+                        LCNT,
+                        RCNT,
+                        INFO);
+}
+
+//-- slarrd --------------------------------------------------------------------
+void
+LAPACK_DECL(slarrd)(const char       *RANGE,
+                    const char       *ORDER,
+                    const INTEGER    *N,
+                    const FLOAT      *VL,
+                    const FLOAT      *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const FLOAT      *GERS,
+                    const FLOAT      *RELTOL,
+                    const FLOAT      *D,
+                    const FLOAT      *E,
+                    const FLOAT      *E2,
+                    const FLOAT      *PIVMIN,
+                    const INTEGER    *NSPLIT,
+                    const INTEGER    *ISPLIT,
+                    INTEGER          *M,
+                    FLOAT            *W,
+                    FLOAT            *WERR,
+                    FLOAT            *WL,
+                    FLOAT            *WU,
+                    INTEGER          *IBLOCK,
+                    INTEGER          *INDEXW,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slarrd");
+    LAPACK_IMPL(slarrd)(RANGE,
+                        ORDER,
+                        N,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        GERS,
+                        RELTOL,
+                        D,
+                        E,
+                        E2,
+                        PIVMIN,
+                        NSPLIT,
+                        ISPLIT,
+                        M,
+                        W,
+                        WERR,
+                        WL,
+                        WU,
+                        IBLOCK,
+                        INDEXW,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- slarre --------------------------------------------------------------------
+void
+LAPACK_DECL(slarre)(const char       *RANGE,
+                    const INTEGER    *N,
+                    FLOAT            *VL,
+                    FLOAT            *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT            *E2,
+                    const FLOAT      *RTOL1,
+                    const FLOAT      *RTOL2,
+                    const FLOAT      *SPLTOL,
+                    INTEGER          *NSPLIT,
+                    INTEGER          *ISPLIT,
+                    INTEGER          *M,
+                    FLOAT            *W,
+                    FLOAT            *WERR,
+                    FLOAT            *WGAP,
+                    INTEGER          *IBLOCK,
+                    INTEGER          *INDEXW,
+                    FLOAT            *GERS,
+                    FLOAT            *PIVMIN,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slarre");
+    LAPACK_IMPL(slarre)(RANGE,
+                        N,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        D,
+                        E,
+                        E2,
+                        RTOL1,
+                        RTOL2,
+                        SPLTOL,
+                        NSPLIT,
+                        ISPLIT,
+                        M,
+                        W,
+                        WERR,
+                        WGAP,
+                        IBLOCK,
+                        INDEXW,
+                        GERS,
+                        PIVMIN,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- slarrf --------------------------------------------------------------------
+void
+LAPACK_DECL(slarrf)(const INTEGER    *N,
+                    const FLOAT      *D,
+                    const FLOAT      *L,
+                    const FLOAT      *LD,
+                    const INTEGER    *CLSTRT,
+                    const INTEGER    *CLEND,
+                    const FLOAT      *W,
+                    FLOAT            *WGAP,
+                    const FLOAT      *WERR,
+                    const FLOAT      *SPDIAM,
+                    const FLOAT      *CLGAPL,
+                    const FLOAT      *CLGAPR,
+                    const FLOAT      *PIVMIN,
+                    FLOAT            *SIGMA,
+                    FLOAT            *DPLUS,
+                    FLOAT            *LPLUS,
+                    FLOAT            *WORK,
+                    const INTEGER    *INFO)
+{
+    DEBUG_LAPACK_STUB("slarrf");
+    LAPACK_IMPL(slarrf)(N,
+                        D,
+                        L,
+                        LD,
+                        CLSTRT,
+                        CLEND,
+                        W,
+                        WGAP,
+                        WERR,
+                        SPDIAM,
+                        CLGAPL,
+                        CLGAPR,
+                        PIVMIN,
+                        SIGMA,
+                        DPLUS,
+                        LPLUS,
+                        WORK,
+                        INFO);
+}
+
+//-- slarrj --------------------------------------------------------------------
+void
+LAPACK_DECL(slarrj)(const INTEGER    *N,
+                    const FLOAT      *D,
+                    const FLOAT      *E2,
+                    const INTEGER    *IFIRST,
+                    const INTEGER    *ILAST,
+                    const FLOAT      *RTOL,
+                    const INTEGER    *OFFSET,
+                    FLOAT            *W,
+                    FLOAT            *WERR,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    const FLOAT      *PIVMIN,
+                    const FLOAT      *SPDIAM,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slarrj");
+    LAPACK_IMPL(slarrj)(N,
+                        D,
+                        E2,
+                        IFIRST,
+                        ILAST,
+                        RTOL,
+                        OFFSET,
+                        W,
+                        WERR,
+                        WORK,
+                        IWORK,
+                        PIVMIN,
+                        SPDIAM,
+                        INFO);
+}
+
+//-- slarrk --------------------------------------------------------------------
+void
+LAPACK_DECL(slarrk)(const INTEGER    *N,
+                    const INTEGER    *IW,
+                    const FLOAT      *GL,
+                    const FLOAT      *GU,
+                    const FLOAT      *D,
+                    const FLOAT      *E2,
+                    const FLOAT      *PIVMIN,
+                    const FLOAT      *RELTOL,
+                    FLOAT            *W,
+                    FLOAT            *WERR,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slarrk");
+    LAPACK_IMPL(slarrk)(N,
+                        IW,
+                        GL,
+                        GU,
+                        D,
+                        E2,
+                        PIVMIN,
+                        RELTOL,
+                        W,
+                        WERR,
+                        INFO);
+}
+
+//-- slarrr --------------------------------------------------------------------
+void
+LAPACK_DECL(slarrr)(const INTEGER    *N,
+                    const FLOAT      *D,
+                    FLOAT            *E,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slarrr");
+    LAPACK_IMPL(slarrr)(N,
+                        D,
+                        E,
+                        INFO);
+}
+
+//-- slarrv --------------------------------------------------------------------
+void
+LAPACK_DECL(slarrv)(const INTEGER    *N,
+                    const FLOAT      *VL,
+                    const FLOAT      *VU,
+                    FLOAT            *D,
+                    FLOAT            *L,
+                    const FLOAT      *PIVMIN,
+                    const INTEGER    *ISPLIT,
+                    const INTEGER    *M,
+                    const INTEGER    *DOL,
+                    const INTEGER    *DOU,
+                    const FLOAT      *MINRGP,
+                    const FLOAT      *RTOL1,
+                    const FLOAT      *RTOL2,
+                    FLOAT            *W,
+                    FLOAT            *WERR,
+                    FLOAT            *WGAP,
+                    const INTEGER    *IBLOCK,
+                    const INTEGER    *INDEXW,
+                    const FLOAT      *GERS,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    INTEGER          *ISUPPZ,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slarrv");
+    LAPACK_IMPL(slarrv)(N,
+                        VL,
+                        VU,
+                        D,
+                        L,
+                        PIVMIN,
+                        ISPLIT,
+                        M,
+                        DOL,
+                        DOU,
+                        MINRGP,
+                        RTOL1,
+                        RTOL2,
+                        W,
+                        WERR,
+                        WGAP,
+                        IBLOCK,
+                        INDEXW,
+                        GERS,
+                        Z,
+                        LDZ,
+                        ISUPPZ,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- slarscl2 ------------------------------------------------------------------
+void
+LAPACK_DECL(slarscl2)(const INTEGER    *M,
+                      const INTEGER    *N,
+                      const FLOAT      *D,
+                      FLOAT            *X,
+                      const INTEGER    *LDX)
+{
+    DEBUG_LAPACK_STUB("slarscl2");
+    LAPACK_IMPL(slarscl2)(M,
+                          N,
+                          D,
+                          X,
+                          LDX);
+}
+
+//-- slartg --------------------------------------------------------------------
+void
+LAPACK_DECL(slartg)(const FLOAT  *F,
+                    const FLOAT  *G,
+                    FLOAT        *CS,
+                    FLOAT        *SN,
+                    FLOAT        *R)
+{
+    DEBUG_LAPACK_STUB("slartg");
+    LAPACK_IMPL(slartg)(F,
+                        G,
+                        CS,
+                        SN,
+                        R);
+}
+
+//-- slartgp -------------------------------------------------------------------
+void
+LAPACK_DECL(slartgp)(const FLOAT      *F,
+                     const FLOAT      *G,
+                     FLOAT            *CS,
+                     FLOAT            *SN,
+                     FLOAT            *R)
+{
+    DEBUG_LAPACK_STUB("slartgp");
+    LAPACK_IMPL(slartgp)(F,
+                         G,
+                         CS,
+                         SN,
+                         R);
+}
+
+//-- slartgs -------------------------------------------------------------------
+void
+LAPACK_DECL(slartgs)(const FLOAT      *X,
+                     const FLOAT      *Y,
+                     const FLOAT      *SIGMA,
+                     FLOAT            *CS,
+                     FLOAT            *SN)
+{
+    DEBUG_LAPACK_STUB("slartgs");
+    LAPACK_IMPL(slartgs)(X,
+                         Y,
+                         SIGMA,
+                         CS,
+                         SN);
+}
+
+//-- slartv --------------------------------------------------------------------
+void
+LAPACK_DECL(slartv)(const INTEGER    *N,
+                    FLOAT            *X,
+                    const INTEGER    *INCX,
+                    FLOAT            *Y,
+                    const INTEGER    *INCY,
+                    const FLOAT      *C,
+                    const FLOAT      *S,
+                    const INTEGER    *INCC)
+{
+    DEBUG_LAPACK_STUB("slartv");
+    LAPACK_IMPL(slartv)(N,
+                        X,
+                        INCX,
+                        Y,
+                        INCY,
+                        C,
+                        S,
+                        INCC);
+}
+
+//-- slaruv --------------------------------------------------------------------
+void
+LAPACK_DECL(slaruv)(INTEGER          *ISEED,
+                    const INTEGER    *N,
+                    FLOAT            *X)
+{
+    DEBUG_LAPACK_STUB("slaruv");
+    LAPACK_IMPL(slaruv)(ISEED,
+                        N,
+                        X);
+}
+
+//-- slarz ---------------------------------------------------------------------
+void
+LAPACK_DECL(slarz)(const char           *SIDE,
+                   const INTEGER        *M,
+                   const INTEGER        *N,
+                   const INTEGER        *L,
+                   const FLOAT          *V,
+                   const INTEGER        *INCV,
+                   const FLOAT          *TAU,
+                   FLOAT                *C,
+                   const INTEGER        *LDC,
+                   FLOAT                *WORK)
+{
+    DEBUG_LAPACK_STUB("slarz");
+    LAPACK_IMPL(slarz)(SIDE,
+                       M,
+                       N,
+                       L,
+                       V,
+                       INCV,
+                       TAU,
+                       C,
+                       LDC,
+                       WORK);
+}
+
+//-- slarzb --------------------------------------------------------------------
+void
+LAPACK_DECL(slarzb)(const char       *SIDE,
+                    const char       *TRANS,
+                    const char       *DIRECT,
+                    const char       *STOREV,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    const INTEGER    *L,
+                    const FLOAT      *V,
+                    const INTEGER    *LDV,
+                    const FLOAT      *T,
+                    const INTEGER    *LDT,
+                    FLOAT            *C,
+                    const INTEGER    *LDC,
+                    FLOAT            *WORK,
+                    const INTEGER    *LDWORK)
+{
+    DEBUG_LAPACK_STUB("slarzb");
+    LAPACK_IMPL(slarzb)(SIDE,
+                        TRANS,
+                        DIRECT,
+                        STOREV,
+                        M,
+                        N,
+                        K,
+                        L,
+                        V,
+                        LDV,
+                        T,
+                        LDT,
+                        C,
+                        LDC,
+                        WORK,
+                        LDWORK);
+}
+
+//-- slarzt --------------------------------------------------------------------
+void
+LAPACK_DECL(slarzt)(const char       *DIRECT,
+                    const char       *STOREV,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    FLOAT            *V,
+                    const INTEGER    *LDV,
+                    const FLOAT      *TAU,
+                    FLOAT            *T,
+                    const INTEGER    *LDT)
+{
+    DEBUG_LAPACK_STUB("slarzt");
+    LAPACK_IMPL(slarzt)(DIRECT,
+                        STOREV,
+                        N,
+                        K,
+                        V,
+                        LDV,
+                        TAU,
+                        T,
+                        LDT);
+}
+
+//-- slas2 ---------------------------------------------------------------------
+void
+LAPACK_DECL(slas2)(const FLOAT      *F,
+                   const FLOAT      *G,
+                   const FLOAT      *H,
+                   FLOAT            *SSMIN,
+                   FLOAT            *SSMAX)
+{
+    DEBUG_LAPACK_STUB("slas2");
+    LAPACK_IMPL(slas2)(F,
+                       G,
+                       H,
+                       SSMIN,
+                       SSMAX);
+}
+
+//-- slascl --------------------------------------------------------------------
+void
+LAPACK_DECL(slascl)(const char       *TYPE,
+                    const INTEGER    *KL,
+                    const INTEGER    *KU,
+                    const FLOAT      *CFROM,
+                    const FLOAT      *CTO,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slascl");
+    LAPACK_IMPL(slascl)(TYPE,
+                        KL,
+                        KU,
+                        CFROM,
+                        CTO,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- slascl2 -------------------------------------------------------------------
+void
+LAPACK_DECL(slascl2)(const INTEGER    *M,
+                     const INTEGER    *N,
+                     const FLOAT      *D,
+                     FLOAT            *X,
+                     const INTEGER    *LDX)
+{
+    DEBUG_LAPACK_STUB("slascl2");
+    LAPACK_IMPL(slascl2)(M,
+                         N,
+                         D,
+                         X,
+                         LDX);
+}
+
+//-- slasd0 --------------------------------------------------------------------
+void
+LAPACK_DECL(slasd0)(const INTEGER    *N,
+                    const INTEGER    *SQRE,
+                    FLOAT            *D,
+                    const FLOAT      *E,
+                    FLOAT            *U,
+                    const INTEGER    *LDU,
+                    FLOAT            *VT,
+                    const INTEGER    *LDVT,
+                    const INTEGER    *SMLSIZ,
+                    INTEGER          *IWORK,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slasd0");
+    LAPACK_IMPL(slasd0)(N,
+                        SQRE,
+                        D,
+                        E,
+                        U,
+                        LDU,
+                        VT,
+                        LDVT,
+                        SMLSIZ,
+                        IWORK,
+                        WORK,
+                        INFO);
+}
+
+//-- slasd1 --------------------------------------------------------------------
+void
+LAPACK_DECL(slasd1)(const INTEGER    *NL,
+                    const INTEGER    *NR,
+                    const INTEGER    *SQRE,
+                    FLOAT            *D,
+                    FLOAT            *ALPHA,
+                    FLOAT            *BETA,
+                    FLOAT            *U,
+                    const INTEGER    *LDU,
+                    FLOAT            *VT,
+                    const INTEGER    *LDVT,
+                    INTEGER          *IDXQ,
+                    INTEGER          *IWORK,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slasd1");
+    LAPACK_IMPL(slasd1)(NL,
+                        NR,
+                        SQRE,
+                        D,
+                        ALPHA,
+                        BETA,
+                        U,
+                        LDU,
+                        VT,
+                        LDVT,
+                        IDXQ,
+                        IWORK,
+                        WORK,
+                        INFO);
+}
+
+//-- slasd2 --------------------------------------------------------------------
+void
+LAPACK_DECL(slasd2)(const INTEGER    *NL,
+                    const INTEGER    *NR,
+                    const INTEGER    *SQRE,
+                    INTEGER          *K,
+                    FLOAT            *D,
+                    FLOAT            *Z,
+                    const FLOAT      *ALPHA,
+                    const FLOAT      *BETA,
+                    FLOAT            *U,
+                    const INTEGER    *LDU,
+                    FLOAT            *VT,
+                    const INTEGER    *LDVT,
+                    FLOAT            *DSIGMA,
+                    FLOAT            *U2,
+                    const INTEGER    *LDU2,
+                    FLOAT            *VT2,
+                    const INTEGER    *LDVT2,
+                    INTEGER          *IDXP,
+                    INTEGER          *IDX,
+                    INTEGER          *IDXC,
+                    INTEGER          *IDXQ,
+                    INTEGER          *COLTYP,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slasd2");
+    LAPACK_IMPL(slasd2)(NL,
+                        NR,
+                        SQRE,
+                        K,
+                        D,
+                        Z,
+                        ALPHA,
+                        BETA,
+                        U,
+                        LDU,
+                        VT,
+                        LDVT,
+                        DSIGMA,
+                        U2,
+                        LDU2,
+                        VT2,
+                        LDVT2,
+                        IDXP,
+                        IDX,
+                        IDXC,
+                        IDXQ,
+                        COLTYP,
+                        INFO);
+}
+
+//-- slasd3 --------------------------------------------------------------------
+void
+LAPACK_DECL(slasd3)(const INTEGER    *NL,
+                    const INTEGER    *NR,
+                    const INTEGER    *SQRE,
+                    const INTEGER    *K,
+                    FLOAT            *D,
+                    FLOAT            *Q,
+                    const INTEGER    *LDQ,
+                    FLOAT            *DSIGMA,
+                    FLOAT            *U,
+                    const INTEGER    *LDU,
+                    const FLOAT      *U2,
+                    const INTEGER    *LDU2,
+                    FLOAT            *VT,
+                    const INTEGER    *LDVT,
+                    FLOAT            *VT2,
+                    const INTEGER    *LDVT2,
+                    const INTEGER    *IDXC,
+                    const INTEGER    *CTOT,
+                    FLOAT            *Z,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slasd3");
+    LAPACK_IMPL(slasd3)(NL,
+                        NR,
+                        SQRE,
+                        K,
+                        D,
+                        Q,
+                        LDQ,
+                        DSIGMA,
+                        U,
+                        LDU,
+                        U2,
+                        LDU2,
+                        VT,
+                        LDVT,
+                        VT2,
+                        LDVT2,
+                        IDXC,
+                        CTOT,
+                        Z,
+                        INFO);
+}
+
+//-- slasd4 --------------------------------------------------------------------
+void
+LAPACK_DECL(slasd4)(const INTEGER    *N,
+                    const INTEGER    *I,
+                    const FLOAT      *D,
+                    const FLOAT      *Z,
+                    FLOAT            *DELTA,
+                    const FLOAT      *RHO,
+                    FLOAT            *SIGMA,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slasd4");
+    LAPACK_IMPL(slasd4)(N,
+                        I,
+                        D,
+                        Z,
+                        DELTA,
+                        RHO,
+                        SIGMA,
+                        WORK,
+                        INFO);
+}
+
+//-- slasd5 --------------------------------------------------------------------
+void
+LAPACK_DECL(slasd5)(const INTEGER    *I,
+                    const FLOAT      *D,
+                    const FLOAT      *Z,
+                    FLOAT            *DELTA,
+                    const FLOAT      *RHO,
+                    FLOAT            *DSIGMA,
+                    FLOAT            *WORK)
+{
+    DEBUG_LAPACK_STUB("slasd5");
+    LAPACK_IMPL(slasd5)(I,
+                        D,
+                        Z,
+                        DELTA,
+                        RHO,
+                        DSIGMA,
+                        WORK);
+}
+
+//-- slasd6 --------------------------------------------------------------------
+void
+LAPACK_DECL(slasd6)(const INTEGER    *ICOMPQ,
+                    const INTEGER    *NL,
+                    const INTEGER    *NR,
+                    const INTEGER    *SQRE,
+                    FLOAT            *D,
+                    FLOAT            *VF,
+                    FLOAT            *VL,
+                    FLOAT            *ALPHA,
+                    FLOAT            *BETA,
+                    INTEGER          *IDXQ,
+                    INTEGER          *PERM,
+                    INTEGER          *GIVPTR,
+                    INTEGER          *GIVCOL,
+                    const INTEGER    *LDGCOL,
+                    FLOAT            *GIVNUM,
+                    const INTEGER    *LDGNUM,
+                    FLOAT            *POLES,
+                    FLOAT            *DIFL,
+                    FLOAT            *DIFR,
+                    FLOAT            *Z,
+                    INTEGER          *K,
+                    FLOAT            *C,
+                    FLOAT            *S,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slasd6");
+    LAPACK_IMPL(slasd6)(ICOMPQ,
+                        NL,
+                        NR,
+                        SQRE,
+                        D,
+                        VF,
+                        VL,
+                        ALPHA,
+                        BETA,
+                        IDXQ,
+                        PERM,
+                        GIVPTR,
+                        GIVCOL,
+                        LDGCOL,
+                        GIVNUM,
+                        LDGNUM,
+                        POLES,
+                        DIFL,
+                        DIFR,
+                        Z,
+                        K,
+                        C,
+                        S,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- slasd7 --------------------------------------------------------------------
+void
+LAPACK_DECL(slasd7)(const INTEGER    *ICOMPQ,
+                    const INTEGER    *NL,
+                    const INTEGER    *NR,
+                    const INTEGER    *SQRE,
+                    INTEGER          *K,
+                    FLOAT            *D,
+                    FLOAT            *Z,
+                    FLOAT            *ZW,
+                    FLOAT            *VF,
+                    FLOAT            *VFW,
+                    FLOAT            *VL,
+                    FLOAT            *VLW,
+                    const FLOAT      *ALPHA,
+                    const FLOAT      *BETA,
+                    FLOAT            *DSIGMA,
+                    INTEGER          *IDX,
+                    INTEGER          *IDXP,
+                    const INTEGER    *IDXQ,
+                    INTEGER          *PERM,
+                    INTEGER          *GIVPTR,
+                    INTEGER          *GIVCOL,
+                    const INTEGER    *LDGCOL,
+                    FLOAT            *GIVNUM,
+                    const INTEGER    *LDGNUM,
+                    FLOAT            *C,
+                    FLOAT            *S,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slasd7");
+    LAPACK_IMPL(slasd7)(ICOMPQ,
+                        NL,
+                        NR,
+                        SQRE,
+                        K,
+                        D,
+                        Z,
+                        ZW,
+                        VF,
+                        VFW,
+                        VL,
+                        VLW,
+                        ALPHA,
+                        BETA,
+                        DSIGMA,
+                        IDX,
+                        IDXP,
+                        IDXQ,
+                        PERM,
+                        GIVPTR,
+                        GIVCOL,
+                        LDGCOL,
+                        GIVNUM,
+                        LDGNUM,
+                        C,
+                        S,
+                        INFO);
+}
+
+//-- slasd8 --------------------------------------------------------------------
+void
+LAPACK_DECL(slasd8)(const INTEGER    *ICOMPQ,
+                    const INTEGER    *K,
+                    FLOAT            *D,
+                    FLOAT            *Z,
+                    FLOAT            *VF,
+                    FLOAT            *VL,
+                    FLOAT            *DIFL,
+                    FLOAT            *DIFR,
+                    const INTEGER    *LDDIFR,
+                    FLOAT            *DSIGMA,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slasd8");
+    LAPACK_IMPL(slasd8)(ICOMPQ,
+                        K,
+                        D,
+                        Z,
+                        VF,
+                        VL,
+                        DIFL,
+                        DIFR,
+                        LDDIFR,
+                        DSIGMA,
+                        WORK,
+                        INFO);
+}
+
+//-- slasda --------------------------------------------------------------------
+void
+LAPACK_DECL(slasda)(const INTEGER    *ICOMPQ,
+                    const INTEGER    *SMLSIZ,
+                    const INTEGER    *N,
+                    const INTEGER    *SQRE,
+                    FLOAT            *D,
+                    const FLOAT      *E,
+                    FLOAT            *U,
+                    const INTEGER    *LDU,
+                    FLOAT            *VT,
+                    INTEGER          *K,
+                    FLOAT            *DIFL,
+                    FLOAT            *DIFR,
+                    FLOAT            *Z,
+                    FLOAT            *POLES,
+                    INTEGER          *GIVPTR,
+                    INTEGER          *GIVCOL,
+                    const INTEGER    *LDGCOL,
+                    INTEGER          *PERM,
+                    FLOAT            *GIVNUM,
+                    FLOAT            *C,
+                    FLOAT            *S,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slasda");
+    LAPACK_IMPL(slasda)(ICOMPQ,
+                        SMLSIZ,
+                        N,
+                        SQRE,
+                        D,
+                        E,
+                        U,
+                        LDU,
+                        VT,
+                        K,
+                        DIFL,
+                        DIFR,
+                        Z,
+                        POLES,
+                        GIVPTR,
+                        GIVCOL,
+                        LDGCOL,
+                        PERM,
+                        GIVNUM,
+                        C,
+                        S,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- slasdq --------------------------------------------------------------------
+void
+LAPACK_DECL(slasdq)(const char       *UPLO,
+                    const INTEGER    *SQRE,
+                    const INTEGER    *N,
+                    const INTEGER    *NCVT,
+                    const INTEGER    *NRU,
+                    const INTEGER    *NCC,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT            *VT,
+                    const INTEGER    *LDVT,
+                    FLOAT            *U,
+                    const INTEGER    *LDU,
+                    FLOAT            *C,
+                    const INTEGER    *LDC,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slasdq");
+    LAPACK_IMPL(slasdq)(UPLO,
+                        SQRE,
+                        N,
+                        NCVT,
+                        NRU,
+                        NCC,
+                        D,
+                        E,
+                        VT,
+                        LDVT,
+                        U,
+                        LDU,
+                        C,
+                        LDC,
+                        WORK,
+                        INFO);
+}
+
+//-- slasdt --------------------------------------------------------------------
+void
+LAPACK_DECL(slasdt)(const INTEGER    *N,
+                    INTEGER          *LVL,
+                    INTEGER          *ND,
+                    INTEGER          *INODE,
+                    INTEGER          *NDIML,
+                    INTEGER          *NDIMR,
+                    const INTEGER    *MSUB)
+{
+    DEBUG_LAPACK_STUB("slasdt");
+    LAPACK_IMPL(slasdt)(N,
+                        LVL,
+                        ND,
+                        INODE,
+                        NDIML,
+                        NDIMR,
+                        MSUB);
+}
+
+//-- slaset --------------------------------------------------------------------
+void
+LAPACK_DECL(slaset)(const char       *UPLO,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const FLOAT      *ALPHA,
+                    const FLOAT      *BETA,
+                    FLOAT            *A,
+                    const INTEGER    *LDA)
+{
+    DEBUG_LAPACK_STUB("slaset");
+    LAPACK_IMPL(slaset)(UPLO,
+                        M,
+                        N,
+                        ALPHA,
+                        BETA,
+                        A,
+                        LDA);
+}
+
+//-- slasq1 --------------------------------------------------------------------
+void
+LAPACK_DECL(slasq1)(const INTEGER    *N,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slasq1");
+    LAPACK_IMPL(slasq1)(N,
+                        D,
+                        E,
+                        WORK,
+                        INFO);
+}
+
+//-- slasq2 --------------------------------------------------------------------
+void
+LAPACK_DECL(slasq2)(const INTEGER    *N,
+                    FLOAT            *Z,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slasq2");
+    LAPACK_IMPL(slasq2)(N,
+                        Z,
+                        INFO);
+}
+
+// warning: TTYPE has unknown type
+//-- slasq3 --------------------------------------------------------------------
+void
+LAPACK_DECL(slasq3)(const INTEGER    *I0,
+                    INTEGER          *N0,
+                    const FLOAT      *Z,
+                    INTEGER          *PP,
+                    FLOAT            *DMIN,
+                    FLOAT            *SIGMA,
+                    FLOAT            *DESIG,
+                    const FLOAT      *QMAX,
+                    INTEGER          *NFAIL,
+                    INTEGER          *ITER,
+                    INTEGER          *NDIV,
+                    const LOGICAL    *IEEE,
+                    UNKNOWN          *TTYPE,
+                    FLOAT            *DMIN1,
+                    FLOAT            *DMIN2,
+                    FLOAT            *DN,
+                    FLOAT            *DN1,
+                    FLOAT            *DN2,
+                    FLOAT            *G,
+                    FLOAT            *TAU)
+{
+    DEBUG_LAPACK_STUB("slasq3");
+    LAPACK_IMPL(slasq3)(I0,
+                        N0,
+                        Z,
+                        PP,
+                        DMIN,
+                        SIGMA,
+                        DESIG,
+                        QMAX,
+                        NFAIL,
+                        ITER,
+                        NDIV,
+                        IEEE,
+                        TTYPE,
+                        DMIN1,
+                        DMIN2,
+                        DN,
+                        DN1,
+                        DN2,
+                        G,
+                        TAU);
+}
+
+//-- slasq4 --------------------------------------------------------------------
+void
+LAPACK_DECL(slasq4)(const INTEGER    *I0,
+                    const INTEGER    *N0,
+                    const FLOAT      *Z,
+                    const INTEGER    *PP,
+                    const INTEGER    *N0IN,
+                    const FLOAT      *DMIN,
+                    const FLOAT      *DMIN1,
+                    const FLOAT      *DMIN2,
+                    const FLOAT      *DN,
+                    const FLOAT      *DN1,
+                    const FLOAT      *DN2,
+                    FLOAT            *TAU,
+                    INTEGER          *TTYPE,
+                    FLOAT            *G)
+{
+    DEBUG_LAPACK_STUB("slasq4");
+    LAPACK_IMPL(slasq4)(I0,
+                        N0,
+                        Z,
+                        PP,
+                        N0IN,
+                        DMIN,
+                        DMIN1,
+                        DMIN2,
+                        DN,
+                        DN1,
+                        DN2,
+                        TAU,
+                        TTYPE,
+                        G);
+}
+
+//-- slasq5 --------------------------------------------------------------------
+void
+LAPACK_DECL(slasq5)(const INTEGER    *I0,
+                    const INTEGER    *N0,
+                    const FLOAT      *Z,
+                    const INTEGER    *PP,
+                    const FLOAT      *TAU,
+                    FLOAT            *DMIN,
+                    FLOAT            *DMIN1,
+                    FLOAT            *DMIN2,
+                    FLOAT            *DN,
+                    FLOAT            *DNM1,
+                    FLOAT            *DNM2,
+                    const LOGICAL    *IEEE)
+{
+    DEBUG_LAPACK_STUB("slasq5");
+    LAPACK_IMPL(slasq5)(I0,
+                        N0,
+                        Z,
+                        PP,
+                        TAU,
+                        DMIN,
+                        DMIN1,
+                        DMIN2,
+                        DN,
+                        DNM1,
+                        DNM2,
+                        IEEE);
+}
+
+//-- slasq6 --------------------------------------------------------------------
+void
+LAPACK_DECL(slasq6)(const INTEGER    *I0,
+                    const INTEGER    *N0,
+                    const FLOAT      *Z,
+                    const INTEGER    *PP,
+                    FLOAT            *DMIN,
+                    FLOAT            *DMIN1,
+                    FLOAT            *DMIN2,
+                    FLOAT            *DN,
+                    FLOAT            *DNM1,
+                    FLOAT            *DNM2)
+{
+    DEBUG_LAPACK_STUB("slasq6");
+    LAPACK_IMPL(slasq6)(I0,
+                        N0,
+                        Z,
+                        PP,
+                        DMIN,
+                        DMIN1,
+                        DMIN2,
+                        DN,
+                        DNM1,
+                        DNM2);
+}
+
+//-- slasr ---------------------------------------------------------------------
+void
+LAPACK_DECL(slasr)(const char           *SIDE,
+                   const char           *PIVOT,
+                   const char           *DIRECT,
+                   const INTEGER        *M,
+                   const INTEGER        *N,
+                   const FLOAT          *C,
+                   const FLOAT          *S,
+                   FLOAT                *A,
+                   const INTEGER        *LDA)
+{
+    DEBUG_LAPACK_STUB("slasr");
+    LAPACK_IMPL(slasr)(SIDE,
+                       PIVOT,
+                       DIRECT,
+                       M,
+                       N,
+                       C,
+                       S,
+                       A,
+                       LDA);
+}
+
+//-- slasrt --------------------------------------------------------------------
+void
+LAPACK_DECL(slasrt)(const char       *ID,
+                    const INTEGER    *N,
+                    FLOAT            *D,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slasrt");
+    LAPACK_IMPL(slasrt)(ID,
+                        N,
+                        D,
+                        INFO);
+}
+
+//-- slassq --------------------------------------------------------------------
+void
+LAPACK_DECL(slassq)(const INTEGER    *N,
+                    const FLOAT      *X,
+                    const INTEGER    *INCX,
+                    FLOAT            *SCALE,
+                    FLOAT            *SUMSQ)
+{
+    DEBUG_LAPACK_STUB("slassq");
+    LAPACK_IMPL(slassq)(N,
+                        X,
+                        INCX,
+                        SCALE,
+                        SUMSQ);
+}
+
+//-- slasv2 --------------------------------------------------------------------
+void
+LAPACK_DECL(slasv2)(const FLOAT  *F,
+                    const FLOAT  *G,
+                    const FLOAT  *H,
+                    FLOAT        *SSMIN,
+                    FLOAT        *SSMAX,
+                    FLOAT        *SNR,
+                    FLOAT        *CSR,
+                    FLOAT        *SNL,
+                    FLOAT        *CSL)
+{
+    DEBUG_LAPACK_STUB("slasv2");
+    LAPACK_IMPL(slasv2)(F,
+                        G,
+                        H,
+                        SSMIN,
+                        SSMAX,
+                        SNR,
+                        CSR,
+                        SNL,
+                        CSL);
 }
 
 //-- slaswp --------------------------------------------------------------------
@@ -11899,6 +31300,1688 @@ LAPACK_DECL(slaswp)(const INTEGER    *N,
                         K2,
                         IPIV,
                         INCX);
+}
+
+//-- slasy2 --------------------------------------------------------------------
+void
+LAPACK_DECL(slasy2)(const LOGICAL    *LTRANL,
+                    const LOGICAL    *LTRANR,
+                    const INTEGER    *ISGN,
+                    const INTEGER    *N1,
+                    const INTEGER    *N2,
+                    const FLOAT      *TL,
+                    const INTEGER    *LDTL,
+                    const FLOAT      *TR,
+                    const INTEGER    *LDTR,
+                    const FLOAT      *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *SCALE,
+                    FLOAT            *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *XNORM,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slasy2");
+    LAPACK_IMPL(slasy2)(LTRANL,
+                        LTRANR,
+                        ISGN,
+                        N1,
+                        N2,
+                        TL,
+                        LDTL,
+                        TR,
+                        LDTR,
+                        B,
+                        LDB,
+                        SCALE,
+                        X,
+                        LDX,
+                        XNORM,
+                        INFO);
+}
+
+//-- slasyf --------------------------------------------------------------------
+void
+LAPACK_DECL(slasyf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NB,
+                    INTEGER          *KB,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *IPIV,
+                    FLOAT            *W,
+                    const INTEGER    *LDW,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slasyf");
+    LAPACK_IMPL(slasyf)(UPLO,
+                        N,
+                        NB,
+                        KB,
+                        A,
+                        LDA,
+                        IPIV,
+                        W,
+                        LDW,
+                        INFO);
+}
+
+//-- slatbs --------------------------------------------------------------------
+void
+LAPACK_DECL(slatbs)(const char       *UPLO,
+                    const char       *TRANS,
+                    const char       *DIAG,
+                    const char       *NORMIN,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    const FLOAT      *AB,
+                    const INTEGER    *LDAB,
+                    FLOAT            *X,
+                    FLOAT            *SCALE,
+                    FLOAT            *CNORM,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slatbs");
+    LAPACK_IMPL(slatbs)(UPLO,
+                        TRANS,
+                        DIAG,
+                        NORMIN,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        X,
+                        SCALE,
+                        CNORM,
+                        INFO);
+}
+
+//-- slatdf --------------------------------------------------------------------
+void
+LAPACK_DECL(slatdf)(const INTEGER    *IJOB,
+                    const INTEGER    *N,
+                    const FLOAT      *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT            *RHS,
+                    FLOAT            *RDSUM,
+                    FLOAT            *RDSCAL,
+                    const INTEGER    *IPIV,
+                    const INTEGER    *JPIV)
+{
+    DEBUG_LAPACK_STUB("slatdf");
+    LAPACK_IMPL(slatdf)(IJOB,
+                        N,
+                        Z,
+                        LDZ,
+                        RHS,
+                        RDSUM,
+                        RDSCAL,
+                        IPIV,
+                        JPIV);
+}
+
+//-- slatps --------------------------------------------------------------------
+void
+LAPACK_DECL(slatps)(const char       *UPLO,
+                    const char       *TRANS,
+                    const char       *DIAG,
+                    const char       *NORMIN,
+                    const INTEGER    *N,
+                    const FLOAT      *AP,
+                    FLOAT            *X,
+                    FLOAT            *SCALE,
+                    FLOAT            *CNORM,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slatps");
+    LAPACK_IMPL(slatps)(UPLO,
+                        TRANS,
+                        DIAG,
+                        NORMIN,
+                        N,
+                        AP,
+                        X,
+                        SCALE,
+                        CNORM,
+                        INFO);
+}
+
+//-- slatrd --------------------------------------------------------------------
+void
+LAPACK_DECL(slatrd)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NB,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *E,
+                    FLOAT            *TAU,
+                    FLOAT            *W,
+                    const INTEGER    *LDW)
+{
+    DEBUG_LAPACK_STUB("slatrd");
+    LAPACK_IMPL(slatrd)(UPLO,
+                        N,
+                        NB,
+                        A,
+                        LDA,
+                        E,
+                        TAU,
+                        W,
+                        LDW);
+}
+
+//-- slatrs --------------------------------------------------------------------
+void
+LAPACK_DECL(slatrs)(const char       *UPLO,
+                    const char       *TRANS,
+                    const char       *DIAG,
+                    const char       *NORMIN,
+                    const INTEGER    *N,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *X,
+                    FLOAT            *SCALE,
+                    FLOAT            *CNORM,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slatrs");
+    LAPACK_IMPL(slatrs)(UPLO,
+                        TRANS,
+                        DIAG,
+                        NORMIN,
+                        N,
+                        A,
+                        LDA,
+                        X,
+                        SCALE,
+                        CNORM,
+                        INFO);
+}
+
+//-- slatrz --------------------------------------------------------------------
+void
+LAPACK_DECL(slatrz)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *L,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *TAU,
+                    FLOAT            *WORK)
+{
+    DEBUG_LAPACK_STUB("slatrz");
+    LAPACK_IMPL(slatrz)(M,
+                        N,
+                        L,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK);
+}
+
+//-- slatzm --------------------------------------------------------------------
+void
+LAPACK_DECL(slatzm)(const char       *SIDE,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const FLOAT      *V,
+                    const INTEGER    *INCV,
+                    const FLOAT      *TAU,
+                    FLOAT            *C1,
+                    FLOAT            *C2,
+                    const INTEGER    *LDC,
+                    FLOAT            *WORK)
+{
+    DEBUG_LAPACK_STUB("slatzm");
+    LAPACK_IMPL(slatzm)(SIDE,
+                        M,
+                        N,
+                        V,
+                        INCV,
+                        TAU,
+                        C1,
+                        C2,
+                        LDC,
+                        WORK);
+}
+
+//-- slauu2 --------------------------------------------------------------------
+void
+LAPACK_DECL(slauu2)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slauu2");
+    LAPACK_IMPL(slauu2)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- slauum --------------------------------------------------------------------
+void
+LAPACK_DECL(slauum)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("slauum");
+    LAPACK_IMPL(slauum)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- sopgtr --------------------------------------------------------------------
+void
+LAPACK_DECL(sopgtr)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const FLOAT      *AP,
+                    const FLOAT      *TAU,
+                    FLOAT            *Q,
+                    const INTEGER    *LDQ,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sopgtr");
+    LAPACK_IMPL(sopgtr)(UPLO,
+                        N,
+                        AP,
+                        TAU,
+                        Q,
+                        LDQ,
+                        WORK,
+                        INFO);
+}
+
+//-- sopmtr --------------------------------------------------------------------
+void
+LAPACK_DECL(sopmtr)(const char       *SIDE,
+                    const char       *UPLO,
+                    const char       *TRANS,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const FLOAT      *AP,
+                    const FLOAT      *TAU,
+                    FLOAT            *C,
+                    const INTEGER    *LDC,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sopmtr");
+    LAPACK_IMPL(sopmtr)(SIDE,
+                        UPLO,
+                        TRANS,
+                        M,
+                        N,
+                        AP,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        INFO);
+}
+
+//-- sorbdb --------------------------------------------------------------------
+void
+LAPACK_DECL(sorbdb)(const char       *TRANS,
+                    const char       *SIGNS,
+                    const INTEGER    *M,
+                    const INTEGER    *P,
+                    const INTEGER    *Q,
+                    FLOAT            *X11,
+                    const INTEGER    *LDX11,
+                    FLOAT            *X12,
+                    const INTEGER    *LDX12,
+                    FLOAT            *X21,
+                    const INTEGER    *LDX21,
+                    FLOAT            *X22,
+                    const INTEGER    *LDX22,
+                    FLOAT            *THETA,
+                    FLOAT            *PHI,
+                    FLOAT            *TAUP1,
+                    FLOAT            *TAUP2,
+                    FLOAT            *TAUQ1,
+                    FLOAT            *TAUQ2,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sorbdb");
+    LAPACK_IMPL(sorbdb)(TRANS,
+                        SIGNS,
+                        M,
+                        P,
+                        Q,
+                        X11,
+                        LDX11,
+                        X12,
+                        LDX12,
+                        X21,
+                        LDX21,
+                        X22,
+                        LDX22,
+                        THETA,
+                        PHI,
+                        TAUP1,
+                        TAUP2,
+                        TAUQ1,
+                        TAUQ2,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sorcsd --------------------------------------------------------------------
+void
+LAPACK_DECL(sorcsd)(const char       *JOBU1,
+                    const char       *JOBU2,
+                    const char       *JOBV1T,
+                    const char       *JOBV2T,
+                    const char       *TRANS,
+                    const char       *SIGNS,
+                    const INTEGER    *M,
+                    const INTEGER    *P,
+                    const INTEGER    *Q,
+                    const FLOAT      *X11,
+                    const INTEGER    *LDX11,
+                    const FLOAT      *X12,
+                    const INTEGER    *LDX12,
+                    const FLOAT      *X21,
+                    const INTEGER    *LDX21,
+                    const FLOAT      *X22,
+                    const INTEGER    *LDX22,
+                    FLOAT            *THETA,
+                    FLOAT            *U1,
+                    const INTEGER    *LDU1,
+                    FLOAT            *U2,
+                    const INTEGER    *LDU2,
+                    FLOAT            *V1T,
+                    const INTEGER    *LDV1T,
+                    FLOAT            *V2T,
+                    const INTEGER    *LDV2T,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sorcsd");
+    LAPACK_IMPL(sorcsd)(JOBU1,
+                        JOBU2,
+                        JOBV1T,
+                        JOBV2T,
+                        TRANS,
+                        SIGNS,
+                        M,
+                        P,
+                        Q,
+                        X11,
+                        LDX11,
+                        X12,
+                        LDX12,
+                        X21,
+                        LDX21,
+                        X22,
+                        LDX22,
+                        THETA,
+                        U1,
+                        LDU1,
+                        U2,
+                        LDU2,
+                        V1T,
+                        LDV1T,
+                        V2T,
+                        LDV2T,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- sorg2l --------------------------------------------------------------------
+void
+LAPACK_DECL(sorg2l)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *TAU,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sorg2l");
+    LAPACK_IMPL(sorg2l)(M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- sorg2r --------------------------------------------------------------------
+void
+LAPACK_DECL(sorg2r)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *TAU,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sorg2r");
+    LAPACK_IMPL(sorg2r)(M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- sorgbr --------------------------------------------------------------------
+void
+LAPACK_DECL(sorgbr)(const char       *VECT,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *TAU,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sorgbr");
+    LAPACK_IMPL(sorgbr)(VECT,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sorghr --------------------------------------------------------------------
+void
+LAPACK_DECL(sorghr)(const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *TAU,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sorghr");
+    LAPACK_IMPL(sorghr)(N,
+                        ILO,
+                        IHI,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sorgl2 --------------------------------------------------------------------
+void
+LAPACK_DECL(sorgl2)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *TAU,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sorgl2");
+    LAPACK_IMPL(sorgl2)(M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- sorglq --------------------------------------------------------------------
+void
+LAPACK_DECL(sorglq)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *TAU,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sorglq");
+    LAPACK_IMPL(sorglq)(M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sorgql --------------------------------------------------------------------
+void
+LAPACK_DECL(sorgql)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *TAU,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sorgql");
+    LAPACK_IMPL(sorgql)(M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sorgqr --------------------------------------------------------------------
+void
+LAPACK_DECL(sorgqr)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *TAU,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sorgqr");
+    LAPACK_IMPL(sorgqr)(M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sorgr2 --------------------------------------------------------------------
+void
+LAPACK_DECL(sorgr2)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *TAU,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sorgr2");
+    LAPACK_IMPL(sorgr2)(M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        INFO);
+}
+
+//-- sorgrq --------------------------------------------------------------------
+void
+LAPACK_DECL(sorgrq)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *TAU,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sorgrq");
+    LAPACK_IMPL(sorgrq)(M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sorgtr --------------------------------------------------------------------
+void
+LAPACK_DECL(sorgtr)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *TAU,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sorgtr");
+    LAPACK_IMPL(sorgtr)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sorm2l --------------------------------------------------------------------
+void
+LAPACK_DECL(sorm2l)(const char       *SIDE,
+                    const char       *TRANS,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *TAU,
+                    FLOAT            *C,
+                    const INTEGER    *LDC,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sorm2l");
+    LAPACK_IMPL(sorm2l)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        INFO);
+}
+
+//-- sorm2r --------------------------------------------------------------------
+void
+LAPACK_DECL(sorm2r)(const char       *SIDE,
+                    const char       *TRANS,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *TAU,
+                    FLOAT            *C,
+                    const INTEGER    *LDC,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sorm2r");
+    LAPACK_IMPL(sorm2r)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        INFO);
+}
+
+//-- sormbr --------------------------------------------------------------------
+void
+LAPACK_DECL(sormbr)(const char       *VECT,
+                    const char       *SIDE,
+                    const char       *TRANS,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *TAU,
+                    FLOAT            *C,
+                    const INTEGER    *LDC,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sormbr");
+    LAPACK_IMPL(sormbr)(VECT,
+                        SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sormhr --------------------------------------------------------------------
+void
+LAPACK_DECL(sormhr)(const char       *SIDE,
+                    const char       *TRANS,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *ILO,
+                    const INTEGER    *IHI,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *TAU,
+                    FLOAT            *C,
+                    const INTEGER    *LDC,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sormhr");
+    LAPACK_IMPL(sormhr)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        ILO,
+                        IHI,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sorml2 --------------------------------------------------------------------
+void
+LAPACK_DECL(sorml2)(const char       *SIDE,
+                    const char       *TRANS,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *TAU,
+                    FLOAT            *C,
+                    const INTEGER    *LDC,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sorml2");
+    LAPACK_IMPL(sorml2)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        INFO);
+}
+
+//-- sormlq --------------------------------------------------------------------
+void
+LAPACK_DECL(sormlq)(const char       *SIDE,
+                    const char       *TRANS,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *TAU,
+                    FLOAT            *C,
+                    const INTEGER    *LDC,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sormlq");
+    LAPACK_IMPL(sormlq)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sormql --------------------------------------------------------------------
+void
+LAPACK_DECL(sormql)(const char       *SIDE,
+                    const char       *TRANS,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *TAU,
+                    FLOAT            *C,
+                    const INTEGER    *LDC,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sormql");
+    LAPACK_IMPL(sormql)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sormqr --------------------------------------------------------------------
+void
+LAPACK_DECL(sormqr)(const char       *SIDE,
+                    const char       *TRANS,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *TAU,
+                    FLOAT            *C,
+                    const INTEGER    *LDC,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sormqr");
+    LAPACK_IMPL(sormqr)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sormr2 --------------------------------------------------------------------
+void
+LAPACK_DECL(sormr2)(const char       *SIDE,
+                    const char       *TRANS,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *TAU,
+                    FLOAT            *C,
+                    const INTEGER    *LDC,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sormr2");
+    LAPACK_IMPL(sormr2)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        INFO);
+}
+
+//-- sormr3 --------------------------------------------------------------------
+void
+LAPACK_DECL(sormr3)(const char       *SIDE,
+                    const char       *TRANS,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    const INTEGER    *L,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *TAU,
+                    FLOAT            *C,
+                    const INTEGER    *LDC,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sormr3");
+    LAPACK_IMPL(sormr3)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        L,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        INFO);
+}
+
+//-- sormrq --------------------------------------------------------------------
+void
+LAPACK_DECL(sormrq)(const char       *SIDE,
+                    const char       *TRANS,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *TAU,
+                    FLOAT            *C,
+                    const INTEGER    *LDC,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sormrq");
+    LAPACK_IMPL(sormrq)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sormrz --------------------------------------------------------------------
+void
+LAPACK_DECL(sormrz)(const char       *SIDE,
+                    const char       *TRANS,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    const INTEGER    *L,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *TAU,
+                    FLOAT            *C,
+                    const INTEGER    *LDC,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sormrz");
+    LAPACK_IMPL(sormrz)(SIDE,
+                        TRANS,
+                        M,
+                        N,
+                        K,
+                        L,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- sormtr --------------------------------------------------------------------
+void
+LAPACK_DECL(sormtr)(const char       *SIDE,
+                    const char       *UPLO,
+                    const char       *TRANS,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *TAU,
+                    FLOAT            *C,
+                    const INTEGER    *LDC,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sormtr");
+    LAPACK_IMPL(sormtr)(SIDE,
+                        UPLO,
+                        TRANS,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        C,
+                        LDC,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- spbcon --------------------------------------------------------------------
+void
+LAPACK_DECL(spbcon)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    const FLOAT      *AB,
+                    const INTEGER    *LDAB,
+                    const FLOAT      *ANORM,
+                    FLOAT            *RCOND,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("spbcon");
+    LAPACK_IMPL(spbcon)(UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- spbequ --------------------------------------------------------------------
+void
+LAPACK_DECL(spbequ)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    const FLOAT      *AB,
+                    const INTEGER    *LDAB,
+                    FLOAT            *S,
+                    FLOAT            *SCOND,
+                    FLOAT            *AMAX,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("spbequ");
+    LAPACK_IMPL(spbequ)(UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        S,
+                        SCOND,
+                        AMAX,
+                        INFO);
+}
+
+//-- spbrfs --------------------------------------------------------------------
+void
+LAPACK_DECL(spbrfs)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *AB,
+                    const INTEGER    *LDAB,
+                    const FLOAT      *AFB,
+                    const INTEGER    *LDAFB,
+                    const FLOAT      *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *FERR,
+                    FLOAT            *BERR,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("spbrfs");
+    LAPACK_IMPL(spbrfs)(UPLO,
+                        N,
+                        KD,
+                        NRHS,
+                        AB,
+                        LDAB,
+                        AFB,
+                        LDAFB,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- spbstf --------------------------------------------------------------------
+void
+LAPACK_DECL(spbstf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    FLOAT            *AB,
+                    const INTEGER    *LDAB,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("spbstf");
+    LAPACK_IMPL(spbstf)(UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        INFO);
+}
+
+//-- spbsv ---------------------------------------------------------------------
+void
+LAPACK_DECL(spbsv)(const char           *UPLO,
+                   const INTEGER        *N,
+                   const INTEGER        *KD,
+                   const INTEGER        *NRHS,
+                   FLOAT                *AB,
+                   const INTEGER        *LDAB,
+                   FLOAT                *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("spbsv");
+    LAPACK_IMPL(spbsv)(UPLO,
+                       N,
+                       KD,
+                       NRHS,
+                       AB,
+                       LDAB,
+                       B,
+                       LDB,
+                       INFO);
+}
+
+//-- spbsvx --------------------------------------------------------------------
+void
+LAPACK_DECL(spbsvx)(const char       *FACT,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    const INTEGER    *NRHS,
+                    FLOAT            *AB,
+                    const INTEGER    *LDAB,
+                    FLOAT            *AFB,
+                    const INTEGER    *LDAFB,
+                    char             *EQUED,
+                    FLOAT            *S,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *RCOND,
+                    FLOAT            *FERR,
+                    FLOAT            *BERR,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("spbsvx");
+    LAPACK_IMPL(spbsvx)(FACT,
+                        UPLO,
+                        N,
+                        KD,
+                        NRHS,
+                        AB,
+                        LDAB,
+                        AFB,
+                        LDAFB,
+                        EQUED,
+                        S,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- spbtf2 --------------------------------------------------------------------
+void
+LAPACK_DECL(spbtf2)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    FLOAT            *AB,
+                    const INTEGER    *LDAB,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("spbtf2");
+    LAPACK_IMPL(spbtf2)(UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        INFO);
+}
+
+//-- spbtrf --------------------------------------------------------------------
+void
+LAPACK_DECL(spbtrf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    FLOAT            *AB,
+                    const INTEGER    *LDAB,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("spbtrf");
+    LAPACK_IMPL(spbtrf)(UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        INFO);
+}
+
+//-- spbtrs --------------------------------------------------------------------
+void
+LAPACK_DECL(spbtrs)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *AB,
+                    const INTEGER    *LDAB,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("spbtrs");
+    LAPACK_IMPL(spbtrs)(UPLO,
+                        N,
+                        KD,
+                        NRHS,
+                        AB,
+                        LDAB,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- spftrf --------------------------------------------------------------------
+void
+LAPACK_DECL(spftrf)(const char       *TRANSR,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("spftrf");
+    LAPACK_IMPL(spftrf)(TRANSR,
+                        UPLO,
+                        N,
+                        A,
+                        INFO);
+}
+
+//-- spftri --------------------------------------------------------------------
+void
+LAPACK_DECL(spftri)(const char       *TRANSR,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("spftri");
+    LAPACK_IMPL(spftri)(TRANSR,
+                        UPLO,
+                        N,
+                        A,
+                        INFO);
+}
+
+//-- spftrs --------------------------------------------------------------------
+void
+LAPACK_DECL(spftrs)(const char       *TRANSR,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *A,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("spftrs");
+    LAPACK_IMPL(spftrs)(TRANSR,
+                        UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- spocon --------------------------------------------------------------------
+void
+LAPACK_DECL(spocon)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *ANORM,
+                    FLOAT            *RCOND,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("spocon");
+    LAPACK_IMPL(spocon)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- spoequ --------------------------------------------------------------------
+void
+LAPACK_DECL(spoequ)(const INTEGER    *N,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *S,
+                    FLOAT            *SCOND,
+                    FLOAT            *AMAX,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("spoequ");
+    LAPACK_IMPL(spoequ)(N,
+                        A,
+                        LDA,
+                        S,
+                        SCOND,
+                        AMAX,
+                        INFO);
+}
+
+//-- spoequb -------------------------------------------------------------------
+void
+LAPACK_DECL(spoequb)(const INTEGER    *N,
+                     const FLOAT      *A,
+                     const INTEGER    *LDA,
+                     FLOAT            *S,
+                     FLOAT            *SCOND,
+                     FLOAT            *AMAX,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("spoequb");
+    LAPACK_IMPL(spoequb)(N,
+                         A,
+                         LDA,
+                         S,
+                         SCOND,
+                         AMAX,
+                         INFO);
+}
+
+//-- sporfs --------------------------------------------------------------------
+void
+LAPACK_DECL(sporfs)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *AF,
+                    const INTEGER    *LDAF,
+                    const FLOAT      *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *FERR,
+                    FLOAT            *BERR,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sporfs");
+    LAPACK_IMPL(sporfs)(UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        AF,
+                        LDAF,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- sporfsx -------------------------------------------------------------------
+void
+LAPACK_DECL(sporfsx)(const char       *UPLO,
+                     const char       *EQUED,
+                     const INTEGER    *N,
+                     const INTEGER    *NRHS,
+                     const FLOAT      *A,
+                     const INTEGER    *LDA,
+                     const FLOAT      *AF,
+                     const INTEGER    *LDAF,
+                     FLOAT            *S,
+                     const FLOAT      *B,
+                     const INTEGER    *LDB,
+                     FLOAT            *X,
+                     const INTEGER    *LDX,
+                     FLOAT            *RCOND,
+                     FLOAT            *BERR,
+                     const INTEGER    *N_ERR_BNDS,
+                     FLOAT            *ERR_BNDS_NORM,
+                     FLOAT            *ERR_BNDS_COMP,
+                     const INTEGER    *NPARAMS,
+                     FLOAT            *PARAMS,
+                     FLOAT            *WORK,
+                     INTEGER          *IWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sporfsx");
+    LAPACK_IMPL(sporfsx)(UPLO,
+                         EQUED,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         S,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         IWORK,
+                         INFO);
+}
+
+//-- sposv ---------------------------------------------------------------------
+void
+LAPACK_DECL(sposv)(const char           *UPLO,
+                   const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   FLOAT                *A,
+                   const INTEGER        *LDA,
+                   FLOAT                *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("sposv");
+    LAPACK_IMPL(sposv)(UPLO,
+                       N,
+                       NRHS,
+                       A,
+                       LDA,
+                       B,
+                       LDB,
+                       INFO);
+}
+
+//-- sposvx --------------------------------------------------------------------
+void
+LAPACK_DECL(sposvx)(const char       *FACT,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *AF,
+                    const INTEGER    *LDAF,
+                    char             *EQUED,
+                    FLOAT            *S,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *RCOND,
+                    FLOAT            *FERR,
+                    FLOAT            *BERR,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sposvx");
+    LAPACK_IMPL(sposvx)(FACT,
+                        UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        AF,
+                        LDAF,
+                        EQUED,
+                        S,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- sposvxx -------------------------------------------------------------------
+void
+LAPACK_DECL(sposvxx)(const char       *FACT,
+                     const char       *UPLO,
+                     const INTEGER    *N,
+                     const INTEGER    *NRHS,
+                     FLOAT            *A,
+                     const INTEGER    *LDA,
+                     FLOAT            *AF,
+                     const INTEGER    *LDAF,
+                     char             *EQUED,
+                     FLOAT            *S,
+                     FLOAT            *B,
+                     const INTEGER    *LDB,
+                     FLOAT            *X,
+                     const INTEGER    *LDX,
+                     FLOAT            *RCOND,
+                     FLOAT            *RPVGRW,
+                     FLOAT            *BERR,
+                     const INTEGER    *N_ERR_BNDS,
+                     FLOAT            *ERR_BNDS_NORM,
+                     FLOAT            *ERR_BNDS_COMP,
+                     const INTEGER    *NPARAMS,
+                     FLOAT            *PARAMS,
+                     FLOAT            *WORK,
+                     INTEGER          *IWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sposvxx");
+    LAPACK_IMPL(sposvxx)(FACT,
+                         UPLO,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         EQUED,
+                         S,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         RPVGRW,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         IWORK,
+                         INFO);
 }
 
 //-- spotf2 --------------------------------------------------------------------
@@ -11933,6 +33016,22 @@ LAPACK_DECL(spotrf)(const char       *UPLO,
                         INFO);
 }
 
+//-- spotri --------------------------------------------------------------------
+void
+LAPACK_DECL(spotri)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("spotri");
+    LAPACK_IMPL(spotri)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        INFO);
+}
+
 //-- spotrs --------------------------------------------------------------------
 void
 LAPACK_DECL(spotrs)(const char       *UPLO,
@@ -11953,6 +33052,3478 @@ LAPACK_DECL(spotrs)(const char       *UPLO,
                         B,
                         LDB,
                         INFO);
+}
+
+//-- sppcon --------------------------------------------------------------------
+void
+LAPACK_DECL(sppcon)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const FLOAT      *AP,
+                    const FLOAT      *ANORM,
+                    FLOAT            *RCOND,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sppcon");
+    LAPACK_IMPL(sppcon)(UPLO,
+                        N,
+                        AP,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- sppequ --------------------------------------------------------------------
+void
+LAPACK_DECL(sppequ)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const FLOAT      *AP,
+                    FLOAT            *S,
+                    FLOAT            *SCOND,
+                    FLOAT            *AMAX,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sppequ");
+    LAPACK_IMPL(sppequ)(UPLO,
+                        N,
+                        AP,
+                        S,
+                        SCOND,
+                        AMAX,
+                        INFO);
+}
+
+//-- spprfs --------------------------------------------------------------------
+void
+LAPACK_DECL(spprfs)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *AP,
+                    const FLOAT      *AFP,
+                    const FLOAT      *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *FERR,
+                    FLOAT            *BERR,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("spprfs");
+    LAPACK_IMPL(spprfs)(UPLO,
+                        N,
+                        NRHS,
+                        AP,
+                        AFP,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- sppsv ---------------------------------------------------------------------
+void
+LAPACK_DECL(sppsv)(const char           *UPLO,
+                   const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   FLOAT                *AP,
+                   FLOAT                *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("sppsv");
+    LAPACK_IMPL(sppsv)(UPLO,
+                       N,
+                       NRHS,
+                       AP,
+                       B,
+                       LDB,
+                       INFO);
+}
+
+//-- sppsvx --------------------------------------------------------------------
+void
+LAPACK_DECL(sppsvx)(const char       *FACT,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    FLOAT            *AP,
+                    FLOAT            *AFP,
+                    char             *EQUED,
+                    FLOAT            *S,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *RCOND,
+                    FLOAT            *FERR,
+                    FLOAT            *BERR,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sppsvx");
+    LAPACK_IMPL(sppsvx)(FACT,
+                        UPLO,
+                        N,
+                        NRHS,
+                        AP,
+                        AFP,
+                        EQUED,
+                        S,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- spptrf --------------------------------------------------------------------
+void
+LAPACK_DECL(spptrf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *AP,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("spptrf");
+    LAPACK_IMPL(spptrf)(UPLO,
+                        N,
+                        AP,
+                        INFO);
+}
+
+//-- spptri --------------------------------------------------------------------
+void
+LAPACK_DECL(spptri)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *AP,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("spptri");
+    LAPACK_IMPL(spptri)(UPLO,
+                        N,
+                        AP,
+                        INFO);
+}
+
+//-- spptrs --------------------------------------------------------------------
+void
+LAPACK_DECL(spptrs)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *AP,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("spptrs");
+    LAPACK_IMPL(spptrs)(UPLO,
+                        N,
+                        NRHS,
+                        AP,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- spstf2 --------------------------------------------------------------------
+void
+LAPACK_DECL(spstf2)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *PIV,
+                    INTEGER          *RANK,
+                    const FLOAT      *TOL,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("spstf2");
+    LAPACK_IMPL(spstf2)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        PIV,
+                        RANK,
+                        TOL,
+                        WORK,
+                        INFO);
+}
+
+//-- spstrf --------------------------------------------------------------------
+void
+LAPACK_DECL(spstrf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *PIV,
+                    INTEGER          *RANK,
+                    const FLOAT      *TOL,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("spstrf");
+    LAPACK_IMPL(spstrf)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        PIV,
+                        RANK,
+                        TOL,
+                        WORK,
+                        INFO);
+}
+
+//-- sptcon --------------------------------------------------------------------
+void
+LAPACK_DECL(sptcon)(const INTEGER    *N,
+                    const FLOAT      *D,
+                    const FLOAT      *E,
+                    const FLOAT      *ANORM,
+                    FLOAT            *RCOND,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sptcon");
+    LAPACK_IMPL(sptcon)(N,
+                        D,
+                        E,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        INFO);
+}
+
+//-- spteqr --------------------------------------------------------------------
+void
+LAPACK_DECL(spteqr)(const char       *COMPZ,
+                    const INTEGER    *N,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("spteqr");
+    LAPACK_IMPL(spteqr)(COMPZ,
+                        N,
+                        D,
+                        E,
+                        Z,
+                        LDZ,
+                        WORK,
+                        INFO);
+}
+
+//-- sptrfs --------------------------------------------------------------------
+void
+LAPACK_DECL(sptrfs)(const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *D,
+                    const FLOAT      *E,
+                    const FLOAT      *DF,
+                    const FLOAT      *EF,
+                    const FLOAT      *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *FERR,
+                    FLOAT            *BERR,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sptrfs");
+    LAPACK_IMPL(sptrfs)(N,
+                        NRHS,
+                        D,
+                        E,
+                        DF,
+                        EF,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        INFO);
+}
+
+//-- sptsv ---------------------------------------------------------------------
+void
+LAPACK_DECL(sptsv)(const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   FLOAT                *D,
+                   FLOAT                *E,
+                   FLOAT                *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("sptsv");
+    LAPACK_IMPL(sptsv)(N,
+                       NRHS,
+                       D,
+                       E,
+                       B,
+                       LDB,
+                       INFO);
+}
+
+//-- sptsvx --------------------------------------------------------------------
+void
+LAPACK_DECL(sptsvx)(const char       *FACT,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *D,
+                    const FLOAT      *E,
+                    FLOAT            *DF,
+                    FLOAT            *EF,
+                    const FLOAT      *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *RCOND,
+                    FLOAT            *FERR,
+                    FLOAT            *BERR,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sptsvx");
+    LAPACK_IMPL(sptsvx)(FACT,
+                        N,
+                        NRHS,
+                        D,
+                        E,
+                        DF,
+                        EF,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        INFO);
+}
+
+//-- spttrf --------------------------------------------------------------------
+void
+LAPACK_DECL(spttrf)(const INTEGER    *N,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("spttrf");
+    LAPACK_IMPL(spttrf)(N,
+                        D,
+                        E,
+                        INFO);
+}
+
+//-- spttrs --------------------------------------------------------------------
+void
+LAPACK_DECL(spttrs)(const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *D,
+                    const FLOAT      *E,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("spttrs");
+    LAPACK_IMPL(spttrs)(N,
+                        NRHS,
+                        D,
+                        E,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- sptts2 --------------------------------------------------------------------
+void
+LAPACK_DECL(sptts2)(const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *D,
+                    const FLOAT      *E,
+                    FLOAT            *B,
+                    const INTEGER    *LDB)
+{
+    DEBUG_LAPACK_STUB("sptts2");
+    LAPACK_IMPL(sptts2)(N,
+                        NRHS,
+                        D,
+                        E,
+                        B,
+                        LDB);
+}
+
+//-- srscl ---------------------------------------------------------------------
+void
+LAPACK_DECL(srscl)(const INTEGER        *N,
+                   const FLOAT          *SA,
+                   FLOAT                *SX,
+                   const INTEGER        *INCX)
+{
+    DEBUG_LAPACK_STUB("srscl");
+    LAPACK_IMPL(srscl)(N,
+                       SA,
+                       SX,
+                       INCX);
+}
+
+//-- ssbev ---------------------------------------------------------------------
+void
+LAPACK_DECL(ssbev)(const char           *JOBZ,
+                   const char           *UPLO,
+                   const INTEGER        *N,
+                   const INTEGER        *KD,
+                   FLOAT                *AB,
+                   const INTEGER        *LDAB,
+                   FLOAT                *W,
+                   FLOAT                *Z,
+                   const INTEGER        *LDZ,
+                   FLOAT                *WORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("ssbev");
+    LAPACK_IMPL(ssbev)(JOBZ,
+                       UPLO,
+                       N,
+                       KD,
+                       AB,
+                       LDAB,
+                       W,
+                       Z,
+                       LDZ,
+                       WORK,
+                       INFO);
+}
+
+//-- ssbevd --------------------------------------------------------------------
+void
+LAPACK_DECL(ssbevd)(const char       *JOBZ,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    FLOAT            *AB,
+                    const INTEGER    *LDAB,
+                    FLOAT            *W,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssbevd");
+    LAPACK_IMPL(ssbevd)(JOBZ,
+                        UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- ssbevx --------------------------------------------------------------------
+void
+LAPACK_DECL(ssbevx)(const char       *JOBZ,
+                    const char       *RANGE,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    FLOAT            *AB,
+                    const INTEGER    *LDAB,
+                    FLOAT            *Q,
+                    const INTEGER    *LDQ,
+                    const FLOAT      *VL,
+                    const FLOAT      *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const FLOAT      *ABSTOL,
+                    INTEGER          *M,
+                    FLOAT            *W,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *IFAIL,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssbevx");
+    LAPACK_IMPL(ssbevx)(JOBZ,
+                        RANGE,
+                        UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        Q,
+                        LDQ,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        IWORK,
+                        IFAIL,
+                        INFO);
+}
+
+//-- ssbgst --------------------------------------------------------------------
+void
+LAPACK_DECL(ssbgst)(const char       *VECT,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KA,
+                    const INTEGER    *KB,
+                    FLOAT            *AB,
+                    const INTEGER    *LDAB,
+                    const FLOAT      *BB,
+                    const INTEGER    *LDBB,
+                    FLOAT            *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssbgst");
+    LAPACK_IMPL(ssbgst)(VECT,
+                        UPLO,
+                        N,
+                        KA,
+                        KB,
+                        AB,
+                        LDAB,
+                        BB,
+                        LDBB,
+                        X,
+                        LDX,
+                        WORK,
+                        INFO);
+}
+
+//-- ssbgv ---------------------------------------------------------------------
+void
+LAPACK_DECL(ssbgv)(const char           *JOBZ,
+                   const char           *UPLO,
+                   const INTEGER        *N,
+                   const INTEGER        *KA,
+                   const INTEGER        *KB,
+                   FLOAT                *AB,
+                   const INTEGER        *LDAB,
+                   FLOAT                *BB,
+                   const INTEGER        *LDBB,
+                   FLOAT                *W,
+                   FLOAT                *Z,
+                   const INTEGER        *LDZ,
+                   FLOAT                *WORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("ssbgv");
+    LAPACK_IMPL(ssbgv)(JOBZ,
+                       UPLO,
+                       N,
+                       KA,
+                       KB,
+                       AB,
+                       LDAB,
+                       BB,
+                       LDBB,
+                       W,
+                       Z,
+                       LDZ,
+                       WORK,
+                       INFO);
+}
+
+//-- ssbgvd --------------------------------------------------------------------
+void
+LAPACK_DECL(ssbgvd)(const char       *JOBZ,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KA,
+                    const INTEGER    *KB,
+                    FLOAT            *AB,
+                    const INTEGER    *LDAB,
+                    FLOAT            *BB,
+                    const INTEGER    *LDBB,
+                    FLOAT            *W,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssbgvd");
+    LAPACK_IMPL(ssbgvd)(JOBZ,
+                        UPLO,
+                        N,
+                        KA,
+                        KB,
+                        AB,
+                        LDAB,
+                        BB,
+                        LDBB,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- ssbgvx --------------------------------------------------------------------
+void
+LAPACK_DECL(ssbgvx)(const char       *JOBZ,
+                    const char       *RANGE,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KA,
+                    const INTEGER    *KB,
+                    FLOAT            *AB,
+                    const INTEGER    *LDAB,
+                    FLOAT            *BB,
+                    const INTEGER    *LDBB,
+                    FLOAT            *Q,
+                    const INTEGER    *LDQ,
+                    const FLOAT      *VL,
+                    const FLOAT      *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const FLOAT      *ABSTOL,
+                    INTEGER          *M,
+                    FLOAT            *W,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *IFAIL,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssbgvx");
+    LAPACK_IMPL(ssbgvx)(JOBZ,
+                        RANGE,
+                        UPLO,
+                        N,
+                        KA,
+                        KB,
+                        AB,
+                        LDAB,
+                        BB,
+                        LDBB,
+                        Q,
+                        LDQ,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        IWORK,
+                        IFAIL,
+                        INFO);
+}
+
+//-- ssbtrd --------------------------------------------------------------------
+void
+LAPACK_DECL(ssbtrd)(const char       *VECT,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    FLOAT            *AB,
+                    const INTEGER    *LDAB,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT            *Q,
+                    const INTEGER    *LDQ,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssbtrd");
+    LAPACK_IMPL(ssbtrd)(VECT,
+                        UPLO,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        D,
+                        E,
+                        Q,
+                        LDQ,
+                        WORK,
+                        INFO);
+}
+
+//-- ssfrk ---------------------------------------------------------------------
+void
+LAPACK_DECL(ssfrk)(const char           *TRANSR,
+                   const char           *UPLO,
+                   const char           *TRANS,
+                   const INTEGER        *N,
+                   const INTEGER        *K,
+                   const FLOAT          *ALPHA,
+                   const FLOAT          *A,
+                   const INTEGER        *LDA,
+                   const FLOAT          *BETA,
+                   FLOAT                *C)
+{
+    DEBUG_LAPACK_STUB("ssfrk");
+    LAPACK_IMPL(ssfrk)(TRANSR,
+                       UPLO,
+                       TRANS,
+                       N,
+                       K,
+                       ALPHA,
+                       A,
+                       LDA,
+                       BETA,
+                       C);
+}
+
+//-- sspcon --------------------------------------------------------------------
+void
+LAPACK_DECL(sspcon)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const FLOAT      *AP,
+                    const INTEGER    *IPIV,
+                    const FLOAT      *ANORM,
+                    FLOAT            *RCOND,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sspcon");
+    LAPACK_IMPL(sspcon)(UPLO,
+                        N,
+                        AP,
+                        IPIV,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- sspev ---------------------------------------------------------------------
+void
+LAPACK_DECL(sspev)(const char           *JOBZ,
+                   const char           *UPLO,
+                   const INTEGER        *N,
+                   FLOAT                *AP,
+                   FLOAT                *W,
+                   FLOAT                *Z,
+                   const INTEGER        *LDZ,
+                   FLOAT                *WORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("sspev");
+    LAPACK_IMPL(sspev)(JOBZ,
+                       UPLO,
+                       N,
+                       AP,
+                       W,
+                       Z,
+                       LDZ,
+                       WORK,
+                       INFO);
+}
+
+//-- sspevd --------------------------------------------------------------------
+void
+LAPACK_DECL(sspevd)(const char       *JOBZ,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *AP,
+                    FLOAT            *W,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sspevd");
+    LAPACK_IMPL(sspevd)(JOBZ,
+                        UPLO,
+                        N,
+                        AP,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- sspevx --------------------------------------------------------------------
+void
+LAPACK_DECL(sspevx)(const char       *JOBZ,
+                    const char       *RANGE,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *AP,
+                    const FLOAT      *VL,
+                    const FLOAT      *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const FLOAT      *ABSTOL,
+                    INTEGER          *M,
+                    FLOAT            *W,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *IFAIL,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sspevx");
+    LAPACK_IMPL(sspevx)(JOBZ,
+                        RANGE,
+                        UPLO,
+                        N,
+                        AP,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        IWORK,
+                        IFAIL,
+                        INFO);
+}
+
+//-- sspgst --------------------------------------------------------------------
+void
+LAPACK_DECL(sspgst)(const INTEGER    *ITYPE,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *AP,
+                    const FLOAT      *BP,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sspgst");
+    LAPACK_IMPL(sspgst)(ITYPE,
+                        UPLO,
+                        N,
+                        AP,
+                        BP,
+                        INFO);
+}
+
+//-- sspgv ---------------------------------------------------------------------
+void
+LAPACK_DECL(sspgv)(const INTEGER        *ITYPE,
+                   const char           *JOBZ,
+                   const char           *UPLO,
+                   const INTEGER        *N,
+                   FLOAT                *AP,
+                   FLOAT                *BP,
+                   FLOAT                *W,
+                   FLOAT                *Z,
+                   const INTEGER        *LDZ,
+                   FLOAT                *WORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("sspgv");
+    LAPACK_IMPL(sspgv)(ITYPE,
+                       JOBZ,
+                       UPLO,
+                       N,
+                       AP,
+                       BP,
+                       W,
+                       Z,
+                       LDZ,
+                       WORK,
+                       INFO);
+}
+
+//-- sspgvd --------------------------------------------------------------------
+void
+LAPACK_DECL(sspgvd)(const INTEGER    *ITYPE,
+                    const char       *JOBZ,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *AP,
+                    FLOAT            *BP,
+                    FLOAT            *W,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sspgvd");
+    LAPACK_IMPL(sspgvd)(ITYPE,
+                        JOBZ,
+                        UPLO,
+                        N,
+                        AP,
+                        BP,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- sspgvx --------------------------------------------------------------------
+void
+LAPACK_DECL(sspgvx)(const INTEGER    *ITYPE,
+                    const char       *JOBZ,
+                    const char       *RANGE,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *AP,
+                    FLOAT            *BP,
+                    const FLOAT      *VL,
+                    const FLOAT      *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const FLOAT      *ABSTOL,
+                    INTEGER          *M,
+                    FLOAT            *W,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *IFAIL,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sspgvx");
+    LAPACK_IMPL(sspgvx)(ITYPE,
+                        JOBZ,
+                        RANGE,
+                        UPLO,
+                        N,
+                        AP,
+                        BP,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        IWORK,
+                        IFAIL,
+                        INFO);
+}
+
+//-- ssprfs --------------------------------------------------------------------
+void
+LAPACK_DECL(ssprfs)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *AP,
+                    const FLOAT      *AFP,
+                    const INTEGER    *IPIV,
+                    const FLOAT      *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *FERR,
+                    FLOAT            *BERR,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssprfs");
+    LAPACK_IMPL(ssprfs)(UPLO,
+                        N,
+                        NRHS,
+                        AP,
+                        AFP,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- sspsv ---------------------------------------------------------------------
+void
+LAPACK_DECL(sspsv)(const char           *UPLO,
+                   const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   FLOAT                *AP,
+                   INTEGER              *IPIV,
+                   FLOAT                *B,
+                   const INTEGER        *LDB,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("sspsv");
+    LAPACK_IMPL(sspsv)(UPLO,
+                       N,
+                       NRHS,
+                       AP,
+                       IPIV,
+                       B,
+                       LDB,
+                       INFO);
+}
+
+//-- sspsvx --------------------------------------------------------------------
+void
+LAPACK_DECL(sspsvx)(const char       *FACT,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *AP,
+                    FLOAT            *AFP,
+                    INTEGER          *IPIV,
+                    const FLOAT      *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *RCOND,
+                    FLOAT            *FERR,
+                    FLOAT            *BERR,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sspsvx");
+    LAPACK_IMPL(sspsvx)(FACT,
+                        UPLO,
+                        N,
+                        NRHS,
+                        AP,
+                        AFP,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- ssptrd --------------------------------------------------------------------
+void
+LAPACK_DECL(ssptrd)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *AP,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT            *TAU,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssptrd");
+    LAPACK_IMPL(ssptrd)(UPLO,
+                        N,
+                        AP,
+                        D,
+                        E,
+                        TAU,
+                        INFO);
+}
+
+//-- ssptrf --------------------------------------------------------------------
+void
+LAPACK_DECL(ssptrf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *AP,
+                    INTEGER          *IPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssptrf");
+    LAPACK_IMPL(ssptrf)(UPLO,
+                        N,
+                        AP,
+                        IPIV,
+                        INFO);
+}
+
+//-- ssptri --------------------------------------------------------------------
+void
+LAPACK_DECL(ssptri)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *AP,
+                    const INTEGER    *IPIV,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssptri");
+    LAPACK_IMPL(ssptri)(UPLO,
+                        N,
+                        AP,
+                        IPIV,
+                        WORK,
+                        INFO);
+}
+
+//-- ssptrs --------------------------------------------------------------------
+void
+LAPACK_DECL(ssptrs)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *AP,
+                    const INTEGER    *IPIV,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssptrs");
+    LAPACK_IMPL(ssptrs)(UPLO,
+                        N,
+                        NRHS,
+                        AP,
+                        IPIV,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- sstebz --------------------------------------------------------------------
+void
+LAPACK_DECL(sstebz)(const char       *RANGE,
+                    const char       *ORDER,
+                    const INTEGER    *N,
+                    const FLOAT      *VL,
+                    const FLOAT      *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const FLOAT      *ABSTOL,
+                    const FLOAT      *D,
+                    const FLOAT      *E,
+                    INTEGER          *M,
+                    INTEGER          *NSPLIT,
+                    FLOAT            *W,
+                    INTEGER          *IBLOCK,
+                    INTEGER          *ISPLIT,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sstebz");
+    LAPACK_IMPL(sstebz)(RANGE,
+                        ORDER,
+                        N,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        D,
+                        E,
+                        M,
+                        NSPLIT,
+                        W,
+                        IBLOCK,
+                        ISPLIT,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- sstedc --------------------------------------------------------------------
+void
+LAPACK_DECL(sstedc)(const char       *COMPZ,
+                    const INTEGER    *N,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sstedc");
+    LAPACK_IMPL(sstedc)(COMPZ,
+                        N,
+                        D,
+                        E,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- sstegr --------------------------------------------------------------------
+void
+LAPACK_DECL(sstegr)(const char       *JOBZ,
+                    const char       *RANGE,
+                    const INTEGER    *N,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    const FLOAT      *VL,
+                    const FLOAT      *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const FLOAT      *ABSTOL,
+                    INTEGER          *M,
+                    FLOAT            *W,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    INTEGER          *ISUPPZ,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sstegr");
+    LAPACK_IMPL(sstegr)(JOBZ,
+                        RANGE,
+                        N,
+                        D,
+                        E,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        ISUPPZ,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- sstein --------------------------------------------------------------------
+void
+LAPACK_DECL(sstein)(const INTEGER    *N,
+                    const FLOAT      *D,
+                    const FLOAT      *E,
+                    const INTEGER    *M,
+                    const FLOAT      *W,
+                    const INTEGER    *IBLOCK,
+                    const INTEGER    *ISPLIT,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *IFAIL,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sstein");
+    LAPACK_IMPL(sstein)(N,
+                        D,
+                        E,
+                        M,
+                        W,
+                        IBLOCK,
+                        ISPLIT,
+                        Z,
+                        LDZ,
+                        WORK,
+                        IWORK,
+                        IFAIL,
+                        INFO);
+}
+
+//-- sstemr --------------------------------------------------------------------
+void
+LAPACK_DECL(sstemr)(const char       *JOBZ,
+                    const char       *RANGE,
+                    const INTEGER    *N,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    const FLOAT      *VL,
+                    const FLOAT      *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    INTEGER          *M,
+                    FLOAT            *W,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    const INTEGER    *NZC,
+                    INTEGER          *ISUPPZ,
+                    LOGICAL          *TRYRAC,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sstemr");
+    LAPACK_IMPL(sstemr)(JOBZ,
+                        RANGE,
+                        N,
+                        D,
+                        E,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        NZC,
+                        ISUPPZ,
+                        TRYRAC,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- ssteqr --------------------------------------------------------------------
+void
+LAPACK_DECL(ssteqr)(const char       *COMPZ,
+                    const INTEGER    *N,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssteqr");
+    LAPACK_IMPL(ssteqr)(COMPZ,
+                        N,
+                        D,
+                        E,
+                        Z,
+                        LDZ,
+                        WORK,
+                        INFO);
+}
+
+//-- ssterf --------------------------------------------------------------------
+void
+LAPACK_DECL(ssterf)(const INTEGER    *N,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssterf");
+    LAPACK_IMPL(ssterf)(N,
+                        D,
+                        E,
+                        INFO);
+}
+
+//-- sstev ---------------------------------------------------------------------
+void
+LAPACK_DECL(sstev)(const char           *JOBZ,
+                   const INTEGER        *N,
+                   FLOAT                *D,
+                   FLOAT                *E,
+                   FLOAT                *Z,
+                   const INTEGER        *LDZ,
+                   FLOAT                *WORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("sstev");
+    LAPACK_IMPL(sstev)(JOBZ,
+                       N,
+                       D,
+                       E,
+                       Z,
+                       LDZ,
+                       WORK,
+                       INFO);
+}
+
+//-- sstevd --------------------------------------------------------------------
+void
+LAPACK_DECL(sstevd)(const char       *JOBZ,
+                    const INTEGER    *N,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sstevd");
+    LAPACK_IMPL(sstevd)(JOBZ,
+                        N,
+                        D,
+                        E,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- sstevr --------------------------------------------------------------------
+void
+LAPACK_DECL(sstevr)(const char       *JOBZ,
+                    const char       *RANGE,
+                    const INTEGER    *N,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    const FLOAT      *VL,
+                    const FLOAT      *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const FLOAT      *ABSTOL,
+                    INTEGER          *M,
+                    FLOAT            *W,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    INTEGER          *ISUPPZ,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sstevr");
+    LAPACK_IMPL(sstevr)(JOBZ,
+                        RANGE,
+                        N,
+                        D,
+                        E,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        ISUPPZ,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- sstevx --------------------------------------------------------------------
+void
+LAPACK_DECL(sstevx)(const char       *JOBZ,
+                    const char       *RANGE,
+                    const INTEGER    *N,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    const FLOAT      *VL,
+                    const FLOAT      *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const FLOAT      *ABSTOL,
+                    INTEGER          *M,
+                    FLOAT            *W,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *IFAIL,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("sstevx");
+    LAPACK_IMPL(sstevx)(JOBZ,
+                        RANGE,
+                        N,
+                        D,
+                        E,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        IWORK,
+                        IFAIL,
+                        INFO);
+}
+
+//-- ssycon --------------------------------------------------------------------
+void
+LAPACK_DECL(ssycon)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const INTEGER    *IPIV,
+                    const FLOAT      *ANORM,
+                    FLOAT            *RCOND,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssycon");
+    LAPACK_IMPL(ssycon)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        IPIV,
+                        ANORM,
+                        RCOND,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- ssyconv -------------------------------------------------------------------
+void
+LAPACK_DECL(ssyconv)(const char       *UPLO,
+                     const char       *WAY,
+                     const INTEGER    *N,
+                     const FLOAT      *A,
+                     const INTEGER    *LDA,
+                     const INTEGER    *IPIV,
+                     FLOAT            *WORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssyconv");
+    LAPACK_IMPL(ssyconv)(UPLO,
+                         WAY,
+                         N,
+                         A,
+                         LDA,
+                         IPIV,
+                         WORK,
+                         INFO);
+}
+
+//-- ssyequb -------------------------------------------------------------------
+void
+LAPACK_DECL(ssyequb)(const char       *UPLO,
+                     const INTEGER    *N,
+                     const FLOAT      *A,
+                     const INTEGER    *LDA,
+                     FLOAT            *S,
+                     FLOAT            *SCOND,
+                     FLOAT            *AMAX,
+                     FLOAT            *WORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssyequb");
+    LAPACK_IMPL(ssyequb)(UPLO,
+                         N,
+                         A,
+                         LDA,
+                         S,
+                         SCOND,
+                         AMAX,
+                         WORK,
+                         INFO);
+}
+
+//-- ssyev ---------------------------------------------------------------------
+void
+LAPACK_DECL(ssyev)(const char           *JOBZ,
+                   const char           *UPLO,
+                   const INTEGER        *N,
+                   FLOAT                *A,
+                   const INTEGER        *LDA,
+                   FLOAT                *W,
+                   FLOAT                *WORK,
+                   const INTEGER        *LWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("ssyev");
+    LAPACK_IMPL(ssyev)(JOBZ,
+                       UPLO,
+                       N,
+                       A,
+                       LDA,
+                       W,
+                       WORK,
+                       LWORK,
+                       INFO);
+}
+
+//-- ssyevd --------------------------------------------------------------------
+void
+LAPACK_DECL(ssyevd)(const char       *JOBZ,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *W,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssyevd");
+    LAPACK_IMPL(ssyevd)(JOBZ,
+                        UPLO,
+                        N,
+                        A,
+                        LDA,
+                        W,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- ssyevr --------------------------------------------------------------------
+void
+LAPACK_DECL(ssyevr)(const char       *JOBZ,
+                    const char       *RANGE,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *VL,
+                    const FLOAT      *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const FLOAT      *ABSTOL,
+                    INTEGER          *M,
+                    FLOAT            *W,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    INTEGER          *ISUPPZ,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssyevr");
+    LAPACK_IMPL(ssyevr)(JOBZ,
+                        RANGE,
+                        UPLO,
+                        N,
+                        A,
+                        LDA,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        ISUPPZ,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- ssyevx --------------------------------------------------------------------
+void
+LAPACK_DECL(ssyevx)(const char       *JOBZ,
+                    const char       *RANGE,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *VL,
+                    const FLOAT      *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const FLOAT      *ABSTOL,
+                    INTEGER          *M,
+                    FLOAT            *W,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *IFAIL,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssyevx");
+    LAPACK_IMPL(ssyevx)(JOBZ,
+                        RANGE,
+                        UPLO,
+                        N,
+                        A,
+                        LDA,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        IFAIL,
+                        INFO);
+}
+
+//-- ssygs2 --------------------------------------------------------------------
+void
+LAPACK_DECL(ssygs2)(const INTEGER    *ITYPE,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssygs2");
+    LAPACK_IMPL(ssygs2)(ITYPE,
+                        UPLO,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- ssygst --------------------------------------------------------------------
+void
+LAPACK_DECL(ssygst)(const INTEGER    *ITYPE,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssygst");
+    LAPACK_IMPL(ssygst)(ITYPE,
+                        UPLO,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- ssygv ---------------------------------------------------------------------
+void
+LAPACK_DECL(ssygv)(const INTEGER        *ITYPE,
+                   const char           *JOBZ,
+                   const char           *UPLO,
+                   const INTEGER        *N,
+                   FLOAT                *A,
+                   const INTEGER        *LDA,
+                   FLOAT                *B,
+                   const INTEGER        *LDB,
+                   FLOAT                *W,
+                   FLOAT                *WORK,
+                   const INTEGER        *LWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("ssygv");
+    LAPACK_IMPL(ssygv)(ITYPE,
+                       JOBZ,
+                       UPLO,
+                       N,
+                       A,
+                       LDA,
+                       B,
+                       LDB,
+                       W,
+                       WORK,
+                       LWORK,
+                       INFO);
+}
+
+//-- ssygvd --------------------------------------------------------------------
+void
+LAPACK_DECL(ssygvd)(const INTEGER    *ITYPE,
+                    const char       *JOBZ,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *W,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssygvd");
+    LAPACK_IMPL(ssygvd)(ITYPE,
+                        JOBZ,
+                        UPLO,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        W,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- ssygvx --------------------------------------------------------------------
+void
+LAPACK_DECL(ssygvx)(const INTEGER    *ITYPE,
+                    const char       *JOBZ,
+                    const char       *RANGE,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    const FLOAT      *VL,
+                    const FLOAT      *VU,
+                    const INTEGER    *IL,
+                    const INTEGER    *IU,
+                    const FLOAT      *ABSTOL,
+                    INTEGER          *M,
+                    FLOAT            *W,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *IFAIL,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssygvx");
+    LAPACK_IMPL(ssygvx)(ITYPE,
+                        JOBZ,
+                        RANGE,
+                        UPLO,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        VL,
+                        VU,
+                        IL,
+                        IU,
+                        ABSTOL,
+                        M,
+                        W,
+                        Z,
+                        LDZ,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        IFAIL,
+                        INFO);
+}
+
+//-- ssyrfs --------------------------------------------------------------------
+void
+LAPACK_DECL(ssyrfs)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *AF,
+                    const INTEGER    *LDAF,
+                    const INTEGER    *IPIV,
+                    const FLOAT      *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *FERR,
+                    FLOAT            *BERR,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssyrfs");
+    LAPACK_IMPL(ssyrfs)(UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        AF,
+                        LDAF,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- ssyrfsx -------------------------------------------------------------------
+void
+LAPACK_DECL(ssyrfsx)(const char       *UPLO,
+                     const char       *EQUED,
+                     const INTEGER    *N,
+                     const INTEGER    *NRHS,
+                     const FLOAT      *A,
+                     const INTEGER    *LDA,
+                     const FLOAT      *AF,
+                     const INTEGER    *LDAF,
+                     const INTEGER    *IPIV,
+                     FLOAT            *S,
+                     const FLOAT      *B,
+                     const INTEGER    *LDB,
+                     FLOAT            *X,
+                     const INTEGER    *LDX,
+                     FLOAT            *RCOND,
+                     FLOAT            *BERR,
+                     const INTEGER    *N_ERR_BNDS,
+                     FLOAT            *ERR_BNDS_NORM,
+                     FLOAT            *ERR_BNDS_COMP,
+                     const INTEGER    *NPARAMS,
+                     FLOAT            *PARAMS,
+                     FLOAT            *WORK,
+                     INTEGER          *IWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssyrfsx");
+    LAPACK_IMPL(ssyrfsx)(UPLO,
+                         EQUED,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         IPIV,
+                         S,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         IWORK,
+                         INFO);
+}
+
+//-- ssysv ---------------------------------------------------------------------
+void
+LAPACK_DECL(ssysv)(const char           *UPLO,
+                   const INTEGER        *N,
+                   const INTEGER        *NRHS,
+                   FLOAT                *A,
+                   const INTEGER        *LDA,
+                   INTEGER              *IPIV,
+                   FLOAT                *B,
+                   const INTEGER        *LDB,
+                   FLOAT                *WORK,
+                   const INTEGER        *LWORK,
+                   INTEGER              *INFO)
+{
+    DEBUG_LAPACK_STUB("ssysv");
+    LAPACK_IMPL(ssysv)(UPLO,
+                       N,
+                       NRHS,
+                       A,
+                       LDA,
+                       IPIV,
+                       B,
+                       LDB,
+                       WORK,
+                       LWORK,
+                       INFO);
+}
+
+//-- ssysvx --------------------------------------------------------------------
+void
+LAPACK_DECL(ssysvx)(const char       *FACT,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *AF,
+                    const INTEGER    *LDAF,
+                    INTEGER          *IPIV,
+                    const FLOAT      *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *RCOND,
+                    FLOAT            *FERR,
+                    FLOAT            *BERR,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssysvx");
+    LAPACK_IMPL(ssysvx)(FACT,
+                        UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        AF,
+                        LDAF,
+                        IPIV,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        RCOND,
+                        FERR,
+                        BERR,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- ssysvxx -------------------------------------------------------------------
+void
+LAPACK_DECL(ssysvxx)(const char       *FACT,
+                     const char       *UPLO,
+                     const INTEGER    *N,
+                     const INTEGER    *NRHS,
+                     FLOAT            *A,
+                     const INTEGER    *LDA,
+                     FLOAT            *AF,
+                     const INTEGER    *LDAF,
+                     INTEGER          *IPIV,
+                     char             *EQUED,
+                     FLOAT            *S,
+                     FLOAT            *B,
+                     const INTEGER    *LDB,
+                     FLOAT            *X,
+                     const INTEGER    *LDX,
+                     FLOAT            *RCOND,
+                     FLOAT            *RPVGRW,
+                     FLOAT            *BERR,
+                     const INTEGER    *N_ERR_BNDS,
+                     FLOAT            *ERR_BNDS_NORM,
+                     FLOAT            *ERR_BNDS_COMP,
+                     const INTEGER    *NPARAMS,
+                     FLOAT            *PARAMS,
+                     FLOAT            *WORK,
+                     INTEGER          *IWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssysvxx");
+    LAPACK_IMPL(ssysvxx)(FACT,
+                         UPLO,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         AF,
+                         LDAF,
+                         IPIV,
+                         EQUED,
+                         S,
+                         B,
+                         LDB,
+                         X,
+                         LDX,
+                         RCOND,
+                         RPVGRW,
+                         BERR,
+                         N_ERR_BNDS,
+                         ERR_BNDS_NORM,
+                         ERR_BNDS_COMP,
+                         NPARAMS,
+                         PARAMS,
+                         WORK,
+                         IWORK,
+                         INFO);
+}
+
+//-- ssyswapr ------------------------------------------------------------------
+void
+LAPACK_DECL(ssyswapr)(const char       *UPLO,
+                      const INTEGER    *N,
+                      FLOAT            *A,
+                      const INTEGER    *LDA,
+                      const INTEGER    *I1,
+                      const INTEGER    *I2)
+{
+    DEBUG_LAPACK_STUB("ssyswapr");
+    LAPACK_IMPL(ssyswapr)(UPLO,
+                          N,
+                          A,
+                          LDA,
+                          I1,
+                          I2);
+}
+
+//-- ssytd2 --------------------------------------------------------------------
+void
+LAPACK_DECL(ssytd2)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT            *TAU,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssytd2");
+    LAPACK_IMPL(ssytd2)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        D,
+                        E,
+                        TAU,
+                        INFO);
+}
+
+//-- ssytf2 --------------------------------------------------------------------
+void
+LAPACK_DECL(ssytf2)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *IPIV,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssytf2");
+    LAPACK_IMPL(ssytf2)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        IPIV,
+                        INFO);
+}
+
+//-- ssytrd --------------------------------------------------------------------
+void
+LAPACK_DECL(ssytrd)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *D,
+                    FLOAT            *E,
+                    FLOAT            *TAU,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssytrd");
+    LAPACK_IMPL(ssytrd)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        D,
+                        E,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- ssytrf --------------------------------------------------------------------
+void
+LAPACK_DECL(ssytrf)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *IPIV,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssytrf");
+    LAPACK_IMPL(ssytrf)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        IPIV,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- ssytri --------------------------------------------------------------------
+void
+LAPACK_DECL(ssytri)(const char       *UPLO,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    const INTEGER    *IPIV,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssytri");
+    LAPACK_IMPL(ssytri)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        IPIV,
+                        WORK,
+                        INFO);
+}
+
+//-- ssytri2 -------------------------------------------------------------------
+void
+LAPACK_DECL(ssytri2)(const char       *UPLO,
+                     const INTEGER    *N,
+                     FLOAT            *A,
+                     const INTEGER    *LDA,
+                     const INTEGER    *IPIV,
+                     FLOAT            *WORK,
+                     const INTEGER    *LWORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssytri2");
+    LAPACK_IMPL(ssytri2)(UPLO,
+                         N,
+                         A,
+                         LDA,
+                         IPIV,
+                         WORK,
+                         LWORK,
+                         INFO);
+}
+
+//-- ssytri2x ------------------------------------------------------------------
+void
+LAPACK_DECL(ssytri2x)(const char       *UPLO,
+                      const INTEGER    *N,
+                      FLOAT            *A,
+                      const INTEGER    *LDA,
+                      const INTEGER    *IPIV,
+                      FLOAT            *WORK,
+                      const INTEGER    *NB,
+                      INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssytri2x");
+    LAPACK_IMPL(ssytri2x)(UPLO,
+                          N,
+                          A,
+                          LDA,
+                          IPIV,
+                          WORK,
+                          NB,
+                          INFO);
+}
+
+//-- ssytrs --------------------------------------------------------------------
+void
+LAPACK_DECL(ssytrs)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const INTEGER    *IPIV,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssytrs");
+    LAPACK_IMPL(ssytrs)(UPLO,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        IPIV,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- ssytrs2 -------------------------------------------------------------------
+void
+LAPACK_DECL(ssytrs2)(const char       *UPLO,
+                     const INTEGER    *N,
+                     const INTEGER    *NRHS,
+                     const FLOAT      *A,
+                     const INTEGER    *LDA,
+                     const INTEGER    *IPIV,
+                     FLOAT            *B,
+                     const INTEGER    *LDB,
+                     FLOAT            *WORK,
+                     INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("ssytrs2");
+    LAPACK_IMPL(ssytrs2)(UPLO,
+                         N,
+                         NRHS,
+                         A,
+                         LDA,
+                         IPIV,
+                         B,
+                         LDB,
+                         WORK,
+                         INFO);
+}
+
+//-- stbcon --------------------------------------------------------------------
+void
+LAPACK_DECL(stbcon)(const char       *NORM,
+                    const char       *UPLO,
+                    const char       *DIAG,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    const FLOAT      *AB,
+                    const INTEGER    *LDAB,
+                    FLOAT            *RCOND,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("stbcon");
+    LAPACK_IMPL(stbcon)(NORM,
+                        UPLO,
+                        DIAG,
+                        N,
+                        KD,
+                        AB,
+                        LDAB,
+                        RCOND,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- stbrfs --------------------------------------------------------------------
+void
+LAPACK_DECL(stbrfs)(const char       *UPLO,
+                    const char       *TRANS,
+                    const char       *DIAG,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *AB,
+                    const INTEGER    *LDAB,
+                    const FLOAT      *B,
+                    const INTEGER    *LDB,
+                    const FLOAT      *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *FERR,
+                    FLOAT            *BERR,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("stbrfs");
+    LAPACK_IMPL(stbrfs)(UPLO,
+                        TRANS,
+                        DIAG,
+                        N,
+                        KD,
+                        NRHS,
+                        AB,
+                        LDAB,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- stbtrs --------------------------------------------------------------------
+void
+LAPACK_DECL(stbtrs)(const char       *UPLO,
+                    const char       *TRANS,
+                    const char       *DIAG,
+                    const INTEGER    *N,
+                    const INTEGER    *KD,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *AB,
+                    const INTEGER    *LDAB,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("stbtrs");
+    LAPACK_IMPL(stbtrs)(UPLO,
+                        TRANS,
+                        DIAG,
+                        N,
+                        KD,
+                        NRHS,
+                        AB,
+                        LDAB,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- stfsm ---------------------------------------------------------------------
+void
+LAPACK_DECL(stfsm)(const char           *TRANSR,
+                   const char           *SIDE,
+                   const char           *UPLO,
+                   const char           *TRANS,
+                   const char           *DIAG,
+                   const INTEGER        *M,
+                   const INTEGER        *N,
+                   const FLOAT          *ALPHA,
+                   const FLOAT          *A,
+                   FLOAT                *B,
+                   const INTEGER        *LDB)
+{
+    DEBUG_LAPACK_STUB("stfsm");
+    LAPACK_IMPL(stfsm)(TRANSR,
+                       SIDE,
+                       UPLO,
+                       TRANS,
+                       DIAG,
+                       M,
+                       N,
+                       ALPHA,
+                       A,
+                       B,
+                       LDB);
+}
+
+//-- stftri --------------------------------------------------------------------
+void
+LAPACK_DECL(stftri)(const char       *TRANSR,
+                    const char       *UPLO,
+                    const char       *DIAG,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("stftri");
+    LAPACK_IMPL(stftri)(TRANSR,
+                        UPLO,
+                        DIAG,
+                        N,
+                        A,
+                        INFO);
+}
+
+//-- stfttp --------------------------------------------------------------------
+void
+LAPACK_DECL(stfttp)(const char       *TRANSR,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const FLOAT      *ARF,
+                    FLOAT            *AP,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("stfttp");
+    LAPACK_IMPL(stfttp)(TRANSR,
+                        UPLO,
+                        N,
+                        ARF,
+                        AP,
+                        INFO);
+}
+
+//-- stfttr --------------------------------------------------------------------
+void
+LAPACK_DECL(stfttr)(const char       *TRANSR,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const FLOAT      *ARF,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("stfttr");
+    LAPACK_IMPL(stfttr)(TRANSR,
+                        UPLO,
+                        N,
+                        ARF,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- stgevc --------------------------------------------------------------------
+void
+LAPACK_DECL(stgevc)(const char       *SIDE,
+                    const char       *HOWMNY,
+                    const LOGICAL    *SELECT,
+                    const INTEGER    *N,
+                    const FLOAT      *S,
+                    const INTEGER    *LDS,
+                    const FLOAT      *P,
+                    const INTEGER    *LDP,
+                    FLOAT            *VL,
+                    const INTEGER    *LDVL,
+                    FLOAT            *VR,
+                    const INTEGER    *LDVR,
+                    const INTEGER    *MM,
+                    INTEGER          *M,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("stgevc");
+    LAPACK_IMPL(stgevc)(SIDE,
+                        HOWMNY,
+                        SELECT,
+                        N,
+                        S,
+                        LDS,
+                        P,
+                        LDP,
+                        VL,
+                        LDVL,
+                        VR,
+                        LDVR,
+                        MM,
+                        M,
+                        WORK,
+                        INFO);
+}
+
+//-- stgex2 --------------------------------------------------------------------
+void
+LAPACK_DECL(stgex2)(const LOGICAL    *WANTQ,
+                    const LOGICAL    *WANTZ,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *Q,
+                    const INTEGER    *LDQ,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    const INTEGER    *J1,
+                    const INTEGER    *N1,
+                    const INTEGER    *N2,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("stgex2");
+    LAPACK_IMPL(stgex2)(WANTQ,
+                        WANTZ,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        Q,
+                        LDQ,
+                        Z,
+                        LDZ,
+                        J1,
+                        N1,
+                        N2,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- stgexc --------------------------------------------------------------------
+void
+LAPACK_DECL(stgexc)(const LOGICAL    *WANTQ,
+                    const LOGICAL    *WANTZ,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *Q,
+                    const INTEGER    *LDQ,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    INTEGER          *IFST,
+                    INTEGER          *ILST,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("stgexc");
+    LAPACK_IMPL(stgexc)(WANTQ,
+                        WANTZ,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        Q,
+                        LDQ,
+                        Z,
+                        LDZ,
+                        IFST,
+                        ILST,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+//-- stgsen --------------------------------------------------------------------
+void
+LAPACK_DECL(stgsen)(const INTEGER    *IJOB,
+                    const LOGICAL    *WANTQ,
+                    const LOGICAL    *WANTZ,
+                    const LOGICAL    *SELECT,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *ALPHAR,
+                    FLOAT            *ALPHAI,
+                    FLOAT            *BETA,
+                    FLOAT            *Q,
+                    const INTEGER    *LDQ,
+                    FLOAT            *Z,
+                    const INTEGER    *LDZ,
+                    INTEGER          *M,
+                    FLOAT            *PL,
+                    FLOAT            *PR,
+                    FLOAT            *DIF,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("stgsen");
+    LAPACK_IMPL(stgsen)(IJOB,
+                        WANTQ,
+                        WANTZ,
+                        SELECT,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        ALPHAR,
+                        ALPHAI,
+                        BETA,
+                        Q,
+                        LDQ,
+                        Z,
+                        LDZ,
+                        M,
+                        PL,
+                        PR,
+                        DIF,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- stgsja --------------------------------------------------------------------
+void
+LAPACK_DECL(stgsja)(const char       *JOBU,
+                    const char       *JOBV,
+                    const char       *JOBQ,
+                    const INTEGER    *M,
+                    const INTEGER    *P,
+                    const INTEGER    *N,
+                    const INTEGER    *K,
+                    const INTEGER    *L,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    const FLOAT      *TOLA,
+                    const FLOAT      *TOLB,
+                    FLOAT            *ALPHA,
+                    FLOAT            *BETA,
+                    FLOAT            *U,
+                    const INTEGER    *LDU,
+                    FLOAT            *V,
+                    const INTEGER    *LDV,
+                    FLOAT            *Q,
+                    const INTEGER    *LDQ,
+                    FLOAT            *WORK,
+                    INTEGER          *NCYCLE,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("stgsja");
+    LAPACK_IMPL(stgsja)(JOBU,
+                        JOBV,
+                        JOBQ,
+                        M,
+                        P,
+                        N,
+                        K,
+                        L,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        TOLA,
+                        TOLB,
+                        ALPHA,
+                        BETA,
+                        U,
+                        LDU,
+                        V,
+                        LDV,
+                        Q,
+                        LDQ,
+                        WORK,
+                        NCYCLE,
+                        INFO);
+}
+
+//-- stgsna --------------------------------------------------------------------
+void
+LAPACK_DECL(stgsna)(const char       *JOB,
+                    const char       *HOWMNY,
+                    const LOGICAL    *SELECT,
+                    const INTEGER    *N,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *B,
+                    const INTEGER    *LDB,
+                    const FLOAT      *VL,
+                    const INTEGER    *LDVL,
+                    const FLOAT      *VR,
+                    const INTEGER    *LDVR,
+                    FLOAT            *S,
+                    FLOAT            *DIF,
+                    const INTEGER    *MM,
+                    INTEGER          *M,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("stgsna");
+    LAPACK_IMPL(stgsna)(JOB,
+                        HOWMNY,
+                        SELECT,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        VL,
+                        LDVL,
+                        VR,
+                        LDVR,
+                        S,
+                        DIF,
+                        MM,
+                        M,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- stgsy2 --------------------------------------------------------------------
+void
+LAPACK_DECL(stgsy2)(const char       *TRANS,
+                    const INTEGER    *IJOB,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *C,
+                    const INTEGER    *LDC,
+                    const FLOAT      *D,
+                    const INTEGER    *LDD,
+                    const FLOAT      *E,
+                    const INTEGER    *LDE,
+                    FLOAT            *F,
+                    const INTEGER    *LDF,
+                    FLOAT            *SCALE,
+                    FLOAT            *RDSUM,
+                    FLOAT            *RDSCAL,
+                    INTEGER          *IWORK,
+                    INTEGER          *PQ,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("stgsy2");
+    LAPACK_IMPL(stgsy2)(TRANS,
+                        IJOB,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        C,
+                        LDC,
+                        D,
+                        LDD,
+                        E,
+                        LDE,
+                        F,
+                        LDF,
+                        SCALE,
+                        RDSUM,
+                        RDSCAL,
+                        IWORK,
+                        PQ,
+                        INFO);
+}
+
+//-- stgsyl --------------------------------------------------------------------
+void
+LAPACK_DECL(stgsyl)(const char       *TRANS,
+                    const INTEGER    *IJOB,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *C,
+                    const INTEGER    *LDC,
+                    const FLOAT      *D,
+                    const INTEGER    *LDD,
+                    const FLOAT      *E,
+                    const INTEGER    *LDE,
+                    FLOAT            *F,
+                    const INTEGER    *LDF,
+                    FLOAT            *SCALE,
+                    FLOAT            *DIF,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("stgsyl");
+    LAPACK_IMPL(stgsyl)(TRANS,
+                        IJOB,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        C,
+                        LDC,
+                        D,
+                        LDD,
+                        E,
+                        LDE,
+                        F,
+                        LDF,
+                        SCALE,
+                        DIF,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- stpcon --------------------------------------------------------------------
+void
+LAPACK_DECL(stpcon)(const char       *NORM,
+                    const char       *UPLO,
+                    const char       *DIAG,
+                    const INTEGER    *N,
+                    const FLOAT      *AP,
+                    FLOAT            *RCOND,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("stpcon");
+    LAPACK_IMPL(stpcon)(NORM,
+                        UPLO,
+                        DIAG,
+                        N,
+                        AP,
+                        RCOND,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- stprfs --------------------------------------------------------------------
+void
+LAPACK_DECL(stprfs)(const char       *UPLO,
+                    const char       *TRANS,
+                    const char       *DIAG,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *AP,
+                    const FLOAT      *B,
+                    const INTEGER    *LDB,
+                    const FLOAT      *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *FERR,
+                    FLOAT            *BERR,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("stprfs");
+    LAPACK_IMPL(stprfs)(UPLO,
+                        TRANS,
+                        DIAG,
+                        N,
+                        NRHS,
+                        AP,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- stptri --------------------------------------------------------------------
+void
+LAPACK_DECL(stptri)(const char       *UPLO,
+                    const char       *DIAG,
+                    const INTEGER    *N,
+                    FLOAT            *AP,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("stptri");
+    LAPACK_IMPL(stptri)(UPLO,
+                        DIAG,
+                        N,
+                        AP,
+                        INFO);
+}
+
+//-- stptrs --------------------------------------------------------------------
+void
+LAPACK_DECL(stptrs)(const char       *UPLO,
+                    const char       *TRANS,
+                    const char       *DIAG,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *AP,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("stptrs");
+    LAPACK_IMPL(stptrs)(UPLO,
+                        TRANS,
+                        DIAG,
+                        N,
+                        NRHS,
+                        AP,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- stpttf --------------------------------------------------------------------
+void
+LAPACK_DECL(stpttf)(const char       *TRANSR,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const FLOAT      *AP,
+                    FLOAT            *ARF,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("stpttf");
+    LAPACK_IMPL(stpttf)(TRANSR,
+                        UPLO,
+                        N,
+                        AP,
+                        ARF,
+                        INFO);
+}
+
+//-- stpttr --------------------------------------------------------------------
+void
+LAPACK_DECL(stpttr)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const FLOAT      *AP,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("stpttr");
+    LAPACK_IMPL(stpttr)(UPLO,
+                        N,
+                        AP,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- strcon --------------------------------------------------------------------
+void
+LAPACK_DECL(strcon)(const char       *NORM,
+                    const char       *UPLO,
+                    const char       *DIAG,
+                    const INTEGER    *N,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *RCOND,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("strcon");
+    LAPACK_IMPL(strcon)(NORM,
+                        UPLO,
+                        DIAG,
+                        N,
+                        A,
+                        LDA,
+                        RCOND,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- strevc --------------------------------------------------------------------
+void
+LAPACK_DECL(strevc)(const char       *SIDE,
+                    const char       *HOWMNY,
+                    LOGICAL          *SELECT,
+                    const INTEGER    *N,
+                    const FLOAT      *T,
+                    const INTEGER    *LDT,
+                    FLOAT            *VL,
+                    const INTEGER    *LDVL,
+                    FLOAT            *VR,
+                    const INTEGER    *LDVR,
+                    const INTEGER    *MM,
+                    INTEGER          *M,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("strevc");
+    LAPACK_IMPL(strevc)(SIDE,
+                        HOWMNY,
+                        SELECT,
+                        N,
+                        T,
+                        LDT,
+                        VL,
+                        LDVL,
+                        VR,
+                        LDVR,
+                        MM,
+                        M,
+                        WORK,
+                        INFO);
+}
+
+//-- strexc --------------------------------------------------------------------
+void
+LAPACK_DECL(strexc)(const char       *COMPQ,
+                    const INTEGER    *N,
+                    FLOAT            *T,
+                    const INTEGER    *LDT,
+                    FLOAT            *Q,
+                    const INTEGER    *LDQ,
+                    INTEGER          *IFST,
+                    INTEGER          *ILST,
+                    FLOAT            *WORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("strexc");
+    LAPACK_IMPL(strexc)(COMPQ,
+                        N,
+                        T,
+                        LDT,
+                        Q,
+                        LDQ,
+                        IFST,
+                        ILST,
+                        WORK,
+                        INFO);
+}
+
+//-- strrfs --------------------------------------------------------------------
+void
+LAPACK_DECL(strrfs)(const char       *UPLO,
+                    const char       *TRANS,
+                    const char       *DIAG,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *B,
+                    const INTEGER    *LDB,
+                    const FLOAT      *X,
+                    const INTEGER    *LDX,
+                    FLOAT            *FERR,
+                    FLOAT            *BERR,
+                    FLOAT            *WORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("strrfs");
+    LAPACK_IMPL(strrfs)(UPLO,
+                        TRANS,
+                        DIAG,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        X,
+                        LDX,
+                        FERR,
+                        BERR,
+                        WORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- strsen --------------------------------------------------------------------
+void
+LAPACK_DECL(strsen)(const char       *JOB,
+                    const char       *COMPQ,
+                    const LOGICAL    *SELECT,
+                    const INTEGER    *N,
+                    FLOAT            *T,
+                    const INTEGER    *LDT,
+                    FLOAT            *Q,
+                    const INTEGER    *LDQ,
+                    FLOAT            *WR,
+                    FLOAT            *WI,
+                    INTEGER          *M,
+                    FLOAT            *S,
+                    FLOAT            *SEP,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *IWORK,
+                    const INTEGER    *LIWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("strsen");
+    LAPACK_IMPL(strsen)(JOB,
+                        COMPQ,
+                        SELECT,
+                        N,
+                        T,
+                        LDT,
+                        Q,
+                        LDQ,
+                        WR,
+                        WI,
+                        M,
+                        S,
+                        SEP,
+                        WORK,
+                        LWORK,
+                        IWORK,
+                        LIWORK,
+                        INFO);
+}
+
+//-- strsna --------------------------------------------------------------------
+void
+LAPACK_DECL(strsna)(const char       *JOB,
+                    const char       *HOWMNY,
+                    const LOGICAL    *SELECT,
+                    const INTEGER    *N,
+                    const FLOAT      *T,
+                    const INTEGER    *LDT,
+                    const FLOAT      *VL,
+                    const INTEGER    *LDVL,
+                    const FLOAT      *VR,
+                    const INTEGER    *LDVR,
+                    FLOAT            *S,
+                    FLOAT            *SEP,
+                    const INTEGER    *MM,
+                    INTEGER          *M,
+                    FLOAT            *WORK,
+                    const INTEGER    *LDWORK,
+                    INTEGER          *IWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("strsna");
+    LAPACK_IMPL(strsna)(JOB,
+                        HOWMNY,
+                        SELECT,
+                        N,
+                        T,
+                        LDT,
+                        VL,
+                        LDVL,
+                        VR,
+                        LDVR,
+                        S,
+                        SEP,
+                        MM,
+                        M,
+                        WORK,
+                        LDWORK,
+                        IWORK,
+                        INFO);
+}
+
+//-- strsyl --------------------------------------------------------------------
+void
+LAPACK_DECL(strsyl)(const char       *TRANA,
+                    const char       *TRANB,
+                    const INTEGER    *ISGN,
+                    const INTEGER    *M,
+                    const INTEGER    *N,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    const FLOAT      *B,
+                    const INTEGER    *LDB,
+                    FLOAT            *C,
+                    const INTEGER    *LDC,
+                    FLOAT            *SCALE,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("strsyl");
+    LAPACK_IMPL(strsyl)(TRANA,
+                        TRANB,
+                        ISGN,
+                        M,
+                        N,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        C,
+                        LDC,
+                        SCALE,
+                        INFO);
+}
+
+//-- strti2 --------------------------------------------------------------------
+void
+LAPACK_DECL(strti2)(const char       *UPLO,
+                    const char       *DIAG,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("strti2");
+    LAPACK_IMPL(strti2)(UPLO,
+                        DIAG,
+                        N,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- strtri --------------------------------------------------------------------
+void
+LAPACK_DECL(strtri)(const char       *UPLO,
+                    const char       *DIAG,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("strtri");
+    LAPACK_IMPL(strtri)(UPLO,
+                        DIAG,
+                        N,
+                        A,
+                        LDA,
+                        INFO);
+}
+
+//-- strtrs --------------------------------------------------------------------
+void
+LAPACK_DECL(strtrs)(const char       *UPLO,
+                    const char       *TRANS,
+                    const char       *DIAG,
+                    const INTEGER    *N,
+                    const INTEGER    *NRHS,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *B,
+                    const INTEGER    *LDB,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("strtrs");
+    LAPACK_IMPL(strtrs)(UPLO,
+                        TRANS,
+                        DIAG,
+                        N,
+                        NRHS,
+                        A,
+                        LDA,
+                        B,
+                        LDB,
+                        INFO);
+}
+
+//-- strttf --------------------------------------------------------------------
+void
+LAPACK_DECL(strttf)(const char       *TRANSR,
+                    const char       *UPLO,
+                    const INTEGER    *N,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *ARF,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("strttf");
+    LAPACK_IMPL(strttf)(TRANSR,
+                        UPLO,
+                        N,
+                        A,
+                        LDA,
+                        ARF,
+                        INFO);
+}
+
+//-- strttp --------------------------------------------------------------------
+void
+LAPACK_DECL(strttp)(const char       *UPLO,
+                    const INTEGER    *N,
+                    const FLOAT      *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *AP,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("strttp");
+    LAPACK_IMPL(strttp)(UPLO,
+                        N,
+                        A,
+                        LDA,
+                        AP,
+                        INFO);
+}
+
+//-- stzrqf --------------------------------------------------------------------
+void
+LAPACK_DECL(stzrqf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *TAU,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("stzrqf");
+    LAPACK_IMPL(stzrqf)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        INFO);
+}
+
+//-- stzrzf --------------------------------------------------------------------
+void
+LAPACK_DECL(stzrzf)(const INTEGER    *M,
+                    const INTEGER    *N,
+                    FLOAT            *A,
+                    const INTEGER    *LDA,
+                    FLOAT            *TAU,
+                    FLOAT            *WORK,
+                    const INTEGER    *LWORK,
+                    INTEGER          *INFO)
+{
+    DEBUG_LAPACK_STUB("stzrzf");
+    LAPACK_IMPL(stzrzf)(M,
+                        N,
+                        A,
+                        LDA,
+                        TAU,
+                        WORK,
+                        LWORK,
+                        INFO);
+}
+
+// warning: SRNAME has unknown type
+//-- xerbla --------------------------------------------------------------------
+void
+LAPACK_DECL(xerbla)(UNKNOWN          *SRNAME,
+                    const INTEGER    *INFO)
+{
+    DEBUG_LAPACK_STUB("xerbla");
+    LAPACK_IMPL(xerbla)(SRNAME,
+                        INFO);
+}
+
+// warning: SRNAME_ARRAY has unknown type
+//-- xerbla_array --------------------------------------------------------------
+void
+LAPACK_DECL(xerbla_array)(UNKNOWN          *SRNAME_ARRAY,
+                          const INTEGER    *SRNAME_LEN,
+                          const INTEGER    *INFO)
+{
+    DEBUG_LAPACK_STUB("xerbla_array");
+    LAPACK_IMPL(xerbla_array)(SRNAME_ARRAY,
+                              SRNAME_LEN,
+                              INFO);
 }
 
 //-- zbbcsd --------------------------------------------------------------------
@@ -12316,7 +36887,6 @@ LAPACK_DECL(zgbrfs)(const char               *TRANS,
 }
 
 //-- zgbrfsx -------------------------------------------------------------------
-/*
 void
 LAPACK_DECL(zgbrfsx)(const char               *TRANS,
                      const char               *EQUED,
@@ -12375,7 +36945,6 @@ LAPACK_DECL(zgbrfsx)(const char               *TRANS,
                          RWORK,
                          INFO);
 }
-*/
 
 //-- zgbsv ---------------------------------------------------------------------
 void
@@ -12457,14 +37026,15 @@ LAPACK_DECL(zgbsvx)(const char       *FACT,
                         INFO);
 }
 
+// warning: KL has unknown type
+// warning: KU has unknown type
 //-- zgbsvxx -------------------------------------------------------------------
-/*
 void
 LAPACK_DECL(zgbsvxx)(const char       *FACT,
                      const char       *TRANS,
                      const INTEGER    *N,
-                     const INTEGER    *KL,
-                     const INTEGER    *KU,
+                     UNKNOWN          *KL,
+                     UNKNOWN          *KU,
                      const INTEGER    *NRHS,
                      DOUBLE_COMPLEX   *AB,
                      const INTEGER    *LDAB,
@@ -12521,7 +37091,7 @@ LAPACK_DECL(zgbsvxx)(const char       *FACT,
                          RWORK,
                          INFO);
 }
-*/
+
 //-- zgbtf2 --------------------------------------------------------------------
 void
 LAPACK_DECL(zgbtf2)(const INTEGER    *M,
@@ -13483,7 +38053,6 @@ LAPACK_DECL(zgerfs)(const char               *TRANS,
 }
 
 //-- zgerfsx -------------------------------------------------------------------
-/*
 void
 LAPACK_DECL(zgerfsx)(const char               *TRANS,
                      const char               *EQUED,
@@ -13538,7 +38107,6 @@ LAPACK_DECL(zgerfsx)(const char               *TRANS,
                          RWORK,
                          INFO);
 }
-*/
 
 //-- zgerq2 --------------------------------------------------------------------
 void
@@ -13747,7 +38315,6 @@ LAPACK_DECL(zgesvx)(const char       *FACT,
 }
 
 //-- zgesvxx -------------------------------------------------------------------
-/*
 void
 LAPACK_DECL(zgesvxx)(const char       *FACT,
                      const char       *TRANS,
@@ -13806,7 +38373,7 @@ LAPACK_DECL(zgesvxx)(const char       *FACT,
                          RWORK,
                          INFO);
 }
-*/
+
 //-- zgetc2 --------------------------------------------------------------------
 void
 LAPACK_DECL(zgetc2)(const INTEGER    *N,
@@ -15398,7 +39965,6 @@ LAPACK_DECL(zherfs)(const char               *UPLO,
 }
 
 //-- zherfsx -------------------------------------------------------------------
-/*
 void
 LAPACK_DECL(zherfsx)(const char               *UPLO,
                      const char               *EQUED,
@@ -15451,7 +40017,6 @@ LAPACK_DECL(zherfsx)(const char               *UPLO,
                          RWORK,
                          INFO);
 }
-*/
 
 //-- zhesv ---------------------------------------------------------------------
 void
@@ -15528,7 +40093,6 @@ LAPACK_DECL(zhesvx)(const char               *FACT,
 }
 
 //-- zhesvxx -------------------------------------------------------------------
-/*
 void
 LAPACK_DECL(zhesvxx)(const char       *FACT,
                      const char       *UPLO,
@@ -15585,7 +40149,7 @@ LAPACK_DECL(zhesvxx)(const char       *FACT,
                          RWORK,
                          INFO);
 }
-*/
+
 //-- zheswapr ------------------------------------------------------------------
 void
 LAPACK_DECL(zheswapr)(const char           *UPLO,
@@ -15780,17 +40344,20 @@ LAPACK_DECL(zhetrs)(const char               *UPLO,
                         INFO);
 }
 
+// warning: A has unknown type
+// warning: B has unknown type
+// warning: WORK has unknown type
 //-- zhetrs2 -------------------------------------------------------------------
 void
 LAPACK_DECL(zhetrs2)(const char       *UPLO,
                      const INTEGER    *N,
                      const INTEGER    *NRHS,
-                     DOUBLE_COMPLEX   *A,
+                     UNKNOWN          *A,
                      const INTEGER    *LDA,
                      const INTEGER    *IPIV,
-                     DOUBLE_COMPLEX   *B,
+                     UNKNOWN          *B,
                      const INTEGER    *LDB,
-                     DOUBLE_COMPLEX   *WORK,
+                     UNKNOWN          *WORK,
                      INTEGER          *INFO)
 {
     DEBUG_LAPACK_STUB("zhetrs2");
@@ -16487,7 +41054,6 @@ LAPACK_DECL(zla_gbrcond_x)(const char               *TRANS,
 }
 
 //-- zla_gbrfsx_extended -------------------------------------------------------
-/*
 void
 LAPACK_DECL(zla_gbrfsx_extended)(const INTEGER            *PREC_TYPE,
                                  const INTEGER            *TRANS_TYPE,
@@ -16522,6 +41088,8 @@ LAPACK_DECL(zla_gbrfsx_extended)(const INTEGER            *PREC_TYPE,
                                  INTEGER                  *INFO)
 {
     DEBUG_LAPACK_STUB("zla_gbrfsx_extended");
+    ASSERT(0);
+    /*
     LAPACK_IMPL(zla_gbrfsx_extended)(PREC_TYPE,
                                      TRANS_TYPE,
                                      N,
@@ -16553,8 +41121,8 @@ LAPACK_DECL(zla_gbrfsx_extended)(const INTEGER            *PREC_TYPE,
                                      DZ_UB,
                                      IGNORE_CWISE,
                                      INFO);
+    */
 }
-*/
 
 //-- zla_gbrpvgrw --------------------------------------------------------------
 DOUBLE
@@ -16665,7 +41233,6 @@ LAPACK_DECL(zla_gercond_x)(const char               *TRANS,
 }
 
 //-- zla_gerfsx_extended -------------------------------------------------------
-/*
 void
 LAPACK_DECL(zla_gerfsx_extended)(const INTEGER            *PREC_TYPE,
                                  const INTEGER            *TRANS_TYPE,
@@ -16698,6 +41265,8 @@ LAPACK_DECL(zla_gerfsx_extended)(const INTEGER            *PREC_TYPE,
                                  INTEGER                  *INFO)
 {
     DEBUG_LAPACK_STUB("zla_gerfsx_extended");
+    ASSERT(0);
+    /*
     LAPACK_IMPL(zla_gerfsx_extended)(PREC_TYPE,
                                      TRANS_TYPE,
                                      N,
@@ -16727,8 +41296,8 @@ LAPACK_DECL(zla_gerfsx_extended)(const INTEGER            *PREC_TYPE,
                                      DZ_UB,
                                      IGNORE_CWISE,
                                      INFO);
+    */
 }
-*/
 
 //-- zla_heamv -----------------------------------------------------------------
 void
@@ -16815,7 +41384,6 @@ LAPACK_DECL(zla_hercond_x)(const char               *UPLO,
 }
 
 //-- zla_herfsx_extended -------------------------------------------------------
-/*
 void
 LAPACK_DECL(zla_herfsx_extended)(const INTEGER            *PREC_TYPE,
                                  const char               *UPLO,
@@ -16848,6 +41416,8 @@ LAPACK_DECL(zla_herfsx_extended)(const INTEGER            *PREC_TYPE,
                                  INTEGER                  *INFO)
 {
     DEBUG_LAPACK_STUB("zla_herfsx_extended");
+    ASSERT(0);
+    /*
     LAPACK_IMPL(zla_herfsx_extended)(PREC_TYPE,
                                      UPLO,
                                      N,
@@ -16877,8 +41447,8 @@ LAPACK_DECL(zla_herfsx_extended)(const INTEGER            *PREC_TYPE,
                                      DZ_UB,
                                      IGNORE_CWISE,
                                      INFO);
+    */
 }
-*/
 
 //-- zla_herpvgrw --------------------------------------------------------------
 DOUBLE
@@ -16977,7 +41547,6 @@ LAPACK_DECL(zla_porcond_x)(const char               *UPLO,
 }
 
 //-- zla_porfsx_extended -------------------------------------------------------
-/*
 void
 LAPACK_DECL(zla_porfsx_extended)(const INTEGER            *PREC_TYPE,
                                  const char               *UPLO,
@@ -17009,6 +41578,8 @@ LAPACK_DECL(zla_porfsx_extended)(const INTEGER            *PREC_TYPE,
                                  INTEGER                  *INFO)
 {
     DEBUG_LAPACK_STUB("zla_porfsx_extended");
+    ASSERT(0);
+    /*
     LAPACK_IMPL(zla_porfsx_extended)(PREC_TYPE,
                                      UPLO,
                                      N,
@@ -17037,8 +41608,8 @@ LAPACK_DECL(zla_porfsx_extended)(const INTEGER            *PREC_TYPE,
                                      DZ_UB,
                                      IGNORE_CWISE,
                                      INFO);
+    */
 }
-*/
 
 //-- zla_porpvgrw --------------------------------------------------------------
 DOUBLE
@@ -17163,7 +41734,6 @@ LAPACK_DECL(zla_syrcond_x)(const char               *UPLO,
 }
 
 //-- zla_syrfsx_extended -------------------------------------------------------
-/*
 void
 LAPACK_DECL(zla_syrfsx_extended)(const INTEGER            *PREC_TYPE,
                                  const char               *UPLO,
@@ -17196,6 +41766,8 @@ LAPACK_DECL(zla_syrfsx_extended)(const INTEGER            *PREC_TYPE,
                                  INTEGER                  *INFO)
 {
     DEBUG_LAPACK_STUB("zla_syrfsx_extended");
+    ASSERT(0);
+    /*
     LAPACK_IMPL(zla_syrfsx_extended)(PREC_TYPE,
                                      UPLO,
                                      N,
@@ -17225,8 +41797,8 @@ LAPACK_DECL(zla_syrfsx_extended)(const INTEGER            *PREC_TYPE,
                                      DZ_UB,
                                      IGNORE_CWISE,
                                      INFO);
+    */
 }
-*/
 
 //-- zla_syrpvgrw --------------------------------------------------------------
 DOUBLE
@@ -17429,7 +42001,6 @@ LAPACK_DECL(zlacrt)(const INTEGER            *N,
 }
 
 //-- zladiv --------------------------------------------------------------------
-/*
 UNKNOWN
 LAPACK_DECL(zladiv)(const DOUBLE_COMPLEX     *X,
                     const DOUBLE_COMPLEX     *Y)
@@ -17438,7 +42009,6 @@ LAPACK_DECL(zladiv)(const DOUBLE_COMPLEX     *X,
     return LAPACK_IMPL(zladiv)(X,
                                Y);
 }
-*/
 
 //-- zlaed0 --------------------------------------------------------------------
 void
@@ -20071,7 +44641,6 @@ LAPACK_DECL(zporfs)(const char               *UPLO,
 }
 
 //-- zporfsx -------------------------------------------------------------------
-/*
 void
 LAPACK_DECL(zporfsx)(const char               *UPLO,
                      const char               *EQUED,
@@ -20122,7 +44691,7 @@ LAPACK_DECL(zporfsx)(const char               *UPLO,
                          RWORK,
                          INFO);
 }
-*/
+
 //-- zposv ---------------------------------------------------------------------
 void
 LAPACK_DECL(zposv)(const char           *UPLO,
@@ -20192,7 +44761,6 @@ LAPACK_DECL(zposvx)(const char       *FACT,
 }
 
 //-- zposvxx -------------------------------------------------------------------
-/*
 void
 LAPACK_DECL(zposvxx)(const char       *FACT,
                      const char       *UPLO,
@@ -20247,7 +44815,6 @@ LAPACK_DECL(zposvxx)(const char       *FACT,
                          RWORK,
                          INFO);
 }
-*/
 
 //-- zpotf2 --------------------------------------------------------------------
 void
@@ -21191,15 +45758,17 @@ LAPACK_DECL(zsycon)(const char               *UPLO,
                         INFO);
 }
 
+// warning: A has unknown type
+// warning: WORK has unknown type
 //-- zsyconv -------------------------------------------------------------------
 void
 LAPACK_DECL(zsyconv)(const char       *UPLO,
                      const char       *WAY,
                      const INTEGER    *N,
-                     DOUBLE_COMPLEX   *A,
+                     UNKNOWN          *A,
                      const INTEGER    *LDA,
                      const INTEGER    *IPIV,
-                     DOUBLE_COMPLEX   *WORK,
+                     UNKNOWN          *WORK,
                      INTEGER          *INFO)
 {
     DEBUG_LAPACK_STUB("zsyconv");
@@ -21324,7 +45893,6 @@ LAPACK_DECL(zsyrfs)(const char               *UPLO,
 }
 
 //-- zsyrfsx -------------------------------------------------------------------
-/*
 void
 LAPACK_DECL(zsyrfsx)(const char               *UPLO,
                      const char               *EQUED,
@@ -21377,7 +45945,6 @@ LAPACK_DECL(zsyrfsx)(const char               *UPLO,
                          RWORK,
                          INFO);
 }
-*/
 
 //-- zsysv ---------------------------------------------------------------------
 void
@@ -21454,7 +46021,6 @@ LAPACK_DECL(zsysvx)(const char               *FACT,
 }
 
 //-- zsysvxx -------------------------------------------------------------------
-/*
 void
 LAPACK_DECL(zsysvxx)(const char       *FACT,
                      const char       *UPLO,
@@ -21511,13 +46077,13 @@ LAPACK_DECL(zsysvxx)(const char       *FACT,
                          RWORK,
                          INFO);
 }
-*/
 
+// warning: A has unknown type
 //-- zsyswapr ------------------------------------------------------------------
 void
 LAPACK_DECL(zsyswapr)(const char       *UPLO,
                       const INTEGER    *N,
-                      DOUBLE_COMPLEX   *A,
+                      UNKNOWN          *A,
                       const INTEGER    *LDA,
                       const INTEGER    *I1,
                       const INTEGER    *I2)
@@ -21613,14 +46179,16 @@ LAPACK_DECL(zsytri2)(const char       *UPLO,
                          INFO);
 }
 
+// warning: A has unknown type
+// warning: WORK has unknown type
 //-- zsytri2x ------------------------------------------------------------------
 void
 LAPACK_DECL(zsytri2x)(const char       *UPLO,
                       const INTEGER    *N,
-                      DOUBLE_COMPLEX   *A,
+                      UNKNOWN          *A,
                       const INTEGER    *LDA,
                       const INTEGER    *IPIV,
-                      DOUBLE_COMPLEX   *WORK,
+                      UNKNOWN          *WORK,
                       const INTEGER    *NB,
                       INTEGER          *INFO)
 {
@@ -21659,17 +46227,20 @@ LAPACK_DECL(zsytrs)(const char               *UPLO,
                         INFO);
 }
 
+// warning: A has unknown type
+// warning: B has unknown type
+// warning: WORK has unknown type
 //-- zsytrs2 -------------------------------------------------------------------
 void
 LAPACK_DECL(zsytrs2)(const char       *UPLO,
                      const INTEGER    *N,
                      const INTEGER    *NRHS,
-                     DOUBLE_COMPLEX   *A,
+                     UNKNOWN          *A,
                      const INTEGER    *LDA,
                      const INTEGER    *IPIV,
-                     DOUBLE_COMPLEX   *B,
+                     UNKNOWN          *B,
                      const INTEGER    *LDB,
-                     DOUBLE_COMPLEX   *WORK,
+                     UNKNOWN          *WORK,
                      INTEGER          *INFO)
 {
     DEBUG_LAPACK_STUB("zsytrs2");
@@ -22620,7 +47191,6 @@ LAPACK_DECL(ztrtri)(const char       *UPLO,
                     const INTEGER    *LDA,
                     INTEGER          *INFO)
 {
-    std::cerr << "warning: ztrtri from dummy.in.cc called" << std::endl;
     DEBUG_LAPACK_STUB("ztrtri");
     LAPACK_IMPL(ztrtri)(UPLO,
                         DIAG,
@@ -22644,7 +47214,6 @@ LAPACK_DECL(ztrtrs)(const char               *UPLO,
                     INTEGER                  *INFO)
 {
     DEBUG_LAPACK_STUB("ztrtrs");
-    std::cerr << "warning: ztrtrs from dummy.in.cc called" << std::endl;
     LAPACK_IMPL(ztrtrs)(UPLO,
                         TRANS,
                         DIAG,
@@ -23575,208 +48144,3 @@ LAPACK_DECL(zupmtr)(const char               *SIDE,
                         INFO);
 }
 
-//-- cgetrf --------------------------------------------------------------------
-void
-LAPACK_DECL(cgetrf)(const INTEGER    *M,
-                    const INTEGER    *N,
-                    FLOAT_COMPLEX    *A,
-                    const INTEGER    *LDA,
-                    INTEGER          *IPIV,
-                    INTEGER          *INFO)
-{
-    DEBUG_LAPACK_STUB("cgetrf");
-    LAPACK_IMPL(cgetrf)(M,
-                        N,
-                        A,
-                        LDA,
-                        IPIV,
-                        INFO);
-}
-
-//-- cgetrs --------------------------------------------------------------------
-void
-LAPACK_DECL(cgetrs)(const char       *TRANS,
-                    const INTEGER    *N,
-                    const INTEGER    *NRHS,
-                    FLOAT_COMPLEX          *A,
-                    const INTEGER    *LDA,
-                    const INTEGER    *IPIV,
-                    FLOAT_COMPLEX          *B,
-                    const INTEGER    *LDB,
-                    INTEGER          *INFO)
-{
-    DEBUG_LAPACK_STUB("cgetrs");
-    LAPACK_IMPL(cgetrs)(TRANS,
-                        N,
-                        NRHS,
-                        A,
-                        LDA,
-                        IPIV,
-                        B,
-                        LDB,
-                        INFO);
-}
-
-//-- clag2z --------------------------------------------------------------------
-void
-LAPACK_DECL(clag2z)(const INTEGER    *M,
-                    const INTEGER    *N,
-                    FLOAT_COMPLEX          *SA,
-                    const INTEGER    *LDSA,
-                    DOUBLE_COMPLEX   *A,
-                    const INTEGER    *LDA,
-                    INTEGER          *INFO)
-{
-    DEBUG_LAPACK_STUB("clag2z");
-    LAPACK_IMPL(clag2z)(M,
-                        N,
-                        SA,
-                        LDSA,
-                        A,
-                        LDA,
-                        INFO);
-}
-
-//-- cpotrf --------------------------------------------------------------------
-void
-LAPACK_DECL(cpotrf)(const char       *UPLO,
-                    const INTEGER    *N,
-                    FLOAT_COMPLEX          *A,
-                    const INTEGER    *LDA,
-                    INTEGER          *INFO)
-{
-    DEBUG_LAPACK_STUB("cpotrf");
-    LAPACK_IMPL(cpotrf)(UPLO,
-                        N,
-                        A,
-                        LDA,
-                        INFO);
-}
-
-//-- cpotrs --------------------------------------------------------------------
-void
-LAPACK_DECL(cpotrs)(const char       *UPLO,
-                    const INTEGER    *N,
-                    const INTEGER    *NRHS,
-                    FLOAT_COMPLEX    *A,
-                    const INTEGER    *LDA,
-                    FLOAT_COMPLEX    *B,
-                    const INTEGER    *LDB,
-                    INTEGER          *INFO)
-{
-    DEBUG_LAPACK_STUB("cpotrs");
-    LAPACK_IMPL(cpotrs)(UPLO,
-                        N,
-                        NRHS,
-                        A,
-                        LDA,
-                        B,
-                        LDB,
-                        INFO);
-}
-
-//-- ilaprec -------------------------------------------------------------------
-INTEGER
-LAPACK_DECL(ilaprec)(const char   *PREC)
-{
-    DEBUG_LAPACK_STUB("ilaprec");
-    return LAPACK_IMPL(ilaprec)(PREC);
-}
-
-//-- chla_transtype ------------------------------------------------------------
-char
-LAPACK_DECL(chla_transtype)(const INTEGER    *TRANS)
-{
-    DEBUG_LAPACK_STUB("chla_transtype");
-    return LAPACK_IMPL(chla_transtype)(TRANS);
-}
-
-//-- claswp --------------------------------------------------------------------
-void
-LAPACK_DECL(claswp)(const INTEGER    *N,
-                    FLOAT_COMPLEX    *A,
-                    const INTEGER    *LDA,
-                    const INTEGER    *K1,
-                    const INTEGER    *K2,
-                    const INTEGER    *IPIV,
-                    const INTEGER    *INCX)
-{
-    DEBUG_LAPACK_STUB("claswp");
-    LAPACK_IMPL(claswp)(N,
-                        A,
-                        LDA,
-                        K1,
-                        K2,
-                        IPIV,
-                        INCX);
-}
-
-//-- izmax1 --------------------------------------------------------------------
-INTEGER
-LAPACK_DECL(izmax1)(const INTEGER            *N,
-                    const DOUBLE_COMPLEX     *CX,
-                    const INTEGER            *INCX)
-{
-    DEBUG_LAPACK_STUB("izmax1");
-    return LAPACK_IMPL(izmax1)(N,
-                               CX,
-                               INCX);
-}
-
-//-- ilazlc --------------------------------------------------------------------
-INTEGER
-LAPACK_DECL(ilazlc)(const INTEGER            *M,
-                    const INTEGER            *N,
-                    const DOUBLE_COMPLEX     *A,
-                    const INTEGER            *LDA)
-{
-    DEBUG_LAPACK_STUB("ilazlc");
-    return LAPACK_IMPL(ilazlc)(M,
-                               N,
-                               A,
-                               LDA);
-}
-
-//-- ilazlr --------------------------------------------------------------------
-INTEGER
-LAPACK_DECL(ilazlr)(const INTEGER            *M,
-                    const INTEGER            *N,
-                    const DOUBLE_COMPLEX     *A,
-                    const INTEGER            *LDA)
-{
-    DEBUG_LAPACK_STUB("ilazlr");
-    return LAPACK_IMPL(ilazlr)(M,
-                               N,
-                               A,
-                               LDA);
-}
-
-//-- cpotf2 --------------------------------------------------------------------
-void
-LAPACK_DECL(cpotf2)(const char       *UPLO,
-                    const INTEGER    *N,
-                    FLOAT_COMPLEX    *A,
-                    const INTEGER    *LDA,
-                    INTEGER          *INFO)
-{
-    DEBUG_LAPACK_STUB("cpotf2");
-    LAPACK_IMPL(cpotf2)(UPLO,
-                        N,
-                        A,
-                        LDA,
-                        INFO);
-}
-
-//-- clacgv --------------------------------------------------------------------
-void
-LAPACK_DECL(clacgv)(const INTEGER    *N,
-                    FLOAT_COMPLEX    *X,
-                    const INTEGER    *INCX)
-{
-    DEBUG_LAPACK_STUB("clacgv");
-    LAPACK_IMPL(clacgv)(N,
-                        X,
-                        INCX);
-}
-
-#endif // LAPACK_DECL

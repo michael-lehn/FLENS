@@ -40,6 +40,31 @@ namespace cxxlapack {
 template <typename IndexType>
 void
 lar2v(IndexType             n,
+      float                 *x,
+      float                 *y,
+      float                 *z,
+      IndexType             incx,
+      const float           *c,
+      const float           *s,
+      IndexType             incc)
+{
+    CXXLAPACK_DEBUG_OUT("slaq2v");
+ 
+    IndexType info;
+    LAPACK_IMPL(slar2v)(&n,
+                        x,
+                        y,
+                        z,
+                        &incx,
+                        c,
+                        s,
+                        &incc);
+}
+
+
+template <typename IndexType>
+void
+lar2v(IndexType             n,
       double                *x,
       double                *y,
       double                *z,
@@ -48,6 +73,8 @@ lar2v(IndexType             n,
       const double          *s,
       IndexType             incc)
 {
+    CXXLAPACK_DEBUG_OUT("dlaq2v");
+ 
     IndexType info;
     LAPACK_IMPL(dlar2v)(&n,
                         x,
@@ -62,6 +89,30 @@ lar2v(IndexType             n,
 template <typename IndexType>
 void
 lar2v(IndexType                      n,
+      std::complex<float >          *x,
+      std::complex<float >          *y,
+      std::complex<float >          *z,
+      IndexType                     incx,
+      const float                   *c,
+      const std::complex<float >    *s,
+      IndexType                     incc)
+{
+    CXXLAPACK_DEBUG_OUT("claq2v");
+ 
+    IndexType info;
+    LAPACK_IMPL(clar2v)(&n,
+                        reinterpret_cast<float  *>(x),
+                        reinterpret_cast<float  *>(y),
+                        reinterpret_cast<float  *>(z),
+                        &incx,
+                        c,
+                        reinterpret_cast<const float  *>(s),
+                        &incc);
+}
+
+template <typename IndexType>
+void
+lar2v(IndexType                      n,
       std::complex<double>          *x,
       std::complex<double>          *y,
       std::complex<double>          *z,
@@ -70,6 +121,8 @@ lar2v(IndexType                      n,
       const std::complex<double>    *s,
       IndexType                     incc)
 {
+    CXXLAPACK_DEBUG_OUT("zlaq2v");
+ 
     IndexType info;
     LAPACK_IMPL(zlar2v)(&n,
                         reinterpret_cast<double *>(x),

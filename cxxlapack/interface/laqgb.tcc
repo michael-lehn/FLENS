@@ -43,6 +43,38 @@ laqgb(IndexType             m,
       IndexType             n,
       IndexType             kl,
       IndexType             ku,
+      float                 *Ab,
+      IndexType             ldAb,
+      const float           *r,
+      const float           *c,
+      float                 rowcnd,
+      float                 colcnd,
+      float                 amax,
+      char                  &equed)
+{
+    CXXLAPACK_DEBUG_OUT("slaqgb");
+ 
+    LAPACK_IMPL(slaqgb)(&m,
+                        &n,
+                        &kl,
+                        &ku,
+                        Ab,
+                        &ldAb,
+                        r,
+                        c,
+                        &rowcnd,
+                        &colcnd,
+                        &amax,
+                        &equed);
+}
+
+
+template <typename IndexType>
+void
+laqgb(IndexType             m,
+      IndexType             n,
+      IndexType             kl,
+      IndexType             ku,
       double                *Ab,
       IndexType             ldAb,
       const double          *r,
@@ -52,12 +84,44 @@ laqgb(IndexType             m,
       double                amax,
       char                  &equed)
 {
+    CXXLAPACK_DEBUG_OUT("dlaqgb");
 
     LAPACK_IMPL(dlaqgb)(&m,
                         &n,
                         &kl,
                         &ku,
                         Ab,
+                        &ldAb,
+                        r,
+                        c,
+                        &rowcnd,
+                        &colcnd,
+                        &amax,
+                        &equed);
+}
+
+template <typename IndexType>
+void
+laqgb(IndexType             m,
+      IndexType             n,
+      IndexType             kl,
+      IndexType             ku,
+      std::complex<float >  *Ab,
+      IndexType             ldAb,
+      const float           *r,
+      const float           *c,
+      float                 rowcnd,
+      float                 colcnd,
+      float                 amax,
+      char                  &equed)
+{
+    CXXLAPACK_DEBUG_OUT("claqgb");
+ 
+    LAPACK_IMPL(claqgb)(&m,
+                        &n,
+                        &kl,
+                        &ku,
+                        reinterpret_cast<float  *>(Ab),
                         &ldAb,
                         r,
                         c,
@@ -82,7 +146,8 @@ laqgb(IndexType             m,
       double                amax,
       char                  &equed)
 {
-
+    CXXLAPACK_DEBUG_OUT("zlaqgb");
+ 
     LAPACK_IMPL(zlaqgb)(&m,
                         &n,
                         &kl,

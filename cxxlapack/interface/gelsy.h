@@ -42,6 +42,21 @@ template <typename IndexType>
     gelsy(IndexType    m,
           IndexType    n,
           IndexType    nRhs,
+          float        *A,
+          IndexType    ldA,
+          float        *B,
+          IndexType    ldB,
+          IndexType    *jPiv,
+          float        rCond,
+          IndexType    &rank,
+          float        *work,
+          IndexType    lWork);
+
+template <typename IndexType>
+    void
+    gelsy(IndexType    m,
+          IndexType    n,
+          IndexType    nRhs,
           double       *A,
           IndexType    ldA,
           double       *B,
@@ -51,7 +66,23 @@ template <typename IndexType>
           IndexType    &rank,
           double       *work,
           IndexType    lWork);
-
+    
+template <typename IndexType>
+    void
+    gelsy(IndexType             m,
+          IndexType             n,
+          IndexType             nRhs,
+          std::complex<float >  *A,
+          const IndexType       ldA,
+          std::complex<float >  *B,
+          IndexType             ldB,
+          IndexType             *jPiv,
+          float                 rCond,
+          IndexType             &rank,
+          std::complex<float >  *work,
+          IndexType             lWork,
+          float                 *rWork);
+    
 template <typename IndexType>
     void
     gelsy(IndexType             m,

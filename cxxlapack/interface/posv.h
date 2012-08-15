@@ -42,10 +42,30 @@ template <typename IndexType>
     posv(char           upLo,
          IndexType      n,
          IndexType      nRhs,
+         float          *A,
+         IndexType      ldA,
+         float          *B,
+         IndexType      ldB);
+    
+template <typename IndexType>
+    IndexType
+    posv(char           upLo,
+         IndexType      n,
+         IndexType      nRhs,
          double         *A,
          IndexType      ldA,
          double         *B,
          IndexType      ldB);
+    
+template <typename IndexType>
+    IndexType
+    posv(char                   upLo,
+         IndexType              n,
+         IndexType              nRhs,
+         std::complex<float >   *A,
+         IndexType              ldA,
+         std::complex<float >   *B,
+         IndexType              ldB);
 
 template <typename IndexType>
     IndexType

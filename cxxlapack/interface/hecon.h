@@ -36,17 +36,28 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
 template <typename IndexType>
     IndexType
     hecon(char                        uplo,
-      IndexType                   n,
-      const std::complex<double>  *A,
-      IndexType                   ldA,
-      IndexType                   *iPiv,
-      double                      anorm,
-      double                      &rCond,
-      std::complex<double>        *work);
+          IndexType                   n,
+          const std::complex<float >  *A,
+          IndexType                   ldA,
+          IndexType                   *iPiv,
+          float                       anorm,
+          float                       &rCond,
+          std::complex<float >        *work);
+    
+template <typename IndexType>
+    IndexType
+    hecon(char                        uplo,
+          IndexType                   n,
+          const std::complex<double>  *A,
+          IndexType                   ldA,
+          IndexType                   *iPiv,
+          double                      anorm,
+          double                      &rCond,
+          std::complex<double>        *work);
 
 } // namespace cxxlapack
 

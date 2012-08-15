@@ -36,7 +36,20 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    laqtr(bool              trans,
+          bool              real,
+          IndexType         n,
+          const float       *T,
+          IndexType         ldT,
+          const float       *B,
+          const float       &w,
+          float             &scale,
+          float             *x,
+          float             *work);
+    
 template <typename IndexType>
     IndexType
     laqtr(bool              trans,

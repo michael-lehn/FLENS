@@ -38,6 +38,28 @@
 namespace cxxlapack {
 
 template <typename IndexType>
+float 
+langb(char                  norm,
+      IndexType             n,
+      IndexType             kl,
+      IndexType             ku,
+      const float           *Ab,
+      IndexType             ldAb,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("slangb");
+    
+    return LAPACK_IMPL(slangb)(&norm,
+                               &n,
+                               &kl,
+                               &ku,
+                               Ab,
+                               &ldAb,
+                               work);
+}
+
+
+template <typename IndexType>
 double
 langb(char                  norm,
       IndexType             n,
@@ -47,12 +69,34 @@ langb(char                  norm,
       IndexType             ldAb,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dlangb");
 
     return LAPACK_IMPL(dlangb)(&norm,
                                &n,
                                &kl,
                                &ku,
                                Ab,
+                               &ldAb,
+                               work);
+}
+
+template <typename IndexType>
+float 
+langb(char                        norm,
+      IndexType                   n,
+      IndexType                   kl,
+      IndexType                   ku,
+      const std::complex<float >  *Ab,
+      IndexType                   ldAb,
+      float                       *work)
+{
+    CXXLAPACK_DEBUG_OUT("clangb");
+
+    return LAPACK_IMPL(clangb)(&norm,
+                               &n,
+                               &kl,
+                               &ku,
+                               reinterpret_cast<const float  *>(Ab),
                                &ldAb,
                                work);
 }
@@ -67,7 +111,8 @@ langb(char                        norm,
       IndexType                   ldAb,
       double                      *work)
 {
-
+    CXXLAPACK_DEBUG_OUT("clangb");
+    
     return LAPACK_IMPL(zlangb)(&norm,
                                &n,
                                &kl,

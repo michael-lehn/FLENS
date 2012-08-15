@@ -41,6 +41,38 @@ template <typename IndexType>
 double
 la_gerCond_c(char                        trans,
              IndexType                   n,
+             const std::complex<float >  *A,
+             IndexType                   ldA,
+             const std::complex<float >  *Af,
+             IndexType                   ldAf,
+             const IndexType             *iPiv,
+             const float                 *c,
+             bool                        capply,
+             IndexType                   &info,
+             std::complex<float >        *work,
+             float                       *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("cla_gercond_c");
+
+    return LAPACK_IMPL(cla_gercond_c)(&trans,
+                                      &n,
+                                      reinterpret_cast<const float  *>(A),
+                                      &ldA,
+                                      reinterpret_cast<const float  *>(Af)
+                                      &ldAf,
+                                      iPiv,
+                                      c,
+                                      &capply,
+                                      &info,
+                                      reinterpret_cast<float  *>(work),
+                                      rWork);
+
+}
+
+template <typename IndexType>
+double
+la_gerCond_c(char                        trans,
+             IndexType                   n,
              const std::complex<double>  *A,
              IndexType                   ldA,
              const std::complex<double>  *Af,
@@ -52,8 +84,9 @@ la_gerCond_c(char                        trans,
              std::complex<double>        *work,
              double                      *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zla_gercond_c");
 
-    return LAPACK_IMPL(zla_gerCond_c)(&trans,
+    return LAPACK_IMPL(zla_gercond_c)(&trans,
                                       &n,
                                       reinterpret_cast<const double *>(A),
                                       &ldA,

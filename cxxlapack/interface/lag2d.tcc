@@ -45,8 +45,9 @@ lag2d(IndexType             m,
       IndexType             ldSa,
       double                *A,
       IndexType             ldA)
-       
 {
+    CXXLAPACK_DEBUG_OUT("slag2d");
+    
     IndexType info;
     LAPACK_IMPL(slag2d)(&m,
                         &n,

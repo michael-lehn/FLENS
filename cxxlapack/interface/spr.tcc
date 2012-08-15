@@ -41,11 +41,40 @@ template <typename IndexType>
 void
 spr  (char                       uplo,
       IndexType                  n,
+      std::complex<float >       alpha,
+      const std::complex<float > *x,
+      IndexType                  incx,
+      std::complex<float >       *Ap)
+{
+    CXXLAPACK_DEBUG_OUT("cspr");
+
+    IndexType info;
+    LAPACK_IMPL(cspr) (&uplo,
+                       &n,
+                       reinterpret_cast<const float  *>(&alpha),
+                       reinterpret_cast<const float  *>(x),
+                       &incx,
+                       reinterpret_cast<float  *>(Ap));
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+void
+spr  (char                       uplo,
+      IndexType                  n,
       std::complex<double>       alpha,
       const std::complex<double> *x,
       IndexType                  incx,
       std::complex<double>       *Ap)
 {
+    CXXLAPACK_DEBUG_OUT("zspr");
+
     IndexType info;
     LAPACK_IMPL(zspr) (&uplo,
                        &n,

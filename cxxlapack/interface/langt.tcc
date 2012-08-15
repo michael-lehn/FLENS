@@ -38,14 +38,16 @@
 namespace cxxlapack {
 
 template <typename IndexType>
-double
+float 
 langt(char                  norm,
       IndexType             n,
-      const double          *dl,
-      const double          *d,
-      const double          *du)
+      const float           *dl,
+      const float           *d,
+      const float           *du)
 {
-    return LAPACK_IMPL(dlangt)(&norm,
+    CXXLAPACK_DEBUG_OUT("slangt");
+   
+    return LAPACK_IMPL(slangt)(&norm,
                                &n,
                                dl,
                                d,
@@ -55,12 +57,49 @@ langt(char                  norm,
 
 template <typename IndexType>
 double
+langt(char                  norm,
+      IndexType             n,
+      const double          *dl,
+      const double          *d,
+      const double          *du)
+{
+    CXXLAPACK_DEBUG_OUT("dlangt");
+   
+    return LAPACK_IMPL(dlangt)(&norm,
+                               &n,
+                               dl,
+                               d,
+                               du);
+}
+
+
+template <typename IndexType>
+float 
+langt(char                        norm,
+      IndexType                   n,
+      const std::complex<float >  *dl,
+      const std::complex<float >  *d,
+      const std::complex<float >  *du)
+{
+    CXXLAPACK_DEBUG_OUT("clangt");
+   
+    return LAPACK_IMPL(clangt)(&norm,
+                               &n,
+                               reinterpret_cast<const float  *>(dl),
+                               reinterpret_cast<const float  *>(d),
+                               reinterpret_cast<const float  *>(du));
+}
+
+template <typename IndexType>
+double
 langt(char                        norm,
       IndexType                   n,
       const std::complex<double>  *dl,
       const std::complex<double>  *d,
       const std::complex<double>  *du)
 {
+    CXXLAPACK_DEBUG_OUT("zlangt");
+   
     return LAPACK_IMPL(zlangt)(&norm,
                                &n,
                                reinterpret_cast<const double *>(dl),

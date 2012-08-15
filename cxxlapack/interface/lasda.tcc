@@ -43,6 +43,68 @@ lasda(IndexType             icompq,
       IndexType             smlsiz,
       IndexType             n,
       IndexType             sqre,
+      float                 *d,
+      const float           *e,
+      float                 *U,
+      IndexType             ldU,
+      float                 *Vt,
+      IndexType             &k,
+      float                 *Difl,
+      float                 *Difr,
+      float                 *Z,
+      float                 *Poles,
+      IndexType             *Givptr,
+      IndexType             *Givcol,
+      IndexType             ldGcol,
+      IndexType             *Perm,
+      float                 *Givnum,
+      float                 *c,
+      float                 *s,
+      float                 *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("slasda");
+    
+    IndexType info;
+    LAPACK_IMPL(slasda)(&icompq,
+                        &smlsiz,
+                        &n
+                        &sqre,
+                        d,
+                        e,
+                        U,
+                        &ldU,
+                        Vt,
+                        &k,
+                        Difl,
+                        Difr,
+                        Z,
+                        Poles,
+                        Givptr,
+                        Givcol,
+                        &ldGcol,
+                        Perm,
+                        Givnum,
+                        c,
+                        s,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+lasda(IndexType             icompq,
+      IndexType             smlsiz,
+      IndexType             n,
+      IndexType             sqre,
       double                *d,
       const double          *e,
       double                *U,
@@ -63,6 +125,8 @@ lasda(IndexType             icompq,
       double                *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("dlasda");
+    
     IndexType info;
     LAPACK_IMPL(dlasda)(&icompq,
                         &smlsiz,

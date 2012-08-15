@@ -40,6 +40,28 @@ namespace cxxlapack {
 template <typename IndexType>
 void
 lacrt(IndexType             n,
+      std::complex<float >  *cx,
+      IndexType             incx,
+      std::complex<float >  *cy,
+      IndexType             incy,
+      std::complex<float >  c,
+      std::complex<float >  s)
+{
+    CXXLAPACK_DEBUG_OUT("clacrt");
+
+    LAPACK_IMPL(clacrt)(&n,
+                        reinterpret_cast<float  *>(cx)
+                        &incx,
+                        reinterpret_cast<float  *>(cy),
+                        &incy,
+                        reinterpret_cast<const float  *>(&c),
+                        reinterpret_cast<const float  *>(&s));
+
+}
+
+template <typename IndexType>
+void
+lacrt(IndexType             n,
       std::complex<double>  *cx,
       IndexType             incx,
       std::complex<double>  *cy,
@@ -47,6 +69,7 @@ lacrt(IndexType             n,
       std::complex<double>  c,
       std::complex<double>  s)
 {
+    CXXLAPACK_DEBUG_OUT("zlacrt");
 
     LAPACK_IMPL(zlacrt)(&n,
                         reinterpret_cast<double *>(cx)

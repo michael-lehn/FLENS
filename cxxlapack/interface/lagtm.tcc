@@ -42,6 +42,38 @@ void
 lagtm(char                  trans,
       IndexType             n,
       IndexType             nRhs,
+      float                 alpha,
+      const float           *dl,
+      const float           *d,
+      const float           *du,
+      const float           *X,
+      IndexType             ldX,
+      float                 beta,
+      float                 *B,
+      IndexType             ldB)
+{ 
+    CXXLAPACK_DEBUG_OUT("slagtm");
+
+    LAPACK_IMPL(slagtm)(&trans,
+                        &n,
+                        &nRhs,
+                        alpha,
+                        dl,
+                        d,
+                        du,
+                        X,
+                        &ldX,
+                        &beta,
+                        B,
+                        &ldB);
+}
+
+
+template <typename IndexType>
+void
+lagtm(char                  trans,
+      IndexType             n,
+      IndexType             nRhs,
       double                alpha,
       const double          *dl,
       const double          *d,
@@ -51,7 +83,8 @@ lagtm(char                  trans,
       double                beta,
       double                *B,
       IndexType             ldB)
-{
+{ 
+    CXXLAPACK_DEBUG_OUT("dlagtm");
 
     LAPACK_IMPL(dlagtm)(&trans,
                         &n,
@@ -72,6 +105,37 @@ void
 lagtm(char                        trans,
       IndexType                   n,
       IndexType                   nRhs,
+      float                       alpha,
+      const std::complex<float >  *dl,
+      const std::complex<float >  *d,
+      const std::complex<float >  *du,
+      const std::complex<float >  *X,
+      IndexType                   ldX,
+      float                       beta,
+      std::complex<float >        *B,
+      IndexType                   ldB)
+{ 
+    CXXLAPACK_DEBUG_OUT("clagtm");
+
+    LAPACK_IMPL(clagtm)(&trans,
+                        &n,
+                        &nRhs,
+                        alpha,
+                        reinterpret_cast<const float  *>(dl),
+                        reinterpret_cast<const float  *>(d),
+                        reinterpret_cast<const float  *>(du),
+                        reinterpret_cast<const float  *>(X),
+                        &ldX,
+                        &beta,
+                        reinterpret_cast<float  *>(B),
+                        &ldB);
+}
+
+template <typename IndexType>
+void
+lagtm(char                        trans,
+      IndexType                   n,
+      IndexType                   nRhs,
       double                      alpha,
       const std::complex<double>  *dl,
       const std::complex<double>  *d,
@@ -81,7 +145,8 @@ lagtm(char                        trans,
       double                      beta,
       std::complex<double>        *B,
       IndexType                   ldB)
-{
+{ 
+    CXXLAPACK_DEBUG_OUT("zlagtm");
 
     LAPACK_IMPL(zlagtm)(&trans,
                         &n,

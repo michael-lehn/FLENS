@@ -41,12 +41,13 @@ template <typename IndexType>
 void
 lascl2(IndexType             m,
        IndexType             n,
-       const double          *d,
-       double                *X,
+       const float           *d,
+       float                 *X,
        IndexType             ldX)
 {
-
-    LAPACK_IMPL(dlascl2)(&m,
+    CXXLAPACK_DEBUG_OUT("slascl2");
+ 
+    LAPACK_IMPL(slascl2)(&m,
                          &n,
                          d,
                          X,
@@ -59,10 +60,46 @@ void
 lascl2(IndexType             m,
        IndexType             n,
        const double          *d,
+       double                *X,
+       IndexType             ldX)
+{
+    CXXLAPACK_DEBUG_OUT("dlascl2");
+ 
+    LAPACK_IMPL(dlascl2)(&m,
+                         &n,
+                         d,
+                         X,
+                         &ldX);
+}
+
+
+template <typename IndexType>
+void
+lascl2(IndexType             m,
+       IndexType             n,
+       const float           *d,
+       std::complex<float >  *X,
+       IndexType             ldX)
+{
+    CXXLAPACK_DEBUG_OUT("clascl2");
+ 
+    LAPACK_IMPL(clascl2)(&m,
+                         &n,
+                         d,
+                         reinterpret_cast<float  *>(X),
+                         &ldX);
+}
+
+template <typename IndexType>
+void
+lascl2(IndexType             m,
+       IndexType             n,
+       const double          *d,
        std::complex<double>  *X,
        IndexType             ldX)
 {
-
+    CXXLAPACK_DEBUG_OUT("zlascl2");
+ 
     LAPACK_IMPL(zlascl2)(&m,
                          &n,
                          d,

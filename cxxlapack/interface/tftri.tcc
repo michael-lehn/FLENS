@@ -43,8 +43,36 @@ tftri(char                  transr,
       char                  uplo,
       char                  diag,
       IndexType             n,
+      float                 *A)
+{
+    CXXLAPACK_DEBUG_OUT("stftri");
+ 
+    IndexType info;
+    LAPACK_IMPL(stftri)(&transr,
+                        &uplo,
+                        &diag,
+                        &n,
+                        A,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+tftri(char                  transr,
+      char                  uplo,
+      char                  diag,
+      IndexType             n,
       double                *A)
 {
+    CXXLAPACK_DEBUG_OUT("dtftri");
+ 
     IndexType info;
     LAPACK_IMPL(dtftri)(&transr,
                         &uplo,
@@ -67,8 +95,36 @@ tftri(char                  transr,
       char                  uplo,
       char                  diag,
       IndexType             n,
+      std::complex<float >  *A)
+{
+    CXXLAPACK_DEBUG_OUT("ctftri");
+ 
+    IndexType info;
+    LAPACK_IMPL(ctftri)(&transr,
+                        &uplo,
+                        &diag,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+tftri(char                  transr,
+      char                  uplo,
+      char                  diag,
+      IndexType             n,
       std::complex<double>  *A)
 {
+    CXXLAPACK_DEBUG_OUT("ztftri");
+ 
     IndexType info;
     LAPACK_IMPL(ztftri)(&transr,
                         &uplo,

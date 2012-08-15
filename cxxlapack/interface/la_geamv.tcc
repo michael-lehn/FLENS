@@ -42,6 +42,35 @@ void
 la_geamv(char                  trans,
          IndexType             m,
          IndexType             n,
+         float                 alpha,
+         const float           *A,
+         IndexType             ldA,
+         const float           *x,
+         IndexType             incx,
+         float                 beta,
+         float                 *y,
+         IndexType             incy)
+{
+    CXXLAPACK_DEBUG_OUT("sla_geamv");
+    
+    LAPACK_IMPL(sla_geamv)(&trans,
+                           &m,
+                           &n,
+                           &alpha,
+                           A,
+                           &ldA,
+                           x,
+                           &incx,
+                           &beta,
+                           y,
+                           &incy);
+}
+
+template <typename IndexType>
+void
+la_geamv(char                  trans,
+         IndexType             m,
+         IndexType             n,
          double                alpha,
          const double          *A,
          IndexType             ldA,
@@ -51,6 +80,8 @@ la_geamv(char                  trans,
          double                *y,
          IndexType             incy)
 {
+    CXXLAPACK_DEBUG_OUT("dla_geamv");
+    
     LAPACK_IMPL(dla_geamv)(&trans,
                            &m,
                            &n,
@@ -58,6 +89,35 @@ la_geamv(char                  trans,
                            A,
                            &ldA,
                            x,
+                           &incx,
+                           &beta,
+                           y,
+                           &incy);
+}
+
+template <typename IndexType>
+void
+la_geamv(char                          trans,
+         IndexType                     m,
+         IndexType                     n,
+         float                         alpha,
+         const std::complex<float >    *A,
+         IndexType                     ldA,
+         const std::complex<float >    *x,
+         IndexType                     incx,
+         float                         beta,
+         float                         *y,
+         IndexType                     incy)
+{
+    CXXLAPACK_DEBUG_OUT("cla_geamv");
+    
+    LAPACK_IMPL(cla_geamv)(&trans,
+                           &m,
+                           &n,
+                           &alpha,
+                           reinterpret_cast<const float  *>(A),
+                           &ldA,
+                           reinterpret_cast<const float  *>(x),
                            &incx,
                            &beta,
                            y,
@@ -78,6 +138,8 @@ la_geamv(char                          trans,
          double                        *y,
          IndexType                     incy)
 {
+    CXXLAPACK_DEBUG_OUT("zla_geamv");
+    
     LAPACK_IMPL(zla_geamv)(&trans,
                            &m,
                            &n,

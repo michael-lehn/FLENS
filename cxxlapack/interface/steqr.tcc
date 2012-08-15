@@ -41,14 +41,16 @@ template <typename IndexType>
 IndexType
 steqr(char                  compz,
       IndexType             n,
-      double                *d,
-      double                *e,
-      double                *Z,
+      float                 *d,
+      float                 *e,
+      float                 *Z,
       IndexType             ldZ,
-      double                *work)
+      float                 *work)
 {
+    CXXLAPACK_DEBUG_OUT("ssteqr");
+  
     IndexType info;
-    LAPACK_IMPL(dsteqr)(&compz,
+    LAPACK_IMPL(ssteqr)(&compz,
                         &n,
                         d,
                         e,
@@ -72,10 +74,73 @@ steqr(char                  compz,
       IndexType             n,
       double                *d,
       double                *e,
+      double                *Z,
+      IndexType             ldZ,
+      double                *work)
+{
+    CXXLAPACK_DEBUG_OUT("dsteqr");
+ 
+    IndexType info;
+    LAPACK_IMPL(dsteqr)(&compz,
+                        &n,
+                        d,
+                        e,
+                        Z,
+                        &ldZ,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+steqr(char                  compz,
+      IndexType             n,
+      float                 *d,
+      float                 *e,
+      std::complex<float >  *Z,
+      IndexType             ldZ,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("csteqr");
+ 
+    IndexType info;
+    LAPACK_IMPL(csteqr)(&compz,
+                        &n,
+                        d,
+                        e,
+                        reinterpret_cast<float  *>(Z),
+                        &ldZ,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+steqr(char                  compz,
+      IndexType             n,
+      double                *d,
+      double                *e,
       std::complex<double>  *Z,
       IndexType             ldZ,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("zsteqr");
+ 
     IndexType info;
     LAPACK_IMPL(zsteqr)(&compz,
                         &n,

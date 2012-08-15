@@ -41,6 +41,16 @@ template <typename IndexType>
     IndexType
     hpcon(char                        uplo,
           IndexType                   n,
+          const std::complex<float >  *Ap,
+          const IndexType             *iPiv,
+          float                       anorm,
+          float                       &rCond,
+          std::complex<float >        *work);
+    
+template <typename IndexType>
+    IndexType
+    hpcon(char                        uplo,
+          IndexType                   n,
           const std::complex<double>  *Ap,
           const IndexType             *iPiv,
           double                      anorm,

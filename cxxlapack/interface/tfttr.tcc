@@ -42,10 +42,40 @@ IndexType
 tfttr(char                  transr,
       char                  uplo,
       IndexType             n,
+      const float           *Arf,
+      float                 *A,
+      IndexType             ldA)
+{
+    CXXLAPACK_DEBUG_OUT("stfttr");
+ 
+    IndexType info;
+    LAPACK_IMPL(stfttr)(&transr,
+                        &uplo,
+                        &n,
+                        Arf,
+                        A,
+                        &ldA,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+tfttr(char                  transr,
+      char                  uplo,
+      IndexType             n,
       const double          *Arf,
       double                *A,
       IndexType             ldA)
 {
+    CXXLAPACK_DEBUG_OUT("dtfttr");
+ 
     IndexType info;
     LAPACK_IMPL(dtfttr)(&transr,
                         &uplo,
@@ -68,10 +98,40 @@ IndexType
 tfttr(char                        transr,
       char                        uplo,
       IndexType                   n,
+      const std::complex<float >  *Arf,
+      std::complex<float >        *A,
+      IndexType                   ldA)
+{
+    CXXLAPACK_DEBUG_OUT("ctfttr");
+ 
+    IndexType info;
+    LAPACK_IMPL(ctfttr)(&transr,
+                        &uplo,
+                        &n,
+                        reinterpret_cast<const float  *>(Arf),
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+tfttr(char                        transr,
+      char                        uplo,
+      IndexType                   n,
       const std::complex<double>  *Arf,
       std::complex<double>        *A,
       IndexType                   ldA)
 {
+    CXXLAPACK_DEBUG_OUT("ztfttr");
+ 
     IndexType info;
     LAPACK_IMPL(ztfttr)(&transr,
                         &uplo,

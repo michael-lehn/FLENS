@@ -42,6 +42,33 @@ IndexType
 latrd(char                  uplo,
       IndexType             n,
       IndexType             nb,
+      const float           *A,
+      IndexType             ldA,
+      float                 *e,
+      float                 *tau,
+      float                 *W,
+      IndexType             ldW)
+{
+    CXXLAPACK_DEBUG_OUT("slatrd");
+  
+    LAPACK_IMPL(slatrd)(&uplo,
+                        &n,
+                        &nb,
+                        A,
+                        &ldA,
+                        e,
+                        tau,
+                        W,
+                        &ldW);
+
+}
+
+
+template <typename IndexType>
+IndexType
+latrd(char                  uplo,
+      IndexType             n,
+      IndexType             nb,
       const double          *A,
       IndexType             ldA,
       double                *e,
@@ -49,6 +76,8 @@ latrd(char                  uplo,
       double                *W,
       IndexType             ldW)
 {
+    CXXLAPACK_DEBUG_OUT("dlatrd");
+  
     LAPACK_IMPL(dlatrd)(&uplo,
                         &n,
                         &nb,
@@ -66,6 +95,31 @@ void
 latrd(char                       uplo,
       IndexType                  n,
       IndexType                  nb,
+      const std::complex<float > *A,
+      IndexType                  ldA,
+      float                      *e,
+      std::complex<float >       *tau,
+      std::complex<float >       *W,
+      IndexType                  ldW)
+{
+    CXXLAPACK_DEBUG_OUT("clatrd");
+  
+    LAPACK_IMPL(clatrd)(&uplo,
+                        &n,
+                        &nb,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        e,
+                        reinterpret_cast<float  *>(tau),
+                        reinterpret_cast<float  *>(W),
+                        &ldW);
+}
+
+template <typename IndexType>
+void
+latrd(char                       uplo,
+      IndexType                  n,
+      IndexType                  nb,
       const std::complex<double> *A,
       IndexType                  ldA,
       double                     *e,
@@ -73,6 +127,8 @@ latrd(char                       uplo,
       std::complex<double>       *W,
       IndexType                  ldW)
 {
+    CXXLAPACK_DEBUG_OUT("zlatrd");
+  
     LAPACK_IMPL(zlatrd)(&uplo,
                         &n,
                         &nb,

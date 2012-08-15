@@ -42,6 +42,21 @@ template <typename IndexType>
     ggglm(IndexType             n,
           IndexType             m,
           IndexType             p,
+          float                 *A,
+          IndexType             ldA,
+          float                 *B,
+          IndexType             ldB,
+          float                 *d,
+          float                 *x,
+          float                 *y,
+          float                 *work,
+          IndexType             lWork);
+    
+template <typename IndexType>
+    IndexType
+    ggglm(IndexType             n,
+          IndexType             m,
+          IndexType             p,
           double                *A,
           IndexType             ldA,
           double                *B,
@@ -51,7 +66,22 @@ template <typename IndexType>
           double                *y,
           double                *work,
           IndexType             lWork);
-
+    
+template <typename IndexType>
+    IndexType
+    ggglm(IndexType             n,
+          IndexType             m,
+          IndexType             p,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          std::complex<float >  *B,
+          IndexType             ldB,
+          std::complex<float >  *d,
+          std::complex<float >  *x,
+          std::complex<float >  *y,
+          std::complex<float >  *work,
+          IndexType             lWork);
+    
 template <typename IndexType>
     IndexType
     ggglm(IndexType             n,

@@ -41,11 +41,41 @@ template <typename IndexType>
 IndexType
 ppequ(char                  uplo,
       IndexType             n,
+      const float           *Ap,
+      float                 *s,
+      float                 &scond,
+      float                 &amax)
+{
+    CXXLAPACK_DEBUG_OUT("sppequ");
+    
+    IndexType info;
+    LAPACK_IMPL(sppequ)(&uplo,
+                        &n,
+                        Ap,
+                        s,
+                        &scond,
+                        &amax,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ppequ(char                  uplo,
+      IndexType             n,
       const double          *Ap,
       double                *s,
       double                &scond,
       double                &amax)
 {
+    CXXLAPACK_DEBUG_OUT("dppequ");
+  
     IndexType info;
     LAPACK_IMPL(dppequ)(&uplo,
                         &n,
@@ -63,6 +93,33 @@ ppequ(char                  uplo,
     return info;
 }
 
+template <typename IndexType>
+IndexType
+ppequ(char                        uplo,
+      IndexType                   n,
+      const std::complex<float >  *Ap,
+      float                       *s,
+      float                       &scond,
+      float                       &amax)
+{
+    CXXLAPACK_DEBUG_OUT("cppequ");
+  
+    IndexType info;
+    LAPACK_IMPL(cppequ)(&uplo,
+                        &n,
+                        reinterpret_cast<const float  *>(Ap),
+                        s,
+                        &scond,
+                        &amax,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
 
 template <typename IndexType>
 IndexType
@@ -73,6 +130,8 @@ ppequ(char                        uplo,
       double                      &scond,
       double                      &amax)
 {
+    CXXLAPACK_DEBUG_OUT("zppequ");
+  
     IndexType info;
     LAPACK_IMPL(zppequ)(&uplo,
                         &n,

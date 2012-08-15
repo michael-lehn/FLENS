@@ -42,11 +42,35 @@ void
 lacpy(char                  uplo,
       IndexType             m,
       IndexType             n,
+      const float           *A,
+      IndexType             ldA,
+      float                 *B,
+      IndexType             ldB)
+{
+    CXXLAPACK_DEBUG_OUT("slacpy");
+    
+    LAPACK_IMPL(slacpy)(&uplo,
+                        &m,
+                        &n,
+                        A,
+                        &ldA,
+                        B,
+                        &ldB);
+}
+
+
+template <typename IndexType>
+void
+lacpy(char                  uplo,
+      IndexType             m,
+      IndexType             n,
       const double          *A,
       IndexType             ldA,
       double                *B,
       IndexType             ldB)
 {
+    CXXLAPACK_DEBUG_OUT("dlacpy");
+    
     LAPACK_IMPL(dlacpy)(&uplo,
                         &m,
                         &n,
@@ -61,11 +85,34 @@ void
 lacpy(char                        uplo,
       IndexType                   m,
       IndexType                   n,
+      const std::complex<float >  *A,
+      IndexType                   ldA,
+      std::complex<float >        *B,
+      IndexType                   ldB)
+{
+    CXXLAPACK_DEBUG_OUT("clacpy");
+    
+    LAPACK_IMPL(clacpy)(&uplo,
+                        &m,
+                        &n,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(B),
+                        &ldB);
+}
+
+template <typename IndexType>
+void
+lacpy(char                        uplo,
+      IndexType                   m,
+      IndexType                   n,
       const std::complex<double>  *A,
       IndexType                   ldA,
       std::complex<double>        *B,
       IndexType                   ldB)
 {
+    CXXLAPACK_DEBUG_OUT("zlacpy");
+    
     LAPACK_IMPL(zlacpy)(&uplo,
                         &m,
                         &n,

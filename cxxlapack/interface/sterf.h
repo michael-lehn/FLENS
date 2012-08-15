@@ -36,7 +36,13 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    sterf(IndexType             n,
+          float                 *d,
+          float                 *e);
+    
 template <typename IndexType>
     IndexType
     sterf(IndexType             n,

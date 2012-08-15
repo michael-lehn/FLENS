@@ -41,9 +41,23 @@ template <typename IndexType>
     IndexType
     sptrf(char                  uplo,
           IndexType             n,
+          float                 *Ap,
+          IndexType             *iPiv);
+    
+template <typename IndexType>
+    IndexType
+    sptrf(char                  uplo,
+          IndexType             n,
           double                *Ap,
           IndexType             *iPiv);
-
+    
+template <typename IndexType>
+    IndexType
+    sptrf(char                  uplo,
+          IndexType             n,
+          std::complex<float >  *Ap,
+          IndexType             *iPiv);
+    
 template <typename IndexType>
     IndexType
     sptrf(char                  uplo,

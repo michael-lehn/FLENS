@@ -41,6 +41,38 @@ template <typename IndexType>
 IndexType
 heequb(char                        uplo,
        IndexType                   n,
+       const std::complex<float >  *A,
+       IndexType                   ldA,
+       float                       *s,
+       float                       &rCond,
+       float                       &amax,
+       std::complex<float >        *work)
+{
+    CXXLAPACK_DEBUG_OUT("cheequb");
+    
+    IndexType info;
+    LAPACK_IMPL(cheequb)(&uplo,
+                         &n,
+                         reinterpret_cast<const float  *>(A),
+                         &ldA,
+                         s,
+                         &rCond,
+                         &amax,
+                         reinterpret_cast<float  *>(work),
+                         &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+heequb(char                        uplo,
+       IndexType                   n,
        const std::complex<double>  *A,
        IndexType                   ldA,
        double                      *s,
@@ -48,6 +80,8 @@ heequb(char                        uplo,
        double                      &amax,
        std::complex<double>        *work)
 {
+    CXXLAPACK_DEBUG_OUT("zheequb");
+    
     IndexType info;
     LAPACK_IMPL(zheequb)(&uplo,
                          &n,

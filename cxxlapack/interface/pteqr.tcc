@@ -41,14 +41,16 @@ template <typename IndexType>
 IndexType
 pteqr(char                  compz,
       IndexType             n,
-      double                *d,
-      double                *e,
-      double                *Z,
+      float                 *d,
+      float                 *e,
+      float                 *Z,
       IndexType             ldZ,
-      double                *work)
+      float                 *work)
 {
+    CXXLAPACK_DEBUG_OUT("spteqr");
+ 
     IndexType info;
-    LAPACK_IMPL(dpteqr)(&compz,
+    LAPACK_IMPL(spteqr)(&compz,
                         n,
                         d,
                         e,
@@ -72,10 +74,72 @@ pteqr(char                  compz,
       IndexType             n,
       double                *d,
       double                *e,
+      double                *Z,
+      IndexType             ldZ,
+      double                *work)
+{
+    CXXLAPACK_DEBUG_OUT("dpteqr");
+ 
+    IndexType info;
+    LAPACK_IMPL(dpteqr)(&compz,
+                        n,
+                        d,
+                        e,
+                        Z,
+                        &ldZ,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+pteqr(char                  compz,
+      IndexType             n,
+      float                 *d,
+      float                 *e,
+      std::complex<float >  *Z,
+      IndexType             ldZ,
+      float                 *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("cpteqr");
+ 
+    IndexType info;
+    LAPACK_IMPL(cpteqr)(&compz,
+                        n,
+                        d,
+                        e,
+                        reinterpret_cast<float  *>(Z),
+                        &ldZ,
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+pteqr(char                  compz,
+      IndexType             n,
+      double                *d,
+      double                *e,
       std::complex<double>  *Z,
       IndexType             ldZ,
       double                *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zpteqr");
+ 
     IndexType info;
     LAPACK_IMPL(zpteqr)(&compz,
                         n,

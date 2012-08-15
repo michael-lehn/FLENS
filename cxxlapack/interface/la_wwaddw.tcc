@@ -40,10 +40,27 @@ namespace cxxlapack {
 template <typename IndexType>
 void
 la_wwaddw(IndexType             n,
+          float                 *x,
+          float                 *y,
+          const float           *w)
+{
+    CXXLAPACK_DEBUG_OUT("sla_wwaddw");
+    
+    LAPACK_IMPL(sla_wwaddw)(&n,
+                            x,
+                            y,
+                            w);
+}
+
+template <typename IndexType>
+void
+la_wwaddw(IndexType             n,
           double                *x,
           double                *y,
           const double          *w)
 {
+    CXXLAPACK_DEBUG_OUT("dla_wwaddw");
+    
     LAPACK_IMPL(dla_wwaddw)(&n,
                             x,
                             y,
@@ -53,10 +70,27 @@ la_wwaddw(IndexType             n,
 template <typename IndexType>
 void
 la_wwaddw(IndexType                   n,
+          std::complex<float >        *x,
+          std::complex<float >        *y,
+          const std::complex<float >  *w)
+{
+    CXXLAPACK_DEBUG_OUT("cla_wwaddw");
+    
+    LAPACK_IMPL(cla_wwaddw)(&n,
+                            reinterpret_cast<float  *>(x),
+                            reinterpret_cast<float  *>(y),
+                            reinterpret_cast<const float  *>(w));
+}
+
+template <typename IndexType>
+void
+la_wwaddw(IndexType                   n,
           std::complex<double>        *x,
           std::complex<double>        *y,
           const std::complex<double>  *w)
 {
+    CXXLAPACK_DEBUG_OUT("zla_wwaddw");
+    
     LAPACK_IMPL(zla_wwaddw)(&n,
                             reinterpret_cast<double *>(x),
                             reinterpret_cast<double *>(y),

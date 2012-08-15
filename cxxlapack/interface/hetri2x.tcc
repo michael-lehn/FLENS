@@ -37,6 +37,35 @@
 
 namespace cxxlapack {
 
+template <typename IndexType>
+IndexType
+hetri2x(char                  uplo,
+        IndexType             n,
+        std::complex<float >  *A,
+        IndexType             ldA,
+        const IndexType       *iPiv,
+        std::complex<float >  *work,
+        IndexType             nb)
+{
+    CXXLAPACK_DEBUG_OUT("chetri2x");
+    
+    IndexType info;
+    LAPACK_IMPL(chetri2x)(&uplo,
+                          &n,
+                          reinterpret_cast<float  *>(A),
+                          &ldA,
+                          iPiv,
+                          reinterpret_cast<float  *>(work),
+                          &nb,
+                          &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
 
 template <typename IndexType>
 IndexType
@@ -48,13 +77,15 @@ hetri2x(char                  uplo,
         std::complex<double>  *work,
         IndexType             nb)
 {
+    CXXLAPACK_DEBUG_OUT("zhetri2x");
+    
     IndexType info;
     LAPACK_IMPL(zhetri2x)(&uplo,
                           &n,
                           reinterpret_cast<double *>(A),
                           &ldA,
                           iPiv,
-                          work,
+                          reinterpret_cast<double *>(work),
                           &nb,
                           &info);
 #   ifndef NDEBUG

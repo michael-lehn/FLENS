@@ -43,6 +43,54 @@ hpsvx(char                        fact,
       char                        uplo,
       IndexType                   n,
       IndexType                   nRhs,
+      const std::complex<float >  *Ap,
+      std::complex<float >        *Afp,
+      IndexType                   *iPiv,
+      const std::complex<float >  *B,
+      IndexType                   ldB,
+      std::complex<float >        *X,
+      IndexType                   ldX,
+      float                       &rCond,
+      float                       *ferr,
+      float                       *berr,
+      std::complex<float >        *work,
+      float                       *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("chpsvx");
+    
+    IndexType info;
+    LAPACK_IMPL(chpsvx)(&fact,
+                        &uplo,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<const float  *>(Ap),
+                        reinterpret_cast<float  *>(Afp),
+                        iPiv,
+                        reinterpret_cast<const float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(X),
+                        &ldX,
+                        &rCond,
+                        ferr,
+                        berr,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hpsvx(char                        fact,
+      char                        uplo,
+      IndexType                   n,
+      IndexType                   nRhs,
       const std::complex<double>  *Ap,
       std::complex<double>        *Afp,
       IndexType                   *iPiv,
@@ -56,6 +104,8 @@ hpsvx(char                        fact,
       std::complex<double>        *work,
       double                      *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zhpsvx");
+    
     IndexType info;
     LAPACK_IMPL(zhpsvx)(&fact,
                         &uplo,

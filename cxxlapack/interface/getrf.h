@@ -41,10 +41,26 @@ template <typename IndexType>
     IndexType
     getrf(IndexType             m,
           IndexType             n,
+          float                 *A,
+          IndexType             ldA,
+          IndexType             *iPiv);
+    
+template <typename IndexType>
+    IndexType
+    getrf(IndexType             m,
+          IndexType             n,
           double                *A,
           IndexType             ldA,
           IndexType             *iPiv);
-
+    
+template <typename IndexType>
+    IndexType
+    getrf(IndexType             m,
+          IndexType             n,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          IndexType             *iPiv);
+    
 template <typename IndexType>
     IndexType
     getrf(IndexType             m,

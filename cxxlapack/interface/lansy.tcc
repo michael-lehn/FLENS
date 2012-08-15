@@ -38,15 +38,17 @@
 namespace cxxlapack {
 
 template <typename IndexType>
-double
+float 
 lansy(char                  norm,
       char                  uplo,
       IndexType             n,
-      const double          *A,
+      const float           *A,
       IndexType             ldA,
-      double                *work)
+      float                 *work)
 {
-    return LAPACK_IMPL(dlansy)(&norm,
+    CXXLAPACK_DEBUG_OUT("slansy");
+   
+    return LAPACK_IMPL(slansy)(&norm,
                                &uplo,
                                &n,
                                A,
@@ -57,6 +59,45 @@ lansy(char                  norm,
 
 template <typename IndexType>
 double
+lansy(char                  norm,
+      char                  uplo,
+      IndexType             n,
+      const double          *A,
+      IndexType             ldA,
+      double                *work)
+{
+    CXXLAPACK_DEBUG_OUT("dlansy");
+   
+    return LAPACK_IMPL(dlansy)(&norm,
+                               &uplo,
+                               &n,
+                               A,
+                               &ldA,
+                               work);
+}
+
+
+template <typename IndexType>
+float 
+lansy(char                        norm,
+      char                        uplo,
+      IndexType                   n,
+      const std::complex<float >  *A,
+      IndexType                   ldA,
+      float                       *work)
+{
+    CXXLAPACK_DEBUG_OUT("clansy");
+   
+    return LAPACK_IMPL(clansy)(&norm,
+                               &uplo,
+                               &n,
+                               reinterpret_cast<const float  *>(A),
+                               &ldA,
+                               work);
+}
+
+template <typename IndexType>
+double
 lansy(char                        norm,
       char                        uplo,
       IndexType                   n,
@@ -64,6 +105,8 @@ lansy(char                        norm,
       IndexType                   ldA,
       double                      *work)
 {
+    CXXLAPACK_DEBUG_OUT("zlansy");
+   
     return LAPACK_IMPL(zlansy)(&norm,
                                &uplo,
                                &n,

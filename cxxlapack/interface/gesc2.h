@@ -40,13 +40,33 @@ namespace cxxlapack {
 template <typename IndexType>
     void
     gesc2(IndexType             n,
+          float                 *A,
+          IndexType             ldA,
+          float                 *rhs,
+          const IndexType       *iPiv,
+          const IndexType       *jpiv,
+          float                 &scale);
+    
+template <typename IndexType>
+    void
+    gesc2(IndexType             n,
           double                *A,
           IndexType             ldA,
           double                *rhs,
           const IndexType       *iPiv,
           const IndexType       *jpiv,
           double                &scale);
-
+    
+template <typename IndexType>
+    void
+    gesc2(IndexType             n,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          std::complex<float >  *rhs,
+          const IndexType       *iPiv,
+          const IndexType       *jpiv,
+          float                 &scale);
+    
 template <typename IndexType>
     void
     gesc2(IndexType             n,

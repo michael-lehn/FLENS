@@ -44,6 +44,33 @@ template <typename IndexType>
           IndexType             nr,
           IndexType             sqre,
           IndexType             nRhs,
+          float                 *B,
+          IndexType             ldB,
+          float                 *Bx,
+          IndexType             ldBx,
+          const IndexType       *perm,
+          IndexType             givptr,
+          const IndexType       *Givcol,
+          IndexType             ldGcol,
+          const float           *Givnum,
+          IndexType             ldGnum,
+          const float           *Poles,
+          const float           *difl,
+          const float           *difr,
+          const float           *z,
+          IndexType             k,
+          float                 c,
+          float                 s,
+          float                 *work);
+
+    
+template <typename IndexType>
+    IndexType
+    lals0(IndexType             icomq,
+          IndexType             nl,
+          IndexType             nr,
+          IndexType             sqre,
+          IndexType             nRhs,
           double                *B,
           IndexType             ldB,
           double                *Bx,
@@ -62,7 +89,34 @@ template <typename IndexType>
           double                c,
           double                s,
           double                *work);
+    
+template <typename IndexType>
+    IndexType
+    lals0(IndexType             icomq,
+          IndexType             nl,
+          IndexType             nr,
+          IndexType             sqre,
+          IndexType             nRhs,
+          std::complex<float >  *B,
+          IndexType             ldB,
+          std::complex<float >  *Bx,
+          IndexType             ldBx,
+          const IndexType       *perm,
+          IndexType             givptr,
+          const IndexType       *Givcol,
+          IndexType             ldGcol,
+          const float           *Givnum,
+          IndexType             ldGnum,
+          const float           *Poles,
+          const float           *difl,
+          const float           *difr,
+          const float           *z,
+          IndexType             k,
+          float                 c,
+          float                 s,
+          float                 *rWork);
 
+    
 template <typename IndexType>
     IndexType
     lals0(IndexType             icomq,

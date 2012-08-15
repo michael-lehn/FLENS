@@ -41,6 +41,34 @@ template <typename IndexType>
 void
 symv (char                        uplo,
       IndexType                   n,
+      std::complex<float >        alpha,
+      const std::complex<float >  *A,
+      IndexType                   ldA,
+      const std::complex<float >  *x,
+      IndexType                   incx,
+      std::complex<float >        beta,
+      std::complex<float >        *y,
+      IndexType                   incy)
+{
+    CXXLAPACK_DEBUG_OUT("csymv");
+ 
+    LAPACK_IMPL(csymv)(&uplo,
+                       &n,
+                       reinterpret_cast<const float  *>(&alpha),
+                       reinterpret_cast<const float  *>(A),
+                       &ldA,
+                       reinterpret_cast<const float  *>(x),
+                       &incx,
+                       reinterpret_cast<const float  *>(&beta),
+                       reinterpret_cast<float  *>(y),
+                       &incy);
+
+}
+
+template <typename IndexType>
+void
+symv (char                        uplo,
+      IndexType                   n,
       std::complex<double>        alpha,
       const std::complex<double>  *A,
       IndexType                   ldA,
@@ -50,7 +78,8 @@ symv (char                        uplo,
       std::complex<double>        *y,
       IndexType                   incy)
 {
-
+    CXXLAPACK_DEBUG_OUT("zsymv");
+ 
     LAPACK_IMPL(zsymb)(&uplo,
                        &n,
                        reinterpret_cast<const double *>(&alpha),

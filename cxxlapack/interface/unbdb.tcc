@@ -44,6 +44,64 @@ unbdb(char                  trans,
       IndexType             m,
       IndexType             p,
       IndexType             q,
+      std::complex<float >  *X11,
+      IndexType             ldX11,
+      std::complex<float >  *X12,
+      IndexType             ldX12,
+      std::complex<float >  *X21,
+      IndexType             ldX21,
+      std::complex<float >  *X22,
+      IndexType             ldX22,
+      float                 *theta,
+      float                 *phi,
+      std::complex<float >  *taup1,
+      std::complex<float >  *taup2,
+      std::complex<float >  *tauq1,
+      std::complex<float >  *tauq2,
+      std::complex<float >  *work,
+      IndexType             lWork)
+{
+    CXXLAPACK_DEBUG_OUT("cunbdb");
+ 
+    IndexType info;
+    LAPACK_IMPL(cunbdb)(&trans,
+                        &signs
+                        &m,
+                        &p,
+                        &q,
+                        reinterpret_cast<float  *>(X11),
+                        &ldX11,
+                        reinterpret_cast<float  *>(X12),
+                        &ldX12,
+                        reinterpret_cast<float  *>(X21),
+                        &ldX21,
+                        reinterpret_cast<float  *>(X22),
+                        &ldX22,
+                        theta,
+                        phi,
+                        reinterpret_cast<float  *>(taup1),
+                        reinterpret_cast<float  *>(taup2),
+                        reinterpret_cast<float  *>(tauq1),
+                        reinterpret_cast<float  *>(tauq2),
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+unbdb(char                  trans,
+      char                  signs,
+      IndexType             m,
+      IndexType             p,
+      IndexType             q,
       std::complex<double>  *X11,
       IndexType             ldX11,
       std::complex<double>  *X12,
@@ -61,6 +119,8 @@ unbdb(char                  trans,
       std::complex<double>  *work,
       IndexType             lWork)
 {
+    CXXLAPACK_DEBUG_OUT("zunbdb");
+ 
     IndexType info;
     LAPACK_IMPL(zunbdb)(&trans,
                         &signs

@@ -38,6 +38,44 @@
 namespace cxxlapack {
 
 template <typename IndexType>
+float
+la_gerCond(char                  trans,
+           IndexType             n,
+           const float           *A,
+           IndexType             ldA,
+           const float           *Af,
+           IndexType             ldAf,
+           const IndexType       *iPiv,
+           IndexType             cmode,
+           const float           *c,
+           IndexType             &info,
+           float                 *work,
+           IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("sla_gercond");
+
+    float  val = LAPACK_IMPL(sla_gercond)(&trans,
+                                          &n,
+                                          A,
+                                          &ldA,
+                                          Af,
+                                          &ldAf,
+                                          iPiv,
+                                          &cmode,
+                                          c,
+                                          &info,
+                                          work,
+                                          iWork);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return val;
+}
+
+template <typename IndexType>
 double
 la_gerCond(char                  trans,
            IndexType             n,
@@ -52,8 +90,9 @@ la_gerCond(char                  trans,
            double                *work,
            IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("dla_gercond");
 
-    double val = LAPACK_IMPL(dla_gerCond)(&trans,
+    double val = LAPACK_IMPL(dla_gercond)(&trans,
                                           &n,
                                           A,
                                           &ldA,

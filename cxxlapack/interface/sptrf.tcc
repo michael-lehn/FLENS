@@ -41,9 +41,36 @@ template <typename IndexType>
 IndexType
 sptrf(char                  uplo,
       IndexType             n,
+      float                 *Ap,
+      IndexType             *iPiv)
+{
+    CXXLAPACK_DEBUG_OUT("ssptrf");
+
+    IndexType info;
+    LAPACK_IMPL(ssptrf)(&uplo,
+                        &n,
+                        Ap,
+                        iPiv,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+sptrf(char                  uplo,
+      IndexType             n,
       double                *Ap,
       IndexType             *iPiv)
 {
+    CXXLAPACK_DEBUG_OUT("dsptrf");
+
     IndexType info;
     LAPACK_IMPL(dsptrf)(&uplo,
                         &n,
@@ -63,9 +90,35 @@ template <typename IndexType>
 IndexType
 sptrf(char                  uplo,
       IndexType             n,
+      std::complex<float >  *Ap,
+      IndexType             *iPiv)
+{
+    CXXLAPACK_DEBUG_OUT("csptrf");
+
+    IndexType info;
+    LAPACK_IMPL(csptrf)(&uplo,
+                        &n,
+                        reinterpret_cast<float  *>(Ap),
+                        iPiv,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+sptrf(char                  uplo,
+      IndexType             n,
       std::complex<double>  *Ap,
       IndexType             *iPiv)
 {
+    CXXLAPACK_DEBUG_OUT("zsptrf");
+
     IndexType info;
     LAPACK_IMPL(zsptrf)(&uplo,
                         &n,

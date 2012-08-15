@@ -42,6 +42,18 @@ template <typename IndexType>
     hpev(char                   jobZ,
          char                   upLo,
          IndexType              n,
+         std::complex<float >   *Ap,
+         float                  *w,
+         std::complex<float >   *Z,
+         IndexType              ldZ,
+         std::complex<float >   *work,
+         float                  *rWork);
+    
+template <typename IndexType>
+    IndexType
+    hpev(char                   jobZ,
+         char                   upLo,
+         IndexType              n,
          std::complex<double>   *Ap,
          double                 *w,
          std::complex<double>   *Z,

@@ -44,12 +44,38 @@ template <typename IndexType>
           IndexType             kl,
           IndexType             ku,
           IndexType             nRhs,
+          const float           *Ab,
+          IndexType             ldAb,
+          const IndexType       *iPiv,
+          float                 *B,
+          IndexType             ldb);
+    
+template <typename IndexType>
+    IndexType
+    gbtrs(char                  trans,
+          IndexType             n,
+          IndexType             kl,
+          IndexType             ku,
+          IndexType             nRhs,
           const double          *Ab,
           IndexType             ldAb,
           const IndexType       *iPiv,
           double                *B,
           IndexType             ldb);
-
+    
+template <typename IndexType>
+    IndexType
+    gbtrs(char                          trans,
+          IndexType                     n,
+          IndexType                     kl,
+          IndexType                     ku,
+          IndexType                     nRhs,
+          const std::complex<float>     *Ab,
+          IndexType                     ldAb,
+          const IndexType               *iPiv,
+          std::complex<float>           *B,
+          IndexType                     ldb);
+    
 template <typename IndexType>
     IndexType
     gbtrs(char                          trans,

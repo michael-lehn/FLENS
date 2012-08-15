@@ -42,6 +42,24 @@ template <typename IndexType>
     gegs(char                  jobvsl,
          char                  jobvsr,
          IndexType             n,
+         float                 *A,
+         IndexType             ldA,
+         float                 *B,
+         IndexType             ldB,
+         float                 *alpha,
+         float                 *beta,
+         float                 *Vsl,
+         IndexType             ldVsl,
+         float                 *Vsr,
+         IndexType             ldVsr,
+         float                 *work,
+         IndexType             lWork);
+
+template <typename IndexType>
+    IndexType
+    gegs(char                  jobvsl,
+         char                  jobvsr,
+         IndexType             n,
          double                *A,
          IndexType             ldA,
          double                *B,
@@ -54,7 +72,26 @@ template <typename IndexType>
          IndexType             ldVsr,
          double                *work,
          IndexType             lWork);
-
+    
+template <typename IndexType>
+    IndexType
+    gegs(char                  jobvsl,
+         char                  jobvsr,
+         IndexType             n,
+         std::complex<float >  *A,
+         IndexType             ldA,
+         std::complex<float >  *B,
+         IndexType             ldB,
+         std::complex<float >  *alpha,
+         std::complex<float >  *beta,
+         std::complex<float >  *Vsl,
+         IndexType             ldVsl,
+         std::complex<float >  *Vsr,
+         IndexType             ldVsr,
+         std::complex<float >  *work,
+         IndexType             lWork,
+         float                 *rWork);
+    
 template <typename IndexType>
     IndexType
     gegs(char                  jobvsl,

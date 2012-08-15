@@ -41,6 +41,39 @@ template <typename IndexType>
 IndexType
 geequb(IndexType             m,
        IndexType             n,
+       const float           *A,
+       IndexType             ldA,
+       float                 *r,
+       float                 *c,
+       float                 &rCond,
+       float                 &colcond,
+       float                 &amax)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgeequb");
+    LAPACK_IMPL(sgeequb)(&m,
+                         &n,
+                         A,
+                         &ldA,
+                         r,
+                         c,
+                         &rCond,
+                         &colcond,
+                         &amax,
+                         &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}  
+
+template <typename IndexType>
+IndexType
+geequb(IndexType             m,
+       IndexType             n,
        const double          *A,
        IndexType             ldA,
        double                *r,
@@ -50,6 +83,7 @@ geequb(IndexType             m,
        double                &amax)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("dgeequb");
     LAPACK_IMPL(dgeequb)(&m,
                          &n,
                          A,
@@ -73,6 +107,39 @@ template <typename IndexType>
 IndexType
 geequb(IndexType                   m,
        IndexType                   n,
+       const std::complex<float >  *A,
+       IndexType                   ldA,
+       float                       *r,
+       float                       *c,
+       float                       &rCond,
+       float                       &colcond,
+       float                       &amax)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgeequb");
+    LAPACK_IMPL(cgeequb)(&m,
+                        &n,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        r,
+                        c,
+                        &rCond,
+                        &colcond,
+                        &amax,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+geequb(IndexType                   m,
+       IndexType                   n,
        const std::complex<double>  *A,
        IndexType                   ldA,
        double                      *r,
@@ -82,6 +149,7 @@ geequb(IndexType                   m,
        double                      &amax)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("zgeequb");
     LAPACK_IMPL(zgeequb)(&m,
                         &n,
                         reinterpret_cast<const double *>(A),

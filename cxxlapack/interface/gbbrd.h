@@ -45,6 +45,26 @@ template <typename IndexType>
           IndexType             ncc,
           IndexType             kl,
           IndexType             ku,
+          float                 *Ab,
+          IndexType             ldAb,
+          float                 *d,
+          float                 *e,
+          float                 *Q,
+          IndexType             ldQ,
+          float                 *PT,
+          IndexType             ldPT,
+          float                 *C,
+          IndexType             ldC,
+          float                 *work);
+    
+template <typename IndexType>
+    IndexType
+    gbbrd(char                  vect,
+          IndexType             m,
+          IndexType             n,
+          IndexType             ncc,
+          IndexType             kl,
+          IndexType             ku,
           double                *Ab,
           IndexType             ldAb,
           double                *d,
@@ -56,7 +76,28 @@ template <typename IndexType>
           double                *C,
           IndexType             ldC,
           double                *work);
-
+    
+    template <typename IndexType>
+    IndexType
+    gbbrd(char                  vect,
+          IndexType             m,
+          IndexType             n,
+          IndexType             ncc,
+          IndexType             kl,
+          IndexType             ku,
+          std::complex<float >  *Ab,
+          IndexType             ldAb,
+          float                 *d,
+          float                 *e,
+          std::complex<float >  *Q,
+          IndexType             ldQ,
+          std::complex<float >  *PT,
+          IndexType             ldPT,
+          std::complex<float >  *C,
+          IndexType             ldC,
+          std::complex<float >  *work,
+          double                *rWork);
+    
 template <typename IndexType>
     IndexType
     gbbrd(char                  vect,

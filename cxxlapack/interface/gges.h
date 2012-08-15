@@ -42,6 +42,28 @@ template <typename IndexType>
     gges(char                  jobvsl,
          char                  jobvsr,
          char                  sort,
+         IndexType             (*select)(const float  *, const float  *),
+         IndexType             n,
+         float                 *A,
+         IndexType             ldA,
+         float                 *B,
+         IndexType             ldB,
+         IndexType             &sdim,
+         float                 *alpha,
+         float                 *beta,
+         float                 *Vsl,
+         IndexType             ldVsl,
+         float                 *Vsr,
+         IndexType             ldVsr,
+         float                 *work,
+         IndexType             lWork,
+         bool                  *bwork);
+    
+template <typename IndexType>
+    IndexType
+    gges(char                  jobvsl,
+         char                  jobvsr,
+         char                  sort,
          IndexType             (*select)(const double *, const double *),
          IndexType             n,
          double                *A,
@@ -58,7 +80,30 @@ template <typename IndexType>
          double                *work,
          IndexType             lWork,
          bool                  *bwork);
-
+    
+template <typename IndexType>
+    IndexType
+    gges(char                  jobvsl,
+         char                  jobvsr,
+         char                  sort,
+         IndexType              (*select)(const std::complex<double> *),
+         IndexType             n,
+         std::complex<double>  *A,
+         IndexType             ldA,
+         std::complex<double>  *B,
+         IndexType             ldB,
+         IndexType             &sdim,
+         std::complex<double>  *alpha,
+         std::complex<double>  *beta,
+         std::complex<double>  *Vsl,
+         IndexType             ldVsl,
+         std::complex<double>  *Vsr,
+         IndexType             ldVsr,
+         std::complex<double>  *work,
+         IndexType             lWork,
+         double                rWork,
+         bool                  *bwork);
+    
 template <typename IndexType>
     IndexType
     gges(char                  jobvsl,

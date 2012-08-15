@@ -36,7 +36,19 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    lahef(char                  uplo,
+          IndexType             n,
+          IndexType             nb,
+          IndexType             &kb,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          IndexType             *iPiv,
+          std::complex<float >  *W,
+          IndexType             ldW);
+    
 template <typename IndexType>
     IndexType
     lahef(char                  uplo,

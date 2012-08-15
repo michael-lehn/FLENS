@@ -42,6 +42,53 @@ IndexType
 ptsvx(char                  fact,
       IndexType             n,
       IndexType             nRhs,
+      const float           *d,
+      const float           *e,
+      float                 *df,
+      float                 *ef,
+      const float           *B,
+      IndexType             ldB,
+      float                 *X,
+      IndexType             ldX,
+      float                 &rCond,
+      float                 *ferr,
+      float                 *berr,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("sptsvx");
+ 
+    IndexType info;
+    LAPACK_IMPL(sptsvx)(&fact,
+                        &n,
+                        &nRhs,
+                        d,
+                        e,
+                        df,
+                        ef,
+                        B,
+                        &ldB,
+                        X,
+                        &ldX,
+                        &rCond,
+                        ferr,
+                        berr,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+ptsvx(char                  fact,
+      IndexType             n,
+      IndexType             nRhs,
       const double          *d,
       const double          *e,
       double                *df,
@@ -55,6 +102,8 @@ ptsvx(char                  fact,
       double                *berr,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dptsvx");
+ 
     IndexType info;
     LAPACK_IMPL(dptsvx)(&fact,
                         &n,
@@ -86,6 +135,52 @@ IndexType
 ptsvx(char                        fact,
       IndexType                   n,
       IndexType                   nRhs,
+      const float                 *d,
+      const std::complex<float >  *e,
+      double                      *df,
+      std::complex<float >        *ef,
+      const std::complex<float >  *B,
+      IndexType                   ldB,
+      std::complex<float >        *X,
+      IndexType                   ldX,
+      float                       &rCond,
+      float                       *ferr,
+      float                       *berr,
+      std::complex<float >        *work)
+{
+    CXXLAPACK_DEBUG_OUT("cptsvx");
+ 
+    IndexType info;
+    LAPACK_IMPL(cptsvx)(&fact,
+                        &n,
+                        &nRhs,
+                        d,
+                        reinterpret_cast<const float  *>(e),
+                        df,
+                        reinterpret_cast<float  *>(ef),
+                        reinterpret_cast<const float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(X),
+                        &ldX,
+                        &rCond,
+                        ferr,
+                        berr,
+                        reinterpret_cast<float  *>(work),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ptsvx(char                        fact,
+      IndexType                   n,
+      IndexType                   nRhs,
       const double                *d,
       const std::complex<double>  *e,
       double                      *df,
@@ -99,6 +194,8 @@ ptsvx(char                        fact,
       double                      *berr,
       std::complex<double>        *work)
 {
+    CXXLAPACK_DEBUG_OUT("zptsvx");
+ 
     IndexType info;
     LAPACK_IMPL(zptsvx)(&fact,
                         &n,

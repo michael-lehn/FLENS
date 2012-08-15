@@ -44,6 +44,63 @@ pbsvx(char                  fact,
       IndexType             n,
       IndexType             kd,
       IndexType             nRhs,
+      float                 *Ab,
+      IndexType             ldAb,
+      float                 *Afb,
+      IndexType             ldAfb,
+      char                  &equed,
+      float                 *s,
+      float                 *B,
+      IndexType             ldB,
+      float                 *X,
+      IndexType             ldX,
+      float                 &rCond,
+      float                 *ferr,
+      float                 *berr,
+      float                 *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("spbsvx");
+  
+    IndexType info;
+    LAPACK_IMPL(spbsvx)(&fact,
+                        &uplo,
+                        &n,
+                        &kd,
+                        &nRhs,
+                        Ab,
+                        &ldAb,
+                        Afb,
+                        &ldAfb,
+                        &equed,
+                        s,
+                        B,
+                        &ldB,
+                        X,
+                        &ldX,
+                        &rCond,
+                        ferr,
+                        berr,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+pbsvx(char                  fact,
+      char                  uplo,
+      IndexType             n,
+      IndexType             kd,
+      IndexType             nRhs,
       double                *Ab,
       IndexType             ldAb,
       double                *Afb,
@@ -60,6 +117,8 @@ pbsvx(char                  fact,
       double                *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("dpbsvx");
+  
     IndexType info;
     LAPACK_IMPL(dpbsvx)(&fact,
                         &uplo,
@@ -98,6 +157,62 @@ pbsvx(char                  fact,
       IndexType             n,
       IndexType             kd,
       IndexType             nRhs,
+      std::complex<float >  *Ab,
+      IndexType             ldAb,
+      std::complex<float >  *Afb,
+      IndexType             ldAfb,
+      char                  &equed,
+      float                 *s,
+      std::complex<float >  *B,
+      IndexType             ldB,
+      std::complex<float >  *X,
+      IndexType             ldX,
+      float                 &rCond,
+      float                 *ferr,
+      float                 *berr,
+      std::complex<float >  *work,
+      IndexType             *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("cpbsvx");
+  
+    IndexType info;
+    LAPACK_IMPL(cpbsvx)(&fact,
+                        &uplo,
+                        &n,
+                        &kd,
+                        &nRhs,
+                        reinterpret_cast<float  *>(Ab),
+                        &ldAb,
+                        reinterpret_cast<float  *>(Afb),
+                        &ldAfb,
+                        &equed,
+                        s,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(X),
+                        &ldX,
+                        &rCond,
+                        ferr,
+                        berr,
+                        reinterpret_cast<float  *>(work),
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+pbsvx(char                  fact,
+      char                  uplo,
+      IndexType             n,
+      IndexType             kd,
+      IndexType             nRhs,
       std::complex<double>  *Ab,
       IndexType             ldAb,
       std::complex<double>  *Afb,
@@ -114,6 +229,8 @@ pbsvx(char                  fact,
       std::complex<double>  *work,
       IndexType             *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zpbsvx");
+  
     IndexType info;
     LAPACK_IMPL(zpbsvx)(&fact,
                         &uplo,

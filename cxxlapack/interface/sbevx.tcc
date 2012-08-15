@@ -44,6 +44,64 @@ sbevx(char                  jobz,
       char                  uplo,
       IndexType             n,
       IndexType             kd,
+      float                 *Ab,
+      IndexType             ldAb,
+      float                 *Q,
+      IndexType             ldQ,
+      float                 vl,
+      float                 vu,
+      IndexType             il,
+      IndexType             iu,
+      float                 abstol,
+      IndexType             &m,
+      float                 *w,
+      float                 *Z,
+      IndexType             &ldZ,
+      float                 *work,
+      IndexType             *iWork,
+      IndexType             *ifail)
+{
+    CXXLAPACK_DEBUG_OUT("ssbevx");
+ 
+    IndexType info;
+    LAPACK_IMPL(ssbevx)(&jobz,
+                        &range,
+                        &uplo,
+                        &n,
+                        &kd,
+                        Ab,
+                        &ldAb,
+                        Q,
+                        &ldQ,
+                        &vl,
+                        &vu,
+                        &il,
+                        &iu,
+                        &abstol,
+                        &m,
+                        w,
+                        Z,
+                        &ldZ,
+                        work,
+                        iWork,
+                        ifail,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+sbevx(char                  jobz,
+      char                  range,
+      char                  uplo,
+      IndexType             n,
+      IndexType             kd,
       double                *Ab,
       IndexType             ldAb,
       double                *Q,
@@ -61,6 +119,8 @@ sbevx(char                  jobz,
       IndexType             *iWork,
       IndexType             *ifail)
 {
+    CXXLAPACK_DEBUG_OUT("dsbevx");
+ 
     IndexType info;
     LAPACK_IMPL(dsbevx)(&jobz,
                         &range,
@@ -92,7 +152,6 @@ sbevx(char                  jobz,
     ASSERT(info>=0);
     return info;
 }
-
   
 } // namespace cxxlapack
 

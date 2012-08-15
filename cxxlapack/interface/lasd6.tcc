@@ -43,6 +43,72 @@ lasd6(IndexType             icompq,
       IndexType             nl,
       IndexType             nr,
       IndexType             sqre,
+      float                 *d,
+      float                 *vf,
+      float                 *vl,
+      float                 &alpha,
+      float                 &beta,
+      IndexType             *idxq,
+      IndexType             *perm,
+      IndexType             &givptr,
+      IndexType             *Givcol,
+      IndexType             ldGcol,
+      float                 *Givnum,
+      IndexType             ldGnum,
+      float                 *Poles,
+      float                 *difl,
+      float                 *difr,
+      float                 *z,
+      IndexType             &k,
+      float                 &c,
+      float                 &s,
+      float                 *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("slasd6");
+    
+    IndexType info;
+    LAPACK_IMPL(slasd6)(&icompq,
+                        &nl,
+                        &nr,
+                        &sqre,
+                        d,
+                        vf,
+                        vl,
+                        &alpha,
+                        &beta,
+                        idxq,
+                        perm,
+                        &givptr,
+                        Givcol,
+                        &ldGcol,
+                        Givnum,
+                        &ldGnum,
+                        Poles,
+                        difl,
+                        difr,
+                        z,
+                        &k,
+                        &c,
+                        &s,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+lasd6(IndexType             icompq,
+      IndexType             nl,
+      IndexType             nr,
+      IndexType             sqre,
       double                *d,
       double                *vf,
       double                *vl,
@@ -65,6 +131,8 @@ lasd6(IndexType             icompq,
       double                *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("dlasd6");
+    
     IndexType info;
     LAPACK_IMPL(dlasd6)(&icompq,
                         &nl,

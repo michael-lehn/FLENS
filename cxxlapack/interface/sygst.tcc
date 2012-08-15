@@ -42,11 +42,43 @@ IndexType
 sygst(char                  itype,
       char                  uplo,
       IndexType             n,
+      float                 *A,
+      IndexType             ldA,
+      const float           *B,
+      IndexType             ldB)
+{
+    CXXLAPACK_DEBUG_OUT("ssygst");
+ 
+    IndexType info;
+    LAPACK_IMPL(ssygst)(&itype,
+                        &uplo,
+                        &n,
+                        A,
+                        &ldA,
+                        B,
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+sygst(char                  itype,
+      char                  uplo,
+      IndexType             n,
       double                *A,
       IndexType             ldA,
       const double          *B,
       IndexType             ldB)
 {
+    CXXLAPACK_DEBUG_OUT("dsygst");
+ 
     IndexType info;
     LAPACK_IMPL(dsygst)(&itype,
                         &uplo,

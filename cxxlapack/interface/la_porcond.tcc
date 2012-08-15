@@ -38,6 +38,42 @@
 namespace cxxlapack {
 
 template <typename IndexType>
+float 
+la_porCond(char                  uplo,
+           IndexType             n,
+           const float           *A,
+           IndexType             ldA,
+           const float           *Af,
+           IndexType             ldAf,
+           IndexType             cmode,
+           const float           *c,
+           IndexType             &info,
+           float                 *work,
+           IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("sla_porcond");
+  
+    float  val = LAPACK_IMPL(sla_porcond)(&uplo,
+                                          &n,
+                                          A,
+                                          &ldA,
+                                          Af,
+                                          &ldAf,
+                                          &cmode,
+                                          c,
+                                          &info,
+                                          work,
+                                          iWork);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return val;
+}
+
+template <typename IndexType>
 double
 la_porCond(char                  uplo,
            IndexType             n,
@@ -51,8 +87,9 @@ la_porCond(char                  uplo,
            double                *work,
            IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("dla_porcond");
   
-    double val = LAPACK_IMPL(dla_porCond)(&uplo,
+    double val = LAPACK_IMPL(dla_porcond)(&uplo,
                                           &n,
                                           A,
                                           &ldA,

@@ -43,6 +43,44 @@ sbtrd(char                  vect,
       char                  uplo,
       IndexType             n,
       IndexType             kd,
+      float                 *Ab,
+      IndexType             ldAb,
+      float                 *d,
+      float                 *e,
+      float                 *Q,
+      IndexType             ldQ,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("ssbtrd");
+ 
+    IndexType info;
+    LAPACK_IMPL(ssbtrd)(&vect,
+                        &uplo,
+                        &n,
+                        &kd,
+                        Ab,
+                        &ldAb,
+                        d,
+                        e,
+                        Q,
+                        &ldQ,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+sbtrd(char                  vect,
+      char                  uplo,
+      IndexType             n,
+      IndexType             kd,
       double                *Ab,
       IndexType             ldAb,
       double                *d,
@@ -51,6 +89,8 @@ sbtrd(char                  vect,
       IndexType             ldQ,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dsbtrd");
+ 
     IndexType info;
     LAPACK_IMPL(dsbtrd)(&vect,
                         &uplo,

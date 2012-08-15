@@ -44,7 +44,8 @@ ilaslc(IndexType             m,
        const float           *A,
        IndexType             ldA)
 {
-
+    CXXLAPACK_DEBUG_OUT("ilaslc");
+    
     return LAPACK_IMPL(ilaslc)(&m,
                                &n,
                                A,

@@ -40,6 +40,48 @@ namespace cxxlapack {
 template <typename IndexType>
 IndexType
 larrj(IndexType             n,
+      const float           *d,
+      const float           *e2,
+      IndexType             ifirst,
+      IndexType             ilast,
+      float                 rtol,
+      IndexType             offset,
+      float                 *w,
+      float                 *werr,
+      float                 *work,
+      IndexType             *iWork,
+      float                 pivmin,
+      float                 spmin)
+{
+    CXXLAPACK_DEBUG_OUT("slarrj");
+    
+    IndexType info;
+    LAPACK_IMPL(slarrj)(&n,
+                        d,
+                        e2,
+                        &ifirst,
+                        &ilast,
+                        &rtol,
+                        &offset,
+                        w,
+                        werr,
+                        work,
+                        iWork,
+                        &pivmin,
+                        &spmin,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+larrj(IndexType             n,
       const double          *d,
       const double          *e2,
       IndexType             ifirst,
@@ -53,6 +95,8 @@ larrj(IndexType             n,
       double                pivmin,
       double                spmin)
 {
+    CXXLAPACK_DEBUG_OUT("dlarrj");
+    
     IndexType info;
     LAPACK_IMPL(dlarrj)(&n,
                         d,

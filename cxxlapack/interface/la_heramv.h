@@ -36,7 +36,20 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    void
+    la_heamv(IndexType                   uplo,
+             IndexType                   n,
+             float                       alpha,
+             const std::complex<float >  *A,
+             IndexType                   ldA,
+             const std::complex<float >  *x,
+             IndexType                   incx,
+             float                       beta,
+             float                       *y,
+             IndexType                   incy);
+    
 template <typename IndexType>
     void
     la_heamv(IndexType                   uplo,

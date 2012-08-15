@@ -44,6 +44,73 @@ lasd7(IndexType             icompq,
       IndexType             nr,
       IndexType             sqre,
       IndexType             &k,
+      float                 *d,
+      float                 *z,
+      float                 *zw,
+      float                 *vf,
+      float                 *vfw,
+      float                 *vl,
+      float                 *vlw,
+      float                 &alpha,
+      float                 &beta,
+      float                 *dsigma,
+      IndexType             *idx,
+      IndexType             *idxp,
+      const IndexType       *idxq,
+      IndexType             *perm,
+      IndexType             &givptr,
+      IndexType             *Givcol,
+      IndexType             ldGcol,
+      float                 *Givnum,
+      IndexType             ldGnum,
+      float                 &c,
+      float                 &s)
+{
+    CXXLAPACK_DEBUG_OUT("slasd7");
+    
+    IndexType info;
+    LAPACK_IMPL(slasd7)(&icompq,
+                        &nl,
+                        &nr,
+                        &sqre,
+                        &k,
+                        d,
+                        z,
+                        zw,
+                        vf,
+                        vfw,
+                        vl,
+                        vlw,
+                        &alpha,
+                        &beta,
+                        idx,
+                        idxp,
+                        idxq,
+                        perm,
+                        &givptr,
+                        Givcol,
+                        &ldGcol,
+                        Givnum,
+                        &ldGnum,
+                        &c,
+                        &s,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+lasd7(IndexType             icompq,
+      IndexType             nl,
+      IndexType             nr,
+      IndexType             sqre,
+      IndexType             &k,
       double                *d,
       double                *z,
       double                *zw,
@@ -66,6 +133,8 @@ lasd7(IndexType             icompq,
       double                &c,
       double                &s)
 {
+    CXXLAPACK_DEBUG_OUT("dlasd7");
+    
     IndexType info;
     LAPACK_IMPL(dlasd7)(&icompq,
                         &nl,

@@ -39,12 +39,31 @@ namespace cxxlapack {
 
 template <typename VOID>
 void
+las2 (float                 f,
+      float                 g,
+      float                 h,
+      float                 &ssmin,
+      float                 &ssmax)
+{
+    CXXLAPACK_DEBUG_OUT("slas2");
+    
+    LAPACK_IMPL(slas2) (&f,
+                        &g,
+                        &h,
+                        &ssmin,
+                        &ssmax);
+}
+
+template <typename VOID>
+void
 las2 (double                f,
       double                g,
       double                h,
       double                &ssmin,
       double                &ssmax)
 {
+    CXXLAPACK_DEBUG_OUT("dlas2");
+    
     LAPACK_IMPL(dlas2) (&f,
                         &g,
                         &h,

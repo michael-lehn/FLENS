@@ -44,6 +44,69 @@ lals0(IndexType             icomq,
       IndexType             nr,
       IndexType             sqre,
       IndexType             nRhs,
+      float                 *B,
+      IndexType             ldB,
+      float                 *Bx,
+      IndexType             ldBx,
+      const IndexType       *perm,
+      IndexType             givptr,
+      const IndexType       *Givcol,
+      IndexType             ldGcol,
+      const float           *Givnum,
+      IndexType             ldGnum,
+      const float           *Poles,
+      const float           *difl,
+      const float           *difr,
+      const float           *z,
+      IndexType             k,
+      float                 c,
+      float                 s,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("slals0");
+    
+    IndexType info;
+    LAPACK_IMPL(slals0)(&icomq,
+                        &nl,
+                        &nr,
+                        &sqre,
+                        &nRhs,
+                        B,
+                        &ldB,
+                        Bx,
+                        &ldBx,
+                        perm,
+                        givptr,
+                        Givcol,
+                        &ldGcol,
+                        Givnum,
+                        &ldGnum,
+                        Poles,
+                        difl,
+                        difr,
+                        z,
+                        &k,
+                        &c,
+                        &s,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+lals0(IndexType             icomq,
+      IndexType             nl,
+      IndexType             nr,
+      IndexType             sqre,
+      IndexType             nRhs,
       double                *B,
       IndexType             ldB,
       double                *Bx,
@@ -63,6 +126,8 @@ lals0(IndexType             icomq,
       double                s,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dlals0");
+    
     IndexType info;
     LAPACK_IMPL(dlals0)(&icomq,
                         &nl,
@@ -104,6 +169,69 @@ lals0(IndexType             icomq,
       IndexType             nr,
       IndexType             sqre,
       IndexType             nRhs,
+      std::complex<float >  *B,
+      IndexType             ldB,
+      std::complex<float >  *Bx,
+      IndexType             ldBx,
+      const IndexType       *perm,
+      IndexType             givptr,
+      const IndexType       *Givcol,
+      IndexType             ldGcol,
+      const float           *Givnum,
+      IndexType             ldGnum,
+      const float           *Poles,
+      const float           *difl,
+      const float           *difr,
+      const float           *z,
+      IndexType             k,
+      float                 c,
+      float                 s,
+      float                 *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("clals0");
+    
+    IndexType info;
+    LAPACK_IMPL(clals0)(&icomq,
+                        &nl,
+                        &nr,
+                        &sqre,
+                        &nRhs,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(Bx),
+                        &ldBx,
+                        perm,
+                        givptr,
+                        Givcol,
+                        &ldGcol,
+                        Givnum,
+                        &ldGnum,
+                        Poles,
+                        difl,
+                        difr,
+                        z,
+                        &k,
+                        &c,
+                        &s,
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+lals0(IndexType             icomq,
+      IndexType             nl,
+      IndexType             nr,
+      IndexType             sqre,
+      IndexType             nRhs,
       std::complex<double>  *B,
       IndexType             ldB,
       std::complex<double>  *Bx,
@@ -123,6 +251,8 @@ lals0(IndexType             icomq,
       double                s,
       double                *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zlals0");
+    
     IndexType info;
     LAPACK_IMPL(zlals0)(&icomq,
                         &nl,

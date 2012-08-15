@@ -44,14 +44,16 @@ ggbak(char                  job,
       IndexType             n,
       IndexType             ilo,
       IndexType             ihi,
-      const double          *lscale,
-      const double          *rscale,
+      const float           *lscale,
+      const float           *rscale,
       IndexType             m,
-      double                *V,
+      float                 *V,
       IndexType             ldV)
 {
+    CXXLAPACK_DEBUG_OUT("sggbak");
+    
     IndexType info;
-    LAPACK_IMPL(dggbak)(&job,
+    LAPACK_IMPL(sggbak)(&job,
                         &side,
                         &n,
                         &ilo,
@@ -81,9 +83,83 @@ ggbak(char                  job,
       const double          *lscale,
       const double          *rscale,
       IndexType             m,
+      double                *V,
+      IndexType             ldV)
+{
+    CXXLAPACK_DEBUG_OUT("dggbak");
+    
+    IndexType info;
+    LAPACK_IMPL(dggbak)(&job,
+                        &side,
+                        &n,
+                        &ilo,
+                        &ihi,
+                        lscale,
+                        rscale,
+                        &m,
+                        V,
+                        &ldV,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ggbak(char                  job,
+      char                  side,
+      IndexType             n,
+      IndexType             ilo,
+      IndexType             ihi,
+      const float           *lscale,
+      const float           *rscale,
+      IndexType             m,
+      std::complex<float >  *V,
+      IndexType             ldV)
+{
+    CXXLAPACK_DEBUG_OUT("cggbak");
+    
+    IndexType info;
+    LAPACK_IMPL(cggbak)(&job,
+                        &side,
+                        &n,
+                        &ilo,
+                        &ihi,
+                        lscale,
+                        rscale,
+                        &m,
+                        reinterpret_cast<float  *>(V),
+                        &ldV,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ggbak(char                  job,
+      char                  side,
+      IndexType             n,
+      IndexType             ilo,
+      IndexType             ihi,
+      const double          *lscale,
+      const double          *rscale,
+      IndexType             m,
       std::complex<double>  *V,
       IndexType             ldV)
 {
+    CXXLAPACK_DEBUG_OUT("zggbak");
+    
     IndexType info;
     LAPACK_IMPL(zggbak)(&job,
                         &side,

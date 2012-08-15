@@ -43,7 +43,8 @@ zsum1(IndexType                   n,
       const std::complex<double>  *cx,
       IndexType                   incx)
 {
-
+    CXXLAPACK_DEBUG_OUT("dzsum1");
+ 
     return LAPACK_IMPL(dzsum1)(&n,
                                reinterpret_cast<const double *>(cx),
                                &incx);

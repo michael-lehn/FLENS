@@ -44,6 +44,46 @@ unmrq(char                        side,
       IndexType                   m,
       IndexType                   n,
       IndexType                   k,
+      const std::complex<float >  *A,
+      IndexType                   ldA,
+      const std::complex<float >  *tau,
+      std::complex<float >        *C,
+      IndexType                   ldC,
+      std::complex<float >        *work,
+      IndexType                   lWork)
+{
+    CXXLAPACK_DEBUG_OUT("cunmrq");
+ 
+    IndexType info;
+    LAPACK_IMPL(cunmrq)(&side,
+                        &trans,
+                        &m,
+                        &n,
+                        &k,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        reinterpret_cast<const float  *>(tau),
+                        reinterpret_cast<float  *>(C),
+                        &ldC,
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+unmrq(char                        side,
+      char                        trans,
+      IndexType                   m,
+      IndexType                   n,
+      IndexType                   k,
       const std::complex<double>  *A,
       IndexType                   ldA,
       const std::complex<double>  *tau,
@@ -52,6 +92,8 @@ unmrq(char                        side,
       std::complex<double>        *work,
       IndexType                   lWork)
 {
+    CXXLAPACK_DEBUG_OUT("zunmrq");
+ 
     IndexType info;
     LAPACK_IMPL(zunmrq)(&side,
                         &trans,

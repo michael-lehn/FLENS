@@ -44,12 +44,38 @@ template <typename IndexType>
           IndexType             n,
           IndexType             ilo,
           IndexType             ihi,
+          const float           *lscale,
+          const float           *rscale,
+          IndexType             m,
+          float                 *V,
+          IndexType             ldV);
+    
+template <typename IndexType>
+    IndexType
+    ggbak(char                  job,
+          char                  side,
+          IndexType             n,
+          IndexType             ilo,
+          IndexType             ihi,
           const double          *lscale,
           const double          *rscale,
           IndexType             m,
           double                *V,
           IndexType             ldV);
-
+    
+template <typename IndexType>
+    IndexType
+    ggbak(char                  job,
+          char                  side,
+          IndexType             n,
+          IndexType             ilo,
+          IndexType             ihi,
+          const float           *lscale,
+          const float           *rscale,
+          IndexType             m,
+          std::complex<float >  *V,
+          IndexType             ldV);
+    
 template <typename IndexType>
     IndexType
     ggbak(char                  job,

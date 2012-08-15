@@ -41,7 +41,19 @@ template <typename IndexType>
     IndexType
     pptri(char                  uplo,
           IndexType             n,
+          float                 *Ap);
+
+template <typename IndexType>
+    IndexType
+    pptri(char                  uplo,
+          IndexType             n,
           double                *Ap);
+    
+template <typename IndexType>
+    IndexType
+    pptri(char                  uplo,
+          IndexType             n,
+          std::complex<float >  *Ap);
 
 template <typename IndexType>
     IndexType

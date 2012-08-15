@@ -41,13 +41,35 @@ template <typename IndexType>
     IndexType
     pstf2(char                  uplo,
           IndexType             n,
+          float                 *A,
+          IndexType             ldA,
+          IndexType             *iPiv,
+          IndexType             &rank,
+          float                 tol,
+          float                 *work);
+    
+template <typename IndexType>
+    IndexType
+    pstf2(char                  uplo,
+          IndexType             n,
           double                *A,
           IndexType             ldA,
           IndexType             *iPiv,
           IndexType             &rank,
           double                tol,
           double                *work);
-
+    
+template <typename IndexType>
+    IndexType
+    pstf2(char                  uplo,
+          IndexType             n,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          IndexType             *iPiv,
+          IndexType             &rank,
+          float                 tol,
+          float                 *work);
+    
 template <typename IndexType>
     IndexType
     pstf2(char                  uplo,

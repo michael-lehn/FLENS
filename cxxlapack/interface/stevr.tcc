@@ -42,6 +42,60 @@ IndexType
 stevr(char                  jobz,
       char                  range,
       IndexType             n,
+      float                 *d,
+      float                 *e,
+      float                 vl,
+      float                 vu,
+      IndexType             il,
+      IndexType             iu,
+      float                 abstol,
+      IndexType             &m,
+      float                 *w,
+      float                 *Z,
+      IndexType             ldZ,
+      IndexType             *isuppz,
+      float                 *work,
+      IndexType             lWork,
+      IndexType             *iWork,
+      IndexType             liWork)
+{
+    CXXLAPACK_DEBUG_OUT("sstevr");
+ 
+    IndexType info;
+    LAPACK_IMPL(sstevr)(&jobz,
+                        &range
+                        &n,
+                        d,
+                        e,
+                        &vl,
+                        &vu,
+                        &il,
+                        &iu,
+                        &abstol,
+                        &m,
+                        w,
+                        Z,
+                        &ldZ,
+                        isuppz,
+                        work,
+                        &lWork,
+                        iWork,
+                        &liWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+stevr(char                  jobz,
+      char                  range,
+      IndexType             n,
       double                *d,
       double                *e,
       double                vl,
@@ -59,6 +113,8 @@ stevr(char                  jobz,
       IndexType             *iWork,
       IndexType             liWork)
 {
+    CXXLAPACK_DEBUG_OUT("dstevr");
+ 
     IndexType info;
     LAPACK_IMPL(dstevr)(&jobz,
                         &range

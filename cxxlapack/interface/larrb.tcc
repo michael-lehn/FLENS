@@ -40,6 +40,53 @@ namespace cxxlapack {
 template <typename IndexType>
 IndexType
 larrb(IndexType             n,
+      const float           *d,
+      const float           *lld,
+      IndexType             ifirst,
+      IndexType             ilast,
+      float                 rtol1,
+      float                 rtol2,
+      float                 offset,
+      float                 *w,
+      float                 *wap,
+      float                 *werr,
+      float                 *work,
+      IndexType             *iWork,
+      float                 pivmin,
+      float                 spdiam,
+      IndexType             twist)
+{
+    IndexType info;
+    LAPACK_IMPL(slarrb)(&n,
+                        d,
+                        lld,
+                        &ifirst,
+                        &ilast,
+                        &rtol1,
+                        &rtol2,
+                        &offset,
+                        w,
+                        wap,
+                        werr,
+                        work,
+                        iWork,
+                        &pivmin,
+                        &spdiam,
+                        &twist,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+larrb(IndexType             n,
       const double          *d,
       const double          *lld,
       IndexType             ifirst,

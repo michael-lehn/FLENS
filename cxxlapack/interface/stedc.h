@@ -41,12 +41,41 @@ template <typename IndexType>
     IndexType
     stedc(char                  compz,
           IndexType             n,
+          float                 *d,
+          float                 *e,
+          float                 *Z,
+          IndexType             ldZ,
+          float                 *work,
+          IndexType             lWork,
+          IndexType             *iWork,
+          IndexType             liWork);
+    
+    
+template <typename IndexType>
+    IndexType
+    stedc(char                  compz,
+          IndexType             n,
           double                *d,
           double                *e,
           double                *Z,
           IndexType             ldZ,
           double                *work,
           IndexType             lWork,
+          IndexType             *iWork,
+          IndexType             liWork);
+    
+template <typename IndexType>
+    IndexType
+    stedc(char                  compz,
+          IndexType             n,
+          float                 *d,
+          float                 *e,
+          std::complex<float >  *Z,
+          IndexType             ldZ,
+          std::complex<float >  *work,
+          IndexType             lWork,
+          float                 *rWork,
+          IndexType             lrWork,
           IndexType             *iWork,
           IndexType             liWork);
     

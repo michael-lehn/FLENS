@@ -44,12 +44,50 @@ opmtr(char                  side,
       char                  trans,
       IndexType             m,
       IndexType             n,
+      const float           *Ap,
+      const float           *tau,
+      float                 *C,
+      IndexType             ldC,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("sopmtr");
+  
+    IndexType info;
+    LAPACK_IMPL(sopmtr)(&side,
+                        &uplo,
+                        &trans,
+                        &m,
+                        &n,
+                        Ap,
+                        tau,
+                        C,
+                        &ldC,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+opmtr(char                  side,
+      char                  uplo,
+      char                  trans,
+      IndexType             m,
+      IndexType             n,
       const double          *Ap,
       const double          *tau,
       double                *C,
       IndexType             ldC,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dopmtr");
+  
     IndexType info;
     LAPACK_IMPL(dopmtr)(&side,
                         &uplo,

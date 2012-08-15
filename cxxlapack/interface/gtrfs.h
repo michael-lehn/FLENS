@@ -42,6 +42,28 @@ template <typename IndexType>
     gtrfs(char                  trans,
           IndexType             n,
           IndexType             nRhs,
+          const float           *dl,
+          const float           *d,
+          const float           *du,
+          const float           *dlf,
+          const float           *df,
+          const float           *duf,
+          const float           *du2,
+          const IndexType       *iPiv,
+          const float           *B,
+          IndexType             ldB,
+          float                 *X,
+          IndexType             ldX,
+          float                 *ferr,
+          float                 *berr,
+          float                 *work,
+          IndexType             *iWork);
+
+template <typename IndexType>
+    IndexType
+    gtrfs(char                  trans,
+          IndexType             n,
+          IndexType             nRhs,
           const double          *dl,
           const double          *d,
           const double          *du,
@@ -58,7 +80,29 @@ template <typename IndexType>
           double                *berr,
           double                *work,
           IndexType             *iWork);
-
+    
+template <typename IndexType>
+    IndexType
+    gtrfs(char                        trans,
+          IndexType                   n,
+          IndexType                   nRhs,
+          const std::complex<float >  *dl,
+          const std::complex<float >  *d,
+          const std::complex<float >  *du,
+          const std::complex<float >  *dlf,
+          const std::complex<float >  *df,
+          const std::complex<float >  *duf,
+          const std::complex<float >  *du2,
+          const IndexType             *iPiv,
+          const std::complex<float >  *B,
+          IndexType                   ldB,
+          std::complex<float >        *X,
+          IndexType                   ldX,
+          float                       *ferr,
+          float                       *berr,
+          std::complex<float >        *work,
+          float                       *rWork);
+    
 template <typename IndexType>
     IndexType
     gtrfs(char                        trans,

@@ -41,10 +41,39 @@ template <typename IndexType>
 IndexType
 sptri(char                  uplo,
       IndexType             n,
+      float                 *Ap,
+      const IndexType       *iPiv,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("ssptri");
+
+    IndexType info;
+    LAPACK_IMPL(ssptri)(&uplo,
+                        &n,
+                        Ap,
+                        iPiv,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+sptri(char                  uplo,
+      IndexType             n,
       double                *Ap,
       const IndexType       *iPiv,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dsptri");
+
     IndexType info;
     LAPACK_IMPL(dsptri)(&uplo,
                         &n,
@@ -65,10 +94,38 @@ template <typename IndexType>
 IndexType
 sptri(char                  uplo,
       IndexType             n,
+      std::complex<float >  *Ap,
+      const IndexType       *iPiv,
+      std::complex<float >  *work)
+{
+    CXXLAPACK_DEBUG_OUT("csptri");
+
+    IndexType info;
+    LAPACK_IMPL(csptri)(&uplo,
+                        &n,
+                        reinterpret_cast<float  *>(Ap),
+                        iPiv,
+                        reinterpret_cast<float  *>(work),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+sptri(char                  uplo,
+      IndexType             n,
       std::complex<double>  *Ap,
       const IndexType       *iPiv,
       std::complex<double>  *work)
 {
+    CXXLAPACK_DEBUG_OUT("zsptri");
+
     IndexType info;
     LAPACK_IMPL(zsptri)(&uplo,
                         &n,

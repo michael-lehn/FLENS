@@ -38,15 +38,32 @@
 namespace cxxlapack {
 
 template <typename IndexType>
-    IndexType
+    float 
+    lanhs(char                  norm,
+          IndexType             n,
+          const float           *A,
+          IndexType             ldA,
+          float                 *work);
+
+    
+template <typename IndexType>
+    double
     lanhs(char                  norm,
           IndexType             n,
           const double          *A,
           IndexType             ldA,
           double                *work);
-
+    
 template <typename IndexType>
-    IndexType
+    float 
+    lanhs(char                        norm,
+          IndexType                   n,
+          const std::complex<float >  *A,
+          IndexType                   ldA,
+          float                       *work);
+    
+template <typename IndexType>
+    double
     lanhs(char                        norm,
           IndexType                   n,
           const std::complex<double>  *A,

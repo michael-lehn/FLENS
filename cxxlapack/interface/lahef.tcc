@@ -43,12 +43,48 @@ lahef(char                  uplo,
       IndexType             n,
       IndexType             nb,
       IndexType             &kb,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      IndexType             *iPiv,
+      std::complex<float >  *W,
+      IndexType             ldW)
+{
+    CXXLAPACK_DEBUG_OUT("clahef");
+    
+    IndexType info;
+    LAPACK_IMPL(clahef)(&uplo,
+                        &n,
+                        &nb,
+                        &kb,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        iPiv,
+                        reinterpret_cast<float  *>(W),
+                        ldW,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+lahef(char                  uplo,
+      IndexType             n,
+      IndexType             nb,
+      IndexType             &kb,
       std::complex<double>  *A,
       IndexType             ldA,
       IndexType             *iPiv,
       std::complex<double>  *W,
       IndexType             ldW)
 {
+    CXXLAPACK_DEBUG_OUT("zlahef");
+  
     IndexType info;
     LAPACK_IMPL(zlahef)(&uplo,
                         &n,

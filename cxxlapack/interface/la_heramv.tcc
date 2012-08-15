@@ -41,6 +41,41 @@ template <typename IndexType>
 void
 la_heamv(IndexType                   uplo,
          IndexType                   n,
+         float                       alpha,
+         const std::complex<float >  *A,
+         IndexType                   ldA,
+         const std::complex<float >  *x,
+         IndexType                   incx,
+         float                       beta,
+         float                       *y,
+         IndexType                   incy)
+{
+    CXXLAPACK_DEBUG_OUT("cla_heamv");
+
+    IndexType info;
+    LAPACK_IMPL(cla_heamv)(&uplo,
+                           &n,
+                           &alpha,
+                           reinterpret_cast<const float  *>(A),
+                           &ldA,
+                           reinterpret_cast<const float  *>(x),
+                           &incx,
+                           &beta,
+                           y,
+                           &incy);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+void
+la_heamv(IndexType                   uplo,
+         IndexType                   n,
          double                      alpha,
          const std::complex<double>  *A,
          IndexType                   ldA,
@@ -50,6 +85,8 @@ la_heamv(IndexType                   uplo,
          double                      *y,
          IndexType                   incy)
 {
+    CXXLAPACK_DEBUG_OUT("zla_heamv");
+    
     IndexType info;
     LAPACK_IMPL(zla_heamv)(&uplo,
                            &n,

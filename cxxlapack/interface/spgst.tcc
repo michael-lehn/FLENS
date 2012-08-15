@@ -42,9 +42,37 @@ IndexType
 spgst(IndexType             itype,
       char                  uplo,
       IndexType             n,
+      float                 *Ap,
+      const float           *Bp)
+{
+    CXXLAPACK_DEBUG_OUT("sspgst");
+  
+    IndexType info;
+    LAPACK_IMPL(sspgst)(&itype,
+                        &uplo,
+                        &n,
+                        Ap,
+                        &Bp,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+spgst(IndexType             itype,
+      char                  uplo,
+      IndexType             n,
       double                *Ap,
       const double          *Bp)
 {
+    CXXLAPACK_DEBUG_OUT("dspgst");
+  
     IndexType info;
     LAPACK_IMPL(dspgst)(&itype,
                         &uplo,

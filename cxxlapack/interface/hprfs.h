@@ -36,18 +36,40 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
 template <typename IndexType>
     IndexType
-    dummy(IndexType             m,
-          IndexType             n,
-          double                *A);
-
+    hprfs(char                        uplo,
+          IndexType                   n,
+          IndexType                   nRhs,
+          const std::complex<float >  *Ap,
+          const std::complex<float >  *Afp,
+          const IndexType             *iPiv,
+          const std::complex<float >  *B,
+          IndexType                   ldB,
+          std::complex<float >        *X,
+          IndexType                   ldX,
+          float                       *ferr,
+          float                       *berr,
+          std::complex<float >        *work,
+          float                       *rWork);
+    
 template <typename IndexType>
     IndexType
-    dummy(IndexType             n,
-          IndexType             m,
-          std::complex<double>  *A);
+    hprfs(char                        uplo,
+          IndexType                   n,
+          IndexType                   nRhs,
+          const std::complex<double>  *Ap,
+          const std::complex<double>  *Afp,
+          const IndexType             *iPiv,
+          const std::complex<double>  *B,
+          IndexType                   ldB,
+          std::complex<double>        *X,
+          IndexType                   ldX,
+          double                      *ferr,
+          double                      *berr,
+          std::complex<double>        *work,
+          double                      *rWork);
 
 } // namespace cxxlapack
 

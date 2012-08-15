@@ -42,8 +42,35 @@ IndexType
 pftri(char                  transr,
       char                  uplo,
       IndexType             n,
+      float                 *A)
+{
+    CXXLAPACK_DEBUG_OUT("spftri");
+  
+    IndexType info;
+    LAPACK_IMPL(spftri)(&transr,
+                        &uplo,
+                        &n,
+                        A,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+pftri(char                  transr,
+      char                  uplo,
+      IndexType             n,
       double                *A)
 {
+    CXXLAPACK_DEBUG_OUT("dpftri");
+  
     IndexType info;
     LAPACK_IMPL(dpftri)(&transr,
                         &uplo,
@@ -64,8 +91,34 @@ IndexType
 pftri(char                  transr,
       char                  uplo,
       IndexType             n,
+      std::complex<float >  *A)
+{
+    CXXLAPACK_DEBUG_OUT("cpftri");
+  
+    IndexType info;
+    LAPACK_IMPL(cpftri)(&transr,
+                        &uplo,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+pftri(char                  transr,
+      char                  uplo,
+      IndexType             n,
       std::complex<double>  *A)
 {
+    CXXLAPACK_DEBUG_OUT("zpftri");
+  
     IndexType info;
     LAPACK_IMPL(zpftri)(&transr,
                         &uplo,

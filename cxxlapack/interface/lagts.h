@@ -36,7 +36,19 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    lagts(IndexType             job,
+          IndexType             n,
+          const float           *a,
+          const float           *b,
+          const float           *c,
+          const float           *d,
+          const IndexType       *in,
+          float                 *y,
+          float                 &tol);
+    
 template <typename IndexType>
     IndexType
     lagts(IndexType             job,

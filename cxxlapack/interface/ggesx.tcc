@@ -44,6 +44,70 @@ ggesx(char                  jobvsl,
       char                  sort,
       bool                  selctg,
       IndexType             n,
+      float                 *A,
+      IndexType             ldA,
+      float                 *B,
+      IndexType             ldB,
+      IndexType             &sdim,
+      float                 *alpha,
+      float                 *beta,
+      float                 *Vsl,
+      IndexType             ldVsl,
+      float                 *Vsr,
+      IndexType             ldVsr,
+      float                 *rConde,
+      float                 *rCondv,
+      float                 *work,
+      IndexType             lWork,
+      IndexType             *iWork,
+      IndexType             liWork,
+      bool                  *bwork)
+{
+    CXXLAPACK_DEBUG_OUT("sggesx");
+    
+    IndexType info;
+    IndexType _selctg = selctg;
+    // TODO: Convert bwork into a logical array!
+    LAPACK_IMPL(sggesx)(&jobvsl,
+                        &jobvsr,
+                        &sort,
+                        &_selctg,
+                        &n,
+                        A,
+                        &ldA,
+                        B,
+                        &ldB,
+                        &sdim,
+                        alpha,
+                        beta,
+                        Vsl,
+                        &ldVsl,
+                        Vsr,
+                        &ldVsr,
+                        rConde,
+                        rCondv,
+                        work,
+                        &lWork,
+                        iWork,
+                        liWork,
+                        bwork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ggesx(char                  jobvsl,
+      char                  jobvsr,
+      char                  sort,
+      bool                  selctg,
+      IndexType             n,
       double                *A,
       IndexType             ldA,
       double                *B,
@@ -63,6 +127,8 @@ ggesx(char                  jobvsl,
       IndexType             liWork,
       bool                  *bwork)
 {
+    CXXLAPACK_DEBUG_OUT("dggesx");
+    
     IndexType info;
     IndexType _selctg = selctg;
     // TODO: Convert bwork into a logical array!
@@ -106,6 +172,72 @@ ggesx(char                  jobvsl,
       char                  sort,
       bool                  selctg,
       IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      std::complex<float >  *B,
+      IndexType             ldB,
+      IndexType             &sdim,
+      std::complex<float >  *alpha,
+      std::complex<float >  *beta,
+      std::complex<float >  *Vsl,
+      IndexType             ldVsl,
+      std::complex<float >  *Vsr,
+      IndexType             ldVsr,
+      float                 *rConde,
+      float                 *rCondv,
+      std::complex<float >  *work,
+      IndexType             lWork,
+      float                 rWork,
+      IndexType             *iWork,
+      IndexType             liWork,
+      bool                  *bwork)
+{
+    CXXLAPACK_DEBUG_OUT("cggesx");
+    
+    IndexType info;
+    IndexType _selctg = selctg;
+    // TODO: Convert bwork into a logical array!
+    LAPACK_IMPL(cggesx)(&jobvsl,
+                        &jobvsr,
+                        &sort,
+                        &_selctg,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        &sdim,
+                        reinterpret_cast<float  *>(alpha),
+                        reinterpret_cast<float  *>(beta),
+                        reinterpret_cast<float  *>(Vsl),
+                        &ldVsl,
+                        reinterpret_cast<float  *>(Vsr),
+                        &ldVsr,
+                        rConde,
+                        rCondv,
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        rWork,
+                        iWork,
+                        &liWork,
+                        bwork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ggesx(char                  jobvsl,
+      char                  jobvsr,
+      char                  sort,
+      bool                  selctg,
+      IndexType             n,
       std::complex<double>  *A,
       IndexType             ldA,
       std::complex<double>  *B,
@@ -126,6 +258,8 @@ ggesx(char                  jobvsl,
       IndexType             liWork,
       bool                  *bwork)
 {
+    CXXLAPACK_DEBUG_OUT("zggesx");
+    
     IndexType info;
     IndexType _selctg = selctg;
     // TODO: Convert bwork into a logical array!

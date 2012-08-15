@@ -42,6 +42,30 @@ template <typename IndexType>
 void
 laqhe(char                  uplo,
       IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      const float           *s,
+      float                 scond,
+      float                 amax,
+      char                  &equed)
+{
+    CXXLAPACK_DEBUG_OUT("claqhe");
+ 
+    LAPACK_IMPL(claqhe)(&uplo,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        s,
+                        &scond,
+                        &amax,
+                        &equed);
+
+}
+
+template <typename IndexType>
+void
+laqhe(char                  uplo,
+      IndexType             n,
       std::complex<double>  *A,
       IndexType             ldA,
       const double          *s,
@@ -49,7 +73,8 @@ laqhe(char                  uplo,
       double                amax,
       char                  &equed)
 {
-
+    CXXLAPACK_DEBUG_OUT("zlaqhe");
+ 
     LAPACK_IMPL(zlaqhe)(&uplo,
                         &n,
                         reinterpret_cast<double *>(A),

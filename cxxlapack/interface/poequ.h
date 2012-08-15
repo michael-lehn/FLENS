@@ -40,11 +40,29 @@ namespace cxxlapack {
 template <typename IndexType>
     IndexType
     poequ(IndexType             n,
+          const float           *A,
+          IndexType             ldA,
+          float                 *s,
+          float                 &scond,
+          float                 &amax);
+    
+template <typename IndexType>
+    IndexType
+    poequ(IndexType             n,
           const double          *A,
           IndexType             ldA,
           double                *s,
           double                &scond,
           double                &amax);
+    
+template <typename IndexType>
+    IndexType
+    poequ(IndexType                   n,
+          const std::complex<float >  *A,
+          IndexType                   ldA,
+          float                       *s,
+          float                       &scond,
+          float                       &amax);
 
 template <typename IndexType>
     IndexType

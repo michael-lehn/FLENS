@@ -36,7 +36,15 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename VOID=void>
+    void
+    las2 (float                 f,
+          float                 g,
+          float                 h,
+          float                 &ssmin,
+          float                 &ssmax);
+    
 template <typename VOID=void>
     void
     las2 (double                f,

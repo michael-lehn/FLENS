@@ -40,10 +40,28 @@ namespace cxxlapack {
 template <typename IndexType>
     IndexType
     gttrf(IndexType             n,
+          float                 *dl,
+          float                 *d,
+          float                 *du,
+          float                 *du2,
+          IndexType             *iPiv);
+    
+template <typename IndexType>
+    IndexType
+    gttrf(IndexType             n,
           double                *dl,
           double                *d,
           double                *du,
           double                *du2,
+          IndexType             *iPiv);
+    
+template <typename IndexType>
+    IndexType
+    gttrf(IndexType             n,
+          std::complex<float >  *dl,
+          std::complex<float >  *d,
+          std::complex<float >  *du,
+          std::complex<float >  *du2,
           IndexType             *iPiv);
 
 template <typename IndexType>

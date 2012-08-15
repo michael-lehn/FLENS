@@ -36,16 +36,38 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
 template <typename IndexType>
     IndexType
     spcon(char                        uplo,
           IndexType                   n,
-          const std::complex<double>  *Ap,
+          const float                 *Ap,
+          IndexType                   *iPiv,
+          float                       anorm,
+          float                       &rCond,
+          std::complex<float >        *work,
+          IndexType                   *iWork);
+    
+template <typename IndexType>
+    IndexType
+    spcon(char                        uplo,
+          IndexType                   n,
+          const double                *Ap,
           IndexType                   *iPiv,
           double                      anorm,
           double                      &rCond,
-          std::complex<double>        *work);
+          double                      *work,
+          IndexType                   *iWork);
+    
+template <typename IndexType>
+    IndexType
+    spcon(char                        uplo,
+          IndexType                   n,
+          const std::complex<float >  *Ap,
+          IndexType                   *iPiv,
+          float                       anorm,
+          float                       &rCond,
+          std::complex<float >        *work);
 
 template <typename IndexType>
     IndexType

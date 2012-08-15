@@ -42,6 +42,27 @@ template <typename IndexType>
     stemr(char                  jobz,
           char                  range,
           IndexType             n,
+          float                 *d,
+          float                 *e,
+          float                 vl,
+          float                 vu,
+          IndexType             il,
+          IndexType             iu,
+          IndexType             &m,
+          float                 *w,
+          float                 *Z,
+          IndexType             ldZ,
+          IndexType             nzc,
+          IndexType             *isuppz,
+          bool                  tryrac,
+          float                 *work,
+          IndexType             lWork);
+    
+template <typename IndexType>
+    IndexType
+    stemr(char                  jobz,
+          char                  range,
+          IndexType             n,
           double                *d,
           double                *e,
           double                vl,
@@ -57,6 +78,29 @@ template <typename IndexType>
           bool                  tryrac,
           double                *work,
           IndexType             lWork);
+    
+template <typename IndexType>
+    IndexType
+    stemr(char                  jobz,
+          char                  range,
+          IndexType             n,
+          float                 *d,
+          float                 *e,
+          float                 vl,
+          float                 vu,
+          IndexType             il,
+          IndexType             iu,
+          IndexType             &m,
+          float                 *w,
+          std::complex<float >  *Z,
+          IndexType             ldZ,
+          IndexType             nzc,
+          IndexType             *isuppz,
+          bool                  tryrac,
+          float                 *work,
+          IndexType             lWork,
+          IndexType             *iWork,
+          IndexType             liWork);
 
 template <typename IndexType>
     IndexType    

@@ -42,10 +42,40 @@ IndexType
 ppsv (char                  uplo,
       IndexType             n,
       IndexType             nRhs,
+      float                 *Ap,
+      float                 *B,
+      IndexType             ldB)
+{
+    CXXLAPACK_DEBUG_OUT("sppsv");
+  
+    IndexType info;
+    LAPACK_IMPL(sppsv) (&uplo,
+                        &n,
+                        &nRhs,
+                        Ap,
+                        B,
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ppsv (char                  uplo,
+      IndexType             n,
+      IndexType             nRhs,
       double                *Ap,
       double                *B,
       IndexType             ldB)
 {
+    CXXLAPACK_DEBUG_OUT("dppsv");
+  
     IndexType info;
     LAPACK_IMPL(dppsv) (&uplo,
                         &n,
@@ -63,6 +93,33 @@ ppsv (char                  uplo,
     return info;
 }
 
+template <typename IndexType>
+IndexType
+ppsv (char                  uplo,
+      IndexType             n,
+      IndexType             nRhs,
+      std::complex<float >  *Ap,
+      std::complex<float >  *B,
+      IndexType             ldB)
+{
+    CXXLAPACK_DEBUG_OUT("cppsv");
+  
+    IndexType info;
+    LAPACK_IMPL(cppsv) (&uplo,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<float  *>(Ap),
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
 
 template <typename IndexType>
 IndexType
@@ -73,6 +130,8 @@ ppsv (char                  uplo,
       std::complex<double>  *B,
       IndexType             ldB)
 {
+    CXXLAPACK_DEBUG_OUT("zppsv");
+  
     IndexType info;
     LAPACK_IMPL(zppsv) (&uplo,
                         &n,

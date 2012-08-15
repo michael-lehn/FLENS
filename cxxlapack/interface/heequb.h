@@ -36,7 +36,18 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    heequb(char                        uplo,
+           IndexType                   n,
+           const std::complex<float >  *A,
+           IndexType                   ldA,
+           float                       *s,
+           float                       &rCond,
+           float                       &amax,
+           std::complex<float >        *work);
+    
 template <typename IndexType>
     IndexType
     heequb(char                        uplo,

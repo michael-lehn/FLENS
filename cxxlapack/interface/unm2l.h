@@ -36,7 +36,21 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    unm2l(char                        side,
+          char                        trans,
+          IndexType                   m,
+          IndexType                   n,
+          IndexType                   k,
+          const std::complex<float >  *A,
+          IndexType                   ldA,
+          const std::complex<float >  *tau,
+          std::complex<float >        *C,
+          IndexType                   ldC,
+          std::complex<float >        *work);
+    
 template <typename IndexType>
     IndexType
     unm2l(char                        side,

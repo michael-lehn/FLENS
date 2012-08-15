@@ -43,11 +43,32 @@ double
 lanhe(char                        norm,
       char                        uplo,
       IndexType                   n,
+      const std::complex<float >  *A,
+      IndexType                   ldA,
+      float                       *work)
+{
+    CXXLAPACK_DEBUG_OUT("clanhe");
+   
+    return LAPACK_IMPL(clanhe)(&norm,
+                               &uplo,
+                               &n,
+                               reinterpret_cast<const float  *>(A),
+                               &ldA,
+                               work);
+
+}
+
+template <typename IndexType>
+double
+lanhe(char                        norm,
+      char                        uplo,
+      IndexType                   n,
       const std::complex<double>  *A,
       IndexType                   ldA,
       double                      *work)
 {
-
+    CXXLAPACK_DEBUG_OUT("zlanhe");
+   
     return LAPACK_IMPL(zlanhe)(&norm,
                                &uplo,
                                &n,

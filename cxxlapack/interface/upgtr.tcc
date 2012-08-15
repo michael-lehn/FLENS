@@ -41,12 +41,44 @@ template <typename IndexType>
 IndexType
 upgtr(char                        uplo,
       IndexType                   n,
+      const std::complex<float >  *Ap,
+      const std::complex<float >  *tau,
+      std::complex<float >        *Q,
+      IndexType                   ldQ,
+      std::complex<float >        *work)
+{
+    CXXLAPACK_DEBUG_OUT("cupgtr");
+ 
+    IndexType info;
+    LAPACK_IMPL(cupgtr)(&uplo,
+                        &n,
+                        reinterpret_cast<const float  *>(Ap),
+                        reinterpret_cast<const float  *>(tau),
+                        reinterpret_cast<float  *>(Q),
+                        &ldQ,
+                        reinterpret_cast<float  *>(work),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+upgtr(char                        uplo,
+      IndexType                   n,
       const std::complex<double>  *Ap,
       const std::complex<double>  *tau,
       std::complex<double>        *Q,
       IndexType                   ldQ,
       std::complex<double>        *work)
 {
+    CXXLAPACK_DEBUG_OUT("zupgtr");
+ 
     IndexType info;
     LAPACK_IMPL(zupgtr)(&uplo,
                         &n,

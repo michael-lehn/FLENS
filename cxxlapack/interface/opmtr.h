@@ -36,7 +36,20 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    opmtr(char                  side,
+          char                  uplo,
+          char                  trans,
+          IndexType             m,
+          IndexType             n,
+          const float           *Ap,
+          const float           *tau,
+          float                 *C,
+          IndexType             ldC,
+          float                 *work);
+    
 template <typename IndexType>
     IndexType
     opmtr(char                  side,

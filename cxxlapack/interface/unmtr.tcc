@@ -44,6 +44,46 @@ unmtr(char                        side,
       char                        trans,
       IndexType                   m,
       IndexType                   n,
+      const std::complex<float >  *A,
+      IndexType                   ldA,
+      const std::complex<float >  *tau,
+      std::complex<float >        *C,
+      IndexType                   ldC,
+      std::complex<float >        *work,
+      IndexType                   lWork)
+{
+    CXXLAPACK_DEBUG_OUT("cunmtr");
+ 
+    IndexType info;
+    LAPACK_IMPL(cunmtr)(&side,
+                        &uplo,
+                        &trans,
+                        &m,
+                        &n,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        reinterpret_cast<const float  *>(tau)
+                        reinterpret_cast<float  *>(C),
+                        &ldC,
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+unmtr(char                        side,
+      char                        uplo,
+      char                        trans,
+      IndexType                   m,
+      IndexType                   n,
       const std::complex<double>  *A,
       IndexType                   ldA,
       const std::complex<double>  *tau,
@@ -52,6 +92,8 @@ unmtr(char                        side,
       std::complex<double>        *work,
       IndexType                   lWork)
 {
+    CXXLAPACK_DEBUG_OUT("zunmtr");
+ 
     IndexType info;
     LAPACK_IMPL(zunmtr)(&side,
                         &uplo,

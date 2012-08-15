@@ -42,10 +42,30 @@ template <typename IndexType>
     sptrs(char                  uplo,
           IndexType             n,
           IndexType             nRhs,
+          const float           *Ap,
+          const IndexType       *iPiv,
+          float                 *B,
+          IndexType             ldB);
+        
+template <typename IndexType>
+    IndexType
+    sptrs(char                  uplo,
+          IndexType             n,
+          IndexType             nRhs,
           const double          *Ap,
           const IndexType       *iPiv,
           double                *B,
           IndexType             ldB);
+    
+template <typename IndexType>
+    IndexType
+    sptrs(char                       uplo,
+          IndexType                  n,
+          IndexType                  nRhs,
+          const std::complex<float > *Ap,
+          const IndexType            *iPiv,
+          std::complex<float >       *B,
+          IndexType                  ldB);
 
 template <typename IndexType>
     IndexType

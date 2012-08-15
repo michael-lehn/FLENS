@@ -36,7 +36,17 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    hptrs(char                        uplo,
+          IndexType                   n,
+          IndexType                   nRhs,
+          const std::complex<float >  *Ap,
+          const IndexType             *iPiv,
+          std::complex<float >        *B,
+          IndexType                   ldB);
+    
 template <typename IndexType>
     IndexType
     hptrs(char                        uplo,

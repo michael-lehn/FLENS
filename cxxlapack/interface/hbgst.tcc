@@ -44,6 +44,48 @@ hbgst(char                       vect,
       IndexType                  n,
       IndexType                  ka,
       IndexType                  kb,
+      std::complex<float >       *Ab,
+      IndexType                  ldAb,
+      const std::complex<float > *Bb,
+      IndexType                  ldBb,
+      std::complex<float >       *X,
+      IndexType                  ldX,
+      std::complex<float >       *work,
+      float                      *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("chbgst");
+    
+    IndexType info;
+    LAPACK_IMPL(chbgst)(&vect,
+                        &uplo,
+                        &n,
+                        &ka,
+                        &kb,
+                        reinterpret_cast<float  *>(Ab),
+                        &ldAb,
+                        reinterpret_cast<const float  *>(Bb),
+                        &ldBb,
+                        reinterpret_cast<float  *>(X),
+                        &ldX,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hbgst(char                       vect,
+      char                       uplo,
+      IndexType                  n,
+      IndexType                  ka,
+      IndexType                  kb,
       std::complex<double>       *Ab,
       IndexType                  ldAb,
       const std::complex<double> *Bb,
@@ -53,6 +95,8 @@ hbgst(char                       vect,
       std::complex<double>       *work,
       double                     *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zhbgst");
+    
     IndexType info;
     LAPACK_IMPL(zhbgst)(&vect,
                         &uplo,

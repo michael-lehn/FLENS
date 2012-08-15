@@ -47,6 +47,70 @@ tgsja(char                  jobu,
       IndexType             n,
       IndexType             k,
       IndexType             l,
+      float                 *A,
+      IndexType             ldA,
+      double                *B,
+      IndexType             ldB,
+      float                 tola,
+      float                 tolb,
+      float                 *alpha,
+      float                 *beta,
+      float                 *U,
+      IndexType             ldU,
+      float                 *V,
+      IndexType             ldV,
+      float                 *Q,
+      IndexType             ldQ,
+      float                 *work,
+      IndexType             &ncycle)
+{
+    CXXLAPACK_DEBUG_OUT("stgsja");
+ 
+    IndexType info;
+    LAPACK_IMPL(stgsja)(&jobu,
+                        &jobv,
+                        &jobq,
+                        &m,
+                        &p,
+                        &n,
+                        &k,
+                        &l,
+                        A,
+                        &ldA,
+                        B,
+                        &ldB,
+                        &tola,
+                        &tolb,
+                        alpha,
+                        beta,
+                        U,
+                        &ldU,
+                        V,
+                        &ldV,
+                        Q,
+                        &ldQ,
+                        work,
+                        &ncycle,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+tgsja(char                  jobu,
+      char                  jobv,
+      char                  jobq,
+      IndexType             m,
+      IndexType             p,
+      IndexType             n,
+      IndexType             k,
+      IndexType             l,
       double                *A,
       IndexType             ldA,
       double                *B,
@@ -64,6 +128,8 @@ tgsja(char                  jobu,
       double                *work,
       IndexType             &ncycle)
 {
+    CXXLAPACK_DEBUG_OUT("dtgsja");
+ 
     IndexType info;
     LAPACK_IMPL(dtgsja)(&jobu,
                         &jobv,
@@ -110,6 +176,70 @@ tgsja(char                  jobu,
       IndexType             n,
       IndexType             k,
       IndexType             l,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      std::complex<float >  *B,
+      IndexType             ldB,
+      double                tola,
+      double                tolb,
+      double                *alpha,
+      double                *beta,
+      std::complex<float >  *U,
+      IndexType             ldU,
+      std::complex<float >  *V,
+      IndexType             ldV,
+      std::complex<float >  *Q,
+      IndexType             ldQ,
+      std::complex<float >  *work,
+      IndexType             &ncycle)
+{
+    CXXLAPACK_DEBUG_OUT("ctgsja");
+ 
+    IndexType info;
+    LAPACK_IMPL(ctgsja)(&jobu,
+                        &jobv,
+                        &jobq,
+                        &m,
+                        &p,
+                        &n,
+                        &k,
+                        &l,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        &tola,
+                        &tolb,
+                        alpha,
+                        beta,
+                        reinterpret_cast<float  *>(U),
+                        &ldU,
+                        reinterpret_cast<float  *>(V),
+                        &ldV,
+                        reinterpret_cast<float  *>(Q),
+                        &ldQ,
+                        work,
+                        &ncycle,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+tgsja(char                  jobu,
+      char                  jobv,
+      char                  jobq,
+      IndexType             m,
+      IndexType             p,
+      IndexType             n,
+      IndexType             k,
+      IndexType             l,
       std::complex<double>  *A,
       IndexType             ldA,
       std::complex<double>  *B,
@@ -127,6 +257,8 @@ tgsja(char                  jobu,
       std::complex<double>  *work,
       IndexType             &ncycle)
 {
+    CXXLAPACK_DEBUG_OUT("ztgsja");
+ 
     IndexType info;
     LAPACK_IMPL(ztgsja)(&jobu,
                         &jobv,

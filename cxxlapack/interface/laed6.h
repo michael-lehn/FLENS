@@ -36,7 +36,17 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    laed6(IndexType             kniter,
+          bool                  orgati,
+          float                 rho,
+          const float           *d,
+          const float           *z,
+          float                 finit,
+          float                 &tau);
+    
 template <typename IndexType>
     IndexType
     laed6(IndexType             kniter,

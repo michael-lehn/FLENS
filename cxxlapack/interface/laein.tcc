@@ -42,6 +42,55 @@ IndexType
 laein(bool                  rightv,
       bool                  noinit,
       IndexType             n,
+      const float           *H,
+      IndexType             ldH,
+      const float           wr,
+      const float           wi,
+      float                 *vr,
+      float                 *vi,
+      float                 *B,
+      IndexType             ldB,
+      float                 *work,
+      float                 eps3,
+      float                 smlnum,
+      float                 bignum)
+{
+    CXXLAPACK_DEBUG_OUT("slaein");
+    
+    IndexType info;
+    IndexType _rightv = rightv;
+    IndexType _noinit = noinit;
+    LAPACK_IMPL(slaein)(&_rightv,
+                        &_noinit,
+                        &n,
+                        H,
+                        &ldH,
+                        &wr,
+                        &wi,
+                        vr,
+                        vi,
+                        B,
+                        &ldB,
+                        work,
+                        &eps3,
+                        &smlnum,
+                        &bignum,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+laein(bool                  rightv,
+      bool                  noinit,
+      IndexType             n,
       const double          *H,
       IndexType             ldH,
       const double          wr,
@@ -55,6 +104,8 @@ laein(bool                  rightv,
       double                smlnum,
       double                bignum)
 {
+    CXXLAPACK_DEBUG_OUT("dlaein");
+    
     IndexType info;
     IndexType _rightv = rightv;
     IndexType _noinit = noinit;
@@ -88,6 +139,50 @@ IndexType
 laein(bool                        rightv,
       bool                        noinit,
       IndexType                   n,
+      const std::complex<float >  *H,
+      IndexType                   ldH,
+      const std::complex<float >  w,
+      std::complex<float >        *v,
+      std::complex<float >        *B,
+      IndexType                   ldB,
+      float                       *rWork,
+      float                       eps3,
+      float                       smlnum,
+      float                       bignum)
+{
+    CXXLAPACK_DEBUG_OUT("claein");
+    
+    IndexType info;
+    IndexType _rightv = rightv;
+    IndexType _noinit = noinit;
+    LAPACK_IMPL(claein)(&_rightv,
+                        &_noinit,
+                        &n,
+                        reinterpret_cast<const float  *>(H),
+                        &ldH,
+                        reinterpret_cast<const float  *>(&w),
+                        reinterpret_cast<float  *>(v),
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        rWork,
+                        &eps3,
+                        &smlnum,
+                        &bignum,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+laein(bool                        rightv,
+      bool                        noinit,
+      IndexType                   n,
       const std::complex<double>  *H,
       IndexType                   ldH,
       const std::complex<double>  w,
@@ -99,6 +194,8 @@ laein(bool                        rightv,
       double                      smlnum,
       double                      bignum)
 {
+    CXXLAPACK_DEBUG_OUT("zlaein");
+    
     IndexType info;
     IndexType _rightv = rightv;
     IndexType _noinit = noinit;

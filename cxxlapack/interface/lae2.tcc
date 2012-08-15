@@ -39,12 +39,31 @@ namespace cxxlapack {
 
 template <typename VOID>
 void
+lae2(float                 a,
+     float                 b,
+     float                 c,
+     float                 &rt1,
+     float                 &rt2)
+{
+    CXXLAPACK_DEBUG_OUT("slae2");
+    
+    LAPACK_IMPL(slae2)(&a,
+                       &b,
+                       &c,
+                       &rt1,
+                       &rt2);
+}
+
+template <typename VOID>
+void
 lae2(double                a,
      double                b,
      double                c,
      double                &rt1,
      double                &rt2)
 {
+    CXXLAPACK_DEBUG_OUT("dlae2");
+    
     LAPACK_IMPL(dlae2)(&a,
                        &b,
                        &c,

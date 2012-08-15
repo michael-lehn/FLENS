@@ -44,6 +44,29 @@ template <typename IndexType>
           IndexType             n,
           IndexType             kd,
           IndexType             nRhs,
+          float                 *Ab,
+          IndexType             ldAb,
+          float                 *Afb,
+          IndexType             ldAfb,
+          char                  &equed,
+          float                 *s,
+          float                 *B,
+          IndexType             ldB,
+          float                 *X,
+          IndexType             ldX,
+          float                 &rCond,
+          float                 *ferr,
+          float                 *berr,
+          float                 *work,
+          IndexType             *iWork);
+    
+template <typename IndexType>
+    IndexType
+    pbsvx(char                  fact,
+          char                  uplo,
+          IndexType             n,
+          IndexType             kd,
+          IndexType             nRhs,
           double                *Ab,
           IndexType             ldAb,
           double                *Afb,
@@ -59,6 +82,29 @@ template <typename IndexType>
           double                *berr,
           double                *work,
           IndexType             *iWork);
+    
+template <typename IndexType>
+    IndexType
+    pbsvx(char                  fact,
+          char                  uplo,
+          IndexType             n,
+          IndexType             kd,
+          IndexType             nRhs,
+          std::complex<float >  *Ab,
+          IndexType             ldAb,
+          std::complex<float >  *Afb,
+          IndexType             ldAfb,
+          char                  &equed,
+          float                 *s,
+          std::complex<float >  *B,
+          IndexType             ldB,
+          std::complex<float >  *X,
+          IndexType             ldX,
+          float                 &rCond,
+          float                 *ferr,
+          float                 *berr,
+          std::complex<float >  *work,
+          IndexType             *rWork);
 
 template <typename IndexType>
     IndexType

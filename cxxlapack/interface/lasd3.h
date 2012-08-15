@@ -36,7 +36,30 @@
 #include <complex>
 
 namespace cxxlapack {
+    
+template <typename IndexType>
+    IndexType
+    lasd3(IndexType             nl,
+          IndexType             nr,
+          IndexType             sqre,
+          IndexType             k,
+          float                 *d,
+          float                 *D,
+          IndexType             ldD,
+          const float           dsigma,
+          float                 *U,
+          IndexType             ldU,
+          float                 *U2,
+          IndexType             ldU2,
+          float                 *Vt,
+          IndexType             ldVt,
+          float                 *Vt2,
+          IndexType             ldVt2,
+          const IndexType       *idxc,
+          const IndexType       *ctot,
+          const float           *z);
 
+    
 template <typename IndexType>
     IndexType
     lasd3(IndexType             nl,

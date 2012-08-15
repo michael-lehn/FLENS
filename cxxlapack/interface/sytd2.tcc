@@ -41,12 +41,44 @@ template <typename IndexType>
 IndexType
 sytd2(char                  uplo,
       IndexType             n,
+      float                 *A,
+      IndexType             ldA,
+      float                 *d,
+      float                 *e,
+      float                 *tau)
+{
+    CXXLAPACK_DEBUG_OUT("ssytd2");
+ 
+    IndexType info;
+    LAPACK_IMPL(ssytd2)(&uplo,
+                        &n,
+                        A,
+                        &ldA,
+                        d,
+                        e,
+                        tau,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+sytd2(char                  uplo,
+      IndexType             n,
       double                *A,
       IndexType             ldA,
       double                *d,
       double                *e,
       double                *tau)
 {
+    CXXLAPACK_DEBUG_OUT("dsytd2");
+ 
     IndexType info;
     LAPACK_IMPL(dsytd2)(&uplo,
                         &n,

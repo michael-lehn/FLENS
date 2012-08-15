@@ -44,6 +44,79 @@ ggevx(char                  balanc,
       char                  jobvr,
       char                  sense,
       IndexType             n,
+      float                 *A,
+      IndexType             ldA,
+      float                 *B,
+      IndexType             ldB,
+      float                 *alphar,
+      float                 *alphai,
+      float                 *beta,
+      float                 *VL,
+      IndexType             ldVL,
+      float                 *VR,
+      IndexType             ldVR,
+      IndexType             &ilo,
+      IndexType             &ihi,
+      float                 *lscale,
+      float                 *rscale,
+      float                 &abnrm,
+      float                 &bbnrm,
+      float                 *rConde,
+      float                 *rCondv,
+      float                 *work,
+      IndexType             lWork,
+      IndexType             *iWork,
+      bool                  *bwork)               
+{
+    CXXLAPACK_DEBUG_OUT("sggevx");
+    
+    IndexType info;
+    // TODO: Convert bwork into a logical array!
+    LAPACK_IMPL(sggevx)(&balanc,
+                        &jobVL,
+                        &jobvr,
+                        &sense,
+                        &n,
+                        A,
+                        &ldA,
+                        B,
+                        &ldB,
+                        alphar,
+                        alphai,
+                        beta,
+                        VL,
+                        &ldVL,
+                        VR,
+                        &ldVR,
+                        &ilo,
+                        &ihi,
+                        lscale,
+                        rscale,
+                        &abnrm,
+                        &bbnrm,
+                        rConde,
+                        rCondv,
+                        work,
+                        &lWork,
+                        iWork,
+                        bwork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ggevx(char                  balanc,
+      char                  jobVL,
+      char                  jobvr,
+      char                  sense,
+      IndexType             n,
       double                *A,
       IndexType             ldA,
       double                *B,
@@ -68,6 +141,8 @@ ggevx(char                  balanc,
       IndexType             *iWork,
       bool                  *bwork)               
 {
+    CXXLAPACK_DEBUG_OUT("dggevx");
+    
     IndexType info;
     // TODO: Convert bwork into a logical array!
     LAPACK_IMPL(dggevx)(&balanc,
@@ -108,6 +183,78 @@ ggevx(char                  balanc,
     return info;
 }
 
+template <typename IndexType>
+IndexType
+ggevx(char                  balanc,
+      char                  jobVL,
+      char                  jobvr,
+      char                  sense,
+      IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      std::complex<float >  *B,
+      IndexType             ldB,
+      std::complex<float >  *alpha,
+      std::complex<float >  *beta,
+      std::complex<float >  *VL,
+      IndexType             ldVL,
+      std::complex<float >  *VR,
+      IndexType             ldVR,
+      IndexType             &ilo,
+      IndexType             &ihi,
+      float                 *lscale,
+      float                 *rscale,
+      float                 &abnrm,
+      float                 &bbnrm,
+      float                 *rConde,
+      float                 *rCondv,
+      std::complex<float >  *work,
+      IndexType             lWork,
+      float                 *rWork,
+      IndexType             *iWork,
+      bool                  *bwork)               
+{
+    CXXLAPACK_DEBUG_OUT("cggevx");
+    
+    IndexType info;
+    // TODO: Convert bwork into a logical array!
+    LAPACK_IMPL(cggevx)(&balanc,
+                        &jobVL,
+                        &jobvr,
+                        &sense,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(alpha),
+                        reinterpret_cast<float  *>(beta),
+                        reinterpret_cast<float  *>(VL),
+                        &ldVL,
+                        reinterpret_cast<float  *>(VR),
+                        &ldVR,
+                        &ilo,
+                        &ihi,
+                        lscale,
+                        rscale,
+                        &abnrm,
+                        &bbnrm,
+                        rConde,
+                        rCondv,
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        rWork,
+                        iWork,
+                        bwork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
 
 template <typename IndexType>
 IndexType
@@ -140,6 +287,9 @@ ggevx(char                  balanc,
       IndexType             *iWork,
       bool                  *bwork)               
 {
+
+    CXXLAPACK_DEBUG_OUT("zggevx");
+    
     IndexType info;
     // TODO: Convert bwork into a logical array!
     LAPACK_IMPL(zggevx)(&balanc,

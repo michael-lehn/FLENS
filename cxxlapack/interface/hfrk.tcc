@@ -37,6 +37,43 @@
 
 namespace cxxlapack {
 
+
+template <typename IndexType>
+IndexType
+hfrk (char                        transr,
+      char                        uplo,
+      char                        trans,
+      IndexType                   n,
+      IndexType                   k,
+      float                       alpha,
+      const std::complex<float >  *A,
+      IndexType                   ldA,
+      float                       beta,
+      std::complex<float >        *C)
+{
+    CXXLAPACK_DEBUG_OUT("chfrk");
+    
+    IndexType info;
+    LAPACK_IMPL(chfrk)(&transr,
+                       &uplo,
+                       &trans,
+                       &n,
+                       &k,
+                       &alpha,
+                       reinterpret_cast<const float  *>(A),
+                       &ldA,
+                       &beta,
+                       reinterpret_cast<float  *>(C),
+                       &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
 template <typename IndexType>
 IndexType
 hfrk (char                        transr,
@@ -50,6 +87,8 @@ hfrk (char                        transr,
       double                      beta,
       std::complex<double>        *C)
 {
+    CXXLAPACK_DEBUG_OUT("zhfrk");
+    
     IndexType info;
     LAPACK_IMPL(zhfrk)(&transr,
                        &uplo,

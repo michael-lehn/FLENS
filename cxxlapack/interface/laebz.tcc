@@ -45,6 +45,59 @@ laebz(IndexType             ijob,
       IndexType             mmax,
       IndexType             minp,
       IndexType             nbmin,
+      float                 abstol,
+      float                  reltol,
+      float                 pivmin,
+      const float           *d,
+      const float           *e,
+      const float           *e2,
+      IndexType             *nval,
+      float                 *Ab,
+      float                 *c,
+      IndexType             &mout,
+      IndexType             *NAb,
+      float                 *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("slaebz");
+    
+    IndexType info;
+    LAPACK_IMPL(slaebz)(&ijob,
+                        &nitmax,
+                        &n,
+                        &mmax,
+                        &minp,
+                        &nbmin,
+                        &abstol,
+                        &reltol,
+                        &pivmin,
+                        d,
+                        e,
+                        e2,
+                        nval,
+                        Ab,
+                        c,
+                        &mout,
+                        NAb,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+template <typename IndexType>
+IndexType
+laebz(IndexType             ijob,
+      IndexType             nitmax,
+      IndexType             n,
+      IndexType             mmax,
+      IndexType             minp,
+      IndexType             nbmin,
       double                abstol,
       double                reltol,
       double                pivmin,
@@ -59,6 +112,8 @@ laebz(IndexType             ijob,
       double                *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("dlaebz");
+    
     IndexType info;
     LAPACK_IMPL(dlaebz)(&ijob,
                         &nitmax,

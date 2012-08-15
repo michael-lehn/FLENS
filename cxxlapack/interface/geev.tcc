@@ -44,6 +44,47 @@ IndexType
 geev(char           jobVL,
      char           jobVR,
      IndexType      n,
+     float          *A,
+     IndexType      ldA,
+     float          *wr,
+     float          *wi,
+     float          *VL,
+     IndexType      ldVL,
+     float          *VR,
+     IndexType      ldVR,
+     float          *work,
+     IndexType      lWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgeev");
+    LAPACK_IMPL(sgeev)(&jobVL,
+                       &jobVR,
+                       &n,
+                       A,
+                       &ldA,
+                       wr,
+                       wi,
+                       VL,
+                       &ldVL,
+                       VR,
+                       &ldVR,
+                       work,
+                       &lWork,
+                       &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+geev(char           jobVL,
+     char           jobVR,
+     IndexType      n,
      double         *A,
      IndexType      ldA,
      double         *wr,
@@ -56,7 +97,7 @@ geev(char           jobVL,
      IndexType      lWork)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("dgeev");
+    CXXLAPACK_DEBUG_OUT("dgeev");
     LAPACK_IMPL(dgeev)(&jobVL,
                        &jobVR,
                        &n,
@@ -85,6 +126,47 @@ IndexType
 geev(char                   jobVL,
      char                   jobVR,
      IndexType              n,
+     std::complex<float >   *A,
+     IndexType              ldA,
+     std::complex<float >   *w,
+     std::complex<float >   *VL,
+     IndexType              ldVL,
+     std::complex<float >   *VR,
+     IndexType              ldVR,
+     std::complex<float >   *work,
+     IndexType              lWork,
+     float                  *rWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgeev");
+    LAPACK_IMPL(cgeev)(&jobVL,
+                       &jobVR,
+                       &n,
+                       reinterpret_cast<float  *>(A),
+                       &ldA,
+                       reinterpret_cast<float  *>(w),
+                       reinterpret_cast<float  *>(VL),
+                       &ldVL,
+                       reinterpret_cast<float  *>(VR),
+                       &ldVR,
+                       reinterpret_cast<float  *>(work),
+                       &lWork,
+                       rWork,
+                       &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+geev(char                   jobVL,
+     char                   jobVR,
+     IndexType              n,
      std::complex<double>   *A,
      IndexType              ldA,
      std::complex<double>   *w,
@@ -97,7 +179,7 @@ geev(char                   jobVL,
      double                 *rWork)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("zgeev");
+    CXXLAPACK_DEBUG_OUT("zgeev");
     LAPACK_IMPL(zgeev)(&jobVL,
                        &jobVR,
                        &n,

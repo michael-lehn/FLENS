@@ -47,6 +47,66 @@ ggsvd(char                  jobu,
       IndexType             p,
       IndexType             &k,
       IndexType             &l,
+      float                 *A,
+      IndexType             ldA,
+      float                 *B,
+      IndexType             ldB,
+      float                 *alpha,
+      float                 *beta,
+      float                 *U,
+      IndexType             ldU,
+      float                 *V,
+      IndexType             ldV,
+      float                 *Q,
+      IndexType             ldQ,
+      float                 *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("sggsvd");
+    
+    IndexType info;
+    LAPACK_IMPL(sggsvd)(&jobu,
+                        &jobv,
+                        &jobq,
+                        &m,
+                        &n,
+                        &p,
+                        &k,
+                        &l,
+                        A,
+                        &ldA,
+                        B,
+                        &ldB,
+                        alpha,
+                        beta,
+                        U,
+                        &ldU,
+                        V,
+                        &ldV,
+                        Q,
+                        &ldQ,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ggsvd(char                  jobu,
+      char                  jobv,
+      char                  jobq,
+      IndexType             m,
+      IndexType             n,
+      IndexType             p,
+      IndexType             &k,
+      IndexType             &l,
       double                *A,
       IndexType             ldA,
       double                *B,
@@ -62,6 +122,8 @@ ggsvd(char                  jobu,
       double                *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("dggsvd");
+    
     IndexType info;
     LAPACK_IMPL(dggsvd)(&jobu,
                         &jobv,
@@ -105,6 +167,68 @@ ggsvd(char                  jobu,
       IndexType             p,
       IndexType             &k,
       IndexType             &l,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      std::complex<float >  *B,
+      IndexType             ldB,
+      float                 *alpha,
+      float                 *beta,
+      std::complex<float >  *U,
+      IndexType             ldU,
+      std::complex<float >  *V,
+      IndexType             ldV,
+      std::complex<float >  *Q,
+      IndexType             ldQ,
+      std::complex<float >  *work,
+      float                 *rWork,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("cggsvd");
+    
+    IndexType info;
+    LAPACK_IMPL(cggsvd)(&jobu,
+                        &jobv,
+                        &jobq,
+                        &m,
+                        &n,
+                        &p,
+                        &k,
+                        &l,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        alpha,
+                        beta,
+                        reinterpret_cast<float  *>(U),
+                        &ldU,
+                        reinterpret_cast<float  *>(V),
+                        &ldV,
+                        reinterpret_cast<float  *>(Q),
+                        &ldQ,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ggsvd(char                  jobu,
+      char                  jobv,
+      char                  jobq,
+      IndexType             m,
+      IndexType             n,
+      IndexType             p,
+      IndexType             &k,
+      IndexType             &l,
       std::complex<double>  *A,
       IndexType             ldA,
       std::complex<double>  *B,
@@ -121,6 +245,8 @@ ggsvd(char                  jobu,
       double                *rWork,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("zggsvd");
+    
     IndexType info;
     LAPACK_IMPL(zggsvd)(&jobu,
                         &jobv,

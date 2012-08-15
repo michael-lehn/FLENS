@@ -41,6 +41,38 @@ template <typename IndexType>
 IndexType
 pstf2(char                  uplo,
       IndexType             n,
+      float                 *A,
+      IndexType             ldA,
+      IndexType             *iPiv,
+      IndexType             &rank,
+      float                 tol,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("spstf2");
+ 
+    IndexType info;
+    LAPACK_IMPL(spstf2)(&uplo,
+                        &n,
+                        A,
+                        &ldA,
+                        iPiv,
+                        &rank,
+                        &tol,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+pstf2(char                  uplo,
+      IndexType             n,
       double                *A,
       IndexType             ldA,
       IndexType             *iPiv,
@@ -48,10 +80,44 @@ pstf2(char                  uplo,
       double                tol,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("dpstf2");
+ 
     IndexType info;
     LAPACK_IMPL(dpstf2)(&uplo,
                         &n,
                         A,
+                        &ldA,
+                        iPiv,
+                        &rank,
+                        &tol,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+pstf2(char                  uplo,
+      IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      IndexType             *iPiv,
+      IndexType             &rank,
+      float                 tol,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("cpstf2");
+ 
+    IndexType info;
+    LAPACK_IMPL(cpstf2)(&uplo,
+                        &n,
+                        reinterpret_cast<float  *>(A),
                         &ldA,
                         iPiv,
                         &rank,
@@ -78,6 +144,8 @@ pstf2(char                  uplo,
       double                tol,
       double                *work)
 {
+    CXXLAPACK_DEBUG_OUT("zpstf2");
+ 
     IndexType info;
     LAPACK_IMPL(zpstf2)(&uplo,
                         &n,

@@ -43,6 +43,43 @@ gbequ(IndexType             m,
       IndexType             n,
       IndexType             kl,
       IndexType             ku,
+      const float           *Ab,
+      IndexType             ldAb,
+      float                 *r,
+      float                 *c,
+      float                 &rowcnd,
+      float                 &colcnd,
+      float                 &amax)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgbequ");
+    LAPACK_IMPL(sgbequ)(&m,
+                        &n,
+                        &kl,
+                        &ku,
+                        Ab,
+                        &ldAb,
+                        r,
+                        c,
+                        &rowcnd,
+                        &colcnd,
+                        &amax,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gbequ(IndexType             m,
+      IndexType             n,
+      IndexType             kl,
+      IndexType             ku,
       const double          *Ab,
       IndexType             ldAb,
       double                *r,
@@ -52,11 +89,49 @@ gbequ(IndexType             m,
       double                &amax)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("dgbequ");
     LAPACK_IMPL(dgbequ)(&m,
                         &n,
                         &kl,
                         &ku,
                         Ab,
+                        &ldAb,
+                        r,
+                        c,
+                        &rowcnd,
+                        &colcnd,
+                        &amax,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gbequ(IndexType                    m,
+      IndexType                    n,
+      IndexType                    kl,
+      IndexType                    ku,
+      const std::complex<float >  *Ab,
+      IndexType                    ldAb,
+      float                        *r,
+      float                        *c,
+      float                        &rowcnd,
+      float                        &colcnd,
+      float                        &amax)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgbequ");
+    LAPACK_IMPL(cgbequ)(&m,
+                        &n,
+                        &kl,
+                        &ku,
+                        reinterpret_cast<const float  *>(Ab),
                         &ldAb,
                         r,
                         c,
@@ -88,6 +163,7 @@ gbequ(IndexType                    m,
       double                       &amax)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("zgbequ");
     LAPACK_IMPL(zgbequ)(&m,
                         &n,
                         &kl,

@@ -45,6 +45,34 @@ larz(char           side,
      IndexType      m,
      IndexType      n,
      IndexType      l,
+     const float    *V,
+     IndexType      incV,
+     float          tau,
+     float          *C,
+     IndexType      ldC,
+     float          *work)
+{
+    CXXLAPACK_DEBUG_OUT("slarz");
+    
+    LAPACK_IMPL(slarz)(&side,
+                       &m,
+                       &n,
+                       &l,
+                       V,
+                       &incV,
+                       &tau,
+                       C,
+                       &ldC,
+                       work);
+}
+
+
+template <typename IndexType>
+void
+larz(char           side,
+     IndexType      m,
+     IndexType      n,
+     IndexType      l,
      const double   *V,
      IndexType      incV,
      double         tau,
@@ -52,6 +80,8 @@ larz(char           side,
      IndexType      ldC,
      double         *work)
 {
+    CXXLAPACK_DEBUG_OUT("dlarz");
+  
     LAPACK_IMPL(dlarz)(&side,
                        &m,
                        &n,
@@ -70,6 +100,33 @@ larz(char                        side,
      IndexType                   m,
      IndexType                   n,
      IndexType                   l,
+     const std::complex<float >  *V,
+     IndexType                   incV,
+     const std::complex<float >  &tau,
+     std::complex<float >        *C,
+     IndexType                   ldC,
+     std::complex<float >        *work)
+{
+    CXXLAPACK_DEBUG_OUT("clarz");
+  
+    LAPACK_IMPL(clarz)(&side,
+                       &m,
+                       &n,
+                       &l,
+                       reinterpret_cast<const float  *>(V),
+                       &incV,
+                       reinterpret_cast<const float  *>(&tau),
+                       reinterpret_cast<float  *>(C),
+                       &ldC,
+                       reinterpret_cast<float  *>(work));
+}
+
+template <typename IndexType>
+void
+larz(char                        side,
+     IndexType                   m,
+     IndexType                   n,
+     IndexType                   l,
      const std::complex<double>  *V,
      IndexType                   incV,
      const std::complex<double>  &tau,
@@ -77,6 +134,8 @@ larz(char                        side,
      IndexType                   ldC,
      std::complex<double>        *work)
 {
+    CXXLAPACK_DEBUG_OUT("zlarz");
+  
     LAPACK_IMPL(zlarz)(&side,
                        &m,
                        &n,

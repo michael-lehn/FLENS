@@ -40,12 +40,30 @@ namespace cxxlapack {
 template <typename IndexType>
     void
     lapll(IndexType             n,
+          float                 *x,
+          IndexType             incx,
+          float                 *y,
+          float                 incy,
+          float                 &ssmin);
+    
+template <typename IndexType>
+    void
+    lapll(IndexType             n,
           double                *x,
           IndexType             incx,
           double                *y,
           double                incy,
           double                &ssmin);
-
+    
+template <typename IndexType>
+    void
+    lapll(IndexType             n,
+          std::complex<float >  *x,
+          IndexType             incx,
+          std::complex<float >  *y,
+          float                 incy,
+          float                 &ssmin);
+    
 template <typename IndexType>
     void
     lapll(IndexType             n,

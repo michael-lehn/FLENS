@@ -36,7 +36,31 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    unbdb(char                  trans,
+          char                  signs,
+          IndexType             m,
+          IndexType             p,
+          IndexType             q,
+          std::complex<float >  *X11,
+          IndexType             ldX11,
+          std::complex<float >  *X12,
+          IndexType             ldX12,
+          std::complex<float >  *X21,
+          IndexType             ldX21,
+          std::complex<float >  *X22,
+          IndexType             ldX22,
+          float                 *theta,
+          float                 *phi,
+          std::complex<float >  *taup1,
+          std::complex<float >  *taup2,
+          std::complex<float >  *tauq1,
+          std::complex<float >  *tauq2,
+          std::complex<float >  *work,
+          IndexType             lWork);
+    
 template <typename IndexType>
     IndexType
     unbdb(char                  trans,

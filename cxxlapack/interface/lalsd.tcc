@@ -43,6 +43,47 @@ lalsd(char                  uplo,
       IndexType             smlsiz,
       IndexType             n,
       IndexType             nRhs,
+      float                 *d,
+      float                 *e,
+      float                 *B,
+      IndexType             ldB,
+      float                 rCond,
+      IndexType             &rank,
+      float                 *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("slalsd");
+    
+    IndexType info;
+    LAPACK_IMPL(slalsd)(&uplo,
+                        &smlsiz,
+                        &n,
+                        &nRhs,
+                        d,
+                        e,
+                        B,
+                        &ldB,
+                        &rCond,
+                        &rank,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+lalsd(char                  uplo,
+      IndexType             smlsiz,
+      IndexType             n,
+      IndexType             nRhs,
       double                *d,
       double                *e,
       double                *B,
@@ -52,6 +93,8 @@ lalsd(char                  uplo,
       double                *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("dlalsd");
+    
     IndexType info;
     LAPACK_IMPL(dlalsd)(&uplo,
                         &smlsiz,
@@ -81,6 +124,49 @@ lalsd(char                  uplo,
       IndexType             smlsiz,
       IndexType             n,
       IndexType             nRhs,
+      float                 *d,
+      float                 *e,
+      std::complex<float >  *B,
+      IndexType             ldB,
+      float                 rCond,
+      IndexType             &rank,
+      std::complex<float >  *work,
+      float                 *rWork,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("clalsd");
+    
+    IndexType info;
+    LAPACK_IMPL(clalsd)(&uplo,
+                        &smlsiz,
+                        &n,
+                        &nRhs,
+                        d,
+                        e,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        &rCond,
+                        &rank,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+lalsd(char                  uplo,
+      IndexType             smlsiz,
+      IndexType             n,
+      IndexType             nRhs,
       double                *d,
       double                *e,
       std::complex<double>  *B,
@@ -91,6 +177,8 @@ lalsd(char                  uplo,
       double                *rWork,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("zlalsd");
+    
     IndexType info;
     LAPACK_IMPL(zlalsd)(&uplo,
                         &smlsiz,

@@ -40,6 +40,26 @@ namespace cxxlapack {
 template <typename IndexType>
 void
 gesc2(IndexType             n,
+      float                 *A,
+      IndexType             ldA,
+      float                 *rhs,
+      const IndexType       *iPiv,
+      const IndexType       *jpiv,
+      float                 &scale)
+{
+    CXXLAPACK_DEBUG_OUT("sgesc2");
+    LAPACK_IMPL(sgesc2)(&n,
+                        A,
+                        &ldA,
+                        rhs,
+                        iPiv,
+                        jpiv,
+                        &scale);
+}
+
+template <typename IndexType>
+void
+gesc2(IndexType             n,
       double                *A,
       IndexType             ldA,
       double                *rhs,
@@ -47,10 +67,31 @@ gesc2(IndexType             n,
       const IndexType       *jpiv,
       double                &scale)
 {
+    CXXLAPACK_DEBUG_OUT("dgesc2");
     LAPACK_IMPL(dgesc2)(&n,
                         A,
                         &ldA,
                         rhs,
+                        iPiv,
+                        jpiv,
+                        &scale);
+}
+
+template <typename IndexType>
+void
+gesc2(IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      std::complex<float >  *rhs,
+      const IndexType       *iPiv,
+      const IndexType       *jpiv,
+      float                 &scale)
+{
+    CXXLAPACK_DEBUG_OUT("cgesc2");
+    LAPACK_IMPL(cgesc2)(&n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(rhs),
                         iPiv,
                         jpiv,
                         &scale);
@@ -66,6 +107,7 @@ gesc2(IndexType             n,
       const IndexType       *jpiv,
       double                &scale)
 {
+    CXXLAPACK_DEBUG_OUT("zgesc2");
     LAPACK_IMPL(zgesc2)(&n,
                         reinterpret_cast<double *>(A),
                         &ldA,

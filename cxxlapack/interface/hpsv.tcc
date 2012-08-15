@@ -42,11 +42,43 @@ IndexType
 hpsv (char                  uplo,
       IndexType             n,
       IndexType             nRhs,
+      std::complex<float >  *Ap,
+      IndexType             *iPiv,
+      std::complex<float >  *B,
+      IndexType             ldB)
+{
+    CXXLAPACK_DEBUG_OUT("chpsv");
+    
+    IndexType info;
+    LAPACK_IMPL(chpsv)(&uplo,
+                       &n,
+                       &nRhs,
+                       reinterpret_cast<float  *>(Ap),
+                       iPiv,
+                       reinterpret_cast<float  *>(B),
+                       &ldB,
+                       &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hpsv (char                  uplo,
+      IndexType             n,
+      IndexType             nRhs,
       std::complex<double>  *Ap,
       IndexType             *iPiv,
       std::complex<double>  *B,
       IndexType             ldB)
 {
+    CXXLAPACK_DEBUG_OUT("zhpsv");
+    
     IndexType info;
     LAPACK_IMPL(zhpsv)(&uplo,
                        &n,

@@ -44,6 +44,60 @@ spgvx(IndexType             itype,
       char                  range,
       char                  uplo,
       IndexType             n,
+      float                 *Ap,
+      float                 *Bp,
+      float                 vl,
+      float                 vu,
+      IndexType             il,
+      IndexType             iu,
+      float                 abstol,
+      IndexType             &m,
+      float                 *w,
+      float                 *Z,
+      IndexType             ldZ,
+      float                 *work,
+      IndexType             *iWork,
+      IndexType             *ifail)
+{
+    CXXLAPACK_DEBUG_OUT("sspevx");
+  
+    IndexType info;
+    LAPACK_IMPL(sspevx)(&itype,
+                        &jobz,
+                        &range,
+                        &uplo,
+                        &n,
+                        Ap,
+                        Bp,
+                        &vl,
+                        &vu,
+                        &il, 
+                        &iu,
+                        &abstol,
+                        &m,
+                        w,
+                        Z,
+                        &ldZ,
+                        work,
+                        iWork,
+                        ifail,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+spgvx(IndexType             itype,
+      char                  jobz,
+      char                  range,
+      char                  uplo,
+      IndexType             n,
       double                *Ap,
       double                *Bp,
       double                vl,
@@ -59,6 +113,8 @@ spgvx(IndexType             itype,
       IndexType             *iWork,
       IndexType             *ifail)
 {
+    CXXLAPACK_DEBUG_OUT("dspevx");
+  
     IndexType info;
     LAPACK_IMPL(dspevx)(&itype,
                         &jobz,

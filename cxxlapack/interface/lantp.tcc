@@ -38,6 +38,26 @@
 namespace cxxlapack {
 
 template <typename IndexType>
+float 
+lantp(char                  norm,
+      char                  uplo,
+      char                  diag,
+      IndexType             n,
+      const float           *Ap,
+      float                 *work)
+{
+    CXXLAPACK_DEBUG_OUT("slantp");
+   
+    return LAPACK_IMPL(slantp)(&norm,
+                               &uplo,
+                               &diag,
+                               &n,
+                               Ap,
+                               work);
+}
+
+
+template <typename IndexType>
 double
 lantp(char                  norm,
       char                  uplo,
@@ -46,12 +66,32 @@ lantp(char                  norm,
       const double          *Ap,
       double                *work)
 {
-
+    CXXLAPACK_DEBUG_OUT("dlantp");
+   
     return LAPACK_IMPL(dlantp)(&norm,
                                &uplo,
                                &diag,
                                &n,
                                Ap,
+                               work);
+}
+
+template <typename IndexType>
+float 
+lantp(char                        norm,
+      char                        uplo,
+      char                        diag,
+      IndexType                   n,
+      const std::complex<float >  *Ap,
+      float                       *work)
+{
+    CXXLAPACK_DEBUG_OUT("clantp");
+   
+    return LAPACK_IMPL(clantp)(&norm,
+                               &uplo,
+                               &diag,
+                               &n,
+                               reinterpret_cast<const float  *>(Ap),
                                work);
 }
 
@@ -64,7 +104,8 @@ lantp(char                        norm,
       const std::complex<double>  *Ap,
       double                      *work)
 {
-
+    CXXLAPACK_DEBUG_OUT("zlantp");
+   
     return LAPACK_IMPL(zlantp)(&norm,
                                &uplo,
                                &diag,

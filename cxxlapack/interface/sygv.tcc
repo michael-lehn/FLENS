@@ -42,6 +42,42 @@ IndexType
 sygv (IndexType             itype,
       char                  jobz,
       IndexType             n,
+      float                 *A,
+      IndexType             ldA,
+      float                 *B,
+      IndexType             ldB,
+      float                 *w,
+      float                 *work,
+      IndexType             lWork)
+{
+    CXXLAPACK_DEBUG_OUT("ssyev");
+ 
+    IndexType info;
+    LAPACK_IMPL(ssyev) (&itype,
+                        &jobz,
+                        &n,
+                        A,
+                        &ldA,
+                        B,
+                        &ldB,
+                        w,
+                        work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+sygv (IndexType             itype,
+      char                  jobz,
+      IndexType             n,
       double                *A,
       IndexType             ldA,
       double                *B,
@@ -50,6 +86,8 @@ sygv (IndexType             itype,
       double                *work,
       IndexType             lWork)
 {
+    CXXLAPACK_DEBUG_OUT("dsyev");
+ 
     IndexType info;
     LAPACK_IMPL(dsyev) (&itype,
                         &jobz,

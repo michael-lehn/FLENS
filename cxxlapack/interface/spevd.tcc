@@ -42,6 +42,44 @@ IndexType
 spevd(char                  jobz,
       char                  uplo,
       IndexType             n,
+      float                 *Ap,
+      float                 *w,
+      float                 *Z,
+      IndexType             ldZ,
+      float                 *work,
+      IndexType             lWork,
+      IndexType             *iWork,
+      IndexType             liWork)
+{
+    CXXLAPACK_DEBUG_OUT("sspevd");
+  
+    IndexType info;
+    LAPACK_IMPL(sspevd)(&jobz,
+                        &uplo,
+                        &n,
+                        Ap,
+                        w,
+                        Z,
+                        &ldZ,
+                        work,
+                        &lWork,
+                        iWork,
+                        &liWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+spevd(char                  jobz,
+      char                  uplo,
+      IndexType             n,
       double                *Ap,
       double                *w,
       double                *Z,
@@ -51,6 +89,8 @@ spevd(char                  jobz,
       IndexType             *iWork,
       IndexType             liWork)
 {
+    CXXLAPACK_DEBUG_OUT("dspevd");
+  
     IndexType info;
     LAPACK_IMPL(dspevd)(&jobz,
                         &uplo,

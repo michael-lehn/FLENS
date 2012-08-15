@@ -36,7 +36,24 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    void
+    lasq5(IndexType             i0,
+          IndexType             n0,
+          const float           *z,
+          IndexType             pp,
+          IndexType             n0in,
+          float                 dmin,
+          float                 dmin1,
+          float                 dmin2,
+          float                 dn,
+          float                 dn1,
+          float                 dn2,
+          float                 &tau,
+          IndexType             &ttype,
+          float                 &g);
+    
 template <typename IndexType>
     void
     lasq5(IndexType             i0,

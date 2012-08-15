@@ -41,9 +41,23 @@ template <typename IndexType>
 void
 laruv(IndexType             *seed,
       IndexType             n,
+      float                 *X)
+{
+    CXXLAPACK_DEBUG_OUT("slaruv");
+    
+    LAPACK_IMPL(slaruv)(seed,
+                        &n,
+                        X);
+}
+
+template <typename IndexType>
+void
+laruv(IndexType             *seed,
+      IndexType             n,
       double                *X)
 {
-
+    CXXLAPACK_DEBUG_OUT("dlaruv");
+    
     LAPACK_IMPL(dlaruv)(seed,
                         &n,
                         X);

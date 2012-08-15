@@ -41,11 +41,41 @@ template <typename IndexType>
 IndexType
 sptrd(char                  uplo,
       IndexType             n,
+      float                 *Ap,
+      float                 *d,
+      float                 *e,
+      float                 *tau)
+{
+    CXXLAPACK_DEBUG_OUT("ssptrd");
+
+    IndexType info;
+    LAPACK_IMPL(ssptrd)(&uplo,
+                        &n,
+                        Ap,
+                        d,
+                        e,
+                        tau,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+sptrd(char                  uplo,
+      IndexType             n,
       double                *Ap,
       double                *d,
       double                *e,
       double                *tau)
 {
+    CXXLAPACK_DEBUG_OUT("dsptrd");
+
     IndexType info;
     LAPACK_IMPL(dsptrd)(&uplo,
                         &n,

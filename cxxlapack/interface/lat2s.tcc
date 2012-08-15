@@ -46,6 +46,8 @@ lat2s(char                  uplo,
       float                 *Sa,
       IndexType             ldSa)
 {
+    CXXLAPACK_DEBUG_OUT("dlat2s");
+    
     IndexType info;
     LAPACK_IMPL(dlat2s)(&uplo,
                         &n,

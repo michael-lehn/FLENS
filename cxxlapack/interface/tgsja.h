@@ -47,6 +47,33 @@ template <typename IndexType>
           IndexType             n,
           IndexType             k,
           IndexType             l,
+          float                 *A,
+          IndexType             ldA,
+          float                 *B,
+          IndexType             ldB,
+          float                 tola,
+          float                 tolb,
+          float                 *alpha,
+          float                 *beta,
+          float                 *U,
+          IndexType             ldU,
+          float                 *V,
+          IndexType             ldV,
+          float                 *Q,
+          IndexType             ldQ,
+          float                 *work,
+          IndexType             &ncycle);
+    
+template <typename IndexType>
+    IndexType
+    tgsja(char                  jobu,
+          char                  jobv,
+          char                  jobq,
+          IndexType             m,
+          IndexType             p,
+          IndexType             n,
+          IndexType             k,
+          IndexType             l,
           double                *A,
           IndexType             ldA,
           double                *B,
@@ -63,7 +90,34 @@ template <typename IndexType>
           IndexType             ldQ,
           double                *work,
           IndexType             &ncycle);
-
+    
+template <typename IndexType>
+    IndexType
+    tgsja(char                  jobu,
+          char                  jobv,
+          char                  jobq,
+          IndexType             m,
+          IndexType             p,
+          IndexType             n,
+          IndexType             k,
+          IndexType             l,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          std::complex<float >  *B,
+          IndexType             ldB,
+          float                 tola,
+          float                 tolb,
+          float                 *alpha,
+          float                 *beta,
+          std::complex<float >  *U,
+          IndexType             ldU,
+          std::complex<float >  *V,
+          IndexType             ldV,
+          std::complex<float >  *Q,
+          IndexType             ldQ,
+          std::complex<float >  *work,
+          IndexType             &ncycle);
+    
 template <typename IndexType>
     IndexType
     tgsja(char                  jobu,

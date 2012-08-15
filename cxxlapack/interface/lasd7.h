@@ -36,7 +36,36 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    lasd7(IndexType             icompq,
+          IndexType             nl,
+          IndexType             nr,
+          IndexType             sqre,
+          IndexType             &k,
+          float                 *d,
+          float                 *z,
+          float                 *zw,
+          float                 *vf,
+          float                 *vfw,
+          float                 *vl,
+          float                 *vlw,
+          float                 &alpha,
+          float                 &beta,
+          float                 *dsigma,
+          IndexType             *idx,
+          IndexType             *idxp,
+          const IndexType       *idxq,
+          IndexType             *perm,
+          IndexType             &givptr,
+          IndexType             *Givcol,
+          IndexType             ldGcol,
+          float                 *Givnum,
+          IndexType             ldGnum,
+          float                 &c,
+          float                 &s);
+    
 template <typename IndexType>
     IndexType
     lasd7(IndexType             icompq,

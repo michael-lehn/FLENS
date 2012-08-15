@@ -42,10 +42,12 @@ IndexType
 tptri(char                  uplo,
       char                  diag,
       IndexType             n,
-      double                *Ap)
+      float                 *Ap)
 {
+    CXXLAPACK_DEBUG_OUT("stptri");
+ 
     IndexType info;
-    LAPACK_IMPL(dtptri)(&uplo,
+    LAPACK_IMPL(stptri)(&uplo,
                         &diag,
                         &n,
                         Ap,
@@ -65,8 +67,58 @@ IndexType
 tptri(char                  uplo,
       char                  diag,
       IndexType             n,
+      double                *Ap)
+{
+    CXXLAPACK_DEBUG_OUT("dtptri");
+ 
+    IndexType info;
+    LAPACK_IMPL(dtptri)(&uplo,
+                        &diag,
+                        &n,
+                        Ap,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+tptri(char                  uplo,
+      char                  diag,
+      IndexType             n,
+      std::complex<float >  *Ap)
+{
+    CXXLAPACK_DEBUG_OUT("ctptri");
+ 
+    IndexType info;
+    LAPACK_IMPL(ctptri)(&uplo,
+                        &diag,
+                        &n,
+                        reinterpret_cast<float  *>(Ap),
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+tptri(char                  uplo,
+      char                  diag,
+      IndexType             n,
       std::complex<double>  *Ap)
 {
+    CXXLAPACK_DEBUG_OUT("ztptri");
+ 
     IndexType info;
     LAPACK_IMPL(ztptri)(&uplo,
                         &diag,

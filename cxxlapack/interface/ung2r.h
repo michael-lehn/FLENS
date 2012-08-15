@@ -36,7 +36,17 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    ung2r(IndexType                   m,
+          IndexType                   n,
+          IndexType                   k,
+          std::complex<float >        *A,
+          IndexType                   ldA,
+          const std::complex<float >  *tau,
+          std::complex<float >        *work);
+    
 template <typename IndexType>
     IndexType
     ung2r(IndexType                   m,

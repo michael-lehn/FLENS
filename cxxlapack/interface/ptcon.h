@@ -40,12 +40,30 @@ namespace cxxlapack {
 template <typename IndexType>
     IndexType
     ptcon(IndexType             n,
+          const float           *d,
+          const float           *e,
+          float                 anorm,
+          float                 &rCond,
+          float                 *work);
+    
+template <typename IndexType>
+    IndexType
+    ptcon(IndexType             n,
           const double          *d,
           const double          *e,
           double                anorm,
           double                &rCond,
           double                *work);
-
+    
+template <typename IndexType>
+    IndexType
+    ptcon(IndexType                   n,
+          const float                 *d,
+          const std::complex<float >  *e,
+          float                       anorm,
+          float                       &rCond,
+          float                       *rWork);
+    
 template <typename IndexType>
     IndexType
     ptcon(IndexType                   n,

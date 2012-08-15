@@ -36,7 +36,20 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    laexc(bool          wantQ,
+          IndexType     n,
+          float         *T,
+          IndexType     ldT,
+          float         *Q,
+          IndexType     ldQ,
+          IndexType     j1,
+          IndexType     n1,
+          IndexType     n2,
+          float         *work);
+    
 template <typename IndexType>
     IndexType
     laexc(bool          wantQ,

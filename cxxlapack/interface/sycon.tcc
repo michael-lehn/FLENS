@@ -41,6 +41,41 @@ template <typename IndexType>
 IndexType
 sycon(char                  uplo,
       IndexType             n,
+      const float           *A,
+      IndexType             ldA,
+      const IndexType       *iPiv,
+      float                 anorm,
+      float                 &rCond,
+      float                 *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("ssycon");
+ 
+    IndexType info;
+    LAPACK_IMPL(ssycon)(&uplo,
+                        &n,
+                        A,
+                        &ldA,
+                        iPiv,
+                        &anorm,
+                        &rCond,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+sycon(char                  uplo,
+      IndexType             n,
       const double          *A,
       IndexType             ldA,
       const IndexType       *iPiv,
@@ -49,6 +84,8 @@ sycon(char                  uplo,
       double                *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("dsycon");
+ 
     IndexType info;
     LAPACK_IMPL(dsycon)(&uplo,
                         &n,
@@ -73,6 +110,40 @@ template <typename IndexType>
 IndexType
 sycon(char                        uplo,
       IndexType                   n,
+      const std::complex<float >  *A,
+      IndexType                   ldA,
+      const IndexType             *iPiv,
+      float                       anorm,
+      float                       &rCond,
+      std::complex<float >        *work,
+      IndexType                   *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("csycon");
+ 
+    IndexType info;
+    LAPACK_IMPL(csycon)(&uplo,
+                        &n,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        iPiv,
+                        &anorm,
+                        &rCond,
+                        reinterpret_cast<float  *>(work),
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+sycon(char                        uplo,
+      IndexType                   n,
       const std::complex<double>  *A,
       IndexType                   ldA,
       const IndexType             *iPiv,
@@ -81,6 +152,8 @@ sycon(char                        uplo,
       std::complex<double>        *work,
       IndexType                   *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("zsycon");
+ 
     IndexType info;
     LAPACK_IMPL(zsycon)(&uplo,
                         &n,

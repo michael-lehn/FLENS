@@ -44,11 +44,35 @@ template <typename IndexType>
           IndexType         n,
           IndexType         iLo,
           IndexType         iHi,
+          const float       *scale,
+          IndexType         m,
+          float             *V,
+          IndexType         ldV);
+    
+template <typename IndexType>
+    IndexType
+    gebak(char              job,
+          char              side,
+          IndexType         n,
+          IndexType         iLo,
+          IndexType         iHi,
           const double      *scale,
           IndexType         m,
           double            *V,
           IndexType         ldV);
-
+    
+template <typename IndexType>
+    IndexType
+    gebak(char                  job,
+          char                  side,
+          IndexType             n,
+          IndexType             iLo,
+          IndexType             iHi,
+          const float           *scale,
+          IndexType             m,
+          std::complex<float >  *V,
+          IndexType             ldV);
+    
 template <typename IndexType>
     IndexType
     gebak(char                  job,

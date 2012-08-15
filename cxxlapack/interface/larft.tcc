@@ -45,12 +45,40 @@ larft(char          direct,
       char          storev,
       IndexType     n,
       IndexType     k,
+      float         *V,
+      IndexType     ldV,
+      const float   *tau,
+      float         *T,
+      IndexType     ldT)
+{
+    CXXLAPACK_DEBUG_OUT("slarft");
+ 
+    LAPACK_IMPL(slarft)(&direct,
+                        &storev,
+                        &n,
+                        &k,
+                        V,
+                        &ldV,
+                        tau,
+                        T,
+                        &ldT);
+}
+
+
+template <typename IndexType>
+void
+larft(char          direct,
+      char          storev,
+      IndexType     n,
+      IndexType     k,
       double        *V,
       IndexType     ldV,
       const double  *tau,
       double        *T,
       IndexType     ldT)
 {
+    CXXLAPACK_DEBUG_OUT("dlarft");
+ 
     LAPACK_IMPL(dlarft)(&direct,
                         &storev,
                         &n,
@@ -68,12 +96,39 @@ larft(char                          direct,
       char                          storev,
       IndexType                     n,
       IndexType                     k,
+      std::complex<float >          *V,
+      IndexType                     ldV,
+      const std::complex<float >    *tau,
+      std::complex<float >          *T,
+      IndexType                     ldT)
+{
+    CXXLAPACK_DEBUG_OUT("clarft");
+ 
+    LAPACK_IMPL(clarft)(&direct,
+                        &storev,
+                        &n,
+                        &k,
+                        reinterpret_cast<float  *>(V),
+                        &ldV,
+                        reinterpret_cast<const float  *>(tau),
+                        reinterpret_cast<float  *>(T),
+                        &ldT);
+}
+
+template <typename IndexType>
+void
+larft(char                          direct,
+      char                          storev,
+      IndexType                     n,
+      IndexType                     k,
       std::complex<double>          *V,
       IndexType                     ldV,
       const std::complex<double>    *tau,
       std::complex<double>          *T,
       IndexType                     ldT)
 {
+    CXXLAPACK_DEBUG_OUT("dlarft");
+ 
     LAPACK_IMPL(zlarft)(&direct,
                         &storev,
                         &n,

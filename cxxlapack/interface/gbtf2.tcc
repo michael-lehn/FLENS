@@ -43,11 +43,42 @@ gbtf2(IndexType             m,
       IndexType             n,
       IndexType             kl,
       IndexType             ku,
+      float                 *Ab,
+      IndexType             ldAb,
+      IndexType             *iPiv)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgbtf2");
+    LAPACK_IMPL(sgbtf2)(&m,
+                        &n,
+                        &kl,
+                        &ku,
+                        Ab,
+                        &ldAb,
+                        iPiv,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+  
+template <typename IndexType>
+IndexType
+gbtf2(IndexType             m,
+      IndexType             n,
+      IndexType             kl,
+      IndexType             ku,
       double                *Ab,
       IndexType             ldAb,
       IndexType             *iPiv)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("dgbtf2");
     LAPACK_IMPL(dgbtf2)(&m,
                         &n,
                         &kl,
@@ -71,11 +102,41 @@ gbtf2(IndexType             m,
       IndexType             n,
       IndexType             kl,
       IndexType             ku,
+      std::complex<float>   *Ab,
+      IndexType             ldAb,
+      IndexType             *iPiv)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgbtf2");
+    LAPACK_IMPL(cgbtf2)(&m,
+                        &n,
+                        &kl,
+                        &ku,
+                        reinterpret_cast<float *>(Ab),
+                        &ldAb,
+                        iPiv,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gbtf2(IndexType             m,
+      IndexType             n,
+      IndexType             kl,
+      IndexType             ku,
       std::complex<double>  *Ab,
       IndexType             ldAb,
       IndexType             *iPiv)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("zgbtf2");
     LAPACK_IMPL(zgbtf2)(&m,
                         &n,
                         &kl,

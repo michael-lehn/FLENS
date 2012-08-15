@@ -42,6 +42,51 @@ IndexType
 sprfs(char                  uplo,
       IndexType             n,
       IndexType             nRhs,
+      const float           *Ap,
+      const float           *Afp,
+      const IndexType       *iPiv,
+      const float           *B,
+      IndexType             ldB,
+      float                 *X,
+      IndexType             ldX,
+      float                 *ferr,
+      float                 *berr,
+      float                 *work,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("ssprfs");
+
+    IndexType info;
+    LAPACK_IMPL(ssprfs)(&uplo,
+                        &n,
+                        &nRhs,
+                        Ap,
+                        Afp,
+                        iPiv,
+                        B,
+                        &ldB,
+                        X,
+                        &ldX,
+                        ferr,
+                        berr,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+sprfs(char                  uplo,
+      IndexType             n,
+      IndexType             nRhs,
       const double          *Ap,
       const double          *Afp,
       const IndexType       *iPiv,
@@ -54,6 +99,8 @@ sprfs(char                  uplo,
       double                *work,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("dsprfs");
+
     IndexType info;
     LAPACK_IMPL(dsprfs)(&uplo,
                         &n,
@@ -85,6 +132,50 @@ IndexType
 sprfs(char                        uplo,
       IndexType                   n,
       IndexType                   nRhs,
+      const std::complex<float >  *Ap,
+      const std::complex<float >  *Afp,
+      const IndexType             *iPiv,
+      const std::complex<float >  *B,
+      IndexType                   ldB,
+      std::complex<float >        *X,
+      IndexType                   ldX,
+      float                       *ferr,
+      float                       *berr,
+      std::complex<float >        *work,
+      float                       *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("csprfs");
+
+    IndexType info;
+    LAPACK_IMPL(csprfs)(&uplo,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<const float  *>(Ap),
+                        reinterpret_cast<const float  *>(Afp),
+                        iPiv,
+                        reinterpret_cast<const float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(X),
+                        &ldX,
+                        ferr,
+                        berr,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+sprfs(char                        uplo,
+      IndexType                   n,
+      IndexType                   nRhs,
       const std::complex<double>  *Ap,
       const std::complex<double>  *Afp,
       const IndexType             *iPiv,
@@ -97,6 +188,8 @@ sprfs(char                        uplo,
       std::complex<double>        *work,
       double                      *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zsprfs");
+
     IndexType info;
     LAPACK_IMPL(zsprfs)(&uplo,
                         &n,

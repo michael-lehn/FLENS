@@ -42,6 +42,8 @@ bool
 laisnan(float                  sin1,
         float                  sin2)
 {
+    CXXLAPACK_DEBUG_OUT("slaisna");
+    
     return LAPACK_IMPL(slaisnan)(&sin1,
                                  &sin2);
 }
@@ -51,6 +53,8 @@ bool
 laisnan(double                 din1,
         double                 din2)
 {
+    CXXLAPACK_DEBUG_OUT("dlaisnan");
+    
     return LAPACK_IMPL(dlaisnan)(&din1,
                                  &din2);
 }

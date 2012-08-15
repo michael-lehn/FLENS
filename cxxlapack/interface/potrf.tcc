@@ -43,14 +43,61 @@ template <typename IndexType>
 IndexType
 potrf(char        upLo,
       IndexType   n,
+      float       *A,
+      IndexType   ldA)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("spotrf");
+    LAPACK_IMPL(spotrf)(&upLo,
+                        &n,
+                        A,
+                        &ldA,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+potrf(char        upLo,
+      IndexType   n,
       double      *A,
       IndexType   ldA)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("dpotrf");
+    CXXLAPACK_DEBUG_OUT("dpotrf");
     LAPACK_IMPL(dpotrf)(&upLo,
                         &n,
                         A,
+                        &ldA,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+potrf(char                  upLo,
+      IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cpotrf");
+    LAPACK_IMPL(cpotrf)(&upLo,
+                        &n,
+                        reinterpret_cast<float  *>(A),
                         &ldA,
                         &info);
 #   ifndef NDEBUG
@@ -70,7 +117,7 @@ potrf(char                  upLo,
       IndexType             ldA)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("zpotrf");
+    CXXLAPACK_DEBUG_OUT("zpotrf");
     LAPACK_IMPL(zpotrf)(&upLo,
                         &n,
                         reinterpret_cast<double *>(A),

@@ -42,7 +42,22 @@ template <typename IndexType>
     pftrf(char                  transr,
           char                  uplo,
           IndexType             n,
+          float                 *A);
+    
+    
+template <typename IndexType>
+    IndexType
+    pftrf(char                  transr,
+          char                  uplo,
+          IndexType             n,
           double                *A);
+    
+template <typename IndexType>
+    IndexType
+    pftrf(char                  transr,
+          char                  uplo,
+          IndexType             n,
+          std::complex<float >  *A);
 
 template <typename IndexType>
     IndexType

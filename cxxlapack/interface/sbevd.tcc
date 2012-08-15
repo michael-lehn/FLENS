@@ -43,6 +43,48 @@ sbevd(char                  jobz,
       char                  uplo,
       IndexType             n,
       IndexType             kd,
+      float                 *Ab,
+      IndexType             ldAb,
+      float                 *w,
+      float                 *Z,
+      IndexType             ldZ,
+      float                 *work,
+      IndexType             lWork,
+      IndexType             *iWork,
+      IndexType             liWork)
+{
+    CXXLAPACK_DEBUG_OUT("ssbevd");
+ 
+    IndexType info;
+    LAPACK_IMPL(ssbevd)(&jobz,
+                        &uplo,
+                        &n,
+                        &kd,
+                        Ab,
+                        &ldAb,
+                        w,
+                        Z,
+                        &ldZ,
+                        work,
+                        &lWork,
+                        iWork,
+                        &iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+sbevd(char                  jobz,
+      char                  uplo,
+      IndexType             n,
+      IndexType             kd,
       double                *Ab,
       IndexType             ldAb,
       double                *w,
@@ -53,6 +95,8 @@ sbevd(char                  jobz,
       IndexType             *iWork,
       IndexType             liWork)
 {
+    CXXLAPACK_DEBUG_OUT("dsbevd");
+ 
     IndexType info;
     LAPACK_IMPL(dsbevd)(&jobz,
                         &uplo,

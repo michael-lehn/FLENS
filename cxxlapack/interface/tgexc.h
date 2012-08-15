@@ -42,6 +42,24 @@ template <typename IndexType>
     tgexc(bool                  wantq,
           bool                  wantz,
           IndexType             n,
+          float                 *A,
+          IndexType             ldA,
+          float                 *B,
+          IndexType             ldB,
+          float                 *Q,
+          IndexType             ldQ,
+          float                 *Z,
+          IndexType             ldZ,
+          IndexType             ifst,
+          IndexType             ilst,
+          float                 *work,
+          IndexType             lWork);
+    
+template <typename IndexType>
+    IndexType
+    tgexc(bool                  wantq,
+          bool                  wantz,
+          IndexType             n,
           double                *A,
           IndexType             ldA,
           double                *B,
@@ -54,7 +72,23 @@ template <typename IndexType>
           IndexType             ilst,
           double                *work,
           IndexType             lWork);
-
+    
+template <typename IndexType>
+    IndexType
+    tgexc(bool                  wantq,
+          bool                  wantz,
+          IndexType             n,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          std::complex<float >  *B,
+          IndexType             ldB,
+          std::complex<float >  *Q,
+          IndexType             ldQ,
+          std::complex<float >  *Z,
+          IndexType             ldZ,
+          IndexType             ifst,
+          IndexType             ilst);
+    
 template <typename IndexType>
     IndexType
     tgexc(bool                  wantq,

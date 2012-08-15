@@ -43,6 +43,46 @@ laed9(IndexType             k,
       IndexType             kstart,
       IndexType             kstop,
       IndexType             n,
+      float                 *d,
+      float                 *Q,
+      IndexType             ldQ,
+      float                 rho,
+      const float           *dlambda,
+      const float           *w,
+      float                 *S,
+      IndexType             ldS)
+{
+    CXXLAPACK_DEBUG_OUT("slaed9");
+    
+    IndexType info;
+    LAPACK_IMPL(slaed9)(&k,
+                        &kstart,
+                        &kstop,
+                        &n,
+                        d,
+                        Q,
+                        &ldQ,
+                        &rho,
+                        dlambda,
+                        w,
+                        S,
+                        &ldS,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+laed9(IndexType             k,
+      IndexType             kstart,
+      IndexType             kstop,
+      IndexType             n,
       double                *d,
       double                *Q,
       IndexType             ldQ,
@@ -52,6 +92,8 @@ laed9(IndexType             k,
       double                *S,
       IndexType             ldS)
 {
+    CXXLAPACK_DEBUG_OUT("dlaed9");
+    
     IndexType info;
     LAPACK_IMPL(dlaed9)(&k,
                         &kstart,

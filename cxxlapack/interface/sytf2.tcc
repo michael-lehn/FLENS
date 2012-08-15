@@ -41,10 +41,39 @@ template <typename IndexType>
 IndexType
 sytf2(char                  uplo,
       IndexType             n,
+      float                 *A,
+      IndexType             ldA,
+      IndexType             *iPiv)
+{
+    CXXLAPACK_DEBUG_OUT("ssytf2");
+ 
+    IndexType info;
+    LAPACK_IMPL(ssytf2)(&uplo,
+                        &n,
+                        A,
+                        &ldA,
+                        iPiv,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+sytf2(char                  uplo,
+      IndexType             n,
       double                *A,
       IndexType             ldA,
       IndexType             *iPiv)
 {
+    CXXLAPACK_DEBUG_OUT("dsytf2");
+ 
     IndexType info;
     LAPACK_IMPL(dsytf2)(&uplo,
                         &n,
@@ -65,10 +94,38 @@ template <typename IndexType>
 IndexType
 sytf2(char                  uplo,
       IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      IndexType             *iPiv)
+{
+    CXXLAPACK_DEBUG_OUT("csytf2");
+ 
+    IndexType info;
+    LAPACK_IMPL(csytf2)(&uplo,
+                        &n,
+                         reinterpret_cast<float  *>(A),
+                        &ldA,
+                        iPiv,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+sytf2(char                  uplo,
+      IndexType             n,
       std::complex<double>  *A,
       IndexType             ldA,
       IndexType             *iPiv)
 {
+    CXXLAPACK_DEBUG_OUT("zsytf2");
+ 
     IndexType info;
     LAPACK_IMPL(zsytf2)(&uplo,
                         &n,

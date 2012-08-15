@@ -36,7 +36,17 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    void
+    rot  (IndexType             m,
+          std::complex<float >  *cx,
+          IndexType             incx,
+          std::complex<float >  *cy,
+          IndexType             incy,
+          float                 c,
+          float                 s);
+    
 template <typename IndexType>
     void
     rot  (IndexType             m,

@@ -48,6 +48,81 @@ orcsd(char                  jobu1,
       IndexType             m,
       IndexType             p,
       IndexType             q,
+      const float           *X11,
+      IndexType             ldX11,
+      const float           *X12,
+      IndexType             ldX12,
+      const float           *X21,
+      IndexType             ldX21,
+      const float           *X22,
+      IndexType             ldX22,
+      float                 *theta,
+      float                 *U1,
+      IndexType             ldU1,
+      float                 *U2,
+      IndexType             ldU2,
+      float                 *V1t,
+      IndexType             ldV1t,
+      float                 *V2t,
+      IndexType             ldV2t,
+      float                 *work,
+      IndexType             lWork,
+      IndexType             *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("sorcsd");
+  
+    IndexType info;
+    LAPACK_IMPL(sorcsd)(&jobu1,
+                        &jobu2,
+                        &jobv1t,
+                        &jobv2t,
+                        &trans,
+                        &signs,
+                        &m,
+                        &p,
+                        &q,
+                        X11,
+                        &ldX11,
+                        X12,
+                        &ldX12,
+                        X21,
+                        &ldX21,
+                        X22,
+                        &ldX22,
+                        theta,
+                        U1,
+                        &ldU1,
+                        U2,
+                        &ldU2,
+                        V1t,
+                        &ldV1t,
+                        V2t,
+                        &ldV2t,
+                        work
+                        &lWork,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+orcsd(char                  jobu1,
+      char                  jobu2,
+      char                  jobv1t,
+      char                  jobv2t,
+      char                  trans,
+      char                  signs,
+      IndexType             m,
+      IndexType             p,
+      IndexType             q,
       const double          *X11,
       IndexType             ldX11,
       const double          *X12,
@@ -69,6 +144,8 @@ orcsd(char                  jobu1,
       IndexType             lWork,
       IndexType             *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("dorcsd");
+  
     IndexType info;
     LAPACK_IMPL(dorcsd)(&jobu1,
                         &jobu2,

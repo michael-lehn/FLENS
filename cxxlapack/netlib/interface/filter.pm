@@ -1,9 +1,9 @@
 #! /usr/bin/perl -w
 
 ##
-##  for i in ../src/*.f; do cat $i | ./filter.pm impl; done > dummy.in.cc
+##  for i in ../lapack/*.f; do cat $i | ./filter.pm impl; done > dummy.in.cc
 ##
-##  for i in ../src/*.f; do cat $i | ./filter.pm header; done > lapack.in.h
+##  for i in ../lapack/*.f; do cat $i | ./filter.pm header; done > lapack.in.h
 ##
 
 use strict;
@@ -51,8 +51,7 @@ foreach my $line (@lines) {
             $var =~ s/\s//g;
             $args{$var} = "char";
         }
-    }
-    if ($line =~ /INTEGER(.*)/) {
+    } elsif ($line =~ /INTEGER(.*)/) {
         my $vars = $1;
         $vars =~ s/\([^)]*\)//g;
         my @vars = split(",", $vars);
@@ -60,8 +59,7 @@ foreach my $line (@lines) {
             $var =~ s/\s//g;
             $args{$var} = "INTEGER";
         }
-    }
-    if ($line =~ /LOGICAL(.*)/) {
+    } elsif ($line =~ /LOGICAL(.*)/) {
         my $vars = $1;
         $vars =~ s/\([^)]*\)//g;
         my @vars = split(/,/, $vars);
@@ -69,8 +67,7 @@ foreach my $line (@lines) {
             $var =~ s/\s//g;
             $args{$var} = "LOGICAL";
         }
-    }
-    if ($line =~ /DOUBLE PRECISION(.*)/) {
+    } elsif ($line =~ /DOUBLE PRECISION(.*)/) {
         my $vars = $1;
         $vars =~ s/\([^)]*\)//g;
         my @vars = split(/,/, $vars);
@@ -78,8 +75,7 @@ foreach my $line (@lines) {
             $var =~ s/\s//g;
             $args{$var} = "DOUBLE";
         }
-    }
-    if ($line =~ /^\s*COMPLEX[*]16\s(.*)/) {
+    } elsif ($line =~ /^\s*COMPLEX[*]16\s(.*)/) {
         my $vars = $1;
         $vars =~ s/\([^)]*\)//g;
         my @vars = split(/,/, $vars);
@@ -87,8 +83,15 @@ foreach my $line (@lines) {
             $var =~ s/\s//g;
             $args{$var} = "DOUBLE_COMPLEX";
         }
-    }
-    if ($line =~ /^\s*REAL(.*)/) {
+    } elsif ($line =~ /^\s*COMPLEX(.*)/) {
+        my $vars = $1;
+        $vars =~ s/\([^)]*\)//g;
+        my @vars = split(/,/, $vars);
+        for my $var (@vars) {
+            $var =~ s/\s//g;
+            $args{$var} = "FLOAT_COMPLEX";
+        }
+    } elsif ($line =~ /^\s*REAL(.*)/) {
         my $vars = $1;
         $vars =~ s/\([^)]*\)//g;
         my @vars = split(/,/, $vars);
@@ -97,6 +100,7 @@ foreach my $line (@lines) {
             $args{$var} = "FLOAT";
         }
     }
+
     if ($line =~ /SUBROUTINE (.*)/) {
         $subroutine = $1;
         $subroutine =~ s/ //g;
@@ -110,6 +114,8 @@ foreach my $line (@lines) {
         $returnType =~ s/\s*$//;
         if ($returnType =~ /DOUBLE PRECISION/) {
             $returnType = "DOUBLE";
+        } elsif ($returnType =~ /REAL/) {
+            $returnType = "FLOAT";
         } elsif ($returnType =~ /INTEGER/) {
             $returnType = "INTEGER";
         } elsif ($returnType =~ /LOGICAL/) {
@@ -154,7 +160,7 @@ if ($subroutine) {
         }
     }
 
-    my $declName = "LAPACK_DECL(" . lc($name) . ")(";
+    my $declName = "LAPACK_IMPL(" . lc($name) . ")(";
 
     my $paddingWidth = 0;
     for my $var (@vars) {

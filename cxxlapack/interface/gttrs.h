@@ -42,6 +42,19 @@ template <typename IndexType>
     gttrs(char                  trans,
           IndexType             n,
           IndexType             nRhs,
+          const float           *dl,
+          const float           *d,
+          const float           *du,
+          const float           *du2,
+          const IndexType       *iPiv,
+          float                 *B,
+          IndexType             ldB);
+    
+template <typename IndexType>
+    IndexType
+    gttrs(char                  trans,
+          IndexType             n,
+          IndexType             nRhs,
           const double          *dl,
           const double          *d,
           const double          *du,
@@ -49,6 +62,20 @@ template <typename IndexType>
           const IndexType       *iPiv,
           double                *B,
           IndexType             ldB);
+    
+template <typename IndexType>
+    IndexType
+    gttrs(char                        trans,
+          IndexType                   n,
+          IndexType                   nRhs,
+          const std::complex<float >  *dl,
+          const std::complex<float >  *d,
+          const std::complex<float >  *du,
+          const std::complex<float >  *du2,
+          const IndexType             *iPiv,
+          std::complex<float >        *B,
+          IndexType                   ldB);
+    
 
 template <typename IndexType>
     IndexType

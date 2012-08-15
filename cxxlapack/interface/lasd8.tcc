@@ -41,6 +41,44 @@ template <typename IndexType>
 IndexType
 lasd8(IndexType             icompq,
       IndexType             k,
+      float                 *d,
+      float                 *z,
+      float                 *vf,
+      float                 *vl,
+      float                 *difl,
+      float                 *Difr,
+      IndexType             ldDifr,
+      float                 *dsigma,
+      float                 *work)
+{ 
+    CXXLAPACK_DEBUG_OUT("slasd8");
+    
+    IndexType info;
+    LAPACK_IMPL(slasd8)(&icompq,
+                        &k,
+                        d,
+                        z,
+                        vf,
+                        vl,
+                        difl,
+                        Difr,
+                        &ldDifr,
+                        dsigma,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+lasd8(IndexType             icompq,
+      IndexType             k,
       double                *d,
       double                *z,
       double                *vf,
@@ -50,7 +88,9 @@ lasd8(IndexType             icompq,
       IndexType             ldDifr,
       double                *dsigma,
       double                *work)
-{
+{ 
+    CXXLAPACK_DEBUG_OUT("dlasd8");
+    
     IndexType info;
     LAPACK_IMPL(dlasd8)(&icompq,
                         &k,

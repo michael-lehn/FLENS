@@ -42,6 +42,46 @@ IndexType
 ggglm(IndexType             n,
       IndexType             m,
       IndexType             p,
+      float                 *A,
+      IndexType             ldA,
+      float                 *B,
+      IndexType             ldB,
+      float                 *d,
+      float                 *x,
+      float                 *y,
+      float                 *work,
+      IndexType             lWork)
+{
+    CXXLAPACK_DEBUG_OUT("sggglm");
+    
+    IndexType info;
+    LAPACK_IMPL(sggglm)(&n,
+                        &m,
+                        &p,
+                        A,
+                        &ldA,
+                        B,
+                        &ldB,
+                        d,
+                        x,
+                        y,
+                        work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ggglm(IndexType             n,
+      IndexType             m,
+      IndexType             p,
       double                *A,
       IndexType             ldA,
       double                *B,
@@ -52,6 +92,8 @@ ggglm(IndexType             n,
       double                *work,
       IndexType             lWork)
 {
+    CXXLAPACK_DEBUG_OUT("dggglm");
+    
     IndexType info;
     LAPACK_IMPL(dggglm)(&n,
                         &m,
@@ -75,6 +117,45 @@ ggglm(IndexType             n,
     return info;
 }
 
+template <typename IndexType>
+IndexType
+ggglm(IndexType             n,
+      IndexType             m,
+      IndexType             p,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      std::complex<float >  *B,
+      IndexType             ldB,
+      std::complex<float >  *d,
+      std::complex<float >  *x,
+      std::complex<float >  *y,
+      std::complex<float >  *work,
+      IndexType             lWork)
+{
+    CXXLAPACK_DEBUG_OUT("cggglm");
+    
+    IndexType info;
+    LAPACK_IMPL(cggglm)(&n,
+                        &m,
+                        &p,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(d),
+                        reinterpret_cast<float  *>(x),
+                        reinterpret_cast<float  *>(y),
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
 
 template <typename IndexType>
 IndexType
@@ -91,6 +172,8 @@ ggglm(IndexType             n,
       std::complex<double>  *work,
       IndexType             lWork)
 {
+    CXXLAPACK_DEBUG_OUT("zggglm");
+    
     IndexType info;
     LAPACK_IMPL(zggglm)(&n,
                         &m,

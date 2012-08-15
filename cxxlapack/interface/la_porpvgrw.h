@@ -41,12 +41,32 @@ template <typename IndexType>
     IndexType
     la_porpvgrw(char                  uplo,
                 IndexType             ncols,
+                const float           *A,
+                IndexType             ldA,
+                const float           *Af,
+                IndexType             ldAf,
+                float                 *work);
+    
+template <typename IndexType>
+    IndexType
+    la_porpvgrw(char                  uplo,
+                IndexType             ncols,
                 const double          *A,
                 IndexType             ldA,
                 const double          *Af,
                 IndexType             ldAf,
                 double                *work);
-
+    
+template <typename IndexType>
+    double
+    la_porpvgrw(char                        uplo,
+                IndexType                   ncols,
+                const std::complex<float >  *A,
+                IndexType                   ldA,
+                const std::complex<float >  *Af,
+                IndexType                   ldAf,
+                float                       *work);
+    
 template <typename IndexType>
     double
     la_porpvgrw(char                        uplo,

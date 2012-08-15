@@ -40,6 +40,29 @@ namespace cxxlapack {
 template <typename IndexType>
 void
 lartv(IndexType             n,
+      float                 *x,
+      IndexType             incx,
+      float                 *y,
+      IndexType             incy,
+      const float           *c,
+      const float           *s,
+      IndexType             incc)
+{
+    CXXLAPACK_DEBUG_OUT("slartv");
+    
+    LAPACK_IMPL(slartv)(&n,
+                        x,
+                        &incx,
+                        y,
+                        &incy,
+                        c,
+                        s,
+                        &incc);
+}
+
+template <typename IndexType>
+void
+lartv(IndexType             n,
       double                *x,
       IndexType             incx,
       double                *y,
@@ -48,7 +71,8 @@ lartv(IndexType             n,
       const double          *s,
       IndexType             incc)
 {
-
+    CXXLAPACK_DEBUG_OUT("dlartv");
+    
     LAPACK_IMPL(dlartv)(&n,
                         x,
                         &incx,
@@ -56,6 +80,29 @@ lartv(IndexType             n,
                         &incy,
                         c,
                         s,
+                        &incc);
+}
+
+template <typename IndexType>
+void
+lartv(IndexType                   n,
+      std::complex<float >        *x,
+      IndexType                   incx,
+      std::complex<float >        *y,
+      IndexType                   incy,
+      const float                 *c,
+      const std::complex<float >  *s,
+      IndexType                    incc)
+{
+    CXXLAPACK_DEBUG_OUT("clartv");
+
+    LAPACK_IMPL(clartv)(&n,
+                        reinterpret_cast<float  *>(x),
+                        &incx,
+                        reinterpret_cast<float  *>(y),
+                        &incy,
+                        c,
+                        reinterpret_cast<const float  *>(s),
                         &incc);
 }
 
@@ -70,6 +117,7 @@ lartv(IndexType                   n,
       const std::complex<double>  *s,
       IndexType                    incc)
 {
+    CXXLAPACK_DEBUG_OUT("zlartv");
 
     LAPACK_IMPL(zlartv)(&n,
                         reinterpret_cast<double *>(x),

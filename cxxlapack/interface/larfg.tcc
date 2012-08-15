@@ -42,11 +42,31 @@ namespace cxxlapack {
 template <typename IndexType>
 void
 larfg(IndexType     n,
+      float         &alpha,
+      float         *x,
+      IndexType     incX,
+      float         &tau)
+{
+    CXXLAPACK_DEBUG_OUT("slarfg");
+ 
+    LAPACK_IMPL(slarfg)(&n,
+                        &alpha,
+                        x,
+                        &incX,
+                        &tau);
+}
+
+
+template <typename IndexType>
+void
+larfg(IndexType     n,
       double        &alpha,
       double        *x,
       IndexType     incX,
       double        &tau)
 {
+    CXXLAPACK_DEBUG_OUT("slarfg");
+ 
     LAPACK_IMPL(dlarfg)(&n,
                         &alpha,
                         x,
@@ -57,11 +77,30 @@ larfg(IndexType     n,
 template <typename IndexType>
 void
 larfg(IndexType               n,
+      std::complex<float >    &alpha,
+      std::complex<float >    *x,
+      IndexType               incX,
+      std::complex<float >    &tau)
+{
+    CXXLAPACK_DEBUG_OUT("clarfg");
+ 
+    LAPACK_IMPL(clarfg)(&n,
+                        reinterpret_cast<float  *>(&alpha),
+                        reinterpret_cast<float  *>(x),
+                        &incX,
+                        reinterpret_cast<float  *>(&tau));
+}
+
+template <typename IndexType>
+void
+larfg(IndexType               n,
       std::complex<double>    &alpha,
       std::complex<double>    *x,
       IndexType               incX,
       std::complex<double>    &tau)
 {
+    CXXLAPACK_DEBUG_OUT("zlarfg");
+ 
     LAPACK_IMPL(zlarfg)(&n,
                         reinterpret_cast<double *>(&alpha),
                         reinterpret_cast<double *>(x),
