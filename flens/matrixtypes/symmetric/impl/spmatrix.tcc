@@ -336,6 +336,20 @@ SpMatrix<FS>::resize(IndexType dim, IndexType firstIndex,
     return _engine.resize(dim, firstIndex, value);
 }
 
+template <typename FS>
+bool
+SpMatrix<FS>::fill(const ElementType &value)
+{
+    return _engine.fill(value);
+}
+
+template <typename FS>
+bool
+SpMatrix<FS>::fillRandom()
+{
+    return _engine.fillRandom();
+}
+
 // -- implementation -----------------------------------------------------------
 
 template <typename FS>

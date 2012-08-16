@@ -131,12 +131,7 @@ class SpMatrix
         ElementType &
         operator()(IndexType row, IndexType col);
 
-
-
-
-
         // -- views ------------------------------------------------------------
-
 
         // hermitian views
         const ConstHermitianView
@@ -185,6 +180,12 @@ class SpMatrix
         resize(IndexType dim,
                IndexType firstIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
+
+        bool
+        fill(const ElementType &value = ElementType(0));
+
+        bool
+        fillRandom();
 
         // -- implementation ---------------------------------------------------
 

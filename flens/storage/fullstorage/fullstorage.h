@@ -160,6 +160,12 @@ class FullStorage
         bool
         fill(StorageUpLo upLo, const ElementType &value = ElementType(0));
 
+        bool
+        fillRandom();
+
+        bool
+        fillRandom(StorageUpLo upLo);
+
         void
         changeIndexBase(IndexType firstRow, IndexType firstCol);
 

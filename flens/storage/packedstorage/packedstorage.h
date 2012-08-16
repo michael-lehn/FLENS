@@ -138,6 +138,8 @@ class PackedStorage
         bool
         fill(const ElementType &value = ElementType(0));
 
+        bool
+        fillRandom();
 
         void
         changeIndexBase(IndexType indexBase);

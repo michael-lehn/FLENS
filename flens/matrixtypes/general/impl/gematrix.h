@@ -236,6 +236,9 @@ class GeMatrix
         bool
         fill(const ElementType &value = ElementType(0));
 
+        bool
+        fillRandom();
+        
         void
         changeIndexBase(IndexType firstRowIndex, IndexType firstColIndex);
 

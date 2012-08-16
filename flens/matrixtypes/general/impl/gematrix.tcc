@@ -378,6 +378,13 @@ GeMatrix<FS>::fill(const ElementType &value)
 }
 
 template <typename FS>
+bool
+GeMatrix<FS>::fillRandom()
+{
+    return _engine.fillRandom();
+}
+
+template <typename FS>
 void
 GeMatrix<FS>::changeIndexBase(IndexType firstRowIndex, IndexType firstColIndex)
 {

@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2011, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,25 +30,27 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_STORAGE_FULLSTORAGE_TRAPEZOIDALFILL_H
-#define FLENS_STORAGE_FULLSTORAGE_TRAPEZOIDALFILL_H 1
+#ifndef FLENS_AUXILIARY_RANDOMVALUE_H
+#define FLENS_AUXILIARY_RANDOMVALUE_H 1
 
-#include <cxxblas/typedefs.h>
-#include <flens/typedefs.h>
+#include <flens/auxiliary/iscomplex.h>
 
 namespace flens {
 
-template <typename IndexType, typename T>
-    void
-    trapezoidalFill(StorageOrder order, StorageUpLo upLo,
-                    const T &value,
-                    IndexType m, IndexType n, T *data, IndexType ld);
-    
-template <typename IndexType, typename T>
-    void
-    trapezoidalFillRandom(StorageOrder order, StorageUpLo upLo,
-                          IndexType m, IndexType n, T *data, IndexType ld);
+template <typename T>
+typename flens::RestrictTo<flens::IsReal<T>::value, T>::Type
+randomValue()
+{
+    return T(rand()-0.5*RAND_MAX) / T(0.5*RAND_MAX);
+}
+
+template <typename T>
+typename flens::RestrictTo<flens::IsComplex<T>::value, T>::Type
+randomValue()
+{
+    return T(rand()-0.5*RAND_MAX, rand()-0.5*RAND_MAX) / T(0.5*RAND_MAX,0);
+}
 
 } // namespace flens
 
-#endif // FLENS_STORAGE_FULLSTORAGE_TRAPEZOIDALFILL_H
+#endif // FLENS_AUXILIARY_RANDOMVALUE_H

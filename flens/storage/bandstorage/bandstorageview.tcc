@@ -33,6 +33,7 @@
 #ifndef FLENS_STORAGE_BANDSTORAGE_BANDSTORAGEVIEW_TCC
 #define FLENS_STORAGE_BANDSTORAGE_BANDSTORAGEVIEW_TCC 1
 
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/typedefs.h>
 
 namespace flens {
@@ -294,6 +295,25 @@ BandStorageView<T, Order, I, A>::fill(const ElementType &value)
         const IndexType maxcol = min(row+_numSuperDiags,_numCols+_firstIndex-1);
         for (IndexType col = mincol; col <= maxcol; ++col)
             operator()(row, col) = value;  
+    }
+    
+    return true;
+}
+
+
+template <typename T, StorageOrder Order, typename I, typename A>
+bool
+BandStorageView<T, Order, I, A>::fillRandom()
+{
+    using std::max;
+    using std::min;
+    
+    for (IndexType row = _firstIndex; row <= _firstIndex+_numRows-1; ++row) 
+    {
+        const IndexType mincol = max(_firstIndex,row-_numSubDiags);
+        const IndexType maxcol = min(row+_numSuperDiags,_numCols+_firstIndex-1);
+        for (IndexType col = mincol; col <= maxcol; ++col)
+            operator()(row, col) = randomValue<T>();  
     }
     
     return true;

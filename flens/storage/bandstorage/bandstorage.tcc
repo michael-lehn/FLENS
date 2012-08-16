@@ -33,6 +33,7 @@
 #ifndef FLENS_STORAGE_BANDSTORAGE_BANDSTORAGE_TCC
 #define FLENS_STORAGE_BANDSTORAGE_BANDSTORAGE_TCC 1
 
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/typedefs.h>
 
 namespace flens {
@@ -334,6 +335,25 @@ BandStorage<T, Order, I, A>::fill(const ElementType &value)
     }
     else {
         std::fill_n(_data, m*_numRows, value);
+    }
+    
+    return true;
+}
+
+template <typename T, StorageOrder Order, typename I, typename A>
+bool
+BandStorage<T, Order, I, A>::fillRandom()
+{
+    const IndexType m = _numSubDiags+_numSuperDiags+1;
+    if (Order==ColMajor) {
+        for (IndexType i=0; i<m*_numCols;++i) {
+            _data[i] = randomValue<T>();
+        }
+    }
+    else {
+        for (IndexType i=0; i<m*_numRows;++i) {
+            _data[i] = randomValue<T>();
+        }
     }
     
     return true;

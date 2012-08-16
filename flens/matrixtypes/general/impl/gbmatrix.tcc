@@ -33,6 +33,7 @@
 #ifndef FLENS_MATRIXTYPES_GENERAL_IMPL_GBMATRIX_TCC
 #define FLENS_MATRIXTYPES_GENERAL_IMPL_GBMATRIX_TCC 1
 
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/blas/level1/copy.h>
 #include <flens/typedefs.h>
 
@@ -399,6 +400,19 @@ GbMatrix<FS>::resize(IndexType n, IndexType m, IndexType kl, IndexType ku, Index
     return _engine.resize(n, m, kl, ku, firstIndex, value);
 }
 
+template <typename FS>
+bool
+GbMatrix<FS>::fill(const ElementType &value)
+{
+    return _engine.fill(value);
+}
+
+template <typename FS>
+bool
+GbMatrix<FS>::fillRandom()
+{
+    return _engine.fillRandom();
+}
 // -- implementation -----------------------------------------------------------
 
 template <typename FS>

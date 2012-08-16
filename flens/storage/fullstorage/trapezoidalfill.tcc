@@ -34,10 +34,11 @@
 #define FLENS_STORAGE_FULLSTORAGE_TRAPEZOIDALFILL_TCC 1
 
 #include <cxxblas/typedefs.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/typedefs.h>
 
 namespace flens {
-
+  
 template <typename IndexType, typename T>
 void
 trapezoidalFill(StorageOrder order, StorageUpLo upLo,
@@ -69,6 +70,49 @@ trapezoidalFill(StorageOrder order, StorageUpLo upLo,
         if (order==ColMajor) {
             for (IndexType j=0; j<min(m, n); ++j, data+=ld+1) {
                 std::fill_n(data, m-j, value);
+            }
+        }
+    }
+}
+
+template <typename IndexType, typename T>
+void
+trapezoidalFillRandom(StorageOrder order, StorageUpLo upLo,
+                      IndexType m, IndexType n, T *data, IndexType ld)
+{
+    using std::min;
+
+    // fill the upper trapezoidal part
+    if (upLo==Upper) {
+        if (order==RowMajor) {
+            for (IndexType i=0; i<min(m,n); ++i, data+=ld+1) {
+                for (IndexType j=0; j<n-i;++j) {
+                    data[j] = randomValue<T>();
+                }
+            }
+        }
+        if (order==ColMajor) {
+            for (IndexType j=0; j<n; ++j, data+=ld) {
+                for (IndexType i=0; i<min(j+1,m); ++i) {
+                    data[i] = randomValue<T>();
+                }
+            }
+        }
+    }
+    // fill the lower trapezoidal part
+    if (upLo==Lower) {
+        if (order==RowMajor) {
+            for (IndexType i=0; i<m; ++i, data+=ld) {
+                for (IndexType j=0; j<min(i+1,n); ++j) {
+                    data[j] = randomValue<T>();
+                }
+            }
+        }
+        if (order==ColMajor) {
+            for (IndexType j=0; j<min(m, n); ++j, data+=ld+1) {
+                for (IndexType i=0; i<m-j; ++i) {
+                    data[i] = randomValue<T>();
+                }
             }
         }
     }

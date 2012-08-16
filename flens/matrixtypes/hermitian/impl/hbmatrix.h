@@ -208,7 +208,13 @@ class HbMatrix
         resize(IndexType dim, IndexType numOffDiags,
                IndexType firstIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
-	
+
+        bool
+        fill(const ElementType &value = ElementType(0));
+
+        bool
+        fillRandom();
+
         // -- implementation ---------------------------------------------------
 
         const Engine &

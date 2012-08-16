@@ -34,6 +34,7 @@
 #define FLENS_STORAGE_PACKEDSTORAGE_PACKEDSTORAGE_TCC
 
 #include <cxxblas/level1/copy.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/typedefs.h>
 
 namespace flens {
@@ -265,6 +266,16 @@ PackedStorage<T, UpLo, Order, I, A>::fill(const ElementType &value)
     return true;
 }
 
+template <typename T, StorageUpLo UpLo, StorageOrder Order, typename I, typename A>
+bool
+PackedStorage<T, UpLo, Order, I, A>::fillRandom()
+{
+    ASSERT(_data);
+    for (IndexType i=0; i<0.5*(dim()+1)*dim();++i) {
+        _data[i] = randomValue<T>();;
+    }
+    return true;
+}
 
 template <typename T, StorageUpLo UpLo, StorageOrder Order, typename I, typename A>
 void

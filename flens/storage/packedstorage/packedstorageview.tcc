@@ -33,7 +33,7 @@
 #ifndef FLENS_STORAGE_PACKEDSTORAGE_PACKEDSTORAGEVIEW_TCC
 #define FLENS_STORAGE_PACKEDSTORAGE_PACKEDSTORAGEVIEW_TCC
 
-// #include <flens/storage/fullstorage/trapezoidalfill.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/typedefs.h>
 
 namespace flens {
@@ -241,6 +241,16 @@ bool
 PackedStorageView<T, UpLo, Order, I, A>::fill(const ElementType &value)
 {
     std::fill_n(data(), 0.5*(dim()+1)*dim(), value);
+    return true;
+}
+
+template <typename T, StorageUpLo UpLo, StorageOrder Order, typename I, typename A>
+bool
+PackedStorageView<T, UpLo, Order, I, A>::fillRandom()
+{
+    for (IndexType i=0; i<0.5*(dim()+1)*dim();++i) {
+        _data[i] = randomValue<T>();;
+    }
     return true;
 }
 

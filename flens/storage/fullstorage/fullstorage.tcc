@@ -34,6 +34,7 @@
 #define FLENS_STORAGE_FULLSTORAGE_FULLSTORAGE_TCC 1
 
 #include <cxxblas/level1extensions/gecopy.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/storage/fullstorage/fullstorage.h>
 #include <flens/storage/fullstorage/trapezoidalfill.h>
 #include <flens/typedefs.h>
@@ -305,6 +306,28 @@ FullStorage<T, Order, I, A>::fill(StorageUpLo  upLo,
     return true;
 }
 
+template <typename T, StorageOrder Order, typename I, typename A>
+bool
+FullStorage<T, Order, I, A>::fillRandom()
+{
+    ASSERT(_data);
+    for (IndexType i=0; i<numRows()*numCols(); ++i) {
+        _data[i] = randomValue<T>();
+    }
+    return true;
+}
+
+template <typename T, StorageOrder Order, typename I, typename A>
+bool
+FullStorage<T, Order, I, A>::fillRandom(StorageUpLo  upLo)
+{
+    ASSERT(_data);
+
+    trapezoidalFillRandom(order, upLo,
+                          numRows(), numCols(),
+                          data(), leadingDimension());
+    return true;
+}
 
 template <typename T, StorageOrder Order, typename I, typename A>
 void

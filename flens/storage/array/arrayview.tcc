@@ -189,6 +189,16 @@ ArrayView<T, I, A>::fill(const ElementType &value)
 }
 
 template <typename T, typename I, typename A>
+bool
+ArrayView<T, I, A>::fillRandom()
+{
+    for (IndexType i=firstIndex(); i<=lastIndex(); ++i) {
+        operator()(i) = randomValue<T>();
+    }
+    return true;
+}
+
+template <typename T, typename I, typename A>
 void
 ArrayView<T, I, A>::changeIndexBase(IndexType DEBUG_VAR(firstIndex))
 {

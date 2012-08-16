@@ -432,6 +432,21 @@ TbMatrix<FS>::resize(IndexType dim, IndexType numOffDiags,
                           firstIndex, value);
 }
 
+
+template <typename FS>
+bool
+TbMatrix<FS>::fill(const ElementType &value)
+{
+    return _engine.fill(value);
+}
+
+template <typename FS>
+bool
+TbMatrix<FS>::fillRandom()
+{
+    return _engine.fillRandom();
+}
+
 // -- implementation -----------------------------------------------------------
 template <typename FS>
 const typename TbMatrix<FS>::Engine &

@@ -297,6 +297,43 @@ FullStorageView<T, Order, I, A>::fill(StorageUpLo  upLo,
     return true;
 }
 
+
+template <typename T, StorageOrder Order, typename I, typename A>
+bool
+FullStorageView<T, Order, I, A>::fillRandom()
+{
+    if (Order==RowMajor) {
+        ElementType *p = data();
+        for (IndexType i=0; i<numRows(); ++i, p+=leadingDimension()) {
+            for (IndexType j=0;j<numCols();++j) {
+                p[j] = randomValue<T>();     
+            }
+        }
+        return true;
+    }
+    if (Order==ColMajor) {
+        ElementType *p = data();
+        for (IndexType j=0; j<numCols(); ++j, p+=leadingDimension()) {
+            for (IndexType i=0;i<numRows();++i) {
+                p[i] = randomValue<T>();     
+            }
+        }
+        return true;
+    }
+    ASSERT(0);
+    return false;
+}
+
+template <typename T, StorageOrder Order, typename I, typename A>
+bool
+FullStorageView<T, Order, I, A>::fillRandom(StorageUpLo  upLo)
+{
+    trapezoidalFillRandom(order, upLo,
+                          numRows(), numCols(),
+                          data(), leadingDimension());
+    return true;
+}
+
 template <typename T, StorageOrder Order, typename I, typename A>
 void
 FullStorageView<T, Order, I, A>::changeIndexBase(IndexType firstRow,

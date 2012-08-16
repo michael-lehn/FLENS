@@ -352,6 +352,20 @@ TpMatrix<FS>::resize(IndexType dim,
                           value);
 }
 
+template <typename FS>
+bool
+TpMatrix<FS>::fill(const ElementType &value)
+{
+    return _engine.fill(value);
+}
+
+template <typename FS>
+bool
+TpMatrix<FS>::fillRandom()
+{
+    return _engine.fillRandom();
+}
+
 // -- implementation -----------------------------------------------------------
 template <typename FS>
 const typename TpMatrix<FS>::Engine &

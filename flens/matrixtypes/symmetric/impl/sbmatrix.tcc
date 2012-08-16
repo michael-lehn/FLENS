@@ -401,6 +401,20 @@ SbMatrix<FS>::resize(IndexType dim,
                           firstIndex, value);
 }
 
+template <typename FS>
+bool
+SbMatrix<FS>::fill(const ElementType &value)
+{
+    return _engine.fill(value);
+}
+
+template <typename FS>
+bool
+SbMatrix<FS>::fillRandom()
+{
+    return _engine.fillRandom();
+}
+
 // -- implementation -----------------------------------------------------------
 
 template <typename FS>

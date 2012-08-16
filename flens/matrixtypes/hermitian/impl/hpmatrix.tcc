@@ -33,6 +33,7 @@
 #ifndef FLENS_MATRIXTYPES_HERMITIAN_IMPL_HPMATRIX_TCC
 #define FLENS_MATRIXTYPES_HERMITIAN_IMPL_HPMATRIX_TCC 1
 
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/blas/level1/copy.h>
 #include <flens/typedefs.h>
 
@@ -338,6 +339,25 @@ HpMatrix<FS>::resize(IndexType dim, IndexType firstIndex,
     return _engine.resize(dim, firstIndex, value);
 }
 
+template <typename FS>
+bool
+HpMatrix<FS>::fill(const ElementType &value)
+{
+    ASSERT(cxxblas::imag(value)==0);
+    
+    return _engine.fill(value);
+}
+
+template <typename FS>
+bool
+HpMatrix<FS>::fillRandom()
+{
+    bool val = _engine.fillRandom();
+    for (IndexType i=firstIndex();i<=lastIndex();++i) {
+        (*this)(i,i) = ElementType(cxxblas::real((*this)(i,i)));
+    }
+    return val;
+}
 // -- implementation -----------------------------------------------------------
 
 template <typename FS>

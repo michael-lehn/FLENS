@@ -33,6 +33,7 @@
 #ifndef FLENS_MATRIXTYPES_HERMITIAN_IMPL_HBMATRIX_TCC
 #define FLENS_MATRIXTYPES_HERMITIAN_IMPL_HBMATRIX_TCC 1
 
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/blas/level1/copy.h>
 #include <flens/typedefs.h>
 
@@ -389,6 +390,27 @@ HbMatrix<FS>::resize(IndexType dim, IndexType numOffDiags,
                           (_upLo==Lower) ? numOffDiags : 0,  
                           (_upLo==Upper) ? numOffDiags : 0,  
                           firstIndex, value);
+}
+
+template <typename FS>
+bool
+HbMatrix<FS>::fill(const ElementType &value)
+{
+    ASSERT(cxxblas::imag(value)==0);
+    
+    return _engine.fill(value);
+}
+
+template <typename FS>
+bool
+HbMatrix<FS>::fillRandom()
+{
+    bool val = _engine.fillRandom();
+    VectorView d = (*this).viewDiag();
+    for (IndexType i=d.firstIndex();i<=d.lastIndex();++i) {
+        d(i) = ElementType(cxxblas::real(d(i)));
+    }
+    return val;
 }
 
 // -- implementation -----------------------------------------------------------
