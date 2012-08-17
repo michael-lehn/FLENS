@@ -33,10 +33,6 @@
 #ifndef CXXBLAS_CXXBLAS_TCC
 #define CXXBLAS_CXXBLAS_TCC 1
 
-#ifndef CXXBLAS_DEBUG_OUT
-#define CXXBLAS_DEBUG_OUT(msg)
-#endif // CXXBLAS_DEBUG_OUT
-
 #include <cxxblas/auxiliary/complex.tcc>
 #include <cxxblas/drivers/drivers.tcc>
 

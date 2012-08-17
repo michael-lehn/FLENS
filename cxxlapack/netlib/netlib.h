@@ -6,12 +6,12 @@
 #endif
 
 #ifndef CXXLAPACK_NO_UNDERSCORE
-#define     LAPACK_IMPL(x)           x##_
+#   define     LAPACK_IMPL(x)           x##_
 #else
-#define     LAPACK_IMPL(x)           x
+#   define     LAPACK_IMPL(x)           x
 #endif
 
-#ifdef  CXXLAPACK_DEBUG
+#ifdef  DEBUG_CXXLAPACK
 #   define  CXXLAPACK_DEBUG_OUT(msg) std::cerr << "CXXLAPACK: " << msg << std::endl;
 #endif
 
