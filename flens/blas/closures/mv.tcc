@@ -156,6 +156,8 @@ mv(Transpose trans,
 //
 //  This gets called if everything else fails
 //
+#ifdef FLENS_DEBUG_CLOSURES
+
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
 void
 mv(Transpose trans,
@@ -182,6 +184,8 @@ mv(Transpose trans,
 
     FLENS_BLASLOG_END;
 }
+
+#endif
 
 } } // namespace blas, flens
 

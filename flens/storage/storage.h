@@ -39,6 +39,10 @@
 #include <flens/storage/array/arrayview.h>
 #include <flens/storage/array/array.h>
 
+#include <flens/storage/coordstorage/coordstorage.h>
+
+#include <flens/storage/crs/crs.h>
+
 #include <flens/storage/fullstorage/constfullstorageview.h>
 #include <flens/storage/fullstorage/fullstorageview.h>
 #include <flens/storage/fullstorage/fullstorage.h>

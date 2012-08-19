@@ -71,6 +71,8 @@ GeMatrix<FS>::GeMatrix(const Range<IndexType> &rowRange,
     : _engine(rowRange.numTicks(), colRange.numTicks(),
               rowRange.firstIndex(), colRange.firstIndex())
 {
+    ASSERT(rowRange.stride()==1);
+    ASSERT(colRange.stride()==1);
 }
 
 template <typename FS>

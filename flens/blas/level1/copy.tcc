@@ -47,6 +47,8 @@
 
 namespace flens { namespace blas {
 
+//-- BLAS Level 1 --------------------------------------------------------------
+
 //-- copy
 template <typename VX, typename VY>
 typename RestrictTo<IsDenseVector<VX>::value
@@ -82,6 +84,8 @@ copy(const VX &x, VY &&y)
     FLENS_BLASLOG_END;
     FLENS_BLASLOG_UNSETTAG;
 }
+
+//-- BLAS Level 1 extensions ---------------------------------------------------
 
 //-- gecopy
 template <typename MA, typename MB>
@@ -288,7 +292,31 @@ copy(const MA &A, MB &&B)
     FLENS_BLASLOG_UNSETTAG;
 }
 
-//-- extensions ----------------------------------------------------------------
+//-- Sparse BLAS extensions ----------------------------------------------------
+
+//-- copy: GeCoordMatrix -> GeCrsMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsGeCoordMatrix<MA>::value
+                 && IsGeCRSMatrix<MB>::value,
+         void>::Type
+copy(Transpose trans, const MA &A, MB &&B)
+{
+    B.engine() = A.engine();
+}
+
+//-- copy: SyCoordMatrix -> SyCrsMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsSyCoordMatrix<MA>::value
+                 && IsSyCRSMatrix<MB>::value,
+         void>::Type
+copy(Transpose trans, const MA &A, MB &&B)
+{
+    B.engine() = A.engine();
+    B.upLo() = A.upLo();
+}
+
+
+//-- convenience extensions ----------------------------------------------------
 
 //-- copy: TrMatrix -> GeMatrix
 template <typename MA, typename MB>
@@ -373,6 +401,51 @@ copy(const MA &A, MB &&B)
     } else {
         B.lower() = A.general().lower();
         B.strictUpper() = transpose(A.general().strictLower());
+    }
+}
+
+//-- copy: GeCoordMatrix -> GeMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsGeCoordMatrix<MA>::value
+                 && IsGeMatrix<MB>::value,
+         void>::Type
+copy(Transpose trans, const MA &A, MB &&B)
+{
+    typedef typename MA::ElementType  ElementType;
+
+    B.resize(A.numRows(), A.numCols(),
+             A.firstRow(), A.firstCol(),
+             ElementType(0));
+
+    const auto &coord = A.engine().coordVector();
+
+    for (size_t k=0; k<coord.size(); ++k) {
+        B(coord[k].row, coord[k].col) += coord[k].value;
+    }
+}
+
+//-- copy: GeCRSMatrix -> GeMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsGeCRSMatrix<MA>::value
+                 && IsGeMatrix<MB>::value,
+         void>::Type
+copy(Transpose trans, const MA &A, MB &&B)
+{
+    typedef typename MA::IndexType    IndexType;
+    typedef typename MA::ElementType  ElementType;
+
+    B.resize(A.numRows(), A.numCols(),
+             A.firstRow(), A.firstCol(),
+             ElementType(0));
+
+    const auto &rows = A.engine().rows();
+    const auto &cols = A.engine().cols();
+    const auto &vals = A.engine().values();
+
+    for (IndexType i=rows.firstIndex(); i<rows.lastIndex(); ++i) {
+        for (IndexType k=rows(i); k<rows(i+1); ++k) {
+            B(i,cols(k)) = vals(k);
+        }
     }
 }
 

@@ -37,6 +37,10 @@
 #include <flens/storage/array/arrayview.tcc>
 #include <flens/storage/array/array.tcc>
 
+#include <flens/storage/coordstorage/coordstorage.tcc>
+
+#include <flens/storage/crs/crs.tcc>
+
 #include <flens/storage/fullstorage/constfullstorageview.tcc>
 #include <flens/storage/fullstorage/fullstorageview.tcc>
 #include <flens/storage/fullstorage/fullstorage.tcc>

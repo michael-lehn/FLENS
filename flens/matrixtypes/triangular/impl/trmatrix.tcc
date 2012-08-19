@@ -41,19 +41,23 @@
 namespace flens {
 
 template <typename FS>
-TrMatrix<FS>::TrMatrix()
+TrMatrix<FS>::TrMatrix(IndexType dim, StorageUpLo upLo, Diag diag)
+    : _engine(dim, dim), _upLo(upLo), _diag(diag)
 {
 }
 
 template <typename FS>
-TrMatrix<FS>::TrMatrix(IndexType dim)
-    : _engine(dim, dim)
+TrMatrix<FS>::TrMatrix(IndexType numRows, IndexType numCols,
+                       StorageUpLo upLo, Diag diag)
+    : _engine(numRows, numCols), _upLo(upLo), _diag(diag)
 {
 }
 
 template <typename FS>
-TrMatrix<FS>::TrMatrix(IndexType numRows, IndexType numCols)
-    : _engine(numRows, numCols)
+TrMatrix<FS>::TrMatrix(IndexType numRows, IndexType numCols,
+                       IndexType firstRow, IndexType firstCol,
+                       StorageUpLo upLo, Diag diag)
+    : _engine(numRows, numCols, firstRow, firstCol), _upLo(upLo), _diag(diag)
 {
 }
 

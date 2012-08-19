@@ -33,6 +33,8 @@
 #ifndef FLENS_MATRIXTYPES_SYMMETRIC_IMPL_IMPL_H
 #define FLENS_MATRIXTYPES_SYMMETRIC_IMPL_IMPL_H 1
 
+#include <flens/matrixtypes/symmetric/impl/sycoordmatrix.h>
+#include <flens/matrixtypes/symmetric/impl/sycrsmatrix.h>
 #include <flens/matrixtypes/symmetric/impl/symatrix.h>
 
 #endif // FLENS_MATRIXTYPES_SYMMETRIC_IMPL_IMPL_H

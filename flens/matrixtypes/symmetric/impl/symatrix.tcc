@@ -40,20 +40,23 @@
 namespace flens {
 
 template <typename FS>
-SyMatrix<FS>::SyMatrix()
-{
-}
-
-template <typename FS>
-SyMatrix<FS>::SyMatrix(IndexType dim)
-    : _engine(dim, dim)
+SyMatrix<FS>::SyMatrix(IndexType dim, StorageUpLo upLo)
+    : _engine(dim, dim), _upLo(upLo)
 {
     ASSERT(dim>=0);
 }
 
 template <typename FS>
-SyMatrix<FS>::SyMatrix(IndexType dim, IndexType firstRow, IndexType firstCol)
-    : _engine(dim, dim, firstRow, firstCol)
+SyMatrix<FS>::SyMatrix(IndexType dim, IndexType firstIndex, StorageUpLo upLo)
+    : _engine(dim, dim, firstIndex, firstIndex), _upLo(upLo)
+{
+    ASSERT(dim>=0);
+}
+
+template <typename FS>
+SyMatrix<FS>::SyMatrix(IndexType dim, IndexType firstRow, IndexType firstCol,
+                       StorageUpLo upLo)
+    : _engine(dim, dim, firstRow, firstCol), _upLo(upLo)
 {
     ASSERT(dim>=0);
 }

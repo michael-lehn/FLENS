@@ -46,6 +46,11 @@
 namespace flens { namespace blas {
 
 //== GeneralMatrix - GeneralMatrix products ====================================
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+void
+mm(Transpose transA, Transpose transB, const ALPHA &alpha,
+   const GeneralMatrix<MA> &A, const GeneralMatrix<MB> &B,
+   const BETA &beta, Matrix<MC> &C);
 
 //== TriangularMatrix - GeneralMatrix products =================================
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>

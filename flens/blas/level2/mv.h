@@ -51,6 +51,14 @@ template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
     mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,
        const BETA &beta, VY &&y);
 
+//-- gecrsmv
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+    typename RestrictTo<IsGeCRSMatrix<MA>::value
+                     && IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
+             void>::Type
+    mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,
+       const BETA &beta, VY &&y);
 
 //== TriangularMatrix - Vector products ========================================
 
@@ -67,6 +75,14 @@ template <typename MA, typename VX>
 //-- symv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
     typename RestrictTo<IsSyMatrix<MA>::value
+                     && IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
+             void>::Type
+    mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y);
+
+//-- sycrsmv
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+    typename RestrictTo<IsSyCRSMatrix<MA>::value
                      && IsDenseVector<VX>::value
                      && IsDenseVector<VY>::value,
              void>::Type

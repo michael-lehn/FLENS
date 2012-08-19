@@ -65,12 +65,15 @@ template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
 //
 //  This gets called if everything else fails
 //
+#ifdef FLENS_DEBUG_CLOSURES
+
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
     void
     mv(Transpose trans,
        const ALPHA &alpha, const Matrix<MA> &A, const Vector<VX> &x,
        const BETA &beta, Vector<VY> &y);
 
+#endif
 
 } } // namespace blas, flens
 
