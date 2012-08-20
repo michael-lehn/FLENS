@@ -1,52 +1,14 @@
-################################################################################
-#
-#  The following CODEREFs are automatically created stubs.
-#
-################################################################################
+===============
+BLAS Level 2: r                                                        [TOC]
+===============
+*r* (defined in namespace `flens::blas`) computes rank-1 updates for general,
+symmetric and hermitian matrices.
 
 
-*--[CODEREF]----------------------------------------------------------------*
-|                                                                           |
-|  template <typename ALPHA, typename VX, typename VY, typename MA>         |
-|      typename RestrictTo<IsDenseVector<VX>::value                         |
-|                       && IsDenseVector<VY>::value                         |
-|                       && IsGeMatrix<MA>::value,                           |
-|               void>::Type                                                 |
-|      ru(const ALPHA &alpha, const VX &x, const VY &y, MA &&A);            |
-|                                                                           |
-*---------------------------------------------------------------------------*
-                         [c:@N@flens@N@blas@FT@>4#T#T#T#Tru#&1t0.0#&1t0.1#&1]
-                         [t0.2#&t0.3#                                       ]
+General Matrix
+==============
 
-    Defined in namespace `flens::blas`.
-    Function `ru` with 4 template parameters.
-
-
-
-*--[CODEREF]----------------------------------------------------------------*
-|                                                                           |
-|  template <typename ALPHA, typename VX, typename VY, typename MA>         |
-|      typename RestrictTo<IsDenseVector<VX>::value                         |
-|                       && IsDenseVector<VY>::value                         |
-|                       && IsGeMatrix<MA>::value,                           |
-|               void>::Type                                                 |
-|      rc(const ALPHA &alpha, const VX &x, const VY &y, MA &&A);            |
-|                                                                           |
-*---------------------------------------------------------------------------*
-                         [c:@N@flens@N@blas@FT@>4#T#T#T#Trc#&1t0.0#&1t0.1#&1]
-                         [t0.2#&t0.3#                                       ]
-
-    Defined in namespace `flens::blas`.
-    Function `rc` with 4 template parameters.
-
-
-
-################################################################################
-#
-#  The following CODEREFs are automatically created stubs.
-#
-################################################################################
-
+*Note:* The following variant is identical with `flens::blas::ru` below.
 
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
@@ -61,8 +23,76 @@
                          [c:@N@flens@N@blas@FT@>4#T#T#T#Tr#&1t0.0#&1t0.1#&1t]
                          [0.2#&t0.3#                                        ]
 
-    Defined in namespace `flens::blas`.
-    Function `r` with 4 template parameters.
+    alpha    `(input)`                                                         +
+             Scaling factor $\alpha$.
+    x        `(input) real or complex valued DenseVector`                      +
+             Vector $x$.
+    y        `(input) real or complex valued DenseVector`                      +
+             Vector $y$.
+    A        `(input/output) real or complex valued GeMatrix`                  +
+             On entry, the initial matrix $A$.                                 +
+             On exit, the updated Matrix $A \leftarrow \alpha x y^T$
 
 
+Unconjugated
+------------
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename VX, typename VY, typename MA>         |
+|      typename RestrictTo<IsDenseVector<VX>::value                         |
+|                       && IsDenseVector<VY>::value                         |
+|                       && IsGeMatrix<MA>::value,                           |
+|               void>::Type                                                 |
+|      ru(const ALPHA &alpha, const VX &x, const VY &y, MA &&A);            |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>4#T#T#T#Tru#&1t0.0#&1t0.1#&1]
+                         [t0.2#&t0.3#                                       ]
 
+    alpha    `(input)`                                                         +
+             Scaling factor $\alpha$.
+    x        `(input) real or complex valued DenseVector`                      +
+             Vector $x$.
+    y        `(input) real or complex valued DenseVector`                      +
+             Vector $y$.
+    A        `(input/output) real or complex valued GeMatrix`                  +
+             On entry, the initial matrix $A$.                                 +
+             On exit, the updated Matrix $A \leftarrow \alpha x y^T$
+
+
+Conjugated
+----------
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename VX, typename VY, typename MA>         |
+|      typename RestrictTo<IsDenseVector<VX>::value                         |
+|                       && IsDenseVector<VY>::value                         |
+|                       && IsGeMatrix<MA>::value,                           |
+|               void>::Type                                                 |
+|      rc(const ALPHA &alpha, const VX &x, const VY &y, MA &&A);            |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>4#T#T#T#Trc#&1t0.0#&1t0.1#&1]
+                         [t0.2#&t0.3#                                       ]
+
+    alpha    `(input)`                                                         +
+             Scaling factor $\alpha$.
+    x        `(input) real or complex valued DenseVector`                      +
+             Vector $x$.
+    y        `(input) real or complex valued DenseVector`                      +
+             Vector $y$.
+    A        `(input/output) real or complex valued GeMatrix`                  +
+             On entry, the initial matrix $A$.                                 +
+             On exit, the updated Matrix $A \leftarrow \alpha x y^H$
+
+
+Symmetric Matrix
+================
+
+(Todo)
+
+
+Hermitian Matrix
+================
+
+(Todo)

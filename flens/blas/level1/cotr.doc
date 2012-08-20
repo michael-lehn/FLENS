@@ -19,8 +19,9 @@ of a general matrix, i.e. $A \leftarrow A^T$ or $A \leftarrow A^H$.
 
     trans    `(input)`                                                         +
              Specifiy the operation, i.e.
-              - $A \leftarrow A^T$ (_Trans_),
-              - $A \leftarrow A^H$ (_ConjTrans_).
+              NoTrans      $A \leftarrow A$
+              Trans        $A \leftarrow A^T$
+              ConjTrans    $A \leftarrow A^H$
              If _trans_ equals _NoTrans_ the functions immediately returns.
     A        `(input) real or complex valued GeMatrix`                         +
              Matrix $A$.

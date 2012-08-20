@@ -136,7 +136,7 @@ Join the mailing __list__!
         __SyMatrix__     -> file:flens/matrixtypes/symmetric/impl/symatrix.h
         __TrMatrix__     -> file:flens/matrixtypes/triangular/impl/trmatrix.h
         __DenseVector__  -> file:flens/vectortypes/impl/densevector.h
-        __CXXBLAS__      -> dir:cxxblas/
+        __CXXBLAS__      -> doc:cxxblas/cxxblas
         __QD Library__   -> http://crd-legacy.lbl.gov/~dhbailey/mpdist
         __mpfr__         -> http://www.mpfr.org
         __ATLAS__        -> http://math-atlas.sourceforge.net

@@ -294,7 +294,17 @@ copy(const MA &A, MB &&B)
 
 //-- Sparse BLAS extensions ----------------------------------------------------
 
-//-- copy: GeCoordMatrix -> GeCrsMatrix
+//-- copy: GeCoordMatrix -> GeCCSMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsGeCoordMatrix<MA>::value
+                 && IsGeCCSMatrix<MB>::value,
+         void>::Type
+copy(Transpose trans, const MA &A, MB &&B)
+{
+    B.engine() = A.engine();
+}
+
+//-- copy: GeCoordMatrix -> GeCRSMatrix
 template <typename MA, typename MB>
 typename RestrictTo<IsGeCoordMatrix<MA>::value
                  && IsGeCRSMatrix<MB>::value,
@@ -304,12 +314,23 @@ copy(Transpose trans, const MA &A, MB &&B)
     B.engine() = A.engine();
 }
 
-//-- copy: SyCoordMatrix -> SyCrsMatrix
+//-- copy: SyCoordMatrix -> SyCCSMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsSyCoordMatrix<MA>::value
+                 && IsSyCCSMatrix<MB>::value,
+         void>::Type
+copy(const MA &A, MB &&B)
+{
+    B.engine() = A.engine();
+    B.upLo() = A.upLo();
+}
+
+//-- copy: SyCoordMatrix -> SyCRSMatrix
 template <typename MA, typename MB>
 typename RestrictTo<IsSyCoordMatrix<MA>::value
                  && IsSyCRSMatrix<MB>::value,
          void>::Type
-copy(Transpose trans, const MA &A, MB &&B)
+copy(const MA &A, MB &&B)
 {
     B.engine() = A.engine();
     B.upLo() = A.upLo();
@@ -421,6 +442,31 @@ copy(Transpose trans, const MA &A, MB &&B)
 
     for (size_t k=0; k<coord.size(); ++k) {
         B(coord[k].row, coord[k].col) += coord[k].value;
+    }
+}
+
+//-- copy: GeCCSMatrix -> GeMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsGeCCSMatrix<MA>::value
+                 && IsGeMatrix<MB>::value,
+         void>::Type
+copy(Transpose trans, const MA &A, MB &&B)
+{
+    typedef typename MA::IndexType    IndexType;
+    typedef typename MA::ElementType  ElementType;
+
+    B.resize(A.numRows(), A.numCols(),
+             A.firstRow(), A.firstCol(),
+             ElementType(0));
+
+    const auto &cols = A.engine().cols();
+    const auto &rows = A.engine().rows();
+    const auto &vals = A.engine().values();
+
+    for (IndexType j=cols.firstIndex(); j<cols.lastIndex(); ++j) {
+        for (IndexType k=cols(j); k<cols(j+1); ++k) {
+            B(rows(k), j) = vals(k);
+        }
     }
 }
 

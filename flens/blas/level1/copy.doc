@@ -25,7 +25,9 @@ Vector Variant
 |      copy(const VX &x, VY &&y);                                           |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                              [c:@N@flens@N@blas@FT@>2#T#Tcopy#&1t0.0#&t0.1#]
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#&1t0.0#&t0.1#templ]
+                         [atetypenameVXtypenameVYtypenameRestrictToIsDenseVe]
+                         [ctorVXvalueIsDenseVectorVYvaluevoidTypecopy       ]
 
     x    `(input) real or complex valued DenseVector`                          +
          Vector $x$.
@@ -33,8 +35,8 @@ Vector Variant
          Vector $y$
 
 
-Matrix Variants
-===============
+BLAS Level 1 Extensions
+=======================
 
 GeMatrix
 --------
@@ -47,14 +49,16 @@ GeMatrix
 |      copy(Transpose trans, const MA &A, MB &&B);                          |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [M#c:@N@flens@N@blas@FT@>2#T#Tcopy#$@N@cxxblas@E@Tr]
-                         [anspose#&1t0.0#&t0.1##variant                     ]
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#$@N@cxxblas@E@Tran]
+                         [spose#&1t0.0#&t0.1#templatetypenameMAtypenameMBtyp]
+                         [enameRestrictToIsGeMatrixMAvalueIsGeMatrixMBvaluev]
+                         [oidTypecopy                                       ]
 
-   trans    `(input)`                                                         +
+    trans    `(input)`                                                         +
              Specifiy the operation, i.e.
-              - $B \leftarrow A$ (_NoTrans_),
-              - $B \leftarrow A^T$ (_Trans_),
-              - $B \leftarrow A^H$ (_ConjTrans_).
+              NoTrans      $B \leftarrow A$
+              Trans        $B \leftarrow A^T$
+              ConjTrans    $B \leftarrow A^H$
     A        `(input) real or complex valued GeMatrix`                         +
              Matrix $A$.
     B        `(output) real or complex valued GeMatrix`                        +
@@ -73,13 +77,15 @@ TrMatrix
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>2#T#Tcopy#$@N@cxxblas@E@Tran]
-                         [spose#&1t0.0#&t0.1##variant#variant               ]
+                         [spose#&1t0.0#&t0.1#templatetypenameMAtypenameMBtyp]
+                         [enameRestrictToIsTrMatrixMAvalueIsTrMatrixMBvaluev]
+                         [oidTypecopy                                       ]
 
     trans    `(input)`                                                         +
              Specifiy the operation, i.e.
-              - $B \leftarrow A$ (_NoTrans_),
-              - $B \leftarrow A^T$ (_Trans_),
-              - $B \leftarrow A^H$ (_ConjTrans_).
+              NoTrans      $B \leftarrow A$
+              Trans        $B \leftarrow A^T$
+              ConjTrans    $B \leftarrow A^H$
     A        `(input) real or complex valued TrMatrix`                         +
              Triangular matrix $A$.
     B        `(output) real or complex valued TrMatrix`                        +
@@ -98,8 +104,7 @@ SyMatrix
 |      copy(const MA &A, MB &&B);                                           |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [M#c:@N@flens@N@blas@FT@>2#T#Tcopy#&1t0.0#&t0.1##va]
-                         [riant#variant                                     ]
+                            [M#c:@N@flens@N@blas@FT@>2#T#Tcopy#&1t0.0#&t0.1#]
 
     A        `(input) real or complex valued SyMatrix`                         +
              Symmetric matrix $A$.
@@ -107,8 +112,114 @@ SyMatrix
              Symmetric matrix $B$.
 
 
-Copy-Conversion
-===============
+Sparse BLAS
+===========
+
+Compress: GeCoordMatrix to GeCRSMatrix
+--------------------------------------
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsGeCoordMatrix<MA>::value                       |
+|                       && IsGeCRSMatrix<MB>::value,                        |
+|               void>::Type                                                 |
+|      copy(Transpose trans, const MA &A, MB &&B);                          |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [M#c:@N@flens@N@blas@FT@>2#T#Tcopy#$@N@cxxblas@E@Tr]
+                         [anspose#&1t0.0#&t0.1#                             ]
+
+    trans    `(input)`                                                         +
+             Specifiy the operation, i.e.
+              NoTrans      $B \leftarrow A$
+              Trans        $B \leftarrow A^T$
+              ConjTrans    $B \leftarrow A^H$
+    A        `(input) real or complex valued GeCoordMatrix`                    +
+             Sparse matrix $A$ stored in the coordinate format.
+    B        `(output) real or complex valued GeMatrix`                        +
+             Sparse matrix $B$ in compressed row storage format.
+
+
+Compress: SyCoordMatrix to SyCRSMatrix
+--------------------------------------
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsSyCoordMatrix<MA>::value                       |
+|                       && IsSyCRSMatrix<MB>::value,                        |
+|               void>::Type                                                 |
+|      copy(const MA &A, MB &&B);                                           |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#&1t0.0#&t0.1#templ]
+                         [atetypenameMAtypenameMBtypenameRestrictToIsSyCoord]
+                         [MatrixMAvalueIsSyCRSMatrixMBvaluevoidTypecopy     ]
+
+    A        `(input) real or complex valued GeCoordMatrix`                    +
+             Symmetric sparse matrix $A$ stored in the coordinate format.
+    B        `(output) real or complex valued GeMatrix`                        +
+             Symmetrix sparse matrix $B$ in compressed row storage format.
+
+
+Densify: GeCoordMatrix to GeMatrix
+----------------------------------
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsGeCoordMatrix<MA>::value                       |
+|                       && IsGeMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      copy(Transpose trans, const MA &A, MB &&B);                          |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#$@N@cxxblas@E@Tran]
+                         [spose#&1t0.0#&t0.1#templatetypenameMAtypenameMBtyp]
+                         [enameRestrictToIsGeCoordMatrixMAvalueIsGeMatrixMBv]
+                         [aluevoidTypecopy                                  ]
+
+    trans    `(input)`                                                         +
+             Specifiy the operation, i.e.
+              NoTrans      $B \leftarrow A$
+              Trans        $B \leftarrow A^T$
+              ConjTrans    $B \leftarrow A^H$
+    A        `(input) real or complex valued GeCoordMatrix`                    +
+             Sparse matrix $A$ stored in the coordinate format.
+    B        `(output) real or complex valued GeMatrix`                        +
+             Matrix $B$ in full storage format.
+
+
+Densify: GeCRSMatrix to GeMatrix
+--------------------------------
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsGeCRSMatrix<MA>::value                         |
+|                       && IsGeMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      copy(Transpose trans, const MA &A, MB &&B);                          |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#$@N@cxxblas@E@Tran]
+                         [spose#&1t0.0#&t0.1#templatetypenameMAtypenameMBtyp]
+                         [enameRestrictToIsGeCRSMatrixMAvalueIsGeMatrixMBval]
+                         [uevoidTypecopy                                    ]
+
+    trans    `(input)`                                                         +
+             Specifiy the operation, i.e.
+              NoTrans      $B \leftarrow A$
+              Trans        $B \leftarrow A^T$
+              ConjTrans    $B \leftarrow A^H$
+    A        `(input) real or complex valued GeCoordMatrix`                    +
+             Sparse matrix $A$ stored in the coordinate format.
+    B        `(output) real or complex valued GeMatrix`                        +
+             Matrix $B$ in full storage format.
+
+
+Convenience Extensions
+======================
+The following copy variant convert different matrix types to a `GeMatrix`.
+This can be handy for debiugging of fast prototyping.
+
 
 TrMatrix to GeMatrix
 --------------------
@@ -121,14 +232,16 @@ TrMatrix to GeMatrix
 |      copy(Transpose trans, const MA &A, MB &&B);                          |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [M#c:@N@flens@N@blas@FT@>2#T#Tcopy#$@N@cxxblas@E@Tr]
-                         [anspose#&1t0.0#&t0.1#                             ]
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#$@N@cxxblas@E@Tran]
+                         [spose#&1t0.0#&t0.1#templatetypenameMAtypenameMBtyp]
+                         [enameRestrictToIsTrMatrixMAvalueIsGeMatrixMBvaluev]
+                         [oidTypecopy                                       ]
 
     trans    `(input)`                                                         +
              Specifiy the operation, i.e.
-              - $B \leftarrow A$ (_NoTrans_),
-              - $B \leftarrow A^T$ (_Trans_),
-              - $B \leftarrow A^H$ (_ConjTrans_).
+              NoTrans      $B \leftarrow A$
+              Trans        $B \leftarrow A^T$
+              ConjTrans    $B \leftarrow A^H$
     A        `(input) real or complex valued TrMatrix`                         +
              Triangular matrix $A$.
     B        `(output) real or complex valued GeMatrix`                        +
@@ -146,8 +259,9 @@ SyMatrix to GeMatrix
 |      copy(const MA &A, MB &&B);                                           |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [M#c:@N@flens@N@blas@FT@>2#T#Tcopy#&1t0.0#&t0.1##va]
-                         [riant                                             ]
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#&1t0.0#&t0.1#templ]
+                         [atetypenameMAtypenameMBtypenameRestrictToIsSyMatri]
+                         [xMAvalueIsGeMatrixMBvaluevoidTypecopy             ]
 
     A        `(input) real or complex valued SyMatrix`                         +
              Symmetric matrix $A$.

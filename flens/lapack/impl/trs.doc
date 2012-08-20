@@ -22,10 +22,8 @@ a matrix or vector.
 Variant: System of Linear Equations
 ===================================
 
-
 Multiple Right-Hand Sides
 -------------------------
-
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
 |  template <typename MA, typename VPIV, typename MB>                       |
@@ -37,7 +35,10 @@ Multiple Right-Hand Sides
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@lapack@FT@>3#T#T#Ttrs#$@N@cxxblas@E@T]
-                         [ranspose#&1t0.0#&1t0.1#&t0.2##variant             ]
+                         [ranspose#&1t0.0#&1t0.1#&t0.2#templatetypenameMAtyp]
+                         [enameVPIVtypenameMBtypenameRestrictToIsGeMatrixMAv]
+                         [alueIsIntegerDenseVectorVPIVvalueIsGeMatrixMBvalue]
+                         [voidTypetrs                                       ]
 
     trans    `(input) bool`                                                    +
              Solve $AX=B$, $A^T X=B$ or $A^H X = B$
@@ -53,7 +54,6 @@ Multiple Right-Hand Sides
 
 Single Right-Hand Side
 ----------------------
-
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
 |  template <typename MA, typename VPIV, typename VB>                       |
@@ -64,8 +64,8 @@ Single Right-Hand Side
 |      trs(Transpose trans, const MA &A, const VPIV &piv, VB &&b);          |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@flens@N@lapack@FT@>3#T#T#Ttrs#$@N@cxxblas@E@T]
-                         [ranspose#&1t0.0#&1t0.1#&t0.2#                     ]
+                         [M#c:@N@flens@N@lapack@FT@>3#T#T#Ttrs#$@N@cxxblas@E]
+                         [@Transpose#&1t0.0#&1t0.1#&t0.2#                   ]
 
     trans    `(input) bool`                                                    +
              Solve $AX=B$, $A^T X=B$ or $A^H X = B$
@@ -85,7 +85,6 @@ Variant: Triangular System
 
 Multiple Right-Hand Sides
 -------------------------
-
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
 |  template <typename MA, typename MB>                                      |
@@ -96,7 +95,9 @@ Multiple Right-Hand Sides
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@lapack@FT@>2#T#Ttrs#$@N@cxxblas@E@Tra]
-                         [nspose#&1t0.0#&t0.1##variant                      ]
+                         [nspose#&1t0.0#&t0.1#templatetypenameMAtypenameMBty]
+                         [penameRestrictToIsTrMatrixMAvalueIsGeMatrixMBvalue]
+                         [typenameRemoveRefMATypeIndexTypeTypetrs           ]
 
     trans    `(input) bool`                                                    +
              Solve $AX=B$, $A^T X=B$ or $A^H X = B$
@@ -109,7 +110,6 @@ Multiple Right-Hand Sides
 
 Single Right-Hand Side
 ----------------------
-
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
 |  template <typename MA, typename VB>                                      |
@@ -119,8 +119,8 @@ Single Right-Hand Side
 |      trs(Transpose trans, const MA &A, VB &&b);                           |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@flens@N@lapack@FT@>2#T#Ttrs#$@N@cxxblas@E@Tra]
-                         [nspose#&1t0.0#&t0.1#                              ]
+                         [M#c:@N@flens@N@lapack@FT@>2#T#Ttrs#$@N@cxxblas@E@T]
+                         [ranspose#&1t0.0#&t0.1#                            ]
 
     trans    `(input) bool`                                                    +
              Solve $AX=B$, $A^T X=B$ or $A^H X = B$
@@ -132,7 +132,6 @@ Single Right-Hand Side
 
 Notes
 =====
-
 - *Examples*: __lapack-getrs__ and __lapack-trtrs__.
 - *trs* is a port of __dgetrs__, __zgetrs__, __dtrtrs__ and __ztrtrs__.  Also
   this documentation is taken from there.
@@ -143,3 +142,4 @@ Notes
         (d.+)        -> file:cxxlapack/netlib/lapack/$1.f
         (z.+)        -> file:cxxlapack/netlib/lapack/$1.f
         (.+)         -> doc:flens/lapack/impl/$1
+

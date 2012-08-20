@@ -75,19 +75,33 @@ template <typename MA, typename MB>
 
 //-- Sparse BLAS extensions ----------------------------------------------------
 
-//-- copy: GeCoordMatrix -> GeCrsMatrix
+//-- copy: GeCoordMatrix -> GeCCSMatrix
+template <typename MA, typename MB>
+    typename RestrictTo<IsGeCoordMatrix<MA>::value
+                     && IsGeCCSMatrix<MB>::value,
+             void>::Type
+    copy(Transpose trans, const MA &A, MB &&B);
+
+//-- copy: GeCoordMatrix -> GeCRSMatrix
 template <typename MA, typename MB>
     typename RestrictTo<IsGeCoordMatrix<MA>::value
                      && IsGeCRSMatrix<MB>::value,
              void>::Type
     copy(Transpose trans, const MA &A, MB &&B);
 
-//-- copy: SyCoordMatrix -> SyCrsMatrix
+//-- copy: SyCoordMatrix -> SyCCSMatrix
+template <typename MA, typename MB>
+    typename RestrictTo<IsSyCoordMatrix<MA>::value
+                     && IsSyCCSMatrix<MB>::value,
+             void>::Type
+    copy(const MA &A, MB &&B);
+
+//-- copy: SyCoordMatrix -> SyCRSMatrix
 template <typename MA, typename MB>
     typename RestrictTo<IsSyCoordMatrix<MA>::value
                      && IsSyCRSMatrix<MB>::value,
              void>::Type
-    copy(Transpose trans, const MA &A, MB &&B);
+    copy(const MA &A, MB &&B);
 
 //-- convenience extensions ----------------------------------------------------
 
@@ -112,13 +126,12 @@ template <typename MA, typename MB>
              void>::Type
     copy(Transpose trans, const MA &A, MB &&B);
 
-//-- copy: SyCoordMatrix -> SyMatrix
+//-- copy: GeCCSMatrix -> GeMatrix
 template <typename MA, typename MB>
-    typename RestrictTo<IsSyCoordMatrix<MA>::value
-                     && IsSyMatrix<MB>::value,
+    typename RestrictTo<IsGeCCSMatrix<MA>::value
+                     && IsGeMatrix<MB>::value,
              void>::Type
     copy(Transpose trans, const MA &A, MB &&B);
-
 
 //-- copy: GeCRSMatrix -> GeMatrix
 template <typename MA, typename MB>
@@ -127,14 +140,26 @@ template <typename MA, typename MB>
              void>::Type
     copy(Transpose trans, const MA &A, MB &&B);
 
+//-- copy: SyCoordMatrix -> SyMatrix
+template <typename MA, typename MB>
+    typename RestrictTo<IsSyCoordMatrix<MA>::value
+                     && IsSyMatrix<MB>::value,
+             void>::Type
+    copy(const MA &A, MB &&B);
+
+//-- copy: SyCCSMatrix -> SyMatrix
+template <typename MA, typename MB>
+    typename RestrictTo<IsSyCCSMatrix<MA>::value
+                     && IsSyMatrix<MB>::value,
+             void>::Type
+    copy(const MA &A, MB &&B);
+
 //-- copy: SyCRSMatrix -> SyMatrix
 template <typename MA, typename MB>
     typename RestrictTo<IsSyCRSMatrix<MA>::value
                      && IsSyMatrix<MB>::value,
              void>::Type
-    copy(Transpose trans, const MA &A, MB &&B);
-
-
+    copy(const MA &A, MB &&B);
 
 } } // namespace blas, flens
 

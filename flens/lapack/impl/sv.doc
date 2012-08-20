@@ -30,7 +30,6 @@ system of equations $A X = B$.
 
 Interface: Multiple Right-Hand Sides
 ====================================
-
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
 |  template <typename MA, typename VPIV, typename MB>                       |
@@ -42,7 +41,10 @@ Interface: Multiple Right-Hand Sides
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@lapack@FT@>3#T#T#Tsv#&t0.0#&t0.1#&t0.]
-                         [2##variant                                        ]
+                         [2#templatetypenameMAtypenameVPIVtypenameMBtypename]
+                         [RestrictToIsGeMatrixMAvalueIsIntegerDenseVectorVPI]
+                         [VvalueIsGeMatrixMBvaluetypenameRemoveRefMATypeInde]
+                         [xTypeTypesv                                       ]
 
     A       `(input/output) real or complex valued GeMatrix`                   +
             On entry, the $n \times n$ coefficient matrix $A$.                 +
@@ -110,3 +112,5 @@ Notes
 :links: lapack-gesv -> doc:flens/examples/tut04-page03
         (d.+)       -> file:cxxlapack/netlib/lapack/$1.f
         (z.+)       -> file:cxxlapack/netlib/lapack/$1.f
+
+

@@ -1,9 +1,32 @@
-################################################################################
-#
-#  The following CODEREFs are automatically created stubs.
-#
-################################################################################
+================
+BLAS Level 3: rk                                                       [TOC]
+================
 
+*rk* (defined in namespace `flens::blas`) computes hermitian or symmetric
+rank $2$ operations.
+
+
+Hermitian Rank $k$ Operations
+=============================
+For a hermitian matrix $C$ and a general matrices $A$ the function computes
+rank $k$ operations
+
+  *--[LATEX]----------------------------------------*
+  |                                                 |
+  |  C \leftarrow \beta\,C + \alpha\,A\,A^H         |
+  |                                                 |
+  *-------------------------------------------------*
+
+or
+
+  *--[LATEX]----------------------------------------*
+  |                                                 |
+  |  C \leftarrow \beta\,C + \alpha\,A^H\,A         |
+  |                                                 |
+  *-------------------------------------------------*
+
+$C$ is an $n \times n$ hermitian matrix and  $A$ an $n \times k$ matrix in the
+first case and an $k \times n$ matrix in the second case.
 
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
@@ -19,12 +42,47 @@
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>4#T#T#T#Trk#$@N@cxxblas@E@Tr]
-                         [anspose#&1t0.0#&1t0.1#&1t0.2#&t0.3##variant       ]
+                         [anspose#&1t0.0#&1t0.1#&1t0.2#&t0.3#templatetypenam]
+                         [eALPHAtypenameMAtypenameBETAtypenameMCtypenameRest]
+                         [rictToIsGeMatrixMAvalueIsHeMatrixMCvaluevoidTyperk]
 
-    Defined in namespace `flens::blas`.
-    Function `rk` with 4 template parameters.
+    trans     `(input)`                                                        +
+              Specifies the operation to be performed as follows
+              NoTrans    $C \leftarrow \beta\,C + \alpha\,A\,A^H$
+              Trans      $C \leftarrow \beta\,C + \alpha\,A^H\,A$
+    A         `(input) real or complex valued GeMatrix`                        +
+              Matrix $A$.
+    beta      `(input)`                                                        +
+              Scaling factor $\beta$. If $\beta$ is zero and $C$ has zero rows
+              and columns then $C$ gets resized.
+    C         `(input/output) real or complex valued HeMatrix`                 +
+              On entry the original matrix $C$.                                +
+              On exit overwritten with
+              $\beta\,C + \alpha\,A\,A^H$ or
+              $\beta\,C + \alpha\,A^H\,A$.
 
 
+Symmetric Rank $k$ Operations
+=============================
+For a symmetric matrix $C$ and a general matrices $A$ the function computes
+rank $k$ operations
+
+  *--[LATEX]----------------------------------------*
+  |                                                 |
+  |  C \leftarrow \beta\,C + \alpha\,A\,A^T         |
+  |                                                 |
+  *-------------------------------------------------*
+
+or
+
+  *--[LATEX]----------------------------------------*
+  |                                                 |
+  |  C \leftarrow \beta\,C + \alpha\,A^T\,A         |
+  |                                                 |
+  *-------------------------------------------------*
+
+$C$ is an $n \times n$ symmetric matrix and  $A$ an $n \times k$ matrix in the
+first case and an $k \times n$ matrix in the second case.
 
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
@@ -42,8 +100,17 @@
                          [c:@N@flens@N@blas@FT@>4#T#T#T#Trk#$@N@cxxblas@E@Tr]
                          [anspose#&1t0.0#&1t0.1#&1t0.2#&t0.3#               ]
 
-    Defined in namespace `flens::blas`.
-    Function `rk` with 4 template parameters.
-
-
-
+    trans     `(input)`                                                        +
+              Specifies the operation to be performed as follows
+              NoTrans    $C \leftarrow \beta\,C + \alpha\,A\,A^T$
+              Trans      $C \leftarrow \beta\,C + \alpha\,A^T\,A$
+    A         `(input) real or complex valued GeMatrix`                        +
+              Matrix $A$.
+    beta      `(input)`                                                        +
+              Scaling factor $\beta$. If $\beta$ is zero and $C$ has zero rows
+              and columns then $C$ gets resized.
+    C         `(input/output) real or complex valued SyMatrix`                 +
+              On entry the original matrix $C$.                                +
+              On exit overwritten with
+              $\beta\,C + \alpha\,A\,A^T$ or
+              $\beta\,C + \alpha\,A^T\,A$.

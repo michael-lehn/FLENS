@@ -19,3 +19,6 @@ with maximum absolute value, i.e. find $i$ such that $|x_i| = \max\limits_k
     x        `(input) real or complex valued DenseVector`                      +
              Vector $x$.
 
+    *Return value:*
+
+    Index $i$ such that $|x_i| = \max\limits_k |x_k|$.

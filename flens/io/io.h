@@ -34,6 +34,7 @@
 #define FLENS_IO_IO_H 1
 
 #include <flens/io/array/out.h>
+#include <flens/io/ccs/out.h>
 #include <flens/io/coordstorage/out.h>
 #include <flens/io/crs/out.h>
 #include <flens/io/fullstorage/out.h>

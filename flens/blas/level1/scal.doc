@@ -18,13 +18,18 @@ Vector Variant
 |      scal(const ALPHA &alpha, VY &&y);                                    |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@flens@N@blas@FT@>2#T#Tscal#&1t0.0#&t0.1##vari]
-                         [ant                                               ]
+                         [c:@N@flens@N@blas@FT@>2#T#Tscal#&1t0.0#&t0.1#templ]
+                         [atetypenameALPHAtypenameVYtypenameRestrictToIsDens]
+                         [eVectorVYvaluevoidTypescal                        ]
+
+    Defined in namespace `flens::blas`.
+    Function `scal` with 2 template parameters.
 
     alpha    `(input) real scalar`                                             +
              Scaling factor for the values in $y$.
     y        `(input/output) real or complex valued DenseVector`               +
-             Vector $y$.
+             On entry the original vector $y$.                                 +
+             On exit overwritten with $\alpha\,y$.
 
 
 Matrix Variant (Level 1 Extension)
@@ -39,8 +44,9 @@ Matrix Variant (Level 1 Extension)
 *---------------------------------------------------------------------------*
                               [c:@N@flens@N@blas@FT@>2#T#Tscal#&1t0.0#&t0.1#]
 
-
     alpha    `(input) real scalar`                                             +
              Scaling factor for the values in $y$.
     B        `(input/output) real or complex valued GeMatrix`                  +
-             Matrix $B$.
+             On entry the original matrix $B$.                                +
+             On exit overwritten with $\alpha\,B$.
+

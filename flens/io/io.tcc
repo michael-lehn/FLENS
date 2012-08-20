@@ -34,6 +34,7 @@
 #define FLENS_IO_IO_TCC 1
 
 #include <flens/io/array/out.tcc>
+#include <flens/io/ccs/out.tcc>
 #include <flens/io/coordstorage/out.tcc>
 #include <flens/io/crs/out.tcc>
 #include <flens/io/fullstorage/out.tcc>

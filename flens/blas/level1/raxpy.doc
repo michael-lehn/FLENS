@@ -46,6 +46,11 @@ Matrix Variant (Level 1 Extension)
                          [c:@N@flens@N@blas@FT@>3#T#T#Traxpy#$@N@cxxblas@E@T]
                          [ranspose#&1t0.0#&1t0.1#&t0.2#                     ]
 
+    trans    `(input)`                                                         +
+             Specifiy the operation, i.e.
+              NoTrans      $B \leftarrow B + \frac{1}{\alpha}\,A$
+              Trans        $B \leftarrow B + \frac{1}{\alpha}\,A^T$
+              ConjTrans    $B \leftarrow B + \frac{1}{\alpha}\,A^H$
     alpha    `(input) real scalar`                                             +
              Reciprocal scaling factor for the values in $x$.
     A        `(input) real or complex valued GeMatrix`                         +

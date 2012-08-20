@@ -120,6 +120,8 @@ them as soon as a FLENS-LAPACK routine requires it or somebody complains.
  |            |    $y \leftarrow \beta y + \alpha \text{op}(A) x$.| __gemv__  |
  |            |  - For *symmetric* matrices it is                 |           |
  |            |    $y \leftarrow \beta y + \alpha A x$.           | __symv__  |
+ |            |  - For *hermitian* matrices it is                 |           |
+ |            |    $y \leftarrow \beta y + \alpha A x$.           | __hemv__  |
  |            |  - For *triangular* matrices it is                |           |
  |            |    $x \leftarrow \text{op}(A) x$.                 | __trmv__  |
  |            | Hereby $\text{op}(A)$ denotes $A$, $A^T$ or       |           |
@@ -157,6 +159,9 @@ Level 3 BLAS
  |            |    $C \leftarrow \beta C                          |           |
  |            |    + \alpha \, \text{op}(A) \, \text{op}(B)$      |           |
  |            |  - *symmetric* then it is                         | __symm__  |
+ |            |    $C \leftarrow \beta C                          |           |
+ |            |    + \alpha \, A \, \text{op}(B)$                 |           |
+ |            |  - *hermitian* then it is                         | __hemm__  |
  |            |    $C \leftarrow \beta C                          |           |
  |            |    + \alpha \, A \, \text{op}(B)$                 |           |
  |            |  - *triangular* then it is                        | __trmm__  |

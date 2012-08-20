@@ -1,9 +1,22 @@
-################################################################################
-#
-#  The following CODEREFs are automatically created stubs.
-#
-################################################################################
+================
+BLAS Level 3: mm                                                       [TOC]
+================
 
+*mm* (defined in namespace `flens::blas`) computes matrix-matrix products.
+
+
+General Matrix
+==============
+For general matrices $A$, $B$ and $C$ the function computes matrix-matrix
+products of the form
+
+  *--[LATEX]------------------------------------------------------*
+  |                                                               |
+  |   C \leftarrow \beta C + \alpha\,\text{op}(A)\,\text{op}(B)   |
+  |                                                               |
+  *---------------------------------------------------------------*
+
+where $\text{op}(X)$ denotes $X$, $X^T$ or $X^H$.
 
 *--[CODEREF]------------------------------------------------------------------------*
 |                                                                                   |
@@ -24,10 +37,51 @@
                             [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmm#$@N@cxxblas@E@Trans]
                             [pose#S0_#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#            ]
 
-    Defined in namespace `flens::blas`.
-    Function `mm` with 5 template parameters.
+    transA    `(input)`                                                        +
+              Specifiy $\text{op}(A)$:
+               NoTrans      $A$
+               Trans        $A^T$
+               ConjTrans    $A^H$
+    transB    `(input)`                                                        +
+              Specifiy $\text{op}(B)$:
+               NoTrans      $B$
+               Trans        $B^T$
+               ConjTrans    $B^H$
+    alpha     `(input)`                                                        +
+              Scaling factor $\alpha$.
+    A         `(input) real or complex valued GeMatrix`                        +
+              Matrix $A$.
+    B         `(input) real or complex valued GeMatrix`                        +
+              Matrix $B$.
+    beta      `(input)`                                                        +
+              Scaling factor $\beta$. If $\beta$ is zero and $C$ has zero rows
+              or columns then $C$ gets resized.
+    C         `(input/output) real or complex valued GeMatrix`                 +
+              On entry the original matrix $C$.                                +
+              On exit overwritten with
+              $\beta\,C + \alpha\,\text{op}(A)\,\text{op}(B)$.
 
 
+Triangular Matrix
+=================
+For a triangular matrix $A$ and a general matrices $B$ the function computes
+matrix-matrix products of the form
+
+  *--[LATEX]----------------------------------------*
+  |                                                 |
+  |   B \leftarrow \alpha\,\text{op}(A)\,B          |
+  |                                                 |
+  *-------------------------------------------------*
+
+or
+
+  *--[LATEX]----------------------------------------*
+  |                                                 |
+  |   B \leftarrow \alpha\,B\,\text{op}(A)          |
+  |                                                 |
+  *-------------------------------------------------*
+
+where $\text{op}(X)$ denotes $X$, $X^T$ or $X^H$.
 
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
@@ -45,10 +99,46 @@
                          [c:@N@flens@N@blas@FT@>3#T#T#Tmm#$@N@cxxblas@E@Side]
                          [#$@N@cxxblas@E@Transpose#&1t0.0#&1t0.1#&t0.2#     ]
 
-    Defined in namespace `flens::blas`.
-    Function `mm` with 3 template parameters.
+    side      `(input)`                                                        +
+              Specify the type of matrix-matrix product:
+               Left     $B \leftarrow \alpha\,\text{op}(A)\,B$
+               Right    $B \leftarrow \alpha\,B\,\text{op}(A)$
+    transA    `(input)`                                                        +
+              Specifiy $\text{op}(A)$:
+               NoTrans      $A$
+               Trans        $A^T$
+               ConjTrans    $A^H$
+    alpha     `(input)`                                                        +
+              Scaling factor $\alpha$.
+    A         `(input) real or complex valued GeMatrix`                        +
+              Matrix $A$.
+    B         `(input/output) real or complex valued GeMatrix`                 +
+              On entry the original matrix $B$.                                +
+              On exit overwritten with $\alpha\,\text{op}(A)\,B$ or
+              $\alpha\,B\,\text{op}(A)$.
 
 
+
+Symmetric Matrix
+================
+For a symmetric matrix $A$ and general matrices $B$ and $C$ the function
+computes matrix-matrix products of the form
+
+  *--[LATEX]------------------------------------*
+  |                                             |
+  |   C \leftarrow \beta C + \alpha\,A\,B       |
+  |                                             |
+  *---------------------------------------------*
+
+or
+
+  *--[LATEX]------------------------------------*
+  |                                             |
+  |   C \leftarrow \beta C + \alpha\,B\,A,      |
+  |                                             |
+  *---------------------------------------------*
+
+i.e. the symmetric matrix $A$ can be multiplies from left or right.
 
 *--[CODEREF]------------------------------------------------------------------------*
 |                                                                                   |
@@ -68,10 +158,45 @@
                             [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmm#$@N@cxxblas@E@Side#]
                             [&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#                     ]
 
-    Defined in namespace `flens::blas`.
-    Function `mm` with 5 template parameters.
+    side      `(input)`                                                        +
+              Specify the type of matrix-matrix product:
+               Left     $B \leftarrow \beta\,C + \alpha\,A\,B$
+               Right    $B \leftarrow \beta\,C + \alpha\,B\,A$
+    alpha     `(input)`                                                        +
+              Scaling factor $\alpha$.
+    A         `(input) real or complex valued SyMatrix`                         +
+              Symmetric matrix $A$.
+    B         `(input) real or complex valued GeMatrix`                        +
+              Matrix $B$.
+    beta      `(input)`                                                        +
+              Scaling factor $\beta$. If $\beta$ is zero and $C$ has zero rows
+              or columns then $C$ gets resized.
+    C         `(input/output) real or complex valued GeMatrix`                 +
+              On entry the original matrix $C$.                                +
+              On exit overwritten with
+              $\beta\,C + \alpha\,A\,B$ or $\beta\,C + \alpha\,B\,A$.
 
 
+Hermitian Matrix
+================
+For a hermitial matrix $A$ and general matrices $B$ and $C$ the function
+computes matrix-matrix products of the form
+
+  *--[LATEX]------------------------------------*
+  |                                             |
+  |   C \leftarrow \beta C + \alpha\,A\,B       |
+  |                                             |
+  *---------------------------------------------*
+
+or
+
+  *--[LATEX]------------------------------------*
+  |                                             |
+  |   C \leftarrow \beta C + \alpha\,B\,A,      |
+  |                                             |
+  *---------------------------------------------*
+
+i.e. the hermitian matrix $A$ can be multiplies from left or right.
 
 *--[CODEREF]------------------------------------------------------------------------*
 |                                                                                   |
@@ -89,10 +214,26 @@
 |                                                                                   |
 *-----------------------------------------------------------------------------------*
                             [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmm#$@N@cxxblas@E@Side#]
-                            [&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4##variant             ]
+                            [&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypenameALPHA]
+                            [typenameMAtypenameMBtypenameBETAtypenameMCtypenameRestr]
+                            [ictToIsHeMatrixMAvalueIsGeMatrixMBvalueIsGeMatrixMCvalu]
+                            [evoidTypemm                                            ]
 
-    Defined in namespace `flens::blas`.
-    Function `mm` with 5 template parameters.
-
-
+    side      `(input)`                                                        +
+              Specify the type of matrix-matrix product:
+               Left     $B \leftarrow \beta\,C + \alpha\,A\,B$
+               Right    $B \leftarrow \beta\,C + \alpha\,B\,A$
+    alpha     `(input)`                                                        +
+              Scaling factor $\alpha$.
+    A         `(input) real or complex valued SyMatrix`                         +
+              Symmetric matrix $A$.
+    B         `(input) real or complex valued GeMatrix`                        +
+              Matrix $B$.
+    beta      `(input)`                                                        +
+              Scaling factor $\beta$. If $\beta$ is zero and $C$ has zero rows
+              or columns then $C$ gets resized.
+    C         `(input/output) real or complex valued GeMatrix`                 +
+              On entry the original matrix $C$.                                +
+              On exit overwritten with
+              $\beta\,C + \alpha\,A\,B$ or $\beta\,C + \alpha\,B\,A$.
 
