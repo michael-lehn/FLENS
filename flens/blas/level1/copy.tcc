@@ -432,6 +432,7 @@ typename RestrictTo<IsGeCoordMatrix<MA>::value
          void>::Type
 copy(Transpose trans, const MA &A, MB &&B)
 {
+    typedef typename MA::IndexType    IndexType;
     typedef typename MA::ElementType  ElementType;
 
     B.resize(A.numRows(), A.numCols(),
