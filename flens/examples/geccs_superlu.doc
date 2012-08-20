@@ -1,0 +1,64 @@
+=============
+Using SuperLU
+=============
+
+This example requires that __SuperLU__ (Version 4.3) is installed on your
+system.
+
+In this example we show how you:
+
+- How to setup a general sparse matrix in coordinate storage.  This is a common
+  step in FEM when the stiffness matrix gets assembled.
+- Show how to convert the sparse matrix from the coordinate storage format to
+  the compressed column storage format.  This format is required by __SuperLU__.
+- Show how to call the solver from __SuperLU__.  We use quick and dirty hacked
+  wrapper function for this purpose.  You certainly can do this more elegant.
+
+
+Example Code
+============
+The following example is basically taken from the __SuperLU__ user manual and
+ported to FLENS.
+
+:import: flens/examples/geccs_superlu.cc [stripped, downloadable]
+
+Some Notes
+==========
+:import: flens/examples/geccs_superlu.cc [brief]
+
+
+Compile
+=======
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  g++ -Wall -std=c++11 -I../.. -I$HOME/SuperLU_4.3/SRC                +++|
+  |      -L$HOME/SuperLU_4.3/lib -lsuperlu_4.3 -framework vecLib         +++|
+  |      -o geccs_superlu geccs_superlu.cc                                  |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+In this case we assume that __SuperLU__ is installed in `$HOME/SuperLU_4.3/`.
+So the following options were used:
+
+  -I$HOME/SuperLU_4.3/SRC    Add the __SuperLU__ headers to the include path.
+  -L$HOME/SuperLU_4.3/lib    Add the __SuperLU__ library path.
+  -lsuperlu_4.3              Link against the __SuperLU__ library.
+  -framework vecLib          This is the Mac OS X way of linking BLAS.  On other
+                             platforms this might be done more manual, e.g
+                             `-latlas -lblas`.
+
+
+Run
+===
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  ./geccs_superlu                                                        |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+:links:  SuperLU -> http://crd-legacy.lbl.gov/~xiaoye/SuperLU/
