@@ -53,9 +53,9 @@ main()
 /// SuperLU requires an index base of zero.  Here we set the default index base
 /// of the storage scheme to zero via `IndexBaseZero`.
 ///
-typedef int                                              IndexType;
-typedef IndexBaseZero<IndexType>                         IndexBase;
-typedef CoordStorage<double, IndexBase, CoordColRowCmp>  Coord;
+    typedef int                                              IndexType;
+    typedef IndexBaseZero<IndexType>                         IndexBase;
+    typedef CoordStorage<double, IndexBase, CoordColRowCmp>  Coord;
 
 ///
 /// Alternative we could specify it through the constructor (see class API).
@@ -120,28 +120,6 @@ typedef CoordStorage<double, IndexBase, CoordColRowCmp>  Coord;
     } else {
         cout << "SuperLU dgssv:  info = " << info << endl;
     }
-
-///
-/// For comparison we densify matrix A and solve the system of equations
-/// also with LAPACK
-///
-    GeMatrix<FullStorage<double> >  A_dense(m,n);
-    DenseVector<Array<IndexType> >  piv(m);
-    DenseVector<Array<double> >     b2(m);
-
-    cerr << "A_dense.firstRow() = " << A_dense.firstRow() << endl;
-    cerr << "A_dense = " << A_dense << endl;
-    A_dense = A;
-
-    A_dense.changeIndexBase(1,1);
-    cerr << "A_dense.firstRow() = " << A_dense.firstRow() << endl;
-    cerr << "A_dense = " << A_dense << endl;
-
-    b2 = 1;
-    cerr << "b2 = " << b2 << endl;
-
-    lapack::sv(A_dense, piv, b2);
-    cout << "x2 = " << b2 << endl;
 
     return info;
 }
