@@ -348,7 +348,7 @@ copy(Transpose trans, const MA &A, MB &&B)
 {
     typedef typename RemoveRef<MA>::Type MatrixB;
 
-    typename MatrixB::ElementType  Zero(0);
+    typename MatrixB::ElementType  Zero(0), One(1);
 
     if (trans==NoTrans) {
         if (A.numRows()!=B.numRows() && A.numCols()!=B.numCols()) {
@@ -378,18 +378,38 @@ copy(Transpose trans, const MA &A, MB &&B)
 
     if (trans==NoTrans) {
         if (A.upLo()==Upper) {
-            B.upper() = A;
+            if (A.diag()!=Unit) {
+                B.upper() = A;
+            } else {
+                B.upperUnit() = A;
+                B.diag(0) = One;
+            }
             B.strictLower() = Zero;
         } else {
-            B.lower() = A;
+            if (A.diag()!=Unit) {
+                B.lower() = A;
+            } else {
+                B.lowerUnit() = A;
+                B.diag(0) = One;
+            }
             B.strictUpper() = Zero;
         }
     } else if (trans==Trans) {
         if (A.upLo()==Upper) {
-            B.lower() = transpose(A);
+            if (A.diag()!=Unit) {
+                B.lower() = transpose(A);
+            } else {
+                B.lowerUnit() = transpose(A);
+                B.diag(0) = One;
+            }
             B.strictUpper() = Zero;
         } else {
-            B.upper() = transpose(A);
+            if (A.diag()!=Unit) {
+                B.upper() = transpose(A);
+            } else {
+                B.upperUnit() = transpose(A);
+                B.diag(0) = One;
+            }
             B.strictLower() = Zero;
         }
     } else {
@@ -432,7 +452,6 @@ typename RestrictTo<IsGeCoordMatrix<MA>::value
          void>::Type
 copy(Transpose trans, const MA &A, MB &&B)
 {
-    typedef typename MA::IndexType    IndexType;
     typedef typename MA::ElementType  ElementType;
 
     B.resize(A.numRows(), A.numCols(),
