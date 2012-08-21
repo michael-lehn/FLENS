@@ -377,32 +377,40 @@ copy(Transpose trans, const MA &A, MB &&B)
     }
 
     if (trans==NoTrans) {
-        if (A.upLo()==Upper || A.upLo()==UpperUnit) {
-            B.upper() = A;
+        if (A.upLo()==Upper) {
+            if (A.diag()!=Unit) {
+                B.upper() = A;
+            } else {
+                B.upperUnit() = A;
+                B.diag(0) = One;
+            }
             B.strictLower() = Zero;
-            if (A.upLo()==UpperUnit) {
-                B.diag(0) = One;
-            }
         } else {
-            B.lower() = A;
-            B.strictUpper() = Zero;
-            if (B.upLo()==LowerUnit) {
+            if (A.diag()!=Unit) {
+                B.lower() = A;
+            } else {
+                B.lowerUnit() = A;
                 B.diag(0) = One;
             }
+            B.strictUpper() = Zero;
         }
     } else if (trans==Trans) {
-        if (A.upLo()==Upper || A.upLo()==UpperUnit) {
-            B.lower() = transpose(A);
+        if (A.upLo()==Upper) {
+            if (A.diag()!=Unit) {
+                B.lower() = transpose(A);
+            } else {
+                B.lowerUnit() = transpose(A);
+                B.diag(0) = One;
+            }
             B.strictUpper() = Zero;
-            if (A.upLo()==UpperUnit) {
-                B.diag(0) = One;
-            }
         } else {
-            B.upper() = transpose(A);
-            B.strictLower() = Zero;
-            if (A.upLo()==LowerUnit) {
+            if (A.diag()!=Unit) {
+                B.upper() = transpose(A);
+            } else {
+                B.upperUnit() = transpose(A);
                 B.diag(0) = One;
             }
+            B.strictLower() = Zero;
         }
     } else {
         ASSERT(0);
@@ -444,7 +452,6 @@ typename RestrictTo<IsGeCoordMatrix<MA>::value
          void>::Type
 copy(Transpose trans, const MA &A, MB &&B)
 {
-    typedef typename MA::IndexType    IndexType;
     typedef typename MA::ElementType  ElementType;
 
     B.resize(A.numRows(), A.numCols(),
