@@ -41,26 +41,19 @@
 namespace flens {
 
 template <typename CS>
-GeCoordMatrix<CS>::GeCoordMatrix(IndexType numRows, IndexType numCols)
-    : _engine(numRows, numCols)
+GeCoordMatrix<CS>::GeCoordMatrix(IndexType numRows,
+                                 IndexType numCols,
+                                 IndexType densityEstimate)
+    : _engine(numRows, numCols, densityEstimate)
 {
 }
 
 template <typename CS>
 GeCoordMatrix<CS>::GeCoordMatrix(IndexType numRows, IndexType numCols,
-                                 IndexType firstRow, IndexType firstCol)
-    : _engine(numRows, numCols, firstRow, firstCol)
+                                 IndexType firstRow, IndexType firstCol,
+                                 IndexType densityEstimate)
+    : _engine(numRows, numCols, densityEstimate, firstRow, firstCol)
 {
-}
-
-template <typename CS>
-GeCoordMatrix<CS>::GeCoordMatrix(const Range<IndexType> &rowRange,
-                                 const Range<IndexType> &colRange)
-    : _engine(rowRange.numTicks(), colRange.numTicks(),
-              rowRange.firstIndex(), colRange.firstIndex())
-{
-    ASSERT(rowRange.stride()==1);
-    ASSERT(colRange.stride()==1);
 }
 
 // -- operators ----------------------------------------------------------------

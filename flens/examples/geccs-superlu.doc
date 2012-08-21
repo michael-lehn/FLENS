@@ -1,14 +1,13 @@
 =============
-Using SuperLU
+Using SuperLU                                                           [TOC]
 =============
 
 This example requires that __SuperLU__ (Version 4.3) is installed on your
 system.
 
-In this example we show how you:
+In this example we will:
 
-- How to setup a general sparse matrix in coordinate storage.  This is a common
-  step in FEM when the stiffness matrix gets assembled.
+- Setup a general sparse matrix in coordinate storage.
 - Show how to convert the sparse matrix from the coordinate storage format to
   the compressed column storage format.  This format is required by __SuperLU__.
 - Show how to call the solver from __SuperLU__.  We use quick and dirty hacked
@@ -20,11 +19,11 @@ Example Code
 The following example is basically taken from the __SuperLU__ user manual and
 ported to FLENS.
 
-:import: flens/examples/geccs_superlu.cc [stripped, downloadable]
+:import: flens/examples/geccs-superlu.cc [stripped, downloadable]
 
 Some Notes
 ==========
-:import: flens/examples/geccs_superlu.cc [brief]
+:import: flens/examples/geccs-superlu.cc [brief]
 
 
 Compile
@@ -35,7 +34,7 @@ Compile
   |  cd flens/examples                                                      |
   |  g++ -Wall -std=c++11 -I../.. -I$HOME/SuperLU_4.3/SRC                +++|
   |      -L$HOME/SuperLU_4.3/lib -lsuperlu_4.3 -framework vecLib         +++|
-  |      -o geccs_superlu geccs_superlu.cc                                  |
+  |      -o geccs-superlu geccs-superlu.cc                                  |
   |                                                                         |
   *-------------------------------------------------------------------------*
 
@@ -56,9 +55,13 @@ Run
   *--[SHELL]----------------------------------------------------------------*
   |                                                                         |
   |  cd flens/examples                                                      |
-  |  ./geccs_superlu                                                        |
+  |  ./geccs-superlu                                                        |
   |                                                                         |
   *-------------------------------------------------------------------------*
 
 
 :links:  SuperLU -> http://crd-legacy.lbl.gov/~xiaoye/SuperLU/
+
+:navigate: __up__    -> doc:flens/examples/tutorial
+           __back__  -> doc:flens/examples/geccs-setup
+           __next__  -> doc:flens/examples/gecrs-setup

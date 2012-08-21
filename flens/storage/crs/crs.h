@@ -90,11 +90,20 @@ class CRS
         const IndexTypeVector &
         rows() const;
 
+        IndexTypeVector &
+        rows();
+
         const IndexTypeVector &
         cols() const;
 
+        IndexTypeVector &
+        cols();
+
         const ElementTypeVector &
         values() const;
+
+        ElementTypeVector &
+        values();
 
         void
         _compress(const CoordinateStorage &coordinateStorage);

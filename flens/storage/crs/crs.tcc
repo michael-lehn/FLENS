@@ -119,6 +119,13 @@ CRS<T,I>::rows() const
 }
 
 template <typename T, typename I>
+typename CRS<T,I>::IndexTypeVector &
+CRS<T,I>::rows()
+{
+    return _rows;
+}
+
+template <typename T, typename I>
 const typename CRS<T,I>::IndexTypeVector &
 CRS<T,I>::cols() const
 {
@@ -126,8 +133,22 @@ CRS<T,I>::cols() const
 }
 
 template <typename T, typename I>
+typename CRS<T,I>::IndexTypeVector &
+CRS<T,I>::cols()
+{
+    return _cols;
+}
+
+template <typename T, typename I>
 const typename CRS<T,I>::ElementTypeVector &
 CRS<T,I>::values() const
+{
+    return _values;
+}
+
+template <typename T, typename I>
+typename CRS<T,I>::ElementTypeVector &
+CRS<T,I>::values()
 {
     return _values;
 }
@@ -142,12 +163,6 @@ CRS<T,I>::_compress(const CoordinateStorage &coordinateStorage)
     _firstCol = coordinateStorage.firstCol();
 
 //
-//  Let's start restrictive.  But we will make this more flexible.
-//
-    ASSERT(_firstRow==1);
-    ASSERT(_firstCol==1);
-
-//
 //  Accumulate coords and get number of non zeros
 //
     coordinateStorage.accumulate();
@@ -157,23 +172,24 @@ CRS<T,I>::_compress(const CoordinateStorage &coordinateStorage)
 //  Allocate memory for the CRS format
 //
     _rows.resize(_numRows+1, _firstRow);
-    _cols.resize(nnz, IndexType(1));
-    _values.resize(nnz, IndexType(1));
+    _cols.resize(nnz, _firstRow);
+    _values.resize(nnz, _firstRow);
 
-    IndexType  r      = _firstRow;
     const auto &coord = coordinateStorage.coordVector();
 
-    _rows(r) = 1;
+    IndexType r = _firstRow;
+    _rows(r) = _firstCol;
+
     for (size_t k=0; k<coord.size(); ++k) {
         while (coord[k].row>r) {
-            _rows(r+1) = k+1;
+            _rows(r+1) = _firstCol + k;
             ++r;
         }
-        _cols(k+1)   = coord[k].col;
-        _values(k+1) = coord[k].value;
+        _cols(_firstCol+k)   = coord[k].col;
+        _values(_firstCol+k) = coord[k].value;
     }
     while (r<=lastRow()) {
-        _rows(r+1) = coord.size()+1;
+        _rows(r+1) = _firstCol + coord.size();
         ++r;
     }
 }

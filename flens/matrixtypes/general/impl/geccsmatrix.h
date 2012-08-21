@@ -49,6 +49,8 @@ class GeCCSMatrix
         typedef typename Engine::IndexType      IndexType;
 
         // -- constructor ------------------------------------------------------
+        GeCCSMatrix();
+
         template <typename RHS>
             GeCCSMatrix(const Matrix<RHS> &rhs);
 

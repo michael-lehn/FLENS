@@ -19,8 +19,10 @@ Some key points
     - Generic implementation means that you can use any element type for
       your matrices/vectors that "acts like a double".  So in particular
       types from the __QD Library__,  __mpfr__, ...
-- If high performance BLAS libraries like __ATLAS__/__GotoBLAS__/... are
-  available you simply can link against them and boost performance.
+- If *high performance BLAS* libraries like __ATLAS__ or __GotoBLAS__ are
+  available compile with `-DWITH_ATLAS` or `-DWITH_GOTOBLAS` respectively,
+  link against them and boost performance.  FLENS does not introduce any
+  overhead due to abstraction.  You get all the performance.
 - __FLENS-BLAS__ is a high-level and easy-to-use __BLAS__ interface
 - __FLENS-LAPACK__ is a high-level and easy-to-use C++ implementation of
   __LAPACK__.
@@ -44,24 +46,24 @@ Examples and Tutorial
       matrix views, ...
     - __Session 4__: Using FLENS-LAPACK.
     - __Session 5__: Using an external LAPACK implementation.
-    - __Session 6__: Define your own matrix/vector types.
-    - __Session 7__: How to define a *kick-ass interface* for FLENS-LAPACK.
+    - __Session 6__: Sparse Matrices (_Experimental_).
 
 
 Scope of this Branch
 ====================
 
-- Only real matrix types with full storage and dense vector types, i.e.
+- Real and complex matrix types with full storage and dense vector types, i.e.
     - __GeMatrix__,
     - __SyMatrix__,
     - __TrMatrix__,
     - __DenseVector__.
+- Sparse matrices are experimental at the moment.
 - Our generic BLAS implementation __CXXBLAS__.
 - Support for high and multipecission types from __QD Library__ and __mpfr__.
 - Support for native BLAS implementations like __ATLAS__ or __GotoBLAS__.
 - __FLENS-BLAS__ and __FLENS-LAPACK__.
 - Overloaded operators for BLAS working ontop of the __FLENS-BLAS__ layer.
-- We improved our *doctool* (look at the bottom of each page for *document
+- We improved our __DocTool__ (look at the bottom of each page for *document
   source*).  We now use *restructured text*.
 
 
@@ -75,9 +77,8 @@ compiler:
   - __icc__ version 12.1.2 (or higher)
 
 
-Git It
-======
-
+Git It/Download
+===============
 You can clone a public branch from __GitHub__
 
   *--[BOX]------------------------------------------------------------------*
@@ -85,6 +86,9 @@ You can clone a public branch from __GitHub__
   |  git clone git://github.com/michael-lehn/FLENS.git                      |
   |                                                                         |
   *-------------------------------------------------------------------------*
+
+or download a __snapshot__.
+
 
 Philosophy
 ==========
@@ -128,14 +132,15 @@ Join the mailing __list__!
 
 :links: __FLENS-LAPACK__ -> doc:flens/lapack/lapack
         __FLENS-BLAS__   -> doc:flens/blas/blas
+        __DocTool__      -> http://www.mathematik.uni-ulm.de/~lehn/DocTool
         __BLAS__         -> http://www.netlib.org/blas/
         __LAPACK__       -> http://www.netlib.org/lapack/
         __tutorial__     -> doc:flens/examples/tutorial
         __Session (\d)__ -> doc:flens/examples/tutorial#$1
-        __GeMatrix__     -> file:flens/matrixtypes/general/impl/gematrix.h
-        __SyMatrix__     -> file:flens/matrixtypes/symmetric/impl/symatrix.h
-        __TrMatrix__     -> file:flens/matrixtypes/triangular/impl/trmatrix.h
-        __DenseVector__  -> file:flens/vectortypes/impl/densevector.h
+        __GeMatrix__     -> doc:flens/matrixtypes/general/impl/gematrix
+        __SyMatrix__     -> doc:flens/matrixtypes/symmetric/impl/symatrix
+        __TrMatrix__     -> doc:flens/matrixtypes/triangular/impl/trmatrix
+        __DenseVector__  -> doc:flens/vectortypes/impl/densevector
         __CXXBLAS__      -> doc:cxxblas/cxxblas
         __QD Library__   -> http://crd-legacy.lbl.gov/~dhbailey/mpdist
         __mpfr__         -> http://www.mpfr.org
@@ -145,5 +150,6 @@ Join the mailing __list__!
         __clang__        -> http://clang.llvm.org/
         __gcc__          -> http://gcc.gnu.org/
         __icc__          -> http://software.intel.com/en-us/articles/intel-compilers/
+        __snapshot__     -> http://www.mathematik.uni-ulm.de/~lehn/FLENS/downloads/
         __list__         -> https://imap.uni-ulm.de/lists/info/flens
 

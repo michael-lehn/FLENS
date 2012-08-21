@@ -50,13 +50,12 @@ class GeCoordMatrix
         typedef typename Engine::ElementProxy   ElementProxy;
 
         // -- constructors -----------------------------------------------------
-        GeCoordMatrix(IndexType numRows, IndexType numCols);
+        GeCoordMatrix(IndexType numRows, IndexType numCols,
+                      IndexType densityEstimate = 1);
 
         GeCoordMatrix(IndexType numRows, IndexType numCols,
-                      IndexType firstRow, IndexType firstCol);
-
-        GeCoordMatrix(const Range<IndexType> &rowRange,
-                      const Range<IndexType> &colRange);
+                      IndexType firstRow, IndexType firstCol,
+                      IndexType densityEstimate = 1);
 
         // -- operators --------------------------------------------------------
         ElementProxy

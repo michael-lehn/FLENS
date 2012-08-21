@@ -44,9 +44,6 @@ operator<<(std::ostream &out, const GeCoordMatrix<CS> &A)
 {
     const auto &coord = A.engine().coordVector();
 
-    out << "(_lastSortedCoord = "
-        << A.engine()._lastSortedCoord
-        << ")" << std::endl;
     out << std::endl;
     for (size_t k=0; k<coord.size(); ++k) {
         out << "  #" << k << ": ("

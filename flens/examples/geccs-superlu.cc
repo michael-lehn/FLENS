@@ -17,10 +17,12 @@ using namespace std;
 template <typename MA, typename PR, typename PC, typename VB>
 int
 dgssv(GeCCSMatrix<MA>  &A,
-      DenseVector<PR>  &pr,
       DenseVector<PC>  &pc,
+      DenseVector<PR>  &pr,
       DenseVector<VB>  &b)
 {
+    ASSERT(pr.length()==A.numRows());
+    ASSERT(pc.length()==A.numCols());
     superlu_options_t   options;
     SuperLUStat_t       stat;
     SuperMatrix         _A, _L, _U, _B;
@@ -37,7 +39,7 @@ dgssv(GeCCSMatrix<MA>  &A,
     options.ColPerm = NATURAL;
     StatInit(&stat);
     int info;
-    dgssv(&options, &_A, pr.data(), pc.data(), &_L, &_U, &_B, &stat, &info);
+    dgssv(&options, &_A, pc.data(), pr.data(), &_L, &_U, &_B, &stat, &info);
     Destroy_SuperMatrix_Store(&_A);
     Destroy_SuperMatrix_Store(&_B);
     Destroy_SuperNode_Matrix(&_L);
