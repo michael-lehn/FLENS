@@ -348,7 +348,7 @@ copy(Transpose trans, const MA &A, MB &&B)
 {
     typedef typename RemoveRef<MA>::Type MatrixB;
 
-    typename MatrixB::ElementType  Zero(0);
+    typename MatrixB::ElementType  Zero(0), One(1);
 
     if (trans==NoTrans) {
         if (A.numRows()!=B.numRows() && A.numCols()!=B.numCols()) {
@@ -377,20 +377,32 @@ copy(Transpose trans, const MA &A, MB &&B)
     }
 
     if (trans==NoTrans) {
-        if (A.upLo()==Upper) {
+        if (A.upLo()==Upper || A.upLo()==UpperUnit) {
             B.upper() = A;
             B.strictLower() = Zero;
+            if (A.upLo()==UpperUnit) {
+                B.diag(0) = One;
+            }
         } else {
             B.lower() = A;
             B.strictUpper() = Zero;
+            if (B.upLo()==LowerUnit) {
+                B.diag(0) = One;
+            }
         }
     } else if (trans==Trans) {
-        if (A.upLo()==Upper) {
+        if (A.upLo()==Upper || A.upLo()==UpperUnit) {
             B.lower() = transpose(A);
             B.strictUpper() = Zero;
+            if (A.upLo()==UpperUnit) {
+                B.diag(0) = One;
+            }
         } else {
             B.upper() = transpose(A);
             B.strictLower() = Zero;
+            if (A.upLo()==LowerUnit) {
+                B.diag(0) = One;
+            }
         }
     } else {
         ASSERT(0);
