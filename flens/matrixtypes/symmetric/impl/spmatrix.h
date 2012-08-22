@@ -170,7 +170,10 @@ class SpMatrix
 
         ElementType *
         data();
-
+    
+        StorageOrder
+        order() const;
+    
         template <typename RHS>
             bool
             resize(const SpMatrix<RHS> &rhs,

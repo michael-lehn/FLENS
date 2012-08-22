@@ -44,109 +44,122 @@ namespace flens { namespace blas {
 
 //-- gemv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-    void
-    mv(Transpose trans,
-       const ALPHA &alpha, const GeMatrix<MA> &A, const DenseVector<VX> &x,
-       const BETA &beta, DenseVector<VY> &y);
+    typename RestrictTo<IsGeMatrix<MA>::value
+                     && IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
+             void>::Type
+    mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,
+       const BETA &beta, VY &&y);
 
+//-- gbmv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-    void
-    mv(Transpose trans,
-       const ALPHA &alpha, const GbMatrix<MA> &A, const DenseVector<VX> &x,
-       const BETA &beta, DenseVector<VY> &y);
+    typename RestrictTo<IsGbMatrix<MA>::value
+                     && IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
+             void>::Type
+    mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,
+       const BETA &beta, VY &&y);
+
+//-- gecrsmv
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+    typename RestrictTo<IsGeCRSMatrix<MA>::value
+                     && IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
+             void>::Type
+    mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,
+       const BETA &beta, VY &&y);
+
 
 //== TriangularMatrix - Vector products ========================================
 
 //-- tbmv
 template <typename MA, typename VX>
-    void
-    mv(Transpose trans, const TbMatrix<MA> &A, DenseVector<VX> &x);
+    typename RestrictTo<IsTbMatrix<MA>::value
+                     && IsDenseVector<VX>::value,
+             void>::Type
+    mv(Transpose trans, const MA &A, VX &&x);
 
 //-- trmv
 template <typename MA, typename VX>
-    void
-    mv(Transpose trans, const TrMatrix<MA> &A, DenseVector<VX> &x);
+    typename RestrictTo<IsTrMatrix<MA>::value
+                     && IsDenseVector<VX>::value,
+             void>::Type
+    mv(Transpose trans, const MA &A, VX &&x);
 
 //-- tpmv
 template <typename MA, typename VX>
-    void
-    mv(Transpose trans, const TpMatrix<MA> &A, DenseVector<VX> &x);
+    typename RestrictTo<IsTpMatrix<MA>::value
+                     && IsDenseVector<VX>::value,
+             void>::Type
+    mv(Transpose trans, const MA &A, VX &&x);
     
 //== SymmetricMatrix - Vector products =========================================
 
 //-- sbmv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-    void
-    mv(const ALPHA &alpha, const SbMatrix<MA> &A, const DenseVector<VX> &x,
-       const BETA &beta, DenseVector<VY> &y);
+    typename RestrictTo<IsSbMatrix<MA>::value
+                     && IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
+             void>::Type
+    mv(const ALPHA &alpha, const MA &A, const VX &x,
+       const BETA &beta, VY &&y);
 
 //-- spmv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-    void
-    mv(const ALPHA &alpha, const SpMatrix<MA> &A, const DenseVector<VX> &x,
-       const BETA &beta, DenseVector<VY> &y);
+    typename RestrictTo<IsSpMatrix<MA>::value
+                     && IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
+             void>::Type
+    mv(const ALPHA &alpha, const MA &A, const VX &x,
+       const BETA &beta, VY &&y);
     
 //-- symv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-    void
-    mv(const ALPHA &alpha, const SyMatrix<MA> &A, const DenseVector<VX> &x,
-       const BETA &beta, DenseVector<VY> &y);
+    typename RestrictTo<IsSyMatrix<MA>::value
+                     && IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
+             void>::Type
+    mv(const ALPHA &alpha, const MA &A, const VX &x,
+       const BETA &beta, VY &&y);
+
+    
+//-- sycrsmv
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+    typename RestrictTo<IsSyCRSMatrix<MA>::value
+                     && IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
+             void>::Type
+    mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y);
+
 
 //== HermitianMatrix - Vector products =========================================
 
 //-- hbmv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-    void
-    mv(const ALPHA &alpha, const HbMatrix<MA> &A, const DenseVector<VX> &x,
-       const BETA &beta, DenseVector<VY> &y);
+    typename RestrictTo<IsHbMatrix<MA>::value
+                     && IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
+             void>::Type
+    mv(const ALPHA &alpha, const MA &A, const VX &x,
+       const BETA &beta, VY &&y);
 
 //-- hemv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-    void
-    mv(const ALPHA &alpha, const HeMatrix<MA> &A, const DenseVector<VX> &x,
-       const BETA &beta, DenseVector<VY> &y);
+    typename RestrictTo<IsHeMatrix<MA>::value
+                     && IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
+             void>::Type
+    mv(const ALPHA &alpha, const MA &A, const VX &x,
+       const BETA &beta, VY &&y);
     
 //-- hpmv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-    void
-    mv(const ALPHA &alpha, const HpMatrix<MA> &A, const DenseVector<VX> &x,
-       const BETA &beta, DenseVector<VY> &y);
-
-//== forwarding ================================================================
-
-//-- GeneralMatrix - Vector products
-template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-    typename RestrictTo<IsGeneralMatrix<MA>::value &&
-                       !IsClosure<MA>::value && !IsClosure<VX>::value &&
-                        IsSame<VY, typename VY::Impl>::value,
+    typename RestrictTo<IsHpMatrix<MA>::value
+                     && IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
              void>::Type
-    mv(Transpose trans,
-       const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y);
-
-//-- TriangularMatrix - Vector products
-template <typename MA, typename VX>
-    typename RestrictTo<IsTriangularMatrix<MA>::value &&
-                       !IsClosure<MA>::value &&
-                        IsSame<VX, typename VX::Impl>::value,
-             void>::Type
-    mv(Transpose trans, const MA &A, VX &&x);
-
-//-- Symmetric Matrix - Vector products
-template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-    typename RestrictTo<IsSymmetricMatrix<MA>::value &&
-                       !IsClosure<MA>::value && !IsClosure<VX>::value &&
-                        IsSame<VY, typename VY::Impl>::value,
-             void>::Type
-    mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y);
-
-//-- Hermitian Matrix - Vector products
-template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-    typename RestrictTo<IsHermitianMatrix<MA>::value &&
-                       !IsClosure<MA>::value && !IsClosure<VX>::value &&
-                        IsSame<VY, typename VY::Impl>::value,
-             void>::Type
-    mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y);
-
+    mv(const ALPHA &alpha, const MA &A, const VX &x,
+       const BETA &beta, VY &&y);
 
 
 } } // namespace blas, flens

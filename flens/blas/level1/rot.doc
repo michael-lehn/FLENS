@@ -1,0 +1,121 @@
+=======================
+BLAS Level 1: rotg, rot                                                 [TOC]
+=======================
+
+*rotg, rot* are defined in namespace `flens::blas`.
+
+- *rotg* computes parameters for a Givens rotation.  For given scalars $a$ and
+  $b$ the routine computes $c$ and $s$ that define a unitary matrix such that
+
+  *--[LATEX]---------------------------------------------------------------*
+  |                                                                        |
+  |   \begin{pmatrix}                                                      |
+  |    c & s \\                                                            |
+  |   -s & c                                                               |
+  |   \end{pmatrix}                                                        |
+  |   \begin{pmatrix}                                                      |
+  |   a \\ b                                                               |
+  |   \end{pmatrix}                                                        |
+  |   =                                                                    |
+  |   \begin{pmatrix}                                                      |
+  |   r \\ 0                                                               |
+  |   \end{pmatrix}                                                        |
+  |   \quad\text{with}\;r := \sqrt{|a|^2 + |b|^2}.                         |
+  |                                                                        |
+  *------------------------------------------------------------------------*
+
+  The routine further computes the value $z$ defined as follows:
+
+  *--[LATEX]---------------------------------------------------------------*
+  |                                                                        |
+  |  z = \begin{cases}                                                     |
+  |      s      & \text{if}\; |a| > |b|, \\                                |
+  |      1/c    & \text{if}\; |a| \leq |b| \;\text{and}\; c \neq 0, \\     |
+  |      1      & \text{else}.                                             |
+  |      \end{cases}                                                       |
+  |                                                                        |
+  *------------------------------------------------------------------------*
+
+- *rot* applies the Given rotation.  Given two vectors $x$ and $y$, each vector
+  element of these vectors is replaced as follows:
+
+  *--[LATEX]---------------------------------------------------------------*
+  |                                                                        |
+  |   \begin{eqnarray*}                                                    |
+  |   x_i &\leftarrow&  c x_i + s y_i \\                                   |
+  |   y_i &\leftarrow& -s x_i + c y_i                                      |
+  |   \end{eqnarray*}                                                      |
+  |                                                                        |
+  *------------------------------------------------------------------------*
+
+  i.e.
+
+  *--[LATEX]---------------------------------------------------------------*
+  |                                                                        |
+  |   \begin{pmatrix}                                                      |
+  |   x^T \\ y^T                                                           |
+  |   \end{pmatrix}                                                        |
+  |   \leftarrow                                                           |
+  |   \begin{pmatrix}                                                      |
+  |    c & s \\                                                            |
+  |   -s & c                                                               |
+  |   \end{pmatrix}                                                        |
+  |   \begin{pmatrix}                                                      |
+  |   x^T \\ y^T                                                           |
+  |   \end{pmatrix}                                                        |
+  |                                                                        |
+  *------------------------------------------------------------------------*
+
+
+rotg
+====
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename T>                                                    |
+|      void                                                                 |
+|      rotg(T &a, T &b, T &c, T &s);                                        |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                           [c:@N@flens@N@blas@FT@>1#Trotg#&t0.0#S0_#S0_#S0_#]
+
+    a    `(input/output) real or complex scalar`                               +
+         On entry, the $x$-coordinate of the point $p = (a,b)^T$ subject to
+         being rotated.                                                        +
+         On exit, the value $r$, i.e. the euklidian norm of $p$.
+    b    `(input/output) real or complex scalar`                               +
+         On entry, the $y$-coordinate of the point $p = (a,b)^T$ subject to
+         being rotated.                                                        +
+         On exit, the value $z$ (see above).
+    c    `(output) real or complex scalar`                                     +
+         On exit, the parameter $c$ associated with the Givens rotation.
+    s    `(output) real or complex scalar`                                     +
+         On exit, the parameter $s$ associated with the Givens rotation.
+
+
+rot
+===
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename VX, typename VY, typename T>                          |
+|      typename RestrictTo<IsDenseVector<VX>::value                         |
+|                       && IsDenseVector<VY>::value,                        |
+|               void>::Type                                                 |
+|      rot(VX &&x, VY &&y, const T &c, const T &s);                         |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>3#T#T#Trot#&t0.0#&t0.1#&1t0.]
+                         [2#S4_#                                            ]
+
+    x    `(input/output) real or complex DenseVector`                          +
+         On exit, contains the rotated $x$-coodrinates.
+    y    `(input/output) real or complex DenseVector`                          +
+         On exit, contains the rotated $y$-coodrinates.
+    c    `(input) real or complex scalar`                                      +
+         The parameter $c$ associated with the Givens rotation.
+    s    `(input) real or complex scalar`                                      +
+         The parameter $s$ associated with the Givens rotation.
+
+
+
+
+

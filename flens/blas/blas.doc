@@ -69,7 +69,7 @@ Level 1 BLAS
 ============
 This BLAS level originally deals with vector-vector operations only.  For
 convenience we added in some cases matrix-matrix variants that for instance
-allow copying or adding matrices.           
+allow copying or adding matrices.
 
  +------------+-----------------------------------------------+---------------+
  | FLENS-BLAS | DESCRIPTION                                   | CXXBLAS       |
@@ -100,8 +100,8 @@ allow copying or adding matrices.
  | __swap__   | Interchanges two vectors.                     | __swap[1]__   |
  +------------+-----------------------------------------------+---------------+
 
-:links: __(.*)\[1\]__  -> file:cxxblas/level1/$1.h
-        __(.*)__       -> file:flens/blas/level1/$1.h
+:links: __(.*)\[1\]__  -> doc:cxxblas/level1/$1
+        __(.*)__       -> doc:flens/blas/level1/$1
 
 Level 2 BLAS
 ============
@@ -120,6 +120,8 @@ them as soon as a FLENS-LAPACK routine requires it or somebody complains.
  |            |    $y \leftarrow \beta y + \alpha \text{op}(A) x$.| __gemv__  |
  |            |  - For *symmetric* matrices it is                 |           |
  |            |    $y \leftarrow \beta y + \alpha A x$.           | __symv__  |
+ |            |  - For *hermitian* matrices it is                 |           |
+ |            |    $y \leftarrow \beta y + \alpha A x$.           | __hemv__  |
  |            |  - For *triangular* matrices it is                |           |
  |            |    $x \leftarrow \text{op}(A) x$.                 | __trmv__  |
  |            | Hereby $\text{op}(A)$ denotes $A$, $A^T$ or       |           |
@@ -138,10 +140,10 @@ them as soon as a FLENS-LAPACK routine requires it or somebody complains.
  |            | or non-unit or upper or lower triangular matrix.  |           |
  +------------+---------------------------------------------------+-----------+
 
-:links: __mv__     -> file:flens/blas/level2/mv.h
-        __r__      -> file:flens/blas/level2/r.h
-        __sv__     -> file:flens/blas/level2/r.h
-        __(.*)__   -> file:cxxblas/level2/$1.h
+:links: __mv__     -> doc:flens/blas/level2/mv
+        __r__      -> doc:flens/blas/level2/r
+        __sv__     -> doc:flens/blas/level2/sv
+        __(.*)__   -> doc:cxxblas/level2/$1
 
 Level 3 BLAS
 ============
@@ -157,6 +159,9 @@ Level 3 BLAS
  |            |    $C \leftarrow \beta C                          |           |
  |            |    + \alpha \, \text{op}(A) \, \text{op}(B)$      |           |
  |            |  - *symmetric* then it is                         | __symm__  |
+ |            |    $C \leftarrow \beta C                          |           |
+ |            |    + \alpha \, A \, \text{op}(B)$                 |           |
+ |            |  - *hermitian* then it is                         | __hemm__  |
  |            |    $C \leftarrow \beta C                          |           |
  |            |    + \alpha \, A \, \text{op}(B)$                 |           |
  |            |  - *triangular* then it is                        | __trmm__  |
@@ -180,9 +185,9 @@ Level 3 BLAS
  |            | denotes $A$, $A^T$ or $A^H$.                      |           |
  +------------+---------------------------------------------------+-----------+
 
-:links: __mm__     -> file:flens/blas/level3/mm.h
-        __r2k__    -> file:flens/blas/level3/r2k.h
-        __rk__     -> file:flens/blas/level3/rk.h
-        __sm__     -> file:flens/blas/level3/sm.h
-        __(.*)__   -> file:cxxblas/level3/$1.h
+:links: __mm__     -> doc:flens/blas/level3/mm
+        __r2k__    -> doc:flens/blas/level3/r2k
+        __rk__     -> doc:flens/blas/level3/rk
+        __sm__     -> doc:flens/blas/level3/sm
+        __(.*)__   -> doc:cxxblas/level3/$1
 

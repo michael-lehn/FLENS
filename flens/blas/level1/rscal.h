@@ -38,19 +38,16 @@
 
 namespace flens { namespace blas {
 
-//-- rscal (forwarding)
-template <typename ALPHA, typename VY>
-    void
-    rscal(const ALPHA &alpha, VY &&y);
-
 //-- rscal (BLAS Level 1 Extension)
 template <typename ALPHA, typename VY>
-    void
-    rscal(const ALPHA &alpha, DenseVector<VY> &y);
+    typename RestrictTo<IsDenseVector<VY>::value,
+             void>::Type
+    rscal(const ALPHA &alpha, VY &&y);
 
 template <typename ALPHA, typename MB>
-    void
-    rscal(const ALPHA &alpha, GeMatrix<MB> &B);
+    typename RestrictTo<IsGeMatrix<MB>::value,
+             void>::Type
+    rscal(const ALPHA &alpha, MB &&B);
 
 } } // namespace blas, flens
 

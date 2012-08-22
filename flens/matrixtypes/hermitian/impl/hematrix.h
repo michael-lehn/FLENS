@@ -92,12 +92,12 @@ class HeMatrix
         typedef TrMatrix<EngineView>                TriangularView;
         typedef TrMatrix<EngineNoView>              TriangularNoView;
 
-        HeMatrix();
+        HeMatrix(IndexType dim, StorageUpLo upLo);
 
-        explicit
-        HeMatrix(IndexType dim);
+        HeMatrix(IndexType dim, IndexType firstIndex, StorageUpLo upLo);
 
-        HeMatrix(IndexType dim, IndexType firstRow, IndexType firstCol);
+        HeMatrix(IndexType dim, IndexType firstRow, IndexType firstCol,
+                 StorageUpLo upLo);
 
         HeMatrix(const Engine &engine, StorageUpLo upLo);
 

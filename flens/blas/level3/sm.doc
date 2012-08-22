@@ -1,0 +1,59 @@
+================
+BLAS Level 3: sm
+================
+
+*sm* (defined in namespace `flens::blas`) solves one of the matrix equations
+
+  *--[LATEX]------------------------*
+  |                                 |
+  |  \text{op}(A)\,X = \alpha\,B    |
+  |                                 |
+  *---------------------------------*
+
+or
+
+  *--[LATEX]------------------------*
+  |                                 |
+  |  X\,\text{op}(A) = \alpha\,B    |
+  |                                 |
+  *---------------------------------*
+
+where $\alpha$ is a scalar, $X$ and $B$ are general $m \times n$ matrices, $A$
+is a unit, or non-unit, upper or lower triangular matrix  and $\text{op}(X)$
+denotes $X$, $X^T$ or $X^H$.
+
+The matrix $X$ is overwritten on B.
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename MA, typename MB>                      |
+|      typename RestrictTo<IsTrMatrix<MA>::value                            |
+|                       && IsGeMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      sm(Side             side,                                            |
+|         Transpose        transA,                                          |
+|         const ALPHA      &alpha,                                          |
+|         const MA         &A,                                              |
+|         MB               &&B);                                            |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>3#T#T#Tsm#$@N@cxxblas@E@Side]
+                         [#$@N@cxxblas@E@Transpose#&1t0.0#&1t0.1#&t0.2#     ]
+
+
+    side      `(input)`                                                        +
+              Specify the type of matrix-matrix product:
+               Left     $\text{op}(A)\,X = \alpha\,B$
+               Right    $X\,\text{op}(A) = \alpha\,B$
+    transA    `(input)`                                                        +
+              Specifiy $\text{op}(A)$:
+               NoTrans      $A$
+               Trans        $A^T$
+               ConjTrans    $A^H$
+    alpha     `(input)`                                                        +
+              Scaling factor $\alpha$.
+    A         `(input) real or complex valued TrMatrix`                        +
+              The triangular matrix $A$.
+    B         `(input/output) real or complex valued GeMatrix`                 +
+              On entry the original matrix $B$.                                +
+              On exit overwritten with the solution matrix $X$.

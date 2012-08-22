@@ -39,10 +39,14 @@
 #include <flens/io/bandstorage/load.h>
 #include <flens/io/bandstorage/out.h>
 #include <flens/io/bandstorage/save.h>
+#include <flens/io/ccs/out.h>
+#include <flens/io/coordstorage/out.h>
+#include <flens/io/crs/out.h>
 #include <flens/io/fullstorage/load.h>
 #include <flens/io/fullstorage/out.h>
 #include <flens/io/fullstorage/save.h>
 #include <flens/io/packedstorage/load.h>
 #include <flens/io/packedstorage/out.h>
 #include <flens/io/packedstorage/save.h>
+
 #endif // FLENS_IO_IO_H

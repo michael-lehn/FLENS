@@ -33,9 +33,9 @@
 #ifndef FLENS_BLAS_LEVEL2_R_TCC
 #define FLENS_BLAS_LEVEL2_R_TCC 1
 
-#include <cxxblas/cxxblas.h>
-#include <flens/matrixtypes/matrixtypes.h>
-#include <flens/vectortypes/vectortypes.h>
+#include <flens/blas/closures/debugclosure.h>
+#include <flens/blas/level2/level2.h>
+#include <flens/typedefs.h>
 
 #ifdef FLENS_DEBUG_CLOSURES
 #   include <flens/blas/blaslogon.h>
@@ -45,42 +45,15 @@
 
 namespace flens { namespace blas {
 
-//-- forwarding ----------------------------------------------------------------
-template <typename ALPHA, typename VX, typename VY, typename MA>
-void
-r(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
-{
-    CHECKPOINT_ENTER;
-    r(alpha, x, y, A);
-    CHECKPOINT_LEAVE;
-}
-
-template <typename ALPHA, typename VX, typename VY, typename MA>
-void
-ru(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
-{
-    CHECKPOINT_ENTER;
-    ru(alpha, x, y, A);
-    CHECKPOINT_LEAVE;
-}
-
-template <typename ALPHA, typename VX, typename VY, typename MA>
-void
-rc(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
-{
-    CHECKPOINT_ENTER;
-    rc(alpha, x, y, A);
-    CHECKPOINT_LEAVE;
-}
-
 //-- GeMatrix, DenseVector -----------------------------------------------------
 
 //-- ger
 template <typename ALPHA, typename VX, typename VY, typename MA>
-void
-r(const ALPHA &alpha,
-  const DenseVector<VX> &x, const DenseVector<VY> &y,
-  GeMatrix<MA> &A)
+typename RestrictTo<IsDenseVector<VX>::value
+                 && IsDenseVector<VY>::value
+                 && IsGeMatrix<MA>::value,
+         void>::Type
+r(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
 {
     if ((x.length()!=A.numRows()) || (y.length()!=A.numCols())) {
         A.resize(x.length(), y.length(), x.firstIndex(), y.firstIndex());
@@ -95,20 +68,22 @@ r(const ALPHA &alpha,
 
 //-- geru
 template <typename ALPHA, typename VX, typename VY, typename MA>
-void
-ru(const ALPHA &alpha,
-   const DenseVector<VX> &x, const DenseVector<VY> &y,
-   GeMatrix<MA> &A)
+typename RestrictTo<IsDenseVector<VX>::value
+                 && IsDenseVector<VY>::value
+                 && IsGeMatrix<MA>::value,
+         void>::Type
+ru(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
 {
     r(alpha, x, y, A);
 }
 
 //-- gerc
 template <typename ALPHA, typename VX, typename VY, typename MA>
-void
-rc(const ALPHA &alpha,
-   const DenseVector<VX> &x, const DenseVector<VY> &y,
-   GeMatrix<MA> &A)
+    typename RestrictTo<IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value
+                     && IsGeMatrix<MA>::value,
+             void>::Type
+rc(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
 {
     if ((x.length()!=A.numRows()) || (y.length()!=A.numCols())) {
         A.resize(x.length(), y.length(), x.firstIndex(), y.firstIndex());

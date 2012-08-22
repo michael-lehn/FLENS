@@ -40,20 +40,23 @@
 namespace flens {
 
 template <typename FS>
-HeMatrix<FS>::HeMatrix()
-{
-}
-
-template <typename FS>
-HeMatrix<FS>::HeMatrix(IndexType dim)
-    : _engine(dim, dim)
+HeMatrix<FS>::HeMatrix(IndexType dim, StorageUpLo upLo)
+    : _engine(dim, dim), _upLo(upLo)
 {
     ASSERT(dim>=0);
 }
 
 template <typename FS>
-HeMatrix<FS>::HeMatrix(IndexType dim, IndexType firstRow, IndexType firstCol)
-    : _engine(dim, dim, firstRow, firstCol)
+HeMatrix<FS>::HeMatrix(IndexType dim, IndexType firstIndex, StorageUpLo upLo)
+    : _engine(dim, dim, firstIndex, firstIndex), _upLo(upLo)
+{
+    ASSERT(dim>=0);
+}
+
+template <typename FS>
+HeMatrix<FS>::HeMatrix(IndexType dim, IndexType firstRow, IndexType firstCol,
+                       StorageUpLo upLo)
+    : _engine(dim, dim, firstRow, firstCol), _upLo(upLo)
 {
     ASSERT(dim>=0);
 }

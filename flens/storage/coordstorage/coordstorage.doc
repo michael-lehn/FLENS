@@ -1,0 +1,331 @@
+==================
+Class CoordStorage                                                       [TOC]
+==================
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename T,                                                    |
+|            typename I = IndexOptions<>,                                   |
+|            typename Cmp = CoordRowColCmp>                                 |
+|  class CoordStorage;                                                      |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                                         [c:@N@flens@CT>3#T#T#T@CoordStorage]
+
+    Defined in namespace `flens`.
+    Class CoordStorage with 3 template parameters.
+
+
+Constructor and Destructor
+==========================
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  CoordStorage(IndexType numRows, IndexType numCols,                       |
+|               IndexType densityEstimate = 1,                              |
+|               IndexType firstRow = I::defaultIndexBase,                   |
+|               IndexType firstCol = I::defaultIndexBase);                  |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@CT>3#T#T#T@CoordStorage@F@CoordStorage<]
+                         [T, I, Cmp># #S0_#S0_#S0_#S0_#                     ]
+
+    Defined in namespace `flens`.
+    Constructor of class `CoordStorage` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  ~CoordStorage();                                                         |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@CT>3#T#T#T@CoordStorage@F@~CoordStorage]
+                         [<T, I, Cmp>#                                      ]
+
+    Defined in namespace `flens`.
+    Method `~CoordStorage<T, I, Cmp>` of class `CoordStorage` with 3 template parameters.
+
+Operator
+========
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  ElementProxy                                                             |
+|  operator()(IndexType row, IndexType col);                                |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@CT>3#T#T#T@CoordStorage@F@operator()# #]
+                         [S0_#                                              ]
+
+    Defined in namespace `flens`.
+    Operator `()` of class `CoordStorage` with 3 template parameters.
+
+
+Methods
+=======
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  const IndexType                                                          |
+|  firstRow() const;                                                        |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                            [c:@N@flens@CT>3#T#T#T@CoordStorage@F@firstRow#1]
+
+    Defined in namespace `flens`.
+    Method `firstRow` of class `CoordStorage` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  const IndexType                                                          |
+|  lastRow() const;                                                         |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                             [c:@N@flens@CT>3#T#T#T@CoordStorage@F@lastRow#1]
+
+    Defined in namespace `flens`.
+    Method `lastRow` of class `CoordStorage` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  const IndexType                                                          |
+|  firstCol() const;                                                        |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                            [c:@N@flens@CT>3#T#T#T@CoordStorage@F@firstCol#1]
+
+    Defined in namespace `flens`.
+    Method `firstCol` of class `CoordStorage` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  const IndexType                                                          |
+|  lastCol() const;                                                         |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                             [c:@N@flens@CT>3#T#T#T@CoordStorage@F@lastCol#1]
+
+    Defined in namespace `flens`.
+    Method `lastCol` of class `CoordStorage` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  const IndexType                                                          |
+|  numRows() const;                                                         |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                             [c:@N@flens@CT>3#T#T#T@CoordStorage@F@numRows#1]
+
+    Defined in namespace `flens`.
+    Method `numRows` of class `CoordStorage` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  const IndexType                                                          |
+|  numCols() const;                                                         |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                             [c:@N@flens@CT>3#T#T#T@CoordStorage@F@numCols#1]
+
+    Defined in namespace `flens`.
+    Method `numCols` of class `CoordStorage` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  void                                                                     |
+|  accumulate() const;                                                      |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                          [c:@N@flens@CT>3#T#T#T@CoordStorage@F@accumulate#1]
+
+    Defined in namespace `flens`.
+    Method `accumulate` of class `CoordStorage` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  const CoordVector &                                                      |
+|  coordVector() const;                                                     |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@CT>3#T#T#T@CoordStorage@F@coordVector#1]
+
+    Defined in namespace `flens`.
+    Method `coordVector` of class `CoordStorage` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  const IndexType                                                          |
+|  numNonZeros() const;                                                     |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@CT>3#T#T#T@CoordStorage@F@numNonZeros#1]
+
+    Defined in namespace `flens`.
+    Method `numNonZeros` of class `CoordStorage` with 3 template parameters.
+
+
+
+Auxiliary Classes
+=================
+
+Class Coord
+-----------
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename T, typename IndexType>                                |
+|  struct Coord;                                                            |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                                                  [c:@N@flens@ST>2#T#T@Coord]
+
+    Defined in namespace `flens`.
+    Class Coord with 2 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  Coord(IndexType row, IndexType col, const T &value);                     |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@ST>2#T#T@Coord@F@Coord<T, IndexType>#t0]
+                         [.1#S0_#&1t0.0#                                    ]
+
+    Defined in namespace `flens`.
+    Constructor of class `Coord` with 2 template parameters.
+
+
+Class CoordProxy
+----------------
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename T>                                                    |
+|  struct CoordProxy;                                                       |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                                               [c:@N@flens@ST>1#T@CoordProxy]
+
+    Defined in namespace `flens`.
+    Class CoordProxy with 1 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  CoordProxy(T *value);                                                    |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@ST>1#T@CoordProxy@F@CoordProxy<T>#*t0.0]
+                         [#                                                 ]
+
+    Defined in namespace `flens`.
+    Constructor of class `CoordProxy` with 1 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  void                                                                     |
+|  operator+=(const T &x);                                                  |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                          [c:@N@flens@ST>1#T@CoordProxy@F@operator+=#&1t0.0#]
+
+    Defined in namespace `flens`.
+    Operator `+=` of class `CoordProxy` with 1 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  void                                                                     |
+|  operator-=(const T &x);                                                  |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                          [c:@N@flens@ST>1#T@CoordProxy@F@operator-=#&1t0.0#]
+
+    Defined in namespace `flens`.
+    Operator `-=` of class `CoordProxy` with 1 template parameters.
+
+
+Sorting
+=======
+
+Row Major
+---------
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  struct CoordRowColCmp;                                                   |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                                                [c:@N@flens@S@CoordRowColCmp]
+
+    Defined in namespace `flens`.
+    Class CoordRowColCmp.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename T, typename IndexType>                                |
+|      bool                                                                 |
+|      operator()(const Coord<T, IndexType> &a,                             |
+|                 const Coord<T, IndexType> &b) const;                      |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@S@CoordRowColCmp@FT@>2#T#Toperator()#&1]
+                         [>@N@flens@ST>2#T#T@Coord2t0.0t0.1#S0_#1           ]
+
+    Defined in namespace `flens`.
+    Operator `()` of class `CoordRowColCmp`.
+
+
+Col Major
+---------
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  struct CoordColRowCmp;                                                   |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                                                [c:@N@flens@S@CoordColRowCmp]
+
+    Defined in namespace `flens`.
+    Class CoordColRowCmp.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename T, typename IndexType>                                |
+|      bool                                                                 |
+|      operator()(const Coord<T, IndexType> &a,                             |
+|                 const Coord<T, IndexType> &b) const;                      |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@S@CoordColRowCmp@FT@>2#T#Toperator()#&1]
+                         [>@N@flens@ST>2#T#T@Coord2t0.0t0.1#S0_#1           ]
+
+    Defined in namespace `flens`.
+    Operator `()` of class `CoordColRowCmp`.
+
+
+

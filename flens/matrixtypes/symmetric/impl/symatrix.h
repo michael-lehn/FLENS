@@ -93,12 +93,12 @@ class SyMatrix
         typedef TrMatrix<EngineView>                TriangularView;
         typedef TrMatrix<EngineNoView>              TriangularNoView;
 
-        SyMatrix();
+        SyMatrix(IndexType dim, StorageUpLo upLo);
 
-        explicit
-        SyMatrix(IndexType dim);
+        SyMatrix(IndexType dim, IndexType firstIndex, StorageUpLo upLo);
 
-        SyMatrix(IndexType dim, IndexType firstRow, IndexType firstCol);
+        SyMatrix(IndexType dim, IndexType firstRow, IndexType firstCol,
+                 StorageUpLo upLo);
 
         SyMatrix(const Engine &engine, StorageUpLo upLo);
 

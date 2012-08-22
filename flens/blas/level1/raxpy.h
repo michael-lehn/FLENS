@@ -42,13 +42,16 @@ namespace flens { namespace blas {
 
 //-- raxpy  (BLAS Level 1 Extension)
 template <typename ALPHA, typename VX, typename VY>
-    void
-    raxpy(const ALPHA &alpha, const DenseVector<VX> &x, DenseVector<VY> &y);
+    typename RestrictTo<IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
+             void>::Type
+    raxpy(const ALPHA &alpha, const VX &x, VY &&y);
 
 template <typename ALPHA, typename MA, typename MB>
-    void
-    raxpy(Transpose trans,
-          const ALPHA &alpha, const GeMatrix<MA> &A, GeMatrix<MB> &B);
+    typename RestrictTo<IsGeMatrix<MA>::value
+                     && IsGeMatrix<MB>::value,
+             void>::Type
+    raxpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
 
 } } // namespace blas, flens
 

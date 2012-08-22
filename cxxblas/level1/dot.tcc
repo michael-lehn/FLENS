@@ -33,7 +33,7 @@
 #ifndef CXXBLAS_LEVEL1_DOT_TCC
 #define CXXBLAS_LEVEL1_DOT_TCC 1
 
-#include <cxxblas/auxiliary/auxiliary.h>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 
@@ -50,6 +50,7 @@ dotu_generic(IndexType n,
         result += x[iX]*y[iY];
     }
 }
+
 
 template <typename IndexType, typename X, typename Y, typename Result>
 void

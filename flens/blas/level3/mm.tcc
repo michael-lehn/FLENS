@@ -49,13 +49,23 @@ namespace flens { namespace blas {
 
 //-- gemm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-void
-mm(Transpose transposeA, Transpose transposeB,
-   const ALPHA &alpha,
-   const GeMatrix<MA> &A, const GeMatrix<MB> &B,
-   const BETA &beta,
-   GeMatrix<MC> &C)
+typename RestrictTo<IsGeMatrix<MA>::value
+                 && IsGeMatrix<MB>::value
+                 && IsGeMatrix<MC>::value,
+         void>::Type
+mm(Transpose        transposeA,
+   Transpose        transposeB,
+   const ALPHA      &alpha,
+   const MA         &A,
+   const MB         &B,
+   const BETA       &beta,
+   MC               &&C)
 {
+    typedef typename RemoveRef<MA>::Type MatrixA;
+    typedef typename RemoveRef<MB>::Type MatrixB;
+    typedef typename RemoveRef<MC>::Type MatrixC;
+    typedef typename MatrixC::IndexType  IndexType;
+
     const bool noTransA = (transposeA==NoTrans || transposeA==Conj);
     const bool noTransB = (transposeB==NoTrans || transposeB==Conj);
 
@@ -65,15 +75,14 @@ mm(Transpose transposeA, Transpose transposeB,
     ASSERT(kA==kB);
 #   endif
 
-    typedef typename GeMatrix<MC>::IndexType IndexType;
     IndexType m = (noTransA) ? A.numRows() : A.numCols();
     IndexType n = (noTransB) ? B.numCols() : B.numRows();
     IndexType k = (noTransA) ? A.numCols() : A.numRows();
 
-    if (MC::order!=MA::order) {
+    if (C.order()!=A.order()) {
         transposeA = Transpose(transposeA ^ Trans);
     }
-    if (MC::order!=MB::order) {
+    if (C.order()!=B.order()) {
         transposeB = Transpose(transposeB ^ Trans);
     }
 
@@ -98,7 +107,7 @@ mm(Transpose transposeA, Transpose transposeB,
 //  we compute the matrix-matrix product and afterwards copy the result into C.
 //
     if (DEBUGCLOSURE::identical(A, C) || DEBUGCLOSURE::identical(B, C)) {
-        typename GeMatrix<MC>::NoView _C;
+        typename MatrixC::NoView _C;
         FLENS_BLASLOG_TMP_ADD(_C);
 
         if (beta!=BETA(0)) {
@@ -116,7 +125,7 @@ mm(Transpose transposeA, Transpose transposeB,
     FLENS_BLASLOG_BEGIN_GEMM(transposeA, transposeB, alpha, A, B, beta, C);
 
 #   ifdef HAVE_CXXBLAS_GEMM
-    cxxblas::gemm(MC::order,
+    cxxblas::gemm(C.order(),
                   transposeA, transposeB,
                   C.numRows(),
                   C.numCols(),
@@ -138,13 +147,20 @@ mm(Transpose transposeA, Transpose transposeB,
 
 //-- trmm
 template <typename ALPHA, typename MA, typename MB>
-void
-mm(Side side,
-   Transpose transA, const ALPHA &alpha, const TrMatrix<MA> &A,
-   GeMatrix<MB> &B)
+    typename RestrictTo<IsTrMatrix<MA>::value
+                     && IsGeMatrix<MB>::value,
+             void>::Type
+    mm(Side             side,
+       Transpose        transA,
+       const ALPHA      &alpha,
+       const MA         &A,
+       MB               &&B)
 {
+    typedef typename RemoveRef<MA>::Type   MatrixA;
+    typedef typename RemoveRef<MB>::Type   MatrixB;
+
 #   ifndef NDEBUG
-    ASSERT(MB::order==MA::order);
+    ASSERT(B.order()==A.order());
     if (side==Left) {
         assert(A.dim()==B.numRows());
     } else {
@@ -156,7 +172,7 @@ mm(Side side,
     FLENS_BLASLOG_BEGIN_TRMM(side, transA, alpha, A, B);
 
 #   ifdef HAVE_CXXBLAS_TRMM
-    cxxblas::trmm(MB::order, side,
+    cxxblas::trmm(B.order(), side,
                   A.upLo(), transA, A.diag(),
                   B.numRows(), B.numCols(),
                   alpha,
@@ -175,13 +191,24 @@ mm(Side side,
 
 //-- symm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-void
-mm(Side side,
-   const ALPHA &alpha, const SyMatrix<MA> &A, const GeMatrix<MB> &B,
-   const BETA &beta, GeMatrix<MC> &C)
+typename RestrictTo<IsSyMatrix<MA>::value
+                 && IsGeMatrix<MB>::value
+                 && IsGeMatrix<MC>::value,
+         void>::Type
+mm(Side             side,
+   const ALPHA      &alpha,
+   const MA         &A,
+   const MB         &B,
+   const BETA       &beta,
+   MC               &&C)
 {
+    typedef typename RemoveRef<MA>::Type MatrixA;
+    typedef typename RemoveRef<MB>::Type MatrixB;
+    typedef typename RemoveRef<MC>::Type MatrixC;
+    typedef typename MatrixC::IndexType  IndexType;
+
 #   ifndef NDEBUG
-    ASSERT(MC::order==MB::order);
+    ASSERT(C.order()==B.order());
     if (side==Left) {
         ASSERT(A.dim()==B.numRows());
     } else {
@@ -189,11 +216,10 @@ mm(Side side,
     }
 #   endif
 
-    StorageUpLo upLo = (MC::order==MA::order)
+    StorageUpLo upLo = (C.order()==A.order())
                      ? A.upLo()
                      : StorageUpLo(! A.upLo());
 
-    typedef typename GeMatrix<MC>::IndexType IndexType;
     IndexType m = (side==Left) ? A.dim() : B.numRows();
     IndexType n = (side==Left) ? B.numCols() : A.dim();
 
@@ -218,7 +244,7 @@ mm(Side side,
 //  we compute the matrix-matrix product and afterwards copy the result into C.
 //
     if (DEBUGCLOSURE::identical(A, C) || DEBUGCLOSURE::identical(B, C)) {
-        typename GeMatrix<MC>::NoView _C;
+        typename MatrixC::NoView _C;
         FLENS_BLASLOG_TMP_ADD(_C);
 
         if (beta!=BETA(0)) {
@@ -236,7 +262,7 @@ mm(Side side,
     FLENS_BLASLOG_BEGIN_SYMM(side, alpha, A, B, beta, C);
 
 #   ifdef HAVE_CXXBLAS_SYMM
-    cxxblas::symm(MC::order, side,
+    cxxblas::symm(C.order(), side,
                   upLo,
                   C.numRows(), C.numCols(),
                   alpha,
@@ -256,13 +282,24 @@ mm(Side side,
 
 //-- hemm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-void
-mm(Side side,
-   const ALPHA &alpha, const HeMatrix<MA> &A, const GeMatrix<MB> &B,
-   const BETA &beta, GeMatrix<MC> &C)
+typename RestrictTo<IsHeMatrix<MA>::value
+                 && IsGeMatrix<MB>::value
+                 && IsGeMatrix<MC>::value,
+         void>::Type
+mm(Side             side,
+   const ALPHA      &alpha,
+   const MA         &A,
+   const MB         &B,
+   const BETA       &beta,
+   MC               &&C)
 {
+    typedef typename RemoveRef<MA>::Type MatrixA;
+    typedef typename RemoveRef<MB>::Type MatrixB;
+    typedef typename RemoveRef<MC>::Type MatrixC;
+    typedef typename MatrixC::IndexType  IndexType;
+
 #   ifndef NDEBUG
-    ASSERT(MC::order==MB::Oorder);
+    ASSERT(C.order()==B.order());
     if (side==Left) {
         ASSERT(A.dim()==B.numRows());
     } else {
@@ -270,23 +307,22 @@ mm(Side side,
     }
 #   endif
 
-    StorageUpLo upLo = (MC::order==MA::order)
+    StorageUpLo upLo = (C.order()==A.order())
                      ? A.upLo()
                      : StorageUpLo(! A.upLo());
 
-    typedef typename GeMatrix<MC>::IndexType IndexType;
     IndexType m = (side==Left) ? A.dim() : B.numRows();
     IndexType n = (side==Left) ? B.numCols() : A.dim();
- 
+
     ASSERT((beta==static_cast<BETA>(0)) || (C.numRows()==m));
     ASSERT((beta==static_cast<BETA>(0)) || (C.numCols()==n));
- 
+
     if ((C.numRows()!=m) || (C.numCols()!=n)) {
         C.resize(m,n);
     }
 
 #   ifdef HAVE_CXXBLAS_HEMM
-    cxxblas::hemm(MC::order, side,
+    cxxblas::hemm(C.order(), side,
                   upLo,
                   C.numRows(), C.numCols(),
                   alpha,
@@ -303,12 +339,17 @@ mm(Side side,
 
 //-- gbmm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-void
-mm(Transpose transposeA, Transpose transposeB,
-   const ALPHA &alpha,
-   const GbMatrix<MA> &A, const GeMatrix<MB> &B,
-   const BETA &beta,
-   GeMatrix<MC> &C)
+typename RestrictTo<IsGbMatrix<MA>::value
+                 && IsGeMatrix<MB>::value
+                 && IsGeMatrix<MC>::value,
+         void>::Type
+mm(Transpose        transposeA,
+   Transpose        transposeB,
+   const ALPHA      &alpha,
+   const MA         &A,
+   const MB         &B,
+   const BETA       &beta,
+   MC               &&C)
 {
     const bool noTransA = (transposeA==NoTrans || transposeA==Conj);
     const bool noTransB = (transposeB==NoTrans || transposeB==Conj);
@@ -324,10 +365,10 @@ mm(Transpose transposeA, Transpose transposeB,
     IndexType n = (noTransB) ? B.numCols() : B.numRows();
     IndexType l = (noTransA) ? A.numCols() : A.numRows();
 
-    if (MC::order!=MA::order) {
+    if (C.order()!=A.order()) {
         transposeA = Transpose(transposeA ^ Trans);
     }
-    if (MC::order!=MB::order) {
+    if (C.order()!=B.order()) {
         transposeB = Transpose(transposeB ^ Trans);
     }
 
@@ -389,14 +430,19 @@ mm(Transpose transposeA, Transpose transposeB,
 
 //== product type: GeneralMatrix - GeneralBandedMatrix products
 
-//-- gemm
+//-- gbmm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-void
-mm(Transpose transposeA, Transpose transposeB,
-   const ALPHA &alpha,
-   const GeMatrix<MA> &A, const GbMatrix<MB> &B,
-   const BETA &beta,
-   GeMatrix<MC> &C)
+typename RestrictTo<IsGeMatrix<MA>::value
+                 && IsGbMatrix<MB>::value
+                 && IsGeMatrix<MC>::value,
+         void>::Type
+mm(Transpose        transposeA,
+   Transpose        transposeB,
+   const ALPHA      &alpha,
+   const MA         &A,
+   const MB         &B,
+   const BETA       &beta,
+   MC               &&C)
 {
     const bool noTransA = (transposeA==NoTrans || transposeA==Conj);
     const bool noTransB = (transposeB==NoTrans || transposeB==Conj);
@@ -412,10 +458,10 @@ mm(Transpose transposeA, Transpose transposeB,
     IndexType n = (noTransB) ? B.numCols() : B.numRows();
     IndexType l = (noTransA) ? A.numCols() : A.numRows();
 
-    if (MC::order!=MA::order) {
+    if (C.order()!=A.order()) {
         transposeA = Transpose(transposeA ^ Trans);
     }
-    if (MC::order!=MB::order) {
+    if (C.order()!=B.order()) {
         transposeB = Transpose(transposeB ^ Trans);
     }
 
@@ -480,10 +526,16 @@ mm(Transpose transposeA, Transpose transposeB,
 
 //-- hbmm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-void
-mm(Side side,
-   const ALPHA &alpha, const HbMatrix<MA> &A, const GeMatrix<MB> &B,
-   const BETA &beta, GeMatrix<MC> &C)
+typename RestrictTo<IsHbMatrix<MA>::value
+                 && IsGeMatrix<MB>::value
+                 && IsGeMatrix<MC>::value,
+         void>::Type
+mm(Side             side,
+   const ALPHA      &alpha,
+   const MA         &A,
+   const MB         &B,
+   const BETA       &beta,
+   MC               &&C)
 {
 #   ifndef NDEBUG
     ASSERT(MC::order==MB::order);
@@ -494,7 +546,7 @@ mm(Side side,
     }
 #   endif
 
-    StorageUpLo upLo = (MC::order==MA::order)
+    StorageUpLo upLo = (C.order()==A.order())
                      ? A.upLo()
                      : StorageUpLo(! A.upLo());
 
@@ -559,10 +611,16 @@ mm(Side side,
 
 //-- sbmm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-void
-mm(Side side,
-   const ALPHA &alpha, const SbMatrix<MA> &A, const GeMatrix<MB> &B,
-   const BETA &beta, GeMatrix<MC> &C)
+typename RestrictTo<IsSbMatrix<MA>::value
+                 && IsGeMatrix<MB>::value
+                 && IsGeMatrix<MC>::value,
+         void>::Type
+mm(Side             side,
+   const ALPHA      &alpha,
+   const MA         &A,
+   const MB         &B,
+   const BETA       &beta,
+   MC               &&C)
 {
 #   ifndef NDEBUG
     ASSERT(MC::order==MB::order);
@@ -573,7 +631,7 @@ mm(Side side,
     }
 #   endif
 
-    StorageUpLo upLo = (MC::order==MA::order)
+    StorageUpLo upLo = (C.order()==A.order())
                      ? A.upLo()
                      : StorageUpLo(! A.upLo());
 
@@ -640,13 +698,17 @@ mm(Side side,
 
 //-- tbmm
 template <typename ALPHA, typename MA, typename MB>
-void
-mm(Side side,
-   Transpose transA, const ALPHA &alpha, const TbMatrix<MA> &A,
-   GeMatrix<MB> &B)
+    typename RestrictTo<IsTbMatrix<MA>::value
+                     && IsGeMatrix<MB>::value,
+             void>::Type
+    mm(Side             side,
+       Transpose        transA,
+       const ALPHA      &alpha,
+       const MA         &A,
+       MB               &&B)
 {
 #   ifndef NDEBUG
-    ASSERT(MB::order==MA::order);
+    ASSERT(B.order()==A.order());
     if (side==Left) {
         assert(A.dim()==B.numRows());
     } else {
@@ -672,73 +734,6 @@ mm(Side side,
     FLENS_BLASLOG_END;
     FLENS_BLASLOG_UNSETTAG;
 }
-
-
-//== Forwarding ================================================================
-
-//-- GeneralMatrix - GeneralMatrix products
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-typename RestrictTo<IsGeneralMatrix<MA>::value &&
-                    IsGeneralMatrix<MB>::value &&
-                   !IsClosure<MA>::value &&
-                   !IsClosure<MB>::value &&
-                    IsSame<MC, typename MC::Impl>::value,
-         void>::Type
-mm(Transpose transA, Transpose transB, const ALPHA &alpha,
-   const MA &A, const MB &B, const BETA &beta, MC &&C)
-{
-    CHECKPOINT_ENTER;
-    mm(transA, transB, alpha, A, B, beta, C);
-    CHECKPOINT_LEAVE;
-}
-
-//-- TriangularMatrix - GeneralMatrix products
-template <typename ALPHA, typename MA, typename MB>
-typename RestrictTo<IsTriangularMatrix<MA>::value &&
-                    IsGeneralMatrix<MB>::value &&
-                   !IsClosure<MA>::value &&
-                    IsSame<MB, typename MB::Impl>::value,
-         void>::Type
-mm(Side side, Transpose transA, const ALPHA &alpha, const MA &A, MB &&B)
-{
-    CHECKPOINT_ENTER;
-    mm(side, transA, alpha, A, B);
-    CHECKPOINT_LEAVE;
-}
-
-
-//-- SymmetricMatrix - GeneralMatrix products
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-typename RestrictTo<IsSymmetricMatrix<MA>::value &&
-                    IsGeneralMatrix<MB>::value &&
-                   !IsClosure<MA>::value &&
-                   !IsClosure<MB>::value &&
-                    IsSame<MC, typename MC::Impl>::value,
-         void>::Type
-mm(Side side, const ALPHA &alpha, const MA &A, const MB &B,
-   const BETA &beta, MC &&C)
-{
-    CHECKPOINT_ENTER;
-    mm(side, alpha, A, B, beta, C);
-    CHECKPOINT_LEAVE;
-}
-
-//-- HermitianMatrix - GeneralMatrix products
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-typename RestrictTo<IsHermitianMatrix<MA>::value &&
-                    IsGeneralMatrix<MB>::value &&
-                   !IsClosure<MA>::value &&
-                   !IsClosure<MB>::value &&
-                    IsSame<MC, typename MC::Impl>::value,
-         void>::Type
-mm(Side side, const ALPHA &alpha, const MA &A, const MB &B,
-   const BETA &beta, MC &&C)
-{
-    CHECKPOINT_ENTER;
-    mm(side, alpha, A, B, beta, C);
-    CHECKPOINT_LEAVE;
-}
-
 
 } } // namespace blas, flens
 

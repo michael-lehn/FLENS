@@ -47,16 +47,11 @@
 
 namespace flens { namespace blas {
 
-template <typename X, typename Y>
-void
-swap(X &&x, Y &&y)
-{
-    blas::swap(x, y);
-}
-
-template <typename X, typename Y>
-void
-swap(DenseVector<X> &x, DenseVector<Y> &y)
+template <typename VX, typename VY>
+typename RestrictTo<IsDenseVector<VX>::value
+                 && IsDenseVector<VY>::value,
+         void>::Type
+swap(VX &&x, VY &&y)
 {
     ASSERT(x.length()==y.length());
 

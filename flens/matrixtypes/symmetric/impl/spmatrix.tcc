@@ -319,6 +319,14 @@ SpMatrix<FS>::data()
     return _engine.data();
 }
 
+
+template <typename FS>
+StorageOrder
+SpMatrix<FS>::order() const
+{
+    return _engine.order;
+}
+
 template <typename FS>
 template <typename RHS>
 bool

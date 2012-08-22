@@ -2,11 +2,13 @@
 Dense Vectors                                                           [TOC]
 =============
 
-Dense vectors have their elements stored linearly in memory separated from each
-other by a constant stride.  If you create a dense vector that allocates its
-own memory then its stride will equal one.  Strides different from one
+__Dense vectors__ have their elements stored linearly in memory separated from
+each other by a constant stride.  If you create a dense vector that allocates
+its own memory then its stride will equal one.  Strides different from one
 naturally arise when dealing with vector views.  Vector views can reference
 vector slices or rows/columns of matrices.
+
+:links: Dense vectors -> doc:flens/vectortypes/impl/densevector
 
 First Steps
 ===========

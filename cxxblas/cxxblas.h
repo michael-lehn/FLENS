@@ -44,4 +44,6 @@
 #include <cxxblas/level3/level3.h>
 #include <cxxblas/level3extensions/level3extensions.h>
 
+#include <cxxblas/sparselevel2/sparselevel2.h>
+
 #endif // CXXBLAS_CXXBLAS_H

@@ -1,0 +1,267 @@
+========================================
+Solve a System of Linear Equations (svx)                              [TOC:2]
+========================================
+
+*svx* (defined in namespace `flens::lapack`) uses the $LU$ factorization to
+compute the solution to a real system of linear equations
+
+    *--[LATEX]-----*
+    |              |
+    |  A X = B,    |
+    |              |
+    *--------------*
+
+where $A$ is an $n \times n$ matrix and $X$ and $B$ are $n \times n_{rhs}$
+matrices.
+
+Error bounds on the solution and a condition estimate are also provided.
+
+
+Description
+===========
+
+The following steps are performed:
+
+ - If _fact = Equilibrate_, real scaling factors are computed to equilibrate
+   the system:
+    - _trans = NoTrans_: $\text{diag}(r)\,A\,\text{diag}(c)\;
+      \text{diag}(c)^{-1}\,X = \text{diag}(r)\,B$
+    - _trans = Trans_: $\left(\text{diag}(r)\,A\,\text{diag}(c)\right)^T\;
+      \text{diag}(c)^{-1}\,X = \text{diag}(c)\,B$
+    - _trans = ConjTrans_: $\left(\text{diag}(r)\,A\,\text{diag}(c)\right)^H\;
+      \text{diag}(c)^{-1}\,X = \text{diag}(c)\,B$.
+   Whether or not the system will be equilibrated depends on the scaling of the
+   matrix $A$, but if equilibration is used, $A$ is overwritten by
+   $\text{diag}(r)\,A\,\text{diag}(c)$ and $B$ by $\text{diag}(r)\,B$ (if
+   _trans = NoTrans_) or $\text{diag}(c)\,B$ (otherwise).
+
+ - If _fact = NotFactored_ or _fact = Equilibrate_, the $LU$ decomposition is
+   used to factor the matrix $A$ (after equilibration if _fact = Equilibrate_)
+   as
+    *--[LATEX]-----*
+    |              |
+    |  A = P L U,  |
+    |              |
+    *--------------*
+   where $P$ is a permutation matrix, $L$ is a unit lower triangular
+   matrix, and $U$ is upper triangular.
+
+ - If some $U_{i,i}=0$, so that $U$ is exactly singular, then the routine
+   returns index $i$. Otherwise, the factored form of $A$ is used to estimate
+   the condition number of the matrix $A$.  If the reciprocal of the condition
+   number is less than machine precision, $n+1$ is returned as a warning, but
+   the routine still goes on to solve for $X$ and compute error bounds as
+   described below.
+
+ - The system of equations is solved for $X$ using the factored form
+   of $A$.
+
+ - Iterative refinement is applied to improve the computed solution
+   matrix and calculate error bounds and backward error estimates
+   for it.
+
+ - If equilibration was used, the matrix $X$ is premultiplied by
+   $\text{diag}(c)$ (if _trans = NoTrans_) or $\text{diag}(r)$ (otherwise) so
+   that it solves the original system before equilibration.
+
+Interface
+=========
+
+*--[CODEREF]----------------------------------------------------------------------*
+|                                                                                 |
+|  template <typename MA, typename MAF, typename VPIV, typename VR, typename VC,  |
+|            typename MB, typename MX, typename RCOND, typename FERR,             |
+|            typename BERR, typename VWORK, typename VIWORK>                      |
+|      typename GeMatrix<MA>::IndexType                                           |
+|      svx(SVX::Fact           fact,                                              |
+|          Transpose           trans,                                             |
+|          GeMatrix<MA>        &A,                                                |
+|          GeMatrix<MAF>       &AF,                                               |
+|          DenseVector<VPIV>   &piv,                                              |
+|          SVX::Equilibration  equed,                                             |
+|          DenseVector<VR>     &r,                                                |
+|          DenseVector<VC>     &c,                                                |
+|          GeMatrix<MB>        &B,                                                |
+|          GeMatrix<MX>        &X,                                                |
+|          RCOND               &rCond,                                            |
+|          DenseVector<FERR>   &fErr,                                             |
+|          DenseVector<BERR>   &bErr,                                             |
+|          DenseVector<VWORK>  &work,                                             |
+|          DenseVector<VIWORK> &iwork);                                           |
+|                                                                                 |
+*---------------------------------------------------------------------------------*
+                           [c:@N@flens@N@lapack@FT@>12#T#T#T#T#T#T#T#T#T#T#T#Tsvx#]
+                           [$@N@flens@N@lapack@N@SVX@E@Fact#$@N@cxxblas@E@Transpos]
+                           [e#&>@N@flens@CT>1#T@GeMatrix1t0.0#&>@N@flens@CT>1#T@Ge]
+                           [Matrix1t0.1#&>@N@flens@CT>1#T@DenseVector1t0.2#$@N@fle]
+                           [ns@N@lapack@N@SVX@E@Equilibration#&>@N@flens@CT>1#T@De]
+                           [nseVector1t0.3#&>@N@flens@CT>1#T@DenseVector1t0.4#&>@N]
+                           [@flens@CT>1#T@GeMatrix1t0.5#&>@N@flens@CT>1#T@GeMatrix]
+                           [1t0.6#&t0.7#&>@N@flens@CT>1#T@DenseVector1t0.8#&>@N@fl]
+                           [ens@CT>1#T@DenseVector1t0.9#&>@N@flens@CT>1#T@DenseVec]
+                           [tor1t0.10#&>@N@flens@CT>1#T@DenseVector1t0.11#        ]
+
+
+    fact     `(input)`                                                         +
+             Specifies whether or not the factored form of the matrix $A$ is
+             supplied on entry, and if not, whether the matrix $A$ should be
+             equilibrated before it is factored.
+
+             Factored       On entry, $AF$ and $piv$ contain the factored form
+                            of $A$.  If _equed_ is not _None_, the matrix $A$
+                            has been equilibrated with scaling factors given by
+                            $R$ and $C$.  $A$, $AF$, and $piv$ are not
+                            modified.
+             NotFactored    The matrix $A$ will be copied to $AF$ and factored.
+             Equilibrate    The matrix $A$ will be equilibrated if necessary,
+                            then copied to $AF$ and factored.
+
+    trans    `(input)`                                                         +
+             Specifies the form of the system of equations:
+
+             NoTrans        $A   X = B$
+             Trans          $A^T X = B$
+             ConjTrans      $A^H X = B$
+
+    A        `(input/output) real valued GeMatrix`                             +
+             On entry, the $n \times n$ matrix $A$.  If _fact = Factored_ and
+             _equed_ is not _None_, then $A$ must have been equilibrated by the
+             scaling factors in $R$ and/or $C$.  $A$ is not modified if
+             _fact = Factored_ or _NotFactored_, or if _fact = Equilibrate_ and
+             _equed = None_ on exit.
+
+             On exit, if _equed_ is not _None_, $A$ is scaled as follows:
+
+             Row       $A\leftarrow \text{diag}(r) \, A$
+             Column    $A\leftarrow A \, \text{diag}(c)$
+             Both      $A\leftarrow \text{diag}(r)\, A \,\text{diag}(c)$
+
+    AF       `(input or output) real valued GeMatrix`                          +
+             If _fact = Factored_, then $AF$ is an input argument and on entry
+             contains the factors $L$ and $U$ from the factorization $A = P L
+             U$ as computed by __trf__.  If _equed_ is not _None_, then AF is
+             the factored form of the equilibrated matrix A.
+
+             If _fact = NotFactored_, then $AF$ is an output argument and on exit
+             returns the factors $L$ and $U$ from the factorization $A = P L U$
+             of the original matrix $A$.
+
+             If _fact = Equilibrate_, then $AF$ is an output argument and on
+             exit returns the factors $L$ and $U$ from the factorization $A =
+             PLU$ of the equilibrated matrix $A$ (see the description of $A$ for
+             the form of the equilibrated matrix).
+
+    piv      `(input or output) INTEGER array, dimension (N)`                  +
+             If _fact = Factored_, then $piv$ is an input argument and on entry
+             contains the pivot indices from the factorization $A = P L U$ as
+             computed by __trf__; row $i$ of the matrix was interchanged
+             with row $piv_i$.
+
+             If _fact = NotFactored_, then $piv$ is an output argument and on
+             exit contains the pivot indices from the factorization $A = P L U$
+             of the original matrix $A$.
+
+             If _fact = Equilibrate_, then $piv$ is an output argument and on
+             exit contains the pivot indices from the factorization $A = P L U$
+             of the equilibrated matrix $A$.
+
+    equed    `(input or output)`                                               +
+             Specifies the form of equilibration that was done.
+
+             None      No equilibration (always true if FACT = 'N').
+             Row       Row equilibration, i.e., A has been premultiplied by
+                       diag(r).
+             Column    Column equilibration, i.e., A has been postmultiplied
+                       by diag(c).
+             Both      Both row and column equilibration, i.e., A has been
+                       replaced by diag(r) * A * diag(c).
+
+             _equed_ is an input argument if _fact = Factored_; otherwise, it
+             is an output argument.
+
+    r        `(input or output) real valued DenseVector`                       +
+             The row scale factors for $A$.  If _equed_ equals _Row_ or _Both_,
+             $A$ is multiplied on the left by $\text{diag}(r)$; if _equed_
+             equals _None_ or _Column_, $r$ is not accessed.  $r$ is an input
+             argument if _fact = Factored_; otherwise, $r$ is an output
+             argument.  If _fact = Factored_ and _equed_ equals _Row_ or
+             _Both_, each element of $r$ must be positive.
+
+    c        `(input or output) real valued DenseVector`                       +
+             The column scale factors for $A$.  If _equed_ equals _Column_ or
+             _Both_, $A$ is multiplied on the right by $\text{diag}(c)$; if
+             _equed_ equals _None_ or _Row_, $c$ is not accessed.  $c$ is an
+             input argument if _fact = Factored_; otherwise, $C$ is an output
+             argument.  If _fact = Factored_ and _equed_ equals _Column_ or
+             _Both_, each element of $c$ must be positive.
+
+    B        `(input/output) real valued GeMatrix`                             +
+             On entry, the $n \times n_{rhs}$ right hand side matrix $B$.      +
+             On exit,
+              - if _equed = None_, $B$ is not modified;
+              - if _trans = NoTrans_ and _equed = Row_ or _Both_, $B$ is
+                overwritten by $\text{diag}(r) B$;
+              - if _trans = Trans_ or _ConjTrans_ and _equed = Column_ or
+                _Both_, $B$ is overwritten by $\text{diag}(c) B$.
+
+    X        `(output) real values GeMatrix`                                   +
+             If the return value equals $0$ or $n+1$, the $n \times n_{rhs}$
+             solution matrix $X$ to the original system of equations.  Note
+             that $A$ and $B$ are modified on exit if _equed_ does not equal
+             _None_, and the solution to the equilibrated system is
+             $\text{diag}(c)^{-1} X$ if _trans = NoTrans_ and _equed_ equals
+             _Column_ or _Both_, or $\text{diag}(r)^{-1} X$ if _trans = Trans_
+             or _ConjTrans_ and _equed = Row_ or _Both_.
+
+    rCond    `(output) real number`                                            +
+             The estimate of the reciprocal condition number of the matrix $A$
+             after equilibration (if done).  If $rCond$ is less than the
+             machine precision (in particular, if $rCond = 0$), the matrix is
+             singular to working precision.  This condition is indicated by a
+             return value $i>0$.
+
+    fErr     `(output) real valued DenseVector`                                +
+             The estimated forward error bound for each solution vector
+             $X_{\cdot, j}$ (the $j$-th column of the solution matrix $X$).  If
+             $X_{\text{true}}$ is the true solution corresponding to
+             $X_{\cdot, j}$, $fErr_j$ is an estimated upper bound for the
+             magnitude of the largest element in $X_{\cdot,j} - X_{\text{true}}$
+             divided by the magnitude of the largest element in $X_{\cdot, j}$.
+             The estimate is as reliable as the estimate for $rCond$, and is
+             almost always a slight overestimate of the true error.
+
+    bErr     `(output) real valued DenseVector`                                +
+             The componentwise relative backward error of each solution
+             vector $X_{\cdot, j}$ (i.e., the smallest relative change in
+             any element of $A$ or $B$ that makes $X_{\cdot, j}$ an exact
+             solution).
+
+    work     `(workspace/output) real valued DenseVector, dimension (4n)`      +
+             On exit, _work(1)_ contains the reciprocal pivot growth
+             factor $\text{norm}(A) / \text{norm}(U)$. The "max absolute
+             element" norm is used. If _work(1)_ is much less than $1$, then
+             the stability of the $LU$ factorization of the (equilibrated)
+             matrix $A$ could be poor. This also means that the solution $X$,
+             condition estimator $rCond$, and forward error bound $fErr$ could
+             be unreliable. If factorization fails with $0< i \leq N$, then
+             _work(1)_ contains the reciprocal pivot growth factor for the
+             leading $i$ columns of A.
+
+    iWork    `(workspace) integer valued DenseVector, dimension (n)`
+
+    *Return value:*
+
+    $i=0$            successful exit
+    $0< i \leq n$    $U_{i,i}$ is exactly zero.  The factorization has
+                     been completed, but the factor U is exactly singular, so
+                     the solution and error bounds could not be computed.
+                     $rCond =0 $ is returned.
+    $i=n+1$          $U$ is nonsingular, but $rCond$ is less than machine
+                     precision, meaning that the matrix is singular to working
+                     precision.  Nevertheless, the solution and error bounds
+                     are computed because there are a number of situations
+                     where the computed solution can be more accurate than the
+                     value of $rCond$ would suggest.
+
+
+:links: (.+) -> doc:flens/lapack/impl/$1

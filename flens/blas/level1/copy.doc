@@ -1,0 +1,333 @@
+==================
+BLAS Level 1: copy                                                     [TOC:2]
+==================
+
+*copy* (defined in namespace `flens::blas`) copies a vector to another vector,
+i.e. $y \leftarrow x$.
+
+We also provide variants for
+ - copying matrices, i.e.
+    - $B \leftarrow A$,
+    - $B \leftarrow A^T$ or
+    - $B \leftarrow A^H$,
+ - copy-conversion of different matrix types, e.g. copy a matrix of type
+   `TrMatrix` to a matrix of type `GeMatrix`.
+
+
+Vector Variant
+==============
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename VX, typename VY>                                      |
+|      typename RestrictTo<IsDenseVector<VX>::value                         |
+|                       && IsDenseVector<VY>::value,                        |
+|               void>::Type                                                 |
+|      copy(const VX &x, VY &&y);                                           |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#&1t0.0#&t0.1#templ]
+                         [atetypenameVXtypenameVYtypenameRestrictToIsDenseVe]
+                         [ctorVXvalueIsDenseVectorVYvaluevoidTypecopy       ]
+
+    x    `(input) real or complex valued DenseVector`                          +
+         Vector $x$.
+    y    `(output) real or complex valued DenseVector`                         +
+         Vector $y$
+
+
+BLAS Level 1 Extensions
+=======================
+
+GeMatrix
+--------
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsGeMatrix<MA>::value                            |
+|                       && IsGeMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      copy(Transpose trans, const MA &A, MB &&B);                          |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#$@N@cxxblas@E@Tran]
+                         [spose#&1t0.0#&t0.1#templatetypenameMAtypenameMBtyp]
+                         [enameRestrictToIsGeMatrixMAvalueIsGeMatrixMBvaluev]
+                         [oidTypecopy                                       ]
+
+    trans    `(input)`                                                         +
+             Specifiy the operation, i.e.
+              NoTrans      $B \leftarrow A$
+              Trans        $B \leftarrow A^T$
+              ConjTrans    $B \leftarrow A^H$
+    A        `(input) real or complex valued GeMatrix`                         +
+             Matrix $A$.
+    B        `(output) real or complex valued GeMatrix`                        +
+             Matrix $B$.
+
+
+TrMatrix
+--------
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsTrMatrix<MA>::value                            |
+|                       && IsTrMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      copy(Transpose trans, const MA &A, MB &&B);                          |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#$@N@cxxblas@E@Tran]
+                         [spose#&1t0.0#&t0.1#templatetypenameMAtypenameMBtyp]
+                         [enameRestrictToIsTrMatrixMAvalueIsTrMatrixMBvaluev]
+                         [oidTypecopy                                       ]
+
+    trans    `(input)`                                                         +
+             Specifiy the operation, i.e.
+              NoTrans      $B \leftarrow A$
+              Trans        $B \leftarrow A^T$
+              ConjTrans    $B \leftarrow A^H$
+    A        `(input) real or complex valued TrMatrix`                         +
+             Triangular matrix $A$.
+    B        `(output) real or complex valued TrMatrix`                        +
+             Triangular matrix $B$.
+
+
+
+SyMatrix
+--------
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsSyMatrix<MA>::value                            |
+|                       && IsSyMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      copy(const MA &A, MB &&B);                                           |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#&1t0.0#&t0.1#templ]
+                         [atetypenameMAtypenameMBtypenameRestrictToIsSyMatri]
+                         [xMAvalueIsSyMatrixMBvaluevoidTypecopy             ]
+
+    A        `(input) real or complex valued SyMatrix`                         +
+             Symmetric matrix $A$.
+    B        `(output) real or complex valued SyMatrix`                        +
+             Symmetric matrix $B$.
+
+
+Sparse BLAS
+===========
+
+Compress: GeCoordMatrix to GeCRSMatrix
+--------------------------------------
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsGeCoordMatrix<MA>::value                       |
+|                       && IsGeCRSMatrix<MB>::value,                        |
+|               void>::Type                                                 |
+|      copy(Transpose trans, const MA &A, MB &&B);                          |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#$@N@cxxblas@E@Tran]
+                         [spose#&1t0.0#&t0.1#templatetypenameMAtypenameMBtyp]
+                         [enameRestrictToIsGeCoordMatrixMAvalueIsGeCRSMatrix]
+                         [MBvaluevoidTypecopy                               ]
+
+    trans    `(input)`                                                         +
+             Specifiy the operation, i.e.
+              NoTrans      $B \leftarrow A$
+              Trans        $B \leftarrow A^T$
+              ConjTrans    $B \leftarrow A^H$
+    A        `(input) real or complex valued GeCoordMatrix`                    +
+             Sparse matrix $A$ stored in the coordinate format.
+    B        `(output) real or complex valued GeMatrix`                        +
+             Sparse matrix $B$ in compressed row storage format.
+
+
+Compress: SyCoordMatrix to SyCRSMatrix
+--------------------------------------
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsSyCoordMatrix<MA>::value                       |
+|                       && IsSyCCSMatrix<MB>::value,                        |
+|               void>::Type                                                 |
+|      copy(const MA &A, MB &&B);                                           |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#&1t0.0#&t0.1#templ]
+                         [atetypenameMAtypenameMBtypenameRestrictToIsSyCoord]
+                         [MatrixMAvalueIsSyCCSMatrixMBvaluevoidTypecopy     ]
+
+    A        `(input) real or complex valued GeCoordMatrix`                    +
+             Symmetric sparse matrix $A$ stored in the coordinate format.
+    B        `(output) real or complex valued GeMatrix`                        +
+             Symmetrix sparse matrix $B$ in compressed row storage format.
+
+
+Densify: GeCoordMatrix to GeMatrix
+----------------------------------
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsGeCoordMatrix<MA>::value                       |
+|                       && IsGeMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      copy(Transpose trans, const MA &A, MB &&B);                          |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#$@N@cxxblas@E@Tran]
+                         [spose#&1t0.0#&t0.1#templatetypenameMAtypenameMBtyp]
+                         [enameRestrictToIsGeCoordMatrixMAvalueIsGeMatrixMBv]
+                         [aluevoidTypecopy                                  ]
+
+    trans    `(input)`                                                         +
+             Specifiy the operation, i.e.
+              NoTrans      $B \leftarrow A$
+              Trans        $B \leftarrow A^T$
+              ConjTrans    $B \leftarrow A^H$
+    A        `(input) real or complex valued GeCoordMatrix`                    +
+             Sparse matrix $A$ stored in the coordinate format.
+    B        `(output) real or complex valued GeMatrix`                        +
+             Matrix $B$ in full storage format.
+
+
+Densify: GeCRSMatrix to GeMatrix
+--------------------------------
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsGeCRSMatrix<MA>::value                         |
+|                       && IsGeMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      copy(Transpose trans, const MA &A, MB &&B);                          |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#$@N@cxxblas@E@Tran]
+                         [spose#&1t0.0#&t0.1#templatetypenameMAtypenameMBtyp]
+                         [enameRestrictToIsGeCRSMatrixMAvalueIsGeMatrixMBval]
+                         [uevoidTypecopy                                    ]
+
+    trans    `(input)`                                                         +
+             Specifiy the operation, i.e.
+              NoTrans      $B \leftarrow A$
+              Trans        $B \leftarrow A^T$
+              ConjTrans    $B \leftarrow A^H$
+    A        `(input) real or complex valued GeCoordMatrix`                    +
+             Sparse matrix $A$ stored in the coordinate format.
+    B        `(output) real or complex valued GeMatrix`                        +
+             Matrix $B$ in full storage format.
+
+
+Convenience Extensions
+======================
+The following copy variant convert different matrix types to a `GeMatrix`.
+This can be handy for debiugging of fast prototyping.
+
+
+TrMatrix to GeMatrix
+--------------------
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsTrMatrix<MA>::value                            |
+|                       && IsGeMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      copy(Transpose trans, const MA &A, MB &&B);                          |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#$@N@cxxblas@E@Tran]
+                         [spose#&1t0.0#&t0.1#templatetypenameMAtypenameMBtyp]
+                         [enameRestrictToIsTrMatrixMAvalueIsGeMatrixMBvaluev]
+                         [oidTypecopy                                       ]
+
+    trans    `(input)`                                                         +
+             Specifiy the operation, i.e.
+              NoTrans      $B \leftarrow A$
+              Trans        $B \leftarrow A^T$
+              ConjTrans    $B \leftarrow A^H$
+    A        `(input) real or complex valued TrMatrix`                         +
+             Triangular matrix $A$.
+    B        `(output) real or complex valued GeMatrix`                        +
+             Matrix $B$.
+
+
+SyMatrix to GeMatrix
+--------------------
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsSyMatrix<MA>::value                            |
+|                       && IsGeMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      copy(const MA &A, MB &&B);                                           |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#&1t0.0#&t0.1#templ]
+                         [atetypenameMAtypenameMBtypenameRestrictToIsSyMatri]
+                         [xMAvalueIsGeMatrixMBvaluevoidTypecopy             ]
+
+    A        `(input) real or complex valued SyMatrix`                         +
+             Symmetric matrix $A$.
+    B        `(output) real or complex valued SyMatrix`                        +
+             Matrix $B$.
+
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsGeCoordMatrix<MA>::value                       |
+|                       && IsGeCCSMatrix<MB>::value,                        |
+|               void>::Type                                                 |
+|      copy(Transpose trans, const MA &A, MB &&B);                          |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#$@N@cxxblas@E@Tran]
+                         [spose#&1t0.0#&t0.1#                               ]
+
+    Defined in namespace `flens::blas`.
+    Function `copy` with 2 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsSyCoordMatrix<MA>::value                       |
+|                       && IsSyCRSMatrix<MB>::value,                        |
+|               void>::Type                                                 |
+|      copy(const MA &A, MB &&B);                                           |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                              [c:@N@flens@N@blas@FT@>2#T#Tcopy#&1t0.0#&t0.1#]
+
+    Defined in namespace `flens::blas`.
+    Function `copy` with 2 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsGeCCSMatrix<MA>::value                         |
+|                       && IsGeMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      copy(Transpose trans, const MA &A, MB &&B);                          |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#$@N@cxxblas@E@Tran]
+                         [spose#&1t0.0#&t0.1#templatetypenameMAtypenameMBtyp]
+                         [enameRestrictToIsGeCCSMatrixMAvalueIsGeMatrixMBval]
+                         [uevoidTypecopy                                    ]
+
+    Defined in namespace `flens::blas`.
+    Function `copy` with 2 template parameters.
+
+
+

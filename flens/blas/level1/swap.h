@@ -38,15 +38,12 @@
 
 namespace flens { namespace blas {
 
-//-- forwarding ----------------------------------------------------------------
-template <typename X, typename Y>
-    void
-    swap(X &&x, Y &&y);
-
 //-- DenseVector ---------------------------------------------------------------
-template <typename X, typename Y>
-    void
-    swap(DenseVector<X> &x, DenseVector<Y> &y);
+template <typename VX, typename VY>
+    typename RestrictTo<IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
+             void>::Type
+    swap(VX &&x, VY &&y);
 
 } } // namespace blas, flens
 

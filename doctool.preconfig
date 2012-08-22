@@ -2,7 +2,7 @@ export DOC_PROJECT=FLENS
 
 export AUTHOR="Michael Lehn"
 export AUTHOR_WEBSITE="http://www.mathematik.uni-ulm.de/~lehn"
-export YEAR=`date +%Y`
+export YEAR=2011-`date +%Y`
 
 export CODE_DIR=${PWD}
-export CXXFLAGS=-x c++ -std=c++11 -stdlib=libc++ -Wall -DWITH_VECLIB -DUSE_CXXLAPACK -I${PWD} -I/opt/local/include
+export CXXFLAGS=-x c++ -std=c++11 -stdlib=libc++ -Wall -DWITH_VECLIB -DUSE_CXXLAPACK -I${PWD} -I/opt/local/include -I$HOME/SuperLU_4.3/SRC

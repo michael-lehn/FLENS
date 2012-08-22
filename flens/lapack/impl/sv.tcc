@@ -295,7 +295,14 @@ sv(MA &&A, VPIV &&piv, MB &&B)
     ASSERT(B.firstCol()==1);
     ASSERT(B.numRows()==A.numRows());
 #   endif
-    
+
+//
+//  Resize output arguments if they are empty
+//
+    if (piv.length()==0) {
+        piv.resize(A.numCols(), 1);
+    }
+
 #   ifdef CHECK_CXXLAPACK
 //
 //  Make copies of output arguments

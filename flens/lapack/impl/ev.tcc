@@ -944,7 +944,7 @@ ev(bool     computeVL,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-    typename MatrixA::NoView      A_org = A;
+    typename MatrixA::NoView      A_org    = A;
     typename VectorWR::NoView     wr_org   = wr;
     typename VectorWI::NoView     wi_org   = wi;
     typename MatrixVL::NoView     VL_org   = VL;
@@ -962,7 +962,7 @@ ev(bool     computeVL,
 //
 //  Compare results
 //
-    typename MatrixA::NoView      A_generic = A;
+    typename MatrixA::NoView      A_generic    = A;
     typename VectorWR::NoView     wr_generic   = wr;
     typename VectorWI::NoView     wi_generic   = wi;
     typename MatrixVL::NoView     VL_generic   = VL;

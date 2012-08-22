@@ -41,6 +41,10 @@
 #include <flens/storage/bandstorage/bandstorageview.tcc>
 #include <flens/storage/bandstorage/bandstorage.tcc>
 
+#include <flens/storage/ccs/ccs.tcc>
+#include <flens/storage/coordstorage/coordstorage.tcc>
+#include <flens/storage/crs/crs.tcc>
+
 #include <flens/storage/fullstorage/constfullstorageview.tcc>
 #include <flens/storage/fullstorage/fullstorageview.tcc>
 #include <flens/storage/fullstorage/fullstorage.tcc>

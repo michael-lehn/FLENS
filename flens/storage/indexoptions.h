@@ -50,6 +50,12 @@ struct IndexOptions
     static const I  defaultIndexBase = _defaultIndexBase;
 };
 
+template <typename I = FLENS_DEFAULT_INDEXTYPE>
+using IndexBaseOne = IndexOptions<I, I(1)>;
+
+template <typename I = FLENS_DEFAULT_INDEXTYPE>
+using IndexBaseZero = IndexOptions<I, I(0)>;
+
 } // namespace flens
 
 #endif // FLENS_STORAGE_INDEXOPTIONS_H

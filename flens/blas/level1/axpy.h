@@ -43,54 +43,66 @@ namespace flens { namespace blas {
 
 //-- axpy
 template <typename ALPHA, typename VX, typename VY>
-    void
-    axpy(const ALPHA &alpha, const DenseVector<VX> &x, DenseVector<VY> &y);
+    typename RestrictTo<IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
+             void>::Type
+    axpy(const ALPHA &alpha, const VX &x, VY &&y);
 
 //-- gbaxpy
 template <typename ALPHA, typename MA, typename MB>
-    void
-    axpy(Transpose trans,
-         const ALPHA &alpha, const GbMatrix<MA> &A, GbMatrix<MB> &B);
+    typename RestrictTo<IsGbMatrix<MA>::value
+                     && IsGbMatrix<MB>::value,
+             void>::Type
+    axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
     
 //-- geaxpy
 template <typename ALPHA, typename MA, typename MB>
-    void
-    axpy(Transpose trans,
-         const ALPHA &alpha, const GeMatrix<MA> &A, GeMatrix<MB> &B);
+    typename RestrictTo<IsGeMatrix<MA>::value
+                     && IsGeMatrix<MB>::value,
+             void>::Type
+    axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
 
 //-- hbaxpy
 template <typename ALPHA, typename MA, typename MB>
-    void
-    axpy(Transpose trans,
-         const ALPHA &alpha, const HbMatrix<MA> &A, HbMatrix<MB> &B);
+    typename RestrictTo<IsHbMatrix<MA>::value
+                     && IsHbMatrix<MB>::value,
+             void>::Type
+    axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
 
 //-- hpaxpy
 template <typename ALPHA, typename MA, typename MB>
-    void
-    axpy(Transpose trans,
-         const ALPHA &alpha, const HpMatrix<MA> &A, HpMatrix<MB> &B);
+    typename RestrictTo<IsHpMatrix<MA>::value
+                     && IsHpMatrix<MB>::value,
+             void>::Type
+    axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
+    
 //-- sbaxpy
 template <typename ALPHA, typename MA, typename MB>
-    void
-    axpy(Transpose trans,
-         const ALPHA &alpha, const SbMatrix<MA> &A, SbMatrix<MB> &B);
+    typename RestrictTo<IsSbMatrix<MA>::value
+                     && IsSbMatrix<MB>::value,
+             void>::Type
+    axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
+    
 //-- spaxpy
 template <typename ALPHA, typename MA, typename MB>
-    void
-    axpy(Transpose trans,
-         const ALPHA &alpha, const SpMatrix<MA> &A, SpMatrix<MB> &B);
+    typename RestrictTo<IsSpMatrix<MA>::value
+                     && IsSpMatrix<MB>::value,
+             void>::Type
+    axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
     
 //-- tbaxpy
 template <typename ALPHA, typename MA, typename MB>
-    void
-    axpy(Transpose trans,
-         const ALPHA &alpha, const TbMatrix<MA> &A, TbMatrix<MB> &B);
+    typename RestrictTo<IsTbMatrix<MA>::value
+                     && IsTbMatrix<MB>::value,
+             void>::Type
+    axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
     
 //-- tpaxpy
 template <typename ALPHA, typename MA, typename MB>
-    void
-    axpy(Transpose trans,
-         const ALPHA &alpha, const TpMatrix<MA> &A, TpMatrix<MB> &B);
+    typename RestrictTo<IsTpMatrix<MA>::value
+                     && IsTpMatrix<MB>::value,
+             void>::Type
+    axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
     
 } } // namespace blas, flens
 

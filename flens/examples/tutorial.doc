@@ -16,14 +16,14 @@ Session: General Matrix with Full Storage
  *--[BOX]--------------------------------------------------------------------*
  |                                                                           |
  |                                                                           |
- |  - __Page 1__: We show how to allocate and initialize a general matrix.   |
- |  - __Page 2__: Shows how to change the default index base which is One.   |
- |  - __Page 3__: We introduce the concept of matrix views.  Matrix views    |
- |    can be used to reference other matrix parts.  Furthermore it allows    |
- |    the creation of a FLENS matrix(view) from an existing C-array          |
- |    copying the C-array. The latter is very useful for interfacing with    |
- |    other libraries.                                                       |
- |  - __Page 4__: We introduce dense vectors.                                |
+ |  __Page 1__    We show how to allocate and initialize a general matrix.   |
+ |  __Page 2__    Shows how to change the default index base which is One.   |
+ |  __Page 3__    We introduce the concept of matrix views.  Matrix views    |
+ |                can be used to reference other matrix parts.  Furthermore  |
+ |                it allows the creation of a FLENS matrix(view) from an     |
+ |                existing C-array copying the C-array. The latter is very   |
+ |                useful for interfacing with other libraries.               |
+ |  __Page 4__    We introduce dense vectors.                                |
  |                                                                           |
  *---------------------------------------------------------------------------*
 
@@ -35,17 +35,18 @@ Session:  BLAS, CXXBLAS, FLENS-BLAS and Overloaded Operators
 
  *--[BOX]--------------------------------------------------------------------*
  |                                                                           |
- |  - __Page 1__: Using __CXXBLAS__ directly.  CXXBLAS provides a generic    |
- |    BLAS implementation but also can serve as a interface to high          |
- |    performance BLAS implementations.                                      |
- |  - __Page 2__: Using __FLENS-BLAS__ which is a high-level interface to    |
- |    CXXBLAS.                                                               |
- |  - __Page 3__: Using overloaded operators for BLAS operations.  This is   |
- |    an even higher-level BLAS interface.  FLENS has some nice feature that |
- |    allows logging how BLAS actually gets used for the evaluation of       |
- |    complex linear algebra operations.                                     |
- |  - __Page 4__: How FLENS helps you avoiding the creation of temporaries   |
- |    when evaluation linear algebra expressions.                            |
+ |  __Page 1__    Using __CXXBLAS__ directly.  CXXBLAS provides a generic    |
+ |                BLAS implementation but also can serve as a interface to   |
+ |                high performance BLAS implementations.                     |
+ |  __Page 2__    Using __FLENS-BLAS__ which is a high-level interface to    |
+ |                CXXBLAS.                                                   |
+ |  __Page 3__    Using overloaded operators for BLAS operations.  This is   |
+ |                an even higher-level BLAS interface.  FLENS has some nice  |
+ |                feature that allows logging how BLAS actually gets used    |
+ |                for the evaluation of complicated linear algebra           |
+ |                operations.                                                |
+ |  __Page 4__    How FLENS helps you avoiding the creation of temporaries   |
+ |                when evaluation linear algebra expressions.                |
  |                                                                           |
  *---------------------------------------------------------------------------*
 
@@ -59,8 +60,8 @@ Session: Symmetric and Triangular Matrices with Full Storage
 
  *--[BOX]--------------------------------------------------------------------*
  |                                                                           |
- |  - __Page 1__: We show how to create triangular and symmetric views from  |
- |    a general matrix.                                                      |
+ |  __Page 1__    We show how to create triangular and symmetric views from  |
+ |                a general matrix.                                          |
  |                                                                           |
  *---------------------------------------------------------------------------*
 
@@ -72,10 +73,10 @@ Session: FLENS-LAPACK
 
  *--[BOX]--------------------------------------------------------------------*
  |                                                                           |
- |  - __Page 1__: Computing a LU factorization.                              |
- |  - __Page 2__: Computing a QR factorization.                              |
- |  - __Page 3__: Solving systems of linear equations.                       |
- |  - __Page 4__: Computing eigenvalues and eigenvectors.                    |
+ |  __Page 1__    Computing a LU factorization.                              |
+ |  __Page 2__    Computing a QR factorization.                              |
+ |  __Page 3__    Solving systems of linear equations.                       |
+ |  __Page 4__    Computing eigenvalues and eigenvectors.                    |
  |                                                                           |
  *---------------------------------------------------------------------------*
 
@@ -86,34 +87,59 @@ Session: Using an external LAPACK implementation
 
  *--[BOX]--------------------------------------------------------------------*
  |                                                                           |
- |  - __Page 1__: Using CXXLAPACK (Low-Level LAPACK interface) directly.     |
- |  - __Page 2__: Creating a high-level interface for CXXLAPACK.             |
+ |  __Page 1__    Using CXXLAPACK (Low-Level LAPACK interface) directly.     |
+ |  __Page 2__    Creating a high-level interface for CXXLAPACK.             |
  |                                                                           |
  *---------------------------------------------------------------------------*
 
 :links: __Page (\d)__     -> doc:flens/examples/tut05-page0$1
 
 
-Session: Define your own Matrix/Vector Types
-============================================
+Session: Sparse Matrices (Experimental)
+=======================================
 
  *--[BOX]--------------------------------------------------------------------*
  |                                                                           |
- |  - __Page 1__: Permutation Matrix.                                        |
- |  - __Page 2__: Matrix representing a (discrete) differential operator.    |
+ |  __Page 1__    Setup a matrix in coordinate storage and convert it to     |
+ |                *compressed column storage*.                               |
+ |  __Page 2__    Setup a matrix in coordinate storage, convert it to        |
+ |                *compressed column storage* and finally use __SuperLU__ to |
+ |                solve a sparse system of linear equations.                 |
+ |  __Page 3__    Setup a matrix in coordinate storage and convert it to     |
+ |                *compressed row storage*.                                  |
+ |  __Page 4__    Setup a matrix in coordinate stoage, convert it to         |
+ |                *compressed row storage* and finally use __SuperLU__ to    |
+ |                solve a sparse system of linear equations.                 |
  |                                                                           |
  *---------------------------------------------------------------------------*
 
-:links: __Page (\d)__     -> doc:flens/examples/tut06-page0$1
+:links: Page 1  -> doc:flens/examples/geccs-setup
+        Page 2  -> doc:flens/examples/geccs-superlu
+        Page 3  -> doc:flens/examples/gecrs-setup
+        Page 4  -> doc:flens/examples/gecrs-superlu
+        SuperLU -> http://crd-legacy.lbl.gov/~xiaoye/SuperLU/
 
-Session: Kick-Ass Interface for FLENS-LAPACK
-============================================
 
- *--[BOX]--------------------------------------------------------------------*
- |                                                                           |
- |  - __Page 1__: LU Factorization `tupel(P,L,U) = lu(A)`                    |
- |                                                                           |
- *---------------------------------------------------------------------------*
-
-:links: __Page (\d)__     -> doc:flens/examples/tut07-page0$1
+# Session: Define your own Matrix/Vector Types
+# ============================================
+#
+#  *--[BOX]--------------------------------------------------------------------*
+#  |                                                                           |
+#  |  - __Page 1__: Permutation Matrix.                                        |
+#  |  - __Page 2__: Matrix representing a (discrete) differential operator.    |
+#  |                                                                           |
+#  *---------------------------------------------------------------------------*
+# 
+# :links: __Page (\d)__     -> doc:flens/examples/tut06-page0$1
+#
+# Session: Kick-Ass Interface for FLENS-LAPACK
+# ============================================
+#
+#  *--[BOX]--------------------------------------------------------------------*
+#  |                                                                           |
+#  |  - __Page 1__: LU Factorization `tupel(P,L,U) = lu(A)`                    |
+#  |                                                                           |
+#  *---------------------------------------------------------------------------*
+# 
+# :links: __Page (\d)__     -> doc:flens/examples/tut07-page0$1
 

@@ -323,6 +323,13 @@ HpMatrix<FS>::data()
 }
 
 template <typename FS>
+StorageOrder
+HpMatrix<FS>::order() const
+{
+    return _engine.order;
+}
+
+template <typename FS>
 template <typename RHS>
 bool
 HpMatrix<FS>::resize(const HpMatrix<RHS> &rhs,

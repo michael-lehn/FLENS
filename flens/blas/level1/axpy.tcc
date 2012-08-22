@@ -49,8 +49,10 @@ namespace flens { namespace blas {
 
 //-- axpy
 template <typename ALPHA, typename VX, typename VY>
-void
-axpy(const ALPHA &alpha, const DenseVector<VX> &x, DenseVector<VY> &y)
+typename RestrictTo<IsDenseVector<VX>::value
+                 && IsDenseVector<VY>::value,
+         void>::Type
+axpy(const ALPHA &alpha, const VX &x, VY &&y)
 {
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_AXPY(alpha, x, y);
@@ -59,7 +61,8 @@ axpy(const ALPHA &alpha, const DenseVector<VX> &x, DenseVector<VY> &y)
 //
 //      So we allow  y += alpha*x  for an empty vector y
 //
-        typedef typename DenseVector<VY>::ElementType  T;
+        typedef typename RemoveRef<VY>::Type   VectorY;
+        typedef typename VectorY::ElementType  T;
         const T  Zero(0);
 
         y.resize(x, Zero);
@@ -80,15 +83,19 @@ axpy(const ALPHA &alpha, const DenseVector<VX> &x, DenseVector<VY> &y)
 
 //-- geaxpy
 template <typename ALPHA, typename MA, typename MB>
-void
-axpy(Transpose trans,
-     const ALPHA &alpha, const GeMatrix<MA> &A, GeMatrix<MB> &B)
+typename RestrictTo<IsGeMatrix<MA>::value
+                 && IsGeMatrix<MB>::value,
+         void>::Type
+axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 {
+    typedef typename RemoveRef<MA>::Type   MatrixA;
+    typedef typename RemoveRef<MB>::Type   MatrixB;
+
     if (B.numRows()==0 || B.numCols()==0) {
 //
 //      So we allow  B += alpha*A  for an empty matrix B
 //
-        typedef typename GeMatrix<MB>::ElementType  T;
+        typedef typename MatrixB::ElementType  T;
         const T  Zero(0);
 
         if ((trans==NoTrans) || (trans==Conj)) {
@@ -111,7 +118,7 @@ axpy(Transpose trans,
 #   endif
 
 
-    trans = (MA::order==MB::order)
+    trans = (A.order()==B.order())
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
 
@@ -128,7 +135,7 @@ axpy(Transpose trans,
 //  for B += alpha*A^T or B+= alpha*A^H
 //
     if ((trans==Trans || trans==ConjTrans) && DEBUGCLOSURE::identical(A, B)) {
-        typename GeMatrix<MA>::NoView _A;
+        typename Result<MatrixA>::Type _A = A;
         FLENS_BLASLOG_TMP_ADD(_A);
 
         copy(trans, A, _A);
@@ -144,8 +151,7 @@ axpy(Transpose trans,
     FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
 
 #   ifdef HAVE_CXXBLAS_GEAXPY
-    geaxpy(MB::order, trans,
-           B.numRows(), B.numCols(), alpha,
+    geaxpy(B.order(), trans, B.numRows(), B.numCols(), alpha,
            A.data(), A.leadingDimension(),
            B.data(), B.leadingDimension());
 #   else
@@ -157,9 +163,10 @@ axpy(Transpose trans,
 
 //-- gbaxpy
 template <typename ALPHA, typename MA, typename MB>
-void
-axpy(Transpose trans,
-     const ALPHA &alpha, const GbMatrix<MA> &A, GbMatrix<MB> &B)
+typename RestrictTo<IsGbMatrix<MA>::value
+                 && IsGbMatrix<MB>::value,
+         void>::Type
+axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 {
     if (B.numRows()==0 || B.numCols()==0) {
 //
@@ -225,7 +232,7 @@ axpy(Transpose trans,
                                : B.numSuperDiags() - numSuperDiags;
 
 
-    trans = (MA::order==MB::order)
+    trans = (A.order()==B.order())
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
           
@@ -244,9 +251,10 @@ axpy(Transpose trans,
 
 //-- hbaxpy
 template <typename ALPHA, typename MA, typename MB>
-void
-axpy(Transpose trans,
-     const ALPHA &alpha, const HbMatrix<MA> &A, HbMatrix<MB> &B)
+typename RestrictTo<IsHbMatrix<MA>::value
+                 && IsHbMatrix<MB>::value,
+         void>::Type
+axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 {
     ASSERT(cxxblas::imag(alpha)==0);
     
@@ -310,7 +318,7 @@ axpy(Transpose trans,
                                ? ((B.upLo()==Lower) ? B.numOffDiags() : 0) - numSubDiags
                                : ((B.upLo()==Upper) ? B.numOffDiags() : 0) - numSuperDiags;  
 
-    trans = (MA::order==MB::order)
+    trans = (A.order()==B.order())
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
 #   ifdef HAVE_CXXBLAS_GBAXPY  
@@ -328,9 +336,10 @@ axpy(Transpose trans,
 
 //-- hpaxpy
 template <typename ALPHA, typename MA, typename MB>
-void
-axpy(Transpose trans,
-     const ALPHA &alpha, const HpMatrix<MA> &A, HpMatrix<MB> &B)
+typename RestrictTo<IsHpMatrix<MA>::value
+                 && IsHpMatrix<MB>::value,
+         void>::Type
+axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 {
     
     if (B.dim()==0) {
@@ -374,7 +383,7 @@ axpy(Transpose trans,
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ ConjTrans);
 
-   trans = (MA::order==MB::order)
+   trans = (A.order()==B.order())
               ? Transpose(trans ^ NoTrans)
               : Transpose(trans ^ Trans);
               
@@ -391,9 +400,10 @@ axpy(Transpose trans,
 
 //-- sbaxpy
 template <typename ALPHA, typename MA, typename MB>
-void
-axpy(Transpose trans,
-     const ALPHA &alpha, const SbMatrix<MA> &A, SbMatrix<MB> &B)
+typename RestrictTo<IsSbMatrix<MA>::value
+                 && IsSbMatrix<MB>::value,
+         void>::Type
+axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 {
     
     if (B.dim()==0) {
@@ -459,7 +469,7 @@ axpy(Transpose trans,
                                ? ((B.upLo()==Lower) ? B.numOffDiags() : 0) - numSubDiags
                                : ((B.upLo()==Upper) ? B.numOffDiags() : 0) - numSuperDiags;  
 
-    trans = (MA::order==MB::order)
+    trans = (A.order()==B.order())
               ? Transpose(trans ^ NoTrans)
               : Transpose(trans ^ Trans);
 
@@ -478,9 +488,10 @@ axpy(Transpose trans,
 
 //-- spaxpy
 template <typename ALPHA, typename MA, typename MB>
-void
-axpy(Transpose trans,
-     const ALPHA &alpha, const SpMatrix<MA> &A, SpMatrix<MB> &B)
+typename RestrictTo<IsSpMatrix<MA>::value
+                 && IsSpMatrix<MB>::value,
+         void>::Type
+axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 {
     if (B.dim()==0) {
         B.resize(A);
@@ -523,7 +534,7 @@ axpy(Transpose trans,
               ? Transpose(trans ^ NoTrans)
               : Transpose(trans ^ Trans);
     
-    trans = (MA::order==MB::order)
+    trans = (A.order()==B.order())
               ? Transpose(trans ^ NoTrans)
               : Transpose(trans ^ Trans);
               
@@ -540,9 +551,10 @@ axpy(Transpose trans,
 
 //-- tbaxpy
 template <typename ALPHA, typename MA, typename MB>
-void
-axpy(Transpose trans,
-     const ALPHA &alpha, const TbMatrix<MA> &A, TbMatrix<MB> &B)
+typename RestrictTo<IsTbMatrix<MA>::value
+                 && IsTbMatrix<MB>::value,
+         void>::Type
+axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 {
     ASSERT(B.diag()==NonUnit);
     // TODO: Remove this condition
@@ -600,7 +612,7 @@ axpy(Transpose trans,
                                ? B.numSubDiags() - numSubDiags
                                : B.numSuperDiags() - numSuperDiags;
 
-    trans = (MA::order==MB::order)
+    trans = (A.order()==B.order())
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
           
@@ -619,9 +631,10 @@ axpy(Transpose trans,
 
 //-- tpaxpy
 template <typename ALPHA, typename MA, typename MB>
-void
-axpy(Transpose trans,
-     const ALPHA &alpha, const TpMatrix<MA> &A, TpMatrix<MB> &B)
+typename RestrictTo<IsTpMatrix<MA>::value
+                 && IsTpMatrix<MB>::value,
+         void>::Type
+axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 {
     ASSERT(B.diag()==NonUnit);
     // TODO: Remove this condition
@@ -664,7 +677,7 @@ axpy(Transpose trans,
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
 
-    trans = (MA::order==MB::order)
+    trans = (A.order()==B.order())
               ? Transpose(trans ^ NoTrans)
               : Transpose(trans ^ Trans);
               

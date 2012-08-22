@@ -43,6 +43,10 @@
 #include <flens/storage/bandstorage/bandstorageview.h>
 #include <flens/storage/bandstorage/bandstorage.h>
 
+#include <flens/storage/ccs/ccs.h>
+#include <flens/storage/coordstorage/coordstorage.h>
+#include <flens/storage/crs/crs.h>
+
 #include <flens/storage/fullstorage/constfullstorageview.h>
 #include <flens/storage/fullstorage/fullstorageview.h>
 #include <flens/storage/fullstorage/fullstorage.h>

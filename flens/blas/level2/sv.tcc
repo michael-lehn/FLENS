@@ -33,28 +33,29 @@
 #ifndef FLENS_BLAS_LEVEL2_SV_TCC
 #define FLENS_BLAS_LEVEL2_SV_TCC
 
-#include <flens/matrixtypes/matrixtypes.h>
-#include <flens/vectortypes/vectortypes.h>
+#include <flens/blas/closures/debugclosure.h>
+#include <flens/blas/level2/level2.h>
 #include <flens/typedefs.h>
+
+#ifdef FLENS_DEBUG_CLOSURES
+#   include <flens/blas/blaslogon.h>
+#else
+#   include <flens/blas/blaslogoff.h>
+#endif
+
 
 namespace flens { namespace blas {
 
-//-- common interface ----------------------------------------------------------
-template <typename MA, typename VX>
-void
-sv(Transpose trans, const TriangularMatrix<MA> &A, Vector<VX> &x)
-{
-    sv(trans, A.impl(), x.impl());
-}
-
 //-- tbsv
 template <typename MA, typename VX>
-void
-sv(Transpose trans, const TbMatrix<MA> &A, DenseVector<VX> &x)
+typename RestrictTo<IsTbMatrix<MA>::value
+                 && IsDenseVector<VX>::value,
+         void>::Type
+sv(Transpose trans, const MA &A, VX &&x)
 {
     ASSERT(x.length()==A.dim());
 #   ifdef HAVE_CXXBLAS_TBSV
-    cxxblas::tbsv(MA::order, A.upLo(),
+    cxxblas::tbsv(A.order(), A.upLo(),
                   trans, A.diag(),
                   A.dim(), A.numOffDiags(),
                   A.data(), A.leadingDimension(),
@@ -66,12 +67,16 @@ sv(Transpose trans, const TbMatrix<MA> &A, DenseVector<VX> &x)
 
 //-- trsv
 template <typename MA, typename VX>
-void
-sv(Transpose trans, const TrMatrix<MA> &A, DenseVector<VX> &x)
+typename RestrictTo<IsTrMatrix<MA>::value
+                 && IsDenseVector<VX>::value,
+         void>::Type
+sv(Transpose trans, const MA &A, VX &&x)
 {
+    typedef typename RemoveRef<MA>::Type   MatrixA;
+
     ASSERT(x.length()==A.dim());
 #   ifdef HAVE_CXXBLAS_TRSV
-    cxxblas::trsv(MA::order, A.upLo(),
+    cxxblas::trsv(A.order(), A.upLo(),
                   trans, A.diag(),
                   A.dim(),
                   A.data(), A.leadingDimension(),
@@ -83,12 +88,14 @@ sv(Transpose trans, const TrMatrix<MA> &A, DenseVector<VX> &x)
 
 //-- tpsv
 template <typename MA, typename VX>
-void
-sv(Transpose trans, const TpMatrix<MA> &A, DenseVector<VX> &x)
+typename RestrictTo<IsTpMatrix<MA>::value
+                 && IsDenseVector<VX>::value,
+         void>::Type
+sv(Transpose trans, const MA &A, VX &&x)
 {
     ASSERT(x.length()==A.dim());
 #   ifdef HAVE_CXXBLAS_TPSV
-    cxxblas::tpsv(MA::order, A.upLo(),
+    cxxblas::tpsv(A.order(), A.upLo(),
                   trans, A.diag(),
                   A.dim(),
                   A.data(),

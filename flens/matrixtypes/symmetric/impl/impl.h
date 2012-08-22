@@ -35,6 +35,9 @@
 
 #include <flens/matrixtypes/symmetric/impl/sbmatrix.h>
 #include <flens/matrixtypes/symmetric/impl/spmatrix.h>
+#include <flens/matrixtypes/symmetric/impl/syccsmatrix.h>
+#include <flens/matrixtypes/symmetric/impl/sycoordmatrix.h>
+#include <flens/matrixtypes/symmetric/impl/sycrsmatrix.h>
 #include <flens/matrixtypes/symmetric/impl/symatrix.h>
 
 #endif // FLENS_MATRIXTYPES_SYMMETRIC_IMPL_IMPL_H

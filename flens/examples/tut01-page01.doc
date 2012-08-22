@@ -43,14 +43,14 @@ Compile and Run
    |                                                                          |
    *--------------------------------------------------------------------------*
 
-:links: __GeMatrix__        -> file:flens/matrixtypes/general/impl/gematrix.h
-        __FullStorage__     -> file:flens/storage/fullstorage/fullstorage.h
-        __FullStorageView__ -> file:flens/storage/fullstorage/fullstorageview.h
-        __ConstFullStorageView__ -> file:flens/storage/fullstorage/constfullstorageview.h
-        __DenseVector__     -> file:flens/vectortypes/impl/densevector.h
-        __Array__           -> file:flens/storage/array/array.h
-        __ArrayView__       -> file:flens/storage/array/arrayview.h
-        __ConstArrayView__  -> file:flens/storage/array/constarrayview.h
+:links: __GeMatrix__        -> doc:flens/matrixtypes/general/impl/gematrix
+        __FullStorage__     -> doc:flens/storage/fullstorage/fullstorage
+        __FullStorageView__ -> doc:flens/storage/fullstorage/fullstorageview
+        __ConstFullStorageView__ -> doc:flens/storage/fullstorage/constfullstorageview
+        __DenseVector__     -> doc:flens/vectortypes/impl/densevector
+        __Array__           -> doc:flens/storage/array/array
+        __ArrayView__       -> doc:flens/storage/array/arrayview
+        __ConstArrayView__  -> doc:flens/storage/array/constarrayview
 
 
 :navigate: __up__    -> doc:flens/examples/tutorial

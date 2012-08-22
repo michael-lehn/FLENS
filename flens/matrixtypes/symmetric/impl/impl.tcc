@@ -33,8 +33,12 @@
 #ifndef FLENS_MATRIXTYPES_SYMMETRIC_IMPL_IMPL_TCC
 #define FLENS_MATRIXTYPES_SYMMETRIC_IMPL_IMPL_TCC 1
 
+
 #include <flens/matrixtypes/symmetric/impl/sbmatrix.tcc>
 #include <flens/matrixtypes/symmetric/impl/spmatrix.tcc>
+#include <flens/matrixtypes/symmetric/impl/syccsmatrix.tcc>
+#include <flens/matrixtypes/symmetric/impl/sycoordmatrix.tcc>
+#include <flens/matrixtypes/symmetric/impl/sycrsmatrix.tcc>
 #include <flens/matrixtypes/symmetric/impl/symatrix.tcc>
 
 #endif // FLENS_MATRIXTYPES_SYMMETRIC_IMPL_IMPL_TCC

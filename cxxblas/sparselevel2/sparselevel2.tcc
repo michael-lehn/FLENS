@@ -1,6 +1,5 @@
 /*
- *   Copyright (c) 2003, Alexander Stippler
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -31,30 +30,10 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_MATRIXTYPES_GENERAL_IMPL_GEMATRIXINITIALIZER_H
-#define FLENS_MATRIXTYPES_GENERAL_IMPL_GEMATRIXINITIALIZER_H 1
+#ifndef CXXBLAS_SPARSELEVEL2_SPARSELEVEL2_TCC
+#define CXXBLAS_SPARSELEVEL2_SPARSELEVEL2_TCC 1
 
-#include <flens/matrixtypes/general/impl/gematrix.h>
+#include <cxxblas/sparselevel2/gecrsmv.tcc>
+#include <cxxblas/sparselevel2/sycrsmv.tcc>
 
-namespace flens {
-
-template <typename FS>
-class GeMatrixInitializer
-{
-    public:
-        typedef typename GeMatrix<FS>::ElementType  ElementType;
-        typedef typename GeMatrix<FS>::IndexType    IndexType;
-
-        GeMatrixInitializer(GeMatrix<FS> &A, IndexType row, IndexType col);
-
-        GeMatrixInitializer
-        operator,(const ElementType &value);
-
-    private:
-        GeMatrix<FS> &_A;
-        IndexType    _row, _col;
-};
-
-} // namespace flens
-
-#endif // FLENS_MATRIXTYPES_GENERAL_IMPL_GEMATRIXINITIALIZER_H
+#endif // CXXBLAS_SPARSELEVEL2_SPARSELEVEL2_TCC

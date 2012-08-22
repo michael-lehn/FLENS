@@ -47,10 +47,14 @@
 
 namespace flens { namespace blas {
 
+//-- BLAS Level 1 --------------------------------------------------------------
+
 //-- copy
 template <typename VX, typename VY>
-void
-copy(const DenseVector<VX> &x, DenseVector<VY> &y)
+typename RestrictTo<IsDenseVector<VX>::value
+                 && IsDenseVector<VY>::value,
+         void>::Type
+copy(const VX &x, VY &&y)
 {
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_COPY(x, y);
@@ -81,11 +85,18 @@ copy(const DenseVector<VX> &x, DenseVector<VY> &y)
     FLENS_BLASLOG_UNSETTAG;
 }
 
+//-- BLAS Level 1 extensions ---------------------------------------------------
+
 //-- gecopy
 template <typename MA, typename MB>
-void
-copy(Transpose trans, const GeMatrix<MA> &A, GeMatrix<MB> &B)
+typename RestrictTo<IsGeMatrix<MA>::value
+                 && IsGeMatrix<MB>::value,
+         void>::Type
+copy(Transpose trans, const MA &A, MB &&B)
 {
+    typedef typename RemoveRef<MA>::Type MatrixA;
+    typedef typename RemoveRef<MB>::Type MatrixB;
+
 //
 //  check if this is an inplace transpose of A
 //
@@ -96,7 +107,7 @@ copy(Transpose trans, const GeMatrix<MA> &A, GeMatrix<MB> &B)
 //          temporaries are not allowed
 //
             ASSERT(A.numRows()==A.numCols());
-            cxxblas::gecotr(MB::order, trans, B.numRows(), B.numCols(),
+            cxxblas::gecotr(B.order(), trans, B.numRows(), B.numCols(),
                             B.data(), B.leadingDimension());
             return;
 #           else
@@ -104,7 +115,9 @@ copy(Transpose trans, const GeMatrix<MA> &A, GeMatrix<MB> &B)
 //          temporaries are allowed: check if this requires a temporary
 //
             if (A.numRows()!=A.numCols()) {
-                typename Result<GeMatrix<MA> >::Type _A = A;
+                typedef typename RemoveRef<MA>::Type   MatrixA;
+
+                typename Result<MatrixA>::Type _A = A;
                 FLENS_BLASLOG_TMP_ADD(_A);
 
                 copy(trans, _A, B);
@@ -115,7 +128,7 @@ copy(Transpose trans, const GeMatrix<MA> &A, GeMatrix<MB> &B)
 //
 //              otherwise perform inplace transpose
 //
-                cxxblas::gecotr(MB::order, trans, B.numRows(), B.numCols(),
+                cxxblas::gecotr(B.order(), trans, B.numRows(), B.numCols(),
                                 B.data(), B.leadingDimension());
                 return;
             }
@@ -153,7 +166,7 @@ copy(Transpose trans, const GeMatrix<MA> &A, GeMatrix<MB> &B)
         }
     }
 
-    trans = (MA::order==MB::order)
+    trans = (A.order()==B.order())
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
 
@@ -161,8 +174,7 @@ copy(Transpose trans, const GeMatrix<MA> &A, GeMatrix<MB> &B)
     FLENS_BLASLOG_BEGIN_MCOPY(trans, A, B);
 
 #   ifdef HAVE_CXXBLAS_GECOPY
-    cxxblas::gecopy(MB::order, trans,
-                    B.numRows(), B.numCols(),
+    cxxblas::gecopy(B.order(), trans, B.numRows(), B.numCols(),
                     A.data(), A.leadingDimension(),
                     B.data(), B.leadingDimension());
 #   else
@@ -175,10 +187,12 @@ copy(Transpose trans, const GeMatrix<MA> &A, GeMatrix<MB> &B)
 
 //-- gbcopy
 template <typename MA, typename MB>
-void
-copy(Transpose trans, const GbMatrix<MA> &A, GbMatrix<MB> &B)
+typename RestrictTo<IsGbMatrix<MA>::value
+                 && IsGbMatrix<MB>::value,
+         void>::Type
+copy(Transpose trans, const MA &A, MB &&B)
 {
-    typename GeMatrix<MB>::ElementType  Zero(0);
+    typename GbMatrix<MB>::ElementType  Zero(0);
 //
 //  check if this is an inplace transpose of A
 //
@@ -276,7 +290,7 @@ copy(Transpose trans, const GbMatrix<MA> &A, GbMatrix<MB> &B)
                                ? B.numSubDiags() - numSubDiags
                                : B.numSuperDiags() - numSuperDiags;
                              
-    trans = (MA::order==MB::order)
+    trans = (A.order()==B.order())
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
           
@@ -301,10 +315,12 @@ copy(Transpose trans, const GbMatrix<MA> &A, GbMatrix<MB> &B)
 
 //-- tbcopy
 template <typename MA, typename MB>
-void
-copy(Transpose trans, const TbMatrix<MA> &A, TbMatrix<MB> &B)
+typename RestrictTo<IsTbMatrix<MA>::value
+                 && IsTbMatrix<MB>::value,
+         void>::Type
+copy(Transpose trans, const MA &A, MB &&B)
 {
-    typename GeMatrix<MB>::ElementType  Zero(0), One(1);
+    typename TbMatrix<MB>::ElementType  Zero(0), One(1);
     
     // Copy non-Unit diagonal into unit diagonal not possible
     ASSERT((A.diag()!=Unit) || (A.diag()!=B.diag()));  
@@ -368,7 +384,7 @@ copy(Transpose trans, const TbMatrix<MA> &A, TbMatrix<MB> &B)
                                : B.numSuperDiags() - numSuperDiags;
 
                                
-    trans = (MA::order==MB::order)
+    trans = (A.order()==B.order())
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
           
@@ -396,8 +412,10 @@ copy(Transpose trans, const TbMatrix<MA> &A, TbMatrix<MB> &B)
 
 //-- tpcopy
 template <typename MA, typename MB>
-void
-copy(Transpose trans, const TpMatrix<MA> &A, TpMatrix<MB> &B)
+typename RestrictTo<IsTpMatrix<MA>::value
+                 && IsTpMatrix<MB>::value,
+         void>::Type
+copy(Transpose trans, const MA &A, MB &&B)
 {
     ASSERT(A.diag()==B.diag()); 
     ASSERT(((A.upLo()==B.upLo()) && ((trans==NoTrans) || (trans==Conj))) || 
@@ -418,7 +436,7 @@ copy(Transpose trans, const TpMatrix<MA> &A, TpMatrix<MB> &B)
             B.resize(A);
     }
     
-   trans = (MA::order==MB::order)
+   trans = (A.order()==B.order())
               ? Transpose(trans ^ NoTrans)
               : Transpose(trans ^ Trans);
               
@@ -436,10 +454,12 @@ copy(Transpose trans, const TpMatrix<MA> &A, TpMatrix<MB> &B)
 
 //-- sbcopy
 template <typename MA, typename MB>
-void
-copy(const SbMatrix<MA> &A, SbMatrix<MB> &B)
+typename RestrictTo<IsSbMatrix<MA>::value
+                 && IsSbMatrix<MB>::value,
+         void>::Type
+copy(const MA &A, MB &&B)
 {
-    typename GeMatrix<MB>::ElementType  Zero(0);
+    typename SbMatrix<MB>::ElementType  Zero(0);
     
     Transpose trans = (A.upLo()==B.upLo()) ? NoTrans : Trans;
 
@@ -475,7 +495,7 @@ copy(const SbMatrix<MA> &A, SbMatrix<MB> &B)
                                ? ((B.upLo()==Lower) ? B.numOffDiags() : 0) - numSubDiags
                                : ((B.upLo()==Upper) ? B.numOffDiags() : 0) - numSuperDiags; 
                                
-    trans = (MA::order==MB::order)
+    trans = (A.order()==B.order())
               ? Transpose(trans ^ NoTrans)
               : Transpose(trans ^ Trans);
               
@@ -498,10 +518,12 @@ copy(const SbMatrix<MA> &A, SbMatrix<MB> &B)
 
 //-- hbcopy
 template <typename MA, typename MB>
-void
-copy(const HbMatrix<MA> &A, HbMatrix<MB> &B)
+typename RestrictTo<IsHbMatrix<MA>::value
+                 && IsHbMatrix<MB>::value,
+         void>::Type
+copy(const MA &A, MB &&B)
 {
-    typename GeMatrix<MB>::ElementType  Zero(0);
+    typename HbMatrix<MB>::ElementType  Zero(0);
 
     Transpose trans = (A.upLo()==B.upLo()) ? NoTrans : ConjTrans;
     
@@ -538,7 +560,7 @@ copy(const HbMatrix<MA> &A, HbMatrix<MB> &B)
                                ? ((B.upLo()==Lower) ? B.numOffDiags() : 0) - numSubDiags
                                : ((B.upLo()==Upper) ? B.numOffDiags() : 0) - numSuperDiags;  
                                
-    trans = (MA::order==MB::order)
+    trans = (A.order()==B.order())
               ? Transpose(trans ^ NoTrans)
               : Transpose(trans ^ Trans);
 #   ifdef HAVE_CXXBLAS_GBCOPY                               
@@ -560,8 +582,10 @@ copy(const HbMatrix<MA> &A, HbMatrix<MB> &B)
 
 //-- hpcopy
 template <typename MA, typename MB>
-void
-copy(Transpose trans, const HpMatrix<MA> &A, HpMatrix<MB> &B)
+typename RestrictTo<IsHpMatrix<MA>::value
+                 && IsHpMatrix<MB>::value,
+         void>::Type
+copy(Transpose trans, const MA &A, MB &&B)
 {
     ASSERT(((A.upLo()==B.upLo()) && ((trans==NoTrans) || (trans==Conj))) || 
            ((A.upLo()!=B.upLo()) && ((trans==Trans) || (trans==ConjTrans))) );
@@ -581,7 +605,7 @@ copy(Transpose trans, const HpMatrix<MA> &A, HpMatrix<MB> &B)
             B.resize(A);
     }
     
-   trans = (MA::order==MB::order)
+   trans = (A.order()==B.order())
               ? Transpose(trans ^ NoTrans)
               : Transpose(trans ^ Trans);
 
@@ -602,8 +626,10 @@ copy(Transpose trans, const HpMatrix<MA> &A, HpMatrix<MB> &B)
 
 //-- spcopy
 template <typename MA, typename MB>
-void
-copy(Transpose trans, const SpMatrix<MA> &A, SpMatrix<MB> &B)
+typename RestrictTo<IsSpMatrix<MA>::value
+                 && IsSpMatrix<MB>::value,
+         void>::Type
+copy(Transpose trans, const MA &A, MB &&B)
 {
     ASSERT(((A.upLo()==B.upLo()) && ((trans==NoTrans) || (trans==Conj))) || 
            ((A.upLo()!=B.upLo()) && ((trans==Trans) || (trans==ConjTrans))) );
@@ -623,7 +649,7 @@ copy(Transpose trans, const SpMatrix<MA> &A, SpMatrix<MB> &B)
             B.resize(A);
     }
     
-   trans = (MA::order==MB::order)
+   trans = (A.order()==B.order())
               ? Transpose(trans ^ NoTrans)
               : Transpose(trans ^ Trans);
     
@@ -645,8 +671,10 @@ copy(Transpose trans, const SpMatrix<MA> &A, SpMatrix<MB> &B)
 
 //-- trcopy
 template <typename MA, typename MB>
-void
-copy(Transpose trans, const TrMatrix<MA> &A, TrMatrix<MB> &B)
+typename RestrictTo<IsTrMatrix<MA>::value
+                 && IsTrMatrix<MB>::value,
+         void>::Type
+copy(Transpose trans, const MA &A, MB &&B)
 {
 //
 //  Resize left hand size if needed.  This is *usually* only alloweded
@@ -708,8 +736,10 @@ copy(Transpose trans, const TrMatrix<MA> &A, TrMatrix<MB> &B)
 
 //-- sycopy
 template <typename MA, typename MB>
-void
-copy(const SyMatrix<MA> &A, SyMatrix<MB> &B)
+typename RestrictTo<IsSyMatrix<MA>::value
+                 && IsSyMatrix<MB>::value,
+         void>::Type
+copy(const MA &A, MB &&B)
 {
 //
 //  Resize left hand size if needed.  This is *usually* only alloweded
@@ -746,13 +776,60 @@ copy(const SyMatrix<MA> &A, SyMatrix<MB> &B)
     FLENS_BLASLOG_UNSETTAG;
 }
 
-//-- extensions ----------------------------------------------------------------
+//-- Sparse BLAS extensions ----------------------------------------------------
+
+//-- copy: GeCoordMatrix -> GeCCSMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsGeCoordMatrix<MA>::value
+                 && IsGeCCSMatrix<MB>::value,
+         void>::Type
+copy(Transpose trans, const MA &A, MB &&B)
+{
+    B.engine() = A.engine();
+}
+
+//-- copy: GeCoordMatrix -> GeCRSMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsGeCoordMatrix<MA>::value
+                 && IsGeCRSMatrix<MB>::value,
+         void>::Type
+copy(Transpose trans, const MA &A, MB &&B)
+{
+    B.engine() = A.engine();
+}
+
+//-- copy: SyCoordMatrix -> SyCCSMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsSyCoordMatrix<MA>::value
+                 && IsSyCCSMatrix<MB>::value,
+         void>::Type
+copy(const MA &A, MB &&B)
+{
+    B.engine() = A.engine();
+    B.upLo() = A.upLo();
+}
+
+//-- copy: SyCoordMatrix -> SyCRSMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsSyCoordMatrix<MA>::value
+                 && IsSyCRSMatrix<MB>::value,
+         void>::Type
+copy(const MA &A, MB &&B)
+{
+    B.engine() = A.engine();
+    B.upLo() = A.upLo();
+}
+
+
+//-- convenience extensions ----------------------------------------------------
 
 
 //-- copy: HbMatrix -> GbMatrix
 template <typename MA, typename MB>
-void
-copy(const HbMatrix<MA> &A, GbMatrix<MB> &B)
+typename RestrictTo<IsHbMatrix<MA>::value
+                 && IsGbMatrix<MB>::value,
+         void>::Type
+copy(const MA &A, MB &&B)
 {
     
     if ((A.numRows()!=B.numRows()) ||
@@ -784,8 +861,10 @@ copy(const HbMatrix<MA> &A, GbMatrix<MB> &B)
 
 //-- copy: TbMatrix -> GbMatrix
 template <typename MA, typename MB>
-void
-copy(Transpose trans, const TbMatrix<MA> &A, GbMatrix<MB> &B)
+typename RestrictTo<IsTbMatrix<MA>::value
+                 && IsGbMatrix<MB>::value,
+         void>::Type
+copy(Transpose trans, const MA &A, MB &&B)
 {
   
     typename GeMatrix<MB>::ElementType  Zero(0);
@@ -873,10 +952,14 @@ copy(Transpose trans, const TbMatrix<MA> &A, GbMatrix<MB> &B)
 
 //-- copy: TrMatrix -> GeMatrix
 template <typename MA, typename MB>
-void
-copy(Transpose trans, const TrMatrix<MA> &A, GeMatrix<MB> &B)
+typename RestrictTo<IsTrMatrix<MA>::value
+                 && IsGeMatrix<MB>::value,
+         void>::Type
+copy(Transpose trans, const MA &A, MB &&B)
 {
-    typename GeMatrix<MB>::ElementType  Zero(0);
+    typedef typename RemoveRef<MA>::Type MatrixB;
+
+    typename MatrixB::ElementType  Zero(0), One(1);
 
     if (trans==NoTrans) {
         if (A.numRows()!=B.numRows() && A.numCols()!=B.numCols()) {
@@ -906,18 +989,38 @@ copy(Transpose trans, const TrMatrix<MA> &A, GeMatrix<MB> &B)
 
     if (trans==NoTrans) {
         if (A.upLo()==Upper) {
-            B.upper() = A;
+            if (A.diag()!=Unit) {
+                B.upper() = A;
+            } else {
+                B.upperUnit() = A;
+                B.diag(0) = One;
+            }
             B.strictLower() = Zero;
         } else {
-            B.lower() = A;
+            if (A.diag()!=Unit) {
+                B.lower() = A;
+            } else {
+                B.lowerUnit() = A;
+                B.diag(0) = One;
+            }
             B.strictUpper() = Zero;
         }
     } else if (trans==Trans) {
         if (A.upLo()==Upper) {
-            B.lower() = transpose(A);
+            if (A.diag()!=Unit) {
+                B.lower() = transpose(A);
+            } else {
+                B.lowerUnit() = transpose(A);
+                B.diag(0) = One;
+            }
             B.strictUpper() = Zero;
         } else {
-            B.upper() = transpose(A);
+            if (A.diag()!=Unit) {
+                B.upper() = transpose(A);
+            } else {
+                B.upperUnit() = transpose(A);
+                B.diag(0) = One;
+            }
             B.strictLower() = Zero;
         }
     } else {
@@ -927,8 +1030,10 @@ copy(Transpose trans, const TrMatrix<MA> &A, GeMatrix<MB> &B)
 
 //-- copy: SbMatrix -> GbMatrix
 template <typename MA, typename MB>
-void
-copy(const SbMatrix<MA> &A, GbMatrix<MB> &B)
+typename RestrictTo<IsSbMatrix<MA>::value
+                 && IsGbMatrix<MB>::value,
+         void>::Type
+copy(const MA &A, MB &&B)
 {
     
     if ((A.numRows()!=B.numRows()) ||
@@ -961,8 +1066,10 @@ copy(const SbMatrix<MA> &A, GbMatrix<MB> &B)
 
 //-- copy: SyMatrix -> GeMatrix
 template <typename MA, typename MB>
-void
-copy(const SyMatrix<MA> &A, GeMatrix<MB> &B)
+typename RestrictTo<IsSyMatrix<MA>::value
+                 && IsGeMatrix<MB>::value,
+         void>::Type
+copy(const MA &A, MB &&B)
 {
     if (A.numRows()!=B.numRows() && A.numCols()!=B.numCols()) {
 #       ifndef FLENS_DEBUG_CLOSURES
@@ -985,6 +1092,75 @@ copy(const SyMatrix<MA> &A, GeMatrix<MB> &B)
     }
 }
 
+//-- copy: GeCoordMatrix -> GeMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsGeCoordMatrix<MA>::value
+                 && IsGeMatrix<MB>::value,
+         void>::Type
+copy(Transpose trans, const MA &A, MB &&B)
+{
+    typedef typename MA::ElementType  ElementType;
+
+    B.resize(A.numRows(), A.numCols(),
+             A.firstRow(), A.firstCol(),
+             ElementType(0));
+
+    const auto &coord = A.engine().coordVector();
+
+    for (size_t k=0; k<coord.size(); ++k) {
+        B(coord[k].row, coord[k].col) += coord[k].value;
+    }
+}
+
+//-- copy: GeCCSMatrix -> GeMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsGeCCSMatrix<MA>::value
+                 && IsGeMatrix<MB>::value,
+         void>::Type
+copy(Transpose trans, const MA &A, MB &&B)
+{
+    typedef typename MA::IndexType    IndexType;
+    typedef typename MA::ElementType  ElementType;
+
+    B.resize(A.numRows(), A.numCols(),
+             A.firstRow(), A.firstCol(),
+             ElementType(0));
+
+    const auto &cols = A.engine().cols();
+    const auto &rows = A.engine().rows();
+    const auto &vals = A.engine().values();
+
+    for (IndexType j=cols.firstIndex(); j<cols.lastIndex(); ++j) {
+        for (IndexType k=cols(j); k<cols(j+1); ++k) {
+            B(rows(k), j) = vals(k);
+        }
+    }
+}
+
+//-- copy: GeCRSMatrix -> GeMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsGeCRSMatrix<MA>::value
+                 && IsGeMatrix<MB>::value,
+         void>::Type
+copy(Transpose trans, const MA &A, MB &&B)
+{
+    typedef typename MA::IndexType    IndexType;
+    typedef typename MA::ElementType  ElementType;
+
+    B.resize(A.numRows(), A.numCols(),
+             A.firstRow(), A.firstCol(),
+             ElementType(0));
+
+    const auto &rows = A.engine().rows();
+    const auto &cols = A.engine().cols();
+    const auto &vals = A.engine().values();
+
+    for (IndexType i=rows.firstIndex(); i<rows.lastIndex(); ++i) {
+        for (IndexType k=rows(i); k<rows(i+1); ++k) {
+            B(i,cols(k)) = vals(k);
+        }
+    }
+}
 
 } } // namespace blas, flens
 

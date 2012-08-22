@@ -42,13 +42,15 @@ namespace flens { namespace blas {
 
 //-- gbcotr
 template <typename MA>
-    void
-    cotr(Transpose trans, GbMatrix<MA> &A);
+    typename RestrictTo<IsGbMatrix<MA>::value,
+             void>::Type
+    cotr(Transpose trans, MA &&A);
 
 //-- gecotr
 template <typename MA>
-    void
-    cotr(Transpose trans, GeMatrix<MA> &A);
+    typename RestrictTo<IsGeMatrix<MA>::value,
+             void>::Type
+    cotr(Transpose trans, MA &&A);
 
 } } // namespace blas, flens
 

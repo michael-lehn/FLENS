@@ -1,0 +1,209 @@
+================
+BLAS Level 2: mv                                                       [TOC]
+================
+
+*mv* (defined in namespace `flens::blas`) computes matrix vector products.
+
+Depending on the involved matrix type specialized variants are defined.
+
+
+General Matrix
+==============
+For a general matrix $A$ and dense vectors $x$, $y$ the function computes
+matrix-vector products of the form $y \leftarrow \beta y + \alpha \,
+\text{op}(A) \, x$ where $\text{op}(X)$ denotes $X$, $X^T$ or $X^H$.
+
+GeMatrix
+--------
+*--[CODEREF]------------------------------------------------------------------------*
+|                                                                                   |
+|  template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>  |
+|      typename RestrictTo<IsGeMatrix<MA>::value                                    |
+|                       && IsDenseVector<VX>::value                                 |
+|                       && IsDenseVector<VY>::value,                                |
+|               void>::Type                                                         |
+|      mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,            |
+|         const BETA &beta, VY &&y);                                                |
+|                                                                                   |
+*-----------------------------------------------------------------------------------*
+                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#$@N@cxxblas@E@Trans]
+                            [pose#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#                ]
+
+    trans    `(input)`                                                         +
+             Specifiy the operation, i.e.
+              NoTrans      $y \leftarrow \beta y + \alpha A   x$
+              Trans        $y \leftarrow \beta y + \alpha A^T x$
+              ConjTrans    $y \leftarrow \beta y + \alpha A^H x$
+    alpha    `(input) real or complex scalar value`                            +
+             Scaling factor $\alpha$.
+    A        `(input) real or complex valued GeMatrix`                         +
+             Matrix $A$.
+    x        `(input) real or complex valued DenseVector`                      +
+             Vector $x$.
+    beta     `(input)`                                                         +
+             Scaling factor $\beta$. If $\beta$ is zero and $y$ has length
+             zero then $y$ gets resized.
+    y        `(input/output) real or complex valued DenseVector`               +
+             Vector $y$.
+
+
+GeCRSMatrix
+-----------
+*--[CODEREF]------------------------------------------------------------------------*
+|                                                                                   |
+|  template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>  |
+|      typename RestrictTo<IsGeCRSMatrix<MA>::value                                 |
+|                       && IsDenseVector<VX>::value                                 |
+|                       && IsDenseVector<VY>::value,                                |
+|               void>::Type                                                         |
+|      mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,            |
+|         const BETA &beta, VY &&y);                                                |
+|                                                                                   |
+*-----------------------------------------------------------------------------------*
+                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#$@N@cxxblas@E@Trans]
+                            [pose#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypename]
+                            [ALPHAtypenameMAtypenameVXtypenameBETAtypenameVYtypename]
+                            [RestrictToIsGeCRSMatrixMAvalueIsDenseVectorVXvalueIsDen]
+                            [seVectorVYvaluevoidTypemv                              ]
+
+    trans    `(input)`                                                         +
+             Specifiy the operation, i.e.
+              NoTrans      $y \leftarrow \beta y + \alpha A   x$
+              Trans        $y \leftarrow \beta y + \alpha A^T x$
+              ConjTrans    $y \leftarrow \beta y + \alpha A^H x$
+    alpha    `(input) real or complex scalar value`                            +
+             Scaling factor $\alpha$.
+    A        `(input) real or complex valued GeCRSMatrix`                      +
+             Matrix $A$.
+    x        `(input) real or complex valued DenseVector`                      +
+             Vector $x$.
+    beta     `(input)`                                                         +
+             Scaling factor $\beta$. If $\beta$ is zero and $y$ has length
+             zero then $y$ gets resized.
+    y        `(input/output) real or complex valued DenseVector`               +
+             Vector $y$.
+
+
+Triangular Matrix
+=================
+For a triangular matrix $A$ and a dense vectors $x$ the function computes
+matrix-vector products of the form $x \leftarrow \text{op}(A) \, x$ where
+$\text{op}(X)$ denotes $X$, $X^T$ or $X^H$.
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VX>                                      |
+|      typename RestrictTo<IsTrMatrix<MA>::value                            |
+|                       && IsDenseVector<VX>::value,                        |
+|               void>::Type                                                 |
+|      mv(Transpose trans, const MA &A, VX &&x);                            |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tmv#$@N@cxxblas@E@Transp]
+                         [ose#&1t0.0#&t0.1#                                 ]
+
+    trans    `(input)`                                                         +
+             Specifiy the operation, i.e.
+              NoTrans      $x \leftarrow A   x$
+              Trans        $x \leftarrow A^T x$
+              ConjTrans    $x \leftarrow A^H x$
+    A        `(input) real or complex valued TrMatrix`                         +
+             Triangular Matrix $A$.
+    x        `(input/output) real or complex valued DenseVector`               +
+             Vector $x$.
+
+
+Symmetric Matrix
+================
+For a symmetric matrix $A$ and dense vectors $x, y$ the function computes
+matrix-vector products of the form $y \leftarrow \beta y + \alpha \, A \, x$.
+
+SyMatrix
+--------
+*--[CODEREF]------------------------------------------------------------------------*
+|                                                                                   |
+|  template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>  |
+|      typename RestrictTo<IsSyMatrix<MA>::value                                    |
+|                       && IsDenseVector<VX>::value                                 |
+|                       && IsDenseVector<VY>::value,                                |
+|               void>::Type                                                         |
+|      mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y);  |
+|                                                                                   |
+*-----------------------------------------------------------------------------------*
+                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#&1t0.0#&1t0.1#&1t0.]
+                            [2#&1t0.3#&t0.4#templatetypenameALPHAtypenameMAtypenameV]
+                            [XtypenameBETAtypenameVYtypenameRestrictToIsSyMatrixMAva]
+                            [lueIsDenseVectorVXvalueIsDenseVectorVYvaluevoidTypemv  ]
+
+    alpha    `(input) real or complex scalar value`                            +
+             Scaling factor $\alpha$.
+    A        `(input) real or complex valued SyMatrix`                         +
+             Symmetric matrix $A$.
+    x        `(input) real or complex valued DenseVector`                      +
+             Vector $x$.
+    beta     `(input)`                                                         +
+             Scaling factor $\beta$. If $\beta$ is zero and $y$ has length
+             zero then $y$ gets resized.
+    y        `(input/output) real or complex valued DenseVector`               +
+             Vector $y$.
+
+SyCRSMatrix
+-----------
+*--[CODEREF]------------------------------------------------------------------------*
+|                                                                                   |
+|  template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>  |
+|      typename RestrictTo<IsSyCRSMatrix<MA>::value                                 |
+|                       && IsDenseVector<VX>::value                                 |
+|                       && IsDenseVector<VY>::value,                                |
+|               void>::Type                                                         |
+|      mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y);  |
+|                                                                                   |
+*-----------------------------------------------------------------------------------*
+                            [M#c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#&1t0.0#&1t0.1#&1t]
+                            [0.2#&1t0.3#&t0.4#                                      ]
+
+    alpha    `(input) real or complex scalar value`                            +
+             Scaling factor $\alpha$.
+    A        `(input) real or complex valued SyCRSMatrix`                      +
+             Symmetric matrix $A$.
+    x        `(input) real or complex valued DenseVector`                      +
+             Vector $x$.
+    beta     `(input)`                                                         +
+             Scaling factor $\beta$. If $\beta$ is zero and $y$ has length
+             zero then $y$ gets resized.
+    y        `(input/output) real or complex valued DenseVector`               +
+             Vector $y$.
+
+
+Hermitian Matrix
+================
+For a hermitian matrix $A$ and dense vectors $x, y$ the function computes
+matrix-vector products of the form $y \leftarrow \beta y + \alpha \, A \, x$.
+
+*--[CODEREF]------------------------------------------------------------------------*
+|                                                                                   |
+|  template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>  |
+|      typename RestrictTo<IsHeMatrix<MA>::value                                    |
+|                       && IsDenseVector<VX>::value                                 |
+|                       && IsDenseVector<VY>::value,                                |
+|               void>::Type                                                         |
+|      mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y);  |
+|                                                                                   |
+*-----------------------------------------------------------------------------------*
+                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#&1t0.0#&1t0.1#&1t0.]
+                            [2#&1t0.3#&t0.4#templatetypenameALPHAtypenameMAtypenameV]
+                            [XtypenameBETAtypenameVYtypenameRestrictToIsHeMatrixMAva]
+                            [lueIsDenseVectorVXvalueIsDenseVectorVYvaluevoidTypemv  ]
+
+    alpha    `(input) real or complex scalar value`                            +
+             Scaling factor $\alpha$.
+    A        `(input) real or complex valued HeMatrix`                         +
+             Hermitian matrix $A$.
+    x        `(input) real or complex valued DenseVector`                      +
+             Vector $x$.
+    beta     `(input)`                                                         +
+             Scaling factor $\beta$. If $\beta$ is zero and $y$ has length
+             zero then $y$ gets resized.
+    y        `(input/output) real or complex valued DenseVector`               +
+             Vector $y$.
+

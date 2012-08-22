@@ -1,0 +1,131 @@
+=================
+BLAS Level 3: r2k                                                      [TOC]
+=================
+
+*r2k* (defined in namespace `flens::blas`) computes hermitian or symmetric
+rank $2k$ operations.
+
+
+Hermitian Rank $2k$ Operations
+==============================
+For a hermitian matrix $C$ and general matrices $A$ and $B$ the function
+computes rank $2k$ operations
+
+  *--[LATEX]------------------------------------------------------*
+  |                                                               |
+  |  C \leftarrow \beta\,C + \alpha\,A\,B^H + \alpha\,B\,A^H      |
+  |                                                               |
+  *---------------------------------------------------------------*
+
+or
+
+  *--[LATEX]------------------------------------------------------*
+  |                                                               |
+  |  C \leftarrow \beta\,C + \alpha\,A^H\,B + \alpha\,B^H\,A.     |
+  |                                                               |
+  *---------------------------------------------------------------*
+
+$C$ is an $n \times n$ hermitian matrix and  $A$ and $B$ are $n \times k$
+matrices in the first case and $k \times n$ matrices in the second case.
+
+
+*--[CODEREF]------------------------------------------------------------------------*
+|                                                                                   |
+|  template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>  |
+|      typename RestrictTo<IsGeMatrix<MA>::value                                    |
+|                       && IsGeMatrix<MB>::value                                    |
+|                       && IsHeMatrix<MC>::value,                                   |
+|               void>::Type                                                         |
+|      r2k(Transpose       trans,                                                   |
+|          const ALPHA     &alpha,                                                  |
+|          const MA        &A,                                                      |
+|          const MB        &B,                                                      |
+|          const BETA      &beta,                                                   |
+|          MC              &&C);                                                    |
+|                                                                                   |
+*-----------------------------------------------------------------------------------*
+                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tr2k#$@N@cxxblas@E@Tran]
+                            [spose#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypenam]
+                            [eALPHAtypenameMAtypenameMBtypenameBETAtypenameMCtypenam]
+                            [eRestrictToIsGeMatrixMAvalueIsGeMatrixMBvalueIsHeMatrix]
+                            [MCvaluevoidTyper2k                                     ]
+
+    trans     `(input)`                                                        +
+              Specifies the operation to be performed as follows
+              NoTrans    $C \leftarrow \beta\,C + \alpha\,A\,B^H
+                         + \alpha\,B\,A^H$
+              Trans      $C \leftarrow \beta\,C + \alpha\,A^H\,B
+                         + \alpha\,B^H\,A$
+    A         `(input) real or complex valued GeMatrix`                        +
+              Matrix $A$.
+    B         `(input) real or complex valued GeMatrix`                        +
+              Matrix $B$.
+    beta      `(input)`                                                        +
+              Scaling factor $\beta$. If $\beta$ is zero and $C$ has zero rows
+              or columns then $C$ gets resized.
+    C         `(input/output) complex valued HeMatrix`                         +
+              On entry the original matrix $C$.                                +
+              On exit overwritten with
+              $\beta\,C + \alpha\,A\,B^H + \alpha\,B\,A^H$ or
+              $\beta\,C + \alpha\,A^H\,B + \alpha\,B^H\,A$.
+
+
+Symmetric Rank $2k$ Operations
+==============================
+For a symmetric matrix $C$ and general matrices $A$ and $B$ the function
+computes rank $2k$ operations
+
+  *--[LATEX]------------------------------------------------------*
+  |                                                               |
+  |  C \leftarrow \beta\,C + \alpha\,A\,B^T + \alpha\,B\,A^T      |
+  |                                                               |
+  *---------------------------------------------------------------*
+
+or
+
+  *--[LATEX]------------------------------------------------------*
+  |                                                               |
+  |  C \leftarrow \beta\,C + \alpha\,A^T\,B + \alpha\,B^T\,A.     |
+  |                                                               |
+  *---------------------------------------------------------------*
+
+$C$ is an $n \times n$ symmetric matrix and  $A$ and $B$ are $n \times k$
+matrices in the first case and $k \times n$ matrices in the second case.
+
+*--[CODEREF]------------------------------------------------------------------------*
+|                                                                                   |
+|  template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>  |
+|      typename RestrictTo<IsGeMatrix<MA>::value                                    |
+|                       && IsGeMatrix<MB>::value                                    |
+|                       && IsSyMatrix<MC>::value,                                   |
+|               void>::Type                                                         |
+|      r2k(Transpose       trans,                                                   |
+|          const ALPHA     &alpha,                                                  |
+|          const MA        &A,                                                      |
+|          const MB        &B,                                                      |
+|          const BETA      &beta,                                                   |
+|          MC              &&C);                                                    |
+|                                                                                   |
+*-----------------------------------------------------------------------------------*
+                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tr2k#$@N@cxxblas@E@Tran]
+                            [spose#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#               ]
+
+    trans     `(input)`                                                        +
+              Specifies the operation to be performed as follows
+              NoTrans    $C \leftarrow \beta\,C + \alpha\,A\,B^T
+                         + \alpha\,B\,A^T$
+              Trans      $C \leftarrow \beta\,C + \alpha\,A^T\,B
+                         + \alpha\,B^T\,A$
+    A         `(input) real or complex valued GeMatrix`                        +
+              Matrix $A$.
+    B         `(input) real or complex valued GeMatrix`                        +
+              Matrix $B$.
+    beta      `(input)`                                                        +
+              Scaling factor $\beta$. If $\beta$ is zero and $C$ has zero rows
+              or columns then $C$ gets resized.
+    C         `(input/output) real or complex valued SyMatrix`                 +
+              On entry the original matrix $C$.                                +
+              On exit overwritten with
+              $\beta\,C + \alpha\,A\,B^T + \alpha\,B\,A^T$ or
+              $\beta\,C + \alpha\,A^T\,B + \alpha\,B^T\,A$.
+

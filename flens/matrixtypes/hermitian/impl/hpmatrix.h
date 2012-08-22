@@ -171,7 +171,10 @@ class HpMatrix
 
         ElementType *
         data();
-
+    
+        StorageOrder
+        order() const;
+    
         template <typename RHS>
             bool
             resize(const HpMatrix<RHS> &rhs,

@@ -39,10 +39,14 @@
 #include <flens/io/bandstorage/load.tcc>
 #include <flens/io/bandstorage/out.tcc>
 #include <flens/io/bandstorage/save.tcc>
+#include <flens/io/ccs/out.tcc>
+#include <flens/io/coordstorage/out.tcc>
+#include <flens/io/crs/out.tcc>
 #include <flens/io/fullstorage/load.tcc>
 #include <flens/io/fullstorage/out.tcc>
 #include <flens/io/fullstorage/save.tcc>
 #include <flens/io/packedstorage/load.tcc>
 #include <flens/io/packedstorage/out.tcc>
 #include <flens/io/packedstorage/save.tcc>
+
 #endif // FLENS_IO_IO_TCC

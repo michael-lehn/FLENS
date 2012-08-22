@@ -1,0 +1,208 @@
+=======================================
+Computing the Inverse of a Matrix (tri)                               [TOC:2]
+=======================================
+
+*tri* (defined in namespace `flens::lapack`) computes the inverse of a matrix
+$A$.  For the computation of $A^{-1}$ two variants are provided:
+ - For a general $n \times n$ matrix $A$ containing the $LU$ factorization
+   computed by __trf__.
+ - For a triangular matrix $A$.
+
+For convenience further sub-variants are provided that implicitly create
+temporary workspaces.
+
+
+Inversion of a General Matrix
+=============================
+
+For $A$ containing the $LU$ factorization this method inverts $U$ and then
+computes $A^{-1}$ by solving the system $A^{-1} L = U^{-1}$ for $A^{-1}$.
+
+Real Variant
+------------
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV, typename VWORK>                    |
+|      typename RestrictTo<IsRealGeMatrix<MA>::value                        |
+|                       && IsIntegerDenseVector<VPIV>::value                |
+|                       && IsRealDenseVector<VWORK>::value,                 |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      tri(MA          &&A,                                                 |
+|          const VPIV  &piv,                                                |
+|          VWORK       &&work);                                             |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [M#c:@N@flens@N@lapack@FT@>3#T#T#Ttri#&t0.0#&1t0.1#]
+                         [&t0.2#                                            ]
+
+    A       `(input/output) real valued GeMatrix`                              +
+            On entry, the $n \times n$ matrix $A$ contains the factors $L$ and
+            $U$ from the factorization $A = P L U$ as computed by __trf__.     +
+            On exit, if the return value equals $0$, the inverse of the
+            original matrix $A$.
+    piv     `(input) integer valued DenseVector`                               +
+            The pivot indices from __trf__.  For $1 \leq i \leq n$ row $i$ of
+            the original matrix $A$ was interchanged with $piv_i$.
+    work    `(input) real valued DenseVector`                                  +
+            For optimal performance the length of the workspace should be
+            at least $n \cdot n_b$, where $n_b$ is the optimal blocksize
+            returned by __ilaenv__.
+
+            *Note:* If $work$ has length zero the optimal length gets computed
+            and vector $work$ gets resized.  Opposed to the worksize queries
+            in LAPACK the function does not stop after computing the worksize.
+            Instead it will continue the computation with the resized workspace.
+
+    *Return value:*
+
+    $i=0$    Successfull exit.
+    $i>0$    $U_{i,i}$ is exactly zero.  The factorization has been completed,
+             but the factor U is exactly singular, so the solution could not be
+             computed.
+
+
+
+Complex Variant
+---------------
+    A       `(input/output) complex valued GeMatrix`                           +
+            On entry, the $n \times n$ matrix $A$ contains the factors $L$ and
+            $U$ from the factorization $A = P L U$ as computed by __trf__.     +
+            On exit, if the return value equals $0$, the inverse of the
+            original matrix $A$.
+    piv     `(input) integer valued DenseVector`                               +
+            The pivot indices from __trf__.  For $1 \leq i \leq n$ row $i$ of
+            the original matrix $A$ was interchanged with $piv_i$.
+    work    `(input) complex valued DenseVector`                               +
+            For optimal performance the length of the workspace should be
+            at least $n \cdot n_b$, where $n_b$ is the optimal blocksize
+            returned by __ilaenv__.
+
+            *Note:* If $work$ has length zero the optimal length gets computed
+            and vector $work$ gets resized.  Opposed to the worksize queries
+            in LAPACK the function does not stop after computing the worksize.
+            Instead it will continue the computation with the resized workspace.
+
+    *Return value:*
+
+    $i=0$    Successfull exit.
+    $i>0$    $U_{i,i}$ is exactly zero.  The factorization has been completed,
+             but the factor U is exactly singular, so the solution could not be
+             computed.
+
+
+Variant with Implicit Workspace Creation
+----------------------------------------
+This variant implicitly creates a temporary workspace and calls the real or
+complex variant.
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV>                                    |
+|      typename RestrictTo<IsGeMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value,               |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      tri(MA          &&A,                                                 |
+|          const VPIV  &piv);                                               |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                             [c:@N@flens@N@lapack@FT@>2#T#Ttri#&t0.0#&1t0.1#]
+
+    A       `(input/output) real or complex valued GeMatrix`                   +
+            On entry, the $n \times n$ matrix $A$ contains the factors $L$ and
+            $U$ from the factorization $A = P L U$ as computed by __trf__.     +
+            On exit, if the return value equals $0$, the inverse of the
+            original matrix $A$.
+    piv     `(input) integer valued DenseVector`                               +
+            The pivot indices from __trf__.  For $1 \leq i \leq n$ row $i$ of
+            the original matrix $A$ was interchanged with $piv_i$.
+
+
+Inversion of a Triangular Matrix
+================================
+
+Real Variant
+------------
+    A       `(input/output) real valued TrMatrix`                              +
+            On entry, the triangular $n \times n$ matrix $A$.                  +
+            On exit, if the return value equals $0$, the inverse of matrix $A$.
+
+
+Complex Variant
+---------------
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA>                                                   |
+|      typename RestrictTo<IsComplexTrMatrix<MA>::value,                    |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      tri(MA &&A);                                                         |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                                    [M#c:@N@flens@N@lapack@FT@>1#Ttri#&t0.0#]
+
+    A       `(input/output) complex valued TrMatrix`                           +
+            On entry, the triangular $n \times n$ matrix $A$.                  +
+            On exit, if the return value equals $0$, the inverse of matrix $A$.
+
+
+Notes
+=====
+
+- *Examples*: __lapack-getri__ and __lapack-trtri__.
+- *trs* is a port of __dgetri__, __zgetri__, __dtrtri__ and __ztrtri__.  Also
+  this documentation is taken from there.
+
+
+:links: lapack-getri -> doc:flens/examples/lapack-getri
+        lapack-trtri -> doc:flens/examples/lapack-trtri
+        (d.+)        -> file:cxxlapack/netlib/lapack/$1.f
+        (z.+)        -> file:cxxlapack/netlib/lapack/$1.f
+        (.+)         -> doc:flens/lapack/impl/$1
+
+
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV, typename VWORK>                    |
+|      typename RestrictTo<IsComplexGeMatrix<MA>::value                     |
+|                       && IsIntegerDenseVector<VPIV>::value                |
+|                       && IsComplexDenseVector<VWORK>::value,              |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      tri(MA          &&A,                                                 |
+|          const VPIV  &piv,                                                |
+|          VWORK       &&work);                                             |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>3#T#T#Ttri#&t0.0#&1t0.1#&t]
+                         [0.2#templatetypenameMAtypenameVPIVtypenameVWORKtyp]
+                         [enameRestrictToIsComplexGeMatrixMAvalueIsIntegerDe]
+                         [nseVectorVPIVvalueIsComplexDenseVectorVWORKvaluety]
+                         [penameRemoveRefMATypeIndexTypeTypetri             ]
+
+    Defined in namespace `flens::lapack`.
+    Function `tri` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA>                                                   |
+|      typename RestrictTo<IsRealTrMatrix<MA>::value,                       |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      tri(MA &&A);                                                         |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>1#Ttri#&t0.0#templatetypen]
+                         [ameMAtypenameRestrictToIsRealTrMatrixMAvaluetypena]
+                         [meRemoveRefMATypeIndexTypeTypetri                 ]
+
+    Defined in namespace `flens::lapack`.
+    Function `tri` with 1 template parameters.
+
+
+

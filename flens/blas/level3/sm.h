@@ -40,23 +40,16 @@
 
 namespace flens { namespace blas {
 
-//-- forwarding ----------------------------------------------------------------
-template <typename ALPHA, typename MA, typename MB>
-    void
-    sm(Side side, Transpose transA,
-       const ALPHA &alpha, const MA &A, MB &&B);
-
-//-- common interface ----------------------------------------------------------
-template <typename ALPHA, typename MA, typename MB>
-    void
-    sm(Side side, Transpose transA,
-       const ALPHA &alpha, const TriangularMatrix<MA> &A, Matrix<MB> &B);
-
 //-- trsm
 template <typename ALPHA, typename MA, typename MB>
-    void
-    sm(Side side, Transpose transA,
-       const ALPHA &alpha, const TrMatrix<MA> &A, GeMatrix<MB> &B);
+    typename RestrictTo<IsTrMatrix<MA>::value
+                     && IsGeMatrix<MB>::value,
+             void>::Type
+    sm(Side             side,
+       Transpose        transA,
+       const ALPHA      &alpha,
+       const MA         &A,
+       MB               &&B);
 
 } } // namespace blas, flens
 

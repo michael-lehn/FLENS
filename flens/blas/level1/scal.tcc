@@ -47,21 +47,11 @@
 
 namespace flens { namespace blas {
 
-//-- scal (forwarding)
-template <typename ALPHA, typename VY>
-typename RestrictTo<IsSame<VY, typename VY::Impl>::value,
-                    void>::Type
-scal(const ALPHA &alpha, VY &&y)
-{
-    CHECKPOINT_ENTER;
-    scal(alpha, y);
-    CHECKPOINT_LEAVE;
-}
-
 //-- scal
 template <typename ALPHA, typename VY>
-void
-scal(const ALPHA &alpha, DenseVector<VY> &y)
+typename RestrictTo<IsDenseVector<VY>::value,
+         void>::Type
+scal(const ALPHA &alpha, VY &&y)
 {
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_SCAL(alpha, y);
@@ -78,14 +68,16 @@ scal(const ALPHA &alpha, DenseVector<VY> &y)
 
 //-- gescal
 template <typename ALPHA, typename MB>
-void
-scal(const ALPHA &alpha, GeMatrix<MB> &B)
+typename RestrictTo<IsGeMatrix<MB>::value,
+         void>::Type
+scal(const ALPHA &alpha, MB &&B)
 {
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
 
 #   ifdef HAVE_CXXBLAS_GESCAL
-    cxxblas::gescal(MB::order, B.numRows(), B.numCols(),
+    typedef typename RemoveRef<MB>::Type   MatrixB;
+    cxxblas::gescal(B.order(), B.numRows(), B.numCols(),
                     alpha, B.data(), B.leadingDimension());
 #   else
     ASSERT(0);
@@ -97,8 +89,9 @@ scal(const ALPHA &alpha, GeMatrix<MB> &B)
 
 //-- gbscal
 template <typename ALPHA, typename MB>
-void
-scal(const ALPHA &alpha, GbMatrix<MB> &B)
+typename RestrictTo<IsGbMatrix<MB>::value,
+         void>::Type
+scal(const ALPHA &alpha, MB &&B)
 {
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
@@ -117,8 +110,9 @@ scal(const ALPHA &alpha, GbMatrix<MB> &B)
 
 //-- hbscal
 template <typename ALPHA, typename MB>
-void
-scal(const ALPHA &alpha, HbMatrix<MB> &B)
+typename RestrictTo<IsHbMatrix<MB>::value,
+         void>::Type
+scal(const ALPHA &alpha, MB &&B)
 {
     ASSERT(cxxblas::imag(alpha)==0);
     
@@ -144,8 +138,9 @@ scal(const ALPHA &alpha, HbMatrix<MB> &B)
 
 //-- hpscal
 template <typename ALPHA, typename MB>
-void
-scal(const ALPHA &alpha, HpMatrix<MB> &B)
+typename RestrictTo<IsHpMatrix<MB>::value,
+         void>::Type
+scal(const ALPHA &alpha, MB &&B)
 {
     ASSERT(cxxblas::imag(alpha)==0);
     FLENS_BLASLOG_SETTAG("--> ");
@@ -165,8 +160,9 @@ scal(const ALPHA &alpha, HpMatrix<MB> &B)
 
 //-- sbscal
 template <typename ALPHA, typename MB>
-void
-scal(const ALPHA &alpha, SbMatrix<MB> &B)
+typename RestrictTo<IsSbMatrix<MB>::value,
+         void>::Type
+scal(const ALPHA &alpha, MB &&B)
 {
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
@@ -190,8 +186,9 @@ scal(const ALPHA &alpha, SbMatrix<MB> &B)
 
 //-- spscal
 template <typename ALPHA, typename MB>
-void
-scal(const ALPHA &alpha, SpMatrix<MB> &B)
+typename RestrictTo<IsSpMatrix<MB>::value,
+         void>::Type
+scal(const ALPHA &alpha, MB &&B)
 {
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
@@ -210,8 +207,9 @@ scal(const ALPHA &alpha, SpMatrix<MB> &B)
 
 //-- tbscal
 template <typename ALPHA, typename MB>
-void
-scal(const ALPHA &alpha, TbMatrix<MB> &B)
+typename RestrictTo<IsTbMatrix<MB>::value,
+         void>::Type
+scal(const ALPHA &alpha, MB &&B)
 {
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
@@ -230,8 +228,9 @@ scal(const ALPHA &alpha, TbMatrix<MB> &B)
 
 //-- tpscal
 template <typename ALPHA, typename MB>
-void
-scal(const ALPHA &alpha, TpMatrix<MB> &B)
+typename RestrictTo<IsTpMatrix<MB>::value,
+         void>::Type
+scal(const ALPHA &alpha, MB &&B)
 {
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_SCAL(alpha, B);

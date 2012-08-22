@@ -1,6 +1,5 @@
 /*
- *   Copyright (c) 2003, Alexander Stippler
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -31,40 +30,38 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_MATRIXTYPES_GENERAL_IMPL_GEMATRIXINITIALIZER_TCC
-#define FLENS_MATRIXTYPES_GENERAL_IMPL_GEMATRIXINITIALIZER_TCC 1
+#ifndef FLENS_IO_CRS_OUT_TCC
+#define FLENS_IO_CRS_OUT_TCC 1
 
-#include <flens/auxiliary/macros.h>
-#include <flens/matrixtypes/general/impl/gematrix.h>
-#include <flens/matrixtypes/general/impl/gematrixinitializer.h>
+#include <iostream>
+#include <flens/io/crs/out.h>
 
 namespace flens {
 
-template <typename FS>
-GeMatrixInitializer<FS>::GeMatrixInitializer(GeMatrix<FS> &A,
-                                             IndexType row,
-                                             IndexType col)
-    : _A(A), _row(row), _col(col)
+template <typename CRS>
+std::ostream &
+operator<<(std::ostream &out, const GeCRSMatrix<CRS> &A)
 {
+    out << std::endl;
+    out << "compressed rows:" << std::endl;
+    out << " rows:   " << A.engine().rows() << std::endl;
+    out << " cols:   " << A.engine().cols() << std::endl;
+    out << " values: " << A.engine().values() << std::endl;
+    return out;
 }
 
-template <typename FS>
-GeMatrixInitializer<FS>
-GeMatrixInitializer<FS>::operator,(const ElementType &value)
+template <typename CRS>
+std::ostream &
+operator<<(std::ostream &out, const SyCRSMatrix<CRS> &A)
 {
-    ++_col;
-    if (_col>_A.lastCol()) {
-        _col = _A.firstCol();
-        ++_row;
-    }
-    ASSERT(_col>=_A.firstCol());
-    ASSERT(_col<=_A.lastCol());
-    ASSERT(_row>=_A.firstRow());
-    ASSERT(_row<=_A.lastRow());
-    _A(_row, _col) = value;
-    return GeMatrixInitializer(_A, _row, _col);
+    out << std::endl;
+    out << "compressed rows:" << std::endl;
+    out << " rows:   " << A.engine().rows() << std::endl;
+    out << " cols:   " << A.engine().cols() << std::endl;
+    out << " values: " << A.engine().values() << std::endl;
+    return out;
 }
 
 } // namespace flens
 
-#endif // FLENS_MATRIXTYPES_GENERAL_IMPL_GEMATRIXINITIALIZER_TCC
+#endif // FLENS_IO_CRS_OUT_TCC

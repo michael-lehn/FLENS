@@ -38,57 +38,60 @@
 
 namespace flens { namespace blas {
 
-//-- scal (forwarding)
-template <typename ALPHA, typename VY>
-    typename RestrictTo<IsSame<VY, typename VY::Impl>::value,
-                        void>::Type
-    scal(const ALPHA &alpha, VY &&y);
-
 //-- scal
 template <typename ALPHA, typename VY>
-    void
-    scal(const ALPHA &alpha, DenseVector<VY> &y);
+    typename RestrictTo<IsDenseVector<VY>::value,
+             void>::Type
+    scal(const ALPHA &alpha, VY &&y);
 
 //-- gescal
 template <typename ALPHA, typename MB>
-    void
-    scal(const ALPHA &alpha, GeMatrix<MB> &B);
+    typename RestrictTo<IsGeMatrix<MB>::value,
+             void>::Type
+    scal(const ALPHA &alpha, MB &&B);
     
 //-- gbscal
 template <typename ALPHA, typename MB>
-    void
-    scal(const ALPHA &alpha, GbMatrix<MB> &B);
+    typename RestrictTo<IsGbMatrix<MB>::value,
+             void>::Type
+    scal(const ALPHA &alpha, MB &&B);
     
 //-- hbscal
 template <typename ALPHA, typename MB>
-    void
-    scal(const ALPHA &alpha, HbMatrix<MB> &B);
+    typename RestrictTo<IsHbMatrix<MB>::value,
+             void>::Type
+    scal(const ALPHA &alpha, MB &&B);
     
 //-- hpscal
 template <typename ALPHA, typename MB>
-    void
-    scal(const ALPHA &alpha, HpMatrix<MB> &B);
+    typename RestrictTo<IsHpMatrix<MB>::value,
+             void>::Type
+    scal(const ALPHA &alpha, MB &&B);
     
 //-- sbscal
 template <typename ALPHA, typename MB>
-    void
-    scal(const ALPHA &alpha, SbMatrix<MB> &B);
+    typename RestrictTo<IsSbMatrix<MB>::value,
+             void>::Type
+    scal(const ALPHA &alpha, MB &&B);
     
 //-- spscal
 template <typename ALPHA, typename MB>
-    void
-    scal(const ALPHA &alpha, SpMatrix<MB> &B);
+    typename RestrictTo<IsSpMatrix<MB>::value,
+             void>::Type
+    scal(const ALPHA &alpha, MB &&B);
     
 //-- tbscal
 template <typename ALPHA, typename MB>
-    void
-    scal(const ALPHA &alpha, TbMatrix<MB> &B);
+    typename RestrictTo<IsTbMatrix<MB>::value,
+             void>::Type
+    scal(const ALPHA &alpha, MB &&B);
     
 //-- tpscal
 template <typename ALPHA, typename MB>
-    void
-    scal(const ALPHA &alpha, TpMatrix<MB> &B);
-    
+    typename RestrictTo<IsTpMatrix<MB>::value,
+             void>::Type
+    scal(const ALPHA &alpha, MB &&B);
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1_SCAL_H

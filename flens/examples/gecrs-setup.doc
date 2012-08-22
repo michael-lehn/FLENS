@@ -1,0 +1,46 @@
+===================
+Setup a GeCRSMatrix                                                      [TOC]
+===================
+
+In this example we show how you:
+
+- How to setup a general sparse matrix in *coordinate storage*.  This is a
+  common step in FEM when the stiffness matrix gets assembled.
+- Show how to convert the sparse matrix from the coordinate storage format to
+  the *compressed row storage* format (CRS).
+
+
+Example Code
+============
+:import: flens/examples/gecrs-setup-example01.cc [stripped, downloadable]
+
+Some Notes
+==========
+:import: flens/examples/gecrs-setup-example01.cc [brief]
+
+
+Compile
+=======
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  g++ -Wall -std=c++11 -I../.. -o gecrs-setup-example01               +++|
+  |      gecrs-setup-example01.cc                                           |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Run
+===
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  ./gecrs-setup-example01                                                |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+:navigate: __up__    -> doc:flens/examples/tutorial
+           __back__  -> doc:flens/examples/geccs-superlu
+           __next__  -> doc:flens/examples/gecrs-superlu
