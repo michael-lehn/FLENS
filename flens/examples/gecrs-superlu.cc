@@ -80,7 +80,6 @@ dgssvx(GeCRSMatrix<MA>  &A,
     double          rpg, rcond;
     mem_usage_t     mem_usage;
 
-
 ///
 /// Solve the system and compute the condition number and error bounds using
 /// dgssvx.  Except for the computed solution this trashy SuperLU wrapper

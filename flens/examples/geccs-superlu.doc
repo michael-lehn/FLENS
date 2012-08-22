@@ -1,6 +1,6 @@
-=============
-Using SuperLU                                                           [TOC]
-=============
+======================
+Using SuperLU with CCS                                                  [TOC]
+======================
 
 This example requires that __SuperLU__ (Version 4.3) is installed on your
 system.
