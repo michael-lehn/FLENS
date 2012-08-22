@@ -263,7 +263,14 @@ class GeMatrix
 
         VectorView
         diag(IndexType d);
-
+    
+        // anti diag views
+        const ConstVectorView
+        antiDiag(IndexType d) const;
+    
+        VectorView
+        antiDiag(IndexType d);
+    
         // triangular views
         const ConstTriangularView
         upper() const;
