@@ -114,7 +114,7 @@ main()
 ///
     typedef int                                              IndexType;
     typedef IndexBaseZero<IndexType>                         IndexBase;
-    typedef CoordStorage<double, IndexBase, CoordRowColCmp>  Coord;
+    typedef CoordStorage<double, CoordRowColCmp, IndexBase>  Coord;
 
     const IndexType m = 5;
     const IndexType n = 5;

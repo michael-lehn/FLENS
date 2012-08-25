@@ -53,26 +53,13 @@ gecrsmv(Transpose        trans,
         const BETA       &beta,
         VY               *y)
 {
+//
+//  No spuuprt for complex yet
+//
+    ASSERT(trans!=Conj && trans!=ConjTrans);
+
     const bool init  = (beta==BETA(0));
     const bool scale = (beta!=BETA(0) && beta!=BETA(1));
-
-    ASSERT(incX==IndexType(1));
-    ASSERT(incY==IndexType(1));
-    /*
-    // If matrix is Zero based:
-    // set index base of y to 1
-    --y;
-    --ia;
-    */
-
-    /*
-    // If matrix is One based
-    --y;
-    --ia;
-    --ja;
-    --x;
-    --A;
-    */
 
 //
 //  Index base of the CRS matrix is stored in first Element of ia

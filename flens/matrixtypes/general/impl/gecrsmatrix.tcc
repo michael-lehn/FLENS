@@ -42,6 +42,11 @@ namespace flens {
 
 // -- constructor --------------------------------------------------------------
 template <typename CRS>
+GeCRSMatrix<CRS>::GeCRSMatrix()
+{
+}
+
+template <typename CRS>
 template <typename RHS>
 GeCRSMatrix<CRS>::GeCRSMatrix(const Matrix<RHS> &rhs)
 {

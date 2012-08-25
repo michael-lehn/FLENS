@@ -50,7 +50,6 @@ class CRS
     public:
         typedef T                                   ElementType;
         typedef typename I::IndexType               IndexType;
-        typedef CoordStorage<T, I, CoordRowColCmp>  CoordinateStorage;
 
         typedef DenseVector<Array<ElementType> >    ElementTypeVector;
         typedef DenseVector<Array<IndexType> >      IndexTypeVector;
@@ -61,8 +60,9 @@ class CRS
 
         //-- operators ---------------------------------------------------------
 
-        void
-        operator=(const CoordinateStorage &coordinateStorage);
+        template <typename T2, typename I2>
+            void
+            operator=(const CoordStorage<T2, CoordRowColCmp, I2> &coordStorage);
 
         //-- methods -----------------------------------------------------------
 
@@ -108,8 +108,9 @@ class CRS
         ElementTypeVector &
         values();
 
-        void
-        _compress(const CoordinateStorage &coordinateStorage);
+        template <typename T2, typename I2>
+            void
+            _compress(const CoordStorage<T2, CoordRowColCmp, I2> &coordStorage);
 
     private:
         // Lehn:  I do not allow copying matrices with crs unless someone gives

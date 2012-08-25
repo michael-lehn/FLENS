@@ -37,7 +37,7 @@ features:
     Fortran!  So even if some C++ nerds don't like to hear it Fortran LAPACK
     is great.  However, there is one drawback.  As there are no actual
     matrix/vector types many parameters have to be passed to LAPACK routines.
-    This is sometime error-prone and hard to read.  But still better than
+    This is sometimes error-prone and hard to read.  But still better than
     many other C++ implementations.
 
     The FLENS-LAPACK not only competes in terms of readability with the FORTRAN

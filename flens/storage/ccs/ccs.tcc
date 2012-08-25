@@ -53,10 +53,11 @@ CCS<T,I>::~CCS()
 //-- operators -----------------------------------------------------------------
 
 template <typename T, typename I>
+template <typename T2, typename I2>
 void
-CCS<T,I>::operator=(const CoordinateStorage &coordinateStorage)
+CCS<T,I>::operator=(const CoordStorage<T2, CoordColRowCmp, I2> &coordStorage)
 {
-    _compress(coordinateStorage);
+    _compress(coordStorage);
 }
 
 //-- methods -------------------------------------------------------------------
@@ -160,18 +161,19 @@ CCS<T,I>::values()
 }
 
 template <typename T, typename I>
+template <typename T2, typename I2>
 void
-CCS<T,I>::_compress(const CoordinateStorage &coordinateStorage)
+CCS<T,I>::_compress(const CoordStorage<T2, CoordColRowCmp, I2> &coordStorage)
 {
-    _numRows  = coordinateStorage.numRows();
-    _numCols  = coordinateStorage.numCols();
-    _indexBase = coordinateStorage.indexBase();
+    _numRows  = coordStorage.numRows();
+    _numCols  = coordStorage.numCols();
+    _indexBase = coordStorage.indexBase();
 
 //
 //  Accumulate coords and get number of non zeros
 //
-    coordinateStorage.accumulate();
-    IndexType nnz = coordinateStorage.numNonZeros();
+    coordStorage.accumulate();
+    IndexType nnz = coordStorage.numNonZeros();
 
 //
 //  Allocate memory for the CCS format
@@ -180,7 +182,7 @@ CCS<T,I>::_compress(const CoordinateStorage &coordinateStorage)
     _rows.resize(nnz, _indexBase);
     _values.resize(nnz, _indexBase);
 
-    const auto &coord = coordinateStorage.coordVector();
+    const auto &coord = coordStorage.coordVector();
 
     IndexType c = _indexBase;
     _cols(c) = _indexBase;

@@ -192,12 +192,10 @@ template <typename T, typename I, typename A>
 void
 ArrayView<T, I, A>::changeIndexBase(IndexType DEBUG_VAR(firstIndex))
 {
-    // TODO: Error message "changing index bases of views is not allowed"
-    // Lehn: Why is changing the index base not allowed here??
-    //       I inserted a mean ASSERT(0) just to see if anybody is
-    //       calling this method at all.  At the moment I think we
-    //       just could implement this.
-    ASSERT(_firstIndex==firstIndex);
+    if (_data) {
+        _data += _firstIndex - firstIndex;
+    }
+    _firstIndex = firstIndex;
 }
 
 template <typename T, typename I, typename A>

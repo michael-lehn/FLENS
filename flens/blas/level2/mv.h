@@ -60,6 +60,15 @@ template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
     mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,
        const BETA &beta, VY &&y);
 
+//-- geccsmv
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+    typename RestrictTo<IsGeCCSMatrix<MA>::value
+                     && IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
+             void>::Type
+    mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,
+       const BETA &beta, VY &&y);
+
 //== TriangularMatrix - Vector products ========================================
 
 //-- trmv

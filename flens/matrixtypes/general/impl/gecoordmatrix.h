@@ -51,11 +51,8 @@ class GeCoordMatrix
 
         // -- constructors -----------------------------------------------------
         GeCoordMatrix(IndexType numRows, IndexType numCols,
-                      IndexType densityEstimate = 1);
-
-        GeCoordMatrix(IndexType numRows, IndexType numCols,
-                      IndexType firstRow, IndexType firstCol,
-                      IndexType densityEstimate = 1);
+                      IndexType densityEstimate = 1,
+                      IndexType indexBase = CS::defaultIndexBase);
 
         // -- operators --------------------------------------------------------
         ElementProxy

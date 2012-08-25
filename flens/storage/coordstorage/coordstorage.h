@@ -49,8 +49,8 @@ struct CoordRowColCmp;
 
 
 template <typename T,
-          typename I = IndexOptions<>,
-          typename Cmp = CoordRowColCmp>
+          typename Cmp = CoordRowColCmp,
+          typename I = IndexOptions<> >
 class CoordStorage
 {
     public:
@@ -60,6 +60,9 @@ class CoordStorage
 
         typedef Coord<T, IndexType>      CoordType;
         typedef std::vector<CoordType>   CoordVector;
+
+        static const IndexType                        defaultIndexBase
+                                                          = I::defaultIndexBase;
 
         CoordStorage(IndexType numRows, IndexType numCols,
                      IndexType densityEstimate = 1,

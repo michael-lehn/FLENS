@@ -311,11 +311,13 @@ FullStorageView<T, Order, I, A>::changeIndexBase(IndexType firstRow,
     }
 #   endif
 
-    if (Order==RowMajor) {
-        _data = data() - (firstRow*leadingDimension() + firstCol);
-    }
-    if (Order==ColMajor) {
-        _data = data() - (firstCol*leadingDimension() + firstRow);
+    if (_data) {
+        if (Order==RowMajor) {
+            _data = data() - (firstRow*leadingDimension() + firstCol);
+        }
+        if (Order==ColMajor) {
+            _data = data() - (firstCol*leadingDimension() + firstRow);
+        }
     }
     _firstRow = firstRow;
     _firstCol = firstCol;

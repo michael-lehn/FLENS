@@ -97,6 +97,9 @@ class ConstArrayView
         const Allocator &
         allocator() const;
 
+        void
+        changeIndexBase(IndexType firstIndex);
+
         const ConstArrayView
         view(IndexType from, IndexType to,
              IndexType stride = IndexType(1),

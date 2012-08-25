@@ -38,8 +38,8 @@
 
 namespace flens {
 
-template <typename T, typename I, typename Cmp>
-CoordStorage<T,I,Cmp>::CoordStorage(IndexType numRows, IndexType numCols,
+template <typename T, typename Cmp, typename I>
+CoordStorage<T,Cmp,I>::CoordStorage(IndexType numRows, IndexType numCols,
                                     IndexType densityEstimate,
                                     IndexType indexBase)
     : _numRows(numRows), _numCols(numCols), _indexBase(indexBase),
@@ -48,16 +48,16 @@ CoordStorage<T,I,Cmp>::CoordStorage(IndexType numRows, IndexType numCols,
     _coord.reserve(densityEstimate*_numRows);
 }
 
-template <typename T, typename I, typename Cmp>
-CoordStorage<T,I,Cmp>::~CoordStorage()
+template <typename T, typename Cmp, typename I>
+CoordStorage<T,Cmp,I>::~CoordStorage()
 {
 }
 
 //-- operators -----------------------------------------------------------------
 
-template <typename T, typename I, typename Cmp>
-typename CoordStorage<T,I,Cmp>::ElementProxy
-CoordStorage<T,I,Cmp>::operator()(IndexType row, IndexType col)
+template <typename T, typename Cmp, typename I>
+typename CoordStorage<T,Cmp,I>::ElementProxy
+CoordStorage<T,Cmp,I>::operator()(IndexType row, IndexType col)
 {
     ASSERT(row>=_indexBase);
     ASSERT(row<_indexBase+_numRows);
@@ -86,58 +86,58 @@ CoordStorage<T,I,Cmp>::operator()(IndexType row, IndexType col)
 
 //-- methods -------------------------------------------------------------------
 
-template <typename T, typename I, typename Cmp>
-const typename CoordStorage<T,I,Cmp>::IndexType
-CoordStorage<T,I,Cmp>::indexBase() const
+template <typename T, typename Cmp, typename I>
+const typename CoordStorage<T,Cmp,I>::IndexType
+CoordStorage<T,Cmp,I>::indexBase() const
 {
     return _indexBase;
 }
 
-template <typename T, typename I, typename Cmp>
-const typename CoordStorage<T,I,Cmp>::IndexType
-CoordStorage<T,I,Cmp>::firstRow() const
+template <typename T, typename Cmp, typename I>
+const typename CoordStorage<T,Cmp,I>::IndexType
+CoordStorage<T,Cmp,I>::firstRow() const
 {
     return _indexBase;
 }
 
-template <typename T, typename I, typename Cmp>
-const typename CoordStorage<T,I,Cmp>::IndexType
-CoordStorage<T,I,Cmp>::lastRow() const
+template <typename T, typename Cmp, typename I>
+const typename CoordStorage<T,Cmp,I>::IndexType
+CoordStorage<T,Cmp,I>::lastRow() const
 {
     return _indexBase+_numRows-1;
 }
 
-template <typename T, typename I, typename Cmp>
-const typename CoordStorage<T,I,Cmp>::IndexType
-CoordStorage<T,I,Cmp>::firstCol() const
+template <typename T, typename Cmp, typename I>
+const typename CoordStorage<T,Cmp,I>::IndexType
+CoordStorage<T,Cmp,I>::firstCol() const
 {
     return _indexBase;
 }
 
-template <typename T, typename I, typename Cmp>
-const typename CoordStorage<T,I,Cmp>::IndexType
-CoordStorage<T,I,Cmp>::lastCol() const
+template <typename T, typename Cmp, typename I>
+const typename CoordStorage<T,Cmp,I>::IndexType
+CoordStorage<T,Cmp,I>::lastCol() const
 {
     return _indexBase+_numCols-1;
 }
 
-template <typename T, typename I, typename Cmp>
-const typename CoordStorage<T,I,Cmp>::IndexType
-CoordStorage<T,I,Cmp>::numRows() const
+template <typename T, typename Cmp, typename I>
+const typename CoordStorage<T,Cmp,I>::IndexType
+CoordStorage<T,Cmp,I>::numRows() const
 {
     return _numRows;
 }
 
-template <typename T, typename I, typename Cmp>
-const typename CoordStorage<T,I,Cmp>::IndexType
-CoordStorage<T,I,Cmp>::numCols() const
+template <typename T, typename Cmp, typename I>
+const typename CoordStorage<T,Cmp,I>::IndexType
+CoordStorage<T,Cmp,I>::numCols() const
 {
     return _numCols;
 }
 
-template <typename T, typename I, typename Cmp>
+template <typename T, typename Cmp, typename I>
 void
-CoordStorage<T,I,Cmp>::accumulate() const
+CoordStorage<T,Cmp,I>::accumulate() const
 {
 //
 //  Quick return if possible
@@ -153,7 +153,7 @@ CoordStorage<T,I,Cmp>::accumulate() const
     if (!_isSorted) {
         std::sort(_coord.begin()+_lastSortedCoord+1, _coord.end(), _less);
     }
-    if ((_lastSortedCoord>0) && (_lastSortedCoord<_coord.size())) {
+    if (_lastSortedCoord<_coord.size()) {
         std::inplace_merge(_coord.begin(),
                            _coord.begin() + _lastSortedCoord+1,
                            _coord.end(),
@@ -185,7 +185,7 @@ CoordStorage<T,I,Cmp>::accumulate() const
 #       ifndef NDEBUG
         if (oldCapacity!=_coord.capacity()) {
             std::cerr << "[WARNING] Possible performance bottleneck in "
-                      << "CoordStorage<T,I,Cmp>::accumulate()"
+                      << "CoordStorage<T,Cmp,I>::accumulate()"
                       << std::endl;
         }
 #       endif
@@ -194,16 +194,16 @@ CoordStorage<T,I,Cmp>::accumulate() const
     _isAccumulated = true;
 }
 
-template <typename T, typename I, typename Cmp>
-const typename CoordStorage<T,I,Cmp>::CoordVector &
-CoordStorage<T,I,Cmp>::coordVector() const
+template <typename T, typename Cmp, typename I>
+const typename CoordStorage<T,Cmp,I>::CoordVector &
+CoordStorage<T,Cmp,I>::coordVector() const
 {
     return _coord;
 }
 
-template <typename T, typename I, typename Cmp>
-const typename CoordStorage<T,I,Cmp>::IndexType
-CoordStorage<T,I,Cmp>::numNonZeros() const
+template <typename T, typename Cmp, typename I>
+const typename CoordStorage<T,Cmp,I>::IndexType
+CoordStorage<T,Cmp,I>::numNonZeros() const
 {
     return _coord.size();
 }

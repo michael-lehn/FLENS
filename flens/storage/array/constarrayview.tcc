@@ -166,6 +166,16 @@ ConstArrayView<T, I, A>::view(IndexType from, IndexType to,
                                    allocator());        // allocator
 }
 
+template <typename T, typename I, typename A>
+void
+ConstArrayView<T, I, A>::changeIndexBase(IndexType firstIndex)
+{
+    if (_data) {
+        _data += _firstIndex - firstIndex;
+    }
+    _firstIndex = firstIndex;
+}
+
 } // namespace flens
 
 #endif // FLENS_STORAGE_ARRAY_CONSTARRAYVIEW_TCC

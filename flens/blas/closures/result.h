@@ -33,6 +33,7 @@
 #ifndef FLENS_BLAS_CLOSURES_RESULT_H
 #define FLENS_BLAS_CLOSURES_RESULT_H 1
 
+#include <flens/auxiliary/noview.h>
 #include <flens/blas/operators/operators.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/storage/storage.h>
@@ -44,8 +45,8 @@ namespace flens {
 template <typename A>
 struct Result
 {
-    typedef A                       Type;
-    typedef typename Type::NoView   NoView;
+    typedef A                         Type;
+    typedef typename NoView<A>::Type  NoView;
 };
 
 //-- VectorClosures ------------------------------------------------------------

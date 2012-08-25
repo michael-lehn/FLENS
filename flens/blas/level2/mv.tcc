@@ -170,10 +170,62 @@ mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,
                      A.engine().rows().data(),
                      A.engine().cols().data(),
                      x.data(),
-                     x.stride(),
                      beta,
-                     y.data(),
-                     y.stride());
+                     y.data());
+#   else
+    ASSERT(0);
+#   endif
+}
+
+//-- geccsmv
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+typename RestrictTo<IsGeCCSMatrix<MA>::value
+                 && IsDenseVector<VX>::value
+                 && IsDenseVector<VY>::value,
+         void>::Type
+mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,
+   const BETA &beta, VY &&y)
+{
+    const bool noTrans = (trans==NoTrans || trans==Conj);
+
+#   ifndef NDEBUG
+    if (noTrans) {
+        ASSERT(x.length()==A.numCols());
+    } else {
+        ASSERT(x.length()==A.numRows());
+    }
+#   endif
+
+    typedef typename RemoveRef<MA>::Type  MatrixA;
+    typedef typename MatrixA::IndexType   IndexType;
+    IndexType yLength = noTrans ? A.numRows()
+                                : A.numCols();
+
+    ASSERT(!DEBUGCLOSURE::identical(x, y));
+    ASSERT(beta==BETA(0) || y.length()==yLength || y.length()==0);
+
+    if (y.length()!=yLength) {
+        typedef typename RemoveRef<VY>::Type   VectorY;
+        typedef typename VectorY::ElementType  T;
+
+        const T  Zero(0);
+        y.resize(yLength, y.firstIndex(), Zero);
+    }
+
+//  Sparse BLAS only supports this case:
+    ASSERT(x.stride()==1);
+    ASSERT(y.stride()==1);
+
+#   ifdef HAVE_CXXBLAS_GECRSMV
+    cxxblas::gecrsmv(Transpose(trans^Trans),
+                     A.numCols(), A.numRows(),
+                     alpha,
+                     A.engine().values().data(),
+                     A.engine().cols().data(),
+                     A.engine().rows().data(),
+                     x.data(),
+                     beta,
+                     y.data());
 #   else
     ASSERT(0);
 #   endif

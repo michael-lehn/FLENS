@@ -49,7 +49,6 @@ class CCS
     public:
         typedef T                                   ElementType;
         typedef typename I::IndexType               IndexType;
-        typedef CoordStorage<T, I, CoordColRowCmp>  CoordinateStorage;
 
         typedef DenseVector<Array<ElementType> >    ElementTypeVector;
         typedef DenseVector<Array<IndexType> >      IndexTypeVector;
@@ -60,8 +59,9 @@ class CCS
 
         //-- operators ---------------------------------------------------------
 
-        void
-        operator=(const CoordinateStorage &coordinateStorage);
+        template <typename T2, typename I2>
+            void
+            operator=(const CoordStorage<T2, CoordColRowCmp, I2> &coordStorage);
 
         //-- methods -----------------------------------------------------------
 
@@ -107,8 +107,9 @@ class CCS
         ElementTypeVector &
         values();
 
-        void
-        _compress(const CoordinateStorage &coordinateStorage);
+        template <typename T2, typename I2>
+            void
+            _compress(const CoordStorage<T2, CoordColRowCmp, I2> &coordStorage);
 
     private:
         // Lehn:  I do not allow copying matrices with crs unless someone gives

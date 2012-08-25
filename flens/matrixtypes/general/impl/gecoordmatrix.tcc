@@ -43,16 +43,9 @@ namespace flens {
 template <typename CS>
 GeCoordMatrix<CS>::GeCoordMatrix(IndexType numRows,
                                  IndexType numCols,
-                                 IndexType densityEstimate)
-    : _engine(numRows, numCols, densityEstimate)
-{
-}
-
-template <typename CS>
-GeCoordMatrix<CS>::GeCoordMatrix(IndexType numRows, IndexType numCols,
-                                 IndexType firstRow, IndexType firstCol,
-                                 IndexType densityEstimate)
-    : _engine(numRows, numCols, densityEstimate, firstRow, firstCol)
+                                 IndexType densityEstimate,
+                                 IndexType indexBase)
+    : _engine(numRows, numCols, densityEstimate, indexBase)
 {
 }
 

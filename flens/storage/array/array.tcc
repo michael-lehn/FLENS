@@ -193,7 +193,9 @@ template <typename T, typename I, typename A>
 void
 Array<T, I, A>::changeIndexBase(IndexType firstIndex)
 {
-    _data += _firstIndex - firstIndex;
+    if (_data) {
+        _data += _firstIndex - firstIndex;
+    }
     _firstIndex = firstIndex;
 }
 
@@ -276,11 +278,12 @@ void
 Array<T, I, A>::_release()
 {
     if (_data) {
+        ASSERT(length()>0);
         for (IndexType i=firstIndex(); i<=lastIndex(); ++i) {
             _allocator.destroy(_data+i);
         }
-        _allocator.deallocate(data(), _length);   
-        _data = 0;     
+        _allocator.deallocate(data(), _length);
+        _data = 0;
     }
     ASSERT(_data==0);
 }

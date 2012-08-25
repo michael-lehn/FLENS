@@ -57,7 +57,7 @@ main()
 ///
     typedef int                                              IndexType;
     typedef IndexBaseZero<IndexType>                         IndexBase;
-    typedef CoordStorage<double, IndexBase, CoordColRowCmp>  Coord;
+    typedef CoordStorage<double, CoordColRowCmp, IndexBase>  Coord;
 
 ///
 /// Alternative we could specify it through the constructor (see class API).

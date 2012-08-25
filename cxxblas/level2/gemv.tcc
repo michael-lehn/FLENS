@@ -55,6 +55,7 @@ gemv_generic(StorageOrder order, Transpose transA, Transpose conjX,
                      x, incX, beta, y, incY);
         return;
     }
+
     VX *_x = 0;
 
     if ((transA==NoTrans) || (transA==Conj)) {

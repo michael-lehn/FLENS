@@ -55,6 +55,7 @@
 #include <flens/auxiliary/macros.h>
 #include <flens/auxiliary/max.h>
 #include <flens/auxiliary/min.h>
+#include <flens/auxiliary/noview.h>
 #include <flens/auxiliary/pair.h>
 #include <flens/auxiliary/promotion.h>
 #include <flens/auxiliary/quadruple.h>
