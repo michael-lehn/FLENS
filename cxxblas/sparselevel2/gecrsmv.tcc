@@ -54,7 +54,7 @@ gecrsmv(Transpose        trans,
         VY               *y)
 {
 //
-//  No spuuprt for complex yet
+//  No support for complex yet
 //
     ASSERT(trans!=Conj && trans!=ConjTrans);
 
