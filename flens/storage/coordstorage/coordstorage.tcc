@@ -41,10 +41,8 @@ namespace flens {
 template <typename T, typename I, typename Cmp>
 CoordStorage<T,I,Cmp>::CoordStorage(IndexType numRows, IndexType numCols,
                                     IndexType densityEstimate,
-                                    IndexType firstRow,
-                                    IndexType firstCol)
-    : _numRows(numRows), _numCols(numCols),
-      _firstRow(firstRow), _firstCol(firstCol),
+                                    IndexType indexBase)
+    : _numRows(numRows), _numCols(numCols), _indexBase(indexBase),
       _lastSortedCoord(0), _isSorted(true), _isAccumulated(true)
 {
     _coord.reserve(densityEstimate*_numRows);
@@ -61,10 +59,10 @@ template <typename T, typename I, typename Cmp>
 typename CoordStorage<T,I,Cmp>::ElementProxy
 CoordStorage<T,I,Cmp>::operator()(IndexType row, IndexType col)
 {
-    ASSERT(row>=_firstRow);
-    ASSERT(row<_firstRow+_numRows);
-    ASSERT(col>=_firstCol);
-    ASSERT(col<_firstCol+_numCols);
+    ASSERT(row>=_indexBase);
+    ASSERT(row<_indexBase+_numRows);
+    ASSERT(col>=_indexBase);
+    ASSERT(col<_indexBase+_numCols);
 
     if (_coord.size()>=_coord.capacity()) {
         accumulate();
@@ -90,30 +88,37 @@ CoordStorage<T,I,Cmp>::operator()(IndexType row, IndexType col)
 
 template <typename T, typename I, typename Cmp>
 const typename CoordStorage<T,I,Cmp>::IndexType
+CoordStorage<T,I,Cmp>::indexBase() const
+{
+    return _indexBase;
+}
+
+template <typename T, typename I, typename Cmp>
+const typename CoordStorage<T,I,Cmp>::IndexType
 CoordStorage<T,I,Cmp>::firstRow() const
 {
-    return _firstRow;
+    return _indexBase;
 }
 
 template <typename T, typename I, typename Cmp>
 const typename CoordStorage<T,I,Cmp>::IndexType
 CoordStorage<T,I,Cmp>::lastRow() const
 {
-    return _firstRow+_numRows-1;
+    return _indexBase+_numRows-1;
 }
 
 template <typename T, typename I, typename Cmp>
 const typename CoordStorage<T,I,Cmp>::IndexType
 CoordStorage<T,I,Cmp>::firstCol() const
 {
-    return _firstCol;
+    return _indexBase;
 }
 
 template <typename T, typename I, typename Cmp>
 const typename CoordStorage<T,I,Cmp>::IndexType
 CoordStorage<T,I,Cmp>::lastCol() const
 {
-    return _firstCol+_numCols-1;
+    return _indexBase+_numCols-1;
 }
 
 template <typename T, typename I, typename Cmp>

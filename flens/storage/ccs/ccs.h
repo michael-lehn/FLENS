@@ -66,6 +66,9 @@ class CCS
         //-- methods -----------------------------------------------------------
 
         const IndexType
+        indexBase() const;
+
+        const IndexType
         firstRow() const;
 
         const IndexType
@@ -113,7 +116,7 @@ class CCS
         CCS(const CCS &rhs);
 
         IndexType  _numRows, _numCols;
-        IndexType  _firstRow, _firstCol;
+        IndexType  _indexBase;
 
         DenseVector<Array<IndexType> >  _cols;
         DenseVector<Array<IndexType> >  _rows;

@@ -63,8 +63,7 @@ class CoordStorage
 
         CoordStorage(IndexType numRows, IndexType numCols,
                      IndexType densityEstimate = 1,
-                     IndexType firstRow = I::defaultIndexBase,
-                     IndexType firstCol = I::defaultIndexBase);
+                     IndexType indexBase = I::defaultIndexBase);
 
         ~CoordStorage();
 
@@ -74,6 +73,9 @@ class CoordStorage
         operator()(IndexType row, IndexType col);
 
         //-- methods -----------------------------------------------------------
+
+        const IndexType
+        indexBase() const;
 
         const IndexType
         firstRow() const;
@@ -108,7 +110,7 @@ class CoordStorage
         CoordStorage(const CoordStorage &rhs);
 
         IndexType  _numRows, _numCols;
-        IndexType  _firstRow, _firstCol;
+        IndexType  _indexBase;
 
         mutable CoordVector  _coord;
         mutable size_t       _lastSortedCoord;

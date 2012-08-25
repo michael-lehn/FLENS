@@ -20,9 +20,11 @@ Some key points
       your matrices/vectors that "acts like a double".  So in particular
       types from the __QD Library__,  __mpfr__, ...
 - If *high performance BLAS* libraries like __ATLAS__ or __GotoBLAS__ are
-  available compile with `-DWITH_ATLAS` or `-DWITH_GOTOBLAS` respectively,
-  link against them and boost performance.  FLENS does not introduce any
-  overhead due to abstraction.  You get all the performance.
+  available:
+    -  compile with `-DWITH_ATLAS` or `-DWITH_GOTOBLAS` respectively,
+    - link against them and boost performance.
+  FLENS does not introduce any overhead due to abstraction.  You get all the
+  performance.
 - __FLENS-BLAS__ is a high-level and easy-to-use __BLAS__ interface
 - __FLENS-LAPACK__ is a high-level and easy-to-use C++ implementation of
   __LAPACK__.

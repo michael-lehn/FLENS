@@ -56,7 +56,38 @@ gecrsmv(Transpose        trans,
     const bool init  = (beta==BETA(0));
     const bool scale = (beta!=BETA(0) && beta!=BETA(1));
 
+    ASSERT(incX==IndexType(1));
+    ASSERT(incY==IndexType(1));
+    /*
+    // If matrix is Zero based:
+    // set index base of y to 1
+    --y;
+    --ia;
+    */
+
+    /*
+    // If matrix is One based
+    --y;
+    --ia;
+    --ja;
+    --x;
+    --A;
+    */
+
+//
+//  Index base of the CRS matrix is stored in first Element of ia
+//
+    --ia;
+    ja -= ia[1];
+    A  -= ia[1];
+
     if (trans==NoTrans) {
+//
+//      Make y one-based; set correct index base for x
+//
+        --y;
+        x  -= ia[1];
+
         if (init) {
             for (int i=1; i<=m; ++i) {
                 y[i] = VY(0);
@@ -79,6 +110,10 @@ gecrsmv(Transpose        trans,
             }
         }
     } else {
+//
+//      Make y one-based
+//
+        --y;
         if (init) {
             for (int i=1; i<=n; ++i) {
                 y[i] = VY(0);
@@ -88,6 +123,12 @@ gecrsmv(Transpose        trans,
                 y[i] *=beta;
             }
         }
+//
+//      Set corret index base for y; make x one-based
+//
+        y += 1-ia[1];
+        --x;
+
         for (int i=1; i<=m; ++i) {
             for (int k=ia[i]; k<ia[i+1]; ++k) {
                 y[ja[k]] += alpha*A[k]*x[i];

@@ -41,8 +41,7 @@ namespace flens {
 template <typename T, typename I>
 CRS<T,I>::CRS()
     : _numRows(0), _numCols(0),
-      _firstRow(I::defaultIndexBase),
-      _firstCol(I::defaultIndexBase)
+      _indexBase(I::defaultIndexBase)
 {
 }
 
@@ -64,30 +63,37 @@ CRS<T,I>::operator=(const CoordinateStorage &coordinateStorage)
 
 template <typename T, typename I>
 const typename CRS<T,I>::IndexType
+CRS<T,I>::indexBase() const
+{
+    return _indexBase;
+}
+
+template <typename T, typename I>
+const typename CRS<T,I>::IndexType
 CRS<T,I>::firstRow() const
 {
-    return _firstRow;
+    return _indexBase;
 }
 
 template <typename T, typename I>
 const typename CRS<T,I>::IndexType
 CRS<T,I>::lastRow() const
 {
-    return _firstRow+_numRows-1;
+    return _indexBase+_numRows-1;
 }
 
 template <typename T, typename I>
 const typename CRS<T,I>::IndexType
 CRS<T,I>::firstCol() const
 {
-    return _firstCol;
+    return _indexBase;
 }
 
 template <typename T, typename I>
 const typename CRS<T,I>::IndexType
 CRS<T,I>::lastCol() const
 {
-    return _firstCol+_numCols-1;
+    return _indexBase+_numCols-1;
 }
 
 template <typename T, typename I>
@@ -159,8 +165,7 @@ CRS<T,I>::_compress(const CoordinateStorage &coordinateStorage)
 {
     _numRows  = coordinateStorage.numRows();
     _numCols  = coordinateStorage.numCols();
-    _firstRow = coordinateStorage.firstRow();
-    _firstCol = coordinateStorage.firstCol();
+    _indexBase = coordinateStorage.indexBase();
 
 //
 //  Accumulate coords and get number of non zeros
@@ -171,25 +176,25 @@ CRS<T,I>::_compress(const CoordinateStorage &coordinateStorage)
 //
 //  Allocate memory for the CRS format
 //
-    _rows.resize(_numRows+1, _firstRow);
-    _cols.resize(nnz, _firstRow);
-    _values.resize(nnz, _firstRow);
+    _rows.resize(_numRows+1, _indexBase);
+    _cols.resize(nnz, _indexBase);
+    _values.resize(nnz, _indexBase);
 
     const auto &coord = coordinateStorage.coordVector();
 
-    IndexType r = _firstRow;
-    _rows(r) = _firstCol;
+    IndexType r = _indexBase;
+    _rows(r) = _indexBase;
 
     for (size_t k=0; k<coord.size(); ++k) {
         while (coord[k].row>r) {
-            _rows(r+1) = _firstCol + k;
+            _rows(r+1) = _indexBase + k;
             ++r;
         }
-        _cols(_firstCol+k)   = coord[k].col;
-        _values(_firstCol+k) = coord[k].value;
+        _cols(_indexBase+k)   = coord[k].col;
+        _values(_indexBase+k) = coord[k].value;
     }
     while (r<=lastRow()) {
-        _rows(r+1) = _firstCol + coord.size();
+        _rows(r+1) = _indexBase + coord.size();
         ++r;
     }
 }

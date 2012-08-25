@@ -147,6 +147,7 @@ mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,
     IndexType yLength = noTrans ? A.numRows()
                                 : A.numCols();
 
+    ASSERT(!DEBUGCLOSURE::identical(x, y));
     ASSERT(beta==BETA(0) || y.length()==yLength || y.length()==0);
 
     if (y.length()!=yLength) {
@@ -154,64 +155,28 @@ mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,
         typedef typename VectorY::ElementType  T;
 
         const T  Zero(0);
-        FLENS_BLASLOG_RESIZE_VECTOR(y, yLength);
         y.resize(yLength, y.firstIndex(), Zero);
     }
 
-
-#   ifndef FLENS_DEBUG_CLOSURES
-    ASSERT(!DEBUGCLOSURE::identical(x, y));
+//  Sparse BLAS only supports this case:
     ASSERT(x.stride()==1);
     ASSERT(y.stride()==1);
-#   else
-//
-//  If x and y are identical an temporary is needed if we want to use mv
-//
-    if (DEBUGCLOSURE::identical(x, y) || (x.stride()!=1)) {
-        typedef typename RemoveRef<VX>::Type  VectorX;
-
-        typename Result<VectorX>::Type  _x;
-        FLENS_BLASLOG_TMP_ADD(_x);
-        _x = x;
-
-        mv(trans, alpha, A, _x, beta, y);
-
-        FLENS_BLASLOG_TMP_REMOVE(_x, x);
-        return;
-    }
-    if (y.stride()!=1) {
-        typedef typename RemoveRef<VY>::Type  VectorY;
-
-        typename Result<VectorY>::Type  _y;
-        FLENS_BLASLOG_TMP_ADD(_y);
-        _y = y;
-
-        mv(trans, alpha, A, x, beta, _y);
-
-        FLENS_BLASLOG_TMP_REMOVE(_y, y);
-        return;
-     }
-#   endif
-
-    FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_GEMV(trans, alpha, A, x, beta, y);
 
 #   ifdef HAVE_CXXBLAS_GECRSMV
     cxxblas::gecrsmv(trans,
                      A.numRows(), A.numCols(),
                      alpha,
-                     A.engine().values().data() - A.firstRow(),
-                     A.engine().rows().data() - A.firstRow(),
-                     A.engine().cols().data() - A.firstCol(),
-                     x.data() - A.firstCol(),
+                     A.engine().values().data(),
+                     A.engine().rows().data(),
+                     A.engine().cols().data(),
+                     x.data(),
+                     x.stride(),
                      beta,
-                     y.data() - A.firstRow());
+                     y.data(),
+                     y.stride());
 #   else
     ASSERT(0);
 #   endif
-
-    FLENS_BLASLOG_END;
-    FLENS_BLASLOG_UNSETTAG;
 }
 
 //== TriangularMatrix - Vector products ========================================

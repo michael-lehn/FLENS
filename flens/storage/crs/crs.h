@@ -67,6 +67,9 @@ class CRS
         //-- methods -----------------------------------------------------------
 
         const IndexType
+        indexBase() const;
+
+        const IndexType
         firstRow() const;
 
         const IndexType
@@ -114,7 +117,7 @@ class CRS
         CRS(const CRS &rhs);
 
         IndexType  _numRows, _numCols;
-        IndexType  _firstRow, _firstCol;
+        IndexType  _indexBase;
 
         DenseVector<Array<IndexType> >  _rows;
         DenseVector<Array<IndexType> >  _cols;
