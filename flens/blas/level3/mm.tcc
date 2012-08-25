@@ -95,6 +95,7 @@ mm(Transpose        transposeA,
 #   endif
 
     if ((C.numRows()!=m) || (C.numCols()!=n)) {
+        ASSERT(C.numRows()==0 && C.numCols()==0);
         C.resize(m, n);
     }
 
@@ -232,6 +233,7 @@ mm(Side             side,
 #   endif
 
     if ((C.numRows()!=m) || (C.numCols()!=n)) {
+        ASSERT(C.numRows()==0 && C.numCols()==0);
         C.resize(m, n);
     }
 
@@ -318,6 +320,7 @@ mm(Side             side,
     ASSERT((beta==static_cast<BETA>(0)) || (C.numCols()==n));
 
     if ((C.numRows()!=m) || (C.numCols()!=n)) {
+        ASSERT(C.numRows()==0 && C.numCols()==0);
         C.resize(m,n);
     }
 
