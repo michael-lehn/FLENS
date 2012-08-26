@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn
+ *   Copyright (c) 2007-2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,29 +30,28 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_IO_CRS_OUT_H
-#define FLENS_IO_CRS_OUT_H 1
+#ifndef CXXBLAS_SPARSELEVEL2_HECCSMV_H
+#define CXXBLAS_SPARSELEVEL2_HECCSMV_H 1
 
-#include <iostream>
+#include <cxxblas/typedefs.h>
 
-#include <flens/matrixtypes/general/impl/gecrsmatrix.h>
-#include <flens/matrixtypes/symmetric/impl/sycrsmatrix.h>
-#include <flens/matrixtypes/hermitian/impl/hecrsmatrix.h>
+#define HAVE_CXXBLAS_HECCSMV 1
 
-namespace flens {
+namespace cxxblas {
 
-template <typename CRS>
-    std::ostream &
-    operator<<(std::ostream &out, const GeCRSMatrix<CRS> &A);
+template <typename IndexType, typename ALPHA, typename MA, typename VX,
+          typename BETA, typename VY>
+    void
+    heccsmv(StorageUpLo      upLo,
+            IndexType        n,
+            const ALPHA      &alpha,
+            const MA         *A,
+            const IndexType  *ia,
+            const IndexType  *ja,
+            const VX         *x,
+            const BETA       &beta,
+            VY               *y);
 
-template <typename CRS>
-    std::ostream &
-    operator<<(std::ostream &out, const HeCRSMatrix<CRS> &A);
+} // namespace cxxblas
 
-template <typename CRS>
-    std::ostream &
-    operator<<(std::ostream &out, const SyCRSMatrix<CRS> &A);
-
-} // namespace flens
-
-#endif // FLENS_IO_CRS_OUT_H
+#endif // CXXBLAS_SPARSELEVEL2_HECCSMV_H

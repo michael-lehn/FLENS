@@ -33,6 +33,12 @@
 #ifndef CXXBLAS_CXXBLAS_TCC
 #define CXXBLAS_CXXBLAS_TCC 1
 
+#ifdef CXXBLAS_DEBUG
+#   ifndef CXXBLAS_DEBUG_OUT
+#   define CXXBLAS_DEBUG_OUT(msg)   std::cerr << msg << std::endl
+#   endif // CXXBLAS_DEBUG_OUT
+#endif // CXXBLAS_DEBUG_OUT
+
 #ifndef CXXBLAS_DEBUG_OUT
 #define CXXBLAS_DEBUG_OUT(msg)
 #endif // CXXBLAS_DEBUG_OUT

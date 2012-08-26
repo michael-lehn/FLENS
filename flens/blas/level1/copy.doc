@@ -140,11 +140,11 @@ Compress: GeCoordMatrix to GeCRSMatrix
               ConjTrans    $B \leftarrow A^H$
     A        `(input) real or complex valued GeCoordMatrix`                    +
              Sparse matrix $A$ stored in the coordinate format.
-    B        `(output) real or complex valued GeMatrix`                        +
+    B        `(output) real or complex valued GeCRSMatrix`                     +
              Sparse matrix $B$ in compressed row storage format.
 
 
-Compress: SyCoordMatrix to SyCRSMatrix
+Compress: SyCoordMatrix to SyCCSMatrix
 --------------------------------------
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
@@ -159,10 +159,10 @@ Compress: SyCoordMatrix to SyCRSMatrix
                          [atetypenameMAtypenameMBtypenameRestrictToIsSyCoord]
                          [MatrixMAvalueIsSyCCSMatrixMBvaluevoidTypecopy     ]
 
-    A        `(input) real or complex valued GeCoordMatrix`                    +
+    A        `(input) real or complex valued SyCoordMatrix`                    +
              Symmetric sparse matrix $A$ stored in the coordinate format.
-    B        `(output) real or complex valued GeMatrix`                        +
-             Symmetrix sparse matrix $B$ in compressed row storage format.
+    B        `(output) real or complex valued SyCCSMatrix`                     +
+             Symmetrix sparse matrix $B$ in compressed column storage format.
 
 
 Densify: GeCoordMatrix to GeMatrix
@@ -213,8 +213,8 @@ Densify: GeCRSMatrix to GeMatrix
               NoTrans      $B \leftarrow A$
               Trans        $B \leftarrow A^T$
               ConjTrans    $B \leftarrow A^H$
-    A        `(input) real or complex valued GeCoordMatrix`                    +
-             Sparse matrix $A$ stored in the coordinate format.
+    A        `(input) real or complex valued GeCRSMatrix`                      +
+             Sparse matrix $A$ stored in the compressed row format.
     B        `(output) real or complex valued GeMatrix`                        +
              Matrix $B$ in full storage format.
 
@@ -237,9 +237,7 @@ TrMatrix to GeMatrix
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>2#T#Tcopy#$@N@cxxblas@E@Tran]
-                         [spose#&1t0.0#&t0.1#templatetypenameMAtypenameMBtyp]
-                         [enameRestrictToIsTrMatrixMAvalueIsGeMatrixMBvaluev]
-                         [oidTypecopy                                       ]
+                         [spose#&1t0.0#&t0.1#                               ]
 
     trans    `(input)`                                                         +
              Specifiy the operation, i.e.
@@ -272,11 +270,30 @@ SyMatrix to GeMatrix
     B        `(output) real or complex valued SyMatrix`                        +
              Matrix $B$.
 
+
 ################################################################################
 #
 #  The following CODEREFs are automatically created stubs.
 #
 ################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsHeMatrix<MA>::value                            |
+|                       && IsHeMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      copy(const MA &A, MB &&B);                                           |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#&1t0.0#&t0.1#templ]
+                         [atetypenameMAtypenameMBtypenameRestrictToIsHeMatri]
+                         [xMAvalueIsHeMatrixMBvaluevoidTypecopy             ]
+
+    Defined in namespace `flens::blas`.
+    Function `copy` with 2 template parameters.
+
 
 
 *--[CODEREF]----------------------------------------------------------------*
@@ -289,7 +306,45 @@ SyMatrix to GeMatrix
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>2#T#Tcopy#$@N@cxxblas@E@Tran]
-                         [spose#&1t0.0#&t0.1#                               ]
+                         [spose#&1t0.0#&t0.1#templatetypenameMAtypenameMBtyp]
+                         [enameRestrictToIsGeCoordMatrixMAvalueIsGeCCSMatrix]
+                         [MBvaluevoidTypecopy                               ]
+
+    Defined in namespace `flens::blas`.
+    Function `copy` with 2 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsHeCoordMatrix<MA>::value                       |
+|                       && IsHeCCSMatrix<MB>::value,                        |
+|               void>::Type                                                 |
+|      copy(const MA &A, MB &&B);                                           |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#&1t0.0#&t0.1#templ]
+                         [atetypenameMAtypenameMBtypenameRestrictToIsHeCoord]
+                         [MatrixMAvalueIsHeCCSMatrixMBvaluevoidTypecopy     ]
+
+    Defined in namespace `flens::blas`.
+    Function `copy` with 2 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsHeCoordMatrix<MA>::value                       |
+|                       && IsHeCRSMatrix<MB>::value,                        |
+|               void>::Type                                                 |
+|      copy(const MA &A, MB &&B);                                           |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#&1t0.0#&t0.1#templ]
+                         [atetypenameMAtypenameMBtypenameRestrictToIsHeCoord]
+                         [MatrixMAvalueIsHeCRSMatrixMBvaluevoidTypecopy     ]
 
     Defined in namespace `flens::blas`.
     Function `copy` with 2 template parameters.
@@ -305,10 +360,13 @@ SyMatrix to GeMatrix
 |      copy(const MA &A, MB &&B);                                           |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                              [c:@N@flens@N@blas@FT@>2#T#Tcopy#&1t0.0#&t0.1#]
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#&1t0.0#&t0.1#templ]
+                         [atetypenameMAtypenameMBtypenameRestrictToIsSyCoord]
+                         [MatrixMAvalueIsSyCRSMatrixMBvaluevoidTypecopy     ]
 
     Defined in namespace `flens::blas`.
     Function `copy` with 2 template parameters.
+
 
 
 
@@ -325,6 +383,76 @@ SyMatrix to GeMatrix
                          [spose#&1t0.0#&t0.1#templatetypenameMAtypenameMBtyp]
                          [enameRestrictToIsGeCCSMatrixMAvalueIsGeMatrixMBval]
                          [uevoidTypecopy                                    ]
+
+    Defined in namespace `flens::blas`.
+    Function `copy` with 2 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsHeCCSMatrix<MA>::value                         |
+|                       && IsHeMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      copy(const MA &A, MB &&B);                                           |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                              [c:@N@flens@N@blas@FT@>2#T#Tcopy#&1t0.0#&t0.1#]
+
+    Defined in namespace `flens::blas`.
+    Function `copy` with 2 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsSyCCSMatrix<MA>::value                         |
+|                       && IsSyMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      copy(const MA &A, MB &&B);                                           |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#&1t0.0#&t0.1#templ]
+                         [atetypenameMAtypenameMBtypenameRestrictToIsSyCCSMa]
+                         [trixMAvalueIsSyMatrixMBvaluevoidTypecopy          ]
+
+    Defined in namespace `flens::blas`.
+    Function `copy` with 2 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsHeCRSMatrix<MA>::value                         |
+|                       && IsHeMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      copy(const MA &A, MB &&B);                                           |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#&1t0.0#&t0.1#templ]
+                         [atetypenameMAtypenameMBtypenameRestrictToIsHeCRSMa]
+                         [trixMAvalueIsHeMatrixMBvaluevoidTypecopy          ]
+
+    Defined in namespace `flens::blas`.
+    Function `copy` with 2 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsSyCRSMatrix<MA>::value                         |
+|                       && IsSyMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      copy(const MA &A, MB &&B);                                           |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#&1t0.0#&t0.1#templ]
+                         [atetypenameMAtypenameMBtypenameRestrictToIsSyCRSMa]
+                         [trixMAvalueIsSyMatrixMBvaluevoidTypecopy          ]
 
     Defined in namespace `flens::blas`.
     Function `copy` with 2 template parameters.

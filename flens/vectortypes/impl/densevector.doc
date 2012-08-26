@@ -162,10 +162,12 @@ Assignment and Arithmetic Operators
 |  operator=(const ElementType &value);                                     |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                           [M#c:@N@flens@CT>1#T@DenseVector@F@operator=#&1 #]
+                         [c:@N@flens@CT>1#T@DenseVector@F@operator=#&1 #Init]
+                         [ializeroperator                                   ]
 
     Defined in namespace `flens`.
-    Operator `=` of class `DenseVector` with 1 template parameter(s).
+    Operator `=` of class `DenseVector` with 1 template parameters.
+
 
 
 *--[CODEREF]----------------------------------------------------------------*
@@ -174,8 +176,11 @@ Assignment and Arithmetic Operators
 |  operator=(const DenseVector &rhs);                                       |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@flens@CT>1#T@DenseVector@F@operator=#&1 #Dens]
-                         [eVectoroperator                                   ]
+                           [M#c:@N@flens@CT>1#T@DenseVector@F@operator=#&1 #]
+
+    Defined in namespace `flens`.
+    Operator `=` of class `DenseVector` with 1 template parameter(s).
+
 
     Defined in namespace `flens`.
     Operator `=` of class `DenseVector` with 1 template parameters.
@@ -767,4 +772,5 @@ Related Trait-Classes
 
     Defined in namespace `flens`.
     Class IsComplexDenseVector with 1 template parameter(s).
+
 
