@@ -30,12 +30,50 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_SPARSELEVEL2_SPARSELEVEL2_TCC
-#define CXXBLAS_SPARSELEVEL2_SPARSELEVEL2_TCC 1
+#ifndef FLENS_AUXILIARY_NOVIEW_H
+#define FLENS_AUXILIARY_NOVIEW_H 1
 
-#include <cxxblas/sparselevel2/gecrsmv.tcc>
-#include <cxxblas/sparselevel2/heccsmv.tcc>
-#include <cxxblas/sparselevel2/hecrsmv.tcc>
-#include <cxxblas/sparselevel2/sycrsmv.tcc>
+#include <flens/auxiliary/isconvertible.h>
+#include <flens/matrixtypes/symmetric/symmetricmatrix.h>
 
-#endif // CXXBLAS_SPARSELEVEL2_SPARSELEVEL2_TCC
+namespace flens {
+
+template <typename T, bool hasNoView>
+struct NoViewSelect
+{
+    typedef T   Type;
+};
+
+template <typename T>
+struct NoViewSelect<T, true>
+{
+    typedef typename T::NoView   Type;
+};
+
+
+template <typename T>
+struct NoView
+{
+
+    struct Two
+    {
+        char x;
+        char y;
+    };
+
+    template <typename A>
+        static Two
+        check(typename A::NoView *);
+
+    template <typename Any>
+        static char
+        check(...);
+
+    static const bool hasNoView = sizeof(check<T>(0)) == sizeof(Two);
+
+    typedef typename NoViewSelect<T, hasNoView>::Type  Type;
+};
+
+} // namespace flens
+
+#endif // FLENS_AUXILIARY_NOVIEW_H

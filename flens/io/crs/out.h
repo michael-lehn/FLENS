@@ -46,6 +46,10 @@ template <typename CRS>
 
 template <typename CRS>
     std::ostream &
+    operator<<(std::ostream &out, const HeCRSMatrix<CRS> &A);
+
+template <typename CRS>
+    std::ostream &
     operator<<(std::ostream &out, const SyCRSMatrix<CRS> &A);
 
 } // namespace flens

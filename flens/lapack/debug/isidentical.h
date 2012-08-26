@@ -55,6 +55,11 @@ template <typename MA, typename MB>
 
 template <typename MA, typename MB>
     bool
+    isIdentical(const HeMatrix<MA> &A, const HeMatrix<MB> &B,
+                const char *AName = "A", const char *BName = "B");
+
+template <typename MA, typename MB>
+    bool
     isIdentical(const TrMatrix<MA> &A, const TrMatrix<MB> &B,
                 const char *AName = "A", const char *BName = "B");
 

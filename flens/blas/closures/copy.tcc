@@ -746,10 +746,40 @@ copy(Transpose trans, const MatrixClosure<Op, ML, MR> &A, Matrix<MB> &B)
 
 #endif
 
+//-- hermitian matrices --------------------------------------------------------
+
+template <typename MA, typename MB>
+void
+copy(Transpose trans, const HermitianMatrix<MA> &A, Matrix<MB> &B)
+{
+#   ifndef FLENS_DEBUG_CLOSURES
+    ASSERT(trans==NoTrans || trans==Trans);
+#   else
+    if (trans!=NoTrans && trans!=Trans) {
+        typedef typename MA::ElementType TA;
+
+        GeMatrix<FullStorage<TA> >  _A = A;
+        FLENS_BLASLOG_TMP_ADD(_A);
+
+        copy(trans, _A, B.impl());
+
+        FLENS_BLASLOG_TMP_REMOVE(_A, A);
+        return;
+    }
+#   endif
+    copy(A.impl(), B.impl());
+}
+
+template <typename MA, typename MB>
+typename RestrictTo<!IsHermitianMatrix<MA>::value,
+         void>::Type
+copy(Transpose trans, const Matrix<MA> &A, HermitianMatrix<MB> &B)
+{
+    copy(trans, A.impl(), B.impl());
+}
+
 //-- symmetric matrices --------------------------------------------------------
-//
-//  We just trans is NoTrans or Trans we simply ignore it
-//
+
 template <typename MA, typename MB>
 void
 copy(Transpose trans, const SymmetricMatrix<MA> &A, Matrix<MB> &B)

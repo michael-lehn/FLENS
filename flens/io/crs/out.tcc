@@ -52,6 +52,19 @@ operator<<(std::ostream &out, const GeCRSMatrix<CRS> &A)
 
 template <typename CRS>
 std::ostream &
+operator<<(std::ostream &out, const HeCRSMatrix<CRS> &A)
+{
+    out << std::endl;
+    out << "upLo = " << char(A.upLo()) << std::endl;
+    out << "compressed rows:" << std::endl;
+    out << " rows:   " << A.engine().rows() << std::endl;
+    out << " cols:   " << A.engine().cols() << std::endl;
+    out << " values: " << A.engine().values() << std::endl;
+    return out;
+}
+
+template <typename CRS>
+std::ostream &
 operator<<(std::ostream &out, const SyCRSMatrix<CRS> &A)
 {
     out << std::endl;

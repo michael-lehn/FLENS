@@ -185,6 +185,48 @@ copy(Transpose trans, const MA &A, MB &&B)
     FLENS_BLASLOG_UNSETTAG;
 }
 
+//-- hecopy
+template <typename MA, typename MB>
+typename RestrictTo<IsHeMatrix<MA>::value
+                 && IsHeMatrix<MB>::value,
+         void>::Type
+copy(const MA &A, MB &&B)
+{
+//
+//  Resize left hand size if needed.  This is *usually* only alloweded
+//  when the left hand side is an empty matrix (such that it is no actual
+//  resizing but rather an initialization).
+//
+    if (B.dim()!=A.dim()) {
+#       ifndef FLENS_DEBUG_CLOSURES
+        ASSERT(B.dim()==0);
+#       else
+        if (B.dim()!=0) {
+            FLENS_BLASLOG_RESIZE_MATRIX(B, A.dim(), A.dim());
+        }
+#       endif
+        B.resize(A);
+        B.upLo() = A.upLo();
+    }
+
+    ASSERT(A.upLo()==B.upLo());
+    // TODO: make this assertion unnecessary
+    ASSERT(A.order()==B.order());
+
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_COPY(A, B);
+
+#   ifdef HAVE_CXXBLAS_TRCOPY
+    cxxblas::trcopy(B.order(), B.upLo(), NoTrans, NonUnit, B.dim(), B.dim(),
+                    A.data(), A.leadingDimension(),
+                    B.data(), B.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
 //-- trcopy
 template <typename MA, typename MB>
 typename RestrictTo<IsTrMatrix<MA>::value
@@ -304,6 +346,28 @@ copy(Transpose trans, const MA &A, MB &&B)
     B.engine() = A.engine();
 }
 
+//-- copy: HeCoordMatrix -> HeCCSMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsHeCoordMatrix<MA>::value
+                 && IsHeCCSMatrix<MB>::value,
+         void>::Type
+copy(const MA &A, MB &&B)
+{
+    B.engine() = A.engine();
+    B.upLo() = A.upLo();
+}
+
+//-- copy: SyCoordMatrix -> SyCCSMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsSyCoordMatrix<MA>::value
+                 && IsSyCCSMatrix<MB>::value,
+         void>::Type
+copy(const MA &A, MB &&B)
+{
+    B.engine() = A.engine();
+    B.upLo() = A.upLo();
+}
+
 //-- copy: GeCoordMatrix -> GeCRSMatrix
 template <typename MA, typename MB>
 typename RestrictTo<IsGeCoordMatrix<MA>::value
@@ -314,10 +378,10 @@ copy(Transpose trans, const MA &A, MB &&B)
     B.engine() = A.engine();
 }
 
-//-- copy: SyCoordMatrix -> SyCCSMatrix
+//-- copy: HeCoordMatrix -> HeCRSMatrix
 template <typename MA, typename MB>
-typename RestrictTo<IsSyCoordMatrix<MA>::value
-                 && IsSyCCSMatrix<MB>::value,
+typename RestrictTo<IsHeCoordMatrix<MA>::value
+                 && IsHeCRSMatrix<MB>::value,
          void>::Type
 copy(const MA &A, MB &&B)
 {
@@ -338,6 +402,34 @@ copy(const MA &A, MB &&B)
 
 
 //-- convenience extensions ----------------------------------------------------
+
+//-- copy: SyMatrix -> GeMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsSyMatrix<MA>::value
+                 && IsGeMatrix<MB>::value,
+         void>::Type
+copy(const MA &A, MB &&B)
+{
+    if (A.numRows()!=B.numRows() && A.numCols()!=B.numCols()) {
+#       ifndef FLENS_DEBUG_CLOSURES
+        ASSERT(B.numRows()==0 || B.numCols()==0);
+#       else
+        if (B.numRows()!=0 && B.numCols()!=0) {
+            FLENS_BLASLOG_RESIZE_MATRIX(B, A.numRows(), A.numCols());
+        }
+#       endif
+        B.resize(A.numRows(), A.numCols(),
+                 A.firstRow(), A.firstCol());
+    }
+
+    if (A.upLo()==Upper) {
+        B.upper() = A.general().upper();
+        B.strictLower() = transpose(A.general().strictUpper());
+    } else {
+        B.lower() = A.general().lower();
+        B.strictUpper() = transpose(A.general().strictLower());
+    }
+}
 
 //-- copy: TrMatrix -> GeMatrix
 template <typename MA, typename MB>
@@ -417,33 +509,6 @@ copy(Transpose trans, const MA &A, MB &&B)
     }
 }
 
-//-- copy: SyMatrix -> GeMatrix
-template <typename MA, typename MB>
-typename RestrictTo<IsSyMatrix<MA>::value
-                 && IsGeMatrix<MB>::value,
-         void>::Type
-copy(const MA &A, MB &&B)
-{
-    if (A.numRows()!=B.numRows() && A.numCols()!=B.numCols()) {
-#       ifndef FLENS_DEBUG_CLOSURES
-        ASSERT(B.numRows()==0 || B.numCols()==0);
-#       else
-        if (B.numRows()!=0 && B.numCols()!=0) {
-            FLENS_BLASLOG_RESIZE_MATRIX(B, A.numRows(), A.numCols());
-        }
-#       endif
-        B.resize(A.numRows(), A.numCols(),
-                 A.firstRow(), A.firstCol());
-    }
-
-    if (A.upLo()==Upper) {
-        B.upper() = A.general().upper();
-        B.strictLower() = transpose(A.general().strictUpper());
-    } else {
-        B.lower() = A.general().lower();
-        B.strictUpper() = transpose(A.general().strictLower());
-    }
-}
 
 //-- copy: GeCoordMatrix -> GeMatrix
 template <typename MA, typename MB>
@@ -490,6 +555,64 @@ copy(Transpose trans, const MA &A, MB &&B)
     }
 }
 
+//-- copy: HeCCSMatrix -> HeMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsHeCCSMatrix<MA>::value
+                 && IsHeMatrix<MB>::value,
+         void>::Type
+copy(const MA &A, MB &&B)
+{
+    typedef typename MA::IndexType    IndexType;
+    typedef typename MA::ElementType  ElementType;
+
+    if (B.dim()!=A.dim()) {
+        ASSERT(B.dim()==0);
+        B.resize(A.dim(), A.upLo(), A.indexBase(), ElementType(0));
+        B.upLo() = A.upLo();
+    }
+
+    ASSERT(A.upLo()==B.upLo());
+
+    const auto &cols = A.engine().cols();
+    const auto &rows = A.engine().rows();
+    const auto &vals = A.engine().values();
+
+    for (IndexType j=cols.firstIndex(); j<cols.lastIndex(); ++j) {
+        for (IndexType k=cols(j); k<cols(j+1); ++k) {
+            B(rows(k), j) = vals(k);
+        }
+    }
+}
+
+//-- copy: SyCCSMatrix -> SyMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsSyCCSMatrix<MA>::value
+                 && IsSyMatrix<MB>::value,
+         void>::Type
+copy(const MA &A, MB &&B)
+{
+    typedef typename MA::IndexType    IndexType;
+    typedef typename MA::ElementType  ElementType;
+
+    if (B.dim()!=A.dim()) {
+        ASSERT(B.dim()==0);
+        B.resize(A.dim(), A.upLo(), A.indexBase(), ElementType(0));
+        B.upLo() = A.upLo();
+    }
+
+    ASSERT(A.upLo()==B.upLo());
+
+    const auto &cols = A.engine().cols();
+    const auto &rows = A.engine().rows();
+    const auto &vals = A.engine().values();
+
+    for (IndexType j=cols.firstIndex(); j<cols.lastIndex(); ++j) {
+        for (IndexType k=cols(j); k<cols(j+1); ++k) {
+            B(rows(k), j) = vals(k);
+        }
+    }
+}
+
 //-- copy: GeCRSMatrix -> GeMatrix
 template <typename MA, typename MB>
 typename RestrictTo<IsGeCRSMatrix<MA>::value
@@ -503,6 +626,35 @@ copy(Transpose trans, const MA &A, MB &&B)
     B.resize(A.numRows(), A.numCols(),
              A.firstRow(), A.firstCol(),
              ElementType(0));
+
+    const auto &rows = A.engine().rows();
+    const auto &cols = A.engine().cols();
+    const auto &vals = A.engine().values();
+
+    for (IndexType i=rows.firstIndex(); i<rows.lastIndex(); ++i) {
+        for (IndexType k=rows(i); k<rows(i+1); ++k) {
+            B(i,cols(k)) = vals(k);
+        }
+    }
+}
+
+//-- copy: HeCRSMatrix -> HeMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsHeCRSMatrix<MA>::value
+                 && IsHeMatrix<MB>::value,
+         void>::Type
+copy(const MA &A, MB &&B)
+{
+    typedef typename MA::IndexType    IndexType;
+    typedef typename MA::ElementType  ElementType;
+
+    if (B.dim()!=A.dim()) {
+        ASSERT(B.dim()==0);
+        B.resize(A.dim(), A.upLo(), A.indexBase(), ElementType(0));
+        B.upLo() = A.upLo();
+    }
+
+    ASSERT(A.upLo()==B.upLo());
 
     const auto &rows = A.engine().rows();
     const auto &cols = A.engine().cols();
@@ -540,35 +692,6 @@ copy(const MA &A, MB &&B)
     for (IndexType i=rows.firstIndex(); i<rows.lastIndex(); ++i) {
         for (IndexType k=rows(i); k<rows(i+1); ++k) {
             B(i,cols(k)) = vals(k);
-        }
-    }
-}
-
-//-- copy: SyCCSMatrix -> SyMatrix
-template <typename MA, typename MB>
-typename RestrictTo<IsSyCCSMatrix<MA>::value
-                 && IsSyMatrix<MB>::value,
-         void>::Type
-copy(const MA &A, MB &&B)
-{
-    typedef typename MA::IndexType    IndexType;
-    typedef typename MA::ElementType  ElementType;
-
-    if (B.dim()!=A.dim()) {
-        ASSERT(B.dim()==0);
-        B.resize(A.dim(), A.upLo(), A.indexBase(), ElementType(0));
-        B.upLo() = A.upLo();
-    }
-
-    ASSERT(A.upLo()==B.upLo());
-
-    const auto &cols = A.engine().cols();
-    const auto &rows = A.engine().rows();
-    const auto &vals = A.engine().values();
-
-    for (IndexType j=cols.firstIndex(); j<cols.lastIndex(); ++j) {
-        for (IndexType k=cols(j); k<cols(j+1); ++k) {
-            B(rows(k), j) = vals(k);
         }
     }
 }

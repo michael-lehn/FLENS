@@ -1,3 +1,4 @@
+#include <complex>
 #include <iostream>
 #include <flens/flens.cxx>
 
@@ -27,10 +28,10 @@ using namespace std;
 template <typename CCS, typename FS>
 void
 setup(StorageUpLo upLo, int n, int max_nnz, int indexBase,
-      SyCCSMatrix<CCS> &A, SyMatrix<FS> &A_)
+      HeCCSMatrix<CCS> &A, HeMatrix<FS> &A_)
 {
-    typedef typename SyCCSMatrix<CCS>::ElementType  ElementType;
-    typedef CoordStorage<double, CoordColRowCmp>    Coord;
+    typedef typename HeCCSMatrix<CCS>::ElementType  ElementType;
+    typedef CoordStorage<complex<double>, CoordColRowCmp>    Coord;
 
     const ElementType  Zero(0);
 
@@ -39,29 +40,35 @@ setup(StorageUpLo upLo, int n, int max_nnz, int indexBase,
 
     //
     //  We first setup the sparse matrix B in coordinate storage.  Later we
-    //  convert it to compressed column storage.
+    //  convert it to compressed col storage.
     //
-    SyCoordMatrix<Coord>  B(n, upLo, 1, indexBase);
+    HeCoordMatrix<Coord>  B(n, upLo, 1, indexBase);
 
 
     for (int k=1; k<=max_nnz; ++k) {
         const int i = indexBase + rand() % n;
         const int j = indexBase + rand() % n;
-        const int v1 = rand() % 10;
-        const int v2 = rand() % 10;
+        const int v1r = rand() % 10;
+        const int v1i = rand() % 10;
+        const int v2r = rand() % 10;
+        const int v2i = rand() % 10;
+
+        const auto z1 = complex<double>(v1r,v1i);
+        const auto z2 = complex<double>(v2r,v2i);
 
         if ((upLo==Upper && (j>=i)) || (upLo==Lower && (i>=j))) {
-            B(i,j)  += v1;
-            B(i,j)  -= v2;
 
-            A_(i,j) += v1;
-            A_(i,j) -= v2;
+            B(i,j)  += z1;
+            B(i,j)  -= z2;
+
+            A_(i,j) += z1;
+            A_(i,j) -= z2;
         } else {
-            B(j,i)  += v1;
-            B(j,i)  -= v2;
+            B(j,i)  += cxxblas::conjugate(z1);
+            B(j,i)  -= cxxblas::conjugate(z2);
 
-            A_(j,i) += v1;
-            A_(j,i) -= v2;
+            A_(j,i) += cxxblas::conjugate(z1);
+            A_(j,i) -= cxxblas::conjugate(z2);
         }
     }
 
@@ -74,7 +81,7 @@ setup(StorageUpLo upLo, int n, int max_nnz, int indexBase,
     //
     //  Convert compressed col storage matrix A to full storage matrix A__
     //
-    typename SyMatrix<FS>::NoView  A__ = A;
+    typename HeMatrix<FS>::NoView  A__ = A;
 
     if (! lapack::isIdentical(A_, A__, "A_", "A__")) {
         cerr << "n =       " << n << endl;
@@ -85,9 +92,9 @@ setup(StorageUpLo upLo, int n, int max_nnz, int indexBase,
 
 template <typename CCS, typename FS>
 void
-mv(int n, int max_nnz, const SyCCSMatrix<CCS> &A, const SyMatrix<FS> &A_)
+mv(int n, int max_nnz, const HeCCSMatrix<CCS> &A, const HeMatrix<FS> &A_)
 {
-    typedef typename SyCCSMatrix<CCS>::ElementType  ElementType;
+    typedef typename HeCCSMatrix<CCS>::ElementType  ElementType;
 
     DenseVector<Array<ElementType> >  x(n), y, y_;
 
@@ -170,8 +177,8 @@ main()
             //  Storing elements in upper part
             //
             {
-                SyCCSMatrix<CCS<double> >       A;
-                SyMatrix<FullStorage<double> >  A_;
+                HeCCSMatrix<CCS<complex<double> > >       A;
+                HeMatrix<FullStorage<complex<double> > >  A_;
 
                 setup(Upper, n, max_nnz, indexBase, A, A_);
 
@@ -182,8 +189,8 @@ main()
             //  Storing elements in lower part
             //
             {
-                SyCCSMatrix<CCS<double> >       A;
-                SyMatrix<FullStorage<double> >  A_;
+                HeCCSMatrix<CCS<complex<double> > >       A;
+                HeMatrix<FullStorage<complex<double> > >  A_;
 
                 setup(Lower, n, max_nnz, indexBase, A, A_);
 

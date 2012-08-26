@@ -33,6 +33,9 @@
 #ifndef FLENS_MATRIXTYPES_HERMITIAN_IMPL_IMPL_H
 #define FLENS_MATRIXTYPES_HERMITIAN_IMPL_IMPL_H 1
 
+#include <flens/matrixtypes/hermitian/impl/heccsmatrix.h>
+#include <flens/matrixtypes/hermitian/impl/hecoordmatrix.h>
+#include <flens/matrixtypes/hermitian/impl/hecrsmatrix.h>
 #include <flens/matrixtypes/hermitian/impl/hematrix.h>
 
 #endif // FLENS_MATRIXTYPES_HERMITIAN_IMPL_IMPL_H

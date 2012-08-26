@@ -34,6 +34,8 @@
 #define CXXBLAS_SPARSELEVEL2_SPARSELEVEL2_H 1
 
 #include <cxxblas/sparselevel2/gecrsmv.h>
+#include <cxxblas/sparselevel2/heccsmv.h>
+#include <cxxblas/sparselevel2/hecrsmv.h>
 #include <cxxblas/sparselevel2/sycrsmv.h>
 
 #endif // CXXBLAS_SPARSELEVEL2_SPARSELEVEL2_H

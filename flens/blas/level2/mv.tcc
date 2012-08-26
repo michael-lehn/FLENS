@@ -406,6 +406,78 @@ mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
 #   endif
 }
 
+//-- hecrsmv
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+typename RestrictTo<IsHeCRSMatrix<MA>::value
+                 && IsDenseVector<VX>::value
+                 && IsDenseVector<VY>::value,
+         void>::Type
+mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
+{
+    ASSERT(!DEBUGCLOSURE::identical(x, y));
+    ASSERT(x.length()==A.dim());
+    ASSERT((beta==BETA(0)) || (y.length()==A.dim()));
+
+    if (y.length()!=A.dim()) {
+        typedef typename RemoveRef<VY>::Type   VectorY;
+        typedef typename VectorY::ElementType  T;
+
+        const T  Zero(0);
+        y.resize(A.dim(), y.firstIndex(), Zero);
+    }
+
+#   ifdef HAVE_CXXBLAS_SYCRSMV
+    cxxblas::hecrsmv(A.upLo(),
+                     A.dim(),
+                     alpha,
+                     A.engine().values().data(),
+                     A.engine().rows().data(),
+                     A.engine().cols().data(),
+                     x.data(),
+                     beta,
+                     y.data());
+#   else
+    ASSERT(0);
+#   endif
+}
+
+//-- heccsmv
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+typename RestrictTo<IsHeCCSMatrix<MA>::value
+                 && IsDenseVector<VX>::value
+                 && IsDenseVector<VY>::value,
+         void>::Type
+mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
+{
+    ASSERT(!DEBUGCLOSURE::identical(x, y));
+    ASSERT(x.length()==A.dim());
+    ASSERT((beta==BETA(0)) || (y.length()==A.dim()));
+
+    if (y.length()!=A.dim()) {
+        typedef typename RemoveRef<VY>::Type   VectorY;
+        typedef typename VectorY::ElementType  T;
+
+        const T  Zero(0);
+        y.resize(A.dim(), y.firstIndex(), Zero);
+    }
+
+#   ifdef HAVE_CXXBLAS_SYCRSMV
+    cxxblas::heccsmv(A.upLo(),
+                     A.dim(),
+                     alpha,
+                     A.engine().values().data(),
+                     A.engine().rows().data(),
+                     A.engine().cols().data(),
+                     x.data(),
+                     beta,
+                     y.data());
+#   else
+    ASSERT(0);
+#   endif
+}
+
+
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL2_MV_TCC

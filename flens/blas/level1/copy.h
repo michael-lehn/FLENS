@@ -59,6 +59,13 @@ template <typename MA, typename MB>
              void>::Type
     copy(Transpose trans, const MA &A, MB &&B);
 
+//-- hecopy
+template <typename MA, typename MB>
+    typename RestrictTo<IsHeMatrix<MA>::value
+                     && IsHeMatrix<MB>::value,
+             void>::Type
+    copy(const MA &A, MB &&B);
+
 //-- trcopy
 template <typename MA, typename MB>
     typename RestrictTo<IsTrMatrix<MA>::value
@@ -82,6 +89,20 @@ template <typename MA, typename MB>
              void>::Type
     copy(Transpose trans, const MA &A, MB &&B);
 
+//-- copy: HeCoordMatrix -> HeCCSMatrix
+template <typename MA, typename MB>
+    typename RestrictTo<IsHeCoordMatrix<MA>::value
+                     && IsHeCCSMatrix<MB>::value,
+             void>::Type
+    copy(const MA &A, MB &&B);
+
+//-- copy: SyCoordMatrix -> SyCCSMatrix
+template <typename MA, typename MB>
+    typename RestrictTo<IsSyCoordMatrix<MA>::value
+                     && IsSyCCSMatrix<MB>::value,
+             void>::Type
+    copy(const MA &A, MB &&B);
+
 //-- copy: GeCoordMatrix -> GeCRSMatrix
 template <typename MA, typename MB>
     typename RestrictTo<IsGeCoordMatrix<MA>::value
@@ -89,10 +110,10 @@ template <typename MA, typename MB>
              void>::Type
     copy(Transpose trans, const MA &A, MB &&B);
 
-//-- copy: SyCoordMatrix -> SyCCSMatrix
+//-- copy: HeCoordMatrix -> HeCRSMatrix
 template <typename MA, typename MB>
-    typename RestrictTo<IsSyCoordMatrix<MA>::value
-                     && IsSyCCSMatrix<MB>::value,
+    typename RestrictTo<IsHeCoordMatrix<MA>::value
+                     && IsHeCRSMatrix<MB>::value,
              void>::Type
     copy(const MA &A, MB &&B);
 
@@ -105,13 +126,6 @@ template <typename MA, typename MB>
 
 //-- convenience extensions ----------------------------------------------------
 
-//-- copy: TrMatrix -> GeMatrix
-template <typename MA, typename MB>
-    typename RestrictTo<IsTrMatrix<MA>::value
-                     && IsGeMatrix<MB>::value,
-             void>::Type
-    copy(Transpose trans, const MA &A, MB &&B);
-
 //-- copy: SyMatrix -> GeMatrix
 template <typename MA, typename MB>
     typename RestrictTo<IsSyMatrix<MA>::value
@@ -119,23 +133,16 @@ template <typename MA, typename MB>
              void>::Type
     copy(const MA &A, MB &&B);
 
+//-- copy: TrMatrix -> GeMatrix
+template <typename MA, typename MB>
+    typename RestrictTo<IsTrMatrix<MA>::value
+                     && IsGeMatrix<MB>::value,
+             void>::Type
+    copy(Transpose trans, const MA &A, MB &&B);
+
 //-- copy: GeCoordMatrix -> GeMatrix
 template <typename MA, typename MB>
     typename RestrictTo<IsGeCoordMatrix<MA>::value
-                     && IsGeMatrix<MB>::value,
-             void>::Type
-    copy(Transpose trans, const MA &A, MB &&B);
-
-//-- copy: GeCCSMatrix -> GeMatrix
-template <typename MA, typename MB>
-    typename RestrictTo<IsGeCCSMatrix<MA>::value
-                     && IsGeMatrix<MB>::value,
-             void>::Type
-    copy(Transpose trans, const MA &A, MB &&B);
-
-//-- copy: GeCRSMatrix -> GeMatrix
-template <typename MA, typename MB>
-    typename RestrictTo<IsGeCRSMatrix<MA>::value
                      && IsGeMatrix<MB>::value,
              void>::Type
     copy(Transpose trans, const MA &A, MB &&B);
@@ -147,10 +154,38 @@ template <typename MA, typename MB>
              void>::Type
     copy(const MA &A, MB &&B);
 
+//-- copy: GeCCSMatrix -> GeMatrix
+template <typename MA, typename MB>
+    typename RestrictTo<IsGeCCSMatrix<MA>::value
+                     && IsGeMatrix<MB>::value,
+             void>::Type
+    copy(Transpose trans, const MA &A, MB &&B);
+
+//-- copy: HeCCSMatrix -> HeMatrix
+template <typename MA, typename MB>
+    typename RestrictTo<IsHeCCSMatrix<MA>::value
+                     && IsHeMatrix<MB>::value,
+             void>::Type
+    copy(const MA &A, MB &&B);
+
 //-- copy: SyCCSMatrix -> SyMatrix
 template <typename MA, typename MB>
     typename RestrictTo<IsSyCCSMatrix<MA>::value
                      && IsSyMatrix<MB>::value,
+             void>::Type
+    copy(const MA &A, MB &&B);
+
+//-- copy: GeCRSMatrix -> GeMatrix
+template <typename MA, typename MB>
+    typename RestrictTo<IsGeCRSMatrix<MA>::value
+                     && IsGeMatrix<MB>::value,
+             void>::Type
+    copy(Transpose trans, const MA &A, MB &&B);
+
+//-- copy: HeCRSMatrix -> HeMatrix
+template <typename MA, typename MB>
+    typename RestrictTo<IsHeCRSMatrix<MA>::value
+                     && IsHeMatrix<MB>::value,
              void>::Type
     copy(const MA &A, MB &&B);
 

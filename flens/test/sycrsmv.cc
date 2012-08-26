@@ -6,11 +6,11 @@
 #endif
 
 #ifndef MAX_M
-#define MAX_M  500
+#define MAX_M  1500
 #endif
 
 #ifndef MAX_N
-#define MAX_N  500
+#define MAX_N  1500
 #endif
 
 #ifndef MAX_NNZ
@@ -154,7 +154,7 @@ main()
 {
     srand(SEED);
 
-    for (int run=1; run<=3000; ++run) {
+    for (int run=1; run<=30; ++run) {
         const int n       = std::max(1, rand() % (MAX_N));
         // check case 'nnz==0' at least onece
         const int max_nnz = (run==1) ? 0 : (rand() % (MAX_NNZ));

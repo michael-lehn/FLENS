@@ -156,10 +156,19 @@ template <typename Op, typename ML, typename MR, typename MB>
     void
     copy(Transpose trans, const MatrixClosure<Op, ML, MR> &A, Matrix<MB> &B);
 
+//-- hermitian matrices --------------------------------------------------------
+
+template <typename MA, typename MB>
+    void
+    copy(Transpose trans, const HermitianMatrix<MA> &A, Matrix<MB> &B);
+
+template <typename MA, typename MB>
+    typename RestrictTo<!IsHermitianMatrix<MA>::value,
+             void>::Type
+    copy(Transpose trans, const Matrix<MA> &A, HermitianMatrix<MB> &B);
+
 //-- symmetric matrices --------------------------------------------------------
-//
-//  We just trans is NoTrans or Trans we simply ignore it
-//
+
 template <typename MA, typename MB>
     void
     copy(Transpose trans, const SymmetricMatrix<MA> &A, Matrix<MB> &B);

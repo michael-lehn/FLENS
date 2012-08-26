@@ -33,6 +33,7 @@
 #ifndef CXXBLAS_SPARSELEVEL2_GECRSMV_TCC
 #define CXXBLAS_SPARSELEVEL2_GECRSMV_TCC 1
 
+#include <cxxblas/auxiliary/auxiliary.h>
 #include <cxxblas/typedefs.h>
 
 #define HAVE_CXXBLAS_GECRSMV 1
@@ -53,10 +54,7 @@ gecrsmv(Transpose        trans,
         const BETA       &beta,
         VY               *y)
 {
-//
-//  No support for complex yet
-//
-    ASSERT(trans!=Conj && trans!=ConjTrans);
+    using cxxblas::conjugate;
 
     const bool init  = (beta==BETA(0));
     const bool scale = (beta!=BETA(0) && beta!=BETA(1));
@@ -96,7 +94,35 @@ gecrsmv(Transpose        trans,
                 }
             }
         }
-    } else {
+    } else if (trans==Conj) {
+//
+//      Make y one-based; set correct index base for x
+//
+        --y;
+        x  -= ia[1];
+
+        if (init) {
+            for (int i=1; i<=m; ++i) {
+                y[i] = VY(0);
+                for (int k=ia[i]; k<ia[i+1]; ++k) {
+                    y[i] += alpha*conjugate(A[k])*x[ja[k]];
+                }
+            }
+        } else if (scale) {
+            for (int i=1; i<=m; ++i) {
+                y[i] *= beta;
+                for (int k=ia[i]; k<ia[i+1]; ++k) {
+                    y[i] += alpha*conjugate(A[k])*x[ja[k]];
+                }
+            }
+        } else {
+            for (int i=1; i<=m; ++i) {
+                for (int k=ia[i]; k<ia[i+1]; ++k) {
+                    y[i] += alpha*conjugate(A[k])*x[ja[k]];
+                }
+            }
+        }
+    } else if (trans==Trans) {
 //
 //      Make y one-based
 //
@@ -119,6 +145,31 @@ gecrsmv(Transpose        trans,
         for (int i=1; i<=m; ++i) {
             for (int k=ia[i]; k<ia[i+1]; ++k) {
                 y[ja[k]] += alpha*A[k]*x[i];
+            }
+        }
+    } else if (trans==ConjTrans) {
+//
+//      Make y one-based
+//
+        --y;
+        if (init) {
+            for (int i=1; i<=n; ++i) {
+                y[i] = VY(0);
+            }
+        } else if (scale) {
+            for (int i=1; i<=n; ++i) {
+                y[i] *=beta;
+            }
+        }
+//
+//      Set corret index base for y; make x one-based
+//
+        y += 1-ia[1];
+        --x;
+
+        for (int i=1; i<=m; ++i) {
+            for (int k=ia[i]; k<ia[i+1]; ++k) {
+                y[ja[k]] += alpha*conjugate(A[k])*x[i];
             }
         }
     }

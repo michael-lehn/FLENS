@@ -96,7 +96,7 @@ template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
              void>::Type
     mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y);
 
-//-- sycrsmv
+//-- syccsmv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
     typename RestrictTo<IsSyCCSMatrix<MA>::value
                      && IsDenseVector<VX>::value
@@ -113,6 +113,23 @@ template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
                      && IsDenseVector<VY>::value,
              void>::Type
     mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y);
+
+//-- hecrsmv
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+    typename RestrictTo<IsHeCRSMatrix<MA>::value
+                     && IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
+             void>::Type
+    mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y);
+
+//-- heccsmv
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+    typename RestrictTo<IsHeCCSMatrix<MA>::value
+                     && IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
+             void>::Type
+    mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y);
+
 
 } } // namespace blas, flens
 

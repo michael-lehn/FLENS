@@ -92,6 +92,8 @@ class HeMatrix
         typedef TrMatrix<EngineView>                TriangularView;
         typedef TrMatrix<EngineNoView>              TriangularNoView;
 
+        HeMatrix(StorageUpLo upLo = Upper);
+
         HeMatrix(IndexType dim, StorageUpLo upLo);
 
         HeMatrix(IndexType dim, IndexType firstIndex, StorageUpLo upLo);
@@ -254,6 +256,12 @@ class HeMatrix
 
         bool
         resize(IndexType dim,
+               IndexType firstIndex = Engine::defaultIndexBase,
+               const ElementType &value = ElementType());
+
+        bool
+        resize(IndexType dim,
+               StorageUpLo upLo,
                IndexType firstIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
 
