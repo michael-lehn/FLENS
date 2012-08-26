@@ -78,7 +78,6 @@ template <typename MA, typename VX>
              void>::Type
     mv(Transpose trans, const MA &A, VX &&x);
 
-
 //== SymmetricMatrix - Vector products =========================================
 
 //-- symv
@@ -97,6 +96,13 @@ template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
              void>::Type
     mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y);
 
+//-- sycrsmv
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+    typename RestrictTo<IsSyCCSMatrix<MA>::value
+                     && IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
+             void>::Type
+    mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y);
 
 //== HermitianMatrix - Vector products =========================================
 

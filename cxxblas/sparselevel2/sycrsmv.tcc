@@ -43,7 +43,7 @@ template <typename IndexType, typename ALPHA, typename MA, typename VX,
           typename BETA, typename VY>
 void
 sycrsmv(StorageUpLo      upLo,
-        IndexType        m,
+        IndexType        n,
         const ALPHA      &alpha,
         const MA         *A,
         const IndexType  *ia,
@@ -52,34 +52,58 @@ sycrsmv(StorageUpLo      upLo,
         const BETA       &beta,
         VY               *y)
 {
+//
+//  The correct index base of the CRS matrix is stored in first Element of ia
+//
+    --ia;
+    ja -= ia[1];
+    A  -= ia[1];
+
+//
+//  Let x, y be one-based; x_, y_ get correct index base ia[1]
+//
+    const VX *x_ = x - ia[1];
+    VY       *y_ = y - ia[1];
+    --x;
+    --y;
+
     if (beta==BETA(0)) {
-        for (int i=1; i<=m; ++i) {
+        for (int i=1; i<=n; ++i) {
             y[i] = 0;
         }
     } else if (beta!=BETA(1)) {
-        for (int i=1; i<=m; ++i) {
+        for (int i=1; i<=n; ++i) {
             y[i] *= beta;
         }
     }
 
     if (upLo==Upper) {
-        for (int i=1; i<=m; ++i) {
-            //ASSERT(ja[ia[i]]==i);
-            for (int k=ia[i]; k<ia[i+1]; ++k) {
-                y[i] += alpha*A[k]*x[ja[k]];
-                if (ja[k]!=i) {
-                    y[ja[k]] += alpha*A[k]*x[i];
+        for (int i=1, I=ia[1]; i<=n; ++i, ++I) {
+            if (ia[i]<ia[i+1]) {
+                int k=ia[i];
+                y[i] += alpha*A[k]*x_[ja[k]];
+                if (ja[k]!=I) {
+                    y_[ja[k]] += alpha*A[k]*x[i];
+                }
+                for (k=ia[i]+1; k<ia[i+1]; ++k) {
+                    y[i]      += alpha*A[k]*x_[ja[k]];
+                    y_[ja[k]] += alpha*A[k]*x[i];
                 }
             }
         }
     } else {
-        for (int i=1; i<=m; ++i) {
-            for (int k=ia[i]; k<ia[i+1]-1; ++k) {
-                y[i] += alpha*A[k]*x[ja[k]];
-                y[ja[k]] += alpha*A[k]*x[i];
+        for (int i=1, I=ia[1]; i<=n; ++i, ++I) {
+            if (ia[i]<ia[i+1]) {
+                int k;
+                for (k=ia[i]; k<ia[i+1]-1; ++k) {
+                    y[i]      += alpha*A[k]*x_[ja[k]];
+                    y_[ja[k]] += alpha*A[k]*x[i];
+                }
+                y[i] += alpha*A[k]*x_[ja[k]];
+                if (ja[k]!=I) {
+                    y_[ja[k]] += alpha*A[k]*x[i];
+                }
             }
-            ASSERT(ja[ia[i+1]-1]==i);
-            y[i] += alpha*A[ia[i+1]-1]*x[i];
         }
     }
 }

@@ -64,42 +64,49 @@ GeCRSMatrix<CRS>::operator=(const Matrix<RHS> &rhs)
 
 //-- methods -------------------------------------------------------------------
 template <typename CRS>
-const typename GeCRSMatrix<CRS>::IndexType
+typename GeCRSMatrix<CRS>::IndexType
 GeCRSMatrix<CRS>::numRows() const
 {
     return _engine.numRows();
 }
 
 template <typename CRS>
-const typename GeCRSMatrix<CRS>::IndexType
+typename GeCRSMatrix<CRS>::IndexType
 GeCRSMatrix<CRS>::numCols() const
 {
     return _engine.numCols();
 }
 
 template <typename CRS>
-const typename GeCRSMatrix<CRS>::IndexType
+typename GeCRSMatrix<CRS>::IndexType
+GeCRSMatrix<CRS>::indexBase() const
+{
+    return _engine.indexBase();
+}
+
+template <typename CRS>
+typename GeCRSMatrix<CRS>::IndexType
 GeCRSMatrix<CRS>::firstRow() const
 {
     return _engine.firstRow();
 }
 
 template <typename CRS>
-const typename GeCRSMatrix<CRS>::IndexType
+typename GeCRSMatrix<CRS>::IndexType
 GeCRSMatrix<CRS>::lastRow() const
 {
     return _engine.lastRow();
 }
 
 template <typename CRS>
-const typename GeCRSMatrix<CRS>::IndexType
+typename GeCRSMatrix<CRS>::IndexType
 GeCRSMatrix<CRS>::firstCol() const
 {
     return _engine.firstCol();
 }
 
 template <typename CRS>
-const typename GeCRSMatrix<CRS>::IndexType
+typename GeCRSMatrix<CRS>::IndexType
 GeCRSMatrix<CRS>::lastCol() const
 {
     return _engine.lastCol();

@@ -51,17 +51,10 @@ class SyCoordMatrix
 
         // -- constructors -----------------------------------------------------
         explicit
-        SyCoordMatrix(IndexType dim,
-                      StorageUpLo upLo = Upper);
-
-        SyCoordMatrix(IndexType dim,
-                      IndexType firstIndex,
-                      StorageUpLo upLo);
-
-        SyCoordMatrix(IndexType dim,
-                      IndexType firstRow,
-                      IndexType firstCol,
-                      StorageUpLo upLo);
+        SyCoordMatrix(IndexType   dim,
+                      StorageUpLo upLo = Upper,
+                      IndexType   densityEstimate = 1,
+                      IndexType   indexBase = CS::defaultIndexBase);
 
         // -- operators --------------------------------------------------------
         ElementProxy
@@ -69,10 +62,16 @@ class SyCoordMatrix
 
         // -- methods ----------------------------------------------------------
         IndexType
+        dim() const;
+
+        IndexType
         numRows() const;
 
         IndexType
         numCols() const;
+
+        IndexType
+        indexBase() const;
 
         IndexType
         firstRow() const;

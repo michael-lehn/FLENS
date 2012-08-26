@@ -515,6 +515,64 @@ copy(Transpose trans, const MA &A, MB &&B)
     }
 }
 
+//-- copy: SyCRSMatrix -> SyMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsSyCRSMatrix<MA>::value
+                 && IsSyMatrix<MB>::value,
+         void>::Type
+copy(const MA &A, MB &&B)
+{
+    typedef typename MA::IndexType    IndexType;
+    typedef typename MA::ElementType  ElementType;
+
+    if (B.dim()!=A.dim()) {
+        ASSERT(B.dim()==0);
+        B.resize(A.dim(), A.upLo(), A.indexBase(), ElementType(0));
+        B.upLo() = A.upLo();
+    }
+
+    ASSERT(A.upLo()==B.upLo());
+
+    const auto &rows = A.engine().rows();
+    const auto &cols = A.engine().cols();
+    const auto &vals = A.engine().values();
+
+    for (IndexType i=rows.firstIndex(); i<rows.lastIndex(); ++i) {
+        for (IndexType k=rows(i); k<rows(i+1); ++k) {
+            B(i,cols(k)) = vals(k);
+        }
+    }
+}
+
+//-- copy: SyCCSMatrix -> SyMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsSyCCSMatrix<MA>::value
+                 && IsSyMatrix<MB>::value,
+         void>::Type
+copy(const MA &A, MB &&B)
+{
+    typedef typename MA::IndexType    IndexType;
+    typedef typename MA::ElementType  ElementType;
+
+    if (B.dim()!=A.dim()) {
+        ASSERT(B.dim()==0);
+        B.resize(A.dim(), A.upLo(), A.indexBase(), ElementType(0));
+        B.upLo() = A.upLo();
+    }
+
+    ASSERT(A.upLo()==B.upLo());
+
+    const auto &cols = A.engine().cols();
+    const auto &rows = A.engine().rows();
+    const auto &vals = A.engine().values();
+
+    for (IndexType j=cols.firstIndex(); j<cols.lastIndex(); ++j) {
+        for (IndexType k=cols(j); k<cols(j+1); ++k) {
+            B(rows(k), j) = vals(k);
+        }
+    }
+}
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1_COPY_TCC

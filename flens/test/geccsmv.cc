@@ -39,7 +39,7 @@ setup(int m, int n, int max_nnz, int indexBase,
 
     //
     //  We first setup the sparse matrix B in coordinate storage.  Later we
-    //  convert it to compressed row storage.
+    //  convert it to compressed col storage.
     //
     GeCoordMatrix<Coord>            B(m, n, 1, indexBase);
 
@@ -58,12 +58,12 @@ setup(int m, int n, int max_nnz, int indexBase,
     }
 
     //
-    //  Convert coordinate storage matrix B to compressed row storage matrix A
+    //  Convert coordinate storage matrix B to compressed col storage matrix A
     //
     A = B;
 
     //
-    //  Convert compressed row storage matrix A to full storage matrix A__
+    //  Convert compressed col storage matrix A to full storage matrix A__
     //
     typename GeMatrix<FS>::NoView  A__ = A;
 

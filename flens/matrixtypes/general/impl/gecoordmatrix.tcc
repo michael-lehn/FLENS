@@ -59,42 +59,49 @@ GeCoordMatrix<CS>::operator()(IndexType row, IndexType col)
 
 // -- methods ------------------------------------------------------------------
 template <typename CS>
-const typename GeCoordMatrix<CS>::IndexType
+typename GeCoordMatrix<CS>::IndexType
 GeCoordMatrix<CS>::numRows() const
 {
     return _engine.numRows();
 }
 
 template <typename CS>
-const typename GeCoordMatrix<CS>::IndexType
+typename GeCoordMatrix<CS>::IndexType
 GeCoordMatrix<CS>::numCols() const
 {
     return _engine.numCols();
 }
 
 template <typename CS>
-const typename GeCoordMatrix<CS>::IndexType
+typename GeCoordMatrix<CS>::IndexType
+GeCoordMatrix<CS>::indexBase() const
+{
+    return _engine.indexBase();
+}
+
+template <typename CS>
+typename GeCoordMatrix<CS>::IndexType
 GeCoordMatrix<CS>::firstRow() const
 {
     return _engine.firstRow();
 }
 
 template <typename CS>
-const typename GeCoordMatrix<CS>::IndexType
+typename GeCoordMatrix<CS>::IndexType
 GeCoordMatrix<CS>::lastRow() const
 {
     return _engine.lastRow();
 }
 
 template <typename CS>
-const typename GeCoordMatrix<CS>::IndexType
+typename GeCoordMatrix<CS>::IndexType
 GeCoordMatrix<CS>::firstCol() const
 {
     return _engine.firstCol();
 }
 
 template <typename CS>
-const typename GeCoordMatrix<CS>::IndexType
+typename GeCoordMatrix<CS>::IndexType
 GeCoordMatrix<CS>::lastCol() const
 {
     return _engine.lastCol();

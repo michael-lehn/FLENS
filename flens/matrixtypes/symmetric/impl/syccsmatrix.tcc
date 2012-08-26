@@ -42,6 +42,12 @@ namespace flens {
 
 // -- constructors -------------------------------------------------------------
 template <typename CCS>
+SyCCSMatrix<CCS>::SyCCSMatrix()
+    : _upLo(Upper)
+{
+}
+
+template <typename CCS>
 template <typename RHS>
 SyCCSMatrix<CCS>::SyCCSMatrix(const Matrix<RHS> &rhs)
 {
@@ -59,7 +65,7 @@ SyCCSMatrix<CCS>::operator=(const Matrix<RHS> &rhs)
 
 // -- methods ------------------------------------------------------------------
 template <typename CCS>
-const typename SyCCSMatrix<CCS>::IndexType
+typename SyCCSMatrix<CCS>::IndexType
 SyCCSMatrix<CCS>::dim() const
 {
     ASSERT(numRows()==numCols());
@@ -67,42 +73,49 @@ SyCCSMatrix<CCS>::dim() const
 }
 
 template <typename CCS>
-const typename SyCCSMatrix<CCS>::IndexType
+typename SyCCSMatrix<CCS>::IndexType
 SyCCSMatrix<CCS>::numRows() const
 {
     return _engine.numRows();
 }
 
 template <typename CCS>
-const typename SyCCSMatrix<CCS>::IndexType
+typename SyCCSMatrix<CCS>::IndexType
+SyCCSMatrix<CCS>::indexBase() const
+{
+    return _engine.indexBase();
+}
+
+template <typename CCS>
+typename SyCCSMatrix<CCS>::IndexType
 SyCCSMatrix<CCS>::numCols() const
 {
     return _engine.numCols();
 }
 
 template <typename CCS>
-const typename SyCCSMatrix<CCS>::IndexType
+typename SyCCSMatrix<CCS>::IndexType
 SyCCSMatrix<CCS>::firstRow() const
 {
     return _engine.firstRow();
 }
 
 template <typename CCS>
-const typename SyCCSMatrix<CCS>::IndexType
+typename SyCCSMatrix<CCS>::IndexType
 SyCCSMatrix<CCS>::lastRow() const
 {
     return _engine.lastRow();
 }
 
 template <typename CCS>
-const typename SyCCSMatrix<CCS>::IndexType
+typename SyCCSMatrix<CCS>::IndexType
 SyCCSMatrix<CCS>::firstCol() const
 {
     return _engine.firstCol();
 }
 
 template <typename CCS>
-const typename SyCCSMatrix<CCS>::IndexType
+typename SyCCSMatrix<CCS>::IndexType
 SyCCSMatrix<CCS>::lastCol() const
 {
     return _engine.lastCol();

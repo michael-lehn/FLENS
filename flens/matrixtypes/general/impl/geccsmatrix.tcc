@@ -64,42 +64,49 @@ GeCCSMatrix<CCS>::operator=(const Matrix<RHS> &rhs)
 
 //-- methods -------------------------------------------------------------------
 template <typename CCS>
-const typename GeCCSMatrix<CCS>::IndexType
+typename GeCCSMatrix<CCS>::IndexType
 GeCCSMatrix<CCS>::numRows() const
 {
     return _engine.numRows();
 }
 
 template <typename CCS>
-const typename GeCCSMatrix<CCS>::IndexType
+typename GeCCSMatrix<CCS>::IndexType
 GeCCSMatrix<CCS>::numCols() const
 {
     return _engine.numCols();
 }
 
 template <typename CCS>
-const typename GeCCSMatrix<CCS>::IndexType
+typename GeCCSMatrix<CCS>::IndexType
+GeCCSMatrix<CCS>::indexBase() const
+{
+    return _engine.indexBase();
+}
+
+template <typename CCS>
+typename GeCCSMatrix<CCS>::IndexType
 GeCCSMatrix<CCS>::firstRow() const
 {
     return _engine.firstRow();
 }
 
 template <typename CCS>
-const typename GeCCSMatrix<CCS>::IndexType
+typename GeCCSMatrix<CCS>::IndexType
 GeCCSMatrix<CCS>::lastRow() const
 {
     return _engine.lastRow();
 }
 
 template <typename CCS>
-const typename GeCCSMatrix<CCS>::IndexType
+typename GeCCSMatrix<CCS>::IndexType
 GeCCSMatrix<CCS>::firstCol() const
 {
     return _engine.firstCol();
 }
 
 template <typename CCS>
-const typename GeCCSMatrix<CCS>::IndexType
+typename GeCCSMatrix<CCS>::IndexType
 GeCCSMatrix<CCS>::lastCol() const
 {
     return _engine.lastCol();

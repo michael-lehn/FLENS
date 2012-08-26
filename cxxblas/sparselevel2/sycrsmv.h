@@ -43,7 +43,7 @@ template <typename IndexType, typename ALPHA, typename MA, typename VX,
           typename BETA, typename VY>
     void
     sycrsmv(StorageUpLo      upLo,
-            IndexType        m,
+            IndexType        n,
             const ALPHA      &alpha,
             const MA         *A,
             const IndexType  *ia,

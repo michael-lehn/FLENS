@@ -277,8 +277,12 @@ mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
     ASSERT((beta==BETA(0)) || (y.length()==A.dim()));
 
     if (y.length()!=A.dim()) {
+        typedef typename RemoveRef<VY>::Type   VectorY;
+        typedef typename VectorY::ElementType  T;
+
         FLENS_BLASLOG_RESIZE_VECTOR(y, A.dim());
-        y.resize(A.dim(), 0);
+        const T  Zero(0);
+        y.resize(A.dim(), y.firstIndex(), Zero);
     }
 
 #   ifdef HAVE_CXXBLAS_SYMV
@@ -307,24 +311,63 @@ mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
     ASSERT((beta==BETA(0)) || (y.length()==A.dim()));
 
     if (y.length()!=A.dim()) {
-        FLENS_BLASLOG_RESIZE_VECTOR(y, A.dim());
-        y.resize(A.dim(), 0);
+        typedef typename RemoveRef<VY>::Type   VectorY;
+        typedef typename VectorY::ElementType  T;
+
+        const T  Zero(0);
+        y.resize(A.dim(), y.firstIndex(), Zero);
     }
 
 #   ifdef HAVE_CXXBLAS_SYCRSMV
     cxxblas::sycrsmv(A.upLo(),
                      A.dim(),
                      alpha,
-                     A.engine().values().data() - A.firstRow(),
-                     A.engine().rows().data() - A.firstRow(),
-                     A.engine().cols().data() - A.firstCol(),
-                     x.data() - A.firstCol(),
+                     A.engine().values().data(),
+                     A.engine().rows().data(),
+                     A.engine().cols().data(),
+                     x.data(),
                      beta,
-                     y.data() - A.firstRow());
+                     y.data());
 #   else
     ASSERT(0);
 #   endif
 }
+
+//-- syccsmv
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+typename RestrictTo<IsSyCCSMatrix<MA>::value
+                 && IsDenseVector<VX>::value
+                 && IsDenseVector<VY>::value,
+         void>::Type
+mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
+{
+    ASSERT(!DEBUGCLOSURE::identical(x, y));
+    ASSERT(x.length()==A.dim());
+    ASSERT((beta==BETA(0)) || (y.length()==A.dim()));
+
+    if (y.length()!=A.dim()) {
+        typedef typename RemoveRef<VY>::Type   VectorY;
+        typedef typename VectorY::ElementType  T;
+
+        const T  Zero(0);
+        y.resize(A.dim(), y.firstIndex(), Zero);
+    }
+
+#   ifdef HAVE_CXXBLAS_SYCRSMV
+    cxxblas::sycrsmv(A.upLo()==Upper ? Lower : Upper,
+                     A.dim(),
+                     alpha,
+                     A.engine().values().data(),
+                     A.engine().cols().data(),
+                     A.engine().rows().data(),
+                     x.data(),
+                     beta,
+                     y.data());
+#   else
+    ASSERT(0);
+#   endif
+}
+
 
 //== HermitianMatrix - Vector products =========================================
 
@@ -341,7 +384,11 @@ mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
     ASSERT((beta==BETA(0)) || (y.length()==A.dim()));
 
     if (y.length()!=A.dim()) {
-        y.resize(A.dim(), 0);
+        typedef typename RemoveRef<VY>::Type   VectorY;
+        typedef typename VectorY::ElementType  T;
+
+        const T  Zero(0);
+        y.resize(A.dim(), y.firstIndex(), Zero);
     }
 
 #   ifdef HAVE_CXXBLAS_HEMV

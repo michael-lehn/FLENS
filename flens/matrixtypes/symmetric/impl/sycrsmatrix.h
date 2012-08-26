@@ -49,6 +49,8 @@ class SyCRSMatrix
         typedef typename Engine::IndexType      IndexType;
 
         // -- constructors -----------------------------------------------------
+        SyCRSMatrix();
+
         template <typename RHS>
             SyCRSMatrix(const Matrix<RHS> &rhs);
 
@@ -58,25 +60,28 @@ class SyCRSMatrix
             operator=(const Matrix<RHS> &rhs);
 
         // -- methods ----------------------------------------------------------
-        const IndexType
+        IndexType
         dim() const;
 
-        const IndexType
+        IndexType
         numRows() const;
 
-        const IndexType
+        IndexType
         numCols() const;
 
-        const IndexType
+        IndexType
+        indexBase() const;
+
+        IndexType
         firstRow() const;
 
-        const IndexType
+        IndexType
         lastRow() const;
 
-        const IndexType
+        IndexType
         firstCol() const;
 
-        const IndexType
+        IndexType
         lastCol() const;
 
         StorageUpLo

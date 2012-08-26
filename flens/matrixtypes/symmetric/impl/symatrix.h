@@ -93,6 +93,8 @@ class SyMatrix
         typedef TrMatrix<EngineView>                TriangularView;
         typedef TrMatrix<EngineNoView>              TriangularNoView;
 
+        SyMatrix(StorageUpLo upLo = Upper);
+
         SyMatrix(IndexType dim, StorageUpLo upLo);
 
         SyMatrix(IndexType dim, IndexType firstIndex, StorageUpLo upLo);
@@ -256,6 +258,12 @@ class SyMatrix
 
         bool
         resize(IndexType dim,
+               IndexType firstIndex = Engine::defaultIndexBase,
+               const ElementType &value = ElementType());
+
+        bool
+        resize(IndexType dim,
+               StorageUpLo upLo,
                IndexType firstIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
 

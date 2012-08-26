@@ -60,22 +60,25 @@ class GeCCSMatrix
             operator=(const Matrix<RHS> &rhs);
 
         // -- methods ----------------------------------------------------------
-        const IndexType
+        IndexType
         numRows() const;
 
-        const IndexType
+        IndexType
         numCols() const;
 
-        const IndexType
+        IndexType
+        indexBase() const;
+
+        IndexType
         firstRow() const;
 
-        const IndexType
+        IndexType
         lastRow() const;
 
-        const IndexType
+        IndexType
         firstCol() const;
 
-        const IndexType
+        IndexType
         lastCol() const;
 
         // -- implementation ---------------------------------------------------

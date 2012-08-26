@@ -41,25 +41,11 @@
 namespace flens {
 
 template <typename CS>
-SyCoordMatrix<CS>::SyCoordMatrix(IndexType dim, StorageUpLo upLo)
-    : _engine(dim, dim), _upLo(upLo)
-{
-}
-
-template <typename CS>
-SyCoordMatrix<CS>::SyCoordMatrix(IndexType dim,
-                                 IndexType firstIndex,
-                                 StorageUpLo upLo)
-    : _engine(dim, dim, firstIndex, firstIndex), _upLo(upLo)
-{
-}
-
-template <typename CS>
-SyCoordMatrix<CS>::SyCoordMatrix(IndexType dim,
-                                 IndexType firstRow,
-                                 IndexType firstCol,
-                                 StorageUpLo upLo)
-    : _engine(dim, dim, firstRow, firstCol), _upLo(upLo)
+SyCoordMatrix<CS>::SyCoordMatrix(IndexType   dim,
+                                 StorageUpLo upLo,
+                                 IndexType   densityEstimate,
+                                 IndexType   indexBase)
+    : _engine(dim, dim, densityEstimate, indexBase), _upLo(upLo)
 {
 }
 
@@ -82,6 +68,14 @@ SyCoordMatrix<CS>::operator()(IndexType row, IndexType col)
 // -- methods ------------------------------------------------------------------
 template <typename CS>
 typename SyCoordMatrix<CS>::IndexType
+SyCoordMatrix<CS>::dim() const
+{
+    ASSERT(numRows()==numCols());
+    return _engine.numRows();
+}
+
+template <typename CS>
+typename SyCoordMatrix<CS>::IndexType
 SyCoordMatrix<CS>::numRows() const
 {
     return _engine.numRows();
@@ -92,6 +86,13 @@ typename SyCoordMatrix<CS>::IndexType
 SyCoordMatrix<CS>::numCols() const
 {
     return _engine.numCols();
+}
+
+template <typename CS>
+typename SyCoordMatrix<CS>::IndexType
+SyCoordMatrix<CS>::indexBase() const
+{
+    return _engine.indexBase();
 }
 
 template <typename CS>

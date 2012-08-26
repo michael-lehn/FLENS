@@ -40,6 +40,12 @@
 namespace flens {
 
 template <typename FS>
+SyMatrix<FS>::SyMatrix(StorageUpLo upLo)
+    : _upLo(upLo)
+{
+}
+
+template <typename FS>
 SyMatrix<FS>::SyMatrix(IndexType dim, StorageUpLo upLo)
     : _engine(dim, dim), _upLo(upLo)
 {
@@ -442,6 +448,15 @@ bool
 SyMatrix<FS>::resize(IndexType dim, IndexType firstIndex,
                      const ElementType &value)
 {
+    return _engine.resize(dim, dim, firstIndex, firstIndex, value);
+}
+
+template <typename FS>
+bool
+SyMatrix<FS>::resize(IndexType dim, StorageUpLo upLo, IndexType firstIndex,
+                     const ElementType &value)
+{
+    _upLo = upLo;
     return _engine.resize(dim, dim, firstIndex, firstIndex, value);
 }
 
