@@ -28,9 +28,9 @@ GeMatrix
 *-----------------------------------------------------------------------------------*
                             [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#$@N@cxxblas@E@Trans]
                             [pose#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypename]
-                            [ALPHAtypenameMAtypenameVXtypenameBETAtypenameVYtypename]
-                            [RestrictToIsGeMatrixMAvalueIsDenseVectorVXvalueIsDenseV]
-                            [ectorVYvaluevoidType                                   ]
+                            [ALPHA,typenameMA,typenameVX,typenameBETA,typenameVYtype]
+                            [nameRestrictToIsGeMatrixMAvalueandIsDenseVectorVXvaluea]
+                            [ndIsDenseVectorVYvalue,voidType                        ]
 
     trans    `(input)`                                                         +
              Specifiy the operation, i.e.
@@ -64,9 +64,9 @@ GeCCSMatrix
 *-----------------------------------------------------------------------------------*
                             [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#$@N@cxxblas@E@Trans]
                             [pose#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypename]
-                            [ALPHAtypenameMAtypenameVXtypenameBETAtypenameVYtypename]
-                            [RestrictToIsGeCCSMatrixMAvalueIsDenseVectorVXvalueIsDen]
-                            [seVectorVYvaluevoidType                                ]
+                            [ALPHA,typenameMA,typenameVX,typenameBETA,typenameVYtype]
+                            [nameRestrictToIsGeCCSMatrixMAvalueandIsDenseVectorVXval]
+                            [ueandIsDenseVectorVYvalue,voidType                     ]
 
     trans    `(input)`                                                         +
              Specifiy the operation, i.e.
@@ -101,9 +101,9 @@ GeCRSMatrix
 *-----------------------------------------------------------------------------------*
                             [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#$@N@cxxblas@E@Trans]
                             [pose#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypename]
-                            [ALPHAtypenameMAtypenameVXtypenameBETAtypenameVYtypename]
-                            [RestrictToIsGeCRSMatrixMAvalueIsDenseVectorVXvalueIsDen]
-                            [seVectorVYvaluevoidType                                ]
+                            [ALPHA,typenameMA,typenameVX,typenameBETA,typenameVYtype]
+                            [nameRestrictToIsGeCRSMatrixMAvalueandIsDenseVectorVXval]
+                            [ueandIsDenseVectorVYvalue,voidType                     ]
 
     trans    `(input)`                                                         +
              Specifiy the operation, i.e.
@@ -139,9 +139,9 @@ $\text{op}(X)$ denotes $X$, $X^T$ or $X^H$.
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>2#T#Tmv#$@N@cxxblas@E@Transp]
-                         [ose#&1t0.0#&t0.1#templatetypenameMAtypenameVXtypen]
-                         [ameRestrictToIsTrMatrixMAvalueIsDenseVectorVXvalue]
-                         [voidType                                          ]
+                         [ose#&1t0.0#&t0.1#templatetypenameMA,typenameVXtype]
+                         [nameRestrictToIsTrMatrixMAvalueandIsDenseVectorVXv]
+                         [alue,voidType                                     ]
 
     trans    `(input)`                                                         +
              Specifiy the operation, i.e.
@@ -172,9 +172,10 @@ SyMatrix
 |                                                                                   |
 *-----------------------------------------------------------------------------------*
                             [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#&1t0.0#&1t0.1#&1t0.]
-                            [2#&1t0.3#&t0.4#templatetypenameALPHAtypenameMAtypenameV]
-                            [XtypenameBETAtypenameVYtypenameRestrictToIsSyMatrixMAva]
-                            [lueIsDenseVectorVXvalueIsDenseVectorVYvaluevoidType    ]
+                            [2#&1t0.3#&t0.4#templatetypenameALPHA,typenameMA,typenam]
+                            [eVX,typenameBETA,typenameVYtypenameRestrictToIsSyMatrix]
+                            [MAvalueandIsDenseVectorVXvalueandIsDenseVectorVYvalue,v]
+                            [oidType                                                ]
 
     alpha    `(input) real or complex scalar value`                            +
              Scaling factor $\alpha$.
@@ -201,9 +202,10 @@ SyCCSMatrix
 |                                                                                   |
 *-----------------------------------------------------------------------------------*
                             [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#&1t0.0#&1t0.1#&1t0.]
-                            [2#&1t0.3#&t0.4#templatetypenameALPHAtypenameMAtypenameV]
-                            [XtypenameBETAtypenameVYtypenameRestrictToIsSyCCSMatrixM]
-                            [AvalueIsDenseVectorVXvalueIsDenseVectorVYvaluevoidType ]
+                            [2#&1t0.3#&t0.4#templatetypenameALPHA,typenameMA,typenam]
+                            [eVX,typenameBETA,typenameVYtypenameRestrictToIsSyCCSMat]
+                            [rixMAvalueandIsDenseVectorVXvalueandIsDenseVectorVYvalu]
+                            [e,voidType                                             ]
 
     alpha    `(input) real or complex scalar value`                            +
              Scaling factor $\alpha$.
@@ -231,9 +233,10 @@ SyCRSMatrix
 |                                                                                   |
 *-----------------------------------------------------------------------------------*
                             [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#&1t0.0#&1t0.1#&1t0.]
-                            [2#&1t0.3#&t0.4#templatetypenameALPHAtypenameMAtypenameV]
-                            [XtypenameBETAtypenameVYtypenameRestrictToIsSyCRSMatrixM]
-                            [AvalueIsDenseVectorVXvalueIsDenseVectorVYvaluevoidType ]
+                            [2#&1t0.3#&t0.4#templatetypenameALPHA,typenameMA,typenam]
+                            [eVX,typenameBETA,typenameVYtypenameRestrictToIsSyCRSMat]
+                            [rixMAvalueandIsDenseVectorVXvalueandIsDenseVectorVYvalu]
+                            [e,voidType                                             ]
 
     alpha    `(input) real or complex scalar value`                            +
              Scaling factor $\alpha$.
@@ -267,9 +270,10 @@ HeMatrix
 |                                                                                   |
 *-----------------------------------------------------------------------------------*
                             [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#&1t0.0#&1t0.1#&1t0.]
-                            [2#&1t0.3#&t0.4#templatetypenameALPHAtypenameMAtypenameV]
-                            [XtypenameBETAtypenameVYtypenameRestrictToIsHeMatrixMAva]
-                            [lueIsDenseVectorVXvalueIsDenseVectorVYvaluevoidType    ]
+                            [2#&1t0.3#&t0.4#templatetypenameALPHA,typenameMA,typenam]
+                            [eVX,typenameBETA,typenameVYtypenameRestrictToIsHeMatrix]
+                            [MAvalueandIsDenseVectorVXvalueandIsDenseVectorVYvalue,v]
+                            [oidType                                                ]
 
     alpha    `(input) real or complex scalar value`                            +
              Scaling factor $\alpha$.
@@ -288,7 +292,7 @@ HeCCSMatrix
 *--[CODEREF]------------------------------------------------------------------------*
 |                                                                                   |
 |  template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>  |
-|      typename RestrictTo<IsHeCRSMatrix<MA>::value                                 |
+|      typename RestrictTo<IsHeCCSMatrix<MA>::value                                 |
 |                       && IsDenseVector<VX>::value                                 |
 |                       && IsDenseVector<VY>::value,                                |
 |               void>::Type                                                         |
@@ -296,9 +300,10 @@ HeCCSMatrix
 |                                                                                   |
 *-----------------------------------------------------------------------------------*
                             [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#&1t0.0#&1t0.1#&1t0.]
-                            [2#&1t0.3#&t0.4#templatetypenameALPHAtypenameMAtypenameV]
-                            [XtypenameBETAtypenameVYtypenameRestrictToIsHeCRSMatrixM]
-                            [AvalueIsDenseVectorVXvalueIsDenseVectorVYvaluevoidType ]
+                            [2#&1t0.3#&t0.4#templatetypenameALPHA,typenameMA,typenam]
+                            [eVX,typenameBETA,typenameVYtypenameRestrictToIsHeCCSMat]
+                            [rixMAvalueandIsDenseVectorVXvalueandIsDenseVectorVYvalu]
+                            [e,voidType                                             ]
 
     alpha    `(input) real or complex scalar value`                            +
              Scaling factor $\alpha$.
@@ -318,7 +323,7 @@ HeCRSMatrix
 *--[CODEREF]------------------------------------------------------------------------*
 |                                                                                   |
 |  template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>  |
-|      typename RestrictTo<IsHeCCSMatrix<MA>::value                                 |
+|      typename RestrictTo<IsHeCRSMatrix<MA>::value                                 |
 |                       && IsDenseVector<VX>::value                                 |
 |                       && IsDenseVector<VY>::value,                                |
 |               void>::Type                                                         |
@@ -326,9 +331,10 @@ HeCRSMatrix
 |                                                                                   |
 *-----------------------------------------------------------------------------------*
                             [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#&1t0.0#&1t0.1#&1t0.]
-                            [2#&1t0.3#&t0.4#templatetypenameALPHAtypenameMAtypenameV]
-                            [XtypenameBETAtypenameVYtypenameRestrictToIsHeCCSMatrixM]
-                            [AvalueIsDenseVectorVXvalueIsDenseVectorVYvaluevoidType ]
+                            [2#&1t0.3#&t0.4#templatetypenameALPHA,typenameMA,typenam]
+                            [eVX,typenameBETA,typenameVYtypenameRestrictToIsHeCRSMat]
+                            [rixMAvalueandIsDenseVectorVXvalueandIsDenseVectorVYvalu]
+                            [e,voidType                                             ]
 
     alpha    `(input) real or complex scalar value`                            +
              Scaling factor $\alpha$.
