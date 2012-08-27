@@ -41,10 +41,10 @@ Interface: Multiple Right-Hand Sides
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@lapack@FT@>3#T#T#Tsv#&t0.0#&t0.1#&t0.]
-                         [2#templatetypenameMAtypenameVPIVtypenameMBtypename]
-                         [RestrictToIsGeMatrixMAvalueIsIntegerDenseVectorVPI]
-                         [VvalueIsGeMatrixMBvaluetypenameRemoveRefMATypeInde]
-                         [xTypeTypesv                                       ]
+                         [2#templatetypenameMA,typenameVPIV,typenameMBtypena]
+                         [meRestrictToIsGeMatrixMAvalueandIsIntegerDenseVect]
+                         [orVPIVvalueandIsGeMatrixMBvalue,typenameRemoveRefM]
+                         [ATypeIndexTypeType                                ]
 
     A       `(input/output) real or complex valued GeMatrix`                   +
             On entry, the $n \times n$ coefficient matrix $A$.                 +
@@ -69,7 +69,6 @@ Interface: Multiple Right-Hand Sides
 
 Interface: Single Right-Hand Side
 =================================
-
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
 |  template <typename MA, typename VPIV, typename VB>                       |
@@ -81,7 +80,10 @@ Interface: Single Right-Hand Side
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@lapack@FT@>3#T#T#Tsv#&t0.0#&t0.1#&t0.]
-                         [2#                                                ]
+                         [2#templatetypenameMA,typenameVPIV,typenameVBtypena]
+                         [meRestrictToIsGeMatrixMAvalueandIsIntegerDenseVect]
+                         [orVPIVvalueandIsDenseVectorVBvalue,typenameRemoveR]
+                         [efMATypeIndexTypeType                             ]
 
     A       `(input/output) real or complex valued GeMatrix`                   +
             On entry, the $n \times n$ coefficient matrix $A$.                 +
@@ -112,5 +114,3 @@ Notes
 :links: lapack-gesv -> doc:flens/examples/tut04-page03
         (d.+)       -> file:cxxlapack/netlib/lapack/$1.f
         (z.+)       -> file:cxxlapack/netlib/lapack/$1.f
-
-

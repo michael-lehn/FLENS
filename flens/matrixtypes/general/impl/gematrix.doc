@@ -11,7 +11,8 @@ symmetric.
 |  class GeMatrix;                                                          |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                                 [c:@N@flens@CT>1#T@GeMatrix]
+                         [c:@N@flens@CT>1#T@GeMatrixtemplatetypenameFSclassG]
+                         [eMatrix;                                          ]
 
 The template parameter specifies the underlying array storage scheme:
 
@@ -109,7 +110,6 @@ Constructors and Destructor
     Constructor of class `GeMatrix` with 1 template parameters.
 
 
-
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
 |  template <typename RHS>                                                  |
@@ -117,7 +117,7 @@ Constructors and Destructor
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@FT@>1#TGeMatrix<FS>#&1>]
-                         [@N@flens@CT>1#T@GeMatrix1t1.0#                    ]
+                         [@N@flens@CT>1#T@GeMatrix1t1.0#templatetypenameRHS ]
 
     Defined in namespace `flens`.
     Constructor of class `GeMatrix` with 1 template parameters.
@@ -131,7 +131,7 @@ Constructors and Destructor
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@FT@>1#TGeMatrix<FS>#&>@]
-                         [N@flens@CT>1#T@GeMatrix1t1.0#                     ]
+                         [N@flens@CT>1#T@GeMatrix1t1.0#templatetypenameRHS  ]
 
     Defined in namespace `flens`.
     Constructor of class `GeMatrix` with 1 template parameters.
@@ -145,7 +145,7 @@ Constructors and Destructor
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@FT@>1#TGeMatrix<FS>#&1>]
-                         [@N@flens@CT>1#T@Matrix1t1.0#                      ]
+                         [@N@flens@CT>1#T@Matrix1t1.0#templatetypenameRHS   ]
 
     Defined in namespace `flens`.
     Constructor of class `GeMatrix` with 1 template parameters.
@@ -160,7 +160,7 @@ Constructors and Destructor
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@FT@>1#TGeMatrix<FS># #S]
-                         [0_#&t1.0#                                         ]
+                         [0_#&t1.0#templatetypenameVECTOR                   ]
 
     Defined in namespace `flens`.
     Constructor of class `GeMatrix` with 1 template parameters.
@@ -176,7 +176,7 @@ Constructors and Destructor
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@FT@>1#TGeMatrix<FS># #S]
-                         [0_#&t1.0#S0_#                                     ]
+                         [0_#&t1.0#S0_#templatetypenameVECTOR               ]
 
     Defined in namespace `flens`.
     Constructor of class `GeMatrix` with 1 template parameters.
@@ -184,6 +184,7 @@ Constructors and Destructor
 
 Operators
 =========
+
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
 |  Initializer                                                              |
@@ -191,10 +192,11 @@ Operators
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@F@operator=#&1 #Initial]
-                         [izeroperator                                      ]
+                         [izeroperator=                                     ]
 
     Defined in namespace `flens`.
     Operator `=` of class `GeMatrix` with 1 template parameters.
+
 
 
 *--[CODEREF]----------------------------------------------------------------*
@@ -203,22 +205,12 @@ Operators
 |  operator=(const GeMatrix &rhs);                                          |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                              [M#c:@N@flens@CT>1#T@GeMatrix@F@operator=#&1 #]
+                         [c:@N@flens@CT>1#T@GeMatrix@F@operator=#&1 #GeMatri]
+                         [xbandoperator=                                    ]
 
     Defined in namespace `flens`.
     Operator `=` of class `GeMatrix` with 1 template parameters.
 
-
-*--[CODEREF]----------------------------------------------------------------*
-|                                                                           |
-|  GeMatrix &                                                               |
-|  operator=(const GeMatrix &rhs);                                          |
-|                                                                           |
-*---------------------------------------------------------------------------*
-                              [M#c:@N@flens@CT>1#T@GeMatrix@F@operator=#&1 #]
-
-    Defined in namespace `flens`.
-    Operator `=` of class `GeMatrix` with 1 template parameters.
 
 
 *--[CODEREF]----------------------------------------------------------------*
@@ -229,7 +221,8 @@ Operators
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@FT@>1#Toperator=#&1>@N@]
-                         [flens@CT>1#T@Matrix1t1.0#                         ]
+                         [flens@CT>1#T@Matrix1t1.0#templatetypenameRHSGeMatr]
+                         [ixbandoperator=                                   ]
 
     Defined in namespace `flens`.
     Operator `=` of class `GeMatrix` with 1 template parameters.
@@ -244,7 +237,8 @@ Operators
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@FT@>1#Toperator+=#&1>@N]
-                         [@flens@CT>1#T@Matrix1t1.0#                        ]
+                         [@flens@CT>1#T@Matrix1t1.0#templatetypenameRHSGeMat]
+                         [rixbandoperator+=                                 ]
 
     Defined in namespace `flens`.
     Operator `+=` of class `GeMatrix` with 1 template parameters.
@@ -259,7 +253,8 @@ Operators
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@FT@>1#Toperator-=#&1>@N]
-                         [@flens@CT>1#T@Matrix1t1.0#                        ]
+                         [@flens@CT>1#T@Matrix1t1.0#templatetypenameRHSGeMat]
+                         [rixbandoperator-=                                 ]
 
     Defined in namespace `flens`.
     Operator `-=` of class `GeMatrix` with 1 template parameters.
@@ -272,7 +267,8 @@ Operators
 |  operator+=(const ElementType &alpha);                                    |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                               [c:@N@flens@CT>1#T@GeMatrix@F@operator+=#&1 #]
+                         [c:@N@flens@CT>1#T@GeMatrix@F@operator+=#&1 #GeMatr]
+                         [ixFSbandoperator+=                                ]
 
     Defined in namespace `flens`.
     Operator `+=` of class `GeMatrix` with 1 template parameters.
@@ -285,7 +281,8 @@ Operators
 |  operator-=(const ElementType &alpha);                                    |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                               [c:@N@flens@CT>1#T@GeMatrix@F@operator-=#&1 #]
+                         [c:@N@flens@CT>1#T@GeMatrix@F@operator-=#&1 #GeMatr]
+                         [ixFSbandoperator-=                                ]
 
     Defined in namespace `flens`.
     Operator `-=` of class `GeMatrix` with 1 template parameters.
@@ -298,7 +295,8 @@ Operators
 |  operator*=(const ElementType &alpha);                                    |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                               [c:@N@flens@CT>1#T@GeMatrix@F@operator*=#&1 #]
+                         [c:@N@flens@CT>1#T@GeMatrix@F@operator*=#&1 #GeMatr]
+                         [ixbandoperator*=                                  ]
 
     Defined in namespace `flens`.
     Operator `*=` of class `GeMatrix` with 1 template parameters.
@@ -311,7 +309,8 @@ Operators
 |  operator/=(const ElementType &alpha);                                    |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                               [c:@N@flens@CT>1#T@GeMatrix@F@operator/=#&1 #]
+                         [c:@N@flens@CT>1#T@GeMatrix@F@operator/=#&1 #GeMatr]
+                         [ixbandoperator/=                                  ]
 
     Defined in namespace `flens`.
     Operator `/=` of class `GeMatrix` with 1 template parameters.
@@ -324,7 +323,8 @@ Operators
 |  operator()(IndexType row, IndexType col) const;                          |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                            [c:@N@flens@CT>1#T@GeMatrix@F@operator()# #S0_#1]
+                         [c:@N@flens@CT>1#T@GeMatrix@F@operator()# #S0_#1con]
+                         [stElementTypeband                                 ]
 
     Defined in namespace `flens`.
     Operator `()` of class `GeMatrix` with 1 template parameters.
@@ -337,7 +337,8 @@ Operators
 |  operator()(IndexType row, IndexType col);                                |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                             [c:@N@flens@CT>1#T@GeMatrix@F@operator()# #S0_#]
+                         [c:@N@flens@CT>1#T@GeMatrix@F@operator()# #S0_#Elem]
+                         [entTypeband                                       ]
 
     Defined in namespace `flens`.
     Operator `()` of class `GeMatrix` with 1 template parameters.
@@ -353,7 +354,9 @@ Operators
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@FT@>1#Toperator()#&1>@N]
-                         [@flens@CT>1#T@Scalar1t1.0#S0_#1                   ]
+                         [@flens@CT>1#T@Scalar1t1.0#S0_#1templatetypenameSco]
+                         [nstgematrixConstElementClosureGeMatrix,typenameSca]
+                         [larSImpl                                          ]
 
     Defined in namespace `flens`.
     Operator `()` of class `GeMatrix` with 1 template parameters.
@@ -367,7 +370,8 @@ Operators
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@F@operator()#&1>@N@flen]
-                         [s@CT>1#T@IndexVariable1 #S0_#1                    ]
+                         [s@CT>1#T@IndexVariable1 #S0_#1constConstElementClo]
+                         [sure                                              ]
 
     Defined in namespace `flens`.
     Operator `()` of class `GeMatrix` with 1 template parameters.
@@ -381,7 +385,7 @@ Operators
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@F@operator()#&>@N@flens]
-                         [@CT>1#T@IndexVariable1 #S0_#                      ]
+                         [@CT>1#T@IndexVariable1 #S0_#ElementClosure        ]
 
     Defined in namespace `flens`.
     Operator `()` of class `GeMatrix` with 1 template parameters.
@@ -396,7 +400,7 @@ Methods
 |  numRows() const;                                                         |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                     [c:@N@flens@CT>1#T@GeMatrix@F@numRows#1]
+                            [c:@N@flens@CT>1#T@GeMatrix@F@numRows#1IndexType]
 
     Defined in namespace `flens`.
     Method `numRows` of class `GeMatrix` with 1 template parameters.
@@ -409,7 +413,7 @@ Methods
 |  numCols() const;                                                         |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                     [c:@N@flens@CT>1#T@GeMatrix@F@numCols#1]
+                            [c:@N@flens@CT>1#T@GeMatrix@F@numCols#1IndexType]
 
     Defined in namespace `flens`.
     Method `numCols` of class `GeMatrix` with 1 template parameters.
@@ -422,7 +426,7 @@ Methods
 |  firstRow() const;                                                        |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                    [c:@N@flens@CT>1#T@GeMatrix@F@firstRow#1]
+                           [c:@N@flens@CT>1#T@GeMatrix@F@firstRow#1IndexType]
 
     Defined in namespace `flens`.
     Method `firstRow` of class `GeMatrix` with 1 template parameters.
@@ -435,7 +439,7 @@ Methods
 |  lastRow() const;                                                         |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                     [c:@N@flens@CT>1#T@GeMatrix@F@lastRow#1]
+                            [c:@N@flens@CT>1#T@GeMatrix@F@lastRow#1IndexType]
 
     Defined in namespace `flens`.
     Method `lastRow` of class `GeMatrix` with 1 template parameters.
@@ -448,7 +452,7 @@ Methods
 |  firstCol() const;                                                        |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                    [c:@N@flens@CT>1#T@GeMatrix@F@firstCol#1]
+                           [c:@N@flens@CT>1#T@GeMatrix@F@firstCol#1IndexType]
 
     Defined in namespace `flens`.
     Method `firstCol` of class `GeMatrix` with 1 template parameters.
@@ -461,7 +465,7 @@ Methods
 |  lastCol() const;                                                         |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                     [c:@N@flens@CT>1#T@GeMatrix@F@lastCol#1]
+                            [c:@N@flens@CT>1#T@GeMatrix@F@lastCol#1IndexType]
 
     Defined in namespace `flens`.
     Method `lastCol` of class `GeMatrix` with 1 template parameters.
@@ -474,7 +478,7 @@ Methods
 |  rows() const;                                                            |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                        [c:@N@flens@CT>1#T@GeMatrix@F@rows#1]
+                          [c:@N@flens@CT>1#T@GeMatrix@F@rows#1RangeIndexType]
 
     Defined in namespace `flens`.
     Method `rows` of class `GeMatrix` with 1 template parameters.
@@ -487,7 +491,7 @@ Methods
 |  cols() const;                                                            |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                        [c:@N@flens@CT>1#T@GeMatrix@F@cols#1]
+                          [c:@N@flens@CT>1#T@GeMatrix@F@cols#1RangeIndexType]
 
     Defined in namespace `flens`.
     Method `cols` of class `GeMatrix` with 1 template parameters.
@@ -500,7 +504,8 @@ Methods
 |  data() const;                                                            |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                        [c:@N@flens@CT>1#T@GeMatrix@F@data#1]
+                         [c:@N@flens@CT>1#T@GeMatrix@F@data#1constElementTyp]
+                         [e*                                                ]
 
     Defined in namespace `flens`.
     Method `data` of class `GeMatrix` with 1 template parameters.
@@ -513,7 +518,7 @@ Methods
 |  data();                                                                  |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                         [c:@N@flens@CT>1#T@GeMatrix@F@data#]
+                             [c:@N@flens@CT>1#T@GeMatrix@F@data#ElementType*]
 
     Defined in namespace `flens`.
     Method `data` of class `GeMatrix` with 1 template parameters.
@@ -526,7 +531,8 @@ Methods
 |  leadingDimension() const;                                                |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                            [c:@N@flens@CT>1#T@GeMatrix@F@leadingDimension#1]
+                         [c:@N@flens@CT>1#T@GeMatrix@F@leadingDimension#1Ind]
+                         [exType                                            ]
 
     Defined in namespace `flens`.
     Method `leadingDimension` of class `GeMatrix` with 1 template parameters.
@@ -539,7 +545,7 @@ Methods
 |  order() const;                                                           |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                       [c:@N@flens@CT>1#T@GeMatrix@F@order#1]
+                           [c:@N@flens@CT>1#T@GeMatrix@F@order#1StorageOrder]
 
     Defined in namespace `flens`.
     Method `order` of class `GeMatrix` with 1 template parameters.
@@ -555,7 +561,8 @@ Methods
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@FT@>1#Tresize#&1>@N@fle]
-                         [ns@CT>1#T@GeMatrix1t1.0#&1 #                      ]
+                         [ns@CT>1#T@GeMatrix1t1.0#&1 #templatetypenameRHSboo]
+                         [l                                                 ]
 
     Defined in namespace `flens`.
     Method `resize` of class `GeMatrix` with 1 template parameters.
@@ -572,7 +579,7 @@ Methods
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@F@resize# #S0_#S0_#S0_#]
-                         [&1 #                                              ]
+                         [&1 #bool                                          ]
 
     Defined in namespace `flens`.
     Method `resize` of class `GeMatrix` with 1 template parameters.
@@ -585,7 +592,7 @@ Methods
 |  fill(const ElementType &value = ElementType(0));                         |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                     [c:@N@flens@CT>1#T@GeMatrix@F@fill#&1 #]
+                                 [c:@N@flens@CT>1#T@GeMatrix@F@fill#&1 #bool]
 
     Defined in namespace `flens`.
     Method `fill` of class `GeMatrix` with 1 template parameters.
@@ -599,10 +606,11 @@ Methods
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@F@changeIndexBase# #S0_]
-                         [#                                                 ]
+                         [#void                                             ]
 
     Defined in namespace `flens`.
     Method `changeIndexBase` of class `GeMatrix` with 1 template parameters.
+
 
 
 Methods and Operators for View-Creation
@@ -611,14 +619,14 @@ Methods and Operators for View-Creation
 
 Vectorizing
 -----------
-
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
 |  const ConstVectorView                                                    |
 |  vectorView() const;                                                      |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                  [c:@N@flens@CT>1#T@GeMatrix@F@vectorView#1]
+                         [c:@N@flens@CT>1#T@GeMatrix@F@vectorView#1constCons]
+                         [tVectorView                                       ]
 
     Defined in namespace `flens`.
     Method `vectorView` of class `GeMatrix` with 1 template parameters.
@@ -631,7 +639,7 @@ Vectorizing
 |  vectorView();                                                            |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                   [c:@N@flens@CT>1#T@GeMatrix@F@vectorView#]
+                         [c:@N@flens@CT>1#T@GeMatrix@F@vectorView#VectorView]
 
     Defined in namespace `flens`.
     Method `vectorView` of class `GeMatrix` with 1 template parameters.
@@ -644,7 +652,8 @@ Vectorizing
 |  vectorView(IndexType from, IndexType to) const;                          |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                            [c:@N@flens@CT>1#T@GeMatrix@F@vectorView# #S0_#1]
+                         [c:@N@flens@CT>1#T@GeMatrix@F@vectorView# #S0_#1con]
+                         [stConstVectorView                                 ]
 
     Defined in namespace `flens`.
     Method `vectorView` of class `GeMatrix` with 1 template parameters.
@@ -657,22 +666,25 @@ Vectorizing
 |  vectorView(IndexType from, IndexType to);                                |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                             [c:@N@flens@CT>1#T@GeMatrix@F@vectorView# #S0_#]
+                         [c:@N@flens@CT>1#T@GeMatrix@F@vectorView# #S0_#Vect]
+                         [orView                                            ]
 
     Defined in namespace `flens`.
     Method `vectorView` of class `GeMatrix` with 1 template parameters.
 
 
+
+
 Diag-View
 ---------
-
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
 |  const ConstVectorView                                                    |
 |  diag(IndexType d) const;                                                 |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                      [c:@N@flens@CT>1#T@GeMatrix@F@diag# #1]
+                         [c:@N@flens@CT>1#T@GeMatrix@F@diag# #1constConstVec]
+                         [torView                                           ]
 
     Defined in namespace `flens`.
     Method `diag` of class `GeMatrix` with 1 template parameters.
@@ -685,7 +697,7 @@ Diag-View
 |  diag(IndexType d);                                                       |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                       [c:@N@flens@CT>1#T@GeMatrix@F@diag# #]
+                             [c:@N@flens@CT>1#T@GeMatrix@F@diag# #VectorView]
 
     Defined in namespace `flens`.
     Method `diag` of class `GeMatrix` with 1 template parameters.
@@ -693,14 +705,14 @@ Diag-View
 
 Triangular View
 ---------------
-
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
 |  const ConstTriangularView                                                |
 |  upper() const;                                                           |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                       [c:@N@flens@CT>1#T@GeMatrix@F@upper#1]
+                         [c:@N@flens@CT>1#T@GeMatrix@F@upper#1constConstTria]
+                         [ngularView                                        ]
 
     Defined in namespace `flens`.
     Method `upper` of class `GeMatrix` with 1 template parameters.
@@ -713,7 +725,7 @@ Triangular View
 |  upper();                                                                 |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                        [c:@N@flens@CT>1#T@GeMatrix@F@upper#]
+                          [c:@N@flens@CT>1#T@GeMatrix@F@upper#TriangularView]
 
     Defined in namespace `flens`.
     Method `upper` of class `GeMatrix` with 1 template parameters.
@@ -726,7 +738,8 @@ Triangular View
 |  upperUnit() const;                                                       |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                   [c:@N@flens@CT>1#T@GeMatrix@F@upperUnit#1]
+                         [c:@N@flens@CT>1#T@GeMatrix@F@upperUnit#1constConst]
+                         [TriangularView                                    ]
 
     Defined in namespace `flens`.
     Method `upperUnit` of class `GeMatrix` with 1 template parameters.
@@ -739,7 +752,8 @@ Triangular View
 |  upperUnit();                                                             |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                    [c:@N@flens@CT>1#T@GeMatrix@F@upperUnit#]
+                         [c:@N@flens@CT>1#T@GeMatrix@F@upperUnit#TriangularV]
+                         [iew                                               ]
 
     Defined in namespace `flens`.
     Method `upperUnit` of class `GeMatrix` with 1 template parameters.
@@ -752,7 +766,8 @@ Triangular View
 |  strictUpper() const;                                                     |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                 [c:@N@flens@CT>1#T@GeMatrix@F@strictUpper#1]
+                         [c:@N@flens@CT>1#T@GeMatrix@F@strictUpper#1constCon]
+                         [stTriangularView                                  ]
 
     Defined in namespace `flens`.
     Method `strictUpper` of class `GeMatrix` with 1 template parameters.
@@ -765,7 +780,8 @@ Triangular View
 |  strictUpper();                                                           |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                  [c:@N@flens@CT>1#T@GeMatrix@F@strictUpper#]
+                         [c:@N@flens@CT>1#T@GeMatrix@F@strictUpper#Triangula]
+                         [rView                                             ]
 
     Defined in namespace `flens`.
     Method `strictUpper` of class `GeMatrix` with 1 template parameters.
@@ -778,7 +794,8 @@ Triangular View
 |  lower() const;                                                           |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                       [c:@N@flens@CT>1#T@GeMatrix@F@lower#1]
+                         [c:@N@flens@CT>1#T@GeMatrix@F@lower#1constConstTria]
+                         [ngularView                                        ]
 
     Defined in namespace `flens`.
     Method `lower` of class `GeMatrix` with 1 template parameters.
@@ -791,7 +808,7 @@ Triangular View
 |  lower();                                                                 |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                        [c:@N@flens@CT>1#T@GeMatrix@F@lower#]
+                          [c:@N@flens@CT>1#T@GeMatrix@F@lower#TriangularView]
 
     Defined in namespace `flens`.
     Method `lower` of class `GeMatrix` with 1 template parameters.
@@ -804,7 +821,8 @@ Triangular View
 |  lowerUnit() const;                                                       |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                   [c:@N@flens@CT>1#T@GeMatrix@F@lowerUnit#1]
+                         [c:@N@flens@CT>1#T@GeMatrix@F@lowerUnit#1constConst]
+                         [TriangularView                                    ]
 
     Defined in namespace `flens`.
     Method `lowerUnit` of class `GeMatrix` with 1 template parameters.
@@ -817,7 +835,8 @@ Triangular View
 |  lowerUnit();                                                             |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                    [c:@N@flens@CT>1#T@GeMatrix@F@lowerUnit#]
+                         [c:@N@flens@CT>1#T@GeMatrix@F@lowerUnit#TriangularV]
+                         [iew                                               ]
 
     Defined in namespace `flens`.
     Method `lowerUnit` of class `GeMatrix` with 1 template parameters.
@@ -830,7 +849,8 @@ Triangular View
 |  strictLower() const;                                                     |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                 [c:@N@flens@CT>1#T@GeMatrix@F@strictLower#1]
+                         [c:@N@flens@CT>1#T@GeMatrix@F@strictLower#1constCon]
+                         [stTriangularView                                  ]
 
     Defined in namespace `flens`.
     Method `strictLower` of class `GeMatrix` with 1 template parameters.
@@ -843,15 +863,16 @@ Triangular View
 |  strictLower();                                                           |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                  [c:@N@flens@CT>1#T@GeMatrix@F@strictLower#]
+                         [c:@N@flens@CT>1#T@GeMatrix@F@strictLower#Triangula]
+                         [rView                                             ]
 
     Defined in namespace `flens`.
     Method `strictLower` of class `GeMatrix` with 1 template parameters.
 
 
+
 Rectangular View
 ----------------
-
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
 |  const ConstView                                                          |
@@ -860,7 +881,7 @@ Rectangular View
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@F@operator()#&1>@N@flen]
-                         [s@CT>1#T@Range1 #S0_#1                            ]
+                         [s@CT>1#T@Range1 #S0_#1constConstView              ]
 
     Defined in namespace `flens`.
     Operator `()` of class `GeMatrix` with 1 template parameters.
@@ -875,7 +896,7 @@ Rectangular View
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@F@operator()#&1>@N@flen]
-                         [s@CT>1#T@Range1 #S0_#                             ]
+                         [s@CT>1#T@Range1 #S0_#View                         ]
 
     Defined in namespace `flens`.
     Operator `()` of class `GeMatrix` with 1 template parameters.
@@ -890,7 +911,8 @@ Rectangular View
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@FT@>1#Toperator()#&1>@N]
-                         [@flens@CT>1#T@GeMatrix1t1.0#1                     ]
+                         [@flens@CT>1#T@GeMatrix1t1.0#1templatetypenameRHSco]
+                         [nstConstView                                      ]
 
     Defined in namespace `flens`.
     Operator `()` of class `GeMatrix` with 1 template parameters.
@@ -905,7 +927,8 @@ Rectangular View
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@FT@>1#Toperator()#&1>@N]
-                         [@flens@CT>1#T@GeMatrix1t1.0#                      ]
+                         [@flens@CT>1#T@GeMatrix1t1.0#templatetypenameRHSVie]
+                         [w                                                 ]
 
     Defined in namespace `flens`.
     Operator `()` of class `GeMatrix` with 1 template parameters.
@@ -921,7 +944,7 @@ Rectangular View
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@F@operator()#&1>@N@flen]
                          [s@CT>1#T@Underscore1 #&1>@N@flens@CT>1#T@Range1S2_]
-                         [#1                                                ]
+                         [#1constConstView                                  ]
 
     Defined in namespace `flens`.
     Operator `()` of class `GeMatrix` with 1 template parameters.
@@ -937,7 +960,7 @@ Rectangular View
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@F@operator()#&1>@N@flen]
                          [s@CT>1#T@Underscore1 #&1>@N@flens@CT>1#T@Range1S2_]
-                         [#                                                 ]
+                         [#View                                             ]
 
     Defined in namespace `flens`.
     Operator `()` of class `GeMatrix` with 1 template parameters.
@@ -953,7 +976,7 @@ Rectangular View
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@F@operator()#&1>@N@flen]
                          [s@CT>1#T@Range1 #&1>@N@flens@CT>1#T@Underscore1S2_]
-                         [#1                                                ]
+                         [#1constConstView                                  ]
 
     Defined in namespace `flens`.
     Operator `()` of class `GeMatrix` with 1 template parameters.
@@ -969,15 +992,16 @@ Rectangular View
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@F@operator()#&1>@N@flen]
                          [s@CT>1#T@Range1 #&1>@N@flens@CT>1#T@Underscore1S2_]
-                         [#                                                 ]
+                         [#View                                             ]
 
     Defined in namespace `flens`.
     Operator `()` of class `GeMatrix` with 1 template parameters.
 
 
+
+
 Row View
 --------
-
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
 |  const ConstVectorView                                                    |
@@ -985,7 +1009,7 @@ Row View
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@F@operator()# #&1>@N@fl]
-                         [ens@CT>1#T@Underscore1S0_#1                       ]
+                         [ens@CT>1#T@Underscore1S0_#1constConstVectorView   ]
 
     Defined in namespace `flens`.
     Operator `()` of class `GeMatrix` with 1 template parameters.
@@ -999,7 +1023,7 @@ Row View
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@F@operator()# #&1>@N@fl]
-                         [ens@CT>1#T@Underscore1S0_#                        ]
+                         [ens@CT>1#T@Underscore1S0_#VectorView              ]
 
     Defined in namespace `flens`.
     Operator `()` of class `GeMatrix` with 1 template parameters.
@@ -1013,7 +1037,7 @@ Row View
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@F@operator()# #&1>@N@fl]
-                         [ens@CT>1#T@Range1S0_#1                            ]
+                         [ens@CT>1#T@Range1S0_#1constConstVectorView        ]
 
     Defined in namespace `flens`.
     Operator `()` of class `GeMatrix` with 1 template parameters.
@@ -1027,15 +1051,16 @@ Row View
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@F@operator()# #&1>@N@fl]
-                         [ens@CT>1#T@Range1S0_#                             ]
+                         [ens@CT>1#T@Range1S0_#VectorView                   ]
 
     Defined in namespace `flens`.
     Operator `()` of class `GeMatrix` with 1 template parameters.
 
 
+
+
 Column View
 -----------
-
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
 |  const ConstVectorView                                                    |
@@ -1043,7 +1068,7 @@ Column View
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@F@operator()#&1>@N@flen]
-                         [s@CT>1#T@Underscore1 #S2_#1                       ]
+                         [s@CT>1#T@Underscore1 #S2_#1constConstVectorView   ]
 
     Defined in namespace `flens`.
     Operator `()` of class `GeMatrix` with 1 template parameters.
@@ -1057,7 +1082,7 @@ Column View
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@F@operator()#&1>@N@flen]
-                         [s@CT>1#T@Underscore1 #S2_#                        ]
+                         [s@CT>1#T@Underscore1 #S2_#VectorView              ]
 
     Defined in namespace `flens`.
     Operator `()` of class `GeMatrix` with 1 template parameters.
@@ -1071,7 +1096,7 @@ Column View
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@F@operator()#&1>@N@flen]
-                         [s@CT>1#T@Range1 #S2_#1                            ]
+                         [s@CT>1#T@Range1 #S2_#1constConstVectorView        ]
 
     Defined in namespace `flens`.
     Operator `()` of class `GeMatrix` with 1 template parameters.
@@ -1085,22 +1110,25 @@ Column View
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@GeMatrix@F@operator()#&1>@N@flen]
-                         [s@CT>1#T@Range1 #S2_#                             ]
+                         [s@CT>1#T@Range1 #S2_#VectorView                   ]
 
     Defined in namespace `flens`.
     Operator `()` of class `GeMatrix` with 1 template parameters.
 
 
+
+
+
 Accessing the Storage Scheme
 ----------------------------
-
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
 |  const Engine &                                                           |
 |  engine() const;                                                          |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                      [c:@N@flens@CT>1#T@GeMatrix@F@engine#1]
+                         [c:@N@flens@CT>1#T@GeMatrix@F@engine#1constEngineba]
+                         [nd                                                ]
 
     Defined in namespace `flens`.
     Method `engine` of class `GeMatrix` with 1 template parameters.
@@ -1113,25 +1141,27 @@ Accessing the Storage Scheme
 |  engine();                                                                |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                       [c:@N@flens@CT>1#T@GeMatrix@F@engine#]
+                             [c:@N@flens@CT>1#T@GeMatrix@F@engine#Engineband]
 
     Defined in namespace `flens`.
     Method `engine` of class `GeMatrix` with 1 template parameters.
 
 
+
+
 Related Trait-Classes
 =====================
-
 
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
 |  struct _GeMatrixChecker;                                                 |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                              [c:@N@flens@S@_GeMatrixChecker]
+                         [c:@N@flens@S@_GeMatrixCheckerstruct_GeMatrixChecke]
+                         [r;                                                ]
 
     Defined in namespace `flens`.
-    Class _GeMatrixChecker.
+    Class _GeMatrixCheckerstruct_GeMatrixChecker;.
 
 
 
@@ -1140,7 +1170,7 @@ Related Trait-Classes
 |  struct Two ;                                                             |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                        [c:@N@flens@S@_GeMatrixChecker@S@Two]
+                              [c:@N@flens@S@_GeMatrixChecker@S@TwostructTwo;]
 
     Defined in namespace `flens`.
     Class _GeMatrixChecker.
@@ -1153,10 +1183,11 @@ Related Trait-Classes
 |  struct IsGeMatrix;                                                       |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                               [c:@N@flens@ST>1#T@IsGeMatrix]
+                         [c:@N@flens@ST>1#T@IsGeMatrixtemplatetypenameTstruc]
+                         [tIsGeMatrix;                                      ]
 
     Defined in namespace `flens`.
-    Class IsGeMatrix with 1 template parameters.
+    Class IsGeMatrixtemplatetypenameTstructIsGeMatrix; with 1 template parameters.
 
 
 
@@ -1166,10 +1197,11 @@ Related Trait-Classes
 |  struct IsRealGeMatrix;                                                   |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                           [c:@N@flens@ST>1#T@IsRealGeMatrix]
+                         [c:@N@flens@ST>1#T@IsRealGeMatrixtemplatetypenameTs]
+                         [tructIsRealGeMatrix;                              ]
 
     Defined in namespace `flens`.
-    Class IsRealGeMatrix with 1 template parameters.
+    Class IsRealGeMatrixtemplatetypenameTstructIsRealGeMatrix; with 1 template parameters.
 
 
 
@@ -1179,9 +1211,11 @@ Related Trait-Classes
 |  struct IsComplexGeMatrix;                                                |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                        [c:@N@flens@ST>1#T@IsComplexGeMatrix]
+                         [c:@N@flens@ST>1#T@IsComplexGeMatrixtemplatetypenam]
+                         [eTstructIsComplexGeMatrix;                        ]
 
     Defined in namespace `flens`.
-    Class IsComplexGeMatrix with 1 template parameters.
+    Class IsComplexGeMatrixtemplatetypenameTstructIsComplexGeMatrix; with 1 template parameters.
+
 
 

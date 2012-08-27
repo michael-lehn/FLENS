@@ -85,12 +85,6 @@ template <typename Int, typename T, typename MA>
     lascl(LASCL::Type type, Int kl, Int ku,
           const T &cFrom, const T &cTo, MA &A);
 
-//-- forwarding ----------------------------------------------------------------
-template <typename Int, typename T, typename MA>
-    typename RestrictTo<IsSame<typename MA::ElementType, T>::value, void>::Type
-    lascl(LASCL::Type type, Int kl, Int ku,
-          const T &cFrom, const T &cTo, MA &&A);
-
 template <typename Int, typename T, typename VX>
     void
     lascl(LASCL::Type type, Int kl, Int ku,

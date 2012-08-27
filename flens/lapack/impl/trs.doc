@@ -34,8 +34,11 @@ Multiple Right-Hand Sides
 |      trs(Transpose trans, const MA &A, const VPIV &piv, MB &&B);          |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [M#c:@N@flens@N@lapack@FT@>3#T#T#Ttrs#$@N@cxxblas@E]
-                         [@Transpose#&1t0.0#&1t0.1#&t0.2#                   ]
+                         [c:@N@flens@N@lapack@FT@>3#T#T#Ttrs#$@N@cxxblas@E@T]
+                         [ranspose#&1t0.0#&1t0.1#&t0.2#templatetypenameMA,ty]
+                         [penameVPIV,typenameMBtypenameRestrictToIsGeMatrixM]
+                         [AvalueandIsIntegerDenseVectorVPIVvalueandIsGeMatri]
+                         [xMBvalue,voidType                                 ]
 
     trans    `(input) bool`                                                    +
              Solve $AX=B$, $A^T X=B$ or $A^H X = B$
@@ -62,10 +65,10 @@ Single Right-Hand Side
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@lapack@FT@>3#T#T#Ttrs#$@N@cxxblas@E@T]
-                         [ranspose#&1t0.0#&1t0.1#&t0.2#templatetypenameMAtyp]
-                         [enameVPIVtypenameVBtypenameRestrictToIsGeMatrixMAv]
-                         [alueIsIntegerDenseVectorVPIVvalueIsDenseVectorVBva]
-                         [luevoidTypetrs                                    ]
+                         [ranspose#&1t0.0#&1t0.1#&t0.2#templatetypenameMA,ty]
+                         [penameVPIV,typenameVBtypenameRestrictToIsGeMatrixM]
+                         [AvalueandIsIntegerDenseVectorVPIVvalueandIsDenseVe]
+                         [ctorVBvalue,voidType                              ]
 
     trans    `(input) bool`                                                    +
              Solve $AX=B$, $A^T X=B$ or $A^H X = B$
@@ -94,8 +97,10 @@ Multiple Right-Hand Sides
 |      trs(Transpose trans, const MA &A, MB &&B);                           |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [M#c:@N@flens@N@lapack@FT@>2#T#Ttrs#$@N@cxxblas@E@T]
-                         [ranspose#&1t0.0#&t0.1#                            ]
+                         [c:@N@flens@N@lapack@FT@>2#T#Ttrs#$@N@cxxblas@E@Tra]
+                         [nspose#&1t0.0#&t0.1#templatetypenameMA,typenameMBt]
+                         [ypenameRestrictToIsTrMatrixMAvalueandIsGeMatrixMBv]
+                         [alue,typenameRemoveRefMATypeIndexTypeType         ]
 
     trans    `(input) bool`                                                    +
              Solve $AX=B$, $A^T X=B$ or $A^H X = B$
@@ -118,9 +123,9 @@ Single Right-Hand Side
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@lapack@FT@>2#T#Ttrs#$@N@cxxblas@E@Tra]
-                         [nspose#&1t0.0#&t0.1#templatetypenameMAtypenameVBty]
-                         [penameRestrictToIsTrMatrixMAvalueIsDenseVectorVBva]
-                         [luetypenameRemoveRefMATypeIndexTypeTypetrs        ]
+                         [nspose#&1t0.0#&t0.1#templatetypenameMA,typenameVBt]
+                         [ypenameRestrictToIsTrMatrixMAvalueandIsDenseVector]
+                         [VBvalue,typenameRemoveRefMATypeIndexTypeType      ]
 
     trans    `(input) bool`                                                    +
              Solve $AX=B$, $A^T X=B$ or $A^H X = B$
@@ -142,4 +147,3 @@ Notes
         (d.+)        -> file:cxxlapack/netlib/lapack/$1.f
         (z.+)        -> file:cxxlapack/netlib/lapack/$1.f
         (.+)         -> doc:flens/lapack/impl/$1
-

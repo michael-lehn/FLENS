@@ -18,7 +18,9 @@ Vector Variant
 |      rscal(const ALPHA &alpha, VY &&y);                                   |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                           [M#c:@N@flens@N@blas@FT@>2#T#Trscal#&1t0.0#&t0.1#]
+                         [c:@N@flens@N@blas@FT@>2#T#Trscal#&1t0.0#&t0.1#temp]
+                         [latetypenameALPHAtypenameVYtypenameRestrictToIsDen]
+                         [seVectorVYvaluevoidType                           ]
 
     alpha    `(input) real scalar`                                             +
              Reciprocal scaling factor for the values in $y$.
@@ -39,16 +41,10 @@ Matrix Variant (Level 1 Extension)
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>2#T#Trscal#&1t0.0#&t0.1#temp]
                          [latetypenameALPHAtypenameMBtypenameRestrictToIsGeM]
-                         [atrixMBvaluevoidTyperscal                         ]
-
-    Defined in namespace `flens::blas`.
-    Function `rscal` with 2 template parameters.
-
-
+                         [atrixMBvaluevoidType                              ]
 
     alpha    `(input) real scalar`                                             +
              Reciprocal scaling factor for the values in $y$.
     B        `(input/output) real or complex valued GeMatrix`                  +
              On entry the original matrix $B$.                                +
              On exit overwritten with $\frac{1}{\alpha}\,B$.
-

@@ -76,7 +76,8 @@ rotg
 |      rotg(T &a, T &b, T &c, T &s);                                        |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                           [c:@N@flens@N@blas@FT@>1#Trotg#&t0.0#S0_#S0_#S0_#]
+                         [c:@N@flens@N@blas@FT@>1#Trotg#&t0.0#S0_#S0_#S0_#te]
+                         [mplatetypenameTvoid                               ]
 
     a    `(input/output) real or complex scalar`                               +
          On entry, the $x$-coordinate of the point $p = (a,b)^T$ subject to
@@ -104,7 +105,9 @@ rot
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>3#T#T#Trot#&t0.0#&t0.1#&1t0.]
-                         [2#S4_#                                            ]
+                         [2#S4_#templatetypenameVXtypenameVYtypenameTtypenam]
+                         [eRestrictToIsDenseVectorVXvalueIsDenseVectorVYvalu]
+                         [evoidType                                         ]
 
     x    `(input/output) real or complex DenseVector`                          +
          On exit, contains the rotated $x$-coodrinates.
@@ -114,8 +117,3 @@ rot
          The parameter $c$ associated with the Givens rotation.
     s    `(input) real or complex scalar`                                      +
          The parameter $s$ associated with the Givens rotation.
-
-
-
-
-

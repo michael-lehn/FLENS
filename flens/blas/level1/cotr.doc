@@ -15,7 +15,8 @@ of a general matrix, i.e. $A \leftarrow A^T$ or $A \leftarrow A^H$.
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>1#Tcotr#$@N@cxxblas@E@Transp]
-                         [ose#&t0.0#                                        ]
+                         [ose#&t0.0#templatetypenameMAtypenameRestrictToIsGe]
+                         [MatrixMAvaluevoidType                             ]
 
     trans    `(input)`                                                         +
              Specifiy the operation, i.e.
@@ -25,4 +26,3 @@ of a general matrix, i.e. $A \leftarrow A^T$ or $A \leftarrow A^H$.
              If _trans_ equals _NoTrans_ the functions immediately returns.
     A        `(input) real or complex valued GeMatrix`                         +
              Matrix $A$.
-

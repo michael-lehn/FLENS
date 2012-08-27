@@ -48,7 +48,7 @@ matrices in the first case and $k \times n$ matrices in the second case.
                             [spose#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypenam]
                             [eALPHAtypenameMAtypenameMBtypenameBETAtypenameMCtypenam]
                             [eRestrictToIsGeMatrixMAvalueIsGeMatrixMBvalueIsHeMatrix]
-                            [MCvaluevoidTyper2k                                     ]
+                            [MCvaluevoidType                                        ]
 
     trans     `(input)`                                                        +
               Specifies the operation to be performed as follows
@@ -108,7 +108,10 @@ matrices in the first case and $k \times n$ matrices in the second case.
 |                                                                                   |
 *-----------------------------------------------------------------------------------*
                             [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tr2k#$@N@cxxblas@E@Tran]
-                            [spose#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#               ]
+                            [spose#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypenam]
+                            [eALPHAtypenameMAtypenameMBtypenameBETAtypenameMCtypenam]
+                            [eRestrictToIsGeMatrixMAvalueIsGeMatrixMBvalueIsSyMatrix]
+                            [MCvaluevoidType                                        ]
 
     trans     `(input)`                                                        +
               Specifies the operation to be performed as follows

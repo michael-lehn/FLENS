@@ -47,7 +47,8 @@ ElementClosure<M>::ElementClosure(Matrix &matrix,
 }
 
 template <typename M>
-void
+//void
+int
 ElementClosure<M>::operator=(const ElementType &rhs)
 {
     typename IndexVariable::ElementType &i = _row.value();
@@ -66,6 +67,7 @@ ElementClosure<M>::operator=(const ElementType &rhs)
             }
         }
     }
+    return 0;
 }
 
 template <typename M>

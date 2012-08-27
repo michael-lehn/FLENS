@@ -35,7 +35,10 @@ where $\text{op}(X)$ denotes $X$, $X^T$ or $X^H$.
 |                                                                                   |
 *-----------------------------------------------------------------------------------*
                             [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmm#$@N@cxxblas@E@Trans]
-                            [pose#S0_#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#            ]
+                            [pose#S0_#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetype]
+                            [nameALPHAtypenameMAtypenameMBtypenameBETAtypenameMCtype]
+                            [nameRestrictToIsGeMatrixMAvalueIsGeMatrixMBvalueIsGeMat]
+                            [rixMCvaluevoidType                                     ]
 
     transA    `(input)`                                                        +
               Specifiy $\text{op}(A)$:
@@ -97,7 +100,9 @@ where $\text{op}(X)$ denotes $X$, $X^T$ or $X^H$.
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>3#T#T#Tmm#$@N@cxxblas@E@Side]
-                         [#$@N@cxxblas@E@Transpose#&1t0.0#&1t0.1#&t0.2#     ]
+                         [#$@N@cxxblas@E@Transpose#&1t0.0#&1t0.1#&t0.2#templ]
+                         [atetypenameALPHAtypenameMAtypenameMBtypenameRestri]
+                         [ctToIsTrMatrixMAvalueIsGeMatrixMBvaluevoidType    ]
 
     side      `(input)`                                                        +
               Specify the type of matrix-matrix product:
@@ -156,7 +161,10 @@ i.e. the symmetric matrix $A$ can be multiplies from left or right.
 |                                                                                   |
 *-----------------------------------------------------------------------------------*
                             [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmm#$@N@cxxblas@E@Side#]
-                            [&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#                     ]
+                            [&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypenameALPHA]
+                            [typenameMAtypenameMBtypenameBETAtypenameMCtypenameRestr]
+                            [ictToIsSyMatrixMAvalueIsGeMatrixMBvalueIsGeMatrixMCvalu]
+                            [evoidType                                              ]
 
     side      `(input)`                                                        +
               Specify the type of matrix-matrix product:
@@ -217,7 +225,7 @@ i.e. the hermitian matrix $A$ can be multiplies from left or right.
                             [&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypenameALPHA]
                             [typenameMAtypenameMBtypenameBETAtypenameMCtypenameRestr]
                             [ictToIsHeMatrixMAvalueIsGeMatrixMBvalueIsGeMatrixMCvalu]
-                            [evoidTypemm                                            ]
+                            [evoidType                                              ]
 
     side      `(input)`                                                        +
               Specify the type of matrix-matrix product:
@@ -236,4 +244,3 @@ i.e. the hermitian matrix $A$ can be multiplies from left or right.
               On entry the original matrix $C$.                                +
               On exit overwritten with
               $\beta\,C + \alpha\,A\,B$ or $\beta\,C + \alpha\,B\,A$.
-

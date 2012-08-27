@@ -281,7 +281,7 @@ lascl_impl(LASCL::Type   type,
 template <typename Int, typename T, typename MA>
 typename RestrictTo<IsSame<typename MA::ElementType, T>::value, void>::Type
 lascl(LASCL::Type type, Int kl, Int ku,
-      const T &cFrom, const T &cTo, MA &A)
+      const T &cFrom, const T &cTo, MA &&A)
 {
     LAPACK_DEBUG_OUT("lascl");
 
@@ -299,15 +299,6 @@ lascl(LASCL::Type type, Int kl, Int ku,
         ASSERT(0);
     }
 #   endif
-}
-
-//-- forwarding ----------------------------------------------------------------
-template <typename Int, typename T, typename MA>
-typename RestrictTo<IsSame<typename MA::ElementType, T>::value, void>::Type
-lascl(LASCL::Type type, Int kl, Int ku,
-      const T &cFrom, const T &cTo, MA &&A)
-{
-    lascl(type, kl, ku, cFrom, cTo, A);
 }
 
 //-- convert vector to matrix --------------------------------------------------

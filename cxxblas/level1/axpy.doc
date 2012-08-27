@@ -8,7 +8,6 @@ where $x, y$ are vectors and $\alpha$ is a constant scalar.
 
 Generic Implementation
 ======================
-
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
 |  template <typename IndexType, typename ALPHA, typename X, typename Y>    |
@@ -18,7 +17,8 @@ Generic Implementation
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@cxxblas@FT@>4#T#T#T#Taxpy#t0.0#&1t0.1#*1t0.2#]
-                         [S0_#*t0.3#S0_#                                    ]
+                         [S0_#*t0.3#S0_#templatetypenameIndexTypetypenameALP]
+                         [HAtypenameXtypenameYvoid                          ]
 
     n         `(input)`                                                        +
               Specifies the number of elements in vector $x$ and $y$.
@@ -51,7 +51,9 @@ Single Precision
 |           float *y, IndexType incY);                                      |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                          [c:@N@cxxblas@FT@>1#Taxpy#t0.0#&1f#*1f#S0_#*f#S0_#]
+                         [c:@N@cxxblas@FT@>1#Taxpy#t0.0#&1f#*1f#S0_#*f#S0_#t]
+                         [emplatetypenameIndexTypetypenameIfIndexTypeisBlasC]
+                         [ompatibleInteger                                  ]
 
 
 
@@ -66,7 +68,9 @@ Double Precision
 |           double *y, IndexType incY);                                     |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                          [c:@N@cxxblas@FT@>1#Taxpy#t0.0#&1d#*1d#S0_#*d#S0_#]
+                         [c:@N@cxxblas@FT@>1#Taxpy#t0.0#&1d#*1d#S0_#*d#S0_#t]
+                         [emplatetypenameIndexTypetypenameIfIndexTypeisBlasC]
+                         [ompatibleInteger                                  ]
 
 
 Complex Single Precision
@@ -81,7 +85,8 @@ Complex Single Precision
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@cxxblas@FT@>1#Taxpy#t0.0#&1$@N@std@N@__1@C@co]
-                         [mplex>#f#*1S2_#S0_#*S2_#S0_#                      ]
+                         [mplex>#f#*1S2_#S0_#*S2_#S0_#templatetypenameIndexT]
+                         [ypetypenameIfIndexTypeisBlasCompatibleInteger     ]
 
 
 Complex Double Precision
@@ -96,9 +101,10 @@ Complex Double Precision
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@cxxblas@FT@>1#Taxpy#t0.0#&1$@N@std@N@__1@C@co]
-                         [mplex>#d#*1S2_#S0_#*S2_#S0_#                      ]
-
+                         [mplex>#d#*1S2_#S0_#*S2_#S0_#templatetypenameIndexT]
+                         [ypetypenameIfIndexTypeisBlasCompatibleInteger     ]
 
 :links: __CBLAS__    -> http://www.netlib.org/blas/
         __ATLAS__    -> http://math-atlas.sourceforge.net
         __GotoBLAS__ -> http://www.tacc.utexas.edu/tacc-projects/gotoblas2
+

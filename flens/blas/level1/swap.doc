@@ -15,7 +15,9 @@ i.e. $x \leftrightarrow y$.
 |      swap(VX &&x, VY &&y);                                                |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                               [c:@N@flens@N@blas@FT@>2#T#Tswap#&t0.0#&t0.1#]
+                         [c:@N@flens@N@blas@FT@>2#T#Tswap#&t0.0#&t0.1#templa]
+                         [tetypenameVXtypenameVYtypenameRestrictToIsDenseVec]
+                         [torVXvalueIsDenseVectorVYvaluevoidType            ]
 
     x        `(input/output) real or complex valued DenseVector`               +
              On entry vector $x$.                                 +
@@ -23,5 +25,3 @@ i.e. $x \leftrightarrow y$.
     y        `(input/output) real or complex valued DenseVector`               +
              On entry vector $y$.                                 +
              On exit replaced with vector $x$.
-
-

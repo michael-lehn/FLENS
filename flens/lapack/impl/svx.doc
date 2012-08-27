@@ -66,7 +66,6 @@ The following steps are performed:
 
 Interface
 =========
-
 *--[CODEREF]----------------------------------------------------------------------*
 |                                                                                 |
 |  template <typename MA, typename MAF, typename VPIV, typename VR, typename VC,  |
@@ -99,8 +98,11 @@ Interface
                            [@flens@CT>1#T@GeMatrix1t0.5#&>@N@flens@CT>1#T@GeMatrix]
                            [1t0.6#&t0.7#&>@N@flens@CT>1#T@DenseVector1t0.8#&>@N@fl]
                            [ens@CT>1#T@DenseVector1t0.9#&>@N@flens@CT>1#T@DenseVec]
-                           [tor1t0.10#&>@N@flens@CT>1#T@DenseVector1t0.11#        ]
-
+                           [tor1t0.10#&>@N@flens@CT>1#T@DenseVector1t0.11#template]
+                           [typenameMA,typenameMAF,typenameVPIV,typenameVR,typenam]
+                           [eVC,typenameMB,typenameMX,typenameRCOND,typenameFERR,t]
+                           [ypenameBERR,typenameVWORK,typenameVIWORKtypenameGeMatr]
+                           [ixMAIndexType                                         ]
 
     fact     `(input)`                                                         +
              Specifies whether or not the factored form of the matrix $A$ is

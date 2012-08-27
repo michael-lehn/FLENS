@@ -32,8 +32,11 @@ Real Variant
 |          VWORK       &&work);                                             |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [M#c:@N@flens@N@lapack@FT@>3#T#T#Ttri#&t0.0#&1t0.1#]
-                         [&t0.2#                                            ]
+                         [c:@N@flens@N@lapack@FT@>3#T#T#Ttri#&t0.0#&1t0.1#&t]
+                         [0.2#templatetypenameMA,typenameVPIV,typenameVWORKt]
+                         [ypenameRestrictToIsRealGeMatrixMAvalueandIsInteger]
+                         [DenseVectorVPIVvalueandIsRealDenseVectorVWORKvalue]
+                         [,typenameRemoveRefMATypeIndexTypeType             ]
 
     A       `(input/output) real valued GeMatrix`                              +
             On entry, the $n \times n$ matrix $A$ contains the factors $L$ and
@@ -77,10 +80,10 @@ Complex Variant
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@lapack@FT@>3#T#T#Ttri#&t0.0#&1t0.1#&t]
-                         [0.2#templatetypenameMAtypenameVPIVtypenameVWORKtyp]
-                         [enameRestrictToIsComplexGeMatrixMAvalueIsIntegerDe]
-                         [nseVectorVPIVvalueIsComplexDenseVectorVWORKvaluety]
-                         [penameRemoveRefMATypeIndexTypeTypetri             ]
+                         [0.2#templatetypenameMA,typenameVPIV,typenameVWORKt]
+                         [ypenameRestrictToIsComplexGeMatrixMAvalueandIsInte]
+                         [gerDenseVectorVPIVvalueandIsComplexDenseVectorVWOR]
+                         [Kvalue,typenameRemoveRefMATypeIndexTypeType       ]
 
     A       `(input/output) complex valued GeMatrix`                           +
             On entry, the $n \times n$ matrix $A$ contains the factors $L$ and
@@ -123,7 +126,10 @@ complex variant.
 |          const VPIV  &piv);                                               |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                             [c:@N@flens@N@lapack@FT@>2#T#Ttri#&t0.0#&1t0.1#]
+                         [c:@N@flens@N@lapack@FT@>2#T#Ttri#&t0.0#&1t0.1#temp]
+                         [latetypenameMA,typenameVPIVtypenameRestrictToIsGeM]
+                         [atrixMAvalueandIsIntegerDenseVectorVPIVvalue,typen]
+                         [ameRemoveRefMATypeIndexTypeType                   ]
 
     A       `(input/output) real or complex valued GeMatrix`                   +
             On entry, the $n \times n$ matrix $A$ contains the factors $L$ and
@@ -143,18 +149,14 @@ Real Variant
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
 |  template <typename MA>                                                   |
-|      typename RestrictTo<IsComplexTrMatrix<MA>::value,                    |
+|      typename RestrictTo<IsRealTrMatrix<MA>::value,                       |
 |               typename RemoveRef<MA>::Type::IndexType>::Type              |
 |      tri(MA &&A);                                                         |
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@lapack@FT@>1#Ttri#&t0.0#templatetypen]
-                         [ameMAtypenameRestrictToIsComplexTrMatrixMAvaluetyp]
-                         [enameRemoveRefMATypeIndexTypeTypetri              ]
-
-    Defined in namespace `flens::lapack`.
-    Function `tri` with 1 template parameters.
-
+                         [ameMAtypenameRestrictToIsRealTrMatrixMAvalue,typen]
+                         [ameRemoveRefMATypeIndexTypeType                   ]
 
     A       `(input/output) real valued TrMatrix`                              +
             On entry, the triangular $n \times n$ matrix $A$.                  +
@@ -166,12 +168,14 @@ Complex Variant
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
 |  template <typename MA>                                                   |
-|      typename RestrictTo<IsRealTrMatrix<MA>::value,                       |
+|      typename RestrictTo<IsComplexTrMatrix<MA>::value,                    |
 |               typename RemoveRef<MA>::Type::IndexType>::Type              |
 |      tri(MA &&A);                                                         |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                    [M#c:@N@flens@N@lapack@FT@>1#Ttri#&t0.0#]
+                         [c:@N@flens@N@lapack@FT@>1#Ttri#&t0.0#templatetypen]
+                         [ameMAtypenameRestrictToIsComplexTrMatrixMAvalue,ty]
+                         [penameRemoveRefMATypeIndexTypeType                ]
 
     A       `(input/output) complex valued TrMatrix`                           +
             On entry, the triangular $n \times n$ matrix $A$.                  +
@@ -191,4 +195,3 @@ Notes
         (d.+)        -> file:cxxlapack/netlib/lapack/$1.f
         (z.+)        -> file:cxxlapack/netlib/lapack/$1.f
         (.+)         -> doc:flens/lapack/impl/$1
-

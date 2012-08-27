@@ -50,7 +50,8 @@ class ElementClosure
 
         ElementClosure(Matrix &matrix, IndexVariable &row, IndexVariable &col);
 
-        void
+        //void
+        int
         operator=(const ElementType &rhs);
 
         template <typename S>

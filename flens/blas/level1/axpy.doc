@@ -22,7 +22,9 @@ Vector Variant
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>3#T#T#Taxpy#&1t0.0#&1t0.1#&t]
-                         [0.2#                                              ]
+                         [0.2#templatetypenameALPHAtypenameVXtypenameVYtypen]
+                         [ameRestrictToIsDenseVectorVXvalueIsDenseVectorVYva]
+                         [luevoidType                                       ]
 
     alpha    `(input) real scalar`                                             +
              Scaling factor for the values in $x$.
@@ -44,7 +46,9 @@ Matrix Variant (Level 1 Extension)
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>3#T#T#Taxpy#$@N@cxxblas@E@Tr]
-                         [anspose#&1t0.0#&1t0.1#&t0.2#                      ]
+                         [anspose#&1t0.0#&1t0.1#&t0.2#templatetypenameALPHAt]
+                         [ypenameMAtypenameMBtypenameRestrictToIsGeMatrixMAv]
+                         [alueIsGeMatrixMBvaluevoidType                     ]
 
     trans    `(input)`                                                         +
              Specifiy the operation, i.e.

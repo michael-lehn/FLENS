@@ -27,7 +27,8 @@ Subroutine Variant
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>2#T#Tnrm2#&1>@N@flens@CT>1#T]
-                         [@DenseVector1t0.0#&t0.1#                          ]
+                         [@DenseVector1t0.0#&t0.1#templatetypenameXtypenameT]
+                         [typenameRestrictToIsNotComplexTvaluevoidType      ]
 
     x        `(input) real or complex valued DenseVector`               +
              Source vector.
@@ -45,7 +46,8 @@ Function Variant
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>1#Tnrm2#&1>@N@flens@CT>1#T@D]
-                         [enseVector1t0.0#                                  ]
+                         [enseVector1t0.0#templatetypenameXtypenameComplexTr]
+                         [aittypenameXElementTypePrimitiveType              ]
 
     x        `(input) real or complex valued DenseVector`               +
              Source vector.

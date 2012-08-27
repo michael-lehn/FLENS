@@ -8,7 +8,6 @@ i.e. performs the operation $y \leftarrow x$.
 
 Generic Implementation
 ======================
-
 *--[CODEREF]-----------------------------------------------------------------*
 |                                                                            |
 |  template <typename IndexType, typename X, typename Y>                     |
@@ -17,7 +16,8 @@ Generic Implementation
 |                                                                            |
 *----------------------------------------------------------------------------*
                           [c:@N@cxxblas@FT@>3#T#T#Tcopy#t0.0#*1t0.1#S0_#*t0.2]
-                          [#S0_#                                             ]
+                          [#S0_#templatetypenameIndexTypetypenameXtypenameYvo]
+                          [id                                                ]
 
     n         `(input)`                                                        +
               Specifies the number of elements in vector $x$ and $y$.
@@ -49,7 +49,9 @@ Single Precision
 |           float *y, IndexType incY);                                      |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                              [c:@N@cxxblas@FT@>1#Tcopy#t0.0#*1f#S0_#*f#S0_#]
+                         [c:@N@cxxblas@FT@>1#Tcopy#t0.0#*1f#S0_#*f#S0_#templ]
+                         [atetypenameIndexTypetypenameIfIndexTypeisBlasCompa]
+                         [tibleInteger                                      ]
 
 
 Double Precision
@@ -63,7 +65,9 @@ Double Precision
 |           double *y, IndexType incY);                                     |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                              [c:@N@cxxblas@FT@>1#Tcopy#t0.0#*1d#S0_#*d#S0_#]
+                         [c:@N@cxxblas@FT@>1#Tcopy#t0.0#*1d#S0_#*d#S0_#templ]
+                         [atetypenameIndexTypetypenameIfIndexTypeisBlasCompa]
+                         [tibleInteger                                      ]
 
 
 Complex Single Precision
@@ -78,7 +82,8 @@ Complex Single Precision
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@cxxblas@FT@>1#Tcopy#t0.0#*1$@N@std@N@__1@C@co]
-                         [mplex>#f#S0_#*S2_#S0_#                            ]
+                         [mplex>#f#S0_#*S2_#S0_#templatetypenameIndexTypetyp]
+                         [enameIfIndexTypeisBlasCompatibleInteger           ]
 
 
 Complex Double Precision
@@ -93,7 +98,8 @@ Complex Double Precision
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@cxxblas@FT@>1#Tcopy#t0.0#*1$@N@std@N@__1@C@co]
-                         [mplex>#d#S0_#*S2_#S0_#                            ]
+                         [mplex>#d#S0_#*S2_#S0_#templatetypenameIndexTypetyp]
+                         [enameIfIndexTypeisBlasCompatibleInteger           ]
 
 
 :links: __CBLAS__    -> http://www.netlib.org/blas/

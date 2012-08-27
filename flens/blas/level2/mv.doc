@@ -27,7 +27,10 @@ GeMatrix
 |                                                                                   |
 *-----------------------------------------------------------------------------------*
                             [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#$@N@cxxblas@E@Trans]
-                            [pose#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#                ]
+                            [pose#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypename]
+                            [ALPHAtypenameMAtypenameVXtypenameBETAtypenameVYtypename]
+                            [RestrictToIsGeMatrixMAvalueIsDenseVectorVXvalueIsDenseV]
+                            [ectorVYvaluevoidType                                   ]
 
     trans    `(input)`                                                         +
              Specifiy the operation, i.e.
@@ -37,6 +40,42 @@ GeMatrix
     alpha    `(input) real or complex scalar value`                            +
              Scaling factor $\alpha$.
     A        `(input) real or complex valued GeMatrix`                         +
+             Matrix $A$.
+    x        `(input) real or complex valued DenseVector`                      +
+             Vector $x$.
+    beta     `(input)`                                                         +
+             Scaling factor $\beta$. If $\beta$ is zero and $y$ has length
+             zero then $y$ gets resized.
+    y        `(input/output) real or complex valued DenseVector`               +
+             Vector $y$.
+
+GeCCSMatrix
+-----------
+*--[CODEREF]------------------------------------------------------------------------*
+|                                                                                   |
+|  template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>  |
+|      typename RestrictTo<IsGeCCSMatrix<MA>::value                                 |
+|                       && IsDenseVector<VX>::value                                 |
+|                       && IsDenseVector<VY>::value,                                |
+|               void>::Type                                                         |
+|      mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,            |
+|         const BETA &beta, VY &&y);                                                |
+|                                                                                   |
+*-----------------------------------------------------------------------------------*
+                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#$@N@cxxblas@E@Trans]
+                            [pose#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypename]
+                            [ALPHAtypenameMAtypenameVXtypenameBETAtypenameVYtypename]
+                            [RestrictToIsGeCCSMatrixMAvalueIsDenseVectorVXvalueIsDen]
+                            [seVectorVYvaluevoidType                                ]
+
+    trans    `(input)`                                                         +
+             Specifiy the operation, i.e.
+              NoTrans      $y \leftarrow \beta y + \alpha A   x$
+              Trans        $y \leftarrow \beta y + \alpha A^T x$
+              ConjTrans    $y \leftarrow \beta y + \alpha A^H x$
+    alpha    `(input) real or complex scalar value`                            +
+             Scaling factor $\alpha$.
+    A        `(input) real or complex valued GeCCSMatrix`                      +
              Matrix $A$.
     x        `(input) real or complex valued DenseVector`                      +
              Vector $x$.
@@ -64,7 +103,7 @@ GeCRSMatrix
                             [pose#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypename]
                             [ALPHAtypenameMAtypenameVXtypenameBETAtypenameVYtypename]
                             [RestrictToIsGeCRSMatrixMAvalueIsDenseVectorVXvalueIsDen]
-                            [seVectorVYvaluevoidTypemv                              ]
+                            [seVectorVYvaluevoidType                                ]
 
     trans    `(input)`                                                         +
              Specifiy the operation, i.e.
@@ -100,7 +139,9 @@ $\text{op}(X)$ denotes $X$, $X^T$ or $X^H$.
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>2#T#Tmv#$@N@cxxblas@E@Transp]
-                         [ose#&1t0.0#&t0.1#                                 ]
+                         [ose#&1t0.0#&t0.1#templatetypenameMAtypenameVXtypen]
+                         [ameRestrictToIsTrMatrixMAvalueIsDenseVectorVXvalue]
+                         [voidType                                          ]
 
     trans    `(input)`                                                         +
              Specifiy the operation, i.e.
@@ -133,7 +174,7 @@ SyMatrix
                             [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#&1t0.0#&1t0.1#&1t0.]
                             [2#&1t0.3#&t0.4#templatetypenameALPHAtypenameMAtypenameV]
                             [XtypenameBETAtypenameVYtypenameRestrictToIsSyMatrixMAva]
-                            [lueIsDenseVectorVXvalueIsDenseVectorVYvaluevoidTypemv  ]
+                            [lueIsDenseVectorVXvalueIsDenseVectorVYvaluevoidType    ]
 
     alpha    `(input) real or complex scalar value`                            +
              Scaling factor $\alpha$.
@@ -147,20 +188,52 @@ SyMatrix
     y        `(input/output) real or complex valued DenseVector`               +
              Vector $y$.
 
-SyCRSMatrix
+SyCCSMatrix
 -----------
 *--[CODEREF]------------------------------------------------------------------------*
 |                                                                                   |
 |  template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>  |
-|      typename RestrictTo<IsHeCRSMatrix<MA>::value                                 |
+|      typename RestrictTo<IsSyCCSMatrix<MA>::value                                 |
 |                       && IsDenseVector<VX>::value                                 |
 |                       && IsDenseVector<VY>::value,                                |
 |               void>::Type                                                         |
 |      mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y);  |
 |                                                                                   |
 *-----------------------------------------------------------------------------------*
-                            [M#c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#&1t0.0#&1t0.1#&1t]
-                            [0.2#&1t0.3#&t0.4#                                      ]
+                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#&1t0.0#&1t0.1#&1t0.]
+                            [2#&1t0.3#&t0.4#templatetypenameALPHAtypenameMAtypenameV]
+                            [XtypenameBETAtypenameVYtypenameRestrictToIsSyCCSMatrixM]
+                            [AvalueIsDenseVectorVXvalueIsDenseVectorVYvaluevoidType ]
+
+    alpha    `(input) real or complex scalar value`                            +
+             Scaling factor $\alpha$.
+    A        `(input) real or complex valued SyCCSMatrix`                      +
+             Symmetric matrix $A$.
+    x        `(input) real or complex valued DenseVector`                      +
+             Vector $x$.
+    beta     `(input)`                                                         +
+             Scaling factor $\beta$. If $\beta$ is zero and $y$ has length
+             zero then $y$ gets resized.
+    y        `(input/output) real or complex valued DenseVector`               +
+             Vector $y$.
+
+
+SyCRSMatrix
+-----------
+*--[CODEREF]------------------------------------------------------------------------*
+|                                                                                   |
+|  template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>  |
+|      typename RestrictTo<IsSyCRSMatrix<MA>::value                                 |
+|                       && IsDenseVector<VX>::value                                 |
+|                       && IsDenseVector<VY>::value,                                |
+|               void>::Type                                                         |
+|      mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y);  |
+|                                                                                   |
+*-----------------------------------------------------------------------------------*
+                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#&1t0.0#&1t0.1#&1t0.]
+                            [2#&1t0.3#&t0.4#templatetypenameALPHAtypenameMAtypenameV]
+                            [XtypenameBETAtypenameVYtypenameRestrictToIsSyCRSMatrixM]
+                            [AvalueIsDenseVectorVXvalueIsDenseVectorVYvaluevoidType ]
 
     alpha    `(input) real or complex scalar value`                            +
              Scaling factor $\alpha$.
@@ -180,6 +253,9 @@ Hermitian Matrix
 For a hermitian matrix $A$ and dense vectors $x, y$ the function computes
 matrix-vector products of the form $y \leftarrow \beta y + \alpha \, A \, x$.
 
+
+HeMatrix
+--------
 *--[CODEREF]------------------------------------------------------------------------*
 |                                                                                   |
 |  template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>  |
@@ -193,7 +269,7 @@ matrix-vector products of the form $y \leftarrow \beta y + \alpha \, A \, x$.
                             [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#&1t0.0#&1t0.1#&1t0.]
                             [2#&1t0.3#&t0.4#templatetypenameALPHAtypenameMAtypenameV]
                             [XtypenameBETAtypenameVYtypenameRestrictToIsHeMatrixMAva]
-                            [lueIsDenseVectorVXvalueIsDenseVectorVYvaluevoidTypemv  ]
+                            [lueIsDenseVectorVXvalueIsDenseVectorVYvaluevoidType    ]
 
     alpha    `(input) real or complex scalar value`                            +
              Scaling factor $\alpha$.
@@ -207,39 +283,12 @@ matrix-vector products of the form $y \leftarrow \beta y + \alpha \, A \, x$.
     y        `(input/output) real or complex valued DenseVector`               +
              Vector $y$.
 
-################################################################################
-#
-#  The following CODEREFs are automatically created stubs.
-#
-################################################################################
-
-
+HeCCSMatrix
+-----------
 *--[CODEREF]------------------------------------------------------------------------*
 |                                                                                   |
 |  template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>  |
-|      typename RestrictTo<IsGeCCSMatrix<MA>::value                                 |
-|                       && IsDenseVector<VX>::value                                 |
-|                       && IsDenseVector<VY>::value,                                |
-|               void>::Type                                                         |
-|      mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,            |
-|         const BETA &beta, VY &&y);                                                |
-|                                                                                   |
-*-----------------------------------------------------------------------------------*
-                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#$@N@cxxblas@E@Trans]
-                            [pose#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypename]
-                            [ALPHAtypenameMAtypenameVXtypenameBETAtypenameVYtypename]
-                            [RestrictToIsGeCCSMatrixMAvalueIsDenseVectorVXvalueIsDen]
-                            [seVectorVYvaluevoidTypemv                              ]
-
-    Defined in namespace `flens::blas`.
-    Function `mv` with 5 template parameters.
-
-
-
-*--[CODEREF]------------------------------------------------------------------------*
-|                                                                                   |
-|  template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>  |
-|      typename RestrictTo<IsSyCRSMatrix<MA>::value                                 |
+|      typename RestrictTo<IsHeCRSMatrix<MA>::value                                 |
 |                       && IsDenseVector<VX>::value                                 |
 |                       && IsDenseVector<VY>::value,                                |
 |               void>::Type                                                         |
@@ -248,36 +297,24 @@ matrix-vector products of the form $y \leftarrow \beta y + \alpha \, A \, x$.
 *-----------------------------------------------------------------------------------*
                             [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#&1t0.0#&1t0.1#&1t0.]
                             [2#&1t0.3#&t0.4#templatetypenameALPHAtypenameMAtypenameV]
-                            [XtypenameBETAtypenameVYtypenameRestrictToIsSyCRSMatrixM]
-                            [AvalueIsDenseVectorVXvalueIsDenseVectorVYvaluevoidTypem]
-                            [v                                                      ]
+                            [XtypenameBETAtypenameVYtypenameRestrictToIsHeCRSMatrixM]
+                            [AvalueIsDenseVectorVXvalueIsDenseVectorVYvaluevoidType ]
 
-    Defined in namespace `flens::blas`.
-    Function `mv` with 5 template parameters.
-
-
-
-*--[CODEREF]------------------------------------------------------------------------*
-|                                                                                   |
-|  template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>  |
-|      typename RestrictTo<IsSyCCSMatrix<MA>::value                                 |
-|                       && IsDenseVector<VX>::value                                 |
-|                       && IsDenseVector<VY>::value,                                |
-|               void>::Type                                                         |
-|      mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y);  |
-|                                                                                   |
-*-----------------------------------------------------------------------------------*
-                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#&1t0.0#&1t0.1#&1t0.]
-                            [2#&1t0.3#&t0.4#templatetypenameALPHAtypenameMAtypenameV]
-                            [XtypenameBETAtypenameVYtypenameRestrictToIsSyCCSMatrixM]
-                            [AvalueIsDenseVectorVXvalueIsDenseVectorVYvaluevoidTypem]
-                            [v                                                      ]
-
-    Defined in namespace `flens::blas`.
-    Function `mv` with 5 template parameters.
+    alpha    `(input) real or complex scalar value`                            +
+             Scaling factor $\alpha$.
+    A        `(input) real or complex valued HeCCSMatrix`                      +
+             Hermitian matrix $A$.
+    x        `(input) real or complex valued DenseVector`                      +
+             Vector $x$.
+    beta     `(input)`                                                         +
+             Scaling factor $\beta$. If $\beta$ is zero and $y$ has length
+             zero then $y$ gets resized.
+    y        `(input/output) real or complex valued DenseVector`               +
+             Vector $y$.
 
 
-
+HeCRSMatrix
+-----------
 *--[CODEREF]------------------------------------------------------------------------*
 |                                                                                   |
 |  template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>  |
@@ -291,11 +328,16 @@ matrix-vector products of the form $y \leftarrow \beta y + \alpha \, A \, x$.
                             [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#&1t0.0#&1t0.1#&1t0.]
                             [2#&1t0.3#&t0.4#templatetypenameALPHAtypenameMAtypenameV]
                             [XtypenameBETAtypenameVYtypenameRestrictToIsHeCCSMatrixM]
-                            [AvalueIsDenseVectorVXvalueIsDenseVectorVYvaluevoidTypem]
-                            [v                                                      ]
+                            [AvalueIsDenseVectorVXvalueIsDenseVectorVYvaluevoidType ]
 
-    Defined in namespace `flens::blas`.
-    Function `mv` with 5 template parameters.
-
-
-
+    alpha    `(input) real or complex scalar value`                            +
+             Scaling factor $\alpha$.
+    A        `(input) real or complex valued HeCRSMatrix`                      +
+             Hermitian matrix $A$.
+    x        `(input) real or complex valued DenseVector`                      +
+             Vector $x$.
+    beta     `(input)`                                                         +
+             Scaling factor $\beta$. If $\beta$ is zero and $y$ has length
+             zero then $y$ gets resized.
+    y        `(input/output) real or complex valued DenseVector`               +
+             Vector $y$.

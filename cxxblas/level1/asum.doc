@@ -8,7 +8,6 @@ of elements in a vector, i.e. $\sum\limits_{i} |x_i|$.
 
 Generic Implementation
 ======================
-
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
 |  template <typename IndexType, typename X, typename T>                    |
@@ -17,7 +16,7 @@ Generic Implementation
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@cxxblas@FT@>3#T#T#Tasum#t0.0#*1t0.1#S0_#&t0.2]
-                         [#                                                 ]
+                         [#templatetypenameIndexTypetypenameXtypenameTvoid  ]
 
     n         `(input)`                                                        +
               Specifies the number of elements in vector $x$.
@@ -46,8 +45,9 @@ Single Precision
 |           float &absSum);                                                 |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                  [c:@N@cxxblas@FT@>1#Tasum#t0.0#*1f#S0_#&f#]
-
+                         [c:@N@cxxblas@FT@>1#Tasum#t0.0#*1f#S0_#&f#templatet]
+                         [ypenameIndexTypetypenameIfIndexTypeisBlasCompatibl]
+                         [eInteger                                          ]
 
 Double Precision
 ----------------
@@ -59,7 +59,9 @@ Double Precision
 |           double &absSum);                                                |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                                  [c:@N@cxxblas@FT@>1#Tasum#t0.0#*1d#S0_#&d#]
+                         [c:@N@cxxblas@FT@>1#Tasum#t0.0#*1d#S0_#&d#templatet]
+                         [ypenameIndexTypetypenameIfIndexTypeisBlasCompatibl]
+                         [eInteger                                          ]
 
 
 Complex Single Precision
@@ -73,7 +75,8 @@ Complex Single Precision
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@cxxblas@FT@>1#Tasum#t0.0#*1$@N@std@N@__1@C@co]
-                         [mplex>#f#S0_#&f#                                  ]
+                         [mplex>#f#S0_#&f#templatetypenameIndexTypetypenameI]
+                         [fIndexTypeisBlasCompatibleInteger                 ]
 
 
 Complex Double Precision
@@ -87,8 +90,8 @@ Complex Double Precision
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@cxxblas@FT@>1#Tasum#t0.0#*1$@N@std@N@__1@C@co]
-                         [mplex>#d#S0_#&d#                                  ]
-
+                         [mplex>#d#S0_#&d#templatetypenameIndexTypetypenameI]
+                         [fIndexTypeisBlasCompatibleInteger                 ]
 
 
 :links: __CBLAS__    -> http://www.netlib.org/blas/

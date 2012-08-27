@@ -16,11 +16,10 @@ rotmg
 |      rotmg(T &d1, T &d2, T &b1, T &b2, DenseVector<VP> &p);               |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [M#c:@N@flens@N@blas@FT@>2#T#Trotmg#&t0.0#S0_#S0_#S]
-                         [0_#&>@N@flens@CT>1#T@DenseVector1t0.1#            ]
+                         [c:@N@flens@N@blas@FT@>2#T#Trotmg#&t0.0#S0_#S0_#S0_]
+                         [#&>@N@flens@CT>1#T@DenseVector1t0.1#templatetypena]
+                         [meTtypenameVPvoid                                 ]
 
-    Defined in namespace `flens::blas`.
-    Function `rotmg` with 2 template parameters.
 
 rotm
 ====
@@ -34,7 +33,9 @@ rotm
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>3#T#T#Trotm#&t0.0#&t0.1#&1>@]
-                         [N@flens@CT>1#T@DenseVector1t0.2#                  ]
+                         [N@flens@CT>1#T@DenseVector1t0.2#templatetypenameVX]
+                         [typenameVYtypenameVPtypenameRestrictToIsDenseVecto]
+                         [rVXvalueIsDenseVectorVYvaluevoidType              ]
 
     Defined in namespace `flens::blas`.
     Function `rotm` with 3 template parameters.
@@ -45,6 +46,3 @@ rotm
          On exit, contains the rotated $y$-coodrinates.
     c    `(input) real or complex scalar`                                      +
          The parameter $c$ associated with the Givens rotation.
- 
-
-

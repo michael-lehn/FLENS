@@ -44,7 +44,8 @@ ElementClosure<V>::ElementClosure(Vector &vector, IndexVariable &index)
 }
 
 template <typename V>
-void
+//void
+int
 ElementClosure<V>::operator=(const ElementType &rhs)
 {
     typename IndexVariable::ElementType &i = _index.value();
@@ -52,6 +53,7 @@ ElementClosure<V>::operator=(const ElementType &rhs)
     for (i=_vector.firstIndex(); i<=_vector.lastIndex(); ++i) {
         value() = rhs;
     }
+    return 0;
 }
 
 template <typename V>
