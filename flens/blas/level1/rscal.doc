@@ -19,8 +19,8 @@ Vector Variant
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>2#T#Trscal#&1t0.0#&t0.1#temp]
-                         [latetypenameALPHAtypenameVYtypenameRestrictToIsDen]
-                         [seVectorVYvaluevoidType                           ]
+                         [latetypenameALPHA,typenameVYtypenameRestrictToIsDe]
+                         [nseVectorVYvalue,voidType                         ]
 
     alpha    `(input) real scalar`                                             +
              Reciprocal scaling factor for the values in $y$.
@@ -40,8 +40,8 @@ Matrix Variant (Level 1 Extension)
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>2#T#Trscal#&1t0.0#&t0.1#temp]
-                         [latetypenameALPHAtypenameMBtypenameRestrictToIsGeM]
-                         [atrixMBvaluevoidType                              ]
+                         [latetypenameALPHA,typenameMBtypenameRestrictToIsGe]
+                         [MatrixMBvalue,voidType                            ]
 
     alpha    `(input) real scalar`                                             +
              Reciprocal scaling factor for the values in $y$.

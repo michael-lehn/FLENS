@@ -18,8 +18,7 @@ rotmg
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>2#T#Trotmg#&t0.0#S0_#S0_#S0_]
                          [#&>@N@flens@CT>1#T@DenseVector1t0.1#templatetypena]
-                         [meTtypenameVPvoid                                 ]
-
+                         [meT,typenameVPvoid                                ]
 
 rotm
 ====
@@ -34,8 +33,8 @@ rotm
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>3#T#T#Trotm#&t0.0#&t0.1#&1>@]
                          [N@flens@CT>1#T@DenseVector1t0.2#templatetypenameVX]
-                         [typenameVYtypenameVPtypenameRestrictToIsDenseVecto]
-                         [rVXvalueIsDenseVectorVYvaluevoidType              ]
+                         [,typenameVY,typenameVPtypenameRestrictToIsDenseVec]
+                         [torVXvalueandIsDenseVectorVYvalue,voidType        ]
 
     Defined in namespace `flens::blas`.
     Function `rotm` with 3 template parameters.

@@ -105,9 +105,9 @@ rot
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>3#T#T#Trot#&t0.0#&t0.1#&1t0.]
-                         [2#S4_#templatetypenameVXtypenameVYtypenameTtypenam]
-                         [eRestrictToIsDenseVectorVXvalueIsDenseVectorVYvalu]
-                         [evoidType                                         ]
+                         [2#S4_#templatetypenameVX,typenameVY,typenameTtypen]
+                         [ameRestrictToIsDenseVectorVXvalueandIsDenseVectorV]
+                         [Yvalue,voidType                                   ]
 
     x    `(input/output) real or complex DenseVector`                          +
          On exit, contains the rotated $x$-coodrinates.

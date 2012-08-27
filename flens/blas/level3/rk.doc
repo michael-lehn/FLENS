@@ -43,8 +43,9 @@ first case and an $k \times n$ matrix in the second case.
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>4#T#T#T#Trk#$@N@cxxblas@E@Tr]
                          [anspose#&1t0.0#&1t0.1#&1t0.2#&t0.3#templatetypenam]
-                         [eALPHAtypenameMAtypenameBETAtypenameMCtypenameRest]
-                         [rictToIsGeMatrixMAvalueIsHeMatrixMCvaluevoidType  ]
+                         [eALPHA,typenameMA,typenameBETA,typenameMCtypenameR]
+                         [estrictToIsGeMatrixMAvalueandIsHeMatrixMCvalue,voi]
+                         [dType                                             ]
 
     trans     `(input)`                                                        +
               Specifies the operation to be performed as follows
@@ -99,8 +100,9 @@ first case and an $k \times n$ matrix in the second case.
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>4#T#T#T#Trk#$@N@cxxblas@E@Tr]
                          [anspose#&1t0.0#&1t0.1#&1t0.2#&t0.3#templatetypenam]
-                         [eALPHAtypenameMAtypenameBETAtypenameMCtypenameRest]
-                         [rictToIsGeMatrixMAvalueIsSyMatrixMCvaluevoidType  ]
+                         [eALPHA,typenameMA,typenameBETA,typenameMCtypenameR]
+                         [estrictToIsGeMatrixMAvalueandIsSyMatrixMCvalue,voi]
+                         [dType                                             ]
 
     trans     `(input)`                                                        +
               Specifies the operation to be performed as follows
@@ -116,3 +118,4 @@ first case and an $k \times n$ matrix in the second case.
               On exit overwritten with
               $\beta\,C + \alpha\,A\,A^T$ or
               $\beta\,C + \alpha\,A^T\,A$.
+

@@ -19,8 +19,8 @@ Vector Variant
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>2#T#Tscal#&1t0.0#&t0.1#templ]
-                         [atetypenameALPHAtypenameVYtypenameRestrictToIsDens]
-                         [eVectorVYvaluevoidType                            ]
+                         [atetypenameALPHA,typenameVYtypenameRestrictToIsDen]
+                         [seVectorVYvalue,voidType                          ]
 
     Defined in namespace `flens::blas`.
     Function `scal` with 2 template parameters.
@@ -43,8 +43,8 @@ Matrix Variant (Level 1 Extension)
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>2#T#Tscal#&1t0.0#&t0.1#templ]
-                         [atetypenameALPHAtypenameMBtypenameRestrictToIsGeMa]
-                         [trixMBvaluevoidType                               ]
+                         [atetypenameALPHA,typenameMBtypenameRestrictToIsGeM]
+                         [atrixMBvalue,voidType                             ]
 
     alpha    `(input) real scalar`                                             +
              Scaling factor for the values in $y$.

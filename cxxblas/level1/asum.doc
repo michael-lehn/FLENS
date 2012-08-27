@@ -16,7 +16,7 @@ Generic Implementation
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@cxxblas@FT@>3#T#T#Tasum#t0.0#*1t0.1#S0_#&t0.2]
-                         [#templatetypenameIndexTypetypenameXtypenameTvoid  ]
+                         [#templatetypenameIndexType,typenameX,typenameTvoid]
 
     n         `(input)`                                                        +
               Specifies the number of elements in vector $x$.

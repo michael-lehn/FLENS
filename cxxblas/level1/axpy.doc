@@ -17,8 +17,8 @@ Generic Implementation
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@cxxblas@FT@>4#T#T#T#Taxpy#t0.0#&1t0.1#*1t0.2#]
-                         [S0_#*t0.3#S0_#templatetypenameIndexTypetypenameALP]
-                         [HAtypenameXtypenameYvoid                          ]
+                         [S0_#*t0.3#S0_#templatetypenameIndexType,typenameAL]
+                         [PHA,typenameX,typenameYvoid                       ]
 
     n         `(input)`                                                        +
               Specifies the number of elements in vector $x$ and $y$.
@@ -107,4 +107,3 @@ Complex Double Precision
 :links: __CBLAS__    -> http://www.netlib.org/blas/
         __ATLAS__    -> http://math-atlas.sourceforge.net
         __GotoBLAS__ -> http://www.tacc.utexas.edu/tacc-projects/gotoblas2
-

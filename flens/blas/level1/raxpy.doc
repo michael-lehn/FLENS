@@ -22,9 +22,9 @@ Vector Variant
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>3#T#T#Traxpy#&1t0.0#&1t0.1#&]
-                         [t0.2#templatetypenameALPHAtypenameVXtypenameVYtype]
-                         [nameRestrictToIsDenseVectorVXvalueIsDenseVectorVYv]
-                         [aluevoidType                                      ]
+                         [t0.2#templatetypenameALPHA,typenameVX,typenameVYty]
+                         [penameRestrictToIsDenseVectorVXvalueandIsDenseVect]
+                         [orVYvalue,voidType                                ]
 
     alpha    `(input) real scalar`                                             +
              Reciprocal scaling factor for the values in $x$.
@@ -47,8 +47,8 @@ Matrix Variant (Level 1 Extension)
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>3#T#T#Traxpy#$@N@cxxblas@E@T]
                          [ranspose#&1t0.0#&1t0.1#&t0.2#templatetypenameALPHA]
-                         [typenameMAtypenameMBtypenameRestrictToIsGeMatrixMA]
-                         [valueIsGeMatrixMBvaluevoidType                    ]
+                         [,typenameMA,typenameMBtypenameRestrictToIsGeMatrix]
+                         [MAvalueandIsGeMatrixMBvalue,voidType              ]
 
     trans    `(input)`                                                         +
              Specifiy the operation, i.e.

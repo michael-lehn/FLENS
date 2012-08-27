@@ -16,8 +16,8 @@ Generic Implementation
 |                                                                            |
 *----------------------------------------------------------------------------*
                           [c:@N@cxxblas@FT@>3#T#T#Tcopy#t0.0#*1t0.1#S0_#*t0.2]
-                          [#S0_#templatetypenameIndexTypetypenameXtypenameYvo]
-                          [id                                                ]
+                          [#S0_#templatetypenameIndexType,typenameX,typenameY]
+                          [void                                              ]
 
     n         `(input)`                                                        +
               Specifies the number of elements in vector $x$ and $y$.
@@ -105,3 +105,16 @@ Complex Double Precision
 :links: __CBLAS__    -> http://www.netlib.org/blas/
         __ATLAS__    -> http://math-atlas.sourceforge.net
         __GotoBLAS__ -> http://www.tacc.utexas.edu/tacc-projects/gotoblas2
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+
+    Defined in namespace `cxxblas`.
+    Function `copy` with 3 template parameters.
+
+
+

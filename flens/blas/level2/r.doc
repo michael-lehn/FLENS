@@ -21,9 +21,10 @@ General Matrix
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>4#T#T#T#Tr#&1t0.0#&1t0.1#&1t]
-                         [0.2#&t0.3#templatetypenameALPHAtypenameVXtypenameV]
-                         [YtypenameMAtypenameRestrictToIsDenseVectorVXvalueI]
-                         [sDenseVectorVYvalueIsGeMatrixMAvaluevoidType      ]
+                         [0.2#&t0.3#templatetypenameALPHA,typenameVX,typenam]
+                         [eVY,typenameMAtypenameRestrictToIsDenseVectorVXval]
+                         [ueandIsDenseVectorVYvalueandIsGeMatrixMAvalue,void]
+                         [Type                                              ]
 
     alpha    `(input)`                                                         +
              Scaling factor $\alpha$.
@@ -49,9 +50,10 @@ Unconjugated
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>4#T#T#T#Tru#&1t0.0#&1t0.1#&1]
-                         [t0.2#&t0.3#templatetypenameALPHAtypenameVXtypename]
-                         [VYtypenameMAtypenameRestrictToIsDenseVectorVXvalue]
-                         [IsDenseVectorVYvalueIsGeMatrixMAvaluevoidType     ]
+                         [t0.2#&t0.3#templatetypenameALPHA,typenameVX,typena]
+                         [meVY,typenameMAtypenameRestrictToIsDenseVectorVXva]
+                         [lueandIsDenseVectorVYvalueandIsGeMatrixMAvalue,voi]
+                         [dType                                             ]
 
     alpha    `(input)`                                                         +
              Scaling factor $\alpha$.
@@ -77,9 +79,11 @@ Conjugated
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@blas@FT@>4#T#T#T#Trc#&1t0.0#&1t0.1#&1]
-                         [t0.2#&t0.3#templatetypenameALPHAtypenameVXtypename]
-                         [VYtypenameMAtypenameRestrictToIsDenseVectorVXvalue]
-                         [IsDenseVectorVYvalueIsGeMatrixMAvaluevoidType     ]
+                         [t0.2#&t0.3#templatetypenameALPHA,typenameVX,typena]
+                         [meVY,typenameMAtypenameRestrictToIsDenseVectorVXva]
+                         [lueandIsDenseVectorVYvalueandIsGeMatrixMAvalue,voi]
+                         [dType                                             ]
+
 
 Symmetric Matrix
 ================
