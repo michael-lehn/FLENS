@@ -18,7 +18,7 @@ main()
 ///
     typedef int                                              IndexType;
     typedef IndexBaseZero<IndexType>                         IndexBase;
-    typedef CoordStorage<double, IndexBase, CoordRowColCmp>  Coord;
+    typedef CoordStorage<double, CoordRowColCmp, IndexBase>  Coord;
 
 ///
 /// We define a general sparse $m \times n$ matrix $A$.
