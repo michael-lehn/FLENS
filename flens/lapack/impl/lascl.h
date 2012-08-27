@@ -76,19 +76,23 @@ namespace LASCL {
 //       TrMatrix, SbMatrix, HessenbergMatrix, vector types and scalars
 //-- lascl ---------------------------------------------------------------------
 template <typename Int, typename T, typename MA>
-    typename RestrictTo<IsSame<typename MA::ElementType, T>::value, void>::Type
-    lascl(LASCL::Type type, Int kl, Int ku,
-          const T &cFrom, const T &cTo, MA &A);
-
-template <typename Int, typename T, typename MA>
-    typename RestrictTo<IsSame<MA, T>::value, void>::Type
-    lascl(LASCL::Type type, Int kl, Int ku,
-          const T &cFrom, const T &cTo, MA &A);
+    typename RestrictTo<IsMatrix<MA>::value,
+             void>::Type
+    lascl(LASCL::Type type, Int kl, Int ku, const T &cFrom, const T &cTo,
+          MA &&A);
 
 template <typename Int, typename T, typename VX>
-    void
-    lascl(LASCL::Type type, Int kl, Int ku,
-          const T &cFrom, const T &cTo, DenseVector<VX> &x);
+    typename RestrictTo<IsDenseVector<VX>::value,
+             void>::Type
+    lascl(LASCL::Type type, Int kl, Int ku, const T &cFrom, const T &cTo,
+          VX &&x);
+
+template <typename Int, typename T, typename ALPHA>
+    typename RestrictTo<!IsMatrix<ALPHA>::value
+                     && !IsVector<ALPHA>::value,
+             void>::Type
+    lascl(LASCL::Type type, Int kl, Int ku, const T &cFrom, const T &cTo,
+          ALPHA &&alpha);
 
 } } // namespace lapack, flens
 

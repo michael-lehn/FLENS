@@ -277,16 +277,17 @@ lascl_impl(LASCL::Type   type,
 #endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
-
 template <typename Int, typename T, typename MA>
-typename RestrictTo<IsSame<typename MA::ElementType, T>::value, void>::Type
-lascl(LASCL::Type type, Int kl, Int ku,
-      const T &cFrom, const T &cTo, MA &&A)
+typename RestrictTo<IsMatrix<MA>::value,
+         void>::Type
+lascl(LASCL::Type type, Int kl, Int ku, const T &cFrom, const T &cTo, MA &&A)
 {
     LAPACK_DEBUG_OUT("lascl");
 
+    typedef typename RemoveRef<MA>::Type  MatrixA;
+
 #   ifdef CHECK_CXXLAPACK
-    typename MA::NoView _A = A;
+    typename MatrixA::NoView _A = A;
 #   endif
 
     LAPACK_SELECT::lascl_impl(type, kl, ku, cFrom, cTo, A);
@@ -303,14 +304,16 @@ lascl(LASCL::Type type, Int kl, Int ku,
 
 //-- convert vector to matrix --------------------------------------------------
 template <typename Int, typename T, typename VX>
-void
-lascl(LASCL::Type type, Int kl, Int ku,
-      const T &cFrom, const T &cTo, DenseVector<VX> &x)
+typename RestrictTo<IsDenseVector<VX>::value,
+         void>::Type
+lascl(LASCL::Type type, Int kl, Int ku, const T &cFrom, const T &cTo, VX &&x)
 {
     using namespace LASCL;
 
-    typedef typename DenseVector<VX>::ElementType   TX;
-    typedef FullStorage<TX, ColMajor>               FS;
+    typedef typename RemoveRef<VX>::Type  VectorX;
+
+    typedef typename VectorX::ElementType   TX;
+    typedef FullStorage<TX, ColMajor>       FS;
 
     typename GeMatrix<FS>::View  A(x.length(), 1, x);
     ASSERT(type==FullMatrix);
@@ -318,29 +321,22 @@ lascl(LASCL::Type type, Int kl, Int ku,
 }
 
 //-- convert scalar to matrix --------------------------------------------------
-template <typename Int, typename T, typename MA>
-typename RestrictTo<IsSame<MA, T>::value, void>::Type
-lascl(LASCL::Type   type,
-      Int           kl,
-      Int           ku,
-      const T       &cFrom,
-      const T       &cTo,
-      MA            &scalar)
+template <typename Int, typename T, typename ALPHA>
+typename RestrictTo<!IsMatrix<ALPHA>::value
+                 && !IsVector<ALPHA>::value,
+         void>::Type
+lascl(LASCL::Type type, Int kl, Int ku, const T &cFrom, const T &cTo,
+      ALPHA &&alpha)
 {
     using namespace LASCL;
 
-    GeMatrixView<MA> A = typename GeMatrixView<MA>::Engine(1, 1, &scalar, 1);
+    typedef typename RemoveRef<ALPHA>::Type         Alpha;
+    typedef typename GeMatrixView<Alpha>::Engine    ViewEngine;
+
+    GeMatrixView<Alpha> A = ViewEngine(1, 1, &alpha, 1);
 
     ASSERT(type==FullMatrix);
     lascl(type, kl, ku, cFrom, cTo, A);
-}
-
-template <typename Int, typename T, typename VX>
-void
-lascl(LASCL::Type type, Int kl, Int ku,
-      const T &cFrom, const T &cTo, DenseVector<VX> &&x)
-{
-    lascl(type, kl, ku, cFrom, cTo, x);
 }
 
 } } // namespace lapack, flens
