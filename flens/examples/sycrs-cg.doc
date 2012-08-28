@@ -1,0 +1,60 @@
+==========================
+Conjugated Gradient Method                                               [TOC]
+==========================
+
+We show a simple generic implementation of the conjugated gradient (cg) method.
+This implementation works for any symmetric matrix type that implement the
+matrix-vector product.  In this example we use it for a *sparse symmetric
+system matrix*.
+
+
+Conjugated Gradient (cg) Method
+===============================
+The implementation only requires that the underlying BLAS routines are
+available.  So if you want to play around with different matrix types make sure
+that the corresponding __matrix-vector__ product is implemented.  Recall that
+FLENS is doing the mapping of _overloaded operator notation_ to underlying
+_BLAS call_ for you.  For your own matrix type just throw-in an appropriate
+`blas::mv` function, that's it.
+
+In __another example__ we will reuse this generic implementation for a simple
+user-defined matrix type.
+
+:import: flens/examples/cg.h [stripped, downloadable]
+
+
+Example Code
+============
+:import: flens/examples/sycrs-cg.cc [stripped, downloadable]
+
+Some Notes
+==========
+:import: flens/examples/sycrs-cg.cc [brief]
+
+
+Compile
+=======
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  g++ -Wall -std=c++11 -I../.. -o sycrs-cg sycrs-cg.cc                   |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Run
+===
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  ./sycrs-cg                                                             |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+:links: matrix-vector   -> doc:flens/blas/level2/mv#3
+        another example -> doc:flens/examples/my-symatrix
+
+:navigate: __up__    -> doc:flens/examples/tutorial
+           __back__  -> doc:flens/examples/gecrs-superlu

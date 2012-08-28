@@ -35,10 +35,40 @@
 
 namespace flens {
 
-template <typename A>
+template <typename T, bool hasElementType>
+struct ElementTypeSelect
+{
+    typedef double Type;
+};
+
+template <typename T>
+struct ElementTypeSelect<T, true>
+{
+    typedef typename T::ElementType  Type;
+};
+
+
+template <typename T>
 struct ElementType
 {
-    typedef typename A::ElementType Type;
+
+    struct Two
+    {
+        char x;
+        char y;
+    };
+
+    template <typename A>
+        static Two
+        check(typename A::NoView *);
+
+    template <typename Any>
+        static char
+        check(...);
+
+    static const bool hasElementType = sizeof(check<T>(0)) == sizeof(Two);
+
+    typedef typename ElementTypeSelect<T, hasElementType>::Type  Type;
 };
 
 } // namespace flens

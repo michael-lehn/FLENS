@@ -1,0 +1,67 @@
+=========================
+User Defined Matrix Types                                               [TOC]
+=========================
+
+We define our own symmetric matrix type and apply the conjugated gradient
+method on it.  We will only define two things
+ - The matrix class *MySymatrix* and
+ - a function *blas::mv* taht computes the matrix vector product.
+That's it.  After that we instantly can use our matrix type with the conjugated
+gradient method.
+
+
+Our Wired Matrix Type
+=====================
+:import: flens/examples/my_symatrix.h [brief]
+
+Code
+~~~~
+Here the complete code for defining a new matrix type and a corresponding
+matrix-vector product:
+
+:import: flens/examples/my_symatrix.h [stripped, downloadable]
+
+
+Conjugated Gradient (cg) Method
+===============================
+The implementation of the conjugated gradient method was already used in a
+__previous example__ for sparse matrices.
+
+:import: flens/examples/cg.h [stripped, downloadable]
+
+
+Example Code
+============
+:import: flens/examples/my_symatrix.cc [stripped, downloadable]
+
+Some Notes
+----------
+:import: flens/examples/my_symatrix.cc [brief]
+
+
+Compile
+=======
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  g++ -Wall -std=c++11 -I../.. -o my_symatrix my_symatrix.cc             |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Run
+===
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  ./my_symatrix                                                          |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+:links: previous example  -> doc:flens/examples/sycrs-cg
+
+
+:navigate: __up__    -> doc:flens/examples/tutorial
+

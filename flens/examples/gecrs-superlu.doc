@@ -51,3 +51,4 @@ Run
 
 :navigate: __up__    -> doc:flens/examples/tutorial
            __back__  -> doc:flens/examples/gecrs-setup
+           __next__  -> doc:flens/examples/sycrs-cg

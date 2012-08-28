@@ -49,6 +49,7 @@ Examples and Tutorial
     - __Session 4__: Using FLENS-LAPACK.
     - __Session 5__: Using an external LAPACK implementation.
     - __Session 6__: Sparse Matrices (_Experimental_).
+    - __Session 7__: User Defined Matrix Types.
 
 
 Scope of this Branch

@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2010, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,57 +30,47 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_VECTORTYPES_IMPL_VECTORCLOSURE_H
-#define FLENS_VECTORTYPES_IMPL_VECTORCLOSURE_H 1
-
-#include <flens/auxiliary/constref.h>
-#include <flens/auxiliary/elementtype.h>
-#include <flens/auxiliary/promotion.h>
-#include <flens/vectortypes/vector.h>
+#ifndef FLENS_AUXILIARY_INDEXTYPE_H
+#define FLENS_AUXILIARY_INDEXTYPE_H 1
 
 namespace flens {
 
-template <typename Op, typename L, typename R>
-class VectorClosure
-    : public Vector<VectorClosure<Op, L, R> >
+template <typename T, bool hasIndexType>
+struct IndexTypeSelect
 {
-    public:
-        typedef L  Left;
-        typedef R  Right;
-
-        typedef typename ElementType<L>::Type  LT;
-        typedef typename ElementType<R>::Type  RT;
-
-        typedef typename Promotion<LT, RT>::Type  ElementType;
-
-        VectorClosure(typename ConstRef<L>::Type l,
-                      typename ConstRef<R>::Type r);
-
-        typename ConstRef<L>::Type
-        left() const;
-
-        typename ConstRef<R>::Type
-        right() const;
-
-    private:
-        typename ConstRef<L>::Type _left;
-        typename ConstRef<R>::Type _right;
-        // L _left;
-        // R _right;
+    typedef void Type;
 };
 
-//
-//  If an operand is a closure we need to keep a copy.  Otherwise we can not
-//  do things like in the implementation of conjTrans, i.e. creating nested
-//  closures inside on a function stack and then return it for later usage.
-//
-
-template <typename Op, typename L, typename R>
-struct ConstRef<VectorClosure<Op, L, R> >
+template <typename T>
+struct IndexTypeSelect<T, true>
 {
-    typedef VectorClosure<Op,L,R> Type;
+    typedef typename T::IndexType  Type;
+};
+
+
+template <typename T>
+struct IndexType
+{
+
+    struct Two
+    {
+        char x;
+        char y;
+    };
+
+    template <typename A>
+        static Two
+        check(typename A::NoView *);
+
+    template <typename Any>
+        static char
+        check(...);
+
+    static const bool hasIndexType = sizeof(check<T>(0)) == sizeof(Two);
+
+    typedef typename IndexTypeSelect<T, hasIndexType>::Type  Type;
 };
 
 } // namespace flens
 
-#endif // FLENS_VECTORTYPES_IMPL_VECTORCLOSURE_H
+#endif // FLENS_AUXILIARY_INDEXTYPE_H

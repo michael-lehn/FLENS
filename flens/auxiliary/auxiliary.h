@@ -38,6 +38,7 @@
 #include <flens/auxiliary/complextrait.h>
 #include <flens/auxiliary/explicit_cast.h>
 #include <flens/auxiliary/ifelseif.h>
+#include <flens/auxiliary/indextype.h>
 #include <flens/auxiliary/isclosure.h>
 #include <flens/auxiliary/iscomplex.h>
 #include <flens/auxiliary/isconvertible.h>
