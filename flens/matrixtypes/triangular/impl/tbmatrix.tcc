@@ -46,11 +46,12 @@ TbMatrix<FS>::TbMatrix()
 }
 
 template <typename FS>
-TbMatrix<FS>::TbMatrix(IndexType dim, StorageUpLo upLo, IndexType numOffDiags, Diag diag)
-    : _engine(dim, dim, (upLo == Upper) ? 0 : numOffDiags , (upLo == Upper) ? numOffDiags : 0 ),
-    _upLo(upLo), _diag(diag)
+TbMatrix<FS>::TbMatrix(IndexType dim, StorageUpLo upLo,
+                       IndexType numOffDiags, Diag diag)
+    : _engine(dim, dim, (upLo==Upper) ? 0 : numOffDiags,
+                        (upLo==Upper) ? numOffDiags : 0),
+      _upLo(upLo), _diag(diag)
 {
-
 }
 
 template <typename FS>
@@ -133,10 +134,10 @@ TbMatrix<FS>::operator=(const ElementType &alpha)
     ASSERT(_diag!=NonUnit);
 
     if (_upLo==Lower) {
-        for (IndexType i = -numOffDiags(); i <= 0; ++i)
+        for (IndexType i=-numOffDiags(); i<=0; ++i)
             (*this).viewDiag(i) = alpha;
     } else {
-        for (IndexType i = numOffDiags(); i >= 0; --i)
+        for (IndexType i=numOffDiags(); i>=0; --i)
             (*this).viewDiag(i) = alpha;
     }
     return *this;
@@ -149,10 +150,10 @@ TbMatrix<FS>::operator+=(const ElementType &alpha)
     ASSERT(_diag!=NonUnit);
 
     if (_upLo==Lower) {
-        for (IndexType i = -numOffDiags(); i <= 0; ++i)
+        for (IndexType i=-numOffDiags(); i<=0; ++i)
             (*this).viewDiag(i) += alpha;
     } else {
-        for (IndexType i = numOffDiags(); i >= 0; --i)
+        for (IndexType i=numOffDiags(); i>=0; --i)
             (*this).viewDiag(i) += alpha;
     }
     return *this;
@@ -165,10 +166,10 @@ TbMatrix<FS>::operator-=(const ElementType &alpha)
     ASSERT(_diag!=NonUnit);
 
     if (_upLo==Lower) {
-        for (IndexType i = -numOffDiags(); i <= 0; ++i)
+        for (IndexType i=-numOffDiags(); i<=0; ++i)
             (*this).viewDiag(i) -= alpha;
     } else {
-        for (IndexType i = numOffDiags(); i >= 0; --i)
+        for (IndexType i=numOffDiags(); i>=0; --i)
             (*this).viewDiag(i) -= alpha;
     }
     return *this;
@@ -181,10 +182,10 @@ TbMatrix<FS>::operator*=(const ElementType &alpha)
     ASSERT(_diag!=NonUnit);
 
     if (_upLo==Lower) {
-        for (IndexType i = -numOffDiags(); i <= 0; ++i)
+        for (IndexType i=-numOffDiags(); i<=0; ++i)
             (*this).viewDiag(i) *= alpha;
     } else {
-        for (IndexType i = numOffDiags(); i >= 0; --i)
+        for (IndexType i=numOffDiags(); i>=0; --i)
             (*this).viewDiag(i) *= alpha;
     }
     return *this;
@@ -197,10 +198,10 @@ TbMatrix<FS>::operator/=(const ElementType &alpha)
     ASSERT(_diag!=NonUnit);
 
     if (_upLo==Lower) {
-        for (IndexType i = -numOffDiags(); i <= 0; ++i)
+        for (IndexType i=-numOffDiags(); i<=0; ++i)
             (*this).viewDiag(i) /= alpha;
     } else {
-        for (IndexType i = numOffDiags(); i >= 0; --i)
+        for (IndexType i=numOffDiags(); i>=0; --i)
             (*this).viewDiag(i) /= alpha;
     }
     return *this;
@@ -235,12 +236,6 @@ TbMatrix<FS>::operator()(IndexType row, IndexType col)
 #   endif
     return _engine(row, col);
 }
-
-
-
-
-
-
 
 // -- views ------------------------------------------------------------
 // general views
@@ -428,7 +423,9 @@ TbMatrix<FS>::resize(IndexType dim, IndexType numOffDiags,
                      IndexType firstIndex,
                      const ElementType &value)
 {
-    return _engine.resize(dim, dim, (_upLo == Upper) ? 0 : numOffDiags , (_upLo == Upper) ? numOffDiags : 0,
+    const IndexType numSubDiags = (_upLo == Upper) ? 0 : numOffDiags;
+    const IndexType numSuperDiags = (_upLo == Upper) ? numOffDiags : 0;
+    return _engine.resize(dim, dim, numSubDiags, numSuperDiags,
                           firstIndex, value);
 }
 

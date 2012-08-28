@@ -30,8 +30,8 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_LEVEL1_CCOCPY_H
-#define CXXBLAS_LEVEL1_CCOPY_H 1
+#ifndef CXXBLAS_LEVEL1EXTENSIONS_CCOCPY_H
+#define CXXBLAS_LEVEL1EXTENSIONS_CCOPY_H 1
 
 #include <cxxblas/typedefs.h>
 
@@ -45,4 +45,4 @@ template <typename IndexType, typename X, typename Y>
 
 } // namespace cxxblas
 
-#endif // CXXBLAS_LEVEL1_CCOPY_H
+#endif // CXXBLAS_LEVEL1EXTENSIONS_CCOPY_H

@@ -227,15 +227,6 @@ SpMatrix<FS>::operator()(IndexType row, IndexType col)
     return _engine(row, col);
 }
 
-
-
-
-
-
-
-
-
-
 // -- views --------------------------------------------------------------------
 
 // hermitian views
