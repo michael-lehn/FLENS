@@ -14,8 +14,8 @@ Our Wired Matrix Type
 =====================
 :import: flens/examples/my_symatrix.h [brief]
 
-Code
-~~~~
+Complete Code
+~~~~~~~~~~~~~
 Here the complete code for defining a new matrix type and a corresponding
 matrix-vector product:
 

@@ -36,9 +36,9 @@ namespace flens { namespace blas {
 ///  |    2  & -1     & 0      &        & 0      &  0 \\    |
 ///  |   -1  & \ddots & \ddots & \ddots &        &  0 \\    |
 ///  |    0  & \ddots & \ddots & \ddots & \ddots &    \\    |
-///  |       & \ddots & \ddots & \ddots & \ddots &  1 \\    |
+///  |       & \ddots & \ddots & \ddots & \ddots &  0 \\    |
 ///  |    0  &        & \ddots & \ddots & \ddots & -1 \\    |
-///  |    0  & 0      &        &        & -1     &  2       |
+///  |    0  & 0      &        &      0 & -1     &  2       |
 ///  |   \end{pmatrix}                                      |
 ///  |                                                      |
 ///  *------------------------------------------------------*
