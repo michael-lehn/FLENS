@@ -33,13 +33,10 @@
 #ifndef FLENS_MATRIXTYPES_HERMITIAN_IMPL_IMPL_H
 #define FLENS_MATRIXTYPES_HERMITIAN_IMPL_IMPL_H 1
 
-<<<<<<< HEAD
+#include <flens/matrixtypes/hermitian/impl/hbmatrix.h>
 #include <flens/matrixtypes/hermitian/impl/heccsmatrix.h>
 #include <flens/matrixtypes/hermitian/impl/hecoordmatrix.h>
 #include <flens/matrixtypes/hermitian/impl/hecrsmatrix.h>
-=======
-#include <flens/matrixtypes/hermitian/impl/hbmatrix.h>
->>>>>>> c3aca46232611d35a7be046ab07a64ab0dcda1db
 #include <flens/matrixtypes/hermitian/impl/hematrix.h>
 #include <flens/matrixtypes/hermitian/impl/hpmatrix.h>
 

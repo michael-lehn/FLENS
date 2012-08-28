@@ -69,7 +69,6 @@ template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
     mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,
        const BETA &beta, VY &&y);
 
-<<<<<<< HEAD
 //-- geccsmv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
     typename RestrictTo<IsGeCCSMatrix<MA>::value
@@ -78,17 +77,8 @@ template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
              void>::Type
     mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,
        const BETA &beta, VY &&y);
-=======
->>>>>>> c3aca46232611d35a7be046ab07a64ab0dcda1db
 
 //== TriangularMatrix - Vector products ========================================
-
-//-- tbmv
-template <typename MA, typename VX>
-    typename RestrictTo<IsTbMatrix<MA>::value
-                     && IsDenseVector<VX>::value,
-             void>::Type
-    mv(Transpose trans, const MA &A, VX &&x);
 
 //-- trmv
 template <typename MA, typename VX>
@@ -97,8 +87,13 @@ template <typename MA, typename VX>
              void>::Type
     mv(Transpose trans, const MA &A, VX &&x);
 
-<<<<<<< HEAD
-=======
+//-- tbmv
+template <typename MA, typename VX>
+    typename RestrictTo<IsTbMatrix<MA>::value
+                     && IsDenseVector<VX>::value,
+             void>::Type
+    mv(Transpose trans, const MA &A, VX &&x);
+
 //-- tpmv
 template <typename MA, typename VX>
     typename RestrictTo<IsTpMatrix<MA>::value
@@ -106,8 +101,16 @@ template <typename MA, typename VX>
              void>::Type
     mv(Transpose trans, const MA &A, VX &&x);
 
->>>>>>> c3aca46232611d35a7be046ab07a64ab0dcda1db
 //== SymmetricMatrix - Vector products =========================================
+
+//-- symv
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+    typename RestrictTo<IsSyMatrix<MA>::value
+                     && IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
+             void>::Type
+    mv(const ALPHA &alpha, const MA &A, const VX &x,
+       const BETA &beta, VY &&y);
 
 //-- sbmv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
@@ -127,16 +130,6 @@ template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
     mv(const ALPHA &alpha, const MA &A, const VX &x,
        const BETA &beta, VY &&y);
 
-//-- symv
-template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-    typename RestrictTo<IsSyMatrix<MA>::value
-                     && IsDenseVector<VX>::value
-                     && IsDenseVector<VY>::value,
-             void>::Type
-    mv(const ALPHA &alpha, const MA &A, const VX &x,
-       const BETA &beta, VY &&y);
-
-
 //-- sycrsmv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
     typename RestrictTo<IsSyCRSMatrix<MA>::value
@@ -155,18 +148,18 @@ template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
 
 //== HermitianMatrix - Vector products =========================================
 
-//-- hbmv
+//-- hemv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-    typename RestrictTo<IsHbMatrix<MA>::value
+    typename RestrictTo<IsHeMatrix<MA>::value
                      && IsDenseVector<VX>::value
                      && IsDenseVector<VY>::value,
              void>::Type
     mv(const ALPHA &alpha, const MA &A, const VX &x,
        const BETA &beta, VY &&y);
 
-//-- hemv
+//-- hbmv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-    typename RestrictTo<IsHeMatrix<MA>::value
+    typename RestrictTo<IsHbMatrix<MA>::value
                      && IsDenseVector<VX>::value
                      && IsDenseVector<VY>::value,
              void>::Type
@@ -181,7 +174,6 @@ template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
              void>::Type
     mv(const ALPHA &alpha, const MA &A, const VX &x,
        const BETA &beta, VY &&y);
-
 
 //-- hecrsmv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>

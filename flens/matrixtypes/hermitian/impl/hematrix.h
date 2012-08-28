@@ -260,17 +260,16 @@ class HeMatrix
                const ElementType &value = ElementType());
 
         bool
-<<<<<<< HEAD
         resize(IndexType dim,
                StorageUpLo upLo,
                IndexType firstIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
-=======
+
+        bool
         fill(const ElementType &value = ElementType(0));
 
         bool
         fillRandom();
->>>>>>> c3aca46232611d35a7be046ab07a64ab0dcda1db
 
         // -- implementation ---------------------------------------------------
 

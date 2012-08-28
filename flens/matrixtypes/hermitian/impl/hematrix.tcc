@@ -451,13 +451,14 @@ HeMatrix<FS>::resize(IndexType dim, IndexType firstIndex,
 
 template <typename FS>
 bool
-<<<<<<< HEAD
 HeMatrix<FS>::resize(IndexType dim, StorageUpLo upLo, IndexType firstIndex,
                      const ElementType &value)
 {
     _upLo = upLo;
     return _engine.resize(dim, dim, firstIndex, firstIndex, value);
-=======
+}
+
+bool
 HeMatrix<FS>::fill(const ElementType &value)
 {
     ASSERT(cxxblas::imag(value)==0);
@@ -475,7 +476,6 @@ HeMatrix<FS>::fillRandom()
         d(i) = ElementType(cxxblas::real(d(i)));
     }
     return val;
->>>>>>> c3aca46232611d35a7be046ab07a64ab0dcda1db
 }
 
 // -- implementation -----------------------------------------------------------

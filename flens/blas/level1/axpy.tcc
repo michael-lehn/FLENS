@@ -47,6 +47,8 @@
 
 namespace flens { namespace blas {
 
+//-- BLAS Level 1 --------------------------------------------------------------
+
 //-- axpy
 template <typename ALPHA, typename VX, typename VY>
 typename RestrictTo<IsDenseVector<VX>::value
@@ -80,6 +82,12 @@ axpy(const ALPHA &alpha, const VX &x, VY &&y)
     FLENS_BLASLOG_END;
     FLENS_BLASLOG_UNSETTAG;
 }
+
+//-- BLAS Level 1 extensions ---------------------------------------------------
+
+//
+//== full storage
+//
 
 //-- geaxpy
 template <typename ALPHA, typename MA, typename MB>
@@ -161,6 +169,10 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
     FLENS_BLASLOG_UNSETTAG;
 }
 
+//
+//== band storage
+//
+
 //-- gbaxpy
 template <typename ALPHA, typename MA, typename MB>
 typename RestrictTo<IsGbMatrix<MA>::value
@@ -186,10 +198,12 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 #   ifndef NDEBUG
     if ((trans==NoTrans) || (trans==Conj)) {
         ASSERT((A.numRows()==B.numRows()) && (A.numCols()==B.numCols()));
-        ASSERT((A.numSubDiags()<=B.numSubDiags()) && (A.numSuperDiags()<=B.numSuperDiags()));
+        ASSERT((A.numSubDiags()<=B.numSubDiags())
+            && (A.numSuperDiags()<=B.numSuperDiags()));
     } else {
         ASSERT((A.numRows()==B.numCols()) && (A.numCols()==B.numRows()));
-        ASSERT((A.numSubDiags()<=B.numSuperDiags()) && (A.numSuperDiags()<=B.numSubDiags()));
+        ASSERT((A.numSubDiags()<=B.numSuperDiags())
+            && (A.numSuperDiags()<=B.numSubDiags()));
     }
 #   endif
 
@@ -224,12 +238,14 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
     typedef typename GbMatrix<MB>::IndexType  IndexType;
 
     const IndexType numSubDiags   = ((trans==NoTrans) || (trans==Conj))
-                                     ? A.numSubDiags() : A.numSuperDiags();
+                                  ? A.numSubDiags()
+                                  : A.numSuperDiags();
     const IndexType numSuperDiags = ((trans==NoTrans) || (trans==Conj))
-                                     ? A.numSuperDiags() : A.numSubDiags();
+                                  ? A.numSuperDiags()
+                                  : A.numSubDiags();
     const IndexType Bshift = (MB::order==RowMajor)
-                               ? B.numSubDiags() - numSubDiags
-                               : B.numSuperDiags() - numSuperDiags;
+                           ? B.numSubDiags() - numSubDiags
+                           : B.numSuperDiags() - numSuperDiags;
 
 
     trans = (A.order()==B.order())
@@ -307,16 +323,16 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ ConjTrans);
 
-    const IndexType numSubDiags   = (trans==NoTrans)
-                                     ? ((A.upLo()==Lower) ? A.numOffDiags() : 0)
-                                     : ((A.upLo()==Upper) ? A.numOffDiags() : 0);
+    const IndexType numSubDiags = (trans==NoTrans)
+                                ? ((A.upLo()==Lower) ? A.numOffDiags() : 0)
+                                : ((A.upLo()==Upper) ? A.numOffDiags() : 0);
     const IndexType numSuperDiags = (trans==NoTrans)
-                                     ? ((A.upLo()==Upper) ? A.numOffDiags() : 0)
-                                     : ((A.upLo()==Lower) ? A.numOffDiags() : 0);
+                                  ? ((A.upLo()==Upper) ? A.numOffDiags() : 0)
+                                  : ((A.upLo()==Lower) ? A.numOffDiags() : 0);
 
     const IndexType Bshift = (MB::order==RowMajor)
-                               ? ((B.upLo()==Lower) ? B.numOffDiags() : 0) - numSubDiags
-                               : ((B.upLo()==Upper) ? B.numOffDiags() : 0) - numSuperDiags;
+                    ? ((B.upLo()==Lower) ? B.numOffDiags() : 0) - numSubDiags
+                    : ((B.upLo()==Upper) ? B.numOffDiags() : 0) - numSuperDiags;
 
     trans = (A.order()==B.order())
           ? Transpose(trans ^ NoTrans)
@@ -333,6 +349,174 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
     FLENS_BLASLOG_END;
     FLENS_BLASLOG_UNSETTAG;
 }
+
+//-- sbaxpy
+template <typename ALPHA, typename MA, typename MB>
+typename RestrictTo<IsSbMatrix<MA>::value
+                 && IsSbMatrix<MB>::value,
+         void>::Type
+axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
+{
+
+    if (B.dim()==0) {
+        B.resize(A);
+    }
+
+#   ifndef NDEBUG
+    ASSERT(A.dim()==B.dim());
+    ASSERT(A.numOffDiags()<=B.numOffDiags());
+    if ((trans==NoTrans) || (trans==Conj)) {
+        ASSERT(A.upLo() == B.upLo()) ;
+    } else {
+        ASSERT(A.upLo() != B.upLo()) ;
+    }
+#   endif
+
+#   ifndef FLENS_DEBUG_CLOSURES
+#   ifndef NDEBUG
+    if (trans==Trans || trans==ConjTrans) {
+        ASSERT(!DEBUGCLOSURE::identical(A, B));
+    }
+#   endif
+#   else
+//
+//  If A and B are identical a temporary is needed if we want to use axpy
+//  for B += alpha*A^T or B+= alpha*A^H
+//
+    if ((trans==Trans || trans==ConjTrans) && DEBUGCLOSURE::identical(A, B)) {
+        typename SbMatrix<MA>::NoView _A;
+        FLENS_BLASLOG_TMP_ADD(_A);
+
+        copy(trans, A, _A);
+        axpy(NoTrans, alpha, _A, B);
+
+        FLENS_BLASLOG_TMP_REMOVE(_A, A);
+        return;
+    }
+#   endif
+
+
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
+
+    typedef typename SbMatrix<MB>::IndexType  IndexType;
+
+
+    trans = (A.upLo() == B.upLo())
+              ? Transpose(trans ^ NoTrans)
+              : Transpose(trans ^ Trans);
+
+    const IndexType numSubDiags = (trans==NoTrans)
+                                ? ((A.upLo()==Lower) ? A.numOffDiags() : 0)
+                                : ((A.upLo()==Upper) ? A.numOffDiags() : 0);
+    const IndexType numSuperDiags = (trans==NoTrans)
+                                  ? ((A.upLo()==Upper) ? A.numOffDiags() : 0)
+                                  : ((A.upLo()==Lower) ? A.numOffDiags() : 0);
+
+    const IndexType Bshift = (MB::order==RowMajor)
+                    ? ((B.upLo()==Lower) ? B.numOffDiags() : 0) - numSubDiags
+                    : ((B.upLo()==Upper) ? B.numOffDiags() : 0) - numSuperDiags;
+
+    trans = (A.order()==B.order())
+          ? Transpose(trans ^ NoTrans)
+          : Transpose(trans ^ Trans);
+
+#   ifdef HAVE_CXXBLAS_GBAXPY
+    cxxblas::gbaxpy(MB::order, trans,
+                    B.numRows(), B.numCols(),
+                    numSubDiags, numSuperDiags, alpha,
+                    A.data(), A.leadingDimension(),
+                    B.data()+Bshift, B.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
+//-- tbaxpy
+template <typename ALPHA, typename MA, typename MB>
+typename RestrictTo<IsTbMatrix<MA>::value
+                 && IsTbMatrix<MB>::value,
+         void>::Type
+axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
+{
+    ASSERT(B.diag()==NonUnit);
+    // TODO: Remove this condition
+    ASSERT(A.diag()==NonUnit);
+
+    if (B.dim()==0) {
+        B.resize(A);
+    }
+
+#   ifndef NDEBUG
+    ASSERT(A.dim()==B.dim());
+    if ((trans==NoTrans) || (trans==Conj)) {
+        ASSERT((A.numSubDiags()<=B.numSubDiags())
+            && (A.numSuperDiags()<=B.numSuperDiags()));
+    } else {
+        ASSERT((A.numSubDiags()<=B.numSuperDiags())
+            && (A.numSuperDiags()<=B.numSubDiags()));
+    }
+#   endif
+
+#   ifndef FLENS_DEBUG_CLOSURES
+#   ifndef NDEBUG
+    if (trans==Trans || trans==ConjTrans) {
+        ASSERT(!DEBUGCLOSURE::identical(A, B));
+    }
+#   endif
+#   else
+//
+//  If A and B are identical a temporary is needed if we want to use axpy
+//  for B += alpha*A^T or B+= alpha*A^H
+//
+    if ((trans==Trans || trans==ConjTrans) && DEBUGCLOSURE::identical(A, B)) {
+        typename TbMatrix<MA>::NoView _A;
+        FLENS_BLASLOG_TMP_ADD(_A);
+
+        copy(trans, A, _A);
+        axpy(NoTrans, alpha, _A, B);
+
+        FLENS_BLASLOG_TMP_REMOVE(_A, A);
+        return;
+    }
+#   endif
+
+
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
+
+    typedef typename GbMatrix<MB>::IndexType  IndexType;
+
+    const IndexType numSubDiags   = ((trans==NoTrans) || (trans==Conj))
+                                     ? A.numSubDiags() : A.numSuperDiags();
+    const IndexType numSuperDiags = ((trans==NoTrans) || (trans==Conj))
+                                     ? A.numSuperDiags() : A.numSubDiags();
+    const IndexType Bshift = (MB::order==RowMajor)
+                               ? B.numSubDiags() - numSubDiags
+                               : B.numSuperDiags() - numSuperDiags;
+
+    trans = (A.order()==B.order())
+          ? Transpose(trans ^ NoTrans)
+          : Transpose(trans ^ Trans);
+
+#   ifdef HAVE_CXXBLAS_GBAXPY
+    cxxblas::gbaxpy(MB::order, trans,
+                    B.numRows(), B.numCols(),
+                    numSubDiags, numSuperDiags, alpha,
+                    A.data(), A.leadingDimension(),
+                    B.data()+Bshift, B.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
+//
+//== packed storage
+//
 
 //-- hpaxpy
 template <typename ALPHA, typename MA, typename MB>
@@ -379,106 +563,18 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
 
-   trans = (A.upLo() == B.upLo())
+    trans = (A.upLo() == B.upLo())
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ ConjTrans);
 
-   trans = (A.order()==B.order())
-              ? Transpose(trans ^ NoTrans)
-              : Transpose(trans ^ Trans);
+    trans = (A.order()==B.order())
+          ? Transpose(trans ^ NoTrans)
+          : Transpose(trans ^ Trans);
 
 #   ifdef HAVE_CXXBLAS_TPAXPY
     cxxblas::tpaxpy(MB::order, B.upLo(), trans,
                     B.diag(), B.dim(),
                     alpha, A.data(), B.data());
-#   else
-    ASSERT(0);
-#   endif
-    FLENS_BLASLOG_END;
-    FLENS_BLASLOG_UNSETTAG;
-}
-
-//-- sbaxpy
-template <typename ALPHA, typename MA, typename MB>
-typename RestrictTo<IsSbMatrix<MA>::value
-                 && IsSbMatrix<MB>::value,
-         void>::Type
-axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
-{
-
-    if (B.dim()==0) {
-        B.resize(A);
-    }
-
-#   ifndef NDEBUG
-    ASSERT(A.dim()==B.dim());
-    ASSERT(A.numOffDiags()<=B.numOffDiags());
-    if ((trans==NoTrans) || (trans==Conj)) {
-        ASSERT(A.upLo() == B.upLo()) ;
-    } else {
-        ASSERT(A.upLo() != B.upLo()) ;
-    }
-#   endif
-
-
-
-
-
-#   ifndef FLENS_DEBUG_CLOSURES
-#   ifndef NDEBUG
-    if (trans==Trans || trans==ConjTrans) {
-        ASSERT(!DEBUGCLOSURE::identical(A, B));
-    }
-#   endif
-#   else
-//
-//  If A and B are identical a temporary is needed if we want to use axpy
-//  for B += alpha*A^T or B+= alpha*A^H
-//
-    if ((trans==Trans || trans==ConjTrans) && DEBUGCLOSURE::identical(A, B)) {
-        typename SbMatrix<MA>::NoView _A;
-        FLENS_BLASLOG_TMP_ADD(_A);
-
-        copy(trans, A, _A);
-        axpy(NoTrans, alpha, _A, B);
-
-        FLENS_BLASLOG_TMP_REMOVE(_A, A);
-        return;
-    }
-#   endif
-
-
-    FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
-
-    typedef typename SbMatrix<MB>::IndexType  IndexType;
-
-
-    trans = (A.upLo() == B.upLo())
-              ? Transpose(trans ^ NoTrans)
-              : Transpose(trans ^ Trans);
-
-    const IndexType numSubDiags   = (trans==NoTrans)
-                                     ? ((A.upLo()==Lower) ? A.numOffDiags() : 0)
-                                     : ((A.upLo()==Upper) ? A.numOffDiags() : 0);
-    const IndexType numSuperDiags = (trans==NoTrans)
-                                     ? ((A.upLo()==Upper) ? A.numOffDiags() : 0)
-                                     : ((A.upLo()==Lower) ? A.numOffDiags() : 0);
-
-    const IndexType Bshift = (MB::order==RowMajor)
-                               ? ((B.upLo()==Lower) ? B.numOffDiags() : 0) - numSubDiags
-                               : ((B.upLo()==Upper) ? B.numOffDiags() : 0) - numSuperDiags;
-
-    trans = (A.order()==B.order())
-              ? Transpose(trans ^ NoTrans)
-              : Transpose(trans ^ Trans);
-
-#   ifdef HAVE_CXXBLAS_GBAXPY
-    cxxblas::gbaxpy(MB::order, trans,
-                    B.numRows(), B.numCols(),
-                    numSubDiags, numSuperDiags, alpha,
-                    A.data(), A.leadingDimension(),
-                    B.data()+Bshift, B.leadingDimension());
 #   else
     ASSERT(0);
 #   endif
@@ -549,86 +645,6 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
     FLENS_BLASLOG_UNSETTAG;
 }
 
-//-- tbaxpy
-template <typename ALPHA, typename MA, typename MB>
-typename RestrictTo<IsTbMatrix<MA>::value
-                 && IsTbMatrix<MB>::value,
-         void>::Type
-axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
-{
-    ASSERT(B.diag()==NonUnit);
-    // TODO: Remove this condition
-    ASSERT(A.diag()==NonUnit);
-
-    if (B.dim()==0) {
-        B.resize(A);
-    }
-
-#   ifndef NDEBUG
-    ASSERT(A.dim()==B.dim());
-    if ((trans==NoTrans) || (trans==Conj)) {
-        ASSERT((A.numSubDiags()<=B.numSubDiags()) && (A.numSuperDiags()<=B.numSuperDiags()));
-    } else {
-        ASSERT((A.numSubDiags()<=B.numSuperDiags()) && (A.numSuperDiags()<=B.numSubDiags()));
-    }
-#   endif
-
-
-
-#   ifndef FLENS_DEBUG_CLOSURES
-#   ifndef NDEBUG
-    if (trans==Trans || trans==ConjTrans) {
-        ASSERT(!DEBUGCLOSURE::identical(A, B));
-    }
-#   endif
-#   else
-//
-//  If A and B are identical a temporary is needed if we want to use axpy
-//  for B += alpha*A^T or B+= alpha*A^H
-//
-    if ((trans==Trans || trans==ConjTrans) && DEBUGCLOSURE::identical(A, B)) {
-        typename TbMatrix<MA>::NoView _A;
-        FLENS_BLASLOG_TMP_ADD(_A);
-
-        copy(trans, A, _A);
-        axpy(NoTrans, alpha, _A, B);
-
-        FLENS_BLASLOG_TMP_REMOVE(_A, A);
-        return;
-    }
-#   endif
-
-
-    FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
-
-    typedef typename GbMatrix<MB>::IndexType  IndexType;
-
-    const IndexType numSubDiags   = ((trans==NoTrans) || (trans==Conj))
-                                     ? A.numSubDiags() : A.numSuperDiags();
-    const IndexType numSuperDiags = ((trans==NoTrans) || (trans==Conj))
-                                     ? A.numSuperDiags() : A.numSubDiags();
-    const IndexType Bshift = (MB::order==RowMajor)
-                               ? B.numSubDiags() - numSubDiags
-                               : B.numSuperDiags() - numSuperDiags;
-
-    trans = (A.order()==B.order())
-          ? Transpose(trans ^ NoTrans)
-          : Transpose(trans ^ Trans);
-
-#   ifdef HAVE_CXXBLAS_GBAXPY
-    cxxblas::gbaxpy(MB::order, trans,
-                    B.numRows(), B.numCols(),
-                    numSubDiags, numSuperDiags, alpha,
-                    A.data(), A.leadingDimension(),
-                    B.data()+Bshift, B.leadingDimension());
-#   else
-    ASSERT(0);
-#   endif
-    FLENS_BLASLOG_END;
-    FLENS_BLASLOG_UNSETTAG;
-}
-
 //-- tpaxpy
 template <typename ALPHA, typename MA, typename MB>
 typename RestrictTo<IsTpMatrix<MA>::value
@@ -678,8 +694,8 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
     FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
 
     trans = (A.order()==B.order())
-              ? Transpose(trans ^ NoTrans)
-              : Transpose(trans ^ Trans);
+          ? Transpose(trans ^ NoTrans)
+          : Transpose(trans ^ Trans);
 
 #   ifdef HAVE_CXXBLAS_TPAXPY
     cxxblas::tpaxpy(MB::order, B.upLo(), trans,
