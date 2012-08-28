@@ -42,6 +42,17 @@ template <typename IndexType>
     unglq(IndexType                     m,
           IndexType                     n,
           IndexType                     k,
+          std::complex<float >          *A,
+          IndexType                     ldA,
+          const std::complex<float >    *tau,
+          std::complex<float >          *work,
+          IndexType                     lWork);
+
+template <typename IndexType>
+    IndexType
+    unglq(IndexType                     m,
+          IndexType                     n,
+          IndexType                     k,
           std::complex<double>          *A,
           IndexType                     ldA,
           const std::complex<double>    *tau,

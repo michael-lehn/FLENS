@@ -60,7 +60,7 @@ struct PruneVectorClosure
     remainder(const Vector &vector);
 };
 
-//-- Specialization for particular closures ------------------------------------ 
+//-- Specialization for particular closures ------------------------------------
 template <typename L, typename R>
     struct PruneVectorClosure<VectorClosure<OpMult, ScalarValue<L>, R> >;
 

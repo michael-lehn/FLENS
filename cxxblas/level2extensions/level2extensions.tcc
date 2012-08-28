@@ -33,6 +33,7 @@
 #ifndef CXXBLAS_LEVEL2EXTENSIONS_LEVEL2EXTENSIONS_TCC
 #define CXXBLAS_LEVEL2EXTENSIONS_LEVEL2EXTENSIONS_TCC 1
 
+#include <cxxblas/level2extensions/gbmv.tcc>
 #include <cxxblas/level2extensions/gemv.tcc>
 #include <cxxblas/level2extensions/hemv.tcc>
 #include <cxxblas/level2extensions/her.tcc>

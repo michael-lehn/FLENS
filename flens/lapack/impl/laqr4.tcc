@@ -77,13 +77,13 @@ laqr4_wsq_impl(bool                  wantT,
     job[0] = (wantT) ? 'S' : 'E';
     job[1] = (wantZ) ? 'V' : 'N';
     job[2] = 0;
-//  
+//
 //  ==== NWR = recommended deflation window size.  At this
 //  .    point,  N .GT. NTINY = 11, so there is enough
 //  .    subdiagonal workspace for NWR.GE.2 as required.
 //  .    (In fact, there is enough subdiagonal space for
 //  .    NWR.GE.3.) ====
-//  
+//
     IndexType nwr = ilaenv<T>(13, "LAQR4", job, n, iLo, iHi, -1);
     nwr = max(IndexType(2), nwr);
     nwr = min(min(iHi-iLo+1, (n-1)/3), nwr);
@@ -295,7 +295,7 @@ laqr4_impl(bool                  wantT,
             }
             ASSERT(k==iLo || H(k,k-1)==Zero);
             const IndexType kTop = k;
-// 
+//
 //          ==== Select deflation window size:
 //          .    Typical Case:
 //          .      If possible and advisable, nibble the entire
@@ -311,7 +311,7 @@ laqr4_impl(bool                  wantT,
 //          .      in general, more powerful than smaller ones,
 //          .      rapidly increase the window to the maximum possible.
 //          .      Then, gradually reduce the window size. ====
-// 
+//
             IndexType nh = kBot - kTop + 1;
             IndexType nwUpBd = min(nh, nwMax);
             if (nDfl<kexNw) {
@@ -338,7 +338,7 @@ laqr4_impl(bool                  wantT,
                 }
                 nw -= nDec;
             }
-// 
+//
 //          ==== Aggressive early deflation:
 //          .    split workspace under the subdiagonal into
 //          .      - an nw-by-nw work array V in the lower
@@ -349,7 +349,7 @@ laqr4_impl(bool                  wantT,
 //          .      - an at-least-NW-but-more-is-better (NHV-by-NW)
 //          .        vertical work array along the left-hand-edge.
 //          .        ====
-// 
+//
             auto _V     = H(_(n-nw+1,    n), _(   1,     nw));
             auto _T     = H(_(n-nw+1,    n), _(nw+1, n-nw-1));
             auto _WV    = H(_(  nw+2, n-nw), _(   1,     nw));

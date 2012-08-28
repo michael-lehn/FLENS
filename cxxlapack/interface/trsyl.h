@@ -44,6 +44,22 @@ template <typename IndexType>
           IndexType     sign,
           IndexType     m,
           IndexType     n,
+          const float   *A,
+          IndexType     ldA,
+          const float   *B,
+          IndexType     ldB,
+          float         *C,
+          IndexType     ldC,
+          float         &scale);
+
+
+template <typename IndexType>
+    IndexType
+    trsyl(char          transA,
+          char          transB,
+          IndexType     sign,
+          IndexType     m,
+          IndexType     n,
           const double  *A,
           IndexType     ldA,
           const double  *B,
@@ -51,6 +67,21 @@ template <typename IndexType>
           double        *C,
           IndexType     ldC,
           double        &scale);
+
+template <typename IndexType>
+    IndexType
+    trsyl(char                          transA,
+          char                          transB,
+          IndexType                     sign,
+          IndexType                     m,
+          IndexType                     n,
+          const std::complex<float >    *A,
+          const IndexType               ldA,
+          const std::complex<float >    *B,
+          const IndexType               ldB,
+          std::complex<float >          *C,
+          const IndexType               ldC,
+          float                         &scale);
 
 template <typename IndexType>
     IndexType

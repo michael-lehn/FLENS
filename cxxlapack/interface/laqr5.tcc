@@ -48,6 +48,66 @@ laqr5(bool          wantT,
       IndexType     kTop,
       IndexType     kBot,
       IndexType     nShifts,
+      float         *sr,
+      float         *si,
+      float         *H,
+      IndexType     ldH,
+      IndexType     iLoZ,
+      IndexType     iHiZ,
+      float         *Z,
+      IndexType     ldZ,
+      float         *V,
+      IndexType     ldV,
+      float         *U,
+      IndexType     ldU,
+      IndexType     nv,
+      float         *WV,
+      IndexType     ldWV,
+      IndexType     nh,
+      float         *WH,
+      IndexType     ldWH)
+{
+    CXXLAPACK_DEBUG_OUT("slaqr5");
+
+    IndexType _wantT = wantT;
+    IndexType _wantZ = wantZ;
+    LAPACK_IMPL(slaqr5)(&_wantT,
+                        &_wantZ,
+                        &kacc22,
+                        &n,
+                        &kTop,
+                        &kBot,
+                        &nShifts,
+                        sr,
+                        si,
+                        H,
+                        &ldH,
+                        &iLoZ,
+                        &iHiZ,
+                        Z,
+                        &ldZ,
+                        V,
+                        &ldV,
+                        U,
+                        &ldU,
+                        &nv,
+                        WV,
+                        &ldWV,
+                        &nh,
+                        WH,
+                        &ldWH);
+}
+
+
+template <typename IndexType>
+void
+laqr5(bool          wantT,
+      bool          wantZ,
+      IndexType     kacc22,
+      IndexType     n,
+      IndexType     kTop,
+      IndexType     kBot,
+      IndexType     nShifts,
       double        *sr,
       double        *si,
       double        *H,
@@ -67,6 +127,8 @@ laqr5(bool          wantT,
       double        *WH,
       IndexType     ldWH)
 {
+    CXXLAPACK_DEBUG_OUT("dlaqr5");
+
     IndexType _wantT = wantT;
     IndexType _wantZ = wantZ;
     LAPACK_IMPL(dlaqr5)(&_wantT,
@@ -105,6 +167,63 @@ laqr5(bool                  wantT,
       IndexType             kTop,
       IndexType             kBot,
       IndexType             nShifts,
+      std::complex<float >  *s,
+      std::complex<float >  *H,
+      IndexType             ldH,
+      IndexType             iLoZ,
+      IndexType             iHiZ,
+      std::complex<float >  *Z,
+      IndexType             ldZ,
+      std::complex<float >  *V,
+      IndexType             ldV,
+      std::complex<float >  *U,
+      IndexType             ldU,
+      IndexType             nv,
+      std::complex<float >  *WV,
+      IndexType             ldWV,
+      IndexType             nh,
+      std::complex<float >  *WH,
+      IndexType             ldWH)
+{
+    CXXLAPACK_DEBUG_OUT("claqr5");
+
+    IndexType _wantT = wantT;
+    IndexType _wantZ = wantZ;
+    LAPACK_IMPL(claqr5)(&_wantT,
+                        &_wantZ,
+                        &kacc22,
+                        &n,
+                        &kTop,
+                        &kBot,
+                        &nShifts,
+                        reinterpret_cast<float  *>(s),
+                        reinterpret_cast<float  *>(H),
+                        &ldH,
+                        &iLoZ,
+                        &iHiZ,
+                        reinterpret_cast<float  *>(Z),
+                        &ldZ,
+                        reinterpret_cast<float  *>(V),
+                        &ldV,
+                        reinterpret_cast<float  *>(U),
+                        &ldU,
+                        &nv,
+                        reinterpret_cast<float  *>(WV),
+                        &ldWV,
+                        &nh,
+                        reinterpret_cast<float  *>(WH),
+                        &ldWH);
+}
+
+template <typename IndexType>
+void
+laqr5(bool                  wantT,
+      bool                  wantZ,
+      IndexType             kacc22,
+      IndexType             n,
+      IndexType             kTop,
+      IndexType             kBot,
+      IndexType             nShifts,
       std::complex<double>  *s,
       std::complex<double>  *H,
       IndexType             ldH,
@@ -123,6 +242,8 @@ laqr5(bool                  wantT,
       std::complex<double>  *WH,
       IndexType             ldWH)
 {
+    CXXLAPACK_DEBUG_OUT("zlaqr5");
+
     IndexType _wantT = wantT;
     IndexType _wantZ = wantZ;
     LAPACK_IMPL(zlaqr5)(&_wantT,

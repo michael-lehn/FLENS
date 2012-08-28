@@ -41,6 +41,18 @@ template <typename IndexType>
     void
     laic1(IndexType     job,
           IndexType     j,
+          const float   *x,
+          float         sEst,
+          const float   *w,
+          float         gamma,
+          float         &sEstPr,
+          float         &s,
+          float         &c);
+
+template <typename IndexType>
+    void
+    laic1(IndexType     job,
+          IndexType     j,
           const double  *x,
           double        sEst,
           const double  *w,
@@ -48,6 +60,18 @@ template <typename IndexType>
           double        &sEstPr,
           double        &s,
           double        &c);
+
+template <typename IndexType>
+    void
+    laic1(IndexType                   job,
+          IndexType                   j,
+          const std::complex<float >  *x,
+          float                       sEst,
+          const std::complex<float >  *w,
+          const std::complex<float >  &gamma,
+          float                       &sEstPr,
+          std::complex<float >        &s,
+          std::complex<float >        &c);
 
 template <typename IndexType>
     void

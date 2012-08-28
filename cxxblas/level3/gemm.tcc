@@ -253,6 +253,15 @@ gemm(StorageOrder order,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_cgemm");
 
+    if (transA==Conj || transB==Conj) {
+        CXXBLAS_DEBUG_OUT("gemm_generic");
+        gemm_generic(order, transA, transB, m, n, k,
+                    alpha, A, ldA, B, ldB,
+                    beta,
+                    C, ldC);
+        return;
+    }
+
     cblas_cgemm(CBLAS::getCblasType(order),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(transB),
                 m, n, k,
@@ -276,6 +285,15 @@ gemm(StorageOrder order,
      ComplexDouble *C, IndexType ldC)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zgemm");
+
+    if (transA==Conj || transB==Conj) {
+        CXXBLAS_DEBUG_OUT("gemm_generic");
+        gemm_generic(order, transA, transB, m, n, k,
+                    alpha, A, ldA, B, ldB,
+                    beta,
+                    C, ldC);
+        return;
+    }
 
     cblas_zgemm(CBLAS::getCblasType(order),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(transB),

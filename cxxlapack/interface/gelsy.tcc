@@ -44,6 +44,45 @@ void
 gelsy(IndexType    m,
       IndexType    n,
       IndexType    nRhs,
+      float        *A,
+      IndexType    ldA,
+      float        *B,
+      IndexType    ldB,
+      IndexType    *jPiv,
+      float        rCond,
+      IndexType    &rank,
+      float        *work,
+      IndexType    lWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgelsy");
+    LAPACK_IMPL(sgelsy)(&m,
+                        &n,
+                        &nRhs,
+                        A,
+                        &ldA,
+                        B,
+                        &ldB,
+                        jPiv,
+                        &rCond,
+                        &rank,
+                        work,
+                        &lWork,
+                        &info);
+
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+}
+
+template <typename IndexType>
+void
+gelsy(IndexType    m,
+      IndexType    n,
+      IndexType    nRhs,
       double       *A,
       IndexType    ldA,
       double       *B,
@@ -55,7 +94,7 @@ gelsy(IndexType    m,
       IndexType    lWork)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("dgelsy");
+    CXXLAPACK_DEBUG_OUT("dgelsy");
     LAPACK_IMPL(dgelsy)(&m,
                         &n,
                         &nRhs,
@@ -83,6 +122,47 @@ void
 gelsy(IndexType             m,
       IndexType             n,
       IndexType             nRhs,
+      std::complex<float >  *A,
+      const IndexType       ldA,
+      std::complex<float >  *B,
+      IndexType             ldB,
+      IndexType             *jPiv,
+      float                 rCond,
+      IndexType             &rank,
+      std::complex<float >  *work,
+      IndexType             lWork,
+      float                 *rWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgelsy");
+    LAPACK_IMPL(cgelsy)(&m,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        jPiv,
+                        &rCond,
+                        &rank,
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        rWork,
+                        &info);
+
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+}
+
+template <typename IndexType>
+void
+gelsy(IndexType             m,
+      IndexType             n,
+      IndexType             nRhs,
       std::complex<double>  *A,
       const IndexType       ldA,
       std::complex<double>  *B,
@@ -95,7 +175,7 @@ gelsy(IndexType             m,
       double                *rWork)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("zgelsy");
+    CXXLAPACK_DEBUG_OUT("zgelsy");
     LAPACK_IMPL(zgelsy)(&m,
                         &n,
                         &nRhs,

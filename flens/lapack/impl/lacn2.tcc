@@ -249,11 +249,11 @@ lacn2(DenseVector<VV> &v, DenseVector<VX> &x, DenseVector<VSGN> &sgn,
 //
 //  Make copies of output arguments
 //
-    const typename DenseVector<VV>::NoView      v_org     = v; 
+    const typename DenseVector<VV>::NoView      v_org     = v;
     const typename DenseVector<VX>::NoView      x_org     = x;
     const typename DenseVector<VSGN>::NoView    sgn_org   = sgn;
     const EST                                   est_org   = est;
-    const IndexType                             kase_org  = kase; 
+    const IndexType                             kase_org  = kase;
     const typename DenseVector<VSAVE>::NoView   iSave_org = iSave;
 #   endif
 
@@ -266,21 +266,21 @@ lacn2(DenseVector<VV> &v, DenseVector<VX> &x, DenseVector<VSGN> &sgn,
 //
 //  Make copies of results computed by generic implementation
 //
-    const typename DenseVector<VV>::NoView      v_generic     = v; 
+    const typename DenseVector<VV>::NoView      v_generic     = v;
     const typename DenseVector<VX>::NoView      x_generic     = x;
     const typename DenseVector<VSGN>::NoView    sgn_generic   = sgn;
     const EST                                   est_generic   = est;
-    const IndexType                             kase_generic  = kase; 
+    const IndexType                             kase_generic  = kase;
     const typename DenseVector<VSAVE>::NoView   iSave_generic = iSave;
 
 //
 //  restore output arguments
 //
-    v     = v_org; 
+    v     = v_org;
     x     = x_org;
     sgn   = sgn_org;
     est   = est_org;
-    kase  = kase_org; 
+    kase  = kase_org;
     iSave = iSave_org;
 
 //

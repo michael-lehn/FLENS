@@ -60,7 +60,7 @@ struct PruneMatrixClosure
     remainder(const Matrix &matrix);
 };
 
-//-- Specialization for particular closures ------------------------------------ 
+//-- Specialization for particular closures ------------------------------------
 template <typename L, typename R>
     struct PruneMatrixClosure<MatrixClosure<OpMult, ScalarValue<L>, R> >;
 

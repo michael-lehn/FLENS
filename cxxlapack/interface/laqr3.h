@@ -45,6 +45,36 @@ template <typename IndexType>
           IndexType     kTop,
           IndexType     kBot,
           IndexType     nw,
+          float         *H,
+          IndexType     ldH,
+          IndexType     iLoZ,
+          IndexType     iHiZ,
+          float         *Z,
+          IndexType     ldZ,
+          IndexType     &ns,
+          IndexType     &nd,
+          float         *sr,
+          float         *si,
+          float         *V,
+          IndexType     ldV,
+          IndexType     nh,
+          float         *T,
+          IndexType     ldT,
+          IndexType     nv,
+          float         *WV,
+          IndexType     ldWV,
+          float         *work,
+          IndexType     lWork);
+
+
+template <typename IndexType>
+    void
+    laqr3(bool          wantT,
+          bool          wantZ,
+          IndexType     n,
+          IndexType     kTop,
+          IndexType     kBot,
+          IndexType     nw,
           double        *H,
           IndexType     ldH,
           IndexType     iLoZ,
@@ -65,6 +95,34 @@ template <typename IndexType>
           IndexType     ldWV,
           double        *work,
           IndexType     lWork);
+
+template <typename IndexType>
+    void
+    laqr3(bool                      wantT,
+          bool                      wantZ,
+          IndexType                 n,
+          IndexType                 kTop,
+          IndexType                 kBot,
+          IndexType                 nw,
+          std::complex<float >      *H,
+          IndexType                 ldH,
+          IndexType                 iLoZ,
+          IndexType                 iHiZ,
+          std::complex<float >      *Z,
+          IndexType                 ldZ,
+          IndexType                 &ns,
+          IndexType                 &nd,
+          std::complex<float >      *sh,
+          std::complex<float >      *V,
+          IndexType                 ldV,
+          IndexType                 nh,
+          std::complex<float >      *T,
+          IndexType                 ldT,
+          IndexType                 nv,
+          std::complex<float >      *WV,
+          IndexType                 ldWV,
+          std::complex<float >      *work,
+          IndexType                 lWork);
 
 template <typename IndexType>
     void

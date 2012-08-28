@@ -45,6 +45,39 @@ gbsv(IndexType             n,
      IndexType             kl,
      IndexType             ku,
      IndexType             nRhs,
+     float                 *Ab,
+     IndexType             ldAb,
+     IndexType             *iPiv,
+     float                 *B,
+     IndexType             ldB)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgbsv");
+    LAPACK_IMPL(sgbsv)(&n,
+                       &kl,
+                       &ku,
+                       &nRhs,
+                       Ab,
+                       &ldAb,
+                       iPiv,
+                       B,
+                       &ldB,
+                       &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gbsv(IndexType             n,
+     IndexType             kl,
+     IndexType             ku,
+     IndexType             nRhs,
      double                *Ab,
      IndexType             ldAb,
      IndexType             *iPiv,
@@ -52,6 +85,7 @@ gbsv(IndexType             n,
      IndexType             ldB)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("dgbsv");
     LAPACK_IMPL(dgbsv)(&n,
                        &kl,
                        &ku,
@@ -77,6 +111,39 @@ gbsv(IndexType             n,
      IndexType             kl,
      IndexType             ku,
      IndexType             nRhs,
+     std::complex<float >  *Ab,
+     IndexType             ldAb,
+     IndexType             *iPiv,
+     std::complex<float >  *B,
+     IndexType             ldB)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgbsv");
+    LAPACK_IMPL(cgbsv)(&n,
+                       &kl,
+                       &ku,
+                       &nRhs,
+                       reinterpret_cast<float  *>(Ab),
+                       &ldAb,
+                       iPiv,
+                       reinterpret_cast<float  *>(B),
+                       &ldB,
+                       &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gbsv(IndexType             n,
+     IndexType             kl,
+     IndexType             ku,
+     IndexType             nRhs,
      std::complex<double>  *Ab,
      IndexType             ldAb,
      IndexType             *iPiv,
@@ -84,6 +151,7 @@ gbsv(IndexType             n,
      IndexType             ldB)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("zgbsv");
     LAPACK_IMPL(zgbsv)(&n,
                        &kl,
                        &ku,

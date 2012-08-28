@@ -40,12 +40,28 @@
 
 namespace flens { namespace blas {
 
+//-- tbsv
+template <typename MA, typename VX>
+    typename RestrictTo<IsTbMatrix<MA>::value
+                     && IsDenseVector<VX>::value,
+             void>::Type
+    sv(Transpose trans, const MA &A, VX &&x);
+
+
 //-- trsv
 template <typename MA, typename VX>
     typename RestrictTo<IsTrMatrix<MA>::value
                      && IsDenseVector<VX>::value,
              void>::Type
     sv(Transpose trans, const MA &A, VX &&x);
+
+//-- tpsv
+template <typename MA, typename VX>
+    typename RestrictTo<IsTpMatrix<MA>::value
+                     && IsDenseVector<VX>::value,
+            void>::Type
+    sv(Transpose trans, const MA &A, VX &&x);
+
 
 } } // namespace blas, flens
 

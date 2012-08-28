@@ -14,7 +14,7 @@ using namespace flens;
 namespace mylapack {
 
 ///
-/// We define our high-level interface for `getrf` it simply calls the 
+/// We define our high-level interface for `getrf` it simply calls the
 /// CXXLAPACK interface `getrf` for the LAPACK functions `dgetrf`/`zgetrf`.
 ///
 template <typename MA, typename VPIV>

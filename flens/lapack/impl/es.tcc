@@ -305,7 +305,7 @@ es_impl(bool                 computeSchurVectors,
                         wi(i)   = Zero;
                         wi(i+1) = Zero;
                         if (i>1) {
-                            blas::swap(A(_(1,i-1),i), A(_(1,i-1),i+1)); 
+                            blas::swap(A(_(1,i-1),i), A(_(1,i-1),i+1));
                         }
                         if (n>i+1) {
                             blas::swap(A(i,_(i+2,n)), A(i+1,_(i+2,n)));

@@ -42,6 +42,17 @@ template <typename IndexType>
     syev(char                  jobZ,
          char                  upLo,
          IndexType             n,
+         float                 *A,
+         IndexType             ldA,
+         float                 *w,
+         float                 *work,
+         IndexType             lWork);
+
+template <typename IndexType>
+    IndexType
+    syev(char                  jobZ,
+         char                  upLo,
+         IndexType             n,
          double                *A,
          IndexType             ldA,
          double                *w,

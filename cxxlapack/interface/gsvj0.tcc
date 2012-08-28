@@ -44,6 +44,54 @@ IndexType
 gsvj0(char          jobV,
       IndexType     m,
       IndexType     n,
+      float         *A,
+      IndexType     ldA,
+      float         *D,
+      float         *sva,
+      IndexType     mv,
+      float         *V,
+      IndexType     ldV,
+      const float   &eps,
+      const float   &sfMin,
+      const float   &tol,
+      IndexType     nSweep,
+      float         *work,
+      IndexType     lWork)
+{
+    CXXLAPACK_DEBUG_OUT("sgsvj0");
+
+    IndexType info;
+    LAPACK_IMPL(sgsvj0)(&jobV,
+                        &m,
+                        &n,
+                        A,
+                        &ldA,
+                        D,
+                        sva,
+                        &mv,
+                        V,
+                        &ldV,
+                        &eps,
+                        &sfMin,
+                        &tol,
+                        &nSweep,
+                        work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gsvj0(char          jobV,
+      IndexType     m,
+      IndexType     n,
       double        *A,
       IndexType     ldA,
       double        *D,
@@ -58,6 +106,8 @@ gsvj0(char          jobV,
       double        *work,
       IndexType     lWork)
 {
+    CXXLAPACK_DEBUG_OUT("dgsvj0");
+
     IndexType info;
     LAPACK_IMPL(dgsvj0)(&jobV,
                         &m,

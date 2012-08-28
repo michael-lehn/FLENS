@@ -41,6 +41,20 @@ template <typename IndexType>
     void
     laqge(IndexType     m,
           IndexType     n,
+          float         *A,
+          IndexType     ldA,
+          const float   *r,
+          const float   *c,
+          const float   &rowCond,
+          const float   &colCond,
+          const float   &maxA,
+          char          &equed);
+
+
+    template <typename IndexType>
+    void
+    laqge(IndexType     m,
+          IndexType     n,
           double        *A,
           IndexType     ldA,
           const double  *r,
@@ -49,6 +63,19 @@ template <typename IndexType>
           const double  &colCond,
           const double  &maxA,
           char          &equed);
+
+    template <typename IndexType>
+    void
+    laqge(const IndexType       m,
+          const IndexType       n,
+          std::complex<float >  *A,
+          const IndexType       ldA,
+          const float           *r,
+          const float           *c,
+          const float           &rowCond,
+          const float           &colCond,
+          const float           &maxA,
+          char                  &equed);
 
 template <typename IndexType>
     void

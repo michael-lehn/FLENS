@@ -41,11 +41,33 @@ template <typename IndexType>
     IndexType
     gecon(char                          norm,
           IndexType                     n,
+          const float                   *A,
+          IndexType                     lda,
+          const float                   &normA,
+          float                         &rCond,
+          float                         *work,
+          IndexType                     *iwork);
+
+template <typename IndexType>
+    IndexType
+    gecon(char                          norm,
+          IndexType                     n,
           const double                  *A,
           IndexType                     lda,
           const double                  &normA,
           double                        &rCond,
           double                        *work,
+          IndexType                     *iwork);
+
+template <typename IndexType>
+    IndexType
+    gecon(char                          norm,
+          IndexType                     n,
+          const std::complex<float >    *A,
+          IndexType                     lda,
+          const float                   &normA,
+          float                         &rCond,
+          std::complex<float >          *work,
           IndexType                     *iwork);
 
 template <typename IndexType>

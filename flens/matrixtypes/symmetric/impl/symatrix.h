@@ -267,6 +267,11 @@ class SyMatrix
                IndexType firstIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
 
+        fill(const ElementType &value = ElementType(0));
+
+        bool
+        fillRandom();
+
         // -- implementation ---------------------------------------------------
 
         const Engine &

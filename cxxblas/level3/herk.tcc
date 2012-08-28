@@ -56,7 +56,7 @@ herk_generic(StorageOrder order, StorageUpLo upLoC,
                      alpha, A, ldA, beta, C, ldC);
         return;
     }
-    hescal(order, upLoC, n, beta, C, ldC); 
+    hescal(order, upLoC, n, beta, C, ldC);
     if (transA==NoTrans) {
         for (IndexType l=0; l<k; ++l) {
             her(order,  upLoC, n, alpha, A+l, ldA, C, ldC);

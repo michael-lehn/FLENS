@@ -44,6 +44,47 @@ IndexType
 gesdd(char                   jobZ,
       IndexType              m,
       IndexType              n,
+      float                  *A,
+      IndexType              ldA,
+      float                  *s,
+      float                  *U,
+      IndexType              ldU,
+      float                  *Vt,
+      IndexType              ldVt,
+      float                  *work,
+      IndexType              lWork,
+      IndexType              *iWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgesdd");
+    LAPACK_IMPL(sgesdd)(&jobZ,
+                        &m,
+                        &n,
+                        A,
+                        &ldA,
+                        s,
+                        U,
+                        &ldU,
+                        Vt,
+                        &ldVt,
+                        work,
+                        &lWork,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gesdd(char                   jobZ,
+      IndexType              m,
+      IndexType              n,
       double                 *A,
       IndexType              ldA,
       double                 *s,
@@ -56,6 +97,7 @@ gesdd(char                   jobZ,
       IndexType              *iWork)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("dgesdd");
     LAPACK_IMPL(dgesdd)(&jobZ,
                         &m,
                         &n,
@@ -67,6 +109,47 @@ gesdd(char                   jobZ,
                         Vt,
                         &ldVt,
                         work,
+                        &lWork,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gesdd(char                   jobZ,
+      IndexType              m,
+      IndexType              n,
+      std::complex<float >   *A,
+      IndexType              ldA,
+      std::complex<float >   *s,
+      std::complex<float >   *U,
+      IndexType              ldU,
+      std::complex<float >   *Vt,
+      IndexType              ldVt,
+      std::complex<float >   *work,
+      IndexType              lWork,
+      IndexType              *iWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgesdd");
+    LAPACK_IMPL(cgesdd)(&jobZ,
+                        &m,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(s),
+                        reinterpret_cast<float  *>(U),
+                        &ldU,
+                        reinterpret_cast<float  *>(Vt),
+                        &ldVt,
+                        reinterpret_cast<float  *>(work),
                         &lWork,
                         iWork,
                         &info);
@@ -96,6 +179,7 @@ gesdd(char                   jobZ,
       IndexType              *iWork)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("zgesdd");
     LAPACK_IMPL(zgesdd)(&jobZ,
                         &m,
                         &n,

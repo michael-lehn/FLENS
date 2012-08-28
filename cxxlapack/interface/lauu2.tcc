@@ -43,9 +43,36 @@ template <typename IndexType>
 IndexType
 lauu2(char          upLo,
       IndexType     n,
+      float         *A,
+      IndexType     ldA)
+{
+    CXXLAPACK_DEBUG_OUT("slauu2");
+
+    IndexType info;
+    LAPACK_IMPL(slauu2)(&upLo,
+                        &n,
+                        A,
+                        &ldA,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+lauu2(char          upLo,
+      IndexType     n,
       double        *A,
       IndexType     ldA)
 {
+    CXXLAPACK_DEBUG_OUT("dlauu2");
+
     IndexType info;
     LAPACK_IMPL(dlauu2)(&upLo,
                         &n,
@@ -65,9 +92,35 @@ template <typename IndexType>
 IndexType
 lauu2(char                  upLo,
       IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA)
+{
+    CXXLAPACK_DEBUG_OUT("clauu2");
+
+    IndexType info;
+    LAPACK_IMPL(clauu2)(&upLo,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+lauu2(char                  upLo,
+      IndexType             n,
       std::complex<double>  *A,
       IndexType             ldA)
 {
+    CXXLAPACK_DEBUG_OUT("zlauu2");
+
     IndexType info;
     LAPACK_IMPL(zlauu2)(&upLo,
                         &n,

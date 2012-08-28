@@ -42,6 +42,16 @@ template <typename IndexType>
     orgl2(IndexType     m,
           IndexType     n,
           IndexType     k,
+          float         *A,
+          IndexType     ldA,
+          const float   *tau,
+          float         *work);
+
+template <typename IndexType>
+    IndexType
+    orgl2(IndexType     m,
+          IndexType     n,
+          IndexType     k,
           double        *A,
           IndexType     ldA,
           const double  *tau,

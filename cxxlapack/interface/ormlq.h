@@ -44,6 +44,21 @@ template <typename IndexType>
           IndexType     m,
           IndexType     n,
           IndexType     k,
+          float         *A,
+          IndexType     ldA,
+          const float   *tau,
+          float         *C,
+          IndexType     ldC,
+          float         *work,
+          IndexType     lWork);
+
+template <typename IndexType>
+    IndexType
+    ormlq(char          side,
+          char          trans,
+          IndexType     m,
+          IndexType     n,
+          IndexType     k,
           double        *A,
           IndexType     ldA,
           const double  *tau,

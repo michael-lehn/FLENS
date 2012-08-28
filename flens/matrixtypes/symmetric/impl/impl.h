@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -33,6 +33,8 @@
 #ifndef FLENS_MATRIXTYPES_SYMMETRIC_IMPL_IMPL_H
 #define FLENS_MATRIXTYPES_SYMMETRIC_IMPL_IMPL_H 1
 
+#include <flens/matrixtypes/symmetric/impl/sbmatrix.h>
+#include <flens/matrixtypes/symmetric/impl/spmatrix.h>
 #include <flens/matrixtypes/symmetric/impl/syccsmatrix.h>
 #include <flens/matrixtypes/symmetric/impl/sycoordmatrix.h>
 #include <flens/matrixtypes/symmetric/impl/sycrsmatrix.h>

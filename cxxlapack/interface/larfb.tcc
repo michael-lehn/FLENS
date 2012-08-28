@@ -48,6 +48,44 @@ larfb(char              side,
       IndexType         m,
       IndexType         n,
       IndexType         k,
+      const float       *V,
+      IndexType         ldV,
+      const float       *T,
+      IndexType         ldT,
+      float             *C,
+      IndexType         ldC,
+      float             *work,
+      const IndexType   ldWork)
+{
+    CXXLAPACK_DEBUG_OUT("slarfb");
+
+    LAPACK_IMPL(slarfb)(&side,
+                        &trans,
+                        &direct,
+                        &storev,
+                        &m,
+                        &n,
+                        &k,
+                        V,
+                        &ldV,
+                        T,
+                        &ldT,
+                        C,
+                        &ldC,
+                        work,
+                        &ldWork);
+}
+
+
+template <typename IndexType>
+void
+larfb(char              side,
+      char              trans,
+      char              direct,
+      char              storev,
+      IndexType         m,
+      IndexType         n,
+      IndexType         k,
       const double      *V,
       IndexType         ldV,
       const double      *T,
@@ -57,6 +95,8 @@ larfb(char              side,
       double            *work,
       const IndexType   ldWork)
 {
+    CXXLAPACK_DEBUG_OUT("dlarfb");
+
     LAPACK_IMPL(dlarfb)(&side,
                         &trans,
                         &direct,
@@ -83,6 +123,43 @@ larfb(char                          side,
       IndexType                     m,
       IndexType                     n,
       IndexType                     k,
+      const std::complex<float >    *V,
+      IndexType                     ldV,
+      const std::complex<float >    *T,
+      IndexType                     ldT,
+      std::complex<float >          *C,
+      IndexType                     ldC,
+      std::complex<float >          *work,
+      IndexType                     ldWork)
+{
+    CXXLAPACK_DEBUG_OUT("clarfb");
+
+    LAPACK_IMPL(clarfb)(&side,
+                        &trans,
+                        &direct,
+                        &storev,
+                        &m,
+                        &n,
+                        &k,
+                        reinterpret_cast<const float  *>(V),
+                        &ldV,
+                        reinterpret_cast<const float  *>(T),
+                        &ldT,
+                        reinterpret_cast<float  *>(C),
+                        &ldC,
+                        reinterpret_cast<float  *>(work),
+                        &ldWork);
+}
+
+template <typename IndexType>
+void
+larfb(char                          side,
+      char                          trans,
+      char                          direct,
+      char                          storev,
+      IndexType                     m,
+      IndexType                     n,
+      IndexType                     k,
       const std::complex<double>    *V,
       IndexType                     ldV,
       const std::complex<double>    *T,
@@ -92,6 +169,8 @@ larfb(char                          side,
       std::complex<double>          *work,
       IndexType                     ldWork)
 {
+    CXXLAPACK_DEBUG_OUT("zlarfb");
+
     LAPACK_IMPL(zlarfb)(&side,
                         &trans,
                         &direct,

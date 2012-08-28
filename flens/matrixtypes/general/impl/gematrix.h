@@ -236,6 +236,9 @@ class GeMatrix
         bool
         fill(const ElementType &value = ElementType(0));
 
+        bool
+        fillRandom();
+
         void
         changeIndexBase(IndexType firstRowIndex, IndexType firstColIndex);
 
@@ -260,6 +263,13 @@ class GeMatrix
 
         VectorView
         diag(IndexType d);
+
+        // anti diag views
+        const ConstVectorView
+        antiDiag(IndexType d) const;
+
+        VectorView
+        antiDiag(IndexType d);
 
         // triangular views
         const ConstTriangularView

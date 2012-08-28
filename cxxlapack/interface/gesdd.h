@@ -42,6 +42,22 @@ template <typename IndexType>
     gesdd(char                   jobZ,
           IndexType              m,
           IndexType              n,
+          float                  *A,
+          IndexType              ldA,
+          float                  *s,
+          float                  *U,
+          IndexType              ldU,
+          float                  *Vt,
+          IndexType              ldVt,
+          float                  *work,
+          IndexType              lWork,
+          IndexType              *iWork);
+
+template <typename IndexType>
+    IndexType
+    gesdd(char                   jobZ,
+          IndexType              m,
+          IndexType              n,
           double                 *A,
           IndexType              ldA,
           double                 *s,
@@ -52,6 +68,23 @@ template <typename IndexType>
           double                 *work,
           IndexType              lWork,
           IndexType              *iWork);
+
+template <typename IndexType>
+    IndexType
+    gesdd(char                   jobZ,
+          IndexType              m,
+          IndexType              n,
+          std::complex<float >   *A,
+          IndexType              ldA,
+          std::complex<float >   *s,
+          std::complex<float >   *U,
+          IndexType              ldU,
+          std::complex<float >   *Vt,
+          IndexType              ldVt,
+          std::complex<float >   *work,
+          IndexType              lWork,
+          IndexType              *iWork);
+
 
 template <typename IndexType>
     IndexType

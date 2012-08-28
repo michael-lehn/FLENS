@@ -43,6 +43,20 @@ template <typename IndexType>
          char                  upLo,
          IndexType             n,
          IndexType             kd,
+         std::complex<float >  *Ab,
+         IndexType             ldAb,
+         float                 *w,
+         std::complex<float >  *Z,
+         IndexType             ldZ,
+         std::complex<float >  *work,
+         float                 *rWork);
+
+template <typename IndexType>
+    IndexType
+    hbev(char                  jobZ,
+         char                  upLo,
+         IndexType             n,
+         IndexType             kd,
          std::complex<double>  *Ab,
          IndexType             ldAb,
          double                *w,

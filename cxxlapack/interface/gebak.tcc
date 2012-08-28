@@ -46,12 +46,46 @@ gebak(char              job,
       IndexType         n,
       IndexType         iLo,
       IndexType         iHi,
+      const float       *scale,
+      IndexType         m,
+      float             *V,
+      IndexType         ldV)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgebak");
+    LAPACK_IMPL(sgebak)(&job,
+                        &side,
+                        &n,
+                        &iLo,
+                        &iHi,
+                        scale,
+                        &m,
+                        V,
+                        &ldV,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gebak(char              job,
+      char              side,
+      IndexType         n,
+      IndexType         iLo,
+      IndexType         iHi,
       const double      *scale,
       IndexType         m,
       double            *V,
       IndexType         ldV)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("dgebak");
     LAPACK_IMPL(dgebak)(&job,
                         &side,
                         &n,
@@ -78,12 +112,46 @@ gebak(char                  job,
       IndexType             n,
       IndexType             iLo,
       IndexType             iHi,
+      const float           *scale,
+      IndexType             m,
+      std::complex<float >  *V,
+      IndexType             ldV)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgebak");
+    LAPACK_IMPL(cgebak)(&job,
+                        &side,
+                        &n,
+                        &iLo,
+                        &iHi,
+                        scale,
+                        &m,
+                        reinterpret_cast<float *>(V),
+                        &ldV,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gebak(char                  job,
+      char                  side,
+      IndexType             n,
+      IndexType             iLo,
+      IndexType             iHi,
       const double          *scale,
       IndexType             m,
       std::complex<double>  *V,
       IndexType             ldV)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("zgebak");
     LAPACK_IMPL(zgebak)(&job,
                         &side,
                         &n,

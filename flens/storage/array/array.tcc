@@ -35,6 +35,7 @@
 
 #include <cassert>
 #include <cxxblas/level1/copy.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/storage/array/array.h>
 #include <flens/storage/array/arrayview.h>
 #include <flens/storage/array/constarrayview.h>
@@ -186,6 +187,16 @@ bool
 Array<T, I, A>::fill(const ElementType &value)
 {
     std::fill_n(data(), length(), value);
+    return true;
+}
+
+template <typename T, typename I, typename A>
+bool
+Array<T, I, A>::fillRandom()
+{
+    for (IndexType i=0; i<length(); ++i) {
+        _data[i] = randomValue<T>();
+    }
     return true;
 }
 

@@ -46,6 +46,54 @@ lasy2(bool          transTL,
       IndexType     sgn,
       IndexType     n1,
       IndexType     n2,
+      const float   *TL,
+      IndexType     ldTL,
+      const float   *TR,
+      IndexType     ldTR,
+      const float   *B,
+      IndexType     ldB,
+      float         &scale,
+      float         *X,
+      IndexType     ldX,
+      float         &xNorm)
+{
+    CXXLAPACK_DEBUG_OUT("slasy2");
+
+    IndexType info;
+    IndexType _transTL = transTL;
+    IndexType _transTR = transTR;
+    LAPACK_IMPL(slasy2)(&_transTL,
+                        &_transTR,
+                        &sgn,
+                        &n1,
+                        &n2,
+                        TL,
+                        &ldTL,
+                        TR,
+                        &ldTR,
+                        B,
+                        &ldB,
+                        &scale,
+                        X,
+                        &ldX,
+                        &xNorm,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+lasy2(bool          transTL,
+      bool          transTR,
+      IndexType     sgn,
+      IndexType     n1,
+      IndexType     n2,
       const double  *TL,
       IndexType     ldTL,
       const double  *TR,
@@ -57,6 +105,8 @@ lasy2(bool          transTL,
       IndexType     ldX,
       double        &xNorm)
 {
+    CXXLAPACK_DEBUG_OUT("dlasy2");
+
     IndexType info;
     IndexType _transTL = transTL;
     IndexType _transTR = transTR;

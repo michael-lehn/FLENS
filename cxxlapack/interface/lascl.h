@@ -42,6 +42,18 @@ template <typename IndexType>
     lascl(char          type,
           IndexType     kl,
           IndexType     ku,
+          const float   &cFrom,
+          const float   &cTo,
+          IndexType     m,
+          IndexType     n,
+          float         *A,
+          IndexType     ldA);
+
+template <typename IndexType>
+    IndexType
+    lascl(char          type,
+          IndexType     kl,
+          IndexType     ku,
           const double  &cFrom,
           const double  &cTo,
           IndexType     m,
@@ -49,6 +61,17 @@ template <typename IndexType>
           double        *A,
           IndexType     ldA);
 
+template <typename IndexType>
+    IndexType
+    lascl(char                  type,
+          IndexType             kl,
+          IndexType             ku,
+          const float           &cFrom,
+          const float           &cTo,
+          IndexType             m,
+          IndexType             n,
+          std::complex<float >  *A,
+          IndexType             ldA);
 
 template <typename IndexType>
     IndexType

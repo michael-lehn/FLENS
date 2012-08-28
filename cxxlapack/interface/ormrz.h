@@ -45,6 +45,22 @@ template <typename IndexType>
           IndexType     n,
           IndexType     k,
           IndexType     l,
+          const float   *A,
+          IndexType     ldA,
+          const float   *tau,
+          float         *C,
+          IndexType     ldC,
+          float         *work,
+          IndexType     lWork);
+
+template <typename IndexType>
+    void
+    ormrz(char          side,
+          char          trans,
+          IndexType     m,
+          IndexType     n,
+          IndexType     k,
+          IndexType     l,
           const double  *A,
           IndexType     ldA,
           const double  *tau,

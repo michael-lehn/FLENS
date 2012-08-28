@@ -50,6 +50,48 @@ template <typename ALPHA, typename MB>
              void>::Type
     scal(const ALPHA &alpha, MB &&B);
 
+//-- gbscal
+template <typename ALPHA, typename MB>
+    typename RestrictTo<IsGbMatrix<MB>::value,
+             void>::Type
+    scal(const ALPHA &alpha, MB &&B);
+
+//-- hbscal
+template <typename ALPHA, typename MB>
+    typename RestrictTo<IsHbMatrix<MB>::value,
+             void>::Type
+    scal(const ALPHA &alpha, MB &&B);
+
+//-- hpscal
+template <typename ALPHA, typename MB>
+    typename RestrictTo<IsHpMatrix<MB>::value,
+             void>::Type
+    scal(const ALPHA &alpha, MB &&B);
+
+//-- sbscal
+template <typename ALPHA, typename MB>
+    typename RestrictTo<IsSbMatrix<MB>::value,
+             void>::Type
+    scal(const ALPHA &alpha, MB &&B);
+
+//-- spscal
+template <typename ALPHA, typename MB>
+    typename RestrictTo<IsSpMatrix<MB>::value,
+             void>::Type
+    scal(const ALPHA &alpha, MB &&B);
+
+//-- tbscal
+template <typename ALPHA, typename MB>
+    typename RestrictTo<IsTbMatrix<MB>::value,
+             void>::Type
+    scal(const ALPHA &alpha, MB &&B);
+
+//-- tpscal
+template <typename ALPHA, typename MB>
+    typename RestrictTo<IsTpMatrix<MB>::value,
+             void>::Type
+    scal(const ALPHA &alpha, MB &&B);
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1_SCAL_H

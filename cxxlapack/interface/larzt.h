@@ -43,11 +43,35 @@ template <typename IndexType>
           char            storeV,
           IndexType       n,
           IndexType       k,
+          float           *V,
+          const IndexType ldV,
+          const float     *tau,
+          float           *T,
+          const IndexType ldT);
+
+template <typename IndexType>
+    void
+    larzt(char            direct,
+          char            storeV,
+          IndexType       n,
+          IndexType       k,
           double          *V,
           const IndexType ldV,
           const double    *tau,
           double          *T,
           const IndexType ldT);
+
+template <typename IndexType>
+    void
+    larzt(char                        direct,
+          char                        storeV,
+          IndexType                   n,
+          IndexType                   k,
+          std::complex<float >        *V,
+          IndexType                   ldV,
+          const std::complex<float >  *tau,
+          std::complex<float >        *T,
+          IndexType                   ldT);
 
 template <typename IndexType>
     void

@@ -64,7 +64,7 @@ trsm_generic(StorageOrder order, Side sideA, StorageUpLo upLoA,
             trsv(order, upLoA, transA, diagA, m, A, ldA, B+j, ldB);
         }
     }
-    gescal(order, m, n, alpha, B, ldB);    
+    gescal(order, m, n, alpha, B, ldB);
 }
 
 template <typename IndexType, typename ALPHA, typename MA, typename MB>
@@ -137,6 +137,12 @@ trsm(StorageOrder order, Side side, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ctrsm");
 
+    if (transA==Conj) {
+        CXXBLAS_DEBUG_OUT("trsm_generic");
+        trsm_generic(order, side, upLo, transA, diag, m, n, alpha, A, ldA, B, ldB);
+        return;
+    }
+
     cblas_ctrsm(CBLAS::getCblasType(order),
                 CBLAS::getCblasType(side), CBLAS::getCblasType(upLo),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
@@ -157,6 +163,12 @@ trsm(StorageOrder order, Side side, StorageUpLo upLo,
      ComplexDouble *B, IndexType ldB)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ztrsm");
+
+    if (transA==Conj) {
+        CXXBLAS_DEBUG_OUT("trsm_generic");
+        trsm_generic(order, side, upLo, transA, diag, m, n, alpha, A, ldA, B, ldB);
+        return;
+    }
 
     cblas_ztrsm(CBLAS::getCblasType(order),
                 CBLAS::getCblasType(side), CBLAS::getCblasType(upLo),

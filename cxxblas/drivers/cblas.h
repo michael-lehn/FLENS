@@ -193,7 +193,7 @@ void
 cblas_drotmg(double *d1, double *d2, double *b1, double *b2, double *P);
 
 // scal
-void 
+void
 cblas_sscal(CBLAS_INT n, float alpha, float *x, CBLAS_INT incX);
 
 void
@@ -225,6 +225,47 @@ void
 cblas_zswap(CBLAS_INT n, double *x, CBLAS_INT incX, double *y, CBLAS_INT incY);
 
 //-- LEVEL 2 -------------------------------------------------------------------
+
+// gbmv
+void
+cblas_sgbmv(enum CBLAS_ORDER order, enum CBLAS_TRANSPOSE trans,
+            CBLAS_INT m, CBLAS_INT n,
+            CBLAS_INT kl, CBLAS_INT ku,
+            float alpha,
+            const float *A, CBLAS_INT ldA,
+            const float *x, CBLAS_INT incX,
+            float beta,
+            float *y, CBLAS_INT incY);
+
+void
+cblas_dgbmv(enum CBLAS_ORDER order, enum CBLAS_TRANSPOSE trans,
+            CBLAS_INT m, CBLAS_INT n,
+            CBLAS_INT kl, CBLAS_INT ku,
+            double alpha,
+            const double *A, CBLAS_INT ldA,
+            const double *x, CBLAS_INT incX,
+            double beta,
+            double *y, CBLAS_INT incY);
+
+void
+cblas_cgbmv(enum CBLAS_ORDER order, enum CBLAS_TRANSPOSE trans,
+            CBLAS_INT m, CBLAS_INT n,
+            CBLAS_INT kl, CBLAS_INT ku,
+            const float *alpha,
+            const float *A, CBLAS_INT ldA,
+            const float *x, CBLAS_INT incX,
+            const float *beta,
+            float *y, CBLAS_INT incY);
+
+void
+cblas_zgbmv(enum CBLAS_ORDER order, enum CBLAS_TRANSPOSE trans,
+            CBLAS_INT m, CBLAS_INT n,
+            CBLAS_INT kl, CBLAS_INT ku,
+            const double *alpha,
+            const double *A, CBLAS_INT ldA,
+            const double *x, CBLAS_INT incX,
+            const double *beta,
+            double *y, CBLAS_INT incY);
 
 // gemv
 void
@@ -263,6 +304,23 @@ cblas_zgemv(enum CBLAS_ORDER order, enum CBLAS_TRANSPOSE trans,
             const double *beta,
             double *y, CBLAS_INT incY);
 
+// sbmv
+void
+cblas_ssbmv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            CBLAS_INT n, CBLAS_INT k, float alpha,
+            const float *A, CBLAS_INT ldA,
+            const float *x, CBLAS_INT incX,
+            float beta,
+            float *y, CBLAS_INT incY);
+
+void
+cblas_dsbmv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            CBLAS_INT n,CBLAS_INT k, double alpha,
+            const double *A, CBLAS_INT ldA,
+            const double *x, CBLAS_INT incX,
+            double beta,
+            double *y, CBLAS_INT incY);
+
 // symv
 void
 cblas_ssymv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
@@ -280,6 +338,41 @@ cblas_dsymv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
             double beta,
             double *y, CBLAS_INT incY);
 
+// spmv
+void
+cblas_sspmv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            CBLAS_INT n, float alpha,
+            const float *Ap,
+            const float *x, CBLAS_INT incX,
+            float beta,
+            float *y, CBLAS_INT incY);
+
+void
+cblas_dspmv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            CBLAS_INT n, double alpha,
+            const double *Ap,
+            const double *x, CBLAS_INT incX,
+            double beta,
+            double *y, CBLAS_INT incY);
+
+// hbmv
+void
+cblas_chbmv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            CBLAS_INT n, CBLAS_INDEX k, const float *alpha,
+            const float *A, CBLAS_INT ldA,
+            const float *x, CBLAS_INT incX,
+            const float *beta,
+            float *y, CBLAS_INT incY);
+
+void
+cblas_zhbmv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            CBLAS_INT n, CBLAS_INDEX k, const double *alpha,
+            const double *A, CBLAS_INT ldA,
+            const double *x, CBLAS_INT incX,
+            const double *beta,
+            double *y, CBLAS_INT incY);
+
+
 // hemv
 void
 cblas_chemv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
@@ -296,6 +389,52 @@ cblas_zhemv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
             const double *x, CBLAS_INT incX,
             const double *beta,
             double *y, CBLAS_INT incY);
+
+// hpmv
+void
+cblas_chpmv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            CBLAS_INT n, const float *alpha,
+            const float *Ap,
+            const float *x, CBLAS_INT incX,
+            const float *beta,
+            float *y, CBLAS_INT incY);
+
+void
+cblas_zhpmv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            CBLAS_INT n, const double *alpha,
+            const double *Ap,
+            const double *x, CBLAS_INT incX,
+            const double *beta,
+            double *y, CBLAS_INT incY);
+
+// tbsv
+void
+cblas_stbsv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            enum CBLAS_TRANSPOSE transA, enum CBLAS_DIAG diag,
+            CBLAS_INT n, CBLAS_INT k,
+            const float *A, CBLAS_INT lda,
+            float *X, CBLAS_INT incX);
+
+void
+cblas_dtbsv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            enum CBLAS_TRANSPOSE transA, enum CBLAS_DIAG diag,
+            CBLAS_INT n, CBLAS_INT k,
+            const double *A, CBLAS_INT lda,
+            double *X, CBLAS_INT incX);
+
+void
+cblas_ctbsv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            enum CBLAS_TRANSPOSE transA, enum CBLAS_DIAG diag,
+            CBLAS_INT n, CBLAS_INT k,
+            const float *A, CBLAS_INT lda,
+            float *X, CBLAS_INT incX);
+
+void
+cblas_ztbsv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            enum CBLAS_TRANSPOSE transA, enum CBLAS_DIAG diag,
+            CBLAS_INT n, CBLAS_INT k,
+            const double *A, CBLAS_INT lda,
+            double *X, CBLAS_INT incX);
 
 // trsv
 void
@@ -326,6 +465,64 @@ cblas_ztrsv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
             const double *A, CBLAS_INT lda,
             double *X, CBLAS_INT incX);
 
+// tpsv
+void
+cblas_stpsv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            enum CBLAS_TRANSPOSE transA, enum CBLAS_DIAG diag,
+            CBLAS_INT n,
+            const float *A,
+            float *X, CBLAS_INT incX);
+
+void
+cblas_dtpsv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            enum CBLAS_TRANSPOSE transA, enum CBLAS_DIAG diag,
+            CBLAS_INT n,
+            const double *A,
+            double *X, CBLAS_INT incX);
+
+void
+cblas_ctpsv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            enum CBLAS_TRANSPOSE transA, enum CBLAS_DIAG diag,
+            CBLAS_INT n,
+            const float *A,
+            float *X, CBLAS_INT incX);
+
+void
+cblas_ztpsv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            enum CBLAS_TRANSPOSE transA, enum CBLAS_DIAG diag,
+            CBLAS_INT n,
+            const double *A,
+            double *X, CBLAS_INT incX);
+
+// tbmv
+void
+cblas_stbmv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            enum CBLAS_TRANSPOSE transA, enum CBLAS_DIAG diag,
+            CBLAS_INT n, CBLAS_INDEX k,
+            const float *A, CBLAS_INT lda,
+            float *x, CBLAS_INT incX);
+
+void
+cblas_dtbmv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            enum CBLAS_TRANSPOSE transA, enum CBLAS_DIAG diag,
+            CBLAS_INT n, CBLAS_INDEX k,
+            const double *A, CBLAS_INT lda,
+            double *x, CBLAS_INT incX);
+
+void
+cblas_ctbmv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            enum CBLAS_TRANSPOSE transA, enum CBLAS_DIAG diag,
+            CBLAS_INT n, CBLAS_INDEX k,
+            const float *A, CBLAS_INT lda,
+            float *x, CBLAS_INT incX);
+
+void
+cblas_ztbmv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            enum CBLAS_TRANSPOSE transA, enum CBLAS_DIAG diag,
+            CBLAS_INT N, CBLAS_INDEX k,
+            const double *A, CBLAS_INT lda,
+            double *x, CBLAS_INT incX);
+
 // trmv
 void
 cblas_strmv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
@@ -353,6 +550,35 @@ cblas_ztrmv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
             enum CBLAS_TRANSPOSE transA, enum CBLAS_DIAG diag,
             CBLAS_INT N,
             const double *A, CBLAS_INT lda,
+            double *x, CBLAS_INT incX);
+
+// tpmv
+void
+cblas_stpmv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            enum CBLAS_TRANSPOSE transA, enum CBLAS_DIAG diag,
+            CBLAS_INT n,
+            const float *Ap,
+            float *x, CBLAS_INT incX);
+
+void
+cblas_dtpmv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            enum CBLAS_TRANSPOSE transA, enum CBLAS_DIAG diag,
+            CBLAS_INT n,
+            const double *Ap,
+            double *x, CBLAS_INT incX);
+
+void
+cblas_ctpmv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            enum CBLAS_TRANSPOSE transA, enum CBLAS_DIAG diag,
+            CBLAS_INT n,
+            const float *Ap,
+            float *x, CBLAS_INT incX);
+
+void
+cblas_ztpmv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            enum CBLAS_TRANSPOSE transA, enum CBLAS_DIAG diag,
+            CBLAS_INT N,
+            const double *Ap,
             double *x, CBLAS_INT incX);
 
 // ger
@@ -479,7 +705,7 @@ cblas_sgemm(enum CBLAS_ORDER order,
             const float *B, CBLAS_INT ldB,
             float beta,
             float *C, CBLAS_INT ldC);
-            
+
 void
 cblas_dgemm(enum CBLAS_ORDER order,
             enum CBLAS_TRANSPOSE transA, enum CBLAS_TRANSPOSE transB,

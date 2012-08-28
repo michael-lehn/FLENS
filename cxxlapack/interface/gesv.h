@@ -41,11 +41,31 @@ template <typename IndexType>
     IndexType
     gesv(IndexType  n,
          IndexType  nRhs,
+         float      *A,
+         IndexType  ldA,
+         IndexType  *iPiv,
+         float      *B,
+         IndexType  ldB);
+
+template <typename IndexType>
+    IndexType
+    gesv(IndexType  n,
+         IndexType  nRhs,
          double     *A,
          IndexType  ldA,
          IndexType  *iPiv,
          double     *B,
          IndexType  ldB);
+
+template <typename IndexType>
+    IndexType
+    gesv(IndexType              n,
+         IndexType              nRhs,
+         std::complex<float >   *A,
+         IndexType              ldA,
+         IndexType              *iPiv,
+         std::complex<float >   *B,
+         IndexType              ldB);
 
 template <typename IndexType>
     IndexType

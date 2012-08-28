@@ -45,6 +45,64 @@ gesvx(char          fact,
       char          trans,
       IndexType     n,
       IndexType     nRhs,
+      float         *A,
+      IndexType     ldA,
+      float         *AF,
+      IndexType     ldAF,
+      IndexType     *iPiv,
+      char          equed,
+      float         *r,
+      float         *c,
+      float         *B,
+      IndexType     ldB,
+      float         *X,
+      IndexType     ldX,
+      float         &rCond,
+      float         *fErr,
+      float         *bErr,
+      float         *work,
+      IndexType     *iWork)
+{
+    CXXLAPACK_DEBUG_OUT("sgesvx");
+
+    IndexType info;
+    LAPACK_IMPL(sgesvx)(&fact,
+                        &trans,
+                        &n,
+                        &nRhs,
+                        A,
+                        &ldA,
+                        AF,
+                        &ldAF,
+                        iPiv,
+                        &equed,
+                        r,
+                        c,
+                        B,
+                        &ldB,
+                        X,
+                        &ldX,
+                        &rCond,
+                        fErr,
+                        bErr,
+                        work,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gesvx(char          fact,
+      char          trans,
+      IndexType     n,
+      IndexType     nRhs,
       double        *A,
       IndexType     ldA,
       double        *AF,
@@ -63,6 +121,8 @@ gesvx(char          fact,
       double        *work,
       IndexType     *iWork)
 {
+    CXXLAPACK_DEBUG_OUT("dgesvx");
+
     IndexType info;
     LAPACK_IMPL(dgesvx)(&fact,
                         &trans,
@@ -101,6 +161,64 @@ gesvx(char                  fact,
       char                  trans,
       IndexType             n,
       IndexType             nRhs,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      std::complex<float >  *AF,
+      IndexType             ldAF,
+      IndexType             *iPiv,
+      char                  equed,
+      float                 *r,
+      float                 *c,
+      std::complex<float >  *B,
+      IndexType             ldB,
+      std::complex<float >  *X,
+      IndexType             ldX,
+      float                 &rCond,
+      float                 *fErr,
+      float                 *bErr,
+      std::complex<float >  *work,
+      float                 *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("cgesvx");
+
+    IndexType info;
+    LAPACK_IMPL(cgesvx)(&fact,
+                        &trans,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(AF),
+                        &ldAF,
+                        iPiv,
+                        &equed,
+                        r,
+                        c,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(X),
+                        &ldX,
+                        &rCond,
+                        fErr,
+                        bErr,
+                        reinterpret_cast<float  *>(work),
+                        rWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gesvx(char                  fact,
+      char                  trans,
+      IndexType             n,
+      IndexType             nRhs,
       std::complex<double>  *A,
       IndexType             ldA,
       std::complex<double>  *AF,
@@ -119,6 +237,8 @@ gesvx(char                  fact,
       std::complex<double>  *work,
       double                *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zgesvx");
+
     IndexType info;
     LAPACK_IMPL(zgesvx)(&fact,
                         &trans,

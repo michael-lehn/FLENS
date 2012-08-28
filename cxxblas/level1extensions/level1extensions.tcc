@@ -34,7 +34,12 @@
 #define CXXBLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_TCC 1
 
 #include <cxxblas/level1extensions/acxpy.tcc>
+#include <cxxblas/level1extensions/ccopy.tcc>
+#include <cxxblas/level1extensions/gbaxpy.tcc>
 #include <cxxblas/level1extensions/geaxpy.tcc>
+#include <cxxblas/level1extensions/gbcopy.tcc>
+#include <cxxblas/level1extensions/gbcotr.tcc>
+#include <cxxblas/level1extensions/gbscal.tcc>
 #include <cxxblas/level1extensions/gecopy.tcc>
 #include <cxxblas/level1extensions/gecotr.tcc>
 #include <cxxblas/level1extensions/geraxpy.tcc>
@@ -45,5 +50,8 @@
 #include <cxxblas/level1extensions/raxpy.tcc>
 #include <cxxblas/level1extensions/rscal.tcc>
 #include <cxxblas/level1extensions/trcopy.tcc>
+#include <cxxblas/level1extensions/tpaxpy.tcc>
+#include <cxxblas/level1extensions/tpcopy.tcc>
+#include <cxxblas/level1extensions/tpscal.tcc>
 
 #endif // CXXBLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_TCC

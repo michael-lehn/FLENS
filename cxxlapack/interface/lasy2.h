@@ -44,6 +44,24 @@ template <typename IndexType>
           IndexType     sgn,
           IndexType     n1,
           IndexType     n2,
+          const float   *TL,
+          IndexType     ldTL,
+          const float   *TR,
+          IndexType     ldTR,
+          const float   *B,
+          IndexType     ldB,
+          float         &scale,
+          float         *X,
+          IndexType     ldX,
+          float         &xNorm);
+
+template <typename IndexType>
+    IndexType
+    lasy2(bool          transTL,
+          bool          transTR,
+          IndexType     sgn,
+          IndexType     n1,
+          IndexType     n2,
           const double  *TL,
           IndexType     ldTL,
           const double  *TR,

@@ -43,9 +43,36 @@ template <typename IndexType>
 IndexType
 lauum(char          upLo,
       IndexType     n,
+      float         *A,
+      IndexType     ldA)
+{
+    CXXLAPACK_DEBUG_OUT("slauum");
+
+    IndexType info;
+    LAPACK_IMPL(slauum)(&upLo,
+                        &n,
+                        A,
+                        &ldA,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+lauum(char          upLo,
+      IndexType     n,
       double        *A,
       IndexType     ldA)
 {
+    CXXLAPACK_DEBUG_OUT("dlauum");
+
     IndexType info;
     LAPACK_IMPL(dlauum)(&upLo,
                         &n,
@@ -65,13 +92,39 @@ template <typename IndexType>
 IndexType
 lauum(char                  upLo,
       IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA)
+{
+    CXXLAPACK_DEBUG_OUT("clauum");
+
+    IndexType info;
+    LAPACK_IMPL(clauum)(&upLo,
+                        &n,
+                        reinterpret_cast<float *>(A),
+                        &ldA,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+lauum(char                  upLo,
+      IndexType             n,
       std::complex<double>  *A,
       IndexType             ldA)
 {
+    CXXLAPACK_DEBUG_OUT("zlauum");
+
     IndexType info;
     LAPACK_IMPL(zlauum)(&upLo,
                         &n,
-                        A,
+                        reinterpret_cast<double *>(A),
                         &ldA,
                         &info);
 #   ifndef NDEBUG

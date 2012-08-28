@@ -41,6 +41,23 @@ template <typename IndexType>
     IndexType
     gees(char           jobVS,
          char           sort,
+         IndexType      (*select)(const float *, const float *),
+         IndexType      n,
+         float          *A,
+         IndexType      ldA,
+         IndexType      &sdim,
+         float          *wr,
+         float          *wi,
+         float          *VS,
+         IndexType      ldVS,
+         float          *work,
+         IndexType      lWork,
+         IndexType      *bWork);
+
+template <typename IndexType>
+    IndexType
+    gees(char           jobVS,
+         char           sort,
          IndexType      (*select)(const double *, const double *),
          IndexType      n,
          double         *A,
@@ -53,6 +70,23 @@ template <typename IndexType>
          double         *work,
          IndexType      lWork,
          IndexType      *bWork);
+
+template <typename IndexType>
+    IndexType
+    gees(char                   jobVS,
+         char                   sort,
+         IndexType              (*select)(const std::complex<float > *),
+         IndexType              n,
+         std::complex<float >   *A,
+         const IndexType        ldA,
+         IndexType              &sdim,
+         std::complex<float >   *w,
+         std::complex<float >   *VS,
+         const IndexType        ldVS,
+         std::complex<float >   *work,
+         const IndexType        lWork,
+         float                  *rWork,
+         IndexType              *bWork);
 
 template <typename IndexType>
     IndexType

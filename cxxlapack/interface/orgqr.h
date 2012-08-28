@@ -42,6 +42,17 @@ template <typename IndexType>
     orgqr(IndexType     m,
           IndexType     n,
           IndexType     k,
+          float         *A,
+          IndexType     ldA,
+          const float   *tau,
+          float         *work,
+          IndexType     lWork);
+
+template <typename IndexType>
+    IndexType
+    orgqr(IndexType     m,
+          IndexType     n,
+          IndexType     k,
           double        *A,
           IndexType     ldA,
           const double  *tau,

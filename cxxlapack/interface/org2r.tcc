@@ -44,11 +44,43 @@ IndexType
 org2r(IndexType     m,
       IndexType     n,
       IndexType     k,
+      float         *A,
+      IndexType     ldA,
+      const float   *tau,
+      float         *work)
+{
+    CXXLAPACK_DEBUG_OUT("sorg2r");
+
+    IndexType info;
+    LAPACK_IMPL(sorg2r)(&m,
+                        &n,
+                        &k,
+                        A,
+                        &ldA,
+                        tau,
+                        work,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+org2r(IndexType     m,
+      IndexType     n,
+      IndexType     k,
       double        *A,
       IndexType     ldA,
       const double  *tau,
       double        *work)
 {
+    CXXLAPACK_DEBUG_OUT("dorg2r");
+
     IndexType info;
     LAPACK_IMPL(dorg2r)(&m,
                         &n,

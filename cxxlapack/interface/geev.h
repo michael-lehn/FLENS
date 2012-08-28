@@ -42,6 +42,22 @@ template <typename IndexType>
     geev(char           jobVL,
          char           jobVR,
          IndexType      n,
+         float          *A,
+         IndexType      ldA,
+         float          *wr,
+         float          *wi,
+         float          *VL,
+         IndexType      ldVL,
+         float          *VR,
+         IndexType      ldVR,
+         float          *work,
+         IndexType      lWork);
+
+template <typename IndexType>
+    IndexType
+    geev(char           jobVL,
+         char           jobVR,
+         IndexType      n,
          double         *A,
          IndexType      ldA,
          double         *wr,
@@ -52,6 +68,22 @@ template <typename IndexType>
          IndexType      ldVR,
          double         *work,
          IndexType      lWork);
+
+template <typename IndexType>
+    IndexType
+    geev(char                   jobVL,
+         char                   jobVR,
+         IndexType              n,
+         std::complex<float >   *A,
+         IndexType              ldA,
+         std::complex<float >   *w,
+         std::complex<float >   *VL,
+         IndexType              ldVL,
+         std::complex<float >   *VR,
+         IndexType              ldVR,
+         std::complex<float >   *work,
+         IndexType              lWork,
+         float                  *rWork);
 
 template <typename IndexType>
     IndexType

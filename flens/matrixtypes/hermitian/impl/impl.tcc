@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -33,9 +33,14 @@
 #ifndef FLENS_MATRIXTYPES_HERMITIAN_IMPL_IMPL_TCC
 #define FLENS_MATRIXTYPES_HERMITIAN_IMPL_IMPL_TCC 1
 
+<<<<<<< HEAD
 #include <flens/matrixtypes/hermitian/impl/heccsmatrix.tcc>
 #include <flens/matrixtypes/hermitian/impl/hecoordmatrix.tcc>
 #include <flens/matrixtypes/hermitian/impl/hecrsmatrix.tcc>
+=======
+#include <flens/matrixtypes/hermitian/impl/hbmatrix.tcc>
+>>>>>>> c3aca46232611d35a7be046ab07a64ab0dcda1db
 #include <flens/matrixtypes/hermitian/impl/hematrix.tcc>
+#include <flens/matrixtypes/hermitian/impl/hpmatrix.tcc>
 
 #endif // FLENS_MATRIXTYPES_HERMITIAN_IMPL_IMPL_TCC

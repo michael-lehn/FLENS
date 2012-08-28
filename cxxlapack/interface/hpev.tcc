@@ -44,6 +44,40 @@ IndexType
 hpev(char                   jobZ,
      char                   upLo,
      IndexType              n,
+     std::complex<float >   *Ap,
+     float                  *w,
+     std::complex<float >   *Z,
+     IndexType              ldZ,
+     std::complex<float >   *work,
+     float                  *rWork)
+{
+    CXXLAPACK_DEBUG_OUT("chpev");
+
+    IndexType info;
+    LAPACK_IMPL(chpev)(&jobZ,
+                       &upLo,
+                       &n,
+                       reinterpret_cast<float  *>(Ap),
+                       w,
+                       reinterpret_cast<float  *>(Z),
+                       &ldZ,
+                       reinterpret_cast<float  *>(work),
+                       rWork,
+                       &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hpev(char                   jobZ,
+     char                   upLo,
+     IndexType              n,
      std::complex<double>   *Ap,
      double                 *w,
      std::complex<double>   *Z,
@@ -51,6 +85,8 @@ hpev(char                   jobZ,
      std::complex<double>   *work,
      double                 *rWork)
 {
+    CXXLAPACK_DEBUG_OUT("zhpev");
+
     IndexType info;
     LAPACK_IMPL(zhpev)(&jobZ,
                        &upLo,

@@ -52,6 +52,13 @@ template <typename VX, typename VY>
 
 //-- BLAS Level 1 extensions ---------------------------------------------------
 
+//-- gbcopy
+template <typename MA, typename MB>
+    typename RestrictTo<IsGbMatrix<MA>::value
+                     && IsGeMatrix<MB>::value,
+             void>::Type
+    copy(Transpose trans, const MA &A, MB &&B);
+
 //-- gecopy
 template <typename MA, typename MB>
     typename RestrictTo<IsGeMatrix<MA>::value
@@ -59,17 +66,61 @@ template <typename MA, typename MB>
              void>::Type
     copy(Transpose trans, const MA &A, MB &&B);
 
+<<<<<<< HEAD
 //-- hecopy
 template <typename MA, typename MB>
     typename RestrictTo<IsHeMatrix<MA>::value
                      && IsHeMatrix<MB>::value,
              void>::Type
     copy(const MA &A, MB &&B);
+=======
+//-- hbcopy
+template <typename MA, typename MB>
+    typename RestrictTo<IsHbMatrix<MA>::value
+                     && IsHbMatrix<MB>::value,
+             void>::Type
+    copy(Transpose trans, const MA &A, MB &&B);
+
+//-- hpcopy
+template <typename MA, typename MB>
+    typename RestrictTo<IsHpMatrix<MA>::value
+                     && IsHpMatrix<MB>::value,
+             void>::Type
+    copy(Transpose trans, const MA &A, MB &&B);
+
+//-- tbcopy
+template <typename MA, typename MB>
+    typename RestrictTo<IsTbMatrix<MA>::value
+                     && IsTbMatrix<MB>::value,
+             void>::Type
+    copy(Transpose trans, const MA &A, MB &&B);
+>>>>>>> c3aca46232611d35a7be046ab07a64ab0dcda1db
 
 //-- trcopy
 template <typename MA, typename MB>
     typename RestrictTo<IsTrMatrix<MA>::value
                      && IsTrMatrix<MB>::value,
+             void>::Type
+    copy(Transpose trans, const MA &A, MB &&B);
+
+//-- tpcopy
+template <typename MA, typename MB>
+    typename RestrictTo<IsTpMatrix<MA>::value
+                     && IsTpMatrix<MB>::value,
+             void>::Type
+    copy(Transpose trans, const MA &A, MB &&B);
+
+//-- sbcopy
+template <typename MA, typename MB>
+    typename RestrictTo<IsSbMatrix<MA>::value
+                     && IsSbMatrix<MB>::value,
+             void>::Type
+    copy(Transpose trans, const MA &A, MB &&B);
+
+//-- spcopy
+template <typename MA, typename MB>
+    typename RestrictTo<IsSpMatrix<MA>::value
+                     && IsSpMatrix<MB>::value,
              void>::Type
     copy(Transpose trans, const MA &A, MB &&B);
 
@@ -125,15 +176,47 @@ template <typename MA, typename MB>
     copy(const MA &A, MB &&B);
 
 //-- convenience extensions ----------------------------------------------------
+<<<<<<< HEAD
 
 //-- copy: SyMatrix -> GeMatrix
+=======
+
+//-- copy: HbMatrix -> GbMatrix
+template <typename MA, typename MB>
+    typename RestrictTo<IsHbMatrix<MA>::value
+                     && IsGbMatrix<MB>::value,
+             void>::Type
+    copy(const MA &A, MB &&B);
+
+//-- copy: TbMatrix -> GbMatrix
+template <typename MA, typename MB>
+    typename RestrictTo<IsTbMatrix<MA>::value
+                     && IsGbMatrix<MB>::value,
+             void>::Type
+    copy(Transpose trans, const MA &A, MB &&B);
+
+//-- copy: TrMatrix -> GeMatrix
+>>>>>>> c3aca46232611d35a7be046ab07a64ab0dcda1db
 template <typename MA, typename MB>
     typename RestrictTo<IsSyMatrix<MA>::value
                      && IsGeMatrix<MB>::value,
              void>::Type
+<<<<<<< HEAD
     copy(const MA &A, MB &&B);
 
 //-- copy: TrMatrix -> GeMatrix
+=======
+    copy(Transpose trans, const MA &A, MB &&B);
+
+//-- copy: SbMatrix -> GbMatrix
+template <typename MA, typename MB>
+    typename RestrictTo<IsSbMatrix<MA>::value
+                     && IsGbMatrix<MB>::value,
+             void>::Type
+    copy(const MA &A, MB &&B);
+
+//-- copy: SyMatrix -> GeMatrix
+>>>>>>> c3aca46232611d35a7be046ab07a64ab0dcda1db
 template <typename MA, typename MB>
     typename RestrictTo<IsTrMatrix<MA>::value
                      && IsGeMatrix<MB>::value,

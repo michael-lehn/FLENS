@@ -43,6 +43,19 @@ template <typename IndexType>
          char                  upLo,
          IndexType             n,
          IndexType             kd,
+         float                 *Ab,
+         IndexType             ldAb,
+         float                 *w,
+         float                 *z,
+         IndexType             ldZ,
+         float                 *work);
+
+template <typename IndexType>
+    IndexType
+    sbev(char                  jobZ,
+         char                  upLo,
+         IndexType             n,
+         IndexType             kd,
          double                *Ab,
          IndexType             ldAb,
          double                *w,

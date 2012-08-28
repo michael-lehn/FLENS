@@ -116,6 +116,9 @@ class ArrayView
         bool
         fill(const ElementType &value = ElementType(0));
 
+        bool
+        fillRandom();
+
         void
         changeIndexBase(IndexType firstIndex);
 

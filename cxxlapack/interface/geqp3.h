@@ -41,12 +41,35 @@ template <typename IndexType>
     IndexType
     geqp3(IndexType    m,
           IndexType    n,
+          float        *A,
+          IndexType    ldA,
+          IndexType    *jPvt,
+          float        *tau,
+          float        *work,
+          IndexType    lWork);
+
+template <typename IndexType>
+    IndexType
+    geqp3(IndexType    m,
+          IndexType    n,
           double       *A,
           IndexType    ldA,
           IndexType    *jPvt,
           double       *tau,
           double       *work,
           IndexType    lWork);
+
+template <typename IndexType>
+    IndexType
+    geqp3(IndexType             m,
+          IndexType             n,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          IndexType             *jPvt,
+          std::complex<float >  *tau,
+          std::complex<float >  *work,
+          IndexType             lWork,
+          float                 *rWork);
 
 template <typename IndexType>
     IndexType

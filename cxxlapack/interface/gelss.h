@@ -42,6 +42,21 @@ template <typename IndexType>
     gelss(IndexType             m,
           IndexType             n,
           IndexType             nRhs,
+          float                 *A,
+          IndexType             ldA,
+          float                 *B,
+          IndexType             ldB,
+          float                 *s,
+          float                 rCond,
+          IndexType             rank,
+          float                 *work,
+          IndexType             lWork);
+
+template <typename IndexType>
+    IndexType
+    gelss(IndexType             m,
+          IndexType             n,
+          IndexType             nRhs,
           double                *A,
           IndexType             ldA,
           double                *B,
@@ -50,6 +65,21 @@ template <typename IndexType>
           double                rCond,
           IndexType             rank,
           double                *work,
+          IndexType             lWork);
+
+template <typename IndexType>
+    IndexType
+    gelss(IndexType             m,
+          IndexType             n,
+          IndexType             nRhs,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          std::complex<float >  *B,
+          IndexType             ldB,
+          std::complex<float >  *s,
+          float                 rCond,
+          IndexType             rank,
+          std::complex<float >  *work,
           IndexType             lWork);
 
 template <typename IndexType>

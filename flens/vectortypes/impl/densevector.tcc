@@ -414,6 +414,13 @@ DenseVector<A>::fill(const ElementType &value)
 }
 
 template <typename A>
+bool
+DenseVector<A>::fillRandom()
+{
+    return _array.fillRandom();
+}
+
+template <typename A>
 void
 DenseVector<A>::changeIndexBase(IndexType firstIndex)
 {

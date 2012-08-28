@@ -41,6 +41,33 @@ namespace cxxlapack {
 
 template <typename VOID>
 void
+lanv2(float    &a,
+      float    &b,
+      float    &c,
+      float    &d,
+      float    &rt1r,
+      float    &rt1i,
+      float    &rt2r,
+      float    &rt2i,
+      float    &cs,
+      float    &sn)
+{
+    CXXLAPACK_DEBUG_OUT("slanv2");
+
+    LAPACK_IMPL(slanv2)(&a,
+                        &b,
+                        &c,
+                        &d,
+                        &rt1r,
+                        &rt1i,
+                        &rt2r,
+                        &rt2i,
+                        &cs,
+                        &sn);
+}
+
+template <typename VOID>
+void
 lanv2(double   &a,
       double   &b,
       double   &c,
@@ -52,6 +79,9 @@ lanv2(double   &a,
       double   &cs,
       double   &sn)
 {
+
+    CXXLAPACK_DEBUG_OUT("dlanv2");
+
     LAPACK_IMPL(dlanv2)(&a,
                         &b,
                         &c,

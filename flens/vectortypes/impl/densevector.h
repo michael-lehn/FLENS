@@ -159,7 +159,7 @@ class DenseVector
                    IndexType firstViewIndex) const;
 
         View
-        operator()(const Range<IndexType> &range, 
+        operator()(const Range<IndexType> &range,
                    IndexType firstViewIndex);
 
         const ConstView
@@ -167,7 +167,7 @@ class DenseVector
                    IndexType firstViewIndex) const;
 
         View
-        operator()(const Underscore<IndexType> &all, 
+        operator()(const Underscore<IndexType> &all,
                    IndexType firstViewIndex);
 
         const ConstView
@@ -219,6 +219,9 @@ class DenseVector
 
         bool
         fill(const ElementType &value = ElementType(0));
+
+        bool
+        fillRandom();
 
         void
         changeIndexBase(IndexType firstIndex);

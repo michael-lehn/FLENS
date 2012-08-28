@@ -43,10 +43,34 @@ template <typename IndexType>
          IndexType             kl,
          IndexType             ku,
          IndexType             nRhs,
+         float                 *Ab,
+         IndexType             ldAb,
+         IndexType             *iPiv,
+         float                 *B,
+         IndexType             ldB);
+
+template <typename IndexType>
+    IndexType
+    gbsv(IndexType             n,
+         IndexType             kl,
+         IndexType             ku,
+         IndexType             nRhs,
          double                *Ab,
          IndexType             ldAb,
          IndexType             *iPiv,
          double                *B,
+         IndexType             ldB);
+
+template <typename IndexType>
+    IndexType
+    gbsv(IndexType             n,
+         IndexType             kl,
+         IndexType             ku,
+         IndexType             nRhs,
+         std::complex<float >  *Ab,
+         IndexType             ldAb,
+         IndexType             *iPiv,
+         std::complex<float >  *B,
          IndexType             ldB);
 
 template <typename IndexType>

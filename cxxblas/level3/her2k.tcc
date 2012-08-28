@@ -57,7 +57,7 @@ her2k_generic(StorageOrder order, StorageUpLo upLoC,
                       beta, C, ldC);
         return;
     }
-    hescal(order, upLoC, n, beta, C, ldC);    
+    hescal(order, upLoC, n, beta, C, ldC);
     if (k==0) {
         return;
     }

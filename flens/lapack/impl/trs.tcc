@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2011, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -207,6 +207,178 @@ trs_impl(Transpose trans, const TrMatrix<MA> &A, GeMatrix<MB> &B)
     return info;
 }
 
+//-- (he)trs [complex variant] ----------------------------------------
+
+template <typename MA, typename VP, typename MB>
+void
+trs_impl(const HeMatrix<MA> &A, const DenseVector<VP> &piv,
+         GeMatrix<MB> &B)
+{
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
+
+    IndexType info;
+    info = cxxlapack::hetrs<IndexType>(getF77Char(A.upLo()),
+                                       A.dim(),
+                                       B.numCols(),
+                                       A.data(),
+                                       A.leadingDimension(),
+                                       piv.data(),
+                                       B.data(),
+                                       B.leadingDimension());
+    ASSERT(info==0);
+}
+
+//-- (sy)trs [real variant] ----------------------------------------
+
+template <typename MA, typename VP, typename MB>
+void
+trs_impl(const SyMatrix<MA> &A, const DenseVector<VP> &piv,
+         GeMatrix<MB> &B)
+{
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
+
+    IndexType info;
+    info = cxxlapack::sytrs<IndexType>(getF77Char(A.upLo()),
+                                       A.dim(),
+                                       B.numCols(),
+                                       A.data(),
+                                       A.leadingDimension(),
+                                       piv.data(),
+                                       B.data(),
+                                       B.leadingDimension());
+    ASSERT(info==0);
+}
+
+//-- (gb)trs [real and complex variant] ----------------------------------------
+
+template <typename MA, typename VP, typename MB>
+void
+trs_impl(Transpose trans, const GbMatrix<MA> &A, const DenseVector<VP> &piv,
+         GeMatrix<MB> &B)
+{
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
+
+    IndexType info;
+    info = cxxlapack::gbtrs<IndexType>(getF77Char(trans),
+                                       A.numRows(),
+                                       A.numSubDiags(),
+                                       A.numSuperDiags()-A.numSubDiags(),
+                                       B.numCols(),
+                                       A.data(),
+                                       A.leadingDimension(),
+                                       piv.data(),
+                                       B.data(),
+                                       B.leadingDimension());
+    ASSERT(info==0);
+}
+
+//-- (tb)trs [real and complex variant] ----------------------------------------
+
+template <typename MA, typename VP, typename MB>
+void
+trs_impl(Transpose trans, const TbMatrix<MA> &A, const DenseVector<VP> &piv,
+         GeMatrix<MB> &B)
+{
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
+
+    IndexType info;
+    info = cxxlapack::tbtrs<IndexType>(getF77Char(A.upLo()),
+                                       getF77Char(trans),
+                                       A.dim(),
+                                       A.numOffDiags(),
+                                       B.numCols(),
+                                       A.data(),
+                                       A.leadingDimension(),
+                                       B.data(),
+                                       B.leadingDimension());
+    ASSERT(info==0);
+}
+
+//-- (hp)trs [complex variant] ----------------------------------------
+
+template <typename MA, typename VP, typename MB>
+void
+trs_impl(const HpMatrix<MA> &A, const DenseVector<VP> &piv,
+         GeMatrix<MB> &B)
+{
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
+
+    IndexType info;
+    info = cxxlapack::hptrs<IndexType>(getF77Char(A.upLo()),
+                                       A.dim(),
+                                       B.numCols(),
+                                       A.data(),
+                                       piv.data(),
+                                       B.data(),
+                                       B.leadingDimension());
+    ASSERT(info==0);
+}
+
+//-- (sp)trs [real variant] ----------------------------------------
+
+template <typename MA, typename VP, typename MB>
+void
+trs_impl(const SpMatrix<MA> &A, const DenseVector<VP> &piv,
+         GeMatrix<MB> &B)
+{
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
+
+    IndexType info;
+    info = cxxlapack::sptrs<IndexType>(getF77Char(A.upLo()),
+                                       A.dim(),
+                                       B.numCols(),
+                                       A.data(),
+                                       piv.data(),
+                                       B.data(),
+                                       B.leadingDimension());
+    ASSERT(info==0);
+}
+
+//-- (tb)trs [real and complex variant] ----------------------------------------
+
+template <typename MA, typename MB>
+typename TbMatrix<MA>::IndexType
+trs_impl(Transpose trans, const TbMatrix<MA> &A, GeMatrix<MB> &B)
+{
+    typedef typename TbMatrix<MA>::IndexType  IndexType;
+
+    IndexType info;
+    info = cxxlapack::tbtrs<IndexType>(getF77Char(A.upLo()),
+                                       getF77Char(trans),
+                                       getF77Char(A.diag()),
+                                       A.dim(),
+                                       A.numOffDiags(),
+                                       B.numCols(),
+                                       A.data(),
+                                       A.leadingDimension(),
+                                       B.data(),
+                                       B.leadingDimension());
+    ASSERT(info>=0);
+    return info;
+}
+
+//-- (tp)trs [real and complex variant] ----------------------------------------
+
+template <typename MA, typename MB>
+typename TpMatrix<MA>::IndexType
+trs_impl(Transpose trans, const TpMatrix<MA> &A, GeMatrix<MB> &B)
+{
+    typedef typename TpMatrix<MA>::IndexType  IndexType;
+
+    IndexType info;
+    info = cxxlapack::tbtrs<IndexType>(getF77Char(A.upLo()),
+                                       getF77Char(trans),
+                                       getF77Char(A.diag()),
+                                       A.dim(),
+                                       B.numCols(),
+                                       A.data(),
+                                       A.leadingDimension(),
+                                       B.data(),
+                                       B.leadingDimension());
+    ASSERT(info>=0);
+    return info;
+}
+
 } // namespace external
 
 #endif // USE_CXXLAPACK
@@ -249,10 +421,13 @@ trs(Transpose trans, const MA &A, const VPIV &piv, MB &&B)
     ASSERT(B.numRows()==n);
 #   endif
 
+#   ifdef CHECK_CXXLAPACK
 //
 //  Make copies of output arguments
 //
     typename MatrixB::NoView  B_org   = B;
+#   endif
+
 //
 //  Call implementation
 //
@@ -282,10 +457,11 @@ trs(Transpose trans, const MA &A, const VPIV &piv, MB &&B)
 #   endif
 }
 
-//-- (ge)trs [variant if rhs is vector] ----------------------------------------
+//-- (ge/gb)trs [variant if rhs is vector] ----------------------------------------
 
 template <typename MA, typename VPIV, typename VB>
-typename RestrictTo<IsGeMatrix<MA>::value
+typename RestrictTo< (IsGeMatrix<MA>::value ||
+                      IsGbMatrix<MA>::value )
                  && IsIntegerDenseVector<VPIV>::value
                  && IsDenseVector<VB>::value,
          void>::Type
@@ -341,10 +517,12 @@ trs(Transpose trans, const MA &A, MB &&B)
     ASSERT(B.numRows()==n);
 #   endif
 
+#   ifdef CHECK_CXXLAPACK
 //
 //  Make copies of output arguments
 //
     typename MatrixB::NoView  B_org   = B;
+#   endif
 //
 //  Call implementation
 //
@@ -382,10 +560,12 @@ trs(Transpose trans, const MA &A, MB &&B)
     return info;
 }
 
-//-- (tr)trs [variant if rhs is vector] ----------------------------------------
+//-- (tr/tb/tp)trs [variant if rhs is vector] ----------------------------------------
 
 template <typename MA, typename VB>
-typename RestrictTo<IsTrMatrix<MA>::value
+typename RestrictTo< (IsTrMatrix<MA>::value ||
+                      IsTbMatrix<MA>::value ||
+                      IsTpMatrix<MA>::value)
                  && IsDenseVector<VB>::value,
          typename RemoveRef<MA>::Type::IndexType>::Type
 trs(Transpose trans, const MA &A, VB &&b)
@@ -409,6 +589,320 @@ trs(Transpose trans, const MA &A, VB &&b)
 
     return trs(trans, A, B);
 }
+
+
+//-- (he/sy/hp/sp)trs [variant if rhs is vector] ----------------------------------------
+
+template <typename MA, typename VPIV, typename VB>
+typename RestrictTo< (IsHeMatrix<MA>::value ||
+                      IsSyMatrix<MA>::value ||
+                      IsHpMatrix<MA>::value ||
+                      IsSpMatrix<MA>::value )
+                  && IsIntegerDenseVector<VPIV>::value
+                  && IsDenseVector<VB>::value,
+          void>::Type
+trs(const MA &A, const VPIV &piv, VB &&b)
+{
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename RemoveRef<VB>::Type    VectorB;
+
+//
+//  Create matrix view from vector b and call above variant
+//
+    typedef typename VectorB::ElementType  ElementType;
+    typedef typename VectorB::IndexType    IndexType;
+
+    const IndexType    n     = b.length();
+    const StorageOrder order = MatrixA::Engine::order;
+
+    GeMatrix<FullStorageView<ElementType, order> >  B(n, 1, b, n);
+
+    trs(A, piv, B);
+}
+
+#ifdef USE_CXXLAPACK
+//-- (he)trs [complex variant]
+
+template <typename MA, typename VPIV, typename MB>
+typename RestrictTo<IsHeMatrix<MA>::value
+                && IsIntegerDenseVector<VPIV>::value
+                && IsComplexGeMatrix<MB>::value,
+        void>::Type
+trs(const MA &A, const VPIV &piv, MB &&B)
+{
+    LAPACK_DEBUG_OUT("(he)trs [complex]");
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type     MatrixA;
+    typedef typename MatrixA::IndexType      IndexType;
+    typedef typename RemoveRef<MB>::Type     MatrixB;
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(A.numRows()==A.numCols());
+
+    const IndexType n = A.numRows();
+
+    ASSERT(piv.firstIndex()==1);
+    ASSERT(piv.length()==n);
+
+    ASSERT(B.firstRow()==1);
+    ASSERT(B.firstCol()==1);
+    ASSERT(B.numRows()==n);
+#   endif
+
+//
+//  Call implementation
+//
+    external::trs_impl(A, piv, B);
+}
+
+//-- (sy)trs [real and complex variant]
+template <typename MA, typename VPIV, typename MB>
+typename RestrictTo<IsSyMatrix<MA>::value
+                && IsIntegerDenseVector<VPIV>::value
+                && IsGeMatrix<MB>::value,
+        void>::Type
+trs(const MA &A, const VPIV &piv, MB &&B)
+{
+    LAPACK_DEBUG_OUT("(sy)trs [real/complex]");
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type     MatrixA;
+    typedef typename MatrixA::IndexType      IndexType;
+    typedef typename RemoveRef<MB>::Type     MatrixB;
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(A.numRows()==A.numCols());
+
+    const IndexType n = A.numRows();
+
+    ASSERT(piv.firstIndex()==1);
+    ASSERT(piv.length()==n);
+
+    ASSERT(B.firstRow()==1);
+    ASSERT(B.firstCol()==1);
+    ASSERT(B.numRows()==n);
+#   endif
+
+//
+//  Call implementation
+//
+    external::trs_impl(A, piv, B);
+}
+
+//-- (gb)trs [real and complex variant] ----------------------------------------
+
+template <typename MA, typename VPIV, typename MB>
+typename RestrictTo<IsGbMatrix<MA>::value
+                 && IsIntegerDenseVector<VPIV>::value
+                 && IsGeMatrix<MB>::value,
+         void>::Type
+trs(Transpose trans, const MA &A, const VPIV &piv, MB &&B)
+{
+    LAPACK_DEBUG_OUT("(gb)trs [real/complex]");
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type     MatrixA;
+    typedef typename MatrixA::IndexType      IndexType;
+    typedef typename RemoveRef<MB>::Type     MatrixB;
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(A.numRows()==A.numCols());
+
+    const IndexType n = A.numRows();
+
+    ASSERT(piv.firstIndex()==1);
+    ASSERT(piv.length()==n);
+
+    ASSERT(B.firstRow()==1);
+    ASSERT(B.firstCol()==1);
+    ASSERT(B.numRows()==n);
+#   endif
+
+//
+//  Call implementation
+//
+    external::trs_impl(trans, A, piv, B);
+
+}
+
+//-- (tb)trs [real and complex variant] ----------------------------------------
+
+template <typename MA, typename MB>
+typename RestrictTo<IsTbMatrix<MA>::value
+                 && IsGeMatrix<MB>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+trs(Transpose trans, const MA &A, MB &&B)
+{
+    LAPACK_DEBUG_OUT("(tb)trs [real/complex]");
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+    typedef typename RemoveRef<MB>::Type    MatrixB;
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+
+    const IndexType n = A.dim();
+
+    ASSERT(B.firstRow()==1);
+    ASSERT(B.firstCol()==1);
+    ASSERT(B.numRows()==n);
+#   endif
+
+//
+//  Call implementation
+//
+    IndexType info = external::trs_impl(trans, A, B);
+
+    return info;
+}
+
+//-- (hp)trs [complex variant]
+template <typename MA, typename VPIV, typename MB>
+typename RestrictTo<IsHpMatrix<MA>::value
+		  && IsIntegerDenseVector<VPIV>::value
+		  && IsComplexGeMatrix<MB>::value,
+	  void>::Type
+trs(const MA &A, const VPIV &piv, MB &&B)
+{
+    LAPACK_DEBUG_OUT("(hp)trs [complex]");
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type     MatrixA;
+    typedef typename MatrixA::IndexType      IndexType;
+    typedef typename RemoveRef<MB>::Type     MatrixB;
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstIndex()==1);
+
+    const IndexType n = A.dim();
+
+    ASSERT(piv.firstIndex()==1);
+    ASSERT(piv.length()==n);
+
+    ASSERT(B.firstRow()==1);
+    ASSERT(B.firstCol()==1);
+    ASSERT(B.numRows()==n);
+#   endif
+
+//
+//  Call implementation
+//
+    external::trs_impl(A, piv, B);
+
+}
+
+//-- (sp)trs [real and complex variant]
+template <typename MA, typename VPIV, typename MB>
+typename RestrictTo<IsSpMatrix<MA>::value
+		  && IsIntegerDenseVector<VPIV>::value
+		  && IsGeMatrix<MB>::value,
+	  void>::Type
+trs(const MA &A, const VPIV &piv, MB &&B)
+{
+    LAPACK_DEBUG_OUT("(sp)trs [real/complex]");
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type     MatrixA;
+    typedef typename MatrixA::IndexType      IndexType;
+    typedef typename RemoveRef<MB>::Type     MatrixB;
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstIndex()==1);
+
+    const IndexType n = A.dim();
+
+    ASSERT(piv.firstIndex()==1);
+    ASSERT(piv.length()==n);
+
+    ASSERT(B.firstRow()==1);
+    ASSERT(B.firstCol()==1);
+    ASSERT(B.numRows()==n);
+#   endif
+
+//
+//  Call implementation
+//
+    external::trs_impl(A, piv, B);
+
+}
+
+//-- (tp)trs [real and complex variant] ----------------------------------------
+
+template <typename MA, typename MB>
+typename RestrictTo<IsTpMatrix<MA>::value
+                 && IsGeMatrix<MB>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+trs(Transpose trans, const MA &A, MB &&B)
+{
+    LAPACK_DEBUG_OUT("(tp)trs [real/complex]");
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+    typedef typename RemoveRef<MB>::Type    MatrixB;
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+
+    const IndexType n = A.dim();
+
+    ASSERT(B.firstRow()==1);
+    ASSERT(B.firstCol()==1);
+    ASSERT(B.numRows()==n);
+#   endif
+
+//
+//  Call implementation
+//
+    IndexType info = external::trs_impl(trans, A, B);
+
+    return info;
+}
+
+
+#endif // USE_CXXLAPACK
 
 } } // namespace lapack, flens
 

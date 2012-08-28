@@ -51,6 +51,11 @@ tpmv_generic(StorageOrder order, StorageUpLo upLo,
         tpmv_generic(RowMajor, upLo, transA, diag, n, A, x, incX);
         return;
     }
+
+    if (incX<0) {
+        x -= incX*(n-1);
+    }
+
     if (transA==NoTrans) {
         if (upLo==Upper) {
             if (diag==NonUnit) {
@@ -191,9 +196,6 @@ tpmv(StorageOrder order, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("tpmv_generic");
 
-    if (incX<0) {
-        x -= incX*(n-1);
-    }
     tpmv_generic(order, upLo, transA, diag, n, A, x, incX);
 }
 
@@ -202,7 +204,7 @@ tpmv(StorageOrder order, StorageUpLo upLo,
 // stpmv
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
-tpmv(StorageOrder order, Transpose trans,
+tpmv(StorageOrder order, StorageUpLo upLo,
      Transpose transA, Diag diag,
      IndexType n,
      const float *A,
@@ -210,7 +212,7 @@ tpmv(StorageOrder order, Transpose trans,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_stpmv");
 
-    cblas_stpmv(CBLAS::getCblasType(order), CBLAS::getCblasType(transA),
+    cblas_stpmv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 n,
                 A,
@@ -220,7 +222,7 @@ tpmv(StorageOrder order, Transpose trans,
 // dtpmv
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
-tpmv(StorageOrder order, Transpose trans,
+tpmv(StorageOrder order, StorageUpLo upLo,
      Transpose transA, Diag diag,
      IndexType n,
      const double *A,
@@ -228,7 +230,7 @@ tpmv(StorageOrder order, Transpose trans,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_dtpmv");
 
-    cblas_dtpmv(CBLAS::getCblasType(order), CBLAS::getCblasType(transA),
+    cblas_dtpmv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 n,
                 A,
@@ -238,7 +240,7 @@ tpmv(StorageOrder order, Transpose trans,
 // ctpmv
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
-tpmv(StorageOrder order, Transpose trans,
+tpmv(StorageOrder order, StorageUpLo upLo,
      Transpose transA, Diag diag,
      IndexType n,
      const ComplexFloat *A,
@@ -246,7 +248,14 @@ tpmv(StorageOrder order, Transpose trans,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ctpmv");
 
-    cblas_ctpmv(CBLAS::getCblasType(order), CBLAS::getCblasType(transA),
+    if (transA==Conj) {
+        CXXBLAS_DEBUG_OUT("tpmv_generic");
+        tpmv_generic(order, upLo, transA, diag, n, A, x, incX);
+
+        return;
+    }
+
+    cblas_ctpmv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 n,
                 reinterpret_cast<const float *>(A),
@@ -256,7 +265,7 @@ tpmv(StorageOrder order, Transpose trans,
 // ztpmv
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
-tpmv(StorageOrder order, Transpose trans,
+tpmv(StorageOrder order, StorageUpLo upLo,
      Transpose transA, Diag diag,
      IndexType n,
      const ComplexDouble *A,
@@ -264,7 +273,14 @@ tpmv(StorageOrder order, Transpose trans,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ztpmv");
 
-    cblas_ztpmv(CBLAS::getCblasType(order), CBLAS::getCblasType(transA),
+    if (transA==Conj) {
+        CXXBLAS_DEBUG_OUT("tpmv_generic");
+        tpmv_generic(order, upLo, transA, diag, n, A, x, incX);
+
+        return;
+    }
+
+    cblas_ztpmv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 n,
                 reinterpret_cast<const double *>(A),

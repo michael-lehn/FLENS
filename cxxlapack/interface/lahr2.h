@@ -42,6 +42,20 @@ template <typename IndexType>
     lahr2(IndexType     n,
           IndexType     k,
           IndexType     nb,
+          float         *A,
+          IndexType     ldA,
+          float         *tau,
+          float         *T,
+          IndexType     ldT,
+          float         *Y,
+          IndexType     ldY);
+
+
+template <typename IndexType>
+    void
+    lahr2(IndexType     n,
+          IndexType     k,
+          IndexType     nb,
           double        *A,
           IndexType     ldA,
           double        *tau,
@@ -49,6 +63,19 @@ template <typename IndexType>
           IndexType     ldT,
           double        *Y,
           IndexType     ldY);
+
+template <typename IndexType>
+    void
+    lahr2(IndexType                 n,
+          IndexType                 k,
+          IndexType                 nb,
+          std::complex<float >      *A,
+          IndexType                 ldA,
+          std::complex<float >      *tau,
+          std::complex<float >      *T,
+          IndexType                 ldT,
+          std::complex<float >      *Y,
+          IndexType                 ldY);
 
 template <typename IndexType>
     void

@@ -49,6 +49,57 @@ gejsv(char          jobA,
       char          jobP,
       IndexType     m,
       IndexType     n,
+      float         *A,
+      IndexType     ldA,
+      float         *sva,
+      float         *U,
+      IndexType     ldU,
+      float         *V,
+      IndexType     ldV,
+      float         *work,
+      IndexType     lWork,
+      IndexType     *iWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgejsv");
+    LAPACK_IMPL(sgejsv)(&jobA,
+                        &jobU,
+                        &jobV,
+                        &jobR,
+                        &jobT,
+                        &jobP,
+                        &m,
+                        &n,
+                        A,
+                        &ldA,
+                        sva,
+                        U,
+                        &ldU,
+                        V,
+                        &ldV,
+                        work,
+                        &lWork,
+                        iWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+gejsv(char          jobA,
+      char          jobU,
+      char          jobV,
+      char          jobR,
+      char          jobT,
+      char          jobP,
+      IndexType     m,
+      IndexType     n,
       double        *A,
       IndexType     ldA,
       double        *sva,
@@ -61,6 +112,7 @@ gejsv(char          jobA,
       IndexType     *iWork)
 {
     IndexType info;
+    CXXLAPACK_DEBUG_OUT("dgejsv");
     LAPACK_IMPL(dgejsv)(&jobA,
                         &jobU,
                         &jobV,

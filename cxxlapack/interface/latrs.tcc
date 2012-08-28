@@ -46,6 +46,42 @@ latrs(char          uplo,
       char          diag,
       char          normin,
       IndexType     n,
+      const float   *A,
+      IndexType     ldA,
+      float         *x,
+      float         &scale,
+      float         *cNorm)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("slatrs");
+    LAPACK_IMPL(slatrs)(&uplo,
+                        &trans,
+                        &diag,
+                        &normin,
+                        &n,
+                        A,
+                        &ldA,
+                        x,
+                        &scale,
+                        cNorm,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+latrs(char          uplo,
+      char          trans,
+      char          diag,
+      char          normin,
+      IndexType     n,
       const double  *A,
       IndexType     ldA,
       double        *x,
@@ -53,7 +89,7 @@ latrs(char          uplo,
       double        *cNorm)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("dlatrs");
+    CXXLAPACK_DEBUG_OUT("dlatrs");
     LAPACK_IMPL(dlatrs)(&uplo,
                         &trans,
                         &diag,
@@ -81,6 +117,41 @@ latrs(char                          upLo,
       char                          diag,
       char                          normIn,
       IndexType                     n,
+      const std::complex<float >    *A,
+      IndexType                     ldA,
+      std::complex<float >          *x,
+      float                         &scale,
+      float                         *cNorm)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("clatrs");
+    LAPACK_IMPL(clatrs)(&upLo,
+                        &trans,
+                        &diag,
+                        &normIn,
+                        &n,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(x),
+                        &scale,
+                        cNorm,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+latrs(char                          upLo,
+      char                          trans,
+      char                          diag,
+      char                          normIn,
+      IndexType                     n,
       const std::complex<double>    *A,
       IndexType                     ldA,
       std::complex<double>          *x,
@@ -88,7 +159,7 @@ latrs(char                          upLo,
       double                        *cNorm)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("zlatrs");
+    CXXLAPACK_DEBUG_OUT("zlatrs");
     LAPACK_IMPL(zlatrs)(&upLo,
                         &trans,
                         &diag,

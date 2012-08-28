@@ -41,6 +41,18 @@ template <typename IndexType>
     IndexType
     trexc(char          compQ,
           IndexType     n,
+          float         *T,
+          IndexType     ldT,
+          float         *Q,
+          IndexType     ldQ,
+          IndexType     &iFirst,
+          IndexType     &iLast,
+          float         *work);
+
+template <typename IndexType>
+    IndexType
+    trexc(char          compQ,
+          IndexType     n,
           double        *T,
           IndexType     ldT,
           double        *Q,
@@ -48,6 +60,17 @@ template <typename IndexType>
           IndexType     &iFirst,
           IndexType     &iLast,
           double        *work);
+
+template <typename IndexType>
+    IndexType
+    trexc(char                  compQ,
+          IndexType             n,
+          std::complex<float >  *T,
+          IndexType             ldT,
+          std::complex<float >  *Q,
+          IndexType             ldQ,
+          IndexType             iFirst,
+          IndexType             iLast);
 
 template <typename IndexType>
     IndexType

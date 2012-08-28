@@ -56,6 +56,10 @@ tbmv_generic(StorageOrder order, StorageUpLo upLo,
         return;
     }
 
+    if (incX<0) {
+        x -= incX*(n-1);
+    }
+
     if (transA==NoTrans) {
         if (upLo==Upper) {
             if (diag==NonUnit) {
@@ -265,9 +269,7 @@ tbmv(StorageOrder order, StorageUpLo upLo,
     if (n==0) {
         return;
     }
-    if (incX<0) {
-        x -= incX*(n-1);
-    }
+
     tbmv_generic(order, upLo, transA, diag, n, k, A, ldA, x, incX);
 }
 
@@ -277,7 +279,7 @@ tbmv(StorageOrder order, StorageUpLo upLo,
 // stbmv
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
-tbmv(StorageOrder order, Transpose trans,
+tbmv(StorageOrder order, StorageUpLo upLo,
      Transpose transA, Diag diag,
      IndexType n, IndexType k,
      const float *A, IndexType ldA,
@@ -285,7 +287,7 @@ tbmv(StorageOrder order, Transpose trans,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_stbmv");
 
-    cblas_stbmv(CBLAS::getCblasType(order), CBLAS::getCblasType(transA),
+    cblas_stbmv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 n, k,
                 A, ldA,
@@ -295,7 +297,7 @@ tbmv(StorageOrder order, Transpose trans,
 // dtbmv
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
-tbmv(StorageOrder order, Transpose trans,
+tbmv(StorageOrder order, StorageUpLo upLo,
      Transpose transA, Diag diag,
      IndexType n, IndexType k,
      const double *A, IndexType ldA,
@@ -303,7 +305,7 @@ tbmv(StorageOrder order, Transpose trans,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_dtbmv");
 
-    cblas_dtbmv(CBLAS::getCblasType(order), CBLAS::getCblasType(transA),
+    cblas_dtbmv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 n, k,
                 A, ldA,
@@ -313,7 +315,7 @@ tbmv(StorageOrder order, Transpose trans,
 // ctbmv
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
-tbmv(StorageOrder order, Transpose trans,
+tbmv(StorageOrder order, StorageUpLo upLo,
      Transpose transA, Diag diag,
      IndexType n, IndexType k,
      const ComplexFloat *A, IndexType ldA,
@@ -321,7 +323,13 @@ tbmv(StorageOrder order, Transpose trans,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ctbmv");
 
-    cblas_ctbmv(CBLAS::getCblasType(order), CBLAS::getCblasType(transA),
+    if (transA==Conj) {
+        CXXBLAS_DEBUG_OUT("tbmv_generic");
+        tbmv_generic(order, upLo, transA, diag, n, k, A, ldA, x, incX);
+        return;
+    }
+
+    cblas_ctbmv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 n, k,
                 reinterpret_cast<const float *>(A), ldA,
@@ -331,7 +339,7 @@ tbmv(StorageOrder order, Transpose trans,
 // ztbmv
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
-tbmv(StorageOrder order, Transpose trans,
+tbmv(StorageOrder order, StorageUpLo upLo,
      Transpose transA, Diag diag,
      IndexType n, IndexType k,
      const ComplexDouble *A, IndexType ldA,
@@ -339,7 +347,13 @@ tbmv(StorageOrder order, Transpose trans,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ztbmv");
 
-    cblas_ztbmv(CBLAS::getCblasType(order), CBLAS::getCblasType(transA),
+    if (transA==Conj) {
+        CXXBLAS_DEBUG_OUT("tbmv_generic");
+        tbmv_generic(order, upLo, transA, diag, n, k, A, ldA, x, incX);
+        return;
+    }
+
+    cblas_ztbmv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 n, k,
                 reinterpret_cast<const double *>(A), ldA,

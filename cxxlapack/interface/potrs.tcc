@@ -44,13 +44,43 @@ IndexType
 potrs(char          upLo,
       IndexType     n,
       IndexType     nRhs,
+      const float   *A,
+      IndexType     ldA,
+      float         *B,
+      IndexType     ldB)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("spotrs");
+    LAPACK_IMPL(spotrs)(&upLo,
+                        &n,
+                        &nRhs,
+                        A,
+                        &ldA,
+                        B,
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+potrs(char          upLo,
+      IndexType     n,
+      IndexType     nRhs,
       const double  *A,
       IndexType     ldA,
       double        *B,
       IndexType     ldB)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("dpotrs");
+    CXXLAPACK_DEBUG_OUT("dpotrs");
     LAPACK_IMPL(dpotrs)(&upLo,
                         &n,
                         &nRhs,
@@ -73,13 +103,42 @@ IndexType
 potrs(char                          upLo,
       IndexType                     n,
       IndexType                     nRhs,
+      const std::complex<float >    *A,
+      IndexType                     ldA,
+      std::complex<float >          *B,
+      IndexType                     ldB)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cpotrs");
+    LAPACK_IMPL(cpotrs)(&upLo,
+                        &n,
+                        &nRhs,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(B),
+                        &ldB,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+potrs(char                          upLo,
+      IndexType                     n,
+      IndexType                     nRhs,
       const std::complex<double>    *A,
       IndexType                     ldA,
       std::complex<double>          *B,
       IndexType                     ldB)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("zpotrs");
+    CXXLAPACK_DEBUG_OUT("zpotrs");
     LAPACK_IMPL(zpotrs)(&upLo,
                         &n,
                         &nRhs,

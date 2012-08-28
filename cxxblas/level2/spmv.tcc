@@ -56,19 +56,21 @@ spmv_generic(StorageOrder order, StorageUpLo upLo,
     if (upLo==Upper) {
         for (IndexType i=0, iY=0, iX=0; i<n; ++i, iX+=incX, iY+=incY) {
             VY _y = VY(0);
-            dot_generic(n-i, A+i*(2*n-i+1)/2, IndexType(1),
+            dotu_generic(n-i, A+i*(2*n-i+1)/2, IndexType(1),
                              x+iX, incX, _y);
             y[iY] += alpha*_y;
-            axpy_generic(n-i-1, alpha*x[iX], A+i*(2*n-i+1)/2+1, IndexType(1),
-                                             y+iY+incY, incY);
+            axpy_generic(n-i-1, alpha*x[iX],
+                         A+i*(2*n-i+1)/2+1, IndexType(1),
+                         y+iY+incY, incY);
         }
     } else {
         for (IndexType i=0, iY=0, iX=0; i<n; ++i, iX+=incX, iY+=incY) {
             VY _y = VY(0);
-            dot_generic(i, A+i*(i+1)/2, IndexType(1), x, incX, _y);
+            dotu_generic(i, A+i*(i+1)/2, IndexType(1), x, incX, _y);
             y[iY] += alpha*_y;
-            axpy_generic(i+1, alpha*x[iX], A+i*(i+1)/2, IndexType(1),
-                                           y, incY);
+            axpy_generic(i+1, alpha*x[iX],
+                         A+i*(i+1)/2, IndexType(1),
+                         y, incY);
         }
     }
 }
@@ -100,20 +102,20 @@ spmv(StorageOrder order, StorageUpLo upLo,
 
 #ifdef HAVE_CBLAS
 
-// cspmv
+// sspmv
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
-spmv(StorageOrder order, Transpose trans,
-     IndexType n,
-     float alpha,
-     const float *A,
-     const float *x, IndexType incX,
-     float beta,
-     float *y, IndexType incY)
+spmv(StorageOrder order, StorageUpLo upLo,
+      IndexType n,
+      float alpha,
+      const float *A,
+      const float *x, IndexType incX,
+      float beta,
+      float *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_sspmv");
 
-    cblas_sspmv(CBLAS::getCblasType(order), CBLAS::getCblasType(trans),
+    cblas_sspmv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                 n,
                 alpha,
                 A,
@@ -122,20 +124,20 @@ spmv(StorageOrder order, Transpose trans,
                 y, incY);
 }
 
-// zspmv
+// dspmv
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
-spmv(StorageOrder order, Transpose trans,
-     IndexType n,
-     double alpha,
-     const double *A,
-     const double *x, IndexType incX,
-     double beta,
-     double *y, IndexType incY)
+spmv(StorageOrder order, StorageUpLo upLo,
+      IndexType n,
+      double alpha,
+      const double *A,
+      const double *x, IndexType incX,
+      double beta,
+      double *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_dspmv");
 
-    cblas_dspmv(CBLAS::getCblasType(order), CBLAS::getCblasType(trans),
+    cblas_dspmv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                 n,
                 alpha,
                 A,

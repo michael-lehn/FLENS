@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2011, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -34,6 +34,17 @@
  *
        SUBROUTINE DGETRF( M, N, A, LDA, IPIV, INFO )
        SUBROUTINE ZGETRF( M, N, A, LDA, IPIV, INFO )
+
+       SUBROUTINE DSYTRF( UPLO, N, A, LDA, IPIV, WORK, LWORK, INFO )
+       SUBROUTINE ZSYTRF( UPLO, N, A, LDA, IPIV, WORK, LWORK, INFO )
+       SUBROUTINE ZHETRF( UPLO, N, A, LDA, IPIV, WORK, LWORK, INFO )
+
+       SUBROUTINE DGBTRF( M, N, KL, KU, AB, LDAB, IPIV, INFO )
+       SUBROUTINE ZGBTRF( M, N, KL, KU, AB, LDAB, IPIV, INFO )
+
+       SUBROUTINE DSPTRF( UPLO, N, AP, IPIV, INFO )
+       SUBROUTINE ZSPTRF( UPLO, N, AP, IPIV, INFO )
+       SUBROUTINE ZHPTRF( UPLO, N, AP, IPIV, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -59,6 +70,75 @@ template <typename MA, typename VPIV>
                      && IsIntegerDenseVector<VPIV>::value,
              typename RemoveRef<MA>::Type::IndexType>::Type
     trf(MA &&A, VPIV &&piv);
+
+
+#ifdef USE_CXXLAPACK
+
+//== (he)trf =====================================================================
+//
+//  complex variant
+//
+template <typename MA, typename VPIV, typename VWORK>
+    typename RestrictTo<IsHeMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsComplexDenseVector<VWORK>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    trf(MA &&A, VPIV &&piv, VWORK &&work);
+
+//== (sy)trf =====================================================================
+//
+//  Real and complex variant
+//
+template <typename MA, typename VPIV, typename VWORK>
+    typename RestrictTo<IsSyMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsDenseVector<VWORK>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    trf(MA &&A, VPIV &&piv, VWORK &&work);
+
+//== (he/sy)trf with temporary workspace =========================================
+//
+//  Real and complex variant
+//
+template <typename MA, typename VPIV>
+    typename RestrictTo<(IsHeMatrix<MA>::value ||
+                         IsSyMatrix<MA>::value )
+                     && IsIntegerDenseVector<VPIV>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    trf(MA &&A, VPIV &&piv);
+
+//== (gb)trf =====================================================================
+//
+//  Real and complex variant
+//
+template <typename MA, typename VPIV>
+    typename RestrictTo<IsGbMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    trf(MA &&A, VPIV &&piv);
+
+
+//== (hp)trf =====================================================================
+//
+// complex variant
+//
+template <typename MA, typename VPIV>
+    typename RestrictTo<IsHpMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    trf(MA &&A, VPIV &&piv);
+
+//== (sp)trf =====================================================================
+//
+// real and complex variant
+//
+template <typename MA, typename VPIV>
+    typename RestrictTo<IsSpMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    trf(MA &&A, VPIV &&piv);
+
+#endif
 
 } } // namespace lapack, flens
 

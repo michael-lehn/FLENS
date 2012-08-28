@@ -59,16 +59,16 @@ spr2_generic(StorageOrder order, StorageUpLo upLo,
     if (upLo==Upper) {
         for (IndexType i=0, iX=0, iY=0; i<n; ++i, iX+=incX, iY+=incY) {
             axpy_generic(n-i, alpha*x[iX], y+iY, incY,
-                                           A+i*(2*n-i+1)/2, IndexType(1));
+                         A+i*(2*n-i+1)/2, IndexType(1));
             axpy_generic(n-i, alpha*y[iY], x+iX, incX,
-                                           A+i*(2*n-i+1)/2, IndexType(1));
+                         A+i*(2*n-i+1)/2, IndexType(1));
         }
     } else {
         for (IndexType i=0, iX=0, iY=0; i<n; ++i, iX+=incX, iY+=incY) {
             axpy_generic(i+1, alpha*x[iX], y, incY,
-                                           A+i*(i+1)/2, IndexType(1));
+                         A+i*(i+1)/2, IndexType(1));
             axpy_generic(i+1, alpha*y[iY], x, incX,
-                                           A+i*(i+1)/2, IndexType(1));
+                         A+i*(i+1)/2, IndexType(1));
         }
     }
 }

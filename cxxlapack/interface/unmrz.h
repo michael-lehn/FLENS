@@ -45,6 +45,22 @@ template <typename IndexType>
           IndexType                   n,
           IndexType                   k,
           IndexType                   l,
+          const std::complex<float >  *A,
+          IndexType                   ldA,
+          const std::complex<float >  *tau,
+          std::complex<float >        *C,
+          IndexType                   ldC,
+          std::complex<float >        *work,
+          IndexType                   lWork);
+
+template <typename IndexType>
+    void
+    unmrz(char                        side,
+          char                        trans,
+          IndexType                   m,
+          IndexType                   n,
+          IndexType                   k,
+          IndexType                   l,
           const std::complex<double>  *A,
           IndexType                   ldA,
           const std::complex<double>  *tau,

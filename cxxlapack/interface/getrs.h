@@ -42,11 +42,33 @@ template <typename IndexType>
     getrs(char                  trans,
           IndexType             n,
           IndexType             nRhs,
+          const float           *A,
+          IndexType             ldA,
+          const IndexType       *iPiv,
+          float                 *B,
+          IndexType             ldB);
+
+template <typename IndexType>
+    IndexType
+    getrs(char                  trans,
+          IndexType             n,
+          IndexType             nRhs,
           const double          *A,
           IndexType             ldA,
           const IndexType       *iPiv,
           double                *B,
           IndexType             ldB);
+
+template <typename IndexType>
+    IndexType
+    getrs(char                          trans,
+          IndexType                     n,
+          IndexType                     nRhs,
+          const std::complex<float >    *A,
+          IndexType                     ldA,
+          const IndexType               *iPiv,
+          std::complex<float >          *B,
+          IndexType                     ldB);
 
 template <typename IndexType>
     IndexType

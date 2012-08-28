@@ -47,6 +47,27 @@ template <typename IndexType>
           char          jobP,
           IndexType     m,
           IndexType     n,
+          float         *A,
+          IndexType     ldA,
+          float         *sva,
+          float         *U,
+          IndexType     ldU,
+          float         *V,
+          IndexType     ldV,
+          float         *work,
+          IndexType     lWork,
+          IndexType     *iWork);
+
+template <typename IndexType>
+    IndexType
+    gejsv(char          jobA,
+          char          jobU,
+          char          jobV,
+          char          jobR,
+          char          jobT,
+          char          jobP,
+          IndexType     m,
+          IndexType     n,
           double        *A,
           IndexType     ldA,
           double        *sva,

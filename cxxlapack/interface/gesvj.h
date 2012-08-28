@@ -44,6 +44,22 @@ template <typename IndexType>
           char          jobV,
           IndexType     m,
           IndexType     n,
+          float         *A,
+          IndexType     ldA,
+          float         *sva,
+          IndexType     mv,
+          float         *V,
+          IndexType     ldV,
+          float         *work,
+          IndexType     lWork);
+
+template <typename IndexType>
+    IndexType
+    gesvj(char          jobA,
+          char          jobU,
+          char          jobV,
+          IndexType     m,
+          IndexType     n,
           double        *A,
           IndexType     ldA,
           double        *sva,

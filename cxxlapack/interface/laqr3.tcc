@@ -47,6 +47,68 @@ laqr3(bool          wantT,
       IndexType     kTop,
       IndexType     kBot,
       IndexType     nw,
+      float         *H,
+      IndexType     ldH,
+      IndexType     iLoZ,
+      IndexType     iHiZ,
+      float         *Z,
+      IndexType     ldZ,
+      IndexType     &ns,
+      IndexType     &nd,
+      float         *sr,
+      float         *si,
+      float         *V,
+      IndexType     ldV,
+      IndexType     nh,
+      float         *T,
+      IndexType     ldT,
+      IndexType     nv,
+      float         *WV,
+      IndexType     ldWV,
+      float         *work,
+      IndexType     lWork)
+{
+    CXXLAPACK_DEBUG_OUT("slaqr3");
+
+    IndexType _wantT = wantT;
+    IndexType _wantZ = wantZ;
+    LAPACK_IMPL(slaqr3)(&_wantT,
+                        &_wantZ,
+                        &n,
+                        &kTop,
+                        &kBot,
+                        &nw,
+                        H,
+                        &ldH,
+                        &iLoZ,
+                        &iHiZ,
+                        Z,
+                        &ldZ,
+                        &ns,
+                        &nd,
+                        sr,
+                        si,
+                        V,
+                        &ldV,
+                        &nh,
+                        T,
+                        &ldT,
+                        &nv,
+                        WV,
+                        &ldWV,
+                        work,
+                        &lWork);
+}
+
+
+template <typename IndexType>
+void
+laqr3(bool          wantT,
+      bool          wantZ,
+      IndexType     n,
+      IndexType     kTop,
+      IndexType     kBot,
+      IndexType     nw,
       double        *H,
       IndexType     ldH,
       IndexType     iLoZ,
@@ -68,6 +130,8 @@ laqr3(bool          wantT,
       double        *work,
       IndexType     lWork)
 {
+    CXXLAPACK_DEBUG_OUT("dlaqr3");
+
     IndexType _wantT = wantT;
     IndexType _wantZ = wantZ;
     LAPACK_IMPL(dlaqr3)(&_wantT,
@@ -106,6 +170,65 @@ laqr3(bool                      wantT,
       IndexType                 kTop,
       IndexType                 kBot,
       IndexType                 nw,
+      std::complex<float >      *H,
+      IndexType                 ldH,
+      IndexType                 iLoZ,
+      IndexType                 iHiZ,
+      std::complex<float >      *Z,
+      IndexType                 ldZ,
+      IndexType                 &ns,
+      IndexType                 &nd,
+      std::complex<float >      *sh,
+      std::complex<float >      *V,
+      IndexType                 ldV,
+      IndexType                 nh,
+      std::complex<float >      *T,
+      IndexType                 ldT,
+      IndexType                 nv,
+      std::complex<float >      *WV,
+      IndexType                 ldWV,
+      std::complex<float >      *work,
+      IndexType                 lWork)
+{
+    CXXLAPACK_DEBUG_OUT("claqr3");
+
+    IndexType _wantT = wantT;
+    IndexType _wantZ = wantZ;
+    LAPACK_IMPL(claqr3)(&_wantT,
+                        &_wantZ,
+                        &n,
+                        &kTop,
+                        &kBot,
+                        &nw,
+                        reinterpret_cast<float  *>(H),
+                        &ldH,
+                        &iLoZ,
+                        &iHiZ,
+                        reinterpret_cast<float  *>(Z),
+                        &ldZ,
+                        &ns,
+                        &nd,
+                        reinterpret_cast<float  *>(sh),
+                        reinterpret_cast<float  *>(V),
+                        &ldV,
+                        &nh,
+                        reinterpret_cast<float  *>(T),
+                        ldT,
+                        &nv,
+                        reinterpret_cast<float  *>(WV),
+                        &ldWV,
+                        reinterpret_cast<float  *>(work),
+                        &lWork);
+}
+
+template <typename IndexType>
+void
+laqr3(bool                      wantT,
+      bool                      wantZ,
+      IndexType                 n,
+      IndexType                 kTop,
+      IndexType                 kBot,
+      IndexType                 nw,
       std::complex<double>      *H,
       IndexType                 ldH,
       IndexType                 iLoZ,
@@ -126,6 +249,8 @@ laqr3(bool                      wantT,
       std::complex<double>      *work,
       IndexType                 lWork)
 {
+    CXXLAPACK_DEBUG_OUT("zlaqr3");
+
     IndexType _wantT = wantT;
     IndexType _wantZ = wantZ;
     LAPACK_IMPL(zlaqr3)(&_wantT,

@@ -64,6 +64,7 @@ namespace SVD {
 
 
 //== (ge)svd ===================================================================
+#ifdef USE_CXXLAPACK
 //
 //  Real variant
 //
@@ -82,8 +83,6 @@ template <typename MA, typename VS, typename MU, typename MVT, typename VWORK>
         MVT         &&VT,
         VWORK       &&work);
 
-
-#ifdef USE_CXXLAPACK
 //
 //  Complex variant
 //
@@ -105,7 +104,40 @@ template <typename MA, typename VS, typename MU, typename MVT, typename VWORK,
         VWORK       &&work,
         VRWORK      &&rwork);
 
-#endif // USE_CXXLAPACK
+//
+//  Real variant with temporary workspace
+//
+template <typename MA, typename VS, typename MU, typename MVT>
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsRealDenseVector<VS>::value
+                     && IsRealGeMatrix<MU>::value
+                     && IsRealGeMatrix<MVT>::value,
+             void>::Type
+    svd(SVD::Job    jobU,
+        SVD::Job    jobVT,
+        MA          &&A,
+        VS          &&s,
+        MU          &&U,
+        MVT         &&VT);
+
+
+
+//
+//  Complex variant with temporary workspace
+//
+template <typename MA, typename VS, typename MU, typename MVT>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsRealDenseVector<VS>::value
+                     && IsComplexGeMatrix<MU>::value
+                     && IsComplexGeMatrix<MVT>::value,
+             void>::Type
+    svd(SVD::Job    jobU,
+        SVD::Job    jobVT,
+        MA          &&A,
+        VS          &&s,
+        MU          &&U,
+        MVT         &&VT);
+
 
 //== workspace query ===========================================================
 
@@ -116,6 +148,7 @@ template <typename MA, typename VS, typename MU, typename MVT, typename VWORK>
             SVD::Job    jobVT,
             MA          &&A);
 
+#endif // USE_CXXLAPACK
 
 
 } } // namespace lapack, flens

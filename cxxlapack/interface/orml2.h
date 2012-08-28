@@ -44,6 +44,20 @@ template <typename IndexType>
           IndexType     m,
           IndexType     n,
           IndexType     k,
+          const float   *A,
+          IndexType     ldA,
+          const float   *tau,
+          float         *C,
+          IndexType     ldC,
+          float         *work);
+
+template <typename IndexType>
+    IndexType
+    orml2(char          side,
+          char          trans,
+          IndexType     m,
+          IndexType     n,
+          IndexType     k,
           const double  *A,
           IndexType     ldA,
           const double  *tau,

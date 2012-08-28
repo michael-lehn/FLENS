@@ -44,11 +44,40 @@ IndexType
 trtri(char          upLo,
       char          diag,
       IndexType     n,
+      float         *A,
+      IndexType     ldA)
+{
+    CXXLAPACK_DEBUG_OUT("strtri");
+
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("strtri");
+    LAPACK_IMPL(strtri)(&upLo,
+                        &diag,
+                        &n,
+                        A,
+                        &ldA,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+trtri(char          upLo,
+      char          diag,
+      IndexType     n,
       double        *A,
       IndexType     ldA)
 {
+    CXXLAPACK_DEBUG_OUT("dtrtri");
+
     IndexType info;
-    DEBUG_CXXLAPACK("dtrtri");
+    CXXLAPACK_DEBUG_OUT("dtrtri");
     LAPACK_IMPL(dtrtri)(&upLo,
                         &diag,
                         &n,
@@ -69,11 +98,40 @@ IndexType
 trtri(char                  upLo,
       char                  diag,
       IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA)
+{
+    CXXLAPACK_DEBUG_OUT("ctrtri");
+
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("ctrtri");
+    LAPACK_IMPL(ctrtri)(&upLo,
+                        &diag,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+trtri(char                  upLo,
+      char                  diag,
+      IndexType             n,
       std::complex<double>  *A,
       IndexType             ldA)
 {
+    CXXLAPACK_DEBUG_OUT("ztrtri");
+
     IndexType info;
-    DEBUG_CXXLAPACK("ztrtri");
+    CXXLAPACK_DEBUG_OUT("ztrtri");
     LAPACK_IMPL(ztrtri)(&upLo,
                         &diag,
                         &n,

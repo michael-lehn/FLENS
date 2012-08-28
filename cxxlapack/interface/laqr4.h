@@ -44,6 +44,25 @@ template <typename IndexType>
           IndexType         n,
           const IndexType   iLo,
           const IndexType   iHi,
+          float             *H,
+          const IndexType   ldH,
+          float             *wr,
+          float             *wi,
+          const IndexType   iLoZ,
+          const IndexType   iHiZ,
+          float             *Z,
+          const IndexType   ldZ,
+          float             *work,
+          const IndexType   lWork);
+
+
+template <typename IndexType>
+    IndexType
+    laqr4(bool              wantT,
+          bool              wantZ,
+          IndexType         n,
+          const IndexType   iLo,
+          const IndexType   iHi,
           double            *H,
           const IndexType   ldH,
           double            *wr,
@@ -54,6 +73,24 @@ template <typename IndexType>
           const IndexType   ldZ,
           double            *work,
           const IndexType   lWork);
+
+template <typename IndexType>
+    IndexType
+    laqr4(bool                  wantT,
+          bool                  wantZ,
+          IndexType             n,
+          IndexType             iLo,
+          IndexType             iHi,
+          std::complex<float >  *H,
+          IndexType             ldH,
+          std::complex<float >  *w,
+          IndexType             iLoZ,
+          IndexType             iHiZ,
+          std::complex<float >  *Z,
+          IndexType             ldZ,
+          std::complex<float >  *work,
+          IndexType             lWork);
+
 
 template <typename IndexType>
     IndexType

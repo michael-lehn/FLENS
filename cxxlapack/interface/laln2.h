@@ -42,6 +42,26 @@ template <typename IndexType>
     laln2(bool              trans,
           IndexType         na,
           IndexType         nw,
+          const float       &sMin,
+          const float       &ca,
+          const float       *A,
+          IndexType         ldA,
+          const float       &d1,
+          const float       &d2,
+          const float       *B,
+          IndexType         ldB,
+          const float       &wr,
+          const float       &wi,
+          float             *X,
+          IndexType         ldX,
+          float             &scale,
+          float             &normX);
+
+template <typename IndexType>
+    IndexType
+    laln2(bool              trans,
+          IndexType         na,
+          IndexType         nw,
           const double      &sMin,
           const double      &ca,
           const double      *A,

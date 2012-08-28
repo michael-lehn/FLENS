@@ -64,7 +64,7 @@ template <typename IndexType>
          const float *B, IndexType ldB,
          float beta,
          float *C, IndexType ldC);
-            
+
 // dgemm
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger

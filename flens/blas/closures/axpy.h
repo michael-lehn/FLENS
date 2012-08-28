@@ -142,13 +142,11 @@ template <typename ALPHA, typename Op, typename ML, typename MR, typename MB>
     axpy(Transpose trans, const ALPHA &alpha,
          const MatrixClosure<Op, ML, MR> &A, Matrix<MB> &B);
 
-#ifdef FLENS_DEBUG_CLOSURES
 // B += Some Matrix
 template <typename ALPHA, typename MA, typename MB>
     void
     axpy(Transpose trans, const ALPHA &alpha,
          const Matrix<MA> &A, Matrix<MB> &B);
-#endif
 
 } } // namespace blas, flens
 

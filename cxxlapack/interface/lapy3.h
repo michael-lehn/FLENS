@@ -38,6 +38,10 @@
 namespace cxxlapack {
 
 template <typename VOID=void>
+    float
+    lapy3(float x, float y, float z);
+
+template <typename VOID=void>
     double
     lapy3(double x, double y, double z);
 

@@ -451,11 +451,31 @@ HeMatrix<FS>::resize(IndexType dim, IndexType firstIndex,
 
 template <typename FS>
 bool
+<<<<<<< HEAD
 HeMatrix<FS>::resize(IndexType dim, StorageUpLo upLo, IndexType firstIndex,
                      const ElementType &value)
 {
     _upLo = upLo;
     return _engine.resize(dim, dim, firstIndex, firstIndex, value);
+=======
+HeMatrix<FS>::fill(const ElementType &value)
+{
+    ASSERT(cxxblas::imag(value)==0);
+
+    return _engine.fill(_upLo, value);
+}
+
+template <typename FS>
+bool
+HeMatrix<FS>::fillRandom()
+{
+    bool val = _engine.fillRandom(_upLo);
+    VectorView d = diag(0);
+    for (IndexType i=d.firstIndex();i<=d.lastIndex();++i) {
+        d(i) = ElementType(cxxblas::real(d(i)));
+    }
+    return val;
+>>>>>>> c3aca46232611d35a7be046ab07a64ab0dcda1db
 }
 
 // -- implementation -----------------------------------------------------------

@@ -43,11 +43,36 @@ template <typename IndexType>
           char          storev,
           IndexType     n,
           IndexType     k,
+          float         *V,
+          IndexType     ldV,
+          const float   *tau,
+          float         *T,
+          IndexType     ldT);
+
+
+template <typename IndexType>
+    void
+    larft(char          direct,
+          char          storev,
+          IndexType     n,
+          IndexType     k,
           double        *V,
           IndexType     ldV,
           const double  *tau,
           double        *T,
           IndexType     ldT);
+
+template <typename IndexType>
+    void
+    larft(char                          direct,
+          char                          storev,
+          IndexType                     n,
+          IndexType                     k,
+          std::complex<float >          *V,
+          IndexType                     ldV,
+          const std::complex<float >    *tau,
+          std::complex<float >          *T,
+          IndexType                     ldT);
 
 template <typename IndexType>
     void

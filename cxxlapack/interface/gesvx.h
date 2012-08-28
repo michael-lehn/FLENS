@@ -43,6 +43,30 @@ template <typename IndexType>
           char          trans,
           IndexType     n,
           IndexType     nRhs,
+          float         *A,
+          IndexType     ldA,
+          float         *AF,
+          IndexType     ldAF,
+          IndexType     *iPiv,
+          char          equed,
+          float         *r,
+          float         *c,
+          float         *B,
+          IndexType     ldB,
+          float         *X,
+          IndexType     ldX,
+          float         &rCond,
+          float         *fErr,
+          float         *bErr,
+          float         *work,
+          IndexType     *iWork);
+
+template <typename IndexType>
+    IndexType
+    gesvx(char          fact,
+          char          trans,
+          IndexType     n,
+          IndexType     nRhs,
           double        *A,
           IndexType     ldA,
           double        *AF,
@@ -60,6 +84,30 @@ template <typename IndexType>
           double        *bErr,
           double        *work,
           IndexType     *iWork);
+
+    template <typename IndexType>
+    IndexType
+    gesvx(char                  fact,
+          char                  trans,
+          IndexType             n,
+          IndexType             nRhs,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          std::complex<float >  *AF,
+          IndexType             ldAF,
+          IndexType             *iPiv,
+          char                  equed,
+          float                 *r,
+          float                 *c,
+          std::complex<float >  *B,
+          IndexType             ldB,
+          std::complex<float >  *X,
+          IndexType             ldX,
+          float                 &rCond,
+          float                 *fErr,
+          float                 *bErr,
+          std::complex<float >  *work,
+          float                 *rWork);
 
 template <typename IndexType>
     IndexType

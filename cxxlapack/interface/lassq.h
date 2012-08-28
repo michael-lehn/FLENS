@@ -40,10 +40,26 @@ namespace cxxlapack {
 template <typename IndexType>
     void
     lassq(IndexType         n,
+          const float       *x,
+          IndexType         incX,
+          float             &scale,
+          float             &sumsq);
+
+template <typename IndexType>
+    void
+    lassq(IndexType         n,
           const double      *x,
           IndexType         incX,
           double            &scale,
           double            &sumsq);
+
+template <typename IndexType>
+    void
+    lassq(IndexType                     n,
+          const std::complex<float >    *x,
+          IndexType                     incX,
+          float                         &scale,
+          float                         &sumsq);
 
 template <typename IndexType>
     void

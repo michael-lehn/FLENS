@@ -43,6 +43,22 @@ template <typename IndexType>
           char                  jobVt,
           IndexType             m,
           IndexType             n,
+          float                 *A,
+          IndexType             ldA,
+          float                 *s,
+          float                 *U,
+          IndexType             ldU,
+          float                 *Vt,
+          IndexType             ldVt,
+          float                 *work,
+          IndexType             lWork);
+
+template <typename IndexType>
+    IndexType
+    gesvd(char                  jobU,
+          char                  jobVt,
+          IndexType             m,
+          IndexType             n,
           double                *A,
           IndexType             ldA,
           double                *s,
@@ -52,6 +68,23 @@ template <typename IndexType>
           IndexType             ldVt,
           double                *work,
           IndexType             lWork);
+
+template <typename IndexType>
+    IndexType
+    gesvd(char                  jobU,
+          char                  jobVt,
+          IndexType             m,
+          IndexType             n,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          float                 *s,
+          std::complex<float >  *U,
+          IndexType             ldU,
+          std::complex<float >  *Vt,
+          IndexType             ldVt,
+          std::complex<float >  *work,
+          IndexType             lWork,
+          float                 *rWork);
 
 template <typename IndexType>
     IndexType

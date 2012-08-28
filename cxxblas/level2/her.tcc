@@ -138,7 +138,7 @@ her(StorageOrder order,   StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zher");
 
-    cblas_zher(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo), 
+    cblas_zher(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                n,
                reinterpret_cast<const double *>(&alpha),
                reinterpret_cast<const double *>(x), incX,

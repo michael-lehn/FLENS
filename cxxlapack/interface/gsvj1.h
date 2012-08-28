@@ -43,6 +43,26 @@ template <typename IndexType>
           IndexType     m,
           IndexType     n,
           IndexType     n1,
+          float         *A,
+          IndexType     ldA,
+          float         *D,
+          float         *sva,
+          IndexType     mv,
+          float         *V,
+          IndexType     ldV,
+          const float   &eps,
+          const float   &sfMin,
+          const float   &tol,
+          IndexType     nSweep,
+          float         *work,
+          IndexType     lWork);
+
+template <typename IndexType>
+    IndexType
+    gsvj1(char          jobV,
+          IndexType     m,
+          IndexType     n,
+          IndexType     n1,
           double        *A,
           IndexType     ldA,
           double        *D,

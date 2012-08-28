@@ -160,6 +160,12 @@ class FullStorage
         bool
         fill(StorageUpLo upLo, const ElementType &value = ElementType(0));
 
+        bool
+        fillRandom();
+
+        bool
+        fillRandom(StorageUpLo upLo);
+
         void
         changeIndexBase(IndexType firstRow, IndexType firstCol);
 
@@ -195,11 +201,13 @@ class FullStorage
         const ConstArrayView
         viewRow(IndexType row,
                 IndexType firstCol, IndexType lastCol,
+                IndexType stride,
                 IndexType firstViewIndex = I::defaultIndexBase) const;
 
         ArrayView
         viewRow(IndexType row,
                 IndexType firstCol, IndexType lastCol,
+                IndexType stride,
                 IndexType firstViewIndex = I::defaultIndexBase);
 
         // view of single column
@@ -213,12 +221,12 @@ class FullStorage
 
         const ConstArrayView
         viewCol(IndexType firstRow, IndexType lastRow,
-                IndexType col,
+                IndexType stride, IndexType col,
                 IndexType firstViewIndex = I::defaultIndexBase) const;
 
         ArrayView
         viewCol(IndexType firstRow, IndexType lastRow,
-                IndexType col,
+                IndexType stride, IndexType col,
                 IndexType firstViewIndex = I::defaultIndexBase);
 
         // view of d-th diagonal
@@ -229,6 +237,15 @@ class FullStorage
         ArrayView
         viewDiag(IndexType d,
                  IndexType firstViewIndex = I::defaultIndexBase);
+
+        // view of d-th anti-diagonal
+        const ConstArrayView
+        viewAntiDiag(IndexType d,
+                     IndexType firstViewIndex = I::defaultIndexBase) const;
+
+        ArrayView
+        viewAntiDiag(IndexType d,
+                     IndexType firstViewIndex = I::defaultIndexBase);
 
     private:
 

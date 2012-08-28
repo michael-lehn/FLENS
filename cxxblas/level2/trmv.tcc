@@ -51,6 +51,11 @@ trmv_generic(StorageOrder order, StorageUpLo upLo,
         trmv_generic(RowMajor, upLo, transA, diag, n, A, ldA, x, incX);
         return;
     }
+
+    if (incX<0) {
+        x -= incX*(n-1);
+    }
+
     if (transA==NoTrans) {
         if (upLo==Upper) {
             if (diag==NonUnit) {
@@ -203,9 +208,6 @@ trmv(StorageOrder order, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("trmv_generic");
 
-    if (incX<0) {
-        x -= incX*(n-1);
-    }
     trmv_generic(order, upLo, transA, diag, n, A, ldA, x, incX);
 }
 
@@ -276,6 +278,11 @@ trmv(StorageOrder order, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ztrmv");
 
+    if (transA==Conj) {
+        CXXBLAS_DEBUG_OUT("trmv_generic");
+        trmv_generic(order, upLo, transA, diag, n, A, ldA, x, incX);
+        return;
+    }
     cblas_ztrmv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 n,
@@ -288,4 +295,3 @@ trmv(StorageOrder order, StorageUpLo upLo,
 } // namespace flens
 
 #endif // CXXBLAS_LEVEL2_TRMV_TCC
-

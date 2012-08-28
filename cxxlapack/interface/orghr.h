@@ -42,6 +42,17 @@ template <typename IndexType>
     orghr(IndexType     n,
           IndexType     iLo,
           IndexType     iHi,
+          float         *A,
+          IndexType     ldA,
+          const float   *tau,
+          float         *work,
+          IndexType     lWork);
+
+template <typename IndexType>
+    IndexType
+    orghr(IndexType     n,
+          IndexType     iLo,
+          IndexType     iHi,
           double        *A,
           IndexType     ldA,
           const double  *tau,

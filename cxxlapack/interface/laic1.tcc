@@ -43,6 +43,32 @@ template <typename IndexType>
 void
 laic1(IndexType     job,
       IndexType     j,
+      const float   *x,
+      float         sEst,
+      const float   *w,
+      float         gamma,
+      float         &sEstPr,
+      float         &s,
+      float         &c)
+{
+    CXXLAPACK_DEBUG_OUT("slaic1");
+
+    LAPACK_IMPL(slaic1)(&job,
+                        &j,
+                        x,
+                        &sEst,
+                        w,
+                        &gamma,
+                        &sEstPr,
+                        &s,
+                        &c);
+}
+
+
+template <typename IndexType>
+void
+laic1(IndexType     job,
+      IndexType     j,
       const double  *x,
       double        sEst,
       const double  *w,
@@ -51,6 +77,8 @@ laic1(IndexType     job,
       double        &s,
       double        &c)
 {
+    CXXLAPACK_DEBUG_OUT("dlaic1");
+
     LAPACK_IMPL(dlaic1)(&job,
                         &j,
                         x,
@@ -66,6 +94,31 @@ template <typename IndexType>
 void
 laic1(IndexType                   job,
       IndexType                   j,
+      const std::complex<float >  *x,
+      float                       sEst,
+      const std::complex<float >  *w,
+      const std::complex<float >  &gamma,
+      float                       &sEstPr,
+      std::complex<float >        &s,
+      std::complex<float >        &c)
+{
+    CXXLAPACK_DEBUG_OUT("claic1");
+
+    LAPACK_IMPL(claic1)(&job,
+                        &j,
+                        reinterpret_cast<const float  *>(x),
+                        &sEst,
+                        reinterpret_cast<const float  *>(w),
+                        reinterpret_cast<const float  *>(&gamma),
+                        &sEstPr,
+                        reinterpret_cast<float  *>(&s),
+                        reinterpret_cast<float  *>(&c));
+}
+
+template <typename IndexType>
+void
+laic1(IndexType                   job,
+      IndexType                   j,
       const std::complex<double>  *x,
       double                      sEst,
       const std::complex<double>  *w,
@@ -74,6 +127,8 @@ laic1(IndexType                   job,
       std::complex<double>        &s,
       std::complex<double>        &c)
 {
+    CXXLAPACK_DEBUG_OUT("zlaic1");
+
     LAPACK_IMPL(zlaic1)(&job,
                         &j,
                         reinterpret_cast<const double *>(x),

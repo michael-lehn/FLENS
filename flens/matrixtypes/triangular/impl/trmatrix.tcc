@@ -443,6 +443,20 @@ TrMatrix<FS>::resize(IndexType numRows, IndexType numCols,
                           value);
 }
 
+template <typename FS>
+bool
+TrMatrix<FS>::fill(const ElementType &value)
+{
+    return _engine.fill(_upLo, value);
+}
+
+template <typename FS>
+bool
+TrMatrix<FS>::fillRandom()
+{
+    return _engine.fillRandom(_upLo);
+}
+
 // -- implementation -----------------------------------------------------------
 template <typename FS>
 const typename TrMatrix<FS>::Engine &

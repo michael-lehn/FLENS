@@ -99,6 +99,83 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
        const BETA       &beta,
        MC               &&C);
 
+
+//== GeneralBandedMatrix - GeneralMatrix products ====================================
+
+//-- gbmm
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+    typename RestrictTo<IsGbMatrix<MA>::value
+                     && IsGeMatrix<MB>::value
+                     && IsGeMatrix<MC>::value,
+             void>::Type
+    mm(Transpose        transA,
+       Transpose        transB,
+       const ALPHA      &alpha,
+       const MA         &A,
+       const MB         &B,
+       const BETA       &beta,
+       MC               &&C);
+
+//== GeneralMatrix - GeneralBandedMatrix products ====================================
+
+//-- gbmm
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+    typename RestrictTo<IsGeMatrix<MA>::value
+                     && IsGbMatrix<MB>::value
+                     && IsGeMatrix<MC>::value,
+             void>::Type
+    mm(Transpose        transA,
+       Transpose        transB,
+       const ALPHA      &alpha,
+       const MA         &A,
+       const MB         &B,
+       const BETA       &beta,
+       MC               &&C);
+
+//== HermitianBandedMatrix - GeneralMatrix products ==================================
+
+//-- hbmm
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+    typename RestrictTo<IsHbMatrix<MA>::value
+                     && IsGeMatrix<MB>::value
+                     && IsGeMatrix<MC>::value,
+             void>::Type
+    mm(Side             side,
+       const ALPHA      &alpha,
+       const MA         &A,
+       const MB         &B,
+       const BETA       &beta,
+       MC               &&C);
+
+//== SymmetricBandedMatrix - GeneralMatrix products ==================================
+
+//-- symm
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+    typename RestrictTo<IsSbMatrix<MA>::value
+                     && IsGeMatrix<MB>::value
+                     && IsGeMatrix<MC>::value,
+                 void>::Type
+    mm(Side             side,
+       const ALPHA      &alpha,
+       const MA         &A,
+       const MB         &B,
+       const BETA       &beta,
+       MC               &&C);
+
+//== TriangularBandedMatrix - GeneralMatrix products =================================
+
+//-- tbmm
+template <typename ALPHA, typename MA, typename MB>
+    typename RestrictTo<IsTbMatrix<MA>::value
+                     && IsGeMatrix<MB>::value,
+             void>::Type
+    mm(Side             side,
+       Transpose        transA,
+       const ALPHA      &alpha,
+       const MA         &A,
+       MB               &&B);
+
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL3_MM_H

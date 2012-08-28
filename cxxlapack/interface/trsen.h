@@ -43,6 +43,27 @@ template <typename IndexType>
           char              compQ,
           const IndexType   *select,
           IndexType         n,
+          float             *T,
+          IndexType         ldT,
+          float             *Q,
+          IndexType         ldQ,
+          float             *wr,
+          float             *wi,
+          IndexType         &m,
+          float             &s,
+          float             &sep,
+          float             *work,
+          IndexType         lWork,
+          IndexType         *iWork,
+          IndexType         liWork);
+
+
+template <typename IndexType>
+    IndexType
+    trsen(char              job,
+          char              compQ,
+          const IndexType   *select,
+          IndexType         n,
           double            *T,
           IndexType         ldT,
           double            *Q,
@@ -63,6 +84,23 @@ template <typename IndexType>
           char                  compQ,
           const IndexType       *select,
           IndexType             n,
+          std::complex<float >  *T,
+          const IndexType       ldT,
+          std::complex<float >  *Q,
+          const IndexType       ldQ,
+          std::complex<float >  *w,
+          IndexType             &m,
+          float                 &s,
+          float                 &sep,
+          std::complex<float >  *work,
+          IndexType             lWork);
+
+template <typename IndexType>
+    IndexType
+    trsen(char                  job,
+          char                  compQ,
+          const IndexType       *select,
+          IndexType             n,
           std::complex<double>  *T,
           const IndexType       ldT,
           std::complex<double>  *Q,
@@ -72,7 +110,7 @@ template <typename IndexType>
           double                &s,
           double                &sep,
           std::complex<double>  *work,
-          const IndexType       *lWork);
+          IndexType             lWork);
 
 } // namespace cxxlapack
 

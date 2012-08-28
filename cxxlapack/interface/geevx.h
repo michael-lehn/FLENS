@@ -44,6 +44,31 @@ template <typename IndexType>
           char          jobVR,
           char          sense,
           IndexType     n,
+          float         *A,
+          IndexType     ldA,
+          float         *wr,
+          float         *wi,
+          float         *VL,
+          IndexType     ldVL,
+          float         *VR,
+          IndexType     ldVR,
+          IndexType     &iLo,
+          IndexType     &iHi,
+          float         *scale,
+          float         &ABnorm,
+          float         *rCondE,
+          float         *rCondV,
+          float         *work,
+          IndexType     lWork,
+          IndexType     *iWork);
+
+template <typename IndexType>
+    IndexType
+    geevx(char          balanc,
+          char          jobVL,
+          char          jobVR,
+          char          sense,
+          IndexType     n,
           double        *A,
           IndexType     ldA,
           double        *wr,
@@ -61,6 +86,30 @@ template <typename IndexType>
           double        *work,
           IndexType     lWork,
           IndexType     *iWork);
+
+template <typename IndexType>
+    IndexType
+    geevx(char                    balanc,
+          char                    jobVL,
+          char                    jobVR,
+          char                    sense,
+          IndexType               n,
+          std::complex<float >    *A,
+          IndexType               ldA,
+          std::complex<float >    *w,
+          std::complex<float >    *VL,
+          IndexType               ldVL,
+          std::complex<float >    *VR,
+          IndexType               ldVR,
+          IndexType               &iLo,
+          IndexType               &iHi,
+          float                   *scale,
+          float                   &ABnorm,
+          float                   &rCondE,
+          float                   &rCondV,
+          std::complex<float >    *work,
+          IndexType               lWork,
+          float                   *rWork);
 
 template <typename IndexType>
     IndexType
