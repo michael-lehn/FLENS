@@ -21,10 +21,17 @@ main()
         6, 4, 5;
 
     RealGeMatrix::IndexVariable i, j;
+
+    // element-wise matrix operations
     C(i,j) = A(i,j) * B(j,i);
 
     cout << "C = " << C << endl;
 
+    Underscore<int>     _;
+    // element-wise vector operations
+    C(2,_)(i) = A(1,_)(i) + B(3,_)(i) + 10*i;
+
+    cout << "C = " << C << endl;
 
     ComplexGeMatrix  V(3,3), W(3,3), Z(3,3);
     V(i,j) = Complex(A(i,j), B(i,j));
