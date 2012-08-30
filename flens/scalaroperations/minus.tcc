@@ -44,6 +44,14 @@ evalScalarClosure(const ScalarClosure<ScalarOpMinus, L, R> &exp)
     return exp.left().value() - exp.right().value();
 }
 
+template <typename L>
+const typename ScalarClosure<ScalarOpUnaryMinus, L, L>::ElementType
+evalScalarClosure(const ScalarClosure<ScalarOpUnaryMinus, L, L> &exp)
+{
+    return -exp.left().value();
+}
+
+
 //-- operator overloading
 template <typename L, typename R>
 const ScalarClosure<ScalarOpMinus,
@@ -56,8 +64,8 @@ operator-(const Scalar<L> &l, const Scalar<R> &r)
 }
 
 template <typename ALPHA, typename R>
-const typename 
-RestrictTo<CompatibleScalar<ALPHA, R>::value, 
+const typename
+RestrictTo<CompatibleScalar<ALPHA, R>::value,
     ScalarClosure<ScalarOpMinus,
                   ScalarValue<ALPHA>,
                   typename R::Impl>
@@ -71,8 +79,8 @@ operator-(const ALPHA &alpha, const Scalar<R> &r)
 }
 
 template <typename L, typename ALPHA>
-const typename 
-RestrictTo<CompatibleScalar<ALPHA, L>::value, 
+const typename
+RestrictTo<CompatibleScalar<ALPHA, L>::value,
     ScalarClosure<ScalarOpMinus,
                   typename L::Impl,
                   ScalarValue<ALPHA> >
@@ -83,6 +91,18 @@ operator-(const Scalar<L> &l, const ALPHA &alpha)
                           typename L::Impl,
                           ScalarValue<ALPHA> >  SC;
     return SC(l.impl(), alpha);
+}
+
+template <typename L>
+const ScalarClosure<ScalarOpUnaryMinus,
+                    typename L::Impl,
+                    typename L::Impl>
+operator-(const Scalar<L> &l)
+{
+    typedef ScalarClosure<ScalarOpUnaryMinus,
+                          typename L::Impl,
+                          typename L::Impl>     SC;
+    return SC(l.impl(), l.impl());
 }
 
 } // namespace flens

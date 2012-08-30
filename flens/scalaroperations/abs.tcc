@@ -30,18 +30,35 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_SCALAROPERATIONS_SCALAROPERATIONS_H
-#define FLENS_SCALAROPERATIONS_SCALAROPERATIONS_H 1
+#ifndef FLENS_SCALAROPERATIONS_ABS_TCC
+#define FLENS_SCALAROPERATIONS_ABS_TCC 1
 
-#include <flens/scalaroperations/abs.h>
+#include <cmath>
+#include <cxxblas/auxiliary/complex.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/scalaroperations/cos.h>
-#include <flens/scalaroperations/complex.h>
-#include <flens/scalaroperations/div.h>
-#include <flens/scalaroperations/imag.h>
-#include <flens/scalaroperations/minus.h>
-#include <flens/scalaroperations/mult.h>
-#include <flens/scalaroperations/plus.h>
-#include <flens/scalaroperations/real.h>
-#include <flens/scalaroperations/sin.h>
+#include <flens/scalartypes/impl/scalarclosure.h>
 
-#endif // FLENS_SCALAROPERATIONS_SCALAROPERATIONS_H
+namespace flens {
+
+template <typename S>
+const typename ScalarClosure<ScalarOpAbs, S, S>::ElementType
+evalScalarClosure(const ScalarClosure<ScalarOpAbs, S, S> &exp)
+{
+    return abs(exp.left().value());
+}
+
+//-- operator overloading
+template <typename S>
+const ScalarClosure<ScalarOpAbs,
+                    typename S::Impl,
+                    typename S::Impl>
+Abs(const Scalar<S> &s)
+{
+    typedef ScalarClosure<ScalarOpAbs, typename S::Impl, typename S::Impl>  SC;
+    return SC(s.impl(), s.impl());
+}
+
+} // namespace flens
+
+#endif // FLENS_SCALAROPERATIONS_ABS_TCC

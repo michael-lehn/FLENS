@@ -39,10 +39,16 @@
 namespace flens {
 
 struct ScalarOpMinus {};
+struct ScalarOpUnaryMinus {};
 
 template <typename L, typename R>
     const typename ScalarClosure<ScalarOpMinus, L, R>::ElementType
     evalScalarClosure(const ScalarClosure<ScalarOpMinus, L, R> &exp);
+
+template <typename L>
+    const typename ScalarClosure<ScalarOpUnaryMinus, L, L>::ElementType
+    evalScalarClosure(const ScalarClosure<ScalarOpUnaryMinus, L, L> &exp);
+
 
 //-- operator overloading
 template <typename L, typename R>
@@ -68,6 +74,13 @@ template <typename L, typename ALPHA>
                       ScalarValue<ALPHA> >
     >::Type
     operator-(const Scalar<L> &l, const ALPHA &alpha);
+
+template <typename L>
+    const ScalarClosure<ScalarOpUnaryMinus,
+                        typename L::Impl,
+                        typename L::Impl>
+    operator-(const Scalar<L> &l);
+
 
 } // namespace flens
 

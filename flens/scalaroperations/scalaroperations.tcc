@@ -33,6 +33,7 @@
 #ifndef FLENS_SCALAROPERATIONS_SCALAROPERATIONS_TCC
 #define FLENS_SCALAROPERATIONS_SCALAROPERATIONS_TCC 1
 
+#include <flens/scalaroperations/abs.tcc>
 #include <flens/scalaroperations/cos.tcc>
 #include <flens/scalaroperations/complex.tcc>
 #include <flens/scalaroperations/div.tcc>

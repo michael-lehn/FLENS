@@ -11,16 +11,13 @@ main()
     typedef GeMatrix<FullStorage<double> >             RealGeMatrix;
     typedef GeMatrix<FullStorage<complex<double> > >   ComplexGeMatrix;
 
-    RealGeMatrix   A(3,3), B(3,3), C(3,3);
-    A = 1, 2, 3,
-        4, 5, 6,
-        7, 8, 9;
-
-    B = 9, 1, 8,
-        2, 7, 3,
-        6, 4, 5;
-
     RealGeMatrix::IndexVariable i, j;
+    RealGeMatrix   A(3,3), B(3,3), C(3,3);
+    A(i,j) = Abs(i*i-j)*(i-j);
+    B(i,j) = i+j;
+
+    cout << "A = " << A << endl;
+    cout << "B = " << B << endl;
 
     // element-wise matrix operations
     C(i,j) = A(i,j) * B(j,i);
@@ -52,6 +49,6 @@ main()
     cout << "X = " << X << endl;
     cout << "Y = " << Y << endl;
 
-    //Imag(Z(i,j)) = Y(i,j);
+    Z(i,j) = Complex(Real(Z(i,j)), -Imag(Z(i,j)));
     cout << "Z = " << Z << endl;
 }
