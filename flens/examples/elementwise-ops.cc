@@ -37,7 +37,7 @@ main()
     V(i,j) = Complex(A(i,j), B(i,j));
     W(i,j) = Complex(B(i,j), A(i,j));
 
-    Z(i,j) = V(i,j) + W(i,j);
+    Z(i,j) = Complex(Cos(M_PI*Real(V(i,j))/4), Sin(-M_PI*Imag(W(i,j))/3));
 
     cout << "V = " << V << endl;
     cout << "W = " << W << endl;

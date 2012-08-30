@@ -35,7 +35,7 @@
 
 #include <cxxblas/auxiliary/complex.h>
 #include <flens/auxiliary/auxiliary.h>
-#include <flens/scalaroperations/imag.h>
+#include <flens/scalaroperations/real.h>
 #include <flens/scalartypes/impl/scalarclosure.h>
 
 namespace flens {
