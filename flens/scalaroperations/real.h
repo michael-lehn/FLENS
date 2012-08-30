@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,17 +30,34 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_SCALAROPERATIONS_SCALAROPERATIONS_H
-#define FLENS_SCALAROPERATIONS_SCALAROPERATIONS_H 1
+#ifndef FLENS_SCALAROPERATIONS_REAL_H
+#define FLENS_SCALAROPERATIONS_REAL_H 1
 
-#include <flens/scalaroperations/cos.h>
-#include <flens/scalaroperations/complex.h>
-#include <flens/scalaroperations/div.h>
-#include <flens/scalaroperations/imag.h>
-#include <flens/scalaroperations/minus.h>
-#include <flens/scalaroperations/mult.h>
-#include <flens/scalaroperations/plus.h>
-#include <flens/scalaroperations/real.h>
-#include <flens/scalaroperations/sin.h>
+#include <cxxblas/auxiliary/complex.h>
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/scalartypes/impl/scalarclosure.h>
 
-#endif // FLENS_SCALAROPERATIONS_SCALAROPERATIONS_H
+namespace flens {
+
+struct ScalarOpReal {};
+
+template <typename S>
+struct ElementType<ScalarClosure<ScalarOpReal, S, S> >
+{
+    typedef typename S::ElementType::value_type Type;
+};
+
+template <typename S>
+    const typename ScalarClosure<ScalarOpReal, S, S>::ElementType
+    evalScalarClosure(const ScalarClosure<ScalarOpReal, S, S> &exp);
+
+//-- operator overloading
+template <typename S>
+    const ScalarClosure<ScalarOpReal,
+                        typename S::Impl,
+                        typename S::Impl>
+    Real(const Scalar<S> &s);
+
+} // namespace flens
+
+#endif // FLENS_SCALAROPERATIONS_REAL_H

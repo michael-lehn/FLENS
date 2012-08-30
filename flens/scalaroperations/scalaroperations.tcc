@@ -40,6 +40,7 @@
 #include <flens/scalaroperations/minus.tcc>
 #include <flens/scalaroperations/mult.tcc>
 #include <flens/scalaroperations/plus.tcc>
+#include <flens/scalaroperations/real.tcc>
 #include <flens/scalaroperations/sin.tcc>
 
 #endif // FLENS_SCALAROPERATIONS_SCALAROPERATIONS_TCC

@@ -30,17 +30,34 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_SCALAROPERATIONS_SCALAROPERATIONS_H
-#define FLENS_SCALAROPERATIONS_SCALAROPERATIONS_H 1
+#ifndef FLENS_SCALAROPERATIONS_REAL_TCC
+#define FLENS_SCALAROPERATIONS_REAL_TCC 1
 
-#include <flens/scalaroperations/cos.h>
-#include <flens/scalaroperations/complex.h>
-#include <flens/scalaroperations/div.h>
+#include <cxxblas/auxiliary/complex.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/scalaroperations/imag.h>
-#include <flens/scalaroperations/minus.h>
-#include <flens/scalaroperations/mult.h>
-#include <flens/scalaroperations/plus.h>
-#include <flens/scalaroperations/real.h>
-#include <flens/scalaroperations/sin.h>
+#include <flens/scalartypes/impl/scalarclosure.h>
 
-#endif // FLENS_SCALAROPERATIONS_SCALAROPERATIONS_H
+namespace flens {
+
+template <typename S>
+const typename ScalarClosure<ScalarOpReal, S, S>::ElementType
+evalScalarClosure(const ScalarClosure<ScalarOpReal, S, S> &exp)
+{
+    return cxxblas::real(exp.left().value());
+}
+
+//-- operator overloading
+template <typename S>
+const ScalarClosure<ScalarOpReal,
+                    typename S::Impl,
+                    typename S::Impl>
+Real(const Scalar<S> &s)
+{
+    typedef ScalarClosure<ScalarOpReal, typename S::Impl, typename S::Impl>  SC;
+    return SC(s.impl(), s.impl());
+}
+
+} // namespace flens
+
+#endif // FLENS_SCALAROPERATIONS_REAL_TCC
