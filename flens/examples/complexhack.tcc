@@ -114,7 +114,66 @@ typename RestrictTo<IsGeMatrix<MB>::value,
          void>::Type
 copy(Transpose trans, const RealConstMatrixClosure<MA> &A, MB &&B)
 {
-    std::cerr << "copy2" << std::endl;
+    const auto &Z = A._Z;
+
+    ASSERT(trans==NoTrans || trans==Trans);
+
+    if (B.numRows()==0 || B.numCols()==0) {
+        if (trans==NoTrans) {
+            B.resize(Z.numRows(), Z.numCols(), Z.firstRow(), Z.firstCol());
+        } else {
+            B.resize(Z.numCols(), Z.numRows(), Z.firstCol(), Z.firstRow());
+        }
+    }
+
+#   ifndef NDEBUG
+    if (trans==NoTrans) {
+        ASSERT(Z.numRows()==B.numRows());
+        ASSERT(Z.numCols()==B.numCols());
+    } else {
+        ASSERT(Z.numRows()==B.numCols());
+        ASSERT(Z.numCols()==B.numRows());
+    }
+#   endif
+
+    typedef typename RemoveRef<MB>::Type  MatrixB;
+    typedef typename MatrixB::IndexType   IndexType;
+
+    const Underscore<IndexType>  _;
+
+    if (trans==NoTrans) {
+        if (B.order()==RowMajor) {
+            IndexType  i0 = Z.firstRow();
+            IndexType  i1 = Z.lastRow();
+            IndexType  I0 = B.firstRow();
+            for (IndexType i=i0, I=I0; i<=i1; ++i, ++I) {
+                B(I,_) = real(Z(i,_));
+            }
+        } else {
+            IndexType  j0 = Z.firstCol();
+            IndexType  j1 = Z.lastCol();
+            IndexType  J0 = B.firstCol();
+            for (IndexType j=j0, J=J0; j<=j1; ++j, ++J) {
+                B(_,J) = real(Z(_,j));
+            }
+         }
+    } else {
+        if (B.order()==RowMajor) {
+            IndexType  j0 = Z.firstCol();
+            IndexType  j1 = Z.lastCol();
+            IndexType  I0 = B.firstRow();
+            for (IndexType j=j0, I=I0; j<=j1; ++j, ++I) {
+                B(I,_) = real(Z(_,j));
+            }
+       } else {
+            IndexType  i0 = Z.firstRow();
+            IndexType  i1 = Z.lastRow();
+            IndexType  J0 = B.firstCol();
+            for (IndexType i=i0, J=J0; i<=i1; ++i, ++J) {
+                B(_,J) = real(Z(i,_));
+            }
+        }
+    }
 }
 
 // GeMatrix -> RealMatrixClosure
@@ -299,7 +358,66 @@ typename RestrictTo<IsGeMatrix<MB>::value,
          void>::Type
 copy(Transpose trans, const ImagConstMatrixClosure<MA> &A, MB &&B)
 {
-    std::cerr << "copy5" << std::endl;
+    const auto &Z = A._Z;
+
+    ASSERT(trans==NoTrans || trans==Trans);
+
+    if (B.numRows()==0 || B.numCols()==0) {
+        if (trans==NoTrans) {
+            B.resize(Z.numRows(), Z.numCols(), Z.firstRow(), Z.firstCol());
+        } else {
+            B.resize(Z.numCols(), Z.numRows(), Z.firstCol(), Z.firstRow());
+        }
+    }
+
+#   ifndef NDEBUG
+    if (trans==NoTrans) {
+        ASSERT(Z.numRows()==B.numRows());
+        ASSERT(Z.numCols()==B.numCols());
+    } else {
+        ASSERT(Z.numRows()==B.numCols());
+        ASSERT(Z.numCols()==B.numRows());
+    }
+#   endif
+
+    typedef typename RemoveRef<MB>::Type  MatrixB;
+    typedef typename MatrixB::IndexType   IndexType;
+
+    const Underscore<IndexType>  _;
+
+    if (trans==NoTrans) {
+        if (B.order()==RowMajor) {
+            IndexType  i0 = Z.firstRow();
+            IndexType  i1 = Z.lastRow();
+            IndexType  I0 = B.firstRow();
+            for (IndexType i=i0, I=I0; i<=i1; ++i, ++I) {
+                B(I,_) = imag(Z(i,_));
+            }
+        } else {
+            IndexType  j0 = Z.firstCol();
+            IndexType  j1 = Z.lastCol();
+            IndexType  J0 = B.firstCol();
+            for (IndexType j=j0, J=J0; j<=j1; ++j, ++J) {
+                B(_,J) = imag(Z(_,j));
+            }
+         }
+    } else {
+        if (B.order()==RowMajor) {
+            IndexType  i0 = Z.firstRow();
+            IndexType  i1 = Z.lastRow();
+            IndexType  I0 = B.firstCol();
+            for (IndexType i=i0, I=I0; i<=i1; ++i, ++I) {
+                B(_,I) = imag(Z(i,_));
+            }
+        } else {
+            IndexType  j0 = Z.firstCol();
+            IndexType  j1 = Z.lastCol();
+            IndexType  J0 = B.firstRow();
+            for (IndexType j=j0, J=J0; j<=j1; ++j, ++J) {
+                B(J,_) = imag(Z(_,j));
+            }
+        }
+    }
 }
 
 // GeMatrix -> ImagMatrixClosure
@@ -414,7 +532,7 @@ real(VZ &&z)
 }
 
 template <typename MZ>
-RealConstMatrixClosure<MZ>
+RealConstMatrixClosure<GeMatrix<MZ> >
 real(const GeMatrix<MZ> &Z)
 {
     return Z;
@@ -472,7 +590,7 @@ imag(VZ &&z)
 }
 
 template <typename MZ>
-ImagConstMatrixClosure<MZ>
+ImagConstMatrixClosure<GeMatrix<MZ> >
 imag(const GeMatrix<MZ> &Z)
 {
     return Z;

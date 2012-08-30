@@ -265,7 +265,7 @@ template <typename VZ>
     real(VZ &&z);
 
 template <typename MZ>
-    RealConstMatrixClosure<MZ>
+    RealConstMatrixClosure<GeMatrix<MZ> >
     real(const GeMatrix<MZ> &Z);
 
 template <typename MZ>
@@ -292,7 +292,7 @@ template <typename VZ>
     imag(VZ &&z);
 
 template <typename MZ>
-    ImagConstMatrixClosure<MZ>
+    ImagConstMatrixClosure<GeMatrix<MZ> >
     imag(const GeMatrix<MZ> &Z);
 
 template <typename MZ>

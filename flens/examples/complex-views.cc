@@ -96,4 +96,22 @@ main()
         real(W) = transpose(Y);
         cout << "W = " << W << endl;
     }
+
+    {
+        // Let's check const-correctness
+        const GeMatrix<FullStorage<Complex> >  V = Z;
+        GeMatrix<FullStorage<double> >   X, Y;
+
+        cout << "V = " << V << endl;
+
+        X = real(V);
+        Y = imag(V);
+
+        cout << "X = " << X << endl;
+        cout << "Y = " << Y << endl;
+
+        // if you uncomment this compilation should fail:
+        //real(V) = X;
+        //imag(V) = Y;
+    }
 }
