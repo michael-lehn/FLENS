@@ -54,11 +54,11 @@ class ConstArrayView
         typedef typename I::IndexType  IndexType;
         typedef A                      Allocator;
 
-        typedef ConstArrayView          ConstView;
-        typedef ArrayView<T, I, A>      View;
-        typedef Array<T, I, A>          NoView;
+        typedef ConstArrayView         ConstView;
+        typedef ArrayView<T, I, A>     View;
+        typedef Array<T, I, A>         NoView;
 
-        static const IndexType          defaultIndexBase = I::defaultIndexBase;
+        static const IndexType         defaultIndexBase = I::defaultIndexBase;
 
         ConstArrayView(IndexType length,
                        const ElementType *data,

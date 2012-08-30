@@ -137,7 +137,7 @@ copy(Transpose trans, const MA &A, MB &&B)
     }
 
 //
-//  Resize left hand size if needed.  This is *usually* only alloweded
+//  Resize left hand size if needed.  This is *usually* only allowed
 //  when the left hand side is an empty matrix (such that it is no actual
 //  resizing but rather an initialization).
 //
