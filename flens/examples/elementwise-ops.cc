@@ -51,4 +51,8 @@ main()
 
     Z(i,j) = Complex(Real(Z(i,j)), -Imag(Z(i,j)));
     cout << "Z = " << Z << endl;
+
+    A.upper()(i,j) = i + j;
+    A.strictLower()(i,j) = 0;
+    cout << "A = " << A << endl;
 }

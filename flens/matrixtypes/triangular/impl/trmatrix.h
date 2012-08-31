@@ -35,6 +35,8 @@
 
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/matrixtypes/triangular/triangularmatrix.h>
+#include <flens/matrixtypes/triangular/impl/tr/constelementclosure.h>
+#include <flens/matrixtypes/triangular/impl/tr/elementclosure.h>
 #include <flens/typedefs.h>
 
 namespace flens {
@@ -91,6 +93,15 @@ class TrMatrix
         typedef TrMatrix<EngineView>                View;
         typedef TrMatrix<EngineNoView>              NoView;
 
+    private:
+        typedef TrMatrix                            TR;
+
+    public:
+        typedef flens::IndexVariable<IndexType>     IndexVariable;
+        typedef trmatrix::ConstElementClosure<TR>   ConstElementClosure;
+        typedef trmatrix::ElementClosure<TR>        ElementClosure;
+
+        // -- constructors -----------------------------------------------------
         TrMatrix(IndexType dim, StorageUpLo upLo, Diag diag = NonUnit);
 
         TrMatrix(IndexType numRows, IndexType numCols,
@@ -129,6 +140,104 @@ class TrMatrix
 
         ElementType &
         operator()(IndexType row, IndexType col);
+
+        template <typename S>
+            const trmatrix::ConstElementClosure<TrMatrix,
+                                                typename Scalar<S>::Impl>
+            operator()(const Scalar<S> &row, const Scalar<S> &col) const;
+
+        const ConstElementClosure
+        operator()(const IndexVariable &row, const IndexVariable &col) const;
+
+        ElementClosure
+        operator()(IndexVariable &row, IndexVariable &col);
+
+        // -- methods ----------------------------------------------------------
+        IndexType
+        numRows() const;
+
+        IndexType
+        numCols() const;
+
+        IndexType
+        dim() const;
+
+        // for element access
+        IndexType
+        firstRow() const;
+
+        IndexType
+        lastRow() const;
+
+        IndexType
+        firstCol() const;
+
+        IndexType
+        lastCol() const;
+
+        StorageUpLo
+        upLo() const;
+
+        StorageUpLo &
+        upLo();
+
+        Diag
+        diag() const;
+
+        Diag &
+        diag();
+
+        const ElementType *
+        data() const;
+
+        ElementType *
+        data();
+
+        IndexType
+        leadingDimension() const;
+
+        StorageOrder
+        order() const;
+
+        template <typename RHS>
+            bool
+            resize(const TrMatrix<RHS> &rhs,
+                   const ElementType &value = ElementType());
+
+        bool
+        resize(IndexType numRows, IndexType numCols,
+               IndexType firstRowIndex = Engine::defaultIndexBase,
+               IndexType firstColIndex = Engine::defaultIndexBase,
+               const ElementType &value = ElementType());
+
+        // -- views ------------------------------------------------------------
+        // diag views
+        const ConstVectorView
+        diag(IndexType d) const;
+
+        VectorView
+        diag(IndexType d);
+
+        // general views
+        const ConstGeneralView
+        general() const;
+
+        GeneralView
+        general();
+
+        // hermitian views
+        const ConstHermitianView
+        hermitian() const;
+
+        HermitianView
+        hermitian();
+
+        // symmetric views
+        const ConstSymmetricView
+        symmetric() const;
+
+        SymmetricView
+        symmetric();
 
         // rectangular views
         const ConstGeneralView
@@ -183,100 +292,12 @@ class TrMatrix
         VectorView
         operator()(const Range<IndexType> &rows, IndexType col);
 
-        // -- views ------------------------------------------------------------
-
-        // general views
-        const ConstGeneralView
-        general() const;
-
-        GeneralView
-        general();
-
-        // hermitian views
-        const ConstHermitianView
-        hermitian() const;
-
-        HermitianView
-        hermitian();
-
-        // symmetric views
-        const ConstSymmetricView
-        symmetric() const;
-
-        SymmetricView
-        symmetric();
-
-        // diag views
-        const ConstVectorView
-        diag(IndexType d) const;
-
-        VectorView
-        diag(IndexType d);
-
-        // -- methods ----------------------------------------------------------
-        IndexType
-        dim() const;
-
-        IndexType
-        numRows() const;
-
-        IndexType
-        numCols() const;
-
-        // for element access
-        IndexType
-        firstRow() const;
-
-        IndexType
-        lastRow() const;
-
-        IndexType
-        firstCol() const;
-
-        IndexType
-        lastCol() const;
-
-        const ElementType *
-        data() const;
-
-        ElementType *
-        data();
-
-        IndexType
-        leadingDimension() const;
-
-        StorageOrder
-        order() const;
-
-        template <typename RHS>
-            bool
-            resize(const TrMatrix<RHS> &rhs,
-                   const ElementType &value = ElementType());
-
-        bool
-        resize(IndexType numRows, IndexType numCols,
-               IndexType firstRowIndex = Engine::defaultIndexBase,
-               IndexType firstColIndex = Engine::defaultIndexBase,
-               const ElementType &value = ElementType());
-
         // -- implementation ---------------------------------------------------
         const Engine &
         engine() const;
 
         Engine &
         engine();
-
-        StorageUpLo
-        upLo() const;
-
-        StorageUpLo &
-        upLo();
-
-        Diag
-        diag() const;
-
-        Diag &
-        diag();
 
     private:
         Engine       _engine;

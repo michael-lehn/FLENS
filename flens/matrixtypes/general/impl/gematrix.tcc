@@ -43,6 +43,8 @@
 
 namespace flens {
 
+// -- constructors -------------------------------------------------------------
+
 template <typename FS>
 GeMatrix<FS>::GeMatrix()
 {
