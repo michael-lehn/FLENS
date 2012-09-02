@@ -50,7 +50,14 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 void
 mm(Transpose transA, Transpose transB, const ALPHA &alpha,
    const GeneralMatrix<MA> &A, const GeneralMatrix<MB> &B,
-   const BETA &beta, Matrix<MC> &C);
+   const BETA &beta, Matrix<MC> &C)
+{
+    // You get here if you want to call a matrix-matrix product that was not
+    // defined.  Or its not correctly included.
+    // TODO: print the signature of the blas::mm() function that needs to be
+    //       implemented.
+    ASSERT(0);
+}
 
 //== TriangularMatrix - GeneralMatrix products =================================
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>

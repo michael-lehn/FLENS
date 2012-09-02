@@ -23,7 +23,8 @@ namespace blas {
 
 template <typename ALPHA, typename VX, typename BETA, typename VY>
 void
-mv(Transpose trans, const ALPHA &alpha, Permutation P, const DenseVector<VX> &x,
+mv(Transpose trans, const ALPHA &alpha,
+   const Permutation &P, const DenseVector<VX> &x,
    const BETA &beta, DenseVector<VY> &y)
 {
     if (y.length()==0) {
@@ -44,6 +45,34 @@ mv(Transpose trans, const ALPHA &alpha, Permutation P, const DenseVector<VX> &x,
     }
 }
 
+template <typename ALPHA, typename MA, typename BETA, typename MB>
+void
+mm(Transpose transP, Transpose transA, const ALPHA &alpha,
+   const Permutation &P, const GeMatrix<MA> &A, const BETA &beta,
+   GeMatrix<MB> &B)
+{
+    typedef typename MB::IndexType   IndexType;
+
+    if (B.numRows()==0 || B.numCols()==0) {
+        B.resize(A.numRows(), A.numCols(), A.firstRow(), A.firstCol());
+    }
+
+    const Underscore<IndexType> _;
+
+    if (transA==NoTrans) {
+        for (IndexType j=1; j<=A.numCols(); ++j) {
+            const auto x = A(_,j);
+            auto       y = B(_,j);
+            mv(transP, alpha, P, x, beta, y);
+        }
+    } else {
+        for (IndexType i=1; i<=A.numRows(); ++i) {
+            const auto x = A(i,_);
+            auto       y = B(_,i);
+            mv(transP, alpha, P, x, beta, y);
+        }
+    }
+}
 
 } // namespace blas
 

@@ -674,7 +674,7 @@ copy(Transpose trans, const MatrixClosure<OpAdd, ML, MR> &CPAB, Matrix<MC> &C)
     typedef typename PruneScaling<ML>::ScalingType  SML;
     const SML &beta = PruneScaling<ML>::getFactor(CPAB.left());
 //
-//  Rest gets done by the mv switch
+//  Rest gets done by the mm switch
 //
     typedef typename MR::Left::ElementType TA;
     const auto &A = CPAB.right().left();
