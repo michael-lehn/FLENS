@@ -94,6 +94,7 @@ Session: Using an external LAPACK implementation
  |                                                                           |
  |  __Page 1__    Using CXXLAPACK (Low-Level LAPACK interface) directly.     |
  |  __Page 2__    Creating a high-level interface for CXXLAPACK.             |
+ |  __Page 3__    Using FLENS-LAPACK as MKL, ACML or LAPACK Font-End.        |
  |                                                                           |
  *---------------------------------------------------------------------------*
 
@@ -134,10 +135,12 @@ Session: Define your own Matrix/Vector Types
  |                                                                           |
  |  __Page 1__    Define your own symmetric matrix type *MySyMatrix* and     |
  |                apply the conjugated gradient method on it.                |
+ |  __Page 2__    We define a permutation matrix type.                       |
  |                                                                           |
  *---------------------------------------------------------------------------*
 
 :links: Page 1  -> doc:flens/examples/my-symatrix
+        Page 2  -> doc:flens/examples/my-permutation
 
 #
 # Session: Kick-Ass Interface for FLENS-LAPACK

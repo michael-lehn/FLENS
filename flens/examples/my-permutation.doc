@@ -1,0 +1,32 @@
+=============================
+Defining a Permutation Matrix                                            [TOC]
+=============================
+
+In this example we show how you can define your own general matrix type and
+support the matrix-vector product and matrix-matrix product for it.  The matrix
+type we define represents a _permutation_.
+
+Our Permutation Matrix
+======================
+The permutation is derived from `GeneralMatrix` and we define functions
+`blas::mv` and `blas::mm` for it.
+  :import: flens/examples/permutation.h
+
+Example
+=======
+That's it.  Now we just use it.
+  :import: flens/examples/permutation.cc
+
+Let's compile and run
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  g++ -Wall -std=c++11 -I../.. permutation.cc                            |
+  |  ./a.out                                                                |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+
+:navigate: __up__    -> doc:flens/examples/tutorial
+           __back__  -> doc:flens/examples/my-symatrix
