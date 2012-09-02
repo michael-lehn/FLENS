@@ -51,4 +51,8 @@
 #include <flens/storage/fullstorage/isfullstorage.h>
 #include <flens/storage/fullstorage/trapezoidalfill.h>
 
+#include <flens/storage/tinyarray/tinyarray.h>
+#include <flens/storage/tinyarray/tinyarrayview.h>
+#include <flens/storage/tinyarray/tinyconstarrayview.h>
+
 #endif // FLENS_STORAGE_STORAGE_H

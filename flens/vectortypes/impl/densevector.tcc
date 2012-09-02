@@ -79,7 +79,7 @@ DenseVector<A>::DenseVector(const Engine &engine, bool reverse)
 
 template <typename A>
 DenseVector<A>::DenseVector(const DenseVector &rhs)
-    : Vector<DenseVector>(), _array(rhs._array), _reverse(false)
+    : Vector<DenseVector>(), _array(rhs._array), _reverse(rhs._reverse)
 {
 }
 
@@ -105,7 +105,7 @@ DenseVector<A>::DenseVector(const Vector<RHS> &rhs)
     assign(rhs, *this);
 }
 
-// -- operators --------------------------------------------------------
+//-- operators -----------------------------------------------------------------
 template <typename A>
 typename DenseVector<A>::Initializer
 DenseVector<A>::operator=(const ElementType &value)

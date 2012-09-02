@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,11 +30,41 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_VECTORTYPES_IMPL_IMPL_TCC
-#define FLENS_VECTORTYPES_IMPL_IMPL_TCC 1
+#ifndef FLENS_STORAGE_TINYARRAY_TINYCONSTARRAYVIEW_H
+#define FLENS_STORAGE_TINYARRAY_TINYCONSTARRAYVIEW_H 1
 
-#include <flens/vectortypes/impl/densevector.tcc>
-#include <flens/vectortypes/impl/tinyvector.tcc>
-#include <flens/vectortypes/impl/vectorclosure.tcc>
+namespace flens {
 
-#endif // FLENS_VECTORTYPES_IMPL_IMPL_TCC
+template <typename T, int n, int inc, int indexBase=1>
+class TinyConstArrayView
+{
+    public:
+        typedef T    ElementType;
+        typedef int  IndexType;
+
+        static const int length = n;
+        static const int stride = inc;
+        static const int firstIndex = indexBase;
+        static const int lastIndex = firstIndex+length-1;
+
+        TinyConstArrayView(const ElementType *data);
+
+        ~TinyConstArrayView();
+
+        //-- operators ---------------------------------------------------------
+
+        const ElementType &
+        operator()(IndexType index) const;
+
+        //-- methods -----------------------------------------------------------
+
+        const ElementType *
+        data() const;
+
+    private:
+        const ElementType *_data;
+};
+
+} // namespace flens
+
+#endif // FLENS_STORAGE_TINYARRAY_TINYCONSTARRAYVIEW_H

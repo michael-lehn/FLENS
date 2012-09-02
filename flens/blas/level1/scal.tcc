@@ -47,6 +47,8 @@
 
 namespace flens { namespace blas {
 
+//-- BLAS Level 1 extensions ---------------------------------------------------
+
 //-- scal
 template <typename ALPHA, typename VY>
 typename RestrictTo<IsDenseVector<VY>::value,
@@ -65,6 +67,24 @@ scal(const ALPHA &alpha, VY &&y)
     FLENS_BLASLOG_END;
     FLENS_BLASLOG_UNSETTAG;
 }
+
+//-- scal
+template <typename ALPHA, typename VY>
+typename RestrictTo<IsTinyVector<VY>::value,
+         void>::Type
+scal(const ALPHA &alpha, VY &&y)
+{
+    typedef typename RemoveRef<VY>::Type   VectorY;
+    typedef typename VectorY::ElementType  TY;
+
+    const int n    = VectorY::Engine::length;
+    const int incY = VectorY::Engine::stride;
+
+    cxxblas::scal<n, ALPHA, TY, incY>(alpha, y.data());
+}
+
+
+//-- BLAS Level 1 extensions ---------------------------------------------------
 
 //-- gescal
 template <typename ALPHA, typename MB>

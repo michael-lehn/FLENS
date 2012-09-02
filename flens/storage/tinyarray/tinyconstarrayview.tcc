@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,11 +30,40 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_VECTORTYPES_IMPL_IMPL_TCC
-#define FLENS_VECTORTYPES_IMPL_IMPL_TCC 1
+#ifndef FLENS_STORAGE_TINYARRAY_TINYCONSTARRAYVIEW_TCC
+#define FLENS_STORAGE_TINYARRAY_TINYCONSTARRAYVIEW_TCC 1
 
-#include <flens/vectortypes/impl/densevector.tcc>
-#include <flens/vectortypes/impl/tinyvector.tcc>
-#include <flens/vectortypes/impl/vectorclosure.tcc>
+namespace flens {
 
-#endif // FLENS_VECTORTYPES_IMPL_IMPL_TCC
+template <typename T, int n, int inc, int indexBase>
+TinyConstArrayView<T,n,inc,indexBase>::TinyConstArrayView(const ElementType *d)
+    : _data(d)
+{
+}
+
+template <typename T, int n, int inc, int indexBase>
+TinyConstArrayView<T,n,inc,indexBase>::~TinyConstArrayView()
+{
+}
+
+//-- operators -----------------------------------------------------------------
+
+template <typename T, int n, int inc, int indexBase>
+const typename TinyConstArrayView<T,n,inc,indexBase>::ElementType &
+TinyConstArrayView<T,n,inc,indexBase>::operator()(IndexType index) const
+{
+    return _data[inc*(index-indexBase)];
+}
+
+//-- methods -------------------------------------------------------------------
+
+template <typename T, int n, int inc, int indexBase>
+const typename TinyConstArrayView<T,n,inc,indexBase>::ElementType *
+TinyConstArrayView<T,n,inc,indexBase>::data() const
+{
+    return _data;
+}
+
+} // namespace flens
+
+#endif // FLENS_STORAGE_TINYARRAY_TINYCONSTARRAYVIEW_TCC

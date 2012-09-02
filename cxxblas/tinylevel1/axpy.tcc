@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,11 +30,31 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_VECTORTYPES_IMPL_IMPL_TCC
-#define FLENS_VECTORTYPES_IMPL_IMPL_TCC 1
+#ifndef CXXBLAS_TINYLEVEL1_AXPY_TCC
+#define CXXBLAS_TINYLEVEL1_AXPY_TCC 1
 
-#include <flens/vectortypes/impl/densevector.tcc>
-#include <flens/vectortypes/impl/tinyvector.tcc>
-#include <flens/vectortypes/impl/vectorclosure.tcc>
+#include <cxxblas/typedefs.h>
 
-#endif // FLENS_VECTORTYPES_IMPL_IMPL_TCC
+namespace cxxblas {
+
+template <int n, typename ALPHA, typename X, typename Y>
+void
+axpy(const ALPHA &alpha, const X x[n], Y y[n])
+{
+    for (int i=0; i<n; ++i) {
+        y[i] += alpha*x[i];
+    }
+}
+
+template <int n, typename ALPHA, typename X, int incX, typename Y, int incY>
+void
+axpy(const ALPHA &alpha, const X *x, Y *y)
+{
+    for (int i=0, iX=0, iY=0; i<n; ++i, iX+=incX, iY+=incY) {
+        y[iY] += alpha*x[iX];
+    }
+}
+
+} // namespace cxxblas
+
+#endif // CXXBLAS_TINYLEVEL1_AXPY_TCC

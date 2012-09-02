@@ -30,33 +30,63 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_BLAS_LEVEL1_RSCAL_H
-#define FLENS_BLAS_LEVEL1_RSCAL_H 1
+#ifndef FLENS_STORAGE_TINYARRAY_TINYARRAYVIEW_TCC
+#define FLENS_STORAGE_TINYARRAY_TINYARRAYVIEW_TCC 1
 
-#include <flens/matrixtypes/matrixtypes.h>
-#include <flens/vectortypes/vectortypes.h>
+namespace flens {
 
-namespace flens { namespace blas {
+template <typename T, int n, int inc, int indexBase>
+TinyArrayView<T,n,inc,indexBase>::TinyArrayView(ElementType *data)
+    : _data(data)
+{
+}
 
-//-- BLAS Level 1 extensions ---------------------------------------------------
+template <typename T, int n, int inc, int indexBase>
+TinyArrayView<T,n,inc,indexBase>::~TinyArrayView()
+{
+}
 
-//-- rscal
-template <typename ALPHA, typename VY>
-    typename RestrictTo<IsDenseVector<VY>::value,
-             void>::Type
-    rscal(const ALPHA &alpha, VY &&y);
+//-- operators -----------------------------------------------------------------
 
-//-- rscal
-template <typename ALPHA, typename VY>
-    typename RestrictTo<IsTinyVector<VY>::value,
-             void>::Type
-    rscal(const ALPHA &alpha, VY &&y);
+template <typename T, int n, int inc, int indexBase>
+const typename TinyArrayView<T,n,inc,indexBase>::ElementType &
+TinyArrayView<T,n,inc,indexBase>::operator()(IndexType index) const
+{
+    return _data[inc*(index-indexBase)];
+}
 
-template <typename ALPHA, typename MB>
-    typename RestrictTo<IsGeMatrix<MB>::value,
-             void>::Type
-    rscal(const ALPHA &alpha, MB &&B);
+template <typename T, int n, int inc, int indexBase>
+typename TinyArrayView<T,n,inc,indexBase>::ElementType &
+TinyArrayView<T,n,inc,indexBase>::operator()(IndexType index)
+{
+    return _data[inc*(index-indexBase)];
+}
 
-} } // namespace blas, flens
+//-- methods -------------------------------------------------------------------
 
-#endif // FLENS_BLAS_LEVEL1_SCAL_H
+template <typename T, int n, int inc, int indexBase>
+const typename TinyArrayView<T,n,inc,indexBase>::ElementType *
+TinyArrayView<T,n,inc,indexBase>::data() const
+{
+    return _data;
+}
+
+template <typename T, int n, int inc, int indexBase>
+typename TinyArrayView<T,n,inc,indexBase>::ElementType *
+TinyArrayView<T,n,inc,indexBase>::data()
+{
+    return _data;
+}
+
+template <typename T, int n, int inc, int indexBase>
+void
+TinyArrayView<T,n,inc,indexBase>::fill(const ElementType &value)
+{
+    for (int i=0, I=0; i<n; ++i, I+=inc) {
+        _data[I] = value;
+    }
+}
+
+} // namespace flens
+
+#endif // FLENS_STORAGE_TINYARRAY_TINYARRAYVIEW_TCC

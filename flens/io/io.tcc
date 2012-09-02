@@ -38,5 +38,6 @@
 #include <flens/io/coordstorage/out.tcc>
 #include <flens/io/crs/out.tcc>
 #include <flens/io/fullstorage/out.tcc>
+#include <flens/io/tinyarray/out.tcc>
 
 #endif // FLENS_IO_IO_TCC

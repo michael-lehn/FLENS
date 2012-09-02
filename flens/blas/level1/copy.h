@@ -50,6 +50,14 @@ template <typename VX, typename VY>
              void>::Type
     copy(const VX &x, VY &&y);
 
+//-- copy
+template <typename VX, typename VY>
+    typename RestrictTo<IsTinyVector<VX>::value
+                     && IsTinyVector<VY>::value,
+             void>::Type
+    copy(const VX &x, VY &&y);
+
+
 //-- BLAS Level 1 extensions ---------------------------------------------------
 
 //-- gecopy

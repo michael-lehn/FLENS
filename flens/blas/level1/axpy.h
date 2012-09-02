@@ -41,12 +41,24 @@
 
 namespace flens { namespace blas {
 
+//-- BLAS Level 1 extensions ---------------------------------------------------
+
 //-- axpy
 template <typename ALPHA, typename VX, typename VY>
     typename RestrictTo<IsDenseVector<VX>::value
                      && IsDenseVector<VY>::value,
              void>::Type
     axpy(const ALPHA &alpha, const VX &x, VY &&y);
+
+//-- axpy
+template <typename ALPHA, typename VX, typename VY>
+    typename RestrictTo<IsTinyVector<VX>::value
+                     && IsTinyVector<VY>::value,
+             void>::Type
+    axpy(const ALPHA &alpha, const VX &x, VY &&y);
+
+
+//-- BLAS Level 1 extensions ---------------------------------------------------
 
 //-- geaxpy
 template <typename ALPHA, typename MA, typename MB>

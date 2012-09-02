@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2010, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,11 +30,32 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_VECTORTYPES_IMPL_IMPL_TCC
-#define FLENS_VECTORTYPES_IMPL_IMPL_TCC 1
+#ifndef FLENS_IO_TINYARRAY_OUT_TCC
+#define FLENS_IO_TINYARRAY_OUT_TCC 1
 
-#include <flens/vectortypes/impl/densevector.tcc>
-#include <flens/vectortypes/impl/tinyvector.tcc>
-#include <flens/vectortypes/impl/vectorclosure.tcc>
+#include <flens/io/tinyarray/out.h>
 
-#endif // FLENS_VECTORTYPES_IMPL_IMPL_TCC
+namespace flens {
+
+template <typename A>
+std::ostream &
+operator<<(std::ostream &out, const TinyVector<A> &x)
+{
+    typedef typename TinyVector<A>::IndexType IndexType;
+
+    out << std::endl;
+    //out.setf(std::ios::fixed);
+    for (IndexType i=x.firstIndex(); i<=x.lastIndex(); ++i) {
+        out.width(11);
+        out << x(i) << " ";
+        if (i!=x.lastIndex()) {
+            out << " ";
+        }
+    }
+    out << std::endl;
+    return out;
+}
+
+} // namespace flens
+
+#endif // FLENS_IO_TINYARRAY_OUT_TCC

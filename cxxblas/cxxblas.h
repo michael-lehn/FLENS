@@ -45,4 +45,6 @@
 
 #include <cxxblas/sparselevel2/sparselevel2.h>
 
+#include <cxxblas/tinylevel1/tinylevel1.h>
+
 #endif // CXXBLAS_CXXBLAS_H

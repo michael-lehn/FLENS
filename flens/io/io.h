@@ -38,5 +38,6 @@
 #include <flens/io/coordstorage/out.h>
 #include <flens/io/crs/out.h>
 #include <flens/io/fullstorage/out.h>
+#include <flens/io/tinyarray/out.h>
 
 #endif // FLENS_IO_IO_H

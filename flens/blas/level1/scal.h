@@ -38,11 +38,21 @@
 
 namespace flens { namespace blas {
 
+//-- BLAS Level 1 extensions ---------------------------------------------------
+
 //-- scal
 template <typename ALPHA, typename VY>
     typename RestrictTo<IsDenseVector<VY>::value,
              void>::Type
     scal(const ALPHA &alpha, VY &&y);
+
+//-- scal
+template <typename ALPHA, typename VY>
+    typename RestrictTo<IsTinyVector<VY>::value,
+             void>::Type
+    scal(const ALPHA &alpha, VY &&y);
+
+//-- BLAS Level 1 extensions ---------------------------------------------------
 
 //-- gescal
 template <typename ALPHA, typename MB>

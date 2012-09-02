@@ -46,4 +46,8 @@
 #include <flens/storage/fullstorage/fullstorage.tcc>
 #include <flens/storage/fullstorage/trapezoidalfill.tcc>
 
+#include <flens/storage/tinyarray/tinyarray.tcc>
+#include <flens/storage/tinyarray/tinyarrayview.tcc>
+#include <flens/storage/tinyarray/tinyconstarrayview.tcc>
+
 #endif // FLENS_STORAGE_STORAGE_TCC

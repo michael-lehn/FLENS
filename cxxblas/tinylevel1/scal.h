@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,11 +30,17 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_VECTORTYPES_IMPL_IMPL_TCC
-#define FLENS_VECTORTYPES_IMPL_IMPL_TCC 1
+#ifndef CXXBLAS_TINYLEVEL1_SCAL_H
+#define CXXBLAS_TINYLEVEL1_SCAL_H 1
 
-#include <flens/vectortypes/impl/densevector.tcc>
-#include <flens/vectortypes/impl/tinyvector.tcc>
-#include <flens/vectortypes/impl/vectorclosure.tcc>
+#include <cxxblas/typedefs.h>
 
-#endif // FLENS_VECTORTYPES_IMPL_IMPL_TCC
+namespace cxxblas {
+
+template <int n, typename ALPHA, typename Y, int incY>
+    void
+    scal(const ALPHA &alpha, Y *y);
+
+} // namespace cxxblas
+
+#endif // CXXBLAS_TINYLEVEL1_SCAL_H

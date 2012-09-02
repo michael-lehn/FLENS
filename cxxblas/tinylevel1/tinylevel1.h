@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,11 +30,12 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_VECTORTYPES_IMPL_IMPL_TCC
-#define FLENS_VECTORTYPES_IMPL_IMPL_TCC 1
+#ifndef CXXBLAS_TINYLEVEL1_TINYLEVEL1_H
+#define CXXBLAS_TINYLEVEL1_TINYLEVEL1_H 1
 
-#include <flens/vectortypes/impl/densevector.tcc>
-#include <flens/vectortypes/impl/tinyvector.tcc>
-#include <flens/vectortypes/impl/vectorclosure.tcc>
+#include <cxxblas/tinylevel1/axpy.h>
+#include <cxxblas/tinylevel1/copy.h>
+#include <cxxblas/tinylevel1/rscal.h>
+#include <cxxblas/tinylevel1/scal.h>
 
-#endif // FLENS_VECTORTYPES_IMPL_IMPL_TCC
+#endif // CXXBLAS_TINYLEVEL1_TINYLEVEL1_H

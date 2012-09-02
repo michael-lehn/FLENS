@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,11 +30,50 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_VECTORTYPES_IMPL_IMPL_TCC
-#define FLENS_VECTORTYPES_IMPL_IMPL_TCC 1
+#ifndef FLENS_STORAGE_TINYARRAY_TINYARRAYVIEW_H
+#define FLENS_STORAGE_TINYARRAY_TINYARRAYVIEW_H 1
 
-#include <flens/vectortypes/impl/densevector.tcc>
-#include <flens/vectortypes/impl/tinyvector.tcc>
-#include <flens/vectortypes/impl/vectorclosure.tcc>
+namespace flens {
 
-#endif // FLENS_VECTORTYPES_IMPL_IMPL_TCC
+template <typename T, int n, int inc, int indexBase=1>
+class TinyArrayView
+{
+    public:
+        typedef T    ElementType;
+        typedef int  IndexType;
+
+        static const int length = n;
+        static const int stride = inc;
+        static const int firstIndex = indexBase;
+        static const int lastIndex = firstIndex+length-1;
+
+        TinyArrayView(ElementType *data);
+
+        ~TinyArrayView();
+
+        //-- operators ---------------------------------------------------------
+
+        const ElementType &
+        operator()(IndexType index) const;
+
+        ElementType &
+        operator()(IndexType index);
+
+        //-- methods -----------------------------------------------------------
+
+        const ElementType *
+        data() const;
+
+        ElementType *
+        data();
+
+        void
+        fill(const ElementType &value = ElementType(0));
+
+    private:
+        ElementType *_data;
+};
+
+} // namespace flens
+
+#endif // FLENS_STORAGE_TINYARRAY_TINYARRAYVIEW_H
