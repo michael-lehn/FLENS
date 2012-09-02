@@ -38,6 +38,8 @@
 #include <flens/matrixtypes/general/impl/ge/constelementclosure.h>
 #include <flens/matrixtypes/general/impl/ge/elementclosure.h>
 #include <flens/matrixtypes/general/impl/ge/initializer.h>
+#include <flens/matrixtypes/general/impl/imagmatrixclosure.h>
+#include <flens/matrixtypes/general/impl/realmatrixclosure.h>
 #include <flens/scalartypes/impl/indexvariable.h>
 #include <flens/typedefs.h>
 
@@ -420,6 +422,32 @@ struct IsComplexGeMatrix
     static const bool value = IsGeMatrix<TT>::value
                            && IsComplex<typename TT::ElementType>::value;
 };
+
+//-- GeMatrix specific functions -----------------------------------------------
+
+//
+//  imag
+//
+template <typename MZ>
+    ImagConstMatrixClosure<GeMatrix<MZ> >
+    imag(const GeMatrix<MZ> &Z);
+
+template <typename MZ>
+    typename RestrictTo<IsGeMatrix<MZ>::value,
+             ImagMatrixClosure<MZ> >::Type
+    imag(MZ &&Z);
+
+//
+//  real
+//
+template <typename MZ>
+    RealConstMatrixClosure<GeMatrix<MZ> >
+    real(const GeMatrix<MZ> &Z);
+
+template <typename MZ>
+    typename RestrictTo<IsGeMatrix<MZ>::value,
+             RealMatrixClosure<MZ> >::Type
+    real(MZ &&Z);
 
 } // namespace flens
 

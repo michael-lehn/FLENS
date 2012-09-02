@@ -1,0 +1,50 @@
+=====================================
+Element-wise Matrix/Vector Operations                                   [TOC]
+=====================================
+
+For-Loops provides the easiest, most readable and most efficient way to do
+element-wise operations.  However, in the case of matrices this requires
+you to order loops depending on row and column major storage.  In FLENS you
+can use special _index variables_ to iterate over a general or triangular
+matrix the best order.
+
+Example for GeMatrix
+====================
+:import: flens/examples/gematrix-indexvariable.cc [stripped, downloadable]
+
+Some notes
+ :import: flens/examples/gematrix-indexvariable.cc [brief]
+
+So check out the results
+ *--[SHELL]-------------------------------------------------------------------*
+ |                                                                            |
+ |  cd flens/examples                                                         |
+ |  g++ -Wall -std=c++11 -I../.. gematrix-indexvariable.cc                    |
+ |  ./a.out                                                                   |
+ |                                                                            |
+ *----------------------------------------------------------------------------*
+
+
+Example for TrMatrix, SyMatrix, HeMatrix
+========================================
+:import: flens/examples/trmatrix-indexvariable.cc [stripped, downloadable]
+
+Some notes
+ :import: flens/examples/trmatrix-indexvariable.cc [brief]
+
+So check out the results
+ *--[SHELL]-------------------------------------------------------------------*
+ |                                                                            |
+ |  cd flens/examples                                                         |
+ |  g++ -Wall -std=c++11 -I../.. trmatrix-indexvariable.cc                    |
+ |  ./a.out                                                                   |
+ |                                                                            |
+ *----------------------------------------------------------------------------*
+
+
+
+
+:navigate: __up__    -> doc:flens/examples/tutorial
+           __back__  -> doc:flens/examples/tut01-page05
+           __next__  -> doc:flens/examples/tut01-page07
+

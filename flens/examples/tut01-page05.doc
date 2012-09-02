@@ -1,0 +1,67 @@
+============================
+Complex Vectors and Matrices                                            [TOC]
+============================
+
+When you are working with complex vectors and matrices dealing with real and
+imaginary parts is a common task.  The following is supported in FLENS:
+
+- For complex valued dense vectors you can create real valued dense vectors
+  that reference the real or imaginary vector parts.  This is possible as
+  as a dense vector reference can reference elements that are separated by
+  a constant stride.
+- For complex valued matrices of type `GeMatrix` we support copying the real
+  and imaginary parts to a real valued matrix and vice versa.  Note that
+  it is not possible that a `GeMatrix` view can be used to reference the real
+  or imaginary part of a complex valued `GeMatrix`:
+    - If a `GeMatrix` stores elements in row major order then row elements
+      must be contiguously in memory.  However, complete rows can be separated
+      by a constant stride.
+    - If a `GeMatrix` stores elements in col major order then column elements
+      must be contiguously in memory.  However, complete columns can be
+      separated by a constant stride.
+  If you have complex elements and want to reference only the real or imaginary
+  part there always will be gaps.  So a new matrix type is defined for this
+  case.  However, BLAS functionality for this type is limited to `copy`.
+
+
+Complex Vectors
+===============
+:import: flens/examples/complex-densevector-views.cc [stripped, downloadable]
+
+So some notes about what is going on
+:import: flens/examples/complex-densevector-views.cc [brief]
+
+So let's compile and run the example:
+
+ *--[SHELL]-------------------------------------------------------------------*
+ |                                                                            |
+ |  cd flens/examples                                                         |
+ |  g++ -Wall -std=c++11 -I../.. complex-densevector-views.cc                 |
+ |  ./a.out                                                                   |
+ |                                                                            |
+ *----------------------------------------------------------------------------*
+
+
+Complex Matrices
+================
+:import: flens/examples/complex-gematrix-views.cc [stripped, downloadable]
+
+So some notes about what is going on
+:import: flens/examples/complex-gematrix-views.cc [brief]
+
+So let's compile and run the example:
+
+ *--[SHELL]-------------------------------------------------------------------*
+ |                                                                            |
+ |  cd flens/examples                                                         |
+ |  g++ -Wall -std=c++11 -I../.. complex-gematrix-views.cc                    |
+ |  ./a.out                                                                   |
+ |                                                                            |
+ *----------------------------------------------------------------------------*
+
+
+
+:navigate: __up__    -> doc:flens/examples/tutorial
+           __back__  -> doc:flens/examples/tut01-page04
+           __next__  -> doc:flens/examples/tut01-page06
+

@@ -1219,3 +1219,76 @@ Related Trait-Classes
 
 
 
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MZ>                                                   |
+|      ImagConstMatrixClosure<GeMatrix<MZ> >                                |
+|      imag(const GeMatrix<MZ> &Z);                                         |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@FT@>1#Timag#&1>@N@flens@CT>1#T@GeMatrix]
+                         [1t0.0#templatetypenameMZImagConstMatrixClosureGeMa]
+                         [trixMZ                                            ]
+
+    Defined in namespace `flens`.
+    Function `imag` with 1 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MZ>                                                   |
+|      typename RestrictTo<IsGeMatrix<MZ>::value,                           |
+|               ImagMatrixClosure<MZ> >::Type                               |
+|      imag(MZ &&Z);                                                        |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@FT@>1#Timag#&t0.0#templatetypenameMZtyp]
+                         [enameRestrictToIsGeMatrixMZvalue,ImagMatrixClosure]
+                         [MZType                                            ]
+
+    Defined in namespace `flens`.
+    Function `imag` with 1 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MZ>                                                   |
+|      RealConstMatrixClosure<GeMatrix<MZ> >                                |
+|      real(const GeMatrix<MZ> &Z);                                         |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@FT@>1#Treal#&1>@N@flens@CT>1#T@GeMatrix]
+                         [1t0.0#templatetypenameMZRealConstMatrixClosureGeMa]
+                         [trixMZ                                            ]
+
+    Defined in namespace `flens`.
+    Function `real` with 1 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MZ>                                                   |
+|      typename RestrictTo<IsGeMatrix<MZ>::value,                           |
+|               RealMatrixClosure<MZ> >::Type                               |
+|      real(MZ &&Z);                                                        |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@FT@>1#Treal#&t0.0#templatetypenameMZtyp]
+                         [enameRestrictToIsGeMatrixMZvalue,RealMatrixClosure]
+                         [MZType                                            ]
+
+    Defined in namespace `flens`.
+    Function `real` with 1 template parameters.
+
+
+

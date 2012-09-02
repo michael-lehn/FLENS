@@ -33,9 +33,9 @@
 #ifndef FLENS_STORAGE_STORAGE_TCC
 #define FLENS_STORAGE_STORAGE_TCC 1
 
-#include <flens/storage/array/constarrayview.tcc>
-#include <flens/storage/array/arrayview.tcc>
 #include <flens/storage/array/array.tcc>
+#include <flens/storage/array/arrayview.tcc>
+#include <flens/storage/array/constarrayview.tcc>
 
 #include <flens/storage/ccs/ccs.tcc>
 #include <flens/storage/coordstorage/coordstorage.tcc>

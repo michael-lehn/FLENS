@@ -36,7 +36,7 @@
 #include <cmath>
 #include <cxxblas/auxiliary/complex.h>
 #include <flens/auxiliary/auxiliary.h>
-#include <flens/scalaroperations/cos.h>
+#include <flens/scalaroperations/abs.h>
 #include <flens/scalartypes/impl/scalarclosure.h>
 
 namespace flens {

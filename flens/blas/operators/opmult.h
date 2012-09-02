@@ -53,39 +53,31 @@ template <typename VX, typename VY>
 //-- scalar-vector products ----------------------------------------------------
 // alpha*x
 template <typename ALPHA, typename V>
-    const typename RestrictTo<
-            IsConvertible<ALPHA, typename V::Impl::ElementType>::value ||
-            IsConvertible<typename V::Impl::ElementType, ALPHA>::value,
-            VectorClosure<OpMult, ScalarValue<ALPHA>, typename V::Impl>
-        >::Type
+    const typename RestrictTo<!IsMatrix<ALPHA>::value
+                           && !IsVector<ALPHA>::value,
+          VectorClosure<OpMult, ScalarValue<ALPHA>, typename V::Impl> >::Type
     operator*(const ALPHA &alpha, const Vector<V> &x);
 
 // x*alpha
 template <typename ALPHA, typename V>
-    const typename RestrictTo<
-            IsConvertible<ALPHA, typename V::Impl::ElementType>::value
-         || IsConvertible<typename V::Impl::ElementType, ALPHA>::value,
-            VectorClosure<OpMult, ScalarValue<ALPHA>, typename V::Impl>
-        >::Type
+    const typename RestrictTo<!IsMatrix<ALPHA>::value
+                           && !IsVector<ALPHA>::value,
+          VectorClosure<OpMult, ScalarValue<ALPHA>, typename V::Impl> >::Type
     operator*(const Vector<V> &x, const ALPHA &alpha);
 
 //-- scalar-matrix products ----------------------------------------------------
 // alpha*A
 template <typename ALPHA, typename M>
-    const typename RestrictTo<
-            IsConvertible<ALPHA, typename M::Impl::ElementType>::value ||
-            IsConvertible<typename M::Impl::ElementType, ALPHA>::value,
-            MatrixClosure<OpMult, ScalarValue<ALPHA>, typename M::Impl>
-        >::Type
+    const typename RestrictTo<!IsMatrix<ALPHA>::value
+                           && !IsVector<ALPHA>::value,
+          MatrixClosure<OpMult, ScalarValue<ALPHA>, typename M::Impl> >::Type
     operator*(const ALPHA &alpha, const Matrix<M> &A);
 
 // A*alpha
 template <typename ALPHA, typename M>
-    const typename RestrictTo<
-            IsConvertible<ALPHA, typename M::Impl::ElementType>::value ||
-            IsConvertible<typename M::Impl::ElementType, ALPHA>::value,
-            MatrixClosure<OpMult, ScalarValue<ALPHA>, typename M::Impl>
-        >::Type
+    const typename RestrictTo<!IsMatrix<ALPHA>::value
+                           && !IsVector<ALPHA>::value,
+          MatrixClosure<OpMult, ScalarValue<ALPHA>, typename M::Impl> >::Type
     operator*(const Matrix<M> &A, const ALPHA &alpha);
 
 //-- matrix-vector products ----------------------------------------------------

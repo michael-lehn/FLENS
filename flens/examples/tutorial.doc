@@ -24,6 +24,9 @@ Session: General Matrix with Full Storage
  |                existing C-array copying the C-array. The latter is very   |
  |                useful for interfacing with other libraries.               |
  |  __Page 4__    We introduce dense vectors.                                |
+ |  __Page 5__    Working with complex vectors and matrices.                 |
+ |  __Page 6__    Element-wise matrix/vector operations.                     |
+ |  __Page 7__    How FLENS ensures const-correctness and MTL4 not.          |
  |                                                                           |
  *---------------------------------------------------------------------------*
 
@@ -47,6 +50,8 @@ Session:  BLAS, CXXBLAS, FLENS-BLAS and Overloaded Operators
  |                operations.                                                |
  |  __Page 4__    How FLENS helps you avoiding the creation of temporaries   |
  |                when evaluation linear algebra expressions.                |
+ |  __Page 5__    Equivalence of __FLENS-BLAS__ and overloaded operation     |
+ |                notation.                                                  |
  |                                                                           |
  *---------------------------------------------------------------------------*
 

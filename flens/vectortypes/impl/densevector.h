@@ -36,10 +36,14 @@
 
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/scalartypes/scalar.h>
-#include <flens/vectortypes/vector.h>
+#include <flens/vectortypes/auxiliary/imagvector.h>
+#include <flens/vectortypes/auxiliary/realvector.h>
+#include <flens/storage/array/imagarray.h>
+#include <flens/storage/array/realarray.h>
 #include <flens/vectortypes/impl/dv/constelementclosure.h>
 #include <flens/vectortypes/impl/dv/elementclosure.h>
 #include <flens/vectortypes/impl/dv/initializer.h>
+#include <flens/vectortypes/vector.h>
 
 namespace flens {
 
@@ -307,6 +311,62 @@ struct IsComplexDenseVector
     static const bool value = IsDenseVector<TT>::value
                            && IsComplex<typename TT::ElementType>::value;
 };
+
+//
+//   ImagVector
+//
+
+template <typename VZ>
+struct ImagVector<DenseVector<VZ> >
+{
+    typedef typename ImagArray<VZ>::ConstView   ConstViewEngine;
+    typedef typename ImagArray<VZ>::View        ViewEngine;
+    typedef DenseVector<ConstViewEngine>        ConstView;
+    typedef DenseVector<ViewEngine>             View;
+};
+
+//
+//   RealVector
+//
+
+template <typename VZ>
+struct RealVector<DenseVector<VZ> >
+{
+    typedef typename RealArray<VZ>::ConstView   ConstViewEngine;
+    typedef typename RealArray<VZ>::View        ViewEngine;
+    typedef DenseVector<ConstViewEngine>        ConstView;
+    typedef DenseVector<ViewEngine>             View;
+};
+
+//-- DenseVector specific functions --------------------------------------------
+
+//
+//  imag
+//
+
+template <typename VZ>
+    typename ImagVector<DenseVector<VZ> >::ConstView
+    imag(const DenseVector<VZ> &z);
+
+template <typename VZ>
+    typename RestrictTo<IsDenseVector<VZ>::value,
+             typename ImagVector<typename RemoveRef<VZ>::Type>::View>::Type
+    imag(VZ &&z);
+
+
+//
+//  real
+//
+
+template <typename VZ>
+    typename RealVector<DenseVector<VZ> >::ConstView
+    real(const DenseVector<VZ> &z);
+
+template <typename VZ>
+    typename RestrictTo<IsDenseVector<VZ>::value,
+             typename RealVector<typename RemoveRef<VZ>::Type>::View>::Type
+    real(VZ &&z);
+
 
 } // namespace flens
 

@@ -37,6 +37,7 @@
 #include <flens/matrixtypes/triangular/triangularmatrix.h>
 #include <flens/matrixtypes/triangular/impl/tr/constelementclosure.h>
 #include <flens/matrixtypes/triangular/impl/tr/elementclosure.h>
+#include <flens/scalartypes/impl/indexvariable.h>
 #include <flens/typedefs.h>
 
 namespace flens {

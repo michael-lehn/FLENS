@@ -37,5 +37,7 @@
 #include <flens/matrixtypes/general/impl/gecoordmatrix.tcc>
 #include <flens/matrixtypes/general/impl/gecrsmatrix.tcc>
 #include <flens/matrixtypes/general/impl/gematrix.tcc>
+#include <flens/matrixtypes/general/impl/imagmatrixclosure.tcc>
+#include <flens/matrixtypes/general/impl/realmatrixclosure.tcc>
 
 #endif // FLENS_MATRIXTYPES_GENERAL_IMPL_IMPL_TCC

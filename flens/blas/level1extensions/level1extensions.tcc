@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,14 +30,10 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_MATRIXTYPES_GENERAL_IMPL_IMPL_H
-#define FLENS_MATRIXTYPES_GENERAL_IMPL_IMPL_H 1
+#ifndef FLENS_BLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_TCC
+#define FLENS_BLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_TCC 1
 
-#include <flens/matrixtypes/general/impl/geccsmatrix.h>
-#include <flens/matrixtypes/general/impl/gecoordmatrix.h>
-#include <flens/matrixtypes/general/impl/gecrsmatrix.h>
-#include <flens/matrixtypes/general/impl/gematrix.h>
-#include <flens/matrixtypes/general/impl/imagmatrixclosure.h>
-#include <flens/matrixtypes/general/impl/realmatrixclosure.h>
+#include <flens/blas/level1extensions/copy/imagmatrixclosure.tcc>
+#include <flens/blas/level1extensions/copy/realmatrixclosure.tcc>
 
-#endif // FLENS_MATRIXTYPES_GENERAL_IMPL_IMPL_H
+#endif // FLENS_BLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_TCC 1

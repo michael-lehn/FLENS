@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,14 +30,49 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_MATRIXTYPES_GENERAL_IMPL_IMPL_H
-#define FLENS_MATRIXTYPES_GENERAL_IMPL_IMPL_H 1
+#ifndef FLENS_MATRIXTYPES_GENERAL_IMPL_REALMATRIXCLOSURE_H
+#define FLENS_MATRIXTYPES_GENERAL_IMPL_REALMATRIXCLOSURE_H 1
 
-#include <flens/matrixtypes/general/impl/geccsmatrix.h>
-#include <flens/matrixtypes/general/impl/gecoordmatrix.h>
-#include <flens/matrixtypes/general/impl/gecrsmatrix.h>
-#include <flens/matrixtypes/general/impl/gematrix.h>
-#include <flens/matrixtypes/general/impl/imagmatrixclosure.h>
-#include <flens/matrixtypes/general/impl/realmatrixclosure.h>
+#include <flens/auxiliary/removeref.h>
+#include <flens/matrixtypes/general/generalmatrix.h>
 
-#endif // FLENS_MATRIXTYPES_GENERAL_IMPL_IMPL_H
+namespace flens {
+
+template <typename MZ>
+struct RealMatrixClosure
+    : public GeneralMatrix<RealMatrixClosure<MZ> >
+{
+    typedef typename RemoveRef<MZ>::Type    MatrixZ;
+    typedef typename MatrixZ::ElementType   ElementType;
+    typedef typename MatrixZ::IndexType     IndexType;
+
+    RealMatrixClosure(MZ &&Z);
+
+    template <typename RHS>
+        void
+        operator=(const Matrix<RHS> &rhs);
+
+    MZ &&_Z;
+};
+
+template <typename MZ>
+struct RealConstMatrixClosure
+    : public GeneralMatrix<RealConstMatrixClosure<MZ> >
+{
+    typedef typename MZ::ElementType   ElementType;
+    typedef typename MZ::IndexType     IndexType;
+
+    RealConstMatrixClosure(const MZ &Z);
+
+    template <typename RHS>
+        void
+        operator=(const Matrix<RHS> &rhs);
+
+    const MZ &_Z;
+};
+
+
+} // namespace flens
+
+#endif // FLENS_MATRIXTYPES_GENERAL_IMPL_REALMATRIXCLOSURE_H
+

@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,14 +30,46 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_MATRIXTYPES_GENERAL_IMPL_IMPL_H
-#define FLENS_MATRIXTYPES_GENERAL_IMPL_IMPL_H 1
+#ifndef FLENS_STORAGE_ARRAY_REALARRAY_H
+#define FLENS_STORAGE_ARRAY_REALARRAY_H 1
 
-#include <flens/matrixtypes/general/impl/geccsmatrix.h>
-#include <flens/matrixtypes/general/impl/gecoordmatrix.h>
-#include <flens/matrixtypes/general/impl/gecrsmatrix.h>
-#include <flens/matrixtypes/general/impl/gematrix.h>
-#include <flens/matrixtypes/general/impl/imagmatrixclosure.h>
-#include <flens/matrixtypes/general/impl/realmatrixclosure.h>
+#include <complex>
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/storage/array/array.h>
+#include <flens/storage/array/arrayview.h>
+#include <flens/storage/array/constarrayview.h>
 
-#endif // FLENS_MATRIXTYPES_GENERAL_IMPL_IMPL_H
+namespace flens {
+
+template <typename A>
+struct RealArray
+{
+};
+
+template <typename T, typename I, typename A>
+struct RealArray<Array<T, I, A> >
+{
+    typedef typename ComplexTrait<T>::PrimitiveType   PT;
+    typedef ConstArrayView<PT, I, A>                  ConstView;
+    typedef ArrayView<PT, I, A>                       View;
+};
+
+template <typename T, typename I, typename A>
+struct RealArray<ArrayView<T, I, A> >
+{
+    typedef typename ComplexTrait<T>::PrimitiveType   PT;
+    typedef ConstArrayView<PT, I, A>                  ConstView;
+    typedef ArrayView<PT, I, A>                       View;
+};
+
+template <typename T, typename I, typename A>
+struct RealArray<ConstArrayView<T, I, A> >
+{
+    typedef typename ComplexTrait<T>::PrimitiveType   PT;
+    typedef ConstArrayView<PT, I, A>                  ConstView;
+    typedef ArrayView<PT, I, A>                       View;
+};
+
+} // namespace flens
+
+#endif // FLENS_STORAGE_ARRAY_REALARRAY_H

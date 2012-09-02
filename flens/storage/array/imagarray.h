@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,14 +30,42 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_MATRIXTYPES_GENERAL_IMPL_IMPL_H
-#define FLENS_MATRIXTYPES_GENERAL_IMPL_IMPL_H 1
+#ifndef FLENS_STORAGE_ARRAY_IMAGARRAY_H
+#define FLENS_STORAGE_ARRAY_IMAGARRAY_H 1
 
-#include <flens/matrixtypes/general/impl/geccsmatrix.h>
-#include <flens/matrixtypes/general/impl/gecoordmatrix.h>
-#include <flens/matrixtypes/general/impl/gecrsmatrix.h>
-#include <flens/matrixtypes/general/impl/gematrix.h>
-#include <flens/matrixtypes/general/impl/imagmatrixclosure.h>
-#include <flens/matrixtypes/general/impl/realmatrixclosure.h>
+#include <complex>
+#include <flens/storage/array/array.h>
+#include <flens/storage/array/arrayview.h>
+#include <flens/storage/array/constarrayview.h>
 
-#endif // FLENS_MATRIXTYPES_GENERAL_IMPL_IMPL_H
+namespace flens {
+
+template <typename A>
+struct ImagArray
+{
+};
+
+template <typename PT, typename I, typename A>
+struct ImagArray<Array<std::complex<PT>, I, A> >
+{
+    typedef ConstArrayView<PT, I, A>                  ConstView;
+    typedef ArrayView<PT, I, A>                       View;
+};
+
+template <typename PT, typename I, typename A>
+struct ImagArray<ArrayView<std::complex<PT>, I, A> >
+{
+    typedef ConstArrayView<PT, I, A>                  ConstView;
+    typedef ArrayView<PT, I, A>                       View;
+};
+
+template <typename PT, typename I, typename A>
+struct ImagArray<ConstArrayView<std::complex<PT>, I, A> >
+{
+    typedef ConstArrayView<PT, I, A>                  ConstView;
+    typedef ArrayView<PT, I, A>                       View;
+};
+
+} // namespace flens
+
+#endif // FLENS_STORAGE_ARRAY_IMAGARRAY_H

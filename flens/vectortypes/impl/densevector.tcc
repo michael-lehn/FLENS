@@ -442,6 +442,85 @@ DenseVector<A>::reversed() const
     return _reverse;
 }
 
+//-- DenseVector specific functions --------------------------------------------
+
+//
+//  real
+//
+
+template <typename VZ>
+typename RealVector<DenseVector<VZ> >::ConstView
+real(const DenseVector<VZ> &z)
+{
+    typedef typename RealVector<DenseVector<VZ> >::ConstViewEngine  Engine;
+    typedef typename VZ::ElementType                                T;
+    typedef typename Engine::ElementType                            PT;
+
+    static_assert(sizeof(T)%sizeof(PT)==0, "Are you kidding me?");
+
+    return Engine(z.length(),
+                  reinterpret_cast<const PT *>(z.data()),
+                  z.stride()*sizeof(T)/sizeof(PT),
+                  z.firstIndex());
+}
+
+template <typename VZ>
+typename RestrictTo<IsDenseVector<VZ>::value,
+         typename RealVector<typename RemoveRef<VZ>::Type>::View>::Type
+real(VZ &&z)
+{
+    typedef typename RemoveRef<VZ>::Type                VectorZ;
+    typedef typename RealVector<VectorZ>::ViewEngine    Engine;
+    typedef typename VectorZ::ElementType               T;
+    typedef typename Engine::ElementType                PT;
+
+    static_assert(sizeof(T)%sizeof(PT)==0, "Are you kidding me?");
+
+    return Engine(z.length(),
+                  reinterpret_cast<PT *>(z.data()),
+                  z.stride()*sizeof(T)/sizeof(PT),
+                  z.firstIndex());
+}
+
+//
+//  imag
+//
+
+template <typename VZ>
+typename ImagVector<DenseVector<VZ> >::ConstView
+imag(const DenseVector<VZ> &z)
+{
+    typedef typename ImagVector<DenseVector<VZ> >::ConstViewEngine  Engine;
+    typedef typename VZ::ElementType                                T;
+    typedef typename Engine::ElementType                            PT;
+
+    static_assert(sizeof(T)==2*sizeof(PT), "Are you kidding me?");
+
+    return Engine(z.length(),
+                  reinterpret_cast<const PT *>(z.data()) + 1,
+                  2*z.stride(),
+                  z.firstIndex());
+}
+
+template <typename VZ>
+typename RestrictTo<IsDenseVector<VZ>::value,
+         typename ImagVector<typename RemoveRef<VZ>::Type>::View>::Type
+imag(VZ &&z)
+{
+    typedef typename RemoveRef<VZ>::Type                VectorZ;
+    typedef typename ImagVector<VectorZ>::ViewEngine    Engine;
+    typedef typename VectorZ::ElementType               T;
+    typedef typename Engine::ElementType                PT;
+
+    static_assert(sizeof(T)%sizeof(PT)==0, "Are you kidding me?");
+
+    return Engine(z.length(),
+                  reinterpret_cast<PT *>(z.data()) + 1,
+                  2*z.stride(),
+                  z.firstIndex());
+}
+
+
 } // namespace flens
 
 #endif // FLENS_VECTORTYPES_IMPL_DENSEVECTOR_TCC

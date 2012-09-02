@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,14 +30,42 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_MATRIXTYPES_GENERAL_IMPL_IMPL_H
-#define FLENS_MATRIXTYPES_GENERAL_IMPL_IMPL_H 1
+#ifndef FLENS_MATRIXTYPES_GENERAL_IMPL_IMAGMATRIXCLOSURE_TCC
+#define FLENS_MATRIXTYPES_GENERAL_IMPL_IMAGMATRIXCLOSURE_TCC 1
 
-#include <flens/matrixtypes/general/impl/geccsmatrix.h>
-#include <flens/matrixtypes/general/impl/gecoordmatrix.h>
-#include <flens/matrixtypes/general/impl/gecrsmatrix.h>
-#include <flens/matrixtypes/general/impl/gematrix.h>
+#include <flens/blas/assign.h>
 #include <flens/matrixtypes/general/impl/imagmatrixclosure.h>
-#include <flens/matrixtypes/general/impl/realmatrixclosure.h>
 
-#endif // FLENS_MATRIXTYPES_GENERAL_IMPL_IMPL_H
+namespace flens {
+
+template <typename MZ>
+ImagMatrixClosure<MZ>::ImagMatrixClosure(MZ &&Z)
+    : _Z(Z)
+{
+}
+
+template <typename MZ>
+template <typename RHS>
+void
+ImagMatrixClosure<MZ>::operator=(const Matrix<RHS> &rhs)
+{
+    assign(rhs, *this);
+}
+
+template <typename MZ>
+ImagConstMatrixClosure<MZ>::ImagConstMatrixClosure(const MZ &Z)
+    : _Z(Z)
+{
+}
+
+template <typename MZ>
+template <typename RHS>
+void
+ImagConstMatrixClosure<MZ>::operator=(const Matrix<RHS> &rhs)
+{
+    assign(rhs, *this);
+}
+
+} // namespace flens
+
+#endif // FLENS_MATRIXTYPES_GENERAL_IMPL_IMAGMATRIXCLOSURE_TCC

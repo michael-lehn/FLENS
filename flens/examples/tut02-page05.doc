@@ -1,0 +1,74 @@
+=======================================
+Overloaded Operators VS. Function Calls                                  [TOC]
+=======================================
+
+There are two aspects:
+ - Overloaded operators provide an expressive notation for mathematical
+   operations.
+ - Function calls have the advantage that you exactly know what is going on
+   and how the computation gets done.
+
+In FLENS overloaded operators just provide a convenient notation for BLAS.  But
+both are equivalent.  We first show an implementation of the conjugated gradient
+method that uses overloaded operators.  Then we show an implementation that
+calls the BLAS functions directly.
+
+Using the __previously__ introduced debug mode you can check yourself that
+both implementations are doing exactly the same.  It's basically a matter of
+taste and background what variant is more favorable for you.
+
+
+Conjugated Gradient Method with Overloaded Operators
+====================================================
+The following implementation is almost identical to the pseudo-code of the
+algorithm.
+
+  :import: flens/examples/cg.h [downloadable, stripped]
+
+
+Conjugated Gradient Method with Explicit Function Calls
+=======================================================
+This is the same algorithm but we call the BLAS functions explicitly:
+
+  :import: flens/examples/cg_blas.h [downloadable, stripped]
+
+Let's check the equivalence of overloaded operation notation and explicit
+function calls step-by-step:
+
+  :import: flens/examples/cg_blas.h [brief]
+
+
+Test Example
+============
+:import: flens/examples/symatrix-cg.cc [downloadable, stripped]
+
+
+Compile and Run
+===============
+Just to check, we use both variants of the cg-method:
+
+ - Using the variant with overloaded operators:
+
+   *--[SHELL]---------------------------------------------------------------*
+   |                                                                        |
+   |  cd flens/examples                                                     |
+   |  g++ -Wall -std=c++11 -I../.. symatrix-cg.cc                           |
+   |  ./a.out                                                               |
+   |                                                                        |
+   *------------------------------------------------------------------------*
+
+ - Using the variant with explicit function calls:
+
+   *--[SHELL]---------------------------------------------------------------*
+   |                                                                        |
+   |  cd flens/examples                                                     |
+   |  g++ -Wall -std=c++11 -DUSE_CG_BLAS -I../.. symatrix-cg.cc             |
+   |  ./a.out                                                               |
+   |                                                                        |
+   *------------------------------------------------------------------------*
+
+
+:links: previously   -> doc:flens/examples/tut02-page04
+
+:navigate: __up__    -> doc:flens/examples/tutorial
+           __back__  -> doc:flens/examples/tut02-page04

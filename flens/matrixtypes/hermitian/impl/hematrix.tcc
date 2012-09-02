@@ -274,14 +274,14 @@ template <typename FS>
 typename HeMatrix<FS>::ConstGeneralView
 HeMatrix<FS>::general() const
 {
-    return _engine;
+    return ConstGeneralView(_engine);
 }
 
 template <typename FS>
 typename HeMatrix<FS>::GeneralView
 HeMatrix<FS>::general()
 {
-    return _engine;
+    return GeneralView(_engine);
 }
 
 // symmetric views

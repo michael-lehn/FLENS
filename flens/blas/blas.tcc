@@ -35,6 +35,7 @@
 #include <flens/blas/assign.tcc>
 #include <flens/blas/closures/closures.tcc>
 #include <flens/blas/level1/level1.tcc>
+#include <flens/blas/level1extensions/level1extensions.tcc>
 #include <flens/blas/level2/level2.tcc>
 #include <flens/blas/level3/level3.tcc>
 #include <flens/blas/operators/operators.tcc>

@@ -689,6 +689,44 @@ GeMatrix<FS>::engine()
     return _engine;
 }
 
+//-- GeMatrix specific functions -----------------------------------------------
+
+//
+//  imag
+//
+template <typename MZ>
+ImagConstMatrixClosure<GeMatrix<MZ> >
+imag(const GeMatrix<MZ> &Z)
+{
+    return Z;
+}
+
+template <typename MZ>
+typename RestrictTo<IsGeMatrix<MZ>::value,
+         ImagMatrixClosure<MZ> >::Type
+imag(MZ &&Z)
+{
+    return Z;
+}
+
+//
+//  real
+//
+template <typename MZ>
+RealConstMatrixClosure<GeMatrix<MZ> >
+real(const GeMatrix<MZ> &Z)
+{
+    return Z;
+}
+
+template <typename MZ>
+typename RestrictTo<IsGeMatrix<MZ>::value,
+         RealMatrixClosure<MZ> >::Type
+real(MZ &&Z)
+{
+    return Z;
+}
+
 } // namespace flens
 
 #endif // FLENS_MATRIXTYPES_GENERAL_IMPL_GEMATRIX_TCC

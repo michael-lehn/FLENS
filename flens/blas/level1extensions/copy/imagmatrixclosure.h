@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,14 +30,32 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_MATRIXTYPES_GENERAL_IMPL_IMPL_H
-#define FLENS_MATRIXTYPES_GENERAL_IMPL_IMPL_H 1
+#ifndef FLENS_BLAS_LEVEL1EXTENSIONS_COPY_IMAGMATRIXCLOSURE_H
+#define FLENS_BLAS_LEVEL1EXTENSIONS_COPY_IMAGMATRIXCLOSURE_H 1
 
-#include <flens/matrixtypes/general/impl/geccsmatrix.h>
-#include <flens/matrixtypes/general/impl/gecoordmatrix.h>
-#include <flens/matrixtypes/general/impl/gecrsmatrix.h>
+#include <flens/auxiliary/restrictto.h>
 #include <flens/matrixtypes/general/impl/gematrix.h>
 #include <flens/matrixtypes/general/impl/imagmatrixclosure.h>
-#include <flens/matrixtypes/general/impl/realmatrixclosure.h>
 
-#endif // FLENS_MATRIXTYPES_GENERAL_IMPL_IMPL_H
+namespace flens { namespace blas {
+
+// ImagMatrixClosure -> GeMatrix
+template <typename MA, typename MB>
+    typename RestrictTo<IsGeMatrix<MB>::value,
+             void>::Type
+    copy(Transpose trans, const ImagMatrixClosure<MA> &A, MB &&B);
+
+// ImagConstMatrixClosure -> GeMatrix
+template <typename MA, typename MB>
+    typename RestrictTo<IsGeMatrix<MB>::value,
+             void>::Type
+    copy(Transpose trans, const ImagConstMatrixClosure<MA> &A, MB &&B);
+
+// GeMatrix -> ImagMatrixClosure
+template <typename MA, typename MB>
+    void
+    copy(Transpose trans, const GeMatrix<MA> &A, ImagMatrixClosure<MB> &B);
+
+} } // namespace blas, flens
+
+#endif // FLENS_BLAS_LEVEL1EXTENSIONS_COPY_IMAGMATRIXCLOSURE_H

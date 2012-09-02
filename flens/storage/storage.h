@@ -35,9 +35,11 @@
 
 #include <flens/storage/indexoptions.h>
 
-#include <flens/storage/array/constarrayview.h>
-#include <flens/storage/array/arrayview.h>
 #include <flens/storage/array/array.h>
+#include <flens/storage/array/arrayview.h>
+#include <flens/storage/array/constarrayview.h>
+#include <flens/storage/array/imagarray.h>
+#include <flens/storage/array/realarray.h>
 
 #include <flens/storage/ccs/ccs.h>
 #include <flens/storage/coordstorage/coordstorage.h>

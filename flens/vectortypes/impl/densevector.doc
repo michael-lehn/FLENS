@@ -794,3 +794,76 @@ Related Trait-Classes
 
 
 
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename VZ>                                                   |
+|      typename ImagVector<DenseVector<VZ> >::ConstView                     |
+|      imag(const DenseVector<VZ> &z);                                      |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@FT@>1#Timag#&1>@N@flens@CT>1#T@DenseVec]
+                         [tor1t0.0#templatetypenameVZtypenameImagVectorDense]
+                         [VectorVZConstView                                 ]
+
+    Defined in namespace `flens`.
+    Function `imag` with 1 template parameters.
+
+
+
+*--[CODEREF]--------------------------------------------------------------------*
+|                                                                               |
+|  template <typename VZ>                                                       |
+|      typename RestrictTo<IsDenseVector<VZ>::value,                            |
+|               typename ImagVector<typename RemoveRef<VZ>::Type>::View>::Type  |
+|      imag(VZ &&z);                                                            |
+|                                                                               |
+*-------------------------------------------------------------------------------*
+                           [c:@N@flens@FT@>1#Timag#&t0.0#templatetypenameVZtypen]
+                           [ameRestrictToIsDenseVectorVZvalue,typenameImagVector]
+                           [typenameRemoveRefVZTypeViewType                     ]
+
+    Defined in namespace `flens`.
+    Function `imag` with 1 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename VZ>                                                   |
+|      typename RealVector<DenseVector<VZ> >::ConstView                     |
+|      real(const DenseVector<VZ> &z);                                      |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@FT@>1#Treal#&1>@N@flens@CT>1#T@DenseVec]
+                         [tor1t0.0#templatetypenameVZtypenameRealVectorDense]
+                         [VectorVZConstView                                 ]
+
+    Defined in namespace `flens`.
+    Function `real` with 1 template parameters.
+
+
+
+*--[CODEREF]--------------------------------------------------------------------*
+|                                                                               |
+|  template <typename VZ>                                                       |
+|      typename RestrictTo<IsDenseVector<VZ>::value,                            |
+|               typename RealVector<typename RemoveRef<VZ>::Type>::View>::Type  |
+|      real(VZ &&z);                                                            |
+|                                                                               |
+*-------------------------------------------------------------------------------*
+                           [c:@N@flens@FT@>1#Treal#&t0.0#templatetypenameVZtypen]
+                           [ameRestrictToIsDenseVectorVZvalue,typenameRealVector]
+                           [typenameRemoveRefVZTypeViewType                     ]
+
+    Defined in namespace `flens`.
+    Function `real` with 1 template parameters.
+
+
+
