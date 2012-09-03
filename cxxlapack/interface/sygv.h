@@ -44,7 +44,7 @@ template <typename IndexType>
           IndexType             n,
           float                 *A,
           IndexType             ldA,
-          float                 *B;
+          float                 *B,
           IndexType             ldB,
           float                 *w,
           float                 *work,
@@ -57,7 +57,7 @@ template <typename IndexType>
           IndexType             n,
           double                *A,
           IndexType             ldA,
-          double                *B;
+          double                *B,
           IndexType             ldB,
           double                *w,
           double                *work,

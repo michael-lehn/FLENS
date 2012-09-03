@@ -38,6 +38,9 @@
 #include <fstream>
 
 #include <cxxblas/typedefs.h>
+#include <flens/io/packedstorage/load.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
 
 namespace flens {
 

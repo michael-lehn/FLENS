@@ -1,6 +1,6 @@
 /*
  *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
- *
+view *
  *   All rights reserved.
  *
  *   Redistribution and use in source and binary forms, with or without
@@ -33,8 +33,8 @@
 #ifndef FLENS_STORAGE_PACKEDSTORAGE_PACKEDSTORAGE_TCC
 #define FLENS_STORAGE_PACKEDSTORAGE_PACKEDSTORAGE_TCC
 
-#include <cxxblas/level1/copy.h>
 #include <flens/auxiliary/auxiliary.h>
+#include <flens/storage/packedstorage/packedstorage.h>
 #include <flens/typedefs.h>
 
 namespace flens {

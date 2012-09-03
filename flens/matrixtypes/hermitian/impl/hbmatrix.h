@@ -34,12 +34,19 @@
 #define FLENS_MATRIXTYPES_HERMITIAN_IMPL_HBMATRIX_H 1
 
 #include <cxxblas/typedefs.h>
-#include <flens/typedefs.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/matrixtypes/hermitian/hermitianmatrix.h>
+#include <flens/typedefs.h>
 
 namespace flens {
 
 // forward declarations
+template <typename A>
+    class DenseVector;
+
+template <typename FS>
+    class GbMatrix;
+
 template <typename FS>
     class SbMatrix;
 
@@ -68,6 +75,10 @@ class HbMatrix
         typedef DenseVector<ConstArrayView>         ConstVectorView;
         typedef DenseVector<ArrayView>              VectorView;
         typedef DenseVector<Array>                  Vector;
+
+        typedef GbMatrix<EngineConstView>           ConstGeneralView;
+        typedef GbMatrix<EngineView>                GeneralView;
+        typedef GbMatrix<EngineNoView>              GeneralNoView;
 
         typedef HbMatrix<EngineConstView>           ConstView;
         typedef HbMatrix<EngineView>                View;
@@ -141,11 +152,11 @@ class HbMatrix
         // -- views ------------------------------------------------------------
 
         // general views
-        ConstView
-        hermitian() const;
+        ConstGeneralView
+        general() const;
 
-        View
-        hermitian();
+        GeneralView
+        general();
 
         // symmetric view
         ConstSymmetricView

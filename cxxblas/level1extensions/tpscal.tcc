@@ -35,6 +35,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 

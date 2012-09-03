@@ -34,6 +34,8 @@
 #define FLENS_AUXILIARY_RANDOMVALUE_H 1
 
 #include <flens/auxiliary/iscomplex.h>
+#include <flens/auxiliary/isreal.h>
+#include <flens/auxiliary/restrictto.h>
 
 namespace flens {
 

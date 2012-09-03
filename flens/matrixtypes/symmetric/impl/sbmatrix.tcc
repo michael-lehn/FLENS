@@ -34,7 +34,7 @@
 #define FLENS_MATRIXTYPES_SYMMETRIC_IMPL_SBMATRIX_TCC 1
 
 #include <flens/matrixtypes/general/impl/gematrix.h>
-#include <flens/matrixtypes/symmetric/impl/symatrix.h>
+#include <flens/matrixtypes/symmetric/impl/sbmatrix.h>
 #include <flens/typedefs.h>
 
 namespace flens {

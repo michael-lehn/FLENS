@@ -453,13 +453,15 @@ SyMatrix<FS>::resize(IndexType dim, IndexType firstIndex,
 
 template <typename FS>
 bool
-<<<<<<< HEAD
 SyMatrix<FS>::resize(IndexType dim, StorageUpLo upLo, IndexType firstIndex,
                      const ElementType &value)
 {
     _upLo = upLo;
     return _engine.resize(dim, dim, firstIndex, firstIndex, value);
-=======
+}
+
+template <typename FS>
+bool
 SyMatrix<FS>::fill(const ElementType &value)
 {
     return _engine.fill(_upLo, value);
@@ -470,7 +472,6 @@ bool
 SyMatrix<FS>::fillRandom()
 {
     return _engine.fillRandom(_upLo);
->>>>>>> c3aca46232611d35a7be046ab07a64ab0dcda1db
 }
 
 // -- implementation -----------------------------------------------------------

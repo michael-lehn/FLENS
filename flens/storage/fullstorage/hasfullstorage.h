@@ -38,6 +38,8 @@
 
 namespace flens {
 
+namespace fullstorage {
+
 template <typename T, bool>
 struct _GetEngine
 {
@@ -50,10 +52,13 @@ struct _GetEngine<T, true>
     typedef typename T::Engine Type;
 };
 
+} // namespace fullstorage
+
 template <typename T>
 struct HasFullStorage
 {
-    typedef typename _GetEngine<T, HasEngine<T>::value>::Type  Engine;
+    static const bool hasEngine = HasEngine<T>::value;
+    typedef typename fullstorage::_GetEngine<T, hasEngine>::Type  Engine;
     static const bool value = IsFullStorage<Engine>::value;
 };
 

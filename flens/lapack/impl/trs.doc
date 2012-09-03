@@ -57,7 +57,8 @@ Single Right-Hand Side
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
 |  template <typename MA, typename VPIV, typename VB>                       |
-|      typename RestrictTo<IsGeMatrix<MA>::value                            |
+|      typename RestrictTo< (IsGeMatrix<MA>::value ||                       |
+|                            IsGbMatrix<MA>::value )                        |
 |                       && IsIntegerDenseVector<VPIV>::value                |
 |                       && IsDenseVector<VB>::value,                        |
 |               void>::Type                                                 |
@@ -66,9 +67,7 @@ Single Right-Hand Side
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@lapack@FT@>3#T#T#Ttrs#$@N@cxxblas@E@T]
                          [ranspose#&1t0.0#&1t0.1#&t0.2#templatetypenameMA,ty]
-                         [penameVPIV,typenameVBtypenameRestrictToIsGeMatrixM]
-                         [AvalueandIsIntegerDenseVectorVPIVvalueandIsDenseVe]
-                         [ctorVBvalue,voidType                              ]
+                         [penameVPIV,typenameVBtypenameRestrictTo           ]
 
     trans    `(input) bool`                                                    +
              Solve $AX=B$, $A^T X=B$ or $A^H X = B$
@@ -116,7 +115,9 @@ Single Right-Hand Side
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
 |  template <typename MA, typename VB>                                      |
-|      typename RestrictTo<IsTrMatrix<MA>::value                            |
+|      typename RestrictTo< (IsTrMatrix<MA>::value ||                       |
+|                            IsTbMatrix<MA>::value ||                       |
+|                            IsTpMatrix<MA>::value)                         |
 |                       && IsDenseVector<VB>::value,                        |
 |               typename RemoveRef<MA>::Type::IndexType>::Type              |
 |      trs(Transpose trans, const MA &A, VB &&b);                           |
@@ -124,10 +125,9 @@ Single Right-Hand Side
 *---------------------------------------------------------------------------*
                          [c:@N@flens@N@lapack@FT@>2#T#Ttrs#$@N@cxxblas@E@Tra]
                          [nspose#&1t0.0#&t0.1#templatetypenameMA,typenameVBt]
-                         [ypenameRestrictToIsTrMatrixMAvalueandIsDenseVector]
-                         [VBvalue,typenameRemoveRefMATypeIndexTypeType      ]
+                         [ypenameRestrictTo                                 ]
 
-    trans    `(input) bool`                                                    +
+   trans    `(input) bool`                                                    +
              Solve $AX=B$, $A^T X=B$ or $A^H X = B$
     A        `(input) real or complex valued TrMatrix`                         +
              The $n \times n$ triangular matrix.
@@ -147,3 +147,172 @@ Notes
         (d.+)        -> file:cxxlapack/netlib/lapack/$1.f
         (z.+)        -> file:cxxlapack/netlib/lapack/$1.f
         (.+)         -> doc:flens/lapack/impl/$1
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV, typename VB>                       |
+|      typename RestrictTo< (IsHeMatrix<MA>::value ||                       |
+|                            IsSyMatrix<MA>::value ||                       |
+|                            IsHpMatrix<MA>::value ||                       |
+|                            IsSpMatrix<MA>::value )                        |
+|                       && IsIntegerDenseVector<VPIV>::value                |
+|                       && IsDenseVector<VB>::value,                        |
+|               void>::Type                                                 |
+|      trs(const MA &A, const VPIV &piv, VB &&b);                           |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>3#T#T#Ttrs#&1t0.0#&1t0.1#&]
+                         [t0.2#templatetypenameMA,typenameVPIV,typenameVBtyp]
+                         [enameRestrictTo                                   ]
+
+    Defined in namespace `flens::lapack`.
+    Function `trs` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV, typename MB>                       |
+|      typename RestrictTo<IsHeMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value                |
+|                       && IsComplexGeMatrix<MB>::value,                    |
+|               void>::Type                                                 |
+|      trs(const MA &A, const VPIV &piv, MB &&B);                           |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>3#T#T#Ttrs#&1t0.0#&1t0.1#&]
+                         [t0.2#templatetypenameMA,typenameVPIV,typenameMBtyp]
+                         [enameRestrictToIsHeMatrixMAvalueandIsIntegerDenseV]
+                         [ectorVPIVvalueandIsComplexGeMatrixMBvalue,voidType]
+
+    Defined in namespace `flens::lapack`.
+    Function `trs` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV, typename MB>                       |
+|      typename RestrictTo<IsSyMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value                |
+|                       && IsGeMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      trs(const MA &A, const VPIV &piv, MB &&B);                           |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>3#T#T#Ttrs#&1t0.0#&1t0.1#&]
+                         [t0.2#templatetypenameMA,typenameVPIV,typenameMBtyp]
+                         [enameRestrictToIsSyMatrixMAvalueandIsIntegerDenseV]
+                         [ectorVPIVvalueandIsGeMatrixMBvalue,voidType       ]
+
+    Defined in namespace `flens::lapack`.
+    Function `trs` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV, typename MB>                       |
+|      typename RestrictTo<IsGbMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value                |
+|                       && IsGeMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      trs(Transpose trans, const MA &A, const VPIV &piv, MB &&B);          |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>3#T#T#Ttrs#$@N@cxxblas@E@T]
+                         [ranspose#&1t0.0#&1t0.1#&t0.2#templatetypenameMA,ty]
+                         [penameVPIV,typenameMBtypenameRestrictToIsGbMatrixM]
+                         [AvalueandIsIntegerDenseVectorVPIVvalueandIsGeMatri]
+                         [xMBvalue,voidType                                 ]
+
+    Defined in namespace `flens::lapack`.
+    Function `trs` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsTbMatrix<MA>::value                            |
+|                       && IsGeMatrix<MB>::value,                           |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      trs(Transpose trans, const MA &A, MB &&B);                           |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>2#T#Ttrs#$@N@cxxblas@E@Tra]
+                         [nspose#&1t0.0#&t0.1#templatetypenameMA,typenameMBt]
+                         [ypenameRestrictToIsTbMatrixMAvalueandIsGeMatrixMBv]
+                         [alue,typenameRemoveRefMATypeIndexTypeType         ]
+
+    Defined in namespace `flens::lapack`.
+    Function `trs` with 2 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV, typename MB>                       |
+|      typename RestrictTo<IsHpMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value                |
+|                       && IsComplexGeMatrix<MB>::value,                    |
+|               void>::Type                                                 |
+|      trs(const MA &A, const VPIV &piv, MB &&B);                           |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>3#T#T#Ttrs#&1t0.0#&1t0.1#&]
+                         [t0.2#templatetypenameMA,typenameVPIV,typenameMBtyp]
+                         [enameRestrictToIsHpMatrixMAvalueandIsIntegerDenseV]
+                         [ectorVPIVvalueandIsComplexGeMatrixMBvalue,voidType]
+
+    Defined in namespace `flens::lapack`.
+    Function `trs` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV, typename MB>                       |
+|      typename RestrictTo<IsSpMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value                |
+|                       && IsGeMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      trs(const MA &A, const VPIV &piv, MB &&B);                           |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>3#T#T#Ttrs#&1t0.0#&1t0.1#&]
+                         [t0.2#templatetypenameMA,typenameVPIV,typenameMBtyp]
+                         [enameRestrictToIsSpMatrixMAvalueandIsIntegerDenseV]
+                         [ectorVPIVvalueandIsGeMatrixMBvalue,voidType       ]
+
+    Defined in namespace `flens::lapack`.
+    Function `trs` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsTpMatrix<MA>::value                            |
+|                       && IsGeMatrix<MB>::value,                           |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      trs(Transpose trans, const MA &A, MB &&B);                           |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>2#T#Ttrs#$@N@cxxblas@E@Tra]
+                         [nspose#&1t0.0#&t0.1#templatetypenameMA,typenameMBt]
+                         [ypenameRestrictToIsTpMatrixMAvalueandIsGeMatrixMBv]
+                         [alue,typenameRemoveRefMATypeIndexTypeType         ]
+
+    Defined in namespace `flens::lapack`.
+    Function `trs` with 2 template parameters.
+
+
+

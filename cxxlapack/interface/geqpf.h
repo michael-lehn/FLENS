@@ -51,11 +51,11 @@ template <typename IndexType>
     IndexType
     geqpf(IndexType    m,
           IndexType    n,
-          float        *A,
+          double       *A,
           IndexType    ldA,
           IndexType    *jPvt,
-          float        *tau,
-          float        *work);
+          double       *tau,
+          double       *work);
 
 template <typename IndexType>
     IndexType

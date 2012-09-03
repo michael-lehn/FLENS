@@ -493,3 +493,86 @@ Densify: SyCRSMatrix to SyMatrix
     B        `(output) real or complex valued SyMatrix`                        +
              Symmetric matrix $B$ in full storage format.
 
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsTbMatrix<MA>::value                            |
+|                       && IsTbMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      copy(Transpose trans, const MA &A, MB &&B);                          |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#$@N@cxxblas@E@Tran]
+                         [spose#&1t0.0#&t0.1#templatetypenameMA,typenameMBty]
+                         [penameRestrictToIsTbMatrixMAvalueandIsTbMatrixMBva]
+                         [lue,voidType                                      ]
+
+    Defined in namespace `flens::blas`.
+    Function `copy` with 2 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsHpMatrix<MA>::value                            |
+|                       && IsHpMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      copy(Transpose trans, const MA &A, MB &&B);                          |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#$@N@cxxblas@E@Tran]
+                         [spose#&1t0.0#&t0.1#templatetypenameMA,typenameMBty]
+                         [penameRestrictToIsHpMatrixMAvalueandIsHpMatrixMBva]
+                         [lue,voidType                                      ]
+
+    Defined in namespace `flens::blas`.
+    Function `copy` with 2 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsSpMatrix<MA>::value                            |
+|                       && IsSpMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      copy(Transpose trans, const MA &A, MB &&B);                          |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#$@N@cxxblas@E@Tran]
+                         [spose#&1t0.0#&t0.1#templatetypenameMA,typenameMBty]
+                         [penameRestrictToIsSpMatrixMAvalueandIsSpMatrixMBva]
+                         [lue,voidType                                      ]
+
+    Defined in namespace `flens::blas`.
+    Function `copy` with 2 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename MB>                                      |
+|      typename RestrictTo<IsTpMatrix<MA>::value                            |
+|                       && IsTpMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      copy(Transpose trans, const MA &A, MB &&B);                          |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tcopy#$@N@cxxblas@E@Tran]
+                         [spose#&1t0.0#&t0.1#templatetypenameMA,typenameMBty]
+                         [penameRestrictToIsTpMatrixMAvalueandIsTpMatrixMBva]
+                         [lue,voidType                                      ]
+
+    Defined in namespace `flens::blas`.
+    Function `copy` with 2 template parameters.
+
+
+

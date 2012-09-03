@@ -34,6 +34,7 @@
 #define FLENS_IO_ARRAY_LOAD_TCC 1
 
 #include <fstream>
+#include <flens/io/array/load.h>
 
 namespace flens {
 
@@ -45,16 +46,17 @@ load(std::string filename, DenseVector<A> &x)
     typedef typename A::IndexType   IndexType;
     typedef typename A::ElementType ElementType;
 
-    std::ifstream ifs( filename.c_str(), std::ios::binary );
+    std::ifstream ifs(filename.c_str(), std::ios::binary);
 
-    if (ifs.is_open() == false)
+    if (ifs.is_open()==false) {
         return false;
+    }
 
-    IndexType length     ;
-    IndexType firstIndex ;
+    IndexType length;
+    IndexType firstIndex;
 
-    ifs.read( reinterpret_cast<char*>(&length), sizeof(IndexType) );
-    ifs.read( reinterpret_cast<char*>(&firstIndex), sizeof(IndexType) );
+    ifs.read(reinterpret_cast<char*>(&length), sizeof(IndexType));
+    ifs.read(reinterpret_cast<char*>(&firstIndex), sizeof(IndexType));
 
     x.resize(length, firstIndex);
 

@@ -40,6 +40,9 @@
 #include <cxxblas/typedefs.h>
 #include <flens/auxiliary/iscomplex.h>
 #include <flens/auxiliary/isinteger.h>
+#include <flens/io/packedstorage/save.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
 
 namespace flens {
 
@@ -53,26 +56,28 @@ save(std::string filename, const HpMatrix<FS> &A)
 
     std::ofstream ofs( filename.c_str(), std::ios::binary );
 
-    if (ofs.is_open() == false)
+    if (ofs.is_open()==false) {
         return false;
+    }
 
     IndexType dim = A.dim();
     IndexType firstIndex = A.firstIndex();
 
-    ofs.write( reinterpret_cast<char*>(&dim), sizeof(IndexType) );
-    ofs.write( reinterpret_cast<char*>(&firstIndex), sizeof(IndexType) );
+    ofs.write(reinterpret_cast<char*>(&dim), sizeof(IndexType));
+    ofs.write(reinterpret_cast<char*>(&firstIndex), sizeof(IndexType));
 
     for (IndexType i=A.firstIndex(); i<=A.lastIndex(); ++i) {
         for (IndexType j=A.firstIndex(); j<=i; ++j) {
             if (A.upLo()==cxxblas::Lower) {
-                ofs.write( reinterpret_cast<const char*>(&(A(i,j))), sizeof(ElementType) );
+                ofs.write(reinterpret_cast<const char*>(&(A(i,j))),
+                          sizeof(ElementType));
             } else {
                 ElementType alpha = cxxblas::conjugate(A(j,i));
-                ofs.write( reinterpret_cast<const char*>(&alpha), sizeof(ElementType) );
+                ofs.write(reinterpret_cast<const char*>(&alpha),
+                          sizeof(ElementType));
             }
         }
     }
-
     ofs.close();
     return true;
 }
@@ -87,25 +92,27 @@ save(std::string filename, const SpMatrix<FS> &A)
 
     std::ofstream ofs( filename.c_str(), std::ios::binary );
 
-    if (ofs.is_open() == false)
+    if (ofs.is_open()==false) {
         return false;
+    }
 
     IndexType dim = A.dim();
     IndexType firstIndex = A.firstIndex();
 
-    ofs.write( reinterpret_cast<char*>(&dim), sizeof(IndexType) );
-    ofs.write( reinterpret_cast<char*>(&firstIndex), sizeof(IndexType) );
+    ofs.write(reinterpret_cast<char*>(&dim), sizeof(IndexType));
+    ofs.write(reinterpret_cast<char*>(&firstIndex), sizeof(IndexType));
 
     for (IndexType i=A.firstIndex(); i<=A.lastIndex(); ++i) {
         for (IndexType j=A.firstIndex(); j<=i; ++j) {
             if (A.upLo()==cxxblas::Lower) {
-                ofs.write( reinterpret_cast<const char*>(&(A(i,j))), sizeof(ElementType) );
+                ofs.write(reinterpret_cast<const char*>(&(A(i,j))),
+                          sizeof(ElementType));
             } else {
-                ofs.write( reinterpret_cast<const char*>(&(A(j,i))), sizeof(ElementType) );
+                ofs.write(reinterpret_cast<const char*>(&(A(j,i))),
+                          sizeof(ElementType));
             }
         }
     }
-
     ofs.close();
     return true;
 }
@@ -119,41 +126,43 @@ save(std::string filename, const TpMatrix<FS> &A)
 
     std::ofstream ofs( filename.c_str(), std::ios::binary );
 
-    if (ofs.is_open() == false)
+    if (ofs.is_open()==false) {
         return false;
+    }
 
     IndexType dim = A.dim();
     IndexType firstIndex = A.firstIndex();
     StorageUpLo  upLo = A.upLo();
     Diag         diag = A.diag();
 
-    ofs.write( reinterpret_cast<char*>(&dim), sizeof(IndexType) );
-    ofs.write( reinterpret_cast<char*>(&firstIndex), sizeof(IndexType) );
-    ofs.write( reinterpret_cast<char*>(&upLo), sizeof(StorageUpLo) );
-    ofs.write( reinterpret_cast<char*>(&diag), sizeof(Diag) );
+    ofs.write(reinterpret_cast<char*>(&dim), sizeof(IndexType));
+    ofs.write(reinterpret_cast<char*>(&firstIndex), sizeof(IndexType));
+    ofs.write(reinterpret_cast<char*>(&upLo), sizeof(StorageUpLo));
+    ofs.write(reinterpret_cast<char*>(&diag), sizeof(Diag));
 
 
-    if (upLo == cxxblas::Lower) {
+    if (upLo==cxxblas::Lower) {
         for (IndexType i=A.firstIndex(); i <= A.lastIndex(); ++i){
             for (IndexType j=A.firstIndex(); j<i; ++j) {
-                ofs.write( reinterpret_cast<const char*>(&(A(i,j))), sizeof(ElementType) );
+                ofs.write(reinterpret_cast<const char*>(&(A(i,j))),
+                          sizeof(ElementType));
             }
-            if (diag == cxxblas::NonUnit)
-                ofs.write( reinterpret_cast<const char*>(&(A(i,i))), sizeof(ElementType) );
+            if (diag==cxxblas::NonUnit) {
+                ofs.write(reinterpret_cast<const char*>(&(A(i,i))),
+                          sizeof(ElementType));
+            }
         }
-    }
-    else
-    {
+    } else {
         for (IndexType i=A.firstIndex(); i <= A.lastIndex(); ++i){
-            if (diag == cxxblas::NonUnit)
-                ofs.write( reinterpret_cast<const char*>(&(A(i,i))), sizeof(ElementType) );
+            if (diag==cxxblas::NonUnit)
+                ofs.write(reinterpret_cast<const char*>(&(A(i,i))),
+                          sizeof(ElementType));
             for (IndexType j=i+1; j<=A.lastIndex(); ++j) {
-                ofs.write( reinterpret_cast<const char*>(&(A(i,j))), sizeof(ElementType) );
+                ofs.write(reinterpret_cast<const char*>(&(A(i,j))),
+                          sizeof(ElementType));
             }
-
         }
     }
-
     ofs.close();
     return true;
 }
@@ -170,23 +179,23 @@ saveMatrixMarket(std::string filename, const SpMatrix<FS> &A,
     typedef typename FS::IndexType   IndexType;
     typedef typename FS::ElementType ElementType;
 
-    std::ofstream ofs( filename.c_str(), std::ios::out );
+    std::ofstream ofs(filename.c_str(), std::ios::out);
 
-    if (ofs.is_open() == false)
+    if (ofs.is_open()==false) {
         return false;
+    }
 
-    if (IsInteger<ElementType>::value)
-      ofs << "%%MatrixMarket matrix array integer symmetric" << endl;
-    else if (IsNotComplex<ElementType>::value)
-      ofs << "%%MatrixMarket matrix array real symmetric" << endl;
-    else
-      ofs << "%%MatrixMarket matrix array complex symmetric" << endl;
+    if (IsInteger<ElementType>::value) {
+        ofs << "%%MatrixMarket matrix array integer symmetric" << endl;
+    } else if (IsNotComplex<ElementType>::value) {
+        ofs << "%%MatrixMarket matrix array real symmetric" << endl;
+    } else {
+        ofs << "%%MatrixMarket matrix array complex symmetric" << endl;
+    }
 
-    if (comment != "")
-    {
+    if (comment!="") {
         size_t j = comment.find_first_of('\n');
-        while(j != std::string::npos)
-        {
+        while (j!=std::string::npos) {
             comment.replace(j, 1, "\n% ");
             j = comment.find_first_of('\n', j+3);
         }
@@ -195,23 +204,24 @@ saveMatrixMarket(std::string filename, const SpMatrix<FS> &A,
 
     ofs << A.dim() << " " << A.dim() << endl;
 
-    for (IndexType i = A.firstIndex(); i <= A.lastIndex(); ++i)
-    {
-        for (IndexType j = i; j <= A.lastIndex(); ++j)
-        {
-            if (A.upLo() == Upper)
-            {
-              ofs << setw(precision+6) << setprecision(precision) << cxxblas::real(A(i,j));
-              if (IsComplex<ElementType>::value)
-                ofs << setw(precision+7) << setprecision(precision) << cxxblas::imag(A(i,j));
+    for (IndexType i=A.firstIndex(); i<=A.lastIndex(); ++i) {
+        for (IndexType j=i; j<=A.lastIndex(); ++j) {
+            if (A.upLo() == Upper) {
+                ofs << setw(precision+6) << setprecision(precision)
+                    << cxxblas::real(A(i,j));
+                if (IsComplex<ElementType>::value) {
+                    ofs << setw(precision+7) << setprecision(precision)
+                        << cxxblas::imag(A(i,j));
+                }
+            } else {
+                ofs << setw(precision+6) << setprecision(precision)
+                    <<  cxxblas::real(A(j,i));
+                if (IsComplex<ElementType>::value) {
+                    ofs << setw(precision+7) << setprecision(precision)
+                        << cxxblas::imag(A(j,i));
+                }
             }
-            else
-            {
-              ofs << setw(precision+6) << setprecision(precision) <<  cxxblas::real(A(j,i));
-              if (IsComplex<ElementType>::value)
-                ofs << setw(precision+7) << setprecision(precision) << cxxblas::imag(A(j,i));
-            }
-            ofs << endl;;
+            ofs << endl;
         }
     }
     ofs.close();
@@ -231,18 +241,17 @@ saveMatrixMarket(std::string filename, const HpMatrix<FS> &A,
     typedef typename FS::IndexType   IndexType;
     typedef typename FS::ElementType ElementType;
 
-    std::ofstream ofs( filename.c_str(), std::ios::out );
+    std::ofstream ofs(filename.c_str(), std::ios::out);
 
-    if (ofs.is_open() == false)
+    if (ofs.is_open()==false) {
         return false;
+    }
 
     ofs << "%%MatrixMarket matrix array complex hermitian" << endl;
 
-    if (comment != "")
-    {
+    if (comment!="") {
         size_t j = comment.find_first_of('\n');
-        while(j != std::string::npos)
-        {
+        while(j != std::string::npos) {
             comment.replace(j, 1, "\n% ");
             j = comment.find_first_of('\n', j+3);
         }
@@ -251,54 +260,32 @@ saveMatrixMarket(std::string filename, const HpMatrix<FS> &A,
 
     ofs << A.dim() << " " << A.dim() << endl;
 
-    for (IndexType i = A.firstIndex(); i <= A.lastIndex(); ++i)
-    {
-        for (IndexType j = i; j <= A.lastIndex(); ++j)
-        {
-            if (A.upLo() == Upper)
-            {
-                ofs << setw(precision+6) << setprecision(precision) <<  cxxblas::real(A(i,j));
+    for (IndexType i=A.firstIndex(); i<=A.lastIndex(); ++i) {
+        for (IndexType j=i; j<=A.lastIndex(); ++j) {
+            if (A.upLo()==Upper) {
+                ofs << setw(precision+6) << setprecision(precision)
+                    <<  cxxblas::real(A(i,j));
                 if (i == j)
                     ofs << setw(precision+7) << setprecision(precision) << 0;
                 else
-                    ofs << setw(precision+7) << setprecision(precision) << -cxxblas::imag(A(i,j));
+                    ofs << setw(precision+7) << setprecision(precision)
+                        << -cxxblas::imag(A(i,j));
 
-            }
-            else
-            {
-                ofs << setw(precision+6) << setprecision(precision) <<  cxxblas::real(A(j,i));
-                if (i == j)
+            } else {
+                ofs << setw(precision+6) << setprecision(precision)
+                    <<  cxxblas::real(A(j,i));
+                if (i==j)
                     ofs << setw(precision+7) << setprecision(precision) << 0;
                 else
-                ofs << setw(precision+7) << setprecision(precision) << cxxblas::imag(A(j,i));
+                ofs << setw(precision+7) << setprecision(precision)
+                    << cxxblas::imag(A(j,i));
             }
-            ofs << endl;;
+            ofs << endl;
         }
     }
     ofs.close();
     return true;
 
-}
-
-//-- forwarding ---------------------------------------------------------------
-template <typename MA>
-typename RestrictTo<IsHpMatrix<MA>::value ||
-                    IsSpMatrix<MA>::value ||
-                    IsTpMatrix<MA>::value,
-                    bool>::Type
-save(std::string filename, const MA &&A)
-{
-    return save(filename, A);
-}
-
-template <typename MA>
-typename RestrictTo<IsHpMatrix<MA>::value ||
-                    IsSpMatrix<MA>::value,
-                    bool>::Type
-saveMatrixMarket(std::string filename, const MA &&A,
-                 std::string comment, int precision)
-{
-    return saveMatrixMarket(filename, A, comment, precision);
 }
 
 } // namespace flens

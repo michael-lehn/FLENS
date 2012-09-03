@@ -53,3 +53,127 @@ Notes
 :links: lapack-getrf -> doc:flens/examples/tut04-page01
         (d.+)        -> file:cxxlapack/netlib/lapack/$1.f
         (z.+)        -> file:cxxlapack/netlib/lapack/$1.f
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV, typename VWORK>                    |
+|      typename RestrictTo<IsHeMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value                |
+|                       && IsComplexDenseVector<VWORK>::value,              |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      trf(MA &&A, VPIV &&piv, VWORK &&work);                               |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>3#T#T#Ttrf#&t0.0#&t0.1#&t0]
+                         [.2#templatetypenameMA,typenameVPIV,typenameVWORKty]
+                         [penameRestrictToIsHeMatrixMAvalueandIsIntegerDense]
+                         [VectorVPIVvalueandIsComplexDenseVectorVWORKvalue,t]
+                         [ypenameRemoveRefMATypeIndexTypeType               ]
+
+    Defined in namespace `flens::lapack`.
+    Function `trf` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV, typename VWORK>                    |
+|      typename RestrictTo<IsSyMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value                |
+|                       && IsDenseVector<VWORK>::value,                     |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      trf(MA &&A, VPIV &&piv, VWORK &&work);                               |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>3#T#T#Ttrf#&t0.0#&t0.1#&t0]
+                         [.2#templatetypenameMA,typenameVPIV,typenameVWORKty]
+                         [penameRestrictToIsSyMatrixMAvalueandIsIntegerDense]
+                         [VectorVPIVvalueandIsDenseVectorVWORKvalue,typename]
+                         [RemoveRefMATypeIndexTypeType                      ]
+
+    Defined in namespace `flens::lapack`.
+    Function `trf` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV>                                    |
+|      typename RestrictTo<(IsHeMatrix<MA>::value ||                        |
+|                           IsSyMatrix<MA>::value )                         |
+|                       && IsIntegerDenseVector<VPIV>::value,               |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      trf(MA &&A, VPIV &&piv);                                             |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>2#T#Ttrf#&t0.0#&t0.1#templ]
+                         [atetypenameMA,typenameVPIVtypenameRestrictTo      ]
+
+    Defined in namespace `flens::lapack`.
+    Function `trf` with 2 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV>                                    |
+|      typename RestrictTo<IsGbMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value,               |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      trf(MA &&A, VPIV &&piv);                                             |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>2#T#Ttrf#&t0.0#&t0.1#templ]
+                         [atetypenameMA,typenameVPIVtypenameRestrictToIsGbMa]
+                         [trixMAvalueandIsIntegerDenseVectorVPIVvalue,typena]
+                         [meRemoveRefMATypeIndexTypeType                    ]
+
+    Defined in namespace `flens::lapack`.
+    Function `trf` with 2 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV>                                    |
+|      typename RestrictTo<IsHpMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value,               |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      trf(MA &&A, VPIV &&piv);                                             |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>2#T#Ttrf#&t0.0#&t0.1#templ]
+                         [atetypenameMA,typenameVPIVtypenameRestrictToIsHpMa]
+                         [trixMAvalueandIsIntegerDenseVectorVPIVvalue,typena]
+                         [meRemoveRefMATypeIndexTypeType                    ]
+
+    Defined in namespace `flens::lapack`.
+    Function `trf` with 2 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV>                                    |
+|      typename RestrictTo<IsSpMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value,               |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      trf(MA &&A, VPIV &&piv);                                             |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>2#T#Ttrf#&t0.0#&t0.1#templ]
+                         [atetypenameMA,typenameVPIVtypenameRestrictToIsSpMa]
+                         [trixMAvalueandIsIntegerDenseVectorVPIVvalue,typena]
+                         [meRemoveRefMATypeIndexTypeType                    ]
+
+    Defined in namespace `flens::lapack`.
+    Function `trf` with 2 template parameters.
+
+
+

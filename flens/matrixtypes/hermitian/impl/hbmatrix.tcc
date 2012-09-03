@@ -33,8 +33,8 @@
 #ifndef FLENS_MATRIXTYPES_HERMITIAN_IMPL_HBMATRIX_TCC
 #define FLENS_MATRIXTYPES_HERMITIAN_IMPL_HBMATRIX_TCC 1
 
-#include <flens/auxiliary/auxiliary.h>
 #include <flens/blas/level1/copy.h>
+#include <flens/matrixtypes/hermitian/impl/hbmatrix.h>
 #include <flens/typedefs.h>
 
 namespace flens {
@@ -242,17 +242,17 @@ HbMatrix<FS>::operator()(IndexType row, IndexType col)
 
 // general views
 template <typename FS>
-typename HbMatrix<FS>::ConstView
-HbMatrix<FS>::hermitian() const
+typename HbMatrix<FS>::ConstGeneralView
+HbMatrix<FS>::general() const
 {
-    return ConstView(_engine, _upLo);
+    return ConstGeneralViewView(_engine, _upLo);
 }
 
 template <typename FS>
-typename HbMatrix<FS>::View
-HbMatrix<FS>::hermitian()
+typename HbMatrix<FS>::GeneralView
+HbMatrix<FS>::general()
 {
-    return View(_engine, _upLo);
+    return GeneralView(_engine, _upLo);
 }
 
 // symmetric view

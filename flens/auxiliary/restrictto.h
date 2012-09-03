@@ -33,6 +33,8 @@
 #ifndef FLENS_AUXILIARY_RESTRICTTO_H
 #define FLENS_AUXILIARY_RESTRICTTO_H 1
 
+#include <type_traits>
+
 namespace flens {
 
 template <bool b, typename T>

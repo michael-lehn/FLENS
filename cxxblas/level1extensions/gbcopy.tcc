@@ -34,6 +34,7 @@
 #define CXXBLAS_LEVEL1EXTENSIONS_GBCOPY_TCC 1
 
 #include <cassert>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 

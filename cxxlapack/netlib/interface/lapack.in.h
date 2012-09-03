@@ -18266,11 +18266,6 @@ LAPACK_IMPL(stzrzf)(const INTEGER    *M,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO);
 
-//-- xerbla --------------------------------------------------------------------
-void
-LAPACK_IMPL(xerbla)(const char       *SRNAME,
-                    const INTEGER    *INFO);
-
 //-- xerbla_array --------------------------------------------------------------
 void
 LAPACK_IMPL(xerbla_array)(const char       *SRNAME_ARRAY,

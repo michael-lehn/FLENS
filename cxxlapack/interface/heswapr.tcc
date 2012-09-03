@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HESWAPR_TCC
 #define CXXLAPACK_INTERFACE_HESWAPR_TCC
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {

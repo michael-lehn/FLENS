@@ -34,6 +34,8 @@
 #define FLENS_IO_PACKEDSTORAGE_OUT_TCC
 
 #include <cxxblas/typedefs.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
 
 namespace flens {
 

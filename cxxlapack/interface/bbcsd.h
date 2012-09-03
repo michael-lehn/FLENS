@@ -149,4 +149,3 @@ template <typename IndexType>
 } // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_BBCSD_H
-                               DUMMY

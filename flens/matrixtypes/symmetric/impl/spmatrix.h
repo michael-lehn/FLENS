@@ -34,12 +34,15 @@
 #define FLENS_MATRIXTYPES_SYMMETRIC_IMPL_SPMATRIX_H 1
 
 #include <cxxblas/typedefs.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/matrixtypes/symmetric/symmetricmatrix.h>
 #include <flens/typedefs.h>
 
 namespace flens {
 
 // forward declarations
+template <typename A>
+    class DenseVector;
 
 template <typename FS>
     class HpMatrix;

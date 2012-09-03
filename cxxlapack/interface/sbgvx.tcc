@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_SBGVX_TCC
 #define CXXLAPACK_INTERFACE_SBGVX_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {

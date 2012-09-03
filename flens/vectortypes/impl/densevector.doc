@@ -794,3 +794,23 @@ Related Trait-Classes
 
 
 
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  bool                                                                     |
+|  fillRandom();                                                            |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                            [c:@N@flens@CT>1#T@DenseVector@F@fillRandom#bool]
+
+    Defined in namespace `flens`.
+    Method `fillRandom` of class `DenseVector` with 1 template parameters.
+
+
+

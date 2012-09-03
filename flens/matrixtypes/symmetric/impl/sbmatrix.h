@@ -34,6 +34,7 @@
 #define FLENS_MATRIXTYPES_SYMMETRIC_IMPL_SBMATRIX_H 1
 
 #include <cxxblas/typedefs.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/matrixtypes/symmetric/symmetricmatrix.h>
 #include <flens/typedefs.h>
 

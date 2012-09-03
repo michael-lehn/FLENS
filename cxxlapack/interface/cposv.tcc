@@ -33,10 +33,13 @@
 #ifndef CXXLAPACK_INTERFACE_CPOSV_TCC
 #define CXXLAPACK_INTERFACE_CPOSV_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
 
+// TODO: rename this posv and put it into posv.h and posv.tcc
 template <typename IndexType>
 IndexType
 cposv(char                        uplo,

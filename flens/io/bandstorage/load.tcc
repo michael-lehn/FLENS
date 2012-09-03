@@ -38,6 +38,7 @@
 #include <fstream>
 
 #include <cxxblas/typedefs.h>
+#include <flens/io/bandstorage/load.h>
 
 namespace flens {
 
@@ -48,28 +49,29 @@ load(std::string filename, GbMatrix<FS> &A)
     typedef typename FS::IndexType   IndexType;
     typedef typename FS::ElementType ElementType;
 
-    std::ifstream ifs( filename.c_str(), std::ios::binary );
+    std::ifstream ifs(filename.c_str(), std::ios::binary);
 
-    if (ifs.is_open() == false)
+    if (ifs.is_open()==false) {
         return false;
+    }
 
     IndexType numRows, numCols;
     IndexType numSubDiags, numSuperDiags;
     IndexType firstRow, firstCol;
 
-    ifs.read( reinterpret_cast<char*>(&numRows), sizeof(IndexType) );
-    ifs.read( reinterpret_cast<char*>(&numCols), sizeof(IndexType) );
-    ifs.read( reinterpret_cast<char*>(&numSubDiags), sizeof(IndexType) );
-    ifs.read( reinterpret_cast<char*>(&numSuperDiags), sizeof(IndexType) );
-    ifs.read( reinterpret_cast<char*>(&firstRow), sizeof(IndexType) );
-    ifs.read( reinterpret_cast<char*>(&firstCol), sizeof(IndexType) );
+    ifs.read(reinterpret_cast<char*>(&numRows), sizeof(IndexType));
+    ifs.read(reinterpret_cast<char*>(&numCols), sizeof(IndexType));
+    ifs.read(reinterpret_cast<char*>(&numSubDiags), sizeof(IndexType));
+    ifs.read(reinterpret_cast<char*>(&numSuperDiags), sizeof(IndexType));
+    ifs.read(reinterpret_cast<char*>(&firstRow), sizeof(IndexType));
+    ifs.read(reinterpret_cast<char*>(&firstCol), sizeof(IndexType));
 
     A.resize(numRows, numCols, numSubDiags, numSuperDiags, firstRow, firstCol);
 
     for (IndexType i=-A.numSubDiags(); i<=A.numSuperDiags(); ++i) {
         auto Diag = A.viewDiag(i);
         for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {
-            ifs.read( reinterpret_cast<char*>(&(Diag(j))), sizeof(ElementType) );
+            ifs.read(reinterpret_cast<char*>(&(Diag(j))), sizeof(ElementType));
         }
     }
 
@@ -87,16 +89,17 @@ load(std::string filename, HbMatrix<FS> &A)
 
     std::ifstream ifs( filename.c_str(), std::ios::binary );
 
-    if (ifs.is_open() == false)
+    if (ifs.is_open()==false) {
         return false;
+    }
 
     IndexType dim = A.dim();
     IndexType numOffDiags = A.numOffDiags();
     IndexType firstIndex = A.firstIndex();
 
-    ifs.read( reinterpret_cast<char*>(&dim), sizeof(IndexType) );
-    ifs.read( reinterpret_cast<char*>(&numOffDiags), sizeof(IndexType));
-    ifs.read( reinterpret_cast<char*>(&firstIndex), sizeof(IndexType) );
+    ifs.read(reinterpret_cast<char*>(&dim), sizeof(IndexType));
+    ifs.read(reinterpret_cast<char*>(&numOffDiags), sizeof(IndexType));
+    ifs.read(reinterpret_cast<char*>(&firstIndex), sizeof(IndexType));
 
     A.resize(dim, numOffDiags, firstIndex);
 
@@ -104,13 +107,14 @@ load(std::string filename, HbMatrix<FS> &A)
         if (A.upLo()==cxxblas::Lower) {
             auto Diag = A.viewDiag(i);
             for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {
-                ifs.read( reinterpret_cast<char*>(&(Diag(j))), sizeof(ElementType) );
+                ifs.read(reinterpret_cast<char*>(&(Diag(j))),
+                         sizeof(ElementType));
             }
         } else {
             auto Diag = A.viewDiag(-i);
             for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {
                 ElementType alpha;
-                ifs.read( reinterpret_cast<char*>(&alpha), sizeof(ElementType) );
+                ifs.read(reinterpret_cast<char*>(&alpha), sizeof(ElementType));
                 Diag(j) = cxxblas::conjugate(alpha);
             }
         }
@@ -130,16 +134,17 @@ load(std::string filename, SbMatrix<FS> &A)
 
     std::ifstream ifs( filename.c_str(), std::ios::binary );
 
-    if (ifs.is_open() == false)
+    if (ifs.is_open()==false) {
         return false;
+    }
 
     IndexType dim = A.dim();
     IndexType numOffDiags = A.numOffDiags();
     IndexType firstIndex = A.firstIndex();
 
-    ifs.read( reinterpret_cast<char*>(&dim), sizeof(IndexType) );
-    ifs.read( reinterpret_cast<char*>(&numOffDiags), sizeof(IndexType) );
-    ifs.read( reinterpret_cast<char*>(&firstIndex), sizeof(IndexType) );
+    ifs.read(reinterpret_cast<char*>(&dim), sizeof(IndexType));
+    ifs.read(reinterpret_cast<char*>(&numOffDiags), sizeof(IndexType));
+    ifs.read(reinterpret_cast<char*>(&firstIndex), sizeof(IndexType));
 
     A.resize(dim, numOffDiags, firstIndex);
 
@@ -148,13 +153,15 @@ load(std::string filename, SbMatrix<FS> &A)
             auto Diag = A.viewDiag(i);
 
             for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {
-                ifs.read( reinterpret_cast<char*>(&(Diag(j))), sizeof(ElementType) );
+                ifs.read(reinterpret_cast<char*>(&(Diag(j))),
+                         sizeof(ElementType) );
             }
         } else {
             auto Diag = A.viewDiag(-i);
 
             for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {
-                 ifs.read( reinterpret_cast<char*>(&(Diag(j))), sizeof(ElementType) );
+                 ifs.read(reinterpret_cast<char*>(&(Diag(j))),
+                          sizeof(ElementType) );
             }
         }
     }
@@ -172,8 +179,9 @@ load(std::string filename, TbMatrix<FS> &A)
 
     std::ifstream ifs( filename.c_str(), std::ios::binary );
 
-    if (ifs.is_open() == false)
+    if (ifs.is_open()==false) {
         return false;
+    }
 
     IndexType dim;
     IndexType numOffDiags;
@@ -181,38 +189,36 @@ load(std::string filename, TbMatrix<FS> &A)
     StorageUpLo  upLo;
     Diag         diag;
 
-    ifs.read( reinterpret_cast<char*>(&dim), sizeof(IndexType) );
-    ifs.read( reinterpret_cast<char*>(&numOffDiags), sizeof(IndexType) );
-    ifs.read( reinterpret_cast<char*>(&firstIndex), sizeof(IndexType) );
-    ifs.read( reinterpret_cast<char*>(&upLo), sizeof(StorageUpLo) );
-    ifs.read( reinterpret_cast<char*>(&diag), sizeof(Diag) );
+    ifs.read(reinterpret_cast<char*>(&dim), sizeof(IndexType));
+    ifs.read(reinterpret_cast<char*>(&numOffDiags), sizeof(IndexType));
+    ifs.read(reinterpret_cast<char*>(&firstIndex), sizeof(IndexType));
+    ifs.read(reinterpret_cast<char*>(&upLo), sizeof(StorageUpLo));
+    ifs.read(reinterpret_cast<char*>(&diag), sizeof(Diag));
 
     ASSERT(upLo==A.upLo());
     ASSERT((diag==A.diag()) || (A.diag()==cxxblas::NonUnit));
 
     A.resize(dim, numOffDiags, firstIndex);
 
-
-
     if (upLo == cxxblas::Lower) {
         for (IndexType i=-A.numOffDiags(); i <= 0; ++i){
             auto Diag = A.viewDiag(i);
             for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {
                 if (diag==cxxblas::NonUnit || i != 0) {
-                    ifs.read( reinterpret_cast<char*>(&(Diag(j))), sizeof(ElementType) );
+                    ifs.read(reinterpret_cast<char*>(&(Diag(j))),
+                             sizeof(ElementType) );
                 } else if (A.diag()==cxxblas::NonUnit) {
-                   Diag(i) = ElementType(i);
+                    Diag(i) = ElementType(i);
                 }
             }
         }
-    }
-    else
-    {
+    } else {
         for (IndexType i=0; i<=A.numOffDiags(); ++i){
             auto Diag = A.viewDiag(i);
             for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {
                 if (diag==cxxblas::NonUnit || i != 0) {
-                    ifs.read( reinterpret_cast<char*>(&(Diag(j))), sizeof(ElementType) );
+                    ifs.read(reinterpret_cast<char*>(&(Diag(j))),
+                             sizeof(ElementType) );
                 } else if (A.diag()==cxxblas::NonUnit) {
                     Diag(i) = ElementType(i);
                 }

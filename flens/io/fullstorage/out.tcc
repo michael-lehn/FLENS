@@ -36,6 +36,8 @@
 #include <flens/auxiliary/iscomplex.h>
 #include <cxxblas/typedefs.h>
 #include <flens/io/fullstorage/out.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
 
 namespace flens {
 

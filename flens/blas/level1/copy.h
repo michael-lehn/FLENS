@@ -273,14 +273,14 @@ template <typename MA, typename MB>
 
 //-- copy: SbMatrix -> GeMatrix
 template <typename MA, typename MB>
-    typename RestrictTo<IsSyMatrix<MA>::value
+    typename RestrictTo<IsSbMatrix<MA>::value
                      && IsGeMatrix<MB>::value,
              void>::Type
     copy(const MA &A, MB &&B);
 
 //-- copy: TbMatrix -> GeMatrix
 template <typename MA, typename MB>
-    typename RestrictTo<IsTrMatrix<MA>::value
+    typename RestrictTo<IsTbMatrix<MA>::value
                      && IsGeMatrix<MB>::value,
              void>::Type
     copy(Transpose trans, const MA &A, MB &&B);

@@ -33,9 +33,9 @@
 #ifndef FLENS_MATRIXTYPES_GENERAL_IMPL_GBMATRIX_TCC
 #define FLENS_MATRIXTYPES_GENERAL_IMPL_GBMATRIX_TCC 1
 
-#include <flens/auxiliary/auxiliary.h>
-#include <flens/blas/level1/copy.h>
+#include <flens/blas/blas.h>
 #include <flens/typedefs.h>
+#include <flens/matrixtypes/general/impl/gematrix.h>
 
 namespace flens {
 

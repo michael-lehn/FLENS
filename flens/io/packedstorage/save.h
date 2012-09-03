@@ -69,23 +69,6 @@ template <typename FS>
                      int precision = std::numeric_limits<typename ComplexTrait
                      <typename FS::ElementType>::PrimitiveType >::digits10);
 
-//-- forwarding ---------------------------------------------------------------
-template <typename MA>
-    typename RestrictTo<IsHpMatrix<MA>::value ||
-                        IsSpMatrix<MA>::value ||
-                        IsTpMatrix<MA>::value,
-                        bool>::Type
-    save(std::string filename, const MA &&A);
-
-template <typename MA>
-    typename RestrictTo<IsHpMatrix<MA>::value ||
-                        IsSpMatrix<MA>::value,
-                        bool>::Type
-    saveMatrixMarket(std::string filename, const MA &&A,
-                     std::string comment = "",
-                     int precision = std::numeric_limits<typename ComplexTrait
-                     <typename MA::ElementType>::PrimitiveType >::digits10);
-
 } // namespace flens
 
 #endif // FLENS_IO_PACKEDSTORAGE_SAVE_H

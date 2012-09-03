@@ -458,6 +458,7 @@ HeMatrix<FS>::resize(IndexType dim, StorageUpLo upLo, IndexType firstIndex,
     return _engine.resize(dim, dim, firstIndex, firstIndex, value);
 }
 
+template <typename FS>
 bool
 HeMatrix<FS>::fill(const ElementType &value)
 {

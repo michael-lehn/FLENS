@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LA_GEAMV_TCC
 #define CXXLAPACK_INTERFACE_LA_GEAMV_TCC
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {

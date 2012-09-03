@@ -12,7 +12,7 @@
 #endif
 
 #ifdef  DEBUG_CXXLAPACK
-#   define  CXXLAPACK_DEBUG_OUT(msg) std::cerr << "CXXLAPACK: " << msg << std::endl;
+#define CXXLAPACK_DEBUG_OUT(msg) std::cerr << "CXXLAPACK: " << msg << std::endl;
 #endif
 
 #ifndef CXXLAPACK_DEBUG_OUT
