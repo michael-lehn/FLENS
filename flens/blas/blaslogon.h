@@ -315,9 +315,18 @@
 //------------------------------------------------------------------------------
 
 #define FLENS_BLASLOG_BEGIN_DOT(X, Y)                                       \
+   if (verbose::ClosureLog::createEntry()) {                               \
+       verbose::ClosureLog::separator();                                   \
+       verbose::ClosureLog::append() << "flens::blas::dot("                \
+                                     << X << ", " << Y << ");";            \
+}
+
+//------------------------------------------------------------------------------
+
+#define FLENS_BLASLOG_BEGIN_DOTU(X, Y)                                       \
     if (verbose::ClosureLog::createEntry()) {                               \
         verbose::ClosureLog::separator();                                   \
-        verbose::ClosureLog::append() << "flens::blas::dot("                \
+        verbose::ClosureLog::append() << "flens::blas::dotu("                \
                                       << X << ", " << Y << ");";            \
     }
 

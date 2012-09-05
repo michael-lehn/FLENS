@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2009, Michael Lehn
+ *   Copyright (c) 2012, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,109 +30,91 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_LEVEL2EXTENSIONS_GEMV_H
-#define CXXBLAS_LEVEL2EXTENSIONS_GEMV_H 1
+#ifndef CXXBLAS_LEVEL2EXTENSIONS_SYMV_H
+#define CXXBLAS_LEVEL2EXTENSIONS_SYMV_H 1
 
 #include <cxxblas/typedefs.h>
 
-#define HAVE_CXXBLAS_GEMV 1
+#define HAVE_CXXBLAS_SYMV 1
 
 namespace cxxblas {
-
-template <typename IndexType, typename ALPHA, typename MA, typename VX,
-          typename BETA, typename VY>
-    void
-    gemv(StorageOrder order, Transpose transA, Transpose conjX,
-         IndexType m, IndexType n,
-         const ALPHA &alpha,
-         const MA *A, IndexType ldA,
-         const VX *x, IndexType incX,
-         const BETA &beta,
-         VY *y, IndexType incY);
     
 #ifdef HAVE_CBLAS
     
 template <typename IndexType>
-    void
-    gemv(StorageOrder order, Transpose transA,
-         IndexType m, IndexType n,
-         const float &alpha,
+    typename If<IndexType>::isBlasCompatibleInteger
+    symv(StorageOrder order, StorageUpLo upLo,
+         IndexType n, float alpha,
          const float *A, IndexType ldA,
          const float *x, IndexType incX,
-         const float &beta,
+         float beta,
          std::complex<float> *y, IndexType incY);
     
 template <typename IndexType>
-    void
-    gemv(StorageOrder order, Transpose transA,
-         IndexType m, IndexType n,
-         const float &alpha,
+    typename If<IndexType>::isBlasCompatibleInteger
+    symv(StorageOrder order, StorageUpLo upLo,
+         IndexType n, float alpha,
          const float *A, IndexType ldA,
          const float *x, IndexType incX,
-         const std::complex<float> &beta,
+         std::complex<float> beta,
          std::complex<float> *y, IndexType incY);
     
 template <typename IndexType>
-    void
-    gemv(StorageOrder order, Transpose transA,
-         IndexType m, IndexType n,
-         const float &alpha,
+    typename If<IndexType>::isBlasCompatibleInteger
+    symv(StorageOrder order, StorageUpLo upLo,
+         IndexType n, float alpha,
          const float *A, IndexType ldA,
          const std::complex<float> *x, IndexType incX,
-         const float &beta,
+         float beta,
          std::complex<float> *y, IndexType incY);
     
 template <typename IndexType>
-    void
-    gemv(StorageOrder order, Transpose transA,
-         IndexType m, IndexType n,
-         const float &alpha,
+    typename If<IndexType>::isBlasCompatibleInteger
+    symv(StorageOrder order, StorageUpLo upLo,
+         IndexType n, float alpha,
          const float *A, IndexType ldA,
          const std::complex<float> *x, IndexType incX,
-         const std::complex<float> &beta,
+         std::complex<float> beta,
          std::complex<float> *y, IndexType incY);
     
 template <typename IndexType>
-    void
-    gemv(StorageOrder order, Transpose transA,
-         IndexType m, IndexType n,
-         const double &alpha,
+    typename If<IndexType>::isBlasCompatibleInteger
+    symv(StorageOrder order, StorageUpLo upLo,
+         IndexType n, double alpha,
          const double *A, IndexType ldA,
          const double *x, IndexType incX,
-         const double &beta,
+         double beta,
          std::complex<double> *y, IndexType incY);
     
-    template <typename IndexType>
-    void
-    gemv(StorageOrder order, Transpose transA,
-         IndexType m, IndexType n,
-         const double &alpha,
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    symv(StorageOrder order, StorageUpLo upLo,
+         IndexType n, double alpha,
          const double *A, IndexType ldA,
          const double *x, IndexType incX,
-         const std::complex<double> &beta,
+         std::complex<double> beta,
          std::complex<double> *y, IndexType incY);
     
-    template <typename IndexType>
-    void
-    gemv(StorageOrder order, Transpose transA,
-         IndexType m, IndexType n,
-         const double &alpha,
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    symv(StorageOrder order, StorageUpLo upLo,
+         IndexType n, double alpha,
          const double *A, IndexType ldA,
          const std::complex<double> *x, IndexType incX,
-         const double &beta,
+         double beta,
          std::complex<double> *y, IndexType incY);
     
-    template <typename IndexType>
-    void
-    gemv(StorageOrder order, Transpose transA,
-         IndexType m, IndexType n,
-         const double &alpha,
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    symv(StorageOrder order, StorageUpLo upLo,
+         IndexType n, double alpha,
          const double *A, IndexType ldA,
          const std::complex<double> *x, IndexType incX,
-         const std::complex<double> &beta,
+         std::complex<double> beta,
          std::complex<double> *y, IndexType incY);
-
-#endif
+    
+#endif // HAVE_CBLAS
+    
 } // namespace cxxblas
 
-#endif // CXXBLAS_LEVEL2EXTENSIONS_GEMV_H
+#endif // CXXBLAS_LEVEL2EXTENSIONS_SYMV_H
