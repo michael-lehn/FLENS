@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2009, Michael Lehn
+ *   Copyright (c) 2012, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,29 +30,38 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_BLAS_LEVEL1_DOT_H
-#define FLENS_BLAS_LEVEL1_DOT_H 1
+#ifndef FLENS_AUXILIARY_COMPATIBLETYPE_H
+#define FLENS_AUXILIARY_COMPATIBLETYPE_H 1
 
-#include <flens/vectortypes/vectortypes.h>
+#include <complex>
 
-namespace flens { namespace blas {
+namespace flens {
 
-template <typename X, typename Y, typename T>
-    void
-    dot(const DenseVector<X> &x, const DenseVector<Y> &y, T &result);
+template <typename S, typename T>
+struct CompatibleType
+{
+    
+};
+    
+template <typename T>
+struct CompatibleType<T, T>
+{
+    typedef T Type;
+};
 
-template <typename X, typename Y, typename T>
-    void
-    dotu(const DenseVector<X> &x, const DenseVector<Y> &y, T &result);
+template <typename T>
+struct CompatibleType<T, std::complex<T> >
+{
+    typedef std::complex<T> Type;
+};
+    
+template <typename T>
+struct CompatibleType<std::complex<T>, T>
+{
+    typedef std::complex<T> Type;
+};
 
-template <typename X, typename Y>
-    typename CompatibleType<typename X::ElementType, typename Y::ElementType>::Type
-    dot(const DenseVector<X> &x, const DenseVector<Y> &y);
+    
+} // namespace flens
 
-template <typename X, typename Y>
-    typename CompatibleType<typename X::ElementType, typename Y::ElementType>::Type
-    dotu(const DenseVector<X> &x, const DenseVector<Y> &y);
-
-} } // namespace blas, flens
-
-#endif // FLENS_BLAS_LEVEL1_DOT_H
+#endif // FLENS_AUXILIARY_COMPATIBLETYPE_H

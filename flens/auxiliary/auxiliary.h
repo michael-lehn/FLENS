@@ -35,6 +35,7 @@
 
 #include <flens/auxiliary/constref.h>
 #include <flens/auxiliary/compatiblescalar.h>
+#include <flens/auxiliary/compatibletype.h>
 #include <flens/auxiliary/complextrait.h>
 #include <flens/auxiliary/explicit_cast.h>
 #include <flens/auxiliary/ifelseif.h>
