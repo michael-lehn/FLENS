@@ -53,6 +53,7 @@ ArrayView<T, I, A>::ArrayView(IndexType length, ElementType *data,
       _firstIndex(firstIndex)
 {
     ASSERT(_length>=0);
+    ASSERT(_stride>0);
 }
 
 template <typename T, typename I, typename A>
@@ -63,6 +64,7 @@ ArrayView<T, I, A>::ArrayView(const ArrayView &rhs)
       _stride(rhs.stride()),
       _firstIndex(rhs.firstIndex())
 {
+    ASSERT(_stride>0);
 }
 
 template <typename T, typename I, typename A>
@@ -74,6 +76,7 @@ ArrayView<T, I, A>::ArrayView(RHS &rhs)
       _stride(rhs.stride()),
       _firstIndex(rhs.firstIndex())
 {
+    ASSERT(_stride>0);
 }
 
 template <typename T, typename I, typename A>

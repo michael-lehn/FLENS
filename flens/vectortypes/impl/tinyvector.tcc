@@ -40,43 +40,45 @@
 
 namespace flens {
 
-template <typename A>
-TinyVector<A>::TinyVector()
+// -- constructors -------------------------------------------------------------
+
+template <typename TA>
+TinyVector<TA>::TinyVector()
 {
 }
 
-template <typename A>
-TinyVector<A>::TinyVector(const Engine &engine)
+template <typename TA>
+TinyVector<TA>::TinyVector(const Engine &engine)
     : _array(engine)
 {
 }
 
-template <typename A>
+template <typename TA>
 template <typename RHS>
-TinyVector<A>::TinyVector(const TinyVector<RHS> &rhs)
+TinyVector<TA>::TinyVector(const TinyVector<RHS> &rhs)
     : _array(rhs.engine())
 {
 }
 
-template <typename A>
+template <typename TA>
 template <typename RHS>
-TinyVector<A>::TinyVector(TinyVector<RHS> &rhs)
+TinyVector<TA>::TinyVector(TinyVector<RHS> &rhs)
     : _array(rhs.engine())
 {
 }
 
-template <typename A>
+template <typename TA>
 template <typename RHS>
-TinyVector<A>::TinyVector(const Vector<RHS> &rhs)
+TinyVector<TA>::TinyVector(const Vector<RHS> &rhs)
 {
     assign(rhs, *this);
 }
 
 //-- operators -----------------------------------------------------------------
 
-template <typename A>
-TinyVector<A> &
-TinyVector<A>::operator=(const TinyVector &rhs)
+template <typename TA>
+TinyVector<TA> &
+TinyVector<TA>::operator=(const TinyVector &rhs)
 {
     if (this!=&rhs) {
         assign(rhs, *this);
@@ -84,36 +86,36 @@ TinyVector<A>::operator=(const TinyVector &rhs)
     return *this;
 }
 
-template <typename A>
+template <typename TA>
 template <typename RHS>
-TinyVector<A> &
-TinyVector<A>::operator=(const Vector<RHS> &rhs)
+TinyVector<TA> &
+TinyVector<TA>::operator=(const Vector<RHS> &rhs)
 {
     assign(rhs, *this);
     return *this;
 }
 
-template <typename A>
+template <typename TA>
 template <typename RHS>
-TinyVector<A> &
-TinyVector<A>::operator+=(const Vector<RHS> &rhs)
+TinyVector<TA> &
+TinyVector<TA>::operator+=(const Vector<RHS> &rhs)
 {
     plusAssign(rhs, *this);
     return *this;
 }
 
-template <typename A>
+template <typename TA>
 template <typename RHS>
-TinyVector<A> &
-TinyVector<A>::operator-=(const Vector<RHS> &rhs)
+TinyVector<TA> &
+TinyVector<TA>::operator-=(const Vector<RHS> &rhs)
 {
     minusAssign(rhs, *this);
     return *this;
 }
 
-template <typename A>
-TinyVector<A> &
-TinyVector<A>::operator+=(const ElementType &alpha)
+template <typename TA>
+TinyVector<TA> &
+TinyVector<TA>::operator+=(const ElementType &alpha)
 {
     for (int i=firstIndex(); i<=lastIndex(); ++i) {
         (*this)(i) += alpha;
@@ -121,9 +123,9 @@ TinyVector<A>::operator+=(const ElementType &alpha)
     return *this;
 }
 
-template <typename A>
-TinyVector<A> &
-TinyVector<A>::operator-=(const ElementType &alpha)
+template <typename TA>
+TinyVector<TA> &
+TinyVector<TA>::operator-=(const ElementType &alpha)
 {
     for (int i=firstIndex(); i<=lastIndex(); ++i) {
         (*this)(i) -= alpha;
@@ -131,91 +133,98 @@ TinyVector<A>::operator-=(const ElementType &alpha)
     return *this;
 }
 
-template <typename A>
-TinyVector<A> &
-TinyVector<A>::operator*=(const ElementType &alpha)
+template <typename TA>
+TinyVector<TA> &
+TinyVector<TA>::operator*=(const ElementType &alpha)
 {
     blas::scal(alpha, *this);
     return *this;
 }
 
-template <typename A>
-TinyVector<A> &
-TinyVector<A>::operator/=(const ElementType &alpha)
+template <typename TA>
+TinyVector<TA> &
+TinyVector<TA>::operator/=(const ElementType &alpha)
 {
     blas::rscal(alpha, *this);
     return *this;
 }
 
-template <typename A>
-const typename TinyVector<A>::ElementType &
-TinyVector<A>::operator()(IndexType index) const
+template <typename TA>
+const typename TinyVector<TA>::ElementType &
+TinyVector<TA>::operator()(IndexType index) const
 {
     return _array(index);
 }
 
-template <typename A>
-typename TinyVector<A>::ElementType &
-TinyVector<A>::operator()(IndexType index)
+template <typename TA>
+typename TinyVector<TA>::ElementType &
+TinyVector<TA>::operator()(IndexType index)
 {
     return _array(index);
 }
 
 //-- methods -------------------------------------------------------------------
 
-template <typename A>
-typename TinyVector<A>::IndexType
-TinyVector<A>::firstIndex() const
-{
-    return Engine::firstIndex;
-}
-
-template <typename A>
-typename TinyVector<A>::IndexType
-TinyVector<A>::lastIndex() const
-{
-    return Engine::lastIndex;
-}
-
-template <typename A>
-typename TinyVector<A>::IndexType
-TinyVector<A>::length() const
+template <typename TA>
+typename TinyVector<TA>::IndexType
+TinyVector<TA>::length() const
 {
     return Engine::length;
 }
 
-template <typename A>
-const typename TinyVector<A>::ElementType *
-TinyVector<A>::data() const
+template <typename TA>
+typename TinyVector<TA>::IndexType
+TinyVector<TA>::firstIndex() const
+{
+    return Engine::firstIndex;
+}
+
+template <typename TA>
+typename TinyVector<TA>::IndexType
+TinyVector<TA>::lastIndex() const
+{
+    return Engine::lastIndex;
+}
+
+template <typename TA>
+const typename TinyVector<TA>::ElementType *
+TinyVector<TA>::data() const
 {
     return _array.data();
 }
 
-template <typename A>
-typename TinyVector<A>::ElementType *
-TinyVector<A>::data()
+template <typename TA>
+typename TinyVector<TA>::ElementType *
+TinyVector<TA>::data()
 {
     return _array.data();
 }
 
-template <typename A>
-typename TinyVector<A>::IndexType
-TinyVector<A>::stride() const
+template <typename TA>
+typename TinyVector<TA>::IndexType
+TinyVector<TA>::stride() const
 {
     return Engine::stride;
 }
 
+template <typename TA>
+void
+TinyVector<TA>::fill(const ElementType &value)
+{
+    engine().fill(value);
+}
+
 //-- implementation ------------------------------------------------------------
-template <typename A>
-const typename TinyVector<A>::Engine &
-TinyVector<A>::engine() const
+template <typename TA>
+const typename TinyVector<TA>::Engine &
+TinyVector<TA>::engine() const
 {
     return _array;
 }
 
-template <typename A>
-typename TinyVector<A>::Engine &
-TinyVector<A>::engine()
+template <typename TA>
+typename TinyVector<TA>::Engine &
+TinyVector<TA>::engine()
 {
     return _array;
 }

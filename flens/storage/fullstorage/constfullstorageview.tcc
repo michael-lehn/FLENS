@@ -109,10 +109,17 @@ const typename ConstFullStorageView<T, Order, I, A>::ElementType &
 ConstFullStorageView<T, Order, I, A>::operator()(IndexType row,
                                                  IndexType col) const
 {
-    ASSERT(row>=_firstRow);
-    ASSERT(row<_firstRow+_numRows);
-    ASSERT(col>=_firstCol);
-    ASSERT(col<_firstCol+_numCols);
+#   ifndef NDEBUG
+    if (numRows()>0 && numCols()>0) {
+        ASSERT(row>=_firstRow);
+        ASSERT(row<_firstRow+_numRows);
+        ASSERT(col>=_firstCol);
+        ASSERT(col<_firstCol+_numCols);
+    } else {
+        ASSERT(row==_firstRow);
+        ASSERT(col==_firstCol);
+    }
+#   endif
 
     if (Order==ColMajor) {
         return _data[col*_leadingDimension+row];
@@ -191,12 +198,6 @@ template <typename T, StorageOrder Order, typename I, typename A>
 const typename ConstFullStorageView<T, Order, I, A>::ElementType *
 ConstFullStorageView<T, Order, I, A>::data() const
 {
-#   ifndef NDEBUG
-    if ((numRows()==0) || numCols()==0) {
-        return 0;
-    }
-#   endif
-
     return &(this->operator()(_firstRow, _firstCol));
 }
 

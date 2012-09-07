@@ -39,5 +39,6 @@
 #include <flens/io/crs/out.h>
 #include <flens/io/fullstorage/out.h>
 #include <flens/io/tinyarray/out.h>
+#include <flens/io/tinyfullstorage/out.h>
 
 #endif // FLENS_IO_IO_H

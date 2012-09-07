@@ -34,6 +34,7 @@
 #define FLENS_IO_TINYARRAY_OUT_TCC 1
 
 #include <flens/io/tinyarray/out.h>
+#include <flens/vectortypes/vectortypes.h>
 
 namespace flens {
 

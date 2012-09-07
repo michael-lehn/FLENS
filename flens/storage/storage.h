@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2010-2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -38,6 +38,7 @@
 #include <flens/storage/array/array.h>
 #include <flens/storage/array/arrayview.h>
 #include <flens/storage/array/constarrayview.h>
+
 #include <flens/storage/array/imagarray.h>
 #include <flens/storage/array/realarray.h>
 
@@ -54,5 +55,7 @@
 #include <flens/storage/tinyarray/tinyarray.h>
 #include <flens/storage/tinyarray/tinyarrayview.h>
 #include <flens/storage/tinyarray/tinyconstarrayview.h>
+
+#include <flens/storage/tinyfullstorage/tinyfullstorage.h>
 
 #endif // FLENS_STORAGE_STORAGE_H

@@ -30,8 +30,8 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_LEVEL2_HER_H
-#define CXXBLAS_LEVEL2_SYR_H 1
+#ifndef CXXBLAS_LEVEL2_HER2_H
+#define CXXBLAS_LEVEL2_HER2_H 1
 
 #include <cxxblas/typedefs.h>
 
@@ -74,4 +74,4 @@ typename If<IndexType>::isBlasCompatibleInteger
 
 } // namespace cxxblas
 
-#endif // CXXBLAS_LEVEL2_SYR_H
+#endif // CXXBLAS_LEVEL2_HER2_H

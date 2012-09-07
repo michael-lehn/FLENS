@@ -60,6 +60,12 @@ template <typename ALPHA, typename MB>
              void>::Type
     scal(const ALPHA &alpha, MB &&B);
 
+//-- gescal
+template <typename ALPHA, typename MB>
+    typename RestrictTo<IsGeTinyMatrix<MB>::value,
+             void>::Type
+    scal(const ALPHA &alpha, MB &&B);
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1_SCAL_H

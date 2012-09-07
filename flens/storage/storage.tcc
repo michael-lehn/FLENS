@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2010-2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -49,5 +49,7 @@
 #include <flens/storage/tinyarray/tinyarray.tcc>
 #include <flens/storage/tinyarray/tinyarrayview.tcc>
 #include <flens/storage/tinyarray/tinyconstarrayview.tcc>
+
+#include <flens/storage/tinyfullstorage/tinyfullstorage.tcc>
 
 #endif // FLENS_STORAGE_STORAGE_TCC

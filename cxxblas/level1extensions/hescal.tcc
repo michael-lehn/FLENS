@@ -49,9 +49,20 @@ hescal(StorageOrder order, StorageUpLo upLo,
     if (alpha==ALPHA(1)) {
         return;
     }
-    syscal(order, upLo, n, alpha, A, ldA);
+    if (order==ColMajor) {
+        upLo = (upLo==Upper) ? Lower : Upper;
+    }
+    if (upLo==Upper) {
+        for (IndexType i=0; i<n; ++i) {
+            scal(n-i, alpha, A+i*(ldA+1), IndexType(1));
+        }
+    } else {
+        for (IndexType i=0; i<n; ++i) {
+            scal(i+1, alpha, A+i*ldA, IndexType(1));
+        }
+    }
     for (IndexType i=0; i<n; ++i) {
-        A[i*ldA+i] = cxxblas::real(A[i*ldA+i]);
+        A[i*(ldA+1)] = cxxblas::real(A[i*(ldA+1)]);
     }
 }
 

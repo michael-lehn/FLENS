@@ -37,10 +37,6 @@
 
 namespace cxxblas {
 
-template <int n, typename ALPHA, typename X, typename Y>
-    void
-    axpy(const ALPHA &alpha, const X x[n], Y y[n]);
-
 template <int n, typename ALPHA, typename X, int incX, typename Y, int incY>
     void
     axpy(const ALPHA &alpha, const X *x, Y *y);

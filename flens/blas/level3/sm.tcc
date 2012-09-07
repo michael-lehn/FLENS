@@ -52,8 +52,14 @@ sm(Side             side,
     typedef typename RemoveRef<MA>::Type MatrixA;
     typedef typename RemoveRef<MB>::Type MatrixB;
 
+#   ifndef NDEBUG
     ASSERT(B.order()==A.order());
-    ASSERT(A.dim() == (side==Left) ? B.numRows() : B.numCols());
+    if (side==Left) {
+        assert(A.dim()==B.numRows());
+    } else {
+        assert(B.numCols()==A.dim());
+    }
+#   endif
 
 #   ifdef HAVE_CXXBLAS_TRSM
     cxxblas::trsm(A.order(), side, A.upLo(),

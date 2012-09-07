@@ -34,17 +34,9 @@
 #define CXXBLAS_TINYLEVEL1_COPY_TCC 1
 
 #include <cxxblas/typedefs.h>
+#include <cxxblas/tinylevel1/copy.h>
 
 namespace cxxblas {
-
-template <int n, typename X, typename Y>
-void
-copy(const X x[n], Y y[n])
-{
-    for (int i=0; i<n; ++i) {
-        y[i] = x[i];
-    }
-}
 
 template <int n, typename X, int incX, typename Y, int incY>
 void

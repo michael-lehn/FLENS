@@ -107,10 +107,6 @@ Level 2 BLAS
 ============
 This BLAS level deals with matrix-vector operations.
 
-*TODO*:  At the moment FLENS-BLAS does not provide an interface to the rank-2
-updates (see CXXBLAS functions) `her2`, `hpr2`, `syr2`, `spr2`.  We will add
-them as soon as a FLENS-LAPACK routine requires it or somebody complains.
-
  +------------+---------------------------------------------------+-----------+
  | FLENS-BLAS | DESCRIPTION                                       | CXXBLAS   |
  +============+===================================================+===========+
@@ -132,8 +128,17 @@ them as soon as a FLENS-LAPACK routine requires it or somebody complains.
  |            | gets updated:                                     |           |
  |            |  - For *general* matrices it is                   |           |
  |            |    $A \leftarrow A + \alpha x y^T$.               | __ger__   |
+ |            |  - For *symmetric* matrices it is                 | __syr__   |
+ |            |    $A \leftarrow A + \alpha x x^T$.               | __her__   |
+ +------------+---------------------------------------------------+-----------+
+ | __r2__     | Computes a symmetrix rank `2` operation.  The     |           |
+ |            | type of operation depends on type of the matrix   |           |
+ |            | that gets updated:                                |           |
  |            |  - For *symmetric* matrices it is                 |           |
- |            |    $A \leftarrow A + \alpha x x^T$.               | __syr__   |
+ |            |    $A \leftarrow A + \alpha x y^T + \alpha y x^T$.| __syr2__  |
+ |            |  - For *hermitian* matrices it is                 |           |
+ |            |    $A \leftarrow A + \alpha x y^H                 |           |
+ |            |    + \overline{\alpha} y x^H$.                    | __her2__  |
  +------------+---------------------------------------------------+-----------+
  | __sv__     | Solves one of the systems of equations            |           |
  |            | $Ax = b$ or $A^T x = b$ where $A$ is an unit      | __trsv__  |

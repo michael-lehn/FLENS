@@ -38,7 +38,7 @@ namespace flens {
 template <typename T, bool hasElementType>
 struct ElementTypeSelect
 {
-    typedef double Type;
+    typedef T Type;
 };
 
 template <typename T>
@@ -60,7 +60,7 @@ struct ElementType
 
     template <typename A>
         static Two
-        check(typename A::NoView *);
+        check(typename A::ElementType *);
 
     template <typename Any>
         static char

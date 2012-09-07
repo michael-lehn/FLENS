@@ -106,6 +106,31 @@ rotg(A &a, B &b, T &c, T &s)
     b = z;
 }
 
+template <typename TA, typename TB, typename T>
+void
+rotg(std::complex<TA> &a, std::complex<TB> &b, T &c, std::complex<T> &s)
+{
+    using std::abs;
+    using std::sqrt;
+    using std::pow;
+
+    std::complex<T>  alpha;
+    T                norm, scale;
+
+    if (abs(a)==TA(0)) {
+        c = 0;
+        s = std::complex<T>(1,0);
+        a = b;
+    } else {
+        scale = abs(a) + abs(b);
+        norm  = scale*sqrt(pow(abs(a/scale),2) + pow(abs(b/scale),2));
+        alpha = a / abs(a);
+        c     = abs(a) / norm;
+        s     = alpha*conjugate(b)/norm;
+        a     = alpha*norm;
+    }
+}
+
 #ifdef HAVE_CBLAS
 // srot
 template <typename IndexType>

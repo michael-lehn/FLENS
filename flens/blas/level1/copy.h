@@ -88,6 +88,13 @@ template <typename MA, typename MB>
              void>::Type
     copy(const MA &A, MB &&B);
 
+//-- (tiny) gecopy
+template <typename MA, typename MB>
+    typename RestrictTo<IsGeTinyMatrix<MA>::value
+                     && IsGeTinyMatrix<MB>::value,
+             void>::Type
+    copy(Transpose trans, const MA &A, MB &&B);
+
 //-- Sparse BLAS extensions ----------------------------------------------------
 
 //-- copy: GeCoordMatrix -> GeCCSMatrix

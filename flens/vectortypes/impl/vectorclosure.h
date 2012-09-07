@@ -65,8 +65,6 @@ class VectorClosure
     private:
         typename ConstRef<L>::Type _left;
         typename ConstRef<R>::Type _right;
-        // L _left;
-        // R _right;
 };
 
 //

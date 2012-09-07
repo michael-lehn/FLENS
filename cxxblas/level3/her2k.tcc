@@ -57,11 +57,13 @@ her2k_generic(StorageOrder order, StorageUpLo upLoC,
                       beta, C, ldC);
         return;
     }
-    hescal(order, upLoC, n, beta, C, ldC);    
-    if (k==0) {
+    if ((n==0) || (((alpha==ALPHA(0)) || (k==0)) && (beta==BETA(1)))) {
         return;
     }
-
+    hescal(order, upLoC, n, beta, C, ldC);
+    if (alpha==ALPHA(0)) {
+        return;
+    }
     if (transAB==NoTrans) {
         for (IndexType l=0; l<k; ++l) {
             her2(order,  upLoC, n, alpha,

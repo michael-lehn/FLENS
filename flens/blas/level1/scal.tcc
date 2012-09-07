@@ -107,6 +107,22 @@ scal(const ALPHA &alpha, MB &&B)
     FLENS_BLASLOG_UNSETTAG;
 }
 
+//-- gescal
+template <typename ALPHA, typename MB>
+typename RestrictTo<IsGeTinyMatrix<MB>::value,
+         void>::Type
+scal(const ALPHA &alpha, MB &&B)
+{
+    typedef typename RemoveRef<MB>::Type   MatrixB;
+    typedef typename MatrixB::ElementType  TB;
+
+    const int m   = MatrixB::Engine::numRows;
+    const int n   = MatrixB::Engine::numCols;
+    const int ldB = MatrixB::Engine::leadingDimension;
+
+    cxxblas::gescal<m,n,ALPHA,TB,ldB>(alpha, B.data());
+}
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1_SCAL_TCC

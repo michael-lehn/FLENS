@@ -34,6 +34,7 @@
 #define FLENS_BLAS_LEVEL2_LEVEL2_H
 
 #include <flens/blas/level2/r.h>
+#include <flens/blas/level2/r2.h>
 #include <flens/blas/level2/mv.h>
 #include <flens/blas/level2/sv.h>
 

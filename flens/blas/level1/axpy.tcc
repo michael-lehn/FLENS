@@ -183,6 +183,33 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
     FLENS_BLASLOG_UNSETTAG;
 }
 
+//-- geaxpy
+template <typename ALPHA, typename MA, typename MB>
+typename RestrictTo<IsGeTinyMatrix<MA>::value
+                 && IsGeTinyMatrix<MB>::value,
+         void>::Type
+axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
+{
+    typedef typename RemoveRef<MA>::Type   MatrixA;
+    typedef typename RemoveRef<MB>::Type   MatrixB;
+
+    typedef typename MatrixA::ElementType  TA;
+    typedef typename MatrixB::ElementType  TB;
+
+    const int m   = MatrixA::Engine::numRows;
+    const int n   = MatrixA::Engine::numCols;
+    const int ldA = MatrixA::Engine::leadingDimension;
+    const int ldB = MatrixB::Engine::leadingDimension;
+
+    if (trans==Trans || trans==ConjTrans) {
+        ASSERT(!DEBUGCLOSURE::identical(A, B));
+    }
+
+    cxxblas::geaxpy<m, n, ALPHA, TA, ldA, TB, ldB>(trans, alpha,
+                                                   A.data(), B.data());
+}
+
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1_AXPY_TCC

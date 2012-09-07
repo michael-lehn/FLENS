@@ -49,7 +49,19 @@ void
 rotg(T &a, T &b, T &c, T &s)
 {
 #   ifdef HAVE_CXXBLAS_ROTG
-    rotg(a, b, c, s);
+    cxxblas::rotg(a, b, c, s);
+#   else
+    ASSERT(0);
+#   endif
+}
+
+//-- rotg (complex)
+template <typename T>
+void
+rotg(std::complex<T> &a, std::complex<T> &b, T &c, std::complex<T> &s)
+{
+#   ifdef HAVE_CXXBLAS_ROTG
+    cxxblas::rotg(a, b, c, s);
 #   else
     ASSERT(0);
 #   endif

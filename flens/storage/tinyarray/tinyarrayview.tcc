@@ -33,6 +33,8 @@
 #ifndef FLENS_STORAGE_TINYARRAY_TINYARRAYVIEW_TCC
 #define FLENS_STORAGE_TINYARRAY_TINYARRAYVIEW_TCC 1
 
+#include <flens/storage/tinyarray/tinyarrayview.h>
+
 namespace flens {
 
 template <typename T, int n, int inc, int indexBase>

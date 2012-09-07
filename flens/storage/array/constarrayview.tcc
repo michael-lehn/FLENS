@@ -54,6 +54,7 @@ ConstArrayView<T, I, A>::ConstArrayView(IndexType length,
       _firstIndex(firstIndex)
 {
     ASSERT(_length>=0);
+    ASSERT(_stride>0);
 }
 
 template <typename T, typename I, typename A>
@@ -64,6 +65,7 @@ ConstArrayView<T, I, A>::ConstArrayView(const ConstArrayView &rhs)
       _stride(rhs._stride),
       _firstIndex(rhs._firstIndex)
 {
+    ASSERT(_stride>0);
 }
 
 template <typename T, typename I, typename A>
@@ -75,6 +77,7 @@ ConstArrayView<T, I, A>::ConstArrayView(const RHS &rhs)
       _stride(rhs.stride()),
       _firstIndex(rhs.firstIndex())
 {
+    ASSERT(_stride>0);
 }
 
 template <typename T, typename I, typename A>

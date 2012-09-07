@@ -34,17 +34,9 @@
 #define CXXBLAS_TINYLEVEL1_AXPY_TCC 1
 
 #include <cxxblas/typedefs.h>
+#include <cxxblas/tinylevel1/axpy.h>
 
 namespace cxxblas {
-
-template <int n, typename ALPHA, typename X, typename Y>
-void
-axpy(const ALPHA &alpha, const X x[n], Y y[n])
-{
-    for (int i=0; i<n; ++i) {
-        y[i] += alpha*x[i];
-    }
-}
 
 template <int n, typename ALPHA, typename X, int incX, typename Y, int incY>
 void

@@ -67,6 +67,14 @@ template <typename ALPHA, typename MA, typename MB>
              void>::Type
     axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
 
+//-- geaxpy
+template <typename ALPHA, typename MA, typename MB>
+    typename RestrictTo<IsGeTinyMatrix<MA>::value
+                     && IsGeTinyMatrix<MB>::value,
+             void>::Type
+    axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
+
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1_AXPY_H

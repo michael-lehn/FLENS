@@ -33,6 +33,7 @@
 #ifndef FLENS_BLAS_LEVEL1_ROT_H
 #define FLENS_BLAS_LEVEL1_ROT_H 1
 
+#include <complex>
 #include <cxxblas/typedefs.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/vectortypes/vectortypes.h>
@@ -44,6 +45,10 @@ template <typename T>
     void
     rotg(T &a, T &b, T &c, T &s);
 
+//-- rotg (complex)
+template <typename T>
+    void
+    rotg(std::complex<T> &a, std::complex<T> &b, T &c, std::complex<T> &s);
 
 //-- rot
 template <typename VX, typename VY, typename T>

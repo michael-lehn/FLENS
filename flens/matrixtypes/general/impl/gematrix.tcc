@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2007-2012, Michael Lehn
  *
  *   All rights reserved.
  *

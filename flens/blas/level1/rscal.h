@@ -52,8 +52,15 @@ template <typename ALPHA, typename VY>
              void>::Type
     rscal(const ALPHA &alpha, VY &&y);
 
+//-- gerscal
 template <typename ALPHA, typename MB>
     typename RestrictTo<IsGeMatrix<MB>::value,
+             void>::Type
+    rscal(const ALPHA &alpha, MB &&B);
+
+//-- gerscal
+template <typename ALPHA, typename MB>
+    typename RestrictTo<IsGeTinyMatrix<MB>::value,
              void>::Type
     rscal(const ALPHA &alpha, MB &&B);
 

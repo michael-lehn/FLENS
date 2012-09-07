@@ -55,9 +55,11 @@ typename RestrictTo<IsDenseVector<VX>::value
          void>::Type
 r(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
 {
-    if ((x.length()!=A.numRows()) || (y.length()!=A.numCols())) {
+    if ((A.numRows()==0) || (A.numCols()==0)) {
         A.resize(x.length(), y.length(), x.firstIndex(), y.firstIndex());
     }
+    ASSERT(A.numRows()==x.length());
+    ASSERT(A.numCols()==y.length());
     cxxblas::ger(A.order(),
                  A.numRows(), A.numCols(),
                  alpha,
@@ -85,15 +87,59 @@ template <typename ALPHA, typename VX, typename VY, typename MA>
              void>::Type
 rc(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
 {
-    if ((x.length()!=A.numRows()) || (y.length()!=A.numCols())) {
+    if ((A.numRows()==0) || (A.numCols()==0)) {
         A.resize(x.length(), y.length(), x.firstIndex(), y.firstIndex());
     }
+    ASSERT(A.numRows()==x.length());
+    ASSERT(A.numCols()==y.length());
     cxxblas::gerc(A.order(),
                   A.numRows(), A.numCols(),
                   alpha,
                   x.data(), x.stride(),
                   y.data(), y.stride(),
                   A.data(), A.leadingDimension());
+}
+
+//-- SyMatrix, DenseVector -----------------------------------------------------
+
+//-- syr
+template <typename ALPHA, typename VX, typename MA>
+typename RestrictTo<IsDenseVector<VX>::value
+                 && IsSyMatrix<MA>::value,
+         void>::Type
+r(const ALPHA &alpha, const VX &x, MA &&A)
+{
+    if (A.dim()==0) {
+        A.resize(x.length(), x.firstIndex());
+    }
+    ASSERT(A.dim()==x.length());
+    cxxblas::syr(A.order(),
+                 A.upLo(),
+                 A.dim(),
+                 alpha,
+                 x.data(), x.stride(),
+                 A.data(), A.leadingDimension());
+}
+
+//-- HeMatrix, DenseVector -----------------------------------------------------
+
+//-- her
+template <typename ALPHA, typename VX, typename MA>
+typename RestrictTo<IsDenseVector<VX>::value
+                 && IsHeMatrix<MA>::value,
+         void>::Type
+r(const ALPHA &alpha, const VX &x, MA &&A)
+{
+    if (A.dim()==0) {
+        A.resize(x.length(), x.firstIndex());
+    }
+    ASSERT(A.dim()==x.length());
+    cxxblas::her(A.order(),
+                 A.upLo(),
+                 A.dim(),
+                 alpha,
+                 x.data(), x.stride(),
+                 A.data(), A.leadingDimension());
 }
 
 } } // namespace blas, flens

@@ -38,15 +38,16 @@
 
 namespace flens {
 
-template <typename A>
+template <typename TA>
 class TinyVector
-    : public Vector<TinyVector<A> >
+    : public Vector<TinyVector<TA> >
 {
     public:
-        typedef A                                           Engine;
+        typedef TA                                          Engine;
         typedef typename Engine::ElementType                ElementType;
         typedef typename Engine::IndexType                  IndexType;
 
+        // -- constructors -----------------------------------------------------
         TinyVector();
 
         TinyVector(const Engine &engine);
@@ -98,13 +99,13 @@ class TinyVector
         // -- methods ----------------------------------------------------------
 
         IndexType
+        length() const;
+
+        IndexType
         firstIndex() const;
 
         IndexType
         lastIndex() const;
-
-        IndexType
-        length() const;
 
         const ElementType *
         data() const;
@@ -115,15 +116,18 @@ class TinyVector
         IndexType
         stride() const;
 
+        void
+        fill(const ElementType &value = ElementType(0));
+
         // -- implementation ---------------------------------------------------
-        const A &
+        const TA &
         engine() const;
 
-        A &
+        TA &
         engine();
 
     private:
-        A    _array;
+        TA    _array;
 };
 
 //-- Traits --------------------------------------------------------------------

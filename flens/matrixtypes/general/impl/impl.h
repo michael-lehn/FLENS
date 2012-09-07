@@ -37,6 +37,7 @@
 #include <flens/matrixtypes/general/impl/gecoordmatrix.h>
 #include <flens/matrixtypes/general/impl/gecrsmatrix.h>
 #include <flens/matrixtypes/general/impl/gematrix.h>
+#include <flens/matrixtypes/general/impl/getinymatrix.h>
 #include <flens/matrixtypes/general/impl/imagmatrixclosure.h>
 #include <flens/matrixtypes/general/impl/realmatrixclosure.h>
 

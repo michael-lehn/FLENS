@@ -107,6 +107,21 @@ rscal(const ALPHA &alpha, MB &&B)
     FLENS_BLASLOG_UNSETTAG;
 }
 
+//-- gerscal
+template <typename ALPHA, typename MB>
+typename RestrictTo<IsGeTinyMatrix<MB>::value,
+         void>::Type
+rscal(const ALPHA &alpha, MB &&B)
+{
+    typedef typename RemoveRef<MB>::Type   MatrixB;
+    typedef typename MatrixB::ElementType  TB;
+
+    const int m   = MatrixB::Engine::numRows;
+    const int n   = MatrixB::Engine::numCols;
+    const int ldB = MatrixB::Engine::leadingDimension;
+
+    cxxblas::gerscal<m,n,ALPHA,TB,ldB>(alpha, B.data());
+}
 
 } } // namespace blas, flens
 

@@ -45,10 +45,6 @@ herk_generic(StorageOrder order, StorageUpLo upLoC,
              const ALPHA &alpha, const MA *A, IndexType ldA,
              const BETA &beta, MC *C, IndexType ldC)
 {
-    if (n==0) {
-        return;
-    }
-
     if (order==ColMajor) {
         upLoC = (upLoC==Upper) ? Lower : Upper;
         transA = Transpose(transA^ConjTrans);
@@ -56,7 +52,13 @@ herk_generic(StorageOrder order, StorageUpLo upLoC,
                      alpha, A, ldA, beta, C, ldC);
         return;
     }
-    hescal(order, upLoC, n, beta, C, ldC); 
+    if ((n==0) || (((alpha==ALPHA(0)) || (k==0)) && (beta==BETA(1)))) {
+        return;
+    }
+    hescal(order, upLoC, n, beta, C, ldC);
+    if (alpha==ALPHA(0)) {
+        return;
+    }
     if (transA==NoTrans) {
         for (IndexType l=0; l<k; ++l) {
             her(order,  upLoC, n, alpha, A+l, ldA, C, ldC);

@@ -38,17 +38,24 @@
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/scalartypes/scalartypes.h>
 #include <flens/vectortypes/vectortypes.h>
+#include <flens/blas/operators/opconj.h>
 
 namespace flens {
 
 struct OpMult {};
 
 //-- vector-vector products ----------------------------------------------------
-// x'*y
+// x^T*y
 template <typename VX, typename VY>
     typename Promotion<typename VX::Impl::ElementType,
                        typename VY::Impl::ElementType>::Type
     operator*(const Vector<VX> &x, const Vector<VY> &y);
+
+// x^H*y
+template <typename VX, typename VY>
+    typename Promotion<typename VX::Impl::ElementType,
+                       typename VY::Impl::ElementType>::Type
+    operator*(const VectorClosureOpConj<VX> &x, const Vector<VY> &y);
 
 //-- scalar-vector products ----------------------------------------------------
 // alpha*x

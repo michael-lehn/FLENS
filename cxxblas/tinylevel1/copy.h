@@ -37,10 +37,6 @@
 
 namespace cxxblas {
 
-template <int n, typename X, typename Y>
-    void
-    copy(const X x[n], Y y[n]);
-
 template <int n, typename X, int incX, typename Y, int incY>
     void
     copy(const X *x, Y *y);

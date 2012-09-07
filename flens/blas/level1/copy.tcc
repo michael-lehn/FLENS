@@ -92,6 +92,15 @@ typename RestrictTo<IsTinyVector<VX>::value
          void>::Type
 copy(const VX &x, VY &&y)
 {
+    typedef typename VX::ElementType       TX;
+    typedef typename RemoveRef<VY>::Type   VectorY;
+    typedef typename VectorY::ElementType  TY;
+
+    const int n    = VX::Engine::length;
+    const int incX = VX::Engine::stride;
+    const int incY = VectorY::Engine::stride;
+
+    cxxblas::copy<n, TX, incX, TY, incY>(x.data(), y.data());
 }
 
 //-- BLAS Level 1 extensions ---------------------------------------------------
@@ -341,6 +350,25 @@ copy(const MA &A, MB &&B)
 #   endif
     FLENS_BLASLOG_END;
     FLENS_BLASLOG_UNSETTAG;
+}
+
+//-- (tiny) gecopy
+template <typename MA, typename MB>
+typename RestrictTo<IsGeTinyMatrix<MA>::value
+                 && IsGeTinyMatrix<MB>::value,
+         void>::Type
+copy(Transpose trans, const MA &A, MB &&B)
+{
+    typedef typename MA::ElementType       TA;
+    typedef typename RemoveRef<MB>::Type   MatrixB;
+    typedef typename MatrixB::ElementType  TB;
+
+    const int m   = MatrixB::Engine::numRows;
+    const int n   = MatrixB::Engine::numCols;
+    const int ldA = MA::Engine::leadingDimension;
+    const int ldB = MatrixB::Engine::leadingDimension;
+
+    cxxblas::gecopy<m, n, TA, ldA, TB, ldB>(trans, A.data(), B.data());
 }
 
 //-- Sparse BLAS extensions ----------------------------------------------------

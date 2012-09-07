@@ -33,67 +33,67 @@
 #ifndef FLENS_STORAGE_TINYARRAY_TINYARRAY_TCC
 #define FLENS_STORAGE_TINYARRAY_TINYARRAY_TCC 1
 
+#include <memory>
 #include <cxxblas/cxxblas.h>
+#include <flens/storage/tinyarray/tinyarray.h>
 
 namespace flens {
 
-template <typename T, int n, int indexBase>
-TinyArray<T,n,indexBase>::TinyArray()
+template <typename T, int n, int ib>
+TinyArray<T,n,ib>::TinyArray()
 {
 }
 
-template <typename T, int n, int indexBase>
-TinyArray<T,n,indexBase>::TinyArray(const TinyArray &rhs)
+template <typename T, int n, int ib>
+TinyArray<T,n,ib>::TinyArray(const TinyArray &rhs)
 {
     cxxblas::copy<n, T, T>(rhs.data(), data());
 }
 
-template <typename T, int n, int indexBase>
-TinyArray<T,n,indexBase>::~TinyArray()
+template <typename T, int n, int ib>
+TinyArray<T,n,ib>::~TinyArray()
 {
 }
 
 //-- operators -----------------------------------------------------------------
 
-template <typename T, int n, int indexBase>
-const typename TinyArray<T,n,indexBase>::ElementType &
-TinyArray<T,n,indexBase>::operator()(IndexType index) const
+template <typename T, int n, int ib>
+const typename TinyArray<T,n,ib>::ElementType &
+TinyArray<T,n,ib>::operator()(IndexType index) const
 {
-    const T *data = reinterpret_cast<const double *>(_data) - indexBase;
+    const T *data = reinterpret_cast<const double *>(_data) - firstIndex;
     return data[index];
 }
 
-template <typename T, int n, int indexBase>
-typename TinyArray<T,n,indexBase>::ElementType &
-TinyArray<T,n,indexBase>::operator()(IndexType index)
+template <typename T, int n, int ib>
+typename TinyArray<T,n,ib>::ElementType &
+TinyArray<T,n,ib>::operator()(IndexType index)
 {
-    T *data = reinterpret_cast<double *>(_data) - indexBase;
+    T *data = reinterpret_cast<double *>(_data) - firstIndex;
     return data[index];
 }
 
 //-- methods -------------------------------------------------------------------
 
-template <typename T, int n, int indexBase>
-const typename TinyArray<T,n,indexBase>::ElementType *
-TinyArray<T,n,indexBase>::data() const
+template <typename T, int n, int ib>
+const typename TinyArray<T,n,ib>::ElementType *
+TinyArray<T,n,ib>::data() const
 {
     return reinterpret_cast<const T *>(_data);
 }
 
-template <typename T, int n, int indexBase>
-typename TinyArray<T,n,indexBase>::ElementType *
-TinyArray<T,n,indexBase>::data()
+template <typename T, int n, int ib>
+typename TinyArray<T,n,ib>::ElementType *
+TinyArray<T,n,ib>::data()
 {
     return reinterpret_cast<T *>(_data);
 }
 
-template <typename T, int n, int indexBase>
+template <typename T, int n, int ib>
 void
-TinyArray<T,n,indexBase>::fill(const ElementType &value)
+TinyArray<T,n,ib>::fill(const ElementType &value)
 {
-    for (int i=0; i<n; ++i) {
-        _data[i] = value;
-    }
+    std::fill_n(data(), length, value);
 }
 
 } // namespace flens

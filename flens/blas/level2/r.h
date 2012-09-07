@@ -64,6 +64,26 @@ template <typename ALPHA, typename VX, typename VY, typename MA>
              void>::Type
     rc(const ALPHA &alpha, const VX &x, const VY &y, MA &&A);
 
+//-- SyMatrix, DenseVector -----------------------------------------------------
+
+//-- syr
+template <typename ALPHA, typename VX, typename MA>
+    typename RestrictTo<IsDenseVector<VX>::value
+                     && IsSyMatrix<MA>::value,
+             void>::Type
+    r(const ALPHA &alpha, const VX &x, MA &&A);
+
+//-- HeMatrix, DenseVector -----------------------------------------------------
+
+//-- her
+template <typename ALPHA, typename VX, typename MA>
+    typename RestrictTo<IsDenseVector<VX>::value
+                     && IsHeMatrix<MA>::value,
+             void>::Type
+    r(const ALPHA &alpha, const VX &x, MA &&A);
+
+
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL2_R_H

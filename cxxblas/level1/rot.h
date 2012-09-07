@@ -48,6 +48,10 @@ template <typename A, typename B, typename T>
     void
     rotg(A &a, B &b, T &c, T &s);
 
+template <typename TA, typename TB, typename T>
+    void
+    rotg(std::complex<TA> &a, std::complex<TB> &b, T &c, std::complex<T> &s);
+
 #ifdef HAVE_CBLAS
 // srot
 template <typename IndexType>

@@ -34,6 +34,7 @@
 #define CXXBLAS_TINYLEVEL1_RSCAL_TCC 1
 
 #include <cxxblas/typedefs.h>
+#include <cxxblas/tinylevel1/rscal.h>
 
 namespace cxxblas {
 

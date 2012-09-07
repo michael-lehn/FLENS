@@ -280,6 +280,15 @@
 
 //------------------------------------------------------------------------------
 
+#define FLENS_BLASLOG_BEGIN_DOTU(X, Y)                                      \
+    if (verbose::ClosureLog::createEntry()) {                               \
+        verbose::ClosureLog::separator();                                   \
+        verbose::ClosureLog::append() << "flens::blas::dotu("               \
+                                      << X << ", " << Y << ");";            \
+    }
+
+//------------------------------------------------------------------------------
+
 #define FLENS_BLASLOG_BEGIN_GEMV(TRANS, ALPHA, A, X, BETA, Y)               \
     if (verbose::ClosureLog::createEntry()) {                               \
         verbose::ClosureLog::append() << "flens::blas::mv("                 \

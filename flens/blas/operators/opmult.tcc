@@ -52,9 +52,24 @@ operator*(const Vector<VX> &x, const Vector<VY> &y)
     typedef typename VY::Impl::ElementType  TY;
 
     typename Promotion<TX,TY>::Type  result;
-    blas::dot(x.impl(), y.impl(), result);
+    blas::dotu(x.impl(), y.impl(), result);
     return result;
 }
+
+// x^H*y
+template <typename VX, typename VY>
+typename Promotion<typename VX::Impl::ElementType,
+                   typename VY::Impl::ElementType>::Type
+operator*(const VectorClosureOpConj<VX> &x, const Vector<VY> &y)
+{
+    typedef typename VX::Impl::ElementType  TX;
+    typedef typename VY::Impl::ElementType  TY;
+
+    typename Promotion<TX,TY>::Type  result;
+    blas::dot(x.left().impl(), y.impl(), result);
+    return result;
+}
+
 
 //-- scalar-vector products ----------------------------------------------------
 // alpha*x
