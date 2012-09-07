@@ -1,9 +1,11 @@
 all :
 	$(MAKE) -C cxxblas/netlib
 	$(MAKE) -C cxxlapack/netlib
+	$(MAKE) -C flens/blas/interface
 	$(MAKE) -C flens/lapack
 
 check :
+	$(MAKE) -C flens/blas/interface check
 	$(MAKE) -C flens/lapack check
 
 clean :
@@ -14,4 +16,5 @@ clean :
 distclean :
 	$(MAKE) -C cxxblas/netlib distclean
 	$(MAKE) -C cxxlapack/netlib distclean
+	$(MAKE) -C flens/blas/interface distclean
 	$(MAKE) -C flens/lapack distclean

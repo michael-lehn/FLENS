@@ -14,4 +14,4 @@ all : $(OBJECT_FILES)
 	ranlib $(FLENSBLAS)
 
 clean:
-	$(RM) $(TARGETS) $(OBJECT_FILES)
+	$(RM) $(TARGETS) $(OBJECT_FILES) $(FLENSBLAS)
