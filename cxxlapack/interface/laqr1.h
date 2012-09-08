@@ -40,6 +40,17 @@ namespace cxxlapack {
 template <typename IndexType>
     void
     laqr1(IndexType         n,
+          const float       *H,
+          IndexType         ldH,
+          const float       &sr1,
+          const float       &si1,
+          const float       &sr2,
+          const float       &si2,
+          float             *v);
+    
+template <typename IndexType>
+    void
+    laqr1(IndexType         n,
           const double      *H,
           IndexType         ldH,
           const double      &sr1,
@@ -47,6 +58,15 @@ template <typename IndexType>
           const double      &sr2,
           const double      &si2,
           double            *v);
+    
+template <typename IndexType>
+    void
+    laqr1(IndexType                     n,
+          const std::complex<float >    *H,
+          IndexType                     ldH,
+          const std::complex<float >    &s1,
+          const std::complex<float >    &s2,
+          std::complex<float >          &v);
 
 template <typename IndexType>
     void

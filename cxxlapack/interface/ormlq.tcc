@@ -46,6 +46,45 @@ ormlq(char          side,
       IndexType     m,
       IndexType     n,
       IndexType     k,
+      float         *A,
+      IndexType     ldA,
+      const float   *tau,
+      float         *C,
+      IndexType     ldC,
+      float         *work,
+      IndexType     lWork)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sormlq");
+    LAPACK_IMPL(sormlq)(&side,
+                        &trans,
+                        &m,
+                        &n,
+                        &k,
+                        A,
+                        &ldA,
+                        tau,
+                        C,
+                        &ldC,
+                        work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+ormlq(char          side,
+      char          trans,
+      IndexType     m,
+      IndexType     n,
+      IndexType     k,
       double        *A,
       IndexType     ldA,
       const double  *tau,
@@ -55,7 +94,7 @@ ormlq(char          side,
       IndexType     lWork)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("dormlq");
+    CXXLAPACK_DEBUG_OUT("dormlq");
     LAPACK_IMPL(dormlq)(&side,
                         &trans,
                         &m,

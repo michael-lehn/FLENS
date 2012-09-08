@@ -135,6 +135,16 @@ class ArrayView
         IndexType    _length, _stride, _firstIndex;
 };
 
+//-- ArrayView specific functions ----------------------------------------------
+
+//
+//  fillRandom
+//
+
+template <typename T, typename I, typename A>
+    bool
+    fillRandom(ArrayView<T, I, A> &x);
+
 } // namespace flens
 
 #endif // FLENS_STORAGE_ARRAY_ARRAYVIEW_H

@@ -33,16 +33,6 @@
 #ifndef CXXBLAS_CXXBLAS_TCC
 #define CXXBLAS_CXXBLAS_TCC 1
 
-#ifdef CXXBLAS_DEBUG
-#   ifndef CXXBLAS_DEBUG_OUT
-#   define CXXBLAS_DEBUG_OUT(msg)   std::cerr << msg << std::endl
-#   endif // CXXBLAS_DEBUG_OUT
-#endif // CXXBLAS_DEBUG_OUT
-
-#ifndef CXXBLAS_DEBUG_OUT
-#define CXXBLAS_DEBUG_OUT(msg)
-#endif // CXXBLAS_DEBUG_OUT
-
 #include <cxxblas/auxiliary/complex.tcc>
 #include <cxxblas/drivers/drivers.tcc>
 
@@ -51,6 +41,7 @@
 #include <cxxblas/level2/level2.tcc>
 #include <cxxblas/level2extensions/level2extensions.tcc>
 #include <cxxblas/level3/level3.tcc>
+#include <cxxblas/level3extensions/level3extensions.tcc>
 
 #include <cxxblas/sparselevel2/sparselevel2.tcc>
 

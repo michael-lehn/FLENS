@@ -161,6 +161,7 @@ class ConstFullStorageView
         const ConstArrayView
         viewRow(IndexType row,
                 IndexType firstCol, IndexType lastCol,
+                IndexType stride,
                 IndexType firstViewIndex = I::defaultIndexBase) const;
 
         // view of single column
@@ -170,7 +171,7 @@ class ConstFullStorageView
 
         const ConstArrayView
         viewCol(IndexType firstRow, IndexType lastRow,
-                IndexType col,
+                IndexType stride, IndexType col,
                 IndexType firstViewIndex = I::defaultIndexBase) const;
 
         // view of d-th diagonal
@@ -178,6 +179,11 @@ class ConstFullStorageView
         viewDiag(IndexType d,
                  IndexType firstViewIndex = I::defaultIndexBase) const;
 
+        // view of d-th anti-diagonal
+        const ConstArrayView
+        viewAntiDiag(IndexType d,
+                     IndexType firstViewIndex = I::defaultIndexBase) const;
+    
     private:
         const ElementType    *_data;
         Allocator            _allocator;

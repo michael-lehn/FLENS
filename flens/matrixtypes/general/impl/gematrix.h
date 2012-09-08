@@ -263,6 +263,13 @@ class GeMatrix
         VectorView
         diag(IndexType d);
 
+        // anti diag views
+        const ConstVectorView
+        antiDiag(IndexType d) const;
+
+        VectorView
+        antiDiag(IndexType d);
+
         // triangular views
         const ConstTriangularView
         upper() const;
@@ -448,6 +455,15 @@ template <typename MZ>
     typename RestrictTo<IsGeMatrix<MZ>::value,
              RealMatrixClosure<MZ> >::Type
     real(MZ &&Z);
+
+//
+//  fillRandom
+//
+
+template <typename MA>
+    typename RestrictTo<IsGeMatrix<MA>::value,
+             bool>::Type
+    fillRandom(MA &&A);
 
 } // namespace flens
 

@@ -195,11 +195,13 @@ class FullStorage
         const ConstArrayView
         viewRow(IndexType row,
                 IndexType firstCol, IndexType lastCol,
+                IndexType stride,
                 IndexType firstViewIndex = I::defaultIndexBase) const;
 
         ArrayView
         viewRow(IndexType row,
                 IndexType firstCol, IndexType lastCol,
+                IndexType stride,
                 IndexType firstViewIndex = I::defaultIndexBase);
 
         // view of single column
@@ -213,12 +215,12 @@ class FullStorage
 
         const ConstArrayView
         viewCol(IndexType firstRow, IndexType lastRow,
-                IndexType col,
+                IndexType stride, IndexType col,
                 IndexType firstViewIndex = I::defaultIndexBase) const;
 
         ArrayView
         viewCol(IndexType firstRow, IndexType lastRow,
-                IndexType col,
+                IndexType stride, IndexType col,
                 IndexType firstViewIndex = I::defaultIndexBase);
 
         // view of d-th diagonal
@@ -229,6 +231,15 @@ class FullStorage
         ArrayView
         viewDiag(IndexType d,
                  IndexType firstViewIndex = I::defaultIndexBase);
+
+        // view of d-th anti-diagonal
+        const ConstArrayView
+        viewAntiDiag(IndexType d,
+                     IndexType firstViewIndex = I::defaultIndexBase) const;
+
+        ArrayView
+        viewAntiDiag(IndexType d,
+                     IndexType firstViewIndex = I::defaultIndexBase);
 
     private:
 
@@ -249,6 +260,21 @@ class FullStorage
         IndexType    _numRows, _numCols;
         IndexType    _firstRow, _firstCol;
 };
+
+//-- FullStorage specific functions --------------------------------------------
+
+//
+//  fillRandom
+//
+
+template <typename T, StorageOrder Order, typename I, typename A>
+    bool
+    fillRandom(FullStorage<T, Order, I, A> &A);
+
+template <typename T, StorageOrder Order, typename I, typename A>
+    bool
+    fillRandom(StorageUpLo upLo, FullStorage<T, Order, I, A> &A);
+
 
 } // namespace flens
 

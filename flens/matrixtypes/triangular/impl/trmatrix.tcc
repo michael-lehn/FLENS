@@ -291,6 +291,13 @@ TrMatrix<FS>::order() const
 }
 
 template <typename FS>
+bool
+TrMatrix<FS>::fill(const ElementType &value)
+{
+    return _engine.fill(_upLo, value);
+}
+
+template <typename FS>
 template <typename RHS>
 bool
 TrMatrix<FS>::resize(const TrMatrix<RHS> &rhs,
@@ -500,7 +507,6 @@ TrMatrix<FS>::operator()(const Range<IndexType> &rows, IndexType col)
     return general()(rows,col);
 }
 
-
 // -- implementation -----------------------------------------------------------
 template <typename FS>
 const typename TrMatrix<FS>::Engine &
@@ -514,6 +520,20 @@ typename TrMatrix<FS>::Engine &
 TrMatrix<FS>::engine()
 {
     return _engine;
+}
+
+//-- TrMatrix specific functions -----------------------------------------------
+
+//
+//  fillRandom
+//
+
+template <typename MA>
+typename RestrictTo<IsTrMatrix<MA>::value,
+         bool>::Type
+fillRandom(MA &&A)
+{
+    fillRandom(A.upLo(), A.engine());
 }
 
 } // namespace flens

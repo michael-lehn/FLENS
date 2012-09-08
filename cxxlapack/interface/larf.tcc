@@ -44,6 +44,32 @@ void
 larf(char           side,
      IndexType      m,
      IndexType      n,
+     const float    *V,
+     IndexType      incV,
+     const float    &tau,
+     float          *C,
+     IndexType      ldC,
+     float          *work)
+{
+    CXXLAPACK_DEBUG_OUT("slarf");
+ 
+    LAPACK_IMPL(slarf)(&side,
+                       &m,
+                       &n,
+                       V,
+                       &incV,
+                       &tau,
+                       C,
+                       &ldC,
+                       work);
+}
+
+
+template <typename IndexType>
+void
+larf(char           side,
+     IndexType      m,
+     IndexType      n,
      const double   *V,
      IndexType      incV,
      const double   &tau,
@@ -51,6 +77,8 @@ larf(char           side,
      IndexType      ldC,
      double         *work)
 {
+    CXXLAPACK_DEBUG_OUT("dlarf");
+ 
     LAPACK_IMPL(dlarf)(&side,
                        &m,
                        &n,
@@ -67,6 +95,31 @@ void
 larf(char                           side,
      IndexType                      m,
      IndexType                      n,
+     const std::complex<float >     *V,
+     IndexType                      incV,
+     const std::complex<float >     &tau,
+     std::complex<float >           *C,
+     IndexType                      &ldC,
+     std::complex<float >           *work)
+{
+    CXXLAPACK_DEBUG_OUT("clarf");
+ 
+    LAPACK_IMPL(clarf)(&side,
+                       &m,
+                       &n,
+                       reinterpret_cast<const float  *>(V),
+                       &incV,
+                       reinterpret_cast<const float  *>(&tau),
+                       reinterpret_cast<float  *>(C),
+                       &ldC,
+                       reinterpret_cast<float  *>(work));
+}
+
+template <typename IndexType>
+void
+larf(char                           side,
+     IndexType                      m,
+     IndexType                      n,
      const std::complex<double>     *V,
      IndexType                      incV,
      const std::complex<double>     &tau,
@@ -74,6 +127,8 @@ larf(char                           side,
      IndexType                      &ldC,
      std::complex<double>           *work)
 {
+    CXXLAPACK_DEBUG_OUT("zlarf");
+ 
     LAPACK_IMPL(zlarf)(&side,
                        &m,
                        &n,

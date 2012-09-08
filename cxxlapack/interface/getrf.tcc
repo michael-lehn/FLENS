@@ -43,15 +43,64 @@ template <typename IndexType>
 IndexType
 getrf(IndexType             m,
       IndexType             n,
+      float                 *A,
+      IndexType             ldA,
+      IndexType             *iPiv)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("sgetrf");
+    LAPACK_IMPL(sgetrf)(&m,
+                        &n,
+                        A,
+                        &ldA,
+                        iPiv,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+template <typename IndexType>
+IndexType
+getrf(IndexType             m,
+      IndexType             n,
       double                *A,
       IndexType             ldA,
       IndexType             *iPiv)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("dgetrf");
+    CXXLAPACK_DEBUG_OUT("dgetrf");
     LAPACK_IMPL(dgetrf)(&m,
                         &n,
                         A,
+                        &ldA,
+                        iPiv,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+getrf(IndexType             m,
+      IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      IndexType             *iPiv)
+{
+    IndexType info;
+    CXXLAPACK_DEBUG_OUT("cgetrf");
+    LAPACK_IMPL(cgetrf)(&m,
+                        &n,
+                        reinterpret_cast<float  *>(A),
                         &ldA,
                         iPiv,
                         &info);
@@ -73,7 +122,7 @@ getrf(IndexType             m,
       IndexType             *iPiv)
 {
     IndexType info;
-    DEBUG_CXXLAPACK("zgetrf");
+    CXXLAPACK_DEBUG_OUT("zgetrf");
     LAPACK_IMPL(zgetrf)(&m,
                         &n,
                         reinterpret_cast<double *>(A),

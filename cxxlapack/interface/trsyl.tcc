@@ -46,6 +46,47 @@ trsyl(char          transA,
       IndexType     sign,
       IndexType     m,
       IndexType     n,
+      const float   *A,
+      IndexType     ldA,
+      const float   *B,
+      IndexType     ldB,
+      float         *C,
+      IndexType     ldC,
+      float         &scale)
+{
+    CXXLAPACK_DEBUG_OUT("strsyl");
+ 
+    IndexType info;
+    LAPACK_IMPL(strsyl)(&transA,
+                        &transB,
+                        &sign,
+                        &m,
+                        &n,
+                        A,
+                        &ldA,
+                        B,
+                        &ldB,
+                        C,
+                        &ldC,
+                        &scale,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+trsyl(char          transA,
+      char          transB,
+      IndexType     sign,
+      IndexType     m,
+      IndexType     n,
       const double  *A,
       IndexType     ldA,
       const double  *B,
@@ -54,6 +95,8 @@ trsyl(char          transA,
       IndexType     ldC,
       double        &scale)
 {
+    CXXLAPACK_DEBUG_OUT("dtrsyl");
+ 
     IndexType info;
     LAPACK_IMPL(dtrsyl)(&transA,
                         &transB,
@@ -84,6 +127,47 @@ trsyl(char                          transA,
       IndexType                     sign,
       IndexType                     m,
       IndexType                     n,
+      const std::complex<float >    *A,
+      const IndexType               ldA,
+      const std::complex<float >    *B,
+      const IndexType               ldB,
+      std::complex<float >          *C,
+      const IndexType               ldC,
+      float                         &scale)
+{
+    CXXLAPACK_DEBUG_OUT("ctrsyl");
+ 
+    IndexType info;
+    LAPACK_IMPL(ctrsyl)(&transA,
+                        &transB,
+                        &sign,
+                        &m,
+                        &n,
+                        reinterpret_cast<const float  *>(A),
+                        &ldA,
+                        reinterpret_cast<const float  *>(B),
+                        &ldB,
+                        reinterpret_cast<float  *>(C),
+                        &ldC,
+                        &scale,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+trsyl(char                          transA,
+      char                          transB,
+      IndexType                     sign,
+      IndexType                     m,
+      IndexType                     n,
       const std::complex<double>    *A,
       const IndexType               ldA,
       const std::complex<double>    *B,
@@ -92,6 +176,8 @@ trsyl(char                          transA,
       const IndexType               ldC,
       double                        &scale)
 {
+    CXXLAPACK_DEBUG_OUT("ztrsyl");
+ 
     IndexType info;
     LAPACK_IMPL(ztrsyl)(&transA,
                         &transB,

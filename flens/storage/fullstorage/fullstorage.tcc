@@ -34,6 +34,7 @@
 #define FLENS_STORAGE_FULLSTORAGE_FULLSTORAGE_TCC 1
 
 #include <cxxblas/level1extensions/gecopy.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/storage/fullstorage/fullstorage.h>
 #include <flens/storage/fullstorage/trapezoidalfill.h>
 #include <flens/typedefs.h>
@@ -307,7 +308,6 @@ FullStorage<T, Order, I, A>::fill(StorageUpLo  upLo,
     return true;
 }
 
-
 template <typename T, StorageOrder Order, typename I, typename A>
 void
 FullStorage<T, Order, I, A>::changeIndexBase(IndexType firstRow,
@@ -486,14 +486,14 @@ template <typename T, StorageOrder Order, typename I, typename A>
 const typename FullStorage<T, Order, I, A>::ConstArrayView
 FullStorage<T, Order, I, A>::viewRow(IndexType row,
                                      IndexType firstCol, IndexType lastCol,
-                                     IndexType firstViewIndex) const
+                                     IndexType stride, IndexType firstViewIndex) const
 {
-    const IndexType length = lastCol-firstCol+1;
+    const IndexType length = (lastCol-firstCol)/stride+1;
 
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        return ConstArrayView(length, 0, strideCol(),
+        return ConstArrayView(length, 0, strideCol()*stride,
                               firstViewIndex, allocator());
     }
 #   endif
@@ -503,7 +503,7 @@ FullStorage<T, Order, I, A>::viewRow(IndexType row,
 
     return ConstArrayView(length,
                           &(operator()(row, firstCol)),
-                          strideCol(),
+                          strideCol()*stride,
                           firstViewIndex,
                           allocator());
 }
@@ -512,14 +512,14 @@ template <typename T, StorageOrder Order, typename I, typename A>
 typename FullStorage<T, Order, I, A>::ArrayView
 FullStorage<T, Order, I, A>::viewRow(IndexType row,
                                      IndexType firstCol, IndexType lastCol,
-                                     IndexType firstViewIndex)
+                                     IndexType stride, IndexType firstViewIndex)
 {
-    const IndexType length = lastCol-firstCol+1;
+    const IndexType length = (lastCol-firstCol)/stride+1;
 
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        return ArrayView(length, 0, strideCol(),
+        return ArrayView(length, 0, strideCol()*stride,
                          firstViewIndex, allocator());
     }
 #   endif
@@ -529,7 +529,7 @@ FullStorage<T, Order, I, A>::viewRow(IndexType row,
 
     return ArrayView(length,
                      &(operator()(row, firstCol)),
-                     strideCol(),
+                     strideCol()*stride,
                      firstViewIndex,
                      allocator());
 }
@@ -584,15 +584,15 @@ FullStorage<T, Order, I, A>::viewCol(IndexType col,
 template <typename T, StorageOrder Order, typename I, typename A>
 const typename FullStorage<T, Order, I, A>::ConstArrayView
 FullStorage<T, Order, I, A>::viewCol(IndexType firstRow, IndexType lastRow,
-                                     IndexType col,
+                                     IndexType stride, IndexType col,
                                      IndexType firstViewIndex) const
 {
-    const IndexType length = lastRow-firstRow+1;
+    const IndexType length = (lastRow-firstRow)/stride+1;
 
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        return ConstArrayView(length, 0, strideRow(),
+        return ConstArrayView(length, 0, strideRow()*stride,
                               firstViewIndex, allocator());
     }
 #   endif
@@ -602,7 +602,7 @@ FullStorage<T, Order, I, A>::viewCol(IndexType firstRow, IndexType lastRow,
 
     return ConstArrayView(length,
                           &(this->operator()(firstRow, col)),
-                          strideRow(),
+                          strideRow()*stride,
                           firstViewIndex,
                           allocator());
 }
@@ -610,15 +610,15 @@ FullStorage<T, Order, I, A>::viewCol(IndexType firstRow, IndexType lastRow,
 template <typename T, StorageOrder Order, typename I, typename A>
 typename FullStorage<T, Order, I, A>::ArrayView
 FullStorage<T, Order, I, A>::viewCol(IndexType firstRow, IndexType lastRow,
-                                     IndexType col,
+                                     IndexType stride, IndexType col,
                                      IndexType firstViewIndex)
 {
-    const IndexType length = lastRow-firstRow+1;
+    const IndexType length = (lastRow-firstRow)/stride+1;
 
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        return ArrayView(length, 0, strideRow(),
+        return ArrayView(length, 0, strideRow()*stride,
                          firstViewIndex, allocator());
     }
 #   endif
@@ -628,7 +628,7 @@ FullStorage<T, Order, I, A>::viewCol(IndexType firstRow, IndexType lastRow,
 
     return ArrayView(length,
                      &(this->operator()(firstRow, col)),
-                     strideRow(),
+                     strideRow()*stride,
                      firstViewIndex,
                      allocator());
 }
@@ -666,6 +666,44 @@ FullStorage<T, Order, I, A>::viewDiag(IndexType d,
     return ArrayView(std::min(numRows()-_row, numCols()-_col),
                      &(this->operator()(row,col)),
                      leadingDimension()+1,
+                     firstViewIndex,
+                     allocator());
+}
+
+
+// view of d-th diagonal
+template <typename T, StorageOrder Order, typename I, typename A>
+const typename FullStorage<T, Order, I, A>::ConstArrayView
+FullStorage<T, Order, I, A>::viewAntiDiag(IndexType d,
+                                          IndexType firstViewIndex) const
+{
+    IndexType _row = (d>0) ? 0 : -d;
+    IndexType _col = (d>0) ? d :  0;
+
+    IndexType row = firstRow() + _row;
+    IndexType col = firstCol() + _col;
+
+    return ConstArrayView(std::min(numRows()-_row, numCols()-_col),
+                          &(this->operator()(row,lastCol()-col+1)),
+                          -leadingDimension()+1,
+                          firstViewIndex,
+                          allocator());
+}
+
+template <typename T, StorageOrder Order, typename I, typename A>
+typename FullStorage<T, Order, I, A>::ArrayView
+FullStorage<T, Order, I, A>::viewAntiDiag(IndexType d,
+                                          IndexType firstViewIndex)
+{
+    IndexType _row = (d>0) ? 0 : -d;
+    IndexType _col = (d>0) ? d :  0;
+
+    IndexType row = firstRow() + _row;
+    IndexType col = firstCol() + _col;
+
+    return ArrayView(std::min(numRows()-_row, numCols()-_col),
+                     &(this->operator()(row,lastCol()-col+1)),
+                     -leadingDimension()+1,
                      firstViewIndex,
                      allocator());
 }
@@ -738,6 +776,39 @@ FullStorage<T, Order, I, A>::_release()
         _data = 0;
     }
     ASSERT(_data==0);
+}
+
+
+//-- FullStorage specific functions --------------------------------------------
+
+//
+//  fillRandom
+//
+
+template <typename T, StorageOrder Order, typename I, typename A>
+bool
+fillRandom(FullStorage<T, Order, I, A> &A)
+{
+    typedef typename FullStorage<T,Order,I,A>::ElementType  ElementType;
+    typedef typename FullStorage<T,Order,I,A>::IndexType    IndexType;
+
+    ElementType *data = A.data();
+    ASSERT(data);
+    for (IndexType i=0; i<numRows()*numCols(); ++i) {
+        data[i] = randomValue<T>();
+    }
+    return true;
+}
+
+template <typename T, StorageOrder Order, typename I, typename A>
+bool
+fillRandom(StorageUpLo upLo, FullStorage<T, Order, I, A> &A)
+{
+    ASSERT(A.data());
+    trapezoidalFillRandom(order, upLo,
+                          A.numRows(), A.numCols(),
+                          A.data(), A.leadingDimension());
+    return true;
 }
 
 } // namespace flens

@@ -435,6 +435,21 @@ GeMatrix<FS>::diag(IndexType d)
     return _engine.viewDiag(d);
 }
 
+// diag views
+template <typename FS>
+const typename GeMatrix<FS>::ConstVectorView
+GeMatrix<FS>::antiDiag(IndexType d) const
+{
+    return _engine.viewAntiDiag(d);
+}
+
+template <typename FS>
+typename GeMatrix<FS>::VectorView
+GeMatrix<FS>::antiDiag(IndexType d)
+{
+    return _engine.viewAntiDiag(d);
+}
+
 // triangular views
 template <typename FS>
 const typename GeMatrix<FS>::ConstTriangularView
@@ -634,14 +649,14 @@ template <typename FS>
 const typename GeMatrix<FS>::ConstVectorView
 GeMatrix<FS>::operator()(IndexType row, const Range<IndexType> &cols) const
 {
-    return engine().viewRow(row, cols.firstIndex(), cols.lastIndex());
+    return engine().viewRow(row, cols.firstIndex(), cols.lastIndex(), cols.stride());
 }
 
 template <typename FS>
 typename GeMatrix<FS>::VectorView
 GeMatrix<FS>::operator()(IndexType row, const Range<IndexType> &cols)
 {
-    return engine().viewRow(row, cols.firstIndex(), cols.lastIndex());
+    return engine().viewRow(row, cols.firstIndex(), cols.lastIndex(), cols.stride());
 }
 
 // column view (vector view)
@@ -663,14 +678,14 @@ template <typename FS>
 const typename GeMatrix<FS>::ConstVectorView
 GeMatrix<FS>::operator()(const Range<IndexType> &rows, IndexType col) const
 {
-    return engine().viewCol(rows.firstIndex(), rows.lastIndex(), col);
+    return engine().viewCol(rows.firstIndex(), rows.lastIndex(), rows.stride(), col);
 }
 
 template <typename FS>
 typename GeMatrix<FS>::VectorView
 GeMatrix<FS>::operator()(const Range<IndexType> &rows, IndexType col)
 {
-    return engine().viewCol(rows.firstIndex(), rows.lastIndex(), col);
+    return engine().viewCol(rows.firstIndex(), rows.lastIndex(), rows.stride(), col);
 }
 
 // -- implementation -----------------------------------------------------------
@@ -726,6 +741,19 @@ real(MZ &&Z)
 {
     return Z;
 }
+
+//
+//  fillRandom
+//
+
+template <typename MA>
+typename RestrictTo<IsGeMatrix<MA>::value,
+         bool>::Type
+fillRandom(MA &&A)
+{
+    fillRandom(A.engine());
+}
+
 
 } // namespace flens
 

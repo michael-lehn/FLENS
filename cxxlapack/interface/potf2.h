@@ -41,8 +41,22 @@ template <typename IndexType>
     IndexType
     potf2(char          upLo,
           IndexType     n,
+          float         *A,
+          IndexType     ldA);
+    
+template <typename IndexType>
+    IndexType
+    potf2(char          upLo,
+          IndexType     n,
           double        *A,
           IndexType     ldA);
+    
+template <typename IndexType>
+    IndexType
+    potf2(char                  upLo,
+          IndexType             n,
+          std::complex<float >  *A,
+          IndexType             ldA);
 
 template <typename IndexType>
     IndexType

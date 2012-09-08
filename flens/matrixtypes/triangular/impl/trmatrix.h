@@ -200,6 +200,9 @@ class TrMatrix
         StorageOrder
         order() const;
 
+        bool
+        fill(const ElementType &value);
+
         template <typename RHS>
             bool
             resize(const TrMatrix<RHS> &rhs,
@@ -357,6 +360,16 @@ struct IsComplexTrMatrix
                            && IsComplex<typename TT::ElementType>::value;
 };
 
+//-- TrMatrix specific functions -----------------------------------------------
+
+//
+//  fillRandom
+//
+
+template <typename MA>
+    typename RestrictTo<IsTrMatrix<MA>::value,
+             bool>::Type
+    fillRandom(MA &&A);
 
 } // namespace flens
 

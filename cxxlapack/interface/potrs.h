@@ -42,10 +42,30 @@ template <typename IndexType>
     potrs(char          upLo,
           IndexType     n,
           IndexType     nRhs,
+          const float   *A,
+          IndexType     ldA,
+          float         *B,
+          IndexType     ldB);
+    
+template <typename IndexType>
+    IndexType
+    potrs(char          upLo,
+          IndexType     n,
+          IndexType     nRhs,
           const double  *A,
           IndexType     ldA,
           double        *B,
           IndexType     ldB);
+    
+template <typename IndexType>
+    IndexType
+    potrs(char                          upLo,
+          IndexType                     n,
+          IndexType                     nRhs,
+          const std::complex<float >    *A,
+          IndexType                     ldA,
+          std::complex<float >          *B,
+          IndexType                     ldB);
 
 template <typename IndexType>
     IndexType

@@ -46,6 +46,42 @@ laqps(IndexType     m,
       IndexType     offset,
       IndexType     nb,
       IndexType     &kb,
+      float         *A,
+      IndexType     ldA,
+      IndexType     *jPvt,
+      float         *tau,
+      float         *vn1,
+      float         *vn2,
+      float         *auxv,
+      float         *F,
+      IndexType     ldF)
+{
+    CXXLAPACK_DEBUG_OUT("slaqps");
+ 
+    LAPACK_IMPL(slaqps)(&m,
+                        &n,
+                        &offset,
+                        &nb,
+                        &kb,
+                        A,
+                        &ldA,
+                        jPvt,
+                        tau,
+                        vn1,
+                        vn2,
+                        auxv,
+                        F,
+                        &ldF);
+}
+
+
+template <typename IndexType>
+void
+laqps(IndexType     m,
+      IndexType     n,
+      IndexType     offset,
+      IndexType     nb,
+      IndexType     &kb,
       double        *A,
       IndexType     ldA,
       IndexType     *jPvt,
@@ -56,6 +92,8 @@ laqps(IndexType     m,
       double        *F,
       IndexType     ldF)
 {
+    CXXLAPACK_DEBUG_OUT("dlaqps");
+ 
     LAPACK_IMPL(dlaqps)(&m,
                         &n,
                         &offset,
@@ -79,6 +117,41 @@ laqps(IndexType             m,
       IndexType             offset,
       IndexType             nb,
       IndexType             &kb,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      IndexType             *jPvt,
+      std::complex<float >  *tau,
+      float                 *vn1,
+      float                 *vn2,
+      std::complex<float >  *auxv,
+      std::complex<float >  *F,
+      IndexType             ldF)
+{
+    CXXLAPACK_DEBUG_OUT("claqps");
+ 
+    LAPACK_IMPL(claqps)(&m,
+                        &n,
+                        &offset,
+                        &nb,
+                        &kb,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        jPvt,
+                        reinterpret_cast<float  *>(tau),
+                        vn1,
+                        vn2,
+                        reinterpret_cast<float  *>(auxv),
+                        reinterpret_cast<float  *>(F),
+                        &ldF);
+}
+
+template <typename IndexType>
+void
+laqps(IndexType             m,
+      IndexType             n,
+      IndexType             offset,
+      IndexType             nb,
+      IndexType             &kb,
       std::complex<double>  *A,
       IndexType             ldA,
       IndexType             *jPvt,
@@ -89,6 +162,8 @@ laqps(IndexType             m,
       std::complex<double>  *F,
       IndexType             ldF)
 {
+    CXXLAPACK_DEBUG_OUT("zlaqps");
+ 
     LAPACK_IMPL(zlaqps)(&m,
                         &n,
                         &offset,

@@ -44,9 +44,38 @@ IndexType
 trti2(char          upLo,
       char          diag,
       IndexType     n,
+      float         *A,
+      IndexType     ldA)
+{
+    CXXLAPACK_DEBUG_OUT("strti2");
+ 
+    IndexType info;
+    LAPACK_IMPL(strti2)(&upLo,
+                        &diag,
+                        &n,
+                        A,
+                        &ldA,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+trti2(char          upLo,
+      char          diag,
+      IndexType     n,
       double        *A,
       IndexType     ldA)
 {
+    CXXLAPACK_DEBUG_OUT("dtrti2");
+ 
     IndexType info;
     LAPACK_IMPL(dtrti2)(&upLo,
                         &diag,
@@ -68,9 +97,37 @@ IndexType
 trti2(char                  upLo,
       char                  diag,
       IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA)
+{
+    CXXLAPACK_DEBUG_OUT("ctrti2");
+ 
+    IndexType info;
+    LAPACK_IMPL(ctrti2)(&upLo,
+                        &diag,
+                        &n,
+                        reinterpret_cast<float *>(A),
+                        &ldA,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+trti2(char                  upLo,
+      char                  diag,
+      IndexType             n,
       std::complex<double>  *A,
       IndexType             ldA)
 {
+    CXXLAPACK_DEBUG_OUT("ztrti2");
+ 
     IndexType info;
     LAPACK_IMPL(ztrti2)(&upLo,
                         &diag,

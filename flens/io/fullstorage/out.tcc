@@ -33,6 +33,7 @@
 #ifndef FLENS_IO_FULLSTORAGE_OUT_TCC
 #define FLENS_IO_FULLSTORAGE_OUT_TCC 1
 
+#include <flens/auxiliary/iscomplex.h>
 #include <cxxblas/typedefs.h>
 #include <flens/io/fullstorage/out.h>
 
@@ -42,7 +43,8 @@ template <typename FS>
 std::ostream &
 operator<<(std::ostream &out, const GeMatrix<FS> &A)
 {
-    typedef typename GeMatrix<FS>::IndexType IndexType;
+    typedef typename GeMatrix<FS>::IndexType   IndexType;
+    typedef typename GeMatrix<FS>::ElementType ElementType;    
 #   ifdef FLENS_IO_WITH_RANGES
     IndexType defaultIndexBase = FS::defaultIndexBase;
 
@@ -60,10 +62,12 @@ operator<<(std::ostream &out, const GeMatrix<FS> &A)
 #   endif // FLENS_IO_WITH_RANGES
 
     out << std::endl;
-    //out.setf(std::ios::fixed|std::ios::right);
     for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
         for (IndexType j=A.firstCol(); j<=A.lastCol(); ++j) {
-            out.width(20);
+            if (IsNotComplex<ElementType>::value)
+                out.width(13);
+            else
+                out.width(28);
             out << A(i,j) << " ";
         }
         out << std::endl;
@@ -93,10 +97,14 @@ operator<<(std::ostream &out, const HeMatrix<FS> &A)
 #   endif // FLENS_IO_WITH_RANGES
 
     out << std::endl;
-    out.setf(std::ios::fixed|std::ios::right);
+
     for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
         for (IndexType j=A.firstCol(); j<=A.lastCol(); ++j) {
-            out.width(22);
+            if (IsNotComplex<ElementType>::value)
+                out.width(13);
+            else
+                out.width(28);
+
             if (i==j) {
                 out << ElementType(cxxblas::real(A(i,j)));
             }
@@ -121,7 +129,7 @@ std::ostream &
 operator<<(std::ostream &out, const SyMatrix<FS> &A)
 {
     typedef typename GeMatrix<FS>::IndexType IndexType;
-
+    typedef typename GeMatrix<FS>::ElementType ElementType;    
 #   ifdef FLENS_IO_WITH_RANGES
     IndexType defaultIndexBase = FS::defaultIndexBase;
 
@@ -138,10 +146,14 @@ operator<<(std::ostream &out, const SyMatrix<FS> &A)
 #   endif // FLENS_IO_WITH_RANGES
 
     out << std::endl;
-    out.setf(std::ios::fixed|std::ios::right);
+
     for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
         for (IndexType j=A.firstCol(); j<=A.lastCol(); ++j) {
-            out.width(11);
+            if (IsNotComplex<ElementType>::value)
+                out.width(13);
+            else
+                out.width(28);
+
             out << ((A.upLo()==cxxblas::Upper)
                     ? A(std::min(i,j), std::max(i,j))
                     : A(std::max(i,j), std::min(i,j)));
@@ -175,10 +187,14 @@ operator<<(std::ostream &out, const TrMatrix<FS> &A)
 #   endif // FLENS_IO_WITH_RANGES
 
     out << std::endl;
-    // out.setf(std::ios::fixed|std::ios::right);
+
     for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
         for (IndexType j=A.firstCol(); j<=A.lastCol(); ++j) {
-            out.width(20);
+            if (IsNotComplex<ElementType>::value)
+                out.width(13);
+            else
+                out.width(28);
+
             if (i==j) {
                 (A.diag()==cxxblas::Unit) ? out << ElementType(1)
                                           : out << A(i,j);

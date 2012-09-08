@@ -86,6 +86,29 @@ scal(const ALPHA &alpha, VY &&y)
 
 //-- BLAS Level 1 extensions ---------------------------------------------------
 
+//== GeneralMatrix
+
+//-- gbscal
+template <typename ALPHA, typename MB>
+typename RestrictTo<IsGbMatrix<MB>::value,
+         void>::Type
+scal(const ALPHA &alpha, MB &&B)
+{
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
+
+#   ifdef HAVE_CXXBLAS_GBSCAL
+    cxxblas::gbscal(MB::order, B.numRows(), B.numCols(),
+                    B.numSubDiags(), B.numSuperDiags(),
+                    alpha, B.data(), B.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
 //-- gescal
 template <typename ALPHA, typename MB>
 typename RestrictTo<IsGeMatrix<MB>::value,
@@ -121,6 +144,223 @@ scal(const ALPHA &alpha, MB &&B)
     const int ldB = MatrixB::Engine::leadingDimension;
 
     cxxblas::gescal<m,n,ALPHA,TB,ldB>(alpha, B.data());
+}
+
+//== HermitianMatrix
+
+//-- hbscal
+template <typename ALPHA, typename MB>
+typename RestrictTo<IsHbMatrix<MB>::value,
+         void>::Type
+scal(const ALPHA &alpha, MB &&B)
+{
+    ASSERT(cxxblas::imag(alpha)==0);
+
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
+
+    typedef typename HbMatrix<MB>::IndexType  IndexType;
+
+    const IndexType numSubDiags   = (B.upLo()==Upper) ? 0 : B.numOffDiags();
+    const IndexType numSuperDiags = (B.upLo()==Upper) ? B.numOffDiags() : 0;
+
+#   ifdef HAVE_CXXBLAS_GBSCAL
+    cxxblas::gbscal(MB::order, B.dim(), B.dim(),
+                    numSubDiags, numSuperDiags,
+                    alpha, B.data(), B.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
+//-- hescal
+template <typename ALPHA, typename MB>
+typename RestrictTo<IsHeMatrix<MB>::value,
+         void>::Type
+scal(const ALPHA &alpha, MB &&B)
+{
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
+
+#   ifdef HAVE_CXXBLAS_GESCAL
+    typedef typename RemoveRef<MB>::Type   MatrixB;
+    cxxblas::hescal(B.order(), B.upLo(), B.dim(),
+                    alpha, B.data(), B.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
+//-- hpscal
+template <typename ALPHA, typename MB>
+typename RestrictTo<IsHpMatrix<MB>::value,
+         void>::Type
+scal(const ALPHA &alpha, MB &&B)
+{
+    ASSERT(cxxblas::imag(alpha)==0);
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
+
+#   ifdef HAVE_CXXBLAS_TPSCAL
+    cxxblas::tpscal(MB::order, B.upLo(), B.diag(),
+                    B.dim(),
+                    alpha, B.data());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
+//== SymmetricMatrix
+
+//-- sbscal
+template <typename ALPHA, typename MB>
+typename RestrictTo<IsSbMatrix<MB>::value,
+         void>::Type
+scal(const ALPHA &alpha, MB &&B)
+{
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
+
+    typedef typename SbMatrix<MB>::IndexType  IndexType;
+
+    const IndexType numSubDiags   = (B.upLo()==Upper) ? 0 : B.numOffDiags();
+    const IndexType numSuperDiags = (B.upLo()==Upper) ? B.numOffDiags() : 0;
+
+#   ifdef HAVE_CXXBLAS_GBSCAL
+    cxxblas::gbscal(MB::order, B.dim(), B.dim(),
+                    numSubDiags, numSuperDiags,
+                    alpha, B.data(), B.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
+//-- spscal
+template <typename ALPHA, typename MB>
+typename RestrictTo<IsSpMatrix<MB>::value,
+         void>::Type
+scal(const ALPHA &alpha, MB &&B)
+{
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
+
+#   ifdef HAVE_CXXBLAS_TPSCAL
+    cxxblas::tpscal(MB::order, B.upLo(), B.diag(),
+                    B.dim(),
+                    alpha, B.data());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
+//-- syscal
+template <typename ALPHA, typename MB>
+typename RestrictTo<IsHeMatrix<MB>::value,
+         void>::Type
+scal(const ALPHA &alpha, MB &&B)
+{
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
+
+#   ifdef HAVE_CXXBLAS_GESCAL
+    typedef typename RemoveRef<MB>::Type   MatrixB;
+    cxxblas::syscal(B.order(), B.upLo(), B.dim(),
+                    alpha, B.data(), B.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
+//== TriangularMatrix
+
+//-- tbscal
+template <typename ALPHA, typename MB>
+typename RestrictTo<IsTbMatrix<MB>::value,
+         void>::Type
+scal(const ALPHA &alpha, MB &&B)
+{
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
+
+#   ifdef HAVE_CXXBLAS_GBSCAL
+    cxxblas::gbscal(MB::order, B.numRows(), B.numCols(),
+                    B.numSubDiags(), B.numSuperDiags(),
+                    alpha, B.data(), B.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
+//-- tpscal
+template <typename ALPHA, typename MB>
+typename RestrictTo<IsTpMatrix<MB>::value,
+         void>::Type
+scal(const ALPHA &alpha, MB &&B)
+{
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
+
+#   ifdef HAVE_CXXBLAS_TPSCAL
+    cxxblas::tpscal(MB::order, B.upLo(), B.diag(),
+                    B.dim(),
+                    alpha, B.data());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
+//-- trscal
+template <typename ALPHA, typename MB>
+typename RestrictTo<IsHeMatrix<MB>::value,
+         void>::Type
+scal(const ALPHA &alpha, MB &&B)
+{
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
+
+    if (B.diag()==Unit) {
+        if (B.upLo()==Upper) {
+            scal(alpha, B.general().strictUpper());
+        } else {
+            scal(alpha, B.general().strictLower());
+        }
+        return;
+    }
+
+#   ifdef HAVE_CXXBLAS_TRSCAL
+    typedef typename RemoveRef<MB>::Type   MatrixB;
+    cxxblas::trscal(B.order(), B.upLo(), B.numRows(), B.numCols(),
+                    alpha, B.data(), B.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
 }
 
 } } // namespace blas, flens

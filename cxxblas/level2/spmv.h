@@ -71,7 +71,7 @@ template <typename IndexType>
          double alpha,
          const double *A,
          const double *x, IndexType incX,
-         double &beta,
+         double beta,
          double *y, IndexType incY);
 
 #endif // HAVE_CBLAS

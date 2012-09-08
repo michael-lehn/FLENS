@@ -41,6 +41,18 @@ template <typename IndexType>
     IndexType
     geequ(const IndexType       m,
           const IndexType       n,
+          const float           *A,
+          const IndexType       ldA,
+          float                 *r,
+          float                 *c,
+          float                 &rowCnd,
+          float                 &colCnd,
+          float                 &maxA);
+
+template <typename IndexType>
+    IndexType
+    geequ(const IndexType       m,
+          const IndexType       n,
           const double          *A,
           const IndexType       ldA,
           double                *r,
@@ -48,7 +60,19 @@ template <typename IndexType>
           double                &rowCnd,
           double                &colCnd,
           double                &maxA);
-
+    
+template <typename IndexType>
+    IndexType
+    geequ(const IndexType               m,
+          const IndexType               n,
+          const std::complex<float >    *A,
+          const IndexType               ldA,
+          float                         *r,
+          float                         *c,
+          float                         &rowCnd,
+          float                         &colCnd,
+          float                         &maxA);
+    
 template <typename IndexType>
     IndexType
     geequ(const IndexType               m,

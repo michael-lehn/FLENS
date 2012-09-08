@@ -46,6 +46,48 @@ hseqr(char          job,
       IndexType     n,
       IndexType     iLo,
       IndexType     iHi,
+      float         *H,
+      IndexType     ldH,
+      float         *wr,
+      float         *wi,
+      float         *Z,
+      IndexType     ldZ,
+      float         *work,
+      IndexType     lWork)
+{
+    CXXLAPACK_DEBUG_OUT("shseqr");
+    
+    IndexType info;
+    LAPACK_IMPL(shseqr)(&job,
+                        &compZ,
+                        &n,
+                        &iLo,
+                        &iHi,
+                        H,
+                        &ldH,
+                        wr,
+                        wi,
+                        Z,
+                        &ldZ,
+                        work,
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hseqr(char          job,
+      char          compZ,
+      IndexType     n,
+      IndexType     iLo,
+      IndexType     iHi,
       double        *H,
       IndexType     ldH,
       double        *wr,
@@ -55,6 +97,8 @@ hseqr(char          job,
       double        *work,
       IndexType     lWork)
 {
+    CXXLAPACK_DEBUG_OUT("dhseqr");
+    
     IndexType info;
     LAPACK_IMPL(dhseqr)(&job,
                         &compZ,
@@ -86,6 +130,46 @@ hseqr(char                  job,
       IndexType             n,
       IndexType             iLo,
       IndexType             iHi,
+      std::complex<float >  *H,
+      IndexType             ldH,
+      std::complex<float >  *w,
+      std::complex<float >  *Z,
+      IndexType             ldZ,
+      std::complex<float >  *work,
+      IndexType             lWork)
+{
+    CXXLAPACK_DEBUG_OUT("shseqr");
+    
+    IndexType info;
+    LAPACK_IMPL(shseqr)(&job,
+                        &compZ,
+                        &n,
+                        &iLo,
+                        &iHi,
+                        reinterpret_cast<float  *>(H),
+                        &ldH,
+                        reinterpret_cast<float  *>(w),
+                        reinterpret_cast<float  *>(Z),
+                        &ldZ,
+                        reinterpret_cast<float  *>(work),
+                        &lWork,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+hseqr(char                  job,
+      char                  compZ,
+      IndexType             n,
+      IndexType             iLo,
+      IndexType             iHi,
       std::complex<double>  *H,
       IndexType             ldH,
       std::complex<double>  *w,
@@ -94,6 +178,8 @@ hseqr(char                  job,
       std::complex<double>  *work,
       IndexType             lWork)
 {
+    CXXLAPACK_DEBUG_OUT("dhseqr");
+    
     IndexType info;
     LAPACK_IMPL(dhseqr)(&job,
                         &compZ,

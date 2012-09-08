@@ -35,22 +35,21 @@
 
 #include <iostream>
 
+
 //-- CXXBLAS_DEBUG_OUT ---------------------------------------------------------
-#ifdef CXXBLAS_DEBUG
-#   ifndef CXXBLAS_DEBUG_OUT
-#   define CXXBLAS_DEBUG_OUT(msg)   std::cerr << "CXXBLAS: " << msg << std::endl
-#   endif // CXXBLAS_DEBUG_OUT
-#else
-#   ifndef CXXBLAS_DEBUG_OUT
+#ifdef DEBUG_CXXBLAS
+#   define CXXBLAS_DEBUG_OUT(msg) std::cerr << msg << std::endl;
+#endif
+
+#ifndef CXXBLAS_DEBUG_OUT
 #   define CXXBLAS_DEBUG_OUT(msg)
-#   endif // CXXBLAS_DEBUG_OUT
-#endif // CXXBLAS_DEBUG
+#endif //CXXBLAS_DEBUG_OUT
 
 #include <cassert>
 
 //-- ASSERT -------------------------------------------------------------------
 #ifndef ASSERT
-#define ASSERT(x) assert(x)
+#   define ASSERT(x) assert(x)
 #endif
 
 #endif // CXXBLAS_AUXILIARY_DEBUGMACRO_H

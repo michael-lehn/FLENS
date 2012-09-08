@@ -39,6 +39,8 @@
 
 namespace flens {
 
+// -- constructors -------------------------------------------------------------
+
 template <typename FS>
 SyMatrix<FS>::SyMatrix(StorageUpLo upLo)
     : _upLo(upLo)
@@ -141,7 +143,6 @@ SyMatrix<FS>::operator()(IndexType row, IndexType col) const
         ASSERT(col-firstCol()<=row-firstRow());
     }
 #   endif
-
     return _engine(row, col);
 }
 
@@ -156,7 +157,6 @@ SyMatrix<FS>::operator()(IndexType row, IndexType col)
         ASSERT(col-firstCol()<=row-firstRow());
     }
 #   endif
-
     return _engine(row, col);
 }
 
@@ -269,6 +269,120 @@ SyMatrix<FS>::operator()(const Range<IndexType> &rows, IndexType col)
     return general()(rows,col);
 }
 
+// -- methods ------------------------------------------------------------------
+
+template <typename FS>
+typename SyMatrix<FS>::IndexType
+SyMatrix<FS>::dim() const
+{
+    ASSERT(_engine.numRows()==_engine.numCols());
+
+    return _engine.numRows();
+}
+
+template <typename FS>
+typename SyMatrix<FS>::IndexType
+SyMatrix<FS>::numRows() const
+{
+    return _engine.numRows();
+}
+
+template <typename FS>
+typename SyMatrix<FS>::IndexType
+SyMatrix<FS>::numCols() const
+{
+    return _engine.numCols();
+}
+
+template <typename FS>
+typename SyMatrix<FS>::IndexType
+SyMatrix<FS>::firstRow() const
+{
+    return _engine.firstRow();
+}
+
+template <typename FS>
+typename SyMatrix<FS>::IndexType
+SyMatrix<FS>::lastRow() const
+{
+    return _engine.lastRow();
+}
+
+template <typename FS>
+typename SyMatrix<FS>::IndexType
+SyMatrix<FS>::firstCol() const
+{
+    return _engine.firstCol();
+}
+
+template <typename FS>
+typename SyMatrix<FS>::IndexType
+SyMatrix<FS>::lastCol() const
+{
+    return _engine.lastCol();
+}
+
+template <typename FS>
+const typename SyMatrix<FS>::ElementType *
+SyMatrix<FS>::data() const
+{
+    return _engine.data();
+}
+
+template <typename FS>
+typename SyMatrix<FS>::ElementType *
+SyMatrix<FS>::data()
+{
+    return _engine.data();
+}
+
+template <typename FS>
+typename SyMatrix<FS>::IndexType
+SyMatrix<FS>::leadingDimension() const
+{
+    return _engine.leadingDimension();
+}
+
+template <typename FS>
+StorageOrder
+SyMatrix<FS>::order() const
+{
+    return _engine.order;
+}
+
+template <typename FS>
+bool
+SyMatrix<FS>::fill(const ElementType &value)
+{
+    return _engine.fill(_upLo, value);
+}
+
+template <typename FS>
+template <typename RHS>
+bool
+SyMatrix<FS>::resize(const SyMatrix<RHS> &rhs,
+                     const ElementType &value)
+{
+    return _engine.resize(rhs.engine(), value);
+}
+
+template <typename FS>
+bool
+SyMatrix<FS>::resize(IndexType dim, IndexType firstIndex,
+                     const ElementType &value)
+{
+    return _engine.resize(dim, dim, firstIndex, firstIndex, value);
+}
+
+template <typename FS>
+bool
+SyMatrix<FS>::resize(IndexType dim, StorageUpLo upLo, IndexType firstIndex,
+                     const ElementType &value)
+{
+    _upLo = upLo;
+    return _engine.resize(dim, dim, firstIndex, firstIndex, value);
+}
+
 // -- views --------------------------------------------------------------------
 
 // general views
@@ -353,112 +467,6 @@ SyMatrix<FS>::diag(IndexType d)
     return general().diag(d);
 }
 
-// -- methods ------------------------------------------------------------------
-
-template <typename FS>
-typename SyMatrix<FS>::IndexType
-SyMatrix<FS>::dim() const
-{
-    ASSERT(_engine.numRows()==_engine.numCols());
-
-    return _engine.numRows();
-}
-
-template <typename FS>
-typename SyMatrix<FS>::IndexType
-SyMatrix<FS>::numRows() const
-{
-    return _engine.numRows();
-}
-
-template <typename FS>
-typename SyMatrix<FS>::IndexType
-SyMatrix<FS>::numCols() const
-{
-    return _engine.numCols();
-}
-
-template <typename FS>
-typename SyMatrix<FS>::IndexType
-SyMatrix<FS>::firstRow() const
-{
-    return _engine.firstRow();
-}
-
-template <typename FS>
-typename SyMatrix<FS>::IndexType
-SyMatrix<FS>::lastRow() const
-{
-    return _engine.lastRow();
-}
-
-template <typename FS>
-typename SyMatrix<FS>::IndexType
-SyMatrix<FS>::firstCol() const
-{
-    return _engine.firstCol();
-}
-
-template <typename FS>
-typename SyMatrix<FS>::IndexType
-SyMatrix<FS>::lastCol() const
-{
-    return _engine.lastCol();
-}
-
-template <typename FS>
-const typename SyMatrix<FS>::ElementType *
-SyMatrix<FS>::data() const
-{
-    return _engine.data();
-}
-
-template <typename FS>
-typename SyMatrix<FS>::ElementType *
-SyMatrix<FS>::data()
-{
-    return _engine.data();
-}
-
-template <typename FS>
-typename SyMatrix<FS>::IndexType
-SyMatrix<FS>::leadingDimension() const
-{
-    return _engine.leadingDimension();
-}
-
-template <typename FS>
-StorageOrder
-SyMatrix<FS>::order() const
-{
-    return _engine.order;
-}
-
-template <typename FS>
-template <typename RHS>
-bool
-SyMatrix<FS>::resize(const SyMatrix<RHS> &rhs,
-                     const ElementType &value)
-{
-    return _engine.resize(rhs.engine(), value);
-}
-
-template <typename FS>
-bool
-SyMatrix<FS>::resize(IndexType dim, IndexType firstIndex,
-                     const ElementType &value)
-{
-    return _engine.resize(dim, dim, firstIndex, firstIndex, value);
-}
-
-template <typename FS>
-bool
-SyMatrix<FS>::resize(IndexType dim, StorageUpLo upLo, IndexType firstIndex,
-                     const ElementType &value)
-{
-    _upLo = upLo;
-    return _engine.resize(dim, dim, firstIndex, firstIndex, value);
-}
 
 // -- implementation -----------------------------------------------------------
 
@@ -488,6 +496,25 @@ StorageUpLo &
 SyMatrix<FS>::upLo()
 {
     return _upLo;
+}
+
+//-- SyMatrix specific functions -----------------------------------------------
+
+//
+//  fillRandom
+//
+
+template <typename MA>
+typename RestrictTo<IsSyMatrix<MA>::value,
+         bool>::Type
+fillRandom(MA &&A)
+{
+    typedef typename RemoveRef<MA>::Type  MatrixA;
+    typedef typename MatrixA::IndexType   IndexType;
+    typedef typename MatrixA::VectorView  VectorView;
+
+    fillRandom(A.upLo(), A.engine());
+    return true;
 }
 
 } // namespace flens

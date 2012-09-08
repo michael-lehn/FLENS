@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2011, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -34,6 +34,27 @@
  *
        SUBROUTINE DGETRS( TRANS, N, NRHS, A, LDA, IPIV, B, LDB, INFO )
        SUBROUTINE ZGETRS( TRANS, N, NRHS, A, LDA, IPIV, B, LDB, INFO )
+       
+       SUBROUTINE DSYTRS( UPLO, N, NRHS, A, LDA, IPIV, B, LDB, INFO )
+       SUBROUTINE ZSYTRS( UPLO, N, NRHS, A, LDA, IPIV, B, LDB, INFO )
+       SUBROUTINE ZHETRS( UPLO, N, NRHS, A, LDA, IPIV, B, LDB, INFO )
+      
+       SUBROUTINE DGBTRS( TRANS, N, KL, KU, NRHS, AB, LDAB, IPIV, B, LDB,
+      $                   INFO )
+       SUBROUTINE ZGBTRS( TRANS, N, KL, KU, NRHS, AB, LDAB, IPIV, B, LDB,
+      $                   INFO )
+     
+       SUBROUTINE DTBTRS( UPLO, TRANS, DIAG, N, KD, NRHS, AB, LDAB, B,
+      $                   LDB, INFO )
+       SUBROUTINE ZTBTRS( UPLO, TRANS, DIAG, N, KD, NRHS, AB, LDAB, B,
+      $                   LDB, INFO )
+      
+       SUBROUTINE DSPTRS( UPLO, N, NRHS, AP, IPIV, B, LDB, INFO )
+       SUBROUTINE ZSPTRS( UPLO, N, NRHS, AP, IPIV, B, LDB, INFO )
+       SUBROUTINE ZHPTRS( UPLO, N, NRHS, AP, IPIV, B, LDB, INFO )
+       
+       SUBROUTINE DTPTRS( UPLO, TRANS, DIAG, N, NRHS, AP, B, LDB, INFO )
+       SUBROUTINE ZTPTRS( UPLO, TRANS, DIAG, N, NRHS, AP, B, LDB, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -70,16 +91,6 @@ template <typename MA, typename VPIV, typename MB>
              void>::Type
     trs(Transpose trans, const MA &A, const VPIV &piv, MB &&B);
 
-//
-//  Variant for convenience: Rhs b is vector
-//
-template <typename MA, typename VPIV, typename VB>
-    typename RestrictTo<IsGeMatrix<MA>::value
-                     && IsIntegerDenseVector<VPIV>::value
-                     && IsDenseVector<VB>::value,
-             void>::Type
-    trs(Transpose trans, const MA &A, const VPIV &piv, VB &&b);
-
 //== (tr)trs ===================================================================
 //
 //  Real and complex variant
@@ -89,16 +100,127 @@ template <typename MA, typename MB>
                      && IsGeMatrix<MB>::value,
              typename RemoveRef<MA>::Type::IndexType>::Type
     trs(Transpose trans, const MA &A, MB &&B);
+    
+//== Variant for convenience: Rhs b is vector =================================     
+//
+//  General Matrix: Rhs b is vector
+//
+template <typename MA, typename VPIV, typename VB>
+    typename RestrictTo< (IsGeMatrix<MA>::value || 
+                          IsGbMatrix<MA>::value )
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsDenseVector<VB>::value,
+             void>::Type
+    trs(Transpose trans, const MA &A, const VPIV &piv, VB &&b);
 
 //
-//  Variant for convenience: Rhs b is vector
+//  Triangular matrix: Rhs b is vector
 //
 template <typename MA, typename VB>
-    typename RestrictTo<IsTrMatrix<MA>::value
+    typename RestrictTo< (IsTrMatrix<MA>::value ||
+                          IsTbMatrix<MA>::value ||
+                          IsTpMatrix<MA>::value)
                      && IsDenseVector<VB>::value,
              typename RemoveRef<MA>::Type::IndexType>::Type
     trs(Transpose trans, const MA &A, VB &&b);
 
+//
+//  Hermitian or symmetric matrix: Rhs b is vector
+//
+template <typename MA, typename VPIV, typename VB>
+    typename RestrictTo< (IsHeMatrix<MA>::value ||
+                          IsSyMatrix<MA>::value ||
+                          IsHpMatrix<MA>::value ||
+                          IsSpMatrix<MA>::value )
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsDenseVector<VB>::value,
+             void>::Type
+    trs(const MA &A, const VPIV &piv, VB &&b);   
+    
+#ifdef USE_CXXLAPACK    
+    
+//== (he)trs ===================================================================
+//
+//  Real and complex variant
+//
+template <typename MA, typename VPIV, typename MB>
+    typename RestrictTo<IsHeMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsComplexGeMatrix<MB>::value,
+             void>::Type
+    trs(const MA &A, const VPIV &piv, MB &&B);
+
+//== (sy)trs ===================================================================
+//
+//  Real and complex variant
+//
+template <typename MA, typename VPIV, typename MB>
+    typename RestrictTo<IsSyMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsGeMatrix<MB>::value,
+             void>::Type
+    trs(const MA &A, const VPIV &piv, MB &&B);
+      
+//== (gb)trs ===================================================================
+//
+//  Real and complex variant
+//
+template <typename MA, typename VPIV, typename MB>
+    typename RestrictTo<IsGbMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsGeMatrix<MB>::value,
+             void>::Type
+    trs(Transpose trans, const MA &A, const VPIV &piv, MB &&B);
+
+
+//== (tb)trs ===================================================================
+//
+//  Real and complex variant
+//
+template <typename MA, typename MB>
+    typename RestrictTo<IsTbMatrix<MA>::value
+                     && IsGeMatrix<MB>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    trs(Transpose trans, const MA &A, MB &&B);
+
+
+//== (hp)trs ===================================================================
+//
+//  Complex variant
+//
+template <typename MA, typename VPIV, typename MB>
+    typename RestrictTo<IsHpMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsComplexGeMatrix<MB>::value,
+             void>::Type
+    trs(const MA &A, const VPIV &piv, MB &&B);
+    
+//== (sp)trs ===================================================================
+//
+//  Real and complex variant
+//
+template <typename MA, typename VPIV, typename MB>
+    typename RestrictTo<IsSpMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value    
+                     && IsGeMatrix<MB>::value,
+             void>::Type
+    trs(const MA &A, const VPIV &piv, MB &&B);    
+    
+//== (tp)trs ===================================================================
+//
+//  Real and complex variant
+//
+template <typename MA, typename MB>
+    typename RestrictTo<IsTpMatrix<MA>::value
+                     && IsGeMatrix<MB>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    trs(Transpose trans, const MA &A, MB &&B);
+
+
+    
+    
+#endif // USE_CXXLAPACK
+    
 } } // namespace lapack, flens
 
 #endif // FLENS_LAPACK_IMPL_TRS_H

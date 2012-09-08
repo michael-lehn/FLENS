@@ -60,6 +60,7 @@
 #include <flens/auxiliary/pair.h>
 #include <flens/auxiliary/promotion.h>
 #include <flens/auxiliary/quadruple.h>
+#include <flens/auxiliary/randomvalue.h>
 #include <flens/auxiliary/range.h>
 #include <flens/auxiliary/removeref.h>
 #include <flens/auxiliary/restrictto.h>

@@ -46,6 +46,25 @@
 
 namespace flens { namespace blas {
 
+//-- tbsv
+template <typename MA, typename VX>
+typename RestrictTo<IsTbMatrix<MA>::value
+                 && IsDenseVector<VX>::value,
+         void>::Type
+sv(Transpose trans, const MA &A, VX &&x)
+{
+    ASSERT(x.length()==A.dim());
+#   ifdef HAVE_CXXBLAS_TBSV
+    cxxblas::tbsv(A.order(), A.upLo(),
+                  trans, A.diag(),
+                  A.dim(), A.numOffDiags(),
+                  A.data(), A.leadingDimension(),
+                  x.data(), x.stride());
+#   else
+    ASSERT(0);
+#   endif
+}
+
 //-- trsv
 template <typename MA, typename VX>
 typename RestrictTo<IsTrMatrix<MA>::value
@@ -61,6 +80,25 @@ sv(Transpose trans, const MA &A, VX &&x)
                   trans, A.diag(),
                   A.dim(),
                   A.data(), A.leadingDimension(),
+                  x.data(), x.stride());
+#   else
+    ASSERT(0);
+#   endif
+}
+
+//-- tpsv
+template <typename MA, typename VX>
+typename RestrictTo<IsTpMatrix<MA>::value
+                 && IsDenseVector<VX>::value,
+         void>::Type
+sv(Transpose trans, const MA &A, VX &&x)
+{
+    ASSERT(x.length()==A.dim());
+#   ifdef HAVE_CXXBLAS_TPSV
+    cxxblas::tpsv(A.order(), A.upLo(),
+                  trans, A.diag(),
+                  A.dim(),
+                  A.data(),
                   x.data(), x.stride());
 #   else
     ASSERT(0);

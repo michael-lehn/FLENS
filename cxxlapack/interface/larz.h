@@ -43,12 +43,39 @@ template <typename IndexType>
          IndexType      m,
          IndexType      n,
          IndexType      l,
+         const float    *V,
+         IndexType      incV,
+         float          tau,
+         float          *C,
+         IndexType      ldC,
+         float          *work);
+    
+    
+template <typename IndexType>
+    void
+    larz(char           side,
+         IndexType      m,
+         IndexType      n,
+         IndexType      l,
          const double   *V,
          IndexType      incV,
          double         tau,
          double         *C,
          IndexType      ldC,
          double         *work);
+    
+template <typename IndexType>
+    void
+    larz(char                        side,
+         IndexType                   m,
+         IndexType                   n,
+         IndexType                   l,
+         const std::complex<float >  *V,
+         IndexType                   incV,
+         const std::complex<float >  &tau,
+         std::complex<float >        *C,
+         IndexType                   ldC,
+         std::complex<float >        *work);
 
 template <typename IndexType>
     void

@@ -92,6 +92,7 @@ class HeMatrix
         typedef TrMatrix<EngineView>                TriangularView;
         typedef TrMatrix<EngineNoView>              TriangularNoView;
 
+        // -- constructors -----------------------------------------------------
         HeMatrix(StorageUpLo upLo = Upper);
 
         HeMatrix(IndexType dim, StorageUpLo upLo);
@@ -184,38 +185,7 @@ class HeMatrix
         VectorView
         operator()(const Range<IndexType> &rows, IndexType col);
 
-        // -- views ------------------------------------------------------------
-
-        // general views
-        ConstGeneralView
-        general() const;
-
-        GeneralView
-        general();
-
-        // symmetric views
-        const ConstSymmetricView
-        symmetric() const;
-
-        SymmetricView
-        symmetric();
-
-        // triangular views
-        const ConstTriangularView
-        triangular() const;
-
-        TriangularView
-        triangular();
-
-        // diag views
-        const ConstVectorView
-        diag(IndexType d) const;
-
-        VectorView
-        diag(IndexType d);
-
         // -- methods ----------------------------------------------------------
-
         IndexType
         dim() const;
 
@@ -249,6 +219,9 @@ class HeMatrix
         StorageOrder
         order() const;
 
+        bool
+        fill(const ElementType &value = ElementType(0));
+
         template <typename RHS>
             bool
             resize(const HeMatrix<RHS> &rhs,
@@ -265,8 +238,36 @@ class HeMatrix
                IndexType firstIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
 
-        // -- implementation ---------------------------------------------------
+        // -- views ------------------------------------------------------------
+        // general views
+        ConstGeneralView
+        general() const;
 
+        GeneralView
+        general();
+
+        // symmetric views
+        const ConstSymmetricView
+        symmetric() const;
+
+        SymmetricView
+        symmetric();
+
+        // triangular views
+        const ConstTriangularView
+        triangular() const;
+
+        TriangularView
+        triangular();
+
+        // diag views
+        const ConstVectorView
+        diag(IndexType d) const;
+
+        VectorView
+        diag(IndexType d);
+
+        // -- implementation ---------------------------------------------------
         const Engine &
         engine() const;
 
@@ -310,6 +311,18 @@ struct IsHeMatrix
     static T var;
     static const bool value = sizeof(_HeMatrixChecker::check(var))==1;
 };
+
+//-- HeMatrix specific functions -----------------------------------------------
+
+//
+//  fillRandom
+//
+
+template <typename MA>
+    typename RestrictTo<IsHeMatrix<MA>::value,
+             bool>::Type
+    fillRandom(MA &&A);
+
 
 } // namespace flens
 

@@ -42,6 +42,25 @@ template <typename IndexType>
     gerfs(char              trans,
           IndexType         n,
           IndexType         nRhs,
+          const float       *A,
+          IndexType         ldA,
+          const float       *AF,
+          IndexType         ldAF,
+          const IndexType   *iPiv,
+          const float       *B,
+          IndexType         ldB,
+          float             *X,
+          IndexType         ldX,
+          float             *fErr,
+          float             *bErr,
+          float             *work,
+          IndexType         *iWork);
+    
+template <typename IndexType>
+    IndexType
+    gerfs(char              trans,
+          IndexType         n,
+          IndexType         nRhs,
           const double      *A,
           IndexType         ldA,
           const double      *AF,
@@ -55,7 +74,26 @@ template <typename IndexType>
           double            *bErr,
           double            *work,
           IndexType         *iWork);
-
+    
+template <typename IndexType>
+    IndexType
+    gerfs(char                          trans,
+          IndexType                     n,
+          IndexType                     nRhs,
+          const std::complex<float >    *A,
+          IndexType                     ldA,
+          const std::complex<float >    *AF,
+          IndexType                     ldAF,
+          const IndexType               *iPiv,
+          const std::complex<float >    *B,
+          IndexType                     ldB,
+          std::complex<float >          *X,
+          IndexType                     ldX,
+          float                         *fErr,
+          float                         *bErr,
+          std::complex<float >          *work,
+          float                         *rWork);
+    
 template <typename IndexType>
     IndexType
     gerfs(char                          trans,

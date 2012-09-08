@@ -39,6 +39,8 @@
 
 namespace flens {
 
+// -- constructors -------------------------------------------------------------
+
 template <typename FS>
 HeMatrix<FS>::HeMatrix(StorageUpLo upLo)
     : _upLo(upLo)
@@ -267,6 +269,120 @@ HeMatrix<FS>::operator()(const Range<IndexType> &rows, IndexType col)
     return general()(rows,col);
 }
 
+// -- methods ------------------------------------------------------------------
+
+template <typename FS>
+typename HeMatrix<FS>::IndexType
+HeMatrix<FS>::dim() const
+{
+    ASSERT(_engine.numRows()==_engine.numCols());
+
+    return _engine.numRows();
+}
+
+template <typename FS>
+typename HeMatrix<FS>::IndexType
+HeMatrix<FS>::numRows() const
+{
+    return _engine.numRows();
+}
+
+template <typename FS>
+typename HeMatrix<FS>::IndexType
+HeMatrix<FS>::numCols() const
+{
+    return _engine.numCols();
+}
+
+template <typename FS>
+typename HeMatrix<FS>::IndexType
+HeMatrix<FS>::firstRow() const
+{
+    return _engine.firstRow();
+}
+
+template <typename FS>
+typename HeMatrix<FS>::IndexType
+HeMatrix<FS>::lastRow() const
+{
+    return _engine.lastRow();
+}
+
+template <typename FS>
+typename HeMatrix<FS>::IndexType
+HeMatrix<FS>::firstCol() const
+{
+    return _engine.firstCol();
+}
+
+template <typename FS>
+typename HeMatrix<FS>::IndexType
+HeMatrix<FS>::lastCol() const
+{
+    return _engine.lastCol();
+}
+
+template <typename FS>
+const typename HeMatrix<FS>::ElementType *
+HeMatrix<FS>::data() const
+{
+    return _engine.data();
+}
+
+template <typename FS>
+typename HeMatrix<FS>::ElementType *
+HeMatrix<FS>::data()
+{
+    return _engine.data();
+}
+
+template <typename FS>
+typename HeMatrix<FS>::IndexType
+HeMatrix<FS>::leadingDimension() const
+{
+    return _engine.leadingDimension();
+}
+
+template <typename FS>
+StorageOrder
+HeMatrix<FS>::order() const
+{
+    return _engine.order;
+}
+
+bool
+HeMatrix<FS>::fill(const ElementType &value)
+{
+    ASSERT(cxxblas::imag(value)==0);
+    return _engine.fill(_upLo, value);
+}
+
+template <typename FS>
+template <typename RHS>
+bool
+HeMatrix<FS>::resize(const HeMatrix<RHS> &rhs,
+                     const ElementType &value)
+{
+    return _engine.resize(rhs.engine(), value);
+}
+
+template <typename FS>
+bool
+HeMatrix<FS>::resize(IndexType dim, IndexType firstIndex,
+                     const ElementType &value)
+{
+    return _engine.resize(dim, dim, firstIndex, firstIndex, value);
+}
+
+template <typename FS>
+bool
+HeMatrix<FS>::resize(IndexType dim, StorageUpLo upLo, IndexType firstIndex,
+                     const ElementType &value)
+{
+    _upLo = upLo;
+    return _engine.resize(dim, dim, firstIndex, firstIndex, value);
+}
+
 // -- views --------------------------------------------------------------------
 
 // general views
@@ -351,112 +467,6 @@ HeMatrix<FS>::diag(IndexType d)
     return general().diag(d);
 }
 
-// -- methods ------------------------------------------------------------------
-
-template <typename FS>
-typename HeMatrix<FS>::IndexType
-HeMatrix<FS>::dim() const
-{
-    ASSERT(_engine.numRows()==_engine.numCols());
-
-    return _engine.numRows();
-}
-
-template <typename FS>
-typename HeMatrix<FS>::IndexType
-HeMatrix<FS>::numRows() const
-{
-    return _engine.numRows();
-}
-
-template <typename FS>
-typename HeMatrix<FS>::IndexType
-HeMatrix<FS>::numCols() const
-{
-    return _engine.numCols();
-}
-
-template <typename FS>
-typename HeMatrix<FS>::IndexType
-HeMatrix<FS>::firstRow() const
-{
-    return _engine.firstRow();
-}
-
-template <typename FS>
-typename HeMatrix<FS>::IndexType
-HeMatrix<FS>::lastRow() const
-{
-    return _engine.lastRow();
-}
-
-template <typename FS>
-typename HeMatrix<FS>::IndexType
-HeMatrix<FS>::firstCol() const
-{
-    return _engine.firstCol();
-}
-
-template <typename FS>
-typename HeMatrix<FS>::IndexType
-HeMatrix<FS>::lastCol() const
-{
-    return _engine.lastCol();
-}
-
-template <typename FS>
-const typename HeMatrix<FS>::ElementType *
-HeMatrix<FS>::data() const
-{
-    return _engine.data();
-}
-
-template <typename FS>
-typename HeMatrix<FS>::ElementType *
-HeMatrix<FS>::data()
-{
-    return _engine.data();
-}
-
-template <typename FS>
-typename HeMatrix<FS>::IndexType
-HeMatrix<FS>::leadingDimension() const
-{
-    return _engine.leadingDimension();
-}
-
-template <typename FS>
-StorageOrder
-HeMatrix<FS>::order() const
-{
-    return _engine.order;
-}
-
-template <typename FS>
-template <typename RHS>
-bool
-HeMatrix<FS>::resize(const HeMatrix<RHS> &rhs,
-                     const ElementType &value)
-{
-    return _engine.resize(rhs.engine(), value);
-}
-
-template <typename FS>
-bool
-HeMatrix<FS>::resize(IndexType dim, IndexType firstIndex,
-                     const ElementType &value)
-{
-    return _engine.resize(dim, dim, firstIndex, firstIndex, value);
-}
-
-template <typename FS>
-bool
-HeMatrix<FS>::resize(IndexType dim, StorageUpLo upLo, IndexType firstIndex,
-                     const ElementType &value)
-{
-    _upLo = upLo;
-    return _engine.resize(dim, dim, firstIndex, firstIndex, value);
-}
 
 // -- implementation -----------------------------------------------------------
 
@@ -486,6 +496,29 @@ StorageUpLo &
 HeMatrix<FS>::upLo()
 {
     return _upLo;
+}
+
+//-- HeMatrix specific functions -----------------------------------------------
+
+//
+//  fillRandom
+//
+
+template <typename MA>
+typename RestrictTo<IsHeMatrix<MA>::value,
+         bool>::Type
+fillRandom(MA &&A)
+{
+    typedef typename RemoveRef<MA>::Type  MatrixA;
+    typedef typename MatrixA::IndexType   IndexType;
+    typedef typename MatrixA::VectorView  VectorView;
+
+    fillRandom(A.upLo(), A.engine());
+    VectorView d = diag(0);
+    for (IndexType i=d.firstIndex();i<=d.lastIndex();++i) {
+        d(i) = ElementType(cxxblas::real(d(i)));
+    }
+    return true;
 }
 
 } // namespace flens

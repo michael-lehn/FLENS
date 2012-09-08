@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2011, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -34,6 +34,12 @@
  *
        SUBROUTINE DGETRF( M, N, A, LDA, IPIV, INFO )
        SUBROUTINE ZGETRF( M, N, A, LDA, IPIV, INFO )
+       SUBROUTINE ZSYTRF( UPLO, N, A, LDA, IPIV, WORK, LWORK, INFO )
+       SUBROUTINE ZHETRF( UPLO, N, A, LDA, IPIV, WORK, LWORK, INFO )
+       SUBROUTINE DGBTRF( M, N, KL, KU, AB, LDAB, IPIV, INFO )
+       SUBROUTINE ZGBTRF( M, N, KL, KU, AB, LDAB, IPIV, INFO )
+       SUBROUTINE DSPTRF( UPLO, N, AP, IPIV, INFO )
+       SUBROUTINE ZHPTRF( UPLO, N, AP, IPIV, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -171,6 +177,109 @@ trf_impl(GeMatrix<MA> &A, DenseVector<VP> &piv)
                                        piv.data());
 }
 
+//-- (he)trf [complex variant] ----------------------------------------
+
+template <typename MA, typename VP, typename VWORK>
+typename HeMatrix<MA>::IndexType
+trf_impl(HeMatrix<MA> &A, DenseVector<VP> &piv, DenseVector<VWORK> &work)
+{
+    typedef typename HeMatrix<MA>::IndexType   IndexType;
+    typedef typename HeMatrix<MA>::ElementType ElementType;
+    
+    if (work.length()==0) {
+        ElementType WORK;
+        IndexType   LWORK = -1;
+        
+        cxxlapack::hetrf<IndexType>(getF77Char(A.upLo()),
+                                    A.dim(),
+                                    A.data(), A.leadingDimension(),
+                                    piv.data(),
+                                    &WORK,
+                                    LWORK);
+        work.resize(cxxblas::real(WORK));
+    }
+    
+    return cxxlapack::hetrf<IndexType>(getF77Char(A.upLo()),
+                                       A.dim(),
+                                       A.data(), A.leadingDimension(),
+                                       piv.data(),
+                                       work.data(),
+                                       work.length());
+}
+
+//-- (sy)trf [real variant] ----------------------------------------
+
+template <typename MA, typename VP, typename VWORK>
+typename SyMatrix<MA>::IndexType
+trf_impl(SyMatrix<MA> &A, DenseVector<VP> &piv, DenseVector<VWORK> &work)
+{
+    typedef typename SyMatrix<MA>::IndexType   IndexType;
+    typedef typename SyMatrix<MA>::ElementType ElementType;
+    
+    if (work.length()==0) {
+        ElementType WORK;
+        IndexType   LWORK = -1;
+        
+        cxxlapack::sytrf<IndexType>(getF77Char(A.upLo()),
+                                    A.dim(),
+                                    A.data(), A.leadingDimension(),
+                                    piv.data(),
+                                    &WORK,
+                                    LWORK);
+        work.resize(cxxblas::real(WORK));
+    }
+
+    return cxxlapack::sytrf<IndexType>(getF77Char(A.upLo()),
+                                       A.dim(),
+                                       A.data(), A.leadingDimension(),
+                                       piv.data(),
+                                       work.data(),
+                                       work.length());
+}
+
+//-- (gb)trf [real and complex variant] ----------------------------------------
+
+template <typename MA, typename VP>
+typename GbMatrix<MA>::IndexType
+trf_impl(GbMatrix<MA> &A, DenseVector<VP> &piv)
+{
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
+
+    return cxxlapack::gbtrf<IndexType>(A.numRows(), A.numCols(),
+                                       A.numSubDiags(), A.numSuperDiags()-A.numSubDiags(),
+                                       A.data(), A.leadingDimension(),
+                                       piv.data());
+}
+
+
+//-- (hp)trf [complex variant] ----------------------------------------
+
+template <typename MA, typename VP>
+typename HpMatrix<MA>::IndexType
+trf_impl(HpMatrix<MA> &A, DenseVector<VP> &piv)
+{
+    typedef typename HpMatrix<MA>::IndexType  IndexType;
+
+    return cxxlapack::hptrf<IndexType>(getF77Char(A.upLo()),
+                                       A.dim(),
+                                       A.data(), 
+                                       piv.data());
+}
+
+//-- (sp)trf [real variant] ----------------------------------------
+
+template <typename MA, typename VP>
+typename SpMatrix<MA>::IndexType
+trf_impl(SpMatrix<MA> &A, DenseVector<VP> &piv)
+{
+    typedef typename SpMatrix<MA>::IndexType  IndexType;
+
+    return cxxlapack::sptrf<IndexType>(getF77Char(A.upLo()),
+                                       A.dim(),
+                                       A.data(), 
+                                       piv.data());
+}
+
 } // namespace external
 
 #endif // USE_CXXLAPACK
@@ -246,6 +355,206 @@ trf(MA &&A, VPIV &&piv)
 
     return info;
 }
+
+#ifdef USE_CXXLAPACK
+//-- (he)trf [complex variant] ----------------------------------------
+
+template <typename MA, typename VPIV, typename VWORK>
+typename RestrictTo<IsHeMatrix<MA>::value
+                 && IsIntegerDenseVector<VPIV>::value
+                 && IsComplexDenseVector<VWORK>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+trf(MA &&A, VPIV &&piv, VWORK &&work)
+{
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+
+    if (piv.length()<A.dim()) {
+        piv.resize(A.dim());
+    }    
+    
+#   ifndef NDEBUG    
+//
+//  Test the input parameters
+//
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT((piv.inc()>0 && piv.firstIndex()==1)
+        || (piv.inc()<0 && piv.firstIndex()==A.numRows()));
+#   endif
+    
+//
+//  Call implementation
+//
+    IndexType info = external::trf_impl(A, piv, work);
+    
+    return info;
+}
+
+//-- (sy)trf [real and complex variant] --------------------------------
+
+template <typename MA, typename VPIV, typename VWORK>
+typename RestrictTo<IsSyMatrix<MA>::value
+                 && IsIntegerDenseVector<VPIV>::value
+                 && IsDenseVector<VWORK>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+trf(MA &&A, VPIV &&piv, VWORK &&work)
+{
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+
+    if (piv.length()<A.dim()) {
+        piv.resize(A.dim());
+    }    
+    
+#   ifndef NDEBUG    
+//
+//  Test the input parameters
+//
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT((piv.inc()>0 && piv.firstIndex()==1)
+        || (piv.inc()<0 && piv.firstIndex()==A.numRows()));
+#   endif
+    
+//
+//  Call implementation
+//
+    IndexType info = external::trf_impl(A, piv, work);
+    
+    return info;
+}
+
+
+//-- (he)trf [real and complex variant] ----------------------------------------
+
+template <typename MA, typename VPIV>
+typename RestrictTo< (IsHeMatrix<MA>::value ||
+                      IsSyMatrix<MA>::value )
+                 && IsIntegerDenseVector<VPIV>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+trf(MA &&A, VPIV &&piv)
+{
+    typedef typename RemoveRef<MA>::Type::Vector WorkVector;
+
+    WorkVector  work;
+    
+    return trf(A, piv, work);
+}
+
+//-- (gb)trf [real and complex variant] ----------------------------------------
+
+template <typename MA, typename VPIV>
+typename RestrictTo<IsGbMatrix<MA>::value
+                 && IsIntegerDenseVector<VPIV>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+trf(MA &&A, VPIV &&piv)
+{
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+
+    if (piv.length()<A.numRows()) {
+        piv.resize(A.numRows());
+    }
+    
+#   ifndef NDEBUG    
+//
+//  Test the input parameters
+//
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT((piv.inc()>0 && piv.firstIndex()==1)
+        || (piv.inc()<0 && piv.firstIndex()==A.numRows()));
+#   endif
+    
+//
+//  Call implementation
+//
+    IndexType info = external::trf_impl(A, piv);
+    
+    return info;
+}
+
+//-- (hp)trf [complex variant] ----------------------------------------
+
+template <typename MA, typename VPIV>
+typename RestrictTo<IsHpMatrix<MA>::value
+                 && IsIntegerDenseVector<VPIV>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+trf(MA &&A, VPIV &&piv)
+{
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+
+    if (piv.length()<A.dim()) {
+        piv.resize(A.dim());
+    }    
+    
+#   ifndef NDEBUG    
+//
+//  Test the input parameters
+//
+    ASSERT(A.firstIndex()==1);
+    ASSERT((piv.inc()>0 && piv.firstIndex()==1)
+        || (piv.inc()<0 && piv.firstIndex()==A.dim()));
+#   endif
+    
+//
+//  Call implementation
+//
+    IndexType info = external::trf_impl(A, piv);
+    
+    return info;
+}
+
+//-- (sp)trf [complex variant] ----------------------------------------
+
+template <typename MA, typename VPIV>
+typename RestrictTo<IsSpMatrix<MA>::value
+                 && IsIntegerDenseVector<VPIV>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+trf(MA &&A, VPIV &&piv)
+{
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+
+    if (piv.length()<A.dim()) {
+        piv.resize(A.dim());
+    }
+    
+#   ifndef NDEBUG    
+//
+//  Test the input parameters
+//
+    ASSERT(A.firstIndex()==1);
+    ASSERT((piv.inc()>0 && piv.firstIndex()==1)
+        || (piv.inc()<0 && piv.firstIndex()==A.dim()));
+#   endif
+    
+//
+//  Call implementation
+//
+    IndexType info = external::trf_impl(A, piv);
+    
+    return info;
+}
+
+#endif
 
 } } // namespace lapack, flens
 

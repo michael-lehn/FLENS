@@ -34,7 +34,12 @@
 #define CXXBLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_H 1
 
 #include <cxxblas/level1extensions/acxpy.h>
+#include <cxxblas/level1extensions/ccopy.h>
+#include <cxxblas/level1extensions/gbaxpy.h>
 #include <cxxblas/level1extensions/geaxpy.h>
+#include <cxxblas/level1extensions/gbcopy.h>
+#include <cxxblas/level1extensions/gbcotr.h>
+#include <cxxblas/level1extensions/gbscal.h>
 #include <cxxblas/level1extensions/gecopy.h>
 #include <cxxblas/level1extensions/gecotr.h>
 #include <cxxblas/level1extensions/geraxpy.h>
@@ -45,5 +50,8 @@
 #include <cxxblas/level1extensions/raxpy.h>
 #include <cxxblas/level1extensions/rscal.h>
 #include <cxxblas/level1extensions/trcopy.h>
+#include <cxxblas/level1extensions/tpaxpy.h>
+#include <cxxblas/level1extensions/tpcopy.h>
+#include <cxxblas/level1extensions/tpscal.h>
 
 #endif // CXXBLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_H

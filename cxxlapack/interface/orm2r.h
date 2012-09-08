@@ -36,7 +36,21 @@
 #include <complex>
 
 namespace cxxlapack {
-
+    
+template <typename IndexType>
+    IndexType
+    orm2r(char          side,
+          char          trans,
+          IndexType     m,
+          IndexType     n,
+          IndexType     k,
+          const float   *A,
+          IndexType     ldA,
+          const float   *tau,
+          float         *C,
+          IndexType     ldC,
+          float         *work);
+    
 template <typename IndexType>
     IndexType
     orm2r(char          side,

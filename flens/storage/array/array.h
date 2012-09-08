@@ -145,6 +145,16 @@ class Array
         IndexType   _length, _firstIndex;
 };
 
+//-- Array specific functions --------------------------------------------------
+
+//
+//  fillRandom
+//
+
+template <typename T, typename I, typename A>
+    bool
+    fillRandom(Array<T, I, A> &x);
+
 } // namespace flens
 
 #endif // FLENS_STORAGE_ARRAY_ARRAY_H

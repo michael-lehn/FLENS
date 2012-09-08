@@ -93,6 +93,7 @@ class SyMatrix
         typedef TrMatrix<EngineView>                TriangularView;
         typedef TrMatrix<EngineNoView>              TriangularNoView;
 
+        // -- constructors -----------------------------------------------------
         SyMatrix(StorageUpLo upLo = Upper);
 
         SyMatrix(IndexType dim, StorageUpLo upLo);
@@ -116,7 +117,6 @@ class SyMatrix
             SyMatrix(const Matrix<RHS> &rhs);
 
         // -- operators --------------------------------------------------------
-
         void
         operator=(const ElementType &value);
 
@@ -186,38 +186,7 @@ class SyMatrix
         VectorView
         operator()(const Range<IndexType> &rows, IndexType col);
 
-        // -- views ------------------------------------------------------------
-
-        // general views
-        const ConstGeneralView
-        general() const;
-
-        GeneralView
-        general();
-
-        // hermitian views
-        const ConstHermitianView
-        hermitian() const;
-
-        HermitianView
-        hermitian();
-
-        // triangular views
-        const ConstTriangularView
-        triangular() const;
-
-        TriangularView
-        triangular();
-
-        // diag views
-        const ConstVectorView
-        diag(IndexType d) const;
-
-        VectorView
-        diag(IndexType d);
-
         // -- methods ----------------------------------------------------------
-
         IndexType
         dim() const;
 
@@ -251,6 +220,9 @@ class SyMatrix
         StorageOrder
         order() const;
 
+        bool
+        fill(const ElementType &value = ElementType(0));
+
         template <typename RHS>
             bool
             resize(const SyMatrix<RHS> &rhs,
@@ -267,8 +239,36 @@ class SyMatrix
                IndexType firstIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
 
-        // -- implementation ---------------------------------------------------
+        // -- views ------------------------------------------------------------
+        // general views
+        const ConstGeneralView
+        general() const;
 
+        GeneralView
+        general();
+
+        // hermitian views
+        const ConstHermitianView
+        hermitian() const;
+
+        HermitianView
+        hermitian();
+
+        // triangular views
+        const ConstTriangularView
+        triangular() const;
+
+        TriangularView
+        triangular();
+
+        // diag views
+        const ConstVectorView
+        diag(IndexType d) const;
+
+        VectorView
+        diag(IndexType d);
+
+        // -- implementation ---------------------------------------------------
         const Engine &
         engine() const;
 
@@ -336,6 +336,17 @@ struct IsComplexSyMatrix
     static const bool value = IsSyMatrix<TT>::value
                            && IsComplex<typename TT::ElementType>::value;
 };
+
+//-- SyMatrix specific functions -----------------------------------------------
+
+//
+//  fillRandom
+//
+
+template <typename MA>
+    typename RestrictTo<IsSyMatrix<MA>::value,
+             bool>::Type
+    fillRandom(MA &&A);
 
 } // namespace flens
 

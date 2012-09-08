@@ -38,6 +38,8 @@
 #   include <cxxblas/drivers/atlas.h>
 #elif defined (WITH_GOTOBLAS)
 #   include <cxxblas/drivers/gotoblas.h>
+#elif defined (WITH_OPENBLAS)
+#   include <cxxblas/drivers/openblas.h>
 #elif defined (WITH_VECLIB)
 #   include <cxxblas/drivers/veclib.h>
 #elif defined (WITH_MKLBLAS)

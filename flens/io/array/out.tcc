@@ -33,6 +33,7 @@
 #ifndef FLENS_IO_ARRAY_OUT_TCC
 #define FLENS_IO_ARRAY_OUT_TCC 1
 
+#include <flens/auxiliary/iscomplex.h>
 #include <flens/io/array/out.h>
 
 namespace flens {
@@ -42,7 +43,8 @@ std::ostream &
 operator<<(std::ostream &out, const DenseVector<A> &x)
 {
     typedef typename DenseVector<A>::IndexType IndexType;
-
+    typedef typename DenseVector<A>::ElementType ElementType;    
+    
 #   ifdef FLENS_IO_WITH_RANGES
     IndexType defaultIndexBase = A::defaultIndexBase;
 
@@ -58,9 +60,13 @@ operator<<(std::ostream &out, const DenseVector<A> &x)
 #   endif // FLENS_IO_WITH_RANGES
 
     out << std::endl;
-    //out.setf(std::ios::fixed);
+
     for (IndexType i=x.firstIndex(); i!=x.endIndex(); i+=x.inc()) {
-        out.width(11);
+        if (IsNotComplex<ElementType>::value)
+                out.width(13);
+            else
+                out.width(28);
+
         out << x(i) << " ";
         if (i!=x.lastIndex()) {
             out << " ";

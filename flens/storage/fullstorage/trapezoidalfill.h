@@ -44,6 +44,11 @@ template <typename IndexType, typename T>
                     const T &value,
                     IndexType m, IndexType n, T *data, IndexType ld);
 
+template <typename IndexType, typename T>
+    void
+    trapezoidalFillRandom(StorageOrder order, StorageUpLo upLo,
+                          IndexType m, IndexType n, T *data, IndexType ld);
+
 } // namespace flens
 
 #endif // FLENS_STORAGE_FULLSTORAGE_TRAPEZOIDALFILL_H

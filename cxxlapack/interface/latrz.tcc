@@ -44,11 +44,35 @@ void
 latrz(IndexType m,
       IndexType n,
       IndexType l,
+      float     *A,
+      IndexType ldA,
+      float     *tau,
+      float     *work)
+{
+    CXXLAPACK_DEBUG_OUT("slatrz");
+  
+    LAPACK_IMPL(slatrz)(&m,
+                        &n,
+                        &l,
+                        A,
+                        &ldA,
+                        tau,
+                        work);
+}
+
+
+template <typename IndexType>
+void
+latrz(IndexType m,
+      IndexType n,
+      IndexType l,
       double    *A,
       IndexType ldA,
       double    *tau,
       double    *work)
 {
+    CXXLAPACK_DEBUG_OUT("dlatrz");
+  
     LAPACK_IMPL(dlatrz)(&m,
                         &n,
                         &l,
@@ -63,11 +87,34 @@ void
 latrz(IndexType             m,
       IndexType             n,
       IndexType             l,
+      std::complex<float >  *A,
+      IndexType             ldA,
+      std::complex<float >  *tau,
+      std::complex<float >  *work)
+{
+    CXXLAPACK_DEBUG_OUT("clatrz");
+  
+    LAPACK_IMPL(clatrz)(&m,
+                        &n,
+                        &l,
+                        reinterpret_cast<float  *>(A),
+                        &ldA,
+                        reinterpret_cast<float  *>(tau),
+                        reinterpret_cast<float  *>(work));
+}
+
+template <typename IndexType>
+void
+latrz(IndexType             m,
+      IndexType             n,
+      IndexType             l,
       std::complex<double>  *A,
       IndexType             ldA,
       std::complex<double>  *tau,
       std::complex<double>  *work)
 {
+    CXXLAPACK_DEBUG_OUT("zlatrz");
+  
     LAPACK_IMPL(zlatrz)(&m,
                         &n,
                         &l,

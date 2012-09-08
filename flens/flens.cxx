@@ -33,6 +33,18 @@
 #ifndef FLENS_FLENS_CXX
 #define FLENS_FLENS_CXX 1
 
+#ifdef __INTEL_COMPILER
+#    define STD_HACK
+#elif __clang__
+#    define STD_HACK
+#elif __GNUC__
+#    define GCC_HACK
+#endif
+
+#ifdef STD_HACK
+#   include <flens/hacks/std.h>
+#endif
+
 #ifdef FLENS_DEBUG_CLOSURES
 #   include <flens/debug/auxiliary/auxiliary.h>
 #endif

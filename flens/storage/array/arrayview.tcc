@@ -260,6 +260,25 @@ ArrayView<T, I, A>::view(IndexType from, IndexType to,
                      allocator());          // allocator
 }
 
+
+//-- ArrayView specific functions ----------------------------------------------
+
+//
+//  fillRandom
+//
+
+template <typename T, typename I, typename A>
+bool
+fillRandom(ArrayView<T, I, A> &x)
+{
+    typedef typename ArrayView<T,I,A>::IndexType    IndexType;
+
+    for (IndexType i=x.firstIndex(); i<=x.lastIndex(); ++i) {
+        x(i) = randomValue<T>();
+    }
+    return true;
+}
+
 } // namespace flens
 
 #endif // FLENS_STORAGE_ARRAY_ARRAYVIEW_TCC

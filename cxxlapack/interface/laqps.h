@@ -44,6 +44,24 @@ template <typename IndexType>
           IndexType     offset,
           IndexType     nb,
           IndexType     &kb,
+          float         *A,
+          IndexType     ldA,
+          IndexType     *jPvt,
+          float         *tau,
+          float         *vn1,
+          float         *vn2,
+          float         *auxv,
+          float         *F,
+          IndexType     ldF);
+    
+    
+template <typename IndexType>
+    void
+    laqps(IndexType     m,
+          IndexType     n,
+          IndexType     offset,
+          IndexType     nb,
+          IndexType     &kb,
           double        *A,
           IndexType     ldA,
           IndexType     *jPvt,
@@ -53,6 +71,23 @@ template <typename IndexType>
           double        *auxv,
           double        *F,
           IndexType     ldF);
+    
+template <typename IndexType>
+    void
+    laqps(IndexType             m,
+          IndexType             n,
+          IndexType             offset,
+          IndexType             nb,
+          IndexType             &kb,
+          std::complex<float >  *A,
+          IndexType             ldA,
+          IndexType             *jPvt,
+          std::complex<float >  *tau,
+          float                 *vn1,
+          float                 *vn2,
+          std::complex<float >  *auxv,
+          std::complex<float >  *F,
+          IndexType             ldF);
 
 template <typename IndexType>
     void

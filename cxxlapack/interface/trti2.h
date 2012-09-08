@@ -42,9 +42,25 @@ template <typename IndexType>
     trti2(char          upLo,
           char          diag,
           IndexType     n,
-          double        *A,
+          float         *A,
           IndexType     ldA);
 
+template <typename IndexType>
+    IndexType
+    trti2(char          upLo,
+          char          diag,
+          IndexType     n,
+          double        *A,
+          IndexType     ldA);
+    
+template <typename IndexType>
+    IndexType
+    trti2(char                  upLo,
+          char                  diag,
+          IndexType             n,
+          std::complex<float >  *A,
+          IndexType             ldA);
+    
 template <typename IndexType>
     IndexType
     trti2(char                  upLo,

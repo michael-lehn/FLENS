@@ -44,6 +44,41 @@ IndexType
 lascl(char          type,
       IndexType     kl,
       IndexType     ku,
+      const float   &cFrom,
+      const float   &cTo,
+      IndexType     m,
+      IndexType     n,
+      float         *A,
+      IndexType     ldA)
+{
+    CXXLAPACK_DEBUG_OUT("slascl");
+    
+    IndexType info;
+    LAPACK_IMPL(slascl)(&type,
+                        &kl,
+                        &ku,
+                        &cFrom,
+                        &cTo,
+                        &m,
+                        &n,
+                        A,
+                        &ldA,
+                        &info);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+
+template <typename IndexType>
+IndexType
+lascl(char          type,
+      IndexType     kl,
+      IndexType     ku,
       const double  &cFrom,
       const double  &cTo,
       IndexType     m,
@@ -51,6 +86,8 @@ lascl(char          type,
       double        *A,
       IndexType     ldA)
 {
+    CXXLAPACK_DEBUG_OUT("dlascl");
+  
     IndexType info;
     LAPACK_IMPL(dlascl)(&type,
                         &kl,
@@ -77,6 +114,39 @@ IndexType
 lascl(char                  type,
       IndexType             kl,
       IndexType             ku,
+      const float           &cFrom,
+      const float           &cTo,
+      IndexType             m,
+      IndexType             n,
+      std::complex<float >  *A,
+      IndexType             ldA)
+{
+    CXXLAPACK_DEBUG_OUT("clascl");
+  
+    IndexType info;
+    LAPACK_IMPL(clascl)(&type,
+                        &kl,
+                        &ku,
+                        &cFrom,
+                        &cTo,
+                        &m,
+                        &n,
+                        reinterpret_cast<float  *>(A),
+                        &ldA);
+#   ifndef NDEBUG
+    if (info<0) {
+        std::cerr << "info = " << info << std::endl;
+    }
+#   endif
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename IndexType>
+IndexType
+lascl(char                  type,
+      IndexType             kl,
+      IndexType             ku,
       const double          &cFrom,
       const double          &cTo,
       IndexType             m,
@@ -84,6 +154,8 @@ lascl(char                  type,
       std::complex<double>  *A,
       IndexType             ldA)
 {
+    CXXLAPACK_DEBUG_OUT("zlascl");
+  
     IndexType info;
     LAPACK_IMPL(zlascl)(&type,
                         &kl,

@@ -367,6 +367,15 @@ template <typename VZ>
     real(VZ &&z);
 
 
+//
+//  fillRandom
+//
+
+template <typename VX>
+    typename RestrictTo<IsDenseVector<VX>::value,
+             bool>::Type
+    fillRandom(VX &&x);
+
 } // namespace flens
 
 #endif // FLENS_VECTORTYPES_IMPL_DENSEVECTOR_H

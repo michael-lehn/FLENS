@@ -137,6 +137,13 @@ trmm(StorageOrder order, Side side, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ctrmm");
 
+    if (transA==Conj) {
+        CXXBLAS_DEBUG_OUT("trmm_generic");
+        trmm_generic(order, side, upLo, transA, diag, m, n, alpha, A, ldA, B, ldB);
+
+        return;
+    }
+    
     cblas_ctrmm(CBLAS::getCblasType(order),
                 CBLAS::getCblasType(side), CBLAS::getCblasType(upLo),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
@@ -158,6 +165,13 @@ trmm(StorageOrder order, Side side, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ztrmm");
 
+    if (transA==Conj) {
+        CXXBLAS_DEBUG_OUT("trmm_generic");
+        trmm_generic(order, side, upLo, transA, diag, m, n, alpha, A, ldA, B, ldB);
+
+        return;
+    }
+    
     cblas_ztrmm(CBLAS::getCblasType(order),
                 CBLAS::getCblasType(side), CBLAS::getCblasType(upLo),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),

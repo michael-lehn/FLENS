@@ -42,6 +42,33 @@ namespace flens { namespace blas {
 
 //== GeneralMatrix - GeneralMatrix products ====================================
 
+//-- gbmm
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+    typename RestrictTo<IsGbMatrix<MA>::value
+                     && IsGeMatrix<MB>::value
+                     && IsGeMatrix<MC>::value,
+             void>::Type
+    mm(Transpose        transA,
+       Transpose        transB,
+       const ALPHA      &alpha,
+       const MA         &A,
+       const MB         &B,
+       const BETA       &beta,
+       MC               &&C);
+
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+    typename RestrictTo<IsGeMatrix<MA>::value
+                     && IsGbMatrix<MB>::value
+                     && IsGeMatrix<MC>::value,
+             void>::Type
+    mm(Transpose        transA,
+       Transpose        transB,
+       const ALPHA      &alpha,
+       const MA         &A,
+       const MB         &B,
+       const BETA       &beta,
+       MC               &&C);
+
 //-- gemm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
     typename RestrictTo<IsGeMatrix<MA>::value
@@ -56,20 +83,48 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
        const BETA       &beta,
        MC               &&C);
 
-//== TriangularMatrix - GeneralMatrix products =================================
+//== HermitianMatrix - GeneralMatrix products ==================================
 
-//-- trmm
-template <typename ALPHA, typename MA, typename MB>
-    typename RestrictTo<IsTrMatrix<MA>::value
-                     && IsGeMatrix<MB>::value,
+//-- hbmm
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+    typename RestrictTo<IsHbMatrix<MA>::value
+                     && IsGeMatrix<MB>::value
+                     && IsGeMatrix<MC>::value,
              void>::Type
     mm(Side             side,
-       Transpose        transA,
        const ALPHA      &alpha,
        const MA         &A,
-       MB               &&B);
+       const MB         &B,
+       const BETA       &beta,
+       MC               &&C);
+
+//-- hemm
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+    typename RestrictTo<IsHeMatrix<MA>::value
+                     && IsGeMatrix<MB>::value
+                     && IsGeMatrix<MC>::value,
+             void>::Type
+    mm(Side             side,
+       const ALPHA      &alpha,
+       const MA         &A,
+       const MB         &B,
+       const BETA       &beta,
+       MC               &&C);
 
 //== SymmetricMatrix - GeneralMatrix products ==================================
+
+//-- sbmm
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+    typename RestrictTo<IsSbMatrix<MA>::value
+                     && IsGeMatrix<MB>::value
+                     && IsGeMatrix<MC>::value,
+                 void>::Type
+    mm(Side             side,
+       const ALPHA      &alpha,
+       const MA         &A,
+       const MB         &B,
+       const BETA       &beta,
+       MC               &&C);
 
 //-- symm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
@@ -84,20 +139,29 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
        const BETA       &beta,
        MC               &&C);
 
-//== HermitianMatrix - GeneralMatrix products ==================================
+//== TriangularMatrix - GeneralMatrix products =================================
 
-//-- hemm
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-    typename RestrictTo<IsHeMatrix<MA>::value
-                     && IsGeMatrix<MB>::value
-                     && IsGeMatrix<MC>::value,
+//-- tbmm
+template <typename ALPHA, typename MA, typename MB>
+    typename RestrictTo<IsTbMatrix<MA>::value
+                     && IsGeMatrix<MB>::value,
              void>::Type
     mm(Side             side,
+       Transpose        transA,
        const ALPHA      &alpha,
        const MA         &A,
-       const MB         &B,
-       const BETA       &beta,
-       MC               &&C);
+       MB               &&B);
+
+//-- trmm
+template <typename ALPHA, typename MA, typename MB>
+    typename RestrictTo<IsTrMatrix<MA>::value
+                     && IsGeMatrix<MB>::value,
+             void>::Type
+    mm(Side             side,
+       Transpose        transA,
+       const ALPHA      &alpha,
+       const MA         &A,
+       MB               &&B);
 
 } } // namespace blas, flens
 

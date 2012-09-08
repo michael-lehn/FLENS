@@ -35,6 +35,7 @@
 
 #include <cassert>
 #include <cxxblas/level1/copy.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/storage/array/array.h>
 #include <flens/storage/array/arrayview.h>
 #include <flens/storage/array/constarrayview.h>
@@ -286,6 +287,26 @@ Array<T, I, A>::_release()
         _data = 0;
     }
     ASSERT(_data==0);
+}
+
+//-- Array specific functions --------------------------------------------------
+
+//
+//  fillRandom
+//
+
+template <typename T, typename I, typename A>
+bool
+fillRandom(Array<T, I, A> &x)
+{
+    typedef typename Array<T,I,A>::ElementType  ElementType;
+    typedef typename Array<T,I,A>::IndexType    IndexType;
+
+    ElemenType  *data = x.data();
+    for (IndexType i=0; i<x.length(); ++i) {
+        data[i] = randomValue<T>();
+    }
+    return true;
 }
 
 } // namespace flens

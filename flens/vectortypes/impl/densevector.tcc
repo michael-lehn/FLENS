@@ -482,6 +482,7 @@ real(VZ &&z)
                   z.firstIndex());
 }
 
+
 //
 //  imag
 //
@@ -518,6 +519,19 @@ imag(VZ &&z)
                   reinterpret_cast<PT *>(z.data()) + 1,
                   2*z.stride(),
                   z.firstIndex());
+}
+
+
+//
+//  fillRandom
+//
+
+template <typename VX>
+typename RestrictTo<IsDenseVector<VX>::value,
+         bool>::Type
+fillRandom(VX &&)
+{
+    return fillRandom(x.engine());
 }
 
 

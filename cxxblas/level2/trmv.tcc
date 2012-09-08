@@ -45,12 +45,20 @@ trmv_generic(StorageOrder order, StorageUpLo upLo,
              const MA *A, IndexType ldA,
              VX *x, IndexType incX)
 {
+  
+
+    
     if (order==ColMajor) {
         transA = Transpose(transA^Trans);
         upLo = (upLo==Upper) ? Lower : Upper;
         trmv_generic(RowMajor, upLo, transA, diag, n, A, ldA, x, incX);
         return;
     }
+    
+    if (incX<0) {
+        x -= incX*(n-1);
+    }
+    
     if (transA==NoTrans) {
         if (upLo==Upper) {
             if (diag==NonUnit) {
@@ -176,7 +184,7 @@ trmv_generic(StorageOrder order, StorageUpLo upLo,
         } else { /* upLo==Lower */
             if (diag==NonUnit) {
                 for (IndexType i=0, iX=0; i<n; ++i, iX+=incX) {
-                    VX _x;
+                    VX _x; 
                     dot_generic(n-i, A+i*(ldA+1), IndexType(ldA),
                                      x+iX, incX, _x);
                     x[iX] = _x;
@@ -203,9 +211,6 @@ trmv(StorageOrder order, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("trmv_generic");
 
-    if (incX<0) {
-        x -= incX*(n-1);
-    }
     trmv_generic(order, upLo, transA, diag, n, A, ldA, x, incX);
 }
 
@@ -276,6 +281,11 @@ trmv(StorageOrder order, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ztrmv");
 
+    if (transA==Conj) {
+        CXXBLAS_DEBUG_OUT("trmv_generic");
+        trmv_generic(order, upLo, transA, diag, n, A, ldA, x, incX);
+        return;
+    }
     cblas_ztrmv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 n,

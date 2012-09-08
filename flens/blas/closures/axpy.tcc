@@ -836,6 +836,20 @@ axpy(Transpose trans, const ALPHA &alpha,
 
     FLENS_BLASLOG_TMP_REMOVE(_A, A);
 }
+#else
+//------------------------------------------------------------------------------
+//
+// B += Some Matrix
+//
+template <typename ALPHA, typename MA, typename MB>
+void
+axpy(Transpose trans, const ALPHA &alpha,
+     const Matrix<MA> &A, Matrix<MB> &B)
+{
+    FLENS_BLASLOG_ERROR_MAXPY(trans, alpha, A, B);
+    ERROR_MSG("B += Some Matrix");
+    ASSERT(0);
+}
 #endif
 
 
