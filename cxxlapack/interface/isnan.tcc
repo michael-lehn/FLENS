@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_ISNAN_TCC
 #define CXXLAPACK_INTERFACE_ISNAN_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -42,7 +44,7 @@ bool
 isnan(float                 sin)
 {
     CXXLAPACK_DEBUG_OUT("sisnan");
-    
+
     return LAPACK_IMPL(sisnan)(&sin);
 }
 

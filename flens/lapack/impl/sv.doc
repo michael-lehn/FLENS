@@ -79,11 +79,11 @@ Interface: Single Right-Hand Side
 |      sv(MA &&A, VPIV &&piv, VB &&b);                                      |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@flens@N@lapack@FT@>3#T#T#Tsv#&t0.0#&t0.1#&t0.]
-                         [2#templatetypenameMA,typenameVPIV,typenameVBtypena]
-                         [meRestrictToIsGeMatrixMAvalueandIsIntegerDenseVect]
-                         [orVPIVvalueandIsDenseVectorVBvalue,typenameRemoveR]
-                         [efMATypeIndexTypeType                             ]
+                         [O#c:@N@flens@N@lapack@FT@>3#T#T#Tsv#&t0.0#&t0.1#&t]
+                         [0.2#templatetypenameMA,typenameVPIV,typenameVBtype]
+                         [nameRestrictToIsGeMatrixMAvalueandIsIntegerDenseVe]
+                         [ctorVPIVvalueandIsDenseVectorVBvalue,typenameRemov]
+                         [eRefMATypeIndexTypeType                           ]
 
     A       `(input/output) real or complex valued GeMatrix`                   +
             On entry, the $n \times n$ coefficient matrix $A$.                 +
@@ -114,3 +114,231 @@ Notes
 :links: lapack-gesv -> doc:flens/examples/tut04-page03
         (d.+)       -> file:cxxlapack/netlib/lapack/$1.f
         (z.+)       -> file:cxxlapack/netlib/lapack/$1.f
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV, typename VB>                       |
+|      typename RestrictTo< (IsGeMatrix<MA>::value ||                       |
+|                            IsHeMatrix<MA>::value ||                       |
+|                            IsSyMatrix<MA>::value ||                       |
+|                            IsGbMatrix<MA>::value ||                       |
+|                            IsHpMatrix<MA>::value ||                       |
+|                            IsSpMatrix<MA>::value)                         |
+|                       && IsIntegerDenseVector<VPIV>::value                |
+|                       && IsDenseVector<VB>::value,                        |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      sv(MA &&A, VPIV &&piv, VB &&b);                                      |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>3#T#T#Tsv#&t0.0#&t0.1#&t0.]
+                         [2#templatetypenameMA,typenameVPIV,typenameVBtypena]
+                         [meRestrictTo                                      ]
+
+    Defined in namespace `flens::lapack`.
+    Function `sv` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV, typename MB, typename VWORK>       |
+|      typename RestrictTo<IsHeMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value                |
+|                       && IsComplexGeMatrix<MB>::value                     |
+|                       && IsComplexDenseVector<VWORK>::value,              |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      sv(MA &&A, VPIV &&piv, MB &&B, VWORK && work);                       |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>4#T#T#T#Tsv#&t0.0#&t0.1#&t]
+                         [0.2#&t0.3#templatetypenameMA,typenameVPIV,typename]
+                         [MB,typenameVWORKtypenameRestrictToIsHeMatrixMAvalu]
+                         [eandIsIntegerDenseVectorVPIVvalueandIsComplexGeMat]
+                         [rixMBvalueandIsComplexDenseVectorVWORKvalue,typena]
+                         [meRemoveRefMATypeIndexTypeType                    ]
+
+    Defined in namespace `flens::lapack`.
+    Function `sv` with 4 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV, typename VB, typename VWORK>       |
+|      typename RestrictTo<IsHeMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value                |
+|                       && IsComplexDenseVector<VB>::value                  |
+|                       && IsComplexDenseVector<VWORK>::value,              |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      sv(MA &&A, VPIV &&piv, VB &&b, VWORK && work);                       |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>4#T#T#T#Tsv#&t0.0#&t0.1#&t]
+                         [0.2#&t0.3#templatetypenameMA,typenameVPIV,typename]
+                         [VB,typenameVWORKtypenameRestrictToIsHeMatrixMAvalu]
+                         [eandIsIntegerDenseVectorVPIVvalueandIsComplexDense]
+                         [VectorVBvalueandIsComplexDenseVectorVWORKvalue,typ]
+                         [enameRemoveRefMATypeIndexTypeType                 ]
+
+    Defined in namespace `flens::lapack`.
+    Function `sv` with 4 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV, typename MB>                       |
+|      typename RestrictTo<IsHeMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value                |
+|                       && IsComplexGeMatrix<MB>::value ,                   |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      sv(MA &&A, VPIV &&piv, MB &&B);                                      |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>3#T#T#Tsv#&t0.0#&t0.1#&t0.]
+                         [2#templatetypenameMA,typenameVPIV,typenameMBtypena]
+                         [meRestrictToIsHeMatrixMAvalueandIsIntegerDenseVect]
+                         [orVPIVvalueandIsComplexGeMatrixMBvalue,typenameRem]
+                         [oveRefMATypeIndexTypeType                         ]
+
+    Defined in namespace `flens::lapack`.
+    Function `sv` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV, typename MB, typename VWORK>       |
+|      typename RestrictTo<IsSyMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value                |
+|                       && IsGeMatrix<MB>::value                            |
+|                       && IsDenseVector<VWORK>::value,                     |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      sv(MA &&A, VPIV &&piv, MB &&B, VWORK &&work);                        |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>4#T#T#T#Tsv#&t0.0#&t0.1#&t]
+                         [0.2#&t0.3#templatetypenameMA,typenameVPIV,typename]
+                         [MB,typenameVWORKtypenameRestrictToIsSyMatrixMAvalu]
+                         [eandIsIntegerDenseVectorVPIVvalueandIsGeMatrixMBva]
+                         [lueandIsDenseVectorVWORKvalue,typenameRemoveRefMAT]
+                         [ypeIndexTypeType                                  ]
+
+    Defined in namespace `flens::lapack`.
+    Function `sv` with 4 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV, typename VB, typename VWORK>       |
+|      typename RestrictTo<IsSyMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value                |
+|                       && IsDenseVector<VB>::value                         |
+|                       && IsDenseVector<VWORK>::value,                     |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      sv(MA &&A, VPIV &&piv, VB &&b, VWORK &&work);                        |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>4#T#T#T#Tsv#&t0.0#&t0.1#&t]
+                         [0.2#&t0.3#templatetypenameMA,typenameVPIV,typename]
+                         [VB,typenameVWORKtypenameRestrictToIsSyMatrixMAvalu]
+                         [eandIsIntegerDenseVectorVPIVvalueandIsDenseVectorV]
+                         [BvalueandIsDenseVectorVWORKvalue,typenameRemoveRef]
+                         [MATypeIndexTypeType                               ]
+
+    Defined in namespace `flens::lapack`.
+    Function `sv` with 4 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV, typename MB>                       |
+|      typename RestrictTo<IsSyMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value                |
+|                       && IsGeMatrix<MB>::value,                           |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      sv(MA &&A, VPIV &&piv, MB &&B);                                      |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>3#T#T#Tsv#&t0.0#&t0.1#&t0.]
+                         [2#templatetypenameMA,typenameVPIV,typenameMBtypena]
+                         [meRestrictToIsSyMatrixMAvalueandIsIntegerDenseVect]
+                         [orVPIVvalueandIsGeMatrixMBvalue,typenameRemoveRefM]
+                         [ATypeIndexTypeType                                ]
+
+    Defined in namespace `flens::lapack`.
+    Function `sv` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV, typename MB>                       |
+|      typename RestrictTo<IsGbMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value                |
+|                       && IsGeMatrix<MB>::value,                           |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      sv(MA &&A, VPIV &&piv, MB &&B);                                      |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>3#T#T#Tsv#&t0.0#&t0.1#&t0.]
+                         [2#templatetypenameMA,typenameVPIV,typenameMBtypena]
+                         [meRestrictToIsGbMatrixMAvalueandIsIntegerDenseVect]
+                         [orVPIVvalueandIsGeMatrixMBvalue,typenameRemoveRefM]
+                         [ATypeIndexTypeType                                ]
+
+    Defined in namespace `flens::lapack`.
+    Function `sv` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV, typename MB>                       |
+|      typename RestrictTo<IsHpMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value                |
+|                       && IsComplexGeMatrix<MB>::value,                    |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      sv(MA &&A, VPIV &&piv, MB &&B);                                      |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>3#T#T#Tsv#&t0.0#&t0.1#&t0.]
+                         [2#templatetypenameMA,typenameVPIV,typenameMBtypena]
+                         [meRestrictToIsHpMatrixMAvalueandIsIntegerDenseVect]
+                         [orVPIVvalueandIsComplexGeMatrixMBvalue,typenameRem]
+                         [oveRefMATypeIndexTypeType                         ]
+
+    Defined in namespace `flens::lapack`.
+    Function `sv` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV, typename MB>                       |
+|      typename RestrictTo<IsSpMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value                |
+|                       && IsGeMatrix<MB>::value,                           |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      sv(MA &&A, VPIV &&piv, MB &&B);                                      |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>3#T#T#Tsv#&t0.0#&t0.1#&t0.]
+                         [2#templatetypenameMA,typenameVPIV,typenameMBtypena]
+                         [meRestrictToIsSpMatrixMAvalueandIsIntegerDenseVect]
+                         [orVPIVvalueandIsGeMatrixMBvalue,typenameRemoveRefM]
+                         [ATypeIndexTypeType                                ]
+
+    Defined in namespace `flens::lapack`.
+    Function `sv` with 3 template parameters.
+
+
+

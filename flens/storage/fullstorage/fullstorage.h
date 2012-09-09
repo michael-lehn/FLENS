@@ -267,13 +267,13 @@ class FullStorage
 //  fillRandom
 //
 
-template <typename T, StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename Allocator>
     bool
-    fillRandom(FullStorage<T, Order, I, A> &A);
+    fillRandom(FullStorage<T, Order, I, Allocator> &A);
 
-template <typename T, StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename Allocator>
     bool
-    fillRandom(StorageUpLo upLo, FullStorage<T, Order, I, A> &A);
+    fillRandom(StorageUpLo upLo, FullStorage<T, Order, I, Allocator> &A);
 
 
 } // namespace flens

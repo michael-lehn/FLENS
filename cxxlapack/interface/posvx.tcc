@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_POSVX_TCC
 #define CXXLAPACK_INTERFACE_POSVX_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -60,7 +62,7 @@ posvx(char                  fact,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("sposvx");
-    
+
     IndexType info;
     LAPACK_IMPL(sposvx)(&fact,
                         &uplo,
@@ -115,7 +117,7 @@ posvx(char                  fact,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dposvx");
-    
+
     IndexType info;
     LAPACK_IMPL(dposvx)(&fact,
                         &uplo,
@@ -169,7 +171,7 @@ posvx(char                  fact,
       float                 *rWork)
 {
     CXXLAPACK_DEBUG_OUT("cposvx");
-    
+
     IndexType info;
     LAPACK_IMPL(cposvx)(&fact,
                         &uplo,
@@ -223,7 +225,7 @@ posvx(char                  fact,
       double                *rWork)
 {
     CXXLAPACK_DEBUG_OUT("zposvx");
-    
+
     IndexType info;
     LAPACK_IMPL(zposvx)(&fact,
                         &uplo,

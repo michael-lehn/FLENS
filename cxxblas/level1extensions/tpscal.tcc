@@ -35,6 +35,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 
@@ -49,10 +50,10 @@ tpscal(StorageOrder order, StorageUpLo upLo, Diag diag,
     CXXBLAS_DEBUG_OUT("tpscal_generic");
 
     // TODO: Remove scaling of diagonal if diag == Unit
-    
+
     const IndexType length = n*(n+1)/2;
     scal(length, alpha, A, 1);
-    
+
     return;
 }
 

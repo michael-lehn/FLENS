@@ -40,6 +40,7 @@
 #include <cxxblas/typedefs.h>
 #include <flens/auxiliary/iscomplex.h>
 #include <flens/auxiliary/isinteger.h>
+#include <flens/io/packedstorage/save.h>
 
 namespace flens {
 
@@ -278,27 +279,6 @@ saveMatrixMarket(std::string filename, const HpMatrix<FS> &A,
     ofs.close();
     return true;
     
-}
-
-//-- forwarding ---------------------------------------------------------------
-template <typename MA>
-typename RestrictTo<IsHpMatrix<MA>::value ||
-                    IsSpMatrix<MA>::value ||
-                    IsTpMatrix<MA>::value,
-                    bool>::Type
-save(std::string filename, const MA &&A)
-{
-    return save(filename, A);
-}
-
-template <typename MA>
-typename RestrictTo<IsHpMatrix<MA>::value ||
-                    IsSpMatrix<MA>::value,
-                    bool>::Type
-saveMatrixMarket(std::string filename, const MA &&A, 
-                 std::string comment, int precision)
-{
-    return saveMatrixMarket(filename, A, comment, precision);
 }
 
 } // namespace flens

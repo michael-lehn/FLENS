@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_ORGTR_TCC
 #define CXXLAPACK_INTERFACE_ORGTR_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ orgtr(char                  uplo,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("sorgtr");
-  
+
     IndexType info;
     LAPACK_IMPL(sorgtr)(&uplo,
                         &n,
@@ -78,7 +80,7 @@ orgtr(char                  uplo,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("dorgtr");
-  
+
     IndexType info;
     LAPACK_IMPL(dorgtr)(&uplo,
                         &n,

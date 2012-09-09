@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LALS0_TCC
 #define CXXLAPACK_INTERFACE_LALS0_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -64,7 +66,7 @@ lals0(IndexType             icomq,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("slals0");
-    
+
     IndexType info;
     LAPACK_IMPL(slals0)(&icomq,
                         &nl,
@@ -127,7 +129,7 @@ lals0(IndexType             icomq,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dlals0");
-    
+
     IndexType info;
     LAPACK_IMPL(dlals0)(&icomq,
                         &nl,
@@ -189,7 +191,7 @@ lals0(IndexType             icomq,
       float                 *rWork)
 {
     CXXLAPACK_DEBUG_OUT("clals0");
-    
+
     IndexType info;
     LAPACK_IMPL(clals0)(&icomq,
                         &nl,
@@ -252,7 +254,7 @@ lals0(IndexType             icomq,
       double                *rWork)
 {
     CXXLAPACK_DEBUG_OUT("zlals0");
-    
+
     IndexType info;
     LAPACK_IMPL(zlals0)(&icomq,
                         &nl,

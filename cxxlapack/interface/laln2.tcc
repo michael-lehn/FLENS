@@ -60,7 +60,7 @@ laln2(bool              trans,
       float             &normX)
 {
     CXXLAPACK_DEBUG_OUT("slaln2");
-    
+
     IndexType info;
     IndexType _trans = trans;
     LAPACK_IMPL(slaln2)(&_trans,
@@ -111,7 +111,7 @@ laln2(bool              trans,
       double            &normX)
 {
     CXXLAPACK_DEBUG_OUT("dlaln2");
-    
+
     IndexType info;
     IndexType _trans = trans;
     LAPACK_IMPL(dlaln2)(&_trans,

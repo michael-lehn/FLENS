@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HPEVD_TCC
 #define CXXLAPACK_INTERFACE_HPEVD_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -54,7 +56,7 @@ hpevd(char                   jobZ,
       IndexType              liWork)
 {
     CXXLAPACK_DEBUG_OUT("chpevd");
-    
+
     IndexType info;
     LAPACK_IMPL(chpevd)(&jobZ,
                         &upLo,
@@ -96,7 +98,7 @@ hpevd(char                   jobZ,
       IndexType              liWork)
 {
     CXXLAPACK_DEBUG_OUT("zhpevd");
-    
+
     IndexType info;
     LAPACK_IMPL(zhpevd)(&jobZ,
                         &upLo,

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_UNGRQ_TCC
 #define CXXLAPACK_INTERFACE_UNGRQ_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -49,7 +51,7 @@ ungrq(IndexType                   m,
       IndexType                   lWork)
 {
     CXXLAPACK_DEBUG_OUT("cungrq");
- 
+
     IndexType info;
     LAPACK_IMPL(cungrq)(&m,
                         &n,
@@ -81,7 +83,7 @@ ungrq(IndexType                   m,
       IndexType                   lWork)
 {
     CXXLAPACK_DEBUG_OUT("zungrq");
- 
+
     IndexType info;
     LAPACK_IMPL(zungrq)(&m,
                         &n,

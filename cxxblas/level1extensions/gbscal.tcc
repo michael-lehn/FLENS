@@ -34,6 +34,7 @@
 #define CXXBLAS_LEVEL1EXTENSIONS_GBSCAL_TCC 1
 
 #include <cassert>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 
@@ -45,17 +46,16 @@ gbscal(StorageOrder order,
        const ALPHA &alpha, MA *A, IndexType ldA)
 {
     CXXBLAS_DEBUG_OUT("gbscal_generic");
-    
+
     if (order==ColMajor) {
         std::swap(m,n);
         std::swap(kl,ku);
     }
     using std::max;
     using std::min;
-    
-    
-    for (IndexType j=0, i=-kl; i<=ku; ++j, ++i)
-    {
+
+
+    for (IndexType j=0, i=-kl; i<=ku; ++j, ++i) {
         IndexType length = (i < 0) ? min(m+i,min(m,n)) : min(n-i,min(m,n));
         scal(length, alpha, A+j+max(-i,0)*ldA, ldA);
     }

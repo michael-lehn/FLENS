@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_SYGVX_TCC
 #define CXXLAPACK_INTERFACE_SYGVX_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -63,7 +65,7 @@ sygvx(IndexType             itype,
       IndexType             *ifail)
 {
     CXXLAPACK_DEBUG_OUT("ssygvx");
- 
+
     IndexType info;
     LAPACK_IMPL(ssygvx)(&itype,
                         &jobz,
@@ -123,7 +125,7 @@ sygvx(IndexType             itype,
       IndexType             *ifail)
 {
     CXXLAPACK_DEBUG_OUT("dsygvx");
- 
+
     IndexType info;
     LAPACK_IMPL(dsygvx)(&itype,
                         &jobz,

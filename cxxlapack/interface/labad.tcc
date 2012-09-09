@@ -44,7 +44,7 @@ void
 labad(float &small, float &large)
 {
     CXXLAPACK_DEBUG_OUT("slabad");
-    
+
     LAPACK_IMPL(slabad)(&small,
                         &large);
 }
@@ -54,7 +54,7 @@ void
 labad(double &small, double &large)
 {
     CXXLAPACK_DEBUG_OUT("dlabad");
-    
+
     LAPACK_IMPL(dlabad)(&small,
                         &large);
 }

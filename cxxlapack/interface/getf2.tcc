@@ -48,7 +48,7 @@ getf2(IndexType     m,
       IndexType     *iPiv)
 {
     CXXLAPACK_DEBUG_OUT("sgetf2");
-    
+
     IndexType info;
     LAPACK_IMPL(sgetf2)(&m,
                         &n,
@@ -74,7 +74,7 @@ getf2(IndexType     m,
       IndexType     *iPiv)
 {
     CXXLAPACK_DEBUG_OUT("dgetf2");
-    
+
     IndexType info;
     LAPACK_IMPL(dgetf2)(&m,
                         &n,
@@ -100,7 +100,7 @@ getf2(IndexType             m,
       IndexType             *iPiv)
 {
     CXXLAPACK_DEBUG_OUT("cgetf2");
-    
+
     IndexType info;
     LAPACK_IMPL(cgetf2)(&m,
                         &n,
@@ -126,7 +126,7 @@ getf2(IndexType             m,
       IndexType             *iPiv)
 {
     CXXLAPACK_DEBUG_OUT("zgetf2");
-    
+
     IndexType info;
     LAPACK_IMPL(zgetf2)(&m,
                         &n,

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_TFSM_TCC
 #define CXXLAPACK_INTERFACE_TFSM_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -52,7 +54,7 @@ tfsm (char                  transr,
       IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("stfsm");
- 
+
     LAPACK_IMPL(stfsm) (&transr,
                         &side,
                         &uplo,
@@ -81,7 +83,7 @@ tfsm (char                  transr,
       IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("dtfsm");
- 
+
     LAPACK_IMPL(dtfsm) (&transr,
                         &side,
                         &uplo,
@@ -111,7 +113,7 @@ tfsm (char                        transr,
       IndexType                   ldB)
 {
     CXXLAPACK_DEBUG_OUT("ctfsm");
- 
+
     LAPACK_IMPL(ctfsm) (&transr,
                         &side,
                         &uplo,
@@ -140,7 +142,7 @@ tfsm (char                        transr,
       IndexType                   ldB)
 {
     CXXLAPACK_DEBUG_OUT("ztfsm");
- 
+
     LAPACK_IMPL(ztfsm) (&transr,
                         &side,
                         &uplo,

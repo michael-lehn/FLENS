@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LASDA_TCC
 #define CXXLAPACK_INTERFACE_LASDA_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -64,7 +66,7 @@ lasda(IndexType             icompq,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("slasda");
-    
+
     IndexType info;
     LAPACK_IMPL(slasda)(&icompq,
                         &smlsiz,
@@ -126,7 +128,7 @@ lasda(IndexType             icompq,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dlasda");
-    
+
     IndexType info;
     LAPACK_IMPL(dlasda)(&icompq,
                         &smlsiz,

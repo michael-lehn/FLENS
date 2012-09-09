@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_PORFS_TCC
 #define CXXLAPACK_INTERFACE_PORFS_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -56,7 +58,7 @@ porfs(char                  uplo,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("sporfs");
-    
+
     IndexType info;
     LAPACK_IMPL(sporfs)(&uplo,
                         &n,
@@ -103,7 +105,7 @@ porfs(char                  uplo,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dporfs");
-    
+
     IndexType info;
     LAPACK_IMPL(dporfs)(&uplo,
                         &n,
@@ -150,7 +152,7 @@ porfs(char                        uplo,
       float                       *rWork)
 {
     CXXLAPACK_DEBUG_OUT("cporfs");
-    
+
     IndexType info;
     LAPACK_IMPL(cporfs)(&uplo,
                         &n,
@@ -196,7 +198,7 @@ porfs(char                        uplo,
       double                      *rWork)
 {
     CXXLAPACK_DEBUG_OUT("zporfs");
-    
+
     IndexType info;
     LAPACK_IMPL(zporfs)(&uplo,
                         &n,

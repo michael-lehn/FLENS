@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HBTRD_TCC
 #define CXXLAPACK_INTERFACE_HBTRD_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -52,7 +54,7 @@ hbtrd(char                  vect,
       std::complex<float >  *work)
 {
     CXXLAPACK_DEBUG_OUT("chbtrd");
-    
+
     IndexType info;
     LAPACK_IMPL(chbtrd)(&vect,
                         &uplo,
@@ -90,7 +92,7 @@ hbtrd(char                  vect,
       std::complex<double>  *work)
 {
     CXXLAPACK_DEBUG_OUT("zhbtrd");
-    
+
     IndexType info;
     LAPACK_IMPL(zhbtrd)(&vect,
                         &uplo,

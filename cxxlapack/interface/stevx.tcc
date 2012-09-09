@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_STEVX_TCC
 #define CXXLAPACK_INTERFACE_STEVX_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -59,7 +61,7 @@ stevx(char                  jobz,
       IndexType             *ifail)
 {
     CXXLAPACK_DEBUG_OUT("sstevx");
- 
+
     IndexType info;
     LAPACK_IMPL(sstevx)(&jobz,
                         &range
@@ -111,7 +113,7 @@ stevx(char                  jobz,
       IndexType             *ifail)
 {
     CXXLAPACK_DEBUG_OUT("dstevx");
- 
+
     IndexType info;
     LAPACK_IMPL(dstevx)(&jobz,
                         &range

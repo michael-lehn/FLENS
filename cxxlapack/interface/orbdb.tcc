@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_ORBDB_TCC
 #define CXXLAPACK_INTERFACE_ORBDB_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -62,7 +64,7 @@ orbdb(char                  trans,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("sorbdb");
-  
+
     IndexType info;
     LAPACK_IMPL(sorbdb)(&trans,
                         &signs,
@@ -120,7 +122,7 @@ orbdb(char                  trans,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("dorbdb");
-  
+
     IndexType info;
     LAPACK_IMPL(dorbdb)(&trans,
                         &signs,

@@ -54,7 +54,7 @@ hbev(char                  jobZ,
      float                 *rWork)
 {
     CXXLAPACK_DEBUG_OUT("chbev");
-    
+
     IndexType info;
     LAPACK_IMPL(chbev)(&jobZ,
                        &upLo,

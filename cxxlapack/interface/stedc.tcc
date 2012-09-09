@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_STEDC_TCC
 #define CXXLAPACK_INTERFACE_STEDC_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -51,7 +53,7 @@ stedc(char                  compz,
       IndexType             liWork)
 {
     CXXLAPACK_DEBUG_OUT("sstebc");
-   
+
     IndexType info;
     LAPACK_IMPL(sstedc)(&compz,
                         &n,
@@ -88,7 +90,7 @@ stedc(char                  compz,
       IndexType             liWork)
 {
     CXXLAPACK_DEBUG_OUT("dstebc");
-   
+
     IndexType info;
     LAPACK_IMPL(dstedc)(&compz,
                         &n,
@@ -126,7 +128,7 @@ stedc(char                  compz,
       IndexType             liWork)
 {
     CXXLAPACK_DEBUG_OUT("cstebc");
-   
+
     IndexType info;
     LAPACK_IMPL(cstedc)(&compz,
                         &n,
@@ -166,7 +168,7 @@ stedc(char                  compz,
       IndexType             liWork)
 {
     CXXLAPACK_DEBUG_OUT("zstebc");
-   
+
     IndexType info;
     LAPACK_IMPL(zstedc)(&compz,
                         &n,

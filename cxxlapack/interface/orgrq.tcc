@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_ORGRQ_TCC
 #define CXXLAPACK_INTERFACE_ORGRQ_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -49,7 +51,7 @@ orgrq(IndexType             m,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("sorgrq");
-  
+
     IndexType info;
     LAPACK_IMPL(sorgrq)(&m,
                         &n,
@@ -81,7 +83,7 @@ orgrq(IndexType             m,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("dorgrq");
-  
+
     IndexType info;
     LAPACK_IMPL(dorgrq)(&m,
                         &n,

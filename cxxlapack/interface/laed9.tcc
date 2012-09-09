@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAED9_TCC
 #define CXXLAPACK_INTERFACE_LAED9_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -53,7 +55,7 @@ laed9(IndexType             k,
       IndexType             ldS)
 {
     CXXLAPACK_DEBUG_OUT("slaed9");
-    
+
     IndexType info;
     LAPACK_IMPL(slaed9)(&k,
                         &kstart,
@@ -93,7 +95,7 @@ laed9(IndexType             k,
       IndexType             ldS)
 {
     CXXLAPACK_DEBUG_OUT("dlaed9");
-    
+
     IndexType info;
     LAPACK_IMPL(dlaed9)(&k,
                         &kstart,

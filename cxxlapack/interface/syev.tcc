@@ -51,7 +51,7 @@ syev(char           jobZ,
      IndexType      lWork)
 {
     CXXLAPACK_DEBUG_OUT("ssyev");
-    
+
     IndexType info;
     LAPACK_IMPL(ssyev)(&jobZ,
                        &upLo,
@@ -83,7 +83,7 @@ syev(char           jobZ,
      IndexType      lWork)
 {
     CXXLAPACK_DEBUG_OUT("dsyev");
-  
+
     IndexType info;
     LAPACK_IMPL(dsyev)(&jobZ,
                        &upLo,

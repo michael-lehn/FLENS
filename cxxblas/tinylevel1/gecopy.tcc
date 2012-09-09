@@ -33,9 +33,7 @@
 #ifndef CXXBLAS_TINYLEVEL1_GECOPY_TCC
 #define CXXBLAS_TINYLEVEL1_GECOPY_TCC 1
 
-#include <cxxblas/tinylevel1/copy.h>
-#include <cxxblas/tinylevel1/gecopy.h>
-#include <cxxblas/typedefs.h>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 

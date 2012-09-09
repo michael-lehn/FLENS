@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_TPRFS_TCC
 #define CXXLAPACK_INTERFACE_TPRFS_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -55,7 +57,7 @@ tprfs(char                  uplo,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("stprfs");
- 
+
     IndexType info;
     LAPACK_IMPL(stprfs)(&uplo,
                         &trans,
@@ -100,7 +102,7 @@ tprfs(char                  uplo,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dtprfs");
- 
+
     IndexType info;
     LAPACK_IMPL(dtprfs)(&uplo,
                         &trans,
@@ -145,7 +147,7 @@ tprfs(char                        uplo,
       float                       *rWork)
 {
     CXXLAPACK_DEBUG_OUT("ctprfs");
- 
+
     IndexType info;
     LAPACK_IMPL(ctprfs)(&uplo,
                         &trans,
@@ -189,7 +191,7 @@ tprfs(char                        uplo,
       double                      *rWork)
 {
     CXXLAPACK_DEBUG_OUT("ztprfs");
- 
+
     IndexType info;
     LAPACK_IMPL(ztprfs)(&uplo,
                         &trans,

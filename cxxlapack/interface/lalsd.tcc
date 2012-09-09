@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LALSD_TCC
 #define CXXLAPACK_INTERFACE_LALSD_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -53,7 +55,7 @@ lalsd(char                  uplo,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("slalsd");
-    
+
     IndexType info;
     LAPACK_IMPL(slalsd)(&uplo,
                         &smlsiz,
@@ -94,7 +96,7 @@ lalsd(char                  uplo,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dlalsd");
-    
+
     IndexType info;
     LAPACK_IMPL(dlalsd)(&uplo,
                         &smlsiz,
@@ -135,7 +137,7 @@ lalsd(char                  uplo,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("clalsd");
-    
+
     IndexType info;
     LAPACK_IMPL(clalsd)(&uplo,
                         &smlsiz,
@@ -178,7 +180,7 @@ lalsd(char                  uplo,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("zlalsd");
-    
+
     IndexType info;
     LAPACK_IMPL(zlalsd)(&uplo,
                         &smlsiz,

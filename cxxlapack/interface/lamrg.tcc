@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAMRG_TCC
 #define CXXLAPACK_INTERFACE_LAMRG_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -47,7 +49,7 @@ lamrg(IndexType             n1,
       IndexType             *index)
 {
     CXXLAPACK_DEBUG_OUT("slamrg");
-    
+
     LAPACK_IMPL(slamrg)(&n1,
                         &n2,
                         A,
@@ -66,7 +68,7 @@ lamrg(IndexType             n1,
       IndexType             *index)
 {
     CXXLAPACK_DEBUG_OUT("dlamrg");
-    
+
     LAPACK_IMPL(dlamrg)(&n1,
                         &n2,
                         A,

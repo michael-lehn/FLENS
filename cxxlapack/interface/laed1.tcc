@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAED1_TCC
 #define CXXLAPACK_INTERFACE_LAED1_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -50,7 +52,7 @@ laed1(IndexType             n,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("slaed1");
-    
+
     IndexType info;
     LAPACK_IMPL(slaed1)(&n,
                         d,
@@ -84,7 +86,7 @@ laed1(IndexType             n,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dlaed1");
-    
+
     IndexType info;
     LAPACK_IMPL(dlaed1)(&n,
                         d,

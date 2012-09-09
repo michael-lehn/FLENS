@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LARRJ_TCC
 #define CXXLAPACK_INTERFACE_LARRJ_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -54,7 +56,7 @@ larrj(IndexType             n,
       float                 spmin)
 {
     CXXLAPACK_DEBUG_OUT("slarrj");
-    
+
     IndexType info;
     LAPACK_IMPL(slarrj)(&n,
                         d,
@@ -96,7 +98,7 @@ larrj(IndexType             n,
       double                spmin)
 {
     CXXLAPACK_DEBUG_OUT("dlarrj");
-    
+
     IndexType info;
     LAPACK_IMPL(dlarrj)(&n,
                         d,

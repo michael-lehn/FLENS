@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HBGST_TCC
 #define CXXLAPACK_INTERFACE_HBGST_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -54,7 +56,7 @@ hbgst(char                       vect,
       float                      *rWork)
 {
     CXXLAPACK_DEBUG_OUT("chbgst");
-    
+
     IndexType info;
     LAPACK_IMPL(chbgst)(&vect,
                         &uplo,
@@ -96,7 +98,7 @@ hbgst(char                       vect,
       double                     *rWork)
 {
     CXXLAPACK_DEBUG_OUT("zhbgst");
-    
+
     IndexType info;
     LAPACK_IMPL(zhbgst)(&vect,
                         &uplo,

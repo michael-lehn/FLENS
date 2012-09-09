@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAPMR_TCC
 #define CXXLAPACK_INTERFACE_LAPMR_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -47,7 +49,7 @@ lapmr(bool                  forwrd,
       IndexType             &k)
 {
     CXXLAPACK_DEBUG_OUT("slapmr");
-   
+
     IndexType _forwrd = forwrd;
     LAPACK_IMPL(slapmr)(&_forwrd,
                         &m,
@@ -55,9 +57,7 @@ lapmr(bool                  forwrd,
                         X,
                         &ldX,
                         &k);
-
 }
-
 
 template <typename IndexType>
 void
@@ -69,7 +69,7 @@ lapmr(bool                  forwrd,
       IndexType             &k)
 {
     CXXLAPACK_DEBUG_OUT("dlapmr");
-   
+
     IndexType _forwrd = forwrd;
     LAPACK_IMPL(dlapmr)(&_forwrd,
                         &m,
@@ -77,7 +77,6 @@ lapmr(bool                  forwrd,
                         X,
                         &ldX,
                         &k);
-
 }
 
 template <typename IndexType>
@@ -85,12 +84,12 @@ void
 lapmr(bool                  forwrd,
       IndexType             m,
       IndexType             n,
-      std::complex<float >  *X,
+      std::complex<float>   *X,
       IndexType             ldX,
       IndexType             &k)
 {
     CXXLAPACK_DEBUG_OUT("clapmr");
-   
+
     IndexType _forwrd = forwrd;
     LAPACK_IMPL(clapmr)(&_forwrd,
                         &m,
@@ -98,7 +97,6 @@ lapmr(bool                  forwrd,
                         reinterpret_cast<float  *>(X),
                         &ldX,
                         &k);
-
 }
 
 template <typename IndexType>
@@ -111,7 +109,7 @@ lapmr(bool                  forwrd,
       IndexType             &k)
 {
     CXXLAPACK_DEBUG_OUT("zlapmr");
-   
+
     IndexType _forwrd = forwrd;
     LAPACK_IMPL(zlapmr)(&_forwrd,
                         &m,
@@ -119,7 +117,6 @@ lapmr(bool                  forwrd,
                         reinterpret_cast<double *>(X),
                         &ldX,
                         &k);
-
 }
 
 } // namespace cxxlapack

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAED2_TCC
 #define CXXLAPACK_INTERFACE_LAED2_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -57,7 +59,7 @@ laed2(IndexType             &k,
       IndexType             *coltyp)
 {
     CXXLAPACK_DEBUG_OUT("slaed2");
-    
+
     IndexType info;
     LAPACK_IMPL(slaed2)(&k,
                         &n,
@@ -104,7 +106,7 @@ laed2(IndexType             &k,
       IndexType             *coltyp)
 {
     CXXLAPACK_DEBUG_OUT("dlaed2");
-    
+
     IndexType info;
     LAPACK_IMPL(dlaed2)(&k,
                         &n,

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_SYCONV_TCC
 #define CXXLAPACK_INTERFACE_SYCONV_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ syconv(char                  uplo,
        float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("ssyconv");
- 
+
     IndexType info;
     LAPACK_IMPL(ssyconv)(&uplo,
                          &way,
@@ -78,7 +80,7 @@ syconv(char                  uplo,
        double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dsyconv");
- 
+
     IndexType info;
     LAPACK_IMPL(dsyconv)(&uplo,
                          &way,
@@ -108,7 +110,7 @@ syconv(char                        uplo,
        std::complex<float >        *work)
 {
     CXXLAPACK_DEBUG_OUT("csyconv");
- 
+
     IndexType info;
     LAPACK_IMPL(csyconv)(&uplo,
                          &way,
@@ -138,7 +140,7 @@ syconv(char                        uplo,
        std::complex<double>        *work)
 {
     CXXLAPACK_DEBUG_OUT("zsyconv");
- 
+
     IndexType info;
     LAPACK_IMPL(zsyconv)(&uplo,
                          &way,

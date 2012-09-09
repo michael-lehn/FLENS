@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_GGEV_TCC
 #define CXXLAPACK_INTERFACE_GGEV_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -57,7 +59,7 @@ ggev(char                  jobVL,
      IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("sggev");
-    
+
     IndexType info;
     LAPACK_IMPL(sggev)(&jobVL,
                        &jobvr,
@@ -105,7 +107,7 @@ ggev(char                  jobVL,
      IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("dggev");
-    
+
     IndexType info;
     LAPACK_IMPL(dggev)(&jobVL,
                        &jobvr,
@@ -153,7 +155,7 @@ ggev(char                  jobVL,
      float                 *rWork)
 {
     CXXLAPACK_DEBUG_OUT("cggev");
-    
+
     IndexType info;
     LAPACK_IMPL(cggev)(&jobVL,
                        &jobvr,
@@ -201,7 +203,7 @@ ggev(char                  jobVL,
      double                *rWork)
 {
     CXXLAPACK_DEBUG_OUT("zggev");
-    
+
     IndexType info;
     LAPACK_IMPL(zggev)(&jobVL,
                        &jobvr,

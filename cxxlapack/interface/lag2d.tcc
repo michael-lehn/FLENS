@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAG2D_TCC
 #define CXXLAPACK_INTERFACE_LAG2D_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -47,7 +49,7 @@ lag2d(IndexType             m,
       IndexType             ldA)
 {
     CXXLAPACK_DEBUG_OUT("slag2d");
-    
+
     IndexType info;
     LAPACK_IMPL(slag2d)(&m,
                         &n,

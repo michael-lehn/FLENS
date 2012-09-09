@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAPMT_TCC
 #define CXXLAPACK_INTERFACE_LAPMT_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -47,7 +49,7 @@ lapmt(bool                  forwrd,
       IndexType             &k)
 {
     CXXLAPACK_DEBUG_OUT("slapmt");
-   
+
     IndexType _forwrd = forwrd;
     LAPACK_IMPL(slapmt)(&_forwrd,
                         &m,
@@ -69,7 +71,7 @@ lapmt(bool                  forwrd,
       IndexType             &k)
 {
     CXXLAPACK_DEBUG_OUT("dlapmt");
-   
+
     IndexType _forwrd = forwrd;
     LAPACK_IMPL(dlapmt)(&_forwrd,
                         &m,
@@ -90,7 +92,7 @@ lapmt(bool                  forwrd,
       IndexType             &k)
 {
     CXXLAPACK_DEBUG_OUT("clapmt");
-   
+
     IndexType _forwrd = forwrd;
     LAPACK_IMPL(clapmt)(&_forwrd,
                         &m,
@@ -111,7 +113,7 @@ lapmt(bool                  forwrd,
       IndexType             &k)
 {
     CXXLAPACK_DEBUG_OUT("zlapmt");
-   
+
     IndexType _forwrd = forwrd;
     LAPACK_IMPL(zlapmt)(&_forwrd,
                         &m,

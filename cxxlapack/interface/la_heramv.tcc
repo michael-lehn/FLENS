@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LA_HEAMV_TCC
 #define CXXLAPACK_INTERFACE_LA_HEAMV_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -86,7 +88,7 @@ la_heamv(IndexType                   uplo,
          IndexType                   incy)
 {
     CXXLAPACK_DEBUG_OUT("zla_heamv");
-    
+
     IndexType info;
     LAPACK_IMPL(zla_heamv)(&uplo,
                            &n,

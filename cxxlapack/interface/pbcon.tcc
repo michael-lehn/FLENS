@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_PBCON_TCC
 #define CXXLAPACK_INTERFACE_PBCON_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -50,7 +52,7 @@ pbcon(char                  uplo,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("spbcon");
-  
+
     IndexType info;
     LAPACK_IMPL(spbcon)(&uplo,
                         &n,
@@ -86,7 +88,7 @@ pbcon(char                  uplo,
 {
 
     CXXLAPACK_DEBUG_OUT("dpbocn");
-  
+
     IndexType info;
     LAPACK_IMPL(dpbcon)(&uplo,
                         &n,
@@ -120,7 +122,7 @@ pbcon(char                        uplo,
       float                       *rWork)
 {
     CXXLAPACK_DEBUG_OUT("cpbcon");
-  
+
     IndexType info;
     LAPACK_IMPL(cpbcon)(&uplo,
                         &n,
@@ -154,7 +156,7 @@ pbcon(char                        uplo,
       double                      *rWork)
 {
     CXXLAPACK_DEBUG_OUT("zpbcon");
-  
+
     IndexType info;
     LAPACK_IMPL(zpbcon)(&uplo,
                         &n,

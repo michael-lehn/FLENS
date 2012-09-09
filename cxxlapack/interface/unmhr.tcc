@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_UNMHR_TCC
 #define CXXLAPACK_INTERFACE_UNMHR_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -54,7 +56,7 @@ unmhr(char                        side,
       IndexType                   lWork)
 {
     CXXLAPACK_DEBUG_OUT("cunmhr");
- 
+
     IndexType info;
     LAPACK_IMPL(cunmhr)(&side,
                         &trans,
@@ -96,7 +98,7 @@ unmhr(char                        side,
       IndexType                   lWork)
 {
     CXXLAPACK_DEBUG_OUT("zunmhr");
- 
+
     IndexType info;
     LAPACK_IMPL(zunmhr)(&side,
                         &trans,

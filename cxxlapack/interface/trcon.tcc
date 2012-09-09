@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_TRCON_TCC
 #define CXXLAPACK_INTERFACE_TRCON_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -50,7 +52,7 @@ trcon(char                  norm,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("strcon");
- 
+
     IndexType info;
     LAPACK_IMPL(strcon)(&norm,
                         &uplo,
@@ -85,7 +87,7 @@ trcon(char                  norm,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dtrcon");
- 
+
     IndexType info;
     LAPACK_IMPL(dtrcon)(&norm,
                         &uplo,
@@ -119,7 +121,7 @@ trcon(char                        norm,
       float                       *rWork)
 {
     CXXLAPACK_DEBUG_OUT("ctrcon");
- 
+
     IndexType info;
     LAPACK_IMPL(ctrcon)(&norm,
                         &uplo,
@@ -153,7 +155,7 @@ trcon(char                        norm,
       double                      *rWork)
 {
     CXXLAPACK_DEBUG_OUT("ztrcon");
- 
+
     IndexType info;
     LAPACK_IMPL(ztrcon)(&norm,
                         &uplo,

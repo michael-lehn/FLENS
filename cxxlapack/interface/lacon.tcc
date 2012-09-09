@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LACON_TCC
 #define CXXLAPACK_INTERFACE_LACON_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -47,7 +49,7 @@ lacon(IndexType             n,
       IndexType             &kase)
 {
     CXXLAPACK_DEBUG_OUT("slacon");
-    
+
     LAPACK_IMPL(slacon)(&n,
                         v,
                         x,
@@ -66,7 +68,7 @@ lacon(IndexType             n,
       IndexType             &kase)
 {
     CXXLAPACK_DEBUG_OUT("dlacon");
-    
+
     LAPACK_IMPL(dlacon)(&n,
                         v,
                         x,
@@ -84,7 +86,7 @@ lacon(IndexType             n,
       IndexType             &kase)
 {
     CXXLAPACK_DEBUG_OUT("clacon");
-    
+
     LAPACK_IMPL(clacon)(&n,
                         reinterpret_cast<float  *>(v),
                         reinterpret_cast<float  *>(x),
@@ -101,7 +103,7 @@ lacon(IndexType             n,
       IndexType             &kase)
 {
     CXXLAPACK_DEBUG_OUT("zlacon");
-    
+
     LAPACK_IMPL(zlacon)(&n,
                         reinterpret_cast<double *>(v),
                         reinterpret_cast<double *>(x),

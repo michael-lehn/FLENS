@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_ORMRQ_TCC
 #define CXXLAPACK_INTERFACE_ORMRQ_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -53,7 +55,7 @@ ormrq(char          side,
       IndexType     lWork)
 {
     CXXLAPACK_DEBUG_OUT("sormrq");
-  
+
     IndexType info;
     LAPACK_IMPL(sormrq)(&side,
                         &trans,
@@ -93,7 +95,7 @@ ormrq(char          side,
       IndexType     lWork)
 {
     CXXLAPACK_DEBUG_OUT("dormrq");
-  
+
     IndexType info;
     LAPACK_IMPL(dormrq)(&side,
                         &trans,

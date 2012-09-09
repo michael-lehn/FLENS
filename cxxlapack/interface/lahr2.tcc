@@ -35,6 +35,8 @@
 
 #include <iostream>
 #include <cxxlapack/interface/interface.h>
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -53,7 +55,7 @@ lahr2(IndexType     n,
       IndexType     ldY)
 {
     CXXLAPACK_DEBUG_OUT("slahr2");
-  
+
     LAPACK_IMPL(slahr2)(&n,
                         &k,
                         &nb,
@@ -81,7 +83,7 @@ lahr2(IndexType     n,
       IndexType     ldY)
 {
     CXXLAPACK_DEBUG_OUT("dlahr2");
-  
+
     LAPACK_IMPL(dlahr2)(&n,
                         &k,
                         &nb,
@@ -109,7 +111,7 @@ lahr2(IndexType                 n,
       IndexType                 ldY)
 {
     CXXLAPACK_DEBUG_OUT("clahr2");
-  
+
     LAPACK_IMPL(clahr2)(&n,
                         &k,
                         &nb,
@@ -136,7 +138,7 @@ lahr2(IndexType                 n,
       IndexType                 ldY)
 {
     CXXLAPACK_DEBUG_OUT("zlahr2");
-  
+
     LAPACK_IMPL(zlahr2)(&n,
                         &k,
                         &nb,

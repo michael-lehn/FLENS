@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_GTTS2_TCC
 #define CXXLAPACK_INTERFACE_GTTS2_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -51,7 +53,7 @@ gtts2(IndexType             itrans,
       IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("sgtts2");
-    
+
     LAPACK_IMPL(sgtts2)(&itrans,
                         &n,
                         &nRhs,
@@ -78,7 +80,7 @@ gtts2(IndexType             itrans,
       IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("dgtts2");
-    
+
     LAPACK_IMPL(dgtts2)(&itrans,
                         &n,
                         &nRhs,
@@ -105,7 +107,7 @@ gtts2(IndexType                   itrans,
       IndexType                   ldB)
 {
     CXXLAPACK_DEBUG_OUT("cgtts2");
-    
+
     LAPACK_IMPL(cgtts2)(&itrans,
                         &n,
                         &nRhs,
@@ -132,7 +134,7 @@ gtts2(IndexType                   itrans,
       IndexType                   ldB)
 {
     CXXLAPACK_DEBUG_OUT("zgtts2");
-    
+
     LAPACK_IMPL(zgtts2)(&itrans,
                         &n,
                         &nRhs,

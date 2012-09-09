@@ -61,3 +61,181 @@ Matrix Variant (Level 1 Extension)
              Matrix $A$.
     B        `(input/output) real or complex valued GeMatrix`                  +
              Matrix $B$.
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename VX, typename VY>                      |
+|      typename RestrictTo<IsTinyVector<VX>::value                          |
+|                       && IsTinyVector<VY>::value,                         |
+|               void>::Type                                                 |
+|      axpy(const ALPHA &alpha, const VX &x, VY &&y);                       |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>3#T#T#Taxpy#&1t0.0#&1t0.1#&t]
+                         [0.2#templatetypenameALPHA,typenameVX,typenameVYtyp]
+                         [enameRestrictToIsTinyVectorVXvalueandIsTinyVectorV]
+                         [Yvalue,voidType                                   ]
+
+    Defined in namespace `flens::blas`.
+    Function `axpy` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename MA, typename MB>                      |
+|      typename RestrictTo<IsGbMatrix<MA>::value                            |
+|                       && IsGbMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);      |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>3#T#T#Taxpy#$@N@cxxblas@E@Tr]
+                         [anspose#&1t0.0#&1t0.1#&t0.2#templatetypenameALPHA,]
+                         [typenameMA,typenameMBtypenameRestrictToIsGbMatrixM]
+                         [AvalueandIsGbMatrixMBvalue,voidType               ]
+
+    Defined in namespace `flens::blas`.
+    Function `axpy` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename MA, typename MB>                      |
+|      typename RestrictTo<IsGeTinyMatrix<MA>::value                        |
+|                       && IsGeTinyMatrix<MB>::value,                       |
+|               void>::Type                                                 |
+|      axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);      |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>3#T#T#Taxpy#$@N@cxxblas@E@Tr]
+                         [anspose#&1t0.0#&1t0.1#&t0.2#templatetypenameALPHA,]
+                         [typenameMA,typenameMBtypenameRestrictToIsGeTinyMat]
+                         [rixMAvalueandIsGeTinyMatrixMBvalue,voidType       ]
+
+    Defined in namespace `flens::blas`.
+    Function `axpy` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename MA, typename MB>                      |
+|      typename RestrictTo<IsHbMatrix<MA>::value                            |
+|                       && IsHbMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);      |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>3#T#T#Taxpy#$@N@cxxblas@E@Tr]
+                         [anspose#&1t0.0#&1t0.1#&t0.2#templatetypenameALPHA,]
+                         [typenameMA,typenameMBtypenameRestrictToIsHbMatrixM]
+                         [AvalueandIsHbMatrixMBvalue,voidType               ]
+
+    Defined in namespace `flens::blas`.
+    Function `axpy` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename MA, typename MB>                      |
+|      typename RestrictTo<IsHpMatrix<MA>::value                            |
+|                       && IsHpMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);      |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>3#T#T#Taxpy#$@N@cxxblas@E@Tr]
+                         [anspose#&1t0.0#&1t0.1#&t0.2#templatetypenameALPHA,]
+                         [typenameMA,typenameMBtypenameRestrictToIsHpMatrixM]
+                         [AvalueandIsHpMatrixMBvalue,voidType               ]
+
+    Defined in namespace `flens::blas`.
+    Function `axpy` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename MA, typename MB>                      |
+|      typename RestrictTo<IsSbMatrix<MA>::value                            |
+|                       && IsSbMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);      |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>3#T#T#Taxpy#$@N@cxxblas@E@Tr]
+                         [anspose#&1t0.0#&1t0.1#&t0.2#templatetypenameALPHA,]
+                         [typenameMA,typenameMBtypenameRestrictToIsSbMatrixM]
+                         [AvalueandIsSbMatrixMBvalue,voidType               ]
+
+    Defined in namespace `flens::blas`.
+    Function `axpy` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename MA, typename MB>                      |
+|      typename RestrictTo<IsSpMatrix<MA>::value                            |
+|                       && IsSpMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);      |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>3#T#T#Taxpy#$@N@cxxblas@E@Tr]
+                         [anspose#&1t0.0#&1t0.1#&t0.2#templatetypenameALPHA,]
+                         [typenameMA,typenameMBtypenameRestrictToIsSpMatrixM]
+                         [AvalueandIsSpMatrixMBvalue,voidType               ]
+
+    Defined in namespace `flens::blas`.
+    Function `axpy` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename MA, typename MB>                      |
+|      typename RestrictTo<IsTbMatrix<MA>::value                            |
+|                       && IsTbMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);      |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>3#T#T#Taxpy#$@N@cxxblas@E@Tr]
+                         [anspose#&1t0.0#&1t0.1#&t0.2#templatetypenameALPHA,]
+                         [typenameMA,typenameMBtypenameRestrictToIsTbMatrixM]
+                         [AvalueandIsTbMatrixMBvalue,voidType               ]
+
+    Defined in namespace `flens::blas`.
+    Function `axpy` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename MA, typename MB>                      |
+|      typename RestrictTo<IsTpMatrix<MA>::value                            |
+|                       && IsTpMatrix<MB>::value,                           |
+|               void>::Type                                                 |
+|      axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);      |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>3#T#T#Taxpy#$@N@cxxblas@E@Tr]
+                         [anspose#&1t0.0#&1t0.1#&t0.2#templatetypenameALPHA,]
+                         [typenameMA,typenameMBtypenameRestrictToIsTpMatrixM]
+                         [AvalueandIsTpMatrixMBvalue,voidType               ]
+
+    Defined in namespace `flens::blas`.
+    Function `axpy` with 3 template parameters.
+
+
+

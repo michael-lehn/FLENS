@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_UNBDB_TCC
 #define CXXLAPACK_INTERFACE_UNBDB_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -62,7 +64,7 @@ unbdb(char                  trans,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("cunbdb");
- 
+
     IndexType info;
     LAPACK_IMPL(cunbdb)(&trans,
                         &signs
@@ -120,7 +122,7 @@ unbdb(char                  trans,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("zunbdb");
- 
+
     IndexType info;
     LAPACK_IMPL(zunbdb)(&trans,
                         &signs

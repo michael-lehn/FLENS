@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HETD2_TCC
 #define CXXLAPACK_INTERFACE_HETD2_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ hetd2(char                  uplo,
       std::complex<float >  *tau)
 {
     CXXLAPACK_DEBUG_OUT("chetd2");
-    
+
     IndexType info;
     LAPACK_IMPL(chetd2)(&uplo,
                         &n,
@@ -78,7 +80,7 @@ hetd2(char                  uplo,
       std::complex<double>  *tau)
 {
     CXXLAPACK_DEBUG_OUT("zhetd2");
-    
+
     IndexType info;
     LAPACK_IMPL(zhetd2)(&uplo,
                         &n,

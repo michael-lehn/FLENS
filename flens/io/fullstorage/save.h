@@ -62,44 +62,25 @@ template <typename FS>
 
 template <typename FS>
     bool
-    saveMatrixMarket(std::string filename, const GeMatrix<FS> &A, 
-                     std::string comment = "", 
-                     int precision = std::numeric_limits<typename ComplexTrait
-                        <typename FS::ElementType>::PrimitiveType >::digits10);
-    
-template <typename FS>
-    bool
-    saveMatrixMarket(std::string filename, const SyMatrix<FS> &A, 
-                     std::string comment = "", 
-                     int precision = std::numeric_limits<typename ComplexTrait
-                        <typename FS::ElementType>::PrimitiveType >::digits10);
-    
-template <typename FS>
-    typename RestrictTo<IsComplex<typename FS::ElementType>::value, bool>::Type
-    saveMatrixMarket(std::string filename, const HeMatrix<FS> &A, 
-                     std::string comment = "", 
+    saveMatrixMarket(std::string filename, const GeMatrix<FS> &A,
+                     std::string comment = "",
                      int precision = std::numeric_limits<typename ComplexTrait
                         <typename FS::ElementType>::PrimitiveType >::digits10);
 
-//-- forwarding ---------------------------------------------------------------
-template <typename MA>
-    typename RestrictTo<IsGeMatrix<MA>::value ||
-                        IsHeMatrix<MA>::value ||
-                        IsSyMatrix<MA>::value ||
-                        IsTrMatrix<MA>::value,
-                        bool>::Type
-    save(std::string filename, const MA &&A);
-    
-template <typename MA>
-    typename RestrictTo<IsGeMatrix<MA>::value ||
-                        IsHeMatrix<MA>::value ||
-                        IsSyMatrix<MA>::value ||
-                        IsTrMatrix<MA>::value,
-                        bool>::Type
-    saveMatrixMarket(std::string filename, const MA &&A,
-                     std::string comment = "", 
+template <typename FS>
+    bool
+    saveMatrixMarket(std::string filename, const SyMatrix<FS> &A,
+                     std::string comment = "",
                      int precision = std::numeric_limits<typename ComplexTrait
-                        <typename MA::ElementType>::PrimitiveType >::digits10);      
+                        <typename FS::ElementType>::PrimitiveType >::digits10);
+
+template <typename FS>
+    typename RestrictTo<IsComplex<typename FS::ElementType>::value, bool>::Type
+    saveMatrixMarket(std::string filename, const HeMatrix<FS> &A,
+                     std::string comment = "",
+                     int precision = std::numeric_limits<typename ComplexTrait
+                        <typename FS::ElementType>::PrimitiveType >::digits10);
+
 } // namespace flens
 
 #endif // FLENS_IO_FULLSTORAGE_SAVE_H

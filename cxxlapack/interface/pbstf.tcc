@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_PBSTF_TCC
 #define CXXLAPACK_INTERFACE_PBSTF_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -46,7 +48,7 @@ pbstf(char                  uplo,
       IndexType             ldAb)
 {
     CXXLAPACK_DEBUG_OUT("spbstf");
-  
+
     IndexType info;
     LAPACK_IMPL(spbstf)(&uplo,
                         &n,
@@ -73,7 +75,7 @@ pbstf(char                  uplo,
       IndexType             ldAb)
 {
     CXXLAPACK_DEBUG_OUT("dpbstf");
-  
+
     IndexType info;
     LAPACK_IMPL(dpbstf)(&uplo,
                         &n,
@@ -100,7 +102,7 @@ pbstf(char                  uplo,
       IndexType             ldAb)
 {
     CXXLAPACK_DEBUG_OUT("cpbstf");
-  
+
     IndexType info;
     LAPACK_IMPL(cpbstf)(&uplo,
                         &n,
@@ -126,7 +128,7 @@ pbstf(char                  uplo,
       IndexType             ldAb)
 {
     CXXLAPACK_DEBUG_OUT("zpbstf");
-  
+
     IndexType info;
     LAPACK_IMPL(zpbstf)(&uplo,
                         &n,

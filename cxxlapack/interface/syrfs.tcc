@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_SYRFS_TCC
 #define CXXLAPACK_INTERFACE_SYRFS_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -57,7 +59,7 @@ syrfs(char                  uplo,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("ssyrfs");
- 
+
     IndexType info;
     LAPACK_IMPL(ssyrfs)(&uplo,
                         &n,
@@ -106,7 +108,7 @@ syrfs(char                  uplo,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dsyrfs");
- 
+
     IndexType info;
     LAPACK_IMPL(dsyrfs)(&uplo,
                         &n,
@@ -135,7 +137,7 @@ syrfs(char                  uplo,
 }
 
 template <typename IndexType>
-IndexType   
+IndexType
 syrfs(char                        uplo,
       IndexType                   n,
       IndexType                   nRhs,
@@ -154,7 +156,7 @@ syrfs(char                        uplo,
       float                       *rWork)
 {
     CXXLAPACK_DEBUG_OUT("csyrfs");
- 
+
     IndexType info;
     LAPACK_IMPL(csyrfs)(&uplo,
                         &n,
@@ -183,7 +185,7 @@ syrfs(char                        uplo,
 }
 
 template <typename IndexType>
-IndexType   
+IndexType
 syrfs(char                        uplo,
       IndexType                   n,
       IndexType                   nRhs,
@@ -202,7 +204,7 @@ syrfs(char                        uplo,
       double                      *rWork)
 {
     CXXLAPACK_DEBUG_OUT("zsyrfs");
- 
+
     IndexType info;
     LAPACK_IMPL(zsyrfs)(&uplo,
                         &n,

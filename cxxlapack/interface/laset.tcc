@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LASET_TCC
 #define CXXLAPACK_INTERFACE_LASET_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ laset(char                  uplo,
       IndexType             ldA)
 {
     CXXLAPACK_DEBUG_OUT("slaset");
-    
+
     LAPACK_IMPL(slaset)(&uplo,
                         &m,
                         &n,
@@ -70,7 +72,7 @@ laset(char                  uplo,
       IndexType             ldA)
 {
     CXXLAPACK_DEBUG_OUT("dlaset");
-   
+
     LAPACK_IMPL(dlaset)(&uplo,
                         &m,
                         &n,
@@ -92,7 +94,7 @@ laset(char                  uplo,
       IndexType             ldA)
 {
     CXXLAPACK_DEBUG_OUT("claset");
-   
+
     LAPACK_IMPL(claset)(&uplo,
                         &m,
                         &n,
@@ -113,7 +115,7 @@ laset(char                  uplo,
       IndexType             ldA)
 {
     CXXLAPACK_DEBUG_OUT("zlaset");
-   
+
     LAPACK_IMPL(zlaset)(&uplo,
                         &m,
                         &n,

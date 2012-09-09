@@ -302,7 +302,7 @@ fillRandom(Array<T, I, A> &x)
     typedef typename Array<T,I,A>::ElementType  ElementType;
     typedef typename Array<T,I,A>::IndexType    IndexType;
 
-    ElemenType  *data = x.data();
+    ElementType  *data = x.data();
     for (IndexType i=0; i<x.length(); ++i) {
         data[i] = randomValue<T>();
     }

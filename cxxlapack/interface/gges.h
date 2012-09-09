@@ -58,7 +58,7 @@ template <typename IndexType>
          float                 *work,
          IndexType             lWork,
          bool                  *bwork);
-    
+
 template <typename IndexType>
     IndexType
     gges(char                  jobvsl,
@@ -80,7 +80,7 @@ template <typename IndexType>
          double                *work,
          IndexType             lWork,
          bool                  *bwork);
-    
+
 template <typename IndexType>
     IndexType
     gges(char                  jobvsl,
@@ -88,22 +88,22 @@ template <typename IndexType>
          char                  sort,
          IndexType              (*select)(const std::complex<double> *),
          IndexType             n,
-         std::complex<double>  *A,
+         std::complex<float>   *A,
          IndexType             ldA,
-         std::complex<double>  *B,
+         std::complex<float>   *B,
          IndexType             ldB,
          IndexType             &sdim,
-         std::complex<double>  *alpha,
-         std::complex<double>  *beta,
-         std::complex<double>  *Vsl,
+         std::complex<float>   *alpha,
+         std::complex<float>   *beta,
+         std::complex<float>   *Vsl,
          IndexType             ldVsl,
-         std::complex<double>  *Vsr,
+         std::complex<float>   *Vsr,
          IndexType             ldVsr,
-         std::complex<double>  *work,
+         std::complex<float>   *work,
          IndexType             lWork,
          double                rWork,
          bool                  *bwork);
-    
+
 template <typename IndexType>
     IndexType
     gges(char                  jobvsl,

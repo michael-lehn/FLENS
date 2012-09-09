@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_UNGQL_TCC
 #define CXXLAPACK_INTERFACE_UNGQL_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -49,7 +51,7 @@ ungql(IndexType                   m,
       IndexType                   lWork)
 {
     CXXLAPACK_DEBUG_OUT("cungql");
- 
+
     IndexType info;
     LAPACK_IMPL(cungql)(&m,
                         &n,
@@ -81,7 +83,7 @@ ungql(IndexType                   m,
       IndexType                   lWork)
 {
     CXXLAPACK_DEBUG_OUT("zungql");
- 
+
     IndexType info;
     LAPACK_IMPL(zungql)(&m,
                         &n,

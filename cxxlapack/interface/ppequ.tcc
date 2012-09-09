@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_PPEQU_TCC
 #define CXXLAPACK_INTERFACE_PPEQU_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -47,7 +49,7 @@ ppequ(char                  uplo,
       float                 &amax)
 {
     CXXLAPACK_DEBUG_OUT("sppequ");
-    
+
     IndexType info;
     LAPACK_IMPL(sppequ)(&uplo,
                         &n,
@@ -75,7 +77,7 @@ ppequ(char                  uplo,
       double                &amax)
 {
     CXXLAPACK_DEBUG_OUT("dppequ");
-  
+
     IndexType info;
     LAPACK_IMPL(dppequ)(&uplo,
                         &n,
@@ -103,7 +105,7 @@ ppequ(char                        uplo,
       float                       &amax)
 {
     CXXLAPACK_DEBUG_OUT("cppequ");
-  
+
     IndexType info;
     LAPACK_IMPL(cppequ)(&uplo,
                         &n,
@@ -131,7 +133,7 @@ ppequ(char                        uplo,
       double                      &amax)
 {
     CXXLAPACK_DEBUG_OUT("zppequ");
-  
+
     IndexType info;
     LAPACK_IMPL(zppequ)(&uplo,
                         &n,

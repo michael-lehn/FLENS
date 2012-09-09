@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_GGHRD_TCC
 #define CXXLAPACK_INTERFACE_GGHRD_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -54,7 +56,7 @@ gghrd(char                  compq,
       IndexType             ldZ)
 {
     CXXLAPACK_DEBUG_OUT("sgghrd");
-    
+
     IndexType info;
     LAPACK_IMPL(sgghrd)(&compq,
                         &compz
@@ -96,7 +98,7 @@ gghrd(char                  compq,
       IndexType             ldZ)
 {
     CXXLAPACK_DEBUG_OUT("dgghrd");
-    
+
     IndexType info;
     LAPACK_IMPL(dgghrd)(&compq,
                         &compz
@@ -138,7 +140,7 @@ gghrd(char                  compq,
       IndexType             ldZ)
 {
     CXXLAPACK_DEBUG_OUT("cgghrd");
-    
+
     IndexType info;
     LAPACK_IMPL(cgghrd)(&compq,
                         &compz
@@ -180,7 +182,7 @@ gghrd(char                  compq,
       IndexType             ldZ)
 {
     CXXLAPACK_DEBUG_OUT("zgghrd");
-    
+
     IndexType info;
     LAPACK_IMPL(zgghrd)(&compq,
                         &compz

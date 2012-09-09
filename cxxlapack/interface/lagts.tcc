@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAGTS_TCC
 #define CXXLAPACK_INTERFACE_LAGTS_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -50,7 +52,7 @@ lagts(IndexType             job,
       float                 &tol)
 {
     CXXLAPACK_DEBUG_OUT("slagts");
-    
+
     IndexType info;
     LAPACK_IMPL(slagts)(&job,
                         &n,
@@ -84,7 +86,7 @@ lagts(IndexType             job,
       double                &tol)
 {
     CXXLAPACK_DEBUG_OUT("dlagts");
-    
+
     IndexType info;
     LAPACK_IMPL(dlagts)(&job,
                         &n,

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_TGSNA_TCC
 #define CXXLAPACK_INTERFACE_TGSNA_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -60,7 +62,7 @@ tgsna(char                  job,
        IndexType             *iWork)
 {
      CXXLAPACK_DEBUG_OUT("stgsna");
- 
+
      IndexType info;
      // TODO: Convert select into a logical array!
      LAPACK_IMPL(stgsna)(&job,
@@ -91,7 +93,7 @@ tgsna(char                  job,
      ASSERT(info>=0);
      return info;
 }
- 
+
 template <typename IndexType>
 IndexType
 tgsna(char                  job,
@@ -115,7 +117,7 @@ tgsna(char                  job,
        IndexType             *iWork)
 {
      CXXLAPACK_DEBUG_OUT("dtgsna");
- 
+
      IndexType info;
      // TODO: Convert select into a logical array!
      LAPACK_IMPL(dtgsna)(&job,
@@ -146,8 +148,8 @@ tgsna(char                  job,
      ASSERT(info>=0);
      return info;
 }
- 
- 
+
+
 template <typename IndexType>
 IndexType
 tgsna(char                        job,
@@ -171,7 +173,7 @@ tgsna(char                        job,
        IndexType                   *iWork)
 {
      CXXLAPACK_DEBUG_OUT("ctgsna");
- 
+
      IndexType info;
      // TODO: Convert select into a logical array!
      LAPACK_IMPL(ctgsna)(&job,
@@ -202,7 +204,7 @@ tgsna(char                        job,
      ASSERT(info>=0);
      return info;
 }
- 
+
 template <typename IndexType>
 IndexType
 tgsna(char                        job,
@@ -226,7 +228,7 @@ tgsna(char                        job,
        IndexType                   *iWork)
 {
      CXXLAPACK_DEBUG_OUT("ztgsna");
- 
+
      IndexType info;
      // TODO: Convert select into a logical array!
      LAPACK_IMPL(ztgsna)(&job,

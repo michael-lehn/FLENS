@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HBGVX_TCC
 #define CXXLAPACK_INTERFACE_HBGVX_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -65,7 +67,7 @@ hbgvx(char                  jobz,
       IndexType             *ifail)
 {
     CXXLAPACK_DEBUG_OUT("chbgvx");
-    
+
     IndexType info;
     LAPACK_IMPL(chbgvx)(&jobz,
                         &range,
@@ -129,7 +131,7 @@ hbgvx(char                  jobz,
       IndexType             *ifail)
 {
     CXXLAPACK_DEBUG_OUT("zhbgvx");
-    
+
     IndexType info;
     LAPACK_IMPL(zhbgvx)(&jobz,
                         &range,

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAT2C_TCC
 #define CXXLAPACK_INTERFACE_LAT2C_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -47,7 +49,7 @@ lat2c(char                        uplo,
       IndexType                   ldSa)
 {
     CXXLAPACK_DEBUG_OUT("zlat2c");
-    
+
     IndexType info;
     LAPACK_IMPL(zlat2c)(&uplo,
                         &n,

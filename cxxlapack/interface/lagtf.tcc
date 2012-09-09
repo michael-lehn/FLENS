@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAGTF_TCC
 #define CXXLAPACK_INTERFACE_LAGTF_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -49,7 +51,7 @@ lagtf(IndexType             n,
       IndexType             *in)
 {
     CXXLAPACK_DEBUG_OUT("slagtf2");
-    
+
     IndexType info;
     LAPACK_IMPL(slagtf)(&n,
                         a,
@@ -81,7 +83,7 @@ lagtf(IndexType             n,
       IndexType             *in)
 {
     CXXLAPACK_DEBUG_OUT("dlagtf2");
-    
+
     IndexType info;
     LAPACK_IMPL(dlagtf)(&n,
                         a,

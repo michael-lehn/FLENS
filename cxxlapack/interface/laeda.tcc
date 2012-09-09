@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAEDA_TCC
 #define CXXLAPACK_INTERFACE_LAEDA_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -54,7 +56,7 @@ laeda(IndexType             n,
       float                 *ztemp)
 {
     CXXLAPACK_DEBUG_OUT("slaeda");
-    
+
     IndexType info;
     LAPACK_IMPL(slaeda)(&n,
                         &tlvls,
@@ -96,7 +98,7 @@ laeda(IndexType             n,
       double                *ztemp)
 {
     CXXLAPACK_DEBUG_OUT("dlaeda");
-    
+
     IndexType info;
     LAPACK_IMPL(dlaeda)(&n,
                         &tlvls,

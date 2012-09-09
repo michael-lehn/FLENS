@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HETRI2X_TCC
 #define CXXLAPACK_INTERFACE_HETRI2X_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ hetri2x(char                  uplo,
         IndexType             nb)
 {
     CXXLAPACK_DEBUG_OUT("chetri2x");
-    
+
     IndexType info;
     LAPACK_IMPL(chetri2x)(&uplo,
                           &n,
@@ -78,7 +80,7 @@ hetri2x(char                  uplo,
         IndexType             nb)
 {
     CXXLAPACK_DEBUG_OUT("zhetri2x");
-    
+
     IndexType info;
     LAPACK_IMPL(zhetri2x)(&uplo,
                           &n,

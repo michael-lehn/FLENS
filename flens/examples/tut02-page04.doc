@@ -4,8 +4,9 @@ Avoiding the Creation of Temporaries                                     [TOC]
 
 *By default* FLENS will never create any temporaries during the evaluation of
 linear algebra expressions.  As a consequence some linear algebra expressions
-can not be evaluated through (CXX)BLAS calls and will cause a runtime assertion
-failure.
+can not be evaluated through (CXX)BLAS calls.  If possible such cases will
+trigger a compile time error.  If such cases can not be checked at compile time
+you at least get an runtime assertion unless you compile with `-DNDEBUG`.
 
 However, you can *change the default* such that temporaries get created but
 only when necessary.  In addition you get a warning in the log-file such that

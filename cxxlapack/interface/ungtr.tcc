@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_UNGTR_TCC
 #define CXXLAPACK_INTERFACE_UNGTR_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ ungtr(char                        uplo,
       IndexType                   lWork)
 {
     CXXLAPACK_DEBUG_OUT("cungtr");
- 
+
     IndexType info;
     LAPACK_IMPL(cungtr)(&uplo,
                         &n,
@@ -78,7 +80,7 @@ ungtr(char                        uplo,
       IndexType                   lWork)
 {
     CXXLAPACK_DEBUG_OUT("zungtr");
- 
+
     IndexType info;
     LAPACK_IMPL(zungtr)(&uplo,
                         &n,

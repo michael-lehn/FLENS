@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HESVX_TCC
 #define CXXLAPACK_INTERFACE_HESVX_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -60,7 +62,7 @@ hesvx(char                        fact,
       float                       *rWork)
 {
     CXXLAPACK_DEBUG_OUT("chesvx");
-    
+
     IndexType info;
     LAPACK_IMPL(chesvx)(&fact,
                         &uplo,
@@ -114,7 +116,7 @@ hesvx(char                        fact,
       double                      *rWork)
 {
     CXXLAPACK_DEBUG_OUT("zhesvx");
-    
+
     IndexType info;
     LAPACK_IMPL(zhesvx)(&fact,
                         &uplo,

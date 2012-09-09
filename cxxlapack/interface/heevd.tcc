@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HEEVD_TCC
 #define CXXLAPACK_INTERFACE_HEEVD_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -53,7 +55,7 @@ heevd(char                   jobZ,
       IndexType              liWork)
 {
     CXXLAPACK_DEBUG_OUT("cheevd");
-    
+
     IndexType info;
     LAPACK_IMPL(cheevd)(&jobZ,
                         &upLo,
@@ -93,7 +95,7 @@ heevd(char                   jobZ,
       IndexType              liWork)
 {
     CXXLAPACK_DEBUG_OUT("zheevd");
-    
+
     IndexType info;
     LAPACK_IMPL(zheevd)(&jobZ,
                         &upLo,

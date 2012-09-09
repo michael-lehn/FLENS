@@ -33,10 +33,12 @@
 #ifndef CXXLAPACK_INTERFACE_GBTF2_TCC
 #define CXXLAPACK_INTERFACE_GBTF2_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
-  
+
 template <typename IndexType>
 IndexType
 gbtf2(IndexType             m,
@@ -66,7 +68,7 @@ gbtf2(IndexType             m,
     return info;
 }
 
-  
+
 template <typename IndexType>
 IndexType
 gbtf2(IndexType             m,

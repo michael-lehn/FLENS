@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAQHB_TCC
 #define CXXLAPACK_INTERFACE_LAQHB_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -50,7 +52,7 @@ laqhb(char                  uplo,
       char                  &equed)
 {
     CXXLAPACK_DEBUG_OUT("claqhb");
- 
+
     LAPACK_IMPL(claqhb)(&uplo,
                         &n,
                         &kd,
@@ -76,7 +78,7 @@ laqhb(char                  uplo,
       char                  &equed)
 {
     CXXLAPACK_DEBUG_OUT("zlaqhb");
- 
+
     LAPACK_IMPL(zlaqhb)(&uplo,
                         &n,
                         &kd,

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_PTSV_TCC
 #define CXXLAPACK_INTERFACE_PTSV_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -47,7 +49,7 @@ ptsv (IndexType             n,
       IndexType             &ldB)
 {
     CXXLAPACK_DEBUG_OUT("sptsv");
- 
+
     IndexType info;
     LAPACK_IMPL(sptsv) (&n,
                         &nRhs,
@@ -76,7 +78,7 @@ ptsv (IndexType             n,
       IndexType             &ldB)
 {
     CXXLAPACK_DEBUG_OUT("dptsv");
- 
+
     IndexType info;
     LAPACK_IMPL(dptsv) (&n,
                         &nRhs,
@@ -104,7 +106,7 @@ ptsv (IndexType             n,
       IndexType             &ldB)
 {
     CXXLAPACK_DEBUG_OUT("cptsv");
- 
+
     IndexType info;
     LAPACK_IMPL(cptsv) (&n,
                         &nRhs,
@@ -132,7 +134,7 @@ ptsv (IndexType             n,
       IndexType             &ldB)
 {
     CXXLAPACK_DEBUG_OUT("zptsv");
- 
+
     IndexType info;
     LAPACK_IMPL(zptsv) (&n,
                         &nRhs,

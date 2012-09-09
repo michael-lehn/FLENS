@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_SYGST_TCC
 #define CXXLAPACK_INTERFACE_SYGST_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ sygst(char                  itype,
       IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("ssygst");
- 
+
     IndexType info;
     LAPACK_IMPL(ssygst)(&itype,
                         &uplo,
@@ -78,7 +80,7 @@ sygst(char                  itype,
       IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("dsygst");
- 
+
     IndexType info;
     LAPACK_IMPL(dsygst)(&itype,
                         &uplo,

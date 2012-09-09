@@ -52,7 +52,7 @@ laic1(IndexType     job,
       float         &c)
 {
     CXXLAPACK_DEBUG_OUT("slaic1");
-    
+
     LAPACK_IMPL(slaic1)(&job,
                         &j,
                         x,
@@ -78,7 +78,7 @@ laic1(IndexType     job,
       double        &c)
 {
     CXXLAPACK_DEBUG_OUT("dlaic1");
-    
+
     LAPACK_IMPL(dlaic1)(&job,
                         &j,
                         x,
@@ -103,7 +103,7 @@ laic1(IndexType                   job,
       std::complex<float >        &c)
 {
     CXXLAPACK_DEBUG_OUT("claic1");
-    
+
     LAPACK_IMPL(claic1)(&job,
                         &j,
                         reinterpret_cast<const float  *>(x),
@@ -128,7 +128,7 @@ laic1(IndexType                   job,
       std::complex<double>        &c)
 {
     CXXLAPACK_DEBUG_OUT("zlaic1");
-    
+
     LAPACK_IMPL(zlaic1)(&job,
                         &j,
                         reinterpret_cast<const double *>(x),

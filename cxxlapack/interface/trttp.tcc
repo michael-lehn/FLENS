@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_TRTTP_TCC
 #define CXXLAPACK_INTERFACE_TRTTP_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -46,7 +48,7 @@ trttp(char                  uplo,
       float                 *Ap)
 {
     CXXLAPACK_DEBUG_OUT("strttp");
- 
+
     IndexType info;
     LAPACK_IMPL(strttp)(&uplo,
                         &n,
@@ -73,7 +75,7 @@ trttp(char                  uplo,
       double                *Ap)
 {
     CXXLAPACK_DEBUG_OUT("dtrttp");
- 
+
     IndexType info;
     LAPACK_IMPL(dtrttp)(&uplo,
                         &n,
@@ -99,7 +101,7 @@ trttp(char                        uplo,
       std::complex<float >        *Ap)
 {
     CXXLAPACK_DEBUG_OUT("ctrttp");
- 
+
     IndexType info;
     LAPACK_IMPL(ctrttp)(&uplo,
                         &n,
@@ -125,7 +127,7 @@ trttp(char                        uplo,
       std::complex<double>        *Ap)
 {
     CXXLAPACK_DEBUG_OUT("ztrttp");
- 
+
     IndexType info;
     LAPACK_IMPL(ztrttp)(&uplo,
                         &n,

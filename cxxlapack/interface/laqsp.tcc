@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAQSP_TCC
 #define CXXLAPACK_INTERFACE_LAQSP_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ laqsp(char                  uplo,
       char                  &equed)
 {
     CXXLAPACK_DEBUG_OUT("slaqsp");
- 
+
     LAPACK_IMPL(slaqsp)(&uplo,
                         &n,
                         Ap,
@@ -70,7 +72,7 @@ laqsp(char                  uplo,
       char                  &equed)
 {
     CXXLAPACK_DEBUG_OUT("dlaqsp");
- 
+
     LAPACK_IMPL(dlaqsp)(&uplo,
                         &n,
                         Ap,
@@ -91,7 +93,7 @@ laqsp(char                  uplo,
       char                  &equed)
 {
     CXXLAPACK_DEBUG_OUT("claqsp");
- 
+
     LAPACK_IMPL(claqsp)(&uplo,
                         &n,
                         reinterpret_cast<float  *>(Ap),
@@ -112,7 +114,7 @@ laqsp(char                  uplo,
       char                  &equed)
 {
     CXXLAPACK_DEBUG_OUT("zlaqsp");
- 
+
     LAPACK_IMPL(zlaqsp)(&uplo,
                         &n,
                         reinterpret_cast<double *>(Ap),

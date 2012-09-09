@@ -52,7 +52,7 @@ heev(char                   jobZ,
      float                  *rWork)
 {
     CXXLAPACK_DEBUG_OUT("cheev");
-    
+
     IndexType info;
     LAPACK_IMPL(cheev)(&jobZ,
                        &upLo,
@@ -86,7 +86,7 @@ heev(char                   jobZ,
      double                 *rWork)
 {
     CXXLAPACK_DEBUG_OUT("zheev");
-    
+
     IndexType info;
     LAPACK_IMPL(zheev)(&jobZ,
                        &upLo,

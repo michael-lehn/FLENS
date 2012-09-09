@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAHEF_TCC
 #define CXXLAPACK_INTERFACE_LAHEF_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -50,7 +52,7 @@ lahef(char                  uplo,
       IndexType             ldW)
 {
     CXXLAPACK_DEBUG_OUT("clahef");
-    
+
     IndexType info;
     LAPACK_IMPL(clahef)(&uplo,
                         &n,
@@ -84,7 +86,7 @@ lahef(char                  uplo,
       IndexType             ldW)
 {
     CXXLAPACK_DEBUG_OUT("zlahef");
-  
+
     IndexType info;
     LAPACK_IMPL(zlahef)(&uplo,
                         &n,

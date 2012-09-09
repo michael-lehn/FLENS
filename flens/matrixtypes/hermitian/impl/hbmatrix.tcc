@@ -35,6 +35,7 @@
 
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/blas/level1/copy.h>
+#include <flens/matrixtypes/hermitian/impl/hbmatrix.h>
 #include <flens/typedefs.h>
 
 namespace flens {

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_ROT_TCC
 #define CXXLAPACK_INTERFACE_ROT_TCC
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ rot  (IndexType             m,
       float                 s)
 {
     CXXLAPACK_DEBUG_OUT("crot");
- 
+
     LAPACK_IMPL(crot) (&m,
                        reinterpret_cast<float  *>(cx),
                        &incx,
@@ -70,7 +72,7 @@ rot  (IndexType             m,
       double                s)
 {
     CXXLAPACK_DEBUG_OUT("zrot");
- 
+
     LAPACK_IMPL(zrot) (&m,
                        reinterpret_cast<double *>(cx),
                        &incx,

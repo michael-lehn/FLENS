@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_PPCON_TCC
 #define CXXLAPACK_INTERFACE_PPCON_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ ppcon(char                  uplo,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("sppcon");
-    
+
     IndexType info;
     LAPACK_IMPL(sppcon)(&uplo,
                         &n,
@@ -78,7 +80,7 @@ ppcon(char                  uplo,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dppcon");
-    
+
     IndexType info;
     LAPACK_IMPL(dppcon)(&uplo,
                         &n,
@@ -109,7 +111,7 @@ ppcon(char                       uplo,
       float                      *rWork)
 {
     CXXLAPACK_DEBUG_OUT("cppcon");
-    
+
     IndexType info;
     LAPACK_IMPL(cppcon)(&uplo,
                         &n,
@@ -139,7 +141,7 @@ ppcon(char                       uplo,
       double                     *rWork)
 {
     CXXLAPACK_DEBUG_OUT("zppcon");
-    
+
     IndexType info;
     LAPACK_IMPL(zppcon)(&uplo,
                         &n,

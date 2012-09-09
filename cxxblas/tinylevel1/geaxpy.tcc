@@ -33,9 +33,7 @@
 #ifndef CXXBLAS_TINYLEVEL1_GEAXPY_TCC
 #define CXXBLAS_TINYLEVEL1_GEAXPY_TCC 1
 
-#include <cxxblas/tinylevel1/axpy.h>
-#include <cxxblas/tinylevel1/geaxpy.h>
-#include <cxxblas/typedefs.h>
+#include <cxxblas/cxxblas.h>
 
 #define HAVE_CXXBLAS_GEAXPY 1
 

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HEGVX_TCC
 #define CXXLAPACK_INTERFACE_HEGVX_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -64,7 +66,7 @@ hegvx(IndexType             itype,
       IndexType             *ifail)
 {
     CXXLAPACK_DEBUG_OUT("chegvx");
-    
+
     IndexType info;
     LAPACK_IMPL(chegvx)(&itype,
                         &jobz,
@@ -126,7 +128,7 @@ hegvx(IndexType             itype,
       IndexType             *ifail)
 {
     CXXLAPACK_DEBUG_OUT("zhegvx");
-    
+
     IndexType info;
     LAPACK_IMPL(zhegvx)(&itype,
                         &jobz,

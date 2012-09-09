@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LARNV_TCC
 #define CXXLAPACK_INTERFACE_LARNV_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -45,7 +47,7 @@ larnv(IndexType             idist,
       float                 *x)
 {
     CXXLAPACK_DEBUG_OUT("slarnv");
- 
+
     LAPACK_IMPL(slarnv)(&idist,
                         &iseed,
                         &n,
@@ -61,7 +63,7 @@ larnv(IndexType             idist,
       double                *x)
 {
     CXXLAPACK_DEBUG_OUT("dlarnv");
- 
+
     LAPACK_IMPL(dlarnv)(&idist,
                         &iseed,
                         &n,
@@ -76,7 +78,7 @@ larnv(IndexType             idist,
       std::complex<float >  *x)
 {
     CXXLAPACK_DEBUG_OUT("clarnv");
- 
+
     LAPACK_IMPL(clarnv)(&idist,
                         &iseed,
                         &n,
@@ -91,7 +93,7 @@ larnv(IndexType             idist,
       std::complex<double>  *x)
 {
     CXXLAPACK_DEBUG_OUT("zlarnv");
- 
+
     LAPACK_IMPL(zlarnv)(&idist,
                         &iseed,
                         &n,

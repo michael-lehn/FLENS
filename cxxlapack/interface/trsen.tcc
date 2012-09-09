@@ -35,6 +35,8 @@
 
 #include <iostream>
 #include <cxxlapack/interface/interface.h>
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -60,7 +62,7 @@ trsen(char              job,
       IndexType         liWork)
 {
     CXXLAPACK_DEBUG_OUT("strsen");
- 
+
     IndexType info;
     LAPACK_IMPL(strsen)(&job,
                         &compQ,
@@ -111,7 +113,7 @@ trsen(char              job,
       IndexType         liWork)
 {
     CXXLAPACK_DEBUG_OUT("dtrsen");
- 
+
     IndexType info;
     LAPACK_IMPL(dtrsen)(&job,
                         &compQ,
@@ -158,7 +160,7 @@ trsen(char                  job,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("ctrsen");
- 
+
     IndexType info;
     LAPACK_IMPL(ctrsen)(&job,
                         &compQ,
@@ -202,7 +204,7 @@ trsen(char                  job,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("ztrsen");
- 
+
     IndexType info;
     LAPACK_IMPL(ztrsen)(&job,
                         &compQ,

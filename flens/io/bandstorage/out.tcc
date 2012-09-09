@@ -34,6 +34,7 @@
 #define FLENS_IO_BANDSTORAGE_OUT_TCC
 
 #include <cxxblas/typedefs.h>
+#include <flens/io/bandstorage/out.h>
 
 namespace flens {
 

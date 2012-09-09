@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LARRR_TCC
 #define CXXLAPACK_INTERFACE_LARRR_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -44,7 +46,7 @@ larrr(IndexType             n,
       float                 *e)
 {
     CXXLAPACK_DEBUG_OUT("slarrr");
-    
+
     IndexType info;
     LAPACK_IMPL(slarrr)(&n,
                         d,
@@ -66,7 +68,7 @@ larrr(IndexType             n,
       double                *e)
 {
     CXXLAPACK_DEBUG_OUT("dlarrr");
-    
+
     IndexType info;
     LAPACK_IMPL(dlarrr)(&n,
                         d,

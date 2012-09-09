@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_GTRFS_TCC
 #define CXXLAPACK_INTERFACE_GTRFS_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -60,7 +62,7 @@ gtrfs(char                  trans,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("sgtrfs");
-    
+
     IndexType info;
     LAPACK_IMPL(sgtrfs)(&trans,
                         &n,
@@ -114,7 +116,7 @@ gtrfs(char                  trans,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dgtrfs");
-    
+
     IndexType info;
     LAPACK_IMPL(dgtrfs)(&trans,
                         &n,
@@ -169,7 +171,7 @@ gtrfs(char                        trans,
       float                       *rWork)
 {
     CXXLAPACK_DEBUG_OUT("cgtrfs");
-    
+
     IndexType info;
     LAPACK_IMPL(cgtrfs)(&trans,
                         &n,
@@ -223,7 +225,7 @@ gtrfs(char                        trans,
       double                      *rWork)
 {
     CXXLAPACK_DEBUG_OUT("zgtrfs");
-    
+
     IndexType info;
     LAPACK_IMPL(zgtrfs)(&trans,
                         &n,

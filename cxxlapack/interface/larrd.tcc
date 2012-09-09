@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LARRD_TCC
 #define CXXLAPACK_INTERFACE_LARRD_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -65,7 +67,7 @@ larrd(char                  range,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("slarrd");
-    
+
     IndexType info;
     LAPACK_IMPL(slarrd)(&range,
                         &order,
@@ -130,7 +132,7 @@ larrd(char                  range,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dlarrd");
-    
+
     IndexType info;
     LAPACK_IMPL(dlarrd)(&range,
                         &order,

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_PTSVX_TCC
 #define CXXLAPACK_INTERFACE_PTSVX_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -56,7 +58,7 @@ ptsvx(char                  fact,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("sptsvx");
- 
+
     IndexType info;
     LAPACK_IMPL(sptsvx)(&fact,
                         &n,
@@ -103,7 +105,7 @@ ptsvx(char                  fact,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dptsvx");
- 
+
     IndexType info;
     LAPACK_IMPL(dptsvx)(&fact,
                         &n,
@@ -149,7 +151,7 @@ ptsvx(char                        fact,
       std::complex<float >        *work)
 {
     CXXLAPACK_DEBUG_OUT("cptsvx");
- 
+
     IndexType info;
     LAPACK_IMPL(cptsvx)(&fact,
                         &n,
@@ -195,7 +197,7 @@ ptsvx(char                        fact,
       std::complex<double>        *work)
 {
     CXXLAPACK_DEBUG_OUT("zptsvx");
- 
+
     IndexType info;
     LAPACK_IMPL(zptsvx)(&fact,
                         &n,

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_GETC2_TCC
 #define CXXLAPACK_INTERFACE_GETC2_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -46,7 +48,7 @@ getc2(IndexType             n,
       IndexType             *jpiv)
 {
     CXXLAPACK_DEBUG_OUT("sgetc2");
-    
+
     IndexType info;
     LAPACK_IMPL(sgetc2)(&n,
                         A,
@@ -72,7 +74,7 @@ getc2(IndexType             n,
       IndexType             *jpiv)
 {
     CXXLAPACK_DEBUG_OUT("dgetc2");
-    
+
     IndexType info;
     LAPACK_IMPL(dgetc2)(&n,
                         A,
@@ -98,7 +100,7 @@ getc2(IndexType             n,
       IndexType             *jpiv)
 {
     CXXLAPACK_DEBUG_OUT("cgetc2");
-    
+
     IndexType info;
     LAPACK_IMPL(cgetc2)(&n,
                         reinterpret_cast<float *>(A),
@@ -124,7 +126,7 @@ getc2(IndexType             n,
       IndexType             *jpiv)
 {
     CXXLAPACK_DEBUG_OUT("zgetc2");
-    
+
     IndexType info;
     LAPACK_IMPL(zgetc2)(&n,
                         reinterpret_cast<double *>(A),

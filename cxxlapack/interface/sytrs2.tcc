@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_SYTRS2_TCC
 #define CXXLAPACK_INTERFACE_SYTRS2_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -50,7 +52,7 @@ sytrs2(char                  uplo,
        float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("ssyrts2");
- 
+
     IndexType info;
     LAPACK_IMPL(ssytrs2)(&uplo,
                         &n,
@@ -85,7 +87,7 @@ sytrs2(char                  uplo,
        double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dsyrts2");
- 
+
     IndexType info;
     LAPACK_IMPL(dsytrs2)(&uplo,
                         &n,
@@ -119,7 +121,7 @@ sytrs2(char                        uplo,
        std::complex<float >        *work)
 {
     CXXLAPACK_DEBUG_OUT("csyrts2");
- 
+
     IndexType info;
     LAPACK_IMPL(csytrs2)(&uplo,
                         &n,
@@ -153,7 +155,7 @@ sytrs2(char                        uplo,
        std::complex<double>        *work)
 {
     CXXLAPACK_DEBUG_OUT("zsyrts2");
- 
+
     IndexType info;
     LAPACK_IMPL(zsytrs2)(&uplo,
                         &n,

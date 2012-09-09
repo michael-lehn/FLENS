@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_GTTRS_TCC
 #define CXXLAPACK_INTERFACE_GTTRS_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -51,7 +53,7 @@ gttrs(char                  trans,
       IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("sgttrs");
-    
+
     IndexType info;
     LAPACK_IMPL(sgttrs)(&trans,
                         &n,
@@ -87,7 +89,7 @@ gttrs(char                  trans,
       IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("dgttrs");
-    
+
     IndexType info;
     LAPACK_IMPL(dgttrs)(&trans,
                         &n,
@@ -123,7 +125,7 @@ gttrs(char                        trans,
       IndexType                   ldB)
 {
     CXXLAPACK_DEBUG_OUT("cgttrs");
-    
+
     IndexType info;
     LAPACK_IMPL(cgttrs)(&trans,
                         &n,
@@ -159,7 +161,7 @@ gttrs(char                        trans,
       IndexType                   ldB)
 {
     CXXLAPACK_DEBUG_OUT("zgttrs");
-    
+
     IndexType info;
     LAPACK_IMPL(zgttrs)(&trans,
                         &n,

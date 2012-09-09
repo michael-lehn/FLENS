@@ -50,7 +50,7 @@ laswp(IndexType             n,
       IndexType             incX)
 {
     CXXLAPACK_DEBUG_OUT("slaswp");
-    
+
     LAPACK_IMPL(slaswp)(&n,
                         A,
                         &ldA,
@@ -72,7 +72,7 @@ laswp(IndexType             n,
       IndexType             incX)
 {
     CXXLAPACK_DEBUG_OUT("dlaswp");
-   
+
     LAPACK_IMPL(dlaswp)(&n,
                         A,
                         &ldA,
@@ -93,7 +93,7 @@ laswp(IndexType             n,
       IndexType             incX)
 {
     CXXLAPACK_DEBUG_OUT("claswp");
-   
+
     LAPACK_IMPL(claswp)(&n,
                         reinterpret_cast<float  *>(A),
                         &ldA,
@@ -114,7 +114,7 @@ laswp(IndexType             n,
       IndexType             incX)
 {
     CXXLAPACK_DEBUG_OUT("zlaswp");
-   
+
     LAPACK_IMPL(zlaswp)(&n,
                         reinterpret_cast<double *>(A),
                         &ldA,

@@ -33,12 +33,14 @@
 #ifndef CXXLAPACK_INTERFACE_LANTP_TCC
 #define CXXLAPACK_INTERFACE_LANTP_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
 
 template <typename IndexType>
-float 
+float
 lantp(char                  norm,
       char                  uplo,
       char                  diag,
@@ -47,7 +49,7 @@ lantp(char                  norm,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("slantp");
-   
+
     return LAPACK_IMPL(slantp)(&norm,
                                &uplo,
                                &diag,
@@ -67,7 +69,7 @@ lantp(char                  norm,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dlantp");
-   
+
     return LAPACK_IMPL(dlantp)(&norm,
                                &uplo,
                                &diag,
@@ -77,7 +79,7 @@ lantp(char                  norm,
 }
 
 template <typename IndexType>
-float 
+float
 lantp(char                        norm,
       char                        uplo,
       char                        diag,
@@ -86,7 +88,7 @@ lantp(char                        norm,
       float                       *work)
 {
     CXXLAPACK_DEBUG_OUT("clantp");
-   
+
     return LAPACK_IMPL(clantp)(&norm,
                                &uplo,
                                &diag,
@@ -105,7 +107,7 @@ lantp(char                        norm,
       double                      *work)
 {
     CXXLAPACK_DEBUG_OUT("zlantp");
-   
+
     return LAPACK_IMPL(zlantp)(&norm,
                                &uplo,
                                &diag,

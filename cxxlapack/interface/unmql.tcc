@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_UNMQL_TCC
 #define CXXLAPACK_INTERFACE_UNMQL_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -53,7 +55,7 @@ unmql(char                        side,
       IndexType                   lWork)
 {
     CXXLAPACK_DEBUG_OUT("cunmql");
- 
+
     IndexType info;
     LAPACK_IMPL(cunmql)(&side,
                         &trans,
@@ -93,7 +95,7 @@ unmql(char                        side,
       IndexType                   lWork)
 {
     CXXLAPACK_DEBUG_OUT("zunmql");
- 
+
     IndexType info;
     LAPACK_IMPL(zunmql)(&side,
                         &trans,

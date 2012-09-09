@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_TGSYL_TCC
 #define CXXLAPACK_INTERFACE_TGSYL_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -62,7 +64,7 @@ tgsyl(char                  trans,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("stgsyl");
- 
+
     IndexType info;
     LAPACK_IMPL(stgsyl)(&trans,
                         &ijob,
@@ -121,7 +123,7 @@ tgsyl(char                  trans,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dtgsyl");
- 
+
     IndexType info;
     LAPACK_IMPL(dtgsyl)(&trans,
                         &ijob,
@@ -180,7 +182,7 @@ tgsyl(char                        trans,
       IndexType                   *iWork)
 {
     CXXLAPACK_DEBUG_OUT("ctgsyl");
- 
+
     IndexType info;
     LAPACK_IMPL(ctgsyl)(&trans,
                         &ijob,
@@ -236,10 +238,10 @@ tgsyl(char                        trans,
       std::complex<double>        *work,
       IndexType                   lWork,
       IndexType                   *iWork)
-      
+
 {
     CXXLAPACK_DEBUG_OUT("ztgsyl");
- 
+
     IndexType info;
     LAPACK_IMPL(ztgsyl)(&trans,
                         &ijob,

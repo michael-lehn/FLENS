@@ -785,27 +785,27 @@ FullStorage<T, Order, I, A>::_release()
 //  fillRandom
 //
 
-template <typename T, StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename Allocator>
 bool
-fillRandom(FullStorage<T, Order, I, A> &A)
+fillRandom(FullStorage<T, Order, I, Allocator> &A)
 {
-    typedef typename FullStorage<T,Order,I,A>::ElementType  ElementType;
-    typedef typename FullStorage<T,Order,I,A>::IndexType    IndexType;
+    typedef typename FullStorage<T,Order,I,Allocator>::ElementType  ElementType;
+    typedef typename FullStorage<T,Order,I,Allocator>::IndexType    IndexType;
 
     ElementType *data = A.data();
     ASSERT(data);
-    for (IndexType i=0; i<numRows()*numCols(); ++i) {
+    for (IndexType i=0; i<A.numRows()*A.numCols(); ++i) {
         data[i] = randomValue<T>();
     }
     return true;
 }
 
-template <typename T, StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename Allocator>
 bool
-fillRandom(StorageUpLo upLo, FullStorage<T, Order, I, A> &A)
+fillRandom(StorageUpLo upLo, FullStorage<T, Order, I, Allocator> &A)
 {
     ASSERT(A.data());
-    trapezoidalFillRandom(order, upLo,
+    trapezoidalFillRandom(Order, upLo,
                           A.numRows(), A.numCols(),
                           A.data(), A.leadingDimension());
     return true;

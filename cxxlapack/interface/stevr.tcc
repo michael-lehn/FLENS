@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_STEVR_TCC
 #define CXXLAPACK_INTERFACE_STEVR_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -60,7 +62,7 @@ stevr(char                  jobz,
       IndexType             liWork)
 {
     CXXLAPACK_DEBUG_OUT("sstevr");
- 
+
     IndexType info;
     LAPACK_IMPL(sstevr)(&jobz,
                         &range
@@ -114,7 +116,7 @@ stevr(char                  jobz,
       IndexType             liWork)
 {
     CXXLAPACK_DEBUG_OUT("dstevr");
- 
+
     IndexType info;
     LAPACK_IMPL(dstevr)(&jobz,
                         &range

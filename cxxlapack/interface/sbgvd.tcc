@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_SBGVD_TCC
 #define CXXLAPACK_INTERFACE_SBGVD_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -57,7 +59,7 @@ sbgvd(char                  jobz,
       IndexType             liWork)
 {
     CXXLAPACK_DEBUG_OUT("ssbgvd");
- 
+
     IndexType info;
     LAPACK_IMPL(ssbgvd)(&jobz,
                         &uplo
@@ -105,7 +107,7 @@ sbgvd(char                  jobz,
       IndexType             liWork)
 {
     CXXLAPACK_DEBUG_OUT("dsbgvd");
- 
+
     IndexType info;
     LAPACK_IMPL(dsbgvd)(&jobz,
                         &uplo

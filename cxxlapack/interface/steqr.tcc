@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_STEQR_TCC
 #define CXXLAPACK_INTERFACE_STEQR_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ steqr(char                  compz,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("ssteqr");
-  
+
     IndexType info;
     LAPACK_IMPL(ssteqr)(&compz,
                         &n,
@@ -79,7 +81,7 @@ steqr(char                  compz,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dsteqr");
- 
+
     IndexType info;
     LAPACK_IMPL(dsteqr)(&compz,
                         &n,
@@ -110,7 +112,7 @@ steqr(char                  compz,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("csteqr");
- 
+
     IndexType info;
     LAPACK_IMPL(csteqr)(&compz,
                         &n,
@@ -140,7 +142,7 @@ steqr(char                  compz,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("zsteqr");
- 
+
     IndexType info;
     LAPACK_IMPL(zsteqr)(&compz,
                         &n,
@@ -158,7 +160,7 @@ steqr(char                  compz,
     ASSERT(info>=0);
     return info;
 }
-  
+
 } // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_STEQR_TCC

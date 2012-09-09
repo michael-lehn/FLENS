@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LASD2_TCC
 #define CXXLAPACK_INTERFACE_LASD2_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -61,9 +63,9 @@ lasd2(IndexType             nl,
       IndexType             *idxc,
       IndexType             *idxq,
       IndexType             *coltype)
-{   
+{
     CXXLAPACK_DEBUG_OUT("slasd2");
-    
+
     IndexType info;
     LAPACK_IMPL(slasd2)(&nl,
                         &nr,
@@ -121,9 +123,9 @@ lasd2(IndexType             nl,
       IndexType             *idxc,
       IndexType             *idxq,
       IndexType             *coltype)
-{   
+{
     CXXLAPACK_DEBUG_OUT("dlasd2");
-    
+
     IndexType info;
     LAPACK_IMPL(dlasd2)(&nl,
                         &nr,

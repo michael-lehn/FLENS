@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HPTRI_TCC
 #define CXXLAPACK_INTERFACE_HPTRI_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -46,7 +48,7 @@ hptri(char                  uplo,
       std::complex<float >  *work)
 {
     CXXLAPACK_DEBUG_OUT("chptri");
-    
+
     IndexType info;
     LAPACK_IMPL(chptri)(&uplo,
                         &n,
@@ -72,7 +74,7 @@ hptri(char                  uplo,
       std::complex<double>  *work)
 {
     CXXLAPACK_DEBUG_OUT("zhptri");
-    
+
     IndexType info;
     LAPACK_IMPL(zhptri)(&uplo,
                         &n,

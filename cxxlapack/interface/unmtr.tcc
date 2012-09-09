@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_UNMTR_TCC
 #define CXXLAPACK_INTERFACE_UNMTR_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -53,7 +55,7 @@ unmtr(char                        side,
       IndexType                   lWork)
 {
     CXXLAPACK_DEBUG_OUT("cunmtr");
- 
+
     IndexType info;
     LAPACK_IMPL(cunmtr)(&side,
                         &uplo,
@@ -62,7 +64,7 @@ unmtr(char                        side,
                         &n,
                         reinterpret_cast<const float  *>(A),
                         &ldA,
-                        reinterpret_cast<const float  *>(tau)
+                        reinterpret_cast<const float  *>(tau),
                         reinterpret_cast<float  *>(C),
                         &ldC,
                         reinterpret_cast<float  *>(work),
@@ -93,7 +95,7 @@ unmtr(char                        side,
       IndexType                   lWork)
 {
     CXXLAPACK_DEBUG_OUT("zunmtr");
- 
+
     IndexType info;
     LAPACK_IMPL(zunmtr)(&side,
                         &uplo,
@@ -102,7 +104,7 @@ unmtr(char                        side,
                         &n,
                         reinterpret_cast<const double *>(A),
                         &ldA,
-                        reinterpret_cast<const double *>(tau)
+                        reinterpret_cast<const double *>(tau),
                         reinterpret_cast<double *>(C),
                         &ldC,
                         reinterpret_cast<double *>(work),

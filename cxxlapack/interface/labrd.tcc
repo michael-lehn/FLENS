@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LABRD_TCC
 #define CXXLAPACK_INTERFACE_LABRD_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -54,7 +56,7 @@ labrd(IndexType             m,
       IndexType             ldY)
 {
     CXXLAPACK_DEBUG_OUT("slabrd");
-    
+
     IndexType info;
     LAPACK_IMPL(slabrd)(&m,
                         &n,
@@ -88,7 +90,7 @@ labrd(IndexType             m,
       IndexType             ldY)
 {
     CXXLAPACK_DEBUG_OUT("dlabrd");
-    
+
     IndexType info;
     LAPACK_IMPL(dlabrd)(&m,
                         &n,
@@ -122,7 +124,7 @@ labrd(IndexType             m,
       IndexType             ldY)
 {
     CXXLAPACK_DEBUG_OUT("clabrd");
-    
+
     IndexType info;
     LAPACK_IMPL(clabrd)(&m,
                         &n,
@@ -156,7 +158,7 @@ labrd(IndexType             m,
       IndexType             ldY)
 {
     CXXLAPACK_DEBUG_OUT("zlabrd");
-    
+
     IndexType info;
     LAPACK_IMPL(zlabrd)(&m,
                         &n,

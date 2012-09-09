@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAPLL_TCC
 #define CXXLAPACK_INTERFACE_LAPLL_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -47,16 +49,14 @@ lapll(IndexType             n,
       float                 &ssmin)
 {
     CXXLAPACK_DEBUG_OUT("slapll");
-   
+
     LAPACK_IMPL(slapll)(&n,
                         x,
                         &incx,
                         y,
                         &incy,
                         &ssmin);
-
 }
-
 
 template <typename IndexType>
 void
@@ -68,16 +68,14 @@ lapll(IndexType             n,
       double                &ssmin)
 {
     CXXLAPACK_DEBUG_OUT("dlapll");
-   
+
     LAPACK_IMPL(dlapll)(&n,
                         x,
                         &incx,
                         y,
                         &incy,
                         &ssmin);
-
 }
-
 
 template <typename IndexType>
 void
@@ -89,14 +87,13 @@ lapll(IndexType             n,
       float                 &ssmin)
 {
     CXXLAPACK_DEBUG_OUT("clapll");
-   
+
     LAPACK_IMPL(clapll)(&n,
                         reinterpret_cast<float  *>(x),
                         &incx,
                         reinterpret_cast<float  *>(y),
                         &incy,
                         &ssmin);
-
 }
 
 template <typename IndexType>
@@ -109,14 +106,13 @@ lapll(IndexType             n,
       double                &ssmin)
 {
     CXXLAPACK_DEBUG_OUT("zlapll");
-   
+
     LAPACK_IMPL(zlapll)(&n,
                         reinterpret_cast<double *>(x),
                         &incx,
                         reinterpret_cast<double *>(y),
                         &incy,
                         &ssmin);
-
 }
 
 } // namespace cxxlapack

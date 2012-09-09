@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_STEGR_TCC
 #define CXXLAPACK_INTERFACE_STEGR_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -58,7 +60,7 @@ stegr(char                  jobz,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("sstegr");
-   
+
     IndexType info;
     LAPACK_IMPL(sstegr)(&jobz,
                         &range,
@@ -109,7 +111,7 @@ stegr(char                  jobz,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("dstegr");
-   
+
     IndexType info;
     LAPACK_IMPL(dstegr)(&jobz,
                         &range,
@@ -161,7 +163,7 @@ stegr(char                  jobz,
       IndexType             liWork)
 {
     CXXLAPACK_DEBUG_OUT("cstegr");
-   
+
     IndexType info;
     LAPACK_IMPL(cstegr)(&jobz,
                         &range,
@@ -215,7 +217,7 @@ stegr(char                  jobz,
       IndexType             liWork)
 {
     CXXLAPACK_DEBUG_OUT("z‚stegr");
-   
+
     IndexType info;
     LAPACK_IMPL(zstegr)(&jobz,
                         &range,

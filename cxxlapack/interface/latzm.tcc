@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LATZM_TCC
 #define CXXLAPACK_INTERFACE_LATZM_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -51,7 +53,7 @@ latzm(char                  side,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("slatzm");
-  
+
     LAPACK_IMPL(slatzm)(&side,
                         &m,
                         &n,
@@ -79,7 +81,7 @@ latzm(char                  side,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dlatzm");
-  
+
     LAPACK_IMPL(dlatzm)(&side,
                         &m,
                         &n,
@@ -106,7 +108,7 @@ latzm(char                       side,
       std::complex<float >       *work)
 {
     CXXLAPACK_DEBUG_OUT("clatzm");
-  
+
     LAPACK_IMPL(clatzm)(&side,
                         &m,
                         &n,
@@ -133,7 +135,7 @@ latzm(char                       side,
       std::complex<double>       *work)
 {
     CXXLAPACK_DEBUG_OUT("zlatzm");
-  
+
     LAPACK_IMPL(zlatzm)(&side,
                         &m,
                         &n,

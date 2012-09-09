@@ -47,7 +47,7 @@ ilalc(IndexType     m,
       IndexType     ldA)
 {
     CXXLAPACK_DEBUG_OUT("iladlc");
-    
+
     IndexType info;
     LAPACK_IMPL(iladlc)(&m,
                         &n,

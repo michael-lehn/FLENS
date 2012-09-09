@@ -34,6 +34,7 @@
 #define CXXBLAS_LEVEL1EXTENSIONS_GBCOPY_TCC 1
 
 #include <cassert>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 
@@ -52,43 +53,46 @@ gbcopy(StorageOrder order,
 
     using std::max;
     using std::min;
-    
+
     if (order==ColMajor) {
         gbcopy(RowMajor, trans, n, m, ku, kl, A, ldA,
                B, ldB);
         return;
     }
-    
+
     if (trans == NoTrans) {
-          for (IndexType j=0, i=-kl; i<=ku; ++j, ++i)
-          {
-              IndexType length = (i < 0) ? min(m+i,min(m,n)) : min(n-i,min(m,n));
+          for (IndexType j=0, i=-kl; i<=ku; ++j, ++i) {
+              IndexType length = (i < 0)
+                               ? min(m+i,min(m,n))
+                               : min(n-i,min(m,n));
               copy(length, A+j+max(-i,0)*ldA, ldA, B+j+max(-i,0)*ldB, ldB);
           }
           return;
-    } 
+    }
     if (trans == Conj) {
-          for (IndexType j=0, i=-kl; i<=ku; ++j, ++i)
-          {
-              IndexType length = (i < 0) ? min(m+i,min(m,n)) : min(n-i,min(m,n));
+          for (IndexType j=0, i=-kl; i<=ku; ++j, ++i) {
+              IndexType length = (i < 0)
+                               ? min(m+i,min(m,n))
+                               : min(n-i,min(m,n));
               ccopy(length, A+j+max(-i,0)*ldA, ldA, B+j+max(-i,0)*ldB, ldB);
           }
           return;
-    } 
+    }
     if (trans == Trans) {
-      
-          for (IndexType j=0, jj=kl+ku, i=-ku, ii=ku; i<=kl; ++j, --jj, ++i, --ii)
-          {
-              IndexType length = (i < 0) ? min(m+i,min(m,n)) : min(n-i,min(m,n));
-              copy(length, A+j+max(-i,0)*ldA, ldA, B+jj+max(-ii,0)*ldB, ldB);
+          for (IndexType j=0, J=kl+ku, i=-ku, I=ku; i<=kl; ++j, --J, ++i, --I) {
+              IndexType length = (i < 0)
+                               ? min(m+i,min(m,n))
+                               : min(n-i,min(m,n));
+              copy(length, A+j+max(-i,0)*ldA, ldA, B+J+max(-I,0)*ldB, ldB);
           }
           return;
     }
 
-    for (IndexType j=0, jj=kl+ku, i=-ku, ii=ku; i<=kl; ++j, --jj, ++i, --ii)
-    {
-        IndexType length = (i < 0) ? min(m+i,min(m,n)) : min(n-i,min(m,n));
-        ccopy(length, A+j+max(-i,0)*ldA, ldA, B+jj+max(-ii,0)*ldB, ldB);
+    for (IndexType j=0, J=kl+ku, i=-ku, I=ku; i<=kl; ++j, --J, ++i, --I) {
+        IndexType length = (i < 0)
+                         ? min(m+i,min(m,n))
+                         : min(n-i,min(m,n));
+        ccopy(length, A+j+max(-i,0)*ldA, ldA, B+J+max(-I,0)*ldB, ldB);
     }
     return;
 }

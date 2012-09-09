@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_SYMV_TCC
 #define CXXLAPACK_INTERFACE_SYMV_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -51,7 +53,7 @@ symv (char                        uplo,
       IndexType                   incy)
 {
     CXXLAPACK_DEBUG_OUT("csymv");
- 
+
     LAPACK_IMPL(csymv)(&uplo,
                        &n,
                        reinterpret_cast<const float  *>(&alpha),
@@ -79,7 +81,7 @@ symv (char                        uplo,
       IndexType                   incy)
 {
     CXXLAPACK_DEBUG_OUT("zsymv");
- 
+
     LAPACK_IMPL(zsymb)(&uplo,
                        &n,
                        reinterpret_cast<const double *>(&alpha),

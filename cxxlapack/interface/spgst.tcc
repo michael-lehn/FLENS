@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_SPGST_TCC
 #define CXXLAPACK_INTERFACE_SPGST_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -46,7 +48,7 @@ spgst(IndexType             itype,
       const float           *Bp)
 {
     CXXLAPACK_DEBUG_OUT("sspgst");
-  
+
     IndexType info;
     LAPACK_IMPL(sspgst)(&itype,
                         &uplo,
@@ -72,7 +74,7 @@ spgst(IndexType             itype,
       const double          *Bp)
 {
     CXXLAPACK_DEBUG_OUT("dspgst");
-  
+
     IndexType info;
     LAPACK_IMPL(dspgst)(&itype,
                         &uplo,

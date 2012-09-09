@@ -34,15 +34,24 @@
 #define FLENS_MATRIXTYPES_SYMMETRIC_IMPL_SBMATRIX_H 1
 
 #include <cxxblas/typedefs.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/matrixtypes/symmetric/symmetricmatrix.h>
 #include <flens/typedefs.h>
 
 namespace flens {
 
 // forward declarations
+template <typename A>
+    class DenseVector;
+
+template <typename FS>
+    class GbMatrix;
 
 template <typename FS>
     class HbMatrix;
+
+template <typename FS>
+    class SbMatrix;
 
 template <typename FS>
     class TbMatrix;
@@ -70,9 +79,13 @@ class SbMatrix
         typedef DenseVector<ArrayView>              VectorView;
         typedef DenseVector<Array>                  Vector;
 
-        typedef HpMatrix<EngineConstView>           ConstHermitianView;
-        typedef HpMatrix<EngineView>                HermitianView;
-        typedef HpMatrix<EngineNoView>              HermitianNoView;
+        typedef HbMatrix<EngineConstView>           ConstHermitianView;
+        typedef HbMatrix<EngineView>                HermitianView;
+        typedef HbMatrix<EngineNoView>              HermitianNoView;
+
+        typedef GbMatrix<EngineConstView>           ConstGeneralView;
+        typedef GbMatrix<EngineView>                GeneralView;
+        typedef GbMatrix<EngineNoView>              GeneralNoView;
 
         typedef SbMatrix<EngineConstView>           ConstView;
         typedef SbMatrix<EngineView>                View;

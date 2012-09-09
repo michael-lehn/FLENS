@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_PBTF2_TCC
 #define CXXLAPACK_INTERFACE_PBTF2_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -46,7 +48,7 @@ pbtf2(char                  uplo,
       IndexType             ldAb)
 {
     CXXLAPACK_DEBUG_OUT("spbtf2");
-  
+
     IndexType info;
     LAPACK_IMPL(spbtf2)(&uplo,
                         &n,
@@ -72,7 +74,7 @@ pbtf2(char                  uplo,
       IndexType             ldAb)
 {
     CXXLAPACK_DEBUG_OUT("dpbtf2");
-  
+
     IndexType info;
     LAPACK_IMPL(dpbtf2)(&uplo,
                         &n,
@@ -98,7 +100,7 @@ pbtf2(char                  uplo,
       IndexType             ldAb)
 {
     CXXLAPACK_DEBUG_OUT("cpbtf2");
-  
+
     IndexType info;
     LAPACK_IMPL(cpbtf2)(&uplo,
                         &n,
@@ -124,7 +126,7 @@ pbtf2(char                  uplo,
       IndexType             ldAb)
 {
     CXXLAPACK_DEBUG_OUT("zpbtf2");
-  
+
     IndexType info;
     LAPACK_IMPL(zpbtf2)(&uplo,
                         &n,

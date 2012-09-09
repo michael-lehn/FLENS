@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LARRE_TCC
 #define CXXLAPACK_INTERFACE_LARRE_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -65,7 +67,7 @@ larre(char                  range,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("slarre");
-    
+
     IndexType info;
     LAPACK_IMPL(slarre)(&range,
                         &n,
@@ -129,7 +131,7 @@ larre(char                  range,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dlarre");
-    
+
     IndexType info;
     LAPACK_IMPL(dlarre)(&range,
                         &n,

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_ORM2L_TCC
 #define CXXLAPACK_INTERFACE_ORM2L_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -51,7 +53,7 @@ orm2l(char                  side,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("sorm2l");
-  
+
     IndexType info;
     LAPACK_IMPL(sorm2l)(&side,
                         &trans,
@@ -87,7 +89,7 @@ orm2l(char                  side,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dorm2l");
-  
+
     IndexType info;
     LAPACK_IMPL(dorm2l)(&side,
                         &trans,

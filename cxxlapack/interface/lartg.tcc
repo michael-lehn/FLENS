@@ -48,7 +48,7 @@ lartg(const float      &f,
       float            &r)
 {
     CXXLAPACK_DEBUG_OUT("slartg");
-   
+
     LAPACK_IMPL(slartg)(&f,
                         &g,
                         &cs,
@@ -66,7 +66,7 @@ lartg(const double     &f,
       double           &r)
 {
     CXXLAPACK_DEBUG_OUT("dlartg");
-  
+
     LAPACK_IMPL(dlartg)(&f,
                         &g,
                         &cs,
@@ -83,7 +83,7 @@ lartg(const std::complex<float >    &f,
       std::complex<float >          &r)
 {
     CXXLAPACK_DEBUG_OUT("clartg");
-  
+
     LAPACK_IMPL(clartg)(reinterpret_cast<const float  *>(&f),
                         reinterpret_cast<const float  *>(&g),
                         &cs,
@@ -100,7 +100,7 @@ lartg(const std::complex<double>    &f,
       std::complex<double>          &r)
 {
     CXXLAPACK_DEBUG_OUT("zlartg");
-  
+
     LAPACK_IMPL(zlartg)(reinterpret_cast<const double *>(&f),
                         reinterpret_cast<const double *>(&g),
                         &cs,

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LA_PORCOND_X_TCC
 #define CXXLAPACK_INTERFACE_LA_PORCOND_X_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -49,7 +51,7 @@ la_porCond_x(char                        uplo,
              IndexType                   &info,
              std::complex<float >        *work,
              float                       *rWork)
-{  
+{
     CXXLAPACK_DEBUG_OUT("zla_porcond_x");
 
     return LAPACK_IMPL(cla_porcond_x)(&uplo,
@@ -76,7 +78,7 @@ la_porCond_x(char                        uplo,
              IndexType                   &info,
              std::complex<double>        *work,
              double                      *rWork)
-{  
+{
     CXXLAPACK_DEBUG_OUT("zla_porcond_x");
 
     return LAPACK_IMPL(zla_porcond_x)(&uplo,

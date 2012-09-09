@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_GEEQUB_TCC
 #define CXXLAPACK_INTERFACE_GEEQUB_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -68,7 +70,7 @@ geequb(IndexType             m,
 #   endif
     ASSERT(info>=0);
     return info;
-}  
+}
 
 template <typename IndexType>
 IndexType
@@ -101,7 +103,7 @@ geequb(IndexType             m,
 #   endif
     ASSERT(info>=0);
     return info;
-}  
+}
 
 template <typename IndexType>
 IndexType

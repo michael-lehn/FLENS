@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HEEVX_TCC
 #define CXXLAPACK_INTERFACE_HEEVX_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -61,7 +63,7 @@ heevx(char                  jobz,
       IndexType             *ifail)
 {
     CXXLAPACK_DEBUG_OUT("cheevx");
-    
+
     IndexType info;
     LAPACK_IMPL(cheevx)(&jobz,
                         &range,
@@ -117,7 +119,7 @@ heevx(char                  jobz,
       IndexType             *ifail)
 {
     CXXLAPACK_DEBUG_OUT("zheevx");
-    
+
     IndexType info;
     LAPACK_IMPL(zheevx)(&jobz,
                         &range,

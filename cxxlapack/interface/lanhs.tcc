@@ -33,12 +33,14 @@
 #ifndef CXXLAPACK_INTERFACE_LANHS_TCC
 #define CXXLAPACK_INTERFACE_LANHS_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
 
 template <typename IndexType>
-float  
+float
 lanhs(char                  norm,
       IndexType             n,
       const float           *A,
@@ -46,7 +48,7 @@ lanhs(char                  norm,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("slanhs");
-   
+
     return LAPACK_IMPL(slanhs)(&norm,
                                &n,
                                A,
@@ -56,7 +58,7 @@ lanhs(char                  norm,
 
 
 template <typename IndexType>
-double 
+double
 lanhs(char                  norm,
       IndexType             n,
       const double          *A,
@@ -64,7 +66,7 @@ lanhs(char                  norm,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dlanhs");
-   
+
     return LAPACK_IMPL(dlanhs)(&norm,
                                &n,
                                A,
@@ -73,7 +75,7 @@ lanhs(char                  norm,
 }
 
 template <typename IndexType>
-float  
+float
 lanhs(char                        norm,
       IndexType                   n,
       const std::complex<float >  *A,
@@ -81,7 +83,7 @@ lanhs(char                        norm,
       float                       *work)
 {
     CXXLAPACK_DEBUG_OUT("clanhs");
-   
+
     return LAPACK_IMPL(clanhs)(&norm,
                                &n,
                                reinterpret_cast<const float  *>(A),
@@ -90,7 +92,7 @@ lanhs(char                        norm,
 }
 
 template <typename IndexType>
-double 
+double
 lanhs(char                        norm,
       IndexType                   n,
       const std::complex<double>  *A,
@@ -98,7 +100,7 @@ lanhs(char                        norm,
       double                      *work)
 {
     CXXLAPACK_DEBUG_OUT("zlanhs");
-   
+
     return LAPACK_IMPL(zlanhs)(&norm,
                                &n,
                                reinterpret_cast<const double *>(A),

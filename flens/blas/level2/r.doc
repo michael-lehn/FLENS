@@ -95,3 +95,48 @@ Hermitian Matrix
 ================
 
 (Todo)
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename VX, typename MA>                      |
+|      typename RestrictTo<IsDenseVector<VX>::value                         |
+|                       && IsSyMatrix<MA>::value,                           |
+|               void>::Type                                                 |
+|      r(const ALPHA &alpha, const VX &x, MA &&A);                          |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>3#T#T#Tr#&1t0.0#&1t0.1#&t0.2]
+                         [#templatetypenameALPHA,typenameVX,typenameMAtypena]
+                         [meRestrictToIsDenseVectorVXvalueandIsSyMatrixMAval]
+                         [ue,voidType                                       ]
+
+    Defined in namespace `flens::blas`.
+    Function `r` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename VX, typename MA>                      |
+|      typename RestrictTo<IsDenseVector<VX>::value                         |
+|                       && IsHeMatrix<MA>::value,                           |
+|               void>::Type                                                 |
+|      r(const ALPHA &alpha, const VX &x, MA &&A);                          |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>3#T#T#Tr#&1t0.0#&1t0.1#&t0.2]
+                         [#templatetypenameALPHA,typenameVX,typenameMAtypena]
+                         [meRestrictToIsDenseVectorVXvalueandIsHeMatrixMAval]
+                         [ue,voidType                                       ]
+
+    Defined in namespace `flens::blas`.
+    Function `r` with 3 template parameters.
+
+
+

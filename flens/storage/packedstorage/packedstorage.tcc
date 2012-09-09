@@ -35,6 +35,7 @@
 
 #include <cxxblas/level1/copy.h>
 #include <flens/auxiliary/auxiliary.h>
+#include <flens/storage/packedstorage/packedstorage.h>
 #include <flens/typedefs.h>
 
 namespace flens {

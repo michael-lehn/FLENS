@@ -50,7 +50,7 @@ lacn2(IndexType         n,
       IndexType         *iSave)
 {
     CXXLAPACK_DEBUG_OUT("slacn2");
-    
+
     LAPACK_IMPL(slacn2)(&n,
                         v,
                         x,
@@ -71,7 +71,7 @@ lacn2(IndexType         n,
       IndexType         *iSave)
 {
     CXXLAPACK_DEBUG_OUT("dlacn2");
-    
+
     LAPACK_IMPL(dlacn2)(&n,
                         v,
                         x,
@@ -91,7 +91,7 @@ lacn2(IndexType             n,
       IndexType             *iSave)
 {
     CXXLAPACK_DEBUG_OUT("clacn2");
-    
+
     LAPACK_IMPL(clacn2)(&n,
                         reinterpret_cast<float  *>(v),
                         reinterpret_cast<float  *>(x),
@@ -110,7 +110,7 @@ lacn2(IndexType             n,
       IndexType             *iSave)
 {
     CXXLAPACK_DEBUG_OUT("zlacn2");
-    
+
     LAPACK_IMPL(zlacn2)(&n,
                         reinterpret_cast<double *>(v),
                         reinterpret_cast<double *>(x),

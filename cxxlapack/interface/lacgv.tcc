@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LACGV_TCC
 #define CXXLAPACK_INTERFACE_LACGV_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -57,7 +59,7 @@ lacgv(IndexType             n,
       IndexType             incx)
 {
     CXXLAPACK_DEBUG_OUT("zlacgv");
-    
+
     LAPACK_IMPL(zlacgv)(&n,
                         reinterpret_cast<double *>(x),
                         &incx);

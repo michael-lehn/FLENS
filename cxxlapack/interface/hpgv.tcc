@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HPGV_TCC
 #define CXXLAPACK_INTERFACE_HPGV_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -52,7 +54,7 @@ hpgv (IndexType             itype,
       float                 *rWork)
 {
     CXXLAPACK_DEBUG_OUT("chpgv");
-    
+
     IndexType info;
     LAPACK_IMPL(chpgv)(&itype,
                        &jobz,
@@ -90,7 +92,7 @@ hpgv (IndexType             itype,
       double                *rWork)
 {
     CXXLAPACK_DEBUG_OUT("zhpgv");
-    
+
     IndexType info;
     LAPACK_IMPL(zhpgv)(&itype,
                        &jobz,

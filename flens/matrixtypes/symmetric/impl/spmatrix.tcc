@@ -33,8 +33,9 @@
 #ifndef FLENS_MATRIXTYPES_SYMMETRIC_IMPL_SPMATRIX_TCC
 #define FLENS_MATRIXTYPES_SYMMETRIC_IMPL_SPMATRIX_TCC 1
 
-#include <flens/matrixtypes/general/impl/gematrix.h>
-#include <flens/matrixtypes/symmetric/impl/symatrix.h>
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/blas/level1/copy.h>
+#include <flens/matrixtypes/symmetric/impl/spmatrix.h>
 #include <flens/typedefs.h>
 
 namespace flens {
@@ -42,16 +43,14 @@ namespace flens {
 template <typename FS>
 SpMatrix<FS>::SpMatrix()
 {
-  
 }
-  
+
 template <typename FS>
 SpMatrix<FS>::SpMatrix(IndexType dim)
       : _engine(dim)
 {
-  
 }
-  
+
 template <typename FS>
 SpMatrix<FS>::SpMatrix(const Engine &engine)
     : _engine(engine)

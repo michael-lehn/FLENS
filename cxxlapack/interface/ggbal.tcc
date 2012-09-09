@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_GGBAL_TCC
 #define CXXLAPACK_INTERFACE_GGBAL_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -51,8 +53,8 @@ ggbal(char                  job,
       float                 *rscale,
       float                 *work)
 {
-    CXXLAPACK_DEBUG_OUT("sggbal"); 
-    
+    CXXLAPACK_DEBUG_OUT("sggbal");
+
     IndexType info;
     LAPACK_IMPL(sggbal)(&job,
                         &n,
@@ -90,7 +92,7 @@ ggbal(char                  job,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dggbal");
-    
+
     IndexType info;
     LAPACK_IMPL(dggbal)(&job,
                         &n,
@@ -129,7 +131,7 @@ ggbal(char                  job,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("cggbal");
-    
+
     IndexType info;
     LAPACK_IMPL(cggbal)(&job,
                         &n,
@@ -167,7 +169,7 @@ ggbal(char                  job,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("zggbal");
-    
+
     IndexType info;
     LAPACK_IMPL(zggbal)(&job,
                         &n,

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_SYEVR_TCC
 #define CXXLAPACK_INTERFACE_SYEVR_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -61,7 +63,7 @@ syevr(char                  jobz,
       IndexType             liWork)
 {
     CXXLAPACK_DEBUG_OUT("ssyevr");
-  
+
     IndexType info;
     LAPACK_IMPL(ssyevr)(&jobz,
                         &range,
@@ -117,7 +119,7 @@ syevr(char                  jobz,
       IndexType             liWork)
 {
     CXXLAPACK_DEBUG_OUT("dsyevr");
-  
+
     IndexType info;
     LAPACK_IMPL(dsyevr)(&jobz,
                         &range,

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAESY_TCC
 #define CXXLAPACK_INTERFACE_LAESY_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -47,7 +49,7 @@ laesy(std::complex<float >  a,
       std::complex<float >  &evscal,
       std::complex<float >  &cs1,
       std::complex<float >  &sn1)
-      
+
 {
     CXXLAPACK_DEBUG_OUT("claesy");
 
@@ -72,10 +74,10 @@ laesy(std::complex<double>  a,
       std::complex<double>  &evscal,
       std::complex<double>  &cs1,
       std::complex<double>  &sn1)
-      
+
 {
     CXXLAPACK_DEBUG_OUT("zlaesy");
-    
+
     LAPACK_IMPL(zlaesy)(reinterpret_cast<const double *>(&a),
                         reinterpret_cast<const double *>(&b),
                         reinterpret_cast<const double *>(&c),

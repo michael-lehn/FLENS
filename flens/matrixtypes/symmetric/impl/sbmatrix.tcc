@@ -33,8 +33,9 @@
 #ifndef FLENS_MATRIXTYPES_SYMMETRIC_IMPL_SBMATRIX_TCC
 #define FLENS_MATRIXTYPES_SYMMETRIC_IMPL_SBMATRIX_TCC 1
 
-#include <flens/matrixtypes/general/impl/gematrix.h>
-#include <flens/matrixtypes/symmetric/impl/symatrix.h>
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/blas/level1/copy.h>
+#include <flens/matrixtypes/symmetric/impl/sbmatrix.h>
 #include <flens/typedefs.h>
 
 namespace flens {
@@ -42,9 +43,8 @@ namespace flens {
 template <typename FS>
 SbMatrix<FS>::SbMatrix()
 {
-  
 }
-  
+
 template <typename FS>
 SbMatrix<FS>::SbMatrix(IndexType dim, StorageUpLo upLo, IndexType numOffDiags,
                        IndexType firstIndex)
@@ -52,9 +52,8 @@ SbMatrix<FS>::SbMatrix(IndexType dim, StorageUpLo upLo, IndexType numOffDiags,
                 firstIndex),
       _upLo(upLo)
 {
-  
 }
-  
+
 template <typename FS>
 SbMatrix<FS>::SbMatrix(const Engine &engine, StorageUpLo upLo)
     : _engine(engine), _upLo(upLo)

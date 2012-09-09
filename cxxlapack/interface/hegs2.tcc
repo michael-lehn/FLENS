@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HEGS2_TCC
 #define CXXLAPACK_INTERFACE_HEGS2_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ hegs2(IndexType                  itype,
       IndexType                  ldB)
 {
     CXXLAPACK_DEBUG_OUT("chegs2");
-    
+
     IndexType info;
     LAPACK_IMPL(chegs2)(&itype,
                         &uplo,
@@ -58,7 +60,7 @@ hegs2(IndexType                  itype,
                         reinterpret_cast<const float  *>(B),
                         &ldB,
                         &info);
-#   ifndef NDEBUG 
+#   ifndef NDEBUG
     if (info<0) {
         std::cerr << "info = " << info << std::endl;
     }
@@ -78,7 +80,7 @@ hegs2(IndexType                  itype,
       IndexType                  ldB)
 {
     CXXLAPACK_DEBUG_OUT("zhegs2");
-    
+
     IndexType info;
     LAPACK_IMPL(zhegs2)(&itype,
                         &uplo,
@@ -88,7 +90,7 @@ hegs2(IndexType                  itype,
                         reinterpret_cast<const double *>(B),
                         &ldB,
                         &info);
-#   ifndef NDEBUG 
+#   ifndef NDEBUG
     if (info<0) {
         std::cerr << "info = " << info << std::endl;
     }

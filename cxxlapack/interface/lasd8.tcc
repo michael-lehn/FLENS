@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LASD8_TCC
 #define CXXLAPACK_INTERFACE_LASD8_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -50,9 +52,9 @@ lasd8(IndexType             icompq,
       IndexType             ldDifr,
       float                 *dsigma,
       float                 *work)
-{ 
+{
     CXXLAPACK_DEBUG_OUT("slasd8");
-    
+
     IndexType info;
     LAPACK_IMPL(slasd8)(&icompq,
                         &k,
@@ -88,9 +90,9 @@ lasd8(IndexType             icompq,
       IndexType             ldDifr,
       double                *dsigma,
       double                *work)
-{ 
+{
     CXXLAPACK_DEBUG_OUT("dlasd8");
-    
+
     IndexType info;
     LAPACK_IMPL(dlasd8)(&icompq,
                         &k,

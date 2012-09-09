@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HBGVD_TCC
 #define CXXLAPACK_INTERFACE_HBGVD_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -59,7 +61,7 @@ hbgvd(char                       vect,
       IndexType                  liWork)
 {
     CXXLAPACK_DEBUG_OUT("chbgvd");
-    
+
     IndexType info;
     LAPACK_IMPL(chbgvd)(&vect,
                         &uplo,
@@ -111,7 +113,7 @@ hbgvd(char                       vect,
       IndexType                  liWork)
 {
     CXXLAPACK_DEBUG_OUT("zhbgvd");
-    
+
     IndexType info;
     LAPACK_IMPL(zhbgvd)(&vect,
                         &uplo,

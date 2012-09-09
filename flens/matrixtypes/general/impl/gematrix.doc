@@ -267,8 +267,8 @@ Operators
 |  operator+=(const ElementType &alpha);                                    |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@flens@CT>1#T@GeMatrix@F@operator+=#&1 #GeMatr]
-                         [ixFSbandoperator+=                                ]
+                         [O#c:@N@flens@CT>1#T@GeMatrix@F@operator+=#&1 #GeMa]
+                         [trixFSbandoperator+=                              ]
 
     Defined in namespace `flens`.
     Operator `+=` of class `GeMatrix` with 1 template parameters.
@@ -281,8 +281,8 @@ Operators
 |  operator-=(const ElementType &alpha);                                    |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@flens@CT>1#T@GeMatrix@F@operator-=#&1 #GeMatr]
-                         [ixFSbandoperator-=                                ]
+                         [O#c:@N@flens@CT>1#T@GeMatrix@F@operator-=#&1 #GeMa]
+                         [trixFSbandoperator-=                              ]
 
     Defined in namespace `flens`.
     Operator `-=` of class `GeMatrix` with 1 template parameters.
@@ -1289,6 +1289,84 @@ Related Trait-Classes
 
     Defined in namespace `flens`.
     Function `real` with 1 template parameters.
+
+
+
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  GeMatrix &                                                               |
+|  operator+=(const ElementType &alpha);                                    |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@CT>1#T@GeMatrix@F@operator+=#&1 #GeMatr]
+                         [ixbandoperator+=                                  ]
+
+    Defined in namespace `flens`.
+    Operator `+=` of class `GeMatrix` with 1 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  GeMatrix &                                                               |
+|  operator-=(const ElementType &alpha);                                    |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@CT>1#T@GeMatrix@F@operator-=#&1 #GeMatr]
+                         [ixbandoperator-=                                  ]
+
+    Defined in namespace `flens`.
+    Operator `-=` of class `GeMatrix` with 1 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  const ConstVectorView                                                    |
+|  antiDiag(IndexType d) const;                                             |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@CT>1#T@GeMatrix@F@antiDiag# #1constCons]
+                         [tVectorView                                       ]
+
+    Defined in namespace `flens`.
+    Method `antiDiag` of class `GeMatrix` with 1 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  VectorView                                                               |
+|  antiDiag(IndexType d);                                                   |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@CT>1#T@GeMatrix@F@antiDiag# #VectorView]
+
+    Defined in namespace `flens`.
+    Method `antiDiag` of class `GeMatrix` with 1 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA>                                                   |
+|      typename RestrictTo<IsGeMatrix<MA>::value,                           |
+|               bool>::Type                                                 |
+|      fillRandom(MA &&A);                                                  |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@FT@>1#TfillRandom#&t0.0#templatetypenam]
+                         [eMAtypenameRestrictToIsGeMatrixMAvalue,boolType   ]
+
+    Defined in namespace `flens`.
+    Function `fillRandom` with 1 template parameters.
 
 
 

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_PTTRF_TCC
 #define CXXLAPACK_INTERFACE_PTTRF_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -44,7 +46,7 @@ pttrf(IndexType             n,
       float                 *e)
 {
     CXXLAPACK_DEBUG_OUT("spttrf");
- 
+
     IndexType info;
     LAPACK_IMPL(spttrf)(&n,
                         d,
@@ -66,7 +68,7 @@ pttrf(IndexType             n,
       double                *e)
 {
     CXXLAPACK_DEBUG_OUT("dpttrf");
- 
+
     IndexType info;
     LAPACK_IMPL(dpttrf)(&n,
                         d,
@@ -89,7 +91,7 @@ pttrf(IndexType             n,
       std::complex<float >  *e)
 {
     CXXLAPACK_DEBUG_OUT("cpttrf");
- 
+
     IndexType info;
     LAPACK_IMPL(cpttrf)(&n,
                         d,
@@ -111,7 +113,7 @@ pttrf(IndexType             n,
       std::complex<double>  *e)
 {
     CXXLAPACK_DEBUG_OUT("zpttrf");
- 
+
     IndexType info;
     LAPACK_IMPL(zpttrf)(&n,
                         d,

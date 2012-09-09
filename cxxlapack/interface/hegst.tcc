@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HEGST_TCC
 #define CXXLAPACK_INTERFACE_HEGST_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ hegst(IndexType                  itype,
       IndexType                  ldB)
 {
     CXXLAPACK_DEBUG_OUT("chegst");
-    
+
     IndexType info;
     LAPACK_IMPL(chegst)(&itype,
                         &uplo,
@@ -58,7 +60,7 @@ hegst(IndexType                  itype,
                         reinterpret_cast<const float  *>(B),
                         &ldB,
                         &info);
-#   ifndef NDEBUG 
+#   ifndef NDEBUG
     if (info<0) {
         std::cerr << "info = " << info << std::endl;
     }
@@ -78,7 +80,7 @@ hegst(IndexType                  itype,
       IndexType                  ldB)
 {
     CXXLAPACK_DEBUG_OUT("zhegst");
-    
+
     IndexType info;
     LAPACK_IMPL(zhegst)(&itype,
                         &uplo,
@@ -88,7 +90,7 @@ hegst(IndexType                  itype,
                         reinterpret_cast<const double *>(B),
                         &ldB,
                         &info);
-#   ifndef NDEBUG 
+#   ifndef NDEBUG
     if (info<0) {
         std::cerr << "info = " << info << std::endl;
     }

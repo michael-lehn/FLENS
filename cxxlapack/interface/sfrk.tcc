@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_SFRK_TCC
 #define CXXLAPACK_INTERFACE_SFRK_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -51,7 +53,7 @@ sfrk (char                  transr,
       float                 *C)
 {
     CXXLAPACK_DEBUG_OUT("ssfrk");
- 
+
     IndexType info;
     LAPACK_IMPL(ssfrk) (&transr,
                         &uplo,
@@ -87,7 +89,7 @@ sfrk (char                  transr,
       double                *C)
 {
     CXXLAPACK_DEBUG_OUT("dsfrk");
- 
+
     IndexType info;
     LAPACK_IMPL(dsfrk) (&transr,
                         &uplo,

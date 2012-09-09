@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_OPGTR_TCC
 #define CXXLAPACK_INTERFACE_OPGTR_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ opgtr(char                  uplo,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("sopgtr");
-    
+
     IndexType info;
     LAPACK_IMPL(sopgtr)(&uplo,
                         &n,
@@ -78,7 +80,7 @@ opgtr(char                  uplo,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dopgtr");
-  
+
     IndexType info;
     LAPACK_IMPL(dopgtr)(&uplo,
                         &n,

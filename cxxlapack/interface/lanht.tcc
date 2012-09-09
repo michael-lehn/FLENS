@@ -33,19 +33,21 @@
 #ifndef CXXLAPACK_INTERFACE_LANHT_TCC
 #define CXXLAPACK_INTERFACE_LANHT_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
 
 template <typename IndexType>
-float 
+float
 lanht(char                        norm,
       IndexType                   n,
       const float                 *d,
       const std::complex<float >  *e)
 {
     CXXLAPACK_DEBUG_OUT("clanht");
-   
+
     return LAPACK_IMPL(clanht)(&norm,
                                &n,
                                d,
@@ -61,7 +63,7 @@ lanht(char                        norm,
       const std::complex<double>  *e)
 {
     CXXLAPACK_DEBUG_OUT("zlanht");
-   
+
     return LAPACK_IMPL(zlanht)(&norm,
                                &n,
                                d,

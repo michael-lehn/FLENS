@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LARSCL2_TCC
 #define CXXLAPACK_INTERFACE_LARSCL2_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -46,7 +48,7 @@ larscl2(IndexType             m,
         IndexType             ldX)
 {
     CXXLAPACK_DEBUG_OUT("slarscl2");
-   
+
     LAPACK_IMPL(slarscl2)(&m,
                           &n,
                           d,
@@ -64,7 +66,7 @@ larscl2(IndexType             m,
         IndexType             ldX)
 {
     CXXLAPACK_DEBUG_OUT("dlarscl2");
-   
+
     LAPACK_IMPL(dlarscl2)(&m,
                           &n,
                           d,
@@ -81,7 +83,7 @@ larscl2(IndexType             m,
         IndexType             ldX)
 {
     CXXLAPACK_DEBUG_OUT("clarscl2");
-   
+
     LAPACK_IMPL(clarscl2)(&m,
                           &n,
                           d,
@@ -98,7 +100,7 @@ larscl2(IndexType             m,
         IndexType             ldX)
 {
     CXXLAPACK_DEBUG_OUT("zlarscl2");
-   
+
     LAPACK_IMPL(zlarscl2)(&m,
                           &n,
                           d,

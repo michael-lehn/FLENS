@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LARFGP_TCC
 #define CXXLAPACK_INTERFACE_LARFGP_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -46,7 +48,7 @@ larfgp(IndexType     n,
        float         &tau)
 {
     CXXLAPACK_DEBUG_OUT("slarfgp");
- 
+
     LAPACK_IMPL(slarfgp)(&n,
                          &alpha,
                          x,
@@ -64,7 +66,7 @@ larfgp(IndexType     n,
        double        &tau)
 {
     CXXLAPACK_DEBUG_OUT("dlarfgp");
- 
+
     LAPACK_IMPL(dlarfgp)(&n,
                          &alpha,
                          x,
@@ -81,7 +83,7 @@ larfgp(IndexType               n,
        std::complex<float >    &tau)
 {
     CXXLAPACK_DEBUG_OUT("clarfgp");
- 
+
     LAPACK_IMPL(clarfgp)(&n,
                          reinterpret_cast<float  *>(&alpha),
                          reinterpret_cast<float  *>(x),
@@ -98,7 +100,7 @@ larfgp(IndexType               n,
        std::complex<double>    &tau)
 {
     CXXLAPACK_DEBUG_OUT("zlarfgp");
- 
+
     LAPACK_IMPL(zlarfgp)(&n,
                          reinterpret_cast<double *>(&alpha),
                          reinterpret_cast<double *>(x),

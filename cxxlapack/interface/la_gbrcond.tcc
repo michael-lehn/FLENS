@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LA_GBRCOND_TCC
 #define CXXLAPACK_INTERFACE_LA_GBRCOND_TCC
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -55,7 +57,7 @@ la_gbrCond(char                  trans,
            IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("sla_gbrcond");
-    
+
     return LAPACK_IMPL(sla_gbrcond)(&trans,
                                     &n,
                                     &kl,
@@ -90,7 +92,7 @@ la_gbrCond(char                  trans,
            IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dla_gbrcond");
-    
+
     return LAPACK_IMPL(dla_gbrcond)(&trans,
                                     &n,
                                     &kl,

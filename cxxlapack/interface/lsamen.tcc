@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LSAMEN_TCC
 #define CXXLAPACK_INTERFACE_LSAMEN_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -44,7 +46,7 @@ lsamen(IndexType             n,
        char                  cb)
 {
     CXXLAPACK_DEBUG_OUT("lsamen");
-    
+
     return LAPACK_IMPL(lsamen)(&n,
                                &ca,
                                &cb);

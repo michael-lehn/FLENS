@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_TGEX2_TCC
 #define CXXLAPACK_INTERFACE_TGEX2_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -57,7 +59,7 @@ tgex2(bool                  wantq,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("stgex2");
- 
+
     IndexType info;
     IndexType _wantq = wantq;
     IndexType _wantz = wantz;
@@ -107,7 +109,7 @@ tgex2(bool                  wantq,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("dtgex2");
- 
+
     IndexType info;
     IndexType _wantq = wantq;
     IndexType _wantz = wantz;
@@ -154,7 +156,7 @@ tgex2(bool                  wantq,
       IndexType             j1)
 {
     CXXLAPACK_DEBUG_OUT("ctgex2");
- 
+
     IndexType info;
     IndexType _wantq = wantq;
     IndexType _wantz = wantz;
@@ -196,7 +198,7 @@ tgex2(bool                  wantq,
       IndexType             j1)
 {
     CXXLAPACK_DEBUG_OUT("ztgex2");
- 
+
     IndexType info;
     IndexType _wantq = wantq;
     IndexType _wantz = wantz;

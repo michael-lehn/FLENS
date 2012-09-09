@@ -53,7 +53,7 @@ lanv2(float    &a,
       float    &sn)
 {
     CXXLAPACK_DEBUG_OUT("slanv2");
-   
+
     LAPACK_IMPL(slanv2)(&a,
                         &b,
                         &c,
@@ -81,7 +81,7 @@ lanv2(double   &a,
 {
 
     CXXLAPACK_DEBUG_OUT("dlanv2");
-   
+
     LAPACK_IMPL(dlanv2)(&a,
                         &b,
                         &c,

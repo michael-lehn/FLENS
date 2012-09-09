@@ -33,6 +33,8 @@
 #ifndef FLENS_AUXILIARY_REMOVEREF_H
 #define FLENS_AUXILIARY_REMOVEREF_H 1
 
+#include <type_traits>
+
 namespace flens {
 
 template <typename T>

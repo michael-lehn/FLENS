@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_SYTRF_TCC
 #define CXXLAPACK_INTERFACE_SYTRF_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ sytrf(char                  uplo,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("ssytrf");
- 
+
     IndexType info;
     LAPACK_IMPL(ssytrf)(&uplo,
                         &n,
@@ -78,7 +80,7 @@ sytrf(char                  uplo,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("dsytrf");
- 
+
     IndexType info;
     LAPACK_IMPL(dsytrf)(&uplo,
                         &n,
@@ -108,7 +110,7 @@ sytrf(char                  uplo,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("csytrf");
- 
+
     IndexType info;
     LAPACK_IMPL(csytrf)(&uplo,
                         &n,
@@ -138,7 +140,7 @@ sytrf(char                  uplo,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("zsytrf");
- 
+
     IndexType info;
     LAPACK_IMPL(zsytrf)(&uplo,
                         &n,

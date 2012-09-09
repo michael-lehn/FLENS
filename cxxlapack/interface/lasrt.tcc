@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LASRT_TCC
 #define CXXLAPACK_INTERFACE_LASRT_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -44,7 +46,7 @@ lasrt(char                  id,
       float                 *d)
 {
     CXXLAPACK_DEBUG_OUT("slasrt");
-    
+
     IndexType info;
     LAPACK_IMPL(slasrt)(&id,
                         &n,
@@ -66,7 +68,7 @@ lasrt(char                  id,
       double                *d)
 {
     CXXLAPACK_DEBUG_OUT("dlasrt");
-    
+
     IndexType info;
     LAPACK_IMPL(dlasrt)(&id,
                         &n,

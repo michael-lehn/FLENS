@@ -33,12 +33,14 @@
 #ifndef CXXLAPACK_INTERFACE_LA_PORCOND_TCC
 #define CXXLAPACK_INTERFACE_LA_PORCOND_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
 
 template <typename IndexType>
-float 
+float
 la_porCond(char                  uplo,
            IndexType             n,
            const float           *A,
@@ -52,7 +54,7 @@ la_porCond(char                  uplo,
            IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("sla_porcond");
-  
+
     float  val = LAPACK_IMPL(sla_porcond)(&uplo,
                                           &n,
                                           A,
@@ -88,7 +90,7 @@ la_porCond(char                  uplo,
            IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dla_porcond");
-  
+
     double val = LAPACK_IMPL(dla_porcond)(&uplo,
                                           &n,
                                           A,

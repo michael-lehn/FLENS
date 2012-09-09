@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAQSY_TCC
 #define CXXLAPACK_INTERFACE_LAQSY_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -49,7 +51,7 @@ laqsy(char                  uplo,
       char                  &equed)
 {
     CXXLAPACK_DEBUG_OUT("slaqsy");
- 
+
     LAPACK_IMPL(slaqsy)(&uplo,
                         &n,
                         A,
@@ -73,7 +75,7 @@ laqsy(char                  uplo,
       char                  &equed)
 {
     CXXLAPACK_DEBUG_OUT("dlaqsy");
- 
+
     LAPACK_IMPL(dlaqsy)(&uplo,
                         &n,
                         A,
@@ -96,7 +98,7 @@ laqsy(char                  uplo,
       char                  &equed)
 {
     CXXLAPACK_DEBUG_OUT("claqsy");
- 
+
     LAPACK_IMPL(claqsy)(&uplo,
                         &n,
                         reinterpret_cast<float  *>(A),
@@ -119,7 +121,7 @@ laqsy(char                  uplo,
       char                  &equed)
 {
     CXXLAPACK_DEBUG_OUT("zlaqsy");
- 
+
     LAPACK_IMPL(zlaqsy)(&uplo,
                         &n,
                         reinterpret_cast<double *>(A),

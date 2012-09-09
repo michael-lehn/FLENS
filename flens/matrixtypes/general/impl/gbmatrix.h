@@ -34,6 +34,7 @@
 #define FLENS_MATRIXTYPES_GENERAL_IMPL_GBMATRIX_H 1
 
 #include <cxxblas/typedefs.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/typedefs.h>
 #include <flens/matrixtypes/general/generalmatrix.h>
 
@@ -42,7 +43,7 @@ namespace flens {
 // forward declarations
 template <typename A>
     class DenseVector;
-    
+
 template <typename FS>
     class TbMatrix;
 
@@ -112,7 +113,7 @@ class GbMatrix
         template <typename RHS>
             GbMatrix &
             operator-=(const Matrix<RHS> &rhs);
-        
+
         GbMatrix<FS> &
         operator=(const ElementType &alpha);
 
@@ -127,7 +128,7 @@ class GbMatrix
 
         GbMatrix &
         operator/=(const ElementType &alpha);
-        
+
         const ElementType &
         operator()(IndexType row, IndexType col) const;
 
@@ -203,10 +204,10 @@ class GbMatrix
         lastIndex() const;
 
         IndexType
-        numSubDiags() const; 
+        numSubDiags() const;
 
         IndexType
-        numSuperDiags() const; 
+        numSuperDiags() const;
 
         IndexType
         leadingDimension() const;

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_GELSD_TCC
 #define CXXLAPACK_INTERFACE_GELSD_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -133,7 +135,7 @@ gelsd(IndexType                     m,
       IndexType                     &rank,
       std::complex<float >          *work,
       IndexType                     lWork,
-      float                         *rWork,         
+      float                         *rWork,
       IndexType                     *iWork)
 {
     IndexType info;
@@ -176,7 +178,7 @@ gelsd(IndexType                     m,
       IndexType                     &rank,
       std::complex<double>          *work,
       IndexType                     lWork,
-      double                        *rWork,         
+      double                        *rWork,
       IndexType                     *iWork)
 {
     IndexType info;

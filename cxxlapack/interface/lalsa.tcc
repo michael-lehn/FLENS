@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LALSA_TCC
 #define CXXLAPACK_INTERFACE_LALSA_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -66,7 +68,7 @@ lalsa(IndexType             icompq,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("slalsa");
-    
+
     IndexType info;
     LAPACK_IMPL(slalsa)(&icompq,
                         &smlsiz,
@@ -133,7 +135,7 @@ lalsa(IndexType             icompq,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dlalsa");
-    
+
     IndexType info;
     LAPACK_IMPL(dlalsa)(&icompq,
                         &smlsiz,
@@ -199,7 +201,7 @@ lalsa(IndexType             icompq,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("clalsa");
-    
+
     IndexType info;
     LAPACK_IMPL(clalsa)(&icompq,
                         &smlsiz,
@@ -265,7 +267,7 @@ lalsa(IndexType             icompq,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("zlalsa");
-    
+
     IndexType info;
     LAPACK_IMPL(zlalsa)(&icompq,
                         &smlsiz,

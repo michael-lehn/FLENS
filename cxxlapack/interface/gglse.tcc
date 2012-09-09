@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_GGLSE_TCC
 #define CXXLAPACK_INTERFACE_GGLSE_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -53,7 +55,7 @@ gglse(IndexType             m,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("sgglse");
-    
+
     IndexType info;
     LAPACK_IMPL(sgglse)(&m,
                         &n,
@@ -93,7 +95,7 @@ gglse(IndexType             m,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("dgglse");
-    
+
     IndexType info;
     LAPACK_IMPL(dgglse)(&m,
                         &n,
@@ -133,7 +135,7 @@ gglse(IndexType             m,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("cgglse");
-    
+
     IndexType info;
     LAPACK_IMPL(cgglse)(&m,
                         &n,
@@ -173,7 +175,7 @@ gglse(IndexType             m,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("zgglse");
-    
+
     IndexType info;
     LAPACK_IMPL(zgglse)(&m,
                         &n,

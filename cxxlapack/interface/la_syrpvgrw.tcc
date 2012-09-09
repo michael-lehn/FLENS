@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LA_SYRPVGRW_TCC
 #define CXXLAPACK_INTERFACE_LA_SYRPVGRW_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -50,7 +52,7 @@ la_syrpvgrw(char                  uplo,
             float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("sla_syrpvgrw");
-    
+
     return LAPACK_IMPL(sla_syrpvgrw)(&uplo,
                                      &n,
                                      &info,
@@ -75,7 +77,7 @@ la_syrpvgrw(char                  uplo,
             double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dla_syrpvgrw");
-    
+
     return LAPACK_IMPL(dla_syrpvgrw)(&uplo,
                                      &n,
                                      &info,
@@ -100,7 +102,7 @@ la_syrpvgrw(char                        uplo,
             float                       *work)
 {
     CXXLAPACK_DEBUG_OUT("cla_syrpvgrw");
-    
+
     return LAPACK_IMPL(cla_syrpvgrw)(&uplo,
                                      &n,
                                      &info,
@@ -125,7 +127,7 @@ la_syrpvgrw(char                        uplo,
             double                      *work)
 {
     CXXLAPACK_DEBUG_OUT("zla_syrpvgrw");
-    
+
     return LAPACK_IMPL(zla_syrpvgrw)(&uplo,
                                      &n,
                                      &info,

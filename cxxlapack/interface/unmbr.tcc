@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_UNMBR_TCC
 #define CXXLAPACK_INTERFACE_UNMBR_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -54,7 +56,7 @@ unmbr(char                        vect,
       IndexType                   lWork)
 {
     CXXLAPACK_DEBUG_OUT("cunmbr");
- 
+
     IndexType info;
     LAPACK_IMPL(cunmbr)(&vect,
                         &side,
@@ -96,7 +98,7 @@ unmbr(char                        vect,
       IndexType                   lWork)
 {
     CXXLAPACK_DEBUG_OUT("zunmbr");
- 
+
     IndexType info;
     LAPACK_IMPL(zunmbr)(&vect,
                         &side,

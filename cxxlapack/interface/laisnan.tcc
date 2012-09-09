@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAISNAN_TCC
 #define CXXLAPACK_INTERFACE_LAISNAN_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -43,7 +45,7 @@ laisnan(float                  sin1,
         float                  sin2)
 {
     CXXLAPACK_DEBUG_OUT("slaisna");
-    
+
     return LAPACK_IMPL(slaisnan)(&sin1,
                                  &sin2);
 }
@@ -54,7 +56,7 @@ laisnan(double                 din1,
         double                 din2)
 {
     CXXLAPACK_DEBUG_OUT("dlaisnan");
-    
+
     return LAPACK_IMPL(dlaisnan)(&din1,
                                  &din2);
 }

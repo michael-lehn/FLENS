@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_TFTTR_TCC
 #define CXXLAPACK_INTERFACE_TFTTR_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -47,7 +49,7 @@ tfttr(char                  transr,
       IndexType             ldA)
 {
     CXXLAPACK_DEBUG_OUT("stfttr");
- 
+
     IndexType info;
     LAPACK_IMPL(stfttr)(&transr,
                         &uplo,
@@ -75,7 +77,7 @@ tfttr(char                  transr,
       IndexType             ldA)
 {
     CXXLAPACK_DEBUG_OUT("dtfttr");
- 
+
     IndexType info;
     LAPACK_IMPL(dtfttr)(&transr,
                         &uplo,
@@ -103,7 +105,7 @@ tfttr(char                        transr,
       IndexType                   ldA)
 {
     CXXLAPACK_DEBUG_OUT("ctfttr");
- 
+
     IndexType info;
     LAPACK_IMPL(ctfttr)(&transr,
                         &uplo,
@@ -131,7 +133,7 @@ tfttr(char                        transr,
       IndexType                   ldA)
 {
     CXXLAPACK_DEBUG_OUT("ztfttr");
- 
+
     IndexType info;
     LAPACK_IMPL(ztfttr)(&transr,
                         &uplo,

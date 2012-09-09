@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_TGSJA_TCC
 #define CXXLAPACK_INTERFACE_TGSJA_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -65,7 +67,7 @@ tgsja(char                  jobu,
       IndexType             &ncycle)
 {
     CXXLAPACK_DEBUG_OUT("stgsja");
- 
+
     IndexType info;
     LAPACK_IMPL(stgsja)(&jobu,
                         &jobv,
@@ -129,7 +131,7 @@ tgsja(char                  jobu,
       IndexType             &ncycle)
 {
     CXXLAPACK_DEBUG_OUT("dtgsja");
- 
+
     IndexType info;
     LAPACK_IMPL(dtgsja)(&jobu,
                         &jobv,
@@ -194,7 +196,7 @@ tgsja(char                  jobu,
       IndexType             &ncycle)
 {
     CXXLAPACK_DEBUG_OUT("ctgsja");
- 
+
     IndexType info;
     LAPACK_IMPL(ctgsja)(&jobu,
                         &jobv,
@@ -258,7 +260,7 @@ tgsja(char                  jobu,
       IndexType             &ncycle)
 {
     CXXLAPACK_DEBUG_OUT("ztgsja");
- 
+
     IndexType info;
     LAPACK_IMPL(ztgsja)(&jobu,
                         &jobv,

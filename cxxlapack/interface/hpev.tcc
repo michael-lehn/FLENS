@@ -52,7 +52,7 @@ hpev(char                   jobZ,
      float                  *rWork)
 {
     CXXLAPACK_DEBUG_OUT("chpev");
-    
+
     IndexType info;
     LAPACK_IMPL(chpev)(&jobZ,
                        &upLo,
@@ -86,7 +86,7 @@ hpev(char                   jobZ,
      double                 *rWork)
 {
     CXXLAPACK_DEBUG_OUT("zhpev");
-    
+
     IndexType info;
     LAPACK_IMPL(zhpev)(&jobZ,
                        &upLo,

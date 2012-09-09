@@ -183,7 +183,7 @@ class ConstFullStorageView
         const ConstArrayView
         viewAntiDiag(IndexType d,
                      IndexType firstViewIndex = I::defaultIndexBase) const;
-    
+
     private:
         const ElementType    *_data;
         Allocator            _allocator;

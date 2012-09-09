@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAQHE_TCC
 #define CXXLAPACK_INTERFACE_LAQHE_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -50,7 +52,7 @@ laqhe(char                  uplo,
       char                  &equed)
 {
     CXXLAPACK_DEBUG_OUT("claqhe");
- 
+
     LAPACK_IMPL(claqhe)(&uplo,
                         &n,
                         reinterpret_cast<float  *>(A),
@@ -74,7 +76,7 @@ laqhe(char                  uplo,
       char                  &equed)
 {
     CXXLAPACK_DEBUG_OUT("zlaqhe");
- 
+
     LAPACK_IMPL(zlaqhe)(&uplo,
                         &n,
                         reinterpret_cast<double *>(A),

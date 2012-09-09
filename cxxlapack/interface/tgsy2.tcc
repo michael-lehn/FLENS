@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_TGSY2_TCC
 #define CXXLAPACK_INTERFACE_TGSY2_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -60,10 +62,10 @@ tgsy2(char                  trans,
       float                 &rdscal,
       IndexType             *iWork,
       IndexType             &pq)
-      
+
 {
     CXXLAPACK_DEBUG_OUT("stgsy2");
- 
+
     IndexType info;
     LAPACK_IMPL(stgsy2)(&trans,
                         &ijob,
@@ -119,10 +121,10 @@ tgsy2(char                  trans,
       double                &rdscal,
       IndexType             *iWork,
       IndexType             &pq)
-      
+
 {
     CXXLAPACK_DEBUG_OUT("dtgsy2");
- 
+
     IndexType info;
     LAPACK_IMPL(dtgsy2)(&trans,
                         &ijob,
@@ -177,10 +179,10 @@ tgsy2(char                        trans,
       float                       &scale,
       float                       &rdsum,
       float                       &rdscal)
-      
+
 {
     CXXLAPACK_DEBUG_OUT("ctgsy2");
- 
+
     IndexType info;
     LAPACK_IMPL(ctgsy2)(&trans,
                         &ijob,
@@ -234,7 +236,7 @@ tgsy2(char                        trans,
       double                      &rdscal)
 {
     CXXLAPACK_DEBUG_OUT("ztgsy2");
- 
+
     IndexType info;
     LAPACK_IMPL(ztgsy2)(&trans,
                         &ijob,

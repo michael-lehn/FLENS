@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LA_GEAMV_TCC
 #define CXXLAPACK_INTERFACE_LA_GEAMV_TCC
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -52,7 +54,7 @@ la_geamv(char                  trans,
          IndexType             incy)
 {
     CXXLAPACK_DEBUG_OUT("sla_geamv");
-    
+
     LAPACK_IMPL(sla_geamv)(&trans,
                            &m,
                            &n,
@@ -81,7 +83,7 @@ la_geamv(char                  trans,
          IndexType             incy)
 {
     CXXLAPACK_DEBUG_OUT("dla_geamv");
-    
+
     LAPACK_IMPL(dla_geamv)(&trans,
                            &m,
                            &n,
@@ -110,7 +112,7 @@ la_geamv(char                          trans,
          IndexType                     incy)
 {
     CXXLAPACK_DEBUG_OUT("cla_geamv");
-    
+
     LAPACK_IMPL(cla_geamv)(&trans,
                            &m,
                            &n,
@@ -139,7 +141,7 @@ la_geamv(char                          trans,
          IndexType                     incy)
 {
     CXXLAPACK_DEBUG_OUT("zla_geamv");
-    
+
     LAPACK_IMPL(zla_geamv)(&trans,
                            &m,
                            &n,

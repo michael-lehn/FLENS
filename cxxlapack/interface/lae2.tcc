@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAE2_TCC
 #define CXXLAPACK_INTERFACE_LAE_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -46,7 +48,7 @@ lae2(float                 a,
      float                 &rt2)
 {
     CXXLAPACK_DEBUG_OUT("slae2");
-    
+
     LAPACK_IMPL(slae2)(&a,
                        &b,
                        &c,
@@ -63,7 +65,7 @@ lae2(double                a,
      double                &rt2)
 {
     CXXLAPACK_DEBUG_OUT("dlae2");
-    
+
     LAPACK_IMPL(dlae2)(&a,
                        &b,
                        &c,

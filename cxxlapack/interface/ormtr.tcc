@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_ORMTR_TCC
 #define CXXLAPACK_INTERFACE_ORMTR_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -52,7 +54,7 @@ ormtr(char                  side,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("sormtr");
-  
+
     IndexType info;
     LAPACK_IMPL(sormtr)(&side,
                         &uplo,
@@ -90,7 +92,7 @@ ormtr(char                  side,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("dormtr");
-  
+
     IndexType info;
     LAPACK_IMPL(dormtr)(&side,
                         &uplo,

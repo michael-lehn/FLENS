@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_GGSVD_TCC
 #define CXXLAPACK_INTERFACE_GGSVD_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -63,7 +65,7 @@ ggsvd(char                  jobu,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("sggsvd");
-    
+
     IndexType info;
     LAPACK_IMPL(sggsvd)(&jobu,
                         &jobv,
@@ -123,7 +125,7 @@ ggsvd(char                  jobu,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dggsvd");
-    
+
     IndexType info;
     LAPACK_IMPL(dggsvd)(&jobu,
                         &jobv,
@@ -184,7 +186,7 @@ ggsvd(char                  jobu,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("cggsvd");
-    
+
     IndexType info;
     LAPACK_IMPL(cggsvd)(&jobu,
                         &jobv,
@@ -246,7 +248,7 @@ ggsvd(char                  jobu,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("zggsvd");
-    
+
     IndexType info;
     LAPACK_IMPL(zggsvd)(&jobu,
                         &jobv,

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_SPEV_TCC
 #define CXXLAPACK_INTERFACE_SPEV_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -49,7 +51,7 @@ spev (char                  jobz,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("sspev");
-    
+
     IndexType info;
     LAPACK_IMPL(sspev) (&jobz,
                         &uplo,
@@ -81,7 +83,7 @@ spev (char                  jobz,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dspev");
-  
+
     IndexType info;
     LAPACK_IMPL(dspev) (&jobz,
                         &uplo,

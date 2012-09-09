@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LATRD_TCC
 #define CXXLAPACK_INTERFACE_LATRD_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -50,7 +52,7 @@ latrd(char                  uplo,
       IndexType             ldW)
 {
     CXXLAPACK_DEBUG_OUT("slatrd");
-  
+
     LAPACK_IMPL(slatrd)(&uplo,
                         &n,
                         &nb,
@@ -77,7 +79,7 @@ latrd(char                  uplo,
       IndexType             ldW)
 {
     CXXLAPACK_DEBUG_OUT("dlatrd");
-  
+
     LAPACK_IMPL(dlatrd)(&uplo,
                         &n,
                         &nb,
@@ -103,7 +105,7 @@ latrd(char                       uplo,
       IndexType                  ldW)
 {
     CXXLAPACK_DEBUG_OUT("clatrd");
-  
+
     LAPACK_IMPL(clatrd)(&uplo,
                         &n,
                         &nb,
@@ -128,7 +130,7 @@ latrd(char                       uplo,
       IndexType                  ldW)
 {
     CXXLAPACK_DEBUG_OUT("zlatrd");
-  
+
     LAPACK_IMPL(zlatrd)(&uplo,
                         &n,
                         &nb,

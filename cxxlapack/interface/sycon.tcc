@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_SYCON_TCC
 #define CXXLAPACK_INTERFACE_SYCON_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -50,7 +52,7 @@ sycon(char                  uplo,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("ssycon");
- 
+
     IndexType info;
     LAPACK_IMPL(ssycon)(&uplo,
                         &n,
@@ -85,7 +87,7 @@ sycon(char                  uplo,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dsycon");
- 
+
     IndexType info;
     LAPACK_IMPL(dsycon)(&uplo,
                         &n,
@@ -119,7 +121,7 @@ sycon(char                        uplo,
       IndexType                   *iWork)
 {
     CXXLAPACK_DEBUG_OUT("csycon");
- 
+
     IndexType info;
     LAPACK_IMPL(csycon)(&uplo,
                         &n,
@@ -153,7 +155,7 @@ sycon(char                        uplo,
       IndexType                   *iWork)
 {
     CXXLAPACK_DEBUG_OUT("zsycon");
- 
+
     IndexType info;
     LAPACK_IMPL(zsycon)(&uplo,
                         &n,

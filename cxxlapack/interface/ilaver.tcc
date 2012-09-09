@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_ILAVER_TCC
 #define CXXLAPACK_INTERFACE_ILAVER_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -44,7 +46,7 @@ ilaver(IndexType             &vers_major,
        IndexType             &vers_patch)
 {
     CXXLAPACK_DEBUG_OUT("ilaver");
-    
+
     LAPACK_IMPL(ilaver)(&vers_major,
                         &vers_minor,
                         &vers_patch);

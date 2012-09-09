@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_GEBRD_TCC
 #define CXXLAPACK_INTERFACE_GEBRD_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -105,7 +107,7 @@ gebrd(IndexType             m,
     ASSERT(info>=0);
     return info;
 }
-  
+
 template <typename IndexType>
 IndexType
 gebrd(IndexType             m,

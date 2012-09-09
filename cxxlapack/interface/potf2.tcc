@@ -47,7 +47,7 @@ potf2(char          upLo,
       IndexType     ldA)
 {
     CXXLAPACK_DEBUG_OUT("spotf2");
-    
+
     IndexType info;
     LAPACK_IMPL(spotf2)(&upLo,
                         &n,
@@ -71,7 +71,7 @@ potf2(char          upLo,
       IndexType     ldA)
 {
     CXXLAPACK_DEBUG_OUT("dpotf2");
-    
+
     IndexType info;
     LAPACK_IMPL(dpotf2)(&upLo,
                         &n,
@@ -95,7 +95,7 @@ potf2(char                  upLo,
       IndexType             ldA)
 {
     CXXLAPACK_DEBUG_OUT("cpotf2");
-    
+
     IndexType info;
     LAPACK_IMPL(cpotf2)(&upLo,
                         &n,
@@ -119,7 +119,7 @@ potf2(char                  upLo,
       IndexType             ldA)
 {
     CXXLAPACK_DEBUG_OUT("zpotf2");
-    
+
     IndexType info;
     LAPACK_IMPL(zpotf2)(&upLo,
                         &n,

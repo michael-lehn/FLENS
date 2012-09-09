@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LA_HERCOND_C_TCC
 #define CXXLAPACK_INTERFACE_LA_HERCOND_C_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -53,7 +55,7 @@ la_herCond_c(char                        uplo,
              float                       *rWork)
 {
     CXXLAPACK_DEBUG_OUT("cla_hercond_c");
-    
+
     IndexType _capply = capply;
     return LAPACK_IMPL(cla_hercond_c)(&uplo,
                                       &n,
@@ -84,10 +86,10 @@ la_herCond_c(char                        uplo,
              bool                        capply,
              IndexType                   &info,
              std::complex<double>        *work,
-             double                      *rWork)             
+             double                      *rWork)
 {
     CXXLAPACK_DEBUG_OUT("zla_hercond_c");
-    
+
     IndexType _capply = capply;
     return LAPACK_IMPL(zla_hercond_c)(&uplo,
                                       &n,

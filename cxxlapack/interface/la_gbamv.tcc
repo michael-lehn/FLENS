@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LA_GBAMV_TCC
 #define CXXLAPACK_INTERFACE_LA_GBAMV_TCC
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -54,7 +56,7 @@ la_gbamv(IndexType             trans,
          IndexType             incy)
 {
     CXXLAPACK_DEBUG_OUT("sla_gbamv");
-    
+
     LAPACK_IMPL(sla_gbamv)(&trans,
                            &m,
                            &n,
@@ -87,7 +89,7 @@ la_gbamv(IndexType             trans,
          IndexType             incy)
 {
     CXXLAPACK_DEBUG_OUT("dla_gbamv");
-    
+
     LAPACK_IMPL(dla_gbamv)(&trans,
                            &m,
                            &n,
@@ -120,7 +122,7 @@ la_gbamv(IndexType                   trans,
 	  IndexType                   incy)
 {
     CXXLAPACK_DEBUG_OUT("cla_gbamv");
-    
+
     LAPACK_IMPL(cla_gbamv)(&trans,
                            &m,
                            &n,
@@ -153,7 +155,7 @@ la_gbamv(IndexType                   trans,
 	  IndexType                   incy)
 {
     CXXLAPACK_DEBUG_OUT("zla_gbamv");
-    
+
     LAPACK_IMPL(zla_gbamv)(&trans,
                            &m,
                            &n,

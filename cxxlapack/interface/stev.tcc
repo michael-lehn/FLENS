@@ -31,8 +31,10 @@
  */
 
 #ifndef CXXLAPACK_INTERFACE_STEV_TCC
-#define CXXLAPACK_INTERFACE_STEV_TCC 1 
+#define CXXLAPACK_INTERFACE_STEV_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ stev (char                  jobz,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("sstev");
- 
+
     IndexType info;
     LAPACK_IMPL(sstev) (&jobz,
                         &n,
@@ -78,7 +80,7 @@ stev (char                  jobz,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dstev");
- 
+
     IndexType info;
     LAPACK_IMPL(dstev) (&jobz,
                         &n,

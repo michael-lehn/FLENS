@@ -34,6 +34,7 @@
 #define FLENS_IO_PACKEDSTORAGE_OUT_TCC
 
 #include <cxxblas/typedefs.h>
+#include <flens/io/packedstorage/out.h>
 
 namespace flens {
 

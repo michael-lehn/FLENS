@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_IZMAX1_TCC
 #define CXXLAPACK_INTERFACE_IZMAX1_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -45,7 +47,7 @@ ismax1(IndexType                   n,
 {
 
     CXXLAPACK_DEBUG_OUT("ismax1");
-    
+
     return LAPACK_IMPL(ismax1)(&n,
                                reinterpret_cast<const double *>(cx),
                                &incx);

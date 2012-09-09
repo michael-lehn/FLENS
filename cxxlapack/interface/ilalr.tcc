@@ -47,7 +47,7 @@ ilalr(IndexType     m,
       IndexType     ldA)
 {
     CXXLAPACK_DEBUG_OUT("iladlr");
-    
+
     IndexType info;
     LAPACK_IMPL(iladlr)(&m,
                         &n,

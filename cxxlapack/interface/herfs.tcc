@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HERFS_TCC
 #define CXXLAPACK_INTERFACE_HERFS_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -57,7 +59,7 @@ herfs(char                        uplo,
       float                       *rWork)
 {
     CXXLAPACK_DEBUG_OUT("cherfs");
-    
+
     IndexType info;
     LAPACK_IMPL(cherfs)(&uplo,
                         &n,
@@ -105,7 +107,7 @@ herfs(char                        uplo,
       double                      *rWork)
 {
     CXXLAPACK_DEBUG_OUT("zherfs");
-    
+
     IndexType info;
     LAPACK_IMPL(zherfs)(&uplo,
                         &n,

@@ -33,12 +33,14 @@
 #ifndef CXXLAPACK_INTERFACE_LA_SYRCOND_TCC
 #define CXXLAPACK_INTERFACE_LA_SYRCOND_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
 
 template <typename IndexType>
-float 
+float
 la_syrCond(char                  uplo,
            IndexType             n,
            const float           *A,
@@ -53,7 +55,7 @@ la_syrCond(char                  uplo,
            IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("sla_syrcond");
-    
+
     float  val = LAPACK_IMPL(sla_syrcond)(&uplo,
                                           &n,
                                           A,
@@ -91,7 +93,7 @@ la_syrCond(char                  uplo,
            IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dla_syrcond");
-    
+
     double val = LAPACK_IMPL(dla_syrcond)(&uplo,
                                           &n,
                                           A,

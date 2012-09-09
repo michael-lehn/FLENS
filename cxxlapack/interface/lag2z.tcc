@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAG2Z_TCC
 #define CXXLAPACK_INTERFACE_LAG2Z_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -44,10 +46,10 @@ lag2z(IndexType             m,
       std::complex<float>   *Sa,
       IndexType             ldSa,
       std::complex<double>  *A,
-      IndexType             ldA)    
+      IndexType             ldA)
 {
     CXXLAPACK_DEBUG_OUT("clag2z");
-    
+
     IndexType info;
     LAPACK_IMPL(clag2z)(&m,
                         &n,

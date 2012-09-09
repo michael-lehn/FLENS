@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HPRFS_TCC
 #define CXXLAPACK_INTERFACE_HPRFS_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -55,7 +57,7 @@ hprfs(char                        uplo,
       float                       *rWork)
 {
     CXXLAPACK_DEBUG_OUT("chprfs");
-    
+
     IndexType info;
     LAPACK_IMPL(chprfs)(&uplo,
                         &n,
@@ -99,7 +101,7 @@ hprfs(char                        uplo,
       double                      *rWork)
 {
     CXXLAPACK_DEBUG_OUT("zhprfs");
-    
+
     IndexType info;
     LAPACK_IMPL(zhprfs)(&uplo,
                         &n,

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_ZUSM1_TCC
 #define CXXLAPACK_INTERFACE_ZUSM1_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -44,7 +46,7 @@ zsum1(IndexType                   n,
       IndexType                   incx)
 {
     CXXLAPACK_DEBUG_OUT("dzsum1");
- 
+
     return LAPACK_IMPL(dzsum1)(&n,
                                reinterpret_cast<const double *>(cx),
                                &incx);

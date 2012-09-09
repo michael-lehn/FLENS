@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LARCM_TCC
 #define CXXLAPACK_INTERFACE_LARCM_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -50,7 +52,7 @@ larcm(IndexType                  m,
       float                      *rWork)
 {
     CXXLAPACK_DEBUG_OUT("clarcm");
- 
+
     LAPACK_IMPL(clarcm)(&m,
                         &n,
                         A,
@@ -76,7 +78,7 @@ larcm(IndexType                  m,
       double                     *rWork)
 {
     CXXLAPACK_DEBUG_OUT("zlarcm");
- 
+
     LAPACK_IMPL(zlarcm)(&m,
                         &n,
                         A,

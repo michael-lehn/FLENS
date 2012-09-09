@@ -40,6 +40,7 @@
 #include <cxxblas/typedefs.h>
 #include <flens/auxiliary/iscomplex.h>
 #include <flens/auxiliary/isinteger.h>
+#include <flens/io/fullstorage/save.h>
 
 namespace flens {
 
@@ -52,10 +53,10 @@ save(std::string filename, const GeMatrix<FS> &A)
     typedef typename FS::ElementType ElementType;
 
     std::ofstream ofs( filename.c_str(), std::ios::binary );
-    
+
     if (ofs.is_open() == false)
         return false;
-    
+
     IndexType numRows = A.numRows(), numCols = A.numCols();
     IndexType firstRow = A.firstRow(), firstCol = A.firstCol();
 
@@ -63,7 +64,7 @@ save(std::string filename, const GeMatrix<FS> &A)
     ofs.write( reinterpret_cast<char*>(&numCols), sizeof(IndexType) );
     ofs.write( reinterpret_cast<char*>(&firstRow), sizeof(IndexType) );
     ofs.write( reinterpret_cast<char*>(&firstCol), sizeof(IndexType) );
-   
+
 
     for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
         for (IndexType j=A.firstCol(); j<=A.lastCol(); ++j) {
@@ -86,16 +87,16 @@ save(std::string filename, const HeMatrix<FS> &A)
     typedef typename FS::ElementType ElementType;
 
     std::ofstream ofs( filename.c_str(), std::ios::binary );
-    
+
     if (ofs.is_open() == false)
         return false;
-    
+
     IndexType dim = A.dim();
     IndexType firstIndex = A.firstRow();
 
     ofs.write( reinterpret_cast<char*>(&dim), sizeof(IndexType) );
     ofs.write( reinterpret_cast<char*>(&firstIndex), sizeof(IndexType) );
-   
+
     for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
         for (IndexType j=A.firstCol(); j<=i; ++j) {
             if (A.upLo()==cxxblas::Lower) {
@@ -120,16 +121,16 @@ save(std::string filename, const SyMatrix<FS> &A)
     typedef typename FS::ElementType ElementType;
 
     std::ofstream ofs( filename.c_str(), std::ios::binary );
-    
+
     if (ofs.is_open() == false)
         return false;
-    
+
     IndexType dim = A.dim();
     IndexType firstIndex = A.firstRow();
 
     ofs.write( reinterpret_cast<char*>(&dim), sizeof(IndexType) );
     ofs.write( reinterpret_cast<char*>(&firstIndex), sizeof(IndexType) );
-   
+
     for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
         for (IndexType j=A.firstCol(); j<=i; ++j) {
             if (A.upLo()==cxxblas::Lower) {
@@ -152,10 +153,10 @@ save(std::string filename, const TrMatrix<FS> &A)
     typedef typename FS::ElementType ElementType;
 
     std::ofstream ofs( filename.c_str(), std::ios::binary );
-    
+
     if (ofs.is_open() == false)
         return false;
-    
+
     IndexType numRows = A.numRows();
     IndexType numCols = A.numCols();
     IndexType firstRow = A.firstRow();
@@ -170,7 +171,7 @@ save(std::string filename, const TrMatrix<FS> &A)
     ofs.write( reinterpret_cast<char*>(&upLo), sizeof(StorageUpLo) );
     ofs.write( reinterpret_cast<char*>(&diag), sizeof(Diag) );
 
-   
+
     if (upLo == cxxblas::Lower) {
         for (IndexType i=A.firstRow(); i <= A.lastRow(); ++i){
             const IndexType jmax = i-A.firstRow()+A.firstCol();
@@ -201,28 +202,28 @@ save(std::string filename, const TrMatrix<FS> &A)
 
 template <typename FS>
 bool
-saveMatrixMarket(std::string filename, const GeMatrix<FS> &A, 
+saveMatrixMarket(std::string filename, const GeMatrix<FS> &A,
                  std::string comment, int precision)
 {
     using std::endl;
     using std::setprecision;
     using std::setw;
-    
+
     typedef typename FS::IndexType   IndexType;
     typedef typename FS::ElementType ElementType;
 
     std::ofstream ofs( filename.c_str(), std::ios::out );
-    
+
     if (ofs.is_open() == false)
-        return false;  
-    
+        return false;
+
     if (IsInteger<ElementType>::value)
-      ofs << "%%MatrixMarket matrix array integer general" << endl;      
+      ofs << "%%MatrixMarket matrix array integer general" << endl;
     else if (IsNotComplex<ElementType>::value)
       ofs << "%%MatrixMarket matrix array real general" << endl;
     else
       ofs << "%%MatrixMarket matrix array complex general" << endl;
-    
+
     if (comment != "")
     {
         size_t j = comment.find_first_of('\n');
@@ -233,9 +234,9 @@ saveMatrixMarket(std::string filename, const GeMatrix<FS> &A,
         }
         ofs << "% " << comment << endl;
     }
-    
+
     ofs << A.numRows() << " " << A.numCols() << endl;
-    
+
     for (IndexType i = A.firstRow(); i <= A.lastRow(); ++i)
     {
         for (IndexType j = A.firstCol(); j <= A.lastCol(); ++j)
@@ -248,33 +249,33 @@ saveMatrixMarket(std::string filename, const GeMatrix<FS> &A,
     }
     ofs.close();
     return true;
-    
+
 }
 
 template <typename FS>
 bool
-saveMatrixMarket(std::string filename, const SyMatrix<FS> &A, 
+saveMatrixMarket(std::string filename, const SyMatrix<FS> &A,
                  std::string comment, int precision)
 {
     using std::endl;
     using std::setprecision;
     using std::setw;
-    
+
     typedef typename FS::IndexType   IndexType;
     typedef typename FS::ElementType ElementType;
 
     std::ofstream ofs( filename.c_str(), std::ios::out );
-    
+
     if (ofs.is_open() == false)
-        return false;  
-    
+        return false;
+
     if (IsInteger<ElementType>::value)
-      ofs << "%%MatrixMarket matrix array integer symmetric" << endl;      
+      ofs << "%%MatrixMarket matrix array integer symmetric" << endl;
     else if (IsNotComplex<ElementType>::value)
       ofs << "%%MatrixMarket matrix array real symmetric" << endl;
     else
       ofs << "%%MatrixMarket matrix array complex symmetric" << endl;
-    
+
     if (comment != "")
     {
         size_t j = comment.find_first_of('\n');
@@ -285,9 +286,9 @@ saveMatrixMarket(std::string filename, const SyMatrix<FS> &A,
         }
         ofs << "% " << comment << endl;
     }
-    
+
     ofs << A.numRows() << " " << A.numCols() << endl;
-    
+
     for (IndexType i = A.firstRow(); i <= A.lastRow(); ++i)
     {
         for (IndexType j = i; j <= A.lastCol(); ++j)
@@ -309,28 +310,28 @@ saveMatrixMarket(std::string filename, const SyMatrix<FS> &A,
     }
     ofs.close();
     return true;
-    
+
 }
 
 template <typename FS>
 typename RestrictTo<IsComplex<typename FS::ElementType>::value, bool>::Type
-saveMatrixMarket(std::string filename, const HeMatrix<FS> &A, 
+saveMatrixMarket(std::string filename, const HeMatrix<FS> &A,
                  std::string comment, int precision)
 {
     using std::endl;
     using std::setprecision;
     using std::setw;
-    
+
     typedef typename FS::IndexType   IndexType;
     typedef typename FS::ElementType ElementType;
 
     std::ofstream ofs( filename.c_str(), std::ios::out );
-    
+
     if (ofs.is_open() == false)
-        return false;  
-    
+        return false;
+
     ofs << "%%MatrixMarket matrix array complex hermitian" << endl;
-    
+
     if (comment != "")
     {
         size_t j = comment.find_first_of('\n');
@@ -341,9 +342,9 @@ saveMatrixMarket(std::string filename, const HeMatrix<FS> &A,
         }
         ofs << "% " << comment << endl;
     }
-    
+
     ofs << A.numRows() << " " << A.numCols() << endl;
-    
+
     for (IndexType i = A.firstRow(); i <= A.lastRow(); ++i)
     {
         for (IndexType j = i; j <= A.lastCol(); ++j)
@@ -355,7 +356,7 @@ saveMatrixMarket(std::string filename, const HeMatrix<FS> &A,
                     ofs << setw(precision+7) << setprecision(precision) << 0;
                 else
                     ofs << setw(precision+7) << setprecision(precision) << -cxxblas::imag(A(i,j));
-                 
+
             }
             else
             {
@@ -370,31 +371,7 @@ saveMatrixMarket(std::string filename, const HeMatrix<FS> &A,
     }
     ofs.close();
     return true;
-    
-}
 
-//-- forwarding ---------------------------------------------------------------
-template <typename MA>
-typename RestrictTo<IsGeMatrix<MA>::value ||
-                    IsHeMatrix<MA>::value ||
-                    IsSyMatrix<MA>::value ||
-                    IsTrMatrix<MA>::value,
-                    bool>::Type
-save(std::string filename, const MA &&A)
-{
-    return save(filename, A);
-}
-
-template <typename MA>
-typename RestrictTo<IsGeMatrix<MA>::value ||
-                    IsHeMatrix<MA>::value ||
-                    IsSyMatrix<MA>::value ||
-                    IsTrMatrix<MA>::value,
-                    bool>::Type
-saveMatrixMarket(std::string filename, const MA &&A, 
-                 std::string comment, int precision)
-{
-    return saveMatrixMarket(filename, A, comment, precision);
 }
 
 } // namespace flens

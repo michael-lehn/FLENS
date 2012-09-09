@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_ORGQL_TCC
 #define CXXLAPACK_INTERFACE_ORGQL_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -49,7 +51,7 @@ orgql(IndexType     m,
       IndexType     lWork)
 {
     CXXLAPACK_DEBUG_OUT("sorgql");
-  
+
     IndexType info;
     LAPACK_IMPL(sorgql)(&m,
                         &n,
@@ -81,7 +83,7 @@ orgql(IndexType     m,
       IndexType     lWork)
 {
     CXXLAPACK_DEBUG_OUT("dorgql");
-  
+
     IndexType info;
     LAPACK_IMPL(dorgql)(&m,
                         &n,

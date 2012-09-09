@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_STEIN_TCC
 #define CXXLAPACK_INTERFACE_STEIN_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -53,7 +55,7 @@ stein(IndexType             n,
       IndexType             *ifail)
 {
     CXXLAPACK_DEBUG_OUT("sstein");
-   
+
     IndexType info;
     LAPACK_IMPL(sstein)(&n,
                         d,
@@ -93,7 +95,7 @@ stein(IndexType             n,
       IndexType             *ifail)
 {
     CXXLAPACK_DEBUG_OUT("dstein");
-   
+
     IndexType info;
     LAPACK_IMPL(dstein)(&n,
                         d,
@@ -133,7 +135,7 @@ stein(IndexType             n,
       IndexType             *ifail)
 {
     CXXLAPACK_DEBUG_OUT("cstein");
-   
+
     IndexType info;
     LAPACK_IMPL(cstein)(&n,
                         d,
@@ -173,7 +175,7 @@ stein(IndexType             n,
       IndexType             *ifail)
 {
     CXXLAPACK_DEBUG_OUT("zstein");
-   
+
     IndexType info;
     LAPACK_IMPL(zstein)(&n,
                         d,

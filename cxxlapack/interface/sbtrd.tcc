@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_SBTRD_TCC
 #define CXXLAPACK_INTERFACE_SBTRD_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -52,7 +54,7 @@ sbtrd(char                  vect,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("ssbtrd");
- 
+
     IndexType info;
     LAPACK_IMPL(ssbtrd)(&vect,
                         &uplo,
@@ -90,7 +92,7 @@ sbtrd(char                  vect,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dsbtrd");
- 
+
     IndexType info;
     LAPACK_IMPL(dsbtrd)(&vect,
                         &uplo,

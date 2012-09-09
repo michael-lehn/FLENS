@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_GTTRF_TCC
 #define CXXLAPACK_INTERFACE_GTTRF_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -47,7 +49,7 @@ gttrf(IndexType             n,
       IndexType             *iPiv)
 {
     CXXLAPACK_DEBUG_OUT("sgttrf");
-    
+
     IndexType info;
     LAPACK_IMPL(sgttrf)(&n,
                         dl,
@@ -75,7 +77,7 @@ gttrf(IndexType             n,
       IndexType             *iPiv)
 {
     CXXLAPACK_DEBUG_OUT("dgttrf");
-    
+
     IndexType info;
     LAPACK_IMPL(dgttrf)(&n,
                         dl,
@@ -103,7 +105,7 @@ gttrf(IndexType             n,
       IndexType             *iPiv)
 {
     CXXLAPACK_DEBUG_OUT("cgttrf");
-    
+
     IndexType info;
     LAPACK_IMPL(cgttrf)(&n,
                         reinterpret_cast<float  *>(dl),
@@ -131,7 +133,7 @@ gttrf(IndexType             n,
       IndexType             *iPiv)
 {
     CXXLAPACK_DEBUG_OUT("zgttrf");
-    
+
     IndexType info;
     LAPACK_IMPL(zgttrf)(&n,
                         reinterpret_cast<double *>(dl),

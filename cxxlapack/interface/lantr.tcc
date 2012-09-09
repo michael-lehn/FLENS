@@ -40,7 +40,7 @@
 namespace cxxlapack {
 
 template <typename IndexType>
-float 
+float
 lantr(char              norm,
       char              upLo,
       char              diag,
@@ -51,7 +51,7 @@ lantr(char              norm,
       float             *work)
 {
     CXXLAPACK_DEBUG_OUT("slantr");
-   
+
     return LAPACK_IMPL(slantr)(&norm,
                                &upLo,
                                &diag,
@@ -75,7 +75,7 @@ lantr(char              norm,
       double            *work)
 {
     CXXLAPACK_DEBUG_OUT("dlantr");
-   
+
     return LAPACK_IMPL(dlantr)(&norm,
                                &upLo,
                                &diag,
@@ -87,7 +87,7 @@ lantr(char              norm,
 }
 
 template <typename IndexType>
-float 
+float
 lantr(char                          norm,
       char                          upLo,
       char                          diag,
@@ -98,7 +98,7 @@ lantr(char                          norm,
       float                         *work)
 {
     CXXLAPACK_DEBUG_OUT("clantr");
-   
+
     return LAPACK_IMPL(clantr)(&norm,
                                &upLo,
                                &diag,
@@ -121,7 +121,7 @@ lantr(char                          norm,
       double                        *work)
 {
     CXXLAPACK_DEBUG_OUT("zlantr");
-   
+
     return LAPACK_IMPL(zlantr)(&norm,
                                &upLo,
                                &diag,

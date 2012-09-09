@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_SYSWAPR_TCC
 #define CXXLAPACK_INTERFACE_SYSWAPR_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -47,7 +49,7 @@ syswapr(char                  uplo,
         IndexType             i2)
 {
     CXXLAPACK_DEBUG_OUT("ssyswapr");
- 
+
     LAPACK_IMPL(ssyswapr)(&uplo,
                           &n,
                           A,
@@ -67,7 +69,7 @@ syswapr(char                  uplo,
         IndexType             i2)
 {
     CXXLAPACK_DEBUG_OUT("dsyswapr");
- 
+
     LAPACK_IMPL(dsyswapr)(&uplo,
                           &n,
                           A,
@@ -86,7 +88,7 @@ syswapr(char                  uplo,
         IndexType             i2)
 {
     CXXLAPACK_DEBUG_OUT("csyswapr");
- 
+
     LAPACK_IMPL(csyswapr)(&uplo,
                           &n,
                           reinterpret_cast<float  *>(A),
@@ -105,7 +107,7 @@ syswapr(char                  uplo,
         IndexType             i2)
 {
     CXXLAPACK_DEBUG_OUT("zsyswapr");
- 
+
     LAPACK_IMPL(zsyswapr)(&uplo,
                           &n,
                           reinterpret_cast<double *>(A),

@@ -56,7 +56,7 @@ hseqr(char          job,
       IndexType     lWork)
 {
     CXXLAPACK_DEBUG_OUT("shseqr");
-    
+
     IndexType info;
     LAPACK_IMPL(shseqr)(&job,
                         &compZ,
@@ -98,7 +98,7 @@ hseqr(char          job,
       IndexType     lWork)
 {
     CXXLAPACK_DEBUG_OUT("dhseqr");
-    
+
     IndexType info;
     LAPACK_IMPL(dhseqr)(&job,
                         &compZ,
@@ -139,7 +139,7 @@ hseqr(char                  job,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("shseqr");
-    
+
     IndexType info;
     LAPACK_IMPL(shseqr)(&job,
                         &compZ,
@@ -179,7 +179,7 @@ hseqr(char                  job,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("dhseqr");
-    
+
     IndexType info;
     LAPACK_IMPL(dhseqr)(&job,
                         &compZ,

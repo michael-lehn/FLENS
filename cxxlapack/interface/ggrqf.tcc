@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_GGRQF_TCC
 #define CXXLAPACK_INTERFACE_GGRQF_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -52,7 +54,7 @@ ggrqf(IndexType             m,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("ssggrqf");
-    
+
     IndexType info;
     LAPACK_IMPL(sggrqf)(&m,
                         &p,
@@ -90,7 +92,7 @@ ggrqf(IndexType             m,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("dggrqf");
-    
+
     IndexType info;
     LAPACK_IMPL(dggrqf)(&m,
                         &p,
@@ -128,7 +130,7 @@ ggrqf(IndexType             m,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("cggrqf");
-    
+
     IndexType info;
     LAPACK_IMPL(cggrqf)(&m,
                         &p,
@@ -166,7 +168,7 @@ ggrqf(IndexType             m,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("zggrqf");
-    
+
     IndexType info;
     LAPACK_IMPL(zggrqf)(&m,
                         &p,

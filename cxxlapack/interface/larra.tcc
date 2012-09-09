@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LARRA_TCC
 #define CXXLAPACK_INTERFACE_LARRA_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -49,7 +51,7 @@ larra(IndexType             n,
       IndexType             &isplit)
 {
     CXXLAPACK_DEBUG_OUT("slarra");
- 
+
     IndexType info;
     LAPACK_IMPL(slarra)(&n,
                         d,
@@ -81,7 +83,7 @@ larra(IndexType             n,
       IndexType             &isplit)
 {
     CXXLAPACK_DEBUG_OUT("dlarra");
- 
+
     IndexType info;
     LAPACK_IMPL(dlarra)(&n,
                         d,

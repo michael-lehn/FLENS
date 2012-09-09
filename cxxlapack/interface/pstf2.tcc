@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_PSTF2_TCC
 #define CXXLAPACK_INTERFACE_PSTF2_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -49,7 +51,7 @@ pstf2(char                  uplo,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("spstf2");
- 
+
     IndexType info;
     LAPACK_IMPL(spstf2)(&uplo,
                         &n,
@@ -81,7 +83,7 @@ pstf2(char                  uplo,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dpstf2");
- 
+
     IndexType info;
     LAPACK_IMPL(dpstf2)(&uplo,
                         &n,
@@ -113,7 +115,7 @@ pstf2(char                  uplo,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("cpstf2");
- 
+
     IndexType info;
     LAPACK_IMPL(cpstf2)(&uplo,
                         &n,
@@ -145,7 +147,7 @@ pstf2(char                  uplo,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("zpstf2");
- 
+
     IndexType info;
     LAPACK_IMPL(zpstf2)(&uplo,
                         &n,

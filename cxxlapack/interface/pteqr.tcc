@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_PTEQR_TCC
 #define CXXLAPACK_INTERFACE_PTEQR_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ pteqr(char                  compz,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("spteqr");
- 
+
     IndexType info;
     LAPACK_IMPL(spteqr)(&compz,
                         n,
@@ -79,7 +81,7 @@ pteqr(char                  compz,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dpteqr");
- 
+
     IndexType info;
     LAPACK_IMPL(dpteqr)(&compz,
                         n,
@@ -109,7 +111,7 @@ pteqr(char                  compz,
       float                 *rWork)
 {
     CXXLAPACK_DEBUG_OUT("cpteqr");
- 
+
     IndexType info;
     LAPACK_IMPL(cpteqr)(&compz,
                         n,
@@ -139,7 +141,7 @@ pteqr(char                  compz,
       double                *rWork)
 {
     CXXLAPACK_DEBUG_OUT("zpteqr");
- 
+
     IndexType info;
     LAPACK_IMPL(zpteqr)(&compz,
                         n,

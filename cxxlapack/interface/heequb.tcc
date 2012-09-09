@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HEEQUB_TCC
 #define CXXLAPACK_INTERFACE_HEEQUB_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -49,7 +51,7 @@ heequb(char                        uplo,
        std::complex<float >        *work)
 {
     CXXLAPACK_DEBUG_OUT("cheequb");
-    
+
     IndexType info;
     LAPACK_IMPL(cheequb)(&uplo,
                          &n,
@@ -81,7 +83,7 @@ heequb(char                        uplo,
        std::complex<double>        *work)
 {
     CXXLAPACK_DEBUG_OUT("zheequb");
-    
+
     IndexType info;
     LAPACK_IMPL(zheequb)(&uplo,
                          &n,

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LASQ2_TCC
 #define CXXLAPACK_INTERFACE_LASQ2_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -43,7 +45,7 @@ lasq2(IndexType             n,
       float                 *z)
 {
     CXXLAPACK_DEBUG_OUT("slasq2");
-    
+
     IndexType info;
     LAPACK_IMPL(slasq2)(&n,
                         z,
@@ -63,7 +65,7 @@ lasq2(IndexType             n,
       double                *z)
 {
     CXXLAPACK_DEBUG_OUT("dlasq2");
-    
+
     IndexType info;
     LAPACK_IMPL(dlasq2)(&n,
                         z,

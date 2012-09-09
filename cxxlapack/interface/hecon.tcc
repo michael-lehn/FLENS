@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HECON_TCC
 #define CXXLAPACK_INTERFACE_HECON_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -49,7 +51,7 @@ hecon(char                        uplo,
       std::complex<float >        *work)
 {
     CXXLAPACK_DEBUG_OUT("checon");
-    
+
     IndexType info;
     LAPACK_IMPL(checon)(&uplo,
                         &n,
@@ -81,7 +83,7 @@ hecon(char                        uplo,
       std::complex<double>        *work)
 {
     CXXLAPACK_DEBUG_OUT("zhecon");
-    
+
     IndexType info;
     LAPACK_IMPL(zhecon)(&uplo,
                         &n,

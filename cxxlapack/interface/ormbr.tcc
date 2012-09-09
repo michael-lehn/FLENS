@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_ORMBR_TCC
 #define CXXLAPACK_INTERFACE_ORMBR_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -54,7 +56,7 @@ ormbr(char                  vect,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("sormbr");
-  
+
     IndexType info;
     LAPACK_IMPL(sormbr)(&vect,
                         &side,
@@ -96,7 +98,7 @@ ormbr(char                  vect,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("dormbr");
-  
+
     IndexType info;
     LAPACK_IMPL(dormbr)(&vect,
                         &side,

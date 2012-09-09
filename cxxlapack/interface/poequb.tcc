@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_POEQUB_TCC
 #define CXXLAPACK_INTERFACE_POEQUB_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -47,7 +49,7 @@ poequb(IndexType             n,
        float                 &amax)
 {
     CXXLAPACK_DEBUG_OUT("spoequb");
-    
+
     IndexType info;
     LAPACK_IMPL(spoequb)(&n,
                          A,
@@ -76,7 +78,7 @@ poequb(IndexType             n,
        double                &amax)
 {
     CXXLAPACK_DEBUG_OUT("dpoequb");
-    
+
     IndexType info;
     LAPACK_IMPL(dpoequb)(&n,
                          A,
@@ -104,7 +106,7 @@ poequb(IndexType                   n,
        float                       &amax)
 {
     CXXLAPACK_DEBUG_OUT("cpoequb");
-    
+
     IndexType info;
     LAPACK_IMPL(cpoequb)(&n,
                          reinterpret_cast<const float  *>(A),
@@ -132,7 +134,7 @@ poequb(IndexType                   n,
        double                      &amax)
 {
     CXXLAPACK_DEBUG_OUT("zpoequb");
-    
+
     IndexType info;
     LAPACK_IMPL(zpoequb)(&n,
                          reinterpret_cast<const double *>(A),

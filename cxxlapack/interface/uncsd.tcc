@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_UNCSD_TCC
 #define CXXLAPACK_INTERFACE_UNCSD_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -71,7 +73,7 @@ uncsd(char                         jobu1,
       IndexType                    *iWork)
 {
     CXXLAPACK_DEBUG_OUT("cuncsd");
- 
+
     IndexType info;
     LAPACK_IMPL(cuncsd)(&jobu1,
                         &jobu2,
@@ -149,7 +151,7 @@ uncsd(char                         jobu1,
       IndexType                    *iWork)
 {
     CXXLAPACK_DEBUG_OUT("zuncsd");
- 
+
     IndexType info;
     LAPACK_IMPL(zuncsd)(&jobu1,
                         &jobu2,

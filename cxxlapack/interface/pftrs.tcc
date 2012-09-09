@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_PFTRS_TCC
 #define CXXLAPACK_INTERFACE_PFTRS_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ pftrs(char                  transr,
       IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("spftrs");
-  
+
     IndexType info;
     LAPACK_IMPL(spftrs)(&transr,
                         &uplo,
@@ -78,7 +80,7 @@ pftrs(char                  transr,
       IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("dpftrs");
-  
+
     IndexType info;
     LAPACK_IMPL(dpftrs)(&transr,
                         &uplo,
@@ -108,7 +110,7 @@ pftrs(char                        transr,
       IndexType                   ldB)
 {
     CXXLAPACK_DEBUG_OUT("cpftrs");
-  
+
     IndexType info;
     LAPACK_IMPL(cpftrs)(&transr,
                         &uplo,
@@ -138,7 +140,7 @@ pftrs(char                        transr,
       IndexType                   ldB)
 {
     CXXLAPACK_DEBUG_OUT("zpftrs");
-  
+
     IndexType info;
     LAPACK_IMPL(zpftrs)(&transr,
                         &uplo,

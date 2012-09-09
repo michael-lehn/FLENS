@@ -529,7 +529,7 @@ imag(VZ &&z)
 template <typename VX>
 typename RestrictTo<IsDenseVector<VX>::value,
          bool>::Type
-fillRandom(VX &&)
+fillRandom(VX &&x)
 {
     return fillRandom(x.engine());
 }

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAED5_TCC
 #define CXXLAPACK_INTERFACE_LAED5_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -47,7 +49,7 @@ laed5(IndexType             i,
       float                 &dlam)
 {
     CXXLAPACK_DEBUG_OUT("slaed5");
-    
+
     IndexType info;
     LAPACK_IMPL(slaed5)(&i,
                         d,
@@ -75,7 +77,7 @@ laed5(IndexType             i,
       double                &dlam)
 {
     CXXLAPACK_DEBUG_OUT("dlaed5");
-    
+
     IndexType info;
     LAPACK_IMPL(dlaed5)(&i,
                         d,

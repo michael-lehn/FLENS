@@ -40,6 +40,7 @@
 #include <cxxblas/typedefs.h>
 #include <flens/auxiliary/iscomplex.h>
 #include <flens/auxiliary/isinteger.h>
+#include <flens/io/bandstorage/save.h>
 
 namespace flens {
 

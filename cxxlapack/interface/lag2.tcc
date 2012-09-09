@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAG2_TCC
 #define CXXLAPACK_INTERFACE_LAG2_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -49,9 +51,9 @@ lag2(const float           *A,
       float                 &wr1,
       float                 &wr2,
       float                 &wi)
-{ 
+{
     CXXLAPACK_DEBUG_OUT("slag2");
-    
+
     LAPACK_IMPL(slag2)(A,
                        &ldA,
                        B,
@@ -76,9 +78,9 @@ lag2(const double          *A,
       double                &wr1,
       double                &wr2,
       double                &wi)
-{ 
+{
     CXXLAPACK_DEBUG_OUT("dlag2");
-    
+
     LAPACK_IMPL(dlag2)(A,
                        &ldA,
                        B,

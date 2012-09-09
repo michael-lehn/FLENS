@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_SYTD2_TCC
 #define CXXLAPACK_INTERFACE_SYTD2_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ sytd2(char                  uplo,
       float                 *tau)
 {
     CXXLAPACK_DEBUG_OUT("ssytd2");
- 
+
     IndexType info;
     LAPACK_IMPL(ssytd2)(&uplo,
                         &n,
@@ -78,7 +80,7 @@ sytd2(char                  uplo,
       double                *tau)
 {
     CXXLAPACK_DEBUG_OUT("dsytd2");
- 
+
     IndexType info;
     LAPACK_IMPL(dsytd2)(&uplo,
                         &n,

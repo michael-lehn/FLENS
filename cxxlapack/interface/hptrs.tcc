@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HPTRS_TCC
 #define CXXLAPACK_INTERFACE_HPTRS_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ hptrs(char                        uplo,
       IndexType                   ldB)
 {
     CXXLAPACK_DEBUG_OUT("chptrs");
-    
+
     IndexType info;
     LAPACK_IMPL(chptrs)(&uplo,
                         &n,
@@ -78,7 +80,7 @@ hptrs(char                        uplo,
       IndexType                   ldB)
 {
     CXXLAPACK_DEBUG_OUT("zhptrs");
-    
+
     IndexType info;
     LAPACK_IMPL(zhptrs)(&uplo,
                         &n,

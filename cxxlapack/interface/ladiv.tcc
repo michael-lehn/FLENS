@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LADIV_TCC
 #define CXXLAPACK_INTERFACE_LADIV_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ ladiv(double                a,
       double                &q)
 {
     CXXLAPACK_DEBUG_OUT("dladiv");
-    
+
     LAPACK_IMPL(dladiv)(&a,
                         &b,
                         &c,
@@ -64,10 +66,10 @@ ladiv(std::complex<double>  x,
       std::complex<double>  y)
 {
     CXXLAPACK_DEBUG_OUT("zladiv");
-    
+
     return LAPACK_IMPL(zladiv)(reinterpret_cast<const double *>(&x),
                                reinterpret_cast<const double *>(&y));
-} 
+}
 } // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_LADIV_TCC

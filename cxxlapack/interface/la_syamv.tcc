@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LA_SYAMV_TCC
 #define CXXLAPACK_INTERFACE_LA_SYAMV_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -51,7 +53,7 @@ la_syamv(char                  uplo,
          IndexType             incy)
 {
     CXXLAPACK_DEBUG_OUT("sla_syamv");
-    
+
     LAPACK_IMPL(sla_syamv)(&uplo,
                            &n,
                            &alpha,
@@ -78,7 +80,7 @@ la_syamv(char                  uplo,
          IndexType             incy)
 {
     CXXLAPACK_DEBUG_OUT("dla_syamv");
-    
+
     LAPACK_IMPL(dla_syamv)(&uplo,
                            &n,
                            &alpha,
@@ -105,7 +107,7 @@ la_syamv(char                        uplo,
          IndexType                   incy)
 {
     CXXLAPACK_DEBUG_OUT("cla_syamv");
-    
+
     LAPACK_IMPL(cla_syamv)(&uplo,
                            &n,
                            &alpha,
@@ -132,7 +134,7 @@ la_syamv(char                        uplo,
          IndexType                   incy)
 {
     CXXLAPACK_DEBUG_OUT("zla_syamv");
-    
+
     LAPACK_IMPL(zla_syamv)(&uplo,
                            &n,
                            &alpha,

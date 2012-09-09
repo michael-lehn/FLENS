@@ -33,12 +33,14 @@
 #ifndef CXXLAPACK_INTERFACE_LANSY_TCC
 #define CXXLAPACK_INTERFACE_LANSY_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
 
 template <typename IndexType>
-float 
+float
 lansy(char                  norm,
       char                  uplo,
       IndexType             n,
@@ -47,7 +49,7 @@ lansy(char                  norm,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("slansy");
-   
+
     return LAPACK_IMPL(slansy)(&norm,
                                &uplo,
                                &n,
@@ -67,7 +69,7 @@ lansy(char                  norm,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dlansy");
-   
+
     return LAPACK_IMPL(dlansy)(&norm,
                                &uplo,
                                &n,
@@ -78,7 +80,7 @@ lansy(char                  norm,
 
 
 template <typename IndexType>
-float 
+float
 lansy(char                        norm,
       char                        uplo,
       IndexType                   n,
@@ -87,7 +89,7 @@ lansy(char                        norm,
       float                       *work)
 {
     CXXLAPACK_DEBUG_OUT("clansy");
-   
+
     return LAPACK_IMPL(clansy)(&norm,
                                &uplo,
                                &n,
@@ -106,7 +108,7 @@ lansy(char                        norm,
       double                      *work)
 {
     CXXLAPACK_DEBUG_OUT("zlansy");
-   
+
     return LAPACK_IMPL(zlansy)(&norm,
                                &uplo,
                                &n,

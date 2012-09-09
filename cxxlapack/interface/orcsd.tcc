@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_ORCSD_TCC
 #define CXXLAPACK_INTERFACE_ORCSD_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -70,7 +72,7 @@ orcsd(char                  jobu1,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("sorcsd");
-  
+
     IndexType info;
     LAPACK_IMPL(sorcsd)(&jobu1,
                         &jobu2,
@@ -145,7 +147,7 @@ orcsd(char                  jobu1,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dorcsd");
-  
+
     IndexType info;
     LAPACK_IMPL(dorcsd)(&jobu1,
                         &jobu2,

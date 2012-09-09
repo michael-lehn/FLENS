@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_GTSVX_TCC
 #define CXXLAPACK_INTERFACE_GTSVX_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -62,7 +64,7 @@ gtsvx(char                  fact,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("sgtsvx");
-    
+
     IndexType info;
     LAPACK_IMPL(sgtsvx)(&fact,
                         &trans,
@@ -120,7 +122,7 @@ gtsvx(char                  fact,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dgtsvx");
-    
+
     IndexType info;
     LAPACK_IMPL(dgtsvx)(&fact,
                         &trans,
@@ -178,7 +180,7 @@ gtsvx(char                        fact,
       float                       *rWork)
 {
     CXXLAPACK_DEBUG_OUT("cgtsvx");
-    
+
     IndexType info;
     LAPACK_IMPL(cgtsvx)(&fact,
                         &trans,
@@ -236,7 +238,7 @@ gtsvx(char                        fact,
       double                      *rWork)
 {
     CXXLAPACK_DEBUG_OUT("zgtsvx");
-    
+
     IndexType info;
     LAPACK_IMPL(zgtsvx)(&fact,
                         &trans,

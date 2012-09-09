@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     sygvd(IndexType             itype,
@@ -44,14 +44,14 @@ template <typename IndexType>
           IndexType             n,
           float                 *A,
           IndexType             ldA,
-          float                 *B;
+          float                 *B,
           IndexType             ldB,
           float                 *w,
           float                 *work,
-          IndexType             lWork
+          IndexType             lWork,
           IndexType             *iWork,
           IndexType             liWork);
-    
+
 template <typename IndexType>
     IndexType
     sygvd(IndexType             itype,
@@ -59,11 +59,11 @@ template <typename IndexType>
           IndexType             n,
           double                *A,
           IndexType             ldA,
-          double                *B;
+          double                *B,
           IndexType             ldB,
           double                *w,
           double                *work,
-          IndexType             lWork
+          IndexType             lWork,
           IndexType             *iWork,
           IndexType             liWork);
 

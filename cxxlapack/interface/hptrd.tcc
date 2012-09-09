@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HPTRD_TCC
 #define CXXLAPACK_INTERFACE_HPTRD_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -47,7 +49,7 @@ hptrd(char                  uplo,
       std::complex<float >  *tau)
 {
     CXXLAPACK_DEBUG_OUT("chptrd");
-    
+
     IndexType info;
     LAPACK_IMPL(chptrd)(&uplo,
                         &n,
@@ -75,7 +77,7 @@ hptrd(char                  uplo,
       std::complex<double>  *tau)
 {
     CXXLAPACK_DEBUG_OUT("zhptrd");
-    
+
     IndexType info;
     LAPACK_IMPL(zhptrd)(&uplo,
                         &n,

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_SYGS2_TCC
 #define CXXLAPACK_INTERFACE_SYGS2_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ sygs2(char                  itype,
       IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("ssygs2");
-  
+
     IndexType info;
     LAPACK_IMPL(ssygs2)(&itype,
                         &uplo,
@@ -78,7 +80,7 @@ sygs2(char                  itype,
       IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("dsygs2");
- 
+
     IndexType info;
     LAPACK_IMPL(dsygs2)(&itype,
                         &uplo,

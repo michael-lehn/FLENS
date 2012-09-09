@@ -44,7 +44,7 @@ float
 lapy2(float x, float y)
 {
     CXXLAPACK_DEBUG_OUT("slapy2");
-    
+
     return LAPACK_IMPL(slapy2)(&x, &y);
 }
 
@@ -54,7 +54,7 @@ double
 lapy2(double x, double y)
 {
     CXXLAPACK_DEBUG_OUT("dlapy2");
-    
+
     return LAPACK_IMPL(dlapy2)(&x, &y);
 }
 

@@ -52,7 +52,7 @@ lascl(char          type,
       IndexType     ldA)
 {
     CXXLAPACK_DEBUG_OUT("slascl");
-    
+
     IndexType info;
     LAPACK_IMPL(slascl)(&type,
                         &kl,
@@ -87,7 +87,7 @@ lascl(char          type,
       IndexType     ldA)
 {
     CXXLAPACK_DEBUG_OUT("dlascl");
-  
+
     IndexType info;
     LAPACK_IMPL(dlascl)(&type,
                         &kl,
@@ -122,7 +122,7 @@ lascl(char                  type,
       IndexType             ldA)
 {
     CXXLAPACK_DEBUG_OUT("clascl");
-  
+
     IndexType info;
     LAPACK_IMPL(clascl)(&type,
                         &kl,
@@ -155,7 +155,7 @@ lascl(char                  type,
       IndexType             ldA)
 {
     CXXLAPACK_DEBUG_OUT("zlascl");
-  
+
     IndexType info;
     LAPACK_IMPL(zlascl)(&type,
                         &kl,

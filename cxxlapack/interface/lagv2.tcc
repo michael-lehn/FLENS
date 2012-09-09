@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAGV2_TCC
 #define CXXLAPACK_INTERFACE_LAGV2_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -52,7 +54,7 @@ lagv2(float                 A,
       float                 &snr)
 {
     CXXLAPACK_DEBUG_OUT("slagv2");
-    
+
     LAPACK_IMPL(slagv2)(A,
                         &ldA,
                         B,
@@ -82,7 +84,7 @@ lagv2(double                A,
       double                &snr)
 {
     CXXLAPACK_DEBUG_OUT("dlagv2");
-    
+
     LAPACK_IMPL(dlagv2)(A,
                         &ldA,
                         B,

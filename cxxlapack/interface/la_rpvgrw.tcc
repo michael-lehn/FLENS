@@ -30,9 +30,11 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXLAPACK_INTERFACE_LA_RPVGRW_TCC 
+#ifndef CXXLAPACK_INTERFACE_LA_RPVGRW_TCC
 #define CXXLAPACK_INTERFACE_LA_RPVGRW_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -47,7 +49,7 @@ la_rpvgrw(IndexType             n,
           IndexType             ldAf)
 {
     CXXLAPACK_DEBUG_OUT("sla_rpvgrw");
-    
+
     return LAPACK_IMPL(sla_rpvgrw)(&n,
                                    &ncols,
                                    A,
@@ -66,7 +68,7 @@ la_rpvgrw(IndexType             n,
           IndexType             ldAf)
 {
     CXXLAPACK_DEBUG_OUT("dla_rpvgrw");
-    
+
     return LAPACK_IMPL(dla_rpvgrw)(&n,
                                    &ncols,
                                    A,
@@ -85,7 +87,7 @@ la_rpvgrw(IndexType                   n,
           IndexType                   ldAf)
 {
     CXXLAPACK_DEBUG_OUT("cla_rpvgrw");
-    
+
     return LAPACK_IMPL(cla_rpvgrw)(&n,
                                    &ncols,
                                    reinterpret_cast<const float  *>(A),
@@ -104,7 +106,7 @@ la_rpvgrw(IndexType                   n,
           IndexType                   ldAf)
 {
     CXXLAPACK_DEBUG_OUT("zla_rpvgrw");
-    
+
     return LAPACK_IMPL(zla_rpvgrw)(&n,
                                    &ncols,
                                    reinterpret_cast<const double *>(A),

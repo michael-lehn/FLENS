@@ -12,7 +12,10 @@
 
 //#define FLENS_DEFAULT_INDEXTYPE long
 //#define INTEGER                 long
-//#define LOGICAL                 long
+
+#ifndef LOGICAL
+#define LOGICAL                 long
+#endif
 
 //
 //  define typedefs for FLENS matrix and vector types

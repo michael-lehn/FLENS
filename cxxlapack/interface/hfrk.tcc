@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HFRK_TCC
 #define CXXLAPACK_INTERFACE_HFRK_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -52,7 +54,7 @@ hfrk (char                        transr,
       std::complex<float >        *C)
 {
     CXXLAPACK_DEBUG_OUT("chfrk");
-    
+
     IndexType info;
     LAPACK_IMPL(chfrk)(&transr,
                        &uplo,
@@ -88,7 +90,7 @@ hfrk (char                        transr,
       std::complex<double>        *C)
 {
     CXXLAPACK_DEBUG_OUT("zhfrk");
-    
+
     IndexType info;
     LAPACK_IMPL(zhfrk)(&transr,
                        &uplo,

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_UNGL2_TCC
 #define CXXLAPACK_INTERFACE_UNGL2_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ ungl2(IndexType                   m,
       std::complex<float >        *work)
 {
     CXXLAPACK_DEBUG_OUT("cungl2");
- 
+
     IndexType info;
     LAPACK_IMPL(cungl2)(&m,
                         &n,
@@ -78,7 +80,7 @@ ungl2(IndexType                   m,
       std::complex<double>        *work)
 {
     CXXLAPACK_DEBUG_OUT("zungl2");
- 
+
     IndexType info;
     LAPACK_IMPL(zungl2)(&m,
                         &n,

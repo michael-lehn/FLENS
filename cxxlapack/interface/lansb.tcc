@@ -33,12 +33,14 @@
 #ifndef CXXLAPACK_INTERFACE_LANSB_TCC
 #define CXXLAPACK_INTERFACE_LANSB_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
 
 template <typename IndexType>
-float 
+float
 lansb(char                  norm,
       char                  uplo,
       IndexType             n,
@@ -48,7 +50,7 @@ lansb(char                  norm,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("slansb");
-   
+
     return LAPACK_IMPL(slansb)(&norm,
                                &uplo,
                                &n,
@@ -56,7 +58,7 @@ lansb(char                  norm,
                                Ab,
                                &ldAb,
                                work);
-}  
+}
 
 
 template <typename IndexType>
@@ -70,7 +72,7 @@ lansb(char                  norm,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dlansb");
-   
+
     return LAPACK_IMPL(dlansb)(&norm,
                                &uplo,
                                &n,
@@ -78,10 +80,10 @@ lansb(char                  norm,
                                Ab,
                                &ldAb,
                                work);
-}  
+}
 
 template  <typename IndexType>
-float 
+float
 lansb(char                        norm,
       char                        uplo,
       IndexType                   n,
@@ -91,7 +93,7 @@ lansb(char                        norm,
       float                       *work)
 {
     CXXLAPACK_DEBUG_OUT("clansb");
-   
+
     return LAPACK_IMPL(clansb)(&norm,
                                &uplo,
                                &n,
@@ -99,7 +101,7 @@ lansb(char                        norm,
                                reinterpret_cast<const float  *>(Ab),
                                &ldAb,
                                work);
-}  
+}
 
 template <typename IndexType>
 double
@@ -112,7 +114,7 @@ lansb(char                        norm,
       double                      *work)
 {
     CXXLAPACK_DEBUG_OUT("zlansb");
-   
+
     return LAPACK_IMPL(zlansb)(&norm,
                                &uplo,
                                &n,
@@ -120,7 +122,7 @@ lansb(char                        norm,
                                reinterpret_cast<const double *>(Ab),
                                &ldAb,
                                work);
-}  
+}
 
 
 } // namespace cxxlapack

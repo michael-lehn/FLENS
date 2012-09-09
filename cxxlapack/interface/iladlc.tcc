@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_ILADLC_TCC
 #define CXXLAPACK_INTERFACE_ILADLC_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -45,7 +47,7 @@ iladlc(IndexType             m,
        IndexType             ldA)
 {
     CXXLAPACK_DEBUG_OUT("iladlc");
-    
+
     return LAPACK_IMPL(iladlc)(&m,
                                &n,
                                A,

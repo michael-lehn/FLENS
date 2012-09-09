@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_SYSV_TCC
 #define CXXLAPACK_INTERFACE_SYSV_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -51,7 +53,7 @@ sysv (char                  uplo,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("ssysv");
- 
+
     IndexType info;
     LAPACK_IMPL(ssysv) (&uplo,
                         &n,
@@ -88,7 +90,7 @@ sysv (char                  uplo,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("dsysv");
- 
+
     IndexType info;
     LAPACK_IMPL(dsysv) (&uplo,
                         &n,
@@ -124,7 +126,7 @@ sysv (char                  uplo,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("csysv");
- 
+
     IndexType info;
     LAPACK_IMPL(csysv) (&uplo,
                         &n,
@@ -160,7 +162,7 @@ sysv (char                  uplo,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("zsysv");
- 
+
     IndexType info;
     LAPACK_IMPL(zsysv) (&uplo,
                         &n,

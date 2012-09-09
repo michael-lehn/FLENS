@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_OPMTR_TCC
 #define CXXLAPACK_INTERFACE_OPMTR_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -51,7 +53,7 @@ opmtr(char                  side,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("sopmtr");
-  
+
     IndexType info;
     LAPACK_IMPL(sopmtr)(&side,
                         &uplo,
@@ -87,7 +89,7 @@ opmtr(char                  side,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dopmtr");
-  
+
     IndexType info;
     LAPACK_IMPL(dopmtr)(&side,
                         &uplo,

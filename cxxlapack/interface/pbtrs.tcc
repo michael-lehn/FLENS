@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_PBTRS_TCC
 #define CXXLAPACK_INTERFACE_PBTRS_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -49,7 +51,7 @@ pbtrs(char                  uplo,
       IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("spbtrs");
-  
+
     IndexType info;
     LAPACK_IMPL(spbtrs)(&uplo,
                         &n,
@@ -82,7 +84,7 @@ pbtrs(char                  uplo,
       IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("dpbtrs");
-  
+
     IndexType info;
     LAPACK_IMPL(dpbtrs)(&uplo,
                         &n,
@@ -114,7 +116,7 @@ pbtrs(char                        uplo,
       IndexType                    ldB)
 {
     CXXLAPACK_DEBUG_OUT("cpbtrs");
-  
+
     IndexType info;
     LAPACK_IMPL(cpbtrs)(&uplo,
                         &n,
@@ -146,7 +148,7 @@ pbtrs(char                        uplo,
       IndexType                    ldB)
 {
     CXXLAPACK_DEBUG_OUT("zpbtrs");
-  
+
     IndexType info;
     LAPACK_IMPL(zpbtrs)(&uplo,
                         &n,

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAQSB_TCC
 #define CXXLAPACK_INTERFACE_LAQSB_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -50,7 +52,7 @@ laqsb(char                  uplo,
       char                  &equed)
 {
     CXXLAPACK_DEBUG_OUT("slaqsb");
- 
+
     LAPACK_IMPL(slaqsb)(&uplo,
                         &n,
                         &kd,
@@ -77,7 +79,7 @@ laqsb(char                  uplo,
       char                  &equed)
 {
     CXXLAPACK_DEBUG_OUT("dlaqsb");
- 
+
     LAPACK_IMPL(dlaqsb)(&uplo,
                         &n,
                         &kd,
@@ -103,7 +105,7 @@ laqsb(char                  uplo,
       char                  &equed)
 {
     CXXLAPACK_DEBUG_OUT("claqsb");
- 
+
     LAPACK_IMPL(claqsb)(&uplo,
                         &n,
                         &kd,
@@ -129,7 +131,7 @@ laqsb(char                  uplo,
       char                  &equed)
 {
     CXXLAPACK_DEBUG_OUT("zlaqsb");
- 
+
     LAPACK_IMPL(zlaqsb)(&uplo,
                         &n,
                         &kd,

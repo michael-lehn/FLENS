@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAEIN_TCC
 #define CXXLAPACK_INTERFACE_LAEIN_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -56,7 +58,7 @@ laein(bool                  rightv,
       float                 bignum)
 {
     CXXLAPACK_DEBUG_OUT("slaein");
-    
+
     IndexType info;
     IndexType _rightv = rightv;
     IndexType _noinit = noinit;
@@ -105,7 +107,7 @@ laein(bool                  rightv,
       double                bignum)
 {
     CXXLAPACK_DEBUG_OUT("dlaein");
-    
+
     IndexType info;
     IndexType _rightv = rightv;
     IndexType _noinit = noinit;
@@ -151,7 +153,7 @@ laein(bool                        rightv,
       float                       bignum)
 {
     CXXLAPACK_DEBUG_OUT("claein");
-    
+
     IndexType info;
     IndexType _rightv = rightv;
     IndexType _noinit = noinit;
@@ -195,7 +197,7 @@ laein(bool                        rightv,
       double                      bignum)
 {
     CXXLAPACK_DEBUG_OUT("zlaein");
-    
+
     IndexType info;
     IndexType _rightv = rightv;
     IndexType _noinit = noinit;

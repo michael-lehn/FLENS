@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_PFTRI_TCC
 #define CXXLAPACK_INTERFACE_PFTRI_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -45,7 +47,7 @@ pftri(char                  transr,
       float                 *A)
 {
     CXXLAPACK_DEBUG_OUT("spftri");
-  
+
     IndexType info;
     LAPACK_IMPL(spftri)(&transr,
                         &uplo,
@@ -70,7 +72,7 @@ pftri(char                  transr,
       double                *A)
 {
     CXXLAPACK_DEBUG_OUT("dpftri");
-  
+
     IndexType info;
     LAPACK_IMPL(dpftri)(&transr,
                         &uplo,
@@ -94,7 +96,7 @@ pftri(char                  transr,
       std::complex<float >  *A)
 {
     CXXLAPACK_DEBUG_OUT("cpftri");
-  
+
     IndexType info;
     LAPACK_IMPL(cpftri)(&transr,
                         &uplo,
@@ -118,7 +120,7 @@ pftri(char                  transr,
       std::complex<double>  *A)
 {
     CXXLAPACK_DEBUG_OUT("zpftri");
-  
+
     IndexType info;
     LAPACK_IMPL(zpftri)(&transr,
                         &uplo,

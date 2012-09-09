@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LARTV_TCC
 #define CXXLAPACK_INTERFACE_LARTV_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -49,7 +51,7 @@ lartv(IndexType             n,
       IndexType             incc)
 {
     CXXLAPACK_DEBUG_OUT("slartv");
-    
+
     LAPACK_IMPL(slartv)(&n,
                         x,
                         &incx,
@@ -72,7 +74,7 @@ lartv(IndexType             n,
       IndexType             incc)
 {
     CXXLAPACK_DEBUG_OUT("dlartv");
-    
+
     LAPACK_IMPL(dlartv)(&n,
                         x,
                         &incx,
@@ -129,7 +131,7 @@ lartv(IndexType                   n,
                         &incc);
 }
 
-  
+
 } // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_LARTV_TCC

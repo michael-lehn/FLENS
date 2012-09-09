@@ -270,7 +270,7 @@ scal(const ALPHA &alpha, MB &&B)
 
 //-- syscal
 template <typename ALPHA, typename MB>
-typename RestrictTo<IsHeMatrix<MB>::value,
+typename RestrictTo<IsSyMatrix<MB>::value,
          void>::Type
 scal(const ALPHA &alpha, MB &&B)
 {
@@ -335,7 +335,7 @@ scal(const ALPHA &alpha, MB &&B)
 
 //-- trscal
 template <typename ALPHA, typename MB>
-typename RestrictTo<IsHeMatrix<MB>::value,
+typename RestrictTo<IsTrMatrix<MB>::value,
          void>::Type
 scal(const ALPHA &alpha, MB &&B)
 {

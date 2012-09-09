@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LASR_TCC
 #define CXXLAPACK_INTERFACE_LASR_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -50,7 +52,7 @@ lasr (char                  side,
       IndexType             ldA)
 {
     CXXLAPACK_DEBUG_OUT("slasr");
-    
+
     LAPACK_IMPL(slasr) (&side,
                         &pivot,
                         &direct,
@@ -76,7 +78,7 @@ lasr (char                  side,
       IndexType             ldA)
 {
     CXXLAPACK_DEBUG_OUT("dlasr");
-    
+
     LAPACK_IMPL(dlasr) (&side,
                         &pivot,
                         &direct,
@@ -101,7 +103,7 @@ lasr (char                  side,
       IndexType             ldA)
 {
     CXXLAPACK_DEBUG_OUT("clasr");
-    
+
     LAPACK_IMPL(clasr) (&side,
                         &pivot,
                         &direct,
@@ -126,7 +128,7 @@ lasr (char                  side,
       IndexType             ldA)
 {
     CXXLAPACK_DEBUG_OUT("zlasr");
-    
+
     LAPACK_IMPL(zlasr) (&side,
                         &pivot,
                         &direct,

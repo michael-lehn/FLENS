@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_UNR2R_TCC
 #define CXXLAPACK_INTERFACE_UNR2R_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ ung2r(IndexType                   m,
       std::complex<float >        *work)
 {
     CXXLAPACK_DEBUG_OUT("cung2r");
- 
+
     IndexType info;
     LAPACK_IMPL(cung2r)(&m,
                         &n,
@@ -78,7 +80,7 @@ ung2r(IndexType                   m,
       std::complex<double>        *work)
 {
     CXXLAPACK_DEBUG_OUT("zung2r");
- 
+
     IndexType info;
     LAPACK_IMPL(zung2r)(&m,
                         &n,

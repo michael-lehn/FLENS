@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LASQ5_TCC
 #define CXXLAPACK_INTERFACE_LASQ5_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -55,7 +57,7 @@ lasq5(IndexType             i0,
       float                 &g)
 {
     CXXLAPACK_DEBUG_OUT("slasq5");
-    
+
     LAPACK_IMPL(slasq5)(&i0,
                         &n0,
                         z,
@@ -91,7 +93,7 @@ lasq5(IndexType             i0,
       double                &g)
 {
     CXXLAPACK_DEBUG_OUT("dlasq5");
-    
+
     LAPACK_IMPL(dlasq5)(&i0,
                         &n0,
                         z,

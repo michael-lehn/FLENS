@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_TPCON_TCC
 #define CXXLAPACK_INTERFACE_TPCON_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -49,7 +51,7 @@ tpcon(char                  norm,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("stpcon");
- 
+
     IndexType info;
     LAPACK_IMPL(stpcon)(&norm,
                         &uplo,
@@ -81,7 +83,7 @@ tpcon(char                  norm,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dtpcon");
- 
+
     IndexType info;
     LAPACK_IMPL(dtpcon)(&norm,
                         &uplo,
@@ -114,7 +116,7 @@ tpcon(char                        norm,
       float                       *rWork)
 {
     CXXLAPACK_DEBUG_OUT("ctpcon");
- 
+
     IndexType info;
     LAPACK_IMPL(ctpcon)(&norm,
                         &uplo,
@@ -147,7 +149,7 @@ tpcon(char                        norm,
       double                      *rWork)
 {
     CXXLAPACK_DEBUG_OUT("ztpcon");
- 
+
     IndexType info;
     LAPACK_IMPL(ztpcon)(&norm,
                         &uplo,

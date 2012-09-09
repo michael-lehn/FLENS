@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_PSTRF_TCC
 #define CXXLAPACK_INTERFACE_PSTRF_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -49,7 +51,7 @@ pstrf(char                  uplo,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("spstrf");
- 
+
     IndexType info;
     LAPACK_IMPL(spstrf)(&uplo,
                         &n,
@@ -81,7 +83,7 @@ pstrf(char                  uplo,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dpstrf");
- 
+
     IndexType info;
     LAPACK_IMPL(dpstrf)(&uplo,
                         &n,
@@ -113,7 +115,7 @@ pstrf(char                  uplo,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("cpstrf");
- 
+
     IndexType info;
     LAPACK_IMPL(cpstrf)(&uplo,
                         &n,
@@ -145,7 +147,7 @@ pstrf(char                  uplo,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("zpstrf");
- 
+
     IndexType info;
     LAPACK_IMPL(zpstrf)(&uplo,
                         &n,

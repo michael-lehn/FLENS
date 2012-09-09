@@ -47,7 +47,7 @@ lauum(char          upLo,
       IndexType     ldA)
 {
     CXXLAPACK_DEBUG_OUT("slauum");
-    
+
     IndexType info;
     LAPACK_IMPL(slauum)(&upLo,
                         &n,
@@ -72,7 +72,7 @@ lauum(char          upLo,
       IndexType     ldA)
 {
     CXXLAPACK_DEBUG_OUT("dlauum");
-    
+
     IndexType info;
     LAPACK_IMPL(dlauum)(&upLo,
                         &n,
@@ -96,7 +96,7 @@ lauum(char                  upLo,
       IndexType             ldA)
 {
     CXXLAPACK_DEBUG_OUT("clauum");
- 
+
     IndexType info;
     LAPACK_IMPL(clauum)(&upLo,
                         &n,
@@ -120,7 +120,7 @@ lauum(char                  upLo,
       IndexType             ldA)
 {
     CXXLAPACK_DEBUG_OUT("zlauum");
- 
+
     IndexType info;
     LAPACK_IMPL(zlauum)(&upLo,
                         &n,

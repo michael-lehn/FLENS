@@ -34,7 +34,9 @@
 #define FLENS_MATRIXTYPES_TRIANGULAR_IMPL_TPMATRIX_H 1
 
 #include <cxxblas/typedefs.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/matrixtypes/triangular/triangularmatrix.h>
+#include <flens/typedefs.h>
 
 namespace flens {
 

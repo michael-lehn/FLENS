@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAR1V_TCC
 #define CXXLAPACK_INTERFACE_LAR1V_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -62,7 +64,7 @@ lar1v(IndexType             n,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("slaq1v");
- 
+
     bool _wantnc = wantnc;
     LAPACK_IMPL(slar1v)(&n,
                         &b1,
@@ -113,7 +115,7 @@ lar1v(IndexType             n,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dlaq1v");
- 
+
     bool _wantnc = wantnc;
     LAPACK_IMPL(dlar1v)(&n,
                         &b1,
@@ -163,7 +165,7 @@ lar1v(IndexType             n,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("claq1v");
- 
+
     bool _wantnc = wantnc;
     LAPACK_IMPL(clar1v)(&n,
                         &b1,
@@ -213,7 +215,7 @@ lar1v(IndexType             n,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("zlaq1v");
- 
+
     bool _wantnc = wantnc;
     LAPACK_IMPL(zlar1v)(&n,
                         &b1,

@@ -51,7 +51,7 @@ laqr1(IndexType         n,
       float             *v)
 {
     CXXLAPACK_DEBUG_OUT("slaqr1");
- 
+
     LAPACK_IMPL(slaqr1)(&n,
                         H,
                         &ldH,
@@ -75,7 +75,7 @@ laqr1(IndexType         n,
       double            *v)
 {
     CXXLAPACK_DEBUG_OUT("dlaqr1");
- 
+
     LAPACK_IMPL(dlaqr1)(&n,
                         H,
                         &ldH,
@@ -96,7 +96,7 @@ laqr1(IndexType                     n,
       std::complex<float >          &v)
 {
     CXXLAPACK_DEBUG_OUT("claqr1");
- 
+
     LAPACK_IMPL(claqr1)(&n,
                         reinterpret_cast<const float  *>(H),
                         &ldH,
@@ -115,7 +115,7 @@ laqr1(IndexType                     n,
       std::complex<double>          &v)
 {
     CXXLAPACK_DEBUG_OUT("zlaqr1");
- 
+
     LAPACK_IMPL(zlaqr1)(&n,
                         reinterpret_cast<const double *>(H),
                         &ldH,

@@ -33,7 +33,7 @@
 #ifndef FLENS_AUXILIARY_RANDOMVALUE_H
 #define FLENS_AUXILIARY_RANDOMVALUE_H 1
 
-#include <flens/auxiliary/iscomplex.h>
+#include <flens/auxiliary/auxiliary.h>
 
 namespace flens {
 

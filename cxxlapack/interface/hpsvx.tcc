@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HPSVX_TCC
 #define CXXLAPACK_INTERFACE_HPSVX_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -57,7 +59,7 @@ hpsvx(char                        fact,
       float                       *rWork)
 {
     CXXLAPACK_DEBUG_OUT("chpsvx");
-    
+
     IndexType info;
     LAPACK_IMPL(chpsvx)(&fact,
                         &uplo,
@@ -105,7 +107,7 @@ hpsvx(char                        fact,
       double                      *rWork)
 {
     CXXLAPACK_DEBUG_OUT("zhpsvx");
-    
+
     IndexType info;
     LAPACK_IMPL(zhpsvx)(&fact,
                         &uplo,

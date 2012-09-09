@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_GGSVP_TCC
 #define CXXLAPACK_INTERFACE_GGSVP_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -64,7 +66,7 @@ ggsvp(char                  jobu,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("sggsvp");
-    
+
     IndexType info;
     LAPACK_IMPL(sggsvp)(&jobu,
                         &jobv,
@@ -126,7 +128,7 @@ ggsvp(char                  jobu,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dggsvp");
-    
+
     IndexType info;
     LAPACK_IMPL(dggsvp)(&jobu,
                         &jobv,
@@ -190,7 +192,7 @@ ggsvp(char                  jobu,
       std::complex<float >  *work)
 {
     CXXLAPACK_DEBUG_OUT("cggsvp");
-    
+
     IndexType info;
     LAPACK_IMPL(cggsvp)(&jobu,
                         &jobv,
@@ -254,7 +256,7 @@ ggsvp(char                  jobu,
       std::complex<double>  *work)
 {
     CXXLAPACK_DEBUG_OUT("zggsvp");
-    
+
     IndexType info;
     LAPACK_IMPL(zggsvp)(&jobu,
                         &jobv,

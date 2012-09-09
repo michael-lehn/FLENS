@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HBEVD_TCC
 #define CXXLAPACK_INTERFACE_HBEVD_TCC
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -56,7 +58,7 @@ hbevd(char                  jobz,
       IndexType             liWork)
 {
     CXXLAPACK_DEBUG_OUT("chbevd");
-    
+
     IndexType info;
     LAPACK_IMPL(chbevd)(&jobz,
                         &uplo,
@@ -102,7 +104,7 @@ hbevd(char                  jobz,
       IndexType             liWork)
 {
     CXXLAPACK_DEBUG_OUT("zhbevd");
-    
+
     IndexType info;
     LAPACK_IMPL(zhbevd)(&jobz,
                         &uplo,

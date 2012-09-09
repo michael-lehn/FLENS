@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_TFTTP_TCC
 #define CXXLAPACK_INTERFACE_TFTTP_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -46,7 +48,7 @@ tfttp(char                  transr,
       float                 *Ap)
 {
     CXXLAPACK_DEBUG_OUT("stfttp");
- 
+
     IndexType info;
     LAPACK_IMPL(stfttp)(&transr,
                         &uplo,
@@ -73,7 +75,7 @@ tfttp(char                  transr,
       double                *Ap)
 {
     CXXLAPACK_DEBUG_OUT("dtfttp");
- 
+
     IndexType info;
     LAPACK_IMPL(dtfttp)(&transr,
                         &uplo,
@@ -99,7 +101,7 @@ tfttp(char                        transr,
       std::complex<float >        *Ap)
 {
     CXXLAPACK_DEBUG_OUT("ctfttp");
- 
+
     IndexType info;
     LAPACK_IMPL(ctfttp)(&transr,
                         &uplo,
@@ -125,7 +127,7 @@ tfttp(char                        transr,
       std::complex<double>        *Ap)
 {
     CXXLAPACK_DEBUG_OUT("ztfttp");
- 
+
     IndexType info;
     LAPACK_IMPL(ztfttp)(&transr,
                         &uplo,

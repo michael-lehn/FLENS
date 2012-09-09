@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_GGBAK_TCC
 #define CXXLAPACK_INTERFACE_GGBAK_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -51,7 +53,7 @@ ggbak(char                  job,
       IndexType             ldV)
 {
     CXXLAPACK_DEBUG_OUT("sggbak");
-    
+
     IndexType info;
     LAPACK_IMPL(sggbak)(&job,
                         &side,
@@ -87,7 +89,7 @@ ggbak(char                  job,
       IndexType             ldV)
 {
     CXXLAPACK_DEBUG_OUT("dggbak");
-    
+
     IndexType info;
     LAPACK_IMPL(dggbak)(&job,
                         &side,
@@ -123,7 +125,7 @@ ggbak(char                  job,
       IndexType             ldV)
 {
     CXXLAPACK_DEBUG_OUT("cggbak");
-    
+
     IndexType info;
     LAPACK_IMPL(cggbak)(&job,
                         &side,
@@ -159,7 +161,7 @@ ggbak(char                  job,
       IndexType             ldV)
 {
     CXXLAPACK_DEBUG_OUT("zggbak");
-    
+
     IndexType info;
     LAPACK_IMPL(zggbak)(&job,
                         &side,

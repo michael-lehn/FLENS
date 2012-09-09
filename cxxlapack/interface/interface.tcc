@@ -30,8 +30,8 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXLAPACK_INTERFACE_INTERFACE_TCC
-#define CXXLAPACK_INTERFACE_INTERFACE_TCC 1
+#ifndef CXXLAPACK_INTERFACE_INTERFACE_H
+#define CXXLAPACK_INTERFACE_INTERFACE_H 1
 
 #include <cxxlapack/interface/bbcsd.tcc>
 #include <cxxlapack/interface/bdsdc.tcc>
@@ -70,26 +70,26 @@
 #include <cxxlapack/interface/gelq2.tcc>
 #include <cxxlapack/interface/gelqf.tcc>
 #include <cxxlapack/interface/gelsd.tcc>
-#include <cxxlapack/interface/gelss.tcc>
 #include <cxxlapack/interface/gels.tcc>
+#include <cxxlapack/interface/gelss.tcc>
 #include <cxxlapack/interface/gelsx.tcc>
 #include <cxxlapack/interface/gelsy.tcc>
 #include <cxxlapack/interface/geql2.tcc>
 #include <cxxlapack/interface/geqlf.tcc>
 #include <cxxlapack/interface/geqp3.tcc>
 #include <cxxlapack/interface/geqpf.tcc>
-#include <cxxlapack/interface/geqr2p.tcc>
 #include <cxxlapack/interface/geqr2.tcc>
-#include <cxxlapack/interface/geqrfp.tcc>
+#include <cxxlapack/interface/geqr2p.tcc>
 #include <cxxlapack/interface/geqrf.tcc>
+#include <cxxlapack/interface/geqrfp.tcc>
 #include <cxxlapack/interface/gerfs.tcc>
 #include <cxxlapack/interface/gerq2.tcc>
 #include <cxxlapack/interface/gerqf.tcc>
 #include <cxxlapack/interface/gesc2.tcc>
 #include <cxxlapack/interface/gesdd.tcc>
 #include <cxxlapack/interface/gesvd.tcc>
-#include <cxxlapack/interface/gesvj.tcc>
 #include <cxxlapack/interface/gesv.tcc>
+#include <cxxlapack/interface/gesvj.tcc>
 #include <cxxlapack/interface/gesvx.tcc>
 #include <cxxlapack/interface/getc2.tcc>
 #include <cxxlapack/interface/getf2.tcc>
@@ -129,8 +129,8 @@
 #include <cxxlapack/interface/hecon.tcc>
 #include <cxxlapack/interface/heequb.tcc>
 #include <cxxlapack/interface/heevd.tcc>
-#include <cxxlapack/interface/heevr.tcc>
 #include <cxxlapack/interface/heev.tcc>
+#include <cxxlapack/interface/heevr.tcc>
 #include <cxxlapack/interface/heevx.tcc>
 #include <cxxlapack/interface/hegs2.tcc>
 #include <cxxlapack/interface/hegst.tcc>
@@ -214,8 +214,8 @@
 #include <cxxlapack/interface/laexc.tcc>
 #include <cxxlapack/interface/lag2c.tcc>
 #include <cxxlapack/interface/lag2d.tcc>
-#include <cxxlapack/interface/lag2s.tcc>
 #include <cxxlapack/interface/lag2.tcc>
+#include <cxxlapack/interface/lag2s.tcc>
 #include <cxxlapack/interface/lag2z.tcc>
 #include <cxxlapack/interface/la_gbamv.tcc>
 #include <cxxlapack/interface/la_gbrcond_c.tcc>
@@ -297,8 +297,8 @@
 #include <cxxlapack/interface/lar2v.tcc>
 #include <cxxlapack/interface/larcm.tcc>
 #include <cxxlapack/interface/larfb.tcc>
-#include <cxxlapack/interface/larfgp.tcc>
 #include <cxxlapack/interface/larfg.tcc>
+#include <cxxlapack/interface/larfgp.tcc>
 #include <cxxlapack/interface/larf.tcc>
 #include <cxxlapack/interface/larft.tcc>
 #include <cxxlapack/interface/larfx.tcc>
@@ -316,9 +316,9 @@
 #include <cxxlapack/interface/larrr.tcc>
 #include <cxxlapack/interface/larrv.tcc>
 #include <cxxlapack/interface/larscl2.tcc>
+#include <cxxlapack/interface/lartg.tcc>
 #include <cxxlapack/interface/lartgp.tcc>
 #include <cxxlapack/interface/lartgs.tcc>
-#include <cxxlapack/interface/lartg.tcc>
 #include <cxxlapack/interface/lartv.tcc>
 #include <cxxlapack/interface/laruv.tcc>
 #include <cxxlapack/interface/larzb.tcc>
@@ -370,8 +370,8 @@
 #include <cxxlapack/interface/lauu2.tcc>
 #include <cxxlapack/interface/lauum.tcc>
 #include <cxxlapack/interface/la_wwaddw.tcc>
-#include <cxxlapack/interface/lsamen.tcc>
 #include <cxxlapack/interface/lsame.tcc>
+#include <cxxlapack/interface/lsamen.tcc>
 #include <cxxlapack/interface/opgtr.tcc>
 #include <cxxlapack/interface/opmtr.tcc>
 #include <cxxlapack/interface/orbdb.tcc>
@@ -477,15 +477,15 @@
 #include <cxxlapack/interface/steqr.tcc>
 #include <cxxlapack/interface/sterf.tcc>
 #include <cxxlapack/interface/stevd.tcc>
-#include <cxxlapack/interface/stevr.tcc>
 #include <cxxlapack/interface/stev.tcc>
+#include <cxxlapack/interface/stevr.tcc>
 #include <cxxlapack/interface/stevx.tcc>
 #include <cxxlapack/interface/sycon.tcc>
 #include <cxxlapack/interface/syconv.tcc>
 #include <cxxlapack/interface/syequb.tcc>
 #include <cxxlapack/interface/syevd.tcc>
-#include <cxxlapack/interface/syevr.tcc>
 #include <cxxlapack/interface/syev.tcc>
+#include <cxxlapack/interface/syevr.tcc>
 #include <cxxlapack/interface/syevx.tcc>
 #include <cxxlapack/interface/sygs2.tcc>
 #include <cxxlapack/interface/sygst.tcc>
@@ -572,4 +572,4 @@
 #include <cxxlapack/interface/upmtr.tcc>
 #include <cxxlapack/interface/zsum1.tcc>
 
-#endif // CXXLAPACK_INTERFACE_INTERFACE_TCC
+#endif // CXXLAPACK_INTERFACE_INTERFACE_H

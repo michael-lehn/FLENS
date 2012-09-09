@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LANHE_TCC
 #define CXXLAPACK_INTERFACE_LANHE_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ lanhe(char                        norm,
       float                       *work)
 {
     CXXLAPACK_DEBUG_OUT("clanhe");
-   
+
     return LAPACK_IMPL(clanhe)(&norm,
                                &uplo,
                                &n,
@@ -68,7 +70,7 @@ lanhe(char                        norm,
       double                      *work)
 {
     CXXLAPACK_DEBUG_OUT("zlanhe");
-   
+
     return LAPACK_IMPL(zlanhe)(&norm,
                                &uplo,
                                &n,

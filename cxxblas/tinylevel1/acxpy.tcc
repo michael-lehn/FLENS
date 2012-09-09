@@ -33,8 +33,7 @@
 #ifndef CXXBLAS_TINYLEVEL1_ACXPY_TCC
 #define CXXBLAS_TINYLEVEL1_ACXPY_TCC 1
 
-#include <cxxblas/typedefs.h>
-#include <cxxblas/tinylevel1/acxpy.h>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 

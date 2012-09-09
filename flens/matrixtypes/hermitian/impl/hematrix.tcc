@@ -350,6 +350,7 @@ HeMatrix<FS>::order() const
     return _engine.order;
 }
 
+template <typename FS>
 bool
 HeMatrix<FS>::fill(const ElementType &value)
 {
@@ -509,12 +510,13 @@ typename RestrictTo<IsHeMatrix<MA>::value,
          bool>::Type
 fillRandom(MA &&A)
 {
-    typedef typename RemoveRef<MA>::Type  MatrixA;
-    typedef typename MatrixA::IndexType   IndexType;
-    typedef typename MatrixA::VectorView  VectorView;
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::ElementType   ElementType;
+    typedef typename MatrixA::IndexType     IndexType;
+    typedef typename MatrixA::VectorView    VectorView;
 
     fillRandom(A.upLo(), A.engine());
-    VectorView d = diag(0);
+    VectorView d = A.diag(0);
     for (IndexType i=d.firstIndex();i<=d.lastIndex();++i) {
         d(i) = ElementType(cxxblas::real(d(i)));
     }

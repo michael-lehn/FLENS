@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HPCON_TCC
 #define CXXLAPACK_INTERFACE_HPCON_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ hpcon(char                        uplo,
       std::complex<float >        *work)
 {
     CXXLAPACK_DEBUG_OUT("chpcon");
-    
+
     IndexType info;
     LAPACK_IMPL(chpcon)(&uplo,
                         &n,
@@ -78,7 +80,7 @@ hpcon(char                        uplo,
       std::complex<double>        *work)
 {
     CXXLAPACK_DEBUG_OUT("zhpcon");
-    
+
     IndexType info;
     LAPACK_IMPL(zhpcon)(&uplo,
                         &n,

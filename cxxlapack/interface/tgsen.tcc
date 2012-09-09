@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_TGSEN_TCC
 #define CXXLAPACK_INTERFACE_TGSEN_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -65,7 +67,7 @@ tgsen(IndexType             ijob,
        IndexType             liWork)
 {
     CXXLAPACK_DEBUG_OUT("stgsen");
- 
+
      IndexType info;
      IndexType _wantq = wantq;
      IndexType _wantz = wantz;
@@ -132,7 +134,7 @@ tgsen(IndexType             ijob,
        IndexType             liWork)
 {
      CXXLAPACK_DEBUG_OUT("dtgsen");
- 
+
      IndexType info;
      IndexType _wantq = wantq;
      IndexType _wantz = wantz;
@@ -170,8 +172,8 @@ tgsen(IndexType             ijob,
      ASSERT(info>=0);
      return info;
 }
- 
- 
+
+
 template <typename IndexType>
 IndexType
 tgsen(IndexType             ijob,
@@ -199,7 +201,7 @@ tgsen(IndexType             ijob,
        IndexType             liWork)
 {
      CXXLAPACK_DEBUG_OUT("ctgsen");
- 
+
      IndexType info;
      IndexType _wantq = wantq;
      IndexType _wantz = wantz;
@@ -235,8 +237,8 @@ tgsen(IndexType             ijob,
  #   endif
      ASSERT(info>=0);
      return info;
-} 
- 
+}
+
 template <typename IndexType>
 IndexType
 tgsen(IndexType             ijob,
@@ -264,7 +266,7 @@ tgsen(IndexType             ijob,
        IndexType             liWork)
 {
      CXXLAPACK_DEBUG_OUT("ztgsen");
- 
+
      IndexType info;
      IndexType _wantq = wantq;
      IndexType _wantz = wantz;

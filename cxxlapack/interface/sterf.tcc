@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_STERF_TCC
 #define CXXLAPACK_INTERFACE_STERF_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -44,7 +46,7 @@ sterf(IndexType             n,
       float                 *e)
 {
     CXXLAPACK_DEBUG_OUT("ssterf");
- 
+
     IndexType info;
     LAPACK_IMPL(ssterf)(&n,
                         d,
@@ -66,7 +68,7 @@ sterf(IndexType             n,
       double                *e)
 {
     CXXLAPACK_DEBUG_OUT("dsterf");
- 
+
     IndexType info;
     LAPACK_IMPL(dsterf)(&n,
                         d,

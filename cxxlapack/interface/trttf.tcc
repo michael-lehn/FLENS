@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_TRTTF_TCC
 #define CXXLAPACK_INTERFACE_TRTTF_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -47,7 +49,7 @@ trttf(char                  transr,
       float                 *Arf)
 {
     CXXLAPACK_DEBUG_OUT("strttf");
- 
+
     IndexType info;
     LAPACK_IMPL(strttf)(&transr,
                         &uplo,
@@ -76,7 +78,7 @@ trttf(char                  transr,
       double                *Arf)
 {
     CXXLAPACK_DEBUG_OUT("dtrttf");
- 
+
     IndexType info;
     LAPACK_IMPL(dtrttf)(&transr,
                         &uplo,
@@ -104,7 +106,7 @@ trttf(char                        transr,
       std::complex<float >        *Arf)
 {
     CXXLAPACK_DEBUG_OUT("ctrttf");
- 
+
     IndexType info;
     LAPACK_IMPL(ctrttf)(&transr,
                         &uplo,
@@ -132,7 +134,7 @@ trttf(char                        transr,
       std::complex<double>        *Arf)
 {
     CXXLAPACK_DEBUG_OUT("ztrttf");
- 
+
     IndexType info;
     LAPACK_IMPL(ztrttf)(&transr,
                         &uplo,

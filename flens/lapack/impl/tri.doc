@@ -126,10 +126,10 @@ complex variant.
 |          const VPIV  &piv);                                               |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@flens@N@lapack@FT@>2#T#Ttri#&t0.0#&1t0.1#temp]
-                         [latetypenameMA,typenameVPIVtypenameRestrictToIsGeM]
-                         [atrixMAvalueandIsIntegerDenseVectorVPIVvalue,typen]
-                         [ameRemoveRefMATypeIndexTypeType                   ]
+                         [O#c:@N@flens@N@lapack@FT@>2#T#Ttri#&t0.0#&1t0.1#te]
+                         [mplatetypenameMA,typenameVPIVtypenameRestrictToIsG]
+                         [eMatrixMAvalueandIsIntegerDenseVectorVPIVvalue,typ]
+                         [enameRemoveRefMATypeIndexTypeType                 ]
 
     A       `(input/output) real or complex valued GeMatrix`                   +
             On entry, the $n \times n$ matrix $A$ contains the factors $L$ and
@@ -195,3 +195,124 @@ Notes
         (d.+)        -> file:cxxlapack/netlib/lapack/$1.f
         (z.+)        -> file:cxxlapack/netlib/lapack/$1.f
         (.+)         -> doc:flens/lapack/impl/$1
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV>                                    |
+|      typename RestrictTo< (IsGeMatrix<MA>::value ||                       |
+|                            IsHeMatrix<MA>::value ||                       |
+|                            IsSyMatrix<MA>::value ||                       |
+|                            IsHpMatrix<MA>::value ||                       |
+|                            IsSpMatrix<MA>::value )                        |
+|                       && IsIntegerDenseVector<VPIV>::value,               |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      tri(MA          &&A,                                                 |
+|          const VPIV  &piv);                                               |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>2#T#Ttri#&t0.0#&1t0.1#temp]
+                         [latetypenameMA,typenameVPIVtypenameRestrictTo     ]
+
+    Defined in namespace `flens::lapack`.
+    Function `tri` with 2 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV, typename VWORK>                    |
+|      typename RestrictTo<IsHeMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value                |
+|                       && IsComplexDenseVector<VWORK>::value,              |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      tri(MA          &&A,                                                 |
+|          const VPIV  &piv,                                                |
+|          VWORK       &&work);                                             |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>3#T#T#Ttri#&t0.0#&1t0.1#&t]
+                         [0.2#templatetypenameMA,typenameVPIV,typenameVWORKt]
+                         [ypenameRestrictToIsHeMatrixMAvalueandIsIntegerDens]
+                         [eVectorVPIVvalueandIsComplexDenseVectorVWORKvalue,]
+                         [typenameRemoveRefMATypeIndexTypeType              ]
+
+    Defined in namespace `flens::lapack`.
+    Function `tri` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV, typename VWORK>                    |
+|      typename RestrictTo<IsSyMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value                |
+|                       && IsDenseVector<VWORK>::value,                     |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      tri(MA          &&A,                                                 |
+|          const VPIV  &piv,                                                |
+|          VWORK       &&work);                                             |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>3#T#T#Ttri#&t0.0#&1t0.1#&t]
+                         [0.2#templatetypenameMA,typenameVPIV,typenameVWORKt]
+                         [ypenameRestrictToIsSyMatrixMAvalueandIsIntegerDens]
+                         [eVectorVPIVvalueandIsDenseVectorVWORKvalue,typenam]
+                         [eRemoveRefMATypeIndexTypeType                     ]
+
+    Defined in namespace `flens::lapack`.
+    Function `tri` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV, typename VWORK>                    |
+|      typename RestrictTo<IsHpMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value                |
+|                       && IsComplexDenseVector<VWORK>::value,              |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      tri(MA          &&A,                                                 |
+|          const VPIV  &piv,                                                |
+|          VWORK       &&work);                                             |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>3#T#T#Ttri#&t0.0#&1t0.1#&t]
+                         [0.2#templatetypenameMA,typenameVPIV,typenameVWORKt]
+                         [ypenameRestrictToIsHpMatrixMAvalueandIsIntegerDens]
+                         [eVectorVPIVvalueandIsComplexDenseVectorVWORKvalue,]
+                         [typenameRemoveRefMATypeIndexTypeType              ]
+
+    Defined in namespace `flens::lapack`.
+    Function `tri` with 3 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename MA, typename VPIV, typename VWORK>                    |
+|      typename RestrictTo<IsSpMatrix<MA>::value                            |
+|                       && IsIntegerDenseVector<VPIV>::value                |
+|                       && IsDenseVector<VWORK>::value,                     |
+|               typename RemoveRef<MA>::Type::IndexType>::Type              |
+|      tri(MA          &&A,                                                 |
+|          const VPIV  &piv,                                                |
+|          VWORK       &&work);                                             |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@lapack@FT@>3#T#T#Ttri#&t0.0#&1t0.1#&t]
+                         [0.2#templatetypenameMA,typenameVPIV,typenameVWORKt]
+                         [ypenameRestrictToIsSpMatrixMAvalueandIsIntegerDens]
+                         [eVectorVPIVvalueandIsDenseVectorVWORKvalue,typenam]
+                         [eRemoveRefMATypeIndexTypeType                     ]
+
+    Defined in namespace `flens::lapack`.
+    Function `tri` with 3 template parameters.
+
+
+

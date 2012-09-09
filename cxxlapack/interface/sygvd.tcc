@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_SYGVD_TCC
 #define CXXLAPACK_INTERFACE_SYGVD_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -53,7 +55,7 @@ sygvd(IndexType             itype,
       IndexType             liWork)
 {
     CXXLAPACK_DEBUG_OUT("ssyevd");
- 
+
     IndexType info;
     LAPACK_IMPL(ssyevd)(&itype,
                         &jobz,
@@ -93,7 +95,7 @@ sygvd(IndexType             itype,
       IndexType             liWork)
 {
     CXXLAPACK_DEBUG_OUT("dsyevd");
- 
+
     IndexType info;
     LAPACK_IMPL(dsyevd)(&itype,
                         &jobz,

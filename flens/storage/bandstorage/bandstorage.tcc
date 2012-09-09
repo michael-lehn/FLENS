@@ -34,6 +34,7 @@
 #define FLENS_STORAGE_BANDSTORAGE_BANDSTORAGE_TCC 1
 
 #include <flens/auxiliary/auxiliary.h>
+#include <flens/storage/bandstorage/bandstorage.h>
 #include <flens/typedefs.h>
 
 namespace flens {

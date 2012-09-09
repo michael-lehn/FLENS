@@ -34,11 +34,16 @@
 #define FLENS_MATRIXTYPES_TRIANGULAR_IMPL_TBMATRIX_H 1
 
 #include <cxxblas/typedefs.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/matrixtypes/triangular/triangularmatrix.h>
+#include <flens/typedefs.h>
 
 namespace flens {
 
 // forward declarations
+template <typename A>
+    class DenseVector;
+
 template <typename FS>
     class GbMatrix;
 
@@ -90,7 +95,8 @@ class TbMatrix
         TbMatrix();
 
         explicit
-        TbMatrix(IndexType dim, StorageUpLo upLo, IndexType numOffDiags, Diag diag = NonUnit);
+        TbMatrix(IndexType dim, StorageUpLo upLo, IndexType numOffDiags,
+                 Diag diag = NonUnit);
 
         TbMatrix(const Engine &engine, StorageUpLo upLo, Diag diag = NonUnit);
 
@@ -121,7 +127,7 @@ class TbMatrix
         template <typename RHS>
             TbMatrix &
             operator-=(const Matrix<RHS> &rhs);
-        
+
         TbMatrix<FS> &
         operator=(const ElementType &alpha);
 
@@ -136,7 +142,7 @@ class TbMatrix
 
         TbMatrix &
         operator/=(const ElementType &alpha);
-	    
+
         const ElementType &
         operator()(IndexType row, IndexType col) const;
 
@@ -163,7 +169,7 @@ class TbMatrix
 
         SymmetricView
         symmetric();
-  
+
         // triangular view
         const ConstView
         triangular() const;

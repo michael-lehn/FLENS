@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAEBZ_TCC
 #define CXXLAPACK_INTERFACE_LAEBZ_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -60,7 +62,7 @@ laebz(IndexType             ijob,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("slaebz");
-    
+
     IndexType info;
     LAPACK_IMPL(slaebz)(&ijob,
                         &nitmax,
@@ -113,7 +115,7 @@ laebz(IndexType             ijob,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dlaebz");
-    
+
     IndexType info;
     LAPACK_IMPL(dlaebz)(&ijob,
                         &nitmax,

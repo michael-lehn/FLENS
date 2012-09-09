@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_SPGVX_TCC
 #define CXXLAPACK_INTERFACE_SPGVX_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -60,7 +62,7 @@ spgvx(IndexType             itype,
       IndexType             *ifail)
 {
     CXXLAPACK_DEBUG_OUT("sspevx");
-  
+
     IndexType info;
     LAPACK_IMPL(sspevx)(&itype,
                         &jobz,
@@ -71,7 +73,7 @@ spgvx(IndexType             itype,
                         Bp,
                         &vl,
                         &vu,
-                        &il, 
+                        &il,
                         &iu,
                         &abstol,
                         &m,
@@ -114,7 +116,7 @@ spgvx(IndexType             itype,
       IndexType             *ifail)
 {
     CXXLAPACK_DEBUG_OUT("dspevx");
-  
+
     IndexType info;
     LAPACK_IMPL(dspevx)(&itype,
                         &jobz,
@@ -125,7 +127,7 @@ spgvx(IndexType             itype,
                         Bp,
                         &vl,
                         &vu,
-                        &il, 
+                        &il,
                         &iu,
                         &abstol,
                         &m,

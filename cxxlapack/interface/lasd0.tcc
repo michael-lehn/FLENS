@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LASD0_TCC
 #define CXXLAPACK_INTERFACE_LASD0_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -52,7 +54,7 @@ lasd0(IndexType             n,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("slasd0");
-    
+
     IndexType info;
     LAPACK_IMPL(slasd0)(&n,
                         &sqre,
@@ -90,7 +92,7 @@ lasd0(IndexType             n,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dlasd0");
-    
+
     IndexType info;
     LAPACK_IMPL(dlasd0)(&n,
                         &sqre,

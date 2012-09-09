@@ -46,7 +46,7 @@ template <typename IndexType>
           float       *tau,
           float       *work,
           IndexType   lWork);
-    
+
 template <typename IndexType>
     IndexType
     geqrf(IndexType   m,
@@ -56,17 +56,17 @@ template <typename IndexType>
           double      *tau,
           double      *work,
           IndexType   lWork);
-    
+
 template <typename IndexType>
     IndexType
     geqrf(IndexType             m,
           IndexType             n,
-          std::complex<float >  *A,
+          std::complex<float>   *A,
           IndexType             ldA,
-          std::complex<float >  *tau,
-          std::complex<float >  *work,
+          std::complex<float>   *tau,
+          std::complex<float>   *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     geqrf(IndexType             m,

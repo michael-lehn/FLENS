@@ -33,19 +33,21 @@
 #ifndef CXXLAPACK_INTERFACE_LANST_TCC
 #define CXXLAPACK_INTERFACE_LANST_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
 
 template <typename IndexType>
-float 
+float
 lanst(char                  norm,
       IndexType             n,
       const float           *d,
       const float           *e)
 {
     CXXLAPACK_DEBUG_OUT("slanst");
-   
+
     return LAPACK_IMPL(slanst)(&norm,
                                &n,
                                d,
@@ -60,7 +62,7 @@ lanst(char                  norm,
       const double          *e)
 {
     CXXLAPACK_DEBUG_OUT("dlanst");
-   
+
     return LAPACK_IMPL(dlanst)(&norm,
                                &n,
                                d,

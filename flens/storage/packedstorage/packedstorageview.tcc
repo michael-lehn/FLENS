@@ -34,6 +34,7 @@
 #define FLENS_STORAGE_PACKEDSTORAGE_PACKEDSTORAGEVIEW_TCC
 
 #include <flens/auxiliary/auxiliary.h>
+#include <flens/storage/packedstorage/packedstorageview.h>
 #include <flens/typedefs.h>
 
 namespace flens {

@@ -35,6 +35,8 @@
 
 #include <iostream>
 #include <cxxlapack/interface/interface.h>
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -56,7 +58,7 @@ lahqr(bool          wantT,
       IndexType     ldZ)
 {
     CXXLAPACK_DEBUG_OUT("slahqr");
-  
+
     IndexType info;
     IndexType _wantT = wantT;
     IndexType _wantZ = wantZ;
@@ -101,7 +103,7 @@ lahqr(bool          wantT,
       IndexType     ldZ)
 {
     CXXLAPACK_DEBUG_OUT("dlahqr");
-  
+
     IndexType info;
     IndexType _wantT = wantT;
     IndexType _wantZ = wantZ;
@@ -144,7 +146,7 @@ lahqr(bool                      wantT,
       IndexType                 ldZ)
 {
     CXXLAPACK_DEBUG_OUT("clahqr");
-  
+
     IndexType info;
     IndexType _wantT = wantT;
     IndexType _wantZ = wantZ;
@@ -187,7 +189,7 @@ lahqr(bool                      wantT,
       IndexType                 ldZ)
 {
     CXXLAPACK_DEBUG_OUT("zlahqr");
-  
+
     IndexType info;
     IndexType _wantT = wantT;
     IndexType _wantZ = wantZ;

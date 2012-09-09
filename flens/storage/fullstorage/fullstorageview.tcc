@@ -715,12 +715,13 @@ FullStorageView<T, Order, I, A>::viewAntiDiag(IndexType d,
 //  fillRandom
 //
 
-template <typename T, StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename Allocator>
 bool
-fillRandom(FullStorageView<T, Order, I, A> &A)
+fillRandom(FullStorageView<T, Order, I, Allocator> &A)
 {
-    typedef typename FullStorageView<T,Order,I,A>::ElementType  ElementType;
-    typedef typename FullStorageView<T,Order,I,A>::IndexType    IndexType;
+    typedef FullStorageView<T,Order,I,Allocator>    FullStorageView;
+    typedef typename FullStorageView::ElementType   ElementType;
+    typedef typename FullStorageView::IndexType     IndexType;
 
     if (Order==RowMajor) {
         ElementType *p = A.data();
@@ -744,9 +745,9 @@ fillRandom(FullStorageView<T, Order, I, A> &A)
     return false;
 }
 
-template <typename T, StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename Allocator>
 bool
-fillRandom(StorageUpLo upLo, FullStorageView<T, Order, I, A> &A)
+fillRandom(StorageUpLo upLo, FullStorageView<T, Order, I, Allocator> &A)
 {
     trapezoidalFillRandom(Order, upLo,
                           A.numRows(), A.numCols(),

@@ -867,3 +867,26 @@ Related Trait-Classes
 
 
 
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename VX>                                                   |
+|      typename RestrictTo<IsDenseVector<VX>::value,                        |
+|               bool>::Type                                                 |
+|      fillRandom(VX &&x);                                                  |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@FT@>1#TfillRandom#&t0.0#templatetypenam]
+                         [eVXtypenameRestrictToIsDenseVectorVXvalue,boolType]
+
+    Defined in namespace `flens`.
+    Function `fillRandom` with 1 template parameters.
+
+
+

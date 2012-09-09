@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAQGB_TCC
 #define CXXLAPACK_INTERFACE_LAQGB_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -53,7 +55,7 @@ laqgb(IndexType             m,
       char                  &equed)
 {
     CXXLAPACK_DEBUG_OUT("slaqgb");
- 
+
     LAPACK_IMPL(slaqgb)(&m,
                         &n,
                         &kl,
@@ -116,7 +118,7 @@ laqgb(IndexType             m,
       char                  &equed)
 {
     CXXLAPACK_DEBUG_OUT("claqgb");
- 
+
     LAPACK_IMPL(claqgb)(&m,
                         &n,
                         &kl,
@@ -147,7 +149,7 @@ laqgb(IndexType             m,
       char                  &equed)
 {
     CXXLAPACK_DEBUG_OUT("zlaqgb");
- 
+
     LAPACK_IMPL(zlaqgb)(&m,
                         &n,
                         &kl,

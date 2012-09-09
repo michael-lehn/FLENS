@@ -33,12 +33,14 @@
 #ifndef CXXLAPACK_INTERFACE_LANGB_TCC
 #define CXXLAPACK_INTERFACE_LANGB_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
 
 template <typename IndexType>
-float 
+float
 langb(char                  norm,
       IndexType             n,
       IndexType             kl,
@@ -48,7 +50,7 @@ langb(char                  norm,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("slangb");
-    
+
     return LAPACK_IMPL(slangb)(&norm,
                                &n,
                                &kl,
@@ -81,7 +83,7 @@ langb(char                  norm,
 }
 
 template <typename IndexType>
-float 
+float
 langb(char                        norm,
       IndexType                   n,
       IndexType                   kl,
@@ -112,7 +114,7 @@ langb(char                        norm,
       double                      *work)
 {
     CXXLAPACK_DEBUG_OUT("clangb");
-    
+
     return LAPACK_IMPL(zlangb)(&norm,
                                &n,
                                &kl,

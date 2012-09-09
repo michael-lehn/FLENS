@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LARRV_TCC
 #define CXXLAPACK_INTERFACE_LARRV_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -65,7 +67,7 @@ larrv(IndexType             n,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("slarrv");
-    
+
     IndexType info;
     LAPACK_IMPL(slarrv)(&n,
                         &vl,
@@ -130,7 +132,7 @@ larrv(IndexType             n,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dlarrv");
-   
+
     IndexType info;
     LAPACK_IMPL(dlarrv)(&n,
                         &vl,
@@ -194,7 +196,7 @@ larrv(IndexType             n,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("clarrv");
-   
+
     IndexType info;
     LAPACK_IMPL(clarrv)(&n,
                         &vl,
@@ -258,7 +260,7 @@ larrv(IndexType             n,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("zlarrv");
-   
+
     IndexType info;
     LAPACK_IMPL(zlarrv)(&n,
                         &vl,

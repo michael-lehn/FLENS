@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_GGES_TCC
 #define CXXLAPACK_INTERFACE_GGES_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -60,7 +62,7 @@ gges(char                  jobvsl,
      bool                  *bwork)
 {
     CXXLAPACK_DEBUG_OUT("sgges");
-    
+
     IndexType info;
     // TODO: Convert bwork into a logical array!
     LAPACK_IMPL(sgges)(&jobvsl,
@@ -115,7 +117,7 @@ gges(char                  jobvsl,
      bool                  *bwork)
 {
     CXXLAPACK_DEBUG_OUT("dgges");
-    
+
     IndexType info;
     // TODO: Convert bwork into a logical array!
     LAPACK_IMPL(dgges)(&jobvsl,
@@ -171,7 +173,7 @@ gges(char                  jobvsl,
      bool                  *bwork)
 {
     CXXLAPACK_DEBUG_OUT("cgges");
-    
+
     IndexType info;
     // TODO: Convert bwork into a logical array!
     LAPACK_IMPL(cgges)(&jobvsl,
@@ -228,7 +230,7 @@ gges(char                  jobvsl,
      bool                  *bwork)
 {
     CXXLAPACK_DEBUG_OUT("zgges");
-    
+
     IndexType info;
     // TODO: Convert bwork into a logical array!
     LAPACK_IMPL(zgges)(&jobvsl,

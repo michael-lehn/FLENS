@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_UPMTR_TCC
 #define CXXLAPACK_INTERFACE_UPMTR_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -52,7 +54,7 @@ upmtr(char                        side,
       std::complex<float >        *work)
 {
     CXXLAPACK_DEBUG_OUT("cupmtr");
- 
+
     IndexType info;
     LAPACK_IMPL(cupmtr)(&side,
                         &uplo,
@@ -88,7 +90,7 @@ upmtr(char                        side,
       std::complex<double>        *work)
 {
     CXXLAPACK_DEBUG_OUT("zupmtr");
- 
+
     IndexType info;
     LAPACK_IMPL(zupmtr)(&side,
                         &uplo,

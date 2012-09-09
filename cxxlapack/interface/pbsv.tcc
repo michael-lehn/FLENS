@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_PBSV_TCC
 #define CXXLAPACK_INTERFACE_PBSV_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -49,7 +51,7 @@ pbsv (char                  uplo,
       IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("spbsv");
-  
+
     IndexType info;
     LAPACK_IMPL(spbsv) (&uplo,
                         &n,
@@ -82,7 +84,7 @@ pbsv (char                  uplo,
       IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("dpbsv");
-  
+
     IndexType info;
     LAPACK_IMPL(dpbsv) (&uplo,
                         &n,
@@ -114,7 +116,7 @@ pbsv (char                  uplo,
       IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("cpbsv");
-  
+
     IndexType info;
     LAPACK_IMPL(cpbsv) (&uplo,
                         &n,
@@ -146,7 +148,7 @@ pbsv (char                  uplo,
       IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("zpbsv");
-  
+
     IndexType info;
     LAPACK_IMPL(zpbsv) (&uplo,
                         &n,

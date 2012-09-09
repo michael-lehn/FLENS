@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_STEMR_TCC
 #define CXXLAPACK_INTERFACE_STEMR_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -59,7 +61,7 @@ stemr(char                  jobz,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("sstemr");
-   
+
     IndexType info;
     IndexType _tryrac = tryrac;
     LAPACK_IMPL(sstemr)(&jobz,
@@ -111,7 +113,7 @@ stemr(char                  jobz,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("dstemr");
-  
+
     IndexType info;
     IndexType _tryrac = tryrac;
     LAPACK_IMPL(dstemr)(&jobz,
@@ -165,7 +167,7 @@ stemr(char                  jobz,
       IndexType             liWork)
 {
     CXXLAPACK_DEBUG_OUT("cstemr");
-  
+
     IndexType info;
     IndexType _tryrac = tryrac;
     LAPACK_IMPL(cstemr)(&jobz,
@@ -221,7 +223,7 @@ stemr(char                  jobz,
       IndexType             liWork)
 {
     CXXLAPACK_DEBUG_OUT("zstemr");
-  
+
     IndexType info;
     IndexType _tryrac = tryrac;
     LAPACK_IMPL(zstemr)(&jobz,

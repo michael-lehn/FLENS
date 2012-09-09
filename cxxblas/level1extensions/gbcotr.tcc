@@ -35,6 +35,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 
@@ -47,49 +48,53 @@ gbcotr(StorageOrder order, Transpose trans,
     CXXBLAS_DEBUG_OUT("gbcotr_generic");
     using std::max;
     using std::min;
-    
+
     if (order==ColMajor) {
         gbcotr(RowMajor, trans, n, m, ku, kl, A, ldA);
         return;
     }
-    
+
     if (trans == Conj) {
-          for (IndexType j=0, i=-kl; i<=ku; ++j, ++i)
-          {
-              IndexType length = (i < 0) ? min(m+i,min(m,n)) : min(n-i,min(m,n));
-              for (IndexType k=0; k<ldA*length; k+=ldA)
+          for (IndexType j=0, i=-kl; i<=ku; ++j, ++i) {
+              IndexType length = (i < 0)
+                               ? min(m+i,min(m,n))
+                               : min(n-i,min(m,n));
+              for (IndexType k=0; k<ldA*length; k+=ldA) {
                 (A+j+max(-i,0)*ldA)[k] = conjugate((A+j+max(-i,0)*ldA)[k]);
+              }
           }
           return;
-    }  
+    }
     if (trans == Trans) {
         ASSERT(m==n);
         ASSERT(kl==ku);
-        for (IndexType j=0, jj=kl+ku, i=-ku, ii=ku; i<0; ++j, --jj, ++i, --ii)
-        {
-            IndexType length = (i < 0) ? min(m+i,min(m,n)) : min(n-i,min(m,n));
-            for (IndexType k=0; k<length*ldA; k+=ldA)
-                std::swap((A+j+max(-i,0)*ldA)[k],(A+jj+max(-ii,0)*ldA)[k]);
-        }
-        return;
-    }  
-    if (trans == ConjTrans) {
-        ASSERT(m==n);
-        ASSERT(kl==ku);
-        for (IndexType j=0, jj=kl+ku, i=-ku, ii=ku; i<=0; ++j, --jj, ++i, --ii)
-        {
-            MA tmp;
-            IndexType length = (i < 0) ? min(m+i,min(m,n)) : min(n-i,min(m,n));
-            for (IndexType k=0; k<length*ldA; k+=ldA)
-            {
-                tmp = (A+j+max(-i,0)*ldA)[k];
-                (A+j+max(-i,0)*ldA)[k] = conjugate((A+jj+max(-ii,0)*ldA)[k]);
-                (A+jj+max(-ii,0)*ldA)[k] = conjugate(tmp);
+        for (IndexType j=0, J=kl+ku, i=-ku, I=ku; i<0; ++j, --J, ++i, --I) {
+            IndexType length = (i < 0)
+                             ? min(m+i,min(m,n))
+                             : min(n-i,min(m,n));
+            for (IndexType k=0; k<length*ldA; k+=ldA) {
+                std::swap((A+j+max(-i,0)*ldA)[k],(A+J+max(-I,0)*ldA)[k]);
             }
         }
         return;
-    }   
-    
+    }
+    if (trans == ConjTrans) {
+        ASSERT(m==n);
+        ASSERT(kl==ku);
+        for (IndexType j=0, J=kl+ku, i=-ku, I=ku; i<=0; ++j, --J, ++i, --I) {
+            MA tmp;
+            IndexType length = (i < 0)
+                             ? min(m+i,min(m,n))
+                             : min(n-i,min(m,n));
+            for (IndexType k=0; k<length*ldA; k+=ldA) {
+                tmp = (A+j+max(-i,0)*ldA)[k];
+                (A+j+max(-i,0)*ldA)[k] = conjugate((A+J+max(-I,0)*ldA)[k]);
+                (A+J+max(-I,0)*ldA)[k] = conjugate(tmp);
+            }
+        }
+        return;
+    }
+
     // trans==NoTrans -> nothing has to be done
     return;
 }

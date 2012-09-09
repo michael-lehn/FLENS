@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_GGESX_TCC
 #define CXXLAPACK_INTERFACE_GGESX_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -64,7 +66,7 @@ ggesx(char                  jobvsl,
       bool                  *bwork)
 {
     CXXLAPACK_DEBUG_OUT("sggesx");
-    
+
     IndexType info;
     IndexType _selctg = selctg;
     // TODO: Convert bwork into a logical array!
@@ -128,7 +130,7 @@ ggesx(char                  jobvsl,
       bool                  *bwork)
 {
     CXXLAPACK_DEBUG_OUT("dggesx");
-    
+
     IndexType info;
     IndexType _selctg = selctg;
     // TODO: Convert bwork into a logical array!
@@ -193,7 +195,7 @@ ggesx(char                  jobvsl,
       bool                  *bwork)
 {
     CXXLAPACK_DEBUG_OUT("cggesx");
-    
+
     IndexType info;
     IndexType _selctg = selctg;
     // TODO: Convert bwork into a logical array!
@@ -259,7 +261,7 @@ ggesx(char                  jobvsl,
       bool                  *bwork)
 {
     CXXLAPACK_DEBUG_OUT("zggesx");
-    
+
     IndexType info;
     IndexType _selctg = selctg;
     // TODO: Convert bwork into a logical array!

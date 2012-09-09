@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_ORGBG_TCC
 #define CXXLAPACK_INTERFACE_ORGBG_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -50,7 +52,7 @@ orgbr(char                  vect,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("sorgbr");
-  
+
     IndexType info;
     LAPACK_IMPL(sorgbr)(&vect,
                         &m,
@@ -84,7 +86,7 @@ orgbr(char                  vect,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("dorgbr");
-  
+
     IndexType info;
     LAPACK_IMPL(dorgbr)(&vect,
                         &m,

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LARUV_TCC
 #define CXXLAPACK_INTERFACE_LARUV_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -44,7 +46,7 @@ laruv(IndexType             *seed,
       float                 *X)
 {
     CXXLAPACK_DEBUG_OUT("slaruv");
-    
+
     LAPACK_IMPL(slaruv)(seed,
                         &n,
                         X);
@@ -57,7 +59,7 @@ laruv(IndexType             *seed,
       double                *X)
 {
     CXXLAPACK_DEBUG_OUT("dlaruv");
-    
+
     LAPACK_IMPL(dlaruv)(seed,
                         &n,
                         X);

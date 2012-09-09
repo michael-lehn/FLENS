@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_TGEVC_TCC
 #define CXXLAPACK_INTERFACE_TGEVC_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -56,7 +58,7 @@ tgevc(char                  side,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("stgevc");
- 
+
     IndexType info;
     IndexType _select = select;
     LAPACK_IMPL(stgevc)(&side,
@@ -103,7 +105,7 @@ tgevc(char                  side,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dtgevc");
- 
+
     IndexType info;
     IndexType _select = select;
     LAPACK_IMPL(dtgevc)(&side,
@@ -152,7 +154,7 @@ tgevc(char                        side,
       double                      *rWork)
 {
     CXXLAPACK_DEBUG_OUT("ctgevc");
- 
+
     IndexType info;
     IndexType _select = select;
     LAPACK_IMPL(ctgevc)(&side,
@@ -201,7 +203,7 @@ tgevc(char                        side,
       double                      *rWork)
 {
     CXXLAPACK_DEBUG_OUT("ztgevc");
- 
+
     IndexType info;
     IndexType _select = select;
     LAPACK_IMPL(ztgevc)(&side,

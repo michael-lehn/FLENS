@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAS2_TCC
 #define CXXLAPACK_INTERFACE_LAS2_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -46,7 +48,7 @@ las2 (float                 f,
       float                 &ssmax)
 {
     CXXLAPACK_DEBUG_OUT("slas2");
-    
+
     LAPACK_IMPL(slas2) (&f,
                         &g,
                         &h,
@@ -63,7 +65,7 @@ las2 (double                f,
       double                &ssmax)
 {
     CXXLAPACK_DEBUG_OUT("dlas2");
-    
+
     LAPACK_IMPL(dlas2) (&f,
                         &g,
                         &h,

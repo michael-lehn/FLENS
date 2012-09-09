@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LATDF_TCC
 #define CXXLAPACK_INTERFACE_LATDF_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -50,7 +52,7 @@ latdf(IndexType             ijob,
       const IndexType       *jpiv)
 {
     CXXLAPACK_DEBUG_OUT("slatdf");
-  
+
     LAPACK_IMPL(slatdf)(&ijob,
                         &n,
                         Z,
@@ -76,7 +78,7 @@ latdf(IndexType             ijob,
       const IndexType       *jpiv)
 {
     CXXLAPACK_DEBUG_OUT("dlatdf");
-  
+
     LAPACK_IMPL(dlatdf)(&ijob,
                         &n,
                         Z,
@@ -89,7 +91,7 @@ latdf(IndexType             ijob,
 }
 
 template <typename IndexType>
-void 
+void
 latdf(IndexType                  ijob,
       IndexType                  n,
       const std::complex<float > *Z,
@@ -101,7 +103,7 @@ latdf(IndexType                  ijob,
       const IndexType           *jpiv)
 {
     CXXLAPACK_DEBUG_OUT("clatdf");
-  
+
     LAPACK_IMPL(clatdf)(&ijob,
                         &n,
                         reinterpret_cast<const float  *>(Z),
@@ -114,7 +116,7 @@ latdf(IndexType                  ijob,
 }
 
 template <typename IndexType>
-void 
+void
 latdf(IndexType                  ijob,
       IndexType                  n,
       const std::complex<double> *Z,
@@ -126,7 +128,7 @@ latdf(IndexType                  ijob,
       const IndexType           *jpiv)
 {
     CXXLAPACK_DEBUG_OUT("zlatdf");
-  
+
     LAPACK_IMPL(zlatdf)(&ijob,
                         &n,
                         reinterpret_cast<const double *>(Z),

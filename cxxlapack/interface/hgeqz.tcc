@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HGEQZ_TCC
 #define CXXLAPACK_INTERFACE_HGEQZ_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -60,7 +62,7 @@ hgeqz(char                  job,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("shgeqz");
-    
+
     IndexType info;
     LAPACK_IMPL(shgeqz)(&job,
                         &compq,
@@ -114,7 +116,7 @@ hgeqz(char                  job,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("dhgeqz");
-    
+
     IndexType info;
     LAPACK_IMPL(dhgeqz)(&job,
                         &compq,
@@ -168,7 +170,7 @@ hgeqz(char                  job,
       float                 *rWork)
 {
     CXXLAPACK_DEBUG_OUT("chgeqz");
-    
+
     IndexType info;
     LAPACK_IMPL(chgeqz)(&job,
                         &compq,
@@ -223,7 +225,7 @@ hgeqz(char                  job,
       double                *rWork)
 {
     CXXLAPACK_DEBUG_OUT("zhgeqz");
-    
+
     IndexType info;
     LAPACK_IMPL(zhgeqz)(&job,
                         &compq,

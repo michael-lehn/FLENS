@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_SYR_TCC
 #define CXXLAPACK_INTERFACE_SYR_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ syr  (char                        uplo,
       IndexType                   ldA)
 {
     CXXLAPACK_DEBUG_OUT("csyr");
- 
+
     LAPACK_IMPL(csyr) (&uplo,
                        &n,
                        reinterpret_cast<const float  *>(&alpha),

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HEEVR_TCC
 #define CXXLAPACK_INTERFACE_HEEVR_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -62,7 +64,7 @@ heevr(char                  jobz,
       IndexType             liWork)
 {
     CXXLAPACK_DEBUG_OUT("cheevr");
-    
+
     IndexType info;
     LAPACK_IMPL(cheevr)(&jobz,
                         &range,
@@ -121,7 +123,7 @@ heevr(char                  jobz,
       IndexType             liWork)
 {
     CXXLAPACK_DEBUG_OUT("zheevr");
-    
+
     IndexType info;
     LAPACK_IMPL(zheevr)(&jobz,
                         &range,

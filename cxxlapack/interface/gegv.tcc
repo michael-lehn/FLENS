@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_GEGV_TCC
 #define CXXLAPACK_INTERFACE_GEGV_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -80,8 +82,8 @@ gegv(char                  jobvsl,
 #   endif
     ASSERT(info>=0);
     return info;
-}  
- 
+}
+
 template <typename IndexType>
 IndexType
 gegv(char                  jobvsl,
@@ -125,8 +127,8 @@ gegv(char                  jobvsl,
 #   endif
     ASSERT(info>=0);
     return info;
-}  
-  
+}
+
 template <typename IndexType>
 IndexType
 gegv(char                  jobvsl,
@@ -173,7 +175,7 @@ gegv(char                  jobvsl,
     ASSERT(info>=0);
     return info;
 }
- 
+
 template <typename IndexType>
 IndexType
 gegv(char                  jobvsl,

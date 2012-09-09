@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HESV_TCC
 #define CXXLAPACK_INTERFACE_HESV_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -51,7 +53,7 @@ hesv (char                  uplo,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("chesv");
-    
+
     IndexType info;
     LAPACK_IMPL(chesv)(&uplo,
                        &n,
@@ -86,7 +88,7 @@ hesv (char                  uplo,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("zhesv");
-    
+
     IndexType info;
     LAPACK_IMPL(zhesv)(&uplo,
                        &n,

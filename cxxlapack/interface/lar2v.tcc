@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAR2V_TCC
 #define CXXLAPACK_INTERFACE_LAR2V_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -49,7 +51,7 @@ lar2v(IndexType             n,
       IndexType             incc)
 {
     CXXLAPACK_DEBUG_OUT("slaq2v");
- 
+
     IndexType info;
     LAPACK_IMPL(slar2v)(&n,
                         x,
@@ -74,7 +76,7 @@ lar2v(IndexType             n,
       IndexType             incc)
 {
     CXXLAPACK_DEBUG_OUT("dlaq2v");
- 
+
     IndexType info;
     LAPACK_IMPL(dlar2v)(&n,
                         x,
@@ -98,7 +100,7 @@ lar2v(IndexType                      n,
       IndexType                     incc)
 {
     CXXLAPACK_DEBUG_OUT("claq2v");
- 
+
     IndexType info;
     LAPACK_IMPL(clar2v)(&n,
                         reinterpret_cast<float  *>(x),
@@ -122,7 +124,7 @@ lar2v(IndexType                      n,
       IndexType                     incc)
 {
     CXXLAPACK_DEBUG_OUT("zlaq2v");
- 
+
     IndexType info;
     LAPACK_IMPL(zlar2v)(&n,
                         reinterpret_cast<double *>(x),

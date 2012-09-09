@@ -257,13 +257,13 @@ class FullStorageView
 //  fillRandom
 //
 
-template <typename T, StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename Allocator>
     bool
-    fillRandom(FullStorageView<T, Order, I, A> &A);
+    fillRandom(FullStorageView<T, Order, I, Allocator> &A);
 
-template <typename T, StorageOrder Order, typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename Allocator>
     bool
-    fillRandom(StorageUpLo upLo, FullStorageView<T, Order, I, A> &A);
+    fillRandom(StorageUpLo upLo, FullStorageView<T, Order, I, Allocator> &A);
 
 
 } // namespace flens

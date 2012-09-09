@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LARGV_TCC
 #define CXXLAPACK_INTERFACE_LARGV_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ largv(IndexType             n,
       IndexType             incc)
 {
     CXXLAPACK_DEBUG_OUT("slargv");
- 
+
     LAPACK_IMPL(slargv)(&n,
                         x
                         &incx,
@@ -69,7 +71,7 @@ largv(IndexType             n,
       IndexType             incc)
 {
     CXXLAPACK_DEBUG_OUT("dlargv");
- 
+
     LAPACK_IMPL(dlargv)(&n,
                         x
                         &incx,
@@ -90,7 +92,7 @@ largv(IndexType             n,
       IndexType             incc)
 {
     CXXLAPACK_DEBUG_OUT("clargv");
- 
+
     LAPACK_IMPL(clargv)(&n,
                         reinterpret_cast<float  *>(x)
                         &incx,
@@ -111,7 +113,7 @@ largv(IndexType             n,
       IndexType             incc)
 {
     CXXLAPACK_DEBUG_OUT("zlargv");
- 
+
     LAPACK_IMPL(zlargv)(&n,
                         reinterpret_cast<double *>(x)
                         &incx,

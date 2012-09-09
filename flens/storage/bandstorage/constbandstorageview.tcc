@@ -34,6 +34,7 @@
 #define FLENS_STORAGE_BANDSTORAGE_CONSTBANDSTORAGEVIEW_TCC 1
 
 #include <flens/typedefs.h>
+#include <flens/storage/bandstorage/constbandstorageview.h>
 
 namespace flens {
 

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_SYTRI2X_TCC
 #define CXXLAPACK_INTERFACE_SYTRI2X_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ sytri2x(char                  uplo,
         IndexType             nb)
 {
     CXXLAPACK_DEBUG_OUT("ssytri2x");
- 
+
     IndexType info;
     LAPACK_IMPL(ssytri2x)(&uplo,
                           &n,
@@ -79,7 +81,7 @@ sytri2x(char                  uplo,
         IndexType             nb)
 {
     CXXLAPACK_DEBUG_OUT("dsytri2x");
- 
+
     IndexType info;
     LAPACK_IMPL(dsytri2x)(&uplo,
                           &n,
@@ -109,7 +111,7 @@ sytri2x(char                  uplo,
       IndexType             nb)
 {
     CXXLAPACK_DEBUG_OUT("csytri2x");
- 
+
     IndexType info;
     LAPACK_IMPL(csytri2x)(&uplo,
                           &n,
@@ -139,7 +141,7 @@ sytri2x(char                  uplo,
       IndexType             nb)
 {
     CXXLAPACK_DEBUG_OUT("zsytri2x");
- 
+
     IndexType info;
     LAPACK_IMPL(zsytri2x)(&uplo,
                           &n,

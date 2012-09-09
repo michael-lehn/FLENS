@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LASD5_TCC
 #define CXXLAPACK_INTERFACE_LASD5_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ lasd5(IndexType             i,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("slasd5");
-    
+
     LAPACK_IMPL(slasd5)(&i,
                         d,
                         z,
@@ -69,7 +71,7 @@ lasd5(IndexType             i,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dlasd5");
-    
+
     LAPACK_IMPL(dlasd5)(&i,
                         d,
                         z,

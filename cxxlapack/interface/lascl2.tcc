@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LASCL2_TCC
 #define CXXLAPACK_INTERFACE_LASCL2_TCC
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -46,7 +48,7 @@ lascl2(IndexType             m,
        IndexType             ldX)
 {
     CXXLAPACK_DEBUG_OUT("slascl2");
- 
+
     LAPACK_IMPL(slascl2)(&m,
                          &n,
                          d,
@@ -64,7 +66,7 @@ lascl2(IndexType             m,
        IndexType             ldX)
 {
     CXXLAPACK_DEBUG_OUT("dlascl2");
- 
+
     LAPACK_IMPL(dlascl2)(&m,
                          &n,
                          d,
@@ -82,7 +84,7 @@ lascl2(IndexType             m,
        IndexType             ldX)
 {
     CXXLAPACK_DEBUG_OUT("clascl2");
- 
+
     LAPACK_IMPL(clascl2)(&m,
                          &n,
                          d,
@@ -99,7 +101,7 @@ lascl2(IndexType             m,
        IndexType             ldX)
 {
     CXXLAPACK_DEBUG_OUT("zlascl2");
- 
+
     LAPACK_IMPL(zlascl2)(&m,
                          &n,
                          d,

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LATPS_TCC
 #define CXXLAPACK_INTERFACE_LATPS_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -50,7 +52,7 @@ latps(char                  uplo,
       float                 &cnorm)
 {
     CXXLAPACK_DEBUG_OUT("slatps");
-  
+
     IndexType info;
     LAPACK_IMPL(slatps)(&uplo,
                         &trans,
@@ -85,7 +87,7 @@ latps(char                  uplo,
       double                &cnorm)
 {
     CXXLAPACK_DEBUG_OUT("dlatps");
-  
+
     IndexType info;
     LAPACK_IMPL(dlatps)(&uplo,
                         &trans,
@@ -120,7 +122,7 @@ latps(char                       uplo,
       float                      &cnorm)
 {
     CXXLAPACK_DEBUG_OUT("clatps");
-  
+
     IndexType info;
     LAPACK_IMPL(clatps)(&uplo,
                         &trans,
@@ -154,7 +156,7 @@ latps(char                       uplo,
       double                     &cnorm)
 {
     CXXLAPACK_DEBUG_OUT("zlatps");
-  
+
     IndexType info;
     LAPACK_IMPL(zlatps)(&uplo,
                         &trans,

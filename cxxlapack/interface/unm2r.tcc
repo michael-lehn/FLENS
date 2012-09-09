@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_UNM2R_TCC
 #define CXXLAPACK_INTERFACE_UNM2R_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -52,7 +54,7 @@ unm2r(char                        side,
       std::complex<float >        *work)
 {
     CXXLAPACK_DEBUG_OUT("cunm2r");
- 
+
     IndexType info;
     LAPACK_IMPL(cunm2r)(&side,
                         &trans,
@@ -90,7 +92,7 @@ unm2r(char                        side,
       std::complex<double>        *work)
 {
     CXXLAPACK_DEBUG_OUT("zunm2r");
- 
+
     IndexType info;
     LAPACK_IMPL(zunm2r)(&side,
                         &trans,

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_GGGLM_TCC
 #define CXXLAPACK_INTERFACE_GGGLM_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -53,7 +55,7 @@ ggglm(IndexType             n,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("sggglm");
-    
+
     IndexType info;
     LAPACK_IMPL(sggglm)(&n,
                         &m,
@@ -93,7 +95,7 @@ ggglm(IndexType             n,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("dggglm");
-    
+
     IndexType info;
     LAPACK_IMPL(dggglm)(&n,
                         &m,
@@ -133,7 +135,7 @@ ggglm(IndexType             n,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("cggglm");
-    
+
     IndexType info;
     LAPACK_IMPL(cggglm)(&n,
                         &m,
@@ -173,7 +175,7 @@ ggglm(IndexType             n,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("zggglm");
-    
+
     IndexType info;
     LAPACK_IMPL(zggglm)(&n,
                         &m,

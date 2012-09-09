@@ -58,7 +58,7 @@ lasy2(bool          transTL,
       float         &xNorm)
 {
     CXXLAPACK_DEBUG_OUT("slasy2");
-    
+
     IndexType info;
     IndexType _transTL = transTL;
     IndexType _transTR = transTR;
@@ -106,7 +106,7 @@ lasy2(bool          transTL,
       double        &xNorm)
 {
     CXXLAPACK_DEBUG_OUT("dlasy2");
-    
+
     IndexType info;
     IndexType _transTL = transTL;
     IndexType _transTR = transTR;

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_ORGR2_TCC
 #define CXXLAPACK_INTERFACE_ORGR2_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ orgr2(IndexType             m,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("sorgr2");
-  
+
     IndexType info;
     LAPACK_IMPL(sorgr2)(&m,
                         &n,
@@ -78,7 +80,7 @@ orgr2(IndexType             m,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dorgr2");
-  
+
     IndexType info;
     LAPACK_IMPL(dorgr2)(&m,
                         &n,

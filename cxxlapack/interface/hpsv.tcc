@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HPSV_TCC
 #define CXXLAPACK_INTERFACE_HPSV_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ hpsv (char                  uplo,
       IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("chpsv");
-    
+
     IndexType info;
     LAPACK_IMPL(chpsv)(&uplo,
                        &n,
@@ -78,7 +80,7 @@ hpsv (char                  uplo,
       IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("zhpsv");
-    
+
     IndexType info;
     LAPACK_IMPL(zhpsv)(&uplo,
                        &n,

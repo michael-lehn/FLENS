@@ -33,9 +33,9 @@
 #ifndef FLENS_STORAGE_BANDSTORAGE_ISBANDSTORAGE_H
 #define FLENS_STORAGE_BANDSTORAGE_ISBANDSTORAGE_H 1
 
-#include <flens/storage/fullstorage/constfullstorageview.h>
-#include <flens/storage/fullstorage/fullstorage.h>
-#include <flens/storage/fullstorage/fullstorageview.h>
+#include <flens/storage/bandstorage/constbandstorageview.h>
+#include <flens/storage/bandstorage/bandstorage.h>
+#include <flens/storage/bandstorage/bandstorageview.h>
 
 namespace flens {
 

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_GEQLF_TCC
 #define CXXLAPACK_INTERFACE_GEQLF_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -94,7 +96,7 @@ geqlf(IndexType             m,
     ASSERT(info>=0);
     return info;
 }
-  
+
 template <typename IndexType>
 IndexType
 geqlf(IndexType             m,
@@ -123,7 +125,7 @@ geqlf(IndexType             m,
     ASSERT(info>=0);
     return info;
 }
-  
+
 template <typename IndexType>
 IndexType
 geqlf(IndexType             m,

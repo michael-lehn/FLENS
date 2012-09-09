@@ -40,7 +40,7 @@
 namespace cxxlapack {
 
 template <typename IndexType>
-float 
+float
 lange(char              norm,
       IndexType         m,
       IndexType         n,
@@ -49,7 +49,7 @@ lange(char              norm,
       float             *work)
 {
     CXXLAPACK_DEBUG_OUT("slange");
-    
+
     return LAPACK_IMPL(slange)(&norm,
                                &m,
                                &n,
@@ -69,7 +69,7 @@ lange(char              norm,
       double            *work)
 {
     CXXLAPACK_DEBUG_OUT("dlange");
-   
+
     return LAPACK_IMPL(dlange)(&norm,
                                &m,
                                &n,
@@ -79,7 +79,7 @@ lange(char              norm,
 }
 
 template <typename IndexType>
-float 
+float
 lange(char                        norm,
       IndexType                   m,
       IndexType                   n,
@@ -88,7 +88,7 @@ lange(char                        norm,
       float                       *work)
 {
     CXXLAPACK_DEBUG_OUT("clange");
-   
+
     return LAPACK_IMPL(clange)(&norm,
                                &m,
                                &n,
@@ -107,7 +107,7 @@ lange(char                        norm,
       double                      *work)
 {
     CXXLAPACK_DEBUG_OUT("zlange");
-   
+
     return LAPACK_IMPL(zlange)(&norm,
                                &m,
                                &n,

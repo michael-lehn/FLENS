@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAED6_TCC
 #define CXXLAPACK_INTERFACE_LAED6_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ laed6(IndexType             kniter,
       float                 &tau)
 {
     CXXLAPACK_DEBUG_OUT("slaed6");
-    
+
     IndexType info;
     IndexType _orgati = orgati;
     LAPACK_IMPL(slaed6)(&kniter,
@@ -80,7 +82,7 @@ laed6(IndexType             kniter,
       double                &tau)
 {
     CXXLAPACK_DEBUG_OUT("dlaed6");
-    
+
     IndexType info;
     IndexType _orgati = orgati;
     LAPACK_IMPL(dlaed6)(&kniter,

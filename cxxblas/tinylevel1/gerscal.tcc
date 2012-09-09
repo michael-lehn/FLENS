@@ -33,9 +33,7 @@
 #ifndef CXXBLAS_TINYLEVEL1_GERSCAL_TCC
 #define CXXBLAS_TINYLEVEL1_GERSCAL_TCC 1
 
-#include <cxxblas/tinylevel1/gerscal.h>
-#include <cxxblas/tinylevel1/rscal.h>
-#include <cxxblas/typedefs.h>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 

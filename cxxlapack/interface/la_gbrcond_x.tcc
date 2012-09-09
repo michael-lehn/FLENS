@@ -33,16 +33,18 @@
 #ifndef CXXLAPACK_INTERFACE_LA_GBRCOND_X_TCC
 #define CXXLAPACK_INTERFACE_LA_GBRCOND_X_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
 
 template <typename IndexType>
-double 
+double
 la_gbrCond_x(char                        trans,
              IndexType                   n,
              IndexType                   kl,
-             IndexType                   ku,            
+             IndexType                   ku,
              const std::complex<float >  *Ab,
              IndexType                   ldAb,
              const std::complex<float >  *Afb,
@@ -54,7 +56,7 @@ la_gbrCond_x(char                        trans,
              float                       *rWork)
 {
     CXXLAPACK_DEBUG_OUT("cla_gbrcond_x");
-    
+
     return LAPACK_IMPL(cla_gbrcond_x)(&trans,
                                       &n,
                                       &kl,
@@ -72,11 +74,11 @@ la_gbrCond_x(char                        trans,
 }
 
 template <typename IndexType>
-double 
+double
 la_gbrCond_x(char                        trans,
              IndexType                   n,
              IndexType                   kl,
-             IndexType                   ku,            
+             IndexType                   ku,
              const std::complex<double>  *Ab,
              IndexType                   ldAb,
              const std::complex<double>  *Afb,
@@ -88,7 +90,7 @@ la_gbrCond_x(char                        trans,
              double                      *rWork)
 {
     CXXLAPACK_DEBUG_OUT("zla_gbrcond_x");
-    
+
     return LAPACK_IMPL(zla_gbrcond_x)(&trans,
                                       &n,
                                       &kl,

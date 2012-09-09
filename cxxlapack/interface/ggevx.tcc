@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_GGEVX_TCC
 #define CXXLAPACK_INTERFACE_GGEVX_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -66,10 +68,10 @@ ggevx(char                  balanc,
       float                 *work,
       IndexType             lWork,
       IndexType             *iWork,
-      bool                  *bwork)               
+      bool                  *bwork)
 {
     CXXLAPACK_DEBUG_OUT("sggevx");
-    
+
     IndexType info;
     // TODO: Convert bwork into a logical array!
     LAPACK_IMPL(sggevx)(&balanc,
@@ -139,10 +141,10 @@ ggevx(char                  balanc,
       double                *work,
       IndexType             lWork,
       IndexType             *iWork,
-      bool                  *bwork)               
+      bool                  *bwork)
 {
     CXXLAPACK_DEBUG_OUT("dggevx");
-    
+
     IndexType info;
     // TODO: Convert bwork into a logical array!
     LAPACK_IMPL(dggevx)(&balanc,
@@ -212,10 +214,10 @@ ggevx(char                  balanc,
       IndexType             lWork,
       float                 *rWork,
       IndexType             *iWork,
-      bool                  *bwork)               
+      bool                  *bwork)
 {
     CXXLAPACK_DEBUG_OUT("cggevx");
-    
+
     IndexType info;
     // TODO: Convert bwork into a logical array!
     LAPACK_IMPL(cggevx)(&balanc,
@@ -285,11 +287,11 @@ ggevx(char                  balanc,
       IndexType             lWork,
       double                *rWork,
       IndexType             *iWork,
-      bool                  *bwork)               
+      bool                  *bwork)
 {
 
     CXXLAPACK_DEBUG_OUT("zggevx");
-    
+
     IndexType info;
     // TODO: Convert bwork into a logical array!
     LAPACK_IMPL(zggevx)(&balanc,

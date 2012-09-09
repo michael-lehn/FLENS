@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_PPSVX_TCC
 #define CXXLAPACK_INTERFACE_PPSVX_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -58,7 +60,7 @@ ppsvx(char                  fact,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("sppsvx");
-  
+
     IndexType info;
     LAPACK_IMPL(sppsvx)(&fact,
                         &uplo,
@@ -109,7 +111,7 @@ ppsvx(char                  fact,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dppsvx");
- 
+
     IndexType info;
     LAPACK_IMPL(dppsvx)(&fact,
                         &uplo,
@@ -160,7 +162,7 @@ ppsvx(char                  fact,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("cppsvx");
- 
+
     IndexType info;
     LAPACK_IMPL(cppsvx)(&fact,
                         &uplo,
@@ -210,7 +212,7 @@ ppsvx(char                  fact,
       IndexType             *iWork)
 {
     CXXLAPACK_DEBUG_OUT("zppsvx");
- 
+
     IndexType info;
     LAPACK_IMPL(zppsvx)(&fact,
                         &uplo,

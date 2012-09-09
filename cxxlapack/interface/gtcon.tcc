@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_GTCON_TCC
 #define CXXLAPACK_INTERFACE_GTCON_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -51,7 +53,7 @@ gtcon(char                  norm,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("sgtcon");
-    
+
     IndexType info;
     LAPACK_IMPL(sgtcon)(&norm,
                         &n,
@@ -87,7 +89,7 @@ gtcon(char                  norm,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dgtcon");
-    
+
     IndexType info;
     LAPACK_IMPL(dgtcon)(&norm,
                         &n,
@@ -124,7 +126,7 @@ gtcon(char                        norm,
       std::complex<float >       *work)
 {
     CXXLAPACK_DEBUG_OUT("cgtcon");
-    
+
     IndexType info;
     LAPACK_IMPL(cgtcon)(&norm,
                         &n,
@@ -160,7 +162,7 @@ gtcon(char                        norm,
       std::complex<double>       *work)
 {
     CXXLAPACK_DEBUG_OUT("zgtcon");
-    
+
     IndexType info;
     LAPACK_IMPL(zgtcon)(&norm,
                         &n,

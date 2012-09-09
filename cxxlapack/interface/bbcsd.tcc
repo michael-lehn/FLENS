@@ -33,6 +33,9 @@
 #ifndef CXXLAPACK_INTERFACE_BBCSD_TCC
 #define CXXLAPACK_INTERFACE_BBCSD_TCC 1
 
+#include <complex>
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -175,13 +178,13 @@ bbcsd(char                  jobu1,
       IndexType             q,
       float                 *theta,
       float                 *phi,
-      std::complex<float >  *U1,
+      std::complex<float>   *U1,
       IndexType             ldU1,
-      std::complex<float >  *U2,
+      std::complex<float>   *U2,
       IndexType             ldU2,
-      std::complex<float >  *V1t,
+      std::complex<float>   *V1t,
       IndexType             ldV1t,
-      std::complex<float >  *V2t,
+      std::complex<float>   *V2t,
       IndexType             ldV2t,
       const float           *b11d,
       const float           *b11e,

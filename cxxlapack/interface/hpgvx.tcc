@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HPGVX_TCC
 #define CXXLAPACK_INTERFACE_HPGVX_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -61,7 +63,7 @@ hpgvx(IndexType             itype,
       IndexType             *ifail)
 {
     CXXLAPACK_DEBUG_OUT("chpevx");
-    
+
     IndexType info;
     LAPACK_IMPL(chpevx)(&itype,
                         &jobz,
@@ -117,7 +119,7 @@ hpgvx(IndexType             itype,
       IndexType             *ifail)
 {
     CXXLAPACK_DEBUG_OUT("zhpevx");
-    
+
     IndexType info;
     LAPACK_IMPL(zhpevx)(&itype,
                         &jobz,

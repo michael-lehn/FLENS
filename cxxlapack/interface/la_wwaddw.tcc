@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LA_WWADDW_TCC
 #define CXXLAPACK_INTERFACE_LA_WWADDW_TCC
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -45,7 +47,7 @@ la_wwaddw(IndexType             n,
           const float           *w)
 {
     CXXLAPACK_DEBUG_OUT("sla_wwaddw");
-    
+
     LAPACK_IMPL(sla_wwaddw)(&n,
                             x,
                             y,
@@ -60,7 +62,7 @@ la_wwaddw(IndexType             n,
           const double          *w)
 {
     CXXLAPACK_DEBUG_OUT("dla_wwaddw");
-    
+
     LAPACK_IMPL(dla_wwaddw)(&n,
                             x,
                             y,
@@ -75,7 +77,7 @@ la_wwaddw(IndexType                   n,
           const std::complex<float >  *w)
 {
     CXXLAPACK_DEBUG_OUT("cla_wwaddw");
-    
+
     LAPACK_IMPL(cla_wwaddw)(&n,
                             reinterpret_cast<float  *>(x),
                             reinterpret_cast<float  *>(y),
@@ -90,7 +92,7 @@ la_wwaddw(IndexType                   n,
           const std::complex<double>  *w)
 {
     CXXLAPACK_DEBUG_OUT("zla_wwaddw");
-    
+
     LAPACK_IMPL(zla_wwaddw)(&n,
                             reinterpret_cast<double *>(x),
                             reinterpret_cast<double *>(y),

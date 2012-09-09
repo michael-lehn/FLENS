@@ -38,6 +38,7 @@
 #include <fstream>
 
 #include <cxxblas/typedefs.h>
+#include <flens/io/packedstorage/load.h>
 
 namespace flens {
 

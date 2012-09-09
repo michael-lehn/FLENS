@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LARTGP_TCC
 #define CXXLAPACK_INTERFACE_LARTGP_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -46,7 +48,7 @@ lartgp(float                 f,
        float                 &r)
 {
     CXXLAPACK_DEBUG_OUT("slartgp");
-    
+
     LAPACK_IMPL(slartgp)(&f,
                          &g,
                          &cs,
@@ -63,7 +65,7 @@ lartgp(double                f,
        double                &r)
 {
     CXXLAPACK_DEBUG_OUT("dlartgp");
-    
+
     LAPACK_IMPL(dlartgp)(&f,
                          &g,
                          &cs,

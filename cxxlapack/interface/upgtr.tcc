@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_UPGTR_TCC
 #define CXXLAPACK_INTERFACE_UPGTR_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ upgtr(char                        uplo,
       std::complex<float >        *work)
 {
     CXXLAPACK_DEBUG_OUT("cupgtr");
- 
+
     IndexType info;
     LAPACK_IMPL(cupgtr)(&uplo,
                         &n,
@@ -78,7 +80,7 @@ upgtr(char                        uplo,
       std::complex<double>        *work)
 {
     CXXLAPACK_DEBUG_OUT("zupgtr");
- 
+
     IndexType info;
     LAPACK_IMPL(zupgtr)(&uplo,
                         &n,

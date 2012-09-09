@@ -33,12 +33,14 @@
 #ifndef CXXLAPACK_INTERFACE_HPGST_TCC
 #define CXXLAPACK_INTERFACE_HPGST_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
 
 template <typename IndexType>
-IndexType  
+IndexType
 hpgst(IndexType                  itype,
       char                       uplo,
       IndexType                  n,
@@ -46,7 +48,7 @@ hpgst(IndexType                  itype,
       const std::complex<float > *Bp)
 {
     CXXLAPACK_DEBUG_OUT("chpgst");
-    
+
     IndexType info;
     LAPACK_IMPL(chpgst)(&itype,
                         &uplo,
@@ -64,7 +66,7 @@ hpgst(IndexType                  itype,
 }
 
 template <typename IndexType>
-IndexType  
+IndexType
 hpgst(IndexType                  itype,
       char                       uplo,
       IndexType                  n,
@@ -72,7 +74,7 @@ hpgst(IndexType                  itype,
       const std::complex<double> *Bp)
 {
     CXXLAPACK_DEBUG_OUT("zhpgst");
-    
+
     IndexType info;
     LAPACK_IMPL(zhpgst)(&itype,
                         &uplo,

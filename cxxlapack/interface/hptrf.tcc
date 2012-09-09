@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HPTRF_TCC
 #define CXXLAPACK_INTERFACE_HPTRF_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -45,7 +47,7 @@ hptrf(char                  uplo,
       IndexType             *iPiv)
 {
     CXXLAPACK_DEBUG_OUT("chptrf");
-    
+
     IndexType info;
     LAPACK_IMPL(chptrf)(&uplo,
                         &n,
@@ -69,7 +71,7 @@ hptrf(char                  uplo,
       IndexType             *iPiv)
 {
     CXXLAPACK_DEBUG_OUT("zhptrf");
-    
+
     IndexType info;
     LAPACK_IMPL(zhptrf)(&uplo,
                         &n,

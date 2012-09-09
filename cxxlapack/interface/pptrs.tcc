@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_PPTRS_TCC
 #define CXXLAPACK_INTERFACE_PPTRS_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -44,10 +46,10 @@ pptrs(char                  uplo,
       IndexType             nRhs,
       const float           *Ap,
       float                 *B,
-      IndexType             ldB)      
+      IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("spptrs");
- 
+
     IndexType info;
     LAPACK_IMPL(spptrs)(&uplo,
                         &n,
@@ -73,10 +75,10 @@ pptrs(char                  uplo,
       IndexType             nRhs,
       const double          *Ap,
       double                *B,
-      IndexType             ldB)      
+      IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("dpptrs");
- 
+
     IndexType info;
     LAPACK_IMPL(dpptrs)(&uplo,
                         &n,
@@ -101,10 +103,10 @@ pptrs(char                         uplo,
       IndexType                    nRhs,
       const std::complex<float >   *Ap,
       std::complex<float >         *B,
-      IndexType                    ldB)      
+      IndexType                    ldB)
 {
     CXXLAPACK_DEBUG_OUT("cpptrs");
- 
+
     IndexType info;
     LAPACK_IMPL(cpptrs)(&uplo,
                         &n,
@@ -129,10 +131,10 @@ pptrs(char                         uplo,
       IndexType                    nRhs,
       const std::complex<double>   *Ap,
       std::complex<double>         *B,
-      IndexType                    ldB)      
+      IndexType                    ldB)
 {
     CXXLAPACK_DEBUG_OUT("zpptrs");
- 
+
     IndexType info;
     LAPACK_IMPL(zpptrs)(&uplo,
                         &n,

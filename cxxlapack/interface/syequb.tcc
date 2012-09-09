@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_SYEQUB_TCC
 #define CXXLAPACK_INTERFACE_SYEQUB_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -49,7 +51,7 @@ syequb(char                  uplo,
        float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("ssyequb");
- 
+
     IndexType info;
     LAPACK_IMPL(ssyequb)(&uplo,
                          &n,
@@ -82,7 +84,7 @@ syequb(char                  uplo,
        double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dsyequb");
- 
+
     IndexType info;
     LAPACK_IMPL(dsyequb)(&uplo,
                          &n,
@@ -114,7 +116,7 @@ syequb(char                        uplo,
        std::complex<float >        *work)
 {
     CXXLAPACK_DEBUG_OUT("csyequb");
- 
+
     IndexType info;
     LAPACK_IMPL(csyequb)(&uplo,
                          &n,
@@ -146,7 +148,7 @@ syequb(char                        uplo,
        std::complex<double>        *work)
 {
     CXXLAPACK_DEBUG_OUT("zsyequb");
- 
+
     IndexType info;
     LAPACK_IMPL(zsyequb)(&uplo,
                          &n,

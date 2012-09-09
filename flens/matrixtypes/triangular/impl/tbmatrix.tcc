@@ -33,9 +33,9 @@
 #ifndef FLENS_MATRIXTYPES_TRIANGULAR_IMPL_TBMATRIX_TCC
 #define FLENS_MATRIXTYPES_TRIANGULAR_IMPL_TBMATRIX_TCC 1
 
-#include <flens/matrixtypes/general/impl/gbmatrix.h>
-#include <flens/matrixtypes/symmetric/impl/sbmatrix.h>
-#include <flens/matrixtypes/hermitian/impl/hbmatrix.h>
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/blas/level1/copy.h>
+#include <flens/matrixtypes/triangular/impl/tbmatrix.h>
 #include <flens/typedefs.h>
 
 namespace flens {

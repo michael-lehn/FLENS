@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAED4_TCC
 #define CXXLAPACK_INTERFACE_LAED4_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ laed4(IndexType             n,
       float                 &dlam)
 {
     CXXLAPACK_DEBUG_OUT("slaed4");
-    
+
     IndexType info;
     LAPACK_IMPL(slaed4)(&n,
                         &i,
@@ -78,7 +80,7 @@ laed4(IndexType             n,
       double                &dlam)
 {
     CXXLAPACK_DEBUG_OUT("dlaed4");
-    
+
     IndexType info;
     LAPACK_IMPL(dlaed4)(&n,
                         &i,

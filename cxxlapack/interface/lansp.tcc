@@ -33,12 +33,14 @@
 #ifndef CXXLAPACK_INTERFACE_LANSP_TCC
 #define CXXLAPACK_INTERFACE_LANSP_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
 
 template <typename IndexType>
-float 
+float
 lansp(char                  norm,
       char                  uplo,
       IndexType             n,
@@ -46,7 +48,7 @@ lansp(char                  norm,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("slansp");
-   
+
     return LAPACK_IMPL(slansp)(&norm,
                                &uplo,
                                &n,
@@ -64,7 +66,7 @@ lansp(char                  norm,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dlansp");
-   
+
     return LAPACK_IMPL(dlansp)(&norm,
                                &uplo,
                                &n,
@@ -73,7 +75,7 @@ lansp(char                  norm,
 }
 
 template <typename IndexType>
-float 
+float
 lansp(char                         norm,
       char                         uplo,
       IndexType                    n,
@@ -81,7 +83,7 @@ lansp(char                         norm,
       float                       *work)
 {
     CXXLAPACK_DEBUG_OUT("clansp");
-   
+
     return LAPACK_IMPL(clansp)(&norm,
                                &uplo,
                                &n,
@@ -98,7 +100,7 @@ lansp(char                         norm,
       double                      *work)
 {
     CXXLAPACK_DEBUG_OUT("zlansp");
-   
+
     return LAPACK_IMPL(zlansp)(&norm,
                                &uplo,
                                &n,

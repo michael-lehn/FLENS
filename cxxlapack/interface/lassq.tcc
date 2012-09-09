@@ -48,7 +48,7 @@ lassq(IndexType         n,
       float             &sumsq)
 {
     CXXLAPACK_DEBUG_OUT("slassq");
-    
+
     LAPACK_IMPL(slassq)(&n,
                         x,
                         &incX,
@@ -66,7 +66,7 @@ lassq(IndexType         n,
       double            &sumsq)
 {
     CXXLAPACK_DEBUG_OUT("dlassq");
-  
+
     LAPACK_IMPL(dlassq)(&n,
                         x,
                         &incX,
@@ -83,7 +83,7 @@ lassq(IndexType                     n,
       float                         &sumsq)
 {
     CXXLAPACK_DEBUG_OUT("classq");
-  
+
     LAPACK_IMPL(classq)(&n,
                         reinterpret_cast<const float  *>(x),
                         &incX,
@@ -100,7 +100,7 @@ lassq(IndexType                     n,
       double                        &sumsq)
 {
     CXXLAPACK_DEBUG_OUT("zlassq");
-  
+
     LAPACK_IMPL(zlassq)(&n,
                         reinterpret_cast<const double *>(x),
                         &incX,

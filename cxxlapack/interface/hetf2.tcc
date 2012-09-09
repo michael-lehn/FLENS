@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HETF2_TCC
 #define CXXLAPACK_INTERFACE_HETF2_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -46,11 +48,11 @@ hetf2(char                  uplo,
       IndexType             *iPiv)
 {
     CXXLAPACK_DEBUG_OUT("chetf2");
-    
+
     IndexType info;
     LAPACK_IMPL(chetf2)(&uplo,
                         &n,
-                        reinterpret_cast<float  *>(A),  
+                        reinterpret_cast<float  *>(A),
                         &ldA,
                         iPiv,
                         &info);
@@ -72,11 +74,11 @@ hetf2(char                  uplo,
       IndexType             *iPiv)
 {
     CXXLAPACK_DEBUG_OUT("zhetf2");
-    
+
     IndexType info;
     LAPACK_IMPL(zhetf2)(&uplo,
                         &n,
-                        reinterpret_cast<double *>(A),  
+                        reinterpret_cast<double *>(A),
                         &ldA,
                         iPiv,
                         &info);

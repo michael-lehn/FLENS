@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HSEIN_TCC
 #define CXXLAPACK_INTERFACE_HSEIN_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -59,10 +61,10 @@ namespace cxxlapack {
 //       IndexType             *ifailr)
 // {
 //     CXXLAPACK_DEBUG_OUT("shsein");
-//    
+//
 //     IndexType info;
 //     //IndexType *_select = ???
-// 
+//
 //     LAPACK_IMPL(shsein)(&side,
 //                         &eigsrc,
 //                         &initv,
@@ -112,10 +114,10 @@ namespace cxxlapack {
 //       IndexType             *ifailr)
 // {
 //    CXXLAPACK_DEBUG_OUT("dhsein");
-//    
+//
 //     IndexType info;
 //     //IndexType *_select = ???
-// 
+//
 //     LAPACK_IMPL(dhsein)(&side,
 //                         &eigsrc,
 //                         &initv,
@@ -143,7 +145,7 @@ namespace cxxlapack {
 //     ASSERT(info>=0);
 //     return info;
 // }
-// 
+//
 // template <typename IndexType>
 // IndexType
 // hsein(char                        side,
@@ -166,7 +168,7 @@ namespace cxxlapack {
 //       IndexType                   *ifailr)
 // {
 //    CXXLAPACK_DEBUG_OUT("chsein");
-//    
+//
 //     IndexType info;
 //     //IndexType *_select = ???
 //     LAPACK_IMPL(chsein)(&side,
@@ -195,7 +197,7 @@ namespace cxxlapack {
 // #   endif
 //     ASSERT(info>=0);
 //     return info;
-// } 
+// }
 // template <typename IndexType>
 // IndexType
 // hsein(char                        side,
@@ -218,7 +220,7 @@ namespace cxxlapack {
 //       IndexType                   *ifailr)
 // {
 //    CXXLAPACK_DEBUG_OUT("zhsein");
-//    
+//
 //     IndexType info;
 //     //IndexType *_select = ???
 //     LAPACK_IMPL(zhsein)(&side,

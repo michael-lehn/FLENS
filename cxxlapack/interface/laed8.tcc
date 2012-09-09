@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_DUMMY_TCC
 #define CXXLAPACK_INTERFACE_DUMMY_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -62,7 +64,7 @@ laed8(IndexType             icomq,
       IndexType             *indx)
 {
     CXXLAPACK_DEBUG_OUT("slaed8");
-    
+
     IndexType info;
     LAPACK_IMPL(slaed8)(&icomq,
                         &k,
@@ -121,7 +123,7 @@ laed8(IndexType             icomq,
       IndexType             *indx)
 {
     CXXLAPACK_DEBUG_OUT("dlaed8");
-    
+
     IndexType info;
     LAPACK_IMPL(dlaed8)(&icomq,
                         &k,
@@ -179,7 +181,7 @@ laed8(IndexType             &k,
       float                 *givnum)
 {
     CXXLAPACK_DEBUG_OUT("claed8");
-    
+
     IndexType info;
     LAPACK_IMPL(claed8)(&k,
                         &n,
@@ -235,7 +237,7 @@ laed8(IndexType             &k,
       double                *givnum)
 {
     CXXLAPACK_DEBUG_OUT("zlaed8");
-    
+
     IndexType info;
     LAPACK_IMPL(zlaed8)(&k,
                         &n,

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAGTM_TCC
 #define CXXLAPACK_INTERFACE_LAGTM_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -51,7 +53,7 @@ lagtm(char                  trans,
       float                 beta,
       float                 *B,
       IndexType             ldB)
-{ 
+{
     CXXLAPACK_DEBUG_OUT("slagtm");
 
     LAPACK_IMPL(slagtm)(&trans,
@@ -83,7 +85,7 @@ lagtm(char                  trans,
       double                beta,
       double                *B,
       IndexType             ldB)
-{ 
+{
     CXXLAPACK_DEBUG_OUT("dlagtm");
 
     LAPACK_IMPL(dlagtm)(&trans,
@@ -114,7 +116,7 @@ lagtm(char                        trans,
       float                       beta,
       std::complex<float >        *B,
       IndexType                   ldB)
-{ 
+{
     CXXLAPACK_DEBUG_OUT("clagtm");
 
     LAPACK_IMPL(clagtm)(&trans,
@@ -145,7 +147,7 @@ lagtm(char                        trans,
       double                      beta,
       std::complex<double>        *B,
       IndexType                   ldB)
-{ 
+{
     CXXLAPACK_DEBUG_OUT("zlagtm");
 
     LAPACK_IMPL(zlagtm)(&trans,

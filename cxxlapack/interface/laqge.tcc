@@ -53,7 +53,7 @@ laqge(IndexType     m,
       char          &equed)
 {
     CXXLAPACK_DEBUG_OUT("slaqge");
- 
+
     LAPACK_IMPL(slaqge)(&m,
                         &n,
                         A,
@@ -82,7 +82,7 @@ laqge(IndexType     m,
       char          &equed)
 {
     CXXLAPACK_DEBUG_OUT("dlaqge");
- 
+
     LAPACK_IMPL(dlaqge)(&m,
                         &n,
                         A,
@@ -110,7 +110,7 @@ laqge(const IndexType       m,
       char                  &equed)
 {
     CXXLAPACK_DEBUG_OUT("claqge");
- 
+
     LAPACK_IMPL(claqge)(&m,
                         &n,
                         reinterpret_cast<float  *>(A),
@@ -137,7 +137,7 @@ laqge(const IndexType       m,
       char                  &equed)
 {
     CXXLAPACK_DEBUG_OUT("zlaqge");
- 
+
     LAPACK_IMPL(zlaqge)(&m,
                         &n,
                         reinterpret_cast<double *>(A),

@@ -34,18 +34,18 @@
 #define FLENS_STORAGE_BANDSTORAGE_HASBANDSTORAGE_H 1
 
 #include <flens/auxiliary/hasengine.h>
-#include <flens/storage/fullstorage/isfullstorage.h>
+#include <flens/storage/bandstorage/isbandstorage.h>
 
 namespace flens {
 
 template <typename T, bool>
-struct _GetEngine
+struct _GetBandEngine
 {
     typedef void Type;
 };
 
 template <typename T>
-struct _GetEngine<T, true>
+struct _GetBandEngine<T, true>
 {
     typedef typename T::Engine Type;
 };
@@ -53,7 +53,7 @@ struct _GetEngine<T, true>
 template <typename T>
 struct HasBandStorage
 {
-    typedef typename _GetEngine<T, HasEngine<T>::value>::Type  Engine;
+    typedef typename _GetBandEngine<T, HasEngine<T>::value>::Type  Engine;
     static const bool value = IsBandStorage<Engine>::value;
 };
 

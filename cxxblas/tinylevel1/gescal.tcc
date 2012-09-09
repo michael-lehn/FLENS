@@ -33,9 +33,7 @@
 #ifndef CXXBLAS_TINYLEVEL1_GESCAL_TCC
 #define CXXBLAS_TINYLEVEL1_GESCAL_TCC 1
 
-#include <cxxblas/typedefs.h>
-#include <cxxblas/tinylevel1/gescal.h>
-#include <cxxblas/tinylevel1/scal.h>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 

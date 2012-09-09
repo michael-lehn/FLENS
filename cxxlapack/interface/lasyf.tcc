@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LASYF_TCC
 #define CXXLAPACK_INTERFACE_LASYF_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -50,7 +52,7 @@ lasyf(char                  uplo,
       IndexType             ldW)
 {
     CXXLAPACK_DEBUG_OUT("slasyf");
-    
+
     IndexType info;
     LAPACK_IMPL(slasyf)(&uplo,
                         &n,
@@ -85,7 +87,7 @@ lasyf(char                  uplo,
       IndexType             ldW)
 {
     CXXLAPACK_DEBUG_OUT("dlasyf");
-    
+
     IndexType info;
     LAPACK_IMPL(dlasyf)(&uplo,
                         &n,
@@ -119,7 +121,7 @@ lasyf(char                  uplo,
       IndexType             ldW)
 {
     CXXLAPACK_DEBUG_OUT("zlasyf");
-    
+
     IndexType info;
     LAPACK_IMPL(zlasyf)(&uplo,
                         &n,
@@ -153,7 +155,7 @@ lasyf(char                  uplo,
       IndexType             ldW)
 {
     CXXLAPACK_DEBUG_OUT("clasyf");
-    
+
     IndexType info;
     LAPACK_IMPL(clasyf)(&uplo,
                         &n,

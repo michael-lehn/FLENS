@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_UNGBG_TCC
 #define CXXLAPACK_INTERFACE_UNGBG_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -50,7 +52,7 @@ ungbr(char                         vect,
       IndexType                    lWork)
 {
     CXXLAPACK_DEBUG_OUT("cungbr");
- 
+
     IndexType info;
     LAPACK_IMPL(cungbr)(&vect,
                         &m,
@@ -84,7 +86,7 @@ ungbr(char                         vect,
       IndexType                    lWork)
 {
     CXXLAPACK_DEBUG_OUT("zungbr");
- 
+
     IndexType info;
     LAPACK_IMPL(zungbr)(&vect,
                         &m,

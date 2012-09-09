@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LASDQ_TCC
 #define CXXLAPACK_INTERFACE_LASDQ_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -56,7 +58,7 @@ lasdq(char                  uplo,
       float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("slasdq");
-    
+
     IndexType info;
     LAPACK_IMPL(slasdq)(&uplo,
                         &sqre,
@@ -102,7 +104,7 @@ lasdq(char                  uplo,
       double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dlasdq");
-    
+
     IndexType info;
     LAPACK_IMPL(dlasdq)(&uplo,
                         &sqre,

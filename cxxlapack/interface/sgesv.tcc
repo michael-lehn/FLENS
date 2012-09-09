@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_SGESV_TCC
 #define CXXLAPACK_INTERFACE_SGESV_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -53,7 +55,7 @@ sgesv(IndexType             n,
       IndexType             &iter)
 {
     CXXLAPACK_DEBUG_OUT("dsgesv");
-    
+
     IndexType info;
     LAPACK_IMPL(dsgesv)(&n,
                         &nRhs,

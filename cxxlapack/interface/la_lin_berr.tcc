@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LA_LIN_BERR_TCC
 #define CXXLAPACK_INTERFACE_LA_LIN_BERR_TCC
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -47,7 +49,7 @@ la_lin_berr(IndexType             n,
             float                 *berr)
 {
     CXXLAPACK_DEBUG_OUT("sla_lin_berr");
-    
+
     LAPACK_IMPL(sla_lin_berr)(&n,
                               &nz,
                               &nRhs,
@@ -66,7 +68,7 @@ la_lin_berr(IndexType             n,
             double                *berr)
 {
     CXXLAPACK_DEBUG_OUT("dla_lin_berr");
-    
+
     LAPACK_IMPL(dla_lin_berr)(&n,
                               &nz,
                               &nRhs,
@@ -78,14 +80,14 @@ la_lin_berr(IndexType             n,
 template <typename IndexType>
 void
 la_lin_berr(IndexType                   n,
-	        IndexType                   nz,
-	        IndexType                   nRhs,
-	        const std::complex<float >  *res,
-	        const float                 *ayb,
-	        float                       *berr)
+            IndexType                   nz,
+            IndexType                   nRhs,
+            const std::complex<float >  *res,
+            const float                 *ayb,
+            float                       *berr)
 {
     CXXLAPACK_DEBUG_OUT("cla_lin_berr");
-    
+
     LAPACK_IMPL(cla_lin_berr)(&n,
                               &nz,
                               &nRhs,
@@ -97,14 +99,14 @@ la_lin_berr(IndexType                   n,
 template <typename IndexType>
 void
 la_lin_berr(IndexType                   n,
-    	    IndexType                   nz,
-	        IndexType                   nRhs,
-	        const std::complex<double>  *res,
-	        const double                *ayb,
-	        double                      *berr)
+            IndexType                   nz,
+            IndexType                   nRhs,
+            const std::complex<double>  *res,
+            const double                *ayb,
+            double                      *berr)
 {
     CXXLAPACK_DEBUG_OUT("zla_lin_berr");
-    
+
     LAPACK_IMPL(zla_lin_berr)(&n,
                               &nz,
                               &nRhs,

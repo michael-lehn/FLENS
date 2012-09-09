@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LA_PORPVGRW_TCC
 #define CXXLAPACK_INTERFACE_LA_PORPVGRW_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -56,7 +58,7 @@ la_porpvgrw(char                  uplo,
                                      Af,
                                      &ldAf,
                                      work);
-  
+
 }
 
 template <typename IndexType>
@@ -78,7 +80,7 @@ la_porpvgrw(char                  uplo,
                                      Af,
                                      &ldAf,
                                      work);
-  
+
 }
 
 template <typename IndexType>
@@ -100,7 +102,7 @@ la_porpvgrw(char                        uplo,
                                      reinterpret_cast<const float  *>(Af),
                                      &ldAf,
                                      work);
-  
+
 }
 
 template <typename IndexType>
@@ -122,7 +124,7 @@ la_porpvgrw(char                        uplo,
                                      reinterpret_cast<const double *>(Af),
                                      &ldAf,
                                      work);
-  
+
 }
 
 } // namespace cxxlapack

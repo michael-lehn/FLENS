@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_HETRS_TCC
 #define CXXLAPACK_INTERFACE_HETRS_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -49,7 +51,7 @@ hetrs(char                        uplo,
       IndexType                   ldB)
 {
     CXXLAPACK_DEBUG_OUT("chetrs");
-    
+
     IndexType info;
     LAPACK_IMPL(chetrs)(&uplo,
                         &n,
@@ -81,7 +83,7 @@ hetrs(char                        uplo,
       IndexType                   ldB)
 {
     CXXLAPACK_DEBUG_OUT("zhetrs");
-    
+
     IndexType info;
     LAPACK_IMPL(zhetrs)(&uplo,
                         &n,

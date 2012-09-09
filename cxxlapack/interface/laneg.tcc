@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LANEG_TCC
 #define CXXLAPACK_INTERFACE_LANEG_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -47,7 +49,7 @@ laneg(IndexType             n,
       IndexType             r)
 {
     CXXLAPACK_DEBUG_OUT("slaneg");
-    
+
     return LAPACK_IMPL(slaneg)(&n,
                                d,
                                lld,
@@ -66,7 +68,7 @@ laneg(IndexType             n,
       IndexType             r)
 {
     CXXLAPACK_DEBUG_OUT("dlaneg");
-    
+
     return LAPACK_IMPL(dlaneg)(&n,
                                d,
                                lld,

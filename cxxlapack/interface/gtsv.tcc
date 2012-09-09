@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_GTSV_TCC
 #define CXXLAPACK_INTERFACE_GTSV_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ gtsv(IndexType             n,
      IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("sgtsv");
-    
+
     IndexType info;
     LAPACK_IMPL(sgtsv)(&n,
                        &nRhs,
@@ -78,7 +80,7 @@ gtsv(IndexType             n,
      IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("dgtsv");
-    
+
     IndexType info;
     LAPACK_IMPL(dgtsv)(&n,
                        &nRhs,
@@ -108,7 +110,7 @@ gtsv(IndexType             n,
      IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("cgtsv");
-    
+
     IndexType info;
     LAPACK_IMPL(cgtsv)(&n,
                        &nRhs,
@@ -138,7 +140,7 @@ gtsv(IndexType             n,
      IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("zgtsv");
-    
+
     IndexType info;
     LAPACK_IMPL(zgtsv)(&n,
                        &nRhs,

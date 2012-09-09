@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LACPY_TCC
 #define CXXLAPACK_INTERFACE_LACPY_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ lacpy(char                  uplo,
       IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("slacpy");
-    
+
     LAPACK_IMPL(slacpy)(&uplo,
                         &m,
                         &n,
@@ -70,7 +72,7 @@ lacpy(char                  uplo,
       IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("dlacpy");
-    
+
     LAPACK_IMPL(dlacpy)(&uplo,
                         &m,
                         &n,
@@ -91,7 +93,7 @@ lacpy(char                        uplo,
       IndexType                   ldB)
 {
     CXXLAPACK_DEBUG_OUT("clacpy");
-    
+
     LAPACK_IMPL(clacpy)(&uplo,
                         &m,
                         &n,
@@ -112,7 +114,7 @@ lacpy(char                        uplo,
       IndexType                   ldB)
 {
     CXXLAPACK_DEBUG_OUT("zlacpy");
-    
+
     LAPACK_IMPL(zlacpy)(&uplo,
                         &m,
                         &n,

@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_ORMQL_TCC
 #define CXXLAPACK_INTERFACE_ORMQL_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -53,7 +55,7 @@ ormql(char                  side,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("sormql");
-  
+
     IndexType info;
     LAPACK_IMPL(sormql)(&side,
                         &trans,
@@ -93,7 +95,7 @@ ormql(char                  side,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("dormql");
-  
+
     IndexType info;
     LAPACK_IMPL(dormql)(&side,
                         &trans,

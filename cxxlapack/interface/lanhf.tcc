@@ -33,12 +33,14 @@
 #ifndef CXXLAPACK_INTERFACE_LANHF_TCC
 #define CXXLAPACK_INTERFACE_LANHF_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
 
 template <typename IndexType>
-float 
+float
 lanhf(char                        norm,
       char                        trans,
       char                        uplo,
@@ -47,7 +49,7 @@ lanhf(char                        norm,
       float                       *work)
 {
     CXXLAPACK_DEBUG_OUT("clanhf");
-   
+
     return LAPACK_IMPL(clanhf)(&norm,
                                &trans,
                                &uplo,
@@ -67,7 +69,7 @@ lanhf(char                        norm,
       double                      *work)
 {
     CXXLAPACK_DEBUG_OUT("zlanhf");
-   
+
     return LAPACK_IMPL(zlanhf)(&norm,
                                &trans,
                                &uplo,

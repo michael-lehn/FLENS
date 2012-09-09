@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAGS2_TCC
 #define CXXLAPACK_INTERFACE_LAGS2_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -54,7 +56,7 @@ lags2(bool                  upper,
       float                 &snq)
 {
     CXXLAPACK_DEBUG_OUT("slags2");
-    
+
     int _upper = upper;
     LAPACK_IMPL(slags2)(&_upper,
                         &a1,
@@ -90,7 +92,7 @@ lags2(bool                  upper,
       double                &snq)
 {
     CXXLAPACK_DEBUG_OUT("dlags2");
-    
+
     int _upper = upper;
     LAPACK_IMPL(dlags2)(&_upper,
                         &a1,
@@ -126,7 +128,7 @@ lags2(bool                  upper,
 {
 
     CXXLAPACK_DEBUG_OUT("clags2");
-    
+
     int _upper = upper;
     LAPACK_IMPL(clags2)(&_upper,
                         &a1,
@@ -161,7 +163,7 @@ lags2(bool                  upper,
       std::complex<double>  &snq)
 {
     CXXLAPACK_DEBUG_OUT("zlags2");
-    
+
     int _upper = upper;
     LAPACK_IMPL(zlags2)(&_upper,
                         &a1,

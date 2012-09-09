@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LASDT_TCC
 #define CXXLAPACK_INTERFACE_LASDT_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ lasdt(IndexType             n,
       IndexType             msub)
 {
     CXXLAPACK_DEBUG_OUT("dlasdt");
-    
+
     LAPACK_IMPL(dlasdt)(&n,
                         &lvl,
                         &nd,

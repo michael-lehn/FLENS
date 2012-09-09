@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_PTTS2_TCC
 #define CXXLAPACK_INTERFACE_PTTS2_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -47,7 +49,7 @@ pttrs(IndexType             n,
       IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("sptts2");
- 
+
     LAPACK_IMPL(sptts2)(&n,
                         &nRhs,
                         d,
@@ -66,7 +68,7 @@ pttrs(IndexType             n,
       IndexType             ldB)
 {
     CXXLAPACK_DEBUG_OUT("dptts2");
- 
+
     LAPACK_IMPL(dptts2)(&n,
                         &nRhs,
                         d,
@@ -85,7 +87,7 @@ ptts2(IndexType                   n,
       IndexType                   ldB)
 {
     CXXLAPACK_DEBUG_OUT("cptts2");
- 
+
     LAPACK_IMPL(cptts2)(&n,
                         &nRhs,
                         d,
@@ -104,7 +106,7 @@ ptts2(IndexType                   n,
       IndexType                   ldB)
 {
     CXXLAPACK_DEBUG_OUT("zptts2");
- 
+
     LAPACK_IMPL(zptts2)(&n,
                         &nRhs,
                         d,

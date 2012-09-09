@@ -45,7 +45,8 @@ namespace cxxblas {
 template <typename IndexType, typename ALPHA, typename MA>
 void
 trscal(StorageOrder order, StorageUpLo upLo,
-       IndexType m, IndexType n, const ALPHA &alpha, MA *A)
+       IndexType m, IndexType n, const ALPHA &alpha,
+       MA *A, IndexType ldA)
 {
     CXXBLAS_DEBUG_OUT("trscal_generic");
     using std::min;

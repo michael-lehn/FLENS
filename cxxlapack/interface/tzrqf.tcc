@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_TZRQF_TCC
 #define CXXLAPACK_INTERFACE_TZRQF_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -46,7 +48,7 @@ tzrqf(IndexType             m,
       float                 *tau)
 {
     CXXLAPACK_DEBUG_OUT("stzrqf");
- 
+
     IndexType info;
     LAPACK_IMPL(stzrqf)(&m,
                         &n,
@@ -72,7 +74,7 @@ tzrqf(IndexType             m,
       double                *tau)
 {
     CXXLAPACK_DEBUG_OUT("dtzrqf");
- 
+
     IndexType info;
     LAPACK_IMPL(dtzrqf)(&m,
                         &n,
@@ -99,7 +101,7 @@ tzrqf(IndexType             m,
       std::complex<float >  *tau)
 {
     CXXLAPACK_DEBUG_OUT("ctzrqf");
- 
+
     IndexType info;
     LAPACK_IMPL(ctzrqf)(&m,
                         &n,
@@ -125,7 +127,7 @@ tzrqf(IndexType             m,
       std::complex<double>  *tau)
 {
     CXXLAPACK_DEBUG_OUT("ztzrqf");
- 
+
     IndexType info;
     LAPACK_IMPL(ztzrqf)(&m,
                         &n,

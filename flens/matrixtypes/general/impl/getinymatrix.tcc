@@ -33,8 +33,11 @@
 #ifndef FLENS_MATRIXTYPES_GENERAL_IMPL_GETINYMATRIX_TCC
 #define FLENS_MATRIXTYPES_GENERAL_IMPL_GETINYMATRIX_TCC 1
 
+#include <flens/blas/blas.h>
+#include <flens/typedefs.h>
+
 #include <flens/auxiliary/auxiliary.h>
-#include <flens/matrixtypes/general/generalmatrix.h>
+#include <flens/matrixtypes/general/impl/getinymatrix.h>
 
 namespace flens {
 

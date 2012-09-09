@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LAEV2_TCC
 #define CXXLAPACK_INTERFACE_LAEV2_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -48,7 +50,7 @@ laev2(float                 a,
       float                 &sn1)
 {
     CXXLAPACK_DEBUG_OUT("slaev2");
-    
+
     LAPACK_IMPL(slaev2)(&a,
                         &b,
                         &c,

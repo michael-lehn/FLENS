@@ -54,7 +54,7 @@ orm2r(char          side,
       float         *work)
 {
     CXXLAPACK_DEBUG_OUT("sorm2r");
-  
+
     IndexType info;
     LAPACK_IMPL(sorm2r)(&side,
                         &trans,
@@ -92,7 +92,7 @@ orm2r(char          side,
       double        *work)
 {
     CXXLAPACK_DEBUG_OUT("dorm2r");
-  
+
     IndexType info;
     LAPACK_IMPL(dorm2r)(&side,
                         &trans,

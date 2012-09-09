@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_PBEQU_TCC
 #define CXXLAPACK_INTERFACE_PBEQU_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -49,7 +51,7 @@ pbequ(char                  uplo,
       float                 &amax)
 {
     CXXLAPACK_DEBUG_OUT("spbequ");
-  
+
     IndexType info;
     LAPACK_IMPL(spbequ)(&uplo,
                         &n,
@@ -82,7 +84,7 @@ pbequ(char                  uplo,
       double                &amax)
 {
     CXXLAPACK_DEBUG_OUT("dpbequ");
-  
+
     IndexType info;
     LAPACK_IMPL(dpbequ)(&uplo,
                         &n,
@@ -114,7 +116,7 @@ pbequ(char                        uplo,
       float                       &amax)
 {
     CXXLAPACK_DEBUG_OUT("cpbequ");
-  
+
     IndexType info;
     LAPACK_IMPL(cpbequ)(&uplo,
                         &n,
@@ -146,7 +148,7 @@ pbequ(char                        uplo,
       double                      &amax)
 {
     CXXLAPACK_DEBUG_OUT("zpbequ");
-  
+
     IndexType info;
     LAPACK_IMPL(zpbequ)(&uplo,
                         &n,
