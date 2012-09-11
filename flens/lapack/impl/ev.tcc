@@ -515,14 +515,14 @@ ev_wsq_impl(bool                  computeV,
     PT          RDUMMY, RWORK;
     IndexType   LWORK = -1;
      cxxlapack::heev(computeV ? 'V' : 'N',
-			   getF77Char(A.upLo()),
-                           A.dim(),
-                           &DUMMY,
-                           A.leadingDimension(),
-                           &RDUMMY,
-                           &WORK,
-                           LWORK,
-			    &RWORK);
+                     getF77Char(A.upLo()),
+                     A.dim(),
+                     &DUMMY,
+                     A.leadingDimension(),
+                     &RDUMMY,
+                     &WORK,
+                     LWORK,
+                     &RWORK);
     return Pair<IndexType>(minWork,WORK.real());
 }
 
@@ -558,7 +558,7 @@ ev_wsq_impl(bool                  computeV,
     T           DUMMY, WORK;
     IndexType   LWORK = -1;
      cxxlapack::syev(computeV ? 'V' : 'N',
-			   getF77Char(A.upLo()),
+               getF77Char(A.upLo()),
                            A.dim(),
                            &DUMMY,
                            A.leadingDimension(),
@@ -656,10 +656,10 @@ ev_impl(bool                  computeV,
         HeMatrix<MA>          &A,
         DenseVector<VW>      &w,
         DenseVector<VWORK>    &work,
-	DenseVector<VRWORK>   &rWork)
+    DenseVector<VRWORK>   &rWork)
 {
     using std::max;
-    
+
     typedef typename HeMatrix<MA>::IndexType  IndexType;
 
     if (work.length()==0) {
@@ -671,14 +671,14 @@ ev_impl(bool                  computeV,
     }
     IndexType  info;
     info = cxxlapack::heev(computeV ? 'V' : 'N',
-			   getF77Char(A.upLo()),
+               getF77Char(A.upLo()),
                            A.dim(),
                            A.data(),
                            A.leadingDimension(),
                            w.data(),
                            work.data(),
                            work.length(),
-			   rWork.data());
+               rWork.data());
     ASSERT(info>=0);
     return info;
 }
@@ -702,7 +702,7 @@ ev_impl(bool                  computeV,
 
     IndexType  info;
     info = cxxlapack::syev(computeV ? 'V' : 'N',
-			   getF77Char(A.upLo()),
+               getF77Char(A.upLo()),
                            A.dim(),
                            A.data(),
                            A.leadingDimension(),
@@ -726,7 +726,7 @@ ev_impl(bool                  computeZ,
         DenseVector<VRWORK>   &rwork)
 {
     using std::max;
-    
+
     typedef typename HbMatrix<MA>::IndexType  IndexType;
 
     if (work.length()==0) {
@@ -735,7 +735,7 @@ ev_impl(bool                  computeZ,
     if (rwork.length()==0) {
         rwork.resize(max(1, 3*A.dim()-2));
     }
-    
+
     IndexType  info;
     info = cxxlapack::hbev(computeZ ? 'V' : 'N',
                            getF77Char(A.upLo()),
@@ -797,7 +797,7 @@ ev_impl(bool                  computeZ,
         DenseVector<VRWORK>   &rwork)
 {
     using std::max;
-    
+
     typedef typename HpMatrix<MA>::IndexType  IndexType;
 
     if (work.length()==0) {
@@ -806,7 +806,7 @@ ev_impl(bool                  computeZ,
     if (rwork.length()==0) {
         rwork.resize(max(1, 3*A.dim()-2));
     }
-    
+
     IndexType  info;
     info = cxxlapack::hpev(computeZ ? 'V' : 'N',
                            getF77Char(A.upLo()),
@@ -1251,7 +1251,7 @@ ev(bool     computeZ,
     typedef typename RemoveRef<MZ>::Type     MatrixZ;
     typedef typename RemoveRef<VWORK>::Type   VectorWork;
     typedef typename RemoveRef<VRWORK>::Type  VectorRWork;
-    
+
     const IndexType n = A.numRows();
 
 //
@@ -1383,7 +1383,7 @@ ev(bool     computeZ,
     typedef typename RemoveRef<MZ>::Type     MatrixZ;
     typedef typename RemoveRef<VWORK>::Type   VectorWork;
     typedef typename RemoveRef<VRWORK>::Type  VectorRWork;
-    
+
     const IndexType n = A.dim();
 
 //
@@ -1630,7 +1630,7 @@ ev(bool     computeVL,
 
     WorkVector      work;
     RealWorkVector  rwork;
-    
+
     return ev(computeVL, computeVR, A, w, VL, VR, work, rwork);
 }
 
@@ -1654,7 +1654,7 @@ ev(bool     computeV,
 
     WorkVector      work;
     RealWorkVector  rWork;
-    
+
     return ev(computeV, A, w, work, rWork);
 }
 
@@ -1699,7 +1699,7 @@ ev(bool     computeZ,
 
     WorkVector      work;
     RealWorkVector  rwork;
-    
+
     return ev(computeZ, A, w, Z, work, rwork);
 }
 
@@ -1722,7 +1722,7 @@ ev(bool     computeZ,
     typedef typename RemoveRef<MA>::Type::Vector        WorkVector;
 
     WorkVector      work;
-    
+
     return ev(computeZ, A, w, Z, work);
 }
 
@@ -1748,7 +1748,7 @@ ev(bool     computeZ,
 
     WorkVector      work;
     RealWorkVector  rwork;
-    
+
     return ev(computeZ, A, w, Z, work, rwork);
 }
 
@@ -1771,7 +1771,7 @@ ev(bool     computeZ,
     typedef typename RemoveRef<MA>::Type::Vector        WorkVector;
 
     WorkVector      work;
-    
+
     return ev(computeZ, A, w, Z, work);
 }
 

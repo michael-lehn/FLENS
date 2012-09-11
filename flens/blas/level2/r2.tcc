@@ -33,10 +33,15 @@
 #ifndef FLENS_BLAS_LEVEL2_R2_TCC
 #define FLENS_BLAS_LEVEL2_R2_TCC 1
 
-#include <cxxblas/cxxblas.h>
-#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/blas/closures/debugclosure.h>
+#include <flens/blas/level2/level2.h>
 #include <flens/typedefs.h>
-#include <flens/vectortypes/vectortypes.h>
+
+#ifdef FLENS_DEBUG_CLOSURES
+#   include <flens/blas/blaslogon.h>
+#else
+#   include <flens/blas/blaslogoff.h>
+#endif
 
 namespace flens { namespace blas {
 

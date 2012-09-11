@@ -147,6 +147,7 @@ This BLAS level deals with matrix-vector operations.
 
 :links: __mv__     -> doc:flens/blas/level2/mv
         __r__      -> doc:flens/blas/level2/r
+        __r2__     -> doc:flens/blas/level2/r2
         __sv__     -> doc:flens/blas/level2/sv
         __(.*)__   -> doc:cxxblas/level2/$1
 

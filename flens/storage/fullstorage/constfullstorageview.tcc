@@ -318,8 +318,8 @@ ConstFullStorageView<T, Order, I, A>::viewRow(IndexType row,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        row =       firstRow();
-        firstCol =  firstCol();
+        row =       this->firstRow();
+        firstCol =  this->firstCol();
     }
 #   endif
 
@@ -369,8 +369,8 @@ ConstFullStorageView<T, Order, I, A>::viewCol(IndexType firstRow,
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if (length==0) {
-        firstRow =  firstRow();
-        col =       firstCol();
+        firstRow =  this->firstRow();
+        col =       this->firstCol();
     }
 #   endif
 
