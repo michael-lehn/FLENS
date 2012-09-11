@@ -67,7 +67,8 @@ template <typename IndexType>
     axpy(IndexType n, const std::complex<double> &alpha,
          const double *x, IndexType incX,
          std::complex<double> *y, IndexType incY);
-#endif
+    
+#endif // HAVE_CBLAS
 
 } // namespace cxxblas
 
