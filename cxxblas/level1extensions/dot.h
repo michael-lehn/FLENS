@@ -38,51 +38,67 @@
 #define HAVE_CXXBLAS_AXPY 1
 
 namespace cxxblas {
-    
+
 #ifdef HAVE_CBLAS
-    
+
 template <typename IndexType>
     void
-    dotu(IndexType n, const float *x, IndexType incX, const std::complex<float> *y, IndexType incY,
+    dotu(IndexType n,
+         const float *x, IndexType incX,
+         const std::complex<float> *y, IndexType incY,
          std::complex<float> &result);
 
 template <typename IndexType>
     void
-    dotu(IndexType n, const std::complex<float> *x, IndexType incX, const float *y, IndexType incY,
+    dotu(IndexType n,
+         const std::complex<float> *x, IndexType incX,
+         const float *y, IndexType incY,
          std::complex<float> &result);
 
 template <typename IndexType>
     void
-    dotu(IndexType n, const double *x, IndexType incX, const std::complex<double> *y, IndexType incY,
+    dotu(IndexType n,
+         const double *x, IndexType incX,
+         const std::complex<double> *y, IndexType incY,
          std::complex<double> &result);
-    
+
 template <typename IndexType>
     void
-    dotu(IndexType n, const std::complex<double> *x, IndexType incX, const double *y, IndexType incY,
+    dotu(IndexType n,
+         const std::complex<double> *x, IndexType incX,
+         const double *y, IndexType incY,
          std::complex<double> &result);
-    
+
 template <typename IndexType>
     void
-    dot(IndexType n, const float *x, IndexType incX, const std::complex<float> *y, IndexType incY,
+    dot(IndexType n,
+        const float *x, IndexType incX,
+        const std::complex<float> *y, IndexType incY,
         std::complex<float> &result);
 
 template <typename IndexType>
     void
-    dot(IndexType n, const std::complex<float> *x, IndexType incX, const float *y, IndexType incY,
+    dot(IndexType n,
+        const std::complex<float> *x, IndexType incX,
+        const float *y, IndexType incY,
         std::complex<float> &result);
 
 template <typename IndexType>
     void
-    dot(IndexType n, const double *x, IndexType incX, const std::complex<double> *y, IndexType incY,
+    dot(IndexType n,
+        const double *x, IndexType incX,
+        const std::complex<double> *y, IndexType incY,
         std::complex<double> &result);
 
 template <typename IndexType>
     void
-    dot(IndexType n, const std::complex<double> *x, IndexType incX, const double *y, IndexType incY,
+    dot(IndexType n,
+        const std::complex<double> *x, IndexType incX,
+        const double *y, IndexType incY,
         std::complex<double> &result);
-    
+
 #endif
-    
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL1EXTENSIONS_DOT_H

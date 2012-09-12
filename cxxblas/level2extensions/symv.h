@@ -38,9 +38,9 @@
 #define HAVE_CXXBLAS_SYMV 1
 
 namespace cxxblas {
-    
+
 #ifdef HAVE_CBLAS
-    
+
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     symv(StorageOrder order, StorageUpLo upLo,
@@ -49,7 +49,7 @@ template <typename IndexType>
          const float *x, IndexType incX,
          float beta,
          std::complex<float> *y, IndexType incY);
-    
+
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     symv(StorageOrder order, StorageUpLo upLo,
@@ -58,7 +58,7 @@ template <typename IndexType>
          const float *x, IndexType incX,
          std::complex<float> beta,
          std::complex<float> *y, IndexType incY);
-    
+
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     symv(StorageOrder order, StorageUpLo upLo,
@@ -67,7 +67,7 @@ template <typename IndexType>
          const std::complex<float> *x, IndexType incX,
          float beta,
          std::complex<float> *y, IndexType incY);
-    
+
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     symv(StorageOrder order, StorageUpLo upLo,
@@ -76,7 +76,7 @@ template <typename IndexType>
          const std::complex<float> *x, IndexType incX,
          std::complex<float> beta,
          std::complex<float> *y, IndexType incY);
-    
+
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     symv(StorageOrder order, StorageUpLo upLo,
@@ -85,7 +85,7 @@ template <typename IndexType>
          const double *x, IndexType incX,
          double beta,
          std::complex<double> *y, IndexType incY);
-    
+
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     symv(StorageOrder order, StorageUpLo upLo,
@@ -94,7 +94,7 @@ template <typename IndexType>
          const double *x, IndexType incX,
          std::complex<double> beta,
          std::complex<double> *y, IndexType incY);
-    
+
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     symv(StorageOrder order, StorageUpLo upLo,
@@ -103,7 +103,7 @@ template <typename IndexType>
          const std::complex<double> *x, IndexType incX,
          double beta,
          std::complex<double> *y, IndexType incY);
-    
+
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     symv(StorageOrder order, StorageUpLo upLo,
@@ -112,9 +112,9 @@ template <typename IndexType>
          const std::complex<double> *x, IndexType incX,
          std::complex<double> beta,
          std::complex<double> *y, IndexType incY);
-    
+
 #endif // HAVE_CBLAS
-    
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2EXTENSIONS_SYMV_H

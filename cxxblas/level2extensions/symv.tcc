@@ -84,9 +84,13 @@ symv(StorageOrder order, StorageUpLo upLo,
     CXXBLAS_DEBUG_OUT("symv (extension)");
 
     scal(n, beta, y, incY);
-    symv(order, upLo, n, alpha, A, ldA, reinterpret_cast<const float *>(x)  , 2*incX, float(1),
+    symv(order, upLo, n, alpha, A, ldA,
+         reinterpret_cast<const float *>(x), 2*incX,
+         float(1),
          reinterpret_cast<float *>(y), 2*incY);
-    symv(order, upLo, n, alpha, A, ldA, reinterpret_cast<const float *>(x)+1, 2*incX, float(1),
+    symv(order, upLo, n, alpha, A, ldA,
+         reinterpret_cast<const float *>(x)+1, 2*incX,
+         float(1),
          reinterpret_cast<float *>(y)+1, 2*incY);
 }
 
@@ -103,9 +107,13 @@ symv(StorageOrder order, StorageUpLo upLo,
     CXXBLAS_DEBUG_OUT("symv (extension)");
 
     scal(n, beta, y, incY);
-    symv(order, upLo, n, alpha, A, ldA, reinterpret_cast<const float *>(x)  , 2*incX, float(1),
+    symv(order, upLo, n, alpha, A, ldA,
+         reinterpret_cast<const float *>(x), 2*incX,
+         float(1),
          reinterpret_cast<float *>(y), 2*incY);
-    symv(order, upLo, n, alpha, A, ldA, reinterpret_cast<const float *>(x)+1, 2*incX, float(1),
+    symv(order, upLo, n, alpha, A, ldA,
+         reinterpret_cast<const float *>(x)+1, 2*incX,
+         float(1),
          reinterpret_cast<float *>(y)+1, 2*incY);
 }
 
@@ -153,12 +161,15 @@ symv(StorageOrder order, StorageUpLo upLo,
     CXXBLAS_DEBUG_OUT("symv (extension)");
 
     scal(n, beta, y, incY);
-    symv(order, upLo, n, alpha, A, ldA, reinterpret_cast<const double *>(x)  , 2*incX, double(1),
+    symv(order, upLo, n, alpha, A, ldA,
+         reinterpret_cast<const double *>(x), 2*incX,
+         double(1),
          reinterpret_cast<double *>(y)  , 2*incY);
-    symv(order, upLo, n, alpha, A, ldA, reinterpret_cast<const double *>(x)+1, 2*incX, double(1),
+    symv(order, upLo, n, alpha, A, ldA,
+         reinterpret_cast<const double *>(x)+1, 2*incX,
+         double(1),
          reinterpret_cast<double *>(y)+1, 2*incY);
 }
-
 
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
@@ -172,9 +183,13 @@ symv(StorageOrder order, StorageUpLo upLo,
     CXXBLAS_DEBUG_OUT("symv (extension)");
 
     scal(n, beta, y, incY);
-    symv(order, upLo, n, alpha, A, ldA, reinterpret_cast<const double *>(x)  , 2*incX, double(1),
+    symv(order, upLo, n, alpha, A, ldA,
+         reinterpret_cast<const double *>(x), 2*incX,
+         double(1),
          reinterpret_cast<double *>(y)  , 2*incY);
-    symv(order, upLo, n, alpha, A, ldA, reinterpret_cast<const double *>(x)+1, 2*incX, double(1),
+    symv(order, upLo, n, alpha, A, ldA,
+         reinterpret_cast<const double *>(x)+1, 2*incX,
+         double(1),
          reinterpret_cast<double *>(y)+1, 2*incY);
 }
 

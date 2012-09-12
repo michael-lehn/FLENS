@@ -40,34 +40,31 @@
 namespace cxxblas {
 
 #ifdef HAVE_CBLAS
-    
+
 template <typename IndexType>
     void
     axpy(IndexType n, const float &alpha,
          const float *x, IndexType incX,
          std::complex<float> *y, IndexType incY);
-    
-    
+
 template <typename IndexType>
     void
     axpy(IndexType n, const std::complex<float> &alpha,
          const float *x, IndexType incX,
          std::complex<float> *y, IndexType incY);
 
-    
 template <typename IndexType>
     void
     axpy(IndexType n, const double &alpha,
          const double *x, IndexType incX,
          std::complex<double> *y, IndexType incY);
-    
-    
+
 template <typename IndexType>
     void
     axpy(IndexType n, const std::complex<double> &alpha,
          const double *x, IndexType incX,
          std::complex<double> *y, IndexType incY);
-    
+
 #endif // HAVE_CBLAS
 
 } // namespace cxxblas

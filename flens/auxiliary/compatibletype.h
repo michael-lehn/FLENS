@@ -40,9 +40,8 @@ namespace flens {
 template <typename S, typename T>
 struct CompatibleType
 {
-    
 };
-    
+
 template <typename T>
 struct CompatibleType<T, T>
 {
@@ -54,14 +53,13 @@ struct CompatibleType<T, std::complex<T> >
 {
     typedef std::complex<T> Type;
 };
-    
+
 template <typename T>
 struct CompatibleType<std::complex<T>, T>
 {
     typedef std::complex<T> Type;
 };
 
-    
 } // namespace flens
 
 #endif // FLENS_AUXILIARY_COMPATIBLETYPE_H

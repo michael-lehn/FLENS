@@ -47,7 +47,7 @@ axpy(IndexType n, const float &alpha,
      std::complex<float> *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_caxpy [extension]");
-    
+
     cblas_saxpy(n, alpha, x, incX, reinterpret_cast<float *>(y), 2*incY);
 }
 
@@ -58,7 +58,7 @@ axpy(IndexType n, const std::complex<float> &alpha,
      std::complex<float> *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_caxpy [extension]");
-    
+
     cblas_saxpy(n, std::real(alpha), x, incX, reinterpret_cast<float *>(y)  , 2*incY);
     cblas_saxpy(n, std::imag(alpha), x, incX, reinterpret_cast<float *>(y)+1, 2*incY);
 }
@@ -70,7 +70,7 @@ axpy(IndexType n, const double &alpha,
      std::complex<double> *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zaxpy [extension]");
-    
+
     cblas_daxpy(n, alpha, x, incX, reinterpret_cast<double *>(y), 2*incY);
 }
 
@@ -81,7 +81,7 @@ axpy(IndexType n, const std::complex<double> &alpha,
      std::complex<double> *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zaxpy [extension]");
-    
+
     cblas_daxpy(n, std::real(alpha), x, incX, reinterpret_cast<double *>(y), 2*incY);
     cblas_daxpy(n, std::imag(alpha), x, incX, reinterpret_cast<double *>(y)+1, 2*incY);
 }

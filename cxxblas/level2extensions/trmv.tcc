@@ -49,10 +49,12 @@ trmv(StorageOrder order, StorageUpLo upLo,
      ComplexFloat *x, IndexType incX)
 {
     CXXBLAS_DEBUG_OUT("trmv (extension)");
-    
-    trmv(order, upLo, transA, diag, n, A, ldA, reinterpret_cast<float *>(x)  , 2*incX);
-    trmv(order, upLo, transA, diag, n, A, ldA, reinterpret_cast<float *>(x)+1, 2*incX);
-    
+
+    float *xr = reinterpret_cast<float *>(x);
+    float *xi = reinterpret_cast<float *>(x) + 1;
+
+    trmv(order, upLo, transA, diag, n, A, ldA, xr, 2*incX);
+    trmv(order, upLo, transA, diag, n, A, ldA, xi, 2*incX);
 }
 
 template <typename IndexType>
@@ -64,10 +66,12 @@ trmv(StorageOrder order, StorageUpLo upLo,
      ComplexDouble *x, IndexType incX)
 {
     CXXBLAS_DEBUG_OUT("trmv (extension)");
-    
-    trmv(order, upLo, transA, diag, n, A, ldA, reinterpret_cast<double *>(x)  , 2*incX);
-    trmv(order, upLo, transA, diag, n, A, ldA, reinterpret_cast<double *>(x)+1, 2*incX);
-    
+
+    double *xr = reinterpret_cast<double *>(x);
+    double *xi = reinterpret_cast<double *>(x) + 1;
+
+    trmv(order, upLo, transA, diag, n, A, ldA, xr, 2*incX);
+    trmv(order, upLo, transA, diag, n, A, ldA, xi, 2*incX);
 }
 
 #endif

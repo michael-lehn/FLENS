@@ -48,19 +48,19 @@ template <typename IndexType, typename ALPHA, typename X, typename Y>
     void
     acxpy(IndexType n, const ALPHA &alpha, const X *x, IndexType incX,
           Y *y, IndexType incY);
-    
+
 #ifdef HAVE_CBLAS
- 
+
 template <typename IndexType>
     void
     acxpy(IndexType n, const float &alpha, const std::complex<float> *x,
           IndexType incX, std::complex<float> *y, IndexType incY);
-    
+
 template <typename IndexType>
     void
     acxpy(IndexType n, const double &alpha, const std::complex<double> *x,
           IndexType incX, std::complex<double> *y, IndexType incY);
-    
+
 #endif // HAVE_CBLAS
 
 } // namespace cxxblas
