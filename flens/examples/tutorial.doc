@@ -10,8 +10,8 @@ More tutorials are on the way ...
 ... so stay tuned.
 
 
-Session: General Matrix with Full Storage
-=========================================
+General Matrix with Full Storage
+================================
 
  *--[BOX]--------------------------------------------------------------------*
  |                                                                           |
@@ -33,8 +33,8 @@ Session: General Matrix with Full Storage
 :links: __Page (\d)__       -> doc:flens/examples/tut01-page0$1
 
 
-Session:  BLAS, CXXBLAS, FLENS-BLAS and Overloaded Operators
-============================================================
+BLAS, CXXBLAS, FLENS-BLAS and Overloaded Operators
+==================================================
 
  *--[BOX]--------------------------------------------------------------------*
  |                                                                           |
@@ -60,8 +60,8 @@ Session:  BLAS, CXXBLAS, FLENS-BLAS and Overloaded Operators
         __FLENS-BLAS__  -> doc:flens/blas/blas
 
 
-Session: Symmetric and Triangular Matrices with Full Storage
-============================================================
+Symmetric and Triangular Matrices with Full Storage
+===================================================
 
  *--[BOX]--------------------------------------------------------------------*
  |                                                                           |
@@ -73,8 +73,8 @@ Session: Symmetric and Triangular Matrices with Full Storage
 :links: __Page (\d)__     -> doc:flens/examples/tut03-page0$1
 
 
-Session: FLENS-LAPACK
-=====================
+FLENS-LAPACK
+============
 
  *--[BOX]--------------------------------------------------------------------*
  |                                                                           |
@@ -87,8 +87,8 @@ Session: FLENS-LAPACK
 
 :links: __Page (\d)__     -> doc:flens/examples/tut04-page0$1
 
-Session: Using an external LAPACK implementation
-================================================
+Using an external LAPACK implementation
+=======================================
 
  *--[BOX]--------------------------------------------------------------------*
  |                                                                           |
@@ -101,8 +101,8 @@ Session: Using an external LAPACK implementation
 :links: __Page (\d)__     -> doc:flens/examples/tut05-page0$1
 
 
-Session: Sparse Matrices (Experimental)
-=======================================
+Sparse Matrices (Experimental)
+==============================
 
  *--[BOX]--------------------------------------------------------------------*
  |                                                                           |
@@ -128,8 +128,8 @@ Session: Sparse Matrices (Experimental)
         SuperLU -> http://crd-legacy.lbl.gov/~xiaoye/SuperLU/
 
 
-Session: Define your own Matrix/Vector Types
-============================================
+Define your own Matrix/Vector Types
+===================================
 
  *--[BOX]--------------------------------------------------------------------*
  |                                                                           |
