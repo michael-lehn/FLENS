@@ -34,7 +34,9 @@
 #define CXXBLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_H 1
 
 #include <cxxblas/level1extensions/acxpy.h>
+#include <cxxblas/level1extensions/axpy.h>
 #include <cxxblas/level1extensions/ccopy.h>
+#include <cxxblas/level1extensions/dot.h>
 #include <cxxblas/level1extensions/gbaxpy.h>
 #include <cxxblas/level1extensions/geaxpy.h>
 #include <cxxblas/level1extensions/gbcopy.h>

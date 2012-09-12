@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2009, Michael Lehn
+ *   Copyright (c) 2012, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,39 +30,64 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_LEVEL1EXTENSIONS_ACXPY_H
-#define CXXBLAS_LEVEL1EXTENSIONS_ACXPY_H 1
+#ifndef CXXBLAS_LEVEL1EXTENSIONS_AXPY_TCC
+#define CXXBLAS_LEVEL1EXTENSIONS_AXPY_TCC 1
 
-#include <cxxblas/typedefs.h>
-
-#define HAVE_CXXBLAS_ACXPY 1
+#include <cstdio>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 
-template <typename IndexType, typename ALPHA, typename X, typename Y>
-    void
-    acxpy(IndexType n, const ALPHA &alpha, const std::complex<X> *x,
-          IndexType incX, std::complex<Y> *y, IndexType incY);
-
-template <typename IndexType, typename ALPHA, typename X, typename Y>
-    void
-    acxpy(IndexType n, const ALPHA &alpha, const X *x, IndexType incX,
-          Y *y, IndexType incY);
-    
 #ifdef HAVE_CBLAS
- 
+
 template <typename IndexType>
-    void
-    acxpy(IndexType n, const float &alpha, const std::complex<float> *x,
-          IndexType incX, std::complex<float> *y, IndexType incY);
+void
+axpy(IndexType n, const float &alpha,
+     const float *x, IndexType incX,
+     std::complex<float> *y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_caxpy [extension]");
     
+    cblas_saxpy(n, alpha, x, incX, reinterpret_cast<float *>(y), 2*incY);
+}
+
 template <typename IndexType>
-    void
-    acxpy(IndexType n, const double &alpha, const std::complex<double> *x,
-          IndexType incX, std::complex<double> *y, IndexType incY);
+void
+axpy(IndexType n, const std::complex<float> &alpha,
+     const float *x, IndexType incX,
+     std::complex<float> *y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_caxpy [extension]");
     
-#endif // HAVE_CBLAS
+    cblas_saxpy(n, std::real(alpha), x, incX, reinterpret_cast<float *>(y)  , 2*incY);
+    cblas_saxpy(n, std::imag(alpha), x, incX, reinterpret_cast<float *>(y)+1, 2*incY);
+}
+
+template <typename IndexType>
+void
+axpy(IndexType n, const double &alpha,
+     const double *x, IndexType incX,
+     std::complex<double> *y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zaxpy [extension]");
+    
+    cblas_daxpy(n, alpha, x, incX, reinterpret_cast<double *>(y), 2*incY);
+}
+
+template <typename IndexType>
+void
+axpy(IndexType n, const std::complex<double> &alpha,
+     const double *x, IndexType incX,
+     std::complex<double> *y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zaxpy [extension]");
+    
+    cblas_daxpy(n, std::real(alpha), x, incX, reinterpret_cast<double *>(y), 2*incY);
+    cblas_daxpy(n, std::imag(alpha), x, incX, reinterpret_cast<double *>(y)+1, 2*incY);
+}
+
+#endif
 
 } // namespace cxxblas
 
-#endif // CXXBLAS_LEVEL1EXTENSIONS_ACXPY_H
+#endif // CXXBLAS_LEVEL1EXTENSIONS_AXPY_TCC

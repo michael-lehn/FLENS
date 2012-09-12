@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2009, Michael Lehn
+ *   Copyright (c) 2012, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,39 +30,59 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_LEVEL1EXTENSIONS_ACXPY_H
-#define CXXBLAS_LEVEL1EXTENSIONS_ACXPY_H 1
+#ifndef CXXBLAS_LEVEL1EXTENSIONS_DOT_H
+#define CXXBLAS_LEVEL1EXTENSIONS_DOT_H 1
 
 #include <cxxblas/typedefs.h>
 
-#define HAVE_CXXBLAS_ACXPY 1
+#define HAVE_CXXBLAS_AXPY 1
 
 namespace cxxblas {
-
-template <typename IndexType, typename ALPHA, typename X, typename Y>
-    void
-    acxpy(IndexType n, const ALPHA &alpha, const std::complex<X> *x,
-          IndexType incX, std::complex<Y> *y, IndexType incY);
-
-template <typename IndexType, typename ALPHA, typename X, typename Y>
-    void
-    acxpy(IndexType n, const ALPHA &alpha, const X *x, IndexType incX,
-          Y *y, IndexType incY);
     
 #ifdef HAVE_CBLAS
- 
-template <typename IndexType>
-    void
-    acxpy(IndexType n, const float &alpha, const std::complex<float> *x,
-          IndexType incX, std::complex<float> *y, IndexType incY);
     
 template <typename IndexType>
     void
-    acxpy(IndexType n, const double &alpha, const std::complex<double> *x,
-          IndexType incX, std::complex<double> *y, IndexType incY);
-    
-#endif // HAVE_CBLAS
+    dotu(IndexType n, const float *x, IndexType incX, const std::complex<float> *y, IndexType incY,
+         std::complex<float> &result);
 
+template <typename IndexType>
+    void
+    dotu(IndexType n, const std::complex<float> *x, IndexType incX, const float *y, IndexType incY,
+         std::complex<float> &result);
+
+template <typename IndexType>
+    void
+    dotu(IndexType n, const double *x, IndexType incX, const std::complex<double> *y, IndexType incY,
+         std::complex<double> &result);
+    
+template <typename IndexType>
+    void
+    dotu(IndexType n, const std::complex<double> *x, IndexType incX, const double *y, IndexType incY,
+         std::complex<double> &result);
+    
+template <typename IndexType>
+    void
+    dot(IndexType n, const float *x, IndexType incX, const std::complex<float> *y, IndexType incY,
+        std::complex<float> &result);
+
+template <typename IndexType>
+    void
+    dot(IndexType n, const std::complex<float> *x, IndexType incX, const float *y, IndexType incY,
+        std::complex<float> &result);
+
+template <typename IndexType>
+    void
+    dot(IndexType n, const double *x, IndexType incX, const std::complex<double> *y, IndexType incY,
+        std::complex<double> &result);
+
+template <typename IndexType>
+    void
+    dot(IndexType n, const std::complex<double> *x, IndexType incX, const double *y, IndexType incY,
+        std::complex<double> &result);
+    
+#endif
+    
 } // namespace cxxblas
 
-#endif // CXXBLAS_LEVEL1EXTENSIONS_ACXPY_H
+#endif // CXXBLAS_LEVEL1EXTENSIONS_DOT_H

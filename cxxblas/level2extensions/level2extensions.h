@@ -38,5 +38,8 @@
 #include <cxxblas/level2extensions/hemv.h>
 #include <cxxblas/level2extensions/her.h>
 #include <cxxblas/level2extensions/her2.h>
+#include <cxxblas/level2extensions/symv.h>
+#include <cxxblas/level2extensions/trmv.h>
+#include <cxxblas/level2extensions/trsv.h>
 
 #endif // CXXBLAS_LEVEL2EXTENSIONS_LEVEL2EXTENSIONS_H

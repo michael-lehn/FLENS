@@ -60,6 +60,184 @@ gemv(StorageOrder order, Transpose transA, Transpose conjX,
                  beta, y, incY);
 }
 
+#ifdef HAVE_CBLAS
+
+template <typename IndexType>
+void
+gemv(StorageOrder order, Transpose transA,
+     IndexType m, IndexType n,
+     const float &alpha,
+     const float *A, IndexType ldA,
+     const float *x, IndexType incX,
+     const float &beta,
+     std::complex<float> *y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("gemv (extension)");
+    
+    scal(n, beta, y, incY);
+        
+    gemv(order, transA, m, n, alpha, A, ldA,
+         x, incX, float(1), reinterpret_cast<float *>(y), 2*incY);
+
+}
+
+template <typename IndexType>
+void
+gemv(StorageOrder order, Transpose transA,
+     IndexType m, IndexType n,
+     const float &alpha,
+     const float *A, IndexType ldA,
+     const float *x, IndexType incX,
+     const std::complex<float> &beta,
+     std::complex<float> *y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("gemv (extension)");
+    
+    scal(n, beta, y, incY);
+    
+    gemv(order, transA, m, n, alpha, A, ldA,
+         x, incX, float(1), reinterpret_cast<float *>(y), 2*incY);
+}
+
+
+template <typename IndexType>
+void
+gemv(StorageOrder order, Transpose transA,
+     IndexType m, IndexType n,
+     const float &alpha,
+     const float *A, IndexType ldA,
+     const std::complex<float> *x, IndexType incX,
+     const float &beta,
+     std::complex<float> *y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("gemv (extension)");
+    
+    scal(n, beta, y, incY);
+        
+    gemv(order, transA, m, n, alpha, A, ldA,
+         reinterpret_cast<const float *>(x), 2*incX, float(1),
+         reinterpret_cast<float *>(y), 2*incY);
+    
+    gemv(order, transA, m, n, alpha, A, ldA,
+         reinterpret_cast<const float *>(x)+1, 2*incX, float(1),
+         reinterpret_cast<float *>(y)+1, 2*incY);
+
+}
+
+
+template <typename IndexType>
+void
+gemv(StorageOrder order, Transpose transA,
+     IndexType m, IndexType n,
+     const float &alpha,
+     const float *A, IndexType ldA,
+     const std::complex<float> *x, IndexType incX,
+     const std::complex<float> &beta,
+     std::complex<float> *y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("gemv (extension)");
+    
+    scal(n, beta, y, incY);
+        
+    gemv(order, transA, m, n, alpha, A, ldA,
+         reinterpret_cast<const float *>(x), 2*incX, float(1),
+         reinterpret_cast<float *>(y), 2*incY);
+    
+    gemv(order, transA, m, n, alpha, A, ldA,
+         reinterpret_cast<const float *>(x)+1, 2*incX, float(1),
+         reinterpret_cast<float *>(y)+1, 2*incY);
+
+}
+
+template <typename IndexType>
+void
+gemv(StorageOrder order, Transpose transA,
+     IndexType m, IndexType n,
+     const double &alpha,
+     const double *A, IndexType ldA,
+     const double *x, IndexType incX,
+     const double &beta,
+     std::complex<double> *y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("gemv (extension)");
+    
+    scal(n, beta, y, incY);
+        
+    gemv(order, transA, m, n, alpha, A, ldA,
+         x, incX, double(1), reinterpret_cast<double *>(y), 2*incY);
+
+}
+
+template <typename IndexType>
+void
+gemv(StorageOrder order, Transpose transA,
+     IndexType m, IndexType n,
+     const double &alpha,
+     const double *A, IndexType ldA,
+     const double *x, IndexType incX,
+     const std::complex<double> &beta,
+     std::complex<double> *y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("gemv (extension)");
+    
+    scal(n, beta, y, incY);
+    
+    gemv(order, transA, m, n, alpha, A, ldA,
+         x, incX, double(1), reinterpret_cast<double *>(y), 2*incY);
+}
+
+
+template <typename IndexType>
+void
+gemv(StorageOrder order, Transpose transA,
+     IndexType m, IndexType n,
+     const double &alpha,
+     const double *A, IndexType ldA,
+     const std::complex<double> *x, IndexType incX,
+     const double &beta,
+     std::complex<double> *y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("gemv (extension)");
+    
+    scal(n, beta, y, incY);
+        
+    gemv(order, transA, m, n, alpha, A, ldA,
+         reinterpret_cast<const double *>(x), 2*incX, double(1),
+         reinterpret_cast<double *>(y), 2*incY);
+    
+    gemv(order, transA, m, n, alpha, A, ldA,
+         reinterpret_cast<const double *>(x)+1, 2*incX, double(1),
+         reinterpret_cast<double *>(y)+1, 2*incY);
+
+}
+
+
+template <typename IndexType>
+void
+gemv(StorageOrder order, Transpose transA,
+     IndexType m, IndexType n,
+     const double &alpha,
+     const double *A, IndexType ldA,
+     const std::complex<double> *x, IndexType incX,
+     const std::complex<double> &beta,
+     std::complex<double> *y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("gemv (extension)");
+    
+    scal(n, beta, y, incY);
+        
+    gemv(order, transA, m, n, alpha, A, ldA,
+         reinterpret_cast<const double *>(x), 2*incX, double(1),
+         reinterpret_cast<double *>(y), 2*incY);
+    
+    gemv(order, transA, m, n, alpha, A, ldA,
+         reinterpret_cast<const double *>(x)+1, 2*incX, double(1),
+         reinterpret_cast<double *>(y)+1, 2*incY);
+
+}
+
+#endif
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2EXTENSIONS_GEMV_TCC
