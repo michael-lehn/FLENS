@@ -53,7 +53,7 @@ sbev(char                  jobz,
      float                 *work)
 {
     CXXLAPACK_DEBUG_OUT("ssbev");
- 
+
     IndexType info;
     LAPACK_IMPL(ssbev)(&jobz,
                        &upLo,
@@ -89,7 +89,7 @@ sbev(char                  jobz,
      double                *work)
 {
     CXXLAPACK_DEBUG_OUT("dsbev");
- 
+
     IndexType info;
     LAPACK_IMPL(dsbev)(&jobz,
                        &upLo,

@@ -55,7 +55,7 @@ template <typename IndexType>
           IndexType             n2,
           float                 *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     tgex2(bool                  wantq,
@@ -74,7 +74,7 @@ template <typename IndexType>
           IndexType             n2,
           double                *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     tgex2(bool                  wantq,
@@ -89,7 +89,7 @@ template <typename IndexType>
           std::complex<float >  *Z,
           IndexType             ldZ,
           IndexType             j1);
-    
+
 template <typename IndexType>
     IndexType
     tgex2(bool                  wantq,

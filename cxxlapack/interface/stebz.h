@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     stebz(char                  range,
@@ -56,7 +56,7 @@ template <typename IndexType>
           IndexType             *isplit,
           float                 *work,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     stebz(char                  range,

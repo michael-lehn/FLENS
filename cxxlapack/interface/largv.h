@@ -46,8 +46,8 @@ template <typename IndexType>
           IndexType             incy,
           float                 *c,
           IndexType             incc);
-    
-    
+
+
 template <typename IndexType>
     IndexType
     largv(IndexType             n,
@@ -57,7 +57,7 @@ template <typename IndexType>
           IndexType             incy,
           double                *c,
           IndexType             incc);
-    
+
 template <typename IndexType>
     void
     largv(IndexType             n,

@@ -59,7 +59,7 @@ template <typename IndexType>
           float                 *berr,
           float                 *work,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     pbsvx(char                  fact,
@@ -82,7 +82,7 @@ template <typename IndexType>
           double                *berr,
           double                *work,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     pbsvx(char                  fact,

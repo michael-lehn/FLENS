@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     hetrd(char                  uplo,

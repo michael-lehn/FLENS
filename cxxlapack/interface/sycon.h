@@ -48,7 +48,7 @@ template <typename IndexType>
           float                       &rCond,
           float                       *work,
           IndexType                   *iWork);
-    
+
 template <typename IndexType>
     IndexType
     sycon(char                        uplo,
@@ -60,7 +60,7 @@ template <typename IndexType>
           double                      &rCond,
           double                      *work,
           IndexType                   *iWork);
-    
+
 template <typename IndexType>
     IndexType
     sycon(char                        uplo,

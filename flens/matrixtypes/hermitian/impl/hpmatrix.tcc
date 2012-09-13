@@ -118,12 +118,12 @@ HpMatrix<FS> &
 HpMatrix<FS>::operator=(const ElementType &alpha)
 {
     ASSERT(cxxblas::imag(alpha)==0);
-    
+
     if (upLo()==Upper) {
         for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = i; j <= lastIndex(); ++j)
                 (*this)(i,j) = alpha;
- 
+
     } else {
       for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = firstIndex(); j <= i; ++j)
@@ -137,12 +137,12 @@ HpMatrix<FS> &
 HpMatrix<FS>::operator+=(const ElementType &alpha)
 {
     ASSERT(cxxblas::imag(alpha)==0);
-    
+
     if (upLo()==Upper) {
         for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = i; j <= lastIndex(); ++j)
                 (*this)(i,j) += alpha;
- 
+
     } else {
       for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = firstIndex(); j <= i; ++j)
@@ -156,12 +156,12 @@ HpMatrix<FS> &
 HpMatrix<FS>::operator-=(const ElementType &alpha)
 {
     ASSERT(cxxblas::imag(alpha)==0);
-    
+
     if (upLo()==Upper) {
         for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = i; j <= lastIndex(); ++j)
                 (*this)(i,j) -= alpha;
- 
+
     } else {
       for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = firstIndex(); j <= i; ++j)
@@ -175,12 +175,12 @@ HpMatrix<FS> &
 HpMatrix<FS>::operator*=(const ElementType &alpha)
 {
     ASSERT(cxxblas::imag(alpha)==0);
-    
+
     if (upLo()==Upper) {
         for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = i; j <= lastIndex(); ++j)
                 (*this)(i,j) *= alpha;
- 
+
     } else {
       for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = firstIndex(); j <= i; ++j)
@@ -194,12 +194,12 @@ HpMatrix<FS> &
 HpMatrix<FS>::operator/=(const ElementType &alpha)
 {
     ASSERT(cxxblas::imag(alpha)==0);
-    
+
     if (upLo()==Upper) {
         for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = i; j <= lastIndex(); ++j)
                 (*this)(i,j) /= alpha;
- 
+
     } else {
       for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = firstIndex(); j <= i; ++j)
@@ -351,7 +351,7 @@ bool
 HpMatrix<FS>::fill(const ElementType &value)
 {
     ASSERT(cxxblas::imag(value)==0);
-    
+
     return _engine.fill(value);
 }
 

@@ -54,7 +54,7 @@ orml2(char          side,
       float         *work)
 {
     CXXLAPACK_DEBUG_OUT("sorml2");
-  
+
     IndexType info;
     LAPACK_IMPL(sorml2)(&side,
                         &trans,
@@ -92,7 +92,7 @@ orml2(char          side,
       double        *work)
 {
     CXXLAPACK_DEBUG_OUT("dorml2");
-  
+
     IndexType info;
     LAPACK_IMPL(dorml2)(&side,
                         &trans,

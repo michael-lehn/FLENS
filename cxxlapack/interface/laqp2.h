@@ -50,7 +50,7 @@ template <typename IndexType>
           float         *vn2,
           float         *work);
 
-    
+
 template <typename IndexType>
     void
     laqp2(IndexType     m,
@@ -63,9 +63,9 @@ template <typename IndexType>
           double        *vn1,
           double        *vn2,
           double        *work);
-    
-    
-    
+
+
+
 template <typename IndexType>
     void
     laqp2(IndexType             m,

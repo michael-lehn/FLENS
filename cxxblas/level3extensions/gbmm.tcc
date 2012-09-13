@@ -34,7 +34,7 @@
 #define CXXBLAS_LEVEL3EXTENSION_GBMM_TCC 1
 
 #include <complex>
-#include <cxxblas/level2/level2.h>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 
@@ -43,7 +43,7 @@ template <typename IndexType, typename ALPHA, typename MA, typename MB,
 void
 gbmm(StorageOrder order, Side sideA,
       Transpose transA, Transpose transB,
-      IndexType m, IndexType n, 
+      IndexType m, IndexType n,
       IndexType kl, IndexType ku,
       IndexType l,
       const ALPHA &alpha,
@@ -52,95 +52,115 @@ gbmm(StorageOrder order, Side sideA,
       const BETA &beta,
       VC *C, IndexType ldC)
 {
-    if (order==RowMajor) 
-    {
-          if (sideA == Left)
-          {
-              if (transB == NoTrans)
-              {
-                    for (IndexType i = 0; i < l; ++i)
-                        gbmv(RowMajor, transA, m, n, kl, ku,
-                                alpha, A, ldA, B+i, ldB, beta, C+i, ldC);
-              } else if (transB == Conj) {
-                    for (IndexType i = 0; i < l; ++i)
-                        gbmv(RowMajor, transA, Conj, m, n, kl, ku,
-                                alpha, A, ldA, B+i, ldB, beta, C+i, ldC);
-              } else if (transB == Trans) {
-                    for (IndexType i = 0; i < l; ++i)
-                        gbmv(RowMajor, transA, m, n, kl, ku,
-                                alpha, A, ldA, B+i*ldB, IndexType(1), beta, C+i, ldC);
-              } else if (transB == ConjTrans) {
-                    for (IndexType i = 0; i < l; ++i)
-                        gbmv(RowMajor, transA, Conj, m, n, kl, ku,
-                                alpha, A, ldA, B+i*ldB, IndexType(1), beta, C+i, ldC);
-              }
-            
-          } else if (sideA == Right) {
-              transA = Transpose(transA^Trans);
-              if (transB == NoTrans) {
-                    for (IndexType i = 0; i < m; ++i)
-                      gbmv(RowMajor, transA, n, l, kl, ku,
-                                  alpha, A, ldA, B+i*ldB, IndexType(1), beta, C+i*ldC, IndexType(1));
-              } else if (transB == Conj) {
-                    for (IndexType i = 0; i < m; ++i)
-                      gbmv(RowMajor, transA, Conj, n, l, kl, ku,
-                                  alpha, A, ldA, B+i*ldB, IndexType(1), beta, C+i*ldC, IndexType(1));
-              } else if (transB == Trans) {
-                    for (IndexType i = 0; i < n; ++i)
-                      gbmv(RowMajor, transA, m, l, kl, ku,
-                                  alpha, A, ldA, B+i, ldB, beta, C+i*ldC, IndexType(1));
-              } else if (transB == ConjTrans ) {
-                    for (IndexType i = 0; i < n; ++i)
-                      gbmv(RowMajor, transA, Conj, m, l, kl, ku,
-                                  alpha, A, ldA, B+i, ldB, beta, C+i*ldC, IndexType(1));
-              }
-          }
-    } else {
-                if (sideA == Left)
-          {
+    if (order==RowMajor) {
+        if (sideA==Left) {
+            if (transB==NoTrans) {
+                for (IndexType i=0; i<l; ++i) {
+                    gbmv(RowMajor, transA, m, n, kl, ku,
+                         alpha, A, ldA, B+i, ldB, beta, C+i, ldC);
+                }
+            } else if (transB==Conj) {
+                for (IndexType i=0; i<l; ++i) {
+                    gbmv(RowMajor, transA, Conj, m, n, kl, ku,
+                         alpha, A, ldA, B+i, ldB, beta, C+i, ldC);
+                }
+            } else if (transB==Trans) {
+                for (IndexType i=0; i<l; ++i) {
+                    gbmv(RowMajor, transA, m, n, kl, ku,
+                             alpha, A, ldA, B+i*ldB, IndexType(1),
+                             beta, C+i, ldC);
+                }
+            } else if (transB==ConjTrans) {
+                for (IndexType i=0; i<l; ++i) {
+                    gbmv(RowMajor, transA, Conj, m, n, kl, ku,
+                         alpha, A, ldA, B+i*ldB, IndexType(1),
+                         beta, C+i, ldC);
+                }
+            }
+        } else if (sideA==Right) {
             transA = Transpose(transA^Trans);
-              if (transB == NoTrans)
-              {
-                    for (IndexType i = 0; i < l; ++i)
-                        gbmv(RowMajor, transA, n, m, ku, kl,
-                                alpha, A, ldA, B+i*ldB, IndexType(1), beta, C+i*ldC, IndexType(1));
-              } else if (transB == Conj) {
-                    for (IndexType i = 0; i < l; ++i)
-                        gbmv(RowMajor, transA, Conj, n, m, ku, kl,
-                                alpha, A, ldA, B+i*ldB, IndexType(1), beta, C+i*ldC, IndexType(1));
-              } else if (transB == Trans) {
-                    for (IndexType i = 0; i < l; ++i)
-                        gbmv(RowMajor, transA, n, m, ku, kl,
-                                alpha, A, ldA, B+i, ldB, beta, C+i*ldC, IndexType(1));
-              } else if (transB == ConjTrans) {
-                    for (IndexType i = 0; i < l; ++i)
-                        gbmv(RowMajor, transA, Conj, n, m, ku, kl,
-                                alpha, A, ldA, B+i, ldB, beta, C+i*ldC, IndexType(1));
-              }
-          } else if (sideA == Right) {
-              transA = Transpose(transA^Trans);
-              if (transB == NoTrans) {
-                    for (IndexType i = 0; i < m; ++i)
-                      gbmv(RowMajor, transA, l, n, ku, kl,
-                                  alpha, A, ldA, B+i, ldB, beta, C+i, ldC);
-              } else if (transB == Conj) {
-                    for (IndexType i = 0; i < m; ++i)
-                      gbmv(RowMajor, transA, Conj, l, n, ku, kl,
-                                  alpha, A, ldA, B+i, ldB, beta, C+i, ldC);
-              } else if (transB == Trans) {
-                    for (IndexType i = 0; i < n; ++i)
-                      gbmv(RowMajor, transA, l, m, ku, kl,
-                                  alpha, A, ldA, B+i*ldB, IndexType(1), beta, C+i, ldC);
-              } else if (transB == ConjTrans ) {
-                    for (IndexType i = 0; i < n; ++i)
-                      gbmv(RowMajor, transA, Conj, l, m, ku, kl,
-                                  alpha, A, ldA, B+i*ldB, IndexType(1), beta, C+i,ldC);
-              }
-          }
+            if (transB==NoTrans) {
+                for (IndexType i=0; i<m; ++i) {
+                    gbmv(RowMajor, transA, n, l, kl, ku,
+                         alpha, A, ldA, B+i*ldB, IndexType(1),
+                         beta, C+i*ldC, IndexType(1));
+                }
+            } else if (transB==Conj) {
+                for (IndexType i=0; i<m; ++i) {
+                    gbmv(RowMajor, transA, Conj, n, l, kl, ku,
+                         alpha, A, ldA, B+i*ldB, IndexType(1),
+                         beta, C+i*ldC, IndexType(1));
+                }
+            } else if (transB==Trans) {
+                for (IndexType i=0; i<n; ++i) {
+                    gbmv(RowMajor, transA, m, l, kl, ku,
+                         alpha, A, ldA, B+i, ldB,
+                         beta, C+i*ldC, IndexType(1));
+                }
+            } else if (transB==ConjTrans ) {
+                for (IndexType i=0; i<n; ++i) {
+                      gbmv(RowMajor, transA, Conj, m, l, kl, ku,
+                           alpha, A, ldA, B+i, ldB,
+                           beta, C+i*ldC, IndexType(1));
+                }
+            }
+        }
+    } else {
+        if (sideA==Left) {
+            transA = Transpose(transA^Trans);
+            if (transB==NoTrans) {
+                for (IndexType i=0; i<l; ++i) {
+                    gbmv(RowMajor, transA, n, m, ku, kl,
+                         alpha, A, ldA, B+i*ldB, IndexType(1),
+                         beta, C+i*ldC, IndexType(1));
+                }
+            } else if (transB==Conj) {
+                for (IndexType i=0; i<l; ++i) {
+                    gbmv(RowMajor, transA, Conj, n, m, ku, kl,
+                         alpha, A, ldA, B+i*ldB, IndexType(1),
+                         beta, C+i*ldC, IndexType(1));
+                }
+            } else if (transB==Trans) {
+                for (IndexType i=0; i<l; ++i) {
+                    gbmv(RowMajor, transA, n, m, ku, kl,
+                         alpha, A, ldA, B+i, ldB,
+                         beta, C+i*ldC, IndexType(1));
+                }
+            } else if (transB==ConjTrans) {
+                for (IndexType i=0; i<l; ++i) {
+                    gbmv(RowMajor, transA, Conj, n, m, ku, kl,
+                         alpha, A, ldA, B+i, ldB,
+                         beta, C+i*ldC, IndexType(1));
+                }
+            }
+        } else if (sideA==Right) {
+            transA = Transpose(transA^Trans);
+            if (transB==NoTrans) {
+                for (IndexType i=0; i<m; ++i) {
+                    gbmv(RowMajor, transA, l, n, ku, kl,
+                         alpha, A, ldA, B+i, ldB, beta, C+i, ldC);
+                }
+            } else if (transB==Conj) {
+                for (IndexType i=0; i<m; ++i) {
+                    gbmv(RowMajor, transA, Conj, l, n, ku, kl,
+                           alpha, A, ldA, B+i, ldB, beta, C+i, ldC);
+                }
+            } else if (transB==Trans) {
+                for (IndexType i=0; i<n; ++i) {
+                    gbmv(RowMajor, transA, l, m, ku, kl,
+                           alpha, A, ldA, B+i*ldB, IndexType(1),
+                           beta, C+i, ldC);
+                }
+            } else if (transB==ConjTrans ) {
+                for (IndexType i=0; i<n; ++i) {
+                    gbmv(RowMajor, transA, Conj, l, m, ku, kl,
+                         alpha, A, ldA, B+i*ldB, IndexType(1), beta, C+i,ldC);
+                }
+            }
+        }
     }
     return;
 }
-
 
 
 } // namespace cxxblas

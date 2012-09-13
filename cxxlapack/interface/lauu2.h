@@ -43,14 +43,14 @@ template <typename IndexType>
           IndexType     n,
           float         *A,
           IndexType     ldA);
-    
+
 template <typename IndexType>
     IndexType
     lauu2(char          upLo,
           IndexType     n,
           double        *A,
           IndexType     ldA);
-    
+
 template <typename IndexType>
     IndexType
     lauu2(char                  upLo,

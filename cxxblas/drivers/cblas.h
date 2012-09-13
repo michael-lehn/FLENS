@@ -193,7 +193,7 @@ void
 cblas_drotmg(double *d1, double *d2, double *b1, double *b2, double *P);
 
 // scal
-void 
+void
 cblas_sscal(CBLAS_INT n, float alpha, float *x, CBLAS_INT incX);
 
 void
@@ -227,7 +227,7 @@ cblas_zswap(CBLAS_INT n, double *x, CBLAS_INT incX, double *y, CBLAS_INT incY);
 //-- LEVEL 2 -------------------------------------------------------------------
 
 // gbmv
-void 
+void
 cblas_sgbmv(enum CBLAS_ORDER order, enum CBLAS_TRANSPOSE trans,
             CBLAS_INT m, CBLAS_INT n,
             CBLAS_INT kl, CBLAS_INT ku,
@@ -350,7 +350,7 @@ cblas_sspmv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
 void
 cblas_dspmv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
             CBLAS_INT n, double alpha,
-            const double *Ap, 
+            const double *Ap,
             const double *x, CBLAS_INT incX,
             double beta,
             double *y, CBLAS_INT incY);
@@ -402,7 +402,7 @@ cblas_chpmv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
 void
 cblas_zhpmv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
             CBLAS_INT n, const double *alpha,
-            const double *Ap, 
+            const double *Ap,
             const double *x, CBLAS_INT incX,
             const double *beta,
             double *y, CBLAS_INT incY);
@@ -564,14 +564,14 @@ void
 cblas_dtpmv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
             enum CBLAS_TRANSPOSE transA, enum CBLAS_DIAG diag,
             CBLAS_INT n,
-            const double *Ap, 
+            const double *Ap,
             double *x, CBLAS_INT incX);
 
 void
 cblas_ctpmv(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
             enum CBLAS_TRANSPOSE transA, enum CBLAS_DIAG diag,
             CBLAS_INT n,
-            const float *Ap, 
+            const float *Ap,
             float *x, CBLAS_INT incX);
 
 void
@@ -705,7 +705,7 @@ cblas_sgemm(enum CBLAS_ORDER order,
             const float *B, CBLAS_INT ldB,
             float beta,
             float *C, CBLAS_INT ldC);
-            
+
 void
 cblas_dgemm(enum CBLAS_ORDER order,
             enum CBLAS_TRANSPOSE transA, enum CBLAS_TRANSPOSE transB,

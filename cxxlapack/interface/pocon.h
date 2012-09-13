@@ -58,7 +58,7 @@ template <typename IndexType>
           double            &rCond,
           double            *work,
           IndexType         *iWork);
-    
+
 template <typename IndexType>
     IndexType
     pocon(char                          upLo,
@@ -69,7 +69,7 @@ template <typename IndexType>
           float                         &rCond,
           std::complex<float >          *work,
           float                         *rWork);
-    
+
 template <typename IndexType>
     IndexType
     pocon(char                          upLo,

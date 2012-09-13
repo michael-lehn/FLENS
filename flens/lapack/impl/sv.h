@@ -81,19 +81,47 @@ template <typename MA, typename VPIV, typename MB>
 //  Real and complex
 //
 template <typename MA, typename VPIV, typename VB>
+<<<<<<< HEAD
     typename RestrictTo<(IsGbMatrix<MA>::value ||
                          IsGeMatrix<MA>::value)
                       && IsIntegerDenseVector<VPIV>::value
                       && IsDenseVector<VB>::value,
+=======
+    typename RestrictTo< (IsGeMatrix<MA>::value ||
+                          IsHeMatrix<MA>::value ||
+                          IsSyMatrix<MA>::value ||
+                          IsGbMatrix<MA>::value ||
+                          IsHpMatrix<MA>::value ||
+                          IsSpMatrix<MA>::value)
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsDenseVector<VB>::value,
+>>>>>>> klaus
              typename RemoveRef<MA>::Type::IndexType>::Type
     sv(MA &&A, VPIV &&piv, VB &&b);
 
 
+<<<<<<< HEAD
 
 #ifdef USE_CXXLAPACK
+=======
+#ifdef USE_CXXLAPACK
+
+//== (he)sv ====================================================================
+//
+//  complex variant
+//
+template <typename MA, typename VPIV, typename MB, typename VWORK>
+    typename RestrictTo<IsHeMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsComplexGeMatrix<MB>::value
+                     && IsComplexDenseVector<VWORK>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    sv(MA &&A, VPIV &&piv, MB &&B, VWORK && work);
+>>>>>>> klaus
 
 //== (he,hp,sp,sy)sv variant ===================================================
 //
+<<<<<<< HEAD
 //  Real and complex
 //
 template <typename MA, typename VPIV, typename MB, typename VWORK>
@@ -107,6 +135,64 @@ template <typename MA, typename VPIV, typename MB, typename VWORK>
     sv(MA &&A, VPIV &&piv, MB &&B, VWORK &&work);
 
 //== (he,hp,sp,sy)sv variant if rhs is vector ==================================
+=======
+template <typename MA, typename VPIV, typename VB, typename VWORK>
+    typename RestrictTo<IsHeMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsComplexDenseVector<VB>::value
+                     && IsComplexDenseVector<VWORK>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    sv(MA &&A, VPIV &&piv, VB &&b, VWORK && work);
+
+//== (he)sv ====================================================================
+//
+//  complex variant with temporary workspace
+//
+template <typename MA, typename VPIV, typename MB>
+    typename RestrictTo<IsHeMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsComplexGeMatrix<MB>::value ,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    sv(MA &&A, VPIV &&piv, MB &&B);
+
+//== (sy)sv ====================================================================
+//
+//  Real and complex variant
+//
+template <typename MA, typename VPIV, typename MB, typename VWORK>
+    typename RestrictTo<IsSyMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsGeMatrix<MB>::value
+                     && IsDenseVector<VWORK>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    sv(MA &&A, VPIV &&piv, MB &&B, VWORK &&work);
+
+//== (sy)sv if rhs is vector ===================================================
+//
+//  Real and complex variant
+//
+template <typename MA, typename VPIV, typename VB, typename VWORK>
+    typename RestrictTo<IsSyMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsDenseVector<VB>::value
+                     && IsDenseVector<VWORK>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    sv(MA &&A, VPIV &&piv, VB &&b, VWORK &&work);
+
+//== (sy)sv ====================================================================
+//
+//  Real and complex variant with temporary workspace
+//
+template <typename MA, typename VPIV, typename MB>
+    typename RestrictTo<IsSyMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsGeMatrix<MB>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    sv(MA &&A, VPIV &&piv, MB &&B);
+
+
+//== (gb)sv ====================================================================
+>>>>>>> klaus
 //
 //  Real and complex
 //
@@ -118,7 +204,12 @@ template <typename MA, typename VPIV, typename VB, typename VWORK>
                       && IsIntegerDenseVector<VPIV>::value
                       && IsDenseVector<VB>::value,
              typename RemoveRef<MA>::Type::IndexType>::Type
+<<<<<<< HEAD
     sv(MA &&A, VPIV &&piv, VB &&b, VWORK &&work);
+=======
+    sv(MA &&A, VPIV &&piv, MB &&B);
+
+>>>>>>> klaus
 
 //== (he,hp,sp,sy)sv variant if rhs is vector ==================================
 //
@@ -134,10 +225,28 @@ template <typename MA, typename VPIV, typename VB>
              typename RemoveRef<MA>::Type::IndexType>::Type
     sv(MA &&A, VPIV &&piv, VB &&b);
 
+<<<<<<< HEAD
 #endif
 
 
 
+=======
+
+//== (sp)sv ====================================================================
+//
+//  Real and complex variant
+//
+template <typename MA, typename VPIV, typename MB>
+    typename RestrictTo<IsSpMatrix<MA>::value
+                     && IsIntegerDenseVector<VPIV>::value
+                     && IsGeMatrix<MB>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    sv(MA &&A, VPIV &&piv, MB &&B);
+
+
+#endif
+
+>>>>>>> klaus
 } } // namespace lapack, flens
 
 #endif // FLENS_LAPACK_IMPL_SV_H

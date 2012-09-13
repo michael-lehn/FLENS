@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     void
     spmv (char                       uplo,
@@ -48,7 +48,7 @@ template <typename IndexType>
           const std::complex<float > beta,
           std::complex<float >       *y,
           IndexType                  incy);
-    
+
 template <typename IndexType>
     void
     spmv (char                       uplo,

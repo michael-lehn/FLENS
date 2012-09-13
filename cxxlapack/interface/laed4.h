@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     laed4(IndexType             n,
@@ -46,7 +46,7 @@ template <typename IndexType>
           float                 *delta,
           float                 rho,
           float                 &dlam);
-    
+
 template <typename IndexType>
     IndexType
     laed4(IndexType             n,

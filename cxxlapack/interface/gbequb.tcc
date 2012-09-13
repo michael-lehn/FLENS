@@ -38,7 +38,7 @@
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
-  
+
 template <typename IndexType>
 IndexType
 gbequb(IndexType             m,

@@ -39,6 +39,7 @@
 
 namespace cxxlapack {
 
+// TODO: rename this posv and put it into posv.h and posv.tcc
 template <typename IndexType>
 IndexType
 cposv(char                        uplo,

@@ -44,8 +44,8 @@ template <typename IndexType>
           float                 *Ap,
           const IndexType       *iPiv,
           float                 *work);
-    
-    
+
+
 template <typename IndexType>
     IndexType
     sptri(char                  uplo,
@@ -53,7 +53,7 @@ template <typename IndexType>
           double                *Ap,
           const IndexType       *iPiv,
           double                *work);
-    
+
 template <typename IndexType>
     IndexType
     sptri(char                  uplo,

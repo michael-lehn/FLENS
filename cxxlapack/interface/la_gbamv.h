@@ -52,7 +52,7 @@ template <typename IndexType>
              float                 beta,
              float                 *y,
              IndexType             incy);
-    
+
 template <typename IndexType>
     void
     la_gbamv(IndexType             trans,
@@ -68,7 +68,7 @@ template <typename IndexType>
              double                beta,
              double                *y,
              IndexType             incy);
-    
+
 template <typename IndexType>
     void
     la_gbamv(IndexType                   trans,
@@ -84,7 +84,7 @@ template <typename IndexType>
              float                       beta,
              float                       *y,
              IndexType                   incy);
-    
+
 template <typename IndexType>
     void
     la_gbamv(IndexType                   trans,

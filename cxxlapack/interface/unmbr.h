@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     unmbr(char                        vect,
@@ -52,7 +52,7 @@ template <typename IndexType>
           IndexType                   ldC,
           std::complex<float >        *work,
           IndexType                   lWork);
-    
+
 template <typename IndexType>
     IndexType
     unmbr(char                        vect,

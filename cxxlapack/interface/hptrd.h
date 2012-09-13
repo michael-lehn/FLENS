@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     hptrd(char                  uplo,
@@ -45,7 +45,7 @@ template <typename IndexType>
           float                 *d,
           float                 *e,
           std::complex<float >  *tau);
-    
+
 template <typename IndexType>
     IndexType
     hptrd(char                  uplo,

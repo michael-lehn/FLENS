@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     float
     la_porCond(char                  uplo,
@@ -50,7 +50,7 @@ template <typename IndexType>
                IndexType             &info,
                float                 *work,
                IndexType             *iWork);
-    
+
 template <typename IndexType>
     double
     la_porCond(char                  uplo,

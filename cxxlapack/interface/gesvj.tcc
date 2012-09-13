@@ -56,7 +56,7 @@ gesvj(char          jobA,
       IndexType     lWork)
 {
     CXXLAPACK_DEBUG_OUT("sgesvj");
-    
+
     IndexType info;
     LAPACK_IMPL(sgesvj)(&jobA,
                         &jobU,
@@ -98,7 +98,7 @@ gesvj(char          jobA,
       IndexType     lWork)
 {
     CXXLAPACK_DEBUG_OUT("dgesvj");
-    
+
     IndexType info;
     LAPACK_IMPL(dgesvj)(&jobA,
                         &jobU,

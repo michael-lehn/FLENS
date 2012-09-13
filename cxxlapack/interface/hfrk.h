@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     hfrk (char                        transr,
@@ -49,7 +49,7 @@ template <typename IndexType>
           IndexType                   ldA,
           float                       beta,
           std::complex<float >        *C);
-    
+
 template <typename IndexType>
     IndexType
     hfrk (char                        transr,

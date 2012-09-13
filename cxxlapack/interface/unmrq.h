@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     unmrq(char                        side,
@@ -51,7 +51,7 @@ template <typename IndexType>
           IndexType                   ldC,
           std::complex<float >        *work,
           IndexType                   lWork);
-    
+
 template <typename IndexType>
     IndexType
     unmrq(char                        side,

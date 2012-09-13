@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     void
     syr  (char                        uplo,
@@ -46,7 +46,7 @@ template <typename IndexType>
           IndexType                   incx,
           std::complex<float >        *A,
           IndexType                   ldA);
-    
+
 template <typename IndexType>
     void
     syr  (char                        uplo,

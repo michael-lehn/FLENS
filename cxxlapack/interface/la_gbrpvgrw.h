@@ -47,7 +47,7 @@ template <typename IndexType>
                 IndexType             ldAb,
                 const float           *Afb,
                 IndexType             ldAfb);
-    
+
 template <typename IndexType>
     double
     la_gbrpvgrw(IndexType             n,
@@ -58,7 +58,7 @@ template <typename IndexType>
                 IndexType             ldAb,
                 const double          *Afb,
                 IndexType             ldAfb);
-    
+
 template <typename IndexType>
     double
     la_gbrpvgrw(IndexType                     n,
@@ -69,7 +69,7 @@ template <typename IndexType>
                 IndexType                     ldAb,
                 const std::complex<float >    *Afb,
                 IndexType                     ldAfb);
-    
+
 template <typename IndexType>
     double
     la_gbrpvgrw(IndexType                     n,

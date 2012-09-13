@@ -51,7 +51,7 @@ template <typename IndexType>
           float                 *y,
           float                 *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     ggglm(IndexType             n,
@@ -66,7 +66,7 @@ template <typename IndexType>
           double                *y,
           double                *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     ggglm(IndexType             n,
@@ -81,7 +81,7 @@ template <typename IndexType>
           std::complex<float >  *y,
           std::complex<float >  *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     ggglm(IndexType             n,

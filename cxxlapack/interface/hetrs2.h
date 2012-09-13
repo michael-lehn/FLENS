@@ -37,7 +37,7 @@
 
 namespace cxxlapack {
 
-    
+
 template <typename IndexType>
     IndexType
     hetrs2(char                        uplo,
@@ -49,7 +49,7 @@ template <typename IndexType>
            std::complex<float >        *B,
            IndexType                   ldB,
            std::complex<float >        *work);
-    
+
 template <typename IndexType>
     IndexType
     hetrs2(char                        uplo,

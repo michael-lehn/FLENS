@@ -52,7 +52,7 @@ larft(char          direct,
       IndexType     ldT)
 {
     CXXLAPACK_DEBUG_OUT("slarft");
- 
+
     LAPACK_IMPL(slarft)(&direct,
                         &storev,
                         &n,
@@ -78,7 +78,7 @@ larft(char          direct,
       IndexType     ldT)
 {
     CXXLAPACK_DEBUG_OUT("dlarft");
- 
+
     LAPACK_IMPL(dlarft)(&direct,
                         &storev,
                         &n,
@@ -103,7 +103,7 @@ larft(char                          direct,
       IndexType                     ldT)
 {
     CXXLAPACK_DEBUG_OUT("clarft");
- 
+
     LAPACK_IMPL(clarft)(&direct,
                         &storev,
                         &n,
@@ -128,7 +128,7 @@ larft(char                          direct,
       IndexType                     ldT)
 {
     CXXLAPACK_DEBUG_OUT("dlarft");
- 
+
     LAPACK_IMPL(zlarft)(&direct,
                         &storev,
                         &n,

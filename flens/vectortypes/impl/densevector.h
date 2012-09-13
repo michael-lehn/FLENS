@@ -162,7 +162,7 @@ class DenseVector
                    IndexType firstViewIndex) const;
 
         View
-        operator()(const Range<IndexType> &range, 
+        operator()(const Range<IndexType> &range,
                    IndexType firstViewIndex);
 
         const ConstView
@@ -170,7 +170,7 @@ class DenseVector
                    IndexType firstViewIndex) const;
 
         View
-        operator()(const Underscore<IndexType> &all, 
+        operator()(const Underscore<IndexType> &all,
                    IndexType firstViewIndex);
 
         const ConstView

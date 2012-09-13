@@ -46,7 +46,7 @@ template <typename IndexType>
           IndexType ldA,
           float     *tau,
           float     *work);
-    
+
 template <typename IndexType>
     void
     latrz(IndexType m,
@@ -56,7 +56,7 @@ template <typename IndexType>
           IndexType ldA,
           double    *tau,
           double    *work);
-    
+
 template <typename IndexType>
     void
     latrz(IndexType             m,
@@ -66,7 +66,7 @@ template <typename IndexType>
           IndexType             ldA,
           std::complex<float >  *tau,
           std::complex<float >  *work);
-    
+
 template <typename IndexType>
     void
     latrz(IndexType             m,

@@ -43,14 +43,14 @@ main()
     /// We compute $x = A*b$.
     ///
     x = Ab*b;
-    
+
     cout << "x = " << x << endl;
-    
+
     ///
     /// And solve  $A*x = b$.
     ///
     lapack::sv(Ab, pivots, x);
-        
+
     cout << "b = " << x << endl;
 
     return 0;

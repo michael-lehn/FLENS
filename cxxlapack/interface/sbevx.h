@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     sbevx(char                  jobz,
@@ -60,7 +60,7 @@ template <typename IndexType>
           float                 *work,
           IndexType             *iWork,
           IndexType             *ifail);
-    
+
 template <typename IndexType>
     IndexType
     sbevx(char                  jobz,

@@ -101,7 +101,7 @@ svd_impl(SVD::Job               jobU,
 {
     typedef typename GeMatrix<MA>::ElementType  ElementType;
     typedef typename GeMatrix<MA>::IndexType    IndexType;
-    
+
     if (work.length()==0) {
         ElementType     WORK;
         IndexType       LWORK = -1;
@@ -182,7 +182,7 @@ svd_impl(SVD::Job               jobU,
          DenseVector<VRWORK>    &rwork)
 {
     using std::min;
-    
+
     typedef typename GeMatrix<MA>::ElementType      ElementType;
     typedef typename GeMatrix<MA>::IndexType        IndexType;
 
@@ -205,11 +205,11 @@ svd_impl(SVD::Job               jobU,
                                     rwork.data());
         work.resize(cxxblas::real(WORK));
     }
-    
+
     if (rwork.length()==0) {
         rwork.resize(5*min(A.numRows(), A.numCols()));
     }
-    
+
     typedef typename GeMatrix<MA>::IndexType  IndexType;
 
     cxxlapack::gesvd<IndexType>(getF77Char(jobU), getF77Char(jobVT),
@@ -261,7 +261,7 @@ svd(SVD::Job    jobU,
     typedef typename RemoveRef<MVT>::Type     MatrixVT;
     typedef typename RemoveRef<VWORK>::Type   VectorWork;
 
-    
+
 #   ifndef NDEBUG
 //
 //  Test the input parameters
@@ -319,7 +319,7 @@ svd(SVD::Job    jobU,
     typedef typename RemoveRef<MVT>::Type     MatrixVT;
     typedef typename RemoveRef<VWORK>::Type   VectorWork;
     typedef typename RemoveRef<VRWORK>::Type  VectorRWork;
-    
+
 #   ifndef NDEBUG
 //
 //  Test the input parameters
@@ -362,7 +362,7 @@ svd(SVD::Job    jobU,
 {
 //
 //  Remove references from rvalue types
-//  
+//
     typedef typename RemoveRef<MA>::Type::Vector WorkVector;
     WorkVector work;
     svd(jobU, jobVT, A, s, U, VT, work);
@@ -395,7 +395,7 @@ svd(SVD::Job    jobU,
 
     WorkVector      work;
     RealWorkVector  rwork;
-    
+
     svd(jobU, jobVT, A, s, U, VT, work, rwork);
 }
 

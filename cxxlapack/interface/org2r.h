@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     org2r(IndexType     m,
@@ -46,7 +46,7 @@ template <typename IndexType>
           IndexType     ldA,
           const float   *tau,
           float         *work);
-    
+
 template <typename IndexType>
     IndexType
     org2r(IndexType     m,

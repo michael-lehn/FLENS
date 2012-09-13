@@ -62,7 +62,7 @@ template <typename IndexType>
          IndexType      ldB,
          double         *work,
          IndexType      lWork);
-    
+
 template <typename IndexType>
     IndexType
     gels(char                   trans,
@@ -75,7 +75,7 @@ template <typename IndexType>
          IndexType              ldB,
          std::complex<float >   *work,
          IndexType              lWork);
-    
+
 template <typename IndexType>
     IndexType
     gels(char                   trans,

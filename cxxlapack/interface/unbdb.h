@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     unbdb(char                  trans,
@@ -60,7 +60,7 @@ template <typename IndexType>
           std::complex<float >  *tauq2,
           std::complex<float >  *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     unbdb(char                  trans,

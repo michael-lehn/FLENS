@@ -53,7 +53,7 @@ larz(char           side,
      float          *work)
 {
     CXXLAPACK_DEBUG_OUT("slarz");
-    
+
     LAPACK_IMPL(slarz)(&side,
                        &m,
                        &n,
@@ -81,7 +81,7 @@ larz(char           side,
      double         *work)
 {
     CXXLAPACK_DEBUG_OUT("dlarz");
-  
+
     LAPACK_IMPL(dlarz)(&side,
                        &m,
                        &n,
@@ -108,7 +108,7 @@ larz(char                        side,
      std::complex<float >        *work)
 {
     CXXLAPACK_DEBUG_OUT("clarz");
-  
+
     LAPACK_IMPL(clarz)(&side,
                        &m,
                        &n,
@@ -135,7 +135,7 @@ larz(char                        side,
      std::complex<double>        *work)
 {
     CXXLAPACK_DEBUG_OUT("zlarz");
-  
+
     LAPACK_IMPL(zlarz)(&side,
                        &m,
                        &n,

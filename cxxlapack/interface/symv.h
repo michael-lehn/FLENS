@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     void
     symv (char                        uplo,
@@ -49,7 +49,7 @@ template <typename IndexType>
           std::complex<float >        beta,
           std::complex<float >        *Y,
           IndexType                   incy);
-    
+
 template <typename IndexType>
     void
     symv (char                        uplo,

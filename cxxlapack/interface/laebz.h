@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     laebz(IndexType             ijob,
@@ -58,7 +58,7 @@ template <typename IndexType>
           IndexType             *NAb,
           float                 *work,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     laebz(IndexType             ijob,

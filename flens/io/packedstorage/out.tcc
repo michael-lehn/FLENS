@@ -35,6 +35,8 @@
 
 #include <cxxblas/typedefs.h>
 #include <flens/io/packedstorage/out.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
 
 namespace flens {
 
@@ -68,7 +70,7 @@ operator<<(std::ostream &out, const HpMatrix<FS> &A)
                 out.width(11);
             else
                 out.width(22);
-    
+
             if (i==j) {
                 out << ElementType(cxxblas::real(A(i,j)));
             }
@@ -117,7 +119,7 @@ operator<<(std::ostream &out, const SpMatrix<FS> &A)
                 out.width(11);
             else
                 out.width(22);
-    
+
             out << ((A.upLo()==cxxblas::Upper)
                     ? A(std::min(i,j), std::max(i,j))
                     : A(std::max(i,j), std::min(i,j)));
@@ -158,7 +160,7 @@ operator<<(std::ostream &out, const TpMatrix<FS> &A)
                 out.width(11);
             else
                 out.width(22);
-    
+
             if (i==j) {
                 (A.diag()==cxxblas::Unit) ? out << ElementType(1)
                                           : out << A(i,j);

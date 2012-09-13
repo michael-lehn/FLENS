@@ -60,7 +60,7 @@ template <typename IndexType>
           float         *bErr,
           float         *work,
           IndexType     *iWork);
-    
+
 template <typename IndexType>
     IndexType
     gesvx(char          fact,
@@ -84,7 +84,7 @@ template <typename IndexType>
           double        *bErr,
           double        *work,
           IndexType     *iWork);
-    
+
     template <typename IndexType>
     IndexType
     gesvx(char                  fact,

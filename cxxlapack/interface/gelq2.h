@@ -45,7 +45,7 @@ template <typename IndexType>
           IndexType    ldA,
           float        *tau,
           float        *work);
-    
+
 template <typename IndexType>
     IndexType
     gelq2(IndexType    m,
@@ -54,7 +54,7 @@ template <typename IndexType>
           IndexType    ldA,
           double       *tau,
           double       *work);
-    
+
 template <typename IndexType>
     IndexType
     gelq2(const IndexType           m,
@@ -63,7 +63,7 @@ template <typename IndexType>
           const IndexType           ldA,
           std::complex<float >      *tau,
           std::complex<float >      *work);
-    
+
 template <typename IndexType>
     IndexType
     gelq2(const IndexType           m,

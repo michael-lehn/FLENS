@@ -90,23 +90,19 @@ dotu(const DenseVector<X> &x, const DenseVector<Y> &y, T &result)
 }
 
 template <typename X, typename Y>
-typename RestrictTo<IsSame<typename X::ElementType,
-                           typename Y::ElementType>::value,
-                    typename X::ElementType>::Type
+typename CompatibleType<typename X::ElementType, typename Y::ElementType>::Type
 dot(const DenseVector<X> &x, const DenseVector<Y> &y)
 {
-    typename X::ElementType val;
+    typename CompatibleType<typename X::ElementType, typename Y::ElementType>::Type val;
     dot(x, y, val);
     return val;
 }
 
 template <typename X, typename Y>
-typename RestrictTo<IsSame<typename X::ElementType,
-                           typename Y::ElementType>::value,
-                    typename X::ElementType>::Type
+typename CompatibleType<typename X::ElementType, typename Y::ElementType>::Type
 dotu(const DenseVector<X> &x, const DenseVector<Y> &y)
 {
-    typename X::ElementType val;
+    typename CompatibleType<typename X::ElementType, typename Y::ElementType>::Type val;
     dotu(x, y, val);
     return val;
 }

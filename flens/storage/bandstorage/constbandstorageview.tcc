@@ -112,7 +112,7 @@ ConstBandStorageView<T, Order, I, A>::operator()(IndexType row,
     const IndexType i = _numSubDiags+col-row;
     const IndexType j = row-_firstIndex;
     const IndexType storageNumRows = _numSubDiags+_numSuperDiags+1;
-    return _data[j*_leadingDimension+i]; 
+    return _data[j*_leadingDimension+i];
 }
 
 //-- methods -------------------------------------------------------------------
@@ -234,7 +234,7 @@ ConstBandStorageView<T, Order, I, A>::arrayView(IndexType firstViewIndex) const
                               firstViewIndex,
                               allocator());
     }
-    
+
     return ConstArrayView(_leadingDimension*_numRows,
                           _data,
                           IndexType(1),
@@ -251,14 +251,14 @@ ConstBandStorageView<T, Order, I, A>::viewDiag(IndexType diag,
 
     ASSERT( diag <= _numSuperDiags);
     ASSERT(-diag <= _numSubDiags);
-    
+
     using std::min;
 
     const IndexType i = (diag < 0) ? -diag+firstViewIndex: firstViewIndex;
     const IndexType j = (diag > 0) ?  diag+firstViewIndex: firstViewIndex;
     const IndexType length = (diag<=0) ? min(_numCols, _numRows+diag)
                                        : min(_numCols-diag, _numRows);
-    
+
     return ConstArrayView(length-firstViewIndex+_firstIndex,
                           &(this->operator()(i, j)),
                           _leadingDimension,
@@ -273,14 +273,14 @@ ConstBandStorageView<T, Order, I, A>::viewDiags(IndexType fromDiag, IndexType to
     ASSERT(fromDiag<=toDiag);
     IndexType numRows = _numRows;
     IndexType numCols = _numCols;
-    
+
     if (fromDiag>0) {
         numCols = _numCols - fromDiag;
         if (_numRows<_numCols) {
             if (_numCols-_numRows < fromDiag) {
                 numRows = _numCols - fromDiag;
             }
-        } else { 
+        } else {
             numRows = _numCols - fromDiag;
         }
     }
@@ -297,7 +297,7 @@ ConstBandStorageView<T, Order, I, A>::viewDiags(IndexType fromDiag, IndexType to
 
     const IndexType i = _firstIndex - ((toDiag<0) ? toDiag : 0);
     const IndexType j = _firstIndex + ((fromDiag>0) ? fromDiag : 0);
-    
+
     if (Order == RowMajor ) {
         if (toDiag < 0) {
             return ConstView(numRows, numCols, -fromDiag+toDiag, 0,
@@ -310,13 +310,13 @@ ConstBandStorageView<T, Order, I, A>::viewDiags(IndexType fromDiag, IndexType to
                              &(this->operator()(i,j)),
                              _leadingDimension,
                              _firstIndex, _allocator);
-        } 
+        }
         return ConstView(numRows, numCols, -fromDiag, toDiag,
                          _data + _numSubDiags+fromDiag,
                          _leadingDimension,
                          _firstIndex, _allocator);
-    } 
-    
+    }
+
     if (toDiag < 0) {
         return ConstView(numRows, numCols, -fromDiag+toDiag, 0,
                          &(this->operator()(i,j)),

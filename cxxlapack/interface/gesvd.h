@@ -52,7 +52,7 @@ template <typename IndexType>
           IndexType             ldVt,
           float                 *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     gesvd(char                  jobU,
@@ -68,7 +68,7 @@ template <typename IndexType>
           IndexType             ldVt,
           double                *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     gesvd(char                  jobU,

@@ -48,10 +48,12 @@ template <typename T, typename I, typename A>
 template <typename T, typename I, typename A>
     class ConstArrayView;
 
-template <typename T, StorageUpLo UpLo, StorageOrder Order, typename I, typename A>
+template <typename T, StorageUpLo UpLo, StorageOrder Order,
+          typename I, typename A>
     class PackedStorage;
 
-template <typename T, StorageUpLo UpLo, StorageOrder Order, typename I, typename A>
+template <typename T, StorageUpLo UpLo, StorageOrder Order,
+          typename I, typename A>
     class PackedStorageView;
 
 template <typename T,
@@ -62,33 +64,32 @@ template <typename T,
 class ConstPackedStorageView
 {
     public:
-        typedef T                                     ElementType;
-        typedef typename I::IndexType                 IndexType;
-        typedef A                                     Allocator;
+        typedef T                        ElementType;
+        typedef typename I::IndexType    IndexType;
+        typedef A                        Allocator;
 
-        static const StorageOrder                     order = Order;
-        static const StorageUpLo                      upLo  = UpLo;
-        static const IndexType                        defaultIndexBase
-                                                          = I::defaultIndexBase;
+        static const StorageOrder        order = Order;
+        static const StorageUpLo         upLo  = UpLo;
+        static const IndexType           defaultIndexBase = I::defaultIndexBase;
 
-        typedef ConstPackedStorageView                        ConstView;
-        typedef PackedStorageView<T, UpLo, Order, I, A>       View;
-        typedef PackedStorage<T, UpLo, Order, I, A>           NoView;
+        typedef ConstPackedStorageView                   ConstView;
+        typedef PackedStorageView<T, UpLo, Order, I, A>  View;
+        typedef PackedStorage<T, UpLo, Order, I, A>      NoView;
 
-        typedef flens::ConstArrayView<T, I, A>        ConstArrayView;
-        typedef flens::ArrayView<T, I, A>             ArrayView;
-        typedef flens::Array<T, I, A>                 Array;
+        typedef flens::ConstArrayView<T, I, A>           ConstArrayView;
+        typedef flens::ArrayView<T, I, A>                ArrayView;
+        typedef flens::Array<T, I, A>                    Array;
 
         ConstPackedStorageView(IndexType dim,
-                             const ElementType *data,
-                             IndexType indexBase = I::defaultIndexBase,
-                             const Allocator &allocator = Allocator());
+                               const ElementType *data,
+                               IndexType indexBase = I::defaultIndexBase,
+                               const Allocator &allocator = Allocator());
 
         template <typename ARRAY>
             ConstPackedStorageView(IndexType dim,
-                                 ARRAY &array,
-                                 IndexType indexBase = I::defaultIndexBase,
-                                 const Allocator &allocator = Allocator());
+                                   ARRAY &array,
+                                   IndexType indexBase = I::defaultIndexBase,
+                                   const Allocator &allocator = Allocator());
 
         ConstPackedStorageView(const ConstPackedStorageView &rhs);
 

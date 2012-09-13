@@ -48,7 +48,7 @@ template <typename A>
 
 template <typename V>
     typename RestrictTo<IsVector<V>::value,
-                        bool>::Type
+             bool>::Type
     save(std::string filename, const V &&x);
 
 } // namespace flens

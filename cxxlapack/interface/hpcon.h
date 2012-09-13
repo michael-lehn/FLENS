@@ -46,7 +46,7 @@ template <typename IndexType>
           float                       anorm,
           float                       &rCond,
           std::complex<float >        *work);
-    
+
 template <typename IndexType>
     IndexType
     hpcon(char                        uplo,

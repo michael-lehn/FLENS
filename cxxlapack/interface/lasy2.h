@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     lasy2(bool          transTL,
@@ -54,7 +54,7 @@ template <typename IndexType>
           float         *X,
           IndexType     ldX,
           float         &xNorm);
-    
+
 template <typename IndexType>
     IndexType
     lasy2(bool          transTL,

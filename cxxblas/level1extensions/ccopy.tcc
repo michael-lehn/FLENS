@@ -30,8 +30,8 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_LEVEL1_CCOPY_TCC
-#define CXXBLAS_LEVEL1_CCOPY_TCC 1
+#ifndef CXXBLAS_LEVEL1EXTENSIONS_CCOPY_TCC
+#define CXXBLAS_LEVEL1EXTENSIONS_CCOPY_TCC 1
 
 #include <cxxblas/auxiliary/auxiliary.h>
 
@@ -39,7 +39,8 @@ namespace cxxblas {
 
 template <typename IndexType, typename X, typename Y>
 void
-ccopy_generic(IndexType n, const X *x, IndexType incX, std::complex<Y> *y, IndexType incY)
+ccopy_generic(IndexType n, const X *x, IndexType incX,
+              std::complex<Y> *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("ccopy_generic");
 
@@ -71,4 +72,4 @@ ccopy(IndexType n, const X *x, IndexType incX, Y *y, IndexType incY)
 
 } // namespace cxxblas
 
-#endif // CXXBLAS_LEVEL1_CCOPY_TCC
+#endif // CXXBLAS_LEVEL1EXTENSIONS_CCOPY_TCC

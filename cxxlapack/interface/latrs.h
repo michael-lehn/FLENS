@@ -50,7 +50,7 @@ template <typename IndexType>
           float         &scale,
           float         *cNorm);
 
-    
+
 template <typename IndexType>
     IndexType
     latrs(char          uplo,
@@ -63,7 +63,7 @@ template <typename IndexType>
           double        *x,
           double        &scale,
           double        *cNorm);
-    
+
 template <typename IndexType>
     IndexType
     latrs(char                          upLo,

@@ -36,11 +36,11 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename VOID=void>
     float
     lapy2(float x, float y);
-    
+
 template <typename VOID=void>
     double
     lapy2(double x, double y);

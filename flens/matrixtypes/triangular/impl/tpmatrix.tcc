@@ -113,12 +113,12 @@ TpMatrix<FS> &
 TpMatrix<FS>::operator=(const ElementType &alpha)
 {
     ASSERT(_diag==NonUnit);
-    
+
     if (upLo()==Upper) {
         for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = i; j <= lastIndex(); ++j)
                 (*this)(i,j) = alpha;
- 
+
     } else {
       for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = firstIndex(); j <= i; ++j)
@@ -132,12 +132,12 @@ TpMatrix<FS> &
 TpMatrix<FS>::operator+=(const ElementType &alpha)
 {
     ASSERT(_diag==NonUnit);
-    
+
     if (upLo()==Upper) {
         for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = i; j <= lastIndex(); ++j)
                 (*this)(i,j) += alpha;
- 
+
     } else {
       for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = firstIndex(); j <= i; ++j)
@@ -151,12 +151,12 @@ TpMatrix<FS> &
 TpMatrix<FS>::operator-=(const ElementType &alpha)
 {
     ASSERT(_diag==NonUnit);
-    
+
     if (upLo()==Upper) {
         for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = i; j <= lastIndex(); ++j)
                 (*this)(i,j) -= alpha;
- 
+
     } else {
       for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = firstIndex(); j <= i; ++j)
@@ -170,12 +170,12 @@ TpMatrix<FS> &
 TpMatrix<FS>::operator*=(const ElementType &alpha)
 {
     ASSERT(_diag==NonUnit);
-    
+
     if (upLo()==Upper) {
         for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = i; j <= lastIndex(); ++j)
                 (*this)(i,j) *= alpha;
- 
+
     } else {
       for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = firstIndex(); j <= i; ++j)
@@ -189,12 +189,12 @@ TpMatrix<FS> &
 TpMatrix<FS>::operator/=(const ElementType &alpha)
 {
     ASSERT(_diag==NonUnit);
-    
+
     if (upLo()==Upper) {
         for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = i; j <= lastIndex(); ++j)
                 (*this)(i,j) /= alpha;
- 
+
     } else {
       for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = firstIndex(); j <= i; ++j)
@@ -232,16 +232,6 @@ TpMatrix<FS>::operator()(IndexType row, IndexType col)
 #   endif
     return _engine(row, col);
 }
-
-
-
-
-
-
-
-
-
-
 
 // -- views ------------------------------------------------------------
 

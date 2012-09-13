@@ -36,6 +36,8 @@
 #include <flens/auxiliary/iscomplex.h>
 #include <cxxblas/typedefs.h>
 #include <flens/io/fullstorage/out.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
 
 namespace flens {
 
@@ -44,7 +46,7 @@ std::ostream &
 operator<<(std::ostream &out, const GeMatrix<FS> &A)
 {
     typedef typename GeMatrix<FS>::IndexType   IndexType;
-    typedef typename GeMatrix<FS>::ElementType ElementType;    
+    typedef typename GeMatrix<FS>::ElementType ElementType;
 #   ifdef FLENS_IO_WITH_RANGES
     IndexType defaultIndexBase = FS::defaultIndexBase;
 
@@ -129,7 +131,7 @@ std::ostream &
 operator<<(std::ostream &out, const SyMatrix<FS> &A)
 {
     typedef typename GeMatrix<FS>::IndexType IndexType;
-    typedef typename GeMatrix<FS>::ElementType ElementType;    
+    typedef typename GeMatrix<FS>::ElementType ElementType;
 #   ifdef FLENS_IO_WITH_RANGES
     IndexType defaultIndexBase = FS::defaultIndexBase;
 

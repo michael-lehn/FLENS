@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     double
     la_syrCond_c(char                        uplo,
@@ -51,7 +51,7 @@ template <typename IndexType>
                  IndexType                   &info,
                  std::complex<float >        *work,
                  float                       *rWork);
-    
+
 template <typename IndexType>
     double
     la_syrCond_c(char                        uplo,
@@ -69,4 +69,4 @@ template <typename IndexType>
 
 } // namespace cxxlapack
 
-#endif // CXXLAPACK_INTERFACE_LA_SYRCOND_C_H 
+#endif // CXXLAPACK_INTERFACE_LA_SYRCOND_C_H

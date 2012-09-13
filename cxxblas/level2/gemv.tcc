@@ -224,14 +224,13 @@ gemv(StorageOrder order, Transpose trans,
     }
 
 #   ifdef CXXBLAS_NO_TEMPORARY
-        if (order==RowMajor && trans==ConjTrans) {
-
-            CXXBLAS_DEBUG_OUT("gemv_generic");
-            gemv_generic(order, trans, NoTrans, m, n,
+    if (order==RowMajor && trans==ConjTrans) {
+        CXXBLAS_DEBUG_OUT("gemv_generic");
+        gemv_generic(order, trans, NoTrans, m, n,
                      alpha, A, ldA, x, incX,
                      beta, y, incY);
-            return;
-        }
+        return;
+    }
 #   endif
 
     cblas_cgemv(CBLAS::getCblasType(order), CBLAS::getCblasType(trans),
@@ -264,14 +263,13 @@ gemv(StorageOrder order, Transpose trans,
     }
 
 #   ifdef CXXBLAS_NO_TEMPORARY
-        if (order==RowMajor && trans==ConjTrans) {
-
-            CXXBLAS_DEBUG_OUT("gemv_generic");
-            gemv_generic(order, trans, NoTrans, m, n,
+    if (order==RowMajor && trans==ConjTrans) {
+        CXXBLAS_DEBUG_OUT("gemv_generic");
+        gemv_generic(order, trans, NoTrans, m, n,
                      alpha, A, ldA, x, incX,
                      beta, y, incY);
-            return;
-        }
+        return;
+    }
 #   endif
 
     cblas_zgemv(CBLAS::getCblasType(order), CBLAS::getCblasType(trans),

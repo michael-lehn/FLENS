@@ -37,6 +37,7 @@
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/typedefs.h>
 #include <flens/matrixtypes/hermitian/hermitianmatrix.h>
+#include <flens/typedefs.h>
 
 namespace flens {
 
@@ -78,6 +79,10 @@ class HbMatrix
         typedef DenseVector<ConstArrayView>         ConstVectorView;
         typedef DenseVector<ArrayView>              VectorView;
         typedef DenseVector<Array>                  Vector;
+
+        typedef GbMatrix<EngineConstView>           ConstGeneralView;
+        typedef GbMatrix<EngineView>                GeneralView;
+        typedef GbMatrix<EngineNoView>              GeneralNoView;
 
         typedef HbMatrix<EngineConstView>           ConstView;
         typedef HbMatrix<EngineView>                View;
@@ -130,7 +135,7 @@ class HbMatrix
         template <typename RHS>
             HbMatrix &
             operator-=(const Matrix<RHS> &rhs);
-        
+
         HbMatrix<FS> &
         operator=(const ElementType &alpha);
 
@@ -155,11 +160,11 @@ class HbMatrix
         // -- views ------------------------------------------------------------
 
         // general views
-        ConstView
-        hermitian() const;
+        ConstGeneralView
+        general() const;
 
-        View
-        hermitian();
+        GeneralView
+        general();
 
         // symmetric view
         ConstSymmetricView
@@ -205,7 +210,7 @@ class HbMatrix
         order() const;
 
         IndexType
-        numOffDiags() const; 
+        numOffDiags() const;
 
         const ElementType *
         data() const;

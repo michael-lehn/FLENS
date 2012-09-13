@@ -47,7 +47,7 @@ lauu2(char          upLo,
       IndexType     ldA)
 {
     CXXLAPACK_DEBUG_OUT("slauu2");
-  
+
     IndexType info;
     LAPACK_IMPL(slauu2)(&upLo,
                         &n,
@@ -72,7 +72,7 @@ lauu2(char          upLo,
       IndexType     ldA)
 {
     CXXLAPACK_DEBUG_OUT("dlauu2");
-  
+
     IndexType info;
     LAPACK_IMPL(dlauu2)(&upLo,
                         &n,
@@ -96,7 +96,7 @@ lauu2(char                  upLo,
       IndexType             ldA)
 {
     CXXLAPACK_DEBUG_OUT("clauu2");
-  
+
     IndexType info;
     LAPACK_IMPL(clauu2)(&upLo,
                         &n,
@@ -120,7 +120,7 @@ lauu2(char                  upLo,
       IndexType             ldA)
 {
     CXXLAPACK_DEBUG_OUT("zlauu2");
-  
+
     IndexType info;
     LAPACK_IMPL(zlauu2)(&upLo,
                         &n,

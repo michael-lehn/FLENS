@@ -56,8 +56,8 @@ template <typename IndexType>
           float             *work,
           IndexType         ldWork,
           IndexType         *iWork);
-    
-    
+
+
 template <typename IndexType>
     IndexType
     trsna(char              job,
@@ -77,7 +77,7 @@ template <typename IndexType>
           double            *work,
           IndexType         ldWork,
           IndexType         *iWork);
-    
+
 template <typename IndexType>
     IndexType
     trsna(char                          job,

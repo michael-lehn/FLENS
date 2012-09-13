@@ -35,6 +35,8 @@
 
 #include <iostream>
 #include <cxxlapack/interface/interface.h>
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -47,7 +49,7 @@ rscl(IndexType          n,
      IndexType          incX)
 {
     CXXLAPACK_DEBUG_OUT("srscl");
- 
+
     LAPACK_IMPL(srscl)(&n,
                        &sa,
                        sx,
@@ -62,7 +64,7 @@ rscl(IndexType          n,
      IndexType          incX)
 {
     CXXLAPACK_DEBUG_OUT("drscl");
- 
+
     LAPACK_IMPL(drscl)(&n,
                        &sa,
                        sx,
@@ -77,7 +79,7 @@ rscl(IndexType              n,
      IndexType              incX)
 {
     CXXLAPACK_DEBUG_OUT("crscl");
- 
+
     LAPACK_IMPL(crscl)(&n,
                        &sa,
                        reinterpret_cast<float  *>(sx),
@@ -92,7 +94,7 @@ rscl(IndexType              n,
      IndexType              incX)
 {
     CXXLAPACK_DEBUG_OUT("zrscl");
- 
+
     LAPACK_IMPL(zrscl)(&n,
                        &sa,
                        reinterpret_cast<double *>(sx),

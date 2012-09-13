@@ -41,16 +41,19 @@
 namespace flens {
 
 template <typename FS>
-SbMatrix<FS>::SbMatrix()
+SbMatrix<FS>::SbMatrix(StorageUpLo upLo)
+    : _upLo(upLo)
 {
 }
 
 template <typename FS>
 SbMatrix<FS>::SbMatrix(IndexType dim, StorageUpLo upLo, IndexType numOffDiags,
                        IndexType firstIndex)
-      : _engine(dim, dim, (upLo == Lower) ? numOffDiags : 0, (upLo == Upper) ? numOffDiags : 0,
+      : _engine(dim, dim,
+                (upLo==Lower) ? numOffDiags : 0,
+                (upLo==Upper) ? numOffDiags : 0,
                 firstIndex),
-      _upLo(upLo)
+        _upLo(upLo)
 {
 }
 
@@ -62,25 +65,21 @@ SbMatrix<FS>::SbMatrix(const Engine &engine, StorageUpLo upLo)
 
 template <typename FS>
 SbMatrix<FS>::SbMatrix(const SbMatrix &rhs)
-    : SymmetricMatrix<SbMatrix<FS> >(),
-      _engine(rhs.engine()),
-      _upLo(rhs.upLo())
+    : SymmetricMatrix<SbMatrix<FS> >(), _engine(rhs.engine()), _upLo(rhs.upLo())
 {
 }
 
 template <typename FS>
 template <typename RHS>
 SbMatrix<FS>::SbMatrix(const SbMatrix<RHS> &rhs)
-    : _engine(rhs.engine()),
-      _upLo(rhs.upLo())
+    : _engine(rhs.engine()), _upLo(rhs.upLo())
 {
 }
 
 template <typename FS>
 template <typename RHS>
 SbMatrix<FS>::SbMatrix(SbMatrix<RHS> &rhs)
-    : _engine(rhs.engine()),
-      _upLo(rhs.upLo())
+    : _engine(rhs.engine()), _upLo(rhs.upLo())
 {
 }
 
@@ -135,10 +134,10 @@ SbMatrix<FS> &
 SbMatrix<FS>::operator=(const ElementType &alpha)
 {
     if (_upLo==Lower) {
-        for (IndexType i = -numOffDiags(); i <= 0; ++i)
+        for (IndexType i=-numOffDiags(); i<=0; ++i)
             (*this).viewDiag(i) = alpha;
     } else {
-        for (IndexType i = numOffDiags(); i >= 0; --i)
+        for (IndexType i=numOffDiags(); i>=0; --i)
             (*this).viewDiag(i) = alpha;
     }
     return *this;
@@ -149,10 +148,10 @@ SbMatrix<FS> &
 SbMatrix<FS>::operator+=(const ElementType &alpha)
 {
     if (_upLo==Lower) {
-        for (IndexType i = -numOffDiags(); i <= 0; ++i)
+        for (IndexType i=-numOffDiags(); i<=0; ++i)
             (*this).viewDiag(i) += alpha;
     } else {
-        for (IndexType i = numOffDiags(); i >= 0; --i)
+        for (IndexType i=numOffDiags(); i>=0; --i)
             (*this).viewDiag(i) += alpha;
     }
     return *this;
@@ -163,10 +162,10 @@ SbMatrix<FS> &
 SbMatrix<FS>::operator-=(const ElementType &alpha)
 {
     if (_upLo==Lower) {
-        for (IndexType i = -numOffDiags(); i <= 0; ++i)
+        for (IndexType i=-numOffDiags(); i<=0; ++i)
             (*this).viewDiag(i) -= alpha;
     } else {
-        for (IndexType i = numOffDiags(); i >= 0; --i)
+        for (IndexType i=numOffDiags(); i>=0; --i)
             (*this).viewDiag(i) -= alpha;
     }
     return *this;
@@ -177,10 +176,10 @@ SbMatrix<FS> &
 SbMatrix<FS>::operator*=(const ElementType &alpha)
 {
     if (_upLo==Lower) {
-        for (IndexType i = -numOffDiags(); i <= 0; ++i)
+        for (IndexType i=-numOffDiags(); i<=0; ++i)
             (*this).viewDiag(i) *= alpha;
     } else {
-        for (IndexType i = numOffDiags(); i >= 0; --i)
+        for (IndexType i=numOffDiags(); i>=0; --i)
             (*this).viewDiag(i) *= alpha;
     }
     return *this;
@@ -191,10 +190,10 @@ SbMatrix<FS> &
 SbMatrix<FS>::operator/=(const ElementType &alpha)
 {
     if (_upLo==Lower) {
-        for (IndexType i = -numOffDiags(); i <= 0; ++i)
+        for (IndexType i=-numOffDiags(); i<=0; ++i)
             (*this).viewDiag(i) /= alpha;
     } else {
-        for (IndexType i = numOffDiags(); i >= 0; --i)
+        for (IndexType i=numOffDiags(); i>=0; --i)
             (*this).viewDiag(i) /= alpha;
     }
     return *this;
@@ -230,16 +229,22 @@ SbMatrix<FS>::operator()(IndexType row, IndexType col)
     return _engine(row, col);
 }
 
-
-
-
-
-
-
-
-
-
 // -- views --------------------------------------------------------------------
+
+// general views
+template <typename FS>
+const typename SbMatrix<FS>::ConstGeneralView
+SbMatrix<FS>::general() const
+{
+    return ConstGeneralView(_engine);
+}
+
+template <typename FS>
+typename SbMatrix<FS>::GeneralView
+SbMatrix<FS>::general()
+{
+    return GeneralView(_engine);
+}
 
 // hermitian views
 template <typename FS>
@@ -254,21 +259,6 @@ typename SbMatrix<FS>::HermitianView
 SbMatrix<FS>::hermitian()
 {
     return HermitianView(_engine, _upLo);
-}
-
-// symmetric views
-template <typename FS>
-const typename SbMatrix<FS>::ConstView
-SbMatrix<FS>::symmetric() const
-{
-    return ConstView(_engine, _upLo);
-}
-
-template <typename FS>
-typename SbMatrix<FS>::View
-SbMatrix<FS>::symmetric()
-{
-    return View(_engine, _upLo);
 }
 
 // triangular views
@@ -290,9 +280,10 @@ template <typename FS>
 const typename SbMatrix<FS>::ConstVectorView
 SbMatrix<FS>::viewDiag(IndexType diag) const
 {
-    if ((_upLo==Upper)^(diag>0))
+    if ((_upLo==Upper)^(diag>0)) {
         ConstVectorView(_engine.viewDiag(-diag, _engine.firstIndex()));
-    
+    }
+
     return ConstVectorView(_engine.viewDiag(diag, _engine.firstIndex()));
 }
 
@@ -300,9 +291,10 @@ template <typename FS>
 typename SbMatrix<FS>::VectorView
 SbMatrix<FS>::viewDiag(IndexType diag)
 {
-    if ((_upLo==Upper)^(diag>0))
+    if ((_upLo==Upper)^(diag>0)) {
          return VectorView(_engine.viewDiag(-diag, _engine.firstIndex()));
-    
+    }
+
     return VectorView(_engine.viewDiag(diag, _engine.firstIndex()));
 }
 
@@ -346,9 +338,8 @@ template <typename FS>
 typename SbMatrix<FS>::IndexType
 SbMatrix<FS>::numOffDiags() const
 {
-    return (_upLo==Upper) 
-            ? _engine.numSuperDiags() 
-            : _engine.numSubDiags();
+    return (_upLo==Upper) ? _engine.numSuperDiags()
+                          : _engine.numSubDiags();
 }
 
 template <typename FS>
@@ -390,13 +381,13 @@ SbMatrix<FS>::resize(const SbMatrix<RHS> &rhs,
 
 template <typename FS>
 bool
-SbMatrix<FS>::resize(IndexType dim, 
+SbMatrix<FS>::resize(IndexType dim,
                      IndexType numOffDiags, IndexType firstIndex,
                      const ElementType &value)
 {
-    return _engine.resize(dim, dim, 
-                          (_upLo==Lower) ? numOffDiags : 0,  
-                          (_upLo==Upper) ? numOffDiags : 0,  
+    return _engine.resize(dim, dim,
+                          (_upLo==Lower) ? numOffDiags : 0,
+                          (_upLo==Upper) ? numOffDiags : 0,
                           firstIndex, value);
 }
 
@@ -433,6 +424,13 @@ SbMatrix<FS>::engine()
 template <typename FS>
 StorageUpLo
 SbMatrix<FS>::upLo() const
+{
+    return _upLo;
+}
+
+template <typename FS>
+StorageUpLo &
+SbMatrix<FS>::upLo()
 {
     return _upLo;
 }

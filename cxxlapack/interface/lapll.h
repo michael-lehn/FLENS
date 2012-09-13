@@ -45,7 +45,7 @@ template <typename IndexType>
           float                 *y,
           float                 incy,
           float                 &ssmin);
-    
+
 template <typename IndexType>
     void
     lapll(IndexType             n,
@@ -54,7 +54,7 @@ template <typename IndexType>
           double                *y,
           double                incy,
           double                &ssmin);
-    
+
 template <typename IndexType>
     void
     lapll(IndexType             n,
@@ -63,7 +63,7 @@ template <typename IndexType>
           std::complex<float >  *y,
           float                 incy,
           float                 &ssmin);
-    
+
 template <typename IndexType>
     void
     lapll(IndexType             n,

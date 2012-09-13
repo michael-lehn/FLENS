@@ -68,7 +68,7 @@ template <typename IndexType>
           double                *ferr,
           double                *berr,
           double                *work);
-    
+
 template <typename IndexType>
     IndexType
     ptrfs(IndexType                   n,
@@ -84,7 +84,7 @@ template <typename IndexType>
           float                       *ferr,
           float                       *berr,
           std::complex<float >        *work);
-    
+
 template <typename IndexType>
     IndexType
     ptrfs(IndexType                   n,

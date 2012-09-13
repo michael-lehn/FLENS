@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     heevd(char                   jobZ,
@@ -51,7 +51,7 @@ template <typename IndexType>
           IndexType              lrWork,
           IndexType              *iWork,
           IndexType              liWork);
-    
+
 template <typename IndexType>
     IndexType
     heevd(char                   jobZ,

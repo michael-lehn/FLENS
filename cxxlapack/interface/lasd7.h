@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     lasd7(IndexType             icompq,
@@ -65,7 +65,7 @@ template <typename IndexType>
           IndexType             ldGnum,
           float                 &c,
           float                 &s);
-    
+
 template <typename IndexType>
     IndexType
     lasd7(IndexType             icompq,

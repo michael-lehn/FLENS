@@ -35,6 +35,8 @@
 
 #include <iostream>
 #include <cxxlapack/interface/interface.h>
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -59,7 +61,6 @@ laswp(IndexType             n,
                         iPiv,
                         &incX);
 }
-
 
 template <typename IndexType>
 void

@@ -92,7 +92,7 @@ template <typename IndexType>
 std::ostream &
 operator<<(std::ostream &out, const Range<IndexType> &range)
 {
-    out << "[" << range.firstIndex() << ","; 
+    out << "[" << range.firstIndex() << ",";
     if (range.stride()!=1) {
         out << range.stride();
     }

@@ -52,7 +52,7 @@ template <typename IndexType>
           IndexType             ldX,
           float                 *Y,
           IndexType             ldY);
-    
+
 template <typename IndexType>
     void
     labrd(IndexType             m,
@@ -68,7 +68,7 @@ template <typename IndexType>
           IndexType             ldX,
           double                *Y,
           IndexType             ldY);
-    
+
 template <typename IndexType>
     void
     labrd(IndexType             m,
@@ -84,7 +84,7 @@ template <typename IndexType>
           IndexType             ldX,
           std::complex<float >  *Y,
           IndexType             ldY);
-    
+
 template <typename IndexType>
     void
     labrd(IndexType             m,

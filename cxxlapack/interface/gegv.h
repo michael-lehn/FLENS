@@ -54,7 +54,7 @@ template <typename IndexType>
          IndexType             ldVR,
          float                 *work,
          IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     gegv(char                  jobvsl,
@@ -72,7 +72,7 @@ template <typename IndexType>
          IndexType             ldVR,
          double                *work,
          IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     gegv(char                  jobvsl,

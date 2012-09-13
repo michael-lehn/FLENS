@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     void
     laqhe(char                  uplo,
@@ -47,7 +47,7 @@ template <typename IndexType>
           float                 scond,
           float                 amax,
           char                  &equed);
-    
+
 template <typename IndexType>
     void
     laqhe(char                  uplo,

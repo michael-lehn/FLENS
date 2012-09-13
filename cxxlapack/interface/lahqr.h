@@ -52,7 +52,7 @@ template <typename IndexType>
           IndexType     iHiZ,
           float         *Z,
           IndexType     ldZ);
-    
+
 template <typename IndexType>
     IndexType
     lahqr(bool          wantT,
@@ -68,7 +68,7 @@ template <typename IndexType>
           IndexType     iHiZ,
           double        *Z,
           IndexType     ldZ);
-    
+
 template <typename IndexType>
     IndexType
     lahqr(bool                      wantT,
@@ -83,7 +83,7 @@ template <typename IndexType>
           IndexType                 iHiZ,
           std::complex<float >      *Z,
           IndexType                 ldZ);
-    
+
 template <typename IndexType>
     IndexType
     lahqr(bool                      wantT,

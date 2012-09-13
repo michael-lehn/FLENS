@@ -49,8 +49,8 @@ template <typename IndexType>
           float                 *C2,
           IndexType             ldC,
           float                 *work);
-    
-    
+
+
 template <typename IndexType>
     IndexType
     latzm(char                  side,
@@ -63,7 +63,7 @@ template <typename IndexType>
           double                *C2,
           IndexType             ldC,
           double                *work);
-    
+
 template <typename IndexType>
     IndexType
     latzm(char                       side,

@@ -45,7 +45,7 @@ template <typename IndexType>
             IndexType             ldA,
             IndexType             i1,
             IndexType             i2);
-    
+
 template <typename IndexType>
     IndexType
     syswapr(char                  uplo,
@@ -54,7 +54,7 @@ template <typename IndexType>
             IndexType             ldA,
             IndexType             i1,
             IndexType             i2);
-    
+
 template <typename IndexType>
     IndexType
     syswapr(char                  uplo,
@@ -63,7 +63,7 @@ template <typename IndexType>
             IndexType             ldA,
             IndexType             i1,
             IndexType             i2);
-    
+
 template <typename IndexType>
     IndexType
     syswapr(char                  uplo,

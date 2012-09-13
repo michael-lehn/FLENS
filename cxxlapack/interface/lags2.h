@@ -52,7 +52,7 @@ template <typename VOID=void>
           float                 &snv,
           float                 &csq,
           float                 &snq);
-    
+
 template <typename VOID=void>
     void
     lags2(bool                  upper,
@@ -68,7 +68,7 @@ template <typename VOID=void>
           double                &snv,
           double                &csq,
           double                &snq);
-    
+
 template <typename VOID=void>
     void
     lags2(bool                  upper,
@@ -84,7 +84,7 @@ template <typename VOID=void>
           std::complex<float >  &snv,
           float                 &csq,
           std::complex<float >  &snq);
-    
+
 template <typename VOID=void>
     void
     lags2(bool                  upper,

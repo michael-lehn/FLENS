@@ -1,5 +1,6 @@
 /*
  *   Copyright (c) 2009, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -427,7 +428,7 @@ template <typename MA, typename MB>
 typename RestrictTo<IsHpMatrix<MA>::value
                  && IsHpMatrix<MB>::value,
          void>::Type
-copy(Transpose trans, const MA &A, MB &&B)
+copy(const MA &A, MB &&B)
 {
     ASSERT(((A.upLo()==B.upLo()) && ((trans==NoTrans) || (trans==Conj))) ||
            ((A.upLo()!=B.upLo()) && ((trans==Trans) || (trans==ConjTrans))));
@@ -584,9 +585,6 @@ copy(const MA &A, MB &&B)
         if (B.dim()!=0) {
             FLENS_BLASLOG_RESIZE_MATRIX(B, A.dim(), A.dim());
         }
-#       endif
-        B.resize(A);
-        B.upLo() = A.upLo();
     }
 
     ASSERT(A.upLo()==B.upLo());
@@ -594,7 +592,7 @@ copy(const MA &A, MB &&B)
     ASSERT(A.order()==B.order());
 
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_COPY(A, B);
+    FLENS_BLASLOG_BEGIN_MCOPY(trans, A, B);
 
 #   ifdef HAVE_CXXBLAS_TRCOPY
     cxxblas::trcopy(B.order(), B.upLo(), NoTrans, NonUnit, B.dim(), B.dim(),
@@ -666,8 +664,6 @@ copy(Transpose trans, const MA &A, MB &&B)
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_MCOPY(trans, A, B);
 
-
-
     typedef typename TbMatrix<MB>::IndexType  IndexType;
 
     const IndexType numSubDiags   = ((trans==NoTrans) || (trans==Conj))
@@ -678,7 +674,6 @@ copy(Transpose trans, const MA &A, MB &&B)
     const IndexType Bshift = (MB::order==RowMajor)
                                ? B.numSubDiags() - numSubDiags
                                : B.numSuperDiags() - numSuperDiags;
-
 
     trans = (A.order()==B.order())
           ? Transpose(trans ^ NoTrans)
@@ -725,14 +720,14 @@ copy(Transpose trans, const MA &A, MB &&B)
 //  resizing but rather an initialization).
 //
     if (A.dim()!=B.dim()) {
-#           ifndef FLENS_DEBUG_CLOSURES
-            ASSERT(B.dim()==0);
-#           else
-            if (B.dim()!=0) {
-                FLENS_BLASLOG_RESIZE_MATRIX(B, A.dim(), A.dim());
-            }
-#           endif
-            B.resize(A);
+#       ifndef FLENS_DEBUG_CLOSURES
+        ASSERT(B.dim()==0);
+#       else
+        if (B.dim()!=0) {
+            FLENS_BLASLOG_RESIZE_MATRIX(B, A.dim(), A.dim());
+        }
+#       endif
+        B.resize(A);
     }
 
     trans = (A.order()==B.order())
@@ -758,46 +753,6 @@ typename RestrictTo<IsTrMatrix<MA>::value
          void>::Type
 copy(Transpose trans, const MA &A, MB &&B)
 {
-//
-//  Resize left hand size if needed.  This is *usually* only alloweded
-//  when the left hand side is an empty matrix (such that it is no actual
-//  resizing but rather an initialization).
-//
-    if (trans==NoTrans) {
-        if ((A.numRows()!=B.numRows()) || (A.numCols()!=B.numCols())) {
-#           ifndef FLENS_DEBUG_CLOSURES
-            ASSERT(B.numRows()==0 || B.numCols()==0);
-#           else
-            if (B.numRows()!=0 && B.numCols()!=0) {
-                FLENS_BLASLOG_RESIZE_MATRIX(B, A.numRows(), A.numCols());
-            }
-#           endif
-            B.resize(A);
-        }
-    } else {
-        if ((A.numRows()!=B.numCols()) || (A.numCols()!=B.numRows())) {
-#           ifndef FLENS_DEBUG_CLOSURES
-            ASSERT(B.numRows()==0 || B.numCols()==0);
-#           else
-            if (B.numRows()!=0 && B.numCols()!=0) {
-                FLENS_BLASLOG_RESIZE_MATRIX(B, A.numCols(), A.numRows());
-            }
-#           endif
-            B.resize(A.numCols(), A.numRows(),
-                     A.firstCol(), A.firstRow());
-        }
-    }
-
-#   ifndef NDEBUG
-    if (trans==NoTrans || trans==Conj) {
-        ASSERT(A.upLo()==B.upLo());
-    } else {
-        ASSERT(A.upLo()!=B.upLo());
-    }
-#   endif
-
-    // TODO: make this assertion unnecessary
-    ASSERT(A.order()==B.order());
     ASSERT(A.diag()==B.diag());
 
     FLENS_BLASLOG_SETTAG("--> ");
@@ -964,34 +919,6 @@ copy(Transpose trans, const MA &A, MB &&B)
 
 //== HermitianMatrix
 
-//-- copy: HbMatrix -> GbMatrix
-template <typename MA, typename MB>
-typename RestrictTo<IsHbMatrix<MA>::value
-                 && IsGbMatrix<MB>::value,
-         void>::Type
-copy(const MA &A, MB &&B)
-{
-
-    if ((A.numRows()!=B.numRows())
-     || (A.numCols()!=B.numCols())
-     || (A.numOffDiags() > B.numSubDiags())
-     || (A.numOffDiags() > B.numSuperDiags()))
-    {
-        ASSERT(B.numRows()==0 || B.numCols()==0);
-        B.resize(A.numRows(), A.numCols(),
-                 A.numOffDiags(), A.numOffDiags(),
-                 A.firstIndex(), A.firstIndex());
-    }
-
-    if (A.upLo()==Upper) {
-        B.upper() = A.triangular();
-        B.strictLower() = conjgateTranspose(A.general().strictUpper());
-    } else {
-        B.lower() = A.triangular();
-        B.strictUpper() = conjugateTranspose(A.general().strictLower());
-    }
-}
-
 //-- copy: HeCCSMatrix -> HeMatrix
 template <typename MA, typename MB>
 typename RestrictTo<IsHeCCSMatrix<MA>::value
@@ -1010,8 +937,8 @@ copy(const MA &A, MB &&B)
 
     ASSERT(A.upLo()==B.upLo());
 
-    const auto &cols = A.engine().cols();
     const auto &rows = A.engine().rows();
+    const auto &cols = A.engine().cols();
     const auto &vals = A.engine().values();
 
     for (IndexType j=cols.firstIndex(); j<cols.lastIndex(); ++j) {
@@ -1050,44 +977,7 @@ copy(const MA &A, MB &&B)
     }
 }
 
-//-- copy: HeMatrix -> GeMatrix
-template <typename MA, typename MB>
-typename RestrictTo<IsHeMatrix<MA>::value
-                 && IsGeMatrix<MB>::value,
-         void>::Type
-copy(const MA &A, MB &&B)
-{
-}
-
 //== SymmetricMatrix
-
-//-- copy: SbMatrix -> GbMatrix
-template <typename MA, typename MB>
-typename RestrictTo<IsSbMatrix<MA>::value
-                 && IsGbMatrix<MB>::value,
-         void>::Type
-copy(const MA &A, MB &&B)
-{
-
-    if ((A.numRows()!=B.numRows()) ||
-        (A.numCols()!=B.numCols()) ||
-        (A.numOffDiags() > B.numSubDiags()) ||
-        (A.numOffDiags() > B.numSuperDiags())) {
-        ASSERT(B.numRows()==0 || B.numCols()==0);
-        B.resize(A.numRows(), A.numCols(),
-                 A.numOffDiags(), A.numOffDiags(),
-                 A.firstIndex(), A.firstIndex());
-    }
-
-    if (A.upLo()==Upper) {
-        B.upper() = A.triangular();
-        B.strictLower() = transpose(A.triangular().general().strictUpper());
-    } else {
-        B.lower() = A.triangular();
-        B.strictUpper() = transpose(A.triangular().general().strictLower());
-
-    }
-}
 
 //-- copy: SyCCSMatrix -> SyMatrix
 template <typename MA, typename MB>
@@ -1147,6 +1037,97 @@ copy(const MA &A, MB &&B)
     }
 }
 
+
+//-- Convenience Extensions ----------------------------------------------------
+
+//== HermitianMatrix
+
+//-- copy: HbMatrix -> GbMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsHbMatrix<MA>::value
+                 && IsGbMatrix<MB>::value,
+         void>::Type
+copy(const MA &A, MB &&B)
+{
+
+    if ((A.numRows()!=B.numRows())
+     || (A.numCols()!=B.numCols())
+     || (A.numOffDiags() > B.numSubDiags())
+     || (A.numOffDiags() > B.numSuperDiags()))
+    {
+        ASSERT(B.numRows()==0 || B.numCols()==0);
+        B.resize(A.numRows(), A.numCols(),
+                 A.numOffDiags(), A.numOffDiags(),
+                 A.firstIndex(), A.firstIndex());
+    }
+
+    if (A.upLo()==Upper) {
+        B.upper() = A.triangular();
+        B.strictLower() = conjgateTranspose(A.general().strictUpper());
+    } else {
+        B.lower() = A.triangular();
+        B.strictUpper() = conjugateTranspose(A.general().strictLower());
+    }
+}
+
+//-- copy: HeMatrix -> GeMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsHeMatrix<MA>::value
+                 && IsGeMatrix<MB>::value,
+         void>::Type
+copy(const MA &A, MB &&B)
+{
+    if (A.numRows()!=B.numRows() && A.numCols()!=B.numCols()) {
+#       ifndef FLENS_DEBUG_CLOSURES
+        ASSERT(B.numRows()==0 || B.numCols()==0);
+#       else
+        if (B.numRows()!=0 && B.numCols()!=0) {
+            FLENS_BLASLOG_RESIZE_MATRIX(B, A.numRows(), A.numCols());
+        }
+#       endif
+        B.resize(A.numRows(), A.numCols(),
+                 A.firstRow(), A.firstCol());
+    }
+
+    if (A.upLo()==Upper) {
+        B.upper() = A.general().upper();
+        B.strictLower() = conjTrans(A.general().strictUpper());
+    } else {
+        B.lower() = A.general().lower();
+        B.strictUpper() = conjTrans(A.general().strictLower());
+    }
+}
+
+//== SymmetricMatrix
+
+//-- copy: SbMatrix -> GbMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsSbMatrix<MA>::value
+                 && IsGbMatrix<MB>::value,
+         void>::Type
+copy(const MA &A, MB &&B)
+{
+
+    if ((A.numRows()!=B.numRows()) ||
+        (A.numCols()!=B.numCols()) ||
+        (A.numOffDiags() > B.numSubDiags()) ||
+        (A.numOffDiags() > B.numSuperDiags())) {
+        ASSERT(B.numRows()==0 || B.numCols()==0);
+        B.resize(A.numRows(), A.numCols(),
+                 A.numOffDiags(), A.numOffDiags(),
+                 A.firstIndex(), A.firstIndex());
+    }
+
+    if (A.upLo()==Upper) {
+        B.upper() = A.triangular();
+        B.strictLower() = transpose(A.triangular().general().strictUpper());
+    } else {
+        B.lower() = A.triangular();
+        B.strictUpper() = transpose(A.triangular().general().strictLower());
+
+    }
+}
+
 //-- copy: SyMatrix -> GeMatrix
 template <typename MA, typename MB>
 typename RestrictTo<IsSyMatrix<MA>::value
@@ -1192,7 +1173,8 @@ copy(Transpose trans, const MA &A, MB &&B)
         if ((A.numRows()!=B.numRows())
             || (A.numCols()!=B.numCols())
             || (A.numSubDiags()>B.numSubDiags())
-            || (A.numSuperDiags()>B.numSuperDiags())) {
+            || (A.numSuperDiags()>B.numSuperDiags()))
+        {
             ASSERT((B.numRows()==0) && (B.numCols()==0));
             B.resize(A.numRows(), A.numCols(),
                      A.numSubDiags(), A.numSuperDiags(),
@@ -1202,11 +1184,12 @@ copy(Transpose trans, const MA &A, MB &&B)
         if ((A.numRows()!=B.numCols())
             || (A.numCols()!=B.numRows())
             || (A.numSubDiags()>B.numSuperDiags())
-            || (A.numSuperDiags()>B.numSubDiags())) {
+            || (A.numSuperDiags()>B.numSubDiags()))
+        {
             ASSERT((B.numRows()==0) && (B.numCols()==0));
             B.resize(A.numCols(), A.numRows(),
                      A.numSuperDiags(), A.numSubDiags());
-         }
+        }
     }
     typedef typename TbMatrix<MB>::IndexType  IndexType;
     if (trans==NoTrans) {
@@ -1217,8 +1200,9 @@ copy(Transpose trans, const MA &A, MB &&B)
             B.lower() = A;
             B.strictUpper() = Zero;
         }
-        if (A.diag()==Unit)
+        if (A.diag()==Unit) {
             B.viewDiag(0)=One;
+        }
 
     } else if (trans==Conj) {
         if (A.upLo()==Upper) {
@@ -1228,8 +1212,9 @@ copy(Transpose trans, const MA &A, MB &&B)
             B.lower() = conjugate(A);
             B.strictUpper() = Zero;
         }
-        if (A.diag()==Unit)
+        if (A.diag()==Unit) {
             B.viewDiag(0)=One;
+        }
 
     } else if (trans==Trans) {
         if (A.upLo()==Upper) {
@@ -1239,8 +1224,9 @@ copy(Transpose trans, const MA &A, MB &&B)
             B.upper() = transpose(A);
             B.strictLower() = Zero;
         }
-        if (A.diag()==Unit)
+        if (A.diag()==Unit) {
             B.viewDiag(0)=One;
+        }
     } else {
         if (A.upLo()==Upper) {
             B.lower() = conjugateTranspose(A);
@@ -1249,8 +1235,9 @@ copy(Transpose trans, const MA &A, MB &&B)
             B.upper() = conjugateTranspose(A);
             B.strictLower() = Zero;
         }
-        if (A.diag()==Unit)
+        if (A.diag()==Unit) {
             B.viewDiag(0)=One;
+        }
     }
 }
 

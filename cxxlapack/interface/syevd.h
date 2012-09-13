@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     syevd(char           jobZ,
@@ -49,7 +49,7 @@ template <typename IndexType>
           IndexType      lWork,
           IndexType      *iWork,
           IndexType       liWork);
-    
+
 template <typename IndexType>
     IndexType
     syevd(char           jobZ,

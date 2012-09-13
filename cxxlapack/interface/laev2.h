@@ -47,7 +47,7 @@ template <typename VOID=void>
           float                 &cs1,
           float                 &sn1);
 
-    
+
 template <typename VOID=void>
     void
     laev2(double                a,
@@ -57,7 +57,7 @@ template <typename VOID=void>
           double                &rt2,
           double                &cs1,
           double                &sn1);
-    
+
 template <typename VOID=void>
     void
     laev2(std::complex<float >  a,
@@ -67,7 +67,7 @@ template <typename VOID=void>
           float                 &rt2,
           float                 &cs1,
           std::complex<float >  &sn1);
-    
+
 template <typename VOID=void>
     void
     laev2(std::complex<double>  a,

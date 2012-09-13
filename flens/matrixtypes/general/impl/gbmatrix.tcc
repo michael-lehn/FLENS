@@ -33,9 +33,9 @@
 #ifndef FLENS_MATRIXTYPES_GENERAL_IMPL_GBMATRIX_TCC
 #define FLENS_MATRIXTYPES_GENERAL_IMPL_GBMATRIX_TCC 1
 
-#include <flens/auxiliary/auxiliary.h>
-#include <flens/blas/level1/copy.h>
+#include <flens/blas/blas.h>
 #include <flens/typedefs.h>
+#include <flens/matrixtypes/general/impl/gematrix.h>
 
 namespace flens {
 
@@ -217,7 +217,7 @@ GbMatrix<FS>::strictUpper() const
 
 template <typename FS>
 typename GbMatrix<FS>::View
-GbMatrix<FS>::strictUpper() 
+GbMatrix<FS>::strictUpper()
 {
     ASSERT(_engine.numSuperDiags()>0);
     return View(_engine.viewDiags(1, _engine.numSuperDiags()));
@@ -249,7 +249,7 @@ GbMatrix<FS>::strictLower() const
 
 template <typename FS>
 typename GbMatrix<FS>::View
-GbMatrix<FS>::strictLower() 
+GbMatrix<FS>::strictLower()
 {
     ASSERT(_engine.numSubDiags()>0);
     return View(_engine.viewDiags(-_engine.numSubDiags(),-1));
@@ -278,7 +278,7 @@ GbMatrix<FS>::viewDiags(IndexType fromDiag, IndexType toDiag) const
 
 template <typename FS>
 typename GbMatrix<FS>::View
-GbMatrix<FS>::viewDiags(IndexType fromDiag, IndexType toDiag) 
+GbMatrix<FS>::viewDiags(IndexType fromDiag, IndexType toDiag)
 {
     return View(_engine.viewDiags(fromDiag, toDiag));
 }

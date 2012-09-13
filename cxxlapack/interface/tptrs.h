@@ -47,7 +47,7 @@ template <typename IndexType>
           const float           *Ap,
           float                 *B,
           IndexType             ldB);
-    
+
 template <typename IndexType>
     IndexType
     tptrs(char                  uplo,
@@ -58,7 +58,7 @@ template <typename IndexType>
           const double          *Ap,
           double                *B,
           IndexType             ldB);
-    
+
 template <typename IndexType>
     IndexType
     tptrs(char                        uplo,
@@ -69,8 +69,8 @@ template <typename IndexType>
           const std::complex<float >  *Ap,
           std::complex<float >        *B,
           IndexType                   ldB);
-    
-    
+
+
 template <typename IndexType>
     IndexType
     tptrs(char                        uplo,

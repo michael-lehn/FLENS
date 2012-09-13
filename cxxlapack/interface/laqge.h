@@ -49,8 +49,8 @@ template <typename IndexType>
           const float   &colCond,
           const float   &maxA,
           char          &equed);
-    
-    
+
+
     template <typename IndexType>
     void
     laqge(IndexType     m,
@@ -63,7 +63,7 @@ template <typename IndexType>
           const double  &colCond,
           const double  &maxA,
           char          &equed);
-    
+
     template <typename IndexType>
     void
     laqge(const IndexType       m,

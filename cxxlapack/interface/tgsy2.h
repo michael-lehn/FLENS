@@ -61,7 +61,7 @@ template <typename IndexType>
           IndexType             *iWork,
           IndexType             &pq);
 
-    
+
 template <typename IndexType>
     IndexType
     tgsy2(char                  trans,
@@ -85,7 +85,7 @@ template <typename IndexType>
           double                &rdscal,
           IndexType             *iWork,
           IndexType             &pq);
-    
+
 template <typename IndexType>
     IndexType
     tgsy2(char                        trans,
@@ -107,7 +107,7 @@ template <typename IndexType>
           float                       &scale,
           float                       &rdsum,
           float                       &rdscal);
-    
+
 template <typename IndexType>
     IndexType
     tgsy2(char                        trans,

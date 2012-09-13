@@ -55,7 +55,7 @@ template <typename IndexType>
           float             *bErr,
           float             *work,
           IndexType         *iWork);
-    
+
 template <typename IndexType>
     IndexType
     gerfs(char              trans,
@@ -74,7 +74,7 @@ template <typename IndexType>
           double            *bErr,
           double            *work,
           IndexType         *iWork);
-    
+
 template <typename IndexType>
     IndexType
     gerfs(char                          trans,
@@ -93,7 +93,7 @@ template <typename IndexType>
           float                         *bErr,
           std::complex<float >          *work,
           float                         *rWork);
-    
+
 template <typename IndexType>
     IndexType
     gerfs(char                          trans,

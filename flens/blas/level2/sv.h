@@ -62,7 +62,7 @@ template <typename MA, typename VX>
             void>::Type
     sv(Transpose trans, const MA &A, VX &&x);
 
-    
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL3_SV_H

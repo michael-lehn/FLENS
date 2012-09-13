@@ -60,7 +60,7 @@ template <typename IndexType>
           float                 *work,
           IndexType             lWork,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     tgsyl(char                  trans,
@@ -84,7 +84,7 @@ template <typename IndexType>
           double                *work,
           IndexType             lWork,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     tgsyl(char                        trans,
@@ -108,7 +108,7 @@ template <typename IndexType>
           std::complex<float >        *work,
           IndexType                   lWork,
           IndexType                   *iWork);
-    
+
 template <typename IndexType>
     IndexType
     tgsyl(char                        trans,

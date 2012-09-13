@@ -55,7 +55,7 @@ trsyl(char          transA,
       float         &scale)
 {
     CXXLAPACK_DEBUG_OUT("strsyl");
- 
+
     IndexType info;
     LAPACK_IMPL(strsyl)(&transA,
                         &transB,
@@ -96,7 +96,7 @@ trsyl(char          transA,
       double        &scale)
 {
     CXXLAPACK_DEBUG_OUT("dtrsyl");
- 
+
     IndexType info;
     LAPACK_IMPL(dtrsyl)(&transA,
                         &transB,
@@ -136,7 +136,7 @@ trsyl(char                          transA,
       float                         &scale)
 {
     CXXLAPACK_DEBUG_OUT("ctrsyl");
- 
+
     IndexType info;
     LAPACK_IMPL(ctrsyl)(&transA,
                         &transB,
@@ -177,7 +177,7 @@ trsyl(char                          transA,
       double                        &scale)
 {
     CXXLAPACK_DEBUG_OUT("ztrsyl");
- 
+
     IndexType info;
     LAPACK_IMPL(ztrsyl)(&transA,
                         &transB,

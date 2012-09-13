@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     orcsd(char                  jobu1,
@@ -68,7 +68,7 @@ template <typename IndexType>
           float                 *work,
           IndexType             lWork,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     orcsd(char                  jobu1,

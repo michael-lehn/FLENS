@@ -47,7 +47,7 @@ template <typename IndexType>
           float                         &rCond,
           float                         *work,
           IndexType                     *iwork);
-   
+
 template <typename IndexType>
     IndexType
     gecon(char                          norm,
@@ -58,7 +58,7 @@ template <typename IndexType>
           double                        &rCond,
           double                        *work,
           IndexType                     *iwork);
-    
+
 template <typename IndexType>
     IndexType
     gecon(char                          norm,
@@ -69,7 +69,7 @@ template <typename IndexType>
           float                         &rCond,
           std::complex<float >          *work,
           IndexType                     *iwork);
-    
+
 template <typename IndexType>
     IndexType
     gecon(char                          norm,

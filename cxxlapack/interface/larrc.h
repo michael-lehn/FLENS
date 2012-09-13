@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     larrc(char                  jobt,
@@ -49,7 +49,7 @@ template <typename IndexType>
           IndexType             &eigcnt,
           IndexType             &lcnt,
           IndexType             &rcnt);
-    
+
 template <typename IndexType>
     IndexType
     larrc(char                  jobt,

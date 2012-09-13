@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     float
     la_gerCond(char                  trans,
@@ -52,7 +52,7 @@ template <typename IndexType>
                float                 *work,
                IndexType             *iWork);
 
-    
+
 template <typename IndexType>
     double
     la_gerCond(char                  trans,

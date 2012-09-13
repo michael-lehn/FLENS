@@ -46,7 +46,7 @@ template <typename IndexType>
           IndexType             *iPiv,
           float                 *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     sytrf(char                  uplo,
@@ -56,7 +56,7 @@ template <typename IndexType>
           IndexType             *iPiv,
           double                *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     sytrf(char                  uplo,

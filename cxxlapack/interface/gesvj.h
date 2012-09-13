@@ -52,7 +52,7 @@ template <typename IndexType>
           IndexType     ldV,
           float         *work,
           IndexType     lWork);
-    
+
 template <typename IndexType>
     IndexType
     gesvj(char          jobA,

@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     sytd2(char                  uplo,
@@ -46,7 +46,7 @@ template <typename IndexType>
           float                 *d,
           float                 *e,
           float                 *tau);
-    
+
 template <typename IndexType>
     IndexType
     sytd2(char                  uplo,

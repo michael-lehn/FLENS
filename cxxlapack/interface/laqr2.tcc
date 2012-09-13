@@ -69,7 +69,7 @@ laqr2(bool          wantT,
       IndexType     lWork)
 {
     CXXLAPACK_DEBUG_OUT("slaqr2");
- 
+
     IndexType _wantT = wantT;
     IndexType _wantZ = wantZ;
     LAPACK_IMPL(slaqr2)(&_wantT,
@@ -131,7 +131,7 @@ laqr2(bool          wantT,
       IndexType     lWork)
 {
     CXXLAPACK_DEBUG_OUT("dlaqr2");
- 
+
     IndexType _wantT = wantT;
     IndexType _wantZ = wantZ;
     LAPACK_IMPL(dlaqr2)(&_wantT,
@@ -191,7 +191,7 @@ laqr2(bool                  wantT,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("claqr2");
- 
+
     IndexType _wantT = wantT;
     IndexType _wantZ = wantZ;
     LAPACK_IMPL(claqr2)(&_wantT,
@@ -250,7 +250,7 @@ laqr2(bool                  wantT,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("zlaqr2");
- 
+
     IndexType _wantT = wantT;
     IndexType _wantZ = wantZ;
     LAPACK_IMPL(zlaqr2)(&_wantT,

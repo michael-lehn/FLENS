@@ -56,7 +56,7 @@ ormhr(char          side,
       IndexType     lWork)
 {
     CXXLAPACK_DEBUG_OUT("sormhr");
-  
+
     IndexType info;
     LAPACK_IMPL(sormhr)(&side,
                         &trans,
@@ -98,7 +98,7 @@ ormhr(char          side,
       IndexType     lWork)
 {
     CXXLAPACK_DEBUG_OUT("dormhr");
-  
+
     IndexType info;
     LAPACK_IMPL(dormhr)(&side,
                         &trans,

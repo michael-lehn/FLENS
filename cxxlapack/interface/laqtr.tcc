@@ -53,7 +53,7 @@ laqtr(bool              trans,
       float             *work)
 {
     CXXLAPACK_DEBUG_OUT("slaqtr");
- 
+
     IndexType info;
     IndexType _trans = trans;
     IndexType _real = real;
@@ -91,7 +91,7 @@ laqtr(bool              trans,
       double            *work)
 {
     CXXLAPACK_DEBUG_OUT("dlaqtr");
- 
+
     IndexType info;
     IndexType _trans = trans;
     IndexType _real = real;

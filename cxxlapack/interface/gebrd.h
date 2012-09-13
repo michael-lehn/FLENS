@@ -49,7 +49,7 @@ template <typename IndexType>
           float                 *taup,
           float                 *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     gebrd(IndexType             m,
@@ -62,7 +62,7 @@ template <typename IndexType>
           double                *taup,
           double                *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     gebrd(IndexType             m,
@@ -75,7 +75,7 @@ template <typename IndexType>
           std::complex<float >  *taup,
           std::complex<float >  *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     gebrd(IndexType             m,

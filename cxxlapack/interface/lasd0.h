@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     lasd0(IndexType             n,
@@ -50,7 +50,7 @@ template <typename IndexType>
           IndexType             smlsiz,
           IndexType             *iWork,
           float                 *work);
-    
+
 template <typename IndexType>
     IndexType
     lasd0(IndexType             n,

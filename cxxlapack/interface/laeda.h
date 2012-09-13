@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     laeda(IndexType             n,
@@ -52,7 +52,7 @@ template <typename IndexType>
           const IndexType       *qptr,
           float                 *z,
           float                 *ztemp);
-    
+
 template <typename IndexType>
     IndexType
     laeda(IndexType             n,

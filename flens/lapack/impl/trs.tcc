@@ -426,8 +426,8 @@ trs(Transpose trans, const MA &A, const VPIV &piv, MB &&B)
 //  Make copies of output arguments
 //
     typename MatrixB::NoView  B_org   = B;
-#   endif    
-    
+#   endif
+
 //
 //  Call implementation
 //
@@ -821,7 +821,7 @@ trs(const MA &A, const VPIV &piv, MB &&B)
 //  Call implementation
 //
     external::trs_impl(A, piv, B);
-    
+
 }
 
 //-- (sp)trs [real and complex variant]

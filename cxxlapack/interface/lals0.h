@@ -63,7 +63,7 @@ template <typename IndexType>
           float                 s,
           float                 *work);
 
-    
+
 template <typename IndexType>
     IndexType
     lals0(IndexType             icomq,
@@ -89,7 +89,7 @@ template <typename IndexType>
           double                c,
           double                s,
           double                *work);
-    
+
 template <typename IndexType>
     IndexType
     lals0(IndexType             icomq,
@@ -116,7 +116,7 @@ template <typename IndexType>
           float                 s,
           float                 *rWork);
 
-    
+
 template <typename IndexType>
     IndexType
     lals0(IndexType             icomq,

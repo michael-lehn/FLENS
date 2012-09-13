@@ -55,15 +55,15 @@ gbcotr(StorageOrder order, Transpose trans,
     }
 
     if (trans == Conj) {
-          for (IndexType j=0, i=-kl; i<=ku; ++j, ++i) {
-              IndexType length = (i < 0)
-                               ? min(m+i,min(m,n))
-                               : min(n-i,min(m,n));
-              for (IndexType k=0; k<ldA*length; k+=ldA) {
+        for (IndexType j=0, i=-kl; i<=ku; ++j, ++i) {
+            IndexType length = (i < 0)
+                             ? min(m+i,min(m,n))
+                             : min(n-i,min(m,n));
+            for (IndexType k=0; k<ldA*length; k+=ldA) {
                 (A+j+max(-i,0)*ldA)[k] = conjugate((A+j+max(-i,0)*ldA)[k]);
-              }
-          }
-          return;
+            }
+        }
+        return;
     }
     if (trans == Trans) {
         ASSERT(m==n);

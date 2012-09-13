@@ -58,7 +58,7 @@ template <typename IndexType>
            float                 *work,
            IndexType             lWork,
            IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     tgsna(char                  job,
@@ -80,7 +80,7 @@ template <typename IndexType>
           double                *work,
           IndexType             lWork,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     tgsna(char                       job,
@@ -102,7 +102,7 @@ template <typename IndexType>
           std::complex<float >        *work,
           IndexType                   lWork,
           IndexType                   *iWork);
-    
+
 template <typename IndexType>
      IndexType
      tgsna(char                       job,

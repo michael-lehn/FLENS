@@ -95,9 +95,8 @@ class SbMatrix
         typedef TbMatrix<EngineView>                TriangularView;
         typedef TbMatrix<EngineNoView>              TriangularNoView;
 
-        SbMatrix();
+        SbMatrix(StorageUpLo upLo = Upper);
 
-        explicit
         SbMatrix(IndexType dim, StorageUpLo upLo, IndexType numOffDiags,
                  IndexType firstIndex = Engine::defaultIndexBase);
 
@@ -109,10 +108,10 @@ class SbMatrix
             SbMatrix(const SbMatrix<RHS> &rhs);
 
         template <typename RHS>
-            SbMatrix(SbMatrix<RHS> &rhs);
+            SbMatrix(const Matrix<RHS> &rhs);
 
         template <typename RHS>
-            SbMatrix(const Matrix<RHS> &rhs);
+            SbMatrix(SbMatrix<RHS> &rhs);
 
         // -- operators --------------------------------------------------------
 
@@ -126,11 +125,11 @@ class SbMatrix
         template <typename RHS>
             SbMatrix &
             operator+=(const Matrix<RHS> &rhs);
- 
+
         template <typename RHS>
             SbMatrix &
             operator-=(const Matrix<RHS> &rhs);
-    
+
         SbMatrix<FS> &
         operator=(const ElementType &alpha);
 
@@ -152,12 +151,14 @@ class SbMatrix
         ElementType &
         operator()(IndexType row, IndexType col);
 
-
-
-
-
         // -- views ------------------------------------------------------------
 
+        // general views
+        const ConstGeneralView
+        general() const;
+
+        GeneralView
+        general();
 
         // hermitian views
         const ConstHermitianView
@@ -166,20 +167,14 @@ class SbMatrix
         HermitianView
         hermitian();
 
-        // symmetric views
-        const ConstView
-        symmetric() const;
-
-        View
-        symmetric();
-
-        // triangular views
+       // triangular views
         const ConstTriangularView
         triangular() const;
 
         TriangularView
         triangular();
 
+        // diag views
         VectorView
         viewDiag(IndexType diag = IndexType(0));
 
@@ -202,7 +197,7 @@ class SbMatrix
 
         IndexType
         lastIndex() const;
- 
+
         IndexType
         numOffDiags() const;
 
@@ -244,6 +239,9 @@ class SbMatrix
 
         StorageUpLo
         upLo() const;
+
+        StorageUpLo &
+        upLo();
 
     private:
         Engine       _engine;

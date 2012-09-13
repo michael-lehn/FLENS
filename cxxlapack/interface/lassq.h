@@ -52,7 +52,7 @@ template <typename IndexType>
           IndexType         incX,
           double            &scale,
           double            &sumsq);
-    
+
 template <typename IndexType>
     void
     lassq(IndexType                     n,
@@ -60,7 +60,7 @@ template <typename IndexType>
           IndexType                     incX,
           float                         &scale,
           float                         &sumsq);
-    
+
 template <typename IndexType>
     void
     lassq(IndexType                     n,

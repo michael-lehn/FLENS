@@ -33,6 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_LSAME_TCC
 #define CXXLAPACK_INTERFACE_LSAME_TCC 1
 
+#include <iostream>
+#include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 
 namespace cxxlapack {
@@ -43,7 +45,7 @@ lsame(char                  ca,
       char                  cb)
 {
     CXXLAPACK_DEBUG_OUT("lsame");
-    
+
     return LAPACK_IMPL(lsame)(&ca,
                               &cb);
 

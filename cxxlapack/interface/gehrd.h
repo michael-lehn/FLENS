@@ -47,7 +47,7 @@ template <typename IndexType>
           float         *tau,
           float         *work,
           IndexType     lWork);
-    
+
 template <typename IndexType>
     IndexType
     gehrd(IndexType     n,
@@ -58,7 +58,7 @@ template <typename IndexType>
           double        *tau,
           double        *work,
           IndexType     lWork);
-    
+
 template <typename IndexType>
     IndexType
     gehrd(IndexType             n,
@@ -69,7 +69,7 @@ template <typename IndexType>
           std::complex<float >  *tau,
           std::complex<float >  *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     gehrd(IndexType             n,

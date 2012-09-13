@@ -51,7 +51,7 @@ template <typename IndexType>
           float                 beta,
           float                 *B,
           IndexType             ldB);
-    
+
 template <typename IndexType>
     IndexType
     lagtm(char                  trans,
@@ -66,7 +66,7 @@ template <typename IndexType>
           double                beta,
           double                *B,
           IndexType             ldB);
-    
+
 template <typename IndexType>
     IndexType
     lagtm(char                        trans,
@@ -81,7 +81,7 @@ template <typename IndexType>
           float                       beta,
           std::complex<float >        *B,
           IndexType                   ldB);
-    
+
 template <typename IndexType>
     IndexType
     lagtm(char                        trans,

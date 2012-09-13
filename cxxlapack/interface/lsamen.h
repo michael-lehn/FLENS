@@ -37,7 +37,7 @@
 
 namespace cxxlapack {
 
-  
+
 template <typename IndexType>
 bool
 lsamen(IndexType             n,

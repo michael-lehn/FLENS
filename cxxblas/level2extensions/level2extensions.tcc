@@ -38,5 +38,8 @@
 #include <cxxblas/level2extensions/hemv.tcc>
 #include <cxxblas/level2extensions/her.tcc>
 #include <cxxblas/level2extensions/her2.tcc>
+#include <cxxblas/level2extensions/symv.tcc>
+#include <cxxblas/level2extensions/trmv.tcc>
+#include <cxxblas/level2extensions/trsv.tcc>
 
 #endif // CXXBLAS_LEVEL2EXTENSIONS_LEVEL2EXTENSIONS_TCC

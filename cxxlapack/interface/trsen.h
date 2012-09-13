@@ -56,8 +56,8 @@ template <typename IndexType>
           IndexType         lWork,
           IndexType         *iWork,
           IndexType         liWork);
-    
-    
+
+
 template <typename IndexType>
     IndexType
     trsen(char              job,
@@ -77,7 +77,7 @@ template <typename IndexType>
           IndexType         lWork,
           IndexType         *iWork,
           IndexType         liWork);
-    
+
 template <typename IndexType>
     IndexType
     trsen(char                  job,
@@ -111,7 +111,7 @@ template <typename IndexType>
           double                &sep,
           std::complex<double>  *work,
           IndexType             lWork);
- 
+
 } // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_TRSEN_H

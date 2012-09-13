@@ -45,7 +45,7 @@ template <typename IndexType>
           const float           *e,
           float                 *B,
           IndexType             ldB);
-    
+
 template <typename IndexType>
     IndexType
     ptts2(IndexType             n,
@@ -54,7 +54,7 @@ template <typename IndexType>
           const double          *e,
           double                *B,
           IndexType             ldB);
-    
+
 template <typename IndexType>
     IndexType
     ptts2(IndexType                   n,
@@ -63,7 +63,7 @@ template <typename IndexType>
           const std::complex<float >  *e,
           std::complex<float >        *B,
           IndexType                   ldB);
-    
+
 template <typename IndexType>
     IndexType
     ptts2(IndexType                   n,

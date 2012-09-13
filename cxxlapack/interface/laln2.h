@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     laln2(bool              trans,
@@ -56,7 +56,7 @@ template <typename IndexType>
           IndexType         ldX,
           float             &scale,
           float             &normX);
-    
+
 template <typename IndexType>
     IndexType
     laln2(bool              trans,

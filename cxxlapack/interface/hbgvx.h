@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     hbgvx(char                  jobz,
@@ -63,7 +63,7 @@ template <typename IndexType>
           float                 *rWork,
           IndexType             *iWork,
           IndexType             *ifail);
-    
+
 template <typename IndexType>
     IndexType
     hbgvx(char                  jobz,

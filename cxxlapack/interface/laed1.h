@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     laed1(IndexType             n,
@@ -48,7 +48,7 @@ template <typename IndexType>
           IndexType             cutpnt,
           float                 *work,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     laed1(IndexType             n,

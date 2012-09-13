@@ -60,7 +60,7 @@ trsna(char              job,
       IndexType         *iWork)
 {
     CXXLAPACK_DEBUG_OUT("strsna");
- 
+
     IndexType info;
     LAPACK_IMPL(strsna)(&job,
                         &howMany,
@@ -111,7 +111,7 @@ trsna(char              job,
       IndexType         *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dtrsna");
- 
+
     IndexType info;
     LAPACK_IMPL(dtrsna)(&job,
                         &howMany,
@@ -161,7 +161,7 @@ trsna(char                          job,
       float                         *rWork)
 {
     CXXLAPACK_DEBUG_OUT("ctrsna");
- 
+
     IndexType info;
     LAPACK_IMPL(ctrsna)(&job,
                         &howMany,
@@ -210,7 +210,7 @@ trsna(char                          job,
       double                        *rWork)
 {
     CXXLAPACK_DEBUG_OUT("ztrsna");
- 
+
     IndexType info;
     LAPACK_IMPL(ztrsna)(&job,
                         &howMany,

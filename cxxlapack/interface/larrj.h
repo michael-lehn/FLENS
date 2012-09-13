@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     larrj(IndexType             n,
@@ -52,7 +52,7 @@ template <typename IndexType>
           IndexType             *iWork,
           float                 pivmin,
           float                 spmin);
-    
+
 template <typename IndexType>
     IndexType
     larrj(IndexType             n,

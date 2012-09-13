@@ -45,7 +45,7 @@ template <typename IndexType>
               IndexType             ldA,
               const float           *Af,
               IndexType             ldAf);
-    
+
 template <typename IndexType>
     double
     la_rpvgrw(IndexType             n,
@@ -54,7 +54,7 @@ template <typename IndexType>
               IndexType             ldA,
               const double          *Af,
               IndexType             ldAf);
-    
+
 template <typename IndexType>
     double
     la_rpvgrw(IndexType                 n,
@@ -63,7 +63,7 @@ template <typename IndexType>
               IndexType                   ldA,
               const std::complex<float >  *Af,
               IndexType                   ldAf);
-    
+
 template <typename IndexType>
     double
       la_rpvgrw(IndexType                 n,

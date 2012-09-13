@@ -18,7 +18,7 @@ main()
     const IndexType n = 4;
 
 ///
-/// The first two indices define the dimensions, the two last ones the 
+/// The first two indices define the dimensions, the two last ones the
 /// the number of sub- and superdiagonals.
 ///
 
@@ -39,18 +39,18 @@ main()
     cout << "b  = " << b << endl;
 
     ///
-    /// The function lower() creates a triangular banded matrix. 
+    /// The function lower() creates a triangular banded matrix.
     /// We compute $x = A_{lower}^T b$.
     ///
     x = transpose(Ab.lower())*b;
-    
+
     cout << "x = " << x << endl;
-    
+
     ///
     /// And solve  $x = A_{lower}^T b$.
     ///
     blas::sv(Trans, Ab.lower(), x);
-        
+
     cout << "b = " << x << endl;
 
     return 0;

@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     laed9(IndexType             k,
@@ -51,7 +51,7 @@ template <typename IndexType>
           const float           *w,
           float                 *S,
           IndexType             ldS);
-    
+
 template <typename IndexType>
     IndexType
     laed9(IndexType             k,

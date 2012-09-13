@@ -53,32 +53,31 @@ save(std::string filename, const GbMatrix<FS> &A)
     typedef typename FS::ElementType ElementType;
 
     std::ofstream ofs( filename.c_str(), std::ios::binary );
-    
-    if (ofs.is_open() == false)
+
+    if (ofs.is_open()==false) {
         return false;
-    
+    }
+
     IndexType numRows = A.numRows(), numCols = A.numCols();
     IndexType firstRow = A.firstRow(), firstCol = A.firstCol();
     IndexType numSubDiags = A.numSubDiags(), numSuperDiags = A.numSuperDiags();
 
-    ofs.write( reinterpret_cast<char*>(&numRows), sizeof(IndexType) );
-    ofs.write( reinterpret_cast<char*>(&numCols), sizeof(IndexType) );
-    ofs.write( reinterpret_cast<char*>(&numSubDiags), sizeof(IndexType) );
-    ofs.write( reinterpret_cast<char*>(&numSuperDiags), sizeof(IndexType) );
-    ofs.write( reinterpret_cast<char*>(&firstRow), sizeof(IndexType) );
-    ofs.write( reinterpret_cast<char*>(&firstCol), sizeof(IndexType) );
-   
+    ofs.write(reinterpret_cast<char*>(&numRows), sizeof(IndexType));
+    ofs.write(reinterpret_cast<char*>(&numCols), sizeof(IndexType));
+    ofs.write(reinterpret_cast<char*>(&numSubDiags), sizeof(IndexType));
+    ofs.write(reinterpret_cast<char*>(&numSuperDiags), sizeof(IndexType));
+    ofs.write(reinterpret_cast<char*>(&firstRow), sizeof(IndexType));
+    ofs.write(reinterpret_cast<char*>(&firstCol), sizeof(IndexType));
+
     for (IndexType i=-A.numSubDiags(); i<=A.numSuperDiags(); ++i) {
         const auto Diag = A.viewDiag(i);
         for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {
-            ofs.write( reinterpret_cast<const char*>(&(Diag(j))), sizeof(ElementType) );
+            ofs.write(reinterpret_cast<const char*>(&(Diag(j))),
+                      sizeof(ElementType));
         }
     }
-
     ofs.close();
     return true;
-
-
 }
 
 template <typename FS>
@@ -90,33 +89,35 @@ save(std::string filename, const HbMatrix<FS> &A)
     typedef typename FS::ElementType ElementType;
 
     std::ofstream ofs( filename.c_str(), std::ios::binary );
-    
-    if (ofs.is_open() == false)
+
+    if (ofs.is_open()==false) {
         return false;
-    
+    }
+
     IndexType dim = A.dim();
     IndexType firstIndex = A.firstIndex();
     IndexType numOffDiags = A.numOffDiags();
 
-    ofs.write( reinterpret_cast<char*>(&dim), sizeof(IndexType) );
-    ofs.write( reinterpret_cast<char*>(&numOffDiags), sizeof(IndexType) );
-    ofs.write( reinterpret_cast<char*>(&firstIndex), sizeof(IndexType) );
-   
+    ofs.write(reinterpret_cast<char*>(&dim), sizeof(IndexType));
+    ofs.write(reinterpret_cast<char*>(&numOffDiags), sizeof(IndexType));
+    ofs.write(reinterpret_cast<char*>(&firstIndex), sizeof(IndexType));
+
     for (IndexType i=-A.numOffDiags(); i<=0; ++i) {
         if (A.upLo()==cxxblas::Lower) {
-            const auto Diag = A.viewDiag(i); 
-            for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {    
-                ofs.write( reinterpret_cast<const char*>(&(Diag(j))), sizeof(ElementType) );
+            const auto Diag = A.viewDiag(i);
+            for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {
+                ofs.write(reinterpret_cast<const char*>(&(Diag(j))),
+                          sizeof(ElementType));
             }
         } else {
-            const auto Diag = A.viewDiag(-i);  
+            const auto Diag = A.viewDiag(-i);
             for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {
                 ElementType alpha = cxxblas::conjugate(Diag(j));
-                ofs.write( reinterpret_cast<const char*>(&alpha), sizeof(ElementType) );
-            } 
+                ofs.write(reinterpret_cast<const char*>(&alpha),
+                          sizeof(ElementType));
+            }
         }
     }
-
     ofs.close();
     return true;
 }
@@ -130,10 +131,11 @@ save(std::string filename, const SbMatrix<FS> &A)
     typedef typename FS::ElementType ElementType;
 
     std::ofstream ofs( filename.c_str(), std::ios::binary );
-    
-    if (ofs.is_open() == false)
+
+    if (ofs.is_open()==false) {
         return false;
-    
+    }
+
     IndexType dim = A.dim();
     IndexType firstIndex = A.firstIndex();
     IndexType numOffDiags = A.numOffDiags();
@@ -142,23 +144,23 @@ save(std::string filename, const SbMatrix<FS> &A)
     ofs.write( reinterpret_cast<char*>(&numOffDiags), sizeof(IndexType) );
     ofs.write( reinterpret_cast<char*>(&firstIndex), sizeof(IndexType) );
 
-   
     for (IndexType i=-A.numOffDiags(); i<=0; ++i) {
         if (A.upLo()==cxxblas::Lower) {
-            const auto Diag = A.viewDiag(i); 
-                    
-            for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {    
-                ofs.write( reinterpret_cast<const char*>(&(Diag(j))), sizeof(ElementType) );
+            const auto Diag = A.viewDiag(i);
+
+            for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {
+                ofs.write(reinterpret_cast<const char*>(&(Diag(j))),
+                          sizeof(ElementType));
             }
         } else {
-            const auto Diag = A.viewDiag(-i);  
-                    
-            for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {    
-                 ofs.write( reinterpret_cast<const char*>(&(Diag(j))), sizeof(ElementType) );
+            const auto Diag = A.viewDiag(-i);
+
+            for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {
+                 ofs.write(reinterpret_cast<const char*>(&(Diag(j))),
+                           sizeof(ElementType));
             }
         }
     }
-
 
     ofs.close();
     return true;
@@ -172,42 +174,42 @@ save(std::string filename, const TbMatrix<FS> &A)
     typedef typename FS::ElementType ElementType;
 
     std::ofstream ofs( filename.c_str(), std::ios::binary );
-    
-    if (ofs.is_open() == false)
+
+    if (ofs.is_open()==false) {
         return false;
-    
+    }
+
     IndexType dim = A.dim();
     IndexType numOffDiags = A.numOffDiags();
     IndexType firstIndex = A.firstIndex();
-    
+
     StorageUpLo  upLo = A.upLo();
     Diag         diag = A.diag();
 
-    ofs.write( reinterpret_cast<char*>(&dim), sizeof(IndexType) );
-    ofs.write( reinterpret_cast<char*>(&numOffDiags), sizeof(IndexType) );
-    ofs.write( reinterpret_cast<char*>(&firstIndex), sizeof(IndexType) );
-    ofs.write( reinterpret_cast<char*>(&upLo), sizeof(StorageUpLo) );
-    ofs.write( reinterpret_cast<char*>(&diag), sizeof(Diag) );
+    ofs.write(reinterpret_cast<char*>(&dim), sizeof(IndexType));
+    ofs.write(reinterpret_cast<char*>(&numOffDiags), sizeof(IndexType));
+    ofs.write(reinterpret_cast<char*>(&firstIndex), sizeof(IndexType));
+    ofs.write(reinterpret_cast<char*>(&upLo), sizeof(StorageUpLo));
+    ofs.write(reinterpret_cast<char*>(&diag), sizeof(Diag));
 
-   
     if (upLo == cxxblas::Lower) {
         for (IndexType i=-A.numOffDiags(); i <= 0; ++i){
             const auto Diag = A.viewDiag(i);
             for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {
                 if (diag==cxxblas::NonUnit || i != 0) {
-                    ofs.write( reinterpret_cast<const char*>(&(Diag(j))), sizeof(ElementType) );
-                } 
+                    ofs.write(reinterpret_cast<const char*>(&(Diag(j))),
+                              sizeof(ElementType) );
+                }
             }
         }
-    }
-    else
-    {
+    } else {
         for (IndexType i=0; i<=A.numOffDiags(); ++i){
             const auto Diag = A.viewDiag(i);
             for (IndexType j=Diag.firstIndex(); j<=Diag.lastIndex(); ++j) {
                 if (diag==cxxblas::NonUnit || i != 0) {
-                    ofs.write( reinterpret_cast<const char*>(&(Diag(j))), sizeof(ElementType) );
-                } 
+                    ofs.write(reinterpret_cast<const char*>(&(Diag(j))),
+                              sizeof(ElementType) );
+                }
             }
         }
     }
@@ -215,20 +217,6 @@ save(std::string filename, const TbMatrix<FS> &A)
     ofs.close();
     return true;
 }
-
-
-//-- forwarding ---------------------------------------------------------------
-template <typename MA>
-typename RestrictTo<IsGbMatrix<MA>::value ||
-                    IsHbMatrix<MA>::value ||
-                    IsSbMatrix<MA>::value ||
-                    IsTbMatrix<MA>::value,
-                    bool>::Type
-save(std::string filename, const MA &&A)
-{
-    return save(filename, A);
-}
-
 
 } // namespace flens
 

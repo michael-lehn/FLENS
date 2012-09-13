@@ -66,7 +66,7 @@ template <typename IndexType>
           IndexType    &rank,
           double       *work,
           IndexType    lWork);
-    
+
 template <typename IndexType>
     void
     gelsy(IndexType             m,
@@ -82,7 +82,7 @@ template <typename IndexType>
           std::complex<float >  *work,
           IndexType             lWork,
           float                 *rWork);
-    
+
 template <typename IndexType>
     void
     gelsy(IndexType             m,

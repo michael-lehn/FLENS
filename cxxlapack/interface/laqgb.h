@@ -51,8 +51,8 @@ template <typename IndexType>
           float                 colcnd,
           float                 amax,
           char                  &equed);
-    
-    
+
+
 template <typename IndexType>
     void
     laqgb(IndexType             m,
@@ -67,7 +67,7 @@ template <typename IndexType>
           double                colcnd,
           double                amax,
           char                  &equed);
-    
+
 template <typename IndexType>
     void
     laqgb(IndexType             m,

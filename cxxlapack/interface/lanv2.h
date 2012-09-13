@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename VOID=void>
     void
     lanv2(float    &a,
@@ -49,7 +49,7 @@ template <typename VOID=void>
           float    &rt2i,
           float    &cs,
           float    &sn);
-    
+
 template <typename VOID=void>
     void
     lanv2(double   &a,

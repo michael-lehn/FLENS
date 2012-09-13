@@ -46,7 +46,7 @@ template <typename IndexType>
           IndexType             k2,
           const IndexType       *iPiv,
           IndexType             incX);
-    
+
 template <typename IndexType>
     void
     laswp(IndexType             n,
@@ -56,7 +56,7 @@ template <typename IndexType>
           IndexType             k2,
           const IndexType       *iPiv,
           IndexType             incX);
-    
+
 template <typename IndexType>
     void
     laswp(IndexType             n,

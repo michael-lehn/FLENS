@@ -45,7 +45,7 @@ template <typename IndexType>
           float                 *Ap,
           float                 *B,
           IndexType             ldB);
-    
+
 template <typename IndexType>
     IndexType
     ppsv (char                  uplo,
@@ -54,7 +54,7 @@ template <typename IndexType>
           double                *Ap,
           double                *B,
           IndexType             ldB);
-    
+
 template <typename IndexType>
     IndexType
     ppsv (char                  uplo,

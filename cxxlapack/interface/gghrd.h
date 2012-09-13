@@ -52,7 +52,7 @@ template <typename IndexType>
           IndexType             ldQ,
           float                 *Z,
           IndexType             ldZ);
-    
+
 template <typename IndexType>
     IndexType
     gghrd(char                  compq,
@@ -68,7 +68,7 @@ template <typename IndexType>
           IndexType             ldQ,
           double                *Z,
           IndexType             ldZ);
-    
+
 template <typename IndexType>
     IndexType
     gghrd(char                  compq,
@@ -84,7 +84,7 @@ template <typename IndexType>
           IndexType             ldQ,
           std::complex<float >  *Z,
           IndexType             ldZ);
-    
+
 template <typename IndexType>
     IndexType
     gghrd(char                  compq,

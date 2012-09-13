@@ -54,7 +54,7 @@ template <typename IndexType>
           float                 eps3,
           float                 smlnum,
           float                 bignum);
-    
+
 template <typename IndexType>
     IndexType
     laein(bool                  rightv,
@@ -72,7 +72,7 @@ template <typename IndexType>
           double                eps3,
           double                smlnum,
           double                bignum);
-    
+
 template <typename IndexType>
     IndexType
     laein(bool                        rightv,
@@ -88,7 +88,7 @@ template <typename IndexType>
           float                       eps3,
           float                       smlnum,
           float                       bignum);
-    
+
 template <typename IndexType>
     IndexType
     laein(bool                        rightv,

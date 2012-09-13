@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     unm2r(char                        side,
@@ -50,7 +50,7 @@ template <typename IndexType>
           std::complex<float >        *C,
           IndexType                   ldC,
           std::complex<float >        *work);
-    
+
 template <typename IndexType>
     IndexType
     unm2r(char                        side,

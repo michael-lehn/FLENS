@@ -46,7 +46,7 @@ template <typename IndexType>
           IndexType             ldA,
           float                 *B,
           IndexType             ldB);
-    
+
 template <typename IndexType>
     void
     lacpy(char                  uplo,
@@ -56,7 +56,7 @@ template <typename IndexType>
           IndexType             ldA,
           double                *B,
           IndexType             ldB);
-    
+
 template <typename IndexType>
     void
     lacpy(char                        uplo,
@@ -66,7 +66,7 @@ template <typename IndexType>
           IndexType                   ldA,
           std::complex<float >        *B,
           IndexType                   ldB);
-    
+
 template <typename IndexType>
     void
     lacpy(char                        uplo,

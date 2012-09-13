@@ -67,7 +67,7 @@ template <typename IndexType>
           IndexType             lWork,
           IndexType             *iWork,
           bool                  *bwork);
-    
+
 template <typename IndexType>
     IndexType
     ggevx(char                  balanc,
@@ -98,7 +98,7 @@ template <typename IndexType>
           IndexType             lWork,
           IndexType             *iWork,
           bool                  *bwork);
-    
+
 template <typename IndexType>
     IndexType
     ggevx(char                  balanc,
@@ -129,7 +129,7 @@ template <typename IndexType>
           float                 *rWork,
           IndexType             *iWork,
           bool                  *bwork);
-    
+
 template <typename IndexType>
     IndexType
     ggevx(char                  balanc,

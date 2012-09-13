@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     void
     la_heamv(IndexType                   uplo,
@@ -49,7 +49,7 @@ template <typename IndexType>
              float                       beta,
              float                       *y,
              IndexType                   incy);
-    
+
 template <typename IndexType>
     void
     la_heamv(IndexType                   uplo,

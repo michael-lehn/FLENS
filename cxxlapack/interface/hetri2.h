@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     hetri2(char                  uplo,
@@ -46,7 +46,7 @@ template <typename IndexType>
            const IndexType       *iPiv,
            std::complex<float >  *work,
            IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     hetri2(char                  uplo,

@@ -38,14 +38,14 @@ main()
 
     ///
     /// Compute $x = A^T b$
-    /// 
+    ///
     x = transpose(Ap)*b;
-    
+
     cout << "x = " << x << endl;
-    
+
     ///
     /// Solve $x = A^T b$
-    /// 
+    ///
     blas::sv(Trans, Ap, x);
 
     cout << "b = " << b << endl;

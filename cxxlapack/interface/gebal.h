@@ -46,7 +46,7 @@ template <typename IndexType>
           IndexType     &iLo,
           IndexType     &iHi,
           float         *scale);
-   
+
 template <typename IndexType>
     IndexType
     gebal(char          job,
@@ -56,7 +56,7 @@ template <typename IndexType>
           IndexType     &iLo,
           IndexType     &iHi,
           double        *scale);
-    
+
 template <typename IndexType>
     IndexType
     gebal(char                  job,
@@ -66,7 +66,7 @@ template <typename IndexType>
           IndexType             &iLo,
           IndexType             &iHi,
           float                 *scale);
-    
+
 template <typename IndexType>
     IndexType
     gebal(char                  job,

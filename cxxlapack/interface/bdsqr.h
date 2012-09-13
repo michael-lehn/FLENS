@@ -53,7 +53,7 @@ template <typename IndexType>
           float                 *C,
           IndexType             ldC,
           float                 *work);
-    
+
 template <typename IndexType>
     IndexType
     bdsqr(char                  upLo,
@@ -70,7 +70,7 @@ template <typename IndexType>
           double                *C,
           IndexType             ldC,
           double                *work);
-    
+
 template <typename IndexType>
     IndexType
     bdsqr(char                  upLo,
@@ -87,7 +87,7 @@ template <typename IndexType>
           std::complex<float >  *C,
           IndexType             ldC,
           float                 *rWork);
-    
+
 template <typename IndexType>
     IndexType
     bdsqr(char                  upLo,

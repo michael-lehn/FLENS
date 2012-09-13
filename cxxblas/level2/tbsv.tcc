@@ -53,11 +53,11 @@ tbsv_generic(StorageOrder order, StorageUpLo upLo,
         transA = Transpose(transA^Trans);
         upLo = (upLo==Upper) ? Lower : Upper;
     }
-    
+
     if (incX<0) {
         x -= incX*(n-1);
     }
-    
+
     if (transA==NoTrans) {
         if (upLo==Upper) {
             if (diag==NonUnit) {
@@ -323,14 +323,13 @@ tbsv(StorageOrder order, StorageUpLo upLo,
      ComplexFloat *x, IndexType incX)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ctbsv");
-    
+
     if (transA==Conj) {
         CXXBLAS_DEBUG_OUT("tbsv_generic");
         tbsv_generic(order, upLo, transA, diag, n, k, A, ldA, x, incX);
-
-        return; 
+        return;
     }
-    
+
     cblas_ctbsv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 n, k,
@@ -352,10 +351,9 @@ tbsv(StorageOrder order, StorageUpLo upLo,
     if (transA==Conj) {
         CXXBLAS_DEBUG_OUT("tbsv_generic");
         tbsv_generic(order, upLo, transA, diag, n, k, A, ldA, x, incX);
-
-        return; 
+        return;
     }
-    
+
     cblas_ztbsv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 n, k,

@@ -60,8 +60,8 @@ template <typename IndexType>
           float                 &resid,
           float                 &rqcorr,
           float                 *work);
-    
-    
+
+
 template <typename IndexType>
     void
     lar1v(IndexType             n,
@@ -85,7 +85,7 @@ template <typename IndexType>
           double                &resid,
           double                &rqcorr,
           double                *work);
-    
+
 template <typename IndexType>
     void
     lar1v(IndexType             n,

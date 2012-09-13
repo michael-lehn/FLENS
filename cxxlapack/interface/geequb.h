@@ -48,7 +48,7 @@ template <typename IndexType>
            float                 &rCond,
            float                 &colcond,
            float                 &amax);
-    
+
 template <typename IndexType>
     IndexType
     geequb(IndexType             m,
@@ -60,7 +60,7 @@ template <typename IndexType>
            double                &rCond,
            double                &colcond,
            double                &amax);
-    
+
 template <typename IndexType>
     IndexType
     geequb(IndexType                   m,
@@ -72,7 +72,7 @@ template <typename IndexType>
            float                       &rCond,
            float                       &colcond,
            float                       &amax);
-    
+
 template <typename IndexType>
     IndexType
     geequb(IndexType                   m,

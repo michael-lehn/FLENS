@@ -53,7 +53,7 @@ laexc(bool          wantQ,
       float         *work)
 {
     CXXLAPACK_DEBUG_OUT("slaexc");
-    
+
     IndexType info;
     IndexType _wantQ = wantQ;
     LAPACK_IMPL(slaexc)(&_wantQ,
@@ -90,7 +90,7 @@ laexc(bool          wantQ,
       double        *work)
 {
     CXXLAPACK_DEBUG_OUT("dlaexc");
-    
+
     IndexType info;
     IndexType _wantQ = wantQ;
     LAPACK_IMPL(dlaexc)(&_wantQ,

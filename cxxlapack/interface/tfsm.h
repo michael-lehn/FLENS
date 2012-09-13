@@ -50,7 +50,7 @@ template <typename IndexType>
           const float           *A,
           float                 *B,
           IndexType             ldB);
-    
+
 template <typename IndexType>
     void
     tfsm (char                  transr,
@@ -64,7 +64,7 @@ template <typename IndexType>
           const double          *A,
           double                *B,
           IndexType             ldB);
-    
+
 template <typename IndexType>
     void
     tfsm (char                        transr,
@@ -78,7 +78,7 @@ template <typename IndexType>
           const std::complex<float >  *A,
           std::complex<float >        *B,
           IndexType                   ldB);
-    
+
 template <typename IndexType>
     void
     tfsm (char                        transr,

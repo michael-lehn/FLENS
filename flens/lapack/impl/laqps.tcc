@@ -206,9 +206,9 @@ laqps_impl(typename GeMatrix<MA>::IndexType  offset,
         IndexType iTmp = nint(vn2(lasticc));
         vn1(lasticc) = blas::nrm2(A(_(rk+1,m),lasticc));
 //
-//      NOTE: The computation of VN1( LSTICC ) relies on the fact that 
+//      NOTE: The computation of VN1( LSTICC ) relies on the fact that
 //      SNRM2 does not fail on vectors with norm below the value of
-//      SQRT(DLAMCH('S')) 
+//      SQRT(DLAMCH('S'))
 //
         vn2(lasticc) = vn1(lasticc);
         lasticc = iTmp;

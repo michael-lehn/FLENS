@@ -60,7 +60,7 @@ template <typename IndexType>
           float                 *givnum,
           IndexType             *indxp,
           IndexType             *indx);
-    
+
 template <typename IndexType>
     IndexType
     laed8(IndexType             icomq,
@@ -84,7 +84,7 @@ template <typename IndexType>
           double                *givnum,
           IndexType             *indxp,
           IndexType             *indx);
-    
+
 template <typename IndexType>
     IndexType
     laed8(IndexType             &k,
@@ -107,9 +107,9 @@ template <typename IndexType>
           IndexType             &givptr,
           IndexType             &givcol,
           float                 *givnum);
-    
+
 template <typename IndexType>
-    IndexType   
+    IndexType
     laed8(IndexType             &k,
           IndexType             n,
           IndexType             qsiz,

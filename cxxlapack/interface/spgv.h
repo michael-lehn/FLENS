@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     spgv (IndexType             itype,
@@ -49,7 +49,7 @@ template <typename IndexType>
           float                 *Z,
           IndexType             ldZ,
           float                 *work);
-    
+
 template <typename IndexType>
     IndexType
     spgv (IndexType             itype,

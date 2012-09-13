@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     hpgst(IndexType                  itype,
@@ -44,7 +44,7 @@ template <typename IndexType>
           IndexType                  n,
           std::complex<float >       *Ap,
           const std::complex<float > *Bp);
-    
+
 template <typename IndexType>
     IndexType
     hpgst(IndexType                  itype,

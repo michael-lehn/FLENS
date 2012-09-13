@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     hpsv (char                  uplo,
@@ -46,7 +46,7 @@ template <typename IndexType>
           IndexType             *iPiv,
           std::complex<float >  *B,
           IndexType             ldB);
-    
+
 template <typename IndexType>
     IndexType
     hpsv (char                  uplo,

@@ -46,7 +46,7 @@ template <typename IndexType>
           float                 *Z,
           IndexType             ldZ,
           float                 *work);
-    
+
 template <typename IndexType>
     IndexType
     pteqr(char                  compz,
@@ -56,7 +56,7 @@ template <typename IndexType>
           double                *Z,
           IndexType             ldZ,
           double                *work);
-    
+
 template <typename IndexType>
     IndexType
     pteqr(char                  compz,
@@ -66,7 +66,7 @@ template <typename IndexType>
           std::complex<float >  *Z,
           IndexType             ldZ,
           float                 *rWork);
-    
+
 template <typename IndexType>
     IndexType
     pteqr(char                  compz,

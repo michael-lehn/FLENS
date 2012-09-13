@@ -110,7 +110,7 @@
 #define FLENS_BLASLOG_TMP_REMOVE(tmp, X)                                    \
     if (verbose::ClosureLog::createEntry()) {                               \
         verbose::ClosureLog::append() << "WARNING: Temporary " << tmp       \
-                                      << " was required for " << X;          \
+                                      << " was required for " << X;         \
         verbose::ClosureLog::variablePool.removeTemporary(tmp);             \
         verbose::ClosureLog::closeEntry();                                  \
     }
@@ -315,9 +315,18 @@
 //------------------------------------------------------------------------------
 
 #define FLENS_BLASLOG_BEGIN_DOT(X, Y)                                       \
+   if (verbose::ClosureLog::createEntry()) {                                \
+       verbose::ClosureLog::separator();                                    \
+       verbose::ClosureLog::append() << "flens::blas::dot("                 \
+                                     << X << ", " << Y << ");";             \
+}
+
+//------------------------------------------------------------------------------
+
+#define FLENS_BLASLOG_BEGIN_DOTU(X, Y)                                      \
     if (verbose::ClosureLog::createEntry()) {                               \
         verbose::ClosureLog::separator();                                   \
-        verbose::ClosureLog::append() << "flens::blas::dot("                \
+        verbose::ClosureLog::append() << "flens::blas::dotu("               \
                                       << X << ", " << Y << ");";            \
     }
 

@@ -37,14 +37,14 @@
 
       SUBROUTINE DTRTRI( UPLO, DIAG, N, A, LDA, INFO )
       SUBROUTINE ZTRTRI( UPLO, DIAG, N, A, LDA, INFO )
-      
+
       SUBROUTINE DSYTRI( UPLO, N, A, LDA, IPIV, WORK, INFO )
-      SUBROUTINE ZSYTRI( UPLO, N, A, LDA, IPIV, WORK, INFO )      
+      SUBROUTINE ZSYTRI( UPLO, N, A, LDA, IPIV, WORK, INFO )
       SUBROUTINE ZHETRI( UPLO, N, A, LDA, IPIV, WORK, INFO )
-      
+
       SUBROUTINE DTPTRI( UPLO, DIAG, N, AP, INFO )
       SUBROUTINE ZTPTRI( UPLO, DIAG, N, AP, INFO )
-                  
+
       SUBROUTINE DSPTRI( UPLO, N, AP, IPIV, WORK, INFO )
       SUBROUTINE ZSPTRI( UPLO, N, AP, IPIV, WORK, INFO )
       SUBROUTINE ZHPTRI( UPLO, N, AP, IPIV, WORK, INFO )
@@ -121,7 +121,7 @@ template <typename MA>
 
 #ifdef USE_CXXLAPACK
 
-//== (tr)tri ===================================================================    
+//== (tr)tri ===================================================================
 //
 //  Complex variant
 //
@@ -129,8 +129,8 @@ template <typename MA>
     typename RestrictTo<IsComplexTrMatrix<MA>::value,
              typename RemoveRef<MA>::Type::IndexType>::Type
     tri(MA &&A);
-    
-//== (he)tri ===================================================================    
+
+//== (he)tri ===================================================================
 //
 //  Complex variant
 //
@@ -142,8 +142,8 @@ template <typename MA, typename VPIV, typename VWORK>
     tri(MA          &&A,
         const VPIV  &piv,
         VWORK       &&work);
-    
-//== (sy)tri ===================================================================    
+
+//== (sy)tri ===================================================================
 //
 //  Real and complex variant
 //
@@ -155,17 +155,17 @@ template <typename MA, typename VPIV, typename VWORK>
     tri(MA          &&A,
         const VPIV  &piv,
         VWORK       &&work);
-    
-//== (tp)tri ===================================================================    
+
+//== (tp)tri ===================================================================
 //
 //  Complex variant
 //
 template <typename MA>
     typename RestrictTo<IsComplexTpMatrix<MA>::value,
              typename RemoveRef<MA>::Type::IndexType>::Type
-    tri(MA &&A);    
-    
-//== (hp)tri ===================================================================    
+    tri(MA &&A);
+
+//== (hp)tri ===================================================================
 //
 //  Complex variant
 //
@@ -177,8 +177,8 @@ template <typename MA, typename VPIV, typename VWORK>
     tri(MA          &&A,
         const VPIV  &piv,
         VWORK       &&work);
-    
-//== (sp)tri ===================================================================    
+
+//== (sp)tri ===================================================================
 //
 //  Real and complex variant
 //
@@ -189,10 +189,10 @@ template <typename MA, typename VPIV, typename VWORK>
              typename RemoveRef<MA>::Type::IndexType>::Type
     tri(MA          &&A,
         const VPIV  &piv,
-        VWORK       &&work);    
+        VWORK       &&work);
 #endif // USE_CXXLAPACK
 
-    
+
 
 } } // namespace lapack, flens
 

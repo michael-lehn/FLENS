@@ -52,8 +52,8 @@ template <typename IndexType>
           IndexType     mm,
           IndexType     &m,
           float         *work);
-    
-    
+
+
 template <typename IndexType>
     IndexType
     trevc(char          side,
@@ -69,7 +69,7 @@ template <typename IndexType>
           IndexType     mm,
           IndexType     &m,
           double        *work);
-    
+
 template <typename IndexType>
     IndexType
     trevc(char                  side,

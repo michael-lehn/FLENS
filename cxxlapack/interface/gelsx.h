@@ -50,7 +50,7 @@ template <typename IndexType>
           float                 rCond,
           IndexType             &rank,
           float                 *work);
-    
+
 template <typename IndexType>
     IndexType
     gelsx(IndexType             m,
@@ -64,7 +64,7 @@ template <typename IndexType>
           double                rCond,
           IndexType             &rank,
           double                *work);
-    
+
 template <typename IndexType>
     IndexType
     gelsx(IndexType             m,
@@ -79,7 +79,7 @@ template <typename IndexType>
           IndexType             &rank,
           std::complex<float >  *work,
           float                 *rWork);
-    
+
 template <typename IndexType>
     IndexType
     gelsx(IndexType             m,

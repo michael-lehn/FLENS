@@ -44,7 +44,7 @@ template <typename IndexType>
           float                 *A,
           IndexType             ldA,
           IndexType             *iPiv);
-    
+
 template <typename IndexType>
     IndexType
     getf2(IndexType             m,
@@ -52,7 +52,7 @@ template <typename IndexType>
           double                *A,
           IndexType             ldA,
           IndexType             *iPiv);
-    
+
 template <typename IndexType>
     IndexType
     getf2(IndexType             m,
@@ -60,7 +60,7 @@ template <typename IndexType>
           std::complex<float >  *A,
           IndexType             ldA,
           IndexType             *iPiv);
-    
+
 template <typename IndexType>
     IndexType
     getf2(IndexType             m,

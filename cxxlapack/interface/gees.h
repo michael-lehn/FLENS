@@ -53,7 +53,7 @@ template <typename IndexType>
          float          *work,
          IndexType      lWork,
          IndexType      *bWork);
-    
+
 template <typename IndexType>
     IndexType
     gees(char           jobVS,
@@ -70,7 +70,7 @@ template <typename IndexType>
          double         *work,
          IndexType      lWork,
          IndexType      *bWork);
-    
+
 template <typename IndexType>
     IndexType
     gees(char                   jobVS,
@@ -87,7 +87,7 @@ template <typename IndexType>
          const IndexType        lWork,
          float                  *rWork,
          IndexType              *bWork);
-    
+
 template <typename IndexType>
     IndexType
     gees(char                   jobVS,

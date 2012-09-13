@@ -48,7 +48,7 @@ template <typename IndexType>
           IndexType     &iFirst,
           IndexType     &iLast,
           float         *work);
-    
+
 template <typename IndexType>
     IndexType
     trexc(char          compQ,
@@ -60,7 +60,7 @@ template <typename IndexType>
           IndexType     &iFirst,
           IndexType     &iLast,
           double        *work);
-    
+
 template <typename IndexType>
     IndexType
     trexc(char                  compQ,
@@ -71,7 +71,7 @@ template <typename IndexType>
           IndexType             ldQ,
           IndexType             iFirst,
           IndexType             iLast);
-    
+
 template <typename IndexType>
     IndexType
     trexc(char                  compQ,

@@ -56,7 +56,7 @@ template <typename IndexType>
           double                beta,
           double                *A,
           IndexType             ldA);
-    
+
 template <typename IndexType>
     IndexType
     laset(char                  uplo,
@@ -66,7 +66,7 @@ template <typename IndexType>
           std::complex<float >  beta,
           std::complex<float >  *A,
           IndexType             ldA);
-    
+
 template <typename IndexType>
     IndexType
     laset(char                  uplo,

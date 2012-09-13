@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     disna(char                  job,
@@ -44,7 +44,7 @@ template <typename IndexType>
           IndexType             n,
           const float           *d,
           float                 *sep);
-    
+
 template <typename IndexType>
     IndexType
     disna(char                  job,

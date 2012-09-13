@@ -54,7 +54,7 @@ template <typename IndexType>
           IndexType             ilst,
           float                 *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     tgexc(bool                  wantq,
@@ -72,7 +72,7 @@ template <typename IndexType>
           IndexType             ilst,
           double                *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     tgexc(bool                  wantq,
@@ -88,7 +88,7 @@ template <typename IndexType>
           IndexType             ldZ,
           IndexType             ifst,
           IndexType             ilst);
-    
+
 template <typename IndexType>
     IndexType
     tgexc(bool                  wantq,

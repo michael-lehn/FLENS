@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     larrf(char                  range,
@@ -56,7 +56,7 @@ template <typename IndexType>
           float                 *dplus,
           float                 *lplus,
           float                 *work);
-    
+
 template <typename IndexType>
     IndexType
     larrf(char                  range,

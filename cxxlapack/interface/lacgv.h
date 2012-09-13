@@ -42,7 +42,7 @@ template <typename IndexType>
     lacgv(IndexType             n,
           std::complex<float>   *x,
           IndexType             incx);
-    
+
 template <typename IndexType>
     void
     lacgv(IndexType             n,

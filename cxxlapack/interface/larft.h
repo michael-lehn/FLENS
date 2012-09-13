@@ -48,8 +48,8 @@ template <typename IndexType>
           const float   *tau,
           float         *T,
           IndexType     ldT);
-    
-    
+
+
 template <typename IndexType>
     void
     larft(char          direct,
@@ -61,7 +61,7 @@ template <typename IndexType>
           const double  *tau,
           double        *T,
           IndexType     ldT);
-    
+
 template <typename IndexType>
     void
     larft(char                          direct,

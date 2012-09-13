@@ -44,7 +44,7 @@ template <typename IndexType>
           IndexType             kd,
           float                 *Ab,
           IndexType             ldAb);
-    
+
 template <typename IndexType>
     IndexType
     pbtf2(char                  uplo,
@@ -52,7 +52,7 @@ template <typename IndexType>
           IndexType             kd,
           double                *Ab,
           IndexType             ldAb);
-    
+
 template <typename IndexType>
     IndexType
     pbtf2(char                  uplo,

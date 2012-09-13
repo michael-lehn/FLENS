@@ -50,7 +50,7 @@ template <typename IndexType>
           float                 &rowcnd,
           float                 &colcnd,
           float                 &amax);
-    
+
 template <typename IndexType>
     IndexType
     gbequ(IndexType             m,
@@ -64,7 +64,7 @@ template <typename IndexType>
           double                &rowcnd,
           double                &colcnd,
           double                &amax);
-    
+
 template <typename IndexType>
     IndexType
     gbequ(IndexType                    m,
@@ -78,7 +78,7 @@ template <typename IndexType>
           float                        &rowcnd,
           float                        &colcnd,
           float                        &amax);
-    
+
 template <typename IndexType>
     IndexType
     gbequ(IndexType                    m,

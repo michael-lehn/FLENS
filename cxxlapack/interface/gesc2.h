@@ -46,7 +46,7 @@ template <typename IndexType>
           const IndexType       *iPiv,
           const IndexType       *jpiv,
           float                 &scale);
-    
+
 template <typename IndexType>
     void
     gesc2(IndexType             n,
@@ -56,7 +56,7 @@ template <typename IndexType>
           const IndexType       *iPiv,
           const IndexType       *jpiv,
           double                &scale);
-    
+
 template <typename IndexType>
     void
     gesc2(IndexType             n,
@@ -66,7 +66,7 @@ template <typename IndexType>
           const IndexType       *iPiv,
           const IndexType       *jpiv,
           float                 &scale);
-    
+
 template <typename IndexType>
     void
     gesc2(IndexType             n,

@@ -30,8 +30,8 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXLAPACK_INTERFACE_DUMMY_H
-#define CXXLAPACK_INTERFACE_DUMMY_H 1
+#ifndef CXXLAPACK_INTERFACE_BBCSD_H
+#define CXXLAPACK_INTERFACE_BBCSD_H 1
 
 #include <complex>
 
@@ -63,7 +63,7 @@ template <typename IndexType>
           const float           *b12e,
           float                 *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     bbcsd(char                  jobu1,
@@ -90,7 +90,7 @@ template <typename IndexType>
           const double          *b12e,
           double                *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     bbcsd(char                  jobu1,
@@ -117,7 +117,7 @@ template <typename IndexType>
           const float           *b12e,
           float             	    *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     bbcsd(char                  jobu1,
@@ -148,4 +148,4 @@ template <typename IndexType>
 
 } // namespace cxxlapack
 
-#endif // CXXLAPACK_INTERFACE_DUMMY_H
+#endif // CXXLAPACK_INTERFACE_BBCSD_H

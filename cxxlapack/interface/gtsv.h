@@ -46,7 +46,7 @@ template <typename IndexType>
          float                 *du,
          float                 *B,
          IndexType             ldB);
-    
+
 template <typename IndexType>
     IndexType
     gtsv(IndexType             n,
@@ -56,7 +56,7 @@ template <typename IndexType>
          double                *du,
          double                *B,
          IndexType             ldB);
-    
+
 template <typename IndexType>
     IndexType
     gtsv(IndexType             n,
@@ -66,7 +66,7 @@ template <typename IndexType>
          std::complex<float >  *du,
          std::complex<float >  *B,
          IndexType             ldB);
-    
+
 template <typename IndexType>
     IndexType
     gtsv(IndexType             n,

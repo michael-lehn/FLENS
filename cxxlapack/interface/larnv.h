@@ -43,14 +43,14 @@ template <typename IndexType>
           IndexType             iseed,
           IndexType             n,
           float                 *x);
-    
+
 template <typename IndexType>
     void
     larnv(IndexType             idist,
           IndexType             iseed,
           IndexType             n,
           double                *x);
-    
+
 template <typename IndexType>
     void
     larnv(IndexType             idist,

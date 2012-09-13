@@ -47,7 +47,7 @@ template <typename IndexType>
           const float           *c,
           const float           *s,
           IndexType             incc);
-    
+
 template <typename IndexType>
     void
     lartv(IndexType             n,
@@ -58,7 +58,7 @@ template <typename IndexType>
           const double          *c,
           const double          *s,
           IndexType             incc);
-    
+
 template <typename IndexType>
     void
     lartv(IndexType                   n,
@@ -69,7 +69,7 @@ template <typename IndexType>
           const float                 *c,
           const std::complex<float >  *s,
           IndexType                    incc);
-    
+
 template <typename IndexType>
     void
     lartv(IndexType                   n,

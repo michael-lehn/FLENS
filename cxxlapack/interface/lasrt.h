@@ -36,13 +36,13 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     lasrt(char                  id,
           IndexType             n,
           float                 *d);
-    
+
 template <typename IndexType>
     IndexType
     lasrt(char                  id,

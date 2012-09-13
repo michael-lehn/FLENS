@@ -56,8 +56,8 @@ template <typename IndexType>
           IndexType             *isuppz,
           float                 *work,
           IndexType             lWork);
-    
-    
+
+
 template <typename IndexType>
     IndexType
     stegr(char                  jobz,
@@ -77,7 +77,7 @@ template <typename IndexType>
           IndexType             *isuppz,
           double                *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     stegr(char                  jobz,

@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     laqtr(bool              trans,
@@ -49,7 +49,7 @@ template <typename IndexType>
           float             &scale,
           float             *x,
           float             *work);
-    
+
 template <typename IndexType>
     IndexType
     laqtr(bool              trans,

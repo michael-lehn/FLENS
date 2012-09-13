@@ -62,7 +62,7 @@ template <typename IndexType>
           double                anorm,
           double                &rCond,
           double                *work);
-    
+
 template <typename IndexType>
     IndexType
     gtcon(char                        norm,
@@ -75,7 +75,7 @@ template <typename IndexType>
           float                       anorm,
           float                       &rCond,
           std::complex<float >       *work);
-    
+
 template <typename IndexType>
     IndexType
     gtcon(char                        norm,

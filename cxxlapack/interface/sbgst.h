@@ -51,7 +51,7 @@ template <typename IndexType>
           float                 *X,
           IndexType             ldX,
           float                 *work);
-    
+
 template <typename IndexType>
     IndexType
     sbgst(char                  vect,

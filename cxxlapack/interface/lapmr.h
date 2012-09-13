@@ -45,7 +45,7 @@ template <typename IndexType>
           float                 *X,
           IndexType             ldX,
           IndexType             &k);
-    
+
 template <typename IndexType>
     IndexType
     lapmr(bool                  forwrd,
@@ -54,7 +54,7 @@ template <typename IndexType>
           double                *X,
           IndexType             ldX,
           IndexType             &k);
-    
+
 template <typename IndexType>
     IndexType
     lapmr(bool                  forwrd,
@@ -63,7 +63,7 @@ template <typename IndexType>
           std::complex<float >  *X,
           IndexType             ldX,
           IndexType             &k);
-    
+
 template <typename IndexType>
     IndexType
     lapmr(bool                  forwrd,

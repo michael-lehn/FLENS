@@ -52,7 +52,7 @@ trexc(char          compQ,
       float         *work)
 {
     CXXLAPACK_DEBUG_OUT("strexc");
- 
+
     IndexType info;
     LAPACK_IMPL(strexc)(&compQ,
                         &n,
@@ -87,7 +87,7 @@ trexc(char          compQ,
       double        *work)
 {
     CXXLAPACK_DEBUG_OUT("dtrexc");
- 
+
     IndexType info;
     LAPACK_IMPL(dtrexc)(&compQ,
                         &n,
@@ -120,7 +120,7 @@ trexc(char                  compQ,
       IndexType             iLast)
 {
     CXXLAPACK_DEBUG_OUT("ctrexc");
- 
+
     IndexType info;
     LAPACK_IMPL(ctrexc)(&compQ,
                         &n,
@@ -152,7 +152,7 @@ trexc(char                  compQ,
       IndexType             iLast)
 {
     CXXLAPACK_DEBUG_OUT("ztrexc");
- 
+
     IndexType info;
     LAPACK_IMPL(ztrexc)(&compQ,
                         &n,

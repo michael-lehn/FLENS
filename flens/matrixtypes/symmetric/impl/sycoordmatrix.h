@@ -151,7 +151,6 @@ struct IsComplexSyCoordMatrix
                            && IsComplex<typename TT::ElementType>::value;
 };
 
-
 } // namespace flens
 
 #endif // FLENS_MATRIXTYPES_SYMMETRIC_IMPL_SYCOORDMATRIX_H

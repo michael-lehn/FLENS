@@ -47,7 +47,7 @@ template <typename IndexType>
           const IndexType       *iPiv,
           float                 *B,
           IndexType             ldB);
-    
+
 template <typename IndexType>
     IndexType
     getrs(char                  trans,
@@ -58,7 +58,7 @@ template <typename IndexType>
           const IndexType       *iPiv,
           double                *B,
           IndexType             ldB);
-    
+
 template <typename IndexType>
     IndexType
     getrs(char                          trans,
@@ -69,7 +69,7 @@ template <typename IndexType>
           const IndexType               *iPiv,
           std::complex<float >          *B,
           IndexType                     ldB);
-    
+
 template <typename IndexType>
     IndexType
     getrs(char                          trans,

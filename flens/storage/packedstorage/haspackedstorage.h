@@ -38,6 +38,8 @@
 
 namespace flens {
 
+namespace packedstorage {
+
 template <typename T, bool>
 struct _GetPackedEngine
 {
@@ -49,6 +51,8 @@ struct _GetPackedEngine<T, true>
 {
     typedef typename T::Engine Type;
 };
+
+} // namespace packedstorage
 
 template <typename T>
 struct HasPackedStorage

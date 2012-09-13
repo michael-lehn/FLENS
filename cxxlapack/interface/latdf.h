@@ -48,8 +48,8 @@ template <typename IndexType>
           float                 &rdscal,
           const IndexType       *iPiv,
           const IndexType       *jpiv);
-    
-    
+
+
 template <typename IndexType>
     void
     latdf(IndexType             ijob,
@@ -61,7 +61,7 @@ template <typename IndexType>
           double                &rdscal,
           const IndexType       *iPiv,
           const IndexType       *jpiv);
-    
+
 template <typename IndexType>
     void
     latdf(IndexType                  ijob,

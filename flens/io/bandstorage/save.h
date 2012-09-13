@@ -60,15 +60,6 @@ template <typename FS>
     bool
     save(std::string filename, const TbMatrix<FS> &A);
 
-//-- forwarding ---------------------------------------------------------------
-template <typename MA>
-    typename RestrictTo<IsGbMatrix<MA>::value ||
-                        IsHbMatrix<MA>::value ||
-                        IsSbMatrix<MA>::value ||
-                        IsTbMatrix<MA>::value,
-                        bool>::Type
-    save(std::string filename, const MA &&A);
-       
 } // namespace flens
 
 #endif // FLENS_IO_BANDSTORAGE_SAVE_H

@@ -52,7 +52,8 @@ BandStorage<T, Order, I, A>::BandStorage()
 
 template <typename T, StorageOrder Order, typename I, typename A>
 BandStorage<T, Order, I, A>::BandStorage(IndexType numRows, IndexType numCols,
-                                         IndexType numSubDiags, IndexType numSuperDiags,
+                                         IndexType numSubDiags,
+                                         IndexType numSuperDiags,
                                          IndexType firstIndex,
                                          const ElementType &value,
                                          const Allocator &allocator)
@@ -81,10 +82,10 @@ BandStorage<T, Order, I, A>::BandStorage(const BandStorage &rhs)
     _allocate(ElementType());
     const IndexType leadingDimension = _numSubDiags+_numSuperDiags+1;
     if (Order==ColMajor) {
-        cxxblas::copy(leadingDimension*_numCols, rhs.data(), 1, _data, 1); 
+        cxxblas::copy(leadingDimension*_numCols, rhs.data(), 1, _data, 1);
     }
     else {
-        cxxblas::copy(leadingDimension*_numRows, rhs.data(), 1, _data, 1); 
+        cxxblas::copy(leadingDimension*_numRows, rhs.data(), 1, _data, 1);
     }
 }
 
@@ -98,15 +99,15 @@ BandStorage<T, Order, I, A>::BandStorage(const RHS &rhs)
 {
     using std::max;
     using std::min;
-    
+
     _allocate(ElementType());
-    
-    for (IndexType row = _firstIndex; row <= _firstIndex+_numRows-1; ++row) 
+
+    for (IndexType row = _firstIndex; row <= _firstIndex+_numRows-1; ++row)
     {
         const IndexType mincol = max(_firstIndex,row-_numSubDiags);
         const IndexType maxcol = min(row+_numSuperDiags,_numCols+_firstIndex-1);
         for (IndexType col = mincol; col <= maxcol; ++col)
-            operator()(row, col) = rhs.operator()(row,col);  
+            operator()(row, col) = rhs.operator()(row,col);
     }
 }
 
@@ -141,7 +142,7 @@ BandStorage<T, Order, I, A>::operator()(IndexType row, IndexType col) const
 
     const IndexType i = _numSubDiags+col-row;
     const IndexType j = row-_firstIndex;
-    return _data[j*leadingDimension+i]; 
+    return _data[j*leadingDimension+i];
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
@@ -154,10 +155,10 @@ BandStorage<T, Order, I, A>::operator()(IndexType row, IndexType col)
     ASSERT(row<_firstIndex+_numRows);
     ASSERT(col>=_firstIndex);
     ASSERT(col<_firstIndex+_numCols);
-  
+
     ASSERT(max(_firstIndex,col-_numSuperDiags) <= row);
     ASSERT(row <= min(_numRows+_firstIndex-1,col+_numSubDiags));
-    
+
     const IndexType leadingDimension = _numSubDiags+_numSuperDiags+1;
     if (Order == ColMajor) {
         const IndexType i = _numSuperDiags+row-col;
@@ -167,7 +168,7 @@ BandStorage<T, Order, I, A>::operator()(IndexType row, IndexType col)
 
     const IndexType i = _numSubDiags+col-row;
     const IndexType j = row-_firstIndex;
-    return _data[j*leadingDimension+i]; 
+    return _data[j*leadingDimension+i];
 
 }
 
@@ -296,14 +297,15 @@ BandStorage<T, Order, I, A>::allocator() const
 template <typename T, StorageOrder Order, typename I, typename A>
 bool
 BandStorage<T, Order, I, A>::resize(IndexType numRows, IndexType numCols,
-                                    IndexType numSubDiags, IndexType numSuperDiags,
+                                    IndexType numSubDiags,
+                                    IndexType numSuperDiags,
                                     IndexType firstIndex,
                                     const ElementType &value)
 {
-    if ((_numSubDiags!=numSubDiags) ||(_numSuperDiags!=numSuperDiags) 
+    if ((_numSubDiags!=numSubDiags) ||(_numSuperDiags!=numSuperDiags)
       || (_numRows!=numRows) || (_numCols!=numCols)) {
         _release();
-        _numSubDiags = numSubDiags, 
+        _numSubDiags = numSubDiags,
         _numSuperDiags = numSuperDiags,
         _numRows = numRows;
         _numCols = numCols;
@@ -337,7 +339,7 @@ BandStorage<T, Order, I, A>::fill(const ElementType &value)
     else {
         std::fill_n(_data, m*_numRows, value);
     }
-    
+
     return true;
 }
 
@@ -356,7 +358,7 @@ BandStorage<T, Order, I, A>::fillRandom()
             _data[i] = randomValue<T>();
         }
     }
-    
+
     return true;
 }
 
@@ -372,7 +374,7 @@ BandStorage<T, Order, I, A>::arrayView(IndexType firstViewIndex) const
                               firstViewIndex,
                               _allocator);
     }
-    
+
     return ConstArrayView((_numSubDiags+_numSuperDiags+1)*_numRows,
                           _data,
                           IndexType(1),
@@ -391,7 +393,7 @@ BandStorage<T, Order, I, A>::arrayView(IndexType firstViewIndex)
                               firstViewIndex,
                               allocator());
     }
-    
+
     return ArrayView((_numSubDiags+_numSuperDiags+1)*_numCols,
                           _data,
                           IndexType(1),
@@ -409,14 +411,14 @@ BandStorage<T, Order, I, A>::viewDiag(IndexType diag,
 
     ASSERT( diag <= _numSuperDiags);
     ASSERT(-diag <= _numSubDiags);
-    
+
     using std::min;
 
     const IndexType i = (diag < 0) ? -diag+firstViewIndex: firstViewIndex;
     const IndexType j = (diag > 0) ?  diag+firstViewIndex: firstViewIndex;
     const IndexType length = (diag<=0) ? min(_numCols, _numRows+diag)
                                        : min(_numCols-diag, _numRows);
-    
+
     return ConstArrayView(length-firstViewIndex+_firstIndex,
                           &(this->operator()(i, j)),
                           _numSubDiags+_numSuperDiags+1,
@@ -431,14 +433,14 @@ BandStorage<T, Order, I, A>::viewDiag(IndexType diag,
 {
     ASSERT( diag <= _numSuperDiags);
     ASSERT(-diag <= _numSubDiags);
-    
+
     using std::min;
 
     const IndexType i = (diag < 0) ? -diag+firstViewIndex: firstViewIndex;
     const IndexType j = (diag > 0) ?  diag+firstViewIndex: firstViewIndex;
     const IndexType length = (diag<=0) ? min(_numCols, _numRows+diag)
                                        : min(_numCols-diag, _numRows);
-    
+
     return ArrayView(length-firstViewIndex+_firstIndex,
                      &(this->operator()(i, j)),
                      _numSubDiags+_numSuperDiags+1,
@@ -450,20 +452,21 @@ BandStorage<T, Order, I, A>::viewDiag(IndexType diag,
 // View some diagonals
 template <typename T, StorageOrder Order, typename I, typename A>
 const typename BandStorage<T, Order, I, A>::ConstView
-BandStorage<T, Order, I, A>::viewDiags(IndexType fromDiag, IndexType toDiag) const
+BandStorage<T, Order, I, A>::viewDiags(IndexType fromDiag,
+                                       IndexType toDiag) const
 {
 
     ASSERT(fromDiag<=toDiag);
     IndexType numRows = _numRows;
     IndexType numCols = _numCols;
-    
+
     if (fromDiag>0) {
         numCols = _numCols - fromDiag;
         if (_numRows<_numCols) {
             if (_numCols-_numRows < fromDiag) {
                 numRows = _numCols - fromDiag;
             }
-        } else { 
+        } else {
             numRows = _numCols - fromDiag;
         }
     }
@@ -480,11 +483,11 @@ BandStorage<T, Order, I, A>::viewDiags(IndexType fromDiag, IndexType toDiag) con
 
     const IndexType i = _firstIndex - ((toDiag<0) ? toDiag : 0);
     const IndexType j = _firstIndex + ((fromDiag>0) ? fromDiag : 0);
-    
+
     if (Order == RowMajor ) {
         if (toDiag < 0) {
             return ConstView(numRows, numCols, -fromDiag+toDiag, 0,
-                             &(this->operator()(i,j)) + fromDiag-toDiag ,
+                             &(this->operator()(i,j)) + fromDiag-toDiag,
                              _numSubDiags+_numSuperDiags+1,
                              _firstIndex, _allocator);
         }
@@ -493,13 +496,13 @@ BandStorage<T, Order, I, A>::viewDiags(IndexType fromDiag, IndexType toDiag) con
                              &(this->operator()(i,j)),
                              _numSubDiags+_numSuperDiags+1,
                              _firstIndex, _allocator);
-        } 
+        }
         return ConstView(numRows, numCols, -fromDiag, toDiag,
                          _data + _numSubDiags+fromDiag,
                          _numSubDiags+_numSuperDiags+1,
                          _firstIndex, _allocator);
-    } 
-    
+    }
+
     if (toDiag < 0) {
         return ConstView(numRows, numCols, -fromDiag+toDiag, 0,
                          &(this->operator()(i,j)),
@@ -526,14 +529,14 @@ BandStorage<T, Order, I, A>::viewDiags(IndexType fromDiag, IndexType toDiag)
     ASSERT(fromDiag<=toDiag);
     IndexType numRows = _numRows;
     IndexType numCols = _numCols;
-    
+
     if (fromDiag>0) {
         numCols = _numCols - fromDiag;
         if (_numRows<_numCols) {
             if (_numCols-_numRows < fromDiag) {
                 numRows = _numCols - fromDiag;
             }
-        } else { 
+        } else {
             numRows = _numCols - fromDiag;
         }
     }
@@ -550,7 +553,7 @@ BandStorage<T, Order, I, A>::viewDiags(IndexType fromDiag, IndexType toDiag)
 
     const IndexType i = _firstIndex - ((toDiag<0) ? toDiag : 0);
     const IndexType j = _firstIndex + ((fromDiag>0) ? fromDiag : 0);
-    
+
     if (Order == RowMajor ) {
         if (toDiag < 0) {
             return View(numRows, numCols, -fromDiag+toDiag, 0,
@@ -563,13 +566,13 @@ BandStorage<T, Order, I, A>::viewDiags(IndexType fromDiag, IndexType toDiag)
                         &(this->operator()(i,j)),
                         _numSubDiags+_numSuperDiags+1,
                         _firstIndex, _allocator);
-        } 
+        }
         return View(numRows, numCols, -fromDiag, toDiag,
                     _data + _numSubDiags+fromDiag,
                     _numSubDiags+_numSuperDiags+1,
                     _firstIndex, _allocator);
-    } 
-    
+    }
+
     if (toDiag < 0) {
         return View(numRows, numCols, -fromDiag+toDiag, 0,
                     &(this->operator()(i,j)),
@@ -586,7 +589,6 @@ BandStorage<T, Order, I, A>::viewDiags(IndexType fromDiag, IndexType toDiag)
                 _data + (_numSuperDiags-toDiag),
                 _numSubDiags+_numSuperDiags+1,
                 _firstIndex, _allocator);
-    
 }
 
 
@@ -607,7 +609,7 @@ BandStorage<T, Order, I, A>::_raw_allocate()
     ASSERT(!_data);
     ASSERT(_numRows>0);
     ASSERT(_numCols>0);
- 
+
     const IndexType m = _numSubDiags+_numSuperDiags+1;
     if (Order==ColMajor) {
         _data = _allocator.allocate(m*_numCols);
@@ -624,16 +626,16 @@ template <typename T, StorageOrder Order, typename I, typename A>
 void
 BandStorage<T, Order, I, A>::_allocate(const ElementType &value)
 {
-    
+
     if (numRows()*numCols()==0) {
         return;
     }
 
     _raw_allocate();
     T *p = _data;
-   
+
     IndexType numArrayElements = (_numSubDiags+_numSuperDiags+1)*_numCols;
-    
+
      if (Order == RowMajor) {
         numArrayElements = (_numSubDiags+_numSuperDiags+1)*_numRows;
     }

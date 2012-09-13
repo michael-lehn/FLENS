@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     sytrs2(char                  uplo,
@@ -48,7 +48,7 @@ template <typename IndexType>
            float                 *B,
            IndexType             ldB,
            float                 *work);
-    
+
 template <typename IndexType>
     IndexType
     sytrs2(char                  uplo,
@@ -60,7 +60,7 @@ template <typename IndexType>
            double                *B,
            IndexType             ldB,
            double                *work);
-    
+
 template <typename IndexType>
     IndexType
     sytrs2(char                        uplo,
@@ -72,7 +72,7 @@ template <typename IndexType>
            std::complex<float >        *B,
            IndexType                   ldB,
            std::complex<float >        *work);
-    
+
 template <typename IndexType>
     IndexType
     sytrs2(char                        uplo,

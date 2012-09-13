@@ -38,7 +38,7 @@
 namespace cxxlapack {
 
 template <typename IndexType>
-    float 
+    float
     lantr(char              norm,
           char              upLo,
           char              diag,
@@ -47,8 +47,8 @@ template <typename IndexType>
           const float       *A,
           IndexType         ldA,
           float             *work);
-    
-    
+
+
 template <typename IndexType>
     double
     lantr(char              norm,
@@ -59,9 +59,9 @@ template <typename IndexType>
           const double      *A,
           IndexType         ldA,
           double            *work);
-    
+
 template <typename IndexType>
-    float 
+    float
     lantr(char                          norm,
           char                          upLo,
           char                          diag,

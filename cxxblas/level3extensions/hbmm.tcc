@@ -34,7 +34,7 @@
 #define CXXBLAS_LEVEL3EXTENSION_HBMM_TCC 1
 
 #include <complex>
-#include <cxxblas/level2/level2.h>
+#include <cxxblas/cxxblas.h>
 
 namespace cxxblas {
 
@@ -50,37 +50,37 @@ hbmm(StorageOrder order,  Side sideA, StorageUpLo upLo,
       const BETA &beta,
       VC *C, IndexType ldC)
 {
-    if (order==RowMajor) 
-    {
-          if (sideA == Left) {
-              for (IndexType i = 0; i < l; ++i)
-                  hbmv(RowMajor, upLo, m, k,
-                          alpha, A, ldA, B+i, ldB, beta, C+i, ldC);
-            
-          } else if (sideA == Right) {
-
-              for (IndexType i = 0; i < m; ++i)
-                hbmv(RowMajor, upLo, l, k,
-                            alpha, A, ldA, B+i*ldB, IndexType(1), beta, C+i*ldC, IndexType(1));
-          }
+    if (order==RowMajor) {
+        if (sideA==Left) {
+            for (IndexType i = 0; i < l; ++i) {
+                hbmv(RowMajor, upLo, m, k,
+                     alpha, A, ldA, B+i, ldB, beta, C+i, ldC);
+            }
+        } else if (sideA==Right) {
+            for (IndexType i = 0; i < m; ++i) {
+                hbmv(RowMajor, upLo, l, k, alpha,
+                     A, ldA, B+i*ldB, IndexType(1),
+                     beta, C+i*ldC, IndexType(1));
+            }
+        }
     } else {
-          upLo = (upLo==Upper) ? Lower : Upper;
-          if (sideA == Left) {
-              for (IndexType i = 0; i < l; ++i)
-                  hbmv(RowMajor, upLo, m, k,
-                          alpha, A, ldA, B+i*ldB, IndexType(1), beta, C+i*ldC, IndexType(1));
-
-          } else if (sideA == Right) {
-
-              for (IndexType i = 0; i < m; ++i)
-                hbmv(RowMajor, upLo, l, k,
-                            alpha, A, ldA, B+i, ldB, beta, C+i, ldC);
-          }
+        upLo = (upLo==Upper) ? Lower : Upper;
+        if (sideA==Left) {
+            for (IndexType i = 0; i < l; ++i) {
+                hbmv(RowMajor, upLo, m, k, alpha,
+                     A, ldA, B+i*ldB, IndexType(1),
+                     beta, C+i*ldC, IndexType(1));
+            }
+        } else if (sideA==Right) {
+            for (IndexType i = 0; i < m; ++i) {
+                hbmv(RowMajor, upLo, l, k, alpha,
+                     A, ldA, B+i, ldB,
+                     beta, C+i, ldC);
+            }
+        }
     }
     return;
 }
-
-
 
 } // namespace cxxblas
 

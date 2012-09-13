@@ -41,7 +41,7 @@
 
 namespace flens { namespace blas {
 
-//-- BLAS Level 1 extensions ---------------------------------------------------
+//-- BLAS Level 1 --------------------------------------------------------------
 
 //-- axpy
 template <typename ALPHA, typename VX, typename VY>

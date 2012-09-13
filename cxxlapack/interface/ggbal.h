@@ -50,7 +50,7 @@ template <typename IndexType>
           float                 *lscale,
           float                 *rscale,
           float                 *work);
-    
+
 template <typename IndexType>
     IndexType
     ggbal(char                  job,
@@ -64,7 +64,7 @@ template <typename IndexType>
           double                *lscale,
           double                *rscale,
           double                *work);
-    
+
 template <typename IndexType>
     IndexType
     ggbal(char                  job,
@@ -78,7 +78,7 @@ template <typename IndexType>
           float                 *lscale,
           float                 *rscale,
           float                 *work);
-    
+
 template <typename IndexType>
     IndexType
     ggbal(char                  job,

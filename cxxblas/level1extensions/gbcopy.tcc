@@ -61,31 +61,31 @@ gbcopy(StorageOrder order,
     }
 
     if (trans == NoTrans) {
-          for (IndexType j=0, i=-kl; i<=ku; ++j, ++i) {
-              IndexType length = (i < 0)
-                               ? min(m+i,min(m,n))
-                               : min(n-i,min(m,n));
-              copy(length, A+j+max(-i,0)*ldA, ldA, B+j+max(-i,0)*ldB, ldB);
-          }
-          return;
+        for (IndexType j=0, i=-kl; i<=ku; ++j, ++i) {
+            IndexType length = (i < 0)
+                             ? min(m+i,min(m,n))
+                             : min(n-i,min(m,n));
+            copy(length, A+j+max(-i,0)*ldA, ldA, B+j+max(-i,0)*ldB, ldB);
+        }
+        return;
     }
     if (trans == Conj) {
-          for (IndexType j=0, i=-kl; i<=ku; ++j, ++i) {
-              IndexType length = (i < 0)
-                               ? min(m+i,min(m,n))
-                               : min(n-i,min(m,n));
-              ccopy(length, A+j+max(-i,0)*ldA, ldA, B+j+max(-i,0)*ldB, ldB);
-          }
-          return;
+        for (IndexType j=0, i=-kl; i<=ku; ++j, ++i) {
+            IndexType length = (i < 0)
+                             ? min(m+i,min(m,n))
+                             : min(n-i,min(m,n));
+            ccopy(length, A+j+max(-i,0)*ldA, ldA, B+j+max(-i,0)*ldB, ldB);
+        }
+        return;
     }
     if (trans == Trans) {
-          for (IndexType j=0, J=kl+ku, i=-ku, I=ku; i<=kl; ++j, --J, ++i, --I) {
-              IndexType length = (i < 0)
-                               ? min(m+i,min(m,n))
-                               : min(n-i,min(m,n));
-              copy(length, A+j+max(-i,0)*ldA, ldA, B+J+max(-I,0)*ldB, ldB);
-          }
-          return;
+        for (IndexType j=0, J=kl+ku, i=-ku, I=ku; i<=kl; ++j, --J, ++i, --I) {
+            IndexType length = (i < 0)
+                             ? min(m+i,min(m,n))
+                             : min(n-i,min(m,n));
+            copy(length, A+j+max(-i,0)*ldA, ldA, B+J+max(-I,0)*ldB, ldB);
+        }
+        return;
     }
 
     for (IndexType j=0, J=kl+ku, i=-ku, I=ku; i<=kl; ++j, --J, ++i, --I) {

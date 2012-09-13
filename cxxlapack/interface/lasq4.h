@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     void
     lasq4(IndexType             i0,
@@ -53,7 +53,7 @@ template <typename IndexType>
           float                 &tau,
           float                 &ttype,
           float                 &g);
-    
+
 template <typename IndexType>
     void
     lasq4(IndexType             i0,

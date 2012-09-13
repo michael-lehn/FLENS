@@ -63,7 +63,7 @@ template <typename IndexType>
           IndexType             ldQ,
           float                 *work,
           IndexType             &ncycle);
-    
+
 template <typename IndexType>
     IndexType
     tgsja(char                  jobu,
@@ -90,7 +90,7 @@ template <typename IndexType>
           IndexType             ldQ,
           double                *work,
           IndexType             &ncycle);
-    
+
 template <typename IndexType>
     IndexType
     tgsja(char                  jobu,
@@ -117,7 +117,7 @@ template <typename IndexType>
           IndexType             ldQ,
           std::complex<float >  *work,
           IndexType             &ncycle);
-    
+
 template <typename IndexType>
     IndexType
     tgsja(char                  jobu,

@@ -61,7 +61,7 @@ template <typename IndexType>
           IndexType             ldQ,
           float                 *work,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     ggsvd(char                  jobu,
@@ -86,7 +86,7 @@ template <typename IndexType>
           IndexType             ldQ,
           double                *work,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     ggsvd(char                  jobu,
@@ -112,7 +112,7 @@ template <typename IndexType>
           std::complex<float >  *work,
           float                 *rWork,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     ggsvd(char                  jobu,

@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     hecon(char                        uplo,
@@ -47,7 +47,7 @@ template <typename IndexType>
           float                       anorm,
           float                       &rCond,
           std::complex<float >        *work);
-    
+
 template <typename IndexType>
     IndexType
     hecon(char                        uplo,

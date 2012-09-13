@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     ormhr(char          side,
@@ -52,7 +52,7 @@ template <typename IndexType>
           IndexType     ldC,
           float         *work,
           IndexType     lWork);
-    
+
 template <typename IndexType>
     IndexType
     ormhr(char          side,

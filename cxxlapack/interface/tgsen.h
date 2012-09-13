@@ -116,7 +116,7 @@ namespace cxxlapack {
 //           IndexType             lWork,
 //           IndexType             *iWork,
 //           IndexType             liWork);
-    
+
 // template <typename IndexType>
 //     IndexType
 //     tgsen(IndexType             ijob,

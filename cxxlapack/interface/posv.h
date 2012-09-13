@@ -46,7 +46,7 @@ template <typename IndexType>
          IndexType      ldA,
          float          *B,
          IndexType      ldB);
-    
+
 template <typename IndexType>
     IndexType
     posv(char           upLo,
@@ -56,7 +56,7 @@ template <typename IndexType>
          IndexType      ldA,
          double         *B,
          IndexType      ldB);
-    
+
 template <typename IndexType>
     IndexType
     posv(char                   upLo,

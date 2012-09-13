@@ -59,7 +59,7 @@ gsvj0(char          jobV,
       IndexType     lWork)
 {
     CXXLAPACK_DEBUG_OUT("sgsvj0");
-    
+
     IndexType info;
     LAPACK_IMPL(sgsvj0)(&jobV,
                         &m,
@@ -107,7 +107,7 @@ gsvj0(char          jobV,
       IndexType     lWork)
 {
     CXXLAPACK_DEBUG_OUT("dgsvj0");
-    
+
     IndexType info;
     LAPACK_IMPL(dgsvj0)(&jobV,
                         &m,

@@ -1,5 +1,6 @@
 /*
  *   Copyright (c) 2009, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -127,7 +128,8 @@ template <typename MA, typename MB>
     typename RestrictTo<IsSyMatrix<MA>::value
                      && IsSyMatrix<MB>::value,
              void>::Type
-    copy(const MA &A, MB &&B);
+    copy(Transpose trans, const MA &A, MB &&B);
+
 
 //== TriangularMatrix
 
@@ -203,7 +205,8 @@ template <typename MA, typename MB>
              void>::Type
     copy(const MA &A, MB &&B);
 
-//-- convenience extensions ----------------------------------------------------
+
+//-- Densify Sparse Matrices ---------------------------------------------------
 
 //== GeneralMatrix
 
@@ -219,7 +222,7 @@ template <typename MA, typename MB>
     typename RestrictTo<IsGeCRSMatrix<MA>::value
                      && IsGeMatrix<MB>::value,
              void>::Type
-    copy(Transpose trans, const MA &A, MB &&B);
+    copy(const MA &A, MB &&B);
 
 //-- copy: GeCoordMatrix -> GeMatrix
 template <typename MA, typename MB>
@@ -230,13 +233,6 @@ template <typename MA, typename MB>
 
 
 //== HermitianMatrix
-
-//-- copy: HbMatrix -> GbMatrix
-template <typename MA, typename MB>
-    typename RestrictTo<IsHbMatrix<MA>::value
-                     && IsGbMatrix<MB>::value,
-             void>::Type
-    copy(const MA &A, MB &&B);
 
 //-- copy: HeCCSMatrix -> HeMatrix
 template <typename MA, typename MB>
@@ -252,22 +248,8 @@ template <typename MA, typename MB>
              void>::Type
     copy(const MA &A, MB &&B);
 
-//-- copy: HeMatrix -> GeMatrix
-template <typename MA, typename MB>
-    typename RestrictTo<IsHeMatrix<MA>::value
-                     && IsGeMatrix<MB>::value,
-             void>::Type
-    copy(const MA &A, MB &&B);
-
 
 //== SymmetricMatrix
-
-//-- copy: SbMatrix -> GbMatrix
-template <typename MA, typename MB>
-    typename RestrictTo<IsSbMatrix<MA>::value
-                     && IsGbMatrix<MB>::value,
-             void>::Type
-    copy(const MA &A, MB &&B);
 
 //-- copy: SyCCSMatrix -> SyMatrix
 template <typename MA, typename MB>
@@ -283,13 +265,39 @@ template <typename MA, typename MB>
              void>::Type
     copy(const MA &A, MB &&B);
 
+//-- Convenience Extensions ----------------------------------------------------
+
+//== HermitianMatrix
+
+//-- copy: HbMatrix -> GbMatrix
+template <typename MA, typename MB>
+    typename RestrictTo<IsHbMatrix<MA>::value
+                     && IsGbMatrix<MB>::value,
+             void>::Type
+    copy(const MA &A, MB &&B);
+
+//-- copy: HeMatrix -> GeMatrix
+template <typename MA, typename MB>
+    typename RestrictTo<IsHeMatrix<MA>::value
+                     && IsGeMatrix<MB>::value,
+             void>::Type
+    copy(const MA &A, MB &&B);
+
+//== SymmetricMatrix
+
+//-- copy: SbMatrix -> GbMatrix
+template <typename MA, typename MB>
+    typename RestrictTo<IsSbMatrix<MA>::value
+                     && IsGbMatrix<MB>::value,
+             void>::Type
+    copy(const MA &A, MB &&B);
+
 //-- copy: SyMatrix -> GeMatrix
 template <typename MA, typename MB>
     typename RestrictTo<IsSyMatrix<MA>::value
                      && IsGeMatrix<MB>::value,
              void>::Type
     copy(const MA &A, MB &&B);
-
 
 //== TriangularMatrix
 

@@ -46,7 +46,7 @@ template <typename IndexType>
          IndexType  *iPiv,
          float      *B,
          IndexType  ldB);
-    
+
 template <typename IndexType>
     IndexType
     gesv(IndexType  n,
@@ -56,7 +56,7 @@ template <typename IndexType>
          IndexType  *iPiv,
          double     *B,
          IndexType  ldB);
-    
+
 template <typename IndexType>
     IndexType
     gesv(IndexType              n,
@@ -66,7 +66,7 @@ template <typename IndexType>
          IndexType              *iPiv,
          std::complex<float >   *B,
          IndexType              ldB);
-    
+
 template <typename IndexType>
     IndexType
     gesv(IndexType              n,

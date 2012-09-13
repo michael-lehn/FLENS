@@ -49,7 +49,7 @@ template <typename IndexType>
           const IndexType       *iPiv,
           float                 *B,
           IndexType             ldB);
-    
+
 template <typename IndexType>
     void
     gtts2(IndexType             itrans,
@@ -62,7 +62,7 @@ template <typename IndexType>
           const IndexType       *iPiv,
           double                *B,
           IndexType             ldB);
-    
+
 template <typename IndexType>
     void
     gtts2(IndexType                   itrans,
@@ -75,7 +75,7 @@ template <typename IndexType>
           const IndexType             *iPiv,
           std::complex<float >        *B,
           IndexType                   ldB);
-    
+
 template <typename IndexType>
     void
     gtts2(IndexType                   itrans,

@@ -57,7 +57,7 @@ laqps(IndexType     m,
       IndexType     ldF)
 {
     CXXLAPACK_DEBUG_OUT("slaqps");
- 
+
     LAPACK_IMPL(slaqps)(&m,
                         &n,
                         &offset,
@@ -93,7 +93,7 @@ laqps(IndexType     m,
       IndexType     ldF)
 {
     CXXLAPACK_DEBUG_OUT("dlaqps");
- 
+
     LAPACK_IMPL(dlaqps)(&m,
                         &n,
                         &offset,
@@ -128,7 +128,7 @@ laqps(IndexType             m,
       IndexType             ldF)
 {
     CXXLAPACK_DEBUG_OUT("claqps");
- 
+
     LAPACK_IMPL(claqps)(&m,
                         &n,
                         &offset,
@@ -163,7 +163,7 @@ laqps(IndexType             m,
       IndexType             ldF)
 {
     CXXLAPACK_DEBUG_OUT("zlaqps");
- 
+
     LAPACK_IMPL(zlaqps)(&m,
                         &n,
                         &offset,

@@ -60,7 +60,7 @@ template <typename IndexType>
           const float           *givnum,
           float                 *work,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     laed7(IndexType             icompq,
@@ -84,8 +84,8 @@ template <typename IndexType>
           const double          *givnum,
           double                *work,
           IndexType             *iWork);
-    
-    
+
+
     template <typename IndexType>
     IndexType
     laed7(IndexType             icompq,
@@ -109,9 +109,9 @@ template <typename IndexType>
           std::complex<float >  *work,
           float                 *rWork,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
-    IndexType   
+    IndexType
     laed7(IndexType             icompq,
           IndexType             n,
           IndexType             qsiz,
@@ -133,7 +133,7 @@ template <typename IndexType>
           std::complex<double>  *work,
           double                *rWork,
           IndexType             *iWork);
-    
+
 } // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_LAED7_H

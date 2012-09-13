@@ -48,7 +48,7 @@ template <typename IndexType>
          IndexType              ldZ,
          std::complex<float >   *work,
          float                  *rWork);
-    
+
 template <typename IndexType>
     IndexType
     hpev(char                   jobZ,

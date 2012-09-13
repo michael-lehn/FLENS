@@ -48,8 +48,8 @@ template <typename IndexType>
           float                 *tau,
           float                 *W,
           IndexType             ldW);
-    
-    
+
+
 template <typename IndexType>
     void
     latrd(char                  uplo,
@@ -61,7 +61,7 @@ template <typename IndexType>
           double                *tau,
           double                *W,
           IndexType             ldW);
-    
+
 template <typename IndexType>
     void
     latrd(char                       uplo,

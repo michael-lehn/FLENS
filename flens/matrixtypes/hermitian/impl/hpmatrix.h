@@ -114,21 +114,21 @@ class HpMatrix
         template <typename RHS>
             HpMatrix &
             operator=(const Matrix<RHS> &rhs);
-        
+
         HpMatrix<FS> &
         operator=(const ElementType &alpha);
 
         HpMatrix<FS> &
         operator+=(const ElementType &alpha);
-        
+
         HpMatrix<FS> &
         operator-=(const ElementType &alpha);
-        
+
         HpMatrix<FS> &
         operator*=(const ElementType &alpha);
-        
+
         HpMatrix<FS> &
-        operator/=(const ElementType &alpha);   
+        operator/=(const ElementType &alpha);
 
         const ElementType &
         operator()(IndexType row, IndexType col) const;
@@ -175,10 +175,10 @@ class HpMatrix
 
         ElementType *
         data();
-    
+
         StorageOrder
         order() const;
-    
+
         template <typename RHS>
             bool
             resize(const HpMatrix<RHS> &rhs,

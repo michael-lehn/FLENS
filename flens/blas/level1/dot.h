@@ -46,15 +46,13 @@ template <typename X, typename Y, typename T>
     dotu(const DenseVector<X> &x, const DenseVector<Y> &y, T &result);
 
 template <typename X, typename Y>
-    typename RestrictTo<IsSame<typename X::ElementType,
-                               typename Y::ElementType>::value,
-                        typename X::ElementType>::Type
+    typename CompatibleType<typename X::ElementType,
+                            typename Y::ElementType>::Type
     dot(const DenseVector<X> &x, const DenseVector<Y> &y);
 
 template <typename X, typename Y>
-    typename RestrictTo<IsSame<typename X::ElementType,
-                               typename Y::ElementType>::value,
-                        typename X::ElementType>::Type
+    typename CompatibleType<typename X::ElementType,
+                            typename Y::ElementType>::Type
     dotu(const DenseVector<X> &x, const DenseVector<Y> &y);
 
 } } // namespace blas, flens

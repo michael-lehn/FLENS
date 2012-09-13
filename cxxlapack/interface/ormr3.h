@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     void
     ormr3(char          side,
@@ -51,7 +51,7 @@ template <typename IndexType>
           float         *C,
           IndexType     ldC,
           float         *work);
-    
+
 template <typename IndexType>
     void
     ormr3(char          side,

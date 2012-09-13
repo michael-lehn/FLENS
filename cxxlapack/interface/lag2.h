@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     void
     lag2(const float           *A,
@@ -49,7 +49,7 @@ template <typename IndexType>
          float                 &wr1,
          float                 &wr2,
          float                 &wi);
-    
+
 template <typename IndexType>
     void
     lag2(const double          *A,

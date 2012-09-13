@@ -48,7 +48,7 @@ larfg(IndexType     n,
       float         &tau)
 {
     CXXLAPACK_DEBUG_OUT("slarfg");
- 
+
     LAPACK_IMPL(slarfg)(&n,
                         &alpha,
                         x,
@@ -66,7 +66,7 @@ larfg(IndexType     n,
       double        &tau)
 {
     CXXLAPACK_DEBUG_OUT("slarfg");
- 
+
     LAPACK_IMPL(dlarfg)(&n,
                         &alpha,
                         x,
@@ -83,7 +83,7 @@ larfg(IndexType               n,
       std::complex<float >    &tau)
 {
     CXXLAPACK_DEBUG_OUT("clarfg");
- 
+
     LAPACK_IMPL(clarfg)(&n,
                         reinterpret_cast<float  *>(&alpha),
                         reinterpret_cast<float  *>(x),
@@ -100,7 +100,7 @@ larfg(IndexType               n,
       std::complex<double>    &tau)
 {
     CXXLAPACK_DEBUG_OUT("zlarfg");
- 
+
     LAPACK_IMPL(zlarfg)(&n,
                         reinterpret_cast<double *>(&alpha),
                         reinterpret_cast<double *>(x),

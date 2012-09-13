@@ -58,7 +58,7 @@ laqr4(bool              wantT,
       const IndexType   lWork)
 {
     CXXLAPACK_DEBUG_OUT("slaqr4");
- 
+
     IndexType  info;
     IndexType  _wantT = wantT;
     IndexType  _wantZ = wantZ;
@@ -107,7 +107,7 @@ laqr4(bool              wantT,
       const IndexType   lWork)
 {
     CXXLAPACK_DEBUG_OUT("dlaqr4");
- 
+
     IndexType  info;
     IndexType  _wantT = wantT;
     IndexType  _wantZ = wantZ;
@@ -154,7 +154,7 @@ laqr4(bool                  wantT,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("claqr4");
- 
+
     IndexType info;
     IndexType _wantT = wantT;
     IndexType _wantZ = wantZ;
@@ -200,7 +200,7 @@ laqr4(bool                  wantT,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("zlaqr4");
- 
+
     IndexType info;
     IndexType _wantT = wantT;
     IndexType _wantZ = wantZ;

@@ -52,7 +52,7 @@ larf(char           side,
      float          *work)
 {
     CXXLAPACK_DEBUG_OUT("slarf");
- 
+
     LAPACK_IMPL(slarf)(&side,
                        &m,
                        &n,
@@ -78,7 +78,7 @@ larf(char           side,
      double         *work)
 {
     CXXLAPACK_DEBUG_OUT("dlarf");
- 
+
     LAPACK_IMPL(dlarf)(&side,
                        &m,
                        &n,
@@ -103,7 +103,7 @@ larf(char                           side,
      std::complex<float >           *work)
 {
     CXXLAPACK_DEBUG_OUT("clarf");
- 
+
     LAPACK_IMPL(clarf)(&side,
                        &m,
                        &n,
@@ -128,7 +128,7 @@ larf(char                           side,
      std::complex<double>           *work)
 {
     CXXLAPACK_DEBUG_OUT("zlarf");
- 
+
     LAPACK_IMPL(zlarf)(&side,
                        &m,
                        &n,

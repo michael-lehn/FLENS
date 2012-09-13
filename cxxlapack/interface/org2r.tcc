@@ -50,7 +50,7 @@ org2r(IndexType     m,
       float         *work)
 {
     CXXLAPACK_DEBUG_OUT("sorg2r");
-  
+
     IndexType info;
     LAPACK_IMPL(sorg2r)(&m,
                         &n,
@@ -80,7 +80,7 @@ org2r(IndexType     m,
       double        *work)
 {
     CXXLAPACK_DEBUG_OUT("dorg2r");
-  
+
     IndexType info;
     LAPACK_IMPL(dorg2r)(&m,
                         &n,

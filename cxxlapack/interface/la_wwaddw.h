@@ -43,21 +43,21 @@ template <typename IndexType>
               float                 *x,
               float                 *y,
               const float           *w);
-    
+
 template <typename IndexType>
     void
     la_wwaddw(IndexType             n,
               double                *x,
               double                *y,
               const double          *w);
-    
+
 template <typename IndexType>
     void
     la_wwaddw(IndexType                    n,
               std::complex<float >        *x,
               std::complex<float >        *y,
               const std::complex<float >  *w);
-    
+
 template <typename IndexType>
     void
     la_wwaddw(IndexType                    n,

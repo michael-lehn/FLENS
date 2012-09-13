@@ -64,7 +64,7 @@ template <typename IndexType>
           const float           *s,
           float                 *work,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     lalsa(IndexType             icompq,
@@ -92,7 +92,7 @@ template <typename IndexType>
           const double          *s,
           double                *work,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     lalsa(IndexType             icompq,

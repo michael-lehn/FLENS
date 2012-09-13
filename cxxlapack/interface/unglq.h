@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     unglq(IndexType                     m,
@@ -47,7 +47,7 @@ template <typename IndexType>
           const std::complex<float >    *tau,
           std::complex<float >          *work,
           IndexType                     lWork);
-    
+
 template <typename IndexType>
     IndexType
     unglq(IndexType                     m,

@@ -33,7 +33,6 @@
 #ifndef FLENS_MATRIXTYPES_HERMITIAN_IMPL_HBMATRIX_TCC
 #define FLENS_MATRIXTYPES_HERMITIAN_IMPL_HBMATRIX_TCC 1
 
-#include <flens/auxiliary/auxiliary.h>
 #include <flens/blas/level1/copy.h>
 #include <flens/matrixtypes/hermitian/impl/hbmatrix.h>
 #include <flens/typedefs.h>
@@ -46,9 +45,9 @@ HbMatrix<FS>::HbMatrix()
 }
 
 template <typename FS>
-HbMatrix<FS>::HbMatrix(IndexType dim, StorageUpLo upLo, IndexType numOffDiags, 
+HbMatrix<FS>::HbMatrix(IndexType dim, StorageUpLo upLo, IndexType numOffDiags,
                        IndexType firstIndex)
-    : _engine(dim, dim, (upLo == Lower) ? numOffDiags : 0, 
+    : _engine(dim, dim, (upLo == Lower) ? numOffDiags : 0,
               (upLo == Upper) ? numOffDiags : 0, firstIndex),
       _upLo(upLo)
 {
@@ -136,7 +135,7 @@ HbMatrix<FS> &
 HbMatrix<FS>::operator=(const ElementType &alpha)
 {
     ASSERT(cxxblas::imag(alpha)==0);
-    
+
     if (_upLo==Lower) {
         for (IndexType i = -numOffDiags(); i <= 0; ++i)
             (*this).viewDiag(i) = alpha;
@@ -152,7 +151,7 @@ HbMatrix<FS> &
 HbMatrix<FS>::operator+=(const ElementType &alpha)
 {
     ASSERT(cxxblas::imag(alpha)==0);
-    
+
     if (_upLo==Lower) {
         for (IndexType i = -numOffDiags(); i <= 0; ++i)
             (*this).viewDiag(i) += alpha;
@@ -168,7 +167,7 @@ HbMatrix<FS> &
 HbMatrix<FS>::operator-=(const ElementType &alpha)
 {
     ASSERT(cxxblas::imag(alpha)==0);
-    
+
     if (_upLo==Lower) {
         for (IndexType i = -numOffDiags(); i <= 0; ++i)
             (*this).viewDiag(i) -= alpha;
@@ -184,7 +183,7 @@ HbMatrix<FS> &
 HbMatrix<FS>::operator*=(const ElementType &alpha)
 {
     ASSERT(cxxblas::imag(alpha)==0);
-     
+
     if (_upLo==Lower) {
         for (IndexType i = -numOffDiags(); i <= 0; ++i)
             (*this).viewDiag(i) *= alpha;
@@ -200,7 +199,7 @@ HbMatrix<FS> &
 HbMatrix<FS>::operator/=(const ElementType &alpha)
 {
     ASSERT(cxxblas::imag(alpha)==0);
-    
+
     if (_upLo==Lower) {
         for (IndexType i = -numOffDiags(); i <= 0; ++i)
             (*this).viewDiag(i) /= alpha;
@@ -243,17 +242,17 @@ HbMatrix<FS>::operator()(IndexType row, IndexType col)
 
 // general views
 template <typename FS>
-typename HbMatrix<FS>::ConstView
-HbMatrix<FS>::hermitian() const
+typename HbMatrix<FS>::ConstGeneralView
+HbMatrix<FS>::general() const
 {
-    return ConstView(_engine, _upLo);
+    return ConstGeneralViewView(_engine, _upLo);
 }
 
 template <typename FS>
-typename HbMatrix<FS>::View
-HbMatrix<FS>::hermitian()
+typename HbMatrix<FS>::GeneralView
+HbMatrix<FS>::general()
 {
-    return View(_engine, _upLo);
+    return GeneralView(_engine, _upLo);
 }
 
 // symmetric view
@@ -355,7 +354,7 @@ template <typename FS>
 typename HbMatrix<FS>::IndexType
 HbMatrix<FS>::numOffDiags() const
 {
-    return (_upLo==Upper) ? _engine.numSuperDiags() 
+    return (_upLo==Upper) ? _engine.numSuperDiags()
                           : _engine.numSubDiags();
 }
 
@@ -387,9 +386,9 @@ bool
 HbMatrix<FS>::resize(IndexType dim, IndexType numOffDiags,
                       IndexType firstIndex, const ElementType &value)
 {
-    return _engine.resize(dim, dim, 
-                          (_upLo==Lower) ? numOffDiags : 0,  
-                          (_upLo==Upper) ? numOffDiags : 0,  
+    return _engine.resize(dim, dim,
+                          (_upLo==Lower) ? numOffDiags : 0,
+                          (_upLo==Upper) ? numOffDiags : 0,
                           firstIndex, value);
 }
 
@@ -398,7 +397,7 @@ bool
 HbMatrix<FS>::fill(const ElementType &value)
 {
     ASSERT(cxxblas::imag(value)==0);
-    
+
     return _engine.fill(value);
 }
 

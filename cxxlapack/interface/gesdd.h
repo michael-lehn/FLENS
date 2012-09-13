@@ -68,7 +68,7 @@ template <typename IndexType>
           double                 *work,
           IndexType              lWork,
           IndexType              *iWork);
-    
+
 template <typename IndexType>
     IndexType
     gesdd(char                   jobZ,
@@ -84,7 +84,7 @@ template <typename IndexType>
           std::complex<float >   *work,
           IndexType              lWork,
           IndexType              *iWork);
-    
+
 
 template <typename IndexType>
     IndexType

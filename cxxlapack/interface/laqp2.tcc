@@ -53,7 +53,7 @@ laqp2(IndexType     m,
       float         *work)
 {
     CXXLAPACK_DEBUG_OUT("slaqp2");
- 
+
     LAPACK_IMPL(slaqp2)(&m,
                         &n,
                         &offset,
@@ -82,7 +82,7 @@ laqp2(IndexType     m,
       double        *work)
 {
     CXXLAPACK_DEBUG_OUT("dlaqp2");
- 
+
     LAPACK_IMPL(dlaqp2)(&m,
                         &n,
                         &offset,
@@ -110,7 +110,7 @@ laqp2(IndexType             m,
       std::complex<float >  *work)
 {
     CXXLAPACK_DEBUG_OUT("claqp2");
- 
+
     LAPACK_IMPL(claqp2)(&m,
                         &n,
                         &offset,
@@ -137,7 +137,7 @@ laqp2(IndexType             m,
       std::complex<double>  *work)
 {
     CXXLAPACK_DEBUG_OUT("zlaqp2");
- 
+
     LAPACK_IMPL(zlaqp2)(&m,
                         &n,
                         &offset,

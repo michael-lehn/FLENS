@@ -58,8 +58,8 @@ template <typename IndexType>
           float                 *work,
           IndexType             lWork,
           IndexType             *iWork);
-    
-    
+
+
 template <typename IndexType>
     IndexType
     sysvx(char                  fact,
@@ -81,7 +81,7 @@ template <typename IndexType>
           double                *work,
           IndexType             lWork,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     sysvx(char                        fact,

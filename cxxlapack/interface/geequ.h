@@ -60,7 +60,7 @@ template <typename IndexType>
           double                &rowCnd,
           double                &colCnd,
           double                &maxA);
-    
+
 template <typename IndexType>
     IndexType
     geequ(const IndexType               m,
@@ -72,7 +72,7 @@ template <typename IndexType>
           float                         &rowCnd,
           float                         &colCnd,
           float                         &maxA);
-    
+
 template <typename IndexType>
     IndexType
     geequ(const IndexType               m,

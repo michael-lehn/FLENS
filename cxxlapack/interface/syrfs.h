@@ -55,7 +55,7 @@ template <typename IndexType>
           float                 *berr,
           float                 *work,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     syrfs(char                  uplo,
@@ -74,7 +74,7 @@ template <typename IndexType>
           double                *berr,
           double                *work,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     syrfs(char                        uplo,
@@ -93,7 +93,7 @@ template <typename IndexType>
           float                       *berr,
           std::complex<float >        *work,
           float                       *rWork);
-    
+
 template <typename IndexType>
     IndexType
     syrfs(char                        uplo,

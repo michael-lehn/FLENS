@@ -34,7 +34,9 @@
 #define CXXBLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_TCC 1
 
 #include <cxxblas/level1extensions/acxpy.tcc>
+#include <cxxblas/level1extensions/axpy.tcc>
 #include <cxxblas/level1extensions/ccopy.tcc>
+#include <cxxblas/level1extensions/dot.tcc>
 #include <cxxblas/level1extensions/gbaxpy.tcc>
 #include <cxxblas/level1extensions/geaxpy.tcc>
 #include <cxxblas/level1extensions/gbcopy.tcc>

@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     hbev(char                  jobZ,
@@ -50,7 +50,7 @@ template <typename IndexType>
          IndexType             ldZ,
          std::complex<float >  *work,
          float                 *rWork);
-    
+
 template <typename IndexType>
     IndexType
     hbev(char                  jobZ,

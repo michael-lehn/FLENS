@@ -45,7 +45,7 @@ template <typename IndexType>
           float                 *s,
           float                 &scond,
           float                 &amax);
-    
+
 template <typename IndexType>
     IndexType
     poequ(IndexType             n,
@@ -54,7 +54,7 @@ template <typename IndexType>
           double                *s,
           double                &scond,
           double                &amax);
-    
+
 template <typename IndexType>
     IndexType
     poequ(IndexType                   n,

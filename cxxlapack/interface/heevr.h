@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     heevr(char                  jobz,
@@ -60,7 +60,7 @@ template <typename IndexType>
           IndexType             lrWork,
           IndexType             *iWork,
           IndexType             liWork);
-    
+
 template <typename IndexType>
     IndexType
     heevr(char                  jobz,

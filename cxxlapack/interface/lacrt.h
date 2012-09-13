@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     lacrt(IndexType             n,
@@ -46,7 +46,7 @@ template <typename IndexType>
           IndexType             incy,
           std::complex<float >  c,
           std::complex<float >  s);
-    
+
 template <typename IndexType>
     IndexType
     lacrt(IndexType             n,

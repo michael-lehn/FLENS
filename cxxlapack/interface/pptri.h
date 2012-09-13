@@ -48,7 +48,7 @@ template <typename IndexType>
     pptri(char                  uplo,
           IndexType             n,
           double                *Ap);
-    
+
 template <typename IndexType>
     IndexType
     pptri(char                  uplo,

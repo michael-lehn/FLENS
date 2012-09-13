@@ -45,7 +45,7 @@ template <typename IndexType>
           const IndexType   *iPiv,
           float             *work,
           IndexType         lWork);
-    
+
 template <typename IndexType>
     IndexType
     getri(IndexType         n,
@@ -54,7 +54,7 @@ template <typename IndexType>
           const IndexType   *iPiv,
           double            *work,
           IndexType         lWork);
-    
+
 template <typename IndexType>
     IndexType
     getri(IndexType             n,

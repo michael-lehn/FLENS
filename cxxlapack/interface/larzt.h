@@ -48,7 +48,7 @@ template <typename IndexType>
           const float     *tau,
           float           *T,
           const IndexType ldT);
-    
+
 template <typename IndexType>
     void
     larzt(char            direct,
@@ -60,7 +60,7 @@ template <typename IndexType>
           const double    *tau,
           double          *T,
           const IndexType ldT);
-    
+
 template <typename IndexType>
     void
     larzt(char                        direct,

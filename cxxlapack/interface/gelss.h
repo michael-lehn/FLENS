@@ -51,7 +51,7 @@ template <typename IndexType>
           IndexType             rank,
           float                 *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     gelss(IndexType             m,
@@ -66,7 +66,7 @@ template <typename IndexType>
           IndexType             rank,
           double                *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     gelss(IndexType             m,

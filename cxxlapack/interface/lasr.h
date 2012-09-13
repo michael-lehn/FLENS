@@ -49,7 +49,7 @@ template <typename IndexType>
           float                 *A,
           IndexType             ldA);
 
-    
+
 template <typename IndexType>
     void
     lasr (char                  side,
@@ -61,7 +61,7 @@ template <typename IndexType>
           const double          *s,
           double                *A,
           IndexType             ldA);
-    
+
 template <typename IndexType>
     void
     lasr (char                  side,
@@ -73,7 +73,7 @@ template <typename IndexType>
           const float           *s,
           std::complex<float >  *A,
           IndexType             ldA);
-    
+
 template <typename IndexType>
     void
     lasr (char                  side,

@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     double
     la_gbrCond_c(char                        trans,
@@ -53,13 +53,13 @@ template <typename IndexType>
                  IndexType                   &info,
                  std::complex<float >        *work,
                  float                       *rWork);
-    
+
 template <typename IndexType>
     double
     la_gbrCond_c(char                        trans,
                  IndexType                   n,
                  IndexType                   kl,
-                 IndexType                   ku,            
+                 IndexType                   ku,
                  const std::complex<double>  *Ab,
                  IndexType                   ldAb,
                  const std::complex<double>  *Afb,

@@ -46,19 +46,20 @@ save(std::string filename, const DenseVector<A> &x)
     typedef typename A::IndexType   IndexType;
     typedef typename A::ElementType ElementType;
 
-    std::ofstream ofs( filename.c_str(), std::ios::binary );
-    
-    if (ofs.is_open() == false)
+    std::ofstream ofs(filename.c_str(), std::ios::binary);
+
+    if (ofs.is_open()==false) {
         return false;
-    
+    }
+
     IndexType length     = x.length();
     IndexType firstIndex = x.firstIndex();
 
-    ofs.write( reinterpret_cast<char*>(&length), sizeof(IndexType) );
-    ofs.write( reinterpret_cast<char*>(&firstIndex), sizeof(IndexType) );   
+    ofs.write(reinterpret_cast<char*>(&length), sizeof(IndexType));
+    ofs.write(reinterpret_cast<char*>(&firstIndex), sizeof(IndexType));
 
     for (IndexType i=x.firstIndex(); i<=x.lastIndex(); ++i) {
-        ofs.write( reinterpret_cast<const char*>(&(x(i))), sizeof(ElementType) );
+        ofs.write(reinterpret_cast<const char*>(&(x(i))), sizeof(ElementType));
     }
 
     ofs.close();
@@ -69,7 +70,7 @@ save(std::string filename, const DenseVector<A> &x)
 
 template <typename V>
 typename RestrictTo<IsVector<V>::value,
-                    bool>::Type
+         bool>::Type
 save(std::string filename, const V &&x)
 {
     return save(filename, x);

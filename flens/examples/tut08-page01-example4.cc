@@ -43,15 +43,15 @@ main()
     /// We compute $x = A*b$.
     ///
     x = Ab*b;
-    
+
     cout << "x = " << x << endl;
-    
+
     ///
     /// And solve  $A*b = x$.
     ///
     lapack::trf(Ab, pivots);
     lapack::trs(NoTrans, Ab, pivots, x);
-        
+
     cout << "b = " << x << endl;
 
     return 0;

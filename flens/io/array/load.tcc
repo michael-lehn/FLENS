@@ -46,27 +46,26 @@ load(std::string filename, DenseVector<A> &x)
     typedef typename A::IndexType   IndexType;
     typedef typename A::ElementType ElementType;
 
-    std::ifstream ifs( filename.c_str(), std::ios::binary );
-    
-    if (ifs.is_open() == false)
-        return false;
-    
-    IndexType length     ;
-    IndexType firstIndex ;
+    std::ifstream ifs(filename.c_str(), std::ios::binary);
 
-    ifs.read( reinterpret_cast<char*>(&length), sizeof(IndexType) );
-    ifs.read( reinterpret_cast<char*>(&firstIndex), sizeof(IndexType) );   
- 
+    if (ifs.is_open()==false) {
+        return false;
+    }
+
+    IndexType length;
+    IndexType firstIndex;
+
+    ifs.read(reinterpret_cast<char*>(&length), sizeof(IndexType));
+    ifs.read(reinterpret_cast<char*>(&firstIndex), sizeof(IndexType));
+
     x.resize(length, firstIndex);
 
     for (IndexType i=x.firstIndex(); i<=x.lastIndex(); ++i) {
-        ifs.read( reinterpret_cast<char*>(&(x(i))), sizeof(ElementType) );
+        ifs.read(reinterpret_cast<char*>(&(x(i))), sizeof(ElementType));
     }
 
     ifs.close();
     return true;
-
-
 }
 
 //-- forwarding ---------------------------------------------------------------

@@ -41,7 +41,7 @@ template <typename VOID>
 bool
     laisnan(float                  sin1,
             float                  sin2);
-    
+
 template <typename VOID>
 bool
     laisnan(double                 din1,

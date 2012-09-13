@@ -55,8 +55,8 @@ template <typename IndexType>
           float                 *berr,
           float                 *work,
           IndexType             *iWork);
-    
-    
+
+
 template <typename IndexType>
     IndexType
     pbrfs(char                  uplo,
@@ -75,7 +75,7 @@ template <typename IndexType>
           double                *berr,
           double                *work,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     pbrfs(char                        uplo,

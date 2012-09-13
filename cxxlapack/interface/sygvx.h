@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     sygvx(IndexType             itype,
@@ -61,7 +61,7 @@ template <typename IndexType>
           IndexType             lWork,
           IndexType             *iWork,
           IndexType             *ifail);
-    
+
 template <typename IndexType>
     IndexType
     sygvx(IndexType             itype,

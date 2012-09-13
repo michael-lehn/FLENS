@@ -45,7 +45,7 @@ template <typename IndexType>
           IndexType    ldA,
           float        *tau,
           float        *work);
-    
+
 template <typename IndexType>
     IndexType
     geqr2(IndexType    m,
@@ -54,7 +54,7 @@ template <typename IndexType>
           IndexType    ldA,
           double       *tau,
           double       *work);
-    
+
 template <typename IndexType>
     IndexType
     geqr2(IndexType             m,

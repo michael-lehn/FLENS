@@ -55,7 +55,7 @@ template <typename IndexType>
           IndexType     ldC,
           float         *work,
           IndexType     ldWork);
-    
+
 template <typename IndexType>
     void
     larzb(char          side,
@@ -74,8 +74,8 @@ template <typename IndexType>
           IndexType     ldC,
           double        *work,
           IndexType     ldWork);
-    
-    
+
+
 template <typename IndexType>
     void
     larzb(char                        side,

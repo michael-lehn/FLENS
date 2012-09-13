@@ -50,7 +50,7 @@ orgl2(IndexType     m,
       float         *work)
 {
     CXXLAPACK_DEBUG_OUT("sorgl2");
-  
+
     IndexType info;
     LAPACK_IMPL(sorgl2)(&m,
                         &n,
@@ -80,7 +80,7 @@ orgl2(IndexType     m,
       double        *work)
 {
     CXXLAPACK_DEBUG_OUT("dorgl2");
-  
+
     IndexType info;
     LAPACK_IMPL(dorgl2)(&m,
                         &n,

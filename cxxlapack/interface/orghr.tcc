@@ -51,7 +51,7 @@ orghr(IndexType     n,
       IndexType     lWork)
 {
     CXXLAPACK_DEBUG_OUT("sorghr");
-  
+
     IndexType info;
     LAPACK_IMPL(sorghr)(&n,
                         &iLo,
@@ -83,7 +83,7 @@ orghr(IndexType     n,
       IndexType     lWork)
 {
     CXXLAPACK_DEBUG_OUT("dorghr");
-  
+
     IndexType info;
     LAPACK_IMPL(dorghr)(&n,
                         &iLo,

@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     hbgv (char                       vect,
@@ -53,7 +53,7 @@ template <typename IndexType>
           IndexType                  ldX,
           std::complex<float >       *work,
           float                      *rWork);
-    
+
 template <typename IndexType>
     IndexType
     hbgv (char                       vect,

@@ -39,6 +39,8 @@
 
 #include <cxxblas/typedefs.h>
 #include <flens/io/packedstorage/load.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
 
 namespace flens {
 
@@ -50,26 +52,29 @@ load(std::string filename, HpMatrix<FS> &A)
     typedef typename FS::ElementType ElementType;
 
     std::ifstream ifs( filename.c_str(), std::ios::binary );
-    
-    if (ifs.is_open() == false)
+
+    if (ifs.is_open()==false) {
         return false;
+    }
 
     IndexType dim = A.dim();
     IndexType firstIndex = A.firstIndex();
 
-    ifs.read( reinterpret_cast<char*>(&dim), sizeof(IndexType) );
-    ifs.read( reinterpret_cast<char*>(&firstIndex), sizeof(IndexType) );
-   
+    ifs.read(reinterpret_cast<char*>(&dim), sizeof(IndexType));
+    ifs.read(reinterpret_cast<char*>(&firstIndex), sizeof(IndexType));
+
     A.resize(dim, firstIndex);
 
 
     for (IndexType i=A.firstIndex(); i<=A.lastIndex(); ++i) {
         for (IndexType j=A.firstIndex(); j<=i; ++j) {
             if (A.upLo()==cxxblas::Lower) {
-                ifs.read( reinterpret_cast<char*>(&(A(i,j))), sizeof(ElementType) );
+                ifs.read(reinterpret_cast<char*>(&(A(i,j))),
+                         sizeof(ElementType) );
             } else {
                 ElementType alpha;
-                ifs.read( reinterpret_cast<char*>(&alpha), sizeof(ElementType) );
+                ifs.read(reinterpret_cast<char*>(&alpha),
+                         sizeof(ElementType) );
                 A(j,i) = cxxblas::conjugate(alpha);
             }
         }
@@ -88,25 +93,28 @@ load(std::string filename, SpMatrix<FS> &A)
     typedef typename FS::ElementType ElementType;
 
     std::ifstream ifs( filename.c_str(), std::ios::binary );
-    
-    if (ifs.is_open() == false)
+
+    if (ifs.is_open()==false) {
         return false;
+    }
 
     IndexType dim = A.dim();
     IndexType firstIndex = A.firstIndex();
 
     ifs.read( reinterpret_cast<char*>(&dim), sizeof(IndexType) );
     ifs.read( reinterpret_cast<char*>(&firstIndex), sizeof(IndexType) );
-   
+
     A.resize(dim, firstIndex);
 
 
     for (IndexType i=A.firstIndex(); i<=A.lastIndex(); ++i) {
         for (IndexType j=A.firstIndex(); j<=i; ++j) {
             if (A.upLo()==cxxblas::Lower) {
-                ifs.read( reinterpret_cast<char*>(&(A(i,j))), sizeof(ElementType) );
+                ifs.read(reinterpret_cast<char*>(&(A(i,j))),
+                         sizeof(ElementType));
             } else {
-                ifs.read( reinterpret_cast<char*>(&(A(j,i))), sizeof(ElementType) );
+                ifs.read(reinterpret_cast<char*>(&(A(j,i))),
+                         sizeof(ElementType));
             }
         }
     }
@@ -123,52 +131,54 @@ load(std::string filename, TpMatrix<FS> &A)
     typedef typename FS::ElementType ElementType;
 
     std::ifstream ifs( filename.c_str(), std::ios::binary );
-    
-    if (ifs.is_open() == false)
+
+    if (ifs.is_open()==false) {
         return false;
+    }
 
     IndexType dim;
     IndexType firstIndex;
     StorageUpLo  upLo;
     Diag         diag;
 
-    ifs.read( reinterpret_cast<char*>(&dim), sizeof(IndexType) );
-    ifs.read( reinterpret_cast<char*>(&firstIndex), sizeof(IndexType) );
-    ifs.read( reinterpret_cast<char*>(&upLo), sizeof(StorageUpLo) );
-    ifs.read( reinterpret_cast<char*>(&diag), sizeof(Diag) );
-    
-    ASSERT(upLo==A.upLo()); 
+    ifs.read(reinterpret_cast<char*>(&dim), sizeof(IndexType));
+    ifs.read(reinterpret_cast<char*>(&firstIndex), sizeof(IndexType));
+    ifs.read(reinterpret_cast<char*>(&upLo), sizeof(StorageUpLo));
+    ifs.read(reinterpret_cast<char*>(&diag), sizeof(Diag));
+
+    ASSERT(upLo==A.upLo());
     ASSERT((diag==A.diag()) || (A.diag()==cxxblas::NonUnit));
 
     A.resize(dim, firstIndex);
 
 
     if (upLo == cxxblas::Lower) {
-        for (IndexType i=A.firstIndex(); i <= A.lastIndex(); ++i){
-
+        for (IndexType i=A.firstIndex(); i <= A.lastIndex(); ++i) {
             for (IndexType j=A.firstIndex(); j<i; ++j) {
-                ifs.read( reinterpret_cast<char*>(&(A(i,j))), sizeof(ElementType) );
+                ifs.read(reinterpret_cast<char*>(&(A(i,j))),
+                         sizeof(ElementType));
             }
 
-            if (diag == cxxblas::NonUnit)
-                ifs.read( reinterpret_cast<char*>(&(A(i,i))), sizeof(ElementType) );
-            else if ((A.diag()==cxxblas::NonUnit) && (diag==cxxblas::Unit))
+            if (diag == cxxblas::NonUnit) {
+                ifs.read(reinterpret_cast<char*>(&(A(i,i))),
+                         sizeof(ElementType));
+            } else if ((A.diag()==cxxblas::NonUnit) && (diag==cxxblas::Unit)) {
                 A(i,i) = ElementType(1);
+            }
         }
-    }
-    else
-    {
-        for (IndexType i=A.firstIndex(); i <= A.lastIndex(); ++i){
-
-            if (diag == cxxblas::NonUnit)
-                ifs.read( reinterpret_cast<char*>(&(A(i,i))), sizeof(ElementType) );
-            else if ((A.diag()==cxxblas::NonUnit) && (diag==cxxblas::Unit))
+    } else {
+        for (IndexType i=A.firstIndex(); i <= A.lastIndex(); ++i) {
+            if (diag == cxxblas::NonUnit) {
+                ifs.read(reinterpret_cast<char*>(&(A(i,i))),
+                         sizeof(ElementType) );
+            } else if ((A.diag()==cxxblas::NonUnit) && (diag==cxxblas::Unit)) {
                 A(i, i) = ElementType(1);
+            }
 
             for (IndexType j=i+1; j<=A.lastIndex(); ++j) {
-                ifs.read( reinterpret_cast<char*>(&(A(i,j))), sizeof(ElementType) );
+                ifs.read(reinterpret_cast<char*>(&(A(i,j))),
+                         sizeof(ElementType));
             }
-
         }
     }
 
@@ -176,35 +186,32 @@ load(std::string filename, TpMatrix<FS> &A)
     return true;
 }
 
-
-
-
-
 template <typename FS>
 typename RestrictTo<IsReal<typename FS::ElementType>::value, bool>::Type
 loadMatrixMarket(std::string filename, SpMatrix<FS> &A)
 {
     using std::string;
-    
+
     typedef typename FS::IndexType                            IndexType;
     typedef typename FS::ElementType                          ElementType;
 
     string line;
-    
+
     std::ifstream ifs( filename.c_str(), std::ios::in );
-    
-    if (ifs.is_open() == false)
+
+    if (ifs.is_open() == false) {
         return false;
+    }
 
     IndexType numRows, numCols;
-    
+
     std::getline (ifs,line);
-    
+
 #   ifndef NDEBUG
     // transform line to lower case
-    std::transform(line.begin(), line.end(), line.begin(), 
+    std::transform(line.begin(), line.end(), line.begin(),
              std::bind2nd(std::ptr_fun(&std::tolower<char>), std::locale("")));
-    
+
     std::stringstream ss (line);
     std::string buf;
     ss >> buf;
@@ -218,33 +225,34 @@ loadMatrixMarket(std::string filename, SpMatrix<FS> &A)
     ss >> buf;
     ASSERT(buf == "symmetric");
 #   endif
-    
-    while ( ifs.good() && (line.c_str()[0] == '%') )
-      std::getline (ifs,line);
 
-    
+    while (ifs.good() && (line.c_str()[0]=='%')) {
+        std::getline (ifs,line);
+    }
+
+
     std::stringstream sline;
     sline <<  line;
     sline >> numRows >> numCols;
-    
+
     ASSERT(numRows==numCols);
     A.resize(numRows);
 
-    
-    for (IndexType i = A.firstIndex(); i <= A.lastIndex(); ++i)
-    {
-        for (IndexType j = i; j <= A.lastIndex(); ++j)
-        {
-            if (ifs.good())
+
+    for (IndexType i=A.firstIndex(); i<=A.lastIndex(); ++i) {
+        for (IndexType j=i; j<=A.lastIndex(); ++j) {
+            if (ifs.good()) {
                 std::getline (ifs,line);
-            else
+            } else {
                 return false;
+            }
             std::stringstream ssline(line);
-            
-            if (A.upLo() == Upper)
-                ssline >> A(i,j);  
-            else
-                ssline >> A(j,i);  
+
+            if (A.upLo() == Upper) {
+                ssline >> A(i,j);
+            } else {
+                ssline >> A(j,i);
+            }
         }
     }
     ifs.close();
@@ -257,70 +265,70 @@ typename RestrictTo<IsComplex<typename FS::ElementType>::value, bool>::Type
 loadMatrixMarket(std::string filename, SpMatrix<FS> &A)
 {
     using std::string;
-    
+
     typedef typename FS::IndexType                            IndexType;
     typedef typename FS::ElementType                          ElementType;
     typedef typename ComplexTrait<ElementType>::PrimitiveType PrimitiveType;
 
     string line;
-    
-    std::ifstream ifs( filename.c_str(), std::ios::in );
-    
-    if (ifs.is_open() == false)
+
+    std::ifstream ifs(filename.c_str(), std::ios::in);
+
+    if (ifs.is_open()==false) {
         return false;
+    }
 
     IndexType numRows, numCols;
-    
+
     std::getline (ifs,line);
-    
+
 #   ifndef NDEBUG
     // transform line to lower case
-    std::transform(line.begin(), line.end(), line.begin(), 
+    std::transform(line.begin(), line.end(), line.begin(),
              std::bind2nd(std::ptr_fun(&std::tolower<char>), std::locale("")));
-    
+
     std::stringstream ss (line);
     std::string buf;
     ss >> buf;
-    ASSERT(buf == "%%matrixmarket");
+    ASSERT(buf=="%%matrixmarket");
     ss >> buf;
-    ASSERT(buf == "matrix");
+    ASSERT(buf=="matrix");
     ss >> buf;
-    ASSERT(buf == "array");
+    ASSERT(buf=="array");
     ss >> buf;
-    ASSERT(buf == "complex");
+    ASSERT(buf=="complex");
     ss >> buf;
-    ASSERT(buf == "symmetric");
+    ASSERT(buf=="symmetric");
 #   endif
-    
-    while ( ifs.good() && (line.c_str()[0] == '%') )
-      std::getline (ifs,line);
 
-    
+    while (ifs.good() && (line.c_str()[0] == '%')) {
+        std::getline (ifs,line);
+    }
+
+
     std::stringstream sline;
     sline <<  line;
     sline >> numRows >> numCols;
-    
+
     ASSERT(numRows==numCols);
     A.resize(numRows);
-    
-    for (IndexType i = A.firstIndex(); i <= A.lastIndex(); ++i)
-    {
-        for (IndexType j = i; j <= A.lastIndex(); ++j)
-        {
-            if (ifs.good())
+
+    for (IndexType i = A.firstIndex(); i <= A.lastIndex(); ++i) {
+        for (IndexType j = i; j <= A.lastIndex(); ++j) {
+            if (ifs.good()) {
                 std::getline (ifs,line);
-            else
+            } else {
                 return false;
-            
+            }
+
             std::stringstream ssline(line);
             PrimitiveType a, b;
             ssline >> a >> b;
-            if (A.upLo() == Upper)
-                A(i,j) = ElementType(a, b);  
-            else
+            if (A.upLo() == Upper) {
+                A(i,j) = ElementType(a, b);
+            } else {
                 A(j,i) = ElementType(a, b);
-
-            
+            }
         }
     }
     ifs.close();
@@ -331,7 +339,7 @@ template <typename FS>
 typename RestrictTo<IsComplex<typename FS::ElementType>::value, bool>::Type
 loadMatrixMarket(std::string filename, HpMatrix<FS> &A)
 {
-   
+
     typedef typename FS::IndexType                            IndexType;
     typedef typename FS::ElementType                          ElementType;
     typedef typename ComplexTrait<ElementType>::PrimitiveType PrimitiveType;
@@ -340,64 +348,63 @@ loadMatrixMarket(std::string filename, HpMatrix<FS> &A)
     IndexType numRows, numCols;
 
     std::ifstream ifs( filename.c_str(), std::ios::in );
-    
-    if (ifs.is_open() == false)
+
+    if (ifs.is_open()==false) {
         return false;
-    
+    }
+
     std::getline (ifs,line);
-    
+
 #   ifndef NDEBUG
     // transform line to lower case
-    std::transform(line.begin(), line.end(), line.begin(), 
+    std::transform(line.begin(), line.end(), line.begin(),
              std::bind2nd(std::ptr_fun(&std::tolower<char>), std::locale("")));
-    
+
     std::stringstream ss (line);
     std::string buf;
     ss >> buf;
-    ASSERT(buf == "%%matrixmarket");
+    ASSERT(buf=="%%matrixmarket");
     ss >> buf;
-    ASSERT(buf == "matrix");
+    ASSERT(buf=="matrix");
     ss >> buf;
-    ASSERT(buf == "array");
+    ASSERT(buf=="array");
     ss >> buf;
-    ASSERT(buf == "complex");
+    ASSERT(buf=="complex");
     ASSERT( IsComplex<ElementType>::value );
     ss >> buf;
-    ASSERT(buf == "hermitian");
+    ASSERT(buf=="hermitian");
 #   endif
 
     while ( ifs.good() && (line.c_str()[0] == '%') )
       std::getline (ifs,line);
 
-    
+
     std::stringstream sline;
-    sline <<  line;
+    sline << line;
     sline >> numRows >> numCols;
-    
+
     ASSERT(numRows==numCols);
     A.resize(numRows);
-    
 
-    
-    for (IndexType i = A.firstIndex(); i <= A.lastIndex(); ++i)
-    {
-        for (IndexType j = i; j <= A.lastIndex(); ++j)
-        {
-            if (ifs.good())
+
+
+    for (IndexType i = A.firstIndex(); i <= A.lastIndex(); ++i) {
+        for (IndexType j = i; j <= A.lastIndex(); ++j) {
+            if (ifs.good()) {
                 std::getline (ifs,line);
-            else
+            } else {
                 return false;
-            
+            }
+
             std::stringstream ssline(line);
             PrimitiveType a, b;
             ssline >> a >> b;
-            
-            if (A.upLo() == Upper)
-                A(i,j) = ElementType(a, -b);  
-            else
-                A(j,i) = ElementType(a, b); 
 
-            
+            if (A.upLo()==Upper) {
+                A(i,j) = ElementType(a, -b);
+            } else {
+                A(j,i) = ElementType(a, b);
+            }
         }
     }
     ifs.close();

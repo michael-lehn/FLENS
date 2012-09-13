@@ -149,21 +149,21 @@ class TbMatrix
         ElementType &
         operator()(IndexType row, IndexType col);
 
-        // general views 
+        // general views
         const ConstGeneralView
         general() const;
 
         GeneralView
         general();
 
-        // hermitian views 
+        // hermitian views
         const ConstHermitianView
         hermitian() const;
 
         HermitianView
         hermitian();
 
-        // symmetric views 
+        // symmetric views
         const ConstSymmetricView
         symmetric() const;
 
@@ -175,7 +175,7 @@ class TbMatrix
         triangular() const;
 
         View
-        triangular();	
+        triangular();
 
         VectorView
         viewDiag(IndexType diag = IndexType(0));

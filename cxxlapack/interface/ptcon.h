@@ -45,7 +45,7 @@ template <typename IndexType>
           float                 anorm,
           float                 &rCond,
           float                 *work);
-    
+
 template <typename IndexType>
     IndexType
     ptcon(IndexType             n,
@@ -54,7 +54,7 @@ template <typename IndexType>
           double                anorm,
           double                &rCond,
           double                *work);
-    
+
 template <typename IndexType>
     IndexType
     ptcon(IndexType                   n,
@@ -63,7 +63,7 @@ template <typename IndexType>
           float                       anorm,
           float                       &rCond,
           float                       *rWork);
-    
+
 template <typename IndexType>
     IndexType
     ptcon(IndexType                   n,

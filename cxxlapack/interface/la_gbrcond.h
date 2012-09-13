@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     float
     la_gbrCond(char                  trans,
@@ -53,7 +53,7 @@ template <typename IndexType>
                IndexType             &info,
                float                 *work,
                IndexType             *iWork);
-    
+
 template <typename IndexType>
     double
     la_gbrCond(char                  trans,

@@ -37,7 +37,7 @@
 
 namespace cxxlapack {
 
-  
+
 template <typename VOID=void>
     bool
     lsame(char                  ca,

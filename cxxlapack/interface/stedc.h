@@ -49,8 +49,8 @@ template <typename IndexType>
           IndexType             lWork,
           IndexType             *iWork,
           IndexType             liWork);
-    
-    
+
+
 template <typename IndexType>
     IndexType
     stedc(char                  compz,
@@ -63,7 +63,7 @@ template <typename IndexType>
           IndexType             lWork,
           IndexType             *iWork,
           IndexType             liWork);
-    
+
 template <typename IndexType>
     IndexType
     stedc(char                  compz,
@@ -78,9 +78,9 @@ template <typename IndexType>
           IndexType             lrWork,
           IndexType             *iWork,
           IndexType             liWork);
-    
+
 template <typename IndexType>
-    IndexType    
+    IndexType
     stedc(char                  compz,
           IndexType             n,
           double                *d,

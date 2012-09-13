@@ -52,7 +52,7 @@ template <typename IndexType>
           float                 *work,
           IndexType             *iWork);
 
-    
+
 template <typename IndexType>
     IndexType
     lalsd(char                  uplo,
@@ -67,7 +67,7 @@ template <typename IndexType>
           IndexType             &rank,
           double                *work,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     lalsd(char                  uplo,
@@ -83,7 +83,7 @@ template <typename IndexType>
           std::complex<float >  *work,
           float                 *rWork,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     lalsd(char                  uplo,

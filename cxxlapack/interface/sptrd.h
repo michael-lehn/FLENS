@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     sptrd(char                  uplo,
@@ -45,7 +45,7 @@ template <typename IndexType>
           float                 *d,
           float                 *e,
           float                 *tau);
-    
+
 template <typename IndexType>
     IndexType
     sptrd(char                  uplo,

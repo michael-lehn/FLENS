@@ -58,7 +58,7 @@ template <typename IndexType>
           IndexType             ldZ,
           float                 *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     hgeqz(char                  job,
@@ -80,7 +80,7 @@ template <typename IndexType>
           IndexType             ldZ,
           double                *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     hgeqz(char                  job,
@@ -102,7 +102,7 @@ template <typename IndexType>
           std::complex<float >  *work,
           IndexType             lWork,
           float                 *rWork);
-    
+
 template <typename IndexType>
     IndexType
     hgeqz(char                  job,

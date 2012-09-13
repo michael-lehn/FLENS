@@ -41,7 +41,7 @@ namespace cxxlapack {
 
 template <typename IndexType>
 IndexType
-ilaprec(char               prec)
+ilaprec(char  prec)
 {
 
     CXXLAPACK_DEBUG_OUT("ilaprec");

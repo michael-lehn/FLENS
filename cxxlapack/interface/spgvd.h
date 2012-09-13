@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     spgvd(IndexType             itype,
@@ -52,7 +52,7 @@ template <typename IndexType>
           IndexType             lWork,
           IndexType             *iWork,
           IndexType             liWork);
-    
+
 template <typename IndexType>
     IndexType
     spgvd(IndexType             itype,

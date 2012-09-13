@@ -387,7 +387,7 @@ ilaenv_impl(int spec, const char *name, const char *opts,
             ASSERT(0);
             break;
 //
-//      12 <= pec<= 16: hseqr or one of its subroutines .. 
+//      12 <= pec<= 16: hseqr or one of its subroutines ..
 //
         case 12:
         case 13:

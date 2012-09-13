@@ -52,7 +52,7 @@ template <typename VOID=void>
           double           &cs,
           double           &sn,
           double           &r);
-    
+
 template <typename VOID=void>
     void
     lartg(const std::complex<float >    &f,
@@ -60,7 +60,7 @@ template <typename VOID=void>
           float                         &cs,
           std::complex<float >          &sn,
           std::complex<float >          &r);
-    
+
 template <typename VOID=void>
     void
     lartg(const std::complex<double>    &f,

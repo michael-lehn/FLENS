@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     lasd2(IndexType             nl,
@@ -61,7 +61,7 @@ template <typename IndexType>
           IndexType             *idxc,
           IndexType             *idxq,
           IndexType             *coltype);
-    
+
 template <typename IndexType>
     IndexType
     lasd2(IndexType             nl,

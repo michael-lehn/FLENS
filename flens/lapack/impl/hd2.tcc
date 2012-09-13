@@ -78,7 +78,7 @@ hd2_impl(IndexType           iLo,
         larfg(iHi-i, A(i+1,i), A(_(min(i+2,n),iHi),i), tau(i));
 
         const T Aii = A(i+1,i);
-        A(i+1,i) = 1; 
+        A(i+1,i) = 1;
 //
 //      Apply H(i) to A(1:ihi,i+1:ihi) from the right
 //

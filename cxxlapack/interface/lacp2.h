@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     void
     lacp2(char                  uplo,
@@ -46,7 +46,7 @@ template <typename IndexType>
           IndexType             ldA,
           std::complex<float >  *B,
           IndexType             ldB);
-    
+
 template <typename IndexType>
     void
     lacp2(char                  uplo,

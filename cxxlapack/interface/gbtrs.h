@@ -49,7 +49,7 @@ template <typename IndexType>
           const IndexType       *iPiv,
           float                 *B,
           IndexType             ldb);
-    
+
 template <typename IndexType>
     IndexType
     gbtrs(char                  trans,
@@ -62,7 +62,7 @@ template <typename IndexType>
           const IndexType       *iPiv,
           double                *B,
           IndexType             ldb);
-    
+
 template <typename IndexType>
     IndexType
     gbtrs(char                          trans,
@@ -75,7 +75,7 @@ template <typename IndexType>
           const IndexType               *iPiv,
           std::complex<float>           *B,
           IndexType                     ldb);
-    
+
 template <typename IndexType>
     IndexType
     gbtrs(char                          trans,

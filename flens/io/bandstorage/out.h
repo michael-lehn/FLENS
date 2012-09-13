@@ -31,7 +31,7 @@
  */
 
 #ifndef FLENS_IO_BANDSTORAGE_OUT_H
-#define FLENS_IO_BANDSTORAGE_OUT_H 1 
+#define FLENS_IO_BANDSTORAGE_OUT_H 1
 
 #include <iostream>
 
@@ -45,7 +45,7 @@ namespace flens {
 template <typename FS>
     std::ostream &
     operator<<(std::ostream &out, const GbMatrix<FS> &A);
-    
+
 template <typename FS>
     std::ostream &
     operator<<(std::ostream &out, const HbMatrix<FS> &A);

@@ -60,7 +60,7 @@ geraxpy(StorageOrder order,
             }
             return;
         }
-    } 
+    }
     if (trans==Trans) {
         for (IndexType i=0; i<m; ++i) {
             raxpy(n, alpha, A+i, ldA, B+i*ldB, IndexType(1));

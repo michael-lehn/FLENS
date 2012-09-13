@@ -24,7 +24,7 @@ main()
     Matrix         Ap(n);
     Vector         b(n), x(n);
     IndexVector    piv(n);
-    
+
     for (IndexType i = 1; i <= n; ++i)
         for (IndexType j = i; j <= n; ++j)
             Ap(i,j) = i + 2*j;
@@ -39,14 +39,14 @@ main()
 
     ///
     /// Compute $x = 0.5*(Ap+Ap^T) b$
-    /// 
+    ///
     x = Ap.symmetric()*b;
-    
+
     cout << "x = " << x << endl;
-    
+
     ///
     /// Solve $x = 0.5*(Ap+Ap^T) b$
-    /// 
+    ///
     lapack::sv(Ap.symmetric(), piv, x);
 
     cout << "b = " << b << endl;

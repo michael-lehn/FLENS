@@ -52,7 +52,7 @@ template <typename IndexType>
           IndexType     ldZ,
           float         *work,
           IndexType     lWork);
-    
+
 template <typename IndexType>
     IndexType
     hseqr(char          job,
@@ -68,7 +68,7 @@ template <typename IndexType>
           IndexType     ldZ,
           double        *work,
           IndexType     lWork);
-    
+
 template <typename IndexType>
     IndexType
     hseqr(char                  job,
@@ -83,7 +83,7 @@ template <typename IndexType>
           IndexType             ldZ,
           std::complex<float >  *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     hseqr(char                  job,

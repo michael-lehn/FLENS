@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     uncsd(char                         jobu1,
@@ -70,7 +70,7 @@ template <typename IndexType>
           float                        *rWork,
           IndexType                    lrWork,
           IndexType                    *iWork);
-    
+
 template <typename IndexType>
     IndexType
     uncsd(char                         jobu1,

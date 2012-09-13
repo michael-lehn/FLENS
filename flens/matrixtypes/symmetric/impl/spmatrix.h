@@ -112,19 +112,19 @@ class SpMatrix
         template <typename RHS>
             SpMatrix &
             operator=(const Matrix<RHS> &rhs);
-   
+
         SpMatrix<FS> &
         operator=(const ElementType &alpha);
 
         SpMatrix<FS> &
         operator+=(const ElementType &alpha);
-        
+
         SpMatrix<FS> &
         operator-=(const ElementType &alpha);
-        
+
         SpMatrix<FS> &
         operator*=(const ElementType &alpha);
-        
+
         SpMatrix<FS> &
         operator/=(const ElementType &alpha);
 
@@ -173,10 +173,10 @@ class SpMatrix
 
         ElementType *
         data();
-    
+
         StorageOrder
         order() const;
-    
+
         template <typename RHS>
             bool
             resize(const SpMatrix<RHS> &rhs,

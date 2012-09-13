@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     void
     rot  (IndexType             m,
@@ -46,7 +46,7 @@ template <typename IndexType>
           IndexType             incy,
           float                 c,
           float                 s);
-    
+
 template <typename IndexType>
     void
     rot  (IndexType             m,

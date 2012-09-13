@@ -86,7 +86,7 @@ template <typename IndexType>
     gges(char                  jobvsl,
          char                  jobvsr,
          char                  sort,
-         IndexType              (*select)(const std::complex<double> *),
+         IndexType             (*select)(const std::complex<double> *),
          IndexType             n,
          std::complex<float>   *A,
          IndexType             ldA,

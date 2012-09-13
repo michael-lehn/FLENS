@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     spcon(char                        uplo,
@@ -47,7 +47,7 @@ template <typename IndexType>
           float                       &rCond,
           std::complex<float >        *work,
           IndexType                   *iWork);
-    
+
 template <typename IndexType>
     IndexType
     spcon(char                        uplo,
@@ -58,7 +58,7 @@ template <typename IndexType>
           double                      &rCond,
           double                      *work,
           IndexType                   *iWork);
-    
+
 template <typename IndexType>
     IndexType
     spcon(char                        uplo,

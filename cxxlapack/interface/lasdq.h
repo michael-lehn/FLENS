@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     lasdq(char                  uplo,
@@ -54,7 +54,7 @@ template <typename IndexType>
           float                 *C,
           IndexType             ldC,
           float                 *work);
-    
+
 template <typename IndexType>
     IndexType
     lasdq(char                  uplo,

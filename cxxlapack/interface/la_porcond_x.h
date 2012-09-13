@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     double
     la_porCond_x(char                        uplo,
@@ -49,7 +49,7 @@ template <typename IndexType>
                  IndexType                   &info,
                  std::complex<float >        *work,
                  float                       *rWork);
-    
+
 template <typename IndexType>
     double
     la_porCond_x(char                        uplo,

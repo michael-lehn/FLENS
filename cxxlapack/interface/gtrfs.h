@@ -80,7 +80,7 @@ template <typename IndexType>
           double                *berr,
           double                *work,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     gtrfs(char                        trans,
@@ -102,7 +102,7 @@ template <typename IndexType>
           float                       *berr,
           std::complex<float >        *work,
           float                       *rWork);
-    
+
 template <typename IndexType>
     IndexType
     gtrfs(char                        trans,

@@ -59,7 +59,7 @@ larzb(char          side,
       IndexType     ldWork)
 {
     CXXLAPACK_DEBUG_OUT("slarzb");
-  
+
     LAPACK_IMPL(slarzb)(&side,
                         &trans,
                         &direct,
@@ -99,7 +99,7 @@ larzb(char          side,
       IndexType     ldWork)
 {
     CXXLAPACK_DEBUG_OUT("dlarzb");
-  
+
     LAPACK_IMPL(dlarzb)(&side,
                         &trans,
                         &direct,
@@ -138,7 +138,7 @@ larzb(char                        side,
       IndexType                   ldWork)
 {
     CXXLAPACK_DEBUG_OUT("clarzb");
-  
+
     LAPACK_IMPL(clarzb)(&side,
                         &trans,
                         &direct,
@@ -177,7 +177,7 @@ larzb(char                        side,
       IndexType                   ldWork)
 {
     CXXLAPACK_DEBUG_OUT("zlarzb");
-  
+
     LAPACK_IMPL(zlarzb)(&side,
                         &trans,
                         &direct,

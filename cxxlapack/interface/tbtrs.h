@@ -49,7 +49,7 @@ template <typename IndexType>
           IndexType             ldAb,
           float                 *B,
           IndexType             ldB);
-    
+
 template <typename IndexType>
     IndexType
     tbtrs(char                  norm,
@@ -62,7 +62,7 @@ template <typename IndexType>
           IndexType             ldAb,
           double                *B,
           IndexType             ldB);
-    
+
 template <typename IndexType>
     IndexType
     tbtrs(char                       norm,
@@ -75,7 +75,7 @@ template <typename IndexType>
           IndexType                  ldAb,
           std::complex<float >       *B,
           IndexType                  ldB);
-    
+
 template <typename IndexType>
     IndexType
     tbtrs(char                       norm,

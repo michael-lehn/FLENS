@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     laexc(bool          wantQ,
@@ -49,7 +49,7 @@ template <typename IndexType>
           IndexType     n1,
           IndexType     n2,
           float         *work);
-    
+
 template <typename IndexType>
     IndexType
     laexc(bool          wantQ,

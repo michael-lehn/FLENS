@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     orbdb(char                  trans,
@@ -60,7 +60,7 @@ template <typename IndexType>
           float                 *tauq2,
           float                 *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     orbdb(char                  trans,

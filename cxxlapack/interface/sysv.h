@@ -49,7 +49,7 @@ template <typename IndexType>
           IndexType             ldB,
           float                 *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     sysv (char                  uplo,
@@ -62,7 +62,7 @@ template <typename IndexType>
           IndexType             ldB,
           double                *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     sysv (char                  uplo,
@@ -77,7 +77,7 @@ template <typename IndexType>
           IndexType             lWork);
 
 template <typename IndexType>
-    IndexType    
+    IndexType
     sysv (char                  uplo,
           IndexType             n,
           IndexType             nRhs,

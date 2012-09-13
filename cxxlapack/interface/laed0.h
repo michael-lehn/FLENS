@@ -50,7 +50,7 @@ template <typename IndexType>
           IndexType             ldQs,
           float                 *work,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     laed0(IndexType             icompq,
@@ -64,7 +64,7 @@ template <typename IndexType>
           IndexType             ldQs,
           double                *work,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     laed0(IndexType             icompq,
@@ -78,7 +78,7 @@ template <typename IndexType>
           IndexType             ldQs,
           float                 *rWork,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     laed0(IndexType             icompq,

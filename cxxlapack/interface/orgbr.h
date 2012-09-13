@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     orgbr(char                  vect,
@@ -49,7 +49,7 @@ template <typename IndexType>
           float                 *work,
           IndexType             lWork);
 
-    
+
 template <typename IndexType>
     IndexType
     orgbr(char                  vect,

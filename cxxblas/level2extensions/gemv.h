@@ -50,6 +50,89 @@ template <typename IndexType, typename ALPHA, typename MA, typename VX,
          const BETA &beta,
          VY *y, IndexType incY);
 
+#ifdef HAVE_CBLAS
+
+template <typename IndexType>
+    void
+    gemv(StorageOrder order, Transpose transA,
+         IndexType m, IndexType n,
+         const float &alpha,
+         const float *A, IndexType ldA,
+         const float *x, IndexType incX,
+         const float &beta,
+         std::complex<float> *y, IndexType incY);
+
+template <typename IndexType>
+    void
+    gemv(StorageOrder order, Transpose transA,
+         IndexType m, IndexType n,
+         const float &alpha,
+         const float *A, IndexType ldA,
+         const float *x, IndexType incX,
+         const std::complex<float> &beta,
+         std::complex<float> *y, IndexType incY);
+
+template <typename IndexType>
+    void
+    gemv(StorageOrder order, Transpose transA,
+         IndexType m, IndexType n,
+         const float &alpha,
+         const float *A, IndexType ldA,
+         const std::complex<float> *x, IndexType incX,
+         const float &beta,
+         std::complex<float> *y, IndexType incY);
+
+template <typename IndexType>
+    void
+    gemv(StorageOrder order, Transpose transA,
+         IndexType m, IndexType n,
+         const float &alpha,
+         const float *A, IndexType ldA,
+         const std::complex<float> *x, IndexType incX,
+         const std::complex<float> &beta,
+         std::complex<float> *y, IndexType incY);
+
+template <typename IndexType>
+    void
+    gemv(StorageOrder order, Transpose transA,
+         IndexType m, IndexType n,
+         const double &alpha,
+         const double *A, IndexType ldA,
+         const double *x, IndexType incX,
+         const double &beta,
+         std::complex<double> *y, IndexType incY);
+
+    template <typename IndexType>
+    void
+    gemv(StorageOrder order, Transpose transA,
+         IndexType m, IndexType n,
+         const double &alpha,
+         const double *A, IndexType ldA,
+         const double *x, IndexType incX,
+         const std::complex<double> &beta,
+         std::complex<double> *y, IndexType incY);
+
+    template <typename IndexType>
+    void
+    gemv(StorageOrder order, Transpose transA,
+         IndexType m, IndexType n,
+         const double &alpha,
+         const double *A, IndexType ldA,
+         const std::complex<double> *x, IndexType incX,
+         const double &beta,
+         std::complex<double> *y, IndexType incY);
+
+    template <typename IndexType>
+    void
+    gemv(StorageOrder order, Transpose transA,
+         IndexType m, IndexType n,
+         const double &alpha,
+         const double *A, IndexType ldA,
+         const std::complex<double> *x, IndexType incX,
+         const std::complex<double> &beta,
+         std::complex<double> *y, IndexType incY);
+
+#endif
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2EXTENSIONS_GEMV_H

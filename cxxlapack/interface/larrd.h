@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     larrd(char                  range,
@@ -63,7 +63,7 @@ template <typename IndexType>
           IndexType             *indexw,
           float                 *work,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     larrd(char                  range,

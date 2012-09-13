@@ -48,7 +48,7 @@ template <typename IndexType>
                 IndexType             ldAf,
                 const IndexType       *iPiv,
                 float                 *work);
-    
+
 template <typename IndexType>
     double
     la_syrpvgrw(char                  uplo,
@@ -60,7 +60,7 @@ template <typename IndexType>
                 IndexType             ldAf,
                 const IndexType       *iPiv,
                 double                *work);
-    
+
 template <typename IndexType>
     double
     la_syrpvgrw(char                        uplo,
@@ -72,7 +72,7 @@ template <typename IndexType>
                 IndexType                   ldAf,
                 const IndexType             *iPiv,
                 float                       *work);
-    
+
 template <typename IndexType>
     double
     la_syrpvgrw(char                        uplo,
@@ -87,4 +87,4 @@ template <typename IndexType>
 
 } // namespace cxxlapack
 
-#endif // CXXLAPACK_INTERFACE_LA_SYRPVGRW_H 
+#endif // CXXLAPACK_INTERFACE_LA_SYRPVGRW_H

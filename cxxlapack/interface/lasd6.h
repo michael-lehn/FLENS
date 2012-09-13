@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     lasd6(IndexType             icompq,
@@ -64,7 +64,7 @@ template <typename IndexType>
           float                 &s,
           float                 *work,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     lasd6(IndexType             icompq,

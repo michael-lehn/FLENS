@@ -46,7 +46,7 @@ template <typename IndexType>
           float                 *tau,
           float                 *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     gerqf(IndexType             m,
@@ -56,7 +56,7 @@ template <typename IndexType>
           double                *tau,
           double                *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     gerqf(IndexType             m,
@@ -66,7 +66,7 @@ template <typename IndexType>
           std::complex<float >  *tau,
           std::complex<float >  *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     gerqf(IndexType             m,

@@ -52,7 +52,7 @@ trtrs(char              upLo,
       IndexType         ldB)
 {
     CXXLAPACK_DEBUG_OUT("strtrs");
- 
+
     IndexType info;
     CXXLAPACK_DEBUG_OUT("strtrs");
     LAPACK_IMPL(strtrs)(&upLo,
@@ -88,7 +88,7 @@ trtrs(char              upLo,
       IndexType         ldB)
 {
     CXXLAPACK_DEBUG_OUT("dtrtrs");
- 
+
     IndexType info;
     CXXLAPACK_DEBUG_OUT("dtrtrs");
     LAPACK_IMPL(dtrtrs)(&upLo,
@@ -123,7 +123,7 @@ trtrs(char                          upLo,
       IndexType                     ldB)
 {
     CXXLAPACK_DEBUG_OUT("ctrtrs");
- 
+
     IndexType info;
     CXXLAPACK_DEBUG_OUT("ctrtrs");
     LAPACK_IMPL(ctrtrs)(&upLo,
@@ -158,7 +158,7 @@ trtrs(char                          upLo,
       IndexType                     ldB)
 {
     CXXLAPACK_DEBUG_OUT("ztrtrs");
- 
+
     IndexType info;
     CXXLAPACK_DEBUG_OUT("ztrtrs");
     LAPACK_IMPL(ztrtrs)(&upLo,

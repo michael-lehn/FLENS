@@ -67,7 +67,7 @@ operator<<(std::ostream &out, const GbMatrix<FS> &A)
                 out.width(11);
             else
                 out.width(22);
-            
+
             if ((i-j<=A.numSubDiags()) && (j-i<=A.numSuperDiags())) {
                 out << A(i,j);
             } else {
@@ -108,18 +108,18 @@ operator<<(std::ostream &out, const HbMatrix<FS> &A)
                 out.width(11);
             else
                 out.width(22);
-            
+
             if ((i-j<=A.numOffDiags()) && (j-i<=A.numOffDiags())) {
                 if (i==j) {
                     out << ElementType(cxxblas::real(A(i,j)));
                 }
                 if (i<j) {
-                    out << ((A.upLo()==cxxblas::Upper)
+                    out << ((A.upLo()==Upper)
                             ? A(i,j)
                             : cxxblas::conjugate(A(j,i)));
                 }
                 if (i>j) {
-                    out << ((A.upLo()==cxxblas::Upper)
+                    out << ((A.upLo()==Upper)
                             ? cxxblas::conjugate(A(j,i))
                             : A(i,j));
                 }
@@ -161,9 +161,9 @@ operator<<(std::ostream &out, const SbMatrix<FS> &A)
                 out.width(11);
             else
                 out.width(22);
-            
+
             if ((i-j<=A.numOffDiags()) && (j-i<=A.numOffDiags())) {
-                out << ((A.upLo()==cxxblas::Upper)
+                out << ((A.upLo()==Upper)
                         ? A(std::min(i,j), std::max(i,j))
                         : A(std::max(i,j), std::min(i,j)));
             } else {
@@ -178,7 +178,7 @@ operator<<(std::ostream &out, const SbMatrix<FS> &A)
 template <typename FS>
 std::ostream &
 operator<<(std::ostream &out, const TbMatrix<FS> &A)
-{   
+{
     typedef typename TbMatrix<FS>::IndexType    IndexType;
     typedef typename TbMatrix<FS>::ElementType  ElementType;
 
@@ -205,13 +205,14 @@ operator<<(std::ostream &out, const TbMatrix<FS> &A)
                 out.width(11);
             else
                 out.width(22);
-            
+
             if (i==j) {
-                (A.diag()==cxxblas::Unit) ? out << ElementType(1)
-                                          : out << A(i,j);
+                (A.diag()==Unit) ? out << ElementType(1)
+                                 : out << A(i,j);
             } else {
-                if (((i>j) && (A.upLo()==cxxblas::Lower) && (i-j<=A.numOffDiags()))
-                 || ((i<j) && (A.upLo()==cxxblas::Upper) && (j-i<=A.numOffDiags()))) {
+                if (((i>j) && (A.upLo()==Lower) && (i-j<=A.numOffDiags()))
+                 || ((i<j) && (A.upLo()==Upper) && (j-i<=A.numOffDiags())))
+                {
                     out << A(i,j);
                 } else {
                     out << " ";

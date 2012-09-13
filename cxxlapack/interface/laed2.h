@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     laed2(IndexType             &k,
@@ -56,7 +56,7 @@ template <typename IndexType>
           IndexType             *indxp,
           IndexType             *coltyp);
 
-    
+
 template <typename IndexType>
     IndexType
     laed2(IndexType             &k,

@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     laneg(IndexType             n,
@@ -45,7 +45,7 @@ template <typename IndexType>
           float                 sigma,
           float                 pivmin,
           IndexType             r);
-    
+
 template <typename IndexType>
     IndexType
     laneg(IndexType             n,

@@ -45,7 +45,7 @@ template <typename IndexType>
           float                 *e,
           float                 *B,
           IndexType             &ldB);
-    
+
 template <typename IndexType>
     IndexType
     ptsv (IndexType             n,
@@ -54,7 +54,7 @@ template <typename IndexType>
           double                *e,
           double                *B,
           IndexType             &ldB);
-    
+
 template <typename IndexType>
     IndexType
     ptsv (IndexType             n,
@@ -63,7 +63,7 @@ template <typename IndexType>
           std::complex<float >  *e,
           std::complex<float >  *B,
           IndexType             &ldB);
-    
+
 template <typename IndexType>
     IndexType
     ptsv (IndexType             n,

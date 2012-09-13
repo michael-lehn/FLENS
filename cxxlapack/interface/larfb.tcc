@@ -58,7 +58,7 @@ larfb(char              side,
       const IndexType   ldWork)
 {
     CXXLAPACK_DEBUG_OUT("slarfb");
- 
+
     LAPACK_IMPL(slarfb)(&side,
                         &trans,
                         &direct,
@@ -96,7 +96,7 @@ larfb(char              side,
       const IndexType   ldWork)
 {
     CXXLAPACK_DEBUG_OUT("dlarfb");
- 
+
     LAPACK_IMPL(dlarfb)(&side,
                         &trans,
                         &direct,
@@ -133,7 +133,7 @@ larfb(char                          side,
       IndexType                     ldWork)
 {
     CXXLAPACK_DEBUG_OUT("clarfb");
- 
+
     LAPACK_IMPL(clarfb)(&side,
                         &trans,
                         &direct,
@@ -170,7 +170,7 @@ larfb(char                          side,
       IndexType                     ldWork)
 {
     CXXLAPACK_DEBUG_OUT("zlarfb");
- 
+
     LAPACK_IMPL(zlarfb)(&side,
                         &trans,
                         &direct,

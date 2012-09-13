@@ -58,8 +58,8 @@ template <typename L, typename R>
     operator-(const Scalar<L> &l, const Scalar<R> &r);
 
 template <typename ALPHA, typename R>
-    const typename 
-    RestrictTo<CompatibleScalar<ALPHA, R>::value, 
+    const typename
+    RestrictTo<CompatibleScalar<ALPHA, R>::value,
         ScalarClosure<ScalarOpMinus,
                       ScalarValue<ALPHA>,
                       typename R::Impl>
@@ -67,8 +67,8 @@ template <typename ALPHA, typename R>
     operator-(const ALPHA &alpha, const Scalar<R> &r);
 
 template <typename L, typename ALPHA>
-    const typename 
-    RestrictTo<CompatibleScalar<ALPHA, L>::value, 
+    const typename
+    RestrictTo<CompatibleScalar<ALPHA, L>::value,
         ScalarClosure<ScalarOpMinus,
                       typename L::Impl,
                       ScalarValue<ALPHA> >

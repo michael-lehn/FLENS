@@ -47,7 +47,7 @@ template <typename IndexType>
           IndexType             &rank,
           float                 tol,
           float                 *work);
-    
+
 template <typename IndexType>
     IndexType
     pstrf(char                  uplo,
@@ -58,7 +58,7 @@ template <typename IndexType>
           IndexType             &rank,
           double                tol,
           double                *work);
-    
+
 template <typename IndexType>
     IndexType
     pstrf(char                  uplo,
@@ -69,7 +69,7 @@ template <typename IndexType>
           IndexType             &rank,
           float                 tol,
           float                 *work);
-    
+
 template <typename IndexType>
     IndexType
     pstrf(char                  uplo,

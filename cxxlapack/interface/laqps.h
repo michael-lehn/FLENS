@@ -53,8 +53,8 @@ template <typename IndexType>
           float         *auxv,
           float         *F,
           IndexType     ldF);
-    
-    
+
+
 template <typename IndexType>
     void
     laqps(IndexType     m,
@@ -71,7 +71,7 @@ template <typename IndexType>
           double        *auxv,
           double        *F,
           IndexType     ldF);
-    
+
 template <typename IndexType>
     void
     laqps(IndexType             m,

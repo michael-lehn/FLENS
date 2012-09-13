@@ -47,7 +47,7 @@ template <typename IndexType>
           float                 &rCond,
           float                 *work,
           IndexType             *iWork);
-     
+
 template <typename IndexType>
     IndexType
     tpcon(char                  norm,
@@ -58,7 +58,7 @@ template <typename IndexType>
           double                &rCond,
           double                *work,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     tpcon(char                        norm,
@@ -69,7 +69,7 @@ template <typename IndexType>
           float                       &rCond,
           std::complex<float >        *work,
           float                       *rWork);
-    
+
 template <typename IndexType>
     IndexType
     tpcon(char                        norm,

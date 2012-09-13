@@ -49,7 +49,7 @@ template <typename IndexType>
           IndexType             m,
           float                 *V,
           IndexType             ldV);
-    
+
 template <typename IndexType>
     IndexType
     ggbak(char                  job,
@@ -62,7 +62,7 @@ template <typename IndexType>
           IndexType             m,
           double                *V,
           IndexType             ldV);
-    
+
 template <typename IndexType>
     IndexType
     ggbak(char                  job,
@@ -75,7 +75,7 @@ template <typename IndexType>
           IndexType             m,
           std::complex<float >  *V,
           IndexType             ldV);
-    
+
 template <typename IndexType>
     IndexType
     ggbak(char                  job,

@@ -58,7 +58,7 @@ template <typename FS>
 template <typename FS>
     bool
     load(std::string filename, TbMatrix<FS> &A);
-    
+
 
 //-- forwarding ---------------------------------------------------------------
 

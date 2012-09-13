@@ -45,7 +45,7 @@ template <typename IndexType>
           float                 *du,
           float                 *du2,
           IndexType             *iPiv);
-    
+
 template <typename IndexType>
     IndexType
     gttrf(IndexType             n,
@@ -54,7 +54,7 @@ template <typename IndexType>
           double                *du,
           double                *du2,
           IndexType             *iPiv);
-    
+
 template <typename IndexType>
     IndexType
     gttrf(IndexType             n,

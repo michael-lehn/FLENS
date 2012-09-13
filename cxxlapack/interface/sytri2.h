@@ -56,7 +56,7 @@ template <typename IndexType>
            const IndexType       *iPiv,
            double                *work,
            IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     sytri2(char                  uplo,
@@ -66,7 +66,7 @@ template <typename IndexType>
            const IndexType       *iPiv,
            std::complex<float >  *work,
            IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     sytri2(char                  uplo,

@@ -42,13 +42,13 @@ template <typename IndexType>
     dummy(IndexType             m,
           IndexType             n,
           float                 *A);
-    
+
 template <typename IndexType>
     IndexType
     dummy(IndexType             m,
           IndexType             n,
           double                *A);
-    
+
 template <typename IndexType>
     IndexType
     dummy(IndexType             n,

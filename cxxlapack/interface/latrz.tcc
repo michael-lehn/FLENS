@@ -50,7 +50,7 @@ latrz(IndexType m,
       float     *work)
 {
     CXXLAPACK_DEBUG_OUT("slatrz");
-  
+
     LAPACK_IMPL(slatrz)(&m,
                         &n,
                         &l,
@@ -72,7 +72,7 @@ latrz(IndexType m,
       double    *work)
 {
     CXXLAPACK_DEBUG_OUT("dlatrz");
-  
+
     LAPACK_IMPL(dlatrz)(&m,
                         &n,
                         &l,
@@ -93,7 +93,7 @@ latrz(IndexType             m,
       std::complex<float >  *work)
 {
     CXXLAPACK_DEBUG_OUT("clatrz");
-  
+
     LAPACK_IMPL(clatrz)(&m,
                         &n,
                         &l,
@@ -114,7 +114,7 @@ latrz(IndexType             m,
       std::complex<double>  *work)
 {
     CXXLAPACK_DEBUG_OUT("zlatrz");
-  
+
     LAPACK_IMPL(zlatrz)(&m,
                         &n,
                         &l,

@@ -55,7 +55,7 @@ tbmv_generic(StorageOrder order, StorageUpLo upLo,
         tbmv_generic(RowMajor, upLo, transA, diag, n, k, A, ldA, x, incX);
         return;
     }
-    
+
     if (incX<0) {
         x -= incX*(n-1);
     }
@@ -322,14 +322,13 @@ tbmv(StorageOrder order, StorageUpLo upLo,
      ComplexFloat *x, IndexType incX)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ctbmv");
-    
+
     if (transA==Conj) {
         CXXBLAS_DEBUG_OUT("tbmv_generic");
         tbmv_generic(order, upLo, transA, diag, n, k, A, ldA, x, incX);
-        
         return;
     }
-    
+
     cblas_ctbmv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 n, k,
@@ -351,10 +350,9 @@ tbmv(StorageOrder order, StorageUpLo upLo,
     if (transA==Conj) {
         CXXBLAS_DEBUG_OUT("tbmv_generic");
         tbmv_generic(order, upLo, transA, diag, n, k, A, ldA, x, incX);
-        
         return;
     }
-    
+
     cblas_ztbmv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(diag),
                 n, k,

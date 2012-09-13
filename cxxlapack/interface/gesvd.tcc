@@ -56,7 +56,7 @@ gesvd(char                  jobU,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("sgesvd");
-    
+
     IndexType info;
     LAPACK_IMPL(sgesvd)(&jobU,
                         &jobVt,
@@ -99,7 +99,7 @@ gesvd(char                  jobU,
       IndexType             lWork)
 {
     CXXLAPACK_DEBUG_OUT("dgesvd");
-    
+
     IndexType info;
     LAPACK_IMPL(dgesvd)(&jobU,
                         &jobVt,
@@ -143,7 +143,7 @@ gesvd(char                  jobU,
       float                 *rWork)
 {
     CXXLAPACK_DEBUG_OUT("cgesvd");
-    
+
     IndexType info;
     LAPACK_IMPL(cgesvd)(&jobU,
                         &jobVt,
@@ -188,7 +188,7 @@ gesvd(char                  jobU,
       double                *rWork)
 {
     CXXLAPACK_DEBUG_OUT("zgesvd");
-    
+
     IndexType info;
     LAPACK_IMPL(zgesvd)(&jobU,
                         &jobVt,

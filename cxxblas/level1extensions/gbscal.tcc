@@ -54,9 +54,9 @@ gbscal(StorageOrder order,
     using std::max;
     using std::min;
 
-
     for (IndexType j=0, i=-kl; i<=ku; ++j, ++i) {
-        IndexType length = (i < 0) ? min(m+i,min(m,n)) : min(n-i,min(m,n));
+        IndexType length = (i<0) ? min(m+i,min(m,n))
+                                 : min(n-i,min(m,n));
         scal(length, alpha, A+j+max(-i,0)*ldA, ldA);
     }
     return;

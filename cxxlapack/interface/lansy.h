@@ -38,14 +38,14 @@
 namespace cxxlapack {
 
 template <typename IndexType>
-    float 
+    float
     lansy(char                  norm,
           char                  uplo,
           IndexType             n,
           const float           *A,
           IndexType             ldA,
           float                 *work);
-    
+
 template <typename IndexType>
     double
     lansy(char                  norm,
@@ -54,16 +54,16 @@ template <typename IndexType>
           const double          *A,
           IndexType             ldA,
           double                *work);
-    
+
 template <typename IndexType>
-    float 
+    float
     lansy(char                        norm,
           char                        uplo,
           IndexType                   n,
           const std::complex<float >  *A,
           IndexType                   ldA,
           float                       *work);
-    
+
 template <typename IndexType>
     double
     lansy(char                        norm,

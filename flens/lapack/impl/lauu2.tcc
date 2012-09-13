@@ -37,7 +37,7 @@
  *  -- LAPACK auxiliary routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
  *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
- *  -- April 2011  
+ *  -- April 2011
  */
 
 #ifndef FLENS_LAPACK_IMPL_LAUU2_TCC

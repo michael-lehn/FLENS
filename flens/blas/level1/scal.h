@@ -68,7 +68,7 @@ template <typename ALPHA, typename MB>
              void>::Type
     scal(const ALPHA &alpha, MB &&B);
 
-//-- gescal
+//-- (tiny) gescal
 template <typename ALPHA, typename MB>
     typename RestrictTo<IsGeTinyMatrix<MB>::value,
              void>::Type

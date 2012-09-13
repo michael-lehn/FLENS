@@ -62,7 +62,7 @@ template <typename ALPHA, typename R>
 
 template <typename L, typename ALPHA>
     const typename
-    RestrictTo<CompatibleScalar<ALPHA, L>::value, 
+    RestrictTo<CompatibleScalar<ALPHA, L>::value,
         ScalarClosure<ScalarOpPlus,
                       typename L::Impl,
                       ScalarValue<ALPHA> >

@@ -64,7 +64,7 @@ PruneVectorClosure<Vector>::remainder(const Vector &vector)
     return vector;
 }
 
-//-- Specialization for particular closures ------------------------------------ 
+//-- Specialization for particular closures ------------------------------------
 //-- Closure from alpha*A
 template <typename L, typename R>
 struct PruneVectorClosure<VectorClosure<OpMult, ScalarValue<L>, R> >

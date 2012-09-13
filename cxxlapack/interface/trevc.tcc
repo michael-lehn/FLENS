@@ -56,7 +56,7 @@ trevc(char          side,
       float         *work)
 {
     CXXLAPACK_DEBUG_OUT("strevc");
- 
+
     IndexType info;
     LAPACK_IMPL(strevc)(&side,
                         &howMany,
@@ -99,7 +99,7 @@ trevc(char          side,
       double        *work)
 {
     CXXLAPACK_DEBUG_OUT("dtrevc");
- 
+
     IndexType info;
     LAPACK_IMPL(dtrevc)(&side,
                         &howMany,
@@ -142,7 +142,7 @@ trevc(char                  side,
       float                 *rWork)
 {
     CXXLAPACK_DEBUG_OUT("ctrevc");
- 
+
     IndexType info;
     LAPACK_IMPL(ctrevc)(&side,
                         &howMany,
@@ -187,7 +187,7 @@ trevc(char                  side,
       double                *rWork)
 {
     CXXLAPACK_DEBUG_OUT("ztrevc");
- 
+
     IndexType info;
     LAPACK_IMPL(ztrevc)(&side,
                         &howMany,

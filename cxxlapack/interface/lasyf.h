@@ -48,8 +48,8 @@ template <typename IndexType>
           IndexType             *iPiv,
           float                 *W,
           IndexType             ldW);
-    
-    
+
+
 template <typename IndexType>
     IndexType
     lasyf(char                  uplo,
@@ -61,7 +61,7 @@ template <typename IndexType>
           IndexType             *iPiv,
           double                *W,
           IndexType             ldW);
-    
+
 template <typename IndexType>
     IndexType
     lasyf(char                  uplo,

@@ -57,7 +57,7 @@ template <typename IndexType>
           bool                  tryrac,
           float                 *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     stemr(char                  jobz,
@@ -78,7 +78,7 @@ template <typename IndexType>
           bool                  tryrac,
           double                *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     stemr(char                  jobz,
@@ -103,7 +103,7 @@ template <typename IndexType>
           IndexType             liWork);
 
 template <typename IndexType>
-    IndexType    
+    IndexType
     stemr(char                  jobz,
           char                  range,
           IndexType             n,
@@ -124,7 +124,7 @@ template <typename IndexType>
           IndexType             lWork,
           IndexType             *iWork,
           IndexType             liWork);
-    
+
 } // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_STEMR_H

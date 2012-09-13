@@ -44,7 +44,7 @@ template <typename IndexType>
           IndexType             ldA,
           IndexType             *iPiv,
           IndexType             *jpiv);
-    
+
 template <typename IndexType>
     IndexType
     getc2(IndexType             n,
@@ -60,7 +60,7 @@ template <typename IndexType>
           IndexType             ldA,
           IndexType             *iPiv,
           IndexType             *jpiv);
-    
+
 template <typename IndexType>
     IndexType
     getc2(IndexType             n,

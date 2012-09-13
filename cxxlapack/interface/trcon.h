@@ -42,19 +42,19 @@ template <typename IndexType>
     trcon(IndexType             m,
           IndexType             n,
           float                 *A);
-    
+
 template <typename IndexType>
     IndexType
     trcon(IndexType             m,
           IndexType             n,
           double                *A);
-    
+
 template <typename IndexType>
     IndexType
     trcon(IndexType             n,
           IndexType             m,
           std::complex<float >  *A);
-    
+
 template <typename IndexType>
     IndexType
     trcon(IndexType             n,

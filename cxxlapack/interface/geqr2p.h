@@ -54,7 +54,7 @@ template <typename IndexType>
            IndexType    ldA,
            double       *tau,
            double       *work);
-    
+
 template <typename IndexType>
     IndexType
     geqr2p(IndexType             m,
@@ -63,7 +63,7 @@ template <typename IndexType>
            IndexType             ldA,
            std::complex<float >  *tau,
            std::complex<float >  *work);
-    
+
 template <typename IndexType>
     IndexType
     geqr2p(IndexType             m,

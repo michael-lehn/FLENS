@@ -47,7 +47,7 @@ template <typename IndexType>
           float                 *s,
           float                 &scond,
           float                 &amax);
-        
+
 template <typename IndexType>
     IndexType
     pbequ(char                  uplo,
@@ -58,7 +58,7 @@ template <typename IndexType>
           double                *s,
           double                &scond,
           double                &amax);
-    
+
 template <typename IndexType>
     IndexType
     pbequ(char                        uplo,

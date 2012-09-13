@@ -46,7 +46,7 @@ template <typename IndexType>
            float       *tau,
            float       *work,
            IndexType   lWork);
-    
+
 template <typename IndexType>
     IndexType
     geqrfp(IndexType   m,
@@ -56,7 +56,7 @@ template <typename IndexType>
            double      *tau,
            double      *work,
            IndexType   lWork);
-    
+
 template <typename IndexType>
     IndexType
     geqrfp(IndexType             m,

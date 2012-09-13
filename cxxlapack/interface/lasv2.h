@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename VOID=void>
     void
     lasv2(float                 f,
@@ -48,7 +48,7 @@ template <typename VOID=void>
           float                 &csr,
           float                 &snl,
           float                 &csl);
-    
+
 template <typename VOID=void>
 void
 lasv2(double                f,

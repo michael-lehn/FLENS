@@ -51,7 +51,7 @@ template <typename IndexType>
           float                 *work,
           IndexType             *iWork,
           IndexType             *ifail);
-    
+
 template <typename IndexType>
     IndexType
     stein(IndexType             n,
@@ -66,7 +66,7 @@ template <typename IndexType>
           double                *work,
           IndexType             *iWork,
           IndexType             *ifail);
-    
+
 template <typename IndexType>
     IndexType
     stein(IndexType             n,
@@ -81,7 +81,7 @@ template <typename IndexType>
           float                 *work,
           IndexType             *iWork,
           IndexType             *ifail);
-    
+
 template <typename IndexType>
     IndexType
     stein(IndexType             n,

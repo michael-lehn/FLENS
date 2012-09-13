@@ -42,13 +42,13 @@ template <typename IndexType>
     sytf2(IndexType             m,
           IndexType             n,
           float                 *A);
-    
+
 template <typename IndexType>
     IndexType
     sytf2(IndexType             m,
           IndexType             n,
           double                *A);
-    
+
 template <typename IndexType>
     IndexType
     sytf2(IndexType             n,

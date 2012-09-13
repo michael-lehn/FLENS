@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     double
     la_gerCond_c(char                        trans,
@@ -51,7 +51,7 @@ template <typename IndexType>
                  IndexType                   &info,
                  std::complex<float >        *work,
                  float                       *rWork);
-    
+
 template <typename IndexType>
     double
     la_gerCond_c(char                        trans,

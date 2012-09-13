@@ -38,7 +38,7 @@
 namespace cxxlapack {
 
 template <typename IndexType>
-    float 
+    float
     lansb(char                  norm,
           char                  uplo,
           IndexType             n,
@@ -46,7 +46,7 @@ template <typename IndexType>
           const float           *Ab,
           IndexType             ldAb,
           float                 *work);
-    
+
 template <typename IndexType>
     double
     lansb(char                  norm,
@@ -56,9 +56,9 @@ template <typename IndexType>
           const double          *Ab,
           IndexType             ldAb,
           double                *work);
-    
+
 template <typename IndexType>
-    float 
+    float
     lansb(char                        norm,
           char                        uplo,
           IndexType                   n,
@@ -66,7 +66,7 @@ template <typename IndexType>
           const std::complex<float >  *Ab,
           IndexType                   ldAb,
           float                       *work);
-    
+
 template <typename IndexType>
     double
     lansb(char                        norm,

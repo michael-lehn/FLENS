@@ -50,7 +50,7 @@ template <typename IndexType>
           float                 *taub,
           float                 *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     ggrqf(IndexType             m,
@@ -64,7 +64,7 @@ template <typename IndexType>
           double                *taub,
           double                *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     ggrqf(IndexType             m,
@@ -78,7 +78,7 @@ template <typename IndexType>
           std::complex<float >  *taub,
           std::complex<float >  *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     ggrqf(IndexType             m,

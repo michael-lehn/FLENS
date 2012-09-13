@@ -54,7 +54,7 @@ template <typename IndexType>
           float                 *ferr,
           float                 *berr,
           float                 *work);
-    
+
 template <typename IndexType>
     IndexType
     ptsvx(char                  fact,
@@ -72,7 +72,7 @@ template <typename IndexType>
           double                *ferr,
           double                *berr,
           double                *work);
-    
+
 template <typename IndexType>
     IndexType
     ptsvx(char                        fact,

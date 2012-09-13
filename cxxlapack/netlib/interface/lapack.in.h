@@ -17,11 +17,11 @@
 #endif
 
 #ifndef FLOAT_COMPLEX
-#define FLOAT_COMPLEX float 
+#define FLOAT_COMPLEX float
 #endif
 
 #ifndef DOUBLE_COMPLEX
-#define DOUBLE_COMPLEX double 
+#define DOUBLE_COMPLEX double
 #endif
 
 #ifndef LOGICAL
@@ -18265,11 +18265,6 @@ LAPACK_IMPL(stzrzf)(const INTEGER    *M,
                     FLOAT            *WORK,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO);
-
-//-- xerbla --------------------------------------------------------------------
-void
-LAPACK_IMPL(xerbla)(const char       *SRNAME,
-                    const INTEGER    *INFO);
 
 //-- xerbla_array --------------------------------------------------------------
 void

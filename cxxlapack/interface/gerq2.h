@@ -54,7 +54,7 @@ template <typename IndexType>
           IndexType             ldA,
           double                *tau,
           double                *work);
-    
+
 template <typename IndexType>
     IndexType
     gerq2(IndexType             m,

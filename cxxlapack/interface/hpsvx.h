@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     hpsvx(char                        fact,
@@ -55,7 +55,7 @@ template <typename IndexType>
           float                       *berr,
           std::complex<float >        *work,
           float                       *rWork);
-    
+
 template <typename IndexType>
     IndexType
     hpsvx(char                        fact,

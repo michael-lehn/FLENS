@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     gsvj0(char          jobV,
@@ -55,7 +55,7 @@ template <typename IndexType>
           IndexType     nSweep,
           float         *work,
           IndexType     lWork);
-    
+
 template <typename IndexType>
     IndexType
     gsvj0(char          jobV,

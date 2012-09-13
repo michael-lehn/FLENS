@@ -38,6 +38,8 @@
 
 namespace flens {
 
+namespace fullstorage {
+
 template <typename T, bool>
 struct _GetFullEngine
 {
@@ -49,6 +51,8 @@ struct _GetFullEngine<T, true>
 {
     typedef typename T::Engine Type;
 };
+
+} // namespace fullstorage
 
 template <typename T>
 struct HasFullStorage

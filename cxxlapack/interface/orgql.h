@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     orgql(IndexType     m,
@@ -47,7 +47,7 @@ template <typename IndexType>
           const float   *tau,
           float         *work,
           IndexType     lWork);
-    
+
 template <typename IndexType>
     IndexType
     orgql(IndexType     m,

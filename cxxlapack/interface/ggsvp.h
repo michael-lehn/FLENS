@@ -62,7 +62,7 @@ template <typename IndexType>
           IndexType             *iWork,
           float                 *tau,
           float                 *work);
-    
+
 template <typename IndexType>
     IndexType
     ggsvp(char                  jobu,
@@ -88,7 +88,7 @@ template <typename IndexType>
           IndexType             *iWork,
           double                *tau,
           double                *work);
-    
+
 template <typename IndexType>
     IndexType
     ggsvp(char                  jobu,
@@ -115,7 +115,7 @@ template <typename IndexType>
           float                 *rWork,
           std::complex<float >  *tau,
           std::complex<float >  *work);
-    
+
 template <typename IndexType>
     IndexType
     ggsvp(char                  jobu,

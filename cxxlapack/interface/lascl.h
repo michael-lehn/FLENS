@@ -60,7 +60,7 @@ template <typename IndexType>
           IndexType     n,
           double        *A,
           IndexType     ldA);
-    
+
 template <typename IndexType>
     IndexType
     lascl(char                  type,

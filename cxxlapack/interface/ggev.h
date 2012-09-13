@@ -74,7 +74,7 @@ template <typename IndexType>
          IndexType             ldVR,
          double                *work,
          IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     ggev(char                  jobVL,
@@ -93,7 +93,7 @@ template <typename IndexType>
          std::complex<float >  *work,
          IndexType             lWork,
          float                 *rWork);
-    
+
 template <typename IndexType>
     IndexType
     ggev(char                  jobVL,

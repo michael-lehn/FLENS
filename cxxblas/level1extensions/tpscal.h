@@ -40,7 +40,7 @@
 namespace cxxblas {
 
 //
-//  B = alpha*A 
+//  B = alpha*A
 //
 template <typename IndexType, typename ALPHA, typename MA>
     void

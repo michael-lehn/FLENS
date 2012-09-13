@@ -45,7 +45,7 @@ template <typename IndexType>
           const float           *A,
           IndexType             ldA,
           float                 *Arf);
-    
+
 template <typename IndexType>
     IndexType
     trttf(char                  transr,
@@ -54,7 +54,7 @@ template <typename IndexType>
           const double          *A,
           IndexType             ldA,
           double                *Arf);
-    
+
 template <typename IndexType>
     IndexType
     trttf(char                        transr,

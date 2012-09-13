@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     dlasda(IndexType             icompq,
@@ -62,7 +62,7 @@ template <typename IndexType>
            float                 *s,
            float                 *work,
            IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     dlasda(IndexType             icompq,

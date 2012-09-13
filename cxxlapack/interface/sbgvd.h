@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     sbgvd(char                  jobz,
@@ -55,7 +55,7 @@ template <typename IndexType>
           IndexType             lWork,
           float                 *iWork,
           IndexType             liWork);
-    
+
 template <typename IndexType>
     IndexType
     sbgvd(char                  jobz,

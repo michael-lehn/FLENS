@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     stevr(char                  jobz,
@@ -59,7 +59,7 @@ template <typename IndexType>
           IndexType             *iWork,
           IndexType             liWork);
 
-    
+
 template <typename IndexType>
     IndexType
     stevr(char                  jobz,

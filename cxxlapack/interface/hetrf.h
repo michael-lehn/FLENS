@@ -37,7 +37,7 @@
 
 namespace cxxlapack {
 
-    
+
 template <typename IndexType>
     IndexType
     hetrf(char                  uplo,
@@ -47,7 +47,7 @@ template <typename IndexType>
           IndexType             *iPiv,
           std::complex<float >  *work,
           IndexType             lwork);
-    
+
 template <typename IndexType>
     IndexType
     hetrf(char                  uplo,

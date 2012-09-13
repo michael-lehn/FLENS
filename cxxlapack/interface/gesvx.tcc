@@ -64,7 +64,7 @@ gesvx(char          fact,
       IndexType     *iWork)
 {
     CXXLAPACK_DEBUG_OUT("sgesvx");
-    
+
     IndexType info;
     LAPACK_IMPL(sgesvx)(&fact,
                         &trans,
@@ -122,7 +122,7 @@ gesvx(char          fact,
       IndexType     *iWork)
 {
     CXXLAPACK_DEBUG_OUT("dgesvx");
-    
+
     IndexType info;
     LAPACK_IMPL(dgesvx)(&fact,
                         &trans,
@@ -180,7 +180,7 @@ gesvx(char                  fact,
       float                 *rWork)
 {
     CXXLAPACK_DEBUG_OUT("cgesvx");
-    
+
     IndexType info;
     LAPACK_IMPL(cgesvx)(&fact,
                         &trans,
@@ -238,7 +238,7 @@ gesvx(char                  fact,
       double                *rWork)
 {
     CXXLAPACK_DEBUG_OUT("zgesvx");
-    
+
     IndexType info;
     LAPACK_IMPL(zgesvx)(&fact,
                         &trans,

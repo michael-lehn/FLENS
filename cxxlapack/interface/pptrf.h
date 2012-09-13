@@ -42,13 +42,13 @@ template <typename IndexType>
     pptrf(char                  uplo,
           IndexType             n,
           float                 *Ap);
-    
+
 template <typename IndexType>
     IndexType
     pptrf(char                  uplo,
           IndexType             n,
           double                *Ap);
-    
+
 template <typename IndexType>
     IndexType
     pptrf(char                  uplo,

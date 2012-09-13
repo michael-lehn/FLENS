@@ -44,7 +44,7 @@ template <typename IndexType>
           IndexType             n,
           const float           *Arf,
           float                 *Ap);
-    
+
 template <typename IndexType>
     IndexType
     tfttp(char                  transr,
@@ -52,7 +52,7 @@ template <typename IndexType>
           IndexType             n,
           const double          *Arf,
           double                *Ap);
-    
+
 template <typename IndexType>
     IndexType
     tfttp(char                        transr,
@@ -60,7 +60,7 @@ template <typename IndexType>
           IndexType                   n,
           const std::complex<float >  *Arf,
           std::complex<float >        *Ap);
-    
+
 template <typename IndexType>
     IndexType
     tfttp(char                        transr,

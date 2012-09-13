@@ -68,7 +68,7 @@ laqr2_wsq_impl(IndexType                 kTop,
     typedef typename GeMatrix<MT>::ElementType  ElementType;
 
     const Underscore<IndexType> _;
-    
+
 //
 //  ==== Estimate optimal workspace. ====
 //

@@ -64,8 +64,8 @@ template <typename IndexType>
           IndexType     nh,
           float         *WH,
           IndexType     ldWH);
-    
-    
+
+
 template <typename IndexType>
     void
     laqr5(bool          wantT,
@@ -93,7 +93,7 @@ template <typename IndexType>
           IndexType     nh,
           double        *WH,
           IndexType     ldWH);
-    
+
 template <typename IndexType>
     void
     laqr5(bool                  wantT,

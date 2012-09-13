@@ -51,7 +51,7 @@ namespace cxxlapack {
           IndexType             *iq,
           float                 *work,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     bdsdc(char                  upLo,

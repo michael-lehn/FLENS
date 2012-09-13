@@ -145,7 +145,7 @@ hemv(StorageOrder order, StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_chemv");
 
-    cblas_chemv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo), n, 
+    cblas_chemv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo), n,
                 reinterpret_cast<const float *>(&alpha),
                 reinterpret_cast<const float *>(A), ldA,
                 reinterpret_cast<const float *>(x), incX,

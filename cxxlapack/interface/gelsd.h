@@ -52,7 +52,7 @@ template <typename IndexType>
           float                 *work,
           IndexType             lWork,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     gelsd(IndexType             m,
@@ -68,7 +68,7 @@ template <typename IndexType>
           double                *work,
           IndexType             lWork,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     gelsd(IndexType                     m,
@@ -85,7 +85,7 @@ template <typename IndexType>
           IndexType                     lWork,
           float                         *rWork,
           IndexType                     *iWork);
-    
+
 template <typename IndexType>
     IndexType
     gelsd(IndexType                     m,
@@ -100,7 +100,7 @@ template <typename IndexType>
           IndexType                     &rank,
           std::complex<double>          *work,
           IndexType                     lWork,
-          double                        *rWork,         
+          double                        *rWork,
           IndexType                     *iWork);
 
 } // namespace cxxlapack

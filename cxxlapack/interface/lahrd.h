@@ -50,7 +50,7 @@ template <typename IndexType>
           float                 *Y,
           IndexType             ldY);
 
-    
+
 template <typename IndexType>
     void
     lahrd(IndexType             n,
@@ -63,7 +63,7 @@ template <typename IndexType>
           IndexType             ldT,
           double                *Y,
           IndexType             ldY);
-    
+
 template <typename IndexType>
     void
     lahrd(IndexType             n,
@@ -76,7 +76,7 @@ template <typename IndexType>
           IndexType             ldT,
           std::complex<float >  *Y,
           IndexType             ldY);
-    
+
 template <typename IndexType>
     void
     lahrd(IndexType             n,

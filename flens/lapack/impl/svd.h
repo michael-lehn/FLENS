@@ -138,7 +138,7 @@ template <typename MA, typename VS, typename MU, typename MVT>
         MU          &&U,
         MVT         &&VT);
 
-    
+
 //== workspace query ===========================================================
 
 template <typename MA, typename VS, typename MU, typename MVT, typename VWORK>

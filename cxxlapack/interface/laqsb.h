@@ -49,7 +49,7 @@ template <typename IndexType>
           float                 amax,
           char                  &equed);
 
-    
+
 template <typename IndexType>
     IndexType
     laqsb(char                  uplo,
@@ -61,7 +61,7 @@ template <typename IndexType>
           double                scond,
           double                amax,
           char                  &equed);
-    
+
 template <typename IndexType>
     IndexType
     laqsb(char                  uplo,
@@ -73,7 +73,7 @@ template <typename IndexType>
           float                 scond,
           float                 amax,
           char                  &equed);
-    
+
 template <typename IndexType>
     IndexType
     laqsb(char                  uplo,

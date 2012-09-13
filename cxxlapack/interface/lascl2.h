@@ -44,7 +44,7 @@ template <typename IndexType>
            const float           *d,
            float                 *X,
            IndexType             ldX);
-    
+
 template <typename IndexType>
     IndexType
     lascl2(IndexType             m,
@@ -52,7 +52,7 @@ template <typename IndexType>
            const double          *d,
            double                *X,
            IndexType             ldX);
-    
+
 template <typename IndexType>
     IndexType
     lascl2(IndexType             m,

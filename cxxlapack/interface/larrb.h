@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     larrb(IndexType             n,
@@ -55,7 +55,7 @@ template <typename IndexType>
           float                 pivmin,
           float                 spdiam,
           IndexType             twist);
-    
+
 template <typename IndexType>
     IndexType
     larrb(IndexType             n,

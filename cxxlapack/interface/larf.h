@@ -48,8 +48,8 @@ template <typename IndexType>
          float          *C,
          IndexType      ldC,
          float          *work);
-    
-    
+
+
 template <typename IndexType>
     void
     larf(char           side,
@@ -61,7 +61,7 @@ template <typename IndexType>
          double         *C,
          IndexType      ldC,
          double         *work);
-    
+
 template <typename IndexType>
     void
     larf(char                           side,

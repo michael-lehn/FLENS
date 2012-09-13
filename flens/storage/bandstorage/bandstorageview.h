@@ -87,8 +87,6 @@ class BandStorageView
 
         BandStorageView(const BandStorageView &rhs);
 
-        BandStorageView(BandStorage<T, Order, I, A> &rhs);
-
         template <typename RHS>
             BandStorageView(RHS &rhs);
 
@@ -171,7 +169,7 @@ class BandStorageView
         // view as an array
         const ConstArrayView
         arrayView(IndexType firstViewIndex = I::defaultIndexBase) const ;
-        
+
         ArrayView
         arrayView(IndexType firstViewIndex = I::defaultIndexBase);
 

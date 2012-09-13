@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     void
     lacrm(IndexType                   m,
@@ -48,7 +48,7 @@ template <typename IndexType>
           std::complex<float >        *C,
           IndexType                   ldC,
           float                       *rWork);
-    
+
 template <typename IndexType>
     void
     lacrm(IndexType                   m,

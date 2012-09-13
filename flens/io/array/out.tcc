@@ -43,8 +43,8 @@ std::ostream &
 operator<<(std::ostream &out, const DenseVector<A> &x)
 {
     typedef typename DenseVector<A>::IndexType IndexType;
-    typedef typename DenseVector<A>::ElementType ElementType;    
-    
+    typedef typename DenseVector<A>::ElementType ElementType;
+
 #   ifdef FLENS_IO_WITH_RANGES
     IndexType defaultIndexBase = A::defaultIndexBase;
 

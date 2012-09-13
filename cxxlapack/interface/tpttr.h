@@ -44,8 +44,8 @@ template <typename IndexType>
           const float           *Ap,
           float                 *A,
           IndexType             ldA);
-    
-    
+
+
 template <typename IndexType>
     IndexType
     tpttr(char                  uplo,
@@ -53,7 +53,7 @@ template <typename IndexType>
           const double          *Ap,
           double                *A,
           IndexType             ldA);
-    
+
 template <typename IndexType>
     IndexType
     tpttr(char                       uplo,

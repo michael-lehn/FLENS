@@ -114,7 +114,7 @@ SpMatrix<FS>::operator=(const ElementType &alpha)
         for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = i; j <= lastIndex(); ++j)
                 (*this)(i,j) = alpha;
- 
+
     } else {
       for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = firstIndex(); j <= i; ++j)
@@ -132,7 +132,7 @@ SpMatrix<FS>::operator+=(const ElementType &alpha)
         for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = i; j <= lastIndex(); ++j)
                 (*this)(i,j) += alpha;
- 
+
     } else {
       for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = firstIndex(); j <= i; ++j)
@@ -150,7 +150,7 @@ SpMatrix<FS>::operator-=(const ElementType &alpha)
         for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = i; j <= lastIndex(); ++j)
                 (*this)(i,j) -= alpha;
- 
+
     } else {
       for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = firstIndex(); j <= i; ++j)
@@ -163,12 +163,12 @@ template <typename FS>
 SpMatrix<FS> &
 SpMatrix<FS>::operator*=(const ElementType &alpha)
 {
-   
+
     if (upLo()==Upper) {
         for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = i; j <= lastIndex(); ++j)
                 (*this)(i,j) *= alpha;
- 
+
     } else {
       for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = firstIndex(); j <= i; ++j)
@@ -181,12 +181,12 @@ template <typename FS>
 SpMatrix<FS> &
 SpMatrix<FS>::operator/=(const ElementType &alpha)
 {
-   
+
     if (upLo()==Upper) {
         for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = i; j <= lastIndex(); ++j)
                 (*this)(i,j) /= alpha;
- 
+
     } else {
       for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
             for(IndexType j = firstIndex(); j <= i; ++j)
@@ -225,15 +225,6 @@ SpMatrix<FS>::operator()(IndexType row, IndexType col)
 
     return _engine(row, col);
 }
-
-
-
-
-
-
-
-
-
 
 // -- views --------------------------------------------------------------------
 

@@ -48,7 +48,7 @@ template <typename IndexType>
           float                 *x,
           float                 &scale,
           float                 &cnorm);
-    
+
 template <typename IndexType>
     IndexType
     latps(char                  uplo,
@@ -60,7 +60,7 @@ template <typename IndexType>
           double                *x,
           double                &scale,
           double                &cnorm);
-    
+
 template <typename IndexType>
     IndexType
     latps(char                       uplo,

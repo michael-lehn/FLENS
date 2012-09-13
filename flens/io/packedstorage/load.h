@@ -58,12 +58,12 @@ template <typename FS>
     typename RestrictTo<IsReal<typename FS::ElementType>::value,
                         bool>::Type
     loadMatrixMarket(std::string filename, SpMatrix<FS> &A);
-    
+
 template <typename FS>
     typename RestrictTo<IsComplex<typename FS::ElementType>::value,
                         bool>::Type
     loadMatrixMarket(std::string filename, SpMatrix<FS> &A);
-    
+
 template <typename FS>
     typename RestrictTo<IsComplex<typename FS::ElementType>::value,
                         bool>::Type

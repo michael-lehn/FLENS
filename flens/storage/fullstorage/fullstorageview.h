@@ -61,13 +61,12 @@ template <typename T,
 class FullStorageView
 {
     public:
-        typedef T                                     ElementType;
-        typedef typename I::IndexType                 IndexType;
-        typedef A                                     Allocator;
+        typedef T                       ElementType;
+        typedef typename I::IndexType   IndexType;
+        typedef A                       Allocator;
 
-        static const StorageOrder                     order = Order;
-        static const IndexType                        defaultIndexBase
-                                                          = I::defaultIndexBase;
+        static const StorageOrder       order = Order;
+        static const IndexType          defaultIndexBase = I::defaultIndexBase;
 
         typedef ConstFullStorageView<T, Order, I, A>  ConstView;
         typedef FullStorageView                       View;

@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename VOID=void>
 void
     lae2(float                 a,
@@ -44,7 +44,7 @@ void
          float                 c,
          float                 &rt1,
          float                 &rt2);
-    
+
 template <typename VOID=void>
 void
     lae2(double                a,

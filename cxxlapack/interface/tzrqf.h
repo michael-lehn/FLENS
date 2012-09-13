@@ -44,8 +44,8 @@ template <typename IndexType>
           float                 *A,
           IndexType             ldA,
           float                 *tau);
-    
-    
+
+
 template <typename IndexType>
     IndexType
     tzrqf(IndexType             m,
@@ -53,7 +53,7 @@ template <typename IndexType>
           double                *A,
           IndexType             ldA,
           double                *tau);
-    
+
 template <typename IndexType>
     IndexType
     tzrqf(IndexType             m,

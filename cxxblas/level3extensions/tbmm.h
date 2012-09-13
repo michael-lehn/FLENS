@@ -43,7 +43,7 @@ template <typename IndexType, typename ALPHA, typename MA, typename MB>
     void
     tbmm(StorageOrder order, Side side, StorageUpLo upLo,
          Transpose transA, Diag diag,
-         IndexType m, IndexType n, 
+         IndexType m, IndexType n,
          IndexType k,
          const ALPHA &alpha,
          const MA *A, IndexType ldA,

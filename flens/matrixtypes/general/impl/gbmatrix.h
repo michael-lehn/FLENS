@@ -37,6 +37,7 @@
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/typedefs.h>
 #include <flens/matrixtypes/general/generalmatrix.h>
+#include <flens/typedefs.h>
 
 namespace flens {
 
@@ -81,7 +82,8 @@ class GbMatrix
         GbMatrix();
 
         explicit
-        GbMatrix(IndexType m, IndexType n, IndexType numSubDiags, IndexType numSuperDiags,
+        GbMatrix(IndexType m, IndexType n,
+                 IndexType numSubDiags, IndexType numSuperDiags,
                  IndexType firstIndex = Engine::defaultIndexBase);
 
         GbMatrix(const Engine &engine);
@@ -158,7 +160,7 @@ class GbMatrix
 
         TriangularView
         lower(Diag diag = NonUnit);
-	
+
         const ConstView
         strictLower() const;
 

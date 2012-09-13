@@ -42,7 +42,7 @@ template <typename IndexType>
     heswap(IndexType             m,
            IndexType             n,
            std::complex<float>   *A);
-    
+
 template <typename IndexType>
     IndexType
     heswap(IndexType             n,

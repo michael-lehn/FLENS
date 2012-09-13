@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename VOID=void>
     void
     lartgs(float                 x,
@@ -44,7 +44,7 @@ template <typename VOID=void>
            float                 sigma,
            float                 &cs,
            float                 &sn);
-    
+
 template <typename VOID=void>
     void
     lartgs(double                x,

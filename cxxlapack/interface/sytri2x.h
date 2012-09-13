@@ -46,7 +46,7 @@ template <typename IndexType>
             const IndexType       *iPiv,
             float                 *work,
             IndexType             nb);
-    
+
 template <typename IndexType>
     IndexType
     sytri2x(char                  uplo,
@@ -56,7 +56,7 @@ template <typename IndexType>
             const IndexType       *iPiv,
             double                *work,
             IndexType             nb);
-    
+
 template <typename IndexType>
     IndexType
     sytri2x(char                  uplo,

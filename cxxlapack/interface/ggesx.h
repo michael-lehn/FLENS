@@ -62,7 +62,7 @@ template <typename IndexType>
           IndexType             *iWork,
           IndexType             liWork,
           bool                  *bwork);
-    
+
 template <typename IndexType>
     IndexType
     ggesx(char                  jobvsl,
@@ -88,7 +88,7 @@ template <typename IndexType>
           IndexType             *iWork,
           IndexType             liWork,
           bool                  *bwork);
-    
+
 template <typename IndexType>
     IndexType
     ggesx(char                  jobvsl,
@@ -116,7 +116,7 @@ template <typename IndexType>
           IndexType             liWork,
           bool                  *bwork);
 
-    
+
 template <typename IndexType>
     IndexType
     ggesx(char                  jobvsl,

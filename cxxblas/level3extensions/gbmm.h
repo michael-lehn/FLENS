@@ -44,7 +44,7 @@ template <typename IndexType, typename ALPHA, typename MA, typename MB,
     void
     gbmm(StorageOrder order, Side side,
          Transpose transA, Transpose transB,
-         IndexType m, IndexType n, 
+         IndexType m, IndexType n,
          IndexType kl, IndexType ku,
          IndexType l,
          const ALPHA &alpha,

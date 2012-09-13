@@ -57,7 +57,7 @@ template <typename IndexType>
           float         *work,
           IndexType     lWork,
           IndexType     *iWork);
-    
+
 template <typename IndexType>
     IndexType
     gejsv(char          jobA,

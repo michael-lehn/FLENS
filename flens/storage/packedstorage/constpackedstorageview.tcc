@@ -54,7 +54,7 @@ template <typename T, StorageUpLo UpLo, StorageOrder Order, typename I, typename
 template <typename ARRAY>
 ConstPackedStorageView<T, UpLo, Order, I, A>::ConstPackedStorageView(
                                        IndexType dim,
-                                       ARRAY &array, 
+                                       ARRAY &array,
                                        IndexType firstIndex,
                                        const Allocator &allocator)
     : _data(array.data()),

@@ -50,7 +50,6 @@ tpcopy(StorageOrder order, StorageUpLo upLo, Transpose trans, Diag diag,
     CXXBLAS_DEBUG_OUT("tpcopy_generic");
 
     // TODO: Remove copy of diagonal if diag == Unit
-
     if (trans==NoTrans) {
           const IndexType length = n*(n+1)/2;
           copy(length, A, 1, B, 1);

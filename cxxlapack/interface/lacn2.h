@@ -46,7 +46,7 @@ template <typename IndexType>
           float             &est,
           IndexType         &kase,
           IndexType         *iSave);
-    
+
 template <typename IndexType>
     void
     lacn2(IndexType         n,
@@ -56,7 +56,7 @@ template <typename IndexType>
           double            &est,
           IndexType         &kase,
           IndexType         *iSave);
-    
+
 template <typename IndexType>
     void
     lacn2(IndexType             n,
@@ -65,7 +65,7 @@ template <typename IndexType>
           float                 &est,
           IndexType             &kase,
           IndexType             *iSave);
-    
+
 template <typename IndexType>
     void
     lacn2(IndexType             n,

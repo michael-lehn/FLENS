@@ -50,7 +50,7 @@ template <typename IndexType>
           float                 &rCond,
           float                 *work,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     gbcon(char                  norm,
@@ -64,7 +64,7 @@ template <typename IndexType>
           double                &rCond,
           double                *work,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     gbcon(char                        norm,
@@ -78,7 +78,7 @@ template <typename IndexType>
           float                       &rCond,
           std::complex<float >        *work,
           IndexType                   *iWork);
-    
+
 template <typename IndexType>
     IndexType
     gbcon(char                        norm,

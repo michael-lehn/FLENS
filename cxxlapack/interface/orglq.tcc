@@ -51,7 +51,7 @@ orglq(IndexType     m,
       IndexType     lWork)
 {
     CXXLAPACK_DEBUG_OUT("sorglq");
-  
+
     IndexType info;
     LAPACK_IMPL(sorglq)(&m,
                         &n,
@@ -83,7 +83,7 @@ orglq(IndexType     m,
       IndexType     lWork)
 {
     CXXLAPACK_DEBUG_OUT("dorglq");
-  
+
     IndexType info;
     LAPACK_IMPL(dorglq)(&m,
                         &n,

@@ -63,8 +63,8 @@ template <typename IndexType>
           IndexType             *isuppz,
           float                 *work,
           IndexType             *iWork);
-    
-    
+
+
 template <typename IndexType>
     IndexType
     larrv(IndexType             n,
@@ -91,7 +91,7 @@ template <typename IndexType>
           IndexType             *isuppz,
           double                *work,
           IndexType             *iWork);
-    
+
 template <typename IndexType>
     IndexType
     larrv(IndexType             n,

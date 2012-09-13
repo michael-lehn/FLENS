@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     void
     lasd5(IndexType             i,
@@ -46,7 +46,7 @@ template <typename IndexType>
           float                 rho,
           float                 &sigma,
           float                 *work);
-    
+
 template <typename IndexType>
     void
     lasd5(IndexType             i,

@@ -45,7 +45,7 @@ template <typename IndexType>
           IndexType             *isgn,
           float                 &est,
           IndexType             &kase);
-    
+
 template <typename IndexType>
     void
     lacon(IndexType             n,
@@ -54,7 +54,7 @@ template <typename IndexType>
           IndexType             *isgn,
           double                &est,
           IndexType             &kase);
-    
+
 template <typename IndexType>
     void
     lacon(IndexType             n,
@@ -62,7 +62,7 @@ template <typename IndexType>
           std::complex<float >  *x,
           float                 &est,
           IndexType             &kase);
-    
+
 template <typename IndexType>
     void
     lacon(IndexType             n,

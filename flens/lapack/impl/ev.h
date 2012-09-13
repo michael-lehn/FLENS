@@ -109,7 +109,7 @@ template <typename MA, typename VW, typename MVL, typename MVR, typename VWORK,
        MVR      &&VR,
        VWORK    &&work,
        VRWORK   &&rWork);
-    
+
 //== (he)ev ====================================================================
 //
 //  complex variant
@@ -123,7 +123,7 @@ template <typename MA, typename VW, typename VWORK>
        MA       &&A,
        VW       &&w,
        VWORK    &&work);
-    
+
 //== (sy)ev ====================================================================
 //
 //  real variant
@@ -155,12 +155,12 @@ template <typename MA, typename VW, typename MZ, typename VWORK,
       VW       &&w,
       MZ       &&Z,
       VWORK    &&work,
-      VRWORK   &&rwork);    
-    
+      VRWORK   &&rwork);
+
 //== (sb)ev ====================================================================
 //
 //  Real variant
-//    
+//
 template <typename MA, typename VW, typename MZ, typename VWORK>
     typename RestrictTo<IsRealSbMatrix<MA>::value
                     && IsRealDenseVector<VW>::value
@@ -171,7 +171,7 @@ template <typename MA, typename VW, typename MZ, typename VWORK>
       MA       &&A,
       VW       &&w,
       MZ       &&Z,
-      VWORK    &&work);    
+      VWORK    &&work);
 
 //== (hb)ev ====================================================================
 //
@@ -190,12 +190,12 @@ template <typename MA, typename VW, typename MZ, typename VWORK,
       VW       &&w,
       MZ       &&Z,
       VWORK    &&work,
-      VRWORK   &&rwork);    
-    
+      VRWORK   &&rwork);
+
 //== (sp)ev ====================================================================
 //
 //  Real variant
-//    
+//
 template <typename MA, typename VW, typename MZ, typename VWORK>
     typename RestrictTo<IsRealSpMatrix<MA>::value
                     && IsRealDenseVector<VW>::value
@@ -206,7 +206,7 @@ template <typename MA, typename VW, typename MZ, typename VWORK>
       MA       &&A,
       VW       &&w,
       MZ       &&Z,
-      VWORK    &&work); 
+      VWORK    &&work);
 
 #endif // USE_CXXLAPACK
 
@@ -222,7 +222,7 @@ template <typename MA>
 
 
 #ifdef USE_CXXLAPACK
-    
+
 //== (ge)ev workspace query =======================================================
 //
 //  complex variant
@@ -239,7 +239,7 @@ template <typename MA>
 template <typename MA>
     typename RestrictTo<IsHeMatrix<MA>::value,
              Pair<typename MA::IndexType> >::Type
-    ev_wsq(bool computeVL, const MA &A);    
+    ev_wsq(bool computeVL, const MA &A);
 
 //== (sy)ev workspace query =======================================================
 //
@@ -248,11 +248,11 @@ template <typename MA>
 template <typename MA>
     typename RestrictTo<IsRealSyMatrix<MA>::value,
              Pair<typename MA::IndexType> >::Type
-    ev_wsq(bool computeVL, const MA &A); 
-    
+    ev_wsq(bool computeVL, const MA &A);
+
 #endif // USE_CXXLAPACK
 
-//== (ge)ev ====================================================================    
+//== (ge)ev ====================================================================
 //
 //  Real variant with temporary workspace
 //
@@ -272,7 +272,7 @@ template <typename MA, typename VWR, typename VWI, typename MVL, typename MVR,
        MVL      &&VL,
        MVR      &&VR);
 
-    
+
 #ifdef USE_CXXLAPACK
 //== (ge)ev ====================================================================
 //
@@ -302,7 +302,7 @@ template <typename MA, typename VW>
     ev(bool     computeV,
        MA       &&A,
        VW       &&w);
-    
+
 //== (sy)ev ====================================================================
 //
 //  real variant with temporary workspace
@@ -314,11 +314,11 @@ template <typename MA, typename VW>
     ev(bool     computeV,
        MA       &&A,
        VW       &&w);
- 
+
 //== (hb)ev ====================================================================
 //
 //  complex variant with temporary workspace
-//  
+//
 template <typename MA, typename VW, typename MZ>
     typename RestrictTo<IsHbMatrix<MA>::value
                       && IsRealDenseVector<VW>::value
@@ -328,12 +328,12 @@ template <typename MA, typename VW, typename MZ>
       MA       &&A,
       VW       &&w,
       MZ       &&Z);
-    
-    
+
+
 //== (sb)ev ====================================================================
 //
 //  real variant with temporary workspace
-//    
+//
 template <typename MA, typename VW, typename MZ>
     typename RestrictTo<IsRealSbMatrix<MA>::value
                       && IsRealDenseVector<VW>::value
@@ -342,12 +342,12 @@ template <typename MA, typename VW, typename MZ>
     ev(bool     computeZ,
       MA       &&A,
       VW       &&w,
-      MZ       &&Z);    
+      MZ       &&Z);
 
 //== (hp)ev ====================================================================
 //
 //  complex variant with temporary workspace
-//  
+//
 template <typename MA, typename VW, typename MZ>
     typename RestrictTo<IsHpMatrix<MA>::value
                       && IsRealDenseVector<VW>::value
@@ -357,12 +357,12 @@ template <typename MA, typename VW, typename MZ>
       MA       &&A,
       VW       &&w,
       MZ       &&Z);
-    
-    
+
+
 //== (sp)ev ====================================================================
 //
 //  real variant with temporary workspace
-//    
+//
 template <typename MA, typename VW, typename MZ>
     typename RestrictTo<IsRealSpMatrix<MA>::value
                       && IsRealDenseVector<VW>::value
@@ -371,7 +371,7 @@ template <typename MA, typename VW, typename MZ>
     ev(bool     computeZ,
       MA       &&A,
       VW       &&w,
-      MZ       &&Z);    
+      MZ       &&Z);
 
 #endif // USE_CXXLAPACK
 

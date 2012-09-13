@@ -44,7 +44,7 @@ template <typename IndexType>
           float         *x,
           IndexType     incX,
           float         &tau);
-    
+
 template <typename IndexType>
     void
     larfg(IndexType     n,
@@ -52,7 +52,7 @@ template <typename IndexType>
           double        *x,
           IndexType     incX,
           double        &tau);
-    
+
 template <typename IndexType>
     void
     larfg(IndexType               n,

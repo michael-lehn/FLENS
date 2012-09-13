@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     hesv (char                  uplo,
@@ -49,7 +49,7 @@ template <typename IndexType>
           IndexType             ldB,
           std::complex<float >  *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     hesv (char                  uplo,

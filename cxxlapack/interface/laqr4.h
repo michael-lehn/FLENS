@@ -54,8 +54,8 @@ template <typename IndexType>
           const IndexType   ldZ,
           float             *work,
           const IndexType   lWork);
-    
-    
+
+
 template <typename IndexType>
     IndexType
     laqr4(bool              wantT,
@@ -73,7 +73,7 @@ template <typename IndexType>
           const IndexType   ldZ,
           double            *work,
           const IndexType   lWork);
-    
+
 template <typename IndexType>
     IndexType
     laqr4(bool                  wantT,

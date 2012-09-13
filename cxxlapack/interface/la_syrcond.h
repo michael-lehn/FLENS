@@ -36,9 +36,9 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
-    float 
+    float
     la_syrCond(char                  uplo,
                IndexType             n,
                const float           *A,
@@ -51,7 +51,7 @@ template <typename IndexType>
                IndexType             &info,
                float                 *work,
                IndexType             *iWork);
-    
+
 template <typename IndexType>
     double
     la_syrCond(char                  uplo,

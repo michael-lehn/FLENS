@@ -41,6 +41,8 @@
 namespace flens {
 
 // forward declarations
+template <typename A>
+    class DenseVector;
 
 template <typename FS>
     class HpMatrix;
@@ -106,16 +108,16 @@ class TpMatrix
 
         TpMatrix<FS> &
         operator+=(const ElementType &alpha);
-        
+
         TpMatrix<FS> &
         operator-=(const ElementType &alpha);
-        
+
         TpMatrix<FS> &
         operator*=(const ElementType &alpha);
-        
+
         TpMatrix<FS> &
         operator/=(const ElementType &alpha);
-        
+
         const ElementType &
         operator()(IndexType row, IndexType col) const;
 

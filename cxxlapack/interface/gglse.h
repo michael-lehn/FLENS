@@ -51,7 +51,7 @@ template <typename IndexType>
           float                 *x,
           float                 *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     gglse(IndexType             m,
@@ -66,7 +66,7 @@ template <typename IndexType>
           double                *x,
           double                *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     gglse(IndexType             m,
@@ -81,7 +81,7 @@ template <typename IndexType>
           std::complex<float >  *x,
           std::complex<float >  *work,
           IndexType             lWork);
-    
+
 template <typename IndexType>
     IndexType
     gglse(IndexType             m,

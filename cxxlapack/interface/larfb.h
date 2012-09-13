@@ -54,8 +54,8 @@ template <typename IndexType>
           IndexType         ldC,
           float             *work,
           const IndexType   ldWork);
-    
-    
+
+
 template <typename IndexType>
     void
     larfb(char              side,
@@ -73,7 +73,7 @@ template <typename IndexType>
           IndexType         ldC,
           double            *work,
           const IndexType   ldWork);
-    
+
 template <typename IndexType>
     void
     larfb(char                          side,

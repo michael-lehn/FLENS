@@ -185,11 +185,11 @@ trf_impl(HeMatrix<MA> &A, DenseVector<VP> &piv, DenseVector<VWORK> &work)
 {
     typedef typename HeMatrix<MA>::IndexType   IndexType;
     typedef typename HeMatrix<MA>::ElementType ElementType;
-    
+
     if (work.length()==0) {
         ElementType WORK;
         IndexType   LWORK = -1;
-        
+
         cxxlapack::hetrf<IndexType>(getF77Char(A.upLo()),
                                     A.dim(),
                                     A.data(), A.leadingDimension(),
@@ -198,7 +198,7 @@ trf_impl(HeMatrix<MA> &A, DenseVector<VP> &piv, DenseVector<VWORK> &work)
                                     LWORK);
         work.resize(cxxblas::real(WORK));
     }
-    
+
     return cxxlapack::hetrf<IndexType>(getF77Char(A.upLo()),
                                        A.dim(),
                                        A.data(), A.leadingDimension(),
@@ -215,11 +215,11 @@ trf_impl(SyMatrix<MA> &A, DenseVector<VP> &piv, DenseVector<VWORK> &work)
 {
     typedef typename SyMatrix<MA>::IndexType   IndexType;
     typedef typename SyMatrix<MA>::ElementType ElementType;
-    
+
     if (work.length()==0) {
         ElementType WORK;
         IndexType   LWORK = -1;
-        
+
         cxxlapack::sytrf<IndexType>(getF77Char(A.upLo()),
                                     A.dim(),
                                     A.data(), A.leadingDimension(),
@@ -262,7 +262,7 @@ trf_impl(HpMatrix<MA> &A, DenseVector<VP> &piv)
 
     return cxxlapack::hptrf<IndexType>(getF77Char(A.upLo()),
                                        A.dim(),
-                                       A.data(), 
+                                       A.data(),
                                        piv.data());
 }
 
@@ -276,7 +276,7 @@ trf_impl(SpMatrix<MA> &A, DenseVector<VP> &piv)
 
     return cxxlapack::sptrf<IndexType>(getF77Char(A.upLo()),
                                        A.dim(),
-                                       A.data(), 
+                                       A.data(),
                                        piv.data());
 }
 
@@ -374,9 +374,9 @@ trf(MA &&A, VPIV &&piv, VWORK &&work)
 
     if (piv.length()<A.dim()) {
         piv.resize(A.dim());
-    }    
-    
-#   ifndef NDEBUG    
+    }
+
+#   ifndef NDEBUG
 //
 //  Test the input parameters
 //
@@ -385,12 +385,12 @@ trf(MA &&A, VPIV &&piv, VWORK &&work)
     ASSERT((piv.inc()>0 && piv.firstIndex()==1)
         || (piv.inc()<0 && piv.firstIndex()==A.numRows()));
 #   endif
-    
+
 //
 //  Call implementation
 //
     IndexType info = external::trf_impl(A, piv, work);
-    
+
     return info;
 }
 
@@ -411,9 +411,9 @@ trf(MA &&A, VPIV &&piv, VWORK &&work)
 
     if (piv.length()<A.dim()) {
         piv.resize(A.dim());
-    }    
-    
-#   ifndef NDEBUG    
+    }
+
+#   ifndef NDEBUG
 //
 //  Test the input parameters
 //
@@ -422,12 +422,12 @@ trf(MA &&A, VPIV &&piv, VWORK &&work)
     ASSERT((piv.inc()>0 && piv.firstIndex()==1)
         || (piv.inc()<0 && piv.firstIndex()==A.numRows()));
 #   endif
-    
+
 //
 //  Call implementation
 //
     IndexType info = external::trf_impl(A, piv, work);
-    
+
     return info;
 }
 
@@ -444,7 +444,7 @@ trf(MA &&A, VPIV &&piv)
     typedef typename RemoveRef<MA>::Type::Vector WorkVector;
 
     WorkVector  work;
-    
+
     return trf(A, piv, work);
 }
 
@@ -465,8 +465,8 @@ trf(MA &&A, VPIV &&piv)
     if (piv.length()<A.numRows()) {
         piv.resize(A.numRows());
     }
-    
-#   ifndef NDEBUG    
+
+#   ifndef NDEBUG
 //
 //  Test the input parameters
 //
@@ -475,12 +475,12 @@ trf(MA &&A, VPIV &&piv)
     ASSERT((piv.inc()>0 && piv.firstIndex()==1)
         || (piv.inc()<0 && piv.firstIndex()==A.numRows()));
 #   endif
-    
+
 //
 //  Call implementation
 //
     IndexType info = external::trf_impl(A, piv);
-    
+
     return info;
 }
 
@@ -500,9 +500,9 @@ trf(MA &&A, VPIV &&piv)
 
     if (piv.length()<A.dim()) {
         piv.resize(A.dim());
-    }    
-    
-#   ifndef NDEBUG    
+    }
+
+#   ifndef NDEBUG
 //
 //  Test the input parameters
 //
@@ -510,12 +510,12 @@ trf(MA &&A, VPIV &&piv)
     ASSERT((piv.inc()>0 && piv.firstIndex()==1)
         || (piv.inc()<0 && piv.firstIndex()==A.dim()));
 #   endif
-    
+
 //
 //  Call implementation
 //
     IndexType info = external::trf_impl(A, piv);
-    
+
     return info;
 }
 
@@ -536,8 +536,8 @@ trf(MA &&A, VPIV &&piv)
     if (piv.length()<A.dim()) {
         piv.resize(A.dim());
     }
-    
-#   ifndef NDEBUG    
+
+#   ifndef NDEBUG
 //
 //  Test the input parameters
 //
@@ -545,12 +545,12 @@ trf(MA &&A, VPIV &&piv)
     ASSERT((piv.inc()>0 && piv.firstIndex()==1)
         || (piv.inc()<0 && piv.firstIndex()==A.dim()));
 #   endif
-    
+
 //
 //  Call implementation
 //
     IndexType info = external::trf_impl(A, piv);
-    
+
     return info;
 }
 

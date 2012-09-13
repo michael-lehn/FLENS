@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     void
     lamrg(IndexType             n1,
@@ -45,7 +45,7 @@ template <typename IndexType>
           IndexType             dtrd1,
           IndexType             dtrd2,
           IndexType             *index);
-    
+
 template <typename IndexType>
     void
     lamrg(IndexType             n1,

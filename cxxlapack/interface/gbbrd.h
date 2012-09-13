@@ -56,7 +56,7 @@ template <typename IndexType>
           float                 *C,
           IndexType             ldC,
           float                 *work);
-    
+
 template <typename IndexType>
     IndexType
     gbbrd(char                  vect,
@@ -76,7 +76,7 @@ template <typename IndexType>
           double                *C,
           IndexType             ldC,
           double                *work);
-    
+
     template <typename IndexType>
     IndexType
     gbbrd(char                  vect,
@@ -97,7 +97,7 @@ template <typename IndexType>
           IndexType             ldC,
           std::complex<float >  *work,
           double                *rWork);
-    
+
 template <typename IndexType>
     IndexType
     gbbrd(char                  vect,

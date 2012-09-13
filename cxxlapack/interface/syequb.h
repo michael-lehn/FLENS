@@ -47,7 +47,7 @@ template <typename IndexType>
            float                 &scond,
            float                 &amax,
            float                 *work);
-    
+
 template <typename IndexType>
     IndexType
     syequb(char                  uplo,
@@ -58,7 +58,7 @@ template <typename IndexType>
            double                &scond,
            double                &amax,
            double                *work);
-    
+
 template <typename IndexType>
     IndexType
     syequb(char                        uplo,

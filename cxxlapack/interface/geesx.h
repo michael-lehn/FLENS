@@ -58,7 +58,7 @@ template <typename IndexType>
           IndexType         *iWork,
           IndexType         liWork,
           IndexType         *bWork);
-    
+
 template <typename IndexType>
     IndexType
     geesx(char              jobVS,
@@ -80,7 +80,7 @@ template <typename IndexType>
           IndexType         *iWork,
           IndexType         liWork,
           IndexType         *bWork);
-    
+
 template <typename IndexType>
     IndexType
     geesx(char                  jobVS,
@@ -100,7 +100,7 @@ template <typename IndexType>
           IndexType             lWork,
           float                 *rWork,
           IndexType             *bWork);
-    
+
 template <typename IndexType>
     IndexType
     geesx(char                  jobVS,

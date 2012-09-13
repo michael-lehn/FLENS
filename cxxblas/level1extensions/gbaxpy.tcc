@@ -49,54 +49,49 @@ gbaxpy(StorageOrder order,
     CXXBLAS_DEBUG_OUT("gbaxpy_generic");
 
     if (order==ColMajor) {
-        gbaxpy(RowMajor, trans, n, m, ku, kl, alpha, A, ldA,
-               B, ldB);
+        gbaxpy(RowMajor, trans, n, m, ku, kl, alpha, A, ldA, B, ldB);
         return;
     }
 
-    if (trans == NoTrans) {
-          for (IndexType j=0, i=-kl; i<=ku; ++j, ++i) {
-              IndexType length = (i < 0)
-                               ? min(m+i,min(m,n))
-                               : min(n-i,min(m,n));
-              axpy(length, alpha,
-                   A+j+max(-i,0)*ldA, ldA,
-                   B+j+max(-i,0)*ldB, ldB);
-          }
-	  return;
+    if (trans==NoTrans) {
+        for (IndexType j=0, i=-kl; i<=ku; ++j, ++i) {
+            IndexType length = (i<0) ? min(m+i,min(m,n))
+                                     : min(n-i,min(m,n));
+            axpy(length, alpha,
+                 A+j+max(-i,0)*ldA, ldA,
+                 B+j+max(-i,0)*ldB, ldB);
+        }
+        return;
     }
 
-    if (trans == Conj) {
-          for (IndexType j=0, i=-kl; i<=ku; ++j, ++i) {
-              IndexType length = (i < 0)
-                               ? min(m+i,min(m,n))
-                               : min(n-i,min(m,n));
-              acxpy(length, alpha,
-                    A+j+max(-i,0)*ldA, ldA,
-                    B+j+max(-i,0)*ldB, ldB);
-          }
-	  return;
+    if (trans==Conj) {
+        for (IndexType j=0, i=-kl; i<=ku; ++j, ++i) {
+            IndexType length = (i<0) ? min(m+i,min(m,n))
+                                     : min(n-i,min(m,n));
+            acxpy(length, alpha,
+                  A+j+max(-i,0)*ldA, ldA,
+                  B+j+max(-i,0)*ldB, ldB);
+        }
+        return;
     }
 
-    if (trans == Trans) {
-          for (IndexType j=0, J=kl+ku, i=-ku, I=ku; i<=kl; ++j, --J, ++i, --I) {
-              IndexType length = (i < 0)
-                               ? min(m+i,min(m,n))
-                               : min(n-i,min(m,n));
-              axpy(length, alpha,
-                   A+j+max(-i,0)*ldA, ldA,
-                   B+J+max(-I,0)*ldB, ldB);
-          }
-          return;
+    if (trans==Trans) {
+        for (IndexType j=0, J=kl+ku, i=-ku, I=ku; i<=kl; ++j, --J, ++i, --I) {
+            IndexType length = (i<0) ? min(m+i,min(m,n))
+                                     : min(n-i,min(m,n));
+            axpy(length, alpha,
+                 A+j+max(-i,0)*ldA, ldA,
+                 B+J+max(-I,0)*ldB, ldB);
+        }
+        return;
     }
 
     for (IndexType j=0, J=kl+ku, i=-ku, I=ku; i<=kl; ++j, --J, ++i, --I) {
-         IndexType length = (i < 0)
-                          ? min(m+i,min(m,n))
-                          : min(n-i,min(m,n));
-         acxpy(length, alpha,
-               A+j+max(-i,0)*ldA, ldA,
-               B+J+max(-I,0)*ldB, ldB);
+        IndexType length = (i<0) ? min(m+i,min(m,n))
+                                 : min(n-i,min(m,n));
+        acxpy(length, alpha,
+              A+j+max(-i,0)*ldA, ldA,
+              B+J+max(-I,0)*ldB, ldB);
     }
 
     return;

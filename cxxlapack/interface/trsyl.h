@@ -52,7 +52,7 @@ template <typename IndexType>
           IndexType     ldC,
           float         &scale);
 
-    
+
 template <typename IndexType>
     IndexType
     trsyl(char          transA,
@@ -67,7 +67,7 @@ template <typename IndexType>
           double        *C,
           IndexType     ldC,
           double        &scale);
-    
+
 template <typename IndexType>
     IndexType
     trsyl(char                          transA,
@@ -82,7 +82,7 @@ template <typename IndexType>
           std::complex<float >          *C,
           const IndexType               ldC,
           float                         &scale);
-    
+
 template <typename IndexType>
     IndexType
     trsyl(char                          transA,

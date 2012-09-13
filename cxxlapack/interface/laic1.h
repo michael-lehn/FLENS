@@ -48,7 +48,7 @@ template <typename IndexType>
           float         &sEstPr,
           float         &s,
           float         &c);
-    
+
 template <typename IndexType>
     void
     laic1(IndexType     job,
@@ -60,7 +60,7 @@ template <typename IndexType>
           double        &sEstPr,
           double        &s,
           double        &c);
-    
+
 template <typename IndexType>
     void
     laic1(IndexType                   job,
@@ -72,7 +72,7 @@ template <typename IndexType>
           float                       &sEstPr,
           std::complex<float >        &s,
           std::complex<float >        &c);
-    
+
 template <typename IndexType>
     void
     laic1(IndexType                   job,

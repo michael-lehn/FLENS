@@ -203,7 +203,7 @@ isIdentical(const GeMatrix<MA> &A, const GeMatrix<MB> &B,
                           << A(i,j) - B(i,j) << std::endl;
                 std::cerr << "hex(" << AName << "(" << i << ", " << j << ")) = "
                           << hex(A(i,j)) << std::endl
-                          << "hex(" << BName << "(" << i << ", " << j << ")) = " 
+                          << "hex(" << BName << "(" << i << ", " << j << ")) = "
                           << hex(B(i,j)) << std::endl
                           << "hex(" << AName << "(" << i << ", " << j << ")) - "
                           << "hex(" << BName << "(" << i << ", " << j << ")) = "

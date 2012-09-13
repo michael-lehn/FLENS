@@ -47,7 +47,7 @@ template <typename IndexType>
           const float       &sr2,
           const float       &si2,
           float             *v);
-    
+
 template <typename IndexType>
     void
     laqr1(IndexType         n,
@@ -58,7 +58,7 @@ template <typename IndexType>
           const double      &sr2,
           const double      &si2,
           double            *v);
-    
+
 template <typename IndexType>
     void
     laqr1(IndexType                     n,

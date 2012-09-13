@@ -51,7 +51,7 @@ larfx(char            side,
       float           *work)
 {
     CXXLAPACK_DEBUG_OUT("slarfx");
- 
+
     LAPACK_IMPL(slarfx)(&side,
                         &m,
                         &n,
@@ -75,7 +75,7 @@ larfx(char            side,
       double          *work)
 {
     CXXLAPACK_DEBUG_OUT("dlarfx");
- 
+
     LAPACK_IMPL(dlarfx)(&side,
                         &m,
                         &n,
@@ -98,7 +98,7 @@ larfx(char                          side,
       std::complex<float >          *work)
 {
     CXXLAPACK_DEBUG_OUT("clarfx");
- 
+
     LAPACK_IMPL(clarfx)(&side,
                         &m,
                         &n,
@@ -121,7 +121,7 @@ larfx(char                          side,
       std::complex<double>          *work)
 {
     CXXLAPACK_DEBUG_OUT("zlarfx");
- 
+
     LAPACK_IMPL(zlarfx)(&side,
                         &m,
                         &n,

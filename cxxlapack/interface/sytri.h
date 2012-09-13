@@ -45,7 +45,7 @@ template <typename IndexType>
           IndexType             ldA,
           const IndexType       *iPiv,
           float                 *work);
-    
+
 template <typename IndexType>
     IndexType
     sytri(char                  uplo,
@@ -54,7 +54,7 @@ template <typename IndexType>
           IndexType             ldA,
           const IndexType       *iPiv,
           double                *work);
-    
+
 template <typename IndexType>
     IndexType
     sytri(char                  uplo,

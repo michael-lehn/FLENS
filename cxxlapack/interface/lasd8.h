@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     lasd8(IndexType             icompq,
@@ -50,7 +50,7 @@ template <typename IndexType>
           IndexType             ldDifr,
           float                 *dsigma,
           float                 *work);
-    
+
 template <typename IndexType>
     IndexType
     lasd8(IndexType             icompq,

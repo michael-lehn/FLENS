@@ -74,6 +74,44 @@ acxpy(IndexType n, const ALPHA &alpha, const X *x,
     axpy(n, alpha, x, incX, y, incY);
 }
 
+
+#ifdef HAVE_CBLAS
+
+template <typename IndexType>
+void
+acxpy(IndexType n, const float &alpha, const std::complex<float> *x,
+      IndexType incX, std::complex<float> *y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("acxpy_generic (complex float)");
+
+    cblas_saxpy(n, alpha,
+                reinterpret_cast<const float *>(x), 2*incX,
+                reinterpret_cast<float *>(y),
+                2*incY);
+    cblas_saxpy(n, -alpha,
+                reinterpret_cast<const float *>(x)+1, 2*incX,
+                reinterpret_cast<float *>(y)+1, 2*incY);
+
+}
+
+template <typename IndexType>
+void
+acxpy(IndexType n, const double &alpha, const std::complex<double> *x,
+      IndexType incX, std::complex<double> *y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("acxpy_generic (complex double)");
+
+    cblas_daxpy(n, alpha,
+                reinterpret_cast<const double *>(x), 2*incX,
+                reinterpret_cast<double *>(y), 2*incY);
+    cblas_daxpy(n, -alpha,
+                reinterpret_cast<const double *>(x)+1, 2*incX,
+                reinterpret_cast<double *>(y)+1, 2*incY);
+
+}
+
+#endif // HAVE_CBLAS
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL1EXTENSIONS_ACXPY_TCC

@@ -36,19 +36,19 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     void
     laruv(IndexType             *seed,
           IndexType             n,
           float                 *X);
-    
+
 template <typename IndexType>
     void
     laruv(IndexType             *seed,
           IndexType             n,
           double                *X);
- 
+
 } // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_LARUV_H

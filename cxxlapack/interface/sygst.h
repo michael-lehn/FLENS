@@ -36,7 +36,7 @@
 #include <complex>
 
 namespace cxxlapack {
-    
+
 template <typename IndexType>
     IndexType
     sygst(char                  itype,
@@ -46,7 +46,7 @@ template <typename IndexType>
           IndexType             ldA,
           const float           *B,
           IndexType             ldB);
-    
+
 template <typename IndexType>
     IndexType
     sygst(char                  itype,

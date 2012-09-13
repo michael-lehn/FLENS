@@ -52,7 +52,7 @@ larzt(char            direct,
       const IndexType ldT)
 {
     CXXLAPACK_DEBUG_OUT("slarzt");
-  
+
     LAPACK_IMPL(slarzt)(&direct,
                         &storeV,
                         &n,
@@ -78,7 +78,7 @@ larzt(char            direct,
       const IndexType ldT)
 {
     CXXLAPACK_DEBUG_OUT("dlarzt");
-  
+
     LAPACK_IMPL(dlarzt)(&direct,
                         &storeV,
                         &n,
@@ -103,7 +103,7 @@ larzt(char                        direct,
       IndexType                   ldT)
 {
     CXXLAPACK_DEBUG_OUT("clarzt");
-  
+
     LAPACK_IMPL(clarzt)(&direct,
                         &storeV,
                         &n,
@@ -128,7 +128,7 @@ larzt(char                        direct,
       IndexType                   ldT)
 {
     CXXLAPACK_DEBUG_OUT("zlarzt");
-  
+
     LAPACK_IMPL(zlarzt)(&direct,
                         &storeV,
                         &n,
