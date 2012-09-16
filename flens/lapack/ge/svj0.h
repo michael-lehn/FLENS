@@ -54,7 +54,7 @@
 #ifndef FLENS_LAPACK_GE_SVJ0_H
 #define FLENS_LAPACK_GE_SVJ0_H 1
 
-#include <flens/lapack/impl/svj.h>
+#include <flens/lapack/ge/svj.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 

@@ -14,7 +14,7 @@
 //#define INTEGER                 long
 
 #ifndef LOGICAL
-#define LOGICAL                 long
+#define LOGICAL             int
 #endif
 
 //

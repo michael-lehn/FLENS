@@ -92,6 +92,8 @@ trf_impl(SyMatrix<MA> &A, DenseVector<VP> &piv, DenseVector<VWORK> &work)
 
 //== public interface ==========================================================
 
+#ifdef USE_CXXLAPACK
+
 //-- (sy)trf [real and complex variant] --------------------------------
 
 template <typename MA, typename VPIV, typename VWORK>

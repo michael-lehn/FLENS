@@ -176,11 +176,11 @@
 #include <cxxlapack/interface/iladlr.h>
 #include <cxxlapack/interface/ilalc.h>
 #include <cxxlapack/interface/ilalr.h>
-#include <cxxlapack/interface/ilaprec.h>
+#include <cxxlapack/interface/laprec.h>
 #include <cxxlapack/interface/ilaslc.h>
 #include <cxxlapack/interface/ilaslr.h>
-#include <cxxlapack/interface/ilatrans.h>
-#include <cxxlapack/interface/ilauplo.h>
+#include <cxxlapack/interface/latrans.h>
+#include <cxxlapack/interface/lauplo.h>
 #include <cxxlapack/interface/ilaver.h>
 #include <cxxlapack/interface/ilazlc.h>
 #include <cxxlapack/interface/ilazlr.h>

@@ -75,6 +75,8 @@ trf_impl(HpMatrix<MA> &A, DenseVector<VP> &piv)
 
 //== public interface ==========================================================
 
+#ifdef USE_CXXLAPACK
+
 //-- (hp)trf [complex variant] -------------------------------------------------
 
 template <typename MA, typename VPIV>

@@ -19,8 +19,12 @@
 #   define  CXXLAPACK_DEBUG_OUT(msg)
 #endif
 
+namespace cxxlapack {
+
 extern "C" {
 #   include <cxxlapack/netlib/interface/lapack.in.h>
 } // extern "C"
+
+}
 
 #endif //  CXXLAPACK_NETLIB_NETLIB_H

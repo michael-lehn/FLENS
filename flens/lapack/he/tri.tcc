@@ -88,6 +88,8 @@ tri_impl(HeMatrix<MA>             &A,
 
 //== public interface ==========================================================
 
+#ifdef USE_CXXLAPACK
+
 //-- (he)tri -------------------------------------------------------------------
 
 template <typename MA, typename VPIV, typename VWORK>

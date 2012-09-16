@@ -416,72 +416,6 @@ LAPACK_DECL(cgbsvx)(const char       *FACT,
                         INFO);
 }
 
-// warning: KL has unknown type
-// warning: KU has unknown type
-//-- cgbsvxx -------------------------------------------------------------------
-void
-LAPACK_DECL(cgbsvxx)(const char       *FACT,
-                     const char       *TRANS,
-                     const INTEGER    *N,
-                     UNKNOWN          *KL,
-                     UNKNOWN          *KU,
-                     const INTEGER    *NRHS,
-                     FLOAT_COMPLEX    *AB,
-                     const INTEGER    *LDAB,
-                     FLOAT_COMPLEX    *AFB,
-                     const INTEGER    *LDAFB,
-                     INTEGER          *IPIV,
-                     char             *EQUED,
-                     FLOAT            *R,
-                     FLOAT            *C,
-                     FLOAT_COMPLEX    *B,
-                     const INTEGER    *LDB,
-                     FLOAT_COMPLEX    *X,
-                     const INTEGER    *LDX,
-                     FLOAT            *RCOND,
-                     FLOAT            *RPVGRW,
-                     FLOAT            *BERR,
-                     const INTEGER    *N_ERR_BNDS,
-                     FLOAT            *ERR_BNDS_NORM,
-                     FLOAT            *ERR_BNDS_COMP,
-                     const INTEGER    *NPARAMS,
-                     FLOAT            *PARAMS,
-                     FLOAT_COMPLEX    *WORK,
-                     FLOAT            *RWORK,
-                     INTEGER          *INFO)
-{
-    DEBUG_LAPACK_STUB("cgbsvxx");
-    LAPACK_IMPL(cgbsvxx)(FACT,
-                         TRANS,
-                         N,
-                         KL,
-                         KU,
-                         NRHS,
-                         AB,
-                         LDAB,
-                         AFB,
-                         LDAFB,
-                         IPIV,
-                         EQUED,
-                         R,
-                         C,
-                         B,
-                         LDB,
-                         X,
-                         LDX,
-                         RCOND,
-                         RPVGRW,
-                         BERR,
-                         N_ERR_BNDS,
-                         ERR_BNDS_NORM,
-                         ERR_BNDS_COMP,
-                         NPARAMS,
-                         PARAMS,
-                         WORK,
-                         RWORK,
-                         INFO);
-}
-
 //-- cgbtf2 --------------------------------------------------------------------
 void
 LAPACK_DECL(cgbtf2)(const INTEGER    *M,
@@ -18397,7 +18331,6 @@ LAPACK_DECL(dlasq2)(const INTEGER    *N,
                         INFO);
 }
 
-// warning: TTYPE has unknown type
 //-- dlasq3 --------------------------------------------------------------------
 void
 LAPACK_DECL(dlasq3)(const INTEGER    *I0,
@@ -18412,7 +18345,7 @@ LAPACK_DECL(dlasq3)(const INTEGER    *I0,
                     INTEGER          *ITER,
                     INTEGER          *NDIV,
                     const LOGICAL    *IEEE,
-                    UNKNOWN          *TTYPE,
+                    INTEGER          *TTYPE,
                     DOUBLE           *DMIN1,
                     DOUBLE           *DMIN2,
                     DOUBLE           *DN,
@@ -24016,28 +23949,6 @@ LAPACK_DECL(iladlr)(const INTEGER    *M,
                                LDA);
 }
 
-// warning: NAME has unknown type
-// warning: OPTS has unknown type
-//-- ilaenv --------------------------------------------------------------------
-INTEGER
-LAPACK_DECL(ilaenv)(const INTEGER    *ISPEC,
-                    UNKNOWN          *NAME,
-                    UNKNOWN          *OPTS,
-                    const INTEGER    *N1,
-                    const INTEGER    *N2,
-                    const INTEGER    *N3,
-                    const INTEGER    *N4)
-{
-    DEBUG_LAPACK_STUB("ilaenv");
-    return LAPACK_IMPL(ilaenv)(ISPEC,
-                               NAME,
-                               OPTS,
-                               N1,
-                               N2,
-                               N3,
-                               N4);
-}
-
 //-- ilaprec -------------------------------------------------------------------
 INTEGER
 LAPACK_DECL(ilaprec)(const char   *PREC)
@@ -24090,14 +24001,11 @@ LAPACK_DECL(ilauplo)(const char   *UPLO)
     return LAPACK_IMPL(ilauplo)(UPLO);
 }
 
-// warning: VERS_MAJOR has unknown type
-// warning: VERS_MINOR has unknown type
-// warning: VERS_PATCH has unknown type
 //-- ilaver --------------------------------------------------------------------
 void
-LAPACK_DECL(ilaver)(UNKNOWN  *VERS_MAJOR,
-                    UNKNOWN  *VERS_MINOR,
-                    UNKNOWN  *VERS_PATCH)
+LAPACK_DECL(ilaver)(INTEGER  *VERS_MAJOR,
+                    INTEGER  *VERS_MINOR,
+                    INTEGER  *VERS_PATCH)
 {
     DEBUG_LAPACK_STUB("ilaver");
     LAPACK_IMPL(ilaver)(VERS_MAJOR,
@@ -24133,28 +24041,6 @@ LAPACK_DECL(ilazlr)(const INTEGER            *M,
                                LDA);
 }
 
-// warning: NAME has unknown type
-// warning: OPTS has unknown type
-//-- iparmq --------------------------------------------------------------------
-INTEGER
-LAPACK_DECL(iparmq)(const INTEGER    *ISPEC,
-                    UNKNOWN          *NAME,
-                    UNKNOWN          *OPTS,
-                    const INTEGER    *N,
-                    const INTEGER    *ILO,
-                    const INTEGER    *IHI,
-                    const INTEGER    *LWORK)
-{
-    DEBUG_LAPACK_STUB("iparmq");
-    return LAPACK_IMPL(iparmq)(ISPEC,
-                               NAME,
-                               OPTS,
-                               N,
-                               ILO,
-                               IHI,
-                               LWORK);
-}
-
 //-- izmax1 --------------------------------------------------------------------
 INTEGER
 LAPACK_DECL(izmax1)(const INTEGER            *N,
@@ -24167,13 +24053,11 @@ LAPACK_DECL(izmax1)(const INTEGER            *N,
                                INCX);
 }
 
-// warning: CA has unknown type
-// warning: CB has unknown type
 //-- lsamen --------------------------------------------------------------------
 LOGICAL
 LAPACK_DECL(lsamen)(const INTEGER    *N,
-                    UNKNOWN          *CA,
-                    UNKNOWN          *CB)
+                    const char          *CA,
+                    const char          *CB)
 {
     DEBUG_LAPACK_STUB("lsamen");
     return LAPACK_IMPL(lsamen)(N,
@@ -24659,72 +24543,6 @@ LAPACK_DECL(sgbsvx)(const char       *FACT,
                         WORK,
                         IWORK,
                         INFO);
-}
-
-// warning: KL has unknown type
-// warning: KU has unknown type
-//-- sgbsvxx -------------------------------------------------------------------
-void
-LAPACK_DECL(sgbsvxx)(const char       *FACT,
-                     const char       *TRANS,
-                     const INTEGER    *N,
-                     UNKNOWN          *KL,
-                     UNKNOWN          *KU,
-                     const INTEGER    *NRHS,
-                     FLOAT            *AB,
-                     const INTEGER    *LDAB,
-                     FLOAT            *AFB,
-                     const INTEGER    *LDAFB,
-                     INTEGER          *IPIV,
-                     char             *EQUED,
-                     FLOAT            *R,
-                     FLOAT            *C,
-                     FLOAT            *B,
-                     const INTEGER    *LDB,
-                     FLOAT            *X,
-                     const INTEGER    *LDX,
-                     FLOAT            *RCOND,
-                     FLOAT            *RPVGRW,
-                     FLOAT            *BERR,
-                     const INTEGER    *N_ERR_BNDS,
-                     FLOAT            *ERR_BNDS_NORM,
-                     FLOAT            *ERR_BNDS_COMP,
-                     const INTEGER    *NPARAMS,
-                     FLOAT            *PARAMS,
-                     FLOAT            *WORK,
-                     INTEGER          *IWORK,
-                     INTEGER          *INFO)
-{
-    DEBUG_LAPACK_STUB("sgbsvxx");
-    LAPACK_IMPL(sgbsvxx)(FACT,
-                         TRANS,
-                         N,
-                         KL,
-                         KU,
-                         NRHS,
-                         AB,
-                         LDAB,
-                         AFB,
-                         LDAFB,
-                         IPIV,
-                         EQUED,
-                         R,
-                         C,
-                         B,
-                         LDB,
-                         X,
-                         LDX,
-                         RCOND,
-                         RPVGRW,
-                         BERR,
-                         N_ERR_BNDS,
-                         ERR_BNDS_NORM,
-                         ERR_BNDS_COMP,
-                         NPARAMS,
-                         PARAMS,
-                         WORK,
-                         IWORK,
-                         INFO);
 }
 
 //-- sgbtf2 --------------------------------------------------------------------
@@ -31067,7 +30885,6 @@ LAPACK_DECL(slasq2)(const INTEGER    *N,
                         INFO);
 }
 
-// warning: TTYPE has unknown type
 //-- slasq3 --------------------------------------------------------------------
 void
 LAPACK_DECL(slasq3)(const INTEGER    *I0,
@@ -31082,7 +30899,7 @@ LAPACK_DECL(slasq3)(const INTEGER    *I0,
                     INTEGER          *ITER,
                     INTEGER          *NDIV,
                     const LOGICAL    *IEEE,
-                    UNKNOWN          *TTYPE,
+                    INTEGER          *TTYPE,
                     FLOAT            *DMIN1,
                     FLOAT            *DMIN2,
                     FLOAT            *DN,
@@ -36502,30 +36319,6 @@ LAPACK_DECL(stzrzf)(const INTEGER    *M,
                         INFO);
 }
 
-// warning: SRNAME has unknown type
-//-- xerbla --------------------------------------------------------------------
-void
-LAPACK_DECL(xerbla)(UNKNOWN          *SRNAME,
-                    const INTEGER    *INFO)
-{
-    DEBUG_LAPACK_STUB("xerbla");
-    LAPACK_IMPL(xerbla)(SRNAME,
-                        INFO);
-}
-
-// warning: SRNAME_ARRAY has unknown type
-//-- xerbla_array --------------------------------------------------------------
-void
-LAPACK_DECL(xerbla_array)(UNKNOWN          *SRNAME_ARRAY,
-                          const INTEGER    *SRNAME_LEN,
-                          const INTEGER    *INFO)
-{
-    DEBUG_LAPACK_STUB("xerbla_array");
-    LAPACK_IMPL(xerbla_array)(SRNAME_ARRAY,
-                              SRNAME_LEN,
-                              INFO);
-}
-
 //-- zbbcsd --------------------------------------------------------------------
 void
 LAPACK_DECL(zbbcsd)(const char       *JOBU1,
@@ -37024,72 +36817,6 @@ LAPACK_DECL(zgbsvx)(const char       *FACT,
                         WORK,
                         RWORK,
                         INFO);
-}
-
-// warning: KL has unknown type
-// warning: KU has unknown type
-//-- zgbsvxx -------------------------------------------------------------------
-void
-LAPACK_DECL(zgbsvxx)(const char       *FACT,
-                     const char       *TRANS,
-                     const INTEGER    *N,
-                     UNKNOWN          *KL,
-                     UNKNOWN          *KU,
-                     const INTEGER    *NRHS,
-                     DOUBLE_COMPLEX   *AB,
-                     const INTEGER    *LDAB,
-                     DOUBLE_COMPLEX   *AFB,
-                     const INTEGER    *LDAFB,
-                     INTEGER          *IPIV,
-                     char             *EQUED,
-                     DOUBLE           *R,
-                     DOUBLE           *C,
-                     DOUBLE_COMPLEX   *B,
-                     const INTEGER    *LDB,
-                     DOUBLE_COMPLEX   *X,
-                     const INTEGER    *LDX,
-                     DOUBLE           *RCOND,
-                     DOUBLE           *RPVGRW,
-                     DOUBLE           *BERR,
-                     const INTEGER    *N_ERR_BNDS,
-                     DOUBLE           *ERR_BNDS_NORM,
-                     DOUBLE           *ERR_BNDS_COMP,
-                     const INTEGER    *NPARAMS,
-                     DOUBLE           *PARAMS,
-                     DOUBLE_COMPLEX   *WORK,
-                     DOUBLE           *RWORK,
-                     INTEGER          *INFO)
-{
-    DEBUG_LAPACK_STUB("zgbsvxx");
-    LAPACK_IMPL(zgbsvxx)(FACT,
-                         TRANS,
-                         N,
-                         KL,
-                         KU,
-                         NRHS,
-                         AB,
-                         LDAB,
-                         AFB,
-                         LDAFB,
-                         IPIV,
-                         EQUED,
-                         R,
-                         C,
-                         B,
-                         LDB,
-                         X,
-                         LDX,
-                         RCOND,
-                         RPVGRW,
-                         BERR,
-                         N_ERR_BNDS,
-                         ERR_BNDS_NORM,
-                         ERR_BNDS_COMP,
-                         NPARAMS,
-                         PARAMS,
-                         WORK,
-                         RWORK,
-                         INFO);
 }
 
 //-- zgbtf2 --------------------------------------------------------------------
@@ -40344,20 +40071,17 @@ LAPACK_DECL(zhetrs)(const char               *UPLO,
                         INFO);
 }
 
-// warning: A has unknown type
-// warning: B has unknown type
-// warning: WORK has unknown type
 //-- zhetrs2 -------------------------------------------------------------------
 void
 LAPACK_DECL(zhetrs2)(const char       *UPLO,
                      const INTEGER    *N,
                      const INTEGER    *NRHS,
-                     UNKNOWN          *A,
+                     DOUBLE_COMPLEX   *A,
                      const INTEGER    *LDA,
                      const INTEGER    *IPIV,
-                     UNKNOWN          *B,
+                     DOUBLE_COMPLEX   *B,
                      const INTEGER    *LDB,
-                     UNKNOWN          *WORK,
+                     DOUBLE_COMPLEX   *WORK,
                      INTEGER          *INFO)
 {
     DEBUG_LAPACK_STUB("zhetrs2");
@@ -45758,17 +45482,15 @@ LAPACK_DECL(zsycon)(const char               *UPLO,
                         INFO);
 }
 
-// warning: A has unknown type
-// warning: WORK has unknown type
 //-- zsyconv -------------------------------------------------------------------
 void
 LAPACK_DECL(zsyconv)(const char       *UPLO,
                      const char       *WAY,
                      const INTEGER    *N,
-                     UNKNOWN          *A,
+                     DOUBLE_COMPLEX   *A,
                      const INTEGER    *LDA,
                      const INTEGER    *IPIV,
-                     UNKNOWN          *WORK,
+                     DOUBLE_COMPLEX   *WORK,
                      INTEGER          *INFO)
 {
     DEBUG_LAPACK_STUB("zsyconv");
@@ -46078,12 +45800,11 @@ LAPACK_DECL(zsysvxx)(const char       *FACT,
                          INFO);
 }
 
-// warning: A has unknown type
 //-- zsyswapr ------------------------------------------------------------------
 void
 LAPACK_DECL(zsyswapr)(const char       *UPLO,
                       const INTEGER    *N,
-                      UNKNOWN          *A,
+                      DOUBLE_COMPLEX   *A,
                       const INTEGER    *LDA,
                       const INTEGER    *I1,
                       const INTEGER    *I2)
@@ -46179,16 +45900,14 @@ LAPACK_DECL(zsytri2)(const char       *UPLO,
                          INFO);
 }
 
-// warning: A has unknown type
-// warning: WORK has unknown type
 //-- zsytri2x ------------------------------------------------------------------
 void
 LAPACK_DECL(zsytri2x)(const char       *UPLO,
                       const INTEGER    *N,
-                      UNKNOWN          *A,
+                      DOUBLE_COMPLEX   *A,
                       const INTEGER    *LDA,
                       const INTEGER    *IPIV,
-                      UNKNOWN          *WORK,
+                      DOUBLE_COMPLEX   *WORK,
                       const INTEGER    *NB,
                       INTEGER          *INFO)
 {
@@ -46227,18 +45946,15 @@ LAPACK_DECL(zsytrs)(const char               *UPLO,
                         INFO);
 }
 
-// warning: A has unknown type
-// warning: B has unknown type
-// warning: WORK has unknown type
 //-- zsytrs2 -------------------------------------------------------------------
 void
 LAPACK_DECL(zsytrs2)(const char       *UPLO,
                      const INTEGER    *N,
                      const INTEGER    *NRHS,
-                     UNKNOWN          *A,
+                     DOUBLE_COMPLEX   *A,
                      const INTEGER    *LDA,
                      const INTEGER    *IPIV,
-                     UNKNOWN          *B,
+                     DOUBLE_COMPLEX   *B,
                      const INTEGER    *LDB,
                      UNKNOWN          *WORK,
                      INTEGER          *INFO)

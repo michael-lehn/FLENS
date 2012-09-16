@@ -75,6 +75,8 @@ trf_impl(SpMatrix<MA> &A, DenseVector<VP> &piv)
 
 //== public interface ==========================================================
 
+#ifdef USE_CXXLAPACK
+
 //-- (sp)trf -------------------------------------------------------------------
 
 template <typename MA, typename VPIV>
@@ -110,7 +112,7 @@ trf(MA &&A, VPIV &&piv)
     return info;
 }
 
-#endif
+#endif // USE_CXXLAPACK
 
 } } // namespace lapack, flens
 

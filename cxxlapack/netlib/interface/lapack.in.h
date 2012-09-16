@@ -402,7 +402,7 @@ LAPACK_IMPL(cgeequb)(const INTEGER            *M,
 void
 LAPACK_IMPL(cgees)(const char           *JOBVS,
                    const char           *SORT,
-                   const LOGICAL        *SELECT,
+                   LOGICAL              (*SELECT)(const FLOAT_COMPLEX *),
                    const INTEGER        *N,
                    FLOAT_COMPLEX        *A,
                    const INTEGER        *LDA,
@@ -420,7 +420,7 @@ LAPACK_IMPL(cgees)(const char           *JOBVS,
 void
 LAPACK_IMPL(cgeesx)(const char       *JOBVS,
                     const char       *SORT,
-                    const LOGICAL    *SELECT,
+                    LOGICAL          (*SELECT)(const FLOAT_COMPLEX *),
                     const char       *SENSE,
                     const INTEGER    *N,
                     FLOAT_COMPLEX    *A,
@@ -6180,27 +6180,27 @@ LAPACK_IMPL(dgeequb)(const INTEGER    *M,
 
 //-- dgees ---------------------------------------------------------------------
 void
-LAPACK_IMPL(dgees)(const char           *JOBVS,
-                   const char           *SORT,
-                   const LOGICAL        *SELECT,
-                   const INTEGER        *N,
-                   DOUBLE               *A,
-                   const INTEGER        *LDA,
-                   INTEGER              *SDIM,
-                   DOUBLE               *WR,
-                   DOUBLE               *WI,
-                   DOUBLE               *VS,
-                   const INTEGER        *LDVS,
-                   DOUBLE               *WORK,
-                   const INTEGER        *LWORK,
-                   LOGICAL              *BWORK,
-                   INTEGER              *INFO);
+LAPACK_IMPL(dgees)(const char        *JOBVS,
+                   const char        *SORT,
+                   LOGICAL           (*SELECT)(const DOUBLE *, const DOUBLE *),
+                   const INTEGER     *N,
+                   DOUBLE            *A,
+                   const INTEGER     *LDA,
+                   INTEGER           *SDIM,
+                   DOUBLE            *WR,
+                   DOUBLE            *WI,
+                   DOUBLE            *VS,
+                   const INTEGER     *LDVS,
+                   DOUBLE            *WORK,
+                   const INTEGER     *LWORK,
+                   LOGICAL           *BWORK,
+                   INTEGER           *INFO);
 
 //-- dgeesx --------------------------------------------------------------------
 void
 LAPACK_IMPL(dgeesx)(const char       *JOBVS,
                     const char       *SORT,
-                    const LOGICAL    *SELECT,
+                    LOGICAL           (*SELECT)(const DOUBLE *, const DOUBLE *),
                     const char       *SENSE,
                     const INTEGER    *N,
                     DOUBLE           *A,
@@ -12030,16 +12030,6 @@ LAPACK_IMPL(iladlr)(const INTEGER    *M,
                     const DOUBLE     *A,
                     const INTEGER    *LDA);
 
-//-- ilaenv --------------------------------------------------------------------
-INTEGER
-LAPACK_IMPL(ilaenv)(const INTEGER    *ISPEC,
-                    const char       *NAME,
-                    const char       *OPTS,
-                    const INTEGER    *N1,
-                    const INTEGER    *N2,
-                    const INTEGER    *N3,
-                    const INTEGER    *N4);
-
 //-- ilaprec -------------------------------------------------------------------
 INTEGER
 LAPACK_IMPL(ilaprec)(const char   *PREC);
@@ -12512,27 +12502,27 @@ LAPACK_IMPL(sgeequb)(const INTEGER    *M,
 
 //-- sgees ---------------------------------------------------------------------
 void
-LAPACK_IMPL(sgees)(const char           *JOBVS,
-                   const char           *SORT,
-                   const LOGICAL        *SELECT,
-                   const INTEGER        *N,
-                   FLOAT                *A,
-                   const INTEGER        *LDA,
-                   INTEGER              *SDIM,
-                   FLOAT                *WR,
-                   FLOAT                *WI,
-                   FLOAT                *VS,
-                   const INTEGER        *LDVS,
-                   FLOAT                *WORK,
-                   const INTEGER        *LWORK,
-                   LOGICAL              *BWORK,
-                   INTEGER              *INFO);
+LAPACK_IMPL(sgees)(const char        *JOBVS,
+                   const char        *SORT,
+                   LOGICAL           (*SELECT)(const FLOAT *, const FLOAT *),
+                   const INTEGER     *N,
+                   FLOAT             *A,
+                   const INTEGER     *LDA,
+                   INTEGER           *SDIM,
+                   FLOAT             *WR,
+                   FLOAT             *WI,
+                   FLOAT             *VS,
+                   const INTEGER     *LDVS,
+                   FLOAT             *WORK,
+                   const INTEGER     *LWORK,
+                   LOGICAL           *BWORK,
+                   INTEGER           *INFO);
 
 //-- sgeesx --------------------------------------------------------------------
 void
 LAPACK_IMPL(sgeesx)(const char       *JOBVS,
                     const char       *SORT,
-                    const LOGICAL    *SELECT,
+                   LOGICAL           (*SELECT)(const FLOAT *, const FLOAT *),
                     const char       *SENSE,
                     const INTEGER    *N,
                     FLOAT            *A,
@@ -18683,7 +18673,7 @@ LAPACK_IMPL(zgeequb)(const INTEGER            *M,
 void
 LAPACK_IMPL(zgees)(const char           *JOBVS,
                    const char           *SORT,
-                   const LOGICAL        *SELECT,
+                   LOGICAL              (*SELECT)(const DOUBLE_COMPLEX *),
                    const INTEGER        *N,
                    DOUBLE_COMPLEX       *A,
                    const INTEGER        *LDA,
@@ -18701,7 +18691,7 @@ LAPACK_IMPL(zgees)(const char           *JOBVS,
 void
 LAPACK_IMPL(zgeesx)(const char       *JOBVS,
                     const char       *SORT,
-                    const LOGICAL    *SELECT,
+                    LOGICAL          (*SELECT)(const DOUBLE_COMPLEX *),
                     const char       *SENSE,
                     const INTEGER    *N,
                     DOUBLE_COMPLEX   *A,

@@ -174,11 +174,11 @@
 #include <cxxlapack/interface/iladlr.tcc>
 #include <cxxlapack/interface/ilalc.tcc>
 #include <cxxlapack/interface/ilalr.tcc>
-#include <cxxlapack/interface/ilaprec.tcc>
+#include <cxxlapack/interface/laprec.tcc>
 #include <cxxlapack/interface/ilaslc.tcc>
 #include <cxxlapack/interface/ilaslr.tcc>
-#include <cxxlapack/interface/ilatrans.tcc>
-#include <cxxlapack/interface/ilauplo.tcc>
+#include <cxxlapack/interface/latrans.tcc>
+#include <cxxlapack/interface/lauplo.tcc>
 #include <cxxlapack/interface/ilaver.tcc>
 #include <cxxlapack/interface/ilazlc.tcc>
 #include <cxxlapack/interface/ilazlr.tcc>

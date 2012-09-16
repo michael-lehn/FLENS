@@ -71,8 +71,6 @@ template <typename MA, typename VPIV, typename VB>
              void>::Type
     trs(Transpose trans, const MA &A, const VPIV &piv, VB &&b);
 
-#endif // USE_CXXLAPACK
-
 } } // namespace lapack, flens
 
 #endif // FLENS_LAPACK_GE_TRS_H
