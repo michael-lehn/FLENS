@@ -49,7 +49,6 @@
 #   include <flens/debug/auxiliary/auxiliary.h>
 #endif
 
-
 #include <flens/flens.h>
 #include <flens/flens.tcc>
 #include <cxxblas/cxxblas.cxx>

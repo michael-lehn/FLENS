@@ -71,6 +71,12 @@ struct is_floating_point
                            || flens::IsSame<T, double>::value;
 };
 
+template <>
+struct is_floating_point<long double>
+{
+    static const bool value = true;
+};
+
 //
 // is_integral
 //

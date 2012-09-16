@@ -430,8 +430,6 @@ typename RestrictTo<IsHpMatrix<MA>::value
          void>::Type
 copy(const MA &A, MB &&B)
 {
-    ASSERT(((A.upLo()==B.upLo()) && ((trans==NoTrans) || (trans==Conj))) ||
-           ((A.upLo()!=B.upLo()) && ((trans==Trans) || (trans==ConjTrans))));
 //
 //  Resize left hand size if needed.  This is *usually* only alloweded
 //  when the left hand side is an empty matrix (such that it is no actual
@@ -448,16 +446,13 @@ copy(const MA &A, MB &&B)
             B.resize(A);
     }
 
-    trans = (A.order()==B.order())
-          ? Transpose(trans ^ NoTrans)
-          : Transpose(trans ^ Trans);
-
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_COPY(A, B);
 
 #   ifdef HAVE_CXXBLAS_TPCOPY
-    cxxblas::tpcopy(MB::order, B.upLo(), trans, B.diag(),
-                   B.dim(), A.data(), B.data());
+    cxxblas::tpcopy(MB::order, B.upLo(),
+                    B.upLo()==A.upLo() ? NoTrans : Trans,
+                    B.diag(), B.dim(), A.data(), B.data());
 #   else
     ASSERT(0);
 #   endif
@@ -579,12 +574,7 @@ copy(const MA &A, MB &&B)
 //  resizing but rather an initialization).
 //
     if (B.dim()!=A.dim()) {
-#       ifndef FLENS_DEBUG_CLOSURES
         ASSERT(B.dim()==0);
-#       else
-        if (B.dim()!=0) {
-            FLENS_BLASLOG_RESIZE_MATRIX(B, A.dim(), A.dim());
-        }
     }
 
     ASSERT(A.upLo()==B.upLo());

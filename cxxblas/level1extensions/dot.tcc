@@ -81,8 +81,8 @@ dotu(IndexType n,
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zdotu [extension] [real,complex]");
 
     double real_result, imag_result;
-    const float *yr = reinterpret_cast<const double *>(y);
-    const float *yi = reinterpret_cast<const double *>(y) + 1;
+    const double *yr = reinterpret_cast<const double *>(y);
+    const double *yi = reinterpret_cast<const double *>(y) + 1;
 
     real_result = cblas_ddot(n, x, incX, yr, 2*incY);
     imag_result = cblas_ddot(n, x, incX, yi, 2*incY);
@@ -156,8 +156,8 @@ dot(IndexType n,
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zdot [extension] [complex, real]");
 
     double real_result, imag_result;
-    const float *xr = reinterpret_cast<const float *>(x);
-    const float *xi = reinterpret_cast<const float *>(x) + 1;
+    const double *xr = reinterpret_cast<const double *>(x);
+    const double *xi = reinterpret_cast<const double *>(x) + 1;
 
     real_result = cblas_ddot(n, y, incY, xr, 2*incX);
     imag_result = cblas_ddot(n, y, incY, xi, 2*incX);

@@ -88,10 +88,6 @@ class HbMatrix
         typedef HbMatrix<EngineView>                View;
         typedef HbMatrix<EngineNoView>              NoView;
 
-        typedef GbMatrix<EngineConstView>           ConstGeneralView;
-        typedef GbMatrix<EngineView>                GeneralView;
-        typedef GbMatrix<EngineNoView>              GeneralNoView;
-
         typedef SbMatrix<EngineConstView>           ConstSymmetricView;
         typedef SbMatrix<EngineView>                SymmetricView;
         typedef SbMatrix<EngineNoView>              SymmetricNoView;

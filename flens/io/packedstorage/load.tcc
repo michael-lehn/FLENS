@@ -242,8 +242,8 @@ loadMatrixMarket(std::string filename, SpMatrix<FS> &A)
     for (IndexType i=A.firstIndex(); i<=A.lastIndex(); ++i) {
         for (IndexType j=i; j<=A.lastIndex(); ++j) {
             if (ifs.good()) {
-                std::getline (ifs,line);
-            } else {
+                std::getline(ifs,line);
+            } else {
                 return false;
             }
             std::stringstream ssline(line);

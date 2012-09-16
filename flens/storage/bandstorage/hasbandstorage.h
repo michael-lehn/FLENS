@@ -38,8 +38,6 @@
 
 namespace flens {
 
-namespace bandstorage {
-
 template <typename T, bool>
 struct _GetBandEngine
 {
@@ -51,8 +49,6 @@ struct _GetBandEngine<T, true>
 {
     typedef typename T::Engine Type;
 };
-
-} // namespace bandstorage
 
 template <typename T>
 struct HasBandStorage

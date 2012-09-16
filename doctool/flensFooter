@@ -1,0 +1,22 @@
+</div> <!-- main -->
+
+</div>
+<div id="page_footer"></div>
+</div>
+
+<div id="footer">
+    <p id="src">
+        #IF_SOURCE_FILENAME_#
+        View
+        <a href="#_REL_HTML_DIR_#/#_SOURCE_PATH_#/#_SOURCE_FILENAME_#.txt">
+            document source
+            </a>
+        #FI_SOURCE_FILENAME_#
+        </p>
+ #IF_SOURCE_FILENAME_#
+<a name="source"></a>
+<p id="copy">&copy; #_YEAR_# <a href="#_AUTHOR_WEBSITE_#">#_AUTHOR_#</a></p>
+#FI_SOURCE_FILENAME_#
+</div>
+</body>
+</html>

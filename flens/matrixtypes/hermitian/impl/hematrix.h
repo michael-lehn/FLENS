@@ -93,7 +93,7 @@ class HeMatrix
         typedef TrMatrix<EngineNoView>              TriangularNoView;
 
         // -- constructors -----------------------------------------------------
-        HeMatrix(StorageUpLo upLo = Upper);
+        HeMatrix(StorageUpLo upLo=Upper);
 
         HeMatrix(IndexType dim, StorageUpLo upLo);
 

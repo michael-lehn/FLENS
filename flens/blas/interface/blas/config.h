@@ -1,3 +1,4 @@
+#include <cmath>
 #include <flens/flens.cxx>
 
 #ifndef BLAS

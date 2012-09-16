@@ -82,4 +82,4 @@ template <typename IndexType, typename  MA, typename  VTAU, typename VW>
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_IMPL_HD2_H
+#endif // FLENS_LAPACK_IMPL_ORGHR_H

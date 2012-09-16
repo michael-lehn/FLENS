@@ -11,7 +11,7 @@ which does internnally what you see here.
 :links: __lapack::trf__ -> file:flens/lapack/impl/trf.h
         __blas::sm__    -> file:flens/blas/level3/sm.h
         __later__       -> doc:flens/examples/tut04-page03
-        __lapack::sv__  -> file:flens/lapack/impl/sv.h
+        __lapack::sv__  -> file:flens/lapack/ge/sv.h
 
 
 Example Code

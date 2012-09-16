@@ -37,73 +37,67 @@
 #   include <cxxlapack/cxxlapack.tcc>
 #endif
 
-#include <flens/lapack/debug/isidentical.tcc>
-#include <flens/lapack/debug/hex.tcc>
-
 #include <flens/lapack/auxiliary/getf77char.tcc>
 #include <flens/lapack/auxiliary/nint.tcc>
 #include <flens/lapack/auxiliary/pow.tcc>
 #include <flens/lapack/auxiliary/sign.tcc>
 
-#include <flens/lapack/impl/bak.tcc>
-#include <flens/lapack/impl/bal.tcc>
-#include <flens/lapack/impl/con.tcc>
-#include <flens/lapack/impl/equ.tcc>
-#include <flens/lapack/impl/es.tcc>
-#include <flens/lapack/impl/esx.tcc>
-#include <flens/lapack/impl/ev.tcc>
-#include <flens/lapack/impl/evx.tcc>
-#include <flens/lapack/impl/hd2.tcc>
-#include <flens/lapack/impl/hrd.tcc>
+#include <flens/lapack/debug/hex.tcc>
+#include <flens/lapack/debug/isidentical.tcc>
+
+#include <flens/lapack/gb/sv.tcc>
+#include <flens/lapack/gb/trf.tcc>
+#include <flens/lapack/gb/trs.tcc>
+
+#include <flens/lapack/ge/bak.tcc>
+#include <flens/lapack/ge/bal.tcc>
+#include <flens/lapack/ge/con.tcc>
+#include <flens/lapack/ge/equ.tcc>
+#include <flens/lapack/ge/es.tcc>
+#include <flens/lapack/ge/esx.tcc>
+#include <flens/lapack/ge/ev.tcc>
+#include <flens/lapack/ge/evx.tcc>
+#include <flens/lapack/ge/hd2.tcc>
+#include <flens/lapack/ge/hrd.tcc>
+#include <flens/lapack/ge/jsv.tcc>
+#include <flens/lapack/ge/lq2.tcc>
+#include <flens/lapack/ge/lqf.tcc>
+#include <flens/lapack/ge/ls.tcc>
+#include <flens/lapack/ge/lsy.tcc>
+#include <flens/lapack/ge/qp3.tcc>
+#include <flens/lapack/ge/qr2.tcc>
+#include <flens/lapack/ge/qrf.tcc>
+#include <flens/lapack/ge/qrs.tcc>
+#include <flens/lapack/ge/rfs.tcc>
+#include <flens/lapack/ge/rscl.tcc>
+#include <flens/lapack/ge/sv.tcc>
+#include <flens/lapack/ge/svd.tcc>
+#include <flens/lapack/ge/svj.tcc>
+#include <flens/lapack/ge/svj0.tcc>
+#include <flens/lapack/ge/svj1.tcc>
+#include <flens/lapack/ge/svx.tcc>
+#include <flens/lapack/ge/tf2.tcc>
+#include <flens/lapack/ge/trexc.tcc>
+#include <flens/lapack/ge/trf.tcc>
+#include <flens/lapack/ge/tri.tcc>
+#include <flens/lapack/ge/trs.tcc>
+
+#include <flens/lapack/hb/ev.tcc>
+
+#include <flens/lapack/he/ev.tcc>
+#include <flens/lapack/he/sv.tcc>
+#include <flens/lapack/he/trf.tcc>
+#include <flens/lapack/he/tri.tcc>
+#include <flens/lapack/he/trs.tcc>
+
+#include <flens/lapack/hp/ev.tcc>
+#include <flens/lapack/hp/sv.tcc>
+#include <flens/lapack/hp/trf.tcc>
+#include <flens/lapack/hp/tri.tcc>
+#include <flens/lapack/hp/trs.tcc>
+
 #include <flens/lapack/impl/hseqr.tcc>
-#include <flens/lapack/impl/ilaenv.tcc>
-#include <flens/lapack/impl/ilalc.tcc>
-#include <flens/lapack/impl/ilalr.tcc>
 #include <flens/lapack/impl/iparmq.tcc>
-#include <flens/lapack/impl/jsv.tcc>
-#include <flens/lapack/impl/labad.tcc>
-#include <flens/lapack/impl/lacn2.tcc>
-#include <flens/lapack/impl/ladiv.tcc>
-#include <flens/lapack/impl/laexc.tcc>
-#include <flens/lapack/impl/lahqr.tcc>
-#include <flens/lapack/impl/lahr2.tcc>
-#include <flens/lapack/impl/laic1.tcc>
-#include <flens/lapack/impl/laln2.tcc>
-#include <flens/lapack/impl/lamch.tcc>
-#include <flens/lapack/impl/lan.tcc>
-#include <flens/lapack/impl/lanv2.tcc>
-#include <flens/lapack/impl/lapy2.tcc>
-#include <flens/lapack/impl/laq.tcc>
-#include <flens/lapack/impl/laqp2.tcc>
-#include <flens/lapack/impl/laqps.tcc>
-#include <flens/lapack/impl/laqr0.tcc>
-#include <flens/lapack/impl/laqr1.tcc>
-#include <flens/lapack/impl/laqr2.tcc>
-#include <flens/lapack/impl/laqr3.tcc>
-#include <flens/lapack/impl/laqr4.tcc>
-#include <flens/lapack/impl/laqr5.tcc>
-#include <flens/lapack/impl/laqtr.tcc>
-#include <flens/lapack/impl/larf.tcc>
-#include <flens/lapack/impl/larfb.tcc>
-#include <flens/lapack/impl/larfg.tcc>
-#include <flens/lapack/impl/larft.tcc>
-#include <flens/lapack/impl/larfx.tcc>
-#include <flens/lapack/impl/lartg.tcc>
-#include <flens/lapack/impl/larz.tcc>
-#include <flens/lapack/impl/larzb.tcc>
-#include <flens/lapack/impl/larzt.tcc>
-#include <flens/lapack/impl/lascl.tcc>
-#include <flens/lapack/impl/lassq.tcc>
-#include <flens/lapack/impl/laswp.tcc>
-#include <flens/lapack/impl/lasy2.tcc>
-#include <flens/lapack/impl/latrs.tcc>
-#include <flens/lapack/impl/latrz.tcc>
-#include <flens/lapack/impl/lauu2.tcc>
-#include <flens/lapack/impl/lauum.tcc>
-#include <flens/lapack/impl/lq2.tcc>
-#include <flens/lapack/impl/lqf.tcc>
-#include <flens/lapack/impl/ls.tcc>
-#include <flens/lapack/impl/lsy.tcc>
 #include <flens/lapack/impl/org2r.tcc>
 #include <flens/lapack/impl/orghr.tcc>
 #include <flens/lapack/impl/orgl2.tcc>
@@ -116,31 +110,7 @@
 #include <flens/lapack/impl/ormqr.tcc>
 #include <flens/lapack/impl/ormr3.tcc>
 #include <flens/lapack/impl/ormrz.tcc>
-#include <flens/lapack/impl/pocon.tcc>
-#include <flens/lapack/impl/posv.tcc>
-#include <flens/lapack/impl/potf2.tcc>
-#include <flens/lapack/impl/potrf.tcc>
-#include <flens/lapack/impl/potri.tcc>
-#include <flens/lapack/impl/potrs.tcc>
-#include <flens/lapack/impl/qp3.tcc>
-#include <flens/lapack/impl/qr2.tcc>
-#include <flens/lapack/impl/qrf.tcc>
-#include <flens/lapack/impl/qrs.tcc>
-#include <flens/lapack/impl/rfs.tcc>
-#include <flens/lapack/impl/rscl.tcc>
-#include <flens/lapack/impl/sv.tcc>
-#include <flens/lapack/impl/svd.tcc>
-#include <flens/lapack/impl/svj.tcc>
-#include <flens/lapack/impl/svj0.tcc>
-#include <flens/lapack/impl/svj1.tcc>
-#include <flens/lapack/impl/svx.tcc>
-#include <flens/lapack/impl/tf2.tcc>
-#include <flens/lapack/impl/ti2.tcc>
 #include <flens/lapack/impl/trevc.tcc>
-#include <flens/lapack/impl/trexc.tcc>
-#include <flens/lapack/impl/trf.tcc>
-#include <flens/lapack/impl/tri.tcc>
-#include <flens/lapack/impl/trs.tcc>
 #include <flens/lapack/impl/trsen.tcc>
 #include <flens/lapack/impl/trsna.tcc>
 #include <flens/lapack/impl/trsyl.tcc>
@@ -149,5 +119,78 @@
 #include <flens/lapack/impl/ungqr.tcc>
 #include <flens/lapack/impl/unmlq.tcc>
 #include <flens/lapack/impl/unmqr.tcc>
+
+#include <flens/lapack/la/ilaenv.tcc>
+#include <flens/lapack/la/ilalc.tcc>
+#include <flens/lapack/la/ilalr.tcc>
+#include <flens/lapack/la/labad.tcc>
+#include <flens/lapack/la/lacn2.tcc>
+#include <flens/lapack/la/ladiv.tcc>
+#include <flens/lapack/la/laexc.tcc>
+#include <flens/lapack/la/lahqr.tcc>
+#include <flens/lapack/la/lahr2.tcc>
+#include <flens/lapack/la/laic1.tcc>
+#include <flens/lapack/la/laln2.tcc>
+#include <flens/lapack/la/lamch.tcc>
+#include <flens/lapack/la/lan.tcc>
+#include <flens/lapack/la/lanv2.tcc>
+#include <flens/lapack/la/lapy2.tcc>
+#include <flens/lapack/la/laq.tcc>
+#include <flens/lapack/la/laqp2.tcc>
+#include <flens/lapack/la/laqps.tcc>
+#include <flens/lapack/la/laqr0.tcc>
+#include <flens/lapack/la/laqr1.tcc>
+#include <flens/lapack/la/laqr2.tcc>
+#include <flens/lapack/la/laqr3.tcc>
+#include <flens/lapack/la/laqr4.tcc>
+#include <flens/lapack/la/laqr5.tcc>
+#include <flens/lapack/la/laqtr.tcc>
+#include <flens/lapack/la/larf.tcc>
+#include <flens/lapack/la/larfb.tcc>
+#include <flens/lapack/la/larfg.tcc>
+#include <flens/lapack/la/larft.tcc>
+#include <flens/lapack/la/larfx.tcc>
+#include <flens/lapack/la/lartg.tcc>
+#include <flens/lapack/la/larz.tcc>
+#include <flens/lapack/la/larzb.tcc>
+#include <flens/lapack/la/larzt.tcc>
+#include <flens/lapack/la/lascl.tcc>
+#include <flens/lapack/la/lassq.tcc>
+#include <flens/lapack/la/laswp.tcc>
+#include <flens/lapack/la/lasy2.tcc>
+#include <flens/lapack/la/latrs.tcc>
+#include <flens/lapack/la/latrz.tcc>
+#include <flens/lapack/la/lauu2.tcc>
+#include <flens/lapack/la/lauum.tcc>
+
+#include <flens/lapack/po/pocon.tcc>
+#include <flens/lapack/po/posv.tcc>
+#include <flens/lapack/po/potf2.tcc>
+#include <flens/lapack/po/potrf.tcc>
+#include <flens/lapack/po/potri.tcc>
+#include <flens/lapack/po/potrs.tcc>
+
+#include <flens/lapack/sb/ev.tcc>
+
+#include <flens/lapack/sp/ev.tcc>
+#include <flens/lapack/sp/sv.tcc>
+#include <flens/lapack/sp/trf.tcc>
+#include <flens/lapack/sp/tri.tcc>
+#include <flens/lapack/sp/trs.tcc>
+
+#include <flens/lapack/sy/ev.tcc>
+#include <flens/lapack/sy/sv.tcc>
+#include <flens/lapack/sy/trf.tcc>
+#include <flens/lapack/sy/tri.tcc>
+#include <flens/lapack/sy/trs.tcc>
+
+#include <flens/lapack/tb/trs.tcc>
+
+#include <flens/lapack/tp/tri.tcc>
+#include <flens/lapack/tp/trs.tcc>
+
+#include <flens/lapack/tr/ti2.tcc>
+#include <flens/lapack/tr/tri.tcc>
+#include <flens/lapack/tr/trs.tcc>
 
 #endif // FLENS_LAPACK_LAPACK_TCC

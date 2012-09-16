@@ -1,0 +1,488 @@
+a:link                  { text-decoration: none; }
+a:visited,a:active      { background-color: #a0c0ff; text-decoration: none; }
+
+body {
+    /*background:             #6060ab;*/
+    /*background:             #90ace6;*/
+    /*background:             #a1c6ff;*/
+    /*background:             #c1d4ff;*/
+    background:             #bfb9c6;
+    font:                   1em "Lucida Grande", "Arial", sans-serif;
+    margin:                 1em 1em 3em 1em;
+}
+
+#body {
+    min-width: 1000px;
+}
+
+#content {
+    border-bottom: 1px solid #666;
+    border-left:   1px solid #666;
+    border-right:  1px solid #666;
+    padding:       35px 20px 30px 0px;
+    background-color:     white;
+    -moz-border-radius:   0px 0px 4px 4px;
+    -khtml-border-radius: 0px 0px 4px 4px;
+    min-height:           700px;
+}
+
+h1, h2 {
+    text-shadow:    #aaa 0px 1px 1px;
+
+}
+
+h1                          { font-size: large;   }
+h2                          { font-size: medium;    }
+h3                          { font-size: medium;    }
+h4                          { font-size: small;     }
+h5                          { font-size: x-small;   }
+h6                          { font-size: xx-small;  }
+
+#menu {
+    margin:          0px 30px 0px -10px;
+    width:           10em;
+    font-size:       1em;
+    line-height:     1.2em;
+    list-style-type: none;
+}
+
+#src {
+    float: left;
+    margin-left: 20px;
+}
+
+
+#copy {
+    float:right;
+    margin-right: 20px;
+}
+
+#leftmenu {
+    width: 12em;
+    float: left;
+}
+
+#tocmenu {
+    width: 11em;
+    float: left;
+}
+
+#menu .subtitle {
+    margin-top:             15px;
+    font-weight:            bold;
+    color:                  #222;
+    text-shadow:            2px 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+#menu .subtitle a{
+    color:                  #222;
+}
+
+#menu a {
+    font-size:              .9em;
+    color:                  #888;
+    text-decoration:        none;
+    border-bottom:          none;
+}
+
+#menu a:hover {
+color: black;
+}
+
+
+/* --- header section --- */
+#header {
+    -moz-border-radius:   4px 4px 0px 0px;
+    -khtml-border-radius: 4px 4px 0px 0px;
+    height:               80px;
+    background-color:     #dedede;
+    padding: 0px 50px 0px 0px;
+    border:  1px solid #666;
+}
+
+#wavelet {
+    margin-top: -79px;
+}
+
+/* --- Copyright notice --- */
+#footer {
+    padding-top: 10px;
+    color:       #eee;
+    font:        .7em "Monaco", "Courier", monospace;
+    text-align:  center;
+    text-shadow: #444 0px 2px 2px;
+}
+
+/* --- LAWA - Headline --- */
+#slogan {
+    float:          left;
+    text-shadow:    #666 0px 2px 2px;
+    color:          #003399;
+    font-size:      24px;
+    font-weight:    700;
+    letter-spacing: 2px;
+    line-height:    1.2em;
+    padding:        10px 0px 10px 30px;
+    vertical-align:top;
+}
+
+.fade {
+    color:#5073b9;
+}
+
+#main {
+    margin-top: 0px;
+    font-size:  .9em;
+    margin-left: 14.5em;
+}
+
+h2.projects {
+    margin-bottom: 40px;
+}
+
+.projects li {
+    margin-top:15px;
+    list-style-type: lower-latin;
+    margin-top:15px;
+}
+
+/*
+ul.sections {
+    counter-reset: toc_section;
+    margin-top: -0.2em;
+    margin-left: -2em;
+    list-style-position: outside;
+}
+*/
+
+ul.sections {
+    counter-reset: toc_section;
+    margin-top:    15px;
+    margin-left:   -1em;
+    font-weight:   bold;
+    font-size:     small;
+    color:         #222;
+    text-shadow:   2px 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+li.section:before {
+    /*
+    content: counter(toc_section) ". ";
+    */
+    counter-increment: toc_section;
+}
+
+li.section {
+    list-style-type: none;
+    margin-top:10px;
+    margin-bottom:5px;
+    list-style-position: outside;
+}
+
+ul.subsections {
+    counter-reset: toc_subsection;
+    list-style-position: outside;
+    margin-left: -2em;
+}
+
+li.subsection:before {
+    /*
+    content: counter(toc_section) "." counter(toc_subsection) " ";
+    */
+    counter-increment: toc_subsection;
+}
+
+li.subsection {
+    list-style-type:        none;
+    list-style-position:    outside;
+    font-size:              x-small;
+    margin-top:             5px;
+}
+
+li.subsectionitem {
+    list-style: none;
+}
+
+
+div.code {
+    background-color: #f2f2f2;
+    margin-left: 10px;
+    margin-right: 40px;
+
+    padding-top:7px;
+    padding-bottom:7px;
+    padding-left:15px;
+    padding-right:25px;
+    margin-bottom:10px;
+    margin-top:0px;
+
+    font-size:14px;
+    -moz-border-radius:4px;
+    -khtml-border-radius:4px;
+    border: 1px solid #aaa;
+}
+
+tt  {
+    font-family:  Courier, Monaco, 'Andale Mono', monospace, Consolas;
+    font-size: 1.1em;
+    /*color: #1a9e1f;*/
+    color: firebrick;
+}
+
+a.toc {
+    text-decoration: none;
+    color: #093DA0;
+}
+
+.formula {
+    vertical-align:middle;
+    margin-bottom:5px;
+}
+
+table.tabular {
+    border-width: 1px;
+    border-style: outset;
+    border-spacing: 0px;
+    padding:0px;
+    margin:0px;
+}
+
+td.tabular {
+    vertical-align:middle;
+    padding:10px;
+}
+
+td.center {
+    text-align: center;
+}
+
+td.left {
+    text-align: left;
+}
+
+td.right {
+    text-align: right;
+}
+
+td.justify {
+    text-align: justify;
+}
+
+td.header {
+    font-weight:bold;
+}
+
+/* Test-Table */
+table.default {
+    border-left: solid 0px;
+    border-top: solid 0px;
+    border-right: solid 1px;
+    border-bottom: solid 1px;
+    width:90%;
+}
+
+td.default.row_0 {
+    font-weight:bold;
+}
+
+td.default {
+    border-top: solid 1px;
+    border-left: solid 1px;
+}
+
+/* Ranks-Table */
+
+table.ranks {
+    border-width: 1px;
+    width:90%;
+}
+
+td.ranks.row_0 {
+    font-weight:bold;
+}
+
+td.ranks.oddRow {
+    background-color: #F6F6F6;
+}
+
+td.ranks.evenRow {
+    background-color: #E9E9F3;
+}
+
+.centered {
+    text-align:center;
+}
+
+.latex_block {
+    margin-bottom:10px;
+    margin-top:10px;
+}
+
+.Statement {
+    color : #8B4513;
+}
+
+/* Code */
+
+div.code {
+    -moz-border-radius:10px;
+    -khtml-border-radius:10px;
+    border-radius:10px;
+    background-color: #F6F6F6;
+    padding: 0px;
+    margin-left: 10px;
+    margin-right: 40px;
+    margin-bottom:15px;
+    margin-top:0px;
+}
+
+div.code_title {
+    margin-bottom:10px;
+    margin-top:0px;
+    padding-top:6px;
+    padding-bottom:6px;
+    padding-left:10px;
+    padding-right:10px;
+    border-bottom: 1px solid #8E8E8E;
+}
+
+div.code_content {
+    margin-bottom:0px;
+    margin-top:0px;
+    padding-top:1px;
+    padding-bottom:5px;
+    padding-left:10px;
+    padding-right:10px;
+    line-height:1.4em;
+}
+
+span.code_content {
+    font-family:  Menlo, monospace, Monaco, Courier, 'Andale Mono', Monaco, Consolas;
+    font-size: 13px;
+}
+
+a.code {
+    color: #8E8E8E;
+    text-decoration: none;
+}
+
+/* Shell */
+
+div.shell {
+    background-color: #FAFAFA;
+    color: #000000;
+    font-size: 13px;
+
+    margin-left: 10px;
+    margin-right: 40px;
+    margin-bottom:0px;
+    margin-top:0px;
+
+    padding-top:10px;
+    padding-bottom:10px;
+    padding-left:10px;
+    padding-right:10px;
+
+
+    -moz-border-radius:5px;
+    -khtml-border-radius:5px;
+    border-radius:5px;
+    font-size: 13px;
+}
+
+div.shell_error {
+    border: 1px solid #D40202;
+    background-color: #F7E7E7;
+}
+
+span.cmd {
+    font-weight:bold;
+}
+
+/* Browse files */
+
+a.nav {
+    text-decoration: none;
+}
+
+div.nav {
+    width: 100%;
+}
+
+span.nav_tut_middle {
+    float:left;
+
+    padding-top:7px;
+    padding-bottom:7px;
+    padding-left:0px;
+    padding-right:25px;
+
+    margin-left: 1em;
+}
+
+span.nav_tut_right {
+    float:right;
+
+    padding-top:7px;
+    padding-bottom:7px;
+    padding-left:15px;
+    padding-right:0px;
+
+    margin-right: 1em;
+}
+
+/* code link */
+
+a.codelink {
+    text-decoration: none;
+    border-bottom:1px dotted;
+    color: inherit;
+}
+
+a.codelink:hover {
+    text-decoration: none;
+    border-bottom:0px;
+    color: inherit;
+}
+
+table.codelink_listitem {
+    width : 100%;
+}
+
+tr.codelink_listitem {
+    width : 100%;
+}
+
+td.codelink_listitem {
+    width : 100%;
+    font-family:monospace;
+    font-size:14px;
+}
+
+td.codelink_listitem:hover {
+    background-color: #969696;
+}
+
+td.codelink_listitem_external {
+    width : 100%;
+    font-family:monospace;
+    font-size:14px;
+    color: #969696;
+}
+
+a.codelink_listitem {
+    text-decoration: none;
+}
+
+span.codelink_listitem {
+    text-decoration: none;
+    border-bottom:1px dotted;
+    border-color: red;
+    color: inherit;
+}
+
+span.codelink_listitem:hover {
+    text-decoration: none;
+    border-bottom:0px;
+    color: inherit;
+}

@@ -30,8 +30,8 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXLAPACK_INTERFACE_INTERFACE_H
-#define CXXLAPACK_INTERFACE_INTERFACE_H 1
+#ifndef CXXLAPACK_INTERFACE_INTERFACE_TCC
+#define CXXLAPACK_INTERFACE_INTERFACE_TCC 1
 
 #include <cxxlapack/interface/bbcsd.tcc>
 #include <cxxlapack/interface/bdsdc.tcc>
@@ -572,4 +572,4 @@
 #include <cxxlapack/interface/upmtr.tcc>
 #include <cxxlapack/interface/zsum1.tcc>
 
-#endif // CXXLAPACK_INTERFACE_INTERFACE_H
+#endif // CXXLAPACK_INTERFACE_INTERFACE_TCC

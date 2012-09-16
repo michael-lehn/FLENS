@@ -31,6 +31,7 @@
  */
 
 /* Based on
+ *
       SUBROUTINE DORG2R( M, N, K, A, LDA, TAU, WORK, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
