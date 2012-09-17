@@ -55,7 +55,7 @@ template <typename T, StorageOrder Order, typename I, typename A>
     class ConstBandStorageView;
 
 template <typename T,
-          StorageOrder Order,
+          StorageOrder Order = ColMajor,
           typename I = IndexOptions<>,
           typename A = std::allocator<T> >
 class BandStorageView

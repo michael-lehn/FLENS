@@ -43,17 +43,14 @@ BLAS(chbmv)(const char      *UPLO,
     }
 
     StorageUpLo  upLo = StorageUpLo(_UPLO);
+    INTEGER      KL   = (upLo==Lower) ? *K : 0;
+    INTEGER      KU   = (upLo==Upper) ? *K : 0;
 
-    // Until we have band matrices back in FLENS we jsut call cxxblas
-    // directly.
+    CHbMatrixConstView    A(CBandConstView(*N, *N, KL, KU,  _A, *LDA), upLo);
+    CDenseVectorConstView x(CConstArrayView(*N, X, abs(*INCX)), *INCX<0);
+    CDenseVectorView      y(CArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
-    cxxblas::hbmv(ColMajor, upLo,
-                  *N, *K,
-                  *ALPHA,
-                  _A, *LDA,
-                  X, *INCX,
-                  *BETA,
-                  Y, *INCY);
+    blas::mv(*ALPHA, A, x, *BETA, y);
 }
 
 void
@@ -94,17 +91,14 @@ BLAS(zhbmv)(const char      *UPLO,
     }
 
     StorageUpLo  upLo = StorageUpLo(_UPLO);
+    INTEGER      KL   = (upLo==Lower) ? *K : 0;
+    INTEGER      KU   = (upLo==Upper) ? *K : 0;
 
-    // Until we have band matrices back in FLENS we jsut call cxxblas
-    // directly.
+    ZHbMatrixConstView    A(ZBandConstView(*N, *N, KL, KU,  _A, *LDA), upLo);
+    ZDenseVectorConstView x(ZConstArrayView(*N, X, abs(*INCX)), *INCX<0);
+    ZDenseVectorView      y(ZArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
-    cxxblas::hbmv(ColMajor, upLo,
-                  *N, *K,
-                  *ALPHA,
-                  _A, *LDA,
-                  X, *INCX,
-                  *BETA,
-                  Y, *INCY);
+    blas::mv(*ALPHA, A, x, *BETA, y);
 }
 
 } // extern "C"

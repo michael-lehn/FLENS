@@ -48,14 +48,13 @@ BLAS(stbsv)(const char      *UPLO,
     Transpose    trans = convertTo<Transpose>(_TRANS);
     Diag         diag  = Diag(_DIAG);
 
-    // Until we have band matrices back in FLENS we jsut call cxxblas
-    // directly.
+    INTEGER      KL   = (upLo==Lower) ? *K : 0;
+    INTEGER      KU   = (upLo==Upper) ? *K : 0;
 
-    cxxblas::tbsv(ColMajor, upLo,
-                  trans, diag,
-                  *N, *K,
-                  _A, *LDA,
-                  X, *INCX);
+    STbMatrixConstView  A(SBandConstView(*N, *N, KL, KU, _A, *LDA), upLo, diag);
+    SDenseVectorView    x(SArrayView(*N, X, abs(*INCX)), *INCX<0);
+
+    blas::sv(trans, A, x);
 }
 
 void
@@ -101,14 +100,13 @@ BLAS(dtbsv)(const char      *UPLO,
     Transpose    trans = convertTo<Transpose>(_TRANS);
     Diag         diag  = Diag(_DIAG);
 
-    // Until we have band matrices back in FLENS we jsut call cxxblas
-    // directly.
+    INTEGER      KL   = (upLo==Lower) ? *K : 0;
+    INTEGER      KU   = (upLo==Upper) ? *K : 0;
 
-    cxxblas::tbsv(ColMajor, upLo,
-                  trans, diag,
-                  *N, *K,
-                  _A, *LDA,
-                  X, *INCX);
+    DTbMatrixConstView  A(DBandConstView(*N, *N, KL, KU, _A, *LDA), upLo, diag);
+    DDenseVectorView    x(DArrayView(*N, X, abs(*INCX)), *INCX<0);
+
+    blas::sv(trans, A, x);
 }
 
 void
@@ -154,14 +152,13 @@ BLAS(ctbsv)(const char      *UPLO,
     Transpose    trans = convertTo<Transpose>(_TRANS);
     Diag         diag  = Diag(_DIAG);
 
-    // Until we have band matrices back in FLENS we jsut call cxxblas
-    // directly.
+    INTEGER      KL   = (upLo==Lower) ? *K : 0;
+    INTEGER      KU   = (upLo==Upper) ? *K : 0;
 
-    cxxblas::tbsv(ColMajor, upLo,
-                  trans, diag,
-                  *N, *K,
-                  _A, *LDA,
-                  X, *INCX);
+    CTbMatrixConstView  A(CBandConstView(*N, *N, KL, KU, _A, *LDA), upLo, diag);
+    CDenseVectorView    x(CArrayView(*N, X, abs(*INCX)), *INCX<0);
+
+    blas::sv(trans, A, x);
 }
 
 void
@@ -207,14 +204,13 @@ BLAS(ztbsv)(const char      *UPLO,
     Transpose    trans = convertTo<Transpose>(_TRANS);
     Diag         diag  = Diag(_DIAG);
 
-    // Until we have band matrices back in FLENS we jsut call cxxblas
-    // directly.
+    INTEGER      KL   = (upLo==Lower) ? *K : 0;
+    INTEGER      KU   = (upLo==Upper) ? *K : 0;
 
-    cxxblas::tbsv(ColMajor, upLo,
-                  trans, diag,
-                  *N, *K,
-                  _A, *LDA,
-                  X, *INCX);
+    ZTbMatrixConstView  A(ZBandConstView(*N, *N, KL, KU, _A, *LDA), upLo, diag);
+    ZDenseVectorView    x(ZArrayView(*N, X, abs(*INCX)), *INCX<0);
+
+    blas::sv(trans, A, x);
 }
 
 

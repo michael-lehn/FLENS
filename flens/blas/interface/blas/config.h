@@ -152,7 +152,6 @@ typedef SyMatrix<ZFull>             ZSyMatrix;
 typedef SyMatrix<ZFullView>         ZSyMatrixView;
 typedef SyMatrix<ZFullConstView>    ZSyMatrixConstView;
 
-
 //
 //  TrMatrix types
 //
@@ -171,6 +170,96 @@ typedef TrMatrix<CFullConstView>    CTrMatrixConstView;
 typedef TrMatrix<ZFull>             ZTrMatrix;
 typedef TrMatrix<ZFullView>         ZTrMatrixView;
 typedef TrMatrix<ZFullConstView>    ZTrMatrixConstView;
+
+//
+//  BandStorage types
+//
+typedef BandStorage<float, ColMajor, IndexBase>             SBand;
+typedef BandStorageView<float, ColMajor, IndexBase>         SBandView;
+typedef ConstBandStorageView<float, ColMajor, IndexBase>    SBandConstView;
+
+typedef BandStorage<double, ColMajor, IndexBase>            DBand;
+typedef BandStorageView<double, ColMajor, IndexBase>        DBandView;
+typedef ConstBandStorageView<double, ColMajor, IndexBase>   DBandConstView;
+
+typedef BandStorage<cfloat, ColMajor, IndexBase>            CBand;
+typedef BandStorageView<cfloat, ColMajor, IndexBase>        CBandView;
+typedef ConstBandStorageView<cfloat, ColMajor, IndexBase>   CBandConstView;
+
+typedef BandStorage<cdouble, ColMajor, IndexBase>           ZBand;
+typedef BandStorageView<cdouble, ColMajor, IndexBase>       ZBandView;
+typedef ConstBandStorageView<cdouble, ColMajor, IndexBase>  ZBandConstView;
+
+//
+//  GbMatrix types
+//
+typedef GbMatrix<SBand>             SGbMatrix;
+typedef GbMatrix<SBandView>         SGbMatrixView;
+typedef GbMatrix<SBandConstView>    SGbMatrixConstView;
+
+typedef GbMatrix<DBand>             DGbMatrix;
+typedef GbMatrix<DBandView>         DGbMatrixView;
+typedef GbMatrix<DBandConstView>    DGbMatrixConstView;
+
+typedef GbMatrix<CBand>             CGbMatrix;
+typedef GbMatrix<CBandView>         CGbMatrixView;
+typedef GbMatrix<CBandConstView>    CGbMatrixConstView;
+
+typedef GbMatrix<ZBand>             ZGbMatrix;
+typedef GbMatrix<ZBandView>         ZGbMatrixView;
+typedef GbMatrix<ZBandConstView>    ZGbMatrixConstView;
+
+//
+//  HbMatrix types
+//
+typedef HbMatrix<CBand>             CHbMatrix;
+typedef HbMatrix<CBandView>         CHbMatrixView;
+typedef HbMatrix<CBandConstView>    CHbMatrixConstView;
+
+typedef HbMatrix<ZBand>             ZHbMatrix;
+typedef HbMatrix<ZBandView>         ZHbMatrixView;
+typedef HbMatrix<ZBandConstView>    ZHbMatrixConstView;
+
+//
+//  SbMatrix types
+//
+typedef SbMatrix<SBand>             SSbMatrix;
+typedef SbMatrix<SBandView>         SSbMatrixView;
+typedef SbMatrix<SBandConstView>    SSbMatrixConstView;
+
+typedef SbMatrix<DBand>             DSbMatrix;
+typedef SbMatrix<DBandView>         DSbMatrixView;
+typedef SbMatrix<DBandConstView>    DSbMatrixConstView;
+
+typedef SbMatrix<CBand>             CSbMatrix;
+typedef SbMatrix<CBandView>         CSbMatrixView;
+typedef SbMatrix<CBandConstView>    CSbMatrixConstView;
+
+typedef SbMatrix<ZBand>             ZSbMatrix;
+typedef SbMatrix<ZBandView>         ZSbMatrixView;
+typedef SbMatrix<ZBandConstView>    ZSbMatrixConstView;
+
+//
+//  TbMatrix types
+//
+typedef TbMatrix<SBand>             STbMatrix;
+typedef TbMatrix<SBandView>         STbMatrixView;
+typedef TbMatrix<SBandConstView>    STbMatrixConstView;
+
+typedef TbMatrix<DBand>             DTbMatrix;
+typedef TbMatrix<DBandView>         DTbMatrixView;
+typedef TbMatrix<DBandConstView>    DTbMatrixConstView;
+
+typedef TbMatrix<CBand>             CTbMatrix;
+typedef TbMatrix<CBandView>         CTbMatrixView;
+typedef TbMatrix<CBandConstView>    CTbMatrixConstView;
+
+typedef TbMatrix<ZBand>             ZTbMatrix;
+typedef TbMatrix<ZBandView>         ZTbMatrixView;
+typedef TbMatrix<ZBandConstView>    ZTbMatrixConstView;
+
+
+
 
 
 

@@ -131,7 +131,7 @@ GbMatrix<FS> &
 GbMatrix<FS>::operator=(const ElementType &alpha)
 {
     for (IndexType i = -numSubDiags(); i <= numSuperDiags(); ++i)
-        (*this).viewDiag(i) = alpha;
+        diag(i) = alpha;
     return *this;
 }
 
@@ -140,7 +140,7 @@ GbMatrix<FS> &
 GbMatrix<FS>::operator+=(const ElementType &alpha)
 {
     for (IndexType i = -numSubDiags(); i <= numSuperDiags(); ++i)
-        (*this).viewDiag(i) += alpha;
+        diag(i) += alpha;
     return *this;
 }
 
@@ -149,7 +149,7 @@ GbMatrix<FS> &
 GbMatrix<FS>::operator-=(const ElementType &alpha)
 {
     for (IndexType i = -numSubDiags(); i <= numSuperDiags(); ++i)
-        (*this).viewDiag(i) -= alpha;
+        diag(i) -= alpha;
     return *this;
 }
 
@@ -158,7 +158,7 @@ GbMatrix<FS> &
 GbMatrix<FS>::operator*=(const ElementType &alpha)
 {
     for (IndexType i = -numSubDiags(); i <= numSuperDiags(); ++i)
-        (*this).viewDiag(i) *= alpha;
+        diag(i) *= alpha;
     return *this;
 }
 
@@ -167,7 +167,7 @@ GbMatrix<FS> &
 GbMatrix<FS>::operator/=(const ElementType &alpha)
 {
     for (IndexType i = -numSubDiags(); i <= numSuperDiags(); ++i)
-        (*this).viewDiag(i) /= alpha;
+        diag(i) /= alpha;
     return *this;
 }
 
@@ -196,7 +196,8 @@ const typename GbMatrix<FS>::ConstTriangularView
 GbMatrix<FS>::upper(Diag diag) const
 {
     ASSERT(_engine.numCols() == _engine.numRows());
-    return ConstTriangularView(_engine.viewDiags(0, _engine.numSuperDiags()), Upper, diag);
+    return ConstTriangularView(_engine.viewDiags(0, _engine.numSuperDiags()),
+                               Upper, diag);
 }
 
 template <typename FS>
@@ -204,7 +205,8 @@ typename GbMatrix<FS>::TriangularView
 GbMatrix<FS>::upper(Diag diag)
 {
     ASSERT(_engine.numCols() == _engine.numRows());
-    return TriangularView(_engine.viewDiags(0, _engine.numSuperDiags()), Upper, diag);
+    return TriangularView(_engine.viewDiags(0, _engine.numSuperDiags()),
+                          Upper, diag);
 }
 
 template <typename FS>
@@ -228,7 +230,8 @@ const typename GbMatrix<FS>::ConstTriangularView
 GbMatrix<FS>::lower(Diag diag) const
 {
     ASSERT(_engine.numCols() == _engine.numRows());
-    return ConstTriangularView(_engine.viewDiags(-_engine.numSubDiags(), 0), Lower, diag);
+    return ConstTriangularView(_engine.viewDiags(-_engine.numSubDiags(), 0),
+                               Lower, diag);
 }
 
 template <typename FS>
@@ -236,7 +239,8 @@ typename GbMatrix<FS>::TriangularView
 GbMatrix<FS>::lower(Diag diag)
 {
     ASSERT(_engine.numCols() == _engine.numRows());
-    return TriangularView(_engine.viewDiags(-_engine.numSubDiags(), 0), Lower, diag);
+    return TriangularView(_engine.viewDiags(-_engine.numSubDiags(), 0),
+                          Lower, diag);
 }
 
 template <typename FS>
@@ -257,28 +261,28 @@ GbMatrix<FS>::strictLower()
 
 template <typename FS>
 const typename GbMatrix<FS>::ConstVectorView
-GbMatrix<FS>::viewDiag(IndexType diag) const
+GbMatrix<FS>::diag(IndexType d) const
 {
-    return ConstVectorView(_engine.viewDiag(diag, _engine.firstIndex()));
+    return ConstVectorView(_engine.viewDiag(d, _engine.firstIndex()));
 }
 
 template <typename FS>
 typename GbMatrix<FS>::VectorView
-GbMatrix<FS>::viewDiag(IndexType diag)
+GbMatrix<FS>::diag(IndexType d)
 {
-    return VectorView(_engine.viewDiag(diag, _engine.firstIndex()));
+    return VectorView(_engine.viewDiag(d, _engine.firstIndex()));
 }
 
 template <typename FS>
 const typename GbMatrix<FS>::ConstView
-GbMatrix<FS>::viewDiags(IndexType fromDiag, IndexType toDiag) const
+GbMatrix<FS>::diags(IndexType fromDiag, IndexType toDiag) const
 {
     return ConstView(_engine.viewDiags(fromDiag, toDiag));
 }
 
 template <typename FS>
 typename GbMatrix<FS>::View
-GbMatrix<FS>::viewDiags(IndexType fromDiag, IndexType toDiag)
+GbMatrix<FS>::diags(IndexType fromDiag, IndexType toDiag)
 {
     return View(_engine.viewDiags(fromDiag, toDiag));
 }

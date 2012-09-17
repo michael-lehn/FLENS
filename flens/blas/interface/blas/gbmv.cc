@@ -49,18 +49,22 @@ BLAS(sgbmv)(const char      *TRANS,
     }
 
     Transpose    trans = convertTo<Transpose>(_TRANS);
+    const bool   noTrans = (trans==NoTrans || trans==Conj);
+    INTEGER      lenX, lenY;
 
-    // Until we have band matrices back in FLENS we jsut call cxxblas
-    // directly.
+    if (noTrans) {
+        lenX = *N;
+        lenY = *M;
+    } else {
+        lenX = *M;
+        lenY = *N;
+    }
 
-    cxxblas::gbmv(ColMajor, trans,
-                  *M, *N,
-                  *KL, *KU,
-                  *ALPHA,
-                  _A, *LDA,
-                  X, *INCX,
-                  *BETA,
-                  Y, *INCY);
+    SGbMatrixConstView    A = SBandConstView(*M, *N, *KL, *KU,  _A, *LDA);
+    SDenseVectorConstView x(SConstArrayView(lenX, X, abs(*INCX)), *INCX<0);
+    SDenseVectorView      y(SArrayView(lenY, Y, abs(*INCY)), *INCY<0);
+
+    blas::mv(trans, *ALPHA, A, x, *BETA, y);
 }
 
 void
@@ -107,18 +111,22 @@ BLAS(dgbmv)(const char      *TRANS,
     }
 
     Transpose    trans = convertTo<Transpose>(_TRANS);
+    const bool   noTrans = (trans==NoTrans || trans==Conj);
+    INTEGER      lenX, lenY;
 
-    // Until we have band matrices back in FLENS we jsut call cxxblas
-    // directly.
+    if (noTrans) {
+        lenX = *N;
+        lenY = *M;
+    } else {
+        lenX = *M;
+        lenY = *N;
+    }
 
-    cxxblas::gbmv(ColMajor, trans,
-                  *M, *N,
-                  *KL, *KU,
-                  *ALPHA,
-                  _A, *LDA,
-                  X, *INCX,
-                  *BETA,
-                  Y, *INCY);
+    DGbMatrixConstView    A = DBandConstView(*M, *N, *KL, *KU,  _A, *LDA);
+    DDenseVectorConstView x(DConstArrayView(lenX, X, abs(*INCX)), *INCX<0);
+    DDenseVectorView      y(DArrayView(lenY, Y, abs(*INCY)), *INCY<0);
+
+    blas::mv(trans, *ALPHA, A, x, *BETA, y);
 }
 
 void
@@ -165,18 +173,22 @@ BLAS(cgbmv)(const char      *TRANS,
     }
 
     Transpose    trans = convertTo<Transpose>(_TRANS);
+    const bool   noTrans = (trans==NoTrans || trans==Conj);
+    INTEGER      lenX, lenY;
 
-    // Until we have band matrices back in FLENS we jsut call cxxblas
-    // directly.
+    if (noTrans) {
+        lenX = *N;
+        lenY = *M;
+    } else {
+        lenX = *M;
+        lenY = *N;
+    }
 
-    cxxblas::gbmv(ColMajor, trans,
-                  *M, *N,
-                  *KL, *KU,
-                  *ALPHA,
-                  _A, *LDA,
-                  X, *INCX,
-                  *BETA,
-                  Y, *INCY);
+    CGbMatrixConstView    A = CBandConstView(*M, *N, *KL, *KU,  _A, *LDA);
+    CDenseVectorConstView x(CConstArrayView(lenX, X, abs(*INCX)), *INCX<0);
+    CDenseVectorView      y(CArrayView(lenY, Y, abs(*INCY)), *INCY<0);
+
+    blas::mv(trans, *ALPHA, A, x, *BETA, y);
 }
 
 void
@@ -223,18 +235,22 @@ BLAS(zgbmv)(const char      *TRANS,
     }
 
     Transpose    trans = convertTo<Transpose>(_TRANS);
+    const bool   noTrans = (trans==NoTrans || trans==Conj);
+    INTEGER      lenX, lenY;
 
-    // Until we have band matrices back in FLENS we jsut call cxxblas
-    // directly.
+    if (noTrans) {
+        lenX = *N;
+        lenY = *M;
+    } else {
+        lenX = *M;
+        lenY = *N;
+    }
 
-    cxxblas::gbmv(ColMajor, trans,
-                  *M, *N,
-                  *KL, *KU,
-                  *ALPHA,
-                  _A, *LDA,
-                  X, *INCX,
-                  *BETA,
-                  Y, *INCY);
+    ZGbMatrixConstView    A = ZBandConstView(*M, *N, *KL, *KU,  _A, *LDA);
+    ZDenseVectorConstView x(ZConstArrayView(lenX, X, abs(*INCX)), *INCX<0);
+    ZDenseVectorView      y(ZArrayView(lenY, Y, abs(*INCY)), *INCY<0);
+
+    blas::mv(trans, *ALPHA, A, x, *BETA, y);
 }
 
 } // extern "C"
