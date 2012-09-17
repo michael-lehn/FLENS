@@ -32,10 +32,10 @@ parts:
 
 :links: __CXXLAPACK__         -> dir:cxxlapack/
         __FLENS-LAPACK__      -> doc:flens/lapack/lapack
-        __trf.h__             -> file:flens/lapack/impl/trf.h
-        __trs.h__             -> file:flens/lapack/impl/trs.h
-        __trf.tcc__           -> file:flens/lapack/impl/trf.tcc
-        __trs.tcc__           -> file:flens/lapack/impl/trs.tcc
+        __trf.h__             -> file:flens/lapack/ge/trf.h
+        __trs.h__             -> file:flens/lapack/ge/trs.h
+        __trf.tcc__           -> file:flens/lapack/ge/trf.tcc
+        __trs.tcc__           -> file:flens/lapack/ge/trs.tcc
         __cxxlapack::(.*)__   -> file:cxxlapack/interface/$1.h
 
 

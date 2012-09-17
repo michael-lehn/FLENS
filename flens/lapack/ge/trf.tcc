@@ -68,8 +68,9 @@ trf_impl(GeMatrix<MA> &A, DenseVector<VP> &piv)
 
     const Underscore<IndexType> _;
 
-    const IndexType m = A.numRows();
-    const IndexType n = A.numCols();
+    const IndexType m  = A.numRows();
+    const IndexType n  = A.numCols();
+    const IndexType mn = min(m,n);
 
     IndexType info = 0;
 //
@@ -83,7 +84,7 @@ trf_impl(GeMatrix<MA> &A, DenseVector<VP> &piv)
 //
     IndexType bs = ilaenv<T>(1, "GETRF", "", m, n, -1, -1);
 
-    if ((bs<=1) || (bs>=min(m,n))) {
+    if ((bs<=1) || (bs>=mn)) {
 //
 //      Use unblocked code.
 //
@@ -92,8 +93,8 @@ trf_impl(GeMatrix<MA> &A, DenseVector<VP> &piv)
 //
 //      Use blocked code.
 //
-        for (IndexType j=1; j<=min(m,n); j+=bs) {
-            IndexType jb = min(min(m,n)-j+1, bs);
+        for (IndexType j=1; j<=mn; j+=bs) {
+            IndexType jb = min(mn-j+1, bs);
 //
 //          Row and column partitioning of A
 //
@@ -109,7 +110,7 @@ trf_impl(GeMatrix<MA> &A, DenseVector<VP> &piv)
 //          Factor diagonal and subdiagonal blocks and test for exact
 //          singularity.
 //
-            IndexType _info = tf2(A(rows12, cols1), piv(rows12));
+            IndexType _info = tf2(A(rows12, cols1), piv(_(j,mn)));
 //
 //          Adjust INFO and the pivot indices.
 //
@@ -204,8 +205,17 @@ trf(MA &&A, VPIV &&piv)
 
     const IndexType mn = min(A.numRows(), A.numCols());
 
+    if (piv.length()!=mn) {
+        std::cerr << "A.numRows() = " << A.numRows() << std::endl;
+        std::cerr << "A.numCols() = " << A.numCols() << std::endl;
+        std::cerr << "mn = " << mn << std::endl;
+        std::cerr << "piv.length() = " << piv.length() << std::endl;
+    }
     if (piv.length()==0) {
         piv.resize(mn);
+    }
+    if (piv.length()!=mn) {
+        std::cerr << "piv.length() = " << piv.length() << std::endl;
     }
     ASSERT(piv.length()==mn);
 

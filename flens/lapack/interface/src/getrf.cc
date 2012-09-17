@@ -14,6 +14,8 @@ LAPACK_DECL(dgetrf)(const INTEGER    *M,
                     INTEGER          *IPIV,
                     INTEGER          *INFO)
 {
+    using std::min;
+
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -34,9 +36,10 @@ LAPACK_DECL(dgetrf)(const INTEGER    *M,
 //
 //  Call FLENS implementation
 //
+    INTEGER MN = min(*M,*N);
 
     DGeMatrixView       _A      = DFSView(*M, *N, A, *LDA);
-    IDenseVectorView    _IPIV   = IArrayView(*M, IPIV, 1);
+    IDenseVectorView    _IPIV   = IArrayView(MN, IPIV, 1);
 
     *INFO = trf(_A, _IPIV);
 }
@@ -50,6 +53,8 @@ LAPACK_DECL(zgetrf)(const INTEGER    *M,
                     INTEGER          *IPIV,
                     INTEGER          *INFO)
 {
+    using std::min;
+
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //
@@ -71,9 +76,10 @@ LAPACK_DECL(zgetrf)(const INTEGER    *M,
 //  Call FLENS implementation
 //
     auto zA = reinterpret_cast<CXX_DOUBLE_COMPLEX *>(A);
+    INTEGER MN = min(*M,*N);
 
     ZGeMatrixView    _A    = ZFSView(*M, *N, zA, *LDA);
-    IDenseVectorView _IPIV = IArrayView(*M, IPIV, 1);
+    IDenseVectorView _IPIV = IArrayView(MN, IPIV, 1);
 
     *INFO = trf(_A, _IPIV);
 }

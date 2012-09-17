@@ -111,6 +111,7 @@ FullStorage<T, Order, I, A>::operator()(IndexType row, IndexType col) const
         ASSERT(row<_firstRow+_numRows);
         ASSERT(col>=_firstCol);
         ASSERT(col<_firstCol+_numCols);
+        ASSERT(_data);
     } else {
         ASSERT(row==_firstRow);
         ASSERT(col==_firstCol);
@@ -133,6 +134,7 @@ FullStorage<T, Order, I, A>::operator()(IndexType row, IndexType col)
         ASSERT(row<_firstRow+_numRows);
         ASSERT(col>=_firstCol);
         ASSERT(col<_firstCol+_numCols);
+        ASSERT(_data);
     } else {
         ASSERT(row==_firstRow);
         ASSERT(col==_firstCol);
@@ -216,10 +218,6 @@ template <typename T, StorageOrder Order, typename I, typename A>
 const typename FullStorage<T, Order, I, A>::ElementType *
 FullStorage<T, Order, I, A>::data() const
 {
-    if (_data==0) {
-        std::cerr << "... _data = " << _data << std::endl;
-    }
-    ASSERT(_data);
     return &(this->operator()(_firstRow, _firstCol));
 }
 
@@ -227,7 +225,6 @@ template <typename T, StorageOrder Order, typename I, typename A>
 typename FullStorage<T, Order, I, A>::ElementType *
 FullStorage<T, Order, I, A>::data()
 {
-    ASSERT(_data);
     return &(this->operator()(_firstRow, _firstCol));
 }
 

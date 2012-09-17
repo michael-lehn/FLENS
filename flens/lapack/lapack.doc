@@ -184,7 +184,8 @@ Linear Equation Routines
             __tutorial__     -> doc:flens/examples/tut05-page01
             __(d.+)__        -> file:cxxlapack/netlib/lapack/$1.f
             __(z.+)__        -> file:cxxlapack/netlib/lapack/$1.f
-            __(.+)__         -> doc:flens/lapack/impl/$1
+            __(po.+)__       -> doc:flens/lapack/po/$1
+            __(.+)__         -> doc:flens/lapack/ge/$1
 
 
 Orthogonal Factorizations
@@ -241,7 +242,8 @@ Orthogonal Factorizations
             __lapack-unglq__ -> doc:flens/examples/lapack-unglq
             __(d.+)__        -> file:cxxlapack/netlib/lapack/$1.f
             __(z.+)__        -> file:cxxlapack/netlib/lapack/$1.f
-            __(.*)__         -> file:flens/lapack/impl/$1.h
+            __([ou].*)__     -> file:flens/lapack/impl/$1.h
+            __(.*)__         -> file:flens/lapack/ge/$1.h
 
 
 Least Square Problems
@@ -292,7 +294,7 @@ Least Square Problems
          __lapack-gelsy__                     -> doc:flens/examples/lapack-gelsy
          __(d.+)__                            -> file:cxxlapack/netlib/lapack/$1.f
          __(z.+)__                            -> file:cxxlapack/netlib/lapack/$1.f
-         __(.*)__                             -> file:flens/lapack/impl/$1.h
+         __(.*)__                             -> file:flens/lapack/ge/$1.h
 
 
 Non-Symmetric Eigenvalue Routines
@@ -338,7 +340,8 @@ Non-Symmetric Eigenvalue Routines
 
 :links: __lapack-geev__ -> doc:flens/examples/tut04-page04
         __(d.+)__       -> file:cxxlapack/netlib/lapack/$1.f
-        __(.*)__        -> file:flens/lapack/impl/$1.h
+        __(o.*)__       -> file:flens/lapack/impl/$1.h
+        __(.*)__        -> file:flens/lapack/ge/$1.h
 
 
 Todo

@@ -6,7 +6,7 @@ In this example we compute the inverse $T^{-1}$ of a triangular matrix $T$.
 The inverse $T^{-1}$ gets computed by __lapack::tri__ which is the FLENS port
 of LAPACK's __dtrtri__.
 
-:links:  __lapack::tri__  -> file:flens/lapack/impl/tri.h
+:links:  __lapack::tri__  -> file:flens/lapack/tr/tri.h
          __dtrtri__       -> file:cxxlapack/netlib/lapack/dtrtri.f
 
 Example Code

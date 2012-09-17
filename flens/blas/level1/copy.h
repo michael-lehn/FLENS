@@ -91,7 +91,7 @@ template <typename MA, typename MB>
     typename RestrictTo<IsHbMatrix<MA>::value
                      && IsHbMatrix<MB>::value,
              void>::Type
-    copy(Transpose trans, const MA &A, MB &&B);
+    copy(const MA &A, MB &&B);
 
 //-- hecopy
 template <typename MA, typename MB>
@@ -105,7 +105,7 @@ template <typename MA, typename MB>
     typename RestrictTo<IsHpMatrix<MA>::value
                      && IsHpMatrix<MB>::value,
              void>::Type
-    copy(Transpose trans, const MA &A, MB &&B);
+    copy(const MA &A, MB &&B);
 
 //== SymmetricMatrix
 
@@ -114,21 +114,21 @@ template <typename MA, typename MB>
     typename RestrictTo<IsSbMatrix<MA>::value
                      && IsSbMatrix<MB>::value,
              void>::Type
-    copy(Transpose trans, const MA &A, MB &&B);
+    copy(const MA &A, MB &&B);
 
 //-- spcopy
 template <typename MA, typename MB>
     typename RestrictTo<IsSpMatrix<MA>::value
                      && IsSpMatrix<MB>::value,
              void>::Type
-    copy(Transpose trans, const MA &A, MB &&B);
+    copy(const MA &A, MB &&B);
 
 //-- sycopy
 template <typename MA, typename MB>
     typename RestrictTo<IsSyMatrix<MA>::value
                      && IsSyMatrix<MB>::value,
              void>::Type
-    copy(Transpose trans, const MA &A, MB &&B);
+    copy(const MA &A, MB &&B);
 
 
 //== TriangularMatrix

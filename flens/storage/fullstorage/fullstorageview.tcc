@@ -121,6 +121,7 @@ FullStorageView<T, Order, I, A>::operator()(IndexType row, IndexType col) const
         ASSERT(row<_firstRow+_numRows);
         ASSERT(col>=_firstCol);
         ASSERT(col<_firstCol+_numCols);
+        ASSERT(_data);
     } else {
         ASSERT(row==_firstRow);
         ASSERT(col==_firstCol);
@@ -143,6 +144,7 @@ FullStorageView<T, Order, I, A>::operator()(IndexType row, IndexType col)
         ASSERT(row<_firstRow+_numRows);
         ASSERT(col>=_firstCol);
         ASSERT(col<_firstCol+_numCols);
+        ASSERT(_data);
     } else {
         ASSERT(row==_firstRow);
         ASSERT(col==_firstCol);
@@ -155,7 +157,7 @@ FullStorageView<T, Order, I, A>::operator()(IndexType row, IndexType col)
     return _data[row*_leadingDimension+col];
 }
 
-//-- methods -------------------------------------------------------------------
+//-- Methods -------------------------------------------------------------------
 
 template <typename T, StorageOrder Order, typename I, typename A>
 typename FullStorageView<T, Order, I, A>::IndexType

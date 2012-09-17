@@ -44,7 +44,8 @@ main()
 /// Compute the factorization $AP = QR$.  As vector `jPiv` has initially length
 /// zero it gets internally resized to length $n$ and initialized with Zero.
 /// This means that *all columns are free columns*.  Also note that the
-/// workspace gets created implicitly and temporarily.  So you might not want to do this inside a loop.
+/// workspace gets created implicitly and temporarily.  So you might not
+/// want to do this inside a loop.
 ///
     lapack::qp3(A, jPiv, tau);
     //lapack::qp3(A, jPiv, tau, work);

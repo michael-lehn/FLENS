@@ -118,6 +118,7 @@ ConstFullStorageView<T, Order, I, A>::operator()(IndexType row,
     } else {
         ASSERT(row==_firstRow);
         ASSERT(col==_firstCol);
+        ASSERT(_data);
     }
 #   endif
 

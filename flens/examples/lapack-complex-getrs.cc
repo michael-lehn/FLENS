@@ -46,6 +46,6 @@ main()
 }
 
 ///
-///  :links: __lapack::trf__ -> file:flens/lapack/impl/trf.h
-///          __lapack::trs__ -> file:flens/lapack/impl/trs.h
+///  :links: __lapack::trf__ -> file:flens/lapack/ge/trf.h
+///          __lapack::trs__ -> file:flens/lapack/ge/trs.h
 ///

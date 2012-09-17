@@ -15,7 +15,7 @@ solver __blas::sm__ to obtain the solution of $(Q^T A) x = (Q^T b)$.
 Function __lapack::qrf__ is the FLENS port of LAPACK's __geqrf__ and
 __blas::sm__ the port of the BLAS routine `trsm`.
 
-:links:  __lapack::qrf__  -> file:flens/lapack/impl/qrf.h
+:links:  __lapack::qrf__  -> file:flens/lapack/ge/qrf.h
          __geqrf__        -> file:cxxlapack/netlib/lapack/dgeqrf.f
          __blas::sm__     -> file:flens/blas/level3/sm.h
 

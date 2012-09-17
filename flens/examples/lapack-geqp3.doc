@@ -74,6 +74,6 @@ Run
 
 
 :links: __rank deficient least square problems__ -> doc:flens/examples/lapack-gelsy
-        __lapack::qp3__                          -> file:flens/lapack/impl/qp3.h
+        __lapack::qp3__                          -> file:flens/lapack/ge/qp3.h
 
 

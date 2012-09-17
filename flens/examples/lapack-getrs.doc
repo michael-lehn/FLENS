@@ -6,8 +6,8 @@ In this example we will solve a system of linear equations $Ax=b$.  For this
 purpose we first compute the $LU$ factorization of $A$ with __lapack::trf__
 and then use the triangular solver __lapack::trs__ to finish the job.
 
-:links: __lapack::trf__ -> file:flens/lapack/impl/trf.h
-        __lapack::trs__ -> file:flens/lapack/impl/trs.h
+:links: __lapack::trf__ -> file:flens/lapack/ge/trf.h
+        __lapack::trs__ -> file:flens/lapack/ge/trs.h
 
 
 Example Code

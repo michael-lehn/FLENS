@@ -6,7 +6,7 @@ In this example we solve a system of linear equations $Sx = b$ were the
 coefficient matrix is symmetric and positiv definite.  We solve the
 system with __lapack::posv__ which is the FLENS port of LAPACK's __dposv__.
 
-:links:  __lapack::posv__  -> file:flens/lapack/impl/posv.h
+:links:  __lapack::posv__  -> file:flens/lapack/po/posv.h
          __dposv__         -> file:cxxlapack/netlib/lapack/dposv.f
 
 Example Code

@@ -7,7 +7,7 @@ definite matrix $S$.  We first compute the Cholesky factoriation $S=L L^T$.
 The inverse $S^{-1}$ then gets computed by __lapack::potri__ which is the
 FLENS port of LAPACK's __dpotri__.
 
-:links:  __lapack::potri__  -> file:flens/lapack/impl/potri.h
+:links:  __lapack::potri__  -> file:flens/lapack/po/potri.h
          __dpotri__         -> file:cxxlapack/netlib/lapack/dpotri.f
 
 

@@ -70,7 +70,7 @@ main()
 }
 
 ///
-///  :links: __lapack::qrf__ -> file:flens/lapack/impl/qrf.h
+///  :links: __lapack::qrf__ -> file:flens/lapack/ge/qrf.h
 ///          __dgeqrf__      -> file:cxxlapack/netlib/lapack/dgeqrf.f
 ///          __blas::sm__    -> file:flens/blas/level3/sm.h
 ///

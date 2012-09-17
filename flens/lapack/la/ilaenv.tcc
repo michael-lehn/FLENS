@@ -49,7 +49,6 @@
 #define FLENS_LAPACK_LA_ILAENV_TCC 1
 
 #include <complex>
-#include <string>
 #include <cstring>
 
 #include <flens/auxiliary/auxiliary.h>
@@ -451,25 +450,24 @@ LAPACK_DECL(ilaenv)(const INTEGER *SPEC,
 
 template <typename T>
 int
-ilaenv_LapackTest(int spec, const char *_name, const char *_opts,
+ilaenv_LapackTest(int spec, const char *_name, const char *opts,
                   int n1, int n2, int n3, int n4)
 {
-    using std::string;
     using std::complex;
 
-    string opts(_opts);
-    string name;
+    char name[strlen(_name+2)];
     if (IsSame<T,float>::value) {
-        name = string("S") + string(_name);
+        *name = 'S';
     } else if (IsSame<T,double>::value) {
-        name = string("D") + string(_name);
+        *name = 'D';
     } else if (IsSame<T,complex<float> >::value) {
-        name = string("C") + string(_name);
+        *name = 'C';
     } else if (IsSame<T,complex<double> >::value) {
-        name = string("Z") + string(_name);
+        *name = 'Z';
     } else {
         ASSERT(0);
     }
+    strcpy(name+1, _name);
 
 #if defined CHECK_CXXLAPACK || defined USE_NATIVE_ILAENV
     INTEGER _spec = spec;
@@ -478,14 +476,14 @@ ilaenv_LapackTest(int spec, const char *_name, const char *_opts,
     INTEGER _n3 = n3;
     INTEGER _n4 = n4;
     int result = LAPACK_DECL(ilaenv)(&_spec,
-                                     name.c_str(),
-                                     opts.c_str(),
+                                     name,
+                                     opts,
                                      &_n1,
                                      &_n2,
                                      &_n3,
                                      &_n4,
-                                     strlen(name.c_str()),
-                                     strlen(opts.c_str()));
+                                     strlen(name),
+                                     strlen(opts));
     return result;
 #else
     ASSERT(0);

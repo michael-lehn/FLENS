@@ -7,7 +7,7 @@ matrix $A$.  We first compute the $LU$ factorization.  The inverse $A^{-1}$
 then gets computed by __lapack::tri__ which is the FLENS port of LAPACK's
 __dgetri__.
 
-:links:  __lapack::tri__  -> file:flens/lapack/impl/tri.h
+:links:  __lapack::tri__  -> file:flens/lapack/ge/tri.h
          __dgetri__       -> file:cxxlapack/netlib/lapack/dgetri.f
 
 
