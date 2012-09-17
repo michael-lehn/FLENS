@@ -190,6 +190,7 @@ GeMatrix<FS>::operator+=(const ElementType &alpha)
             (*this)(i,_) += alpha;
         }
     }
+    return *this;
 }
 
 template <typename FS>
@@ -207,6 +208,7 @@ GeMatrix<FS>::operator-=(const ElementType &alpha)
             (*this)(i,_) -= alpha;
         }
     }
+    return *this;
 }
 
 template <typename FS>
