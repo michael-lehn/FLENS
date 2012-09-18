@@ -44,12 +44,12 @@
 
 namespace flens {
 
-template <typename FS>
+template <typename PS>
 bool
-load(std::string filename, HpMatrix<FS> &A)
+load(std::string filename, HpMatrix<PS> &A)
 {
-    typedef typename FS::IndexType   IndexType;
-    typedef typename FS::ElementType ElementType;
+    typedef typename PS::IndexType   IndexType;
+    typedef typename PS::ElementType ElementType;
 
     std::ifstream ifs( filename.c_str(), std::ios::binary );
 
@@ -58,16 +58,16 @@ load(std::string filename, HpMatrix<FS> &A)
     }
 
     IndexType dim = A.dim();
-    IndexType firstIndex = A.firstIndex();
+    IndexType indexBase = A.indexBase();
 
     ifs.read(reinterpret_cast<char*>(&dim), sizeof(IndexType));
-    ifs.read(reinterpret_cast<char*>(&firstIndex), sizeof(IndexType));
+    ifs.read(reinterpret_cast<char*>(&indexBase), sizeof(IndexType));
 
-    A.resize(dim, firstIndex);
+    A.resize(dim, indexBase);
 
 
-    for (IndexType i=A.firstIndex(); i<=A.lastIndex(); ++i) {
-        for (IndexType j=A.firstIndex(); j<=i; ++j) {
+    for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
+        for (IndexType j=A.firstCol(); j<=i; ++j) {
             if (A.upLo()==cxxblas::Lower) {
                 ifs.read(reinterpret_cast<char*>(&(A(i,j))),
                          sizeof(ElementType) );
@@ -85,12 +85,12 @@ load(std::string filename, HpMatrix<FS> &A)
 }
 
 
-template <typename FS>
+template <typename PS>
 bool
-load(std::string filename, SpMatrix<FS> &A)
+load(std::string filename, SpMatrix<PS> &A)
 {
-    typedef typename FS::IndexType   IndexType;
-    typedef typename FS::ElementType ElementType;
+    typedef typename PS::IndexType   IndexType;
+    typedef typename PS::ElementType ElementType;
 
     std::ifstream ifs( filename.c_str(), std::ios::binary );
 
@@ -99,16 +99,16 @@ load(std::string filename, SpMatrix<FS> &A)
     }
 
     IndexType dim = A.dim();
-    IndexType firstIndex = A.firstIndex();
+    IndexType indexBase = A.indexBase();
 
     ifs.read( reinterpret_cast<char*>(&dim), sizeof(IndexType) );
-    ifs.read( reinterpret_cast<char*>(&firstIndex), sizeof(IndexType) );
+    ifs.read( reinterpret_cast<char*>(&indexBase), sizeof(IndexType) );
 
-    A.resize(dim, firstIndex);
+    A.resize(dim, indexBase);
 
 
-    for (IndexType i=A.firstIndex(); i<=A.lastIndex(); ++i) {
-        for (IndexType j=A.firstIndex(); j<=i; ++j) {
+    for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
+        for (IndexType j=A.firstCol(); j<=i; ++j) {
             if (A.upLo()==cxxblas::Lower) {
                 ifs.read(reinterpret_cast<char*>(&(A(i,j))),
                          sizeof(ElementType));
@@ -123,12 +123,12 @@ load(std::string filename, SpMatrix<FS> &A)
     return true;
 }
 
-template <typename FS>
+template <typename PS>
 bool
-load(std::string filename, TpMatrix<FS> &A)
+load(std::string filename, TpMatrix<PS> &A)
 {
-    typedef typename FS::IndexType   IndexType;
-    typedef typename FS::ElementType ElementType;
+    typedef typename PS::IndexType   IndexType;
+    typedef typename PS::ElementType ElementType;
 
     std::ifstream ifs( filename.c_str(), std::ios::binary );
 
@@ -136,25 +136,25 @@ load(std::string filename, TpMatrix<FS> &A)
         return false;
     }
 
-    IndexType dim;
-    IndexType firstIndex;
+    IndexType    dim;
+    IndexType    indexBase;
     StorageUpLo  upLo;
     Diag         diag;
 
     ifs.read(reinterpret_cast<char*>(&dim), sizeof(IndexType));
-    ifs.read(reinterpret_cast<char*>(&firstIndex), sizeof(IndexType));
+    ifs.read(reinterpret_cast<char*>(&indexBase), sizeof(IndexType));
     ifs.read(reinterpret_cast<char*>(&upLo), sizeof(StorageUpLo));
     ifs.read(reinterpret_cast<char*>(&diag), sizeof(Diag));
 
     ASSERT(upLo==A.upLo());
     ASSERT((diag==A.diag()) || (A.diag()==cxxblas::NonUnit));
 
-    A.resize(dim, firstIndex);
+    A.resize(dim, indexBase);
 
 
     if (upLo == cxxblas::Lower) {
-        for (IndexType i=A.firstIndex(); i <= A.lastIndex(); ++i) {
-            for (IndexType j=A.firstIndex(); j<i; ++j) {
+        for (IndexType i=A.firstRow(); i <= A.lastRow(); ++i) {
+            for (IndexType j=A.firstCol(); j<i; ++j) {
                 ifs.read(reinterpret_cast<char*>(&(A(i,j))),
                          sizeof(ElementType));
             }
@@ -167,7 +167,7 @@ load(std::string filename, TpMatrix<FS> &A)
             }
         }
     } else {
-        for (IndexType i=A.firstIndex(); i <= A.lastIndex(); ++i) {
+        for (IndexType i=A.firstRow(); i <= A.lastRow(); ++i) {
             if (diag == cxxblas::NonUnit) {
                 ifs.read(reinterpret_cast<char*>(&(A(i,i))),
                          sizeof(ElementType) );
@@ -175,7 +175,7 @@ load(std::string filename, TpMatrix<FS> &A)
                 A(i, i) = ElementType(1);
             }
 
-            for (IndexType j=i+1; j<=A.lastIndex(); ++j) {
+            for (IndexType j=i+1; j<=A.lastCol(); ++j) {
                 ifs.read(reinterpret_cast<char*>(&(A(i,j))),
                          sizeof(ElementType));
             }
@@ -186,14 +186,14 @@ load(std::string filename, TpMatrix<FS> &A)
     return true;
 }
 
-template <typename FS>
-typename RestrictTo<IsReal<typename FS::ElementType>::value, bool>::Type
-loadMatrixMarket(std::string filename, SpMatrix<FS> &A)
+template <typename PS>
+typename RestrictTo<IsReal<typename PS::ElementType>::value, bool>::Type
+loadMatrixMarket(std::string filename, SpMatrix<PS> &A)
 {
     using std::string;
 
-    typedef typename FS::IndexType                            IndexType;
-    typedef typename FS::ElementType                          ElementType;
+    typedef typename PS::IndexType                            IndexType;
+    typedef typename PS::ElementType                          ElementType;
 
     string line;
 
@@ -239,8 +239,8 @@ loadMatrixMarket(std::string filename, SpMatrix<FS> &A)
     A.resize(numRows);
 
 
-    for (IndexType i=A.firstIndex(); i<=A.lastIndex(); ++i) {
-        for (IndexType j=i; j<=A.lastIndex(); ++j) {
+    for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
+        for (IndexType j=i; j<=A.lastCol(); ++j) {
             if (ifs.good()) {
                 std::getline(ifs,line);
             } else {
@@ -260,14 +260,14 @@ loadMatrixMarket(std::string filename, SpMatrix<FS> &A)
 }
 
 
-template <typename FS>
-typename RestrictTo<IsComplex<typename FS::ElementType>::value, bool>::Type
-loadMatrixMarket(std::string filename, SpMatrix<FS> &A)
+template <typename PS>
+typename RestrictTo<IsComplex<typename PS::ElementType>::value, bool>::Type
+loadMatrixMarket(std::string filename, SpMatrix<PS> &A)
 {
     using std::string;
 
-    typedef typename FS::IndexType                            IndexType;
-    typedef typename FS::ElementType                          ElementType;
+    typedef typename PS::IndexType                            IndexType;
+    typedef typename PS::ElementType                          ElementType;
     typedef typename ComplexTrait<ElementType>::PrimitiveType PrimitiveType;
 
     string line;
@@ -313,8 +313,8 @@ loadMatrixMarket(std::string filename, SpMatrix<FS> &A)
     ASSERT(numRows==numCols);
     A.resize(numRows);
 
-    for (IndexType i = A.firstIndex(); i <= A.lastIndex(); ++i) {
-        for (IndexType j = i; j <= A.lastIndex(); ++j) {
+    for (IndexType i = A.firstRow(); i <= A.lastRow(); ++i) {
+        for (IndexType j = i; j <= A.lastCol(); ++j) {
             if (ifs.good()) {
                 std::getline (ifs,line);
             } else {
@@ -335,13 +335,13 @@ loadMatrixMarket(std::string filename, SpMatrix<FS> &A)
     return true;
 }
 
-template <typename FS>
-typename RestrictTo<IsComplex<typename FS::ElementType>::value, bool>::Type
-loadMatrixMarket(std::string filename, HpMatrix<FS> &A)
+template <typename PS>
+typename RestrictTo<IsComplex<typename PS::ElementType>::value, bool>::Type
+loadMatrixMarket(std::string filename, HpMatrix<PS> &A)
 {
 
-    typedef typename FS::IndexType                            IndexType;
-    typedef typename FS::ElementType                          ElementType;
+    typedef typename PS::IndexType                            IndexType;
+    typedef typename PS::ElementType                          ElementType;
     typedef typename ComplexTrait<ElementType>::PrimitiveType PrimitiveType;
 
     std::string line;
@@ -388,7 +388,7 @@ loadMatrixMarket(std::string filename, HpMatrix<FS> &A)
 
 
 
-    for (IndexType i = A.firstIndex(); i <= A.lastIndex(); ++i) {
+    for (IndexType i = A.firstRow(); i <= A.lastIndex(); ++i) {
         for (IndexType j = i; j <= A.lastIndex(); ++j) {
             if (ifs.good()) {
                 std::getline (ifs,line);

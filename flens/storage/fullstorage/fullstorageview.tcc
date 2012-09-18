@@ -228,14 +228,14 @@ template <typename T, StorageOrder Order, typename I, typename A>
 const typename FullStorageView<T, Order, I, A>::ElementType *
 FullStorageView<T, Order, I, A>::data() const
 {
-    return &(this->operator()(_firstRow, _firstCol));
+    return &(operator()(_firstRow, _firstCol));
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 typename FullStorageView<T, Order, I, A>::ElementType *
 FullStorageView<T, Order, I, A>::data()
 {
-    return &(this->operator()(_firstRow, _firstCol));
+    return &(operator()(_firstRow, _firstCol));
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>

@@ -218,14 +218,14 @@ template <typename T, StorageOrder Order, typename I, typename A>
 const typename FullStorage<T, Order, I, A>::ElementType *
 FullStorage<T, Order, I, A>::data() const
 {
-    return &(this->operator()(_firstRow, _firstCol));
+    return &(operator()(_firstRow, _firstCol));
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 typename FullStorage<T, Order, I, A>::ElementType *
 FullStorage<T, Order, I, A>::data()
 {
-    return &(this->operator()(_firstRow, _firstCol));
+    return &(operator()(_firstRow, _firstCol));
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
@@ -473,7 +473,7 @@ FullStorage<T, Order, I, A>::viewRow(IndexType row,
     ASSERT(row<=lastRow());
 
     return ArrayView(numCols(),
-                     &(this->operator()(row, _firstCol)),
+                     &(operator()(row, _firstCol)),
                      strideCol(),
                      firstViewIndex,
                      allocator());
@@ -549,7 +549,7 @@ FullStorage<T, Order, I, A>::viewCol(IndexType col,
     ASSERT(col<=lastCol());
 
     return ConstArrayView(numRows(),
-                          &(this->operator()(_firstRow, col)),
+                          &(operator()(_firstRow, col)),
                           strideRow(),
                           firstViewIndex,
                           allocator());
@@ -598,7 +598,7 @@ FullStorage<T, Order, I, A>::viewCol(IndexType firstRow, IndexType lastRow,
     ASSERT(col<=lastCol());
 
     return ConstArrayView(length,
-                          &(this->operator()(firstRow, col)),
+                          &(operator()(firstRow, col)),
                           strideRow()*stride,
                           firstViewIndex,
                           allocator());
@@ -624,7 +624,7 @@ FullStorage<T, Order, I, A>::viewCol(IndexType firstRow, IndexType lastRow,
     ASSERT(col<=lastCol());
 
     return ArrayView(length,
-                     &(this->operator()(firstRow, col)),
+                     &(operator()(firstRow, col)),
                      strideRow()*stride,
                      firstViewIndex,
                      allocator());
@@ -643,7 +643,7 @@ FullStorage<T, Order, I, A>::viewDiag(IndexType d,
     IndexType col = firstCol() + _col;
 
     return ConstArrayView(std::min(numRows()-_row, numCols()-_col),
-                          &(this->operator()(row,col)),
+                          &(operator()(row,col)),
                           leadingDimension()+1,
                           firstViewIndex,
                           allocator());
@@ -661,7 +661,7 @@ FullStorage<T, Order, I, A>::viewDiag(IndexType d,
     IndexType col = firstCol() + _col;
 
     return ArrayView(std::min(numRows()-_row, numCols()-_col),
-                     &(this->operator()(row,col)),
+                     &(operator()(row,col)),
                      leadingDimension()+1,
                      firstViewIndex,
                      allocator());
@@ -681,7 +681,7 @@ FullStorage<T, Order, I, A>::viewAntiDiag(IndexType d,
     IndexType col = firstCol() + _col;
 
     return ConstArrayView(std::min(numRows()-_row, numCols()-_col),
-                          &(this->operator()(row,lastCol()-col+1)),
+                          &(operator()(row,lastCol()-col+1)),
                           -leadingDimension()+1,
                           firstViewIndex,
                           allocator());
@@ -699,7 +699,7 @@ FullStorage<T, Order, I, A>::viewAntiDiag(IndexType d,
     IndexType col = firstCol() + _col;
 
     return ArrayView(std::min(numRows()-_row, numCols()-_col),
-                     &(this->operator()(row,lastCol()-col+1)),
+                     &(operator()(row,lastCol()-col+1)),
                      -leadingDimension()+1,
                      firstViewIndex,
                      allocator());
@@ -755,8 +755,8 @@ FullStorage<T, Order, I, A>::_allocate(const ElementType &value)
 
     _raw_allocate();
     T *p = data();
-    for (IndexType i=0; i<numElements; ++i) {
-        _allocator.construct(p++, value);
+    for (IndexType i=0; i<numElements; ++i, ++p) {
+        _allocator.construct(p, value);
     }
 }
 
@@ -766,8 +766,8 @@ FullStorage<T, Order, I, A>::_release()
 {
     if (_data) {
         T *p = data();
-        for (IndexType i=0; i<numRows()*numCols(); ++i) {
-            _allocator.destroy(p++);
+        for (IndexType i=0; i<numRows()*numCols(); ++i, ++p) {
+            _allocator.destroy(p);
         }
         _allocator.deallocate(data(), numRows()*numCols());
         _data = 0;

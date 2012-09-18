@@ -40,7 +40,7 @@
 
 namespace flens { namespace blas {
 
-//-- HeMatrix, DenseVector -----------------------------------------------------
+//-- HermitianMatrix, DenseVector ----------------------------------------------
 
 //-- her2
 template <typename ALPHA, typename VX, typename VY, typename MA>
@@ -50,8 +50,23 @@ template <typename ALPHA, typename VX, typename VY, typename MA>
              void>::Type
     r2(const ALPHA &alpha, const VX &x, const VY &y, MA &&A);
 
+//-- hpr2
+template <typename ALPHA, typename VX, typename VY, typename MA>
+    typename RestrictTo<IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value
+                     && IsHpMatrix<MA>::value,
+             void>::Type
+    r2(const ALPHA &alpha, const VX &x, const VY &y, MA &&A);
 
-//-- SyMatrix, DenseVector -----------------------------------------------------
+//-- SymmetricMatrix, DenseVector ----------------------------------------------
+
+//-- spr2
+template <typename ALPHA, typename VX, typename VY, typename MA>
+    typename RestrictTo<IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value
+                     && IsSpMatrix<MA>::value,
+             void>::Type
+    r2(const ALPHA &alpha, const VX &x, const VY &y, MA &&A);
 
 //-- syr2
 template <typename ALPHA, typename VX, typename VY, typename MA>
@@ -60,7 +75,6 @@ template <typename ALPHA, typename VX, typename VY, typename MA>
                      && IsSyMatrix<MA>::value,
              void>::Type
     r2(const ALPHA &alpha, const VX &x, const VY &y, MA &&A);
-
 
 } } // namespace blas, flens
 

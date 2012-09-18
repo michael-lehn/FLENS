@@ -42,14 +42,10 @@ BLAS(stpsv)(const char      *UPLO,
     Transpose    trans = convertTo<Transpose>(_TRANS);
     Diag         diag  = Diag(_DIAG);
 
-    // Until we have band matrices back in FLENS we jsut call cxxblas
-    // directly.
+    STpMatrixConstView    A(SPackedConstView(*N, AP), upLo, diag);
+    SDenseVectorView      x(SArrayView(*N, X, abs(*INCX)), *INCX<0);
 
-    cxxblas::tpsv(ColMajor, upLo,
-                  trans, diag,
-                  *N,
-                  AP,
-                  X, *INCX);
+    blas::sv(trans, A, x);
 }
 
 void
@@ -89,14 +85,10 @@ BLAS(dtpsv)(const char      *UPLO,
     Transpose    trans = convertTo<Transpose>(_TRANS);
     Diag         diag  = Diag(_DIAG);
 
-    // Until we have band matrices back in FLENS we jsut call cxxblas
-    // directly.
+    DTpMatrixConstView    A(DPackedConstView(*N, AP), upLo, diag);
+    DDenseVectorView      x(DArrayView(*N, X, abs(*INCX)), *INCX<0);
 
-    cxxblas::tpsv(ColMajor, upLo,
-                  trans, diag,
-                  *N,
-                  AP,
-                  X, *INCX);
+    blas::sv(trans, A, x);
 }
 
 void
@@ -136,14 +128,10 @@ BLAS(ctpsv)(const char      *UPLO,
     Transpose    trans = convertTo<Transpose>(_TRANS);
     Diag         diag  = Diag(_DIAG);
 
-    // Until we have band matrices back in FLENS we jsut call cxxblas
-    // directly.
+    CTpMatrixConstView    A(CPackedConstView(*N, AP), upLo, diag);
+    CDenseVectorView      x(CArrayView(*N, X, abs(*INCX)), *INCX<0);
 
-    cxxblas::tpsv(ColMajor, upLo,
-                  trans, diag,
-                  *N,
-                  AP,
-                  X, *INCX);
+    blas::sv(trans, A, x);
 }
 
 void
@@ -183,14 +171,10 @@ BLAS(ztpsv)(const char      *UPLO,
     Transpose    trans = convertTo<Transpose>(_TRANS);
     Diag         diag  = Diag(_DIAG);
 
-    // Until we have band matrices back in FLENS we jsut call cxxblas
-    // directly.
+    ZTpMatrixConstView    A(ZPackedConstView(*N, AP), upLo, diag);
+    ZDenseVectorView      x(ZArrayView(*N, X, abs(*INCX)), *INCX<0);
 
-    cxxblas::tpsv(ColMajor, upLo,
-                  trans, diag,
-                  *N,
-                  AP,
-                  X, *INCX);
+    blas::sv(trans, A, x);
 }
 
 } // extern "C"

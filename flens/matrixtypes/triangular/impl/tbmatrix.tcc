@@ -43,11 +43,6 @@ namespace flens {
 // -- constructors -------------------------------------------------------------
 
 template <typename FS>
-TbMatrix<FS>::TbMatrix()
-{
-}
-
-template <typename FS>
 TbMatrix<FS>::TbMatrix(IndexType dim, StorageUpLo upLo,
                        IndexType numOffDiags, Diag diag)
     : _engine(dim, dim, (upLo==Upper) ? 0 : numOffDiags,

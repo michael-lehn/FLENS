@@ -41,49 +41,37 @@ namespace flens {
 
 //-- Constructors --------------------------------------------------------------
 
-template <typename T, StorageUpLo UpLo, StorageOrder Order,
-          typename I, typename A>
-PackedStorage<T, UpLo, Order, I, A>::PackedStorage()
-    :  _data(0),
-       _dim(0),
-       _firstIndex(I::defaultIndexBase)
-{
-}
-
-template <typename T, StorageUpLo UpLo, StorageOrder Order,
-          typename I, typename A>
-PackedStorage<T, UpLo, Order, I, A>::PackedStorage(IndexType dim,
-                                                   IndexType firstIndex,
-                                                   const ElementType &value,
-                                                   const Allocator &allocator)
+template <typename T, StorageOrder Order, typename I, typename A>
+PackedStorage<T, Order, I, A>::PackedStorage(IndexType dim,
+                                             IndexType indexBase,
+                                             const ElementType &value,
+                                             const Allocator &allocator)
     : _data(0), _allocator(allocator),
       _dim(dim),
-      _firstIndex(firstIndex)
+      _indexBase(indexBase)
 {
     ASSERT(_dim>=0);
 
     _allocate(value);
 }
 
-template <typename T, StorageUpLo UpLo, StorageOrder Order,
-          typename I, typename A>
-PackedStorage<T, UpLo, Order, I, A>::PackedStorage(const PackedStorage &rhs)
+template <typename T, StorageOrder Order, typename I, typename A>
+PackedStorage<T, Order, I, A>::PackedStorage(const PackedStorage &rhs)
     : _data(0), _allocator(rhs.allocator()),
       _dim(rhs.dim()),
-      _firstIndex(rhs.firstIndex())
+      _indexBase(rhs.indexBase())
 {
     _allocate(ElementType());
 
     cxxblas::copy(rhs.dim(), rhs.data(), 1, data(), 1);
 }
 
-template <typename T, StorageUpLo UpLo, StorageOrder Order,
-          typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 template <typename RHS>
-PackedStorage<T, UpLo, Order, I, A>::PackedStorage(const RHS &rhs)
+PackedStorage<T, Order, I, A>::PackedStorage(const RHS &rhs)
     : _data(0), _allocator(rhs.allocator()),
       _dim(rhs.dim()),
-      _firstIndex(rhs.firstIndex())
+      _indexBase(rhs.indexBase())
 {
     _allocate(ElementType());
 
@@ -91,258 +79,184 @@ PackedStorage<T, UpLo, Order, I, A>::PackedStorage(const RHS &rhs)
 
 }
 
-template <typename T, StorageUpLo UpLo, StorageOrder Order,
-          typename I, typename A>
-PackedStorage<T, UpLo, Order, I, A>::~PackedStorage()
+template <typename T, StorageOrder Order, typename I, typename A>
+PackedStorage<T, Order, I, A>::~PackedStorage()
 {
     _release();
 }
 
 //-- operators -----------------------------------------------------------------
 
-template <typename T, StorageUpLo UpLo, StorageOrder Order,
-          typename I, typename A>
-const typename PackedStorage<T, UpLo, Order, I, A>::ElementType &
-PackedStorage<T, UpLo, Order, I, A>::operator()(IndexType row,
-                                                IndexType col) const
+template <typename T, StorageOrder Order, typename I, typename A>
+const typename PackedStorage<T, Order, I, A>::ElementType &
+PackedStorage<T, Order, I, A>::operator()(StorageUpLo  upLo,
+                                          IndexType    row,
+                                          IndexType    col) const
 {
-    assert(row>=firstIndex());
-    assert(col>=firstIndex());
-    assert(row<=lastIndex());
-    assert(col<=lastIndex());
+    ASSERT(row>=indexBase());
+    ASSERT(col>=indexBase());
+    ASSERT(row<=indexBase()+dim()-1);
+    ASSERT(col<=indexBase()+dim()-1);
 
-    if (UpLo==Lower) {
-        assert(row>=col);
+    if (upLo==Lower) {
+        ASSERT(row>=col);
     } else {
-        assert(col>=row);
+        ASSERT(col>=row);
     }
 
-    const IndexType i = row - _firstIndex;
-    const IndexType j = col - _firstIndex;
+    const IndexType i = row - _indexBase;
+    const IndexType j = col - _indexBase;
     const IndexType n = _dim;
 
-    if ((order==RowMajor) && (UpLo==Upper)) {
+    if ((order==RowMajor) && (upLo==Upper)) {
         return _data[j+i*(2*n-i-1)/2];
     }
-    if ((order==RowMajor) && (UpLo==Lower)) {
+    if ((order==RowMajor) && (upLo==Lower)) {
         return _data[j+i*(i+1)/2];
     }
-    if ((order==ColMajor) && (UpLo==Upper)) {
+    if ((order==ColMajor) && (upLo==Upper)) {
         return _data[i+j*(j+1)/2];
     }
     return _data[i+j*(2*n-j-1)/2];
 }
 
-template <typename T, StorageUpLo UpLo, StorageOrder Order,
-          typename I, typename A>
-typename PackedStorage<T, UpLo, Order, I, A>::ElementType &
-PackedStorage<T, UpLo, Order, I, A>::operator()(IndexType row, IndexType col)
+template <typename T, StorageOrder Order, typename I, typename A>
+typename PackedStorage<T, Order, I, A>::ElementType &
+PackedStorage<T, Order, I, A>::operator()(StorageUpLo  upLo,
+                                          IndexType    row,
+                                          IndexType    col)
 {
-    assert(row>=firstIndex());
-    assert(col>=firstIndex());
-    assert(row<=lastIndex());
-    assert(col<=lastIndex());
+    ASSERT(row>=indexBase());
+    ASSERT(col>=indexBase());
+    ASSERT(row<=indexBase()+dim()-1);
+    ASSERT(col<=indexBase()+dim()-1);
 
-    if (UpLo==Lower) {
-        assert(row>=col);
+    if (upLo==Lower) {
+        ASSERT(row>=col);
     } else {
-        assert(col>=row);
+        ASSERT(col>=row);
     }
 
-    const IndexType i = row - _firstIndex;
-    const IndexType j = col - _firstIndex;
+    const IndexType i = row - _indexBase;
+    const IndexType j = col - _indexBase;
     const IndexType n = _dim;
 
-    if ((order==RowMajor) && (UpLo==Upper)) {
+    if ((order==RowMajor) && (upLo==Upper)) {
         return _data[j+i*(2*n-i-1)/2];
     }
-    if ((order==RowMajor) && (UpLo==Lower)) {
+    if ((order==RowMajor) && (upLo==Lower)) {
         return _data[j+i*(i+1)/2];
     }
-    if ((order==ColMajor) && (UpLo==Upper)) {
+    if ((order==ColMajor) && (upLo==Upper)) {
         return _data[i+j*(j+1)/2];
     }
     return _data[i+j*(2*n-j-1)/2];
 }
 
 //-- Methods -------------------------------------------------------------------
-template <typename T, StorageUpLo UpLo, StorageOrder Order,
-          typename I, typename A>
-typename PackedStorage<T, UpLo, Order, I, A>::IndexType
-PackedStorage<T, UpLo, Order, I, A>::firstIndex() const
+template <typename T, StorageOrder Order, typename I, typename A>
+typename PackedStorage<T, Order, I, A>::IndexType
+PackedStorage<T, Order, I, A>::indexBase() const
 {
-    return _firstIndex;
+    return _indexBase;
 }
 
-template <typename T, StorageUpLo UpLo, StorageOrder Order,
-          typename I, typename A>
-typename PackedStorage<T, UpLo, Order, I, A>::IndexType
-PackedStorage<T, UpLo, Order, I, A>::lastIndex() const
+template <typename T, StorageOrder Order, typename I, typename A>
+typename PackedStorage<T, Order, I, A>::IndexType
+PackedStorage<T, Order, I, A>::numNonZeros() const
 {
-    return _firstIndex+_dim-1;
+    return (_dim+1)*_dim/IndexType(2);
 }
 
-template <typename T, StorageUpLo UpLo, StorageOrder Order,
-          typename I, typename A>
-typename PackedStorage<T, UpLo, Order, I, A>::IndexType
-PackedStorage<T, UpLo, Order, I, A>::dim() const
+template <typename T, StorageOrder Order, typename I, typename A>
+typename PackedStorage<T, Order, I, A>::IndexType
+PackedStorage<T, Order, I, A>::dim() const
 {
     return _dim;
 }
 
-template <typename T, StorageUpLo UpLo, StorageOrder Order,
-          typename I, typename A>
-const typename PackedStorage<T, UpLo, Order, I, A>::ElementType *
-PackedStorage<T, UpLo, Order, I, A>::data() const
+template <typename T, StorageOrder Order, typename I, typename A>
+const typename PackedStorage<T, Order, I, A>::ElementType *
+PackedStorage<T, Order, I, A>::data() const
 {
-#   ifndef NDEBUG
-    if (dim()==0) {
-        return 0;
-    }
-#   endif
-
-    ASSERT(_data);
-    return &(this->operator()(_firstIndex, _firstIndex));
+    return _data;
 }
 
-template <typename T, StorageUpLo UpLo, StorageOrder Order,
-          typename I, typename A>
-typename PackedStorage<T, UpLo, Order, I, A>::ElementType *
-PackedStorage<T, UpLo, Order, I, A>::data()
+template <typename T, StorageOrder Order, typename I, typename A>
+typename PackedStorage<T, Order, I, A>::ElementType *
+PackedStorage<T, Order, I, A>::data()
 {
-#   ifndef NDEBUG
-    if (dim()==0)  {
-        return 0;
-    }
-#   endif
-
-    ASSERT(_data);
-    return &(this->operator()(_firstIndex, _firstIndex));
+    return _data;
 }
 
-template <typename T, StorageUpLo UpLo, StorageOrder Order,
-          typename I, typename A>
-const typename PackedStorage<T, UpLo, Order, I, A>::Allocator &
-PackedStorage<T, UpLo, Order, I, A>::allocator() const
+template <typename T, StorageOrder Order, typename I, typename A>
+const typename PackedStorage<T, Order, I, A>::Allocator &
+PackedStorage<T, Order, I, A>::allocator() const
 {
     return _allocator;
 }
 
-template <typename T, StorageUpLo UpLo, StorageOrder Order,
-          typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 bool
-PackedStorage<T, UpLo, Order, I, A>::resize(IndexType dim,
-                                    IndexType firstIndex,
-                                    const ElementType &value)
+PackedStorage<T, Order, I, A>::resize(IndexType dim,
+                                            IndexType indexBase,
+                                            const ElementType &value)
 {
     if (_dim!=dim) {
         _release();
         _dim = dim;
-        _firstIndex = firstIndex;
+        _indexBase = indexBase;
         _allocate(value);
         return true;
     }
-    changeIndexBase(firstIndex);
+    changeIndexBase(indexBase);
     return false;
 }
 
-template <typename T, StorageUpLo UpLo, StorageOrder Order,
-          typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 bool
-PackedStorage<T, UpLo, Order, I, A>::resize(const Range<IndexType> &rac,
-                                            const ElementType &value)
-{
-    if (_dim!=rac.length()){
-        _release();
-        _dim = rac.length();
-        _firstIndex = rac.firstIndex();
-        _allocate(value);
-        return true;
-    }
-    changeIndexBase(rac.firstIndex());
-    return false;
-}
-
-template <typename T, StorageUpLo UpLo, StorageOrder Order,
-          typename I, typename A>
-template <typename FS>
-bool
-PackedStorage<T, UpLo, Order, I, A>::resize(const FS &rhs,
-                                            const ElementType &value)
-{
-    return resize(rhs.dim(),
-                  rhs.firstIndex(),
-                  value);
-}
-
-template <typename T, StorageUpLo UpLo, StorageOrder Order,
-          typename I, typename A>
-bool
-PackedStorage<T, UpLo, Order, I, A>::fill(const ElementType &value)
+PackedStorage<T, Order, I, A>::fill(const ElementType &value)
 {
     ASSERT(_data);
     std::fill_n(data(), 0.5*(dim()+1)*dim(), value);
     return true;
 }
 
-template <typename T, StorageUpLo UpLo, StorageOrder Order,
-          typename I, typename A>
-bool
-PackedStorage<T, UpLo, Order, I, A>::fillRandom()
-{
-    ASSERT(_data);
-    for (IndexType i=0; i<0.5*(dim()+1)*dim();++i) {
-        _data[i] = randomValue<T>();;
-    }
-    return true;
-}
-
-template <typename T, StorageUpLo UpLo, StorageOrder Order,
-          typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 void
-PackedStorage<T, UpLo, Order, I, A>::changeIndexBase(IndexType firstIndex)
+PackedStorage<T, Order, I, A>::changeIndexBase(IndexType indexBase)
 {
-    _firstIndex = firstIndex;
+    _indexBase = indexBase;
 }
-
-
-
 
 //-- Private Methods -----------------------------------------------------------
 
-template <typename T, StorageUpLo UpLo, StorageOrder Order,
-          typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 void
-PackedStorage<T, UpLo, Order, I, A>::_setIndexBase(IndexType firstIndex)
-{
-    _firstIndex = firstIndex;
-}
-
-template <typename T, StorageUpLo UpLo, StorageOrder Order,
-          typename I, typename A>
-void
-PackedStorage<T, UpLo, Order, I, A>::_raw_allocate()
+PackedStorage<T, Order, I, A>::_raw_allocate()
 {
     ASSERT(!_data);
     ASSERT(_dim>0);
 
-    _data = _allocator.allocate(0.5*(_dim+1)*_dim);
+    _data = _allocator.allocate(numNonZeros());
+    ASSERT(_data);
+
 #ifndef NDEBUG
     ElementType *p = _data;
 #endif
-    _setIndexBase(_firstIndex);
-    ASSERT(_data);
+
+    _changeIndexBase(_indexBase);
+
 #ifndef NDEBUG
     ASSERT(p==data());
 #endif
 }
 
-template <typename T, StorageUpLo UpLo, StorageOrder Order,
-          typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 void
-PackedStorage<T, UpLo, Order, I, A>::_allocate(const ElementType &value)
+PackedStorage<T, Order, I, A>::_allocate(const ElementType &value)
 {
-    const IndexType numElements = 0.5*(_dim+1)*_dim;
+    const IndexType numElements = numNonZeros();
 
     if (numElements==0) {
         return;
@@ -350,22 +264,23 @@ PackedStorage<T, UpLo, Order, I, A>::_allocate(const ElementType &value)
 
     _raw_allocate();
     T *p = data();
-    for (IndexType i=0; i<numElements; ++i) {
-        _allocator.construct(p++, value);
+    for (IndexType i=0; i<numElements; ++i, ++p) {
+        _allocator.construct(p, value);
     }
 }
 
-template <typename T, StorageUpLo UpLo, StorageOrder Order,
-          typename I, typename A>
+template <typename T, StorageOrder Order, typename I, typename A>
 void
-PackedStorage<T, UpLo, Order, I, A>::_release()
+PackedStorage<T, Order, I, A>::_release()
 {
     if (_data) {
+        const IndexType numElements = numNonZeros();
+
         T *p = data();
-        for (IndexType i=0; 2*i<(_dim+1)*_dim; ++i) {
-            _allocator.destroy(p++);
+        for (IndexType i=0; i<numElements; ++i, ++p) {
+            _allocator.destroy(p);
         }
-        _allocator.deallocate(data(), 0.5*((_dim+1)*_dim));
+        _allocator.deallocate(data(), numElements);
         _data = 0;
     }
     ASSERT(_data==0);

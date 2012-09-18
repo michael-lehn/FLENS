@@ -374,7 +374,7 @@ BandStorageView<T, Order, I, A>::viewDiag(IndexType diag,
                                        : min(_numCols-diag, _numRows);
 
     return ConstArrayView(length-firstViewIndex+_firstIndex,
-                          &(this->operator()(i, j)),
+                          &(operator()(i, j)),
                           _leadingDimension,
                           _firstIndex, _allocator);
 }
@@ -395,7 +395,7 @@ BandStorageView<T, Order, I, A>::viewDiag(IndexType diag,
                                        : min(_numCols-diag, _numRows);
 
     return ArrayView(length-firstViewIndex+_firstIndex,
-                     &(this->operator()(i, j)),
+                     &(operator()(i, j)),
                      _leadingDimension,
                      _firstIndex, _allocator);
 }
@@ -437,13 +437,13 @@ BandStorageView<T, Order, I, A>::viewDiags(IndexType fromDiag,
     if (Order == RowMajor ) {
         if (toDiag < 0) {
             return ConstView(numRows, numCols, -fromDiag+toDiag, 0,
-                             &(this->operator()(i,j)) + fromDiag-toDiag,
+                             &(operator()(i,j)) + fromDiag-toDiag,
                             _leadingDimension,
                              _firstIndex, _allocator);
         }
         if (fromDiag > 0) {
             return ConstView(numRows, numCols, 0, toDiag-fromDiag,
-                             &(this->operator()(i,j)),
+                             &(operator()(i,j)),
                              _leadingDimension,
                              _firstIndex, _allocator);
         }
@@ -455,13 +455,13 @@ BandStorageView<T, Order, I, A>::viewDiags(IndexType fromDiag,
 
     if (toDiag < 0) {
         return ConstView(numRows, numCols, -fromDiag+toDiag, 0,
-                         &(this->operator()(i,j)),
+                         &(operator()(i,j)),
                          _leadingDimension,
                          _firstIndex, _allocator);
     }
     if (fromDiag > 0) {
         return ConstView(numRows, numCols, 0, toDiag-fromDiag,
-                         &(this->operator()(i,j)) + fromDiag-toDiag,
+                         &(operator()(i,j)) + fromDiag-toDiag,
                          _leadingDimension,
                          _firstIndex, _allocator);
     }
@@ -506,13 +506,13 @@ BandStorageView<T, Order, I, A>::viewDiags(IndexType fromDiag, IndexType toDiag)
     if (Order == RowMajor ) {
         if (toDiag < 0) {
             return View(numRows, numCols, -fromDiag+toDiag, 0,
-                        &(this->operator()(i,j)) + fromDiag-toDiag ,
+                        &(operator()(i,j)) + fromDiag-toDiag ,
                         _leadingDimension,
                         _firstIndex, _allocator);
         }
         if (fromDiag > 0) {
             return View(numRows, numCols, 0, toDiag-fromDiag,
-                        &(this->operator()(i,j)),
+                        &(operator()(i,j)),
                         _leadingDimension,
                         _firstIndex, _allocator);
         }
@@ -524,13 +524,13 @@ BandStorageView<T, Order, I, A>::viewDiags(IndexType fromDiag, IndexType toDiag)
 
     if (toDiag < 0) {
         return View(numRows, numCols, -fromDiag+toDiag, 0,
-                    &(this->operator()(i,j)),
+                    &(operator()(i,j)),
                     _leadingDimension,
                     _firstIndex, _allocator);
     }
     if (fromDiag > 0) {
         return View(numRows, numCols, 0, toDiag-fromDiag,
-                    &(this->operator()(i,j)) + fromDiag-toDiag,
+                    &(operator()(i,j)) + fromDiag-toDiag,
                    _leadingDimension,
                     _firstIndex, _allocator);
     }

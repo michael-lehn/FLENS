@@ -42,17 +42,17 @@
 namespace flens {
 
 
-template <typename FS>
+template <typename PS>
     std::ostream &
-    operator<<(std::ostream &out, const HpMatrix<FS> &A);
+    operator<<(std::ostream &out, const HpMatrix<PS> &A);
 
-template <typename FS>
+template <typename PS>
     std::ostream &
-    operator<<(std::ostream &out, const SpMatrix<FS> &A);
+    operator<<(std::ostream &out, const SpMatrix<PS> &A);
 
-template <typename FS>
+template <typename PS>
     std::ostream &
-    operator<<(std::ostream &out, const TpMatrix<FS> &A);
+    operator<<(std::ostream &out, const TpMatrix<PS> &A);
 
 } // namespace flens
 

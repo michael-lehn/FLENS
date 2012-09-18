@@ -38,16 +38,11 @@ BLAS(sspmv)(const char      *UPLO,
 
     StorageUpLo  upLo = StorageUpLo(_UPLO);
 
-    // Until we have band matrices back in FLENS we jsut call cxxblas
-    // directly.
+    SSpMatrixConstView    A(SPackedConstView(*N, AP), upLo);
+    SDenseVectorConstView x(SConstArrayView(*N, X, abs(*INCX)), *INCX<0);
+    SDenseVectorView      y(SArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
-    cxxblas::spmv(ColMajor, upLo,
-                  *N,
-                  *ALPHA,
-                  AP,
-                  X, *INCX,
-                  *BETA,
-                  Y, *INCY);
+    blas::mv(*ALPHA, A, x, *BETA, y);
 }
 
 void
@@ -83,16 +78,11 @@ BLAS(dspmv)(const char      *UPLO,
 
     StorageUpLo  upLo = StorageUpLo(_UPLO);
 
-    // Until we have band matrices back in FLENS we jsut call cxxblas
-    // directly.
+    DSpMatrixConstView    A(DPackedConstView(*N, AP), upLo);
+    DDenseVectorConstView x(DConstArrayView(*N, X, abs(*INCX)), *INCX<0);
+    DDenseVectorView      y(DArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
-    cxxblas::spmv(ColMajor, upLo,
-                  *N,
-                  *ALPHA,
-                  AP,
-                  X, *INCX,
-                  *BETA,
-                  Y, *INCY);
+    blas::mv(*ALPHA, A, x, *BETA, y);
 }
 
 } // extern "C"

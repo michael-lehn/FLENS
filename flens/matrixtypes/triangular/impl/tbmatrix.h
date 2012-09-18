@@ -92,9 +92,6 @@ class TbMatrix
         typedef TbMatrix<EngineView>                View;
         typedef TbMatrix<EngineNoView>              NoView;
 
-        TbMatrix();
-
-        explicit
         TbMatrix(IndexType dim, StorageUpLo upLo, IndexType numOffDiags,
                  Diag diag = NonUnit);
 

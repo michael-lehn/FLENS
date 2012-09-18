@@ -40,56 +40,63 @@
 
 namespace flens {
 
-template <typename FS>
-SpMatrix<FS>::SpMatrix()
+//-- Constructors --------------------------------------------------------------
+
+template <typename PS>
+SpMatrix<PS>::SpMatrix(IndexType dim, StorageUpLo upLo)
+      : _engine(dim), _upLo(upLo)
 {
 }
 
-template <typename FS>
-SpMatrix<FS>::SpMatrix(IndexType dim)
-      : _engine(dim)
+template <typename PS>
+SpMatrix<PS>::SpMatrix(const Engine &engine, StorageUpLo upLo)
+    : _engine(engine), _upLo(upLo)
 {
 }
 
-template <typename FS>
-SpMatrix<FS>::SpMatrix(const Engine &engine)
-    : _engine(engine)
+template <typename PS>
+SpMatrix<PS>::SpMatrix(const SpMatrix &rhs)
+    : SymmetricMatrix<SpMatrix<PS> >(), _engine(rhs.engine()), _upLo(rhs.upLo())
 {
 }
 
-template <typename FS>
-SpMatrix<FS>::SpMatrix(const SpMatrix &rhs)
-    : SymmetricMatrix<SpMatrix<FS> >(),
-      _engine(rhs.engine())
-{
-}
-
-template <typename FS>
+template <typename PS>
 template <typename RHS>
-SpMatrix<FS>::SpMatrix(const SpMatrix<RHS> &rhs)
-    : _engine(rhs.engine())
+SpMatrix<PS>::SpMatrix(const SpMatrix<RHS> &rhs)
+    : _engine(rhs.engine()), _upLo(rhs.upLo())
 {
 }
 
-template <typename FS>
+template <typename PS>
 template <typename RHS>
-SpMatrix<FS>::SpMatrix(SpMatrix<RHS> &rhs)
-    : _engine(rhs.engine())
+SpMatrix<PS>::SpMatrix(SpMatrix<RHS> &rhs)
+    : _engine(rhs.engine()), _upLo(rhs.upLo())
 {
 }
 
-template <typename FS>
+template <typename PS>
 template <typename RHS>
-SpMatrix<FS>::SpMatrix(const Matrix<RHS> &rhs)
+SpMatrix<PS>::SpMatrix(const Matrix<RHS> &rhs)
 {
     assign(rhs, *this);
 }
 
-// -- operators ----------------------------------------------------------------
+//-- Operators -----------------------------------------------------------------
 
-template <typename FS>
-SpMatrix<FS> &
-SpMatrix<FS>::operator=(const SpMatrix &rhs)
+template <typename PS>
+SpMatrix<PS> &
+SpMatrix<PS>::operator=(const ElementType &alpha)
+{
+    VectorView x = ArrayView(engine.numNonZeros(), engine.data());
+
+    x = alpha;
+
+    return *this;
+}
+
+template <typename PS>
+SpMatrix<PS> &
+SpMatrix<PS>::operator=(const SpMatrix &rhs)
 {
     if (this!=&rhs) {
         assign(rhs, *this);
@@ -97,108 +104,18 @@ SpMatrix<FS>::operator=(const SpMatrix &rhs)
     return *this;
 }
 
-template <typename FS>
+template <typename PS>
 template <typename RHS>
-SpMatrix<FS> &
-SpMatrix<FS>::operator=(const Matrix<RHS> &rhs)
+SpMatrix<PS> &
+SpMatrix<PS>::operator=(const Matrix<RHS> &rhs)
 {
     assign(rhs, *this);
     return *this;
 }
 
-template <typename FS>
-SpMatrix<FS> &
-SpMatrix<FS>::operator=(const ElementType &alpha)
-{
-    if (upLo()==Upper) {
-        for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = i; j <= lastIndex(); ++j)
-                (*this)(i,j) = alpha;
-
-    } else {
-      for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = firstIndex(); j <= i; ++j)
-                (*this)(i,j) = alpha;
-    }
-    return *this;
-}
-
-template <typename FS>
-SpMatrix<FS> &
-SpMatrix<FS>::operator+=(const ElementType &alpha)
-{
-
-    if (upLo()==Upper) {
-        for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = i; j <= lastIndex(); ++j)
-                (*this)(i,j) += alpha;
-
-    } else {
-      for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = firstIndex(); j <= i; ++j)
-                (*this)(i,j) += alpha;
-    }
-    return *this;
-}
-
-template <typename FS>
-SpMatrix<FS> &
-SpMatrix<FS>::operator-=(const ElementType &alpha)
-{
-
-    if (upLo()==Upper) {
-        for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = i; j <= lastIndex(); ++j)
-                (*this)(i,j) -= alpha;
-
-    } else {
-      for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = firstIndex(); j <= i; ++j)
-                (*this)(i,j) -= alpha;
-    }
-    return *this;
-}
-
-template <typename FS>
-SpMatrix<FS> &
-SpMatrix<FS>::operator*=(const ElementType &alpha)
-{
-
-    if (upLo()==Upper) {
-        for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = i; j <= lastIndex(); ++j)
-                (*this)(i,j) *= alpha;
-
-    } else {
-      for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = firstIndex(); j <= i; ++j)
-                (*this)(i,j) *= alpha;
-    }
-    return *this;
-}
-
-template <typename FS>
-SpMatrix<FS> &
-SpMatrix<FS>::operator/=(const ElementType &alpha)
-{
-
-    if (upLo()==Upper) {
-        for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = i; j <= lastIndex(); ++j)
-                (*this)(i,j) /= alpha;
-
-    } else {
-      for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = firstIndex(); j <= i; ++j)
-                (*this)(i,j) /= alpha;
-    }
-    return *this;
-}
-
-
-template <typename FS>
-const typename SpMatrix<FS>::ElementType &
-SpMatrix<FS>::operator()(IndexType row, IndexType col) const
+template <typename PS>
+const typename SpMatrix<PS>::ElementType &
+SpMatrix<PS>::operator()(IndexType row, IndexType col) const
 {
 #   ifndef NDEBUG
     if (upLo()==Upper) {
@@ -208,12 +125,12 @@ SpMatrix<FS>::operator()(IndexType row, IndexType col) const
     }
 #   endif
 
-    return _engine(row, col);
+    return _engine(upLo(), row, col);
 }
 
-template <typename FS>
-typename SpMatrix<FS>::ElementType &
-SpMatrix<FS>::operator()(IndexType row, IndexType col)
+template <typename PS>
+typename SpMatrix<PS>::ElementType &
+SpMatrix<PS>::operator()(IndexType row, IndexType col)
 {
 #   ifndef NDEBUG
     if (upLo()==Upper) {
@@ -223,152 +140,231 @@ SpMatrix<FS>::operator()(IndexType row, IndexType col)
     }
 #   endif
 
-    return _engine(row, col);
+    return _engine(upLo(), row, col);
 }
 
-// -- views --------------------------------------------------------------------
 
-// hermitian views
-template <typename FS>
-const typename SpMatrix<FS>::ConstHermitianView
-SpMatrix<FS>::hermitian() const
+template <typename PS>
+SpMatrix<PS> &
+SpMatrix<PS>::operator+=(const ElementType &alpha)
 {
-    return ConstHermitianView(_engine);
+    VectorView x = ArrayView(engine.numNonZeros(), engine.data());
+
+    x += alpha;
+
+    return *this;
 }
 
-template <typename FS>
-typename SpMatrix<FS>::HermitianView
-SpMatrix<FS>::hermitian()
+template <typename PS>
+SpMatrix<PS> &
+SpMatrix<PS>::operator-=(const ElementType &alpha)
 {
-    return HermitianView(_engine);
+    VectorView x = ArrayView(engine.numNonZeros(), engine.data());
+
+    x -= alpha;
+
+    return *this;
 }
 
-// symmetric views
-template <typename FS>
-const typename SpMatrix<FS>::ConstView
-SpMatrix<FS>::symmetric() const
+template <typename PS>
+SpMatrix<PS> &
+SpMatrix<PS>::operator*=(const ElementType &alpha)
 {
-    return ConstView(_engine);
+    VectorView x = ArrayView(engine.numNonZeros(), engine.data());
+
+    x *= alpha;
+
+    return *this;
 }
 
-template <typename FS>
-typename SpMatrix<FS>::View
-SpMatrix<FS>::symmetric()
+template <typename PS>
+SpMatrix<PS> &
+SpMatrix<PS>::operator/=(const ElementType &alpha)
 {
-    return View(_engine);
-}
+    VectorView x = ArrayView(engine.numNonZeros(), engine.data());
 
-// triangular views
-template <typename FS>
-const typename SpMatrix<FS>::ConstTriangularView
-SpMatrix<FS>::triangular() const
-{
-    return ConstTriangularView(_engine);
-}
+    x /= alpha;
 
-template <typename FS>
-typename SpMatrix<FS>::TriangularView
-SpMatrix<FS>::triangular()
-{
-    return TriangularView(_engine);
+    return *this;
 }
 
 // -- methods ------------------------------------------------------------------
-template <typename FS>
-typename SpMatrix<FS>::IndexType
-SpMatrix<FS>::dim() const
+template <typename PS>
+typename SpMatrix<PS>::IndexType
+SpMatrix<PS>::numRows() const
 {
     return _engine.dim();
 }
 
-template <typename FS>
-typename SpMatrix<FS>::IndexType
-SpMatrix<FS>::firstIndex() const
+template <typename PS>
+typename SpMatrix<PS>::IndexType
+SpMatrix<PS>::numCols() const
 {
-    return _engine.firstIndex();
+    return _engine.dim();
 }
 
-template <typename FS>
-typename SpMatrix<FS>::IndexType
-SpMatrix<FS>::lastIndex() const
+template <typename PS>
+typename SpMatrix<PS>::IndexType
+SpMatrix<PS>::dim() const
 {
-    return _engine.lastIndex();
+    return _engine.dim();
 }
 
-template <typename FS>
-const typename SpMatrix<FS>::ElementType *
-SpMatrix<FS>::data() const
+template <typename PS>
+typename SpMatrix<PS>::IndexType
+SpMatrix<PS>::firstRow() const
+{
+    return _engine.indexBase();
+}
+
+template <typename PS>
+typename SpMatrix<PS>::IndexType
+SpMatrix<PS>::lastRow() const
+{
+    return firstRow()+numRows()-1;
+}
+
+template <typename PS>
+typename SpMatrix<PS>::IndexType
+SpMatrix<PS>::firstCol() const
+{
+    return _engine.indexBase();
+}
+
+template <typename PS>
+typename SpMatrix<PS>::IndexType
+SpMatrix<PS>::lastCol() const
+{
+    return firstCol()+numCols()-1;
+}
+
+template <typename PS>
+typename SpMatrix<PS>::IndexType
+SpMatrix<PS>::indexBase() const
+{
+    return _engine.indexBase();
+}
+
+template <typename PS>
+StorageUpLo
+SpMatrix<PS>::upLo() const
+{
+    return _upLo;
+}
+
+template <typename PS>
+StorageUpLo &
+SpMatrix<PS>::upLo()
+{
+    return _upLo;
+}
+
+template <typename PS>
+const typename SpMatrix<PS>::ElementType *
+SpMatrix<PS>::data() const
 {
     return _engine.data();
 }
 
-template <typename FS>
-typename SpMatrix<FS>::ElementType *
-SpMatrix<FS>::data()
+template <typename PS>
+typename SpMatrix<PS>::ElementType *
+SpMatrix<PS>::data()
 {
     return _engine.data();
 }
 
-
-template <typename FS>
+template <typename PS>
 StorageOrder
-SpMatrix<FS>::order() const
+SpMatrix<PS>::order() const
 {
     return _engine.order;
 }
 
-template <typename FS>
+template <typename PS>
+bool
+SpMatrix<PS>::fill(const ElementType &value)
+{
+    return _engine.fill(value);
+}
+
+template <typename PS>
 template <typename RHS>
 bool
-SpMatrix<FS>::resize(const SpMatrix<RHS> &rhs,
+SpMatrix<PS>::resize(const SpMatrix<RHS> &rhs,
                      const ElementType &value)
 {
     return _engine.resize(rhs.engine(), value);
 }
 
-template <typename FS>
+template <typename PS>
 bool
-SpMatrix<FS>::resize(IndexType dim, IndexType firstIndex,
+SpMatrix<PS>::resize(IndexType dim, IndexType firstIndex,
                      const ElementType &value)
 {
     return _engine.resize(dim, firstIndex, value);
 }
 
-template <typename FS>
-bool
-SpMatrix<FS>::fill(const ElementType &value)
+// -- views --------------------------------------------------------------------
+
+// hermitian views
+template <typename PS>
+const typename SpMatrix<PS>::ConstHermitianView
+SpMatrix<PS>::hermitian() const
 {
-    return _engine.fill(value);
+    return ConstHermitianView(_engine);
 }
 
-template <typename FS>
-bool
-SpMatrix<FS>::fillRandom()
+template <typename PS>
+typename SpMatrix<PS>::HermitianView
+SpMatrix<PS>::hermitian()
 {
-    return _engine.fillRandom();
+    return HermitianView(_engine);
+}
+
+// symmetric views
+template <typename PS>
+const typename SpMatrix<PS>::ConstView
+SpMatrix<PS>::symmetric() const
+{
+    return ConstView(_engine);
+}
+
+template <typename PS>
+typename SpMatrix<PS>::View
+SpMatrix<PS>::symmetric()
+{
+    return View(_engine);
+}
+
+// triangular views
+template <typename PS>
+const typename SpMatrix<PS>::ConstTriangularView
+SpMatrix<PS>::triangular() const
+{
+    return ConstTriangularView(_engine);
+}
+
+template <typename PS>
+typename SpMatrix<PS>::TriangularView
+SpMatrix<PS>::triangular()
+{
+    return TriangularView(_engine);
 }
 
 // -- implementation -----------------------------------------------------------
 
-template <typename FS>
-const typename SpMatrix<FS>::Engine &
-SpMatrix<FS>::engine() const
+template <typename PS>
+const typename SpMatrix<PS>::Engine &
+SpMatrix<PS>::engine() const
 {
     return _engine;
 }
 
-template <typename FS>
-typename SpMatrix<FS>::Engine &
-SpMatrix<FS>::engine()
+template <typename PS>
+typename SpMatrix<PS>::Engine &
+SpMatrix<PS>::engine()
 {
     return _engine;
-}
-
-template <typename FS>
-StorageUpLo
-SpMatrix<FS>::upLo() const
-{
-    return FS::upLo;
 }
 
 } // namespace flens

@@ -258,6 +258,75 @@ typedef TbMatrix<ZBand>             ZTbMatrix;
 typedef TbMatrix<ZBandView>         ZTbMatrixView;
 typedef TbMatrix<ZBandConstView>    ZTbMatrixConstView;
 
+//
+//  PackedStorage types
+//
+typedef PackedStorage<float, ColMajor, IndexBase>             SPacked;
+typedef PackedStorageView<float, ColMajor, IndexBase>         SPackedView;
+typedef ConstPackedStorageView<float, ColMajor, IndexBase>    SPackedConstView;
+
+typedef PackedStorage<double, ColMajor, IndexBase>            DPacked;
+typedef PackedStorageView<double, ColMajor, IndexBase>        DPackedView;
+typedef ConstPackedStorageView<double, ColMajor, IndexBase>   DPackedConstView;
+
+typedef PackedStorage<cfloat, ColMajor, IndexBase>            CPacked;
+typedef PackedStorageView<cfloat, ColMajor, IndexBase>        CPackedView;
+typedef ConstPackedStorageView<cfloat, ColMajor, IndexBase>   CPackedConstView;
+
+typedef PackedStorage<cdouble, ColMajor, IndexBase>           ZPacked;
+typedef PackedStorageView<cdouble, ColMajor, IndexBase>       ZPackedView;
+typedef ConstPackedStorageView<cdouble, ColMajor, IndexBase>  ZPackedConstView;
+
+//
+//  HpMatrix types
+//
+typedef HpMatrix<CPacked>             CHpMatrix;
+typedef HpMatrix<CPackedView>         CHpMatrixView;
+typedef HpMatrix<CPackedConstView>    CHpMatrixConstView;
+
+typedef HpMatrix<ZPacked>             ZHpMatrix;
+typedef HpMatrix<ZPackedView>         ZHpMatrixView;
+typedef HpMatrix<ZPackedConstView>    ZHpMatrixConstView;
+
+//
+//  SpMatrix typesPacked
+//
+typedef SpMatrix<SPacked>             SSpMatrix;
+typedef SpMatrix<SPackedView>         SSpMatrixView;
+typedef SpMatrix<SPackedConstView>    SSpMatrixConstView;
+
+typedef SpMatrix<DPacked>             DSpMatrix;
+typedef SpMatrix<DPackedView>         DSpMatrixView;
+typedef SpMatrix<DPackedConstView>    DSpMatrixConstView;
+
+typedef SpMatrix<CPacked>             CSpMatrix;
+typedef SpMatrix<CPackedView>         CSpMatrixView;
+typedef SpMatrix<CPackedConstView>    CSpMatrixConstView;
+
+typedef SpMatrix<ZPacked>             ZSpMatrix;
+typedef SpMatrix<ZPackedView>         ZSpMatrixView;
+typedef SpMatrix<ZPackedConstView>    ZSpMatrixConstView;
+
+//
+//  TpMatrix typesPacked
+//
+typedef TpMatrix<SPacked>             STpMatrix;
+typedef TpMatrix<SPackedView>         STpMatrixView;
+typedef TpMatrix<SPackedConstView>    STpMatrixConstView;
+
+typedef TpMatrix<DPacked>             DTpMatrix;
+typedef TpMatrix<DPackedView>         DTpMatrixView;
+typedef TpMatrix<DPackedConstView>    DTpMatrixConstView;
+
+typedef TpMatrix<CPacked>             CTpMatrix;
+typedef TpMatrix<CPackedView>         CTpMatrixView;
+typedef TpMatrix<CPackedConstView>    CTpMatrixConstView;
+
+typedef TpMatrix<ZPacked>             ZTpMatrix;
+typedef TpMatrix<ZPackedView>         ZTpMatrixView;
+typedef TpMatrix<ZPackedConstView>    ZTpMatrixConstView;
+
+
 
 
 

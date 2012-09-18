@@ -40,57 +40,68 @@
 
 namespace flens {
 
-template <typename FS>
-TpMatrix<FS>::TpMatrix()
+//
+//-- Constructors --------------------------------------------------------------
+//
+
+template <typename PS>
+TpMatrix<PS>::TpMatrix(IndexType dim, StorageUpLo upLo, Diag diag)
+    : _engine(dim), _upLo(upLo), _diag(diag)
 {
 }
 
-template <typename FS>
-TpMatrix<FS>::TpMatrix(IndexType dim, Diag diag)
-    : _engine(dim), _diag(diag)
+
+template <typename PS>
+TpMatrix<PS>::TpMatrix(const Engine &engine, StorageUpLo upLo, Diag diag)
+    : _engine(engine), _upLo(upLo), _diag(diag)
 {
 }
 
-
-template <typename FS>
-TpMatrix<FS>::TpMatrix(const Engine &engine, Diag diag)
-    : _engine(engine), _diag(diag)
+template <typename PS>
+TpMatrix<PS>::TpMatrix(const TpMatrix &rhs)
+    : TriangularMatrix<TpMatrix<PS> >(),
+      _engine(rhs.engine()), _upLo(upLo), _diag(rhs.diag())
 {
 }
 
-template <typename FS>
-TpMatrix<FS>::TpMatrix(const TpMatrix &rhs)
-    : TriangularMatrix<TpMatrix<FS> >(),
-      _engine(rhs.engine()), _diag(rhs.diag())
-{
-}
-
-template <typename FS>
+template <typename PS>
 template <typename RHS>
-TpMatrix<FS>::TpMatrix(const TpMatrix<RHS> &rhs)
-    : _engine(rhs.engine()), _diag(rhs.diag())
+TpMatrix<PS>::TpMatrix(const TpMatrix<RHS> &rhs)
+    : _engine(rhs.engine()), _upLo(upLo), _diag(rhs.diag())
 {
 }
 
-template <typename FS>
+template <typename PS>
 template <typename RHS>
-TpMatrix<FS>::TpMatrix(TpMatrix<RHS> &rhs)
-    : _engine(rhs.engine()), _diag(rhs.diag())
+TpMatrix<PS>::TpMatrix(TpMatrix<RHS> &rhs)
+    : _engine(rhs.engine()), _upLo(upLo), _diag(rhs.diag())
 {
 }
 
-template <typename FS>
+template <typename PS>
 template <typename RHS>
-TpMatrix<FS>::TpMatrix(const Matrix<RHS> &rhs)
+TpMatrix<PS>::TpMatrix(const Matrix<RHS> &rhs)
 {
     assign(rhs, *this);
 }
 
-// -- operators ----------------------------------------------------------------
+//-- Operators -----------------------------------------------------------------
 
-template <typename FS>
-TpMatrix<FS> &
-TpMatrix<FS>::operator=(const TpMatrix &rhs)
+template <typename PS>
+TpMatrix<PS> &
+TpMatrix<PS>::operator=(const ElementType &alpha)
+{
+    ASSERT(_diag==NonUnit);
+
+    VectorView x = ArrayView(engine.numNonZeros(), engine.data());
+
+    x = alpha;
+    return *this;
+}
+
+template <typename PS>
+TpMatrix<PS> &
+TpMatrix<PS>::operator=(const TpMatrix &rhs)
 {
     if (this!=&rhs) {
         assign(rhs, *this);
@@ -98,114 +109,18 @@ TpMatrix<FS>::operator=(const TpMatrix &rhs)
     return *this;
 }
 
-template <typename FS>
+template <typename PS>
 template <typename RHS>
-TpMatrix<FS> &
-TpMatrix<FS>::operator=(const Matrix<RHS> &rhs)
+TpMatrix<PS> &
+TpMatrix<PS>::operator=(const Matrix<RHS> &rhs)
 {
     assign(rhs, *this);
     return *this;
 }
 
-
-template <typename FS>
-TpMatrix<FS> &
-TpMatrix<FS>::operator=(const ElementType &alpha)
-{
-    ASSERT(_diag==NonUnit);
-
-    if (upLo()==Upper) {
-        for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = i; j <= lastIndex(); ++j)
-                (*this)(i,j) = alpha;
-
-    } else {
-      for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = firstIndex(); j <= i; ++j)
-                (*this)(i,j) = alpha;
-    }
-    return *this;
-}
-
-template <typename FS>
-TpMatrix<FS> &
-TpMatrix<FS>::operator+=(const ElementType &alpha)
-{
-    ASSERT(_diag==NonUnit);
-
-    if (upLo()==Upper) {
-        for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = i; j <= lastIndex(); ++j)
-                (*this)(i,j) += alpha;
-
-    } else {
-      for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = firstIndex(); j <= i; ++j)
-                (*this)(i,j) += alpha;
-    }
-    return *this;
-}
-
-template <typename FS>
-TpMatrix<FS> &
-TpMatrix<FS>::operator-=(const ElementType &alpha)
-{
-    ASSERT(_diag==NonUnit);
-
-    if (upLo()==Upper) {
-        for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = i; j <= lastIndex(); ++j)
-                (*this)(i,j) -= alpha;
-
-    } else {
-      for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = firstIndex(); j <= i; ++j)
-                (*this)(i,j) -= alpha;
-    }
-    return *this;
-}
-
-template <typename FS>
-TpMatrix<FS> &
-TpMatrix<FS>::operator*=(const ElementType &alpha)
-{
-    ASSERT(_diag==NonUnit);
-
-    if (upLo()==Upper) {
-        for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = i; j <= lastIndex(); ++j)
-                (*this)(i,j) *= alpha;
-
-    } else {
-      for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = firstIndex(); j <= i; ++j)
-                (*this)(i,j) *= alpha;
-    }
-    return *this;
-}
-
-template <typename FS>
-TpMatrix<FS> &
-TpMatrix<FS>::operator/=(const ElementType &alpha)
-{
-    ASSERT(_diag==NonUnit);
-
-    if (upLo()==Upper) {
-        for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = i; j <= lastIndex(); ++j)
-                (*this)(i,j) /= alpha;
-
-    } else {
-      for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = firstIndex(); j <= i; ++j)
-                (*this)(i,j) /= alpha;
-    }
-    return *this;
-}
-
-template <typename FS>
-const typename TpMatrix<FS>::ElementType &
-TpMatrix<FS>::operator()(IndexType row, IndexType col) const
+template <typename PS>
+const typename TpMatrix<PS>::ElementType &
+TpMatrix<PS>::operator()(IndexType row, IndexType col) const
 {
 #   ifndef NDEBUG
     if (upLo()==Upper) {
@@ -215,12 +130,12 @@ TpMatrix<FS>::operator()(IndexType row, IndexType col) const
     }
     ASSERT(!((_diag==Unit) && (col==row)));
 #   endif
-    return _engine(row, col);
+    return _engine(upLo(), row, col);
 }
 
-template <typename FS>
-typename TpMatrix<FS>::ElementType &
-TpMatrix<FS>::operator()(IndexType row, IndexType col)
+template <typename PS>
+typename TpMatrix<PS>::ElementType &
+TpMatrix<PS>::operator()(IndexType row, IndexType col)
 {
 #   ifndef NDEBUG
     if (upLo()==Upper) {
@@ -230,112 +145,183 @@ TpMatrix<FS>::operator()(IndexType row, IndexType col)
     }
     ASSERT(!((_diag==Unit) && (col==row)));
 #   endif
-    return _engine(row, col);
+    return _engine(upLo(), row, col);
 }
 
-// -- views ------------------------------------------------------------
-
-// hermitian views
-template <typename FS>
-const typename TpMatrix<FS>::ConstHermitianView
-TpMatrix<FS>::hermitian() const
+template <typename PS>
+TpMatrix<PS> &
+TpMatrix<PS>::operator+=(const ElementType &alpha)
 {
-    return ConstHermitianView(_engine, upLo());
+    ASSERT(_diag==NonUnit);
+
+    VectorView x = ArrayView(engine.numNonZeros(), engine.data());
+
+    x += alpha;
+    return *this;
 }
 
-template <typename FS>
-typename TpMatrix<FS>::HermitianView
-TpMatrix<FS>::hermitian()
+template <typename PS>
+TpMatrix<PS> &
+TpMatrix<PS>::operator-=(const ElementType &alpha)
 {
-    return HermitianView(_engine);
+    ASSERT(_diag==NonUnit);
+
+    VectorView x = ArrayView(engine.numNonZeros(), engine.data());
+
+    x -= alpha;
+    return *this;
 }
 
-// symmetric views
-template <typename FS>
-const typename TpMatrix<FS>::ConstSymmetricView
-TpMatrix<FS>::symmetric() const
+template <typename PS>
+TpMatrix<PS> &
+TpMatrix<PS>::operator*=(const ElementType &alpha)
 {
-    return ConstSymmetricView(_engine);
+    ASSERT(_diag==NonUnit);
+
+    VectorView x = ArrayView(engine.numNonZeros(), engine.data());
+
+    x *= alpha;
+    return *this;
 }
 
-template <typename FS>
-typename TpMatrix<FS>::SymmetricView
-TpMatrix<FS>::symmetric()
+template <typename PS>
+TpMatrix<PS> &
+TpMatrix<PS>::operator/=(const ElementType &alpha)
 {
-    return SymmetricView(_engine);
+    ASSERT(_diag==NonUnit);
+
+    VectorView x = ArrayView(engine.numNonZeros(), engine.data());
+
+    x /= alpha;
+    return *this;
 }
 
-// triangular views
-template <typename FS>
-const typename TpMatrix<FS>::ConstView
-TpMatrix<FS>::triangular() const
-{
-    return ConstView(_engine);
-}
-
-template <typename FS>
-typename TpMatrix<FS>::View
-TpMatrix<FS>::triangular()
-{
-    return View(_engine);
-}
-
-// -- methods ------------------------------------------------------------------
-template <typename FS>
-typename TpMatrix<FS>::IndexType
-TpMatrix<FS>::dim() const
+//-- Methods -------------------------------------------------------------------
+template <typename PS>
+typename TpMatrix<PS>::IndexType
+TpMatrix<PS>::numRows() const
 {
     return _engine.dim();
 }
 
-template <typename FS>
-typename TpMatrix<FS>::IndexType
-TpMatrix<FS>::firstIndex() const
+template <typename PS>
+typename TpMatrix<PS>::IndexType
+TpMatrix<PS>::numCols() const
 {
-    return _engine.firstIndex();
+    return _engine.dim();
 }
 
-template <typename FS>
-typename TpMatrix<FS>::IndexType
-TpMatrix<FS>::lastIndex() const
+template <typename PS>
+typename TpMatrix<PS>::IndexType
+TpMatrix<PS>::dim() const
 {
-    return _engine.lastIndex();
+    return _engine.dim();
 }
 
-template <typename FS>
-const typename TpMatrix<FS>::ElementType *
-TpMatrix<FS>::data() const
+template <typename PS>
+typename TpMatrix<PS>::IndexType
+TpMatrix<PS>::firstRow() const
+{
+    return _engine.indexBase();
+}
+
+template <typename PS>
+typename TpMatrix<PS>::IndexType
+TpMatrix<PS>::lastRow() const
+{
+    return firstRow()+numRows()-1;
+}
+
+template <typename PS>
+typename TpMatrix<PS>::IndexType
+TpMatrix<PS>::firstCol() const
+{
+    return _engine.indexBase();
+}
+
+template <typename PS>
+typename TpMatrix<PS>::IndexType
+TpMatrix<PS>::lastCol() const
+{
+    return firstCol()+numCols()-1;
+}
+
+template <typename PS>
+typename TpMatrix<PS>::IndexType
+TpMatrix<PS>::indexBase() const
+{
+    return _engine.indexBase();
+}
+
+
+template <typename PS>
+StorageUpLo
+TpMatrix<PS>::upLo() const
+{
+    return _upLo;
+}
+
+template <typename PS>
+StorageUpLo &
+TpMatrix<PS>::upLo()
+{
+    return _upLo;
+}
+
+template <typename PS>
+Diag
+TpMatrix<PS>::diag() const
+{
+    return _diag;
+}
+
+template <typename PS>
+Diag &
+TpMatrix<PS>::diag()
+{
+    return _diag;
+}
+
+template <typename PS>
+const typename TpMatrix<PS>::ElementType *
+TpMatrix<PS>::data() const
 {
     return _engine.data();
 }
 
-template <typename FS>
-typename TpMatrix<FS>::ElementType *
-TpMatrix<FS>::data()
+template <typename PS>
+typename TpMatrix<PS>::ElementType *
+TpMatrix<PS>::data()
 {
     return _engine.data();
 }
 
-
-template <typename FS>
+template <typename PS>
 StorageOrder
-TpMatrix<FS>::order() const
+TpMatrix<PS>::order() const
 {
     return _engine.order;
 }
 
-template <typename FS>
-template <typename RHS>
+template <typename PS>
 bool
-TpMatrix<FS>::resize(const TpMatrix<RHS> &rhs,
-                     const ElementType &value)
+TpMatrix<PS>::fill(const ElementType &value)
 {
-    return _engine.resize(rhs.engine(), value);
+    return _engine.fill(value);
 }
 
-template <typename FS>
+template <typename PS>
+template <typename RHS>
 bool
-TpMatrix<FS>::resize(IndexType dim,
+TpMatrix<PS>::resize(const TpMatrix<RHS> &rhs,
+                     const ElementType &value)
+{
+    return resize(rhs.dim(), rhs.indexBase(), value);
+}
+
+template <typename PS>
+bool
+TpMatrix<PS>::resize(IndexType dim,
                      IndexType indexBase,
                      const ElementType &value)
 {
@@ -343,54 +329,68 @@ TpMatrix<FS>::resize(IndexType dim,
                           value);
 }
 
-template <typename FS>
-bool
-TpMatrix<FS>::fill(const ElementType &value)
+//-- Views ---------------------------------------------------------------------
+
+// hermitian views
+template <typename PS>
+const typename TpMatrix<PS>::ConstHermitianView
+TpMatrix<PS>::hermitian() const
 {
-    return _engine.fill(value);
+    return ConstHermitianView(_engine, upLo());
 }
 
-template <typename FS>
-bool
-TpMatrix<FS>::fillRandom()
+template <typename PS>
+typename TpMatrix<PS>::HermitianView
+TpMatrix<PS>::hermitian()
 {
-    return _engine.fillRandom();
+    return HermitianView(_engine, upLo());
 }
 
-// -- implementation -----------------------------------------------------------
-template <typename FS>
-const typename TpMatrix<FS>::Engine &
-TpMatrix<FS>::engine() const
+// symmetric views
+template <typename PS>
+const typename TpMatrix<PS>::ConstSymmetricView
+TpMatrix<PS>::symmetric() const
+{
+    return ConstSymmetricView(_engine, upLo());
+}
+
+template <typename PS>
+typename TpMatrix<PS>::SymmetricView
+TpMatrix<PS>::symmetric()
+{
+    return SymmetricView(_engine, upLo());
+}
+
+// triangular views
+template <typename PS>
+const typename TpMatrix<PS>::ConstView
+TpMatrix<PS>::triangular() const
+{
+    return ConstView(_engine, upLo(), diag());
+}
+
+template <typename PS>
+typename TpMatrix<PS>::View
+TpMatrix<PS>::triangular()
+{
+    return View(_engine, upLo(), diag());
+}
+
+
+//-- Implementation ------------------------------------------------------------
+
+template <typename PS>
+const typename TpMatrix<PS>::Engine &
+TpMatrix<PS>::engine() const
 {
     return _engine;
 }
 
-template <typename FS>
-typename TpMatrix<FS>::Engine &
-TpMatrix<FS>::engine()
+template <typename PS>
+typename TpMatrix<PS>::Engine &
+TpMatrix<PS>::engine()
 {
     return _engine;
-}
-
-template <typename FS>
-StorageUpLo
-TpMatrix<FS>::upLo() const
-{
-    return FS::upLo;
-}
-
-template <typename FS>
-Diag
-TpMatrix<FS>::diag() const
-{
-    return _diag;
-}
-
-template <typename FS>
-Diag &
-TpMatrix<FS>::diag()
-{
-    return _diag;
 }
 
 } // namespace flens

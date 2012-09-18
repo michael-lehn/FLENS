@@ -37,15 +37,11 @@ BLAS(chpr2)(const char      *UPLO,
 
     StorageUpLo  upLo = StorageUpLo(_UPLO);
 
-    // Until we have band matrices back in FLENS we jsut call cxxblas
-    // directly.
+    CDenseVectorConstView  x(CConstArrayView(*N, X, abs(*INCX)), *INCX<0);
+    CDenseVectorConstView  y(CConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
+    CHpMatrixView          A(CPackedView(*N, AP), upLo);
 
-    cxxblas::hpr2(ColMajor, upLo,
-                  *N,
-                  *ALPHA,
-                  X, *INCX,
-                  Y, *INCY,
-                  AP);
+    blas::r2(*ALPHA, x, y, A);
 }
 
 void
@@ -80,15 +76,11 @@ BLAS(zhpr2)(const char      *UPLO,
 
     StorageUpLo  upLo = StorageUpLo(_UPLO);
 
-    // Until we have band matrices back in FLENS we jsut call cxxblas
-    // directly.
+    ZDenseVectorConstView  x(ZConstArrayView(*N, X, abs(*INCX)), *INCX<0);
+    ZDenseVectorConstView  y(ZConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
+    ZHpMatrixView          A(ZPackedView(*N, AP), upLo);
 
-    cxxblas::hpr2(ColMajor, upLo,
-                  *N,
-                  *ALPHA,
-                  X, *INCX,
-                  Y, *INCY,
-                  AP);
+    blas::r2(*ALPHA, x, y, A);
 }
 
 } // extern "C"

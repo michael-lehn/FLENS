@@ -41,32 +41,32 @@
 namespace flens {
 
 
-template <typename FS>
+template <typename PS>
 std::ostream &
-operator<<(std::ostream &out, const HpMatrix<FS> &A)
+operator<<(std::ostream &out, const HpMatrix<PS> &A)
 {
-    typedef typename HpMatrix<FS>::ElementType  ElementType;
-    typedef typename HpMatrix<FS>::IndexType    IndexType;
+    typedef typename HpMatrix<PS>::ElementType  ElementType;
+    typedef typename HpMatrix<PS>::IndexType    IndexType;
 #   ifdef FLENS_IO_WITH_RANGES
-    IndexType defaultIndexBase = FS::defaultIndexBase;
+    IndexType defaultIndexBase = PS::defaultIndexBase;
 
-    if ((A.firstIndex()==defaultIndexBase)
-     && (A.firstIndex()==defaultIndexBase))
+    if ((A.firstRow()==defaultIndexBase)
+     && (A.firstCol()==defaultIndexBase))
     {
         out << "[" << A.dim() << ", " << A.dim()
             << "]" << std::endl;
     } else {
-        out << "["  << A.firstIndex() << ".." << A.lastIndex()
-            << ", " << A.firstIndex() << ".." << A.lastIndex()
+        out << "["  << A.firstRow() << ".." << A.lastRow()
+            << ", " << A.firstCol() << ".." << A.lastCol()
             << "]" << std::endl;
     }
 #   endif // FLENS_IO_WITH_RANGES
 
     out << std::endl;
     out.setf(std::ios::fixed|std::ios::right);
-    for (IndexType i=A.firstIndex(); i<=A.lastIndex(); ++i) {
-        for (IndexType j=A.firstIndex(); j<=A.lastIndex(); ++j) {
-             if(IsNotComplex<typename FS::ElementType>::value)
+    for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
+        for (IndexType j=A.firstCol(); j<=A.lastCol(); ++j) {
+             if(IsNotComplex<typename PS::ElementType>::value)
                 out.width(11);
             else
                 out.width(22);
@@ -90,32 +90,32 @@ operator<<(std::ostream &out, const HpMatrix<FS> &A)
     return out;
 }
 
-template <typename FS>
+template <typename PS>
 std::ostream &
-operator<<(std::ostream &out, const SpMatrix<FS> &A)
+operator<<(std::ostream &out, const SpMatrix<PS> &A)
 {
-    typedef typename SpMatrix<FS>::IndexType IndexType;
+    typedef typename SpMatrix<PS>::IndexType IndexType;
 
 #   ifdef FLENS_IO_WITH_RANGES
-    IndexType defaultIndexBase = FS::defaultIndexBase;
+    IndexType defaultIndexBase = PS::defaultIndexBase;
 
-    if ((A.firstIndex()==defaultIndexBase)
-     && (A.firstIndex()==defaultIndexBase))
+    if ((A.firstRow()==defaultIndexBase)
+     && (A.firstCol()==defaultIndexBase))
     {
         out << "[" << A.dim() << ", " << A.dim()
             << "]" << std::endl;
     } else {
-        out << "["  << A.firstIndex() << ".." << A.lastIndex()
-            << ", " << A.firstIndex() << ".." << A.lastIndex()
+        out << "["  << A.firstRow() << ".." << A.lastRow()
+            << ", " << A.firstCol() << ".." << A.lastCol()
             << "]" << std::endl;
     }
 #   endif // FLENS_IO_WITH_RANGES
 
     out << std::endl;
     out.setf(std::ios::fixed|std::ios::right);
-    for (IndexType i=A.firstIndex(); i<=A.lastIndex(); ++i) {
-        for (IndexType j=A.firstIndex(); j<=A.lastIndex(); ++j) {
-             if(IsNotComplex<typename FS::ElementType>::value)
+    for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
+        for (IndexType j=A.firstCol(); j<=A.lastCol(); ++j) {
+             if(IsNotComplex<typename PS::ElementType>::value)
                 out.width(11);
             else
                 out.width(22);
@@ -130,33 +130,33 @@ operator<<(std::ostream &out, const SpMatrix<FS> &A)
     return out;
 }
 
-template <typename FS>
+template <typename PS>
 std::ostream &
-operator<<(std::ostream &out, const TpMatrix<FS> &A)
+operator<<(std::ostream &out, const TpMatrix<PS> &A)
 {
-    typedef typename TpMatrix<FS>::IndexType    IndexType;
-    typedef typename TpMatrix<FS>::ElementType  ElementType;
+    typedef typename TpMatrix<PS>::IndexType    IndexType;
+    typedef typename TpMatrix<PS>::ElementType  ElementType;
 
 #   ifdef FLENS_IO_WITH_RANGES
-    IndexType defaultIndexBase = FS::defaultIndexBase;
+    IndexType defaultIndexBase = PS::defaultIndexBase;
 
-    if ((A.firstIndex()==defaultIndexBase)
-     && (A.firstIndex()==defaultIndexBase))
+    if ((A.firstRow()==defaultIndexBase)
+     && (A.firstCol()==defaultIndexBase))
     {
         out << "[" << A.dim() << ", " << A.dim()
             << "]" << std::endl;
     } else {
-        out << "["  << A.firstIndex() << ".." << A.lastIndex()
-            << ", " << A.firstIndex() << ".." << A.lastIndex()
+        out << "["  << A.firstRow() << ".." << A.lastRow()
+            << ", " << A.firstCol() << ".." << A.lastCol()
             << "]" << std::endl;
     }
 #   endif // FLENS_IO_WITH_RANGES
 
     out << std::endl;
     out.setf(std::ios::fixed|std::ios::right);
-    for (IndexType i=A.firstIndex(); i<=A.lastIndex(); ++i) {
-        for (IndexType j=A.firstIndex(); j<=A.lastIndex(); ++j) {
-             if(IsNotComplex<typename FS::ElementType>::value)
+    for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
+        for (IndexType j=A.firstCol(); j<=A.lastCol(); ++j) {
+             if(IsNotComplex<typename PS::ElementType>::value)
                 out.width(11);
             else
                 out.width(22);

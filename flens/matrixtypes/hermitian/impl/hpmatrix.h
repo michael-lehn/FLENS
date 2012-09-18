@@ -44,18 +44,18 @@ namespace flens {
 template <typename A>
     class DenseVector;
 
-template <typename FS>
+template <typename PS>
     class SpMatrix;
 
-template <typename FS>
+template <typename PS>
     class TpMatrix;
 
-template <typename FS>
+template <typename PS>
 class HpMatrix
-    : public HermitianMatrix<HpMatrix<FS> >
+    : public HermitianMatrix<HpMatrix<PS> >
 {
     public:
-        typedef FS                                  Engine;
+        typedef PS                                  Engine;
         typedef typename Engine::ElementType        ElementType;
         typedef typename Engine::IndexType          IndexType;
 
@@ -85,15 +85,11 @@ class HpMatrix
         typedef TpMatrix<EngineView>                TriangularView;
         typedef TpMatrix<EngineNoView>              TriangularNoView;
 
-        HpMatrix();
+        //-- Constructors ------------------------------------------------------
 
-        explicit
-        HpMatrix(IndexType dim);
+        HpMatrix(IndexType dim, StorageUpLo upLo = Upper);
 
-        HpMatrix(IndexType dim,
-                 IndexType firstIndex);
-
-        HpMatrix(const Engine &engine);
+        HpMatrix(const Engine &engine, StorageUpLo upLo);
 
         HpMatrix(const HpMatrix &rhs);
 
@@ -106,8 +102,11 @@ class HpMatrix
         template <typename RHS>
             HpMatrix(const Matrix<RHS> &rhs);
 
+        //-- Operators ---------------------------------------------------------
 
-        // -- operators --------------------------------------------------------
+        HpMatrix &
+        operator=(const ElementType &alpha);
+
         HpMatrix &
         operator=(const HpMatrix &rhs);
 
@@ -115,60 +114,55 @@ class HpMatrix
             HpMatrix &
             operator=(const Matrix<RHS> &rhs);
 
-        HpMatrix<FS> &
-        operator=(const ElementType &alpha);
-
-        HpMatrix<FS> &
-        operator+=(const ElementType &alpha);
-
-        HpMatrix<FS> &
-        operator-=(const ElementType &alpha);
-
-        HpMatrix<FS> &
-        operator*=(const ElementType &alpha);
-
-        HpMatrix<FS> &
-        operator/=(const ElementType &alpha);
-
         const ElementType &
         operator()(IndexType row, IndexType col) const;
 
         ElementType &
         operator()(IndexType row, IndexType col);
 
-        // -- views ------------------------------------------------------------
+        HpMatrix &
+        operator+=(const ElementType &alpha);
 
-        // general views
-        ConstView
-        hermitian() const;
+        HpMatrix &
+        operator-=(const ElementType &alpha);
 
-        View
-        hermitian();
+        HpMatrix &
+        operator*=(const ElementType &alpha);
 
-        // symmetric view
-        ConstSymmetricView
-        symmetric() const;
+        HpMatrix &
+        operator/=(const ElementType &alpha);
 
-        SymmetricView
-        symmetric();
+        //-- Methods -----------------------------------------------------------
 
-        // triangular view
-        ConstTriangularView
-        triangular() const;
+        IndexType
+        numRows() const;
 
-        TriangularView
-        triangular();
-
-        // -- methods ----------------------------------------------------------
+        IndexType
+        numCols() const;
 
         IndexType
         dim() const;
 
         IndexType
-        firstIndex() const;
+        firstRow() const;
 
         IndexType
-        lastIndex() const;
+        lastRow() const;
+
+        IndexType
+        firstCol() const;
+
+        IndexType
+        lastCol() const;
+
+        IndexType
+        indexBase() const;
+
+        StorageUpLo
+        upLo() const;
+
+        StorageUpLo &
+        upLo();
 
         const ElementType *
         data() const;
@@ -178,6 +172,9 @@ class HpMatrix
 
         StorageOrder
         order() const;
+
+        bool
+        fill(const ElementType &value = ElementType(0));
 
         template <typename RHS>
             bool
@@ -189,13 +186,30 @@ class HpMatrix
                IndexType firstIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
 
-        bool
-        fill(const ElementType &value = ElementType(0));
+        //-- Views -------------------------------------------------------------
 
-        bool
-        fillRandom();
+        // hermitian views
+        const ConstView
+        hermitian() const;
 
-        // -- implementation ---------------------------------------------------
+        View
+        hermitian();
+
+        // symmetric view
+        const ConstSymmetricView
+        symmetric() const;
+
+        SymmetricView
+        symmetric();
+
+        // triangular view
+        const ConstTriangularView
+        triangular() const;
+
+        TriangularView
+        triangular();
+
+        //-- Implementation ----------------------------------------------------
 
         const Engine &
         engine() const;
@@ -203,11 +217,9 @@ class HpMatrix
         Engine &
         engine();
 
-        StorageUpLo
-        upLo() const;
-
     private:
-        Engine      _engine;
+        Engine       _engine;
+        StorageUpLo  _upLo;
 };
 
 //-- Traits --------------------------------------------------------------------

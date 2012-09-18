@@ -44,18 +44,18 @@ namespace flens {
 template <typename A>
     class DenseVector;
 
-template <typename FS>
+template <typename PS>
     class HpMatrix;
 
-template <typename FS>
+template <typename PS>
     class SpMatrix;
 
-template <typename FS>
+template <typename PS>
 class TpMatrix
-    : public TriangularMatrix<TpMatrix<FS> >
+    : public TriangularMatrix<TpMatrix<PS> >
 {
     public:
-        typedef FS                                  Engine;
+        typedef PS                                  Engine;
         typedef typename Engine::ElementType        ElementType;
         typedef typename Engine::IndexType          IndexType;
 
@@ -63,6 +63,15 @@ class TpMatrix
         typedef typename Engine::ConstView          EngineConstView;
         typedef typename Engine::View               EngineView;
         typedef typename Engine::NoView             EngineNoView;
+
+        typedef typename Engine::ConstArrayView     ConstArrayView;
+        typedef typename Engine::ArrayView          ArrayView;
+        typedef typename Engine::Array              Array;
+
+        // view types
+        typedef DenseVector<ConstArrayView>         ConstVectorView;
+        typedef DenseVector<ArrayView>              VectorView;
+        typedef DenseVector<Array>                  Vector;
 
         typedef HpMatrix<EngineConstView>           ConstHermitianView;
         typedef HpMatrix<EngineView>                HermitianView;
@@ -76,13 +85,11 @@ class TpMatrix
         typedef TpMatrix<EngineView>                View;
         typedef TpMatrix<EngineNoView>              NoView;
 
-        TpMatrix();
+        //-- Constructors ------------------------------------------------------
 
-        explicit
-        TpMatrix(IndexType dim, Diag diag = NonUnit);
+        TpMatrix(IndexType dim, StorageUpLo upLo, Diag diag = NonUnit);
 
-
-        TpMatrix(const Engine &engine, Diag diag = NonUnit);
+        TpMatrix(const Engine &engine, StorageUpLo upLo, Diag diag = NonUnit);
 
         TpMatrix(const TpMatrix &rhs);
 
@@ -95,7 +102,11 @@ class TpMatrix
         template <typename RHS>
             TpMatrix(const Matrix<RHS> &rhs);
 
-        // -- operators --------------------------------------------------------
+        //-- Operators ---------------------------------------------------------
+
+        TpMatrix &
+        operator=(const ElementType &alpha);
+
         TpMatrix &
         operator=(const TpMatrix &rhs);
 
@@ -103,28 +114,85 @@ class TpMatrix
             TpMatrix &
             operator=(const Matrix<RHS> &rhs);
 
-        TpMatrix<FS> &
-        operator=(const ElementType &alpha);
-
-        TpMatrix<FS> &
-        operator+=(const ElementType &alpha);
-
-        TpMatrix<FS> &
-        operator-=(const ElementType &alpha);
-
-        TpMatrix<FS> &
-        operator*=(const ElementType &alpha);
-
-        TpMatrix<FS> &
-        operator/=(const ElementType &alpha);
-
         const ElementType &
         operator()(IndexType row, IndexType col) const;
 
         ElementType &
         operator()(IndexType row, IndexType col);
 
-        // -- views ------------------------------------------------------------
+        TpMatrix &
+        operator+=(const ElementType &alpha);
+
+        TpMatrix &
+        operator-=(const ElementType &alpha);
+
+        TpMatrix &
+        operator*=(const ElementType &alpha);
+
+        TpMatrix &
+        operator/=(const ElementType &alpha);
+
+        //-- Methods -----------------------------------------------------------
+
+        IndexType
+        numRows() const;
+
+        IndexType
+        numCols() const;
+
+        IndexType
+        dim() const;
+
+        IndexType
+        firstRow() const;
+
+        IndexType
+        lastRow() const;
+
+        IndexType
+        firstCol() const;
+
+        IndexType
+        lastCol() const;
+
+        IndexType
+        indexBase() const;
+
+        StorageUpLo
+        upLo() const;
+
+        StorageUpLo &
+        upLo();
+
+        Diag
+        diag() const;
+
+        Diag &
+        diag();
+
+        const ElementType *
+        data() const;
+
+        ElementType *
+        data();
+
+        StorageOrder
+        order() const;
+
+        bool
+        fill(const ElementType &value = ElementType(0));
+
+        template <typename RHS>
+            bool
+            resize(const TpMatrix<RHS> &rhs,
+                   const ElementType &value = ElementType());
+
+        bool
+        resize(IndexType dim,
+               IndexType indexBase = Engine::defaultIndexBase,
+               const ElementType &value = ElementType());
+
+        //-- Views -------------------------------------------------------------
 
         // hermitian views
         const ConstHermitianView
@@ -147,60 +215,17 @@ class TpMatrix
         View
         triangular();
 
-        // -- methods ----------------------------------------------------------
-        IndexType
-        dim() const;
+        //-- Implementation ----------------------------------------------------
 
-        // for element access
-        IndexType
-        firstIndex() const;
-
-        IndexType
-        lastIndex() const;
-
-        const ElementType *
-        data() const;
-
-        ElementType *
-        data();
-
-        StorageOrder
-        order() const;
-
-        template <typename RHS>
-            bool
-            resize(const TpMatrix<RHS> &rhs,
-                   const ElementType &value = ElementType());
-
-        bool
-        resize(IndexType dim,
-               IndexType indexBase = Engine::defaultIndexBase,
-               const ElementType &value = ElementType());
-
-        bool
-        fill(const ElementType &value = ElementType(0));
-
-        bool
-        fillRandom();
-
-        // -- implementation ---------------------------------------------------
         const Engine &
         engine() const;
 
         Engine &
         engine();
 
-        StorageUpLo
-        upLo() const;
-
-        Diag
-        diag() const;
-
-        Diag &
-        diag();
-
     private:
         Engine       _engine;
+        StorageUpLo  _upLo;
         Diag         _diag;
 };
 

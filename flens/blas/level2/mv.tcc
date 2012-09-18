@@ -415,8 +415,6 @@ mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
     }
 
 #   ifdef HAVE_CXXBLAS_HEMV
-    typedef typename RemoveRef<MA>::Type   MatrixA;
-
     cxxblas::hemv(A.order(), A.upLo(),
                   A.dim(),
                   alpha,
@@ -428,6 +426,41 @@ mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
     ASSERT(0);
 #   endif
 }
+
+//-- hpmv
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+typename RestrictTo<IsHpMatrix<MA>::value
+                 && IsDenseVector<VX>::value
+                 && IsDenseVector<VY>::value,
+         void>::Type
+mv(const ALPHA &alpha, const MA &A, const VX &x,
+   const BETA &beta, VY &&y)
+{
+    ASSERT(!DEBUGCLOSURE::identical(x, y));
+    ASSERT(x.length()==A.dim());
+    ASSERT((beta==BETA(0)) || (y.length()==A.dim()));
+
+    if (y.length()!=A.dim()) {
+        typedef typename RemoveRef<VY>::Type   VectorY;
+        typedef typename VectorY::ElementType  T;
+
+        const T  Zero(0);
+        y.resize(A.dim(), y.firstIndex(), Zero);
+    }
+
+#   ifdef HAVE_CXXBLAS_HEMV
+    cxxblas::hpmv(A.order(), A.upLo(),
+                  A.dim(),
+                  alpha,
+                  A.data(),
+                  x.data(), x.stride(),
+                  beta,
+                  y.data(), y.stride());
+#   else
+    ASSERT(0);
+#   endif
+}
+
 
 //== SymmetricMatrix - Vector products =========================================
 
