@@ -67,6 +67,12 @@ convertTo(const char c)
 
 
 // matrix/vector types with DOUBLE
+typedef BandStorageView<double, ColMajor>                DBSView;
+typedef ConstBandStorageView<double, ColMajor>           DConstBSView;
+
+typedef GbMatrix<DBSView>                                DGbMatrixView;
+typedef GbMatrix<DConstBSView>                           DConstGbMatrixView;
+
 typedef FullStorageView<DOUBLE, cxxblas::ColMajor>       DFSView;
 typedef ConstFullStorageView<DOUBLE, cxxblas::ColMajor>  DConstFSView;
 
