@@ -87,7 +87,7 @@ template <typename PS>
 SpMatrix<PS> &
 SpMatrix<PS>::operator=(const ElementType &alpha)
 {
-    VectorView x = ArrayView(engine.numNonZeros(), engine.data());
+    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
 
     x = alpha;
 
@@ -148,7 +148,7 @@ template <typename PS>
 SpMatrix<PS> &
 SpMatrix<PS>::operator+=(const ElementType &alpha)
 {
-    VectorView x = ArrayView(engine.numNonZeros(), engine.data());
+    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
 
     x += alpha;
 
@@ -159,7 +159,7 @@ template <typename PS>
 SpMatrix<PS> &
 SpMatrix<PS>::operator-=(const ElementType &alpha)
 {
-    VectorView x = ArrayView(engine.numNonZeros(), engine.data());
+    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
 
     x -= alpha;
 
@@ -170,7 +170,7 @@ template <typename PS>
 SpMatrix<PS> &
 SpMatrix<PS>::operator*=(const ElementType &alpha)
 {
-    VectorView x = ArrayView(engine.numNonZeros(), engine.data());
+    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
 
     x *= alpha;
 
@@ -181,7 +181,7 @@ template <typename PS>
 SpMatrix<PS> &
 SpMatrix<PS>::operator/=(const ElementType &alpha)
 {
-    VectorView x = ArrayView(engine.numNonZeros(), engine.data());
+    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
 
     x /= alpha;
 

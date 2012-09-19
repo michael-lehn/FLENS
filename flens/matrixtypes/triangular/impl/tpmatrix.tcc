@@ -93,7 +93,7 @@ TpMatrix<PS>::operator=(const ElementType &alpha)
 {
     ASSERT(_diag==NonUnit);
 
-    VectorView x = ArrayView(engine.numNonZeros(), engine.data());
+    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
 
     x = alpha;
     return *this;
@@ -154,7 +154,7 @@ TpMatrix<PS>::operator+=(const ElementType &alpha)
 {
     ASSERT(_diag==NonUnit);
 
-    VectorView x = ArrayView(engine.numNonZeros(), engine.data());
+    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
 
     x += alpha;
     return *this;
@@ -166,7 +166,7 @@ TpMatrix<PS>::operator-=(const ElementType &alpha)
 {
     ASSERT(_diag==NonUnit);
 
-    VectorView x = ArrayView(engine.numNonZeros(), engine.data());
+    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
 
     x -= alpha;
     return *this;
@@ -178,7 +178,7 @@ TpMatrix<PS>::operator*=(const ElementType &alpha)
 {
     ASSERT(_diag==NonUnit);
 
-    VectorView x = ArrayView(engine.numNonZeros(), engine.data());
+    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
 
     x *= alpha;
     return *this;
@@ -190,7 +190,7 @@ TpMatrix<PS>::operator/=(const ElementType &alpha)
 {
     ASSERT(_diag==NonUnit);
 
-    VectorView x = ArrayView(engine.numNonZeros(), engine.data());
+    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
 
     x /= alpha;
     return *this;
