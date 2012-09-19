@@ -42,32 +42,32 @@
 
 namespace flens {
 
-template <typename FS>
+template <typename PS>
     bool
-    load(std::string filename, HpMatrix<FS> &A);
+    load(std::string filename, HpMatrix<PS> &A);
 
-template <typename FS>
+template <typename PS>
     bool
-    load(std::string filename, SpMatrix<FS> &A);
+    load(std::string filename, SpMatrix<PS> &A);
 
-template <typename FS>
+template <typename PS>
     bool
-    load(std::string filename, TpMatrix<FS> &A);
+    load(std::string filename, TpMatrix<PS> &A);
 
-template <typename FS>
-    typename RestrictTo<IsReal<typename FS::ElementType>::value,
+template <typename PS>
+    typename RestrictTo<IsReal<typename PS::ElementType>::value,
                         bool>::Type
-    loadMatrixMarket(std::string filename, SpMatrix<FS> &A);
+    loadMatrixMarket(std::string filename, SpMatrix<PS> &A);
 
-template <typename FS>
-    typename RestrictTo<IsComplex<typename FS::ElementType>::value,
+template <typename PS>
+    typename RestrictTo<IsComplex<typename PS::ElementType>::value,
                         bool>::Type
-    loadMatrixMarket(std::string filename, SpMatrix<FS> &A);
+    loadMatrixMarket(std::string filename, SpMatrix<PS> &A);
 
-template <typename FS>
-    typename RestrictTo<IsComplex<typename FS::ElementType>::value,
+template <typename PS>
+    typename RestrictTo<IsComplex<typename PS::ElementType>::value,
                         bool>::Type
-    loadMatrixMarket(std::string filename, HpMatrix<FS> &A);
+    loadMatrixMarket(std::string filename, HpMatrix<PS> &A);
 
 //-- forwarding ---------------------------------------------------------------
 

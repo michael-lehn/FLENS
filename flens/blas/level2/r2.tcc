@@ -45,7 +45,7 @@
 
 namespace flens { namespace blas {
 
-//-- HeMatrix, DenseVector -----------------------------------------------------
+//-- HermitianMatrix, DenseVector ----------------------------------------------
 
 //-- her2
 template <typename ALPHA, typename VX, typename VY, typename MA>
@@ -69,8 +69,51 @@ r2(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
                   A.data(), A.leadingDimension());
 }
 
+//-- hpr2
+template <typename ALPHA, typename VX, typename VY, typename MA>
+typename RestrictTo<IsDenseVector<VX>::value
+                 && IsDenseVector<VY>::value
+                 && IsHpMatrix<MA>::value,
+         void>::Type
+r2(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
+{
+    ASSERT(x.length()==y.length());
+    if (A.dim()==0) {
+        ASSERT(x.firstIndex()==y.firstIndex());
+        A.resize(x.length(), x.firstIndex());
+    }
+    ASSERT(A.dim()==x.length());
+    cxxblas::hpr2(A.order(), A.upLo(),
+                  A.dim(),
+                  alpha,
+                  x.data(), x.stride(),
+                  y.data(), y.stride(),
+                  A.data());
+}
 
-//-- SyMatrix, DenseVector -----------------------------------------------------
+//-- SymmetricMatrix, DenseVector ----------------------------------------------
+
+//-- spr2
+template <typename ALPHA, typename VX, typename VY, typename MA>
+typename RestrictTo<IsDenseVector<VX>::value
+                 && IsDenseVector<VY>::value
+                 && IsSpMatrix<MA>::value,
+         void>::Type
+r2(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
+{
+    ASSERT(x.length()==y.length());
+    if (A.dim()==0) {
+        ASSERT(x.firstIndex()==y.firstIndex());
+        A.resize(x.length(), x.firstIndex());
+    }
+    ASSERT(A.dim()==x.length());
+    cxxblas::spr2(A.order(), A.upLo(),
+                  A.dim(),
+                  alpha,
+                  x.data(), x.stride(),
+                  y.data(), y.stride(),
+                  A.data());
+}
 
 //-- syr2
 template <typename ALPHA, typename VX, typename VY, typename MA>

@@ -85,8 +85,7 @@ GeMatrix<FS>::GeMatrix(const Engine &engine)
 
 template <typename FS>
 GeMatrix<FS>::GeMatrix(const GeMatrix &rhs)
-    : GeneralMatrix<GeMatrix>(),
-      _engine(rhs._engine)
+    : GeneralMatrix<GeMatrix>(), _engine(rhs._engine)
 {
 }
 

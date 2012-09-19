@@ -44,18 +44,18 @@ namespace flens {
 template <typename A>
     class DenseVector;
 
-template <typename FS>
+template <typename PS>
     class HpMatrix;
 
-template <typename FS>
+template <typename PS>
     class TpMatrix;
 
-template <typename FS>
+template <typename PS>
 class SpMatrix
-    : public SymmetricMatrix<SpMatrix<FS> >
+    : public SymmetricMatrix<SpMatrix<PS> >
 {
     public:
-        typedef FS                                  Engine;
+        typedef PS                                  Engine;
         typedef typename Engine::ElementType        ElementType;
         typedef typename Engine::IndexType          IndexType;
 
@@ -86,12 +86,11 @@ class SpMatrix
         typedef TpMatrix<EngineView>                TriangularView;
         typedef TpMatrix<EngineNoView>              TriangularNoView;
 
-        SpMatrix();
+        //-- Constructors ------------------------------------------------------
 
-        explicit
-        SpMatrix(IndexType dim);
+        SpMatrix(IndexType dim, StorageUpLo upLo = Upper);
 
-        SpMatrix(const Engine &engine);
+        SpMatrix(const Engine &engine, StorageUpLo upLo);
 
         SpMatrix(const SpMatrix &rhs);
 
@@ -104,7 +103,10 @@ class SpMatrix
         template <typename RHS>
             SpMatrix(const Matrix<RHS> &rhs);
 
-        // -- operators --------------------------------------------------------
+        //-- Operators ---------------------------------------------------------
+
+        SpMatrix &
+        operator=(const ElementType &alpha);
 
         SpMatrix &
         operator=(const SpMatrix &rhs);
@@ -113,28 +115,79 @@ class SpMatrix
             SpMatrix &
             operator=(const Matrix<RHS> &rhs);
 
-        SpMatrix<FS> &
-        operator=(const ElementType &alpha);
-
-        SpMatrix<FS> &
-        operator+=(const ElementType &alpha);
-
-        SpMatrix<FS> &
-        operator-=(const ElementType &alpha);
-
-        SpMatrix<FS> &
-        operator*=(const ElementType &alpha);
-
-        SpMatrix<FS> &
-        operator/=(const ElementType &alpha);
-
         const ElementType &
         operator()(IndexType row, IndexType col) const;
 
         ElementType &
         operator()(IndexType row, IndexType col);
 
-        // -- views ------------------------------------------------------------
+        SpMatrix &
+        operator+=(const ElementType &alpha);
+
+        SpMatrix &
+        operator-=(const ElementType &alpha);
+
+        SpMatrix &
+        operator*=(const ElementType &alpha);
+
+        SpMatrix &
+        operator/=(const ElementType &alpha);
+
+        //-- Methods -----------------------------------------------------------
+
+        IndexType
+        numRows() const;
+
+        IndexType
+        numCols() const;
+
+        IndexType
+        dim() const;
+
+        IndexType
+        firstRow() const;
+
+        IndexType
+        lastRow() const;
+
+        IndexType
+        firstCol() const;
+
+        IndexType
+        lastCol() const;
+
+        IndexType
+        indexBase() const;
+
+        StorageUpLo
+        upLo() const;
+
+        StorageUpLo &
+        upLo();
+
+        const ElementType *
+        data() const;
+
+        ElementType *
+        data();
+
+        StorageOrder
+        order() const;
+
+        bool
+        fill(const ElementType &value = ElementType(0));
+
+        template <typename RHS>
+            bool
+            resize(const SpMatrix<RHS> &rhs,
+                   const ElementType &value = ElementType());
+
+        bool
+        resize(IndexType dim,
+               IndexType firstIndex = Engine::defaultIndexBase,
+               const ElementType &value = ElementType());
+
+        //-- Views -------------------------------------------------------------
 
         // hermitian views
         const ConstHermitianView
@@ -157,52 +210,13 @@ class SpMatrix
         TriangularView
         triangular();
 
-        // -- methods ----------------------------------------------------------
-
-        IndexType
-        dim() const;
-
-        IndexType
-        firstIndex() const;
-
-        IndexType
-        lastIndex() const;
-
-        const ElementType *
-        data() const;
-
-        ElementType *
-        data();
-
-        StorageOrder
-        order() const;
-
-        template <typename RHS>
-            bool
-            resize(const SpMatrix<RHS> &rhs,
-                   const ElementType &value = ElementType());
-
-        bool
-        resize(IndexType dim,
-               IndexType firstIndex = Engine::defaultIndexBase,
-               const ElementType &value = ElementType());
-
-        bool
-        fill(const ElementType &value = ElementType(0));
-
-        bool
-        fillRandom();
-
-        // -- implementation ---------------------------------------------------
+        //-- Implementation ----------------------------------------------------
 
         const Engine &
         engine() const;
 
         Engine &
         engine();
-
-        StorageUpLo
-        upLo() const;
 
     private:
         Engine      _engine;

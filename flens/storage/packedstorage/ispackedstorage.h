@@ -51,17 +51,17 @@ struct IsPackedStorage
     static char
     check(...);
 
-    template <typename T, StorageUpLo UpLo, StorageOrder Order, typename I, typename A>
+    template <typename T, StorageOrder Order, typename I, typename A>
         static Two
-        check(const ConstPackedStorageView<T, UpLo, Order, I, A> *);
+        check(const ConstPackedStorageView<T, Order, I, A> *);
 
-    template <typename T, StorageUpLo UpLo, StorageOrder Order, typename I, typename A>
+    template <typename T, StorageOrder Order, typename I, typename A>
         static Two
-        check(const PackedStorage<T, UpLo, Order, I, A> *);
+        check(const PackedStorage<T, Order, I, A> *);
 
-    template <typename T, StorageUpLo UpLo, StorageOrder Order, typename I, typename A>
+    template <typename T, StorageOrder Order, typename I, typename A>
         static Two
-        check(const PackedStorageView<T, UpLo, Order, I, A> *);
+        check(const PackedStorageView<T, Order, I, A> *);
 
     static const bool value = sizeof(check(static_cast<Engine *>(0)))!=1;
 };

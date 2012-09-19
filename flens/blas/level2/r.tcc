@@ -45,7 +45,7 @@
 
 namespace flens { namespace blas {
 
-//-- GeMatrix, DenseVector -----------------------------------------------------
+//-- GeneralMatrix, DenseVector ------------------------------------------------
 
 //-- ger
 template <typename ALPHA, typename VX, typename VY, typename MA>
@@ -100,28 +100,7 @@ rc(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
                   A.data(), A.leadingDimension());
 }
 
-//-- SyMatrix, DenseVector -----------------------------------------------------
-
-//-- syr
-template <typename ALPHA, typename VX, typename MA>
-typename RestrictTo<IsDenseVector<VX>::value
-                 && IsSyMatrix<MA>::value,
-         void>::Type
-r(const ALPHA &alpha, const VX &x, MA &&A)
-{
-    if (A.dim()==0) {
-        A.resize(x.length(), x.firstIndex());
-    }
-    ASSERT(A.dim()==x.length());
-    cxxblas::syr(A.order(),
-                 A.upLo(),
-                 A.dim(),
-                 alpha,
-                 x.data(), x.stride(),
-                 A.data(), A.leadingDimension());
-}
-
-//-- HeMatrix, DenseVector -----------------------------------------------------
+//-- HermitianMatrix, DenseVector ----------------------------------------------
 
 //-- her
 template <typename ALPHA, typename VX, typename MA>
@@ -135,6 +114,65 @@ r(const ALPHA &alpha, const VX &x, MA &&A)
     }
     ASSERT(A.dim()==x.length());
     cxxblas::her(A.order(),
+                 A.upLo(),
+                 A.dim(),
+                 alpha,
+                 x.data(), x.stride(),
+                 A.data(), A.leadingDimension());
+}
+
+//-- hpr
+template <typename ALPHA, typename VX, typename MA>
+typename RestrictTo<IsDenseVector<VX>::value
+                 && IsHpMatrix<MA>::value,
+         void>::Type
+r(const ALPHA &alpha, const VX &x, MA &&A)
+{
+    if (A.dim()==0) {
+        A.resize(x.length(), x.firstIndex());
+    }
+    ASSERT(A.dim()==x.length());
+    cxxblas::hpr(A.order(),
+                 A.upLo(),
+                 A.dim(),
+                 alpha,
+                 x.data(), x.stride(),
+                 A.data());
+}
+
+//-- SymmetricMatrix, DenseVector ----------------------------------------------
+
+//-- spr
+template <typename ALPHA, typename VX, typename MA>
+typename RestrictTo<IsDenseVector<VX>::value
+                 && IsSpMatrix<MA>::value,
+         void>::Type
+r(const ALPHA &alpha, const VX &x, MA &&A)
+{
+    if (A.dim()==0) {
+        A.resize(x.length(), x.firstIndex());
+    }
+    ASSERT(A.dim()==x.length());
+    cxxblas::spr(A.order(),
+                 A.upLo(),
+                 A.dim(),
+                 alpha,
+                 x.data(), x.stride(),
+                 A.data());
+}
+
+//-- syr
+template <typename ALPHA, typename VX, typename MA>
+typename RestrictTo<IsDenseVector<VX>::value
+                 && IsSyMatrix<MA>::value,
+         void>::Type
+r(const ALPHA &alpha, const VX &x, MA &&A)
+{
+    if (A.dim()==0) {
+        A.resize(x.length(), x.firstIndex());
+    }
+    ASSERT(A.dim()==x.length());
+    cxxblas::syr(A.order(),
                  A.upLo(),
                  A.dim(),
                  alpha,

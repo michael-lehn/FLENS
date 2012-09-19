@@ -35,68 +35,73 @@
 
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/blas/level1/copy.h>
+#include <flens/matrixtypes/hermitian/impl/hpmatrix.h>
+#include <flens/storage/storage.h>
 #include <flens/typedefs.h>
 
 namespace flens {
 
-template <typename FS>
-HpMatrix<FS>::HpMatrix()
-{
-}
+//-- Constructors --------------------------------------------------------------
 
-template <typename FS>
-HpMatrix<FS>::HpMatrix(IndexType dim)
-    : _engine(dim)
+template <typename PS>
+HpMatrix<PS>::HpMatrix(IndexType dim, StorageUpLo upLo)
+    : _engine(dim), _upLo(upLo)
 {
     ASSERT(dim>=0);
 }
 
-template <typename FS>
-HpMatrix<FS>::HpMatrix(IndexType dim, IndexType firstIndex)
-    : _engine(dim, dim, firstIndex)
-{
-    ASSERT(dim>=0);
-}
 
-template <typename FS>
-HpMatrix<FS>::HpMatrix(const Engine &engine)
-    : _engine(engine)
+template <typename PS>
+HpMatrix<PS>::HpMatrix(const Engine &engine, StorageUpLo upLo)
+    : _engine(engine), _upLo(upLo)
 {
 }
 
-template <typename FS>
-HpMatrix<FS>::HpMatrix(const HpMatrix &rhs)
-    : HermitianMatrix<HpMatrix<FS> >(),
-      _engine(rhs.engine())
+template <typename PS>
+HpMatrix<PS>::HpMatrix(const HpMatrix &rhs)
+    : HermitianMatrix<HpMatrix<PS> >(),
+      _engine(rhs.engine()), _upLo(upLo)
 {
 }
 
-template <typename FS>
+template <typename PS>
 template <typename RHS>
-HpMatrix<FS>::HpMatrix(const HpMatrix<RHS> &rhs)
-    : _engine(rhs.engine())
+HpMatrix<PS>::HpMatrix(const HpMatrix<RHS> &rhs)
+    : _engine(rhs.engine()), _upLo(upLo)
 {
 }
 
-template <typename FS>
+template <typename PS>
 template <typename RHS>
-HpMatrix<FS>::HpMatrix(HpMatrix<RHS> &rhs)
-    : _engine(rhs.engine())
+HpMatrix<PS>::HpMatrix(HpMatrix<RHS> &rhs)
+    : _engine(rhs.engine()), _upLo(upLo)
 {
 }
 
-template <typename FS>
+template <typename PS>
 template <typename RHS>
-HpMatrix<FS>::HpMatrix(const Matrix<RHS> &rhs)
+HpMatrix<PS>::HpMatrix(const Matrix<RHS> &rhs)
 {
-    blas::copy(rhs.impl(), *this);
+    assign(rhs, *this);
 }
 
-// -- operators ----------------------------------------------------------------
+//-- Operators -----------------------------------------------------------------
 
-template <typename FS>
-HpMatrix<FS> &
-HpMatrix<FS>::operator=(const HpMatrix &rhs)
+template <typename PS>
+HpMatrix<PS> &
+HpMatrix<PS>::operator=(const ElementType &alpha)
+{
+    ASSERT(cxxblas::imag(alpha)==0);
+
+    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
+
+    x = alpha;
+    return *this;
+}
+
+template <typename PS>
+HpMatrix<PS> &
+HpMatrix<PS>::operator=(const HpMatrix &rhs)
 {
     if (this!=&rhs) {
         assign(rhs, *this);
@@ -104,115 +109,18 @@ HpMatrix<FS>::operator=(const HpMatrix &rhs)
     return *this;
 }
 
-template <typename FS>
+template <typename PS>
 template <typename RHS>
-HpMatrix<FS> &
-HpMatrix<FS>::operator=(const Matrix<RHS> &rhs)
+HpMatrix<PS> &
+HpMatrix<PS>::operator=(const Matrix<RHS> &rhs)
 {
     assign(rhs, *this);
     return *this;
 }
 
-template <typename FS>
-HpMatrix<FS> &
-HpMatrix<FS>::operator=(const ElementType &alpha)
-{
-    ASSERT(cxxblas::imag(alpha)==0);
-
-    if (upLo()==Upper) {
-        for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = i; j <= lastIndex(); ++j)
-                (*this)(i,j) = alpha;
-
-    } else {
-      for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = firstIndex(); j <= i; ++j)
-                (*this)(i,j) = alpha;
-    }
-    return *this;
-}
-
-template <typename FS>
-HpMatrix<FS> &
-HpMatrix<FS>::operator+=(const ElementType &alpha)
-{
-    ASSERT(cxxblas::imag(alpha)==0);
-
-    if (upLo()==Upper) {
-        for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = i; j <= lastIndex(); ++j)
-                (*this)(i,j) += alpha;
-
-    } else {
-      for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = firstIndex(); j <= i; ++j)
-                (*this)(i,j) += alpha;
-    }
-    return *this;
-}
-
-template <typename FS>
-HpMatrix<FS> &
-HpMatrix<FS>::operator-=(const ElementType &alpha)
-{
-    ASSERT(cxxblas::imag(alpha)==0);
-
-    if (upLo()==Upper) {
-        for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = i; j <= lastIndex(); ++j)
-                (*this)(i,j) -= alpha;
-
-    } else {
-      for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = firstIndex(); j <= i; ++j)
-                (*this)(i,j) -= alpha;
-    }
-    return *this;
-}
-
-template <typename FS>
-HpMatrix<FS> &
-HpMatrix<FS>::operator*=(const ElementType &alpha)
-{
-    ASSERT(cxxblas::imag(alpha)==0);
-
-    if (upLo()==Upper) {
-        for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = i; j <= lastIndex(); ++j)
-                (*this)(i,j) *= alpha;
-
-    } else {
-      for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = firstIndex(); j <= i; ++j)
-                (*this)(i,j) *= alpha;
-    }
-    return *this;
-}
-
-template <typename FS>
-HpMatrix<FS> &
-HpMatrix<FS>::operator/=(const ElementType &alpha)
-{
-    ASSERT(cxxblas::imag(alpha)==0);
-
-    if (upLo()==Upper) {
-        for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = i; j <= lastIndex(); ++j)
-                (*this)(i,j) /= alpha;
-
-    } else {
-      for (IndexType i = firstIndex(); i<= lastIndex(); ++i)
-            for(IndexType j = firstIndex(); j <= i; ++j)
-                (*this)(i,j) /= alpha;
-    }
-    return *this;
-}
-
-
-
-template <typename FS>
-const typename HpMatrix<FS>::ElementType &
-HpMatrix<FS>::operator()(IndexType row, IndexType col) const
+template <typename PS>
+const typename HpMatrix<PS>::ElementType &
+HpMatrix<PS>::operator()(IndexType row, IndexType col) const
 {
 #   ifndef NDEBUG
     if (upLo()==Upper) {
@@ -221,12 +129,12 @@ HpMatrix<FS>::operator()(IndexType row, IndexType col) const
         ASSERT(col<=row);
     }
 #   endif
-    return _engine(row, col);
+    return _engine(upLo(), row, col);
 }
 
-template <typename FS>
-typename HpMatrix<FS>::ElementType &
-HpMatrix<FS>::operator()(IndexType row, IndexType col)
+template <typename PS>
+typename HpMatrix<PS>::ElementType &
+HpMatrix<PS>::operator()(IndexType row, IndexType col)
 {
 #   ifndef NDEBUG
     if (upLo()==Upper) {
@@ -235,157 +143,238 @@ HpMatrix<FS>::operator()(IndexType row, IndexType col)
         ASSERT(col<=row);
     }
 #   endif
-    return _engine(row, col);
+    return _engine(upLo(), row, col);
 }
 
-// -- views --------------------------------------------------------------------
-
-// general views
-template <typename FS>
-typename HpMatrix<FS>::ConstView
-HpMatrix<FS>::hermitian() const
+template <typename PS>
+HpMatrix<PS> &
+HpMatrix<PS>::operator+=(const ElementType &alpha)
 {
-    return ConstView(_engine);
+    ASSERT(cxxblas::imag(alpha)==0);
+
+    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
+
+    x += alpha;
+    return *this;
 }
 
-template <typename FS>
-typename HpMatrix<FS>::View
-HpMatrix<FS>::hermitian()
+template <typename PS>
+HpMatrix<PS> &
+HpMatrix<PS>::operator-=(const ElementType &alpha)
 {
-    return View(_engine);
+    ASSERT(cxxblas::imag(alpha)==0);
+
+    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
+
+    x -= alpha;
+    return *this;
 }
 
-// symmetric view
-template <typename FS>
-typename HpMatrix<FS>::ConstSymmetricView
-HpMatrix<FS>::symmetric() const
+template <typename PS>
+HpMatrix<PS> &
+HpMatrix<PS>::operator*=(const ElementType &alpha)
 {
-    return ConstSymmetricView(_engine);
+    ASSERT(cxxblas::imag(alpha)==0);
+
+    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
+
+    x *= alpha;
+    return *this;
 }
 
-template <typename FS>
-typename HpMatrix<FS>::SymmetricView
-HpMatrix<FS>::symmetric()
+template <typename PS>
+HpMatrix<PS> &
+HpMatrix<PS>::operator/=(const ElementType &alpha)
 {
-    return SymmetricView(_engine);
+    ASSERT(cxxblas::imag(alpha)==0);
+
+    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
+
+    x /= alpha;
+    return *this;
 }
 
-// triangular view
-template <typename FS>
-typename HpMatrix<FS>::ConstTriangularView
-HpMatrix<FS>::triangular() const
-{
-    return ConstTriangularView(_engine);
-}
+//-- Methods -------------------------------------------------------------------
 
-template <typename FS>
-typename HpMatrix<FS>::TriangularView
-HpMatrix<FS>::triangular()
-{
-    return TriangularView(_engine);
-}
-
-// -- methods ------------------------------------------------------------------
-
-template <typename FS>
-typename HpMatrix<FS>::IndexType
-HpMatrix<FS>::dim() const
+template <typename PS>
+typename HpMatrix<PS>::IndexType
+HpMatrix<PS>::numRows() const
 {
     return _engine.dim();
 }
 
-template <typename FS>
-typename HpMatrix<FS>::IndexType
-HpMatrix<FS>::firstIndex() const
+template <typename PS>
+typename HpMatrix<PS>::IndexType
+HpMatrix<PS>::numCols() const
 {
-    return _engine.firstIndex();
+    return _engine.dim();
 }
 
-template <typename FS>
-typename HpMatrix<FS>::IndexType
-HpMatrix<FS>::lastIndex() const
+
+template <typename PS>
+typename HpMatrix<PS>::IndexType
+HpMatrix<PS>::dim() const
 {
-    return _engine.lastIndex();
+    return _engine.dim();
 }
 
-template <typename FS>
-const typename HpMatrix<FS>::ElementType *
-HpMatrix<FS>::data() const
+template <typename PS>
+typename HpMatrix<PS>::IndexType
+HpMatrix<PS>::firstRow() const
+{
+    return _engine.indexBase();
+}
+
+template <typename PS>
+typename HpMatrix<PS>::IndexType
+HpMatrix<PS>::lastRow() const
+{
+    return firstRow()+numRows()-1;
+}
+
+template <typename PS>
+typename HpMatrix<PS>::IndexType
+HpMatrix<PS>::firstCol() const
+{
+    return _engine.indexBase();
+}
+
+template <typename PS>
+typename HpMatrix<PS>::IndexType
+HpMatrix<PS>::lastCol() const
+{
+    return firstCol()+numCols()-1;
+}
+
+template <typename PS>
+typename HpMatrix<PS>::IndexType
+HpMatrix<PS>::indexBase() const
+{
+    return _engine.indexBase();
+}
+
+template <typename PS>
+StorageUpLo
+HpMatrix<PS>::upLo() const
+{
+    return _upLo;
+}
+
+template <typename PS>
+StorageUpLo &
+HpMatrix<PS>::upLo()
+{
+    return _upLo;
+}
+
+template <typename PS>
+const typename HpMatrix<PS>::ElementType *
+HpMatrix<PS>::data() const
 {
     return _engine.data();
 }
 
-template <typename FS>
-typename HpMatrix<FS>::ElementType *
-HpMatrix<FS>::data()
+template <typename PS>
+typename HpMatrix<PS>::ElementType *
+HpMatrix<PS>::data()
 {
     return _engine.data();
 }
 
-template <typename FS>
+template <typename PS>
 StorageOrder
-HpMatrix<FS>::order() const
+HpMatrix<PS>::order() const
 {
     return _engine.order;
 }
 
-template <typename FS>
-template <typename RHS>
+template <typename PS>
 bool
-HpMatrix<FS>::resize(const HpMatrix<RHS> &rhs,
-                     const ElementType &value)
-{
-    return _engine.resize(rhs.engine(), value);
-}
-
-template <typename FS>
-bool
-HpMatrix<FS>::resize(IndexType dim, IndexType firstIndex,
-                     const ElementType &value)
-{
-    return _engine.resize(dim, firstIndex, value);
-}
-
-template <typename FS>
-bool
-HpMatrix<FS>::fill(const ElementType &value)
+HpMatrix<PS>::fill(const ElementType &value)
 {
     ASSERT(cxxblas::imag(value)==0);
 
     return _engine.fill(value);
 }
 
-template <typename FS>
+template <typename PS>
+template <typename RHS>
 bool
-HpMatrix<FS>::fillRandom()
+HpMatrix<PS>::resize(const HpMatrix<RHS> &rhs,
+                     const ElementType &value)
 {
-    bool val = _engine.fillRandom();
-    for (IndexType i=firstIndex();i<=lastIndex();++i) {
-        (*this)(i,i) = ElementType(cxxblas::real((*this)(i,i)));
-    }
-    return val;
+    return _engine.resize(rhs.engine(), value);
 }
+
+template <typename PS>
+bool
+HpMatrix<PS>::resize(IndexType dim, IndexType firstIndex,
+                     const ElementType &value)
+{
+    return _engine.resize(dim, firstIndex, value);
+}
+
+// -- views --------------------------------------------------------------------
+
+// general views
+template <typename PS>
+const typename HpMatrix<PS>::ConstView
+HpMatrix<PS>::hermitian() const
+{
+    return ConstView(_engine);
+}
+
+template <typename PS>
+typename HpMatrix<PS>::View
+HpMatrix<PS>::hermitian()
+{
+    return View(_engine);
+}
+
+// symmetric view
+template <typename PS>
+const typename HpMatrix<PS>::ConstSymmetricView
+HpMatrix<PS>::symmetric() const
+{
+    return ConstSymmetricView(_engine);
+}
+
+template <typename PS>
+typename HpMatrix<PS>::SymmetricView
+HpMatrix<PS>::symmetric()
+{
+    return SymmetricView(_engine);
+}
+
+// triangular view
+template <typename PS>
+const typename HpMatrix<PS>::ConstTriangularView
+HpMatrix<PS>::triangular() const
+{
+    return ConstTriangularView(_engine);
+}
+
+template <typename PS>
+typename HpMatrix<PS>::TriangularView
+HpMatrix<PS>::triangular()
+{
+    return TriangularView(_engine);
+}
+
 // -- implementation -----------------------------------------------------------
 
-template <typename FS>
-const typename HpMatrix<FS>::Engine &
-HpMatrix<FS>::engine() const
+template <typename PS>
+const typename HpMatrix<PS>::Engine &
+HpMatrix<PS>::engine() const
 {
     return _engine;
 }
 
-template <typename FS>
-typename HpMatrix<FS>::Engine &
-HpMatrix<FS>::engine()
+template <typename PS>
+typename HpMatrix<PS>::Engine &
+HpMatrix<PS>::engine()
 {
     return _engine;
-}
-
-template <typename FS>
-StorageUpLo
-HpMatrix<FS>::upLo() const
-{
-    return FS::upLo;
 }
 
 } // namespace flens

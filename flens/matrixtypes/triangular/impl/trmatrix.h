@@ -103,6 +103,7 @@ class TrMatrix
         typedef trmatrix::ElementClosure<TR>        ElementClosure;
 
         // -- constructors -----------------------------------------------------
+
         TrMatrix(IndexType dim, StorageUpLo upLo, Diag diag = NonUnit);
 
         TrMatrix(IndexType numRows, IndexType numCols,
@@ -126,6 +127,7 @@ class TrMatrix
             TrMatrix(const Matrix<RHS> &rhs);
 
         // -- operators --------------------------------------------------------
+
         void
         operator=(const ElementType &value);
 
@@ -201,7 +203,7 @@ class TrMatrix
         order() const;
 
         bool
-        fill(const ElementType &value);
+        fill(const ElementType &value = ElementType(0));
 
         template <typename RHS>
             bool

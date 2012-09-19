@@ -40,7 +40,7 @@
 
 namespace flens { namespace blas {
 
-//-- GeMatrix, DenseVector -----------------------------------------------------
+//-- GeneralMatrix, DenseVector ------------------------------------------------
 
 //-- ger
 template <typename ALPHA, typename VX, typename VY, typename MA>
@@ -64,16 +64,7 @@ template <typename ALPHA, typename VX, typename VY, typename MA>
              void>::Type
     rc(const ALPHA &alpha, const VX &x, const VY &y, MA &&A);
 
-//-- SyMatrix, DenseVector -----------------------------------------------------
-
-//-- syr
-template <typename ALPHA, typename VX, typename MA>
-    typename RestrictTo<IsDenseVector<VX>::value
-                     && IsSyMatrix<MA>::value,
-             void>::Type
-    r(const ALPHA &alpha, const VX &x, MA &&A);
-
-//-- HeMatrix, DenseVector -----------------------------------------------------
+//-- HermitianMatrix, DenseVector ----------------------------------------------
 
 //-- her
 template <typename ALPHA, typename VX, typename MA>
@@ -82,7 +73,28 @@ template <typename ALPHA, typename VX, typename MA>
              void>::Type
     r(const ALPHA &alpha, const VX &x, MA &&A);
 
+//-- hpr
+template <typename ALPHA, typename VX, typename MA>
+    typename RestrictTo<IsDenseVector<VX>::value
+                     && IsHpMatrix<MA>::value,
+             void>::Type
+    r(const ALPHA &alpha, const VX &x, MA &&A);
 
+//-- SymmetricMatrix, DenseVector ----------------------------------------------
+
+//-- spr
+template <typename ALPHA, typename VX, typename MA>
+    typename RestrictTo<IsDenseVector<VX>::value
+                     && IsSpMatrix<MA>::value,
+             void>::Type
+    r(const ALPHA &alpha, const VX &x, MA &&A);
+
+//-- syr
+template <typename ALPHA, typename VX, typename MA>
+    typename RestrictTo<IsDenseVector<VX>::value
+                     && IsSyMatrix<MA>::value,
+             void>::Type
+    r(const ALPHA &alpha, const VX &x, MA &&A);
 
 } } // namespace blas, flens
 
