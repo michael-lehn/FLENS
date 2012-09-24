@@ -25,10 +25,10 @@ main()
     Matrix         Ab(n, n, 2, 1);
     Vector         b(n), x(n);
 
-    Ab.viewDiag(-2) =  2, 3;
-    Ab.viewDiag(-1) = -6, 5, -4;
-    Ab.viewDiag( 0) =  4, 3,  5, -1;
-    Ab.viewDiag( 1) =  1, 2,  7;
+    Ab.diag(-2) =  2, 3;
+    Ab.diag(-1) = -6, 5, -4;
+    Ab.diag( 0) =  4, 3,  5, -1;
+    Ab.diag( 1) =  1, 2,  7;
 
     b = 20,
        -33,
