@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,22 +30,10 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_FLENS_TCC
-#define FLENS_FLENS_TCC 1
+#ifndef PLAYGROUND_PLAYGROUND_TCC
+#define PLAYGROUND_PLAYGROUND_TCC 1
 
-#include <flens/auxiliary/auxiliary.tcc>
-#include <flens/blas/blas.tcc>
-#include <flens/hacks/hacks.tcc>
-#include <flens/io/io.tcc>
-#include <flens/lapack/lapack.tcc>
-#include <flens/matrixtypes/matrixtypes.tcc>
-#include <flens/scalartypes/scalartypes.tcc>
-#include <flens/scalaroperations/scalaroperations.tcc>
-#include <flens/storage/storage.tcc>
-#include <flens/vectortypes/vectortypes.tcc>
+#include<playground/cxxblas/cxxblas.tcc>
+#include<playground/flens/flens.tcc>
 
-#ifdef USE_PLAYGROUND
-#   include <playground/playground.tcc>
-#endif
-
-#endif // FLENS_FLENS_TCC
+#endif // PLAYGROUND_PLAYGROUND_TCC

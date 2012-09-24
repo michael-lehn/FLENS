@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2012, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -28,24 +28,56 @@
  *   THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  *   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
  */
 
-#ifndef FLENS_FLENS_TCC
-#define FLENS_FLENS_TCC 1
+#ifndef PLAYGROUND_FLENS_LAPACKEXTENSIONS_GB_DETERMINANT_TCC
+#define PLAYGROUND_FLENS_LAPACKEXTENSIONS_GB_DETERMINANT_TCC 1
 
-#include <flens/auxiliary/auxiliary.tcc>
-#include <flens/blas/blas.tcc>
-#include <flens/hacks/hacks.tcc>
-#include <flens/io/io.tcc>
-#include <flens/lapack/lapack.tcc>
-#include <flens/matrixtypes/matrixtypes.tcc>
-#include <flens/scalartypes/scalartypes.tcc>
-#include <flens/scalaroperations/scalaroperations.tcc>
-#include <flens/storage/storage.tcc>
-#include <flens/vectortypes/vectortypes.tcc>
+namespace flens { namespace lapack { namespace extensions { 
 
-#ifdef USE_PLAYGROUND
-#   include <playground/playground.tcc>
-#endif
+//-- det(gb)
+template <typename MA, typename VPIV>
+typename RestrictTo<IsGbMatrix<MA>::value
+                 && IsIntegerDenseVector<VPIV>::value,
+typename RemoveRef<MA>::Type::ElementType>::Type
+det(MA &&A, VPIV && Pivots)
+{
+    ASSERT(A.numCols()==A.numRows());
+    
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::ElementType   T;
+    typedef typename MatrixA::IndexType     IndexType;
+    
+    trf(A, Pivots);
+    T value(1);
+    
+    auto d = A.diag(0);
+    cxxblas::prod(d.length(), d.data(), d.stride(), value);
+    
+    IndexType numSwaps(0);
+    for (IndexType k=A.firstRow(), m=Pivots.firstIndex();k<=A.lastRow();++k, ++m) {
+        if (Pivots(m)!=k) {
+            ++numSwaps;
+        }
+    }
+    
+    if (numSwaps%2==1)
+        return -value;
+    return value;
+}
 
-#endif // FLENS_FLENS_TCC
+template <typename MA>
+typename RestrictTo<IsGbMatrix<MA>::value,
+typename RemoveRef<MA>::Type::ElementType>::Type
+det(MA &&A)
+{
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+
+    DenseVector<Array<IndexType> >  piv;
+    return det(A, piv);
+}
+} } } // namespace extensions, lapack, flens
+
+#endif // PLAYGROUND_FLENS_LAPACKEXTENSIONS_Gb_DETERMINANT_TCC

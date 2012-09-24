@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2012, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -28,24 +28,37 @@
  *   THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  *   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
  */
 
-#ifndef FLENS_FLENS_TCC
-#define FLENS_FLENS_TCC 1
+#ifndef PLAYGROUND_FLENS_LAPACKEXTENSIONS_HP_TRACE_TCC
+#define PLAYGROUND_FLENS_LAPACKEXTENSIONS_HP_TRACE_TCC 1
 
-#include <flens/auxiliary/auxiliary.tcc>
-#include <flens/blas/blas.tcc>
-#include <flens/hacks/hacks.tcc>
-#include <flens/io/io.tcc>
-#include <flens/lapack/lapack.tcc>
-#include <flens/matrixtypes/matrixtypes.tcc>
-#include <flens/scalartypes/scalartypes.tcc>
-#include <flens/scalaroperations/scalaroperations.tcc>
-#include <flens/storage/storage.tcc>
-#include <flens/vectortypes/vectortypes.tcc>
+#include <playground/cxxblas/cxxblas.h>
 
-#ifdef USE_PLAYGROUND
-#   include <playground/playground.tcc>
-#endif
+namespace flens { namespace lapack { namespace extensions { 
 
-#endif // FLENS_FLENS_TCC
+//-- trace(hp)
+template <typename MA>
+typename RestrictTo<IsHpMatrix<MA>::value,
+typename ComplexTrait<typename RemoveRef<MA>::Type::ElementType>::PrimitiveType>::Type
+trace(MA &&A)
+{
+    
+    typedef typename RemoveRef<MA>::Type            MatrixA;
+    typedef typename MatrixA::ElementType           T;
+    typedef typename MatrixA::IndexType             IndexType;
+    typedef typename ComplexTrait<T>::PrimitiveType PT;
+
+    PT value(0);
+    
+    for (IndexType i=A.firstRow(), j=A.firstCol();i<=A.lastRow();++i, ++j) {
+        value += cxxblas::real(A(i,j));
+    }
+
+    return value;
+}
+
+} } } // namespace extensions, lapack, flens
+
+#endif // PLAYGROUND_FLENS_LAPACKEXTENSIONS_HP_TRACE_TCC

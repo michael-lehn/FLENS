@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,22 +30,26 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_FLENS_TCC
-#define FLENS_FLENS_TCC 1
+#ifndef PLAYGROUND_FLENS_LAPACKEXTENSIONS_LAPACKEXTENSIONS_TCC
+#define PLAYGROUND_FLENS_LAPACKEXTENSIONS_LAPACKEXTENSIONS_TCC 1
 
-#include <flens/auxiliary/auxiliary.tcc>
-#include <flens/blas/blas.tcc>
-#include <flens/hacks/hacks.tcc>
-#include <flens/io/io.tcc>
-#include <flens/lapack/lapack.tcc>
-#include <flens/matrixtypes/matrixtypes.tcc>
-#include <flens/scalartypes/scalartypes.tcc>
-#include <flens/scalaroperations/scalaroperations.tcc>
-#include <flens/storage/storage.tcc>
-#include <flens/vectortypes/vectortypes.tcc>
+#include<playground/flens/lapack-extensions/gb/determinant.tcc>
+#include<playground/flens/lapack-extensions/gb/trace.tcc>
+#include<playground/flens/lapack-extensions/ge/determinant.tcc>
+#include<playground/flens/lapack-extensions/ge/trace.tcc>
+#include<playground/flens/lapack-extensions/hb/trace.tcc>
+#include<playground/flens/lapack-extensions/he/determinant.tcc>
+#include<playground/flens/lapack-extensions/he/trace.tcc>
+#include<playground/flens/lapack-extensions/hp/trace.tcc>
+#include<playground/flens/lapack-extensions/sb/trace.tcc>
+#include<playground/flens/lapack-extensions/sp/trace.tcc>
+#include<playground/flens/lapack-extensions/sy/determinant.tcc>
+#include<playground/flens/lapack-extensions/sy/trace.tcc>
+#include<playground/flens/lapack-extensions/tb/determinant.tcc>
+#include<playground/flens/lapack-extensions/tb/trace.tcc>
+#include<playground/flens/lapack-extensions/tr/determinant.tcc>
+#include<playground/flens/lapack-extensions/tr/trace.tcc>
+#include<playground/flens/lapack-extensions/tp/determinant.tcc>
+#include<playground/flens/lapack-extensions/tp/trace.tcc>
 
-#ifdef USE_PLAYGROUND
-#   include <playground/playground.tcc>
-#endif
-
-#endif // FLENS_FLENS_TCC
+#endif // PLAYGROUND_FLENS_LAPACKEXTENSIONS_LAPACKEXTENSIONS_TCC

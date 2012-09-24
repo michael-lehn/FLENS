@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,22 +30,26 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_FLENS_TCC
-#define FLENS_FLENS_TCC 1
+#ifndef PLAYGROUND_FLENS_LAPACKEXTENSIONS_LAPACKEXTENSIONS_H
+#define PLAYGROUND_FLENS_LAPACKEXTENSIONS_LAPACKEXTENSIONS_H 1
 
-#include <flens/auxiliary/auxiliary.tcc>
-#include <flens/blas/blas.tcc>
-#include <flens/hacks/hacks.tcc>
-#include <flens/io/io.tcc>
-#include <flens/lapack/lapack.tcc>
-#include <flens/matrixtypes/matrixtypes.tcc>
-#include <flens/scalartypes/scalartypes.tcc>
-#include <flens/scalaroperations/scalaroperations.tcc>
-#include <flens/storage/storage.tcc>
-#include <flens/vectortypes/vectortypes.tcc>
+#include<playground/flens/lapack-extensions/gb/determinant.tcc>
+#include<playground/flens/lapack-extensions/gb/trace.tcc>
+#include<playground/flens/lapack-extensions/ge/determinant.h>
+#include<playground/flens/lapack-extensions/ge/trace.h>
+#include<playground/flens/lapack-extensions/hb/trace.h>
+#include<playground/flens/lapack-extensions/he/determinant.h>
+#include<playground/flens/lapack-extensions/he/trace.h>
+#include<playground/flens/lapack-extensions/hp/trace.h>
+#include<playground/flens/lapack-extensions/sb/trace.h>
+#include<playground/flens/lapack-extensions/sp/trace.h>
+#include<playground/flens/lapack-extensions/sy/determinant.h>
+#include<playground/flens/lapack-extensions/sy/trace.h>
+#include<playground/flens/lapack-extensions/tb/determinant.h>
+#include<playground/flens/lapack-extensions/tb/trace.h>
+#include<playground/flens/lapack-extensions/tr/determinant.h>
+#include<playground/flens/lapack-extensions/tr/trace.h>
+#include<playground/flens/lapack-extensions/tp/determinant.h>
+#include<playground/flens/lapack-extensions/tp/trace.h>
 
-#ifdef USE_PLAYGROUND
-#   include <playground/playground.tcc>
-#endif
-
-#endif // FLENS_FLENS_TCC
+#endif // PLAYGROUND_FLENS_LAPACKEXTENSIONS_LAPACKEXTENSIONS_H

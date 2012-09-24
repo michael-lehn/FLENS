@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2012, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -28,24 +28,24 @@
  *   THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  *   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
  */
 
-#ifndef FLENS_FLENS_TCC
-#define FLENS_FLENS_TCC 1
+#ifndef PLAYGROUND_FLENS_LAPACKEXTENSIONS_TB_TRACE_H
+#define PLAYGROUND_FLENS_LAPACKEXTENSIONS_TB_TRACE_H 1
 
-#include <flens/auxiliary/auxiliary.tcc>
-#include <flens/blas/blas.tcc>
-#include <flens/hacks/hacks.tcc>
-#include <flens/io/io.tcc>
-#include <flens/lapack/lapack.tcc>
-#include <flens/matrixtypes/matrixtypes.tcc>
-#include <flens/scalartypes/scalartypes.tcc>
-#include <flens/scalaroperations/scalaroperations.tcc>
-#include <flens/storage/storage.tcc>
-#include <flens/vectortypes/vectortypes.tcc>
+#include <flens/lapack/typedefs.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
 
-#ifdef USE_PLAYGROUND
-#   include <playground/playground.tcc>
-#endif
+namespace flens { namespace lapack { namespace extensions {
 
-#endif // FLENS_FLENS_TCC
+//== trace(gb) =================================================================
+template <typename MA>
+typename RestrictTo<IsTbMatrix<MA>::value,
+         typename RemoveRef<MA>::Type::ElementType>::Type
+    trace(MA &&A);
+
+} } } // namespace extensions, lapack, flens
+
+#endif // PLAYGROUND_FLENS_LAPACKEXTENSIONS_TB_TRACE_H

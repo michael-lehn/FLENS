@@ -45,6 +45,10 @@
 #include <flens/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>
 
+#ifdef USE_PLAYGROUND
+#   include <playground/playground.h>
+#endif
+
 #ifdef CHECK_CXXLAPACK
 #   include <flens/lapack/interface/include/config.h>
 #endif // CHECK_CXXLAPACK
