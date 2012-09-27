@@ -88,7 +88,7 @@ HpMatrix<PS>::HpMatrix(const Matrix<RHS> &rhs)
 //-- Operators -----------------------------------------------------------------
 
 template <typename PS>
-HpMatrix<PS> &
+void
 HpMatrix<PS>::operator=(const ElementType &alpha)
 {
     ASSERT(cxxblas::imag(alpha)==0);

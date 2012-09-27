@@ -105,7 +105,7 @@ class SpMatrix
 
         //-- Operators ---------------------------------------------------------
 
-        SpMatrix &
+        void
         operator=(const ElementType &alpha);
 
         SpMatrix &

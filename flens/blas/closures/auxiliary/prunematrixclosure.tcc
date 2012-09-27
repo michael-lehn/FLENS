@@ -34,7 +34,7 @@
 #define FLENS_BLAS_CLOSURES_PRUNEMATRIXCLOSURE_TCC 1
 
 #include <flens/auxiliary/auxiliary.h>
-#include <flens/blas/closures/prunematrixclosure.h>
+#include <flens/blas/closures/auxiliary/prunematrixclosure.h>
 #include <flens/typedefs.h>
 
 namespace flens {

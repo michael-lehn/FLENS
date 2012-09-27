@@ -84,7 +84,7 @@ SpMatrix<PS>::SpMatrix(const Matrix<RHS> &rhs)
 //-- Operators -----------------------------------------------------------------
 
 template <typename PS>
-SpMatrix<PS> &
+void
 SpMatrix<PS>::operator=(const ElementType &alpha)
 {
     VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());

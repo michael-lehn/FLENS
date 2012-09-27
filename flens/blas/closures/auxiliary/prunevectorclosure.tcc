@@ -34,7 +34,7 @@
 #define FLENS_BLAS_CLOSURES_PRUNEVECTORCLOSURE_TCC 1
 
 #include <flens/auxiliary/auxiliary.h>
-#include <flens/blas/closures/prunevectorclosure.h>
+#include <flens/blas/closures/auxiliary/prunevectorclosure.h>
 #include <flens/typedefs.h>
 
 namespace flens {

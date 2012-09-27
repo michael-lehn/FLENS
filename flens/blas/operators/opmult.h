@@ -39,6 +39,8 @@
 #include <flens/scalartypes/scalartypes.h>
 #include <flens/vectortypes/vectortypes.h>
 #include <flens/blas/operators/opconj.h>
+#include <flens/blas/operators/opconjtrans.h>
+#include <flens/blas/operators/optrans.h>
 
 namespace flens {
 

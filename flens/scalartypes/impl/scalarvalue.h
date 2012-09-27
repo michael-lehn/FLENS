@@ -33,7 +33,7 @@
 #ifndef FLENS_SCALARTYPES_IMPL_SCALARVALUE_H
 #define FLENS_SCALARTYPES_IMPL_SCALARVALUE_H 1
 
-#include <flens/auxiliary/constref.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/scalartypes/scalar.h>
 
 namespace flens {
