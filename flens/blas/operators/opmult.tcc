@@ -56,6 +56,20 @@ operator*(const Vector<VX> &x, const Vector<VY> &y)
     return result;
 }
 
+// x^T*y
+template <typename VX, typename VY>
+typename Promotion<typename VX::Impl::ElementType,
+                   typename VY::Impl::ElementType>::Type
+operator*(const VectorClosureOpTrans<VX> &x, const Vector<VY> &y)
+{
+    typedef typename VX::Impl::ElementType  TX;
+    typedef typename VY::Impl::ElementType  TY;
+
+    typename Promotion<TX,TY>::Type  result;
+    blas::dotu(x.left().impl(), y.impl(), result);
+    return result;
+}
+
 // x^H*y
 template <typename VX, typename VY>
 typename Promotion<typename VX::Impl::ElementType,
@@ -70,6 +84,45 @@ operator*(const VectorClosureOpConj<VX> &x, const Vector<VY> &y)
     return result;
 }
 
+// x^H*y
+template <typename VX, typename VY>
+typename Promotion<typename VX::Impl::ElementType,
+                   typename VY::Impl::ElementType>::Type
+operator*(const VectorClosureOpConjTrans<VX> &x, const Vector<VY> &y)
+{
+    typedef typename VX::Impl::ElementType  TX;
+    typedef typename VY::Impl::ElementType  TY;
+
+    typename Promotion<TX,TY>::Type  result;
+    blas::dot(x.left().left().impl(), y.impl(), result);
+    return result;
+}
+
+// A = x*y^T
+template <typename VX, typename VY>
+const MatrixClosure<OpMult,
+                    typename VX::Impl,
+                    VectorClosureOpTrans<VY> >
+operator*(const Vector<VX> &x, const VectorClosureOpTrans<VY> &y)
+{
+    typedef typename VX::Impl         VecX;
+    typedef VectorClosureOpTrans<VY>  VecYt;
+    typedef MatrixClosure<OpMult, VecX, VecYt>  MC;
+    return MC(x.impl(), y.impl());
+}
+
+// A = x*y^H
+template <typename VX, typename VY>
+const MatrixClosure<OpMult,
+                    typename VX::Impl,
+                    VectorClosureOpConjTrans<VY> >
+operator*(const Vector<VX> &x, const VectorClosureOpConjTrans<VY> &y)
+{
+    typedef typename VX::Impl                   VecX;
+    typedef VectorClosureOpConjTrans<VY>        VecYh;
+    typedef MatrixClosure<OpMult, VecX, VecYh>  MC;
+    return MC(x.impl(), y.impl());
+}
 
 //-- scalar-vector products ----------------------------------------------------
 // alpha*x

@@ -114,6 +114,24 @@ SpMatrix<PS>::operator=(const Matrix<RHS> &rhs)
 }
 
 template <typename PS>
+template <typename RHS>
+SpMatrix<PS> &
+SpMatrix<PS>::operator+=(const Matrix<RHS> &rhs)
+{
+    plusAssign(rhs, *this);
+    return *this;
+}
+
+template <typename PS>
+template <typename RHS>
+SpMatrix<PS> &
+SpMatrix<PS>::operator-=(const Matrix<RHS> &rhs)
+{
+    minusAssign(rhs, *this);
+    return *this;
+}
+
+template <typename PS>
 const typename SpMatrix<PS>::ElementType &
 SpMatrix<PS>::operator()(IndexType row, IndexType col) const
 {
@@ -293,7 +311,7 @@ bool
 SpMatrix<PS>::resize(const SpMatrix<RHS> &rhs,
                      const ElementType &value)
 {
-    return _engine.resize(rhs.engine(), value);
+    return _engine.resize(rhs.dim(), rhs.indexBase(), value);
 }
 
 template <typename PS>

@@ -46,7 +46,7 @@ namespace cxxblas {
 //
 template <typename IndexType, typename MA, typename MB>
     void
-    tpcopy(StorageOrder order, StorageUpLo upLo, Transpose trans, Diag diag,
+    tpcopy(StorageUpLo upLo, Transpose trans, Diag diag,
            IndexType n, const MA *A,
            MB *B);
 

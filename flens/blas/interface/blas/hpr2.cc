@@ -41,7 +41,14 @@ BLAS(chpr2)(const char      *UPLO,
     CDenseVectorConstView  y(CConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
     CHpMatrixView          A(CPackedView(*N, AP), upLo);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha  = *ALPHA;
+    const auto alpha_ = conj(alpha);
+
+    A += alpha*x*conjTrans(y) + alpha_*y*conjTrans(x);
+#   else
     blas::r2(*ALPHA, x, y, A);
+#   endif
 }
 
 void
@@ -80,7 +87,14 @@ BLAS(zhpr2)(const char      *UPLO,
     ZDenseVectorConstView  y(ZConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
     ZHpMatrixView          A(ZPackedView(*N, AP), upLo);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha  = *ALPHA;
+    const auto alpha_ = conj(alpha);
+
+    A += alpha*x*conjTrans(y) + alpha_*y*conjTrans(x);
+#   else
     blas::r2(*ALPHA, x, y, A);
+#   endif
 }
 
 } // extern "C"

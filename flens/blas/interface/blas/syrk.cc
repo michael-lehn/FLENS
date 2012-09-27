@@ -55,8 +55,32 @@ BLAS(ssyrk)(const char      *UPLO,
 
     SSyMatrixView       C(SFullView(*N, *N, _C, *LDC), upLo);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha  = *ALPHA;
+    const auto beta   = *BETA;
+
+    if (beta==float(1)) {
+        if (trans==NoTrans) {
+            C += alpha*A*transpose(A);
+        } else if (trans==Trans || trans==ConjTrans) {
+            C += alpha*transpose(A)*A;
+        }
+    } else if (beta==float(0)) {
+        if (trans==NoTrans) {
+            C = alpha*A*transpose(A);
+        } else if (trans==Trans || trans==ConjTrans) {
+            C = alpha*transpose(A)*A;
+        }
+    } else {
+        if (trans==NoTrans) {
+            C = beta*C + alpha*A*transpose(A);
+        } else if (trans==Trans || trans==ConjTrans) {
+            C = beta*C + alpha*transpose(A)*A;
+        }
+    }
+#   else
     blas::rk(trans, *ALPHA, A, *BETA, C);
+#   endif
 }
 
 void
@@ -109,8 +133,32 @@ BLAS(dsyrk)(const char      *UPLO,
 
     DSyMatrixView       C(DFullView(*N, *N, _C, *LDC), upLo);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha  = *ALPHA;
+    const auto beta   = *BETA;
+
+    if (beta==double(1)) {
+        if (trans==NoTrans) {
+            C += alpha*A*transpose(A);
+        } else if (trans==Trans || trans==ConjTrans) {
+            C += alpha*transpose(A)*A;
+        }
+    } else if (beta==double(0)) {
+        if (trans==NoTrans) {
+            C = alpha*A*transpose(A);
+        } else if (trans==Trans || trans==ConjTrans) {
+            C = alpha*transpose(A)*A;
+        }
+    } else {
+        if (trans==NoTrans) {
+            C = beta*C + alpha*A*transpose(A);
+        } else if (trans==Trans || trans==ConjTrans) {
+            C = beta*C + alpha*transpose(A)*A;
+        }
+    }
+#   else
     blas::rk(trans, *ALPHA, A, *BETA, C);
+#   endif
 }
 
 void
@@ -135,7 +183,7 @@ BLAS(csyrk)(const char      *UPLO,
 
     if (_UPLO!='U' && _UPLO!='L') {
         info = 1;
-    } else if (_TRANS!='N' && _TRANS!='T' && _TRANS!='C') {
+    } else if (_TRANS!='N' && _TRANS!='T') {
         info = 2;
     } else if (*N<0) {
         info = 3;
@@ -147,7 +195,7 @@ BLAS(csyrk)(const char      *UPLO,
         info = 10;
     }
     if (info!=0) {
-        BLAS(xerbla)("SSYRK ", &info);
+        BLAS(xerbla)("CSYRK ", &info);
         return;
     }
 
@@ -163,8 +211,32 @@ BLAS(csyrk)(const char      *UPLO,
 
     CSyMatrixView       C(CFullView(*N, *N, _C, *LDC), upLo);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha  = *ALPHA;
+    const auto beta   = *BETA;
+
+    if (beta==cfloat(1)) {
+        if (trans==NoTrans) {
+            C += alpha*A*transpose(A);
+        } else if (trans==Trans || trans==ConjTrans) {
+            C += alpha*transpose(A)*A;
+        }
+    } else if (beta==cfloat(0)) {
+        if (trans==NoTrans) {
+            C = alpha*A*transpose(A);
+        } else if (trans==Trans || trans==ConjTrans) {
+            C = alpha*transpose(A)*A;
+        }
+    } else {
+        if (trans==NoTrans) {
+            C = beta*C + alpha*A*transpose(A);
+        } else if (trans==Trans || trans==ConjTrans) {
+            C = beta*C + alpha*transpose(A)*A;
+        }
+    }
+#   else
     blas::rk(trans, *ALPHA, A, *BETA, C);
+#   endif
 }
 
 void
@@ -189,7 +261,7 @@ BLAS(zsyrk)(const char      *UPLO,
 
     if (_UPLO!='U' && _UPLO!='L') {
         info = 1;
-    } else if (_TRANS!='N' && _TRANS!='T' && _TRANS!='C') {
+    } else if (_TRANS!='N' && _TRANS!='T') {
         info = 2;
     } else if (*N<0) {
         info = 3;
@@ -201,7 +273,7 @@ BLAS(zsyrk)(const char      *UPLO,
         info = 10;
     }
     if (info!=0) {
-        BLAS(xerbla)("DSYRK ", &info);
+        BLAS(xerbla)("ZSYRK ", &info);
         return;
     }
 
@@ -217,8 +289,32 @@ BLAS(zsyrk)(const char      *UPLO,
 
     ZSyMatrixView       C(ZFullView(*N, *N, _C, *LDC), upLo);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha  = *ALPHA;
+    const auto beta   = *BETA;
+
+    if (beta==cdouble(1)) {
+        if (trans==NoTrans) {
+            C += alpha*A*transpose(A);
+        } else if (trans==Trans || trans==ConjTrans) {
+            C += alpha*transpose(A)*A;
+        }
+    } else if (beta==cdouble(0)) {
+        if (trans==NoTrans) {
+            C = alpha*A*transpose(A);
+        } else if (trans==Trans || trans==ConjTrans) {
+            C = alpha*transpose(A)*A;
+        }
+    } else {
+        if (trans==NoTrans) {
+            C = beta*C + alpha*A*transpose(A);
+        } else if (trans==Trans || trans==ConjTrans) {
+            C = beta*C + alpha*transpose(A)*A;
+        }
+    }
+#   else
     blas::rk(trans, *ALPHA, A, *BETA, C);
+#   endif
 }
 
 

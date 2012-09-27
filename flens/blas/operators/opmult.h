@@ -51,11 +51,37 @@ template <typename VX, typename VY>
                        typename VY::Impl::ElementType>::Type
     operator*(const Vector<VX> &x, const Vector<VY> &y);
 
+// x^T*y
+template <typename VX, typename VY>
+    typename Promotion<typename VX::Impl::ElementType,
+                       typename VY::Impl::ElementType>::Type
+    operator*(const VectorClosureOpTrans<VX> &x, const Vector<VY> &y);
+
 // x^H*y
 template <typename VX, typename VY>
     typename Promotion<typename VX::Impl::ElementType,
                        typename VY::Impl::ElementType>::Type
     operator*(const VectorClosureOpConj<VX> &x, const Vector<VY> &y);
+
+// x^H*y
+template <typename VX, typename VY>
+    typename Promotion<typename VX::Impl::ElementType,
+                       typename VY::Impl::ElementType>::Type
+    operator*(const VectorClosureOpConjTrans<VX> &x, const Vector<VY> &y);
+
+// A = x*y^T
+template <typename VX, typename VY>
+    const MatrixClosure<OpMult,
+                        typename VX::Impl,
+                        VectorClosureOpTrans<VY> >
+    operator*(const Vector<VX> &x, const VectorClosureOpTrans<VY> &y);
+
+// A = x*y^H
+template <typename VX, typename VY>
+    const MatrixClosure<OpMult,
+                        typename VX::Impl,
+                        VectorClosureOpConjTrans<VY> >
+    operator*(const Vector<VX> &x, const VectorClosureOpConjTrans<VY> &y);
 
 //-- scalar-vector products ----------------------------------------------------
 // alpha*x

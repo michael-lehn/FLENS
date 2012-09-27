@@ -44,8 +44,14 @@ BLAS(cher2)(const char      *UPLO,
     CDenseVectorConstView y(CConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
     CHeMatrixView         A(CFullView(*N, *N, _A, *LDA), upLo);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha  = *ALPHA;
+    const auto alpha_ = conj(alpha);
+
+    A += alpha*x*conjTrans(y) + alpha_*y*conjTrans(x);
+#   else
     blas::r2(*ALPHA, x, y, A);
+#   endif
 }
 
 void
@@ -87,8 +93,14 @@ BLAS(zher2)(const char      *UPLO,
     ZDenseVectorConstView y(ZConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
     ZHeMatrixView         A(ZFullView(*N, *N, _A, *LDA), upLo);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha  = *ALPHA;
+    const auto alpha_ = conj(alpha);
+
+    A += alpha*x*conjTrans(y) + alpha_*y*conjTrans(x);
+#   else
     blas::r2(*ALPHA, x, y, A);
+#   endif
 }
 
 } // extern "C"

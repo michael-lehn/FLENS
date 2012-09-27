@@ -45,8 +45,14 @@ BLAS(ssymv)(const char      *UPLO,
     SDenseVectorConstView x(SConstArrayView(*N, X, abs(*INCX)), *INCX<0);
     SDenseVectorView      y(SArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+    const auto beta  = *BETA;
+
+    y = beta*y + alpha*A*x;
+#   else
     blas::mv(*ALPHA, A, x, *BETA, y);
+#   endif
 }
 
 void
@@ -89,8 +95,14 @@ BLAS(dsymv)(const char      *UPLO,
     DDenseVectorConstView x(DConstArrayView(*N, X, abs(*INCX)), *INCX<0);
     DDenseVectorView      y(DArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+    const auto beta  = *BETA;
+
+    y = beta*y + alpha*A*x;
+#   else
     blas::mv(*ALPHA, A, x, *BETA, y);
+#   endif
 }
 
 } // extern "C"

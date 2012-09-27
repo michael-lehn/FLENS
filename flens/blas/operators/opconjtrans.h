@@ -40,6 +40,12 @@
 
 namespace flens {
 
+template <typename VX>
+using VectorClosureOpConjTrans = VectorClosureOpConj<VectorClosureOpTrans<VX> >;
+
+template <typename MA>
+using MatrixClosureOpConjTrans = MatrixClosureOpConj<MatrixClosureOpTrans<MA> >;
+
 #ifdef GCC_HACK
 #   define conjTrans(x)   conjugate(transpose(x))
 #else

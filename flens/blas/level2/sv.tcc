@@ -33,7 +33,7 @@
 #ifndef FLENS_BLAS_LEVEL2_SV_TCC
 #define FLENS_BLAS_LEVEL2_SV_TCC
 
-#include <flens/blas/closures/debugclosure.h>
+#include <flens/blas/closures/closures.h>
 #include <flens/blas/level2/level2.h>
 #include <flens/typedefs.h>
 

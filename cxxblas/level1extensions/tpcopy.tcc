@@ -44,22 +44,25 @@ namespace cxxblas {
 //
 template <typename IndexType, typename MA, typename MB>
 void
-tpcopy(StorageOrder order, StorageUpLo upLo, Transpose trans, Diag diag,
+tpcopy(StorageUpLo upLo, Transpose trans, Diag diag,
        IndexType  n, const MA *A, MB *B)
 {
     CXXBLAS_DEBUG_OUT("tpcopy_generic");
 
-    // TODO: Remove copy of diagonal if diag == Unit
     if (trans==NoTrans) {
-          const IndexType length = n*(n+1)/2;
-          copy(length, A, 1, B, 1);
-          return;
+        // TODO: Allow diag != Unit
+        ASSERT(diag==NonUnit);
+        const IndexType length = n*(n+1)/2;
+        copy(length, A, 1, B, 1);
+        return;
     }
 
     if (trans==Conj) {
-           const IndexType length = n*(n+1)/2;
-           ccopy(length, A, 1, B, 1);
-          return;
+        // TODO: Allow diag != Unit
+        ASSERT(diag==NonUnit);
+        const IndexType length = n*(n+1)/2;
+        ccopy(length, A, 1, B, 1);
+        return;
     }
     const IndexType shift = (diag==Unit) ? 1 : 0;
     if (trans == Trans) {

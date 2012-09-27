@@ -160,7 +160,7 @@ BLAS(ctrsm)(const char      *SIDE,
         info = 11;
     }
     if (info!=0) {
-        BLAS(xerbla)("STRSM ", &info);
+        BLAS(xerbla)("CTRSM ", &info);
         return;
     }
 

@@ -39,8 +39,13 @@ BLAS(ssyr)(const char      *UPLO,
     SDenseVectorConstView x(SConstArrayView(*N, X, abs(*INCX)), *INCX<0);
     SSyMatrixView         A(SFullView(*N, *N, _A, *LDA), upLo);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+
+    A += alpha*x*transpose(x);
+#   else
     blas::r(*ALPHA, x, A);
+#   endif
 }
 
 void
@@ -77,8 +82,13 @@ BLAS(dsyr)(const char      *UPLO,
     DDenseVectorConstView x(DConstArrayView(*N, X, abs(*INCX)), *INCX<0);
     DSyMatrixView         A(DFullView(*N, *N, _A, *LDA), upLo);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+
+    A += alpha*x*transpose(x);
+#   else
     blas::r(*ALPHA, x, A);
+#   endif
 }
 
 } // extern "C"

@@ -119,6 +119,24 @@ HpMatrix<PS>::operator=(const Matrix<RHS> &rhs)
 }
 
 template <typename PS>
+template <typename RHS>
+HpMatrix<PS> &
+HpMatrix<PS>::operator+=(const Matrix<RHS> &rhs)
+{
+    plusAssign(rhs, *this);
+    return *this;
+}
+
+template <typename PS>
+template <typename RHS>
+HpMatrix<PS> &
+HpMatrix<PS>::operator-=(const Matrix<RHS> &rhs)
+{
+    minusAssign(rhs, *this);
+    return *this;
+}
+
+template <typename PS>
 const typename HpMatrix<PS>::ElementType &
 HpMatrix<PS>::operator()(IndexType row, IndexType col) const
 {
@@ -303,15 +321,15 @@ bool
 HpMatrix<PS>::resize(const HpMatrix<RHS> &rhs,
                      const ElementType &value)
 {
-    return _engine.resize(rhs.engine(), value);
+    return _engine.resize(rhs.dim(), rhs.indexBase(), value);
 }
 
 template <typename PS>
 bool
-HpMatrix<PS>::resize(IndexType dim, IndexType firstIndex,
+HpMatrix<PS>::resize(IndexType dim, IndexType indexBase,
                      const ElementType &value)
 {
-    return _engine.resize(dim, firstIndex, value);
+    return _engine.resize(dim, indexBase, value);
 }
 
 // -- views --------------------------------------------------------------------

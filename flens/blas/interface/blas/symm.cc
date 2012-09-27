@@ -55,7 +55,18 @@ BLAS(ssymm)(const char      *SIDE,
     SGeMatrixConstView  B = SFullConstView(*M, *N, _B, *LDB);
     SGeMatrixView       C = SFullView(*M, *N, _C, *LDC);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+    const auto beta  = *BETA;
+
+    if (side==Left) {
+        C = beta*C + alpha*A*B;
+    } else if (side==Right) {
+        C = beta*C + alpha*B*A;
+    }
+#   else
     blas::mm(side, *ALPHA, A, B, *BETA, C);
+#   endif
 }
 
 void
@@ -108,7 +119,18 @@ BLAS(dsymm)(const char      *SIDE,
     DGeMatrixConstView  B = DFullConstView(*M, *N, _B, *LDB);
     DGeMatrixView       C = DFullView(*M, *N, _C, *LDC);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+    const auto beta  = *BETA;
+
+    if (side==Left) {
+        C = beta*C + alpha*A*B;
+    } else if (side==Right) {
+        C = beta*C + alpha*B*A;
+    }
+#   else
     blas::mm(side, *ALPHA, A, B, *BETA, C);
+#   endif
 }
 
 void
@@ -161,7 +183,18 @@ BLAS(csymm)(const char      *SIDE,
     CGeMatrixConstView  B = CFullConstView(*M, *N, _B, *LDB);
     CGeMatrixView       C = CFullView(*M, *N, _C, *LDC);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+    const auto beta  = *BETA;
+
+    if (side==Left) {
+        C = beta*C + alpha*A*B;
+    } else if (side==Right) {
+        C = beta*C + alpha*B*A;
+    }
+#   else
     blas::mm(side, *ALPHA, A, B, *BETA, C);
+#   endif
 }
 
 
@@ -215,7 +248,18 @@ BLAS(zsymm)(const char      *SIDE,
     ZGeMatrixConstView  B = ZFullConstView(*M, *N, _B, *LDB);
     ZGeMatrixView       C = ZFullView(*M, *N, _C, *LDC);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+    const auto beta  = *BETA;
+
+    if (side==Left) {
+        C = beta*C + alpha*A*B;
+    } else if (side==Right) {
+        C = beta*C + alpha*B*A;
+    }
+#   else
     blas::mm(side, *ALPHA, A, B, *BETA, C);
+#   endif
 }
 
 

@@ -33,7 +33,7 @@
 #ifndef FLENS_BLAS_LEVEL3_MM_TCC
 #define FLENS_BLAS_LEVEL3_MM_TCC
 
-#include <flens/blas/closures/debugclosure.h>
+#include <flens/blas/closures/closures.h>
 #include <flens/blas/level3/level3.h>
 #include <flens/typedefs.h>
 

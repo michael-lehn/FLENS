@@ -54,7 +54,15 @@ BLAS(stbmv)(const char      *UPLO,
     STbMatrixConstView  A(SBandConstView(*N, *N, KL, KU, _A, *LDA), upLo, diag);
     SDenseVectorView    x(SArrayView(*N, X, abs(*INCX)), *INCX<0);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
+    if (trans==NoTrans) {
+        x = A*x;
+    } else if (trans==Trans || trans==ConjTrans) {
+        x = transpose(A)*x;
+    }
+#   else
     blas::mv(trans, A, x);
+#   endif
 }
 
 void
@@ -106,7 +114,15 @@ BLAS(dtbmv)(const char      *UPLO,
     DTbMatrixConstView  A(DBandConstView(*N, *N, KL, KU, _A, *LDA), upLo, diag);
     DDenseVectorView    x(DArrayView(*N, X, abs(*INCX)), *INCX<0);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
+    if (trans==NoTrans) {
+        x = A*x;
+    } else if (trans==Trans || trans==ConjTrans) {
+        x = transpose(A)*x;
+    }
+#   else
     blas::mv(trans, A, x);
+#   endif
 }
 
 void
@@ -158,7 +174,17 @@ BLAS(ctbmv)(const char      *UPLO,
     CTbMatrixConstView  A(CBandConstView(*N, *N, KL, KU, _A, *LDA), upLo, diag);
     CDenseVectorView    x(CArrayView(*N, X, abs(*INCX)), *INCX<0);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
+    if (trans==NoTrans) {
+        x = A*x;
+    } else if (trans==Trans) {
+        x = transpose(A)*x;
+    } else if (trans==ConjTrans) {
+        x = conjTrans(A)*x;
+    }
+#   else
     blas::mv(trans, A, x);
+#   endif
 }
 
 void
@@ -210,7 +236,17 @@ BLAS(ztbmv)(const char      *UPLO,
     ZTbMatrixConstView  A(ZBandConstView(*N, *N, KL, KU, _A, *LDA), upLo, diag);
     ZDenseVectorView    x(ZArrayView(*N, X, abs(*INCX)), *INCX<0);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
+    if (trans==NoTrans) {
+        x = A*x;
+    } else if (trans==Trans) {
+        x = transpose(A)*x;
+    } else if (trans==ConjTrans) {
+        x = conjTrans(A)*x;
+    }
+#   else
     blas::mv(trans, A, x);
+#   endif
 }
 
 

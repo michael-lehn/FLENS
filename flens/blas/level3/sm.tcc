@@ -33,6 +33,7 @@
 #ifndef FLENS_BLAS_LEVEL3_SM_TCC
 #define FLENS_BLAS_LEVEL3_SM_TCC
 
+#include <flens/blas/closures/closures.h>
 #include <flens/blas/level3/level3.h>
 #include <flens/typedefs.h>
 

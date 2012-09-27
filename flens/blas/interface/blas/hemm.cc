@@ -55,7 +55,18 @@ BLAS(chemm)(const char      *SIDE,
     CGeMatrixConstView  B = CFullConstView(*M, *N, _B, *LDB);
     CGeMatrixView       C = CFullView(*M, *N, _C, *LDC);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+    const auto beta  = *BETA;
+
+    if (side==Left) {
+        C = beta*C + alpha*A*B;
+    } else if (side==Right) {
+        C = beta*C + alpha*B*A;
+    }
+#   else
     blas::mm(side, *ALPHA, A, B, *BETA, C);
+#   endif
 }
 
 
@@ -109,7 +120,18 @@ BLAS(zhemm)(const char      *SIDE,
     ZGeMatrixConstView  B = ZFullConstView(*M, *N, _B, *LDB);
     ZGeMatrixView       C = ZFullView(*M, *N, _C, *LDC);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+    const auto beta  = *BETA;
+
+    if (side==Left) {
+        C = beta*C + alpha*A*B;
+    } else if (side==Right) {
+        C = beta*C + alpha*B*A;
+    }
+#   else
     blas::mm(side, *ALPHA, A, B, *BETA, C);
+#   endif
 }
 
 } // extern "C"

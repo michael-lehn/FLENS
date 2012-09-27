@@ -245,7 +245,7 @@ PackedStorage<T, Order, I, A>::_raw_allocate()
     ElementType *p = _data;
 #endif
 
-    _changeIndexBase(_indexBase);
+    changeIndexBase(_indexBase);
 
 #ifndef NDEBUG
     ASSERT(p==data());

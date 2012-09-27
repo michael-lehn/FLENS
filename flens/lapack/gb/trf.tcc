@@ -52,11 +52,11 @@ namespace flens { namespace lapack {
 
 //== interface for native lapack ===============================================
 
+/*
 namespace generic {
 
 //-- (gb)trf [real and complex variant] ----------------------------------------
 
-/*
 
 template <typename MA, typename VP>
 typename GbMatrix<MA>::IndexType

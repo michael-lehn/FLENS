@@ -70,6 +70,13 @@ dot(const DenseVector<X> &x, const DenseVector<Y> &y, T &result)
 
 template <typename X, typename Y, typename T>
 void
+dotc(const DenseVector<X> &x, const DenseVector<Y> &y, T &result)
+{
+    dotc(x, y, result);
+}
+
+template <typename X, typename Y, typename T>
+void
 dotu(const DenseVector<X> &x, const DenseVector<Y> &y, T &result)
 {
     FLENS_BLASLOG_SETTAG("--> ");
@@ -93,16 +100,29 @@ template <typename X, typename Y>
 typename CompatibleType<typename X::ElementType, typename Y::ElementType>::Type
 dot(const DenseVector<X> &x, const DenseVector<Y> &y)
 {
-    typename CompatibleType<typename X::ElementType, typename Y::ElementType>::Type val;
+    typedef typename X::ElementType  TX;
+    typedef typename Y::ElementType  TY;
+
+    typename CompatibleType<TX, TY>::Type val;
     dot(x, y, val);
     return val;
 }
 
 template <typename X, typename Y>
 typename CompatibleType<typename X::ElementType, typename Y::ElementType>::Type
+dotc(const DenseVector<X> &x, const DenseVector<Y> &y)
+{
+    return dot(x, y);
+}
+
+template <typename X, typename Y>
+typename CompatibleType<typename X::ElementType, typename Y::ElementType>::Type
 dotu(const DenseVector<X> &x, const DenseVector<Y> &y)
 {
-    typename CompatibleType<typename X::ElementType, typename Y::ElementType>::Type val;
+    typedef typename X::ElementType  TX;
+    typedef typename Y::ElementType  TY;
+
+    typename CompatibleType<TX, TY>::Type val;
     dotu(x, y, val);
     return val;
 }

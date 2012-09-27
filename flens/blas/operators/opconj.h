@@ -43,7 +43,6 @@ struct OpConj {};
 template <typename VX>
 using VectorClosureOpConj = VectorClosure<OpConj, VX, VX>;
 
-
 template <typename MA>
 using MatrixClosureOpConj = MatrixClosure<OpConj, MA, MA>;
 

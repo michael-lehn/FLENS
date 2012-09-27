@@ -33,7 +33,7 @@
 #ifndef FLENS_BLAS_LEVEL2_R_TCC
 #define FLENS_BLAS_LEVEL2_R_TCC 1
 
-#include <flens/blas/closures/debugclosure.h>
+#include <flens/blas/closures/closures.h>
 #include <flens/blas/level2/level2.h>
 #include <flens/typedefs.h>
 
@@ -60,6 +60,7 @@ r(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
     }
     ASSERT(A.numRows()==x.length());
     ASSERT(A.numCols()==y.length());
+
     cxxblas::ger(A.order(),
                  A.numRows(), A.numCols(),
                  alpha,
@@ -90,8 +91,10 @@ rc(const ALPHA &alpha, const VX &x, const VY &y, MA &&A)
     if ((A.numRows()==0) || (A.numCols()==0)) {
         A.resize(x.length(), y.length(), x.firstIndex(), y.firstIndex());
     }
+
     ASSERT(A.numRows()==x.length());
     ASSERT(A.numCols()==y.length());
+
     cxxblas::gerc(A.order(),
                   A.numRows(), A.numCols(),
                   alpha,

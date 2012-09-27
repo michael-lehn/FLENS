@@ -37,6 +37,14 @@
 
 namespace flens {
 
+template <typename VX>
+const VectorClosureOpTrans<typename VX::Impl>
+transpose(const Vector<VX> &x)
+{
+    typedef VectorClosureOpTrans<typename VX::Impl>  VC;
+    return VC(x.impl(), x.impl());
+}
+
 template <typename MA>
 const MatrixClosureOpTrans<typename MA::Impl>
 transpose(const Matrix<MA> &A)

@@ -41,7 +41,13 @@ BLAS(sspr2)(const char      *UPLO,
     SDenseVectorConstView  y(SConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
     SSpMatrixView          A(SPackedView(*N, AP), upLo);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha  = *ALPHA;
+
+    A += alpha*x*transpose(y) + alpha*y*transpose(x);
+#   else
     blas::r2(*ALPHA, x, y, A);
+#   endif
 }
 
 void
@@ -80,7 +86,13 @@ BLAS(dspr2)(const char      *UPLO,
     DDenseVectorConstView  y(DConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
     DSpMatrixView          A(DPackedView(*N, AP), upLo);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha  = *ALPHA;
+
+    A += alpha*x*transpose(y) + alpha*y*transpose(x);
+#   else
     blas::r2(*ALPHA, x, y, A);
+#   endif
 }
 
 } // extern "C"

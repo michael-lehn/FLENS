@@ -115,6 +115,14 @@ class SpMatrix
             SpMatrix &
             operator=(const Matrix<RHS> &rhs);
 
+        template <typename RHS>
+            SpMatrix &
+            operator+=(const Matrix<RHS> &rhs);
+
+        template <typename RHS>
+            SpMatrix &
+            operator-=(const Matrix<RHS> &rhs);
+
         const ElementType &
         operator()(IndexType row, IndexType col) const;
 

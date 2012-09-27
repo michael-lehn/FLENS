@@ -41,8 +41,13 @@ BLAS(sger)(const INTEGER   *M,
     SDenseVectorConstView y(SConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
     SGeMatrixView         A = SFullView(*M, *N, _A, *LDA);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+
+    A += alpha*x*transpose(y);
+#   else
     blas::r(*ALPHA, x, y, A);
+#   endif
 }
 
 void
@@ -81,8 +86,13 @@ BLAS(dger)(const INTEGER   *M,
     DDenseVectorConstView y(DConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
     DGeMatrixView         A = DFullView(*M, *N, _A, *LDA);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+
+    A += alpha*x*transpose(y);
+#   else
     blas::r(*ALPHA, x, y, A);
+#   endif
 }
 
 void
@@ -121,8 +131,13 @@ BLAS(cgerc)(const INTEGER   *M,
     CDenseVectorConstView y(CConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
     CGeMatrixView         A = CFullView(*M, *N, _A, *LDA);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+
+    A += alpha*x*conjTrans(y);
+#   else
     blas::rc(*ALPHA, x, y, A);
+#   endif
 }
 
 void
@@ -161,8 +176,13 @@ BLAS(cgeru)(const INTEGER   *M,
     CDenseVectorConstView y(CConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
     CGeMatrixView         A = CFullView(*M, *N, _A, *LDA);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+
+    A += alpha*x*transpose(y);
+#   else
     blas::ru(*ALPHA, x, y, A);
+#   endif
 }
 
 void
@@ -201,8 +221,13 @@ BLAS(zgerc)(const INTEGER   *M,
     ZDenseVectorConstView y(ZConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
     ZGeMatrixView         A = ZFullView(*M, *N, _A, *LDA);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+
+    A += alpha*x*conjTrans(y);
+#   else
     blas::rc(*ALPHA, x, y, A);
+#   endif
 }
 
 void
@@ -241,8 +266,13 @@ BLAS(zgeru)(const INTEGER   *M,
     ZDenseVectorConstView y(ZConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
     ZGeMatrixView         A = ZFullView(*M, *N, _A, *LDA);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+
+    A += alpha*x*transpose(y);
+#   else
     blas::ru(*ALPHA, x, y, A);
+#   endif
 }
 
 } // extern "C"

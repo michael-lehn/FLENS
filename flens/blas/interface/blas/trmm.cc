@@ -59,7 +59,25 @@ BLAS(strmm)(const char      *SIDE,
     STrMatrixConstView  A(SFullConstView(ka, ka, _A, *LDA), upLo, diag);
     SGeMatrixView       B = SFullView(*M, *N, _B, *LDB);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+
+    if (side==Left) {
+        if (transA==NoTrans) {
+            B = alpha*A*B;
+        } else {
+            B = alpha*transpose(A)*B;
+        }
+    } else if (side==Right) {
+        if (transA==NoTrans) {
+            B = alpha*B*A;
+        } else {
+            B = alpha*B*transpose(A);
+        }
+    }
+#   else
     blas::mm(side, transA, *ALPHA, A, B);
+#   endif
 }
 
 void
@@ -116,7 +134,25 @@ BLAS(dtrmm)(const char      *SIDE,
     DTrMatrixConstView  A(DFullConstView(ka, ka, _A, *LDA), upLo, diag);
     DGeMatrixView       B = DFullView(*M, *N, _B, *LDB);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+
+    if (side==Left) {
+        if (transA==NoTrans) {
+            B = alpha*A*B;
+        } else {
+            B = alpha*transpose(A)*B;
+        }
+    } else if (side==Right) {
+        if (transA==NoTrans) {
+            B = alpha*B*A;
+        } else {
+            B = alpha*B*transpose(A);
+        }
+    }
+#   else
     blas::mm(side, transA, *ALPHA, A, B);
+#   endif
 }
 
 void
@@ -173,7 +209,29 @@ BLAS(ctrmm)(const char      *SIDE,
     CTrMatrixConstView  A(CFullConstView(ka, ka, _A, *LDA), upLo, diag);
     CGeMatrixView       B = CFullView(*M, *N, _B, *LDB);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+
+    if (side==Left) {
+        if (transA==NoTrans) {
+            B = alpha*A*B;
+        } else if (transA==Trans) {
+            B = alpha*transpose(A)*B;
+        } else if (transA==ConjTrans) {
+            B = alpha*conjTrans(A)*B;
+        }
+    } else if (side==Right) {
+        if (transA==NoTrans) {
+            B = alpha*B*A;
+        } else if (transA==Trans) {
+            B = alpha*B*transpose(A);
+        } else if (transA==ConjTrans) {
+            B = alpha*B*conjTrans(A);
+        }
+    }
+#   else
     blas::mm(side, transA, *ALPHA, A, B);
+#   endif
 }
 
 void
@@ -230,7 +288,29 @@ BLAS(ztrmm)(const char      *SIDE,
     ZTrMatrixConstView  A(ZFullConstView(ka, ka, _A, *LDA), upLo, diag);
     ZGeMatrixView       B = ZFullView(*M, *N, _B, *LDB);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+
+    if (side==Left) {
+        if (transA==NoTrans) {
+            B = alpha*A*B;
+        } else if (transA==Trans) {
+            B = alpha*transpose(A)*B;
+        } else if (transA==ConjTrans) {
+            B = alpha*conjTrans(A)*B;
+        }
+    } else if (side==Right) {
+        if (transA==NoTrans) {
+            B = alpha*B*A;
+        } else if (transA==Trans) {
+            B = alpha*B*transpose(A);
+        } else if (transA==ConjTrans) {
+            B = alpha*B*conjTrans(A);
+        }
+    }
+#   else
     blas::mm(side, transA, *ALPHA, A, B);
+#   endif
 }
 
 

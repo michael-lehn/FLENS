@@ -127,6 +127,14 @@ class SyMatrix
             SyMatrix &
             operator=(const Matrix<RHS> &rhs);
 
+        template <typename RHS>
+            SyMatrix &
+            operator+=(const Matrix<RHS> &rhs);
+
+        template <typename RHS>
+            SyMatrix &
+            operator-=(const Matrix<RHS> &rhs);
+
         const ElementType &
         operator()(IndexType row, IndexType col) const;
 

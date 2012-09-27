@@ -69,7 +69,32 @@ BLAS(sgemm)(const char      *TRANSA,
 
     SGeMatrixView       C = SFullView(*M, *N, _C, *LDC);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+    const auto beta  = *BETA;
+
+    if (transA==NoTrans && transB==NoTrans) {
+        C = beta*C + alpha*A*B;
+    } else if (transA==Trans && transB==NoTrans) {
+        C = beta*C + alpha*transpose(A)*B;
+    } else if (transA==ConjTrans && transB==NoTrans) {
+        C = beta*C + alpha*conjTrans(A)*B;
+    } else if (transA==NoTrans && transB==Trans) {
+        C = beta*C + alpha*A*transpose(B);
+    } else if (transA==Trans && transB==Trans) {
+        C = beta*C + alpha*transpose(A)*transpose(B);
+    } else if (transA==ConjTrans && transB==Trans) {
+        C = beta*C + alpha*conjTrans(A)*transpose(B);
+    } else if (transA==NoTrans && transB==ConjTrans) {
+        C = beta*C + alpha*A*conjTrans(B);
+    } else if (transA==Trans && transB==ConjTrans) {
+        C = beta*C + alpha*transpose(A)*conjTrans(B);
+    } else if (transA==ConjTrans && transB==ConjTrans) {
+        C = beta*C + alpha*conjTrans(A)*conjTrans(B);
+    }
+#   else
     blas::mm(transA, transB, *ALPHA, A, B, *BETA, C);
+#   endif
 }
 
 
@@ -139,7 +164,32 @@ BLAS(dgemm)(const char      *TRANSA,
 
     DGeMatrixView  C = DFullView(*M, *N, _C, *LDC);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+    const auto beta  = *BETA;
+
+    if (transA==NoTrans && transB==NoTrans) {
+        C = beta*C + alpha*A*B;
+    } else if (transA==Trans && transB==NoTrans) {
+        C = beta*C + alpha*transpose(A)*B;
+    } else if (transA==ConjTrans && transB==NoTrans) {
+        C = beta*C + alpha*conjTrans(A)*B;
+    } else if (transA==NoTrans && transB==Trans) {
+        C = beta*C + alpha*A*transpose(B);
+    } else if (transA==Trans && transB==Trans) {
+        C = beta*C + alpha*transpose(A)*transpose(B);
+    } else if (transA==ConjTrans && transB==Trans) {
+        C = beta*C + alpha*conjTrans(A)*transpose(B);
+    } else if (transA==NoTrans && transB==ConjTrans) {
+        C = beta*C + alpha*A*conjTrans(B);
+    } else if (transA==Trans && transB==ConjTrans) {
+        C = beta*C + alpha*transpose(A)*conjTrans(B);
+    } else if (transA==ConjTrans && transB==ConjTrans) {
+        C = beta*C + alpha*conjTrans(A)*conjTrans(B);
+    }
+#   else
     blas::mm(transA, transB, *ALPHA, A, B, *BETA, C);
+#   endif
 }
 
 void
@@ -206,7 +256,32 @@ BLAS(cgemm)(const char      *TRANSA,
 
     CGeMatrixView       C = CFullView(*M, *N, _C, *LDC);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+    const auto beta  = *BETA;
+
+    if (transA==NoTrans && transB==NoTrans) {
+        C = beta*C + alpha*A*B;
+    } else if (transA==Trans && transB==NoTrans) {
+        C = beta*C + alpha*transpose(A)*B;
+    } else if (transA==ConjTrans && transB==NoTrans) {
+        C = beta*C + alpha*conjTrans(A)*B;
+    } else if (transA==NoTrans && transB==Trans) {
+        C = beta*C + alpha*A*transpose(B);
+    } else if (transA==Trans && transB==Trans) {
+        C = beta*C + alpha*transpose(A)*transpose(B);
+    } else if (transA==ConjTrans && transB==Trans) {
+        C = beta*C + alpha*conjTrans(A)*transpose(B);
+    } else if (transA==NoTrans && transB==ConjTrans) {
+        C = beta*C + alpha*A*conjTrans(B);
+    } else if (transA==Trans && transB==ConjTrans) {
+        C = beta*C + alpha*transpose(A)*conjTrans(B);
+    } else if (transA==ConjTrans && transB==ConjTrans) {
+        C = beta*C + alpha*conjTrans(A)*conjTrans(B);
+    }
+#   else
     blas::mm(transA, transB, *ALPHA, A, B, *BETA, C);
+#   endif
 }
 
 
@@ -276,7 +351,32 @@ BLAS(zgemm)(const char      *TRANSA,
 
     ZGeMatrixView  C = ZFullView(*M, *N, _C, *LDC);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+    const auto beta  = *BETA;
+
+    if (transA==NoTrans && transB==NoTrans) {
+        C = beta*C + alpha*A*B;
+    } else if (transA==Trans && transB==NoTrans) {
+        C = beta*C + alpha*transpose(A)*B;
+    } else if (transA==ConjTrans && transB==NoTrans) {
+        C = beta*C + alpha*conjTrans(A)*B;
+    } else if (transA==NoTrans && transB==Trans) {
+        C = beta*C + alpha*A*transpose(B);
+    } else if (transA==Trans && transB==Trans) {
+        C = beta*C + alpha*transpose(A)*transpose(B);
+    } else if (transA==ConjTrans && transB==Trans) {
+        C = beta*C + alpha*conjTrans(A)*transpose(B);
+    } else if (transA==NoTrans && transB==ConjTrans) {
+        C = beta*C + alpha*A*conjTrans(B);
+    } else if (transA==Trans && transB==ConjTrans) {
+        C = beta*C + alpha*transpose(A)*conjTrans(B);
+    } else if (transA==ConjTrans && transB==ConjTrans) {
+        C = beta*C + alpha*conjTrans(A)*conjTrans(B);
+    }
+#   else
     blas::mm(transA, transB, *ALPHA, A, B, *BETA, C);
+#   endif
 }
 
 
