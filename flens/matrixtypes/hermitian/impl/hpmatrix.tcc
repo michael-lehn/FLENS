@@ -93,7 +93,7 @@ HpMatrix<PS>::operator=(const ElementType &alpha)
 {
     ASSERT(cxxblas::imag(alpha)==0);
 
-    VectorView x = ArrayView(engine.numNonZeros(), engine.data());
+    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
 
     x = alpha;
     return *this;
@@ -170,7 +170,7 @@ HpMatrix<PS>::operator+=(const ElementType &alpha)
 {
     ASSERT(cxxblas::imag(alpha)==0);
 
-    VectorView x = ArrayView(engine.numNonZeros(), engine.data());
+    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
 
     x += alpha;
     return *this;
@@ -182,7 +182,7 @@ HpMatrix<PS>::operator-=(const ElementType &alpha)
 {
     ASSERT(cxxblas::imag(alpha)==0);
 
-    VectorView x = ArrayView(engine.numNonZeros(), engine.data());
+    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
 
     x -= alpha;
     return *this;
@@ -194,7 +194,7 @@ HpMatrix<PS>::operator*=(const ElementType &alpha)
 {
     ASSERT(cxxblas::imag(alpha)==0);
 
-    VectorView x = ArrayView(engine.numNonZeros(), engine.data());
+    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
 
     x *= alpha;
     return *this;
@@ -206,7 +206,7 @@ HpMatrix<PS>::operator/=(const ElementType &alpha)
 {
     ASSERT(cxxblas::imag(alpha)==0);
 
-    VectorView x = ArrayView(engine.numNonZeros(), engine.data());
+    VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
 
     x /= alpha;
     return *this;
