@@ -254,10 +254,6 @@ template <typename T, typename I, typename A>
 void
 Array<T, I, A>::_raw_allocate()
 {
-    std::cerr << "calling _raw_allocate (length = "
-              << length()
-              << ")"
-              << std::endl;
     ASSERT(!_data);
     ASSERT(length()>=0);
 
