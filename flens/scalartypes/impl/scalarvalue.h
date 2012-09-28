@@ -33,7 +33,7 @@
 #ifndef FLENS_SCALARTYPES_IMPL_SCALARVALUE_H
 #define FLENS_SCALARTYPES_IMPL_SCALARVALUE_H 1
 
-#include <flens/auxiliary/constref.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/scalartypes/scalar.h>
 
 namespace flens {
@@ -60,6 +60,36 @@ template <typename T>
 struct ConstRef<ScalarValue<T> >
 {
     typedef ScalarValue<T> Type;
+};
+
+//-- Traits --------------------------------------------------------------------
+
+//
+//  IsScalarValue
+//
+
+struct _ScalarValueChecker
+{
+
+    struct Two
+    {
+        char x;
+        char y;
+    };
+
+    static Two
+    check(_AnyConversion);
+
+    template <typename Any>
+        static char
+        check(ScalarValue<Any>);
+};
+
+template <typename T>
+struct IsScalarValue
+{
+    static T var;
+    static const bool value = sizeof(_ScalarValueChecker::check(var))==1;
 };
 
 } // namespace flens

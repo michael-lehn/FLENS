@@ -88,7 +88,7 @@ TpMatrix<PS>::TpMatrix(const Matrix<RHS> &rhs)
 //-- Operators -----------------------------------------------------------------
 
 template <typename PS>
-TpMatrix<PS> &
+void
 TpMatrix<PS>::operator=(const ElementType &alpha)
 {
     ASSERT(_diag==NonUnit);

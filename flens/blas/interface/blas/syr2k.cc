@@ -64,8 +64,32 @@ BLAS(ssyr2k)(const char      *UPLO,
 
     SSyMatrixView       C(SFullView(*N, *N, _C, *LDC), upLo);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha  = *ALPHA;
+    const auto beta   = *BETA;
+
+    if (beta==float(1)) {
+        if (trans==NoTrans) {
+            C += alpha*A*transpose(B) + alpha*B*transpose(A);
+        } else if (trans==ConjTrans || trans==Trans) {
+            C += alpha*transpose(A)*B + alpha*transpose(B)*A;
+        }
+    } else if (beta==float(0)) {
+        if (trans==NoTrans) {
+            C = alpha*A*transpose(B) + alpha*B*transpose(A);
+        } else if (trans==ConjTrans || trans==Trans) {
+            C = alpha*transpose(A)*B + alpha*transpose(B)*A;
+        }
+    } else {
+        if (trans==NoTrans) {
+            C = beta*C + alpha*A*transpose(B) + alpha*B*transpose(A);
+        } else if (trans==ConjTrans || trans==Trans) {
+            C = beta*C + alpha*transpose(A)*B + alpha*transpose(B)*A;
+        }
+    }
+#   else
     blas::r2k(trans, *ALPHA, A, B, *BETA, C);
+#   endif
 }
 
 
@@ -128,8 +152,32 @@ BLAS(dsyr2k)(const char      *UPLO,
 
     DSyMatrixView       C(DFullView(*N, *N, _C, *LDC), upLo);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha  = *ALPHA;
+    const auto beta   = *BETA;
+
+    if (beta==float(1)) {
+        if (trans==NoTrans) {
+            C += alpha*A*transpose(B) + alpha*B*transpose(A);
+        } else if (trans==ConjTrans || trans==Trans) {
+            C += alpha*transpose(A)*B + alpha*transpose(B)*A;
+        }
+    } else if (beta==float(0)) {
+        if (trans==NoTrans) {
+            C = alpha*A*transpose(B) + alpha*B*transpose(A);
+        } else if (trans==ConjTrans || trans==Trans) {
+            C = alpha*transpose(A)*B + alpha*transpose(B)*A;
+        }
+    } else {
+        if (trans==NoTrans) {
+            C = beta*C + alpha*A*transpose(B) + alpha*B*transpose(A);
+        } else if (trans==ConjTrans || trans==Trans) {
+            C = beta*C + alpha*transpose(A)*B + alpha*transpose(B)*A;
+        }
+    }
+#   else
     blas::r2k(trans, *ALPHA, A, B, *BETA, C);
+#   endif
 }
 
 void
@@ -156,7 +204,7 @@ BLAS(csyr2k)(const char      *UPLO,
 
     if (_UPLO!='U' && _UPLO!='L') {
         info = 1;
-    } else if (_TRANS!='N' && _TRANS!='T' && _TRANS!='C') {
+    } else if (_TRANS!='N' && _TRANS!='T') {
         info = 2;
     } else if (*N<0) {
         info = 3;
@@ -170,7 +218,7 @@ BLAS(csyr2k)(const char      *UPLO,
         info = 12;
     }
     if (info!=0) {
-        BLAS(xerbla)("SSYR2K", &info);
+        BLAS(xerbla)("CSYR2K", &info);
         return;
     }
 
@@ -191,10 +239,33 @@ BLAS(csyr2k)(const char      *UPLO,
 
     CSyMatrixView       C(CFullView(*N, *N, _C, *LDC), upLo);
 
-    // if you only want to test FLENS-BLAS just call
-    blas::r2k(trans, *ALPHA, A, B, *BETA, C);
-}
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha  = *ALPHA;
+    const auto beta   = *BETA;
 
+    if (beta==cfloat(1)) {
+        if (trans==NoTrans) {
+            C += alpha*A*transpose(B) + alpha*B*transpose(A);
+        } else if (trans==Trans) {
+            C += alpha*transpose(A)*B + alpha*transpose(B)*A;
+        }
+    } else if (beta==cfloat(0)) {
+        if (trans==NoTrans) {
+            C = alpha*A*transpose(B) + alpha*B*transpose(A);
+        } else if (trans==Trans) {
+            C = alpha*transpose(A)*B + alpha*transpose(B)*A;
+        }
+    } else {
+        if (trans==NoTrans) {
+            C = beta*C + alpha*A*transpose(B) + alpha*B*transpose(A);
+        } else if (trans==Trans) {
+            C = beta*C + alpha*transpose(A)*B + alpha*transpose(B)*A;
+        }
+    }
+#   else
+    blas::r2k(trans, *ALPHA, A, B, *BETA, C);
+#   endif
+}
 
 void
 BLAS(zsyr2k)(const char      *UPLO,
@@ -220,7 +291,7 @@ BLAS(zsyr2k)(const char      *UPLO,
 
     if (_UPLO!='U' && _UPLO!='L') {
         info = 1;
-    } else if (_TRANS!='N' && _TRANS!='T' && _TRANS!='C') {
+    } else if (_TRANS!='N' && _TRANS!='T') {
         info = 2;
     } else if (*N<0) {
         info = 3;
@@ -234,7 +305,7 @@ BLAS(zsyr2k)(const char      *UPLO,
         info = 12;
     }
     if (info!=0) {
-        BLAS(xerbla)("DSYR2K", &info);
+        BLAS(xerbla)("ZSYR2K", &info);
         return;
     }
 
@@ -255,9 +326,32 @@ BLAS(zsyr2k)(const char      *UPLO,
 
     ZSyMatrixView       C(ZFullView(*N, *N, _C, *LDC), upLo);
 
-    // if you only want to test FLENS-BLAS just call
-    blas::r2k(trans, *ALPHA, A, B, *BETA, C);
-}
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha  = *ALPHA;
+    const auto beta   = *BETA;
 
+    if (beta==cdouble(1)) {
+        if (trans==NoTrans) {
+            C += alpha*A*transpose(B) + alpha*B*transpose(A);
+        } else if (trans==Trans) {
+            C += alpha*transpose(A)*B + alpha*transpose(B)*A;
+        }
+    } else if (beta==cdouble(0)) {
+        if (trans==NoTrans) {
+            C = alpha*A*transpose(B) + alpha*B*transpose(A);
+        } else if (trans==Trans) {
+            C = alpha*transpose(A)*B + alpha*transpose(B)*A;
+        }
+    } else {
+        if (trans==NoTrans) {
+            C = beta*C + alpha*A*transpose(B) + alpha*B*transpose(A);
+        } else if (trans==Trans) {
+            C = beta*C + alpha*transpose(A)*B + alpha*transpose(B)*A;
+        }
+    }
+#   else
+    blas::r2k(trans, *ALPHA, A, B, *BETA, C);
+#   endif
+}
 
 } // extern "C"

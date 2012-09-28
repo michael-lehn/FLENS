@@ -133,6 +133,24 @@ HeMatrix<FS>::operator=(const Matrix<RHS> &rhs)
 }
 
 template <typename FS>
+template <typename RHS>
+HeMatrix<FS> &
+HeMatrix<FS>::operator+=(const Matrix<RHS> &rhs)
+{
+    plusAssign(rhs, *this);
+    return *this;
+}
+
+template <typename FS>
+template <typename RHS>
+HeMatrix<FS> &
+HeMatrix<FS>::operator-=(const Matrix<RHS> &rhs)
+{
+    minusAssign(rhs, *this);
+    return *this;
+}
+
+template <typename FS>
 const typename HeMatrix<FS>::ElementType &
 HeMatrix<FS>::operator()(IndexType row, IndexType col) const
 {

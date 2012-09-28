@@ -126,6 +126,14 @@ class HeMatrix
             HeMatrix &
             operator=(const Matrix<RHS> &rhs);
 
+        template <typename RHS>
+            HeMatrix &
+            operator+=(const Matrix<RHS> &rhs);
+
+        template <typename RHS>
+            HeMatrix &
+            operator-=(const Matrix<RHS> &rhs);
+
         const ElementType &
         operator()(IndexType row, IndexType col) const;
 

@@ -18,7 +18,11 @@ BLAS(saxpy)(const INTEGER   *N,
     SDenseVectorConstView  x(SConstArrayView(*N, X, abs(*INCX)), *INCX<0);
     SDenseVectorView       y(SArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
     y += (*ALPHA) * x;
+#   else
+    blas::axpy(*ALPHA, x, y);
+#   endif
 }
 
 void
@@ -34,7 +38,11 @@ BLAS(daxpy)(const INTEGER   *N,
     DDenseVectorConstView  x(DConstArrayView(*N, X, abs(*INCX)), *INCX<0);
     DDenseVectorView       y(DArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
     y += (*ALPHA) * x;
+#   else
+    blas::axpy(*ALPHA, x, y);
+#   endif
 }
 
 void
@@ -50,7 +58,11 @@ BLAS(caxpy)(const INTEGER   *N,
     CDenseVectorConstView  x(CConstArrayView(*N, X, abs(*INCX)), *INCX<0);
     CDenseVectorView       y(CArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
     y += (*ALPHA) * x;
+#   else
+    blas::axpy(*ALPHA, x, y);
+#   endif
 }
 
 void
@@ -66,7 +78,11 @@ BLAS(zaxpy)(const INTEGER   *N,
     ZDenseVectorConstView  x(ZConstArrayView(*N, X, abs(*INCX)), *INCX<0);
     ZDenseVectorView       y(ZArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
     y += (*ALPHA) * x;
+#   else
+    blas::axpy(*ALPHA, x, y);
+#   endif
 }
 
 } // extern "C"

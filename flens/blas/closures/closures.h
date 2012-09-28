@@ -33,17 +33,10 @@
 #ifndef FLENS_BLAS_CLOSURES_CLOSURES_H
 #define FLENS_BLAS_CLOSURES_CLOSURES_H 1
 
-#include <flens/blas/closures/axpy.h>
-#include <flens/blas/closures/closuretype.h>
-#include <flens/blas/closures/copy.h>
-#include <flens/blas/closures/debugclosure.h>
-#include <flens/blas/closures/dot.h>
-#include <flens/blas/closures/mm.h>
-#include <flens/blas/closures/mmswitch.h>
-#include <flens/blas/closures/mv.h>
-#include <flens/blas/closures/mvswitch.h>
-#include <flens/blas/closures/prune.h>
-#include <flens/blas/closures/residual.h>
-#include <flens/blas/closures/result.h>
+#include <flens/blas/closures/auxiliary/auxiliary.h>
+#include <flens/blas/closures/level1/level1.h>
+#include <flens/blas/closures/level2/level2.h>
+#include <flens/blas/closures/level3/level3.h>
+#include <flens/blas/closures/tweaks/tweaks.h>
 
 #endif // FLENS_BLAS_CLOSURES_CLOSURES_H

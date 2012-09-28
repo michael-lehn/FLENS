@@ -48,8 +48,15 @@ BLAS(strmv)(const char      *UPLO,
     STrMatrixConstView  A(SFullConstView(*N, *N, _A, *LDA), upLo, diag);
     SDenseVectorView    x(SArrayView(*N, X, abs(*INCX)), *INCX<0);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    if (trans==NoTrans) {
+        x = A*x;
+    } else if (trans==Trans || trans==ConjTrans) {
+        x = transpose(A)*x;
+    }
+#   else
     blas::mv(trans, A, x);
+#   endif
 }
 
 void
@@ -95,8 +102,15 @@ BLAS(dtrmv)(const char      *UPLO,
     DTrMatrixConstView  A(DFullConstView(*N, *N, _A, *LDA), upLo, diag);
     DDenseVectorView    x(DArrayView(*N, X, abs(*INCX)), *INCX<0);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    if (trans==NoTrans) {
+        x = A*x;
+    } else if (trans==Trans || trans==ConjTrans) {
+        x = transpose(A)*x;
+    }
+#   else
     blas::mv(trans, A, x);
+#   endif
 }
 
 void
@@ -142,8 +156,17 @@ BLAS(ctrmv)(const char      *UPLO,
     CTrMatrixConstView  A(CFullConstView(*N, *N, _A, *LDA), upLo, diag);
     CDenseVectorView    x(CArrayView(*N, X, abs(*INCX)), *INCX<0);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    if (trans==NoTrans) {
+        x = A*x;
+    } else if (trans==Trans) {
+        x = transpose(A)*x;
+    } else if (trans==ConjTrans) {
+        x = conjTrans(A)*x;
+    }
+#   else
     blas::mv(trans, A, x);
+#   endif
 }
 
 void
@@ -189,8 +212,17 @@ BLAS(ztrmv)(const char      *UPLO,
     ZTrMatrixConstView  A(ZFullConstView(*N, *N, _A, *LDA), upLo, diag);
     ZDenseVectorView    x(ZArrayView(*N, X, abs(*INCX)), *INCX<0);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    if (trans==NoTrans) {
+        x = A*x;
+    } else if (trans==Trans) {
+        x = transpose(A)*x;
+    } else if (trans==ConjTrans) {
+        x = conjTrans(A)*x;
+    }
+#   else
     blas::mv(trans, A, x);
+#   endif
 }
 
 

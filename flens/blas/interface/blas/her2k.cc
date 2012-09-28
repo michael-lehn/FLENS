@@ -29,7 +29,7 @@ BLAS(cher2k)(const char      *UPLO,
 
     if (_UPLO!='U' && _UPLO!='L') {
         info = 1;
-    } else if (_TRANS!='N' && _TRANS!='T' && _TRANS!='C') {
+    } else if (_TRANS!='N' && _TRANS!='C') {
         info = 2;
     } else if (*N<0) {
         info = 3;
@@ -64,8 +64,33 @@ BLAS(cher2k)(const char      *UPLO,
 
     CHeMatrixView       C(CFullView(*N, *N, _C, *LDC), upLo);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha  = *ALPHA;
+    const auto alpha_ = conj(alpha);
+    const auto beta   = *BETA;
+
+    if (beta==float(1)) {
+        if (trans==NoTrans) {
+            C += alpha*A*conjTrans(B) + alpha_*B*conjTrans(A);
+        } else if (trans==ConjTrans) {
+            C += alpha*conjTrans(A)*B + alpha_*conjTrans(B)*A;
+        }
+    } else if (beta==float(0)) {
+        if (trans==NoTrans) {
+            C = alpha*A*conjTrans(B) + alpha_*B*conjTrans(A);
+        } else if (trans==ConjTrans) {
+            C = alpha*conjTrans(A)*B + alpha_*conjTrans(B)*A;
+        }
+    } else {
+        if (trans==NoTrans) {
+            C = beta*C + alpha*A*conjTrans(B) + alpha_*B*conjTrans(A);
+        } else if (trans==ConjTrans) {
+            C = beta*C + alpha*conjTrans(A)*B + alpha_*conjTrans(B)*A;
+        }
+    }
+#   else
     blas::r2k(trans, *ALPHA, A, B, *BETA, C);
+#   endif
 }
 
 
@@ -93,7 +118,7 @@ BLAS(zher2k)(const char      *UPLO,
 
     if (_UPLO!='U' && _UPLO!='L') {
         info = 1;
-    } else if (_TRANS!='N' && _TRANS!='T' && _TRANS!='C') {
+    } else if (_TRANS!='N' && _TRANS!='C') {
         info = 2;
     } else if (*N<0) {
         info = 3;
@@ -128,8 +153,33 @@ BLAS(zher2k)(const char      *UPLO,
 
     ZHeMatrixView       C(ZFullView(*N, *N, _C, *LDC), upLo);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha  = *ALPHA;
+    const auto alpha_ = conj(alpha);
+    const auto beta   = *BETA;
+
+    if (beta==double(1)) {
+        if (trans==NoTrans) {
+            C += alpha*A*conjTrans(B) + alpha_*B*conjTrans(A);
+        } else if (trans==ConjTrans) {
+            C += alpha*conjTrans(A)*B + alpha_*conjTrans(B)*A;
+        }
+    } else if (beta==double(0)) {
+        if (trans==NoTrans) {
+            C = alpha*A*conjTrans(B) + alpha_*B*conjTrans(A);
+        } else if (trans==ConjTrans) {
+            C = alpha*conjTrans(A)*B + alpha_*conjTrans(B)*A;
+        }
+    } else {
+        if (trans==NoTrans) {
+            C = beta*C + alpha*A*conjTrans(B) + alpha_*B*conjTrans(A);
+        } else if (trans==ConjTrans) {
+            C = beta*C + alpha*conjTrans(A)*B + alpha_*conjTrans(B)*A;
+        }
+    }
+#   else
     blas::r2k(trans, *ALPHA, A, B, *BETA, C);
+#   endif
 }
 
 } // extern "C"

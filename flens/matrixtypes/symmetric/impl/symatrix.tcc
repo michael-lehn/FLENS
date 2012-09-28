@@ -133,6 +133,24 @@ SyMatrix<FS>::operator=(const Matrix<RHS> &rhs)
 }
 
 template <typename FS>
+template <typename RHS>
+SyMatrix<FS> &
+SyMatrix<FS>::operator+=(const Matrix<RHS> &rhs)
+{
+    plusAssign(rhs, *this);
+    return *this;
+}
+
+template <typename FS>
+template <typename RHS>
+SyMatrix<FS> &
+SyMatrix<FS>::operator-=(const Matrix<RHS> &rhs)
+{
+    minusAssign(rhs, *this);
+    return *this;
+}
+
+template <typename FS>
 const typename SyMatrix<FS>::ElementType &
 SyMatrix<FS>::operator()(IndexType row, IndexType col) const
 {

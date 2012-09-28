@@ -449,9 +449,7 @@ copy(const MA &A, MB &&B)
     FLENS_BLASLOG_BEGIN_COPY(A, B);
 
 #   ifdef HAVE_CXXBLAS_TPCOPY
-    cxxblas::tpcopy(MB::order, B.upLo(),
-                    NoTrans,
-                    B.diag(), B.dim(), A.data(), B.data());
+    cxxblas::tpcopy(B.upLo(), NoTrans, NonUnit, B.dim(), A.data(), B.data());
 #   else
     ASSERT(0);
 #   endif
@@ -542,8 +540,7 @@ copy(const MA &A, MB &&B)
     FLENS_BLASLOG_BEGIN_COPY(A, B);
 
 #   ifdef HAVE_CXXBLAS_TPCOPY
-    cxxblas::tpcopy(MB::order, B.upLo(), NoTrans, B.diag(),
-                   B.dim(), A.data(), B.data());
+    cxxblas::tpcopy(B.upLo(), NoTrans, NonUnit, B.dim(), A.data(), B.data());
 #   else
     ASSERT(0);
 #   endif
@@ -717,8 +714,7 @@ copy(Transpose trans, const MA &A, MB &&B)
           : Transpose(trans ^ Trans);
 
 #   ifdef HAVE_CXXBLAS_TPCOPY
-    cxxblas::tpcopy(MB::order, B.upLo(), trans, B.diag(),
-                   B.dim(), A.data(), B.data());
+    cxxblas::tpcopy(B.upLo(), trans, B.diag(), B.dim(), A.data(), B.data());
  #   else
     ASSERT(0);
 #   endif

@@ -43,12 +43,21 @@ template <typename X, typename Y, typename T>
 
 template <typename X, typename Y, typename T>
     void
+    dotc(const DenseVector<X> &x, const DenseVector<Y> &y, T &result);
+
+template <typename X, typename Y, typename T>
+    void
     dotu(const DenseVector<X> &x, const DenseVector<Y> &y, T &result);
 
 template <typename X, typename Y>
     typename CompatibleType<typename X::ElementType,
                             typename Y::ElementType>::Type
     dot(const DenseVector<X> &x, const DenseVector<Y> &y);
+
+template <typename X, typename Y>
+    typename CompatibleType<typename X::ElementType,
+                            typename Y::ElementType>::Type
+    dotc(const DenseVector<X> &x, const DenseVector<Y> &y);
 
 template <typename X, typename Y>
     typename CompatibleType<typename X::ElementType,

@@ -140,26 +140,9 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 #   endif
 
 
-#   ifndef FLENS_DEBUG_CLOSURES
 #   ifndef NDEBUG
     if (trans==Trans || trans==ConjTrans) {
         ASSERT(!DEBUGCLOSURE::identical(A, B));
-    }
-#   endif
-#   else
-//
-//  If A and B are identical a temporary is needed if we want to use axpy
-//  for B += alpha*A^T or B+= alpha*A^H
-//
-    if ((trans==Trans || trans==ConjTrans) && DEBUGCLOSURE::identical(A, B)) {
-        typename GbMatrix<MA>::NoView _A;
-        FLENS_BLASLOG_TMP_ADD(_A);
-
-        copy(trans, A, _A);
-        axpy(NoTrans, alpha, _A, B);
-
-        FLENS_BLASLOG_TMP_REMOVE(_A, A);
-        return;
     }
 #   endif
 
@@ -259,7 +242,6 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
         return;
     }
 #   endif
-
 
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
@@ -552,7 +534,7 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
 
-    typedef typename GbMatrix<MB>::IndexType  IndexType;
+    typedef typename SbMatrix<MB>::IndexType  IndexType;
 
     const IndexType numSubDiags = ((trans==NoTrans) || (trans==Conj))
                                 ? A.numSubDiags() : A.numSuperDiags();

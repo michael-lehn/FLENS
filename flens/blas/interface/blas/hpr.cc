@@ -34,9 +34,15 @@ BLAS(chpr)(const char      *UPLO,
     StorageUpLo  upLo = StorageUpLo(_UPLO);
 
     CDenseVectorConstView  x(CConstArrayView(*N, X, abs(*INCX)), *INCX<0);
-    CSpMatrixView          A(CPackedView(*N, AP), upLo);
+    CHpMatrixView          A(CPackedView(*N, AP), upLo);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+
+    A += alpha*x*conjTrans(x);
+#   else
     blas::r(*ALPHA, x, A);
+#   endif
 }
 
 void
@@ -68,9 +74,15 @@ BLAS(zhpr)(const char      *UPLO,
     StorageUpLo  upLo = StorageUpLo(_UPLO);
 
     ZDenseVectorConstView  x(ZConstArrayView(*N, X, abs(*INCX)), *INCX<0);
-    ZSpMatrixView          A(ZPackedView(*N, AP), upLo);
+    ZHpMatrixView          A(ZPackedView(*N, AP), upLo);
 
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+
+    A += alpha*x*conjTrans(x);
+#   else
     blas::r(*ALPHA, x, A);
+#   endif
 }
 
 } // extern "C"

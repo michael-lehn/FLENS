@@ -58,8 +58,20 @@ BLAS(sgemv)(const char      *TRANS,
     SDenseVectorConstView x(SConstArrayView(lenX, X, abs(*INCX)), *INCX<0);
     SDenseVectorView      y(SArrayView(lenY, Y, abs(*INCY)), *INCY<0);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+    const auto beta  = *BETA;
+
+    if (trans==NoTrans) {
+        y = beta*y + alpha*A*x;
+    } else if (trans==Trans) {
+        y = beta*y + alpha*transpose(A)*x;
+    } else if (trans==ConjTrans) {
+        y = beta*y + alpha*conjTrans(A)*x;
+    }
+#   else
     blas::mv(trans, *ALPHA, A, x, *BETA, y);
+#   endif
 }
 
 void
@@ -115,8 +127,20 @@ BLAS(dgemv)(const char      *TRANS,
     DDenseVectorConstView x(DConstArrayView(lenX, X, abs(*INCX)), *INCX<0);
     DDenseVectorView      y(DArrayView(lenY, Y, abs(*INCY)), *INCY<0);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+    const auto beta  = *BETA;
+
+    if (trans==NoTrans) {
+        y = beta*y + alpha*A*x;
+    } else if (trans==Trans) {
+        y = beta*y + alpha*transpose(A)*x;
+    } else if (trans==ConjTrans) {
+        y = beta*y + alpha*conjTrans(A)*x;
+    }
+#   else
     blas::mv(trans, *ALPHA, A, x, *BETA, y);
+#   endif
 }
 
 void
@@ -172,8 +196,20 @@ BLAS(cgemv)(const char      *TRANS,
     CDenseVectorConstView x(CConstArrayView(lenX, X, abs(*INCX)), *INCX<0);
     CDenseVectorView      y(CArrayView(lenY, Y, abs(*INCY)), *INCY<0);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+    const auto beta  = *BETA;
+
+    if (trans==NoTrans) {
+        y = beta*y + alpha*A*x;
+    } else if (trans==Trans) {
+        y = beta*y + alpha*transpose(A)*x;
+    } else if (trans==ConjTrans) {
+        y = beta*y + alpha*conjTrans(A)*x;
+    }
+#   else
     blas::mv(trans, *ALPHA, A, x, *BETA, y);
+#   endif
 }
 
 void
@@ -229,8 +265,20 @@ BLAS(zgemv)(const char      *TRANS,
     ZDenseVectorConstView x(ZConstArrayView(lenX, X, abs(*INCX)), *INCX<0);
     ZDenseVectorView      y(ZArrayView(lenY, Y, abs(*INCY)), *INCY<0);
 
-    // if you only want to test FLENS-BLAS just call
+#   ifdef TEST_OVERLOADED_OPERATORS
+    const auto alpha = *ALPHA;
+    const auto beta  = *BETA;
+
+    if (trans==NoTrans) {
+        y = beta*y + alpha*A*x;
+    } else if (trans==Trans) {
+        y = beta*y + alpha*transpose(A)*x;
+    } else if (trans==ConjTrans) {
+        y = beta*y + alpha*conjTrans(A)*x;
+    }
+#   else
     blas::mv(trans, *ALPHA, A, x, *BETA, y);
+#   endif
 }
 
 

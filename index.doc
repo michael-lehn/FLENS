@@ -93,38 +93,43 @@ You can clone a public branch from __GitHub__
 or download a __snapshot__.
 
 
-Philosophy
-==========
+Why Nobody Uses C++ in Scientific Computing
+===========================================
+LAPACK is written in Fortran77.  This is a very old programming language, not
+object oriented and without generic programming features.  LAPACK is tightly
+coupled with BLAS.  BLAS consists of a number of kernel routines that do all
+the performance critical computations.  The interface of BLAS is really
+low-level.  Does this sound bad to you?  Do you think it is old fashioned and
+out dated?
 
-  *--[BOX]------------------------------------------------------------------*
-  |                                                                         |
-  |  We are *FLENS*.                                                        |
-  |                                                                         |
-  |  Resistance is futile.                                                  |
-  |                                                                         |
-  |  Advanced technology will be assimilated...                             |
-  |                                                                         |
-  *-------------------------------------------------------------------------*
+People using Fortran/LAPACK/BLAS in scientific computing often deal with
+problems where performance and memory resources really matter.  This includes
+such extreme cases where a numerical simulation runs for several months.  And
+where problem sizes (e.g. matrix dimensions) are chosen so big that it just
+fits into memory.  In this problem domains loosing a few percentages in
+performance would really hurt.  Furthermore, creating temporaries is a big
+deal and instead one carefully plans how much extra workspace is needed in
+total for the complete application.  So managing and controlling resources like
+memory and CPU time is crucial.  This renders tools and techniques with obscure
+side effects like the creation of temporaries useless.  Transparency of what
+is going on is also a key requirement for all computational routines.  It is
+important to know how things are done.  This way you can exactly localize
+routines that are critical for performance.
 
-  This should answer the following questions:
 
-  - Why are the matrix/vector types in FLENS as they are?
-  - Why do we reimplement the LAPACK library with FLENS?
-  - What is the idea behind our CXXBLAS?
 
-  The answer is simple:
 
-  - LAPACK is the most advanced and best supported numerical library in the
-    world.  Improvements in numerical algorithms have a great chance to make
-    it soon into LAPACK.  If we keep FLENS-LAPACK up-to-date to current LAPACK
-    releases we keep up with some of the most sophisticated numerical
-    algorithms.
-  - LAPACK gains its performance from highly optimized BLAS kernel routines.
-    These implementations achieve peak performance on certain platforms.
-    When possible our CXXBLAS is just an interface to these implementations.
-  - For multi-precision data types CXXBLAS gives you a generic implementation
-    that does not give high performance (yet) but allows using LAPACK in
-    high precision.
+
+C++ is a modern programming language.  It allows object oriented programming
+as well as generic programming.  Beside the standard template library numerous
+C++ libraries exist that further enhance the core capabilities of C++.  Being
+a little bit hyperbolic: every programming feature one possibly could imagine
+is somehow provided by C++.  Either directly or through an additional C++
+library.
+
+If you compare the Fortran77 LAPACK/BLAS combination with an arbitrary numerical
+C++ library you would expect that LAPACK/BLAS has 
+
 
 
 Mailing List

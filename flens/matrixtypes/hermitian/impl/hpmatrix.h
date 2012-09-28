@@ -104,7 +104,7 @@ class HpMatrix
 
         //-- Operators ---------------------------------------------------------
 
-        HpMatrix &
+        void
         operator=(const ElementType &alpha);
 
         HpMatrix &
@@ -113,6 +113,14 @@ class HpMatrix
         template <typename RHS>
             HpMatrix &
             operator=(const Matrix<RHS> &rhs);
+
+        template <typename RHS>
+            HpMatrix &
+            operator+=(const Matrix<RHS> &rhs);
+
+        template <typename RHS>
+            HpMatrix &
+            operator-=(const Matrix<RHS> &rhs);
 
         const ElementType &
         operator()(IndexType row, IndexType col) const;
@@ -183,7 +191,7 @@ class HpMatrix
 
         bool
         resize(IndexType dim,
-               IndexType firstIndex = Engine::defaultIndexBase,
+               IndexType indexBase = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
 
         //-- Views -------------------------------------------------------------

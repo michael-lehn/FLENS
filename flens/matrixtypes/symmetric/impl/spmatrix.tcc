@@ -84,7 +84,7 @@ SpMatrix<PS>::SpMatrix(const Matrix<RHS> &rhs)
 //-- Operators -----------------------------------------------------------------
 
 template <typename PS>
-SpMatrix<PS> &
+void
 SpMatrix<PS>::operator=(const ElementType &alpha)
 {
     VectorView x = ArrayView(_engine.numNonZeros(), _engine.data());
@@ -110,6 +110,24 @@ SpMatrix<PS> &
 SpMatrix<PS>::operator=(const Matrix<RHS> &rhs)
 {
     assign(rhs, *this);
+    return *this;
+}
+
+template <typename PS>
+template <typename RHS>
+SpMatrix<PS> &
+SpMatrix<PS>::operator+=(const Matrix<RHS> &rhs)
+{
+    plusAssign(rhs, *this);
+    return *this;
+}
+
+template <typename PS>
+template <typename RHS>
+SpMatrix<PS> &
+SpMatrix<PS>::operator-=(const Matrix<RHS> &rhs)
+{
+    minusAssign(rhs, *this);
     return *this;
 }
 
@@ -293,7 +311,7 @@ bool
 SpMatrix<PS>::resize(const SpMatrix<RHS> &rhs,
                      const ElementType &value)
 {
-    return _engine.resize(rhs.engine(), value);
+    return _engine.resize(rhs.dim(), rhs.indexBase(), value);
 }
 
 template <typename PS>

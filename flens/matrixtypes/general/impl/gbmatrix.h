@@ -168,10 +168,10 @@ class GbMatrix
         strictLower();
 
         const ConstVectorView
-        diag(IndexType diag = IndexType(0)) const;
+        diag(IndexType diag) const;
 
         VectorView
-        diag(IndexType diag = IndexType(0));
+        diag(IndexType diag);
 
         const ConstView
         diags(IndexType fromDiag, IndexType toDiag) const;

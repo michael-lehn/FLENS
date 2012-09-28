@@ -1,0 +1,202 @@
+/*
+ *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
+ *
+ *   All rights reserved.
+ *
+ *   Redistribution and use in source and binary forms, with or without
+ *   modification, are permitted provided that the following conditions
+ *   are met:
+ *
+ *   1) Redistributions of source code must retain the above copyright
+ *      notice, this list of conditions and the following disclaimer.
+ *   2) Redistributions in binary form must reproduce the above copyright
+ *      notice, this list of conditions and the following disclaimer in
+ *      the documentation and/or other materials provided with the
+ *      distribution.
+ *   3) Neither the name of the FLENS development group nor the names of
+ *      its contributors may be used to endorse or promote products derived
+ *      from this software without specific prior written permission.
+ *
+ *   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *   A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *   OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *   LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *   DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *   THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+#ifndef FLENS_BLAS_CLOSURES_LEVEL1_COPY_H
+#define FLENS_BLAS_CLOSURES_LEVEL1_COPY_H 1
+
+#include <cxxblas/cxxblas.h>
+#include <flens/blas/closures/tweaks/defaulteval.h>
+#include <flens/blas/operators/operators.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/typedefs.h>
+#include <flens/vectortypes/vectortypes.h>
+
+namespace flens { namespace blas {
+
+//-- vector closures -----------------------------------------------------------
+//  y = x1 + x2
+template <typename VL, typename VR, typename VY>
+    typename RestrictTo<VCDefaultEval<OpAdd, VL, VR>::value
+                     && IsVector<VL>::value
+                     && IsVector<VR>::value,
+             void>::Type
+    copy(const VectorClosure<OpAdd, VL, VR> &x, Vector<VY> &y);
+
+//  y = x1 - x2
+template <typename VL, typename VR, typename VY>
+    typename RestrictTo<VCDefaultEval<OpSub, VL, VR>::value
+                     && IsVector<VL>::value
+                     && IsVector<VR>::value,
+             void>::Type
+    copy(const VectorClosure<OpSub, VL, VR> &x, Vector<VY> &y);
+
+//  y = alpha*x
+template <typename SV, typename VX, typename VY>
+    typename RestrictTo<VCDefaultEval<OpMult, SV, VX>::value
+                     && IsScalarValue<SV>::value
+                     && IsVector<VX>::value,
+             void>::Type
+    copy(const VectorClosure<OpMult, SV, VX> &x, Vector<VY> &y);
+
+//  y = x/alpha
+template <typename VX, typename SV, typename VY>
+    typename RestrictTo<VCDefaultEval<OpDiv, VX, SV>::value
+                     && IsVector<VX>::value
+                     && IsScalarValue<SV>::value,
+             void>::Type
+    copy(const VectorClosure<OpDiv, VX, SV> &x, Vector<VY> &y);
+
+//  y = conjugate(x)
+template <typename VX, typename VY>
+    typename RestrictTo<DefaultEval<VectorClosureOpConj<VX> >::value
+                     && IsVector<VX>::value,
+             void>::Type
+    copy(const VectorClosureOpConj<VX> &x, Vector<VY> &y);
+
+// y = A*x
+template <typename ML, typename VR, typename VY>
+    typename RestrictTo<VCDefaultEval<OpMult, ML, VR>::value
+                     && IsMatrix<ML>::value
+                     && IsVector<VR>::value,
+             void>::Type
+    copy(const VectorClosure<OpMult, ML, VR> &Ax, Vector<VY> &y);
+
+// y = x*A
+template <typename VL, typename MR, typename VY>
+    typename RestrictTo<VCDefaultEval<OpMult, VL, MR>::value
+                     && IsVector<VL>::value
+                     && IsMatrix<MR>::value,
+             void>::Type
+    copy(const VectorClosure<OpMult, VL, MR> &xA, Vector<VY> &y);
+
+
+//
+//  This gets called if everything else fails
+//
+//  y = <Unknown Closure>
+template <typename Op, typename VL, typename VR, typename VY>
+    void
+    copy(const VectorClosure<Op, VL, VR> &x, Vector<VY> &y);
+
+
+//-- matrix closures -----------------------------------------------------------
+//
+//  In the following comments op(X) denotes  x, X^T or X^H
+//
+
+//  B = op(A1 + A2)
+template <typename ML, typename MR, typename MB>
+    typename RestrictTo<MCDefaultEval<OpAdd, ML, MR>::value
+                     && IsMatrix<ML>::value
+                     && IsMatrix<MR>::value,
+             void>::Type
+    copy(Transpose trans, const MatrixClosure<OpAdd, ML, MR> &A, Matrix<MB> &B);
+
+//  B = op(A1 - A2)
+template <typename ML, typename MR, typename MB>
+    typename RestrictTo<MCDefaultEval<OpSub, ML, MR>::value
+                     && IsMatrix<ML>::value
+                     && IsMatrix<MR>::value,
+             void>::Type
+    copy(Transpose trans, const MatrixClosure<OpSub, ML, MR> &A, Matrix<MB> &B);
+
+//  B = alpha*op(A)
+template <typename SV, typename MA, typename MB>
+    typename RestrictTo<MCDefaultEval<OpMult, SV, MA>::value
+                     && IsScalarValue<SV>::value
+                     && IsMatrix<MA>::value,
+             void>::Type
+    copy(Transpose trans, const MatrixClosure<OpMult, SV, MA> &A,
+         Matrix<MB> &B);
+
+//  B = op(A)/alpha
+template <typename MA, typename SV, typename MB>
+    typename RestrictTo<MCDefaultEval<OpDiv, MA, SV>::value
+                     && IsMatrix<MA>::value
+                     && IsScalarValue<SV>::value,
+             void>::Type
+    copy(Transpose trans, const MatrixClosure<OpDiv, MA, SV> &A, Matrix<MB> &B);
+
+//  B = op(conjugate(A))
+template <typename MA, typename MB>
+    typename RestrictTo<DefaultEval<MatrixClosureOpConj<MA> >::value
+                     && IsMatrix<MA>::value,
+             void>::Type
+    copy(Transpose trans, const MatrixClosureOpConj<MA> &A, Matrix<MB> &B);
+
+//  B = op(A^T)
+template <typename MA, typename MB>
+    typename RestrictTo<DefaultEval<MatrixClosureOpTrans<MA> >::value
+                     && IsMatrix<MA>::value,
+             void>::Type
+    copy(Transpose trans, const MatrixClosureOpTrans<MA> &A, Matrix<MB> &B);
+
+//  C = A*B
+template <typename MA, typename MB, typename MC>
+    typename RestrictTo<MCDefaultEval<OpMult, MA, MB>::value
+                     && IsMatrix<MA>::value
+                     && IsMatrix<MB>::value,
+             void>::Type
+    copy(Transpose trans, const MatrixClosure<OpMult, MA, MB> &AB,
+         Matrix<MC> &C);
+
+//
+//  This gets called if everything else fails
+//
+
+#ifdef FLENS_DEBUG_CLOSURES
+
+//  B = <Unknown Closure>
+template <typename Op, typename ML, typename MR, typename MB>
+    void
+    copy(Transpose trans, const MatrixClosure<Op, ML, MR> &A, Matrix<MB> &B);
+
+#endif // FLENS_DEBUG_CLOSURES
+
+//-- hermitian matrices --------------------------------------------------------
+
+template <typename MA, typename MB>
+    typename RestrictTo<IsHermitianMatrix<MA>::value,
+             void>::Type
+    copy(Transpose trans, const MA &A, Matrix<MB> &B);
+
+//-- symmetric matrices --------------------------------------------------------
+
+template <typename MA, typename MB>
+    typename RestrictTo<IsSymmetricMatrix<MA>::value,
+             void>::Type
+    copy(Transpose trans, const MA &A, Matrix<MB> &B);
+
+} } // namespace blas, flens
+
+#endif // FLENS_BLAS_CLOSURES_LEVEL1_COPY_H

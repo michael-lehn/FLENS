@@ -33,14 +33,10 @@
 #ifndef FLENS_BLAS_CLOSURES_CLOSURES_TCC
 #define FLENS_BLAS_CLOSURES_CLOSURES_TCC 1
 
-#include <flens/blas/closures/axpy.tcc>
-#include <flens/blas/closures/copy.tcc>
-#include <flens/blas/closures/debugclosure.tcc>
-#include <flens/blas/closures/dot.tcc>
-#include <flens/blas/closures/mm.tcc>
-#include <flens/blas/closures/mmswitch.tcc>
-#include <flens/blas/closures/mv.tcc>
-#include <flens/blas/closures/mvswitch.tcc>
-#include <flens/blas/closures/residual.tcc>
+#include <flens/blas/closures/auxiliary/auxiliary.tcc>
+#include <flens/blas/closures/level1/level1.tcc>
+#include <flens/blas/closures/level2/level2.tcc>
+#include <flens/blas/closures/level3/level3.tcc>
+#include <flens/blas/closures/tweaks/tweaks.tcc>
 
 #endif // FLENS_BLAS_CLOSURES_CLOSURES_TCC

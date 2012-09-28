@@ -4,8 +4,8 @@ SOURCE_FILES = $(wildcard *.cc)
 OBJECT_FILES = $(patsubst %.cc,%.o,$(SOURCE_FILES))
 TARGETS      = $(patsubst %.cc,%,$(SOURCE_FILES))
 
-CXXFLAGS    = -I../../../.. -std=c++11
-LDFLAGS     =
+CXXFLAGS    += -I../../../.. -std=c++11
+LDFLAGS     +=
 
 FLENSBLAS  = blas_FLENS.a
 
