@@ -81,8 +81,8 @@ BandStorageView<T, Order, I, A>::BandStorageView(RHS &rhs)
       _allocator(rhs.allocator()),
       _numRows(rhs.numRows()), _numCols(rhs.numCols()),
       _numSubDiags(rhs.numSubDiags()), _numSuperDiags(rhs.numSuperDiags()),
-      _leadingDimension(rhs.leadingDimension()),
-      _firstIndex(rhs.firstIndex())
+      _firstIndex(rhs.firstIndex()),
+      _leadingDimension(rhs.leadingDimension())
 {
 
 }

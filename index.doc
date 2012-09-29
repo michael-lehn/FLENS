@@ -93,42 +93,42 @@ You can clone a public branch from __GitHub__
 or download a __snapshot__.
 
 
-Why Nobody Uses C++ in Scientific Computing
-===========================================
-LAPACK is written in Fortran77.  This is a very old programming language, not
-object oriented and without generic programming features.  LAPACK is tightly
-coupled with BLAS.  BLAS consists of a number of kernel routines that do all
-the performance critical computations.  The interface of BLAS is really
-low-level.  Does this sound bad to you?  Do you think it is old fashioned and
-out dated?
-
-People using Fortran/LAPACK/BLAS in scientific computing often deal with
-problems where performance and memory resources really matter.  This includes
-such extreme cases where a numerical simulation runs for several months.  And
-where problem sizes (e.g. matrix dimensions) are chosen so big that it just
-fits into memory.  In this problem domains loosing a few percentages in
-performance would really hurt.  Furthermore, creating temporaries is a big
-deal and instead one carefully plans how much extra workspace is needed in
-total for the complete application.  So managing and controlling resources like
-memory and CPU time is crucial.  This renders tools and techniques with obscure
-side effects like the creation of temporaries useless.  Transparency of what
-is going on is also a key requirement for all computational routines.  It is
-important to know how things are done.  This way you can exactly localize
-routines that are critical for performance.
-
-
-
-
-
-C++ is a modern programming language.  It allows object oriented programming
-as well as generic programming.  Beside the standard template library numerous
-C++ libraries exist that further enhance the core capabilities of C++.  Being
-a little bit hyperbolic: every programming feature one possibly could imagine
-is somehow provided by C++.  Either directly or through an additional C++
-library.
-
-If you compare the Fortran77 LAPACK/BLAS combination with an arbitrary numerical
-C++ library you would expect that LAPACK/BLAS has 
+#  Why Nobody Uses C++ in Scientific Computing
+#  ===========================================
+#  LAPACK is written in Fortran77.  This is a very old programming language, not
+#  object oriented and without generic programming features.  LAPACK is tightly
+#  coupled with BLAS.  BLAS consists of a number of kernel routines that do all
+#  the performance critical computations.  The interface of BLAS is really
+#  low-level.  Does this sound bad to you?  Do you think it is old fashioned and
+#  out dated?
+#  
+#  People using Fortran/LAPACK/BLAS in scientific computing often deal with
+#  problems where performance and memory resources really matter.  This includes
+#  such extreme cases where a numerical simulation runs for several months.  And
+#  where problem sizes (e.g. matrix dimensions) are chosen so big that it just
+#  fits into memory.  In this problem domains loosing a few percentages in
+#  performance would really hurt.  Furthermore, creating temporaries is a big
+#  deal and instead one carefully plans how much extra workspace is needed in
+#  total for the complete application.  So managing and controlling resources like
+#  memory and CPU time is crucial.  This renders tools and techniques with obscure
+#  side effects like the creation of temporaries useless.  Transparency of what
+#  is going on is also a key requirement for all computational routines.  It is
+#  important to know how things are done.  This way you can exactly localize
+#  routines that are critical for performance.
+#  
+#  
+#  
+#  
+#  
+#  C++ is a modern programming language.  It allows object oriented programming
+#  as well as generic programming.  Beside the standard template library numerous
+#  C++ libraries exist that further enhance the core capabilities of C++.  Being
+#  a little bit hyperbolic: every programming feature one possibly could imagine
+#  is somehow provided by C++.  Either directly or through an additional C++
+#  library.
+#  
+#  If you compare the Fortran77 LAPACK/BLAS combination with an arbitrary numerical
+#  C++ library you would expect that LAPACK/BLAS has 
 
 
 

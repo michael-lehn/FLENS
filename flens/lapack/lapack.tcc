@@ -163,6 +163,10 @@
 #include <flens/lapack/la/lauu2.tcc>
 #include <flens/lapack/la/lauum.tcc>
 
+#include <flens/lapack/pb/pbsv.tcc>
+#include <flens/lapack/pb/pbtrf.tcc>
+#include <flens/lapack/pb/pbtrs.tcc>
+
 #include <flens/lapack/po/pocon.tcc>
 #include <flens/lapack/po/posv.tcc>
 #include <flens/lapack/po/potf2.tcc>

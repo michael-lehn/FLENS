@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Klaus Pototzky
+ *   Copyright (c) 2011, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -32,50 +32,49 @@
 
 /* Based on
  *
-       SUBROUTINE DGBSV( N, KL, KU, NRHS, AB, LDAB, IPIV, B, LDB, INFO )
-       SUBROUTINE ZGBSV( N, KL, KU, NRHS, AB, LDAB, IPIV, B, LDB, INFO )
+       SUBROUTINE DPBSV( UPLO, N, KD, NRHS, AB, LDAB, B, LDB, INFO )
+       SUBROUTINE ZPBSV( UPLO, N, KD, NRHS, AB, LDAB, B, LDB, INFO )
  *
- *  -- LAPACK driver routine (version 3.2) --
+ *  -- LAPACK driver routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
  *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
- *     November 2006
+ *  -- April 2011
  */
 
-#ifndef FLENS_LAPACK_GB_SV_H
-#define FLENS_LAPACK_GB_SV_H 1
+#ifndef FLENS_LAPACK_PB_PBSV_H
+#define FLENS_LAPACK_PB_PBSV_H 1
 
-#include <flens/lapack/typedefs.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace lapack {
 
+
 #ifdef USE_CXXLAPACK
 
-//== (gb)sv ====================================================================
+//== pbsv ======================================================================
 //
-//  Real and complex
+//  Real and complex variant
 //
-template <typename MA, typename VPIV, typename MB>
-    typename RestrictTo<IsGbMatrix<MA>::value
-                     && IsIntegerDenseVector<VPIV>::value
-                     && IsGeMatrix<MB>::value,
+template <typename MA, typename MB>
+    typename RestrictTo<(IsSbMatrix<MA>::value || IsHbMatrix<MA>::value)
+                     && IsComplexGeMatrix<MB>::value,
              typename RemoveRef<MA>::Type::IndexType>::Type
-    sv(MA &&A, VPIV &&piv, MB &&B);
+    pbsv(MA &&A, MB &&B);
 
-//== (gb)sv variant if rhs is vector ===========================================
+//== pbsv variant if rhs is vector =============================================
 //
-//  Real and complex
+//  Real and complex variant
 //
-template <typename MA, typename VPIV, typename VB>
-    typename RestrictTo<IsGbMatrix<MA>::value
-                     && IsIntegerDenseVector<VPIV>::value
+template <typename MA, typename VB>
+    typename RestrictTo<(IsSbMatrix<MA>::value || IsHbMatrix<MA>::value)
                      && IsDenseVector<VB>::value,
              typename RemoveRef<MA>::Type::IndexType>::Type
-    sv(MA &&A, VPIV &&piv, VB &&b);
+    pbsv(MA &&A, VB &&b);
 
 #endif // USE_CXXLAPACK
 
+
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_GB_SV_H
+#endif // FLENS_LAPACK_PB_PBSV_H

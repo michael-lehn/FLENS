@@ -45,7 +45,10 @@ GbMatrix<FS>::GbMatrix()
 }
 
 template <typename FS>
-GbMatrix<FS>::GbMatrix(IndexType n, IndexType m, IndexType numSubDiags, IndexType numSuperDiags, IndexType firstIndex)
+GbMatrix<FS>::GbMatrix(IndexType n, IndexType m,
+                       IndexType numSubDiags,
+                       IndexType numSuperDiags,
+                       IndexType firstIndex)
     : _engine(n, m, numSubDiags, numSuperDiags, firstIndex)
 {
     ASSERT(n>=0);

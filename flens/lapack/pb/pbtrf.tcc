@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
+ *   Copyright (c) 2011, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -32,8 +32,8 @@
 
 /* Based on
  *
-       SUBROUTINE DGBTRF( M, N, KL, KU, AB, LDAB, IPIV, INFO )
-       SUBROUTINE ZGBTRF( M, N, KL, KU, AB, LDAB, IPIV, INFO )
+       SUBROUTINE DPBTRF( UPLO, N, KD, AB, LDAB, INFO )
+       SUBROUTINE ZPBTRF( UPLO, N, KD, AB, LDAB, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -41,8 +41,8 @@
  *     November 2006
  */
 
-#ifndef FLENS_LAPACK_GB_TRF_TCC
-#define FLENS_LAPACK_GB_TRF_TCC 1
+#ifndef FLENS_LAPACK_PB_PBTRF_TCC
+#define FLENS_LAPACK_PB_PBTRF_TCC 1
 
 #include <algorithm>
 #include <flens/blas/blas.h>
@@ -50,46 +50,58 @@
 
 namespace flens { namespace lapack {
 
-//== interface for native lapack ===============================================
-
-//== interface for native lapack ===============================================
 
 #ifdef USE_CXXLAPACK
 
 namespace external {
 
-//-- (gb)trf [real and complex variant] ----------------------------------------
+//-- pbtrf [real variant] ------------------------------------------------------
 
-template <typename MA, typename VP>
-typename GbMatrix<MA>::IndexType
-trf_impl(GbMatrix<MA> &A, DenseVector<VP> &piv)
+template <typename MA>
+typename SbMatrix<MA>::IndexType
+pbtrf_impl(SbMatrix<MA> &A)
 {
-    typedef typename GeMatrix<MA>::IndexType  IndexType;
+    typedef typename SbMatrix<MA>::IndexType  IndexType;
 
-    const IndexType  k = A.numSuperDiags()-A.numSubDiags();
-    return cxxlapack::gbtrf<IndexType>(A.numRows(), A.numCols(),
-                                       A.numSubDiags(), k,
-                                       A.data(), A.leadingDimension(),
-                                       piv.data());
+    IndexType info = cxxlapack::pbtrf<IndexType>(getF77Char(A.upLo()),
+                                                 A.dim(),
+                                                 A.numOffDiags(),
+                                                 A.data(),
+                                                 A.leadingDimension());
+    ASSERT(info>=0);
+    return info;
+}
+
+//-- pbtrf [complex variant] ---------------------------------------------------
+
+template <typename MA>
+typename HbMatrix<MA>::IndexType
+pbtrf_impl(HbMatrix<MA> &A)
+{
+    typedef typename HbMatrix<MA>::IndexType  IndexType;
+
+    IndexType info = cxxlapack::pbtrf<IndexType>(getF77Char(A.upLo()),
+                                                 A.dim(),
+                                                 A.numOffDiags(),
+                                                 A.data(),
+                                                 A.leadingDimension());
+    ASSERT(info>=0);
+    return info;
 }
 
 } // namespace external
 
-#endif // USE_CXXLAPACK
 
-//== public interface ==========================================================
-
-#ifdef USE_CXXLAPACK
-
-//-- (gb)trf [real and complex variant] ----------------------------------------
-
-template <typename MA, typename VPIV>
-typename RestrictTo<IsGbMatrix<MA>::value
-                 && IsIntegerDenseVector<VPIV>::value,
+//== pbtrf =====================================================================
+//
+//  Real and complex variant
+//
+template <typename MA>
+typename RestrictTo<IsSbMatrix<MA>::value || IsHbMatrix<MA>::value,
          typename RemoveRef<MA>::Type::IndexType>::Type
-trf(MA &&A, VPIV &&piv)
+pbtrf(MA &&A)
 {
-    using std::min;
+    LAPACK_DEBUG_OUT("pbtrf [complex]");
 
 //
 //  Remove references from rvalue types
@@ -97,34 +109,24 @@ trf(MA &&A, VPIV &&piv)
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::IndexType     IndexType;
 
-    const IndexType  mn = min(A.numRows(), A.numCols());
-
-    if (piv.length()!=mn) {
-        piv.resize(mn);
-    }
-    ASSERT(piv.length()==mn);
-
-#   ifndef NDEBUG
 //
 //  Test the input parameters
 //
-    ASSERT(A.firstRow()==1);
-    ASSERT(A.firstCol()==1);
-    ASSERT((piv.inc()>0 && piv.firstIndex()==1)
-        || (piv.inc()<0 && piv.firstIndex()==A.numRows()));
+#   ifndef NDEBUG
+    ASSERT(A.firstIndex()==1);
 #   endif
 
 //
 //  Call implementation
 //
-    //IndexType info = LAPACK_SELECT::trf_impl(A, piv);
-    IndexType info = external::trf_impl(A, piv);
+    const IndexType info = external::pbtrf_impl(A);
 
     return info;
 }
 
 #endif // USE_CXXLAPACK
 
+
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_GB_TRF_TCC
+#endif // FLENS_LAPACK_PB_PBTRF_TCC
