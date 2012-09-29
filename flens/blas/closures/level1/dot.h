@@ -45,7 +45,7 @@ namespace flens { namespace blas {
 #ifdef FLENS_DEBUG_CLOSURES
 
 // dot product where x or y is a closure (or unknown vector type)
-template <typename X, typename Y, typename T>
+template <typename VX, typename VY, typename T>
     typename RestrictTo<MCDefaultEval<OpMult, VX, VY>::value
                      && IsVector<VX>::value
                      && IsVector<VY>::value,
