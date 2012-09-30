@@ -571,7 +571,7 @@ copy(const MA &A, MB &&B)
     ASSERT(A.order()==B.order());
 
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_MCOPY(trans, A, B);
+    FLENS_BLASLOG_BEGIN_COPY(A, B);
 
 #   ifdef HAVE_CXXBLAS_TRCOPY
     cxxblas::trcopy(B.order(), B.upLo(), NoTrans, NonUnit, B.dim(), B.dim(),

@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2011, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,30 +30,40 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_BLAS_CLOSURES_LEVEL1_DOT_H
-#define FLENS_BLAS_CLOSURES_LEVEL1_DOT_H 1
+/* Based on
+ *
+       SUBROUTINE DPBTRF( UPLO, N, KD, AB, LDAB, INFO )
+       SUBROUTINE ZPBTRF( UPLO, N, KD, AB, LDAB, INFO )
+ *
+ *  -- LAPACK routine (version 3.2) --
+ *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
+ *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
+ *     November 2006
+ */
 
-#include <cxxblas/cxxblas.h>
-#include <flens/blas/closures/tweaks/defaulteval.h>
-#include <flens/blas/operators/operators.h>
+#ifndef FLENS_LAPACK_PB_PBTRF_H
+#define FLENS_LAPACK_PB_PBTRF_H 1
+
 #include <flens/matrixtypes/matrixtypes.h>
-#include <flens/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>
 
-namespace flens { namespace blas {
+namespace flens { namespace lapack {
 
-#ifdef FLENS_DEBUG_CLOSURES
 
-// dot product where x or y is a closure (or unknown vector type)
-template <typename VX, typename VY, typename T>
-    typename RestrictTo<MCDefaultEval<OpMult, VX, VY>::value
-                     && IsVector<VX>::value
-                     && IsVector<VY>::value,
-             void>::Type
-    dot(const VX &x, const VY &y, T &result);
+#ifdef USE_CXXLAPACK
 
-#endif
+//== pbtrf =====================================================================
+//
+//  Real and complex variant
+//
+template <typename MA>
+    typename RestrictTo<IsSbMatrix<MA>::value || IsHbMatrix<MA>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    pbtrf(MA &&A);
 
-} } // namespace blas, flens
+#endif // USE_CXXLAPACK
 
-#endif // FLENS_BLAS_CLOSURES_LEVEL1_DOT_H
+
+} } // namespace lapack, flens
+
+#endif // FLENS_LAPACK_PB_PBTRF_H

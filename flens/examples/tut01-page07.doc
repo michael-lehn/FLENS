@@ -77,7 +77,8 @@ Compile and Run
  *--[SHELL]-------------------------------------------------------------------*
  |                                                                            |
  |  cd flens/examples                                                         |
- |  g++ -Wall -I$HOME/MTL/usr/include -o design-flaws-mtl4                 +++|
+ |  clang++ -I/opt/local/include/ -I$HOME/MTL/usr/include                  +++|
+ |          -o design-flaws-mtl4                                           +++|
  |      design-flaws-mtl4.cc                                                  |
  |  ./design-flaws-mtl4                                                       |
  |                                                                            |

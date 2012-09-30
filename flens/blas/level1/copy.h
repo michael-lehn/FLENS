@@ -222,7 +222,7 @@ template <typename MA, typename MB>
     typename RestrictTo<IsGeCRSMatrix<MA>::value
                      && IsGeMatrix<MB>::value,
              void>::Type
-    copy(const MA &A, MB &&B);
+    copy(Transpose trans, const MA &A, MB &&B);
 
 //-- copy: GeCoordMatrix -> GeMatrix
 template <typename MA, typename MB>

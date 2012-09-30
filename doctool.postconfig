@@ -1,9 +1,9 @@
-export TEMPLATE_DIR=${PWD}/doctool
-export SLIDE_HEADER=${TEMPLATE_DIR}/SimpleHeader
-export SLIDE_FOOTER=${TEMPLATE_DIR}/SimpleFooter
+#export TEMPLATE_DIR=${PWD}/doctool
+#export SLIDE_HEADER=${TEMPLATE_DIR}/SimpleHeader
+#export SLIDE_FOOTER=${TEMPLATE_DIR}/SimpleFooter
 
-export FILETREE_HEADER=${TEMPLATE_DIR}/SimpleHeader
-export FILETREE_FOOTER=${TEMPLATE_DIR}/SimpleFooter
+#export FILETREE_HEADER=${TEMPLATE_DIR}/SimpleHeader
+#export FILETREE_FOOTER=${TEMPLATE_DIR}/SimpleFooter
 
-export SOURCEFILE_HEADER=${TEMPLATE_DIR}/SimpleHeader
-export SOURCEFILE_FOOTER=${TEMPLATE_DIR}/SimpleFooter
+#export SOURCEFILE_HEADER=${TEMPLATE_DIR}/SimpleHeader
+#export SOURCEFILE_FOOTER=${TEMPLATE_DIR}/SimpleFooter

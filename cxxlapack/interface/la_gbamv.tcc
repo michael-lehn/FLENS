@@ -108,18 +108,18 @@ la_gbamv(IndexType             trans,
 template <typename IndexType>
 void
 la_gbamv(IndexType                   trans,
-	  IndexType                   m,
-	  IndexType                   n,
-	  IndexType                   kl,
-	  IndexType                   ku,
-	  float                       alpha,
-	  const std::complex<float >  *AB,
-	  IndexType                   ldAB,
-	  const std::complex<float >  *x,
-	  IndexType                   incx,
-	  float                       beta,
-	  float                       *y,
-	  IndexType                   incy)
+         IndexType                   m,
+         IndexType                   n,
+         IndexType                   kl,
+         IndexType                   ku,
+         float                       alpha,
+         const std::complex<float >  *AB,
+         IndexType                   ldAB,
+         const std::complex<float >  *x,
+         IndexType                   incx,
+         float                       beta,
+         float                       *y,
+         IndexType                   incy)
 {
     CXXLAPACK_DEBUG_OUT("cla_gbamv");
 
@@ -141,18 +141,18 @@ la_gbamv(IndexType                   trans,
 template <typename IndexType>
 void
 la_gbamv(IndexType                   trans,
-	  IndexType                   m,
-	  IndexType                   n,
-	  IndexType                   kl,
-	  IndexType                   ku,
-	  double                      alpha,
-	  const std::complex<double>  *AB,
-	  IndexType                   ldAB,
-	  const std::complex<double>  *x,
-	  IndexType                   incx,
-	  double                      beta,
-	  double                      *y,
-	  IndexType                   incy)
+         IndexType                   m,
+         IndexType                   n,
+         IndexType                   kl,
+         IndexType                   ku,
+         double                      alpha,
+         const std::complex<double>  *AB,
+         IndexType                   ldAB,
+         const std::complex<double>  *x,
+         IndexType                   incx,
+         double                      beta,
+         double                      *y,
+         IndexType                   incy)
 {
     CXXLAPACK_DEBUG_OUT("zla_gbamv");
 

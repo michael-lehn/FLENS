@@ -189,6 +189,10 @@
 #include <flens/lapack/la/lauu2.h>
 #include <flens/lapack/la/lauum.h>
 
+#include <flens/lapack/pb/pbsv.h>
+#include <flens/lapack/pb/pbtrf.h>
+#include <flens/lapack/pb/pbtrs.h>
+
 #include <flens/lapack/po/pocon.h>
 #include <flens/lapack/po/posv.h>
 #include <flens/lapack/po/potf2.h>

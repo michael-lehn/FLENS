@@ -115,7 +115,7 @@ template <typename IndexType>
           const float           *b11e,
           const float           *b12d,
           const float           *b12e,
-          float             	    *work,
+          float                 *work,
           IndexType             lWork);
 
 template <typename IndexType>

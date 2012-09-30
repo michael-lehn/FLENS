@@ -73,8 +73,8 @@ Symmetric and Triangular Matrices with Full Storage
 :links: __Page (\d)__     -> doc:flens/examples/tut03-page0$1
 
 
-FLENS-LAPACK
-============
+__FLENS-LAPACK__
+================
 
  *--[BOX]--------------------------------------------------------------------*
  |                                                                           |
@@ -85,7 +85,8 @@ FLENS-LAPACK
  |                                                                           |
  *---------------------------------------------------------------------------*
 
-:links: __Page (\d)__     -> doc:flens/examples/tut04-page0$1
+:links: __FLENS-LAPACK__  -> doc:flens/lapack/lapack
+        __Page (\d)__     -> doc:flens/examples/tut04-page0$1
 
 Using an external LAPACK implementation
 =======================================

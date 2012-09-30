@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007, Michael Lehn
+ *   Copyright (c) 2011, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,30 +30,51 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_BLAS_CLOSURES_LEVEL1_DOT_H
-#define FLENS_BLAS_CLOSURES_LEVEL1_DOT_H 1
+/* Based on
+ *
+       SUBROUTINE DPBTRS( UPLO, N, KD, NRHS, AB, LDAB, B, LDB, INFO )
+       SUBROUTINE ZPBTRS( UPLO, N, KD, NRHS, AB, LDAB, B, LDB, INFO )
+ *
+ *  -- LAPACK routine (version 3.3.1) --
+ *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
+ *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
+ *  -- April 2011
+ */
 
-#include <cxxblas/cxxblas.h>
-#include <flens/blas/closures/tweaks/defaulteval.h>
-#include <flens/blas/operators/operators.h>
+#ifndef FLENS_LAPACK_PB_PBTRS_H
+#define FLENS_LAPACK_PB_PBTRS_H 1
+
 #include <flens/matrixtypes/matrixtypes.h>
-#include <flens/typedefs.h>
 #include <flens/vectortypes/vectortypes.h>
 
-namespace flens { namespace blas {
+namespace flens { namespace lapack {
 
-#ifdef FLENS_DEBUG_CLOSURES
 
-// dot product where x or y is a closure (or unknown vector type)
-template <typename VX, typename VY, typename T>
-    typename RestrictTo<MCDefaultEval<OpMult, VX, VY>::value
-                     && IsVector<VX>::value
-                     && IsVector<VY>::value,
-             void>::Type
-    dot(const VX &x, const VY &y, T &result);
+#ifdef USE_CXXLAPACK
 
-#endif
+//== pbtrs =====================================================================
+//
+//  Real and complex variant
+//
+template <typename MA, typename MB>
+    typename RestrictTo<(IsSbMatrix<MA>::value || IsHbMatrix<MA>::value)
+                     && IsComplexGeMatrix<MB>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    pbtrs(MA &&A, MB &&B);
 
-} } // namespace blas, flens
+//== pbtrs variant if rhs is vector ============================================
+//
+//  Real and complex variant
+//
+template <typename MA, typename VB>
+    typename RestrictTo<(IsSbMatrix<MA>::value || IsHbMatrix<MA>::value)
+                     && IsDenseVector<VB>::value,
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    pbtrs(MA &&A, VB &&b);
 
-#endif // FLENS_BLAS_CLOSURES_LEVEL1_DOT_H
+#endif // USE_CXXLAPACK
+
+
+} } // namespace lapack, flens
+
+#endif // FLENS_LAPACK_PB_PBTRS_H

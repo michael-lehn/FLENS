@@ -19,11 +19,8 @@ through the low-level CXXLAPACK layer.  The usage and concept of this high-level
 Generic FLENS-LAPACK: Purpose
 =============================
 FLENS is a comfortable tool for the implementation of numerical algorithms.  At
-the same time we avoid negative impacts on efficiency due to abstraction.  But
-only claiming that we can achieve this two goals is one thing.  The other thing
-is proving this!  In this respect you could regard the FLENS-LAPACK as a
-prove of our claims.  So our FLENS-LAPACK port demonstrates the following
-features:
+the same time we avoid negative impacts on efficiency due to abstraction.  Our
+FLENS-LAPACK port demonstrates the following features of FLENS:
 
   - *Easy to read and understand*
 
@@ -80,7 +77,7 @@ features:
 
 Current Status
 ==============
-In the following we give an overview of the functionality currently provided by
+Below we give an overview of the functionality currently provided by
 FLENS-LAPACK.  Function names of FLENS-LAPACK are derived from corresponding
 LAPACK.  We removed letters from the function names that merely specify the
 argument types:
@@ -90,16 +87,16 @@ argument types:
   __ztrtrs__ in LAPACK
 - ...
 
-At the moment some generic function of FLENS-LAPACK do not support complex
-element types.  However, this functionality is available through an external
-LAPACK library.
-
-Have a look into the __tutorial__ for learning how to use an external LAPACK
+At the moment only a subset of LAPACK is re-implemented in FLENS-LAPACK.  For
+other LAPACK functions FLENS-LAPACK serves as a high-level interface.  Have a
+look into the __tutorial__ for learning how to use an external LAPACK
 implementation.  By default FLENS-LAPACK will prefer a generic LAPACK
 implementation over a external implementation.  An external implementation only
 gets called if no generic implementation is available.  You can change this
 default behavior through macros as described in the tutorial.
 
+Routines for Matrices with Full Storage
+=======================================
 
 Linear Equation Routines
 ------------------------
@@ -343,19 +340,63 @@ Non-Symmetric Eigenvalue Routines
         __(o.*)__       -> file:flens/lapack/impl/$1.h
         __(.*)__        -> file:flens/lapack/ge/$1.h
 
+Routines for Matrices with Band Storage
+=======================================
 
-Todo
-====
+Linear Equation Routines
+------------------------
+ +----------+---------------+----------------------------------------+----------------+
+ | TYPE     | FLENS-LAPACK  | DESCRIPTION                            | LAPACK         |
+ +==========+===============+========================================+================+
+ | General  | __sv__        | Solves a general system of linear      | __dgbsv__^[1]  |
+ |          |               | equations $AX=B$.                      | __zgbsv__^[1]  |
+ |          |               |                                        |                |
+ |          |               | *Example:*  __lapack-gbsv__.           |                |
+ +          +---------------+----------------------------------------+----------------+
+ |          | __trf__       | Computes an $LU$ factorization of a    | __dgbtrf__^[1] |
+ |          |               | general matrix, using partial pivoting | __zgbtrf__^[1] |
+ |          |               | with row interchanges.                 |                |
+ |          |               |                                        |                |
+ |          |               | *Example:* see __lapack-gbtrs__.       |                |
+ +          +---------------+----------------------------------------+----------------+
+ |          | __trs__       | Solves a general system of linear      | __dgbtrs__^[1] |
+ |          |               | equations $AX=B,$ $A^T X=B,$ or        | __zgbtrs__^[1] |
+ |          |               | $A^H X=B,$ using the  $LU$             |                |
+ |          |               | factorization.                         |                |
+ |          |               |                                        |                |
+ |          |               | *Example:*  __lapack-gbtrs__.          |                |
+ +----------+---------------+----------------------------------------+----------------+
+ | Positive | __pbsv__      | Solves a symmetric positive definite   | __dpbsv__^[1]  |
+ | Definite |               | system of linear equations $AX=B.$     | __zpbsv__^[1]  |
+ |          |               |                                        |                |
+ |          |               | *Example:*  __lapack-pbsv__.           |                |
+ +          +---------------+----------------------------------------+----------------+
+ |          | __pbtrf__     | Computes the Cholesky factorization    | __dpbtrf__^[1] |
+ |          |               | of a symmetric positive definite       | __zpbtrf__^[1] |
+ |          |               | matrix.                                |                |
+ |          |               |                                        |                |
+ |          |               | *Example:* see __lapack-pbtrs__.       |                |
+ +          +---------------+----------------------------------------+----------------+
+ |          | __pbtrs__     | Solves a symmetric positive definite   | __dpbtrs__^[1] |
+ |          |               | system of linear equations $AX=B,$     | __zpbtrs__^[1] |
+ |          |               | using the Cholesky factorization       |                |
+ |          |               | computed by __pbtrf__.                 |                |
+ |          |               |                                        |                |
+ |          |               | *Example:*  __lapack-pbtrs__.          |                |
+ +----------+---------------+----------------------------------------+----------------+
 
-Of course there many more TODOs.  But theses are the most important:
+*Note:* Maybe we should brake with the strict naming scheme and rename functions `pbsv`,
+`pbtrf`, `pbtrs` just to `posv`, `potrf`, `potrs`.
 
-- Change CXXBLAS such that it produces exactly the same results as __RefBLAS__
-- Operator overloading works for most things but needs still needs some work
-  and checking.  At the moment we call most of the time the FLENS-BLAS functions
-  directly.  Actually that is not that cumbersome.  But once we have overloaded
-  operators back we can the FLENS-LAPACK implementation further!
+:links:     __lapack-gbsv__  -> doc:flens/examples/lapack-gbsv
+            __lapack-gbtrs__ -> doc:flens/examples/lapack-gbtrs
+            __lapack-pbsv__  -> doc:flens/examples/lapack-pbsv
+            __lapack-pbtrs__ -> doc:flens/examples/lapack-pbtrs
+            __(d.+)__        -> file:cxxlapack/netlib/lapack/$1.f
+            __(z.+)__        -> file:cxxlapack/netlib/lapack/$1.f
+            __(pb.+)__       -> doc:flens/lapack/pb/$1
+            __(.+)__         -> doc:flens/lapack/gb/$1
 
-:links: __RefBLAS__  -> http://netlib.org/blas/
 
 
 Related Projects
