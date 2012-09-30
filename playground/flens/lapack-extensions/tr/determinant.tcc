@@ -45,16 +45,11 @@ det(MA &&A)
     
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::ElementType   T;
-    typedef typename MatrixA::IndexType     IndexType;
     
     if (A.diag()==Unit)
         return T(1);
-    
-    T value(1);
-    
-    cxxblas::prod(A.dim(), A.data(), A.leadingDimension()+1, value);
 
-    return value;
+    return blas::extensions::prod(A.diag(0));
 }
 
 } } } // namespace extensions, lapack, flens

@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Klaus Pototzky
+ *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -28,55 +28,12 @@
  *   THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  *   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
-#ifndef PLAYGROUND_FLENS_LAPACKEXTENSIONS_GB_DETERMINANT_TCC
-#define PLAYGROUND_FLENS_LAPACKEXTENSIONS_GB_DETERMINANT_TCC 1
+#ifndef PLAYGROUND_FLENS_BLASEXTENSIONS_BLASEXTENSIONS_TCC
+#define PLAYGROUND_FLENS_BLASEXTENSIONS_BLASEXTENSIONS_TCC 1
 
-namespace flens { namespace lapack { namespace extensions { 
+#include<playground/flens/blas-extensions/level1/prod.tcc>
+#include<playground/flens/blas-extensions/level1/sum.tcc>
 
-//-- det(gb)
-template <typename MA, typename VPIV>
-typename RestrictTo<IsGbMatrix<MA>::value
-                 && IsIntegerDenseVector<VPIV>::value,
-typename RemoveRef<MA>::Type::ElementType>::Type
-det(MA &&A, VPIV && Pivots)
-{
-    ASSERT(A.numCols()==A.numRows());
-    
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::ElementType   T;
-    typedef typename MatrixA::IndexType     IndexType;
-    
-    trf(A, Pivots);
-    T value(1);
-    
-    value = blas::extensions::prod(A.diag(0));
-    
-    IndexType numSwaps(0);
-    for (IndexType k=A.firstRow(), m=Pivots.firstIndex();k<=A.lastRow();++k, ++m) {
-        if (Pivots(m)!=k) {
-            ++numSwaps;
-        }
-    }
-    
-    if (numSwaps%2==1)
-        return -value;
-    return value;
-}
-
-template <typename MA>
-typename RestrictTo<IsGbMatrix<MA>::value,
-typename RemoveRef<MA>::Type::ElementType>::Type
-det(MA &&A)
-{
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::IndexType     IndexType;
-
-    DenseVector<Array<IndexType> >  piv;
-    return det(A, piv);
-}
-} } } // namespace extensions, lapack, flens
-
-#endif // PLAYGROUND_FLENS_LAPACKEXTENSIONS_Gb_DETERMINANT_TCC
+#endif // PLAYGROUND_FLENS_BLASEXTENSIONS_BLASEXTENSIONS_TCC

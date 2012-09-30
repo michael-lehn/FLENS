@@ -33,6 +33,7 @@
 #ifndef PLAYGROUND_FLENS_FLENS_TCC
 #define PLAYGROUND_FLENS_FLENS_TCC 1
 
+#include<playground/flens/blas-extensions/blas-extensions.tcc>
 #include<playground/flens/lapack-extensions/lapack-extensions.tcc>
 
 #endif // PLAYGROUND_FLENS_FLENS_TCC

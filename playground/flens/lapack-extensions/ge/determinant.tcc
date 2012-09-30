@@ -52,7 +52,7 @@ det(MA &&A, VPIV && Pivots)
     trf(A, Pivots);
     T value(1);
     
-    cxxblas::prod(A.numRows(), A.data(), A.leadingDimension()+1, value);
+    value = blas::extensions::prod(A.diag(0));
     
     IndexType numSwaps(0);
     for (IndexType k=A.firstRow(), m=Pivots.firstIndex();k<=A.lastRow();++k, ++m) {

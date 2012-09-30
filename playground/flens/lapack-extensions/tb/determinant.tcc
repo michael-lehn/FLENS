@@ -49,13 +49,8 @@ det(MA &&A)
     
     if (A.diag()==Unit)
         return T(1);
-    
-    T value(1);
-    
-    auto d = A.diag(0);
-    cxxblas::prod(d.length(), d.data(), d.stride(), value);
 
-    return value;
+    return blas::extensions::sum(A.diag(0));
 }
 
 } } } // namespace extensions, lapack, flens

@@ -44,16 +44,7 @@ typename RestrictTo<IsSbMatrix<MA>::value,
 typename RemoveRef<MA>::Type::ElementType>::Type
 trace(MA &&A)
 {
-    using std::min;
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::ElementType   T;
-    T result;
-    
-    auto d = A.diag(0);
-    
-    cxxblas::sum(d.length(), d.data(), d.stride(), result);
-
-    return result;
+    return blas::extensions::sum(A.diag(0));
 }
 
 } } } // namespace extensions, lapack, flens

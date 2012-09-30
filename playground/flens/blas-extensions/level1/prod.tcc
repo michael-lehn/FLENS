@@ -31,52 +31,28 @@
  *
  */
 
-#ifndef PLAYGROUND_FLENS_LAPACKEXTENSIONS_GB_DETERMINANT_TCC
-#define PLAYGROUND_FLENS_LAPACKEXTENSIONS_GB_DETERMINANT_TCC 1
+#ifndef PLAYGROUND_FLENS_BLASEXTENSIONS_LEVEL1_PROD_TCC
+#define PLAYGROUND_FLENS_BLASEXTENSIONS_LEVEL1_PROD_TCC 1
 
-namespace flens { namespace lapack { namespace extensions { 
+#include <playground/cxxblas/cxxblas.h>
 
-//-- det(gb)
-template <typename MA, typename VPIV>
-typename RestrictTo<IsGbMatrix<MA>::value
-                 && IsIntegerDenseVector<VPIV>::value,
-typename RemoveRef<MA>::Type::ElementType>::Type
-det(MA &&A, VPIV && Pivots)
+namespace flens { namespace blas { namespace extensions { 
+
+//-- prod
+template <typename VX>
+typename RestrictTo<IsDenseVector<VX>::value,
+typename RemoveRef<VX>::Type::ElementType>::Type
+prod(VX &&x)
 {
-    ASSERT(A.numCols()==A.numRows());
+    typedef typename RemoveRef<VX>::Type    VectorX;
+    typedef typename VectorX::ElementType   T;
+    T result;
     
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::ElementType   T;
-    typedef typename MatrixA::IndexType     IndexType;
-    
-    trf(A, Pivots);
-    T value(1);
-    
-    value = blas::extensions::prod(A.diag(0));
-    
-    IndexType numSwaps(0);
-    for (IndexType k=A.firstRow(), m=Pivots.firstIndex();k<=A.lastRow();++k, ++m) {
-        if (Pivots(m)!=k) {
-            ++numSwaps;
-        }
-    }
-    
-    if (numSwaps%2==1)
-        return -value;
-    return value;
+    cxxblas::prod(x.length(), x.data(), x.stride(), result);
+
+    return result;
 }
 
-template <typename MA>
-typename RestrictTo<IsGbMatrix<MA>::value,
-typename RemoveRef<MA>::Type::ElementType>::Type
-det(MA &&A)
-{
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::IndexType     IndexType;
-
-    DenseVector<Array<IndexType> >  piv;
-    return det(A, piv);
-}
 } } } // namespace extensions, lapack, flens
 
-#endif // PLAYGROUND_FLENS_LAPACKEXTENSIONS_Gb_DETERMINANT_TCC
+#endif // PLAYGROUND_FLENS_BLASEXTENSIONS_LEVEL1_PROD_TCC

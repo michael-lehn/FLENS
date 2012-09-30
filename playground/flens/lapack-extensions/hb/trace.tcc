@@ -44,17 +44,7 @@ typename RestrictTo<IsHbMatrix<MA>::value,
 typename ComplexTrait<typename RemoveRef<MA>::Type::ElementType>::PrimitiveType>::Type
 trace(MA &&A)
 {
-    using std::min;
-    typedef typename RemoveRef<MA>::Type            MatrixA;
-    typedef typename MatrixA::ElementType           T;
-    typedef typename ComplexTrait<T>::PrimitiveType PT;
-    PT result;
-    
-    auto d = A.diag(0);
-    
-    cxxblas::sum(d.length(), reinterpret_cast<const PT *>(d.data()), 2*d.stride(), result);
-
-    return result;
+    return blas::extensions::sum(real(A.diag(0)));
 }
 
 } } } // namespace extensions, lapack, flens

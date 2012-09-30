@@ -31,52 +31,20 @@
  *
  */
 
-#ifndef PLAYGROUND_FLENS_LAPACKEXTENSIONS_GB_DETERMINANT_TCC
-#define PLAYGROUND_FLENS_LAPACKEXTENSIONS_GB_DETERMINANT_TCC 1
+#ifndef PLAYGROUND_FLENS_BLASEXTENSIONS_LEVEL1_PROD_H
+#define PLAYGROUND_FLENS_BLASEXTENSIONS_LEVEL1_PROD_H 1
 
-namespace flens { namespace lapack { namespace extensions { 
+#include <flens/lapack/typedefs.h>
+#include <flens/vectortypes/vectortypes.h>
 
-//-- det(gb)
-template <typename MA, typename VPIV>
-typename RestrictTo<IsGbMatrix<MA>::value
-                 && IsIntegerDenseVector<VPIV>::value,
-typename RemoveRef<MA>::Type::ElementType>::Type
-det(MA &&A, VPIV && Pivots)
-{
-    ASSERT(A.numCols()==A.numRows());
-    
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::ElementType   T;
-    typedef typename MatrixA::IndexType     IndexType;
-    
-    trf(A, Pivots);
-    T value(1);
-    
-    value = blas::extensions::prod(A.diag(0));
-    
-    IndexType numSwaps(0);
-    for (IndexType k=A.firstRow(), m=Pivots.firstIndex();k<=A.lastRow();++k, ++m) {
-        if (Pivots(m)!=k) {
-            ++numSwaps;
-        }
-    }
-    
-    if (numSwaps%2==1)
-        return -value;
-    return value;
-}
+namespace flens { namespace blas { namespace extensions {
 
-template <typename MA>
-typename RestrictTo<IsGbMatrix<MA>::value,
-typename RemoveRef<MA>::Type::ElementType>::Type
-det(MA &&A)
-{
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::IndexType     IndexType;
+//== prod =================================================================
+template <typename VX>
+typename RestrictTo<IsDenseVector<VX>::value,
+         typename RemoveRef<VX>::Type::ElementType>::Type
+    prod(VX &&x);
 
-    DenseVector<Array<IndexType> >  piv;
-    return det(A, piv);
-}
-} } } // namespace extensions, lapack, flens
+} } } // namespace extensions, blas, flens
 
-#endif // PLAYGROUND_FLENS_LAPACKEXTENSIONS_Gb_DETERMINANT_TCC
+#endif // PLAYGROUND_FLENS_BLASEXTENSIONS_LEVEL1_PROD_H

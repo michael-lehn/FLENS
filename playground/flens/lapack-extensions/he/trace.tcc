@@ -44,16 +44,7 @@ typename RestrictTo<IsHeMatrix<MA>::value,
 typename ComplexTrait<typename RemoveRef<MA>::Type::ElementType>::PrimitiveType>::Type
 trace(MA &&A)
 {
-    using std::min;
-    typedef typename RemoveRef<MA>::Type            MatrixA;
-    typedef typename MatrixA::ElementType           T;
-    typedef typename ComplexTrait<T>::PrimitiveType PT;
-    PT result;
-    
-    cxxblas::sum(min(A.numCols(), A.numRows()), reinterpret_cast<const PT *>(A.data()), 
-                 2*(A.leadingDimension()+1), result);
-
-    return result;
+    return blas::extensions::sum(real(A.diag(0)));
 }
 
 } } } // namespace extensions, lapack, flens

@@ -47,14 +47,11 @@ trace(MA &&A)
     using std::min;
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::ElementType   T;
-    T result;
 
-    if (A.diag()==NonUnit) {
-        cxxblas::sum(min(A.numCols(), A.numRows()), A.data(), A.leadingDimension()+1, result);
-    } else {
-        result = T(min(A.numCols(), A.numRows()));
-    }
-    return result;
+    if (A.diag()==Unit) 
+        return T(min(A.numCols(), A.numRows()));
+
+    return blas::extensions::sum(A.diag(0));
 }
 
 } } } // namespace extensions, lapack, flens

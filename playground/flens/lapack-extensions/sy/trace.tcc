@@ -44,14 +44,7 @@ typename RestrictTo<IsSyMatrix<MA>::value,
 typename RemoveRef<MA>::Type::ElementType>::Type
 trace(MA &&A)
 {
-    using std::min;
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::ElementType   T;
-    T result;
-    
-    cxxblas::sum(min(A.numCols(), A.numRows()), A.data(), A.leadingDimension()+1, result);
-
-    return result;
+    return blas::extensions::sum(A.diag(0));
 }
 
 } } } // namespace extensions, lapack, flens
