@@ -42,6 +42,8 @@
 
 namespace flens { namespace blas {
 
+//-- BLAS Level 1 --------------------------------------------------------------
+
 template <typename X, typename T>
 typename RestrictTo<IsNotComplex<T>::value, void>::Type
 asum(const DenseVector<X> &x, T &absoluteSum)
@@ -60,6 +62,39 @@ asum(const DenseVector<X> &x)
     typename ComplexTrait<typename X::ElementType>::PrimitiveType  absoluteSum;
 
     asum(x, absoluteSum);
+    return absoluteSum;
+}
+
+//-- BLAS Level 1 extensions ---------------------------------------------------
+
+//== GeneralMatrix
+
+template <typename MA, typename T>
+typename RestrictTo<IsNotComplex<T>::value, void>::Type
+asum(const GeMatrix<MA> &A, T &absoluteSum)
+{
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
+
+    const Underscore<IndexType>  _;
+
+    if (A.order()==ColMajor) {
+        for (IndexType j=A.firstCol(); j<=A.lastCol(); ++j) {
+            asum(A(_,j), absoluteSum);
+        }
+    } else {
+        for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
+            asum(A(i,_), absoluteSum);
+        }
+    }
+}
+
+template <typename MA>
+const typename ComplexTrait<typename MA::ElementType>::PrimitiveType
+asum(const GeMatrix<MA> &A)
+{
+    typename ComplexTrait<typename MA::ElementType>::PrimitiveType  absoluteSum;
+
+    asum(A, absoluteSum);
     return absoluteSum;
 }
 

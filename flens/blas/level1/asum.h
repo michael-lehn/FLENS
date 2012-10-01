@@ -33,9 +33,12 @@
 #ifndef FLENS_BLAS_LEVEL1_ASUM_H
 #define FLENS_BLAS_LEVEL1_ASUM_H 1
 
+#include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace blas {
+
+//-- BLAS Level 1 --------------------------------------------------------------
 
 template <typename X, typename T>
     typename RestrictTo<IsNotComplex<T>::value, void>::Type
@@ -44,6 +47,18 @@ template <typename X, typename T>
 template <typename X>
     const typename ComplexTrait<typename X::ElementType>::PrimitiveType
     asum(const DenseVector<X> &x);
+
+//-- BLAS Level 1 extensions ---------------------------------------------------
+
+//== GeneralMatrix
+
+template <typename MA, typename T>
+    typename RestrictTo<IsNotComplex<T>::value, void>::Type
+    asum(const GeMatrix<MA> &A, T &absoluteSum);
+
+template <typename MA>
+    const typename ComplexTrait<typename MA::ElementType>::PrimitiveType
+    asum(const GeMatrix<MA> &A);
 
 } } // namespace blas, flens
 

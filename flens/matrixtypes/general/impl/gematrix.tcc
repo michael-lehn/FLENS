@@ -753,6 +753,7 @@ typename RestrictTo<IsGeMatrix<MA>::value,
 fillRandom(MA &&A)
 {
     fillRandom(A.engine());
+    return true;
 }
 
 
