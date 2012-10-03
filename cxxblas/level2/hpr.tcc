@@ -125,7 +125,7 @@ hpr(StorageOrder order,   StorageUpLo upLo,
 
     cblas_chpr(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                n,
-               reinterpret_cast<const float *>(&alpha),
+               alpha,
                reinterpret_cast<const float *>(x), incX,
                reinterpret_cast<float *>(A));
 }
@@ -143,7 +143,7 @@ hpr(StorageOrder order,   StorageUpLo upLo,
 
     cblas_zhpr(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                n,
-               reinterpret_cast<const double *>(&alpha),
+               alpha,
                reinterpret_cast<const double *>(x), incX,
                reinterpret_cast<double *>(A));
 }

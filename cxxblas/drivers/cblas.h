@@ -645,6 +645,21 @@ cblas_dsyr(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
            const double *X, CBLAS_INT incX,
            double *A, CBLAS_INT lda);
 
+// spr
+void
+cblas_sspr(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+           CBLAS_INT n,
+           float alpha,
+           const float *X, CBLAS_INT incX,
+           float *A);
+
+void
+cblas_dspr(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+           CBLAS_INT n,
+           double alpha,
+           const double *X, CBLAS_INT incX,
+           double *A);
+
 // her
 void
 cblas_cher(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
@@ -659,6 +674,38 @@ cblas_zher(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
            double alpha,
            const double *X, CBLAS_INT incX,
            double *A, CBLAS_INT lda);
+
+// hpr
+void
+cblas_chpr(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+           CBLAS_INT n,
+           float alpha,
+           const float *X, CBLAS_INT incX,
+           float *A);
+
+void
+cblas_zhpr(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+           CBLAS_INT n,
+           double alpha,
+           const double *X, CBLAS_INT incX,
+           double *A);
+
+// spr2
+void
+cblas_sspr2(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            CBLAS_INT n,
+            float alpha,
+            const float *X, CBLAS_INT incX,
+            const float *Y, CBLAS_INT incY,
+            float *A);
+
+void
+cblas_dspr2(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            CBLAS_INT n,
+            double alpha,
+            const double *X, CBLAS_INT incX,
+            const double *Y, CBLAS_INT incY,
+            double *A);
 
 // syr2
 void
