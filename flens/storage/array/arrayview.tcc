@@ -165,7 +165,7 @@ ArrayView<T, I, A>::allocator() const
 
 template <typename T, typename I, typename A>
 bool
-ArrayView<T, I, A>::resize(IndexType DEBUG_VAR(length),
+ArrayView<T, I, A>::resize(IndexType length,
                            IndexType firstIndex,
                            const ElementType &)
 {
@@ -194,7 +194,7 @@ ArrayView<T, I, A>::fill(const ElementType &value)
 
 template <typename T, typename I, typename A>
 void
-ArrayView<T, I, A>::changeIndexBase(IndexType DEBUG_VAR(firstIndex))
+ArrayView<T, I, A>::changeIndexBase(IndexType firstIndex)
 {
     if (_data) {
         _data += _firstIndex - firstIndex;
