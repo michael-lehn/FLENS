@@ -69,7 +69,7 @@ template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
     mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,
        const BETA &beta, VY &&y);
 
-//-- geccsmv
+//-- gemv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
     typename RestrictTo<IsGeMatrix<MA>::value
                      && IsDenseVector<VX>::value
@@ -77,6 +77,16 @@ template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
              void>::Type
     mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,
        const BETA &beta, VY &&y);
+
+//-- (tiny) gemv
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+    typename RestrictTo<IsGeTinyMatrix<MA>::value
+                     && IsTinyVector<VX>::value
+                     && IsTinyVector<VY>::value,
+             void>::Type
+    mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,
+       const BETA &beta, VY &&y);
+
 
 //== HermitianMatrix - Vector products =========================================
 

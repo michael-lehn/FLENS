@@ -288,6 +288,42 @@ mv(Transpose transpose, const ALPHA &alpha, const MA &A, const VX &x,
     FLENS_BLASLOG_UNSETTAG;
 }
 
+//-- (tiny) gemv
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+typename RestrictTo<IsGeTinyMatrix<MA>::value
+                 && IsTinyVector<VX>::value
+                 && IsTinyVector<VY>::value,
+         void>::Type
+mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,
+   const BETA &beta, VY &&y)
+{
+#   ifndef NDEBUG
+    if (trans==NoTrans || trans==ConjTrans) {
+        ASSERT(A.numCols()==x.length());
+        ASSERT(A.numRows()==y.length());
+    } else {
+        ASSERT(A.numCols()==y.length());
+        ASSERT(A.numRows()==x.length());
+    }
+#   endif
+
+    typedef typename MA::ElementType       TA;
+    typedef typename VX::ElementType       TX;
+    typedef typename RemoveRef<VY>::Type   VectorY;
+    typedef typename VectorY::ElementType  TY;
+
+    const int m    = MA::Engine::numRows;
+    const int n    = MA::Engine::numCols;
+    const int ldA  = MA::Engine::leadingDimension;
+    const int incX = VX::Engine::stride;
+    const int incY = VectorY::Engine::stride;
+
+
+    cxxblas::gemv<m,n,TA,ldA,TX,incX,TY,incY>(trans,
+                                              alpha, A.data(), x.data(),
+                                              beta, y.data());
+}
+
 //== HermitianMatrix - Vector products =========================================
 
 //-- hbmv

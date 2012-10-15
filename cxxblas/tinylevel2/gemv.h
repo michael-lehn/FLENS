@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2009, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,23 +30,23 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_CXXBLAS_H
-#define CXXBLAS_CXXBLAS_H 1
+#ifndef CXXBLAS_TINYLEVEL2_GEMV_H
+#define CXXBLAS_TINYLEVEL2_GEMV_H 1
 
-#include <cxxblas/drivers/drivers.h>
-#include <cxxblas/auxiliary/auxiliary.h>
 #include <cxxblas/typedefs.h>
 
-#include <cxxblas/level1/level1.h>
-#include <cxxblas/level1extensions/level1extensions.h>
-#include <cxxblas/level2/level2.h>
-#include <cxxblas/level2extensions/level2extensions.h>
-#include <cxxblas/level3/level3.h>
-#include <cxxblas/level3extensions/level3extensions.h>
+namespace cxxblas {
 
-#include <cxxblas/sparselevel2/sparselevel2.h>
+//
+//  B = A  or B = A^T
+//
+template <int m, int n,
+          typename MA, int ldA,
+          typename VX, int incX,
+          typename VY, int incY>
+    void
+    gemv(Transpose trans, MA alpha, const MA *A, const VX *x, VY beta, VY *y);
 
-#include <cxxblas/tinylevel1/tinylevel1.h>
-#include <cxxblas/tinylevel2/tinylevel2.h>
+} // namespace cxxblas
 
-#endif // CXXBLAS_CXXBLAS_H
+#endif // CXXBLAS_TINYLEVEL2_GEMV_H
