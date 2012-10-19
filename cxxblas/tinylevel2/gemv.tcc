@@ -52,10 +52,7 @@ gemv_n(MA alpha, const MA *A, const VX *x, VY beta, VY *y)
     }
 }
 
-template <int m, int n,
-          typename MA, int ldA,
-          typename VX, int incX,
-          typename VY, int incY>
+template <int m, int n, typename MA, int ldA, typename VX, int incX, typename VY, int incY>
 void
 gemv_t(MA alpha, const MA *A, const VX *x, VY beta, VY *y)
 {
