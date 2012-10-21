@@ -40,7 +40,7 @@ BLAS(drot)(const INTEGER   *N,
 }
 
 void
-BLAS(crot)(const INTEGER   *N,
+BLAS(csrot)(const INTEGER   *N,
            cfloat          *X,
            const INTEGER   *INCX,
            cfloat          *Y,
@@ -57,7 +57,7 @@ BLAS(crot)(const INTEGER   *N,
 }
 
 void
-BLAS(zrot)(const INTEGER   *N,
+BLAS(zdrot)(const INTEGER   *N,
            cdouble         *X,
            const INTEGER   *INCX,
            cdouble         *Y,
