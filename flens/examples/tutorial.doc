@@ -27,6 +27,8 @@ General Matrix with Full Storage
  |  __Page 5__    Working with complex vectors and matrices.                 |
  |  __Page 6__    Element-wise matrix/vector operations.                     |
  |  __Page 7__    How FLENS ensures const-correctness and MTL4 not.          |
+ |  __Page 8__    Why matrix views are so important:  Implementation of a    |
+ |                blocked and unblock $LU$ factorization.                    |
  |                                                                           |
  *---------------------------------------------------------------------------*
 

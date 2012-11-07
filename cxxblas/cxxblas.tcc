@@ -46,5 +46,6 @@
 #include <cxxblas/sparselevel2/sparselevel2.tcc>
 
 #include <cxxblas/tinylevel1/tinylevel1.tcc>
+#include <cxxblas/tinylevel2/tinylevel2.tcc>
 
 #endif // CXXBLAS_CXXBLAS_TCC

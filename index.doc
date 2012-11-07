@@ -2,14 +2,14 @@
 FLENS                                                                   [TOC]
 =====
 
-FLENS is short for _Flexible Library for Efficient Numerical Solutions_.  And
-that's exactly what it is:
+FLENS extends C++ for matrix/vector types that are ideally suited for numerical
+linear algebra.  That's it ...
 
-*A builing block for the implementation of other (higher-level) numerical
-libraries or numerical applications*
+...but the consequences are immense!
 
-Some key points
 
+Features
+========
 - C++ library (requires a C++11 conform compiler)
 - Easy install as FLENS is *headers only*
 - FLENS gives you
@@ -39,7 +39,6 @@ Some key points
 
 Examples and Tutorial
 =====================
-
 - Overview of all driver functions currently implemented in __FLENS-LAPACK__
 - We just started with a __tutorial__:
     - __Session 1__: General matrices and dense vectors.
@@ -54,7 +53,6 @@ Examples and Tutorial
 
 Scope of this Branch
 ====================
-
 - Real and complex matrix types with full storage and dense vector types, i.e.
     - __GeMatrix__,
     - __SyMatrix__,
@@ -91,6 +89,9 @@ You can clone a public branch from __GitHub__
   *-------------------------------------------------------------------------*
 
 or download a __snapshot__.
+
+*Note:*  Sorry, at the moment we have problems we the department's file server.
+Until we have fixed the problem please get FLENS from gitHub.
 
 
 #  Why Nobody Uses C++ in Scientific Computing
@@ -136,14 +137,6 @@ Mailing List
 ============
 
 Join the mailing __list__!
-
-Contributors
-============
-
-- Michael Lehn
-- Klaus Pototzky
-- Alexander Stippler
-
 
 Contributors
 ============

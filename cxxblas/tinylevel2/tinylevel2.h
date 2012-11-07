@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2009, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,23 +30,9 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_CXXBLAS_H
-#define CXXBLAS_CXXBLAS_H 1
+#ifndef CXXBLAS_TINYLEVEL2_TINYLEVEL2_H
+#define CXXBLAS_TINYLEVEL2_TINYLEVEL2_H 1
 
-#include <cxxblas/drivers/drivers.h>
-#include <cxxblas/auxiliary/auxiliary.h>
-#include <cxxblas/typedefs.h>
+#include <cxxblas/tinylevel2/gemv.h>
 
-#include <cxxblas/level1/level1.h>
-#include <cxxblas/level1extensions/level1extensions.h>
-#include <cxxblas/level2/level2.h>
-#include <cxxblas/level2extensions/level2extensions.h>
-#include <cxxblas/level3/level3.h>
-#include <cxxblas/level3extensions/level3extensions.h>
-
-#include <cxxblas/sparselevel2/sparselevel2.h>
-
-#include <cxxblas/tinylevel1/tinylevel1.h>
-#include <cxxblas/tinylevel2/tinylevel2.h>
-
-#endif // CXXBLAS_CXXBLAS_H
+#endif // CXXBLAS_TINYLEVEL2_TINYLEVEL2_H

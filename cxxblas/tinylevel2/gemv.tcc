@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2009, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,23 +30,59 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_CXXBLAS_H
-#define CXXBLAS_CXXBLAS_H 1
+#ifndef CXXBLAS_TINYLEVEL2_GEMV_TCC
+#define CXXBLAS_TINYLEVEL2_GEMV_TCC 1
 
-#include <cxxblas/drivers/drivers.h>
-#include <cxxblas/auxiliary/auxiliary.h>
-#include <cxxblas/typedefs.h>
+#include <cxxblas/cxxblas.h>
 
-#include <cxxblas/level1/level1.h>
-#include <cxxblas/level1extensions/level1extensions.h>
-#include <cxxblas/level2/level2.h>
-#include <cxxblas/level2extensions/level2extensions.h>
-#include <cxxblas/level3/level3.h>
-#include <cxxblas/level3extensions/level3extensions.h>
+namespace cxxblas {
 
-#include <cxxblas/sparselevel2/sparselevel2.h>
+template <int m, int n,
+          typename MA, int ldA,
+          typename VX, int incX,
+          typename VY, int incY>
+void
+gemv_n(MA alpha, const MA *A, const VX *x, VY beta, VY *y)
+{
+    for (int i=0, iY=0; i<m; ++i, iY+=incY) {
+        y[iY] *= beta;
+        for (int j=0, jX=0; j<n; ++j, jX+=incX) {
+            y[iY] += alpha * A[i*ldA+j] * x[jX];
+        }
+    }
+}
 
-#include <cxxblas/tinylevel1/tinylevel1.h>
-#include <cxxblas/tinylevel2/tinylevel2.h>
+template <int m, int n, typename MA, int ldA, typename VX, int incX, typename VY, int incY>
+void
+gemv_t(MA alpha, const MA *A, const VX *x, VY beta, VY *y)
+{
+    for (int j=0, jY=0; j<n; ++j, jY+=incY) {
+        y[jY] *= beta;
+    }
+    for (int i=0, iX=0; i<m; ++i, iX+=incY) {
+        for (int j=0, jY=0; j<n; ++j, jY+=incY) {
+            y[jY] += alpha * A[i*ldA+j] * x[iX];
+        }
+    }
+}
 
-#endif // CXXBLAS_CXXBLAS_H
+template <int m, int n,
+          typename MA, int ldA,
+          typename VX, int incX,
+          typename VY, int incY>
+void
+gemv(Transpose trans, MA alpha, const MA *A, const VX *x, VY beta, VY *y)
+{
+    if (trans==NoTrans) {
+        gemv_n<m, n, MA, ldA, VX, incX, VY, incY>(alpha, A, x, beta, y);
+    } else if (trans==Trans) {
+        gemv_t<m, n, MA, ldA, VX, incX, VY, incY>(alpha, A, x, beta, y);
+    } else {
+        // ConjTrans and Conj are not yet supported
+        ASSERT(0);
+    }
+}
+
+} // namespace cxxblas
+
+#endif // CXXBLAS_TINYLEVEL2_GEMV_TCC
