@@ -30,10 +30,38 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_CXXBLAS_CXXBLAS_TCC
-#define PLAYGROUND_CXXBLAS_CXXBLAS_TCC 1
+#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_COPY_TCC
+#define PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_COPY_TCC 1
 
-#include <playground/cxxblas/level1extensions/level1extensions.tcc>
-#include <playground/cxxblas/intrinsics/intrinsics.tcc>
+#include <cxxblas/cxxblas.h>
+#include <playground/cxxblas/intrinsics/auxiliary/auxiliary.h>
+#include <playground/cxxblas/intrinsics/includes.h>
+#include <string.h>
 
-#endif // CXXBLAS_CXXBLAS_TCC
+namespace cxxblas {
+
+#ifdef USE_INTRINSIC
+
+template <typename IndexType, typename T>
+void
+copy(IndexType n, const T *x,
+     IndexType incX, T *y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("copy_intrinsics [" INTRINSIC_NAME "]");
+
+    if (incX==1 && incY==1) {
+        
+        std::memmove(y, x, n*sizeof(T));
+
+    } else {
+    
+        cxxblas::copy<IndexType, T, T>(n, x, incX, y, incY); 
+        
+    }
+}
+
+#endif // USE_INTRINSIC
+
+} // namespace cxxblas
+
+#endif // PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_COPY_TCC

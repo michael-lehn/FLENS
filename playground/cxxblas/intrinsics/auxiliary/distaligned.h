@@ -30,10 +30,20 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_CXXBLAS_CXXBLAS_TCC
-#define PLAYGROUND_CXXBLAS_CXXBLAS_TCC 1
+#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_AUXILIARY_DISTALIGNED_H
+#define PLAYGROUND_CXXBLAS_INTRINSICS_AUXILIARY_DISTALIGNED_H 1
 
-#include <playground/cxxblas/level1extensions/level1extensions.tcc>
-#include <playground/cxxblas/intrinsics/intrinsics.tcc>
+#include <playground/cxxblas/intrinsics/includes.h>
 
-#endif // CXXBLAS_CXXBLAS_TCC
+#ifdef USE_INTRINSIC
+
+template <typename T, typename IndexType = int>
+IndexType
+DistAligned(const T *pointer, const IndexType byte_count = DEFAULT_ALIGNMENT_VALUE)
+{
+    return static_cast<IndexType>( ((uintptr_t)pointer % byte_count) / sizeof(T) );
+}
+
+#endif // USE_INTRINSIC
+
+#endif // PLAYGROUND_CXXBLAS_INTRINSICS_AUXILIARY_DISTALIGNED_H

@@ -30,10 +30,27 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_CXXBLAS_CXXBLAS_TCC
-#define PLAYGROUND_CXXBLAS_CXXBLAS_TCC 1
+#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_AUXILIARY_TRANSPOSE_H
+#define PLAYGROUND_CXXBLAS_INTRINSICS_AUXILIARY_TRANSPOSE_H 1
 
-#include <playground/cxxblas/level1extensions/level1extensions.tcc>
-#include <playground/cxxblas/intrinsics/intrinsics.tcc>
+#ifdef USE_INTRINSIC
 
-#endif // CXXBLAS_CXXBLAS_TCC
+template <typename IndexType, typename T>
+void
+add_transpose_8x8(const T *A, const IndexType ldA , T *B, const IndexType ldB);
+
+#ifdef HAVE_AVX
+
+template <typename IndexType>
+void
+add_transpose_8x8(const float *A, const IndexType ldA , float *B, const IndexType ldB);
+
+template <typename IndexType>
+void
+add_transpose_8x8(const double *A, const IndexType ldA , double *B, const IndexType ldB);
+
+#endif // HAVE_AVX
+
+#endif // USE_INTRINSIC
+
+#endif // PLAYGROUND_CXXBLAS_INTRINSICS_AUXILIARY_TRANSPOSE_H

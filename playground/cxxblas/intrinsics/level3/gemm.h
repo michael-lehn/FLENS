@@ -30,10 +30,30 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_CXXBLAS_CXXBLAS_TCC
-#define PLAYGROUND_CXXBLAS_CXXBLAS_TCC 1
+#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL3_GEMM_H
+#define PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL3_GEMM_H 1
 
-#include <playground/cxxblas/level1extensions/level1extensions.tcc>
-#include <playground/cxxblas/intrinsics/intrinsics.tcc>
+#include <cxxblas/typedefs.h>
+#include <flens/auxiliary/iscomplex.h>
+#include <flens/auxiliary/isreal.h>
+#include <flens/auxiliary/restrictto.h>
 
-#endif // CXXBLAS_CXXBLAS_TCC
+namespace cxxblas {
+    
+#ifdef USE_INTRINSIC
+    
+template <typename IndexType, typename T>
+    typename flens::RestrictTo<flens::IsReal<T>::value, void>::Type
+    gemm(StorageOrder order, Transpose transA, Transpose transB,
+         IndexType m, IndexType n, IndexType k,
+         const T &alpha,
+         const T *A, IndexType ldA,
+         const T *B, IndexType ldB,
+         const T &beta,
+         T *C, IndexType ldC);
+    
+#endif // USE_INTRINSIC
+    
+} // namespace cxxblas
+
+#endif // PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL3_GEMM_H

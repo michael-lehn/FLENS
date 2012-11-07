@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2009, Michael Lehn
+ *   Copyright (c) 2012, Klaus Pototzky
  *
  *   All rights reserved.
  *

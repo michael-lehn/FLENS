@@ -30,10 +30,12 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_CXXBLAS_CXXBLAS_TCC
-#define PLAYGROUND_CXXBLAS_CXXBLAS_TCC 1
+#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_AUXILIARY_AUXILIARY_H
+#define PLAYGROUND_CXXBLAS_INTRINSICS_AUXILIARY_AUXILIARY_H 1
 
-#include <playground/cxxblas/level1extensions/level1extensions.tcc>
-#include <playground/cxxblas/intrinsics/intrinsics.tcc>
+#include <playground/cxxblas/intrinsics/auxiliary/addtranspose.h>
+#include <playground/cxxblas/intrinsics/auxiliary/distaligned.h>
+#include <playground/cxxblas/intrinsics/auxiliary/isaligned.h>
+#include <playground/cxxblas/intrinsics/auxiliary/blocksize.h>
 
-#endif // CXXBLAS_CXXBLAS_TCC
+#endif // PLAYGROUND_CXXBLAS_INTRINSICS_AUXILIARY_AUXILIARY_H

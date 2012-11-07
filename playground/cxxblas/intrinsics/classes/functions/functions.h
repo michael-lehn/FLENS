@@ -30,10 +30,18 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_CXXBLAS_CXXBLAS_TCC
-#define PLAYGROUND_CXXBLAS_CXXBLAS_TCC 1
+#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_CLASSES_FUNCTIONS_FUNCTIONS_H
+#define PLAYGROUND_CXXBLAS_INTRINSICS_CLASSES_FUNCTIONS_FUNCTIONS_H 1
 
-#include <playground/cxxblas/level1extensions/level1extensions.tcc>
-#include <playground/cxxblas/intrinsics/intrinsics.tcc>
+#include <playground/cxxblas/intrinsics/classes/functions/add.h>
+#include <playground/cxxblas/intrinsics/classes/functions/addsub.h>
+#include <playground/cxxblas/intrinsics/classes/functions/div.h>
+#include <playground/cxxblas/intrinsics/classes/functions/imag.h>
+#include <playground/cxxblas/intrinsics/classes/functions/mul.h>
+#include <playground/cxxblas/intrinsics/classes/functions/out.h>
+#include <playground/cxxblas/intrinsics/classes/functions/real.h>
+#include <playground/cxxblas/intrinsics/classes/functions/sub.h>
+#include <playground/cxxblas/intrinsics/classes/functions/swaprealimag.h>
+#include <playground/cxxblas/intrinsics/classes/functions/unpack.h>
 
-#endif // CXXBLAS_CXXBLAS_TCC
+#endif // PLAYGROUND_CXXBLAS_INTRINSICS_CLASSES_FUNCTIONS_FUNCTIONS_H

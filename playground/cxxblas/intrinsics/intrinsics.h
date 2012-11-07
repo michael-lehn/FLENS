@@ -30,10 +30,19 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_CXXBLAS_CXXBLAS_TCC
-#define PLAYGROUND_CXXBLAS_CXXBLAS_TCC 1
+#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_INTRINSICS_H
+#define PLAYGROUND_CXXBLAS_INTRINSICS_INTRINSICS_H 1
 
-#include <playground/cxxblas/level1extensions/level1extensions.tcc>
-#include <playground/cxxblas/intrinsics/intrinsics.tcc>
+#include <playground/cxxblas/intrinsics/includes.h>
 
-#endif // CXXBLAS_CXXBLAS_TCC
+#ifdef USE_INTRINSIC
+
+#include <playground/cxxblas/intrinsics/auxiliary/auxiliary.h>
+#include <playground/cxxblas/intrinsics/classes/classes.h>
+#include <playground/cxxblas/intrinsics/level1/level1.h>
+#include <playground/cxxblas/intrinsics/level2/level2.h>
+#include <playground/cxxblas/intrinsics/level3/level3.h>
+
+#endif
+
+#endif // PLAYGROUND_CXXBLAS_INTRINSICS_INTRINSICS_H

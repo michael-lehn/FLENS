@@ -30,10 +30,34 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_CXXBLAS_CXXBLAS_TCC
-#define PLAYGROUND_CXXBLAS_CXXBLAS_TCC 1
+#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_CLASSES_FUNCTIONS_REAL_H
+#define PLAYGROUND_CXXBLAS_INTRINSICS_CLASSES_FUNCTIONS_REAL_H 1
 
-#include <playground/cxxblas/level1extensions/level1extensions.tcc>
-#include <playground/cxxblas/intrinsics/intrinsics.tcc>
+#include <playground/cxxblas/intrinsics/includes.h>
 
-#endif // CXXBLAS_CXXBLAS_TCC
+#ifdef HAVE_SSE
+
+//--- Real
+
+Intrinsics<float, IntrinsicsLevel::SSE>
+inline _intrinsic_real(const Intrinsics<std::complex<float>, IntrinsicsLevel::SSE> &x);
+
+Intrinsics<double, IntrinsicsLevel::SSE>
+inline _intrinsic_real(const Intrinsics<std::complex<double>, IntrinsicsLevel::SSE> &x);
+
+#endif // HAVE_SSE
+
+
+#ifdef HAVE_AVX
+
+//--- Real
+
+Intrinsics<float, IntrinsicsLevel::AVX>
+inline _intrinsic_real(const Intrinsics<std::complex<float>, IntrinsicsLevel::AVX> &x);
+
+Intrinsics<double, IntrinsicsLevel::AVX>
+inline _intrinsic_real(const Intrinsics<std::complex<double>, IntrinsicsLevel::AVX> &x);
+
+#endif // HAVE_AVX
+
+#endif // PLAYGROUND_CXXBLAS_INTRINSICS_CLASSES_FUNCTIONS_REAL_H

@@ -34,5 +34,5 @@
 #define PLAYGROUND_CXXBLAS_CXXBLAS_H 1
 
 #include <playground/cxxblas/level1extensions/level1extensions.h>
-
+#include <playground/cxxblas/intrinsics/intrinsics.h>
 #endif // PLAYGROUND_CXXBLAS_CXXBLAS_H

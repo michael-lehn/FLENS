@@ -30,10 +30,46 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_CXXBLAS_CXXBLAS_TCC
-#define PLAYGROUND_CXXBLAS_CXXBLAS_TCC 1
+#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_CLASSES_FUNCTIONS_IMAG_TCC
+#define PLAYGROUND_CXXBLAS_INTRINSICS_CLASSES_FUNCTIONS_IMAG_TCC 1
 
-#include <playground/cxxblas/level1extensions/level1extensions.tcc>
-#include <playground/cxxblas/intrinsics/intrinsics.tcc>
+#include <playground/cxxblas/intrinsics/includes.h>
 
-#endif // CXXBLAS_CXXBLAS_TCC
+#ifdef HAVE_SSE
+
+//--- Real
+
+Intrinsics<float, IntrinsicsLevel::SSE>
+inline _intrinsic_imag(const Intrinsics<std::complex<float>, IntrinsicsLevel::SSE> &x)
+{
+    return Intrinsics<float, IntrinsicsLevel::SSE>(_mm_movehdup_ps(x.get()));
+}
+
+Intrinsics<double, IntrinsicsLevel::SSE>
+inline _intrinsic_imag(const Intrinsics<std::complex<double>, IntrinsicsLevel::SSE> &x)
+{
+    return Intrinsics<double, IntrinsicsLevel::SSE>(_mm_movehdup_pd(x.get()));
+}
+
+#endif // HAVE_SSE
+
+
+#ifdef HAVE_AVX
+
+//--- Real
+
+Intrinsics<float, IntrinsicsLevel::AVX>
+inline _intrinsic_imag(const Intrinsics<std::complex<float>, IntrinsicsLevel::AVX> &x)
+{
+    return Intrinsics<float, IntrinsicsLevel::AVX>(_mm256_movehdup_ps(x.get()));
+}
+ 
+Intrinsics<double, IntrinsicsLevel::AVX>
+inline _intrinsic_imag(const Intrinsics<std::complex<double>, IntrinsicsLevel::AVX> &x)
+{
+    return Intrinsics<double, IntrinsicsLevel::AVX>(_mm256_movehdup_pd(x.get()));
+}
+
+#endif // HAVE_AVX
+
+#endif // PLAYGROUND_CXXBLAS_INTRINSICS_CLASSES_FUNCTIONS_IMAG_TCC

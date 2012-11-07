@@ -30,10 +30,16 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_CXXBLAS_CXXBLAS_TCC
-#define PLAYGROUND_CXXBLAS_CXXBLAS_TCC 1
+#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_AUXILIARY_ISALIGNED_H
+#define PLAYGROUND_CXXBLAS_INTRINSICS_AUXILIARY_ISALIGNED_H 1
 
-#include <playground/cxxblas/level1extensions/level1extensions.tcc>
-#include <playground/cxxblas/intrinsics/intrinsics.tcc>
+#ifdef USE_INTRINSIC
+/*bool
+IsAligned(const void *pointer, const size_t byte_count)
+{
+    return ( ((uintptr_t)pointer % byte_count)  == 0);
+}*/
 
-#endif // CXXBLAS_CXXBLAS_TCC
+#endif
+
+#endif // PLAYGROUND_CXXBLAS_INTRINSICS_AUXILIARY_ISALIGNED_H
