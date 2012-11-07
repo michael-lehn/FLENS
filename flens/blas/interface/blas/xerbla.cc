@@ -9,4 +9,4 @@ BLAS(xerbla)(const char *SRNAME, const INTEGER *INFO)
     std::cout << *INFO << " had an illegal value" << std::endl;
 }
 
-} // extern "C"
+} // extern "C

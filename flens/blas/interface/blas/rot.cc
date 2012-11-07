@@ -40,7 +40,7 @@ BLAS(drot)(const INTEGER   *N,
 }
 
 void
-BLAS(csrot)(const INTEGER   *N,
+BLAS(crot)(const INTEGER   *N,
            cfloat          *X,
            const INTEGER   *INCX,
            cfloat          *Y,
@@ -57,7 +57,7 @@ BLAS(csrot)(const INTEGER   *N,
 }
 
 void
-BLAS(zdrot)(const INTEGER   *N,
+BLAS(zrot)(const INTEGER   *N,
            cdouble         *X,
            const INTEGER   *INCX,
            cdouble         *Y,
@@ -73,5 +73,29 @@ BLAS(zdrot)(const INTEGER   *N,
     blas::rot(x, y, *C, *S);
 }
 
+void
+BLAS(csrot)(const INTEGER   *N,
+           cfloat          *X,
+           const INTEGER   *INCX,
+           cfloat          *Y,
+           const INTEGER   *INCY,
+           const float     *C,
+           const float     *S)
+{
+    ASSERT(0);
+}
+    
+void
+BLAS(zdrot)(const INTEGER   *N,
+           cdouble         *X,
+           const INTEGER   *INCX,
+           cdouble         *Y,
+           const INTEGER   *INCY,
+           const double     *C,
+           const double     *S)
+{
+    ASSERT(0);
+}
+    
 
 } // extern "C"

@@ -26,10 +26,10 @@ BLAS(sdot)(const INTEGER   *N,
 
 double
 BLAS(ddot)(const INTEGER   *N,
-           const double   *X,
-           const INTEGER  *INCX,
-           const double   *Y,
-           const INTEGER  *INCY)
+            const double   *X,
+            const INTEGER  *INCX,
+            const double   *Y,
+            const INTEGER  *INCY)
 {
     using std::abs;
 
@@ -118,26 +118,28 @@ BLAS(zdotu)(const INTEGER  *N,
     return blas::dotu(x, y);
 #   endif
 }
+
     
 float
-BLAS(dsdot)(const INTEGER   *N,
-            const float     *X,
-            const INTEGER   *INCX,
-            const float     *Y,
-            const INTEGER   *INCY)
+BLAS(sdsdot)(const INTEGER   *N,
+             const float *alpha,
+             const float    *X,
+             const INTEGER  *INCX,
+             const float    *Y,
+             const INTEGER  *INCY)
 {
         ASSERT(0);
 }
     
-float
-BLAS(sdsdot)(const INTEGER   *N,
-             const float     alpha,
-             const float     *X,
-             const INTEGER   *INCX,
-             const float     *Y,
-             const INTEGER   *INCY)
+double
+BLAS(dsdot)(const INTEGER   *N,
+            const float    *X,
+            const INTEGER  *INCX,
+            const float    *Y,
+            const INTEGER  *INCY)
 {
     ASSERT(0);
+ 
 }
 
 } // extern "C"
