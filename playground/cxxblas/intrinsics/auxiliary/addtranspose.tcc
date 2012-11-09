@@ -78,8 +78,8 @@ add_transpose_8x8(const float *A, const IndexType ldA , float *B, const IndexTyp
     _A[7] = _mm256_shuffle_ps(_tmp[5].get(),_tmp[7].get(),238);
 
     for (IndexType k=0; k<4; ++k) {
-        _tmp[k  ] = _mm256_permute2f128_pd(_A[k].get(), _A[k+4].get(), 32);
-        _tmp[k+4] = _mm256_permute2f128_pd(_A[k].get(), _A[k+4].get(), 49);
+        _tmp[k  ] = _mm256_permute2f128_ps(_A[k].get(), _A[k+4].get(), 32);
+        _tmp[k+4] = _mm256_permute2f128_ps(_A[k].get(), _A[k+4].get(), 49);
     }
     
 
