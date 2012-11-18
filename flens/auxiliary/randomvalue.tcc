@@ -1,5 +1,6 @@
+
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,17 +31,25 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_AUXILIARY_AUXILIARY_TCC
-#define FLENS_AUXILIARY_AUXILIARY_TCC 1
+#ifndef FLENS_AUXILIARY_RANDOMVALUE_TCC
+#define FLENS_AUXILIARY_RANDOMVALUE_TCC 1
 
-#include <flens/auxiliary/explicit_cast.tcc>
-#include <flens/auxiliary/max.tcc>
-#include <flens/auxiliary/min.tcc>
-#include <flens/auxiliary/pair.tcc>
-#include <flens/auxiliary/quadruple.tcc>
-#include <flens/auxiliary/range.tcc>
-#include <flens/auxiliary/randomvalue.tcc>
-#include <flens/auxiliary/triple.tcc>
-#include <flens/auxiliary/underscore.tcc>
+namespace flens {
 
-#endif // FLENS_AUXILIARY_AUXILIARY_TCC
+template <typename T>
+typename flens::RestrictTo<flens::IsReal<T>::value, T>::Type
+randomValue()
+{
+    return T(rand()-0.5*RAND_MAX) / T(0.5*RAND_MAX);
+}
+
+template <typename T>
+typename flens::RestrictTo<flens::IsComplex<T>::value, T>::Type
+randomValue()
+{
+    return T(rand()-0.5*RAND_MAX, rand()-0.5*RAND_MAX) / T(0.5*RAND_MAX,0);
+}
+
+} // namespace flens
+
+#endif // FLENS_AUXILIARY_RANDOMVALUE_TCC

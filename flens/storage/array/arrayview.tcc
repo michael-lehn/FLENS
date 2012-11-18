@@ -194,7 +194,7 @@ ArrayView<T, I, A>::fill(const ElementType &value)
 
 template <typename T, typename I, typename A>
 void
-ArrayView<T, I, A>::changeIndexBase(IndexType DEBUG_VAR(firstIndex))
+ArrayView<T, I, A>::changeIndexBase(IndexType firstIndex)
 {
     if (_data) {
         _data += _firstIndex - firstIndex;
