@@ -47,7 +47,7 @@ ConstArrayView<T, I, A>::ConstArrayView(IndexType length,
                                         IndexType stride,
                                         IndexType firstIndex,
                                         const Allocator &allocator)
-    : _data(data-firstIndex),
+    : _data(data),
       _allocator(allocator),
       _length(length),
       _stride(stride),
@@ -71,7 +71,7 @@ ConstArrayView<T, I, A>::ConstArrayView(const ConstArrayView &rhs)
 template <typename T, typename I, typename A>
 template <typename RHS>
 ConstArrayView<T, I, A>::ConstArrayView(const RHS &rhs)
-    : _data(rhs.data()-rhs.firstIndex()),
+    : _data(rhs.data()),
       _allocator(rhs.allocator()),
       _length(rhs.length()),
       _stride(rhs.stride()),
@@ -91,9 +91,12 @@ template <typename T, typename I, typename A>
 const typename ConstArrayView<T, I, A>::ElementType &
 ConstArrayView<T, I, A>::operator()(IndexType index) const
 {
+    std::cerr << "index = " << index << std::endl;
+    std::cerr << "firstIndex() = " << firstIndex() << std::endl;
+    std::cerr << "lastIndex() = " << lastIndex() << std::endl;
     ASSERT(index>=firstIndex());
     ASSERT(index<=lastIndex());
-    return _data[_firstIndex + _stride*(index-_firstIndex)];
+    return _data[_stride*(index-_firstIndex)];
 }
 
 //-- methods -------------------------------------------------------------------
@@ -130,7 +133,7 @@ template <typename T, typename I, typename A>
 const typename ConstArrayView<T, I, A>::ElementType *
 ConstArrayView<T, I, A>::data() const
 {
-    return &_data[_firstIndex];
+    return _data;
 }
 
 template <typename T, typename I, typename A>
@@ -173,9 +176,6 @@ template <typename T, typename I, typename A>
 void
 ConstArrayView<T, I, A>::changeIndexBase(IndexType firstIndex)
 {
-    if (_data) {
-        _data += _firstIndex - firstIndex;
-    }
     _firstIndex = firstIndex;
 }
 
