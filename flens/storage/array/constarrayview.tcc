@@ -91,9 +91,6 @@ template <typename T, typename I, typename A>
 const typename ConstArrayView<T, I, A>::ElementType &
 ConstArrayView<T, I, A>::operator()(IndexType index) const
 {
-    std::cerr << "index = " << index << std::endl;
-    std::cerr << "firstIndex() = " << firstIndex() << std::endl;
-    std::cerr << "lastIndex() = " << lastIndex() << std::endl;
     ASSERT(index>=firstIndex());
     ASSERT(index<=lastIndex());
     return _data[_stride*(index-_firstIndex)];
