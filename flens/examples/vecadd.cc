@@ -75,7 +75,7 @@ add_NB(ALPHA alpha, const TX *x, TY *y)
         y2_ = _mm256_add_pd(y2_, x2_);
 
         _mm256_storeu_pd(y  , y1_);
-        _mm256_storeu_pd(y+4, y2_);   
+        _mm256_storeu_pd(y+4, y2_);
 
 #       else
 
@@ -105,7 +105,7 @@ add_NB(ALPHA alpha, const TX *x, TY *y)
         _mm_storeu_pd(y  , y1_);
         _mm_storeu_pd(y+2, y2_);
         _mm_storeu_pd(y+4, y3_);
-        _mm_storeu_pd(y+6, y4_);  
+        _mm_storeu_pd(y+6, y4_);
 
 #       endif // HAVE_AVX
 #   endif // HAVE_SSE

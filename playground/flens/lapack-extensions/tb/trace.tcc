@@ -36,7 +36,7 @@
 
 #include <playground/cxxblas/cxxblas.h>
 
-namespace flens { namespace lapack { namespace extensions { 
+namespace flens { namespace lapack { namespace extensions {
 
 //-- trace(gb)
 template <typename MA>
@@ -47,7 +47,7 @@ trace(MA &&A)
     using std::min;
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::ElementType   T;
-    
+
     if (A.diag()==Unit)
         return T(min(A.numRows(), A.numCols()));
 

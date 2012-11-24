@@ -39,16 +39,16 @@
 #include <flens/auxiliary/restrictto.h>
 
 namespace cxxblas {
-    
+
 #ifdef USE_INTRINSIC
-    
+
 template <typename IndexType, typename T>
     void
     copy(IndexType n, const T *x,
          IndexType incX, T *y, IndexType incY);
 
 #endif // USE_INTRINSIC
-    
+
 } // namespace cxxblas
 
 #endif // PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_COPY_H

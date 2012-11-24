@@ -46,7 +46,7 @@ template <typename MA, typename VPIV>
                      && IsIntegerDenseVector<VPIV>::value,
     typename RemoveRef<MA>::Type::ElementType>::Type
     det(MA &&A, VPIV &&Pivots);
-    
+
 template <typename MA>
     typename RestrictTo<IsGbMatrix<MA>::value,
     typename RemoveRef<MA>::Type::ElementType>::Type

@@ -48,7 +48,7 @@ trace(MA &&A)
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::ElementType   T;
 
-    if (A.diag()==Unit) 
+    if (A.diag()==Unit)
         return T(min(A.numCols(), A.numRows()));
 
     return blas::extensions::sum(A.diag(0));

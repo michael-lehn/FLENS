@@ -39,9 +39,9 @@
 #include <flens/auxiliary/restrictto.h>
 
 namespace cxxblas {
-    
+
 #ifdef USE_INTRINSIC
-    
+
 template <typename IndexType, typename T>
     typename flens::RestrictTo<flens::IsReal<T>::value, void>::Type
     gemm(StorageOrder order, Transpose transA, Transpose transB,
@@ -51,9 +51,9 @@ template <typename IndexType, typename T>
          const T *B, IndexType ldB,
          const T &beta,
          T *C, IndexType ldC);
-    
+
 #endif // USE_INTRINSIC
-    
+
 } // namespace cxxblas
 
 #endif // PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL3_GEMM_H

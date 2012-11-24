@@ -42,10 +42,10 @@ typename RestrictTo<IsTrMatrix<MA>::value,
 typename RemoveRef<MA>::Type::ElementType>::Type
 det(MA &&A)
 {
-    
+
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::ElementType   T;
-    
+
     if (A.diag()==Unit)
         return T(1);
 

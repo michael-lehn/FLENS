@@ -127,7 +127,7 @@ inline _intrinsic_mul(const Intrinsics<double, IntrinsicsLevel::AVX> &x,
 {
 	return Intrinsics<std::complex<double>, IntrinsicsLevel::AVX>(_mm256_mul_pd(x.get(), y.get()));
 }
- 
+
 #endif // HAVE_AVX
 
 #endif // PLAYGROUND_CXXBLAS_INTRINSICS_CLASSES_FUNCTIONS_MUL_TCC

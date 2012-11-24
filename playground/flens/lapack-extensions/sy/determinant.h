@@ -47,13 +47,13 @@ template <typename MA, typename VPIV, typename VWORK>
                      && IsDenseVector<VWORK>::value,
          typename RemoveRef<MA>::Type::ElementType>::Type
     det(MA &&A, VPIV &&piv, VWORK &&work);
-    
+
 template <typename MA, typename VPIV>
     typename RestrictTo<IsSyMatrix<MA>::value
                      && IsIntegerDenseVector<VPIV>::value,
          typename RemoveRef<MA>::Type::ElementType>::Type
     det(MA &&A, VPIV &&piv);
-    
+
 template <typename MA>
     typename RestrictTo<IsSyMatrix<MA>::value,
     typename RemoveRef<MA>::Type::ElementType>::Type

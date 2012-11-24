@@ -43,16 +43,16 @@ typename RestrictTo< IsSyMatrix<MA>::value
                   && IsDenseVector<VWORK>::value,
 typename RemoveRef<MA>::Type::ElementType>::Type
 det(MA &&A, VPIV &&piv, VWORK &&work)
-{    
+{
     ASSERT(A.numCols()==A.numRows());
-    
+
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::ElementType   T;
     typedef typename MatrixA::IndexType     IndexType;
-    
+
     trf(A, piv, work);
     T value(1);
-    
+
     for (IndexType i=A.firstRow(), k=piv.firstIndex(); i<=A.lastRow(); ++i, ++k) {
         if (piv(k)>0) {
             value *= A(i,i);
@@ -65,7 +65,7 @@ det(MA &&A, VPIV &&piv, VWORK &&work)
             ++k;
             ++i;
         }
-        
+
     }
     return value;
 }
@@ -75,7 +75,7 @@ typename RestrictTo< IsSyMatrix<MA>::value
                   && IsIntegerDenseVector<VPIV>::value,
 typename RemoveRef<MA>::Type::ElementType>::Type
 det(MA &&A, VPIV &&piv)
-{  
+{
     typedef typename RemoveRef<MA>::Type::Vector Vector;
 
     Vector  work;
@@ -90,10 +90,10 @@ det(MA &&A)
     typedef typename RemoveRef<MA>::Type         MatrixA;
     typedef typename MatrixA::IndexType          IndexType;
     typedef typename MatrixA::Vector             Vector;
-    
+
     Vector                          work;
     DenseVector<Array<IndexType> >  piv;
-    
+
     return det(A, piv, work);
 }
 

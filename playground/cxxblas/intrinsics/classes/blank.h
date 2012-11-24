@@ -38,7 +38,7 @@
 
 template <typename DataType, IntrinsicsLevel Level>
 class Intrinsics {
-    
+
 };
 
 #endif // PLAYGROUND_CXXBLAS_INTRINSICS_CLASSES_BLANK_H

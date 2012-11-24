@@ -39,9 +39,9 @@
 #include <flens/auxiliary/restrictto.h>
 
 namespace cxxblas {
-    
+
 #ifdef USE_INTRINSIC
-    
+
 template <typename IndexType, typename T>
     typename flens::RestrictTo<flens::IsReal<T>::value, void>::Type
     trsv(StorageOrder order, StorageUpLo upLo,
@@ -49,7 +49,7 @@ template <typename IndexType, typename T>
          IndexType n,
          const T *A, IndexType ldA,
          T *x, IndexType incX);
-    
+
     template <typename IndexType, typename T>
     typename flens::RestrictTo<flens::IsComplex<T>::value, void>::Type
     trsv(StorageOrder order, StorageUpLo upLo,
@@ -57,9 +57,9 @@ template <typename IndexType, typename T>
          IndexType n,
          const T *A, IndexType ldA,
          T *x, IndexType incX);
-    
+
 #endif // USE_INTRINSIC
-    
+
 } // namespace cxxblas
 
 #endif // PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL2_TRSV_H

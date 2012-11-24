@@ -42,16 +42,16 @@ typename RestrictTo<IsTpMatrix<MA>::value,
 typename RemoveRef<MA>::Type::ElementType>::Type
 det(MA &&A)
 {
-    
+
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::ElementType   T;
     typedef typename MatrixA::IndexType     IndexType;
-    
+
     if (A.diag()==Unit)
         return T(1);
-    
+
     T value(1);
-    
+
     for (IndexType i=A.firstRow(), j=A.firstCol();i<=A.lastRow();++i, ++j) {
         value *= A(i,j);
     }

@@ -63,7 +63,7 @@ inline _intrinsic_real(const Intrinsics<std::complex<float>, IntrinsicsLevel::AV
 {
     return Intrinsics<float, IntrinsicsLevel::AVX>(_mm256_moveldup_ps(x.get()));
 }
- 
+
 Intrinsics<double, IntrinsicsLevel::AVX>
 inline _intrinsic_real(const Intrinsics<std::complex<double>, IntrinsicsLevel::AVX> &x)
 {

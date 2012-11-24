@@ -39,7 +39,7 @@
 
 namespace flens { namespace lapack { namespace extensions {
 
-//== det(tp) =================================================================    
+//== det(tp) =================================================================
 template <typename MA>
     typename RestrictTo<IsTpMatrix<MA>::value,
     typename RemoveRef<MA>::Type::ElementType>::Type
