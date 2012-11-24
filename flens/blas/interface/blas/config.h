@@ -1,8 +1,26 @@
 #include <cmath>
 #include <flens/flens.cxx>
 
+#ifdef NOCHANGE
+#   ifndef BLAS
+#       define BLAS(x) x
+#   endif
+#endif
+
+#ifdef ADD_UNDERSCORE
+#   ifndef BLAS
+#       define BLAS(x) x##_
+#   endif
+#endif
+
+#ifdef ADD_DOUBLE_UNDERSCORE
+#   ifndef BLAS
+#       define BLAS(x) _##x##_
+#   endif
+#endif
+
 #ifndef BLAS
-#define BLAS(x)  x##_
+#    define BLAS(x) x##_
 #endif
 
 #ifndef INTEGER

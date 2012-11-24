@@ -47,7 +47,7 @@ dotu_generic(IndexType n,
 
     result = Result(0);
     for (IndexType i=0, iX=0, iY=0; i<n; ++i, iX+=incX, iY+=incY) {
-        result += x[iX]*y[iY];
+        result += Result(x[iX])*Result(y[iY]);
     }
 }
 
@@ -62,7 +62,7 @@ dot_generic(IndexType n,
 
     result = Result(0);
     for (IndexType i=0, iX=0, iY=0; i<n; ++i, iX+=incX, iY+=incY) {
-        result += conjugate(x[iX])*y[iY];
+        result += Result(conjugate(x[iX]))*Result(y[iY]);
     }
 }
 

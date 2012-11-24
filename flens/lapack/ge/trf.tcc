@@ -205,17 +205,8 @@ trf(MA &&A, VPIV &&piv)
 
     const IndexType mn = min(A.numRows(), A.numCols());
 
-    if (piv.length()!=mn) {
-        std::cerr << "A.numRows() = " << A.numRows() << std::endl;
-        std::cerr << "A.numCols() = " << A.numCols() << std::endl;
-        std::cerr << "mn = " << mn << std::endl;
-        std::cerr << "piv.length() = " << piv.length() << std::endl;
-    }
     if (piv.length()==0) {
         piv.resize(mn);
-    }
-    if (piv.length()!=mn) {
-        std::cerr << "piv.length() = " << piv.length() << std::endl;
     }
     ASSERT(piv.length()==mn);
 

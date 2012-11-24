@@ -108,9 +108,9 @@ spr2(StorageOrder order,   StorageUpLo upLo,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_sspr2");
 
-    cblas_ssp2r(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
+    cblas_sspr2(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                n,
-               reinterpret_cast<const float *>(&alpha),
+               alpha,
                reinterpret_cast<const float *>(x), incX,
                reinterpret_cast<const float *>(y), incY,
                reinterpret_cast<float *>(A));
@@ -130,7 +130,7 @@ spr2(StorageOrder order,   StorageUpLo upLo,
 
     cblas_dspr2(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                 n,
-                reinterpret_cast<const double *>(&alpha),
+                alpha,
                 reinterpret_cast<const double *>(x), incX,
                 reinterpret_cast<const double *>(y), incY,
                 reinterpret_cast<double *>(A));

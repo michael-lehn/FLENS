@@ -4,7 +4,7 @@
       REAL               X( * ), Y( * )
 
       REAL               ZERO
-      PARAMETER          ( ZERO = ( 0.0E+0, 0.0E+0 ) )
+      PARAMETER          ( ZERO = 0.0E0 )
 
       REAL               STEMP
       EXTERNAL           SDOT_SUB

@@ -127,7 +127,7 @@ sbmv(StorageOrder order, StorageUpLo upLo,
 // ssbmv
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
-sbmv(StorageOrder order, Transpose trans,
+sbmv(StorageOrder order, StorageUpLo upLo,
      IndexType n, IndexType k,
      float alpha,
      const float *A, IndexType ldA,
@@ -137,7 +137,7 @@ sbmv(StorageOrder order, Transpose trans,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_ssbmv");
 
-    cblas_ssbmv(CBLAS::getCblasType(order), CBLAS::getCblasType(trans),
+    cblas_ssbmv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                 n, k,
                 alpha,
                 A, ldA,
@@ -149,7 +149,7 @@ sbmv(StorageOrder order, Transpose trans,
 // dsbmv
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
-sbmv(StorageOrder order, Transpose trans,
+sbmv(StorageOrder order, StorageUpLo upLo,
      IndexType n, IndexType k,
      double alpha,
      const double *A, IndexType ldA,
@@ -159,7 +159,7 @@ sbmv(StorageOrder order, Transpose trans,
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_dsbmv");
 
-    cblas_dsbmv(CBLAS::getCblasType(order), CBLAS::getCblasType(trans),
+    cblas_dsbmv(CBLAS::getCblasType(order), CBLAS::getCblasType(upLo),
                 n, k,
                 alpha,
                 A, ldA,

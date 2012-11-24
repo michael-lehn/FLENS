@@ -138,10 +138,10 @@ HbMatrix<FS>::operator=(const ElementType &alpha)
 
     if (_upLo==Lower) {
         for (IndexType i = -numOffDiags(); i <= 0; ++i)
-            (*this).viewDiag(i) = alpha;
+            (*this).diag(i) = alpha;
     } else {
         for (IndexType i = numOffDiags(); i >= 0; --i)
-            (*this).viewDiag(i) = alpha;
+            (*this).diag(i) = alpha;
     }
     return *this;
 }
@@ -154,10 +154,10 @@ HbMatrix<FS>::operator+=(const ElementType &alpha)
 
     if (_upLo==Lower) {
         for (IndexType i = -numOffDiags(); i <= 0; ++i)
-            (*this).viewDiag(i) += alpha;
+            (*this).diag(i) += alpha;
     } else {
         for (IndexType i = numOffDiags(); i >= 0; --i)
-            (*this).viewDiag(i) += alpha;
+            (*this).diag(i) += alpha;
     }
     return *this;
 }
@@ -170,10 +170,10 @@ HbMatrix<FS>::operator-=(const ElementType &alpha)
 
     if (_upLo==Lower) {
         for (IndexType i = -numOffDiags(); i <= 0; ++i)
-            (*this).viewDiag(i) -= alpha;
+            (*this).diag(i) -= alpha;
     } else {
         for (IndexType i = numOffDiags(); i >= 0; --i)
-            (*this).viewDiag(i) -= alpha;
+            (*this).diag(i) -= alpha;
     }
     return *this;
 }
@@ -186,10 +186,10 @@ HbMatrix<FS>::operator*=(const ElementType &alpha)
 
     if (_upLo==Lower) {
         for (IndexType i = -numOffDiags(); i <= 0; ++i)
-            (*this).viewDiag(i) *= alpha;
+            (*this).diag(i) *= alpha;
     } else {
         for (IndexType i = numOffDiags(); i >= 0; --i)
-            (*this).viewDiag(i) *= alpha;
+            (*this).diag(i) *= alpha;
     }
     return *this;
 }
@@ -202,10 +202,10 @@ HbMatrix<FS>::operator/=(const ElementType &alpha)
 
     if (_upLo==Lower) {
         for (IndexType i = -numOffDiags(); i <= 0; ++i)
-            (*this).viewDiag(i) /= alpha;
+            (*this).diag(i) /= alpha;
     } else {
         for (IndexType i = numOffDiags(); i >= 0; --i)
-            (*this).viewDiag(i) /= alpha;
+            (*this).diag(i) /= alpha;
     }
     return *this;
 }
@@ -287,14 +287,14 @@ HbMatrix<FS>::triangular()
 
 template <typename FS>
 const typename HbMatrix<FS>::ConstVectorView
-HbMatrix<FS>::viewDiag(IndexType diag) const
+HbMatrix<FS>::diag(IndexType diag) const
 {
     return ConstVectorView(_engine.viewDiag(diag));
 }
 
 template <typename FS>
 typename HbMatrix<FS>::VectorView
-HbMatrix<FS>::viewDiag(IndexType diag)
+HbMatrix<FS>::diag(IndexType diag)
 {
     return VectorView(_engine.viewDiag(diag));
 }
@@ -406,7 +406,7 @@ bool
 HbMatrix<FS>::fillRandom()
 {
     bool val = _engine.fillRandom();
-    VectorView d = (*this).viewDiag();
+    VectorView d = (*this).diag(0);
     for (IndexType i=d.firstIndex();i<=d.lastIndex();++i) {
         d(i) = ElementType(cxxblas::real(d(i)));
     }

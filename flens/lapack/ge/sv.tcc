@@ -222,9 +222,9 @@ sv(MA &&A, VPIV &&piv, MB &&B)
 //-- (ge)sv [variant if rhs is vector] -----------------------------------------
 
 template <typename MA, typename VPIV, typename VB>
-typename RestrictTo<(IsGeMatrix<MA>::value)
-                  && IsIntegerDenseVector<VPIV>::value
-                  && IsDenseVector<VB>::value,
+typename RestrictTo<IsGeMatrix<MA>::value
+                 && IsIntegerDenseVector<VPIV>::value
+                 && IsDenseVector<VB>::value,
          typename RemoveRef<MA>::Type::IndexType>::Type
 sv(MA &&A, VPIV &&piv, VB &&b)
 {

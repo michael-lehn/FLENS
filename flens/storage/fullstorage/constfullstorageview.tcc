@@ -83,6 +83,7 @@ ConstFullStorageView<T, Order, I, A>::ConstFullStorageView(
       _leadingDimension(rhs._leadingDimension),
       _firstRow(rhs._firstRow), _firstCol(rhs._firstCol)
 {
+    ASSERT(order==rhs.order);
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
@@ -94,6 +95,7 @@ ConstFullStorageView<T, Order, I, A>::ConstFullStorageView(const RHS &rhs)
       _leadingDimension(rhs.leadingDimension()),
       _firstRow(0), _firstCol(0)
 {
+    ASSERT(order==rhs.order);
     changeIndexBase(rhs.firstRow(), rhs.firstCol());
 }
 

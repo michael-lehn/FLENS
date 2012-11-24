@@ -44,4 +44,8 @@
 #include <flens/storage/storage.tcc>
 #include <flens/vectortypes/vectortypes.tcc>
 
+#ifdef USE_PLAYGROUND
+#   include <playground/playground.tcc>
+#endif
+
 #endif // FLENS_FLENS_TCC

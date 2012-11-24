@@ -90,6 +90,7 @@ FullStorageView<T, Order, I, A>::FullStorageView(const FullStorageView &rhs)
       _leadingDimension(rhs._leadingDimension),
       _firstRow(rhs._firstRow), _firstCol(rhs._firstCol)
 {
+    ASSERT(order==rhs.order);
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
@@ -101,6 +102,7 @@ FullStorageView<T, Order, I, A>::FullStorageView(RHS &rhs)
       _leadingDimension(rhs.leadingDimension()),
       _firstRow(0), _firstCol(0)
 {
+    ASSERT(order==rhs.order);
     changeIndexBase(rhs.firstRow(), rhs.firstCol());
 }
 
@@ -247,8 +249,8 @@ FullStorageView<T, Order, I, A>::allocator() const
 
 template <typename T, StorageOrder Order, typename I, typename A>
 bool
-FullStorageView<T, Order, I, A>::resize(IndexType DEBUG_VAR(_numRows),
-                                        IndexType DEBUG_VAR(_numCols),
+FullStorageView<T, Order, I, A>::resize(IndexType _numRows,
+                                        IndexType _numCols,
                                         IndexType firstRow,
                                         IndexType firstCol,
                                         const ElementType &)

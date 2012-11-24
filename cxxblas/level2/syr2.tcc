@@ -99,7 +99,7 @@ syr2(StorageOrder order,  StorageUpLo upLo,
 // ssyr2
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
-syr(StorageOrder order,   StorageUpLo upLo,
+syr2(StorageOrder order,   StorageUpLo upLo,
       IndexType n,
       float alpha,
       const float *x, IndexType incX,

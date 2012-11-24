@@ -39,6 +39,7 @@
 #    define STD_HACK
 #elif __GNUC__
 #    define GCC_HACK
+#    define INCLUDE_TYPE_TRAITS
 #endif
 
 #ifdef STD_HACK

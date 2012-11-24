@@ -7,11 +7,11 @@ extern "C" {
 
 void
 BLAS(sdot_sub)(const INTEGER   *N,
-               const float    *X,
-               const INTEGER  *INCX,
-               const float    *Y,
-               const INTEGER  *INCY,
-               float          *RES)
+               const float     *X,
+               const INTEGER   *INCX,
+               const float     *Y,
+               const INTEGER   *INCY,
+               float           *RES)
 {
     using std::abs;
 
@@ -27,11 +27,11 @@ BLAS(sdot_sub)(const INTEGER   *N,
 
 void
 BLAS(ddot_sub)(const INTEGER   *N,
-               const double   *X,
-               const INTEGER  *INCX,
-               const double   *Y,
-               const INTEGER  *INCY,
-               double         *RES)
+               const double    *X,
+               const INTEGER   *INCX,
+               const double    *Y,
+               const INTEGER   *INCY,
+               double          *RES)
 {
     using std::abs;
 
@@ -124,5 +124,43 @@ BLAS(zdotu_sub)(const INTEGER  *N,
     *RES = blas::dotu(x, y);
 #   endif
 }
+
+void
+BLAS(sdsdot_sub)(const INTEGER   *N,
+                 const float     *B,
+                 const float     *X,
+                 const INTEGER   *INCX,
+                 const float     *Y,
+                 const INTEGER   *INCY,
+                 float           *RES)
+{
+    using std::abs;
+
+    SDenseVectorConstView x(SConstArrayView(*N, X, abs(*INCX)), *INCX<0);
+    SDenseVectorConstView y(SConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
+
+    double tmp;
+    blas::dot(x, y, tmp);
+
+    tmp += double(*RES);
+    *RES = tmp;
+}
+
+void
+BLAS(dsdot_sub)(const INTEGER   *N,
+                const float     *X,
+                const INTEGER   *INCX,
+                const float     *Y,
+                const INTEGER   *INCY,
+                double          *RES)
+{
+    using std::abs;
+
+    SDenseVectorConstView x(SConstArrayView(*N, X, abs(*INCX)), *INCX<0);
+    SDenseVectorConstView y(SConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
+
+    blas::dot(x, y, *RES);
+}
+
 
 } // extern "C"

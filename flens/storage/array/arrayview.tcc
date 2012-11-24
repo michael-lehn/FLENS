@@ -165,7 +165,7 @@ ArrayView<T, I, A>::allocator() const
 
 template <typename T, typename I, typename A>
 bool
-ArrayView<T, I, A>::resize(IndexType DEBUG_VAR(length),
+ArrayView<T, I, A>::resize(IndexType length,
                            IndexType firstIndex,
                            const ElementType &)
 {

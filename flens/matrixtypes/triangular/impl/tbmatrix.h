@@ -175,10 +175,10 @@ class TbMatrix
         triangular();
 
         VectorView
-        viewDiag(IndexType diag = IndexType(0));
+        diag(IndexType diag);
 
         const ConstVectorView
-        viewDiag(IndexType diag = IndexType(0)) const;
+        diag(IndexType diag) const;
 
         // -- views ------------------------------------------------------------
 

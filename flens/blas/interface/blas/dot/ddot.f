@@ -4,14 +4,14 @@
       DOUBLE PRECISION   X( * ), Y( * )
 
       DOUBLE PRECISION   ZERO
-      PARAMETER          ( ZERO = ( 0.0E+0, 0.0E+0 ) )
+      PARAMETER          ( ZERO = 0.0D0 )
 
-      DOUBLE PRECISION   DTEMP
+      DOUBLE PRECISION   TEMP
       EXTERNAL           DDOT_SUB
 
       IF( N.GT.0 ) THEN
-         CALL DDOT_SUB( N, X, INCX, Y, INCY, DTEMP )
-         DDOT = DTEMP
+         CALL DDOT_SUB( N, X, INCX, Y, INCY, TEMP )
+         DDOT = TEMP
       ELSE
          DDOT = ZERO
       END IF

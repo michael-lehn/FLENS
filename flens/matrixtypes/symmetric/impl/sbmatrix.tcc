@@ -135,10 +135,10 @@ SbMatrix<FS>::operator=(const ElementType &alpha)
 {
     if (_upLo==Lower) {
         for (IndexType i=-numOffDiags(); i<=0; ++i)
-            (*this).viewDiag(i) = alpha;
+            (*this).diag(i) = alpha;
     } else {
         for (IndexType i=numOffDiags(); i>=0; --i)
-            (*this).viewDiag(i) = alpha;
+            (*this).diag(i) = alpha;
     }
     return *this;
 }
@@ -149,10 +149,10 @@ SbMatrix<FS>::operator+=(const ElementType &alpha)
 {
     if (_upLo==Lower) {
         for (IndexType i=-numOffDiags(); i<=0; ++i)
-            (*this).viewDiag(i) += alpha;
+            (*this).diag(i) += alpha;
     } else {
         for (IndexType i=numOffDiags(); i>=0; --i)
-            (*this).viewDiag(i) += alpha;
+            (*this).diag(i) += alpha;
     }
     return *this;
 }
@@ -163,10 +163,10 @@ SbMatrix<FS>::operator-=(const ElementType &alpha)
 {
     if (_upLo==Lower) {
         for (IndexType i=-numOffDiags(); i<=0; ++i)
-            (*this).viewDiag(i) -= alpha;
+            (*this).diag(i) -= alpha;
     } else {
         for (IndexType i=numOffDiags(); i>=0; --i)
-            (*this).viewDiag(i) -= alpha;
+            (*this).diag(i) -= alpha;
     }
     return *this;
 }
@@ -177,10 +177,10 @@ SbMatrix<FS>::operator*=(const ElementType &alpha)
 {
     if (_upLo==Lower) {
         for (IndexType i=-numOffDiags(); i<=0; ++i)
-            (*this).viewDiag(i) *= alpha;
+            (*this).diag(i) *= alpha;
     } else {
         for (IndexType i=numOffDiags(); i>=0; --i)
-            (*this).viewDiag(i) *= alpha;
+            (*this).diag(i) *= alpha;
     }
     return *this;
 }
@@ -191,10 +191,10 @@ SbMatrix<FS>::operator/=(const ElementType &alpha)
 {
     if (_upLo==Lower) {
         for (IndexType i=-numOffDiags(); i<=0; ++i)
-            (*this).viewDiag(i) /= alpha;
+            (*this).diag(i) /= alpha;
     } else {
         for (IndexType i=numOffDiags(); i>=0; --i)
-            (*this).viewDiag(i) /= alpha;
+            (*this).diag(i) /= alpha;
     }
     return *this;
 }
@@ -278,7 +278,7 @@ SbMatrix<FS>::triangular()
 
 template <typename FS>
 const typename SbMatrix<FS>::ConstVectorView
-SbMatrix<FS>::viewDiag(IndexType diag) const
+SbMatrix<FS>::diag(IndexType diag) const
 {
     if ((_upLo==Upper)^(diag>0)) {
         ConstVectorView(_engine.viewDiag(-diag, _engine.firstIndex()));
@@ -289,7 +289,7 @@ SbMatrix<FS>::viewDiag(IndexType diag) const
 
 template <typename FS>
 typename SbMatrix<FS>::VectorView
-SbMatrix<FS>::viewDiag(IndexType diag)
+SbMatrix<FS>::diag(IndexType diag)
 {
     if ((_upLo==Upper)^(diag>0)) {
          return VectorView(_engine.viewDiag(-diag, _engine.firstIndex()));
