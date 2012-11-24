@@ -2,8 +2,14 @@ CXX = g++
 FC  = gfortran
 
 CXX_SOURCE_FILES = $(wildcard *.cc) \
-                   $(wildcard dot/*.cc)
-F77_SOURCE_FILES = $(wildcard dot/*.f)
+                   $(wildcard asum/*.cc) \
+                   $(wildcard dot/*.cc) \
+                   $(wildcard iamax/*.cc) \
+                   $(wildcard nrm2/*.cc)
+F77_SOURCE_FILES = $(wildcard asum/*.f) \
+                   $(wildcard dot/*.f) \
+                   $(wildcard iamax/*.f) \
+                   $(wildcard nrm2/*.f)
 
 OBJECT_FILES     = $(patsubst %.cc,%.o,$(CXX_SOURCE_FILES)) \
                    $(patsubst %.f,%.o,$(F77_SOURCE_FILES))
