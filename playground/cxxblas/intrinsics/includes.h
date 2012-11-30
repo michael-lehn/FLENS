@@ -52,7 +52,7 @@ enum IntrinsicsLevel {
 #       include "avxintrin-emu.h"
 #   endif
 #   ifndef DEFAULT_ALIGNMENT_VALUE
-#       define DEFAULT_ALIGNMENT_VALUE     32u 
+#       define DEFAULT_ALIGNMENT_VALUE     32u
 #   endif
 #   ifndef DEFAULT_INTRINSIC_LEVEL
 #       define DEFAULT_INTRINSIC_LEVEL IntrinsicsLevel::AVX
@@ -132,6 +132,6 @@ enum IntrinsicsLevel {
 
 #ifndef ASM_COMMENT
 #    define ASM_COMMENT(X)  asm("#" X)
-#endif 
+#endif
 
 #endif // PLAYGROUND_CXXBLAS_INTRINSICS_INCLUDES_H

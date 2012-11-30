@@ -39,6 +39,7 @@
 #include <flens/auxiliary/pair.tcc>
 #include <flens/auxiliary/quadruple.tcc>
 #include <flens/auxiliary/range.tcc>
+#include <flens/auxiliary/randomvalue.tcc>
 #include <flens/auxiliary/triple.tcc>
 #include <flens/auxiliary/underscore.tcc>
 

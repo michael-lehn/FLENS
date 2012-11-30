@@ -99,7 +99,7 @@ inline _intrinsic_sub(const Intrinsics<std::complex<double>, IntrinsicsLevel::AV
 {
 	return Intrinsics<std::complex<double>, IntrinsicsLevel::AVX>(_mm256_sub_pd(x.get(), y.get()));
 }
- 
+
 #endif // HAVE_AVX
 
 #endif // PLAYGROUND_CXXBLAS_INTRINSICS_CLASSES_FUNCTIONS_SUB_TCC

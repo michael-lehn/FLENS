@@ -48,34 +48,34 @@ axpy(IndexType n, const T &alpha, const T *x,
      IndexType incX, T *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("axpy_intrinsics [real, " INTRINSIC_NAME "]");
-    
+
     if (alpha==T(0))
         return;
 
     if (incX==1 && incY==1) {
         typedef Intrinsics<T, DEFAULT_INTRINSIC_LEVEL> IntrinsicType;
         const int numElements = IntrinsicType::numElements;
-        
+
         IndexType i=0;
-            
+
         IntrinsicType _x, _y;
         IntrinsicType _alpha(alpha);
-        
+
         for (; i+numElements-1<n; i+=numElements) {
             _x.loadu(x+i);
             _y.loadu(y+i);
             _y = _intrinsic_add(_y, _intrinsic_mul(_alpha, _x));
             _y.storeu(y+i);
         }
-        
+
         for (; i<n; ++i) {
             y[i] += alpha*x[i];
         }
-    
+
     } else {
-    
-        cxxblas::axpy<IndexType, T, T ,T>(n, alpha, x, incX, y, incY); 
-        
+
+        cxxblas::axpy<IndexType, T, T ,T>(n, alpha, x, incX, y, incY);
+
     }
 }
 
@@ -85,33 +85,32 @@ axpy(IndexType n, const T &alpha, const T *x,
      IndexType incX, T *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("axpy_intrinsics [complex, " INTRINSIC_NAME "]");
-    
+
     using std::real;
     using std::imag;
-    
+
     typedef Intrinsics<T, DEFAULT_INTRINSIC_LEVEL>     IntrinsicType;
     typedef typename IntrinsicType::PrimitiveDataType  PT;
     typedef Intrinsics<PT, DEFAULT_INTRINSIC_LEVEL>    IntrinsicPrimitiveType;
-    
+
     if (alpha==T(0))
         return;
 
     if (incX==1 && incY==1) {
-    
+
         if (imag(alpha)==PT(0)) {
             axpy(2*n, real(alpha), reinterpret_cast<const PT*>(x), 1, reinterpret_cast<PT*>(y), 1);
            return;
         }
-    
+
         const int numElements = IntrinsicType::numElements;
-        
+
         IndexType i=0;
 
-            
         IntrinsicType _x, _y;
         IntrinsicPrimitiveType _real_alpha(real(alpha));
         IntrinsicPrimitiveType _imag_alpha(imag(alpha));
-        
+
         for (; i+numElements-1<n; i+=numElements) {
             _x.loadu(x+i);
             _y.loadu(y+i);
@@ -120,16 +119,15 @@ axpy(IndexType n, const T &alpha, const T *x,
             _y = _intrinsic_addsub(_y, _intrinsic_mul(_imag_alpha, _x));
             _y.storeu(y+i);
         }
-        
-                
+
         for (; i<n; ++i) {
             y[i] += alpha*x[i];
         }
-    
+
     } else {
-        
-        cxxblas::axpy<IndexType, T, T ,T>(n, alpha, x, incX, y, incY); 
-        
+
+        cxxblas::axpy<IndexType, T, T ,T>(n, alpha, x, incX, y, incY);
+
     }
 }
 

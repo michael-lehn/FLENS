@@ -38,7 +38,7 @@
 #define HAVE_CXXBLAS_TRSV 1
 
 namespace cxxblas {
-    
+
 #ifdef HAVE_CBLAS
 
 template <typename IndexType>
@@ -48,7 +48,7 @@ template <typename IndexType>
          IndexType n,
          const float *A, IndexType ldA,
          ComplexFloat *x, IndexType incX);
-    
+
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     trsv(StorageOrder order, StorageUpLo upLo,
@@ -58,7 +58,7 @@ template <typename IndexType>
          ComplexDouble *x, IndexType incX);
 
 #endif
-    
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_LEVEL2EXTENSIONS_TRSV_H

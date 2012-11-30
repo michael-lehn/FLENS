@@ -36,7 +36,7 @@
 
 #include <playground/cxxblas/cxxblas.h>
 
-namespace flens { namespace lapack { namespace extensions { 
+namespace flens { namespace lapack { namespace extensions {
 
 //-- trace(tp)
 template <typename MA>
@@ -44,20 +44,20 @@ typename RestrictTo<IsTpMatrix<MA>::value,
 typename RemoveRef<MA>::Type::ElementType>::Type
 trace(MA &&A)
 {
-    
+
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::ElementType   T;
     typedef typename MatrixA::IndexType     IndexType;
-    
+
     if (A.diag()==Unit)
         return A.numRows();
-    
+
     T value(0);
-    
+
     for (IndexType i=A.firstRow(), j=A.firstCol();i<=A.lastRow();++i, ++j) {
         value += A(i,j);
     }
-    
+
     return value;
 
 }

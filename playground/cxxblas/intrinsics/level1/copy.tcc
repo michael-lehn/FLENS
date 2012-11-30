@@ -50,13 +50,13 @@ copy(IndexType n, const T *x,
     CXXBLAS_DEBUG_OUT("copy_intrinsics [" INTRINSIC_NAME "]");
 
     if (incX==1 && incY==1) {
-        
+
         std::memmove(y, x, n*sizeof(T));
 
     } else {
-    
-        cxxblas::copy<IndexType, T, T>(n, x, incX, y, incY); 
-        
+
+        cxxblas::copy<IndexType, T, T>(n, x, incX, y, incY);
+
     }
 }
 

@@ -99,7 +99,7 @@ inline _intrinsic_add(const Intrinsics<std::complex<double>, IntrinsicsLevel::AV
 {
 	return Intrinsics<std::complex<double>, IntrinsicsLevel::AVX>(_mm256_add_pd(x.get(), y.get()));
 }
- 
+
 #endif // HAVE_AVX
 
 #endif // PLAYGROUND_CXXBLAS_INTRINSICS_CLASSES_FUNCTIONS_ADD_TCC

@@ -81,14 +81,14 @@ add_transpose_8x8(const float *A, const IndexType ldA , float *B, const IndexTyp
         _tmp[k  ] = _mm256_permute2f128_ps(_A[k].get(), _A[k+4].get(), 32);
         _tmp[k+4] = _mm256_permute2f128_ps(_A[k].get(), _A[k+4].get(), 49);
     }
-    
+
 
     for (IndexType k=0; k<8; ++k) {
         _B[k].loadu(B+k*ldB);
         _B[k] = _intrinsic_add(_B[k], _tmp[k]);
         _B[k].storeu(B+k*ldB);
     }
-    
+
 }
 
 template <typename IndexType>
@@ -125,7 +125,7 @@ add_transpose_8x8(const double *A, const IndexType ldA , double *B, const IndexT
     }
 }
 
-#endif // HAVE_AVX 
+#endif // HAVE_AVX
 
 #endif // USE_INTRINSIC
 

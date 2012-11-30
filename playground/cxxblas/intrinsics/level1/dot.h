@@ -41,22 +41,22 @@
 namespace cxxblas {
 
 #ifdef USE_INTRINSIC
-    
+
 template <typename IndexType, typename T>
     typename flens::RestrictTo<flens::IsReal<T>::value, void>::Type
     dotu(IndexType n,
          const T *x, IndexType incX,
          const T *y, IndexType incY,
          T &result);
-    
-    
+
+
 template <typename IndexType, typename T>
     typename flens::RestrictTo<flens::IsComplex<T>::value, void>::Type
     dotu(IndexType n,
          const T *x, IndexType incX,
          const T *y, IndexType incY,
          T &result);
-    
+
 template <typename IndexType, typename T>
     typename flens::RestrictTo<flens::IsReal<T>::value, void>::Type
     dot(IndexType n,
@@ -64,7 +64,7 @@ template <typename IndexType, typename T>
         const T *y, IndexType incY,
         T &result);
 
-    
+
 template <typename IndexType, typename T>
     typename flens::RestrictTo<flens::IsComplex<T>::value, void>::Type
     dot(IndexType n,
@@ -73,7 +73,7 @@ template <typename IndexType, typename T>
         T &result);
 
 #endif // USE_INTRINSIC
-    
+
 } // namespace cxxblas
 
 #endif // PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_DOT_H

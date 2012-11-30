@@ -36,7 +36,7 @@
 
 #include <playground/cxxblas/cxxblas.h>
 
-namespace flens { namespace lapack { namespace extensions { 
+namespace flens { namespace lapack { namespace extensions {
 
 //-- trace(hp)
 template <typename MA>
@@ -44,14 +44,14 @@ typename RestrictTo<IsHpMatrix<MA>::value,
 typename ComplexTrait<typename RemoveRef<MA>::Type::ElementType>::PrimitiveType>::Type
 trace(MA &&A)
 {
-    
+
     typedef typename RemoveRef<MA>::Type            MatrixA;
     typedef typename MatrixA::ElementType           T;
     typedef typename MatrixA::IndexType             IndexType;
     typedef typename ComplexTrait<T>::PrimitiveType PT;
 
     PT value(0);
-    
+
     for (IndexType i=A.firstRow(), j=A.firstCol();i<=A.lastRow();++i, ++j) {
         value += cxxblas::real(A(i,j));
     }

@@ -100,7 +100,7 @@ inline _intrinsic_div(const Intrinsics<std::complex<double>, IntrinsicsLevel::AV
 {
 	return Intrinsics<std::complex<double>, IntrinsicsLevel::AVX>(_mm256_div_pd(x.get(), y.get()));
 }
- 
+
 #endif // HAVE_AVX
 
 #endif // PLAYGROUND_CXXBLAS_INTRINSICS_CLASSES_FUNCTIONS_DIV_TCC

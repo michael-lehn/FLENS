@@ -36,7 +36,7 @@
 
 #include <playground/cxxblas/cxxblas.h>
 
-namespace flens { namespace blas { namespace extensions { 
+namespace flens { namespace blas { namespace extensions {
 
 //-- prod
 template <typename VX>
@@ -47,7 +47,7 @@ prod(VX &&x)
     typedef typename RemoveRef<VX>::Type    VectorX;
     typedef typename VectorX::ElementType   T;
     T result;
-    
+
     cxxblas::prod(x.length(), x.data(), x.stride(), result);
 
     return result;

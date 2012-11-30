@@ -36,7 +36,7 @@
 
 #include <playground/cxxblas/cxxblas.h>
 
-namespace flens { namespace lapack { namespace extensions { 
+namespace flens { namespace lapack { namespace extensions {
 
 //-- trace(ge)
 template <typename MA>

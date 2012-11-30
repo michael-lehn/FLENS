@@ -47,7 +47,7 @@ enum BlasFct
 
 template <typename T>
 struct sizeOf {
-    
+
 };
 
 template<>
@@ -77,36 +77,36 @@ struct sizeOf<std::complex<double> >
 
 template<BlasFct Fct, typename T, typename IndexType>
 struct BlockSize {
-    
-    
+
+
 };
 
 
 template<typename T, typename IndexType>
 struct BlockSize<TRMV, T, IndexType> {
-    
+
     static const IndexType NBlockL1 = (L1_CACHE_SIZE/sizeOf<T>::value);
     static const IndexType NBlockL2 = (L2_CACHE_SIZE/sizeOf<T>::value);
     static const IndexType NBlockL3 = ((3*L3_CACHE_SIZE)/(2*sizeOf<T>::value));
-    
+
 };
 
 template<typename T, typename IndexType>
 struct BlockSize<TRSV, T, IndexType> {
-    
+
     static const IndexType NBlockL1 = (L1_CACHE_SIZE/sizeOf<T>::value);
     static const IndexType NBlockL2 = (L2_CACHE_SIZE/sizeOf<T>::value);
     static const IndexType NBlockL3 = ((3*L3_CACHE_SIZE)/(2*sizeOf<T>::value));
-    
+
 };
 
 template<typename T, typename IndexType>
 struct BlockSize<GEMM, T, IndexType> {
-    
+
     static const IndexType NBlockL1 = (L1_CACHE_SIZE/(3*sizeOf<T>::value));
     static const IndexType NBlockL2 = (L2_CACHE_SIZE/(3*sizeOf<T>::value));
     static const IndexType NBlockL3 = (L3_CACHE_SIZE/(3*sizeOf<T>::value));
-    
+
 };
 
 #endif // USE_INTRINSIC

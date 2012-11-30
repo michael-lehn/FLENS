@@ -84,7 +84,7 @@ BLAS(csrot)(const INTEGER   *N,
 {
     ASSERT(0);
 }
-    
+
 void
 BLAS(zdrot)(const INTEGER   *N,
            cdouble         *X,
@@ -96,6 +96,6 @@ BLAS(zdrot)(const INTEGER   *N,
 {
     ASSERT(0);
 }
-    
+
 
 } // extern "C"

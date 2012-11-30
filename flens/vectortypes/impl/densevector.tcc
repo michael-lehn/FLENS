@@ -391,10 +391,6 @@ bool
 DenseVector<A>::resize(const DenseVector<RHS> &rhs, const ElementType &value)
 {
     bool resized = _array.resize(rhs.engine(), value);
-    if (_reverse != rhs.reversed()) {
-        _reverse = rhs.reversed();
-        return true;
-    }
     return resized;
 }
 

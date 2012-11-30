@@ -35,7 +35,7 @@
 
 #ifdef INCLUDE_TYPE_TRAITS
 #   include <type_traits>
-#endif 
+#endif
 
 namespace flens {
 

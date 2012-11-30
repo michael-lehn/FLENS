@@ -1,0 +1,12 @@
+      DOUBLE PRECISION FUNCTION DZASUM( N, X, INCX )
+
+      INTEGER           INCX, N
+      DOUBLE COMPLEX    X(*)
+      DOUBLE PRECISION  TEMP
+
+
+      CALL DZASUM_SUB( N, X, INCX, TEMP )
+      DZASUM = TEMP
+
+      RETURN
+      END

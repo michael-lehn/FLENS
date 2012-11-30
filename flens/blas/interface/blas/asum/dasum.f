@@ -1,0 +1,12 @@
+      DOUBLE PRECISION FUNCTION DASUM( N, X, INCX )
+
+      INTEGER           INCX, N
+      DOUBLE PRECISION  X(*)
+      DOUBLE PRECISION  TEMP
+
+
+      CALL DASUM_SUB( N, X, INCX, TEMP )
+      DASUM = TEMP
+
+      RETURN
+      END

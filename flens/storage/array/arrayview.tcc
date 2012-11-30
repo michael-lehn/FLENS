@@ -46,7 +46,7 @@ template <typename T, typename I, typename A>
 ArrayView<T, I, A>::ArrayView(IndexType length, ElementType *data,
                               IndexType stride, IndexType firstIndex,
                               const Allocator &allocator)
-    : _data(data-firstIndex),
+    : _data(data),
       _allocator(allocator),
       _length(length),
       _stride(stride),
@@ -70,7 +70,7 @@ ArrayView<T, I, A>::ArrayView(const ArrayView &rhs)
 template <typename T, typename I, typename A>
 template <typename RHS>
 ArrayView<T, I, A>::ArrayView(RHS &rhs)
-    : _data(rhs.data()-rhs.firstIndex()),
+    : _data(rhs.data()),
       _allocator(rhs.allocator()),
       _length(rhs.length()),
       _stride(rhs.stride()),
@@ -97,7 +97,7 @@ ArrayView<T, I, A>::operator()(IndexType index) const
     }
 #   endif
 
-    return _data[_firstIndex + _stride*(index-_firstIndex)];
+    return _data[_stride*(index-_firstIndex)];
 }
 
 template <typename T, typename I, typename A>
@@ -111,7 +111,7 @@ ArrayView<T, I, A>::operator()(IndexType index)
     }
 #   endif
 
-    return _data[_firstIndex + _stride*(index-_firstIndex)];
+    return _data[_stride*(index-_firstIndex)];
 }
 
 template <typename T, typename I, typename A>
@@ -146,14 +146,14 @@ template <typename T, typename I, typename A>
 const typename ArrayView<T, I, A>::ElementType *
 ArrayView<T, I, A>::data() const
 {
-    return &_data[_firstIndex];
+    return _data;
 }
 
 template <typename T, typename I, typename A>
 typename ArrayView<T, I, A>::ElementType *
 ArrayView<T, I, A>::data()
 {
-    return &_data[_firstIndex];
+    return _data;
 }
 
 template <typename T, typename I, typename A>
@@ -196,9 +196,6 @@ template <typename T, typename I, typename A>
 void
 ArrayView<T, I, A>::changeIndexBase(IndexType firstIndex)
 {
-    if (_data) {
-        _data += _firstIndex - firstIndex;
-    }
     _firstIndex = firstIndex;
 }
 

@@ -38,18 +38,12 @@
 namespace flens {
 
 template <typename T>
-typename flens::RestrictTo<flens::IsReal<T>::value, T>::Type
-randomValue()
-{
-    return T(rand()-0.5*RAND_MAX) / T(0.5*RAND_MAX);
-}
+    typename flens::RestrictTo<flens::IsReal<T>::value, T>::Type
+    randomValue();
 
 template <typename T>
-typename flens::RestrictTo<flens::IsComplex<T>::value, T>::Type
-randomValue()
-{
-    return T(rand()-0.5*RAND_MAX, rand()-0.5*RAND_MAX) / T(0.5*RAND_MAX,0);
-}
+    typename flens::RestrictTo<flens::IsComplex<T>::value, T>::Type
+    randomValue();
 
 } // namespace flens
 

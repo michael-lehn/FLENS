@@ -97,7 +97,7 @@ Array<T, I, A>::operator()(IndexType index) const
 {
     ASSERT(index>=firstIndex());
     ASSERT(index<=lastIndex());
-    return _data[index];
+    return _data[index-_firstIndex];
 }
 
 template <typename T, typename I, typename A>
@@ -106,7 +106,7 @@ Array<T, I, A>::operator()(IndexType index)
 {
     ASSERT(index>=firstIndex());
     ASSERT(index<=lastIndex());
-    return _data[index];
+    return _data[index-_firstIndex];
 }
 
 template <typename T, typename I, typename A>
@@ -141,14 +141,14 @@ template <typename T, typename I, typename A>
 const typename Array<T, I, A>::ElementType *
 Array<T, I, A>::data() const
 {
-    return &_data[_firstIndex];
+    return _data;
 }
 
 template <typename T, typename I, typename A>
 typename Array<T, I, A>::ElementType *
 Array<T, I, A>::data()
 {
-    return &_data[_firstIndex];
+    return _data;
 }
 
 template <typename T, typename I, typename A>
@@ -194,9 +194,6 @@ template <typename T, typename I, typename A>
 void
 Array<T, I, A>::changeIndexBase(IndexType firstIndex)
 {
-    if (_data) {
-        _data += _firstIndex - firstIndex;
-    }
     _firstIndex = firstIndex;
 }
 
@@ -258,8 +255,7 @@ Array<T, I, A>::_raw_allocate()
     ASSERT(length()>=0);
 
     if (length()>0) {
-        _data = _allocator.allocate(_length) - _firstIndex;
-        ASSERT(_data+_firstIndex);
+        _data = _allocator.allocate(_length);
         ASSERT(_data);
     }
 }
@@ -269,7 +265,7 @@ void
 Array<T, I, A>::_allocate(const ElementType &value)
 {
     _raw_allocate();
-    for (IndexType i=firstIndex(); i<=lastIndex(); ++i) {
+    for (IndexType i=0; i<length(); ++i) {
         _allocator.construct(_data+i, value);
     }
 }
@@ -280,7 +276,7 @@ Array<T, I, A>::_release()
 {
     if (_data) {
         ASSERT(length()>0);
-        for (IndexType i=firstIndex(); i<=lastIndex(); ++i) {
+        for (IndexType i=0; i<length(); ++i) {
             _allocator.destroy(_data+i);
         }
         _allocator.deallocate(data(), _length);
