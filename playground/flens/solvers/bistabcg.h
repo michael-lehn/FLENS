@@ -30,11 +30,30 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_FLENS_FLENS_TCC
-#define PLAYGROUND_FLENS_FLENS_TCC 1
+#ifndef PLAYGROUND_FLENS_SOLVER_BISTABCG_H
+#define PLAYGROUND_FLENS_SOLVER_BISTABCG_H 1
 
-#include<playground/flens/solver/solver.tcc>
-#include<playground/flens/blas-extensions/blas-extensions.tcc>
-#include<playground/flens/lapack-extensions/lapack-extensions.tcc>
+#include <limits>
 
-#endif // PLAYGROUND_FLENS_FLENS_TCC
+#include <flens/lapack/typedefs.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
+
+namespace flens { namespace solvers {
+
+    
+template <typename MA, typename VX, typename VB>
+    typename RestrictTo<IsMatrix<MA>::value
+                     && IsDenseVector<VX>::value
+                     && IsDenseVector<VB>::value,
+             typename VX::IndexType>::Type
+    bicgstab(const MA &A, VX &x, const VB &b,
+            typename ComplexTrait<typename VX::ElementType>::PrimitiveType tol
+                     = std::numeric_limits<typename ComplexTrait<typename VX::ElementType>::PrimitiveType>::epsilon(),
+            typename VX::IndexType maxIterations = std::numeric_limits<typename VX::IndexType>::max());
+    
+    
+    
+} } // namespace solvers, flens
+
+#endif // PLAYGROUND_FLENS_SOLVER_BISTABCG_H

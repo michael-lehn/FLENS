@@ -30,11 +30,60 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_FLENS_FLENS_TCC
-#define PLAYGROUND_FLENS_FLENS_TCC 1
+#ifndef PLAYGROUND_FLENS_SOLVER_BISTABCG_TCC
+#define PLAYGROUND_FLENS_SOLVER_BISTABCG_TCC 1
 
-#include<playground/flens/solver/solver.tcc>
-#include<playground/flens/blas-extensions/blas-extensions.tcc>
-#include<playground/flens/lapack-extensions/lapack-extensions.tcc>
+#include <cmath>
 
-#endif // PLAYGROUND_FLENS_FLENS_TCC
+namespace flens { namespace solvers {
+
+template <typename MA, typename VX, typename VB>
+typename RestrictTo<IsMatrix<MA>::value
+                     && IsDenseVector<VX>::value
+                     && IsDenseVector<VB>::value,
+             typename VX::IndexType>::Type
+bicgstab(const MA &A, VX &x, const VB &b,
+         typename ComplexTrait<typename VX::ElementType>::PrimitiveType tol,
+         typename VX::IndexType maxIterations)
+{
+    using std::abs;
+
+    typedef typename VX::ElementType   ElementType;
+    typedef typename VX::IndexType     IndexType;
+    
+    VX Ap, As, r, rs, s, p;
+    ElementType alpha, beta, rNormSquare, omega;
+    
+    const ElementType One(1);
+    
+    r  = b - A*x;
+    rs = r;
+    p  = r;
+    
+    rNormSquare = r*r;
+    
+    for (IndexType k=1; k<=maxIterations; k++) {
+      
+        if (abs(rNormSquare)<=tol) {
+            return 0;
+        }
+        
+        Ap    = A*p;
+        alpha = blas::dotu(r, rs)/blas::dotu(Ap, rs);
+        s     = r - alpha*Ap;
+        As    = A*s;
+        omega = blas::dotu(As, s)/blas::dotu(As, As);
+        x     = x + alpha*p + omega*s;
+        beta  = One/blas::dotu(r, rs);
+        r     = s - omega*As;
+        beta  = (beta*alpha*blas::dotu(r, rs))/omega;
+        p     = beta*p - beta*omega*Ap + r;
+	
+        rNormSquare = blas::dotu(r, r);
+    }
+    return maxIterations;
+}
+
+} }// namespace solvers, flens
+
+#endif // PLAYGROUND_FLENS_SOLVER_BISTABCG_TCC

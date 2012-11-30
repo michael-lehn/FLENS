@@ -30,11 +30,28 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_FLENS_FLENS_TCC
-#define PLAYGROUND_FLENS_FLENS_TCC 1
+#ifndef PLAYGROUND_FLENS_SOLVER_PCG_H
+#define PLAYGROUND_FLENS_SOLVER_PCG_H 1
 
-#include<playground/flens/solver/solver.tcc>
-#include<playground/flens/blas-extensions/blas-extensions.tcc>
-#include<playground/flens/lapack-extensions/lapack-extensions.tcc>
+#include <limits>
 
-#endif // PLAYGROUND_FLENS_FLENS_TCC
+#include <flens/lapack/typedefs.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
+
+namespace flens { namespace solver {
+    
+template <typename MP, typename MA, typename VX, typename VB>
+    typename RestrictTo<IsMatrix<MP>::value
+                     && IsSymmetricMatrix<MA>::value
+                     && IsDenseVector<VX>::value
+                     && IsDenseVector<VB>::value,
+    typename RemoveRef<VX>::Type::IndexType>::Type
+    pcg(MP &&P, MA &&A, VX &&x, VB &&b,
+       typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType tol
+                = std::numeric_limits<typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType>::epsilon(),
+       typename RemoveRef<VX>::Type::IndexType maxIterations = std::numeric_limits<typename RemoveRef<VX>::Type::IndexType>::max());
+    
+} } // namespace solver, flens
+
+#endif // PLAYGROUND_FLENS_SOLVER_PCG_H

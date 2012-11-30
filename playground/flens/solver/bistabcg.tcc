@@ -30,11 +30,61 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_FLENS_FLENS_TCC
-#define PLAYGROUND_FLENS_FLENS_TCC 1
+#ifndef PLAYGROUND_FLENS_SOLVER_BISTABCG_TCC
+#define PLAYGROUND_FLENS_SOLVER_BISTABCG_TCC 1
 
-#include<playground/flens/solver/solver.tcc>
-#include<playground/flens/blas-extensions/blas-extensions.tcc>
-#include<playground/flens/lapack-extensions/lapack-extensions.tcc>
+#include <cmath>
 
-#endif // PLAYGROUND_FLENS_FLENS_TCC
+namespace flens { namespace solver {
+         
+template <typename MA, typename VX, typename VB>
+typename RestrictTo<IsGeneralMatrix<MA>::value
+                 && IsDenseVector<VX>::value
+                 && IsDenseVector<VB>::value,
+         typename RemoveRef<VX>::Type::IndexType>::Type
+bicgstab(MA &&A, VX &&x, VB &&b,
+         typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType tol,
+         typename RemoveRef<VX>::Type::IndexType maxIterations)
+{
+    using std::abs;
+
+    typedef typename RemoveRef<VX>::Type   VectorX;
+    typedef typename VectorX::NoView       Vector;
+    typedef typename VectorX::IndexType    IndexType;
+    typedef typename VectorX::ElementType  ElementType;
+    
+    Vector      Ap, As, r, rs, s, p;
+    ElementType alpha, beta, rNormSquare, omega;
+    
+    const ElementType One(1);
+    
+    r  = b - A*x;
+    rs = r;
+    p  = r;
+    
+    rNormSquare = r*r;
+    
+    for (IndexType k=1; k<=maxIterations; k++) {
+      
+        if (abs(rNormSquare)<=tol) {
+            return 0;
+        }
+        
+        Ap    = A*p;
+        alpha = (r*rs)/(Ap*rs);
+        s     = r - alpha*Ap;
+        As    = A*s;
+        omega = (As*s)/(As*As);
+        x     = x + alpha*p + omega*s;
+        beta  = One/(r*rs);
+        r     = s - omega*As;
+        beta  = beta*alpha*(r*rs)/omega;
+        p     = beta*p - beta*omega*Ap + r;
+	    rNormSquare = r*r;
+    }
+    return maxIterations;
+}
+
+} }// namespace solver, flens
+
+#endif // PLAYGROUND_FLENS_SOLVER_BISTABCG_TCC

@@ -30,11 +30,61 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_FLENS_FLENS_TCC
-#define PLAYGROUND_FLENS_FLENS_TCC 1
+#ifndef PLAYGROUND_FLENS_SOLVER_PCG_TCC
+#define PLAYGROUND_FLENS_SOLVER_PCG_TCC 1
 
-#include<playground/flens/solver/solver.tcc>
-#include<playground/flens/blas-extensions/blas-extensions.tcc>
-#include<playground/flens/lapack-extensions/lapack-extensions.tcc>
+#include <cmath>
 
-#endif // PLAYGROUND_FLENS_FLENS_TCC
+namespace flens { namespace solvers {
+
+template <typename MP, typename MA, typename VX, typename VB>
+typename RestrictTo<IsMatrix<MP>::value 
+                     && IsSyMatrix<MA>::value
+                     && IsDenseVector<VX>::value
+                     && IsDenseVector<VB>::value,
+             typename VX::IndexType>::Type
+pcg(const MP &P, const MA &A, VX &x, const VB &b,
+    typename ComplexTrait<typename VX::ElementType>::PrimitiveType tol,
+    typename VX::IndexType maxIterations)
+{
+    using std::abs;
+
+    typedef typename VX::ElementType   ElementType;
+    typedef typename VX::IndexType     IndexType;
+    
+    VX          Ap, r, p, q;
+    ElementType alpha, beta, pNormSquare, rq, rqPrev;
+    
+    r  = b - A*x;
+    q  = P*r;
+    p  = q;
+    rq = r*q;
+    
+    for (IndexType k=1; k<=maxIterations; k++) {
+      
+        pNormSquare = p*p;
+
+        if (abs(pNormSquare)<=tol) {
+            return 0;
+        }
+        
+        Ap     = A*p;
+        alpha  = rq/(p*Ap);
+        x      = x + alpha*p;
+
+        r      = r - alpha*Ap;
+        q      = P*r;
+
+        rqPrev = rq;
+        rq     = r*q;
+        beta   = rq/rqPrev;
+        p      = beta*p + q;
+    }
+    return maxIterations;
+
+}
+
+
+} }// namespace solvers, flens
+
+#endif // PLAYGROUND_FLENS_SOLVER_PCG_TCC

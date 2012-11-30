@@ -30,11 +30,11 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_FLENS_FLENS_TCC
-#define PLAYGROUND_FLENS_FLENS_TCC 1
+#ifndef PLAYGROUND_FLENS_SOLVER_SOLVERS_TCC
+#define PLAYGROUND_FLENS_SOLVER_SOLVERS_TCC 1
 
-#include<playground/flens/solver/solver.tcc>
-#include<playground/flens/blas-extensions/blas-extensions.tcc>
-#include<playground/flens/lapack-extensions/lapack-extensions.tcc>
+#include<playground/flens/solvers/bistabcg.tcc>
+#include<playground/flens/solvers/cg.tcc>
+#include<playground/flens/solvers/pcg.tcc>
 
-#endif // PLAYGROUND_FLENS_FLENS_TCC
+#endif // PLAYGROUND_FLENS_SOLVER_SOLVERS_TCC

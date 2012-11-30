@@ -33,6 +33,7 @@
 #ifndef PLAYGROUND_FLENS_FLENS_H
 #define PLAYGROUND_FLENS_FLENS_H 1
 
+#include<playground/flens/solver/solver.h>
 #include<playground/flens/blas-extensions/blas-extensions.h>
 #include<playground/flens/lapack-extensions/lapack-extensions.h>
 
