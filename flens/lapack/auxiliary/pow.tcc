@@ -43,7 +43,20 @@ typename RestrictTo<!IsSame<T,int>::value,
          T>::Type
 pow(const T &base, const T &exponent)
 {
-    return std::pow(base, exponent);
+    ASSERT( exponent>=0 );
+    if ( exponent==0 ) {
+        return 1;
+    } else if ( exponent==1 ) { 
+        return base;
+    }
+    int value = flens::pow(base, exponent/2 );
+  
+    if ( exponent%2==0 ) {
+        return value*value;
+    } 
+    return base*value*value;
+
+    //return std::pow(base, exponent);
 }
 
 template <typename T>
