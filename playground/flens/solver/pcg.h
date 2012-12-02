@@ -46,7 +46,7 @@ template <typename MP, typename MA, typename VX, typename VB>
                      && IsSymmetricMatrix<MA>::value
                      && IsDenseVector<VX>::value
                      && IsDenseVector<VB>::value,
-    typename RemoveRef<VX>::Type::IndexType>::Type
+             typename RemoveRef<VX>::Type::IndexType>::Type
     pcg(MP &&P, MA &&A, VX &&x, VB &&b,
        typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType tol
                 = std::numeric_limits<typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType>::epsilon(),
