@@ -33,8 +33,10 @@
 #ifndef PLAYGROUND_FLENS_SOLVER_SOLVER_TCC
 #define PLAYGROUND_FLENS_SOLVER_SOLVER_TCC 1
 
-#include<playground/flens/solver/bistabcg.tcc>
+#include<playground/flens/solver/bicgstab.tcc>
 #include<playground/flens/solver/cg.tcc>
+#include<playground/flens/solver/cgs.tcc>
 #include<playground/flens/solver/pcg.tcc>
+#include<playground/flens/solver/tfqmr.tcc>
 
 #endif // PLAYGROUND_FLENS_SOLVER_SOLVER_TCC

@@ -30,13 +30,27 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_FLENS_SOLVER_SOLVER_H
-#define PLAYGROUND_FLENS_SOLVER_SOLVER_H 1
+#ifndef PLAYGROUND_FLENS_SOLVER_CGS_H
+#define PLAYGROUND_FLENS_SOLVER_CGs_H 1
 
-#include<playground/flens/solver/bicgstab.h>
-#include<playground/flens/solver/cg.h>
-#include<playground/flens/solver/cgs.h>
-#include<playground/flens/solver/pcg.h>
-#include<playground/flens/solver/tfqmr.h>
+#include <limits>
 
-#endif // PLAYGROUND_FLENS_SOLVER_SOLVER_H
+#include <flens/lapack/typedefs.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
+
+namespace flens { namespace solver {
+
+template <typename MA, typename VX, typename VB>
+    typename RestrictTo<IsMatrix<MA>::value
+                     && IsDenseVector<VX>::value
+                     && IsDenseVector<VB>::value,
+            typename RemoveRef<VX>::Type::IndexType>::Type
+    cgs(MA &&A, VX &&x, VB &&b,
+       typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType tol
+                = std::numeric_limits<typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType>::epsilon(),
+       typename RemoveRef<VX>::Type::IndexType maxIterations = std::numeric_limits<typename RemoveRef<VX>::Type::IndexType>::max());
+    
+} } // namespace solver, flens
+
+#endif // PLAYGROUND_FLENS_SOLVER_CGS_H

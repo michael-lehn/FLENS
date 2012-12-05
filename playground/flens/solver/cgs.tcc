@@ -30,13 +30,68 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_FLENS_SOLVER_SOLVER_H
-#define PLAYGROUND_FLENS_SOLVER_SOLVER_H 1
+/* Based on
+ *
+ * Andreas Meister - Numerik linearer Gleichungssysteme
+ *
+ */
 
-#include<playground/flens/solver/bicgstab.h>
-#include<playground/flens/solver/cg.h>
-#include<playground/flens/solver/cgs.h>
-#include<playground/flens/solver/pcg.h>
-#include<playground/flens/solver/tfqmr.h>
+#ifndef PLAYGROUND_FLENS_SOLVER_CGS_TCC
+#define PLAYGROUND_FLENS_SOLVER_CGS_TCC 1
 
-#endif // PLAYGROUND_FLENS_SOLVER_SOLVER_H
+#include <cmath>
+
+namespace flens { namespace solver {
+
+template <typename MA, typename VX, typename VB>
+    typename RestrictTo<IsMatrix<MA>::value
+                     && IsDenseVector<VX>::value
+                     && IsDenseVector<VB>::value,
+             typename RemoveRef<VX>::Type::IndexType>::Type
+cgs(MA &&A, VX &&x, VB &&b,
+    typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType tol,
+    typename RemoveRef<VX>::Type::IndexType maxIterations)
+{
+    using std::abs;
+
+    typedef typename RemoveRef<VX>::Type   VectorX;
+    typedef typename VectorX::NoView       Vector;
+    typedef typename VectorX::IndexType    IndexType;
+    typedef typename VectorX::ElementType  ElementType;
+    
+    Vector r, r0, p, u, v, q, t;
+    ElementType alpha, beta, gamma;
+    
+    r = b - A*x;
+    r0 = r;
+    p = r;
+    u = r;
+    
+    for (IndexType k=1; k<=maxIterations; k++) {
+
+        if (abs(r*r)<=tol) {
+            return 0;
+        }
+        
+        v = A*p;
+        gamma = r*r0;
+        alpha = gamma/(v*r0);
+        
+        q = u - alpha*v;
+        t = u + q;
+        x = x + alpha*t;
+        r = r - alpha*A*t;
+        
+        beta = (r*r0)/gamma;
+        
+        u = r + beta * q;
+        p = beta*beta*p + u + beta*q;
+    }
+    
+    return maxIterations;
+    
+}
+
+} }// namespace solver, flens
+
+#endif // PLAYGROUND_FLENS_SOLVER_CGS_TCC

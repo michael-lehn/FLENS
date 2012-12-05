@@ -33,26 +33,25 @@
 /* Based on
  *
  * Yousef Saad - Iterative methods for sparse linear systems  (2nd edition) 
- * Algorithm 9.1
+ * Algorithm 7.7
  *
  */
 
-#ifndef PLAYGROUND_FLENS_SOLVER_PCG_TCC
-#define PLAYGROUND_FLENS_SOLVER_PCG_TCC 1
+#ifndef PLAYGROUND_FLENS_SOLVER_BICGSTAB_TCC
+#define PLAYGROUND_FLENS_SOLVER_BICGSTAB_TCC 1
 
 #include <cmath>
 
 namespace flens { namespace solver {
-    
-template <typename MP, typename MA, typename VX, typename VB>
-    typename RestrictTo<IsMatrix<MP>::value
-                     && IsSymmetricMatrix<MA>::value
-                     && IsDenseVector<VX>::value
-                     && IsDenseVector<VB>::value,
-             typename RemoveRef<VX>::Type::IndexType>::Type
-pcg(MP &&P, MA &&A, VX &&x, VB &&b,
-       typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType tol,
-       typename RemoveRef<VX>::Type::IndexType maxIterations)  
+         
+template <typename MA, typename VX, typename VB>
+typename RestrictTo<IsMatrix<MA>::value
+                 && IsDenseVector<VX>::value
+                 && IsDenseVector<VB>::value,
+         typename RemoveRef<VX>::Type::IndexType>::Type
+bicgstab(MA &&A, VX &&x, VB &&b,
+         typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType tol,
+         typename RemoveRef<VX>::Type::IndexType maxIterations)
 {
     using std::abs;
 
@@ -61,39 +60,37 @@ pcg(MP &&P, MA &&A, VX &&x, VB &&b,
     typedef typename VectorX::IndexType    IndexType;
     typedef typename VectorX::ElementType  ElementType;
     
-    Vector      Ap, r, p, z;
-    ElementType alpha, beta, pNormSquare, rz, rzPrev;
+    Vector      Ap, As, r, rs, s, p;
+    ElementType alpha, beta, rNormSquare, omega;
+    
+    const ElementType One(1);
     
     r  = b - A*x;
-    z  = P*r;
-    p  = z;
-    rz = r*z;
+    rs = r;
+    p  = r;
     
     for (IndexType k=1; k<=maxIterations; k++) {
-      
-        pNormSquare = p*p;
-
-        if (abs(pNormSquare)<=tol) {
+        
+        rNormSquare = r*r;
+        if (abs(rNormSquare)<=tol) {
             return 0;
         }
         
-        Ap     = A*p;
-        alpha  = rz/(p*Ap);
-        x      = x + alpha*p;
+        Ap    = A*p;
+        alpha = (r*rs)/(Ap*rs);
+        s     = r - alpha*Ap;
+        As    = A*s;
+        omega = (As*s)/(As*As);
+        x     = x + alpha*p + omega*s;
+        beta  = One/(r*rs);
+        r     = s - omega*As;
+        beta  = beta*alpha*(r*rs)/omega;
+        p     = beta*p - beta*omega*Ap + r;
 
-        r      = r - alpha*Ap;
-        z      = P*r;
-
-        rzPrev = rz;
-        rz     = r*z;
-        beta   = rz/rzPrev;
-        p      = beta*p + z;
     }
     return maxIterations;
-
 }
 
+} }// namespace solver, flens
 
-} }// namespace solvers, flens
-
-#endif // PLAYGROUND_FLENS_SOLVER_PCG_TCC
+#endif // PLAYGROUND_FLENS_SOLVER_BICGSTAB_TCC
