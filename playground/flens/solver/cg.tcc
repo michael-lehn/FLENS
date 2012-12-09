@@ -30,6 +30,13 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/* Based on
+ *
+ * Yousef Saad - Iterative methods for sparse linear systems  (2nd edition) 
+ * Algorithm 6.18
+ *
+ */
+
 #ifndef PLAYGROUND_FLENS_SOLVER_CG_TCC
 #define PLAYGROUND_FLENS_SOLVER_CG_TCC 1
 
