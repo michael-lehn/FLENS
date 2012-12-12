@@ -57,7 +57,7 @@ rotmg(T &d1, T &d2, T &b1, T &b2, DenseVector<VP> &p)
 
     ASSERT(p.length()==IndexType(5));
 
-    cxxblas::rotmg(p.length(), d1, d2, b1, b2, p.data());
+    cxxblas::rotmg(d1, d2, b1, b2, p.data());
 #   else
     ASSERT(0);
 #   endif

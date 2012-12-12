@@ -739,6 +739,22 @@ cblas_zher2(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
             const double *X, CBLAS_INT incX,
             const double *Y, CBLAS_INT incY,
             double *A, CBLAS_INT lda);
+// hpr2
+void
+cblas_chpr2(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            CBLAS_INT n,
+            const float *alpha,
+            const float *X, CBLAS_INT incX,
+            const float *Y, CBLAS_INT incY,
+            float *A);
+
+void
+cblas_zhpr2(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            CBLAS_INT n,
+            const double *alpha,
+            const double *X, CBLAS_INT incX,
+            const double *Y, CBLAS_INT incY,
+            double *A);
 
 //-- LEVEL 3 -------------------------------------------------------------------
 

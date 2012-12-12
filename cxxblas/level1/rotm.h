@@ -61,13 +61,11 @@ template <typename IndexType>
          const double *p);
 
 // srotmg
-template <typename IndexType>
-    typename If<IndexType>::isBlasCompatibleInteger
+    void
     rotmg(float &d1, float &d2, float &b1, float &b2, float *p);
 
 // drotmg
-template <typename IndexType>
-    typename If<IndexType>::isBlasCompatibleInteger
+    void
     rotmg(double &d1, double &d2, double &b1, double &b2, double *p);
 
 #endif // HAVE_CBLAS

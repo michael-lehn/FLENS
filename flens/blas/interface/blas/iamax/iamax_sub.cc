@@ -11,11 +11,20 @@ BLAS(isamax_sub)(const INTEGER   *N,
                  const INTEGER   *INCX,
                  INTEGER         *RES)
 {
-    using std::abs;
+    
+#   ifdef TEST_DIRECT_CBLAS
+    
+        *RES = cblas_isamax(*N, X, *INCX);
+    
+#   else
+    
+        using std::abs;
 
-    SDenseVectorConstView  x(SConstArrayView(*N, X, abs(*INCX)), *INCX<0);
+        SDenseVectorConstView  x(SConstArrayView(*N, X, abs(*INCX)), *INCX<0);
 
-    *RES = blas::iamax(x);
+        *RES = blas::iamax(x);
+    
+#   endif
 }
 
 void
@@ -24,11 +33,19 @@ BLAS(idamax_sub)(const INTEGER   *N,
                  const INTEGER   *INCX,
                  INTEGER         *RES)
 {
-    using std::abs;
+#   ifdef TEST_DIRECT_CBLAS
+    
+        *RES = cblas_idamax(*N, X, *INCX);
+    
+#   else
+        
+        using std::abs;
 
-    DDenseVectorConstView  x(DConstArrayView(*N, X, abs(*INCX)), *INCX<0);
+        DDenseVectorConstView  x(DConstArrayView(*N, X, abs(*INCX)), *INCX<0);
 
-    *RES = blas::iamax(x);
+        *RES = blas::iamax(x);
+    
+#   endif
 }
 
 void
@@ -37,11 +54,18 @@ BLAS(icamax_sub)(const INTEGER   *N,
                  const INTEGER   *INCX,
                  INTEGER         *RES)
 {
-    using std::abs;
+#   ifdef TEST_DIRECT_CBLAS
+    
+        *RES = cblas_icamax(*N, reinterpret_cast<const float *>(X), *INCX);
+    
+#   else
+    
+        using std::abs;
 
-    CDenseVectorConstView  x(CConstArrayView(*N, X, abs(*INCX)), *INCX<0);
+        CDenseVectorConstView  x(CConstArrayView(*N, X, abs(*INCX)), *INCX<0);
 
-    *RES = blas::iamax(x);
+        *RES = blas::iamax(x);
+#   endif
 }
 
 void
@@ -50,11 +74,19 @@ BLAS(izamax_sub)(const INTEGER   *N,
                  const INTEGER   *INCX,
                  INTEGER         *RES)
 {
-    using std::abs;
+#   ifdef TEST_DIRECT_CBLAS
+    
+        *RES = cblas_izamax(*N, reinterpret_cast<const double *>(X), *INCX);
+    
+#   else
+    
+        using std::abs;
 
-    ZDenseVectorConstView  x(ZConstArrayView(*N, X, abs(*INCX)), *INCX<0);
+        ZDenseVectorConstView  x(ZConstArrayView(*N, X, abs(*INCX)), *INCX<0);
 
-    *RES = blas::iamax(x);
+        *RES = blas::iamax(x);
+    
+#   endif
 }
 
 } // extern "C"

@@ -62,8 +62,7 @@ rotm(IndexType n, double *x, IndexType incX, double *y, IndexType incY,
 }
 
 // srotmg
-template <typename IndexType>
-typename If<IndexType>::isBlasCompatibleInteger
+void
 rotmg(float &d1, float &d2, float &b1, float &b2, float *p)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_srotmg");
@@ -72,8 +71,7 @@ rotmg(float &d1, float &d2, float &b1, float &b2, float *p)
 }
 
 // drotg
-template <typename IndexType>
-typename If<IndexType>::isBlasCompatibleInteger
+void
 rotmg(double &d1, double &d2, double &b1, double &b2, double *p)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_drotmg");

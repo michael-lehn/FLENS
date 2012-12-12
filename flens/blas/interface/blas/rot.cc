@@ -14,12 +14,21 @@ BLAS(srot)(const INTEGER   *N,
            const float     *C,
            const float     *S)
 {
-    using std::abs;
+    
+#   ifdef TEST_DIRECT_CBLAS
+    
+        cblas_srot(*N, X, *INCX, Y, *INCY, *C, *S);
+    
+#   else
+    
+        using std::abs;
 
-    SDenseVectorView  x(SArrayView(*N, X, abs(*INCX)), *INCX<0);
-    SDenseVectorView  y(SArrayView(*N, Y, abs(*INCY)), *INCY<0);
+        SDenseVectorView  x(SArrayView(*N, X, abs(*INCX)), *INCX<0);
+        SDenseVectorView  y(SArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
-    blas::rot(x, y, *C, *S);
+        blas::rot(x, y, *C, *S);
+    
+#   endif
 }
 
 void
@@ -31,12 +40,21 @@ BLAS(drot)(const INTEGER   *N,
            const double    *C,
            const double    *S)
 {
-    using std::abs;
+#   ifdef TEST_DIRECT_CBLAS
+    
+        cblas_drot(*N, X, *INCX, Y, *INCY, *C, *S);
+    
+#   else
+    
+        using std::abs;
 
-    DDenseVectorView  x(DArrayView(*N, X, abs(*INCX)), *INCX<0);
-    DDenseVectorView  y(DArrayView(*N, Y, abs(*INCY)), *INCY<0);
+        DDenseVectorView  x(DArrayView(*N, X, abs(*INCX)), *INCX<0);
+        DDenseVectorView  y(DArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
-    blas::rot(x, y, *C, *S);
+        blas::rot(x, y, *C, *S);
+    
+#   endif
+    
 }
 
 void

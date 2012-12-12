@@ -19,53 +19,73 @@ BLAS(ssymm)(const char      *SIDE,
             float           *_C,
             const INTEGER   *LDC)
 {
-    using std::abs;
-    using std::max;
-
-    INTEGER info  = 0;
-    char    _SIDE = toupper(*SIDE);
-    char    _UPLO = toupper(*UPLO);
-    INTEGER nRowA = (_SIDE=='L') ? *M : *N;
-
-    if (_SIDE!='L' && _SIDE!='R') {
-        info = 1;
-    } else if (_UPLO!='U' && _UPLO!='L') {
-        info = 2;
-    } else if (*M<0) {
-        info = 3;
-    } else if (*N<0) {
-        info = 4;
-    } else if (*LDA<max(INTEGER(1),nRowA)) {
-        info = 7;
-    } else if (*LDB<max(INTEGER(1),*M)) {
-        info = 9;
-    } else if (*LDC<max(INTEGER(1),*M)) {
-        info = 12;
-    }
-    if (info!=0) {
-        BLAS(xerbla)("SSYMM ", &info);
-        return;
-    }
-
-    Side           side = Side(_SIDE);
-    StorageUpLo    upLo = StorageUpLo(_UPLO);
-    const INTEGER  ka   = side==Left ? *M : *N;
-
-    SSyMatrixConstView  A(SFullConstView(ka, ka, _A, *LDA), upLo);
-    SGeMatrixConstView  B = SFullConstView(*M, *N, _B, *LDB);
-    SGeMatrixView       C = SFullView(*M, *N, _C, *LDC);
-
-#   ifdef TEST_OVERLOADED_OPERATORS
-    const auto alpha = *ALPHA;
-    const auto beta  = *BETA;
-
-    if (side==Left) {
-        C = beta*C + alpha*A*B;
-    } else if (side==Right) {
-        C = beta*C + alpha*B*A;
-    }
+#   ifdef TEST_DIRECT_CBLAS
+    
+        char    _SIDE   = toupper(*SIDE);
+        char    _UPLO   = toupper(*UPLO);
+        
+        Side           side   = Side(_SIDE);
+        StorageUpLo    upLo   = StorageUpLo(_UPLO);
+        
+        cblas_ssymm(CBLAS_ORDER::CblasColMajor,
+                    cxxblas::CBLAS::getCblasType(side),
+                    cxxblas::CBLAS::getCblasType(upLo),
+                    *M, *N, *ALPHA,
+                    _A, *LDA, _B, *LDB,
+                    *BETA, _C, *LDC);
+    
 #   else
-    blas::mm(side, *ALPHA, A, B, *BETA, C);
+    
+        using std::abs;
+        using std::max;
+
+        char    _SIDE = toupper(*SIDE);
+        char    _UPLO = toupper(*UPLO);
+        INTEGER nRowA = (_SIDE=='L') ? *M : *N;
+    
+#       ifndef NO_INPUT_CHECK
+            INTEGER info  = 0;
+            if (_SIDE!='L' && _SIDE!='R') {
+                info = 1;
+            } else if (_UPLO!='U' && _UPLO!='L') {
+                info = 2;
+            } else if (*M<0) {
+                info = 3;
+            } else if (*N<0) {
+                info = 4;
+            } else if (*LDA<max(INTEGER(1),nRowA)) {
+                info = 7;
+            } else if (*LDB<max(INTEGER(1),*M)) {
+                info = 9;
+            } else if (*LDC<max(INTEGER(1),*M)) {
+                info = 12;
+            }
+            if (info!=0) {
+                BLAS(xerbla)("SSYMM ", &info);
+                return;
+            }
+#       endif
+
+        Side           side = Side(_SIDE);
+        StorageUpLo    upLo = StorageUpLo(_UPLO);
+        const INTEGER  ka   = side==Left ? *M : *N;
+
+        SSyMatrixConstView  A(SFullConstView(ka, ka, _A, *LDA), upLo);
+        SGeMatrixConstView  B = SFullConstView(*M, *N, _B, *LDB);
+        SGeMatrixView       C = SFullView(*M, *N, _C, *LDC);
+
+#       ifdef TEST_OVERLOADED_OPERATORS
+            const auto alpha = *ALPHA;
+            const auto beta  = *BETA;
+
+            if (side==Left) {
+                C = beta*C + alpha*A*B;
+            } else if (side==Right) {
+                C = beta*C + alpha*B*A;
+            }
+#       else
+            blas::mm(side, *ALPHA, A, B, *BETA, C);
+#       endif
 #   endif
 }
 
@@ -83,53 +103,74 @@ BLAS(dsymm)(const char      *SIDE,
             double          *_C,
             const INTEGER   *LDC)
 {
-    using std::abs;
-    using std::max;
-
-    INTEGER info  = 0;
-    char    _SIDE = toupper(*SIDE);
-    char    _UPLO = toupper(*UPLO);
-    INTEGER nRowA = (_SIDE=='L') ? *M : *N;
-
-    if (_SIDE!='L' && _SIDE!='R') {
-        info = 1;
-    } else if (_UPLO!='U' && _UPLO!='L') {
-        info = 2;
-    } else if (*M<0) {
-        info = 3;
-    } else if (*N<0) {
-        info = 4;
-    } else if (*LDA<max(INTEGER(1),nRowA)) {
-        info = 7;
-    } else if (*LDB<max(INTEGER(1),*M)) {
-        info = 9;
-    } else if (*LDC<max(INTEGER(1),*M)) {
-        info = 12;
-    }
-    if (info!=0) {
-        BLAS(xerbla)("DSYMM ", &info);
-        return;
-    }
-
-    Side           side = Side(_SIDE);
-    StorageUpLo    upLo = StorageUpLo(_UPLO);
-    const INTEGER  ka   = side==Left ? *M : *N;
-
-    DSyMatrixConstView  A(DFullConstView(ka, ka, _A, *LDA), upLo);
-    DGeMatrixConstView  B = DFullConstView(*M, *N, _B, *LDB);
-    DGeMatrixView       C = DFullView(*M, *N, _C, *LDC);
-
-#   ifdef TEST_OVERLOADED_OPERATORS
-    const auto alpha = *ALPHA;
-    const auto beta  = *BETA;
-
-    if (side==Left) {
-        C = beta*C + alpha*A*B;
-    } else if (side==Right) {
-        C = beta*C + alpha*B*A;
-    }
+    
+#   ifdef TEST_DIRECT_CBLAS
+        
+        char    _SIDE   = toupper(*SIDE);
+        char    _UPLO   = toupper(*UPLO);
+        
+        Side           side   = Side(_SIDE);
+        StorageUpLo    upLo   = StorageUpLo(_UPLO);
+        
+        cblas_dsymm(CBLAS_ORDER::CblasColMajor,
+                    cxxblas::CBLAS::getCblasType(side),
+                    cxxblas::CBLAS::getCblasType(upLo),
+                    *M, *N, *ALPHA,
+                    _A, *LDA, _B, *LDB,
+                    *BETA, _C, *LDC);
+        
 #   else
-    blas::mm(side, *ALPHA, A, B, *BETA, C);
+        
+        using std::abs;
+        using std::max;
+
+        char    _SIDE = toupper(*SIDE);
+        char    _UPLO = toupper(*UPLO);
+        INTEGER nRowA = (_SIDE=='L') ? *M : *N;
+
+#       ifndef NO_INPUT_CHECK
+            INTEGER info  = 0;
+            if (_SIDE!='L' && _SIDE!='R') {
+                info = 1;
+            } else if (_UPLO!='U' && _UPLO!='L') {
+                info = 2;
+            } else if (*M<0) {
+                info = 3;
+            } else if (*N<0) {
+                info = 4;
+            } else if (*LDA<max(INTEGER(1),nRowA)) {
+                info = 7;
+            } else if (*LDB<max(INTEGER(1),*M)) {
+                info = 9;
+            } else if (*LDC<max(INTEGER(1),*M)) {
+                info = 12;
+            }
+            if (info!=0) {
+                BLAS(xerbla)("DSYMM ", &info);
+                return;
+            }
+#       endif
+
+        Side           side = Side(_SIDE);
+        StorageUpLo    upLo = StorageUpLo(_UPLO);
+        const INTEGER  ka   = side==Left ? *M : *N;
+
+        DSyMatrixConstView  A(DFullConstView(ka, ka, _A, *LDA), upLo);
+        DGeMatrixConstView  B = DFullConstView(*M, *N, _B, *LDB);
+        DGeMatrixView       C = DFullView(*M, *N, _C, *LDC);
+
+#       ifdef TEST_OVERLOADED_OPERATORS
+            const auto alpha = *ALPHA;
+            const auto beta  = *BETA;
+
+            if (side==Left) {
+                C = beta*C + alpha*A*B;
+            } else if (side==Right) {
+                C = beta*C + alpha*B*A;
+            }
+#       else
+            blas::mm(side, *ALPHA, A, B, *BETA, C);
+#       endif
 #   endif
 }
 
@@ -147,53 +188,76 @@ BLAS(csymm)(const char      *SIDE,
             cfloat          *_C,
             const INTEGER   *LDC)
 {
-    using std::abs;
-    using std::max;
-
-    INTEGER info  = 0;
-    char    _SIDE = toupper(*SIDE);
-    char    _UPLO = toupper(*UPLO);
-    INTEGER nRowA = (_SIDE=='L') ? *M : *N;
-
-    if (_SIDE!='L' && _SIDE!='R') {
-        info = 1;
-    } else if (_UPLO!='U' && _UPLO!='L') {
-        info = 2;
-    } else if (*M<0) {
-        info = 3;
-    } else if (*N<0) {
-        info = 4;
-    } else if (*LDA<max(INTEGER(1),nRowA)) {
-        info = 7;
-    } else if (*LDB<max(INTEGER(1),*M)) {
-        info = 9;
-    } else if (*LDC<max(INTEGER(1),*M)) {
-        info = 12;
-    }
-    if (info!=0) {
-        BLAS(xerbla)("CSYMM ", &info);
-        return;
-    }
-
-    Side           side = Side(_SIDE);
-    StorageUpLo    upLo = StorageUpLo(_UPLO);
-    const INTEGER  ka   = side==Left ? *M : *N;
-
-    CSyMatrixConstView  A(CFullConstView(ka, ka, _A, *LDA), upLo);
-    CGeMatrixConstView  B = CFullConstView(*M, *N, _B, *LDB);
-    CGeMatrixView       C = CFullView(*M, *N, _C, *LDC);
-
-#   ifdef TEST_OVERLOADED_OPERATORS
-    const auto alpha = *ALPHA;
-    const auto beta  = *BETA;
-
-    if (side==Left) {
-        C = beta*C + alpha*A*B;
-    } else if (side==Right) {
-        C = beta*C + alpha*B*A;
-    }
+#   ifdef TEST_DIRECT_CBLAS
+    
+        char    _SIDE   = toupper(*SIDE);
+        char    _UPLO   = toupper(*UPLO);
+        
+        Side           side   = Side(_SIDE);
+        StorageUpLo    upLo   = StorageUpLo(_UPLO);
+        
+        cblas_csymm(CBLAS_ORDER::CblasColMajor,
+                    cxxblas::CBLAS::getCblasType(side),
+                    cxxblas::CBLAS::getCblasType(upLo),
+                    *M, *N,
+                    reinterpret_cast<const float *>(ALPHA),
+                    reinterpret_cast<const float *>(_A), *LDA,
+                    reinterpret_cast<const float *>(_B), *LDB,
+                    reinterpret_cast<const float *>(BETA),
+                    reinterpret_cast<float *>(_C), *LDC);
+    
 #   else
-    blas::mm(side, *ALPHA, A, B, *BETA, C);
+    
+        using std::abs;
+        using std::max;
+
+        char    _SIDE = toupper(*SIDE);
+        char    _UPLO = toupper(*UPLO);
+        INTEGER nRowA = (_SIDE=='L') ? *M : *N;
+
+#       ifndef NO_INPUT_CHECK
+            INTEGER info  = 0;
+            if (_SIDE!='L' && _SIDE!='R') {
+                info = 1;
+            } else if (_UPLO!='U' && _UPLO!='L') {
+                info = 2;
+            } else if (*M<0) {
+                info = 3;
+            } else if (*N<0) {
+                info = 4;
+            } else if (*LDA<max(INTEGER(1),nRowA)) {
+                info = 7;
+            } else if (*LDB<max(INTEGER(1),*M)) {
+                info = 9;
+            } else if (*LDC<max(INTEGER(1),*M)) {
+                info = 12;
+            }
+            if (info!=0) {
+                BLAS(xerbla)("CSYMM ", &info);
+                return;
+            }
+#       endif
+
+        Side           side = Side(_SIDE);
+        StorageUpLo    upLo = StorageUpLo(_UPLO);
+        const INTEGER  ka   = side==Left ? *M : *N;
+
+        CSyMatrixConstView  A(CFullConstView(ka, ka, _A, *LDA), upLo);
+        CGeMatrixConstView  B = CFullConstView(*M, *N, _B, *LDB);
+        CGeMatrixView       C = CFullView(*M, *N, _C, *LDC);
+
+#       ifdef TEST_OVERLOADED_OPERATORS
+            const auto alpha = *ALPHA;
+            const auto beta  = *BETA;
+
+            if (side==Left) {
+                C = beta*C + alpha*A*B;
+            } else if (side==Right) {
+                C = beta*C + alpha*B*A;
+            }
+#       else
+            blas::mm(side, *ALPHA, A, B, *BETA, C);
+#       endif
 #   endif
 }
 
@@ -212,53 +276,75 @@ BLAS(zsymm)(const char      *SIDE,
             cdouble         *_C,
             const INTEGER   *LDC)
 {
-    using std::abs;
-    using std::max;
-
-    INTEGER info  = 0;
-    char    _SIDE = toupper(*SIDE);
-    char    _UPLO = toupper(*UPLO);
-    INTEGER nRowA = (_SIDE=='L') ? *M : *N;
-
-    if (_SIDE!='L' && _SIDE!='R') {
-        info = 1;
-    } else if (_UPLO!='U' && _UPLO!='L') {
-        info = 2;
-    } else if (*M<0) {
-        info = 3;
-    } else if (*N<0) {
-        info = 4;
-    } else if (*LDA<max(INTEGER(1),nRowA)) {
-        info = 7;
-    } else if (*LDB<max(INTEGER(1),*M)) {
-        info = 9;
-    } else if (*LDC<max(INTEGER(1),*M)) {
-        info = 12;
-    }
-    if (info!=0) {
-        BLAS(xerbla)("ZSYMM ", &info);
-        return;
-    }
-
-    Side           side = Side(_SIDE);
-    StorageUpLo    upLo = StorageUpLo(_UPLO);
-    const INTEGER  ka   = side==Left ? *M : *N;
-
-    ZSyMatrixConstView  A(ZFullConstView(ka, ka, _A, *LDA), upLo);
-    ZGeMatrixConstView  B = ZFullConstView(*M, *N, _B, *LDB);
-    ZGeMatrixView       C = ZFullView(*M, *N, _C, *LDC);
-
-#   ifdef TEST_OVERLOADED_OPERATORS
-    const auto alpha = *ALPHA;
-    const auto beta  = *BETA;
-
-    if (side==Left) {
-        C = beta*C + alpha*A*B;
-    } else if (side==Right) {
-        C = beta*C + alpha*B*A;
-    }
+#   ifdef TEST_DIRECT_CBLAS
+    
+    char    _SIDE   = toupper(*SIDE);
+    char    _UPLO   = toupper(*UPLO);
+    
+    Side           side   = Side(_SIDE);
+    StorageUpLo    upLo   = StorageUpLo(_UPLO);
+    
+    cblas_zsymm(CBLAS_ORDER::CblasColMajor,
+                cxxblas::CBLAS::getCblasType(side),
+                cxxblas::CBLAS::getCblasType(upLo),
+                *M, *N,
+                reinterpret_cast<const double *>(ALPHA),
+                reinterpret_cast<const double *>(_A), *LDA,
+                reinterpret_cast<const double *>(_B), *LDB,
+                reinterpret_cast<const double *>(BETA),
+                reinterpret_cast<double *>(_C), *LDC);
+    
 #   else
-    blas::mm(side, *ALPHA, A, B, *BETA, C);
+        using std::abs;
+        using std::max;
+
+        char    _SIDE = toupper(*SIDE);
+        char    _UPLO = toupper(*UPLO);
+        INTEGER nRowA = (_SIDE=='L') ? *M : *N;
+
+#       ifndef NO_INPUT_CHECK
+            INTEGER info  = 0;
+            if (_SIDE!='L' && _SIDE!='R') {
+                info = 1;
+            } else if (_UPLO!='U' && _UPLO!='L') {
+                info = 2;
+            } else if (*M<0) {
+                info = 3;
+            } else if (*N<0) {
+                info = 4;
+            } else if (*LDA<max(INTEGER(1),nRowA)) {
+                info = 7;
+            } else if (*LDB<max(INTEGER(1),*M)) {
+                info = 9;
+            } else if (*LDC<max(INTEGER(1),*M)) {
+                info = 12;
+            }
+            if (info!=0) {
+                BLAS(xerbla)("ZSYMM ", &info);
+                return;
+            }
+#       endif
+    
+        Side           side = Side(_SIDE);
+        StorageUpLo    upLo = StorageUpLo(_UPLO);
+        const INTEGER  ka   = side==Left ? *M : *N;
+
+        ZSyMatrixConstView  A(ZFullConstView(ka, ka, _A, *LDA), upLo);
+        ZGeMatrixConstView  B = ZFullConstView(*M, *N, _B, *LDB);
+        ZGeMatrixView       C = ZFullView(*M, *N, _C, *LDC);
+
+#       ifdef TEST_OVERLOADED_OPERATORS
+            const auto alpha = *ALPHA;
+            const auto beta  = *BETA;
+
+            if (side==Left) {
+                C = beta*C + alpha*A*B;
+            } else if (side==Right) {
+                C = beta*C + alpha*B*A;
+            }
+#       else
+            blas::mm(side, *ALPHA, A, B, *BETA, C);
+#       endif
 #   endif
 }
 

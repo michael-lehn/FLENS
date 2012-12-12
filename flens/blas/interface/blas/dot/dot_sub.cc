@@ -13,15 +13,22 @@ BLAS(sdot_sub)(const INTEGER   *N,
                const INTEGER   *INCY,
                float           *RES)
 {
-    using std::abs;
-
-    SDenseVectorConstView x(SConstArrayView(*N, X, abs(*INCX)), *INCX<0);
-    SDenseVectorConstView y(SConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
-
-#   ifdef TEST_OVERLOADED_OPERATORS
-    *RES = x*y;
+#   ifdef TEST_DIRECT_CBLAS
+    
+        *RES = cblas_sdot(*N, X, *INCX, Y, *INCY);
+    
 #   else
-    *RES = blas::dot(x, y);
+    
+        using std::abs;
+
+        SDenseVectorConstView x(SConstArrayView(*N, X, abs(*INCX)), *INCX<0);
+        SDenseVectorConstView y(SConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
+
+#       ifdef TEST_OVERLOADED_OPERATORS
+            *RES = x*y;
+#       else
+            *RES = blas::dot(x, y);
+#       endif
 #   endif
 }
 
@@ -33,15 +40,21 @@ BLAS(ddot_sub)(const INTEGER   *N,
                const INTEGER   *INCY,
                double          *RES)
 {
-    using std::abs;
-
-    DDenseVectorConstView  x(DConstArrayView(*N, X, abs(*INCX)), *INCX<0);
-    DDenseVectorConstView  y(DConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
-
-#   ifdef TEST_OVERLOADED_OPERATORS
-    *RES = x*y;
+#   ifdef TEST_DIRECT_CBLAS
+        
+        *RES = cblas_ddot(*N, X, *INCX, Y, *INCY);
+        
 #   else
-    *RES = blas::dot(x, y);
+        using std::abs;
+
+        DDenseVectorConstView  x(DConstArrayView(*N, X, abs(*INCX)), *INCX<0);
+        DDenseVectorConstView  y(DConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
+
+#       ifdef TEST_OVERLOADED_OPERATORS
+            *RES = x*y;
+#       else
+            *RES = blas::dot(x, y);
+#       endif
 #   endif
 }
 
@@ -53,15 +66,24 @@ BLAS(cdotc_sub)(const INTEGER  *N,
                 const INTEGER  *INCY,
                 cfloat         *RES)
 {
-    using std::abs;
-
-    CDenseVectorConstView x(CConstArrayView(*N, X, abs(*INCX)), *INCX<0);
-    CDenseVectorConstView y(CConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
-
-#   ifdef TEST_OVERLOADED_OPERATORS
-    *RES = conjugate(x)*y;
+#   ifdef TEST_DIRECT_CBLAS
+    
+    cblas_cdotc_sub(*N,
+                    reinterpret_cast<const float *>(X), *INCX,
+                    reinterpret_cast<const float *>(Y), *INCY,
+                    reinterpret_cast<float *>(RES));
+    
 #   else
-    *RES = blas::dot(x, y);
+        using std::abs;
+    
+        CDenseVectorConstView x(CConstArrayView(*N, X, abs(*INCX)), *INCX<0);
+        CDenseVectorConstView y(CConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
+
+#       ifdef TEST_OVERLOADED_OPERATORS
+            *RES = conjugate(x)*y;
+#       else
+            *RES = blas::dot(x, y);
+#       endif
 #   endif
 }
 
@@ -73,16 +95,26 @@ BLAS(cdotu_sub)(const INTEGER  *N,
                 const INTEGER  *INCY,
                 cfloat         *RES)
 {
-    using std::abs;
-
-    CDenseVectorConstView x(CConstArrayView(*N, X, abs(*INCX)), *INCX<0);
-    CDenseVectorConstView y(CConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
-
-#   ifdef TEST_OVERLOADED_OPERATORS
-    *RES = x*y;
+#   ifdef TEST_DIRECT_CBLAS
+    
+    cblas_cdotu_sub(*N,
+                    reinterpret_cast<const float *>(X), *INCX,
+                    reinterpret_cast<const float *>(Y), *INCY,
+                    reinterpret_cast<float *>(RES));
+    
 #   else
-    *RES = blas::dotu(x, y);
+        using std::abs;
+
+        CDenseVectorConstView x(CConstArrayView(*N, X, abs(*INCX)), *INCX<0);
+        CDenseVectorConstView y(CConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
+
+#       ifdef TEST_OVERLOADED_OPERATORS
+            *RES = x*y;
+#       else
+            *RES = blas::dotu(x, y);
+#       endif
 #   endif
+    
 }
 
 void
@@ -93,15 +125,24 @@ BLAS(zdotc_sub)(const INTEGER  *N,
                 const INTEGER  *INCY,
                 cdouble        *RES)
 {
-    using std::abs;
-
-    ZDenseVectorConstView  x(ZConstArrayView(*N, X, abs(*INCX)), *INCX<0);
-    ZDenseVectorConstView  y(ZConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
-
-#   ifdef TEST_OVERLOADED_OPERATORS
-    *RES = conjugate(x)*y;
+#   ifdef TEST_DIRECT_CBLAS
+    
+    cblas_zdotc_sub(*N,
+                    reinterpret_cast<const double *>(X), *INCX,
+                    reinterpret_cast<const double *>(Y), *INCY,
+                    reinterpret_cast<double *>(RES));
+    
 #   else
-    *RES = blas::dot(x, y);
+        using std::abs;
+
+        ZDenseVectorConstView  x(ZConstArrayView(*N, X, abs(*INCX)), *INCX<0);
+        ZDenseVectorConstView  y(ZConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
+
+#       ifdef TEST_OVERLOADED_OPERATORS
+            *RES = conjugate(x)*y;
+#       else
+            *RES = blas::dot(x, y);
+#       endif
 #   endif
 }
 
@@ -113,16 +154,27 @@ BLAS(zdotu_sub)(const INTEGER  *N,
                 const INTEGER  *INCY,
                 cdouble        *RES)
 {
-    using std::abs;
 
-    ZDenseVectorConstView  x(ZConstArrayView(*N, X, abs(*INCX)), *INCX<0);
-    ZDenseVectorConstView  y(ZConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
-
-#   ifdef TEST_OVERLOADED_OPERATORS
-    *RES = x*y;
+#   ifdef TEST_DIRECT_CBLAS
+    
+    cblas_zdotu_sub(*N,
+                    reinterpret_cast<const double *>(X), *INCX,
+                    reinterpret_cast<const double *>(Y), *INCY,
+                    reinterpret_cast<double *>(RES));
+    
 #   else
-    *RES = blas::dotu(x, y);
+        using std::abs;
+
+        ZDenseVectorConstView  x(ZConstArrayView(*N, X, abs(*INCX)), *INCX<0);
+        ZDenseVectorConstView  y(ZConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
+
+#       ifdef TEST_OVERLOADED_OPERATORS
+            *RES = x*y;
+#       else
+            *RES = blas::dotu(x, y);
+#       endif
 #   endif
+    
 }
 
 void
@@ -134,16 +186,22 @@ BLAS(sdsdot_sub)(const INTEGER   *N,
                  const INTEGER   *INCY,
                  float           *RES)
 {
-    using std::abs;
+#   ifdef TEST_DIRECT_CBLAS
+    
+        *RES = cblas_sdsdot(*N, *B, X, *INCX, Y, *INCY);
+    
+#   else
+        using std::abs;
 
-    SDenseVectorConstView x(SConstArrayView(*N, X, abs(*INCX)), *INCX<0);
-    SDenseVectorConstView y(SConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
+        SDenseVectorConstView x(SConstArrayView(*N, X, abs(*INCX)), *INCX<0);
+        SDenseVectorConstView y(SConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
-    double tmp;
-    blas::dot(x, y, tmp);
+        double tmp;
+        blas::dot(x, y, tmp);
 
-    tmp += double(*RES);
-    *RES = tmp;
+        tmp += double(*RES);
+        *RES = tmp;
+#   endif
 }
 
 void
@@ -154,12 +212,20 @@ BLAS(dsdot_sub)(const INTEGER   *N,
                 const INTEGER   *INCY,
                 double          *RES)
 {
-    using std::abs;
+#   ifdef TEST_DIRECT_CBLAS
+    
+    *RES =  cblas_dsdot(*N, X, *INCX, Y, *INCY);
+    
+#   else
+    
+        using std::abs;
 
-    SDenseVectorConstView x(SConstArrayView(*N, X, abs(*INCX)), *INCX<0);
-    SDenseVectorConstView y(SConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
+        SDenseVectorConstView x(SConstArrayView(*N, X, abs(*INCX)), *INCX<0);
+        SDenseVectorConstView y(SConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
-    blas::dot(x, y, *RES);
+        blas::dot(x, y, *RES);
+    
+#   endif
 }
 
 
