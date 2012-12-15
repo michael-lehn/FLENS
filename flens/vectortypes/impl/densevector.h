@@ -237,8 +237,8 @@ class DenseVector
         reversed() const;
 
     private:
-        A           _array;
-        const bool  _reverse;
+        A                _array;
+        const IndexType  _stride;
 };
 
 //-- Traits --------------------------------------------------------------------
