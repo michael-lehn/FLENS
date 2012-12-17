@@ -62,8 +62,9 @@ rotm(IndexType n, double *x, IndexType incX, double *y, IndexType incY,
 }
 
 // srotmg
-void
-rotmg(float &d1, float &d2, float &b1, float &b2, float *p)
+template <typename T>
+typename RestrictTo<IsSame<T, float>::value, void>::Type
+rotmg(T &d1, T &d2, T &b1, T &b2, T *p)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_srotmg");
 
@@ -71,8 +72,9 @@ rotmg(float &d1, float &d2, float &b1, float &b2, float *p)
 }
 
 // drotg
-void
-rotmg(double &d1, double &d2, double &b1, double &b2, double *p)
+template <typename T>
+typename RestrictTo<IsSame<T, double>::value, void>::Type
+rotmg(T &d1, T &d2, T &b1, T &b2, T *p)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_drotmg");
 

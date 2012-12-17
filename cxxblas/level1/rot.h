@@ -70,12 +70,14 @@ template <typename IndexType>
         double c, double s);
 
 // srotg
-    void
-    rotg(float &a, float &b, float &c, float &s);
+template <typename T>
+    typename RestrictTo<IsSame<T, float>::value, void>::Type
+    rotg(T &a, T &b, T &c, T &s);
 
 // drotg
-    void
-    rotg(double &a, double &b, double &c, double &s);
+template <typename T>
+    typename RestrictTo<IsSame<T, double>::value, void>::Type
+    rotg(T &a, T &b, T &c, T &s);
 
 #endif // HAVE_CBLAS
 
