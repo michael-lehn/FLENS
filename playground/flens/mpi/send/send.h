@@ -30,12 +30,35 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_FLENS_FLENS_TCC
-#define PLAYGROUND_FLENS_FLENS_TCC 1
+#ifndef PLAYGROUND_FLENS_MPI_SEND_SEND_H
+#define PLAYGROUND_FLENS_MPI_SEND_SEND_H 1
 
-#include<playground/flens/mpi/mpi-flens.tcc>
-#include<playground/flens/solver/solver.tcc>
-#include<playground/flens/blas-extensions/blas-extensions.tcc>
-#include<playground/flens/lapack-extensions/lapack-extensions.tcc>
+#include<playground/flens/mpi/types.h>
 
-#endif // PLAYGROUND_FLENS_FLENS_TCC
+
+namespace flens { namespace mpi {
+
+template <typename VX>
+typename RestrictTo<IsDenseVector<VX>::value,
+                    void>::Type
+MPI_send(VX &&x, const int source, const int dest = 0);
+
+template <typename MA>
+typename RestrictTo<IsGeMatrix<MA>::value,
+                    void>::Type
+MPI_send(MA &&A, const int source, const int dest = 0);
+
+
+template <typename VX>
+typename RestrictTo<IsDenseVector<VX>::value,
+                    void>::Type
+MPI_send(VX &&x, const int dest = 0);
+
+template <typename MA>
+typename RestrictTo<IsGeMatrix<MA>::value,
+                    void>::Type
+MPI_send(MA &&A, const int dest = 0);
+
+} }
+
+#endif // PLAYGROUND_FLENS_MPI_SEND_SEND_H

@@ -30,12 +30,35 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_FLENS_FLENS_TCC
-#define PLAYGROUND_FLENS_FLENS_TCC 1
+#ifndef PLAYGROUND_FLENS_MPI_RECV_RECV_H
+#define PLAYGROUND_FLENS_MPI_RECV_RECV_H 1
 
-#include<playground/flens/mpi/mpi-flens.tcc>
-#include<playground/flens/solver/solver.tcc>
-#include<playground/flens/blas-extensions/blas-extensions.tcc>
-#include<playground/flens/lapack-extensions/lapack-extensions.tcc>
+#ifdef WITH_MPI
+#    include "mpi.h"
+#endif
 
-#endif // PLAYGROUND_FLENS_FLENS_TCC
+#include<vector>
+#include<playground/flens/mpi/types.h>
+
+
+namespace flens { namespace mpi {
+
+template <typename VX>
+typename RestrictTo<IsDenseVector<VX>::value,
+                    void>::Type
+MPI_recv(VX &&x, const int source, const int dest = 0);
+
+template <typename MA>
+typename RestrictTo<IsGeMatrix<MA>::value,
+                    void>::Type
+MPI_recv(MA &&A, const int source, const int dest = 0);
+
+template <typename X>
+typename RestrictTo<IsDenseVector<X>::value ||
+                    IsGeMatrix<X>::value,
+                    void>::Type
+MPI_recv_all(std::vector<X> &x, const int dest = 0);
+
+} }
+
+#endif // PLAYGROUND_FLENS_MPI_RECV_RECV_H

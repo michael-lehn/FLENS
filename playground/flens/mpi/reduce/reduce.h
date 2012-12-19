@@ -30,12 +30,27 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_FLENS_FLENS_TCC
-#define PLAYGROUND_FLENS_FLENS_TCC 1
+#ifndef PLAYGROUND_FLENS_MPI_REDUCE_REDUCE_H
+#define PLAYGROUND_FLENS_MPI_REDUCE_REDUCE_H 1
 
-#include<playground/flens/mpi/mpi-flens.tcc>
-#include<playground/flens/solver/solver.tcc>
-#include<playground/flens/blas-extensions/blas-extensions.tcc>
-#include<playground/flens/lapack-extensions/lapack-extensions.tcc>
+#include<playground/flens/mpi/types.h>
 
-#endif // PLAYGROUND_FLENS_FLENS_TCC
+
+namespace flens { namespace mpi {
+  
+template <typename VX, typename VSUM>
+typename RestrictTo<IsDenseVector<VX>::value &&
+                    IsDenseVector<VSUM>::value,
+                    void>::Type
+MPI_reduce_sum(VX &&x, VSUM &&sum, const int root = 0);
+
+
+template <typename MA, typename MSUM>
+typename RestrictTo<IsGeMatrix<MA>::value &&
+                    IsGeMatrix<MSUM>::value,
+                    void>::Type
+MPI_reduce_sum(MA &&A, MSUM &&Sum, const int root = 0);
+
+} }
+
+#endif // PLAYGROUND_FLENS_MPI_REDUCE_REDUCE_H

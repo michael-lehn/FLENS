@@ -30,12 +30,14 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_FLENS_FLENS_TCC
-#define PLAYGROUND_FLENS_FLENS_TCC 1
+#ifndef PLAYGROUND_FLENS_MPI_RANK_H
+#define PLAYGROUND_FLENS_MPI_RANK_H 1
 
-#include<playground/flens/mpi/mpi-flens.tcc>
-#include<playground/flens/solver/solver.tcc>
-#include<playground/flens/blas-extensions/blas-extensions.tcc>
-#include<playground/flens/lapack-extensions/lapack-extensions.tcc>
+namespace flens { namespace mpi {
 
-#endif // PLAYGROUND_FLENS_FLENS_TCC
+int
+MPI_rank();
+
+} }
+
+#endif // PLAYGROUND_FLENS_MPI_RANK_H

@@ -30,12 +30,16 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_FLENS_FLENS_TCC
-#define PLAYGROUND_FLENS_FLENS_TCC 1
+#ifndef PLAYGROUND_FLENS_MPI_MPI_TCC
+#define PLAYGROUND_FLENS_MPI_MPI_TCC 1
 
-#include<playground/flens/mpi/mpi-flens.tcc>
-#include<playground/flens/solver/solver.tcc>
-#include<playground/flens/blas-extensions/blas-extensions.tcc>
-#include<playground/flens/lapack-extensions/lapack-extensions.tcc>
+#include<playground/flens/mpi/init.tcc>
+#include<playground/flens/mpi/finalize.tcc>
+#include<playground/flens/mpi/rank.tcc>
+#include<playground/flens/mpi/size.tcc>
+#include<playground/flens/mpi/bcast/bcast.tcc>
+#include<playground/flens/mpi/recv/recv.tcc>
+#include<playground/flens/mpi/reduce/reduce.tcc>
+#include<playground/flens/mpi/send/send.tcc>
 
-#endif // PLAYGROUND_FLENS_FLENS_TCC
+#endif // PLAYGROUND_FLENS_MPI_MPI_TCC
