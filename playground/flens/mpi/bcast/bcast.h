@@ -30,12 +30,29 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_FLENS_FLENS_TCC
-#define PLAYGROUND_FLENS_FLENS_TCC 1
+#ifndef PLAYGROUND_FLENS_MPI_BCAST_BCAST_H
+#define PLAYGROUND_FLENS_MPI_BCAST_BCAST_H 1
 
-#include<playground/flens/mpi/mpi-flens.tcc>
-#include<playground/flens/solver/solver.tcc>
-#include<playground/flens/blas-extensions/blas-extensions.tcc>
-#include<playground/flens/lapack-extensions/lapack-extensions.tcc>
+#ifdef WITH_MPI
+#    include "mpi.h"
+#endif
 
-#endif // PLAYGROUND_FLENS_FLENS_TCC
+#include<playground/flens/mpi/types.h>
+
+
+namespace flens { namespace mpi {
+
+template <typename VX>
+typename RestrictTo<IsDenseVector<VX>::value,
+                    void>::Type
+MPI_bcast(VX &&x, const int root = 0);
+  
+  
+template <typename MA>
+typename RestrictTo<IsGeMatrix<MA>::value,
+                    void>::Type
+MPI_bcast(MA &&A, const int root = 0);
+
+} }
+
+#endif // PLAYGROUND_FLENS_MPI_BCAST_BCAST_H

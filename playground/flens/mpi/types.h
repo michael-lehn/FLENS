@@ -30,12 +30,81 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_FLENS_FLENS_TCC
-#define PLAYGROUND_FLENS_FLENS_TCC 1
+#ifndef PLAYGROUND_FLENS_MPI_TYPES_H
+#define PLAYGROUND_FLENS_MPI_TYPES_H 1
 
-#include<playground/flens/mpi/mpi-flens.tcc>
-#include<playground/flens/solver/solver.tcc>
-#include<playground/flens/blas-extensions/blas-extensions.tcc>
-#include<playground/flens/lapack-extensions/lapack-extensions.tcc>
+#ifdef WITH_MPI
+#    include "mpi.h"
+#endif
 
-#endif // PLAYGROUND_FLENS_FLENS_TCC
+namespace flens { namespace mpi {
+
+
+template <typename T>
+struct MPI_Type
+{
+};
+
+#ifdef WITH_MPI
+template <>
+struct MPI_Type<int>
+{
+    typedef int                   PrimitiveType; 
+    static constexpr MPI_Datatype Type = MPI_INT;
+    static const int              size = 1;
+};
+
+template <>
+struct MPI_Type<long>
+{
+    typedef long                  PrimitiveType; 
+    static constexpr MPI_Datatype Type = MPI_LONG;
+    static const int              size = 1;
+};
+
+template <>
+struct MPI_Type<unsigned int>
+{
+    typedef int                   PrimitiveType; 
+    static constexpr MPI_Datatype Type = MPI_UNSIGNED;
+    static const int              size = 1;
+};
+
+template <>
+struct MPI_Type<unsigned long>
+{
+    typedef int                   PrimitiveType; 
+    static constexpr MPI_Datatype Type = MPI_UNSIGNED_LONG;
+    static const int              size = 1;
+};
+
+template <>
+struct MPI_Type<float>
+{
+    typedef float                 PrimitiveType; 
+    static constexpr MPI_Datatype Type = MPI_FLOAT;
+    static const int              size = 1;
+};
+
+template <>
+struct MPI_Type<double>
+{
+    typedef double                PrimitiveType; 
+    static constexpr MPI_Datatype Type = MPI_DOUBLE;
+    static const int              size = 1;
+};
+
+template <typename T>
+struct MPI_Type<std::complex<T >>
+{
+    typedef T                     PrimitiveType; 
+    static constexpr MPI_Datatype Type = MPI_Type<T>::Type;
+    static const int              size = 2*MPI_Type<T>::size;
+};
+
+#endif 
+
+
+} }
+
+#endif // PLAYGROUND_FLENS_MPI_TYPES_H
