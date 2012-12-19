@@ -33,6 +33,7 @@
 /* Based on
  *
       SUBROUTINE DLACN2( N, V, X, ISGN, EST, KASE, ISAVE )
+      SUBROUTINE ZLACN2( N, V, X, EST, KASE, ISAVE )      
  *
  *  -- LAPACK auxiliary routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -51,18 +52,32 @@
 
 namespace flens { namespace lapack {
 
-//== lacn2 =====================================================================
+//== lacn2 [real] =============================================================
 template <typename  VV, typename VX, typename VSGN, typename EST,
           typename KASE, typename VSAVE>
     void
     lacn2(DenseVector<VV> &v, DenseVector<VX> &x, DenseVector<VSGN> &sgn,
           EST &est, KASE &kase, DenseVector<VSAVE> &iSave);
+    
+//== lacn2 [complex] ==========================================================
+template <typename  VV, typename VX, typename EST,
+          typename KASE, typename VSAVE>
+    void
+    lacn2(DenseVector<VV> &v, DenseVector<VX> &x, 
+          EST &est, KASE &kase, DenseVector<VSAVE> &iSave);
 
-//-- forwarding ----------------------------------------------------------------
+//-- forwarding [real] --------------------------------------------------------
 template <typename  VV, typename VX, typename VSGN, typename EST,
           typename KASE, typename VSAVE>
     void
     lacn2(VV &&v, VX &&x, VSGN &&sgn, EST &&est,
+          KASE &&kase, VSAVE &&iSave);
+
+//-- forwarding [complex]------------------------------------------------------
+template <typename  VV, typename VX, typename EST,
+          typename KASE, typename VSAVE>
+    void
+    lacn2(VV &&v, VX &&x, EST &&est,
           KASE &&kase, VSAVE &&iSave);
 
 } } // namespace lapack, flens

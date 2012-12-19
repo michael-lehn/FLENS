@@ -34,7 +34,10 @@
  *
        SUBROUTINE DGEBAK( JOB, SIDE, N, ILO, IHI, SCALE, M, V, LDV,
       $                   INFO )
+       SUBROUTINE DGEBAK( JOB, SIDE, N, ILO, IHI, SCALE, M, V, LDV,
+      $                   INFO )
  *
+ * 
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
  *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
@@ -53,7 +56,7 @@ namespace flens { namespace lapack {
 //== (ge)bak ===================================================================
 template <typename IndexType, typename VSCALE, typename MV>
     typename RestrictTo<IsRealDenseVector<VSCALE>::value
-                     && IsRealGeMatrix<MV>::value,
+                     && IsGeMatrix<MV>::value,
              void>::Type
     bak(BALANCE::Balance            job,
         Side                        side,

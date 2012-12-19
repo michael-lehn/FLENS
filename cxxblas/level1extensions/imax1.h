@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2009, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,32 +30,25 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_TCC
-#define CXXBLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_TCC 1
+#ifndef CXXBLAS_LEVEL1EXTENSIONS_IMAX_H
+#define CXXBLAS_LEVEL1EXTENSIONS_IMAX_H 1
 
-#include <cxxblas/level1extensions/acxpy.tcc>
-#include <cxxblas/level1extensions/asum1.tcc>
-#include <cxxblas/level1extensions/axpy.tcc>
-#include <cxxblas/level1extensions/ccopy.tcc>
-#include <cxxblas/level1extensions/dot.tcc>
-#include <cxxblas/level1extensions/gbaxpy.tcc>
-#include <cxxblas/level1extensions/geaxpy.tcc>
-#include <cxxblas/level1extensions/gbcopy.tcc>
-#include <cxxblas/level1extensions/gbcotr.tcc>
-#include <cxxblas/level1extensions/gbscal.tcc>
-#include <cxxblas/level1extensions/gecopy.tcc>
-#include <cxxblas/level1extensions/gecotr.tcc>
-#include <cxxblas/level1extensions/geraxpy.tcc>
-#include <cxxblas/level1extensions/gescal.tcc>
-#include <cxxblas/level1extensions/gerscal.tcc>
-#include <cxxblas/level1extensions/hescal.tcc>
-#include <cxxblas/level1extensions/imax1.tcc>
-#include <cxxblas/level1extensions/syscal.tcc>
-#include <cxxblas/level1extensions/raxpy.tcc>
-#include <cxxblas/level1extensions/rscal.tcc>
-#include <cxxblas/level1extensions/trcopy.tcc>
-#include <cxxblas/level1extensions/tpaxpy.tcc>
-#include <cxxblas/level1extensions/tpcopy.tcc>
-#include <cxxblas/level1extensions/tpscal.tcc>
+#include <cxxblas/typedefs.h>
 
-#endif // CXXBLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_TCC
+#define HAVE_CXXBLAS_IMAX1 1
+
+
+namespace cxxblas {
+
+template <typename IndexType, typename X>
+    void
+    imax1(IndexType n, const X *x, IndexType incX, IndexType &i);
+
+template <typename IndexType, typename X>
+    IndexType
+    imax1(IndexType n, const X *x, IndexType incX);
+
+
+} // namespace cxxblas
+
+#endif // CXXBLAS_LEVEL1EXTENSIONS_IMAX_H

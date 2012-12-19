@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2009, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,32 +30,37 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_TCC
-#define CXXBLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_TCC 1
+#ifndef FLENS_BLAS_LEVEL1EXTENSIONS_IMAX1_TCC
+#define FLENS_BLAS_LEVEL1EXTENSIONS_IMAX1_TCC 1
 
-#include <cxxblas/level1extensions/acxpy.tcc>
-#include <cxxblas/level1extensions/asum1.tcc>
-#include <cxxblas/level1extensions/axpy.tcc>
-#include <cxxblas/level1extensions/ccopy.tcc>
-#include <cxxblas/level1extensions/dot.tcc>
-#include <cxxblas/level1extensions/gbaxpy.tcc>
-#include <cxxblas/level1extensions/geaxpy.tcc>
-#include <cxxblas/level1extensions/gbcopy.tcc>
-#include <cxxblas/level1extensions/gbcotr.tcc>
-#include <cxxblas/level1extensions/gbscal.tcc>
-#include <cxxblas/level1extensions/gecopy.tcc>
-#include <cxxblas/level1extensions/gecotr.tcc>
-#include <cxxblas/level1extensions/geraxpy.tcc>
-#include <cxxblas/level1extensions/gescal.tcc>
-#include <cxxblas/level1extensions/gerscal.tcc>
-#include <cxxblas/level1extensions/hescal.tcc>
-#include <cxxblas/level1extensions/imax1.tcc>
-#include <cxxblas/level1extensions/syscal.tcc>
-#include <cxxblas/level1extensions/raxpy.tcc>
-#include <cxxblas/level1extensions/rscal.tcc>
-#include <cxxblas/level1extensions/trcopy.tcc>
-#include <cxxblas/level1extensions/tpaxpy.tcc>
-#include <cxxblas/level1extensions/tpcopy.tcc>
-#include <cxxblas/level1extensions/tpscal.tcc>
+#include <cxxblas/cxxblas.h>
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/blas/closures/closures.h>
+#include <flens/blas/level1/level1.h>
+#include <flens/typedefs.h>
 
-#endif // CXXBLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_TCC
+#ifdef FLENS_DEBUG_CLOSURES
+#   include <flens/blas/blaslogon.h>
+#else
+#   include <flens/blas/blaslogoff.h>
+#endif
+
+namespace flens { namespace blas {
+
+template <typename X>
+typename DenseVector<X>::IndexType
+imax1(const DenseVector<X> &x)
+{
+    typename DenseVector<X>::IndexType i;
+
+#   ifdef HAVE_CXXBLAS_IMAX1
+    cxxblas::imax1(x.length(), x.data(), x.stride(), i);
+#   else
+    ASSERT(0);
+#   endif
+    return i + x.indexBase();
+}
+
+} } // namespace blas, flens
+
+#endif // FLENS_BLAS_LEVEL1EXTENSIONS_IMAX1_TCC

@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2009, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,32 +30,36 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_TCC
-#define CXXBLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_TCC 1
+#ifndef FLENS_BLAS_LEVEL1EXTENSIONS_ASUM1_H
+#define FLENS_BLAS_LEVEL1EXTENSIONS_ASUM1_H 1
 
-#include <cxxblas/level1extensions/acxpy.tcc>
-#include <cxxblas/level1extensions/asum1.tcc>
-#include <cxxblas/level1extensions/axpy.tcc>
-#include <cxxblas/level1extensions/ccopy.tcc>
-#include <cxxblas/level1extensions/dot.tcc>
-#include <cxxblas/level1extensions/gbaxpy.tcc>
-#include <cxxblas/level1extensions/geaxpy.tcc>
-#include <cxxblas/level1extensions/gbcopy.tcc>
-#include <cxxblas/level1extensions/gbcotr.tcc>
-#include <cxxblas/level1extensions/gbscal.tcc>
-#include <cxxblas/level1extensions/gecopy.tcc>
-#include <cxxblas/level1extensions/gecotr.tcc>
-#include <cxxblas/level1extensions/geraxpy.tcc>
-#include <cxxblas/level1extensions/gescal.tcc>
-#include <cxxblas/level1extensions/gerscal.tcc>
-#include <cxxblas/level1extensions/hescal.tcc>
-#include <cxxblas/level1extensions/imax1.tcc>
-#include <cxxblas/level1extensions/syscal.tcc>
-#include <cxxblas/level1extensions/raxpy.tcc>
-#include <cxxblas/level1extensions/rscal.tcc>
-#include <cxxblas/level1extensions/trcopy.tcc>
-#include <cxxblas/level1extensions/tpaxpy.tcc>
-#include <cxxblas/level1extensions/tpcopy.tcc>
-#include <cxxblas/level1extensions/tpscal.tcc>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
 
-#endif // CXXBLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_TCC
+namespace flens { namespace blas {
+
+//-- BLAS Level 1 --------------------------------------------------------------
+
+template <typename X, typename T>
+    typename RestrictTo<IsNotComplex<T>::value, void>::Type
+    asum1(const DenseVector<X> &x, T &absoluteSum);
+
+template <typename X>
+    const typename ComplexTrait<typename X::ElementType>::PrimitiveType
+    asum1(const DenseVector<X> &x);
+
+//-- BLAS Level 1 extensions ---------------------------------------------------
+
+//== GeneralMatrix
+
+template <typename MA, typename T>
+    typename RestrictTo<IsNotComplex<T>::value, void>::Type
+    asum1(const GeMatrix<MA> &A, T &absoluteSum);
+
+template <typename MA>
+    const typename ComplexTrait<typename MA::ElementType>::PrimitiveType
+    asum1(const GeMatrix<MA> &A);
+
+} } // namespace blas, flens
+
+#endif // FLENS_BLAS_LEVEL1EXTENSIONS_ASUM1_H

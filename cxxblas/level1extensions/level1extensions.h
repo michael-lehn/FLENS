@@ -34,6 +34,7 @@
 #define CXXBLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_H 1
 
 #include <cxxblas/level1extensions/acxpy.h>
+#include <cxxblas/level1extensions/asum1.h>
 #include <cxxblas/level1extensions/axpy.h>
 #include <cxxblas/level1extensions/ccopy.h>
 #include <cxxblas/level1extensions/dot.h>
@@ -48,6 +49,7 @@
 #include <cxxblas/level1extensions/gerscal.h>
 #include <cxxblas/level1extensions/gescal.h>
 #include <cxxblas/level1extensions/hescal.h>
+#include <cxxblas/level1extensions/imax1.h>
 #include <cxxblas/level1extensions/syscal.h>
 #include <cxxblas/level1extensions/raxpy.h>
 #include <cxxblas/level1extensions/rscal.h>

@@ -34,6 +34,8 @@
  *
        SUBROUTINE DGEEQU( M, N, A, LDA, R, C, ROWCND, COLCND, AMAX,
      $                   INFO )
+       SUBROUTINE ZGEEQU( M, N, A, LDA, R, C, ROWCND, COLCND, AMAX,
+     $                   INFO )     
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -68,10 +70,11 @@ equ_impl(const GeMatrix<MA>  &A,
     using std::max;
     using std::min;
 
-    typedef typename GeMatrix<MA>::ElementType  T;
-    typedef typename GeMatrix<MA>::IndexType    IndexType;
+    typedef typename GeMatrix<MA>::ElementType       T;
+    typedef typename ComplexTrait<T>::PrimitiveType  PT;
+    typedef typename GeMatrix<MA>::IndexType         IndexType;
 
-    const T  Zero(0), One(1);
+    const PT  Zero(0), One(1);
 
     const Underscore<IndexType>  _;
 
@@ -91,8 +94,8 @@ equ_impl(const GeMatrix<MA>  &A,
 //
 //  Get machine constants.
 //
-    const T smallNum = lamch<T>(SafeMin);
-    const T bigNum = One / smallNum;
+    const PT smallNum = lamch<PT>(SafeMin);
+    const PT bigNum = One / smallNum;
 //
 //  Compute row scale factors.
 //
@@ -102,14 +105,15 @@ equ_impl(const GeMatrix<MA>  &A,
 //
     for (IndexType j=1; j<=n; ++j) {
         for (IndexType i=1; i<=m; ++i) {
-            r(i) = max(r(i),abs(A(i,j)));
+            r(i) = max(r(i), abs(cxxblas::real(A(i,j))) 
+                             + abs(cxxblas::imag(A(i,j))));
         }
     }
 //
 //  Find the maximum and minimum scale factors.
 //
-    T rcMin = bigNum;
-    T rcMax = Zero;
+    PT rcMin = bigNum;
+    PT rcMax = Zero;
     for (IndexType i=1; i<=m; ++i) {
         rcMax = max(rcMax, r(i));
         rcMin = min(rcMin, r(i));
@@ -148,7 +152,8 @@ equ_impl(const GeMatrix<MA>  &A,
 //
     for (IndexType j=1; j<=n; ++j) {
         for (IndexType i=1; i<=m; ++i) {
-            c(j) = max(c(j),abs(A(i,j))*r(i));
+            c(j) = max(c(j), (abs(cxxblas::real(A(i,j)))
+                              + abs(cxxblas::imag(A(i,j))))*r(i));
         }
     }
 //
@@ -231,7 +236,7 @@ equ_impl(const GeMatrix<MA>  &A,
 template <typename MA, typename VR, typename VC,
           typename ROWCOND, typename COLCOND,
           typename AMAX>
-    typename RestrictTo<IsRealGeMatrix<MA>::value
+    typename RestrictTo<IsGeMatrix<MA>::value
                      && IsRealDenseVector<VR>::value
                      && IsRealDenseVector<VC>::value
                      && IsNotComplex<ROWCOND>::value
@@ -245,7 +250,7 @@ equ(const MA    &A,
     COLCOND     &colCond,
     AMAX        &amax)
 {
-    LAPACK_DEBUG_OUT("(ge)equ [real]");
+    LAPACK_DEBUG_OUT("(ge)equ");
 
     typedef typename MA::IndexType  IndexType;
 //

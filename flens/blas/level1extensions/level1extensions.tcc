@@ -33,6 +33,8 @@
 #ifndef FLENS_BLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_TCC
 #define FLENS_BLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_TCC 1
 
+#include <flens/blas/level1extensions/asum1.tcc>
+#include <flens/blas/level1extensions/imax1.tcc>
 #include <flens/blas/level1extensions/copy/imagmatrixclosure.tcc>
 #include <flens/blas/level1extensions/copy/realmatrixclosure.tcc>
 

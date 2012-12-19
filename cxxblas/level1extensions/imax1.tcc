@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2009, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,32 +30,60 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_TCC
-#define CXXBLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_TCC 1
+#ifndef CXXBLAS_LEVEL1EXTENSIONS_IMAX1_TCC
+#define CXXBLAS_LEVEL1EXTENSIONS_IMAX1_TCC 1
 
-#include <cxxblas/level1extensions/acxpy.tcc>
-#include <cxxblas/level1extensions/asum1.tcc>
-#include <cxxblas/level1extensions/axpy.tcc>
-#include <cxxblas/level1extensions/ccopy.tcc>
-#include <cxxblas/level1extensions/dot.tcc>
-#include <cxxblas/level1extensions/gbaxpy.tcc>
-#include <cxxblas/level1extensions/geaxpy.tcc>
-#include <cxxblas/level1extensions/gbcopy.tcc>
-#include <cxxblas/level1extensions/gbcotr.tcc>
-#include <cxxblas/level1extensions/gbscal.tcc>
-#include <cxxblas/level1extensions/gecopy.tcc>
-#include <cxxblas/level1extensions/gecotr.tcc>
-#include <cxxblas/level1extensions/geraxpy.tcc>
-#include <cxxblas/level1extensions/gescal.tcc>
-#include <cxxblas/level1extensions/gerscal.tcc>
-#include <cxxblas/level1extensions/hescal.tcc>
-#include <cxxblas/level1extensions/imax1.tcc>
-#include <cxxblas/level1extensions/syscal.tcc>
-#include <cxxblas/level1extensions/raxpy.tcc>
-#include <cxxblas/level1extensions/rscal.tcc>
-#include <cxxblas/level1extensions/trcopy.tcc>
-#include <cxxblas/level1extensions/tpaxpy.tcc>
-#include <cxxblas/level1extensions/tpcopy.tcc>
-#include <cxxblas/level1extensions/tpscal.tcc>
+#include <complex>
+#include <cmath>
+#include <cxxblas/cxxblas.h>
 
-#endif // CXXBLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_TCC
+namespace cxxblas {
+
+template <typename IndexType, typename X>
+void
+imax1_generic(IndexType n, const X *x, IndexType incX, IndexType &iAbsMaxX)
+{
+    CXXBLAS_DEBUG_OUT("imax1_generic");
+
+    using std::abs;
+
+    iAbsMaxX = 0;
+    X absMaxX = abs(x[iAbsMaxX]);
+    for (IndexType i=0, iX=0; i<n; ++i, iX+=incX) {
+        if (abs(x[iX])>absMaxX) {
+            iAbsMaxX = i;
+            absMaxX = abs(x[iX]);
+        }
+    }
+}
+
+
+template <typename IndexType, typename X>
+void
+imax1(IndexType n, const X *x, IndexType incX, IndexType &iAbsMaxX)
+{
+    if (incX<0) {
+        x -= incX*(n-1);
+    }
+    if (n<=0) {
+        iAbsMaxX = -1;
+        return;
+    }
+    imax1_generic(n, x, incX, iAbsMaxX);
+}
+
+template <typename IndexType, typename X>
+IndexType
+imax1(IndexType n, const X *x, IndexType incX)
+{
+    IndexType iAbsMaxX = IndexType(0);
+
+    imax1(n, x, incX, iAbsMaxX);
+    return iAbsMaxX;
+}
+
+
+} // namespace cxxblas
+
+#endif // CXXBLAS_LEVEL1EXTENSIONS_IMAX1_TCC
+

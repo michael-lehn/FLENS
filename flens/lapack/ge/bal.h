@@ -33,6 +33,7 @@
 /* Based on
  *
       SUBROUTINE DGEBAL( JOB, N, A, LDA, ILO, IHI, SCALE, INFO )
+      SUBROUTINE ZGEBAL( JOB, N, A, LDA, ILO, IHI, SCALE, INFO )
  *
  *  -- LAPACK routine (version 3.2.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -51,10 +52,10 @@ namespace flens { namespace lapack {
 
 //== (ge)bal ===================================================================
 //
-//  Real variant
+//  Real and complex variant
 //
 template <typename MA, typename IndexType, typename VSCALE>
-    typename RestrictTo<IsRealGeMatrix<MA>::value
+    typename RestrictTo<IsGeMatrix<MA>::value
                      && IsInteger<IndexType>::value
                      && IsRealDenseVector<VSCALE>::value,
              void>::Type

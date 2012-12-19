@@ -65,8 +65,10 @@ bak_impl(BALANCE::Balance            job,
 {
     using namespace BALANCE;
 
-    typedef typename GeMatrix<MV>::ElementType  T;
-    const T One(1);
+    typedef typename GeMatrix<MV>::ElementType       T;
+    typedef typename ComplexTrait<T>::PrimitiveType  PT;
+    
+    const PT One(1);
 
     const Underscore<IndexType> _;
 
@@ -183,11 +185,11 @@ bak_impl(BALANCE::Balance             job,
 
 //== (ge)bak ===================================================================
 //
-// Real variant
+// Real and complex variant
 //
 template <typename IndexType, typename VSCALE, typename MV>
 typename RestrictTo<IsRealDenseVector<VSCALE>::value
-                 && IsRealGeMatrix<MV>::value,
+                 && IsGeMatrix<MV>::value,
          void>::Type
 bak(BALANCE::Balance    job,
     Side                side,

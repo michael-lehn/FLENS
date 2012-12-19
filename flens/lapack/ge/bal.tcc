@@ -69,14 +69,15 @@ bal_impl(BALANCE::Balance    job,
     using flens::min;
 
     typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename ComplexTrait<T>::PrimitiveType  PT;
+    
+    const PT Zero(0), One(1);
+    const PT scaleFactor(2), factor(0.95);
 
-    const T Zero(0), One(1);
-    const T scaleFactor(2), factor(0.95);
-
-    const T safeMin1 = lamch<T>(SafeMin) / lamch<T>(Precision);
-    const T safeMax1 = One / safeMin1;
-    const T safeMin2 = safeMin1*scaleFactor;
-    const T safeMax2 = One / safeMin2;
+    const PT safeMin1 = lamch<PT>(SafeMin) / lamch<PT>(Precision);
+    const PT safeMax1 = One / safeMin1;
+    const PT safeMin2 = safeMin1*scaleFactor;
+    const PT safeMax2 = One / safeMin2;
 
 
     const Underscore<IndexType> _;
@@ -133,7 +134,8 @@ bal_impl(BALANCE::Balance    job,
                     if (i==j) {
                         continue;
                     }
-                    if (A(j,i)!=Zero) {
+                    if ( cxxblas::real(A(j,i))!=Zero || 
+                         cxxblas::imag(A(j,i))!=Zero ) {
                         foundRow = false;
                         break;
                     }
@@ -160,7 +162,7 @@ bal_impl(BALANCE::Balance    job,
                     if (i==j) {
                         continue;
                     }
-                    if (A(i,j)!=Zero) {
+                    if ( cxxblas::real(A(i,j))!=Zero || cxxblas::imag(A(i,j))!=Zero ) {
                         foundCol = false;
                         break;
                     }
@@ -192,29 +194,29 @@ bal_impl(BALANCE::Balance    job,
         noConv = false;
 
         for (IndexType i=k; i<=l; ++i) {
-            T c = Zero;
-            T r = Zero;
+            PT c = Zero;
+            PT r = Zero;
 
             for (IndexType j=k; j<=l; ++j) {
                 if (j==i) {
                     continue;
                 }
-                c += abs(A(j,i));
-                r += abs(A(i,j));
+                c += abs(cxxblas::real(A(j,i))) + abs(cxxblas::imag(A(j,i)));
+                r += abs(cxxblas::real(A(i,j))) + abs(cxxblas::imag(A(i,j)));
             }
             const IndexType ica = blas::iamax(A(_(1,l),i));
-            T ca = abs(A(ica,i));
+            PT ca = abs(A(ica,i));
             const IndexType ira = blas::iamax(A(i,_(k,n)))+k-1;
-            T ra = abs(A(i,ira));
+            PT ra = abs(A(i,ira));
 //
 //          Guard against zero C or R due to underflow.
 //
             if (c==Zero || r==Zero) {
                 continue;
             }
-            T g = r / scaleFactor;
-            T f = One;
-            T s = c + r;
+            PT g = r / scaleFactor;
+            PT f = One;
+            PT s = c + r;
 
             while (c<g && max(f,c,ca)<safeMax2 && min(r,g,ra)>safeMin2) {
                 if (isnan(c+f+ca+r+g+ra)) {
@@ -305,7 +307,7 @@ bal_impl(BALANCE::Balance    job,
 //== public interface ==========================================================
 
 template <typename MA, typename IndexType, typename VSCALE>
-typename RestrictTo<IsRealGeMatrix<MA>::value
+typename RestrictTo<IsGeMatrix<MA>::value
                  && IsInteger<IndexType>::value
                  && IsRealDenseVector<VSCALE>::value,
          void>::Type
