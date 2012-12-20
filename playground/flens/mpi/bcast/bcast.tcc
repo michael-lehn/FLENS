@@ -104,9 +104,16 @@ MPI_bcast(MA &&A, const int root = 0)
     ASSERT( A.numRows()==numRows );
     ASSERT( A.numCols()==numCols );
     
-    for (IndexType i=A.firstCol(); i<=A.lastCol(); ++i) {
-        auto x = A(_,i); 
-        MPI_bcast(x, root);
+    if ( A.order() == ColMajor ) {
+        for (IndexType i=A.firstCol(); i<=A.lastCol(); ++i) {
+            auto x = A(_,i); 
+            MPI_bcast(x, root);
+        }
+    } else {
+        for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
+            auto x = A(i,_); 
+            MPI_bcast(x, root);
+        }
     }
 #endif
 }
