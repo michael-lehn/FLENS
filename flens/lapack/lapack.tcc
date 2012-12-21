@@ -135,6 +135,7 @@
 #include <flens/lapack/la/lan.tcc>
 #include <flens/lapack/la/lanv2.tcc>
 #include <flens/lapack/la/lapy2.tcc>
+#include <flens/lapack/la/lapy3.tcc>
 #include <flens/lapack/la/laq.tcc>
 #include <flens/lapack/la/laqp2.tcc>
 #include <flens/lapack/la/laqps.tcc>

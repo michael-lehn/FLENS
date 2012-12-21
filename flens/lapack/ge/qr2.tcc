@@ -55,6 +55,8 @@ template <typename MA, typename VTAU, typename VWORK>
 void
 qr2_impl(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 {
+    using cxxblas::conjugate;
+    
     typedef typename GeMatrix<MA>::IndexType    IndexType;
     typedef typename GeMatrix<MA>::ElementType  T;
 
@@ -77,7 +79,7 @@ qr2_impl(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
             const T Aii = A(i,i);
             A(i,i) = T(1);
             auto _work = work(_(1, n-i));
-            larf(Left, A(_(i,m),i), tau(i), A(_(i,m), _(i+1,n)), _work);
+            larf(Left, A(_(i,m),i), conjugate(tau(i)), A(_(i,m), _(i+1,n)), _work);
             A(i,i) = Aii;
         }
     }

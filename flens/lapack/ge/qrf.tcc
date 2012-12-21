@@ -56,7 +56,8 @@ namespace generic {
 //-- (ge)qrf [real variant] ----------------------------------------------------
 
 template <typename MA, typename VTAU, typename VWORK>
-void
+typename RestrictTo<IsReal<typename GeMatrix<MA>::ElementType>::value,
+                    void>::Type 
 qrf_impl(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 {
     using std::max;
@@ -144,6 +145,117 @@ qrf_impl(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 //              Apply H' to A(i:m,i+ib:n) from the left
 //
                 larfb(Left, Trans, Forward, ColumnWise,
+                      A(_(i,m),_(i,i+ib-1)),
+                      Tr,
+                      A(_(i,m),_(i+ib,n)),
+                      Work(_(ib+1,n),_(1,ib)));
+            }
+        }
+    } else {
+        i = 1;
+    }
+
+//
+//  Use unblocked code to factor the last or only block.
+//
+    if (i<=k) {
+        qr2(A(_(i,m),_(i,n)), tau(_(i,k)), work(_(1,n-i+1)));
+    }
+    work(1) = iws;
+}
+
+//-- (ge)qrf [complex variant] -------------------------------------------------
+
+template <typename MA, typename VTAU, typename VWORK>
+typename RestrictTo<IsComplex<typename GeMatrix<MA>::ElementType>::value,
+                    void>::Type 
+qrf_impl(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
+{
+    using std::max;
+    using std::min;
+
+    typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename GeMatrix<MA>::IndexType    IndexType;
+
+    const Underscore<IndexType> _;
+
+    const IndexType m = A.numRows();
+    const IndexType n = A.numCols();
+    const IndexType k = min(m, n);
+//
+//  Perform and apply workspace query
+//
+    IndexType nb = ilaenv<T>(1, "GEQRF", "", m, n);
+
+    const IndexType lWorkOpt = n*nb;
+    if (work.length()==0) {
+        work.resize(max(lWorkOpt,IndexType(1)));
+        work(1)=lWorkOpt;
+    }
+//
+//  Quick return if possible
+//
+    if (k==0) {
+        work(1) = 1;
+        return;
+    }
+
+    IndexType nbMin = 2;
+    IndexType nx = 0;
+    IndexType iws = n;
+    IndexType ldWork = -1;
+
+    if ((nb>1) && (nb<k)) {
+//
+//      Determine when to cross over from blocked to unblocked code.
+//
+        nx = max(IndexType(0), IndexType(ilaenv<T>(3, "GEQRF", "", m, n)));
+        if (nx<k) {
+//
+//          Determine if workspace is large enough for blocked code.
+//
+            ldWork = n;
+            iws = ldWork*nb;
+            if (work.length()<iws) {
+//
+//              Not enough workspace to use optimal NB:  reduce NB and
+//              determine the minimum value of NB.
+//
+                nb = work.length() / ldWork;
+                nbMin = max(IndexType(2),
+                            IndexType(ilaenv<T>(2, "GEQRF", "", m, n)));
+            }
+        }
+    }
+
+    IndexType i;
+    if ((nb>=nbMin) && (nb<k) && (nx<k)) {
+        typename GeMatrix<MA>::View Work(n, nb, work);
+//
+//      Use blocked code initially
+//
+        for (i=1; i<=k-nx; i+=nb) {
+            const IndexType ib = min(k-i+1, nb);
+//
+//          Compute the QR factorization of the current block
+//          A(i:m,i:i+ib-1)
+//
+            qr2(A(_(i,m),_(i,i+ib-1)), tau(_(i,i+ib-1)), work(_(1,ib)));
+            if (i+ib<=n) {
+//
+//              Form the triangular factor of the block reflector
+//              H = H(i) H(i+1) . . . H(i+ib-1)
+//
+                auto Tr = Work(_(1,ib),_(1,ib)).upper();
+                larft(Forward, ColumnWise,
+                      m-i+1,
+                      A(_(i,m),_(i,i+ib-1)),
+                      tau(_(i,i+ib-1)),
+                      Tr);
+//
+//              Apply H' to A(i:m,i+ib:n) from the left
+//
+                larfb(Left, ConjTrans, Forward, ColumnWise,
                       A(_(i,m),_(i,i+ib-1)),
                       Tr,
                       A(_(i,m),_(i+ib,n)),
@@ -313,8 +425,6 @@ qrf(MA &&A, VTAU &&tau, VWORK &&work)
 
 //-- (ge)trf [complex variant] -------------------------------------------------
 
-#ifdef USE_CXXLAPACK
-
 template <typename MA, typename VTAU, typename VWORK>
 typename RestrictTo<IsComplexGeMatrix<MA>::value
                  && IsComplexDenseVector<VTAU>::value
@@ -349,17 +459,71 @@ qrf(MA &&A, VTAU &&tau, VWORK &&work)
     ASSERT(work.length()>=n || work.length()==IndexType(0));
 #   endif
 
-    if (tau.length()!=k) {
+    if (tau.length()==0) {
         tau.resize(k);
     }
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    typename MatrixA::NoView    A_org      = A;
+    typename VectorTau::NoView  tau_org    = tau;
+    typename VectorWork::NoView work_org   = work;
+#   endif
 
 //
 //  Call implementation
 //
-    external::qrf_impl(A, tau, work);
-}
+    LAPACK_SELECT::qrf_impl(A, tau, work);
 
-#endif // USE_CXXLAPACK
+#   ifdef CHECK_CXXLAPACK
+//
+//  Restore output arguments
+//
+    typename MatrixA::NoView    A_generic      = A;
+    typename VectorTau::NoView  tau_generic    = tau;
+    typename VectorWork::NoView work_generic   = work;
+
+    A    = A_org;
+    tau  = tau_org;
+
+    // if the generic implementation resized work due to a work size query
+    // we must not restore the work array
+    if (work_org.length()>0) {
+        work = work_org;
+    } else {
+        work = 0;
+    }
+//
+//  Compare results
+//
+    external::qrf_impl(A, tau, work);
+
+    bool failed = false;
+    if (! isIdentical(A_generic, A, "A_generic", "A")) {
+        std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
+        std::cerr << "F77LAPACK: A = " << A << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(tau_generic, tau, "tau_generic", "tau")) {
+        std::cerr << "CXXLAPACK: tau_generic = " << tau_generic << std::endl;
+        std::cerr << "F77LAPACK: tau = " << tau << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(work_generic, work, "work_generic", "work")) {
+        std::cerr << "CXXLAPACK: work_generic = " << work_generic << std::endl;
+        std::cerr << "F77LAPACK: work = " << work << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    }
+#   endif
+}
 
 
 //-- (ge)tri [real/complex variant with temporary workspace] -------------------

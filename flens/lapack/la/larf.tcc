@@ -51,8 +51,10 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
+//-- (ge)qrf [real variant] ----------------------------------------------------
 template <typename VV, typename TAU, typename MC, typename VWORK>
-void
+typename RestrictTo<IsReal<typename GeMatrix<MC>::ElementType>::value,
+                   void>::Type
 larf_impl(Side side, const DenseVector<VV> &v, const TAU &tau,
           GeMatrix<MC> &C, DenseVector<VWORK> &work)
 {
@@ -139,6 +141,100 @@ larf_impl(Side side, const DenseVector<VV> &v, const TAU &tau,
 //          C(1:lastc,1:lastv) := C(...) - work(1:lastc,1) * v(1:lastv,1)'
 //
             blas::r(-tau, _work, _v, _C);
+        }
+    }
+}
+
+//-- (ge)qrf [complex variant] -------------------------------------------------
+template <typename VV, typename TAU, typename MC, typename VWORK>
+typename RestrictTo<IsComplex<typename GeMatrix<MC>::ElementType>::value,
+                   void>::Type
+larf_impl(Side side, const DenseVector<VV> &v, const TAU &tau,
+          GeMatrix<MC> &C, DenseVector<VWORK> &work)
+{
+    using lapack::ilalc;
+    using lapack::ilalr;
+
+    typedef typename GeMatrix<MC>::ElementType  ElementType;
+    typedef typename GeMatrix<MC>::IndexType    IndexType;
+
+    const Underscore<IndexType> _;
+
+    const ElementType  Zero(0), One(1);
+
+    const IndexType m = C.numRows();
+    const IndexType n = C.numCols();
+
+    IndexType lastV = 0;
+    IndexType lastC = 0;
+
+    if (tau!=Zero) {
+//
+//      Set up variables for scanning V.  LASTV begins pointing to the end of V.
+//      Look for the last non-zero row in V.
+//
+        if (side==Left) {
+            lastV = m;
+        } else {
+            lastV = n;
+        }
+        IndexType i = (v.inc()>0) ? 1 + (lastV-1)*v.inc() : 1;
+//
+//      Look for the last non-zero row in V.
+//
+        while (lastV>0 && v(i)==Zero) {
+            --lastV;
+            i -= v.inc();
+        }
+        if (side==Left) {
+//
+//          Scan for the last non-zero column in C(1:lastv,:).
+//
+            lastC = ilalc(C(_(1,lastV),_));
+        } else {
+//
+//          Scan for the last non-zero row in C(:,1:lastv).
+//
+            lastC = ilalr(C(_,_(1,lastV)));
+        }
+    }
+//
+//  Note that lastc.eq.0 renders the BLAS operations null; no special
+//  case is needed at this level.
+//
+    const auto _v = v(_(1,lastV));
+
+    if (side==Left) {
+//
+//      Form  H * C
+//
+        if (lastV>0) {
+            auto _work = work(_(1,lastC));
+            auto _C = C(_(1,lastV),_(1,lastC));
+//
+//          work(1:lastc,1) := C(1:lastv,1:lastc)' * v(1:lastv,1)
+//
+            blas::mv(ConjTrans, One, _C, _v, Zero, _work);
+//
+//          C(1:lastv,1:lastc) := C(...) - v(1:lastv,1) * work(1:lastc,1)'
+//
+            blas::rc(-tau, _v, _work, _C);
+        }
+    } else {
+//
+//      Form  C * H
+//
+        if (lastV>0) {
+            auto _work = work(_(1,lastC));
+            auto _C = C(_(1,lastC),_(1,lastV));
+//
+//          work(1:lastc,1) := C(1:lastc,1:lastv) * v(1:lastv,1)
+//
+            blas::mv(NoTrans, One, _C, _v, Zero, _work);
+//
+//          C(1:lastc,1:lastv) := C(...) - work(1:lastc,1) * v(1:lastv,1)'
+//
+            blas::rc(-tau, _work, _v, _C);
         }
     }
 }

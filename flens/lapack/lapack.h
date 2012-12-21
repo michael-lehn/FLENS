@@ -161,6 +161,7 @@
 #include <flens/lapack/la/lan.h>
 #include <flens/lapack/la/lanv2.h>
 #include <flens/lapack/la/lapy2.h>
+#include <flens/lapack/la/lapy3.h>
 #include <flens/lapack/la/laq.h>
 #include <flens/lapack/la/laqp2.h>
 #include <flens/lapack/la/laqps.h>

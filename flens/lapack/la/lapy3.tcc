@@ -31,8 +31,7 @@
  */
 
 /* Based on
- *
-      SUBROUTINE DLADIV( A, B, C, D, P, Q )
+      DOUBLE PRECISION FUNCTION DLAPY3( X, Y, Z )
  *
  *  -- LAPACK auxiliary routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -40,8 +39,8 @@
  *     November 2006
  */
 
-#ifndef FLENS_LAPACK_LA_LADIV_TCC
-#define FLENS_LAPACK_LA_LADIV_TCC 1
+#ifndef FLENS_LAPACK_LA_LAPY3_TCC
+#define FLENS_LAPACK_LA_LAPY3_TCC 1
 
 #include <cmath>
 #include <flens/lapack/lapack.h>
@@ -49,38 +48,96 @@
 namespace flens { namespace lapack {
 
 //== generic lapack implementation =============================================
+
+namespace generic {
+
 template <typename T>
-void
-ladiv(const T &a, const T &b, const T &c, const T &d, T &p, T &q)
+T
+lapy3_impl(const T &x, const T &y, const T &z)
 {
-    LAPACK_DEBUG_OUT("ladiv");
-
     using std::abs;
+    using std::max;
+    using std::min;
+    using flens::pow;
+    using std::sqrt;
 
-    if (abs(d)<abs(c)) {
-        const T e = d / c;
-        const T f = c + d*e;
-        p = (a + b*e) / f;
-        q = (b - a*e) / f;
-    } else {
-        const T e = c / d;
-        const T f = d + c*e;
-        p = ( b + a*e) / f;
-        q = (-a + b*e) / f;
+    const T xAbs = abs(x);
+    const T yAbs = abs(y);
+    const T zAbs = abs(z);
+
+    const T w = max( max(xAbs, yAbs), zAbs );
+
+    if (w==T(0)) {
+        return xAbs+yAbs+zAbs;
     }
+
+    return w*sqrt( pow(( xAbs / w ), 2) +pow( ( yAbs / w ), 2)+ pow( ( zAbs / w ), 2) );
+
 }
 
+} // namespace generic
+
+//== interface for native lapack ===============================================
+
+#ifdef USE_CXXLAPACK
+
+namespace external {
+
 template <typename T>
-std::complex<T>
-ladiv(const std::complex<T> &x, const std::complex<T> &y)
+T
+lapy3_impl(const T &x, const T &y, const T &z)
 {
-    std::complex<T> z;
-    T *real_z = reinterpret_cast<T *>(&z);
-    T *imag_z = reinterpret_cast<T *>(&z)+1;
-    ladiv(x.real(), x.imag(), y.real(), y.imag(), *real_z, *imag_z);
-    return z;
+    return cxxlapack::lapy3(x,y,z);
+}
+
+} // namespace external
+
+#endif // USE_CXXLAPACK
+
+//== public interface ==========================================================
+
+template <typename T>
+T
+lapy3(const T &x, const T &y, const T &z)
+{
+    LAPACK_DEBUG_OUT("lapy3");
+
+//
+//  Call implementation
+//
+    const T result = LAPACK_SELECT::lapy3_impl(x, y, z);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    const T _result = external::lapy3_impl(x, y, z );
+
+    bool failed = false;
+    if (! isIdentical(result, _result, " result", "_result")) {
+        std::cerr << "CXXLAPACK:  result = " << result << std::endl;
+        std::cerr << "F77LAPACK: _result = " << _result << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        std::cerr << "x = " << x << std::endl;
+        std::cerr << "y = " << y << std::endl;
+        std::cerr << "z = " << z << std::endl;
+
+        std::cerr << "hex(x) = " << hex(x) << std::endl;
+        std::cerr << "hex(y) = " << hex(y) << std::endl;
+        std::cerr << "hex(z) = " << hex(z) << std::endl;
+
+        std::cerr << "hex(result)  = " << hex(result) << std::endl;
+        std::cerr << "hex(_result) = " << hex(_result) << std::endl;
+        ASSERT(0);
+    }
+#   endif
+
+    return result;
 }
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_LA_LADIV_TCC
+#endif // FLENS_LAPACK_LA_LAPY3_TCC

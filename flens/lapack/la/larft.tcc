@@ -110,7 +110,8 @@ larft_impl(Direction direction, StoreVectors storeVectors, N n,
 //
 //                  T(1:i-1,i) := - tau(i) * V(i:j,1:i-1)**T * V(i:j,i)
 //
-                    blas::mv(Trans, -tau(i),
+                    blas::mv( (IsReal<T>::value) ? Trans : ConjTrans, 
+                             -tau(i),
                              V(_(i,j),_(1,i-1)), V(_(i,j),i),
                              Zero,
                              _Tr(_(1,i-1),i));

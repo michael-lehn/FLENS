@@ -31,56 +31,24 @@
  */
 
 /* Based on
+      DOUBLE PRECISION FUNCTION DLAPY3( X, Y, Z )
  *
-      SUBROUTINE DGEQRF( M, N, A, LDA, TAU, WORK, LWORK, INFO )
-      SUBROUTINE ZGEQRF( M, N, A, LDA, TAU, WORK, LWORK, INFO )
- *
- *  -- LAPACK routine (version 3.3.1) --
+ *  -- LAPACK auxiliary routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
  *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
- *  -- April 2011                                                      --
+ *     November 2006
  */
 
-#ifndef FLENS_LAPACK_GE_QRF_H
-#define FLENS_LAPACK_GE_QRF_H 1
-
-#include <flens/matrixtypes/matrixtypes.h>
-#include <flens/vectortypes/vectortypes.h>
+#ifndef FLENS_LAPACK_LA_LAPY3_H
+#define FLENS_LAPACK_LA_LAPY3_H 1
 
 namespace flens { namespace lapack {
 
-//== (ge)qrf ===================================================================
-//
-//  Real variant
-//
-template <typename MA, typename VTAU, typename VWORK>
-    typename RestrictTo<IsRealGeMatrix<MA>::value
-                     && IsRealDenseVector<VTAU>::value
-                     && IsRealDenseVector<VWORK>::value,
-             void>::Type
-    qrf(MA &&A, VTAU &&tau, VWORK &&work);
-
-//
-//  Complex variant
-//
-template <typename MA, typename VTAU, typename VWORK>
-    typename RestrictTo<IsComplexGeMatrix<MA>::value
-                     && IsComplexDenseVector<VTAU>::value
-                     && IsComplexDenseVector<VWORK>::value,
-             void>::Type
-    qrf(MA &&A, VTAU &&tau, VWORK &&work);
-
-
-//
-//  Real/complex variant with temporary workspace
-//
-template <typename MA, typename VTAU>
-    typename RestrictTo<IsGeMatrix<MA>::value
-                     && IsDenseVector<VTAU>::value,
-             void>::Type
-    qrf(MA &&A, VTAU &&tau);
-
+//-- lapy3 ---------------------------------------------------------------------
+template <typename T>
+    T
+    lapy3(const T &x, const T &y, const T &z);
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_GE_QRF_H
+#endif // FLENS_LAPACK_LA_LAPY3_H

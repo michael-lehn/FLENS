@@ -52,8 +52,11 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
+
+//-- (ge)qrf [real variant] ----------------------------------------------------
 template <typename N, typename ALPHA, typename VX, typename TAU>
-void
+typename RestrictTo<IsReal<typename DenseVector<VX>::ElementType>::value,
+                    void>::Type
 larfg_impl(N n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
 {
     using std::abs;
@@ -99,6 +102,82 @@ larfg_impl(N n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
         }
         tau = (beta-alpha) / beta;
         blas::scal(T(1)/(alpha-beta), x);
+//
+//      If ALPHA is subnormal, it may lose relative accuracy
+//
+        for (IndexType j=1; j<=count; ++j) {
+            beta *= safeMin;
+        }
+        alpha = beta;
+    }
+}
+
+//-- (ge)qrf [complex variant] -------------------------------------------------
+template <typename N, typename ALPHA, typename VX, typename TAU>
+typename RestrictTo<IsComplex<typename DenseVector<VX>::ElementType>::value,
+                    void>::Type
+larfg_impl(N n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
+{
+    using std::imag;
+    using std::real;
+    using std::abs;
+
+    typedef typename DenseVector<VX>::ElementType   T;
+    typedef typename ComplexTrait<T>::PrimitiveType PT;
+    typedef typename DenseVector<VX>::IndexType     IndexType;
+
+    if (n<=0) {
+        tau = TAU(0);
+        return;
+    }
+
+    PT alphaR = real(alpha);
+    PT alphaI = imag(alpha);
+    
+    PT xNorm(0);
+    
+    if ( n>1 ) {
+        xNorm = blas::nrm2(x);
+    }
+
+    if (xNorm==PT(0) && imag(alpha)==PT(0) ) {
+//
+//      H  =  I
+//
+        tau = TAU(0);
+    } else {
+//
+//      general case
+//
+
+        PT beta = -sign(lapy3(alphaR, alphaI, xNorm), alphaR);
+
+        PT safeMin = lamch<PT>(SafeMin) / lamch<PT>(Eps);
+
+        IndexType count=0;
+        if (abs(beta)<safeMin) {
+        ASSERT(0);
+//
+//          XNORM, BETA may be inaccurate; scale X and recompute them
+//
+            PT rSafeMin = PT(1)/safeMin;
+            do {
+                ++count;
+                blas::scal(rSafeMin, x);
+                beta *= rSafeMin;
+                alphaR *= rSafeMin;
+                alphaI *= rSafeMin;
+            } while (abs(beta)<safeMin);
+//
+//          New BETA is at most 1, at least SAFMIN
+//
+            xNorm = blas::nrm2(x);
+            alpha = T(alphaR, alphaI );
+            beta = -sign(lapy3(alphaR, alphaI, xNorm), alphaR );
+        }
+        tau = T( (beta-alphaR) / beta, -alphaI / beta );
+        alpha = ladiv( T(1), alpha - T(beta) );
+        blas::scal(alpha, x);
 //
 //      If ALPHA is subnormal, it may lose relative accuracy
 //
