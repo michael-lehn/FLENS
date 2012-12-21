@@ -70,6 +70,22 @@ posv_impl(SyMatrix<MA> &A, GeMatrix<MB> &B)
     return info;
 }
 
+//-- posv [complex variant] ----------------------------------------------------
+
+template <typename MA, typename MB>
+typename HeMatrix<MA>::IndexType
+posv_impl(HeMatrix<MA> &A, GeMatrix<MB> &B)
+{
+    typedef typename GeMatrix<MB>::IndexType  IndexType;
+
+    IndexType info = potrf(A);
+
+    if (info==0) {
+        potrs(A, B);
+    }
+    return info;
+}
+
 } // namespace generic
 
 
@@ -206,7 +222,7 @@ posv(MA &&A, MB &&B)
     return info;
 }
 
-#ifdef USE_CXXLAPACK
+
 //
 //  Complex variant
 //
@@ -228,7 +244,6 @@ posv(MA &&A, MB &&B)
 //
 //  Test the input parameters
 //
-#   ifndef NDEBUG
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
 
@@ -236,17 +251,61 @@ posv(MA &&A, MB &&B)
     ASSERT(B.firstCol()==1);
 
     ASSERT(B.numRows()==A.dim());
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    typename MatrixA::NoView  A_org = A;
+    typename MatrixB::NoView  B_org = B;
 #   endif
 
 //
 //  Call implementation
 //
-    const IndexType info = external::posv_impl(A, B);
+    const IndexType info = LAPACK_SELECT::posv_impl(A, B);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    typename MatrixA::NoView  A_generic = A;
+    typename MatrixB::NoView  B_generic = B;
+    A = A_org;
+    B = B_org;
+
+    const IndexType _info = external::posv_impl(A, B);
+
+    bool failed = false;
+    if (! isIdentical(A_generic, A, "A_generic", "A")) {
+        std::cerr << "A_org = " << A_org << std::endl;
+        std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
+        std::cerr << "F77LAPACK: A = " << A << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(B_generic, B, "B_generic", "B")) {
+        std::cerr << "B_org = " << B_org << std::endl;
+        std::cerr << "CXXLAPACK: B_generic = " << B_generic << std::endl;
+        std::cerr << "F77LAPACK: B = " << B << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(info, _info, " info", "_info")) {
+        std::cerr << "CXXLAPACK:  info = " << info << std::endl;
+        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    }
+
+#   endif
 
     return info;
 }
 
-#endif // USE_CXXLAPACK
 
 
 //-- posv [variant if rhs is vector] -----------------------------------------

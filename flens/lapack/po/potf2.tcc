@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DPOTF2( UPLO, N, A, LDA, INFO )
+       SUBROUTINE ZPOTF2( UPLO, N, A, LDA, INFO )       
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -53,6 +54,7 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
+//-- potf2 [real variant] ------------------------------------------------------
 template <typename MA>
 typename SyMatrix<MA>::IndexType
 potf2_impl(SyMatrix<MA> &A)
@@ -147,6 +149,109 @@ potf2_impl(SyMatrix<MA> &A)
     return info;
 }
 
+//-- potf2 [complex variant] ---------------------------------------------------
+template <typename MA>
+typename HeMatrix<MA>::IndexType
+potf2_impl(HeMatrix<MA> &A)
+{
+    using std::imag;
+    using std::real;
+    using std::isnan;
+    using std::sqrt;
+
+    typedef typename HeMatrix<MA>::ElementType      T;
+    typedef typename ComplexTrait<T>::PrimitiveType PT;
+    typedef typename HeMatrix<MA>::IndexType        IndexType;
+
+    const Underscore<IndexType> _;
+
+    const IndexType n = A.dim();
+    const bool upper = (A.upLo()==Upper);
+
+    const PT Zero(0), One(1);
+    const T  COne(1);
+    
+    IndexType info = 0;
+//
+//  Quick return if possible
+//
+    if (n==0) {
+        return info;
+    }
+    if (upper) {
+//
+//      Compute the Cholesky factorization A = U**T *U.
+//
+        for (IndexType j=1; j<=n; ++j) {
+//
+//          Partition matrix
+//
+            const auto range1 = _(1,j-1);
+            const auto range3 = _(j+1,n);
+
+            auto a12 = A(range1,j);
+            const auto A13 = A(range1,range3);
+            auto a23 = A(j,range3);
+//
+//          Compute U(J,J) and test for non-positive-definiteness.
+//
+            PT a22 = real(A(j,j) - blas::dot(a12,a12));
+            if (a22<=Zero || isnan(a22)) {
+                A(j,j) = a22;
+                info = j;
+                break;
+            }
+            a22 = sqrt(a22);
+            A(j,j) = a22;
+//
+//          Compute elements J+1:N of row J.
+//
+            if (j<n) {
+                imag(a12) *= -One;
+                blas::mv(Trans, -One, A13, a12, One, a23);
+                imag(a12) *= -One;
+                a23 *= One / a22;
+            }
+        }
+    } else {
+//
+//      Compute the Cholesky factorization A = L*L**T.
+//
+        for (IndexType j=1; j<=n; ++j) {
+//
+//          Partition matrix
+//
+            const auto range1 = _(1,j-1);
+            const auto range3 = _(j+1,n);
+
+            auto a21 = A(j,range1);
+            const auto A31 = A(range3,range1);
+            auto a32 = A(range3,j);
+//
+//          Compute L(J,J) and test for non-positive-definiteness.
+//
+            PT a22 = real(A(j,j) - blas::dot(a21,a21));
+            if (a22<=Zero || isnan(a22)) {
+                A(j,j) = a22;
+                info = j;
+                break;
+            }
+            a22 = sqrt(a22);
+            A(j,j) = a22;
+//
+//          Compute elements J+1:N of column J.
+//
+            if (j<n) {
+                imag(a21) *= -One;
+                blas::mv(NoTrans, -One, A31, a21, One, a32);
+                imag(a21) *= -One;
+                a32 *= One / a22;
+            }
+        }
+    }
+    return info;
+}
+
 } // namespace generic
 
 //== interface for native lapack ===============================================
@@ -160,6 +265,20 @@ typename SyMatrix<MA>::IndexType
 potf2_impl(SyMatrix<MA> &A)
 {
     typedef typename SyMatrix<MA>::IndexType  IndexType;
+
+    IndexType info = cxxlapack::potf2<IndexType>(getF77Char(A.upLo()),
+                                                 A.dim(),
+                                                 A.data(),
+                                                 A.leadingDimension());
+    ASSERT(info>=0);
+    return info;
+}
+
+template <typename MA>
+typename HeMatrix<MA>::IndexType
+potf2_impl(HeMatrix<MA> &A)
+{
+    typedef typename HeMatrix<MA>::IndexType  IndexType;
 
     IndexType info = cxxlapack::potf2<IndexType>(getF77Char(A.upLo()),
                                                  A.dim(),
@@ -204,6 +323,67 @@ potf2(SyMatrix<MA> &A)
 //  Make copies of generic results
 //
     typename SyMatrix<MA>::NoView       A_generic      = A;
+//
+//  Restore output arguments
+//
+    A = A_org;
+
+//
+//  Compare results
+//
+    IndexType _info = external::potf2_impl(A);
+
+    bool failed = false;
+    if (! isIdentical(A_generic, A, "A_generic", "_A")) {
+        std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
+        std::cerr << "F77LAPACK: A = " << A << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(info, _info, " info", "_info")) {
+        std::cerr << "CXXLAPACK:  info = " << info << std::endl;
+        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    }
+
+#   endif
+
+    return info;
+}
+
+template <typename MA>
+typename HeMatrix<MA>::IndexType
+potf2(HeMatrix<MA> &A)
+{
+    typedef typename HeMatrix<MA>::IndexType    IndexType;
+
+//
+//  Test the input parameters
+//
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    typename HeMatrix<MA>::NoView       A_org      = A;
+#   endif
+
+//
+//  Call implementation
+//
+    IndexType info = LAPACK_SELECT::potf2_impl(A);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of generic results
+//
+    typename HeMatrix<MA>::NoView       A_generic      = A;
 //
 //  Restore output arguments
 //

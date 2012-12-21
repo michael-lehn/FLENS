@@ -225,8 +225,7 @@ lacn2_impl(DenseVector<VV> &v, DenseVector<VX> &x,
     }
 
     IndexType jLast;
-    T         altSign, estOld;
-    bool      converged;
+    PT         altSign, estOld;
 
     switch (iSave(1)) {
 //

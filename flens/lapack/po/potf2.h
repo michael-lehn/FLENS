@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DPOTF2( UPLO, N, A, LDA, INFO )
+       SUBROUTINE ZPOTF2( UPLO, N, A, LDA, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -50,9 +51,19 @@
 namespace flens { namespace lapack {
 
 //== potf2 =====================================================================
+//
+//  Real variant
+//
 template <typename MA>
     typename SyMatrix<MA>::IndexType
     potf2(SyMatrix<MA> &A);
+    
+//
+//  Real variant
+//
+template <typename MA>
+    typename HeMatrix<MA>::IndexType
+    potf2(HeMatrix<MA> &A);
 
 //-- forwarding ----------------------------------------------------------------
 template <typename MA>

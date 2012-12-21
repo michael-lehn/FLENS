@@ -60,7 +60,6 @@ template <typename MA, typename MB>
     potrs(const MA &A, MB &&B);
 
 
-#ifdef USE_CXXLAPACK
 //
 //  Complex variant
 //
@@ -70,7 +69,6 @@ template <typename MA, typename MB>
              void>::Type
     potrs(const MA &A, MB &&B);
 
-#endif // USE_CXXLAPACK
 
 
 //

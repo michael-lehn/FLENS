@@ -52,26 +52,14 @@ namespace flens { namespace lapack {
 
 //== (tr)tri ===================================================================
 //
-//  Real variant
+//  Real and complex variant
 //
 template <typename MA>
-    typename RestrictTo<IsRealTrMatrix<MA>::value,
+    typename RestrictTo<IsTrMatrix<MA>::value,
              typename RemoveRef<MA>::Type::IndexType>::Type
     tri(MA &&A);
 
 
-#ifdef USE_CXXLAPACK
-
-//== (tr)tri ===================================================================
-//
-//  Complex variant
-//
-template <typename MA>
-    typename RestrictTo<IsComplexTrMatrix<MA>::value,
-             typename RemoveRef<MA>::Type::IndexType>::Type
-    tri(MA &&A);
-
-#endif // USE_CXXLAPACK
 
 
 } } // namespace lapack, flens

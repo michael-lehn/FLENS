@@ -84,6 +84,36 @@ potri_impl(SyMatrix<MA> &A)
     return info;
 }
 
+//-- potri [complex variant] ---------------------------------------------------
+
+template <typename MA>
+typename HeMatrix<MA>::IndexType
+potri_impl(HeMatrix<MA> &A)
+{
+    typedef typename HeMatrix<MA>::IndexType    IndexType;
+    const IndexType n = A.dim();
+    IndexType info = 0;
+//
+//  Quick return if possible
+//
+    if (n==0) {
+        return 0;
+    }
+//
+//  Invert the triangular Cholesky factor U or L.
+//
+    auto T = A.triangular();
+
+    info = tri(T);
+    if (info==0) {
+//
+//      Form inv(U) * inv(U)**H or inv(L)**H * inv(L).
+//
+        lauum(T);
+    }
+    return info;
+}
+
 } // namespace generic
 
 //== interface for native lapack ===============================================
@@ -202,8 +232,6 @@ potri(MA &&A)
 
 //-- potri [complex variant] ------------------------------------------------------
 
-#ifdef USE_CXXLAPACK
-
 template <typename MA>
 typename RestrictTo<IsHeMatrix<MA>::value,
          typename RemoveRef<MA>::Type::IndexType>::Type
@@ -223,15 +251,55 @@ potri(MA &&A)
     ASSERT(A.firstCol()==1);
 #   endif
 
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    typename MatrixA::NoView  A_org = A;
+#   endif
+
 //
 //  Call implementation
 //
-    const IndexType info = external::potri_impl(A);
+    const IndexType info = LAPACK_SELECT::potri_impl(A);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of generic results
+//
+    typename MatrixA::NoView  A_generic = A;
+//
+//  restore output parameters
+//
+    A = A_org;
+//
+//  Compare results
+//
+    const IndexType _info = external::potri_impl(A);
+
+    bool failed = false;
+    if (! isIdentical(A_generic, A, "A_generic", "A")) {
+        std::cerr << "A_org =" << A_org << std::endl;
+        std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
+        std::cerr << "F77LAPACK: A = " << A << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(info, _info, " info", "_info")) {
+        std::cerr << "CXXLAPACK:  info = " << info << std::endl;
+        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    }
+
+#   endif
 
     return info;
 }
 
-#endif // USE_CXXLAPACK
 
 } } // namespace lapack, flens
 

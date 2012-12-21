@@ -59,7 +59,6 @@ template <typename MA>
     potri(MA &&A);
 
 
-#ifdef USE_CXXLAPACK
 //
 //  Complex variant
 //
@@ -68,7 +67,6 @@ template <typename MA>
              typename RemoveRef<MA>::Type::IndexType>::Type
     potri(MA &&A);
 
-#endif // USE_CXXLAPACK
 
 
 } } // namespace lapack, flens

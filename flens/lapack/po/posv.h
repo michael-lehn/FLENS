@@ -60,7 +60,6 @@ template <typename MA, typename MB>
     posv(MA &&A, MB &&B);
 
 
-#ifdef USE_CXXLAPACK
 //
 //  Complex variant
 //
@@ -70,7 +69,6 @@ template <typename MA, typename MB>
              typename RemoveRef<MA>::Type::IndexType>::Type
     posv(MA &&A, MB &&B);
 
-#endif // USE_CXXLAPACK
 
 
 //== (po)sv variant if rhs is vector ===========================================

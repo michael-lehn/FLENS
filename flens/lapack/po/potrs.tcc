@@ -54,6 +54,7 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
+
 //-- potrs [real variant] ------------------------------------------------------
 
 template <typename MA, typename MB>
@@ -100,6 +101,56 @@ potrs_impl(const SyMatrix<MA> &A, GeMatrix<MB> &B)
 //      Solve L**T *X = B, overwriting B with X.
 //
         blas::sm(Left, Trans, One, A.triangular(), B);
+    }
+}
+
+//-- potrs [complex variant] ---------------------------------------------------
+
+template <typename MA, typename MB>
+void
+potrs_impl(const HeMatrix<MA> &A, GeMatrix<MB> &B)
+{
+    using std::isnan;
+    using std::sqrt;
+
+    typedef typename HeMatrix<MA>::ElementType                ElementType;
+    typedef typename HeMatrix<MA>::IndexType                  IndexType;
+
+
+    const IndexType n    = A.dim();
+    const IndexType nRhs = B.numCols();
+    const bool upper     = (A.upLo()==Upper);
+
+    const ElementType   One(1);
+
+//
+//  Quick return if possible
+//
+    if (n==0 || nRhs==0) {
+        return;
+    }
+    if (upper) {
+//
+//      Solve A*X = B where A = U**H *U.
+//
+//      Solve U**H *X = B, overwriting B with X.
+//
+        blas::sm(Left, ConjTrans, One, A.triangular(), B);
+//
+//      Solve U*X = B, overwriting B with X.
+//
+        blas::sm(Left, NoTrans, One, A.triangular(), B);
+    } else {
+//
+//      Solve A*X = B where A = L*L**H.
+//
+//      Solve L*X = B, overwriting B with X.
+//
+        blas::sm(Left, NoTrans, One, A.triangular(), B);
+//
+//      Solve L**H *X = B, overwriting B with X.
+//
+        blas::sm(Left, ConjTrans, One, A.triangular(), B);
     }
 }
 
@@ -221,7 +272,6 @@ potrs(const MA &A, MB &&B)
 
 //-- potrs [complex variant] ---------------------------------------------------
 
-#ifdef USE_CXXLAPACK
 
 template <typename MA, typename MB>
 typename RestrictTo<IsHeMatrix<MA>::value
@@ -257,10 +307,37 @@ potrs(const MA &A, MB &&B)
 //
 //  Call implementation
 //
+    LAPACK_SELECT::potrs_impl(A, B);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of generic results
+//
+    typename MatrixB::NoView B_generic = B;
+//
+//  Restore output arguments
+//
+    B = B_org;
+
+//
+//  Compare results
+//
     external::potrs_impl(A, B);
+
+    bool failed = false;
+    if (! isIdentical(B_generic, B, "B_generic", "B")) {
+        std::cerr << "CXXLAPACK: B_generic = " << B_generic << std::endl;
+        std::cerr << "F77LAPACK: B = " << B << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    }
+#   endif
+
 }
 
-#endif // USE_CXXLAPACK
 
 
 //-- potrs [variant if rhs is vector] ------------------------------------------

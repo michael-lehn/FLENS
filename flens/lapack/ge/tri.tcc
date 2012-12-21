@@ -67,8 +67,8 @@ tri_impl(GeMatrix<MA>            &A,
 {
     using std::max;
 
-    typedef typename GeMatrix<MA>::ElementType ElementType;
-    typedef typename GeMatrix<MA>::IndexType   IndexType;
+    typedef typename GeMatrix<MA>::ElementType                ElementType;
+    typedef typename GeMatrix<MA>::IndexType                  IndexType;
 
     const ElementType Zero(0), One(1);
     const IndexType n = A.numRows();
@@ -234,12 +234,12 @@ tri_impl(GeMatrix<MA>             &A,
 
 //== public interface ==========================================================
 
-//-- (ge)tri [real variant] ----------------------------------------------------
+//-- (ge)tri [real and complex variant] ----------------------------------------
 
 template <typename MA, typename VPIV, typename VWORK>
-typename RestrictTo<IsRealGeMatrix<MA>::value
+typename RestrictTo<IsGeMatrix<MA>::value
                  && IsIntegerDenseVector<VPIV>::value
-                 && IsRealDenseVector<VWORK>::value,
+                 && IsDenseVector<VWORK>::value,
          typename RemoveRef<MA>::Type::IndexType>::Type
 tri(MA          &&A,
     const VPIV  &piv,
@@ -326,53 +326,6 @@ tri(MA          &&A,
     return info;
 }
 
-//-- (ge)tri [complex variant] -------------------------------------------------
-
-#ifdef USE_CXXLAPACK
-
-template <typename MA, typename VPIV, typename VWORK>
-typename RestrictTo<IsComplexGeMatrix<MA>::value
-                 && IsIntegerDenseVector<VPIV>::value
-                 && IsComplexDenseVector<VWORK>::value,
-         typename RemoveRef<MA>::Type::IndexType>::Type
-tri(MA &&A, const VPIV &piv, VWORK &&work)
-{
-    using std::max;
-
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::IndexType     IndexType;
-    typedef typename RemoveRef<VPIV>::Type  VectorPiv;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
-
-//
-//  Test the input parameters
-//
-#   ifndef NDEBUG
-    ASSERT(A.firstRow()==1);
-    ASSERT(A.firstCol()==1);
-    ASSERT(A.numRows()==A.numCols());
-
-    const IndexType n = A.numRows();
-
-    ASSERT(piv.firstIndex()==1);
-    ASSERT(piv.length()==n);
-
-    const bool lQuery = (work.length()==0);
-    ASSERT(lQuery || work.length()>=max(IndexType(1),n));
-#   endif
-
-//
-//  Call implementation
-//
-    const IndexType info = external::tri_impl(A, piv, work);
-
-    return info;
-}
-
-#endif // USE_CXXLAPACK
 
 //-- (ge)tri [real/complex variant with temporary workspace] -------------------
 template <typename MA, typename VPIV>

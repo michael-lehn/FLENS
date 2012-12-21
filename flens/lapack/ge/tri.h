@@ -55,30 +55,13 @@ namespace flens { namespace lapack {
 //  Real variant
 //
 template <typename MA, typename VPIV, typename VWORK>
-    typename RestrictTo<IsRealGeMatrix<MA>::value
+    typename RestrictTo<IsGeMatrix<MA>::value
                      && IsIntegerDenseVector<VPIV>::value
-                     && IsRealDenseVector<VWORK>::value,
+                     && IsDenseVector<VWORK>::value,
              typename RemoveRef<MA>::Type::IndexType>::Type
     tri(MA          &&A,
         const VPIV  &piv,
         VWORK       &&work);
-
-
-#ifdef USE_CXXLAPACK
-
-//
-//  Complex variant
-//
-template <typename MA, typename VPIV, typename VWORK>
-    typename RestrictTo<IsComplexGeMatrix<MA>::value
-                     && IsIntegerDenseVector<VPIV>::value
-                     && IsComplexDenseVector<VWORK>::value,
-             typename RemoveRef<MA>::Type::IndexType>::Type
-    tri(MA          &&A,
-        const VPIV  &piv,
-        VWORK       &&work);
-
-#endif // USE_CXXLAPACK
 
 //
 //  Real/complex variant with temporary workspace
