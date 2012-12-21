@@ -40,7 +40,7 @@ namespace flens { namespace mpi {
 template <typename VX>
 typename RestrictTo<IsDenseVector<VX>::value,
                     void>::Type
-MPI_recv(VX &&x, const int source, const int dest = 0)
+MPI_recv(VX &&x, const int source, const int dest)
 {
 #ifdef WITH_MPI
     using namespace MPI;
@@ -89,7 +89,7 @@ MPI_recv(VX &&x, const int source, const int dest = 0)
 template <typename MA>
 typename RestrictTo<IsGeMatrix<MA>::value,
                     void>::Type
-MPI_recv(MA &&A, const int source, const int dest = 0)
+MPI_recv(MA &&A, const int source, const int dest)
 {
 #ifdef WITH_MPI
     using namespace MPI;
@@ -156,7 +156,7 @@ template <typename X>
 typename RestrictTo<IsDenseVector<X>::value || 
                     IsGeMatrix<X>::value,
                     void>::Type
-MPI_recv_all(std::vector<X> &x, const int root = 0)
+MPI_recv_all(std::vector<X> &x, const int root)
 {
 #ifdef WITH_MPI  
     if ( root != MPI_rank() ) {

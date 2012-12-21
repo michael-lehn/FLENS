@@ -406,7 +406,7 @@ HeMatrix<FS>::resize(IndexType dim, StorageUpLo upLo, IndexType firstIndex,
 
 // general views
 template <typename FS>
-typename HeMatrix<FS>::ConstGeneralView
+const typename HeMatrix<FS>::ConstGeneralView
 HeMatrix<FS>::general() const
 {
     return ConstGeneralView(_engine);

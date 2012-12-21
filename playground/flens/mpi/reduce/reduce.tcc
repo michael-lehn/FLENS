@@ -42,7 +42,7 @@ template <typename VX, typename VSUM>
 typename RestrictTo<IsDenseVector<VX>::value &&
                     IsDenseVector<VSUM>::value,
                     void>::Type
-MPI_reduce_sum(VX &&x, VSUM &&sum, const int root = 0)
+MPI_reduce_sum(VX &&x, VSUM &&sum, const int root)
 {
 #ifdef WITH_MPI
     using namespace MPI;
@@ -103,7 +103,7 @@ template <typename MA, typename MSUM>
 typename RestrictTo<IsGeMatrix<MA>::value &&
                     IsGeMatrix<MSUM>::value,
                     void>::Type
-MPI_reduce_sum(MA &&A, MSUM &&Sum, const int root = 0)
+MPI_reduce_sum(MA &&A, MSUM &&Sum, const int root)
 {
 #ifdef WITH_MPI
     using namespace MPI;

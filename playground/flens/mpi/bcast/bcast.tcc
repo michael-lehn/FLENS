@@ -40,7 +40,7 @@ namespace flens { namespace mpi {
 template <typename VX>
 typename RestrictTo<IsDenseVector<VX>::value,
                     void>::Type
-MPI_bcast(VX &&x, const int root = 0)
+MPI_bcast(VX &&x, const int root)
 {
 #ifdef WITH_MPI
     using namespace MPI;
@@ -81,7 +81,7 @@ MPI_bcast(VX &&x, const int root = 0)
 template <typename MA>
 typename RestrictTo<IsGeMatrix<MA>::value,
                     void>::Type
-MPI_bcast(MA &&A, const int root = 0)
+MPI_bcast(MA &&A, const int root)
 {
 #ifdef WITH_MPI
     using namespace MPI;
