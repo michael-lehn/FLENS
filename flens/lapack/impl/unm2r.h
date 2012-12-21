@@ -30,48 +30,38 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*  Based on
+/*
  *
-      SUBROUTINE DGEQRS( M, N, NRHS, A, LDA, TAU, B, LDB, WORK, LWORK,
-     $                   INFO )
-      SUBROUTINE ZGEQRS( M, N, NRHS, A, LDA, TAU, B, LDB, WORK, LWORK,
-     $                   INFO )
+      SUBROUTINE ZUNM2R( SIDE, TRANS, M, N, K, A, LDA, TAU, C, LDC,
+     $                   WORK, INFO )
  *
- *  -- LAPACK routine (version 3.0) --
- *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
- *     Courant Institute, Argonne National Lab, and Rice University
- *     February 29, 1992
+ *  -- LAPACK routine (version 3.3.1) --
+ *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
+ *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
+ *  -- April 2011                                                      --
  */
 
-#ifndef FLENS_LAPACK_GE_QRS_H
-#define FLENS_LAPACK_GE_QRS_H 1
+#ifndef FLENS_LAPACK_IMPL_UNM2R_H
+#define FLENS_LAPACK_IMPL_NUM2R_H 1
 
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace lapack {
 
-//TODO: make ref to A const!
+//== unm2r =====================================================================
+template <typename MA, typename VTAU, typename MC, typename VWORK>
+    void
+    unm2r(Side side, Transpose trans, GeMatrix<MA> &A,
+          const DenseVector<VTAU> &tau, GeMatrix<MC> &C,
+          DenseVector<VWORK> &work);
 
 //-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VTAU, typename MB, typename VWORK>
+template <typename MA, typename VTAU, typename MC, typename VWORK>
     void
-    qrs(MA &&A, const VTAU &tau, MB &&B, VWORK &&work);
-
-//-- qrs -----------------------------------------------------------------------
-template <typename MA, typename VTAU, typename MB, typename VWORK>
-    typename RestrictTo<IsReal<typename GeMatrix<MA>::ElementType>::value,
-             void>::Type
-    qrs(GeMatrix<MA> &A, const DenseVector<VTAU> &tau, GeMatrix<MB> &B,
-        DenseVector<VWORK> &work);
-    
-template <typename MA, typename VTAU, typename MB, typename VWORK>
-    typename RestrictTo<IsComplex<typename GeMatrix<MA>::ElementType>::value,
-             void>::Type
-    qrs(GeMatrix<MA> &A, const DenseVector<VTAU> &tau, GeMatrix<MB> &B,
-        DenseVector<VWORK> &work);
-    
+    unm2r(Side side, Transpose trans, MA &&A, const VTAU &tau, MC &&C,
+          VWORK &&work);
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_GE_QRS_H
+#endif // FLENS_LAPACK_IMPL_OUNM2R_H

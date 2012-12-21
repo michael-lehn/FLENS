@@ -117,6 +117,7 @@
 #include <flens/lapack/impl/tzrzf.tcc>
 #include <flens/lapack/impl/unglq.tcc>
 #include <flens/lapack/impl/ungqr.tcc>
+#include <flens/lapack/impl/unm2r.tcc>
 #include <flens/lapack/impl/unmlq.tcc>
 #include <flens/lapack/impl/unmqr.tcc>
 
