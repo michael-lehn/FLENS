@@ -80,7 +80,7 @@ ilaenv_impl(int spec, const char *name, const char *opts,
     int result = -1;
     const char *c2 = name;
     const char *c3 = name + 2;
-    const char *c4 = name + 1;
+    const char *c4 = name + 3;
 
     int nb, nbMin, nx;
 
@@ -240,7 +240,7 @@ ilaenv_impl(int spec, const char *name, const char *opts,
                   nb = 1;
                }
             }
-            result = nb*2;
+            result = nb;
             break;
 //
 //      minimal blocksize
