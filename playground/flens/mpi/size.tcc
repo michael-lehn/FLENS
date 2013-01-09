@@ -37,16 +37,23 @@
 
 namespace flens { namespace mpi {
 
-int
+#ifdef WITH_MPI
+
+inline int
+MPI_size(const MPI::Comm &communicator)
+{
+    return communicator.Get_size();
+}
+
+#else
+
+inline int
 MPI_size()
 {
-#ifdef WITH_MPI
-    using namespace MPI;
-    return COMM_WORLD.Get_size();
-#else
     return 1;
-#endif
 }
+
+#endif // WITH_MPI
 
 } }
 

@@ -36,8 +36,8 @@
 
 namespace flens { namespace mpi {
 
-void
-MPI_finalize();
+inline void
+    MPI_finalize();
 
 } }
 

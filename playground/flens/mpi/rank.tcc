@@ -37,16 +37,23 @@
 
 namespace flens { namespace mpi {
 
-int
+#ifdef WITH_MPI  
+
+inline int
+MPI_rank(const MPI::Comm &communicator)
+{
+    return communicator.Get_rank();
+}
+    
+#else
+    
+inline int
 MPI_rank()
 {
-#ifdef WITH_MPI
-    using namespace MPI;
-    return COMM_WORLD.Get_rank();
-#else
     return 0;
-#endif
 }
+
+#endif  // WITH_MPI
 
 } }
 

@@ -33,18 +33,20 @@
 #ifndef PLAYGROUND_FLENS_MPI_SIZE_H
 #define PLAYGROUND_FLENS_MPI_SIZE_H 1
 
-#ifdef WITH_MPI
-#    include "mpi.h"
-#endif
-
-#include<playground/flens/mpi/types.h>
-
-
 namespace flens { namespace mpi {
-  
-int
-MPI_size();
 
+#ifdef WITH_MPI
+
+inline int
+    MPI_size(const MPI::Comm &communicator = MPI::COMM_WORLD);
+    
+#else
+
+inline int
+    MPI_size();
+    
+#endif
+    
 } }
 
 #endif // PLAYGROUND_FLENS_MPI_SIZE_H

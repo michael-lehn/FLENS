@@ -37,132 +37,115 @@
 
 namespace flens { namespace mpi {
 
+#ifdef WITH_MPI  
+template <typename T>
+typename RestrictTo<MPI_Type<T>::Compatible,
+                    void>::Type
+MPI_send(const T &x, const int dest, const MPI::Comm &communicator)
+{
+
+    using namespace MPI;
+    
+    communicator.Send(
+             reinterpret_cast<const typename MPI_Type<T>::PrimitiveType *>(&x),
+             MPI_Type<T>::size, MPI_Type<T>::Type, dest, 0);
+        
+    return ;
+    
+}
+
+template <typename IndexType, typename T>
+typename RestrictTo<MPI_Type<T>::Compatible,
+                    void>::Type
+MPI_send(const IndexType n, const T *x, const IndexType incX, const int dest, 
+         const MPI::Comm &communicator)
+{
+
+    using namespace MPI;
+    
+    
+    if ( incX==1 ) {
+        communicator.Send(
+                 reinterpret_cast<const typename MPI_Type<T>::PrimitiveType *>(x),
+                 n*MPI_Type<T>::size, MPI_Type<T>::Type, dest, 0);
+    } else {
+        for (IndexType i=0, iX=0; i<n; ++i, iX+=incX) {
+	    MPI_send(x[iX], dest, communicator); 
+	}
+    }
+    
+    return ;
+    
+}
+
 template <typename VX>
 typename RestrictTo<IsDenseVector<VX>::value,
                     void>::Type
-MPI_send(VX &&x, const int source, const int dest)
+MPI_send(VX &&x, const int dest, const MPI::Comm &communicator)
 {
-#ifdef WITH_MPI
-    using namespace MPI;
+   using namespace MPI;
     
     typedef typename RemoveRef<VX>::Type   VectorX;
     typedef typename VectorX::ElementType T;
     typedef typename VectorX::IndexType   IndexType;
     
-
-    if ( source != MPI_rank()) {
-        return; 
-    }
     
     // Send Vector length and stride
     const IndexType length = x.length();
-    const IndexType stride = x.stride();
-    COMM_WORLD.Send(&length, MPI_Type<IndexType>::size, MPI_Type<IndexType>::Type, dest, 0);
-    COMM_WORLD.Send(&stride, MPI_Type<IndexType>::size, MPI_Type<IndexType>::Type, dest, 0);    
-        
-    if (x.stride()==1) {
-      COMM_WORLD.Send(reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(x.data()), 
-                          x.length()*MPI_Type<T>::size, 
-                          MPI_Type<T>::Type, dest, 0);
-    } else {
-        // Send Data
-        for (IndexType i=x.firstIndex(); i<=x.lastIndex(); ++i) {
-          COMM_WORLD.Send(reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(&x(i)), 
-                          MPI_Type<T>::size, 
-                          MPI_Type<T>::Type, dest, 0);
-            
-        }
-    }
-#else
-    ASSERT(0);
-#endif
+    const IndexType stride = x.stride();   
+    
+    MPI_send(length, dest, communicator);
+    MPI_send(stride, dest, communicator); 
+    
+    MPI_send(x.length(), x.data(), x.stride(), dest, communicator);
+    
 }
 
 template <typename MA>
 typename RestrictTo<IsGeMatrix<MA>::value,
                     void>::Type
-MPI_send(MA &&A, const int source, const int dest)
+MPI_send(MA &&A, const int dest, const MPI::Comm &communicator)
 {
-#ifdef WITH_MPI
+
     using namespace MPI;
     
     typedef typename RemoveRef<MA>::Type   MatrixA;
     typedef typename MatrixA::ElementType T;
     typedef typename MatrixA::IndexType   IndexType;
     
-
-    if ( source != MPI_rank()) {
-        return; 
-    }
-    
     // Send size
     const IndexType numCols = A.numCols();
     const IndexType numRows = A.numRows();
     
-    COMM_WORLD.Send(&numRows, MPI_Type<IndexType>::size, MPI_Type<IndexType>::Type, dest, 0);
-    COMM_WORLD.Send(&numCols, MPI_Type<IndexType>::size, MPI_Type<IndexType>::Type, dest, 0);  
+    MPI_send(numRows, dest, communicator);
+    MPI_send(numCols, dest, communicator);
 
 #ifndef NDEBUG
     const int isColMajor = ( A.order() == ColMajor );
-    COMM_WORLD.Send(&isColMajor, MPI_Type<int>::size, MPI_Type<int>::Type, dest, 0);
+    MPI_send(isColMajor, dest, communicator);
 #endif
     
     if ( A.order() == ColMajor ) {
       
         for (IndexType i=0; i<A.numCols(); ++i) {
-
-            COMM_WORLD.Send(reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(A.data()+i*A.leadingDimension()), 
-                      A.numRows()*MPI_Type<T>::size, 
-                      MPI_Type<T>::Type, dest, 0);
-        
-        
+            MPI_send(A.numRows(), A.data()+i*A.leadingDimension(), 1,
+                     dest, communicator);     
         }
       
     } else {
       
         for (IndexType i=0; i<A.numRows(); ++i) {
 
-            COMM_WORLD.Send(reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(A.data()+i*A.leadingDimension()), 
-                      A.numCols()*MPI_Type<T>::size, 
-                      MPI_Type<T>::Type, dest, 0);
+            MPI_send(A.numCols(), A.data()+i*A.leadingDimension(), 1,
+                     dest, communicator);
         
         
         }      
     }
 
-#else
-    ASSERT(0);
-#endif
 }
 
-
-template <typename VX>
-typename RestrictTo<IsDenseVector<VX>::value,
-                    void>::Type
-MPI_send(VX &&x, const int dest)
-{
-#ifdef WITH_MPI  
-    for (int i=0; i<MPI_size(); ++i) {
-        MPI_send(x, i, dest); 
-    }
-#else
-    ASSERT(0);    
-#endif
-}
-
-template <typename MA>
-typename RestrictTo<IsGeMatrix<MA>::value,
-                    void>::Type
-MPI_send(MA &&A, const int dest)
-{
-#ifdef WITH_MPI  
-    for (int i=0; i<MPI_size(); ++i) {
-        MPI_send(A, i, dest); 
-    }
-#else
-    ASSERT(0);    
-#endif
-}
+#endif // WITH_MPI
 
 } }
 

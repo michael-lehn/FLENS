@@ -37,13 +37,44 @@
 
 namespace flens { namespace mpi {
 
+#ifdef WITH_MPI
+
+template <typename T>
+typename RestrictTo<MPI_Type<T>::Compatible,
+                    void>::Type
+MPI_bcast(T &x, const int root, const MPI::Comm &communicator)
+{
+    communicator.Bcast(reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(&x), 
+                     MPI_Type<T>::size, MPI_Type<T>::Type, root);
+}
+  
+template <typename IndexType, typename T>
+typename RestrictTo<MPI_Type<T>::Compatible,
+                    void>::Type
+MPI_bcast(const IndexType n, T *x, const IndexType incX, const int root, 
+          const MPI::Comm &communicator)
+{
+  
+    if ( incX==1 ) {
+        communicator.Bcast(reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(x), 
+                           n*MPI_Type<T>::size, MPI_Type<T>::Type, root);
+    } else {
+    
+        for (IndexType i=0, iX=0; i<n; ++i, iX+=incX) {
+            MPI_bcast(x[iX], root, communicator);
+        }
+    
+    }
+
+}
+
 template <typename VX>
 typename RestrictTo<IsDenseVector<VX>::value,
                     void>::Type
-MPI_bcast(VX &&x, const int root)
+MPI_bcast(VX &&x, const int root, const MPI::Comm &communicator)
 {
-#ifdef WITH_MPI
-    using namespace MPI;
+
+
     
     typedef typename RemoveRef<VX>::Type   VectorX;
     typedef typename VectorX::ElementType T;
@@ -51,8 +82,8 @@ MPI_bcast(VX &&x, const int root)
     
     IndexType length = x.length();
     IndexType stride = x.stride();    
-    COMM_WORLD.Bcast(&length, MPI_Type<IndexType>::size, MPI_Type<IndexType>::Type, root); 
-    COMM_WORLD.Bcast(&stride, MPI_Type<IndexType>::size, MPI_Type<IndexType>::Type, root); 
+    MPI_bcast(length, root, communicator); 
+    MPI_bcast(stride, root, communicator); 
     
     if ( x.length()== 0) {
         x.resize(length);
@@ -60,31 +91,19 @@ MPI_bcast(VX &&x, const int root)
     
     ASSERT( x.length()==length );
     
-    if ( stride==1 ) {
-      
-        ASSERT( x.stride() == stride );
-	COMM_WORLD.Bcast(reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(x.data()), 
-                              x.length()*MPI_Type<T>::size, MPI_Type<T>::Type, root);
-	
-    } else {
-        for (IndexType i=x.firstIndex(); i<=x.lastIndex(); ++i) {
-             COMM_WORLD.Bcast(reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(&x(i)), 
-                              MPI_Type<T>::size, MPI_Type<T>::Type, root);  
-	}
-    }
-
+    ASSERT( x.stride()==stride || stride!=1 );
+    MPI_bcast(x.length(), x.data(), x.stride(), root, communicator);
  
-#endif
+
 }
   
   
 template <typename MA>
 typename RestrictTo<IsGeMatrix<MA>::value,
                     void>::Type
-MPI_bcast(MA &&A, const int root)
+MPI_bcast(MA &&A, const int root, const MPI::Comm &communicator)
 {
-#ifdef WITH_MPI
-    using namespace MPI;
+
     
     typedef typename RemoveRef<MA>::Type   MatrixA;
     typedef typename MatrixA::IndexType    IndexType;
@@ -94,8 +113,8 @@ MPI_bcast(MA &&A, const int root)
     IndexType numRows = A.numRows();
     IndexType numCols = A.numCols();
     
-    COMM_WORLD.Bcast(&numRows, MPI_Type<IndexType>::size, MPI_Type<IndexType>::Type, root); 
-    COMM_WORLD.Bcast(&numCols, MPI_Type<IndexType>::size, MPI_Type<IndexType>::Type, root); 
+    MPI_bcast(numRows, root, communicator); 
+    MPI_bcast(numCols, root, communicator); 
     
     if ( A.numRows()==0 && A.numCols()==0 ) {
         A.resize(numRows, numCols); 
@@ -107,16 +126,28 @@ MPI_bcast(MA &&A, const int root)
     if ( A.order() == ColMajor ) {
         for (IndexType i=A.firstCol(); i<=A.lastCol(); ++i) {
             auto x = A(_,i); 
-            MPI_bcast(x, root);
+            MPI_bcast(x.length(), x.data(), x.stride(), root, communicator);
         }
     } else {
         for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
             auto x = A(i,_); 
-            MPI_bcast(x, root);
+            MPI_bcast(x.length(), x.data(), x.stride(), root, communicator);
         }
     }
-#endif
+
 }
+
+
+#else
+
+template <typename T>
+void
+MPI_bcast(T &x, const int root)
+{
+    ASSERT( root==0 );  
+}
+
+#endif
 
 } }
 

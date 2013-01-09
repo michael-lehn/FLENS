@@ -37,7 +37,7 @@
 
 namespace flens { namespace mpi {
 
-void
+inline void
 MPI_init( int argc, char *argv[] )
 {
 #ifdef WITH_MPI

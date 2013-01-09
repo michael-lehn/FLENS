@@ -36,15 +36,61 @@
 #include<playground/flens/mpi/mpi-flens.h>
    
 namespace flens { namespace mpi {
+  
+#ifdef WITH_MPI
 
+template <typename T>
+typename RestrictTo<IsReal<T>::value,
+                    T>::Type
+MPI_reduce_max(const T &x, const int root, const MPI::Comm &communicator)
+{
+
+    using namespace MPI;
+    T sum(0);
+    communicator.Reduce(reinterpret_cast<const typename MPI_Type<T>::PrimitiveType *>(&x),
+                        reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(&sum), 
+                        MPI_Type<T>::size, MPI_Type<T>::Type, MPI_MAX, 0);
+    return sum; 
+ 
+}
+
+template <typename T>
+typename RestrictTo<IsReal<T>::value,
+                    T>::Type
+MPI_reduce_min(const T &x, const int root, const MPI::Comm &communicator)
+{
+
+    using namespace MPI;
+    T sum(0);
+    communicator.Reduce(reinterpret_cast<const typename MPI_Type<T>::PrimitiveType *>(&x),
+                        reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(&sum), 
+                        MPI_Type<T>::size, MPI_Type<T>::Type, MPI_MIN, 0);
+    return sum;
+
+}
+
+
+template <typename T>
+typename RestrictTo<MPI_Type<T>::Compatible,
+                    T>::Type
+MPI_reduce_sum(const T &x, const int root, const MPI::Comm &communicator)
+{
+    using namespace MPI;
+    T sum(0);
+    communicator.Reduce(reinterpret_cast<const typename MPI_Type<T>::PrimitiveType *>(&x),
+                        reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(&sum), 
+                        MPI_Type<T>::size, MPI_Type<T>::Type, MPI_SUM, 0);
+    return sum;
+
+}
 
 template <typename VX, typename VSUM>
 typename RestrictTo<IsDenseVector<VX>::value &&
                     IsDenseVector<VSUM>::value,
                     void>::Type
-MPI_reduce_sum(VX &&x, VSUM &&sum, const int root)
+MPI_reduce_sum(VX &&x, VSUM &&sum, const int root, const MPI::Comm &communicator)
 {
-#ifdef WITH_MPI
+
     using namespace MPI;
     
     typedef typename RemoveRef<VX>::Type   VectorX;
@@ -60,8 +106,8 @@ MPI_reduce_sum(VX &&x, VSUM &&sum, const int root)
     // Check corrent length and stride
     IndexType length = x.length();
     IndexType stride = x.stride();
-    COMM_WORLD.Bcast(&length, MPI_Type<IndexType>::size, MPI_Type<IndexType>::Type, root);
-    COMM_WORLD.Bcast(&stride, MPI_Type<IndexType>::size, MPI_Type<IndexType>::Type, root);
+    communicator.Bcast(&length, MPI_Type<IndexType>::size, MPI_Type<IndexType>::Type, root);
+    communicator.Bcast(&stride, MPI_Type<IndexType>::size, MPI_Type<IndexType>::Type, root);
     
     ASSERT( x.length()==length );
     ASSERT( x.stride()==stride );
@@ -74,9 +120,9 @@ MPI_reduce_sum(VX &&x, VSUM &&sum, const int root)
           psum = sum.data();
       }
         
-        COMM_WORLD.Reduce(reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(x.data()),
-                          reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(psum), 
-                          x.length()*MPI_Type<T>::size, MPI_Type<T>::Type, SUM, 0);
+        communicator.Reduce(reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(x.data()),
+                            reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(psum), 
+                            x.length()*MPI_Type<T>::size, MPI_Type<T>::Type, MPI_SUM, 0);
       
     } else {
         
@@ -87,15 +133,14 @@ MPI_reduce_sum(VX &&x, VSUM &&sum, const int root)
                 psum = &sum(j); 
             }
             
-            COMM_WORLD.Reduce(reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(&x(i)),
-                              reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(psum), 
-                              MPI_Type<T>::size, MPI_Type<T>::Type, SUM, 0);
+            communicator.Reduce(reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(&x(i)),
+                                reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(psum), 
+                                MPI_Type<T>::size, MPI_Type<T>::Type, MPI_SUM, 0);
             
             
         }
     }
-    
-#endif
+
 }
 
 
@@ -103,9 +148,9 @@ template <typename MA, typename MSUM>
 typename RestrictTo<IsGeMatrix<MA>::value &&
                     IsGeMatrix<MSUM>::value,
                     void>::Type
-MPI_reduce_sum(MA &&A, MSUM &&Sum, const int root)
+MPI_reduce_sum(MA &&A, MSUM &&Sum, const int root, const MPI::Comm &communicator)
 {
-#ifdef WITH_MPI
+
     using namespace MPI;
     
     typedef typename RemoveRef<MA>::Type   MatrixA;
@@ -131,8 +176,8 @@ MPI_reduce_sum(MA &&A, MSUM &&Sum, const int root)
     IndexType numCols = A.numCols();
     IndexType numRows = A.numRows();
     
-    COMM_WORLD.Bcast(&numRows, MPI_Type<IndexType>::size, MPI_Type<IndexType>::Type, root);
-    COMM_WORLD.Bcast(&numCols, MPI_Type<IndexType>::size, MPI_Type<IndexType>::Type, root);    
+    communicator.Bcast(&numRows, MPI_Type<IndexType>::size, MPI_Type<IndexType>::Type, root);
+    communicator.Bcast(&numCols, MPI_Type<IndexType>::size, MPI_Type<IndexType>::Type, root);    
     
     ASSERT( A.numRows()==numRows );
     ASSERT( A.numCols()==numCols );
@@ -142,20 +187,48 @@ MPI_reduce_sum(MA &&A, MSUM &&Sum, const int root)
         for (IndexType i=A.firstCol(), j=Sum.firstCol(); i<=A.lastCol(); ++i, ++j) {
             auto x   = A(_, i);
             auto sum = Sum(_, j);
-            MPI_reduce_sum(x, sum, root);
+            MPI_reduce_sum(x, sum, root, communicator);
         }
     } else {
         for (IndexType i=A.firstRow(), j=Sum.firstRow(); i<=A.lastRow(); ++i, ++j) {
             auto x   = A(i,_);
             auto sum = Sum(j,_);
-            MPI_reduce_sum(x, sum, root);
+            MPI_reduce_sum(x, sum, root, communicator);
         }
     }
 
-#else
-    Sum = A;
-#endif
 }
+
+#else
+
+//--- Max ---------------------------------------------------------------------
+template <typename T>
+typename RestrictTo<IsReal<T>::value,
+                    T>::Type
+MPI_reduce_max(const T &x, const int root)
+{
+    return x;
+}
+    
+//--- Min ---------------------------------------------------------------------
+template <typename T>
+typename RestrictTo<IsReal<T>::value,
+                    T>::Type
+MPI_reduce_min(const T &x, const int root)
+{
+    return x;
+}
+    
+//--- Sum ---------------------------------------------------------------------  
+template <typename T>
+T
+MPI_reduce_sum(const T &x, const int root)
+{
+    ASSERT( root==0 );
+    return x;
+}
+
+#endif // WITH_MPI
 
 } }
 

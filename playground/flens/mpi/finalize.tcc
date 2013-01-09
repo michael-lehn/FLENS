@@ -37,7 +37,7 @@
 
 namespace flens { namespace mpi {
 
-void
+inline void
 MPI_finalize()
 {
 #ifdef WITH_MPI

@@ -43,6 +43,7 @@ namespace flens { namespace mpi {
 template <typename T>
 struct MPI_Type
 {
+    static const bool            Compatible = false;
 };
 
 #ifdef WITH_MPI
@@ -50,56 +51,63 @@ template <>
 struct MPI_Type<int>
 {
     typedef int                   PrimitiveType; 
-    static constexpr MPI_Datatype Type = MPI_INT;
-    static const int              size = 1;
+    static const bool             Compatible = true;
+    static constexpr MPI_Datatype Type       = MPI_INT;
+    static const int              size       = 1;
 };
 
 template <>
 struct MPI_Type<long>
 {
     typedef long                  PrimitiveType; 
-    static constexpr MPI_Datatype Type = MPI_LONG;
-    static const int              size = 1;
+    static const bool             Compatible = true;   
+    static constexpr MPI_Datatype Type       = MPI_LONG;
+    static const int              size       = 1;
 };
 
 template <>
 struct MPI_Type<unsigned int>
 {
     typedef int                   PrimitiveType; 
-    static constexpr MPI_Datatype Type = MPI_UNSIGNED;
-    static const int              size = 1;
+    static const bool             Compatible = true;
+    static constexpr MPI_Datatype Type       = MPI_UNSIGNED;
+    static const int              size       = 1;
 };
 
 template <>
 struct MPI_Type<unsigned long>
 {
     typedef int                   PrimitiveType; 
-    static constexpr MPI_Datatype Type = MPI_UNSIGNED_LONG;
-    static const int              size = 1;
+    static const bool             Compatible = true;   
+    static constexpr MPI_Datatype Type       = MPI_UNSIGNED_LONG;
+    static const int              size       = 1;
 };
 
 template <>
 struct MPI_Type<float>
 {
     typedef float                 PrimitiveType; 
-    static constexpr MPI_Datatype Type = MPI_FLOAT;
-    static const int              size = 1;
-};
+    static const bool             Compatible = true;   
+    static constexpr MPI_Datatype Type       = MPI_FLOAT;
+    static const int              size       = 1;
+}; 
 
 template <>
 struct MPI_Type<double>
 {
     typedef double                PrimitiveType; 
-    static constexpr MPI_Datatype Type = MPI_DOUBLE;
-    static const int              size = 1;
+    static const bool             Compatible = true; 
+    static constexpr MPI_Datatype Type       = MPI_DOUBLE;
+    static const int              size       = 1;
 };
 
 template <typename T>
-struct MPI_Type<std::complex<T >>
+struct MPI_Type<std::complex<T> >
 {
     typedef T                     PrimitiveType; 
-    static constexpr MPI_Datatype Type = MPI_Type<T>::Type;
-    static const int              size = 2*MPI_Type<T>::size;
+    static const bool             Compatible = true;
+    static constexpr MPI_Datatype Type       = MPI_Type<T>::Type;
+    static const int              size       = 2*MPI_Type<T>::size;
 };
 
 #endif 

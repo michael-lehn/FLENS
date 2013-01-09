@@ -38,18 +38,65 @@
 
 namespace flens { namespace mpi {
   
+#ifdef WITH_MPI
+  
+//--- Max ---------------------------------------------------------------------
+template <typename T>
+    typename RestrictTo<IsReal<T>::value,
+                        T>::Type
+    MPI_reduce_max(const T &x, const int root = 0, 
+                   const MPI::Comm &communicator = MPI::COMM_WORLD);
+    
+//--- Min ---------------------------------------------------------------------
+template <typename T>
+    typename RestrictTo<IsReal<T>::value,
+                        T>::Type
+    MPI_reduce_min(const T &x, const int root = 0, 
+                   const MPI::Comm &communicator = MPI::COMM_WORLD);
+    
+//--- Sum ---------------------------------------------------------------------  
+template <typename T>
+    typename RestrictTo<MPI_Type<T>::Compatible,
+                        T>::Type
+    MPI_reduce_sum(const T &x, const int root = 0,
+                   const MPI::Comm &communicator = MPI::COMM_WORLD);
+ 
+  
 template <typename VX, typename VSUM>
-typename RestrictTo<IsDenseVector<VX>::value &&
-                    IsDenseVector<VSUM>::value,
-                    void>::Type
-MPI_reduce_sum(VX &&x, VSUM &&sum, const int root = 0);
+    typename RestrictTo<IsDenseVector<VX>::value &&
+                        IsDenseVector<VSUM>::value,
+                        void>::Type
+    MPI_reduce_sum(VX &&x, VSUM &&sum, const int root = 0,
+                   const MPI::Comm &communicator = MPI::COMM_WORLD);
 
 
 template <typename MA, typename MSUM>
-typename RestrictTo<IsGeMatrix<MA>::value &&
-                    IsGeMatrix<MSUM>::value,
-                    void>::Type
-MPI_reduce_sum(MA &&A, MSUM &&Sum, const int root = 0);
+    typename RestrictTo<IsGeMatrix<MA>::value &&
+                        IsGeMatrix<MSUM>::value,
+                        void>::Type
+    MPI_reduce_sum(MA &&A, MSUM &&Sum, const int root = 0, 
+                   const MPI::Comm &communicator = MPI::COMM_WORLD);
+    
+#else
+    
+//--- Max ---------------------------------------------------------------------
+template <typename T>
+    typename RestrictTo<IsReal<T>::value,
+                        T>::Type
+    MPI_reduce_max(const T &x, const int root = 0);
+    
+//--- Min ---------------------------------------------------------------------
+template <typename T>
+    typename RestrictTo<IsReal<T>::value,
+                        T>::Type
+    MPI_reduce_min(const T &x, const int root = 0);
+    
+//--- Sum ---------------------------------------------------------------------  
+template <typename T>
+    T
+    MPI_reduce_sum(const T &x, const int root = 0);     
+    
+#endif // WITH_MPI
 
 } }
 
