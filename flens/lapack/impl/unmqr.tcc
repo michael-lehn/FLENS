@@ -557,13 +557,22 @@ unmqr_wsq(Side        side,
         ASSERT(A.numCols()==n);
     }
 #   endif
-
 //
 //  Call implementation
 //
-    const IndexType info = external::unmqr_wsq_impl(side, trans, A, C);
+    const IndexType info = LAPACK_SELECT::unmqr_wsq_impl(side, trans, A, C);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare generic results with results from the native implementation
+//
+    const IndexType _info = external::unmqr_wsq_impl(side, trans, A, C);
+
+    ASSERT(info==_info);
+#   endif
 
     return info;
+
 }
 
 } } // namespace lapack, flens
