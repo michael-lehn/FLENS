@@ -47,15 +47,18 @@ namespace flens { namespace blas {
 
 //== GeneralMatrix - Vector products ===========================================
 
-//--gbmv
+//--diagmv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
-typename RestrictTo<IsGbMatrix<MA>::value
+typename RestrictTo<IsDiagMatrix<MA>::value
                  && IsDenseVector<VX>::value
                  && IsDenseVector<VY>::value,
          void>::Type
 mv(Transpose transpose, const ALPHA &alpha, const MA &A, const VX &x,
    const BETA &beta, VY &&y)
 {
+    typedef typename RemoveRef<MA>::Type MatrixA;
+    typedef typename MatrixA::IndexType  IndexType;
+    
     const bool noTrans = (transpose==NoTrans || transpose==Conj);
 
 #   ifndef NDEBUG
@@ -66,7 +69,84 @@ mv(Transpose transpose, const ALPHA &alpha, const MA &A, const VX &x,
     }
 #   endif
 
-    typedef typename GbMatrix<MA>::IndexType IndexType;
+    IndexType yLength = noTrans ? A.numRows()
+                                : A.numCols();
+
+    ASSERT(beta==BETA(0) || y.length()==yLength || y.length()==0);
+
+    if (y.length()!=yLength) {
+        typedef typename RemoveRef<VY>::Type   VectorY;
+        typedef typename VectorY::ElementType  T;
+
+        const T  Zero(0);
+        FLENS_BLASLOG_RESIZE_VECTOR(y, yLength);
+        y.resize(yLength, y.firstIndex(), Zero);
+    }
+    
+    if (DEBUGCLOSURE::identical(x, y)) {
+        ASSERT( beta==BETA(0) );
+        
+        blas::scal(alpha, y);
+        
+        FLENS_BLASLOG_SETTAG("--> ");
+        FLENS_BLASLOG_BEGIN_TBMV(transpose, A, x);        
+#       ifdef HAVE_CXXBLAS_TBMV
+        cxxblas::tbmv(ColMajor, Upper,
+                      transpose, NonUnit,
+                      A.dim(), IndexType(0),
+                      A.data(), A.leadingDimension(),
+                      y.data(), y.stride());
+#       else
+        ASSERT(0);
+#       endif
+        FLENS_BLASLOG_END;
+        FLENS_BLASLOG_UNSETTAG;
+        return;
+    }
+
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_GBMV(transpose, alpha, A, x, beta, y);
+
+#   ifdef HAVE_CXXBLAS_GBMV
+    cxxblas::gbmv(ColMajor,
+                  transpose,
+                  A.numRows(), A.numCols(),
+                  IndexType(0), IndexType(0),
+                  alpha,
+                  A.data(), A.leadingDimension(),
+                  x.data(), x.stride(),
+                  beta,
+                  y.data(), y.stride());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
+//--gbmv
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+typename RestrictTo<IsGbMatrix<MA>::value
+                 && IsDenseVector<VX>::value
+                 && IsDenseVector<VY>::value,
+         void>::Type
+mv(Transpose transpose, const ALPHA &alpha, const MA &A, const VX &x,
+   const BETA &beta, VY &&y)
+{
+
+    const bool noTrans = (transpose==NoTrans || transpose==Conj);
+
+#   ifndef NDEBUG
+    if (noTrans) {
+        ASSERT(x.length()==A.numCols());
+    } else {
+        ASSERT(x.length()==A.numRows());
+    }
+#   endif
+
+    typedef typename RemoveRef<MA>::Type  MatrixA;
+    typedef typename MatrixA::IndexType   IndexType;
     IndexType yLength = noTrans ? A.numRows()
                                 : A.numCols();
 

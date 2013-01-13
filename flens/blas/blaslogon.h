@@ -478,6 +478,44 @@
 
 //------------------------------------------------------------------------------
 
+#define FLENS_BLASLOG_BEGIN_HBMM(side, alpha, A, B, beta, C)                \
+    if (verbose::ClosureLog::createEntry()) {                               \
+        verbose::ClosureLog::append() << "flens::blas::mm("                 \
+                                      << side << ", "                       \
+                                      << alpha << ", "                      \
+                                      << A << ", " << B << ", "             \
+                                      << beta << ", "                       \
+                                      << C << ");";                         \
+    }
+
+
+
+//------------------------------------------------------------------------------
+
+#define FLENS_BLASLOG_BEGIN_HEMM(side, alpha, A, B, beta, C)                \
+    if (verbose::ClosureLog::createEntry()) {                               \
+        verbose::ClosureLog::append() << "flens::blas::mm("                 \
+                                      << side << ", "                       \
+                                      << alpha << ", "                      \
+                                      << A << ", " << B << ", "             \
+                                      << beta << ", "                       \
+                                      << C << ");";                         \
+    }
+
+
+
+//------------------------------------------------------------------------------
+
+#define FLENS_BLASLOG_BEGIN_TBMM(side, transA, alpha, A, B)                 \
+    if (verbose::ClosureLog::createEntry()) {                               \
+        verbose::ClosureLog::append() << "flens::blas::mm("                 \
+                                      << side << ", " << transA << ", "     \
+                                      << alpha << ", "                      \
+                                      << A << ", " << B << ");";            \
+    }
+
+//------------------------------------------------------------------------------
+
 #define FLENS_BLASLOG_BEGIN_TRMM(side, transA, alpha, A, B)                 \
     if (verbose::ClosureLog::createEntry()) {                               \
         verbose::ClosureLog::append() << "flens::blas::mm("                 \
@@ -485,6 +523,20 @@
                                       << alpha << ", "                      \
                                       << A << ", " << B << ");";            \
     }
+
+//------------------------------------------------------------------------------
+
+#define FLENS_BLASLOG_BEGIN_SBMM(side, alpha, A, B, beta, C)                \
+    if (verbose::ClosureLog::createEntry()) {                               \
+        verbose::ClosureLog::append() << "flens::blas::mm("                 \
+                                      << side << ", "                       \
+                                      << alpha << ", "                      \
+                                      << A << ", " << B << ", "             \
+                                      << beta << ", "                       \
+                                    << C << ");";                         \
+    }
+
+
 
 //------------------------------------------------------------------------------
 

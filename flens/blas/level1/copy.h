@@ -65,8 +65,15 @@ template <typename VX, typename VY>
 
 //-- gbcopy
 template <typename MA, typename MB>
+    typename RestrictTo<IsDiagMatrix<MA>::value
+                     && IsDiagMatrix<MB>::value,
+             void>::Type 
+    copy(Transpose trans, const MA &A, MB &&B);
+    
+//-- gbcopy
+template <typename MA, typename MB>
     typename RestrictTo<IsGbMatrix<MA>::value
-                     && IsGeMatrix<MB>::value,
+                     && IsGbMatrix<MB>::value,
              void>::Type
     copy(Transpose trans, const MA &A, MB &&B);
 

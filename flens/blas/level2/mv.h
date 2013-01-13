@@ -42,6 +42,15 @@ namespace flens { namespace blas {
 
 //== GeneralMatrix - Vector products ===========================================
 
+//-- diagmv
+template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
+    typename RestrictTo<IsDiagMatrix<MA>::value
+                     && IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
+             void>::Type
+    mv(Transpose transpose, const ALPHA &alpha, const MA &A, const VX &x,
+       const BETA &beta, VY &&y);
+    
 //-- gbmv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
     typename RestrictTo<IsGbMatrix<MA>::value

@@ -42,6 +42,10 @@ namespace flens {
 template <typename A>
     std::ostream &
     operator<<(std::ostream &out, const DenseVector<A> &x);
+    
+template <typename MA>
+    std::ostream &
+    operator<<(std::ostream &out, const DiagMatrix<MA> &A);
 
 } // namespace flens
 

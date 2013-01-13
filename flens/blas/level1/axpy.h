@@ -61,7 +61,14 @@ template <typename ALPHA, typename VX, typename VY>
 //-- BLAS Level 1 extensions ---------------------------------------------------
 
 //== GeneralMatrix
-
+    
+//-- diagaxpy
+template <typename ALPHA, typename MA, typename MB>
+    typename RestrictTo<IsDiagMatrix<MA>::value
+                     && IsDiagMatrix<MB>::value,
+             void>::Type
+    axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
+    
 //-- gbaxpy
 template <typename ALPHA, typename MA, typename MB>
     typename RestrictTo<IsGbMatrix<MA>::value

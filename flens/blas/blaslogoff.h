@@ -85,5 +85,9 @@
 
 #define FLENS_BLASLOG_BEGIN_GBMM(transA, transB, alpha, A, B, beta, C)
 #define FLENS_BLASLOG_BEGIN_GEMM(transA, transB, alpha, A, B, beta, C)
+#define FLENS_BLASLOG_BEGIN_HBMM(side, alpha, A, B, beta, C)
+#define FLENS_BLASLOG_BEGIN_HEMM(side, alpha, A, B, beta, C)
+#define FLENS_BLASLOG_BEGIN_TBMM(side, transA, alpha, A, B)
 #define FLENS_BLASLOG_BEGIN_TRMM(side, transA, alpha, A, B)
+#define FLENS_BLASLOG_BEGIN_SBMM(side, alpha, A, B, beta, C)
 #define FLENS_BLASLOG_BEGIN_SYMM(side, alpha, A, B, beta, C)

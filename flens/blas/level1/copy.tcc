@@ -108,6 +108,22 @@ copy(const VX &x, VY &&y)
 
 //== GeneralMatrix
 
+//-- diagcopy
+template <typename MA, typename MB>
+typename RestrictTo<IsDiagMatrix<MA>::value
+                 && IsDiagMatrix<MB>::value,
+         void>::Type
+copy(Transpose trans, const MA &A, MB &&B)
+{
+    if ( trans==Conj || trans==ConjTrans ) {
+        real(B.diag()) =  real(A.diag());
+        imag(B.diag()) = -imag(A.diag());
+        return;
+    }
+    
+    B.diag() = A.diag();
+}
+
 //-- gbcopy
 template <typename MA, typename MB>
 typename RestrictTo<IsGbMatrix<MA>::value
@@ -115,7 +131,12 @@ typename RestrictTo<IsGbMatrix<MA>::value
          void>::Type
 copy(Transpose trans, const MA &A, MB &&B)
 {
-    typename GbMatrix<MB>::ElementType  Zero(0);
+    typedef typename RemoveRef<MA>::Type   MatrixA;
+    typedef typename RemoveRef<MB>::Type   MatrixB;
+    typedef typename MatrixA::IndexType    IndexType;
+    typedef typename MatrixB::ElementType  ElementType;
+    const ElementType Zero(0);
+
 //
 //  check if this is an inplace transpose of A
 //
@@ -127,7 +148,7 @@ copy(Transpose trans, const MA &A, MB &&B)
             ASSERT(A.numRows()==A.numCols());
             ASSERT(A.numSubDiags()==A.numSuperDiags());
 
-            gbcotr(MB::order, trans, B.numRows(), B.numCols(),
+            gbcotr(B.order(), trans, B.numRows(), B.numCols(),
                    B.numSubDiags(), B.numSuperDiags(),
                    B.data(), B.leadingDimension());
             return;
@@ -165,15 +186,13 @@ copy(Transpose trans, const MA &A, MB &&B)
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_MCOPY(trans, A, B);
 
-    typedef typename GbMatrix<MB>::IndexType  IndexType;
-
     const IndexType numSubDiags   = ((trans==NoTrans) || (trans==Conj))
                                   ? A.numSubDiags()
                                   : A.numSuperDiags();
     const IndexType numSuperDiags = ((trans==NoTrans) || (trans==Conj))
                                   ? A.numSuperDiags()
                                   : A.numSubDiags();
-    const IndexType Bshift = (MB::order==RowMajor)
+    const IndexType Bshift = (B.order()==RowMajor)
                            ? B.numSubDiags() - numSubDiags
                            : B.numSuperDiags() - numSuperDiags;
 
@@ -182,7 +201,7 @@ copy(Transpose trans, const MA &A, MB &&B)
           : Transpose(trans ^ Trans);
 
 #   ifdef HAVE_CXXBLAS_GECOPY
-    cxxblas::gbcopy(MB::order, trans,
+    cxxblas::gbcopy(B.order(), trans,
                     B.numRows(), B.numCols(),
                     numSubDiags, numSuperDiags,
                     A.data(), A.leadingDimension(),
@@ -329,10 +348,16 @@ typename RestrictTo<IsHbMatrix<MA>::value
          void>::Type
 copy(const MA &A, MB &&B)
 {
+    typedef typename RemoveRef<MA>::Type   MatrixA;
+    typedef typename RemoveRef<MB>::Type   MatrixB;
+    typedef typename MatrixA::IndexType    IndexType;
+    typedef typename MatrixB::ElementType  ElementType;
+    const ElementType Zero(0);
+
+
     ASSERT(A.upLo()==B.upLo());
     ASSERT(A.order()==B.order());
 
-    typename HbMatrix<MB>::ElementType  Zero(0);
 
 //
 //  Resize left hand size if needed.  This is *usually* only alloweded
@@ -347,9 +372,6 @@ copy(const MA &A, MB &&B)
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_COPY(A, B);
 
-
-    typedef typename HbMatrix<MB>::IndexType  IndexType;
-
     const IndexType numSubDiags   = (A.upLo()==Lower)
                                   ? A.numOffDiags()
                                   : 0;
@@ -357,12 +379,12 @@ copy(const MA &A, MB &&B)
                                   ? A.numOffDiags()
                                   : 0;
 
-    const IndexType Bshift = (MB::order==RowMajor)
+    const IndexType Bshift = (B.order()==RowMajor)
                     ? ((B.upLo()==Lower) ? B.numOffDiags() : 0) - numSubDiags
                     : ((B.upLo()==Upper) ? B.numOffDiags() : 0) - numSuperDiags;
 
 #   ifdef HAVE_CXXBLAS_GBCOPY
-    cxxblas::gbcopy(MB::order, NoTrans,
+    cxxblas::gbcopy(B.order(), NoTrans,
                     B.dim(), B.dim(),
                     numSubDiags, numSuperDiags,
                     A.data(), A.leadingDimension(),
@@ -468,10 +490,15 @@ typename RestrictTo<IsSbMatrix<MA>::value
          void>::Type
 copy(const MA &A, MB &&B)
 {
+    typedef typename RemoveRef<MA>::Type   MatrixA;
+    typedef typename RemoveRef<MB>::Type   MatrixB;
+    typedef typename MatrixA::IndexType    IndexType;
+    typedef typename MatrixB::ElementType  ElementType;
+    const ElementType Zero(0);
+
+
     ASSERT(A.upLo()==B.upLo());
     ASSERT(A.order()==B.order());
-
-    typename SbMatrix<MB>::ElementType  Zero(0);
 
 //
 //  Resize left hand size if needed.  This is *usually* only alloweded
@@ -486,8 +513,6 @@ copy(const MA &A, MB &&B)
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_COPY(A, B);
 
-    typedef typename SbMatrix<MB>::IndexType  IndexType;
-
     const IndexType numSubDiags   = (A.upLo()==Lower)
                                   ? A.numOffDiags()
                                   : 0;
@@ -495,12 +520,12 @@ copy(const MA &A, MB &&B)
                                   ? A.numOffDiags()
                                   : 0;
 
-    const IndexType Bshift = (MB::order==RowMajor)
+    const IndexType Bshift = (B.order()==RowMajor)
                     ? ((B.upLo()==Lower) ? B.numOffDiags() : 0) - numSubDiags
                     : ((B.upLo()==Upper) ? B.numOffDiags() : 0) - numSuperDiags;
 
 #   ifdef HAVE_CXXBLAS_GBCOPY
-    cxxblas::gbcopy(MB::order, NoTrans,
+    cxxblas::gbcopy(B.order(), NoTrans,
                     B.dim(), B.dim(),
                     numSubDiags, numSuperDiags,
                     A.data(), A.leadingDimension(),
@@ -593,7 +618,12 @@ typename RestrictTo<IsTbMatrix<MA>::value
          void>::Type
 copy(Transpose trans, const MA &A, MB &&B)
 {
-    typename TbMatrix<MB>::ElementType  Zero(0), One(1);
+    typedef typename RemoveRef<MA>::Type   MatrixA;
+    typedef typename RemoveRef<MB>::Type   MatrixB;
+    typedef typename MatrixA::IndexType    IndexType;
+    typedef typename MatrixB::ElementType  ElementType;
+    const ElementType Zero(0), One(1);
+
 
     // Copy non-Unit diagonal into unit diagonal not possible
     ASSERT((A.diag()!=Unit) || (A.diag()!=B.diag()));
@@ -643,14 +673,12 @@ copy(Transpose trans, const MA &A, MB &&B)
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_MCOPY(trans, A, B);
 
-    typedef typename TbMatrix<MB>::IndexType  IndexType;
-
     const IndexType numSubDiags   = ((trans==NoTrans) || (trans==Conj))
                                      ? A.numSubDiags() : A.numSuperDiags();
     const IndexType numSuperDiags = ((trans==NoTrans) || (trans==Conj))
                                      ? A.numSuperDiags() : A.numSubDiags();
 
-    const IndexType Bshift = (MB::order==RowMajor)
+    const IndexType Bshift = (B.order==RowMajor)
                                ? B.numSubDiags() - numSubDiags
                                : B.numSuperDiags() - numSuperDiags;
 
@@ -660,7 +688,7 @@ copy(Transpose trans, const MA &A, MB &&B)
 
 #   ifdef HAVE_CXXBLAS_GECOPY
 
-    cxxblas::gbcopy(MB::order, trans,
+    cxxblas::gbcopy(B.order(), trans,
                     B.numRows(), B.numCols(),
                     numSubDiags, numSuperDiags,
                     A.data(), A.leadingDimension(),
@@ -715,7 +743,7 @@ copy(Transpose trans, const MA &A, MB &&B)
 
 #   ifdef HAVE_CXXBLAS_TPCOPY
     cxxblas::tpcopy(B.upLo(), trans, B.diag(), B.dim(), A.data(), B.data());
- #   else
+#   else
     ASSERT(0);
 #   endif
     FLENS_BLASLOG_END;

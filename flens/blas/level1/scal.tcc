@@ -90,6 +90,14 @@ scal(const ALPHA &alpha, VY &&y)
 
 //-- gbscal
 template <typename ALPHA, typename MB>
+typename RestrictTo<IsDiagMatrix<MB>::value,
+         void>::Type
+scal(const ALPHA &alpha, MB &&B)
+{
+    scal(alpha, B.diag());
+}
+//-- gbscal
+template <typename ALPHA, typename MB>
 typename RestrictTo<IsGbMatrix<MB>::value,
          void>::Type
 scal(const ALPHA &alpha, MB &&B)
@@ -98,7 +106,7 @@ scal(const ALPHA &alpha, MB &&B)
     FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
 
 #   ifdef HAVE_CXXBLAS_GBSCAL
-    cxxblas::gbscal(MB::order, B.numRows(), B.numCols(),
+    cxxblas::gbscal(B.order(), B.numRows(), B.numCols(),
                     B.numSubDiags(), B.numSuperDiags(),
                     alpha, B.data(), B.leadingDimension());
 #   else
@@ -165,7 +173,7 @@ scal(const ALPHA &alpha, MB &&B)
     const IndexType numSuperDiags = (B.upLo()==Upper) ? B.numOffDiags() : 0;
 
 #   ifdef HAVE_CXXBLAS_GBSCAL
-    cxxblas::gbscal(MB::order, B.dim(), B.dim(),
+    cxxblas::gbscal(B.order(), B.dim(), B.dim(),
                     numSubDiags, numSuperDiags,
                     alpha, B.data(), B.leadingDimension());
 #   else
@@ -208,7 +216,7 @@ scal(const ALPHA &alpha, MB &&B)
     FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
 
 #   ifdef HAVE_CXXBLAS_TPSCAL
-    cxxblas::tpscal(MB::order, B.upLo(), B.diag(),
+    cxxblas::tpscal(B.order(), B.upLo(), B.diag(),
                     B.dim(),
                     alpha, B.data());
 #   else
@@ -236,7 +244,7 @@ scal(const ALPHA &alpha, MB &&B)
     const IndexType numSuperDiags = (B.upLo()==Upper) ? B.numOffDiags() : 0;
 
 #   ifdef HAVE_CXXBLAS_GBSCAL
-    cxxblas::gbscal(MB::order, B.dim(), B.dim(),
+    cxxblas::gbscal(B.order(), B.dim(), B.dim(),
                     numSubDiags, numSuperDiags,
                     alpha, B.data(), B.leadingDimension());
 #   else
@@ -257,7 +265,7 @@ scal(const ALPHA &alpha, MB &&B)
     FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
 
 #   ifdef HAVE_CXXBLAS_TPSCAL
-    cxxblas::tpscal(MB::order, B.upLo(), B.diag(),
+    cxxblas::tpscal(B.order(), B.upLo(), B.diag(),
                     B.dim(),
                     alpha, B.data());
 #   else
@@ -301,7 +309,7 @@ scal(const ALPHA &alpha, MB &&B)
     FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
 
 #   ifdef HAVE_CXXBLAS_GBSCAL
-    cxxblas::gbscal(MB::order, B.numRows(), B.numCols(),
+    cxxblas::gbscal(B.order(), B.numRows(), B.numCols(),
                     B.numSubDiags(), B.numSuperDiags(),
                     alpha, B.data(), B.leadingDimension());
 #   else
@@ -322,7 +330,7 @@ scal(const ALPHA &alpha, MB &&B)
     FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
 
 #   ifdef HAVE_CXXBLAS_TPSCAL
-    cxxblas::tpscal(MB::order, B.upLo(), B.diag(),
+    cxxblas::tpscal(B.order(), B.upLo(), B.diag(),
                     B.dim(),
                     alpha, B.data());
 #   else
