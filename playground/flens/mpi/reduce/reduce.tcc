@@ -49,7 +49,7 @@ MPI_reduce_max(const T &x, const int root, const MPI::Comm &communicator)
     T sum(0);
     communicator.Reduce(reinterpret_cast<const typename MPI_Type<T>::PrimitiveType *>(&x),
                         reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(&sum), 
-                        MPI_Type<T>::size, MPI_Type<T>::Type, MPI_MAX, 0);
+                        MPI_Type<T>::size, MPI_Type<T>::Type(), MPI_MAX, 0);
     return sum; 
  
 }
@@ -64,7 +64,7 @@ MPI_reduce_min(const T &x, const int root, const MPI::Comm &communicator)
     T sum(0);
     communicator.Reduce(reinterpret_cast<const typename MPI_Type<T>::PrimitiveType *>(&x),
                         reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(&sum), 
-                        MPI_Type<T>::size, MPI_Type<T>::Type, MPI_MIN, 0);
+                        MPI_Type<T>::size, MPI_Type<T>::Type(), MPI_MIN, 0);
     return sum;
 
 }
@@ -79,7 +79,7 @@ MPI_reduce_sum(const T &x, const int root, const MPI::Comm &communicator)
     T sum(0);
     communicator.Reduce(reinterpret_cast<const typename MPI_Type<T>::PrimitiveType *>(&x),
                         reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(&sum), 
-                        MPI_Type<T>::size, MPI_Type<T>::Type, MPI_SUM, 0);
+                        MPI_Type<T>::size, MPI_Type<T>::Type(), MPI_SUM, 0);
     return sum;
 
 }
@@ -106,8 +106,8 @@ MPI_reduce_sum(VX &&x, VSUM &&sum, const int root, const MPI::Comm &communicator
     // Check corrent length and stride
     IndexType length = x.length();
     IndexType stride = x.stride();
-    communicator.Bcast(&length, MPI_Type<IndexType>::size, MPI_Type<IndexType>::Type, root);
-    communicator.Bcast(&stride, MPI_Type<IndexType>::size, MPI_Type<IndexType>::Type, root);
+    communicator.Bcast(&length, MPI_Type<IndexType>::size, MPI_Type<IndexType>::Type(), root);
+    communicator.Bcast(&stride, MPI_Type<IndexType>::size, MPI_Type<IndexType>::Type(), root);
     
     ASSERT( x.length()==length );
     ASSERT( x.stride()==stride );
@@ -122,7 +122,7 @@ MPI_reduce_sum(VX &&x, VSUM &&sum, const int root, const MPI::Comm &communicator
         
         communicator.Reduce(reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(x.data()),
                             reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(psum), 
-                            x.length()*MPI_Type<T>::size, MPI_Type<T>::Type, MPI_SUM, 0);
+                            x.length()*MPI_Type<T>::size, MPI_Type<T>::Type(), MPI_SUM, 0);
       
     } else {
         
@@ -135,7 +135,7 @@ MPI_reduce_sum(VX &&x, VSUM &&sum, const int root, const MPI::Comm &communicator
             
             communicator.Reduce(reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(&x(i)),
                                 reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(psum), 
-                                MPI_Type<T>::size, MPI_Type<T>::Type, MPI_SUM, 0);
+                                MPI_Type<T>::size, MPI_Type<T>::Type(), MPI_SUM, 0);
             
             
         }
@@ -176,8 +176,8 @@ MPI_reduce_sum(MA &&A, MSUM &&Sum, const int root, const MPI::Comm &communicator
     IndexType numCols = A.numCols();
     IndexType numRows = A.numRows();
     
-    communicator.Bcast(&numRows, MPI_Type<IndexType>::size, MPI_Type<IndexType>::Type, root);
-    communicator.Bcast(&numCols, MPI_Type<IndexType>::size, MPI_Type<IndexType>::Type, root);    
+    communicator.Bcast(&numRows, MPI_Type<IndexType>::size, MPI_Type<IndexType>::Type(), root);
+    communicator.Bcast(&numCols, MPI_Type<IndexType>::size, MPI_Type<IndexType>::Type(), root);    
     
     ASSERT( A.numRows()==numRows );
     ASSERT( A.numCols()==numCols );

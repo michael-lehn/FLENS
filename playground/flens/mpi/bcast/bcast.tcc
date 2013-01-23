@@ -45,7 +45,7 @@ typename RestrictTo<MPI_Type<T>::Compatible,
 MPI_bcast(T &x, const int root, const MPI::Comm &communicator)
 {
     communicator.Bcast(reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(&x), 
-                     MPI_Type<T>::size, MPI_Type<T>::Type, root);
+                     MPI_Type<T>::size, MPI_Type<T>::Type(), root);
 }
   
 template <typename IndexType, typename T>
@@ -57,7 +57,7 @@ MPI_bcast(const IndexType n, T *x, const IndexType incX, const int root,
   
     if ( incX==1 ) {
         communicator.Bcast(reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(x), 
-                           n*MPI_Type<T>::size, MPI_Type<T>::Type, root);
+                           n*MPI_Type<T>::size, MPI_Type<T>::Type(), root);
     } else {
     
         for (IndexType i=0, iX=0; i<n; ++i, iX+=incX) {

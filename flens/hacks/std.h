@@ -87,15 +87,6 @@ struct is_integral
                            || flens::IsSame<T, long>::value;
 };
 
-template <typename X>
-string
-to_string(const X &__val)
-{
-    stringstream s;
-    s << __val;
-    return s.str();
-};
-
 } // namespace std
 
 #endif // STD_HACK

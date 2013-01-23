@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2011, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,37 +30,22 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_FLENS_CXX
-#define FLENS_FLENS_CXX 1
+#ifndef FLENS_HACKS_TOSTRING_H
+#define FLENS_HACKS_TOSTRING_H 1
 
-#ifdef __INTEL_COMPILER
-#    define STD_HACK
-#elif __clang__
-#    define STD_HACK
-#elif __GNUC__
-#    define GCC_HACK
-#    define INCLUDE_TYPE_TRAITS
-#endif
+#include <sstream>
 
-#if defined(STD_HACK) && !(defined(NO_STD_HACK))
-#   include <flens/hacks/std.h>
-#endif
+namespace std {
 
-#ifdef FLENS_DEBUG_CLOSURES
-#   include <flens/debug/auxiliary/auxiliary.h>
-#endif
+template <typename X>
+string
+to_string(const X &__val)
+{
+    stringstream s;
+    s << __val;
+    return s.str();
+};
 
-#include <flens/flens.h>
-#include <flens/flens.tcc>
-#include <cxxblas/cxxblas.cxx>
+} // namespace std
 
-#ifdef USE_CXXLAPACK
-#   include <cxxlapack/cxxlapack.cxx>
-#endif
-
-
-#ifdef FLENS_DEBUG_CLOSURES
-#   include <flens/debug/auxiliary/auxiliary.tcc>
-#endif
-
-#endif // FLENS_FLENS_CXX
+#endif // FLENS_HACKS_TOSTRING_H

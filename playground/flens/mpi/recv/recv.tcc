@@ -62,7 +62,7 @@ MPI_recv(T &x, const int source, const MPI::Comm &communicator)
     
     Status status;
     communicator.Recv(reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(&x), 
-                      MPI_Type<T>::size, MPI_Type<T>::Type, source, 0, status);
+                      MPI_Type<T>::size, MPI_Type<T>::Type(), source, 0, status);
         
     return ;
 
@@ -82,7 +82,7 @@ MPI_recv(const IndexType n, T *x, const IndexType incX, const int source,
     if ( incX==IndexType(1) ) {
         Status status;
         communicator.Recv(reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(x), 
-                          n*MPI_Type<T>::size, MPI_Type<T>::Type, source, 0, status);
+                          n*MPI_Type<T>::size, MPI_Type<T>::Type(), source, 0, status);
     } else {
         
         for (IndexType i=0, iX=0; i<n; ++i, iX+=incX) {

@@ -48,7 +48,7 @@ MPI_send(const T &x, const int dest, const MPI::Comm &communicator)
     
     communicator.Send(
              reinterpret_cast<const typename MPI_Type<T>::PrimitiveType *>(&x),
-             MPI_Type<T>::size, MPI_Type<T>::Type, dest, 0);
+             MPI_Type<T>::size, MPI_Type<T>::Type(), dest, 0);
         
     return ;
     
@@ -67,7 +67,7 @@ MPI_send(const IndexType n, const T *x, const IndexType incX, const int dest,
     if ( incX==1 ) {
         communicator.Send(
                  reinterpret_cast<const typename MPI_Type<T>::PrimitiveType *>(x),
-                 n*MPI_Type<T>::size, MPI_Type<T>::Type, dest, 0);
+                 n*MPI_Type<T>::size, MPI_Type<T>::Type(), dest, 0);
     } else {
         for (IndexType i=0, iX=0; i<n; ++i, iX+=incX) {
 	    MPI_send(x[iX], dest, communicator); 

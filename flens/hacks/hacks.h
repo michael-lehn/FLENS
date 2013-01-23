@@ -35,6 +35,6 @@
 
 #include <flens/hacks/mpfr_real.h>
 #include <flens/hacks/qd.h>
-#include <flens/hacks/std.h>
+#include <flens/hacks/tostring.h>
 
 #endif // FLENS_HACKS_HACKS_H
