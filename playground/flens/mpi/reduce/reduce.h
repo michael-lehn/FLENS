@@ -95,7 +95,16 @@ template <typename T>
 template <typename T>
     T
     MPI_reduce_sum(const T &x, const int root = 0);     
-    
+
+
+template <typename X, typename SUM>
+    typename RestrictTo<(IsDenseVector<X>::value &&
+                         IsDenseVector<SUM>::value) ||
+                        (IsGeMatrix<X>::value &&
+                         IsGeMatrix<SUM>::value),
+                        void>::Type
+    MPI_reduce_sum(X &&x, SUM &&sum, const int root = 0);
+                       
 #endif // WITH_MPI
 
 } }

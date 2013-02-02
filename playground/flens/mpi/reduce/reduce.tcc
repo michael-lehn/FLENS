@@ -228,6 +228,18 @@ MPI_reduce_sum(const T &x, const int root)
     return x;
 }
 
+template <typename X, typename SUM>
+typename RestrictTo<(IsDenseVector<X>::value &&
+                     IsDenseVector<SUM>::value) ||
+                    (IsGeMatrix<X>::value &&
+                     IsGeMatrix<SUM>::value),
+                     void>::Type
+MPI_reduce_sum(X &&x, SUM &&sum, const int root)
+{
+    ASSERT( root==0 );
+    sum = x;
+}
+
 #endif // WITH_MPI
 
 } }
