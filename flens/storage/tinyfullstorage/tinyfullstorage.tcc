@@ -61,7 +61,7 @@ template <typename T, int m, int n, int ib>
 const typename TinyFullStorage<T,m,n,ib>::ElementType &
 TinyFullStorage<T,m,n,ib>::operator()(IndexType row, IndexType col) const
 {
-    const T *data = reinterpret_cast<const double *>(_data)
+    const T *data = reinterpret_cast<const T *>(_data)
                   - (firstRow*leadingDimension+firstCol);
     return data[row*leadingDimension+col];
 }
@@ -70,7 +70,7 @@ template <typename T, int m, int n, int ib>
 typename TinyFullStorage<T,m,n,ib>::ElementType &
 TinyFullStorage<T,m,n,ib>::operator()(IndexType row, IndexType col)
 {
-    T *data = reinterpret_cast<double *>(_data)
+    T *data = reinterpret_cast<T *>(_data)
             - (firstRow*leadingDimension+firstCol);
     return data[row*leadingDimension+col];
 }

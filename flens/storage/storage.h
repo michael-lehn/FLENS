@@ -71,5 +71,7 @@
 #include <flens/storage/tinyarray/tinyconstarrayview.h>
 
 #include <flens/storage/tinyfullstorage/tinyfullstorage.h>
+#include <flens/storage/tinyfullstorage/tinyfullstorageview.h>
+#include <flens/storage/tinyfullstorage/tinyconstfullstorageview.h>
 
 #endif // FLENS_STORAGE_STORAGE_H
