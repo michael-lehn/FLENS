@@ -44,6 +44,8 @@ template <int m, int n,
 void
 gemv_n(MA alpha, const MA *A, const VX *x, VY beta, VY *y)
 {
+    CXXBLAS_DEBUG_OUT("gemv_n [tiny]");
+    
     for (int i=0, iY=0; i<m; ++i, iY+=incY) {
         y[iY] *= beta;
         for (int j=0, jX=0; j<n; ++j, jX+=incX) {
@@ -52,10 +54,32 @@ gemv_n(MA alpha, const MA *A, const VX *x, VY beta, VY *y)
     }
 }
 
-template <int m, int n, typename MA, int ldA, typename VX, int incX, typename VY, int incY>
+template <int m, int n,
+          typename MA, int ldA,
+          typename VX, int incX,
+          typename VY, int incY>
+void
+gemv_c(MA alpha, const MA *A, const VX *x, VY beta, VY *y)
+{
+    CXXBLAS_DEBUG_OUT("gemv_c [tiny]");
+    
+    for (int i=0, iY=0; i<m; ++i, iY+=incY) {
+        y[iY] *= beta;
+        for (int j=0, jX=0; j<n; ++j, jX+=incX) {
+            y[iY] += alpha * conjugate(A[i*ldA+j]) * x[jX];
+        }
+    }
+}
+
+template <int m, int n,
+          typename MA, int ldA,
+          typename VX, int incX,
+          typename VY, int incY>
 void
 gemv_t(MA alpha, const MA *A, const VX *x, VY beta, VY *y)
 {
+    CXXBLAS_DEBUG_OUT("gemv_t [tiny]");
+    
     for (int j=0, jY=0; j<n; ++j, jY+=incY) {
         y[jY] *= beta;
     }
@@ -71,15 +95,37 @@ template <int m, int n,
           typename VX, int incX,
           typename VY, int incY>
 void
+gemv_ct(MA alpha, const MA *A, const VX *x, VY beta, VY *y)
+{
+    CXXBLAS_DEBUG_OUT("gemv_t [tiny]");
+    
+    for (int j=0, jY=0; j<n; ++j, jY+=incY) {
+        y[jY] *= beta;
+    }
+    for (int i=0, iX=0; i<m; ++i, iX+=incY) {
+        for (int j=0, jY=0; j<n; ++j, jY+=incY) {
+            y[jY] += alpha * conjugate(A[i*ldA+j]) * x[iX];
+        }
+    }
+}
+
+template <int m, int n,
+          typename MA, int ldA,
+          typename VX, int incX,
+          typename VY, int incY>
+void
 gemv(Transpose trans, MA alpha, const MA *A, const VX *x, VY beta, VY *y)
 {
+    CXXBLAS_DEBUG_OUT("gemv [tiny]");
+    
     if (trans==NoTrans) {
         gemv_n<m, n, MA, ldA, VX, incX, VY, incY>(alpha, A, x, beta, y);
     } else if (trans==Trans) {
         gemv_t<m, n, MA, ldA, VX, incX, VY, incY>(alpha, A, x, beta, y);
-    } else {
-        // ConjTrans and Conj are not yet supported
-        ASSERT(0);
+    } else if (trans==Conj){
+        gemv_c<m, n, MA, ldA, VX, incX, VY, incY>(alpha, A, x, beta, y);
+    } else if (trans==ConjTrans){
+        gemv_ct<m, n, MA, ldA, VX, incX, VY, incY>(alpha, A, x, beta, y);
     }
 }
 

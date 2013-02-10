@@ -41,6 +41,8 @@ template <int n, typename X, int incX, typename Y, int incY>
 void
 copy(const X *x, Y *y)
 {
+    CXXBLAS_DEBUG_OUT("copy [tiny]");
+    
     for (int i=0, iX=0, iY=0; i<n; ++i, iX+=incX, iY+=incY) {
         y[iX] = x[iX];
     }
