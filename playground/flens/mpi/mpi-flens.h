@@ -37,6 +37,7 @@
 #    include "mpi.h"
 #endif
 
+
 #include<playground/flens/mpi/types.h>
 #include<playground/flens/mpi/init.h>
 #include<playground/flens/mpi/finalize.h>
@@ -46,5 +47,24 @@
 #include<playground/flens/mpi/recv/recv.h>
 #include<playground/flens/mpi/reduce/reduce.h>
 #include<playground/flens/mpi/send/send.h>
+
+#ifdef WITH_MPI
+#    ifdef NDEBUG
+#        define MPI_ASSERT(pred) 
+#    else
+#        define MPI_ASSERT(pred) \
+         if (!(pred)) {                                                  \
+             int rank = flens::mpi::MPI_rank();                          \
+             std::cerr << __FILE__ << ":" << __LINE__ <<":";             \
+             std::cerr <<  __PRETTY_FUNCTION__ << ":" ;                  \
+             std::cerr << "rank " << rank << ": ";                       \
+             std::cerr << "Assertion `" << #pred << "' failed.";         \
+             std::cerr << std::endl;                                     \
+             MPI_Abort(MPI::COMM_WORLD, 1);                              \
+         } 
+#    endif
+#else
+#    define MPI_ASSERT(pred) ASSERT(pred)
+#endif
 
 #endif // PLAYGROUND_FLENS_MPI_MPI_H

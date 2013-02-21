@@ -42,14 +42,16 @@ namespace flens { namespace mpi {
   
 //--- Max ---------------------------------------------------------------------
 template <typename T>
-    typename RestrictTo<IsReal<T>::value,
+    typename RestrictTo<IsReal<T>::value ||
+                        IsInteger<T>::value,
                         T>::Type
     MPI_reduce_max(const T &x, const int root = 0, 
                    const MPI::Comm &communicator = MPI::COMM_WORLD);
     
 //--- Min ---------------------------------------------------------------------
 template <typename T>
-    typename RestrictTo<IsReal<T>::value,
+    typename RestrictTo<IsReal<T>::value || 
+                        IsInteger<T>::value,
                         T>::Type
     MPI_reduce_min(const T &x, const int root = 0, 
                    const MPI::Comm &communicator = MPI::COMM_WORLD);
@@ -81,13 +83,15 @@ template <typename MA, typename MSUM>
     
 //--- Max ---------------------------------------------------------------------
 template <typename T>
-    typename RestrictTo<IsReal<T>::value,
+    typename RestrictTo<IsReal<T>::value ||
+                        IsInteger<T>::value,
                         T>::Type
     MPI_reduce_max(const T &x, const int root = 0);
     
 //--- Min ---------------------------------------------------------------------
 template <typename T>
-    typename RestrictTo<IsReal<T>::value,
+    typename RestrictTo<IsReal<T>::value ||
+                        IsInteger<T>::value,
                         T>::Type
     MPI_reduce_min(const T &x, const int root = 0);
     

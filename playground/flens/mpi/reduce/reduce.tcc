@@ -40,7 +40,8 @@ namespace flens { namespace mpi {
 #ifdef WITH_MPI
 
 template <typename T>
-typename RestrictTo<IsReal<T>::value,
+typename RestrictTo<IsReal<T>::value ||
+                    IsInteger<T>::value,
                     T>::Type
 MPI_reduce_max(const T &x, const int root, const MPI::Comm &communicator)
 {
@@ -55,7 +56,8 @@ MPI_reduce_max(const T &x, const int root, const MPI::Comm &communicator)
 }
 
 template <typename T>
-typename RestrictTo<IsReal<T>::value,
+typename RestrictTo<IsReal<T>::value ||
+                    IsInteger<T>::value,
                     T>::Type
 MPI_reduce_min(const T &x, const int root, const MPI::Comm &communicator)
 {
@@ -203,7 +205,8 @@ MPI_reduce_sum(MA &&A, MSUM &&Sum, const int root, const MPI::Comm &communicator
 
 //--- Max ---------------------------------------------------------------------
 template <typename T>
-typename RestrictTo<IsReal<T>::value,
+typename RestrictTo<IsReal<T>::value ||
+                    IsInteger<T>::value,
                     T>::Type
 MPI_reduce_max(const T &x, const int root)
 {
@@ -212,7 +215,8 @@ MPI_reduce_max(const T &x, const int root)
     
 //--- Min ---------------------------------------------------------------------
 template <typename T>
-typename RestrictTo<IsReal<T>::value,
+typename RestrictTo<IsReal<T>::value ||
+                    IsInteger<T>::value,
                     T>::Type
 MPI_reduce_min(const T &x, const int root)
 {
