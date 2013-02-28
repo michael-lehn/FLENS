@@ -141,8 +141,20 @@ MPI_bcast(MA &&A, const int root, const MPI::Comm &communicator)
 #else
 
 template <typename T>
-void
+typename RestrictTo<(IsInteger<T>::value ||
+                     IsReal<T>::value ||
+                     IsComplex<T>::value),
+                    void>::Type
 MPI_bcast(T &x, const int root)
+{
+    ASSERT( root==0 );  
+}
+
+template <typename T>
+typename RestrictTo<(IsDenseVector<T>::value ||
+                     IsGeMatrix<T>::value) ,
+                     void>::Type
+MPI_bcast(T &&x, const int root)
 {
     ASSERT( root==0 );  
 }
