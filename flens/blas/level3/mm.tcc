@@ -598,7 +598,7 @@ mm(Side             side,
     }
     
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_HRMM(side, alpha, A, B, beta, C);    
+    FLENS_BLASLOG_BEGIN_HEMM(side, alpha, A, B, beta, C);    
 
 #   ifdef HAVE_CXXBLAS_HEMM
     cxxblas::hemm(C.order(), side,
