@@ -79,15 +79,15 @@ rscl_impl(const SA &sa, DenseVector<VSX> &sx)
 //
 //  Initialize the denominator to SA and the numerator to 1.
 //
-    ElementType cDen = sa;
-    ElementType cNum = One;
+    PrimitiveType cDen = sa;
+    PrimitiveType cNum = One;
 
     bool done = false;
     do {
         const PrimitiveType cDen1 = cDen*smallNum;
         const PrimitiveType cNum1 = cNum / bigNum;
 
-        ElementType mul;
+        PrimitiveType mul;
 
         if (abs(cDen1)>abs(cNum) && cNum!=Zero) {
 //
