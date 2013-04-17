@@ -234,17 +234,18 @@ larzb(Side           side,
       MC             &&C,
       MWORK          &&Work)
 {
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MC>::Type    MatrixC;
-    typedef typename RemoveRef<MWORK>::Type MatrixWork;
-    typedef typename MatrixC::IndexType     IndexType;
 
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MC>::Type    MatrixC;
+    typedef typename MatrixC::IndexType     IndexType;
+    
 //  From LAPACK:  Currently, only STOREV = 'R' and DIRECT = 'B' are supported.
     ASSERT(storeVectors==RowWise);
     ASSERT(direction==Backward);
@@ -275,6 +276,9 @@ larzb(Side           side,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
+
+    typedef typename RemoveRef<MWORK>::Type MatrixWork;
+    
     typename MatrixC::NoView        C_org    = C;
     typename MatrixWork::NoView     Work_org = Work;
 #   endif

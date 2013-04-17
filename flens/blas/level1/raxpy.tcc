@@ -90,8 +90,7 @@ typename RestrictTo<IsGeMatrix<MA>::value
          void>::Type
 raxpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 {
-    typedef typename RemoveRef<MA>::Type MatrixA;
-    typedef typename RemoveRef<MB>::Type MatrixB;
+
 
     if (B.numRows()==0 || B.numCols()==0) {
 //

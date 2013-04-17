@@ -199,10 +199,11 @@ laqp2(typename GeMatrix<MA>::IndexType  offset,
       DenseVector<VWORK>                &work)
 {
     using std::min;
-    typedef typename GeMatrix<MA>::ElementType  ElementType;
-    typedef typename GeMatrix<MA>::IndexType    IndexType;
 
 #   ifndef NDEBUG
+
+    typedef typename GeMatrix<MA>::IndexType    IndexType;
+    
 //
 //  Test the input parameters
 //

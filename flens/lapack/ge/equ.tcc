@@ -253,11 +253,6 @@ equ(const MA    &A,
     LAPACK_DEBUG_OUT("(ge)equ");
 
     typedef typename MA::IndexType  IndexType;
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<VR>::Type  VectorR;
-    typedef typename RemoveRef<VC>::Type  VectorC;
 
 //
 //  Test the input parameters
@@ -277,6 +272,13 @@ equ(const MA    &A,
 #   endif
 
 #   ifdef CHECK_CXXLAPACK
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<VR>::Type  VectorR;
+    typedef typename RemoveRef<VC>::Type  VectorC;
+    
 //
 //  Make copies of output arguments
 //

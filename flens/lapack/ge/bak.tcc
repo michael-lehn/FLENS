@@ -200,11 +200,6 @@ bak(BALANCE::Balance    job,
 {
     LAPACK_DEBUG_OUT("bak");
 
-//
-//  Remove references from the types
-//
-    typedef typename RemoveRef<MV>::Type  MatrixV;
-
 #   ifndef NDEBUG
 //
 //  Test the input parameters
@@ -222,6 +217,11 @@ bak(BALANCE::Balance    job,
 #   endif
 
 #   ifdef CHECK_CXXLAPACK
+//
+//  Remove references from the types
+//
+    typedef typename RemoveRef<MV>::Type  MatrixV;
+    
 //
 //  Make copies of output arguments
 //

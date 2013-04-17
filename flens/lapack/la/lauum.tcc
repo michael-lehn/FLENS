@@ -264,7 +264,6 @@ template <typename MA>
 void
 lauum(TrMatrix<MA> &A)
 {
-    typedef typename TrMatrix<MA>::IndexType    IndexType;
 
 //
 //  Test the input parameters

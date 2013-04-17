@@ -239,7 +239,6 @@ saveMatrixMarket(std::string filename, const HpMatrix<FS> &A,
     using std::setw;
 
     typedef typename FS::IndexType   IndexType;
-    typedef typename FS::ElementType ElementType;
 
     std::ofstream ofs(filename.c_str(), std::ios::out);
 

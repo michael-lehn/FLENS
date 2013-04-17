@@ -236,18 +236,16 @@ tzrzf(MA           &&A,
     LAPACK_DEBUG_OUT("tzrzf [real]");
 
 //
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename RemoveRef<VTAU>::Type  VectorTau;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
-
-    typedef typename MatrixA::IndexType     IndexType;
-
-//
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+    
     const IndexType m = A.numRows();
     const IndexType n = A.numCols();
 
@@ -267,6 +265,10 @@ tzrzf(MA           &&A,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
+
+    typedef typename RemoveRef<VTAU>::Type  VectorTau;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+    
     typename MatrixA::NoView        A_org    = A;
     typename VectorTau::NoView      tau_org  = tau;
     typename VectorWork::NoView     work_org = work;

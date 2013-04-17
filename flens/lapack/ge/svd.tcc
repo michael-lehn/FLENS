@@ -250,19 +250,14 @@ svd(SVD::Job    jobU,
 {
     using std::min;
 
+#   ifndef NDEBUG
+
 //
 //  Remove references from rvalue types
 //
     typedef typename RemoveRef<MA>::Type      MatrixA;
-    typedef typename MatrixA::ElementType     ElementType;
     typedef typename MatrixA::IndexType       IndexType;
-    typedef typename RemoveRef<VS>::Type      VectorS;
-    typedef typename RemoveRef<MU>::Type      MatrixU;
-    typedef typename RemoveRef<MVT>::Type     MatrixVT;
-    typedef typename RemoveRef<VWORK>::Type   VectorWork;
-
-
-#   ifndef NDEBUG
+    
 //
 //  Test the input parameters
 //
@@ -308,19 +303,14 @@ svd(SVD::Job    jobU,
 {
     using std::min;
 
+#   ifndef NDEBUG
+
 //
 //  Remove references from rvalue types
 //
     typedef typename RemoveRef<MA>::Type      MatrixA;
-    typedef typename MatrixA::ElementType     ElementType;
     typedef typename MatrixA::IndexType       IndexType;
-    typedef typename RemoveRef<VS>::Type      VectorS;
-    typedef typename RemoveRef<MU>::Type      MatrixU;
-    typedef typename RemoveRef<MVT>::Type     MatrixVT;
-    typedef typename RemoveRef<VWORK>::Type   VectorWork;
-    typedef typename RemoveRef<VRWORK>::Type  VectorRWork;
-
-#   ifndef NDEBUG
+    
 //
 //  Test the input parameters
 //

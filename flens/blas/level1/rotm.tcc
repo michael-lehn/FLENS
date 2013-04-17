@@ -53,7 +53,10 @@ void
 rotmg(T &d1, T &d2, T &b1, T &b2, DenseVector<VP> &p)
 {
 #   ifdef HAVE_CXXBLAS_ROTMG
+
+#   ifndef NDEBUG
     typedef typename DenseVector<VP>::IndexType  IndexType;
+#   endif
 
     ASSERT(p.length()==IndexType(5));
 

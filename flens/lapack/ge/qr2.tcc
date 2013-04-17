@@ -117,12 +117,13 @@ template <typename MA, typename VTAU, typename VWORK>
 void
 qr2(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 {
-    typedef typename GeMatrix<MA>::IndexType  IndexType;
-
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
+    
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
     ASSERT(tau.firstIndex()==1);

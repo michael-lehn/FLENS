@@ -155,7 +155,6 @@ posv(MA &&A, MB &&B)
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::IndexType     IndexType;
-    typedef typename RemoveRef<MB>::Type    MatrixB;
 
 //
 //  Test the input parameters
@@ -169,6 +168,9 @@ posv(MA &&A, MB &&B)
     ASSERT(B.numRows()==A.dim());
 
 #   ifdef CHECK_CXXLAPACK
+
+    typedef typename RemoveRef<MB>::Type    MatrixB;
+    
 //
 //  Make copies of output arguments
 //
@@ -239,7 +241,6 @@ posv(MA &&A, MB &&B)
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::IndexType     IndexType;
-    typedef typename RemoveRef<MB>::Type    MatrixB;
 
 //
 //  Test the input parameters
@@ -253,6 +254,9 @@ posv(MA &&A, MB &&B)
     ASSERT(B.numRows()==A.dim());
 
 #   ifdef CHECK_CXXLAPACK
+
+    typedef typename RemoveRef<MB>::Type    MatrixB;
+    
 //
 //  Make copies of output arguments
 //

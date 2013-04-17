@@ -128,7 +128,6 @@ typename RestrictTo<IsGbMatrix<MA>::value
 axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 {
     typedef typename RemoveRef<MA>::Type   MatrixA;
-    typedef typename RemoveRef<MB>::Type   MatrixB;
     typedef typename MatrixA::IndexType  IndexType;
     
     if (B.numRows()==0 || B.numCols()==0) {
@@ -202,7 +201,6 @@ typename RestrictTo<IsGeMatrix<MA>::value
          void>::Type
 axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 {
-    typedef typename RemoveRef<MA>::Type   MatrixA;
     typedef typename RemoveRef<MB>::Type   MatrixB;
 
     if (B.numRows()==0 || B.numCols()==0) {
@@ -310,7 +308,6 @@ typename RestrictTo<IsHbMatrix<MA>::value
 axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 {
     typedef typename RemoveRef<MA>::Type   MatrixA;
-    typedef typename RemoveRef<MB>::Type   MatrixB;
     typedef typename MatrixA::IndexType  IndexType;
 
     ASSERT(cxxblas::imag(alpha)==0);
@@ -442,7 +439,6 @@ typename RestrictTo<IsSbMatrix<MA>::value
 axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 {
     typedef typename RemoveRef<MA>::Type   MatrixA;
-    typedef typename RemoveRef<MB>::Type   MatrixB;
     typedef typename MatrixA::IndexType  IndexType;
 
     if (B.dim()==0) {
@@ -526,7 +522,6 @@ typename RestrictTo<IsSpMatrix<MA>::value
 axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 {
     typedef typename RemoveRef<MA>::Type   MatrixA;
-    typedef typename RemoveRef<MB>::Type   MatrixB;
     typedef typename MatrixA::IndexType  IndexType;
     
     ASSERT(B.diag()==NonUnit);
@@ -592,7 +587,6 @@ typename RestrictTo<IsTbMatrix<MA>::value
 axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 {
     typedef typename RemoveRef<MA>::Type   MatrixA;
-    typedef typename RemoveRef<MB>::Type   MatrixB;
     typedef typename MatrixA::IndexType  IndexType;
     
     ASSERT(B.diag()==NonUnit);

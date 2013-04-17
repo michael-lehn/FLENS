@@ -376,8 +376,6 @@ ls(Transpose    trans,
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::IndexType     IndexType;
-    typedef typename RemoveRef<MB>::Type    MatrixB;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
 
 //
 //  Test the input parameters
@@ -399,6 +397,10 @@ ls(Transpose    trans,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
+
+    typedef typename RemoveRef<MB>::Type    MatrixB;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+    
     typename MatrixA::NoView        A_org      = A;
     typename MatrixB::NoView        B_org      = B;
     typename VectorWork::NoView     work_org   = work;
@@ -486,8 +488,6 @@ ls(Transpose    trans,
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::IndexType     IndexType;
-    typedef typename RemoveRef<MB>::Type    MatrixB;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
 
 //
 //  Test the input parameters
@@ -509,6 +509,10 @@ ls(Transpose    trans,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
+
+    typedef typename RemoveRef<MB>::Type    MatrixB;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+    
     typename MatrixA::NoView        A_org      = A;
     typename MatrixB::NoView        B_org      = B;
     typename VectorWork::NoView     work_org   = work;

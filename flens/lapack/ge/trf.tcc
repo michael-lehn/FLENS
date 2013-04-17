@@ -193,7 +193,6 @@ trf(MA &&A, VPIV &&piv)
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::IndexType     IndexType;
-    typedef typename RemoveRef<VPIV>::Type  VectorPiv;
 
 //
 //  Test the input parameters
@@ -211,6 +210,9 @@ trf(MA &&A, VPIV &&piv)
     ASSERT(piv.length()==mn);
 
 #   ifdef CHECK_CXXLAPACK
+
+    typedef typename RemoveRef<VPIV>::Type  VectorPiv;
+    
 //
 //  Make copies of output arguments
 //

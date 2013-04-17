@@ -126,17 +126,18 @@ typename RestrictTo<IsHeMatrix<MA>::value
 trs(const MA &A, const VPIV &piv, MB &&B)
 {
     LAPACK_DEBUG_OUT("(he)trs [complex]");
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type     MatrixA;
-    typedef typename MatrixA::IndexType      IndexType;
-    typedef typename RemoveRef<MB>::Type     MatrixB;
 
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type     MatrixA;
+    typedef typename MatrixA::IndexType      IndexType;
+    
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
     ASSERT(A.numRows()==A.numCols());

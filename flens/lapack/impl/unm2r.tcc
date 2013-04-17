@@ -166,12 +166,14 @@ unm2r(Side side, Transpose trans, GeMatrix<MA> &A,
       const DenseVector<VTAU> &tau, GeMatrix<MC> &C,
       DenseVector<VWORK> &work)
 {
-    typedef typename GeMatrix<MC>::IndexType    IndexType;
 
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+
+    typedef typename GeMatrix<MC>::IndexType    IndexType;
+    
     const IndexType m = C.numRows();
     const IndexType n = C.numCols();
     const IndexType k = A.numCols();

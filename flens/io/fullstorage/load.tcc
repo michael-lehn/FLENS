@@ -232,7 +232,6 @@ loadMatrixMarket(std::string filename, GeMatrix<FS> &A)
     using std::string;
 
     typedef typename FS::IndexType    IndexType;
-    typedef typename FS::ElementType  ElementType;
 
     string line;
 
@@ -375,7 +374,6 @@ loadMatrixMarket(std::string filename, SyMatrix<FS> &A)
     using std::string;
 
     typedef typename FS::IndexType    IndexType;
-    typedef typename FS::ElementType  ElementType;
 
     string line;
 

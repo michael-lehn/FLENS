@@ -397,7 +397,6 @@ trsna_impl(TRSNA::Job                    job,
            GeMatrix<MWORK>               &Work,
            DenseVector<VIWORK>           &iWork)
 {
-    typedef typename GeMatrix<MT>::ElementType   ElementType;
     typedef typename GeMatrix<MT>::IndexType     IndexType;
 
     DenseVector<Array<IndexType> > _select = select;

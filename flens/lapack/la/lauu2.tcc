@@ -222,7 +222,6 @@ template <typename MA>
 void
 lauu2(TrMatrix<MA> &A)
 {
-    typedef typename TrMatrix<MA>::IndexType    IndexType;
 
 //
 //  Test the input parameters

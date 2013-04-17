@@ -96,7 +96,6 @@ rscal(const ALPHA &alpha, MB &&B)
     FLENS_BLASLOG_BEGIN_RSCAL(alpha, B);
 
 #   ifdef HAVE_CXXBLAS_GERSCAL
-    typedef typename RemoveRef<MB>::Type   MatrixB;
     cxxblas::gerscal(B.order(), B.numRows(), B.numCols(),
                      alpha, B.data(), B.leadingDimension());
 #   else

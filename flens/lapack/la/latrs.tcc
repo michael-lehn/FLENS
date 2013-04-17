@@ -635,14 +635,6 @@ latrs(Transpose trans,
     LAPACK_DEBUG_OUT("latrs [real]");
 
 //
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type        MatrixA;
-    typedef typename RemoveRef<VX>::Type        VectorX;
-    typedef typename RemoveRef<SCALE>::Type     Scale;
-    typedef typename RemoveRef<VCNORM>::Type    VectorCNorm;
-
-//
 //  Test the input parameters
 //
 #   ifndef NDEBUG
@@ -655,6 +647,14 @@ latrs(Transpose trans,
 #   endif
 
 #   ifdef CHECK_CXXLAPACK
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<VX>::Type        VectorX;
+    typedef typename RemoveRef<SCALE>::Type     Scale;
+    typedef typename RemoveRef<VCNORM>::Type    VectorCNorm;
+    
 //
 //  Make copies of output arguments
 //
@@ -734,14 +734,6 @@ latrs(Transpose trans,
     LAPACK_DEBUG_OUT("latrs [real]");
 
 //
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type        MatrixA;
-    typedef typename RemoveRef<VX>::Type        VectorX;
-    typedef typename RemoveRef<SCALE>::Type     Scale;
-    typedef typename RemoveRef<VCNORM>::Type    VectorCNorm;
-
-//
 //  Test the input parameters
 //
 #   ifndef NDEBUG
@@ -754,6 +746,14 @@ latrs(Transpose trans,
 #   endif
 
 #   ifdef CHECK_CXXLAPACK
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<VX>::Type        VectorX;
+    typedef typename RemoveRef<SCALE>::Type     Scale;
+    typedef typename RemoveRef<VCNORM>::Type    VectorCNorm;
+
 //
 //  Make copies of output arguments
 //

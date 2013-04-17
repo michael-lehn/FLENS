@@ -180,17 +180,18 @@ larz(Side       side,
      MC         &&C,
      VWORK      &&work)
 {
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MC>::Type    MatrixC;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
-    typedef typename MatrixC::IndexType     IndexType;
 
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MC>::Type    MatrixC;
+    typedef typename MatrixC::IndexType     IndexType;
+    
     const IndexType m = C.numRows();
     const IndexType n = C.numCols();
     const IndexType l = v.length();
@@ -208,6 +209,8 @@ larz(Side       side,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+    
     typename MatrixC::NoView        C_org    = C;
     typename VectorWork::NoView     work_org = work;
 #   endif

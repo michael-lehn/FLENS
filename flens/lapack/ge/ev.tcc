@@ -586,11 +586,6 @@ ev(bool     computeVL,
 //
     typedef typename RemoveRef<MA>::Type     MatrixA;
     typedef typename MatrixA::IndexType      IndexType;
-    typedef typename RemoveRef<VWR>::Type    VectorWR;
-    typedef typename RemoveRef<VWI>::Type    VectorWI;
-    typedef typename RemoveRef<MVL>::Type    MatrixVL;
-    typedef typename RemoveRef<MVR>::Type    MatrixVR;
-    typedef typename RemoveRef<VWORK>::Type  VectorWork;
 
     const IndexType n = A.numRows();
 
@@ -645,6 +640,13 @@ ev(bool     computeVL,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
+
+    typedef typename RemoveRef<VWR>::Type    VectorWR;
+    typedef typename RemoveRef<VWI>::Type    VectorWI;
+    typedef typename RemoveRef<MVL>::Type    MatrixVL;
+    typedef typename RemoveRef<MVR>::Type    MatrixVR;
+    typedef typename RemoveRef<VWORK>::Type  VectorWork;
+    
     typename MatrixA::NoView      A_org    = A;
     typename VectorWR::NoView     wr_org   = wr;
     typename VectorWI::NoView     wi_org   = wi;
@@ -765,11 +767,6 @@ ev(bool     computeVL,
 //
     typedef typename RemoveRef<MA>::Type      MatrixA;
     typedef typename MatrixA::IndexType       IndexType;
-    typedef typename RemoveRef<VW>::Type      VectorWR;
-    typedef typename RemoveRef<MVL>::Type     MatrixVL;
-    typedef typename RemoveRef<MVR>::Type     MatrixVR;
-    typedef typename RemoveRef<VWORK>::Type   VectorWork;
-    typedef typename RemoveRef<VRWORK>::Type  VectorRWork;
 
     const IndexType n = A.numRows();
 

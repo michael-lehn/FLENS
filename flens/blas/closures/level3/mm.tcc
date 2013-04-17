@@ -75,7 +75,6 @@ trmm(Side side, Transpose transA, Transpose transB, const ALPHA &alpha,
 
     typedef typename Result<MA>::Type  RMA;
     typedef typename Result<MB>::Type  RMB;
-    typedef typename Result<MC>::Type  RMC;
 
 //
 //  In non-closure debug mode we do not allow temporaries for A or B.
@@ -191,7 +190,6 @@ symm(Side side, Transpose transB, const ALPHA &alpha,
 
     typedef typename Result<typename MA::Impl>::Type  RMA;
     typedef typename Result<typename MB::Impl>::Type  RMB;
-    typedef typename Result<typename MC::Impl>::Type  RMC;
 
 //
 //  In non-closure debug mode we do not allow temporaries for A or B.
@@ -275,7 +273,6 @@ hemm(Side side, Transpose transB, const ALPHA &alpha,
 
     typedef typename Result<typename MA::Impl>::Type  RMA;
     typedef typename Result<typename MB::Impl>::Type  RMB;
-    typedef typename Result<typename MC::Impl>::Type  RMC;
 
 //
 //  In non-closure debug mode we do not allow temporaries for A or B.

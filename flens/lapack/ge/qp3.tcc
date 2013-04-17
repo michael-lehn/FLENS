@@ -398,11 +398,7 @@ qp3(MA      &&A,
 //  Remove references from rvalue types
 //
     typedef typename RemoveRef<MA>::Type        MatrixA;
-    typedef typename MatrixA::ElementType       ElementType;
     typedef typename MatrixA::IndexType         IndexType;
-    typedef typename RemoveRef<VJPIV>::Type     VectorJPiv;
-    typedef typename RemoveRef<VTAU>::Type      VectorTau;
-    typedef typename RemoveRef<VWORK>::Type     VectorWork;
 
     const IndexType m = A.numRows();
     const IndexType n = A.numCols();
@@ -437,6 +433,11 @@ qp3(MA      &&A,
     }
 
 #   ifdef CHECK_CXXLAPACK
+
+    typedef typename RemoveRef<VJPIV>::Type     VectorJPiv;
+    typedef typename RemoveRef<VTAU>::Type      VectorTau;
+    typedef typename RemoveRef<VWORK>::Type     VectorWork;
+    
 //
 //  Make copies of output arguments
 //
@@ -548,11 +549,7 @@ qp3(MA      &&A,
 //  Remove references from rvalue types
 //
     typedef typename RemoveRef<MA>::Type        MatrixA;
-    typedef typename MatrixA::ElementType       ElementType;
     typedef typename MatrixA::IndexType         IndexType;
-    typedef typename RemoveRef<VJPIV>::Type     VectorJPiv;
-    typedef typename RemoveRef<VTAU>::Type      VectorTau;
-    typedef typename RemoveRef<VWORK>::Type     VectorWork;
 
     const IndexType m = A.numRows();
     const IndexType n = A.numCols();

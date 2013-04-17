@@ -50,7 +50,6 @@ rk(Transpose        trans,
    const BETA       &beta,
    MC               &&C)
 {
-    typedef typename RemoveRef<MA>::Type MatrixA;
     typedef typename RemoveRef<MC>::Type MatrixC;
 
     ASSERT(C.order()==A.order());
@@ -90,7 +89,6 @@ rk(Transpose trans,
    const BETA       &beta,
    MC               &&C)
 {
-    typedef typename RemoveRef<MA>::Type MatrixA;
     typedef typename RemoveRef<MC>::Type MatrixC;
 
     ASSERT(C.order()==A.order());

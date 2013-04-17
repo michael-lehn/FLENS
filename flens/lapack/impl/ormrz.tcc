@@ -271,14 +271,6 @@ ormrz(Side          side,
     LAPACK_DEBUG_OUT("ormrz [real]");
 
 //
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename RemoveRef<VTAU>::Type  VectorTau;
-    typedef typename RemoveRef<MC>::Type    MatrixC;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
-
-//
 //  Test the input parameters
 //
 #   ifndef NDEBUG
@@ -325,6 +317,14 @@ ormrz(Side          side,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename RemoveRef<MC>::Type    MatrixC;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+    
     typename MatrixA::NoView        A_org      = A;
     typename MatrixC::NoView        C_org      = C;
     typename VectorWork::NoView     work_org   = work;

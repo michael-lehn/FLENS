@@ -335,16 +335,13 @@ qrf(MA &&A, VTAU &&tau, VWORK &&work)
 //  Remove references from rvalue types
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::ElementType   ElementType;
     typedef typename MatrixA::IndexType     IndexType;
-    typedef typename RemoveRef<VTAU>::Type  VectorTau;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
 
     const IndexType m = A.numRows();
     const IndexType n = A.numCols();
     const IndexType k = min(m,n);
 
-#   ifndef NDEBUG
+#   ifndef NDEBUG    
 //
 //  Test the input parameters
 //
@@ -362,6 +359,10 @@ qrf(MA &&A, VTAU &&tau, VWORK &&work)
     }
 
 #   ifdef CHECK_CXXLAPACK
+
+    typedef typename RemoveRef<VTAU>::Type  VectorTau;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+    
 //
 //  Make copies of output arguments
 //
@@ -437,10 +438,7 @@ qrf(MA &&A, VTAU &&tau, VWORK &&work)
 //  Remove references from rvalue types
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::ElementType   ElementType;
     typedef typename MatrixA::IndexType     IndexType;
-    typedef typename RemoveRef<VTAU>::Type  VectorTau;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
 
     const IndexType m = A.numRows();
     const IndexType n = A.numCols();
@@ -464,6 +462,10 @@ qrf(MA &&A, VTAU &&tau, VWORK &&work)
     }
 
 #   ifdef CHECK_CXXLAPACK
+
+    typedef typename RemoveRef<VTAU>::Type  VectorTau;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+    
 //
 //  Make copies of output arguments
 //

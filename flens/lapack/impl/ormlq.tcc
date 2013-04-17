@@ -68,8 +68,6 @@ ormlq_wsq_impl(Side              side,
     typedef typename GeMatrix<MC>::ElementType  T;
     typedef typename GeMatrix<MC>::IndexType    IndexType;
 
-    typedef typename GeMatrix<MC>::View         GeView;
-    typedef typename GeView::Engine             GeViewEngine;
 
 //
 //  Paramter for maximum block size and buffer for TrMatrix Tr.
@@ -350,18 +348,18 @@ ormlq(Side         side,
       MC           &&C,
       VWORK        &&work)
 {
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename RemoveRef<MC>::Type    MatrixC;
-    typedef typename MatrixC::IndexType     IndexType;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
 
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MC>::Type    MatrixC;
+    typedef typename MatrixC::IndexType     IndexType;
+    
     const IndexType m = C.numRows();
     const IndexType n = C.numCols();
     const IndexType k = A.numRows();
@@ -387,6 +385,10 @@ ormlq(Side         side,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
+
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    
     typename MatrixA::NoView        A_org    = A;
     typename MatrixC::NoView        C_org    = C;
     typename VectorWork::NoView     work_org = work;

@@ -65,8 +65,6 @@ laqr2_wsq_impl(IndexType                 kTop,
     using std::max;
     using std::min;
 
-    typedef typename GeMatrix<MT>::ElementType  ElementType;
-
     const Underscore<IndexType> _;
 
 //

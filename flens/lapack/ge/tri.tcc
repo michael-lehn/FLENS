@@ -252,13 +252,13 @@ tri(MA          &&A,
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::IndexType     IndexType;
-    typedef typename RemoveRef<VPIV>::Type  VectorPiv;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
+
 
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+    
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
     ASSERT(A.numRows()==A.numCols());
@@ -276,6 +276,9 @@ tri(MA          &&A,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
+
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+    
     typename MatrixA::NoView        A_org    = A;
     typename VectorWork::NoView     work_org = work;
 #   endif

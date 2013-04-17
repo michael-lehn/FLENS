@@ -100,17 +100,18 @@ typename RestrictTo<IsGbMatrix<MA>::value
 trs(Transpose trans, const MA &A, const VPIV &piv, MB &&B)
 {
     LAPACK_DEBUG_OUT("(gb)trs [real/complex]");
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type     MatrixA;
-    typedef typename MatrixA::IndexType      IndexType;
-    typedef typename RemoveRef<MB>::Type     MatrixB;
 
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type     MatrixA;
+    typedef typename MatrixA::IndexType      IndexType;
+    
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
     ASSERT(A.numRows()==A.numCols());

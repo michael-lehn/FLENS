@@ -127,7 +127,6 @@ scal(const ALPHA &alpha, MB &&B)
     FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
 
 #   ifdef HAVE_CXXBLAS_GESCAL
-    typedef typename RemoveRef<MB>::Type   MatrixB;
     cxxblas::gescal(B.order(), B.numRows(), B.numCols(),
                     alpha, B.data(), B.leadingDimension());
 #   else
@@ -194,7 +193,6 @@ scal(const ALPHA &alpha, MB &&B)
     FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
 
 #   ifdef HAVE_CXXBLAS_GESCAL
-    typedef typename RemoveRef<MB>::Type   MatrixB;
     cxxblas::hescal(B.order(), B.upLo(), B.dim(),
                     alpha, B.data(), B.leadingDimension());
 #   else
@@ -286,7 +284,6 @@ scal(const ALPHA &alpha, MB &&B)
     FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
 
 #   ifdef HAVE_CXXBLAS_GESCAL
-    typedef typename RemoveRef<MB>::Type   MatrixB;
     cxxblas::syscal(B.order(), B.upLo(), B.dim(),
                     alpha, B.data(), B.leadingDimension());
 #   else

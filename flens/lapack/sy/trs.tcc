@@ -97,12 +97,6 @@ typename RestrictTo<IsSyMatrix<MA>::value
 trs(const MA &A, const VPIV &piv, MB &&B)
 {
     LAPACK_DEBUG_OUT("(sy)trs [real/complex]");
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type     MatrixA;
-    typedef typename MatrixA::IndexType      IndexType;
-    typedef typename RemoveRef<MB>::Type     MatrixB;
 
 //
 //  Test the input parameters
@@ -112,14 +106,12 @@ trs(const MA &A, const VPIV &piv, MB &&B)
     ASSERT(A.firstCol()==1);
     ASSERT(A.numRows()==A.numCols());
 
-    const IndexType n = A.numRows();
-
     ASSERT(piv.firstIndex()==1);
-    ASSERT(piv.length()==n);
+    ASSERT(piv.length()==A.numRows());
 
     ASSERT(B.firstRow()==1);
     ASSERT(B.firstCol()==1);
-    ASSERT(B.numRows()==n);
+    ASSERT(B.numRows()==A.numRows());
 #   endif
 
 //

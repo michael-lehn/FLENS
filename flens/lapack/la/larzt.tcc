@@ -156,17 +156,19 @@ larzt(Direction      direction,
       const VTAU     &tau,
       MT             &&T)
 {
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MV>::Type    MatrixV;
-    typedef typename RemoveRef<MT>::Type    MatrixT;
-    typedef typename MatrixV::IndexType     IndexType;
 
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MV>::Type    MatrixV;
+    typedef typename MatrixV::IndexType     IndexType;
+
+
 //  From LAPACK: Currently, only STOREV = 'R' and DIRECT = 'B' are supported.
     ASSERT(storeVectors==RowWise);
     ASSERT(direction==Backward);
@@ -187,6 +189,9 @@ larzt(Direction      direction,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
+
+    typedef typename RemoveRef<MT>::Type    MatrixT;
+    
     typename MatrixV::NoView        V_org = V;
     typename MatrixT::NoView        T_org = T;
 #   endif

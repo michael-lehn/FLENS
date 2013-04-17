@@ -144,17 +144,16 @@ unmlq(Side         side,
       VWORK        &&work)
 {
 //
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename RemoveRef<MC>::Type    MatrixC;
-    typedef typename MatrixC::IndexType     IndexType;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
-
-//
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MC>::Type    MatrixC;
+    typedef typename MatrixC::IndexType     IndexType;
+    
     const IndexType m = C.numRows();
     const IndexType n = C.numCols();
     const IndexType k = A.numRows();

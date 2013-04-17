@@ -212,12 +212,6 @@ typename RestrictTo<IsRealSyMatrix<MA>::value
          void>::Type
 potrs(const MA &A, MB &&B)
 {
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::IndexType     IndexType;
-    typedef typename RemoveRef<MB>::Type    MatrixB;
 
 //
 //  Test the input parameters
@@ -231,6 +225,11 @@ potrs(const MA &A, MB &&B)
     ASSERT(A.dim()==B.numRows());
 
 #   ifdef CHECK_CXXLAPACK
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MB>::Type    MatrixB;
+    
 //
 //  Make copies of output arguments
 //
@@ -279,12 +278,6 @@ typename RestrictTo<IsHeMatrix<MA>::value
          void>::Type
 potrs(const MA &A, MB &&B)
 {
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::IndexType     IndexType;
-    typedef typename RemoveRef<MB>::Type    MatrixB;
 
 //
 //  Test the input parameters
@@ -298,6 +291,12 @@ potrs(const MA &A, MB &&B)
     ASSERT(A.dim()==B.numRows());
 
 #   ifdef CHECK_CXXLAPACK
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MB>::Type    MatrixB;
+    
 //
 //  Make copies of output arguments
 //

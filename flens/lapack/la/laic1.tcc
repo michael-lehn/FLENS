@@ -74,7 +74,6 @@ laic1_impl(LAIC1::Job               job,
     using cxxblas::conjugate;
 
     typedef typename DenseVector<VX>::ElementType              ElementType;
-    typedef typename DenseVector<VX>::IndexType                IndexType;
     typedef typename ComplexTrait<ElementType>::PrimitiveType  PrimitiveType;
 
     const PrimitiveType Zero(0), One(1), Two(2), Half(0.5), Four(4);

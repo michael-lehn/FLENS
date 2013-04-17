@@ -319,13 +319,6 @@ bal(BALANCE::Balance    job,
 {
     LAPACK_DEBUG_OUT("bal");
 
-//
-//  Remove references from the types
-//
-    typedef typename RemoveRef<MA>::Type      MatrixA;
-    typedef typename RemoveRef<VSCALE>::Type  VectorScale;
-
-
 #   ifndef NDEBUG
 //
 //  Test the input parameters
@@ -336,6 +329,13 @@ bal(BALANCE::Balance    job,
 #   endif
 
 #   ifdef CHECK_CXXLAPACK
+
+//
+//  Remove references from the types
+//
+    typedef typename RemoveRef<MA>::Type      MatrixA;
+    typedef typename RemoveRef<VSCALE>::Type  VectorScale;
+
 //
 //  Make copies of output arguments
 //

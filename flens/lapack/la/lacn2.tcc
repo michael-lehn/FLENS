@@ -377,11 +377,13 @@ void
 lacn2(DenseVector<VV> &v, DenseVector<VX> &x, DenseVector<VSGN> &sgn,
       EST &est, KASE &kase, DenseVector<VSAVE> &iSave)
 {
-    typedef typename DenseVector<VV>::IndexType  IndexType;
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+
+    typedef typename DenseVector<VV>::IndexType  IndexType;
+    
     const IndexType n = v.length();
 
     ASSERT(v.firstIndex()==1);
@@ -489,11 +491,13 @@ void
 lacn2(DenseVector<VV> &v, DenseVector<VX> &x,
       EST &est, KASE &kase, DenseVector<VSAVE> &iSave)
 {
-    typedef typename DenseVector<VV>::IndexType  IndexType;
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+
+    typedef typename DenseVector<VV>::IndexType  IndexType;
+    
     const IndexType n = v.length();
 
     ASSERT(v.firstIndex()==1);

@@ -143,12 +143,6 @@ latrz(IndexType     l,
       VTAU          &&tau,
       VWORK         &&work)
 {
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename RemoveRef<VTAU>::Type  VectorTau;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
 
 //
 //  Test the input parameters
@@ -165,6 +159,14 @@ latrz(IndexType     l,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename RemoveRef<VTAU>::Type  VectorTau;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+
     typename MatrixA::NoView        A_org    = A;
     typename VectorTau::NoView      tau_org  = tau;
     typename VectorWork::NoView     work_org = work;

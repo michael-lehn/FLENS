@@ -336,24 +336,18 @@ rfs(Transpose   trans,
 {
     LAPACK_DEBUG_OUT("(ge)rfs [real]");
 
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type     MatrixA;
-    typedef typename MatrixA::IndexType      IndexType;
-    typedef typename RemoveRef<MAF>::Type    MatrixAF;
-    typedef typename RemoveRef<VPIV>::Type   VectorPiv;
-    typedef typename RemoveRef<MB>::Type     MatrixB;
-    typedef typename RemoveRef<MX>::Type     MatrixX;
-    typedef typename RemoveRef<VFERR>::Type  VectorFErr;
-    typedef typename RemoveRef<VBERR>::Type  VectorBErr;
-    typedef typename RemoveRef<VWORK>::Type  VectorWork;
-    typedef typename RemoveRef<VIWORK>::Type VectorIWork;
 
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type     MatrixA;
+    typedef typename MatrixA::IndexType      IndexType;
+
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
     ASSERT(A.numRows()==A.numCols());
@@ -392,6 +386,14 @@ rfs(Transpose   trans,
     ASSERT(iwork.length()==n);
 #   endif
 
+#   ifdef CHECK_CXXLAPACK
+
+    typedef typename RemoveRef<MX>::Type     MatrixX;
+    typedef typename RemoveRef<VFERR>::Type  VectorFErr;
+    typedef typename RemoveRef<VBERR>::Type  VectorBErr;
+    typedef typename RemoveRef<VWORK>::Type  VectorWork;
+    typedef typename RemoveRef<VIWORK>::Type VectorIWork;
+    
 //
 //  Make copies of output arguments
 //
@@ -400,6 +402,9 @@ rfs(Transpose   trans,
     typename VectorBErr::NoView  bErr_org  = bErr;
     typename VectorWork::NoView  work_org  = work;
     typename VectorIWork::NoView iwork_org = iwork;
+    
+#   endif
+
 //
 //  Call implementation
 //
@@ -491,23 +496,16 @@ rfs(Transpose   trans,
     LAPACK_DEBUG_OUT("(ge)rfs [complex]");
 
 //
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+
+//
 //  Remove references from rvalue types
 //
     typedef typename RemoveRef<MA>::Type     MatrixA;
     typedef typename MatrixA::IndexType      IndexType;
-    typedef typename RemoveRef<MAF>::Type    MatrixAF;
-    typedef typename RemoveRef<VPIV>::Type   VectorPiv;
-    typedef typename RemoveRef<MB>::Type     MatrixB;
-    typedef typename RemoveRef<MX>::Type     MatrixX;
-    typedef typename RemoveRef<VFERR>::Type  VectorFErr;
-    typedef typename RemoveRef<VBERR>::Type  VectorBErr;
-    typedef typename RemoveRef<VWORK>::Type  VectorWork;
-    typedef typename RemoveRef<VRWORK>::Type VectorRWork;
 
-//
-//  Test the input parameters
-//
-#   ifndef NDEBUG
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
     ASSERT(A.numRows()==A.numCols());

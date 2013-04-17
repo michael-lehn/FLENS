@@ -189,7 +189,6 @@ void
 larft(Direction direction, StoreVectors storeVectors, N n,
       GeMatrix<MV> &V, const DenseVector<VTAU> &tau, TrMatrix<MT> &Tr)
 {
-    typedef typename TrMatrix<MT>::IndexType  IndexType;
 
     LAPACK_DEBUG_OUT("larft");
 

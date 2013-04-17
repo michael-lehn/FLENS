@@ -240,18 +240,18 @@ typename RestrictTo<IsRealGeMatrix<MA>::value
          void>::Type
 orglq(MA &&A, const VTAU &tau, VWORK &&work)
 {
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::ElementType   ElementType;
-    typedef typename MatrixA::IndexType     IndexType;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
 
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+    
     ASSERT(A.firstRow()==IndexType(1));
     ASSERT(A.firstCol()==IndexType(1));
     ASSERT(tau.firstIndex()==IndexType(1));
@@ -270,6 +270,10 @@ orglq(MA &&A, const VTAU &tau, VWORK &&work)
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
+
+    typedef typename MatrixA::ElementType   ElementType;    
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+    
     typename MatrixA::NoView    A_org      = A;
     typename VectorWork::NoView work_org   = work;
 #   endif

@@ -438,10 +438,6 @@ lsy(MA           &&A,
 //  Remove references from rvalue types
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename RemoveRef<MB>::Type    MatrixB;
-    typedef typename RemoveRef<VJPIV>::Type VectorJPiv;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
-
     typedef typename MatrixA::IndexType     IndexType;
 
 //
@@ -476,6 +472,11 @@ lsy(MA           &&A,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
+
+    typedef typename RemoveRef<MB>::Type    MatrixB;
+    typedef typename RemoveRef<VJPIV>::Type VectorJPiv;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+    
     typename MatrixA::NoView        A_org      = A;
     typename MatrixB::NoView        B_org      = B;
     typename VectorJPiv::NoView     jPiv_org   = jPiv;
@@ -584,10 +585,6 @@ lsy(MA           &&A,
 //  Remove references from rvalue types
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename RemoveRef<MB>::Type    MatrixB;
-    typedef typename RemoveRef<VJPIV>::Type VectorJPiv;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
-
     typedef typename MatrixA::IndexType     IndexType;
 
 //
