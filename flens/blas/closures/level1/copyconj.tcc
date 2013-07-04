@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Klaus Pototzky
+ *   Copyright (c) 2007, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,20 +30,47 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_INTRINSICS_H
-#define PLAYGROUND_CXXBLAS_INTRINSICS_INTRINSICS_H 1
+#ifndef FLENS_BLAS_CLOSURES_LEVEL1_COPYCONJ_TCC
+#define FLENS_BLAS_CLOSURES_LEVEL1_COPYCONJ_TCC 1
 
-#include <playground/cxxblas/intrinsics/includes.h>
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/blas/closures/closures.h>
+#include <flens/blas/level1/level1.h>
+#include <flens/blas/level2/level2.h>
+#include <flens/blas/level3/level3.h>
+#include <flens/typedefs.h>
 
-#ifdef USE_INTRINSIC
-
-#include <playground/cxxblas/intrinsics/auxiliary/auxiliary.h>
-#include <playground/cxxblas/intrinsics/classes/classes.h>
-#include <playground/cxxblas/intrinsics/level1/level1.h>
-#include <playground/cxxblas/intrinsics/level1extensions/level1extensions.h>
-#include <playground/cxxblas/intrinsics/level2/level2.h>
-#include <playground/cxxblas/intrinsics/level3/level3.h>
-
+#ifdef FLENS_DEBUG_CLOSURES
+#   include <flens/blas/blaslogon.h>
+#else
+#   include <flens/blas/blaslogoff.h>
 #endif
 
-#endif // PLAYGROUND_CXXBLAS_INTRINSICS_INTRINSICS_H
+namespace flens { namespace blas {
+
+//------------------------------------------------------------------------------
+//
+//  y = alpha*x
+//
+//  We evalute this with a scalSwitch
+//  case 1: x is no closure
+//  case 2: x is a closure
+
+//
+// case 1: x is vector but no closure
+//
+template <typename VX, typename VY>
+typename RestrictTo<IsVector<VX>::value
+                && !IsVectorClosure<VX>::value,
+         void>::Type
+copyConj(const VX &x, Vector<VY> &y)
+{
+    using namespace DEBUGCLOSURE;
+
+    copyConj(x.impl(), y.impl());
+}
+
+
+} } // namespace blas, flens
+
+#endif // FLENS_BLAS_CLOSURES_LEVEL1_COPYCONJ_TCC

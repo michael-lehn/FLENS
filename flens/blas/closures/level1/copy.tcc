@@ -138,10 +138,11 @@ template <typename VX, typename VY>
 typename RestrictTo<DefaultEval<VectorClosureOpConj<VX> >::value
                  && IsVector<VX>::value,
          void>::Type
-copy(const VectorClosureOpConj<VX> &, Vector<VY> &)
-{
-    ERROR_MSG("Lehn: Will be implemented on demand");
-    ASSERT(0);
+copy(const VectorClosureOpConj<VX> &x, Vector<VY> &y)
+{   
+    FLENS_BLASLOG_BEGIN_COPY(x, y);
+    copyConj(x.left(), y.impl());
+    FLENS_BLASLOG_END;
 }
 
 //------------------------------------------------------------------------------

@@ -30,20 +30,65 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_INTRINSICS_H
-#define PLAYGROUND_CXXBLAS_INTRINSICS_INTRINSICS_H 1
+#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_CCOPY_TCC
+#define PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_CCOPY_TCC 1
 
+#include <cxxblas/cxxblas.h>
+#include <playground/cxxblas/intrinsics/auxiliary/auxiliary.h>
 #include <playground/cxxblas/intrinsics/includes.h>
+#include <string.h>
+
+namespace cxxblas {
 
 #ifdef USE_INTRINSIC
 
-#include <playground/cxxblas/intrinsics/auxiliary/auxiliary.h>
-#include <playground/cxxblas/intrinsics/classes/classes.h>
-#include <playground/cxxblas/intrinsics/level1/level1.h>
-#include <playground/cxxblas/intrinsics/level1extensions/level1extensions.h>
-#include <playground/cxxblas/intrinsics/level2/level2.h>
-#include <playground/cxxblas/intrinsics/level3/level3.h>
+template <typename IndexType, typename T>
+typename flens::RestrictTo<flens::IsComplex<T>::value, void>::Type
+ccopy(IndexType n, const T *x,
+      IndexType incX, T *y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("ccopy_intrinsics [" INTRINSIC_NAME "]");
+    
+    using std::real;
+    using std::imag;
 
-#endif
+    typedef Intrinsics<T, DEFAULT_INTRINSIC_LEVEL>     IntrinsicType;
+    typedef typename IntrinsicType::PrimitiveDataType  PT;
+    typedef Intrinsics<PT, DEFAULT_INTRINSIC_LEVEL>    IntrinsicPrimitiveType;
+    
+    if (incX==1 && incY==1) {
 
-#endif // PLAYGROUND_CXXBLAS_INTRINSICS_INTRINSICS_H
+        const int numElements = IntrinsicType::numElements;
+
+        IndexType i=0;
+
+        IntrinsicType _x, _y;
+        IntrinsicPrimitiveType _tmp;
+        PT tmp[2*numElements];
+        for (IndexType i=0; i<2*numElements; i+=2) {
+            tmp[i  ] = PT(1);
+            tmp[i+1] = PT(-1);
+        }
+        _tmp.loadu(tmp);
+        for (; i+numElements-1<n; i+=numElements) {
+            _x.loadu(x+i);
+            _y = _intrinsic_mul(_tmp, _x);
+            _y.storeu(y+i);
+        }
+
+        for (; i<n; ++i) {
+            y[i] = conj(x[i]);
+        }
+
+    } else {
+
+        cxxblas::ccopy<IndexType, T, T>(n, x, incX, y, incY);
+
+    }
+}
+
+#endif // USE_INTRINSIC
+
+} // namespace cxxblas
+
+#endif // PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_CCOPY_TCC

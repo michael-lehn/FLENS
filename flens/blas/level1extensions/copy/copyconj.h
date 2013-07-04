@@ -1,5 +1,6 @@
 /*
- *   Copyright (c) 2012, Klaus Pototzky
+ *   Copyright (c) 2009, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,20 +31,34 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_INTRINSICS_H
-#define PLAYGROUND_CXXBLAS_INTRINSICS_INTRINSICS_H 1
+#ifndef FLENS_BLAS_LEVEL1_COPYCONJ_H
+#define FLENS_BLAS_LEVEL1_COPYCONJ_H 1
 
-#include <playground/cxxblas/intrinsics/includes.h>
+#include <cxxblas/cxxblas.h>
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/typedefs.h>
+#include <flens/vectortypes/vectortypes.h>
 
-#ifdef USE_INTRINSIC
+namespace flens { namespace blas {
 
-#include <playground/cxxblas/intrinsics/auxiliary/auxiliary.h>
-#include <playground/cxxblas/intrinsics/classes/classes.h>
-#include <playground/cxxblas/intrinsics/level1/level1.h>
-#include <playground/cxxblas/intrinsics/level1extensions/level1extensions.h>
-#include <playground/cxxblas/intrinsics/level2/level2.h>
-#include <playground/cxxblas/intrinsics/level3/level3.h>
+//-- BLAS Level 1 --------------------------------------------------------------
 
-#endif
+//-- copy
+template <typename VX, typename VY>
+    typename RestrictTo<IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
+             void>::Type
+    copyConj(const VX &x, VY &&y);
 
-#endif // PLAYGROUND_CXXBLAS_INTRINSICS_INTRINSICS_H
+//-- copy
+template <typename VX, typename VY>
+    typename RestrictTo<IsTinyVector<VX>::value
+                     && IsTinyVector<VY>::value,
+             void>::Type
+    copyConj(const VX &x, VY &&y);
+
+
+} } // namespace blas, flens
+
+#endif // FLENS_BLAS_LEVEL1_COPYCONJ_H

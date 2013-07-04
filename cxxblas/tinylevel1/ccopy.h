@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Klaus Pototzky
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,20 +30,17 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_INTRINSICS_H
-#define PLAYGROUND_CXXBLAS_INTRINSICS_INTRINSICS_H 1
+#ifndef CXXBLAS_TINYLEVEL1_CCOPY_H
+#define CXXBLAS_TINYLEVEL1_CCOPY_H 1
 
-#include <playground/cxxblas/intrinsics/includes.h>
+#include <cxxblas/typedefs.h>
 
-#ifdef USE_INTRINSIC
+namespace cxxblas {
 
-#include <playground/cxxblas/intrinsics/auxiliary/auxiliary.h>
-#include <playground/cxxblas/intrinsics/classes/classes.h>
-#include <playground/cxxblas/intrinsics/level1/level1.h>
-#include <playground/cxxblas/intrinsics/level1extensions/level1extensions.h>
-#include <playground/cxxblas/intrinsics/level2/level2.h>
-#include <playground/cxxblas/intrinsics/level3/level3.h>
+template <int n, typename X, int incX, typename Y, int incY>
+    void
+    ccopy(const X *x, Y *y);
 
-#endif
+} // namespace cxxblas
 
-#endif // PLAYGROUND_CXXBLAS_INTRINSICS_INTRINSICS_H
+#endif // CXXBLAS_TINYLEVEL1_CCOPY_H

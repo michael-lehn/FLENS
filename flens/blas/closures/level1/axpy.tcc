@@ -182,7 +182,22 @@ axpySwitch(const ALPHA &alpha, const Vector<VX> &x, Vector<VY> &y)
 }
 
 //
-//  case 2: x is a closure
+//  case 2: (a) x is a conjugate-closure
+//
+
+template <typename ALPHA, typename L, typename R, typename VY>
+void
+axpySwitch(const ALPHA &alpha, const VectorClosure<OpConj, L, R> &x, Vector<VY> &y)
+{
+//
+//  No need to add another log-entry as we simply pass-through to the
+//  BLAS implementation
+//
+    acxpy(alpha, x.left(), y.impl());
+}
+
+//
+//  case 2: (a) x is a closure (everything else)
 //
 #ifndef FLENS_DEBUG_CLOSURES
 

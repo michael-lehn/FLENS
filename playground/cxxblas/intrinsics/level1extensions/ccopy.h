@@ -30,20 +30,25 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_INTRINSICS_H
-#define PLAYGROUND_CXXBLAS_INTRINSICS_INTRINSICS_H 1
+#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_CCOPY_H
+#define PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_CCOPY_H 1
 
-#include <playground/cxxblas/intrinsics/includes.h>
+#include <cxxblas/typedefs.h>
+#include <flens/auxiliary/iscomplex.h>
+#include <flens/auxiliary/isreal.h>
+#include <flens/auxiliary/restrictto.h>
+
+namespace cxxblas {
 
 #ifdef USE_INTRINSIC
 
-#include <playground/cxxblas/intrinsics/auxiliary/auxiliary.h>
-#include <playground/cxxblas/intrinsics/classes/classes.h>
-#include <playground/cxxblas/intrinsics/level1/level1.h>
-#include <playground/cxxblas/intrinsics/level1extensions/level1extensions.h>
-#include <playground/cxxblas/intrinsics/level2/level2.h>
-#include <playground/cxxblas/intrinsics/level3/level3.h>
+template <typename IndexType, typename T>
+    typename flens::RestrictTo<flens::IsComplex<T>::value, void>::Type
+    ccopy(IndexType n, const T *x,
+          IndexType incX, T *y, IndexType incY);
 
-#endif
+#endif // USE_INTRINSIC
 
-#endif // PLAYGROUND_CXXBLAS_INTRINSICS_INTRINSICS_H
+} // namespace cxxblas
+
+#endif // PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_CCOPY_H

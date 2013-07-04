@@ -52,8 +52,8 @@ acxpy_generic(IndexType n, const ALPHA &alpha, const X *x,
 
 template <typename IndexType, typename ALPHA, typename X, typename Y>
 void
-acxpy(IndexType n, const ALPHA &alpha, const std::complex<X> *x,
-      IndexType incX, std::complex<Y> *y, IndexType incY)
+acxpy(IndexType n, const ALPHA &alpha, const X *x,
+      IndexType incX, Y *y, IndexType incY)
 {
     if (incX<0) {
         x -= incX*(n-1);
@@ -62,16 +62,6 @@ acxpy(IndexType n, const ALPHA &alpha, const std::complex<X> *x,
         y -= incY*(n-1);
     }
     acxpy_generic(n, alpha, x, incX, y, incY);
-}
-
-template <typename IndexType, typename ALPHA, typename X, typename Y>
-void
-acxpy(IndexType n, const ALPHA &alpha, const X *x,
-      IndexType incX, Y *y, IndexType incY)
-{
-    CXXBLAS_DEBUG_OUT("acxpy_generic");
-
-    axpy(n, alpha, x, incX, y, incY);
 }
 
 

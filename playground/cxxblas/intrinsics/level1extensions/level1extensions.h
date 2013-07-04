@@ -30,20 +30,10 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_INTRINSICS_H
-#define PLAYGROUND_CXXBLAS_INTRINSICS_INTRINSICS_H 1
+#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1EXTENSIONS_H
+#define PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1EXTENSIONS_H 1
 
-#include <playground/cxxblas/intrinsics/includes.h>
+#include <playground/cxxblas/intrinsics/level1extensions/acxpy.h>
+#include <playground/cxxblas/intrinsics/level1extensions/ccopy.h>
 
-#ifdef USE_INTRINSIC
-
-#include <playground/cxxblas/intrinsics/auxiliary/auxiliary.h>
-#include <playground/cxxblas/intrinsics/classes/classes.h>
-#include <playground/cxxblas/intrinsics/level1/level1.h>
-#include <playground/cxxblas/intrinsics/level1extensions/level1extensions.h>
-#include <playground/cxxblas/intrinsics/level2/level2.h>
-#include <playground/cxxblas/intrinsics/level3/level3.h>
-
-#endif
-
-#endif // PLAYGROUND_CXXBLAS_INTRINSICS_INTRINSICS_H
+#endif // PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1EXTENSIONS_H

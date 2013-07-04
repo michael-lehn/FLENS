@@ -39,6 +39,7 @@
 #include <playground/cxxblas/intrinsics/classes/classes.tcc>
 
 #include <playground/cxxblas/intrinsics/level1/level1.tcc>
+#include <playground/cxxblas/intrinsics/level1extensions/level1extensions.tcc>
 #include <playground/cxxblas/intrinsics/level2/level2.tcc>
 #include <playground/cxxblas/intrinsics/level3/level3.tcc>
 

@@ -36,6 +36,7 @@
 #include <cxxblas/tinylevel1/acxpy.tcc>
 #include <cxxblas/tinylevel1/axpy.tcc>
 #include <cxxblas/tinylevel1/copy.tcc>
+#include <cxxblas/tinylevel1/ccopy.tcc>
 #include <cxxblas/tinylevel1/geaxpy.tcc>
 #include <cxxblas/tinylevel1/gecopy.tcc>
 #include <cxxblas/tinylevel1/gerscal.tcc>
