@@ -211,11 +211,11 @@ copy(Transpose trans, const MA &A, MB &&B)
 #   endif
 
     for(IndexType i = -B.numSubDiags(); i < -numSubDiags; ++i) {
-        B.viewDiag(i) = Zero;
+        B.diag(i) = Zero;
     }
 
     for(IndexType i = numSuperDiags+1; i <= B.numSuperDiags(); ++i) {
-        B.viewDiag(i) = Zero;
+        B.diag(i) = Zero;
     }
 
     FLENS_BLASLOG_END;
