@@ -50,8 +50,6 @@
 
 namespace flens { namespace lapack {
 
-#ifdef USE_CXXLAPACK
-
 //== (gb)sv ====================================================================
 //
 //  Real and complex
@@ -74,7 +72,6 @@ template <typename MA, typename VPIV, typename VB>
              typename RemoveRef<MA>::Type::IndexType>::Type
     sv(MA &&A, VPIV &&piv, VB &&b);
 
-#endif // USE_CXXLAPACK
 
 } } // namespace lapack, flens
 

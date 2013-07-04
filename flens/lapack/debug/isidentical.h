@@ -50,6 +50,11 @@ template <typename VX, typename VY>
 
 template <typename MA, typename MB>
     bool
+    isIdentical(const GbMatrix<MA> &A, const GbMatrix<MB> &B,
+                const char *AName = "A", const char *BName = "B");
+    
+template <typename MA, typename MB>
+    bool
     isIdentical(const GeMatrix<MA> &A, const GeMatrix<MB> &B,
                 const char *AName = "A", const char *BName = "B");
 
