@@ -328,8 +328,8 @@ raxpySwitch(const ALPHA &alpha, const VectorClosure<Op, L, R> &x, Vector<VY> &y)
 //
 template <typename ALPHA, typename VX, typename SV, typename VY>
 typename RestrictTo<VCDefaultEval<OpDiv, VX, SV>::value
-                 && IsVector<VX>::value
-                 && IsScalarValue<SV>::value,
+                 && IsScalarValue<SV>::value
+                 && IsVector<VX>::value,
          void>::Type
 axpy(const ALPHA &alpha, const VectorClosure<OpDiv, VX, SV> &x, Vector<VY> &y)
 {

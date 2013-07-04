@@ -73,7 +73,7 @@ template <typename ALPHA, typename SV, typename VX, typename VY>
 
 // y += x/scalar
 template <typename ALPHA, typename VX, typename SV, typename VY>
-    typename RestrictTo<VCDefaultEval<OpMult, VX, SV>::value
+    typename RestrictTo<VCDefaultEval<OpDiv, VX, SV>::value
                      && IsScalarValue<SV>::value
                      && IsVector<VX>::value,
              void>::Type
