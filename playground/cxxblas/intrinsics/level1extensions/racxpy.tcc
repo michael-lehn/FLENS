@@ -30,59 +30,82 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_CCOPY_TCC
-#define PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_CCOPY_TCC 1
+#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_RACXPY_TCC
+#define PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_RACXPY_TCC 1
 
 #include <cxxblas/cxxblas.h>
 #include <playground/cxxblas/intrinsics/auxiliary/auxiliary.h>
 #include <playground/cxxblas/intrinsics/includes.h>
-#include <string.h>
+#include <playground/cxxblas/intrinsics/level1/axpy.h>
 
 namespace cxxblas {
 
 #ifdef USE_INTRINSIC
 
 template <typename IndexType, typename T>
-typename flens::RestrictTo<flens::IsComplex<T>::value, void>::Type
-ccopy(IndexType n, const T *x,
+typename flens::RestrictTo<flens::IsReal<T>::value, void>::Type
+racxpy(IndexType n, const T &alpha, const T *x,
       IndexType incX, T *y, IndexType incY)
 {
-    CXXBLAS_DEBUG_OUT("ccopy_intrinsics [" INTRINSIC_NAME "]");
-    
+    CXXBLAS_DEBUG_OUT("racxpy_intrinsics [real, " INTRINSIC_NAME "]");
+
+    raxpy(n, alpha, x, incX, y, incY);
+}
+
+template <typename IndexType, typename T>
+typename flens::RestrictTo<flens::IsComplex<T>::value, void>::Type
+racxpy(IndexType n, const T &alpha, const T *x,
+      IndexType incX, T *y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("racxpy_intrinsics [complex, " INTRINSIC_NAME "]");
+
     using std::real;
     using std::imag;
 
     typedef Intrinsics<T, DEFAULT_INTRINSIC_LEVEL>     IntrinsicType;
     typedef typename IntrinsicType::PrimitiveDataType  PT;
     typedef Intrinsics<PT, DEFAULT_INTRINSIC_LEVEL>    IntrinsicPrimitiveType;
-    
+
     if (incX==1 && incY==1) {
 
         const int numElements = IntrinsicType::numElements;
 
         IndexType i=0;
 
-        IntrinsicType _x, _y;
-        IntrinsicPrimitiveType _tmp;
-        PT tmp[2*numElements];
-        for (IndexType i=0; i<2*numElements; i+=2) {
-            tmp[i  ] = PT(1);
-            tmp[i+1] = PT(-1);
-        }
-        _tmp.loadu(tmp);
+	PT alpha2 = real(alpha)*real(alpha)+imag(alpha)*imag(alpha);
+        IntrinsicType _x, _y, _tmp;
+
+        IntrinsicPrimitiveType _real_alpha( real(alpha));
+        IntrinsicPrimitiveType _imag_alpha(-imag(alpha));
+	 IntrinsicPrimitiveType _alpha2(alpha2);
+
+	PT tmp[2*numElements];
+	for (IndexType j=0; j<2*numElements; j+=2) {
+ 	    tmp[j  ] = PT(1);
+	    tmp[j+1] = PT(-1);
+	}
+	IntrinsicPrimitiveType _conj_factor;
+	_conj_factor.loadu(tmp);
+
         for (; i+numElements-1<n; i+=numElements) {
             _x.loadu(x+i);
-            _y = _intrinsic_mul(_tmp, _x);
+            _y.loadu(y+i);
+	    _x   = _intrinsic_mul(_conj_factor, _x);
+	    _tmp = _intrinsic_mul(_real_alpha, _x);
+            _x   = _intrinsic_swap_real_imag(_x);
+            _tmp = _intrinsic_addsub(_tmp, _intrinsic_mul(_imag_alpha, _x));
+            _y   = _intrinsic_add(_y, _intrinsic_div(_tmp, _alpha2));
+
             _y.storeu(y+i);
         }
 
         for (; i<n; ++i) {
-            y[i] = conj(x[i]);
+            y[i] += conjugate(x[i])/alpha;
         }
 
     } else {
 
-        cxxblas::ccopy<IndexType, T, T>(n, x, incX, y, incY);
+        cxxblas::racxpy<IndexType, T, T ,T>(n, alpha, x, incX, y, incY);
 
     }
 }
@@ -91,4 +114,4 @@ ccopy(IndexType n, const T *x,
 
 } // namespace cxxblas
 
-#endif // PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_CCOPY_TCC
+#endif // PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_RACXPY_TCC

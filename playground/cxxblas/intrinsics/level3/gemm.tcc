@@ -398,6 +398,7 @@ gemm_real_n_n(IndexType m, IndexType n, IndexType k,
 
     const IndexType minMNK = min(m, min(n, k));
     const IndexType maxMNK = max(m, max(n, k));
+    const IndexType tinyBS = 8;
 
     if ( minMNK==0 ) {
         return;
@@ -406,7 +407,6 @@ gemm_real_n_n(IndexType m, IndexType n, IndexType k,
     const IndexType N    = sqrt(BlockSize<BlasFct::GEMM, T, IndexType>::NBlockL3);
     const IndexType tmpM = sqrt(BlockSize<BlasFct::GEMM, T, IndexType>::NBlockL2);
     const IndexType M    = tmpM - (tmpM % numElements);
-    const IndexType tinyBS = 8;
 
     /*
         ( C00 C01 ) = (A00 A01) ( B00 B01)
@@ -640,7 +640,6 @@ gemm_real_n_t(IndexType m, IndexType n, IndexType k,
     const IndexType N    = sqrt(BlockSize<BlasFct::GEMM, T, IndexType>::NBlockL3);
     const IndexType tmpM = sqrt(BlockSize<BlasFct::GEMM, T, IndexType>::NBlockL2);
     const IndexType M    = tmpM - (tmpM % numElements);
-    const IndexType tinyBS = 8;
 
     /*
         ( C00 C01 ) = (A00 A01) ( B00 B01)

@@ -51,6 +51,7 @@
 #include <cxxblas/level1extensions/hescal.tcc>
 #include <cxxblas/level1extensions/imax1.tcc>
 #include <cxxblas/level1extensions/syscal.tcc>
+#include <cxxblas/level1extensions/racxpy.tcc>
 #include <cxxblas/level1extensions/raxpy.tcc>
 #include <cxxblas/level1extensions/rscal.tcc>
 #include <cxxblas/level1extensions/trcopy.tcc>

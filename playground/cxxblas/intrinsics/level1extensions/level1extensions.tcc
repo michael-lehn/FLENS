@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Klaus Pototzky
+ *   Copyright (c) 2013, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -35,5 +35,8 @@
 
 #include <playground/cxxblas/intrinsics/level1extensions/acxpy.tcc>
 #include <playground/cxxblas/intrinsics/level1extensions/ccopy.tcc>
+#include <playground/cxxblas/intrinsics/level1extensions/racxpy.tcc>
+#include <playground/cxxblas/intrinsics/level1extensions/raxpy.tcc>
+#include <playground/cxxblas/intrinsics/level1extensions/rscal.tcc>
 
 #endif // PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1EXTENSIONS_TCC

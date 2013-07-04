@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2013, Klaus Pototzky
+ *   Copyright (c) 2009, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,65 +30,40 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_CCOPY_TCC
-#define PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_CCOPY_TCC 1
+#ifndef CXXBLAS_LEVEL1EXTENSIONS_RACXPY_TCC
+#define CXXBLAS_LEVEL1EXTENSIONS_RACXPY_TCC 1
 
+#include <cstdio>
 #include <cxxblas/cxxblas.h>
-#include <playground/cxxblas/intrinsics/auxiliary/auxiliary.h>
-#include <playground/cxxblas/intrinsics/includes.h>
-#include <string.h>
 
 namespace cxxblas {
 
-#ifdef USE_INTRINSIC
-
-template <typename IndexType, typename T>
-typename flens::RestrictTo<flens::IsComplex<T>::value, void>::Type
-ccopy(IndexType n, const T *x,
-      IndexType incX, T *y, IndexType incY)
+template <typename IndexType, typename ALPHA, typename X, typename Y>
+void
+racxpy_generic(IndexType n, const ALPHA &alpha, const X *x,
+               IndexType incX, Y *y, IndexType incY)
 {
-    CXXBLAS_DEBUG_OUT("ccopy_intrinsics [" INTRINSIC_NAME "]");
-    
-    using std::real;
-    using std::imag;
+    CXXBLAS_DEBUG_OUT("racxpy_generic");
 
-    typedef Intrinsics<T, DEFAULT_INTRINSIC_LEVEL>     IntrinsicType;
-    typedef typename IntrinsicType::PrimitiveDataType  PT;
-    typedef Intrinsics<PT, DEFAULT_INTRINSIC_LEVEL>    IntrinsicPrimitiveType;
-    
-    if (incX==1 && incY==1) {
-
-        const int numElements = IntrinsicType::numElements;
-
-        IndexType i=0;
-
-        IntrinsicType _x, _y;
-        IntrinsicPrimitiveType _tmp;
-        PT tmp[2*numElements];
-        for (IndexType i=0; i<2*numElements; i+=2) {
-            tmp[i  ] = PT(1);
-            tmp[i+1] = PT(-1);
-        }
-        _tmp.loadu(tmp);
-        for (; i+numElements-1<n; i+=numElements) {
-            _x.loadu(x+i);
-            _y = _intrinsic_mul(_tmp, _x);
-            _y.storeu(y+i);
-        }
-
-        for (; i<n; ++i) {
-            y[i] = conj(x[i]);
-        }
-
-    } else {
-
-        cxxblas::ccopy<IndexType, T, T>(n, x, incX, y, incY);
-
+    for (IndexType i=0, iX=0, iY=0; i<n; ++i, iX+=incX, iY+=incY) {
+        y[iY] += conjugate(x[iX])/alpha;
     }
 }
 
-#endif // USE_INTRINSIC
+template <typename IndexType, typename ALPHA, typename X, typename Y>
+void
+racxpy(IndexType n, const ALPHA &alpha, const X *x,
+       IndexType incX, Y *y, IndexType incY)
+{
+    if (incX<0) {
+        x -= incX*(n-1);
+    }
+    if (incY<0) {
+        y -= incY*(n-1);
+    }
+    racxpy_generic(n, alpha, x, incX, y, incY);
+}
 
 } // namespace cxxblas
 
-#endif // PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_CCOPY_TCC
+#endif // CXXBLAS_LEVEL1EXTENSIONS_RACXPY_TCC

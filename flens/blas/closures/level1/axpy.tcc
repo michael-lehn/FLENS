@@ -53,6 +53,23 @@ namespace flens { namespace blas {
 //
 
 //
+//  y += alpha*conjugate(x)
+//
+template <typename ALPHA, typename VL, typename VR, typename VY>
+typename RestrictTo<VCDefaultEval<OpConj, VL, VR>::value
+                 && IsVector<VL>::value
+                 && IsVector<VR>::value,
+         void>::Type
+axpy(const ALPHA &alpha, const VectorClosure<OpConj, VL, VR> &x, Vector<VY> &y)
+{
+//
+//  No need to add another log-entry as we simply pass-through to the
+//  BLAS implementation
+//
+    acxpy(alpha, x.left(), y.impl());
+}
+
+//
 //  y += alpha*(x1+x2)
 //
 #ifndef FLENS_DEBUG_CLOSURES
@@ -197,7 +214,7 @@ axpySwitch(const ALPHA &alpha, const VectorClosure<OpConj, L, R> &x, Vector<VY> 
 }
 
 //
-//  case 2: (a) x is a closure (everything else)
+//  case 2: (b) x is a closure (everything else)
 //
 #ifndef FLENS_DEBUG_CLOSURES
 
@@ -283,7 +300,20 @@ raxpySwitch(const ALPHA &alpha, const Vector<VX> &x, Vector<VY> &y)
 }
 
 //
-//  case 2: x is a closure
+//  case 2: (a) x = conjugate(x)/a
+//
+template <typename ALPHA, typename L, typename R, typename VY>
+void
+raxpySwitch(const ALPHA &alpha, const VectorClosure<OpConj, L, R> &x, Vector<VY> &y)
+{
+//  No need to add another log-entry as we simply pass-through to the
+//  BLAS implementation
+//
+    racxpy(alpha, x.left(), y.impl());
+}
+
+//
+//  case 2: (b) x is any other closure
 //
 #ifndef FLENS_DEBUG_CLOSURES
 

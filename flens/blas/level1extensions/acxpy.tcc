@@ -61,7 +61,7 @@ acxpy(const ALPHA &alpha, const VX &x, VY &&y)
 
     if (y.length()==0) {
 //
-//      So we allow  y += alpha*x  for an empty vector y
+//      So we allow  y += alpha*conjugate(x)  for an empty vector y
 //
         typedef typename RemoveRef<VY>::Type   VectorY;
         typedef typename VectorY::ElementType  T;

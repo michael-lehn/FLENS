@@ -30,60 +30,104 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_CCOPY_TCC
-#define PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_CCOPY_TCC 1
+#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_RSCAL_TCC
+#define PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_RSCAL_TCC 1
 
 #include <cxxblas/cxxblas.h>
 #include <playground/cxxblas/intrinsics/auxiliary/auxiliary.h>
 #include <playground/cxxblas/intrinsics/includes.h>
-#include <string.h>
 
 namespace cxxblas {
 
 #ifdef USE_INTRINSIC
 
 template <typename IndexType, typename T>
-typename flens::RestrictTo<flens::IsComplex<T>::value, void>::Type
-ccopy(IndexType n, const T *x,
-      IndexType incX, T *y, IndexType incY)
+typename flens::RestrictTo<flens::IsReal<T>::value, void>::Type
+rscal(IndexType n, const T &alpha, T *y, IndexType incY)
 {
-    CXXBLAS_DEBUG_OUT("ccopy_intrinsics [" INTRINSIC_NAME "]");
-    
+    CXXBLAS_DEBUG_OUT("rscal_intrinsics [real, " INTRINSIC_NAME "]");
+
+    if (alpha==T(1))
+        return;
+
+    if (incY==1) {
+        typedef Intrinsics<T, DEFAULT_INTRINSIC_LEVEL> IntrinsicType;
+        const int numElements = IntrinsicType::numElements;
+
+        IndexType i=0;
+
+        IntrinsicType _alpha(alpha);
+        IntrinsicType _y;
+
+        for(;i+numElements-1<n;i+=numElements) {
+            _y.loadu(y+i);
+            _y = _intrinsic_div(_y, _alpha);
+            _y.storeu(y+i);
+        }
+
+
+        for (;i<n;++i) {
+            y[i] /= alpha;
+        }
+
+    } else {
+        cxxblas::rscal<IndexType, T, T>(n, alpha, y, incY);
+    }
+}
+
+template <typename IndexType, typename T>
+typename flens::RestrictTo<flens::IsComplex<T>::value, void>::Type
+rscal(IndexType n, const T &alpha, T *y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("rscal_intrinsics [complex, " INTRINSIC_NAME "]");
+
     using std::real;
     using std::imag;
 
     typedef Intrinsics<T, DEFAULT_INTRINSIC_LEVEL>     IntrinsicType;
     typedef typename IntrinsicType::PrimitiveDataType  PT;
     typedef Intrinsics<PT, DEFAULT_INTRINSIC_LEVEL>    IntrinsicPrimitiveType;
-    
-    if (incX==1 && incY==1) {
+
+    if (alpha==T(1))
+        return;
+
+    if (incY==1) {
+
+        if (imag(alpha) == PT(0)) {
+            rscal(2*n, real(alpha), reinterpret_cast<PT*>(y), 1);
+            return;
+        }
 
         const int numElements = IntrinsicType::numElements;
 
         IndexType i=0;
 
-        IntrinsicType _x, _y;
-        IntrinsicPrimitiveType _tmp;
-        PT tmp[2*numElements];
-        for (IndexType i=0; i<2*numElements; i+=2) {
-            tmp[i  ] = PT(1);
-            tmp[i+1] = PT(-1);
-        }
-        _tmp.loadu(tmp);
-        for (; i+numElements-1<n; i+=numElements) {
-            _x.loadu(x+i);
-            _y = _intrinsic_mul(_tmp, _x);
+
+        PT alpha2 = real(alpha)*real(alpha) + imag(alpha)*imag(alpha);
+       
+        IntrinsicPrimitiveType _real_alpha(real(alpha));
+        IntrinsicPrimitiveType _imag_alpha(-imag(alpha));
+        IntrinsicPrimitiveType _alpha2(alpha2);
+
+        IntrinsicType _y, _tmp;
+
+        for(;i+numElements-1<n;i+=numElements) {
+            _y.loadu(y+i);
+            _tmp = _intrinsic_mul(_real_alpha, _y);
+            _y = _intrinsic_swap_real_imag(_y);
+            _y = _intrinsic_mul(_imag_alpha, _y);
+            _y = _intrinsic_addsub(_tmp, _y);
+            _y = _intrinsic_div(_y,_alpha2);
             _y.storeu(y+i);
         }
 
-        for (; i<n; ++i) {
-            y[i] = conj(x[i]);
+        for (;i<n;++i) {
+            y[i] /= alpha;
         }
 
+        
     } else {
-
-        cxxblas::ccopy<IndexType, T, T>(n, x, incX, y, incY);
-
+        cxxblas::rscal<IndexType, T, T>(n, alpha, y, incY);
     }
 }
 
@@ -91,4 +135,4 @@ ccopy(IndexType n, const T *x,
 
 } // namespace cxxblas
 
-#endif // PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_CCOPY_TCC
+#endif // PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_RSCAL_TCC

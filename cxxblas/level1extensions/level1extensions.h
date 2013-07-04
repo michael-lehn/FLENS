@@ -51,6 +51,7 @@
 #include <cxxblas/level1extensions/hescal.h>
 #include <cxxblas/level1extensions/imax1.h>
 #include <cxxblas/level1extensions/syscal.h>
+#include <cxxblas/level1extensions/racxpy.h>
 #include <cxxblas/level1extensions/raxpy.h>
 #include <cxxblas/level1extensions/rscal.h>
 #include <cxxblas/level1extensions/trcopy.h>
