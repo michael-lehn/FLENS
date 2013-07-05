@@ -72,33 +72,50 @@ racxpy(IndexType n, const T &alpha, const T *x,
 
         IndexType i=0;
 
-	PT alpha2 = real(alpha)*real(alpha)+imag(alpha)*imag(alpha);
         IntrinsicType _x, _y, _tmp;
 
-        IntrinsicPrimitiveType _real_alpha( real(alpha));
-        IntrinsicPrimitiveType _imag_alpha(-imag(alpha));
-	 IntrinsicPrimitiveType _alpha2(alpha2);
+        if (abs(real(alpha)) < abs(imag(alpha))) {
+        
+            PT r   = real(alpha)/imag(alpha);
+            PT den = imag(alpha) + r*real(alpha);
+            
+            IntrinsicPrimitiveType _r(r);
+            IntrinsicPrimitiveType _den(den);
+            
+           for (; i+numElements-1<n; i+=numElements) {
+                _x.loadu(x+i);
+                _y.loadu(y+i);
 
-	PT tmp[2*numElements];
-	for (IndexType j=0; j<2*numElements; j+=2) {
- 	    tmp[j  ] = PT(1);
-	    tmp[j+1] = PT(-1);
-	}
-	IntrinsicPrimitiveType _conj_factor;
-	_conj_factor.loadu(tmp);
+                _tmp = _intrinsic_swap_real_imag(_x);
+                _tmp = _intrinsic_addsub(_tmp, _intrinsic_mul(_r,_x));
+                _y   = _intrinsic_sub(_y, _intrinsic_div(_tmp, _den));
 
-        for (; i+numElements-1<n; i+=numElements) {
-            _x.loadu(x+i);
-            _y.loadu(y+i);
-	    _x   = _intrinsic_mul(_conj_factor, _x);
-	    _tmp = _intrinsic_mul(_real_alpha, _x);
-            _x   = _intrinsic_swap_real_imag(_x);
-            _tmp = _intrinsic_addsub(_tmp, _intrinsic_mul(_imag_alpha, _x));
-            _y   = _intrinsic_add(_y, _intrinsic_div(_tmp, _alpha2));
+                _y.storeu(y+i);
+            }
+          
+        } else {
+          
+            PT r   = imag(alpha)/real(alpha);
+            PT den = real(alpha) + r*imag(alpha);
+              
+            IntrinsicPrimitiveType _r(r);
+            IntrinsicPrimitiveType _den(den);
+            
+           for (; i+numElements-1<n; i+=numElements) {
+                _x.loadu(x+i);
+                _y.loadu(y+i);
 
-            _y.storeu(y+i);
+                _tmp = _intrinsic_mul(_r,_intrinsic_swap_real_imag(_x));
+                _x   = _intrinsic_addsub(_tmp, _x);
+                _y   = _intrinsic_sub(_y, _intrinsic_div(_x, _den));
+
+                _y.storeu(y+i);
+            }
+            
+            
+            
         }
-
+        
         for (; i<n; ++i) {
             y[i] += conjugate(x[i])/alpha;
         }

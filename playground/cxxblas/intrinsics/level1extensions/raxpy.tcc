@@ -99,25 +99,51 @@ raxpy(IndexType n, const T &alpha, const T *x,
 
         const int numElements = IntrinsicType::numElements;
 
+        IntrinsicType _x, _y, _tmp;  
+
         IndexType i=0;
+    
+        if (abs(real(alpha)) < abs(imag(alpha))) {
+        
+            PT r   = real(alpha)/imag(alpha);
+            PT den = imag(alpha) + r*real(alpha);
+            
+            IntrinsicPrimitiveType _mr(-r);
+            IntrinsicPrimitiveType _den(den);
+            
+           for (; i+numElements-1<n; i+=numElements) {
+                _x.loadu(x+i);
+                _y.loadu(y+i);
 
-	PT alpha2 = real(alpha)*real(alpha)+imag(alpha)*imag(alpha);
-        IntrinsicType _x, _y, _tmp;
+                _tmp = _intrinsic_mul(_mr, _x);
+                _x   = _intrinsic_swap_real_imag(_x);
+                _tmp = _intrinsic_addsub(_tmp, _x);
+                _y   = _intrinsic_sub(_y, _intrinsic_div(_tmp, _den));
 
-        IntrinsicPrimitiveType _real_alpha( real(alpha));
-        IntrinsicPrimitiveType _imag_alpha(-imag(alpha));
-	IntrinsicPrimitiveType _alpha2(alpha2);
+                _y.storeu(y+i);
+            }
+          
+        } else {
+          
+            PT r   = imag(alpha)/real(alpha);
+            PT den = real(alpha) + r*imag(alpha);
+              
+            IntrinsicPrimitiveType _mr(-r);
+            IntrinsicPrimitiveType _den(den);
+            
+           for (; i+numElements-1<n; i+=numElements) {
+                _x.loadu(x+i);
+                _y.loadu(y+i);
 
-        for (; i+numElements-1<n; i+=numElements) {
-            _x.loadu(x+i);
-            _y.loadu(y+i);
+                _tmp = _intrinsic_mul(_mr,_intrinsic_swap_real_imag(_x));
+                _x   = _intrinsic_addsub(_x, _tmp);
+                _y   = _intrinsic_add(_y, _intrinsic_div(_x, _den));
 
-	    _tmp = _intrinsic_mul(_real_alpha, _x);
-            _x   = _intrinsic_swap_real_imag(_x);
-            _tmp = _intrinsic_addsub(_tmp, _intrinsic_mul(_imag_alpha, _x));
-            _y   = _intrinsic_add(_y, _intrinsic_div(_tmp, _alpha2));
-
-            _y.storeu(y+i);
+                _y.storeu(y+i);
+            }
+            
+            
+            
         }
 
         for (; i<n; ++i) {
