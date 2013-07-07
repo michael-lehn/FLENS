@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Klaus Pototzky
+ *   Copyright (c) 2013, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,13 +30,27 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_AUXILIARY_AUXILIARY_H
-#define PLAYGROUND_CXXBLAS_INTRINSICS_AUXILIARY_AUXILIARY_H 1
+#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_SUM_H
+#define PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_SUM_H 1
 
-#include <playground/cxxblas/intrinsics/auxiliary/iscompatible.h>
-#include <playground/cxxblas/intrinsics/auxiliary/addtranspose.h>
-#include <playground/cxxblas/intrinsics/auxiliary/distaligned.h>
-#include <playground/cxxblas/intrinsics/auxiliary/isaligned.h>
-#include <playground/cxxblas/intrinsics/auxiliary/blocksize.h>
+#include <cxxblas/typedefs.h>
+#include <flens/auxiliary/iscomplex.h>
+#include <flens/auxiliary/isreal.h>
+#include <flens/auxiliary/issame.h>
+#include <flens/auxiliary/restrictto.h>
 
-#endif // PLAYGROUND_CXXBLAS_INTRINSICS_AUXILIARY_AUXILIARY_H
+
+namespace cxxblas {
+
+#ifdef USE_INTRINSIC
+
+template <typename IndexType, typename T>
+    typename flens::RestrictTo<flens::IsIntrinsicsCompatible<T>::value,
+                               void>::Type
+    sum(IndexType n, const T *y, IndexType incY, T &sum);
+
+#endif // USE_INTRINSIC
+
+} // namespace cxxblas
+
+#endif // PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_SUM_H

@@ -38,5 +38,6 @@
 #include <playground/cxxblas/intrinsics/level1extensions/racxpy.tcc>
 #include <playground/cxxblas/intrinsics/level1extensions/raxpy.tcc>
 #include <playground/cxxblas/intrinsics/level1extensions/rscal.tcc>
+#include <playground/cxxblas/intrinsics/level1extensions/sum.tcc>
 
 #endif // PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1EXTENSIONS_TCC

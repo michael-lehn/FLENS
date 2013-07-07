@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Klaus Pototzky
+ *   Copyright (c) 2013, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,13 +30,52 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_AUXILIARY_AUXILIARY_H
-#define PLAYGROUND_CXXBLAS_INTRINSICS_AUXILIARY_AUXILIARY_H 1
+#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_SUM_TCC
+#define PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_SUM_TCC 1
 
-#include <playground/cxxblas/intrinsics/auxiliary/iscompatible.h>
-#include <playground/cxxblas/intrinsics/auxiliary/addtranspose.h>
-#include <playground/cxxblas/intrinsics/auxiliary/distaligned.h>
-#include <playground/cxxblas/intrinsics/auxiliary/isaligned.h>
-#include <playground/cxxblas/intrinsics/auxiliary/blocksize.h>
+#include <cxxblas/cxxblas.h>
+#include <playground/cxxblas/intrinsics/auxiliary/auxiliary.h>
+#include <playground/cxxblas/intrinsics/includes.h>
 
-#endif // PLAYGROUND_CXXBLAS_INTRINSICS_AUXILIARY_AUXILIARY_H
+namespace cxxblas {
+
+#ifdef USE_INTRINSIC
+
+template <typename IndexType, typename T>
+typename flens::RestrictTo<flens::IsIntrinsicsCompatible<T>::value, 
+                           void>::Type
+sum(IndexType n, const T *y, IndexType incY, T &sum)
+{
+    CXXBLAS_DEBUG_OUT("sum_intrinsics [real, " INTRINSIC_NAME "]");
+
+    if (incY==1) {
+        typedef Intrinsics<T, DEFAULT_INTRINSIC_LEVEL> IntrinsicType;
+        const int numElements = IntrinsicType::numElements;
+
+        IndexType i=0;
+
+        IntrinsicType _sum, _y;
+
+        _sum.setZero();
+        
+        for(;i+numElements-1<n;i+=numElements) {
+            _y.loadu(y+i);
+            _sum = _intrinsic_add(_sum, _y);
+        }
+        _sum.storeu(&sum);
+
+        for (;i<n;++i) {
+            sum += y[i];
+        }
+
+    } else {
+        cxxblas::sum<IndexType, T, T>(n, y, incY, sum);
+    }
+}
+
+
+#endif // USE_INTRINSIC
+
+} // namespace cxxblas
+
+#endif // PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_SUM_TCC

@@ -30,13 +30,25 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_AUXILIARY_AUXILIARY_H
-#define PLAYGROUND_CXXBLAS_INTRINSICS_AUXILIARY_AUXILIARY_H 1
+#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_AUXILIARY_ISCOMPATIBLE_H
+#define PLAYGROUND_CXXBLAS_INTRINSICS_AUXILIARY_ISCOMPATIBLE_H 1
 
-#include <playground/cxxblas/intrinsics/auxiliary/iscompatible.h>
-#include <playground/cxxblas/intrinsics/auxiliary/addtranspose.h>
-#include <playground/cxxblas/intrinsics/auxiliary/distaligned.h>
-#include <playground/cxxblas/intrinsics/auxiliary/isaligned.h>
-#include <playground/cxxblas/intrinsics/auxiliary/blocksize.h>
+#ifdef USE_INTRINSIC
 
-#endif // PLAYGROUND_CXXBLAS_INTRINSICS_AUXILIARY_AUXILIARY_H
+#include<flens/auxiliary/issame.h>
+
+namespace flens {
+    template <typename T>
+    struct IsIntrinsicsCompatible
+    {
+        static const bool value =
+        IsSame<T, float>::value || IsSame<T, double>::value ||
+        IsSame<T, std::complex<float> >::value || IsSame<T, std::complex<double> >::value;
+    };
+}
+
+
+
+#endif
+
+#endif // PLAYGROUND_CXXBLAS_INTRINSICS_AUXILIARY_ISCOMPATIBLE_H
