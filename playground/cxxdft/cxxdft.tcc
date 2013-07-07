@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
+ *   Copyright (c) 2013, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,11 +30,10 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_PLAYGROUND_H
-#define PLAYGROUND_PLAYGROUND_H 1
+#ifndef PLAYGROUND_CXXDFT_CXXDFT_TCC
+#define PLAYGROUND_CXXDFT_CXXDFT_TCC 1
 
-#include<playground/cxxdft/cxxdft.h>
-#include<playground/cxxblas/cxxblas.h>
-#include<playground/flens/flens.h>
+#include <playground/cxxdft/single.tcc>
+#include <playground/cxxdft/multiple.tcc>
 
-#endif // PLAYGROUND_PLAYGROUND_H
+#endif // PLAYGROUND_CXXDFT_CXXDFT_TCC

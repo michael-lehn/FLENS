@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
+ *   Copyright (c) 2013, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,11 +30,50 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_PLAYGROUND_H
-#define PLAYGROUND_PLAYGROUND_H 1
+#ifndef PLAYGROUND_CXXDFT_MULTIPLE_TCC
+#define PLAYGROUND_CXXDFT_MULTIPLE_TCC 1
 
-#include<playground/cxxdft/cxxdft.h>
-#include<playground/cxxblas/cxxblas.h>
-#include<playground/flens/flens.h>
+#include <cmath>
+#include <flens/auxiliary/auxiliary.h>
+#include <playground/cxxdft/single.tcc>
+#include <playground/cxxdft/direction.h>
 
-#endif // PLAYGROUND_PLAYGROUND_H
+namespace cxxdft {
+
+template <typename IndexType, typename VIN, typename VOUT>
+void
+dft_multiple(IndexType n, IndexType m,
+             const VIN *x, IndexType strideX, IndexType distX,
+             VOUT *y, IndexType strideY, IndexType distY,
+             DFTDirection direction)
+{
+    CXXBLAS_DEBUG_OUT("dft_multiple");
+    
+    for (IndexType i=0; i<m; ++i) {
+        dft_single_generic(n, x+i*distX, strideX, y+i*distY, strideY, direction);
+    }
+    
+}
+
+#ifdef HAVE_FFTW
+
+template <typename IndexType>
+void
+dft_multiple(IndexType n, IndexType m,
+             std::complex<double> *x, IndexType strideX, IndexType distX,
+             std::complex<double> *y, IndexType strideY, IndexType distY,
+             DFTDirection direction)
+{
+    fftw_plan p = fftw_plan_many_dft(1, &n, m,
+    		                         reinterpret_cast<fftw_complex*>(x), NULL, strideX, distX,
+                                     reinterpret_cast<fftw_complex*>(y), NULL, strideY, distY,
+                                     direction, FFTW_ESTIMATE);
+    fftw_execute(p);
+    fftw_destroy_plan(p);
+}
+
+#endif 
+
+} // namespace cxxdft
+
+#endif // PLAYGROUND_CXXDFT_MULTIPLE_TCC

@@ -33,6 +33,7 @@
 #ifndef PLAYGROUND_FLENS_FLENS_TCC
 #define PLAYGROUND_FLENS_FLENS_TCC 1
 
+#include<playground/flens/dft/dft.tcc>
 #include<playground/flens/mpi/mpi-flens.tcc>
 #include<playground/flens/solver/solver.tcc>
 #include<playground/flens/blas-extensions/blas-extensions.tcc>

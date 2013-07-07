@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
+ *   Copyright (c) 2013, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,11 +30,34 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_PLAYGROUND_H
-#define PLAYGROUND_PLAYGROUND_H 1
+#ifndef PLAYGROUND_CXXDFT_SINGLE_H
+#define PLAYGROUND_CXXDFT_SINGLE_H 1
 
-#include<playground/cxxdft/cxxdft.h>
-#include<playground/cxxblas/cxxblas.h>
-#include<playground/flens/flens.h>
+#define HAVE_CXXDFT_SINGLE 1
 
-#endif // PLAYGROUND_PLAYGROUND_H
+#include <complex>
+#include <playground/cxxdft/direction.h>
+
+namespace cxxdft {
+
+template <typename IndexType, typename VIN, typename VOUT>
+    void
+    dft_single(IndexType n,
+               const VIN *x, IndexType incX,
+               VOUT *y, IndexType incY,
+               DFTDirection direction);
+    
+#ifdef HAVE_FFTW
+    
+    template <typename IndexType>
+    void
+    dft_single(IndexType n,
+               std::complex<double> *x, IndexType incX,
+               std::complex<double> *y, IndexType incY,
+               DFTDirection direction);
+    
+#endif
+
+} // namespace cxxdft
+
+#endif // PLAYGROUND_CXXDFT_SINGLE_H

@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
+ *   Copyright (c) 2013, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,11 +30,15 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_PLAYGROUND_H
-#define PLAYGROUND_PLAYGROUND_H 1
+#ifndef PLAYGROUND_FLENS_DFT_DIRECTION_H
+#define PLAYGROUND_FLENS_DFT_DIRECTION_H 1
 
-#include<playground/cxxdft/cxxdft.h>
-#include<playground/cxxblas/cxxblas.h>
-#include<playground/flens/flens.h>
+namespace cxxdft {
+    enum DFTDirection {
+        Forward = -1,
+        Backward = 1
+    };
+}
 
-#endif // PLAYGROUND_PLAYGROUND_H
+
+#endif // PLAYGROUND_FLENS_DFT_DIRECTION_H

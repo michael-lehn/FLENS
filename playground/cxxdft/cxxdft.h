@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
+ *   Copyright (c) 2013, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,11 +30,24 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_PLAYGROUND_H
-#define PLAYGROUND_PLAYGROUND_H 1
+#ifndef PLAYGROUND_CXXDFT_CXXDFT_H
+#define PLAYGROUND_CXXDFT_CXXDFT_H 1
 
-#include<playground/cxxdft/cxxdft.h>
-#include<playground/cxxblas/cxxblas.h>
-#include<playground/flens/flens.h>
+// FFTW interface for FFTW
+#ifdef WITH_FFTW
+#    define HAVE_FFTW
+#endif
+// FFTW interface for INTEL MKL
+#ifdef WITH_MKLBLAS
+#   define HAVE_FFTW
+#endif
 
-#endif // PLAYGROUND_PLAYGROUND_H
+#ifdef HAVE_FFTW
+#   include "fftw3.h"
+#endif
+
+#include <playground/cxxdft/direction.h>
+#include <playground/cxxdft/single.h>
+#include <playground/cxxdft/multiple.h>
+
+#endif // PLAYGROUND_CXXDFT_CXXDFT_H

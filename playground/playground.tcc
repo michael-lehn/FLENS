@@ -34,6 +34,7 @@
 #define PLAYGROUND_PLAYGROUND_TCC 1
 
 #include<playground/cxxblas/cxxblas.tcc>
+#include<playground/cxxdft/cxxdft.tcc>
 #include<playground/flens/flens.tcc>
 
 #endif // PLAYGROUND_PLAYGROUND_TCC

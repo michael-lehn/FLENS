@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
+ *   Copyright (c) 2013, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,11 +30,38 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_PLAYGROUND_H
-#define PLAYGROUND_PLAYGROUND_H 1
+#ifndef PLAYGROUND_FLENS_DFT_VECTOR_H
+#define PLAYGROUND_FLENS_DFT_VECTOR_H 1
 
-#include<playground/cxxdft/cxxdft.h>
-#include<playground/cxxblas/cxxblas.h>
-#include<playground/flens/flens.h>
+namespace flens {
 
-#endif // PLAYGROUND_PLAYGROUND_H
+namespace dft {
+    
+template <typename VIN, typename VOUT>
+    typename RestrictTo<IsComplexDenseVector<VIN>::value &&
+                        IsComplexDenseVector<VOUT>::value,
+                        void>::Type
+    dft_forward(VIN &&vin, VOUT &&vout);
+    
+template <typename VIN, typename VOUT>
+    typename RestrictTo<IsComplexDenseVector<VIN>::value &&
+                        IsComplexDenseVector<VOUT>::value,
+                        void>::Type
+    dft_backward(VIN &&vin, VOUT &&vout);
+    
+template <typename VIN, typename VOUT>
+    typename RestrictTo<IsComplexDenseVector<VIN>::value &&
+                        IsComplexDenseVector<VOUT>::value,
+                        void>::Type
+    dft_forward_normalized(VIN &&vin, VOUT &&vout);
+    
+template <typename VIN, typename VOUT>
+    typename RestrictTo<IsComplexDenseVector<VIN>::value &&
+                        IsComplexDenseVector<VOUT>::value,
+                        void>::Type
+    dft_backward_normalized(VIN &&vin, VOUT &&vout);
+    
+} // namespace dft
+} // namespace flens
+
+#endif // PLAYGROUND_FLENS_DFT_VECTOR_H
