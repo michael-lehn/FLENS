@@ -30,44 +30,49 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL3_GEMM_H
-#define PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL3_GEMM_H 1
+#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL3_GEMM_PACKMATRIX_H
+#define PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL3_GEMM_PACKMATRIX_H 1
 
-#include <playground/cxxblas/intrinsics/level3/gemm/packmatrix.h>
-#include <playground/cxxblas/intrinsics/level3/gemm/subgemm.h>
-#include <playground/cxxblas/intrinsics/level3/gemm/kernelgemm.h>
+#include <cxxblas/typedefs.h>
 
 namespace cxxblas {
 
 #ifdef USE_INTRINSIC
-    
-    
-/* Block sizes */
-#ifndef BLOCKSIZE_GEMM_M
-#   define BLOCKSIZE_GEMM_M 256
-#endif
-    
-#ifndef BLOCKSIZE_GEMM_K
-#   define BLOCKSIZE_GEMM_K 128
-#endif
-    
-template <typename IndexType, typename T, typename MA, typename MB>
-    typename flens::RestrictTo< flens::IsIntrinsicsCompatible<T>::value &&
-                                flens::IsIntrinsicsCompatible<MA>::value &&
-                                flens::IsIntrinsicsCompatible<MB>::value &&
-                                (flens::IsComplex<T>::value ||
-                                    (flens::IsReal<MA>::value && flens::IsReal<MB>::value) ),
-                               void>::Type
-    gemm(StorageOrder order, Transpose transA, Transpose transB,
-         IndexType m, IndexType n, IndexType k,
-         const T &alpha,
-         const MA *A, IndexType ldA,
-         const MB *B, IndexType ldB,
-         const T &beta,
-         T *C, IndexType ldC);
-   
-#endif // USE_INTRINSIC
-    
-}
 
-#endif // PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL3_GEMM_H
+template <typename IndexType, typename T>
+    void
+    PackMatrixColToColMajor( IndexType k, const T *A, IndexType ldA, T *A_to, IndexType ldA_to);
+    
+template <typename IndexType, typename T>
+    void
+    PackMatrixColToColMajor_4( IndexType k, const T *A, IndexType ldA, T *A_to );
+
+template <typename IndexType, typename T>
+    void
+    PackMatrixColToRowMajor( IndexType k, const T *B, IndexType ldB, T *b_to, IndexType ldB_to );
+    
+template <typename IndexType, typename T>
+    void
+    PackMatrixColToRowMajor_4( IndexType k, const T *B, IndexType ldB, T *b_to );
+    
+template <typename IndexType, typename T>
+    void
+    PackMatrixColToColMajor_conj( IndexType k, const T *A, IndexType ldA, T *A_to, IndexType ldA_to );
+    
+template <typename IndexType, typename T>
+    void
+    PackMatrixColToColMajor_4_conj( IndexType k, const T *A, IndexType ldA, T *A_to );
+    
+template <typename IndexType, typename T>
+    void
+    PackMatrixColToRowMajor_conj( IndexType k, const T *B, IndexType ldB, T *b_to, IndexType ldB_to );
+    
+template <typename IndexType, typename T>
+    void
+    PackMatrixColToRowMajor_4_conj( IndexType k, const T *B, IndexType ldB, T *b_to );
+
+#endif // USE_INTRINSIC
+
+} // namespace cxxblas
+
+#endif // PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL3_GEMM_PACKMATRIX_H
