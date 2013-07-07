@@ -1442,7 +1442,9 @@ trsv_complex_lo_ct(Diag diag, IndexType n,
 
 
 template <typename IndexType, typename T>
-typename flens::RestrictTo<flens::IsReal<T>::value, void>::Type
+typename flens::RestrictTo<flens::IsReal<T>::value &&
+                           flens::IsIntrinsicsCompatible<T>::value, 
+                           void>::Type
 trsv(StorageOrder order, StorageUpLo upLo,
      Transpose transA, Diag diag,
      IndexType n,
@@ -1493,7 +1495,9 @@ trsv(StorageOrder order, StorageUpLo upLo,
 }
 
 template <typename IndexType, typename T>
-typename flens::RestrictTo<flens::IsComplex<T>::value, void>::Type
+typename flens::RestrictTo<flens::IsComplex<T>::value &&
+                           flens::IsIntrinsicsCompatible<T>::value, 
+                           void>::Type
 trsv(StorageOrder order, StorageUpLo upLo,
      Transpose transA, Diag diag,
      IndexType n,

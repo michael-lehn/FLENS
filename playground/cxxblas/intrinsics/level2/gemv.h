@@ -43,7 +43,9 @@ namespace cxxblas {
 #ifdef USE_INTRINSIC
 
 template <typename IndexType, typename T>
-    typename flens::RestrictTo<flens::IsReal<T>::value, void>::Type
+    typename flens::RestrictTo<flens::IsReal<T>::value &&
+                               flens::IsIntrinsicsCompatible<T>::value,
+                               void>::Type
     gemv(StorageOrder order, Transpose transA,
          IndexType m, IndexType n,
          const T &alpha,
@@ -53,7 +55,9 @@ template <typename IndexType, typename T>
          T *y, IndexType incY);
 
 template <typename IndexType, typename T>
-    typename flens::RestrictTo<flens::IsComplex<T>::value, void>::Type
+    typename flens::RestrictTo<flens::IsComplex<T>::value &&
+                               flens::IsIntrinsicsCompatible<T>::value,
+                               void>::Type
     gemv(StorageOrder order, Transpose transA,
          IndexType m, IndexType n,
          const T &alpha,

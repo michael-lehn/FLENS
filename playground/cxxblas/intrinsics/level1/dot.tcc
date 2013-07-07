@@ -42,7 +42,9 @@ namespace cxxblas {
 #ifdef USE_INTRINSIC
 
 template <typename IndexType, typename T>
-typename flens::RestrictTo<flens::IsReal<T>::value, void>::Type
+typename flens::RestrictTo<flens::IsReal<T>::value &&
+                           flens::IsIntrinsicsCompatible<T>::value, 
+                           void>::Type
 dotu(IndexType n,
      const T *x, IndexType incX,
      const T *y, IndexType incY,
@@ -89,7 +91,9 @@ dotu(IndexType n,
 }
 
 template <typename IndexType, typename T>
-typename flens::RestrictTo<flens::IsComplex<T>::value, void>::Type
+typename flens::RestrictTo<flens::IsComplex<T>::value &&
+                           flens::IsIntrinsicsCompatible<T>::value, 
+                           void>::Type
 dotu(IndexType n,
      const T *x, IndexType incX,
      const T *y, IndexType incY,
@@ -149,7 +153,9 @@ dotu(IndexType n,
 }
 
 template <typename IndexType, typename T>
-typename flens::RestrictTo<flens::IsReal<T>::value, void>::Type
+typename flens::RestrictTo<flens::IsReal<T>::value &&
+                           flens::IsIntrinsicsCompatible<T>::value, 
+                           void>::Type
 dot(IndexType n,
     const T *x, IndexType incX,
     const T *y, IndexType incY,
@@ -162,7 +168,9 @@ dot(IndexType n,
 }
 
 template <typename IndexType, typename T>
-typename flens::RestrictTo<flens::IsComplex<T>::value, void>::Type
+typename flens::RestrictTo<flens::IsComplex<T>::value &&
+                           flens::IsIntrinsicsCompatible<T>::value, 
+                           void>::Type
 dot(IndexType n,
     const T *x, IndexType incX,
     const T *y, IndexType incY,

@@ -43,7 +43,9 @@ namespace cxxblas {
 #ifdef USE_INTRINSIC
 
 template <typename IndexType, typename T>
-    typename flens::RestrictTo<flens::IsComplex<T>::value, void>::Type
+    typename flens::RestrictTo<flens::IsComplex<T>::value &&
+                               flens::IsIntrinsicsCompatible<T>::value,
+                               void>::Type
     ccopy(IndexType n, const T *x,
           IndexType incX, T *y, IndexType incY);
 
