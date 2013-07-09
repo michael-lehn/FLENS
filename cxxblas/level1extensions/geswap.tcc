@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2009, Michael Lehn
+ *   Copyright (c) 2013, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,61 +30,68 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_BLAS_LEVEL1_SWAP_TCC
-#define FLENS_BLAS_LEVEL1_SWAP_TCC 1
+#ifndef CXXBLAS_LEVEL1EXTENSIONS_GESWAP_TCC
+#define CXXBLAS_LEVEL1EXTENSIONS_GESWAP_TCC 1
 
+#include <algorithm>
+#include <cassert>
 #include <cxxblas/cxxblas.h>
-#include <flens/auxiliary/auxiliary.h>
-#include <flens/blas/closures/closures.h>
-#include <flens/blas/level1/level1.h>
-#include <flens/typedefs.h>
 
-#ifdef FLENS_DEBUG_CLOSURES
-#   include <flens/blas/blaslogon.h>
-#else
-#   include <flens/blas/blaslogoff.h>
-#endif
+namespace cxxblas {
 
-namespace flens { namespace blas {
-
-template <typename VX, typename VY>
-typename RestrictTo<IsDenseVector<VX>::value
-                 && IsDenseVector<VY>::value,
-         void>::Type
-swap(VX &&x, VY &&y)
+//
+//  swap A and B
+//
+template <typename IndexType, typename MA, typename MB>
+void
+geswap(StorageOrder orderA, StorageOrder orderB,
+       IndexType m, IndexType n,
+       MA *A, IndexType ldA,
+       MB *B, IndexType ldB)
 {
-    ASSERT(x.length()==y.length());
+    CXXBLAS_DEBUG_OUT("geswap_generic");
 
-#   ifdef HAVE_CXXBLAS_SWAP
-    cxxblas::swap(x.length(), x.data(), x.stride(), y.data(), y.stride());
-#   else
-    ASSERT(0);
-#   endif
+    if ( (orderA==ColMajor) && (orderB==ColMajor) ) {
+      
+        if ( (m==ldA) && (m==ldB) ) {
+
+            cxxblas::swap(m*n, A, IndexType(1), B, IndexType(1));
+
+        } else {
+        
+            for (IndexType j=0; j<n; ++j) {
+                cxxblas::swap(m, A+j*ldA, IndexType(1), B+j*ldB, IndexType(1)); 
+            } 
+        }
+        
+    } else if ( (orderA==RowMajor) && (orderB==RowMajor) ){
+      
+        if ( (n==ldA) && (n==ldB) ) {
+  
+            cxxblas::swap(m*n, A, IndexType(1), B, IndexType(1));
+    
+        } else {
+        
+            for (IndexType i=0; i<m; ++i) {
+                cxxblas::swap(n, A+i*ldA, IndexType(1), B+i*ldB, IndexType(1)); 
+            }
+        }
+    } else if ( (orderA==ColMajor) && (orderB==RowMajor) ) {
+      
+      for (IndexType i=0; i<n; ++i) {
+          cxxblas::swap(m, A+i*ldA, IndexType(1), B+i, ldB);
+      }
+      
+    } else if ( (orderA==RowMajor) && (orderB==ColMajor) ) {
+      
+        for (IndexType j=0; j<m; ++j) {
+            cxxblas::swap(n, A+j, ldA, B+j*ldB, IndexType(1)); 
+        }
+    } else {
+        ASSERT(0); 
+    }
 }
 
-template <typename MA, typename MB>
-typename RestrictTo<IsGeMatrix<MA>::value &&
-                    IsGeMatrix<MB>::value,
-                    void>::Type
-swap(MA &&A, MB &&B)
-{
-    typedef typename RemoveRef<MB>::Type MatrixB;
-    typedef typename MatrixB::IndexType  IndexType;
-    
-    const Underscore<IndexType> _;
-    
-    ASSERT(A.numRows()==B.numRows());
-    ASSERT(A.numCols()==B.numCols());
-    
-#   ifdef HAVE_CXXBLAS_GESWAP
-    cxxblas::geswap(A.order(), B.order(), B.numRows(), B.numCols(),
-                    A.data(), A.leadingDimension(),
-                    B.data(), B.leadingDimension());
-#   else
-    ASSERT(0);
-#   endif
-}
+} // namespace cxxblas
 
-} } // namespace blas, flens
-
-#endif // FLENS_BLAS_LEVEL1_SWAP_TCC
+#endif // CXXBLAS_LEVEL1EXTENSIONS_GESWAP_TCC

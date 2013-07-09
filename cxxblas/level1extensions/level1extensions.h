@@ -48,6 +48,7 @@
 #include <cxxblas/level1extensions/geraxpy.h>
 #include <cxxblas/level1extensions/gerscal.h>
 #include <cxxblas/level1extensions/gescal.h>
+#include <cxxblas/level1extensions/geswap.h>
 #include <cxxblas/level1extensions/hescal.h>
 #include <cxxblas/level1extensions/imax1.h>
 #include <cxxblas/level1extensions/syscal.h>

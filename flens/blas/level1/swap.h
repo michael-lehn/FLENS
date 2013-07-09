@@ -44,6 +44,13 @@ template <typename VX, typename VY>
                      && IsDenseVector<VY>::value,
              void>::Type
     swap(VX &&x, VY &&y);
+  
+//-- GeMatrix ---------------------------------------------------------------
+template <typename MA, typename MB>
+    typename RestrictTo<IsGeMatrix<MA>::value &&
+                        IsGeMatrix<MB>::value,
+                        void>::Type
+    swap(MA &&A, MB &&B);
 
 } } // namespace blas, flens
 
