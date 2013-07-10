@@ -72,6 +72,7 @@
 #include <flens/lapack/debug/isidentical.h>
 
 #include <flens/lapack/gb/sv.h>
+#include <flens/lapack/gb/tf2.h>
 #include <flens/lapack/gb/trf.h>
 #include <flens/lapack/gb/trs.h>
 

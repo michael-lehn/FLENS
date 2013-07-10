@@ -46,6 +46,7 @@
 #include <flens/lapack/debug/isidentical.tcc>
 
 #include <flens/lapack/gb/sv.tcc>
+#include <flens/lapack/gb/tf2.tcc>
 #include <flens/lapack/gb/trf.tcc>
 #include <flens/lapack/gb/trs.tcc>
 
