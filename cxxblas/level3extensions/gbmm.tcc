@@ -134,7 +134,6 @@ gbmm(StorageOrder order, Side sideA,
                 }
             }
         } else if (sideA==Right) {
-            transA = Transpose(transA^Trans);
             if (transB==NoTrans) {
                 for (IndexType i=0; i<m; ++i) {
                     gbmv(RowMajor, transA, l, n, ku, kl,

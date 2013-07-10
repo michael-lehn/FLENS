@@ -66,7 +66,6 @@ tbmm(StorageOrder order, Side sideA, StorageUpLo upLo,
         }
     } else {
         if (sideA==Left) {
-            transA = Transpose(transA^Trans);
             for (IndexType i=0; i<n; ++i) {
                 tbmv(ColMajor, upLo, transA, diag, m, k,
                      A, ldA, B+i*ldB, IndexType(1));

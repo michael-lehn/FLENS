@@ -261,7 +261,6 @@ mm(Transpose        transposeA,
 
     IndexType m = (noTransA) ? A.numRows() : A.numCols();
     IndexType n = (noTransB) ? B.numCols() : B.numRows();
-    IndexType l = (noTransA) ? A.numCols() : A.numRows();
 
     if (C.order()!=A.order()) {
         transposeA = Transpose(transposeA ^ Trans);
@@ -288,7 +287,7 @@ mm(Transpose        transposeA,
     FLENS_BLASLOG_BEGIN_GBMM(transposeA, transposeB, alpha, A, B, beta, C);
 
 #   ifdef HAVE_CXXBLAS_GBMM
-    cxxblas::gbmm(MC::order, cxxblas::Side::Left,
+    cxxblas::gbmm(C.order(), cxxblas::Side::Left,
                   transposeA, transposeB,
                   A.numRows(), A.numCols(),
                   A.numSubDiags(), A.numSuperDiags(),
@@ -335,7 +334,6 @@ mm(Transpose        transposeA,
 
     IndexType m = (noTransA) ? A.numRows() : A.numCols();
     IndexType n = (noTransB) ? B.numCols() : B.numRows();
-    IndexType l = (noTransA) ? A.numCols() : A.numRows();
 
     if (C.order()!=A.order()) {
         transposeA = Transpose(transposeA ^ Trans);
@@ -494,7 +492,7 @@ mm(Side             side,
     typedef typename MatrixC::IndexType  IndexType;
     
 #   ifndef NDEBUG
-    ASSERT(MC::order==MB::order);
+    ASSERT(C.order()==B.order());
     if (side==Left) {
         ASSERT(A.dim()==B.numRows());
     } else {
@@ -527,7 +525,7 @@ mm(Side             side,
     FLENS_BLASLOG_BEGIN_HBMM(side, alpha, A, B, beta, C);
 
 #   ifdef HAVE_CXXBLAS_HBMM
-    cxxblas::hbmm(MC::order, side,
+    cxxblas::hbmm(C.order(), side,
                   upLo,
                   C.numRows(), A.numOffDiags(), C.numCols(),
                   alpha,
@@ -622,7 +620,7 @@ mm(Side             side,
     typedef typename MatrixC::IndexType  IndexType;
     
 #   ifndef NDEBUG
-    ASSERT(MC::order==MB::order);
+    ASSERT(C.order()==B.order());
     if (side==Left) {
         ASSERT(A.dim()==B.numRows());
     } else {
@@ -655,7 +653,7 @@ mm(Side             side,
     FLENS_BLASLOG_BEGIN_SBMM(side, alpha, A, B, beta, C);
 
 #   ifdef HAVE_CXXBLAS_SBMM
-    cxxblas::sbmm(MC::order, side,
+    cxxblas::sbmm(C.order(), side,
                   upLo,
                   C.numRows(), A.numOffDiags(), C.numCols(),
                   alpha,
@@ -786,7 +784,7 @@ template <typename ALPHA, typename MA, typename MB>
     FLENS_BLASLOG_BEGIN_TBMM(side, transA, alpha, A, B);
 
 #   ifdef HAVE_CXXBLAS_TBMM
-    cxxblas::tbmm(MB::order, side,
+    cxxblas::tbmm(B.order(), side,
                   A.upLo(), transA, A.diag(),
                   B.numRows(), B.numCols(),
                   A.numOffDiags(),

@@ -65,7 +65,7 @@ sbmv_generic(StorageOrder order, StorageUpLo upLo,
             IndexType len = min(k+1, n-i);
 
             VY _y;
-            dot_generic(len, A+ldA*i, IndexType(1),
+            dotu_generic(len, A+ldA*i, IndexType(1),
                              x+iX, IndexType(incX),
                              _y);
             y[iY] += alpha*_y;
@@ -81,7 +81,7 @@ sbmv_generic(StorageOrder order, StorageUpLo upLo,
             IndexType _i = max(i-k, IndexType(0));
 
             VY _y;
-            dot_generic(len, A+ldA*i+iA, IndexType(1),
+            dotu_generic(len, A+ldA*i+iA, IndexType(1),
                              x+_i*incX, IndexType(incX),
                              _y);
             y[iY] += alpha*_y;
