@@ -38,12 +38,13 @@
 namespace flens {
 
 template <typename T>
-    typename RestrictTo<!IsSame<T,int>::value,
+    typename RestrictTo<IsSame<T,int>::value,
              T>::Type
     pow(const T &base, const T &exponent);
 
 template <typename T>
-    T
+    typename RestrictTo<!IsSame<T,int>::value,
+                        T>::Type
     pow(const T &base, int exponent);
 
 } // namespace flens
