@@ -369,16 +369,18 @@ FullStorageView<T, Order, I, A>::arrayView(IndexType firstViewIndex)
                      allocator());
 }
 
+
 // view of rectangular part
 template <typename T, StorageOrder Order, typename I, typename A>
 const typename FullStorageView<T, Order, I, A>::ConstView
 FullStorageView<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
                                       IndexType toRow, IndexType toCol,
+                                      IndexType strideRow, IndexType strideCol,
                                       IndexType firstViewRow,
                                       IndexType firstViewCol) const
 {
-    const IndexType numRows = toRow-fromRow+1;
-    const IndexType numCols = toCol-fromCol+1;
+    const IndexType numRows = (toRow-fromRow)/strideRow+1;
+    const IndexType numCols = (toCol-fromCol)/strideCol+1;
 
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
@@ -386,6 +388,7 @@ FullStorageView<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
         return ConstView(numRows, numCols, 0, leadingDimension(),
                          firstViewRow, firstViewCol, allocator());
     }
+    
 #   endif
 
     ASSERT(fromRow>=firstRow());
@@ -395,32 +398,38 @@ FullStorageView<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
     ASSERT(fromCol>=firstCol());
     ASSERT(fromCol<=toCol);
     ASSERT(toCol<=lastCol());
-
-    return ConstView(numRows,                              // # rows
-                     numCols,                              // # cols
-                     &(operator()(fromRow, fromCol)),      // data
-                     leadingDimension(),                   // leading dimension
-                     firstViewRow,                         // firstRow
-                     firstViewCol,                         // firstCol
-                     allocator());                         // allocator
+    
+    ASSERT(order==ColMajor || strideCol==IndexType(1) );
+    ASSERT(order==RowMajor || strideRow==IndexType(1) );
+    
+    return ConstView(numRows,                                 // # rows
+                     numCols,                                 // # cols
+                     &(operator()(fromRow, fromCol)),         // data
+                     leadingDimension()*strideRow*strideCol,  // leading dimension
+                     firstViewRow,                            // firstRow
+                     firstViewCol,                            // firstCol
+                     allocator());                            // allocator
 }
 
+// view of rectangular part
 template <typename T, StorageOrder Order, typename I, typename A>
-FullStorageView<T, Order, I, A>
+typename FullStorageView<T, Order, I, A>::View
 FullStorageView<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
                                       IndexType toRow, IndexType toCol,
+                                      IndexType strideRow, IndexType strideCol,
                                       IndexType firstViewRow,
-                                      IndexType firstViewCol)
+                                      IndexType firstViewCol) 
 {
-    const IndexType numRows = toRow-fromRow+1;
-    const IndexType numCols = toCol-fromCol+1;
+    const IndexType numRows = (toRow-fromRow)/strideRow+1;
+    const IndexType numCols = (toCol-fromCol)/strideCol+1;
 
 #   ifndef NDEBUG
     // prevent an out-of-bound assertion in case a view is empty anyway
     if ((numRows==0) || (numCols==0)) {
-        return View(numRows, numCols, 0, leadingDimension(),
-                    firstViewRow, firstViewCol, allocator());
+        return      View(numRows, numCols, 0, leadingDimension(),
+                         firstViewRow, firstViewCol, allocator());
     }
+    
 #   endif
 
     ASSERT(fromRow>=firstRow());
@@ -430,14 +439,17 @@ FullStorageView<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
     ASSERT(fromCol>=firstCol());
     ASSERT(fromCol<=toCol);
     ASSERT(toCol<=lastCol());
-
-    return View(numRows,                              // # rows
-                numCols,                              // # cols
-                &(operator()(fromRow, fromCol)),      // data
-                leadingDimension(),                   // leading dimension
-                firstViewRow,                         // firstRow
-                firstViewCol,                         // firstCol
-                allocator());                         // allocator
+    
+    ASSERT(order==ColMajor || strideCol==IndexType(1) );
+    ASSERT(order==RowMajor || strideRow==IndexType(1) );
+    
+    return      View(numRows,                                 // # rows
+                     numCols,                                 // # cols
+                     &(operator()(fromRow, fromCol)),         // data
+                     leadingDimension()*strideRow*strideCol,  // leading dimension
+                     firstViewRow,                            // firstRow
+                     firstViewCol,                            // firstCol
+                     allocator());                            // allocator
 }
 
 // view of single row
