@@ -50,6 +50,101 @@
 
 namespace flens { namespace lapack {
 
+//== generic lapack implementation =============================================
+
+namespace generic {
+
+//-- (gb)tf2 [real and complex variant] ----------------------------------------
+
+template <typename MA, typename VP>
+typename GbMatrix<MA>::IndexType
+tf2_impl(GbMatrix<MA> &A, DenseVector<VP> &piv)
+{
+	using std::min;
+	using std::max;
+
+	typedef typename GbMatrix<MA>::GeView          GeMatrixView;
+	typedef typename GbMatrix<MA>::FullStorageView FullStorageView;
+    typedef typename GbMatrix<MA>::IndexType       IndexType;
+    typedef typename GbMatrix<MA>::ElementType     ElementType;
+
+    GeMatrixView AB = A.viewStorageGeMatrix();
+
+    const IndexType  m  = A.numRows();
+    const IndexType  n  = A.numCols();
+    const IndexType  kl = A.numSubDiags();
+    const IndexType  ku = A.numSuperDiags()-A.numSubDiags();
+    const IndexType  kv = kl + ku;
+    const IndexType  ldAB = AB.leadingDimension();
+
+    const ElementType zero(0), one(1);
+
+
+    const Underscore<IndexType> _;
+
+//
+//  Gaussian elimination with partial pivoting
+//
+//  Set fill-in elements in columns ku+2 to kv to zero.
+//
+	for( IndexType j = ku + 2; j<=min( kv, n ); ++j) {
+		AB(_( kv - j + 2, kl), j) = zero;
+	}
+//
+//  ju is the index of the last column affected by the current stage
+//  of the factorization.
+//
+	IndexType ju = 1;
+
+	for (IndexType j = 1; j<= min( m, n ); ++j) {
+//
+//      Set fill-in elements in column j+kv to zero.
+//
+		if( j+kv<=n ) {;
+			AB(_(1,kl),j+kv) = zero;
+		}
+//
+//        Find pivot and test for singularity. km is the number of
+//        subdiagonal elements in the current column.
+//
+		IndexType km = min( kl, m-j );
+		IndexType jp = blas::iamax(AB( _(kv+1,kv+km+1), j ));
+		piv( j ) = jp + j - 1;
+		if( AB( kv+jp, j ) != zero ) {
+			ju = max( ju, min( j+ku+jp-1, n ) );
+//
+//          Apply interchange to columns j to ju.
+//
+			if( jp!=1 ) {
+				blas::swap(A(jp+j-1,_(j,ju)), A(j,_(j,ju)));
+			}
+
+			if( km>0 ) {
+//
+//              Compute multipliers.
+//
+				blas::scal(one / AB( kv+1, j ), AB(_(kv+2, kv+km+1), j ));
+//
+//              Update trailing submatrix within the band.
+//
+				if( ju>j ) {
+					GeMatrixView  AB_tmp = FullStorageView( km, ju-j, &AB( kv+1, j+1 ), ldAB-1);
+					blas::r(-one, AB(_(kv+2,kv+km+1),j), A(j,_(j+1,ju)), AB_tmp);
+
+				}
+			}
+		} else {
+//
+//          If pivot is zero, return the index
+//
+			return j;
+		}
+	}
+	return 0;
+}
+
+} // namespace generic
+
 //== interface for native lapack ===============================================
 
 #ifdef USE_CXXLAPACK
@@ -76,8 +171,6 @@ tf2_impl(GbMatrix<MA> &A, DenseVector<VP> &piv)
 #endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
-
-#ifdef USE_CXXLAPACK
 
 //-- (gb)tf2 [real and complex variant] ----------------------------------------
 
@@ -112,16 +205,55 @@ tf2(MA &&A, VPIV &&piv)
         || (piv.inc()<0 && piv.firstIndex()==A.numRows()));
 #   endif
 
+#   ifdef CHECK_CXXLAPACK
+
+    typedef typename RemoveRef<VPIV>::Type  VectorPiv;
+    
+//
+//  Make copies of output arguments
+//
+    typename MatrixA::NoView    _A      = A;
+    typename VectorPiv::NoView  _piv    = piv;
+#   endif
+
 //
 //  Call implementation
 //
-    //IndexType info = LAPACK_SELECT::tf2_impl(A, piv);
-    IndexType info = external::tf2_impl(A, piv);
+    IndexType info = LAPACK_SELECT::tf2_impl(A, piv);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    IndexType _info = external::tf2_impl(_A, _piv);
+
+    bool failed = false;
+    if (! isIdentical(A, _A, " A", "_A")) {
+        std::cerr << "CXXLAPACK:  A = " << A << std::endl;
+        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(piv, _piv, " piv", "_piv")) {
+        std::cerr << "CXXLAPACK:  piv = " << piv << std::endl;
+        std::cerr << "F77LAPACK: _piv = " << _piv << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(info, _info, " info", "_info")) {
+        std::cerr << "CXXLAPACK:  info = " << info << std::endl;
+        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    }
+
+#   endif
 
     return info;
 }
-
-#endif // USE_CXXLAPACK
 
 } } // namespace lapack, flens
 
