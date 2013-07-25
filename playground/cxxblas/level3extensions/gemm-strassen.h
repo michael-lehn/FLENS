@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Klaus Pototzky
+ *   Copyright (c) 2013, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,11 +30,35 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_CXXBLAS_CXXBLAS_TCC
-#define PLAYGROUND_CXXBLAS_CXXBLAS_TCC 1
+#ifndef PLAYGROUND_CXXBLAS_LEVEL3EXTENSION_GEMM_STASSEN_H
+#define PLAYGROUND_CXXBLAS_LEVEL3EXTENSION_GEMM_STASSEN_H 1
 
-#include <playground/cxxblas/level1extensions/level1extensions.tcc>
-#include <playground/cxxblas/intrinsics/intrinsics.tcc>
-#include <playground/cxxblas/level3extensions/level3extensions.tcc>
+#include <cxxblas/typedefs.h>
 
-#endif // CXXBLAS_CXXBLAS_TCC
+#define HAVE_CXXBLAS_GEMM_STRASSEN 1
+
+namespace cxxblas {
+
+#ifdef USE_STRASSEN
+
+#ifndef MINDIM
+#    define MINDIM 384
+#endif
+
+template <typename IndexType, typename T>
+    void
+    gemm_strassen(StorageOrder order,
+                  Transpose transA, Transpose transB,
+                  IndexType m, IndexType n, IndexType k,
+                  const T alpha,
+                  const T *A, IndexType ldA,
+                  const T *B, IndexType ldB,
+                  const T beta,
+                  T *C, IndexType ldC);
+
+
+#endif // USE_STRASSEN
+
+} // namespace cxxblas
+
+#endif // PLAYGROUND_CXXBLAS_LEVEL3EXTENSION_GEMM_STASSEN_H

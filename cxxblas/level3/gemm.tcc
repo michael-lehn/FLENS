@@ -203,8 +203,9 @@ gemm(StorageOrder order,
      float beta,
      float *C, IndexType ldC)
 {
-    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_sgemm");
+#   if !( defined(USE_PLAYGROUND) && defined(USE_STRASSEN) )
 
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_sgemm");
     cblas_sgemm(CBLAS::getCblasType(order),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(transB),
                 m, n, k,
@@ -213,6 +214,37 @@ gemm(StorageOrder order,
                 B, ldB,
                 beta,
                 C, ldC);
+#    else
+
+         if (std::min(m, std::min(n, k))<=MINDIM) {
+             CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_sgemm");
+             cblas_sgemm(CBLAS::getCblasType(order),
+                         CBLAS::getCblasType(transA), CBLAS::getCblasType(transB),
+                         m, n, k,
+                         alpha,
+                         A, ldA,
+                         B, ldB,
+                         beta,
+                         C, ldC);
+         } else {
+	    if (order==RowMajor) {
+		gemm_strassen(ColMajor, transB, transA,
+		              n, m, k, alpha,
+		              B, ldB, A, ldA,
+		              beta,
+		              C, ldC);
+		return;
+	    } else {
+		gemm_strassen(ColMajor, transA, transB,
+		              m, n, k, alpha,
+		              A, ldA, B, ldB,
+		              beta,
+		              C, ldC);
+		return;
+            }
+         }
+
+#    endif
 }
 
 // dgemm
@@ -227,8 +259,11 @@ gemm(StorageOrder order,
      double beta,
      double *C, IndexType ldC)
 {
-    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_dgemm");
 
+
+#   if !( defined(USE_PLAYGROUND) && defined(USE_STRASSEN) )
+
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_dgemm");
     cblas_dgemm(CBLAS::getCblasType(order),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(transB),
                 m, n, k,
@@ -237,6 +272,38 @@ gemm(StorageOrder order,
                 B, ldB,
                 beta,
                 C, ldC);
+
+#    else
+
+         if (std::min(m, std::min(n, k))<=MINDIM) {
+             CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_dgemm");
+             cblas_dgemm(CBLAS::getCblasType(order),
+                         CBLAS::getCblasType(transA), CBLAS::getCblasType(transB),
+                         m, n, k,
+                         alpha,
+                         A, ldA,
+                         B, ldB,
+                         beta,
+                         C, ldC);
+         } else {
+	    if (order==RowMajor) {
+		gemm_strassen(ColMajor, transB, transA,
+		              n, m, k, alpha,
+		              B, ldB, A, ldA,
+		              beta,
+		              C, ldC);
+		return;
+	    } else {
+		gemm_strassen(ColMajor, transA, transB,
+		              m, n, k, alpha,
+		              A, ldA, B, ldB,
+		              beta,
+		              C, ldC);
+		return;
+            }
+         }
+
+#    endif
 }
 
 // cgemm
@@ -251,9 +318,10 @@ gemm(StorageOrder order,
      const ComplexFloat &beta,
      ComplexFloat *C, IndexType ldC)
 {
-    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_cgemm");
+    
 
     if (transA==Conj || transB==Conj) {
+        CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_cgemm");
         CXXBLAS_DEBUG_OUT("gemm_generic");
         gemm_generic(order, transA, transB, m, n, k,
                     alpha, A, ldA, B, ldB,
@@ -262,6 +330,9 @@ gemm(StorageOrder order,
         return;
     }
 
+#   if !( defined(USE_PLAYGROUND) && defined(USE_STRASSEN) )
+
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_cgemm");
     cblas_cgemm(CBLAS::getCblasType(order),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(transB),
                 m, n, k,
@@ -270,6 +341,37 @@ gemm(StorageOrder order,
                 reinterpret_cast<const float *>(B), ldB,
                 reinterpret_cast<const float *>(&beta),
                 reinterpret_cast<float *>(C), ldC);
+#    else
+
+         if (std::min(m, std::min(n, k))<=MINDIM) {
+             CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_cgemm");
+             cblas_cgemm(CBLAS::getCblasType(order),
+                         CBLAS::getCblasType(transA), CBLAS::getCblasType(transB),
+                         m, n, k,
+                         reinterpret_cast<const float *>(&alpha),
+                         reinterpret_cast<const float *>(A), ldA,
+                         reinterpret_cast<const float *>(B), ldB,
+                         reinterpret_cast<const float *>(&beta),
+                         reinterpret_cast<float *>(C), ldC);
+         } else {
+	    if (order==RowMajor) {
+		gemm_strassen(ColMajor, transB, transA,
+		              n, m, k, alpha,
+		              B, ldB, A, ldA,
+		              beta,
+		              C, ldC);
+		return;
+	    } else {
+		gemm_strassen(ColMajor, transA, transB,
+		             m, n, k, alpha,
+		             A, ldA, B, ldB,
+		             beta,
+		             C, ldC);
+		return;
+            }
+         }
+
+#    endif
 }
 
 // zgemm
@@ -284,9 +386,10 @@ gemm(StorageOrder order,
      const ComplexDouble &beta,
      ComplexDouble *C, IndexType ldC)
 {
-    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zgemm");
+
 
     if (transA==Conj || transB==Conj) {
+        CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zgemm");
         CXXBLAS_DEBUG_OUT("gemm_generic");
         gemm_generic(order, transA, transB, m, n, k,
                     alpha, A, ldA, B, ldB,
@@ -295,6 +398,9 @@ gemm(StorageOrder order,
         return;
     }
 
+#   if !( defined(USE_PLAYGROUND) && defined(USE_STRASSEN) )
+
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zgemm");
     cblas_zgemm(CBLAS::getCblasType(order),
                 CBLAS::getCblasType(transA), CBLAS::getCblasType(transB),
                 m, n, k,
@@ -303,6 +409,37 @@ gemm(StorageOrder order,
                 reinterpret_cast<const double *>(B), ldB,
                 reinterpret_cast<const double *>(&beta),
                 reinterpret_cast<double *>(C), ldC);
+#    else
+
+         if (std::min(m, std::min(n, k))<=MINDIM) {
+                 CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_zgemm");
+                 cblas_zgemm(CBLAS::getCblasType(order),
+                             CBLAS::getCblasType(transA), CBLAS::getCblasType(transB),
+                             m, n, k,
+                             reinterpret_cast<const double *>(&alpha),
+                             reinterpret_cast<const double *>(A), ldA,
+                             reinterpret_cast<const double *>(B), ldB,
+                             reinterpret_cast<const double *>(&beta),
+                             reinterpret_cast<double *>(C), ldC);
+         } else {
+	    if (order==RowMajor) {
+		gemm_strassen(ColMajor, transB, transA,
+		              n, m, k, alpha,
+		              B, ldB, A, ldA,
+		              beta,
+		              C, ldC);
+		return;
+	    } else {
+		gemm_strassen(ColMajor, transA, transB,
+		             m, n, k, alpha,
+		             A, ldA, B, ldB,
+		             beta,
+		             C, ldC);
+		return;
+            }
+         }
+
+#    endif
 }
 
 #endif // HAVE_CBLAS
