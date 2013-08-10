@@ -51,11 +51,11 @@ trcopy(StorageOrder order, StorageUpLo upLo, Transpose trans, Diag diag,
     CXXBLAS_DEBUG_OUT("trcopy_generic");
     using std::min;
 
-    // TODO: implement complex cases  B = conj(A) and B = A^H
-    ASSERT(trans==NoTrans || trans==Trans);
 
     if (order==RowMajor) {
-        ASSERT(0);
+        upLo  = (upLo==Upper) ? Lower : Upper;
+        trcopy(ColMajor, upLo, trans, diag, n, m, A, ldA, B, ldB);
+        return;
     }
     if (diag==NonUnit) {
         if (trans==NoTrans) {
@@ -70,6 +70,18 @@ trcopy(StorageOrder order, StorageUpLo upLo, Transpose trans, Diag diag,
                               B+j*(ldB+1), IndexType(1));
                 }
             }
+        } else if (trans==Conj) {
+            if (upLo==Upper) {
+                for (IndexType j=0; j<n; ++j) {
+                    ccopy(min(j+1,m), A+j*ldA, IndexType(1),
+                                      B+j*ldB, IndexType(1));
+                }
+            } else {
+                for (IndexType j=0; j<min(m,n); ++j) {
+                    ccopy(m-j, A+j*(ldA+1), IndexType(1),
+                               B+j*(ldB+1), IndexType(1));
+                }
+            }
         } else if (trans==Trans) {
             if (upLo==Upper) {
                 for (IndexType j=0; j<n; ++j) {
@@ -82,27 +94,39 @@ trcopy(StorageOrder order, StorageUpLo upLo, Transpose trans, Diag diag,
                               B+j*(ldB+1), IndexType(1));
                 }
             }
-        } else {
-            // TODO: implement this case
-            ASSERT(0);
-        }
-    } else {
-        if (trans==NoTrans) {
+        } else if (trans==ConjTrans) {
             if (upLo==Upper) {
                 for (IndexType j=0; j<n; ++j) {
-                    copy(min(j,m), A+j*ldA, IndexType(1),
-                                   B+j*ldB, IndexType(1));
+                    ccopy(min(j+1,m), A+j, ldA,
+                                      B+j*ldB, IndexType(1));
                 }
             } else {
                 for (IndexType j=0; j<min(m,n); ++j) {
-                    copy(m-j-1, A+j*(ldA+1)+1, IndexType(1),
-                                B+j*(ldB+1)+1, IndexType(1));
+                    ccopy(m-j, A+j*(ldA+1), ldA,
+                               B+j*(ldB+1), IndexType(1));
                 }
             }
         } else {
-            // TODO: implement this case
+            // unknown trans
             ASSERT(0);
         }
+    } else { // diag==Unit
+        
+        if (upLo==Upper) { 
+            if (trans==NoTrans || trans==Conj) {
+                trcopy(order, upLo, trans, NonUnit, m-1, n-1, A+ldA, ldA, B+ldB, ldB);
+            } else {
+                trcopy(order, upLo, trans, NonUnit, m-1, n-1, A+1, ldA, B+ldB, ldB);
+            }
+        } else {
+            if (trans==NoTrans || trans==Conj) {
+                trcopy(order, upLo, trans, NonUnit, m-1, n-1, A+1, ldA, B+1, ldB);
+            } else {
+                trcopy(order, upLo, trans, NonUnit, m-1, n-1, A+ldA, ldA, B+1, ldB);
+            }
+        }
+        return;
+        
     }
 }
 
