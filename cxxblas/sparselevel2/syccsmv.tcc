@@ -30,20 +30,20 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_SPARSELEVEL2_HECCSMV_TCC
-#define CXXBLAS_SPARSELEVEL2_HECCSMV_TCC 1
+#ifndef CXXBLAS_SPARSELEVEL2_SYCCSMV_TCC
+#define CXXBLAS_SPARSELEVEL2_SYCCSMV_TCC 1
 
 #include <cxxblas/auxiliary/auxiliary.h>
 #include <cxxblas/typedefs.h>
 
-#define HAVE_CXXBLAS_HECRSMV 1
+#define HAVE_CXXBLAS_SYCCSMV 1
 
 namespace cxxblas {
 
 template <typename IndexType, typename ALPHA, typename MA, typename VX,
           typename BETA, typename VY>
 void
-heccsmv(StorageUpLo      upLo,
+syccsmv(StorageUpLo      upLo,
         IndexType        n,
         const ALPHA      &alpha,
         const MA         *A,
@@ -53,10 +53,8 @@ heccsmv(StorageUpLo      upLo,
         const BETA       &beta,
         VY               *y)
 {
-    CXXBLAS_DEBUG_OUT("heccsmv_generic");
+    CXXBLAS_DEBUG_OUT("syccsmv_generic");
   
-    using cxxblas::conjugate;
-
 //
 //  The correct index base of the CCS matrix is stored in first Element of ja
 //
@@ -87,13 +85,13 @@ heccsmv(StorageUpLo      upLo,
             if (ja[j]<ja[j+1]) {
                 int k=ja[j];
                 if (ia[k]==J) {
-                    y[j]      += alpha*cxxblas::real(A[k])*x_[ia[k]];
+                    y[j]      += alpha*A[k]*x_[ia[k]];
                 } else {
-                    y[j]      += alpha*conjugate(A[k])*x_[ia[k]];
+                    y[j]      += alpha*A[k]*x_[ia[k]];
                     y_[ia[k]] += alpha*A[k]*x[j];
                 }
                 for (k=ja[j]+1; k<ja[j+1]; ++k) {
-                    y[j]      += alpha*conjugate(A[k])*x_[ia[k]];
+                    y[j]      += alpha*A[k]*x_[ia[k]];
                     y_[ia[k]] += alpha*A[k]*x[j];
                 }
             }
@@ -103,13 +101,13 @@ heccsmv(StorageUpLo      upLo,
             if (ja[j]<ja[j+1]) {
                 int k;
                 for (k=ja[j]; k<ja[j+1]-1; ++k) {
-                    y[j]      += alpha*conjugate(A[k])*x_[ia[k]];
+                    y[j]      += alpha*A[k]*x_[ia[k]];
                     y_[ia[k]] += alpha*A[k]*x[j];
                 }
                 if (ia[k]==J) {
-                    y[j]      += alpha*cxxblas::real(A[k])*x_[ia[k]];
+                    y[j]      += alpha*A[k]*x_[ia[k]];
                 } else {
-                    y[j]      += alpha*conjugate(A[k])*x_[ia[k]];
+                    y[j]      += alpha*A[k]*x_[ia[k]];
                     y_[ia[k]] += alpha*A[k]*x[j];
                 }
             }
@@ -121,7 +119,79 @@ heccsmv(StorageUpLo      upLo,
 
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
-heccsmv(StorageUpLo             upLo,
+syccsmv(StorageUpLo      upLo,
+        IndexType        n,
+        const float      &alpha,
+        const float      *A,
+        const IndexType  *ia,
+        const IndexType  *ja,
+        const float      *x,
+        const float      &beta,
+        float            *y)
+{
+    CXXBLAS_DEBUG_OUT("syccsmv -> [" BLAS_IMPL "] scscmv");
+    
+    char matdescra[5] = { "S*N*" };
+    matdescra[1] = getF77BlasChar(upLo);
+    matdescra[3] = getIndexBaseChar(ia[0]);
+    
+    if (matdescra[3]=='E') {
+         syccsmv<IndexType, float, float, 
+                            float, float, 
+                            float>
+                            (upLo, n, alpha, A, ia, ja, x, beta, y);
+         return;
+    }
+      
+    char transA = 'N';   
+
+    mkl_scscmv(&transA,
+               &n, &n,               
+               &alpha, &matdescra[0],
+               A, ia, ja, ja+1,
+               x,
+               &beta, y);
+}
+
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+syccsmv(StorageUpLo      upLo,
+        IndexType        n,
+        const double     &alpha,
+        const double     *A,
+        const IndexType  *ia,
+        const IndexType  *ja,
+        const double     *x,
+        const double     &beta,
+        double           *y)
+{
+    CXXBLAS_DEBUG_OUT("syccsmv -> [" BLAS_IMPL "] dcscmv");
+    
+    char matdescra[5] = { "S*N*" };
+    matdescra[1] = getF77BlasChar(upLo);
+    matdescra[3] = getIndexBaseChar(ia[0]);
+    
+    if (matdescra[3]=='E') {
+         syccsmv<IndexType, double, double, 
+                            double, double, 
+                            double>
+                            (upLo, n, alpha, A, ia, ja, x, beta, y);
+         return;
+    }
+      
+    char transA = 'N';   
+
+    mkl_dcscmv(&transA,
+               &n, &n,               
+               &alpha, &matdescra[0],
+               A, ia, ja, ja+1,
+               x,
+               &beta, y);
+}
+
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+syccsmv(StorageUpLo             upLo,
         IndexType               n,
         const ComplexFloat      &alpha,
         const ComplexFloat      *A,
@@ -131,35 +201,35 @@ heccsmv(StorageUpLo             upLo,
         const ComplexFloat      &beta,
         ComplexFloat            *y)
 {
-    CXXBLAS_DEBUG_OUT("heccsmv -> [" BLAS_IMPL "] ccscmv");
+    CXXBLAS_DEBUG_OUT("syccsmv -> [" BLAS_IMPL "] ccscmv");
     
-    char matdescra[5] = { "H*N*" };
+    char matdescra[5] = { "S*N*" };
     matdescra[1] = getF77BlasChar(upLo);
     matdescra[3] = getIndexBaseChar(ia[0]);
     
     if (matdescra[3]=='E') {
-         heccsmv<IndexType, ComplexFloat, ComplexFloat, 
+         syccsmv<IndexType, ComplexFloat, ComplexFloat, 
                             ComplexFloat, ComplexFloat, 
                             ComplexFloat>
                             (upLo, n, alpha, A, ia, ja, x, beta, y);
          return;
     }
       
-    char transA = 'N';    
+    char transA = 'N';   
 
     mkl_ccscmv(&transA,
-               &n, &n,               
-               reinterpret_cast<const float*>(&alpha), &matdescra[0],
-               reinterpret_cast<const float*>(A), ia, ja, ja+1,
-               reinterpret_cast<const float*>(x),
-               reinterpret_cast<const float*>(&beta), 
-               reinterpret_cast<float*>(y));
+	      &n, &n,               
+	      reinterpret_cast<const float*>(&alpha), &matdescra[0],
+	      reinterpret_cast<const float*>(A), ia, ja, ja+1,
+	      reinterpret_cast<const float*>(x),
+	      reinterpret_cast<const float*>(&beta), 
+	      reinterpret_cast<float*>(y));
     
 }
 
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
-heccsmv(StorageUpLo             upLo,
+syccsmv(StorageUpLo             upLo,
         IndexType               n,
         const ComplexDouble     &alpha,
         const ComplexDouble     *A,
@@ -169,28 +239,29 @@ heccsmv(StorageUpLo             upLo,
         const ComplexDouble     &beta,
         ComplexDouble           *y)
 {
-    CXXBLAS_DEBUG_OUT("heccsmv -> [" BLAS_IMPL "] zcscmv");
+    CXXBLAS_DEBUG_OUT("syccsmv -> [" BLAS_IMPL "] zcscmv"); 
     
-    char matdescra[5] = { "H*N*" };
+    char matdescra[5] = { "S*N*" };
     matdescra[1] = getF77BlasChar(upLo);
     matdescra[3] = getIndexBaseChar(ia[0]);
     
     if (matdescra[3]=='E') {
-         heccsmv<IndexType, ComplexDouble, ComplexDouble, 
+         syccsmv<IndexType, ComplexDouble, ComplexDouble, 
                             ComplexDouble, ComplexDouble, 
                             ComplexDouble>
                             (upLo, n, alpha, A, ia, ja, x, beta, y);
          return;
     }
-    char transA = 'N';    
-    
+      
+    char transA = 'N';   
+
     mkl_zcscmv(&transA,
-              &n, &n,               
-              reinterpret_cast<const double*>(&alpha), &matdescra[0],
-              reinterpret_cast<const double*>(A), ia, ja, ja+1,
-              reinterpret_cast<const double*>(x),
-              reinterpret_cast<const double*>(&beta), 
-              reinterpret_cast<double*>(y));
+	      &n, &n,               
+	      reinterpret_cast<const double*>(&alpha), &matdescra[0],
+	      reinterpret_cast<const double*>(A), ia, ja, ja+1,
+	      reinterpret_cast<const double*>(x),
+	      reinterpret_cast<const double*>(&beta), 
+	      reinterpret_cast<double*>(y));
     
 }
 
@@ -198,4 +269,4 @@ heccsmv(StorageUpLo             upLo,
 
 } // namespace cxxblas
 
-#endif // CXXBLAS_SPARSELEVEL2_HECCSMV_TCC
+#endif // CXXBLAS_SPARSELEVEL2_SYCCSMV_TCC

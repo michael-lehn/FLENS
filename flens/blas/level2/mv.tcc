@@ -460,7 +460,7 @@ mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
         y.resize(A.dim(), y.firstIndex(), Zero);
     }
 
-#   ifdef HAVE_CXXBLAS_SYCRSMV
+#   ifdef HAVE_CXXBLAS_HECRSMV
     cxxblas::heccsmv(A.upLo(),
                      A.dim(),
                      alpha,
@@ -495,7 +495,7 @@ mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
         y.resize(A.dim(), y.firstIndex(), Zero);
     }
 
-#   ifdef HAVE_CXXBLAS_SYCRSMV
+#   ifdef HAVE_CXXBLAS_HECRSMV
     cxxblas::hecrsmv(A.upLo(),
                      A.dim(),
                      alpha,
@@ -663,12 +663,12 @@ mv(const ALPHA &alpha, const MA &A, const VX &x, const BETA &beta, VY &&y)
     }
 
 #   ifdef HAVE_CXXBLAS_SYCCSMV
-    cxxblas::syccsmv(A.upLo()==Upper ? Lower : Upper,
+    cxxblas::syccsmv(A.upLo(),
                      A.dim(),
                      alpha,
                      A.engine().values().data(),
-                     A.engine().cols().data(),
                      A.engine().rows().data(),
+                     A.engine().cols().data(),
                      x.data(),
                      beta,
                      y.data());

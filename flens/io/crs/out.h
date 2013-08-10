@@ -38,6 +38,7 @@
 #include <flens/matrixtypes/general/impl/gecrsmatrix.h>
 #include <flens/matrixtypes/symmetric/impl/sycrsmatrix.h>
 #include <flens/matrixtypes/hermitian/impl/hecrsmatrix.h>
+#include <flens/matrixtypes/triangular/impl/trcrsmatrix.h>
 
 namespace flens {
 
@@ -52,6 +53,10 @@ template <typename CRS>
 template <typename CRS>
     std::ostream &
     operator<<(std::ostream &out, const SyCRSMatrix<CRS> &A);
+    
+template <typename CRS>
+    std::ostream &
+    operator<<(std::ostream &out, const TrCRSMatrix<CRS> &A);
 
 } // namespace flens
 

@@ -97,7 +97,7 @@ mm(Transpose        transposeA,
         ASSERT( transposeB==NoTrans );
         
         FLENS_BLASLOG_SETTAG("--> ");
-        FLENS_BLASLOG_BEGIN_TBMM(Left, transposeA, alpha, A, B);
+        FLENS_BLASLOG_BEGIN_TBMM(side, transA, alpha, A, B);
 
 #       ifdef HAVE_CXXBLAS_TBMM
         cxxblas::tbmm(C.order(), Left,
@@ -190,7 +190,7 @@ mm(Transpose        transposeA,
         ASSERT( transposeB==NoTrans );
         
         FLENS_BLASLOG_SETTAG("--> ");
-        FLENS_BLASLOG_BEGIN_TBMM(Right, transposeA, alpha, B, C);
+        FLENS_BLASLOG_BEGIN_TBMM(side, transA, alpha, B, C);
 
 #       ifdef HAVE_CXXBLAS_TBMM
         cxxblas::tbmm(C.order(), Right,
@@ -378,6 +378,125 @@ mm(Transpose        transposeA,
     FLENS_BLASLOG_UNSETTAG;
 }
 
+//-- geccsmm
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+typename RestrictTo<IsGeCCSMatrix<MA>::value
+                 && IsGeMatrix<MB>::value
+                 && IsGeMatrix<MC>::value,
+         void>::Type
+mm(Transpose        transposeA,
+   Transpose        transposeB,
+   const ALPHA      &alpha,
+   const MA         &A,
+   const MB         &B,
+   const BETA       &beta,
+   MC               &&C)
+{
+  
+    typedef typename RemoveRef<MC>::Type MatrixC;
+    typedef typename MatrixC::IndexType  IndexType;
+
+    const bool noTransA = (transposeA==NoTrans || transposeA==Conj);
+    const bool noTransB = (transposeB==NoTrans || transposeB==Conj);
+
+#   ifndef NDEBUG
+    int kA = (noTransA) ? A.numCols() : A.numRows();
+    int kB = (noTransB) ? B.numRows() : B.numCols();
+    ASSERT(kA==kB);
+#   endif
+
+    IndexType m = (noTransA) ? A.numRows() : A.numCols();
+    IndexType n = (noTransB) ? B.numCols() : B.numRows();
+    IndexType k = (noTransA) ? A.numCols() : A.numRows();
+    
+    // SparseBlas supports only C += op(A)*B
+    // and only ColMajor
+    ASSERT(transposeB==NoTrans);
+    ASSERT(C.order()==ColMajor);
+    ASSERT(B.order()==ColMajor);
+    
+    ASSERT(!DEBUGCLOSURE::identical(A, C));
+    
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_GEMM(transposeA, transposeB, alpha, A, B, beta, C);
+
+#   ifdef HAVE_CXXBLAS_GECRSMM
+    cxxblas::gecrsmm(Transpose(transposeA^Trans),
+                     m, n, k,
+                     alpha,
+                     A.engine().values().data(),
+                     A.engine().cols().data(),
+                     A.engine().rows().data(),
+                     B.data(), B.leadingDimension(),
+                     beta,
+                     C.data(), C.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
+//-- gecrsmm
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+typename RestrictTo<IsGeCRSMatrix<MA>::value
+                 && IsGeMatrix<MB>::value
+                 && IsGeMatrix<MC>::value,
+         void>::Type
+mm(Transpose        transposeA,
+   Transpose        transposeB,
+   const ALPHA      &alpha,
+   const MA         &A,
+   const MB         &B,
+   const BETA       &beta,
+   MC               &&C)
+{
+  
+    typedef typename RemoveRef<MC>::Type MatrixC;
+    typedef typename MatrixC::IndexType  IndexType;
+
+    const bool noTransA = (transposeA==NoTrans || transposeA==Conj);
+    const bool noTransB = (transposeB==NoTrans || transposeB==Conj);
+
+#   ifndef NDEBUG
+    int kA = (noTransA) ? A.numCols() : A.numRows();
+    int kB = (noTransB) ? B.numRows() : B.numCols();
+    ASSERT(kA==kB);
+#   endif
+
+    IndexType m = (noTransA) ? A.numRows() : A.numCols();
+    IndexType n = (noTransB) ? B.numCols() : B.numRows();
+    IndexType k = (noTransA) ? A.numCols() : A.numRows();
+    
+    // SparseBlas supports only C += op(A)*B
+    // and only ColMajor
+    ASSERT(transposeB==NoTrans);
+    ASSERT(C.order()==ColMajor);
+    ASSERT(B.order()==ColMajor);
+    
+    ASSERT(!DEBUGCLOSURE::identical(A, C));
+    
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_GEMM(transposeA, transposeB, alpha, A, B, beta, C);
+
+#   ifdef HAVE_CXXBLAS_GECRSMM
+    cxxblas::gecrsmm(transposeA,
+                     m, n, k,
+                     alpha,
+                     A.engine().values().data(),
+                     A.engine().rows().data(),
+                     A.engine().cols().data(),
+                     B.data(), B.leadingDimension(),
+                     beta,
+                     C.data(), C.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
 //-- gemm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 typename RestrictTo<IsGeMatrix<MA>::value
@@ -601,6 +720,105 @@ mm(Side             side,
     FLENS_BLASLOG_UNSETTAG;
 }
 
+//-- heccsmm
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+typename RestrictTo<IsHeCCSMatrix<MA>::value
+                 && IsGeMatrix<MB>::value
+                 && IsGeMatrix<MC>::value,
+         void>::Type
+mm(Side             side,
+   const ALPHA      &alpha,
+   const MA         &A,
+   const MB         &B,
+   const BETA       &beta,
+   MC               &&C)
+{
+    typedef typename RemoveRef<MC>::Type MatrixC;
+    typedef typename MatrixC::IndexType  IndexType;
+    
+    ASSERT(!DEBUGCLOSURE::identical(B, C));
+
+    ASSERT(side==Left);
+    ASSERT(B.order()==ColMajor);
+    ASSERT(C.order()==ColMajor);
+
+    if ((C.numRows()==IndexType(0)) || (C.numCols()==IndexType(0))) {
+        C.resize(A.numRows(), B.numCols());
+    }
+    
+    ASSERT(C.numRows()==A.numRows());
+    ASSERT(C.numCols()==B.numCols());
+    ASSERT(A.numCols()==B.numRows());
+
+#   ifdef HAVE_CXXBLAS_HECCSMM
+    cxxblas::heccsmm(A.upLo(),
+                     B.numRows(),
+                     B.numCols(),
+                     alpha,
+                     A.engine().values().data(),
+                     A.engine().rows().data(),
+                     A.engine().cols().data(),
+                     B.data(),
+                     B.leadingDimension(),
+                     beta,
+                     C.data(),
+                     C.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+    
+}
+
+//-- hecrsmm
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+typename RestrictTo<IsHeCRSMatrix<MA>::value
+                 && IsGeMatrix<MB>::value
+                 && IsGeMatrix<MC>::value,
+         void>::Type
+mm(Side             side,
+   const ALPHA      &alpha,
+   const MA         &A,
+   const MB         &B,
+   const BETA       &beta,
+   MC               &&C)
+{
+    typedef typename RemoveRef<MC>::Type MatrixC;
+    typedef typename MatrixC::IndexType  IndexType;
+    
+    ASSERT(!DEBUGCLOSURE::identical(B, C));
+
+    ASSERT(side==Left);
+    ASSERT(B.order()==ColMajor);
+    ASSERT(C.order()==ColMajor);
+
+    if ((C.numRows()==IndexType(0)) || (C.numCols()==IndexType(0))) {
+        C.resize(A.numRows(), B.numCols());
+    }
+    
+    ASSERT(C.numRows()==A.numRows());
+    ASSERT(C.numCols()==B.numCols());
+    ASSERT(A.numCols()==B.numRows());
+
+#   ifdef HAVE_CXXBLAS_HECRSMM
+    cxxblas::hecrsmm(A.upLo(),
+                     B.numRows(),
+                     B.numCols(),
+                     alpha,
+                     A.engine().values().data(),
+                     A.engine().rows().data(),
+                     A.engine().cols().data(),
+                     B.data(),
+                     B.leadingDimension(),
+                     beta,
+                     C.data(),
+                     C.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+    
+}
+
+
 //== SymmetricMatrix - GeneralMatrix products ==================================
 
 //-- sbmm
@@ -755,6 +973,105 @@ mm(Side             side,
 
     FLENS_BLASLOG_END;
     FLENS_BLASLOG_UNSETTAG;
+}
+
+
+//-- syccsmm
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+typename RestrictTo<IsSyCCSMatrix<MA>::value
+                 && IsGeMatrix<MB>::value
+                 && IsGeMatrix<MC>::value,
+         void>::Type
+mm(Side             side,
+   const ALPHA      &alpha,
+   const MA         &A,
+   const MB         &B,
+   const BETA       &beta,
+   MC               &&C)
+{
+    typedef typename RemoveRef<MC>::Type MatrixC;
+    typedef typename MatrixC::IndexType  IndexType;
+    
+    ASSERT(!DEBUGCLOSURE::identical(B, C));
+
+    ASSERT(side==Left);
+    ASSERT(B.order()==ColMajor);
+    ASSERT(C.order()==ColMajor);
+
+    if ((C.numRows()==IndexType(0)) || (C.numCols()==IndexType(0))) {
+        C.resize(A.numRows(), B.numCols());
+    }
+    
+    ASSERT(C.numRows()==A.numRows());
+    ASSERT(C.numCols()==B.numCols());
+    ASSERT(A.numCols()==B.numRows());
+
+#   ifdef HAVE_CXXBLAS_SYCCSMM
+    cxxblas::syccsmm(A.upLo(),
+                     B.numRows(),
+                     B.numCols(),
+                     alpha,
+                     A.engine().values().data(),
+                     A.engine().rows().data(),
+                     A.engine().cols().data(),
+                     B.data(),
+                     B.leadingDimension(),
+                     beta,
+                     C.data(),
+                     C.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+    
+}
+
+//-- sycrsmm
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+typename RestrictTo<IsSyCRSMatrix<MA>::value
+                 && IsGeMatrix<MB>::value
+                 && IsGeMatrix<MC>::value,
+         void>::Type
+mm(Side             side,
+   const ALPHA      &alpha,
+   const MA         &A,
+   const MB         &B,
+   const BETA       &beta,
+   MC               &&C)
+{
+    typedef typename RemoveRef<MC>::Type MatrixC;
+    typedef typename MatrixC::IndexType  IndexType;
+    
+    ASSERT(!DEBUGCLOSURE::identical(B, C));
+
+    ASSERT(side==Left);
+    ASSERT(B.order()==ColMajor);
+    ASSERT(C.order()==ColMajor);
+
+    if ((C.numRows()==IndexType(0)) || (C.numCols()==IndexType(0))) {
+        C.resize(A.numRows(), B.numCols());
+    }
+    
+    ASSERT(C.numRows()==A.numRows());
+    ASSERT(C.numCols()==B.numCols());
+    ASSERT(A.numCols()==B.numRows());
+
+#   ifdef HAVE_CXXBLAS_SYCRSMM
+    cxxblas::sycrsmm(A.upLo(),
+                     B.numRows(),
+                     B.numCols(),
+                     alpha,
+                     A.engine().values().data(),
+                     A.engine().rows().data(),
+                     A.engine().cols().data(),
+                     B.data(),
+                     B.leadingDimension(),
+                     beta,
+                     C.data(),
+                     C.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+    
 }
 
 

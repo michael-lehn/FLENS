@@ -52,9 +52,36 @@ operator<<(std::ostream &out, const GeCCSMatrix<CCS> &A)
 
 template <typename CCS>
 std::ostream &
+operator<<(std::ostream &out, const HeCCSMatrix<CCS> &A)
+{
+    out << std::endl;
+    out << "upLo = " << char(A.upLo()) << std::endl;
+    out << "compressed cols:" << std::endl;
+    out << " cols:   " << A.engine().cols() << std::endl;
+    out << " rows:   " << A.engine().rows() << std::endl;
+    out << " values: " << A.engine().values() << std::endl;
+    return out;
+}
+
+template <typename CCS>
+std::ostream &
 operator<<(std::ostream &out, const SyCCSMatrix<CCS> &A)
 {
     out << std::endl;
+    out << "upLo = " << char(A.upLo()) << std::endl;
+    out << "compressed cols:" << std::endl;
+    out << " cols:   " << A.engine().cols() << std::endl;
+    out << " rows:   " << A.engine().rows() << std::endl;
+    out << " values: " << A.engine().values() << std::endl;
+    return out;
+}
+
+template <typename CCS>
+std::ostream &
+operator<<(std::ostream &out, const TrCCSMatrix<CCS> &A)
+{
+    out << std::endl;
+    out << "upLo = " << char(A.upLo()) << std::endl;
     out << "compressed cols:" << std::endl;
     out << " cols:   " << A.engine().cols() << std::endl;
     out << " rows:   " << A.engine().rows() << std::endl;

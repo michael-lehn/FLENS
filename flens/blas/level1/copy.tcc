@@ -808,6 +808,7 @@ typename RestrictTo<IsGeCoordMatrix<MA>::value
          void>::Type
 copy(Transpose trans, const MA &A, MB &&B)
 {
+    ASSERT(trans==NoTrans);
     B.engine() = A.engine();
 }
 
@@ -818,6 +819,7 @@ typename RestrictTo<IsGeCoordMatrix<MA>::value
          void>::Type
 copy(Transpose trans, const MA &A, MB &&B)
 {
+    ASSERT(trans==NoTrans);
     B.engine() = A.engine();
 }
 
@@ -869,6 +871,34 @@ copy(const MA &A, MB &&B)
     B.upLo() = A.upLo();
 }
 
+//== TriangularMatrix
+
+//-- copy: TrCoordMatrix -> TrCCSMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsTrCoordMatrix<MA>::value
+                 && IsTrCCSMatrix<MB>::value,
+         void>::Type
+copy(Transpose trans, const MA &A, MB &&B)
+{
+    ASSERT(trans==NoTrans);
+    
+    B.engine() = A.engine();
+    B.upLo() = A.upLo();
+}
+
+//-- copy: TrCoordMatrix -> TrCRSMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsTrCoordMatrix<MA>::value
+                 && IsTrCRSMatrix<MB>::value,
+         void>::Type
+copy(Transpose trans, const MA &A, MB &&B)
+{
+    ASSERT(trans==NoTrans);
+    
+    B.engine() = A.engine();
+    B.upLo() = A.upLo();
+}
+
 //-- convenience extensions ----------------------------------------------------
 
 //== GeneralMatrix
@@ -880,6 +910,8 @@ typename RestrictTo<IsGeCCSMatrix<MA>::value
          void>::Type
 copy(Transpose trans, const MA &A, MB &&B)
 {
+    ASSERT(trans==NoTrans);
+    
     typedef typename MA::IndexType    IndexType;
     typedef typename MA::ElementType  ElementType;
 
@@ -905,6 +937,7 @@ typename RestrictTo<IsGeCRSMatrix<MA>::value
          void>::Type
 copy(Transpose trans, const MA &A, MB &&B)
 {
+    ASSERT(trans==NoTrans);
     typedef typename MA::IndexType    IndexType;
     typedef typename MA::ElementType  ElementType;
 
@@ -1063,6 +1096,62 @@ copy(const MA &A, MB &&B)
     }
 }
 
+
+//-- copy: TrCRSMatrix -> TrMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsTrCRSMatrix<MA>::value
+                 && IsTrMatrix<MB>::value,
+         void>::Type
+copy(Transpose trans, const MA &A, MB &&B)
+{
+    ASSERT(trans==NoTrans);
+    ASSERT(A.upLo()==B.upLo());
+    
+    typedef typename MA::IndexType    IndexType;
+    typedef typename MA::ElementType  ElementType;
+
+    B.resize(A.numRows(), A.numCols(),
+             A.firstRow(), A.firstCol(),
+             ElementType(0));
+
+    const auto &rows = A.engine().rows();
+    const auto &cols = A.engine().cols();
+    const auto &vals = A.engine().values();
+
+    for (IndexType i=rows.firstIndex(); i<rows.lastIndex(); ++i) {
+        for (IndexType k=rows(i); k<rows(i+1); ++k) {
+            B(i,cols(k)) = vals(k);
+        }
+    }
+}
+
+//-- copy: TrCoordMatrix -> TrMatrix
+template <typename MA, typename MB>
+typename RestrictTo<IsTrCoordMatrix<MA>::value
+                 && IsTrMatrix<MB>::value,
+         void>::Type
+copy(Transpose trans, const MA &A, MB &&B)
+{
+    ASSERT(trans==NoTrans);
+    ASSERT(A.upLo()==B.upLo());
+        
+    typedef typename MA::IndexType    IndexType;
+    typedef typename MA::ElementType  ElementType;
+
+    B.resize(A.numRows(), A.numCols(),
+             A.firstRow(), A.firstCol(),
+             ElementType(0));
+
+    const auto &cols = A.engine().cols();
+    const auto &rows = A.engine().rows();
+    const auto &vals = A.engine().values();
+
+    for (IndexType j=cols.firstIndex(); j<cols.lastIndex(); ++j) {
+        for (IndexType k=cols(j); k<cols(j+1); ++k) {
+            B(rows(k), j) = vals(k);
+        }
+    }
+}
 
 //-- Convenience Extensions ----------------------------------------------------
 

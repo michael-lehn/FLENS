@@ -45,6 +45,7 @@
 #include <cxxblas/level3extensions/level3extensions.h>
 
 #include <cxxblas/sparselevel2/sparselevel2.h>
+#include <cxxblas/sparselevel3/sparselevel3.h>
 
 #include <cxxblas/tinylevel1/tinylevel1.h>
 #include <cxxblas/tinylevel2/tinylevel2.h>

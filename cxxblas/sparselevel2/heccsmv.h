@@ -51,6 +51,34 @@ template <typename IndexType, typename ALPHA, typename MA, typename VX,
             const VX         *x,
             const BETA       &beta,
             VY               *y);
+    
+#ifdef HAVE_SPARSEBLAS      
+    
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    heccsmv(StorageUpLo             upLo,
+            IndexType               n,
+            const ComplexFloat      &alpha,
+            const ComplexFloat      *A,
+            const IndexType         *ia,
+            const IndexType         *ja,
+            const ComplexFloat      *x,
+            const ComplexFloat      &beta,
+            ComplexFloat            *y);
+    
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    heccsmv(StorageUpLo             upLo,
+            IndexType               n,
+            const ComplexDouble     &alpha,
+            const ComplexDouble     *A,
+            const IndexType         *ia,
+            const IndexType         *ja,
+            const ComplexDouble     *x,
+            const ComplexDouble     &beta,
+            ComplexDouble           *y);
+    
+#endif
 
 } // namespace cxxblas
 

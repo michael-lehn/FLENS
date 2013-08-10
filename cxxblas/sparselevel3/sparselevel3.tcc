@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2009, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,23 +30,15 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_CXXBLAS_TCC
-#define CXXBLAS_CXXBLAS_TCC 1
+#ifndef CXXBLAS_SPARSELEVEL3_SPARSELEVEL3_TCC
+#define CXXBLAS_SPARSELEVEL3_SPARSELEVEL3_TCC 1
 
-#include <cxxblas/auxiliary/complex.tcc>
-#include <cxxblas/drivers/drivers.tcc>
+#include <cxxblas/sparselevel3/gecrsmm.tcc>
+#include <cxxblas/sparselevel3/heccsmm.tcc>
+#include <cxxblas/sparselevel3/hecrsmm.tcc>
+#include <cxxblas/sparselevel3/syccsmm.tcc>
+#include <cxxblas/sparselevel3/sycrsmm.tcc>
+#include <cxxblas/sparselevel3/trccssm.tcc>
+#include <cxxblas/sparselevel3/trcrssm.tcc>
 
-#include <cxxblas/level1/level1.tcc>
-#include <cxxblas/level1extensions/level1extensions.tcc>
-#include <cxxblas/level2/level2.tcc>
-#include <cxxblas/level2extensions/level2extensions.tcc>
-#include <cxxblas/level3/level3.tcc>
-#include <cxxblas/level3extensions/level3extensions.tcc>
-
-#include <cxxblas/sparselevel2/sparselevel2.tcc>
-#include <cxxblas/sparselevel3/sparselevel3.tcc>
-
-#include <cxxblas/tinylevel1/tinylevel1.tcc>
-#include <cxxblas/tinylevel2/tinylevel2.tcc>
-
-#endif // CXXBLAS_CXXBLAS_TCC
+#endif // CXXBLAS_SPARSELEVEL3_SPARSELEVEL3_TCC

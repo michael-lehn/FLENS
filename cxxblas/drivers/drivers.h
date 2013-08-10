@@ -53,6 +53,10 @@
 #include <cxxblas/drivers/cblas.h>
 #endif
 
+#ifdef HAVE_SPARSEBLAS
+#include <cxxblas/drivers/sparseblas.h>
+#endif
+
 #include <cxxblas/typedefs.h>
 
 namespace cxxblas {

@@ -30,86 +30,98 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_SPARSELEVEL2_GECRSMV_H
-#define CXXBLAS_SPARSELEVEL2_GECRSMV_H 1
+#ifndef CXXBLAS_SPARSELEVEL3_SYCRSMM_H
+#define CXXBLAS_SPARSELEVEL3_SYCRSMM_H 1
 
 #include <cxxblas/typedefs.h>
 
-#define HAVE_CXXBLAS_GECRSMV 1
+#define HAVE_CXXBLAS_SYCRSMM 1
 
 namespace cxxblas {
 
-template <typename IndexType, typename ALPHA, typename MA, typename VX,
-          typename BETA, typename VY>
+template <typename IndexType, typename ALPHA, typename MA, typename MB,
+          typename BETA, typename MC>
     void
-    gecrsmv(Transpose        trans,
+    sycrsmm(StorageUpLo      upLo,
             IndexType        m,
             IndexType        n,
             const ALPHA      &alpha,
             const MA         *A,
             const IndexType  *ia,
             const IndexType  *ja,
-            const VX         *x,
+            const MB         *B,
+            IndexType        ldB,
             const BETA       &beta,
-            VY               *y);
-
+            MC               *C,
+            IndexType        ldC);
     
+   
 #ifdef HAVE_SPARSEBLAS      
     
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
-    gecrsmv(Transpose        trans,
+    sycrsmm(StorageUpLo      upLo,
             IndexType        m,
             IndexType        n,
             const float      &alpha,
             const float      *A,
             const IndexType  *ia,
             const IndexType  *ja,
-            const float      *x,
+            const float      *B,
+            IndexType        ldB,
             const float      &beta,
-            float            *y);  
+            float            *C,
+            IndexType        ldC);
     
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
-    gecrsmv(Transpose        trans,
+    sycrsmm(StorageUpLo      upLo,
             IndexType        m,
             IndexType        n,
             const double     &alpha,
             const double     *A,
             const IndexType  *ia,
             const IndexType  *ja,
-            const double     *x,
+            const double     *B,
+            IndexType        ldB,
             const double     &beta,
-            double           *y); 
+            double           *C,
+            IndexType        ldC);
+    
     
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
-    gecrsmv(Transpose               trans,
+    sycrsmm(StorageUpLo             upLo,
             IndexType               m,
             IndexType               n,
             const ComplexFloat      &alpha,
             const ComplexFloat      *A,
             const IndexType         *ia,
             const IndexType         *ja,
-            const ComplexFloat      *x,
+            const ComplexFloat      *B,
+            IndexType               ldB,
             const ComplexFloat      &beta,
-            ComplexFloat            *y);
+            ComplexFloat            *C,
+            IndexType               ldC);
     
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
-    gecrsmv(Transpose               trans,
+    sycrsmm(StorageUpLo             upLo,
             IndexType               m,
             IndexType               n,
             const ComplexDouble     &alpha,
             const ComplexDouble     *A,
             const IndexType         *ia,
             const IndexType         *ja,
-            const ComplexDouble     *x,
+            const ComplexDouble     *B,
+            IndexType               ldB,
             const ComplexDouble     &beta,
-            ComplexDouble           *y);
+            ComplexDouble           *C,
+            IndexType               ldC);
     
 #endif
-    
+        
+
 } // namespace cxxblas
 
-#endif // CXXBLAS_SPARSELEVEL2_GECRSMV_H
+#endif // CXXBLAS_SPARSELEVEL3_SYCRSMM_H

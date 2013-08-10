@@ -97,6 +97,36 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
        const BETA       &beta,
        MC               &&C);
 
+
+//-- geccsmm
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+    typename RestrictTo<IsGeCCSMatrix<MA>::value
+                     && IsGeMatrix<MB>::value
+                     && IsGeMatrix<MC>::value,
+             void>::Type
+    mm(Transpose        transA,
+       Transpose        transB,
+       const ALPHA      &alpha,
+       const MA         &A,
+       const MB         &B,
+       const BETA       &beta,
+       MC               &&C);
+
+
+//-- gecrsmm
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+    typename RestrictTo<IsGeCRSMatrix<MA>::value
+                     && IsGeMatrix<MB>::value
+                     && IsGeMatrix<MC>::value,
+             void>::Type
+    mm(Transpose        transA,
+       Transpose        transB,
+       const ALPHA      &alpha,
+       const MA         &A,
+       const MB         &B,
+       const BETA       &beta,
+       MC               &&C);
+    
 //-- gemm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
     typename RestrictTo<IsGeMatrix<MA>::value
@@ -139,6 +169,33 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
        const BETA       &beta,
        MC               &&C);
 
+//-- heccsmm
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+    typename RestrictTo<IsHeCCSMatrix<MA>::value
+                     && IsGeMatrix<MB>::value
+                     && IsGeMatrix<MC>::value,
+             void>::Type
+    mm(Side             side,
+       const ALPHA      &alpha,
+       const MA         &A,
+       const MB         &B,
+       const BETA       &beta,
+       MC               &&C);
+    
+    
+//-- hecrsmm
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+    typename RestrictTo<IsHeCRSMatrix<MA>::value
+                     && IsGeMatrix<MB>::value
+                     && IsGeMatrix<MC>::value,
+             void>::Type
+    mm(Side             side,
+       const ALPHA      &alpha,
+       const MA         &A,
+       const MB         &B,
+       const BETA       &beta,
+       MC               &&C);
+
 //== SymmetricMatrix - GeneralMatrix products ==================================
 
 //-- sbmm
@@ -167,6 +224,34 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
        const BETA       &beta,
        MC               &&C);
 
+    
+//-- syccsmm
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+    typename RestrictTo<IsSyCCSMatrix<MA>::value
+                     && IsGeMatrix<MB>::value
+                     && IsGeMatrix<MC>::value,
+             void>::Type
+    mm(Side             side,
+       const ALPHA      &alpha,
+       const MA         &A,
+       const MB         &B,
+       const BETA       &beta,
+       MC               &&C);
+    
+    
+//-- sycrsmm
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+    typename RestrictTo<IsSyCRSMatrix<MA>::value
+                     && IsGeMatrix<MB>::value
+                     && IsGeMatrix<MC>::value,
+             void>::Type
+    mm(Side             side,
+       const ALPHA      &alpha,
+       const MA         &A,
+       const MB         &B,
+       const BETA       &beta,
+       MC               &&C);
+    
 //== TriangularMatrix - GeneralMatrix products =================================
 
 //-- tbmm

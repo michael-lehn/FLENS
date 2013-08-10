@@ -30,169 +30,126 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_SPARSELEVEL2_HECRSMV_TCC
-#define CXXBLAS_SPARSELEVEL2_HECRSMV_TCC 1
+#ifndef CXXBLAS_SPARSELEVEL3_HECCSMM_TCC
+#define CXXBLAS_SPARSELEVEL3_HECCSMM_TCC 1
 
 #include <cxxblas/auxiliary/auxiliary.h>
 #include <cxxblas/typedefs.h>
 
-#define HAVE_CXXBLAS_HECRSMV 1
+#define HAVE_CXXBLAS_HECCSMM 1
 
 namespace cxxblas {
 
-template <typename IndexType, typename ALPHA, typename MA, typename VX,
-          typename BETA, typename VY>
+template <typename IndexType, typename ALPHA, typename MA, typename MB,
+          typename BETA, typename MC>
 void
-hecrsmv(StorageUpLo      upLo,
+heccsmm(StorageUpLo      upLo,
+        IndexType        m,
         IndexType        n,
         const ALPHA      &alpha,
         const MA         *A,
         const IndexType  *ia,
         const IndexType  *ja,
-        const VX         *x,
+        const MB         *B,
+        IndexType        ldB,
         const BETA       &beta,
-        VY               *y)
+        MC               *C,
+        IndexType        ldC)
 {
-  
-    CXXBLAS_DEBUG_OUT("hecrsmv_generic");
+    CXXBLAS_DEBUG_OUT("heccsmm_generic");
     
-    using cxxblas::conjugate;
-
-//
-//  The correct index base of the CRS matrix is stored in first Element of ia
-//
-    --ia;
-    ja -= ia[1];
-    A  -= ia[1];
-
-//
-//  Let x, y be one-based; x_, y_ get correct index base ia[1]
-//
-    const VX *x_ = x - ia[1];
-    VY       *y_ = y - ia[1];
-    --x;
-    --y;
-
-    if (beta==BETA(0)) {
-        for (int i=1; i<=n; ++i) {
-            y[i] = 0;
-        }
-    } else if (beta!=BETA(1)) {
-        for (int i=1; i<=n; ++i) {
-            y[i] *= beta;
-        }
+        for (IndexType i=0; i<n; ++i) {
+         heccsmv(upLo, m, alpha, A, ia, ja, B+i*ldB, beta, C+i*ldC);
     }
-
-    if (upLo==Upper) {
-        for (int i=1, I=ia[1]; i<=n; ++i, ++I) {
-            if (ia[i]<ia[i+1]) {
-                int k=ia[i];
-                if (ja[k]==I) {
-                    y[i]      += alpha*cxxblas::real(A[k])*x_[ja[k]];
-                } else {
-                    y[i]      += alpha*A[k]*x_[ja[k]];
-                    y_[ja[k]] += alpha*conjugate(A[k])*x[i];
-                }
-                for (k=ia[i]+1; k<ia[i+1]; ++k) {
-                    y[i]      += alpha*A[k]*x_[ja[k]];
-                    y_[ja[k]] += alpha*conjugate(A[k])*x[i];
-                }
-            }
-        }
-    } else {
-        for (int i=1, I=ia[1]; i<=n; ++i, ++I) {
-            if (ia[i]<ia[i+1]) {
-                int k;
-                for (k=ia[i]; k<ia[i+1]-1; ++k) {
-                    y[i]      += alpha*A[k]*x_[ja[k]];
-                    y_[ja[k]] += alpha*conjugate(A[k])*x[i];
-                }
-                if (ja[k]==I) {
-                    y[i]      += alpha*cxxblas::real(A[k])*x_[ja[k]];
-                } else {
-                    y[i]      += alpha*A[k]*x_[ja[k]];
-                    y_[ja[k]] += alpha*conjugate(A[k])*x[i];
-                }
-            }
-        }
-    }
+    
+    return;
+  
 }
 
 #ifdef HAVE_SPARSEBLAS   
 
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
-hecrsmv(StorageUpLo             upLo,
+heccsmm(StorageUpLo             upLo,
+        IndexType               m,
         IndexType               n,
         const ComplexFloat      &alpha,
         const ComplexFloat      *A,
         const IndexType         *ia,
         const IndexType         *ja,
-        const ComplexFloat      *x,
+        const ComplexFloat      *B,
+        IndexType               ldB,
         const ComplexFloat      &beta,
-        ComplexFloat            *y)
+        ComplexFloat            *C,
+        IndexType               ldC)
 {
-    CXXBLAS_DEBUG_OUT("hecrsmv -> [" BLAS_IMPL "] ccsrmv");
+    CXXBLAS_DEBUG_OUT("heccsmm -> [" BLAS_IMPL "] ccscmm");
     
     char matdescra[5] = { "H*N*" };
     matdescra[1] = getF77BlasChar(upLo);
     matdescra[3] = getIndexBaseChar(ia[0]);
     
     if (matdescra[3]=='E') {
-         hecrsmv<IndexType, ComplexFloat, ComplexFloat, 
+         heccsmm<IndexType, ComplexFloat, ComplexFloat, 
                             ComplexFloat, ComplexFloat, 
                             ComplexFloat>
-                            (upLo, n, alpha, A, ia, ja, x, beta, y);
+                            (upLo, m, n, alpha, A, ia, ja, B, ldB, beta, C, ldC);
          return;
     }
       
     char transA = 'N';    
 
-    mkl_ccsrmv(&transA,
-               &n, &n,               
+    mkl_ccscmm(&transA,
+               &m, &n, &m,               
                reinterpret_cast<const float*>(&alpha), &matdescra[0],
-               reinterpret_cast<const float*>(A), ja, ia, ia+1,
-               reinterpret_cast<const float*>(x),
+               reinterpret_cast<const float*>(A), ia, ja, ja+1,
+               reinterpret_cast<const float*>(B),
+               &ldB,
                reinterpret_cast<const float*>(&beta), 
-               reinterpret_cast<float*>(y));
+               reinterpret_cast<float*>(C),
+               &ldC);
     
 }
 
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
-hecrsmv(StorageUpLo             upLo,
+heccsmm(StorageUpLo             upLo,
+        IndexType               m,
         IndexType               n,
         const ComplexDouble     &alpha,
         const ComplexDouble     *A,
         const IndexType         *ia,
         const IndexType         *ja,
-        const ComplexDouble     *x,
+        const ComplexDouble     *B,
+        IndexType               ldB,
         const ComplexDouble     &beta,
-        ComplexDouble           *y)
+        ComplexDouble           *C,
+        IndexType               ldC)
 {
-    CXXBLAS_DEBUG_OUT("hecrsmv -> [" BLAS_IMPL "] zcsrmv");
+    CXXBLAS_DEBUG_OUT("heccsmm -> [" BLAS_IMPL "] zcscmm");
     
     char matdescra[5] = { "H*N*" };
     matdescra[1] = getF77BlasChar(upLo);
     matdescra[3] = getIndexBaseChar(ia[0]);
     
     if (matdescra[3]=='E') {
-         hecrsmv<IndexType, ComplexDouble, ComplexDouble, 
+         heccsmm<IndexType, ComplexDouble, ComplexDouble, 
                             ComplexDouble, ComplexDouble, 
                             ComplexDouble>
-                            (upLo, n, alpha, A, ia, ja, x, beta, y);
+                            (upLo, m, n, alpha, A, ia, ja, B, ldB, beta, C, ldC);
          return;
     }
-      
     char transA = 'N';    
     
-    mkl_zcsrmv(&transA,
-              &n, &n,               
-              reinterpret_cast<const double*>(&alpha), &matdescra[0],
-              reinterpret_cast<const double*>(A), ja, ia, ia+1,
-              reinterpret_cast<const double*>(x),
-              reinterpret_cast<const double*>(&beta), 
-              reinterpret_cast<double*>(y));
+    mkl_zcscmm(&transA,
+               &m, &n, &m,
+               reinterpret_cast<const double*>(&alpha), &matdescra[0],
+               reinterpret_cast<const double*>(A), ia, ja, ja+1,
+               reinterpret_cast<const double*>(B),
+               &ldB,
+               reinterpret_cast<const double*>(&beta),
+               reinterpret_cast<double*>(C),
+               &ldC);
     
 }
 
@@ -200,4 +157,4 @@ hecrsmv(StorageUpLo             upLo,
 
 } // namespace cxxblas
 
-#endif // CXXBLAS_SPARSELEVEL2_HECRSMV_TCC
+#endif // CXXBLAS_SPARSELEVEL3_HECCSMM_TCC

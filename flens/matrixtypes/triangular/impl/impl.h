@@ -36,4 +36,8 @@
 #include <flens/matrixtypes/triangular/impl/tbmatrix.h>
 #include <flens/matrixtypes/triangular/impl/trmatrix.h>
 #include <flens/matrixtypes/triangular/impl/tpmatrix.h>
+#include <flens/matrixtypes/triangular/impl/trccsmatrix.h>
+#include <flens/matrixtypes/triangular/impl/trcrsmatrix.h>
+#include <flens/matrixtypes/triangular/impl/trcoordmatrix.h>
+
 #endif // FLENS_MATRIXTYPES_TRIANGULAR_IMPL_IMPL_H

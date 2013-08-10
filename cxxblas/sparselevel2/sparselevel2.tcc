@@ -36,6 +36,9 @@
 #include <cxxblas/sparselevel2/gecrsmv.tcc>
 #include <cxxblas/sparselevel2/heccsmv.tcc>
 #include <cxxblas/sparselevel2/hecrsmv.tcc>
+#include <cxxblas/sparselevel2/syccsmv.tcc>
 #include <cxxblas/sparselevel2/sycrsmv.tcc>
+#include <cxxblas/sparselevel2/trccssv.tcc>
+#include <cxxblas/sparselevel2/trcrssv.tcc>
 
 #endif // CXXBLAS_SPARSELEVEL2_SPARSELEVEL2_TCC

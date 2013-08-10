@@ -51,6 +51,23 @@ template <typename ALPHA, typename MA, typename MB>
        const MA         &A,
        MB               &&B);
 
+
+//-- trccssm
+template <typename ALPHA, typename MA, typename MB, typename MC>
+    typename RestrictTo<IsTrCCSMatrix<MA>::value
+                     && IsGeMatrix<MB>::value
+                     && IsGeMatrix<MC>::value,
+             void>::Type
+    sm(Transpose trans, const ALPHA &alpha, const MA &A, const MB &B, MC &&C);
+    
+//-- trccssm
+template <typename ALPHA, typename MA, typename MB, typename MC>
+    typename RestrictTo<IsTrCRSMatrix<MA>::value
+                     && IsGeMatrix<MB>::value
+                     && IsGeMatrix<MC>::value,
+             void>::Type
+    sm(Transpose trans, const ALPHA &alpha, const MA &A, const MB &B, MC &&C);
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL3_SM_H
