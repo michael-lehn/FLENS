@@ -35,5 +35,6 @@
 
 #include<playground/flens/blas-extensions/level1/prod.h>
 #include<playground/flens/blas-extensions/level1/sum.h>
+#include<playground/flens/blas-extensions/level3/mm.h>
 
 #endif // PLAYGROUND_FLENS_BLASEXTENSIONS_BLASEXTENSIONS_H

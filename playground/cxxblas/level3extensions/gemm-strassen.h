@@ -35,11 +35,9 @@
 
 #include <cxxblas/typedefs.h>
 
-#define HAVE_CXXBLAS_GEMM_STRASSEN 1
-
 namespace cxxblas {
-
-#ifdef USE_STRASSEN
+    
+#define HAVE_CXXBLAS_GEMM_STRASSEN 1
 
 #ifndef MINDIM
 #    define MINDIM 384
@@ -56,8 +54,6 @@ template <typename IndexType, typename T>
                   const T beta,
                   T *C, IndexType ldC);
 
-
-#endif // USE_STRASSEN
 
 } // namespace cxxblas
 

@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
+ *   Copyright (c) 2013, Michael Lehn, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,11 +30,33 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_FLENS_BLASEXTENSIONS_BLASEXTENSIONS_TCC
-#define PLAYGROUND_FLENS_BLASEXTENSIONS_BLASEXTENSIONS_TCC 1
+#ifndef PLAYGROUND_FLENS_BLASEXTENSIONS_LEVEL3_MM_H
+#define PLAYGROUND_FLENS_BLASEXTENSIONS_LEVEL3_MM_H
 
-#include<playground/flens/blas-extensions/level1/prod.tcc>
-#include<playground/flens/blas-extensions/level1/sum.tcc>
-#include<playground/flens/blas-extensions/level3/mm.tcc>
+#include <cxxblas/cxxblas.h>
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/typedefs.h>
 
-#endif // PLAYGROUND_FLENS_BLASEXTENSIONS_BLASEXTENSIONS_TCC
+namespace flens { namespace blas { namespace extensions {
+
+//== GeneralMatrix - GeneralMatrix products ====================================
+
+//-- gemm_strassen
+template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
+    typename RestrictTo<IsGeMatrix<MA>::value
+                     && IsGeMatrix<MB>::value
+                     && IsGeMatrix<MC>::value,
+             void>::Type
+    mm_strassen(Transpose        transA,
+                Transpose        transB,
+                const ALPHA      &alpha,
+                const MA         &A,
+                const MB         &B,
+                const BETA       &beta,
+                MC               &&C);
+
+
+} } } // namespace extensions, blas, flens
+
+#endif // PLAYGROUND_FLENS_BLASEXTENSIONS_LEVEL3_MM_H

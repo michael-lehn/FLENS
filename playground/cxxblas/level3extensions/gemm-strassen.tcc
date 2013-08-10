@@ -37,11 +37,6 @@
 
 namespace cxxblas {
 
-
-#ifdef USE_STRASSEN
-
-#ifdef USE_COMPLEX_3M
-
 template <typename IndexType, typename T>
 void
 gemm_complex_3m_kernel(StorageOrder order,
@@ -257,8 +252,6 @@ gemm_complex_3m_kernel(StorageOrder order,
     }
 
 }
-
-#endif // USE_COMPLEX_3M
 
 template <typename IndexType, typename T>
 void
@@ -755,8 +748,8 @@ gemm_strassen(StorageOrder order,
                 ++num_divides;
         }
 
-        IndexType mr = m - (m%IndexType(std::pow(IndexType(2),num_divides)));
-        IndexType nr = n - (n%IndexType(std::pow(IndexType(2),num_divides)));
+        IndexType mr = m - (m%IndexType(flens::pow(IndexType(2),num_divides)));
+        IndexType nr = n - (n%IndexType(flens::pow(IndexType(2),num_divides)));
 
         num_divides = 0;
 
@@ -897,8 +890,6 @@ gemm_strassen(StorageOrder order,
 
         return;
 }
-
-#endif // USE_STRASSEN
 
 
 } // namespace cxxblas
