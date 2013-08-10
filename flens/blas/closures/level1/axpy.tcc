@@ -635,6 +635,42 @@ axpySwitch(Transpose trans,
 //
 //  case 2: A is a closure
 //
+
+//
+//  case 2 (a): A is a closure (= trans)
+//
+template <typename ALPHA, typename MA, typename MB>
+void
+axpySwitch(Transpose trans,
+           const ALPHA &alpha, const MatrixClosureOpTrans<MA> &A, Matrix<MB> &B)
+{
+//
+//  No need to add another log-entry as we simply pass-through to the
+//  BLAS implementation
+//
+    trans = Transpose(trans^Trans);
+    axpy(trans, alpha, A.left(), B.impl());
+}
+
+//
+//  case 2 (b): A is a closure (= conj)
+//
+template <typename ALPHA, typename MA, typename MB>
+void
+axpySwitch(Transpose trans,
+           const ALPHA &alpha, const MatrixClosureOpConj<MA> &A, Matrix<MB> &B)
+{
+//
+//  No need to add another log-entry as we simply pass-through to the
+//  BLAS implementation
+//
+    trans = Transpose(trans^Conj);
+    axpy(trans, alpha, A.left(), B.impl());
+}
+
+//
+//  case 2 (c): A is a closure (the rest)
+//
 #ifndef FLENS_DEBUG_CLOSURES
 
 template <typename ALPHA, typename Op, typename L, typename R, typename VY>
@@ -696,6 +732,7 @@ axpy(Transpose trans, const ALPHA &alpha,
 //  Switch: 1) If A is a closure we need a temporary otherwise
 //          2) call BLAS implementation directly.
 //
+
     axpySwitch(trans, alpha*A.left().value(), A.right(), B.impl());
 
     FLENS_BLASLOG_END;

@@ -30,8 +30,8 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_AXPY_TCC
-#define PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_AXPY_TCC 1
+#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_AXPBY_TCC
+#define PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_AXPBY_TCC 1
 
 #include <cxxblas/cxxblas.h>
 #include <playground/cxxblas/intrinsics/auxiliary/auxiliary.h>
@@ -46,14 +46,30 @@ template <typename IndexType, typename T>
 typename flens::RestrictTo<flens::IsReal<T>::value &&
                            flens::IsIntrinsicsCompatible<T>::value, 
                            void>::Type
-axpy(IndexType n, const T &alpha, const T *x,
-     IndexType incX, T *y, IndexType incY)
+axpby(IndexType n, const T &alpha, const T *x,
+      IndexType incX, const T &beta, T *y, IndexType incY)
 {
-    CXXBLAS_DEBUG_OUT("axpy_intrinsics [real, " INTRINSIC_NAME "]");
+    CXXBLAS_DEBUG_OUT("axpby_intrinsics [real, " INTRINSIC_NAME "]");
 
-    if (alpha==T(0))
+//
+//  Catch simple cases
+//  1. y = beta*y
+//  2. y = y + alpha*x
+//  3. y = x
+//
+    if (alpha==T(0)) {
+        cxxblas::scal(n, beta, y, incY);
         return;
-
+    }
+    if (beta==T(1)) {
+        cxxblas::axpy(n, alpha, x, incX, y, incY); 
+	return;
+    }
+    if (alpha==T(1) && beta==T(0)) {
+        cxxblas::copy(n, x, incX, y, incY);
+	return;
+    }
+    
     if (incX==1 && incY==1) {
         typedef Intrinsics<T, DEFAULT_INTRINSIC_LEVEL> IntrinsicType;
         const int numElements = IntrinsicType::numElements;
@@ -62,21 +78,35 @@ axpy(IndexType n, const T &alpha, const T *x,
 
         IntrinsicType _x, _y;
         IntrinsicType _alpha(alpha);
+        IntrinsicType _beta(beta);
 
-        for (; i+numElements-1<n; i+=numElements) {
-            _x.loadu(x+i);
-            _y.loadu(y+i);
-            _y = _intrinsic_add(_y, _intrinsic_mul(_alpha, _x));
-            _y.storeu(y+i);
+//
+//      Case y = alpha*x
+//
+        if (beta==T(0)) {
+            for (; i+numElements-1<n; i+=numElements) {
+                _x.loadu(x+i);
+                _x = _intrinsic_mul(_alpha, _x);
+                _x.storeu(y+i);
+            }
+        } else {
+//
+//          Case y = beta*y + alpha*x
+//
+            for (; i+numElements-1<n; i+=numElements) {
+                _x.loadu(x+i);
+                _y.loadu(y+i);
+                _y = _intrinsic_add(_intrinsic_mul(_beta,_y), _intrinsic_mul(_alpha, _x));
+                _y.storeu(y+i);
+            }
         }
-
         for (; i<n; ++i) {
-            y[i] += alpha*x[i];
+            y[i] = beta*y[i] + alpha*x[i];
         }
 
     } else {
 
-        cxxblas::axpy<IndexType, T, T ,T>(n, alpha, x, incX, y, incY);
+        cxxblas::axpby<IndexType, T, T, T ,T>(n, alpha, x, incX, beta, y, incY);
 
     }
 }
@@ -85,10 +115,10 @@ template <typename IndexType, typename T>
 typename flens::RestrictTo<flens::IsComplex<T>::value &&
                            flens::IsIntrinsicsCompatible<T>::value, 
                            void>::Type
-axpy(IndexType n, const T &alpha, const T *x,
-     IndexType incX, T *y, IndexType incY)
+axpby(IndexType n, const T &alpha, const T *x,
+     IndexType incX, const T &beta, T *y, IndexType incY)
 {
-    CXXBLAS_DEBUG_OUT("axpy_intrinsics [complex, " INTRINSIC_NAME "]");
+    CXXBLAS_DEBUG_OUT("axpby_intrinsics [complex, " INTRINSIC_NAME "]");
 
     using std::real;
     using std::imag;
@@ -97,54 +127,96 @@ axpy(IndexType n, const T &alpha, const T *x,
     typedef typename IntrinsicType::PrimitiveDataType  PT;
     typedef Intrinsics<PT, DEFAULT_INTRINSIC_LEVEL>    IntrinsicPrimitiveType;
 
-    if (alpha==T(0))
+//
+//  Catch simple cases
+//  1. y = beta*y
+//  2. y = y + alpha*x
+//  3. y = x
+//
+    if (alpha==T(0)) {
+        cxxblas::scal(n, beta, y, incY);
         return;
+    }
+    if (beta==T(1)) {
+        cxxblas::axpy(n, alpha, x, incX, y, incY); 
+	return;
+    }
+    if (alpha==T(1) && beta==T(0)) {
+        cxxblas::copy(n, x, incX, y, incY);
+	return;
+    }
 
+//
+//  Case y = beta*y + alpha*x
+//
     if (incX==1 && incY==1) {
 
-        if (imag(alpha)==PT(0)) {
-            axpy(2*n, real(alpha), reinterpret_cast<const PT*>(x), 1, reinterpret_cast<PT*>(y), 1);
-           return;
-        }
-
-        const int numElements = IntrinsicType::numElements;
-
-        IndexType i=0;
-
-        IntrinsicType _x, _y;
-        IntrinsicPrimitiveType _real_alpha(real(alpha));
-        IntrinsicPrimitiveType _imag_alpha(imag(alpha));
-
-        if (real(alpha)==PT(0)) {
         
+        if (imag(alpha)==PT(0) && imag(beta)==PT(0)) {
+//
+//          Only real scalars
+//
+            axpby(2*n, real(alpha), reinterpret_cast<const PT*>(x), 1,
+                       real(beta) , reinterpret_cast<PT*>(y), 1);
+           return;
+        } 
+        
+        IndexType i=0;
+        
+        if (beta==T(0)) {
+//
+//          beta is zero
+//
+            const int numElements = IntrinsicType::numElements;
+
+            IntrinsicType _x, _y, _tmp;
+            IntrinsicPrimitiveType _real_alpha(real(alpha));
+            IntrinsicPrimitiveType _imag_alpha(imag(alpha));
+            
+
             for (; i+numElements-1<n; i+=numElements) {
                 _x.loadu(x+i);
-                _y.loadu(y+i);
+                _y = _intrinsic_mul(_real_alpha, _x);
                 _x = _intrinsic_swap_real_imag(_x);
                 _y = _intrinsic_addsub(_y, _intrinsic_mul(_imag_alpha, _x));
                 _y.storeu(y+i);
-            }       
-             
+            }
+
+            
         } else {
-        
+//
+//          alpha and beta are complex
+//
+            const int numElements = IntrinsicType::numElements;
+
+            IntrinsicType _x, _y, _tmp;
+            IntrinsicPrimitiveType _real_alpha(real(alpha));
+            IntrinsicPrimitiveType _imag_alpha(imag(alpha));
+            IntrinsicPrimitiveType _real_beta(real(beta));
+            IntrinsicPrimitiveType _imag_beta(imag(beta));
+
             for (; i+numElements-1<n; i+=numElements) {
                 _x.loadu(x+i);
                 _y.loadu(y+i);
+        
+                _tmp = _intrinsic_mul(_real_beta, _y);
+                _y = _intrinsic_swap_real_imag(_y);
+                _y = _intrinsic_mul(_imag_beta, _y);
+                _y = _intrinsic_addsub(_tmp, _y);
+
                 _y = _intrinsic_add(_y, _intrinsic_mul(_real_alpha, _x));
                 _x = _intrinsic_swap_real_imag(_x);
                 _y = _intrinsic_addsub(_y, _intrinsic_mul(_imag_alpha, _x));
                 _y.storeu(y+i);
             }
-            
         }
-
         for (; i<n; ++i) {
-            y[i] += alpha*x[i];
+            y[i] = beta*y[i] + alpha*x[i];
         }
 
     } else {
 
-        cxxblas::axpy<IndexType, T, T ,T>(n, alpha, x, incX, y, incY);
+        cxxblas::axpby<IndexType, T, T, T ,T>(n, alpha, x, incX, beta, y, incY);
 
     }
 }
@@ -153,4 +225,4 @@ axpy(IndexType n, const T &alpha, const T *x,
 
 } // namespace cxxblas
 
-#endif // PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_AXPY_TCC
+#endif // PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_AXPBY_TCC

@@ -33,16 +33,20 @@
 #ifndef CXXBLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_H
 #define CXXBLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_H 1
 
+#include <cxxblas/level1extensions/acxpby.h>
 #include <cxxblas/level1extensions/acxpy.h>
 #include <cxxblas/level1extensions/asum1.h>
+#include <cxxblas/level1extensions/axpby.h>
 #include <cxxblas/level1extensions/axpy.h>
 #include <cxxblas/level1extensions/ccopy.h>
 #include <cxxblas/level1extensions/dot.h>
+#include <cxxblas/level1extensions/gbaxpby.h>
 #include <cxxblas/level1extensions/gbaxpy.h>
-#include <cxxblas/level1extensions/geaxpy.h>
 #include <cxxblas/level1extensions/gbcopy.h>
 #include <cxxblas/level1extensions/gbcotr.h>
 #include <cxxblas/level1extensions/gbscal.h>
+#include <cxxblas/level1extensions/geaxpby.h>
+#include <cxxblas/level1extensions/geaxpy.h>
 #include <cxxblas/level1extensions/gecopy.h>
 #include <cxxblas/level1extensions/gecotr.h>
 #include <cxxblas/level1extensions/geraxpy.h>
@@ -55,7 +59,10 @@
 #include <cxxblas/level1extensions/racxpy.h>
 #include <cxxblas/level1extensions/raxpy.h>
 #include <cxxblas/level1extensions/rscal.h>
+#include <cxxblas/level1extensions/traxpby.h>
+#include <cxxblas/level1extensions/traxpy.h>
 #include <cxxblas/level1extensions/trcopy.h>
+#include <cxxblas/level1extensions/tpaxpby.h>
 #include <cxxblas/level1extensions/tpaxpy.h>
 #include <cxxblas/level1extensions/tpcopy.h>
 #include <cxxblas/level1extensions/tpscal.h>

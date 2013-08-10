@@ -270,11 +270,29 @@
 
 //------------------------------------------------------------------------------
 
+#define FLENS_BLASLOG_BEGIN_AXPBY(ALPHA, X, BETA, Y)                        \
+    if (verbose::ClosureLog::createEntry()) {                               \
+        verbose::ClosureLog::append() << "flens::blas::axpby("              \
+                                      << ALPHA << ", " << X << ", " << BETA \
+                                      << ", " << Y << ");";                 \
+    }
+
+//------------------------------------------------------------------------------
+
 #define FLENS_BLASLOG_BEGIN_MAXPY(TRANS, ALPHA, X, Y)                       \
     if (verbose::ClosureLog::createEntry()) {                               \
         verbose::ClosureLog::append() << "flens::blas::axpy(" << TRANS      \
                                       << ", " << ALPHA << ", " << X << ", " \
                                       << Y  << ");";                        \
+    }
+
+//------------------------------------------------------------------------------
+
+#define FLENS_BLASLOG_BEGIN_MAXPBY(TRANS, ALPHA, X, BETA, Y)                \
+    if (verbose::ClosureLog::createEntry()) {                               \
+        verbose::ClosureLog::append() << "flens::blas::axpby(" << TRANS     \
+                                      << ", " << ALPHA << ", " << X << ", " \
+                                      << BETA << ", " << Y  << ");";        \
     }
 
 //------------------------------------------------------------------------------

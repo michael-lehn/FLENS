@@ -30,8 +30,8 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_BLAS_LEVEL1_AXPY_H
-#define FLENS_BLAS_LEVEL1_AXPY_H 1
+#ifndef FLENS_BLAS_LEVEL1_AXPBY_H
+#define FLENS_BLAS_LEVEL1_AXPBY_H 1
 
 #include <cxxblas/cxxblas.h>
 #include <flens/matrixtypes/matrixtypes.h>
@@ -41,128 +41,137 @@
 
 namespace flens { namespace blas {
 
-//-- BLAS Level 1 --------------------------------------------------------------
+//-- BLAS Level 1 extensions ---------------------------------------------------
 
-//-- axpy
-template <typename ALPHA, typename VX, typename VY>
+//-- axpby
+template <typename ALPHA, typename VX, typename BETA, typename VY>
     typename RestrictTo<IsDenseVector<VX>::value
                      && IsDenseVector<VY>::value,
              void>::Type
-    axpy(const ALPHA &alpha, const VX &x, VY &&y);
+    axpby(const ALPHA &alpha, const VX &x, const BETA &beta, VY &&y);
 
-//-- axpy
-template <typename ALPHA, typename VX, typename VY>
+    
+//-- axpbby
+template <typename ALPHA, typename VX, typename BETA, typename VY>
     typename RestrictTo<IsTinyVector<VX>::value
                      && IsTinyVector<VY>::value,
              void>::Type
-    axpy(const ALPHA &alpha, const VX &x, VY &&y);
-
-
-//-- BLAS Level 1 extensions ---------------------------------------------------
+    axpby(const ALPHA &alpha, const VX &x, const BETA &beta, VY &&y);
 
 //== GeneralMatrix
     
-//-- diagaxpy
-template <typename ALPHA, typename MA, typename MB>
+//-- diagaxpby
+template <typename ALPHA, typename MA, typename BETA, typename MB>
     typename RestrictTo<IsDiagMatrix<MA>::value
                      && IsDiagMatrix<MB>::value,
-             void>::Type
-    axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
+    void>::Type
+    axpby(Transpose trans, const ALPHA &alpha, const MA &A,
+          const BETA &beta, MB &&B);
     
-//-- gbaxpy
-template <typename ALPHA, typename MA, typename MB>
+//-- gbaxpby
+template <typename ALPHA, typename MA, typename BETA, typename MB>
     typename RestrictTo<IsGbMatrix<MA>::value
                      && IsGbMatrix<MB>::value,
-             void>::Type
-    axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
-
-//-- geaxpy
-template <typename ALPHA, typename MA, typename MB>
+    void>::Type
+    axpby(Transpose trans, const ALPHA &alpha, const MA &A,
+          const BETA &beta, MB &&B);
+    
+//-- geaxpby
+template <typename ALPHA, typename MA, typename BETA, typename MB>
     typename RestrictTo<IsGeMatrix<MA>::value
                      && IsGeMatrix<MB>::value,
              void>::Type
-    axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
+    axpby(Transpose trans, const ALPHA &alpha, const MA &A,
+          const BETA &beta, MB &&B);
 
-//-- (tiny) geaxpy
-template <typename ALPHA, typename MA, typename MB>
+//-- (tiny) geaxpby
+template <typename ALPHA, typename MA, typename BETA, typename MB>
     typename RestrictTo<IsGeTinyMatrix<MA>::value
                      && IsGeTinyMatrix<MB>::value,
              void>::Type
-    axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
-
-
-//== HermitianMatrix
-
-//-- hbaxpy
-template <typename ALPHA, typename MA, typename MB>
-    typename RestrictTo<IsHbMatrix<MA>::value
-                     && IsHbMatrix<MB>::value,
-             void>::Type
-    axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
+    axpby(Transpose trans, const ALPHA &alpha, const MA &A,
+          const BETA &beta, MB &&B);
     
-//-- heaxpy
-template <typename ALPHA, typename MA, typename MB>
+//== HermitianMatrix
+    
+//-- hbaxpby
+template <typename ALPHA, typename MA, typename BETA, typename MB>
+    typename RestrictTo<IsHbMatrix<MA>::value
+                    && IsHbMatrix<MB>::value,
+             void>::Type
+    axpby(Transpose trans, const ALPHA &alpha, const MA &A,
+          const BETA &beta, MB &&B);
+    
+//-- heaxpby
+template <typename ALPHA, typename MA, typename BETA, typename MB>
     typename RestrictTo<IsHeMatrix<MA>::value
                      && IsHeMatrix<MB>::value,
              void>::Type
-    axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
-
-//-- hpaxpy
-template <typename ALPHA, typename MA, typename MB>
+    axpby(Transpose trans, const ALPHA &alpha, const MA &A,
+          const BETA &beta, MB &&B);
+    
+//-- hpaxpby
+template <typename ALPHA, typename MA, typename BETA, typename MB>
     typename RestrictTo<IsHpMatrix<MA>::value
                      && IsHpMatrix<MB>::value,
              void>::Type
-    axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
-
-
+    axpby(Transpose trans, const ALPHA &alpha, const MA &A,
+          const BETA &beta, MB &&B);
+    
+    
 //== SymmetricMatrix
-
-//-- sbaxpy
-template <typename ALPHA, typename MA, typename MB>
+    
+//-- sbaxpby
+template <typename ALPHA, typename MA, typename BETA, typename MB>
     typename RestrictTo<IsSbMatrix<MA>::value
                      && IsSbMatrix<MB>::value,
              void>::Type
-    axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
-
-//-- spaxpy
-template <typename ALPHA, typename MA, typename MB>
+    axpby(Transpose trans, const ALPHA &alpha, const MA &A,
+          const BETA &beta, MB &&B);
+    
+//-- spaxpby
+template <typename ALPHA, typename MA, typename BETA, typename MB>
     typename RestrictTo<IsSpMatrix<MA>::value
                      && IsSpMatrix<MB>::value,
              void>::Type
-    axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
+    axpby(Transpose trans, const ALPHA &alpha, const MA &A,
+          const BETA &beta, MB &&B);
     
-    
-//-- syaxpy
-template <typename ALPHA, typename MA, typename MB>
+//-- syaxpby
+template <typename ALPHA, typename MA, typename BETA, typename MB>
     typename RestrictTo<IsSyMatrix<MA>::value
                      && IsSyMatrix<MB>::value,
              void>::Type
-    axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
-
+    axpby(Transpose trans, const ALPHA &alpha, const MA &A,
+          const BETA &beta, MB &&B);
+    
 
 //== TriangularMatrix
-
-//-- tbaxpy
-template <typename ALPHA, typename MA, typename MB>
+    
+//-- tbaxpby
+template <typename ALPHA, typename MA, typename BETA, typename MB>
     typename RestrictTo<IsTbMatrix<MA>::value
                      && IsTbMatrix<MB>::value,
              void>::Type
-    axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
+    axpby(Transpose trans, const ALPHA &alpha, const MA &A,
+          const BETA &beta, MB &&B);
     
-//-- traxpy
-template <typename ALPHA, typename MA, typename MB>
+//-- traxpby
+template <typename ALPHA, typename MA, typename BETA, typename MB>
     typename RestrictTo<IsTrMatrix<MA>::value
                      && IsTrMatrix<MB>::value,
              void>::Type
-    axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
-
-//-- tpaxpy
-template <typename ALPHA, typename MA, typename MB>
+    axpby(Transpose trans, const ALPHA &alpha, const MA &A,
+          const BETA &beta, MB &&B);
+    
+//-- tpaxpby
+template <typename ALPHA, typename MA, typename BETA, typename MB>
     typename RestrictTo<IsTpMatrix<MA>::value
                      && IsTpMatrix<MB>::value,
              void>::Type
-    axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
-
+    axpby(Transpose trans, const ALPHA &alpha, const MA &A,
+          const BETA &beta, MB &&B);
+    
 } } // namespace blas, flens
 
-#endif // FLENS_BLAS_LEVEL1_AXPY_H
+#endif // FLENS_BLAS_LEVEL1_AXPBY_H

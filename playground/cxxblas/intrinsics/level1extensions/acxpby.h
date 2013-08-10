@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2013, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,25 +30,34 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_DRIVERS_VECLIB_H
-#define CXXBLAS_DRIVERS_VECLIB_H 1
+#ifndef PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_ACXPBY_H
+#define PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_ACXPBY_H 1
 
-#   define HAVE_CBLAS       1
-#   define CBLAS_INT        int
-#   define BLAS_IMPL        "VecLib (ATLAS)"
-#   ifndef CBLAS_INDEX
-#       define CBLAS_INDEX  int
-#   endif // CBLAS_INDEX
+#include <cxxblas/typedefs.h>
+#include <flens/auxiliary/iscomplex.h>
+#include <flens/auxiliary/isreal.h>
+#include <flens/auxiliary/restrictto.h>
 
-// BLAS extensions
-#ifndef HAVE_CBLAS_AXPBY
-#    define HAVE_CBLAS_AXPBY
-#    define BLAS_EXT(x)     catlas_##x
-#endif
+namespace cxxblas {
 
-// VECLIB includes LAPACK interface
-#ifndef USE_CXXLAPACK
-#    define USE_CXXLAPACK       1
-#endif
+#ifdef USE_INTRINSIC
 
-#endif // CXXBLAS_DRIVERS_VECLIB_H
+template <typename IndexType, typename T>
+    typename flens::RestrictTo<flens::IsReal<T>::value &&
+                               flens::IsIntrinsicsCompatible<T>::value,
+                               void>::Type
+    acxpby(IndexType n, const T &alpha, const T *x,
+           IndexType incX, const T &beta, T *y, IndexType incY);
+
+template <typename IndexType, typename T>
+    typename flens::RestrictTo<flens::IsComplex<T>::value &&
+                               flens::IsIntrinsicsCompatible<T>::value,
+                               void>::Type
+    acxpby(IndexType n, const T &alpha, const T *x,
+           IndexType incX, const T &beta, T *y, IndexType incY);
+
+#endif // USE_INTRINSIC
+
+} // namespace cxxblas
+
+#endif // PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1_ACXPBY_H

@@ -33,7 +33,9 @@
 #ifndef PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1EXTENSIONS_TCC
 #define PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL1EXTENSIONS_TCC 1
 
+#include <playground/cxxblas/intrinsics/level1extensions/acxpby.tcc>
 #include <playground/cxxblas/intrinsics/level1extensions/acxpy.tcc>
+#include <playground/cxxblas/intrinsics/level1extensions/axpby.tcc>
 #include <playground/cxxblas/intrinsics/level1extensions/ccopy.tcc>
 #include <playground/cxxblas/intrinsics/level1extensions/racxpy.tcc>
 #include <playground/cxxblas/intrinsics/level1extensions/raxpy.tcc>

@@ -34,6 +34,8 @@
 #define FLENS_BLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_H 1
 
 #include <flens/blas/level1extensions/asum1.h>
+#include <flens/blas/level1extensions/axpby.h>
+#include <flens/blas/level1extensions/acxpby.h>
 #include <flens/blas/level1extensions/acxpy.h>
 #include <flens/blas/level1extensions/copy/copyconj.h>
 #include <flens/blas/level1extensions/imax1.h>

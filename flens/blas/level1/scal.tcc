@@ -189,10 +189,12 @@ typename RestrictTo<IsHeMatrix<MB>::value,
          void>::Type
 scal(const ALPHA &alpha, MB &&B)
 {
+    ASSERT(cxxblas::imag(alpha)==0);
+    
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
 
-#   ifdef HAVE_CXXBLAS_GESCAL
+#   ifdef HAVE_CXXBLAS_HESCAL
     cxxblas::hescal(B.order(), B.upLo(), B.dim(),
                     alpha, B.data(), B.leadingDimension());
 #   else
@@ -210,6 +212,7 @@ typename RestrictTo<IsHpMatrix<MB>::value,
 scal(const ALPHA &alpha, MB &&B)
 {
     ASSERT(cxxblas::imag(alpha)==0);
+    
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
 

@@ -59,11 +59,11 @@ namespace flens { namespace blas {
 //
 // case 1: x is vector but no closure
 //
+  
 template <typename ALPHA, typename VX, typename VY>
-typename RestrictTo<IsVector<VX>::value
-                && !IsVectorClosure<VX>::value,
-         void>::Type
-copyScal(const ALPHA &alpha, const VX &x, Vector<VY> &y)
+typename RestrictTo<!IsVectorClosure<Vector<VX>>::value,
+	  void>::Type
+copyScal(const ALPHA &alpha, const Vector<VX> &x, Vector<VY> &y)
 {
     using namespace DEBUGCLOSURE;
 
@@ -75,19 +75,35 @@ copyScal(const ALPHA &alpha, const VX &x, Vector<VY> &y)
 //      gets called if possible.
 //
         const typename VX::Impl::ElementType  Zero(0);
-        scal(Zero, y.impl());
-
-        axpy(alpha, x.impl(), y.impl());
+        axpby(alpha, x.impl(), Zero, y.impl());
     }
 }
 
-//
-// case 2: x is a closure
-//
 template <typename ALPHA, typename VX, typename VY>
-typename RestrictTo<IsVectorClosure<VX>::value,
-         void>::Type
-copyScal(const ALPHA &alpha, const VX &x, Vector<VY> &y)
+typename RestrictTo<DefaultEval<VectorClosureOpConj<VX> >::value,
+	  void>::Type
+copyScal(const ALPHA &alpha, const VectorClosureOpConj<VX> &x, Vector<VY> &y)
+{
+    using namespace DEBUGCLOSURE;
+    if (identical(x.left(), y.impl())) {
+        copyConj(x.left(), y.impl());
+        scal(alpha, y.impl());
+    } else {
+//
+//      Zero should have the same type as elements of y so that CBLAS
+//      gets called if possible.
+//
+        const typename VX::Impl::ElementType  Zero(0);
+        acxpby(alpha, x.left(), Zero, y.impl());
+    }
+}
+//
+// case 2 (b): x is a closure (general)
+//
+template <typename ALPHA, typename OP, typename VXL, typename VXR, typename VY>
+typename RestrictTo<VCDefaultEval<OP, VXL, VXR>::value, 
+	  void>::Type
+copyScal(const ALPHA &alpha, const VectorClosure<OP, VXL, VXR> &x, Vector<VY> &y)
 {
     copy(x, y.impl());
     scal(alpha, y.impl());
@@ -105,36 +121,67 @@ copyScal(const ALPHA &alpha, const VX &x, Vector<VY> &y)
 // case 1: A is matrix but no closure
 //
 template <typename ALPHA, typename MA, typename MB>
-typename RestrictTo<IsMatrix<MA>::value
-                && !IsMatrixClosure<MA>::value,
-         void>::Type
-copyScal(Transpose trans, const ALPHA &alpha, const MA &A, Matrix<MB> &B)
+    typename RestrictTo<!IsMatrixClosure<Matrix<MA> >::value,
+             void>::Type
+    copyScal(Transpose trans, const ALPHA &alpha, const Matrix<MA> &A, Matrix<MB> &B)
 {
     using namespace DEBUGCLOSURE;
 
     if (identical(A.impl(), B.impl())) {
         scal(alpha, B.impl());
         if (trans!=NoTrans) {
-            cotr(trans, B.impl());
+            //cotr(trans, B.impl());
         }
     } else {
 //
 //      Zero should have the same type as elements of y so that CBLAS
 //      gets called if possible.
 //
-        const typename MA::Impl::ElementType  Zero(0);
-        scal(Zero, B.impl());
-        axpy(trans, alpha, A.impl(), B.impl());
+        const typename Matrix<MA>::Impl::ElementType  Zero(0);
+        axpby(trans, alpha, A.impl(), Zero, B.impl());
+        //scal(Zero, B.impl());
+        //axpy(trans, alpha, A.impl(), B.impl());
     }
 }
 
 //
 // case 2: A is a closure
 //
+
+//
+// case 2(a): A is a closure (trans)
+//
 template <typename ALPHA, typename MA, typename MB>
-typename RestrictTo<IsMatrixClosure<MA>::value,
-         void>::Type
-copyScal(Transpose trans, const ALPHA &alpha, const MA &A, Matrix<MB> &B)
+    typename RestrictTo<DefaultEval<MatrixClosureOpTrans<MA> >::value,
+             void>::Type
+    copyScal(Transpose trans, const ALPHA &alpha, 
+	     const MatrixClosureOpTrans<MA> &A, Matrix<MB> &B)
+{
+    trans = Transpose(trans^Trans);
+    copyScal(trans, alpha, A.left(), B.impl());
+}
+
+//
+// case 2(b): A is a closure (conj)
+//  
+template <typename ALPHA, typename MA, typename MB>
+    typename RestrictTo<DefaultEval<MatrixClosureOpConj<MA> >::value,
+             void>::Type
+    copyScal(Transpose trans, const ALPHA &alpha, 
+	     const MatrixClosureOpConj<MA> &A, Matrix<MB> &B)
+{
+    trans = Transpose(trans^Conj);
+    copyScal(trans, alpha, A.left(), B.impl());
+}
+
+//
+// case 2(c): A is a closure (everything else)
+//  
+template <typename ALPHA, typename Op, typename MAL, typename MAR, typename MB>
+    typename RestrictTo<MCDefaultEval<Op, MAL, MAR>::value,
+             void>::Type
+    copyScal(Transpose trans, const ALPHA &alpha, 
+	     const MatrixClosure<Op, MAL, MAR> &A, Matrix<MB> &B)
 {
     copy(trans, A, B.impl());
     scal(alpha, B.impl());

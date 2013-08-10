@@ -35,11 +35,9 @@
 
 // FFTW interface for FFTW
 #ifdef WITH_FFTW
-#    define HAVE_FFTW
-#endif
-// FFTW interface for INTEL MKL
-#ifdef WITH_MKLBLAS
-#   define HAVE_FFTW
+#    ifndef HAVE_FFTW
+#        define HAVE_FFTW
+#    endif
 #endif
 
 #ifdef HAVE_FFTW

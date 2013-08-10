@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2009, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,25 +30,33 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_DRIVERS_VECLIB_H
-#define CXXBLAS_DRIVERS_VECLIB_H 1
+#ifndef FLENS_BLAS_LEVEL1_ACXPBY_H
+#define FLENS_BLAS_LEVEL1_ACXPBY_H 1
 
-#   define HAVE_CBLAS       1
-#   define CBLAS_INT        int
-#   define BLAS_IMPL        "VecLib (ATLAS)"
-#   ifndef CBLAS_INDEX
-#       define CBLAS_INDEX  int
-#   endif // CBLAS_INDEX
+#include <cxxblas/cxxblas.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/storage/storage.h>
+#include <flens/typedefs.h>
+#include <flens/vectortypes/vectortypes.h>
 
-// BLAS extensions
-#ifndef HAVE_CBLAS_AXPBY
-#    define HAVE_CBLAS_AXPBY
-#    define BLAS_EXT(x)     catlas_##x
-#endif
+namespace flens { namespace blas {
 
-// VECLIB includes LAPACK interface
-#ifndef USE_CXXLAPACK
-#    define USE_CXXLAPACK       1
-#endif
+//-- BLAS Level 1 extensions ---------------------------------------------------
 
-#endif // CXXBLAS_DRIVERS_VECLIB_H
+//-- acxpby
+template <typename ALPHA, typename VX, typename BETA, typename VY>
+    typename RestrictTo<IsDenseVector<VX>::value
+                     && IsDenseVector<VY>::value,
+             void>::Type
+    acxpby(const ALPHA &alpha, const VX &x, const BETA &beta, VY &&y);
+
+template <typename ALPHA, typename VX, typename BETA, typename VY>
+    typename RestrictTo<IsTinyVector<VX>::value
+                     && IsTinyVector<VY>::value,
+             void>::Type
+    acxpby(const ALPHA &alpha, const VX &x, const BETA &beta, VY &&y);
+
+    
+} } // namespace blas, flens
+
+#endif // FLENS_BLAS_LEVEL1_ACXPBY_H

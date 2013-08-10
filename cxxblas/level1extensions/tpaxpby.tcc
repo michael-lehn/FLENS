@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,25 +30,52 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_DRIVERS_VECLIB_H
-#define CXXBLAS_DRIVERS_VECLIB_H 1
+#ifndef CXXBLAS_LEVEL1EXTENSIONS_TPAXPBY_TCC
+#define CXXBLAS_LEVEL1EXTENSIONS_TPAXPBY_TCC 1
 
-#   define HAVE_CBLAS       1
-#   define CBLAS_INT        int
-#   define BLAS_IMPL        "VecLib (ATLAS)"
-#   ifndef CBLAS_INDEX
-#       define CBLAS_INDEX  int
-#   endif // CBLAS_INDEX
+#include <algorithm>
+#include <cassert>
+#include <cxxblas/cxxblas.h>
 
-// BLAS extensions
-#ifndef HAVE_CBLAS_AXPBY
-#    define HAVE_CBLAS_AXPBY
-#    define BLAS_EXT(x)     catlas_##x
-#endif
+namespace cxxblas {
 
-// VECLIB includes LAPACK interface
-#ifndef USE_CXXLAPACK
-#    define USE_CXXLAPACK       1
-#endif
+//
+//  B = beta*B + alpha*op(A)
+//
+template <typename IndexType, typename ALPHA, typename MA, 
+          typename BETA, typename MB>
+void
+tpaxpby(StorageOrder order, StorageUpLo upLo, Transpose trans, Diag diag,
+        IndexType n, const ALPHA &alpha, const MA *A, const BETA &beta, MB *B)
+{
+    CXXBLAS_DEBUG_OUT("tpaxpby_generic");
 
-#endif // CXXBLAS_DRIVERS_VECLIB_H
+    const IndexType shift = (diag==Unit) ? 1 : 0;
+
+    // TODO: Remove copy of diagonal if diag == Unit
+
+    if (trans==NoTrans) {
+          const IndexType length = n*(n+1)/2;
+          axpby(length, alpha, A, 1, beta, B, 1);
+    } else if (trans==Conj) {
+          const IndexType length = n*(n+1)/2;
+          acxpby(length, alpha, A, 1, beta, B, 1);
+    } else if (trans == Trans) {
+        for (IndexType i = 0; i < n; ++i) {
+            for (IndexType j = i+shift; j < n; ++j) {
+                B[i+j*(j+1)/2] = beta*B[i+j*(j+1)/2] + alpha*A[j+(2*n-i-1)*i/2];
+            }
+        }
+    } else if ( trans==ConjTrans) {
+        for (IndexType i = 0; i < n; ++i) {
+            for (IndexType j = i+shift; j < n; ++j) {
+                B[i+j*(j+1)/2] = beta*B[i+j*(j+1)/2] +  alpha*conjugate(A[j+(2*n-i-1)*i/ 2]);
+            }
+        }
+    }
+    return;
+}
+
+} // namespace cxxblas
+
+#endif // CXXBLAS_LEVEL1EXTENSIONS_TPAXPBY_TCC

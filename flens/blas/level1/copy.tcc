@@ -116,8 +116,7 @@ typename RestrictTo<IsDiagMatrix<MA>::value
 copy(Transpose trans, const MA &A, MB &&B)
 {
     if ( trans==Conj || trans==ConjTrans ) {
-        real(B.diag()) =  real(A.diag());
-        imag(B.diag()) = -imag(A.diag());
+        B.diag() = conjugate(A.diag());
         return;
     }
     
@@ -200,7 +199,7 @@ copy(Transpose trans, const MA &A, MB &&B)
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
 
-#   ifdef HAVE_CXXBLAS_GECOPY
+#   ifdef HAVE_CXXBLAS_GBCOPY
     cxxblas::gbcopy(B.order(), trans,
                     B.numRows(), B.numCols(),
                     numSubDiags, numSuperDiags,
@@ -581,7 +580,7 @@ typename RestrictTo<IsSyMatrix<MA>::value
 copy(const MA &A, MB &&B)
 {
 //
-//  Resize left hand size if needed.  This is *usually* only alloweded
+//  Resize left hand size if needed.  This is *usually* only allowed
 //  when the left hand side is an empty matrix (such that it is no actual
 //  resizing but rather an initialization).
 //
@@ -757,13 +756,36 @@ typename RestrictTo<IsTrMatrix<MA>::value
          void>::Type
 copy(Transpose trans, const MA &A, MB &&B)
 {
-    ASSERT(A.diag()==B.diag());
+    typedef typename MA::ElementType  ElementType;
+    
+    ASSERT(A.diag()==B.diag() || B.diag()==NonUnit);
+    
+#   ifndef NDEBUG
 
+    if (A.upLo()==B.upLo()) {
+        ASSERT(trans==NoTrans || trans==Conj) ;
+    } else {
+        ASSERT(trans==Trans || trans==ConjTrans) ;    
+    }
+
+#   endif
+
+    trans = (A.order()==B.order())
+          ? Transpose(trans ^ NoTrans)
+          : Transpose(trans ^ Trans);
+    
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_MCOPY(trans, A, B);
 
 #   ifdef HAVE_CXXBLAS_TRCOPY
-    cxxblas::trcopy(B.order(), B.upLo(), trans, B.diag(),
+    Diag _diag = B.diag();
+    
+    // A is Unit, B is nonUnit
+    if (A.diag()!=B.diag()) {
+        B.diag(0) = ElementType(1);
+        _diag = Unit;
+    }
+    cxxblas::trcopy(B.order(), B.upLo(), trans, _diag,
                     B.numRows(), B.numCols(),
                     A.data(), A.leadingDimension(),
                     B.data(), B.leadingDimension());
@@ -1300,6 +1322,24 @@ copy(Transpose trans, const MA &A, MB &&B)
             }
             B.strictUpper() = Zero;
         }
+    } else if (trans==Conj) {
+        if (A.upLo()==Upper) {
+            if (A.diag()!=Unit) {
+                B.upper() = conjugate(A);
+            } else {
+                B.upperUnit() = conjugate(A);
+                B.diag(0) = One;
+            }
+            B.strictLower() = Zero;
+        } else {
+            if (A.diag()!=Unit) {
+                B.lower() = conjugate(A);
+            } else {
+                B.lowerUnit() = conjugate(A);
+                B.diag(0) = One;
+            }
+            B.strictUpper() = Zero;
+        }
     } else if (trans==Trans) {
         if (A.upLo()==Upper) {
             if (A.diag()!=Unit) {
@@ -1318,7 +1358,25 @@ copy(Transpose trans, const MA &A, MB &&B)
             }
             B.strictLower() = Zero;
         }
-    } else {
+    } else if (trans==ConjTrans) {
+        if (A.upLo()==Upper) {
+            if (A.diag()!=Unit) {
+                B.lower() = conjTrans(A);
+            } else {
+                B.lowerUnit() = conjTrans(A);
+                B.diag(0) = One;
+            }
+            B.strictUpper() = Zero;
+        } else {
+            if (A.diag()!=Unit) {
+                B.upper() = conjTrans(A);
+            } else {
+                B.upperUnit() = conjTrans(A);
+                B.diag(0) = One;
+            }
+            B.strictLower() = Zero;
+        }
+    }  else {
         ASSERT(0);
     }
 }

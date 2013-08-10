@@ -30,25 +30,23 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_DRIVERS_VECLIB_H
-#define CXXBLAS_DRIVERS_VECLIB_H 1
+#ifndef CXXBLAS_LEVEL1EXTENSIONS_GEAXPBY_H
+#define CXXBLAS_LEVEL1EXTENSIONS_GEAXPBY_H 1
 
-#   define HAVE_CBLAS       1
-#   define CBLAS_INT        int
-#   define BLAS_IMPL        "VecLib (ATLAS)"
-#   ifndef CBLAS_INDEX
-#       define CBLAS_INDEX  int
-#   endif // CBLAS_INDEX
+#include <cxxblas/typedefs.h>
 
-// BLAS extensions
-#ifndef HAVE_CBLAS_AXPBY
-#    define HAVE_CBLAS_AXPBY
-#    define BLAS_EXT(x)     catlas_##x
-#endif
+#define HAVE_CXXBLAS_GEAXPBY 1
 
-// VECLIB includes LAPACK interface
-#ifndef USE_CXXLAPACK
-#    define USE_CXXLAPACK       1
-#endif
+namespace cxxblas {
 
-#endif // CXXBLAS_DRIVERS_VECLIB_H
+template <typename IndexType, typename ALPHA, typename MA, 
+          typename BETA, typename MB>
+    void
+    geaxpby(StorageOrder order,
+            Transpose trans, IndexType m, IndexType n,
+            const ALPHA &alpha, const MA *A, IndexType ldA,
+            const BETA &beta, MB *B, IndexType ldB);
+
+} // namespace cxxblas
+
+#endif // CXXBLAS_LEVEL1EXTENSIONS_GEAXPBY_H

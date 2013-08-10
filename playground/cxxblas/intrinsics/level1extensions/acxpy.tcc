@@ -84,13 +84,22 @@ acxpy(IndexType n, const T &alpha, const T *x,
         IntrinsicPrimitiveType _real_alpha(-real(alpha));
         IntrinsicPrimitiveType _imag_alpha( imag(alpha));
 
-        for (; i+numElements-1<n; i+=numElements) {
-            _x.loadu(x+i);
-            _y.loadu(y+i);
-            _y = _intrinsic_addsub(_y, _intrinsic_mul(_real_alpha, _x));
-            _x = _intrinsic_swap_real_imag(_x);
-            _y = _intrinsic_add(_y, _intrinsic_mul(_imag_alpha, _x));
-            _y.storeu(y+i);
+        if (imag(alpha)==PT(0)) {
+            for (; i+numElements-1<n; i+=numElements) {
+                _x.loadu(x+i);
+                _y.loadu(y+i);
+                _y = _intrinsic_addsub(_y, _intrinsic_mul(_real_alpha, _x));
+                _y.storeu(y+i);
+            }        
+        } else {
+            for (; i+numElements-1<n; i+=numElements) {
+                _x.loadu(x+i);
+                _y.loadu(y+i);
+                _y = _intrinsic_addsub(_y, _intrinsic_mul(_real_alpha, _x));
+                _x = _intrinsic_swap_real_imag(_x);
+                _y = _intrinsic_add(_y, _intrinsic_mul(_imag_alpha, _x));
+                _y.storeu(y+i);
+            }
         }
 
         for (; i<n; ++i) {

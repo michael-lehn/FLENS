@@ -30,8 +30,8 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_BLAS_LEVEL1_AXPY_TCC
-#define FLENS_BLAS_LEVEL1_AXPY_TCC 1
+#ifndef FLENS_BLAS_LEVEL1_AXPBY_TCC
+#define FLENS_BLAS_LEVEL1_AXPBY_TCC 1
 
 #include <cxxblas/cxxblas.h>
 #include <flens/auxiliary/auxiliary.h>
@@ -49,19 +49,19 @@ namespace flens { namespace blas {
 
 //-- BLAS Level 1 --------------------------------------------------------------
 
-//-- axpy
-template <typename ALPHA, typename VX, typename VY>
+//-- axpby
+template <typename ALPHA, typename VX, typename BETA, typename VY>
 typename RestrictTo<IsDenseVector<VX>::value
                  && IsDenseVector<VY>::value,
          void>::Type
-axpy(const ALPHA &alpha, const VX &x, VY &&y)
+axpby(const ALPHA &alpha, const VX &x, const BETA &beta, VY &&y)
 {
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_AXPY(alpha, x, y);
+    FLENS_BLASLOG_BEGIN_AXPBY(alpha, x, beta, y);
 
     if (y.length()==0) {
 //
-//      So we allow  y += alpha*x  for an empty vector y
+//      So we allow  y = beta*y + alpha*x  for an empty vector y
 //
         typedef typename RemoveRef<VY>::Type   VectorY;
         typedef typename VectorY::ElementType  T;
@@ -71,10 +71,11 @@ axpy(const ALPHA &alpha, const VX &x, VY &&y)
     }
     ASSERT(y.length()==x.length());
 
-#   ifdef HAVE_CXXBLAS_AXPY
-    cxxblas::axpy(x.length(), alpha,
-                  x.data(), x.stride(),
-                  y.data(), y.stride());
+#   ifdef HAVE_CXXBLAS_AXPBY
+    cxxblas::axpby(x.length(), alpha,
+                   x.data(), x.stride(),
+                   beta,
+                   y.data(), y.stride());
 #   else
     ASSERT(0);
 #   endif
@@ -83,12 +84,12 @@ axpy(const ALPHA &alpha, const VX &x, VY &&y)
     FLENS_BLASLOG_UNSETTAG;
 }
 
-//-- axpy
-template <typename ALPHA, typename VX, typename VY>
+//-- axpby
+template <typename ALPHA, typename VX, typename BETA, typename VY>
 typename RestrictTo<IsTinyVector<VX>::value
                  && IsTinyVector<VY>::value,
          void>::Type
-axpy(const ALPHA &alpha, const VX &x, VY &&y)
+axpby(const ALPHA &alpha, const VX &x, const BETA &beta, VY &&y)
 {
     typedef typename VX::ElementType       TX;
     typedef typename RemoveRef<VY>::Type   VectorY;
@@ -98,41 +99,44 @@ axpy(const ALPHA &alpha, const VX &x, VY &&y)
     const int incX = VX::Engine::stride;
     const int incY = VectorY::Engine::stride;
 
-    cxxblas::axpy<n, ALPHA, TX, incX, TY, incY>(alpha, x.data(), y.data());
+    cxxblas::axpby<n, ALPHA, TX, incX, TY, incY>(alpha, x.data(), beta, y.data());
 }
 
 //-- BLAS Level 1 extensions ---------------------------------------------------
 
 //== GeneralMatrix
 
-//-- diagaxpy
-template <typename ALPHA, typename MA, typename MB>
+//-- diagaxpby
+template <typename ALPHA, typename MA, typename BETA, typename MB>
 typename RestrictTo<IsDiagMatrix<MA>::value
                  && IsDiagMatrix<MB>::value,
          void>::Type
-axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
+axpby(Transpose trans, const ALPHA &alpha, const MA &A, 
+      const BETA &beta, MB &&B)
 {
     if ( trans==Conj || trans==ConjTrans) {
-        B.diag() += alpha*conjugate(A.diag());
+        B.diag() = beta*B.diag() + alpha*conjugate(A.diag());
         return;
     }
     
-    B.diag() += alpha*A.diag();
+    B.diag() = beta*B.diag() + alpha*A.diag();
 }
 
-//-- gbaxpy
-template <typename ALPHA, typename MA, typename MB>
+
+//-- gbaxpby
+template <typename ALPHA, typename MA, typename BETA, typename MB>
 typename RestrictTo<IsGbMatrix<MA>::value
                  && IsGbMatrix<MB>::value,
          void>::Type
-axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
+axpby(Transpose trans, const ALPHA &alpha, const MA &A,
+      const BETA &beta, MB &&B)
 {
     typedef typename RemoveRef<MA>::Type   MatrixA;
     typedef typename MatrixA::IndexType  IndexType;
     
     if (B.numRows()==0 || B.numCols()==0) {
 //
-//      So we allow  B += alpha*A  for an empty matrix B
+//      So we allow  B = beta*B + alpha*A  for an empty matrix B
 //
         if ((trans==NoTrans) || (trans==Conj)) {
             B.resize(A.numRows(), A.numCols(),
@@ -166,7 +170,7 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 
 
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
+    FLENS_BLASLOG_BEGIN_MAXPBY(trans, alpha, A, beta, B);
 
     const IndexType numSubDiags   = ((trans==NoTrans) || (trans==Conj))
                                   ? A.numSubDiags() : A.numSuperDiags();
@@ -181,11 +185,11 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
 
-#   ifdef HAVE_CXXBLAS_GBAXPY
-    cxxblas::gbaxpy(B.order(), trans,
+#   ifdef HAVE_CXXBLAS_GBAXPBY
+    cxxblas::gbaxpby(B.order(), trans,
                     B.numRows(), B.numCols(),
                     numSubDiags, numSuperDiags, alpha,
-                    A.data(), A.leadingDimension(),
+                    A.data(), A.leadingDimension(), beta,
                     B.data()+Bshift, B.leadingDimension());
 #   else
     ASSERT(0);
@@ -194,12 +198,13 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
     FLENS_BLASLOG_UNSETTAG;
 }
 
-//-- geaxpy
-template <typename ALPHA, typename MA, typename MB>
+//-- geaxpby
+template <typename ALPHA, typename MA, typename BETA, typename MB>
 typename RestrictTo<IsGeMatrix<MA>::value
-                 && IsGeMatrix<MB>::value,
-         void>::Type
-axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
+		  && IsGeMatrix<MB>::value,
+	  void>::Type
+axpby(Transpose trans, const ALPHA &alpha, const MA &A, 
+      const BETA &beta, MB &&B)
 {
     typedef typename RemoveRef<MB>::Type   MatrixB;
 
@@ -243,15 +248,15 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 #   endif
 #   else
 //
-//  If A and B are identical a temporary is needed if we want to use axpy
-//  for B += alpha*A^T or B+= alpha*A^H
+//  If A and B are identical a temporary is needed if we want to use axpby
+//  for B = beta*B + alpha*A^T or B = beta*B + alpha*A^H
 //
     if ((trans==Trans || trans==ConjTrans) && DEBUGCLOSURE::identical(A, B)) {
         typename Result<MA>::Type _A = A;
         FLENS_BLASLOG_TMP_ADD(_A);
 
         copy(trans, A, _A);
-        axpy(NoTrans, alpha, A, B);
+        axpby(NoTrans, alpha, A, beta, B);
 
         FLENS_BLASLOG_TMP_REMOVE(_A, A);
         return;
@@ -259,25 +264,27 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 #   endif
 
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
+    FLENS_BLASLOG_BEGIN_MAXPBY(trans, alpha, A, beta, B);
 
-#   ifdef HAVE_CXXBLAS_GEAXPY
-    geaxpy(B.order(), trans, B.numRows(), B.numCols(), alpha,
-           A.data(), A.leadingDimension(),
-           B.data(), B.leadingDimension());
+#   ifdef HAVE_CXXBLAS_GEAXPBY
+    geaxpby(B.order(), trans, B.numRows(), B.numCols(), alpha,
+            A.data(), A.leadingDimension(),
+            beta, B.data(), B.leadingDimension());
 #   else
     ASSERT(0);
 #   endif
     FLENS_BLASLOG_END;
-    FLENS_BLASLOG_UNSETTAG;
+    FLENS_BLASLOG_UNSETTAG; 
 }
 
-//-- (tiny) geaxpy
-template <typename ALPHA, typename MA, typename MB>
+
+//-- (tiny) geaxpby
+template <typename ALPHA, typename MA, typename BETA, typename MB>
 typename RestrictTo<IsGeTinyMatrix<MA>::value
                  && IsGeTinyMatrix<MB>::value,
          void>::Type
-axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
+axpby(Transpose trans, const ALPHA &alpha, const MA &A, 
+      const BETA &beta, MB &&B)
 {
     typedef typename RemoveRef<MA>::Type   MatrixA;
     typedef typename RemoveRef<MB>::Type   MatrixB;
@@ -294,24 +301,26 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
         ASSERT(!DEBUGCLOSURE::identical(A, B));
     }
 
-    cxxblas::geaxpy<m, n, ALPHA, TA, ldA, TB, ldB>(trans, alpha,
-                                                   A.data(), B.data());
+    cxxblas::geaxpby<m, n, ALPHA, TA, ldA, TB, ldB>(trans, alpha,
+                                                    A.data(), beta, B.data());
 }
 
 //== HermitianMatrix
 
-//-- hbaxpy
-template <typename ALPHA, typename MA, typename MB>
+//-- hbaxpby
+template <typename ALPHA, typename MA, typename BETA, typename MB>
 typename RestrictTo<IsHbMatrix<MA>::value
                  && IsHbMatrix<MB>::value,
          void>::Type
-axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
+axpby(Transpose trans, const ALPHA &alpha, const MA &A, 
+     const BETA &beta, MB &&B)
 {
     typedef typename RemoveRef<MA>::Type   MatrixA;
     typedef typename MatrixA::IndexType  IndexType;
 
     ASSERT(cxxblas::imag(alpha)==0);
-
+    ASSERT(cxxblas::imag(beta)==0);
+    
     if (B.dim()==0) {
         B.resize(A);
     }
@@ -335,15 +344,15 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 #   endif
 #   else
 //
-//  If A and B are identical a temporary is needed if we want to use axpy
-//  for B += alpha*A^T or B+= alpha*A^H
+//  If A and B are identical a temporary is needed if we want to use axpby
+//  for B = beta*B + alpha*A^T or B = beta*B + alpha*A^H
 //
     if ((trans==Trans || trans==ConjTrans) && DEBUGCLOSURE::identical(A, B)) {
         typename SbMatrix<MA>::NoView _A;
         FLENS_BLASLOG_TMP_ADD(_A);
 
         copy(trans, A, _A);
-        axpy(NoTrans, alpha, _A, B);
+        axpby(NoTrans, alpha, _A, beta, B);
 
         FLENS_BLASLOG_TMP_REMOVE(_A, A);
         return;
@@ -352,7 +361,7 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 
 
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
+    FLENS_BLASLOG_BEGIN_MAXPBY(trans, alpha, A, beta, B);
 
     trans = (A.upLo() == B.upLo())
           ? Transpose(trans ^ NoTrans)
@@ -372,12 +381,13 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
     trans = (A.order()==B.order())
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
-#   ifdef HAVE_CXXBLAS_GBAXPY
-    cxxblas::gbaxpy(B.order(), trans,
-                    B.numRows(), B.numCols(),
-                    numSubDiags, numSuperDiags, alpha,
-                    A.data(), A.leadingDimension(),
-                    B.data()+Bshift, B.leadingDimension());
+          
+#   ifdef HAVE_CXXBLAS_GBAXPBY
+    cxxblas::gbaxpby(B.order(), trans,
+                     B.numRows(), B.numCols(),
+                     numSubDiags, numSuperDiags, alpha,
+                     A.data(), A.leadingDimension(), beta,
+                     B.data()+Bshift, B.leadingDimension());
 #   else
     ASSERT(0);
 #   endif
@@ -385,12 +395,13 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
     FLENS_BLASLOG_UNSETTAG;
 }
 
-//heaxpy
-template <typename ALPHA, typename MA, typename MB>
+//heaxpby
+template <typename ALPHA, typename MA, typename BETA, typename MB>
 typename RestrictTo<IsHeMatrix<MA>::value
                  && IsHeMatrix<MB>::value,
          void>::Type
-axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
+axpby(Transpose trans, const ALPHA &alpha, const MA &A, 
+     const BETA &beta, MB &&B)
 {
 //
 //  Resize left hand size if needed.  This is *usually* only alloweded
@@ -403,8 +414,9 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 
     ASSERT(A.dim()==B.dim());
     
-    // alpha must be real
+    // alpha and beta must be real
     ASSERT(cxxblas::imag(alpha)==0);
+    ASSERT(cxxblas::imag(beta)==0);
     
     trans = (A.upLo()==B.upLo())          
           ? Transpose(trans ^ NoTrans)
@@ -415,12 +427,12 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
           : Transpose(trans ^ Trans);
           
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
+    FLENS_BLASLOG_BEGIN_MAXPBY(trans, alpha, A, beta, B);
 
-#   ifdef HAVE_CXXBLAS_TRAXPY
-    cxxblas::traxpy(B.order(), B.upLo(), trans, NonUnit,
+#   ifdef HAVE_CXXBLAS_TRAXPBY
+    cxxblas::traxpby(B.order(), B.upLo(), trans, NonUnit,
                      B.numRows(), B.numCols(), alpha,
-                     A.data(), A.leadingDimension(),
+                     A.data(), A.leadingDimension(), beta,
                      B.data(), B.leadingDimension());
 #   else
     ASSERT(0);
@@ -430,13 +442,16 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
     FLENS_BLASLOG_UNSETTAG;
 }
 
-//-- hpaxpy
-template <typename ALPHA, typename MA, typename MB>
+//-- hpaxpby
+template <typename ALPHA, typename MA, typename BETA, typename MB>
 typename RestrictTo<IsHpMatrix<MA>::value
                  && IsHpMatrix<MB>::value,
          void>::Type
-axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
+axpby(Transpose trans, const ALPHA &alpha, const MA &A, 
+      const BETA &beta, MB &&B)
 {
+    ASSERT(cxxblas::imag(alpha)==0);
+    ASSERT(cxxblas::imag(beta)==0);
 
     if (B.dim()==0) {
         B.resize(A);
@@ -453,7 +468,7 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 #   endif
 
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
+    FLENS_BLASLOG_BEGIN_MAXPBY(trans, alpha, A, beta, B);
 
     trans = (A.upLo() == B.upLo())
           ? Transpose(trans ^ NoTrans)
@@ -463,10 +478,10 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
 
-#   ifdef HAVE_CXXBLAS_TPAXPY
-    cxxblas::tpaxpy(B.order(), B.upLo(), trans,
-                    NonUnit, B.dim(),
-                    alpha, A.data(), B.data());
+#   ifdef HAVE_CXXBLAS_TPAXPBY
+    cxxblas::tpaxpby(B.order(), B.upLo(), trans,
+                     NonUnit, B.dim(),
+                     alpha, A.data(), beta, B.data());
 #   else
     ASSERT(0);
 #   endif
@@ -476,12 +491,13 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 
 //== SymmetricMatrix
 
-//-- sbaxpy
-template <typename ALPHA, typename MA, typename MB>
+//-- sbaxpby
+template <typename ALPHA, typename MA, typename BETA, typename MB>
 typename RestrictTo<IsSbMatrix<MA>::value
                  && IsSbMatrix<MB>::value,
          void>::Type
-axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
+axpby(Transpose trans, const ALPHA &alpha, const MA &A, 
+      const BETA &beta, MB &&B)
 {
     typedef typename RemoveRef<MA>::Type   MatrixA;
     typedef typename MatrixA::IndexType  IndexType;
@@ -508,15 +524,15 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 #   endif
 #   else
 //
-//  If A and B are identical a temporary is needed if we want to use axpy
-//  for B += alpha*A^T or B+= alpha*A^H
+//  If A and B are identical a temporary is needed if we want to use axpby
+//  for B = beta*B + alpha*A^T or B = beta*B + alpha*A^H
 //
     if ((trans==Trans || trans==ConjTrans) && DEBUGCLOSURE::identical(A, B)) {
         typename SbMatrix<MA>::NoView _A;
         FLENS_BLASLOG_TMP_ADD(_A);
 
         copy(trans, A, _A);
-        axpy(NoTrans, alpha, _A, B);
+        axpby(NoTrans, alpha, _A, beta, B);
 
         FLENS_BLASLOG_TMP_REMOVE(_A, A);
         return;
@@ -525,7 +541,7 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 
 
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
+    FLENS_BLASLOG_BEGIN_MAXPBY(trans, alpha, A, beta, B);
 
     trans = (A.upLo() == B.upLo())
           ? Transpose(trans ^ NoTrans)
@@ -546,12 +562,12 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
 
-#   ifdef HAVE_CXXBLAS_GBAXPY
-    cxxblas::gbaxpy(B.order(), trans,
-                    B.numRows(), B.numCols(),
-                    numSubDiags, numSuperDiags, alpha,
-                    A.data(), A.leadingDimension(),
-                    B.data()+Bshift, B.leadingDimension());
+#   ifdef HAVE_CXXBLAS_GBAXPBY
+    cxxblas::gbaxpby(B.order(), trans,
+                     B.numRows(), B.numCols(),
+                     numSubDiags, numSuperDiags, alpha,
+                     A.data(), A.leadingDimension(), beta,
+                     B.data()+Bshift, B.leadingDimension());
 #   else
     ASSERT(0);
 #   endif
@@ -559,12 +575,13 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
     FLENS_BLASLOG_UNSETTAG;
 }
 
-//-- spaxpy
-template <typename ALPHA, typename MA, typename MB>
+//-- spaxpby
+template <typename ALPHA, typename MA, typename BETA, typename MB>
 typename RestrictTo<IsSpMatrix<MA>::value
                  && IsSpMatrix<MB>::value,
          void>::Type
-axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
+axpby(Transpose trans, const ALPHA &alpha, const MA &A, 
+     const BETA &beta, MB &&B)
 {
     typedef typename RemoveRef<MA>::Type   MatrixA;
     typedef typename MatrixA::IndexType  IndexType;
@@ -595,7 +612,7 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 #   endif
 
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
+    FLENS_BLASLOG_BEGIN_MAXPBY(trans, alpha, A, beta, B);
 
     const IndexType numSubDiags = ((trans==NoTrans) || (trans==Conj))
                                 ? A.numSubDiags() : A.numSuperDiags();
@@ -609,11 +626,11 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
 
-#   ifdef HAVE_CXXBLAS_GBAXPY
-    cxxblas::gbaxpy(B.order(), trans,
+#   ifdef HAVE_CXXBLAS_GBAXPBY
+    cxxblas::gbaxpby(B.order(), trans,
                     B.numRows(), B.numCols(),
                     numSubDiags, numSuperDiags, alpha,
-                    A.data(), A.leadingDimension(),
+                    A.data(), A.leadingDimension(), beta,
                     B.data()+Bshift, B.leadingDimension());
 #   else
     ASSERT(0);
@@ -622,13 +639,13 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
     FLENS_BLASLOG_UNSETTAG;
 }
 
-
-//-- syaxpy
-template <typename ALPHA, typename MA, typename MB>
+//-- syaxpby
+template <typename ALPHA, typename MA, typename BETA, typename MB>
 typename RestrictTo<IsSyMatrix<MA>::value
                  && IsSyMatrix<MB>::value,
          void>::Type
-axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
+axpby(Transpose trans, const ALPHA &alpha, const MA &A, 
+     const BETA &beta, MB &&B)
 {
 //
 //  Resize left hand size if needed.  This is *usually* only alloweded
@@ -649,13 +666,13 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
           : Transpose(trans ^ Trans);
           
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
+    FLENS_BLASLOG_BEGIN_MAXPBY(trans, alpha, A, beta, B);
 
-#   ifdef HAVE_CXXBLAS_TRAXPY
-    cxxblas::traxpy(B.order(), B.upLo(), trans, NonUnit,
-                    B.numRows(), B.numCols(), alpha,
-                    A.data(), A.leadingDimension(),
-                    B.data(), B.leadingDimension());
+#   ifdef HAVE_CXXBLAS_TRAXPBY
+    cxxblas::traxpby(B.order(), B.upLo(), trans, NonUnit,
+                     B.numRows(), B.numCols(), alpha,
+                     A.data(), A.leadingDimension(), beta,
+                     B.data(), B.leadingDimension());
 #   else
     ASSERT(0);
 #   endif
@@ -664,15 +681,15 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
     FLENS_BLASLOG_UNSETTAG;
 }
 
-
 //== TriangularMatrix
 
-//-- tbaxpy
-template <typename ALPHA, typename MA, typename MB>
+//-- tbaxpby
+template <typename ALPHA, typename MA, typename BETA, typename MB>
 typename RestrictTo<IsTbMatrix<MA>::value
                  && IsTbMatrix<MB>::value,
          void>::Type
-axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
+axpby(Transpose trans, const ALPHA &alpha, const MA &A,
+      const BETA &beta, MB &&B)
 {
     typedef typename RemoveRef<MA>::Type   MatrixA;
     typedef typename MatrixA::IndexType  IndexType;
@@ -703,7 +720,7 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 #   endif
 
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
+    FLENS_BLASLOG_BEGIN_MAXPBY(trans, alpha, A, beta, B);
 
     trans = (A.upLo() == B.upLo())
           ? Transpose(trans ^ NoTrans)
@@ -724,11 +741,11 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
 
-#   ifdef HAVE_CXXBLAS_GBAXPY
-    cxxblas::gbaxpy(B.order(), trans,
+#   ifdef HAVE_CXXBLAS_GBAXPBY
+    cxxblas::gbaxpby(B.order(), trans,
                     B.numRows(), B.numCols(),
                     numSubDiags, numSuperDiags, alpha,
-                    A.data(), A.leadingDimension(),
+                    A.data(), A.leadingDimension(), beta,
                     B.data()+Bshift, B.leadingDimension());
 #   else
     ASSERT(0);
@@ -737,12 +754,13 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
     FLENS_BLASLOG_UNSETTAG;
 }
 
-//-- traxpy
-template <typename ALPHA, typename MA, typename MB>
+//-- traxpby
+template <typename ALPHA, typename MA, typename BETA, typename MB>
 typename RestrictTo<IsTrMatrix<MA>::value
                  && IsTrMatrix<MB>::value,
          void>::Type
-axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
+axpby(Transpose trans, const ALPHA &alpha, const MA &A, 
+      const BETA &beta, MB &&B)
 {
     ASSERT(A.diag()==NonUnit);
     ASSERT(B.diag()==NonUnit);
@@ -759,13 +777,13 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
+    FLENS_BLASLOG_BEGIN_MAXPBY(trans, alpha, A, beta, B);
 
-#   ifdef HAVE_CXXBLAS_TRAXPY
-    cxxblas::traxpy(B.order(), B.upLo(), trans, B.diag(),
-                    B.numRows(), B.numCols(), alpha,
-                    A.data(), A.leadingDimension(),
-                    B.data(), B.leadingDimension());
+#   ifdef HAVE_CXXBLAS_TRAXPBY
+    cxxblas::traxpby(B.order(), B.upLo(), trans, B.diag(),
+                     B.numRows(), B.numCols(), alpha,
+                     A.data(), A.leadingDimension(), beta,
+                     B.data(), B.leadingDimension());
 #   else
     ASSERT(0);
 #   endif
@@ -775,13 +793,13 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 }
 
 
-
-//-- tpaxpy
-template <typename ALPHA, typename MA, typename MB>
+//-- tpaxpby
+template <typename ALPHA, typename MA,  typename BETA, typename MB>
 typename RestrictTo<IsTpMatrix<MA>::value
                  && IsTpMatrix<MB>::value,
          void>::Type
-axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
+axpby(Transpose trans, const ALPHA &alpha, const MA &A,
+      const BETA &beta, MB &&B)
 {
     ASSERT(B.diag()==NonUnit);
     // TODO: Remove this condition
@@ -802,16 +820,16 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 #   endif
 
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
+    FLENS_BLASLOG_BEGIN_MAXPBY(trans, alpha, A, beta, B);
 
     trans = (A.order()==B.order())
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
 
-#   ifdef HAVE_CXXBLAS_TPAXPY
-    cxxblas::tpaxpy(B.order(), B.upLo(), trans,
+#   ifdef HAVE_CXXBLAS_TPAXPBY
+    cxxblas::tpaxpby(B.order(), B.upLo(), trans,
                     B.diag(), B.dim(),
-                    alpha, A.data(), B.data());
+                    alpha, A.data(), beta, B.data());
 #   else
     ASSERT(0);
 #   endif
@@ -819,6 +837,7 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
     FLENS_BLASLOG_UNSETTAG;
 }
 
+    
 } } // namespace blas, flens
 
-#endif // FLENS_BLAS_LEVEL1_AXPY_TCC
+#endif // FLENS_BLAS_LEVEL1_AXPBY_TCC

@@ -103,6 +103,9 @@ trmm(Side side, Transpose transA, Transpose transB, const ALPHA &alpha,
     ASSERT(transB==NoTrans);
     ASSERT(!identical(A, C));
 #   else
+
+    typedef typename Result<MC>::Type  RMC;
+
     if (transB!=NoTrans) {
 //
 //      apply op(B) and recall trmm
