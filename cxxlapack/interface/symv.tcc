@@ -82,7 +82,7 @@ symv (char                        uplo,
 {
     CXXLAPACK_DEBUG_OUT("zsymv");
 
-    LAPACK_IMPL(zsymb)(&uplo,
+    LAPACK_IMPL(zsymv)(&uplo,
                        &n,
                        reinterpret_cast<const double *>(&alpha),
                        reinterpret_cast<const double *>(A),

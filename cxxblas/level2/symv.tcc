@@ -144,6 +144,59 @@ symv(StorageOrder order, StorageUpLo upLo,
                 y, incY);
 }
 
+#ifdef USE_CXXLAPACK
+
+// csymv 
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+symv(StorageOrder order, StorageUpLo upLo,
+     IndexType n,
+     const ComplexFloat &alpha,
+     const ComplexFloat *A, IndexType ldA,
+     const ComplexFloat *x, IndexType incX,
+     const ComplexFloat &beta,
+     ComplexFloat *y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_symv");
+    
+    if (order==RowMajor) {
+        upLo = (upLo==Upper) ? Lower : Upper;
+    }
+    
+    cxxlapack::symv(getF77BlasChar(upLo), 
+                    n, &alpha,
+		    A, ldA,
+		    x, incX,
+		    beta,
+		    y, incY);;
+}
+
+// zsymv
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+symv(StorageOrder order, StorageUpLo upLo,
+     IndexType n,
+     const ComplexDouble &alpha,
+     const ComplexDouble *A, IndexType ldA,
+     const ComplexDouble *x, IndexType incX,
+     const ComplexDouble &beta,
+     ComplexDouble *y, IndexType incY)
+{
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_symv");
+
+    if (order==RowMajor) {
+        upLo = (upLo==Upper) ? Lower : Upper;
+    }
+    cxxlapack::symv(getF77BlasChar(upLo), 
+                    n, alpha,
+		    A, ldA,
+		    x, incX,
+		    beta,
+		    y, incY);;
+}
+
+#endif // USE_CXXLAPACK
+
 #endif // HAVE_CBLAS
 
 } // namespace cxxblas

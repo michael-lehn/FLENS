@@ -71,6 +71,33 @@ template <typename IndexType>
          const double *x, IndexType incX,
          double beta,
          double *y, IndexType incY);
+    
+// Complex functions symv provided by lapack
+#ifdef USE_CXXLAPACK    
+    
+// csymv
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    symv(StorageOrder order, StorageUpLo upLo,
+         IndexType n,
+         const ComplexFloat &alpha,
+         const ComplexFloat *A, IndexType ldA,
+         const ComplexFloat *x, IndexType incX,
+         const ComplexFloat &beta,
+         ComplexFloat *y, IndexType incY);
+
+// zsymv
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    symv(StorageOrder order, StorageUpLo upLo,
+         IndexType n,
+         const ComplexDouble &alpha,
+         const ComplexDouble *A, IndexType ldA,
+         const ComplexDouble *x, IndexType incX,
+         const ComplexDouble &beta,
+         ComplexDouble *y, IndexType incY);
+    
+#endif // USE_CXXLAPACK
 
 #endif // HAVE_CBLAS
 
