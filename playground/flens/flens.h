@@ -36,6 +36,7 @@
 #include<playground/flens/dft/dft.tcc>
 #include<playground/flens/mpi/mpi-flens.h>
 #include<playground/flens/solver/solver.h>
+#include<playground/flens/sparse/sparse.h>
 #include<playground/flens/blas-extensions/blas-extensions.h>
 #include<playground/flens/lapack-extensions/lapack-extensions.h>
 

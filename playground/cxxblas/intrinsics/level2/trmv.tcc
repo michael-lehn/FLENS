@@ -52,9 +52,9 @@ trmv_real_up_n(Diag diag, IndexType n,
 
     ASSERT( incX==1 );
 
-    const IndexType NBL3 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL3);
-    const IndexType NBL2 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL2);
-    const IndexType NBL1 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL1);
+    const IndexType NBL3 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL3();
+    const IndexType NBL2 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL2();
+    const IndexType NBL1 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL1();
 
     if ( n> NBL3) {
         trmv_real_up_n(diag, NBL3, A, ldA, x, 1);
@@ -139,9 +139,9 @@ trmv_real_up_t(Diag diag, IndexType n,
 
     ASSERT( incX==1 );
 
-    const IndexType NBL3 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL3);
-    const IndexType NBL2 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL2);
-    const IndexType NBL1 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL1);
+    const IndexType NBL3 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL3();
+    const IndexType NBL2 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL2();
+    const IndexType NBL1 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL1();
 
     if ( n>NBL3 ) {
 
@@ -249,9 +249,9 @@ trmv_real_lo_n(Diag diag, IndexType n,
 
     ASSERT( incX==1 );
 
-    const IndexType NBL3 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL3);
-    const IndexType NBL2 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL2);
-    const IndexType NBL1 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL1);
+    const IndexType NBL3 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL3();
+    const IndexType NBL2 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL2();
+    const IndexType NBL1 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL1();
 
     if ( n>NBL3  ) {
 
@@ -342,9 +342,9 @@ trmv_real_lo_t(Diag diag, IndexType n,
 
     ASSERT( incX==1 );
 
-    const IndexType NBL3 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL3);
-    const IndexType NBL2 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL2);
-    const IndexType NBL1 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL1);
+    const IndexType NBL3 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL3();
+    const IndexType NBL2 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL2();
+    const IndexType NBL1 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL1();
 
     if ( n>NBL3  ) {
 
@@ -458,9 +458,9 @@ trmv_complex_up_n(Diag diag, IndexType n,
 
     ASSERT( incX==1 );
 
-    const IndexType NBL3 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL3);
-    const IndexType NBL2 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL2);
-    const IndexType NBL1 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL1);
+    const IndexType NBL3 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL3();
+    const IndexType NBL2 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL2();
+    const IndexType NBL1 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL1();
 
     if ( n>NBL3 ) {
 
@@ -588,9 +588,9 @@ trmv_complex_up_c(Diag diag, IndexType n,
 
     ASSERT( incX==1 );
 
-    const IndexType NBL3 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL3);
-    const IndexType NBL2 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL2);
-    const IndexType NBL1 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL1);
+    const IndexType NBL3 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL3();
+    const IndexType NBL2 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL2();
+    const IndexType NBL1 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL1();
 
     if ( n>NBL3  ) {
 
@@ -722,9 +722,9 @@ trmv_complex_up_t(Diag diag, IndexType n,
 
     ASSERT( incX==1 );
 
-    const IndexType NBL3 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL3);
-    const IndexType NBL2 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL2);
-    const IndexType NBL1 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL1);
+    const IndexType NBL3 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL3();
+    const IndexType NBL2 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL2();
+    const IndexType NBL1 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL1();
 
     if ( n>NBL3  ) {
 
@@ -860,9 +860,9 @@ trmv_complex_up_ct(Diag diag, IndexType n,
 
     ASSERT( incX==1 );
 
-    const IndexType NBL3 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL3);
-    const IndexType NBL2 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL2);
-    const IndexType NBL1 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL1);
+    const IndexType NBL3 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL3();
+    const IndexType NBL2 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL2();
+    const IndexType NBL1 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL1();
 
     if ( n>NBL3  ) {
 
@@ -994,9 +994,9 @@ trmv_complex_lo_n(Diag diag, IndexType n,
 
     ASSERT( incX==1 );
 
-    const IndexType NBL3 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL3);
-    const IndexType NBL2 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL2);
-    const IndexType NBL1 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL1);
+    const IndexType NBL3 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL3();
+    const IndexType NBL2 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL2();
+    const IndexType NBL1 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL1();
 
     if ( n>NBL3  ) {
 
@@ -1122,9 +1122,9 @@ trmv_complex_lo_c(Diag diag, IndexType n,
 
     ASSERT( incX==1 );
 
-    const IndexType NBL3 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL3);
-    const IndexType NBL2 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL2);
-    const IndexType NBL1 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL1);
+    const IndexType NBL3 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL3();
+    const IndexType NBL2 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL2();
+    const IndexType NBL1 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL1();
 
     if ( n>NBL3  ) {
 
@@ -1257,9 +1257,9 @@ trmv_complex_lo_t(Diag diag, IndexType n,
 
     ASSERT( incX==1 );
 
-    const IndexType NBL3 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL3);
-    const IndexType NBL2 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL2);
-    const IndexType NBL1 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL1);
+    const IndexType NBL3 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL3();
+    const IndexType NBL2 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL2();
+    const IndexType NBL1 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL1();
 
     if ( n>NBL3  ) {
 
@@ -1401,9 +1401,9 @@ trmv_complex_lo_ct(Diag diag, IndexType n,
 
     ASSERT( incX==1 );
 
-    const IndexType NBL3 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL3);
-    const IndexType NBL2 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL2);
-    const IndexType NBL1 = std::sqrt(BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL1);
+    const IndexType NBL3 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL3();
+    const IndexType NBL2 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL2();
+    const IndexType NBL1 = BlockSize<BlasFct::TRMV, T, IndexType>::NBlockL1();
 
     if ( n>NBL3  ) {
 
