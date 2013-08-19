@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn
+ *   Copyright (c) 2013, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,35 +30,30 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_DRIVERS_MKLBLAS_H
-#define CXXBLAS_DRIVERS_MKLBLAS_H 1
+#ifndef PLAYGROUND_FLENS_SPARSE_SUPERLU_GSSV_H
+#define PLAYGROUND_FLENS_SPARSE_SUPERLU_GSSV_H 1
 
-#include <cstdlib>
+namespace flens { namespace superlu {
+    
+template <typename T>
+    typename RestrictTo<IsSame<float, T>::value, int >::Type
+    gssv(superlu_options_t *options, SuperMatrix *_A, int *pc, int *pr,
+         SuperMatrix *_L, SuperMatrix *_U, SuperMatrix *_B, SuperLUStat_t *stat);
+template <typename T>
+    typename RestrictTo<IsSame<double, T>::value, int >::Type
+    gssv(superlu_options_t *options, SuperMatrix *_A, int *pc, int *pr,
+         SuperMatrix *_L, SuperMatrix *_U, SuperMatrix *_B, SuperLUStat_t *stat);
+    
+template <typename T>
+    typename RestrictTo<IsSame<std::complex<float>, T>::value, int >::Type
+    gssv(superlu_options_t *options, SuperMatrix *_A, int *pc, int *pr,
+         SuperMatrix *_L, SuperMatrix *_U, SuperMatrix *_B, SuperLUStat_t *stat);
+    
+template <typename T>
+    typename RestrictTo<IsSame<std::complex<double>, T>::value, int >::Type
+    gssv(superlu_options_t *options, SuperMatrix *_A, int *pc, int *pr,
+         SuperMatrix *_L, SuperMatrix *_U, SuperMatrix *_B, SuperLUStat_t *stat);
 
-#   define HAVE_CBLAS           1
-#   define HAVE_SPARSEBLAS      1
-#   define WITH_MKLDSS          1
-#   ifdef MKL_ILP64
-#      define CBLAS_INT         long
-#      define CBLAS_INDEX       long
-#   else
-#      define CBLAS_INT         int
-#      define CBLAS_INDEX       int
-#   endif
-#   define BLAS_IMPL            "MKLBLAS"
+} } // namespace superlu, flens
 
-// BLAS extensions
-#ifndef HAVE_CBLAS_AXPBY
-#    define HAVE_CBLAS_AXPBY
-#    define BLAS_EXT(x)         cblas_##x
-#endif
-
-// MKL includes LAPACK and FFTW interface
-#ifndef USE_CXXLAPACK
-#    define USE_CXXLAPACK       1
-#endif
-#ifndef HAVE_FFTW
-#    define HAVE_FFTW           1
-#endif
-
-#endif // CXXBLAS_DRIVERS_MKLBLAS_H
+#endif // PLAYGROUND_FLENS_SPARSE_SUPERLU_GSSV_H

@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn
+ *   Copyright (c) 2013, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,35 +30,28 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_DRIVERS_MKLBLAS_H
-#define CXXBLAS_DRIVERS_MKLBLAS_H 1
+#ifndef PLAYGROUND_FLENS_SPARSE_SUPERLU_CREATEDENSEMATRIX_H
+#define PLAYGROUND_FLENS_SPARSE_SUPERLU_CREATEDENSEMATRIX_H 1
 
-#include <cstdlib>
+namespace flens { namespace superlu {
+    
+    
+void
+    Create_Dense_Matrix(SuperMatrix *_A, int m, int n, float *A, int ldA,
+                        Stype_t stype, Mtype_t mtype);
+    
+void
+    Create_Dense_Matrix(SuperMatrix *_A, int m, int n, double *A, int ldA,
+                        Stype_t stype, Mtype_t mtype);
+    
+void
+    Create_Dense_Matrix(SuperMatrix *_A, int m, int n, std::complex<float> *A,
+                        int ldA, Stype_t stype, Mtype_t mtype);
+    
+void
+    Create_Dense_Matrix(SuperMatrix *_A, int m, int n, std::complex<double> *A,
+                         int ldA, Stype_t stype, Mtype_t mtype);
 
-#   define HAVE_CBLAS           1
-#   define HAVE_SPARSEBLAS      1
-#   define WITH_MKLDSS          1
-#   ifdef MKL_ILP64
-#      define CBLAS_INT         long
-#      define CBLAS_INDEX       long
-#   else
-#      define CBLAS_INT         int
-#      define CBLAS_INDEX       int
-#   endif
-#   define BLAS_IMPL            "MKLBLAS"
+} } // namespace superlu, flens
 
-// BLAS extensions
-#ifndef HAVE_CBLAS_AXPBY
-#    define HAVE_CBLAS_AXPBY
-#    define BLAS_EXT(x)         cblas_##x
-#endif
-
-// MKL includes LAPACK and FFTW interface
-#ifndef USE_CXXLAPACK
-#    define USE_CXXLAPACK       1
-#endif
-#ifndef HAVE_FFTW
-#    define HAVE_FFTW           1
-#endif
-
-#endif // CXXBLAS_DRIVERS_MKLBLAS_H
+#endif // PLAYGROUND_FLENS_SPARSE_SUPERLU_CREATEDENSEMATRIX_H

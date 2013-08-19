@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn
+ *   Copyright (c) 2013, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,35 +30,44 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_DRIVERS_MKLBLAS_H
-#define CXXBLAS_DRIVERS_MKLBLAS_H 1
+#ifndef PLAYGROUND_FLENS_SPARSE_SUITESPARSE_SV_H
+#define PLAYGROUND_FLENS_SPARSE_SUITESPARSE_SV_H 1
 
-#include <cstdlib>
+namespace flens { namespace suitesparse {
+    
+// Interface to SuiteSparse, AX = B
+template <typename MA, typename MX, typename MB>
+    typename
+    RestrictTo<IsRealGeCCSMatrix<MA>::value &&
+               IsRealGeMatrix<MX>::value &&
+               IsRealGeMatrix<MB>::value,
+               void>::Type
+    sv(MA  &&A,
+       MX  &&X,
+       const MB  &B);
+    
+template <typename MA, typename MX, typename MB>
+    typename
+    RestrictTo<IsComplexGeCCSMatrix<MA>::value &&
+               IsComplexGeMatrix<MX>::value &&
+               IsComplexGeMatrix<MB>::value,
+               void>::Type
+    sv(MA  &&A,
+       MX  &&X,
+       const MB  &B);
 
-#   define HAVE_CBLAS           1
-#   define HAVE_SPARSEBLAS      1
-#   define WITH_MKLDSS          1
-#   ifdef MKL_ILP64
-#      define CBLAS_INT         long
-#      define CBLAS_INDEX       long
-#   else
-#      define CBLAS_INT         int
-#      define CBLAS_INDEX       int
-#   endif
-#   define BLAS_IMPL            "MKLBLAS"
+// Interface for vectors    
+template <typename MA, typename VX, typename VB>
+    typename
+    RestrictTo<IsGeCCSMatrix<MA>::value &&
+               IsDenseVector<VX>::value &&
+               IsDenseVector<VB>::value,
+               void>::Type
+    sv(MA  &&A,
+       VX  &&x,
+       const VB  &b);
+    
 
-// BLAS extensions
-#ifndef HAVE_CBLAS_AXPBY
-#    define HAVE_CBLAS_AXPBY
-#    define BLAS_EXT(x)         cblas_##x
-#endif
+} } // namespace suitesparse, flens
 
-// MKL includes LAPACK and FFTW interface
-#ifndef USE_CXXLAPACK
-#    define USE_CXXLAPACK       1
-#endif
-#ifndef HAVE_FFTW
-#    define HAVE_FFTW           1
-#endif
-
-#endif // CXXBLAS_DRIVERS_MKLBLAS_H
+#endif // PLAYGROUND_FLENS_SPARSE_SUITESPARSE_SV_H

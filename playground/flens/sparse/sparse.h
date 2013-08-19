@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn
+ *   Copyright (c) 2013, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,35 +30,17 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_DRIVERS_MKLBLAS_H
-#define CXXBLAS_DRIVERS_MKLBLAS_H 1
+#ifndef PLAYGROUND_FLENS_SPARSE_SPARSE_H
+#define PLAYGROUND_FLENS_SPARSE_SPARSE_H 1
 
-#include <cstdlib>
-
-#   define HAVE_CBLAS           1
-#   define HAVE_SPARSEBLAS      1
-#   define WITH_MKLDSS          1
-#   ifdef MKL_ILP64
-#      define CBLAS_INT         long
-#      define CBLAS_INDEX       long
-#   else
-#      define CBLAS_INT         int
-#      define CBLAS_INDEX       int
-#   endif
-#   define BLAS_IMPL            "MKLBLAS"
-
-// BLAS extensions
-#ifndef HAVE_CBLAS_AXPBY
-#    define HAVE_CBLAS_AXPBY
-#    define BLAS_EXT(x)         cblas_##x
+#ifdef WITH_SUITESPARSE
+#    include<playground/flens/sparse/suitesparse/suitesparse.h>
+#endif
+#ifdef WITH_SUPERLU
+#    include<playground/flens/sparse/superlu/superlu.h>
+#endif
+#ifdef WITH_MKLDSS
+#    include<playground/flens/sparse/mkl/mkldss.h>
 #endif
 
-// MKL includes LAPACK and FFTW interface
-#ifndef USE_CXXLAPACK
-#    define USE_CXXLAPACK       1
-#endif
-#ifndef HAVE_FFTW
-#    define HAVE_FFTW           1
-#endif
-
-#endif // CXXBLAS_DRIVERS_MKLBLAS_H
+#endif // PLAYGROUND_FLENS_SPARSE_SPARSE_H

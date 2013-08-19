@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn
+ *   Copyright (c) 2013, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,35 +30,41 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_DRIVERS_MKLBLAS_H
-#define CXXBLAS_DRIVERS_MKLBLAS_H 1
+#ifndef PLAYGROUND_FLENS_SPARSE_SUPERLU_H
+#define PLAYGROUND_FLENS_SPARSE_SUPERLU_H 1
 
-#include <cstdlib>
+namespace flens { namespace superlu {
+    
+typedef int int_t;
+#include <slu_Cnames.h>
+#include <supermatrix.h>
+#include <slu_util.h>
+    
+// Avoid redefinitions in superlu header files
+// by using namespaces
+    
+namespace superlu_float {
+#include <slu_sdefs.h>
+} // namespace superlu_float
+    
+namespace superlu_double {
+#include <slu_ddefs.h>
+} // namespace superlu_double
+    
+namespace superlu_complex_float{
+#include <slu_cdefs.h>
+} // namespace superlu_complex_float
+    
+namespace superlu_complex_double {
+#include <slu_zdefs.h>
+} // namespace superlu_complex_double
+    
+} } // namespace superlu, flens
 
-#   define HAVE_CBLAS           1
-#   define HAVE_SPARSEBLAS      1
-#   define WITH_MKLDSS          1
-#   ifdef MKL_ILP64
-#      define CBLAS_INT         long
-#      define CBLAS_INDEX       long
-#   else
-#      define CBLAS_INT         int
-#      define CBLAS_INDEX       int
-#   endif
-#   define BLAS_IMPL            "MKLBLAS"
 
-// BLAS extensions
-#ifndef HAVE_CBLAS_AXPBY
-#    define HAVE_CBLAS_AXPBY
-#    define BLAS_EXT(x)         cblas_##x
-#endif
+#include<playground/flens/sparse/superlu/create_compcol_matrix.h>
+#include<playground/flens/sparse/superlu/create_dense_matrix.h>
+#include<playground/flens/sparse/superlu/gssv.h>
+#include<playground/flens/sparse/superlu/sv.h>
 
-// MKL includes LAPACK and FFTW interface
-#ifndef USE_CXXLAPACK
-#    define USE_CXXLAPACK       1
-#endif
-#ifndef HAVE_FFTW
-#    define HAVE_FFTW           1
-#endif
-
-#endif // CXXBLAS_DRIVERS_MKLBLAS_H
+#endif // PLAYGROUND_FLENS_SPARSE_SUPERLU_H

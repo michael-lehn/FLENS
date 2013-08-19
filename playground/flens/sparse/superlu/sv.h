@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn
+ *   Copyright (c) 2013, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,35 +30,50 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_DRIVERS_MKLBLAS_H
-#define CXXBLAS_DRIVERS_MKLBLAS_H 1
+#ifndef PLAYGROUND_FLENS_SPARSE_SUPERLU_SV_H
+#define PLAYGROUND_FLENS_SPARSE_SUPERLU_SV_H 1
 
-#include <cstdlib>
+namespace flens { namespace superlu {
+    
+// Interface to SuperLU, AX = B
+template <typename MA, typename PC, typename PR, typename MB>
+    typename
+    RestrictTo<IsGeCCSMatrix<MA>::value  &&
+               IsDenseVector<PC>::value &&
+               IsDenseVector<PR>::value &&
+               IsGeMatrix<MB>::value,
+               int>::Type
+    sv(MA              &&A,
+       PC              &&pc,
+       PR              &&pr,
+       MB              &&B);
+    
+template <typename MA, typename PC, typename PR, typename MB>
+    typename
+    RestrictTo<IsGeCRSMatrix<MA>::value  &&
+               IsDenseVector<PC>::value &&
+               IsDenseVector<PR>::value &&
+               IsGeMatrix<MB>::value,
+               int>::Type
+    sv(MA              &&A,
+       PC              &&pc,
+       PR              &&pr,
+       MB              &&B);
 
-#   define HAVE_CBLAS           1
-#   define HAVE_SPARSEBLAS      1
-#   define WITH_MKLDSS          1
-#   ifdef MKL_ILP64
-#      define CBLAS_INT         long
-#      define CBLAS_INDEX       long
-#   else
-#      define CBLAS_INT         int
-#      define CBLAS_INDEX       int
-#   endif
-#   define BLAS_IMPL            "MKLBLAS"
+// Interface for vectors
+template <typename MA, typename PC, typename PR, typename VB>
+    typename
+    RestrictTo<(IsGeCCSMatrix<MA>::value || IsGeCRSMatrix<MA>::value) &&
+               IsDenseVector<PC>::value &&
+               IsDenseVector<PR>::value &&
+               IsDenseVector<VB>::value,
+               int>::Type
+    sv(MA              &&A,
+       PC              &&pc,
+       PR              &&pr,
+       VB              &&b);
+    
 
-// BLAS extensions
-#ifndef HAVE_CBLAS_AXPBY
-#    define HAVE_CBLAS_AXPBY
-#    define BLAS_EXT(x)         cblas_##x
-#endif
+} } // namespace superlu, flens
 
-// MKL includes LAPACK and FFTW interface
-#ifndef USE_CXXLAPACK
-#    define USE_CXXLAPACK       1
-#endif
-#ifndef HAVE_FFTW
-#    define HAVE_FFTW           1
-#endif
-
-#endif // CXXBLAS_DRIVERS_MKLBLAS_H
+#endif // PLAYGROUND_FLENS_SPARSE_SUPERLU_SV_H
