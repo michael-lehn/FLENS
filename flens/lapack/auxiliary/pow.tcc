@@ -55,8 +55,6 @@ pow(const T &base, const T &exponent)
         return value*value;
     } 
     return base*value*value;
-
-    //return std::pow(base, exponent);
 }
 
 template <typename T>
@@ -64,6 +62,9 @@ typename RestrictTo<!IsSame<T,int>::value,
                     T>::Type
 pow(const T &base, int exponent)
 {
+    typedef typename ComplexTrait<T>::PrimitiveType PT;
+    using std::pow;
+    
 //
 //  TODO: Make this more general and call an external Fortran routine
 //        that computes 'pow(base, exponent)' for comparison
@@ -73,7 +74,7 @@ pow(const T &base, int exponent)
         return base*base;
     }
 #   endif
-    return std::pow(base, exponent);
+    return pow(base, PT(exponent));
 }
 
 } // namespace flens

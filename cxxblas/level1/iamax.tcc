@@ -61,7 +61,8 @@ template <typename T>
 T
 abs1(const std::complex<T> &x)
 {
-    return std::abs(x.real()) + std::abs(x.imag());
+    using std::abs;
+    return abs(x.real()) + abs(x.imag());
 }
 
 template <typename IndexType, typename X>
