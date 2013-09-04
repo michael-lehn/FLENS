@@ -56,14 +56,15 @@ fft_single_generic(IndexType N,
 {
     CXXBLAS_DEBUG_OUT("fft_single_generic");
     
-    typedef typename flens::ComplexTrait<VIN>::PrimitiveType PT;
+    typedef typename flens::ComplexTrait<VOUT>::PrimitiveType PT;
 
     if ( N <= 1 ) {
-    	return;
+        return;
     }
 
-	const PT        factor = (direction==DFTDirection::Forward ? 2*M_PI/N : - 2*M_PI/N);
-	const IndexType Nhalf = N/2;
+    const PT        factor = (direction==DFTDirection::Forward ? PT(2*M_PI/N) : PT(-2*M_PI/N) );
+    const PT        one(1);
+    const IndexType Nhalf = N/2;
     if (N == 1) {
         y[0] = x[0];
         return;
@@ -82,7 +83,7 @@ fft_single_generic(IndexType N,
 
     for (IndexType k = 0, iY=0; k < Nhalf; ++k, iY+=incY)
     {
-        VOUT t = std::polar(1.0, factor * k) * odd[k];
+        VOUT t = std::polar(one, factor * k) * odd[k];
         y[iY           ] = even[k] + t;
         y[iY+incY*Nhalf] = even[k] - t;
     }
@@ -103,28 +104,28 @@ dft_single_generic(IndexType N,
 
     CXXBLAS_DEBUG_OUT("dft_single_generic");
     
-	//
-	// Use Cooley-Tukey algorithm if possible
-	//
-	if ( isPowerOfTwo(N) ) {
+    //
+    // Use Cooley-Tukey algorithm if possible
+    //
+    if ( isPowerOfTwo(N) ) {
 
-		fft_single_generic(N, x, incX, y, incY, direction);
+        fft_single_generic(N, x, incX, y, incY, direction);
 
-	} else {
+    } else {
 
-	    typedef typename flens::ComplexTrait<VIN>::PrimitiveType PT;
+        typedef typename flens::ComplexTrait<VOUT>::PrimitiveType PT;
 
-		const PT factor = (direction==DFTDirection::Forward ? 2*M_PI/N : - 2*M_PI/N);
+        const PT factor = (direction==DFTDirection::Forward ? PT(2*M_PI/N) : PT(-2*M_PI/N));
 
-	    for (IndexType i=0, iY=0; i<N; ++i, iY+=incY) {
-	    	VOUT tmp(0);
-	    	for (IndexType j=0, iX=0; j<N; ++j, iX+=incX) {
-	    		tmp += std::polar(PT(1),factor*i*j)*x[iX];
-	    	}
-	    	y[iY] = tmp;
-	    }
+        for (IndexType i=0, iY=0; i<N; ++i, iY+=incY) {
+            VOUT tmp(0);
+            for (IndexType j=0, iX=0; j<N; ++j, iX+=incX) {
+                tmp += std::polar(PT(1),factor*i*j)*x[iX];
+            }
+            y[iY] = tmp;
+        }
 
-	}
+    }
 }
 
 template <typename IndexType, typename VIN, typename VOUT>
@@ -152,26 +153,27 @@ dft_single(IndexType n,
            std::complex<double> *y, IndexType incY,
            DFTDirection direction)
 {
-        CXXBLAS_DEBUG_OUT("dft_single [FFTW]");
-        
-        if ( incX==1 && incX==1 ) {
+    CXXBLAS_DEBUG_OUT("dft_single [FFTW interface]");
+    
+    if ( incX==1 && incX==1 ) {
 
-			fftw_plan p = fftw_plan_dft_1d(n,reinterpret_cast<fftw_complex*>(x),
-											 reinterpret_cast<fftw_complex*>(y),
-											 direction, FFTW_ESTIMATE);
-			fftw_execute(p);
-			fftw_destroy_plan(p);
+        fftw_plan p = fftw_plan_dft_1d(n,
+                                       reinterpret_cast<fftw_complex*>(x),
+                                       reinterpret_cast<fftw_complex*>(y),
+                                       direction, FFTW_ESTIMATE);
+        fftw_execute(p);
+        fftw_destroy_plan(p);
 
-		} else {
+    } else {
+    
+        fftw_plan p = fftw_plan_many_dft(1, &n, 1,
+                                         reinterpret_cast<fftw_complex*>(x), NULL, incX, 0,
+                                         reinterpret_cast<fftw_complex*>(y), NULL, incY, 0,
+                                         direction, FFTW_ESTIMATE);
+        fftw_execute(p);
+        fftw_destroy_plan(p);
         
-			fftw_plan p = fftw_plan_many_dft(1, &n, 1,
-											 reinterpret_cast<fftw_complex*>(x), NULL, incX, 0,
-											 reinterpret_cast<fftw_complex*>(y), NULL, incY, 0,
-											 direction, FFTW_ESTIMATE);
-			fftw_execute(p);
-			fftw_destroy_plan(p);
-            
-		}
+    }
 }
 
 #endif

@@ -49,7 +49,7 @@ typename RestrictTo<IsMatrix<MA>::value
                  && IsDenseVector<VX>::value
                  && IsDenseVector<VB>::value,
          typename RemoveRef<VX>::Type::IndexType>::Type
-bicgstab(MA &&A, VX &&x, VB &&b,
+bicgstab(const MA &A, VX &&x, const VB &b,
          typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType tol,
          typename RemoveRef<VX>::Type::IndexType maxIterations)
 {

@@ -51,7 +51,7 @@ template <typename MA, typename VX, typename VB>
                      && IsDenseVector<VX>::value
                      && IsDenseVector<VB>::value,
              typename RemoveRef<VX>::Type::IndexType>::Type
-tfqmr(MA &&A, VX &&x, VB &&b,
+tfqmr(const MA &A, VX &&x, const VB &b,
       typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType tol,
       typename RemoveRef<VX>::Type::IndexType maxIterations)
 {
@@ -83,71 +83,71 @@ tfqmr(MA &&A, VX &&x, VB &&b,
     for(IndexType i = 0; i < maxIterations; ++i)
     {
 
-		if( abs(r*r)<tol ) {
-			return i;
+        if( abs(r*r)<tol ) {
+            return i;
             
         }
-		
+        
         ASSERT( abs(rho)!=0 );
 
-		v = (One/rho)*v;
+        v = (One/rho)*v;
 
         if ( i==0 ) {
 
-		    delta = (One/rho)*(v*b);
+            delta = (One/rho)*(v*b);
         } else {
         
             delta = v*v;
             
         }
-		ASSERT( abs(delta)!=0 );
+        ASSERT( abs(delta)!=0 );
 
-		if(i == 0) {
-			q = (One/rho)*b;
-		} else {
-			q = (-rho*delta/epsilon)*q + v;
-		}
+        if(i == 0) {
+            q = (One/rho)*b;
+        } else {
+            q = (-rho*delta/epsilon)*q + v;
+        }
 
-		p       = A*q;
+        p       = A*q;
         Atp     = transpose(A)*p;
-		epsilon = q*Atp;
+        epsilon = q*Atp;
 
-		ASSERT( abs(epsilon)!=0 );
+        ASSERT( abs(epsilon)!=0 );
 
-		beta = epsilon/delta;
-		v    = -beta*v + Atp;
+        beta = epsilon/delta;
+        v    = -beta*v + Atp;
 
-		rhoold = rho;
-		rho    = blas::nrm2(v);
+        rhoold = rho;
+        rho    = blas::nrm2(v);
 
-		thetaold = theta;
-		theta    = rho/(gamma*abs(beta));
+        thetaold = theta;
+        theta    = rho/(gamma*abs(beta));
 
-		gammaold = gamma;
-		gamma    = One/(sqrt(One+theta*theta));
+        gammaold = gamma;
+        gamma    = One/(sqrt(One+theta*theta));
 
-		ASSERT( abs(gamma)!=0 );
+        ASSERT( abs(gamma)!=0 );
 
-		if(i == 0)
-		{
-			eta = rhoold*gamma*gamma/beta;
+        if(i == 0)
+        {
+            eta = rhoold*gamma*gamma/beta;
 
-			d = eta*q;
-			s = eta*Atp;
-		}
-		else
-		{
+            d = eta*q;
+            s = eta*Atp;
+        }
+        else
+        {
 
             ElementType kappa = pow(gamma/gammaold,2);
-			eta = -eta*rhoold*kappa/beta;
+            eta = -eta*rhoold*kappa/beta;
   
             ElementType lambda = pow(thetaold*gamma,2);          
-			d = lambda*d + eta*q;
-			s = lambda*s + eta*Atp;
-		}
+            d = lambda*d + eta*q;
+            s = lambda*s + eta*Atp;
+        }
 
-		x +=  d;
-		r -=  s;
+        x +=  d;
+        r -=  s;
     }
     return maxIterations;
 }
@@ -158,7 +158,7 @@ template <typename MA, typename VX, typename VB>
                      && IsDenseVector<VX>::value
                      && IsDenseVector<VB>::value,
              typename RemoveRef<VX>::Type::IndexType>::Type
-tfqmr(MA &&A, VX &&x, VB &&b,
+tfqmr(const MA &A, VX &&x, const VB &b,
       typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType tol,
       typename RemoveRef<VX>::Type::IndexType maxIterations)
 {
@@ -189,69 +189,69 @@ tfqmr(MA &&A, VX &&x, VB &&b,
     for(IndexType i = 0; i < maxIterations; ++i)
     {
 
-		if( abs(r*r)<tol ) {
-			return i;
+        if( abs(r*r)<tol ) {
+            return i;
             
         }
-		         ASSERT( abs(rho)!=0 );
+                 ASSERT( abs(rho)!=0 );
 
-		v = (One/rho)*v;
+        v = (One/rho)*v;
 
         if ( i==0 ) {
 
-		    delta = (One/rho)*(v*b);
+            delta = (One/rho)*(v*b);
         } else {
         
             delta = v*v;
             
         }
-		ASSERT( abs(delta)!=0 );
+        ASSERT( abs(delta)!=0 );
 
-		if(i == 0) {
-			q = (One/rho)*b;
-		} else {
-			q = (-rho*delta/epsilon)*q + v;
-		}
+        if(i == 0) {
+            q = (One/rho)*b;
+        } else {
+            q = (-rho*delta/epsilon)*q + v;
+        }
 
-		p       = A*q;
-		epsilon = q*p;
+        p       = A*q;
+        epsilon = q*p;
 
-		ASSERT( abs(epsilon)!=0 );
+        ASSERT( abs(epsilon)!=0 );
 
-		beta = epsilon/delta;
-		v    = -beta*v + p;
+        beta = epsilon/delta;
+        v    = -beta*v + p;
 
-		rhoold = rho;
-		rho    = blas::nrm2(v);
+        rhoold = rho;
+        rho    = blas::nrm2(v);
 
-		thetaold = theta;
-		theta    = rho/(gamma*abs(beta));
+        thetaold = theta;
+        theta    = rho/(gamma*abs(beta));
 
-		gammaold = gamma;
-		gamma    = One/(sqrt(One+theta*theta));
+        gammaold = gamma;
+        gamma    = One/(sqrt(One+theta*theta));
 
-		ASSERT( abs(gamma)!=0 );
+        ASSERT( abs(gamma)!=0 );
 
-		if(i == 0)
-		{
-			eta = rhoold*gamma*gamma/beta;
+        if(i == 0)
+        {
+            eta = rhoold*gamma*gamma/beta;
 
-			d = eta*q;
-			s = eta*p;
-		}
-		else
-		{
+            d = eta*q;
+            s = eta*p;
+        }
+        else
+        {
 
             ElementType kappa = pow(gamma/gammaold,2);
-			eta = -eta*rhoold*kappa/beta;
+            eta = -eta*rhoold*kappa/beta;
   
             ElementType lambda = pow(thetaold*gamma,2);          
-			d = lambda*d + eta*q;
-			s = lambda*s + eta*p;
-		}
+            d = lambda*d + eta*q;
+            s = lambda*s + eta*p;
+        }
 
-		x +=  d;
-		r -=  s;
+        x +=  d;
+        r -=  s;
 
     }
     return maxIterations;
@@ -264,7 +264,7 @@ template <typename MP, typename MA, typename VX, typename VB>
                      && IsDenseVector<VX>::value
                      && IsDenseVector<VB>::value,
              typename RemoveRef<VX>::Type::IndexType>::Type
-ptfqmr(MP &&P, MA &&A, VX &&x, VB &&b,
+ptfqmr(const MP &P, const MA &A, VX &&x, const VB &b,
       typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType tol,
       typename RemoveRef<VX>::Type::IndexType maxIterations)
 {
@@ -299,71 +299,71 @@ ptfqmr(MP &&P, MA &&A, VX &&x, VB &&b,
     for(IndexType i = 0; i < maxIterations; ++i)
     {
 
-		if( abs(r*r)<tol ) {
-			return i;
+        if( abs(r*r)<tol ) {
+            return i;
             
         }
-		
+        
         ASSERT( abs(rho)!=0 );
-		ASSERT( abs(xi)!=0 );
+        ASSERT( abs(xi)!=0 );
         
-		alpha = alpha*(xi/rho);
+        alpha = alpha*(xi/rho);
 
-		v = (One/rho)*v;
-		z = (One/xi)*z;
+        v = (One/rho)*v;
+        z = (One/xi)*z;
 
-		delta = v*z;
+        delta = v*z;
 
-		ASSERT( abs(delta)!=0 );
+        ASSERT( abs(delta)!=0 );
 
-		if(i == 0) {
-			q = z;
-		} else {
-			q = (-rho*delta/epsilon)*q + z;
-		}
+        if(i == 0) {
+            q = z;
+        } else {
+            q = (-rho*delta/epsilon)*q + z;
+        }
 
-		p       = alpha*A*q;
-		epsilon = q*p;
+        p       = alpha*A*q;
+        epsilon = q*p;
 
-		ASSERT( abs(epsilon)!=0 );
+        ASSERT( abs(epsilon)!=0 );
 
-		beta = epsilon/delta;
-		v    = -beta*v + p;
+        beta = epsilon/delta;
+        v    = -beta*v + p;
 
-		rhoold = rho;
-		rho    = blas::nrm2(v);
+        rhoold = rho;
+        rho    = blas::nrm2(v);
 
-		z  = (One/alpha)*P*v;
+        z  = (One/alpha)*P*v;
         
-		xi = blas::nrm2(z);
+        xi = blas::nrm2(z);
 
-		thetaold = theta;
-		theta    = rho/(gamma*abs(beta));
+        thetaold = theta;
+        theta    = rho/(gamma*abs(beta));
 
-		gammaold = gamma;
-		gamma    = One/(sqrt(One+theta*theta));
+        gammaold = gamma;
+        gamma    = One/(sqrt(One+theta*theta));
 
-		ASSERT( abs(gamma)!=0 );
+        ASSERT( abs(gamma)!=0 );
 
-		if(i == 0)
-		{
-			eta = rhoold*gamma*gamma/beta;
+        if(i == 0)
+        {
+            eta = rhoold*gamma*gamma/beta;
 
-			d = eta*alpha*q;
-			s = eta*p;
-		}
-		else
-		{
+            d = eta*alpha*q;
+            s = eta*p;
+        }
+        else
+        {
             ElementType lambda = pow(thetaold*gamma, 2);
             ElementType kappa  = pow(gamma/gammaold, 2);
-			eta = -eta*rhoold*kappa/beta;
+            eta = -eta*rhoold*kappa/beta;
             
-			d = lambda*d + eta*alpha*q;
-			s = lambda*s + eta*p;
-		}
+            d = lambda*d + eta*alpha*q;
+            s = lambda*s + eta*p;
+        }
 
-		x +=  d;
-		r -=  s;
+        x +=  d;
+        r -=  s;
     }
     return maxIterations;
 }

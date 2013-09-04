@@ -46,7 +46,7 @@ template <typename MA, typename VX, typename VB>
                      && IsDenseVector<VX>::value
                      && IsDenseVector<VB>::value,
              typename RemoveRef<VX>::Type::IndexType>::Type
-    tfqmr(MA &&A, VX &&x, VB &&b,
+    tfqmr(const MA &A, VX &&x, const VB &b,
           typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType tol
                    = std::numeric_limits<typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType>::epsilon(),
           typename RemoveRef<VX>::Type::IndexType maxIterations = std::numeric_limits<typename RemoveRef<VX>::Type::IndexType>::max());
@@ -57,7 +57,7 @@ template <typename MA, typename VX, typename VB>
                      && IsDenseVector<VX>::value
                      && IsDenseVector<VB>::value,
              typename RemoveRef<VX>::Type::IndexType>::Type
-    tfqmr(MA &&A, VX &&x, VB &&b,
+    tfqmr(const MA &A, VX &&x, const VB &b,
           typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType tol
                    = std::numeric_limits<typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType>::epsilon(),
           typename RemoveRef<VX>::Type::IndexType maxIterations = std::numeric_limits<typename RemoveRef<VX>::Type::IndexType>::max());
@@ -68,7 +68,7 @@ template <typename MP, typename MA, typename VX, typename VB>
                      && IsDenseVector<VX>::value
                      && IsDenseVector<VB>::value,
              typename RemoveRef<VX>::Type::IndexType>::Type
-    ptfqmr(MP &&P, MA &&A, VX &&x, VB &&b,
+    ptfqmr(const MP &P, const MA &A, VX &&x, const VB &b,
          typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType tol
                   = std::numeric_limits<typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType>::epsilon(),
          typename RemoveRef<VX>::Type::IndexType maxIterations = std::numeric_limits<typename RemoveRef<VX>::Type::IndexType>::max());

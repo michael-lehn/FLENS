@@ -44,11 +44,15 @@ typename RestrictTo<IsComplexDenseVector<VIN>::value &&
                     void>::Type
 dft_forward(VIN &&vin, VOUT &&vout)
 {
-	//
-	//  Remove references from rvalue types
-	//
-	typedef typename RemoveRef<VIN>::Type    VectorV;
-	typedef typename VectorV::IndexType      IndexType;
+    //
+    //  Remove references from rvalue types
+    //
+    typedef typename RemoveRef<VIN>::Type    VectorV;
+    typedef typename VectorV::IndexType      IndexType;
+    
+    if (vout.length()==0) {
+        vout.resize(vin.length()); 
+    }
     
     ASSERT( vin.length()==vout.length() );
     
@@ -67,11 +71,15 @@ typename RestrictTo<IsComplexDenseVector<VIN>::value &&
                     void>::Type
 dft_backward(VIN &&vin, VOUT &&vout)
 {
-	//
-	//  Remove references from rvalue types
-	//
-	typedef typename RemoveRef<VIN>::Type    VectorV;
-	typedef typename VectorV::IndexType      IndexType;
+    //
+    //  Remove references from rvalue types
+    //
+    typedef typename RemoveRef<VIN>::Type    VectorV;
+    typedef typename VectorV::IndexType      IndexType;
+    
+    if (vout.length()==0) {
+        vout.resize(vin.length()); 
+    }
     
     ASSERT( vin.length()==vout.length() );
     

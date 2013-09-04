@@ -53,16 +53,16 @@ template <typename IndexType, typename T>
              const int dest, const MPI::Comm &communicator = MPI::COMM_WORLD);
 
 template <typename VX>
-typename RestrictTo<IsDenseVector<VX>::value,
-                    void>::Type
-MPI_send(VX &&x, const int dest,
-         const MPI::Comm &communicator = MPI::COMM_WORLD);
+    typename RestrictTo<IsDenseVector<VX>::value,
+                        void>::Type
+    MPI_send(VX &&x, const int dest,
+             const MPI::Comm &communicator = MPI::COMM_WORLD);
 
 template <typename MA>
-typename RestrictTo<IsGeMatrix<MA>::value,
+    typename RestrictTo<IsGeMatrix<MA>::value,
                     void>::Type
-MPI_send(MA &&A, const int dest, 
-         const MPI::Comm &communicator = MPI::COMM_WORLD);
+    MPI_send(MA &&A, const int dest, 
+             const MPI::Comm &communicator = MPI::COMM_WORLD);
 
 #endif // WITH_MPI
 

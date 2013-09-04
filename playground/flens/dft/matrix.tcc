@@ -48,6 +48,9 @@ dft_col_forward(AIN &&Ain, AOUT &&Aout)
     typedef typename RemoveRef<AOUT>::Type          MatrixA;
     typedef typename MatrixA::IndexType             IndexType;
     
+    if (Aout.numCols()==0 || Aout.numRows()==0 ) {
+        Aout.resize(Ain);
+    }    
     
     ASSERT( Ain.numCols()==Aout.numCols() );
     ASSERT( Ain.numRows()==Aout.numRows() );
@@ -78,6 +81,10 @@ dft_col_backward(AIN &&Ain, AOUT &&Aout)
     typedef typename RemoveRef<AOUT>::Type          MatrixA;
     typedef typename MatrixA::IndexType             IndexType;
     
+    if (Aout.numCols()==0 || Aout.numRows()==0 ) {
+        Aout.resize(Ain);
+    }    
+    
     ASSERT( Ain.numCols()==Aout.numCols() );
     ASSERT( Ain.numRows()==Aout.numRows() );
 
@@ -107,6 +114,10 @@ dft_row_forward(AIN &&Ain, AOUT &&Aout)
     typedef typename RemoveRef<AOUT>::Type          MatrixA;
     typedef typename MatrixA::IndexType             IndexType;
     
+    if (Aout.numCols()==0 || Aout.numRows()==0 ) {
+        Aout.resize(Ain);
+    }
+    
     ASSERT( Ain.numCols()==Aout.numCols() );
     ASSERT( Ain.numRows()==Aout.numRows() );
 
@@ -135,6 +146,10 @@ dft_row_backward(AIN &&Ain, AOUT &&Aout)
 
     typedef typename RemoveRef<AOUT>::Type          MatrixA;
     typedef typename MatrixA::IndexType             IndexType;
+    
+    if (Aout.numCols()==0 || Aout.numRows()==0 ) {
+        Aout.resize(Ain);
+    }
     
     ASSERT( Ain.numCols()==Aout.numCols() );
     ASSERT( Ain.numRows()==Aout.numRows() );

@@ -46,7 +46,7 @@ template <typename MA, typename VX, typename VB>
                      && IsDenseVector<VX>::value
                      && IsDenseVector<VB>::value,
             typename RemoveRef<VX>::Type::IndexType>::Type
-    cgs(MA &&A, VX &&x, VB &&b,
+    cgs(const MA &A, VX &&x, const VB &b,
        typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType tol
                 = std::numeric_limits<typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType>::epsilon(),
        typename RemoveRef<VX>::Type::IndexType maxIterations = std::numeric_limits<typename RemoveRef<VX>::Type::IndexType>::max());

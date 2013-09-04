@@ -70,8 +70,8 @@ MPI_send(const IndexType n, const T *x, const IndexType incX, const int dest,
                  n*MPI_Type<T>::size, MPI_Type<T>::Type(), dest, 0);
     } else {
         for (IndexType i=0, iX=0; i<n; ++i, iX+=incX) {
-	    MPI_send(x[iX], dest, communicator); 
-	}
+            MPI_send(x[iX], dest, communicator); 
+        }
     }
     
     return ;

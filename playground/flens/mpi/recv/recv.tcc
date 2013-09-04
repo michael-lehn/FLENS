@@ -93,7 +93,6 @@ MPI_recv(const IndexType n, T *x, const IndexType incX, const int source,
 
 }
 
-
 template <typename VX>
 typename RestrictTo<IsDenseVector<VX>::value,
                     void>::Type

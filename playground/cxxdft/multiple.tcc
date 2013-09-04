@@ -64,8 +64,10 @@ dft_multiple(IndexType n, IndexType m,
              std::complex<double> *y, IndexType strideY, IndexType distY,
              DFTDirection direction)
 {
+    CXXBLAS_DEBUG_OUT("dft_multiple [FFTW interface]");
+    
     fftw_plan p = fftw_plan_many_dft(1, &n, m,
-    		                         reinterpret_cast<fftw_complex*>(x), NULL, strideX, distX,
+                                     reinterpret_cast<fftw_complex*>(x), NULL, strideX, distX,
                                      reinterpret_cast<fftw_complex*>(y), NULL, strideY, distY,
                                      direction, FFTW_ESTIMATE);
     fftw_execute(p);

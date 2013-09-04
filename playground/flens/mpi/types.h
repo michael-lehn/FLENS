@@ -47,6 +47,16 @@ struct MPI_Type
 };
 
 #ifdef WITH_MPI
+
+template <>
+struct MPI_Type<short>
+{
+    typedef short                 PrimitiveType; 
+    static const bool             Compatible = true;
+    static MPI_Datatype           Type() { return MPI_SHORT; }
+    static const int              size       = 1;
+};
+
 template <>
 struct MPI_Type<int>
 {
@@ -62,6 +72,15 @@ struct MPI_Type<long>
     typedef long                  PrimitiveType; 
     static const bool             Compatible = true;   
     static MPI_Datatype           Type() { return MPI_LONG; }
+    static const int              size       = 1;
+};
+
+template <>
+struct MPI_Type<unsigned short>
+{
+    typedef unsigned short        PrimitiveType; 
+    static const bool             Compatible = true;
+    static MPI_Datatype           Type() { return MPI_UNSIGNED_SHORT; }
     static const int              size       = 1;
 };
 
@@ -101,13 +120,23 @@ struct MPI_Type<double>
     static const int              size       = 1;
 };
 
+template <>
+struct MPI_Type<long double>
+{
+    typedef long double           PrimitiveType;
+    static const bool             Compatible = true;
+    static MPI_Datatype           Type() { return MPI_LONG_DOUBLE; }
+    static const int              size       = 1;
+};
+
+
 template <typename T>
 struct MPI_Type<std::complex<T> >
 {
-    typedef T                     PrimitiveType; 
-    static const bool             Compatible = true;
-    static MPI_Datatype           Type() { return MPI_Type<T>::Type(); }
-    static const int              size       = 2*MPI_Type<T>::size;
+    typedef typename MPI_Type<T>::PrimitiveType  PrimitiveType; 
+    static const bool                            Compatible = MPI_Type<T>::Compatible;
+    static MPI_Datatype                          Type() { return MPI_Type<T>::Type(); }
+    static const int                             size       = 2*MPI_Type<T>::size;
 };
 
 #endif 
