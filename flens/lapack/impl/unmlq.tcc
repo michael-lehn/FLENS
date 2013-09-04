@@ -51,6 +51,213 @@ namespace flens { namespace lapack {
 
 //== generic lapack implementation =============================================
 
+namespace generic {
+
+//-- unmlq_wsq [worksize query] ------------------------------------------------
+
+template <typename MA, typename MC>
+typename GeMatrix<MC>::IndexType
+unmlq_wsq_impl(Side              side,
+               Transpose         trans,
+               GeMatrix<MA>      &A,
+               GeMatrix<MC>      &C)
+{
+    using std::max;
+    using std::min;
+
+    typedef typename GeMatrix<MC>::ElementType  T;
+    typedef typename GeMatrix<MC>::IndexType    IndexType;
+
+
+//
+//  Paramter for maximum block size and buffer for TrMatrix Tr.
+//
+    const IndexType nbMax   = 64;
+
+    const IndexType m = C.numRows();
+    const IndexType n = C.numCols();
+    const IndexType k = A.numRows();
+
+    const IndexType nw      = (side==Left) ? n : m;
+
+//
+//  Determine the block size.  nb may be at most nbMax, where nbMax
+//  is used to define the local array tr.
+//
+    char opt[3];
+    opt[0] = char(side);
+    if (trans==NoTrans) {
+        opt[1] = 'N';
+    } else if (trans==Conj) {
+        opt[1] = 'R';
+    } else if (trans==Trans) {
+        opt[1] = 'T';
+    } else if (trans==ConjTrans) {
+        opt[1] = 'C';
+    }
+    opt[2] = 0;
+
+    IndexType nb = min(nbMax, IndexType(ilaenv<T>(1, "UNMLQ", opt, m, n, k)));
+    return max(IndexType(1), nw)*nb;
+}
+
+//-- unmlq ---------------------------------------------------------------------
+
+template <typename MA, typename VTAU, typename MC, typename VWORK>
+void
+unmlq_impl(Side                      side,
+           Transpose                 trans,
+           GeMatrix<MA>              &A,
+           const DenseVector<VTAU>   &tau,
+           GeMatrix<MC>              &C,
+           DenseVector<VWORK>        &work)
+{
+    using std::max;
+    using std::min;
+
+    typedef typename GeMatrix<MC>::ElementType  T;
+    typedef typename GeMatrix<MC>::IndexType    IndexType;
+
+    typedef typename GeMatrix<MC>::View         GeView;
+    typedef typename GeView::Engine             GeViewEngine;
+
+    const Underscore<IndexType> _;
+
+
+//
+//  Paramter for maximum block size and buffer for TrMatrix Tr.
+//
+    const IndexType     nbMax = 64;
+    const IndexType     ldt = nbMax + 1;
+    T                   trBuffer[nbMax*ldt];
+
+    const IndexType m = C.numRows();
+    const IndexType n = C.numCols();
+    const IndexType k = A.numRows();
+
+    const bool noTrans = (trans==Trans || trans==ConjTrans) ? false : true;
+//
+//  nq is the order of Q and nw is the minimum dimension of work
+//
+    IndexType nq, nw;
+    if (side==Left) {
+        nq = m;
+        nw = n;
+    } else {
+        nq = n;
+        nw = m;
+    }
+//
+//  Determine the block size.  nb may be at most nbMax, where nbMax
+//  is used to define the local array tr.
+//
+    char opt[3];
+    opt[0] = (side==Left) ? 'L' : 'R';
+    if (trans==NoTrans) {
+        opt[1] = 'N';
+    } else if (trans==Conj) {
+        opt[1] = 'R';
+    } else if (trans==Trans) {
+        opt[1] = 'T';
+    } else if (trans==ConjTrans) {
+        opt[1] = 'C';
+    }
+    opt[2] = 0;
+
+    IndexType nb = min(nbMax, IndexType(ilaenv<T>(1, "UNMLQ", opt, m, n, k)));
+    IndexType lWorkOpt = max(IndexType(1), nw)*nb;
+
+    if (work.length()==0) {
+        work.resize(lWorkOpt);
+    }
+
+//
+//  Quick return if possible
+//
+    if ((m==0) || (n==0) || (k==0)) {
+        work(1) = 1;
+        return;
+    }
+
+    IndexType nbMin = 2;
+    IndexType iws;
+    if ((nb>1) && (nb<k)) {
+        iws = lWorkOpt;
+        if (work.length()<iws) {
+            nb = work.length()/nw;
+            nbMin = max(nbMin, IndexType(ilaenv<T>(2, "UNMLQ", opt, m, n, k)));
+        }
+    } else {
+        iws = nw;
+    }
+
+    if ((nb<nbMin) || (nb>=k)) {
+//
+//      Use unblocked code
+//
+        auto _work = (side==Left) ? work(_(1,n)) : work(_(1,m));
+        unml2(side, trans, A, tau, C, _work);
+    } else {
+//
+//      Use blocked code
+//
+        IndexType iBeg, iInc, iEnd;
+        if ((side==Left && noTrans) || (side==Right && !noTrans)) {
+            iBeg = 1;
+            iEnd = ((k-1)/nb)*nb + 1;
+            iInc = nb;
+        } else {
+            iBeg = ((k-1)/nb)*nb + 1;
+            iEnd = 1;
+            iInc = -nb;
+        }
+        iEnd += iInc;
+
+        IndexType ic, jc;
+        if (side==Left) {
+            jc = 1;
+        } else {
+            ic = 1;
+        }
+
+        const Transpose transT = (trans==NoTrans) ? ConjTrans : NoTrans;
+
+        typename GeMatrix<MA>::View Work(nw, nb, work);
+
+        for (IndexType i=iBeg; i!=iEnd; i+=iInc) {
+            const IndexType ib = min(nb, k-i+1);
+            GeView          Tr = GeViewEngine(ib, ib, trBuffer, ldt);
+//
+//          Form the triangular factor of the block reflector
+//          H = H(i) H(i+1) . . . H(i+ib-1)
+//
+            larft(Forward, RowWise, nq-i+1,
+                  A(_(i,i+ib-1),_(i,nq)), tau(_(i,i+ib-1)), Tr.upper());
+
+            if (side==Left) {
+//
+//              H or H**H is applied to C(i:m,1:n)
+//
+                ic = i;
+            } else {
+//
+//              H or H**H is applied to C(1:m,i:n)
+//
+                jc = i;
+            }
+
+            larfb(side, transT,
+                  Forward, RowWise,
+                  A(_(i,i+ib-1),_(i,nq)), Tr.upper(),
+                  C(_(ic,m),_(jc,n)),
+                  Work(_,_(1,ib)));
+        }
+    }
+    work(1) = lWorkOpt;
+}
+
+} // namespace generic
+
 
 //== interface for native lapack ===============================================
 
@@ -128,8 +335,6 @@ unmlq_impl(Side                       side,
 
 //-- unmlq ---------------------------------------------------------------------
 
-#ifdef USE_CXXLAPACK
-
 template <typename MA, typename VTAU, typename MC, typename VWORK>
 typename RestrictTo<IsComplexGeMatrix<MA>::value
                  && IsComplexDenseVector<VTAU>::value
@@ -143,6 +348,7 @@ unmlq(Side         side,
       MC           &&C,
       VWORK        &&work)
 {
+
 //
 //  Test the input parameters
 //
@@ -176,9 +382,67 @@ unmlq(Side         side,
 #   endif
 
 //
+//  Make copies of output arguments
+//
+#   ifdef CHECK_CXXLAPACK
+
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    
+    typename MatrixA::NoView        A_org    = A;
+    typename MatrixC::NoView        C_org    = C;
+    typename VectorWork::NoView     work_org = work;
+#   endif
+
+//
 //  Call implementation
 //
+    LAPACK_SELECT::unmlq_impl(side, trans, A, tau, C, work);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of results computed by the generic implementation
+//
+    typename MatrixA::NoView        A_generic    = A;
+    typename MatrixC::NoView        C_generic    = C;
+    typename VectorWork::NoView     work_generic = work;
+
+//
+//  restore output arguments
+//
+    A = A_org;
+    C = C_org;
+    work = work_org;
+
+//
+//  Compare generic results with results from the native implementation
+//
     external::unmlq_impl(side, trans, A, tau, C, work);
+
+    bool failed = false;
+    if (! isIdentical(A_generic, A, "A_generic", "A")) {
+        std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
+        std::cerr << "F77LAPACK: A = " << A << std::endl;
+        failed = true;
+    }
+    if (! isIdentical(C_generic, C, "C_generic", "C")) {
+        std::cerr << "CXXLAPACK: C_generic = " << C_generic << std::endl;
+        std::cerr << "F77LAPACK: C = " << C << std::endl;
+        failed = true;
+    }
+    if (! isIdentical(work_generic, work, "work_generic", "work")) {
+        std::cerr << "CXXLAPACK: work_generic = " << work_generic << std::endl;
+        std::cerr << "F77LAPACK: work = " << work << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        std::cerr << "error in: unmlq.tcc" << std::endl;
+        ASSERT(0);
+    } else {
+        // std::cerr << "passed: unmlq.tcc" << std::endl;
+    }
+#   endif
 }
 
 //
@@ -270,8 +534,8 @@ unmlq(Side         side,
 //-- unmlq_wsq [worksize query] ------------------------------------------------
 
 template <typename MA, typename MC>
-typename RestrictTo<IsRealGeMatrix<MA>::value
-                 && IsRealGeMatrix<MC>::value,
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                 && IsComplexGeMatrix<MC>::value,
          typename RemoveRef<MC>::Type::IndexType>::Type
 unmlq_wsq(Side        side,
           Transpose   trans,
@@ -299,12 +563,18 @@ unmlq_wsq(Side        side,
 //
 //  Call implementation
 //
-    const IndexType info = external::unmlq_wsq_impl(side, trans, A, C);
+    const IndexType info = LAPACK_SELECT::unmlq_wsq_impl(side, trans, A, C);
 
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare generic results with results from the native implementation
+//
+    const IndexType _info = external::unmlq_wsq_impl(side, trans, A, C);
+
+    ASSERT(info==_info);
+#   endif
     return info;
 }
-
-#endif // USE_CXXLAPACK
 
 } } // namespace lapack, flens
 

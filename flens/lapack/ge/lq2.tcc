@@ -33,6 +33,7 @@
 /* Based on
  *
       SUBROUTINE DGELQ2( M, N, A, LDA, TAU, WORK, INFO )
+      SUBROUTINE ZGELQ2( M, N, A, LDA, TAU, WORK, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -52,8 +53,11 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
+//-- [lq2, real version] -------------------------------------------------------
 template <typename MA, typename VTAU, typename VWORK>
-void
+typename
+RestrictTo<IsRealGeMatrix<GeMatrix<MA> >::value,
+          void>::Type
 lq2_impl(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 {
     typedef typename GeMatrix<MA>::ElementType  ElementType;
@@ -83,6 +87,46 @@ lq2_impl(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
             larf(Right, A(i,_(i,n)), tau(i), A(_(i+1,m), _(i,n)), _work);
             A(i,i) = Aii;
         }
+    }
+}
+
+//-- [lq2, complex version] ----------------------------------------------------
+template <typename MA, typename VTAU, typename VWORK>
+typename
+RestrictTo<IsComplexGeMatrix<GeMatrix<MA> >::value,
+          void>::Type
+lq2_impl(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
+{
+    typedef typename GeMatrix<MA>::ElementType  ElementType;
+    typedef typename GeMatrix<MA>::IndexType    IndexType;
+
+    const Underscore<IndexType> _;
+
+    const IndexType m = A.numRows();
+    const IndexType n = A.numCols();
+    const IndexType k = std::min(m, n);
+
+    const ElementType One(1);
+    ElementType alpha;
+
+    for (IndexType i=1; i<=k; ++i) {
+//
+//      Generate elementary reflector H(i) to annihilate A(i,i+1:n)
+//
+        A(i, _(i,n)) = conjugate(A(i, _(i,n)));
+        alpha = A(i,i);
+        larfg(n-i+1, alpha, A(i,_(std::min(i+1,n),n)), tau(i));
+
+        if (i<m) {
+//
+//          Apply H(i) to A(i+1:m,i:n) from the right
+//
+            A(i,i) = One;
+            auto _work = work(_(1, m-i));
+            larf(Right, A(i,_(i,n)), tau(i), A(_(i+1,m), _(i,n)), _work);
+        }
+        A(i,i) = alpha;
+        A(i, _(i,n)) = conjugate(A(i, _(i,n)));
     }
 }
 

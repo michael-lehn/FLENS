@@ -39,13 +39,11 @@
 
 namespace cxxlapack {
 
-
-template <typename VOID>
 void
-ladiv(double                a,
-      double                b,
-      double                c,
-      double                d,
+ladiv(const double          a,
+      const double          b,
+      const double          c,
+      const double          d,
       double                &p,
       double                &q)
 {
@@ -60,15 +58,16 @@ ladiv(double                a,
 }
 
 
-template <typename VOID>
 std::complex<double>
 ladiv(std::complex<double>  x,
       std::complex<double>  y)
 {
     CXXLAPACK_DEBUG_OUT("zladiv");
 
-    return LAPACK_IMPL(zladiv)(reinterpret_cast<const double *>(&x),
-                               reinterpret_cast<const double *>(&y));
+    std::complex<double> z =  LAPACK_IMPL(zladiv)(reinterpret_cast<const double *>(&x),
+                                                  reinterpret_cast<const double *>(&y));
+                                                  
+    return z;
 }
 } // namespace cxxlapack
 

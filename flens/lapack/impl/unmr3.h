@@ -32,8 +32,8 @@
 
 /* Based on
  *
-      SUBROUTINE DGELQ2( M, N, A, LDA, TAU, WORK, INFO )
-      SUBROUTINE ZGELQ2( M, N, A, LDA, TAU, WORK, INFO )
+       SUBROUTINE ZUNMR3( SIDE, TRANS, M, N, K, L, A, LDA, TAU, C, LDC,
+      $                   WORK, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -41,24 +41,33 @@
  *  -- April 2011                                                      --
  */
 
-#ifndef FLENS_LAPACK_GE_LQ2_H
-#define FLENS_LAPACK_GE_LQ2_H 1
+#ifndef FLENS_LAPACK_IMPL_UNMR3_H
+#define FLENS_LAPACK_IMPL_UNMR3_H 1
 
+#include <flens/lapack/typedefs.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace lapack {
 
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VTAU, typename VWORK>
-    void
-    lq2(MA &&A, VTAU &&tau, VWORK &&work);
+//== unmr3 =====================================================================
 
-//-- lq2 -----------------------------------------------------------------------
-template <typename MA, typename VTAU, typename VWORK>
-    void
-    lq2(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work);
+template <typename IndexType, typename MA, typename VTAU, typename MC,
+          typename VWORK>
+    typename RestrictTo<IsInteger<IndexType>::value
+                     && IsComplexGeMatrix<MA>::value
+                     && IsComplexDenseVector<VTAU>::value
+                     && IsComplexGeMatrix<MC>::value
+                     && IsComplexDenseVector<VWORK>::value,
+             void>::Type
+    unmr3(Side          side,
+          Transpose     trans,
+          IndexType     l,
+          const MA      &A,
+          const VTAU    &tau,
+          MC            &&C,
+          VWORK         &&work);
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_GE_LQ2_H
+#endif // FLENS_LAPACK_IMPL_UNMR3_H

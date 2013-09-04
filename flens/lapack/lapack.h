@@ -142,11 +142,16 @@
 #include <flens/lapack/impl/trsna.h>
 #include <flens/lapack/impl/trsyl.h>
 #include <flens/lapack/impl/tzrzf.h>
+#include <flens/lapack/impl/ung2r.h>
+#include <flens/lapack/impl/ungl2.h>
 #include <flens/lapack/impl/unglq.h>
 #include <flens/lapack/impl/ungqr.h>
 #include <flens/lapack/impl/unm2r.h>
+#include <flens/lapack/impl/unml2.h>
 #include <flens/lapack/impl/unmlq.h>
 #include <flens/lapack/impl/unmqr.h>
+#include <flens/lapack/impl/unmr3.h>
+#include <flens/lapack/impl/unmrz.h>
 
 #include <flens/lapack/la/ilaenv.h>
 #include <flens/lapack/la/ilalc.h>

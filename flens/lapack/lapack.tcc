@@ -116,11 +116,16 @@
 #include <flens/lapack/impl/trsna.tcc>
 #include <flens/lapack/impl/trsyl.tcc>
 #include <flens/lapack/impl/tzrzf.tcc>
+#include <flens/lapack/impl/ung2r.tcc>
+#include <flens/lapack/impl/ungl2.tcc>
 #include <flens/lapack/impl/unglq.tcc>
 #include <flens/lapack/impl/ungqr.tcc>
 #include <flens/lapack/impl/unm2r.tcc>
+#include <flens/lapack/impl/unml2.tcc>
 #include <flens/lapack/impl/unmlq.tcc>
 #include <flens/lapack/impl/unmqr.tcc>
+#include <flens/lapack/impl/unmr3.tcc>
+#include <flens/lapack/impl/unmrz.tcc>
 
 #include <flens/lapack/la/ilaenv.tcc>
 #include <flens/lapack/la/ilalc.tcc>

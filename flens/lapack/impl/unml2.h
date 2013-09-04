@@ -30,10 +30,10 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/* Based on
+/*
  *
-      SUBROUTINE DGELQ2( M, N, A, LDA, TAU, WORK, INFO )
-      SUBROUTINE ZGELQ2( M, N, A, LDA, TAU, WORK, INFO )
+       SUBROUTINE ZUNML2( SIDE, TRANS, M, N, K, A, LDA, TAU, C, LDC,
+      $                   WORK, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -41,24 +41,27 @@
  *  -- April 2011                                                      --
  */
 
-#ifndef FLENS_LAPACK_GE_LQ2_H
-#define FLENS_LAPACK_GE_LQ2_H 1
+#ifndef FLENS_LAPACK_IMPL_UNML2_H
+#define FLENS_LAPACK_IMPL_UNML2_H 1
 
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace lapack {
 
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VTAU, typename VWORK>
+//== unml2 =====================================================================
+template <typename MA, typename VTAU, typename MC, typename VWORK>
     void
-    lq2(MA &&A, VTAU &&tau, VWORK &&work);
+    unml2(Side side, Transpose trans, GeMatrix<MA> &A,
+          const DenseVector<VTAU> &tau, GeMatrix<MC> &C,
+          DenseVector<VWORK> &work);
 
-//-- lq2 -----------------------------------------------------------------------
-template <typename MA, typename VTAU, typename VWORK>
+//-- forwarding ----------------------------------------------------------------
+template <typename MA, typename VTAU, typename MC, typename VWORK>
     void
-    lq2(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work);
+    unml2(Side side, Transpose trans, MA &&A, const VTAU &tau, MC &&C,
+          VWORK &&work);
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_GE_LQ2_H
+#endif // FLENS_LAPACK_IMPL_UNML2_H

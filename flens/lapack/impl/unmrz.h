@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn
+ *   Copyright (c) 2012, 2013, Michael Lehn, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -32,8 +32,8 @@
 
 /* Based on
  *
-      SUBROUTINE DGELQ2( M, N, A, LDA, TAU, WORK, INFO )
-      SUBROUTINE ZGELQ2( M, N, A, LDA, TAU, WORK, INFO )
+       SUBROUTINE DUNMRZ( SIDE, TRANS, M, N, K, L, A, LDA, TAU, C, LDC,
+      $                   WORK, LWORK, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -41,24 +41,34 @@
  *  -- April 2011                                                      --
  */
 
-#ifndef FLENS_LAPACK_GE_LQ2_H
-#define FLENS_LAPACK_GE_LQ2_H 1
+#ifndef FLENS_LAPACK_IMPL_UNMRZ_H
+#define FLENS_LAPACK_IMPL_UNMRZ_H 1
 
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace lapack {
 
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VTAU, typename VWORK>
-    void
-    lq2(MA &&A, VTAU &&tau, VWORK &&work);
-
-//-- lq2 -----------------------------------------------------------------------
-template <typename MA, typename VTAU, typename VWORK>
-    void
-    lq2(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work);
+//== unmrz =====================================================================
+//
+//  Complex variant
+//
+template <typename IndexType, typename MA, typename VTAU, typename MC,
+          typename VWORK>
+    typename RestrictTo<IsInteger<IndexType>::value
+                     && IsComplexGeMatrix<MA>::value
+                     && IsComplexDenseVector<VTAU>::value
+                     && IsComplexGeMatrix<MC>::value
+                     && IsComplexDenseVector<VWORK>::value,
+             void>::Type
+    unmrz(Side          side,
+          Transpose     transpose,
+          IndexType     l,
+          MA            &&A,
+          const VTAU    &tau,
+          MC            &&C,
+          VWORK         &&work);
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_GE_LQ2_H
+#endif // FLENS_LAPACK_IMPL_UNMRZ_H

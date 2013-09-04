@@ -74,7 +74,8 @@ namespace flens { namespace lapack {
 namespace generic {
 
 template <typename Int, typename T, typename MA>
-typename RestrictTo<IsSame<typename MA::ElementType, T>::value, void>::Type
+typename RestrictTo<IsSame<typename MA::ElementType, T>::value ||
+                    IsSame<typename MA::ElementType, std::complex<T> >::value, void>::Type
 lascl_impl(LASCL::Type   type,
            Int           kl,
            Int           ku,

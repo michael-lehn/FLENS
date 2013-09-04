@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn
+ *   Copyright (c) 2011, 2013, Michael Lehn, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -32,33 +32,34 @@
 
 /* Based on
  *
-      SUBROUTINE DGELQ2( M, N, A, LDA, TAU, WORK, INFO )
-      SUBROUTINE ZGELQ2( M, N, A, LDA, TAU, WORK, INFO )
+      SUBROUTINE DUNG2R( M, N, K, A, LDA, TAU, WORK, INFO )
  *
- *  -- LAPACK routine (version 3.3.1) --
+ *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
  *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
- *  -- April 2011                                                      --
+ *     November 2006
  */
 
-#ifndef FLENS_LAPACK_GE_LQ2_H
-#define FLENS_LAPACK_GE_LQ2_H 1
+#ifndef FLENS_LAPACK_IMPL_UNG2R_H
+#define FLENS_LAPACK_IMPL_UNG2R_H 1
 
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace lapack {
 
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VTAU, typename VWORK>
+//== ung2r =====================================================================
+template <typename IndexType, typename MA, typename VTAU, typename VWORK>
     void
-    lq2(MA &&A, VTAU &&tau, VWORK &&work);
+    ung2r(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
+          DenseVector<VWORK> &work);
 
-//-- lq2 -----------------------------------------------------------------------
-template <typename MA, typename VTAU, typename VWORK>
+//-- forwarding ----------------------------------------------------------------
+template <typename IndexType, typename MA, typename VTAU, typename VWORK>
     void
-    lq2(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work);
+    ung2r(IndexType k, MA &&A, const VTAU &tau, VWORK &&work);
+
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_GE_LQ2_H
+#endif // FLENS_LAPACK_IMPL_UNG2R_H

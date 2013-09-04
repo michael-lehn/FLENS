@@ -50,11 +50,10 @@
 namespace flens { namespace lapack {
 
 
-#ifdef USE_CXXLAPACK
 
 //== ungqr =====================================================================
 //
-//  Real variant
+//  Complex variant
 //
 template <typename MA, typename VTAU, typename VWORK>
     typename RestrictTo<IsComplexGeMatrix<MA>::value
@@ -62,8 +61,6 @@ template <typename MA, typename VTAU, typename VWORK>
                      && IsComplexDenseVector<VWORK>::value,
              void>::Type
     ungqr(MA &&A, const VTAU &tau, VWORK &&work);
-
-#endif // USE_CXXLAPACK
 
 
 //

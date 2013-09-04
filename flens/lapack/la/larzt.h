@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DLARZT( DIRECT, STOREV, N, K, V, LDV, TAU, T, LDT )
+       SUBROUTINE ZLARZT( DIRECT, STOREV, N, K, V, LDV, TAU, T, LDT )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -51,12 +52,12 @@ namespace flens { namespace lapack {
 
 //== larzt =====================================================================
 //
-//  Real variant
+//  Real and complex variant
 //
 template <typename MV, typename TAU, typename MT>
-    typename RestrictTo<IsRealGeMatrix<MV>::value
-                     && IsRealDenseVector<TAU>::value
-                     && IsRealTrMatrix<MT>::value,
+    typename RestrictTo<IsGeMatrix<MV>::value
+                     && IsDenseVector<TAU>::value
+                     && IsTrMatrix<MT>::value,
              void>::Type
     larzt(Direction      direction,
           StoreVectors   storeVectors,

@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DLARZT( DIRECT, STOREV, N, K, V, LDV, TAU, T, LDT )
+       SUBROUTINE ZLARZT( DIRECT, STOREV, N, K, V, LDV, TAU, T, LDT )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -55,7 +56,9 @@ namespace generic {
 //-- larzt [real variant] ------------------------------------------------------
 
 template <typename MV, typename VTAU, typename MT>
-void
+typename 
+RestrictTo<IsRealGeMatrix<GeMatrix<MV> >::value,
+           void>::Type
 larzt_impl(Direction                 direction,
            StoreVectors              storeVectors,
            GeMatrix<MV>              &V,
@@ -103,6 +106,63 @@ larzt_impl(Direction                 direction,
     }
 }
 
+//-- larzt [complex variant] ---------------------------------------------------
+
+template <typename MV, typename VTAU, typename MT>
+typename 
+RestrictTo<IsComplexGeMatrix<GeMatrix<MV> >::value,
+           void>::Type
+larzt_impl(Direction                 direction,
+           StoreVectors              storeVectors,
+           GeMatrix<MV>              &V,
+           const DenseVector<VTAU>   &tau,
+           TrMatrix<MT>              &T)
+{
+    typedef typename GeMatrix<MV>::ElementType  ElementType;
+    typedef typename GeMatrix<MV>::IndexType    IndexType;
+
+    const Underscore<IndexType>  _;
+
+    const ElementType  Zero(0);
+
+//
+//  Check for currently supported options
+//
+    ASSERT(storeVectors==RowWise);
+    ASSERT(direction==Backward);
+
+    const IndexType k = T.dim();
+    const IndexType n = V.numCols();
+    
+    for (IndexType i=k; i>=1; --i) {
+        if (tau(i)==Zero) {
+//
+//          H(i)  =  I
+//
+            T(_(i,k),i) = Zero;
+        } else {
+//
+//          general case
+//
+            if (i<k) {
+//
+//              T(i+1:k,i) = - tau(i) * V(i+1:k,1:n)**H * V(i,1:n)
+//
+                const auto rows = _(i+1,k);
+                V(i, _(1, n)) = conjugate(V(i, _(1, n)));
+                blas::mv(NoTrans, -tau(i), V(rows,_), V(i,_), Zero, T(rows,i));
+                V(i, _(1, n)) = conjugate(V(i, _(1, n)));
+//
+//              T(i+1:k,i) = T(i+1:k,i+1:k) * T(i+1:k,i)
+//
+                blas::mv(NoTrans, T(rows,rows).lower(), T(rows,i));
+            }
+            T(i,i) = tau(i);
+        }
+    }
+}
+
+
 } // namespace generic
 
 
@@ -143,12 +203,12 @@ larzt_impl(Direction                 direction,
 
 //== public interface ==========================================================
 
-//-- larzt[real variant] ------------------------------------------------------
+//-- larzt[real and complex variant] -------------------------------------------
 
 template <typename MV, typename VTAU, typename MT>
-typename RestrictTo<IsRealGeMatrix<MV>::value
-                 && IsRealDenseVector<VTAU>::value
-                 && IsRealTrMatrix<MT>::value,
+typename RestrictTo<IsGeMatrix<MV>::value
+                 && IsDenseVector<VTAU>::value
+                 && IsTrMatrix<MT>::value,
          void>::Type
 larzt(Direction      direction,
       StoreVectors   storeVectors,

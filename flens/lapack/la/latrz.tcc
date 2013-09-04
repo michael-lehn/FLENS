@@ -56,7 +56,9 @@ namespace generic {
 //-- latrz [real variant] ------------------------------------------------------
 
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
-void
+typename
+RestrictTo<IsRealGeMatrix<GeMatrix<MA> >::value,
+           void>::Type
 latrz_impl(IndexType             l,
            GeMatrix<MA>          &A,
            DenseVector<VTAU>     &tau,
@@ -96,6 +98,55 @@ latrz_impl(IndexType             l,
     }
 }
 
+template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+typename
+RestrictTo<IsComplexGeMatrix<GeMatrix<MA> >::value,
+           void>::Type
+latrz_impl(IndexType             l,
+           GeMatrix<MA>          &A,
+           DenseVector<VTAU>     &tau,
+           DenseVector<VWORK>    &work)
+{
+    
+    typedef typename GeMatrix<MA>::ElementType  ElementType;
+
+    const Underscore<IndexType>  _;
+
+    const ElementType  Zero(0);
+    ElementType alpha(0);
+
+    const IndexType m = A.numRows();
+    const IndexType n = A.numCols();
+
+//
+//  Quick return if possible
+//
+    if (m==0) {
+        return;
+    } else if (m==n) {
+        tau = Zero;
+        return;
+    }
+
+    for (IndexType i=m; i>=1; --i) {
+//
+//      Generate elementary reflector H(i) to annihilate
+//      [ A(i,i) A(i,n-l+1:n) ]
+//
+
+        A(i, _(n-l+1,n)) = conjugate(A(i, _(n-l+1,n)));
+        alpha = cxxblas::conjugate(A(i,i));
+        larfg(l+1, alpha, A(i,_(n-l+1,n)), tau(i));
+        tau(i) = cxxblas::conjugate(tau(i));
+//
+//      Apply H(i) to A(1:i-1,i:n) from the right
+//
+        auto _work = work(_(1,i-1));
+        larz(Right, A(i,_(n-l+1,n)), cxxblas::conjugate(tau(i)), A(_(1,i-1),_(i,n)), _work);
+        A(i,i) = cxxblas::conjugate(alpha);
+    }
+}
+
 } // namespace generic
 
 
@@ -105,7 +156,7 @@ latrz_impl(IndexType             l,
 
 namespace external {
 
-//-- latrz [real variant] ------------------------------------------------------
+//-- latrz [real and complex variant] ------------------------------------------
 
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
 void
@@ -130,13 +181,13 @@ latrz_impl(IndexType             l,
 
 //== public interface ==========================================================
 
-//-- latrz[real variant] ------------------------------------------------------
+//-- latrz[real and complex variant] -------------------------------------------
 
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
 typename RestrictTo<IsInteger<IndexType>::value
-                 && IsRealGeMatrix<MA>::value
-                 && IsRealDenseVector<VTAU>::value
-                 && IsRealDenseVector<VWORK>::value,
+                 && IsGeMatrix<MA>::value
+                 && IsDenseVector<VTAU>::value
+                 && IsDenseVector<VWORK>::value,
          void>::Type
 latrz(IndexType     l,
       MA            &&A,

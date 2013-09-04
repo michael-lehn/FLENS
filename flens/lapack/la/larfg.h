@@ -33,6 +33,7 @@
 /* Baesed on
  *
       SUBROUTINE DLARFG( N, ALPHA, X, INCX, TAU )
+      SUBROUTINE ZLARFG( N, ALPHA, X, INCX, TAU )
  *
  *  -- LAPACK auxiliary routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --

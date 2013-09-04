@@ -34,6 +34,8 @@
  *
        SUBROUTINE DGELSY( M, N, NRHS, A, LDA, B, LDB, JPVT, RCOND, RANK,
       $                   WORK, LWORK, INFO )
+       SUBROUTINE DGELSY( M, N, NRHS, A, LDA, B, LDB, JPVT, RCOND, RANK,
+      $                   WORK, LWORK, RWORK, INFO )
  *
  *  -- LAPACK driver routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -68,8 +70,6 @@ template <typename MA, typename MB, typename VJPIV, typename RCOND,
         VWORK        &&work);
 
 
-
-#ifdef USE_CXXLAPACK
 //
 //  Complex variant
 //
@@ -91,8 +91,6 @@ template <typename MA, typename MB, typename VJPIV, typename RCOND,
         VWORK        &&work,
         VRWORK       &&rwork);
 
-#endif // USE_CXXLAPACK
-
 
 //
 //  Real variant with temporary workspace
@@ -111,8 +109,6 @@ template <typename MA, typename MB, typename VJPIV, typename RCOND,
         RCOND        rCond,
         RANK         &rank);
 
-
-#ifdef USE_CXXLAPACK
 //
 //  Complex variant with temporary workspace
 //
@@ -129,8 +125,6 @@ template <typename MA, typename MB, typename VJPIV, typename RCOND,
         VJPIV        &&jPiv,
         RCOND        rCond,
         RANK         &rank);
-
-#endif // USE_CXXLAPACK
 
 
 //== (ge)lsy variant if rhs is vector ==========================================
@@ -153,8 +147,6 @@ template <typename MA, typename VB, typename VJPIV, typename RCOND,
         RANK         &rank,
         VWORK        &&work);
 
-
-#ifdef USE_CXXLAPACK
 //
 //  Complex variant
 //
@@ -176,8 +168,6 @@ template <typename MA, typename VB, typename VJPIV, typename RCOND,
         VWORK        &&work,
         VRWORK       &&rwork);
 
-#endif // USE_CXXLAPACK
-
 //
 //  Real variant with temporary workspace
 //
@@ -195,8 +185,6 @@ template <typename MA, typename VB, typename VJPIV, typename RCOND,
         RCOND        rCond,
         RANK         &rank);
 
-
-#ifdef USE_CXXLAPACK
 //
 //  Complex variant with temporary workspace
 //
@@ -213,8 +201,6 @@ template <typename MA, typename VB, typename VJPIV, typename RCOND,
         VJPIV        &&jPiv,
         RCOND        rCond,
         RANK         &rank);
-
-#endif // USE_CXXLAPACK
 
 
 } } // namespace lapack, flens

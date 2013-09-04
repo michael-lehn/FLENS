@@ -33,6 +33,7 @@
 /* Baesed on
  *
       SUBROUTINE DLARFG( N, ALPHA, X, INCX, TAU )
+      SUBROUTINE ZLARFG( N, ALPHA, X, INCX, TAU )
  *
  *  -- LAPACK auxiliary routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -53,7 +54,7 @@ namespace flens { namespace lapack {
 namespace generic {
 
 
-//-- (ge)qrf [real variant] ----------------------------------------------------
+//-- larfg [real variant] ----------------------------------------------------
 template <typename N, typename ALPHA, typename VX, typename TAU>
 typename RestrictTo<IsReal<typename DenseVector<VX>::ElementType>::value,
                     void>::Type
@@ -112,35 +113,34 @@ larfg_impl(N n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
     }
 }
 
-//-- (ge)qrf [complex variant] -------------------------------------------------
+//-- larfg [complex variant] -------------------------------------------------
 template <typename N, typename ALPHA, typename VX, typename TAU>
 typename RestrictTo<IsComplex<typename DenseVector<VX>::ElementType>::value,
                     void>::Type
 larfg_impl(N n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
 {
-    using std::imag;
-    using std::real;
     using std::abs;
+    using std::real;
+    using std::imag;
 
     typedef typename DenseVector<VX>::ElementType   T;
     typedef typename ComplexTrait<T>::PrimitiveType PT;
     typedef typename DenseVector<VX>::IndexType     IndexType;
+    
+    const Underscore<IndexType> _;
+    
+    PT alphr = real(alpha);
+    PT alphi = imag(alpha);
+    
+    auto _x = x(_(1,n-1));
 
     if (n<=0) {
         tau = TAU(0);
         return;
     }
 
-    PT alphaR = real(alpha);
-    PT alphaI = imag(alpha);
-    
-    PT xNorm(0);
-    
-    if ( n>1 ) {
-        xNorm = blas::nrm2(x);
-    }
-
-    if (xNorm==PT(0) && imag(alpha)==PT(0) ) {
+    PT xNorm = blas::nrm2(_x);
+    if (xNorm==PT(0) && alphi==PT(0)) {
 //
 //      H  =  I
 //
@@ -149,14 +149,11 @@ larfg_impl(N n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
 //
 //      general case
 //
-
-        PT beta = -sign(lapy3(alphaR, alphaI, xNorm), alphaR);
-
+        PT beta = -sign(lapy3(alphr, alphi, xNorm), alphr);
         PT safeMin = lamch<PT>(SafeMin) / lamch<PT>(Eps);
 
         IndexType count=0;
         if (abs(beta)<safeMin) {
-        ASSERT(0);
 //
 //          XNORM, BETA may be inaccurate; scale X and recompute them
 //
@@ -165,19 +162,19 @@ larfg_impl(N n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
                 ++count;
                 blas::scal(rSafeMin, x);
                 beta *= rSafeMin;
-                alphaR *= rSafeMin;
-                alphaI *= rSafeMin;
+                alphr *= rSafeMin;
+                alphi *= rSafeMin;
             } while (abs(beta)<safeMin);
 //
 //          New BETA is at most 1, at least SAFMIN
 //
-            xNorm = blas::nrm2(x);
-            alpha = T(alphaR, alphaI );
-            beta = -sign(lapy3(alphaR, alphaI, xNorm), alphaR );
+            xNorm = blas::nrm2(_x);
+            alpha = T(alphr, alphi);
+            beta = -sign(lapy3(alphr, alphi, xNorm), alphr);
         }
-        tau = T( (beta-alphaR) / beta, -alphaI / beta );
-        alpha = ladiv( T(1), alpha - T(beta) );
-        blas::scal(alpha, x);
+        tau = T( (beta-alphr) / beta, -alphi / beta);
+        alpha = ladiv(T(1), alpha - beta);
+        blas::scal(alpha, _x);
 //
 //      If ALPHA is subnormal, it may lose relative accuracy
 //
@@ -277,6 +274,8 @@ larfg(N n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
 
     if (failed) {
         ASSERT(0);
+    } else {
+        //std::cerr << "passed: larfg.tcc" << std::endl;    
     }
 #   endif
 }

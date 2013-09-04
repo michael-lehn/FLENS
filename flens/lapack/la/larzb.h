@@ -34,6 +34,8 @@
  *
        SUBROUTINE DLARZB( SIDE, TRANS, DIRECT, STOREV, M, N, K, L, V,
       $                   LDV, T, LDT, C, LDC, WORK, LDWORK )
+       SUBROUTINE ZLARZB( SIDE, TRANS, DIRECT, STOREV, M, N, K, L, V,
+      $                   LDV, T, LDT, C, LDC, WORK, LDWORK )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -52,20 +54,20 @@ namespace flens { namespace lapack {
 
 //== larzb =====================================================================
 //
-//  Real variant
+//  Real and complex variant
 //
 template <typename MV, typename MT, typename MC, typename MWORK>
-    typename RestrictTo<IsRealGeMatrix<MV>::value
-                     && IsRealTrMatrix<MT>::value
-                     && IsRealGeMatrix<MC>::value
-                     && IsRealGeMatrix<MWORK>::value,
+    typename RestrictTo<IsGeMatrix<MV>::value
+                     && IsTrMatrix<MT>::value
+                     && IsGeMatrix<MC>::value
+                     && IsGeMatrix<MWORK>::value,
              void>::Type
     larzb(Side           side,
           Transpose      trans,
           Direction      direction,
           StoreVectors   storeVectors,
-          const MV       &V,
-          const MT       &T,
+          MV             &&V,
+          MT             &&T,
           MC             &&C,
           MWORK          &&Work);
 

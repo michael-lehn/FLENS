@@ -34,6 +34,8 @@
  *
        SUBROUTINE DLARZB( SIDE, TRANS, DIRECT, STOREV, M, N, K, L, V,
       $                   LDV, T, LDT, C, LDC, WORK, LDWORK )
+       SUBROUTINE ZLARZB( SIDE, TRANS, DIRECT, STOREV, M, N, K, L, V,
+      $                   LDV, T, LDT, C, LDC, WORK, LDWORK )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -56,7 +58,9 @@ namespace generic {
 //-- larzb [real variant] ------------------------------------------------------
 
 template <typename MV, typename MT, typename MC, typename MWORK>
-void
+typename
+RestrictTo<IsRealGeMatrix<GeMatrix<MV> >::value,
+           void>::Type
 larzb_impl(Side                     side,
            Transpose                trans,
            Direction                direction,
@@ -170,6 +174,139 @@ larzb_impl(Side                     side,
 
 }
 
+
+//-- larzb [complex variant] ---------------------------------------------------
+
+template <typename MV, typename MT, typename MC, typename MWORK>
+typename
+RestrictTo<IsComplexGeMatrix<GeMatrix<MV> >::value,
+           void>::Type
+larzb_impl(Side                     side,
+           Transpose                trans,
+           Direction                direction,
+           StoreVectors             storeVectors,
+           GeMatrix<MV>             &V,
+           TrMatrix<MT>             &T,
+           GeMatrix<MC>             &C,
+           GeMatrix<MWORK>          &Work)
+{
+    typedef typename GeMatrix<MC>::ElementType  ElementType;
+    typedef typename GeMatrix<MC>::IndexType    IndexType;
+
+    const ElementType  One(1);
+
+    const Underscore<IndexType>  _;
+
+    const IndexType m = C.numRows();
+    const IndexType n = C.numCols();
+    const IndexType k = T.dim();
+    const IndexType l = (storeVectors==RowWise) ? V.numCols() : V.numRows();
+
+//
+//  Quick return if possible
+//
+    if (m==0 || n==0) {
+        return;
+    }
+
+//
+//  Check for currently supported options
+//
+    ASSERT(direction==Backward);
+    ASSERT(storeVectors==RowWise);
+
+    Transpose transT = (trans==NoTrans) ? Trans : NoTrans;
+
+    if (side==Left) {
+//
+//      Form  H * C  or  H**H * C
+//
+//      W( 1:n, 1:k ) = C( 1:k, 1:n )**T
+//
+        for (IndexType j=1; j<=k; ++j) {
+            Work(_,j) = C(j,_);
+        }
+//
+//      W( 1:n, 1:k ) = W( 1:n, 1:k ) + ...
+//                      C( m-l+1:m, 1:n )**T * V( 1:k, 1:l )**T
+//
+        if (l>0) {
+            blas::mm(Trans, ConjTrans, One, C(_(m-l+1,m),_), V, One, Work);
+        }
+
+//
+//      W( 1:n, 1:k ) = W( 1:n, 1:k ) * T**T  or  W( 1:n, 1:k ) * T
+//
+        blas::mm(Right, transT, One, T, Work);
+
+//
+//      C( 1:k, 1:n ) = C( 1:k, 1:n ) - W( 1:n, 1:k )**T
+//
+        for (IndexType j=1; j<=n; ++j) {
+            for (IndexType i=1; i<=k; ++i) {
+                C(i,j) -= Work(j,i);
+            }
+        }
+
+//
+//      C( m-l+1:m, 1:n ) = C( m-l+1:m, 1:n ) - ...
+//                          V( 1:k, 1:l )**T * W( 1:n, 1:k )**T
+//
+        if (l>0) {
+            blas::mm(Trans, Trans, -One, V, Work, One, C(_(m-l+1,m),_));
+        }
+
+    } else if (side==Right) {
+//
+//      Form  C * H  or  C * H**H
+//
+//      W( 1:m, 1:k ) = C( 1:m, 1:k )
+//
+        Work = C(_,_(1,k));
+
+//
+//      W( 1:m, 1:k ) = W( 1:m, 1:k ) + ...
+//                      C( 1:m, n-l+1:n ) * V( 1:k, 1:l )**T
+//
+        if (l>0) {
+            blas::mm(NoTrans, Trans, One, C(_,_(n-l+1,n)), V, One, Work);
+        }
+
+//
+//      W( 1:m, 1:k ) = W( 1:m, 1:k ) * conj( T )  or  W( 1:m, 1:k ) * T**H
+//
+        for (IndexType j=1; j<=k; ++j) {
+            T(_(j, k),j) = conjugate(T(_(j, k),j));
+        }
+        blas::mm(Right, trans, One, T, Work);
+        for (IndexType j=1; j<=k; ++j) {
+            T(_(j, k),j) = conjugate(T(_(j, k),j));
+        }
+//
+//      C( 1:m, 1:k ) = C( 1:m, 1:k ) - W( 1:m, 1:k )
+//
+        C(_,_(1,k)) -= Work;
+        
+
+//
+//      C( 1:m, n-l+1:n ) = C( 1:m, n-l+1:n ) - ...
+//                          W( 1:m, 1:k ) * V( 1:k, 1:l )
+//
+        for (IndexType j=1; j<=l; ++j) {
+            V(_(1,k), j) = conjugate(V(_(1,k), j));
+        }
+        if (l>0) {
+            blas::mm(NoTrans, NoTrans, -One, Work, V, One, C(_,_(n-l+1,n)));
+        }
+        for (IndexType j=1; j<=l; ++j) {
+            V(_(1,k), j) = conjugate(V(_(1,k), j));
+        }
+
+    }
+
+}
+
+
 } // namespace generic
 
 
@@ -179,7 +316,7 @@ larzb_impl(Side                     side,
 
 namespace external {
 
-//-- larzb [real variant] ------------------------------------------------------
+//-- larzb [real and complex variant] ------------------------------------------
 
 template <typename MV, typename MT, typename MC, typename MWORK>
 void
@@ -187,8 +324,8 @@ larzb_impl(Side                     side,
            Transpose                trans,
            Direction                direction,
            StoreVectors             storeVectors,
-           const GeMatrix<MV>       &V,
-           const TrMatrix<MT>       &T,
+           GeMatrix<MV>             &V,
+           TrMatrix<MT>             &T,
            GeMatrix<MC>             &C,
            GeMatrix<MWORK>          &Work)
 {
@@ -220,17 +357,17 @@ larzb_impl(Side                     side,
 //-- larzb[real variant] ------------------------------------------------------
 
 template <typename MV, typename MT, typename MC, typename MWORK>
-typename RestrictTo<IsRealGeMatrix<MV>::value
-                 && IsRealTrMatrix<MT>::value
-                 && IsRealGeMatrix<MC>::value
-                 && IsRealGeMatrix<MWORK>::value,
+typename RestrictTo<IsGeMatrix<MV>::value
+                 && IsTrMatrix<MT>::value
+                 && IsGeMatrix<MC>::value
+                 && IsGeMatrix<MWORK>::value,
          void>::Type
 larzb(Side           side,
       Transpose      trans,
       Direction      direction,
       StoreVectors   storeVectors,
-      const MV       &V,
-      const MT       &T,
+      MV             &&V,
+      MT             &&T,
       MC             &&C,
       MWORK          &&Work)
 {
