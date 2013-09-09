@@ -38,7 +38,7 @@
 
 #ifdef USE_INTRINSIC
 
-#if defined(linux)
+#if defined(__linux__)
 #include <unistd.h>
 
 inline

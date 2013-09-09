@@ -83,6 +83,30 @@ class numeric_limits<mpfr::real<_prec,_rnd> >
 };
 
 //
+// import is_floating_point to namespace std
+//
+template <mpfr::real_prec_t _prec, mpfr::real_rnd_t _rnd>
+struct is_floating_point<mpfr::real<_prec,_rnd> >
+    : public is_floating_point<double>
+{
+    public:
+
+        static const bool value = true;
+};
+
+//
+// import is_arithmetic to namespace std
+//
+template <mpfr::real_prec_t _prec, mpfr::real_rnd_t _rnd>
+struct is_arithmetic<mpfr::real<_prec,_rnd> >
+    : public is_arithmetic<double>
+{
+    public:
+
+        static const bool value = true;
+};
+
+//
 // import isnan to namespace std
 //
 template <mpfr::real_prec_t _prec, mpfr::real_rnd_t _rnd>

@@ -34,31 +34,44 @@
 #define CXXBLAS_AUXILIARY_COMPLEX_H 1
 
 #include <cxxblas/typedefs.h>
+#include <type_traits>
 
 namespace cxxblas {
 
 template <typename T>
-    const T &
+    typename
+    std::enable_if<std::is_arithmetic<T>::value,
+                   const T &>::type
     conjugate(const T &x);
 
 template <typename T>
-    std::complex<T>
+    typename
+    std::enable_if<std::is_arithmetic<T>::value,
+                   std::complex<T> >::type
     conjugate(const std::complex<T> &x);
 
 template <typename T>
-    const T &
+    typename
+    std::enable_if<std::is_arithmetic<T>::value,
+                   const T & >::type
     real(const T &x);
 
 template <typename T>
-    const T
+    typename
+    std::enable_if<std::is_arithmetic<T>::value,
+                   const T >::type
     real(const std::complex<T> &x);
 
 template <typename T>
-    const T
+    typename
+    std::enable_if<std::is_arithmetic<T>::value,
+                   const T >::type
     imag(const T &x);
 
 template <typename T>
-    const T
+    typename
+    std::enable_if<std::is_arithmetic<T>::value,
+                   const T >::type
     imag(const std::complex<T> &x);
 
 } // namespace cxxblas

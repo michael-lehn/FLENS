@@ -39,42 +39,54 @@
 namespace cxxblas {
 
 template <typename T>
-const T &
+typename
+std::enable_if<std::is_arithmetic<T>::value,
+               const T &>::type
 conjugate(const T &x)
 {
     return x;
 }
 
 template <typename T>
-std::complex<T>
+typename
+std::enable_if<std::is_arithmetic<T>::value,
+               std::complex<T> >::type
 conjugate(const std::complex<T> &x)
 {
     return std::conj(x);
 }
 
 template <typename T>
-const T &
+typename
+std::enable_if<std::is_arithmetic<T>::value,
+               const T & >::type
 real(const T &x)
 {
     return x;
 }
 
 template <typename T>
-const T
+typename
+std::enable_if<std::is_arithmetic<T>::value,
+               const T >::type
 real(const std::complex<T> &x)
 {
     return std::real(x);
 }
 
 template <typename T>
-const T
+typename
+std::enable_if<std::is_arithmetic<T>::value,
+               const T >::type
 imag(const T &)
 {
     return T(0);
 }
 
 template <typename T>
-const T
+typename
+std::enable_if<std::is_arithmetic<T>::value,
+               const T >::type
 imag(const std::complex<T> &x)
 {
     return std::imag(x);
