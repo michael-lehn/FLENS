@@ -37,7 +37,7 @@
 
 namespace cxxlapack {
 
-void
+/*void
 ladiv(const double          a,
       const double          b,
       const double          c,
@@ -48,7 +48,7 @@ ladiv(const double          a,
 
 std::complex<double>
 ladiv(std::complex<double>  x,
-      std::complex<double>  y);
+      std::complex<double>  y);*/
 
 } // namespace cxxlapack
 

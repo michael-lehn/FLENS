@@ -39,7 +39,7 @@
 
 namespace cxxlapack {
 
-void
+/*void
 ladiv(const double          a,
       const double          b,
       const double          c,
@@ -68,7 +68,8 @@ ladiv(std::complex<double>  x,
                                                   reinterpret_cast<const double *>(&y));
                                                   
     return z;
-}
+}*/
+
 } // namespace cxxlapack
 
 #endif // CXXLAPACK_INTERFACE_LADIV_TCC

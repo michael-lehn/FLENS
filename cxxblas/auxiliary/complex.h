@@ -34,44 +34,44 @@
 #define CXXBLAS_AUXILIARY_COMPLEX_H 1
 
 #include <cxxblas/typedefs.h>
-#include <type_traits>
+#include <flens/auxiliary/restrictto.h>
 
 namespace cxxblas {
 
 template <typename T>
     typename
-    std::enable_if<std::is_arithmetic<T>::value,
-                   const T &>::type
+    flens::RestrictTo<std::is_arithmetic<T>::value,
+                   const T &>::Type
     conjugate(const T &x);
 
 template <typename T>
     typename
-    std::enable_if<std::is_arithmetic<T>::value,
-                   std::complex<T> >::type
+    flens::RestrictTo<std::is_arithmetic<T>::value,
+                   std::complex<T> >::Type
     conjugate(const std::complex<T> &x);
 
 template <typename T>
     typename
-    std::enable_if<std::is_arithmetic<T>::value,
-                   const T & >::type
+    flens::RestrictTo<std::is_arithmetic<T>::value,
+                   const T & >::Type
     real(const T &x);
 
 template <typename T>
     typename
-    std::enable_if<std::is_arithmetic<T>::value,
-                   const T >::type
+    flens::RestrictTo<std::is_arithmetic<T>::value,
+                   const T >::Type
     real(const std::complex<T> &x);
 
 template <typename T>
     typename
-    std::enable_if<std::is_arithmetic<T>::value,
-                   const T >::type
+    flens::RestrictTo<std::is_arithmetic<T>::value,
+                   const T >::Type
     imag(const T &x);
 
 template <typename T>
     typename
-    std::enable_if<std::is_arithmetic<T>::value,
-                   const T >::type
+    flens::RestrictTo<std::is_arithmetic<T>::value,
+                   const T >::Type
     imag(const std::complex<T> &x);
 
 } // namespace cxxblas
