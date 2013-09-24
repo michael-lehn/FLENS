@@ -193,7 +193,6 @@ loadMatrixMarket(std::string filename, SpMatrix<PS> &A)
     using std::string;
 
     typedef typename PS::IndexType                            IndexType;
-    typedef typename PS::ElementType                          ElementType;
 
     string line;
 

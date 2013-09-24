@@ -68,9 +68,6 @@ ormqr_wsq_impl(Side              side,
     typedef typename GeMatrix<MC>::ElementType  T;
     typedef typename GeMatrix<MC>::IndexType    IndexType;
 
-    typedef typename GeMatrix<MC>::View         GeView;
-    typedef typename GeView::Engine             GeViewEngine;
-
 //
 //  Paramter for maximum block size and buffer for TrMatrix Tr.
 //

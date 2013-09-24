@@ -965,16 +965,6 @@ esx(bool                computeSchurVectors,
 {
     LAPACK_DEBUG_OUT("(ge)esx [complex]");
 
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type        MatrixA;
-    typedef typename RemoveRef<VW>::Type        VectorW;
-    typedef typename RemoveRef<MVS>::Type       MatrixVS;
-    typedef typename RemoveRef<VWORK>::Type     VectorWork;
-    typedef typename RemoveRef<VRWORK>::Type    VectorRWork;
-    typedef typename RemoveRef<VBWORK>::Type    VectorBWork;
-
     IndexType n = A.numRows();
 
 //

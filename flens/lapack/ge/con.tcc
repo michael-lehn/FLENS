@@ -324,12 +324,6 @@ con(Norm                norm,
     typedef typename MA::IndexType            IndexType;
 
 //
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<VWORK>::Type   VectorWork;
-    typedef typename RemoveRef<VRWORK>::Type  VectorRWork;
-
-//
 //  Test the input parameters
 //
 #   ifndef NDEBUG

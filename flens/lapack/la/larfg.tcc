@@ -137,7 +137,6 @@ void
 larfg(N n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
 {
     LAPACK_DEBUG_OUT("larfg");
-    typedef typename DenseVector<VX>::IndexType     IndexType;
 
 //
 //  Test the input parameters

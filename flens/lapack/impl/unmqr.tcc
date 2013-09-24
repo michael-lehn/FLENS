@@ -147,10 +147,8 @@ unmqr(Side         side,
 //
 //  Remove references from rvalue types
 //
-    typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename RemoveRef<MC>::Type    MatrixC;
     typedef typename MatrixC::IndexType     IndexType;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
 
 //
 //  Test the input parameters

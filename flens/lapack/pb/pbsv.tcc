@@ -115,7 +115,6 @@ pbsv(MA &&A, MB &&B)
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::IndexType     IndexType;
-    typedef typename RemoveRef<MB>::Type    MatrixB;
 
 //
 //  Test the input parameters

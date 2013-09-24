@@ -66,8 +66,6 @@ ormr3_impl(Side                      side,
            GeMatrix<MC>              &C,
            DenseVector<VWORK>        &work)
 {
-    typedef typename GeMatrix<MC>::ElementType  ElementType;
-
     const IndexType k =  tau.length();
     const IndexType m =  C.numRows();
     const IndexType n =  C.numCols();

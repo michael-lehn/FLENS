@@ -210,9 +210,6 @@ typename RestrictTo<IsGeMatrix<MA>::value
          void>::Type
 copy(Transpose trans, const MA &A, MB &&B)
 {
-    typedef typename RemoveRef<MA>::Type MatrixA;
-    typedef typename RemoveRef<MB>::Type MatrixB;
-
 //
 //  check if this is an inplace transpose of A
 //
@@ -227,6 +224,7 @@ copy(Transpose trans, const MA &A, MB &&B)
                             B.data(), B.leadingDimension());
             return;
 #           else
+            typedef typename RemoveRef<MA>::Type MatrixA;
 //
 //          temporaries are allowed: check if this requires a temporary
 //
@@ -1169,7 +1167,6 @@ copy(Transpose trans, const MA &A, MB &&B)
                      A.numSuperDiags(), A.numSubDiags());
         }
     }
-    typedef typename TbMatrix<MB>::IndexType  IndexType;
     if (trans==NoTrans) {
         if (A.upLo()==Upper) {
             B.upper() = A;

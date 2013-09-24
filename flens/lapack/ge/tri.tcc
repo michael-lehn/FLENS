@@ -252,8 +252,9 @@ tri(MA          &&A,
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::IndexType     IndexType;
-    typedef typename RemoveRef<VPIV>::Type  VectorPiv;
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<VWORK>::Type VectorWork;
+#   endif
 
 //
 //  Test the input parameters
@@ -344,8 +345,6 @@ tri(MA &&A, const VPIV &piv, VWORK &&work)
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::IndexType     IndexType;
-    typedef typename RemoveRef<VPIV>::Type  VectorPiv;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
 
 //
 //  Test the input parameters

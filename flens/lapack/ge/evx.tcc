@@ -1020,19 +1020,6 @@ evx(BALANCE::Balance     balance,
 {
     LAPACK_DEBUG_OUT("(ge)evx [complex]");
 
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type        MatrixA;
-    typedef typename RemoveRef<VW>::Type        VectorW;
-    typedef typename RemoveRef<MVL>::Type       MatrixVL;
-    typedef typename RemoveRef<MVR>::Type       MatrixVR;
-    typedef typename RemoveRef<VSCALE>::Type    VectorScale;
-    typedef typename RemoveRef<VRCONDE>::Type   VectorRCondE;
-    typedef typename RemoveRef<VRCONDV>::Type   VectorRCondV;
-    typedef typename RemoveRef<VWORK>::Type     VectorWork;
-    typedef typename RemoveRef<VRWORK>::Type    VectorRWork;
-
     const IndexType n = A.numRows();
 
 //

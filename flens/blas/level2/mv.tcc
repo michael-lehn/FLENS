@@ -739,8 +739,6 @@ mv(Transpose trans, const MA &A, VX &&x)
     ASSERT(x.length()==A.dim());
 
 #   ifdef HAVE_CXXBLAS_TRMV
-    typedef typename RemoveRef<MA>::Type   MatrixA;
-
     cxxblas::trmv(A.order(), A.upLo(),
                   trans, A.diag(),
                   A.dim(),

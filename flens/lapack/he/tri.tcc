@@ -63,7 +63,6 @@ tri_impl(HeMatrix<MA>             &A,
          const DenseVector<VP>    &piv,
          DenseVector<VWORK>       &work)
 {
-    typedef typename HeMatrix<MA>::ElementType  ElementType;
     typedef typename HeMatrix<MA>::IndexType    IndexType;
 
     IndexType info;
@@ -106,8 +105,6 @@ tri(MA &&A, const VPIV &piv, VWORK &&work)
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::IndexType     IndexType;
-    typedef typename RemoveRef<VPIV>::Type  VectorPiv;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
 
 //
 //  Test the input parameters

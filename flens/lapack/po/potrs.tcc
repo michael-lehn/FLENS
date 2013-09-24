@@ -164,8 +164,6 @@ potrs(const MA &A, MB &&B)
 //
 //  Remove references from rvalue types
 //
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::IndexType     IndexType;
     typedef typename RemoveRef<MB>::Type    MatrixB;
 
 //
@@ -232,8 +230,6 @@ potrs(const MA &A, MB &&B)
 //
 //  Remove references from rvalue types
 //
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::IndexType     IndexType;
     typedef typename RemoveRef<MB>::Type    MatrixB;
 
 //

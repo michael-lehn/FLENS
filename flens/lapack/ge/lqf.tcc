@@ -228,7 +228,6 @@ lqf(MA &&A, VTAU &&tau, VWORK &&work)
 //  Remove references from rvalue types
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::ElementType   ElementType;
     typedef typename MatrixA::IndexType     IndexType;
     typedef typename RemoveRef<VTAU>::Type  VectorTau;
     typedef typename RemoveRef<VWORK>::Type VectorWork;
@@ -332,7 +331,6 @@ lqf(MA &&A, VTAU &&tau, VWORK &&work)
 //  Remove references from rvalue types
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::ElementType   ElementType;
     typedef typename MatrixA::IndexType     IndexType;
     typedef typename RemoveRef<VTAU>::Type  VectorTau;
     typedef typename RemoveRef<VWORK>::Type VectorWork;

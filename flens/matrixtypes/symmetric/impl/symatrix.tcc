@@ -527,10 +527,6 @@ typename RestrictTo<IsSyMatrix<MA>::value,
          bool>::Type
 fillRandom(MA &&A)
 {
-    typedef typename RemoveRef<MA>::Type  MatrixA;
-    typedef typename MatrixA::IndexType   IndexType;
-    typedef typename MatrixA::VectorView  VectorView;
-
     fillRandom(A.upLo(), A.engine());
     return true;
 }

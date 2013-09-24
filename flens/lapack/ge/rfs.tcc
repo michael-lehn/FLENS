@@ -341,9 +341,6 @@ rfs(Transpose   trans,
 //
     typedef typename RemoveRef<MA>::Type     MatrixA;
     typedef typename MatrixA::IndexType      IndexType;
-    typedef typename RemoveRef<MAF>::Type    MatrixAF;
-    typedef typename RemoveRef<VPIV>::Type   VectorPiv;
-    typedef typename RemoveRef<MB>::Type     MatrixB;
     typedef typename RemoveRef<MX>::Type     MatrixX;
     typedef typename RemoveRef<VFERR>::Type  VectorFErr;
     typedef typename RemoveRef<VBERR>::Type  VectorBErr;
@@ -495,14 +492,6 @@ rfs(Transpose   trans,
 //
     typedef typename RemoveRef<MA>::Type     MatrixA;
     typedef typename MatrixA::IndexType      IndexType;
-    typedef typename RemoveRef<MAF>::Type    MatrixAF;
-    typedef typename RemoveRef<VPIV>::Type   VectorPiv;
-    typedef typename RemoveRef<MB>::Type     MatrixB;
-    typedef typename RemoveRef<MX>::Type     MatrixX;
-    typedef typename RemoveRef<VFERR>::Type  VectorFErr;
-    typedef typename RemoveRef<VBERR>::Type  VectorBErr;
-    typedef typename RemoveRef<VWORK>::Type  VectorWork;
-    typedef typename RemoveRef<VRWORK>::Type VectorRWork;
 
 //
 //  Test the input parameters

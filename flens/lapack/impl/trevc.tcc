@@ -981,8 +981,6 @@ trevc_impl(bool                           computeVL,
            IndexType                      &m,
            DenseVector<VWORK>             &work)
 {
-    typedef typename GeMatrix<MT>::ElementType     ElementType;
-
     char side = 'N';
     if (computeVL && computeVR) {
         side = 'B';
@@ -1033,7 +1031,6 @@ trevc(bool                          computeVL,
 {
     LAPACK_DEBUG_OUT("BEGIN: trevc");
 
-    typedef typename GeMatrix<MT>::ElementType ElementType;
 //
 //  Test the input parameters
 //

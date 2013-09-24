@@ -90,14 +90,12 @@ typename RestrictTo<IsGeMatrix<MA>::value
          void>::Type
 raxpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 {
-    typedef typename RemoveRef<MA>::Type MatrixA;
-    typedef typename RemoveRef<MB>::Type MatrixB;
+    typedef typename RemoveRef<MB>::Type   MatrixB;
 
     if (B.numRows()==0 || B.numCols()==0) {
 //
 //      So we allow  B += 1/alpha*A  for an empty matrix B
 //
-        typedef typename RemoveRef<MB>::Type   MatrixB;
         typedef typename MatrixB::ElementType  T;
         const T  Zero(0);
 
@@ -129,12 +127,12 @@ raxpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
     }
 #   endif
 #   else
+    typedef typename RemoveRef<MA>::Type  MatrixA;
 //
 //  If A and B are identical a temporary is needed if we want to use axpy
 //  for B += A^T/alpha or B+= A^H/alpha
 //
     if ((trans==Trans || trans==ConjTrans) && DEBUGCLOSURE::identical(A, B)) {
-        typedef typename RemoveRef<MA>::Type  MatrixA;
 
         typename Result<MatrixA>::Type _A = A;
         FLENS_BLASLOG_TMP_ADD(_A);

@@ -203,8 +203,6 @@ mm(Transpose        transposeA,
    const BETA       &beta,
    MC               &&C)
 {
-    typedef typename RemoveRef<MA>::Type MatrixA;
-    typedef typename RemoveRef<MB>::Type MatrixB;
     typedef typename RemoveRef<MC>::Type MatrixC;
     typedef typename MatrixC::IndexType  IndexType;
 
@@ -365,8 +363,6 @@ mm(Side             side,
    const BETA       &beta,
    MC               &&C)
 {
-    typedef typename RemoveRef<MA>::Type MatrixA;
-    typedef typename RemoveRef<MB>::Type MatrixB;
     typedef typename RemoveRef<MC>::Type MatrixC;
     typedef typename MatrixC::IndexType  IndexType;
 
@@ -487,8 +483,6 @@ mm(Side             side,
    const BETA       &beta,
    MC               &&C)
 {
-    typedef typename RemoveRef<MA>::Type MatrixA;
-    typedef typename RemoveRef<MB>::Type MatrixB;
     typedef typename RemoveRef<MC>::Type MatrixC;
     typedef typename MatrixC::IndexType  IndexType;
 
@@ -617,9 +611,6 @@ template <typename ALPHA, typename MA, typename MB>
        const MA         &A,
        MB               &&B)
 {
-    typedef typename RemoveRef<MA>::Type   MatrixA;
-    typedef typename RemoveRef<MB>::Type   MatrixB;
-
 #   ifndef NDEBUG
     ASSERT(B.order()==A.order());
     if (side==Left) {

@@ -72,8 +72,6 @@ typename RestrictTo<IsTrMatrix<MA>::value
          void>::Type
 sv(Transpose trans, const MA &A, VX &&x)
 {
-    typedef typename RemoveRef<MA>::Type   MatrixA;
-
     ASSERT(x.length()==A.dim());
 #   ifdef HAVE_CXXBLAS_TRSV
     cxxblas::trsv(A.order(), A.upLo(),

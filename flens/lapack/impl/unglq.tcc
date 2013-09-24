@@ -115,9 +115,7 @@ unglq(MA &&A, const VTAU &tau, VWORK &&work)
 //  Remove references from rvalue types
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::ElementType   ElementType;
     typedef typename MatrixA::IndexType     IndexType;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
 
 //
 //  Test the input parameters

@@ -274,7 +274,6 @@ ormrz(Side          side,
 //  Remove references from rvalue types
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename RemoveRef<VTAU>::Type  VectorTau;
     typedef typename RemoveRef<MC>::Type    MatrixC;
     typedef typename RemoveRef<VWORK>::Type VectorWork;
 

@@ -584,10 +584,6 @@ lsy(MA           &&A,
 //  Remove references from rvalue types
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename RemoveRef<MB>::Type    MatrixB;
-    typedef typename RemoveRef<VJPIV>::Type VectorJPiv;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
-
     typedef typename MatrixA::IndexType     IndexType;
 
 //

@@ -637,10 +637,11 @@ latrs(Transpose trans,
 //
 //  Remove references from rvalue types
 //
-    typedef typename RemoveRef<MA>::Type        MatrixA;
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<VX>::Type        VectorX;
     typedef typename RemoveRef<SCALE>::Type     Scale;
     typedef typename RemoveRef<VCNORM>::Type    VectorCNorm;
+#   endif
 
 //
 //  Test the input parameters
@@ -736,10 +737,11 @@ latrs(Transpose trans,
 //
 //  Remove references from rvalue types
 //
-    typedef typename RemoveRef<MA>::Type        MatrixA;
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<VX>::Type        VectorX;
     typedef typename RemoveRef<SCALE>::Type     Scale;
     typedef typename RemoveRef<VCNORM>::Type    VectorCNorm;
+#   endif
 
 //
 //  Test the input parameters

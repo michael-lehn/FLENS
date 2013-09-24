@@ -50,9 +50,6 @@ sm(Side             side,
    const MA         &A,
    MB               &&B)
 {
-    typedef typename RemoveRef<MA>::Type MatrixA;
-    typedef typename RemoveRef<MB>::Type MatrixB;
-
 #   ifndef NDEBUG
     ASSERT(B.order()==A.order());
     if (side==Left) {
