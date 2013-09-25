@@ -61,7 +61,7 @@ template <typename MV, typename MT, typename MC, typename MWORK>
           const TrMatrix<MT>    &T,
           GeMatrix<MC>          &C,
           GeMatrix<MWORK>       &work);
-
+    
 //-- forwarding ----------------------------------------------------------------
 template <typename MV, typename MT, typename MC, typename MWORK>
     void

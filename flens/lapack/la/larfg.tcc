@@ -160,7 +160,7 @@ larfg_impl(N n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
             PT rSafeMin = PT(1)/safeMin;
             do {
                 ++count;
-                blas::scal(rSafeMin, x);
+                blas::scal(rSafeMin, _x);
                 beta *= rSafeMin;
                 alphr *= rSafeMin;
                 alphi *= rSafeMin;

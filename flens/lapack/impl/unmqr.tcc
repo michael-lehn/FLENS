@@ -110,6 +110,7 @@ unmqr_impl(Side                      side,
            GeMatrix<MC>              &C,
            DenseVector<VWORK>        &work)
 {
+     
     using std::max;
     using std::min;
 
@@ -231,6 +232,7 @@ unmqr_impl(Side                      side,
 //          Form the triangular factor of the block reflector
 //          H = H(i) H(i+1) . . . H(i+ib-1)
 //
+     
             larft(Forward, ColumnWise, nq-i+1,
                   A(_(i,nq),_(i,i+ib-1)), tau(_(i,i+ib-1)), Tr.upper());
 
@@ -349,6 +351,8 @@ unmqr(Side         side,
       VWORK        &&work)
 {
 
+    LAPACK_DEBUG_OUT("unmqr");
+    
 //
 //  Test the input parameters
 //

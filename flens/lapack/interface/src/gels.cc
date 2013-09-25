@@ -21,7 +21,6 @@ LAPACK_DECL(dgels)(const char           *TRANS,
                    const INTEGER        *LWORK,
                    INTEGER              *INFO)
 {
-    std::cerr << "dgels" << std::endl;
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //

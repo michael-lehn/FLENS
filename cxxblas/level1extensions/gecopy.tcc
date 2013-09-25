@@ -40,7 +40,7 @@
 namespace cxxblas {
 
 //
-//  B = A  or B = A^T
+//  B = A, B = A^T or B = A^H
 //
 template <typename IndexType, typename MA, typename MB>
 void
@@ -65,17 +65,28 @@ gecopy(StorageOrder order,
             }
             return;
         }
-    }
-    if (trans==Trans || trans==ConjTrans) {
+    } else if (trans==Conj) {
+        if ((ldA==n) && (ldB==n)) {
+            ccopy(m*n, A, IndexType(1), B, IndexType(1));
+            return;
+        } else {
+            for (IndexType i=0; i<m; ++i) {
+                ccopy(n, A+i*ldA, IndexType(1), B+i*ldB, IndexType(1));
+            }
+            return;
+        }
+    } else if (trans==Trans) {
         for (IndexType i=0; i<m; ++i) {
             copy(n, A+i, ldA, B+i*ldB, IndexType(1));
         }
-    }
-    if (trans==Conj) {
-        gecotr(order, Conj, m, n, B, ldB);
-    }
-    if (trans==ConjTrans) {
-        gecotr(order, Conj, n, m, B, ldB);
+        return;
+    } else if (trans==ConjTrans) {
+        for (IndexType i=0; i<m; ++i) {
+            ccopy(n, A+i, ldA, B+i*ldB, IndexType(1));
+        }
+        return;
+    } else {
+        ASSERT(0);
     }
 }
 

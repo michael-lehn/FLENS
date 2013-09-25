@@ -1,17 +1,14 @@
-CXX  = g++
-CXX  = clang++
+CXX  = g++-4.7
+#CXX  = clang++
 
-CXXFLAGS += -O3 -std=c++11 -Wall -Wextra 
+CXXFLAGS += -std=c++11 -Wall -Wextra -Werror
 CXXFLAGS += -I../../..
 
 #
 # FLENS-LAPACK checks its results by calling REFLAPACK and REFBALS functions
 # without underscore
 #
-CXXFLAGS += -DNDEBUG
-#CXXFLAGS += -DWITH_OPENBLAS
-#CXXFLAGS += -DCXXBLAS_DEBUG
-#CXXFLAGS += -DLAPACK_DEBUG
+CXXFLAGS += -DWITH_REFBLAS
 
 test_external_binding =
 
@@ -19,17 +16,17 @@ ifndef test_external_binding
 #
 # Call generic FLENS-LAPACK implementation and compare results with REFLAPACK
 #
-#    CXXFLAGS += -DUSE_CXXLAPACK -DCXXLAPACK_NO_UNDERSCORE -DCHECK_CXXLAPACK \
-#                -DUSE_ILAENV_WITH_UNDERSCORE
+    CXXFLAGS += -DUSE_CXXLAPACK -DCXXLAPACK_NO_UNDERSCORE -DCHECK_CXXLAPACK \
+                -DUSE_ILAENV_WITH_UNDERSCORE
 else
 #
 # Call external LAPACK implementation (e.g. REFLAPACK).  We have define the
 # macro "USE_NATIVE_ILAENV" such that the ilaenv function from the LAPACK
 # test suite gets called.
 #
-#    CXXFLAGS += -DUSE_CXXLAPACK -DCXXLAPACK_NO_UNDERSCORE \
-#                -DALWAYS_USE_CXXLAPACK \
-#                -DUSE_ILAENV_WITH_UNDERSCORE -DUSE_NATIVE_ILAENV
+    CXXFLAGS += -DUSE_CXXLAPACK -DCXXLAPACK_NO_UNDERSCORE \
+                -DALWAYS_USE_CXXLAPACK \
+                -DUSE_ILAENV_WITH_UNDERSCORE -DUSE_NATIVE_ILAENV
 endif
 
 REFLAPACK = ../../cxxlapack/netlib/libreflapack_nu.a

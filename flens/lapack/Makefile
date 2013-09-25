@@ -8,6 +8,7 @@ check : test/
 	$(MAKE) -C test/MATGEN
 	$(MAKE) -C test cleanup
 	$(MAKE) -C test dtest.out
+	$(MAKE) -C test ztest.out
 
 clean : test/
 	$(MAKE) -C interface clean

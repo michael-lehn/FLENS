@@ -243,6 +243,8 @@ typename RestrictTo<IsComplexGeMatrix<MA>::value
 ungqr(MA &&A, const VTAU &tau, VWORK &&work)
 {
 
+    LAPACK_DEBUG_OUT("ungqr");
+    
 //
 //  Test the input parameters
 //

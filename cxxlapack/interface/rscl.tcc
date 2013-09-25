@@ -80,7 +80,7 @@ rscl(IndexType              n,
 {
     CXXLAPACK_DEBUG_OUT("crscl");
 
-    LAPACK_IMPL(crscl)(&n,
+    LAPACK_IMPL(csrscl)(&n,
                        &sa,
                        reinterpret_cast<float  *>(sx),
                        &incX);
@@ -95,7 +95,7 @@ rscl(IndexType              n,
 {
     CXXLAPACK_DEBUG_OUT("zrscl");
 
-    LAPACK_IMPL(zrscl)(&n,
+    LAPACK_IMPL(zdrscl)(&n,
                        &sa,
                        reinterpret_cast<double *>(sx),
                        &incX);

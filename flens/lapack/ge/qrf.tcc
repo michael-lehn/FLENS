@@ -171,6 +171,7 @@ typename RestrictTo<IsComplex<typename GeMatrix<MA>::ElementType>::value,
                     void>::Type 
 qrf_impl(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 {
+
     using std::max;
     using std::min;
 
@@ -330,6 +331,8 @@ typename RestrictTo<IsRealGeMatrix<MA>::value
          void>::Type
 qrf(MA &&A, VTAU &&tau, VWORK &&work)
 {
+    LAPACK_DEBUG_OUT("qrf [real]");
+    
     using std::min;
 //
 //  Remove references from rvalue types
@@ -424,7 +427,7 @@ qrf(MA &&A, VTAU &&tau, VWORK &&work)
 #   endif
 }
 
-//-- (ge)trf [complex variant] -------------------------------------------------
+//-- (ge)qrf [complex variant] -------------------------------------------------
 
 template <typename MA, typename VTAU, typename VWORK>
 typename RestrictTo<IsComplexGeMatrix<MA>::value
@@ -433,6 +436,8 @@ typename RestrictTo<IsComplexGeMatrix<MA>::value
          void>::Type
 qrf(MA &&A, VTAU &&tau, VWORK &&work)
 {
+    LAPACK_DEBUG_OUT("qrf [complex]");
+    
     using std::min;
 //
 //  Remove references from rvalue types

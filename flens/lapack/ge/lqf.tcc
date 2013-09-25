@@ -223,6 +223,8 @@ typename RestrictTo<IsRealGeMatrix<MA>::value
          void>::Type
 lqf(MA &&A, VTAU &&tau, VWORK &&work)
 {
+    LAPACK_DEBUG_OUT("lqf [real]");
+    
     using std::min;
 //
 //  Remove references from rvalue types
@@ -327,6 +329,9 @@ typename RestrictTo<IsComplexGeMatrix<MA>::value
          void>::Type
 lqf(MA &&A, VTAU &&tau, VWORK &&work)
 {
+
+    LAPACK_DEBUG_OUT("lqf [complex]");
+    
     using std::min;
 //
 //  Remove references from rvalue types

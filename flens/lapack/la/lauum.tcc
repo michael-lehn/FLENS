@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DLAUUM( UPLO, N, A, LDA, INFO )
+       SUBROUTINE ZLAUUM( UPLO, N, A, LDA, INFO )
  *
  *  -- LAPACK auxiliary routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -195,13 +196,13 @@ lauum_impl(TrMatrix<MA> &A)
                 auto A12       = A(range1,range2);
                 const auto A13 = A(range1,range3);
                 auto U22       = A(range2,range2).upper();
-                auto A22       = U22.symmetric();
+                auto A22       = U22.hermitian();
                 const auto A23 = A(range2,range3);
 
                 blas::mm(Right, ConjTrans, COne, U22, A12);
                 lauu2(U22);
                 if (i+ib<=n) {
-                    blas::mm(NoTrans, ConjTrans, COne, A13, A23, One, A12);
+                    blas::mm(NoTrans, ConjTrans, COne, A13, A23, COne, A12);
                     blas::rk(NoTrans, One, A23, One, A22);
                 }
             }
@@ -219,13 +220,13 @@ lauum_impl(TrMatrix<MA> &A)
                 auto A21       = A(range2,range1);
                 const auto A31 = A(range3,range1);
                 auto L22       = A(range2,range2).lower();
-                auto A22       = L22.symmetric();
+                auto A22       = L22.hermitian();
                 const auto A32 = A(range3,range2);
 
                 blas::mm(Left, ConjTrans, COne, L22, A21);
                 lauu2(L22);
                 if (i+ib<=n) {
-                    blas::mm(ConjTrans, NoTrans, COne, A32, A31, One, A21);
+                    blas::mm(ConjTrans, NoTrans, COne, A32, A31, COne, A21);
                     blas::rk(ConjTrans, One, A32, One, A22);
                 }
             }

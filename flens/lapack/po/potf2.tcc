@@ -195,7 +195,7 @@ potf2_impl(HeMatrix<MA> &A)
 //
 //          Compute U(J,J) and test for non-positive-definiteness.
 //
-            PT a22 = real(A(j,j) - blas::dot(a12,a12));
+            PT a22 = real(A(j,j) - blas::dotc(a12,a12));
             if (a22<=Zero || isnan(a22)) {
                 A(j,j) = a22;
                 info = j;
@@ -208,7 +208,7 @@ potf2_impl(HeMatrix<MA> &A)
 //
             if (j<n) {
                 imag(a12) *= -One;
-                blas::mv(Trans, -One, A13, a12, One, a23);
+                blas::mv(Trans, -COne, A13, a12, COne, a23);
                 imag(a12) *= -One;
                 a23 *= One / a22;
             }
@@ -230,7 +230,7 @@ potf2_impl(HeMatrix<MA> &A)
 //
 //          Compute L(J,J) and test for non-positive-definiteness.
 //
-            PT a22 = real(A(j,j) - blas::dot(a21,a21));
+            PT a22 = real(A(j,j) - blas::dotc(a21,a21));
             if (a22<=Zero || isnan(a22)) {
                 A(j,j) = a22;
                 info = j;
@@ -243,7 +243,7 @@ potf2_impl(HeMatrix<MA> &A)
 //
             if (j<n) {
                 imag(a21) *= -One;
-                blas::mv(NoTrans, -One, A31, a21, One, a32);
+                blas::mv(NoTrans, -COne, A31, a21, COne, a32);
                 imag(a21) *= -One;
                 a32 *= One / a22;
             }

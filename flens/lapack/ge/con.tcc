@@ -227,8 +227,6 @@ con_impl(Norm                norm,
 
     auto work1 = work(_(1,n));
     auto work2 = work(_(n+1,2*n));
-    auto work3 = work(_(2*n+1,3*n));
-    auto work4 = work(_(3*n+1,4*n));
  
     auto rwork1 = rwork(_(1  ,  n));
     auto rwork2 = rwork(_(n+1,2*n));
@@ -338,6 +336,8 @@ con(Norm            norm,
     VIWORK          &&iwork)
 {
 
+    LAPACK_DEBUG_OUT("(ge)con [real]");
+
 //
 //  Test the input parameters
 //
@@ -440,6 +440,8 @@ con(Norm                norm,
     VRWORK              &&rwork)
 {
 
+    LAPACK_DEBUG_OUT("(ge)con [complex]");
+    
 //
 //  Test the input parameters
 //

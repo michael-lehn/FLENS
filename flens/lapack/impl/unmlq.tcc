@@ -349,6 +349,8 @@ unmlq(Side         side,
       VWORK        &&work)
 {
 
+    LAPACK_DEBUG_OUT("unmlq");
+
 //
 //  Test the input parameters
 //

@@ -23,7 +23,6 @@ LAPACK_DECL(dgelsy)(const INTEGER    *M,
                     const INTEGER    *LWORK,
                     INTEGER          *INFO)
 {
-    std::cerr << "dgelsy" << std::endl;
 //
 //  Test the input parameters so that we pass LAPACK error checks
 //

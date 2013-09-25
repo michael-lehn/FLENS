@@ -33,7 +33,7 @@
 /* Based on
  *
       SUBROUTINE DLARFT( DIRECT, STOREV, N, K, V, LDV, TAU, T, LDT )
-      IMPLICIT NONE
+      SUBROUTINE ZLARFT( DIRECT, STOREV, N, K, V, LDV, TAU, T, LDT )
  *
  *  -- LAPACK auxiliary routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -59,7 +59,7 @@ template <typename N, typename MV, typename VTAU, typename MT>
           GeMatrix<MV>              &V,
           const DenseVector<VTAU>   &tau,
           TrMatrix<MT>              &T);
-
+    
 //-- forwarding ----------------------------------------------------------------
 template <typename N, typename MV, typename VTAU, typename MT>
     void

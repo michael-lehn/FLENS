@@ -53,7 +53,7 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
-//-- lauum [real variant] ------------------------------------------------------
+//-- lauu2 [real variant] ------------------------------------------------------
 template <typename MA>
 typename RestrictTo<IsReal<typename TrMatrix<MA>::ElementType>::value,
                     void>::Type
@@ -118,7 +118,7 @@ lauu2_impl(TrMatrix<MA> &A)
     }
 }
 
-//-- lauum [complex variant] ------------------------------------------------------
+//-- lauu2 [complex variant] ------------------------------------------------------
 template <typename MA>
 typename RestrictTo<IsComplex<typename TrMatrix<MA>::ElementType>::value,
                     void>::Type
@@ -148,7 +148,7 @@ lauu2_impl(TrMatrix<MA> &A)
         for (IndexType i=1; i<=n; ++i) {
             const PrimitiveType a22 = real(A(i,i));
             if (i<n) {
-                A(i,i) = A(i,i)*A(i,i) + real(blas::dot(A(i,_(i+1,n)), A(i,_(i+1,n))));
+                A(i,i) = a22*a22 + real(blas::dotc(A(i,_(i+1,n)), A(i,_(i+1,n))));
                 imag(A(i,_(i+1,n))) *= -One;
                 
                 const auto range1 = _(1,i-1);
@@ -158,7 +158,7 @@ lauu2_impl(TrMatrix<MA> &A)
                 auto a12       = A(range1,range2);
                 const auto A13 = A(range1,range3);
                 const auto a23 = A(range2,range3);
-                blas::mv(NoTrans, COne, A13, a23, a22, a12);
+                blas::mv(NoTrans, COne, A13, a23, ElementType(a22,0), a12);
                 imag(A(i,_(i+1,n))) *= -One;
             } else {
                 A(_,n) *= a22;
@@ -171,7 +171,7 @@ lauu2_impl(TrMatrix<MA> &A)
         for (IndexType i=1; i<=n; ++i) {
             const PrimitiveType a22 = real(A(i,i));
             if (i<n) {
-                A(i,i) = A(i,i)*A(i,i) + real(blas::dot(A(_(i+1,n),i), A(_(i+1,n),i)));
+                A(i,i) = a22*a22 + real(blas::dotc(A(_(i+1,n),i), A(_(i+1,n),i)));
                 imag(A(i,_(1,i-1))) *= -One;
                 
                 const auto range1 = _(1,i-1);
@@ -182,7 +182,7 @@ lauu2_impl(TrMatrix<MA> &A)
                 const auto A31 = A(range3,range1);
                 const auto a32 = A(range3,range2);
 
-                blas::mv(ConjTrans, One, A31, a32, a22, a21);
+                blas::mv(ConjTrans, COne, A31, a32, ElementType(a22,0), a21);
                 imag(A(i,_(1,i-1))) *= -One;
             } else {
                 A(n,_) *= a22;

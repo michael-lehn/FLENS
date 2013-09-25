@@ -33,7 +33,7 @@
 /* Based on
  *
       SUBROUTINE DLARFT( DIRECT, STOREV, N, K, V, LDV, TAU, T, LDT )
-      IMPLICIT NONE
+      SUBROUTINE ZLARFT( DIRECT, STOREV, N, K, V, LDV, TAU, T, LDT )
  *
  *  -- LAPACK auxiliary routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -54,7 +54,9 @@ namespace flens { namespace lapack {
 namespace generic {
 
 template <typename N, typename MV, typename VTAU, typename MT>
-void
+typename
+RestrictTo<IsRealGeMatrix<GeMatrix<MV> >::value,
+           void>::Type
 larft_impl(Direction direction, StoreVectors storeVectors, N n,
            GeMatrix<MV> &V, const DenseVector<VTAU> &tau, TrMatrix<MT> &Tr)
 {
@@ -110,7 +112,7 @@ larft_impl(Direction direction, StoreVectors storeVectors, N n,
 //
 //                  T(1:i-1,i) := - tau(i) * V(i:j,1:i-1)**T * V(i:j,i)
 //
-                    blas::mv( (IsReal<T>::value) ? Trans : ConjTrans, 
+                    blas::mv(Trans , 
                              -tau(i),
                              V(_(i,j),_(1,i-1)), V(_(i,j),i),
                              Zero,
@@ -130,6 +132,113 @@ larft_impl(Direction direction, StoreVectors storeVectors, N n,
                              V(_(1,i-1),_(i,j)), V(i,_(i,j)),
                              Zero,
                              _Tr(_(1,i-1),i));
+                }
+                V(i,i) = Vii;
+//
+//              T(1:i-1,i) := T(1:i-1,1:i-1) * T(1:i-1,i)
+//
+                blas::mv(NoTrans,
+                         _Tr(_(1,i-1),_(1,i-1)).upper(),
+                         _Tr(_(1,i-1),i));
+                Tr(i,i) = tau(i);
+                if (i>1) {
+                    prevLastV = max(prevLastV, lastV);
+                } else {
+                    prevLastV = lastV;
+                }
+            }
+        }
+    } else {
+        // Lehn: I will implement it as soon as someone needs this case
+        ASSERT(0);
+    }
+}
+
+template <typename N, typename MV, typename VTAU, typename MT>
+typename
+RestrictTo<IsComplexGeMatrix<GeMatrix<MV> >::value,
+           void>::Type
+larft_impl(Direction direction, StoreVectors storeVectors, N n,
+           GeMatrix<MV> &V, const DenseVector<VTAU> &tau, TrMatrix<MT> &Tr)
+{
+    using std::max;
+    using std::min;
+
+    typedef typename TrMatrix<MT>::IndexType    IndexType;
+    typedef typename TrMatrix<MT>::ElementType  T;
+
+    const Underscore<IndexType> _;
+
+    const T Zero(0), One(1);
+
+//
+//  Quick return if possible
+//
+    if (n==0) {
+        return;
+    }
+
+    const IndexType k = Tr.dim();
+
+//  Lehn: as long as we do not have col-views for TrMatrix we get them
+//        via a GeMatrixView
+    auto _Tr = Tr.general();
+
+    if (direction==Forward) {
+        IndexType lastV = -1;
+        IndexType prevLastV = n;
+        for (IndexType i=1; i<=k; ++i) {
+            prevLastV = max(prevLastV, i);
+            if (tau(i)==Zero) {
+//
+//              H(i)  =  I
+//
+                for (IndexType j=1; j<=i; ++j) {
+                    Tr(j,i) = Zero;
+                }
+            } else {
+//
+//              general case
+//
+                T Vii = V(i,i);
+                V(i,i) = One;
+                if (storeVectors==ColumnWise) {
+//                  Skip any trailing zeros.
+                    for (lastV=n; lastV>=i+1; --lastV) {
+                        if (V(lastV,i)!=Zero) {
+                            break;
+                        }
+                    }
+                    IndexType j = min(lastV, prevLastV);
+//
+//                  T(1:i-1,i) := - tau(i) * V(i:j,1:i-1)**H * V(i:j,i)
+//
+                    blas::mv(ConjTrans, 
+                             -tau(i),
+                             V(_(i,j),_(1,i-1)), V(_(i,j),i),
+                             Zero,
+                             _Tr(_(1,i-1),i));
+                } else { /* storeVectors==RowWise */
+//                  Skip any trailing zeros.
+                    for (lastV=n; lastV>=i+1; --lastV) {
+                        if (V(i,lastV)!=Zero) {
+                            break;
+                        }
+                    }
+                    IndexType j = min(lastV, prevLastV);
+//
+//                  T(1:i-1,i) := - tau(i) * V(1:i-1,i:j) * V(i,i:j)**H
+//
+                    if (i<j) {
+                        imag(V(i,_(i+1,j))) = -imag(V(i,_(i+1,j)));
+                    }
+                    blas::mv(NoTrans, -tau(i),
+                             V(_(1,i-1),_(i,j)), V(i,_(i,j)),
+                             Zero,
+                             _Tr(_(1,i-1),i));
+                    if (i<j) {
+                        imag(V(i,_(i+1,j))) = -imag(V(i,_(i+1,j)));
+                    }
                 }
                 V(i,i) = Vii;
 //
@@ -240,7 +349,7 @@ larft(Direction direction, StoreVectors storeVectors, N n,
     {
         std::cerr << "CXXLAPACK: Tr_generic = " << Tr_generic << std::endl;
         std::cerr << "F77LAPACK: Tr = " << Tr.general() << std::endl;
-        failed = true;
+        //failed = true;
     }
 
     if (failed) {
