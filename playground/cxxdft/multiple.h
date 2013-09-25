@@ -49,12 +49,41 @@ template <typename IndexType, typename VIN, typename VOUT>
 
 #ifdef HAVE_FFTW
     
+#ifdef HAVE_FFTW_FLOAT    
+template <typename IndexType>
+    void
+    dft_multiple(IndexType n, IndexType m,
+                 std::complex<float> *x, IndexType strideX, IndexType distX,
+                 std::complex<float> *y, IndexType strideY, IndexType distY,
+                 DFTDirection direction);
+#endif // HAVE_FFTW_FLOAT
+    
+#ifdef HAVE_FFTW_DOUBLE
 template <typename IndexType>
     void
     dft_multiple(IndexType n, IndexType m,
                  std::complex<double> *x, IndexType strideX, IndexType distX,
                  std::complex<double> *y, IndexType strideY, IndexType distY,
                  DFTDirection direction);
+#endif // HAVE_FFTW_DOUBLE
+
+#ifdef HAVE_FFTW_LONGDOUBLE
+template <typename IndexType>
+    void
+    dft_multiple(IndexType n, IndexType m,
+                 std::complex<long double> *x, IndexType strideX, IndexType distX,
+                 std::complex<long double> *y, IndexType strideY, IndexType distY,
+                 DFTDirection direction);
+#endif // HAVE_FFTW_LONGDOUBLE
+ 
+#ifdef HAVE_FFTW_QUAD
+template <typename IndexType>
+    void
+    dft_multiple(IndexType n, IndexType m,
+                 std::complex<__float128> *x, IndexType strideX, IndexType distX,
+                 std::complex<__float128> *y, IndexType strideY, IndexType distY,
+                 DFTDirection direction);
+#endif // HAVE_FFTW_QUAD
     
 #endif
     

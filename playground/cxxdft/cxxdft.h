@@ -38,10 +38,57 @@
 #    ifndef HAVE_FFTW
 #        define HAVE_FFTW
 #    endif
-#endif
+#    ifndef HAVE_FFTW_DOUBLE
+#        define HAVE_FFTW_DOUBLE
+#    endif
+#endif // WITH_FFTW
+
+#ifdef WITH_FFTW_FLOAT
+#    ifndef HAVE_FFTW
+#        define HAVE_FFTW
+#    endif
+#    ifndef HAVE_FFTW_FLOAT
+#        define HAVE_FFTW_FLOAT
+#    endif
+#endif // WITH_FFTW_FLOAT
+
+#ifdef WITH_FFTW_DOUBLE
+#    ifndef HAVE_FFTW
+#        define HAVE_FFTW
+#    endif
+#    ifndef HAVE_FFTW_FLOAT
+#        define HAVE_FFTW_FLOAT
+#    endif
+#endif // WITH_FFTW_DOUBLE
+
+#ifdef WITH_FFTW_LONGDOUBLE
+#    ifndef HAVE_FFTW
+#        define HAVE_FFTW
+#    endif
+#    ifndef HAVE_FFTW_LONGDOUBLE
+#        define HAVE_FFTW_LONGDOUBLE
+#    endif
+#endif // WITH_FFTW_LONGDOUBLE
+
+#ifdef WITH_FFTW_QUAD
+#    ifndef HAVE_FFTW
+#        define HAVE_FFTW
+#    endif
+#    ifndef HAVE_FFTW_QUAD
+#        define HAVE_FFTW_QUAD
+#    endif
+#    include <quadmath.h>
+#endif // WITH_FFTW_QUAD
 
 #ifdef HAVE_FFTW
 #   include "fftw3.h"
+#endif
+
+#ifndef FFTW_PLANNER_FLAG
+#   define FFTW_PLANNER_FLAG FFTW_ESTIMATE
+#endif
+#ifndef FFTW_WISDOM_FILENAME
+#    define FFTW_WISDOM_FILENAME ""
 #endif
 
 #include <playground/cxxdft/direction.h>

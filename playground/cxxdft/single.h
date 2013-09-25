@@ -49,12 +49,44 @@ template <typename IndexType, typename VIN, typename VOUT>
     
 #ifdef HAVE_FFTW
     
+#ifdef HAVE_FFTW_FLOAT
+    template <typename IndexType>
+    void
+    dft_single(IndexType n,
+               std::complex<float> *x, IndexType incX,
+               std::complex<float> *y, IndexType incY,
+               DFTDirection direction);
+#endif // HAVE_FFTW_FLOAT
+    
+#ifdef HAVE_FFTW_DOUBLE
     template <typename IndexType>
     void
     dft_single(IndexType n,
                std::complex<double> *x, IndexType incX,
                std::complex<double> *y, IndexType incY,
                DFTDirection direction);
+    
+#endif // HAVE_FFTW_DOUBLE
+    
+#ifdef HAVE_FFTW_LONGDOUBLE
+    template <typename IndexType>
+    void
+    dft_single(IndexType n,
+               std::complex<long double> *x, IndexType incX,
+               std::complex<long double> *y, IndexType incY,
+               DFTDirection direction);
+    
+#endif // HAVE_FFTW_LONGDOUBLE
+
+#ifdef HAVE_FFTW_QUAD
+    template <typename IndexType>
+    void
+    dft_single(IndexType n,
+               std::complex<__float128> *x, IndexType incX,
+               std::complex<__float128> *y, IndexType incY,
+               DFTDirection direction);
+    
+#endif // HAVE_FFTW_QUAD
     
 #endif
 

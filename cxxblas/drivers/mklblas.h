@@ -53,12 +53,19 @@
 #    define BLAS_EXT(x)         cblas_##x
 #endif
 
-// MKL includes LAPACK and FFTW interface
+// MKL includes LAPACK 
 #ifndef USE_CXXLAPACK
 #    define USE_CXXLAPACK       1
 #endif
+// MKL includes FFTW interface (float, double)
 #ifndef HAVE_FFTW
 #    define HAVE_FFTW           1
+#endif
+#ifndef HAVE_FFTW_FLOAT
+#    define HAVE_FFTW_FLOAT     1
+#endif
+#ifndef HAVE_FFTW_DOUBLE
+#    define HAVE_FFTW_DOUBLE    1
 #endif
 
 #endif // CXXBLAS_DRIVERS_MKLBLAS_H
