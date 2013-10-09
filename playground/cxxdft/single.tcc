@@ -63,7 +63,7 @@ fft_single_generic(IndexType N,
         return;
     }
 
-    const PT        factor = (direction==DFTDirection::Forward ? PT(2*M_PI/N) : PT(-2*M_PI/N) );
+    const PT        factor = (direction==DFTDirection::Forward ? PT(-2*M_PI/N) : PT(2*M_PI/N) );
     const PT        one(1);
     const IndexType Nhalf = N/2;
     if (N == 1) {
@@ -116,7 +116,7 @@ dft_single_generic(IndexType N,
 
         typedef typename flens::ComplexTrait<VOUT>::PrimitiveType PT;
 
-        const PT factor = (direction==DFTDirection::Forward ? PT(2*M_PI/N) : PT(-2*M_PI/N));
+        const PT factor = (direction==DFTDirection::Forward ? PT(-2*M_PI/N) : PT(2*M_PI/N));
 
         for (IndexType i=0, iY=0; i<N; ++i, iY+=incY) {
             VOUT tmp(0);
