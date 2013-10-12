@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DLARTG( F, G, CS, SN, R )
+       SUBROUTINE ZLARTG( F, G, CS, SN, R )
  *
  *  -- LAPACK auxiliary routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -53,8 +54,12 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
+//
+//  Real variant
+//
 template <typename T>
-void
+typename RestrictTo<IsReal<T>::value,
+         void>::Type
 lartg_impl(const T &f, const T &g, T &cs, T &sn, T &r)
 {
     using std::abs;
@@ -131,6 +136,150 @@ lartg_impl(const T &f, const T &g, T &cs, T &sn, T &r)
     }
 }
 
+template <typename T>
+T
+absInf(const std::complex<T> &z)
+{
+    using std::abs;
+    using std::conj;
+    using std::imag;
+    using std::max;
+
+    return max(abs(real(z)), abs(imag(z)));
+}
+
+template <typename T>
+T
+absSq(const std::complex<T> &z)
+{
+    using flens::pow;
+
+    return pow(real(z),2) + pow(imag(z),2);
+}
+
+//
+//  Complex variant
+//
+template <typename T, typename PT>
+typename RestrictTo<IsComplex<T>::value
+                 && IsReal<PT>::value,
+         void>::Type
+lartg_impl(const T &f, const T &g, PT &cs, T &sn, T &r)
+{
+    using std::conj;
+    using std::real;
+    using std::sqrt;
+
+    typedef int  IndexType;
+
+    const T   CZero(0);
+    const PT  Zero(0), One(1), Two(2);
+
+    PT   eps, safeMin, safeMin2, safeMax2;
+
+    safeMin       = lamch<PT>(SafeMin);
+    eps           = lamch<PT>(Eps);
+    const int exp = explicit_cast<PT,int>(log(safeMin/eps)
+                                          / log(lamch<PT>(Base))
+                                          / Two);
+    safeMin2      = pow(lamch<PT>(Base), exp);
+    safeMax2      = One / safeMin2;
+
+    PT scale = max(absInf(f), absInf(g));
+    T  fs    = f;
+    T  gs    = g;
+
+    IndexType count = 0;
+    if (scale >= safeMax2) {
+        do {
+            ++count;
+            fs *= safeMin2;
+            gs *= safeMin2;
+            scale *= safeMin2;
+        } while (scale >= safeMax2);
+    } else if (scale<=safeMin2) {
+        if (g == CZero) {
+            cs = One;
+            sn = CZero;
+            r = f;
+            return;
+        }
+        do {
+            --count;
+            fs *= safeMax2;
+            gs *= safeMax2;
+            scale *= safeMax2;
+        } while (scale <= safeMin2);
+    }
+    const PT f2 = absSq(fs);
+    const PT g2 = absSq(gs);
+
+    if (f2 <= max(g2, One)*safeMin) {
+//
+//      This is a rare case: F is very small.
+//
+        if (f == CZero) {
+            cs = Zero;
+            r  = lapy2(real(g), imag(g));
+//          Do complex/real division explicitly with two real divisions
+            PT d  = lapy2(real(gs), imag(gs));
+            sn    = T(real(gs) / d, -imag(gs) / d);
+            return;
+        }
+        PT f2s = lapy2(real(fs), imag(fs));
+//      G2 and G2S are accurate
+//      G2 is at least SAFMIN, and G2S is at least SAFMN2
+        PT g2s = sqrt(g2);
+//      Error in CS from underflow in F2S is at most
+//      UNFL / SAFMN2 .lt. sqrt(UNFL*EPS) .lt. EPS
+//      If MAX(G2,ONE)=G2, then F2 .lt. G2*SAFMIN,
+//      and so CS .lt. sqrt(SAFMIN)
+//      If MAX(G2,ONE)=ONE, then F2 .lt. SAFMIN
+//      and so CS .lt. sqrt(SAFMIN)/SAFMN2 = sqrt(EPS)
+//      Therefore, CS = F2S/G2S / sqrt( 1 + (F2S/G2S)**2 ) = F2S/G2S
+        cs = f2s / g2s;
+//      Make sure abs(FF) = 1
+//      Do complex/real division explicitly with 2 real divisions
+        T ff;
+        if (absInf(f) > One) {
+            PT d = lapy2(real(f), imag(f));
+            ff   = T(real(f)/d, imag(f)/d);
+        } else {
+            PT dr = safeMax2*real(f);
+            PT di = safeMax2*imag(f);
+            PT d  = lapy2(dr, di);
+            ff    = T(dr/d, di/d);
+        }
+        sn = ff * T(real(gs)/g2s, -imag(gs)/g2s);
+        r  = cs*f + sn*g;
+    } else {
+//
+//      This is the most common case.
+//      Neither F2 nor F2/G2 are less than SAFMIN
+//      F2S cannot overflow, and it is accurate
+//
+        PT f2s = sqrt(One + g2/f2);
+//      Do the F2S(real)*FS(complex) multiply with two real multiplies
+        r  = T(f2s*real(fs), f2s*imag(fs));
+        cs = One / f2s;
+        PT d  = f2 + g2;
+//      Do complex/real division explicitly with two real divisions
+        sn =  T(real(r)/d, imag(r)/d);
+        sn *= conj(gs);
+        if (count != IndexType(0)) {
+            if (count > IndexType(0)) {
+                for (IndexType i=1; i<=count; ++i) {
+                    r *= safeMax2;
+                }
+            } else {
+                for (IndexType i=1; i<=-count; ++i) {
+                    r *= safeMin2;
+                }
+            }
+        }
+    }
+}
+
 } // namespace generic
 
 //== interface for native lapack ===============================================
@@ -139,9 +288,12 @@ lartg_impl(const T &f, const T &g, T &cs, T &sn, T &r)
 
 namespace external {
 
-template <typename T>
+//
+//  Real/complex variant
+//
+template <typename T, typename PT>
 void
-lartg_impl(const T &f, const T &g, T &cs, T &sn, T &r)
+lartg_impl(const T &f, const T &g, PT &cs, T &sn, T &r)
 {
     cxxlapack::lartg(f, g, cs, sn, r);
 }
@@ -152,8 +304,12 @@ lartg_impl(const T &f, const T &g, T &cs, T &sn, T &r)
 
 //== public interface ==========================================================
 
+//
+//  Real variant
+//
 template <typename T>
-void
+typename RestrictTo<IsReal<T>::value,
+         void>::Type
 lartg(const T &f, const T &g, T &cs, T &sn, T &r)
 {
     LAPACK_DEBUG_OUT("lartg");
@@ -163,6 +319,62 @@ lartg(const T &f, const T &g, T &cs, T &sn, T &r)
 //  Make copies of output arguments
 //
     T   _cs = cs;
+    T   _sn = sn;
+    T   _r  = r;
+#   endif
+
+//
+//  Call implementation
+//
+    LAPACK_SELECT::lartg_impl(f, g, cs, sn, r);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    external::lartg_impl(f, g, _cs, _sn, _r);
+
+    bool failed = false;
+    if (! isIdentical(cs, _cs, " cs", "_cs")) {
+        std::cerr << "CXXLAPACK:  cs = " << cs << std::endl;
+        std::cerr << "F77LAPACK: _cs = " << _cs << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(sn, _sn, " sn", "_sn")) {
+        std::cerr << "CXXLAPACK:  sn = " << sn << std::endl;
+        std::cerr << "F77LAPACK: _sn = " << _sn << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(r, _r, " r", "_r")) {
+        std::cerr << "CXXLAPACK:  r = " << r << std::endl;
+        std::cerr << "F77LAPACK: _r = " << _r << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    }
+#   endif
+}
+
+//
+//  Complex variant
+//
+template <typename T, typename PT>
+typename RestrictTo<IsComplex<T>::value
+                 && IsReal<PT>::value,
+         void>::Type
+lartg(const T &f, const T &g, PT &cs, T &sn, T &r)
+{
+    LAPACK_DEBUG_OUT("lartg (complex)");
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    PT  _cs = cs;
     T   _sn = sn;
     T   _r  = r;
 #   endif

@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DLAHR2( N, K, NB, A, LDA, TAU, T, LDT, Y, LDY )
+       SUBROUTINE ZLAHR2( N, K, NB, A, LDA, TAU, T, LDT, Y, LDY )
  *
  *  -- LAPACK auxiliary routine (version 3.3.1)                        --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -52,9 +53,13 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
+//
+//  Real variant
+//
 template <typename IndexType, typename MA, typename VTAU,
           typename MTR, typename MY>
-void
+typename RestrictTo<IsReal<typename MA::ElementType>::value,
+         void>::Type
 lahr2_impl(IndexType k, IndexType nb, GeMatrix<MA> &A,
            DenseVector<VTAU> &tau,   TrMatrix<MTR> &Tr,
            GeMatrix<MY> &Y)
@@ -175,6 +180,136 @@ lahr2_impl(IndexType k, IndexType nb, GeMatrix<MA> &A,
     blas::mm(Right, NoTrans, One, Tr, Y(_(1,k),_(1,nb)));
 }
 
+//
+//  Complex variant
+//
+template <typename IndexType, typename MA, typename VTAU,
+          typename MTR, typename MY>
+typename RestrictTo<IsComplex<typename MA::ElementType>::value,
+         void>::Type
+lahr2_impl(IndexType k, IndexType nb, GeMatrix<MA> &A,
+           DenseVector<VTAU> &tau,   TrMatrix<MTR> &Tr,
+           GeMatrix<MY> &Y)
+{
+    using lapack::larfg;
+    using std::min;
+
+    typedef typename GeMatrix<MA>::ElementType  T;
+
+    const Underscore<IndexType> _;
+
+    const IndexType n = A.numRows();
+    const T         Zero(0), One(1);
+
+//  TODO: as long as view creation is not supported by the TrMatrix interface
+//        we get them through a GeMatrix::View
+    auto _Tr = Tr.general();
+//
+//  Quick return if possible
+//
+    if (n<=1) {
+        return;
+    }
+
+    T ei = Zero;
+    for (IndexType i=1; i<=nb; ++i) {
+        if (i>1) {
+//
+//          Update A(K+1:N,I)
+//
+//          Update I-th column of A - Y * V**H
+//
+            blas::conj(A(k+i-1,_(1,i-1)));
+            blas::mv(NoTrans,
+                     -One, Y(_(k+1,n),_(1,i-1)), A(k+i-1,_(1,i-1)),
+                     One, A(_(k+1,n),i));
+            blas::conj(A(k+i-1,_(1,i-1)));
+//
+//          Apply I - V * T**H * V**H to this column (call it b) from the
+//          left, using the last column of T as workspace
+//
+//          Let  V = ( V1 )   and   b = ( b1 )   (first I-1 rows)
+//                   ( V2 )             ( b2 )
+//
+//          where V1 is unit lower triangular
+//
+//          w := V1**H * b1
+//
+            _Tr(_(1,i-1),nb) = A(_(k+1,k+i-1),i);
+            blas::mv(ConjTrans, A(_(k+1,k+i-1),_(1,i-1)).lowerUnit(),
+                     _Tr(_(1,i-1),nb));
+//
+//          w := w + V2**H * b2
+//
+            blas::mv(ConjTrans,
+                     One, A(_(k+i,n),_(1,i-1)), A(_(k+i,n),i),
+                     One, _Tr(_(1,i-1),nb));
+//
+//          w := T**H * w
+//
+            blas::mv(ConjTrans, _Tr(_(1,i-1),_(1,i-1)).upper(),
+                     _Tr(_(1,i-1),nb));
+//
+//          b2 := b2 - V2*w
+//
+            blas::mv(NoTrans,
+                     -One, A(_(k+i,n),_(1,i-1)), _Tr(_(1,i-1),nb),
+                     One, A(_(k+i,n),i));
+//
+//          b1 := b1 - V1*w
+//
+            blas::mv(NoTrans,
+                     A(_(k+1,k+i-1),_(1,i-1)).lowerUnit(),
+                     _Tr(_(1,i-1),nb));
+            A(_(k+1,k+i-1),i) -= _Tr(_(1,i-1),nb);
+
+            A(k+i-1,i-1) = ei;
+        }
+//
+//      Generate the elementary reflector H(I) to annihilate
+//      A(K+I+1:N,I)
+//
+        larfg(n-k-i+1, A(k+i,i), A(_(min(k+i+1,n),n), i), tau(i));
+
+        ei = A(k+i, i);
+        A(k+i, i) = One;
+//
+//      Compute  Y(K+1:N,I)
+//
+        blas::mv(NoTrans,
+                 One, A(_(k+1,n),_(i+1,n-k+1)), A(_(k+i,n),i),
+                 Zero, Y(_(k+1,n),i));
+        blas::mv(ConjTrans,
+                 One, A(_(k+i,n),_(1,i-1)), A(_(k+i,n),i),
+                 Zero, _Tr(_(1,i-1),i));
+        blas::mv(NoTrans,
+                 -One, Y(_(k+1,n),_(1,i-1)), _Tr(_(1,i-1),i),
+                 One, Y(_(k+1,n),i));
+        blas::scal(tau(i),Y(_(k+1,n),i));
+//
+//      Compute T(1:I,I)
+//
+        blas::scal(-tau(i), _Tr(_(1,i-1),i));
+        blas::mv(NoTrans, _Tr(_(1,i-1),_(1,i-1)).upper(), _Tr(_(1,i-1),i));
+        Tr(i,i) = tau(i);
+    }
+    A(k+nb, nb) = ei;
+//
+//  Compute Y(1:K,1:NB)
+//
+    Y(_(1,k),_(1,nb)) = A(_(1,k),_(2,2+nb-1));
+    blas::mm(Right, NoTrans,
+             One, A(_(k+1,k+nb),_(1,nb)).lowerUnit(),
+             Y(_(1,k),_(1,nb)));
+
+    if (n>k+nb) {
+        blas::mm(NoTrans, NoTrans,
+                 One, A(_(1,k),_(2+nb,n-k+1)), A(_(k+1+nb,n),_(1,nb)),
+                 One, Y(_(1,k),_(1,nb)));
+    }
+    blas::mm(Right, NoTrans, One, Tr, Y(_(1,k),_(1,nb)));
+}
+
 } // namespace generic
 
 //== interface for native lapack ===============================================
@@ -207,14 +342,32 @@ lahr2_impl(IndexType k, IndexType nb, GeMatrix<MA> &A,
 #endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
-
+//
+//  Real variant
+//
 template <typename IndexType, typename MA, typename VTAU,
           typename MTR, typename MY>
-void
-lahr2(IndexType k, IndexType nb, GeMatrix<MA> &A, DenseVector<VTAU> &tau,
-      TrMatrix<MTR> &Tr, GeMatrix<MY> &Y)
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                 && IsRealDenseVector<VTAU>::value
+                 && IsRealTrMatrix<MTR>::value
+                 && IsRealGeMatrix<MY>::value,
+         void>::Type
+lahr2(IndexType     k,
+      IndexType     nb,
+      MA            &&A,
+      VTAU          &&tau,
+      MTR           &&Tr,
+      MY            &&Y)
 {
     LAPACK_DEBUG_OUT("lahr2");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type        MatrixA;
+    typedef typename RemoveRef<VTAU>::Type      VectorTau;
+    typedef typename RemoveRef<MTR>::Type       MatrixTr;
+    typedef typename RemoveRef<MY>::Type        MatrixY;
 
 //
 //  Test the input parameters
@@ -232,12 +385,10 @@ lahr2(IndexType k, IndexType nb, GeMatrix<MA> &A, DenseVector<VTAU> &tau,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-    typename GeMatrix<MA>::NoView       _A      = A;
-    typename DenseVector<VTAU>::NoView  _tau    = tau;
-    typename GeMatrix<MTR>::NoView      __Tr    = Tr.general();
-    typename GeMatrix<MY>::NoView       _Y      = Y;
-
-    auto _Tr = (Tr.upLo()==Upper) ? __Tr.upper() : __Tr.lower();
+    typename MatrixA::NoView           A_org     = A;
+    typename VectorTau::NoView         tau_org   = tau;
+    typename MatrixTr::GeneralNoView   Tr_org    = Tr.general();
+    typename MatrixY::NoView           Y_org     = Y;
 #   endif
 
 //
@@ -245,34 +396,47 @@ lahr2(IndexType k, IndexType nb, GeMatrix<MA> &A, DenseVector<VTAU> &tau,
 //
     LAPACK_SELECT::lahr2_impl(k, nb, A, tau, Tr, Y);
 
+#   ifdef CHECK_CXXLAPACK
+//
+//  Restore output arguments
+//
+    typename MatrixA::NoView           A_generic     = A;
+    typename VectorTau::NoView         tau_generic   = tau;
+    typename MatrixTr::GeneralNoView   Tr_generic    = Tr.general();
+    typename MatrixY::NoView           Y_generic     = Y;
+
+    A            = A_org;
+    tau          = tau_org;
+    Tr.general() = Tr_org;
+    Y            = Y_org;
+
 //
 //  Compare results
 //
-#   ifdef CHECK_CXXLAPACK
-    external::lahr2_impl(k, nb, _A, _tau, _Tr, _Y);
+    external::lahr2_impl(k, nb, A, tau, Tr, Y);
 
     bool failed = false;
-    if (! isIdentical(A, _A, " A", "A_")) {
-        std::cerr << "CXXLAPACK:  A = " << A << std::endl;
-        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+    if (! isIdentical(A_generic, A, "A_generic", "A")) {
+        std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
+        std::cerr << "F77LAPACK: A = " << A << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(tau, _tau, " tau", "tau_")) {
-        std::cerr << "CXXLAPACK:  tau = " << tau << std::endl;
-        std::cerr << "F77LAPACK: _tau = " << _tau << std::endl;
+    if (! isIdentical(tau_generic, tau, "tau_generic", "tau")) {
+        std::cerr << "CXXLAPACK: tau_generic = " << tau_generic << std::endl;
+        std::cerr << "F77LAPACK: tau = " << tau << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(Tr.general(), _Tr.general(), " Tr", "_Tr")) {
-        std::cerr << "CXXLAPACK:  Tr = " << Tr.general() << std::endl;
-        std::cerr << "F77LAPACK: _Tr = " << _Tr.general() << std::endl;
+    if (! isIdentical(Tr_generic, Tr.general(), " Tr_generic", "Tr")) {
+        std::cerr << "CXXLAPACK: Tr_generic = " << Tr_generic << std::endl;
+        std::cerr << "F77LAPACK: Tr = " << Tr.general() << std::endl;
         failed = true;
     }
 
-    if (! isIdentical(Y, _Y, " Y", "_Y")) {
-        std::cerr << "CXXLAPACK:  Y = " << Y << std::endl;
-        std::cerr << "F77LAPACK: _Y = " << _Y << std::endl;
+    if (! isIdentical(Y_generic, Y, "Y_generic", "Y")) {
+        std::cerr << "CXXLAPACK: Y_generic = " << Y_generic << std::endl;
+        std::cerr << "F77LAPACK: Y = " << Y << std::endl;
         failed = true;
     }
 
@@ -286,16 +450,114 @@ lahr2(IndexType k, IndexType nb, GeMatrix<MA> &A, DenseVector<VTAU> &tau,
 #   endif
 }
 
-//-- forwarding ----------------------------------------------------------------
+//
+//  Complex variant
+//
 template <typename IndexType, typename MA, typename VTAU,
           typename MTR, typename MY>
-void
-lahr2(IndexType k, IndexType nb, MA &&A, VTAU &&tau, MTR &&Tr, MY &&Y)
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                 && IsComplexDenseVector<VTAU>::value
+                 && IsComplexTrMatrix<MTR>::value
+                 && IsComplexGeMatrix<MY>::value,
+         void>::Type
+lahr2(IndexType     k,
+      IndexType     nb,
+      MA            &&A,
+      VTAU          &&tau,
+      MTR           &&Tr,
+      MY            &&Y)
 {
-    CHECKPOINT_ENTER;
-    lahr2(k, nb, A, tau, Tr, Y);
-    CHECKPOINT_LEAVE;
+    LAPACK_DEBUG_OUT("lahr2");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type        MatrixA;
+    typedef typename RemoveRef<VTAU>::Type      VectorTau;
+    typedef typename RemoveRef<MTR>::Type       MatrixTr;
+    typedef typename RemoveRef<MY>::Type        MatrixY;
+
+//
+//  Test the input parameters
+//
+    ASSERT(k<A.numRows());
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(A.numCols()==A.numRows()-k+1);
+    ASSERT(tau.length()==nb);
+    ASSERT(Tr.dim()==nb);
+    ASSERT(Y.numRows()==A.numRows());
+    ASSERT(Y.numCols()==nb);
+
+//
+//  Make copies of output arguments
+//
+#   ifdef CHECK_CXXLAPACK
+    typename MatrixA::NoView           A_org     = A;
+    typename VectorTau::NoView         tau_org   = tau;
+    typename MatrixTr::GeneralNoView   Tr_org    = Tr.general();
+    typename MatrixY::NoView           Y_org     = Y;
+#   endif
+
+//
+//  Call implementation
+//
+    LAPACK_SELECT::lahr2_impl(k, nb, A, tau, Tr, Y);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Restore output arguments
+//
+    typename MatrixA::NoView           A_generic     = A;
+    typename VectorTau::NoView         tau_generic   = tau;
+    typename MatrixTr::GeneralNoView   Tr_generic    = Tr.general();
+    typename MatrixY::NoView           Y_generic     = Y;
+
+    A            = A_org;
+    tau          = tau_org;
+    Tr.general() = Tr_org;
+    Y            = Y_org;
+
+//
+//  Compare results
+//
+    external::lahr2_impl(k, nb, A, tau, Tr, Y);
+
+    bool failed = false;
+    if (! isIdentical(A_generic, A, "A_generic", "A")) {
+        std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
+        std::cerr << "F77LAPACK: A = " << A << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(tau_generic, tau, "tau_generic", "tau")) {
+        std::cerr << "CXXLAPACK: tau_generic = " << tau_generic << std::endl;
+        std::cerr << "F77LAPACK: tau = " << tau << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(Tr_generic, Tr.general(), " Tr_generic", "Tr")) {
+        std::cerr << "CXXLAPACK: Tr_generic = " << Tr_generic << std::endl;
+        std::cerr << "F77LAPACK: Tr = " << Tr.general() << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(Y_generic, Y, "Y_generic", "Y")) {
+        std::cerr << "CXXLAPACK: Y_generic = " << Y_generic << std::endl;
+        std::cerr << "F77LAPACK: Y = " << Y << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        std::cerr << "error in: lahr2.tcc" << std::endl;
+        std::cerr << "k = " << k << ", nb = " << nb << std::endl;
+        ASSERT(0);
+    } else {
+//        std::cerr << "passed: lahr2.tcc" << std::endl;
+    }
+#   endif
 }
+
 
 } } // namespace lapack, flens
 

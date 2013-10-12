@@ -45,7 +45,7 @@ gecotr(StorageOrder order, Transpose trans,
        IndexType m, IndexType n, MA *A, IndexType ldA)
 {
     if (order==RowMajor) {
-        gecotr(ColMajor, trans, n, m, A, ldA);
+        std::swap(m,n);
         return;
     }
 
@@ -62,10 +62,9 @@ gecotr(StorageOrder order, Transpose trans,
             }
         }
     }
-    if (trans==Conj || trans==ConjTrans) {
-        ASSERT(m==n);
+    if (trans==Conj) {
         for (IndexType j=0; j<n; ++j) {
-            for (IndexType i=0; i<n; ++i) {
+            for (IndexType i=0; i<m; ++i) {
                 A[i+ldA*j] = cxxblas::conjugate(A[i+ldA*j]);
             }
         }

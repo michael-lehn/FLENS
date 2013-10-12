@@ -132,7 +132,8 @@ lascl(char                  type,
                         &m,
                         &n,
                         reinterpret_cast<float  *>(A),
-                        &ldA);
+                        &ldA,
+                        &info);
 #   ifndef NDEBUG
     if (info<0) {
         std::cerr << "info = " << info << std::endl;
@@ -165,7 +166,8 @@ lascl(char                  type,
                         &m,
                         &n,
                         reinterpret_cast<double *>(A),
-                        &ldA);
+                        &ldA,
+                        &info);
 #   ifndef NDEBUG
     if (info<0) {
         std::cerr << "info = " << info << std::endl;

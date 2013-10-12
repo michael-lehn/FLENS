@@ -32,64 +32,51 @@
 
 /* Based on
  *
-       SUBROUTINE DGEHRD( N, ILO, IHI, A, LDA, TAU, WORK, LWORK, INFO )
-       SUBROUTINE ZGEHRD( N, ILO, IHI, A, LDA, TAU, WORK, LWORK, INFO )
+      SUBROUTINE ZUNMHR( SIDE, TRANS, M, N, ILO, IHI, A, LDA, TAU, C,
+     $                   LDC, WORK, LWORK, INFO )
  *
- *  -- LAPACK routine (version 3.3.1)                                  --
+ *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
  *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
- *  -- April 2009                                                      --
+ *     November 2006
  */
 
-#ifndef FLENS_LAPACK_GE_HRD_H
-#define FLENS_LAPACK_GE_HRD_H 1
+#ifndef FLENS_LAPACK_IMPL_UNMHR_H
+#define FLENS_LAPACK_IMPL_UNMHR_H 1
 
-#include <flens/lapack/typedefs.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace lapack {
 
-//== hrd =======================================================================
-//
-//  Real variant
-//
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
-    typename RestrictTo<IsRealGeMatrix<MA>::value &&
-                        IsRealDenseVector<VTAU>::value &&
-                        IsRealDenseVector<VWORK>::value,
+//== unmhr =====================================================================
+template <typename IndexType, typename  MA, typename  VTAU,
+          typename  MC, typename  VWORK>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsComplexDenseVector<VTAU>::value
+                     && IsComplexGeMatrix<MC>::value
+                     && IsComplexDenseVector<VWORK>::value,
              void>::Type
-    hrd(IndexType               iLo,
-        IndexType               iHi,
-        MA                      &&A,
-        VTAU                    &&tau,
-        VWORK                   &&work);
+    unmhr(Side                          side,
+          Transpose                     trans,
+          IndexType                     iLo,
+          IndexType                     iHi,
+          MA                            &&A,
+          const VTAU                    &&tau,
+          MC                            &&C,
+          VWORK                         &&work);
 
 //
-//  Complex variant
+//  Workspace query
 //
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
-    typename RestrictTo<IsComplexGeMatrix<MA>::value &&
-                        IsComplexDenseVector<VTAU>::value &&
-                        IsComplexDenseVector<VWORK>::value,
-             void>::Type
-    hrd(IndexType               iLo,
-        IndexType               iHi,
-        MA                      &&A,
-        VTAU                    &&tau,
-        VWORK                   &&work);
-
-
-//== hrd (workspace query) =====================================================
-//
-//  Real/complex variant
-//
-template <typename IndexType, typename MA>
+template <typename IndexType, typename  MC>
     IndexType
-    hrd_wsq(IndexType           iLo,
-            IndexType           iHi,
-            const MA            &A);
+    unmhr_wsq(Side                      side,
+              Transpose                 trans,
+              IndexType                 iLo,
+              IndexType                 iHi,
+              const GeMatrix<MC>        &C);
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_GE_HRD_H
+#endif // FLENS_LAPACK_IMPL_UNMHR_H

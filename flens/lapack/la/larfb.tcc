@@ -54,8 +54,12 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
+//
+//  Real variant
+//
 template <typename MV, typename MT, typename MC, typename MWORK>
-void
+typename RestrictTo<IsReal<typename MV::ElementType>::value,
+         void>::Type
 larfb_impl(Side                  side,
            Transpose             transH,
            Direction             direction,
@@ -82,7 +86,7 @@ larfb_impl(Side                  side,
 //
 //  Quick return if possible
 //
-    if ((m==0) || (n==0)) {
+    if (m==0 || n==0) {
         return;
     }
 
@@ -260,6 +264,7 @@ larfb_impl(Side                  side,
 //              C1 := C1 - W**T
 //
                 blas::axpy(Trans, -One, W, C1);
+
             } else if (side==Right) {
 //
 //              Form  C * H  or  C * H**T  where  C = ( C1  C2 )
@@ -323,6 +328,286 @@ larfb_impl(Side                  side,
     }
 }
 
+//
+//  Complex variant
+//
+template <typename MV, typename MT, typename MC, typename MWORK>
+typename RestrictTo<IsComplex<typename MV::ElementType>::value,
+         void>::Type
+larfb_impl(Side                  side,
+           Transpose             transH,
+           Direction             direction,
+           StoreVectors          storeVectors,
+           const GeMatrix<MV>    &V,
+           const TrMatrix<MT>    &Tr,
+           GeMatrix<MC>          &C,
+           GeMatrix<MWORK>       &Work)
+{
+    using lapack::ilalc;
+    using lapack::ilalr;
+    using std::max;
+
+    typedef typename GeMatrix<MC>::ElementType       T;
+    typedef typename GeMatrix<MC>::IndexType         IndexType;
+    typedef typename ComplexTrait<T>::PrimitiveType  PT;
+
+    const Underscore<IndexType> _;
+
+    const T                     One(1);
+
+    const IndexType m = C.numRows();
+    const IndexType n = C.numCols();
+    const IndexType k = Tr.dim();
+
+//
+//  Quick return if possible
+//
+    if (m==0 || n==0) {
+        return;
+    }
+
+    const Transpose transT = (transH==NoTrans) ? ConjTrans : NoTrans;
+
+    if (storeVectors==ColumnWise) {
+        if (direction==Forward) {
+//
+//          Let  V =  ( V1 )    (first K rows)
+//                    ( V2 )
+//          where  V1  is unit lower triangular.
+//
+            if (side==Left) {
+//
+//              Form  H * C  or  H**H * C  where  C = ( C1 )
+//                                                    ( C2 )
+//
+                const IndexType lastV = max(k, ilalr(V));
+                const auto V1 = V(_(1,k),_);
+                const auto V2 = V(_(k+1,lastV),_);
+
+                const IndexType lastC = ilalc(C(_(1,lastV),_));
+                auto C1 = C(_(1,k),_(1,lastC));
+                auto C2 = C(_(k+1,lastV),_(1,lastC));
+
+//
+//              W := C**H * V  =  (C1**H * V1 + C2**H * V2)  (stored in WORK)
+//
+//              W := C1**H
+//
+                auto W = Work(_(1,lastC),_(1,k));
+                blas::copy(ConjTrans, C1, W);
+//
+//              W := W * V1
+//
+                blas::mm(Right, NoTrans, One, V1.lowerUnit(), W);
+
+                if (lastV>k) {
+//
+//                  W := W + C2**H *V2
+//
+                    blas::mm(ConjTrans, NoTrans, One, C2, V2, One, W);
+                }
+//
+//              W := W * T**H  or  W * T
+//
+                blas::mm(Right, transT, One, Tr, W);
+//
+//              C := C - V * W**H
+//
+                if (m>k) {
+//
+//                  C2 := C2 - V2 * W**H
+//
+                    blas::mm(NoTrans, ConjTrans, -One, V2, W, One, C2);
+                }
+//
+//              W := W * V1**H
+//
+                blas::mm(Right, ConjTrans, One, V1.lowerUnit(), W);
+//
+//              C1 := C1 - W**H
+//
+                blas::axpy(ConjTrans, -One, W, C1);
+            } else if (side==Right) {
+//
+//              Form  C * H  or  C * H**H  where  C = ( C1  C2 )
+//
+                const IndexType lastV = max(k, ilalr(V));
+                const auto V1 = V(_(1,k),_);
+                const auto V2 = V(_(k+1,lastV),_);
+
+                const IndexType lastC = ilalr(C(_,_(1,lastV)));
+                auto C1 = C(_(1,lastC),_(1,k));
+                auto C2 = C(_(1,lastC),_(k+1,lastV));
+//
+//              W := C * V  =  (C1*V1 + C2*V2)  (stored in WORK)
+//
+//              W := C1
+//
+                auto W = Work(_(1,lastC),_(1,k));
+                W = C1;
+//
+//              W := W * V1
+//
+                blas::mm(Right, NoTrans, One, V1.lowerUnit(), W);
+
+                if (lastV>k) {
+//
+//                  W := W + C2 * V2
+//
+                    blas::mm(NoTrans, NoTrans, One, C2, V2, One, W);
+                }
+//
+//              W := W * T  or  W * T**H
+//
+                blas::mm(Right, transH, One, Tr, W);
+//
+//              C := C - W * V**H
+//
+                if (lastV>k) {
+//
+//                  C2 := C2 - W * V2**H
+//
+                    blas::mm(NoTrans, ConjTrans, -One, W, V2, One, C2);
+                }
+//
+//              W := W * V1**H
+//
+                blas::mm(Right, ConjTrans, One, V1.lowerUnit(), W);
+//
+//              C1 := C1 - W
+//
+                blas::axpy(NoTrans, -One, W, C1);
+            }
+
+        } else {
+            // Lehn: I will implement it as soon as someone needs it
+            ASSERT(0);
+        }
+    } else if (storeVectors==RowWise) {
+
+        if (direction==Forward) {
+//
+//          Let  V =  ( V1  V2 )    (V1: first K columns)
+//          where  V1  is unit upper triangular.
+//
+            if (side==Left) {
+//
+//              Form  H * C  or  H**H * C  where  C = ( C1 )
+//                                                    ( C2 )
+//
+                const IndexType lastV = max(k, ilalc(V));
+                const auto V1 = V(_,_(1,k));
+                const auto V2 = V(_,_(k+1,lastV));
+
+                const IndexType lastC = ilalc(C(_(1,lastV),_));
+                auto C1 = C(_(  1,    k),_(1,lastC));
+                auto C2 = C(_(k+1,lastV),_(1,lastC));
+//
+//              W := C**H * V**H  =  (C1**H * V1**H + C2**H * V2**H)
+//                                                              (stored in WORK)
+//
+//              W := C1**H
+//
+                auto W = Work(_(1,lastC),_(1,k));
+                blas::copy(ConjTrans, C1, W);
+//
+//              W := W * V1**H
+//
+                blas::mm(Right, ConjTrans, One, V1.upperUnit(), W);
+
+                if (lastV>k) {
+//
+//                  W := W + C2**H*V2**H
+//
+                    blas::mm(ConjTrans, ConjTrans, One, C2, V2, One, W);
+                }
+//
+//              W := W * T**H  or  W * T
+//
+                blas::mm(Right, transT, One, Tr, W);
+//
+//              C := C - V**H * W**H
+//
+                if (lastV>k) {
+//
+//                  C2 := C2 - V2**H * W**H
+//
+                    blas::mm(ConjTrans, ConjTrans, -One, V2, W, One, C2);
+                }
+//
+//              W := W * V1
+//
+                blas::mm(Right, NoTrans, One, V1.upperUnit(), W);
+//
+//              C1 := C1 - W**H
+//
+                blas::axpy(ConjTrans, -One, W, C1);
+
+            } else if (side==Right) {
+//
+//              Form  C * H  or  C * H**H  where  C = ( C1  C2 )
+//
+                const IndexType lastV = max(k, ilalc(V));
+                const auto V1 = V(_,_(1,k));
+                const auto V2 = V(_,_(k+1,lastV));
+
+                const IndexType lastC = ilalr(C(_,_(1,lastV)));
+                auto C1 = C(_(1,lastC),_(1,k));
+                auto C2 = C(_(1,lastC),_(k+1,lastV));
+//
+//              W := C * V**H  =  (C1*V1**H + C2*V2**H)  (stored in WORK)
+//
+//              W := C1
+//
+                auto W = Work(_(1,lastC),_(1,k));
+                W = C1;
+//
+//              W := W * V1**H
+//
+                blas::mm(Right, ConjTrans, One, V1.upperUnit(), W);
+
+                if (lastV>k) {
+//
+//                  W := W + C2 * V2**H
+//
+                    blas::mm(NoTrans, ConjTrans, One, C2, V2, One, W);
+                }
+//
+//              W := W * T  or  W * T**H
+//
+                blas::mm(Right, transH, One, Tr, W);
+//
+//              C := C - W * V
+//
+                if (lastV>k) {
+//
+//                  C2 := C2 - W * V2
+//
+                    blas::mm(NoTrans, NoTrans, -One, W, V2, One, C2);
+                }
+//
+//              W := W * V1
+//
+                blas::mm(Right, NoTrans, One, V1.upperUnit(), W);
+//
+//              C1 := C1 - W
+//
+                blas::axpy(NoTrans, -One, W, C1);
+
+            }
+
+        } else if (direction==Backward) {
+            if (side==Left) {
+                // Lehn: I will implement it as soon as someone needs it
+                ASSERT(0);
+            } else if (side==Right) {
+                // Lehn: I will implement it as soon as someone needs it
+                ASSERT(0);
+            }
+        }
+    }
+}
+
 } // namespace generic
 
 //== interface for native lapack ===============================================
@@ -331,6 +616,9 @@ larfb_impl(Side                  side,
 
 namespace external {
 
+//
+//  Real/complex variant
+//
 template <typename MV, typename MT, typename MC, typename MWORK>
 void
 larfb_impl(Side                   side,
@@ -366,25 +654,36 @@ larfb_impl(Side                   side,
 #endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
-
+//
+//  Real variant
+//
 template <typename MV, typename MT, typename MC, typename MWORK>
-void
+typename RestrictTo<IsRealGeMatrix<MV>::value
+                 && IsRealTrMatrix<MT>::value
+                 && IsRealGeMatrix<MC>::value
+                 && IsRealGeMatrix<MWORK>::value,
+         void>::Type
 larfb(Side                  side,
       Transpose             transH,
       Direction             direction,
       StoreVectors          storeV,
-      const GeMatrix<MV>    &V,
-      const TrMatrix<MT>    &Tr,
-      GeMatrix<MC>          &C,
-      GeMatrix<MWORK>       &Work)
+      const MV              &V,
+      const MT              &Tr,
+      MC                    &&C,
+      MWORK                 &&Work)
 {
     LAPACK_DEBUG_OUT("larfb");
 
 //
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MC>::Type     MatrixC;
+    typedef typename RemoveRef<MWORK>::Type  MatrixWork;
+//
 //  Test the input parameters
 //
 #   ifndef NDEBUG
-    ASSERT(transH!=Conj);
+    ASSERT(transH==NoTrans || transH==Trans);
 
     if (side==Left) {
         ASSERT(Work.numRows()>=C.numCols());
@@ -398,8 +697,8 @@ larfb(Side                  side,
 //
 //  Make copies of output arguments
 //
-    typename GeMatrix<MC>::NoView       C_org = C;
-    typename GeMatrix<MWORK>::NoView    Work_org = Work;
+    typename MatrixC::NoView       C_org = C;
+    typename MatrixWork::NoView    Work_org = Work;
 #   endif
 
 //
@@ -411,8 +710,8 @@ larfb(Side                  side,
 //
 //  Restore output arguments
 //
-    typename GeMatrix<MC>::NoView       C_generic = C;
-    typename GeMatrix<MWORK>::NoView    Work_generic = Work;
+    typename MatrixC::NoView       C_generic = C;
+    typename MatrixWork::NoView    Work_generic = Work;
 
     C    = C_org;
     Work = Work_org;
@@ -442,19 +741,91 @@ larfb(Side                  side,
 #   endif
 }
 
-//-- forwarding ----------------------------------------------------------------
+//
+//  Complex variant
+//
 template <typename MV, typename MT, typename MC, typename MWORK>
-void
-larfb(Side              side,
-      Transpose         transH,
-      Direction         direction,
-      StoreVectors      storeV,
-      const MV          &V,
-      const MT          &Tr,
-      MC                &&C,
-      MWORK             &&Work)
+typename RestrictTo<IsComplexGeMatrix<MV>::value
+                 && IsComplexTrMatrix<MT>::value
+                 && IsComplexGeMatrix<MC>::value
+                 && IsComplexGeMatrix<MWORK>::value,
+         void>::Type
+larfb(Side                  side,
+      Transpose             transH,
+      Direction             direction,
+      StoreVectors          storeV,
+      const MV              &V,
+      const MT              &Tr,
+      MC                    &&C,
+      MWORK                 &&Work)
 {
-    larfb(side, transH, direction, storeV, V, Tr, C, Work);
+    LAPACK_DEBUG_OUT("larfb (complex)");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MC>::Type     MatrixC;
+    typedef typename RemoveRef<MWORK>::Type  MatrixWork;
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(transH==NoTrans || transH==ConjTrans);
+
+    if (side==Left) {
+        ASSERT(Work.numRows()>=C.numCols());
+    } else {
+        ASSERT(Work.numRows()>=C.numRows());
+    }
+    ASSERT(Work.numCols()==Tr.dim());
+#   endif
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    typename MatrixC::NoView       C_org = C;
+    typename MatrixWork::NoView    Work_org = Work;
+#   endif
+
+//
+//  Call implementation
+//
+    LAPACK_SELECT::larfb_impl(side, transH, direction, storeV, V, Tr, C, Work);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Restore output arguments
+//
+    typename MatrixC::NoView       C_generic = C;
+    typename MatrixWork::NoView    Work_generic = Work;
+
+    C    = C_org;
+    Work = Work_org;
+//
+//  Compare results
+//
+    external::larfb_impl(side, transH, direction, storeV, V, Tr, C, Work);
+
+    bool failed = false;
+    if (! isIdentical(C_generic, C, "C_generic", "C")) {
+        std::cerr << "CXXLAPACK: C_generic = " << C_generic << std::endl;
+        std::cerr << "F77LAPACK: C = " << C << std::endl;
+        failed = true;
+    }
+    if (! isIdentical(Work_generic, Work, " Work_generic", "Work")) {
+        std::cerr << "CXXLAPACK: Work_generic = " << Work_generic << std::endl;
+        std::cerr << "F77LAPACK: Work = " << Work << std::endl;
+        failed = true;
+    }
+    if (failed) {
+        std::cerr << "side =      " << char(side) << std::endl;
+        std::cerr << "transH =    " << transH << std::endl;
+        std::cerr << "direction = " << char(direction) << std::endl;
+        std::cerr << "storeV =    " << char(storeV) << std::endl;
+        ASSERT(0);
+    }
+#   endif
 }
 
 } } // namespace lapack, flens

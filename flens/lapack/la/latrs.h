@@ -64,11 +64,10 @@ template <typename MA, typename VX, typename SCALE, typename CNORM>
           bool      normIn,
           const MA  &A,
           VX        &&x,
-          SCALE     &&scale,
+          SCALE     &scale,
           CNORM     &&cNorm);
 
 
-#ifdef USE_CXXLAPACK
 //
 //  Complex variant
 //
@@ -82,10 +81,8 @@ template <typename MA, typename VX, typename SCALE, typename CNORM>
           bool      normIn,
           const MA  &A,
           VX        &&x,
-          SCALE     &&scale,
+          SCALE     &scale,
           CNORM     &&cNorm);
-
-#endif // USE_CXXLAPACK
 
 
 } } // namespace lapack, flens

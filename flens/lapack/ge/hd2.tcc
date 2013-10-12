@@ -52,8 +52,12 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
+//
+//  Real variant
+//
 template <typename IndexType, typename MA, typename VTAU, typename VW>
-void
+typename RestrictTo<IsReal<typename MA::ElementType>::value,
+         void>::Type
 hd2_impl(IndexType           iLo,
          IndexType           iHi,
          GeMatrix<MA>        &A,
@@ -92,6 +96,51 @@ hd2_impl(IndexType           iLo,
     }
 }
 
+//
+//  Complex variant
+//
+template <typename IndexType, typename MA, typename VTAU, typename VW>
+typename RestrictTo<IsComplex<typename MA::ElementType>::value,
+         void>::Type
+hd2_impl(IndexType           iLo,
+         IndexType           iHi,
+         GeMatrix<MA>        &A,
+         DenseVector<VTAU>   &tau,
+         DenseVector<VW>     &work)
+{
+    using lapack::larf;
+    using lapack::larfg;
+    using std::max;
+    using std::min;
+
+    typedef typename GeMatrix<MA>::ElementType  T;
+
+    const Underscore<IndexType> _;
+
+    const IndexType n = A.numCols();
+
+    for (IndexType i=iLo; i<iHi; ++i) {
+//
+//      Compute elementary reflector H(i) to annihilate A(i+2:ihi,i)
+//
+        larfg(iHi-i, A(i+1,i), A(_(min(i+2,n),iHi),i), tau(i));
+
+        const T Aii = A(i+1,i);
+        A(i+1,i) = 1;
+//
+//      Apply H(i) to A(1:ihi,i+1:ihi) from the right
+//
+        larf(Right, A(_(i+1,iHi),i), tau(i), A(_(1,iHi),_(i+1,iHi)), work);
+//
+//      Apply H(i) to A(i+1:ihi,i+1:n) from the left
+//
+        auto _A = A(_(i+1,iHi),_(i+1,n));
+        larf(Left, A(_(i+1,iHi),i), cxxblas::conjugate(tau(i)), _A, work);
+
+        A(i+1,i) = Aii;
+    }
+}
+
 } // namespace generic
 
 //== interface for native lapack ===============================================
@@ -105,9 +154,6 @@ void
 hd2_impl(IndexType iLo, IndexType iHi, GeMatrix<MA> &A,
          DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 {
-    // TODO: add this assertion to other lapack::external wrapper
-    ASSERT(A.order()==ColMajor);
-
     cxxlapack::gehd2<IndexType>(A.numCols(),
                                 iLo,
                                 iHi,
@@ -122,18 +168,31 @@ hd2_impl(IndexType iLo, IndexType iHi, GeMatrix<MA> &A,
 #endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
-
+//
+//  Real variant
+//
 template <typename IndexType, typename MA, typename VTAU, typename VW>
-void
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                 && IsRealDenseVector<VTAU>::value
+                 && IsRealDenseVector<VW>::value,
+         void>::Type
 hd2(IndexType           iLo,
     IndexType           iHi,
-    GeMatrix<MA>        &A,
-    DenseVector<VTAU>   &tau,
-    DenseVector<VW>     &work)
+    MA                  &&A,
+    VTAU                &&tau,
+    VW                  &&work)
 {
     LAPACK_DEBUG_OUT("hd2");
 
     using std::max;
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type     MatrixA;
+    typedef typename RemoveRef<VTAU>::Type   VectorTau;
+    typedef typename RemoveRef<VW>::Type     VectorW;
+
 //
 //  Test the input parameters
 //
@@ -153,9 +212,9 @@ hd2(IndexType           iLo,
 //
 //  Make copies of output arguments
 //
-    typename GeMatrix<MA>::NoView       _A = A;
-    typename DenseVector<VTAU>::NoView  _tau = tau;
-    typename DenseVector<VW>::NoView    _work = work;
+    typename MatrixA::NoView    _A = A;
+    typename VectorTau::NoView  _tau = tau;
+    typename VectorW::NoView    _work = work;
 #   endif
 
 //
@@ -189,16 +248,84 @@ hd2(IndexType           iLo,
 #   endif
 }
 
-//-- forwarding ----------------------------------------------------------------
+//
+//  Complex variant
+//
 template <typename IndexType, typename MA, typename VTAU, typename VW>
-void
-hd2(IndexType   iLo,
-    IndexType   iHi,
-    MA          &&A,
-    VTAU        &&tau,
-    VW          &&work)
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                 && IsComplexDenseVector<VTAU>::value
+                 && IsComplexDenseVector<VW>::value,
+         void>::Type
+hd2(IndexType           iLo,
+    IndexType           iHi,
+    MA                  &&A,
+    VTAU                &&tau,
+    VW                  &&work)
 {
-    hd2(iLo, iHi, A, tau, work);
+    LAPACK_DEBUG_OUT("hd2 (Complex)");
+
+    using std::max;
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type     MatrixA;
+    typedef typename RemoveRef<VTAU>::Type   VectorTau;
+    typedef typename RemoveRef<VW>::Type     VectorW;
+
+//
+//  Test the input parameters
+//
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(A.numRows()==A.numCols());
+    ASSERT(tau.firstIndex()<=iLo);
+    ASSERT(tau.lastIndex()>=iHi-1);
+    ASSERT(tau.inc()>0);
+    ASSERT(work.length()>=A.numRows());
+
+    ASSERT(1<=iLo);
+    ASSERT(iLo<=iHi);
+    ASSERT(iHi<=max(IndexType(1), A.numCols()));
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    typename MatrixA::NoView    _A = A;
+    typename VectorTau::NoView  _tau = tau;
+    typename VectorW::NoView    _work = work;
+#   endif
+
+//
+//  Call implementation
+//
+    LAPACK_SELECT::hd2_impl(iLo, iHi, A, tau, work);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    external::hd2_impl(iLo, iHi, _A, _tau, _work);
+
+    if (! isIdentical(A, _A, "A", "A_")) {
+        std::cerr << "CXXLAPACK:  A = " << A << std::endl;
+        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+        ASSERT(0);
+    }
+
+    if (! isIdentical(tau, _tau, "tau", "tau_")) {
+        std::cerr << "CXXLAPACK:  tau = " << tau << std::endl;
+        std::cerr << "F77LAPACK: _tau = " << _tau << std::endl;
+        ASSERT(0);
+    }
+
+    if (! isIdentical(work, _work, "work", "work_")) {
+        std::cerr << "CXXLAPACK:  work = " << work << std::endl;
+        std::cerr << "F77LAPACK: _work = " << _work << std::endl;
+        ASSERT(0);
+    }
+#   endif
 }
 
 } } // namespace lapack, flens

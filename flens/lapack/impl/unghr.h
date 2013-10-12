@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
+ *   Copyright (c) 2011, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,20 +30,45 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXLAPACK_INTERFACE_ILADLC_H
-#define CXXLAPACK_INTERFACE_ILADLC_H 1
+/* Based on
+ *
+      SUBROUTINE ZUNGHR( N, ILO, IHI, A, LDA, TAU, WORK, LWORK, INFO )
+ *
+ *  -- LAPACK routine (version 3.2) --
+ *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
+ *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
+ *     November 2006
+ */
 
-#include <complex>
+#ifndef FLENS_LAPACK_IMPL_UNGHR_H
+#define FLENS_LAPACK_IMPL_UNGHR_H 1
 
-namespace cxxlapack {
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
 
-template <typename IndexType>
-    IndexType
-    iladlc(IndexType             m,
-           IndexType             n,
-           const double          *A,
-           IndexType             ldA);
+namespace flens { namespace lapack {
 
-} // namespace cxxlapack
+//== unghr =====================================================================
+template <typename IndexType, typename  MA, typename  VTAU>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsComplexDenseVector<VTAU>::value,
+             IndexType>::Type
+    unghr_wsq(IndexType                 iLo,
+              IndexType                 iHi,
+              const MA                  &A,
+              const VTAU                &tau);
 
-#endif // CXXLAPACK_INTERFACE_ILADLC_H
+template <typename IndexType, typename  MA, typename  VTAU, typename VW>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsComplexDenseVector<VTAU>::value
+                     && IsComplexDenseVector<VW>::value,
+             void>::Type
+    unghr(IndexType                     iLo,
+          IndexType                     iHi,
+          MA                            &&A,
+          const VTAU                    &tau,
+          VW                            &&work);
+
+} } // namespace lapack, flens
+
+#endif // FLENS_LAPACK_IMPL_UNGHR_H

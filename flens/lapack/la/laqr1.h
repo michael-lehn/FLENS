@@ -32,7 +32,8 @@
 
 /* Based on
  *
-       SUBROUTINE DLAQR1( N, H, LDH, SR1, SI1, SR2, SI2, V )
+      SUBROUTINE DLAQR1( N, H, LDH, SR1, SI1, SR2, SI2, V )
+      SUBROUTINE ZLAQR1( N, H, LDH, S1, S2, V )
  *
  *  -- LAPACK auxiliary routine (version 3.2) --
  *     Univ. of Tennessee, Univ. of California Berkeley,
@@ -49,26 +50,32 @@
 namespace flens { namespace lapack {
 
 //== laqr1 =====================================================================
-
+//
+//  Real variant
+//
 template <typename MH, typename T, typename VV>
-    void
-    laqr1(GeMatrix<MH>              &H,
-          const T                   &sr1,
-          const T                   &si1,
-          const T                   &sr2,
-          const T                   &si2,
-          DenseVector<VV>           &v);
+    typename RestrictTo<IsRealGeMatrix<MH>::value
+                     && IsRealDenseVector<VV>::value,
+             void>::Type
+    laqr1(const MH  &H,
+          const T   &sr1,
+          const T   &si1,
+          const T   &sr2,
+          const T   &si2,
+          VV        &&v);
 
-//-- forwarding ----------------------------------------------------------------
-
+//
+//  Complex variant
+//
 template <typename MH, typename T, typename VV>
-    void
-    laqr1(MH                        &&H,
-          const T                   &sr1,
-          const T                   &si1,
-          const T                   &sr2,
-          const T                   &si2,
-          VV                        &&v);
+    typename RestrictTo<IsComplexGeMatrix<MH>::value
+                     && IsComplexDenseVector<VV>::value,
+             void>::Type
+    laqr1(const MH  &H,
+          const T   &s1,
+          const T   &s2,
+          VV        &&v);
+
 
 } } // namespace lapack, flens
 

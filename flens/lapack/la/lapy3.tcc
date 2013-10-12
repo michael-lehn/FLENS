@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2011, Michael Lehn
+ *   Copyright (c) 2013, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -25,28 +25,24 @@
  *   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
  *   LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
  *   DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *   THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  *   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 /* Based on
+      DOUBLE PRECISION FUNCTION DLAPY3( X, Y, Z )
  *
-      INTEGER FUNCTION ILA?LR( M, N, A, LDA )
- *
- *  -- LAPACK auxiliary routine (version 3.2.2)                        --
- *
- *  -- June 2010                                                       --
- *
+ *  -- LAPACK auxiliary routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
  *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
- *
+ *     November 2006
  */
 
-#ifndef FLENS_LAPACK_LA_ILALR_TCC
-#define FLENS_LAPACK_LA_ILALR_TCC 1
+#ifndef FLENS_LAPACK_LA_LAPY3_TCC
+#define FLENS_LAPACK_LA_LAPY3_TCC 1
 
-#include <flens/blas/blas.h>
+#include <cmath>
 #include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
@@ -55,40 +51,32 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
-template <typename MA>
-typename GeMatrix<MA>::IndexType
-ilalr_impl(const GeMatrix<MA> &A)
+template <typename T>
+T
+lapy3_impl(const T &x, const T &y, const T &z)
 {
-    using std::max;
+    using std::abs;
+    using flens::max;
+    using std::min;
+    using flens::pow;
+    using std::sqrt;
 
-    typedef typename GeMatrix<MA>::IndexType    IndexType;
-    typedef typename GeMatrix<MA>::ElementType  T;
+    const T Zero(0);
 
-    const IndexType m = A.numRows();
-    const IndexType n = A.numCols();
+    const T xAbs = abs(x);
+    const T yAbs = abs(y);
+    const T zAbs = abs(z);
 
-//
-//  Quick test for the common case where one corner is non-zero.
-//
-    if (m==0) {
-        return m;
+    const T w = max(xAbs, yAbs, zAbs);
+
+    if (w==Zero) {
+//      W can be zero for max(0,nan,0)
+//      adding all three entries together will make sure
+//      NaN will not disappear.
+        return xAbs + yAbs + zAbs;
+    } else {
+        return w*sqrt(pow(xAbs/w,2) + pow(yAbs/w,2) + pow(zAbs/w,2));
     }
-    if ((A(m,1)!=T(0)) || A(m,n)!=T(0)) {
-        return m;
-    }
-//
-//  Scan up each column tracking the last zero row seen.
-//
-    IndexType lastRow = 0;
-    for (IndexType j=1; j<=n; ++j) {
-        for (IndexType i=m; i>=1; --i) {
-            if (A(i,j)!=T(0)) {
-                lastRow = max(lastRow, i);
-                break;
-            }
-        }
-    }
-    return lastRow;
 }
 
 } // namespace generic
@@ -99,15 +87,11 @@ ilalr_impl(const GeMatrix<MA> &A)
 
 namespace external {
 
-template <typename MA>
-typename GeMatrix<MA>::IndexType
-ilalr_impl(const GeMatrix<MA> &A)
+template <typename T>
+T
+lapy3_impl(const T &x, const T &y, const T &z)
 {
-    typedef typename GeMatrix<MA>::IndexType  IndexType;
-
-    return cxxlapack::ilalr<IndexType>(A.numRows(), A.numCols(),
-                                       A.data(),
-                                       A.leadingDimension());
+    return cxxlapack::lapy3(x, y, z);
 }
 
 } // namespace external
@@ -116,35 +100,48 @@ ilalr_impl(const GeMatrix<MA> &A)
 
 //== public interface ==========================================================
 
-template <typename MA>
-typename GeMatrix<MA>::IndexType
-ilalr(const GeMatrix<MA> &A)
+template <typename T>
+T
+lapy3(const T &x, const T &y, const T &z)
 {
-    LAPACK_DEBUG_OUT("ilalr");
+    LAPACK_DEBUG_OUT("lapy3");
 
-    typedef typename GeMatrix<MA>::IndexType   IndexType;
-
-    ASSERT(A.firstRow()==1);
-    ASSERT(A.firstCol()==1);
-
-    const IndexType info = LAPACK_SELECT::ilalr_impl(A);
+//
+//  Call implementation
+//
+    const T result = LAPACK_SELECT::lapy3_impl(x, y, z);
 
 #   ifdef CHECK_CXXLAPACK
-    const IndexType _info = external::ilalr_impl(A);
+//
+//  Compare results
+//
+    const T _result = external::lapy3_impl(x, y, z);
 
-    if (info!=_info) {
-        std::cerr << "CXXLAPACK:  info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+    bool failed = false;
+    if (! isIdentical(result, _result, " result", "_result")) {
+        std::cerr << "CXXLAPACK:  result = " << result << std::endl;
+        std::cerr << "F77LAPACK: _result = " << _result << std::endl;
+        failed = true;
+    }
 
-        std::cerr << "A = " << A << std::endl;
+    if (failed) {
+        std::cerr << "x = " << x << std::endl;
+        std::cerr << "y = " << y << std::endl;
+        std::cerr << "z = " << z << std::endl;
 
+        std::cerr << "hex(x) = " << hex(x) << std::endl;
+        std::cerr << "hex(y) = " << hex(y) << std::endl;
+        std::cerr << "hex(z) = " << hex(z) << std::endl;
+
+        std::cerr << "hex(result)  = " << hex(result) << std::endl;
+        std::cerr << "hex(_result) = " << hex(_result) << std::endl;
         ASSERT(0);
     }
 #   endif
 
-    return info;
+    return result;
 }
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_LA_ILALR_TCC
+#endif // FLENS_LAPACK_LA_LAPY§_TCC

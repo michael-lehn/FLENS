@@ -46,6 +46,10 @@ template <typename T>
     T
     pow(const T &base, int exponent);
 
+template <typename T>
+    std::complex<T>
+    pow(const std::complex<T> &base, int exponent);
+
 } // namespace flens
 
 #endif // FLENS_LAPACK_AUXILIARY_POW_H

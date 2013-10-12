@@ -62,6 +62,22 @@ pow(const T &base, int exponent)
     return std::pow(base, exponent);
 }
 
+template <typename T>
+std::complex<T>
+pow(const std::complex<T> &base, int exponent)
+{
+//
+//  TODO: Make this more general and call an external Fortran routine
+//        that computes 'pow(base, exponent)' for comparison
+//
+#   ifdef CHECK_CXXLAPACK
+    if (exponent==2) {
+        return base*base;
+    }
+#   endif
+    return std::pow(base, exponent);
+}
+
 } // namespace flens
 
 #endif // FLENS_LAPACK_AUXILIARY_POW_TCC

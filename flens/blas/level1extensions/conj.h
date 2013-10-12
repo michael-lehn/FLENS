@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
+ *   Copyright (c) 2013, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,30 +30,22 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXLAPACK_INTERFACE_ILADLR_TCC
-#define CXXLAPACK_INTERFACE_ILADLR_TCC 1
+#ifndef FLENS_BLAS_LEVEL1EXTENSIONS_CONJ_H
+#define FLENS_BLAS_LEVEL1EXTENSIONS_CONJ_H 1
 
-#include <iostream>
-#include <cxxlapack/interface/interface.h>
-#include <cxxlapack/netlib/netlib.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
 
-namespace cxxlapack {
+namespace flens { namespace blas {
 
-template <typename IndexType>
-IndexType
-iladlr(IndexType             m,
-       IndexType             n,
-       const double          *A,
-       IndexType             ldA)
-{
-    CXXLAPACK_DEBUG_OUT("iladlr");
+//-- BLAS Level 1 extensions ---------------------------------------------------
 
-    return LAPACK_IMPL(iladlr)(&m,
-                               &n,
-                               A,
-                               &ldA);
-}
+//-- conj
+template <typename VX>
+    typename RestrictTo<IsDenseVector<VX>::value,
+             void>::Type
+    conj(VX &&x);
 
-} // namespace cxxlapack
+} } // namespace blas, flens
 
-#endif // CXXLAPACK_INTERFACE_ILADLR_TCC
+#endif // FLENS_BLAS_LEVEL1EXTENSIONS_CONJ_H

@@ -31,7 +31,8 @@
  */
 
 /* Based on
- *     SUBROUTINE DLARF( SIDE, M, N, V, INCV, TAU, C, LDC, WORK )
+      SUBROUTINE DLARF( SIDE, M, N, V, INCV, TAU, C, LDC, WORK )
+      SUBROUTINE ZLARF( SIDE, M, N, V, INCV, TAU, C, LDC, WORK )
  *
  *  -- LAPACK auxiliary routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -51,8 +52,12 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
+//
+//  Real variant
+//
 template <typename VV, typename TAU, typename MC, typename VWORK>
-void
+typename RestrictTo<IsReal<typename MC::ElementType>::value,
+         void>::Type
 larf_impl(Side side, const DenseVector<VV> &v, const TAU &tau,
           GeMatrix<MC> &C, DenseVector<VWORK> &work)
 {
@@ -143,6 +148,102 @@ larf_impl(Side side, const DenseVector<VV> &v, const TAU &tau,
     }
 }
 
+//
+//  Complex variant
+//
+template <typename VV, typename TAU, typename MC, typename VWORK>
+typename RestrictTo<IsComplex<typename MC::ElementType>::value,
+         void>::Type
+larf_impl(Side side, const DenseVector<VV> &v, const TAU &tau,
+          GeMatrix<MC> &C, DenseVector<VWORK> &work)
+{
+    using lapack::ilalc;
+    using lapack::ilalr;
+
+    typedef typename GeMatrix<MC>::ElementType  ElementType;
+    typedef typename GeMatrix<MC>::IndexType    IndexType;
+
+    const Underscore<IndexType> _;
+
+    const ElementType  Zero(0), One(1);
+
+    const IndexType m = C.numRows();
+    const IndexType n = C.numCols();
+
+    IndexType lastV = 0;
+    IndexType lastC = 0;
+
+    if (tau!=Zero) {
+//
+//      Set up variables for scanning V.  LASTV begins pointing to the end of V.
+//      Look for the last non-zero row in V.
+//
+        if (side==Left) {
+            lastV = m;
+        } else {
+            lastV = n;
+        }
+        IndexType i = (v.inc()>0) ? 1 + (lastV-1)*v.inc() : 1;
+//
+//      Look for the last non-zero row in V.
+//
+        while (lastV>0 && v(i)==Zero) {
+            --lastV;
+            i -= v.inc();
+        }
+        if (side==Left) {
+//
+//          Scan for the last non-zero column in C(1:lastv,:).
+//
+            lastC = ilalc(C(_(1,lastV),_));
+        } else {
+//
+//          Scan for the last non-zero row in C(:,1:lastv).
+//
+            lastC = ilalr(C(_,_(1,lastV)));
+        }
+    }
+//
+//  Note that lastc.eq.0 renders the BLAS operations null; no special
+//  case is needed at this level.
+//
+    const auto _v = v(_(1,lastV));
+
+    if (side==Left) {
+//
+//      Form  H * C
+//
+        if (lastV>0) {
+            auto _work = work(_(1,lastC));
+            auto _C = C(_(1,lastV),_(1,lastC));
+//
+//          work(1:lastc,1) := C(1:lastv,1:lastc)**H * v(1:lastv,1)
+//
+            blas::mv(ConjTrans, One, _C, _v, Zero, _work);
+//
+//          C(1:lastv,1:lastc) := C(...) - v(1:lastv,1) * work(1:lastc,1)**H
+//
+            blas::rc(-tau, _v, _work, _C);
+        }
+    } else {
+//
+//      Form  C * H
+//
+        if (lastV>0) {
+            auto _work = work(_(1,lastC));
+            auto _C = C(_(1,lastC),_(1,lastV));
+//
+//          work(1:lastc,1) := C(1:lastc,1:lastv) * v(1:lastv,1)
+//
+            blas::mv(NoTrans, One, _C, _v, Zero, _work);
+//
+//          C(1:lastc,1:lastv) := C(...) - work(1:lastc,1) * v(1:lastv,1)**H
+//
+            blas::rc(-tau, _work, _v, _C);
+        }
+    }
+}
+
 } // namespace generic
 
 //== interface for native lapack ===============================================
@@ -174,13 +275,28 @@ larf_impl(Side side, const DenseVector<VV> &v, const TAU &tau,
 #endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
-
+//
+//  Real variant
+//
 template <typename VV, typename TAU, typename MC, typename VWORK>
-void
-larf(Side side, const DenseVector<VV> &v, const TAU &tau,
-     GeMatrix<MC> &C, DenseVector<VWORK> &work)
+typename RestrictTo<IsRealDenseVector<VV>::value
+                 && IsReal<TAU>::value
+                 && IsRealGeMatrix<MC>::value
+                 && IsRealDenseVector<VWORK>::value,
+         void>::Type
+larf(Side           side,
+     const VV       &v,
+     const TAU      &tau,
+     MC             &&C,
+     VWORK          &&work)
 {
     LAPACK_DEBUG_OUT("larf");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MC>::Type        MatrixC;
+    typedef typename RemoveRef<VWORK>::Type     VectorWork;
 
 //
 //  Test the input parameters
@@ -198,8 +314,8 @@ larf(Side side, const DenseVector<VV> &v, const TAU &tau,
 //
 //  Make copies of output arguments
 //
-    typename GeMatrix<MC>::NoView       C_org      = C;
-    typename DenseVector<VV>::NoView    work_org   = work;
+    typename MatrixC::NoView       C_org      = C;
+    typename VectorWork::NoView    work_org   = work;
 #   endif
 
 //
@@ -211,8 +327,8 @@ larf(Side side, const DenseVector<VV> &v, const TAU &tau,
 //
 //  Make copies of results computed by the generic implementation
 //
-    typename GeMatrix<MC>::NoView       C_generic      = C;
-    typename DenseVector<VV>::NoView    work_generic   = work;
+    typename MatrixC::NoView       C_generic      = C;
+    typename VectorWork::NoView    work_generic   = work;
 
 //
 //  restore output arguments
@@ -245,14 +361,92 @@ larf(Side side, const DenseVector<VV> &v, const TAU &tau,
 #   endif
 }
 
-//-- forwarding ----------------------------------------------------------------
+//
+//  Complex variant
+//
 template <typename VV, typename TAU, typename MC, typename VWORK>
-void
-larf(Side side, const VV &v, const TAU &tau, MC &&C, VWORK &&work)
+typename RestrictTo<IsComplexDenseVector<VV>::value
+                 && IsComplex<TAU>::value
+                 && IsComplexGeMatrix<MC>::value
+                 && IsComplexDenseVector<VWORK>::value,
+         void>::Type
+larf(Side           side,
+     const VV       &v,
+     const TAU      &tau,
+     MC             &&C,
+     VWORK          &&work)
 {
-    CHECKPOINT_ENTER;
-    larf(side, v, tau, C, work);
-    CHECKPOINT_LEAVE;
+    LAPACK_DEBUG_OUT("larf (complex)");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MC>::Type        MatrixC;
+    typedef typename RemoveRef<VWORK>::Type     VectorWork;
+
+//
+//  Test the input parameters
+//
+    ASSERT((v.inc()>0 && v.firstIndex()==1)
+        || (v.inc()<0 && v.lastIndex()==1));
+    ASSERT((side==Left && v.length()==C.numRows())
+        || (side==Right && v.length()==C.numCols()));
+    ASSERT(C.firstRow()==1);
+    ASSERT(C.firstCol()==1);
+    ASSERT((side==Left && work.length()>=C.numCols())
+        || (side==Right && work.length()>=C.numRows()));
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    typename MatrixC::NoView       C_org      = C;
+    typename VectorWork::NoView    work_org   = work;
+#   endif
+
+//
+//  Call implementation
+//
+    LAPACK_SELECT::larf_impl(side, v, tau, C, work);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of results computed by the generic implementation
+//
+    typename MatrixC::NoView       C_generic      = C;
+    typename VectorWork::NoView    work_generic   = work;
+
+//
+//  restore output arguments
+//
+    C       = C_org;
+    work    = work_org;
+
+//
+//  Compare generic results with results from the native implementation
+//
+    external::larf_impl(side, v, tau, C, work);
+
+    bool failed = false;
+
+    if (! isIdentical(C_generic, C, "C_generic", "C")) {
+        std::cerr << "CXXLAPACK: C_generic = " << C_generic << std::endl;
+        std::cerr << "F77LAPACK: C = " << C << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(work_generic, work, "work_generic", "work")) {
+        std::cerr << "CXXLAPACK: work_generic = " << work_generic << std::endl;
+        std::cerr << "F77LAPACK: work = " << work << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        std::cerr << "C_org =    " << C_org << std::endl;
+        std::cerr << "work_org = " << work_org << std::endl;
+        ASSERT(0);
+    }
+#   endif
 }
 
 } } // namespace lapack, flens

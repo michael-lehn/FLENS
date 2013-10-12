@@ -34,6 +34,8 @@
  *
       SUBROUTINE DLAQR4( WANTT, WANTZ, N, ILO, IHI, H, LDH, WR, WI,
      $                   ILOZ, IHIZ, Z, LDZ, WORK, LWORK, INFO )
+      SUBROUTINE ZLAQR4( WANTT, WANTZ, N, ILO, IHI, H, LDH, W, ILOZ,
+     $                   IHIZ, Z, LDZ, WORK, LWORK, INFO )
  *
  *  -- LAPACK auxiliary routine (version 3.2) --
  *     Univ. of Tennessee, Univ. of California Berkeley,
@@ -50,41 +52,17 @@
 namespace flens { namespace lapack {
 
 //== laqr4 =====================================================================
-template <typename IndexType, typename MH>
-    IndexType
-    laqr4_wsq(bool                  wantT,
-              bool                  wantZ,
-              IndexType             iLo,
-              IndexType             iHi,
-              const GeMatrix<MH>    &H);
-
+//
+// Real variant
+//
 template <typename IndexType, typename MH, typename VWR, typename VWI,
           typename MZ, typename VWORK>
-    IndexType
-    laqr4(bool                      wantT,
-          bool                      wantZ,
-          IndexType                 iLo,
-          IndexType                 iHi,
-          GeMatrix<MH>              &H,
-          DenseVector<VWR>          &wr,
-          DenseVector<VWI>          &wi,
-          IndexType                 iLoZ,
-          IndexType                 iHiZ,
-          GeMatrix<MZ>              &Z,
-          DenseVector<VWORK>        &work);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename MH>
-    IndexType
-    laqr4_wsq(bool                  wantT,
-              bool                  wantZ,
-              IndexType             iLo,
-              IndexType             iHi,
-              const MH              &&H);
-
-template <typename IndexType, typename MH, typename VWR, typename VWI,
-          typename MZ, typename VWORK>
-    IndexType
+    typename RestrictTo<IsRealGeMatrix<MH>::value
+                     && IsRealDenseVector<VWR>::value
+                     && IsRealDenseVector<VWI>::value
+                     && IsRealGeMatrix<MZ>::value
+                     && IsRealDenseVector<VWORK>::value,
+             IndexType>::Type
     laqr4(bool                      wantT,
           bool                      wantZ,
           IndexType                 iLo,
@@ -96,6 +74,38 @@ template <typename IndexType, typename MH, typename VWR, typename VWI,
           IndexType                 iHiZ,
           MZ                        &&Z,
           VWORK                     &&work);
+
+//
+// Complex variant
+//
+template <typename IndexType, typename MH, typename VW, typename MZ,
+          typename VWORK>
+    typename RestrictTo<IsComplexGeMatrix<MH>::value
+                     && IsComplexDenseVector<VW>::value
+                     && IsComplexGeMatrix<MZ>::value
+                     && IsComplexDenseVector<VWORK>::value,
+             IndexType>::Type
+    laqr4(bool                      wantT,
+          bool                      wantZ,
+          IndexType                 iLo,
+          IndexType                 iHi,
+          MH                        &&H,
+          VW                        &&w,
+          IndexType                 iLoZ,
+          IndexType                 iHiZ,
+          MZ                        &&Z,
+          VWORK                     &&work);
+
+//
+//  Workspace query (real/complex variant)
+//
+template <typename IndexType, typename MH>
+    IndexType
+    laqr4_wsq(bool                  wantT,
+              bool                  wantZ,
+              IndexType             iLo,
+              IndexType             iHi,
+              const GeMatrix<MH>    &H);
 
 } } // namespace lapack, flens
 

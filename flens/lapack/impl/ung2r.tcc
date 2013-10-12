@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2011, Michael Lehn
+ *   Copyright (c) 2013, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -32,7 +32,7 @@
 
 /* Based on
  *
-      SUBROUTINE DORG2R( M, N, K, A, LDA, TAU, WORK, INFO )
+       SUBROUTINE ZUNG2R( M, N, K, A, LDA, TAU, WORK, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -40,8 +40,8 @@
  *     November 2006
  */
 
-#ifndef FLENS_LAPACK_IMPL_ORG2R_TCC
-#define FLENS_LAPACK_IMPL_ORG2R_TCC 1
+#ifndef FLENS_LAPACK_IMPL_UNG2R_TCC
+#define FLENS_LAPACK_IMPL_UNG2R_TCC 1
 
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>
@@ -54,7 +54,7 @@ namespace generic {
 
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
 void
-org2r_impl(IndexType                 k,
+ung2r_impl(IndexType                 k,
            GeMatrix<MA>              &A,
            const DenseVector<VTAU>   &tau,
            DenseVector<VWORK>        &work)
@@ -110,12 +110,12 @@ namespace external {
 
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
 void
-org2r_impl(IndexType                 k,
+ung2r_impl(IndexType                 k,
            GeMatrix<MA>              &A,
            const DenseVector<VTAU>   &tau,
            DenseVector<VWORK>        &work)
 {
-    cxxlapack::org2r<IndexType>(A.numRows(),
+    cxxlapack::ung2r<IndexType>(A.numRows(),
                                 A.numCols(),
                                 k,
                                 A.data(),
@@ -130,11 +130,11 @@ org2r_impl(IndexType                 k,
 
 //== public interface ==========================================================
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
-typename RestrictTo<IsRealGeMatrix<MA>::value
-                 && IsRealDenseVector<VTAU>::value
-                 && IsRealDenseVector<VWORK>::value,
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                 && IsComplexDenseVector<VTAU>::value
+                 && IsComplexDenseVector<VWORK>::value,
          void>::Type
-org2r(IndexType         k,
+ung2r(IndexType         k,
       MA                &&A,
       const VTAU        &tau,
       VWORK             &&work)
@@ -172,13 +172,13 @@ org2r(IndexType         k,
 //
 //  Call implementation
 //
-    LAPACK_SELECT::org2r_impl(k, A, tau, work);
+    LAPACK_SELECT::ung2r_impl(k, A, tau, work);
 
 //
 //  Compare results
 //
 #   ifdef CHECK_CXXLAPACK
-    external::org2r_impl(k, _A, tau, _work);
+    external::ung2r_impl(k, _A, tau, _work);
 
     bool failed = false;
     if (! isIdentical(A, _A, " A", "A_")) {
@@ -194,14 +194,14 @@ org2r(IndexType         k,
     }
 
     if (failed) {
-        std::cerr << "error in: org2r.tcc" << std::endl;
+        std::cerr << "error in: ung2r.tcc" << std::endl;
         ASSERT(0);
     } else {
-//        std::cerr << "passed: org2r.tcc" << std::endl;
+//        std::cerr << "passed: ung2r.tcc" << std::endl;
     }
 #   endif
 }
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_IMPL_ORG2R_TCC
+#endif // FLENS_LAPACK_IMPL_UNG2R_TCC

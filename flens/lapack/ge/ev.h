@@ -106,8 +106,6 @@ template <typename MA, typename VWR, typename VWI, typename MVL, typename MVR,
        MVR      &&VR);
 
 
-#ifdef USE_CXXLAPACK
-
 //== (ge)ev ====================================================================
 //
 //  Complex variant
@@ -155,8 +153,6 @@ template <typename MA, typename VW, typename MVL, typename MVR>
        VW       &&w,
        MVL      &&VL,
        MVR      &&VR);
-
-#endif // USE_CXXLAPACK
 
 
 } } // namespace lapack, flens

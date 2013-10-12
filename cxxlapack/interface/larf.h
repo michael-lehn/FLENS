@@ -71,7 +71,7 @@ template <typename IndexType>
          IndexType                      incV,
          const std::complex<float >     &tau,
          std::complex<float >           *C,
-         IndexType                      &ldC,
+         IndexType                      ldC,
          std::complex<float >           *work);
 
 template <typename IndexType>
@@ -83,7 +83,7 @@ template <typename IndexType>
          IndexType                      incV,
          const std::complex<double>     &tau,
          std::complex<double>           *C,
-         IndexType                      &ldC,
+         IndexType                      ldC,
          std::complex<double>           *work);
 
 } // namespace cxxlapack

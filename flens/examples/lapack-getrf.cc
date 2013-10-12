@@ -62,6 +62,7 @@ main()
     blas::sm(Left, NoTrans, T(1), A.upper(), B);
 
     cout << "X = " << B << endl;
+    cout << "piv = " << piv << endl;
 }
 
 ///

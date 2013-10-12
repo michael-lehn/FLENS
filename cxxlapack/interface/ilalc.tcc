@@ -48,18 +48,10 @@ ilalc(IndexType     m,
 {
     CXXLAPACK_DEBUG_OUT("iladlc");
 
-    IndexType info;
-    LAPACK_IMPL(iladlc)(&m,
-                        &n,
-                        A,
-                        &ldA,
-                        &info);
-#   ifndef NDEBUG
-    if (info<0) {
-        std::cerr << "info = " << info << std::endl;
-    }
-#   endif
-    ASSERT(info>=0);
+    IndexType info =  LAPACK_IMPL(iladlc)(&m,
+                                          &n,
+                                          A,
+                                          &ldA);
     return info;
 }
 
@@ -70,18 +62,12 @@ ilalc(IndexType                     m,
       const std::complex<double>    *A,
       IndexType                     ldA)
 {
-    IndexType info;
-    LAPACK_IMPL(ilazlc)(&m,
-                        &n,
-                        reinterpret_cast<const double *>(A),
-                        &ldA,
-                        &info);
-#   ifndef NDEBUG
-    if (info<0) {
-        std::cerr << "info = " << info << std::endl;
-    }
-#   endif
-    ASSERT(info>=0);
+    CXXLAPACK_DEBUG_OUT("ilazlc");
+
+    IndexType info = LAPACK_IMPL(ilazlc)(&m,
+                                         &n,
+                                         reinterpret_cast<const double *>(A),
+                                         &ldA);
     return info;
 }
 

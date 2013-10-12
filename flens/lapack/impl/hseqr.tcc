@@ -34,6 +34,8 @@
  *
       SUBROUTINE DHSEQR( JOB, COMPZ, N, ILO, IHI, H, LDH, WR, WI, Z,
      $                   LDZ, WORK, LWORK, INFO )
+      SUBROUTINE ZHSEQR( JOB, COMPZ, N, ILO, IHI, H, LDH, W, Z, LDZ,
+     $                   WORK, LWORK, INFO )
  *
  *  -- LAPACK computational routine (version 3.2.2) --
  *     Univ. of Tennessee, Univ. of California Berkeley,
@@ -68,6 +70,9 @@ _makeHseqrOpt(char opt[3], HSEQR::Job job, HSEQR::ComputeZ computeZ)
 
 namespace generic {
 
+//
+//  Workspace query (real/complex variant)
+//
 template <typename IndexType, typename MH>
 IndexType
 hseqr_wsq_impl(HSEQR::Job            job,
@@ -87,6 +92,9 @@ hseqr_wsq_impl(HSEQR::Job            job,
     return info;
 }
 
+//
+//  Real variant
+//
 template <typename IndexType, typename MH, typename VWR, typename VWI,
           typename MZ, typename VWORK>
 IndexType
@@ -241,6 +249,161 @@ hseqr_impl(HSEQR::Job            job,
     return info;
 }
 
+//
+//  Complex variant
+//
+template <typename IndexType, typename MH, typename VW, typename MZ,
+          typename VWORK>
+IndexType
+hseqr_impl(HSEQR::Job            job,
+           HSEQR::ComputeZ       computeZ,
+           IndexType             iLo,
+           IndexType             iHi,
+           GeMatrix<MH>          &H,
+           DenseVector<VW>       &w,
+           GeMatrix<MZ>          &Z,
+           DenseVector<VWORK>    &work)
+{
+    using std::max;
+    using std::min;
+
+    typedef typename GeMatrix<MH>::ElementType          T;
+    typedef typename ComplexTrait<T>::PrimitiveType     PT;
+    typedef typename GeMatrix<MH>::View                 GeMatrixView;
+    typedef typename GeMatrix<MH>::VectorView           DenseVectorView;
+
+    const IndexType nTiny = 11;
+//  ==== NL allocates some local workspace to help small matrices
+//  .    through a rare DLAHQR failure.  NL .GT. NTINY = 11 is
+//  .    required and NL .LE. NMIN = ILAENV(ISPEC=12,...) is recom-
+//  .    mended.  (The default value of NMIN is 75.)  Using NL = 49
+//  .    allows up to six simultaneous shifts and a 16-by-16
+//  .    deflation window.  ====
+    const           IndexType nl = 49;
+    T               hlBuffer[nl*nl], worklBuffer[nl];
+    GeMatrixView    Hl    = typename GeMatrixView::Engine(nl, nl, hlBuffer, nl);
+    DenseVectorView workl = typename DenseVectorView::Engine(nl, worklBuffer);
+
+    const Underscore<IndexType>     _;
+    const IndexType                 n = H.numCols();
+    const T                         Zero(0), One(1);
+
+    IndexType info = 0;
+
+//
+//  ==== Decode and check the input parameters. ====
+//
+    const bool wantT = (job==HSEQR::Schur);
+    const bool initZ = (computeZ==HSEQR::Init);
+    const bool wantZ = (computeZ!=HSEQR::No);
+
+    if (work.length()>0) {
+        work(1) = n;
+    } else {
+//
+//      ==== Perform and apply a workspace query ====
+//
+        IndexType lWorkOpt = laqr0_wsq(wantT, wantZ, iLo, iHi, H);
+        work.resize(lWorkOpt);
+    }
+
+    if (n==0) {
+//
+//      ==== Quick return in case n = 0; nothing to do. ====
+//
+        return info;
+    }
+//
+//  ==== copy eigenvalues isolated by DGEBAL ====
+//
+    for (IndexType i=1; i<=iLo-1; ++i) {
+        w(i) = H(i,i);
+    }
+
+    for (IndexType i=iHi+1; i<=n; ++i) {
+        w(i) = H(i,i);
+    }
+//
+//  ==== Initialize Z, if requested ====
+//
+    if (initZ) {
+        Z = Zero;
+        Z.diag(0) = One;
+    }
+//
+//  ==== Quick return if possible ====
+//
+    if (iLo==iHi) {
+        w(iLo) = H(iLo, iLo);
+        return info;
+    }
+//
+//  ==== lahqr/laqr0 crossover point ====
+//
+    char opt[3];
+    _makeHseqrOpt<T>(opt, job, computeZ);
+    IndexType nMin = ilaenv<T>(12, "HSEQR", opt, n, iLo, iHi, work.length());
+
+    nMin= max(nTiny, nMin);
+//
+//  ==== laqr0 for big matrices; lahqr for small ones ====
+//
+    if (n>nMin) {
+        info = laqr0(wantT, wantZ, iLo, iHi, H, w, iLo, iHi, Z, work);
+    } else {
+//
+//      ==== Small matrix ====
+//
+        info = lahqr(wantT, wantZ, iLo, iHi, H, w, iLo, iHi, Z);
+
+        if (info>0) {
+//
+//          ==== A rare lahqr failure!  laqr0 sometimes succeeds
+//          .    when lahqr fails. ====
+//
+            const IndexType kBot = info;
+            if (n>=nl) {
+//
+//              ==== Larger matrices have enough subdiagonal scratch
+//              .    space to call laqr0 directly. ====
+//
+                info = laqr0(wantT, wantZ,
+                             iLo, kBot, H, w,
+                             iLo, iHi, Z, work);
+            } else {
+//
+//              ==== Tiny matrices don't have enough subdiagonal
+//              .    scratch space to benefit from DLAQR0.  Hence,
+//              .    tiny matrices must be copied into a larger
+//              .    array before calling DLAQR0. ====
+//
+                Hl(_(1,n),_(1,n)) = H;
+                Hl(n+1, n) = Zero;
+                Hl(_(1,nl),_(n+1,nl)) = Zero;
+                info = laqr0(wantT, wantZ,
+                             iLo, kBot, Hl, w,
+                             iLo, iHi, Z, workl);
+                if (wantT || (info!=0)) {
+                    H = Hl(_(1,n),_(1,n));
+                }
+            }
+        }
+    }
+//
+//  ==== Clear out the trash, if necessary. ====
+//
+    if ((wantT || (info!=0)) && (n>2)) {
+        H(_(3,n),_(1,n-2)).lower() = Zero;
+    }
+//
+//  ==== Ensure reported workspace size is backward-compatible with
+//  .    previous LAPACK versions. ====
+//
+    work(1) = T(max(PT(max(IndexType(1),n)),
+                    cxxblas::real(work(1))));
+    return info;
+}
+
 } // namespace generic
 
 //== interface for native lapack ===============================================
@@ -249,8 +412,12 @@ hseqr_impl(HSEQR::Job            job,
 
 namespace external {
 
+//
+//  Workspace query (real variant)
+//
 template <typename IndexType, typename MH>
-IndexType
+typename RestrictTo<IsReal<typename MH::ElementType>::value,
+         IndexType>::Type
 hseqr_wsq_impl(HSEQR::Job         job,
                HSEQR::ComputeZ    computeZ,
                IndexType          iLo,
@@ -279,6 +446,42 @@ hseqr_wsq_impl(HSEQR::Job         job,
     return WORK;
 }
 
+//
+//  Workspace query (complex variant)
+//
+template <typename IndexType, typename MH>
+typename RestrictTo<IsComplex<typename MH::ElementType>::value,
+         IndexType>::Type
+hseqr_wsq_impl(HSEQR::Job         job,
+               HSEQR::ComputeZ    computeZ,
+               IndexType          iLo,
+               IndexType          iHi,
+               const GeMatrix<MH> &H)
+{
+    typedef typename GeMatrix<MH>::ElementType  T;
+
+    T               WORK  = 0;
+    T               DUMMY = 0;
+    const IndexType LWORK = -1;
+
+    cxxlapack::hseqr<IndexType>(getF77Char(job),
+                                getF77Char(computeZ),
+                                H.numCols(),
+                                iLo,
+                                iHi,
+                                &DUMMY,
+                                H.leadingDimension(),
+                                &DUMMY,
+                                &DUMMY,
+                                H.leadingDimension(),
+                                &WORK,
+                                LWORK);
+    return cxxblas::real(WORK);
+}
+
+//
+//  Real variant
+//
 template <typename IndexType, typename MH, typename VWR, typename VWI,
           typename MZ, typename VWORK>
 IndexType
@@ -310,19 +513,55 @@ hseqr_impl(HSEQR::Job            job,
     return info;
 }
 
+//
+//  Complex variant
+//
+template <typename IndexType, typename MH, typename VW, typename MZ,
+          typename VWORK>
+IndexType
+hseqr_impl(HSEQR::Job            job,
+           HSEQR::ComputeZ       computeZ,
+           IndexType             iLo,
+           IndexType             iHi,
+           GeMatrix<MH>          &H,
+           DenseVector<VW>       &w,
+           GeMatrix<MZ>          &Z,
+           DenseVector<VWORK>    &work)
+{
+    IndexType  info;
+    info = cxxlapack::hseqr<IndexType>(getF77Char(job),
+                                       getF77Char(computeZ),
+                                       H.numCols(),
+                                       iLo,
+                                       iHi,
+                                       H.data(),
+                                       H.leadingDimension(),
+                                       w.data(),
+                                       Z.data(),
+                                       Z.leadingDimension(),
+                                       work.data(),
+                                       work.length());
+    ASSERT(info>=0);
+    return info;
+}
+
 } // namespace external
 
 #endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
+//
+//  Workspace query (real variant)
+//
 template <typename IndexType, typename MH>
-IndexType
+typename RestrictTo<IsRealGeMatrix<MH>::value,
+         IndexType>::Type
 hseqr_wsq(HSEQR::Job            job,
           HSEQR::ComputeZ       computeZ,
           IndexType             iLo,
           IndexType             iHi,
-          const GeMatrix<MH>    &H)
+          const MH              &H)
 {
     LAPACK_DEBUG_OUT("hseqr_wsq");
 
@@ -353,20 +592,37 @@ hseqr_wsq(HSEQR::Job            job,
     return info;
 }
 
+//
+//  Real variant
+//
 template <typename IndexType, typename MH, typename VWR, typename VWI,
           typename MZ, typename VWORK>
-IndexType
+typename RestrictTo<IsRealGeMatrix<MH>::value
+                 && IsRealDenseVector<VWR>::value
+                 && IsRealDenseVector<VWI>::value
+                 && IsRealGeMatrix<MZ>::value
+                 && IsRealDenseVector<VWORK>::value,
+         IndexType>::Type
 hseqr(HSEQR::Job                job,
       HSEQR::ComputeZ           computeZ,
       IndexType                 iLo,
       IndexType                 iHi,
-      GeMatrix<MH>              &H,
-      DenseVector<VWR>          &wr,
-      DenseVector<VWI>          &wi,
-      GeMatrix<MZ>              &Z,
-      DenseVector<VWORK>        &work)
+      MH                        &&H,
+      VWR                       &&wr,
+      VWI                       &&wi,
+      MZ                        &&Z,
+      VWORK                     &&work)
 {
     LAPACK_DEBUG_OUT("hseqr");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MH>::Type     MatrixH;
+    typedef typename RemoveRef<VWR>::Type    VectorWR;
+    typedef typename RemoveRef<VWI>::Type    VectorWI;
+    typedef typename RemoveRef<MZ>::Type     MatrixZ;
+    typedef typename RemoveRef<VWORK>::Type  VectorWork;
 
 //
 //  Test the input parameters
@@ -386,13 +642,13 @@ hseqr(HSEQR::Job                job,
 //
 //  Make copies of output arguments
 //
-    typename GeMatrix<MH>::NoView           H_org   = H;
+    typename MatrixH::NoView        H_org   = H;
 
-    typename GeMatrix<MH>::NoView           _H      = H;
-    typename DenseVector<VWR>::NoView       _wr     = wr;
-    typename DenseVector<VWI>::NoView       _wi     = wi;
-    typename GeMatrix<MZ>::NoView           _Z      = Z;
-    typename DenseVector<VWORK>::NoView     _work   = work;
+    typename MatrixH::NoView        _H      = H;
+    typename VectorWR::NoView       _wr     = wr;
+    typename VectorWI::NoView       _wi     = wi;
+    typename MatrixZ::NoView        _Z      = Z;
+    typename VectorWork::NoView     _work   = work;
 #   endif
 
 //
@@ -465,41 +721,164 @@ hseqr(HSEQR::Job                job,
     return info;
 }
 
-//-- forwarding ----------------------------------------------------------------
+//
+//  Workspace query (complex variant)
+//
 template <typename IndexType, typename MH>
-IndexType
-hseqr_wsq(HSEQR::Job        job,
-          HSEQR::ComputeZ   computeZ,
-          IndexType         iLo,
-          IndexType         iHi,
-          const MH          &&H)
+typename RestrictTo<IsComplexGeMatrix<MH>::value,
+         IndexType>::Type
+hseqr_wsq(HSEQR::Job            job,
+          HSEQR::ComputeZ       computeZ,
+          IndexType             iLo,
+          IndexType             iHi,
+          const MH              &H)
 {
-    CHECKPOINT_ENTER;
-    const IndexType result = hseqr_wsq(job, computeZ, iLo, iHi, H);
-    CHECKPOINT_LEAVE;
+    LAPACK_DEBUG_OUT("hseqr_wsq (complex)");
 
-    return result;
+//
+//  Test the input parameters
+//
+    ASSERT(H.firstRow()==1);
+    ASSERT(H.firstCol()==1);
+    ASSERT(H.numRows()==H.numCols());
+
+//
+//  Call implementation
+//
+    IndexType info = LAPACK_SELECT::hseqr_wsq_impl(job, computeZ, iLo, iHi, H);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    IndexType _info =  external::hseqr_wsq_impl(job, computeZ, iLo, iHi, H);
+
+    if (info!=_info) {
+        std::cerr << "CXXLAPACK:  info = " << info << std::endl;
+        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        ASSERT(0);
+    }
+#   endif
+    return info;
 }
 
-template <typename IndexType, typename MH, typename VWR, typename VWI,
-          typename MZ, typename VWORK>
-IndexType
+//
+//  Complex variant
+//
+template <typename IndexType, typename MH, typename VW, typename MZ,
+          typename VWORK>
+typename RestrictTo<IsComplexGeMatrix<MH>::value
+                 && IsComplexDenseVector<VW>::value
+                 && IsComplexGeMatrix<MZ>::value
+                 && IsComplexDenseVector<VWORK>::value,
+         IndexType>::Type
 hseqr(HSEQR::Job                job,
       HSEQR::ComputeZ           computeZ,
       IndexType                 iLo,
       IndexType                 iHi,
       MH                        &&H,
-      VWR                       &&wr,
-      VWI                       &&wi,
+      VW                        &&w,
       MZ                        &&Z,
       VWORK                     &&work)
 {
-    CHECKPOINT_ENTER;
-    const IndexType result = hseqr(job, computeZ, iLo, iHi, H, wr, wi, Z, work);
-    CHECKPOINT_LEAVE;
+    LAPACK_DEBUG_OUT("hseqr (complex)");
 
-    return result;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MH>::Type     MatrixH;
+    typedef typename RemoveRef<VW>::Type     VectorW;
+    typedef typename RemoveRef<MZ>::Type     MatrixZ;
+    typedef typename RemoveRef<VWORK>::Type  VectorWork;
+
+//
+//  Test the input parameters
+//
+    ASSERT(H.firstRow()==1);
+    ASSERT(H.firstCol()==1);
+    ASSERT(H.numRows()==H.numCols());
+    ASSERT(w.firstIndex()==1);
+    ASSERT(w.length()==H.numCols());
+    ASSERT((computeZ==HSEQR::No) || (Z.numRows()==H.numCols()));
+    ASSERT((computeZ==HSEQR::No) || (Z.numCols()==H.numCols()));
+    ASSERT((work.length()==0) || (work.length()>=H.numCols()));
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    typename MatrixH::NoView        H_org   = H;
+
+    typename MatrixH::NoView        _H      = H;
+    typename VectorW::NoView        _w      = w;
+    typename MatrixZ::NoView        _Z      = Z;
+    typename VectorWork::NoView     _work   = work;
+#   endif
+
+//
+//  Call implementation
+//
+    IndexType info = LAPACK_SELECT::hseqr_impl(job, computeZ, iLo, iHi, H,
+                                               w, Z, work);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    // TODO: also check workspace query directly!
+    if (_work.length()==0) {
+        _work.resize(work.length());
+    }
+
+    IndexType _info = external::hseqr_impl(job, computeZ, iLo, iHi, _H,
+                                           _w, _Z, _work);
+
+    bool failed = false;
+    if (! isIdentical(H, _H, " H", "_H")) {
+        std::cerr << "CXXLAPACK:  H = " << H << std::endl;
+        std::cerr << "F77LAPACK: _H = " << _H << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(w, _w, " w", "_w")) {
+        std::cerr << "CXXLAPACK:  w = " << w << std::endl;
+        std::cerr << "F77LAPACK: _w = " << _w << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(Z, _Z, " Z", "_Z")) {
+        std::cerr << "CXXLAPACK:  Z = " << Z << std::endl;
+        std::cerr << "F77LAPACK: _Z = " << _Z << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(info, _info, " info", "_info")) {
+        std::cerr << "CXXLAPACK:  info = " << info << std::endl;
+        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(work, _work, " work", "_work")) {
+        std::cerr << "CXXLAPACK:  work = " << work << std::endl;
+        std::cerr << "F77LAPACK: _work = " << _work << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        std::cerr << "H_org = " << H_org << std::endl;
+
+        std::cerr << "job = " << job
+                  << ", computeZ = " << computeZ
+                  << ", iLo = " << iLo
+                  << ", iHi = " << iHi
+                  << ", H.numRows() = " << H.numRows()
+                  << std::endl;
+        ASSERT(0);
+    }
+#   endif
+    return info;
 }
+
 
 } } // namespace lapack, flens
 

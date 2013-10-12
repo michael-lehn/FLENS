@@ -131,6 +131,64 @@ rotg(std::complex<TA> &a, std::complex<TB> &b, T &c, std::complex<T> &s)
     }
 }
 
+/*
+ *  Note: The following variant of function rot is based on
+
+       SUBROUTINE ZROT( N, CX, INCX, CY, INCY, C, S )
+ *
+ *  -- LAPACK auxiliary routine (version 3.2) --
+ *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
+ *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
+ *     November 2006
+ */
+template <typename IndexType, typename X, typename Y, typename T>
+void
+rot_generic(IndexType n,
+            std::complex<X> *x, IndexType incX,
+            std::complex<Y> *y, IndexType incY,
+            T c, const std::complex<T> &s)
+{
+    using std::conj;
+
+    typedef std::complex<T>   CT;
+
+    if (incX != IndexType(1) || incY != IndexType(1)) {
+//
+//      Code for unequal increments or equal increments not equal to 1
+//
+        for (IndexType i=0, iX=0, iY=0; i<n; ++i, iX+=incX, iY+=incY) {
+            const CT tmp = c*x[iX] + s*y[iY];
+            y[iY]  = c*y[iY] - conj(s)*x[iX];
+            x[iX]  = tmp;
+        }
+    } else {
+//
+//      Code for both increments equal to 1
+//
+        for (IndexType i=0; i<n; ++i) {
+         const CT tmp = c*x[i] + s*y[i];
+         y[i] = c*y[i] - conj(s)*x[i];
+         x[i] = tmp;
+        }
+    }
+}
+
+template <typename IndexType, typename X, typename Y, typename T>
+void
+rot(IndexType n,
+    std::complex<X> *x, IndexType incX,
+    std::complex<Y> *y, IndexType incY,
+    T c, const std::complex<T> &s)
+{
+    if (incX<0) {
+        x -= incX*(n-1);
+    }
+    if (incY<0) {
+        y -= incY*(n-1);
+    }
+    rot_generic(n, x, incX, y, incY, c, s);
+}
+
 #ifdef HAVE_CBLAS
 // srot
 template <typename IndexType>

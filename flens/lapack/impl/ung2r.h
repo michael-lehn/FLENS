@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
+ *   Copyright (c) 2013, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,20 +30,35 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXLAPACK_INTERFACE_ILADLR_H
-#define CXXLAPACK_INTERFACE_ILADLR_H 1
+/* Based on
+ *
+      SUBROUTINE ZUNG2R( M, N, K, A, LDA, TAU, WORK, INFO )
+ *
+ *  -- LAPACK routine (version 3.2) --
+ *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
+ *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
+ *     November 2006
+ */
 
-#include <complex>
+#ifndef FLENS_LAPACK_IMPL_UNG2R_H
+#define FLENS_LAPACK_IMPL_UNG2R_H 1
 
-namespace cxxlapack {
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
 
-template <typename IndexType>
-    IndexType
-    iladlr(IndexType             m,
-           IndexType             n,
-           const double          *A,
-           IndexType             ldA);
+namespace flens { namespace lapack {
 
-} // namespace cxxlapack
+//== ung2r =====================================================================
+template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsComplexDenseVector<VTAU>::value
+                     && IsComplexDenseVector<VWORK>::value,
+             void>::Type
+    ung2r(IndexType             k,
+          MA                    &&A,
+          const VTAU            &tau,
+          VWORK                 &&work);
 
-#endif // CXXLAPACK_INTERFACE_ILADLR_H
+} } // namespace lapack, flens
+
+#endif // FLENS_LAPACK_IMPL_UNG2R_H

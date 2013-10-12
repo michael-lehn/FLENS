@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DLARTG( F, G, CS, SN, R )
+       SUBROUTINE ZLARTG( F, G, CS, SN, R )
  *
  *  -- LAPACK auxiliary routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -49,9 +50,22 @@
 namespace flens { namespace lapack {
 
 //== lartg =====================================================================
+//
+//  Real variant
+//
 template <typename T>
-    void
+    typename RestrictTo<IsReal<T>::value,
+             void>::Type
     lartg(const T &f, const T &g, T &cs, T &sn, T &r);
+
+//
+//  Complex variant
+//
+template <typename T, typename PT>
+    typename RestrictTo<IsComplex<T>::value
+                     && IsReal<PT>::value,
+             void>::Type
+    lartg(const T &f, const T &g, PT &cs, T &sn, T &r);
 
 } } // namespace lapack, flens
 

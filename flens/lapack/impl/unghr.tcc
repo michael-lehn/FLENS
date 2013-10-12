@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2011, Michael Lehn
+ *   Copyright (c) 2013, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -32,7 +32,7 @@
 
 /* Based on
  *
-       SUBROUTINE DORGHR( N, ILO, IHI, A, LDA, TAU, WORK, LWORK, INFO )
+       SUBROUTINE ZUNGHR( N, ILO, IHI, A, LDA, TAU, WORK, LWORK, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -40,8 +40,8 @@
  *     November 2006
  */
 
-#ifndef FLENS_LAPACK_IMPL_ORGHR_TCC
-#define FLENS_LAPACK_IMPL_ORGHR_TCC 1
+#ifndef FLENS_LAPACK_IMPL_UNGHR_TCC
+#define FLENS_LAPACK_IMPL_UNGHR_TCC 1
 
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>
@@ -54,7 +54,7 @@ namespace generic {
 
 template <typename IndexType, typename  MA, typename  VTAU>
 IndexType
-orghr_wsq_impl(IndexType                 iLo,
+unghr_wsq_impl(IndexType                 iLo,
                IndexType                 iHi,
                const GeMatrix<MA>        &A,
                const DenseVector<VTAU>   &)
@@ -66,14 +66,14 @@ orghr_wsq_impl(IndexType                 iLo,
     const Underscore<IndexType> _;
     const IndexType n = A.numRows();
     const IndexType nh = iHi - iLo;
-    const IndexType nb = ilaenv<T>(1, "ORGQR", "", nh, nh, nh);
+    const IndexType nb = ilaenv<T>(1, "UNGQR", "", nh, nh, nh);
 
     return max(IndexType(1), nh)*nb;
 }
 
 template <typename IndexType, typename  MA, typename  VTAU, typename VW>
 void
-orghr_impl(IndexType                 iLo,
+unghr_impl(IndexType                 iLo,
            IndexType                 iHi,
            GeMatrix<MA>              &A,
            const DenseVector<VTAU>   &tau,
@@ -88,7 +88,7 @@ orghr_impl(IndexType                 iLo,
     const Underscore<IndexType> _;
     const IndexType n = A.numRows();
     const IndexType nh = iHi - iLo;
-    const IndexType nb = ilaenv<T>(1, "ORGQR", "", nh, nh, nh);
+    const IndexType nb = ilaenv<T>(1, "UNGQR", "", nh, nh, nh);
     const IndexType lWorkOpt = max(IndexType(1), nh)*nb;
 
 //
@@ -136,7 +136,7 @@ orghr_impl(IndexType                 iLo,
 //
 //      Generate Q(ilo+1:ihi,ilo+1:ihi)
 //
-        orgqr(A(_(iLo+1,iHi),_(iLo+1,iHi)), tau(_(iLo,iHi-1)), work);
+        ungqr(A(_(iLo+1,iHi),_(iLo+1,iHi)), tau(_(iLo,iHi-1)), work);
     }
     work(1) = lWorkOpt;
 }
@@ -151,7 +151,7 @@ namespace external {
 
 template <typename IndexType, typename  MA, typename  VTAU>
 IndexType
-orghr_wsq_impl(IndexType                 iLo,
+unghr_wsq_impl(IndexType                 iLo,
                IndexType                 iHi,
                const GeMatrix<MA>        &A,
                const DenseVector<VTAU>   &tau)
@@ -162,7 +162,7 @@ orghr_wsq_impl(IndexType                 iLo,
     ElementType      DUMMY;
     const IndexType  LWORK  = -1;
 
-    cxxlapack::orghr<IndexType>(A.numRows(),
+    cxxlapack::unghr<IndexType>(A.numRows(),
                                 iLo,
                                 iHi,
                                 &DUMMY,
@@ -176,13 +176,13 @@ orghr_wsq_impl(IndexType                 iLo,
 
 template <typename IndexType, typename  MA, typename  VTAU, typename VW>
 void
-orghr_impl(IndexType                 iLo,
+unghr_impl(IndexType                 iLo,
            IndexType                 iHi,
            GeMatrix<MA>              &A,
            const DenseVector<VTAU>   &tau,
            DenseVector<VW>           &work)
 {
-    cxxlapack::orghr<IndexType>(A.numRows(),
+    cxxlapack::unghr<IndexType>(A.numRows(),
                                 iLo,
                                 iHi,
                                 A.data(),
@@ -199,11 +199,13 @@ orghr_impl(IndexType                 iLo,
 //== public interface ==========================================================
 
 template <typename IndexType, typename  MA, typename  VTAU>
-IndexType
-orghr_wsq(IndexType                 iLo,
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                 && IsComplexDenseVector<VTAU>::value,
+         IndexType>::Type
+unghr_wsq(IndexType                 iLo,
           IndexType                 iHi,
-          const GeMatrix<MA>        &A,
-          const DenseVector<VTAU>   &tau)
+          const MA                  &A,
+          const VTAU                &tau)
 {
 //
 //  Test the input parameters
@@ -226,13 +228,13 @@ orghr_wsq(IndexType                 iLo,
 //
 //  Call implementation
 //
-    IndexType ws = LAPACK_SELECT::orghr_wsq_impl(iLo, iHi, A, tau);
+    IndexType ws = LAPACK_SELECT::unghr_wsq_impl(iLo, iHi, A, tau);
 
 #   ifdef CHECK_CXXLAPACK
 //
 //  Compare results
 //
-    IndexType _ws = external::orghr_wsq_impl(iLo, iHi, A, tau);
+    IndexType _ws = external::unghr_wsq_impl(iLo, iHi, A, tau);
 
     if (ws!=_ws) {
         std::cerr << "CXXLAPACK:  ws = " << ws << std::endl;
@@ -245,17 +247,17 @@ orghr_wsq(IndexType                 iLo,
 }
 
 template <typename IndexType, typename  MA, typename  VTAU, typename VW>
-typename RestrictTo<IsRealGeMatrix<MA>::value
-                 && IsRealDenseVector<VTAU>::value
-                 && IsRealDenseVector<VW>::value,
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                 && IsComplexDenseVector<VTAU>::value
+                 && IsComplexDenseVector<VW>::value,
          void>::Type
-orghr(IndexType                     iLo,
+unghr(IndexType                     iLo,
       IndexType                     iHi,
       MA                            &&A,
       const VTAU                    &tau,
       VW                            &&work)
 {
-    LAPACK_DEBUG_OUT("orghr");
+    LAPACK_DEBUG_OUT("unghr");
 //
 //  Remove references from rvalue types
 //
@@ -292,7 +294,7 @@ orghr(IndexType                     iLo,
 //
 //  Call implementation
 //
-    LAPACK_SELECT::orghr_impl(iLo, iHi, A, tau, work);
+    LAPACK_SELECT::unghr_impl(iLo, iHi, A, tau, work);
 
 #   ifdef CHECK_CXXLAPACK
 //
@@ -301,7 +303,7 @@ orghr(IndexType                     iLo,
     if (_work.length()==0) {
         _work.resize(work.length());
     }
-    external::orghr_impl(iLo, iHi, _A, tau, _work);
+    external::unghr_impl(iLo, iHi, _A, tau, _work);
 
     bool failed = false;
     if (! isIdentical(A, _A, " A", "A_")) {
@@ -317,14 +319,14 @@ orghr(IndexType                     iLo,
     }
 
     if (failed) {
-        std::cerr << "error in: orghr.tcc" << std::endl;
+        std::cerr << "error in: unghr.tcc" << std::endl;
         ASSERT(0);
     } else {
-//        std::cerr << "passed: orghr.tcc" << std::endl;
+//        std::cerr << "passed: unghr.tcc" << std::endl;
     }
 #   endif
 }
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_IMPL_ORGHR_TCC
+#endif // FLENS_LAPACK_IMPL_UNGHR_TCC

@@ -35,5 +35,6 @@
 
 #include <flens/blas/level1extensions/copy/imagmatrixclosure.h>
 #include <flens/blas/level1extensions/copy/realmatrixclosure.h>
+#include <flens/blas/level1extensions/conj.h>
 
 #endif // FLENS_BLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_H 1

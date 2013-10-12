@@ -103,7 +103,6 @@
 #include <flens/lapack/ge/svj1.h>
 #include <flens/lapack/ge/svx.h>
 #include <flens/lapack/ge/tf2.h>
-#include <flens/lapack/ge/trexc.h>
 #include <flens/lapack/ge/trf.h>
 #include <flens/lapack/ge/tri.h>
 #include <flens/lapack/ge/trs.h>
@@ -137,12 +136,16 @@
 #include <flens/lapack/impl/ormr3.h>
 #include <flens/lapack/impl/ormrz.h>
 #include <flens/lapack/impl/trevc.h>
+#include <flens/lapack/impl/trexc.h>
 #include <flens/lapack/impl/trsen.h>
 #include <flens/lapack/impl/trsna.h>
 #include <flens/lapack/impl/trsyl.h>
 #include <flens/lapack/impl/tzrzf.h>
+#include <flens/lapack/impl/ung2r.h>
+#include <flens/lapack/impl/unghr.h>
 #include <flens/lapack/impl/unglq.h>
 #include <flens/lapack/impl/ungqr.h>
+#include <flens/lapack/impl/unmhr.h>
 #include <flens/lapack/impl/unmlq.h>
 #include <flens/lapack/impl/unmqr.h>
 
@@ -161,6 +164,7 @@
 #include <flens/lapack/la/lan.h>
 #include <flens/lapack/la/lanv2.h>
 #include <flens/lapack/la/lapy2.h>
+#include <flens/lapack/la/lapy3.h>
 #include <flens/lapack/la/laq.h>
 #include <flens/lapack/la/laqp2.h>
 #include <flens/lapack/la/laqps.h>

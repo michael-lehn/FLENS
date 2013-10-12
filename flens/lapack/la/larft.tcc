@@ -53,8 +53,12 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
+//
+//  Real variant
+//
 template <typename N, typename MV, typename VTAU, typename MT>
-void
+typename RestrictTo<IsReal<typename MV::ElementType>::value,
+         void>::Type
 larft_impl(Direction direction, StoreVectors storeVectors, N n,
            GeMatrix<MV> &V, const DenseVector<VTAU> &tau, TrMatrix<MT> &Tr)
 {
@@ -66,7 +70,7 @@ larft_impl(Direction direction, StoreVectors storeVectors, N n,
 
     const Underscore<IndexType> _;
 
-    const T Zero(0);
+    const T Zero(0), One(1);
 
 //
 //  Quick return if possible
@@ -77,8 +81,6 @@ larft_impl(Direction direction, StoreVectors storeVectors, N n,
 
     const IndexType k = Tr.dim();
 
-//  Lehn: as long as we do not have col-views for TrMatrix we get them
-//        via a GeMatrixView
     auto _Tr = Tr.general();
 
     if (direction==Forward) {
@@ -98,7 +100,7 @@ larft_impl(Direction direction, StoreVectors storeVectors, N n,
 //              general case
 //
                 T Vii = V(i,i);
-                V(i,i) = 1;
+                V(i,i) = One;
                 if (storeVectors==ColumnWise) {
 //                  Skip any trailing zeros.
                     for (lastV=n; lastV>=i+1; --lastV) {
@@ -151,6 +153,112 @@ larft_impl(Direction direction, StoreVectors storeVectors, N n,
     }
 }
 
+//
+//  Complex variant
+//
+template <typename N, typename MV, typename VTAU, typename MT>
+typename RestrictTo<IsComplex<typename MV::ElementType>::value,
+         void>::Type
+larft_impl(Direction direction, StoreVectors storeVectors, N n,
+           GeMatrix<MV> &V, const DenseVector<VTAU> &tau, TrMatrix<MT> &Tr)
+{
+    using std::max;
+    using std::min;
+
+    typedef typename TrMatrix<MT>::IndexType    IndexType;
+    typedef typename TrMatrix<MT>::ElementType  T;
+
+    const Underscore<IndexType> _;
+
+    const T Zero(0), One(1);
+
+//
+//  Quick return if possible
+//
+    if (n==0) {
+        return;
+    }
+
+    const IndexType k = Tr.dim();
+
+    auto _Tr = Tr.general();
+
+    if (direction==Forward) {
+        IndexType lastV = -1;
+        IndexType prevLastV = n;
+        for (IndexType i=1; i<=k; ++i) {
+            prevLastV = max(i, prevLastV);
+            if (tau(i)==Zero) {
+//
+//              H(i)  =  I
+//
+                for (IndexType j=1; j<=i; ++j) {
+                    Tr(j,i) = Zero;
+                }
+            } else {
+//
+//              general case
+//
+                T Vii = V(i,i);
+                V(i,i) = One;
+                if (storeVectors==ColumnWise) {
+//                  Skip any trailing zeros.
+                    for (lastV=n; lastV>=i+1; --lastV) {
+                        if (V(lastV,i)!=Zero) {
+                            break;
+                        }
+                    }
+                    IndexType j = min(lastV, prevLastV);
+//
+//                  T(1:i-1,i) := - tau(i) * V(i:j,1:i-1)**H * V(i:j,i)
+//
+                    blas::mv(ConjTrans, -tau(i),
+                             V(_(i,j),_(1,i-1)), V(_(i,j),i),
+                             Zero,
+                             _Tr(_(1,i-1),i));
+                } else { /* storeVectors==RowWise */
+//                  Skip any trailing zeros.
+                    for (lastV=n; lastV>=i+1; --lastV) {
+                        if (V(i,lastV)!=Zero) {
+                            break;
+                        }
+                    }
+                    IndexType j = min(lastV, prevLastV);
+//
+//                  T(1:i-1,i) := - tau(i) * V(1:i-1,i:j) * V(i,i:j)**H
+//
+                    if (i<j) {
+                        blas::conj(V(i,_(i+1,j)));
+                    }
+                    blas::mv(NoTrans, -tau(i),
+                             V(_(1,i-1),_(i,j)), V(i,_(i,j)),
+                             Zero,
+                             _Tr(_(1,i-1),i));
+                    if (i<j) {
+                        blas::conj(V(i,_(i+1,j)));
+                    }
+                }
+                V(i,i) = Vii;
+//
+//              T(1:i-1,i) := T(1:i-1,1:i-1) * T(1:i-1,i)
+//
+                blas::mv(NoTrans,
+                         _Tr(_(1,i-1),_(1,i-1)).upper(),
+                         _Tr(_(1,i-1),i));
+                Tr(i,i) = tau(i);
+                if (i>1) {
+                    prevLastV = max(prevLastV, lastV);
+                } else {
+                    prevLastV = lastV;
+                }
+            }
+        }
+    } else {
+        // Lehn: I will implement it as soon as someone needs this case
+        ASSERT(0);
+    }
+}
+
 } // namespace generic
 
 //== interface for native lapack ===============================================
@@ -159,6 +267,9 @@ larft_impl(Direction direction, StoreVectors storeVectors, N n,
 
 namespace external {
 
+//
+//  Real/complex variant
+//
 template <typename N, typename MV, typename VTAU, typename MT>
 void
 larft_impl(Direction direction, StoreVectors storeVectors, N n,
@@ -182,14 +293,29 @@ larft_impl(Direction direction, StoreVectors storeVectors, N n,
 #endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
-
+//
+//  Real variant
+//
 template <typename N, typename MV, typename VTAU, typename MT>
-void
-larft(Direction direction, StoreVectors storeVectors, N n,
-      GeMatrix<MV> &V, const DenseVector<VTAU> &tau, TrMatrix<MT> &Tr)
+typename RestrictTo<IsRealGeMatrix<MV>::value
+                 && IsRealDenseVector<VTAU>::value
+                 && IsRealTrMatrix<MT>::value,
+         void>::Type
+larft(Direction                 direction,
+      StoreVectors              storeVectors,
+      N                         n,
+      MV                        &&V,
+      const VTAU                &tau,
+      MT                        &&Tr)
 {
     LAPACK_DEBUG_OUT("larft");
 
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MV>::Type    MatrixV;
+    typedef typename RemoveRef<VTAU>::Type  VectorTau;
+    typedef typename RemoveRef<MT>::Type    MatrixTr;
 //
 //  Test the input parameters
 //
@@ -203,9 +329,9 @@ larft(Direction direction, StoreVectors storeVectors, N n,
 //
 //  Make copies of output arguments
 //
-    typename GeMatrix<MV>::NoView   V_org = V;
+    typename MatrixV::NoView            V_org = V;
     // copy the full storage!
-    typename GeMatrix<MT>::NoView   Tr_org = Tr.general();
+    typename MatrixTr::GeneralNoView    Tr_org = Tr.general();
 #   endif
 
 //
@@ -217,8 +343,8 @@ larft(Direction direction, StoreVectors storeVectors, N n,
 //
 //  Restore output arguments
 //
-    typename GeMatrix<MV>::NoView   V_generic = V;
-    typename GeMatrix<MT>::NoView   Tr_generic = Tr.general();
+    typename MatrixV::NoView            V_generic = V;
+    typename MatrixTr::GeneralNoView    Tr_generic = Tr.general();
 
     V = V_org;
     Tr.general() = Tr_org;
@@ -247,13 +373,84 @@ larft(Direction direction, StoreVectors storeVectors, N n,
 #   endif
 }
 
-//-- forwarding ----------------------------------------------------------------
+//
+//  Complex variant
+//
 template <typename N, typename MV, typename VTAU, typename MT>
-void
-larft(Direction direction, StoreVectors storeVectors, N n,
-      MV &&V, const VTAU &tau, MT &&Tr)
+typename RestrictTo<IsComplexGeMatrix<MV>::value
+                 && IsComplexDenseVector<VTAU>::value
+                 && IsComplexTrMatrix<MT>::value,
+         void>::Type
+larft(Direction                 direction,
+      StoreVectors              storeVectors,
+      N                         n,
+      MV                        &&V,
+      const VTAU                &tau,
+      MT                        &&Tr)
 {
-    larft(direction, storeVectors, n, V, tau, Tr);
+    LAPACK_DEBUG_OUT("larft (complex)");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MV>::Type    MatrixV;
+    typedef typename RemoveRef<VTAU>::Type  VectorTau;
+    typedef typename RemoveRef<MT>::Type    MatrixTr;
+//
+//  Test the input parameters
+//
+    ASSERT(V.firstRow()==1);
+    ASSERT(V.firstCol()==1);
+    ASSERT(tau.firstIndex()==1);
+    ASSERT(Tr.firstRow()==1);
+    ASSERT(Tr.firstCol()==1);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    typename MatrixV::NoView            V_org = V;
+    // copy the full storage!
+    typename MatrixTr::GeneralNoView    Tr_org = Tr.general();
+#   endif
+
+//
+//  Call implementation
+//
+    LAPACK_SELECT::larft_impl(direction, storeVectors, n, V, tau, Tr);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Restore output arguments
+//
+    typename MatrixV::NoView            V_generic = V;
+    typename MatrixTr::GeneralNoView    Tr_generic = Tr.general();
+
+    V = V_org;
+    Tr.general() = Tr_org;
+//
+//  Compare results
+//
+    external::larft_impl(direction, storeVectors, n, V, tau, Tr);
+
+    bool failed = false;
+    if (! isIdentical(V_generic, V, "V_generic", "V")) {
+        std::cerr << "CXXLAPACK: V_generic = " << V_generic << std::endl;
+        std::cerr << "F77LAPACK: V = " << V << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(Tr_generic, Tr.general(), "Tr_generic", "_Tr"))
+    {
+        std::cerr << "CXXLAPACK: Tr_generic = " << Tr_generic << std::endl;
+        std::cerr << "F77LAPACK: Tr = " << Tr.general() << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    }
+#   endif
 }
 
 } } // namespace lapack, flens

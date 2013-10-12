@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2009, Michael Lehn
+ *   Copyright (c) 2013, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,65 +30,25 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXBLAS_AUXILIARY_COMPLEX_TCC
-#define CXXBLAS_AUXILIARY_COMPLEX_TCC 1
+/* Based on
+      DOUBLE PRECISION FUNCTION DLAPY3( X, Y, Z )
+ *
+ *  -- LAPACK auxiliary routine (version 3.2) --
+ *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
+ *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
+ *     November 2006
+ */
 
-#include <complex>
-#include <cxxblas/auxiliary/complex.h>
+#ifndef FLENS_LAPACK_LA_LAPY3_H
+#define FLENS_LAPACK_LA_LAPY3_H 1
 
-namespace cxxblas {
+namespace flens { namespace lapack {
 
+//-- lapy3 ---------------------------------------------------------------------
 template <typename T>
-const T &
-conjugate(const T &x)
-{
-    return x;
-}
+    T
+    lapy3(const T &x, const T &y, const T &z);
 
-template <typename T>
-std::complex<T>
-conjugate(const std::complex<T> &x)
-{
-    return std::conj(x);
-}
+} } // namespace lapack, flens
 
-template <typename T>
-const T &
-real(const T &x)
-{
-    return x;
-}
-
-template <typename T>
-const T
-real(const std::complex<T> &x)
-{
-    return std::real(x);
-}
-
-template <typename T>
-const T
-imag(const T &)
-{
-    return T(0);
-}
-
-template <typename T>
-const T
-imag(const std::complex<T> &x)
-{
-    return std::imag(x);
-}
-
-template <typename T>
-T
-abs1(const std::complex<T> &x)
-{
-    using std::abs;
-
-    return abs(x.real()) + abs(x.imag());
-}
-
-} // namespace cxxblas
-
-#endif // CXXBLAS_AUXILIARY_COMPLEX_TCC
+#endif // FLENS_LAPACK_LA_LAPY3_H

@@ -69,6 +69,9 @@ hrd_wsq_impl(IndexType iLo, IndexType iHi, const GeMatrix<MA> &A)
     return n*min(nbMax, IndexType(ilaenv<T>(1,"GEHRD", "", n, iLo, iHi)));
 }
 
+//
+//  Real/complex variant
+//
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
 void
 hrd_impl(IndexType           iLo,
@@ -184,20 +187,22 @@ hrd_impl(IndexType           iLo,
 //
             T ei = A(i+ib,i+ib-1);
             A(i+ib,i+ib-1) = One;
-            blas::mm(NoTrans, Trans, -One, Y, V2, One, A(_(1,iHi),_(i+ib,iHi)));
+            blas::mm(NoTrans, ConjTrans, -One, Y, V2, One,
+                     A(_(1,iHi),_(i+ib,iHi)));
             A(i+ib,i+ib-1) = ei;
 //
 //          Apply the block reflector H to A(1:i,i+1:i+ib-1) from the
 //          right
 //
-            blas::mm(Right, Trans, One, V1.lowerUnit(), Y(_(1,i),_(1,ib-1)));
+            blas::mm(Right, ConjTrans, One, V1.lowerUnit(),
+                     Y(_(1,i),_(1,ib-1)));
             A(_(1,i),_(i+1,i+ib-1)) -= Y(_(1,i),_(1,ib-1));
 //
 //          Apply the block reflector H to A(i+1:ihi,i+ib:n) from the
 //          left
 //
             GeView  Work(n-i-ib+1, ib, work, ldWork);
-            larfb(Left, Trans, Forward, ColumnWise,
+            larfb(Left, ConjTrans, Forward, ColumnWise,
                   A(_(i+1,iHi),_(i,i+ib-1)),
                   Tr,
                   A(_(i+1,iHi),_(i+ib,n)),
@@ -238,7 +243,7 @@ hrd_wsq_impl(IndexType            iLo,
                                 &DUMMY,
                                 &WORK,
                                 LWORK);
-    return WORK;
+    return cxxblas::real(WORK);
 }
 
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
@@ -264,54 +269,29 @@ hrd_impl(IndexType            iLo,
 #endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
-
-template <typename IndexType, typename MA>
-IndexType
-hrd_wsq(IndexType           iLo,
-        IndexType           iHi,
-        const GeMatrix<MA>  &A)
-{
-    LAPACK_DEBUG_OUT("hrd_wsq");
-
 //
-//  Test the input parameters
+//  Real variant
 //
-#   ifndef NDEBUG
-    ASSERT(A.firstRow()==1);
-    ASSERT(A.firstCol()==1);
-    ASSERT(A.numRows()==A.numCols());
-#   endif
-
-//
-//  Call implementation
-//
-    IndexType info = LAPACK_SELECT::hrd_wsq_impl(iLo, iHi, A);
-
-#   ifdef CHECK_CXXLAPACK
-//
-//  Compare results
-//
-    IndexType _info = external::hrd_wsq_impl(iLo, iHi, A);
-
-    if (! isIdentical(info, _info, " info", "_info")) {
-        ASSERT(0);
-    }
-#   endif
-
-    return info;
-}
-
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
-void
-hrd(IndexType           iLo,
-    IndexType           iHi,
-    GeMatrix<MA>        &A,
-    DenseVector<VTAU>   &tau,
-    DenseVector<VWORK>  &work)
+typename RestrictTo<IsRealGeMatrix<MA>::value &&
+                    IsRealDenseVector<VTAU>::value &&
+                    IsRealDenseVector<VWORK>::value,
+         void>::Type
+hrd(IndexType               iLo,
+    IndexType               iHi,
+    MA                      &&A,
+    VTAU                    &&tau,
+    VWORK                   &&work)
 {
     LAPACK_DEBUG_OUT("hrd");
 
     using std::max;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type     MatrixA;
+    typedef typename RemoveRef<VTAU>::Type   VectorTau;
+    typedef typename RemoveRef<VWORK>::Type  VectorWork;
 //
 //  Test the input parameters
 //
@@ -341,9 +321,9 @@ hrd(IndexType           iLo,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-    typename GeMatrix<MA>::NoView       _A = A;
-    typename DenseVector<VTAU>::NoView  _tau = tau;
-    typename DenseVector<VWORK>::NoView _work = work;
+    typename MatrixA::NoView       _A = A;
+    typename VectorTau::NoView   _tau = tau;
+    typename VectorWork::NoView  _work = work;
 #   endif
 
 //
@@ -389,32 +369,143 @@ hrd(IndexType           iLo,
 #   endif
 }
 
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename MA>
-IndexType
-hrd_wsq(IndexType   iLo,
-        IndexType   iHi,
-        const MA    &&A)
+//
+//  Complex variant
+//
+template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+typename RestrictTo<IsComplexGeMatrix<MA>::value &&
+                    IsComplexDenseVector<VTAU>::value &&
+                    IsComplexDenseVector<VWORK>::value,
+         void>::Type
+hrd(IndexType               iLo,
+    IndexType               iHi,
+    MA                      &&A,
+    VTAU                    &&tau,
+    VWORK                   &&work)
 {
-    CHECKPOINT_ENTER;
-    const IndexType info = hrd_wsq(iLo, iHi, A);
-    CHECKPOINT_LEAVE;
+    LAPACK_DEBUG_OUT("hrd (complex)");
 
-    return info;
+    using std::max;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type     MatrixA;
+    typedef typename RemoveRef<VTAU>::Type   VectorTau;
+    typedef typename RemoveRef<VWORK>::Type  VectorWork;
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(A.numRows()==A.numCols());
+    ASSERT(tau.firstIndex()==1);
+
+    const IndexType n = A.numCols();
+
+    if (n==0) {
+        ASSERT(iLo==1);
+        ASSERT(iHi==0);
+    } else {
+        ASSERT(1<=iLo);
+        ASSERT(iLo<=iHi);
+        ASSERT(iHi<=n);
+    }
+
+    ASSERT(tau.length()==(n-1));
+    const bool lQuery = (work.length()==0);
+    ASSERT(lQuery || (work.length()>=max(IndexType(1),n)));
+#   endif
+
+//
+//  Make copies of output arguments
+//
+#   ifdef CHECK_CXXLAPACK
+    typename MatrixA::NoView       _A = A;
+    typename VectorTau::NoView   _tau = tau;
+    typename VectorWork::NoView  _work = work;
+#   endif
+
+//
+//  Call implementation
+//
+    LAPACK_SELECT::hrd_impl(iLo, iHi, A, tau, work);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    if (_work.length()==0) {
+        _work.resize(work.length());
+    }
+    external::hrd_impl(iLo, iHi, _A, _tau, _work);
+
+    bool failed = false;
+    if (! isIdentical(A, _A, " A", "_A")) {
+        std::cerr << "CXXLAPACK:  A = " << A << std::endl;
+        std::cerr << "F77LAPACK: _A = " << _A << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(tau, _tau, " tau", "_tau")) {
+        std::cerr << "CXXLAPACK:  tau = " << tau << std::endl;
+        std::cerr << "F77LAPACK: _tau = " << _tau << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(work, _work, " work", "_work")) {
+        std::cerr << "CXXLAPACK:  work = " << work << std::endl;
+        std::cerr << "F77LAPACK: _work = " << _work << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        std::cerr << "error in: hrd.tcc" << std::endl;
+        ASSERT(0);
+    } else {
+//        std::cerr << "passed: hrd.tcc" << std::endl;
+    }
+
+#   endif
 }
 
-template <typename IndexType, typename MA,
-          typename VTAU, typename VWORK>
-void
-hrd(IndexType       iLo,
-    IndexType       iHi,
-    MA              &&A,
-    VTAU            &&tau,
-    VWORK           &&work)
+//
+//  Workspace query (real/complex variant)
+//
+template <typename IndexType, typename MA>
+IndexType
+hrd_wsq(IndexType           iLo,
+        IndexType           iHi,
+        const MA            &A)
 {
-    CHECKPOINT_ENTER;
-    hrd(iLo, iHi, A, tau, work);
-    CHECKPOINT_LEAVE;
+    LAPACK_DEBUG_OUT("hrd_wsq");
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(A.numRows()==A.numCols());
+#   endif
+
+//
+//  Call implementation
+//
+    IndexType info = LAPACK_SELECT::hrd_wsq_impl(iLo, iHi, A);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    IndexType _info = external::hrd_wsq_impl(iLo, iHi, A);
+
+    if (! isIdentical(info, _info, " info", "_info")) {
+        ASSERT(0);
+    }
+#   endif
+
+    return info;
 }
 
 } } // namespace lapack, flens

@@ -32,7 +32,8 @@
 
 /* Based on
  *
-       SUBROUTINE DLAQR1( N, H, LDH, SR1, SI1, SR2, SI2, V )
+      SUBROUTINE DLAQR1( N, H, LDH, SR1, SI1, SR2, SI2, V )
+      SUBROUTINE ZLAQR1( N, H, LDH, S1, S2, V )
  *
  *  -- LAPACK auxiliary routine (version 3.2) --
  *     Univ. of Tennessee, Univ. of California Berkeley,
@@ -52,9 +53,12 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
+//
+//  Real variant
+//
 template <typename MH, typename T, typename VV>
 void
-laqr1_impl(GeMatrix<MH>              &H,
+laqr1_impl(const GeMatrix<MH>        &H,
            const T                   &sr1,
            const T                   &si1,
            const T                   &sr2,
@@ -95,6 +99,49 @@ laqr1_impl(GeMatrix<MH>              &H,
     }
 }
 
+//
+//  Complex variant
+//
+template <typename MH, typename T, typename VV>
+void
+laqr1_impl(const GeMatrix<MH>        &H,
+           const T                   &s1,
+           const T                   &s2,
+           DenseVector<VV>           &v)
+{
+    using cxxblas::abs1;
+
+    typedef typename GeMatrix<MH>::IndexType    IndexType;
+
+    const IndexType n   = H.numRows();
+    const T         Zero(0);
+
+    if (n==2) {
+        const T s = abs1(H(1,1)-s2) + abs1(H(2,1));
+        if (s==Zero) {
+            v(1) = Zero;
+            v(2) = Zero;
+        } else {
+            const T H21s = H(2,1)/s;
+            v(1) = H21s*H(1,2) + (H(1,1)-s1)*((H(1,1)-s2)/s);
+            v(2) = H21s*(H(1,1) + H(2,2) - s1 - s2);
+        }
+    } else {
+        const T s = abs1(H(1,1)-s2) + abs1(H(2,1)) + abs1(H(3,1));
+        if (s==Zero) {
+            v(1) = Zero;
+            v(2) = Zero;
+            v(3) = Zero;
+        } else {
+            const T H21s = H(2,1) / s;
+            const T H31s = H(3,1) / s;
+            v(1) = (H(1,1)-s1)*((H(1,1)-s2)/s) + H(1,2)*H21s + H(1,3)*H31s;
+            v(2) = H21s*(H(1,1) + H(2,2)-s1-s2) + H(2,3)*H31s;
+            v(3) = H31s*(H(1,1) + H(3,3)-s1-s2) + H21s*H(3,2);
+        }
+    }
+}
+
 } // namespace generic
 
 //== interface for native lapack ===============================================
@@ -103,9 +150,12 @@ laqr1_impl(GeMatrix<MH>              &H,
 
 namespace external {
 
+//
+//  Real variant
+//
 template <typename MH, typename T, typename VV>
 void
-laqr1_impl(GeMatrix<MH>              &H,
+laqr1_impl(const GeMatrix<MH>        &H,
            const T                   &sr1,
            const T                   &si1,
            const T                   &sr2,
@@ -124,28 +174,57 @@ laqr1_impl(GeMatrix<MH>              &H,
                                 v.data());
 }
 
+//
+//  Complex variant
+//
+template <typename MH, typename T, typename VV>
+void
+laqr1_impl(const GeMatrix<MH>        &H,
+           const T                   &s1,
+           const T                   &s2,
+           DenseVector<VV>           &v)
+{
+    typedef typename GeMatrix<MH>::IndexType  IndexType;
+
+    cxxlapack::laqr1<IndexType>(H.numRows(),
+                                H.data(),
+                                H.leadingDimension(),
+                                s1,
+                                s2,
+                                v.data());
+}
+
 } // namespace external
 
 #endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
-
+//
+//  Real variant
+//
 template <typename MH, typename T, typename VV>
-void
-laqr1(GeMatrix<MH>              &H,
-      const T                   &sr1,
-      const T                   &si1,
-      const T                   &sr2,
-      const T                   &si2,
-      DenseVector<VV>           &v)
+typename RestrictTo<IsRealGeMatrix<MH>::value
+                 && IsRealDenseVector<VV>::value,
+         void>::Type
+laqr1(const MH  &H,
+      const T   &sr1,
+      const T   &si1,
+      const T   &sr2,
+      const T   &si2,
+      VV        &&v)
 {
     LAPACK_DEBUG_OUT("laqr1");
 
 //
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MH>::Type        MatrixH;
+    typedef typename RemoveRef<VV>::Type        VectorV;
+//
 //  Test the input parameters
 //
 #   ifndef NDEBUG
-    typedef typename GeMatrix<MH>::IndexType    IndexType;
+    typedef typename MatrixH::IndexType    IndexType;
 
     ASSERT(H.firstRow()==1);
     ASSERT(H.firstCol()==1);
@@ -162,8 +241,7 @@ laqr1(GeMatrix<MH>              &H,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-    typename GeMatrix<MH>::NoView       H_org  = H;
-    typename DenseVector<VV>::NoView    v_org  = v;
+    typename VectorV::NoView    v_org  = v;
 #   endif
 
 //
@@ -175,12 +253,10 @@ laqr1(GeMatrix<MH>              &H,
 //
 //  Make copies of results computed by the generic implementation
 //
-    typename GeMatrix<MH>::NoView       H_generic  = H;
-    typename DenseVector<VV>::NoView    v_generic  = v;
+    typename VectorV::NoView    v_generic  = v;
 //
 //  restore output arguments
 //
-    H = H_org;
     v = v_org;
 //
 //  Compare results
@@ -188,11 +264,6 @@ laqr1(GeMatrix<MH>              &H,
     external::laqr1_impl(H, sr1, si1, sr2, si2, v);
 
     bool failed = false;
-    if (! isIdentical(H_generic, H, "H_generic", "H")) {
-        std::cerr << "CXXLAPACK: H_generic = " << H_generic << std::endl;
-        std::cerr << "F77LAPACK: H = " << H << std::endl;
-        failed = true;
-    }
 
     if (! isIdentical(v_generic, v, "v_generic", "v")) {
         std::cerr << "CXXLAPACK: v_generic = " << v_generic << std::endl;
@@ -209,20 +280,82 @@ laqr1(GeMatrix<MH>              &H,
 #   endif
 }
 
-//-- forwarding ----------------------------------------------------------------
-
+//
+//  Complex variant
+//
 template <typename MH, typename T, typename VV>
-void
-laqr1(MH                        &&H,
-      const T                   &sr1,
-      const T                   &si1,
-      const T                   &sr2,
-      const T                   &si2,
-      VV                        &&v)
+typename RestrictTo<IsComplexGeMatrix<MH>::value
+                 && IsComplexDenseVector<VV>::value,
+         void>::Type
+laqr1(const MH  &H,
+      const T   &s1,
+      const T   &s2,
+      VV        &&v)
 {
-    CHECKPOINT_ENTER;
-    laqr1(H, sr1, si1, sr2, si2, v);
-    CHECKPOINT_LEAVE;
+    LAPACK_DEBUG_OUT("laqr1 (complex)");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MH>::Type   MatrixH;
+    typedef typename RemoveRef<VV>::Type   VectorV;
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    typedef typename MatrixH::IndexType    IndexType;
+
+    ASSERT(H.firstRow()==1);
+    ASSERT(H.firstCol()==1);
+    ASSERT(H.numRows()==H.numCols());
+
+    const IndexType n = H.numRows();
+
+    ASSERT(n==2 || n==3);
+
+    ASSERT(v.length()==n);
+#   endif
+
+//
+//  Make copies of output arguments
+//
+#   ifdef CHECK_CXXLAPACK
+    typename VectorV::NoView    v_org  = v;
+#   endif
+
+//
+//  Call implementation
+//
+    LAPACK_SELECT::laqr1_impl(H, s1, s2, v);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of results computed by the generic implementation
+//
+    typename VectorV::NoView    v_generic  = v;
+//
+//  restore output arguments
+//
+    v = v_org;
+//
+//  Compare results
+//
+    external::laqr1_impl(H, s1, s2, v);
+
+    bool failed = false;
+    if (! isIdentical(v_generic, v, "v_generic", "v")) {
+        std::cerr << "CXXLAPACK: v_generic = " << v_generic << std::endl;
+        std::cerr << "F77LAPACK: v = " << v << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        std::cerr << "error in: laqr1.tcc" << std::endl;
+        ASSERT(0);
+    } else {
+        // std::cerr << "passed: laqr1.tcc" << std::endl;
+    }
+#   endif
 }
 
 } } // namespace lapack, flens

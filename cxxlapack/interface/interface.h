@@ -172,8 +172,6 @@
 #include <cxxlapack/interface/hsein.h>
 #include <cxxlapack/interface/hseqr.h>
 #include <cxxlapack/interface/ieeeck.h>
-#include <cxxlapack/interface/iladlc.h>
-#include <cxxlapack/interface/iladlr.h>
 #include <cxxlapack/interface/ilalc.h>
 #include <cxxlapack/interface/ilalr.h>
 #include <cxxlapack/interface/laprec.h>

@@ -74,9 +74,9 @@ template <typename T>
 std::complex<T>
 ladiv(const std::complex<T> &x, const std::complex<T> &y)
 {
-    std::complex<T> z;
-    ladiv(x.real(), x.imag(), y.real(), y.imag(), z.real(), z.imag());
-    return z;
+    T  zr, zi;
+    ladiv(x.real(), x.imag(), y.real(), y.imag(), zr, zi);
+    return std::complex<T>(zr, zi);
 }
 
 } } // namespace lapack, flens

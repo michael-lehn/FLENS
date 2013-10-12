@@ -32,8 +32,8 @@
 
 /* Based on
  *
-       SUBROUTINE DORMHR( SIDE, TRANS, M, N, ILO, IHI, A, LDA, TAU, C,
-      $                   LDC, WORK, LWORK, INFO )
+      SUBROUTINE ZUNMHR( SIDE, TRANS, M, N, ILO, IHI, A, LDA, TAU, C,
+     $                   LDC, WORK, LWORK, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -41,8 +41,8 @@
  *     November 2006
  */
 
-#ifndef FLENS_LAPACK_IMPL_ORMHR_TCC
-#define FLENS_LAPACK_IMPL_ORMHR_TCC 1
+#ifndef FLENS_LAPACK_IMPL_UNMHR_TCC
+#define FLENS_LAPACK_IMPL_UNMHR_TCC 1
 
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>
@@ -55,7 +55,7 @@ namespace generic {
 
 template <typename IndexType, typename  MC>
 IndexType
-ormhr_wsq_impl(Side                      side,
+unmhr_wsq_impl(Side                      side,
                Transpose                 trans,
                IndexType                 iLo,
                IndexType                 iHi,
@@ -82,9 +82,9 @@ ormhr_wsq_impl(Side                      side,
 
     IndexType nb;
     if (side==Left) {
-        nb = ilaenv<T>(1, "ORMQR", opt, nh, n, nh);
+        nb = ilaenv<T>(1, "UNMQR", opt, nh, n, nh);
     } else {
-        nb = ilaenv<T>(1, "ORMQR", opt, m, nh, nh);
+        nb = ilaenv<T>(1, "UNMQR", opt, m, nh, nh);
     }
     return max(IndexType(1), nw)*nb;
 }
@@ -92,7 +92,7 @@ ormhr_wsq_impl(Side                      side,
 template <typename IndexType, typename  MA, typename  VTAU,
           typename  MC, typename  VWORK>
 void
-ormhr_impl(Side                      side,
+unmhr_impl(Side                      side,
            Transpose                 trans,
            IndexType                 iLo,
            IndexType                 iHi,
@@ -124,9 +124,9 @@ ormhr_impl(Side                      side,
 
     IndexType nb;
     if (side==Left) {
-        nb = ilaenv<T>(1, "ORMQR", opt, nh, n, nh);
+        nb = ilaenv<T>(1, "UNMQR", opt, nh, n, nh);
     } else {
-        nb = ilaenv<T>(1, "ORMQR", opt, m, nh, nh);
+        nb = ilaenv<T>(1, "UNMQR", opt, m, nh, nh);
     }
     IndexType lWorkOpt = max(IndexType(1), nw)*nb;
 
@@ -152,13 +152,13 @@ ormhr_impl(Side                      side,
 
         auto _C  = C(_(iLo+1,iHi),_);
 
-        ormqr(Left, trans, _A, _tau, _C, work);
+        unmqr(Left, trans, _A, _tau, _C, work);
 
     } else {
 
         auto _C  = C(_,_(iLo+1,iHi));
 
-        ormqr(Right, trans, _A, _tau, _C, work);
+        unmqr(Right, trans, _A, _tau, _C, work);
     }
 
     work(1) = lWorkOpt;
@@ -174,7 +174,7 @@ namespace external {
 
 template <typename IndexType, typename  MC>
 IndexType
-ormhr_wsq_impl(Side                      side,
+unmhr_wsq_impl(Side                      side,
                Transpose                 trans,
                IndexType                 iLo,
                IndexType                 iHi,
@@ -192,7 +192,7 @@ ormhr_wsq_impl(Side                      side,
     ElementType         WORK, DUMMY;
     const IndexType     LWORK  = -1;
 
-    cxxlapack::ormhr<IndexType>(getF77Char(side),
+    cxxlapack::unmhr<IndexType>(getF77Char(side),
                                 getF77Char(trans),
                                 C.numRows(),
                                 C.numCols(),
@@ -205,13 +205,13 @@ ormhr_wsq_impl(Side                      side,
                                 C.leadingDimension(),
                                 &WORK,
                                 LWORK);
-    return WORK;
+    return cxxblas::real(WORK);
 }
 
 template <typename IndexType, typename  MA, typename  VTAU,
           typename  MC, typename  VWORK>
 void
-ormhr_impl(Side                      side,
+unmhr_impl(Side                      side,
            Transpose                 trans,
            IndexType                 iLo,
            IndexType                 iHi,
@@ -220,7 +220,7 @@ ormhr_impl(Side                      side,
            GeMatrix<MC>              &C,
            DenseVector<VWORK>        &work)
 {
-    cxxlapack::ormhr<IndexType>(getF77Char(side),
+    cxxlapack::unmhr<IndexType>(getF77Char(side),
                                 getF77Char(trans),
                                 C.numRows(),
                                 C.numCols(),
@@ -243,13 +243,13 @@ ormhr_impl(Side                      side,
 
 template <typename IndexType, typename  MC>
 IndexType
-ormhr_wsq(Side                      side,
+unmhr_wsq(Side                      side,
           Transpose                 trans,
           IndexType                 iLo,
           IndexType                 iHi,
           const GeMatrix<MC>        &C)
 {
-    LAPACK_DEBUG_OUT("ormhr_wsq");
+    LAPACK_DEBUG_OUT("unmhr_wsq");
 
 //
 //  Test the input parameters
@@ -283,13 +283,13 @@ ormhr_wsq(Side                      side,
 //
 //  Call implementation
 //
-    IndexType ws = LAPACK_SELECT::ormhr_wsq_impl(side, trans, iLo, iHi, C);
+    IndexType ws = LAPACK_SELECT::unmhr_wsq_impl(side, trans, iLo, iHi, C);
 
 //
 //  Compare results
 //
 #   ifdef CHECK_CXXLAPACK
-    IndexType _ws = external::ormhr_wsq_impl(side, trans, iLo, iHi, C);
+    IndexType _ws = external::unmhr_wsq_impl(side, trans, iLo, iHi, C);
 
     if (ws!=_ws) {
         std::cerr << "CXXLAPACK:  ws = " << ws << std::endl;
@@ -302,12 +302,12 @@ ormhr_wsq(Side                      side,
 
 template <typename IndexType, typename  MA, typename  VTAU,
           typename  MC, typename  VWORK>
-typename RestrictTo<IsRealGeMatrix<MA>::value
-                 && IsRealDenseVector<VTAU>::value
-                 && IsRealGeMatrix<MC>::value
-                 && IsRealDenseVector<VWORK>::value,
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                 && IsComplexDenseVector<VTAU>::value
+                 && IsComplexGeMatrix<MC>::value
+                 && IsComplexDenseVector<VWORK>::value,
          void>::Type
-ormhr(Side                          side,
+unmhr(Side                          side,
       Transpose                     trans,
       IndexType                     iLo,
       IndexType                     iHi,
@@ -316,7 +316,7 @@ ormhr(Side                          side,
       MC                            &&C,
       VWORK                         &&work)
 {
-    LAPACK_DEBUG_OUT("ormhr");
+    LAPACK_DEBUG_OUT("unmhr");
 
     using std::max;
 
@@ -377,7 +377,7 @@ ormhr(Side                          side,
 //
 //  Call implementation
 //
-    LAPACK_SELECT::ormhr_impl(side, trans, iLo, iHi, A, tau, C, work);
+    LAPACK_SELECT::unmhr_impl(side, trans, iLo, iHi, A, tau, C, work);
 
 #   ifdef CHECK_CXXLAPACK
 //
@@ -397,7 +397,7 @@ ormhr(Side                          side,
 //
 //  Compare generic results with results from the native implementation
 //
-    external::ormhr_impl(side, trans, iLo, iHi, A, tau, C, work);
+    external::unmhr_impl(side, trans, iLo, iHi, A, tau, C, work);
 
     bool failed = false;
     if (! isIdentical(A_generic, A, "A_generic", "A")) {
@@ -417,14 +417,14 @@ ormhr(Side                          side,
     }
 
     if (failed) {
-        std::cerr << "error in: ormhr.tcc" << std::endl;
+        std::cerr << "error in: unmhr.tcc" << std::endl;
         ASSERT(0);
     } else {
-        // std::cerr << "passed: ormhr.tcc" << std::endl;
+        // std::cerr << "passed: unmhr.tcc" << std::endl;
     }
 #   endif
 }
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_IMPL_ORMHR_TCC
+#endif // FLENS_LAPACK_IMPL_UNMHR_TCC

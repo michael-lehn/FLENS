@@ -81,6 +81,14 @@ identical(const VX &x, const VY &y)
     if (RAWPOINTER(x.data())!=RAWPOINTER(y.data())) {
         return false;
     }
+    if (x.length()==0) {
+//      no memory referenced by x
+        return false;
+    }
+    if (y.length()==0) {
+//      no memory referenced by y
+        return false;
+    }
     if (x.stride()!=y.stride()) {
         return false;
     }
@@ -123,6 +131,14 @@ identical(const MA &A, const MB &B)
     if (RAWPOINTER(A.data())!=RAWPOINTER(B.data())) {
         return false;
     }
+    if (A.numRows()==0 || A.numCols()==0) {
+//      no memory referenced by A
+        return false;
+    }
+    if (B.numRows()==0 || B.numCols()==0) {
+//      no memory referenced by A
+        return false;
+    }
     if (A.leadingDimension()!=B.leadingDimension()) {
         return false;
     }
@@ -160,6 +176,14 @@ identical(const MA &A, const MB &B)
 //
     if (RAWPOINTER(A.data())!=RAWPOINTER(B.data())) {
         return false;
+    }
+    if (A.dim()==0) {
+//      no memory referenced by A
+        return 0;
+    }
+    if (B.dim()==0) {
+//      no memory referenced by B
+        return 0;
     }
     if (A.dim()!=B.dim()) {
         return false;

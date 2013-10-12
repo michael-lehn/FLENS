@@ -32,8 +32,10 @@
 
 /* Based on
  *
-       SUBROUTINE DTREVC( SIDE, HOWMNY, SELECT, N, T, LDT, VL, LDVL, VR,
-      $                   LDVR, MM, M, WORK, INFO )
+      SUBROUTINE DTREVC( SIDE, HOWMNY, SELECT, N, T, LDT, VL, LDVL, VR,
+     $                   LDVR, MM, M, WORK, INFO )
+      SUBROUTINE ZTREVC( SIDE, HOWMNY, SELECT, N, T, LDT, VL, LDVL, VR,
+     $                   LDVR, MM, M, WORK, RWORK, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -54,6 +56,9 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
+//
+//  Real variant
+//
 template <typename VSELECT, typename MT, typename MVL, typename MVR,
           typename IndexType, typename VWORK>
 void
@@ -68,7 +73,6 @@ trevc_impl(bool                          computeVL,
            IndexType                     &m,
            DenseVector<VWORK>            &work)
 {
-
     using std::abs;
     using flens::max;
 
@@ -959,6 +963,249 @@ trevc_impl(bool                          computeVL,
     }
 }
 
+//
+//  Complex variant
+//
+template <typename VSELECT, typename MT, typename MVL, typename MVR,
+          typename IndexType, typename VWORK, typename VRWORK>
+void
+trevc_impl(bool                          computeVL,
+           bool                          computeVR,
+           TREVC::Job                    howMany,
+           DenseVector<VSELECT>          &select,
+           GeMatrix<MT>                  &T,
+           GeMatrix<MVL>                 &VL,
+           GeMatrix<MVR>                 &VR,
+           IndexType                     mm,
+           IndexType                     &m,
+           DenseVector<VWORK>            &work,
+           DenseVector<VRWORK>           &rWork)
+{
+    using std::abs;
+    using cxxblas::abs1;
+    using flens::max;
+
+    typedef typename GeMatrix<MT>::ElementType                  ElementType;
+    typedef typename ComplexTrait<ElementType>::PrimitiveType   PrimitiveType;
+
+    const PrimitiveType  Zero(0), One(1);
+    const ElementType    CZero(0), COne(1);
+
+    const Underscore<IndexType> _;
+    const IndexType n = T.numCols();
+
+//
+//  Decode and test the input parameters
+//
+    const bool over     = howMany==TREVC::Backtransform;
+    const bool someV    = howMany==TREVC::Selected;
+
+//
+//  Set M to the number of columns required to store the selected
+//  eigenvectors.
+//
+    if (someV) {
+        m = 0;
+        for (IndexType j=1; j<=n; ++j) {
+            if (select(j)) {
+                ++m;
+            }
+        }
+    } else {
+        m = n;
+    }
+
+    if (mm<m) {
+        ASSERT(0);
+    }
+//
+//  Quick return if possible.
+//
+    if (n==0) {
+        return;
+    }
+//
+//  Set the constants to control overflow.
+//
+    PrimitiveType underflow = lamch<PrimitiveType>(SafeMin);
+    PrimitiveType overflow  = One / underflow;
+    labad(underflow, overflow);
+
+    const PrimitiveType ulp         = lamch<PrimitiveType>(Precision);
+    const PrimitiveType smallNum    = underflow*(n/ulp);
+//
+//  Store the diagonal elements of T in working array WORK.
+//
+    for (IndexType i=1; i<=n; ++i) {
+        work(i+n) = T(i,i);
+    }
+//
+//  Compute 1-norm of each column of strictly upper triangular
+//  part of T to control overflow in triangular solver.
+//
+    rWork(1) = Zero;
+    for (IndexType j=2; j<=n; ++j) {
+        rWork(j) = blas::asum(T(_(1,j-1),j));
+    }
+
+    if (computeVR) {
+//
+//      Compute right eigenvectors.
+//
+        IndexType       is = m;
+        PrimitiveType   scale;
+
+        for (IndexType ki=n; ki>=1; --ki) {
+
+            if (someV) {
+                if (! select(ki)) {
+                    break;
+                }
+            }
+            const PrimitiveType safeMin = max(ulp*abs1(T(ki,ki)), smallNum);
+
+            work(1) = COne;
+//
+//          Form right-hand side.
+//
+            for (IndexType k=1; k<=ki-1; ++k) {
+                work(k) = -T(k,ki);
+            }
+//
+//          Solve the triangular system:
+//             (T(1:KI-1,1:KI-1) - T(KI,KI))*X = SCALE*WORK.
+//
+            for (IndexType k=1; k<=ki-1; ++k) {
+                T(k,k) -= T(ki,ki);
+                if (abs1(T(k,k)) < safeMin) {
+                    T(k,k) = safeMin;
+                }
+            }
+
+            if (ki>1) {
+                const auto _T    = T(_(1,ki-1),_(1,ki-1));
+                auto       _x    = work(_(1,ki-1));
+                auto       _norm = rWork(_(1,ki-1));
+
+                latrs(NoTrans, true, _T.upper(), _x, scale, _norm);
+                work(ki) = scale;
+            }
+//
+//          Copy the vector x or Q*x to VR and normalize.
+//
+            if (! over) {
+                VR(_(1,ki),is) = work(_(1,ki));
+
+                IndexType     ii   = blas::iamax(VR(_(1,ki),is));
+                PrimitiveType rMax = One / abs1(VR(ii,is));
+
+                blas::scal(rMax, VR(_(1,ki),is));
+
+                for (IndexType k=ki+1; k<=n; ++k) {
+                    VR(k,is) = CZero;
+                }
+            } else {
+                if (ki>1) {
+                    const ElementType cScale = scale;
+                    const auto        _VR    = VR(_,_(1,ki-1));
+                    const auto        _x     = work(_(1,ki-1));
+                    blas::mv(NoTrans, COne, _VR, _x, cScale, VR(_,ki));
+                }
+                IndexType     ii   = blas::iamax(VR(_,ki));
+                PrimitiveType rMax = One / abs1(VR(ii,ki));
+                blas::scal(rMax, VR(_,ki));
+            }
+//
+//          Set back the original diagonal elements of T.
+//
+            for (IndexType k=1; k<=ki-1; ++k) {
+                T(k,k) = work(k+n);
+            }
+
+            --is;
+        }
+    }
+
+    if (computeVL) {
+//
+//      Compute left eigenvectors.
+//
+        IndexType       is = 1;
+        PrimitiveType   scale;
+
+        for (IndexType ki=1; ki<=n; ++ki) {
+
+            if (someV) {
+                if (! select(ki)) {
+                    break;
+                }
+            }
+            const PrimitiveType safeMin = max(ulp*abs1(T(ki,ki)), smallNum);
+
+            work(n) = COne;
+//
+//          Form right-hand side.
+//
+            for (IndexType k=ki+1; k<=n; ++k) {
+                work(k) = -conj(T(ki,k));
+            }
+//
+//          Solve the triangular system:
+//             (T(KI+1:N,KI+1:N) - T(KI,KI))**H * X = SCALE*WORK.
+//
+            for (IndexType k=ki+1; k<=n; ++k) {
+                T(k,k) -= T(ki,ki);
+                if (abs1(T(k,k)) < safeMin) {
+                    T(k,k) = safeMin;
+                }
+            }
+
+            if (ki < n) {
+                const auto _T    = T(_(ki+1,n),_(ki+1,n));
+                auto       _x    = work(_(ki+1,n));
+                auto       _norm = rWork(_(1,n-ki));
+
+                latrs(ConjTrans, true, _T.upper(), _x, scale, _norm);
+                work(ki) = scale;
+            }
+//
+//          Copy the vector x or Q*x to VL and normalize.
+//
+            if (! over) {
+                VL(_(ki,n),is) = work(_(ki,n));
+
+                IndexType     ii   = blas::iamax(VL(_(ki,n),is)) + ki - 1;
+                PrimitiveType rMax = One / abs1(VL(ii,is));
+
+                blas::scal(rMax, VL(_(ki,n),is));
+
+                for (IndexType k=1; k<=ki-1; ++k) {
+                    VL(k,is) = CZero;
+                }
+            } else {
+                if (ki<n) {
+                    const ElementType cScale = scale;
+                    const auto        _VL    = VL(_,_(ki+1,n));
+                    const auto        _x     = work(_(ki+1,n));
+                    blas::mv(NoTrans, COne, _VL, _x, cScale, VL(_,ki));
+                }
+
+                IndexType     ii = blas::iamax(VL(_,ki));
+                PrimitiveType rMax = One / abs1(VL(ii,ki));
+                blas::scal(rMax, VL(_,ki));
+            }
+//
+//          Set back the original diagonal elements of T.
+//
+            for (IndexType k=ki+1; k<=n; ++k) {
+                T(k,k) = work(k+n);
+            }
+
+            ++is;
+        }
+    }
+}
+
 } // namespace generic
 
 //== interface for native lapack ===============================================
@@ -967,6 +1214,9 @@ trevc_impl(bool                          computeVL,
 
 namespace external {
 
+//
+//  Real variant
+//
 template <typename VSELECT, typename MT, typename MVL, typename MVR,
           typename IndexType, typename VWORK>
 void
@@ -1009,31 +1259,98 @@ trevc_impl(bool                           computeVL,
                                 work.data());
 }
 
+//
+//  Complex variant
+//
+template <typename VSELECT, typename MT, typename MVL, typename MVR,
+          typename IndexType, typename VWORK, typename VRWORK>
+void
+trevc_impl(bool                           computeVL,
+           bool                           computeVR,
+           TREVC::Job                     howMany,
+           DenseVector<VSELECT>           &select,
+           GeMatrix<MT>                   &T,
+           GeMatrix<MVL>                  &VL,
+           GeMatrix<MVR>                  &VR,
+           IndexType                      mm,
+           IndexType                      &m,
+           DenseVector<VWORK>             &work,
+           DenseVector<VRWORK>            &rWork)
+{
+    char side = 'N';
+    if (computeVL && computeVR) {
+        side = 'B';
+    } else if (computeVL) {
+        side = 'L';
+    } else if (computeVR) {
+        side = 'R';
+    } else {
+        ASSERT(0);
+    }
+
+    DenseVector<Array<IndexType> > _select = select;
+
+    cxxlapack::trevc<IndexType>(side,
+                                getF77Char(howMany),
+                                _select.data(),
+                                T.numRows(),
+                                T.data(),
+                                T.leadingDimension(),
+                                VL.data(),
+                                VL.leadingDimension(),
+                                VR.data(),
+                                VR.leadingDimension(),
+                                mm,
+                                m,
+                                work.data(),
+                                rWork.data());
+}
+
 } // namespace external
 
 #endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
-template <typename VSELECT, typename MT, typename MVL, typename MVR,
+//
+//  Real variant
+//
+template <typename VSELECT, typename MTR, typename MVL, typename MVR,
           typename IndexType, typename VWORK>
-void
+typename RestrictTo<IsIntegerDenseVector<VSELECT>::value
+                 && IsRealGeMatrix<MTR>::value
+                 && IsRealGeMatrix<MVL>::value
+                 && IsRealGeMatrix<MVR>::value
+                 && IsInteger<IndexType>::value
+                 && IsRealDenseVector<VWORK>::value,
+         void>::Type
 trevc(bool                          computeVL,
       bool                          computeVR,
       TREVC::Job                    howMany,
-      DenseVector<VSELECT>          &select,
-      const GeMatrix<MT>            &T,
-      GeMatrix<MVL>                 &VL,
-      GeMatrix<MVR>                 &VR,
+      VSELECT                       &select,
+      const MTR                     &T,
+      MVL                           &&VL,
+      MVR                           &&VR,
       IndexType                     mm,
       IndexType                     &m,
-      DenseVector<VWORK>            &work)
+      VWORK                         &&work)
 {
     LAPACK_DEBUG_OUT("BEGIN: trevc");
 
 //
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<VSELECT>::Type   VectorSelect;
+    typedef typename RemoveRef<MVL>::Type       MatrixVL;
+    typedef typename RemoveRef<MVR>::Type       MatrixVR;
+    typedef typename RemoveRef<VWORK>::Type     VectorWork;
+
+//
 //  Test the input parameters
 //
+#   ifndef NDEBUG
+    const IndexType n = T.numRows();
+
     ASSERT(T.firstRow()==1);
     ASSERT(T.firstCol()==1);
     ASSERT(T.numRows()==T.numCols());
@@ -1041,14 +1358,18 @@ trevc(bool                          computeVL,
     ASSERT(VL.firstCol()==1);
     ASSERT(VR.firstRow()==1);
     ASSERT(VR.firstCol()==1);
+    ASSERT(work.firstIndex()==1);
+    ASSERT(work.length()==3*n);
+#   endif
+
 #   ifdef CHECK_CXXLAPACK
 //
 //  Make copies of output arguments
 //
-    typename DenseVector<VSELECT>::NoView   select_org = select;
-    typename GeMatrix<MVL>::NoView          VL_org     = VL;
-    typename GeMatrix<MVR>::NoView          VR_org     = VR;
-    typename DenseVector<VWORK>::NoView     work_org   = work;
+    typename VectorSelect::NoView   select_org = select;
+    typename MatrixVL::NoView       VL_org     = VL;
+    typename MatrixVR::NoView       VR_org     = VR;
+    typename VectorWork::NoView     work_org   = work;
 #   endif
 
 //
@@ -1061,10 +1382,10 @@ trevc(bool                          computeVL,
 //
 //  Make copies of results computed by the generic implementation
 //
-    typename DenseVector<VSELECT>::NoView   select_generic = select;
-    typename GeMatrix<MVL>::NoView          VL_generic     = VL;
-    typename GeMatrix<MVR>::NoView          VR_generic     = VR;
-    typename DenseVector<VWORK>::NoView     work_generic   = work;
+    typename VectorSelect::NoView   select_generic = select;
+    typename MatrixVL::NoView       VL_generic     = VL;
+    typename MatrixVR::NoView       VR_generic     = VR;
+    typename VectorWork::NoView     work_generic   = work;
 //
 //  restore output arguments
 //
@@ -1104,24 +1425,143 @@ trevc(bool                          computeVL,
     LAPACK_DEBUG_OUT("END: trevc");
 }
 
-//-- forwarding ----------------------------------------------------------------
-template <typename VSELECT, typename MT, typename MVL, typename MVR,
-          typename IndexType, typename VWORK>
-void
+//
+//  Complex variant
+//
+template <typename VSELECT, typename MTR, typename MVL, typename MVR,
+          typename IndexType, typename VWORK, typename VRWORK>
+typename RestrictTo<IsIntegerDenseVector<VSELECT>::value
+                 && IsComplexGeMatrix<MTR>::value
+                 && IsComplexGeMatrix<MVL>::value
+                 && IsComplexGeMatrix<MVR>::value
+                 && IsInteger<IndexType>::value
+                 && IsComplexDenseVector<VWORK>::value
+                 && IsRealDenseVector<VRWORK>::value,
+         void>::Type
 trevc(bool                          computeVL,
       bool                          computeVR,
       TREVC::Job                    howMany,
-      VSELECT                       &&select,
-      const MT                      &T,
+      VSELECT                       &select,
+      MTR                           &&Tr,
       MVL                           &&VL,
       MVR                           &&VR,
-      IndexType                     &&m,
-      VWORK                         &&work)
+      IndexType                     mm,
+      IndexType                     &m,
+      VWORK                         &&work,
+      VRWORK                        &&rWork)
 {
-    CHECKPOINT_ENTER;
-    trevc(computeVL, computeVR, howMany, select, T, VL, VR, m, work);
-    CHECKPOINT_LEAVE;
+    LAPACK_DEBUG_OUT("BEGIN: trevc (complex)");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<VSELECT>::Type   VectorSelect;
+    typedef typename RemoveRef<MTR>::Type       MatrixTr;
+    typedef typename RemoveRef<MVL>::Type       MatrixVL;
+    typedef typename RemoveRef<MVR>::Type       MatrixVR;
+    typedef typename RemoveRef<VWORK>::Type     VectorWork;
+    typedef typename RemoveRef<VRWORK>::Type    VectorRWork;
+
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    const IndexType n = Tr.numRows();
+
+    ASSERT(Tr.firstRow()==1);
+    ASSERT(Tr.firstCol()==1);
+    ASSERT(Tr.numRows()==Tr.numCols());
+    ASSERT(VL.firstRow()==1);
+    ASSERT(VL.firstCol()==1);
+    ASSERT(VR.firstRow()==1);
+    ASSERT(VR.firstCol()==1);
+    ASSERT(work.firstIndex()==1);
+    ASSERT(work.length()==2*n);
+    ASSERT(rWork.firstIndex()==1);
+    ASSERT(rWork.length()==n);
+#   endif
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    typename VectorSelect::NoView   select_org = select;
+    typename MatrixTr::NoView       Tr_org     = Tr;
+    typename MatrixVL::NoView       VL_org     = VL;
+    typename MatrixVR::NoView       VR_org     = VR;
+    typename VectorWork::NoView     work_org   = work;
+    typename VectorRWork::NoView    rWork_org  = rWork;
+#   endif
+
+//
+//  Call implementation
+//
+    LAPACK_SELECT::trevc_impl(computeVL, computeVR, howMany, select,
+                              Tr, VL, VR, mm, m, work, rWork);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of results computed by the generic implementation
+//
+    typename VectorSelect::NoView   select_generic = select;
+    typename MatrixTr::NoView       Tr_generic     = Tr;
+    typename MatrixVL::NoView       VL_generic     = VL;
+    typename MatrixVR::NoView       VR_generic     = VR;
+    typename VectorWork::NoView     work_generic   = work;
+    typename VectorRWork::NoView    rWork_generic  = rWork;
+//
+//  restore output arguments
+//
+    select = select_org;
+    Tr     = Tr_org;
+    VL     = VL_org;
+    VR     = VR_org;
+    work   = work_org;
+    rWork  = rWork_org;
+//
+//  Compare results
+//
+    external::trevc_impl(computeVL, computeVR, howMany, select,
+                         Tr, VL, VR, mm, m, work, rWork);
+
+    bool failed = false;
+    if (! isIdentical(Tr_generic, Tr, "Tr_generic", "Tr")) {
+        std::cerr << "CXXLAPACK: Tr_generic = " << Tr_generic << std::endl;
+        std::cerr << "F77LAPACK: Tr = " << Tr << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(VL_generic, VL, "VL_generic", "_VL")) {
+        std::cerr << "CXXLAPACK: VL_generic = " << VL_generic << std::endl;
+        std::cerr << "F77LAPACK: VL = " << VL << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(VR_generic, VR, "VR_generic", "_VR")) {
+        std::cerr << "CXXLAPACK: VR_generic = " << VR_generic << std::endl;
+        std::cerr << "F77LAPACK: VR = " << VR << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(work_generic, work, "work_generic", "work")) {
+        std::cerr << "CXXLAPACK: work_generic = " << work_generic << std::endl;
+        std::cerr << "F77LAPACK: work = " << work << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(rWork_generic, rWork, "rWork_generic", "rWork")) {
+        std::cerr << "CXXLAPACK: rWork_generic = " << rWork_generic
+                  << std::endl;
+        std::cerr << "F77LAPACK: rWork = " << rWork << std::endl;
+        failed = true;
+    }
+    if (failed) {
+        ASSERT(0);
+    }
+#   endif
+    LAPACK_DEBUG_OUT("END: trevc (complex)");
 }
+
 
 } } // namespace lapack, flens
 

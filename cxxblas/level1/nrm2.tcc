@@ -43,12 +43,16 @@ nrm2_generic(IndexType n, const X *x, IndexType incX, T &norm)
 {
     CXXBLAS_DEBUG_OUT("nrm2_generic");
 
+    std::cout << "nrm2_generic (real)" << std::endl;
+
     using std::abs;
     using std::pow;
     using std::sqrt;
 
+    const T  Zero(0), One(1);
+
     if (n<1) {
-        norm = T(0);
+        norm = Zero;
     } else if (n==1) {
         norm = abs(*x);
     } else {
@@ -59,10 +63,61 @@ nrm2_generic(IndexType n, const X *x, IndexType incX, T &norm)
 //      CALL DLASSQ( N, X, INCX, SCALE, SSQ )
 //
         for (IndexType i=0, iX=0; i<n; ++i, iX+=incX) {
-            if (x[iX]!=T(0)) {
+            if (x[iX]!=Zero) {
                 T absXi = abs(x[iX]);
                 if (scale<absXi) {
-                    ssq = T(1) + ssq * pow(scale/absXi, 2);
+                    ssq = One + ssq * pow(scale/absXi, 2);
+                    scale = absXi;
+                } else {
+                    ssq += pow(absXi/scale, 2);
+                }
+            }
+        }
+        norm = scale*sqrt(ssq);
+    }
+}
+
+template <typename IndexType, typename X, typename T>
+void
+nrm2_generic(IndexType n, const std::complex<X> *x, IndexType incX, T &norm)
+{
+    CXXBLAS_DEBUG_OUT("nrm2_generic");
+
+    std::cout << "nrm2_generic (complex)" << std::endl;
+
+    using std::abs;
+    using std::imag;
+    using std::pow;
+    using std::real;
+    using std::sqrt;
+
+    const T  Zero(0), One(1);
+
+    if (n<1) {
+        norm = Zero;
+    } else if (n==1) {
+        norm = abs(*x);
+    } else {
+        T scale = 0;
+        T ssq = 1;
+//      The following loop is equivalent to this call to the LAPACK
+//      auxiliary routine:
+//      CALL DLASSQ( N, X, INCX, SCALE, SSQ )
+//
+        for (IndexType i=0, iX=0; i<n; ++i, iX+=incX) {
+            if (real(x[iX]) != Zero) {
+                T absXi = abs(real(x[iX]));
+                if (scale<absXi) {
+                    ssq = One + ssq * pow(scale/absXi, 2);
+                    scale = absXi;
+                } else {
+                    ssq += pow(absXi/scale, 2);
+                }
+            }
+            if (imag(x[iX]) != Zero) {
+                T absXi = abs(imag(x[iX]));
+                if (scale<absXi) {
+                    ssq = One + ssq * pow(scale/absXi, 2);
                     scale = absXi;
                 } else {
                     ssq += pow(absXi/scale, 2);

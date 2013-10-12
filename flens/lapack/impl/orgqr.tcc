@@ -91,9 +91,8 @@ orgqr_impl(GeMatrix<MA>              &A,
     IndexType nbMin = 2;
     IndexType nx = 0;
     IndexType iws = n;
-    IndexType ldWork = 1;
 
-    if ((nb>1) && (nb<k)) {
+    if (nb>1 && nb<k) {
 //
 //      Determine when to cross over from blocked to unblocked code.
 //
@@ -103,7 +102,7 @@ orgqr_impl(GeMatrix<MA>              &A,
 //
 //          Determine if workspace is large enough for blocked code.
 //
-            ldWork = n;
+            IndexType ldWork = n;
             iws = ldWork *nb;
             if (work.length()<iws) {
 //
@@ -120,7 +119,7 @@ orgqr_impl(GeMatrix<MA>              &A,
     IndexType ki = -1,
               kk = -1;
 
-    if ((nb>=nbMin) && (nb<k) && (nx<k)) {
+    if (nb>=nbMin && nb<k && nx<k) {
 //
 //      Use blocked code after the last block.
 //      The first kk columns are handled by the block method.

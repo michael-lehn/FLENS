@@ -52,6 +52,24 @@ template <typename TA, typename TB, typename T>
     void
     rotg(std::complex<TA> &a, std::complex<TB> &b, T &c, std::complex<T> &s);
 
+/*
+ *  Note: The following variant of function rot is based on
+
+       SUBROUTINE ZROT( N, CX, INCX, CY, INCY, C, S )
+ *
+ *  -- LAPACK auxiliary routine (version 3.2) --
+ *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
+ *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
+ *     November 2006
+ */
+template <typename IndexType, typename X, typename Y, typename T>
+    void
+    rot(IndexType n,
+        std::complex<X> *x, IndexType incX,
+        std::complex<Y> *y, IndexType incY,
+        T c, const std::complex<T> &s);
+
+
 #ifdef HAVE_CBLAS
 // srot
 template <typename IndexType>

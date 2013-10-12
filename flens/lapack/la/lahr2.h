@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DLAHR2( N, K, NB, A, LDA, TAU, T, LDT, Y, LDY )
+       SUBROUTINE ZLAHR2( N, K, NB, A, LDA, TAU, T, LDT, Y, LDY )
  *
  *  -- LAPACK auxiliary routine (version 3.3.1)                        --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -50,18 +51,39 @@
 namespace flens { namespace lapack {
 
 //== lahr2 =====================================================================
+//
+//  Real variant
+//
 template <typename IndexType, typename MA, typename VTAU,
           typename MTR, typename MY>
-    void
-    lahr2(IndexType k, IndexType nb,
-          GeMatrix<MA> &A, DenseVector<VTAU> &tau,
-          TrMatrix<MTR> &Tr, GeMatrix<MY> &Y);
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsRealDenseVector<VTAU>::value
+                     && IsRealTrMatrix<MTR>::value
+                     && IsRealGeMatrix<MY>::value,
+             void>::Type
+    lahr2(IndexType     k,
+          IndexType     nb,
+          MA            &&A,
+          VTAU          &&tau,
+          MTR           &&Tr,
+          MY            &&Y);
 
-//-- forwarding ----------------------------------------------------------------
+//
+//  Complex variant
+//
 template <typename IndexType, typename MA, typename VTAU,
           typename MTR, typename MY>
-    void
-    lahr2(IndexType k, IndexType nb, MA &&A, VTAU &&tau, MTR &&Tr, MY &&Y);
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsComplexDenseVector<VTAU>::value
+                     && IsComplexTrMatrix<MTR>::value
+                     && IsComplexGeMatrix<MY>::value,
+             void>::Type
+    lahr2(IndexType     k,
+          IndexType     nb,
+          MA            &&A,
+          VTAU          &&tau,
+          MTR           &&Tr,
+          MY            &&Y);
 
 } } // namespace lapack, flens
 

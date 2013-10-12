@@ -51,11 +51,11 @@ template <typename T>
     rotg(std::complex<T> &a, std::complex<T> &b, T &c, std::complex<T> &s);
 
 //-- rot
-template <typename VX, typename VY, typename T>
+template <typename VX, typename VY, typename TC, typename TS>
     typename RestrictTo<IsDenseVector<VX>::value
                      && IsDenseVector<VY>::value,
              void>::Type
-    rot(VX &&x, VY &&y, const T &c, const T &s);
+    rot(VX &&x, VY &&y, const TC &c, const TS &s);
 
 } } // namespace blas, flens
 

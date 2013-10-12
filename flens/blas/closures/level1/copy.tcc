@@ -381,7 +381,7 @@ typename RestrictTo<IsHermitianMatrix<MA>::value,
 copy(Transpose trans, const MA &A, Matrix<MB> &B)
 {
 #   ifndef FLENS_DEBUG_CLOSURES
-    ASSERT(trans==NoTrans || trans==Trans);
+    ASSERT(trans==NoTrans || trans==ConjTrans);
 #   else
     if (trans!=NoTrans && trans!=Trans) {
         typedef typename MA::ElementType TA;

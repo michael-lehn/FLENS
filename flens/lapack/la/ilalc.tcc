@@ -117,10 +117,27 @@ ilalc(const GeMatrix<MA> &A)
 {
     LAPACK_DEBUG_OUT("ilalc");
 
+    typedef typename GeMatrix<MA>::IndexType   IndexType;
+
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
 
-    return LAPACK_SELECT::ilalc_impl(A);
+    const IndexType info = LAPACK_SELECT::ilalc_impl(A);
+
+#   ifdef CHECK_CXXLAPACK
+    const IndexType _info = external::ilalc_impl(A);
+
+    if (info!=_info) {
+        std::cerr << "CXXLAPACK:  info = " << info << std::endl;
+        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+
+        std::cerr << "A = " << A << std::endl;
+
+        ASSERT(0);
+    }
+#   endif
+
+    return info;
 }
 
 } } // namespace lapack, flens

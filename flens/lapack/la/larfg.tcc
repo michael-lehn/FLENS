@@ -33,6 +33,7 @@
 /* Baesed on
  *
       SUBROUTINE DLARFG( N, ALPHA, X, INCX, TAU )
+      SUBROUTINE ZLARFG( N, ALPHA, X, INCX, TAU )
  *
  *  -- LAPACK auxiliary routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -52,8 +53,12 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
+//
+//  Real variant
+//
 template <typename N, typename ALPHA, typename VX, typename TAU>
-void
+typename RestrictTo<IsReal<ALPHA>::value,
+         void>::Type
 larfg_impl(N n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
 {
     using std::abs;
@@ -61,17 +66,19 @@ larfg_impl(N n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
     typedef typename DenseVector<VX>::ElementType   T;
     typedef typename DenseVector<VX>::IndexType     IndexType;
 
+    const T  Zero(0), One(1);
+
     if (n<=1) {
-        tau = TAU(0);
+        tau = Zero;
         return;
     }
 
     T xNorm = blas::nrm2(x);
-    if (xNorm==T(0)) {
+    if (xNorm==Zero) {
 //
 //      H  =  I
 //
-        tau = TAU(0);
+        tau = Zero;
     } else {
 //
 //      general case
@@ -84,7 +91,7 @@ larfg_impl(N n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
 //
 //          XNORM, BETA may be inaccurate; scale X and recompute them
 //
-            T rSafeMin = T(1)/safeMin;
+            T rSafeMin = One/safeMin;
             do {
                 ++count;
                 blas::scal(rSafeMin, x);
@@ -95,10 +102,86 @@ larfg_impl(N n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
 //          New BETA is at most 1, at least SAFMIN
 //
             xNorm = blas::nrm2(x);
-            beta = -sign(lapy2(alpha, xNorm), alpha);
+            beta  = -sign(lapy2(alpha, xNorm), alpha);
         }
         tau = (beta-alpha) / beta;
-        blas::scal(T(1)/(alpha-beta), x);
+        blas::scal(One/(alpha-beta), x);
+//
+//      If ALPHA is subnormal, it may lose relative accuracy
+//
+        for (IndexType j=1; j<=count; ++j) {
+            beta *= safeMin;
+        }
+        alpha = beta;
+    }
+}
+
+//
+//  Complex variant
+//
+template <typename N, typename ALPHA, typename VX, typename TAU>
+typename RestrictTo<IsComplex<ALPHA>::value,
+         void>::Type
+larfg_impl(N n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
+{
+    using std::abs;
+    using std::imag;
+    using std::real;
+
+    typedef typename DenseVector<VX>::ElementType     T;
+    typedef typename ComplexTrait<T>::PrimitiveType   PT;
+    typedef typename DenseVector<VX>::IndexType       IndexType;
+
+    const PT  Zero(0), One(1);
+
+    const Underscore<IndexType> _;
+
+    if (n<=0) {
+        tau = Zero;
+        return;
+    }
+
+    auto _x = x(_(1,n-1));
+
+    PT xNorm  = blas::nrm2(_x);
+    PT alphaR = real(alpha);
+    PT alphaI = imag(alpha);
+
+    if (xNorm==Zero && alphaI==Zero) {
+//
+//      H  =  I
+//
+        tau = Zero;
+    } else {
+//
+//      general case
+//
+        PT beta = -sign(lapy3(alphaR, alphaI, xNorm), alphaR);
+        PT safeMin = lamch<PT>(SafeMin) / lamch<PT>(Eps);
+        PT rSafeMin = One/safeMin;
+
+        IndexType count=0;
+        if (abs(beta)<safeMin) {
+//
+//          XNORM, BETA may be inaccurate; scale X and recompute them
+//
+            do {
+                ++count;
+                blas::scal(rSafeMin, _x);
+                beta   *= rSafeMin;
+                alphaI *= rSafeMin;
+                alphaR *= rSafeMin;
+            } while (abs(beta)<safeMin);
+//
+//          New BETA is at most 1, at least SAFMIN
+//
+            xNorm = blas::nrm2(_x);
+            alpha = T(alphaR, alphaI);
+            beta  = -sign(lapy3(alphaR, alphaI, xNorm), alphaR);
+        }
+        tau   = T( (beta-alphaR)/beta, -alphaI/beta );
+        alpha = ladiv(T(One), alpha-beta);
+        blas::scal(alpha, _x);
 //
 //      If ALPHA is subnormal, it may lose relative accuracy
 //
@@ -117,6 +200,9 @@ larfg_impl(N n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
 
 namespace external {
 
+//
+//  Real/Complex variant
+//
 template <typename N, typename ALPHA, typename VX, typename TAU>
 void
 larfg_impl(N n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
@@ -132,11 +218,22 @@ larfg_impl(N n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
 
 //== public interface ==========================================================
 
+//
+//  Real variant
+//
 template <typename N, typename ALPHA, typename VX, typename TAU>
-void
-larfg(N n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
+typename RestrictTo<IsReal<ALPHA>::value
+                 && IsRealDenseVector<VX>::value
+                 && IsReal<TAU>::value,
+         void>::Type
+larfg(N n, ALPHA &alpha, VX &&x, TAU &tau)
 {
     LAPACK_DEBUG_OUT("larfg");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<VX>::Type     VectorX;
 
 //
 //  Test the input parameters
@@ -150,7 +247,7 @@ larfg(N n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
 //  Make copies of output arguments
 //
     ALPHA                               alpha_org  = alpha;
-    typename DenseVector<VX>::NoView    x_org      = x;
+    typename VectorX::NoView            x_org      = x;
     TAU                                 tau_org    = tau;
 #   endif
 
@@ -164,7 +261,7 @@ larfg(N n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
 //  Restore output arguments
 //
     ALPHA                               alpha_generic  = alpha;
-    typename DenseVector<VX>::NoView    x_generic      = x;
+    typename VectorX::NoView            x_generic      = x;
     TAU                                 tau_generic    = tau;
 
     alpha = alpha_org;
@@ -202,13 +299,87 @@ larfg(N n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau)
 #   endif
 }
 
-//-- forwarding ----------------------------------------------------------------
+//
+//  Complex variant
+//
 template <typename N, typename ALPHA, typename VX, typename TAU>
-void
+typename RestrictTo<IsComplex<ALPHA>::value
+                 && IsComplexDenseVector<VX>::value
+                 && IsComplex<TAU>::value,
+         void>::Type
 larfg(N n, ALPHA &alpha, VX &&x, TAU &tau)
 {
-    larfg(n, alpha, x, tau);
+    LAPACK_DEBUG_OUT("larfg");
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<VX>::Type     VectorX;
+
+//
+//  Test the input parameters
+//
+    ASSERT(x.firstIndex()==1);
+    ASSERT(x.inc()>0);
+    ASSERT(x.length()<=n);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    ALPHA                               alpha_org  = alpha;
+    typename VectorX::NoView            x_org      = x;
+    TAU                                 tau_org    = tau;
+#   endif
+
+//
+//  Call implementation
+//
+    LAPACK_SELECT::larfg_impl(n, alpha, x, tau);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Restore output arguments
+//
+    ALPHA                               alpha_generic  = alpha;
+    typename VectorX::NoView            x_generic      = x;
+    TAU                                 tau_generic    = tau;
+
+    alpha = alpha_org;
+    x     = x_org;
+    tau   = tau_org;
+
+//
+//  Compare results
+//
+    external::larfg_impl(n, alpha, x, tau);
+
+    bool failed = false;
+    if (! isIdentical(alpha_generic, alpha, "alpha_generic", "alpha")) {
+        std::cerr << "CXXLAPACK: alpha_generic = "
+                  << alpha_generic << std::endl;
+        std::cerr << "F77LAPACK: alpha = " << alpha << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(x_generic, x, "x_generic", "x")) {
+        std::cerr << "CXXLAPACK: x_generic = " << x_generic << std::endl;
+        std::cerr << "F77LAPACK: x = " << x << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(tau_generic, tau, "tau_generic", "tau")) {
+        std::cerr << "CXXLAPACK: tau_generic = " << tau_generic << std::endl;
+        std::cerr << "F77LAPACK: tau = " << tau << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    }
+#   endif
 }
+
 
 } } // namespace lapack, flens
 
