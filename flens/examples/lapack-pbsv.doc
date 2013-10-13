@@ -1,0 +1,48 @@
+===================================
+Solving Systems of Linear Equations                               [TOC]
+===================================
+
+In this example we solve a system of linear equations $Ax = b$ were the
+coefficient matrix is *symmetric positiv definite and banded*.  We solve
+the system with __lapack::pbsv__ which is the FLENS interface for
+LAPACK's __dpbsv__.
+
+Note that we might rename __lapack::pbsv__ to `lapack::posv`.
+
+:links:  __lapack::pbsv__  -> file:flens/lapack/pb/pbsv.h
+         __dpbsv__         -> file:cxxlapack/netlib/lapack/dpbsv.f
+
+
+Example Code
+============
+:import: flens/examples/lapack-pbsv.cc [stripped, downloadable]
+
+
+Comments on Example Code
+========================
+:import: flens/examples/lapack-pbsv.cc [brief]
+
+
+Compile
+=======
+Note that we need to link against an external LAPACK implementation:
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  g++ -std=c++11 -Wall -I../.. -DUSE_CXXLAPACK -framework vecLib      +++|
+  |      -o lapack-pbsv lapack-pbsv.cc                                      |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Run
+===
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  ./lapack-pbsv                                                          |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
