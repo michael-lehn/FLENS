@@ -1,0 +1,80 @@
+===================================
+Solving Systems of Linear Equations                               [TOC]
+===================================
+
+In this example we solve a system of linear equations $Ax = b$ were the
+coefficient matrix is *general and banded*.  We solve the system with
+__lapack::sv__ which is the FLENS interface for LAPACK's __dgbsv__.
+
+If you compute the $LU$ factorization of a band matrix with $k_l$ sub-diagonals
+and $k_u$ super-diagonals then additional $k_l$ super-diagonals are needed. I.e.
+the factorization requires $k_l$ sub-diagonals and $k_u+k_l$ super-diagonals.
+
+For this reason FLENS-LAPACK requires that this additional storage is allocated.
+So a tridiagonal matrix ($k_l=k_u=1$) must be stored in a band matrix with
+two super-diagonals:
+
+  *--[LATEX]----------------------------------------------------*
+  |                                                             |
+  |  A = \begin{pmatrix}                                        |
+  |       a_{1,1} & a_{1,2} & *       & 0       & 0       \\    |
+  |       a_{2,1} & a_{2,2} & a_{2,3} & *       & 0       \\    |
+  |       0       & a_{3,2} & a_{3,3} & a_{3,4} & *       \\    |
+  |       0       & 0       & a_{4,3} & a_{4,4} & a_{4,5} \\    |
+  |       0       & 0       & 0       & a_{5,4} & a_{5,5} \\    |
+  |       \end{pmatrix}                                         |
+  |                                                             |
+  *-------------------------------------------------------------*
+
+After calling __lapack::sv__ the matrix is overwritten with the factorization:
+
+  *--[LATEX]----------------------------------------------------*
+  |                                                             |
+  |  A_{LU} = \begin{pmatrix}                                   |
+  |           u_{1,1} & u_{1,2} & u_{1,3} & 0       & 0       \\|
+  |           m_{2,1} & u_{2,2} & u_{2,3} & u_{2,4} & 0       \\|
+  |           0       & m_{3,2} & u_{3,3} & u_{3,4} & u_{3,5} \\|
+  |           0       & 0       & m_{4,3} & u_{4,4} & u_{4,5} \\|
+  |           0       & 0       & 0       & m_{5,4} & u_{5,5} \\|
+  |           \end{pmatrix} \\                                  |
+  |                                                             |
+  *-------------------------------------------------------------*
+
+
+:links:  __lapack::sv__  -> file:flens/lapack/gb/sv.h
+         __dgbsv__       -> file:cxxlapack/netlib/lapack/dgbsv.f
+
+
+Example Code
+============
+:import: flens/examples/lapack-gbsv.cc [stripped, downloadable]
+
+
+Comments on Example Code
+========================
+:import: flens/examples/lapack-gbsv.cc [brief]
+
+
+Compile
+=======
+Note that we need to link against an external LAPACK implementation:
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  g++ -std=c++11 -Wall -I../.. -DUSE_CXXLAPACK -framework vecLib      +++|
+  |      -o lapack-gbsv lapack-gbsv.cc                                      |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
+
+Run
+===
+
+  *--[SHELL]----------------------------------------------------------------*
+  |                                                                         |
+  |  cd flens/examples                                                      |
+  |  ./lapack-gbsv                                                          |
+  |                                                                         |
+  *-------------------------------------------------------------------------*
+
