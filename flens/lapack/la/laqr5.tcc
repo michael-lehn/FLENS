@@ -1582,6 +1582,7 @@ laqr5(bool                      wantT,
 //
 //  Remove references from rvalue types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<VSR>::Type        VectorSR;
     typedef typename RemoveRef<VSI>::Type        VectorSI;
     typedef typename RemoveRef<MH>::Type         MatrixH;
@@ -1590,6 +1591,7 @@ laqr5(bool                      wantT,
     typedef typename RemoveRef<MU>::Type         MatrixU;
     typedef typename RemoveRef<MWV>::Type        MatrixWV;
     typedef typename RemoveRef<MWH>::Type        MatrixWH;
+#   endif
 
 //
 //  Test the input parameters
@@ -1788,6 +1790,7 @@ laqr5(bool                      wantT,
 //
 //  Remove references from rvalue types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<VS>::Type         VectorS;
     typedef typename RemoveRef<MH>::Type         MatrixH;
     typedef typename RemoveRef<MZ>::Type         MatrixZ;
@@ -1795,6 +1798,7 @@ laqr5(bool                      wantT,
     typedef typename RemoveRef<MU>::Type         MatrixU;
     typedef typename RemoveRef<MWV>::Type        MatrixWV;
     typedef typename RemoveRef<MWH>::Type        MatrixWH;
+#   endif
 
 //
 //  Test the input parameters

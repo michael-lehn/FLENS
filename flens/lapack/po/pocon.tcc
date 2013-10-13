@@ -232,18 +232,21 @@ pocon(const MA      &A,
       VWORK         &&work,
       VIWORK        &&iwork)
 {
-    typedef typename MA::IndexType            IndexType;
 
 //
 //  Remove references from rvalue types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<VWORK>::Type   VectorWork;
     typedef typename RemoveRef<VIWORK>::Type  VectorIWork;
+#   endif
 
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+    typedef typename MA::IndexType            IndexType;
+
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
 
@@ -332,12 +335,12 @@ pocon(const MA      &A,
       VWORK         &&work,
       VRWORK        &&rwork)
 {
-    typedef typename MA::IndexType            IndexType;
-
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+    typedef typename MA::IndexType            IndexType;
+
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
 

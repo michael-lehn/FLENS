@@ -339,13 +339,18 @@ rfs(Transpose   trans,
 //
 //  Remove references from rvalue types
 //
+#   ifndef NDEBUG
     typedef typename RemoveRef<MA>::Type     MatrixA;
     typedef typename MatrixA::IndexType      IndexType;
+#   endif
+
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<MX>::Type     MatrixX;
     typedef typename RemoveRef<VFERR>::Type  VectorFErr;
     typedef typename RemoveRef<VBERR>::Type  VectorBErr;
     typedef typename RemoveRef<VWORK>::Type  VectorWork;
     typedef typename RemoveRef<VIWORK>::Type VectorIWork;
+#   endif
 
 //
 //  Test the input parameters
@@ -392,11 +397,14 @@ rfs(Transpose   trans,
 //
 //  Make copies of output arguments
 //
+#   ifdef CHECK_CXXLAPACK
     typename MatrixX::NoView     X_org     = X;
     typename VectorFErr::NoView  fErr_org  = fErr;
     typename VectorBErr::NoView  bErr_org  = bErr;
     typename VectorWork::NoView  work_org  = work;
     typename VectorIWork::NoView iwork_org = iwork;
+#   endif
+
 //
 //  Call implementation
 //
@@ -487,6 +495,7 @@ rfs(Transpose   trans,
 {
     LAPACK_DEBUG_OUT("(ge)rfs [complex]");
 
+#   ifndef NDEBUG
 //
 //  Remove references from rvalue types
 //
@@ -496,7 +505,6 @@ rfs(Transpose   trans,
 //
 //  Test the input parameters
 //
-#   ifndef NDEBUG
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
     ASSERT(A.numRows()==A.numCols());

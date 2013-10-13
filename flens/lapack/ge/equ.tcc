@@ -251,8 +251,10 @@ equ(const MA    &A,
 //
 //  Remove references from rvalue types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<VR>::Type  VectorR;
     typedef typename RemoveRef<VC>::Type  VectorC;
+#   endif
 
 //
 //  Test the input parameters

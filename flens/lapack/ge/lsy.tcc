@@ -438,20 +438,23 @@ lsy(MA           &&A,
 //  Remove references from rvalue types
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<MB>::Type    MatrixB;
     typedef typename RemoveRef<VJPIV>::Type VectorJPiv;
     typedef typename RemoveRef<VWORK>::Type VectorWork;
-
-    typedef typename MatrixA::IndexType     IndexType;
+#   endif
 
 //
 //  Test the input parameters
 //
-    const IndexType m = A.numRows();
     const IndexType n = A.numCols();
-    const IndexType nRhs = B.numCols();
 
 #   ifndef NDEBUG
+    const IndexType m = A.numRows();
+    const IndexType nRhs = B.numCols();
+
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
     ASSERT(B.firstRow()==1);
@@ -589,11 +592,12 @@ lsy(MA           &&A,
 //
 //  Test the input parameters
 //
-    const IndexType m = A.numRows();
     const IndexType n = A.numCols();
-    const IndexType nRhs = B.numCols();
 
 #   ifndef NDEBUG
+    const IndexType m = A.numRows();
+    const IndexType nRhs = B.numCols();
+
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
     ASSERT(B.firstRow()==1);

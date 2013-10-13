@@ -164,7 +164,9 @@ potrs(const MA &A, MB &&B)
 //
 //  Remove references from rvalue types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<MB>::Type    MatrixB;
+#   endif
 
 //
 //  Test the input parameters

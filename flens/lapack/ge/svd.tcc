@@ -250,14 +250,13 @@ svd(SVD::Job    jobU,
 {
     using std::min;
 
+#   ifndef NDEBUG
 //
 //  Remove references from rvalue types
 //
     typedef typename RemoveRef<MA>::Type      MatrixA;
     typedef typename MatrixA::IndexType       IndexType;
 
-
-#   ifndef NDEBUG
 //
 //  Test the input parameters
 //
@@ -303,13 +302,13 @@ svd(SVD::Job    jobU,
 {
     using std::min;
 
+#   ifndef NDEBUG
 //
 //  Remove references from rvalue types
 //
     typedef typename RemoveRef<MA>::Type      MatrixA;
     typedef typename MatrixA::IndexType       IndexType;
 
-#   ifndef NDEBUG
 //
 //  Test the input parameters
 //

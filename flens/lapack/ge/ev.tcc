@@ -376,7 +376,6 @@ ev_wsq_impl(bool computeVL, bool computeVR, const GeMatrix<MA> &A)
 
     typedef typename GeMatrix<MA>::ElementType          T;
     typedef typename GeMatrix<MA>::IndexType            IndexType;
-    typedef typename ComplexTrait<T>::PrimitiveType     PT;
 
     const IndexType n = A.numRows();
 
@@ -886,13 +885,16 @@ ev(bool     computeVL,
 //
 //  Remove references from rvalue types
 //
-    typedef typename RemoveRef<MA>::Type     MatrixA;
-    typedef typename MatrixA::IndexType      IndexType;
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<VWR>::Type    VectorWR;
     typedef typename RemoveRef<VWI>::Type    VectorWI;
     typedef typename RemoveRef<MVL>::Type    MatrixVL;
     typedef typename RemoveRef<MVR>::Type    MatrixVR;
     typedef typename RemoveRef<VWORK>::Type  VectorWork;
+#   endif
+
+    typedef typename RemoveRef<MA>::Type     MatrixA;
+    typedef typename MatrixA::IndexType      IndexType;
 
     const IndexType n = A.numRows();
 
@@ -900,6 +902,7 @@ ev(bool     computeVL,
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+
     ASSERT(A.numRows()==A.numCols());
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
@@ -1064,13 +1067,16 @@ ev(bool     computeVL,
 //
 //  Remove references from rvalue types
 //
-    typedef typename RemoveRef<MA>::Type      MatrixA;
-    typedef typename MatrixA::IndexType       IndexType;
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<VW>::Type      VectorW;
     typedef typename RemoveRef<MVL>::Type     MatrixVL;
     typedef typename RemoveRef<MVR>::Type     MatrixVR;
     typedef typename RemoveRef<VWORK>::Type   VectorWork;
     typedef typename RemoveRef<VRWORK>::Type  VectorRWork;
+#   endif
+
+    typedef typename RemoveRef<MA>::Type      MatrixA;
+    typedef typename MatrixA::IndexType       IndexType;
 
     const IndexType n = A.numRows();
 

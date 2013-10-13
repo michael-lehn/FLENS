@@ -233,7 +233,9 @@ larfg(N n, ALPHA &alpha, VX &&x, TAU &tau)
 //
 //  Remove references from rvalue types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<VX>::Type     VectorX;
+#   endif
 
 //
 //  Test the input parameters
@@ -314,7 +316,9 @@ larfg(N n, ALPHA &alpha, VX &&x, TAU &tau)
 //
 //  Remove references from rvalue types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<VX>::Type     VectorX;
+#   endif
 
 //
 //  Test the input parameters

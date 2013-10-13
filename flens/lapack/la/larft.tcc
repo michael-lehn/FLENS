@@ -313,9 +313,10 @@ larft(Direction                 direction,
 //
 //  Remove references from rvalue types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<MV>::Type    MatrixV;
-    typedef typename RemoveRef<VTAU>::Type  VectorTau;
     typedef typename RemoveRef<MT>::Type    MatrixTr;
+#   endif
 //
 //  Test the input parameters
 //
@@ -393,9 +394,10 @@ larft(Direction                 direction,
 //
 //  Remove references from rvalue types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<MV>::Type    MatrixV;
-    typedef typename RemoveRef<VTAU>::Type  VectorTau;
     typedef typename RemoveRef<MT>::Type    MatrixTr;
+#   endif
 //
 //  Test the input parameters
 //

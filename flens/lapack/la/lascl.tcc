@@ -287,9 +287,8 @@ lascl(LASCL::Type type, Int kl, Int ku, const T &cFrom, const T &cTo, MA &&A)
 {
     LAPACK_DEBUG_OUT("lascl");
 
-    typedef typename RemoveRef<MA>::Type  MatrixA;
-
 #   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<MA>::Type  MatrixA;
     typename MatrixA::NoView _A = A;
 #   endif
 

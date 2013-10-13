@@ -350,15 +350,21 @@ ormlq(Side         side,
 //
 //  Remove references from rvalue types
 //
-    typedef typename RemoveRef<MA>::Type    MatrixA;
+#   if !defined(NDEBUG) || defined(CHECK_CXXLAPACK)
     typedef typename RemoveRef<MC>::Type    MatrixC;
-    typedef typename MatrixC::IndexType     IndexType;
+#   endif
+
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename RemoveRef<VWORK>::Type VectorWork;
+#   endif
 
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+    typedef typename MatrixC::IndexType     IndexType;
+
     const IndexType m = C.numRows();
     const IndexType n = C.numCols();
     const IndexType k = A.numRows();

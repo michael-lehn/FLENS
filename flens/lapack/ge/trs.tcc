@@ -158,9 +158,14 @@ trs(Transpose trans, const MA &A, const VPIV &piv, MB &&B)
 //
 //  Remove references from rvalue types
 //
+#   ifndef NDEBUG
     typedef typename RemoveRef<MA>::Type     MatrixA;
     typedef typename MatrixA::IndexType      IndexType;
+#   endif
+
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<MB>::Type     MatrixB;
+#   endif
 
 //
 //  Test the input parameters

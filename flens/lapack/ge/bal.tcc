@@ -550,8 +550,10 @@ bal(BALANCE::Balance    job,
 //
 //  Remove references from the types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<MA>::Type      MatrixA;
     typedef typename RemoveRef<VSCALE>::Type  VectorScale;
+#   endif
 
 
 #   ifndef NDEBUG
@@ -642,8 +644,10 @@ bal(BALANCE::Balance    job,
 //
 //  Remove references from the types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<MA>::Type      MatrixA;
     typedef typename RemoveRef<VSCALE>::Type  VectorScale;
+#   endif
 
 
 #   ifndef NDEBUG

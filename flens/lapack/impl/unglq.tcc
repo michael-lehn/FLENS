@@ -111,6 +111,7 @@ typename RestrictTo<IsComplexGeMatrix<MA>::value
          void>::Type
 unglq(MA &&A, const VTAU &tau, VWORK &&work)
 {
+#   ifndef NDEBUG
 //
 //  Remove references from rvalue types
 //
@@ -120,7 +121,6 @@ unglq(MA &&A, const VTAU &tau, VWORK &&work)
 //
 //  Test the input parameters
 //
-#   ifndef NDEBUG
     ASSERT(A.firstRow()==IndexType(1));
     ASSERT(A.firstCol()==IndexType(1));
     ASSERT(tau.firstIndex()==IndexType(1));

@@ -277,9 +277,10 @@ laqps(typename GeMatrix<MA>::IndexType  offset,
       GeMatrix<MF>                      &F)
 {
     using std::min;
-    typedef typename GeMatrix<MA>::IndexType    IndexType;
 
 #   ifndef NDEBUG
+    typedef typename GeMatrix<MA>::IndexType    IndexType;
+
 //
 //  Test the input parameters
 //

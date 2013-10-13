@@ -126,8 +126,11 @@ sv(MA &&A, VPIV &&piv, MB &&B)
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::IndexType     IndexType;
+
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<VPIV>::Type  VectorPiv;
     typedef typename RemoveRef<MB>::Type    MatrixB;
+#   endif
 
     if (piv.length()==0) {
         piv.resize(A.numRows());

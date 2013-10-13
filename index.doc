@@ -11,7 +11,7 @@ linear algebra.  That's it ...
 Features
 ========
 - C++ library (requires a C++11 conform compiler)
-- Easy install as FLENS is *headers only*
+- Easy install as FLENS is _headers only_
 - FLENS gives you
     - Matrix/vector types for dense linear algebra
     - Generic implementation of BLAS (see __CXXBLAS__)

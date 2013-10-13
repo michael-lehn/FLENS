@@ -349,7 +349,6 @@ larfb_impl(Side                  side,
 
     typedef typename GeMatrix<MC>::ElementType       T;
     typedef typename GeMatrix<MC>::IndexType         IndexType;
-    typedef typename ComplexTrait<T>::PrimitiveType  PT;
 
     const Underscore<IndexType> _;
 
@@ -677,8 +676,10 @@ larfb(Side                  side,
 //
 //  Remove references from rvalue types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<MC>::Type     MatrixC;
     typedef typename RemoveRef<MWORK>::Type  MatrixWork;
+#   endif
 //
 //  Test the input parameters
 //
@@ -764,8 +765,10 @@ larfb(Side                  side,
 //
 //  Remove references from rvalue types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<MC>::Type     MatrixC;
     typedef typename RemoveRef<MWORK>::Type  MatrixWork;
+#   endif
 //
 //  Test the input parameters
 //

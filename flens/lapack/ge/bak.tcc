@@ -202,7 +202,9 @@ bak(BALANCE::Balance    job,
 //
 //  Remove references from the types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<MV>::Type  MatrixV;
+#   endif
 
 #   ifndef NDEBUG
 //
@@ -270,7 +272,9 @@ bak(BALANCE::Balance            job,
 //
 //  Remove references from the types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<MV>::Type  MatrixV;
+#   endif
 
 #   ifndef NDEBUG
 //

@@ -604,12 +604,14 @@ es(bool                 computeSchurVectors,
 //
 //  Remove references from rvalue types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<MA>::Type        MatrixA;
     typedef typename RemoveRef<VWR>::Type       VectorWR;
     typedef typename RemoveRef<VWI>::Type       VectorWI;
     typedef typename RemoveRef<MVS>::Type       MatrixVS;
     typedef typename RemoveRef<VWORK>::Type     VectorWork;
     typedef typename RemoveRef<VBWORK>::Type    VectorBWork;
+#   endif
 
 //
 //  Test the input parameters

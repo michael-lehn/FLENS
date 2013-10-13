@@ -123,6 +123,8 @@ typename RestrictTo<IsHpMatrix<MA>::value
 trs(const MA &A, const VPIV &piv, MB &&B)
 {
     LAPACK_DEBUG_OUT("(hp)trs [complex]");
+
+#   ifndef NDEBUG
 //
 //  Remove references from rvalue types
 //
@@ -132,7 +134,6 @@ trs(const MA &A, const VPIV &piv, MB &&B)
 //
 //  Test the input parameters
 //
-#   ifndef NDEBUG
     ASSERT(A.firstIndex()==1);
 
     const IndexType n = A.dim();

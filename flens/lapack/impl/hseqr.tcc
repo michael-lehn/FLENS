@@ -618,11 +618,13 @@ hseqr(HSEQR::Job                job,
 //
 //  Remove references from rvalue types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<MH>::Type     MatrixH;
     typedef typename RemoveRef<VWR>::Type    VectorWR;
     typedef typename RemoveRef<VWI>::Type    VectorWI;
     typedef typename RemoveRef<MZ>::Type     MatrixZ;
     typedef typename RemoveRef<VWORK>::Type  VectorWork;
+#   endif
 
 //
 //  Test the input parameters
@@ -786,10 +788,12 @@ hseqr(HSEQR::Job                job,
 //
 //  Remove references from rvalue types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<MH>::Type     MatrixH;
     typedef typename RemoveRef<VW>::Type     VectorW;
     typedef typename RemoveRef<MZ>::Type     MatrixZ;
     typedef typename RemoveRef<VWORK>::Type  VectorWork;
+#   endif
 
 //
 //  Test the input parameters

@@ -225,7 +225,10 @@ void
 lacn2(DenseVector<VV> &v, DenseVector<VX> &x, DenseVector<VSGN> &sgn,
       EST &est, KASE &kase, DenseVector<VSAVE> &iSave)
 {
+#   if !defined(NDEBUG) || defined(CHECK_CXXLAPACK)
     typedef typename DenseVector<VV>::IndexType  IndexType;
+#   endif
+
 //
 //  Test the input parameters
 //

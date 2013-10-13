@@ -238,16 +238,21 @@ tzrzf(MA           &&A,
 //
 //  Remove references from rvalue types
 //
+#   if !defined(NDEBUG) || defined(CHECK_CXXLAPACK)
     typedef typename RemoveRef<MA>::Type    MatrixA;
+#   endif
+
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<VTAU>::Type  VectorTau;
     typedef typename RemoveRef<VWORK>::Type VectorWork;
-
-    typedef typename MatrixA::IndexType     IndexType;
+#   endif
 
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+    typedef typename MatrixA::IndexType     IndexType;
+
     const IndexType m = A.numRows();
     const IndexType n = A.numCols();
 

@@ -1340,10 +1340,12 @@ trevc(bool                          computeVL,
 //
 //  Remove references from rvalue types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<VSELECT>::Type   VectorSelect;
     typedef typename RemoveRef<MVL>::Type       MatrixVL;
     typedef typename RemoveRef<MVR>::Type       MatrixVR;
     typedef typename RemoveRef<VWORK>::Type     VectorWork;
+#   endif
 
 //
 //  Test the input parameters
@@ -1455,12 +1457,14 @@ trevc(bool                          computeVL,
 //
 //  Remove references from rvalue types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<VSELECT>::Type   VectorSelect;
     typedef typename RemoveRef<MTR>::Type       MatrixTr;
     typedef typename RemoveRef<MVL>::Type       MatrixVL;
     typedef typename RemoveRef<MVR>::Type       MatrixVR;
     typedef typename RemoveRef<VWORK>::Type     VectorWork;
     typedef typename RemoveRef<VRWORK>::Type    VectorRWork;
+#   endif
 
 //
 //  Test the input parameters

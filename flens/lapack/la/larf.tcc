@@ -295,8 +295,10 @@ larf(Side           side,
 //
 //  Remove references from rvalue types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<MC>::Type        MatrixC;
     typedef typename RemoveRef<VWORK>::Type     VectorWork;
+#   endif
 
 //
 //  Test the input parameters
@@ -381,8 +383,10 @@ larf(Side           side,
 //
 //  Remove references from rvalue types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<MC>::Type        MatrixC;
     typedef typename RemoveRef<VWORK>::Type     VectorWork;
+#   endif
 
 //
 //  Test the input parameters

@@ -1326,8 +1326,8 @@ svj_(SVJ::TypeA                typeA,
 
     if (failed) {
         std::cerr << "error in: svj.tcc ("
-                  << ", m = " << m
-                  << ", n = " << n
+                  << ", m = " << A.numRows()
+                  << ", n = " << A.numCols()
                   << ", typeA = " << char(typeA)
                   << ", jobU = " << char(jobU)
                   << ", jobV = " << char(jobV)
@@ -1337,8 +1337,8 @@ svj_(SVJ::TypeA                typeA,
     } else {
         /*
         std::cerr << "passed: svj.tcc ("
-                  << ", m = " << m
-                  << ", n = " << n
+                  << ", m = " << A.numRows()
+                  << ", n = " << A.numCols()
                   << ", typeA = " << char(typeA)
                   << ", jobU = " << char(jobU)
                   << ", jobV = " << char(jobV)

@@ -144,6 +144,7 @@ unmqr(Side         side,
       MC           &&C,
       VWORK        &&work)
 {
+#   ifndef NDEBUG
 //
 //  Remove references from rvalue types
 //
@@ -153,7 +154,6 @@ unmqr(Side         side,
 //
 //  Test the input parameters
 //
-#   ifndef NDEBUG
     const IndexType m = C.numRows();
     const IndexType n = C.numCols();
     const IndexType k = A.numCols();

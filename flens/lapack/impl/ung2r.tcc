@@ -142,8 +142,11 @@ ung2r(IndexType         k,
 //
 //  Remove references from rvalue types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<MA>::Type     MatrixA;
     typedef typename RemoveRef<VWORK>::Type  VectorWork;
+#   endif
+
 //
 //  Test the input parameters
 //

@@ -479,9 +479,12 @@ trexc(bool                          computeQ,
 //
 //  Remove references from rvalue types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<MT>::Type        MatrixT;
     typedef typename RemoveRef<MQ>::Type        MatrixQ;
     typedef typename RemoveRef<VWORK>::Type     VectorWork;
+#   endif
+
 //
 //  Test the input parameters
 //
@@ -611,8 +614,11 @@ trexc(bool                          computeQ,
 //
 //  Remove references from rvalue types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<MT>::Type        MatrixT;
     typedef typename RemoveRef<MQ>::Type        MatrixQ;
+#   endif
+
 //
 //  Test the input parameters
 //

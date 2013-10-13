@@ -218,12 +218,15 @@ laqr1(const MH  &H,
 //
 //  Remove references from rvalue types
 //
-    typedef typename RemoveRef<MH>::Type        MatrixH;
-    typedef typename RemoveRef<VV>::Type        VectorV;
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<VV>::Type   VectorV;
+#   endif
+
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+    typedef typename RemoveRef<MH>::Type   MatrixH;
     typedef typename MatrixH::IndexType    IndexType;
 
     ASSERT(H.firstRow()==1);
@@ -297,12 +300,14 @@ laqr1(const MH  &H,
 //
 //  Remove references from rvalue types
 //
-    typedef typename RemoveRef<MH>::Type   MatrixH;
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<VV>::Type   VectorV;
+#   endif
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+    typedef typename RemoveRef<MH>::Type   MatrixH;
     typedef typename MatrixH::IndexType    IndexType;
 
     ASSERT(H.firstRow()==1);

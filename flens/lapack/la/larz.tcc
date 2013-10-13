@@ -183,14 +183,20 @@ larz(Side       side,
 //
 //  Remove references from rvalue types
 //
+#   if !defined(NDEBUG) || defined(CHECK_CXXLAPACK)
     typedef typename RemoveRef<MC>::Type    MatrixC;
+#   endif
+
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<VWORK>::Type VectorWork;
-    typedef typename MatrixC::IndexType     IndexType;
+#   endif
 
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+    typedef typename MatrixC::IndexType     IndexType;
+
     const IndexType m = C.numRows();
     const IndexType n = C.numCols();
     const IndexType l = v.length();

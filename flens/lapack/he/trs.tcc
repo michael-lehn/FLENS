@@ -126,6 +126,7 @@ typename RestrictTo<IsHeMatrix<MA>::value
 trs(const MA &A, const VPIV &piv, MB &&B)
 {
     LAPACK_DEBUG_OUT("(he)trs [complex]");
+#   ifndef NDEBUG
 //
 //  Remove references from rvalue types
 //
@@ -135,7 +136,6 @@ trs(const MA &A, const VPIV &piv, MB &&B)
 //
 //  Test the input parameters
 //
-#   ifndef NDEBUG
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
     ASSERT(A.numRows()==A.numCols());
