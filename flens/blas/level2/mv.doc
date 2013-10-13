@@ -511,3 +511,32 @@ HeCRSMatrix
 
 
 
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]------------------------------------------------------------------------*
+|                                                                                   |
+|  template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>  |
+|      typename RestrictTo<IsGeTinyMatrix<MA>::value                                |
+|                       && IsTinyVector<VX>::value                                  |
+|                       && IsTinyVector<VY>::value,                                 |
+|               void>::Type                                                         |
+|      mv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x,            |
+|         const BETA &beta, VY &&y);                                                |
+|                                                                                   |
+*-----------------------------------------------------------------------------------*
+                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmv#$@N@cxxblas@E@Trans]
+                            [pose#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetypename]
+                            [ALPHA,typenameMA,typenameVX,typenameBETA,typenameVYtype]
+                            [nameRestrictToIsGeTinyMatrixMAvalueandIsTinyVectorVXval]
+                            [ueandIsTinyVectorVYvalue,voidType                      ]
+
+    Defined in namespace `flens::blas`.
+    Function `mv` with 5 template parameters.
+
+
+

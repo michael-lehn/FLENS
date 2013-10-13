@@ -35,6 +35,8 @@
 #define PLAYGROUND_FLENS_LAPACKEXTENSIONS_SB_TRACE_TCC 1
 
 #include <playground/cxxblas/cxxblas.h>
+#include <playground/flens/blas-extensions/blas-extensions.h>
+#include <playground/flens/lapack-extensions/sb/trace.h>
 
 namespace flens { namespace lapack { namespace extensions {
 

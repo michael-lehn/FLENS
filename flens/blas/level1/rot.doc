@@ -79,49 +79,18 @@ rotg
                          [c:@N@flens@N@blas@FT@>1#Trotg#&t0.0#S0_#S0_#S0_#te]
                          [mplatetypenameTvoid                               ]
 
-    a    `(input/output) real or complex scalar`                               +
+    a    `(input/output) real scalar`                                          +
          On entry, the $x$-coordinate of the point $p = (a,b)^T$ subject to
          being rotated.                                                        +
          On exit, the value $r$, i.e. the euklidian norm of $p$.
-    b    `(input/output) real or complex scalar`                               +
+    b    `(input/output) real scalar`                                          +
          On entry, the $y$-coordinate of the point $p = (a,b)^T$ subject to
          being rotated.                                                        +
          On exit, the value $z$ (see above).
-    c    `(output) real or complex scalar`                                     +
+    c    `(output) real scalar`                                                +
          On exit, the parameter $c$ associated with the Givens rotation.
-    s    `(output) real or complex scalar`                                     +
+    s    `(output) real scalar`                                                +
          On exit, the parameter $s$ associated with the Givens rotation.
-
-
-rot
-===
-*--[CODEREF]----------------------------------------------------------------*
-|                                                                           |
-|  template <typename VX, typename VY, typename T>                          |
-|      typename RestrictTo<IsDenseVector<VX>::value                         |
-|                       && IsDenseVector<VY>::value,                        |
-|               void>::Type                                                 |
-|      rot(VX &&x, VY &&y, const T &c, const T &s);                         |
-|                                                                           |
-*---------------------------------------------------------------------------*
-                         [c:@N@flens@N@blas@FT@>3#T#T#Trot#&t0.0#&t0.1#&1t0.]
-                         [2#S4_#templatetypenameVX,typenameVY,typenameTtypen]
-                         [ameRestrictToIsDenseVectorVXvalueandIsDenseVectorV]
-                         [Yvalue,voidType                                   ]
-
-    x    `(input/output) real or complex DenseVector`                          +
-         On exit, contains the rotated $x$-coodrinates.
-    y    `(input/output) real or complex DenseVector`                          +
-         On exit, contains the rotated $y$-coodrinates.
-    c    `(input) real or complex scalar`                                      +
-         The parameter $c$ associated with the Givens rotation.
-    s    `(input) real or complex scalar`                                      +
-         The parameter $s$ associated with the Givens rotation.
-################################################################################
-#
-#  The following CODEREFs are automatically created stubs.
-#
-################################################################################
 
 
 *--[CODEREF]--------------------------------------------------------------------*
@@ -134,8 +103,46 @@ rot
                            [c:@N@flens@N@blas@FT@>1#Trotg#&>@N@std@N@__1@CT>1#T@]
                            [complex1t0.0#S0_#&S2_#S0_#templatetypenameTvoid     ]
 
-    Defined in namespace `flens::blas`.
-    Function `rotg` with 1 template parameters.
+    a    `(input/output) complex scalar`                                       
+         On entry, the $x$-coordinate of the point $p = (a,b)^T$ subject to
+         being rotated.                                                        +
+         On exit, the value $r$, i.e. the euklidian norm of $p$.
+    b    `(input/output) complex scalar`                                       +
+         On entry, the $y$-coordinate of the point $p = (a,b)^T$ subject to
+         being rotated.                                                        +
+         On exit, the value $z$ (see above).
+    c    `(output) real scalar`                                                +
+         On exit, the parameter $c$ associated with the Givens rotation.
+    s    `(output) complex scalar`                                             +
+         On exit, the parameter $s$ associated with the Givens rotation.
+
+
+
+
+rot
+===
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename VX, typename VY, typename TC, typename TS>            |
+|      typename RestrictTo<IsDenseVector<VX>::value                         |
+|                       && IsDenseVector<VY>::value,                        |
+|               void>::Type                                                 |
+|      rot(VX &&x, VY &&y, const TC &c, const TS &s);                       |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>4#T#T#T#Trot#&t0.0#&t0.1#&1t]
+                         [0.2#&1t0.3#templatetypenameVX,typenameVY,typenameT]
+                         [C,typenameTStypenameRestrictToIsDenseVectorVXvalue]
+                         [andIsDenseVectorVYvalue,voidType                  ]
+
+    x    `(input/output) real or complex DenseVector`                          +
+         On exit, contains the rotated $x$-coodrinates.
+    y    `(input/output) real or complex DenseVector`                          +
+         On exit, contains the rotated $y$-coodrinates.
+    c    `(input) real or complex scalar`                                      +
+         The parameter $c$ associated with the Givens rotation.
+    s    `(input) real or complex scalar`                                      +
+         The parameter $s$ associated with the Givens rotation.
 
 
 

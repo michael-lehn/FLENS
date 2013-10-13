@@ -35,6 +35,7 @@
 #define PLAYGROUND_FLENS_BLASEXTENSIONS_LEVEL1_PROD_TCC 1
 
 #include <playground/cxxblas/cxxblas.h>
+#include <playground/flens/blas-extensions/level1/prod.h>
 
 namespace flens { namespace blas { namespace extensions {
 

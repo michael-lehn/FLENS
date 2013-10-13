@@ -34,7 +34,9 @@
 #ifndef PLAYGROUND_FLENS_BLASEXTENSIONS_LEVEL1_SUM_TCC
 #define PLAYGROUND_FLENS_BLASEXTENSIONS_LEVEL1_SUM_TCC 1
 
+#include <flens/flens.h>
 #include <playground/cxxblas/cxxblas.h>
+#include <playground/flens/blas-extensions/level1/sum.h>
 
 namespace flens { namespace blas { namespace extensions {
 

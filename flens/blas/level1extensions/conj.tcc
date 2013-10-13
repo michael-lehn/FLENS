@@ -36,6 +36,13 @@
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 
+#ifdef FLENS_DEBUG_CLOSURES
+#   include <flens/blas/blaslogon.h>
+#else
+#   include <flens/blas/blaslogoff.h>
+#endif
+
+
 namespace flens { namespace blas {
 
 //-- BLAS Level 1 extensions ---------------------------------------------------

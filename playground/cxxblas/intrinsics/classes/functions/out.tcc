@@ -34,6 +34,7 @@
 #define PLAYGROUND_CXXBLAS_INTRINSICS_CLASSES_FUNCTIONS_OUT_TCC 1
 
 #include <playground/cxxblas/intrinsics/includes.h>
+#include <playground/cxxblas/intrinsics/classes/functions/out.h>
 
 template <typename DataType, IntrinsicsLevel Level>
 std::ostream& operator<<(std::ostream& output, Intrinsics<DataType, Level> &p)

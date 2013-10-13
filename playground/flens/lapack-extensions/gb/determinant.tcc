@@ -34,6 +34,9 @@
 #ifndef PLAYGROUND_FLENS_LAPACKEXTENSIONS_GB_DETERMINANT_TCC
 #define PLAYGROUND_FLENS_LAPACKEXTENSIONS_GB_DETERMINANT_TCC 1
 
+#include <playground/flens/blas-extensions/blas-extensions.h>
+#include <playground/flens/lapack-extensions/gb/determinant.h>
+
 namespace flens { namespace lapack { namespace extensions {
 
 //-- det(gb)

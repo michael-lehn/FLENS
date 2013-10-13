@@ -34,6 +34,8 @@
 #ifndef FLENS_AUXILIARY_RANDOMVALUE_TCC
 #define FLENS_AUXILIARY_RANDOMVALUE_TCC 1
 
+#include <flens/auxiliary/randomvalue.h>
+
 namespace flens {
 
 template <typename T>
