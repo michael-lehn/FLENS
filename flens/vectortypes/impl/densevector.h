@@ -284,7 +284,19 @@ struct IsIntegerDenseVector
                            && IsInteger<typename TT::ElementType>::value;
 };
 
-
+//
+//  IsBooleanDenseVector
+//
+    
+template <typename T>
+struct IsBooleanDenseVector
+{
+    typedef typename std::remove_reference<T>::type  TT;
+        
+    static const bool value = IsDenseVector<TT>::value
+                           && IsSame<typename TT::ElementType, bool>::value;
+};
+    
 //
 //  IsRealDenseVector
 //

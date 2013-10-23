@@ -50,30 +50,19 @@ namespace flens { namespace lapack {
 
 //== orghr =====================================================================
 template <typename IndexType, typename  MA, typename  VTAU>
-    IndexType
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsRealDenseVector<VTAU>::value,
+             IndexType>::Type
     orghr_wsq(IndexType                 iLo,
               IndexType                 iHi,
-              const GeMatrix<MA>        &A,
-              const DenseVector<VTAU>   &tau);
-
-template <typename IndexType, typename  MA, typename  VTAU, typename VW>
-    void
-    orghr(IndexType                     iLo,
-          IndexType                     iHi,
-          GeMatrix<MA>                  &A,
-          const DenseVector<VTAU>       &tau,
-          DenseVector<VW>               &work);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename  MA, typename  VTAU>
-    IndexType
-    orghr_wsq(IndexType                 iLo,
-              IndexType                 iHi,
-              const MA                  &&A,
+              const MA                  &A,
               const VTAU                &tau);
 
 template <typename IndexType, typename  MA, typename  VTAU, typename VW>
-    void
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsRealDenseVector<VTAU>::value
+                     && IsRealDenseVector<VW>::value,
+             void>::Type
     orghr(IndexType                     iLo,
           IndexType                     iHi,
           MA                            &&A,

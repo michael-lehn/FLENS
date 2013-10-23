@@ -602,6 +602,18 @@ es(bool                 computeSchurVectors,
     LAPACK_DEBUG_OUT("(ge)es [real]");
 
 //
+//  Remove references from rvalue types
+//
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<MA>::Type        MatrixA;
+    typedef typename RemoveRef<VWR>::Type       VectorWR;
+    typedef typename RemoveRef<VWI>::Type       VectorWI;
+    typedef typename RemoveRef<MVS>::Type       MatrixVS;
+    typedef typename RemoveRef<VWORK>::Type     VectorWork;
+    typedef typename RemoveRef<VBWORK>::Type    VectorBWork;
+#   endif
+
+//
 //  Test the input parameters
 //
     const IndexType n = A.numRows();
@@ -657,16 +669,6 @@ es(bool                 computeSchurVectors,
 //
 #   ifdef CHECK_CXXLAPACK
 
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type        MatrixA;
-    typedef typename RemoveRef<VWR>::Type       VectorWR;
-    typedef typename RemoveRef<VWI>::Type       VectorWI;
-    typedef typename RemoveRef<MVS>::Type       MatrixVS;
-    typedef typename RemoveRef<VWORK>::Type     VectorWork;
-    typedef typename RemoveRef<VBWORK>::Type    VectorBWork;
-    
     typename MatrixA::NoView      A_org     = A;
     IndexType                     sDim_org  = sDim;
     typename VectorWR::NoView     wr_org    = wr;

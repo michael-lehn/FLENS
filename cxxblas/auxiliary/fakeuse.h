@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
+ *   Copyright (c) 2013, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -30,30 +30,11 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXLAPACK_INTERFACE_ILADLC_TCC
-#define CXXLAPACK_INTERFACE_ILADLC_TCC 1
+#ifndef CXXBLAS_AUXILIARY_FAKEUSE_H
+#define CXXBLAS_AUXILIARY_FAKEUSE_H 1
 
-#include <iostream>
-#include <cxxlapack/interface/interface.h>
-#include <cxxlapack/netlib/netlib.h>
+#ifndef FAKE_USE
+#    define FAKE_USE(X) (void)X
+#endif
 
-namespace cxxlapack {
-
-template <typename IndexType>
-IndexType
-iladlc(IndexType             m,
-       IndexType             n,
-       const double          *A,
-       IndexType             ldA)
-{
-    CXXLAPACK_DEBUG_OUT("iladlc");
-
-    return LAPACK_IMPL(iladlc)(&m,
-                               &n,
-                               A,
-                               &ldA);
-}
-
-} // namespace cxxlapack
-
-#endif // CXXLAPACK_INTERFACE_ILADLC_TCC
+#endif // CXXBLAS_AUXILIARY_FAKEUSE_H

@@ -188,7 +188,7 @@ DiagMatrix<FS>::operator/=(const ElementType &alpha)
 
 template <typename FS>
 const typename DiagMatrix<FS>::ElementType &
-DiagMatrix<FS>::operator()(IndexType row, IndexType col) const
+DiagMatrix<FS>::operator()(IndexType row, IndexType DEBUG_VAR(col)) const
 {
     ASSERT( row==col );
 
@@ -197,10 +197,10 @@ DiagMatrix<FS>::operator()(IndexType row, IndexType col) const
 
 template <typename FS>
 typename DiagMatrix<FS>::ElementType &
-DiagMatrix<FS>::operator()(IndexType row, IndexType col)
+DiagMatrix<FS>::operator()(IndexType row, IndexType DEBUG_VAR(col))
 {
     ASSERT( row==col );
-
+    
     return _engine(row);
 }
 

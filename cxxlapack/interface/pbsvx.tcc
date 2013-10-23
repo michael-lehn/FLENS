@@ -198,6 +198,7 @@ pbsvx(char                  fact,
                         berr,
                         reinterpret_cast<float  *>(work),
                         work,
+                        rWork,
                         &info);
 #   ifndef NDEBUG
     if (info<0) {
@@ -254,6 +255,7 @@ pbsvx(char                  fact,
                         berr,
                         reinterpret_cast<double *>(work),
                         work,
+                        rWork,
                         &info);
 #   ifndef NDEBUG
     if (info<0) {

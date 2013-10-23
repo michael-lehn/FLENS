@@ -48,16 +48,21 @@ tpaxpy(StorageOrder order, StorageUpLo upLo, Transpose trans, Diag diag,
        IndexType  n, const ALPHA &alpha, const MA *A, MB *B)
 {
     CXXBLAS_DEBUG_OUT("tpaxpy_generic");
+ 
+    FAKE_USE(order);   
+    FAKE_USE(upLo);
 
     // TODO: Remove copy of diagonal if diag == Unit
 
     if (trans==NoTrans) {
+          ASSERT(diag==Unit);
           const IndexType length = n*(n+1)/2;
           axpy(length, alpha, A, 1, B, 1);
           return;
     }
 
     if (trans==Conj) {
+          ASSERT(diag==Unit);
           const IndexType length = n*(n+1)/2;
           acxpy(length, alpha, A, 1, B, 1);
           return;

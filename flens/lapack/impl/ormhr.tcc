@@ -302,19 +302,32 @@ ormhr_wsq(Side                      side,
 
 template <typename IndexType, typename  MA, typename  VTAU,
           typename  MC, typename  VWORK>
-void
-ormhr(Side                      side,
-      Transpose                 trans,
-      IndexType                 iLo,
-      IndexType                 iHi,
-      GeMatrix<MA>              &A,
-      const DenseVector<VTAU>   &tau,
-      GeMatrix<MC>              &C,
-      DenseVector<VWORK>        &work)
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                 && IsRealDenseVector<VTAU>::value
+                 && IsRealGeMatrix<MC>::value
+                 && IsRealDenseVector<VWORK>::value,
+         void>::Type
+ormhr(Side                          side,
+      Transpose                     trans,
+      IndexType                     iLo,
+      IndexType                     iHi,
+      MA                            &&A,
+      const VTAU                    &&tau,
+      MC                            &&C,
+      VWORK                         &&work)
 {
     LAPACK_DEBUG_OUT("ormhr");
 
     using std::max;
+
+//
+//  Remove references from rvalue types
+//
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<MA>::Type        MatrixA;
+    typedef typename RemoveRef<MC>::Type        MatrixC;
+    typedef typename RemoveRef<VWORK>::Type     VectorWork;
+#   endif
 
 //
 //  Test the input parameters
@@ -358,9 +371,9 @@ ormhr(Side                      side,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-    typename GeMatrix<MA>::NoView       A_org      = A;
-    typename GeMatrix<MC>::NoView       C_org      = C;
-    typename DenseVector<VWORK>::NoView work_org   = work;
+    typename MatrixA::NoView       A_org      = A;
+    typename MatrixC::NoView       C_org      = C;
+    typename VectorWork::NoView    work_org   = work;
 #   endif
 
 //
@@ -372,9 +385,9 @@ ormhr(Side                      side,
 //
 //  Make copies of results computed by the generic implementation
 //
-    typename GeMatrix<MA>::NoView       A_generic       = A;
-    typename GeMatrix<MC>::NoView       C_generic       = C;
-    typename DenseVector<VWORK>::NoView work_generic    = work;
+    typename MatrixA::NoView       A_generic       = A;
+    typename MatrixC::NoView       C_generic       = C;
+    typename VectorWork::NoView    work_generic    = work;
 
 //
 //  restore output arguments
@@ -412,39 +425,6 @@ ormhr(Side                      side,
         // std::cerr << "passed: ormhr.tcc" << std::endl;
     }
 #   endif
-}
-
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename  MA, typename  VTAU, typename  MC>
-IndexType
-ormhr_wsq(Side              side,
-          Transpose         trans,
-          IndexType         iLo,
-          IndexType         iHi,
-          const MC          &&C)
-{
-    CHECKPOINT_ENTER;
-    const IndexType info = ormhr_wsq(side, trans, iLo, iHi, C);
-    CHECKPOINT_LEAVE;
-
-    return info;
-}
-
-template <typename IndexType, typename  MA, typename  VTAU,
-          typename  MC, typename  VWORK>
-void
-ormhr(Side              side,
-      Transpose         trans,
-      IndexType         iLo,
-      IndexType         iHi,
-      MA                &&A,
-      const VTAU        &tau,
-      MC                &&C,
-      VWORK             &&work)
-{
-    CHECKPOINT_ENTER;
-    ormhr(side, trans, iLo, iHi, A, tau, C, work);
-    CHECKPOINT_LEAVE;
 }
 
 } } // namespace lapack, flens

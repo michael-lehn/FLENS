@@ -74,6 +74,7 @@ trs_impl(const HpMatrix<MA> &A, const DenseVector<VP> &piv,
                                        B.data(),
                                        B.leadingDimension());
     ASSERT(info==0);
+    FAKE_USE_NDEBUG(info);
 }
 
 } // namespace external
@@ -124,17 +125,16 @@ trs(const MA &A, const VPIV &piv, MB &&B)
 {
     LAPACK_DEBUG_OUT("(hp)trs [complex]");
 
-//
-//  Test the input parameters
-//
 #   ifndef NDEBUG
-
 //
 //  Remove references from rvalue types
 //
     typedef typename RemoveRef<MA>::Type     MatrixA;
     typedef typename MatrixA::IndexType      IndexType;
-    
+
+//
+//  Test the input parameters
+//
     ASSERT(A.firstIndex()==1);
 
     const IndexType n = A.dim();

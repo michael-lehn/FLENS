@@ -70,7 +70,7 @@ sbevd(char                  jobz,
                         work,
                         &lWork,
                         iWork,
-                        &iWork,
+                        &liWork,
                         &info);
 #   ifndef NDEBUG
     if (info<0) {
@@ -112,7 +112,7 @@ sbevd(char                  jobz,
                         work,
                         &lWork,
                         iWork,
-                        &iWork,
+                        &liWork,
                         &info);
 #   ifndef NDEBUG
     if (info<0) {

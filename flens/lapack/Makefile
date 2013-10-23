@@ -9,6 +9,8 @@ check : test/
 	$(MAKE) -C test cleanup
 	$(MAKE) -C test dtest.out
 	$(MAKE) -C test ztest.out
+	$(MAKE) -C test dnep.out
+	$(MAKE) -C test znep.out
 
 clean : test/
 	$(MAKE) -C interface clean

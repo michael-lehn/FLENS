@@ -91,9 +91,8 @@ orgqr_impl(GeMatrix<MA>              &A,
     IndexType nbMin = 2;
     IndexType nx = 0;
     IndexType iws = n;
-    IndexType ldWork = 1;
 
-    if ((nb>1) && (nb<k)) {
+    if (nb>1 && nb<k) {
 //
 //      Determine when to cross over from blocked to unblocked code.
 //
@@ -103,7 +102,7 @@ orgqr_impl(GeMatrix<MA>              &A,
 //
 //          Determine if workspace is large enough for blocked code.
 //
-            ldWork = n;
+            IndexType ldWork = n;
             iws = ldWork *nb;
             if (work.length()<iws) {
 //
@@ -120,7 +119,7 @@ orgqr_impl(GeMatrix<MA>              &A,
     IndexType ki = -1,
               kk = -1;
 
-    if ((nb>=nbMin) && (nb<k) && (nx<k)) {
+    if (nb>=nbMin && nb<k && nx<k) {
 //
 //      Use blocked code after the last block.
 //      The first kk columns are handled by the block method.
@@ -239,18 +238,24 @@ typename RestrictTo<IsRealGeMatrix<MA>::value
          void>::Type
 orgqr(MA &&A, const VTAU &tau, VWORK &&work)
 {
+//
+//  Remove references from rvalue types
+//
+#   if !defined(NDEBUG) || defined(CHECK_CXXLAPACK)
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+#   endif
+
+#   ifdef CHECK_CXXLAPACK
+    typedef typename MatrixA::ElementType   ElementType;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+#   endif
 
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
-
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::IndexType     IndexType;
-    
+
     ASSERT(A.firstRow()==IndexType(1));
     ASSERT(A.firstCol()==IndexType(1));
     ASSERT(tau.firstIndex()==IndexType(1));
@@ -269,10 +274,6 @@ orgqr(MA &&A, const VTAU &tau, VWORK &&work)
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
-    typedef typename MatrixA::ElementType   ElementType;
-        
     typename MatrixA::NoView        A_org      = A;
     typename VectorWork::NoView     work_org   = work;
 #   endif

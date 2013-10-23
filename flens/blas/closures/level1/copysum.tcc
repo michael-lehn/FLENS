@@ -221,7 +221,7 @@ typename RestrictTo<IsScalarValue<MAL1>::value &&
 		            IsMatrix<MB>::value,
 		            void>::Type
 copySum(Transpose trans,
-	const MatrixClosure<OpMult, MAL1, MAR1> &A1, const ALPHA &alpha, 
+	const MatrixClosure<OpMult, MAL1, MAR1> &A1, const ALPHA & DEBUG_VAR(alpha), 
 	const MatrixClosure<OpMult, MAL2, MAR2> &A2, MB &B)
 {
 

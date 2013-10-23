@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2011, 2013, Michael Lehn, Klaus Pototzky
+ *   Copyright (c) 2013, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -32,7 +32,7 @@
 
 /* Based on
  *
-      SUBROUTINE DUNG2R( M, N, K, A, LDA, TAU, WORK, INFO )
+      SUBROUTINE ZUNG2R( M, N, K, A, LDA, TAU, WORK, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -50,15 +50,14 @@ namespace flens { namespace lapack {
 
 //== ung2r =====================================================================
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
-    void
-    ung2r(IndexType k, GeMatrix<MA> &A, const DenseVector<VTAU> &tau,
-          DenseVector<VWORK> &work);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
-    void
-    ung2r(IndexType k, MA &&A, const VTAU &tau, VWORK &&work);
-
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsComplexDenseVector<VTAU>::value
+                     && IsComplexDenseVector<VWORK>::value,
+             void>::Type
+    ung2r(IndexType             k,
+          MA                    &&A,
+          const VTAU            &tau,
+          VWORK                 &&work);
 
 } } // namespace lapack, flens
 

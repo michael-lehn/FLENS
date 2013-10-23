@@ -129,14 +129,24 @@ org2r_impl(IndexType                 k,
 #endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
-
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
-void
-org2r(IndexType                 k,
-      GeMatrix<MA>              &A,
-      const DenseVector<VTAU>   &tau,
-      DenseVector<VWORK>        &work)
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                 && IsRealDenseVector<VTAU>::value
+                 && IsRealDenseVector<VWORK>::value,
+         void>::Type
+org2r(IndexType         k,
+      MA                &&A,
+      const VTAU        &tau,
+      VWORK             &&work)
 {
+//
+//  Remove references from rvalue types
+//
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<MA>::Type     MatrixA;
+    typedef typename RemoveRef<VWORK>::Type  VectorWork;
+#   endif
+
 //
 //  Test the input parameters
 //
@@ -158,8 +168,8 @@ org2r(IndexType                 k,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-    typename GeMatrix<MA>::NoView       _A      = A;
-    typename DenseVector<VWORK>::NoView _work   = work;
+    typename MatrixA::NoView     _A    = A;
+    typename VectorWork::NoView  _work = work;
 #   endif
 
 //
@@ -193,14 +203,6 @@ org2r(IndexType                 k,
 //        std::cerr << "passed: org2r.tcc" << std::endl;
     }
 #   endif
-}
-
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
-void
-org2r(IndexType k, MA &&A, const VTAU &tau, VWORK &&work)
-{
-    org2r(k, A, tau, work);
 }
 
 } } // namespace lapack, flens

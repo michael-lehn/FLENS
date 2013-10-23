@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DGEHRD( N, ILO, IHI, A, LDA, TAU, WORK, LWORK, INFO )
+       SUBROUTINE ZGEHRD( N, ILO, IHI, A, LDA, TAU, WORK, LWORK, INFO )
  *
  *  -- LAPACK routine (version 3.3.1)                                  --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -50,35 +51,44 @@
 namespace flens { namespace lapack {
 
 //== hrd =======================================================================
+//
+//  Real variant
+//
+template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+    typename RestrictTo<IsRealGeMatrix<MA>::value &&
+                        IsRealDenseVector<VTAU>::value &&
+                        IsRealDenseVector<VWORK>::value,
+             void>::Type
+    hrd(IndexType               iLo,
+        IndexType               iHi,
+        MA                      &&A,
+        VTAU                    &&tau,
+        VWORK                   &&work);
+
+//
+//  Complex variant
+//
+template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value &&
+                        IsComplexDenseVector<VTAU>::value &&
+                        IsComplexDenseVector<VWORK>::value,
+             void>::Type
+    hrd(IndexType               iLo,
+        IndexType               iHi,
+        MA                      &&A,
+        VTAU                    &&tau,
+        VWORK                   &&work);
+
+
+//== hrd (workspace query) =====================================================
+//
+//  Real/complex variant
+//
 template <typename IndexType, typename MA>
     IndexType
     hrd_wsq(IndexType           iLo,
             IndexType           iHi,
-            const GeMatrix<MA>  &A);
-
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
-    void
-    hrd(IndexType               iLo,
-        IndexType               iHi,
-        GeMatrix<MA>            &A,
-        DenseVector<VTAU>       &tau,
-        DenseVector<VWORK>      &work);
-
-
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename MA>
-    IndexType
-    hrd_wsq(IndexType   iLo,
-            IndexType   iHi,
-            const MA    &&A);
-
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
-    void
-    hrd(IndexType       iLo,
-        IndexType       iHi,
-        MA              &&A,
-        VTAU            &&tau,
-        VWORK           &&work);
+            const MA            &A);
 
 } } // namespace lapack, flens
 

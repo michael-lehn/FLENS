@@ -184,14 +184,11 @@ laq(GeMatrix<MA>            &A,
     const COLCOND           &colCond,
     const AMAX              &amax)
 {
-
+#   ifndef NDEBUG
+    typedef typename GeMatrix<MA>::IndexType  IndexType;
 //
 //  Test the input parameters
 //
-#   ifndef NDEBUG
-
-    typedef typename GeMatrix<MA>::IndexType  IndexType;
-    
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
 

@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn, Klaus Pototzky
+ *   Copyright (c) 2013, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,20 +30,46 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CXXLAPACK_INTERFACE_ILADLR_H
-#define CXXLAPACK_INTERFACE_ILADLR_H 1
+#ifndef FLENS_BLAS_LEVEL1EXTENSIONS_CONJ_TCC
+#define FLENS_BLAS_LEVEL1EXTENSIONS_CONJ_TCC 1
 
-#include <complex>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
 
-namespace cxxlapack {
+#ifdef FLENS_DEBUG_CLOSURES
+#   include <flens/blas/blaslogon.h>
+#else
+#   include <flens/blas/blaslogoff.h>
+#endif
 
-template <typename IndexType>
-    IndexType
-    iladlr(IndexType             m,
-           IndexType             n,
-           const double          *A,
-           IndexType             ldA);
 
-} // namespace cxxlapack
+namespace flens { namespace blas {
 
-#endif // CXXLAPACK_INTERFACE_ILADLR_H
+//-- BLAS Level 1 extensions ---------------------------------------------------
+
+//-- conj
+template <typename VX>
+typename RestrictTo<IsDenseVector<VX>::value,
+         void>::Type
+conj(VX &&x)
+{
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_MCOTR(Conj, x);
+
+#   ifdef HAVE_CXXBLAS_GECOTR
+    typedef typename RemoveRef<VX>::Type    VectorX;
+    typedef typename VectorX::IndexType     IndexType;
+
+    cxxblas::gecotr(ColMajor, Conj, x.length(), IndexType(1),
+                    x.data(), IndexType(1));
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
+} } // namespace blas, flens
+
+#endif // FLENS_BLAS_LEVEL1EXTENSIONS_CONJ_TCC

@@ -39,19 +39,19 @@ namespace cxxlapack {
 
 template <typename IndexType>
     IndexType
-    cgesv(IndexType                  n,
-          IndexType                  nRhs,
-          std::complex<double>       *A,
-          IndexType                  ldA,
-          IndexType                  *iPiv,
-          const std::complex<double> *B,
-          IndexType                  ldB,
-          std::complex<double>       *X,
-          IndexType                  ldX,
-          std::complex<double>       *work,
-          std::complex<float>        *swork,
-          double                     *rWork,
-          IndexType                  &iter);
+    zcgesv(IndexType                  n,
+           IndexType                  nRhs,
+           std::complex<double>       *A,
+           IndexType                  ldA,
+           IndexType                  *iPiv,
+           const std::complex<double> *B,
+            IndexType                  ldB,
+           std::complex<double>       *X,
+           IndexType                  ldX,
+           std::complex<double>       *work,
+           std::complex<float>        *swork,
+           double                     *rWork,
+           IndexType                  &iter);
 
 } // namespace cxxlapack
 

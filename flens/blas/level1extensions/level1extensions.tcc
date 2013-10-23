@@ -42,5 +42,6 @@
 #include <flens/blas/level1extensions/copy/imagmatrixclosure.tcc>
 #include <flens/blas/level1extensions/copy/realmatrixclosure.tcc>
 #include <flens/blas/level1extensions/racxpy.tcc>
+#include <flens/blas/level1extensions/conj.tcc>
 
 #endif // FLENS_BLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_TCC 1

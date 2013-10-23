@@ -34,6 +34,8 @@
  *
       SUBROUTINE DLARFB( SIDE, TRANS, DIRECT, STOREV, M, N, K, V, LDV,
      $                   T, LDT, C, LDC, WORK, LDWORK )
+      SUBROUTINE ZLARFB( SIDE, TRANS, DIRECT, STOREV, M, N, K, V, LDV,
+     $                   T, LDT, C, LDC, WORK, LDWORK )
  *
  *  -- LAPACK auxiliary routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -51,28 +53,41 @@
 namespace flens { namespace lapack {
 
 //== larfb =====================================================================
+//
+//  Real variant
+//
 template <typename MV, typename MT, typename MC, typename MWORK>
-    void
+    typename RestrictTo<IsRealGeMatrix<MV>::value
+                     && IsRealTrMatrix<MT>::value
+                     && IsRealGeMatrix<MC>::value
+                     && IsRealGeMatrix<MWORK>::value,
+             void>::Type
     larfb(Side                  side,
           Transpose             transH,
           Direction             direction,
           StoreVectors          storeVectors,
-          const GeMatrix<MV>    &V,
-          const TrMatrix<MT>    &T,
-          GeMatrix<MC>          &C,
-          GeMatrix<MWORK>       &work);
-    
-//-- forwarding ----------------------------------------------------------------
+          const MV              &V,
+          const MT              &T,
+          MC                    &&C,
+          MWORK                 &&work);
+
+//
+//  Complex variant
+//
 template <typename MV, typename MT, typename MC, typename MWORK>
-    void
-    larfb(Side              side,
-          Transpose         transH,
-          Direction         direction,
-          StoreVectors      storeV,
-          const MV          &V,
-          const MT          &T,
-          MC                &&C,
-          MWORK             &&work);
+    typename RestrictTo<IsComplexGeMatrix<MV>::value
+                     && IsComplexTrMatrix<MT>::value
+                     && IsComplexGeMatrix<MC>::value
+                     && IsComplexGeMatrix<MWORK>::value,
+             void>::Type
+    larfb(Side                  side,
+          Transpose             transH,
+          Direction             direction,
+          StoreVectors          storeVectors,
+          const MV              &V,
+          const MT              &T,
+          MC                    &&C,
+          MWORK                 &&work);
 
 } } // namespace lapack, flens
 

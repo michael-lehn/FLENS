@@ -141,7 +141,7 @@ hseqr(char                  job,
     CXXLAPACK_DEBUG_OUT("shseqr");
 
     IndexType info;
-    LAPACK_IMPL(shseqr)(&job,
+    LAPACK_IMPL(chseqr)(&job,
                         &compZ,
                         &n,
                         &iLo,
@@ -181,7 +181,7 @@ hseqr(char                  job,
     CXXLAPACK_DEBUG_OUT("dhseqr");
 
     IndexType info;
-    LAPACK_IMPL(dhseqr)(&job,
+    LAPACK_IMPL(zhseqr)(&job,
                         &compZ,
                         &n,
                         &iLo,

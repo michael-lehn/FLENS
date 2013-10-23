@@ -31,7 +31,8 @@
  */
 
 /* Based on
- *     SUBROUTINE DLARF( SIDE, M, N, V, INCV, TAU, C, LDC, WORK )
+      SUBROUTINE DLARF( SIDE, M, N, V, INCV, TAU, C, LDC, WORK )
+      SUBROUTINE ZLARF( SIDE, M, N, V, INCV, TAU, C, LDC, WORK )
  *
  *  -- LAPACK auxiliary routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -48,16 +49,37 @@
 
 namespace flens { namespace lapack {
 
-//-- forwarding ----------------------------------------------------------------
-template <typename VV, typename TAU, typename MC, typename VWORK>
-    void
-    larf(Side side, const VV &v, const TAU &tau, MC &&C, VWORK &&work);
-
 //-- larf ----------------------------------------------------------------------
+//
+//  Real Variant
+//
 template <typename VV, typename TAU, typename MC, typename VWORK>
-    void
-    larf(Side side, const DenseVector<VV> &v, const TAU &tau,
-         GeMatrix<MC> &C, DenseVector<VWORK> &work);
+    typename RestrictTo<IsRealDenseVector<VV>::value
+                     && IsReal<TAU>::value
+                     && IsRealGeMatrix<MC>::value
+                     && IsRealDenseVector<VWORK>::value,
+             void>::Type
+    larf(Side           side,
+         const VV       &v,
+         const TAU      &tau,
+         MC             &&C,
+         VWORK          &&work);
+
+//
+//  Complex Variant
+//
+template <typename VV, typename TAU, typename MC, typename VWORK>
+    typename RestrictTo<IsComplexDenseVector<VV>::value
+                     && IsComplex<TAU>::value
+                     && IsComplexGeMatrix<MC>::value
+                     && IsComplexDenseVector<VWORK>::value,
+             void>::Type
+    larf(Side           side,
+         const VV       &v,
+         const TAU      &tau,
+         MC             &&C,
+         VWORK          &&work);
+
 
 } } // namespace lapack, flens
 

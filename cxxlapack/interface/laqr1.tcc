@@ -89,11 +89,11 @@ laqr1(IndexType         n,
 template <typename IndexType>
 void
 laqr1(IndexType                     n,
-      const std::complex<float >    *H,
+      const std::complex<float>     *H,
       IndexType                     ldH,
-      const std::complex<float >    &s1,
-      const std::complex<float >    &s2,
-      std::complex<float >          &v)
+      const std::complex<float>     &s1,
+      const std::complex<float>     &s2,
+      std::complex<float >          *v)
 {
     CXXLAPACK_DEBUG_OUT("claqr1");
 
@@ -102,7 +102,7 @@ laqr1(IndexType                     n,
                         &ldH,
                         reinterpret_cast<const float  *>(&s1),
                         reinterpret_cast<const float  *>(&s2),
-                        reinterpret_cast<float  *>(&v));
+                        reinterpret_cast<float  *>(v));
 }
 
 template <typename IndexType>
@@ -112,7 +112,7 @@ laqr1(IndexType                     n,
       IndexType                     ldH,
       const std::complex<double>    &s1,
       const std::complex<double>    &s2,
-      std::complex<double>          &v)
+      std::complex<double>          *v)
 {
     CXXLAPACK_DEBUG_OUT("zlaqr1");
 
@@ -121,7 +121,7 @@ laqr1(IndexType                     n,
                         &ldH,
                         reinterpret_cast<const double *>(&s1),
                         reinterpret_cast<const double *>(&s2),
-                        reinterpret_cast<double *>(&v));
+                        reinterpret_cast<double *>(v));
 }
 
 } // namespace cxxlapack

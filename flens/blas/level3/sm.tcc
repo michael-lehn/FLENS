@@ -50,7 +50,6 @@ sm(Side             side,
    const MA         &A,
    MB               &&B)
 {
-
 #   ifndef NDEBUG
     ASSERT(B.order()==A.order());
     if (side==Left) {
@@ -67,81 +66,6 @@ sm(Side             side,
                   alpha,
                   A.data(), A.leadingDimension(),
                   B.data(), B.leadingDimension());
-#   else
-    ASSERT(0);
-#   endif
-}
-
-//-- trccssm
-template <typename ALPHA, typename MA, typename MB, typename MC>
-typename RestrictTo<IsTrCCSMatrix<MA>::value
-		&& IsGeMatrix<MB>::value
-		&& IsGeMatrix<MC>::value,
-	void>::Type
-sm(Transpose        trans, 
-   const ALPHA      &alpha, 
-   const MA         &A, 
-   const MB         &B,
-   MC               &&C)
-{
-    ASSERT(!DEBUGCLOSURE::identical(B, C));
-    ASSERT(B.order()==ColMajor);
-    ASSERT(C.order()==ColMajor);
-    
-    if (C.numRows()==0 || C.numCols()==0) {
-        C.resize(B.numRows(), B.numCols());
-    }
-    
-    ASSERT(B.numCols()==C.numCols());
-    ASSERT(B.numRows()==C.numRows());
-    ASSERT(A.numCols()==A.numRows());
-    ASSERT(A.numCols()==B.numRows());
-    
-#   ifdef HAVE_CXXBLAS_TRCCSSM
-    cxxblas::trccssm(A.upLo(), trans, 
-                     A.dim(), B.numCols(),
-                     alpha,
-                     A.engine().values().data(),
-                     A.engine().rows().data(),
-                     A.engine().cols().data(),
-                     B.data(), B.leadingDimension(),
-                     C.data(), C.leadingDimension());
-#   else
-    ASSERT(0);
-#   endif
-    
-}
-    
-//-- trccssm
-template <typename ALPHA, typename MA, typename MB, typename MC>
-typename RestrictTo<IsTrCRSMatrix<MA>::value
-		  && IsGeMatrix<MB>::value
-		  && IsGeMatrix<MC>::value,
-	  void>::Type
-sm(Transpose trans, const ALPHA &alpha, const MA &A, const MB &B, MC &&C)
-{
-    ASSERT(!DEBUGCLOSURE::identical(B, C));
-    ASSERT(B.order()==ColMajor);
-    ASSERT(C.order()==ColMajor);
-    
-    if (C.numRows()==0 || C.numCols()==0) {
-        C.resize(B.numRows(), B.numCols());
-    }
-    
-    ASSERT(B.numCols()==C.numCols());
-    ASSERT(B.numRows()==C.numRows());
-    ASSERT(A.numCols()==A.numRows());
-    ASSERT(A.numCols()==B.numRows());
-    
-#   ifdef HAVE_CXXBLAS_TRCRSSM
-    cxxblas::trcrssm(A.upLo(), trans, 
-                     A.dim(), B.numCols(),
-                     alpha,
-                     A.engine().values().data(),
-                     A.engine().rows().data(),
-                     A.engine().cols().data(),
-                     B.data(), B.leadingDimension(),
-                     C.data(), C.leadingDimension());
 #   else
     ASSERT(0);
 #   endif

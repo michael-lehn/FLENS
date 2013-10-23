@@ -72,7 +72,6 @@
 #include <flens/lapack/debug/isidentical.h>
 
 #include <flens/lapack/gb/sv.h>
-#include <flens/lapack/gb/tf2.h>
 #include <flens/lapack/gb/trf.h>
 #include <flens/lapack/gb/trs.h>
 
@@ -104,7 +103,6 @@
 #include <flens/lapack/ge/svj1.h>
 #include <flens/lapack/ge/svx.h>
 #include <flens/lapack/ge/tf2.h>
-#include <flens/lapack/ge/trexc.h>
 #include <flens/lapack/ge/trf.h>
 #include <flens/lapack/ge/tri.h>
 #include <flens/lapack/ge/trs.h>
@@ -138,20 +136,21 @@
 #include <flens/lapack/impl/ormr3.h>
 #include <flens/lapack/impl/ormrz.h>
 #include <flens/lapack/impl/trevc.h>
+#include <flens/lapack/impl/trexc.h>
 #include <flens/lapack/impl/trsen.h>
 #include <flens/lapack/impl/trsna.h>
 #include <flens/lapack/impl/trsyl.h>
 #include <flens/lapack/impl/tzrzf.h>
 #include <flens/lapack/impl/ung2r.h>
+#include <flens/lapack/impl/unghr.h>
 #include <flens/lapack/impl/ungl2.h>
 #include <flens/lapack/impl/unglq.h>
 #include <flens/lapack/impl/ungqr.h>
 #include <flens/lapack/impl/unm2r.h>
+#include <flens/lapack/impl/unmhr.h>
 #include <flens/lapack/impl/unml2.h>
 #include <flens/lapack/impl/unmlq.h>
 #include <flens/lapack/impl/unmqr.h>
-#include <flens/lapack/impl/unmr3.h>
-#include <flens/lapack/impl/unmrz.h>
 
 #include <flens/lapack/la/ilaenv.h>
 #include <flens/lapack/la/ilalc.h>

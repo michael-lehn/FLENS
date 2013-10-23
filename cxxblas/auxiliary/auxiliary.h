@@ -35,5 +35,6 @@
 
 #include <cxxblas/auxiliary/complex.h>
 #include <cxxblas/auxiliary/debugmacro.h>
+#include <cxxblas/auxiliary/fakeuse.h>
 
 #endif // CXXBLAS_AUXILIARY_AUXILIARY_H

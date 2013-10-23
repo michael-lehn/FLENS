@@ -65,6 +65,10 @@
 #   define DEBUG_VAR(x)      x
 #   endif
 
+#   ifndef FAKE_USE_NDEBUG
+#   define FAKE_USE_NDEBUG(x)
+#   endif
+
 #else
 
 #   ifndef CHECKPOINT_ENTER
@@ -77,6 +81,10 @@
 
 #   ifndef DEBUG_VAR
 #   define DEBUG_VAR(x)
+#   endif
+
+#   ifndef FAKE_USE_NDEBUG
+#   define FAKE_USE_NDEBUG(X) (void)X
 #   endif
 
 #endif

@@ -58,7 +58,8 @@ namespace generic {
 //-- (ge)ev_wsq [worksize query, real variant] ---------------------------------
 
 template <typename MA>
-Pair<typename GeMatrix<MA>::IndexType>
+typename RestrictTo<IsNotComplex<typename MA::ElementType>::value,
+         Pair<typename MA::IndexType> >::Type
 ev_wsq_impl(bool computeVL, bool computeVR, const GeMatrix<MA> &A)
 {
     using std::max;
@@ -193,7 +194,7 @@ ev_impl(bool                computeVL,
 //  Reduce to upper Hessenberg form
 //  (Workspace: need 3*N, prefer 2*N+N*NB)
 //
-    IndexType iTau = iBal + n;
+    IndexType iTau  = iBal + n;
     IndexType iWork = iTau + n;
     IndexType lWork = work.length();
 
@@ -357,6 +358,312 @@ ev_impl(bool                computeVL,
                   cScale, ANorm, wr(_(1,iLo-1)));
             lascl(LASCL::FullMatrix, IndexType(0), IndexType(0),
                   cScale, ANorm, wi(_(1,iLo-1)));
+        }
+    }
+
+    work(1) = maxWork;
+    return info;
+}
+
+//-- (ge)ev_wsq [worksize query, complex variant] ------------------------------
+
+template <typename MA>
+typename RestrictTo<IsComplex<typename MA::ElementType>::value,
+         Pair<typename MA::IndexType> >::Type
+ev_wsq_impl(bool computeVL, bool computeVR, const GeMatrix<MA> &A)
+{
+    using flens::max;
+
+    typedef typename GeMatrix<MA>::ElementType          T;
+    typedef typename GeMatrix<MA>::IndexType            IndexType;
+
+    const IndexType n = A.numRows();
+
+    IndexType minWork, maxWork;
+
+    if (n==0) {
+        minWork = 1;
+        maxWork = 1;
+    } else {
+        maxWork = n + n*ilaenv<T>(1, "GEHRD", "", n, 1, n, 0);
+        minWork = 2*n;
+
+        IndexType hseqrWork;
+        if (computeVL) {
+            maxWork = max(maxWork,
+                          n + (n-1)*ilaenv<T>(1, "UNGHR", "", n, 1, n));
+            hseqrWork = hseqr_wsq(HSEQR::Schur, HSEQR::NoInit,
+                                  IndexType(1), n, A);
+        } else if (computeVR) {
+            maxWork = max(maxWork,
+                          n + (n-1)*ilaenv<T>(1, "UNGHR", "", n, 1, n));
+            hseqrWork = hseqr_wsq(HSEQR::Schur, HSEQR::NoInit,
+                                  IndexType(1), n, A);
+        } else {
+            hseqrWork = hseqr_wsq(HSEQR::Eigenvalues, HSEQR::No,
+                                  IndexType(1), n, A);
+        }
+        maxWork = max(maxWork, hseqrWork, minWork);
+    }
+    return Pair<IndexType>(minWork, maxWork);
+}
+
+//-- (ge)ev [complex variant] --------------------------------------------------
+
+template <typename MA, typename VW, typename MVL, typename MVR, typename VWORK,
+          typename VRWORK>
+typename GeMatrix<MA>::IndexType
+ev_impl(bool                computeVL,
+        bool                computeVR,
+        GeMatrix<MA>        &A,
+        DenseVector<VW>     &w,
+        GeMatrix<MVL>       &VL,
+        GeMatrix<MVR>       &VR,
+        DenseVector<VWORK>  &work,
+        DenseVector<VRWORK> &rWork)
+{
+    using flens::pow;
+    using std::sqrt;
+
+    typedef typename GeMatrix<MA>::ElementType          T;
+    typedef typename GeMatrix<MA>::IndexType            IndexType;
+    typedef typename ComplexTrait<T>::PrimitiveType     PT;
+
+    const Underscore<IndexType> _;
+    const IndexType n = A.numRows();
+    const PT Zero(0), One(1);
+//
+//  Compute workspace
+//   (Note: Comments in the code beginning "Workspace:" describe the
+//    minimal amount of workspace needed at that point in the code,
+//    as well as the preferred amount for good performance.
+//    CWorkspace refers to complex workspace, and RWorkspace to real
+//    workspace. NB refers to the optimal block size for the
+//    immediately following subroutine, as returned by ILAENV.
+//    HSWORK refers to the workspace preferred by ZHSEQR, as
+//    calculated below. HSWORK is computed assuming ILO=1 and IHI=N,
+//    the worst case.)
+//
+    Pair<IndexType> wsQuery = ev_wsq(computeVL, computeVR, A);
+    IndexType minWork = wsQuery.first;
+    IndexType maxWork = wsQuery.second;
+
+    if (work.length()!=0 && work.length()<minWork) {
+        ASSERT(0);
+    } else if (work.length()==0) {
+        work.resize(maxWork);
+    }
+    
+    if (rWork.length()!=0 && rWork.length()<2*n) {
+        ASSERT(0);
+    } else if (rWork.length()==0) {
+        rWork.resize(2*n);
+    }
+
+    work(1) = maxWork;
+//
+//  Quick return if possible
+//
+    if (n==0) {
+        return 0;
+    }
+//
+//  Get machine constants
+//
+    const PT Eps = lamch<PT>(Precision);
+    PT smallNum = lamch<PT>(SafeMin);
+    PT bigNum = One / smallNum;
+    labad(smallNum, bigNum);
+    smallNum = sqrt(smallNum) / Eps;
+    bigNum = One / smallNum;
+//
+//  Scale A if max element outside range [SMLNUM,BIGNUM]
+//
+    const PT ANorm = lan(MaximumNorm, A);
+    bool scaleA = false;
+    PT cScale;
+    if (ANorm>Zero && ANorm<smallNum) {
+        scaleA = true;
+        cScale = smallNum;
+    } else if (ANorm>bigNum) {
+        scaleA = true;
+        cScale = bigNum;
+    }
+    if (scaleA) {
+        lascl(LASCL::FullMatrix, IndexType(0), IndexType(0), ANorm, cScale, A);
+    }
+//
+//  Balance the matrix
+//  (CWorkspace: none)
+//  (RWorkspace: need N)
+//
+    IndexType iBal = 1;
+    IndexType iLo, iHi;
+
+    auto balWork = rWork(_(iBal,iBal+n-1));
+    bal(BALANCE::Both, A, iLo, iHi, balWork);
+//
+//  Reduce to upper Hessenberg form
+//  (CWorkspace: need 2*N, prefer N+N*NB)
+//  (RWorkspace: none)
+//
+    IndexType iTau  = 1;
+    IndexType iWork = iTau + n;
+    IndexType lWork = work.length();
+
+    auto tau     = work(_(iTau, iTau+n-2));
+    auto hrdWork = work(_(iWork, lWork));
+
+    hrd(iLo, iHi, A, tau, hrdWork);
+
+    IndexType info = 0;
+    if (computeVL) {
+//
+//      Want left eigenvectors
+//      Copy Householder vectors to VL
+//
+        VL.lower() = A.lower();
+//
+//      Generate unitary matrix in VL
+//      (CWorkspace: need 2*N-1, prefer N+(N-1)*NB)
+//      (RWorkspace: none)
+//
+        unghr(iLo, iHi, VL, tau, hrdWork);
+//
+//      Perform QR iteration, accumulating Schur vectors in VL
+//      (CWorkspace: need 1, prefer HSWORK (see comments) )
+//      (RWorkspace: none)
+//
+        iWork = iTau;
+        auto hseqrWork = work(_(iWork, lWork));
+        info = hseqr(HSEQR::Schur, HSEQR::NoInit, iLo, iHi, A,
+                     w, VL, hseqrWork);
+
+        if (computeVR) {
+//
+//          Want left and right eigenvectors
+//          Copy Schur vectors to VR
+//
+            VR = VL;
+        }
+
+    } else if (computeVR) {
+//
+//      Want right eigenvectors
+//      Copy Householder vectors to VR
+//
+        VR.lower() = A.lower();
+
+//
+//      Generate unitary matrix in VR
+//      (CWorkspace: need 2*N-1, prefer N+(N-1)*NB)
+//      (RWorkspace: none)
+//
+        unghr(iLo, iHi, VR, tau, hrdWork);
+//
+//      Perform QR iteration, accumulating Schur vectors in VR
+//      (CWorkspace: need 1, prefer HSWORK (see comments) )
+//      (RWorkspace: none)
+//
+        iWork = iTau;
+        auto hseqrWork = work(_(iWork, lWork));
+        info = hseqr(HSEQR::Schur, HSEQR::NoInit, iLo, iHi, A,
+                     w, VR, hseqrWork);
+
+    } else {
+//
+//      Compute eigenvalues only
+//      (CWorkspace: need 1, prefer HSWORK (see comments) )
+//      (RWorkspace: none)
+//
+        iWork = iTau;
+        auto hseqrWork = work(_(iWork, lWork));
+        info = hseqr(HSEQR::Eigenvalues, HSEQR::No, iLo, iHi, A,
+                     w, VR, hseqrWork);
+    }
+//
+//  If INFO > 0 from ZHSEQR, then quit
+//
+    if (info==0) {
+
+        IndexType iRWork = iBal + n;
+
+        if (computeVL || computeVR) {
+//
+//          Compute left and/or right eigenvectors
+//          (CWorkspace: need 2*N)
+//          (RWorkspace: need 2*N)  (LEHN: we need N !)
+//
+            IndexType nOut;
+            auto trevcWork = work(_(iWork, iWork+2*n-1));
+
+            auto trevcRWork = rWork(_(iRWork, iRWork+n-1));
+
+            // TODO: find a way that we don't have to pass an empty "select"
+            DenseVector<Array<bool> >   select;
+            trevc(computeVL, computeVR, TREVC::Backtransform, select,
+                  A, VL, VR, n, nOut, trevcWork, trevcRWork);
+        }
+
+        if (computeVL) {
+//
+//          Undo balancing of left eigenvectors
+//          (CWorkspace: none)
+//          (RWorkspace: need N)
+//
+            bak(BALANCE::Both, Left, iLo, iHi, balWork, VL);
+//
+//          Normalize left eigenvectors and make largest component real
+//
+            auto _work = rWork(_(iRWork, iRWork+n-1));
+            for (IndexType i=1; i<=n; ++i) {
+                PT scale = One / blas::nrm2(VL(_,i));
+                VL(_,i) *= scale;
+                for (IndexType k=1; k<=n; ++k) {
+                    _work(k) = pow(cxxblas::real(VL(k,i)),2)
+                             + pow(cxxblas::imag(VL(k,i)),2);
+                }
+                IndexType k = blas::iamax(_work);
+                T tmp = cxxblas::conjugate(VL(k,i)) / sqrt(_work(k));
+                VL(_,i) *= tmp;
+                VL(k,i) = cxxblas::real(VL(k,i));
+            }
+        }
+
+        if (computeVR) {
+//
+//          Undo balancing of right eigenvectors
+//          (CWorkspace: none)
+//          (RWorkspace: need N)
+//
+            bak(BALANCE::Both, Right, iLo, iHi, balWork, VR);
+//
+//          Normalize right eigenvectors and make largest component real
+//
+            auto _work = rWork(_(iRWork, iRWork+n-1));
+            for (IndexType i=1; i<=n; ++i) {
+                PT scale = One / blas::nrm2(VR(_,i));
+                VR(_,i) *= scale;
+                for (IndexType k=1; k<=n; ++k) {
+                    _work(k) = pow(cxxblas::real(VR(k,i)),2)
+                             + pow(cxxblas::imag(VR(k,i)),2);
+                }
+                IndexType k = blas::iamax(_work);
+                T tmp = cxxblas::conjugate(VR(k,i)) / sqrt(_work(k));
+                VR(_,i) *= tmp;
+                VR(k,i) = cxxblas::real(VR(k,i));
+            }
+        }
+    }
+//
+//     Undo scaling if necessary
+//
+    if (scaleA) {
+        lascl(LASCL::FullMatrix, IndexType(0), IndexType(0),
+              cScale, ANorm, w(_(info+1,n)));
+        if (info>0) {
+            lascl(LASCL::FullMatrix, IndexType(0), IndexType(0),
+                  cScale, ANorm, w(_(1,iLo-1)));
         }
     }
 
@@ -584,6 +891,14 @@ ev(bool     computeVL,
 //
 //  Remove references from rvalue types
 //
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<VWR>::Type    VectorWR;
+    typedef typename RemoveRef<VWI>::Type    VectorWI;
+    typedef typename RemoveRef<MVL>::Type    MatrixVL;
+    typedef typename RemoveRef<MVR>::Type    MatrixVR;
+    typedef typename RemoveRef<VWORK>::Type  VectorWork;
+#   endif
+
     typedef typename RemoveRef<MA>::Type     MatrixA;
     typedef typename MatrixA::IndexType      IndexType;
 
@@ -593,6 +908,7 @@ ev(bool     computeVL,
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+
     ASSERT(A.numRows()==A.numCols());
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
@@ -640,13 +956,6 @@ ev(bool     computeVL,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-
-    typedef typename RemoveRef<VWR>::Type    VectorWR;
-    typedef typename RemoveRef<VWI>::Type    VectorWI;
-    typedef typename RemoveRef<MVL>::Type    MatrixVL;
-    typedef typename RemoveRef<MVR>::Type    MatrixVR;
-    typedef typename RemoveRef<VWORK>::Type  VectorWork;
-    
     typename MatrixA::NoView      A_org    = A;
     typename VectorWR::NoView     wr_org   = wr;
     typename VectorWI::NoView     wi_org   = wi;
@@ -738,9 +1047,7 @@ ev(bool     computeVL,
 }
 
 
-#ifdef USE_CXXLAPACK
-
-//-- (ge)ev [complex variant] -----------------------------------------------------
+//-- (ge)ev [complex variant] --------------------------------------------------
 
 template <typename MA, typename VW, typename MVL, typename MVR, typename VWORK,
           typename VRWORK>
@@ -765,6 +1072,14 @@ ev(bool     computeVL,
 //
 //  Remove references from rvalue types
 //
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<VW>::Type      VectorW;
+    typedef typename RemoveRef<MVL>::Type     MatrixVL;
+    typedef typename RemoveRef<MVR>::Type     MatrixVR;
+    typedef typename RemoveRef<VWORK>::Type   VectorWork;
+    typedef typename RemoveRef<VRWORK>::Type  VectorRWork;
+#   endif
+
     typedef typename RemoveRef<MA>::Type      MatrixA;
     typedef typename MatrixA::IndexType       IndexType;
 
@@ -812,14 +1127,100 @@ ev(bool     computeVL,
     }
 
 //
+//  Make copies of output arguments
+//
+#   ifdef CHECK_CXXLAPACK
+    typename MatrixA::NoView      A_org     = A;
+    typename VectorW::NoView      w_org     = w;
+    typename MatrixVL::NoView     VL_org    = VL;
+    typename MatrixVR::NoView     VR_org    = VR;
+    typename VectorWork::NoView   work_org  = work;
+    typename VectorRWork::NoView  rWork_org = rWork;
+#   endif
+
+//
 //  Call external implementation
 //
-    IndexType result = external::ev_impl(computeVL, computeVR, A, w, VL, VR,
-                                         work, rWork);
+    IndexType result = LAPACK_SELECT::ev_impl(computeVL, computeVR,
+                                              A, w, VL, VR,
+                                              work, rWork);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    typename MatrixA::NoView      A_generic     = A;
+    typename VectorW::NoView      w_generic     = w;
+    typename MatrixVL::NoView     VL_generic    = VL;
+    typename MatrixVR::NoView     VR_generic    = VR;
+    typename VectorWork::NoView   work_generic  = work;
+    typename VectorRWork::NoView  rWork_generic = rWork;
+
+    A     = A_org;
+    w     = w_org;
+    VL    = VL_org;
+    VR    = VR_org;
+    work  = work_org;
+    rWork = rWork_org;
+
+    IndexType _result = external::ev_impl(computeVL, computeVR,
+                                          A, w, VL, VR,
+                                          work, rWork);
+
+    bool failed = false;
+    if (! isIdentical(A_generic, A, "A_generic", "A")) {
+        std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
+        std::cerr << "F77LAPACK: A = " << A << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(w_generic, w, " w_generic", "w")) {
+        std::cerr << "CXXLAPACK: w_generic = " << w_generic << std::endl;
+        std::cerr << "F77LAPACK: w = " << w << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(VL_generic, VL, " VL_generic", "VL")) {
+        std::cerr << "CXXLAPACK: VL_generic = " << VL_generic << std::endl;
+        std::cerr << "F77LAPACK: VL = " << VL << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(VR_generic, VR, " VR_generic", "VR")) {
+        std::cerr << "CXXLAPACK: VR_generic = " << VR_generic << std::endl;
+        std::cerr << "F77LAPACK: VR = " << VR << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(work_generic, work, "work_generic", "work")) {
+        std::cerr << "CXXLAPACK: work_generic = " << work_generic << std::endl;
+        std::cerr << "F77LAPACK: work = " << work << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(rWork_generic, rWork, "rWork_generic", "rWork")) {
+        std::cerr << "CXXLAPACK: rWork_generic = " << rWork_generic
+                  << std::endl;
+        std::cerr << "F77LAPACK: rWork = " << rWork << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(result, _result, " result", "_result")) {
+        std::cerr << "CXXLAPACK:  result = " << result << std::endl;
+        std::cerr << "F77LAPACK: _result = " << _result << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    } else {
+//        std::cerr << "passed: ev.tcc" << std::endl;
+    }
+
+#   endif
+
     return result;
 }
-
-#endif // USE_CXXLAPACK
 
 //-- (ge)ev_wsq [worksize query, real variant] ---------------------------------
 
@@ -861,8 +1262,6 @@ ev_wsq(bool computeVL, bool computeVR, const MA &A)
 
 //-- (ge)ev_wsq [worksize query, complex variant] ------------------------------
 
-#ifdef USE_CXXLAPACK
-
 template <typename MA>
 typename RestrictTo<IsComplexGeMatrix<MA>::value,
          Pair<typename MA::IndexType> >::Type
@@ -882,12 +1281,22 @@ ev_wsq(bool computeVL, bool computeVR, const MA &A)
 //
 //  Call implementation
 //
-    const auto ws = external::ev_wsq_impl(computeVL, computeVR, A);
+    const auto ws = LAPACK_SELECT::ev_wsq_impl(computeVL, computeVR, A);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    auto optWorkSize = external::ev_wsq_impl(computeVL, computeVR, A);
+    if (! isIdentical(optWorkSize.second, ws.second,
+                      "optWorkSize", "ws.second"))
+    {
+        ASSERT(0);
+    }
+#   endif
 
     return ws;
 }
-
-#endif // USE_CXXLAPACK
 
 //-- (ge)ev [real variant with temporary workspace] ----------------------------
 
@@ -914,8 +1323,6 @@ ev(bool     computeVL,
     return ev(computeVL, computeVR, A, wr, wi, VL, VR, work);
 }
 
-#ifdef USE_CXXLAPACK
-
 //-- (ge)ev [complex variant with temporary workspace] -------------------------
 
 template <typename MA, typename VW, typename MVL, typename MVR>
@@ -940,12 +1347,10 @@ ev(bool     computeVL,
     typedef DenseVector<Array<PT> >                     RealWorkVector;
 
     WorkVector      work;
-    RealWorkVector  rwork;
+    RealWorkVector  rWork;
 
-    return ev(computeVL, computeVR, A, w, VL, VR, work, rwork);
+    return ev(computeVL, computeVR, A, w, VL, VR, work, rWork);
 }
-
-#endif // USE_CXXLAPACK
 
 } } // namespace lapack, flens
 

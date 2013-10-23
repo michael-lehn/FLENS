@@ -54,7 +54,8 @@ namespace flens { namespace lapack {
 namespace generic {
 
 template <typename MA, typename IndexType, typename VSCALE>
-void
+typename RestrictTo<IsReal<typename MA::ElementType>::value,
+         void>::Type
 bal_impl(BALANCE::Balance    job,
          GeMatrix<MA>        &A,
          IndexType           &iLo,
@@ -69,15 +70,14 @@ bal_impl(BALANCE::Balance    job,
     using flens::min;
 
     typedef typename GeMatrix<MA>::ElementType  T;
-    typedef typename ComplexTrait<T>::PrimitiveType  PT;
-    
-    const PT Zero(0), One(1);
-    const PT scaleFactor(2), factor(0.95);
 
-    const PT safeMin1 = lamch<PT>(SafeMin) / lamch<PT>(Precision);
-    const PT safeMax1 = One / safeMin1;
-    const PT safeMin2 = safeMin1*scaleFactor;
-    const PT safeMax2 = One / safeMin2;
+    const T Zero(0), One(1);
+    const T scaleFactor(2), factor(0.95);
+
+    const T safeMin1 = lamch<T>(SafeMin) / lamch<T>(Precision);
+    const T safeMax1 = One / safeMin1;
+    const T safeMin2 = safeMin1*scaleFactor;
+    const T safeMax2 = One / safeMin2;
 
 
     const Underscore<IndexType> _;
@@ -134,8 +134,7 @@ bal_impl(BALANCE::Balance    job,
                     if (i==j) {
                         continue;
                     }
-                    if ( cxxblas::real(A(j,i))!=Zero || 
-                         cxxblas::imag(A(j,i))!=Zero ) {
+                    if (A(j,i)!=Zero) {
                         foundRow = false;
                         break;
                     }
@@ -162,7 +161,233 @@ bal_impl(BALANCE::Balance    job,
                     if (i==j) {
                         continue;
                     }
-                    if ( cxxblas::real(A(i,j))!=Zero || cxxblas::imag(A(i,j))!=Zero ) {
+                    if (A(i,j)!=Zero) {
+                        foundCol = false;
+                        break;
+                    }
+                }
+
+                if (foundCol) {
+                    m = k;
+                    iExc = 2;
+                    goto EXCHANGE;
+                }
+            }
+        }
+    }
+
+    for (IndexType i=k; i<=l; ++i) {
+        scale(i) = One;
+    }
+
+    if (job==PermuteOnly) {
+        goto DONE;
+    }
+//
+//  Balance the submatrix in rows K to L.
+//
+//  Iterative loop for norm reduction
+//
+    bool noConv;
+    do {
+        noConv = false;
+
+        for (IndexType i=k; i<=l; ++i) {
+            T c = Zero;
+            T r = Zero;
+
+            for (IndexType j=k; j<=l; ++j) {
+                if (j==i) {
+                    continue;
+                }
+                c += abs(A(j,i));
+                r += abs(A(i,j));
+            }
+            const IndexType ica = blas::iamax(A(_(1,l),i));
+            T ca = abs(A(ica,i));
+            const IndexType ira = blas::iamax(A(i,_(k,n)))+k-1;
+            T ra = abs(A(i,ira));
+//
+//          Guard against zero C or R due to underflow.
+//
+            if (c==Zero || r==Zero) {
+                continue;
+            }
+            T g = r / scaleFactor;
+            T f = One;
+            T s = c + r;
+
+            while (c<g && max(f,c,ca)<safeMax2 && min(r,g,ra)>safeMin2) {
+                if (isnan(c+f+ca+r+g+ra)) {
+//
+//                  Exit if NaN to avoid infinite loop
+//
+                    ASSERT(0);
+                    return;
+                }
+                f *= scaleFactor;
+                c *= scaleFactor;
+                ca *= scaleFactor;
+                r /= scaleFactor;
+                g /= scaleFactor;
+                ra /= scaleFactor;
+            }
+
+            g = c / scaleFactor;
+            while (g>=r && max(r,ra)<safeMax2 && min(f,c,g,ca)>safeMin2) {
+                f /= scaleFactor;
+                c /= scaleFactor;
+                g /= scaleFactor;
+                ca /= scaleFactor;
+                r *= scaleFactor;
+                ra *= scaleFactor;
+            }
+//
+//          Now balance.
+//
+            if ((c+r)>=factor*s) {
+                continue;
+            }
+            if (f<One && scale(i)<One) {
+                if (f*scale(i)<=safeMin1) {
+                    continue;
+                }
+            }
+            if (f>One && scale(i)>One) {
+                if (scale(i)>=safeMax1/f) {
+                    continue;
+                }
+            }
+            g = One / f;
+            scale(i) *= f;
+            noConv = true;
+
+            A(i,_(k,n)) *= g;
+            A(_(1,l),i) *= f;
+
+        }
+
+    } while (noConv);
+
+    DONE:
+        iLo = k;
+        iHi = l;
+}
+
+template <typename MA, typename IndexType, typename VSCALE>
+typename RestrictTo<IsComplex<typename MA::ElementType>::value,
+         void>::Type
+bal_impl(BALANCE::Balance    job,
+         GeMatrix<MA>        &A,
+         IndexType           &iLo,
+         IndexType           &iHi,
+         DenseVector<VSCALE> &scale)
+{
+    using namespace BALANCE;
+
+    using std::abs;
+    using std::isnan;
+    using cxxblas::abs1;
+    using flens::max;
+    using flens::min;
+
+    typedef typename GeMatrix<MA>::ElementType          T;
+    typedef typename ComplexTrait<T>::PrimitiveType     PT;
+
+    const PT Zero(0), One(1);
+    const PT scaleFactor(2), factor(0.95);
+
+    const PT safeMin1 = lamch<PT>(SafeMin) / lamch<PT>(Precision);
+    const PT safeMax1 = One / safeMin1;
+    const PT safeMin2 = safeMin1*scaleFactor;
+    const PT safeMax2 = One / safeMin2;
+
+    const Underscore<IndexType> _;
+    const IndexType n = A.numRows();
+
+    IndexType k = 1;
+    IndexType l = n;
+
+    IndexType j = l, m;
+
+    if (n==0) {
+        goto DONE;
+    }
+
+    if (job==None) {
+        for (IndexType i=1; i<=n; ++i) {
+            scale(i) = One;
+        }
+        goto DONE;
+    }
+
+    if (job!=ScaleOnly) {
+//
+//      Permutation to isolate eigenvalues if possible
+//
+        IndexType iExc = 0;
+//
+//      Row and column exchange.
+//
+        EXCHANGE:
+            if (iExc!=0) {
+                scale(m) = j;
+                if (j!=m) {
+                    blas::swap(A(_(1,l),j), A(_(1,l),m));
+                    blas::swap(A(j,_(k,n)), A(m,_(k,n)));
+                }
+            }
+
+        switch (iExc) {
+//
+//      Search for rows isolating an eigenvalue and push them down.
+//
+        case 1:
+            if (l==1) {
+                goto DONE;
+            }
+            --l;
+
+        case 0:
+            for (j=l; j>=1; --j) {
+                bool foundRow = true;
+
+                for (IndexType i=1; i<=l; ++i) {
+                    if (i==j) {
+                        continue;
+                    }
+                    if (cxxblas::real(A(j,i))!=Zero
+                     || cxxblas::imag(A(j,i))!=Zero)
+                    {
+                        foundRow = false;
+                        break;
+                    }
+                }
+
+                if (foundRow) {
+                    m = l;
+                    iExc = 1;
+                    goto EXCHANGE;
+                }
+            }
+//
+//      Search for columns isolating an eigenvalue and push them left.
+//
+        case 2:
+            if ((iExc!=0) && (iExc!=1)) {
+                ++k;
+            }
+
+            for (j=k; j<=l; ++j) {
+                bool foundCol = true;
+
+                for (IndexType i=k; i<=l; ++i) {
+                    if (i==j) {
+                        continue;
+                    }
+                    if (cxxblas::real(A(i,j))!=Zero
+                     || cxxblas::imag(A(i,j))!=Zero)
+                    {
                         foundCol = false;
                         break;
                     }
@@ -201,8 +426,8 @@ bal_impl(BALANCE::Balance    job,
                 if (j==i) {
                     continue;
                 }
-                c += abs(cxxblas::real(A(j,i))) + abs(cxxblas::imag(A(j,i)));
-                r += abs(cxxblas::real(A(i,j))) + abs(cxxblas::imag(A(i,j)));
+                c += abs1(A(j,i));
+                r += abs1(A(i,j));
             }
             const IndexType ica = blas::iamax(A(_(1,l),i));
             PT ca = abs(A(ica,i));
@@ -275,6 +500,7 @@ bal_impl(BALANCE::Balance    job,
         iHi = l;
 }
 
+
 } // namespace generic
 
 //== interface for native lapack ===============================================
@@ -305,9 +531,11 @@ bal_impl(BALANCE::Balance    job,
 #endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
-
+//
+//  Real variant
+//
 template <typename MA, typename IndexType, typename VSCALE>
-typename RestrictTo<IsGeMatrix<MA>::value
+typename RestrictTo<IsRealGeMatrix<MA>::value
                  && IsInteger<IndexType>::value
                  && IsRealDenseVector<VSCALE>::value,
          void>::Type
@@ -319,6 +547,15 @@ bal(BALANCE::Balance    job,
 {
     LAPACK_DEBUG_OUT("bal");
 
+//
+//  Remove references from the types
+//
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<MA>::Type      MatrixA;
+    typedef typename RemoveRef<VSCALE>::Type  VectorScale;
+#   endif
+
+
 #   ifndef NDEBUG
 //
 //  Test the input parameters
@@ -329,13 +566,100 @@ bal(BALANCE::Balance    job,
 #   endif
 
 #   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    typename MatrixA::NoView        A_org      = A;
+    IndexType                       iLo_org    = iLo;
+    IndexType                       iHi_org    = iHi;
+    typename VectorScale::NoView    scale_org  = scale;
+#   endif
+
+//
+//  Call implementation
+//
+    LAPACK_SELECT::bal_impl(job, A, iLo, iHi, scale);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    typename MatrixA::NoView        A_generic      = A;
+    IndexType                       iLo_generic    = iLo;
+    IndexType                       iHi_generic    = iHi;
+    typename VectorScale::NoView    scale_generic  = scale;
+
+    A = A_org;
+    iLo = iLo_org;
+    iHi = iHi_org;
+    scale = scale_org;
+
+    external::bal_impl(job, A, iLo, iHi, scale);
+
+    bool failed = false;
+    if (! isIdentical(A_generic, A, "A_generic", "A")) {
+        std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
+        std::cerr << "F77LAPACK: A = " << A << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(iLo_generic, iLo, "iLo_generic", "iLo")) {
+        failed = true;
+    }
+
+    if (! isIdentical(iHi_generic, iHi, "iHi_generic", "iHi")) {
+        failed = true;
+    }
+
+    if (! isIdentical(scale_generic, scale, "scale_generic", "scale")) {
+        std::cerr << "CXXLAPACK: scale_generic = "
+                  << scale_generic << std::endl;
+        std::cerr << "F77LAPACK: scale = "
+                  << scale << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    }
+#   endif
+}
+
+//
+//  Complex variant
+//
+template <typename MA, typename IndexType, typename VSCALE>
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                 && IsInteger<IndexType>::value
+                 && IsRealDenseVector<VSCALE>::value,
+         void>::Type
+bal(BALANCE::Balance    job,
+    MA                  &&A,
+    IndexType           &iLo,
+    IndexType           &iHi,
+    VSCALE              &&scale)
+{
+    LAPACK_DEBUG_OUT("bal (complex)");
 
 //
 //  Remove references from the types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<MA>::Type      MatrixA;
     typedef typename RemoveRef<VSCALE>::Type  VectorScale;
+#   endif
 
+
+#   ifndef NDEBUG
+//
+//  Test the input parameters
+//
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(A.numRows()==A.numCols());
+#   endif
+
+#   ifdef CHECK_CXXLAPACK
 //
 //  Make copies of output arguments
 //

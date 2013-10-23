@@ -167,7 +167,6 @@ orm2r(Side side, Transpose trans, GeMatrix<MA> &A,
 //  Test the input parameters
 //
 #   ifndef NDEBUG
-
     typedef typename GeMatrix<MC>::IndexType    IndexType;
 
     const IndexType m = C.numRows();

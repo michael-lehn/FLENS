@@ -63,6 +63,11 @@ rotmg(T &d1, T &d2, T &b1, T &b2, DenseVector<VP> &p)
     cxxblas::rotmg(d1, d2, b1, b2, p.data());
 #   else
     ASSERT(0);
+    (void)(d1);
+    (void)(d2);
+    (void)(b1);
+    (void)(b2);
+    (void)(p);
 #   endif
 }
 
@@ -86,6 +91,9 @@ rotm(VX &&x, VY &&y, const DenseVector<VP> &p)
 
 #   else
     ASSERT(0);
+    (void)(x);
+    (void)(y);
+    (void)(p);
 #   endif
 }
 

@@ -66,7 +66,6 @@ ormr3_impl(Side                      side,
            GeMatrix<MC>              &C,
            DenseVector<VWORK>        &work)
 {
-
     const IndexType k =  tau.length();
     const IndexType m =  C.numRows();
     const IndexType n =  C.numCols();
@@ -182,6 +181,13 @@ ormr3(Side          side,
       MC            &&C,
       VWORK         &&work)
 {
+//
+//  Remove references from rvalue types
+//
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<MC>::Type    MatrixC;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+#   endif
 
 //
 //  Test the input parameters
@@ -207,13 +213,6 @@ ormr3(Side          side,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MC>::Type    MatrixC;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
-    
     typename MatrixC::NoView        C_org    = C;
     typename VectorWork::NoView     work_org = work;
 #   endif

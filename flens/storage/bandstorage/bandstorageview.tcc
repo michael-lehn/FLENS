@@ -263,10 +263,10 @@ BandStorageView<T, Order, I, A>::allocator() const
 
 template <typename T, StorageOrder Order, typename I, typename A>
 bool
-BandStorageView<T, Order, I, A>::resize(IndexType numRows,
-                                        IndexType numCols,
-                                        IndexType numSubDiags,
-                                        IndexType numSuperDiags,
+BandStorageView<T, Order, I, A>::resize(IndexType DEBUG_VAR(numRows),
+                                        IndexType DEBUG_VAR(numCols),
+                                        IndexType DEBUG_VAR(numSubDiags),
+                                        IndexType DEBUG_VAR(numSuperDiags),
                                         IndexType firstIndex,
                                         const ElementType &)
 {
@@ -274,6 +274,7 @@ BandStorageView<T, Order, I, A>::resize(IndexType numRows,
     ASSERT(_numCols==numCols);
     ASSERT(_numSubDiags==numSubDiags);
     ASSERT(_numSuperDiags==numSuperDiags);
+
     changeIndexBase(firstIndex);
     return false;
 }

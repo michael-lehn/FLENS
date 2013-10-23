@@ -75,6 +75,7 @@ trs_impl(const HeMatrix<MA> &A, const DenseVector<VP> &piv,
                                        B.data(),
                                        B.leadingDimension());
     ASSERT(info==0);
+    FAKE_USE_NDEBUG(info);
 }
 
 } // namespace external
@@ -126,18 +127,16 @@ typename RestrictTo<IsHeMatrix<MA>::value
 trs(const MA &A, const VPIV &piv, MB &&B)
 {
     LAPACK_DEBUG_OUT("(he)trs [complex]");
-
-//
-//  Test the input parameters
-//
 #   ifndef NDEBUG
-
 //
 //  Remove references from rvalue types
 //
     typedef typename RemoveRef<MA>::Type     MatrixA;
     typedef typename MatrixA::IndexType      IndexType;
-    
+
+//
+//  Test the input parameters
+//
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
     ASSERT(A.numRows()==A.numCols());

@@ -123,6 +123,7 @@ ev(bool     computeZ,
 //
     typedef typename RemoveRef<MA>::Type      MatrixA;
     typedef typename MatrixA::IndexType       IndexType;
+
     const IndexType n = A.dim();
 
 //

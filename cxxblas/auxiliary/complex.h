@@ -74,6 +74,10 @@ template <typename T>
                    const T >::Type
     imag(const std::complex<T> &x);
 
+template <typename T>
+    T
+    abs1(const std::complex<T> &x);
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_AUXILIARY_COMPLEX_H

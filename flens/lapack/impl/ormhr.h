@@ -50,6 +50,25 @@
 namespace flens { namespace lapack {
 
 //== ormhr =====================================================================
+template <typename IndexType, typename  MA, typename  VTAU,
+          typename  MC, typename  VWORK>
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsRealDenseVector<VTAU>::value
+                     && IsRealGeMatrix<MC>::value
+                     && IsRealDenseVector<VWORK>::value,
+             void>::Type
+    ormhr(Side                          side,
+          Transpose                     trans,
+          IndexType                     iLo,
+          IndexType                     iHi,
+          MA                            &&A,
+          const VTAU                    &&tau,
+          MC                            &&C,
+          VWORK                         &&work);
+
+//
+//  Workspace query
+//
 template <typename IndexType, typename  MC>
     IndexType
     ormhr_wsq(Side                      side,
@@ -57,39 +76,6 @@ template <typename IndexType, typename  MC>
               IndexType                 iLo,
               IndexType                 iHi,
               const GeMatrix<MC>        &C);
-
-template <typename IndexType, typename  MA, typename  VTAU,
-          typename  MC, typename  VWORK>
-    void
-    ormhr(Side                          side,
-          Transpose                     trans,
-          IndexType                     iLo,
-          IndexType                     iHi,
-          GeMatrix<MA>                  &A,
-          const DenseVector<VTAU>       &tau,
-          GeMatrix<MC>                  &C,
-          DenseVector<VWORK>            &work);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename  MC>
-    IndexType
-    ormhr_wsq(Side                      side,
-              Transpose                 trans,
-              IndexType                 iLo,
-              IndexType                 iHi,
-              const MC                  &&C);
-
-template <typename IndexType, typename  MA, typename  VTAU,
-          typename  MC, typename  VWORK>
-    void
-    ormhr(Side                          side,
-          Transpose                     trans,
-          IndexType                     iLo,
-          IndexType                     iHi,
-          MA                            &&A,
-          const VTAU                    &tau,
-          MC                            &&C,
-          VWORK                         &&work);
 
 } } // namespace lapack, flens
 

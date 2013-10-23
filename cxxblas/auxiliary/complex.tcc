@@ -92,6 +92,15 @@ imag(const std::complex<T> &x)
     return std::imag(x);
 }
 
+template <typename T>
+T
+abs1(const std::complex<T> &x)
+{
+    using std::abs;
+
+    return abs(x.real()) + abs(x.imag());
+}
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_AUXILIARY_COMPLEX_TCC

@@ -349,18 +349,24 @@ ormqr(Side         side,
       MC           &&C,
       VWORK        &&work)
 {
+//
+//  Remove references from rvalue types
+//
+#   if !defined(NDEBUG) || defined(CHECK_CXXLAPACK)
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+#   endif
+
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<MC>::Type    MatrixC;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+#   endif
 
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+    typedef typename MatrixA::IndexType     IndexType;
 
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MC>::Type    MatrixC;
-    typedef typename MatrixC::IndexType     IndexType;
-    
     const IndexType m = C.numRows();
     const IndexType n = C.numCols();
     const IndexType k = A.numCols();
@@ -386,10 +392,6 @@ ormqr(Side         side,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
-    
     typename MatrixA::NoView    A_org      = A;
     typename MatrixC::NoView    C_org      = C;
     typename VectorWork::NoView work_org   = work;

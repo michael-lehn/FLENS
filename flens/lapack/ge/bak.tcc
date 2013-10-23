@@ -65,10 +65,9 @@ bak_impl(BALANCE::Balance            job,
 {
     using namespace BALANCE;
 
-    typedef typename GeMatrix<MV>::ElementType       T;
-    typedef typename ComplexTrait<T>::PrimitiveType  PT;
-    
-    const PT One(1);
+    typedef typename GeMatrix<MV>::ElementType          T;
+    typedef typename ComplexTrait<T>::PrimitiveType     PT;
+    const T One(1);
 
     const Underscore<IndexType> _;
 
@@ -123,7 +122,7 @@ bak_impl(BALANCE::Balance            job,
                 if (i<iLo) {
                     i = iLo - ii;
                 }
-                const IndexType k = explicit_cast<T,IndexType>(scale(i));
+                const IndexType k = explicit_cast<PT,IndexType>(scale(i));
                 if (k==i) {
                     continue;
                 }
@@ -140,7 +139,7 @@ bak_impl(BALANCE::Balance            job,
                 if (i<iLo) {
                     i = iLo - ii;
                 }
-                const IndexType k = explicit_cast<T,IndexType>(scale(i));
+                const IndexType k = explicit_cast<PT,IndexType>(scale(i));
                 if (k==i) {
                     continue;
                 }
@@ -185,11 +184,11 @@ bak_impl(BALANCE::Balance             job,
 
 //== (ge)bak ===================================================================
 //
-// Real and complex variant
+// Real variant
 //
 template <typename IndexType, typename VSCALE, typename MV>
 typename RestrictTo<IsRealDenseVector<VSCALE>::value
-                 && IsGeMatrix<MV>::value,
+                 && IsRealGeMatrix<MV>::value,
          void>::Type
 bak(BALANCE::Balance    job,
     Side                side,
@@ -199,6 +198,13 @@ bak(BALANCE::Balance    job,
     MV                  &&V)
 {
     LAPACK_DEBUG_OUT("bak");
+
+//
+//  Remove references from the types
+//
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<MV>::Type  MatrixV;
+#   endif
 
 #   ifndef NDEBUG
 //
@@ -218,10 +224,75 @@ bak(BALANCE::Balance    job,
 
 #   ifdef CHECK_CXXLAPACK
 //
+//  Make copies of output arguments
+//
+    typename MatrixV::NoView   V_org = V;
+#   endif
+
+//
+//  Call implementation
+//
+    LAPACK_SELECT::bak_impl(job, side, iLo, iHi, scale, V);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    typename MatrixV::NoView   V_generic = V;
+
+    V = V_org;
+
+    external::bak_impl(job, side, iLo, iHi, scale, V);
+
+    if (! isIdentical(V_generic, V, "V_generic", "V")) {
+        std::cerr << "CXXLAPACK: V_generic = " << V_generic << std::endl;
+        std::cerr << "F77LAPACK: V = " << V << std::endl;
+        ASSERT(0);
+    }
+#   endif
+}
+
+//== (ge)bak ===================================================================
+//
+//  Complex variant
+//
+template <typename IndexType, typename VSCALE, typename MV>
+typename RestrictTo<IsRealDenseVector<VSCALE>::value
+                 && IsComplexGeMatrix<MV>::value,
+         void>::Type
+bak(BALANCE::Balance            job,
+    Side                        side,
+    IndexType                   iLo,
+    IndexType                   iHi,
+    const VSCALE                &scale,
+    MV                          &&V)
+{
+    LAPACK_DEBUG_OUT("bak (complex)");
+
+//
 //  Remove references from the types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<MV>::Type  MatrixV;
-    
+#   endif
+
+#   ifndef NDEBUG
+//
+//  Test the input parameters
+//
+    const IndexType n = V.numRows();
+
+    if (n>0) {
+        ASSERT(1<=iLo);
+        ASSERT(iLo<=iHi);
+        ASSERT(iHi<=n);
+    } else {
+        ASSERT(iLo==1);
+        ASSERT(iHi==0);
+    }
+#   endif
+
+#   ifdef CHECK_CXXLAPACK
 //
 //  Make copies of output arguments
 //

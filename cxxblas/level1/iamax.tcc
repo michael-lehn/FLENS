@@ -57,14 +57,6 @@ iamax_generic(IndexType n, const X *x, IndexType incX, IndexType &iAbsMaxX)
     }
 }
 
-template <typename T>
-T
-abs1(const std::complex<T> &x)
-{
-    using std::abs;
-    return abs(x.real()) + abs(x.imag());
-}
-
 template <typename IndexType, typename X>
 void
 iamax_generic(IndexType n, const std::complex<X> *x, IndexType incX,

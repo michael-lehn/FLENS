@@ -129,6 +129,7 @@ orgl2_impl(IndexType                 k,
                                        tau.data(),
                                        work.data());
     ASSERT(info==0);
+    FAKE_USE_NDEBUG(info);
 }
 
 } // namespace external

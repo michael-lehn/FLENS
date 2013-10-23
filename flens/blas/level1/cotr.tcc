@@ -64,7 +64,9 @@ cotr(Transpose trans, MA &&A)
     }
 #   endif
 #   else
-    if ((trans==Trans || trans==ConjTrans) && ((A.numRows()!=A.numCols()) || (A.numSubDiags()!=A.numSuperDiags()))) {
+    if ((trans==Trans || trans==ConjTrans) && (A.numRows()!=A.numCols())
+     || (A.numSubDiags()!=A.numSuperDiags()))
+    {
         typename GeMatrix<MA>::NoView B = A;
         FLENS_BLASLOG_TMP_ADD(B);
 

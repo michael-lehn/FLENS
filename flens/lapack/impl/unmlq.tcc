@@ -354,14 +354,19 @@ unmlq(Side         side,
 //
 //  Test the input parameters
 //
+
+#   if defined(CHECK_CXXLAPACK) || !defined(NDEBUG)
+
+    typedef typename RemoveRef<MC>::Type    MatrixC;
+    
+#   endif
+
 #   ifndef NDEBUG
 
 //
 //  Remove references from rvalue types
 //
-    typedef typename RemoveRef<MC>::Type    MatrixC;
     typedef typename MatrixC::IndexType     IndexType;
-    
     const IndexType m = C.numRows();
     const IndexType n = C.numCols();
     const IndexType k = A.numRows();

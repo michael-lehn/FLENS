@@ -301,6 +301,7 @@ rfs_impl(Transpose               trans,
                                                  work.data(),
                                                  work2.data());
     ASSERT(info==0);
+    FAKE_USE_NDEBUG(info);
 }
 
 } // namespace external
@@ -336,18 +337,26 @@ rfs(Transpose   trans,
 {
     LAPACK_DEBUG_OUT("(ge)rfs [real]");
 
+//
+//  Remove references from rvalue types
+//
+#   ifndef NDEBUG
+    typedef typename RemoveRef<MA>::Type     MatrixA;
+    typedef typename MatrixA::IndexType      IndexType;
+#   endif
+
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<MX>::Type     MatrixX;
+    typedef typename RemoveRef<VFERR>::Type  VectorFErr;
+    typedef typename RemoveRef<VBERR>::Type  VectorBErr;
+    typedef typename RemoveRef<VWORK>::Type  VectorWork;
+    typedef typename RemoveRef<VIWORK>::Type VectorIWork;
+#   endif
 
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
-
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type     MatrixA;
-    typedef typename MatrixA::IndexType      IndexType;
-
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
     ASSERT(A.numRows()==A.numCols());
@@ -386,23 +395,15 @@ rfs(Transpose   trans,
     ASSERT(iwork.length()==n);
 #   endif
 
-#   ifdef CHECK_CXXLAPACK
-
-    typedef typename RemoveRef<MX>::Type     MatrixX;
-    typedef typename RemoveRef<VFERR>::Type  VectorFErr;
-    typedef typename RemoveRef<VBERR>::Type  VectorBErr;
-    typedef typename RemoveRef<VWORK>::Type  VectorWork;
-    typedef typename RemoveRef<VIWORK>::Type VectorIWork;
-    
 //
 //  Make copies of output arguments
 //
+#   ifdef CHECK_CXXLAPACK
     typename MatrixX::NoView     X_org     = X;
     typename VectorFErr::NoView  fErr_org  = fErr;
     typename VectorBErr::NoView  bErr_org  = bErr;
     typename VectorWork::NoView  work_org  = work;
     typename VectorIWork::NoView iwork_org = iwork;
-    
 #   endif
 
 //
@@ -495,17 +496,16 @@ rfs(Transpose   trans,
 {
     LAPACK_DEBUG_OUT("(ge)rfs [complex]");
 
-//
-//  Test the input parameters
-//
 #   ifndef NDEBUG
-
 //
 //  Remove references from rvalue types
 //
     typedef typename RemoveRef<MA>::Type     MatrixA;
     typedef typename MatrixA::IndexType      IndexType;
 
+//
+//  Test the input parameters
+//
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
     ASSERT(A.numRows()==A.numCols());

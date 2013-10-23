@@ -101,6 +101,8 @@ LAPACK_DECL(zgeev)(const char           *JOBVL,
                    DOUBLE               *RWORK,
                    INTEGER              *INFO)
 {
+    std::cerr << "zgeev: N = " << *N << std::endl;
+
     using std::max;
     using std::min;
 //

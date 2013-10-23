@@ -33,6 +33,7 @@
 /* Based on
  *
       SUBROUTINE DGEHD2( N, ILO, IHI, A, LDA, TAU, WORK, INFO )
+      SUBROUTINE ZGEHD2( N, ILO, IHI, A, LDA, TAU, WORK, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -50,22 +51,34 @@
 namespace flens { namespace lapack {
 
 //== hd2 =======================================================================
-template <typename IndexType, typename MA, typename VT, typename VW>
-    void
-    hd2(IndexType           iLo,
-        IndexType           iHi,
-        GeMatrix<MA>        &A,
-        DenseVector<VT>     &tau,
-        DenseVector<VW>     &work);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename MA, typename VT, typename VW>
-    void
+//
+//  Real variant
+//
+template <typename IndexType, typename MA, typename VTAU, typename VW>
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsRealDenseVector<VTAU>::value
+                     && IsRealDenseVector<VW>::value,
+             void>::Type
     hd2(IndexType           iLo,
         IndexType           iHi,
         MA                  &&A,
-        VT                  &&tau,
+        VTAU                &&tau,
         VW                  &&work);
+
+//
+//  Complex variant
+//
+template <typename IndexType, typename MA, typename VTAU, typename VW>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsComplexDenseVector<VTAU>::value
+                     && IsComplexDenseVector<VW>::value,
+             void>::Type
+    hd2(IndexType           iLo,
+        IndexType           iHi,
+        MA                  &&A,
+        VTAU                &&tau,
+        VW                  &&work);
+
 
 } } // namespace lapack, flens
 

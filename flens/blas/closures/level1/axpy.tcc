@@ -486,9 +486,11 @@ axpy(const ALPHA &alpha, const VectorClosure<OpMult, VL, MR> &xA, Vector<VY> &y)
 //
 template <typename ALPHA, typename Op, typename VL, typename VR, typename VY>
 void
-axpy(const ALPHA &alpha, const VectorClosure<Op, VL, VR> &x, Vector<VY> &y)
+axpy(const ALPHA & DEBUG_VAR(alpha), 
+     const VectorClosure<Op, VL, VR> & DEBUG_VAR(x), Vector<VY> & DEBUG_VAR(y))
 {
     FLENS_BLASLOG_ERROR_AXPY(alpha, x, y);
+
     ASSERT(0);
 }
 
@@ -935,11 +937,12 @@ axpy(Transpose, const ALPHA &, const MatrixClosure<Op, ML, MR> &, Matrix<MB> &)
 
 template <typename ALPHA, typename MA, typename MB>
 void
-axpy(Transpose trans, const ALPHA &alpha,
-     const Matrix<MA> &A, Matrix<MB> &B)
+axpy(Transpose DEBUG_VAR(trans), const ALPHA & DEBUG_VAR(alpha),
+     const Matrix<MA> & DEBUG_VAR(A), Matrix<MB> & DEBUG_VAR(B))
 {
     FLENS_BLASLOG_ERROR_MAXPY(trans, alpha, A, B);
     ERROR_MSG("B += Some Matrix");
+
     ASSERT(0);
 }
 

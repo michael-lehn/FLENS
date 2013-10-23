@@ -35,6 +35,9 @@
       SUBROUTINE DLAQR5( WANTT, WANTZ, KACC22, N, KTOP, KBOT, NSHFTS,
      $                   SR, SI, H, LDH, ILOZ, IHIZ, Z, LDZ, V, LDV, U,
      $                   LDU, NV, WV, LDWV, NH, WH, LDWH )
+      SUBROUTINE ZLAQR5( WANTT, WANTZ, KACC22, N, KTOP, KBOT, NSHFTS, S,
+     $                   H, LDH, ILOZ, IHIZ, Z, LDZ, V, LDV, U, LDU, NV,
+     $                   WV, LDWV, NH, WH, LDWH )
  *
  *  -- LAPACK auxiliary routine (version 3.3.0) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -51,30 +54,20 @@
 namespace flens { namespace lapack {
 
 //== laqr5 =====================================================================
+//
+//  Real variant
+//
 template <typename IndexType, typename VSR, typename VSI, typename MH,
           typename MZ, typename MV, typename MU, typename MWV, typename MWH>
-    void
-    laqr5(bool                      wantT,
-          bool                      wantZ,
-          IndexType                 kacc22,
-          IndexType                 kTop,
-          IndexType                 kBot,
-          IndexType                 nShifts,
-          DenseVector<VSR>          &sr,
-          DenseVector<VSI>          &si,
-          GeMatrix<MH>              &H,
-          IndexType                 iLoZ,
-          IndexType                 iHiZ,
-          GeMatrix<MZ>              &Z,
-          GeMatrix<MV>              &V,
-          GeMatrix<MU>              &U,
-          GeMatrix<MWV>             &WV,
-          GeMatrix<MWH>             &WH);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename VSR, typename VSI, typename MH,
-          typename MZ, typename MV, typename MU, typename MWV, typename MWH>
-    void
+    typename RestrictTo<IsRealDenseVector<VSR>::value
+                     && IsRealDenseVector<VSI>::value
+                     && IsRealGeMatrix<MH>::value
+                     && IsRealGeMatrix<MZ>::value
+                     && IsRealGeMatrix<MV>::value
+                     && IsRealGeMatrix<MU>::value
+                     && IsRealGeMatrix<MWV>::value
+                     && IsRealGeMatrix<MWH>::value,
+             void>::Type
     laqr5(bool                      wantT,
           bool                      wantZ,
           IndexType                 kacc22,
@@ -91,6 +84,36 @@ template <typename IndexType, typename VSR, typename VSI, typename MH,
           MU                        &&U,
           MWV                       &&WV,
           MWH                       &&WH);
+
+//
+//  Complex variant
+//
+template <typename IndexType, typename VS, typename MH, typename MZ,
+          typename MV, typename MU, typename MWV, typename MWH>
+    typename RestrictTo<IsComplexDenseVector<VS>::value
+                     && IsComplexGeMatrix<MH>::value
+                     && IsComplexGeMatrix<MZ>::value
+                     && IsComplexGeMatrix<MV>::value
+                     && IsComplexGeMatrix<MU>::value
+                     && IsComplexGeMatrix<MWV>::value
+                     && IsComplexGeMatrix<MWH>::value,
+             void>::Type
+    laqr5(bool                      wantT,
+          bool                      wantZ,
+          IndexType                 kacc22,
+          IndexType                 kTop,
+          IndexType                 kBot,
+          IndexType                 nShifts,
+          VS                        &&s,
+          MH                        &&H,
+          IndexType                 iLoZ,
+          IndexType                 iHiZ,
+          MZ                        &&Z,
+          MV                        &&V,
+          MU                        &&U,
+          MWV                       &&WV,
+          MWH                       &&WH);
+
 
 } } // namespace lapack, flens
 

@@ -34,6 +34,8 @@
  *
       SUBROUTINE DHSEQR( JOB, COMPZ, N, ILO, IHI, H, LDH, WR, WI, Z,
      $                   LDZ, WORK, LWORK, INFO )
+      SUBROUTINE ZHSEQR( JOB, COMPZ, N, ILO, IHI, H, LDH, W, Z, LDZ,
+     $                   WORK, LWORK, INFO )
  *
  *  -- LAPACK computational routine (version 3.2.2) --
  *     Univ. of Tennessee, Univ. of California Berkeley,
@@ -67,51 +69,73 @@ namespace HSEQR {
 
 }
 
-//== hseqr_wsq (worksize query) ================================================
-template <typename IndexType, typename MH>
-    IndexType
-    hseqr_wsq(HSEQR::Job            job,
-              HSEQR::ComputeZ       computeZ,
-              IndexType             iLo,
-              IndexType             iHi,
-              const GeMatrix<MH>    &H);
-
 //== hseqr =====================================================================
+//
+//  Real variant
+//
 template <typename IndexType, typename MH, typename VWR, typename VWI,
           typename MZ, typename VWORK>
-    IndexType
+    typename RestrictTo<IsRealGeMatrix<MH>::value
+                     && IsRealDenseVector<VWR>::value
+                     && IsRealDenseVector<VWI>::value
+                     && IsRealGeMatrix<MZ>::value
+                     && IsRealDenseVector<VWORK>::value,
+             IndexType>::Type
     hseqr(HSEQR::Job                job,
           HSEQR::ComputeZ           compZ,
           IndexType                 iLo,
           IndexType                 iHi,
-          GeMatrix<MH>              &H,
-          DenseVector<VWR>          &wr,
-          DenseVector<VWI>          &wi,
-          GeMatrix<MZ>              &Z,
-          DenseVector<VWORK>        &work);
+          MH                        &&H,
+          VWR                       &&wr,
+          VWI                       &&wi,
+          MZ                        &&Z,
+          VWORK                     &&work);
 
-
-//-- forwarding ----------------------------------------------------------------
+//== hseqr_wsq (worksize query) ================================================
+//
+//  Real variant
+//
 template <typename IndexType, typename MH>
-    IndexType
-    hseqr_wsq(HSEQR::Job        job,
-              HSEQR::ComputeZ   computeZ,
-              IndexType         iLo,
-              IndexType         iHi,
-              const MH          &&H);
+    typename RestrictTo<IsRealGeMatrix<MH>::value,
+             IndexType>::Type
+    hseqr_wsq(HSEQR::Job            job,
+              HSEQR::ComputeZ       computeZ,
+              IndexType             iLo,
+              IndexType             iHi,
+              const MH              &H);
 
-template <typename IndexType, typename MH, typename VWR, typename VWI,
-          typename MZ, typename VWORK>
-    IndexType
-    hseqr(HSEQR::Job            job,
-          HSEQR::ComputeZ       compZ,
-          IndexType             iLo,
-          IndexType             iHi,
-          MH                    &&H,
-          VWR                   &&wr,
-          VWI                   &&wi,
-          MZ                    &&Z,
-          VWORK                 &&work);
+//== hseqr =====================================================================
+//
+//  Complex variant
+//
+template <typename IndexType, typename MH, typename VW, typename MZ,
+          typename VWORK>
+    typename RestrictTo<IsComplexGeMatrix<MH>::value
+                     && IsComplexDenseVector<VW>::value
+                     && IsComplexGeMatrix<MZ>::value
+                     && IsComplexDenseVector<VWORK>::value,
+             IndexType>::Type
+    hseqr(HSEQR::Job                job,
+          HSEQR::ComputeZ           compZ,
+          IndexType                 iLo,
+          IndexType                 iHi,
+          MH                        &&H,
+          VW                        &&w,
+          MZ                        &&Z,
+          VWORK                     &&work);
+
+//== hseqr_wsq (worksize query) ================================================
+//
+//  Complex variant
+//
+template <typename IndexType, typename MH>
+    typename RestrictTo<IsComplexGeMatrix<MH>::value,
+             IndexType>::Type
+    hseqr_wsq(HSEQR::Job            job,
+              HSEQR::ComputeZ       computeZ,
+              IndexType             iLo,
+              IndexType             iHi,
+              const MH              &H);
 
 } } // namespace lapack, flens
 

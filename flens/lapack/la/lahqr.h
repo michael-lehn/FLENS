@@ -33,6 +33,8 @@
 /* Based on
       SUBROUTINE DLAHQR( WANTT, WANTZ, N, ILO, IHI, H, LDH, WR, WI,
      $                   ILOZ, IHIZ, Z, LDZ, INFO )
+      SUBROUTINE ZLAHQR( WANTT, WANTZ, N, ILO, IHI, H, LDH, W, ILOZ,
+     $                   IHIZ, Z, LDZ, INFO )
  *
  *  -- LAPACK auxiliary routine (version 3.2) --
  *     Univ. of Tennessee, Univ. of California Berkeley,
@@ -50,24 +52,16 @@
 namespace flens { namespace lapack {
 
 //== lahqr =====================================================================
+//
+//  Real variant
+//
 template <typename IndexType, typename MH, typename VWR, typename VWI,
           typename MZ>
-    IndexType
-    lahqr(bool              wantT,
-          bool              wantZ,
-          IndexType         iLo,
-          IndexType         iHi,
-          GeMatrix<MH>      &H,
-          DenseVector<VWR>  &wr,
-          DenseVector<VWI>  &wi,
-          IndexType         iLoZ,
-          IndexType         iHiZ,
-          GeMatrix<MZ>      &Z);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename MH, typename VWR, typename VWI,
-          typename MZ>
-    IndexType
+    typename RestrictTo<IsRealGeMatrix<MH>::value
+                     && IsRealDenseVector<VWR>::value
+                     && IsRealDenseVector<VWI>::value
+                     && IsRealGeMatrix<MZ>::value,
+             IndexType>::Type
     lahqr(bool              wantT,
           bool              wantZ,
           IndexType         iLo,
@@ -78,6 +72,25 @@ template <typename IndexType, typename MH, typename VWR, typename VWI,
           IndexType         iLoZ,
           IndexType         iHiZ,
           MZ                &&Z);
+
+//
+//  Complex variant
+//
+template <typename IndexType, typename MH, typename VW, typename MZ>
+    typename RestrictTo<IsComplexGeMatrix<MH>::value
+                     && IsComplexDenseVector<VW>::value
+                     && IsComplexGeMatrix<MZ>::value,
+             IndexType>::Type
+    lahqr(bool              wantT,
+          bool              wantZ,
+          IndexType         iLo,
+          IndexType         iHi,
+          MH                &&H,
+          VW                &&w,
+          IndexType         iLoZ,
+          IndexType         iHiZ,
+          MZ                &&Z);
+
 
 } } // namespace lapack, flens
 

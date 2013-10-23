@@ -50,14 +50,26 @@
 namespace flens { namespace lapack {
 
 //== larfg =====================================================================
+//
+//  Real variant
+//
 template <typename N, typename ALPHA, typename VX, typename TAU>
-    void
-    larfg(N n, ALPHA &alpha, DenseVector<VX> &x, TAU &tau);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename N, typename ALPHA, typename VX, typename TAU>
-    void
+    typename RestrictTo<IsReal<ALPHA>::value
+                     && IsRealDenseVector<VX>::value
+                     && IsReal<TAU>::value,
+             void>::Type
     larfg(N n, ALPHA &alpha, VX &&x, TAU &tau);
+
+//
+//  Complex variant
+//
+template <typename N, typename ALPHA, typename VX, typename TAU>
+    typename RestrictTo<IsComplex<ALPHA>::value
+                     && IsComplexDenseVector<VX>::value
+                     && IsComplex<TAU>::value,
+             void>::Type
+    larfg(N n, ALPHA &alpha, VX &&x, TAU &tau);
+
 
 } } // namespace lapack, flens
 

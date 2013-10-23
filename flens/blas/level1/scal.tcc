@@ -217,7 +217,7 @@ scal(const ALPHA &alpha, MB &&B)
     FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
 
 #   ifdef HAVE_CXXBLAS_TPSCAL
-    cxxblas::tpscal(B.order(), B.upLo(), B.diag(),
+    cxxblas::tpscal(B.diag(),
                     B.dim(),
                     alpha, B.data());
 #   else
@@ -266,7 +266,7 @@ scal(const ALPHA &alpha, MB &&B)
     FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
 
 #   ifdef HAVE_CXXBLAS_TPSCAL
-    cxxblas::tpscal(B.order(), B.upLo(), B.diag(),
+    cxxblas::tpscal(B.diag(),
                     B.dim(),
                     alpha, B.data());
 #   else
@@ -330,7 +330,7 @@ scal(const ALPHA &alpha, MB &&B)
     FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
 
 #   ifdef HAVE_CXXBLAS_TPSCAL
-    cxxblas::tpscal(B.order(), B.upLo(), B.diag(),
+    cxxblas::tpscal(B.diag(),
                     B.dim(),
                     alpha, B.data());
 #   else

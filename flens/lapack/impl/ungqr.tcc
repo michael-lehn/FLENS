@@ -74,7 +74,7 @@ ungqr_impl(GeMatrix<MA>              &A,
 //
 //  Perform and apply workspace query
 //
-    IndexType nb = ilaenv<T>(1, "ORGQR", "", m, n, k);
+    IndexType nb = ilaenv<T>(1, "UNGQR", "", m, n, k);
     const IndexType lWorkOpt = max(IndexType(1), n) * nb;
     if (work.length()==0) {
         work.resize(max(lWorkOpt,IndexType(1)));
@@ -91,9 +91,8 @@ ungqr_impl(GeMatrix<MA>              &A,
     IndexType nbMin = 2;
     IndexType nx = 0;
     IndexType iws = n;
-    IndexType ldWork = 1;
 
-    if ((nb>1) && (nb<k)) {
+    if (nb>1 && nb<k) {
 //
 //      Determine when to cross over from blocked to unblocked code.
 //
@@ -103,7 +102,7 @@ ungqr_impl(GeMatrix<MA>              &A,
 //
 //          Determine if workspace is large enough for blocked code.
 //
-            ldWork = n;
+            IndexType ldWork = n;
             iws = ldWork *nb;
             if (work.length()<iws) {
 //
@@ -120,7 +119,7 @@ ungqr_impl(GeMatrix<MA>              &A,
     IndexType ki = -1,
               kk = -1;
 
-    if ((nb>=nbMin) && (nb<k) && (nx<k)) {
+    if (nb>=nbMin && nb<k && nx<k) {
 //
 //      Use blocked code after the last block.
 //      The first kk columns are handled by the block method.
@@ -184,6 +183,7 @@ ungqr_impl(GeMatrix<MA>              &A,
 
 } // namespace generic
 
+
 //== interface for native lapack ===============================================
 
 #ifdef USE_CXXLAPACK
@@ -242,20 +242,25 @@ typename RestrictTo<IsComplexGeMatrix<MA>::value
          void>::Type
 ungqr(MA &&A, const VTAU &tau, VWORK &&work)
 {
+//
+//  Remove references from rvalue types
+//
 
-    LAPACK_DEBUG_OUT("ungqr");
-    
+#if defined(CHECK_CXXLAPACK) || !defined(NDEBUG)
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+#endif
+
+#   ifdef CHECK_CXXLAPACK
+    typedef typename MatrixA::ElementType   ElementType;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+#   endif
+
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
-
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::IndexType     IndexType;
-    
+
     ASSERT(A.firstRow()==IndexType(1));
     ASSERT(A.firstCol()==IndexType(1));
     ASSERT(tau.firstIndex()==IndexType(1));
@@ -274,10 +279,6 @@ ungqr(MA &&A, const VTAU &tau, VWORK &&work)
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
-    typedef typename MatrixA::ElementType   ElementType;
-        
     typename MatrixA::NoView        A_org      = A;
     typename VectorWork::NoView     work_org   = work;
 #   endif
@@ -323,13 +324,10 @@ ungqr(MA &&A, const VTAU &tau, VWORK &&work)
         std::cerr << "error in: ungqr.tcc" << std::endl;
         ASSERT(0);
     } else {
-//        std::cerr << "passed: orgqr.tcc" << std::endl;
+//        std::cerr << "passed: ungqr.tcc" << std::endl;
     }
 #   endif
 }
-
-
-
 
 //-- ungqr [Variant with temporary workspace] ----------------------------------
 

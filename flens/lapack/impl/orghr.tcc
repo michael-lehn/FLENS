@@ -83,6 +83,8 @@ orghr_impl(IndexType                 iLo,
 
     typedef typename GeMatrix<MA>::ElementType  T;
 
+    const T Zero(0), One(1);
+
     const Underscore<IndexType> _;
     const IndexType n = A.numRows();
     const IndexType nh = iHi - iLo;
@@ -108,26 +110,26 @@ orghr_impl(IndexType                 iLo,
 //
     for (IndexType j=iHi; j>iLo; --j) {
         for (IndexType i=1; i<=j-1; ++i) {
-            A(i,j) = T(0);
+            A(i,j) = Zero;
         }
         for (IndexType i=j+1; i<=iHi; ++i) {
             A(i,j) = A(i,j-1);
         }
         for (IndexType i=iHi+1; i<=n; ++i) {
-            A(i,j) = T(0);
+            A(i,j) = Zero;
         }
     }
     for (IndexType j=1; j<=iLo; ++j) {
         for (IndexType i=1; i<=n; ++i) {
-            A(i,j) = T(0);
+            A(i,j) = Zero;
         }
-        A(j,j) = 1;
+        A(j,j) = One;
     }
     for (IndexType j=iHi+1; j<=n; ++j) {
         for (IndexType i=1; i<=n; ++i) {
-            A(i,j) = T(0);
+            A(i,j) = Zero;
         }
-        A(j,j) = T(1);
+        A(j,j) = One;
     }
 
     if (nh>0) {
@@ -243,14 +245,24 @@ orghr_wsq(IndexType                 iLo,
 }
 
 template <typename IndexType, typename  MA, typename  VTAU, typename VW>
-void
-orghr(IndexType                 iLo,
-      IndexType                 iHi,
-      GeMatrix<MA>              &A,
-      const DenseVector<VTAU>   &tau,
-      DenseVector<VW>           &work)
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                 && IsRealDenseVector<VTAU>::value
+                 && IsRealDenseVector<VW>::value,
+         void>::Type
+orghr(IndexType                     iLo,
+      IndexType                     iHi,
+      MA                            &&A,
+      const VTAU                    &tau,
+      VW                            &&work)
 {
     LAPACK_DEBUG_OUT("orghr");
+//
+//  Remove references from rvalue types
+//
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename RemoveRef<VW>::Type    VectorW;
+#   endif
 
 //
 //  Test the input parameters
@@ -275,8 +287,8 @@ orghr(IndexType                 iLo,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-    typename GeMatrix<MA>::NoView       _A    = A;
-    typename DenseVector<VW>::NoView    _work = work;
+    typename MatrixA::NoView    _A    = A;
+    typename VectorW::NoView    _work = work;
 #   endif
 
 //
@@ -307,34 +319,12 @@ orghr(IndexType                 iLo,
     }
 
     if (failed) {
-        std::cerr << "error in: hrd.tcc" << std::endl;
+        std::cerr << "error in: orghr.tcc" << std::endl;
         ASSERT(0);
     } else {
-//        std::cerr << "passed: hrd.tcc" << std::endl;
+//        std::cerr << "passed: orghr.tcc" << std::endl;
     }
 #   endif
-}
-
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename  MA, typename  VTAU>
-IndexType
-orghr_wsq(IndexType     iLo,
-          IndexType     iHi,
-          const MA      &&A,
-          const VTAU    &tau)
-{
-    return orghr_wsq(iLo, iHi, A, tau);
-}
-
-template <typename IndexType, typename  MA, typename  VTAU, typename VW>
-void
-orghr(IndexType     iLo,
-      IndexType     iHi,
-      MA            &&A,
-      const VTAU    &tau,
-      VW            &&work)
-{
-    orghr(iLo, iHi, A, tau, work);
 }
 
 } } // namespace lapack, flens

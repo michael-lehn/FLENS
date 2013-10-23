@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2011, Michael Lehn
+ *   Copyright (c) 2013, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -56,23 +56,27 @@ T
 lapy3_impl(const T &x, const T &y, const T &z)
 {
     using std::abs;
-    using std::max;
+    using flens::max;
     using std::min;
     using flens::pow;
     using std::sqrt;
+
+    const T Zero(0);
 
     const T xAbs = abs(x);
     const T yAbs = abs(y);
     const T zAbs = abs(z);
 
-    const T w = max( max(xAbs, yAbs), zAbs );
+    const T w = max(xAbs, yAbs, zAbs);
 
-    if (w==T(0)) {
-        return xAbs+yAbs+zAbs;
+    if (w==Zero) {
+//      W can be zero for max(0,nan,0)
+//      adding all three entries together will make sure
+//      NaN will not disappear.
+        return xAbs + yAbs + zAbs;
+    } else {
+        return w*sqrt(pow(xAbs/w,2) + pow(yAbs/w,2) + pow(zAbs/w,2));
     }
-
-    return w*sqrt( pow(( xAbs / w ), 2) +pow( ( yAbs / w ), 2)+ pow( ( zAbs / w ), 2) );
-
 }
 
 } // namespace generic
@@ -87,7 +91,7 @@ template <typename T>
 T
 lapy3_impl(const T &x, const T &y, const T &z)
 {
-    return cxxlapack::lapy3(x,y,z);
+    return cxxlapack::lapy3(x, y, z);
 }
 
 } // namespace external
@@ -111,7 +115,7 @@ lapy3(const T &x, const T &y, const T &z)
 //
 //  Compare results
 //
-    const T _result = external::lapy3_impl(x, y, z );
+    const T _result = external::lapy3_impl(x, y, z);
 
     bool failed = false;
     if (! isIdentical(result, _result, " result", "_result")) {
@@ -140,4 +144,4 @@ lapy3(const T &x, const T &y, const T &z)
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_LA_LAPY3_TCC
+#endif // FLENS_LAPACK_LA_LAPY§_TCC

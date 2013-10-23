@@ -34,7 +34,7 @@
  *
        SUBROUTINE DGELSY( M, N, NRHS, A, LDA, B, LDB, JPVT, RCOND, RANK,
       $                   WORK, LWORK, INFO )
-       SUBROUTINE DGELSY( M, N, NRHS, A, LDA, B, LDB, JPVT, RCOND, RANK,
+       SUBROUTINE ZGELSY( M, N, NRHS, A, LDA, B, LDB, JPVT, RCOND, RANK,
       $                   WORK, LWORK, RWORK, INFO )
  *
  *  -- LAPACK driver routine (version 3.3.1) --

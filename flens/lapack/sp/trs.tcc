@@ -74,6 +74,7 @@ trs_impl(const SpMatrix<MA> &A, const DenseVector<VP> &piv,
                                        B.data(),
                                        B.leadingDimension());
     ASSERT(info==0);
+    FAKE_USE_NDEBUG(info);
 }
 
 } // namespace external
@@ -97,18 +98,26 @@ trs(const MA &A, const VPIV &piv, MB &&B)
 {
     LAPACK_DEBUG_OUT("(sp)trs [real/complex]");
 
+#   ifndef NDEBUG
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type     MatrixA;
+    typedef typename MatrixA::IndexType      IndexType;
+
 //
 //  Test the input parameters
 //
-#   ifndef NDEBUG
     ASSERT(A.firstIndex()==1);
 
+    const IndexType n = A.dim();
+
     ASSERT(piv.firstIndex()==1);
-    ASSERT(piv.length()==A.dim());
+    ASSERT(piv.length()==n);
 
     ASSERT(B.firstRow()==1);
     ASSERT(B.firstCol()==1);
-    ASSERT(B.numRows()==A.dim());
+    ASSERT(B.numRows()==n);
 #   endif
 
 //

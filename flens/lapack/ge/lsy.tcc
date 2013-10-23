@@ -707,13 +707,15 @@ lsy(MA           &&A,
     ASSERT(work.firstIndex()==1);
     ASSERT(B.numRows()==max(m,n));
     ASSERT(jPiv.length()==0 || jPiv.length()==n);
+#   endif
 
     if (work.length()>0) {
         const IndexType mn = min(m, n);
         const IndexType lWorkMin = mn + max(2*mn, n + 1, mn + nRhs);
         ASSERT(work.length()>=lWorkMin);
+        FAKE_USE_NDEBUG(lWorkMin);
     }
-#   endif
+
 
     if (jPiv.length()==0) {
         jPiv.resize(n, jPiv.firstIndex(), IndexType(0));

@@ -72,7 +72,6 @@ typename RestrictTo<IsTrMatrix<MA>::value
          void>::Type
 sv(Transpose trans, const MA &A, VX &&x)
 {
-
     ASSERT(x.length()==A.dim());
 #   ifdef HAVE_CXXBLAS_TRSV
     cxxblas::trsv(A.order(), A.upLo(),
@@ -102,90 +101,6 @@ sv(Transpose trans, const MA &A, VX &&x)
 #   else
     ASSERT(0);
 #   endif
-}
-
-//-- trccssv
-template <typename ALPHA, typename MA, typename VX, typename VY>
-typename RestrictTo<IsTrCCSMatrix<MA>::value
-                 && IsDenseVector<VX>::value
-                 && IsDenseVector<VY>::value,
-         void>::Type
-sv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x, VY &&y)
-{
-    ASSERT(!DEBUGCLOSURE::identical(x, y));
-
-    if (y.length()==0) {
-        typedef typename RemoveRef<VY>::Type   VectorY;
-        typedef typename VectorY::ElementType  T;
-
-        const T  Zero(0);
-        y.resize(A.dim(), y.firstIndex(), Zero);
-    }
-
-//  Sparse BLAS only supports this case:
-    ASSERT(x.stride()==1);
-    ASSERT(y.stride()==1);
-    
-    ASSERT(x.length()==A.dim());
-    ASSERT(x.length()==y.length());
-    
-    
-    
-#   ifdef HAVE_CXXBLAS_TRCCSSV
-    cxxblas::trccssv(A.upLo(), trans, 
-                     A.dim(),
-                     alpha,
-                     A.engine().values().data(),
-                     A.engine().rows().data(),
-                     A.engine().cols().data(),
-                     x.data(),
-                     y.data());
-#   else
-    ASSERT(0);
-#   endif
-    
-}
-
-//-- trcrssv
-template <typename ALPHA, typename MA, typename VX, typename VY>
-typename RestrictTo<IsTrCRSMatrix<MA>::value
-                 && IsDenseVector<VX>::value
-                 && IsDenseVector<VY>::value,
-         void>::Type
-sv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x, VY &&y)
-{
-    ASSERT(!DEBUGCLOSURE::identical(x, y));
-
-    if (y.length()==0) {
-        typedef typename RemoveRef<VY>::Type   VectorY;
-        typedef typename VectorY::ElementType  T;
-
-        const T  Zero(0);
-        y.resize(A.dim(), y.firstIndex(), Zero);
-    }
-
-//  Sparse BLAS only supports this case:
-    ASSERT(x.stride()==1);
-    ASSERT(y.stride()==1);
-    
-    ASSERT(x.length()==A.dim());
-    ASSERT(x.length()==y.length());
-    
-    
-    
-#   ifdef HAVE_CXXBLAS_TRCRSSV
-    cxxblas::trcrssv(A.upLo(), trans, 
-                     A.dim(),
-                     alpha,
-                     A.engine().values().data(),
-                     A.engine().rows().data(),
-                     A.engine().cols().data(),
-                     x.data(),
-                     y.data());
-#   else
-    ASSERT(0);
-#   endif
-    
 }
 
 } } // namespace blas, flens

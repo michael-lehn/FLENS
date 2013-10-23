@@ -35,6 +35,9 @@
       SUBROUTINE DLAQR3( WANTT, WANTZ, N, KTOP, KBOT, NW, H, LDH, ILOZ,
      $                   IHIZ, Z, LDZ, NS, ND, SR, SI, V, LDV, NH, T,
      $                   LDT, NV, WV, LDWV, WORK, LWORK )
+      SUBROUTINE ZLAQR3( WANTT, WANTZ, N, KTOP, KBOT, NW, H, LDH, ILOZ,
+     $                   IHIZ, Z, LDZ, NS, ND, SH, V, LDV, NH, T, LDT,
+     $                   NV, WV, LDWV, WORK, LWORK )
  *
  *  -- LAPACK auxiliary routine (version 3.2.2)                        --
  *     Univ. of Tennessee, Univ. of California Berkeley,
@@ -52,46 +55,20 @@
 namespace flens { namespace lapack {
 
 //== laqr3 =====================================================================
-template <typename IndexType, typename MT>
-    IndexType
-    laqr3_wsq(IndexType                 kTop,
-              IndexType                 kBot,
-              IndexType                 nw,
-              const GeMatrix<MT>        &T);
-
+//
+//  Real variant
+//
 template <typename IndexType, typename MH, typename MZ, typename VSR,
           typename VSI, typename MV, typename MT, typename MWV, typename VWORK>
-    void
-    laqr3(bool                      wantT,
-          bool                      wantZ,
-          IndexType                 kTop,
-          IndexType                 kBot,
-          IndexType                 nw,
-          GeMatrix<MH>              &H,
-          IndexType                 iLoZ,
-          IndexType                 iHiZ,
-          GeMatrix<MZ>              &Z,
-          IndexType                 &ns,
-          IndexType                 &nd,
-          DenseVector<VSR>          &sr,
-          DenseVector<VSI>          &si,
-          GeMatrix<MV>              &V,
-          GeMatrix<MT>              &T,
-          GeMatrix<MWV>             &WV,
-          DenseVector<VWORK>        &work);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename MT>
-    IndexType
-    laqr3_wsq(IndexType                 kTop,
-              IndexType                 kBot,
-              IndexType                 nw,
-              const MT                  &&T);
-
-
-template <typename IndexType, typename MH, typename MZ, typename VSR,
-          typename VSI, typename MV, typename MT, typename MWV, typename VWORK>
-    void
+    typename RestrictTo<IsRealGeMatrix<MH>::value
+                     && IsRealGeMatrix<MZ>::value
+                     && IsRealDenseVector<VSR>::value
+                     && IsRealDenseVector<VSI>::value
+                     && IsRealGeMatrix<MV>::value
+                     && IsRealGeMatrix<MT>::value
+                     && IsRealGeMatrix<MWV>::value
+                     && IsRealDenseVector<VWORK>::value,
+             void>::Type
     laqr3(bool                      wantT,
           bool                      wantZ,
           IndexType                 kTop,
@@ -109,6 +86,48 @@ template <typename IndexType, typename MH, typename MZ, typename VSR,
           MT                        &&T,
           MWV                       &&WV,
           VWORK                     &&work);
+
+//
+//  Complex variant
+//
+template <typename IndexType, typename MH, typename MZ, typename VSH,
+          typename MV, typename MT, typename MWV, typename VWORK>
+    typename RestrictTo<IsComplexGeMatrix<MH>::value
+                     && IsComplexGeMatrix<MZ>::value
+                     && IsComplexDenseVector<VSH>::value
+                     && IsComplexGeMatrix<MV>::value
+                     && IsComplexGeMatrix<MT>::value
+                     && IsComplexGeMatrix<MWV>::value
+                     && IsComplexDenseVector<VWORK>::value,
+             void>::Type
+    laqr3(bool                      wantT,
+          bool                      wantZ,
+          IndexType                 kTop,
+          IndexType                 kBot,
+          IndexType                 nw,
+          MH                        &&H,
+          IndexType                 iLoZ,
+          IndexType                 iHiZ,
+          MZ                        &&Z,
+          IndexType                 &ns,
+          IndexType                 &nd,
+          VSH                       &&sh,
+          MV                        &&V,
+          MT                        &&T,
+          MWV                       &&WV,
+          VWORK                     &&work);
+
+
+//
+//  Workspace query (real/complex variant)
+//
+template <typename IndexType, typename MT>
+    IndexType
+    laqr3_wsq(IndexType             kTop,
+              IndexType             kBot,
+              IndexType             nw,
+              const GeMatrix<MT>    &T);
+
 
 } } // namespace lapack, flens
 

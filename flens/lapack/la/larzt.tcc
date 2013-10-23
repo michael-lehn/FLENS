@@ -76,7 +76,9 @@ larzt_impl(Direction                 direction,
 //  Check for currently supported options
 //
     ASSERT(storeVectors==RowWise);
+    FAKE_USE_NDEBUG(storeVectors);
     ASSERT(direction==Backward);
+    FAKE_USE_NDEBUG(direction);
 
     const IndexType k = T.dim();
 
@@ -129,7 +131,9 @@ larzt_impl(Direction                 direction,
 //  Check for currently supported options
 //
     ASSERT(storeVectors==RowWise);
+    FAKE_USE_NDEBUG(storeVectors);
     ASSERT(direction==Backward);
+    FAKE_USE_NDEBUG(direction);
 
     const IndexType k = T.dim();
     const IndexType n = V.numCols();
@@ -220,12 +224,18 @@ larzt(Direction      direction,
 //
 //  Test the input parameters
 //
-#   ifndef NDEBUG
+
+#if defined(CHECK_CXXLAPACK) || !defined(NDEBUG)
 
 //
 //  Remove references from rvalue types
 //
     typedef typename RemoveRef<MV>::Type    MatrixV;
+
+#endif
+
+#   ifndef NDEBUG
+
     typedef typename MatrixV::IndexType     IndexType;
 
 

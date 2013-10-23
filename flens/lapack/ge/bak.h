@@ -32,12 +32,11 @@
 
 /* Based on
  *
-       SUBROUTINE DGEBAK( JOB, SIDE, N, ILO, IHI, SCALE, M, V, LDV,
-      $                   INFO )
-       SUBROUTINE DGEBAK( JOB, SIDE, N, ILO, IHI, SCALE, M, V, LDV,
-      $                   INFO )
+      SUBROUTINE DGEBAK( JOB, SIDE, N, ILO, IHI, SCALE, M, V, LDV,
+     $                   INFO )
+      SUBROUTINE ZGEBAK( JOB, SIDE, N, ILO, IHI, SCALE, M, V, LDV,
+     $                   INFO )
  *
- * 
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
  *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
@@ -54,9 +53,27 @@
 namespace flens { namespace lapack {
 
 //== (ge)bak ===================================================================
+//
+//  Real variant
+//
 template <typename IndexType, typename VSCALE, typename MV>
     typename RestrictTo<IsRealDenseVector<VSCALE>::value
-                     && IsGeMatrix<MV>::value,
+                     && IsRealGeMatrix<MV>::value,
+             void>::Type
+    bak(BALANCE::Balance            job,
+        Side                        side,
+        IndexType                   iLo,
+        IndexType                   iHi,
+        const VSCALE                &scale,
+        MV                          &&V);
+
+//== (ge)bak ===================================================================
+//
+//  Complex variant
+//
+template <typename IndexType, typename VSCALE, typename MV>
+    typename RestrictTo<IsRealDenseVector<VSCALE>::value
+                     && IsComplexGeMatrix<MV>::value,
              void>::Type
     bak(BALANCE::Balance            job,
         Side                        side,

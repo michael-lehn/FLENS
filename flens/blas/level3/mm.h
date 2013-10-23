@@ -43,7 +43,7 @@ namespace flens { namespace blas {
 //== GeneralMatrix - GeneralMatrix products ====================================
 
     
-    //-- diagmm
+//-- diagmm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
     typename RestrictTo<IsDiagMatrix<MA>::value
                      && IsGeMatrix<MB>::value

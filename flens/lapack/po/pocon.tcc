@@ -234,28 +234,32 @@ pocon(const MA      &A,
 {
 
 //
+//  Remove references from rvalue types
+//
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<VWORK>::Type   VectorWork;
+    typedef typename RemoveRef<VIWORK>::Type  VectorIWork;
+#   endif
+
+//
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+    typedef typename MA::IndexType            IndexType;
+
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
 
+    const IndexType n = A.dim();
+
     ASSERT(work.firstIndex()==1);
-    ASSERT(work.length()==3*A.dim());
+    ASSERT(work.length()==3*n);
 
     ASSERT(iwork.firstIndex()==1);
-    ASSERT(iwork.length()==A.dim());
+    ASSERT(iwork.length()==n);
 #   endif
 
 #   ifdef CHECK_CXXLAPACK
-
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<VWORK>::Type   VectorWork;
-    typedef typename RemoveRef<VIWORK>::Type  VectorIWork;
-    
-
 //
 //  Make copies of output arguments
 //
@@ -331,19 +335,22 @@ pocon(const MA      &A,
       VWORK         &&work,
       VRWORK        &&rwork)
 {
-
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+    typedef typename MA::IndexType            IndexType;
+
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
 
+    const IndexType n = A.dim();
+
     ASSERT(work.firstIndex()==1);
-    ASSERT(work.length()==2*A.dim());
+    ASSERT(work.length()==2*n);
 
     ASSERT(rwork.firstIndex()==1);
-    ASSERT(rwork.length()==A.dim());
+    ASSERT(rwork.length()==n);
 #   endif
 
 //

@@ -63,7 +63,7 @@ RestrictTo<IsRealGeMatrix<GeMatrix<MV> >::value,
            void>::Type
 larzb_impl(Side                     side,
            Transpose                trans,
-           Direction                direction,
+           Direction                DEBUG_VAR(direction),
            StoreVectors             storeVectors,
            const GeMatrix<MV>       &V,
            const TrMatrix<MT>       &T,
@@ -375,12 +375,18 @@ larzb(Side           side,
 //
 //  Test the input parameters
 //
-#   ifndef NDEBUG
+
 
 //
 //  Remove references from rvalue types
 //
+#   if defined(CHECK_CXXLAPACK) || !defined(NDEBUG)
+
     typedef typename RemoveRef<MC>::Type    MatrixC;
+
+#   endif
+    
+#   ifndef NDEBUG
     typedef typename MatrixC::IndexType     IndexType;
     
 //  From LAPACK:  Currently, only STOREV = 'R' and DIRECT = 'B' are supported.

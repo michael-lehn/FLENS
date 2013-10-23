@@ -55,7 +55,7 @@ namespace flens { namespace lapack {
 //  Real and complex variant
 //
 template <typename MA, typename IndexType, typename VSCALE>
-    typename RestrictTo<IsGeMatrix<MA>::value
+    typename RestrictTo<IsRealGeMatrix<MA>::value
                      && IsInteger<IndexType>::value
                      && IsRealDenseVector<VSCALE>::value,
              void>::Type
@@ -64,6 +64,22 @@ template <typename MA, typename IndexType, typename VSCALE>
         IndexType           &iLo,
         IndexType           &iHi,
         VSCALE              &&scale);
+
+//== (ge)bal ===================================================================
+//
+//  Complex variant
+//
+template <typename MA, typename IndexType, typename VSCALE>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsInteger<IndexType>::value
+                     && IsRealDenseVector<VSCALE>::value,
+             void>::Type
+    bal(BALANCE::Balance    job,
+        MA                  &&A,
+        IndexType           &iLo,
+        IndexType           &iHi,
+        VSCALE              &&scale);
+
 
 } } // namespace lapack, flens
 

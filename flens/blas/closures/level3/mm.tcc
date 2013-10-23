@@ -1,4 +1,4 @@
-/*
+    /*
  *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
@@ -51,14 +51,16 @@ namespace flens { namespace blas {
 //== GeneralMatrix - GeneralMatrix products ====================================
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 void
-mm(Transpose transA, Transpose transB, const ALPHA &alpha,
-   const GeneralMatrix<MA> &A, const GeneralMatrix<MB> &B,
-   const BETA &beta, Matrix<MC> &C)
+mm(Transpose DEBUG_VAR(transA), Transpose DEBUG_VAR(transB),
+   const ALPHA & DEBUG_VAR(alpha),
+   const GeneralMatrix<MA> & DEBUG_VAR(A), const GeneralMatrix<MB> & DEBUG_VAR(B),
+   const BETA & DEBUG_VAR(beta), Matrix<MC> & DEBUG_VAR(C) )
 {
     // You get here if you want to call a matrix-matrix product that was not
     // defined.  Or its not correctly included.
     // TODO: print the signature of the blas::mm() function that needs to be
     //       implemented.
+
     ASSERT(0);
 }
 
@@ -68,8 +70,8 @@ typename RestrictTo<IsTriangularMatrix<MA>::value &&
                     IsGeneralMatrix<MB>::value &&
                     IsGeneralMatrix<MC>::value,
          void>::Type
-trmm(Side side, Transpose transA, Transpose transB, const ALPHA &alpha,
-     const MA &_A, const MB &_B, const BETA &beta, MC &C)
+trmm(Side side, Transpose transA, Transpose DEBUG_VAR(transB), const ALPHA &alpha,
+     const MA &_A, const MB &_B, const BETA &DEBUG_VAR(beta), MC &C)
 {
     using namespace DEBUGCLOSURE;
 
@@ -84,6 +86,8 @@ trmm(Side side, Transpose transA, Transpose transB, const ALPHA &alpha,
                   "temporary required");
     static_assert(IsSame<RMB, typename Result<RMB>::Type>::value,
                   "temporary required");
+#   else
+    typedef typename Result<MC>::Type  RMC;
 #   endif
 
 //
@@ -185,7 +189,7 @@ mm(Transpose transA, Transpose transB, const ALPHA &alpha,
 //== SymmetricMatrix - GeneralMatrix products ==================================
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 void
-symm(Side side, Transpose transB, const ALPHA &alpha,
+symm(Side side, Transpose DEBUG_VAR(transB), const ALPHA &alpha,
      const SymmetricMatrix<MA> &_A, const GeneralMatrix<MB> &_B,
      const BETA &beta, Matrix<MC> &C)
 {
@@ -203,6 +207,8 @@ symm(Side side, Transpose transB, const ALPHA &alpha,
     static_assert(IsSame<RMB, typename Result<RMB>::Type>::value,
                   "temporary required");
     ASSERT(transB==NoTrans);
+#   else
+    typedef typename Result<typename MC::Impl>::Type  RMC;
 #   endif
 
 //
@@ -245,7 +251,7 @@ symm(Side side, Transpose transB, const ALPHA &alpha,
 
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 void
-mm(Transpose transA, Transpose transB, const ALPHA &alpha,
+mm(Transpose DEBUG_VAR(transA), Transpose transB, const ALPHA &alpha,
    const SymmetricMatrix<MA> &A, const GeneralMatrix<MB> &B,
    const BETA &beta, Matrix<MC> &C)
 {
@@ -255,7 +261,7 @@ mm(Transpose transA, Transpose transB, const ALPHA &alpha,
 
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 void
-mm(Transpose transA, Transpose transB, const ALPHA &alpha,
+mm(Transpose DEBUG_VAR(transA), Transpose transB, const ALPHA &alpha,
    const GeneralMatrix<MA> &A, const SymmetricMatrix<MB> &B,
    const BETA &beta, Matrix<MC> &C)
 {
@@ -268,7 +274,7 @@ mm(Transpose transA, Transpose transB, const ALPHA &alpha,
 
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 void
-hemm(Side side, Transpose transB, const ALPHA &alpha,
+hemm(Side side, Transpose DEBUG_VAR(transB), const ALPHA &alpha,
      const HermitianMatrix<MA> &_A, const GeneralMatrix<MB> &_B,
      const BETA &beta, Matrix<MC> &C)
 {
@@ -286,6 +292,8 @@ hemm(Side side, Transpose transB, const ALPHA &alpha,
     static_assert(IsSame<RMB, typename Result<RMB>::Type>::value,
                   "temporary required");
     ASSERT(transB==NoTrans);
+#   else
+    typedef typename Result<typename MC::Impl>::Type  RMC;
 #   endif
 
 //
@@ -329,7 +337,7 @@ hemm(Side side, Transpose transB, const ALPHA &alpha,
 
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 void
-mm(Transpose transA, Transpose transB, const ALPHA &alpha,
+mm(Transpose DEBUG_VAR(transA), Transpose transB, const ALPHA &alpha,
    const HermitianMatrix<MA> &A, const GeneralMatrix<MB> &B,
    const BETA &beta, Matrix<MC> &C)
 {
@@ -339,7 +347,7 @@ mm(Transpose transA, Transpose transB, const ALPHA &alpha,
 
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 void
-mm(Transpose transA, Transpose transB, const ALPHA &alpha,
+mm(Transpose DEBUG_VAR(transA), Transpose transB, const ALPHA &alpha,
    const GeneralMatrix<MA> &A, const HermitianMatrix<MB> &B,
    const BETA &beta, Matrix<MC> &C)
 {

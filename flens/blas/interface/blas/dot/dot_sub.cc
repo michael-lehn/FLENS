@@ -199,7 +199,7 @@ BLAS(sdsdot_sub)(const INTEGER   *N,
         double tmp;
         blas::dot(x, y, tmp);
 
-        tmp += double(*RES);
+        tmp += double(*B);
         *RES = tmp;
 #   endif
 }

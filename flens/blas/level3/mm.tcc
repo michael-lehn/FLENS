@@ -47,6 +47,7 @@ namespace flens { namespace blas {
 
 //== GeneralMatrix - GeneralMatrix products ====================================
 
+
 //-- diagmm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 typename RestrictTo<IsDiagMatrix<MA>::value
@@ -139,7 +140,7 @@ mm(Transpose        transposeA,
     FLENS_BLASLOG_UNSETTAG;
 }
 
-//-- gbmm
+//-- diagmm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 typename RestrictTo<IsGeMatrix<MA>::value
                  && IsDiagMatrix<MB>::value
@@ -247,9 +248,6 @@ mm(Transpose        transposeA,
    const BETA       &beta,
    MC               &&C)
 {
-    typedef typename RemoveRef<MC>::Type MatrixC;
-    typedef typename MatrixC::IndexType  IndexType;
-    
     const bool noTransA = (transposeA==NoTrans || transposeA==Conj);
     const bool noTransB = (transposeB==NoTrans || transposeB==Conj);
 
@@ -259,8 +257,10 @@ mm(Transpose        transposeA,
     ASSERT(kA==kB);
 #   endif
 
+    typedef typename GeMatrix<MC>::IndexType IndexType;
     IndexType m = (noTransA) ? A.numRows() : A.numCols();
     IndexType n = (noTransB) ? B.numCols() : B.numRows();
+    IndexType l = (noTransA) ? A.numCols() : A.numRows();
 
     if (C.order()!=A.order()) {
         transposeA = Transpose(transposeA ^ Trans);
@@ -287,7 +287,7 @@ mm(Transpose        transposeA,
     FLENS_BLASLOG_BEGIN_GBMM(transposeA, transposeB, alpha, A, B, beta, C);
 
 #   ifdef HAVE_CXXBLAS_GBMM
-    cxxblas::gbmm(C.order(), cxxblas::Side::Left,
+    cxxblas::gbmm(MC::order, cxxblas::Side::Left,
                   transposeA, transposeB,
                   A.numRows(), A.numCols(),
                   A.numSubDiags(), A.numSuperDiags(),
@@ -319,9 +319,6 @@ mm(Transpose        transposeA,
    const BETA       &beta,
    MC               &&C)
 {
-    typedef typename RemoveRef<MC>::Type MatrixC;
-    typedef typename MatrixC::IndexType  IndexType;
-    
     const bool noTransA = (transposeA==NoTrans || transposeA==Conj);
     const bool noTransB = (transposeB==NoTrans || transposeB==Conj);
 
@@ -331,9 +328,10 @@ mm(Transpose        transposeA,
     ASSERT(kA==kB);
 #   endif
 
-
+    typedef typename GeMatrix<MC>::IndexType IndexType;
     IndexType m = (noTransA) ? A.numRows() : A.numCols();
     IndexType n = (noTransB) ? B.numCols() : B.numRows();
+    IndexType l = (noTransA) ? A.numCols() : A.numRows();
 
     if (C.order()!=A.order()) {
         transposeA = Transpose(transposeA ^ Trans);
@@ -360,7 +358,7 @@ mm(Transpose        transposeA,
     FLENS_BLASLOG_BEGIN_GBMM(transposeA, transposeB, alpha, A, B, beta, C);
 
 #   ifdef HAVE_CXXBLAS_GBMM
-    cxxblas::gbmm(C.order(), cxxblas::Side::Right,
+    cxxblas::gbmm(MC::order, cxxblas::Side::Right,
                   transposeB, transposeA,
                   A.numRows(), A.numCols(),
                   B.numSubDiags(), B.numSuperDiags(),
@@ -378,125 +376,6 @@ mm(Transpose        transposeA,
     FLENS_BLASLOG_UNSETTAG;
 }
 
-//-- geccsmm
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-typename RestrictTo<IsGeCCSMatrix<MA>::value
-                 && IsGeMatrix<MB>::value
-                 && IsGeMatrix<MC>::value,
-         void>::Type
-mm(Transpose        transposeA,
-   Transpose        transposeB,
-   const ALPHA      &alpha,
-   const MA         &A,
-   const MB         &B,
-   const BETA       &beta,
-   MC               &&C)
-{
-  
-    typedef typename RemoveRef<MC>::Type MatrixC;
-    typedef typename MatrixC::IndexType  IndexType;
-
-    const bool noTransA = (transposeA==NoTrans || transposeA==Conj);
-    const bool noTransB = (transposeB==NoTrans || transposeB==Conj);
-
-#   ifndef NDEBUG
-    int kA = (noTransA) ? A.numCols() : A.numRows();
-    int kB = (noTransB) ? B.numRows() : B.numCols();
-    ASSERT(kA==kB);
-#   endif
-
-    IndexType m = (noTransA) ? A.numRows() : A.numCols();
-    IndexType n = (noTransB) ? B.numCols() : B.numRows();
-    IndexType k = (noTransA) ? A.numCols() : A.numRows();
-    
-    // SparseBlas supports only C += op(A)*B
-    // and only ColMajor
-    ASSERT(transposeB==NoTrans);
-    ASSERT(C.order()==ColMajor);
-    ASSERT(B.order()==ColMajor);
-    
-    ASSERT(!DEBUGCLOSURE::identical(A, C));
-    
-    FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_GEMM(transposeA, transposeB, alpha, A, B, beta, C);
-
-#   ifdef HAVE_CXXBLAS_GECRSMM
-    cxxblas::gecrsmm(Transpose(transposeA^Trans),
-                     m, n, k,
-                     alpha,
-                     A.engine().values().data(),
-                     A.engine().cols().data(),
-                     A.engine().rows().data(),
-                     B.data(), B.leadingDimension(),
-                     beta,
-                     C.data(), C.leadingDimension());
-#   else
-    ASSERT(0);
-#   endif
-
-    FLENS_BLASLOG_END;
-    FLENS_BLASLOG_UNSETTAG;
-}
-
-//-- gecrsmm
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-typename RestrictTo<IsGeCRSMatrix<MA>::value
-                 && IsGeMatrix<MB>::value
-                 && IsGeMatrix<MC>::value,
-         void>::Type
-mm(Transpose        transposeA,
-   Transpose        transposeB,
-   const ALPHA      &alpha,
-   const MA         &A,
-   const MB         &B,
-   const BETA       &beta,
-   MC               &&C)
-{
-  
-    typedef typename RemoveRef<MC>::Type MatrixC;
-    typedef typename MatrixC::IndexType  IndexType;
-
-    const bool noTransA = (transposeA==NoTrans || transposeA==Conj);
-    const bool noTransB = (transposeB==NoTrans || transposeB==Conj);
-
-#   ifndef NDEBUG
-    int kA = (noTransA) ? A.numCols() : A.numRows();
-    int kB = (noTransB) ? B.numRows() : B.numCols();
-    ASSERT(kA==kB);
-#   endif
-
-    IndexType m = (noTransA) ? A.numRows() : A.numCols();
-    IndexType n = (noTransB) ? B.numCols() : B.numRows();
-    IndexType k = (noTransA) ? A.numCols() : A.numRows();
-    
-    // SparseBlas supports only C += op(A)*B
-    // and only ColMajor
-    ASSERT(transposeB==NoTrans);
-    ASSERT(C.order()==ColMajor);
-    ASSERT(B.order()==ColMajor);
-    
-    ASSERT(!DEBUGCLOSURE::identical(A, C));
-    
-    FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_GEMM(transposeA, transposeB, alpha, A, B, beta, C);
-
-#   ifdef HAVE_CXXBLAS_GECRSMM
-    cxxblas::gecrsmm(transposeA,
-                     m, n, k,
-                     alpha,
-                     A.engine().values().data(),
-                     A.engine().rows().data(),
-                     A.engine().cols().data(),
-                     B.data(), B.leadingDimension(),
-                     beta,
-                     C.data(), C.leadingDimension());
-#   else
-    ASSERT(0);
-#   endif
-
-    FLENS_BLASLOG_END;
-    FLENS_BLASLOG_UNSETTAG;
-}
 //-- gemm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 typename RestrictTo<IsGeMatrix<MA>::value
@@ -607,11 +486,8 @@ mm(Side             side,
    const BETA       &beta,
    MC               &&C)
 {
-    typedef typename RemoveRef<MC>::Type MatrixC;
-    typedef typename MatrixC::IndexType  IndexType;
-    
 #   ifndef NDEBUG
-    ASSERT(C.order()==B.order());
+    ASSERT(MC::order==MB::order);
     if (side==Left) {
         ASSERT(A.dim()==B.numRows());
     } else {
@@ -623,6 +499,7 @@ mm(Side             side,
                      ? A.upLo()
                      : StorageUpLo(! A.upLo());
 
+    typedef typename GeMatrix<MC>::IndexType IndexType;
     IndexType m = (side==Left) ? A.dim() : B.numRows();
     IndexType n = (side==Left) ? B.numCols() : A.dim();
 
@@ -641,10 +518,10 @@ mm(Side             side,
     ASSERT(!DEBUGCLOSURE::identical(B, C));
 
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_HBMM(side, alpha, A, B, beta, C);
+    FLENS_BLASLOG_BEGIN_SYMM(side, alpha, A, B, beta, C);
 
 #   ifdef HAVE_CXXBLAS_HBMM
-    cxxblas::hbmm(C.order(), side,
+    cxxblas::hbmm(MC::order, side,
                   upLo,
                   C.numRows(), A.numOffDiags(), C.numCols(),
                   alpha,
@@ -699,9 +576,6 @@ mm(Side             side,
         ASSERT(C.numRows()==0 && C.numCols()==0);
         C.resize(m,n);
     }
-    
-    FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_HEMM(side, alpha, A, B, beta, C);    
 
 #   ifdef HAVE_CXXBLAS_HEMM
     cxxblas::hemm(C.order(), side,
@@ -715,109 +589,7 @@ mm(Side             side,
 #   else
     ASSERT(0);
 #   endif
-
-    FLENS_BLASLOG_END;
-    FLENS_BLASLOG_UNSETTAG;
 }
-
-//-- heccsmm
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-typename RestrictTo<IsHeCCSMatrix<MA>::value
-                 && IsGeMatrix<MB>::value
-                 && IsGeMatrix<MC>::value,
-         void>::Type
-mm(Side             side,
-   const ALPHA      &alpha,
-   const MA         &A,
-   const MB         &B,
-   const BETA       &beta,
-   MC               &&C)
-{
-    typedef typename RemoveRef<MC>::Type MatrixC;
-    typedef typename MatrixC::IndexType  IndexType;
-    
-    ASSERT(!DEBUGCLOSURE::identical(B, C));
-
-    ASSERT(side==Left);
-    ASSERT(B.order()==ColMajor);
-    ASSERT(C.order()==ColMajor);
-
-    if ((C.numRows()==IndexType(0)) || (C.numCols()==IndexType(0))) {
-        C.resize(A.numRows(), B.numCols());
-    }
-    
-    ASSERT(C.numRows()==A.numRows());
-    ASSERT(C.numCols()==B.numCols());
-    ASSERT(A.numCols()==B.numRows());
-
-#   ifdef HAVE_CXXBLAS_HECCSMM
-    cxxblas::heccsmm(A.upLo(),
-                     B.numRows(),
-                     B.numCols(),
-                     alpha,
-                     A.engine().values().data(),
-                     A.engine().rows().data(),
-                     A.engine().cols().data(),
-                     B.data(),
-                     B.leadingDimension(),
-                     beta,
-                     C.data(),
-                     C.leadingDimension());
-#   else
-    ASSERT(0);
-#   endif
-    
-}
-
-//-- hecrsmm
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-typename RestrictTo<IsHeCRSMatrix<MA>::value
-                 && IsGeMatrix<MB>::value
-                 && IsGeMatrix<MC>::value,
-         void>::Type
-mm(Side             side,
-   const ALPHA      &alpha,
-   const MA         &A,
-   const MB         &B,
-   const BETA       &beta,
-   MC               &&C)
-{
-    typedef typename RemoveRef<MC>::Type MatrixC;
-    typedef typename MatrixC::IndexType  IndexType;
-    
-    ASSERT(!DEBUGCLOSURE::identical(B, C));
-
-    ASSERT(side==Left);
-    ASSERT(B.order()==ColMajor);
-    ASSERT(C.order()==ColMajor);
-
-    if ((C.numRows()==IndexType(0)) || (C.numCols()==IndexType(0))) {
-        C.resize(A.numRows(), B.numCols());
-    }
-    
-    ASSERT(C.numRows()==A.numRows());
-    ASSERT(C.numCols()==B.numCols());
-    ASSERT(A.numCols()==B.numRows());
-
-#   ifdef HAVE_CXXBLAS_HECRSMM
-    cxxblas::hecrsmm(A.upLo(),
-                     B.numRows(),
-                     B.numCols(),
-                     alpha,
-                     A.engine().values().data(),
-                     A.engine().rows().data(),
-                     A.engine().cols().data(),
-                     B.data(),
-                     B.leadingDimension(),
-                     beta,
-                     C.data(),
-                     C.leadingDimension());
-#   else
-    ASSERT(0);
-#   endif
-    
-}
-
 
 //== SymmetricMatrix - GeneralMatrix products ==================================
 
@@ -834,11 +606,8 @@ mm(Side             side,
    const BETA       &beta,
    MC               &&C)
 {
-    typedef typename RemoveRef<MC>::Type MatrixC;
-    typedef typename MatrixC::IndexType  IndexType;
-    
 #   ifndef NDEBUG
-    ASSERT(C.order()==B.order());
+    ASSERT(MC::order==MB::order);
     if (side==Left) {
         ASSERT(A.dim()==B.numRows());
     } else {
@@ -850,6 +619,7 @@ mm(Side             side,
                      ? A.upLo()
                      : StorageUpLo(! A.upLo());
 
+    typedef typename GeMatrix<MC>::IndexType IndexType;
     IndexType m = (side==Left) ? A.dim() : B.numRows();
     IndexType n = (side==Left) ? B.numCols() : A.dim();
 
@@ -868,10 +638,10 @@ mm(Side             side,
     ASSERT(!DEBUGCLOSURE::identical(B, C));
 
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_SBMM(side, alpha, A, B, beta, C);
+    FLENS_BLASLOG_BEGIN_SYMM(side, alpha, A, B, beta, C);
 
 #   ifdef HAVE_CXXBLAS_SBMM
-    cxxblas::sbmm(C.order(), side,
+    cxxblas::sbmm(MC::order, side,
                   upLo,
                   C.numRows(), A.numOffDiags(), C.numCols(),
                   alpha,
@@ -976,105 +746,6 @@ mm(Side             side,
 }
 
 
-//-- syccsmm
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-typename RestrictTo<IsSyCCSMatrix<MA>::value
-                 && IsGeMatrix<MB>::value
-                 && IsGeMatrix<MC>::value,
-         void>::Type
-mm(Side             side,
-   const ALPHA      &alpha,
-   const MA         &A,
-   const MB         &B,
-   const BETA       &beta,
-   MC               &&C)
-{
-    typedef typename RemoveRef<MC>::Type MatrixC;
-    typedef typename MatrixC::IndexType  IndexType;
-    
-    ASSERT(!DEBUGCLOSURE::identical(B, C));
-
-    ASSERT(side==Left);
-    ASSERT(B.order()==ColMajor);
-    ASSERT(C.order()==ColMajor);
-
-    if ((C.numRows()==IndexType(0)) || (C.numCols()==IndexType(0))) {
-        C.resize(A.numRows(), B.numCols());
-    }
-    
-    ASSERT(C.numRows()==A.numRows());
-    ASSERT(C.numCols()==B.numCols());
-    ASSERT(A.numCols()==B.numRows());
-
-#   ifdef HAVE_CXXBLAS_SYCCSMM
-    cxxblas::syccsmm(A.upLo(),
-                     B.numRows(),
-                     B.numCols(),
-                     alpha,
-                     A.engine().values().data(),
-                     A.engine().rows().data(),
-                     A.engine().cols().data(),
-                     B.data(),
-                     B.leadingDimension(),
-                     beta,
-                     C.data(),
-                     C.leadingDimension());
-#   else
-    ASSERT(0);
-#   endif
-    
-}
-
-//-- sycrsmm
-template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
-typename RestrictTo<IsSyCRSMatrix<MA>::value
-                 && IsGeMatrix<MB>::value
-                 && IsGeMatrix<MC>::value,
-         void>::Type
-mm(Side             side,
-   const ALPHA      &alpha,
-   const MA         &A,
-   const MB         &B,
-   const BETA       &beta,
-   MC               &&C)
-{
-    typedef typename RemoveRef<MC>::Type MatrixC;
-    typedef typename MatrixC::IndexType  IndexType;
-    
-    ASSERT(!DEBUGCLOSURE::identical(B, C));
-
-    ASSERT(side==Left);
-    ASSERT(B.order()==ColMajor);
-    ASSERT(C.order()==ColMajor);
-
-    if ((C.numRows()==IndexType(0)) || (C.numCols()==IndexType(0))) {
-        C.resize(A.numRows(), B.numCols());
-    }
-    
-    ASSERT(C.numRows()==A.numRows());
-    ASSERT(C.numCols()==B.numCols());
-    ASSERT(A.numCols()==B.numRows());
-
-#   ifdef HAVE_CXXBLAS_SYCRSMM
-    cxxblas::sycrsmm(A.upLo(),
-                     B.numRows(),
-                     B.numCols(),
-                     alpha,
-                     A.engine().values().data(),
-                     A.engine().rows().data(),
-                     A.engine().cols().data(),
-                     B.data(),
-                     B.leadingDimension(),
-                     beta,
-                     C.data(),
-                     C.leadingDimension());
-#   else
-    ASSERT(0);
-#   endif
-    
-}
-
-
 //== TriangularMatrix - GeneralMatrix products =================================
 
 //-- tbmm
@@ -1098,10 +769,10 @@ template <typename ALPHA, typename MA, typename MB>
 #   endif
 
     FLENS_BLASLOG_SETTAG("--> ");
-    FLENS_BLASLOG_BEGIN_TBMM(side, transA, alpha, A, B);
+    FLENS_BLASLOG_BEGIN_TRMM(side, transA, alpha, A, B);
 
 #   ifdef HAVE_CXXBLAS_TBMM
-    cxxblas::tbmm(B.order(), side,
+    cxxblas::tbmm(MB::order, side,
                   A.upLo(), transA, A.diag(),
                   B.numRows(), B.numCols(),
                   A.numOffDiags(),
@@ -1127,7 +798,6 @@ template <typename ALPHA, typename MA, typename MB>
        const MA         &A,
        MB               &&B)
 {
-
 #   ifndef NDEBUG
     ASSERT(B.order()==A.order());
     if (side==Left) {

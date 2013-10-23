@@ -170,8 +170,6 @@
 #include <cxxlapack/interface/hsein.tcc>
 #include <cxxlapack/interface/hseqr.tcc>
 #include <cxxlapack/interface/ieeeck.tcc>
-#include <cxxlapack/interface/iladlc.tcc>
-#include <cxxlapack/interface/iladlr.tcc>
 #include <cxxlapack/interface/ilalc.tcc>
 #include <cxxlapack/interface/ilalr.tcc>
 #include <cxxlapack/interface/laprec.tcc>

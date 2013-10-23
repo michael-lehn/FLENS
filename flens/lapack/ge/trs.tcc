@@ -136,6 +136,7 @@ trs_impl(Transpose trans, const GeMatrix<MA> &A, const DenseVector<VP> &piv,
                                        B.data(),
                                        B.leadingDimension());
     ASSERT(info==0);
+    FAKE_USE_NDEBUG(info);
 }
 
 } // namespace external
@@ -155,6 +156,17 @@ typename RestrictTo<IsGeMatrix<MA>::value
 trs(Transpose trans, const MA &A, const VPIV &piv, MB &&B)
 {
     LAPACK_DEBUG_OUT("(ge)trs [real/complex]");
+//
+//  Remove references from rvalue types
+//
+#   ifndef NDEBUG
+    typedef typename RemoveRef<MA>::Type     MatrixA;
+    typedef typename MatrixA::IndexType      IndexType;
+#   endif
+
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<MB>::Type     MatrixB;
+#   endif
 
 //
 //  Test the input parameters
@@ -164,18 +176,17 @@ trs(Transpose trans, const MA &A, const VPIV &piv, MB &&B)
     ASSERT(A.firstCol()==1);
     ASSERT(A.numRows()==A.numCols());
 
+    const IndexType n = A.numRows();
+
     ASSERT(piv.firstIndex()==1);
-    ASSERT(piv.length()==A.numRows());
+    ASSERT(piv.length()==n);
 
     ASSERT(B.firstRow()==1);
     ASSERT(B.firstCol()==1);
-    ASSERT(B.numRows()==A.numRows());
+    ASSERT(B.numRows()==n);
 #   endif
 
 #   ifdef CHECK_CXXLAPACK
-
-    typedef typename RemoveRef<MB>::Type     MatrixB;
-    
 //
 //  Make copies of output arguments
 //

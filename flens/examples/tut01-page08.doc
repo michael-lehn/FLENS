@@ -1,0 +1,181 @@
+================
+LU Factorization                                                        [TOC:2]
+================
+
+Matrix/Vector views are absolutely crucial for numerical linear algebra.  This
+becomes evident in the following example where we implement two variants of the
+$LU$ factorization:
+
+- `lu_unblk` is a so called _unblocked variant_ and
+- `lu_blk` its blocked variant.
+
+The block variant utilizes (beside the unblocked variant) BLAS Level 3 routines
+and leads to an immense speedup.  For the sake of simplicity we do not consider
+pivoting in this example.
+
+
+Unblocked Variant
+=================
+We partition $A \in \mathbb{R}^{m \times n}$ as follows:
+  *--[LATEX]--------------------------------------------*
+  |                                                     |
+  |  A = \left( \begin{array}{c|c}                      |
+  |             a_{11}  & a_{12}^T \\ \hline            |
+  |             a_{21}  & A_{22}                        |
+  |             \end{array}\right)                      |
+  |                                                     |
+  *-----------------------------------------------------*
+After the factorization we want to have a lower triangular matrix $L$ with
+unit diagonal
+  *--[LATEX]--------------------------------------------*
+  |                                                     |
+  |  L = \left( \begin{array}{c|c}                      |
+  |             1       & \mathcal{0}   \\ \hline       |
+  |             l_{21}  & L_{22}                        |
+  |             \end{array}\right)                      |
+  |                                                     |
+  *-----------------------------------------------------*
+and an upper triangular matrix $U$
+  *--[LATEX]--------------------------------------------*
+  |                                                     |
+  |  U = \left( \begin{array}{c|c}                      |
+  |             u_{11}      & u_{12}^T \\ \hline        |
+  |             \mathcal{0} & U_{22}                    |
+  |             \end{array}\right)                      |
+  |                                                     |
+  *-----------------------------------------------------*
+such that $A = LU$.  This leads to the equations
+  *--[LATEX]--------------------------------------------*
+  |                                                     |
+  |  \begin{eqnarray*}                                  |
+  |  a_{11} &=& u_{11} \\                               |
+  |  a_{12} &=& u_{12} \\                               |
+  |  a_{21} &=& u_{11} l_{21} \\                        |
+  |  A_{22} &=& l_{21} u_{12}^T + L_{22}U_{22}          |
+  |  \end{eqnarray*}                                    |
+  |                                                     |
+  *-----------------------------------------------------*
+Furthermore, we want that $A$ get compactly overwritten with $(L\backslash U)$.
+
+This leads to the well-known Gauss algorithm:
+  *--[BOX]--------------------------------------------------*
+  |                                                         |
+  |  - Partition $A$ as outlined above.                     |
+  |  - Overwrite $a_{21}$ with $\frac{1}{a_{11}} a_{21}$.   |
+  |  - Overwrite $A_{22}$ with $A_{22} - a_{21} a_{12}^T$.  |
+  |  - Repeat with $A_{22}$ instead of $A$.                 |
+  |                                                         |
+  *---------------------------------------------------------*
+
+Implementation of `lu_unblk`
+----------------------------
+:import: flens/examples/lu_unblk.h [stripped, downloadable]
+
+
+Code for Testing
+----------------
+:import: flens/examples/lu_unblk-test.cc [stripped, downloadable]
+
+The structure of this test is simple:
+
+:import: flens/examples/lu_unblk-test.cc [brief]
+
+Compile and Run
+---------------
+Note that we compile with ATLAS here.  With a BLAS reference implementation
+the runtime starts to hurt.
+
+  *--[SHELL]------------------------------------------------------------*
+  |                                                                     |
+  |  cd flens/examples                                                  |
+  |  g++ -Wall -std=c++11 -I../.. -o lu_unblk-test lu_unblk-test.cc  +++|
+  |             -DWITH_ATLAS -framework vecLib                          |
+  |  time ./lu_unblk-test                                               |
+  |                                                                     |
+  *---------------------------------------------------------------------*
+
+
+Blocked Variant
+===============
+We now partition $A \in \mathbb{R}^{m \times n}$ block-wise
+  *--[LATEX]--------------------------------------------*
+  |                                                     |
+  |  A = \left( \begin{array}{c|c}                      |
+  |             A_{11}  & A_{12} \\ \hline              |
+  |             A_{21}  & A_{22}                        |
+  |             \end{array}\right)                      |
+  |                                                     |
+  *-----------------------------------------------------*
+where block $A_{11}$ is square, i.e. $A_{11} \in \mathbb{R}^{bs \times bs}$.
+
+
+Analogously we partition $L$
+  *--[LATEX]--------------------------------------------*
+  |                                                     |
+  |  L = \left( \begin{array}{c|c}                      |
+  |             L_{11}  & \mathcal{0}   \\ \hline       |
+  |             L_{21}  & L_{22}                        |
+  |             \end{array}\right)                      |
+  |                                                     |
+  *-----------------------------------------------------*
+and $U$
+  *--[LATEX]--------------------------------------------*
+  |                                                     |
+  |  U = \left( \begin{array}{c|c}                      |
+  |             U_{11}      & U_{12}   \\ \hline        |
+  |             \mathcal{0} & U_{22}                    |
+  |             \end{array}\right).                     |
+  |                                                     |
+  *-----------------------------------------------------*
+This time we get from $A = LU$ the equations
+  *--[LATEX]--------------------------------------------*
+  |                                                     |
+  |  \begin{eqnarray*}                                  |
+  |  A_{11} &=& L_{11} U_{11} \\                        |
+  |  A_{12} &=& L_{11} U_{12} \\                        |
+  |  A_{21} &=& L_{21} U_{11}  \\                       |
+  |  A_{22} &=& L_{21} U_{12} + L_{22}U_{22}            |
+  |  \end{eqnarray*}                                    |
+  |                                                     |
+  *-----------------------------------------------------*
+
+We compute the $LU$ factorization of $A_{11}$ with the unblocked variant and
+get the following algorithm:
+  *--[BOX]--------------------------------------------------*
+  |                                                         |
+  |  - Partition $A$ as outlined above.                     |
+  |  - Overwrite $A_{11}$ with its $LU$ factorization.      |
+  |  - Overwrite $A_{21}$ with $A_{21} U_{11}^{-1}$.        |
+  |  - Overwrite $A_{12}$ with $L_{11}^{–1} U_{12}$         |
+  |  - Overwrite $A_{22}$ with $A_{22} - A_{21}A_{12}$      |
+  |  - Repeat with $A_{22}$ instead of $A$.                 |
+  |                                                         |
+  *---------------------------------------------------------*
+
+Implementation of `lu_blk`
+--------------------------
+:import: flens/examples/lu_blk.h [stripped, downloadable]
+
+
+Code for Testing
+----------------
+:import: flens/examples/lu_blk-test.cc [stripped, downloadable]
+
+Compile and Run
+---------------
+We again compile and run the test with ATLAS here.
+
+  *--[SHELL]------------------------------------------------------------*
+  |                                                                     |
+  |  cd flens/examples                                                  |
+  |  g++ -Wall -std=c++11 -I../.. -o lu_blk-test lu_blk-test.cc      +++|
+  |             -DWITH_ATLAS -framework vecLib                          |
+  |  time ./lu_blk-test                                                 |
+  |                                                                     |
+  *---------------------------------------------------------------------*
+
+
+
+
+:navigate: __up__    -> doc:flens/examples/tutorial
+           __back__  -> doc:flens/examples/tut01-page07

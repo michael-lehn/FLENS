@@ -1,7 +1,6 @@
-CXX  = g++-4.7
-#CXX  = clang++
+CXX  = g++
 
-CXXFLAGS += -std=c++11 -Wall -Wextra -Werror
+CXXFLAGS += -g -std=c++11 -Wall -Wextra -Werror
 CXXFLAGS += -I../../..
 
 #

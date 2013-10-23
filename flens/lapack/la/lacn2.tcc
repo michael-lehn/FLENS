@@ -380,9 +380,14 @@ lacn2(DenseVector<VV> &v, DenseVector<VX> &x, DenseVector<VSGN> &sgn,
 //
 //  Test the input parameters
 //
-#   ifndef NDEBUG
+
+#   if defined(CHECK_CXXLAPACK) || !defined(NDEBUG)
 
     typedef typename DenseVector<VV>::IndexType  IndexType;
+
+#   endif
+
+#   ifndef NDEBUG
     
     const IndexType n = v.length();
 
@@ -494,9 +499,14 @@ lacn2(DenseVector<VV> &v, DenseVector<VX> &x,
 //
 //  Test the input parameters
 //
-#   ifndef NDEBUG
+
+#   if defined(CHECK_CXXLAPACK) || !defined(NDEBUG)
 
     typedef typename DenseVector<VV>::IndexType  IndexType;
+
+#   endif 
+
+#   ifndef NDEBUG
     
     const IndexType n = v.length();
 

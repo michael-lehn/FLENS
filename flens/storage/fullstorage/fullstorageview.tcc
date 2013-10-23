@@ -249,14 +249,15 @@ FullStorageView<T, Order, I, A>::allocator() const
 
 template <typename T, StorageOrder Order, typename I, typename A>
 bool
-FullStorageView<T, Order, I, A>::resize(IndexType _numRows,
-                                        IndexType _numCols,
+FullStorageView<T, Order, I, A>::resize(IndexType DEBUG_VAR(_numRows),
+                                        IndexType DEBUG_VAR(_numCols),
                                         IndexType firstRow,
                                         IndexType firstCol,
                                         const ElementType &)
 {
     ASSERT(_numRows==numRows());
     ASSERT(_numCols==numCols());
+
     changeIndexBase(firstRow, firstCol);
     return false;
 }

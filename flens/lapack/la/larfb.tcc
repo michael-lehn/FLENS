@@ -34,8 +34,6 @@
  *
       SUBROUTINE DLARFB( SIDE, TRANS, DIRECT, STOREV, M, N, K, V, LDV,
      $                   T, LDT, C, LDC, WORK, LDWORK )
-      SUBROUTINE ZLARFB( SIDE, TRANS, DIRECT, STOREV, M, N, K, V, LDV,
-     $                   T, LDT, C, LDC, WORK, LDWORK )
  *
  *  -- LAPACK auxiliary routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -56,10 +54,12 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
+//
+//  Real variant
+//
 template <typename MV, typename MT, typename MC, typename MWORK>
-typename
-RestrictTo<IsRealGeMatrix<GeMatrix<MV> >::value,
-           void>::Type
+typename RestrictTo<IsReal<typename MV::ElementType>::value,
+         void>::Type
 larfb_impl(Side                  side,
            Transpose             transH,
            Direction             direction,
@@ -86,7 +86,7 @@ larfb_impl(Side                  side,
 //
 //  Quick return if possible
 //
-    if ((m==0) || (n==0)) {
+    if (m==0 || n==0) {
         return;
     }
 
@@ -264,6 +264,7 @@ larfb_impl(Side                  side,
 //              C1 := C1 - W**T
 //
                 blas::axpy(Trans, -One, W, C1);
+
             } else if (side==Right) {
 //
 //              Form  C * H  or  C * H**T  where  C = ( C1  C2 )
@@ -327,10 +328,12 @@ larfb_impl(Side                  side,
     }
 }
 
+//
+//  Complex variant
+//
 template <typename MV, typename MT, typename MC, typename MWORK>
-typename
-RestrictTo<IsComplexGeMatrix<GeMatrix<MV> >::value,
-           void>::Type
+typename RestrictTo<IsComplex<typename MV::ElementType>::value,
+         void>::Type
 larfb_impl(Side                  side,
            Transpose             transH,
            Direction             direction,
@@ -596,8 +599,8 @@ larfb_impl(Side                  side,
             }
         }
     }
-}
 
+}
 
 } // namespace generic
 
@@ -607,6 +610,9 @@ larfb_impl(Side                  side,
 
 namespace external {
 
+//
+//  Real/complex variant
+//
 template <typename MV, typename MT, typename MC, typename MWORK>
 void
 larfb_impl(Side                   side,
@@ -642,25 +648,38 @@ larfb_impl(Side                   side,
 #endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
-
+//
+//  Real variant
+//
 template <typename MV, typename MT, typename MC, typename MWORK>
-void
+typename RestrictTo<IsRealGeMatrix<MV>::value
+                 && IsRealTrMatrix<MT>::value
+                 && IsRealGeMatrix<MC>::value
+                 && IsRealGeMatrix<MWORK>::value,
+         void>::Type
 larfb(Side                  side,
       Transpose             transH,
       Direction             direction,
       StoreVectors          storeV,
-      const GeMatrix<MV>    &V,
-      const TrMatrix<MT>    &Tr,
-      GeMatrix<MC>          &C,
-      GeMatrix<MWORK>       &Work)
+      const MV              &V,
+      const MT              &Tr,
+      MC                    &&C,
+      MWORK                 &&Work)
 {
-    LAPACK_DEBUG_OUT("larfb [real/complex]");
+    LAPACK_DEBUG_OUT("larfb");
 
+//
+//  Remove references from rvalue types
+//
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<MC>::Type     MatrixC;
+    typedef typename RemoveRef<MWORK>::Type  MatrixWork;
+#   endif
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
-    ASSERT(transH!=Conj);
+    ASSERT(transH==NoTrans || transH==Trans);
 
     if (side==Left) {
         ASSERT(Work.numRows()>=C.numCols());
@@ -674,8 +693,8 @@ larfb(Side                  side,
 //
 //  Make copies of output arguments
 //
-    typename GeMatrix<MC>::NoView       C_org = C;
-    typename GeMatrix<MWORK>::NoView    Work_org = Work;
+    typename MatrixC::NoView       C_org = C;
+    typename MatrixWork::NoView    Work_org = Work;
 #   endif
 
 //
@@ -687,8 +706,8 @@ larfb(Side                  side,
 //
 //  Restore output arguments
 //
-    typename GeMatrix<MC>::NoView       C_generic = C;
-    typename GeMatrix<MWORK>::NoView    Work_generic = Work;
+    typename MatrixC::NoView       C_generic = C;
+    typename MatrixWork::NoView    Work_generic = Work;
 
     C    = C_org;
     Work = Work_org;
@@ -706,7 +725,7 @@ larfb(Side                  side,
     if (! isIdentical(Work_generic, Work, " Work_generic", "Work")) {
         std::cerr << "CXXLAPACK: Work_generic = " << Work_generic << std::endl;
         std::cerr << "F77LAPACK: Work = " << Work << std::endl;
-        //failed = true;
+        failed = true;
     }
     if (failed) {
         std::cerr << "side =      " << char(side) << std::endl;
@@ -718,19 +737,93 @@ larfb(Side                  side,
 #   endif
 }
 
-//-- forwarding ----------------------------------------------------------------
+//
+//  Complex variant
+//
 template <typename MV, typename MT, typename MC, typename MWORK>
-void
-larfb(Side              side,
-      Transpose         transH,
-      Direction         direction,
-      StoreVectors      storeV,
-      const MV          &V,
-      const MT          &Tr,
-      MC                &&C,
-      MWORK             &&Work)
+typename RestrictTo<IsComplexGeMatrix<MV>::value
+                 && IsComplexTrMatrix<MT>::value
+                 && IsComplexGeMatrix<MC>::value
+                 && IsComplexGeMatrix<MWORK>::value,
+         void>::Type
+larfb(Side                  side,
+      Transpose             transH,
+      Direction             direction,
+      StoreVectors          storeV,
+      const MV              &V,
+      const MT              &Tr,
+      MC                    &&C,
+      MWORK                 &&Work)
 {
-    larfb(side, transH, direction, storeV, V, Tr, C, Work);
+    LAPACK_DEBUG_OUT("larfb (complex)");
+
+//
+//  Remove references from rvalue types
+//
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<MC>::Type     MatrixC;
+    typedef typename RemoveRef<MWORK>::Type  MatrixWork;
+#   endif
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(transH==NoTrans || transH==ConjTrans);
+
+    if (side==Left) {
+        ASSERT(Work.numRows()>=C.numCols());
+    } else {
+        ASSERT(Work.numRows()>=C.numRows());
+    }
+    ASSERT(Work.numCols()==Tr.dim());
+#   endif
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    typename MatrixC::NoView       C_org = C;
+    typename MatrixWork::NoView    Work_org = Work;
+#   endif
+
+//
+//  Call implementation
+//
+    LAPACK_SELECT::larfb_impl(side, transH, direction, storeV, V, Tr, C, Work);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Restore output arguments
+//
+    typename MatrixC::NoView       C_generic = C;
+    typename MatrixWork::NoView    Work_generic = Work;
+
+    C    = C_org;
+    Work = Work_org;
+//
+//  Compare results
+//
+    external::larfb_impl(side, transH, direction, storeV, V, Tr, C, Work);
+
+    bool failed = false;
+    if (! isIdentical(C_generic, C, "C_generic", "C")) {
+        std::cerr << "CXXLAPACK: C_generic = " << C_generic << std::endl;
+        std::cerr << "F77LAPACK: C = " << C << std::endl;
+        failed = true;
+    }
+    if (! isIdentical(Work_generic, Work, " Work_generic", "Work")) {
+        std::cerr << "CXXLAPACK: Work_generic = " << Work_generic << std::endl;
+        std::cerr << "F77LAPACK: Work = " << Work << std::endl;
+        failed = true;
+    }
+    if (failed) {
+        std::cerr << "side =      " << char(side) << std::endl;
+        std::cerr << "transH =    " << transH << std::endl;
+        std::cerr << "direction = " << char(direction) << std::endl;
+        std::cerr << "storeV =    " << char(storeV) << std::endl;
+        ASSERT(0);
+    }
+#   endif
 }
 
 } } // namespace lapack, flens

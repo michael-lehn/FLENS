@@ -263,12 +263,18 @@ larz(Side       side,
 //
 //  Test the input parameters
 //
-#   ifndef NDEBUG
 
 //
 //  Remove references from rvalue types
 //
+#   if defined(CHECK_CXXLAPACK) || !defined(NDEBUG)
+
     typedef typename RemoveRef<MC>::Type    MatrixC;
+    
+#   endif
+
+#   ifndef NDEBUG
+
     typedef typename MatrixC::IndexType     IndexType;
     
     const IndexType m = C.numRows();

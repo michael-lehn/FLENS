@@ -145,12 +145,14 @@ trs(Transpose trans, const MA &A, MB &&B)
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::IndexType     IndexType;
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<MB>::Type    MatrixB;
+#   endif
 
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
-    
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
 
@@ -162,8 +164,6 @@ trs(Transpose trans, const MA &A, MB &&B)
 #   endif
 
 #   ifdef CHECK_CXXLAPACK
-
-    typedef typename RemoveRef<MB>::Type    MatrixB;
 //
 //  Make copies of output arguments
 //

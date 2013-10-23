@@ -247,12 +247,18 @@ unglq(MA &&A, const VTAU &tau, VWORK &&work)
 //
 //  Test the input parameters
 //
-#   ifndef NDEBUG
 
 //
 //  Remove references from rvalue types
 //
+#   if defined(CHECK_CXXLAPACK) || !defined(NDEBUG)
+
     typedef typename RemoveRef<MA>::Type    MatrixA;
+
+#   endif
+
+#   ifndef NDEBUG
+
     typedef typename MatrixA::IndexType     IndexType;
     
     ASSERT(A.firstRow()==IndexType(1));

@@ -93,26 +93,46 @@ BLAS(zrot)(const INTEGER   *N,
 
 void
 BLAS(csrot)(const INTEGER   *N,
-           cfloat          *X,
-           const INTEGER   *INCX,
-           cfloat          *Y,
-           const INTEGER   *INCY,
-           const float     *C,
-           const float     *S)
+            cfloat          *X,
+            const INTEGER   *INCX,
+            cfloat          *Y,
+            const INTEGER   *INCY,
+            const float     *C,
+            const float     *S)
 {
+    std::cerr << "csrot not implemented" << std::endl;
     ASSERT(0);
+    
+    // FAKE USE
+    (void)N;
+    (void)X;
+    (void)INCX;
+    (void)Y;
+    (void)INCY;
+    (void)C;
+    (void)S;
 }
 
 void
 BLAS(zdrot)(const INTEGER   *N,
-           cdouble         *X,
-           const INTEGER   *INCX,
-           cdouble         *Y,
-           const INTEGER   *INCY,
-           const double     *C,
-           const double     *S)
+            cdouble         *X,
+            const INTEGER   *INCX,
+            cdouble         *Y,
+            const INTEGER   *INCY,
+            const double    *C,
+            const double    *S)
 {
+    std::cerr << "zdrot not implemented" << std::endl;
     ASSERT(0);
+    
+    // FAKE USE
+    (void)N;
+    (void)X;
+    (void)INCX;
+    (void)Y;
+    (void)INCY;
+    (void)C;
+    (void)S;
 }
 
 

@@ -34,6 +34,7 @@
  *
        SUBROUTINE DTREXC( COMPQ, N, T, LDT, Q, LDQ, IFST, ILST, WORK,
       $                   INFO )
+       SUBROUTINE ZTREXC( COMPQ, N, T, LDT, Q, LDQ, IFST, ILST, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -41,8 +42,8 @@
  *     November 2006
  */
 
-#ifndef FLENS_LAPACK_GE_TREXC_H
-#define FLENS_LAPACK_GE_TREXC_H 1
+#ifndef FLENS_LAPACK_IMPL_TREXC_H
+#define FLENS_LAPACK_IMPL_TREXC_H 1
 
 #include <flens/lapack/typedefs.h>
 #include <flens/matrixtypes/matrixtypes.h>
@@ -51,18 +52,14 @@
 namespace flens { namespace lapack {
 
 //== trexc =====================================================================
+//
+//  Real variant
+//
 template <typename MT, typename MQ, typename IndexType, typename VWORK>
-    IndexType
-    trexc(bool                          computeQ,
-          GeMatrix<MT>                  &T,
-          GeMatrix<MQ>                  &Q,
-          IndexType                     &iFirst,
-          IndexType                     &iLast,
-          DenseVector<VWORK>            &work);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MT, typename MQ, typename IndexType, typename VWORK>
-    IndexType
+    typename RestrictTo<IsRealGeMatrix<MT>::value
+                     && IsRealGeMatrix<MQ>::value
+                     && IsRealDenseVector<VWORK>::value,
+             IndexType>::Type
     trexc(bool                          computeQ,
           MT                            &&T,
           MQ                            &&Q,
@@ -70,6 +67,20 @@ template <typename MT, typename MQ, typename IndexType, typename VWORK>
           IndexType                     &iLast,
           VWORK                         &&work);
 
+//
+//  Complex variant
+//
+template <typename MT, typename MQ, typename IndexType>
+    typename RestrictTo<IsComplexGeMatrix<MT>::value
+                     && IsComplexGeMatrix<MQ>::value,
+             IndexType>::Type
+    trexc(bool                          computeQ,
+          MT                            &&T,
+          MQ                            &&Q,
+          IndexType                     &iFirst,
+          IndexType                     &iLast);
+
+
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_GE_TREXC_H
+#endif // FLENS_LAPACK_IMPL_TREXC_H

@@ -48,17 +48,10 @@ ilalr(IndexType     m,
 {
     CXXLAPACK_DEBUG_OUT("iladlr");
 
-    IndexType info;
-    LAPACK_IMPL(iladlr)(&m,
-                        &n,
-                        A,
-                        &ldA);
-#   ifndef NDEBUG
-    if (info<0) {
-        std::cerr << "info = " << info << std::endl;
-    }
-#   endif
-    ASSERT(info>=0);
+    IndexType info = LAPACK_IMPL(iladlr)(&m,
+                                        &n,
+                                        A,
+                                        &ldA);
     return info;
 }
 
@@ -69,17 +62,12 @@ ilalr(IndexType                     m,
       const std::complex<double>    *A,
       IndexType                     ldA)
 {
-    IndexType info;
-    LAPACK_IMPL(ilazlr)(&m,
-                        &n,
-                        reinterpret_cast<const double *>(A),
-                        &ldA);
-#   ifndef NDEBUG
-    if (info<0) {
-        std::cerr << "info = " << info << std::endl;
-    }
-#   endif
-    ASSERT(info>=0);
+    CXXLAPACK_DEBUG_OUT("ilazlr");
+
+    IndexType info = LAPACK_IMPL(ilazlr)(&m,
+                                        &n,
+                                        reinterpret_cast<const double *>(A),
+                                        &ldA);
     return info;
 }
 

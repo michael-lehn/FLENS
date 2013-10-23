@@ -730,6 +730,22 @@ evx(BALANCE::Balance     balance,
 {
     LAPACK_DEBUG_OUT("(ge)evx [real]");
 
+//
+//  Remove references from rvalue types
+//
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<MA>::Type        MatrixA;
+    typedef typename RemoveRef<VWR>::Type       VectorWR;
+    typedef typename RemoveRef<VWI>::Type       VectorWI;
+    typedef typename RemoveRef<MVL>::Type       MatrixVL;
+    typedef typename RemoveRef<MVR>::Type       MatrixVR;
+    typedef typename RemoveRef<VSCALE>::Type    VectorScale;
+    typedef typename RemoveRef<VRCONDE>::Type   VectorRCondE;
+    typedef typename RemoveRef<VRCONDV>::Type   VectorRCondV;
+    typedef typename RemoveRef<VWORK>::Type     VectorWork;
+    typedef typename RemoveRef<VIWORK>::Type    VectorIWork;
+#   endif
+
     const IndexType n = A.numRows();
 
 //
@@ -804,21 +820,6 @@ evx(BALANCE::Balance     balance,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type        MatrixA;
-    typedef typename RemoveRef<VWR>::Type       VectorWR;
-    typedef typename RemoveRef<VWI>::Type       VectorWI;
-    typedef typename RemoveRef<MVL>::Type       MatrixVL;
-    typedef typename RemoveRef<MVR>::Type       MatrixVR;
-    typedef typename RemoveRef<VSCALE>::Type    VectorScale;
-    typedef typename RemoveRef<VRCONDE>::Type   VectorRCondE;
-    typedef typename RemoveRef<VRCONDV>::Type   VectorRCondV;
-    typedef typename RemoveRef<VWORK>::Type     VectorWork;
-    typedef typename RemoveRef<VIWORK>::Type    VectorIWork;
-    
     typename MatrixA::NoView        A_org       = A;
     typename VectorWR::NoView       wr_org      = wr;
     typename VectorWI::NoView       wi_org      = wi;

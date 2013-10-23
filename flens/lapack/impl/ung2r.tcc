@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2011, 2013, Michael Lehn, Klaus Pototzky
+ *   Copyright (c) 2013, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -32,7 +32,7 @@
 
 /* Based on
  *
-      SUBROUTINE DUNG2R( M, N, K, A, LDA, TAU, WORK, INFO )
+       SUBROUTINE ZUNG2R( M, N, K, A, LDA, TAU, WORK, INFO )
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -129,14 +129,24 @@ ung2r_impl(IndexType                 k,
 #endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
-
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
-void
-ung2r(IndexType                 k,
-      GeMatrix<MA>              &A,
-      const DenseVector<VTAU>   &tau,
-      DenseVector<VWORK>        &work)
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                 && IsComplexDenseVector<VTAU>::value
+                 && IsComplexDenseVector<VWORK>::value,
+         void>::Type
+ung2r(IndexType         k,
+      MA                &&A,
+      const VTAU        &tau,
+      VWORK             &&work)
 {
+//
+//  Remove references from rvalue types
+//
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<MA>::Type     MatrixA;
+    typedef typename RemoveRef<VWORK>::Type  VectorWork;
+#   endif
+
 //
 //  Test the input parameters
 //
@@ -158,8 +168,8 @@ ung2r(IndexType                 k,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-    typename GeMatrix<MA>::NoView       _A      = A;
-    typename DenseVector<VWORK>::NoView _work   = work;
+    typename MatrixA::NoView     _A    = A;
+    typename VectorWork::NoView  _work = work;
 #   endif
 
 //
@@ -193,14 +203,6 @@ ung2r(IndexType                 k,
 //        std::cerr << "passed: ung2r.tcc" << std::endl;
     }
 #   endif
-}
-
-//-- forwarding ----------------------------------------------------------------
-template <typename IndexType, typename MA, typename VTAU, typename VWORK>
-void
-ung2r(IndexType k, MA &&A, const VTAU &tau, VWORK &&work)
-{
-    ung2r(k, A, tau, work);
 }
 
 } } // namespace lapack, flens

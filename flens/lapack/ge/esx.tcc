@@ -461,7 +461,7 @@ esx_wsq_impl(bool                 computeSchurVectors,
     const bool wantSV = (sense==SENSE::InvariantSubspaceOnly);
     const bool wantSB = (sense==SENSE::Both);
 
-    IndexType minWork, maxWork, liWork, lWork;
+    IndexType minWork, liWork;
 
     liWork = 1;
     if (n==0) {
@@ -525,7 +525,7 @@ esx_wsq_impl(bool                 computeSchurVectors,
     //const bool wantSV = (sense==SENSE::InvariantSubspaceOnly);
     //const bool wantSB = (sense==SENSE::Both);
 
-    IndexType minWork, maxWork, lWork;
+    IndexType minWork;
 
     if (n==0) {
         minWork = 1;
@@ -537,7 +537,7 @@ esx_wsq_impl(bool                 computeSchurVectors,
 //  Compute optimal size for work
 //
     const IndexType     LDVS   = max(IndexType(1), A.numRows());
-    IndexType           IDUMMY, IWORK;
+    IndexType           IDUMMY;
     T                   DUMMY;
     RT                  RDUMMY;
     const IndexType     LWORK  = -1;
@@ -711,6 +711,19 @@ esx(bool                computeSchurVectors,
     LAPACK_DEBUG_OUT("(ge)esx [real]");
 
 //
+//  Remove references from rvalue types
+//
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<MA>::Type        MatrixA;
+    typedef typename RemoveRef<VWR>::Type       VectorWR;
+    typedef typename RemoveRef<VWI>::Type       VectorWI;
+    typedef typename RemoveRef<MVS>::Type       MatrixVS;
+    typedef typename RemoveRef<VWORK>::Type     VectorWork;
+    typedef typename RemoveRef<VIWORK>::Type    VectorIWork;
+    typedef typename RemoveRef<VBWORK>::Type    VectorBWork;
+#   endif
+
+//
 //  Test the input parameters
 //
     IndexType n = A.numRows();
@@ -761,17 +774,6 @@ esx(bool                computeSchurVectors,
 //
 #   ifdef CHECK_CXXLAPACK
 
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type        MatrixA;
-    typedef typename RemoveRef<VWR>::Type       VectorWR;
-    typedef typename RemoveRef<VWI>::Type       VectorWI;
-    typedef typename RemoveRef<MVS>::Type       MatrixVS;
-    typedef typename RemoveRef<VWORK>::Type     VectorWork;
-    typedef typename RemoveRef<VIWORK>::Type    VectorIWork;
-    typedef typename RemoveRef<VBWORK>::Type    VectorBWork;
-    
     typename MatrixA::NoView      A_org      = A;
     IndexType                     sDim_org   = sDim;
     typename VectorWR::NoView     wr_org     = wr;

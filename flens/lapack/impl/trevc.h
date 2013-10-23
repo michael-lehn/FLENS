@@ -32,8 +32,10 @@
 
 /* Based on
  *
-       SUBROUTINE DTREVC( SIDE, HOWMNY, SELECT, N, T, LDT, VL, LDVL, VR,
-      $                   LDVR, MM, M, WORK, INFO )
+      SUBROUTINE DTREVC( SIDE, HOWMNY, SELECT, N, T, LDT, VL, LDVL, VR,
+     $                   LDVR, MM, M, WORK, INFO )
+      SUBROUTINE ZTREVC( SIDE, HOWMNY, SELECT, N, T, LDT, VL, LDVL, VR,
+     $                   LDVR, MM, M, WORK, RWORK, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -65,34 +67,54 @@ namespace TREVC {
 }
 
 //== trevc =====================================================================
+//
+//  Real variant
+//
 template <typename VSELECT, typename MTR, typename MVL, typename MVR,
           typename IndexType, typename VWORK>
-    void
+    typename RestrictTo<IsBooleanDenseVector<VSELECT>::value
+                     && IsRealGeMatrix<MTR>::value
+                     && IsRealGeMatrix<MVL>::value
+                     && IsRealGeMatrix<MVR>::value
+                     && IsInteger<IndexType>::value
+                     && IsRealDenseVector<VWORK>::value,
+             void>::Type
     trevc(bool                          computeVL,
           bool                          computeVR,
           TREVC::Job                    howMany,
-          DenseVector<VSELECT>          &select,
-          const GeMatrix<MTR>           &Tr,
-          GeMatrix<MVL>                 &VL,
-          GeMatrix<MVR>                 &VR,
-          IndexType                     mm,
-          IndexType                     &m,
-          DenseVector<VWORK>            &work);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename VSELECT, typename MTR, typename MVL, typename MVR,
-          typename IndexType, typename VWORK>
-    void
-    trevc(bool                          computeVL,
-          bool                          computeVR,
-          TREVC::Job                    howMany,
-          const VSELECT                 &select,
+          VSELECT                       &select,
           const MTR                     &Tr,
           MVL                           &&VL,
           MVR                           &&VR,
           IndexType                     mm,
-          IndexType                     &&m,
+          IndexType                     &m,
           VWORK                         &&work);
+
+//== trevc =====================================================================
+//
+//  Complex variant
+//
+template <typename VSELECT, typename MTR, typename MVL, typename MVR,
+          typename IndexType, typename VWORK, typename VRWORK>
+    typename RestrictTo<IsBooleanDenseVector<VSELECT>::value
+                     && IsComplexGeMatrix<MTR>::value
+                     && IsComplexGeMatrix<MVL>::value
+                     && IsComplexGeMatrix<MVR>::value
+                     && IsInteger<IndexType>::value
+                     && IsComplexDenseVector<VWORK>::value
+                     && IsRealDenseVector<VRWORK>::value,
+             void>::Type
+    trevc(bool                          computeVL,
+          bool                          computeVR,
+          TREVC::Job                    howMany,
+          VSELECT                       &select,
+          MTR                           &&Tr,
+          MVL                           &&VL,
+          MVR                           &&VR,
+          IndexType                     mm,
+          IndexType                     &m,
+          VWORK                         &&work,
+          VRWORK                        &&rWork);
 
 } } // namespace lapack, flens
 

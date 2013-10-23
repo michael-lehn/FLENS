@@ -32,8 +32,10 @@
 
 /* Based on
  *
-       SUBROUTINE DLAQR0( WANTT, WANTZ, N, ILO, IHI, H, LDH, WR, WI,
-      $                   ILOZ, IHIZ, Z, LDZ, WORK, LWORK, INFO )
+      SUBROUTINE DLAQR0( WANTT, WANTZ, N, ILO, IHI, H, LDH, WR, WI,
+     $                   ILOZ, IHIZ, Z, LDZ, WORK, LWORK, INFO )
+      SUBROUTINE ZLAQR0( WANTT, WANTZ, N, ILO, IHI, H, LDH, W, ILOZ,
+     $                   IHIZ, Z, LDZ, WORK, LWORK, INFO )
  *
  *  -- LAPACK auxiliary routine (version 3.2) --
  *     Univ. of Tennessee, Univ. of California Berkeley,
@@ -53,6 +55,9 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
+//
+//  Workspace query (real/complex variant)
+//
 template <typename IndexType, typename MH>
 IndexType
 laqr0_wsq_impl(bool                  wantT,
@@ -108,6 +113,9 @@ laqr0_wsq_impl(bool                  wantT,
     return max(3*nsr/2, lWorkOpt);
 }
 
+//
+//  Real variant
+//
 template <typename IndexType, typename MH, typename VWR, typename VWI,
           typename MZ, typename VWORK>
 IndexType
@@ -123,9 +131,9 @@ laqr0_impl(bool                  wantT,
            GeMatrix<MZ>          &Z,
            DenseVector<VWORK>    &work)
 {
+    using flens::min;
     using std::abs;
     using std::max;
-    using std::min;
     using std::swap;
 
     typedef typename GeMatrix<MH>::ElementType  T;
@@ -159,9 +167,10 @@ laqr0_impl(bool                  wantT,
     const T         Zero(0), One(1);
 
     IndexType info          = 0;
-    IndexType lWork, lWorkOpt;
-
     IndexType nDec          = -1;
+
+    IndexType lWork;
+    IndexType lWorkOpt;
 
 //
 //  ==== Perform and apply a workspace query if necessary ====
@@ -226,7 +235,7 @@ laqr0_impl(bool                  wantT,
 //
 //      ==== Workspace query call to DLAQR3 ====
 //
-        lWorkOpt = laqr3_wsq(IndexType(iLo), IndexType(iHi), nwr+1, H);
+        lWorkOpt = laqr3_wsq(iLo, iHi, nwr+1, H);
 //
 //      ==== Optimal workspace = MAX(DLAQR5, DLAQR3) ====
 //
@@ -259,7 +268,7 @@ laqr0_impl(bool                  wantT,
 //      .    for which there is sufficient workspace. ====
 //
         IndexType nsMax = min((n+6 )/9, 2*lWork/3);
-        nsMax = nsMax - (nsMax%2);
+        nsMax -= nsMax % 2;
 //
 //      ==== NDFL: an iteration count restarted at deflation. ====
 //
@@ -268,7 +277,7 @@ laqr0_impl(bool                  wantT,
 //      ==== ITMAX = iteration limit ====
 //
         IndexType itMax = max(IndexType(30), 2*kexSh)
-                        * max(IndexType(10), IndexType(iHi-iLo+1));
+                        * max(IndexType(10), iHi-iLo+1);
 //
 //      ==== Last row and column in the active block ====
 //
@@ -358,10 +367,8 @@ laqr0_impl(bool                  wantT,
 //
             IndexType   ls, ld;
 
-            laqr3(wantT, wantZ, kTop, kBot, nw, H,
-                  IndexType(iLoZ), IndexType(iHiZ), Z,
-                  ls, ld, wr(_(1,kBot)), wi(_(1,kBot)),
-                  _V, _T, _WV, work);
+            laqr3(wantT, wantZ, kTop, kBot, nw, H, iLoZ, iHiZ, Z, ls, ld,
+                  wr(_(1,kBot)), wi(_(1,kBot)), _V, _T, _WV, work);
 //
 //          ==== Adjust KBOT accounting for new deflations. ====
 //
@@ -385,9 +392,8 @@ laqr0_impl(bool                  wantT,
 //              .    This may be lowered (slightly) if DLAQR3
 //              .    did not provide that many shifts. ====
 //
-                IndexType ns = min(min(nsMax, nsr),
-                                   max(IndexType(2), kBot-kTop));
-                ns = ns - (ns % 2);
+                IndexType ns = min(nsMax, nsr, max(IndexType(2), kBot-kTop));
+                ns -= ns % 2;
 //
 //              ==== If there have been no deflations
 //              .    in a multiple of KEXSH iterations,
@@ -528,7 +534,7 @@ laqr0_impl(bool                  wantT,
 //              .    make the number of shifts even. ====
 //
                 ns = min(ns, kBot-ks+1);
-                ns = ns - (ns%2);
+                ns -= ns % 2;
                 ks = kBot - ns + 1;
 //
 //              ==== Small-bulge multi-shift QR sweep:
@@ -544,21 +550,20 @@ laqr0_impl(bool                  wantT,
 //
                 IndexType kdu   = 3*ns - 3;
                 IndexType ku    = n - kdu + 1;
-                IndexType kmv   = kdu + 4;
+                IndexType kwv   = kdu + 4;
                 IndexType nho   = (n-kdu+1-4) - (kdu+1) + 1;
 
                 typedef typename GeMatrix<MH>::View GeMatrixView;
                 GeMatrixView _V(IndexType(3), ns/2, work(_(1,3*ns/2)));
                 auto _U     = H(_( ku,    n), _(    1,    kdu));
-                auto _WV    = H(_(kmv,n-kdu), _(    1,    kdu));
+                auto _WV    = H(_(kwv,n-kdu), _(    1,    kdu));
                 auto _WH    = H(_( ku,    n), _(kdu+1,kdu+nho));
 //
 //              ==== Small-bulge multi-shift QR sweep ====
 //
                 laqr5(wantT, wantZ, kacc22, kTop, kBot, ns,
                       wr(_(ks,kBot)), wi(_(ks,kBot)), H,
-                      IndexType(iLoZ), IndexType(iHiZ), Z,
-                      _V, _U, _WV, _WH);
+                      iLoZ, iHiZ, Z, _V, _U, _WV, _WH);
             }
 //
 //          ==== Note progress (or the lack of it). ====
@@ -585,6 +590,456 @@ laqr0_impl(bool                  wantT,
     return info;
 }
 
+//
+//  Complex variant
+//
+template <typename IndexType, typename MH, typename VW, typename MZ,
+          typename VWORK>
+IndexType
+laqr0_impl(bool                  wantT,
+           bool                  wantZ,
+           IndexType             iLo,
+           IndexType             iHi,
+           GeMatrix<MH>          &H,
+           DenseVector<VW>       &w,
+           IndexType             iLoZ,
+           IndexType             iHiZ,
+           GeMatrix<MZ>          &Z,
+           DenseVector<VWORK>    &work)
+{
+    using std::abs;
+    using std::max;
+    using std::swap;
+    using cxxblas::abs1;
+    using flens::min;
+
+    typedef typename GeMatrix<MH>::ElementType       T;
+    typedef typename ComplexTrait<T>::PrimitiveType  PT;
+
+    const Underscore<IndexType>     _;
+
+    const IndexType n       = H.numRows();
+//
+//  ==== Matrices of order NTINY or smaller must be processed by
+//  .    ZLAHQR because of insufficient subdiagonal scratch space.
+//  .    (This is a hard limit.) ====
+    const IndexType     nTiny = 11;
+//
+//  ==== Exceptional deflation windows:  try to cure rare
+//  .    slow convergence by varying the size of the
+//  .    deflation window after KEXNW iterations. ====
+    const IndexType     kexNw = 5;
+//
+//     ==== Exceptional shifts: try to cure rare slow convergence
+//     .    with ad-hoc exceptional shifts every KEXSH iterations.
+//     .    ====
+    const IndexType     kexSh = 6;
+//
+//     ==== The constant WILK1 is used to form the exceptional
+//     .    shifts. ====
+    const PT            wilk1 = PT(0.75);
+
+    const T             Zero(0), One(1);
+    const PT            Two(2);
+
+    IndexType info          = 0;
+
+    IndexType lWork;
+    IndexType lWorkOpt;
+
+    IndexType nDec          = -1;
+//
+//  ==== Perform and apply a workspace query if necessary ====
+//
+    if (work.length()==0) {
+        lWorkOpt = laqr0_wsq(wantT, wantZ, iLo, iHi, H);
+        work.resize(lWorkOpt);
+    }
+
+    lWork = work.length();
+
+//
+//  ==== Quick return for N = 0: nothing to do. ====
+//
+    if (n==0) {
+        work(1) = One;
+        return info;
+    }
+
+    if (n<=nTiny) {
+//
+//      ==== Tiny matrices must use ZLAHQR. ====
+//
+        lWorkOpt = 1;
+        info = lahqr(wantT, wantZ, iLo, iHi, H, w, iLoZ, iHiZ, Z);
+    } else {
+//
+//      ==== Use small bulge multi-shift QR with aggressive early
+//      .    deflation on larger-than-tiny matrices. ====
+//
+//      ==== Hope for the best. ====
+//
+        info = 0;
+//
+//      ==== Set up job flags for ILAENV. ====
+//
+        char job[3];
+        job[0] = (wantT) ? 'S' : 'E';
+        job[1] = (wantZ) ? 'V' : 'N';
+        job[2] = 0;
+//
+//      ==== NWR = recommended deflation window size.  At this
+//      .    point,  N .GT. NTINY = 11, so there is enough
+//      .    subdiagonal workspace for NWR.GE.2 as required.
+//      .    (In fact, there is enough subdiagonal space for
+//      .    NWR.GE.3.) ====
+//
+        IndexType nwr = ilaenv<T>(13, "LAQR0", job, n, iLo, iHi, lWork);
+        nwr = max(IndexType(2), nwr);
+        nwr = min(iHi-iLo+1, (n-1)/3, nwr);
+//
+//       ==== NSR = recommended number of simultaneous shifts.
+//       .    At this point N .GT. NTINY = 11, so there is at
+//       .    enough subdiagonal workspace for NSR to be even
+//       .    and greater than or equal to two as required. ====
+//
+        IndexType nsr = ilaenv<T>(15, "LAQR0", job, n, iLo, iHi, lWork);
+        nsr = min(nsr, (n+6)/9, iHi-iLo);
+        nsr = max(IndexType(2), nsr - (nsr%2));
+//
+//      ==== Estimate optimal workspace ====
+//
+//      ==== Workspace query call to ZLAQR3 ====
+//
+        lWorkOpt = laqr3_wsq(iLo, iHi, nwr+1, H);
+//
+//      ==== Optimal workspace = MAX(ZLAQR5, ZLAQR3) ====
+//
+        lWorkOpt = max(3*nsr/2, lWorkOpt);
+//
+//      ==== ZLAHQR/ZLAQR0 crossover point ====
+//
+        IndexType nMin = ilaenv<T>(12, "laqr0", job, n, iLo, iHi, lWork);
+        nMin = max(nTiny, nMin);
+//
+//      ==== Nibble crossover point ====
+//
+        IndexType nibble = ilaenv<T>(14, "laqr0", job, n, iLo, iHi, lWork);
+        nibble = max(IndexType(0), nibble);
+//
+//      ==== Accumulate reflections during ttswp?  Use block
+//      .    2-by-2 structure during matrix-matrix multiply? ====
+//
+        IndexType kacc22 = ilaenv<T>(16, "laqr0", job, n, iLo, iHi, lWork);
+        kacc22 = max(IndexType(0), kacc22);
+        kacc22 = min(IndexType(2), kacc22);
+//
+//      ==== NWMAX = the largest possible deflation window for
+//      .    which there is sufficient workspace. ====
+//
+        IndexType nwMax = min((n-1)/3, lWork/2);
+        IndexType nw = nwMax;
+//
+//      ==== NSMAX = the Largest number of simultaneous shifts
+//      .    for which there is sufficient workspace. ====
+//
+        IndexType nsMax = min((n+6)/9, 2*lWork/3);
+        nsMax -= nsMax % 2;
+//
+//      ==== NDFL: an iteration count restarted at deflation. ====
+//
+        IndexType nDfl = 1;
+//
+//      ==== ITMAX = iteration limit ====
+//
+        IndexType itMax = max(IndexType(30), 2*kexSh)
+                        * max(IndexType(10), iHi-iLo+1);
+//
+//      ==== Last row and column in the active block ====
+//
+        IndexType kBot = iHi;
+//
+//      ==== Main Loop ====
+//
+        IndexType it;
+        for (it=1; it<=itMax; ++it) {
+//
+//          ==== Done when KBOT falls below ILO ====
+//
+            if (kBot<iLo) {
+                break;
+            }
+//
+//          ==== Locate active block ====
+//
+            IndexType k;
+            for (k=kBot; k>=iLo+1; --k) {
+                if (H(k,k-1)==Zero) {
+                    break;
+                }
+            }
+            ASSERT(k==iLo || H(k,k-1)==Zero);
+            const IndexType kTop = k;
+//
+//          ==== Select deflation window size:
+//          .    Typical Case:
+//          .      If possible and advisable, nibble the entire
+//          .      active block.  If not, use size MIN(NWR,NWMAX)
+//          .      or MIN(NWR+1,NWMAX) depending upon which has
+//          .      the smaller corresponding subdiagonal entry
+//          .      (a heuristic).
+//          .
+//          .    Exceptional Case:
+//          .      If there have been no deflations in KEXNW or
+//          .      more iterations, then vary the deflation window
+//          .      size.   At first, because, larger windows are,
+//          .      in general, more powerful than smaller ones,
+//          .      rapidly increase the window to the maximum possible.
+//          .      Then, gradually reduce the window size. ====
+//
+            IndexType nh = kBot - kTop + 1;
+            IndexType nwUpBd = min(nh, nwMax);
+            if (nDfl<kexNw) {
+                nw = min(nwUpBd, nwr);
+            } else {
+                nw = min(nwUpBd, 2*nw);
+            }
+            if (nw<nwMax) {
+                if (nw>=nh-1) {
+                    nw = nh;
+                } else {
+                    const IndexType kwTop = kBot - nw + 1;
+                    if (abs1(H(kwTop,kwTop-1)) > abs1(H(kwTop-1,kwTop-2))) {
+                        ++nw;
+                    }
+                }
+            }
+            if (nDfl<kexNw) {
+                nDec = -1;
+            } else if (nDec>=0 || nw>=nwUpBd) {
+                ++nDec;
+                if (nw-nDec<2) {
+                    nDec = 0;
+                }
+                nw -= nDec;
+            }
+//
+//          ==== Aggressive early deflation:
+//          .    split workspace under the subdiagonal into
+//          .      - an nw-by-nw work array V in the lower
+//          .        left-hand-corner,
+//          .      - an NW-by-at-least-NW-but-more-is-better
+//          .        (NW-by-NHO) horizontal work array along
+//          .        the bottom edge,
+//          .      - an at-least-NW-but-more-is-better (NHV-by-NW)
+//          .        vertical work array along the left-hand-edge.
+//          .        ====
+//
+            auto _V     = H(_(n-nw+1,    n), _(   1,     nw));
+            auto _T     = H(_(n-nw+1,    n), _(nw+1, n-nw-1));
+            auto _WV    = H(_(  nw+2, n-nw), _(   1,     nw));
+//
+//          ==== Aggressive early deflation ====
+//
+            IndexType   ls, ld;
+
+            laqr3(wantT, wantZ, kTop, kBot, nw, H, iLoZ, iHiZ, Z, ls, ld,
+                  w(_(1,kBot)), _V, _T, _WV, work);
+//
+//          ==== Adjust KBOT accounting for new deflations. ====
+//
+            kBot -= ld;
+//
+//          ==== KS points to the shifts. ====
+//
+            IndexType ks = kBot - ls + 1;
+//
+//          ==== Skip an expensive QR sweep if there is a (partly
+//          .    heuristic) reason to expect that many eigenvalues
+//          .    will deflate without it.  Here, the QR sweep is
+//          .    skipped if many eigenvalues have just been deflated
+//          .    or if the remaining active block is small.
+//
+            if ((ld==0)
+             || ((100*ld <= nw*nibble) && (kBot-kTop+1 > min(nMin, nwMax))))
+            {
+//
+//              ==== NS = nominal number of simultaneous shifts.
+//              .    This may be lowered (slightly) if ZLAQR3
+//              .    did not provide that many shifts. ====
+//
+                IndexType ns = min(nsMax, nsr, max(IndexType(2), kBot-kTop));
+                ns -= ns % 2;
+//
+//              ==== If there have been no deflations
+//              .    in a multiple of KEXSH iterations,
+//              .    then try exceptional shifts.
+//              .    Otherwise use shifts provided by
+//              .    ZLAQR3 above or from the eigenvalues
+//              .    of a trailing principal submatrix. ====
+//
+                if (nDfl%kexSh==0) {
+                    ks = kBot - ns + 1;
+                    for (IndexType i=kBot; i>=ks+1; i-=2) {
+                        w(i)   = H(i,i) + wilk1*abs1(H(i,i-1));
+                        w(i-1) = w(i);
+                    }
+                } else {
+//
+//                  ==== Got NS/2 or fewer shifts? Use ZLAQR4 or
+//                  .    ZLAHQR on a trailing principal submatrix to
+//                  .    get more. (Since NS.LE.NSMAX.LE.(N+6)/9,
+//                  .    there is enough space below the subdiagonal
+//                  .    to fit an NS-by-NS scratch array.) ====
+//
+                    if (kBot-ks+1<=ns/2) {
+                        ks = kBot - ns +1;
+                        H(_(ks,kBot),_(1,ns)) = H(_(ks,kBot),_(ks,kBot));
+
+                        if (ns>nMin) {
+                            // TODO: avoid the need for ZDummy
+                            typename GeMatrix<MZ>::NoView ZDummy;
+                            ks += laqr4(false, false,
+                                        IndexType(1), ns,
+                                        H(_(ks,kBot),_(1,ns)),
+                                        w(_(ks,kBot)),
+                                        IndexType(1), IndexType(1),
+                                        ZDummy, work);
+                        } else {
+                            // TODO: avoid the need for ZDummy
+                            typename GeMatrix<MZ>::NoView ZDummy;
+                            ks += lahqr(false, false,
+                                        IndexType(1), ns,
+                                        H(_(ks,kBot),_(1,ns)),
+                                        w(_(ks,kBot)),
+                                        IndexType(1), IndexType(1),
+                                        ZDummy);
+                        }
+//                      ==== In case of a rare QR failure use
+//                      .    eigenvalues of the trailing 2-by-2
+//                      .    principal submatrix.  Scale to avoid
+//                      .    overflows, underflows and subnormals.
+//                      .    (The scale factor S can not be zero,
+//                      .    because H(KBOT,KBOT-1) is nonzero.) ====
+//
+                        if (ks>=kBot) {
+                            PT s = abs1(H(kBot-1, kBot-1)) +
+                                   abs1(H(kBot,   kBot-1)) +
+                                   abs1(H(kBot-1, kBot  )) +
+                                   abs1(H(kBot,   kBot  ));
+                            T aa = H(kBot-1, kBot-1) / s;
+                            T cc = H(kBot,   kBot-1) / s;
+                            T bb = H(kBot-1, kBot  ) / s;
+                            T dd = H(kBot,   kBot  ) / s;
+
+                            T tr2 = (aa+dd) / Two;
+                            T det = (aa-tr2) * (dd-tr2) - bb*cc;
+                            T rtDisc = sqrt(-det);
+
+                            w(kBot-1) = (tr2+rtDisc)*s;
+                            w(kBot)   = (tr2-rtDisc)*s;
+
+                            ks = kBot - 1;
+                        }
+                    }
+
+                    if (kBot-ks+1>ns) {
+//
+//                      ==== Sort the shifts (Helps a little) ====
+//
+                        bool sorted = false;
+                        for (IndexType k=kBot; k>=ks+1; --k) {
+                            if (sorted) {
+                                break;
+                            }
+                            sorted = true;
+                            for (IndexType i=ks; i<=k-1; ++i) {
+                                if (abs1(w(i))<abs1(w(i+1))) {
+                                    sorted = false;
+                                    swap(w(i), w(i+1));
+                                }
+                            }
+                        }
+                    }
+                }
+//
+//              ==== If there are only two shifts, then use
+//              .    only one.  ====
+//
+                if (kBot-ks+1==2) {
+                    if (abs1(w(kBot)-H(kBot,kBot))
+                      < abs1(w(kBot-1)-H(kBot,kBot)))
+                    {
+                        w(kBot-1) = w(kBot);
+                    } else {
+                        w(kBot) = w(kBot-1);
+                    }
+                }
+//
+//              ==== Use up to NS of the the smallest magnatiude
+//              .    shifts.  If there aren't NS shifts available,
+//              .    then use them all, possibly dropping one to
+//              .    make the number of shifts even. ====
+//
+                ns = min(ns, kBot-ks+1);
+                ns -= ns % 2;
+                ks = kBot - ns + 1;
+
+//
+//              ==== Small-bulge multi-shift QR sweep:
+//              .    split workspace under the subdiagonal into
+//              .    - a KDU-by-KDU work array U in the lower
+//              .      left-hand-corner,
+//              .    - a KDU-by-at-least-KDU-but-more-is-better
+//              .      (KDU-by-NHo) horizontal work array WH along
+//              .      the bottom edge,
+//              .    - and an at-least-KDU-but-more-is-better-by-KDU
+//              .      (NVE-by-KDU) vertical work WV arrow along
+//              .      the left-hand-edge. ====
+//
+                IndexType kdu   = 3*ns - 3;
+                IndexType ku    = n - kdu + 1;
+                IndexType kwv   = kdu + 4;
+                IndexType nho   = (n-kdu+1-4) - (kdu+1) + 1;
+
+                typedef typename GeMatrix<MH>::View GeMatrixView;
+                GeMatrixView _V(IndexType(3), ns/2, work(_(1,3*ns/2)));
+                auto _U     = H(_( ku,    n), _(    1,    kdu));
+                auto _WV    = H(_(kwv,n-kdu), _(    1,    kdu));
+                auto _WH    = H(_( ku,    n), _(kdu+1,kdu+nho));
+//
+//              ==== Small-bulge multi-shift QR sweep ====
+//
+                laqr5(wantT, wantZ, kacc22, kTop, kBot, ns,
+                      w(_(ks,kBot)), H, iLoZ, iHiZ, Z,
+                      _V, _U, _WV, _WH);
+
+            }
+//
+//          ==== Note progress (or the lack of it). ====
+//
+            if (ld>0) {
+                nDfl = 1;
+            } else {
+                ++nDfl;
+            }
+//
+//          ==== End of main loop ====
+//
+        }
+//
+//      ==== Iteration limit exceeded.  Set INFO to show where
+//      .    the problem occurred and exit. ====
+//
+        if (it>itMax) {
+            info = kBot;
+        }
+    }
+
+    work(1) = T(lWorkOpt, 0);
+    return info;
+}
+
 } // namespace generic
 
 //== interface for native lapack ===============================================
@@ -593,37 +1048,9 @@ laqr0_impl(bool                  wantT,
 
 namespace external {
 
-template <typename IndexType, typename MH>
-IndexType
-laqr0_wsq_impl(bool                  wantT,
-               bool                  wantZ,
-               IndexType             iLo,
-               IndexType             iHi,
-               const GeMatrix<MH>    &H)
-{
-    typedef typename GeMatrix<MH>::ElementType  T;
-
-    T                   WORK, DUMMY;
-    const IndexType     LWORK   = -1;
-
-    cxxlapack::laqr0<IndexType>(wantT,
-                                wantZ,
-                                H.numRows(),
-                                iLo,
-                                iHi,
-                                &DUMMY,
-                                H.leadingDimension(),
-                                &DUMMY,
-                                &DUMMY,
-                                IndexType(1),
-                                IndexType(1),
-                                &DUMMY,
-                                IndexType(1),
-                                &WORK,
-                                LWORK);
-    return WORK;
-}
-
+//
+//  Real variant
+//
 template <typename IndexType, typename MH, typename VWR, typename VWI,
           typename MZ, typename VWORK>
 IndexType
@@ -659,78 +1086,152 @@ laqr0_impl(bool                  wantT,
     return info;
 }
 
+//
+//  Workspace query (real variant)
+//
+template <typename IndexType, typename MH>
+typename RestrictTo<IsReal<typename MH::ElementType>::value,
+         IndexType>::Type
+laqr0_wsq_impl(bool                  wantT,
+               bool                  wantZ,
+               IndexType             iLo,
+               IndexType             iHi,
+               const GeMatrix<MH>    &H)
+{
+    typedef typename GeMatrix<MH>::ElementType  T;
+
+    T                   WORK, DUMMY;
+    const IndexType     LWORK   = -1;
+
+    cxxlapack::laqr0<IndexType>(wantT,
+                                wantZ,
+                                H.numRows(),
+                                iLo,
+                                iHi,
+                                &DUMMY,
+                                H.leadingDimension(),
+                                &DUMMY,
+                                &DUMMY,
+                                IndexType(1),
+                                IndexType(1),
+                                &DUMMY,
+                                IndexType(1),
+                                &WORK,
+                                LWORK);
+    return WORK;
+}
+
+//
+//  Complex variant
+//
+template <typename IndexType, typename MH, typename VW, typename MZ,
+          typename VWORK>
+IndexType
+laqr0_impl(bool                  wantT,
+           bool                  wantZ,
+           IndexType             iLo,
+           IndexType             iHi,
+           GeMatrix<MH>          &H,
+           DenseVector<VW>       &w,
+           IndexType             iLoZ,
+           IndexType             iHiZ,
+           GeMatrix<MZ>          &Z,
+           DenseVector<VWORK>    &work)
+{
+    IndexType  info;
+    info = cxxlapack::laqr0<IndexType>(wantT,
+                                       wantZ,
+                                       H.numRows(),
+                                       iLo,
+                                       iHi,
+                                       H.data(),
+                                       H.leadingDimension(),
+                                       w.data(),
+                                       iLoZ,
+                                       iHiZ,
+                                       Z.data(),
+                                       Z.leadingDimension(),
+                                       work.data(),
+                                       work.length());
+    ASSERT(info>=0);
+    return info;
+}
+
+//
+//  Workspace query (complex variant)
+//
+template <typename IndexType, typename MH>
+typename RestrictTo<IsComplex<typename MH::ElementType>::value,
+         IndexType>::Type
+laqr0_wsq_impl(bool                  wantT,
+               bool                  wantZ,
+               IndexType             iLo,
+               IndexType             iHi,
+               const GeMatrix<MH>    &H)
+{
+    typedef typename GeMatrix<MH>::ElementType  T;
+
+    T                   WORK, DUMMY;
+    const IndexType     LWORK   = -1;
+
+    cxxlapack::laqr0<IndexType>(wantT,
+                                wantZ,
+                                H.numRows(),
+                                iLo,
+                                iHi,
+                                &DUMMY,
+                                H.leadingDimension(),
+                                &DUMMY,
+                                IndexType(1),
+                                IndexType(1),
+                                &DUMMY,
+                                IndexType(1),
+                                &WORK,
+                                LWORK);
+    return cxxblas::real(WORK);
+}
+
 } // namespace external
 
 #endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
-template <typename IndexType, typename MH>
-IndexType
-laqr0_wsq(bool                  wantT,
-          bool                  wantZ,
-          IndexType             iLo,
-          IndexType             iHi,
-          const GeMatrix<MH>    &H)
-{
-    using std::max;
 //
-//  Test the input parameters
+//  Real variant
 //
-#   ifndef NDEBUG
-    ASSERT(H.firstRow()==1);
-    ASSERT(H.firstCol()==1);
-    ASSERT(H.numRows()==H.numCols());
-
-    const IndexType n = H.numRows();
-
-    if (n>0) {
-        ASSERT(1<=iLo);
-        ASSERT(iLo<=iHi);
-        ASSERT(iHi<=n);
-    } else {
-        ASSERT(iLo==1);
-        ASSERT(iHi==0);
-    }
-#   endif
-
-//
-//  Call implementation
-//
-    IndexType info = LAPACK_SELECT::laqr0_wsq_impl(wantT, wantZ, iLo, iHi, H);
-
-#   ifdef CHECK_CXXLAPACK
-//
-//  Compare results
-//
-    IndexType _info = external::laqr0_wsq_impl(wantT, wantZ, iLo, iHi, H);
-
-    if (info!=_info) {
-        std::cerr << "CXXLAPACK:  info = " << info << std::endl;
-        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
-        ASSERT(0);
-    }
-#   endif
-    return info;
-}
-
 template <typename IndexType, typename MH, typename VWR, typename VWI,
           typename MZ, typename VWORK>
-IndexType
-laqr0(bool                  wantT,
-      bool                  wantZ,
-      IndexType             iLo,
-      IndexType             iHi,
-      GeMatrix<MH>          &H,
-      DenseVector<VWR>      &wr,
-      DenseVector<VWI>      &wi,
-      IndexType             iLoZ,
-      IndexType             iHiZ,
-      GeMatrix<MZ>          &Z,
-      DenseVector<VWORK>    &work)
+typename RestrictTo<IsRealGeMatrix<MH>::value
+                 && IsRealDenseVector<VWR>::value
+                 && IsRealDenseVector<VWI>::value
+                 && IsRealGeMatrix<MZ>::value
+                 && IsRealDenseVector<VWORK>::value,
+         IndexType>::Type
+laqr0(bool                      wantT,
+      bool                      wantZ,
+      IndexType                 iLo,
+      IndexType                 iHi,
+      MH                        &&H,
+      VWR                       &&wr,
+      VWI                       &&wi,
+      IndexType                 iLoZ,
+      IndexType                 iHiZ,
+      MZ                        &&Z,
+      VWORK                     &&work)
 {
     LAPACK_DEBUG_OUT("laqr0");
 
     using std::max;
+//
+//  Remove references from rvalue types
+//
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<MH>::Type        MatrixH;
+    typedef typename RemoveRef<VWR>::Type       VectorWR;
+    typedef typename RemoveRef<VWI>::Type       VectorWI;
+    typedef typename RemoveRef<MZ>::Type        MatrixZ;
+    typedef typename RemoveRef<VWORK>::Type     VectorWork;
+#   endif
 //
 //  Test the input parameters
 //
@@ -773,11 +1274,11 @@ laqr0(bool                  wantT,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-    typename GeMatrix<MH>::NoView          H_org       = H;
-    typename DenseVector<VWR>::NoView      wr_org      = wr;
-    typename DenseVector<VWI>::NoView      wi_org      = wi;
-    typename GeMatrix<MZ>::NoView          Z_org       = Z;
-    typename DenseVector<VWORK>::NoView    work_org    = work;
+    typename MatrixH::NoView       H_org       = H;
+    typename VectorWR::NoView      wr_org      = wr;
+    typename VectorWI::NoView      wi_org      = wi;
+    typename MatrixZ::NoView       Z_org       = Z;
+    typename VectorWork::NoView    work_org    = work;
 #   endif
 
 //
@@ -790,18 +1291,18 @@ laqr0(bool                  wantT,
 //
 //  Make copies of results computed by the generic implementation
 //
-    typename GeMatrix<MH>::NoView          H_generic       = H;
-    typename DenseVector<VWR>::NoView      wr_generic      = wr;
-    typename DenseVector<VWI>::NoView      wi_generic      = wi;
-    typename GeMatrix<MZ>::NoView          Z_generic       = Z;
-    typename DenseVector<VWORK>::NoView    work_generic    = work;
+    typename MatrixH::NoView       H_generic       = H;
+    typename VectorWR::NoView      wr_generic      = wr;
+    typename VectorWI::NoView      wi_generic      = wi;
+    typename MatrixZ::NoView       Z_generic       = Z;
+    typename VectorWork::NoView    work_generic    = work;
 //
 //  restore output arguments
 //
-    H = H_org;
-    wr = wr_org;
-    wi = wi_org;
-    Z = Z_org;
+    H    = H_org;
+    wr   = wr_org;
+    wi   = wi_org;
+    Z    = Z_org;
     work = work_org;
 //
 //  Compare generic results with results from the native implementation
@@ -857,44 +1358,206 @@ laqr0(bool                  wantT,
     return info;
 }
 
-//-- forwarding ----------------------------------------------------------------
+//
+//  Complex variant
+//
+template <typename IndexType, typename MH, typename VW, typename MZ,
+          typename VWORK>
+typename RestrictTo<IsComplexGeMatrix<MH>::value
+                 && IsComplexDenseVector<VW>::value
+                 && IsComplexGeMatrix<MZ>::value
+                 && IsComplexDenseVector<VWORK>::value,
+         IndexType>::Type
+laqr0(bool                      wantT,
+      bool                      wantZ,
+      IndexType                 iLo,
+      IndexType                 iHi,
+      MH                        &&H,
+      VW                        &&w,
+      IndexType                 iLoZ,
+      IndexType                 iHiZ,
+      MZ                        &&Z,
+      VWORK                     &&work)
+{
+    LAPACK_DEBUG_OUT("laqr0");
+
+    using std::max;
+//
+//  Remove references from rvalue types
+//
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<MH>::Type        MatrixH;
+    typedef typename RemoveRef<VW>::Type        VectorW;
+    typedef typename RemoveRef<MZ>::Type        MatrixZ;
+    typedef typename RemoveRef<VWORK>::Type     VectorWork;
+#   endif
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(H.firstRow()==1);
+    ASSERT(H.firstCol()==1);
+    ASSERT(H.numRows()==H.numCols());
+
+    const IndexType n = H.numRows();
+
+    if (n>0) {
+        ASSERT(1<=iLo);
+        ASSERT(iLo<=iHi);
+        ASSERT(iHi<=n);
+    } else {
+        ASSERT(iLo==1);
+        ASSERT(iHi==0);
+    }
+
+    ASSERT(w.firstIndex()==1);
+    ASSERT(w.length()>=iHi);
+
+    ASSERT(1<=iLoZ);
+    ASSERT(iLoZ<=iLo);
+    ASSERT(iHi<=iHiZ);
+    ASSERT(iHiZ<=n);
+
+    ASSERT(Z.firstRow()==1);
+    ASSERT(Z.firstCol()==1);
+    ASSERT(Z.numRows()>=iHi);
+    ASSERT(Z.numCols()>=iHi);
+
+    ASSERT((work.length()==0) || (work.length()>=n));
+#   endif
+
+//
+//  Make copies of output arguments
+//
+#   ifdef CHECK_CXXLAPACK
+    typename MatrixH::NoView       H_org       = H;
+    typename VectorW::NoView       w_org       = w;
+    typename MatrixZ::NoView       Z_org       = Z;
+    typename VectorWork::NoView    work_org    = work;
+#   endif
+
+//
+//  Call implementation
+//
+    IndexType info = LAPACK_SELECT::laqr0_impl(wantT, wantZ, iLo, iHi, H,
+                                               w, iLoZ, iHiZ, Z, work);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of results computed by the generic implementation
+//
+    typename MatrixH::NoView       H_generic       = H;
+    typename VectorW::NoView       w_generic       = w;
+    typename MatrixZ::NoView       Z_generic       = Z;
+    typename VectorWork::NoView    work_generic    = work;
+//
+//  restore output arguments
+//
+    H    = H_org;
+    w    = w_org;
+    Z    = Z_org;
+    work = work_org;
+//
+//  Compare generic results with results from the native implementation
+//
+    IndexType _info = external::laqr0_impl(wantT, wantZ, iLo, iHi, H, w,
+                                           iLoZ, iHiZ, Z, work);
+
+    bool failed = false;
+    if (! isIdentical(H_generic, H, "H_generic", "H")) {
+        std::cerr << "CXXLAPACK: H_generic = " << H_generic << std::endl;
+        std::cerr << "F77LAPACK: H = " << H << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(w_generic, w, "w_generic", "w")) {
+        std::cerr << "CXXLAPACK: w_generic = " << w_generic << std::endl;
+        std::cerr << "F77LAPACK: w = " << w << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(Z_generic, Z, "Z_generic", "Z")) {
+        std::cerr << "CXXLAPACK: Z_generic = " << Z_generic << std::endl;
+        std::cerr << "F77LAPACK: Z = " << Z << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(info, _info, " info", "_info")) {
+        std::cerr << "CXXLAPACK:  info = " << info << std::endl;
+        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(work_generic, work, "work_generic", "work")) {
+        std::cerr << "CXXLAPACK: work_generic = " << work_generic << std::endl;
+        std::cerr << "F77LAPACK: work = " << work << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        std::cerr << "error in: laqr0.tcc" << std::endl;
+        ASSERT(0);
+    } else {
+        // std::cerr << "passed: laqr0.tcc" << std::endl;
+    }
+#   endif
+
+    return info;
+}
+
+
+//
+//  Workspace query (real/complex variant)
+//
 template <typename IndexType, typename MH>
 IndexType
-laqr0_wsq(bool              wantT,
-          bool              wantZ,
-          IndexType         iLo,
-          IndexType         iHi,
-          const MH          &&H)
+laqr0_wsq(bool                  wantT,
+          bool                  wantZ,
+          IndexType             iLo,
+          IndexType             iHi,
+          const GeMatrix<MH>    &H)
 {
-    CHECKPOINT_ENTER;
-    const IndexType info = laqr0_wsq(wantT, wantZ, iLo, iHi, H);
-    CHECKPOINT_LEAVE;
+    using std::max;
+//
+//  Test the input parameters
+//
+#   ifndef NDEBUG
+    ASSERT(H.firstRow()==1);
+    ASSERT(H.firstCol()==1);
+    ASSERT(H.numRows()==H.numCols());
 
+    const IndexType n = H.numRows();
+
+    if (n>0) {
+        ASSERT(1<=iLo);
+        ASSERT(iLo<=iHi);
+        ASSERT(iHi<=n);
+    } else {
+        ASSERT(iLo==1);
+        ASSERT(iHi==0);
+    }
+#   endif
+
+//
+//  Call implementation
+//
+    IndexType info = LAPACK_SELECT::laqr0_wsq_impl(wantT, wantZ, iLo, iHi, H);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    IndexType _info = external::laqr0_wsq_impl(wantT, wantZ, iLo, iHi, H);
+
+    if (info!=_info) {
+        std::cerr << "CXXLAPACK:  info = " << info << std::endl;
+        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        ASSERT(0);
+    }
+#   endif
     return info;
 }
 
-template <typename IndexType, typename MH, typename VWR, typename VWI,
-          typename MZ, typename VWORK>
-IndexType
-laqr0(bool                  wantT,
-      bool                  wantZ,
-      IndexType             iLo,
-      IndexType             iHi,
-      MH                    &&H,
-      VWR                   &&wr,
-      VWI                   &&wi,
-      IndexType             iLoZ,
-      IndexType             iHiZ,
-      MZ                    &&Z,
-      VWORK                 &&work)
-{
-    CHECKPOINT_ENTER;
-    const IndexType info = laqr0(wantT, wantZ, iLo, iHi, H, wr, wi,
-                                 iLoZ, iHiZ, Z, work);
-    CHECKPOINT_LEAVE;
-
-    return info;
-}
 
 } } // namespace lapack, flens
 

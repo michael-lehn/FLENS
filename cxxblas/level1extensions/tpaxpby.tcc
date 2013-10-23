@@ -50,6 +50,9 @@ tpaxpby(StorageOrder order, StorageUpLo upLo, Transpose trans, Diag diag,
 {
     CXXBLAS_DEBUG_OUT("tpaxpby_generic");
 
+    FAKE_USE(order);
+    FAKE_USE(upLo);
+
     const IndexType shift = (diag==Unit) ? 1 : 0;
 
     // TODO: Remove copy of diagonal if diag == Unit
