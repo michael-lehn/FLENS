@@ -78,12 +78,12 @@ rscl(IndexType              n,
      std::complex<float >   *sx,
      IndexType              incX)
 {
-    CXXLAPACK_DEBUG_OUT("crscl");
+    CXXLAPACK_DEBUG_OUT("csrscl");
 
     LAPACK_IMPL(csrscl)(&n,
-                       &sa,
-                       reinterpret_cast<float  *>(sx),
-                       &incX);
+                        &sa,
+                        reinterpret_cast<float  *>(sx),
+                        &incX);
 }
 
 template <typename IndexType>
@@ -93,12 +93,12 @@ rscl(IndexType              n,
      std::complex<double>   *sx,
      IndexType              incX)
 {
-    CXXLAPACK_DEBUG_OUT("zrscl");
+    CXXLAPACK_DEBUG_OUT("zdrscl");
 
     LAPACK_IMPL(zdrscl)(&n,
-                       &sa,
-                       reinterpret_cast<double *>(sx),
-                       &incX);
+                        &sa,
+                        reinterpret_cast<double *>(sx),
+                        &incX);
 }
 
 } // namespace cxxlapack
