@@ -34,24 +34,27 @@
 #ifndef FLENS_MATRIXTYPES_GENERAL_IMPL_GE_INITIALIZER_H
 #define FLENS_MATRIXTYPES_GENERAL_IMPL_GE_INITIALIZER_H 1
 
+#include <flens/auxiliary/auxiliary.h>
+
 namespace flens { namespace gematrix {
 
 template <typename M>
-class Initializer
+    struct Complex;
+
+template <typename M>
+struct Initializer
 {
-    public:
-        typedef M                               Matrix;
-        typedef typename Matrix::ElementType    ElementType;
-        typedef typename Matrix::IndexType      IndexType;
+    typedef M                                        Matrix;
+    typedef typename Matrix::ElementType             T;
+    typedef typename Matrix::IndexType               IndexType;
 
-        Initializer(Matrix &A, IndexType row, IndexType col);
+    Initializer(Matrix &A, IndexType row, IndexType col);
 
-        Initializer
-        operator,(const ElementType &value);
+    Initializer
+    operator,(const T &value);
 
-    private:
-        Matrix      &_A;
-        IndexType   _row, _col;
+    Matrix      &_A;
+    IndexType   _row, _col;
 };
 
 } } // namespace gematrix, flens

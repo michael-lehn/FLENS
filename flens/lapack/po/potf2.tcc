@@ -147,6 +147,107 @@ potf2_impl(SyMatrix<MA> &A)
     return info;
 }
 
+template <typename MA>
+typename HeMatrix<MA>::IndexType
+potf2_impl(HeMatrix<MA> &A)
+{
+    using std::isnan;
+    using std::sqrt;
+
+    typedef typename HeMatrix<MA>::ElementType        T;
+    typedef typename ComplexTrait<T>::PrimitiveType   PT;
+    typedef typename HeMatrix<MA>::IndexType          IndexType;
+
+    const Underscore<IndexType> _;
+
+    const IndexType n = A.dim();
+    const bool upper = (A.upLo()==Upper);
+
+    const PT  Zero(0), One(1);
+    const T   COne(1);
+
+    IndexType info = 0;
+//
+//  Quick return if possible
+//
+    if (n==0) {
+        return info;
+    }
+    if (upper) {
+//
+//      Compute the Cholesky factorization A = U**H *U.
+//
+        for (IndexType j=1; j<=n; ++j) {
+//
+//          Partition matrix
+//
+            const auto range1 = _(1,j-1);
+            const auto range3 = _(j+1,n);
+
+            auto a12 = A(range1,j);
+            const auto A13 = A(range1,range3);
+            auto a23 = A(j,range3);
+//
+//          Compute U(J,J) and test for non-positive-definiteness.
+//
+            PT a22 = cxxblas::real(A(j,j) - conjugate(a12)*a12);
+            if (a22<=Zero || isnan(a22)) {
+                A(j,j) = a22;
+                info = j;
+                break;
+            }
+            a22 = sqrt(a22);
+            A(j,j) = a22;
+//
+//          Compute elements J+1:N of row J.
+//
+            if (j<n) {
+                blas::conj(a12);
+                blas::mv(Trans, -COne, A13, a12, COne, a23);
+                blas::conj(a12);
+                a23 *= One / a22;
+            }
+        }
+    } else {
+//
+//      Compute the Cholesky factorization A = L*L**H.
+//
+        for (IndexType j=1; j<=n; ++j) {
+//
+//          Partition matrix
+//
+            const auto range1 = _(1,j-1);
+            const auto range3 = _(j+1,n);
+
+            auto a21 = A(j,range1);
+            const auto A31 = A(range3,range1);
+            auto a32 = A(range3,j);
+//
+//          Compute L(J,J) and test for non-positive-definiteness.
+//
+            PT a22 = cxxblas::real(A(j,j) - conjugate(a21)*a21);
+            if (a22<=Zero || isnan(a22)) {
+                A(j,j) = a22;
+                info = j;
+                break;
+            }
+            a22 = sqrt(a22);
+            A(j,j) = a22;
+//
+//          Compute elements J+1:N of column J.
+//
+            if (j<n) {
+                blas::conj(a21);
+                blas::mv(NoTrans, -COne, A31, a21, COne, a32);
+                blas::conj(a21);
+                a32 *= One / a22;
+            }
+        }
+    }
+    return info;
+}
+
+
 } // namespace generic
 
 //== interface for native lapack ===============================================
@@ -169,6 +270,21 @@ potf2_impl(SyMatrix<MA> &A)
     return info;
 }
 
+template <typename MA>
+typename HeMatrix<MA>::IndexType
+potf2_impl(HeMatrix<MA> &A)
+{
+    typedef typename HeMatrix<MA>::IndexType  IndexType;
+
+    IndexType info = cxxlapack::potf2<IndexType>(getF77Char(A.upLo()),
+                                                 A.dim(),
+                                                 A.data(),
+                                                 A.leadingDimension());
+    ASSERT(info>=0);
+    return info;
+}
+
+
 } // namespace external
 
 #endif // USE_CXXLAPACK
@@ -176,10 +292,16 @@ potf2_impl(SyMatrix<MA> &A)
 //== public interface ==========================================================
 
 template <typename MA>
-typename SyMatrix<MA>::IndexType
-potf2(SyMatrix<MA> &A)
+typename RestrictTo<IsRealSyMatrix<MA>::value
+                 || IsHeMatrix<MA>::value,
+         typename RemoveRef<MA>::Type::IndexType>::Type
+potf2(MA &&A)
 {
-    typedef typename SyMatrix<MA>::IndexType    IndexType;
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
 
 //
 //  Test the input parameters
@@ -191,7 +313,7 @@ potf2(SyMatrix<MA> &A)
 //
 //  Make copies of output arguments
 //
-    typename SyMatrix<MA>::NoView       A_org      = A;
+    typename MatrixA::GeneralNoView     A_org      = A.general();
 #   endif
 
 //
@@ -203,11 +325,11 @@ potf2(SyMatrix<MA> &A)
 //
 //  Make copies of generic results
 //
-    typename SyMatrix<MA>::NoView       A_generic      = A;
+    typename MatrixA::GeneralNoView     A_generic  = A.general();
 //
 //  Restore output arguments
 //
-    A = A_org;
+    A.general() = A_org;
 
 //
 //  Compare results
@@ -215,9 +337,9 @@ potf2(SyMatrix<MA> &A)
     IndexType _info = external::potf2_impl(A);
 
     bool failed = false;
-    if (! isIdentical(A_generic, A, "A_generic", "_A")) {
+    if (! isIdentical(A_generic, A.general(), "A_generic", "_A")) {
         std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
-        std::cerr << "F77LAPACK: A = " << A << std::endl;
+        std::cerr << "F77LAPACK: A = " << A.general() << std::endl;
         failed = true;
     }
 
@@ -232,20 +354,6 @@ potf2(SyMatrix<MA> &A)
     }
 
 #   endif
-
-    return info;
-}
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA>
-typename MA::IndexType
-potf2(MA &&A)
-{
-    typedef typename MA::IndexType  IndexType;
-
-    CHECKPOINT_ENTER;
-    IndexType info =  potf2(A);
-    CHECKPOINT_LEAVE;
 
     return info;
 }

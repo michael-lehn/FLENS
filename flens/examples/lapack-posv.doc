@@ -50,18 +50,15 @@ Example Code
 
 Comments on Example Code
 ------------------------
-:import: flens/examples/lapack-complex-posv.cc
+:import: flens/examples/lapack-complex-posv.cc [brief]
 
 Compile
 -------
-Note that an external LAPACK implementation is needed for the complex variant
-of `lapack::posv`
 
  *--[SHELL]-----------------------------------------------------------------*
  |                                                                          |
  |  cd flens/examples                                                       |
- |  g++ -DUSE_CXXLAPACK -framework vecLib                                +++|
- |      -std=c++11 -Wall -I../.. -o lapack-complex-posv                  +++|
+ |  g++ -std=c++11 -Wall -I../.. -o lapack-complex-posv                  +++|
  |      lapack-complex-posv.cc                                              |
  |                                                                          |
  *--------------------------------------------------------------------------*

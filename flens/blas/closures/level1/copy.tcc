@@ -198,7 +198,8 @@ copy(const VectorClosure<OpMult, VL, MR> &xA, Vector<VY> &y)
 
 template <typename Op, typename VL, typename VR, typename VY>
 void
-copy(const VectorClosure<Op, VL, VR> &x, Vector<VY> &y)
+copy(const VectorClosure<Op, VL, VR> &FLENS_BLASLOG_VARDECL(x),
+     Vector<VY>                      &FLENS_BLASLOG_VARDECL(y))
 {
     FLENS_BLASLOG_ERROR_COPY(x, y);
     ASSERT(0);

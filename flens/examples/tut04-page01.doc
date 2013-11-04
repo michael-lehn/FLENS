@@ -20,7 +20,7 @@ Example Code
 
 Comments on Example Code
 ========================
-:import: flens/examples/lapack-getrf.cc
+:import: flens/examples/lapack-getrf.cc [brief]
 
 Compile
 =======
@@ -39,6 +39,38 @@ Run
  |                                                                          |
  |  cd flens/examples                                                       |
  |  ./lapack-getrf                                                          |
+ |                                                                          |
+ *--------------------------------------------------------------------------*
+
+Example with Complex Numbers
+============================
+We slightly modify the above examples for using complex numbers.
+
+Example Code
+------------
+:import: flens/examples/lapack-complex-getrf.cc [stripped, downloadable]
+
+Comments on Example Code
+------------------------
+:import: flens/examples/lapack-complex-getrf.cc [brief]
+
+Compile
+-------
+
+ *--[SHELL]----------------------------------------------------------------------*
+ |                                                                               |
+ |  cd flens/examples                                                            |
+ |  g++ -std=c++11 -Wall -I../.. -o lapack-complex-getrf lapack-complex-getrf.cc |
+ |                                                                               |
+ *-------------------------------------------------------------------------------*
+
+Run
+---
+
+ *--[SHELL]-----------------------------------------------------------------*
+ |                                                                          |
+ |  cd flens/examples                                                       |
+ |  ./lapack-complex-getrf                                                  |
  |                                                                          |
  *--------------------------------------------------------------------------*
 

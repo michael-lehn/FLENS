@@ -248,7 +248,7 @@ class HeMatrix
 
         // -- views ------------------------------------------------------------
         // general views
-        ConstGeneralView
+        const ConstGeneralView
         general() const;
 
         GeneralView

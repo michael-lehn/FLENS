@@ -52,7 +52,7 @@ Example Code
 
 Comments on Example Code
 ------------------------
-:import: flens/examples/lapack-complex-trtrs.cc
+:import: flens/examples/lapack-complex-trtrs.cc [brief]
 
 Compile
 -------
@@ -62,8 +62,7 @@ of `lapack::trs`
  *--[SHELL]-----------------------------------------------------------------*
  |                                                                          |
  |  cd flens/examples                                                       |
- |  g++ -DUSE_CXXLAPACK -framework vecLib                                +++|
- |      -std=c++11 -Wall -I../.. -o lapack-complex-trtrs                 +++|
+ |  g++ -std=c++11 -Wall -I../.. -o lapack-complex-trtrs                 +++|
  |      lapack-complex-trtrs.cc                                             |
  |                                                                          |
  *--------------------------------------------------------------------------*

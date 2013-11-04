@@ -34,6 +34,7 @@
 #ifndef FLENS_MATRIXTYPES_GENERAL_IMPL_GE_INITIALIZER_TCC
 #define FLENS_MATRIXTYPES_GENERAL_IMPL_GE_INITIALIZER_TCC 1
 
+#include <cxxblas/auxiliary/complex.h>
 #include <flens/auxiliary/macros.h>
 #include <flens/matrixtypes/general/impl/gematrix.h>
 
@@ -47,7 +48,7 @@ Initializer<M>::Initializer(Matrix &A, IndexType row, IndexType col)
 
 template <typename M>
 Initializer<M>
-Initializer<M>::operator,(const ElementType &value)
+Initializer<M>::operator,(const T &value)
 {
     ++_col;
     if (_col>_A.lastCol()) {

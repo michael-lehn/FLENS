@@ -57,7 +57,7 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
-//-- (tr)tri [real variant] ----------------------------------------------------
+//-- (tr)tri [real and complex variant] ----------------------------------------
 
 template <typename MA>
 typename GeMatrix<MA>::IndexType
@@ -204,10 +204,11 @@ tri_impl(TrMatrix<MA> &A)
 
 //== public interface ==========================================================
 
-//-- (tr)tri [real variant] ----------------------------------------------------
+//-- (tr)tri [real and complex variant] ----------------------------------------
 
 template <typename MA>
-typename RestrictTo<IsRealTrMatrix<MA>::value,
+typename RestrictTo<IsRealTrMatrix<MA>::value
+                 || IsComplexTrMatrix<MA>::value,
          typename RemoveRef<MA>::Type::IndexType>::Type
 tri(MA &&A)
 {
@@ -269,46 +270,6 @@ tri(MA &&A)
 
     return info;
 }
-
-//-- (tr)tri [complex variant] -------------------------------------------------
-
-#ifdef USE_CXXLAPACK
-
-template <typename MA>
-typename RestrictTo<IsComplexTrMatrix<MA>::value,
-         typename RemoveRef<MA>::Type::IndexType>::Type
-tri(MA &&A)
-{
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::IndexType     IndexType;
-
-//
-//  Test the input parameters
-//
-#   ifndef NDEBUG
-    ASSERT(A.firstRow()==1);
-    ASSERT(A.firstCol()==1);
-#   endif
-
-//
-//  Make copies of output arguments
-//
-#   ifdef CHECK_CXXLAPACK
-    typename MatrixA::NoView   A_org = A;
-#   endif
-
-//
-//  Call implementation
-//
-    const IndexType info = external::tri_impl(A);
-
-    return info;
-}
-
-#endif // USE_CXXLAPACK
 
 } } // namespace lapack, flens
 

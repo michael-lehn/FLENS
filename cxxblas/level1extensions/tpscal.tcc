@@ -44,12 +44,13 @@ namespace cxxblas {
 //
 template <typename IndexType, typename ALPHA, typename MA>
 void
-tpscal(StorageOrder order, StorageUpLo upLo, Diag diag,
+tpscal(StorageOrder, StorageUpLo, Diag diag,
        IndexType  n, const ALPHA &alpha, MA *A)
 {
     CXXBLAS_DEBUG_OUT("tpscal_generic");
 
     // TODO: Remove scaling of diagonal if diag == Unit
+    ASSERT(diag==NonUnit);
 
     const IndexType length = n*(n+1)/2;
     scal(length, alpha, A, 1);

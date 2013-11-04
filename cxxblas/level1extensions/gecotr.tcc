@@ -42,11 +42,11 @@ namespace cxxblas {
 template <typename IndexType, typename MA>
 void
 gecotr(StorageOrder order, Transpose trans,
-       IndexType m, IndexType n, MA *A, IndexType ldA)
+       IndexType m, IndexType n,
+       MA *A, IndexType ldA)
 {
     if (order==RowMajor) {
         std::swap(m,n);
-        return;
     }
 
     CXXBLAS_DEBUG_OUT("gecotr_generic");
@@ -62,7 +62,7 @@ gecotr(StorageOrder order, Transpose trans,
             }
         }
     }
-    if (trans==Conj) {
+    if (trans==Conj || trans==ConjTrans) {
         for (IndexType j=0; j<n; ++j) {
             for (IndexType i=0; i<m; ++i) {
                 A[i+ldA*j] = cxxblas::conjugate(A[i+ldA*j]);

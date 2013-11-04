@@ -16,7 +16,7 @@ Example Code
 
 Comments on Example Code
 ========================
-:import: flens/examples/lapack-getrs.cc
+:import: flens/examples/lapack-getrs.cc [brief]
 
 Compile
 =======
@@ -48,7 +48,7 @@ Example Code
 
 Comments on Example Code
 ------------------------
-:import: flens/examples/lapack-complex-getrs.cc
+:import: flens/examples/lapack-complex-getrs.cc [brief]
 
 Compile
 -------

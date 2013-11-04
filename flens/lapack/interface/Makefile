@@ -1,5 +1,5 @@
-CXX  = g++
-#CXX  = clang++
+#CXX  = g++
+CXX  = clang++
 
 CXXFLAGS += -g -std=c++11 -Wall -Wextra -Werror
 CXXFLAGS += -I../../..
@@ -9,6 +9,7 @@ CXXFLAGS += -I../../..
 # without underscore
 #
 CXXFLAGS += -DWITH_REFBLAS
+#CXXFLAGS += -DWITH_REFBLAS -DCXXBLAS_DEBUG
 
 #CXXFLAGS += -DLAPACK_DEBUG
 

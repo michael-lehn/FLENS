@@ -197,89 +197,69 @@ Assignment and Arithmetic Operators
     Defined in namespace `flens`.
     Operator `=` of class `DenseVector` with 1 template parameter(s).
 
-
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
-|  template <typename RHS>                                                  |
-|      DenseVector &                                                        |
-|      operator+=(const Vector<RHS> &rhs);                                  |
+|  template <typename T>                                                    |
+|      typename RestrictTo<IsConvertible<T,ElementType>::value,             |
+|                          DenseVector>::Type &                             |
+|      operator+=(const T &rhs);                                            |
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@DenseVector@FT@>1#Toperator+=#&1]
-                         [>@N@flens@CT>1#T@Vector1t1.0#templatetypenameRHSDe]
-                         [nseVectorbandoperator+=                           ]
+                         [t1.0#templatetypenameTtypenameRestrictToIsConverti]
+                         [bleT,ElementTypevalue,DenseVectorTypebandoperator+]
+                         [=                                                 ]
 
     Defined in namespace `flens`.
-    Operator `+=` of class `DenseVector` with 1 template parameter(s).
-
+    Operator `+=` of class `DenseVector` with 1 template parameters.
 
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
-|  template <typename RHS>                                                  |
-|      DenseVector &                                                        |
-|      operator-=(const Vector<RHS> &rhs);                                  |
+|  template <typename T>                                                    |
+|      typename RestrictTo<IsConvertible<T,ElementType>::value,             |
+|                          DenseVector>::Type &                             |
+|      operator-=(const T &rhs);                                            |
 |                                                                           |
 *---------------------------------------------------------------------------*
                          [c:@N@flens@CT>1#T@DenseVector@FT@>1#Toperator-=#&1]
-                         [>@N@flens@CT>1#T@Vector1t1.0#templatetypenameRHSDe]
-                         [nseVectorbandoperator-=                           ]
+                         [t1.0#templatetypenameTtypenameRestrictToIsConverti]
+                         [bleT,ElementTypevalue,DenseVectorTypebandoperator-]
+                         [=                                                 ]
 
     Defined in namespace `flens`.
-    Operator `-=` of class `DenseVector` with 1 template parameter(s).
-
+    Operator `-=` of class `DenseVector` with 1 template parameters.
 
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
-|  DenseVector &                                                            |
-|  operator+=(const ElementType &rhs);                                      |
+|  template <typename T>                                                    |
+|      typename RestrictTo<IsConvertible<T,ElementType>::value,             |
+|                          DenseVector>::Type &                             |
+|      operator*=(const T &alpha);                                          |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@flens@CT>1#T@DenseVector@F@operator+=#&1 #Den]
-                         [seVectorbandoperator+=                            ]
-
+                         [c:@N@flens@CT>1#T@DenseVector@FT@>1#Toperator*=#&1]
+                         [t1.0#templatetypenameTtypenameRestrictToIsConverti]
+                         [bleT,ElementTypevalue,DenseVectorTypebandoperator*]
+                         [=                                                 ]
 
     Defined in namespace `flens`.
-    Operator `+=` of class `DenseVector` with 1 template parameter(s).
-
+    Operator `*=` of class `DenseVector` with 1 template parameters.
 
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
-|  DenseVector &                                                            |
-|  operator-=(const ElementType &rhs);                                      |
+|  template <typename T>                                                    |
+|      typename RestrictTo<IsConvertible<T,ElementType>::value,             |
+|                          DenseVector>::Type &                             |
+|      operator/=(const T &alpha);                                          |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@flens@CT>1#T@DenseVector@F@operator-=#&1 #Den]
-                         [seVectorbandoperator-=                            ]
+                         [c:@N@flens@CT>1#T@DenseVector@FT@>1#Toperator/=#&1]
+                         [t1.0#templatetypenameTtypenameRestrictToIsConverti]
+                         [bleT,ElementTypevalue,DenseVectorTypebandoperator/]
+                         [=                                                 ]
 
     Defined in namespace `flens`.
-    Operator `-=` of class `DenseVector` with 1 template parameter(s).
-
-
-*--[CODEREF]----------------------------------------------------------------*
-|                                                                           |
-|  DenseVector &                                                            |
-|  operator*=(const ElementType &alpha);                                    |
-|                                                                           |
-*---------------------------------------------------------------------------*
-                         [c:@N@flens@CT>1#T@DenseVector@F@operator*=#&1 #Den]
-                         [seVectorbandoperator*=                            ]
-
-    Defined in namespace `flens`.
-    Operator `*=` of class `DenseVector` with 1 template parameter(s).
-
-
-*--[CODEREF]----------------------------------------------------------------*
-|                                                                           |
-|  DenseVector &                                                            |
-|  operator/=(const ElementType &alpha);                                    |
-|                                                                           |
-*---------------------------------------------------------------------------*
-                         [c:@N@flens@CT>1#T@DenseVector@F@operator/=#&1 #Den]
-                         [seVectorbandoperator/=                            ]
-
-    Defined in namespace `flens`.
-    Operator `/=` of class `DenseVector` with 1 template parameter(s).
-
+    Operator `/=` of class `DenseVector` with 1 template parameters.
 
 *--[CODEREF]----------------------------------------------------------------*
 |                                                                           |
@@ -881,6 +861,48 @@ Related Trait-Classes
 
     Defined in namespace `flens`.
     Function `fillRandom` with 1 template parameters.
+
+
+
+
+
+
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename RHS>                                                  |
+|      DenseVector &                                                        |
+|      operator+=(const Vector<RHS> &rhs);                                  |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@CT>1#T@DenseVector@FT@>1#Toperator+=#&1]
+                         [>@N@flens@CT>1#T@Vector1t1.0#templatetypenameRHSDe]
+                         [nseVectorbandoperator+=                           ]
+
+    Defined in namespace `flens`.
+    Operator `+=` of class `DenseVector` with 1 template parameters.
+
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename RHS>                                                  |
+|      DenseVector &                                                        |
+|      operator-=(const Vector<RHS> &rhs);                                  |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@CT>1#T@DenseVector@FT@>1#Toperator-=#&1]
+                         [>@N@flens@CT>1#T@Vector1t1.0#templatetypenameRHSDe]
+                         [nseVectorbandoperator-=                           ]
+
+    Defined in namespace `flens`.
+    Operator `-=` of class `DenseVector` with 1 template parameters.
 
 
 

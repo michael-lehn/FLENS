@@ -60,8 +60,9 @@ conj(VX &&x)
     typedef typename RemoveRef<VX>::Type    VectorX;
     typedef typename VectorX::IndexType     IndexType;
 
-    cxxblas::gecotr(ColMajor, Conj, x.length(), IndexType(1),
-                    x.data(), IndexType(1));
+    cxxblas::gecotr(ColMajor, Conj,
+                    IndexType(1), x.length(),
+                    x.data(), x.stride());
 #   else
     ASSERT(0);
 #   endif

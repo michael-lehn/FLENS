@@ -758,6 +758,7 @@ typename RestrictTo<IsGeCoordMatrix<MA>::value
          void>::Type
 copy(Transpose trans, const MA &A, MB &&B)
 {
+    ASSERT(trans==NoTrans);
     B.engine() = A.engine();
 }
 
@@ -768,6 +769,7 @@ typename RestrictTo<IsGeCoordMatrix<MA>::value
          void>::Type
 copy(Transpose trans, const MA &A, MB &&B)
 {
+    ASSERT(trans==NoTrans);
     B.engine() = A.engine();
 }
 
@@ -830,6 +832,8 @@ typename RestrictTo<IsGeCCSMatrix<MA>::value
          void>::Type
 copy(Transpose trans, const MA &A, MB &&B)
 {
+    ASSERT(trans==NoTrans);
+
     typedef typename MA::IndexType    IndexType;
     typedef typename MA::ElementType  ElementType;
 
@@ -855,6 +859,8 @@ typename RestrictTo<IsGeCRSMatrix<MA>::value
          void>::Type
 copy(Transpose trans, const MA &A, MB &&B)
 {
+    ASSERT(trans==NoTrans);
+
     typedef typename MA::IndexType    IndexType;
     typedef typename MA::ElementType  ElementType;
 
@@ -880,6 +886,8 @@ typename RestrictTo<IsGeCoordMatrix<MA>::value
          void>::Type
 copy(Transpose trans, const MA &A, MB &&B)
 {
+    ASSERT(trans==NoTrans);
+
     typedef typename MA::ElementType  ElementType;
 
     B.resize(A.numRows(), A.numCols(),

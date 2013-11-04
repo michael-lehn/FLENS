@@ -127,24 +127,24 @@ Linear Equation Routines
  |          |               | *Example:*  __lapack-getrs__.          |                |
  +          +---------------+----------------------------------------+----------------+
  |          | __tri__       | Computes the inverse of a general      | __dgetri__,    |
- |          |               | matrix, using the $LU$ factorization.  | __zgetri__^[1] |
+ |          |               | matrix, using the $LU$ factorization.  | __zgetri__     |
  |          |               |                                        |                |
  |          |               | *Example:*  __lapack-getri__.          |                |
  +----------+---------------+----------------------------------------+----------------+
- | Positive | __posv__      | Solves a symmetric positive definite   | __dposv__      |
- | Definite |               | system of linear equations $AX=B.$     | __zposv__^[1]  |
+ | Positive | __posv__      | Solves a symmetric positive definite   | __dposv__,     |
+ | Definite |               | system of linear equations $AX=B.$     | __zposv__      |
  |          |               |                                        |                |
  |          |               | *Example:*  __lapack-posv__.           |                |
  +          +---------------+----------------------------------------+----------------+
  |          | __potrf__     | Computes the Cholesky factorization    | __dpotrf__,    |
- |          |               | of a symmetric positive definite       | __zpotrf__^[1] |
+ |          |               | of a symmetric positive definite       | __zpotrf__     |
  |          |               | matrix.                                |                |
  |          |               |                                        |                |
  |          |               | *Example:*  __lapack-potrs__,          |                |
  |          |               | __lapack-potri__.                      |                |
  +          +---------------+----------------------------------------+----------------+
  |          | __potrs__     | Solves a symmetric positive definite   | __dpotrs__,    |
- |          |               | system of linear equations $AX=B,$     | __zpotrs__^[1] |
+ |          |               | system of linear equations $AX=B,$     | __zpotrs__     |
  |          |               | using the Cholesky factorization       |                |
  |          |               | computed by __potrf__.                 |                |
  |          |               |                                        |                |
@@ -164,7 +164,7 @@ Linear Equation Routines
  |          |               | *Example:*  __lapack-trtrs__.          |                |
  +          +---------------+----------------------------------------+----------------+
  |          | __tri__       | Computes the inverse of a triangular   | __dtrtri__,    |
- |          |               | matrix, using the $LU$ factorization.  | __ztrtri__^[1] |
+ |          |               | matrix, using the $LU$ factorization.  | __ztrtri__     |
  |          |               |                                        |                |
  |          |               | *Example:*  __lapack-trtri__.          |                |
  +----------+---------------+----------------------------------------+----------------+
@@ -299,8 +299,8 @@ Non-Symmetric Eigenvalue Routines
  +-----------+---------------------------------------------------+------------+
  | FLENS     |  DESCRIPTION                                      | LAPACK     |
  +===========+===================================================+============+
- | __ev__    | Computes the eigenvalues and left and right       | __dgeev__  |
- |           | eigenvectors of a general matrix.                 |            |
+ | __ev__    | Computes the eigenvalues and left and right       | __dgeev__, |
+ |           | eigenvectors of a general matrix.                 | __zgeev__  |
  |           |                                                   |            |
  |           | *Example:*  __lapack-geev__.                      |            |
  +-----------+---------------------------------------------------+------------+
@@ -334,10 +334,15 @@ Non-Symmetric Eigenvalue Routines
  | __orghr__ | Generates the orthogonal transformation matrix    | __dorghr__ |
  |           | from a reduction to Hessenberg form.              |            |
  +-----------+---------------------------------------------------+------------+
+ | __unghr__ | Generates the unitary transformation matrix       | __zunghr__ |
+ |           | from a reduction to Hessenberg form.              |            |
+ +-----------+---------------------------------------------------+------------+
 
 :links: __lapack-geev__ -> doc:flens/examples/tut04-page04
         __(d.+)__       -> file:cxxlapack/netlib/lapack/$1.f
+        __(z.+)__       -> file:cxxlapack/netlib/lapack/$1.f
         __(o.*)__       -> file:flens/lapack/impl/$1.h
+        __(u.*)__       -> file:flens/lapack/impl/$1.h
         __(.*)__        -> file:flens/lapack/ge/$1.h
 
 Routines for Matrices with Band Storage

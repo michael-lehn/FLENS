@@ -152,8 +152,10 @@ DenseVector<A>::operator-=(const Vector<E> &rhs)
 }
 
 template <typename A>
-DenseVector<A> &
-DenseVector<A>::operator+=(const ElementType &alpha)
+template <typename T>
+typename RestrictTo<IsConvertible<T,typename A::ElementType>::value,
+                    DenseVector<A> >::Type &
+DenseVector<A>::operator+=(const T &alpha)
 {
     for (int i=firstIndex(); i<=lastIndex(); ++i) {
         (*this)(i) += alpha;
@@ -162,8 +164,10 @@ DenseVector<A>::operator+=(const ElementType &alpha)
 }
 
 template <typename A>
-DenseVector<A> &
-DenseVector<A>::operator-=(const ElementType &alpha)
+template <typename T>
+typename RestrictTo<IsConvertible<T,typename A::ElementType>::value,
+                    DenseVector<A> >::Type &
+DenseVector<A>::operator-=(const T &alpha)
 {
     for (int i=firstIndex(); i<=lastIndex(); ++i) {
         (*this)(i) -= alpha;
@@ -172,16 +176,20 @@ DenseVector<A>::operator-=(const ElementType &alpha)
 }
 
 template <typename A>
-DenseVector<A> &
-DenseVector<A>::operator*=(const ElementType &alpha)
+template <typename T>
+typename RestrictTo<IsConvertible<T,typename A::ElementType>::value,
+                    DenseVector<A> >::Type &
+DenseVector<A>::operator*=(const T &alpha)
 {
     blas::scal(alpha, *this);
     return *this;
 }
 
 template <typename A>
-DenseVector<A> &
-DenseVector<A>::operator/=(const ElementType &alpha)
+template <typename T>
+typename RestrictTo<IsConvertible<T,typename A::ElementType>::value,
+                    DenseVector<A> >::Type &
+DenseVector<A>::operator/=(const T &alpha)
 {
     blas::rscal(alpha, *this);
     return *this;

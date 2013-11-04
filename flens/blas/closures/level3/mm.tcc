@@ -51,9 +51,9 @@ namespace flens { namespace blas {
 //== GeneralMatrix - GeneralMatrix products ====================================
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 void
-mm(Transpose transA, Transpose transB, const ALPHA &alpha,
-   const GeneralMatrix<MA> &A, const GeneralMatrix<MB> &B,
-   const BETA &beta, Matrix<MC> &C)
+mm(Transpose, Transpose, const ALPHA &,
+   const GeneralMatrix<MA> &, const GeneralMatrix<MB> &,
+   const BETA &, Matrix<MC> &)
 {
     // You get here if you want to call a matrix-matrix product that was not
     // defined.  Or its not correctly included.

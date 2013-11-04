@@ -50,7 +50,7 @@ Example Code
 
 Comments on Example Code
 ------------------------
-:import: flens/examples/lapack-complex-trtri.cc
+:import: flens/examples/lapack-complex-trtri.cc [brief]
 
 Compile
 -------
@@ -60,8 +60,7 @@ of `lapack::tri`
  *--[SHELL]-----------------------------------------------------------------*
  |                                                                          |
  |  cd flens/examples                                                       |
- |  g++ -DUSE_CXXLAPACK -framework vecLib                                +++|
- |      -std=c++11 -Wall -I../.. -o lapack-complex-trtri                 +++|
+ |  g++ -std=c++11 -Wall -I../.. -o lapack-complex-trtri                 +++|
  |      lapack-complex-trtri.cc                                             |
  |                                                                          |
  *--------------------------------------------------------------------------*

@@ -120,17 +120,25 @@ class DenseVector
             DenseVector &
             operator-=(const Vector<RHS> &rhs);
 
-        DenseVector &
-        operator+=(const ElementType &rhs);
+        template <typename T>
+            typename RestrictTo<IsConvertible<T,ElementType>::value,
+                                DenseVector>::Type &
+            operator+=(const T &rhs);
 
-        DenseVector &
-        operator-=(const ElementType &rhs);
+        template <typename T>
+            typename RestrictTo<IsConvertible<T,ElementType>::value,
+                                DenseVector>::Type &
+            operator-=(const T &rhs);
 
-        DenseVector &
-        operator*=(const ElementType &alpha);
+        template <typename T>
+            typename RestrictTo<IsConvertible<T,ElementType>::value,
+                                DenseVector>::Type &
+            operator*=(const T &alpha);
 
-        DenseVector &
-        operator/=(const ElementType &alpha);
+        template <typename T>
+            typename RestrictTo<IsConvertible<T,ElementType>::value,
+                                DenseVector>::Type &
+            operator/=(const T &alpha);
 
         const ElementType &
         operator()(IndexType index) const;

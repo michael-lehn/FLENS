@@ -33,6 +33,10 @@
 
 #include <flens/blas/blaslogclear.h>
 
+#define FLENS_BLASLOG_VARDECL(x)    x
+
+//------------------------------------------------------------------------------
+
 #define FLENS_BLASLOG_SETTAG(tag)                                           \
     verbose::ClosureLog::setTag(tag)
 

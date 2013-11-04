@@ -44,10 +44,13 @@ namespace cxxblas {
 //
 template <typename IndexType, typename ALPHA, typename MA, typename MB>
 void
-tpaxpy(StorageOrder order, StorageUpLo upLo, Transpose trans, Diag diag,
+tpaxpy(StorageOrder order, StorageUpLo, Transpose trans, Diag diag,
        IndexType  n, const ALPHA &alpha, const MA *A, MB *B)
 {
     CXXBLAS_DEBUG_OUT("tpaxpy_generic");
+
+    ASSERT(order==ColMajor);
+    ASSERT(diag==NonUnit);
 
     // TODO: Remove copy of diagonal if diag == Unit
 

@@ -70,6 +70,22 @@ posv_impl(SyMatrix<MA> &A, GeMatrix<MB> &B)
     return info;
 }
 
+//-- posv [complex variant] ----------------------------------------------------
+
+template <typename MA, typename MB>
+typename HeMatrix<MA>::IndexType
+posv_impl(HeMatrix<MA> &A, GeMatrix<MB> &B)
+{
+    typedef typename GeMatrix<MB>::IndexType  IndexType;
+
+    IndexType info = potrf(A);
+
+    if (info==0) {
+        potrs(A, B);
+    }
+    return info;
+}
+
 } // namespace generic
 
 
@@ -124,15 +140,17 @@ posv_impl(HeMatrix<MA> &A, GeMatrix<MB> &B)
 
 //== public interface ==========================================================
 
-//-- posv [real variant] -------------------------------------------------------
+//-- posv [real/complex variant] -----------------------------------------------
 
 template <typename MA, typename MB>
-typename RestrictTo<IsRealSyMatrix<MA>::value
-                 && IsRealGeMatrix<MB>::value,
+typename RestrictTo<(IsRealSyMatrix<MA>::value
+                  && IsRealGeMatrix<MB>::value)
+         ||         (IsHeMatrix<MA>::value
+                  && IsComplexGeMatrix<MB>::value),
          typename RemoveRef<MA>::Type::IndexType>::Type
 posv(MA &&A, MB &&B)
 {
-    LAPACK_DEBUG_OUT("posv [real]");
+    LAPACK_DEBUG_OUT("posv [real/complex]");
 
 //
 //  Remove references from rvalue types
@@ -207,48 +225,6 @@ posv(MA &&A, MB &&B)
 
     return info;
 }
-
-#ifdef USE_CXXLAPACK
-//
-//  Complex variant
-//
-template <typename MA, typename MB>
-typename RestrictTo<IsHeMatrix<MA>::value
-                 && IsComplexGeMatrix<MB>::value,
-         typename RemoveRef<MA>::Type::IndexType>::Type
-posv(MA &&A, MB &&B)
-{
-    LAPACK_DEBUG_OUT("posv [complex]");
-
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::IndexType     IndexType;
-
-//
-//  Test the input parameters
-//
-#   ifndef NDEBUG
-    ASSERT(A.firstRow()==1);
-    ASSERT(A.firstCol()==1);
-
-    ASSERT(B.firstRow()==1);
-    ASSERT(B.firstCol()==1);
-
-    ASSERT(B.numRows()==A.dim());
-#   endif
-
-//
-//  Call implementation
-//
-    const IndexType info = external::posv_impl(A, B);
-
-    return info;
-}
-
-#endif // USE_CXXLAPACK
-
 
 //-- posv [variant if rhs is vector] -----------------------------------------
 

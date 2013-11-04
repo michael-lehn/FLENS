@@ -51,27 +51,15 @@ namespace flens { namespace lapack {
 
 //== posv =====================================================================
 //
-//  Real variant
+//  Real/complex variant
 //
 template <typename MA, typename MB>
-    typename RestrictTo<IsRealSyMatrix<MA>::value
-                     && IsRealGeMatrix<MB>::value,
+    typename RestrictTo<(IsRealSyMatrix<MA>::value
+                      && IsRealGeMatrix<MB>::value)
+             ||         (IsHeMatrix<MA>::value
+                      && IsComplexGeMatrix<MB>::value),
              typename RemoveRef<MA>::Type::IndexType>::Type
     posv(MA &&A, MB &&B);
-
-
-#ifdef USE_CXXLAPACK
-//
-//  Complex variant
-//
-template <typename MA, typename MB>
-    typename RestrictTo<IsHeMatrix<MA>::value
-                     && IsComplexGeMatrix<MB>::value,
-             typename RemoveRef<MA>::Type::IndexType>::Type
-    posv(MA &&A, MB &&B);
-
-#endif // USE_CXXLAPACK
-
 
 //== (po)sv variant if rhs is vector ===========================================
 //

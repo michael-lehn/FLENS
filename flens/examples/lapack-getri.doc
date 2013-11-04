@@ -52,18 +52,15 @@ Example Code
 
 Comments on Example Code
 ------------------------
-:import: flens/examples/lapack-complex-getri.cc
+:import: flens/examples/lapack-complex-getri.cc [brief]
 
 Compile
 -------
-Note that an external LAPACK implementation is needed for the complex variant
-of `lapack::tri`
 
  *--[SHELL]-----------------------------------------------------------------*
  |                                                                          |
  |  cd flens/examples                                                       |
- |  g++ -DUSE_CXXLAPACK -framework vecLib                                +++|
- |      -std=c++11 -Wall -I../.. -o lapack-complex-getri                 +++|
+ |  g++ -std=c++11 -Wall -I../.. -o lapack-complex-getri                 +++|
  |      lapack-complex-getri.cc                                             |
  |                                                                          |
  *--------------------------------------------------------------------------*

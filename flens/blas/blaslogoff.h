@@ -32,6 +32,7 @@
 
 #include <flens/blas/blaslogclear.h>
 
+#define FLENS_BLASLOG_VARDECL(x)
 #define FLENS_BLASLOG_SETTAG(tag)
 #define FLENS_BLASLOG_UNSETTAG
 
