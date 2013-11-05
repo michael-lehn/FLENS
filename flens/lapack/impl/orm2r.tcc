@@ -158,16 +158,28 @@ orm2r_impl(Side side, Transpose trans, GeMatrix<MA> &A,
 //== public interface ==========================================================
 
 template <typename MA, typename VTAU, typename MC, typename VWORK>
-void
-orm2r(Side side, Transpose trans, GeMatrix<MA> &A,
-      const DenseVector<VTAU> &tau, GeMatrix<MC> &C,
-      DenseVector<VWORK> &work)
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                 && IsRealDenseVector<VTAU>::value
+                 && IsRealGeMatrix<MC>::value
+                 && IsRealDenseVector<VWORK>::value,
+         void>::Type
+orm2r(Side side, Transpose trans, MA &&A, const VTAU &tau, MC &&C,
+      VWORK &&work)
 {
+//
+//  Remove references from rvalue types
+//
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<MA>::Type     MatrixA;
+    typedef typename RemoveRef<MC>::Type     MatrixC;
+    typedef typename RemoveRef<VWORK>::Type  VectorWork;
+#   endif
+
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
-    typedef typename GeMatrix<MC>::IndexType    IndexType;
+    typedef typename RemoveRef<MC>::Type::IndexType  IndexType;
 
     const IndexType m = C.numRows();
     const IndexType n = C.numCols();
@@ -193,9 +205,9 @@ orm2r(Side side, Transpose trans, GeMatrix<MA> &A,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
-    typename GeMatrix<MA>::NoView       A_org      = A;
-    typename GeMatrix<MC>::NoView       C_org      = C;
-    typename DenseVector<VWORK>::NoView work_org   = work;
+    typename MatrixA::NoView      A_org      = A;
+    typename MatrixC::NoView      C_org      = C;
+    typename VectorWork::NoView   work_org   = work;
 #   endif
 
 //
@@ -207,9 +219,9 @@ orm2r(Side side, Transpose trans, GeMatrix<MA> &A,
 //
 //  Make copies of results computed by the generic implementation
 //
-    typename GeMatrix<MA>::NoView       A_generic       = A;
-    typename GeMatrix<MC>::NoView       C_generic       = C;
-    typename DenseVector<VWORK>::NoView work_generic    = work;
+    typename MatrixA::NoView      A_generic       = A;
+    typename MatrixC::NoView      C_generic       = C;
+    typename VectorWork::NoView   work_generic    = work;
 
 //
 //  restore output arguments
@@ -249,18 +261,6 @@ orm2r(Side side, Transpose trans, GeMatrix<MA> &A,
 #   endif
 
 }
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VTAU, typename MC, typename VWORK>
-void
-orm2r(Side side, Transpose trans, MA &&A, const VTAU &tau, MC &&C,
-      VWORK &&work)
-{
-    CHECKPOINT_ENTER;
-    orm2r(side, trans, A, tau, C, work);
-    CHECKPOINT_LEAVE;
-}
-
 
 } } // namespace lapack, flens
 

@@ -50,9 +50,6 @@
 
 namespace flens { namespace lapack {
 
-
-#ifdef USE_CXXLAPACK
-
 //== unmqr =====================================================================
 
 template <typename MA, typename VTAU, typename MC, typename VWORK>
@@ -123,9 +120,6 @@ template <typename MA, typename MC>
               Transpose     trans,
               MA            &&A,
               MC            &&C);
-
-#endif // USE_CXXLAPACK
-
 
 } } // namespace lapack, flens
 

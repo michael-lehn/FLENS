@@ -51,36 +51,26 @@ namespace flens { namespace lapack {
 
 //== (ge)qrf ===================================================================
 //
-//  Real variant
+//  Real/complex variant
 //
 template <typename MA, typename VTAU, typename VWORK>
-    typename RestrictTo<IsRealGeMatrix<MA>::value
-                     && IsRealDenseVector<VTAU>::value
-                     && IsRealDenseVector<VWORK>::value,
+    typename RestrictTo<(IsRealGeMatrix<MA>::value
+                      && IsRealDenseVector<VTAU>::value
+                      && IsRealDenseVector<VWORK>::value)
+                    ||  (IsComplexGeMatrix<MA>::value
+                      && IsComplexDenseVector<VTAU>::value
+                      && IsComplexDenseVector<VWORK>::value),
              void>::Type
     qrf(MA &&A, VTAU &&tau, VWORK &&work);
-
-
-#ifdef USE_CXXLAPACK
-//
-//  Complex variant
-//
-template <typename MA, typename VTAU, typename VWORK>
-    typename RestrictTo<IsComplexGeMatrix<MA>::value
-                     && IsComplexDenseVector<VTAU>::value
-                     && IsComplexDenseVector<VWORK>::value,
-             void>::Type
-    qrf(MA &&A, VTAU &&tau, VWORK &&work);
-
-#endif // USE_CXXLAPACK
-
 
 //
 //  Real/complex variant with temporary workspace
 //
 template <typename MA, typename VTAU>
-    typename RestrictTo<IsGeMatrix<MA>::value
-                     && IsDenseVector<VTAU>::value,
+    typename RestrictTo<(IsRealGeMatrix<MA>::value
+                      && IsRealDenseVector<VTAU>::value)
+                    ||  (IsComplexGeMatrix<MA>::value
+                      && IsComplexDenseVector<VTAU>::value),
              void>::Type
     qrf(MA &&A, VTAU &&tau);
 

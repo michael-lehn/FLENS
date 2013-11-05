@@ -51,14 +51,11 @@ namespace flens { namespace lapack {
 
 //== orm2r =====================================================================
 template <typename MA, typename VTAU, typename MC, typename VWORK>
-    void
-    orm2r(Side side, Transpose trans, GeMatrix<MA> &A,
-          const DenseVector<VTAU> &tau, GeMatrix<MC> &C,
-          DenseVector<VWORK> &work);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VTAU, typename MC, typename VWORK>
-    void
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsRealDenseVector<VTAU>::value
+                     && IsRealGeMatrix<MC>::value
+                     && IsRealDenseVector<VWORK>::value,
+             void>::Type
     orm2r(Side side, Transpose trans, MA &&A, const VTAU &tau, MC &&C,
           VWORK &&work);
 

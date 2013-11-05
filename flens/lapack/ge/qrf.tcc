@@ -53,7 +53,7 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
-//-- (ge)qrf [real variant] ----------------------------------------------------
+//-- (ge)qrf [real and complex variant] ----------------------------------------
 
 template <typename MA, typename VTAU, typename VWORK>
 void
@@ -209,12 +209,15 @@ qrf_impl(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 
 //== public interface ==========================================================
 
-//-- (ge)qrf [real variant] ----------------------------------------------------
+//-- (ge)qrf [real/complex variant] --------------------------------------------
 
 template <typename MA, typename VTAU, typename VWORK>
-typename RestrictTo<IsRealGeMatrix<MA>::value
-                 && IsRealDenseVector<VTAU>::value
-                 && IsRealDenseVector<VWORK>::value,
+typename RestrictTo<(IsRealGeMatrix<MA>::value
+                  && IsRealDenseVector<VTAU>::value
+                  && IsRealDenseVector<VWORK>::value)
+                ||  (IsComplexGeMatrix<MA>::value
+                  && IsComplexDenseVector<VTAU>::value
+                  && IsComplexDenseVector<VWORK>::value),
          void>::Type
 qrf(MA &&A, VTAU &&tau, VWORK &&work)
 {
@@ -313,58 +316,12 @@ qrf(MA &&A, VTAU &&tau, VWORK &&work)
 #   endif
 }
 
-//-- (ge)trf [complex variant] -------------------------------------------------
-
-#ifdef USE_CXXLAPACK
-
-template <typename MA, typename VTAU, typename VWORK>
-typename RestrictTo<IsComplexGeMatrix<MA>::value
-                 && IsComplexDenseVector<VTAU>::value
-                 && IsComplexDenseVector<VWORK>::value,
-         void>::Type
-qrf(MA &&A, VTAU &&tau, VWORK &&work)
-{
-    using std::min;
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::IndexType     IndexType;
-
-    const IndexType m = A.numRows();
-    const IndexType n = A.numCols();
-    const IndexType k = min(m,n);
-
-#   ifndef NDEBUG
-//
-//  Test the input parameters
-//
-    ASSERT(A.firstRow()==1);
-    ASSERT(A.firstCol()==1);
-    ASSERT(tau.firstIndex()==1);
-    ASSERT(work.firstIndex()==1);
-
-    ASSERT(tau.length()==0 || tau.length()==k);
-    ASSERT(work.length()>=n || work.length()==IndexType(0));
-#   endif
-
-    if (tau.length()!=k) {
-        tau.resize(k);
-    }
-
-//
-//  Call implementation
-//
-    external::qrf_impl(A, tau, work);
-}
-
-#endif // USE_CXXLAPACK
-
-
 //-- (ge)tri [real/complex variant with temporary workspace] -------------------
 template <typename MA, typename VTAU>
-typename RestrictTo<IsGeMatrix<MA>::value
-                && IsDenseVector<VTAU>::value,
+typename RestrictTo<(IsRealGeMatrix<MA>::value
+                  && IsRealDenseVector<VTAU>::value)
+                ||  (IsComplexGeMatrix<MA>::value
+                  && IsComplexDenseVector<VTAU>::value),
          void>::Type
 qrf(MA &&A, VTAU &&tau)
 {

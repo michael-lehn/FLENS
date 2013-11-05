@@ -32,6 +32,7 @@
 
 /* Based on
        SUBROUTINE DGEQR2( M, N, A, LDA, TAU, WORK, INFO )
+       SUBROUTINE ZGEQR2( M, N, A, LDA, TAU, WORK, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -51,9 +52,15 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
+//
+//  Real variant
+//
 template <typename MA, typename VTAU, typename VWORK>
-void
-qr2_impl(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                 && IsRealDenseVector<VTAU>::value
+                 && IsRealDenseVector<VWORK>::value,
+         void>::Type
+qr2_impl(MA &A, VTAU &tau, VWORK &work)
 {
     typedef typename GeMatrix<MA>::IndexType    IndexType;
     typedef typename GeMatrix<MA>::ElementType  T;
@@ -78,6 +85,46 @@ qr2_impl(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
             A(i,i) = T(1);
             auto _work = work(_(1, n-i));
             larf(Left, A(_(i,m),i), tau(i), A(_(i,m), _(i+1,n)), _work);
+            A(i,i) = Aii;
+        }
+    }
+}
+
+//
+//  Complex variant
+//
+template <typename MA, typename VTAU, typename VWORK>
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                 && IsComplexDenseVector<VTAU>::value
+                 && IsComplexDenseVector<VWORK>::value,
+         void>::Type
+qr2_impl(MA &A, VTAU &tau, VWORK &work)
+{
+    using std::conj;
+
+    typedef typename GeMatrix<MA>::IndexType    IndexType;
+    typedef typename GeMatrix<MA>::ElementType  T;
+
+    const Underscore<IndexType> _;
+
+    const IndexType m = A.numRows();
+    const IndexType n = A.numCols();
+    const IndexType k = std::min(m, n);
+
+    for (IndexType i=1; i<=k; ++i) {
+//
+//      Generate elementary reflector H(i) to annihilate A(i+1:m,i)
+//
+        larfg(m-i+1, A(i,i), A(_(std::min(i+1,m),m), i), tau(i));
+
+        if (i<n) {
+//
+//          Apply H(i) to A(i:m,i+1:n) from the left
+//
+            const T Aii = A(i,i);
+            A(i,i) = T(1);
+            auto _work = work(_(1, n-i));
+            larf(Left, A(_(i,m),i), conj(tau(i)), A(_(i,m), _(i+1,n)), _work);
             A(i,i) = Aii;
         }
     }
@@ -112,14 +159,32 @@ qr2_impl(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 //== public interface ==========================================================
 
 template <typename MA, typename VTAU, typename VWORK>
-void
-qr2(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
+typename RestrictTo<(IsRealGeMatrix<MA>::value
+                  && IsRealDenseVector<VTAU>::value
+                  && IsRealDenseVector<VWORK>::value)
+                ||  (IsComplexGeMatrix<MA>::value
+                  && IsComplexDenseVector<VTAU>::value
+                  && IsComplexDenseVector<VWORK>::value),
+         void>::Type
+qr2(MA &&A, VTAU &&tau, VWORK &&work)
 {
+//
+//  Remove references from rvalue types
+//
+#   if !defined(NDEBUG) || defined(CHECK_CXXLAPACK)
+    typedef typename RemoveRef<MA>::Type        MatrixA;
+#   endif
+
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<VTAU>::Type      VectorTau;
+    typedef typename RemoveRef<VWORK>::Type     VectorWork;
+#   endif
+
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
-    typedef typename GeMatrix<MA>::IndexType  IndexType;
+    typedef typename MatrixA::IndexType  IndexType;
 
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
@@ -138,9 +203,9 @@ qr2(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 //
 //  Make copies of output arguments
 //
-    typename GeMatrix<MA>::NoView       A_org      = A;
-    typename DenseVector<VTAU>::NoView  tau_org    = tau;
-    typename DenseVector<VTAU>::NoView  work_org   = work;
+    typename MatrixA::NoView     A_org      = A;
+    typename VectorTau::NoView   tau_org    = tau;
+    typename VectorWork::NoView  work_org   = work;
 #   endif
 
 //
@@ -152,9 +217,9 @@ qr2(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 //
 //  Restore output arguments
 //
-    typename GeMatrix<MA>::NoView       A_generic      = A;
-    typename DenseVector<VTAU>::NoView  tau_generic    = tau;
-    typename DenseVector<VTAU>::NoView  work_generic   = work;
+    typename MatrixA::NoView     A_generic      = A;
+    typename VectorTau::NoView   tau_generic    = tau;
+    typename VectorWork::NoView  work_generic   = work;
 
     A    = A_org;
     tau  = tau_org;
@@ -187,16 +252,6 @@ qr2(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
         ASSERT(0);
     }
 #   endif
-}
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VTAU, typename VWORK>
-void
-qr2(MA &&A, VTAU &&tau, VWORK &&work)
-{
-    CHECKPOINT_ENTER;
-    qr2(A, tau, work);
-    CHECKPOINT_LEAVE;
 }
 
 } } // namespace lapack, flens

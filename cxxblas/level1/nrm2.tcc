@@ -43,8 +43,6 @@ nrm2_generic(IndexType n, const X *x, IndexType incX, T &norm)
 {
     CXXBLAS_DEBUG_OUT("nrm2_generic");
 
-    std::cout << "nrm2_generic (real)" << std::endl;
-
     using std::abs;
     using std::pow;
     using std::sqrt;
@@ -82,8 +80,6 @@ void
 nrm2_generic(IndexType n, const std::complex<X> *x, IndexType incX, T &norm)
 {
     CXXBLAS_DEBUG_OUT("nrm2_generic");
-
-    std::cout << "nrm2_generic (complex)" << std::endl;
 
     using std::abs;
     using std::imag;

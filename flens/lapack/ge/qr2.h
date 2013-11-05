@@ -32,6 +32,7 @@
 
 /* Based on
        SUBROUTINE DGEQR2( M, N, A, LDA, TAU, WORK, INFO )
+       SUBROUTINE ZGEQR2( M, N, A, LDA, TAU, WORK, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -47,15 +48,20 @@
 
 namespace flens { namespace lapack {
 
-//-- forwarding ----------------------------------------------------------------
+//-- qr2 -----------------------------------------------------------------------
+//
+//  Real/complex variant
+//
 template <typename MA, typename VTAU, typename VWORK>
-    void
+    typename RestrictTo<(IsRealGeMatrix<MA>::value
+                      && IsRealDenseVector<VTAU>::value
+                      && IsRealDenseVector<VWORK>::value)
+                    ||  (IsComplexGeMatrix<MA>::value
+                      && IsComplexDenseVector<VTAU>::value
+                      && IsComplexDenseVector<VWORK>::value),
+             void>::Type
     qr2(MA &&A, VTAU &&tau, VWORK &&work);
 
-//-- qr2 -----------------------------------------------------------------------
-template <typename MA, typename VTAU, typename VWORK>
-    void
-    qr2(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work);
 
 } } // namespace lapack, flens
 
