@@ -53,10 +53,14 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
+//
+//  Real variant
+//
 template <typename MA, typename JPIV, typename VTAU,
           typename VN1, typename VN2, typename VAUX,
           typename MF>
-void
+typename RestrictTo<IsReal<typename MA::ElementType>::value,
+         void>::Type
 laqps_impl(typename GeMatrix<MA>::IndexType  offset,
            typename GeMatrix<MA>::IndexType  nb,
            typename GeMatrix<MA>::IndexType  &kb,
@@ -215,6 +219,177 @@ laqps_impl(typename GeMatrix<MA>::IndexType  offset,
     }
 }
 
+//
+//  Complex variant
+//
+template <typename MA, typename JPIV, typename VTAU,
+          typename VN1, typename VN2, typename VAUX,
+          typename MF>
+typename RestrictTo<IsComplex<typename MA::ElementType>::value,
+         void>::Type
+laqps_impl(typename GeMatrix<MA>::IndexType  offset,
+           typename GeMatrix<MA>::IndexType  nb,
+           typename GeMatrix<MA>::IndexType  &kb,
+           GeMatrix<MA>                      &A,
+           DenseVector<JPIV>                 &jPiv,
+           DenseVector<VTAU>                 &tau,
+           DenseVector<VN1>                  &vn1,
+           DenseVector<VN2>                  &vn2,
+           DenseVector<VAUX>                 &aux,
+           GeMatrix<MF>                      &F)
+{
+    using std::abs;
+    using std::max;
+    using std::min;
+    using flens::pow;
+    using std::sqrt;
+    using std::swap;
+
+    typedef typename GeMatrix<MA>::ElementType                  ElementType;
+    typedef typename ComplexTrait<ElementType>::PrimitiveType   PrimitiveType;
+    typedef typename GeMatrix<MA>::IndexType                    IndexType;
+
+    const Underscore<IndexType> _;
+
+    const IndexType m     = A.numRows();
+    const IndexType n     = A.numCols();
+
+    const IndexType lastRk = min(m, n+offset);
+
+    IndexType lasticc = 0;
+    IndexType k = 0;
+
+    const PrimitiveType  Zero(0), One(1);
+    const ElementType    CZero(0), COne(1);
+    const PrimitiveType  tol3z = sqrt(lamch<PrimitiveType>(Eps));
+//
+//  Beginning of while loop.
+//
+    while (k<nb && lasticc==0) {
+        ++k;
+
+        const IndexType rk = offset + k;
+//
+//      Determine ith pivot column and swap if necessary
+//
+        IndexType pvt = (k-1) + blas::iamax(vn1(_(k,n)));
+        if (pvt!=k) {
+            blas::swap(A(_,pvt), A(_,k));
+            blas::swap(F(pvt,_(1,k-1)), F(k,_(1,k-1)));
+            swap(jPiv(pvt),jPiv(k));
+            vn1(pvt) = vn1(k);
+            vn2(pvt) = vn2(k);
+        }
+//
+//      Apply previous Householder reflectors to column K:
+//      A(RK:M,K) := A(RK:M,K) - A(RK:M,1:K-1)*F(K,1:K-1)**T.
+//
+        if (k>1) {
+            blas::conj(F(k,_(1,k-1)));
+            blas::mv(NoTrans, -COne, A(_(rk,m),_(1,k-1)), F(k,_(1,k-1)),
+                     COne, A(_(rk,m),k));
+            blas::conj(F(k,_(1,k-1)));
+        }
+//
+//      Generate elementary reflector H(k).
+//
+        if (rk<m) {
+            larfg(m-rk+1, A(rk,k), A(_(rk+1,m),k), tau(k));
+        } else {
+            larfg(1, A(m,k), A(_(m+1,m),k), tau(k));
+        }
+
+        const ElementType Akk = A(rk,k);
+        A(rk,k) = COne;
+//
+//      Compute Kth column of F:
+//
+//      Compute  F(K+1:N,K) := tau(K)*A(RK:M,K+1:N)**T*A(RK:M,K).
+//
+        if (k<n) {
+            blas::mv(ConjTrans, tau(k), A(_(rk,m),_(k+1,n)), A(_(rk,m),k),
+                     Zero, F(_(k+1,n),k));
+        }
+//
+//      Padding F(1:K,K) with zeros.
+//
+        F(_(1,k),k) = CZero;
+//
+//      Incremental updating of F:
+//      F(1:N,K) := F(1:N,K) - tau(K)*F(1:N,1:K-1)*A(RK:M,1:K-1)**T
+//                   *A(RK:M,K).
+//
+        if (k>1) {
+            blas::mv(ConjTrans, -tau(k), A(_(rk,m),_(1,k-1)), A(_(rk,m),k),
+                     Zero, aux(_(1,k-1)));
+            blas::mv(NoTrans, One, F(_,_(1,k-1)), aux(_(1,k-1)),
+                     One, F(_,k));
+        }
+//
+//      Update the current row of A:
+//      A(RK,K+1:N) := A(RK,K+1:N) - A(RK,1:K)*F(K+1:N,1:K)**H.
+//
+        if (k<n) {
+            blas::mm(NoTrans, ConjTrans,
+                     -One, F(_(k+1,n),_(1,k)), A(_(1,rk),_(1,k)),
+                     One, A(_(1,rk),_(k+1,n)));
+        }
+//
+//      Update partial column norms.
+//
+        if (rk<lastRk) {
+            for (IndexType j=k+1; j<=n; ++j) {
+                if (vn1(j)!=Zero) {
+//
+//                  NOTE: The following 4 lines follow from the analysis in
+//                  Lapack Working Note 176.
+//
+                    PrimitiveType tmp = abs(A(rk,j)) / vn1(j);
+                    tmp = max(Zero, (One+tmp)*(One-tmp));
+                    PrimitiveType tmp2 = tmp*pow(vn1(j)/vn2(j),2);
+                    if (tmp2<=tol3z) {
+                        vn2(j) = PrimitiveType(lasticc);
+                        lasticc = j;
+                    } else {
+                        vn1(j) *= sqrt(tmp);
+                    }
+                }
+            }
+        }
+
+        A(rk,k) = Akk;
+//
+//      End of while loop.
+//
+    }
+    kb = k;
+    const IndexType rk = offset + kb;
+//
+//  Apply the block reflector to the rest of the matrix:
+//  A(OFFSET+KB+1:M,KB+1:N) := A(OFFSET+KB+1:M,KB+1:N) -
+//                        A(OFFSET+KB+1:M,1:KB)*F(KB+1:N,1:KB)**T.
+//
+    if (kb<min(n,m-offset)) {
+        blas::mm(NoTrans, ConjTrans,
+                 -COne, A(_(rk+1,m),_(1,kb)), F(_(kb+1,n),_(1,kb)),
+                 COne, A(_(rk+1,m),_(kb+1,n)));
+    }
+//
+//  Recomputation of difficult columns.
+//
+    while (lasticc>0) {
+        IndexType iTmp = nint(vn2(lasticc));
+        vn1(lasticc) = blas::nrm2(A(_(rk+1,m),lasticc));
+//
+//      NOTE: The computation of VN1( LSTICC ) relies on the fact that
+//      SNRM2 does not fail on vectors with norm below the value of
+//      SQRT(DLAMCH('S'))
+//
+        vn2(lasticc) = vn1(lasticc);
+        lasticc = iTmp;
+    }
+}
+
 } // namespace generic
 
 //== interface for native lapack ===============================================
@@ -261,26 +436,51 @@ laqps_impl(typename GeMatrix<MA>::IndexType  offset,
 #endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
-template <typename MA, typename JPIV, typename VTAU,
-          typename VN1, typename VN2, typename VAUX,
-          typename MF>
-void
-laqps(typename GeMatrix<MA>::IndexType  offset,
-      typename GeMatrix<MA>::IndexType  nb,
-      typename GeMatrix<MA>::IndexType  &kb,
-      GeMatrix<MA>                      &A,
-      DenseVector<JPIV>                 &jPiv,
-      DenseVector<VTAU>                 &tau,
-      DenseVector<VN1>                  &vn1,
-      DenseVector<VN2>                  &vn2,
-      DenseVector<VAUX>                 &aux,
-      GeMatrix<MF>                      &F)
+//
+//  Real and complex variant
+//
+template <typename IndexType, typename MA, typename JPIV, typename VTAU,
+          typename VN1, typename VN2, typename VAUX, typename MF>
+typename RestrictTo<((IsRealGeMatrix<MA>::value &&
+                      IsRealDenseVector<VTAU>::value &&
+                      IsRealDenseVector<VAUX>::value &&
+                      IsRealGeMatrix<MF>::value)
+                  || (IsComplexGeMatrix<MA>::value &&
+                      IsComplexDenseVector<VTAU>::value &&
+                      IsComplexDenseVector<VAUX>::value &&
+                      IsComplexGeMatrix<MF>::value))
+                  && IsIntegerDenseVector<JPIV>::value
+                  && IsRealDenseVector<VN1>::value
+                  && IsRealDenseVector<VN2>::value,
+         void>::Type
+laqps(IndexType   offset,
+      IndexType   nb,
+      IndexType   &kb,
+      MA          &&A,
+      JPIV        &&jPiv,
+      VTAU        &&tau,
+      VN1         &&vn1,
+      VN2         &&vn2,
+      VAUX        &&aux,
+      MF          &&F)
 {
     using std::min;
 
-#   ifndef NDEBUG
-    typedef typename GeMatrix<MA>::IndexType    IndexType;
+//
+//  Remove references from rvalue types
+//
+#   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<MA>::Type        MatrixA;
+    typedef typename RemoveRef<JPIV>::Type      VectorJPiv;
+    typedef typename RemoveRef<VTAU>::Type      VectorTau;
+    typedef typename RemoveRef<VN1>::Type       VectorVN1;
+    typedef typename RemoveRef<VN2>::Type       VectorVN2;
+    typedef typename RemoveRef<VAUX>::Type      VectorAux;
+    typedef typename RemoveRef<MF>::Type        MatrixF;
+#   endif
 
+
+#   ifndef NDEBUG
 //
 //  Test the input parameters
 //
@@ -309,13 +509,13 @@ laqps(typename GeMatrix<MA>::IndexType  offset,
 //
 //  Make copies of output arguments
 //
-    typename GeMatrix<MA>::NoView       A_org      = A;
-    typename DenseVector<JPIV>::NoView  jPiv_org   = jPiv;
-    typename DenseVector<VTAU>::NoView  tau_org    = tau;
-    typename DenseVector<VN1>::NoView   vn1_org    = vn1;
-    typename DenseVector<VN2>::NoView   vn2_org    = vn2;
-    typename DenseVector<VAUX>::NoView  aux_org    = aux;
-    typename GeMatrix<MF>::NoView       F_org      = F;
+    typename MatrixA::NoView     A_org      = A;
+    typename VectorJPiv::NoView  jPiv_org   = jPiv;
+    typename VectorTau::NoView   tau_org    = tau;
+    typename VectorVN1::NoView   vn1_org    = vn1;
+    typename VectorVN2::NoView   vn2_org    = vn2;
+    typename VectorAux::NoView   aux_org    = aux;
+    typename MatrixF::NoView     F_org      = F;
 #   endif
 
 //
@@ -327,13 +527,13 @@ laqps(typename GeMatrix<MA>::IndexType  offset,
 //
 //  Restore output arguments
 //
-    typename GeMatrix<MA>::NoView       A_generic    = A;
-    typename DenseVector<JPIV>::NoView  jPiv_generic = jPiv;
-    typename DenseVector<VTAU>::NoView  tau_generic  = tau;
-    typename DenseVector<VN1>::NoView   vn1_generic  = vn1;
-    typename DenseVector<VN2>::NoView   vn2_generic  = vn2;
-    typename DenseVector<VAUX>::NoView  aux_generic  = aux;
-    typename GeMatrix<MF>::NoView       F_generic    = F;
+    typename MatrixA::NoView     A_generic    = A;
+    typename VectorJPiv::NoView  jPiv_generic = jPiv;
+    typename VectorTau::NoView   tau_generic  = tau;
+    typename VectorVN1::NoView   vn1_generic  = vn1;
+    typename VectorVN2::NoView   vn2_generic  = vn2;
+    typename VectorAux::NoView   aux_generic  = aux;
+    typename MatrixF::NoView     F_generic    = F;
 
     A    = A_org;
     jPiv = jPiv_org;
@@ -395,27 +595,6 @@ laqps(typename GeMatrix<MA>::IndexType  offset,
         ASSERT(0);
     }
 #   endif
-}
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename JPIV, typename VTAU,
-          typename VN1, typename VN2, typename VAUX,
-          typename MF>
-void
-laqps(typename MA::IndexType  offset,
-      typename MA::IndexType  nb,
-      typename MA::IndexType  &kb,
-      MA                      &&A,
-      JPIV                    &&jPiv,
-      VTAU                    &&tau,
-      VN1                     &&vn1,
-      VN2                     &&vn2,
-      VAUX                    &&aux,
-      MF                      &&F)
-{
-    CHECKPOINT_ENTER;
-    laqps(offset, nb, kb, A, jPiv, tau, vn1, vn2, aux, F);
-    CHECKPOINT_LEAVE;
 }
 
 } } // namespace lapack, flens

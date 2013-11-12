@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Michael Lehn
+ *   Copyright (c) 2013, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,56 +30,35 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/* Based on
+/*
  *
-       SUBROUTINE DLAQPS( M, N, OFFSET, NB, KB, A, LDA, JPVT, TAU, VN1,
-      $                   VN2, AUXV, F, LDF )
-       SUBROUTINE ZLAQPS( M, N, OFFSET, NB, KB, A, LDA, JPVT, TAU, VN1,
-      $                   VN2, AUXV, F, LDF )
+      SUBROUTINE ZUNM2R( SIDE, TRANS, M, N, K, A, LDA, TAU, C, LDC,
+     $                   WORK, INFO )
  *
- *  -- LAPACK auxiliary routine (version 3.3.1) --
+ *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
  *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
  *  -- April 2011                                                      --
  */
 
-#ifndef FLENS_LAPACK_LA_LAQPS_H
-#define FLENS_LAPACK_LA_LAQPS_H 1
+#ifndef FLENS_LAPACK_IMPL_UNM2R_H
+#define FLENS_LAPACK_IMPL_UNM2R_H 1
 
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace lapack {
 
-//== laqps =====================================================================
-//
-//  Real and complex variant
-//
-template <typename IndexType, typename MA, typename JPIV, typename VTAU,
-          typename VN1, typename VN2, typename VAUX, typename MF>
-    typename RestrictTo<((IsRealGeMatrix<MA>::value &&
-                          IsRealDenseVector<VTAU>::value &&
-                          IsRealDenseVector<VAUX>::value &&
-                          IsRealGeMatrix<MF>::value)
-                      || (IsComplexGeMatrix<MA>::value &&
-                          IsComplexDenseVector<VTAU>::value &&
-                          IsComplexDenseVector<VAUX>::value &&
-                          IsComplexGeMatrix<MF>::value))
-                      && IsIntegerDenseVector<JPIV>::value
-                      && IsRealDenseVector<VN1>::value
-                      && IsRealDenseVector<VN2>::value,
+//== unm2r =====================================================================
+template <typename MA, typename VTAU, typename MC, typename VWORK>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsComplexDenseVector<VTAU>::value
+                     && IsComplexGeMatrix<MC>::value
+                     && IsComplexDenseVector<VWORK>::value,
              void>::Type
-    laqps(IndexType   offset,
-          IndexType   nb,
-          IndexType   &kb,
-          MA          &&A,
-          JPIV        &&jPiv,
-          VTAU        &&tau,
-          VN1         &&vn1,
-          VN2         &&vn2,
-          VAUX        &&aux,
-          MF          &&F);
+    unm2r(Side side, Transpose trans, MA &&A, const VTAU &tau, MC &&C,
+          VWORK &&work);
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_LA_LAQPS_H
+#endif // FLENS_LAPACK_IMPL_UNM2R_H

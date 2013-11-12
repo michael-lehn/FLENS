@@ -76,8 +76,6 @@ template <typename MA, typename VJPIV, typename VTAU>
         VJPIV   &&jPiv,
         VTAU    &&tau);
 
-
-#ifdef USE_CXXLAPACK
 //
 //  Complex variant
 //
@@ -106,8 +104,6 @@ template <typename MA, typename VJPIV, typename VTAU>
     qp3(MA      &&A,
         VJPIV   &&jPiv,
         VTAU    &&tau);
-
-#endif // USE_CXXLAPACK
 
 //== workspace query ===========================================================
 

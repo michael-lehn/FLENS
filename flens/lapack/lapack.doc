@@ -191,7 +191,7 @@ Orthogonal Factorizations
  | FLENS     |  DESCRIPTION                                   | LAPACK        |
  +===========+================================================+===============+
  | __qrf__   | Computes a $QR$ factorization of a general     | __dgeqrf__,   |
- |           | rectangular matrix.                            | __zgeqrf__^[1]|
+ |           | rectangular matrix.                            | __zgeqrf__    |
  |           |                                                |               |
  |           | *Example:* __lapack-geqrf__.                   |               |
  +-----------+------------------------------------------------+---------------+
@@ -206,7 +206,7 @@ Orthogonal Factorizations
  |           | *Example:* __lapack-orgqr__, __lapack-ungqr__. |               |
  +-----------+------------------------------------------------+---------------+
  | __ormqr__,| Multiplies a general matrix by the             | __dormqr__,   |
- | __unmqr__ | orthogonal/unitary matrix $Q$ from a $QR$      | __zunmqr__^[1]|
+ | __unmqr__ | orthogonal/unitary matrix $Q$ from a $QR$      | __zunmqr__    |
  |           | factorization.                                 |               |
  |           |                                                |               |
  |           | *Example:* __lapack-ormqr__, __lapack-unmqr__. |               |
@@ -216,16 +216,16 @@ Orthogonal Factorizations
  |           |                                                |               |
  |           | *Example:* __lapack-gelqf__.                   |               |
  +-----------+------------------------------------------------+---------------+
+ | __orglq__,| Generates all or part of the orthogonal/unitary| __dorglq__,   |
+ | __unglq__ | matrix $Q$ from a $LQ$ factorization.          | __zunglq__^[1]|
+ |           |                                                |               |
+ |           | *Example:* __lapack-orglq__, __lapack-unglq__. |               |
+ +-----------+------------------------------------------------+---------------+
  | __ormlq__,| Multiplies a general matrix by the             | __dormlq__,   |
  | __unmlq__ | orthogonal/unitary matrix $Q$ from a $LQ$      | __zunmlq__^[1]|
  |           | factorization.                                 |               |
  |           |                                                |               |
  |           | *Example:* see __lapack-gelqf__.               |               |
- +-----------+------------------------------------------------+---------------+
- | __orglq__,| Generates all or part of the orthogonal/unitary| __dorglq__,   |
- | __unglq__ | matrix $Q$ from a $LQ$ factorization.          | __zunglq__^[1]|
- |           |                                                |               |
- |           | *Example:* __lapack-orglq__, __lapack-unglq__. |               |
  +-----------+------------------------------------------------+---------------+
 
 :links:     __lapack-geqrf__ -> doc:flens/examples/tut04-page02

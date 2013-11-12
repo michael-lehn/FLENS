@@ -49,12 +49,14 @@ main()
 ///
     lapack::qp3(A, jPiv, tau);
     //lapack::qp3(A, jPiv, tau, work);
+    cout << "tau = " << tau << endl;
 
 ///
 /// Compute $\tilde{b} = Q^H b$. Vector $b$ gets overwritten with $\tilde{b}$.
 ///
     lapack::unmqr(Left, ConjTrans, A, tau, b);
     //lapack::unmqr(Left, ConjTrans, A, tau, b, work);
+    cout << "b = " << b << endl;
 
 ///
 /// Solve $R u = \tilde{b}$.  Vector $b$ gets overwritten with $u =P^T x$.

@@ -50,28 +50,28 @@
 namespace flens { namespace lapack {
 
 //== laqps =====================================================================
-template <typename MA, typename JPIV, typename VTAU,
+//
+//  Real and complex variant
+//
+template <typename IndexType, typename MA, typename JPIV, typename VTAU,
           typename VN1, typename VN2, typename VWORK>
-    void
-    laqp2(typename GeMatrix<MA>::IndexType  offset,
-          GeMatrix<MA>                      &A,
-          DenseVector<JPIV>                 &jPiv,
-          DenseVector<VTAU>                 &tau,
-          DenseVector<VN1>                  &vn1,
-          DenseVector<VN2>                  &vn2,
-          DenseVector<VWORK>                &work);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename JPIV, typename VTAU,
-          typename VN1, typename VN2, typename VWORK>
-    void
-    laqp2(typename MA::IndexType  offset,
-          MA                      &&A,
-          JPIV                    &&jPiv,
-          VTAU                    &&tau,
-          VN1                     &&vn1,
-          VN2                     &&vn2,
-          VWORK                   &&work);
+    typename RestrictTo<((IsRealGeMatrix<MA>::value &&
+                          IsRealDenseVector<VTAU>::value &&
+                          IsRealDenseVector<VWORK>::value)
+                      || (IsComplexGeMatrix<MA>::value &&
+                          IsComplexDenseVector<VTAU>::value &&
+                          IsComplexDenseVector<VWORK>::value))
+                      && IsIntegerDenseVector<JPIV>::value
+                      && IsRealDenseVector<VN1>::value
+                      && IsRealDenseVector<VN2>::value,
+             void>::Type
+    laqp2(IndexType  offset,
+          MA         &&A,
+          JPIV       &&jPiv,
+          VTAU       &&tau,
+          VN1        &&vn1,
+          VN2        &&vn2,
+          VWORK      &&work);
 
 } } // namespace lapack, flens
 

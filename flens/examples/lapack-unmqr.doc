@@ -23,8 +23,7 @@ Compile
  *--[SHELL]-----------------------------------------------------------------*
  |                                                                          |
  |  cd flens/examples                                                       |
- |  g++ -DUSE_CXXLAPACK -framework vecLib                                +++|
- |      -std=c++11 -Wall -I../.. -o lapack-complex-unmqr                 +++|
+ |  g++ -std=c++11 -Wall -I../.. -o lapack-complex-unmqr                 +++|
  |      lapack-complex-unmqr.cc                                             |
  |                                                                          |
  *--------------------------------------------------------------------------*
