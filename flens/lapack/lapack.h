@@ -143,10 +143,12 @@
 #include <flens/lapack/impl/tzrzf.h>
 #include <flens/lapack/impl/ung2r.h>
 #include <flens/lapack/impl/unghr.h>
+#include <flens/lapack/impl/ungl2.h>
 #include <flens/lapack/impl/unglq.h>
 #include <flens/lapack/impl/ungqr.h>
 #include <flens/lapack/impl/unm2r.h>
 #include <flens/lapack/impl/unmhr.h>
+#include <flens/lapack/impl/unml2.h>
 #include <flens/lapack/impl/unmlq.h>
 #include <flens/lapack/impl/unmqr.h>
 

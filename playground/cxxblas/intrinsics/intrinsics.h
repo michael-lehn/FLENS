@@ -40,6 +40,7 @@
 #include <playground/cxxblas/intrinsics/auxiliary/auxiliary.h>
 #include <playground/cxxblas/intrinsics/classes/classes.h>
 #include <playground/cxxblas/intrinsics/level1/level1.h>
+#include <playground/cxxblas/intrinsics/level1extensions/level1extensions.h>
 #include <playground/cxxblas/intrinsics/level2/level2.h>
 #include <playground/cxxblas/intrinsics/level3/level3.h>
 

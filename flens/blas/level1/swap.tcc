@@ -62,6 +62,29 @@ swap(VX &&x, VY &&y)
 #   endif
 }
 
+template <typename MA, typename MB>
+typename RestrictTo<IsGeMatrix<MA>::value &&
+                    IsGeMatrix<MB>::value,
+                    void>::Type
+swap(MA &&A, MB &&B)
+{
+    typedef typename RemoveRef<MB>::Type MatrixB;
+    typedef typename MatrixB::IndexType  IndexType;
+    
+    const Underscore<IndexType> _;
+    
+    ASSERT(A.numRows()==B.numRows());
+    ASSERT(A.numCols()==B.numCols());
+    
+#   ifdef HAVE_CXXBLAS_GESWAP
+    cxxblas::geswap(A.order(), B.order(), B.numRows(), B.numCols(),
+                    A.data(), A.leadingDimension(),
+                    B.data(), B.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+}
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1_SWAP_TCC

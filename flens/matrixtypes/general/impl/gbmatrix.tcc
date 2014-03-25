@@ -276,6 +276,63 @@ GbMatrix<FS>::diag(IndexType d)
     return VectorView(_engine.viewDiag(d, _engine.firstIndex()));
 }
 
+// row view (vector view)
+template <typename FS>
+const typename GbMatrix<FS>::ConstVectorView
+GbMatrix<FS>::operator()(IndexType row, const Underscore<IndexType> &) const
+{
+    return engine().viewRow(row);
+}
+
+template <typename FS>
+typename GbMatrix<FS>::VectorView
+GbMatrix<FS>::operator()(IndexType row, const Underscore<IndexType> &)
+{
+    return engine().viewRow(row);
+}
+
+template <typename FS>
+const typename GbMatrix<FS>::ConstVectorView
+GbMatrix<FS>::operator()(IndexType row, const Range<IndexType> &cols) const
+{
+    return engine().viewRow(row, cols.firstIndex(), cols.lastIndex(), cols.stride());
+}
+
+template <typename FS>
+typename GbMatrix<FS>::VectorView
+GbMatrix<FS>::operator()(IndexType row, const Range<IndexType> &cols)
+{
+    return engine().viewRow(row, cols.firstIndex(), cols.lastIndex(), cols.stride());
+}
+// column view (vector view)
+template <typename FS>
+const typename GbMatrix<FS>::ConstVectorView
+GbMatrix<FS>::operator()(const Underscore<IndexType> &, IndexType col) const
+{
+    return engine().viewCol(col);
+}
+
+template <typename FS>
+typename GbMatrix<FS>::VectorView
+GbMatrix<FS>::operator()(const Underscore<IndexType> &, IndexType col)
+{
+    return engine().viewCol(col);
+}
+
+template <typename FS>
+const typename GbMatrix<FS>::ConstVectorView
+GbMatrix<FS>::operator()(const Range<IndexType> &rows, IndexType col) const
+{
+    return engine().viewCol(rows.firstIndex(), rows.lastIndex(), rows.stride(), col);
+}
+
+template <typename FS>
+typename GbMatrix<FS>::VectorView
+GbMatrix<FS>::operator()(const Range<IndexType> &rows, IndexType col)
+{
+    return engine().viewCol(rows.firstIndex(), rows.lastIndex(), rows.stride(), col);
+}
+
 template <typename FS>
 const typename GbMatrix<FS>::ConstView
 GbMatrix<FS>::diags(IndexType fromDiag, IndexType toDiag) const
@@ -288,6 +345,20 @@ typename GbMatrix<FS>::View
 GbMatrix<FS>::diags(IndexType fromDiag, IndexType toDiag)
 {
     return View(_engine.viewDiags(fromDiag, toDiag));
+}
+
+template <typename FS>
+const typename GbMatrix<FS>::ConstGeView
+GbMatrix<FS>::viewStorageGeMatrix() const
+{
+    return _engine.viewFullStorage();
+}
+
+template <typename FS>
+typename GbMatrix<FS>::GeView
+GbMatrix<FS>::viewStorageGeMatrix()
+{
+    return _engine.viewFullStorage();
 }
 
 // -- methods ------------------------------------------------------------------

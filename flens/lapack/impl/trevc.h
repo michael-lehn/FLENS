@@ -72,7 +72,7 @@ namespace TREVC {
 //
 template <typename VSELECT, typename MTR, typename MVL, typename MVR,
           typename IndexType, typename VWORK>
-    typename RestrictTo<IsIntegerDenseVector<VSELECT>::value
+    typename RestrictTo<IsBooleanDenseVector<VSELECT>::value
                      && IsRealGeMatrix<MTR>::value
                      && IsRealGeMatrix<MVL>::value
                      && IsRealGeMatrix<MVR>::value
@@ -96,7 +96,7 @@ template <typename VSELECT, typename MTR, typename MVL, typename MVR,
 //
 template <typename VSELECT, typename MTR, typename MVL, typename MVR,
           typename IndexType, typename VWORK, typename VRWORK>
-    typename RestrictTo<IsIntegerDenseVector<VSELECT>::value
+    typename RestrictTo<IsBooleanDenseVector<VSELECT>::value
                      && IsComplexGeMatrix<MTR>::value
                      && IsComplexGeMatrix<MVL>::value
                      && IsComplexGeMatrix<MVR>::value

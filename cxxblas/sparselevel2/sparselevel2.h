@@ -33,9 +33,32 @@
 #ifndef CXXBLAS_SPARSELEVEL2_SPARSELEVEL2_H
 #define CXXBLAS_SPARSELEVEL2_SPARSELEVEL2_H 1
 
+namespace cxxblas {
+
+template <typename IndexType>
+    char 
+    getIndexBaseChar(IndexType x) {
+    
+        if (x==IndexType(0)) {
+            // zero-based Indexing
+            return 'C';
+        } else if (x==IndexType(1)) {
+            // one-based Indexing
+            return 'F';
+        } 
+        
+        // Error
+        return 'E';
+      
+    };
+}
+
 #include <cxxblas/sparselevel2/gecrsmv.h>
 #include <cxxblas/sparselevel2/heccsmv.h>
 #include <cxxblas/sparselevel2/hecrsmv.h>
+#include <cxxblas/sparselevel2/syccsmv.h>
 #include <cxxblas/sparselevel2/sycrsmv.h>
+#include <cxxblas/sparselevel2/trccssv.h>
+#include <cxxblas/sparselevel2/trcrssv.h>
 
 #endif // CXXBLAS_SPARSELEVEL2_SPARSELEVEL2_H

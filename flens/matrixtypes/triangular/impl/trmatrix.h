@@ -137,6 +137,14 @@ class TrMatrix
         template <typename RHS>
             TrMatrix &
             operator=(const Matrix<RHS> &rhs);
+    
+        template <typename RHS>
+            TrMatrix &
+            operator+=(const Matrix<RHS> &rhs);
+      
+        template <typename RHS>
+            TrMatrix &
+            operator-=(const Matrix<RHS> &rhs);
 
         const ElementType &
         operator()(IndexType row, IndexType col) const;

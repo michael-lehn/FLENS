@@ -36,6 +36,8 @@
 #include <cstdlib>
 
 #   define HAVE_CBLAS           1
+#   define HAVE_SPARSEBLAS      1
+#   define WITH_MKLDSS          1
 #   ifdef MKL_ILP64
 #      define CBLAS_INT         long
 #      define CBLAS_INDEX       long
@@ -44,5 +46,26 @@
 #      define CBLAS_INDEX       int
 #   endif
 #   define BLAS_IMPL            "MKLBLAS"
+
+// BLAS extensions
+#ifndef HAVE_CBLAS_AXPBY
+#    define HAVE_CBLAS_AXPBY
+#    define BLAS_EXT(x)         cblas_##x
+#endif
+
+// MKL includes LAPACK 
+#ifndef USE_CXXLAPACK
+#    define USE_CXXLAPACK       1
+#endif
+// MKL includes FFTW interface (float, double)
+#ifndef HAVE_FFTW
+#    define HAVE_FFTW           1
+#endif
+#ifndef HAVE_FFTW_FLOAT
+#    define HAVE_FFTW_FLOAT     1
+#endif
+#ifndef HAVE_FFTW_DOUBLE
+#    define HAVE_FFTW_DOUBLE    1
+#endif
 
 #endif // CXXBLAS_DRIVERS_MKLBLAS_H

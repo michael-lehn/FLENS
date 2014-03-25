@@ -57,21 +57,22 @@ sbmm(StorageOrder order,  Side sideA, StorageUpLo upLo,
                      alpha, A, ldA, B+i, ldB, beta, C+i, ldC);
             }
         } else if (sideA==Right) {
+            upLo = (upLo==Upper) ? Lower : Upper;
             for (IndexType i = 0; i < m; ++i) {
-                sbmv(RowMajor, upLo, l, k, alpha,
+                sbmv(ColMajor, upLo, l, k, alpha,
                      A, ldA, B+i*ldB, IndexType(1),
                      beta, C+i*ldC, IndexType(1));
             }
         }
     } else {
-        upLo = (upLo==Upper) ? Lower : Upper;
         if (sideA == Left) {
             for (IndexType i = 0; i < l; ++i) {
-                sbmv(RowMajor, upLo, m, k, alpha,
+                sbmv(ColMajor, upLo, m, k, alpha,
                      A, ldA, B+i*ldB, IndexType(1),
                      beta, C+i*ldC, IndexType(1));
             }
         } else if (sideA==Right) {
+            upLo = (upLo==Upper) ? Lower : Upper;
             for (IndexType i = 0; i < m; ++i) {
                 sbmv(RowMajor, upLo, l, k, alpha,
                      A, ldA, B+i, ldB,

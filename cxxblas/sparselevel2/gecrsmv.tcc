@@ -54,6 +54,8 @@ gecrsmv(Transpose        trans,
         const BETA       &beta,
         VY               *y)
 {
+    CXXBLAS_DEBUG_OUT("gecrsmv_generic");
+    
     using cxxblas::conjugate;
 
     const bool init  = (beta==BETA(0));
@@ -174,6 +176,179 @@ gecrsmv(Transpose        trans,
         }
     }
 }
+
+#ifdef HAVE_SPARSEBLAS    
+
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+gecrsmv(Transpose        trans,
+        IndexType        m,
+        IndexType        n,
+        const float      &alpha,
+        const float      *A,
+        const IndexType  *ia,
+        const IndexType  *ja,
+        const float      *x,
+        const float      &beta,
+        float            *y)
+{
+    CXXBLAS_DEBUG_OUT("gecrsmv -> [" BLAS_IMPL "] scsrmv");
+    
+    char matdescra[5] = { "G***" };
+    matdescra[3] = getIndexBaseChar(ia[0]);
+    
+    if (matdescra[3]=='E') {
+         gecrsmv<IndexType, float, float, 
+                            float, float, 
+                            float>
+                            (trans, m, n, alpha, A, ia, ja, x, beta, y);
+         return;
+    
+    }
+    char transA = getF77BlasChar(trans);
+
+    mkl_scsrmv(&transA,
+               &m, &n,               
+               &alpha, &matdescra[0],
+               A, ja, ia, ia+1,
+               x,
+               &beta, y);
+}
+
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+gecrsmv(Transpose        trans,
+        IndexType        m,
+        IndexType        n,
+        const double     &alpha,
+        const double     *A,
+        const IndexType  *ia,
+        const IndexType  *ja,
+        const double     *x,
+        const double     &beta,
+        double           *y)
+{
+    CXXBLAS_DEBUG_OUT("gecrsmv -> [" BLAS_IMPL "] dcsrmv");
+    
+    char matdescra[5] = { "G***" };
+    matdescra[3] = getIndexBaseChar(ia[0]);
+    
+    if (matdescra[3]=='E') {
+         gecrsmv<IndexType, double, double, 
+                            double, double, 
+                            double>
+                            (trans, m, n, alpha, A, ia, ja, x, beta, y);
+         return;
+    
+    }
+    char transA = getF77BlasChar(trans);
+
+    mkl_dcsrmv(&transA,
+               &m, &n,               
+               &alpha, &matdescra[0],
+               A, ja, ia, ia+1,
+               x,
+               &beta, y);
+}
+
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+gecrsmv(Transpose               trans,
+        IndexType               m,
+        IndexType               n,
+        const ComplexFloat      &alpha,
+        const ComplexFloat      *A,
+        const IndexType         *ia,
+        const IndexType         *ja,
+        const ComplexFloat      *x,
+        const ComplexFloat      &beta,
+        ComplexFloat            *y)
+{
+    CXXBLAS_DEBUG_OUT("gecrsmv -> [" BLAS_IMPL "] ccsrmv");
+    
+    char matdescra[5] = { "G***" };
+    matdescra[3] = getIndexBaseChar(ia[0]);
+    
+    if (matdescra[3]=='E') {
+         gecrsmv<IndexType, ComplexFloat, ComplexFloat, 
+                            ComplexFloat, ComplexFloat, 
+                            ComplexFloat>
+                            (trans, m, n, alpha, A, ia, ja, x, beta, y);
+         return;
+    
+    }
+    char transA = getF77BlasChar(trans);    
+    
+    if (trans==Conj) {
+      transA = 'C';
+      mkl_ccscmv(&transA,
+                &m, &n,               
+                reinterpret_cast<const float*>(&alpha), &matdescra[0],
+                reinterpret_cast<const float*>(A), ja, ia, ia+1,
+                reinterpret_cast<const float*>(x),
+                reinterpret_cast<const float*>(&beta), 
+                reinterpret_cast<float*>(y));
+    } else {
+      mkl_ccsrmv(&transA,
+                &m, &n,               
+                reinterpret_cast<const float*>(&alpha), &matdescra[0],
+                reinterpret_cast<const float*>(A), ja, ia, ia+1,
+                reinterpret_cast<const float*>(x),
+                reinterpret_cast<const float*>(&beta), 
+                reinterpret_cast<float*>(y));
+    }
+}
+
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+gecrsmv(Transpose               trans,
+        IndexType               m,
+        IndexType               n,
+        const ComplexDouble     &alpha,
+        const ComplexDouble     *A,
+        const IndexType         *ia,
+        const IndexType         *ja,
+        const ComplexDouble     *x,
+        const ComplexDouble     &beta,
+        ComplexDouble           *y)
+{
+    CXXBLAS_DEBUG_OUT("gecrsmv -> [" BLAS_IMPL "] zcsrmv");
+    
+    char matdescra[5] = { "G***" };
+    matdescra[3] = getIndexBaseChar(ia[0]);
+    
+    if (matdescra[3]=='E') {
+         gecrsmv<IndexType, ComplexDouble, ComplexDouble, 
+                            ComplexDouble, ComplexDouble, 
+                            ComplexDouble>
+                            (trans, m, n, alpha, A, ia, ja, x, beta, y);
+         return;
+    
+    }
+    
+    char transA = getF77BlasChar(trans);
+    
+    if (trans==Conj) {
+      transA = 'C';
+      mkl_zcscmv(&transA,
+                &m, &n,               
+                reinterpret_cast<const double*>(&alpha), &matdescra[0],
+                reinterpret_cast<const double*>(A), ja, ia, ia+1,
+                reinterpret_cast<const double*>(x),
+                reinterpret_cast<const double*>(&beta), 
+                reinterpret_cast<double*>(y));
+    } else {
+      mkl_zcsrmv(&transA,
+                &m, &n,               
+                reinterpret_cast<const double*>(&alpha), &matdescra[0],
+                reinterpret_cast<const double*>(A), ja, ia, ia+1,
+                reinterpret_cast<const double*>(x),
+                reinterpret_cast<const double*>(&beta), 
+                reinterpret_cast<double*>(y));
+    }
+}
+
+#endif
 
 } // namespace cxxblas
 

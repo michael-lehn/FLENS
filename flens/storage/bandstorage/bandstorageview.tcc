@@ -225,6 +225,22 @@ BandStorageView<T, Order, I, A>::leadingDimension() const
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
+typename BandStorageView<T, Order, I, A>::IndexType
+BandStorageView<T, Order, I, A>::strideRow() const
+{
+    return (Order==ColMajor) ? 1
+                             : leadingDimension()-1;
+}
+
+template <typename T, StorageOrder Order, typename I, typename A>
+typename BandStorageView<T, Order, I, A>::IndexType
+BandStorageView<T, Order, I, A>::strideCol() const
+{
+    return (Order==ColMajor) ? leadingDimension()-1
+                             : 1;
+}
+
+template <typename T, StorageOrder Order, typename I, typename A>
 const typename BandStorageView<T, Order, I, A>::ElementType *
 BandStorageView<T, Order, I, A>::data() const
 {
@@ -247,10 +263,10 @@ BandStorageView<T, Order, I, A>::allocator() const
 
 template <typename T, StorageOrder Order, typename I, typename A>
 bool
-BandStorageView<T, Order, I, A>::resize(IndexType numRows,
-                                        IndexType numCols,
-                                        IndexType numSubDiags,
-                                        IndexType numSuperDiags,
+BandStorageView<T, Order, I, A>::resize(IndexType DEBUG_VAR(numRows),
+                                        IndexType DEBUG_VAR(numCols),
+                                        IndexType DEBUG_VAR(numSubDiags),
+                                        IndexType DEBUG_VAR(numSuperDiags),
                                         IndexType firstIndex,
                                         const ElementType &)
 {
@@ -258,6 +274,7 @@ BandStorageView<T, Order, I, A>::resize(IndexType numRows,
     ASSERT(_numCols==numCols);
     ASSERT(_numSubDiags==numSubDiags);
     ASSERT(_numSuperDiags==numSuperDiags);
+
     changeIndexBase(firstIndex);
     return false;
 }
@@ -539,6 +556,218 @@ BandStorageView<T, Order, I, A>::viewDiags(IndexType fromDiag, IndexType toDiag)
                 _leadingDimension,
                 _firstIndex, _allocator);
 }
+
+
+// view of single row
+template <typename T, StorageOrder Order, typename I, typename A>
+const typename BandStorageView<T, Order, I, A>::ConstArrayView
+BandStorageView<T, Order, I, A>::viewRow(IndexType row,
+                                         IndexType firstViewIndex) const
+{
+
+#   ifndef NDEBUG
+    // prevent an out-of-bound assertion in case a view is empty anyway
+    if (numCols()==0) {
+        return ConstArrayView(numCols(), 0, strideCol(),
+                              firstViewIndex, allocator());
+    }
+#   endif
+
+    ASSERT(row>=firstRow());
+    ASSERT(row<=lastRow());
+    
+    IndexType length = 1+min(row-1,numSubDiags())+min(numRows()-row,numSuperDiags());
+    return ConstArrayView(length,
+                          &(operator()(row, firstCol()+max(0,row-1-numSubDiags()))),
+                          strideCol(),
+                          firstViewIndex,
+                          allocator());
+}
+
+template <typename T, StorageOrder Order, typename I, typename A>
+typename BandStorageView<T, Order, I, A>::ArrayView
+BandStorageView<T, Order, I, A>::viewRow(IndexType row,
+                                         IndexType firstViewIndex)
+{
+
+#   ifndef NDEBUG
+    // prevent an out-of-bound assertion in case a view is empty anyway
+    if (numCols()==0) {
+        return ArrayView(numCols(), 0, strideCol(),
+                         firstViewIndex, allocator());
+    }
+#   endif
+
+    ASSERT(row>=firstRow());
+    ASSERT(row<=lastRow());
+    
+    IndexType length = 1+min(row-1,numSubDiags())+min(numRows()-row,numSuperDiags());
+    return ArrayView(length,
+                     &(operator()(row, firstCol()+max(0,row-1-numSubDiags()))),
+                     strideCol(),
+                     firstViewIndex,
+                     allocator());
+}
+
+template <typename T, StorageOrder Order, typename I, typename A>
+const typename BandStorageView<T, Order, I, A>::ConstArrayView
+BandStorageView<T, Order, I, A>::viewRow(IndexType row,
+                                         IndexType firstCol, IndexType lastCol,
+                                         IndexType stride, IndexType firstViewIndex) const
+{
+    const IndexType length = (lastCol-firstCol)/stride+1;
+
+#   ifndef NDEBUG
+    // prevent an out-of-bound assertion in case a view is empty anyway
+    if (length==0) {
+        return ConstArrayView(length, 0, strideCol()*stride,
+                              firstViewIndex, allocator());
+    }
+#   endif
+
+    ASSERT(row>=firstRow());
+    ASSERT(row<=lastRow());
+
+    return ConstArrayView(length,
+                          &(operator()(row, firstCol)),
+                          strideCol()*stride,
+                          firstViewIndex,
+                          allocator());
+}
+
+template <typename T, StorageOrder Order, typename I, typename A>
+typename BandStorageView<T, Order, I, A>::ArrayView
+BandStorageView<T, Order, I, A>::viewRow(IndexType row,
+                                         IndexType firstCol, IndexType lastCol,
+                                         IndexType stride, IndexType firstViewIndex)
+{
+    const IndexType length = (lastCol-firstCol)/stride+1;
+
+#   ifndef NDEBUG
+    // prevent an out-of-bound assertion in case a view is empty anyway
+    if (length==0) {
+        return ArrayView(length, 0, strideCol()*stride,
+                         firstViewIndex, allocator());
+    }
+#   endif
+
+    ASSERT(row>=firstRow());
+    ASSERT(row<=lastRow());
+
+    return ArrayView(length,
+                     &(operator()(row, firstCol)),
+                     strideCol()*stride,
+                     firstViewIndex,
+                     allocator());
+}
+
+// view of single row
+template <typename T, StorageOrder Order, typename I, typename A>
+const typename BandStorageView<T, Order, I, A>::ConstArrayView
+BandStorageView<T, Order, I, A>::viewCol(IndexType col,
+                                         IndexType firstViewIndex) const
+{
+
+#   ifndef NDEBUG
+    // prevent an out-of-bound assertion in case a view is empty anyway
+    if (numRows()==0) {
+        return ArrayView(numRows(), 0, strideRow(),
+                         firstViewIndex, allocator());
+    }
+#   endif
+
+    ASSERT(col>=firstCol());
+    ASSERT(col<=lastCol());
+
+    IndexType length = 1+min(col-1,numSuperDiags())+min(numCols()-col,numSubDiags());
+    
+    return ArrayView(length,
+                     &(operator()(firstRow()+max(0,col-1-numSuperDiags()), col)),
+                     strideRow(),
+                     firstViewIndex,
+                     allocator());
+                     
+}
+
+template <typename T, StorageOrder Order, typename I, typename A>
+typename BandStorageView<T, Order, I, A>::ArrayView
+BandStorageView<T, Order, I, A>::viewCol(IndexType col,
+                                         IndexType firstViewIndex)
+{
+
+#   ifndef NDEBUG
+    // prevent an out-of-bound assertion in case a view is empty anyway
+    if (numRows()==0) {
+        return ArrayView(numRows(), 0, strideRow(),
+                         firstViewIndex, allocator());
+    }
+#   endif
+
+    ASSERT(col>=firstCol());
+    ASSERT(col<=lastCol());
+
+    IndexType length = 1+min(col-1,numSuperDiags())+min(numCols()-col,numSubDiags());
+    
+    return ArrayView(length,
+                     &(operator()(firstRow()+max(0,col-1-numSuperDiags()), col)),
+                     strideRow(),
+                     firstViewIndex,
+                     allocator());
+}
+
+template <typename T, StorageOrder Order, typename I, typename A>
+const typename BandStorageView<T, Order, I, A>::ConstArrayView
+BandStorageView<T, Order, I, A>::viewCol(IndexType firstRow, IndexType lastRow,
+                                         IndexType stride, IndexType col,
+                                         IndexType firstViewIndex) const
+{
+    const IndexType length = (lastRow-firstRow)/stride+1;
+
+#   ifndef NDEBUG
+    // prevent an out-of-bound assertion in case a view is empty anyway
+    if (length==0) {
+        return ConstArrayView(length, 0, strideRow()*stride,
+                              firstViewIndex, allocator());
+    }
+#   endif
+
+    ASSERT(col>=firstCol());
+    ASSERT(col<=lastCol());
+
+    return ConstArrayView(length,
+                          &(operator()(firstRow, col)),
+                          strideRow()*stride,
+                          firstViewIndex,
+                          allocator());
+}
+
+template <typename T, StorageOrder Order, typename I, typename A>
+typename BandStorageView<T, Order, I, A>::ArrayView
+BandStorageView<T, Order, I, A>::viewCol(IndexType firstRow, IndexType lastRow,
+                                         IndexType stride, IndexType col,
+                                         IndexType firstViewIndex)
+{
+    const IndexType length = (lastRow-firstRow)/stride+1;
+
+#   ifndef NDEBUG
+    // prevent an out-of-bound assertion in case a view is empty anyway
+    if (length==0) {
+        return ArrayView(length, 0, strideRow()*stride,
+                         firstViewIndex, allocator());
+    }
+#   endif
+
+    ASSERT(col>=firstCol());
+    ASSERT(col<=lastCol());
+
+    return ArrayView(length,
+                     &(operator()(firstRow(), col)),
+                     strideRow()*stride,
+                     firstViewIndex,
+                     allocator());
+}
+
+
 
 } // namespace flens
 

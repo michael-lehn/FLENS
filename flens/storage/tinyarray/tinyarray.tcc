@@ -61,7 +61,7 @@ template <typename T, int n, int ib>
 const typename TinyArray<T,n,ib>::ElementType &
 TinyArray<T,n,ib>::operator()(IndexType index) const
 {
-    const T *data = reinterpret_cast<const double *>(_data) - firstIndex;
+    const T *data = reinterpret_cast<const T *>(_data) - firstIndex;
     return data[index];
 }
 
@@ -69,7 +69,7 @@ template <typename T, int n, int ib>
 typename TinyArray<T,n,ib>::ElementType &
 TinyArray<T,n,ib>::operator()(IndexType index)
 {
-    T *data = reinterpret_cast<double *>(_data) - firstIndex;
+    T *data = reinterpret_cast<T *>(_data) - firstIndex;
     return data[index];
 }
 

@@ -50,8 +50,6 @@
 
 namespace flens { namespace lapack {
 
-#ifdef USE_CXXLAPACK
-
 //== (gb)trf ===================================================================
 //
 //  Real and complex variant
@@ -62,7 +60,6 @@ template <typename MA, typename VPIV>
              typename RemoveRef<MA>::Type::IndexType>::Type
     trf(MA &&A, VPIV &&piv);
 
-#endif
 
 } } // namespace lapack, flens
 

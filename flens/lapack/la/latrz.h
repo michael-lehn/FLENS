@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DLATRZ( M, N, L, A, LDA, TAU, WORK )
+       SUBROUTINE ZLATRZ( M, N, L, A, LDA, TAU, WORK )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -55,9 +56,9 @@ namespace flens { namespace lapack {
 //
 template <typename IndexType, typename MA, typename VTAU, typename VWORK>
     typename RestrictTo<IsInteger<IndexType>::value
-                     && IsRealGeMatrix<MA>::value
-                     && IsRealDenseVector<VTAU>::value
-                     && IsRealDenseVector<VWORK>::value,
+                     && IsGeMatrix<MA>::value
+                     && IsDenseVector<VTAU>::value
+                     && IsDenseVector<VWORK>::value,
              void>::Type
     latrz(IndexType     l,
           MA            &&A,

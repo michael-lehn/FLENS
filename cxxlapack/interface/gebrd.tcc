@@ -63,7 +63,7 @@ gebrd(IndexType             m,
                         tauq,
                         taup,
                         work,
-                        &lWork
+                        &lWork,
                         &info);
 #   ifndef NDEBUG
     if (info<0) {
@@ -97,7 +97,7 @@ gebrd(IndexType             m,
                         tauq,
                         taup,
                         work,
-                        &lWork
+                        &lWork,
                         &info);
 #   ifndef NDEBUG
     if (info<0) {
@@ -132,7 +132,7 @@ gebrd(IndexType             m,
                         reinterpret_cast<float  *>(tauq),
                         reinterpret_cast<float  *>(taup),
                         reinterpret_cast<float  *>(work),
-                        &lWork
+                        &lWork,
                         &info);
 #   ifndef NDEBUG
     if (info<0) {
@@ -167,7 +167,7 @@ gebrd(IndexType             m,
                         reinterpret_cast<double *>(tauq),
                         reinterpret_cast<double *>(taup),
                         reinterpret_cast<double *>(work),
-                        &lWork
+                        &lWork,
                         &info);
 #   ifndef NDEBUG
     if (info<0) {

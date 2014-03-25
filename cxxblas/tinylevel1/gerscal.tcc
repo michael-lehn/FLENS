@@ -41,6 +41,9 @@ template <int m, int n, typename ALPHA, typename MA, int ldA>
 void
 gerscal(const ALPHA &alpha, MA *A)
 {
+
+    CXXBLAS_DEBUG_OUT("gerscal [tiny]");
+
     for (int i=0; i<m; ++i) {
         cxxblas::rscal<n,ALPHA,MA,1>(alpha, A+i*ldA);
     }

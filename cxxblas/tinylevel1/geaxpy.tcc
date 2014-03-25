@@ -45,6 +45,9 @@ template <int m, int n, typename ALPHA,
 void
 geaxpy(Transpose trans, const ALPHA &alpha, const MA *A, MB *B)
 {
+
+    CXXBLAS_DEBUG_OUT("geaxpy [tiny]");
+
     if (trans==NoTrans) {
         if ((ldA==n) && (ldB==n)) {
             axpy<m*n, ALPHA, MA, 1, MB, 1>(alpha, A, B);

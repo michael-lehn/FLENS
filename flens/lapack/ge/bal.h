@@ -52,7 +52,7 @@ namespace flens { namespace lapack {
 
 //== (ge)bal ===================================================================
 //
-//  Real variant
+//  Real and complex variant
 //
 template <typename MA, typename IndexType, typename VSCALE>
     typename RestrictTo<IsRealGeMatrix<MA>::value

@@ -194,6 +194,146 @@ QUIT:
     kase = 0;
 }
 
+
+template <typename  VV, typename VX, typename EST,
+          typename KASE, typename VSAVE>
+void
+lacn2_impl(DenseVector<VV> &v, DenseVector<VX> &x,
+           EST &est, KASE &kase, DenseVector<VSAVE> &iSave)
+{
+    using std::abs;
+
+    typedef typename DenseVector<VV>::ElementType   T;
+    typedef typename ComplexTrait<T>::PrimitiveType  PT;
+    typedef typename DenseVector<VV>::IndexType     IndexType;
+    
+    const PT safeMin = lamch<PT>(SafeMin);
+    const PT Zero(0), One(1), Two(2);
+
+    const IndexType itMax = 5;
+    const IndexType n = v.length();
+//  ..
+//  .. Executable Statements ..
+//
+    if (kase==0) {
+        for (IndexType i=1; i<=n; ++i) {
+            x(i) = One / PT(n);
+        }
+        kase = 1;
+        iSave(1) = 1;
+        return;
+    }
+
+    IndexType jLast;
+    PT         altSign, estOld;
+
+    switch (iSave(1)) {
+//
+//  ................ ENTRY   (ISAVE( 1 ) = 1)
+//  FIRST ITERATION.  X HAS BEEN OVERWRITTEN BY A*X.
+//
+    case 1:
+        if (n==1) {
+            v(1) = x(1);
+            est = abs(v(1));
+    //      ... QUIT
+            goto QUIT;
+        }
+        est = blas::asum1(x);
+
+        for (IndexType i=1; i<=n; ++i) {
+	    PT absxi = abs(x(i));
+	    if ( absxi > safeMin ) {
+	        x(i) = x(i) / absxi; 
+	    } else {
+	        x(i) = One;
+	    }
+        }
+        kase = 2;
+        iSave(1) = 2;
+        return;
+//
+//  ................ ENTRY   (ISAVE( 1 ) = 2)
+//  FIRST ITERATION.  X HAS BEEN OVERWRITTEN BY CONJTRANSPOSE(A)*X.
+//
+    case 2:
+        iSave(2) = blas::imax1(x);
+        iSave(3) = 2;
+//
+//      MAIN LOOP - ITERATIONS 2,3,...,ITMAX.
+//
+    MAIN:
+        for (IndexType i=1; i<=n; ++i) {
+            x(i) = Zero;
+        }
+        x(iSave(2)) = One;
+        kase = 1;
+        iSave(1) = 3;
+        return;
+//
+//  ................ ENTRY   (ISAVE( 1 ) = 3)
+//  X HAS BEEN OVERWRITTEN BY A*X.
+//
+    case 3:
+        v = x;
+        estOld = est;
+        est = blas::asum1(v);
+
+//      TEST FOR CYCLING.
+        if (est<=estOld) {
+            goto ITERATION_COMPLETE;
+        }
+
+        for (IndexType i=1; i<=n; ++i) {
+	    PT absxi = abs(x(i));
+	    if (absxi > safeMin) {
+	        x(i) = x(i) / absxi;
+	    } else {
+	        x(i) = One;
+	    }
+        }
+        kase = 2;
+        iSave(1) = 4;
+        return;
+//
+//  ................ ENTRY   (ISAVE( 1 ) = 4)
+//  X HAS BEEN OVERWRITTEN BY TRANSPOSE(A)*X.
+//
+    case 4:
+        jLast = iSave(2);
+        iSave(2) = blas::imax1(x);
+        if ( abs(x(jLast))!=abs(x(iSave(2))) && iSave(3)<itMax) {
+            ++iSave(3);
+            goto MAIN;
+        }
+//
+//      ITERATION COMPLETE.  FINAL STAGE.
+//
+    ITERATION_COMPLETE:
+        altSign = One;
+        for (IndexType i=1; i<=n; ++i) {
+            x(i) = altSign*(One + T(i-1)/T(n-1));
+            altSign = -altSign;
+        }
+        kase = 1;
+        iSave(1) = 5;
+        return;
+//
+//  ................ ENTRY   (ISAVE( 1 ) = 5)
+//  X HAS BEEN OVERWRITTEN BY A*X.
+//
+    case 5:
+        const PT temp = Two*(blas::asum1(x) / PT(3*n));
+        if (temp>est) {
+            v = x;
+            est = temp;
+        }
+    }
+
+QUIT:
+    kase = 0;
+}
+
 } // namespace generic
 
 //== interface for native lapack ===============================================
@@ -214,25 +354,41 @@ lacn2_impl(DenseVector<VV> &v, DenseVector<VX> &x, DenseVector<VSGN> &sgn,
                                 est, kase, iSave.data());
 }
 
+template <typename  VV, typename VX, typename EST,
+          typename KASE, typename VSAVE>
+void
+lacn2_impl(DenseVector<VV> &v, DenseVector<VX> &x, 
+           EST &est, KASE &kase, DenseVector<VSAVE> &iSave)
+{
+    typedef typename DenseVector<VV>::IndexType  IndexType;
+
+    cxxlapack::lacn2<IndexType>(v.length(), v.data(), x.data(), 
+                                est, kase, iSave.data());
+}
+
 } // namespace external
 
 #endif // USE_CXXLAPACK
 
-//== public interface ==========================================================
+//== public interface [real] ==================================================
 template <typename  VV, typename VX, typename VSGN, typename EST,
           typename KASE, typename VSAVE>
 void
 lacn2(DenseVector<VV> &v, DenseVector<VX> &x, DenseVector<VSGN> &sgn,
       EST &est, KASE &kase, DenseVector<VSAVE> &iSave)
 {
-#   if !defined(NDEBUG) || defined(CHECK_CXXLAPACK)
-    typedef typename DenseVector<VV>::IndexType  IndexType;
-#   endif
-
 //
 //  Test the input parameters
 //
+
+#   if defined(CHECK_CXXLAPACK) || !defined(NDEBUG)
+
+    typedef typename DenseVector<VV>::IndexType  IndexType;
+
+#   endif
+
 #   ifndef NDEBUG
+    
     const IndexType n = v.length();
 
     ASSERT(v.firstIndex()==1);
@@ -333,13 +489,130 @@ lacn2(DenseVector<VV> &v, DenseVector<VX> &x, DenseVector<VSGN> &sgn,
 #   endif
 }
 
-//-- forwarding ----------------------------------------------------------------
+//== public interface [complex] ===============================================
+template <typename  VV, typename VX, typename EST,
+          typename KASE, typename VSAVE>
+void
+lacn2(DenseVector<VV> &v, DenseVector<VX> &x,
+      EST &est, KASE &kase, DenseVector<VSAVE> &iSave)
+{
+//
+//  Test the input parameters
+//
+
+#   if defined(CHECK_CXXLAPACK) || !defined(NDEBUG)
+
+    typedef typename DenseVector<VV>::IndexType  IndexType;
+
+#   endif 
+
+#   ifndef NDEBUG
+    
+    const IndexType n = v.length();
+
+    ASSERT(v.firstIndex()==1);
+    ASSERT(v.length()==n);
+
+    ASSERT(x.firstIndex()==1);
+    ASSERT(x.length()==n);
+
+    ASSERT(iSave.firstIndex()==1);
+    ASSERT(iSave.length()==3);
+#   endif
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    const typename DenseVector<VV>::NoView      v_org     = v;
+    const typename DenseVector<VX>::NoView      x_org     = x;
+    const EST                                   est_org   = est;
+    const IndexType                             kase_org  = kase;
+    const typename DenseVector<VSAVE>::NoView   iSave_org = iSave;
+#   endif
+
+//
+//  Call implementation
+//
+    LAPACK_SELECT::lacn2_impl(v, x, est, kase, iSave);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of results computed by generic implementation
+//
+    const typename DenseVector<VV>::NoView      v_generic     = v;
+    const typename DenseVector<VX>::NoView      x_generic     = x;
+    const EST                                   est_generic   = est;
+    const IndexType                             kase_generic  = kase;
+    const typename DenseVector<VSAVE>::NoView   iSave_generic = iSave;
+
+//
+//  restore output arguments
+//
+    v     = v_org;
+    x     = x_org;
+    est   = est_org;
+    kase  = kase_org;
+    iSave = iSave_org;
+
+//
+//  Compare generic results with results from the native implementation
+//
+    external::lacn2_impl(v, x, est, kase, iSave);
+
+    bool failed = false;
+    if (! isIdentical(v_generic, v, "v_generic", "v")) {
+        std::cerr << "CXXLAPACK: v_generic = " << v_generic << std::endl;
+        std::cerr << "F77LAPACK: v = " << v << std::endl;
+        failed = true;
+    }
+    if (! isIdentical(x_generic, x, "x_generic", "x")) {
+        std::cerr << "CXXLAPACK: x_generic = " << x_generic << std::endl;
+        std::cerr << "F77LAPACK: x = " << x << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(est_generic, est, "est_generic", "est")) {
+        std::cerr << "CXXLAPACK: est_generic = " << est_generic << std::endl;
+        std::cerr << "F77LAPACK: est = " << est << std::endl;
+        failed = true;
+    }
+    if (! isIdentical(kase_generic, kase, "kase_generic", "kase")) {
+        std::cerr << "CXXLAPACK: kase_generic = " << kase_generic << std::endl;
+        std::cerr << "F77LAPACK: kase = " << kase << std::endl;
+        failed = true;
+    }
+    if (! isIdentical(iSave_generic, iSave, "iSave_generic", "iSave")) {
+        std::cerr << "CXXLAPACK: iSave_generic = "
+                  << iSave_generic << std::endl;
+        std::cerr << "F77LAPACK: iSave = " << iSave << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        std::cerr << "error in: lacn2.tcc" << std::endl;
+        ASSERT(0);
+    } else {
+//        std::cerr << "passed: lacn2.tcc" << std::endl;
+    }
+#   endif
+}
+//-- forwarding [real] --------------------------------------------------------
 template <typename  VV, typename VX, typename VSGN, typename EST,
           typename KASE, typename VSAVE>
 void
 lacn2(VV &&v, VX &&x, VSGN &&sgn, EST &&est, KASE &&kase, VSAVE &&iSave)
 {
     lacn2(v, x, sgn, est, kase, iSave);
+}
+
+//-- forwarding [complex] -----------------------------------------------------
+template <typename  VV, typename VX, typename EST,
+          typename KASE, typename VSAVE>
+void
+lacn2(VV &&v, VX &&x, EST &&est, KASE &&kase, VSAVE &&iSave)
+{
+    lacn2(v, x, est, kase, iSave);
 }
 
 } } // namespace lapack, flens

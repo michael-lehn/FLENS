@@ -40,4 +40,10 @@
 #       define CBLAS_INDEX  int
 #endif // CBLAS_INDEX
 
+// BLAS extensions
+#ifndef HAVE_CBLAS_AXPBY
+#    define HAVE_CBLAS_AXPBY
+#    define BLAS_EXT(x)     catlas_##x
+#endif
+
 #endif // CXXBLAS_DRIVERS_ATLAS_H

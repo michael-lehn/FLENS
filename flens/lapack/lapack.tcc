@@ -117,10 +117,12 @@
 #include <flens/lapack/impl/tzrzf.tcc>
 #include <flens/lapack/impl/ung2r.tcc>
 #include <flens/lapack/impl/unghr.tcc>
+#include <flens/lapack/impl/ungl2.tcc>
 #include <flens/lapack/impl/unglq.tcc>
 #include <flens/lapack/impl/ungqr.tcc>
 #include <flens/lapack/impl/unm2r.tcc>
 #include <flens/lapack/impl/unmhr.tcc>
+#include <flens/lapack/impl/unml2.tcc>
 #include <flens/lapack/impl/unmlq.tcc>
 #include <flens/lapack/impl/unmqr.tcc>
 

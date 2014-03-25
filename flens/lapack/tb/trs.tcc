@@ -52,6 +52,44 @@
 
 namespace flens { namespace lapack {
 
+//== generic lapack implementation =============================================
+
+namespace generic {
+
+//-- (tb)trs [real and complex variant] ----------------------------------------
+
+template <typename MA, typename MB>
+typename TbMatrix<MA>::IndexType
+trs_impl(Transpose trans, const TbMatrix<MA> &A, GeMatrix<MB> &B)
+{
+    typedef typename TbMatrix<MA>::IndexType       IndexType;
+    typedef typename TbMatrix<MA>::ElementType     ElementType;
+    
+    const ElementType zero(0);
+    
+    const Underscore<IndexType> _;
+    
+//
+//     Check for singularity.
+//
+    if( A.diag()==NonUnit ) {
+        for (IndexType i = 1; i<=A.dim(); ++i) {
+            if( A(i, i)==zero ) {
+                return i;
+            }
+        }
+    }
+//
+//     Solve A * X = B,  A**T * X = B,  or  A**H * X = B.
+//
+    for (IndexType j=1; j<=B.numCols(); ++j) {
+        blas::sv(trans, A, B(_,j));
+    }
+    return 0;
+}
+
+} // namespace generic
+
 //== interface for external lapack =============================================
 
 #ifdef USE_CXXLAPACK
@@ -88,8 +126,6 @@ trs_impl(Transpose trans, const TbMatrix<MA> &A, GeMatrix<MB> &B)
 
 //== public interface ==========================================================
 
-#ifdef USE_CXXLAPACK
-
 //-- (tb)trs [real and complex variant] ----------------------------------------
 
 template <typename MA, typename MB>
@@ -109,8 +145,7 @@ trs(Transpose trans, const MA &A, MB &&B)
 //  Test the input parameters
 //
 #   ifndef NDEBUG
-    ASSERT(A.firstRow()==1);
-    ASSERT(A.firstCol()==1);
+    ASSERT(A.firstIndex()==1);
 
     const IndexType n = A.dim();
 
@@ -119,10 +154,47 @@ trs(Transpose trans, const MA &A, MB &&B)
     ASSERT(B.numRows()==n);
 #   endif
 
+#   ifdef CHECK_CXXLAPACK
+
+    typedef typename RemoveRef<MB>::Type    MatrixB;
+//
+//  Make copies of output arguments
+//
+    typename MatrixB::NoView  B_org   = B;
+#   endif
 //
 //  Call implementation
 //
-    IndexType info = external::trs_impl(trans, A, B);
+    IndexType info = LAPACK_SELECT::trs_impl(trans, A, B);
+//
+//  Compare results
+//
+#   ifdef CHECK_CXXLAPACK
+    typename MatrixB::NoView  B_generic   = B;
+
+    B   = B_org;
+
+    IndexType _info = external::trs_impl(trans, A, B);
+
+    bool failed = false;
+    if (! isIdentical(B_generic, B, "B_generic", "B")) {
+        std::cerr << "CXXLAPACK: B_generic = " << B_generic << std::endl;
+        std::cerr << "F77LAPACK: B = " << B << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(info, _info, "info", "_info")) {
+        std::cerr << "CXXLAPACK: info = " << info << std::endl;
+        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    } else {
+        // std::cerr << "passed: (tr)trs.tcc" << std::endl;
+    }
+#   endif
 
     return info;
 }
@@ -154,8 +226,6 @@ trs(Transpose trans, const MA &A, VB &&b)
 
     return trs(trans, A, B);
 }
-
-#endif // USE_CXXLAPACK
 
 } } // namespace lapack, flens
 

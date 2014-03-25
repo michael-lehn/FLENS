@@ -52,12 +52,13 @@ namespace flens { namespace lapack {
 //== generic lapack implementation =============================================
 
 namespace generic {
-
+  
 //-- (ge)con [real variant] ----------------------------------------------------
 
 template <typename MA, typename NORMA, typename RCOND,
           typename VWORK, typename VIWORK>
-void
+typename RestrictTo<IsReal<typename GeMatrix<MA>::ElementType>::value,
+                   void>::Type
 con_impl(Norm                norm,
          const GeMatrix<MA>  &A,
          const NORMA         &normA,
@@ -166,6 +167,122 @@ con_impl(Norm                norm,
     }
 }
 
+//-- (ge)con [complex variant] ----------------------------------------------------
+
+template <typename MA, typename NORMA, typename RCOND,
+          typename VWORK, typename VRWORK>
+typename RestrictTo<IsComplex<typename GeMatrix<MA>::ElementType>::value,
+                    void>::Type
+con_impl(Norm                norm,
+         const GeMatrix<MA>  &A,
+         const NORMA         &normA,
+         RCOND               &rCond,
+         DenseVector<VWORK>  &work,
+         DenseVector<VRWORK> &rwork)
+{
+    using std::abs;
+
+    typedef typename GeMatrix<MA>::ElementType       T;
+    typedef typename ComplexTrait<T>::PrimitiveType  PT;
+    typedef typename GeMatrix<MA>::IndexType         IndexType;
+
+    const PT Zero(0), One(1);
+
+    const Underscore<IndexType>  _;
+
+    const IndexType n = A.numRows();
+
+//
+//  Local Arrays
+//
+    IndexType iSaveData[3] = {0, 0, 0};
+    DenseVectorView<IndexType>
+        iSave = typename DenseVectorView<IndexType>::Engine(3, iSaveData, 1);
+//
+//  Quick return if possible
+//
+    rCond = Zero;
+    if (n==0) {
+        rCond = One;
+        return;
+    } else if (normA==Zero) {
+        return;
+    }
+
+    const PT smallNum = lamch<PT>(SafeMin);
+//
+//  Estimate the norm of inv(A).
+//
+    PT normInvA = Zero;
+    bool normIn = false;
+
+    IndexType kase, kase1;
+
+    if (norm==OneNorm) {
+        kase1 = 1;
+    } else {
+        kase1 = 2;
+    }
+    kase = 0;
+
+    auto work1 = work(_(1,n));
+    auto work2 = work(_(n+1,2*n));
+ 
+    auto rwork1 = rwork(_(1  ,  n));
+    auto rwork2 = rwork(_(n+1,2*n));
+
+    bool computeRCond = true;
+
+    while (true) {
+        lacn2(work2, work1, normInvA, kase, iSave);
+        if (kase==0) {
+            break;
+        }
+
+        PT sl, su;
+        if (kase==kase1) {
+//
+//          Multiply by inv(L).
+//
+            latrs(NoTrans, normIn, A.lowerUnit(), work1, sl, rwork1);
+//
+//          Multiply by inv(U).
+//
+            latrs(NoTrans, normIn, A.upper(), work1, su, rwork2);
+        } else {
+//
+//          Multiply by inv(U**T).
+//
+            latrs(ConjTrans, normIn, A.upper(), work1, su, rwork2);
+//
+//          Multiply by inv(L**T).
+//
+            latrs(ConjTrans, normIn, A.lowerUnit(), work1, sl, rwork1);
+        }
+//
+//      Divide X by 1/(SL*SU) if doing so will not cause overflow.
+//
+        const PT scale = sl*su;
+        normIn = true;
+        if (scale!=One) {
+            const IndexType ix = blas::iamax(work1);
+            if (scale<(abs(real(work1(ix)))+abs(imag(work1(ix))))*smallNum || scale==Zero) {
+                computeRCond = false;
+                break;
+            }
+            rscl(scale, work1);
+        }
+    }
+//
+//  Compute the estimate of the reciprocal condition number.
+//
+    if (computeRCond) {
+        if (normInvA!=Zero) {
+            rCond = (One/normInvA) / normA;
+        }
+    }
+}
+
 } // namespace generic
 
 
@@ -218,20 +335,16 @@ con(Norm            norm,
     VWORK           &&work,
     VIWORK          &&iwork)
 {
-//
-//  Remove references from rvalue types
-//
-#   ifdef CHECK_CXXLAPACK
-    typedef typename RemoveRef<VWORK>::Type   VectorWork;
-    typedef typename RemoveRef<VIWORK>::Type  VectorIWork;
-#   endif
+
+    LAPACK_DEBUG_OUT("(ge)con [real]");
 
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
-    typedef typename MA::IndexType            IndexType;
 
+    typedef typename MA::IndexType            IndexType;
+    
     ASSERT(norm==InfinityNorm || norm==OneNorm);
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
@@ -247,6 +360,13 @@ con(Norm            norm,
 #   endif
 
 #   ifdef CHECK_CXXLAPACK
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<VWORK>::Type   VectorWork;
+    typedef typename RemoveRef<VIWORK>::Type  VectorIWork;
+    
 //
 //  Make copies of output arguments
 //
@@ -298,15 +418,11 @@ con(Norm            norm,
 
     if (failed) {
         ASSERT(0);
-    } else {
-        // std::cerr << "passed: con" << std::endl;
-    }
+    } 
 #   endif
 }
 
 //-- (ge)con [complex variant] ----------------------------------------------------
-
-#ifdef USE_CXXLAPACK
 
 template <typename MA, typename NORMA, typename RCOND,
           typename VWORK, typename VRWORK>
@@ -323,12 +439,16 @@ con(Norm                norm,
     VWORK               &&work,
     VRWORK              &&rwork)
 {
+
+    LAPACK_DEBUG_OUT("(ge)con [complex]");
+    
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
-    typedef typename MA::IndexType            IndexType;
 
+    typedef typename MA::IndexType            IndexType;
+    
     ASSERT(norm==InfinityNorm || norm==OneNorm);
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
@@ -342,14 +462,70 @@ con(Norm                norm,
     ASSERT(rwork.firstIndex()==1);
     ASSERT(rwork.length()==2*n);
 #   endif
+    
+#   ifdef CHECK_CXXLAPACK
+
+//
+//  Remove references from rvalue types
+//
+    typedef typename RemoveRef<VWORK>::Type   VectorWork;
+    typedef typename RemoveRef<VRWORK>::Type  VectorRWork;
+    
+//
+//  Make copies of output arguments
+//
+    RCOND                         rCond_org = rCond;
+    typename VectorWork::NoView   work_org  = work;
+    typename VectorRWork::NoView  rwork_org = rwork;
+#   endif
 
 //
 //  Call implementation
 //
-    external::con_impl(norm, A, normA, rCond, work, rwork);
-}
+    LAPACK_SELECT::con_impl(norm, A, normA, rCond, work, rwork);
 
-#endif // USE_CXXLAPACK
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    RCOND                         rCond_generic = rCond;
+    typename VectorWork::NoView   work_generic  = work;
+    typename VectorRWork::NoView  rwork_generic = rwork;
+
+    rCond = rCond_org;
+    work  = work_org;
+    rwork = rwork_org;
+
+    external::con_impl(norm, A, normA, rCond, work, rwork);
+
+    bool failed = false;
+    if (! isIdentical(rCond_generic, rCond, "rCond_generic", "rCond")) {
+        std::cerr << "CXXLAPACK: rCond_generic = "
+                  << rCond_generic << std::endl;
+        std::cerr << "F77LAPACK: rCond = " << rCond << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(work_generic, work, "work_generic", "work")) {
+        std::cerr << "CXXLAPACK: work_generic = "
+                  << work_generic << std::endl;
+        std::cerr << "F77LAPACK: work = " << work << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(rwork_generic, rwork, "rwork_generic", "rwork")) {
+        std::cerr << "CXXLAPACK: rwork_generic = "
+                  << rwork_generic << std::endl;
+        std::cerr << "F77LAPACK: rwork = " << rwork << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    } 
+#   endif
+
+}
 
 } } // namespace lapack, flens
 

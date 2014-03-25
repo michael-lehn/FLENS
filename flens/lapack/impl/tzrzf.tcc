@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DTZRZF( M, N, A, LDA, TAU, WORK, LWORK, INFO )
+       SUBROUTINE ZTZRZF( M, N, A, LDA, TAU, WORK, LWORK, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -193,7 +194,7 @@ tzrzf_impl(GeMatrix<MA>              &A,
 
 namespace external {
 
-//-- tzrzf [real variant] ------------------------------------------------------
+//-- tzrzf [real  and complex variant] -----------------------------------------
 
 template <typename MA, typename VTAU, typename VWORK>
 void
@@ -219,12 +220,12 @@ tzrzf_impl(GeMatrix<MA>              &A,
 
 //== public interface ==========================================================
 
-//-- tzrzf [real variant] ------------------------------------------------------
+//-- tzrzf [real and complex variant] ------------------------------------------
 
 template <typename MA, typename VTAU, typename VWORK>
-typename RestrictTo<IsRealGeMatrix<MA>::value
-                 && IsRealDenseVector<VTAU>::value
-                 && IsRealDenseVector<VWORK>::value,
+typename RestrictTo<IsGeMatrix<MA>::value
+                 && IsDenseVector<VTAU>::value
+                 && IsDenseVector<VWORK>::value,
          void>::Type
 tzrzf(MA           &&A,
       VTAU         &&tau,
@@ -236,23 +237,22 @@ tzrzf(MA           &&A,
     LAPACK_DEBUG_OUT("tzrzf [real]");
 
 //
-//  Remove references from rvalue types
-//
-#   if !defined(NDEBUG) || defined(CHECK_CXXLAPACK)
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-#   endif
-
-#   ifdef CHECK_CXXLAPACK
-    typedef typename RemoveRef<VTAU>::Type  VectorTau;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
-#   endif
-
-//
 //  Test the input parameters
 //
-#   ifndef NDEBUG
-    typedef typename MatrixA::IndexType     IndexType;
 
+//
+//  Remove references from rvalue types
+//
+#   if defined(CHECK_CXXLAPACK) || !defined(NDEBUG)
+
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    
+#   endif
+
+#   ifndef NDEBUG
+
+    typedef typename MatrixA::IndexType     IndexType;
+    
     const IndexType m = A.numRows();
     const IndexType n = A.numCols();
 
@@ -272,6 +272,10 @@ tzrzf(MA           &&A,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
+
+    typedef typename RemoveRef<VTAU>::Type  VectorTau;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+    
     typename MatrixA::NoView        A_org    = A;
     typename VectorTau::NoView      tau_org  = tau;
     typename VectorWork::NoView     work_org = work;

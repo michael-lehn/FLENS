@@ -34,6 +34,8 @@
  *
        SUBROUTINE DGEEQU( M, N, A, LDA, R, C, ROWCND, COLCND, AMAX,
       $                   INFO )
+       SUBROUTINE ZGEEQU( M, N, A, LDA, R, C, ROWCND, COLCND, AMAX,
+      $                   INFO )      
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -52,12 +54,12 @@ namespace flens { namespace lapack {
 
 //== (ge)equ ===================================================================
 //
-//  Real variant
+//  Real and complex variant
 //
 template <typename MA, typename VR, typename VC,
           typename ROWCOND, typename COLCOND,
           typename AMAX>
-    typename RestrictTo<IsRealGeMatrix<MA>::value
+    typename RestrictTo<IsGeMatrix<MA>::value
                      && IsRealDenseVector<VR>::value
                      && IsRealDenseVector<VC>::value
                      && IsNotComplex<ROWCOND>::value

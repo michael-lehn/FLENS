@@ -57,12 +57,13 @@ rscl_impl(const SA &sa, DenseVector<VSX> &sx)
 {
     using std::abs;
 
-    typedef typename DenseVector<VSX>::ElementType  ElementType;
-    typedef typename DenseVector<VSX>::IndexType    IndexType;
+    typedef typename DenseVector<VSX>::ElementType            ElementType;
+    typedef typename ComplexTrait<ElementType>::PrimitiveType PrimitiveType;
+    typedef typename DenseVector<VSX>::IndexType              IndexType;
 
     const IndexType n = sx.length();
 
-    const ElementType Zero(0), One(1);
+    const PrimitiveType Zero(0), One(1);
 //
 //  Quick return if possible
 //
@@ -72,21 +73,21 @@ rscl_impl(const SA &sa, DenseVector<VSX> &sx)
 //
 //  Get machine parameters
 //
-    ElementType smallNum = lamch<ElementType>(SafeMin);
-    ElementType bigNum = One / smallNum;
+    PrimitiveType smallNum = lamch<PrimitiveType>(SafeMin);
+    PrimitiveType bigNum = One / smallNum;
     labad(smallNum, bigNum);
 //
 //  Initialize the denominator to SA and the numerator to 1.
 //
-    ElementType cDen = sa;
-    ElementType cNum = One;
+    PrimitiveType cDen = sa;
+    PrimitiveType cNum = One;
 
     bool done = false;
     do {
-        const ElementType cDen1 = cDen*smallNum;
-        const ElementType cNum1 = cNum / bigNum;
+        const PrimitiveType cDen1 = cDen*smallNum;
+        const PrimitiveType cNum1 = cNum / bigNum;
 
-        ElementType mul;
+        PrimitiveType mul;
 
         if (abs(cDen1)>abs(cNum) && cNum!=Zero) {
 //

@@ -93,7 +93,7 @@ template <typename T>
 void
 labad(T &small, T &large)
 {
-    LAPACK_DEBUG_OUT("BEGIN: labad");
+    LAPACK_DEBUG_OUT("labad");
 
 #   ifdef CHECK_CXXLAPACK
 //
@@ -132,7 +132,6 @@ labad(T &small, T &large)
     }
 #   endif
 
-    LAPACK_DEBUG_OUT("END: labad");
 }
 
 } } // namespace lapack, flens

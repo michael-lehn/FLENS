@@ -41,19 +41,19 @@ namespace cxxlapack {
 
 template <typename IndexType>
 IndexType
-cgesv(IndexType                  n,
-      IndexType                  nRhs,
-      std::complex<double>       *A,
-      IndexType                  ldA,
-      IndexType                  *iPiv,
-      const std::complex<double> *B,
-      IndexType                  ldB,
-      std::complex<double>       *X,
-      IndexType                  ldX,
-      std::complex<double>       *work,
-      std::complex<float>        *swork,
-      double                     *rWork,
-      IndexType                  &iter)
+zcgesv(IndexType                  n,
+       IndexType                  nRhs,
+       std::complex<double>       *A,
+       IndexType                  ldA,
+       IndexType                  *iPiv,
+       const std::complex<double> *B,
+       IndexType                  ldB,
+       std::complex<double>       *X,
+       IndexType                  ldX,
+       std::complex<double>       *work,
+       std::complex<float>        *swork,
+       double                     *rWork,
+       IndexType                  &iter)
 {
     IndexType info;
     CXXLAPACK_DEBUG_OUT("zcgesv");
@@ -61,6 +61,7 @@ cgesv(IndexType                  n,
                         &nRhs,
                         reinterpret_cast<double *>(A),
                         &ldA,
+                        iPiv,
                         reinterpret_cast<const double *>(B),
                         &ldB,
                         reinterpret_cast<double *>(X),
@@ -68,6 +69,7 @@ cgesv(IndexType                  n,
                         work,
                         swork,
                         rWork,
+                        &iter,
                         &info);
 #   ifndef NDEBUG
     if (info<0) {
@@ -80,4 +82,4 @@ cgesv(IndexType                  n,
 
 } // namespace cxxlapack
 
-#endif // CXXLAPACK_INTERFACE_DUMMY_TCC
+#endif // CXXLAPACK_INTERFACE_CGESV_TCC

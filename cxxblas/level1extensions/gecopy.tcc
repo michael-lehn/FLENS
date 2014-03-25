@@ -40,7 +40,7 @@
 namespace cxxblas {
 
 //
-//  B = A  or  B = A^T  where  B  is a  m x n  matrix
+//  B = A, B = A^T or B = A^H
 //
 template <typename IndexType, typename MA, typename MB>
 void
@@ -51,31 +51,42 @@ gecopy(StorageOrder order,
 {
     CXXBLAS_DEBUG_OUT("gecopy_generic");
 
-    if (order==RowMajor) {
-        std::swap(m,n);
+    if (order==ColMajor) {
+        gecopy(RowMajor, trans, n, m, A, ldA, B, ldB);
+        return;
     }
-
-    if (trans==NoTrans || trans==Conj) {
-//
-//      B = A  or  B = conj(A)
-//
-        if (ldA==m && ldB==m) {
+    if (trans==NoTrans) {
+        if ((ldA==n) && (ldB==n)) {
             copy(m*n, A, IndexType(1), B, IndexType(1));
+            return;
         } else {
-            for (IndexType j=0; j<n; ++j) {
-                copy(m, A+j*ldA, IndexType(1), B+j*ldB, IndexType(1));
+            for (IndexType i=0; i<m; ++i) {
+                copy(n, A+i*ldA, IndexType(1), B+i*ldB, IndexType(1));
             }
+            return;
         }
+    } else if (trans==Conj) {
+        if ((ldA==n) && (ldB==n)) {
+            ccopy(m*n, A, IndexType(1), B, IndexType(1));
+            return;
+        } else {
+            for (IndexType i=0; i<m; ++i) {
+                ccopy(n, A+i*ldA, IndexType(1), B+i*ldB, IndexType(1));
+            }
+            return;
+        }
+    } else if (trans==Trans) {
+        for (IndexType i=0; i<m; ++i) {
+            copy(n, A+i, ldA, B+i*ldB, IndexType(1));
+        }
+        return;
+    } else if (trans==ConjTrans) {
+        for (IndexType i=0; i<m; ++i) {
+            ccopy(n, A+i, ldA, B+i*ldB, IndexType(1));
+        }
+        return;
     } else {
-//
-//      B = A^T  or  B = A^H
-//
-        for (IndexType j=0; j<n; ++j) {
-            copy(m, A+j, ldA, B+j*ldB, IndexType(1));
-        }
-    }
-    if (trans==Conj || trans==ConjTrans) {
-        gecotr(order, Conj, m, n, B, ldB);
+        ASSERT(0);
     }
 }
 

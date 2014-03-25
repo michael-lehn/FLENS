@@ -41,11 +41,6 @@ namespace cxxblas {
 
 template <typename IndexType, typename ALPHA, typename X, typename Y>
     void
-    acxpy(IndexType n, const ALPHA &alpha, const std::complex<X> *x,
-          IndexType incX, std::complex<Y> *y, IndexType incY);
-
-template <typename IndexType, typename ALPHA, typename X, typename Y>
-    void
     acxpy(IndexType n, const ALPHA &alpha, const X *x, IndexType incX,
           Y *y, IndexType incY);
 

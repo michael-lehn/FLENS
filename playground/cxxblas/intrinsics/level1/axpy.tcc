@@ -43,7 +43,9 @@ namespace cxxblas {
 #ifdef USE_INTRINSIC
 
 template <typename IndexType, typename T>
-typename flens::RestrictTo<flens::IsReal<T>::value, void>::Type
+typename flens::RestrictTo<flens::IsReal<T>::value &&
+                           flens::IsIntrinsicsCompatible<T>::value, 
+                           void>::Type
 axpy(IndexType n, const T &alpha, const T *x,
      IndexType incX, T *y, IndexType incY)
 {
@@ -80,7 +82,9 @@ axpy(IndexType n, const T &alpha, const T *x,
 }
 
 template <typename IndexType, typename T>
-typename flens::RestrictTo<flens::IsComplex<T>::value, void>::Type
+typename flens::RestrictTo<flens::IsComplex<T>::value &&
+                           flens::IsIntrinsicsCompatible<T>::value, 
+                           void>::Type
 axpy(IndexType n, const T &alpha, const T *x,
      IndexType incX, T *y, IndexType incY)
 {
@@ -111,13 +115,27 @@ axpy(IndexType n, const T &alpha, const T *x,
         IntrinsicPrimitiveType _real_alpha(real(alpha));
         IntrinsicPrimitiveType _imag_alpha(imag(alpha));
 
-        for (; i+numElements-1<n; i+=numElements) {
-            _x.loadu(x+i);
-            _y.loadu(y+i);
-            _y = _intrinsic_add(_y, _intrinsic_mul(_real_alpha, _x));
-            _x = _intrinsic_swap_real_imag(_x);
-            _y = _intrinsic_addsub(_y, _intrinsic_mul(_imag_alpha, _x));
-            _y.storeu(y+i);
+        if (real(alpha)==PT(0)) {
+        
+            for (; i+numElements-1<n; i+=numElements) {
+                _x.loadu(x+i);
+                _y.loadu(y+i);
+                _x = _intrinsic_swap_real_imag(_x);
+                _y = _intrinsic_addsub(_y, _intrinsic_mul(_imag_alpha, _x));
+                _y.storeu(y+i);
+            }       
+             
+        } else {
+        
+            for (; i+numElements-1<n; i+=numElements) {
+                _x.loadu(x+i);
+                _y.loadu(y+i);
+                _y = _intrinsic_add(_y, _intrinsic_mul(_real_alpha, _x));
+                _x = _intrinsic_swap_real_imag(_x);
+                _y = _intrinsic_addsub(_y, _intrinsic_mul(_imag_alpha, _x));
+                _y.storeu(y+i);
+            }
+            
         }
 
         for (; i<n; ++i) {

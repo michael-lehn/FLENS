@@ -62,6 +62,31 @@ cblas_zaxpy(CBLAS_INT n, const double *alpha,
             const double *x, CBLAS_INT incX,
             double *y, CBLAS_INT incY);
 
+// axpby
+#ifdef HAVE_CBLAS_AXPBY
+
+void
+BLAS_EXT(saxpby) (CBLAS_INT n, float alpha,
+                 const float *x, CBLAS_INT incX,
+                 float beta, float *y, CBLAS_INT incY);
+
+void
+BLAS_EXT(daxpby) (CBLAS_INT n, double alpha,
+                const double *x, CBLAS_INT incX,
+                double beta, double *y, CBLAS_INT incY);
+
+void
+BLAS_EXT(caxpby) (CBLAS_INT n, const float *alpha,
+                 const float *x, CBLAS_INT incX,
+                 const float *beta, float *y, CBLAS_INT incY);
+
+void
+BLAS_EXT(zaxpby) (CBLAS_INT n, const double *alpha,
+                 const double *x, CBLAS_INT incX,
+                 const double *beta, double *y, CBLAS_INT incY);
+
+#endif //HAVE_CBLAS_AXPBY
+
 // copy
 void
 cblas_scopy(CBLAS_INT n,
@@ -739,6 +764,22 @@ cblas_zher2(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
             const double *X, CBLAS_INT incX,
             const double *Y, CBLAS_INT incY,
             double *A, CBLAS_INT lda);
+// hpr2
+void
+cblas_chpr2(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            CBLAS_INT n,
+            const float *alpha,
+            const float *X, CBLAS_INT incX,
+            const float *Y, CBLAS_INT incY,
+            float *A);
+
+void
+cblas_zhpr2(enum CBLAS_ORDER order, enum CBLAS_UPLO upLo,
+            CBLAS_INT n,
+            const double *alpha,
+            const double *X, CBLAS_INT incX,
+            const double *Y, CBLAS_INT incY,
+            double *A);
 
 //-- LEVEL 3 -------------------------------------------------------------------
 

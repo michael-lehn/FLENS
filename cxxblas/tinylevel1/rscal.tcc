@@ -41,6 +41,8 @@ template <int n, typename ALPHA, typename Y, int incY>
 void
 rscal(const ALPHA &alpha, Y *y)
 {
+    CXXBLAS_DEBUG_OUT("rscal [tiny]");
+    
     for (int i=0, iY=0; i<n; ++i, ++iY) {
         y[iY] /= alpha;
     }

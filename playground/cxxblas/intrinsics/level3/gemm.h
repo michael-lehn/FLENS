@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2012, Klaus Pototzky
+ *   Copyright (c) 2013, Klaus Pototzky
  *
  *   All rights reserved.
  *
@@ -33,27 +33,41 @@
 #ifndef PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL3_GEMM_H
 #define PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL3_GEMM_H 1
 
-#include <cxxblas/typedefs.h>
-#include <flens/auxiliary/iscomplex.h>
-#include <flens/auxiliary/isreal.h>
-#include <flens/auxiliary/restrictto.h>
+#include <playground/cxxblas/intrinsics/level3/gemm/packmatrix.h>
+#include <playground/cxxblas/intrinsics/level3/gemm/subgemm.h>
+#include <playground/cxxblas/intrinsics/level3/gemm/kernelgemm.h>
 
 namespace cxxblas {
 
 #ifdef USE_INTRINSIC
-
-template <typename IndexType, typename T>
-    typename flens::RestrictTo<flens::IsReal<T>::value, void>::Type
+    
+    
+/* Block sizes */
+#ifndef BLOCKSIZE_GEMM_M
+#   define BLOCKSIZE_GEMM_M 256
+#endif
+    
+#ifndef BLOCKSIZE_GEMM_K
+#   define BLOCKSIZE_GEMM_K 128
+#endif
+    
+template <typename IndexType, typename T, typename MA, typename MB>
+    typename flens::RestrictTo< flens::IsIntrinsicsCompatible<T>::value &&
+                                flens::IsIntrinsicsCompatible<MA>::value &&
+                                flens::IsIntrinsicsCompatible<MB>::value &&
+                                (flens::IsComplex<T>::value ||
+                                    (flens::IsReal<MA>::value && flens::IsReal<MB>::value) ),
+                               void>::Type
     gemm(StorageOrder order, Transpose transA, Transpose transB,
          IndexType m, IndexType n, IndexType k,
          const T &alpha,
-         const T *A, IndexType ldA,
-         const T *B, IndexType ldB,
+         const MA *A, IndexType ldA,
+         const MB *B, IndexType ldB,
          const T &beta,
          T *C, IndexType ldC);
-
+   
 #endif // USE_INTRINSIC
-
-} // namespace cxxblas
+    
+}
 
 #endif // PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL3_GEMM_H

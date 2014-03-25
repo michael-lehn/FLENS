@@ -53,6 +53,63 @@ template <typename IndexType, typename ALPHA, typename MA, typename VX,
             const BETA       &beta,
             VY               *y);
 
+    
+#ifdef HAVE_SPARSEBLAS      
+    
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    gecrsmv(Transpose        trans,
+            IndexType        m,
+            IndexType        n,
+            const float      &alpha,
+            const float      *A,
+            const IndexType  *ia,
+            const IndexType  *ja,
+            const float      *x,
+            const float      &beta,
+            float            *y);  
+    
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    gecrsmv(Transpose        trans,
+            IndexType        m,
+            IndexType        n,
+            const double     &alpha,
+            const double     *A,
+            const IndexType  *ia,
+            const IndexType  *ja,
+            const double     *x,
+            const double     &beta,
+            double           *y); 
+    
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    gecrsmv(Transpose               trans,
+            IndexType               m,
+            IndexType               n,
+            const ComplexFloat      &alpha,
+            const ComplexFloat      *A,
+            const IndexType         *ia,
+            const IndexType         *ja,
+            const ComplexFloat      *x,
+            const ComplexFloat      &beta,
+            ComplexFloat            *y);
+    
+template <typename IndexType>
+    typename If<IndexType>::isBlasCompatibleInteger
+    gecrsmv(Transpose               trans,
+            IndexType               m,
+            IndexType               n,
+            const ComplexDouble     &alpha,
+            const ComplexDouble     *A,
+            const IndexType         *ia,
+            const IndexType         *ja,
+            const ComplexDouble     *x,
+            const ComplexDouble     &beta,
+            ComplexDouble           *y);
+    
+#endif
+    
 } // namespace cxxblas
 
 #endif // CXXBLAS_SPARSELEVEL2_GECRSMV_H

@@ -1,5 +1,5 @@
 #include <flens/lapack/interface/include/config.h>
-
+#include <locale>
 extern "C" {
 
 //-- lsamen --------------------------------------------------------------------
@@ -8,8 +8,9 @@ LAPACK_DECL(lsamen)(const INTEGER    *N,
                     const char       *CA,
                     const char       *CB)
 {
+    std::locale loc;
     for (int i=0; i<*N; ++i) {
-        if (toupper(CA[i])!=toupper(CB[i])) {
+        if (std::toupper(CA[i], loc)!=std::toupper(CB[i],loc)) {
             return LOGICAL(0);
         }
     }

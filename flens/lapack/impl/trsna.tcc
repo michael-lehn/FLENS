@@ -443,9 +443,11 @@ trsna(TRSNA::Job                    job,
       GeMatrix<MWORK>               &Work,
       DenseVector<VIWORK>           &iWork)
 {
-    typedef typename GeMatrix<MT>::IndexType IndexType;
 
+#if defined(CHECK_CXXLAPACK) || !defined(NDEBUG)
+    typedef typename GeMatrix<MT>::IndexType IndexType;
     const IndexType n = T.numRows();
+#endif
 
 #   ifndef NDEBUG
     ASSERT(T.firstRow()==1);

@@ -33,6 +33,7 @@
 #ifndef FLENS_MATRIXTYPES_GENERAL_IMPL_IMPL_H
 #define FLENS_MATRIXTYPES_GENERAL_IMPL_IMPL_H 1
 
+#include <flens/matrixtypes/general/impl/diagmatrix.h>
 #include <flens/matrixtypes/general/impl/gbmatrix.h>
 #include <flens/matrixtypes/general/impl/geccsmatrix.h>
 #include <flens/matrixtypes/general/impl/gecoordmatrix.h>

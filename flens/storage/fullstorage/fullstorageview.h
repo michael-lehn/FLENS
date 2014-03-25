@@ -175,12 +175,16 @@ class FullStorageView
         const ConstView
         view(IndexType fromRow, IndexType fromCol,
              IndexType toRow, IndexType toCol,
+             IndexType strideRow = IndexType(1),
+             IndexType strideCol = IndexType(1),
              IndexType firstViewRow = I::defaultIndexBase,
              IndexType firstViewCol = I::defaultIndexBase) const;
-
-        FullStorageView
+    
+        View
         view(IndexType fromRow, IndexType fromCol,
              IndexType toRow, IndexType toCol,
+             IndexType strideRow = IndexType(1),
+             IndexType strideCol = IndexType(1),
              IndexType firstViewRow = I::defaultIndexBase,
              IndexType firstViewCol = I::defaultIndexBase);
 

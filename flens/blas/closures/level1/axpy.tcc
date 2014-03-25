@@ -53,6 +53,23 @@ namespace flens { namespace blas {
 //
 
 //
+//  y += alpha*conjugate(x)
+//
+template <typename ALPHA, typename VL, typename VR, typename VY>
+typename RestrictTo<VCDefaultEval<OpConj, VL, VR>::value
+                 && IsVector<VL>::value
+                 && IsVector<VR>::value,
+         void>::Type
+axpy(const ALPHA &alpha, const VectorClosure<OpConj, VL, VR> &x, Vector<VY> &y)
+{
+//
+//  No need to add another log-entry as we simply pass-through to the
+//  BLAS implementation
+//
+    acxpy(alpha, x.left(), y.impl());
+}
+
+//
 //  y += alpha*(x1+x2)
 //
 #ifndef FLENS_DEBUG_CLOSURES
@@ -182,7 +199,22 @@ axpySwitch(const ALPHA &alpha, const Vector<VX> &x, Vector<VY> &y)
 }
 
 //
-//  case 2: x is a closure
+//  case 2: (a) x is a conjugate-closure
+//
+
+template <typename ALPHA, typename L, typename R, typename VY>
+void
+axpySwitch(const ALPHA &alpha, const VectorClosure<OpConj, L, R> &x, Vector<VY> &y)
+{
+//
+//  No need to add another log-entry as we simply pass-through to the
+//  BLAS implementation
+//
+    acxpy(alpha, x.left(), y.impl());
+}
+
+//
+//  case 2: (b) x is a closure (everything else)
 //
 #ifndef FLENS_DEBUG_CLOSURES
 
@@ -268,7 +300,20 @@ raxpySwitch(const ALPHA &alpha, const Vector<VX> &x, Vector<VY> &y)
 }
 
 //
-//  case 2: x is a closure
+//  case 2: (a) x = conjugate(x)/a
+//
+template <typename ALPHA, typename L, typename R, typename VY>
+void
+raxpySwitch(const ALPHA &alpha, const VectorClosure<OpConj, L, R> &x, Vector<VY> &y)
+{
+//  No need to add another log-entry as we simply pass-through to the
+//  BLAS implementation
+//
+    racxpy(alpha, x.left(), y.impl());
+}
+
+//
+//  case 2: (b) x is any other closure
 //
 #ifndef FLENS_DEBUG_CLOSURES
 
@@ -313,8 +358,8 @@ raxpySwitch(const ALPHA &alpha, const VectorClosure<Op, L, R> &x, Vector<VY> &y)
 //
 template <typename ALPHA, typename VX, typename SV, typename VY>
 typename RestrictTo<VCDefaultEval<OpDiv, VX, SV>::value
-                 && IsVector<VX>::value
-                 && IsScalarValue<SV>::value,
+                 && IsScalarValue<SV>::value
+                 && IsVector<VX>::value,
          void>::Type
 axpy(const ALPHA &alpha, const VectorClosure<OpDiv, VX, SV> &x, Vector<VY> &y)
 {
@@ -446,6 +491,7 @@ axpy(const ALPHA                      &FLENS_BLASLOG_VARDECL(alpha),
      Vector<VY>                       &FLENS_BLASLOG_VARDECL(y))
 {
     FLENS_BLASLOG_ERROR_AXPY(alpha, x, y);
+
     ASSERT(0);
 }
 
@@ -592,6 +638,42 @@ axpySwitch(Transpose trans,
 //
 //  case 2: A is a closure
 //
+
+//
+//  case 2 (a): A is a closure (= trans)
+//
+template <typename ALPHA, typename MA, typename MB>
+void
+axpySwitch(Transpose trans,
+           const ALPHA &alpha, const MatrixClosureOpTrans<MA> &A, Matrix<MB> &B)
+{
+//
+//  No need to add another log-entry as we simply pass-through to the
+//  BLAS implementation
+//
+    trans = Transpose(trans^Trans);
+    axpy(trans, alpha, A.left(), B.impl());
+}
+
+//
+//  case 2 (b): A is a closure (= conj)
+//
+template <typename ALPHA, typename MA, typename MB>
+void
+axpySwitch(Transpose trans,
+           const ALPHA &alpha, const MatrixClosureOpConj<MA> &A, Matrix<MB> &B)
+{
+//
+//  No need to add another log-entry as we simply pass-through to the
+//  BLAS implementation
+//
+    trans = Transpose(trans^Conj);
+    axpy(trans, alpha, A.left(), B.impl());
+}
+
+//
+//  case 2 (c): A is a closure (the rest)
+//
 #ifndef FLENS_DEBUG_CLOSURES
 
 template <typename ALPHA, typename Op, typename L, typename R, typename VY>
@@ -653,6 +735,7 @@ axpy(Transpose trans, const ALPHA &alpha,
 //  Switch: 1) If A is a closure we need a temporary otherwise
 //          2) call BLAS implementation directly.
 //
+
     axpySwitch(trans, alpha*A.left().value(), A.right(), B.impl());
 
     FLENS_BLASLOG_END;
@@ -862,6 +945,7 @@ axpy(Transpose          FLENS_BLASLOG_VARDECL(trans),
 {
     FLENS_BLASLOG_ERROR_MAXPY(trans, alpha, A, B);
     ERROR_MSG("B += Some Matrix");
+
     ASSERT(0);
 }
 

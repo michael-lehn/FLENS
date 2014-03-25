@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DPOTF2( UPLO, N, A, LDA, INFO )
+       SUBROUTINE ZPOTF2( UPLO, N, A, LDA, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --

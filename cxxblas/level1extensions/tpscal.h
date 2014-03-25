@@ -40,12 +40,11 @@
 namespace cxxblas {
 
 //
-//  B = alpha*A
+//  B = alpha*B
 //
 template <typename IndexType, typename ALPHA, typename MA>
     void
-    tpscal(StorageOrder order, StorageUpLo upLo, Diag diag,
-           IndexType n, const ALPHA &alpha, MA *A);
+    tpscal(Diag diag, IndexType n, const ALPHA &alpha, MA *A);
 
 } // namespace cxxblas
 

@@ -461,7 +461,7 @@ esx_wsq_impl(bool                 computeSchurVectors,
     const bool wantSV = (sense==SENSE::InvariantSubspaceOnly);
     const bool wantSB = (sense==SENSE::Both);
 
-    IndexType minWork, maxWork, liWork, lWork;
+    IndexType minWork, liWork;
 
     liWork = 1;
     if (n==0) {
@@ -525,7 +525,7 @@ esx_wsq_impl(bool                 computeSchurVectors,
     //const bool wantSV = (sense==SENSE::InvariantSubspaceOnly);
     //const bool wantSB = (sense==SENSE::Both);
 
-    IndexType minWork, maxWork, lWork;
+    IndexType minWork;
 
     if (n==0) {
         minWork = 1;
@@ -537,7 +537,7 @@ esx_wsq_impl(bool                 computeSchurVectors,
 //  Compute optimal size for work
 //
     const IndexType     LDVS   = max(IndexType(1), A.numRows());
-    IndexType           IDUMMY, IWORK;
+    IndexType           IDUMMY;
     T                   DUMMY;
     RT                  RDUMMY;
     const IndexType     LWORK  = -1;

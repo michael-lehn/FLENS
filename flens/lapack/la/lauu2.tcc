@@ -53,8 +53,10 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
+//-- lauu2 [real variant] ------------------------------------------------------
 template <typename MA>
-void
+typename RestrictTo<IsReal<typename TrMatrix<MA>::ElementType>::value,
+                    void>::Type
 lauu2_impl(TrMatrix<MA> &A)
 {
     typedef typename TrMatrix<MA>::ElementType   ElementType;
@@ -116,6 +118,79 @@ lauu2_impl(TrMatrix<MA> &A)
     }
 }
 
+//-- lauu2 [complex variant] ------------------------------------------------------
+template <typename MA>
+typename RestrictTo<IsComplex<typename TrMatrix<MA>::ElementType>::value,
+                    void>::Type
+lauu2_impl(TrMatrix<MA> &A)
+{
+    using std::real;
+    
+    typedef typename TrMatrix<MA>::ElementType   ElementType;
+    typedef typename ComplexTrait<ElementType>::PrimitiveType PrimitiveType;
+    typedef typename TrMatrix<MA>::IndexType     IndexType;
+
+    const ElementType            COne(1);
+    const PrimitiveType          One(1);
+    const IndexType              n = A.dim();
+    const Underscore<IndexType>  _;
+//
+//  Quick return if possible
+//
+    if (n==0) {
+        return;
+    }
+
+    if (A.upLo()==Upper) {
+//
+//      Compute the product U * U**H.
+//
+        for (IndexType i=1; i<=n; ++i) {
+            const PrimitiveType a22 = real(A(i,i));
+            if (i<n) {
+                A(i,i) = a22*a22 + real(blas::dotc(A(i,_(i+1,n)), A(i,_(i+1,n))));
+                imag(A(i,_(i+1,n))) *= -One;
+                
+                const auto range1 = _(1,i-1);
+                const auto range2 = i;
+                const auto range3 = _(i+1,n);
+
+                auto a12       = A(range1,range2);
+                const auto A13 = A(range1,range3);
+                const auto a23 = A(range2,range3);
+                blas::mv(NoTrans, COne, A13, a23, ElementType(a22,0), a12);
+                imag(A(i,_(i+1,n))) *= -One;
+            } else {
+                A(_,n) *= a22;
+            }
+        }
+    } else {
+//
+//      Compute the product L**H * L.
+//
+        for (IndexType i=1; i<=n; ++i) {
+            const PrimitiveType a22 = real(A(i,i));
+            if (i<n) {
+                A(i,i) = a22*a22 + real(blas::dotc(A(_(i+1,n),i), A(_(i+1,n),i)));
+                imag(A(i,_(1,i-1))) *= -One;
+                
+                const auto range1 = _(1,i-1);
+                const auto range2 = i;
+                const auto range3 = _(i+1,n);
+
+                auto a21       = A(range2,range1);
+                const auto A31 = A(range3,range1);
+                const auto a32 = A(range3,range2);
+
+                blas::mv(ConjTrans, COne, A31, a32, ElementType(a22,0), a21);
+                imag(A(i,_(1,i-1))) *= -One;
+            } else {
+                A(n,_) *= a22;
+            }
+        }
+    }
+}
+
 } // namespace generic
 
 //== interface for native lapack ===============================================
@@ -147,6 +222,7 @@ template <typename MA>
 void
 lauu2(TrMatrix<MA> &A)
 {
+
 //
 //  Test the input parameters
 //

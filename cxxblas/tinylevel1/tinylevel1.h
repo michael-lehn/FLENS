@@ -33,9 +33,12 @@
 #ifndef CXXBLAS_TINYLEVEL1_TINYLEVEL1_H
 #define CXXBLAS_TINYLEVEL1_TINYLEVEL1_H 1
 
+#include <cxxblas/tinylevel1/acxpby.h>
 #include <cxxblas/tinylevel1/acxpy.h>
+#include <cxxblas/tinylevel1/axpby.h>
 #include <cxxblas/tinylevel1/axpy.h>
 #include <cxxblas/tinylevel1/copy.h>
+#include <cxxblas/tinylevel1/ccopy.h>
 #include <cxxblas/tinylevel1/geaxpy.h>
 #include <cxxblas/tinylevel1/gecopy.h>
 #include <cxxblas/tinylevel1/gerscal.h>

@@ -904,7 +904,7 @@ latrs_impl(Transpose             trans,
                     }
                 }
                 if (!skip) {
-                    const PT  Tjj = abs(TjjS);
+                    const PT  Tjj = abs1(TjjS);
                     if (Tjj>smallNum) {
 //
 //                      abs(A(j,j)) > SMLNUM:
@@ -920,7 +920,7 @@ latrs_impl(Transpose             trans,
                                 xMax  *= rec;
                             }
                         }
-                        x(j) /= TjjS;
+                        x(j) = ladiv(x(j), TjjS);
                         xj    = abs1(x(j));
                     } else if (Tjj>Zero) {
 //
@@ -1266,15 +1266,17 @@ latrs_impl(Transpose             trans,
                             scale = Zero;
                             xMax = Zero;
                         }
-                    } else {
+                    } 
+                    
+                } else {
 //
-//                      Compute x(j) := x(j) / A(j,j) - CSUMJ if the dot
-//                      product has already been divided by 1/A(j,j).
+//                  Compute x(j) := x(j) / A(j,j) - CSUMJ if the dot
+//                  product has already been divided by 1/A(j,j).
 //
-                        x(j) = ladiv(x(j), TjjS) - sumJ;
-                    }
-                    xMax = max(xMax, abs1(x(j)));
+                    x(j) = ladiv(x(j), TjjS) - sumJ;
                 }
+                xMax = max(xMax, abs1(x(j)));
+                
             }
         }
         scale /= tScale;
@@ -1515,6 +1517,16 @@ latrs(Transpose trans,
 
 
     if (failed) {
+        if(trans==NoTrans) {
+            std::cerr << "trans = NoTrans" << std::endl; 
+        } else if (trans==Conj) {
+            std::cerr << "trans = Conj" << std::endl; 
+        } else if (trans==Trans) {
+            std::cerr << "trans = Trans" << std::endl; 
+        } else if (trans==ConjTrans) {
+            std::cerr << "trans = ConjTrans" << std::endl; 
+        }
+        std::cerr << "normIn = " << normIn << std::endl;
         std::cerr << "x_org = " << x_org << std::endl;
         std::cerr << "scale_org = " << scale_org << std::endl;
         ASSERT(0);

@@ -53,7 +53,7 @@ template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
 void
 mv(Transpose trans,
    const ALPHA &alpha, const TriangularMatrix<MA> &_A, const Vector<VX> &_x,
-   const BETA &beta, Vector<VY> &_y)
+   const BETA &DEBUG_VAR(beta), Vector<VY> &_y)
 {
     using namespace DEBUGCLOSURE;
 
@@ -95,7 +95,7 @@ mv(Transpose trans,
 //== SymmetricMatrix - Vector products =========================================
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
 void
-mv(Transpose trans,
+mv(Transpose DEBUG_VAR(trans),
    const ALPHA &alpha, const SymmetricMatrix<MA> &A, const Vector<VX> &x,
    const BETA &beta, Vector<VY> &y)
 {
@@ -127,7 +127,7 @@ mv(Transpose trans,
 //== HermitianMatrix - Vector products =========================================
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
 void
-mv(Transpose trans,
+mv(Transpose DEBUG_VAR(trans),
    const ALPHA &alpha, const HermitianMatrix<MA> &A, const Vector<VX> &x,
    const BETA &beta, Vector<VY> &y)
 {

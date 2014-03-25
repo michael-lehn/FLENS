@@ -56,7 +56,9 @@ namespace generic {
 //-- larz [real variant] -------------------------------------------------------
 
 template <typename VV, typename TAU, typename MC, typename VWORK>
-void
+typename 
+RestrictTo<IsRealGeMatrix<GeMatrix<MC> >::value,
+           void>::Type
 larz_impl(Side                   side,
           const DenseVector<VV>  &v,
           const TAU              &tau,
@@ -126,6 +128,83 @@ larz_impl(Side                   side,
     }
 }
 
+
+//-- larz [complex variant] ----------------------------------------------------
+
+template <typename VV, typename TAU, typename MC, typename VWORK>
+typename 
+RestrictTo<IsComplexGeMatrix<GeMatrix<MC> >::value,
+           void>::Type
+larz_impl(Side                   side,
+          const DenseVector<VV>  &v,
+          const TAU              &tau,
+          GeMatrix<MC>           &C,
+          DenseVector<VWORK>     &work)
+{
+    typedef typename GeMatrix<MC>::ElementType  ElementType;
+    typedef typename GeMatrix<MC>::IndexType    IndexType;
+
+    const Underscore<IndexType>  _;
+
+    const IndexType m = C.numRows();
+    const IndexType n = C.numCols();
+    const IndexType l = v.length();
+
+    const ElementType  Zero(0), One(1);
+
+    if (side==Left) {
+//
+//      Form  H * C
+//
+        if (tau!=Zero) {
+//
+//          w( 1:n ) = C( 1, 1:n )
+//
+            work = conjugate(C(1,_));
+//
+//          w( 1:n ) = w( 1:n ) + C( m-l+1:m, 1:n )**T * v( 1:l )
+//
+            blas::mv(ConjTrans, One, C(_(m-l+1,m),_), v, One, work);
+            work = conjugate(work);
+//
+//          C( 1, 1:n ) = C( 1, 1:n ) - tau * w( 1:n )
+//
+            C(1,_) -= tau*work;
+//
+//          C( m-l+1:m, 1:n ) = C( m-l+1:m, 1:n ) - ...
+//                              tau * v( 1:l ) * w( 1:n )**T
+//
+            blas::ru(-tau, v, work, C(_(m-l+1,m),_));
+        }
+
+    } else {
+//
+//      Form  C * H
+//
+        if (tau!=Zero) {
+//
+//          w( 1:m ) = C( 1:m, 1 )
+//
+            work = C(_,1);
+//
+//          w( 1:m ) = w( 1:m ) + C( 1:m, n-l+1:n, 1:n ) * v( 1:l )
+//
+            blas::mv(NoTrans, One, C(_,_(n-l+1,n)), v, One, work);
+//
+//          C( 1:m, 1 ) = C( 1:m, 1 ) - tau * w( 1:m )
+//
+            C(_,1) -= tau*work;
+//
+//          C( 1:m, n-l+1:n ) = C( 1:m, n-l+1:n ) - ...
+//                              tau * w( 1:m ) * v( 1:l )**T
+//
+            blas::rc(-tau, work, v, C(_,_(n-l+1,n)));
+
+        }
+
+    }
+}
+
 } // namespace generic
 
 
@@ -135,7 +214,7 @@ larz_impl(Side                   side,
 
 namespace external {
 
-//-- larz [real variant] -------------------------------------------------------
+//-- larz [real and complex variant] -------------------------------------------
 
 template <typename VV, typename TAU, typename MC, typename VWORK>
 void
@@ -166,13 +245,13 @@ larz_impl(Side                   side,
 
 //== public interface ==========================================================
 
-//-- larz [real variant] -------------------------------------------------------
+//-- larz [real and complex variant] -------------------------------------------
 
 template <typename VV, typename TAU, typename MC, typename VWORK>
-typename RestrictTo<IsRealDenseVector<VV>::value
-                 && IsReal<TAU>::value
-                 && IsRealGeMatrix<MC>::value
-                 && IsRealDenseVector<VWORK>::value,
+typename RestrictTo<IsDenseVector<VV>::value
+                 && (IsReal<TAU>::value || IsComplex<TAU>::value)
+                 && IsGeMatrix<MC>::value
+                 && IsDenseVector<VWORK>::value,
          void>::Type
 larz(Side       side,
      const VV   &v,
@@ -180,23 +259,24 @@ larz(Side       side,
      MC         &&C,
      VWORK      &&work)
 {
-//
-//  Remove references from rvalue types
-//
-#   if !defined(NDEBUG) || defined(CHECK_CXXLAPACK)
-    typedef typename RemoveRef<MC>::Type    MatrixC;
-#   endif
-
-#   ifdef CHECK_CXXLAPACK
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
-#   endif
 
 //
 //  Test the input parameters
 //
-#   ifndef NDEBUG
-    typedef typename MatrixC::IndexType     IndexType;
 
+//
+//  Remove references from rvalue types
+//
+#   if defined(CHECK_CXXLAPACK) || !defined(NDEBUG)
+
+    typedef typename RemoveRef<MC>::Type    MatrixC;
+    
+#   endif
+
+#   ifndef NDEBUG
+
+    typedef typename MatrixC::IndexType     IndexType;
+    
     const IndexType m = C.numRows();
     const IndexType n = C.numCols();
     const IndexType l = v.length();
@@ -214,6 +294,8 @@ larz(Side       side,
 //  Make copies of output arguments
 //
 #   ifdef CHECK_CXXLAPACK
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+    
     typename MatrixC::NoView        C_org    = C;
     typename VectorWork::NoView     work_org = work;
 #   endif
@@ -257,7 +339,7 @@ larz(Side       side,
         std::cerr << "error in: larz.tcc" << std::endl;
         ASSERT(0);
     } else {
-        // std::cerr << "passed: larz.tcc" << std::endl;
+        //std::cerr << "passed: larz.tcc" << std::endl;
     }
 #   endif
 

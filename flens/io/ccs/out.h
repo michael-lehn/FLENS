@@ -36,7 +36,9 @@
 #include <iostream>
 
 #include <flens/matrixtypes/general/impl/geccsmatrix.h>
+#include <flens/matrixtypes/hermitian/impl/heccsmatrix.h>
 #include <flens/matrixtypes/symmetric/impl/syccsmatrix.h>
+#include <flens/matrixtypes/triangular/impl/trccsmatrix.h>
 
 namespace flens {
 
@@ -46,7 +48,15 @@ template <typename CCS>
 
 template <typename CCS>
     std::ostream &
+    operator<<(std::ostream &out, const HeCCSMatrix<CCS> &A);
+    
+template <typename CCS>
+    std::ostream &
     operator<<(std::ostream &out, const SyCCSMatrix<CCS> &A);
+    
+template <typename CCS>
+    std::ostream &
+    operator<<(std::ostream &out, const TrCCSMatrix<CCS> &A);
 
 } // namespace flens
 

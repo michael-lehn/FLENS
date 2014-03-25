@@ -33,25 +33,36 @@
 #ifndef CXXBLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_TCC
 #define CXXBLAS_LEVEL1EXTENSIONS_LEVEL1EXTENSIONS_TCC 1
 
+#include <cxxblas/level1extensions/acxpby.tcc>
 #include <cxxblas/level1extensions/acxpy.tcc>
+#include <cxxblas/level1extensions/asum1.tcc>
+#include <cxxblas/level1extensions/axpby.tcc>
 #include <cxxblas/level1extensions/axpy.tcc>
 #include <cxxblas/level1extensions/ccopy.tcc>
 #include <cxxblas/level1extensions/dot.tcc>
+#include <cxxblas/level1extensions/gbaxpby.tcc>
 #include <cxxblas/level1extensions/gbaxpy.tcc>
-#include <cxxblas/level1extensions/geaxpy.tcc>
 #include <cxxblas/level1extensions/gbcopy.tcc>
 #include <cxxblas/level1extensions/gbcotr.tcc>
 #include <cxxblas/level1extensions/gbscal.tcc>
+#include <cxxblas/level1extensions/geaxpy.tcc>
+#include <cxxblas/level1extensions/geaxpby.tcc>
 #include <cxxblas/level1extensions/gecopy.tcc>
 #include <cxxblas/level1extensions/gecotr.tcc>
 #include <cxxblas/level1extensions/geraxpy.tcc>
 #include <cxxblas/level1extensions/gescal.tcc>
+#include <cxxblas/level1extensions/geswap.tcc>
 #include <cxxblas/level1extensions/gerscal.tcc>
 #include <cxxblas/level1extensions/hescal.tcc>
+#include <cxxblas/level1extensions/imax1.tcc>
 #include <cxxblas/level1extensions/syscal.tcc>
+#include <cxxblas/level1extensions/racxpy.tcc>
 #include <cxxblas/level1extensions/raxpy.tcc>
 #include <cxxblas/level1extensions/rscal.tcc>
+#include <cxxblas/level1extensions/traxpby.tcc>
+#include <cxxblas/level1extensions/traxpy.tcc>
 #include <cxxblas/level1extensions/trcopy.tcc>
+#include <cxxblas/level1extensions/tpaxpby.tcc>
 #include <cxxblas/level1extensions/tpaxpy.tcc>
 #include <cxxblas/level1extensions/tpcopy.tcc>
 #include <cxxblas/level1extensions/tpscal.tcc>

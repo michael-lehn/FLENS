@@ -49,6 +49,36 @@
 
 namespace flens { namespace lapack {
 
+//== generic lapack implementation =============================================
+
+namespace generic {
+
+//-- (gb)sv [real and compelx variant] -----------------------------------------
+
+template <typename MA, typename VPIV, typename MB>
+typename GbMatrix<MA>::IndexType
+sv_impl(GbMatrix<MA> &A, DenseVector<VPIV> &piv, GeMatrix<MB> &B)
+{
+    typedef typename GeMatrix<MA>::IndexType IndexType;
+
+    IndexType info = 0;
+
+//
+//  Compute the LU factorization of A.
+//
+    info = trf(A, piv);
+    if (info==0) {
+//
+//      Solve the system A*X = B, overwriting B with X.
+//
+        trs(NoTrans, A, piv, B);
+    }
+    return info;
+}
+
+} // namespace generic
+
+
 //== interface for native lapack ===============================================
 
 #ifdef USE_CXXLAPACK
@@ -79,6 +109,8 @@ sv_impl(GbMatrix<MA> &A, DenseVector<VPIV> &piv, GeMatrix<MB> &B)
 }
 
 } // namespace external
+
+#endif // USE_CXXLAPACK
 
 //== public interface ==========================================================
 
@@ -117,10 +149,72 @@ sv(MA &&A, VPIV &&piv, MB &&B)
     ASSERT(B.firstCol()==1);
     ASSERT(B.numRows()==A.numRows());
 #   endif
+
+#   ifdef CHECK_CXXLAPACK
+
+    typedef typename RemoveRef<VPIV>::Type  VectorPiv;
+    typedef typename RemoveRef<MB>::Type    MatrixB;
+    
+//
+//  Make copies of output arguments
+//
+    typename MatrixA::NoView    A_org   = A;
+    typename VectorPiv::NoView  piv_org = piv;
+    typename MatrixB::NoView    B_org   = B;
+
+#   endif
+
 //
 //  Call implementation
 //
-    IndexType info = external::sv_impl(A, piv, B);
+    IndexType info = LAPACK_SELECT::sv_impl(A, piv, B);
+    
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    typename MatrixA::NoView    A_generic   = A;
+    typename VectorPiv::NoView  piv_generic = piv;
+    typename MatrixB::NoView    B_generic   = B;
+
+    A   = A_org;
+    piv = piv_org;
+    B   = B_org;
+
+    IndexType _info = external::sv_impl(A, piv, B);
+
+    bool failed = false;
+    if (! isIdentical(A_generic, A, "A_generic", "A")) {
+        std::cerr << "A_org = " << A_org << std::endl;
+        std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
+        std::cerr << "F77LAPACK: A = " << A << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(piv_generic, piv, "piv_generic", "piv")) {
+        std::cerr << "piv_org = " << piv_org << std::endl;
+        std::cerr << "CXXLAPACK: piv_generic = " << piv_generic << std::endl;
+        std::cerr << "F77LAPACK: piv = " << piv << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(B_generic, B, "B_generic", "B")) {
+        std::cerr << "B_org = " << B_org << std::endl;
+        std::cerr << "CXXLAPACK: B_generic = " << B_generic << std::endl;
+        std::cerr << "F77LAPACK: B = " << B << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(info, _info, " info", "_info")) {
+        std::cerr << "CXXLAPACK:  info = " << info << std::endl;
+        std::cerr << "F77LAPACK: _info = " << _info << std::endl;
+        failed = true;
+    }
+    if (failed) {
+        ASSERT(0);
+    }
+
+#   endif
 
     return info;
 }
@@ -150,8 +244,6 @@ sv(MA &&A, VPIV &&piv, VB &&b)
 
     return sv(A, piv, B);
 }
-
-#endif // USE_CXXLAPACK
 
 } } // namespace lapack, flens
 

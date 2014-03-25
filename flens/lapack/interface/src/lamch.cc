@@ -8,7 +8,7 @@ extern "C" {
 MachineParameter
 _getMachineParameter(const char c)
 {
-    MachineParameter machineParameter;
+    MachineParameter machineParameter = Eps;
 
     switch (c) {
         case 'E':

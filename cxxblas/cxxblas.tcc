@@ -44,6 +44,7 @@
 #include <cxxblas/level3extensions/level3extensions.tcc>
 
 #include <cxxblas/sparselevel2/sparselevel2.tcc>
+#include <cxxblas/sparselevel3/sparselevel3.tcc>
 
 #include <cxxblas/tinylevel1/tinylevel1.tcc>
 #include <cxxblas/tinylevel2/tinylevel2.tcc>

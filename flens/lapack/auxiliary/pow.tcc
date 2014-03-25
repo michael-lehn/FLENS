@@ -39,17 +39,32 @@
 namespace flens {
 
 template <typename T>
-typename RestrictTo<!IsSame<T,int>::value,
+typename RestrictTo<IsSame<T,int>::value,
          T>::Type
 pow(const T &base, const T &exponent)
 {
-    return std::pow(base, exponent);
+    ASSERT( exponent>=0 );
+    if ( exponent==0 ) {
+        return 1;
+    } else if ( exponent==1 ) { 
+        return base;
+    }
+    int value = flens::pow(base, exponent/2 );
+  
+    if ( exponent%2==0 ) {
+        return value*value;
+    } 
+    return base*value*value;
 }
 
 template <typename T>
-T
+typename RestrictTo<!IsSame<T,int>::value,
+                    T>::Type
 pow(const T &base, int exponent)
 {
+    typedef typename ComplexTrait<T>::PrimitiveType PT;
+    using std::pow;
+    
 //
 //  TODO: Make this more general and call an external Fortran routine
 //        that computes 'pow(base, exponent)' for comparison
@@ -59,13 +74,15 @@ pow(const T &base, int exponent)
         return base*base;
     }
 #   endif
-    return std::pow(base, exponent);
+    return pow(base, PT(exponent));
 }
 
 template <typename T>
 std::complex<T>
 pow(const std::complex<T> &base, int exponent)
 {
+    typedef typename ComplexTrait<T>::PrimitiveType PT;
+    using std::pow;
 //
 //  TODO: Make this more general and call an external Fortran routine
 //        that computes 'pow(base, exponent)' for comparison
@@ -75,7 +92,7 @@ pow(const std::complex<T> &base, int exponent)
         return base*base;
     }
 #   endif
-    return std::pow(base, exponent);
+    return pow(base, PT(exponent));
 }
 
 } // namespace flens

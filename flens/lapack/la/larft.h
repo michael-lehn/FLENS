@@ -32,8 +32,8 @@
 
 /* Based on
  *
-      SUBROUTINE DLARFT( DIRECT, STOREV, N, K, V, LDV, TAU, T, LDT )
-      SUBROUTINE ZLARFT( DIRECT, STOREV, N, K, V, LDV, TAU, T, LDT )
+ SUBROUTINE DLARFT( DIRECT, STOREV, N, K, V, LDV, TAU, T, LDT )
+ SUBROUTINE ZLARFT( DIRECT, STOREV, N, K, V, LDV, TAU, T, LDT )
  *
  *  -- LAPACK auxiliary routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -49,38 +49,27 @@
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace lapack {
-
-//== larft =====================================================================
-//
-//  Real variant
-//
-template <typename N, typename MV, typename VTAU, typename MT>
-    typename RestrictTo<IsRealGeMatrix<MV>::value
-                     && IsRealDenseVector<VTAU>::value
-                     && IsRealTrMatrix<MT>::value,
-             void>::Type
+    
+    //== larft =====================================================================
+    template <typename N, typename MV, typename VTAU, typename MT>
+    void
     larft(Direction                 direction,
           StoreVectors              storeVectors,
           N                         n,
-          MV                        &&V,
-          const VTAU                &tau,
-          MT                        &&T);
-
-//
-//  Complex variant
-//
-template <typename N, typename MV, typename VTAU, typename MT>
-    typename RestrictTo<IsComplexGeMatrix<MV>::value
-                     && IsComplexDenseVector<VTAU>::value
-                     && IsComplexTrMatrix<MT>::value,
-             void>::Type
-    larft(Direction                 direction,
-          StoreVectors              storeVectors,
-          N                         n,
-          MV                        &&V,
-          const VTAU                &tau,
-          MT                        &&T);
-
+          GeMatrix<MV>              &V,
+          const DenseVector<VTAU>   &tau,
+          TrMatrix<MT>              &T);
+    
+    //-- forwarding ----------------------------------------------------------------
+    template <typename N, typename MV, typename VTAU, typename MT>
+    void
+    larft(Direction     direction,
+          StoreVectors  storeVectors,
+          N             n,
+          MV            &&V,
+          const VTAU    &tau,
+          MT            &&T);
+    
 } } // namespace lapack, flens
 
 #endif // FLENS_LAPACK_LA_LARFT_H

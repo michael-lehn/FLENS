@@ -49,6 +49,55 @@ signbit(const dd_real &x);
 int
 signbit(const qd_real &x);
 
+//
+// import is_floating_point to namespace std
+//
+template <>
+struct is_floating_point<dd_real>
+    : public is_floating_point<double>
+{
+    public:
+
+        static const bool value = true;
+};
+
+//
+// import is_arithmetic to namespace std
+//
+template <>
+struct is_arithmetic<dd_real>
+    : public is_arithmetic<double>
+{
+    public:
+
+        static const bool value = true;
+};
+
+//
+// import is_floating_point to namespace std
+//
+template <>
+struct is_floating_point<qd_real>
+    : public is_floating_point<double>
+{
+    public:
+
+        static const bool value = true;
+};
+
+//
+// import is_arithmetic to namespace std
+//
+template <>
+struct is_arithmetic<qd_real>
+    : public is_arithmetic<double>
+{
+    public:
+
+        static const bool value = true;
+};
+
+
 } // namespace std
 
 

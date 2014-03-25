@@ -1317,7 +1317,7 @@ trevc_impl(bool                           computeVL,
 //
 template <typename VSELECT, typename MTR, typename MVL, typename MVR,
           typename IndexType, typename VWORK>
-typename RestrictTo<IsIntegerDenseVector<VSELECT>::value
+typename RestrictTo<IsBooleanDenseVector<VSELECT>::value
                  && IsRealGeMatrix<MTR>::value
                  && IsRealGeMatrix<MVL>::value
                  && IsRealGeMatrix<MVR>::value
@@ -1361,7 +1361,7 @@ trevc(bool                          computeVL,
     ASSERT(VR.firstRow()==1);
     ASSERT(VR.firstCol()==1);
     ASSERT(work.firstIndex()==1);
-    ASSERT(work.length()==3*n);
+    ASSERT(work.length()>=3*n);
 #   endif
 
 #   ifdef CHECK_CXXLAPACK
@@ -1432,7 +1432,7 @@ trevc(bool                          computeVL,
 //
 template <typename VSELECT, typename MTR, typename MVL, typename MVR,
           typename IndexType, typename VWORK, typename VRWORK>
-typename RestrictTo<IsIntegerDenseVector<VSELECT>::value
+typename RestrictTo<IsBooleanDenseVector<VSELECT>::value
                  && IsComplexGeMatrix<MTR>::value
                  && IsComplexGeMatrix<MVL>::value
                  && IsComplexGeMatrix<MVR>::value

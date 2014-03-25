@@ -61,14 +61,14 @@ template <typename IndexType>
          const double *p);
 
 // srotmg
-template <typename IndexType>
-    typename If<IndexType>::isBlasCompatibleInteger
-    rotmg(float &d1, float &d2, float &b1, float &b2, float *p);
+template <typename T>
+    typename RestrictTo<IsSame<T, float>::value, void>::Type
+    rotmg(T &d1, T &d2, T &b1, T &b2, T *p);
 
 // drotmg
-template <typename IndexType>
-    typename If<IndexType>::isBlasCompatibleInteger
-    rotmg(double &d1, double &d2, double &b1, double &b2, double *p);
+template <typename T>
+    typename RestrictTo<IsSame<T, double>::value, void>::Type
+    rotmg(T &d1, T &d2, T &b1, T &b2, T *p);
 
 #endif // HAVE_CBLAS
 

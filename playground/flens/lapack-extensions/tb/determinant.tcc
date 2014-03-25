@@ -48,7 +48,6 @@ det(MA &&A)
 
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::ElementType   T;
-    typedef typename MatrixA::IndexType     IndexType;
 
     if (A.diag()==Unit)
         return T(1);

@@ -213,9 +213,9 @@ rot(IndexType n, double *x, IndexType incX, double *y, IndexType incY,
 }
 
 // srotg
-template <typename IndexType>
-typename If<IndexType>::isBlasCompatibleInteger
-rotg(float &a, float &b, float &c, float &s)
+template <typename T>
+typename RestrictTo<IsSame<T, float>::value, void>::Type
+rotg(T &a, T &b, T &c, T &s)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_srotg");
 
@@ -223,9 +223,9 @@ rotg(float &a, float &b, float &c, float &s)
 }
 
 // drotg
-template <typename IndexType>
-typename If<IndexType>::isBlasCompatibleInteger
-rotg(double &a, double &b, double &c, double &s)
+template <typename T>
+typename RestrictTo<IsSame<T, double>::value, void>::Type
+rotg(T &a, T &b, T &c, T &s)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_drotg");
 

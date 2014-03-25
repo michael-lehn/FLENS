@@ -301,6 +301,7 @@ rfs_impl(Transpose               trans,
                                                  work.data(),
                                                  work2.data());
     ASSERT(info==0);
+    FAKE_USE_NDEBUG(info);
 }
 
 } // namespace external

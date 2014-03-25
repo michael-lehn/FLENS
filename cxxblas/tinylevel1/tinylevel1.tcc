@@ -33,9 +33,12 @@
 #ifndef CXXBLAS_TINYLEVEL1_TINYLEVEL1_TCC
 #define CXXBLAS_TINYLEVEL1_TINYLEVEL1_TCC 1
 
+#include <cxxblas/tinylevel1/acxpby.tcc>
 #include <cxxblas/tinylevel1/acxpy.tcc>
+#include <cxxblas/tinylevel1/axpby.tcc>
 #include <cxxblas/tinylevel1/axpy.tcc>
 #include <cxxblas/tinylevel1/copy.tcc>
+#include <cxxblas/tinylevel1/ccopy.tcc>
 #include <cxxblas/tinylevel1/geaxpy.tcc>
 #include <cxxblas/tinylevel1/gecopy.tcc>
 #include <cxxblas/tinylevel1/gerscal.tcc>

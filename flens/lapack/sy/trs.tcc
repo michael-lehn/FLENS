@@ -75,6 +75,7 @@ trs_impl(const SyMatrix<MA> &A, const DenseVector<VP> &piv,
                                        B.data(),
                                        B.leadingDimension());
     ASSERT(info==0);
+    FAKE_USE_NDEBUG(info);
 }
 
 } // namespace external

@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DLARZ( SIDE, M, N, L, V, INCV, TAU, C, LDC, WORK )
+       SUBROUTINE ZLARZ( SIDE, M, N, L, V, INCV, TAU, C, LDC, WORK )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -51,13 +52,13 @@ namespace flens { namespace lapack {
 
 //== larz ======================================================================
 //
-//  Real variant
+//  Real and complex variant
 //
 template <typename VV, typename TAU, typename MC, typename VWORK>
-    typename RestrictTo<IsRealDenseVector<VV>::value
-                     && IsReal<TAU>::value
-                     && IsRealGeMatrix<MC>::value
-                     && IsRealDenseVector<VWORK>::value,
+    typename RestrictTo<IsDenseVector<VV>::value
+                     && (IsReal<TAU>::value || IsComplex<TAU>::value)
+                     && IsGeMatrix<MC>::value
+                     && IsDenseVector<VWORK>::value,
              void>::Type
     larz(Side       side,
          const VV   &v,

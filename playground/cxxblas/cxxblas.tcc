@@ -35,5 +35,6 @@
 
 #include <playground/cxxblas/level1extensions/level1extensions.tcc>
 #include <playground/cxxblas/intrinsics/intrinsics.tcc>
+#include <playground/cxxblas/level3extensions/level3extensions.tcc>
 
 #endif // CXXBLAS_CXXBLAS_TCC

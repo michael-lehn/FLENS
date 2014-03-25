@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DTZRZF( M, N, A, LDA, TAU, WORK, LWORK, INFO )
+       SUBROUTINE ZTZRZF( M, N, A, LDA, TAU, WORK, LWORK, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -54,13 +55,14 @@ namespace flens { namespace lapack {
 //  Real variant
 //
 template <typename MA, typename VTAU, typename VWORK>
-    typename RestrictTo<IsRealGeMatrix<MA>::value
-                     && IsRealDenseVector<VTAU>::value
-                     && IsRealDenseVector<VWORK>::value,
+    typename RestrictTo<IsGeMatrix<MA>::value
+                     && IsDenseVector<VTAU>::value
+                     && IsDenseVector<VWORK>::value,
              void>::Type
     tzrzf(MA           &&A,
           VTAU         &&tau,
           VWORK        &&work);
+
 
 } } // namespace lapack, flens
 

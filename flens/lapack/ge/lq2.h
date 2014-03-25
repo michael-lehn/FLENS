@@ -33,6 +33,7 @@
 /* Based on
  *
       SUBROUTINE DGELQ2( M, N, A, LDA, TAU, WORK, INFO )
+      SUBROUTINE ZGELQ2( M, N, A, LDA, TAU, WORK, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --

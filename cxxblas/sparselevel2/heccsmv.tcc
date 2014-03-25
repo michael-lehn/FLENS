@@ -53,6 +53,8 @@ heccsmv(StorageUpLo      upLo,
         const BETA       &beta,
         VY               *y)
 {
+    CXXBLAS_DEBUG_OUT("heccsmv_generic");
+  
     using cxxblas::conjugate;
 
 //
@@ -114,6 +116,85 @@ heccsmv(StorageUpLo      upLo,
         }
     }
 }
+
+#ifdef HAVE_SPARSEBLAS   
+
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+heccsmv(StorageUpLo             upLo,
+        IndexType               n,
+        const ComplexFloat      &alpha,
+        const ComplexFloat      *A,
+        const IndexType         *ia,
+        const IndexType         *ja,
+        const ComplexFloat      *x,
+        const ComplexFloat      &beta,
+        ComplexFloat            *y)
+{
+    CXXBLAS_DEBUG_OUT("heccsmv -> [" BLAS_IMPL "] ccscmv");
+    
+    char matdescra[5] = { "H*N*" };
+    matdescra[1] = getF77BlasChar(upLo);
+    matdescra[3] = getIndexBaseChar(ia[0]);
+    
+    if (matdescra[3]=='E') {
+         heccsmv<IndexType, ComplexFloat, ComplexFloat, 
+                            ComplexFloat, ComplexFloat, 
+                            ComplexFloat>
+                            (upLo, n, alpha, A, ia, ja, x, beta, y);
+         return;
+    }
+      
+    char transA = 'N';    
+
+    mkl_ccscmv(&transA,
+               &n, &n,               
+               reinterpret_cast<const float*>(&alpha), &matdescra[0],
+               reinterpret_cast<const float*>(A), ia, ja, ja+1,
+               reinterpret_cast<const float*>(x),
+               reinterpret_cast<const float*>(&beta), 
+               reinterpret_cast<float*>(y));
+    
+}
+
+template <typename IndexType>
+typename If<IndexType>::isBlasCompatibleInteger
+heccsmv(StorageUpLo             upLo,
+        IndexType               n,
+        const ComplexDouble     &alpha,
+        const ComplexDouble     *A,
+        const IndexType         *ia,
+        const IndexType         *ja,
+        const ComplexDouble     *x,
+        const ComplexDouble     &beta,
+        ComplexDouble           *y)
+{
+    CXXBLAS_DEBUG_OUT("heccsmv -> [" BLAS_IMPL "] zcscmv");
+    
+    char matdescra[5] = { "H*N*" };
+    matdescra[1] = getF77BlasChar(upLo);
+    matdescra[3] = getIndexBaseChar(ia[0]);
+    
+    if (matdescra[3]=='E') {
+         heccsmv<IndexType, ComplexDouble, ComplexDouble, 
+                            ComplexDouble, ComplexDouble, 
+                            ComplexDouble>
+                            (upLo, n, alpha, A, ia, ja, x, beta, y);
+         return;
+    }
+    char transA = 'N';    
+    
+    mkl_zcscmv(&transA,
+              &n, &n,               
+              reinterpret_cast<const double*>(&alpha), &matdescra[0],
+              reinterpret_cast<const double*>(A), ia, ja, ja+1,
+              reinterpret_cast<const double*>(x),
+              reinterpret_cast<const double*>(&beta), 
+              reinterpret_cast<double*>(y));
+    
+}
+
+#endif
 
 } // namespace cxxblas
 

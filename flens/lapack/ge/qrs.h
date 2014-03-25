@@ -34,6 +34,8 @@
  *
       SUBROUTINE DGEQRS( M, N, NRHS, A, LDA, TAU, B, LDB, WORK, LWORK,
      $                   INFO )
+      SUBROUTINE ZGEQRS( M, N, NRHS, A, LDA, TAU, B, LDB, WORK, LWORK,
+     $                   INFO )
  *
  *  -- LAPACK routine (version 3.0) --
  *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -58,9 +60,17 @@ template <typename MA, typename VTAU, typename MB, typename VWORK>
 
 //-- qrs -----------------------------------------------------------------------
 template <typename MA, typename VTAU, typename MB, typename VWORK>
-    void
+    typename RestrictTo<IsReal<typename GeMatrix<MA>::ElementType>::value,
+             void>::Type
     qrs(GeMatrix<MA> &A, const DenseVector<VTAU> &tau, GeMatrix<MB> &B,
         DenseVector<VWORK> &work);
+    
+template <typename MA, typename VTAU, typename MB, typename VWORK>
+    typename RestrictTo<IsComplex<typename GeMatrix<MA>::ElementType>::value,
+             void>::Type
+    qrs(GeMatrix<MA> &A, const DenseVector<VTAU> &tau, GeMatrix<MB> &B,
+        DenseVector<VWORK> &work);
+    
 
 } } // namespace lapack, flens
 

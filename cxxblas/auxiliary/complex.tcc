@@ -39,42 +39,54 @@
 namespace cxxblas {
 
 template <typename T>
-const T &
+typename
+flens::RestrictTo<std::is_arithmetic<T>::value,
+               const T &>::Type
 conjugate(const T &x)
 {
     return x;
 }
 
 template <typename T>
-std::complex<T>
+typename
+flens::RestrictTo<std::is_arithmetic<T>::value,
+               std::complex<T> >::Type
 conjugate(const std::complex<T> &x)
 {
     return std::conj(x);
 }
 
 template <typename T>
-const T &
+typename
+flens::RestrictTo<std::is_arithmetic<T>::value,
+               const T & >::Type
 real(const T &x)
 {
     return x;
 }
 
 template <typename T>
-const T
+typename
+flens::RestrictTo<std::is_arithmetic<T>::value,
+               const T >::Type
 real(const std::complex<T> &x)
 {
     return std::real(x);
 }
 
 template <typename T>
-const T
+typename
+flens::RestrictTo<std::is_arithmetic<T>::value,
+               const T >::Type
 imag(const T &)
 {
     return T(0);
 }
 
 template <typename T>
-const T
+typename
+flens::RestrictTo<std::is_arithmetic<T>::value,
+               const T >::Type
 imag(const std::complex<T> &x)
 {
     return std::imag(x);

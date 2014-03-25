@@ -127,6 +127,26 @@ TrMatrix<FS>::operator=(const Matrix<RHS> &rhs)
 }
 
 template <typename FS>
+template <typename RHS>
+TrMatrix<FS> &
+TrMatrix<FS>::operator+=(const Matrix<RHS> &rhs)
+{
+    ASSERT(this->diag()==NonUnit);
+    plusAssign(rhs, *this);
+    return *this;
+}
+
+template <typename FS>
+template <typename RHS>
+TrMatrix<FS> &
+TrMatrix<FS>::operator-=(const Matrix<RHS> &rhs)
+{
+    ASSERT(this->diag()==NonUnit);
+    minusAssign(rhs, *this);
+    return *this;
+}
+
+template <typename FS>
 const typename TrMatrix<FS>::ElementType &
 TrMatrix<FS>::operator()(IndexType row, IndexType col) const
 {

@@ -35,4 +35,6 @@
 
 #include <playground/cxxblas/level1extensions/level1extensions.h>
 #include <playground/cxxblas/intrinsics/intrinsics.h>
+#include <playground/cxxblas/level3extensions/level3extensions.h>
+
 #endif // PLAYGROUND_CXXBLAS_CXXBLAS_H

@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DLAUUM( UPLO, N, A, LDA, INFO )
+       SUBROUTINE ZLAUUM( UPLO, N, A, LDA, INFO )
  *
  *  -- LAPACK auxiliary routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -53,8 +54,10 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
+//-- lauum [real variant] ------------------------------------------------------
 template <typename MA>
-void
+typename RestrictTo<IsReal<typename TrMatrix<MA>::ElementType>::value,
+                    void>::Type
 lauum_impl(TrMatrix<MA> &A)
 {
     using std::min;
@@ -140,6 +143,97 @@ lauum_impl(TrMatrix<MA> &A)
     }
 }
 
+//-- lauum [complex variant] ---------------------------------------------------
+template <typename MA>
+typename RestrictTo<IsComplex<typename TrMatrix<MA>::ElementType>::value,
+                    void>::Type
+lauum_impl(TrMatrix<MA> &A)
+{
+    using std::min;
+
+    typedef typename TrMatrix<MA>::ElementType                ElementType;
+    typedef typename ComplexTrait<ElementType>::PrimitiveType PrimitiveType;
+    typedef typename TrMatrix<MA>::IndexType                  IndexType;
+
+    const ElementType            COne(1);
+    const PrimitiveType          One(1);
+    const IndexType              n = A.dim();
+    const Underscore<IndexType>  _;
+
+    const bool upper = (A.upLo()==Upper);
+//
+//  Quick return if possible
+//
+    if (n==0) {
+        return;
+    }
+//
+//  Determine the block size for this environment.
+//
+    const char *upLo = (upper) ? "U" : "L";
+    const IndexType nb = ilaenv<ElementType>(1, "LAUUM", upLo, n);
+
+    if (nb<=1 || nb>=n) {
+//
+//      Use unblocked code
+//
+        lauu2(A);
+    } else {
+//
+//      Use blocked code
+//
+        if (upper) {
+//
+//          Compute the product U * U**H.
+//
+            for (IndexType i=1; i<=n; i+=nb) {
+                const IndexType ib = min(nb, n-i+1);
+
+                const auto range1 = _(1,i-1);
+                const auto range2 = _(i,i+ib-1);
+                const auto range3 = _(i+ib,n);
+
+                auto A12       = A(range1,range2);
+                const auto A13 = A(range1,range3);
+                auto U22       = A(range2,range2).upper();
+                auto A22       = U22.hermitian();
+                const auto A23 = A(range2,range3);
+
+                blas::mm(Right, ConjTrans, COne, U22, A12);
+                lauu2(U22);
+                if (i+ib<=n) {
+                    blas::mm(NoTrans, ConjTrans, COne, A13, A23, COne, A12);
+                    blas::rk(NoTrans, One, A23, One, A22);
+                }
+            }
+        } else {
+//
+//          Compute the product L**H * L.
+//
+            for (IndexType i=1; i<=n; i+=nb) {
+                const IndexType ib = min(nb, n-i+1);
+
+                const auto range1 = _(1,i-1);
+                const auto range2 = _(i,i+ib-1);
+                const auto range3 = _(i+ib,n);
+
+                auto A21       = A(range2,range1);
+                const auto A31 = A(range3,range1);
+                auto L22       = A(range2,range2).lower();
+                auto A22       = L22.hermitian();
+                const auto A32 = A(range3,range2);
+
+                blas::mm(Left, ConjTrans, COne, L22, A21);
+                lauu2(L22);
+                if (i+ib<=n) {
+                    blas::mm(ConjTrans, NoTrans, COne, A32, A31, COne, A21);
+                    blas::rk(ConjTrans, One, A32, One, A22);
+                }
+            }
+        }
+    }
+}
+
 } // namespace generic
 
 //== interface for native lapack ===============================================
@@ -171,6 +265,7 @@ template <typename MA>
 void
 lauum(TrMatrix<MA> &A)
 {
+
 //
 //  Test the input parameters
 //

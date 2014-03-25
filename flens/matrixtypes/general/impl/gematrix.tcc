@@ -554,10 +554,9 @@ const typename GeMatrix<FS>::ConstView
 GeMatrix<FS>::operator()(const Range<IndexType> &rows,
                          const Range<IndexType> &cols) const
 {
-    ASSERT(rows.stride()==IndexType(1));
-    ASSERT(cols.stride()==IndexType(1));
     return engine().view(rows.firstIndex(), cols.firstIndex(),
-                         rows.lastIndex(), cols.lastIndex());
+                         rows.lastIndex(), cols.lastIndex(),
+                         rows.stride(), cols.stride());
 }
 
 template <typename FS>
@@ -565,10 +564,9 @@ typename GeMatrix<FS>::View
 GeMatrix<FS>::operator()(const Range<IndexType> &rows,
                          const Range<IndexType> &cols)
 {
-    ASSERT(rows.stride()==IndexType(1));
-    ASSERT(cols.stride()==IndexType(1));
     return engine().view(rows.firstIndex(), cols.firstIndex(),
-                         rows.lastIndex(), cols.lastIndex());
+                         rows.lastIndex(), cols.lastIndex(),
+                         rows.stride(), cols.stride());
 }
 
 template <typename FS>
@@ -595,9 +593,9 @@ const typename GeMatrix<FS>::ConstView
 GeMatrix<FS>::operator()(const Underscore<IndexType> &,
                          const Range<IndexType> &cols) const
 {
-    ASSERT(cols.stride()==IndexType(1));
     return engine().view(firstRow(), cols.firstIndex(),
-                         lastRow(), cols.lastIndex());
+                         lastRow(), cols.lastIndex(),
+                         IndexType(1), cols.stride());
 }
 
 template <typename FS>
@@ -605,9 +603,9 @@ typename GeMatrix<FS>::View
 GeMatrix<FS>::operator()(const Underscore<IndexType> &,
                          const Range<IndexType> &cols)
 {
-    ASSERT(cols.stride()==IndexType(1));
     return engine().view(firstRow(), cols.firstIndex(),
-                         lastRow(), cols.lastIndex());
+                         lastRow(), cols.lastIndex(),
+                         IndexType(1), cols.stride());
 }
 
 // rectangular views (all columns selected)
@@ -616,9 +614,9 @@ const typename GeMatrix<FS>::ConstView
 GeMatrix<FS>::operator()(const Range<IndexType> &rows,
                          const Underscore<IndexType> &) const
 {
-    ASSERT(rows.stride()==IndexType(1));
     return engine().view(rows.firstIndex(), firstCol(),
-                         rows.lastIndex(), lastCol());
+                         rows.lastIndex(), lastCol(),
+                         rows.stride(), IndexType(1));
 }
 
 template <typename FS>
@@ -626,9 +624,9 @@ typename GeMatrix<FS>::View
 GeMatrix<FS>::operator()(const Range<IndexType> &rows,
                          const Underscore<IndexType> &)
 {
-    ASSERT(rows.stride()==IndexType(1));
     return engine().view(rows.firstIndex(), firstCol(),
-                         rows.lastIndex(), lastCol());
+                         rows.lastIndex(), lastCol(),
+                         rows.stride(), IndexType(1));
 }
 
 // row view (vector view)

@@ -34,6 +34,8 @@
  *
       SUBROUTINE DGEQRS( M, N, NRHS, A, LDA, TAU, B, LDB, WORK, LWORK,
      $                   INFO )
+      SUBROUTINE ZGEQRS( M, N, NRHS, A, LDA, TAU, B, LDB, WORK, LWORK,
+     $                   INFO )     
  *
  *  -- LAPACK routine (version 3.0) --
  *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -49,9 +51,10 @@
 
 namespace flens { namespace lapack {
 
-//-- qrs -----------------------------------------------------------------------
+//-- qrs [real] ----------------------------------------------------------------
 template <typename MA, typename VTAU, typename MB, typename VWORK>
-void
+typename RestrictTo<IsReal<typename GeMatrix<MA>::ElementType>::value,
+         void>::Type
 qrs(GeMatrix<MA> &A, const DenseVector<VTAU> &tau, GeMatrix<MB> &B,
     DenseVector<VWORK> &work)
 {
@@ -76,6 +79,40 @@ qrs(GeMatrix<MA> &A, const DenseVector<VTAU> &tau, GeMatrix<MB> &B,
 //  B := Q' * B
 //
     ormqr(Left, Trans, A, tau, B, work);
+//
+//  Solve R*X = B(1:n,:)
+//
+    blas::sm(Left, NoTrans, T(1), A.upper(), B);
+}
+
+//-- qrs [complex] --------------------------------------------------------------
+template <typename MA, typename VTAU, typename MB, typename VWORK>
+typename RestrictTo<IsComplex<typename GeMatrix<MA>::ElementType>::value,
+         void>::Type
+qrs(GeMatrix<MA> &A, const DenseVector<VTAU> &tau, GeMatrix<MB> &B,
+    DenseVector<VWORK> &work)
+{
+    ASSERT(work.length()>=B.numCols());
+
+    typedef typename GeMatrix<MA>::IndexType    IndexType;
+    typedef typename GeMatrix<MA>::ElementType  T;
+
+    const Underscore<IndexType> _;
+
+    const IndexType m = A.numRows();
+    const IndexType n = A.numCols();
+    const IndexType nRhs = B.numCols();
+
+//
+//  Quick return if possible
+//
+    if ((n==0) || (nRhs==0) || (m==0)) {
+        return;
+    }
+//
+//  B := Q' * B
+//
+    unmqr(Left, ConjTrans, A, tau, B, work);
 //
 //  Solve R*X = B(1:n,:)
 //

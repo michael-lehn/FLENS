@@ -58,7 +58,7 @@ typename RestrictTo<DefaultEval<MatrixClosureRU<VX, VY> >::value
                  && IsVector<VY>::value
                  && IsGeneralMatrix<MA>::value,
          void>::Type
-axpy(Transpose trans, const ALPHA &alpha,
+axpy(Transpose DEBUG_VAR(trans), const ALPHA &alpha,
      const MatrixClosureRU<VX, VY> &xyt, MA &A)
 {
     // Lehn: keep it simple for the moment
@@ -83,7 +83,7 @@ typename RestrictTo<DefaultEval<MatrixClosureRC<VX, VY> >::value
                  && IsVector<VY>::value
                  && IsGeneralMatrix<MA>::value,
          void>::Type
-axpy(Transpose trans, const ALPHA &alpha,
+axpy(Transpose DEBUG_VAR(trans), const ALPHA &alpha,
      const MatrixClosureRC<VX, VY> &xyh, MA &A)
 {
     // Lehn: keep it simple for the moment
@@ -109,7 +109,7 @@ typename RestrictTo<DefaultEval<MatrixClosureRU<VX, VY> >::value
                  && IsVector<VY>::value
                  && IsSymmetricMatrix<MA>::value,
          void>::Type
-axpy(Transpose trans, const ALPHA &alpha,
+axpy(Transpose DEBUG_VAR(trans), const ALPHA &alpha,
      const MatrixClosureRU<VX, VY> &xxt, MA &A)
 {
     ASSERT(trans==Trans || trans==NoTrans);
@@ -140,12 +140,12 @@ typename RestrictTo<DefaultEval<MatrixClosureRC<VX, VY> >::value
                  && IsVector<VY>::value
                  && IsHermitianMatrix<MA>::value,
          void>::Type
-axpy(Transpose trans, const ALPHA &alpha,
+axpy(Transpose DEBUG_VAR(trans), const ALPHA &alpha,
      const MatrixClosureRC<VX, VY> &xxh, MA &A)
 {
     // Lehn: keep it simple for the moment
     ASSERT(trans==NoTrans);
-
+    
     using namespace DEBUGCLOSURE;
 
     typedef typename PruneScaling<VX>::Remainder    RVX;

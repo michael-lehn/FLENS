@@ -44,6 +44,15 @@
 namespace flens { namespace blas {
 
 //-- vector closures -----------------------------------------------------------
+
+// y += conjugate(x)
+template <typename ALPHA, typename VL, typename VR, typename VY>
+    typename RestrictTo<VCDefaultEval<OpConj, VL, VR>::value
+                     && IsVector<VL>::value
+                     && IsVector<VR>::value,
+             void>::Type
+    axpy(const ALPHA &alpha, const VectorClosure<OpConj, VL, VR> &x, Vector<VY> &y);
+    
 // y += x1 + x2
 template <typename ALPHA, typename VL, typename VR, typename VY>
     typename RestrictTo<VCDefaultEval<OpAdd, VL, VR>::value
@@ -73,7 +82,7 @@ template <typename ALPHA, typename SV, typename VX, typename VY>
 
 // y += x/scalar
 template <typename ALPHA, typename VX, typename SV, typename VY>
-    typename RestrictTo<VCDefaultEval<OpMult, VX, SV>::value
+    typename RestrictTo<VCDefaultEval<OpDiv, VX, SV>::value
                      && IsScalarValue<SV>::value
                      && IsVector<VX>::value,
              void>::Type

@@ -1,0 +1,22 @@
+CXX = g++
+CXX = clang++
+SOURCE_FILES = $(wildcard *.cc)
+OBJECT_FILES = $(patsubst %.cc,%.o,$(SOURCE_FILES))
+TARGETS      = $(patsubst %.cc,%,$(SOURCE_FILES))
+
+CXXFLAGS    += -O3 -I../../../.. -std=c++11
+#CXXFLAGS    += -DNDEBUG
+#CXXFLAGS    += -DUSE_PLAYGROUND -DWITH_AVX -mavx
+CXXFLAGS    += -DADD_DOUBLE_UNDERSCORE
+#CXXFLAGS    += -DWITH_OPENBLAS
+CXXFLAGS    += -DCXXBLAS_DEBUG
+LDFLAGS     +=
+
+FLENSBLAS  = blas_FLENS.a
+
+all : $(OBJECT_FILES)
+	ar crs $(FLENSBLAS) $(OBJECT_FILES)
+	ranlib $(FLENSBLAS)
+
+clean:
+	$(RM) $(TARGETS) $(OBJECT_FILES) $(FLENSBLAS)

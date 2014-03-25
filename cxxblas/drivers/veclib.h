@@ -40,4 +40,15 @@
 #       define CBLAS_INDEX  int
 #   endif // CBLAS_INDEX
 
+// BLAS extensions
+#ifndef HAVE_CBLAS_AXPBY
+#    define HAVE_CBLAS_AXPBY
+#    define BLAS_EXT(x)     catlas_##x
+#endif
+
+// VECLIB includes LAPACK interface
+#ifndef USE_CXXLAPACK
+#    define USE_CXXLAPACK       1
+#endif
+
 #endif // CXXBLAS_DRIVERS_VECLIB_H

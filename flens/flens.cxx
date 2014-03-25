@@ -34,15 +34,19 @@
 #define FLENS_FLENS_CXX 1
 
 #ifdef __INTEL_COMPILER
-#    define STD_HACK
+     static_assert(__INTEL_COMPILER>=1200, "Intel icc Version 12 or higher required!");
+#    if __INTEL_COMPILER<1300
+#        define STD_HACK
+#    endif
 #elif __clang__
 #    define STD_HACK
 #elif __GNUC__
+     static_assert(__GNUG__>=4 && __GNUC_MINOR__>=7, "GNU GCC Version 4.7 or higher required!");
 #    define GCC_HACK
 #    define INCLUDE_TYPE_TRAITS
 #endif
 
-#ifdef STD_HACK
+#if defined(STD_HACK) && !(defined(NO_STD_HACK))
 #   include <flens/hacks/std.h>
 #endif
 

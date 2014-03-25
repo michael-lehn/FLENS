@@ -44,6 +44,9 @@ template <int m, int n, typename MA, int ldA, typename MB, int ldB>
 void
 gecopy(Transpose trans, const MA *A, MB *B)
 {
+
+    CXXBLAS_DEBUG_OUT("gecopy [tiny]");
+
     if (trans==NoTrans) {
         if ((ldA==n) && (ldB==n)) {
             copy<m*n, MA, 1, MB, 1>(A, B);

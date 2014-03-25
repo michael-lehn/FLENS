@@ -68,7 +68,8 @@ template <typename T>
 struct is_floating_point
 {
     static const bool value = flens::IsSame<T, float>::value
-                           || flens::IsSame<T, double>::value;
+                           || flens::IsSame<T, double>::value
+                           || flens::IsSame<T, long double>::value;
 };
 
 template <>
@@ -87,13 +88,14 @@ struct is_integral
                            || flens::IsSame<T, long>::value;
 };
 
-template <typename X>
-string
-to_string(const X &__val)
+//
+// is_arithmetic
+//
+template <typename T>
+struct is_arithmetic
 {
-    stringstream s;
-    s << __val;
-    return s.str();
+    static const bool value = std::is_integral <T>::value
+                           || std::is_floating_point <T>::value;
 };
 
 } // namespace std

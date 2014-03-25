@@ -127,7 +127,7 @@ larft(char                          direct,
       std::complex<double>          *T,
       IndexType                     ldT)
 {
-    CXXLAPACK_DEBUG_OUT("dlarft");
+    CXXLAPACK_DEBUG_OUT("zlarft");
 
     LAPACK_IMPL(zlarft)(&direct,
                         &storev,

@@ -60,8 +60,6 @@ template <typename MA, typename VTAU, typename VWORK>
              void>::Type
     lqf(MA &&A, VTAU &&tau, VWORK &&work);
 
-
-#ifdef USE_CXXLAPACK
 //
 //  Complex variant
 //
@@ -71,8 +69,6 @@ template <typename MA, typename VTAU, typename VWORK>
                      && IsComplexDenseVector<VWORK>::value,
              void>::Type
     lqf(MA &&A, VTAU &&tau, VWORK &&work);
-
-#endif // USE_CXXLAPACK
 
 
 //

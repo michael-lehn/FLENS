@@ -33,6 +33,8 @@
 #ifndef PLAYGROUND_CXXBLAS_INTRINSICS_AUXILIARY_AUXILIARY_H
 #define PLAYGROUND_CXXBLAS_INTRINSICS_AUXILIARY_AUXILIARY_H 1
 
+#include <playground/cxxblas/intrinsics/auxiliary/cachesize.h>
+#include <playground/cxxblas/intrinsics/auxiliary/iscompatible.h>
 #include <playground/cxxblas/intrinsics/auxiliary/addtranspose.h>
 #include <playground/cxxblas/intrinsics/auxiliary/distaligned.h>
 #include <playground/cxxblas/intrinsics/auxiliary/isaligned.h>

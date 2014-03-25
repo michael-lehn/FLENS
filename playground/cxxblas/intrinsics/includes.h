@@ -120,16 +120,6 @@ enum IntrinsicsLevel {
 #   define DEFAULT_INTRINSIC_LEVEL IntrinsicsLevel::NONE
 #endif
 
-#ifndef L1_CACHE_SIZE
-#    define L1_CACHE_SIZE    32*1024
-#endif
-#ifndef L2_CACHE_SIZE
-#    define L2_CACHE_SIZE    256*1024
-#endif
-#ifndef L3_CACHE_SIZE
-#    define L3_CACHE_SIZE    3*1024*1024
-#endif
-
 #ifndef ASM_COMMENT
 #    define ASM_COMMENT(X)  asm("#" X)
 #endif

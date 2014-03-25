@@ -53,8 +53,6 @@
 
 namespace flens { namespace lapack {
 
-#ifdef USE_CXXLAPACK
-
 //== (tb)trs ===================================================================
 //
 //  Real and complex variant
@@ -72,8 +70,6 @@ template <typename MA, typename VB>
                      && IsDenseVector<VB>::value,
              typename RemoveRef<MA>::Type::IndexType>::Type
     trs(Transpose trans, const MA &A, VB &&b);
-
-#endif // USE_CXXLAPACK
 
 } } // namespace lapack, flens
 

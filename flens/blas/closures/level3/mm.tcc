@@ -68,8 +68,8 @@ typename RestrictTo<IsTriangularMatrix<MA>::value &&
                     IsGeneralMatrix<MB>::value &&
                     IsGeneralMatrix<MC>::value,
          void>::Type
-trmm(Side side, Transpose transA, Transpose transB, const ALPHA &alpha,
-     const MA &_A, const MB &_B, const BETA &beta, MC &C)
+trmm(Side side, Transpose transA, Transpose DEBUG_VAR(transB), const ALPHA &alpha,
+     const MA &_A, const MB &_B, const BETA &DEBUG_VAR(beta), MC &C)
 {
     using namespace DEBUGCLOSURE;
 
@@ -105,6 +105,9 @@ trmm(Side side, Transpose transA, Transpose transB, const ALPHA &alpha,
     ASSERT(transB==NoTrans);
     ASSERT(!identical(A, C));
 #   else
+
+    typedef typename Result<MC>::Type  RMC;
+
     if (transB!=NoTrans) {
 //
 //      apply op(B) and recall trmm
@@ -184,7 +187,7 @@ mm(Transpose transA, Transpose transB, const ALPHA &alpha,
 //== SymmetricMatrix - GeneralMatrix products ==================================
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 void
-symm(Side side, Transpose transB, const ALPHA &alpha,
+symm(Side side, Transpose DEBUG_VAR(transB), const ALPHA &alpha,
      const SymmetricMatrix<MA> &_A, const GeneralMatrix<MB> &_B,
      const BETA &beta, Matrix<MC> &C)
 {
@@ -246,7 +249,7 @@ symm(Side side, Transpose transB, const ALPHA &alpha,
 
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 void
-mm(Transpose transA, Transpose transB, const ALPHA &alpha,
+mm(Transpose DEBUG_VAR(transA), Transpose transB, const ALPHA &alpha,
    const SymmetricMatrix<MA> &A, const GeneralMatrix<MB> &B,
    const BETA &beta, Matrix<MC> &C)
 {
@@ -256,7 +259,7 @@ mm(Transpose transA, Transpose transB, const ALPHA &alpha,
 
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 void
-mm(Transpose transA, Transpose transB, const ALPHA &alpha,
+mm(Transpose DEBUG_VAR(transA), Transpose transB, const ALPHA &alpha,
    const GeneralMatrix<MA> &A, const SymmetricMatrix<MB> &B,
    const BETA &beta, Matrix<MC> &C)
 {
@@ -269,7 +272,7 @@ mm(Transpose transA, Transpose transB, const ALPHA &alpha,
 
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 void
-hemm(Side side, Transpose transB, const ALPHA &alpha,
+hemm(Side side, Transpose DEBUG_VAR(transB), const ALPHA &alpha,
      const HermitianMatrix<MA> &_A, const GeneralMatrix<MB> &_B,
      const BETA &beta, Matrix<MC> &C)
 {
@@ -332,7 +335,7 @@ hemm(Side side, Transpose transB, const ALPHA &alpha,
 
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 void
-mm(Transpose transA, Transpose transB, const ALPHA &alpha,
+mm(Transpose DEBUG_VAR(transA), Transpose transB, const ALPHA &alpha,
    const HermitianMatrix<MA> &A, const GeneralMatrix<MB> &B,
    const BETA &beta, Matrix<MC> &C)
 {
@@ -342,7 +345,7 @@ mm(Transpose transA, Transpose transB, const ALPHA &alpha,
 
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
 void
-mm(Transpose transA, Transpose transB, const ALPHA &alpha,
+mm(Transpose DEBUG_VAR(transA), Transpose transB, const ALPHA &alpha,
    const GeneralMatrix<MA> &A, const HermitianMatrix<MB> &B,
    const BETA &beta, Matrix<MC> &C)
 {

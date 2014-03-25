@@ -35,5 +35,6 @@
 
 #include<playground/flens/blas-extensions/level1/prod.tcc>
 #include<playground/flens/blas-extensions/level1/sum.tcc>
+#include<playground/flens/blas-extensions/level3/mm.tcc>
 
 #endif // PLAYGROUND_FLENS_BLASEXTENSIONS_BLASEXTENSIONS_TCC

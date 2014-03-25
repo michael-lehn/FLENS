@@ -11,7 +11,15 @@ BLAS(srotg)(float   *A,
             float   *C,
             float   *S)
 {
-    blas::rotg(*A, *B, *C, *S);
+#   ifdef TEST_DIRECT_CBLAS
+    
+        cblas_srotg(A, B, C, S);
+    
+#   else
+    
+        blas::rotg(*A, *B, *C, *S);
+    
+#   endif
 }
 
 void
@@ -20,7 +28,15 @@ BLAS(drotg)(double  *A,
             double  *C,
             double  *S)
 {
-    blas::rotg(*A, *B, *C, *S);
+#   ifdef TEST_DIRECT_CBLAS
+    
+        cblas_drotg(A, B, C, S);
+    
+#   else
+    
+        blas::rotg(*A, *B, *C, *S);
+    
+#   endif
 }
 
 void

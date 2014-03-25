@@ -365,7 +365,7 @@ ormqr(Side         side,
 //  Test the input parameters
 //
 #   ifndef NDEBUG
-    typedef typename MatrixC::IndexType     IndexType;
+    typedef typename MatrixA::IndexType     IndexType;
 
     const IndexType m = C.numRows();
     const IndexType n = C.numCols();

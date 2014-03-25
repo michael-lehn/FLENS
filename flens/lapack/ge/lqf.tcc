@@ -53,7 +53,7 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
-//-- (ge)lqf [real variant] ----------------------------------------------------
+//-- (ge)lqf [real and complex variant] ----------------------------------------
 
 template <typename MA, typename VTAU, typename VWORK>
 void
@@ -205,6 +205,7 @@ lqf_impl(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
                                                  work.data(),
                                                  work.length());
     ASSERT(info==0);
+    FAKE_USE_NDEBUG(info);
 }
 
 } // namespace external
@@ -223,16 +224,14 @@ typename RestrictTo<IsRealGeMatrix<MA>::value
          void>::Type
 lqf(MA &&A, VTAU &&tau, VWORK &&work)
 {
+    LAPACK_DEBUG_OUT("lqf [real]");
+    
     using std::min;
 //
 //  Remove references from rvalue types
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::IndexType     IndexType;
-#   ifdef CHECK_CXXLAPACK
-    typedef typename RemoveRef<VTAU>::Type  VectorTau;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
-#   endif
 
     const IndexType m = A.numRows();
     const IndexType n = A.numCols();
@@ -256,6 +255,10 @@ lqf(MA &&A, VTAU &&tau, VWORK &&work)
     }
 
 #   ifdef CHECK_CXXLAPACK
+
+    typedef typename RemoveRef<VTAU>::Type  VectorTau;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+    
 //
 //  Make copies of output arguments
 //
@@ -319,7 +322,6 @@ lqf(MA &&A, VTAU &&tau, VWORK &&work)
 
 //-- (ge)lqf [complex variant] -------------------------------------------------
 
-#ifdef USE_CXXLAPACK
 
 template <typename MA, typename VTAU, typename VWORK>
 typename RestrictTo<IsComplexGeMatrix<MA>::value
@@ -328,16 +330,15 @@ typename RestrictTo<IsComplexGeMatrix<MA>::value
          void>::Type
 lqf(MA &&A, VTAU &&tau, VWORK &&work)
 {
+
+    LAPACK_DEBUG_OUT("lqf [complex]");
+    
     using std::min;
 //
 //  Remove references from rvalue types
 //
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::IndexType     IndexType;
-#   ifdef CHECK_CXXLAPACK
-    typedef typename RemoveRef<VTAU>::Type  VectorTau;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
-#   endif
 
     const IndexType m = A.numRows();
     const IndexType n = A.numCols();
@@ -361,6 +362,10 @@ lqf(MA &&A, VTAU &&tau, VWORK &&work)
     }
 
 #   ifdef CHECK_CXXLAPACK
+
+    typedef typename RemoveRef<VTAU>::Type  VectorTau;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+    
 //
 //  Make copies of output arguments
 //
@@ -372,10 +377,55 @@ lqf(MA &&A, VTAU &&tau, VWORK &&work)
 //
 //  Call implementation
 //
-    external::lqf_impl(A, tau, work);
-}
+    LAPACK_SELECT::lqf_impl(A, tau, work);
 
-#endif // USE_CXXLAPACK
+#   ifdef CHECK_CXXLAPACK
+//
+//  Restore output parameters
+//
+    typename MatrixA::NoView        A_generic    = A;
+    typename VectorTau::NoView      tau_generic  = tau;
+    typename VectorWork::NoView     work_generic = work;
+
+    A = A_org;
+    tau = tau_org;
+
+    // if the generic implementation resized work due to a work size query
+    // we must not restore the work array
+    if (work_org.length()>0) {
+        work = work_org;
+    } else {
+        work = 0;
+    }
+//
+//  Compare results
+//
+    external::lqf_impl(A, tau, work);
+
+    bool failed = false;
+    if (! isIdentical(A_generic, A, "A_generic", "A")) {
+        std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
+        std::cerr << "F77LAPACK: A = " << A << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(tau_generic, tau, "tau_generic", "tau")) {
+        std::cerr << "CXXLAPACK: tau_generic = " << tau_generic << std::endl;
+        std::cerr << "F77LAPACK: tau = " << tau << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(work_generic, work, "work_generic", "work")) {
+        std::cerr << "CXXLAPACK: work_generic = " << work_generic << std::endl;
+        std::cerr << "F77LAPACK: work = " << work << std::endl;
+        failed = true;
+    }
+
+    if (failed) {
+        ASSERT(0);
+    }
+#   endif
+}
 
 
 //

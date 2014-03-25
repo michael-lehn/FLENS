@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DPOTF2( UPLO, N, A, LDA, INFO )
+       SUBROUTINE ZPOTF2( UPLO, N, A, LDA, INFO )       
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -53,6 +54,7 @@ namespace flens { namespace lapack {
 
 namespace generic {
 
+//-- potf2 [real variant] ------------------------------------------------------
 template <typename MA>
 typename SyMatrix<MA>::IndexType
 potf2_impl(SyMatrix<MA> &A)
@@ -147,25 +149,28 @@ potf2_impl(SyMatrix<MA> &A)
     return info;
 }
 
+//-- potf2 [complex variant] ---------------------------------------------------
 template <typename MA>
 typename HeMatrix<MA>::IndexType
 potf2_impl(HeMatrix<MA> &A)
 {
+    using std::imag;
+    using std::real;
     using std::isnan;
     using std::sqrt;
 
-    typedef typename HeMatrix<MA>::ElementType        T;
-    typedef typename ComplexTrait<T>::PrimitiveType   PT;
-    typedef typename HeMatrix<MA>::IndexType          IndexType;
+    typedef typename HeMatrix<MA>::ElementType      T;
+    typedef typename ComplexTrait<T>::PrimitiveType PT;
+    typedef typename HeMatrix<MA>::IndexType        IndexType;
 
     const Underscore<IndexType> _;
 
     const IndexType n = A.dim();
     const bool upper = (A.upLo()==Upper);
 
-    const PT  Zero(0), One(1);
-    const T   COne(1);
-
+    const PT Zero(0), One(1);
+    const T  COne(1);
+    
     IndexType info = 0;
 //
 //  Quick return if possible
@@ -175,7 +180,7 @@ potf2_impl(HeMatrix<MA> &A)
     }
     if (upper) {
 //
-//      Compute the Cholesky factorization A = U**H *U.
+//      Compute the Cholesky factorization A = U**T *U.
 //
         for (IndexType j=1; j<=n; ++j) {
 //
@@ -190,7 +195,7 @@ potf2_impl(HeMatrix<MA> &A)
 //
 //          Compute U(J,J) and test for non-positive-definiteness.
 //
-            PT a22 = cxxblas::real(A(j,j) - conjugate(a12)*a12);
+            PT a22 = real(A(j,j) - blas::dotc(a12,a12));
             if (a22<=Zero || isnan(a22)) {
                 A(j,j) = a22;
                 info = j;
@@ -202,15 +207,15 @@ potf2_impl(HeMatrix<MA> &A)
 //          Compute elements J+1:N of row J.
 //
             if (j<n) {
-                blas::conj(a12);
+                imag(a12) *= -One;
                 blas::mv(Trans, -COne, A13, a12, COne, a23);
-                blas::conj(a12);
+                imag(a12) *= -One;
                 a23 *= One / a22;
             }
         }
     } else {
 //
-//      Compute the Cholesky factorization A = L*L**H.
+//      Compute the Cholesky factorization A = L*L**T.
 //
         for (IndexType j=1; j<=n; ++j) {
 //
@@ -225,7 +230,7 @@ potf2_impl(HeMatrix<MA> &A)
 //
 //          Compute L(J,J) and test for non-positive-definiteness.
 //
-            PT a22 = cxxblas::real(A(j,j) - conjugate(a21)*a21);
+            PT a22 = real(A(j,j) - blas::dotc(a21,a21));
             if (a22<=Zero || isnan(a22)) {
                 A(j,j) = a22;
                 info = j;
@@ -237,16 +242,15 @@ potf2_impl(HeMatrix<MA> &A)
 //          Compute elements J+1:N of column J.
 //
             if (j<n) {
-                blas::conj(a21);
+                imag(a21) *= -One;
                 blas::mv(NoTrans, -COne, A31, a21, COne, a32);
-                blas::conj(a21);
+                imag(a21) *= -One;
                 a32 *= One / a22;
             }
         }
     }
     return info;
 }
-
 
 } // namespace generic
 

@@ -92,7 +92,7 @@ hrd_impl(IndexType           iLo,
 //
 //  Paramters, e.g. maximum block size and buffer on stack for TrMatrix Tr.
 //
-    const T             One(1);
+    const T             One(1), Zero(0);
     const IndexType     nbMax = 64;
     const IndexType     ldt = nbMax + 1;
     T                   trBuffer[nbMax*ldt];
@@ -112,8 +112,8 @@ hrd_impl(IndexType           iLo,
 //
 //  Set elements 1:iLo-1 and iHi:n-1 of tau to zero
 //
-    tau(_(1,iLo-1)) = 0;
-    tau(_(max(IndexType(1),iHi),n-1)) = 0;
+    tau(_(1,iLo-1)) = Zero;
+    tau(_(max(IndexType(1),iHi),n-1)) = Zero;
 //
 //  Quick return if possible
 //

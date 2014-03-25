@@ -3,13 +3,15 @@
 using namespace flens;
 using namespace std;
 
+typedef float T;
+
 int
 main()
 {
     const int n = 10;
-    typedef TinyArray<double, n>                Engine;
-    typedef TinyArrayView<double, n/2, 2>       EngineView;
-    typedef TinyConstArrayView<double, n/2, 2>  EngineConstView;
+    typedef TinyArray<T, n>                Engine;
+    typedef TinyArrayView<T, n/2, 2>       EngineView;
+    typedef TinyConstArrayView<T, n/2, 2>  EngineConstView;
     typedef TinyVector<Engine>                  TVector;
     typedef TinyVector<EngineView>              TVectorView;
     typedef TinyVector<EngineConstView>         TVectorConstView;
@@ -24,7 +26,7 @@ main()
     cout << "x = " << x << endl;
     cout << "y = " << y << endl;
 
-    y += double(2)*x;
+    y += 2*x;
     cout << "y = " << y << endl;
 
     const TVectorView  x2(EngineView(x.data()));
@@ -32,7 +34,7 @@ main()
 
     cout << "x2 = " << x2 << endl;
     cout << "y2 = " << y2 << endl;
-    y2 += double(2)*x2;
+    y2 += 2*x2;
     cout << "y = " << y << endl;
 
     TVectorConstView  cx2(EngineConstView(x.engine().data()));

@@ -72,9 +72,16 @@ qp3_wsq_impl(const GeMatrix<MA> &A)
         iws   = 1;
         lwOpt = 1;
     } else {
-        iws = 3*n + 1;
-        const IndexType nb = ilaenv<ElementType>(1, "GEQRF", "", m, n);
-        lwOpt = 2*n +(n+1)*nb;
+    
+        if (IsReal<ElementType>::value) {
+            iws = 3*n + 1;
+            const IndexType nb = ilaenv<ElementType>(1, "GEQRF", "", m, n);
+            lwOpt = 2*n +(n+1)*nb;
+        } else {
+            iws = n + 1;
+            const IndexType nb = ilaenv<ElementType>(1, "GEQRF", "", m, n);
+            lwOpt = (n+1)*nb;
+        }
     }
 
     return lwOpt;
@@ -189,14 +196,14 @@ qp3_impl(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv, DenseVector<VTAU> &tau,
 //
 //              Determine if workspace is large enough for blocked code.
 //
-                IndexType minWs = (sn+1)*nb;
+                IndexType minWs = 2*sn + (sn+1)*nb;
                 iws = max(iws, minWs);
                 if (lWork<minWs) {
 //
 //                  Not enough workspace to use optimal NB: Reduce NB and
 //                  determine the minimum value of NB.
 //
-                    nb = lWork / (sn+1);
+                    nb = (lWork-2*sn) / (sn+1);
                     nbMin = max(IndexType(2),
                                 ilaenv<T>(2, "GEQRF", "", sm, sn));
 
@@ -208,7 +215,7 @@ qp3_impl(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv, DenseVector<VTAU> &tau,
 //      store the exact column norms.
 //
         for (IndexType j=nFixed+1; j<=n; ++j) {
-            work(j) = blas::nrm2(A(_(nFixed+1,sm),j));
+            work(j) = blas::nrm2(A(_(nFixed+1,m),j));
             work(n+j) = work(j);
         }
 
@@ -590,11 +597,6 @@ qp3(MA      &&A,
 //
     typedef typename RemoveRef<MA>::Type        MatrixA;
     typedef typename MatrixA::IndexType         IndexType;
-#   ifdef CHECK_CXXLAPACK
-    typedef typename RemoveRef<VJPIV>::Type     VectorJPiv;
-    typedef typename RemoveRef<VTAU>::Type      VectorTau;
-    typedef typename RemoveRef<VWORK>::Type     VectorWork;
-#   endif
 
     const IndexType m = A.numRows();
     const IndexType n = A.numCols();
@@ -624,8 +626,16 @@ qp3(MA      &&A,
     if (tau.length()==0) {
         tau.resize(k);
     }
+    if (work.length()==0) {
+        work.resize(qp3_wsq(A));
+    }
 
 #   ifdef CHECK_CXXLAPACK
+
+    typedef typename RemoveRef<VJPIV>::Type     VectorJPiv;
+    typedef typename RemoveRef<VTAU>::Type      VectorTau;
+    typedef typename RemoveRef<VWORK>::Type     VectorWork;
+    
 //
 //  Make copies of output arguments
 //

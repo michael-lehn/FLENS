@@ -45,6 +45,11 @@ typename RestrictTo<IsDenseVector<VX>::value,
          typename RemoveRef<VX>::Type::ElementType>::Type
     sum(VX &&x);
 
+template <typename MA>
+typename RestrictTo<IsGeMatrix<MA>::value,
+         typename RemoveRef<MA>::Type::ElementType>::Type
+    sum(MA &&x);
+    
 } } } // namespace extensions, blas, flens
 
 #endif // PLAYGROUND_FLENS_BLASEXTENSIONS_LEVEL1_SUM_H

@@ -756,7 +756,7 @@ template <typename MA, typename MB>
 typename RestrictTo<IsGeCoordMatrix<MA>::value
                  && IsGeCCSMatrix<MB>::value,
          void>::Type
-copy(Transpose trans, const MA &A, MB &&B)
+copy(Transpose DEBUG_VAR(trans), const MA &A, MB &&B)
 {
     ASSERT(trans==NoTrans);
     B.engine() = A.engine();
@@ -767,7 +767,7 @@ template <typename MA, typename MB>
 typename RestrictTo<IsGeCoordMatrix<MA>::value
                  && IsGeCRSMatrix<MB>::value,
          void>::Type
-copy(Transpose trans, const MA &A, MB &&B)
+copy(Transpose DEBUG_VAR(trans), const MA &A, MB &&B)
 {
     ASSERT(trans==NoTrans);
     B.engine() = A.engine();
@@ -830,7 +830,7 @@ template <typename MA, typename MB>
 typename RestrictTo<IsGeCCSMatrix<MA>::value
                  && IsGeMatrix<MB>::value,
          void>::Type
-copy(Transpose trans, const MA &A, MB &&B)
+copy(Transpose DEBUG_VAR(trans), const MA &A, MB &&B)
 {
     ASSERT(trans==NoTrans);
 
@@ -857,7 +857,7 @@ template <typename MA, typename MB>
 typename RestrictTo<IsGeCRSMatrix<MA>::value
                  && IsGeMatrix<MB>::value,
          void>::Type
-copy(Transpose trans, const MA &A, MB &&B)
+copy(Transpose DEBUG_VAR(trans), const MA &A, MB &&B)
 {
     ASSERT(trans==NoTrans);
 
@@ -884,7 +884,7 @@ template <typename MA, typename MB>
 typename RestrictTo<IsGeCoordMatrix<MA>::value
                  && IsGeMatrix<MB>::value,
          void>::Type
-copy(Transpose trans, const MA &A, MB &&B)
+copy(Transpose DEBUG_VAR(trans), const MA &A, MB &&B)
 {
     ASSERT(trans==NoTrans);
 

@@ -37,21 +37,18 @@
 
 namespace cxxlapack {
 
-
-
-template <typename VOID>
-double
-ladiv(double                a,
-      double                b,
-      double                c,
-      double                d,
+/*void
+ladiv(const double          a,
+      const double          b,
+      const double          c,
+      const double          d,
       double                &p,
       double                &q);
 
-template <typename VOID>
+
 std::complex<double>
 ladiv(std::complex<double>  x,
-      std::complex<double>  y);
+      std::complex<double>  y);*/
 
 } // namespace cxxlapack
 
