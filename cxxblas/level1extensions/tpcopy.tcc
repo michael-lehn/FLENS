@@ -49,8 +49,6 @@ tpcopy(StorageUpLo, Transpose trans, Diag diag,
 {
     CXXBLAS_DEBUG_OUT("tpcopy_generic");
 
-    FAKE_USE(upLo);
-
     if (trans==NoTrans) {
         // TODO: Allow diag != Unit
         ASSERT(diag==NonUnit);

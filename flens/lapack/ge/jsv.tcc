@@ -61,6 +61,30 @@
 namespace flens { namespace lapack {
 
 //== generic lapack implementation =============================================
+template <typename MA, typename VSVA, typename MU, typename MV,
+          typename VWORK, typename VIWORK>
+typename GeMatrix<MA>::IndexType
+jsv_generic(JSV::Accuracy             ,
+            JSV::JobU                 ,
+            JSV::JobV                 ,
+            bool                      ,
+            bool                      ,
+            bool                      ,
+            GeMatrix<MA>              &,
+            DenseVector<VSVA>         &,
+            GeMatrix<MU>              &,
+            GeMatrix<MV>              &,
+            DenseVector<VWORK>        &,
+            DenseVector<VIWORK>       &)
+{
+//  This implementation needs to be fixed.  But the original Fortran code is
+//  horrible.  Unlike any other Lapack function.  So it is not fun.
+//  More likely:  We remove all of this!
+
+    ASSERT(0);
+    return -1;
+}
+
 /*
 template <typename MA, typename VSVA, typename MU, typename MV,
           typename VWORK, typename VIWORK>
@@ -1488,18 +1512,9 @@ jsv(JSV::Accuracy             accuracy,
 //
 //  Call implementation
 //
-    /*
     IndexType info = jsv_generic(accuracy, jobU, jobV,
                                  restrictedRange, considerTransA, perturb,
-                                 A, sva, U, V, work);
-    */
-#   ifdef USE_CXXLAPACK
-    IndexType info = external::jsv_impl(accuracy, jobU, jobV,
-                                       restrictedRange, considerTransA, perturb,
-                                       A, sva, U, V, work, iwork);
-#   else
-    IndexType info = -1;
-#   endif
+                                 A, sva, U, V, work, iwork);
 
 #   ifdef CHECK_CXXLAPACK
 //

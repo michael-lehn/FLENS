@@ -646,7 +646,7 @@ ls(Transpose    trans,
 
     typedef typename RemoveRef<MB>::Type    MatrixB;
     typedef typename RemoveRef<VWORK>::Type VectorWork;
-    
+
     typename MatrixA::NoView        A_org      = A;
     typename MatrixB::NoView        B_org      = B;
     typename VectorWork::NoView     work_org   = work;
@@ -709,71 +709,6 @@ ls(Transpose    trans,
 
     return info;
 }
-
-//-- (ge)ls [complex variant] --------------------------------------------------
-
-#ifdef USE_CXXLAPACK
-
-template <typename MA, typename MB, typename VWORK>
-typename RestrictTo<IsComplexGeMatrix<MA>::value
-                 && IsComplexGeMatrix<MB>::value
-                 && IsComplexDenseVector<VWORK>::value,
-         typename RemoveRef<MA>::Type::IndexType>::Type
-ls(Transpose    trans,
-   MA           &&A,
-   MB           &&B,
-   VWORK        &&work)
-{
-    using std::max;
-    using std::min;
-
-    LAPACK_DEBUG_OUT("(ge)ls [complex]");
-
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::IndexType     IndexType;
-
-#   ifdef CHECK_CXXLAPACK
-    typedef typename RemoveRef<MB>::Type    MatrixB;
-    typedef typename RemoveRef<VWORK>::Type VectorWork;
-#   endif
-
-//
-//  Test the input parameters
-//
-#   ifndef NDEBUG
-    const IndexType m = A.numRows();
-    const IndexType n = A.numCols();
-    const IndexType nRhs = B.numCols();
-
-    ASSERT(B.numRows()==max(m,n));
-
-    if (work.length()>0) {
-        const IndexType mn = min(m, n);
-        ASSERT(work.length()>=max(IndexType(1),mn+max(mn,nRhs)));
-    }
-#   endif
-
-//
-//  Make copies of output arguments
-//
-#   ifdef CHECK_CXXLAPACK
-    typename MatrixA::NoView        A_org      = A;
-    typename MatrixB::NoView        B_org      = B;
-    typename VectorWork::NoView     work_org   = work;
-#   endif
-
-//
-//  Call implementation
-//
-    IndexType info = external::ls_impl(trans, A, B, work);
-
-    return info;
-}
-
-#endif // USE_CXXLAPACK
 
 //-- (ge)ls [real/complex variant with temporary workspace] --------------------
 

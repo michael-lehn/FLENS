@@ -31,7 +31,7 @@
  */
 
 #ifndef CXXLAPACK_INTERFACE_GESC2_TCC
-#define CXXLAPACK_INTERFACE_GESC2_TCC1
+#define CXXLAPACK_INTERFACE_GESC2_TCC 1
 
 #include <iostream>
 #include <cxxlapack/interface/interface.h>

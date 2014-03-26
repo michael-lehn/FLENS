@@ -44,13 +44,10 @@ namespace cxxblas {
 //
 template <typename IndexType, typename ALPHA, typename MA, typename MB>
 void
-tpaxpy(StorageOrder order, StorageUpLo, Transpose trans, Diag diag,
+tpaxpy(StorageOrder DEBUG_VAR(order), StorageUpLo, Transpose trans, Diag diag,
        IndexType  n, const ALPHA &alpha, const MA *A, MB *B)
 {
     CXXBLAS_DEBUG_OUT("tpaxpy_generic");
- 
-    FAKE_USE(order);   
-    FAKE_USE(upLo);
 
     ASSERT(order==ColMajor);
     ASSERT(diag==NonUnit);
