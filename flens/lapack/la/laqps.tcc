@@ -308,7 +308,7 @@ laqps_impl(typename GeMatrix<MA>::IndexType  offset,
 //
         if (k<n) {
             blas::mv(ConjTrans, tau(k), A(_(rk,m),_(k+1,n)), A(_(rk,m),k),
-                     Zero, F(_(k+1,n),k));
+                     CZero, F(_(k+1,n),k));
         }
 //
 //      Padding F(1:K,K) with zeros.
@@ -321,9 +321,9 @@ laqps_impl(typename GeMatrix<MA>::IndexType  offset,
 //
         if (k>1) {
             blas::mv(ConjTrans, -tau(k), A(_(rk,m),_(1,k-1)), A(_(rk,m),k),
-                     Zero, aux(_(1,k-1)));
-            blas::mv(NoTrans, One, F(_,_(1,k-1)), aux(_(1,k-1)),
-                     One, F(_,k));
+                     CZero, aux(_(1,k-1)));
+            blas::mv(NoTrans, COne, F(_,_(1,k-1)), aux(_(1,k-1)),
+                     COne, F(_,k));
         }
 //
 //      Update the current row of A:
@@ -331,8 +331,8 @@ laqps_impl(typename GeMatrix<MA>::IndexType  offset,
 //
         if (k<n) {
             blas::mm(NoTrans, ConjTrans,
-                     -One, F(_(k+1,n),_(1,k)), A(_(1,rk),_(1,k)),
-                     One, A(_(1,rk),_(k+1,n)));
+                     -COne, A(_(rk,rk),_(1,k)), F(_(k+1,n),_(1,k)),
+                     COne, A(_(rk,rk),_(k+1,n)));
         }
 //
 //      Update partial column norms.
@@ -367,7 +367,7 @@ laqps_impl(typename GeMatrix<MA>::IndexType  offset,
 //
 //  Apply the block reflector to the rest of the matrix:
 //  A(OFFSET+KB+1:M,KB+1:N) := A(OFFSET+KB+1:M,KB+1:N) -
-//                        A(OFFSET+KB+1:M,1:KB)*F(KB+1:N,1:KB)**T.
+//                      A(OFFSET+KB+1:M,1:KB)*F(KB+1:N,1:KB)**H.
 //
     if (kb<min(n,m-offset)) {
         blas::mm(NoTrans, ConjTrans,
@@ -509,6 +509,7 @@ laqps(IndexType   offset,
 //
 //  Make copies of output arguments
 //
+    IndexType                    kb_org     = kb;
     typename MatrixA::NoView     A_org      = A;
     typename VectorJPiv::NoView  jPiv_org   = jPiv;
     typename VectorTau::NoView   tau_org    = tau;
@@ -527,6 +528,7 @@ laqps(IndexType   offset,
 //
 //  Restore output arguments
 //
+    IndexType                    kb_generic   = kb;
     typename MatrixA::NoView     A_generic    = A;
     typename VectorJPiv::NoView  jPiv_generic = jPiv;
     typename VectorTau::NoView   tau_generic  = tau;
@@ -535,6 +537,7 @@ laqps(IndexType   offset,
     typename VectorAux::NoView   aux_generic  = aux;
     typename MatrixF::NoView     F_generic    = F;
 
+    kb   = kb_org;
     A    = A_org;
     jPiv = jPiv_org;
     tau  = tau_org;
@@ -549,6 +552,12 @@ laqps(IndexType   offset,
     external::laqps_impl(offset, nb, kb, A, jPiv, tau, vn1, vn2, aux, F);
 
     bool failed = false;
+    if (! isIdentical(kb_generic, kb, "kb_generic", "kb")) {
+        std::cerr << "CXXLAPACK: kb_generic = " << kb_generic << std::endl;
+        std::cerr << "F77LAPACK: kb = " << kb << std::endl;
+        failed = true;
+    }
+
     if (! isIdentical(A_generic, A, "A_generic", "A")) {
         std::cerr << "CXXLAPACK: A_generic = " << A_generic << std::endl;
         std::cerr << "F77LAPACK: A = " << A << std::endl;

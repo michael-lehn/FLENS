@@ -387,7 +387,7 @@ larfb_impl(Side                  side,
                 auto C2 = C(_(k+1,lastV),_(1,lastC));
 
 //
-//              W := C**T * V  =  (C1**H * V1 + C2**H * V2)  (stored in WORK)
+//              W := C**H * V  =  (C1**H * V1 + C2**H * V2)  (stored in WORK)
 //
 //              W := C1**H
 //
@@ -409,7 +409,7 @@ larfb_impl(Side                  side,
 //
                 blas::mm(Right, transT, One, Tr, W);
 //
-//              C := C - V * W**T
+//              C := C - V * W**H
 //
                 if (lastV>k) {
 //
@@ -459,7 +459,7 @@ larfb_impl(Side                  side,
 //
                 blas::mm(Right, transH, One, Tr, W);
 //
-//              C := C - W * V**T
+//              C := C - W * V**H
 //
                 if (lastV>k) {
 //
@@ -500,9 +500,9 @@ larfb_impl(Side                  side,
                 auto C1 = C(_(  1,    k),_(1,lastC));
                 auto C2 = C(_(k+1,lastV),_(1,lastC));
 //
-//              W := C**T * V**T  =  (C1**T * V1**T + C2**T * V2**T)
+//              W := C**H * V**H  =  (C1**H * V1**H + C2**H * V2**H)
 //                                                              (stored in WORK)
-//              W := C1**T
+//              W := C1**H
 //
                 auto W = Work(_(1,lastC),_(1,k));
                 blas::copy(ConjTrans, C1, W);
@@ -518,7 +518,7 @@ larfb_impl(Side                  side,
                     blas::mm(ConjTrans, ConjTrans, One, C2, V2, One, W);
                 }
 //
-//              W := W * T**T  or  W * T
+//              W := W * T**H  or  W * T
 //
                 blas::mm(Right, transT, One, Tr, W);
 //
@@ -550,7 +550,7 @@ larfb_impl(Side                  side,
                 auto C1 = C(_(1,lastC),_(1,k));
                 auto C2 = C(_(1,lastC),_(k+1,lastV));
 //
-//              W := C * V**H  =  (C1*V1**T + C2*V2**T)  (stored in WORK)
+//              W := C * V**H  =  (C1*V1**H + C2*V2**H)  (stored in WORK)
 //
 //              W := C1
 //
@@ -563,7 +563,7 @@ larfb_impl(Side                  side,
 
                 if (lastV>k) {
 //
-//                  W := W + C2 * V2**T
+//                  W := W + C2 * V2**H
 //
                     blas::mm(NoTrans, ConjTrans, One, C2, V2, One, W);
                 }

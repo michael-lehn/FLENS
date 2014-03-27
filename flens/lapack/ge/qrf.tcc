@@ -70,6 +70,8 @@ qrf_impl(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
     const IndexType m = A.numRows();
     const IndexType n = A.numCols();
     const IndexType k = min(m, n);
+
+    const Transpose adj = (IsComplex<T>::value) ? ConjTrans : Trans;
 //
 //  Perform and apply workspace query
 //
@@ -143,7 +145,7 @@ qrf_impl(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 //
 //              Apply H' to A(i:m,i+ib:n) from the left
 //
-                larfb(Left, Trans, Forward, ColumnWise,
+                larfb(Left, adj, Forward, ColumnWise,
                       A(_(i,m),_(i,i+ib-1)),
                       Tr,
                       A(_(i,m),_(i+ib,n)),

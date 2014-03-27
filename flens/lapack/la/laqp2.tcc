@@ -119,8 +119,8 @@ laqp2_impl(typename GeMatrix<MA>::IndexType  offset,
 //
             const ElementType Aii = A(offpi,i);
             A(offpi,i) = One;
-            larf(Left, A(_(offpi,m),i), cxxblas::conjugate(tau(i)), A(_(offpi,m),_(i+1,n)),
-                 work(_(1,n)));
+            larf(Left, A(_(offpi,m),i), cxxblas::conjugate(tau(i)),
+                 A(_(offpi,m),_(i+1,n)), work(_(1,n)));
             A(offpi,i) = Aii;
         }
 //

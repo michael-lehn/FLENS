@@ -72,7 +72,6 @@ qp3_wsq_impl(const GeMatrix<MA> &A)
         iws   = 1;
         lwOpt = 1;
     } else {
-    
         if (IsReal<ElementType>::value) {
             iws = 3*n + 1;
             const IndexType nb = ilaenv<ElementType>(1, "GEQRF", "", m, n);
@@ -302,7 +301,7 @@ qp3_impl(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv, DenseVector<VTAU> &tau,
     if (minmn==0) {
         iws   = 1;
     } else {
-        iws = 3*n + 1;
+        iws = n + 1;
     }
 
     lwOpt = qp3_wsq(A);
@@ -325,7 +324,7 @@ qp3_impl(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv, DenseVector<VTAU> &tau,
 //
     IndexType  nFixed = 1;
     for (IndexType j=1; j<=n; ++j) {
-        if (jPiv(j)!=0) {
+        if (jPiv(j)!=IndexType(0)) {
             if (j!=nFixed) {
                 blas::swap(A(_,j), A(_,nFixed));
                 jPiv(j)      = jPiv(nFixed);
@@ -355,7 +354,7 @@ qp3_impl(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv, DenseVector<VTAU> &tau,
         qrf(A1, tau1, work);
         iws = max(iws, IndexType(real(work(1))));
         if (na<n) {
-            unmqr(Left, Trans, A1, tau1, A2, work);
+            unmqr(Left, ConjTrans, A1, tau1, A2, work);
             iws = max(iws, IndexType(real(work(1))));
         }
     }
@@ -386,14 +385,14 @@ qp3_impl(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv, DenseVector<VTAU> &tau,
 //
 //              Determine if workspace is large enough for blocked code.
 //
-                IndexType minWs = 2*sn + (sn+1)*nb;
+                IndexType minWs = (sn+1)*nb;
                 iws = max(iws, minWs);
                 if (lWork<minWs) {
 //
 //                  Not enough workspace to use optimal NB: Reduce NB and
 //                  determine the minimum value of NB.
 //
-                    nb = (lWork-2*sn) / (sn+1);
+                    nb = lWork / (sn+1);
                     nbMin = max(IndexType(2),
                                 ilaenv<T>(2, "GEQRF", "", sm, sn));
 
@@ -405,7 +404,7 @@ qp3_impl(GeMatrix<MA> &A, DenseVector<JPIV> &jPiv, DenseVector<VTAU> &tau,
 //      store the exact column norms.
 //
         for (IndexType j=nFixed+1; j<=n; ++j) {
-            rWork(j) = blas::nrm2(A(_(nFixed+1,sm),j));
+            rWork(j) = blas::nrm2(A(_(nFixed+1,m),j));
             rWork(n+j) = rWork(j);
         }
 
@@ -635,7 +634,7 @@ qp3(MA      &&A,
     typedef typename RemoveRef<VJPIV>::Type     VectorJPiv;
     typedef typename RemoveRef<VTAU>::Type      VectorTau;
     typedef typename RemoveRef<VWORK>::Type     VectorWork;
-    
+
 //
 //  Make copies of output arguments
 //
@@ -873,6 +872,7 @@ qp3(MA      &&A,
     }
 
     if (failed) {
+        std::cerr << "A_org = " << A_org << std::endl;
         ASSERT(0);
     }
 #   endif

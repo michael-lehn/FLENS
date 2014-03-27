@@ -416,6 +416,13 @@ mm(Transpose        transposeA,
 #   ifndef NDEBUG
     if (beta!=BETA(0)) {
         if (C.numRows()!=0 && C.numCols()!=0) {
+            if (C.numRows()!=m || C.numCols()!=n) {
+                std::cerr << "A = " << A << std::endl;
+                std::cerr << "transposeA = " << transposeA << std::endl;
+                std::cerr << "B = " << B << std::endl;
+                std::cerr << "transposeB = " << transposeB << std::endl;
+                std::cerr << "C = " << C << std::endl;
+            }
             ASSERT(C.numRows()==m && C.numCols()==n);
         }
     }
