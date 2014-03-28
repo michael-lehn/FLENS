@@ -33,27 +33,56 @@
 #ifndef PLAYGROUND_FLENS_SPARSE_SUPERLU_GSSV_H
 #define PLAYGROUND_FLENS_SPARSE_SUPERLU_GSSV_H 1
 
+#ifdef WITH_SUPERLU
+
 namespace flens { namespace superlu {
-    
+
 template <typename T>
-    typename RestrictTo<IsSame<float, T>::value, int >::Type
-    gssv(superlu_options_t *options, SuperMatrix *_A, int *pc, int *pr,
-         SuperMatrix *_L, SuperMatrix *_U, SuperMatrix *_B, SuperLUStat_t *stat);
+    typename RestrictTo<IsSame<float, T>::value, int>::Type
+    gssv(superlu_options_t  *options,
+         SuperMatrix        *A,
+         int                *pc,
+         int                *pr,
+         SuperMatrix        *L,
+         SuperMatrix        *U,
+         SuperMatrix        *B,
+         SuperLUStat_t      *stat);
+
 template <typename T>
-    typename RestrictTo<IsSame<double, T>::value, int >::Type
-    gssv(superlu_options_t *options, SuperMatrix *_A, int *pc, int *pr,
-         SuperMatrix *_L, SuperMatrix *_U, SuperMatrix *_B, SuperLUStat_t *stat);
-    
+    typename RestrictTo<IsSame<double, T>::value, int>::Type
+    gssv(superlu_options_t  *options,
+         SuperMatrix        *A,
+         int                *pc,
+         int                *pr,
+         SuperMatrix        *L,
+         SuperMatrix        *U,
+         SuperMatrix        *B,
+         SuperLUStat_t      *stat);
+
 template <typename T>
     typename RestrictTo<IsSame<std::complex<float>, T>::value, int >::Type
-    gssv(superlu_options_t *options, SuperMatrix *_A, int *pc, int *pr,
-         SuperMatrix *_L, SuperMatrix *_U, SuperMatrix *_B, SuperLUStat_t *stat);
-    
+    gssv(superlu_options_t  *options,
+         SuperMatrix        *A,
+         int                *pc,
+         int                *pr,
+         SuperMatrix        *L,
+         SuperMatrix        *U,
+         SuperMatrix        *B,
+         SuperLUStat_t      *stat);
+
 template <typename T>
     typename RestrictTo<IsSame<std::complex<double>, T>::value, int >::Type
-    gssv(superlu_options_t *options, SuperMatrix *_A, int *pc, int *pr,
-         SuperMatrix *_L, SuperMatrix *_U, SuperMatrix *_B, SuperLUStat_t *stat);
+    gssv(superlu_options_t  *options,
+         SuperMatrix        *A,
+         int                *pc,
+         int                *pr,
+         SuperMatrix        *L,
+         SuperMatrix        *U,
+         SuperMatrix        *B,
+         SuperLUStat_t      *stat);
 
 } } // namespace superlu, flens
+
+#endif // WITH_SUPERLU
 
 #endif // PLAYGROUND_FLENS_SPARSE_SUPERLU_GSSV_H

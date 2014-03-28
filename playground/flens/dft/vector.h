@@ -33,34 +33,36 @@
 #ifndef PLAYGROUND_FLENS_DFT_VECTOR_H
 #define PLAYGROUND_FLENS_DFT_VECTOR_H 1
 
+#include <flens/vectortypes/vectortypes.h>
+
 namespace flens {
 
 namespace dft {
-    
+
 template <typename VIN, typename VOUT>
     typename RestrictTo<IsComplexDenseVector<VIN>::value &&
                         IsComplexDenseVector<VOUT>::value,
                         void>::Type
     dft_forward(VIN &&vin, VOUT &&vout);
-    
+
 template <typename VIN, typename VOUT>
     typename RestrictTo<IsComplexDenseVector<VIN>::value &&
                         IsComplexDenseVector<VOUT>::value,
                         void>::Type
     dft_backward(VIN &&vin, VOUT &&vout);
-    
+
 template <typename VIN, typename VOUT>
     typename RestrictTo<IsComplexDenseVector<VIN>::value &&
                         IsComplexDenseVector<VOUT>::value,
                         void>::Type
     dft_forward_normalized(VIN &&vin, VOUT &&vout);
-    
+
 template <typename VIN, typename VOUT>
     typename RestrictTo<IsComplexDenseVector<VIN>::value &&
                         IsComplexDenseVector<VOUT>::value,
                         void>::Type
     dft_backward_normalized(VIN &&vin, VOUT &&vout);
-    
+
 } // namespace dft
 } // namespace flens
 

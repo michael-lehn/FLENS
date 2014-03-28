@@ -35,6 +35,7 @@
 #define PLAYGROUND_FLENS_BLASEXTENSIONS_LEVEL1_SUM_H 1
 
 #include <flens/lapack/typedefs.h>
+#include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace blas { namespace extensions {
@@ -49,7 +50,7 @@ template <typename MA>
 typename RestrictTo<IsGeMatrix<MA>::value,
          typename RemoveRef<MA>::Type::ElementType>::Type
     sum(MA &&x);
-    
+
 } } } // namespace extensions, blas, flens
 
 #endif // PLAYGROUND_FLENS_BLASEXTENSIONS_LEVEL1_SUM_H

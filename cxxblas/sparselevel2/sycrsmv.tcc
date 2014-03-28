@@ -33,6 +33,7 @@
 #ifndef CXXBLAS_SPARSELEVEL2_SYCRSMV_TCC
 #define CXXBLAS_SPARSELEVEL2_SYCRSMV_TCC 1
 
+#include <cxxblas/auxiliary/auxiliary.h>
 #include <cxxblas/typedefs.h>
 
 #define HAVE_CXXBLAS_SYCRSMV 1

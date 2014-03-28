@@ -33,10 +33,12 @@
 #ifndef PLAYGROUND_FLENS_SPARSE_SUITESPARSE_SV_TCC
 #define PLAYGROUND_FLENS_SPARSE_SUITESPARSE_SV_TCC 1
 
-#include "umfpack.h"
+#ifdef WITH_UMFPACK
+
+#include <umfpack.h>
 
 namespace flens { namespace suitesparse {
-    
+
 // Interface for AX=B (real)
 template <typename MA, typename MX, typename MB>
 typename
@@ -64,10 +66,10 @@ sv(MA  &&A,
     ASSERT(X.numCols()==B.numCols());
     ASSERT(A.numRows()==A.numCols());
     ASSERT(A.numCols()==B.numRows());
-    
+
     const IndexType firstCol = A.firstCol();
     const IndexType firstRow = A.firstRow();
-    
+
     // SuiteSparse needs IndexBase 0
     // -> shift base temporarily
     if (firstCol != IndexType(0)) {
@@ -110,7 +112,7 @@ sv(MA  &&A,
     }
 
     umfpack_di_free_numeric(&Numeric);
-    
+
     // Reset base to original value
     if (firstCol != IndexType(0)) {
         A.engine().cols() += firstCol;
@@ -147,10 +149,10 @@ sv(MA  &&A,
     ASSERT(X.numCols()==B.numCols());
     ASSERT(A.numRows()==A.numCols());
     ASSERT(A.numCols()==B.numRows());
-    
+
     const IndexType firstCol = A.firstCol();
     const IndexType firstRow = A.firstRow();
-    
+
     // SuiteSparse needs IndexBase 0
     // -> shift base temporarily
     if (firstCol != IndexType(0)) {
@@ -191,7 +193,7 @@ sv(MA  &&A,
                                   NULL, NULL);
     }
     umfpack_zi_free_numeric(&Numeric);
-    
+
     // Reset base to original value
     if (firstCol != IndexType(0)) {
         A.engine().cols() += firstCol;
@@ -232,5 +234,7 @@ sv(MA  &&A,
 }
 
 } } // namespace suitesparse, flens
+
+#endif // WITH_UMFPACK
 
 #endif // PLAYGROUND_FLENS_SPARSE_SUITESPARSE_SV_TCC

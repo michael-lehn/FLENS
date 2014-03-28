@@ -33,32 +33,34 @@
 #ifndef PLAYGROUND_FLENS_SPARSE_SUPERLU_H
 #define PLAYGROUND_FLENS_SPARSE_SUPERLU_H 1
 
+#ifdef WITH_SUPERLU
+
 namespace flens { namespace superlu {
-    
+
 typedef int int_t;
 #include <slu_Cnames.h>
 #include <supermatrix.h>
 #include <slu_util.h>
-    
+
 // Avoid redefinitions in superlu header files
 // by using namespaces
-    
+
 namespace superlu_float {
 #include <slu_sdefs.h>
 } // namespace superlu_float
-    
+
 namespace superlu_double {
 #include <slu_ddefs.h>
 } // namespace superlu_double
-    
+
 namespace superlu_complex_float{
 #include <slu_cdefs.h>
 } // namespace superlu_complex_float
-    
+
 namespace superlu_complex_double {
 #include <slu_zdefs.h>
 } // namespace superlu_complex_double
-    
+
 } } // namespace superlu, flens
 
 
@@ -66,5 +68,7 @@ namespace superlu_complex_double {
 #include<playground/flens/sparse/superlu/create_dense_matrix.h>
 #include<playground/flens/sparse/superlu/gssv.h>
 #include<playground/flens/sparse/superlu/sv.h>
+
+#endif // WITH_SUPERLU
 
 #endif // PLAYGROUND_FLENS_SPARSE_SUPERLU_H

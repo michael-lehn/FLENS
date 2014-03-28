@@ -46,14 +46,14 @@ pow(const T &base, const T &exponent)
     ASSERT( exponent>=0 );
     if ( exponent==0 ) {
         return 1;
-    } else if ( exponent==1 ) { 
+    } else if ( exponent==1 ) {
         return base;
     }
     int value = flens::pow(base, exponent/2 );
-  
+
     if ( exponent%2==0 ) {
         return value*value;
-    } 
+    }
     return base*value*value;
 }
 
@@ -64,7 +64,7 @@ pow(const T &base, int exponent)
 {
     typedef typename ComplexTrait<T>::PrimitiveType PT;
     using std::pow;
-    
+
 //
 //  TODO: Make this more general and call an external Fortran routine
 //        that computes 'pow(base, exponent)' for comparison

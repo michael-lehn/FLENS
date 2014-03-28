@@ -33,28 +33,32 @@
 #ifndef PLAYGROUND_FLENS_SPARSE_SUPERLU_CREATECOMPCOLMATRIX_H
 #define PLAYGROUND_FLENS_SPARSE_SUPERLU_CREATECOMPCOLMATRIX_H 1
 
+#ifdef WITH_SUPERLU
+
 namespace flens { namespace superlu {
-    
+
 void
-    Create_CompCol_Matrix(SuperMatrix *A, int numRows, int numCols,
-                          int numNonZeros, float *values,
-                          int * rows, int *cols, Stype_t order, Mtype_t shape);
-    
+Create_CompCol_Matrix(SuperMatrix *A, int numRows, int numCols,
+                      int numNonZeros, float *values,
+                      int * rows, int *cols, Stype_t order, Mtype_t shape);
+
 void
-    Create_CompCol_Matrix(SuperMatrix *A, int numRows, int numCols,
-                          int numNonZeros, double *values,
-                          int * rows, int *cols, Stype_t order, Mtype_t shape);
-    
+Create_CompCol_Matrix(SuperMatrix *A, int numRows, int numCols,
+                      int numNonZeros, double *values,
+                      int * rows, int *cols, Stype_t order, Mtype_t shape);
+
 void
-    Create_CompCol_Matrix(SuperMatrix *A, int numRows, int numCols,
-                          int numNonZeros, std::complex<float> *values,
-                          int * rows, int *cols, Stype_t order, Mtype_t shape);
-    
+Create_CompCol_Matrix(SuperMatrix *A, int numRows, int numCols,
+                      int numNonZeros, std::complex<float> *values,
+                      int * rows, int *cols, Stype_t order, Mtype_t shape);
+
 void
-    Create_CompCol_Matrix(SuperMatrix *A, int numRows, int numCols,
-                          int numNonZeros, std::complex<double> *values,
-                          int * rows, int *cols, Stype_t order, Mtype_t shape);
+Create_CompCol_Matrix(SuperMatrix *A, int numRows, int numCols,
+                      int numNonZeros, std::complex<double> *values,
+                      int * rows, int *cols, Stype_t order, Mtype_t shape);
 
 } } // namespace superlu, flens
+
+#endif // WITH_SUPERLU
 
 #endif // PLAYGROUND_FLENS_SPARSE_SUPERLU_CREATECOMPCOLMATRIX_H

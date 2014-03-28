@@ -33,10 +33,16 @@
 #ifndef PLAYGROUND_FLENS_SPARSE_MKL_SV_H
 #define PLAYGROUND_FLENS_SPARSE_MKL_SV_H 1
 
+#ifdef WITH_MKLDSS
+
+#include<flens/auxiliary/auxiliary.h>
+#include<flens/matrixtypes/matrixtypes.h>
+#include<flens/vectortypes/vectortypes.h>
+
 namespace flens { namespace mkldss {
 
 // Interface to MKL DSS, solves AX = B
-  
+
 // General Sparse Matrix
 template <typename MA, typename MX, typename MB>
     typename
@@ -48,7 +54,7 @@ template <typename MA, typename MX, typename MB>
        const MA  &A,
        MX        &&X,
        const MB  &B);
-    
+
 template <typename MA, typename MX, typename MB>
     typename
     RestrictTo<IsRealGeCCSMatrix<MA>::value &&
@@ -59,7 +65,7 @@ template <typename MA, typename MX, typename MB>
        const MA  &A,
        MX        &&X,
        const MB  &B);
-    
+
 template <typename MA, typename MX, typename MB>
     typename
     RestrictTo<IsComplexGeCRSMatrix<MA>::value &&
@@ -147,5 +153,7 @@ template <typename MA, typename VX, typename VB>
        const VB  &b);
 
 } } // namespace mkldss, flens
+
+#endif // WITH_MKLDSS
 
 #endif // PLAYGROUND_FLENS_SPARSE_MKL_SV_H

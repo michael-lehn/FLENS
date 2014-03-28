@@ -5,4 +5,4 @@ export AUTHOR_WEBSITE="http://www.mathematik.uni-ulm.de/~lehn"
 export YEAR=2011-`date +%Y`
 
 export CODE_DIR=${PWD}
-export CXXFLAGS=-x c++ -std=c++11 -stdlib=libc++ -Wall -DWITH_VECLIB -DUSE_CXXLAPACK -DINCLUDE_TYPE_TRAITS -I${PWD} -I/opt/local/include -I${HOME}/SuperLU_4.3/SRC
+export CXXFLAGS=-x c++ -std=c++11 -stdlib=libc++ -Wall -DWITH_VECLIB -DUSE_CXXLAPACK -DINCLUDE_TYPE_TRAITS -I${PWD} -I${HOME}/SuperLU_4.3/SRC -I/usr/local/Cellar/gcc48/4.8.2/lib/gcc/x86_64-apple-darwin13.0.0/4.8.2/include/c++ -I/usr/local/Cellar/gcc48/4.8.2/lib/gcc/x86_64-apple-darwin13.0.0/4.8.2/include/c++/x86_64-apple-darwin13.0.0

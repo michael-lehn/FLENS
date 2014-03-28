@@ -35,12 +35,13 @@
 
 #include <memory>
 #include <cxxblas/cxxblas.h>
-#include <flens/storage/tinyfullstorage/tinyfullstorage.h>
+#include <flens/storage/tinyfullstorage/tinyconstfullstorageview.h>
 
 namespace flens {
 
 template <typename T, int m, int n, int ldA, int ib>
-TinyConstFullStorageView<T,m,n,ldA,ib>::TinyConstFullStorageView(const ElementType *data)
+TinyConstFullStorageView<T,m,n,ldA,ib>::TinyConstFullStorageView(
+                                                        const ElementType *data)
 : _data(data)
 {
 }
@@ -54,7 +55,8 @@ TinyConstFullStorageView<T,m,n,ldA,ib>::~TinyConstFullStorageView()
 
 template  <typename T, int m, int n, int ldA, int ib>
 const typename TinyConstFullStorageView<T,m,n,ldA,ib>::ElementType &
-TinyConstFullStorageView<T,m,n,ldA,ib>::operator()(IndexType row, IndexType col) const
+TinyConstFullStorageView<T,m,n,ldA,ib>::operator()(
+                                            IndexType row, IndexType col) const
 {
     const T *data = reinterpret_cast<const T *>(_data)
                   - (firstRow*leadingDimension+firstCol);

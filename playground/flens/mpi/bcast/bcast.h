@@ -37,6 +37,9 @@
 #    include "mpi.h"
 #endif
 
+#include<flens/auxiliary/auxiliary.h>
+#include<flens/matrixtypes/matrixtypes.h>
+#include<flens/vectortypes/vectortypes.h>
 #include<playground/flens/mpi/types.h>
 
 
@@ -47,31 +50,31 @@ namespace flens { namespace mpi {
 template <typename T>
     typename RestrictTo<MPI_Type<T>::Compatible,
                         void>::Type
-    MPI_bcast(T &x, const int root = 0, 
+    MPI_bcast(T &x, const int root = 0,
               const MPI::Comm &communicator = MPI::COMM_WORLD);
-    
+
 template <typename IndexType, typename T>
     typename RestrictTo<MPI_Type<T>::Compatible,
                         void>::Type
     MPI_bcast(const IndexType n, T &x, const IndexType incX,
-              const int root = 0, 
-              const MPI::Comm &communicator = MPI::COMM_WORLD);    
-  
+              const int root = 0,
+              const MPI::Comm &communicator = MPI::COMM_WORLD);
+
 template <typename VX>
     typename RestrictTo<IsDenseVector<VX>::value,
                         void>::Type
-    MPI_bcast(VX &&x, const int root = 0, 
+    MPI_bcast(VX &&x, const int root = 0,
       const MPI::Comm &communicator = MPI::COMM_WORLD);
-      
-  
+
+
 template <typename MA>
     typename RestrictTo<IsGeMatrix<MA>::value,
                         void>::Type
     MPI_bcast(MA &&A, const int root = 0,
               const MPI::Comm &communicator = MPI::COMM_WORLD);
-    
+
 #else
-    
+
 template <typename T>
     typename RestrictTo<(IsInteger<T>::value ||
                          IsReal<T>::value ||
@@ -84,7 +87,7 @@ template <typename T>
                          IsGeMatrix<T>::value) ,
                         void>::Type
     MPI_bcast(T &&x, const int root = 0);
-    
+
 #endif
 
 } }

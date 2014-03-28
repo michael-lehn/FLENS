@@ -34,6 +34,9 @@
 #define PLAYGROUND_CXXBLAS_LEVEL3EXTENSION_GEMM_STASSEN_TCC 1
 
 #include <cxxblas/cxxblas.h>
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/lapack/auxiliary/pow.h>
+#include <playground/cxxblas/level3extensions/gemm-strassen.h>
 
 namespace cxxblas {
 
@@ -60,14 +63,14 @@ gemm_complex_3m_kernel(StorageOrder order,
 
     PT one(1), zero(0);
     ASSERT(2*size_tmp>=size_t(m*k)+size_t(k*n));
-  
+
     // Temporary objects for real/imaginary parts of A and B
     PT *A_tmp = reinterpret_cast<PT*>(ptmp);
     PT *B_tmp = A_tmp + m*k;
 
     IndexType ld_Atmp = (transA==NoTrans || transA==Conj) ? m : k;
     IndexType ld_Btmp = (transB==NoTrans || transB==Conj) ? k : n;
- 
+
     PT mod_one_A = (transA==NoTrans || transA==Trans) ? PT(1) : PT(-1);
     PT mod_one_B = (transB==NoTrans || transB==Trans) ? PT(1) : PT(-1);
 
@@ -83,16 +86,16 @@ gemm_complex_3m_kernel(StorageOrder order,
             cxxblas::copy(m,
                           reinterpret_cast<const PT*>(A+i*ldA),IndexType(2),
                           A_tmp+i*ld_Atmp, IndexType(1));
-            cxxblas::axpy(m, mod_one_A, 
+            cxxblas::axpy(m, mod_one_A,
                           reinterpret_cast<const PT*>(A+i*ldA)+1,IndexType(2),
                           A_tmp+i*ld_Atmp, IndexType(1));
         }
     } else {
         for (IndexType i=0; i<m; ++i) {
-            cxxblas::copy(k, 
+            cxxblas::copy(k,
                           reinterpret_cast<const PT*>(A+i*ldA), IndexType(2),
                           A_tmp+i*ld_Atmp, IndexType(1));
-            cxxblas::axpy(k, mod_one_A, 
+            cxxblas::axpy(k, mod_one_A,
                           reinterpret_cast<const PT*>(A+i*ldA)+1,IndexType(2),
                           A_tmp+i*ld_Atmp, IndexType(1));
         }
@@ -106,32 +109,32 @@ gemm_complex_3m_kernel(StorageOrder order,
         }
     } else {
         for (IndexType i=0; i<k; ++i) {
-            cxxblas::copy(n, 
+            cxxblas::copy(n,
                           reinterpret_cast<const PT*>(B+i*ldB),IndexType(2),
                           B_tmp+i*ld_Btmp, IndexType(1));
         }
     }
 
     // C_up = r_alpha*A_tmp*B_tmp
-    cxxblas::gemm(order, mod_transA, mod_transB, 
-                  m, n, k, 
-                  r_alpha, 
-                  A_tmp, ld_Atmp, 
-                  B_tmp, ld_Btmp, 
-                  zero, 
+    cxxblas::gemm(order, mod_transA, mod_transB,
+                  m, n, k,
+                  r_alpha,
+                  A_tmp, ld_Atmp,
+                  B_tmp, ld_Btmp,
+                  zero,
                   reinterpret_cast<PT *>(C), 2*ldC);
 
 
     //A_tmp = A_r
     if (transA==NoTrans) {
         for (IndexType i=0; i<k; ++i) {
-            cxxblas::copy(m, 
+            cxxblas::copy(m,
                           reinterpret_cast<const PT*>(A+i*ldA), IndexType(2),
                           A_tmp+i*ld_Atmp, IndexType(1));
         }
     } else {
         for (IndexType i=0; i<m; ++i) {
-            cxxblas::copy(k, 
+            cxxblas::copy(k,
                           reinterpret_cast<const PT*>(A+i*ldA), IndexType(2),
                           A_tmp+i*ld_Atmp, IndexType(1));
         }
@@ -139,56 +142,56 @@ gemm_complex_3m_kernel(StorageOrder order,
     // B_tmp = B_r-B_i
     if (transB==NoTrans) {
         for (IndexType i=0; i<n; ++i) {
-            cxxblas::copy(k, 
+            cxxblas::copy(k,
                           reinterpret_cast<const PT*>(B+i*ldB), IndexType(2),
                           B_tmp+i*ld_Btmp, IndexType(1));
-            cxxblas::axpy(k, -mod_one_B, 
+            cxxblas::axpy(k, -mod_one_B,
                           reinterpret_cast<const PT*>(B+i*ldB)+1, IndexType(2),
                           B_tmp+i*ld_Btmp, IndexType(1));
         }
     } else {
         for (IndexType i=0; i<k; ++i) {
-            cxxblas::copy(n, 
+            cxxblas::copy(n,
                           reinterpret_cast<const PT*>(B+i*ldB), IndexType(2),
                           B_tmp+i*ld_Btmp, IndexType(1));
-            cxxblas::axpy(n, -mod_one_B, 
+            cxxblas::axpy(n, -mod_one_B,
                           reinterpret_cast<const PT*>(B+i*ldB)+1, IndexType(2),
                           B_tmp+i*ld_Btmp, IndexType(1));
         }
     }
 
     // C_down = r_alpha*A_tmp*B_tmp
-    cxxblas::gemm(order, mod_transA, mod_transB, 
-                  m, n, k, 
-                  r_alpha, 
-                  A_tmp, ld_Atmp, 
-                  B_tmp, ld_Btmp, 
-                  zero, 
+    cxxblas::gemm(order, mod_transA, mod_transB,
+                  m, n, k,
+                  r_alpha,
+                  A_tmp, ld_Atmp,
+                  B_tmp, ld_Btmp,
+                  zero,
                   reinterpret_cast<PT *>(C)+m, 2*ldC);
 
     // C_up = C_up - C_down
-    cxxblas::geaxpy(order, NoTrans, 
-                    m, n, 
-                   -one, 
-                   reinterpret_cast<PT *>(C)+m, 2*ldC, 
+    cxxblas::geaxpy(order, NoTrans,
+                    m, n,
+                   -one,
+                   reinterpret_cast<PT *>(C)+m, 2*ldC,
                    reinterpret_cast<PT *>(C), 2*ldC);
 
     // A_tmp = A_r - A_i
     if (transA==NoTrans || transA==Conj) {
         for (IndexType i=0; i<k; ++i) {
-            cxxblas::copy(m, 
+            cxxblas::copy(m,
                           reinterpret_cast<const PT*>(A+i*ldA), IndexType(2),
                           A_tmp+i*ld_Atmp, IndexType(1));
-            cxxblas::axpy(m, -mod_one_A, 
+            cxxblas::axpy(m, -mod_one_A,
                           reinterpret_cast<const PT*>(A+i*ldA)+1, IndexType(2),
                           A_tmp+i*ld_Atmp, IndexType(1));
         }
     } else {
         for (IndexType i=0; i<m; ++i) {
-            cxxblas::copy(k, 
+            cxxblas::copy(k,
                           reinterpret_cast<const PT*>(A+i*ldA), IndexType(2),
                           A_tmp+i*ld_Atmp, IndexType(1));
-            cxxblas::axpy(k, -mod_one_A, 
+            cxxblas::axpy(k, -mod_one_A,
                           reinterpret_cast<const PT*>(A+i*ldA)+1, IndexType(2),
                           A_tmp+i*ld_Atmp, IndexType(1));
         }
@@ -197,25 +200,25 @@ gemm_complex_3m_kernel(StorageOrder order,
     // B_tmp = B_i
     if (transB==NoTrans) {
         for (IndexType i=0; i<n; ++i) {
-            cxxblas::copy(k, 
+            cxxblas::copy(k,
                           reinterpret_cast<const PT*>(B+i*ldB)+1, IndexType(2),
                           B_tmp+i*ld_Btmp, IndexType(1));
         }
     } else {
         for (IndexType i=0; i<k; ++i) {
-            cxxblas::copy(n, 
+            cxxblas::copy(n,
                           reinterpret_cast<const PT*>(B+i*ldB)+1, IndexType(2),
                           B_tmp+i*ld_Btmp, IndexType(1));
         }
     }
 
     // C_down = C_down + A_tmp*B_tmp
-    cxxblas::gemm(order, mod_transA, mod_transB, 
-                  m, n, k, 
-                  mod_one_B*r_alpha, 
+    cxxblas::gemm(order, mod_transA, mod_transB,
+                  m, n, k,
+                  mod_one_B*r_alpha,
                   A_tmp, ld_Atmp,
-                  B_tmp, ld_Btmp, 
-                  one, 
+                  B_tmp, ld_Btmp,
+                  one,
                   reinterpret_cast<PT *>(C)+m, 2*ldC);
 
 
@@ -224,28 +227,28 @@ gemm_complex_3m_kernel(StorageOrder order,
     if (k<2) {
         tmpC_row = new PT[2*m];
     }
-    
+
     // Merge C = C_r + i*C_i
     for (IndexType i=0; i<n; ++i) {
-        cxxblas::copy(m, 
-                      C+i*ldC, IndexType(1), 
+        cxxblas::copy(m,
+                      C+i*ldC, IndexType(1),
                       reinterpret_cast<std::complex<PT> *>(tmpC_row), IndexType(1));
 
-	// copy real part
-        cxxblas::copy(m, 
-                      tmpC_row+m, IndexType(1), 
+    // copy real part
+        cxxblas::copy(m,
+                      tmpC_row+m, IndexType(1),
                       reinterpret_cast<PT *>(C+i*ldC), IndexType(2));
         // copy imaginary part
-        cxxblas::copy(m, 
-                      tmpC_row, IndexType(1), 
+        cxxblas::copy(m,
+                      tmpC_row, IndexType(1),
                       reinterpret_cast<PT *>(C+i*ldC)+1, IndexType(2));
-        
+
        if (!cxxblas::imag(alpha==PT(0))) {
            cxxblas::scal(m, alpha, C+i*ldC, IndexType(1));
        }
 
     }
-    
+
 
     if (k<2) {
         delete[] tmpC_row;
@@ -267,13 +270,13 @@ gemm_strassen_kernel(StorageOrder order,
                      size_t size_tmp = 0)
 {
 /*
- * Implementation of the Winograd Variant of Strassen's 
+ * Implementation of the Winograd Variant of Strassen's
  * Matrix-Matrix Multiply Algorithm. It is based on
- * 
- * C Douglas et al: 
- * "GEMMW: A Portable Level 3 BLAS  Winograd Variant 
+ *
+ * C Douglas et al:
+ * "GEMMW: A Portable Level 3 BLAS  Winograd Variant
  *   of Strassen's Matrix-Matrix Multiply Algorithm."
- * J. Comput. Phys. 110, 1-10, 1994. 
+ * J. Comput. Phys. 110, 1-10, 1994.
  *
  */
 
@@ -285,32 +288,32 @@ gemm_strassen_kernel(StorageOrder order,
     if (min_mnk<=MINDIM) {
         ASSERT(size_tmp>=0);
 #       ifndef USE_COMPLEX_3M
-            cxxblas::gemm(order, transA, transB, 
-                          m, n, k, 
-                          alpha, 
-                          A, ldA, 
-                          B, ldB, 
-                          beta, 
+            cxxblas::gemm(order, transA, transB,
+                          m, n, k,
+                          alpha,
+                          A, ldA,
+                          B, ldB,
+                          beta,
                           C, ldC);
-	    return;
-#       else 
+        return;
+#       else
 
             if(flens::IsReal<T>::value) {
-                cxxblas::gemm(order, transA, transB, 
-                              m, n, k, 
-			      alpha, 
-                              A, ldA, 
-                              B, ldB, 
-                              beta, 
+                cxxblas::gemm(order, transA, transB,
+                              m, n, k,
+                              alpha,
+                              A, ldA,
+                              B, ldB,
+                              beta,
                               C, ldC);
             } else {
-                cxxblas::gemm_complex_3m_kernel(order, transA, transB, 
-                                                m, n, k, 
-                                                alpha, 
-                                                A, ldA, 
-                                                B, ldB, 
-                                                beta, 
-                                                C, ldC, 
+                cxxblas::gemm_complex_3m_kernel(order, transA, transB,
+                                                m, n, k,
+                                                alpha,
+                                                A, ldA,
+                                                B, ldB,
+                                                beta,
+                                                C, ldC,
                                                 ptmp, size_tmp);
             }
             return;
@@ -365,34 +368,34 @@ gemm_strassen_kernel(StorageOrder order,
     // Step 1: tmpB  = B22 - B12;
     if (!k_odd) {
         //
-        cxxblas::gecopy(order, NoTrans, 
-                        B_numRows_h, B_numCols_h, 
-                        pB22, ldB, 
+        cxxblas::gecopy(order, NoTrans,
+                        B_numRows_h, B_numCols_h,
+                        pB22, ldB,
                         ptmpB, ld_tmpB);
-        cxxblas::geaxpy(order, NoTrans, 
-                        B_numRows_h, B_numCols_h, 
-                        -one, 
-                        pB12, ldB, 
+        cxxblas::geaxpy(order, NoTrans,
+                        B_numRows_h, B_numCols_h,
+                        -one,
+                        pB12, ldB,
                         ptmpB, ld_tmpB);
     } else {
         if (transB==NoTrans) {
             cxxblas::gecopy(order, NoTrans,
-                            kh-1, nh, 
-                            pB22, ldB, 
+                            kh-1, nh,
+                            pB22, ldB,
                             ptmpB, ld_tmpB);
             cxxblas::scal(nh, zero, ptmpB+kh-1, ld_tmpB);
-            cxxblas::geaxpy(order, NoTrans, 
-                            kh, nh, 
-                            -one, 
-                            pB12, ldB, 
+            cxxblas::geaxpy(order, NoTrans,
+                            kh, nh,
+                            -one,
+                            pB12, ldB,
                             ptmpB, ld_tmpB);
         } else {
             cxxblas::scal(nh, zero, ptmpB+(kh-1)*ld_tmpB, IndexType(1));
-            cxxblas::gecopy(order, NoTrans, 
-                            nh, kh-1, 
-                            pB22, ldB, 
+            cxxblas::gecopy(order, NoTrans,
+                            nh, kh-1,
+                            pB22, ldB,
                             ptmpB, ld_tmpB);
-            cxxblas::geaxpy(order, NoTrans, 
+            cxxblas::geaxpy(order, NoTrans,
                             nh, kh,
                             -one,
                             pB12, ldB,
@@ -402,319 +405,319 @@ gemm_strassen_kernel(StorageOrder order,
 
 
     // Step 2: tmpA  = A11 - A21;
-    cxxblas::gecopy(order, NoTrans, 
-                    A_numRows_h, A_numCols_h, 
-                    pA11, ldA, 
-                    ptmpA, ld_tmpA);
- 
-    cxxblas::geaxpy(order, NoTrans, 
+    cxxblas::gecopy(order, NoTrans,
                     A_numRows_h, A_numCols_h,
-                    -one,  
-                    pA21,ldA, 
+                    pA11, ldA,
+                    ptmpA, ld_tmpA);
+
+    cxxblas::geaxpy(order, NoTrans,
+                    A_numRows_h, A_numCols_h,
+                    -one,
+                    pA21,ldA,
                     ptmpA, ld_tmpA);
 
     // Step 3: C21 = alpha*op(tmpA)*op(tmpB)
-    cxxblas::gemm_strassen_kernel(order, transA, transB, 
-                                  mh, nh, kh, 
-                                  alpha, 
-                                  ptmpA, ld_tmpA, 
-                                  ptmpB, ld_tmpB, 
-                                  zero, 
-                                  pC21, ldC, 
+    cxxblas::gemm_strassen_kernel(order, transA, transB,
+                                  mh, nh, kh,
+                                  alpha,
+                                  ptmpA, ld_tmpA,
+                                  ptmpB, ld_tmpB,
+                                  zero,
+                                  pC21, ldC,
                                   ptmp, size_tmp);
 
     // Step 4: tmpA = A21 + A22;
     if (!k_odd) {
-        cxxblas::gecopy(order, NoTrans, 
+        cxxblas::gecopy(order, NoTrans,
                         A_numRows_h, A_numCols_h,
-                        pA21, ldA, 
+                        pA21, ldA,
                         ptmpA, ld_tmpA);
-        cxxblas::geaxpy(order, NoTrans, 
+        cxxblas::geaxpy(order, NoTrans,
                         A_numRows_h, A_numCols_h,
-                        one, 
-                        pA22, ldA, 
+                        one,
+                        pA22, ldA,
                         ptmpA, ld_tmpA);
     } else {
         if (transA==NoTrans || transA==Conj) {
-            cxxblas::gecopy(order, NoTrans, 
-                            A_numRows_h, A_numCols_h, 
-                            pA21, ldA, 
-                            ptmpA, ld_tmpA);
-            cxxblas::geaxpy(order, NoTrans, 
-                            A_numRows_h, A_numCols_h-1,
-                            one,
-                            pA22, ldA, 
-                            ptmpA, ld_tmpA);
-        } else {
-            cxxblas::gecopy(order, NoTrans, 
-                            A_numRows_h, A_numCols_h, 
+            cxxblas::gecopy(order, NoTrans,
+                            A_numRows_h, A_numCols_h,
                             pA21, ldA,
                             ptmpA, ld_tmpA);
-            cxxblas::geaxpy(order, NoTrans, 
+            cxxblas::geaxpy(order, NoTrans,
+                            A_numRows_h, A_numCols_h-1,
+                            one,
+                            pA22, ldA,
+                            ptmpA, ld_tmpA);
+        } else {
+            cxxblas::gecopy(order, NoTrans,
+                            A_numRows_h, A_numCols_h,
+                            pA21, ldA,
+                            ptmpA, ld_tmpA);
+            cxxblas::geaxpy(order, NoTrans,
                             A_numRows_h-1, A_numCols_h,
-                            one, 
-                            pA22, ldA, 
+                            one,
+                            pA22, ldA,
                             ptmpA, ld_tmpA);
         }
     }
 
     // Step 5: tmpB = B12 - B11;
-    cxxblas::gecopy(order, NoTrans, 
+    cxxblas::gecopy(order, NoTrans,
                     B_numRows_h, B_numCols_h,
-                    pB12, ldB, 
+                    pB12, ldB,
                     ptmpB, ld_tmpB);
-    cxxblas::geaxpy(order, NoTrans, 
-                    B_numRows_h, B_numCols_h, 
-                    -one, 
-                    pB11, ldB, 
+    cxxblas::geaxpy(order, NoTrans,
+                    B_numRows_h, B_numCols_h,
+                    -one,
+                    pB11, ldB,
                     ptmpB, ld_tmpB);
 
     // Step 6: C22 = alpha*op(tmpA)*op(tmpB);
     cxxblas::gemm_strassen_kernel(order, transA, transB,
-                                  mh, nh, kh, 
-                                  alpha, 
-                                  ptmpA, ld_tmpA, 
-                                  ptmpB, ld_tmpB, 
-                                  zero,  
-                                  pC22, ldC, 
+                                  mh, nh, kh,
+                                  alpha,
+                                  ptmpA, ld_tmpA,
+                                  ptmpB, ld_tmpB,
+                                  zero,
+                                  pC22, ldC,
                                   ptmp, size_tmp);
 
     // Step 7: tmpB = tmpB - B22;
     if (!k_odd) {
-        cxxblas::geaxpy(order, NoTrans, 
-                        B_numRows_h, B_numCols_h, 
-                        -one, 
-                        pB22, ldB, 
+        cxxblas::geaxpy(order, NoTrans,
+                        B_numRows_h, B_numCols_h,
+                        -one,
+                        pB22, ldB,
                         ptmpB, ld_tmpB);
     } else {
         if (transB==NoTrans || transB==Conj) {
-            cxxblas::geaxpy(order, NoTrans, 
+            cxxblas::geaxpy(order, NoTrans,
                             B_numRows_h-1, B_numCols_h,
-                            -one, 
-                            pB22, ldB, 
+                            -one,
+                            pB22, ldB,
                             ptmpB, ld_tmpB);
         } else {
             cxxblas::geaxpy(order, NoTrans,
                             B_numRows_h, B_numCols_h-1,
                             -one,
-                            pB22, ldB, 
+                            pB22, ldB,
                             ptmpB, ld_tmpB);
         }
     }
 
     // Step 8: tmpA = tmpA - A11;
-    cxxblas::geaxpy(order, NoTrans, 
-                    A_numRows_h, A_numCols_h, 
-                    -one, 
-                    pA11, ldA, 
+    cxxblas::geaxpy(order, NoTrans,
+                    A_numRows_h, A_numCols_h,
+                    -one,
+                    pA11, ldA,
                     ptmpA, ld_tmpA);
 
     // Step 9: C11 = -alpha*op(tmpA)*op(tmpB);
-    cxxblas::gemm_strassen_kernel(order, transA, transB, 
-                                  mh, nh, kh, 
-                                  -alpha, 
-                                  ptmpA, ld_tmpA, 
-                                  ptmpB, ld_tmpB, 
-                                  zero, 
-                                  pC11, ldC, 
+    cxxblas::gemm_strassen_kernel(order, transA, transB,
+                                  mh, nh, kh,
+                                  -alpha,
+                                  ptmpA, ld_tmpA,
+                                  ptmpB, ld_tmpB,
+                                  zero,
+                                  pC11, ldC,
                                   ptmp, size_tmp);
 
     // Step 10: tmpA = tmpA - A12;
     if (!k_odd) {
 
-        cxxblas::geaxpy(order, NoTrans, 
-                        A_numRows_h, A_numCols_h, 
-                        -one, 
-                        pA12, ldA, 
+        cxxblas::geaxpy(order, NoTrans,
+                        A_numRows_h, A_numCols_h,
+                        -one,
+                        pA12, ldA,
                         ptmpA, ld_tmpA);
 
     } else {
         if (transA==NoTrans || transA==Conj) {
 
-            cxxblas::geaxpy(order, NoTrans, 
-                            A_numRows_h, A_numCols_h-1, 
-                           -one, 
-                           pA12, ldA, 
+            cxxblas::geaxpy(order, NoTrans,
+                            A_numRows_h, A_numCols_h-1,
+                           -one,
+                           pA12, ldA,
                            ptmpA, ld_tmpA);
 
         } else {
 
             cxxblas::geaxpy(order, NoTrans,
-                            A_numRows_h-1, A_numCols_h, 
-                           -one, 
-                           pA12, ldA, 
+                            A_numRows_h-1, A_numCols_h,
+                           -one,
+                           pA12, ldA,
                            ptmpA, ld_tmpA);
         }
     }
 
     // Step 11: C12 = -alpha*op(tmpA)*op(B22);
     if (!k_odd) {
-        cxxblas::gemm_strassen_kernel(order, transA, transB, 
-                                      mh, nh, kh, 
-                                      -alpha, 
-                                      ptmpA, ld_tmpA, 
-                                      pB22, ldB, 
-                                      zero, 
-                                      pC12, ldC, 
+        cxxblas::gemm_strassen_kernel(order, transA, transB,
+                                      mh, nh, kh,
+                                      -alpha,
+                                      ptmpA, ld_tmpA,
+                                      pB22, ldB,
+                                      zero,
+                                      pC12, ldC,
                                       ptmp, size_tmp);
     } else {
         if (transA==NoTrans || transA==Conj) {
-                      
-            cxxblas::gemm_strassen_kernel(order, transA, transB, 
-                                          mh, nh, kh-1,  
-                                          -alpha, 
+
+            cxxblas::gemm_strassen_kernel(order, transA, transB,
+                                          mh, nh, kh-1,
+                                          -alpha,
                                           ptmpA, ld_tmpA,
-                                          pB22, ldB, 
-                                          zero, 
-                                          pC12, ldC, 
+                                          pB22, ldB,
+                                          zero,
+                                          pC12, ldC,
                                           ptmp, size_tmp);
         } else {
-            cxxblas::gemm_strassen_kernel(order, transA, transB, 
-                                          mh, nh, kh-1, 
-                                          -alpha, 
-                                          ptmpA, ld_tmpA, 
-                                          pB22, ldB, 
-                                          zero, 
-                                          pC12, ldC, 
+            cxxblas::gemm_strassen_kernel(order, transA, transB,
+                                          mh, nh, kh-1,
+                                          -alpha,
+                                          ptmpA, ld_tmpA,
+                                          pB22, ldB,
+                                          zero,
+                                          pC12, ldC,
                                           ptmp, size_tmp);
         }
     }
 
     // Step 12: C12 = C12 + C22;
-    cxxblas::geaxpy(order, NoTrans, 
-                    mh, nh, 
-                    one, 
+    cxxblas::geaxpy(order, NoTrans,
+                    mh, nh,
+                    one,
                     pC22, ldC,
                     pC12, ldC);
 
     // Step 13: tmpC = alpha*op(A11)*op(B11);
-    cxxblas::gemm_strassen_kernel(order, transA, transB, 
-                                  mh, nh, kh, 
-                                  alpha, 
-                                  pA11, ldA, 
-                                  pB11, ldB, 
-                                  zero, 
-                                  ptmpC, ld_tmpC, 
+    cxxblas::gemm_strassen_kernel(order, transA, transB,
+                                  mh, nh, kh,
+                                  alpha,
+                                  pA11, ldA,
+                                  pB11, ldB,
+                                  zero,
+                                  ptmpC, ld_tmpC,
                                   ptmp, size_tmp);
 
     // Step 14: C11 = C11 + tmpC;
-    cxxblas::geaxpy(order, NoTrans, 
-                    mh, nh, 
-                    one, 
-                    ptmpC, ld_tmpC, 
+    cxxblas::geaxpy(order, NoTrans,
+                    mh, nh,
+                    one,
+                    ptmpC, ld_tmpC,
                    pC11, ldC);
 
     // Step 15: C12 = C12 + C11;
-    cxxblas::geaxpy(order, NoTrans, 
+    cxxblas::geaxpy(order, NoTrans,
                     mh, nh,
-                    one, 
-                    pC11, ldC, 
+                    one,
+                    pC11, ldC,
                     pC12, ldC);
 
     // Step 16: C11 = C11 + C21;
-    cxxblas::geaxpy(order, NoTrans, 
-                    mh, nh, 
-                    one, 
-                    pC21, ldC, 
+    cxxblas::geaxpy(order, NoTrans,
+                    mh, nh,
+                    one,
+                    pC21, ldC,
                     pC11, ldC);
 
     // Step 17: tmpB = tmpB + B21;
     if (!k_odd) {
 
-        cxxblas::geaxpy(order, NoTrans, 
-                        B_numRows_h, B_numCols_h, 
-                        one, 
+        cxxblas::geaxpy(order, NoTrans,
+                        B_numRows_h, B_numCols_h,
+                        one,
                         pB21, ldB,
                         ptmpB, ld_tmpB);
 
     } else {
         if (transB==NoTrans || transB==Conj) {
 
-            cxxblas::geaxpy(order, NoTrans, 
-                            B_numRows_h-1, B_numCols_h, 
-                            one, 
-                            pB21, ldB, 
+            cxxblas::geaxpy(order, NoTrans,
+                            B_numRows_h-1, B_numCols_h,
+                            one,
+                            pB21, ldB,
                             ptmpB, ld_tmpB);
 
         } else {
 
-            cxxblas::geaxpy(order, NoTrans, 
+            cxxblas::geaxpy(order, NoTrans,
                             B_numRows_h, B_numCols_h-1,
-                            one, 
-                            pB21, ldB, 
+                            one,
+                            pB21, ldB,
                             ptmpB, ld_tmpB);
         }
     }
 
     // Step 18: C12 = -alpha*op(A22)*op(tmpB);
     if (!k_odd) {
-        cxxblas::gemm_strassen_kernel(order, transA, transB, 
-                                      mh, nh, kh, 
-                                      alpha, 
-                                      pA22, ldA, 
-                                      ptmpB, ld_tmpB, 
-                                      zero, 
-                                      pC21, ldC, 
+        cxxblas::gemm_strassen_kernel(order, transA, transB,
+                                      mh, nh, kh,
+                                      alpha,
+                                      pA22, ldA,
+                                      ptmpB, ld_tmpB,
+                                      zero,
+                                      pC21, ldC,
                                       ptmp, size_tmp);
     } else {
         if (transB==NoTrans || transB==Conj) {
-            cxxblas::gemm_strassen_kernel(order, transA, transB, 
-                                          mh, nh, kh-1, 
-                                          alpha, 
-                                          pA22, ldA, 
-                                          ptmpB, ld_tmpB, 
-                                          zero, 
-                                          pC21, ldC, 
+            cxxblas::gemm_strassen_kernel(order, transA, transB,
+                                          mh, nh, kh-1,
+                                          alpha,
+                                          pA22, ldA,
+                                          ptmpB, ld_tmpB,
+                                          zero,
+                                          pC21, ldC,
                                           ptmp, size_tmp);
         }  else {
-            cxxblas::gemm_strassen_kernel(order, transA, transB, 
-                                          mh, nh, kh-1, 
-                                          alpha, 
-                                          pA22, ldA, 
-                                          ptmpB, ld_tmpB, 
-                                          zero, 
-                                          pC21, ldC, 
+            cxxblas::gemm_strassen_kernel(order, transA, transB,
+                                          mh, nh, kh-1,
+                                          alpha,
+                                          pA22, ldA,
+                                          ptmpB, ld_tmpB,
+                                          zero,
+                                          pC21, ldC,
                                           ptmp, size_tmp);
         }
     }
     // Step 19: C21 = C21  + C11;
     cxxblas::geaxpy(order, NoTrans,
                     mh, nh,
-                    one, 
-                    pC11, ldC, 
+                    one,
+                    pC11, ldC,
                     pC21, ldC);
 
     // Step 20: C22 = C22 + C11;
-    cxxblas::geaxpy(order, NoTrans,   
-                    mh, nh, 
+    cxxblas::geaxpy(order, NoTrans,
+                    mh, nh,
                     one,
-                    pC11, ldC, 
+                    pC11, ldC,
                     pC22, ldC);
 
     // Step 21: C11 = alpha*op(A12)*op(B21);
     if (!k_odd) {
-        cxxblas::gemm_strassen_kernel(order, transA, transB, 
+        cxxblas::gemm_strassen_kernel(order, transA, transB,
                                       mh, nh, kh,
-                                      alpha, 
-                                      pA12, ldA, 
-                                      pB21, ldB, 
-                                      zero, 
-                                      pC11, ldC, 
+                                      alpha,
+                                      pA12, ldA,
+                                      pB21, ldB,
+                                      zero,
+                                      pC11, ldC,
                                       ptmp, size_tmp);
     } else {
-    	cxxblas::gemm_strassen_kernel(order, transA, transB,
-                                      mh, nh, kh-1, 
-                                      alpha, 
-                                      pA12, ldA, 
-                                      pB21, ldB, 
-                                      zero, 
+        cxxblas::gemm_strassen_kernel(order, transA, transB,
+                                      mh, nh, kh-1,
+                                      alpha,
+                                      pA12, ldA,
+                                      pB21, ldB,
+                                      zero,
                                       pC11, ldC,
                                       ptmp, size_tmp);
     }
 
     // Step 22: C11 = C11 + tmpC;
-    cxxblas::geaxpy(order, NoTrans, 
-                    mh, nh, 
+    cxxblas::geaxpy(order, NoTrans,
+                    mh, nh,
                     one,
                     ptmpC, ld_tmpC,
                     pC11, ldC);
@@ -786,29 +789,29 @@ gemm_strassen(StorageOrder order,
 
         T *ptmp = new T[size_tmp];
         if (beta==zero) {
-            cxxblas::gemm_strassen_kernel(order, transA, transB, 
-                                          mr, nr, k, 
-                                          alpha, 
-                                          A, ldA, 
-                                          B, ldB, 
-                                          zero, 
-                                          C, ldC, 
+            cxxblas::gemm_strassen_kernel(order, transA, transB,
+                                          mr, nr, k,
+                                          alpha,
+                                          A, ldA,
+                                          B, ldB,
+                                          zero,
+                                          C, ldC,
                                           ptmp, size_tmp);
         } else {
                 T *tmp_C = new T[mr*nr];
-                cxxblas::gemm_strassen_kernel(order, transA, transB, 
-                                              mr, nr, k, 
-                                              alpha, 
-                                              A, ldA, 
-                                              B, ldB, 
-                                              zero, 
-                                              tmp_C, mr, 
+                cxxblas::gemm_strassen_kernel(order, transA, transB,
+                                              mr, nr, k,
+                                              alpha,
+                                              A, ldA,
+                                              B, ldB,
+                                              zero,
+                                              tmp_C, mr,
                                               ptmp, size_tmp);
                 cxxblas::gescal(order, mr, nr, beta, C, ldC);
-                cxxblas::geaxpy(order, NoTrans, 
+                cxxblas::geaxpy(order, NoTrans,
                                 mr, nr,
-                                one, 
-                                tmp_C, mr, 
+                                one,
+                                tmp_C, mr,
                                 C, ldC);
                 delete[] tmp_C;
         }
@@ -817,73 +820,73 @@ gemm_strassen(StorageOrder order,
         // Handle rows and columns with were stripped off
         if (n_odd && !m_odd) {
                 if ( (transB==NoTrans) || (transB==Conj) ) {
-                    cxxblas::gemm(order, transA, transB, 
-                                  m, n-nr, k, 
-                                  alpha, 
-                                  A, ldA, 
-                                  B+nr*ldB, ldB, 
-                                  beta, 
+                    cxxblas::gemm(order, transA, transB,
+                                  m, n-nr, k,
+                                  alpha,
+                                  A, ldA,
+                                  B+nr*ldB, ldB,
+                                  beta,
                                   C+nr*ldC, ldC);
                 } else {
                     cxxblas::gemm(order, transA, transB,
                                   m, n-nr, k,
-                                  alpha, 
-                                  A, ldA, 
-                                  B+nr, ldB, 
-                                  beta, 
+                                  alpha,
+                                  A, ldA,
+                                  B+nr, ldB,
+                                  beta,
                                   C+nr*ldC, ldC);
                 }
         } else if (!n_odd && m_odd){
                 if ( (transA==NoTrans) || (transA==Conj) ) {
-                    cxxblas::gemm(order, transA, transB, 
-                                  m-mr, n, k, 
-                                  alpha, 
-                                  A+mr, ldA, 
-                                  B, ldB, 
-                                  beta, 
+                    cxxblas::gemm(order, transA, transB,
+                                  m-mr, n, k,
+                                  alpha,
+                                  A+mr, ldA,
+                                  B, ldB,
+                                  beta,
                                   C+mr, ldC);
                 } else {
-                    cxxblas::gemm(order, transA, transB, 
-                                  m-mr, n, k, 
-                                  alpha, 
-                                  A+mr*ldA, ldA, 
-                                  B, ldB, 
-                                  beta, 
+                    cxxblas::gemm(order, transA, transB,
+                                  m-mr, n, k,
+                                  alpha,
+                                  A+mr*ldA, ldA,
+                                  B, ldB,
+                                  beta,
                                   C+mr, ldC);
                 }
         } else if (n_odd && m_odd) {
                 if ( (transB==NoTrans) || (transB==Conj) ) {
-                    cxxblas::gemm(order, transA, transB, 
-                                  m, n-nr, k, 
-                                  alpha, 
-                                  A, ldA, 
-                                  B+nr*ldB, ldB, 
-                                  beta, 
+                    cxxblas::gemm(order, transA, transB,
+                                  m, n-nr, k,
+                                  alpha,
+                                  A, ldA,
+                                  B+nr*ldB, ldB,
+                                  beta,
                                   C+nr*ldC, ldC);
                 } else {
-                    cxxblas::gemm(order, transA, transB, 
-                                  m, n-nr, k, 
+                    cxxblas::gemm(order, transA, transB,
+                                  m, n-nr, k,
                                   alpha,
-                                  A, ldA, 
-                                  B+nr, ldB, 
-                                  beta, 
+                                  A, ldA,
+                                  B+nr, ldB,
+                                  beta,
                                   C+nr*ldC, ldC);
                 }
                 if ( (transA==NoTrans) || (transA==Conj) ) {
-                    cxxblas::gemm(order, transA, transB, 
+                    cxxblas::gemm(order, transA, transB,
                                   m-mr, nr, k,
-                                  alpha, 
-                                  A+mr, ldA, 
-                                  B, ldB, 
-                                  beta, 
+                                  alpha,
+                                  A+mr, ldA,
+                                  B, ldB,
+                                  beta,
                                   C+mr, ldC);
                 } else {
-                    cxxblas::gemm(order, transA, transB, 
-                                  m-mr, nr, k, 
-                                  alpha, 
-                                  A+mr*ldA, ldA, 
-                                  B, ldB, 
-                                  beta, 
+                    cxxblas::gemm(order, transA, transB,
+                                  m-mr, nr, k,
+                                  alpha,
+                                  A+mr*ldA, ldA,
+                                  B, ldB,
+                                  beta,
                                   C+mr, ldC);
                 }
         }

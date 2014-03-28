@@ -73,4 +73,27 @@
 #   define ASSERT(x) assert(x)
 #endif
 
+// Prevent warings because some function parameters are only used in debug
+// mode within assertions.  In non-debug mode this causes warnings because
+// of unused variables.
+
+#ifndef NDEBUG
+
+#   ifndef DEBUG_VAR
+#   define DEBUG_VAR(x)      x
+#   endif
+
+#   ifndef FAKE_USE_NDEBUG
+#   define FAKE_USE_NDEBUG(x)
+#   endif
+
+#else
+
+#   ifndef FAKE_USE_NDEBUG
+#   define FAKE_USE_NDEBUG(x) (void)x
+#   endif
+
+#endif
+
+
 #endif // CXXBLAS_AUXILIARY_DEBUGMACRO_H

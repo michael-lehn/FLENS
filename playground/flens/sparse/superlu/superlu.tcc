@@ -33,9 +33,13 @@
 #ifndef PLAYGROUND_FLENS_SPARSE_SUPERLU_TCC
 #define PLAYGROUND_FLENS_SPARSE_SUPERLU_TCC 1
 
+#ifdef WITH_SUPERLU
+
 #include<playground/flens/sparse/superlu/create_compcol_matrix.tcc>
 #include<playground/flens/sparse/superlu/create_dense_matrix.tcc>
 #include<playground/flens/sparse/superlu/gssv.tcc>
 #include<playground/flens/sparse/superlu/sv.tcc>
+
+#endif // WITH_SUPERLU
 
 #endif // PLAYGROUND_FLENS_SPARSE_SUPERLU_TCC

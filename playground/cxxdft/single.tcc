@@ -35,6 +35,7 @@
 
 #include <cmath>
 #include <string.h>
+#include <cxxblas/cxxblas.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <playground/cxxdft/direction.h>
 
@@ -50,13 +51,13 @@ isPowerOfTwo (T x)
 
 template<typename IndexType, typename VIN, typename VOUT>
 void
-fft_single_generic(IndexType N, 
-                   const VIN *x, IndexType incX, 
-                   VOUT *y, IndexType incY, 
+fft_single_generic(IndexType N,
+                   const VIN *x, IndexType incX,
+                   VOUT *y, IndexType incY,
                    DFTDirection direction)
 {
     CXXBLAS_DEBUG_OUT("fft_single_generic");
-    
+
     typedef typename flens::ComplexTrait<VOUT>::PrimitiveType PT;
 
     if ( N <= 1 ) {
@@ -91,20 +92,20 @@ fft_single_generic(IndexType N,
 
     delete[] even;
     delete[] odd;
-    
+
     return;
 }
 
 template<typename IndexType, typename VIN, typename VOUT>
 void
-dft_single_generic(IndexType N, 
+dft_single_generic(IndexType N,
                    const VIN *x, IndexType incX,
                    VOUT *y, IndexType incY,
                    DFTDirection direction)
 {
 
     CXXBLAS_DEBUG_OUT("dft_single_generic");
-    
+
     //
     // Use Cooley-Tukey algorithm if possible
     //
@@ -131,7 +132,7 @@ dft_single_generic(IndexType N,
 
 template <typename IndexType, typename VIN, typename VOUT>
 void
-dft_single(IndexType n, 
+dft_single(IndexType n,
            const VIN *x, IndexType incX,
            VOUT *y, IndexType incY,
            DFTDirection direction)
@@ -150,15 +151,15 @@ dft_single(IndexType n,
 #ifdef HAVE_FFTW_FLOAT
 template <typename IndexType>
 void
-dft_single(IndexType n, 
+dft_single(IndexType n,
            std::complex<float> *x, IndexType incX,
            std::complex<float> *y, IndexType incY,
            DFTDirection direction)
 {
     CXXBLAS_DEBUG_OUT("dft_single [FFTW interface, float]");
-    
+
     fftwf_plan p = NULL;
-    
+
 #   if defined(FFTW_WISDOM_IMPORT) && !defined(WITH_MKLBLAS)
         ASSERT(strcmp(FFTW_WISDOM_FILENAME,""));
         fftwf_import_wisdom_from_filename(FFTW_WISDOM_FILENAME);
@@ -168,20 +169,20 @@ dft_single(IndexType n,
         p = fftwf_plan_dft_1d(n,
                               reinterpret_cast<fftwf_complex*>(x),
                               reinterpret_cast<fftwf_complex*>(y),
-                              direction, FFTW_PLANNER_FLAG);      
+                              direction, FFTW_PLANNER_FLAG);
     } else {
         p = fftwf_plan_many_dft(1, &n, 1,
                                 reinterpret_cast<fftwf_complex*>(x), NULL, incX, 0,
                                 reinterpret_cast<fftwf_complex*>(y), NULL, incY, 0,
                                 direction, FFTW_PLANNER_FLAG);
     }
-    
+
     fftwf_execute(p);
-    
+
 #   if defined(FFTW_WISDOM_EXPORT) && !defined(WITH_MKLBLAS)
         ASSERT(strcmp(FFTW_WISDOM_FILENAME,""));
         fftwf_export_wisdom_to_filename(FFTW_WISDOM_FILENAME);
-#   endif 
+#   endif
 
     fftwf_destroy_plan(p);
 }
@@ -191,15 +192,15 @@ dft_single(IndexType n,
 #ifdef HAVE_FFTW_DOUBLE
 template <typename IndexType>
 void
-dft_single(IndexType n, 
+dft_single(IndexType n,
            std::complex<double> *x, IndexType incX,
            std::complex<double> *y, IndexType incY,
            DFTDirection direction)
 {
     CXXBLAS_DEBUG_OUT("dft_single [FFTW interface, double]");
-    
+
     fftw_plan p = NULL;
-    
+
 #   if defined(FFTW_WISDOM_IMPORT) && !defined(WITH_MKLBLAS)
         ASSERT(strcmp(FFTW_WISDOM_FILENAME,""));
         fftw_import_wisdom_from_filename(FFTW_WISDOM_FILENAME);
@@ -209,20 +210,20 @@ dft_single(IndexType n,
         p = fftw_plan_dft_1d(n,
                              reinterpret_cast<fftw_complex*>(x),
                              reinterpret_cast<fftw_complex*>(y),
-                             direction, FFTW_PLANNER_FLAG);      
+                             direction, FFTW_PLANNER_FLAG);
     } else {
         p = fftw_plan_many_dft(1, &n, 1,
                                reinterpret_cast<fftw_complex*>(x), NULL, incX, 0,
                                reinterpret_cast<fftw_complex*>(y), NULL, incY, 0,
                                direction, FFTW_PLANNER_FLAG);
     }
-    
+
     fftw_execute(p);
-    
+
 #   if defined(FFTW_WISDOM_EXPORT) && !defined(WITH_MKLBLAS)
         ASSERT(strcmp(FFTW_WISDOM_FILENAME,""));
         fftw_export_wisdom_to_filename(FFTW_WISDOM_FILENAME);
-#   endif 
+#   endif
 
     fftw_destroy_plan(p);
 }
@@ -232,15 +233,15 @@ dft_single(IndexType n,
 #ifdef HAVE_FFTW_LONGDOUBLE
 template <typename IndexType>
 void
-dft_single(IndexType n, 
+dft_single(IndexType n,
            std::complex<long double> *x, IndexType incX,
            std::complex<long double> *y, IndexType incY,
            DFTDirection direction)
 {
     CXXBLAS_DEBUG_OUT("dft_single [FFTW interface, long double]");
-    
+
     fftwl_plan p = NULL;
-    
+
 #   ifdef FFTW_WISDOM_IMPORT
         ASSERT(strcmp(FFTW_WISDOM_FILENAME,""));
         fftwl_import_wisdom_from_filename(FFTW_WISDOM_FILENAME);
@@ -250,20 +251,20 @@ dft_single(IndexType n,
         p = fftwl_plan_dft_1d(n,
                               reinterpret_cast<fftwl_complex*>(x),
                               reinterpret_cast<fftwl_complex*>(y),
-                              direction, FFTW_PLANNER_FLAG);      
+                              direction, FFTW_PLANNER_FLAG);
     } else {
         p = fftwl_plan_many_dft(1, &n, 1,
                                 reinterpret_cast<fftwl_complex*>(x), NULL, incX, 0,
                                 reinterpret_cast<fftwl_complex*>(y), NULL, incY, 0,
                                 direction, FFTW_PLANNER_FLAG);
     }
-    
+
     fftwl_execute(p);
-    
+
 #   ifdef FFTW_WISDOM_EXPORT
         ASSERT(strcmp(FFTW_WISDOM_FILENAME,""));
         fftwl_export_wisdom_to_filename(FFTW_WISDOM_FILENAME);
-#   endif 
+#   endif
 
     fftwl_destroy_plan(p);
 
@@ -274,15 +275,15 @@ dft_single(IndexType n,
 #ifdef HAVE_FFTW_QUAD
 template <typename IndexType>
 void
-dft_single(IndexType n, 
+dft_single(IndexType n,
            std::complex<__float128> *x, IndexType incX,
            std::complex<__float128> *y, IndexType incY,
            DFTDirection direction)
 {
     CXXBLAS_DEBUG_OUT("dft_single [FFTW interface, quad]");
-    
+
     fftwq_plan p = NULL;
-    
+
 #   ifdef FFTW_WISDOM_IMPORT
         ASSERT(strcmp(FFTW_WISDOM_FILENAME,""));
         fftwq_import_wisdom_from_filename(FFTW_WISDOM_FILENAME);
@@ -292,23 +293,23 @@ dft_single(IndexType n,
         p = fftwq_plan_dft_1d(n,
                               reinterpret_cast<fftwq_complex*>(x),
                               reinterpret_cast<fftwq_complex*>(y),
-                              direction, FFTW_PLANNER_FLAG);      
+                              direction, FFTW_PLANNER_FLAG);
     } else {
         p = fftwq_plan_many_dft(1, &n, 1,
                                 reinterpret_cast<fftwq_complex*>(x), NULL, incX, 0,
                                 reinterpret_cast<fftwq_complex*>(y), NULL, incY, 0,
                                 direction, FFTW_PLANNER_FLAG);
     }
-    
+
     fftwq_execute(p);
 
 #   ifdef FFTW_WISDOM_EXPORT
         ASSERT(strcmp(FFTW_WISDOM_FILENAME,""));
         fftwq_export_wisdom_to_filename(FFTW_WISDOM_FILENAME);
-#   endif 
+#   endif
 
     fftwq_destroy_plan(p);
-   
+
 }
 
 #endif // HAVE_FFTW_QUAD

@@ -906,3 +906,24 @@ Related Trait-Classes
 
 
 
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename T>                                                    |
+|  struct IsBooleanDenseVector;                                             |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@ST>1#T@IsBooleanDenseVectortemplatetype]
+                         [nameTstructIsBooleanDenseVector;                  ]
+
+    Defined in namespace `flens`.
+    Class IsBooleanDenseVectortemplatetypenameTstructIsBooleanDenseVector; with 1 template parameters.
+
+
+

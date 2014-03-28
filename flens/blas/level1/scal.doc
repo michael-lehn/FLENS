@@ -262,3 +262,27 @@ Matrix Variant (Level 1 Extension)
 
 
 
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]----------------------------------------------------------------*
+|                                                                           |
+|  template <typename ALPHA, typename MB>                                   |
+|      typename RestrictTo<IsDiagMatrix<MB>::value,                         |
+|               void>::Type                                                 |
+|      scal(const ALPHA &alpha, MB &&B);                                    |
+|                                                                           |
+*---------------------------------------------------------------------------*
+                         [c:@N@flens@N@blas@FT@>2#T#Tscal#&1t0.0#&t0.1#templ]
+                         [atetypenameALPHA,typenameMBtypenameRestrictToIsDia]
+                         [gMatrixMBvalue,voidType                           ]
+
+    Defined in namespace `flens::blas`.
+    Function `scal` with 2 template parameters.
+
+
+

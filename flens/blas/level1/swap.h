@@ -34,6 +34,7 @@
 #define FLENS_BLAS_LEVEL1_SWAP_H 1
 
 #include <cxxblas/typedefs.h>
+#include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace blas {
@@ -44,7 +45,7 @@ template <typename VX, typename VY>
                      && IsDenseVector<VY>::value,
              void>::Type
     swap(VX &&x, VY &&y);
-  
+
 //-- GeMatrix ---------------------------------------------------------------
 template <typename MA, typename MB>
     typename RestrictTo<IsGeMatrix<MA>::value &&

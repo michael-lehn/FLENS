@@ -33,25 +33,28 @@
 #ifndef PLAYGROUND_FLENS_SPARSE_SUPERLU_CREATEDENSEMATRIX_H
 #define PLAYGROUND_FLENS_SPARSE_SUPERLU_CREATEDENSEMATRIX_H 1
 
+#ifdef WITH_SUPERLU
+
 namespace flens { namespace superlu {
-    
-    
+
 void
-    Create_Dense_Matrix(SuperMatrix *_A, int m, int n, float *A, int ldA,
-                        Stype_t stype, Mtype_t mtype);
-    
+Create_Dense_Matrix(SuperMatrix *A, int m, int n, float *dataA, int ldA,
+                    Stype_t stype, Mtype_t mtype);
+
 void
-    Create_Dense_Matrix(SuperMatrix *_A, int m, int n, double *A, int ldA,
-                        Stype_t stype, Mtype_t mtype);
-    
+Create_Dense_Matrix(SuperMatrix *A, int m, int n, double *dataA, int ldA,
+                    Stype_t stype, Mtype_t mtype);
+
 void
-    Create_Dense_Matrix(SuperMatrix *_A, int m, int n, std::complex<float> *A,
-                        int ldA, Stype_t stype, Mtype_t mtype);
-    
+Create_Dense_Matrix(SuperMatrix *A, int m, int n, std::complex<float> *dataA,
+                    int ldA, Stype_t stype, Mtype_t mtype);
+
 void
-    Create_Dense_Matrix(SuperMatrix *_A, int m, int n, std::complex<double> *A,
-                         int ldA, Stype_t stype, Mtype_t mtype);
+Create_Dense_Matrix(SuperMatrix *A, int m, int n, std::complex<double> *dataA,
+                     int ldA, Stype_t stype, Mtype_t mtype);
 
 } } // namespace superlu, flens
+
+#endif // WITH_SUPERLU
 
 #endif // PLAYGROUND_FLENS_SPARSE_SUPERLU_CREATEDENSEMATRIX_H

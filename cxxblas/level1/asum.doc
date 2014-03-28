@@ -74,9 +74,9 @@ Complex Single Precision
 |           float &absSum);                                                 |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@cxxblas@FT@>1#Tasum#t0.0#*1$@N@std@N@__1@C@co]
-                         [mplex>#f#S0_#&f#templatetypenameIndexTypetypenameI]
-                         [fIndexTypeisBlasCompatibleInteger                 ]
+                         [c:@N@cxxblas@FT@>1#Tasum#t0.0#*1$@N@std@C@complex>]
+                         [#f#S0_#&f#templatetypenameIndexTypetypenameIfIndex]
+                         [TypeisBlasCompatibleInteger                       ]
 
 
 Complex Double Precision
@@ -89,11 +89,12 @@ Complex Double Precision
 |           double &absSum);                                                |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@cxxblas@FT@>1#Tasum#t0.0#*1$@N@std@N@__1@C@co]
-                         [mplex>#d#S0_#&d#templatetypenameIndexTypetypenameI]
-                         [fIndexTypeisBlasCompatibleInteger                 ]
+                         [c:@N@cxxblas@FT@>1#Tasum#t0.0#*1$@N@std@C@complex>]
+                         [#d#S0_#&d#templatetypenameIndexTypetypenameIfIndex]
+                         [TypeisBlasCompatibleInteger                       ]
 
 
 :links: __CBLAS__    -> http://www.netlib.org/blas/
         __ATLAS__    -> http://math-atlas.sourceforge.net
         __GotoBLAS__ -> http://www.tacc.utexas.edu/tacc-projects/gotoblas2
+

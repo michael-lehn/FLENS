@@ -33,6 +33,7 @@
 #ifndef FLENS_IO_FULLSTORAGE_LOAD_TCC
 #define FLENS_IO_FULLSTORAGE_LOAD_TCC 1
 
+#include <algorithm>
 #include <functional>
 #include <locale>
 #include <fstream>

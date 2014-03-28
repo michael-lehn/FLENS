@@ -36,6 +36,10 @@
 #include <complex>
 #include <cxxblas/cxxblas.h>
 
+#ifdef USE_CXXLAPACK
+#include <cxxlapack/cxxlapack.h>
+#endif
+
 namespace cxxblas {
 
 template <typename IndexType, typename ALPHA, typename MA, typename VX,
@@ -146,7 +150,7 @@ symv(StorageOrder order, StorageUpLo upLo,
 
 #ifdef USE_CXXLAPACK
 
-// csymv 
+// csymv
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 symv(StorageOrder order, StorageUpLo upLo,
@@ -158,17 +162,17 @@ symv(StorageOrder order, StorageUpLo upLo,
      ComplexFloat *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_symv");
-    
+
     if (order==RowMajor) {
         upLo = (upLo==Upper) ? Lower : Upper;
     }
-    
-    cxxlapack::symv(getF77BlasChar(upLo), 
+
+    cxxlapack::symv(getF77BlasChar(upLo),
                     n, &alpha,
-		    A, ldA,
-		    x, incX,
-		    beta,
-		    y, incY);;
+                    A, ldA,
+                    x, incX,
+                    beta,
+                    y, incY);;
 }
 
 // zsymv
@@ -189,10 +193,10 @@ symv(StorageOrder order, StorageUpLo upLo,
     }
     cxxlapack::symv(getF77BlasChar(upLo), 
                     n, alpha,
-		    A, ldA,
-		    x, incX,
-		    beta,
-		    y, incY);;
+                    A, ldA,
+                    x, incX,
+                    beta,
+                    y, incY);;
 }
 
 #endif // USE_CXXLAPACK

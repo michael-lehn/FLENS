@@ -71,10 +71,10 @@ template <typename IndexType>
          const double *x, IndexType incX,
          double beta,
          double *y, IndexType incY);
-    
+
 // Complex functions symv provided by lapack
 #ifdef USE_CXXLAPACK    
-    
+
 // csymv
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
@@ -96,7 +96,7 @@ template <typename IndexType>
          const ComplexDouble *x, IndexType incX,
          const ComplexDouble &beta,
          ComplexDouble *y, IndexType incY);
-    
+
 #endif // USE_CXXLAPACK
 
 #endif // HAVE_CBLAS

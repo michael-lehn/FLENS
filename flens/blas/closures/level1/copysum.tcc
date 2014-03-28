@@ -36,6 +36,7 @@
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/blas/closures/closures.h>
 #include <flens/blas/level1/level1.h>
+#include <flens/blas/level1extensions/level1extensions.h>
 #include <flens/blas/level2/level2.h>
 #include <flens/blas/level3/level3.h>
 #include <flens/typedefs.h>
@@ -105,7 +106,7 @@ copySum(const VX1 &x1, const ALPHA &alpha, const VX2 &x2, VY &y)
 // y = beta*y + alpha*x
 // y = beta*y - alpha*x
 //
-template <typename VXL1, typename VXR1, typename ALPHA, 
+template <typename VXL1, typename VXR1, typename ALPHA,
           typename VXL2, typename VXR2, typename VY>
 typename RestrictTo<IsScalarValue<VXL1>::value &&
                     IsVector<VXR1>::value &&
@@ -113,13 +114,13 @@ typename RestrictTo<IsScalarValue<VXL1>::value &&
                     IsVector<VXR2>::value &&
                     IsVector<VY>::value,
                     void>::Type
-copySum(const VectorClosure<OpMult, VXL1, VXR1> &x1, const ALPHA &alpha, 
+copySum(const VectorClosure<OpMult, VXL1, VXR1> &x1, const ALPHA &alpha,
         const VectorClosure<OpMult, VXL2, VXR2> &x2, VY &y)
 {
     ASSERT(alpha==ALPHA(1) || alpha==ALPHA(-1));
-    
+
     ASSERT(!DebugClosure::search(x2, y));
-    
+
     if (DEBUGCLOSURE::identical(x1.right().impl(), y)) {
          blas::axpby(alpha*x2.left().value(), x2.right(), x1.left().value(), y);
     } else {
@@ -142,9 +143,9 @@ copySum(const VectorClosure<OpMult, VXL1, VXR1> &x1, const ALPHA &alpha,
         const VectorClosure<OpMult, VXL2, VectorClosureOpConj<VXR2> > &x2, VY &y)
 {
     ASSERT(alpha==ALPHA(1) || alpha==ALPHA(-1));
-    
+
     ASSERT(!DebugClosure::search(x2, y));
-    
+
     if (DEBUGCLOSURE::identical(x1.right().impl(), y)) {
          blas::acxpby(alpha*x2.left().value(), x2.right().left(), x1.left().value(), y);
     } else {
@@ -213,20 +214,21 @@ copySum(Transpose trans,
 //     B = beta1*op(A1) + beta2*op(A2)  (alpha= 1)
 // or  B = beta1*op(A1) - beta2*op(A2)  (alpha= -1)
 //
-template <typename MAL1, typename MAR1, typename ALPHA, 
+template <typename MAL1, typename MAR1, typename ALPHA,
           typename MAL2, typename MAR2, typename MB>
 typename RestrictTo<IsScalarValue<MAL1>::value &&
                     IsMatrix<MAR1>::value &&
-		            IsScalarValue<MAL2>::value &&
-		            IsMatrix<MB>::value,
-		            void>::Type
+                    IsScalarValue<MAL2>::value &&
+                    IsMatrix<MB>::value,
+                    void>::Type
 copySum(Transpose trans,
-	const MatrixClosure<OpMult, MAL1, MAR1> &A1, const ALPHA & DEBUG_VAR(alpha), 
-	const MatrixClosure<OpMult, MAL2, MAR2> &A2, MB &B)
+        const MatrixClosure<OpMult, MAL1, MAR1> &A1,
+        const ALPHA &DEBUG_VAR(alpha),
+        const MatrixClosure<OpMult, MAL2, MAR2> &A2, MB &B)
 {
 
     typedef typename PruneConjTrans<MAR2>::Remainder  _MAR2;
-    
+
     ASSERT(alpha==ALPHA(1) || alpha==ALPHA(-1));
 
     ASSERT(!DebugClosure::search(A2, B));
@@ -237,8 +239,7 @@ copySum(Transpose trans,
 //  B = A1
 //
     if (DEBUGCLOSURE::identical(A1.right().impl(), B)) {
-        blas::axpby(_trans, A2.left().value(), _A2,
-		            A1.left().value(), B);
+        blas::axpby(_trans, A2.left().value(), _A2, A1.left().value(), B);
     } else {
         blas::copy(trans, A1.right(), B);
         blas::scal(A1.left().value(), B);

@@ -32,8 +32,8 @@
 
 /* Based on
  *
- * Wenwu Chen and Bill Poirer 
- * - Parallel implementation of efficient preconditioned linear solver for 
+ * Wenwu Chen and Bill Poirer
+ * - Parallel implementation of efficient preconditioned linear solver for
  *   grid-based applications in chemical physics. II: QMR linear solver
  * Journal of Computational Physics 219 (2006) 198–209
  *
@@ -43,6 +43,8 @@
 #define PLAYGROUND_FLENS_SOLVER_TFQMR_TCC 1
 
 #include <cmath>
+#include <flens/blas/blas.h>
+#include <playground/flens/solver/tfqmr.h>
 
 namespace flens { namespace solver {
 
@@ -61,10 +63,10 @@ tfqmr(const MA &A, VX &&x, const VB &b,
     typedef typename VectorX::NoView       Vector;
     typedef typename VectorX::IndexType    IndexType;
     typedef typename VectorX::ElementType  ElementType;
-   
+
 
     Vector s, d, v, p, Atp, q, r;
-    
+
     ElementType beta, gamma, delta;
     ElementType epsilon, eta, theta, rho;
     ElementType gammaold, thetaold, rhoold;
@@ -77,17 +79,17 @@ tfqmr(const MA &A, VX &&x, const VB &b,
     r = b - A*x;
     v = transpose(A)*r;
     r = v;
-    
+
     rho = blas::nrm2(v);
-    
+
     for(IndexType i = 0; i < maxIterations; ++i)
     {
 
         if( abs(r*r)<tol ) {
             return i;
-            
+
         }
-        
+
         ASSERT( abs(rho)!=0 );
 
         v = (One/rho)*v;
@@ -96,9 +98,9 @@ tfqmr(const MA &A, VX &&x, const VB &b,
 
             delta = (One/rho)*(v*b);
         } else {
-        
+
             delta = v*v;
-            
+
         }
         ASSERT( abs(delta)!=0 );
 
@@ -140,8 +142,8 @@ tfqmr(const MA &A, VX &&x, const VB &b,
 
             ElementType kappa = pow(gamma/gammaold,2);
             eta = -eta*rhoold*kappa/beta;
-  
-            ElementType lambda = pow(thetaold*gamma,2);          
+
+            ElementType lambda = pow(thetaold*gamma,2);
             d = lambda*d + eta*q;
             s = lambda*s + eta*Atp;
         }
@@ -168,10 +170,10 @@ tfqmr(const MA &A, VX &&x, const VB &b,
     typedef typename VectorX::NoView       Vector;
     typedef typename VectorX::IndexType    IndexType;
     typedef typename VectorX::ElementType  ElementType;
-   
+
 
     Vector s, d, v, p, q, r;
-    
+
     ElementType beta, gamma, delta;
     ElementType epsilon, eta, theta, rho;
     ElementType gammaold, thetaold, rhoold;
@@ -185,13 +187,13 @@ tfqmr(const MA &A, VX &&x, const VB &b,
     v = r;
 
     rho = blas::nrm2(v);
-    
+
     for(IndexType i = 0; i < maxIterations; ++i)
     {
 
         if( abs(r*r)<tol ) {
             return i;
-            
+
         }
                  ASSERT( abs(rho)!=0 );
 
@@ -201,9 +203,9 @@ tfqmr(const MA &A, VX &&x, const VB &b,
 
             delta = (One/rho)*(v*b);
         } else {
-        
+
             delta = v*v;
-            
+
         }
         ASSERT( abs(delta)!=0 );
 
@@ -244,8 +246,8 @@ tfqmr(const MA &A, VX &&x, const VB &b,
 
             ElementType kappa = pow(gamma/gammaold,2);
             eta = -eta*rhoold*kappa/beta;
-  
-            ElementType lambda = pow(thetaold*gamma,2);          
+
+            ElementType lambda = pow(thetaold*gamma,2);
             d = lambda*d + eta*q;
             s = lambda*s + eta*p;
         }
@@ -274,10 +276,10 @@ ptfqmr(const MP &P, const MA &A, VX &&x, const VB &b,
     typedef typename VectorX::NoView       Vector;
     typedef typename VectorX::IndexType    IndexType;
     typedef typename VectorX::ElementType  ElementType;
-   
+
 
     Vector s, d, v, z, p, q, r;
-    
+
     ElementType alpha, beta, gamma, delta;
     ElementType epsilon, eta, theta, xi, rho;
     ElementType gammaold, thetaold, rhoold;
@@ -295,18 +297,18 @@ ptfqmr(const MP &P, const MA &A, VX &&x, const VB &b,
     rho = blas::nrm2(v);
     xi  = blas::nrm2(v);
 
-    
+
     for(IndexType i = 0; i < maxIterations; ++i)
     {
 
         if( abs(r*r)<tol ) {
             return i;
-            
+
         }
-        
+
         ASSERT( abs(rho)!=0 );
         ASSERT( abs(xi)!=0 );
-        
+
         alpha = alpha*(xi/rho);
 
         v = (One/rho)*v;
@@ -334,7 +336,7 @@ ptfqmr(const MP &P, const MA &A, VX &&x, const VB &b,
         rho    = blas::nrm2(v);
 
         z  = (One/alpha)*P*v;
-        
+
         xi = blas::nrm2(z);
 
         thetaold = theta;
@@ -357,7 +359,7 @@ ptfqmr(const MP &P, const MA &A, VX &&x, const VB &b,
             ElementType lambda = pow(thetaold*gamma, 2);
             ElementType kappa  = pow(gamma/gammaold, 2);
             eta = -eta*rhoold*kappa/beta;
-            
+
             d = lambda*d + eta*alpha*q;
             s = lambda*s + eta*p;
         }

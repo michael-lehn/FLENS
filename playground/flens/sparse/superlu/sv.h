@@ -33,8 +33,10 @@
 #ifndef PLAYGROUND_FLENS_SPARSE_SUPERLU_SV_H
 #define PLAYGROUND_FLENS_SPARSE_SUPERLU_SV_H 1
 
+#ifdef WITH_SUPERLU
+
 namespace flens { namespace superlu {
-    
+
 // Interface to SuperLU, AX = B
 template <typename MA, typename PC, typename PR, typename MB>
     typename
@@ -47,7 +49,7 @@ template <typename MA, typename PC, typename PR, typename MB>
        PC              &&pc,
        PR              &&pr,
        MB              &&B);
-    
+
 template <typename MA, typename PC, typename PR, typename MB>
     typename
     RestrictTo<IsGeCRSMatrix<MA>::value  &&
@@ -72,8 +74,10 @@ template <typename MA, typename PC, typename PR, typename VB>
        PC              &&pc,
        PR              &&pr,
        VB              &&b);
-    
+
 
 } } // namespace superlu, flens
+
+#endif // WITH_SUPERLU
 
 #endif // PLAYGROUND_FLENS_SPARSE_SUPERLU_SV_H

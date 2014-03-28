@@ -33,11 +33,11 @@
 #ifndef PLAYGROUND_FLENS_DFT_VECTOR_TCC
 #define PLAYGROUND_FLENS_DFT_VECTOR_TCC 1
 
-#include<playground/cxxdft/direction.h>
+#include<playground/cxxdft/cxxdft.h>
+#include<playground/flens/dft/vector.h>
 
-namespace flens {
-namespace dft {
-    
+namespace flens { namespace dft {
+
 template <typename VIN, typename VOUT>
 typename RestrictTo<IsComplexDenseVector<VIN>::value &&
                     IsComplexDenseVector<VOUT>::value,
@@ -49,18 +49,18 @@ dft_forward(VIN &&vin, VOUT &&vout)
     //
     typedef typename RemoveRef<VIN>::Type    VectorV;
     typedef typename VectorV::IndexType      IndexType;
-    
+
     if (vout.length()==0) {
-        vout.resize(vin.length()); 
+        vout.resize(vin.length());
     }
-    
+
     ASSERT( vin.length()==vout.length() );
-    
+
     const IndexType N = vin.length();
-    
-    cxxdft::dft_single(N, 
-                       vin.data(), vin.stride(), 
-                       vout.data(), vout.stride(), 
+
+    cxxdft::dft_single(N,
+                       vin.data(), vin.stride(),
+                       vout.data(), vout.stride(),
                        cxxdft::DFTDirection::Forward);
 
 }
@@ -76,18 +76,18 @@ dft_backward(VIN &&vin, VOUT &&vout)
     //
     typedef typename RemoveRef<VIN>::Type    VectorV;
     typedef typename VectorV::IndexType      IndexType;
-    
+
     if (vout.length()==0) {
-        vout.resize(vin.length()); 
+        vout.resize(vin.length());
     }
-    
+
     ASSERT( vin.length()==vout.length() );
-    
+
     const IndexType N = vin.length();
-    
-    cxxdft::dft_single(N, 
-                       vin.data(), vin.stride(), 
-                       vout.data(), vout.stride(), 
+
+    cxxdft::dft_single(N,
+                       vin.data(), vin.stride(),
+                       vout.data(), vout.stride(),
                        cxxdft::DFTDirection::Backward);
 
 }
@@ -98,14 +98,14 @@ typename RestrictTo<IsComplexDenseVector<VIN>::value &&
                     void>::Type
 dft_forward_normalized(VIN &&vin, VOUT &&vout)
 {
-    
+
     typedef typename RemoveRef<VOUT>::Type          VectorV;
     typedef typename VectorV::ElementType           T;
     typedef typename ComplexTrait<T>::PrimitiveType PT;
-    
+
     dft_forward(vin, vout);
     vout /= PT(vin.length());
-    
+
 }
 
 template <typename VIN, typename VOUT>
@@ -114,17 +114,16 @@ typename RestrictTo<IsComplexDenseVector<VIN>::value &&
                     void>::Type
 dft_backward_normalized(VIN &&vin, VOUT &&vout)
 {
-    
+
     typedef typename RemoveRef<VOUT>::Type          VectorV;
     typedef typename VectorV::ElementType           T;
     typedef typename ComplexTrait<T>::PrimitiveType PT;
-    
+
     dft_backward(vin, vout);
     vout /= PT(vin.length());
-    
+
 }
-    
-} // namespace dft
-} // namespace flens
+
+} } // namespace dft, flens
 
 #endif // PLAYGROUND_FLENS_DFT_VECTOR_TCC

@@ -33,6 +33,8 @@
 #ifndef FLENS_STORAGE_COORDSTORAGE_COORDSTORAGE_H
 #define FLENS_STORAGE_COORDSTORAGE_COORDSTORAGE_H 1
 
+#include <algorithm>
+#include <cstddef>
 #include <vector>
 #include <flens/storage/indexoptions.h>
 

@@ -33,8 +33,14 @@
 #ifndef PLAYGROUND_FLENS_SPARSE_SUITESPARSE_SV_H
 #define PLAYGROUND_FLENS_SPARSE_SUITESPARSE_SV_H 1
 
+#ifdef WITH_UMFPACK
+
+#include<flens/auxiliary/auxiliary.h>
+#include<flens/matrixtypes/matrixtypes.h>
+#include<flens/vectortypes/vectortypes.h>
+
 namespace flens { namespace suitesparse {
-    
+
 // Interface to SuiteSparse, AX = B
 template <typename MA, typename MX, typename MB>
     typename
@@ -45,7 +51,7 @@ template <typename MA, typename MX, typename MB>
     sv(MA  &&A,
        MX  &&X,
        const MB  &B);
-    
+
 template <typename MA, typename MX, typename MB>
     typename
     RestrictTo<IsComplexGeCCSMatrix<MA>::value &&
@@ -56,7 +62,7 @@ template <typename MA, typename MX, typename MB>
        MX  &&X,
        const MB  &B);
 
-// Interface for vectors    
+// Interface for vectors
 template <typename MA, typename VX, typename VB>
     typename
     RestrictTo<IsGeCCSMatrix<MA>::value &&
@@ -66,8 +72,10 @@ template <typename MA, typename VX, typename VB>
     sv(MA  &&A,
        VX  &&x,
        const VB  &b);
-    
+
 
 } } // namespace suitesparse, flens
+
+#endif // WITH_UMFPACK
 
 #endif // PLAYGROUND_FLENS_SPARSE_SUITESPARSE_SV_H

@@ -41,6 +41,7 @@
 #define PLAYGROUND_FLENS_SOLVER_CG_TCC 1
 
 #include <cmath>
+#include <playground/flens/solver/cg.h>
 
 namespace flens { namespace solver {
 

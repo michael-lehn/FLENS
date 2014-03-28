@@ -33,45 +33,57 @@
 #ifndef PLAYGROUND_FLENS_SPARSE_SUPERLU_CREATEDENSEMATRIX_TCC
 #define PLAYGROUND_FLENS_SPARSE_SUPERLU_CREATEDENSEMATRIX_TCC 1
 
+#ifdef WITH_SUPERLU
+
 namespace flens { namespace superlu {
-    
-    
+
 void
-Create_Dense_Matrix(SuperMatrix *_A, int m, int n, float *A, int ldA,
+Create_Dense_Matrix(SuperMatrix *A, int m, int n, float *dataA, int ldA,
                     Stype_t stype, Mtype_t mtype)
 {
-    superlu_float::sCreate_Dense_Matrix(_A, m, n, A, ldA, stype, SLU_S, mtype);
-        
+    superlu_float::sCreate_Dense_Matrix(A, m, n, dataA, ldA,
+                                        stype, SLU_S, mtype);
+
 };
-    
+
 void
-Create_Dense_Matrix(SuperMatrix *_A, int m, int n, double *A, int ldA,
+Create_Dense_Matrix(SuperMatrix *A, int m, int n, double *dataA, int ldA,
                     Stype_t stype, Mtype_t mtype)
 {
-    superlu_double::dCreate_Dense_Matrix(_A, m, n, A, ldA, stype, SLU_D, mtype);
-        
+    superlu_double::dCreate_Dense_Matrix(A, m, n, dataA, ldA,
+                                         stype, SLU_D, mtype);
+
 };
-    
+
 void
-Create_Dense_Matrix(SuperMatrix *_A, int m, int n, std::complex<float> *A, int ldA,
+Create_Dense_Matrix(SuperMatrix *A, int m, int n,
+                    std::complex<float> *dataA, int ldA,
                     Stype_t stype, Mtype_t mtype)
 {
-    superlu_complex_float::cCreate_Dense_Matrix(_A, m, n,
-                                                reinterpret_cast<typename superlu_complex_float::complex*>(A),
-                                                ldA, stype, SLU_C, mtype);
-        
+    typedef typename superlu_complex_float::complex  slu_complex_float;
+
+    slu_complex_float *_dataA = reinterpret_cast<slu_complex_float *>(dataA);
+
+    superlu_complex_float::cCreate_Dense_Matrix(A, m, n, _dataA, ldA,
+                                                stype, SLU_C, mtype);
 };
-    
+
 void
-Create_Dense_Matrix(SuperMatrix *_A, int m, int n, std::complex<double> *A, int ldA,
-                        Stype_t stype, Mtype_t mtype)
+Create_Dense_Matrix(SuperMatrix *A, int m, int n,
+                    std::complex<double> *dataA, int ldA,
+                    Stype_t stype, Mtype_t mtype)
 {
-    superlu_complex_double::zCreate_Dense_Matrix(_A, m, n,
-                                                 reinterpret_cast<typename superlu_complex_double::doublecomplex*>(A),
-                                                 ldA, stype, SLU_D, mtype);
-        
+    typedef typename superlu_complex_double::doublecomplex  slu_complex_double;
+
+    slu_complex_double *_dataA = reinterpret_cast<slu_complex_double *>(dataA);
+
+    superlu_complex_double::zCreate_Dense_Matrix(A, m, n, _dataA, ldA,
+                                                 stype, SLU_D, mtype);
+
 };
 
 } } // namespace superlu, flens
+
+#endif // WITH_SUPERLU
 
 #endif // PLAYGROUND_FLENS_SPARSE_SUPERLU_CREATEDENSEMATRIX_TCC

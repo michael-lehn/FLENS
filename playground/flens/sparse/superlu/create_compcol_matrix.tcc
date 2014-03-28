@@ -33,54 +33,64 @@
 #ifndef PLAYGROUND_FLENS_SPARSE_SUPERLU_CREATECOMPCOLMATRIX_TCC
 #define PLAYGROUND_FLENS_SPARSE_SUPERLU_CREATECOMPCOLMATRIX_TCC 1
 
+#ifdef WITH_SUPERLU
+
 namespace flens { namespace superlu {
-    
+
 void
-Create_CompCol_Matrix(SuperMatrix *A, int numRows, int numCols, 
-                      int numNonZeros, float *values, 
+Create_CompCol_Matrix(SuperMatrix *A, int numRows, int numCols,
+                      int numNonZeros, float *values,
                       int * rows, int *cols, Stype_t order, Mtype_t shape)
 {
-        
+
     superlu_float::sCreate_CompCol_Matrix(A, numRows, numCols, numNonZeros,
                                           values, rows, cols,
                                           order, SLU_S, shape);
 };
-    
+
 void
-Create_CompCol_Matrix(SuperMatrix *A, int numRows, int numCols, 
+Create_CompCol_Matrix(SuperMatrix *A, int numRows, int numCols,
                       int numNonZeros, double *values,
                       int * rows, int *cols, Stype_t order, Mtype_t shape)
 {
-        
+
     superlu_double::dCreate_CompCol_Matrix(A, numRows, numCols, numNonZeros,
                                            values, rows, cols,
                                            order, SLU_D, shape);
 };
-    
+
 void
-Create_CompCol_Matrix(SuperMatrix *A, int numRows, int numCols, 
+Create_CompCol_Matrix(SuperMatrix *A, int numRows, int numCols,
                       int numNonZeros, std::complex<float> *values,
                       int * rows, int *cols, Stype_t order, Mtype_t shape)
 {
-        
-    superlu_complex_float::cCreate_CompCol_Matrix(A, numRows, numCols, numNonZeros,
-                                                  reinterpret_cast<typename superlu_complex_float::complex*>(values), 
-                                                  rows, cols,
-                                                   order, SLU_C, shape);
+    typedef typename superlu_complex_float::complex  slu_complex_float;
+
+    slu_complex_float *_value = reinterpret_cast<slu_complex_float *>(values);
+
+    superlu_complex_float::cCreate_CompCol_Matrix(A, numRows, numCols,
+                                                  numNonZeros,
+                                                  _values, rows, cols,
+                                                  order, SLU_C, shape);
 };
-    
+
 void
-Create_CompCol_Matrix(SuperMatrix *A, int numRows, int numCols, 
+Create_CompCol_Matrix(SuperMatrix *A, int numRows, int numCols,
                       int numNonZeros, std::complex<double> *values,
                       int * rows, int *cols, Stype_t order, Mtype_t shape)
 {
-        
-    superlu_complex_double::zCreate_CompCol_Matrix(A, numRows, numCols, numNonZeros,
-                                                   reinterpret_cast<typename superlu_complex_double::doublecomplex*>(values), 
-                                                   rows, cols,
+    typedef typename superlu_complex_double::doublecomplex  slu_complex_double;
+
+    slu_complex_double *_value = reinterpret_cast<slu_complex_double *>(values);
+
+    superlu_complex_double::zCreate_CompCol_Matrix(A, numRows, numCols,
+                                                   numNonZeros,
+                                                   _values, rows, cols,
                                                    order, SLU_Z, shape);
 };
 
 } } // namespace superlu, flens
+
+#endif // WITH_SUPERLU
 
 #endif // PLAYGROUND_FLENS_SPARSE_SUPERLU_CREATECOMPCOLMATRIX_TCC

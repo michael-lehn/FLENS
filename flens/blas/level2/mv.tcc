@@ -34,6 +34,7 @@
 #define FLENS_BLAS_LEVEL2_MV_TCC 1
 
 #include <flens/blas/closures/closures.h>
+#include <flens/blas/level1/level1.h>
 #include <flens/blas/level2/level2.h>
 #include <flens/typedefs.h>
 
@@ -58,7 +59,7 @@ mv(Transpose transpose, const ALPHA &alpha, const MA &A, const VX &x,
 {
     typedef typename RemoveRef<MA>::Type MatrixA;
     typedef typename MatrixA::IndexType  IndexType;
-    
+
     const bool noTrans = (transpose==NoTrans || transpose==Conj);
 
 #   ifndef NDEBUG
@@ -82,14 +83,14 @@ mv(Transpose transpose, const ALPHA &alpha, const MA &A, const VX &x,
         FLENS_BLASLOG_RESIZE_VECTOR(y, yLength);
         y.resize(yLength, y.firstIndex(), Zero);
     }
-    
+
     if (DEBUGCLOSURE::identical(x, y)) {
         ASSERT( beta==BETA(0) );
-        
+
         blas::scal(alpha, y);
-        
+
         FLENS_BLASLOG_SETTAG("--> ");
-        FLENS_BLASLOG_BEGIN_TBMV(transpose, A, x);        
+        FLENS_BLASLOG_BEGIN_TBMV(transpose, A, x);
 #       ifdef HAVE_CXXBLAS_TBMV
         cxxblas::tbmv(ColMajor, Upper,
                       transpose, NonUnit,

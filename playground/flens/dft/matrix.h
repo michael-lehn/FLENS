@@ -33,29 +33,31 @@
 #ifndef PLAYGROUND_FLENS_DFT_MATRIX_H
 #define PLAYGROUND_FLENS_DFT_MATRIX_H 1
 
+#include <flens/matrixtypes/matrixtypes.h>
+
 namespace flens {
 
 namespace dft {
-   
+
 // Fourier transforms column-wise
 template <typename AIN, typename AOUT>
     typename RestrictTo<IsComplexGeMatrix<AIN>::value &&
                         IsComplexGeMatrix<AOUT>::value,
                         void>::Type
     dft_col_forward(AIN &&Ain, AOUT &&Aout);
-    
+
 template <typename AIN, typename AOUT>
     typename RestrictTo<IsComplexGeMatrix<AIN>::value &&
                         IsComplexGeMatrix<AOUT>::value,
                         void>::Type
     dft_col_backward(AIN &&Ain, AOUT &&Aout);
-    
+
 template <typename AIN, typename AOUT>
     typename RestrictTo<IsComplexGeMatrix<AIN>::value &&
                         IsComplexGeMatrix<AOUT>::value,
                         void>::Type
     dft_col_forward_normalized(AIN &&Ain, AOUT &&Aout);
-    
+
 template <typename AIN, typename AOUT>
     typename RestrictTo<IsComplexGeMatrix<AIN>::value &&
                         IsComplexGeMatrix<AOUT>::value,
@@ -68,25 +70,25 @@ template <typename AIN, typename AOUT>
                         IsComplexGeMatrix<AOUT>::value,
                         void>::Type
     dft_row_forward(AIN &&Ain, AOUT &&Aout);
-    
+
 template <typename AIN, typename AOUT>
     typename RestrictTo<IsComplexGeMatrix<AIN>::value &&
                         IsComplexGeMatrix<AOUT>::value,
                         void>::Type
     dft_row_backward(AIN &&Ain, AOUT &&Aout);
-    
+
 template <typename AIN, typename AOUT>
     typename RestrictTo<IsComplexGeMatrix<AIN>::value &&
                         IsComplexGeMatrix<AOUT>::value,
                         void>::Type
     dft_row_forward_normalized(AIN &&Ain, AOUT &&Aout);
-    
+
 template <typename AIN, typename AOUT>
     typename RestrictTo<IsComplexGeMatrix<AIN>::value &&
                         IsComplexGeMatrix<AOUT>::value,
                         void>::Type
     dft_row_backward_normalized(AIN &&Ain, AOUT &&Aout);
-    
+
 } // namespace dft
 } // namespace flens
 

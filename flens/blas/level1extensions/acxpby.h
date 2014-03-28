@@ -56,7 +56,7 @@ template <typename ALPHA, typename VX, typename BETA, typename VY>
              void>::Type
     acxpby(const ALPHA &alpha, const VX &x, const BETA &beta, VY &&y);
 
-    
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1_ACXPBY_H

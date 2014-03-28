@@ -81,9 +81,10 @@ Complex Single Precision
 |           ComplexFloat *y, IndexType incY);                               |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@cxxblas@FT@>1#Tcopy#t0.0#*1$@N@std@N@__1@C@co]
-                         [mplex>#f#S0_#*S2_#S0_#templatetypenameIndexTypetyp]
-                         [enameIfIndexTypeisBlasCompatibleInteger           ]
+                         [c:@N@cxxblas@FT@>1#Tcopy#t0.0#*1$@N@std@C@complex>]
+                         [#f#S0_#*S2_#S0_#templatetypenameIndexTypetypenameI]
+                         [fIndexTypeisBlasCompatibleInteger                 ]
+
 
 
 Complex Double Precision
@@ -97,24 +98,13 @@ Complex Double Precision
 |           ComplexDouble *y, IndexType incY);                              |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@cxxblas@FT@>1#Tcopy#t0.0#*1$@N@std@N@__1@C@co]
-                         [mplex>#d#S0_#*S2_#S0_#templatetypenameIndexTypetyp]
-                         [enameIfIndexTypeisBlasCompatibleInteger           ]
+                         [c:@N@cxxblas@FT@>1#Tcopy#t0.0#*1$@N@std@C@complex>]
+                         [#d#S0_#*S2_#S0_#templatetypenameIndexTypetypenameI]
+                         [fIndexTypeisBlasCompatibleInteger                 ]
 
 
 :links: __CBLAS__    -> http://www.netlib.org/blas/
         __ATLAS__    -> http://math-atlas.sourceforge.net
         __GotoBLAS__ -> http://www.tacc.utexas.edu/tacc-projects/gotoblas2
-################################################################################
-#
-#  The following CODEREFs are automatically created stubs.
-#
-################################################################################
-
-
-
-    Defined in namespace `cxxblas`.
-    Function `copy` with 3 template parameters.
-
 
 

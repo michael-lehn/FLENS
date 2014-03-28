@@ -35,6 +35,7 @@
 
 #include <iostream>
 
+#include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens {
@@ -42,7 +43,7 @@ namespace flens {
 template <typename A>
     std::ostream &
     operator<<(std::ostream &out, const DenseVector<A> &x);
-    
+
 template <typename MA>
     std::ostream &
     operator<<(std::ostream &out, const DiagMatrix<MA> &A);

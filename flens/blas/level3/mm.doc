@@ -382,3 +382,64 @@ i.e. the hermitian matrix $A$ can be multiplies from left or right.
 
 
 
+################################################################################
+#
+#  The following CODEREFs are automatically created stubs.
+#
+################################################################################
+
+
+*--[CODEREF]------------------------------------------------------------------------*
+|                                                                                   |
+|  template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>  |
+|      typename RestrictTo<IsDiagMatrix<MA>::value                                  |
+|                       && IsGeMatrix<MB>::value                                    |
+|                       && IsGeMatrix<MC>::value,                                   |
+|               void>::Type                                                         |
+|      mm(Transpose        transA,                                                  |
+|         Transpose        transB,                                                  |
+|         const ALPHA      &alpha,                                                  |
+|         const MA         &A,                                                      |
+|         const MB         &B,                                                      |
+|         const BETA       &beta,                                                   |
+|         MC               &&C);                                                    |
+|                                                                                   |
+*-----------------------------------------------------------------------------------*
+                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmm#$@N@cxxblas@E@Trans]
+                            [pose#S0_#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetype]
+                            [nameALPHA,typenameMA,typenameMB,typenameBETA,typenameMC]
+                            [typenameRestrictToIsDiagMatrixMAvalueandIsGeMatrixMBval]
+                            [ueandIsGeMatrixMCvalue,voidType                        ]
+
+    Defined in namespace `flens::blas`.
+    Function `mm` with 5 template parameters.
+
+
+
+*--[CODEREF]------------------------------------------------------------------------*
+|                                                                                   |
+|  template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>  |
+|      typename RestrictTo<IsGeMatrix<MA>::value                                    |
+|                       && IsDiagMatrix<MB>::value                                  |
+|                       && IsGeMatrix<MC>::value,                                   |
+|               void>::Type                                                         |
+|      mm(Transpose        transA,                                                  |
+|         Transpose        transB,                                                  |
+|         const ALPHA      &alpha,                                                  |
+|         const MA         &A,                                                      |
+|         const MB         &B,                                                      |
+|         const BETA       &beta,                                                   |
+|         MC               &&C);                                                    |
+|                                                                                   |
+*-----------------------------------------------------------------------------------*
+                            [c:@N@flens@N@blas@FT@>5#T#T#T#T#Tmm#$@N@cxxblas@E@Trans]
+                            [pose#S0_#&1t0.0#&1t0.1#&1t0.2#&1t0.3#&t0.4#templatetype]
+                            [nameALPHA,typenameMA,typenameMB,typenameBETA,typenameMC]
+                            [typenameRestrictToIsGeMatrixMAvalueandIsDiagMatrixMBval]
+                            [ueandIsGeMatrixMCvalue,voidType                        ]
+
+    Defined in namespace `flens::blas`.
+    Function `mm` with 5 template parameters.
+
+
+

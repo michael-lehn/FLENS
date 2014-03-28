@@ -32,7 +32,7 @@
 
 /* Based on
  *
- * Yousef Saad - Iterative methods for sparse linear systems  (2nd edition) 
+ * Yousef Saad - Iterative methods for sparse linear systems  (2nd edition)
  * Algorithm 7.7
  *
  */
@@ -41,17 +41,22 @@
 #define PLAYGROUND_FLENS_SOLVER_BICGSTAB_TCC 1
 
 #include <cmath>
+#include <playground/flens/solver/bicgstab.h>
 
 namespace flens { namespace solver {
-         
+
 template <typename MA, typename VX, typename VB>
 typename RestrictTo<IsMatrix<MA>::value
                  && IsDenseVector<VX>::value
                  && IsDenseVector<VB>::value,
          typename RemoveRef<VX>::Type::IndexType>::Type
-bicgstab(const MA &A, VX &&x, const VB &b,
-         typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType tol,
-         typename RemoveRef<VX>::Type::IndexType maxIterations)
+bicgstab(const MA                                               &A,
+         VX                                                     &&x,
+         const VB                                               &b,
+         typename ComplexTrait<
+                    typename RemoveRef<VX>::Type::ElementType
+                  >::PrimitiveType                              tol,
+         typename RemoveRef<VX>::Type::IndexType                maxIterations)
 {
     using std::abs;
 
@@ -59,23 +64,23 @@ bicgstab(const MA &A, VX &&x, const VB &b,
     typedef typename VectorX::NoView       Vector;
     typedef typename VectorX::IndexType    IndexType;
     typedef typename VectorX::ElementType  ElementType;
-    
+
     Vector      Ap, As, r, rs, s, p;
     ElementType alpha, beta, rNormSquare, omega;
-    
+
     const ElementType One(1);
-    
+
     r  = b - A*x;
     rs = r;
     p  = r;
-    
+
     for (IndexType k=1; k<=maxIterations; k++) {
-        
+
         rNormSquare = r*r;
         if (abs(rNormSquare)<=tol) {
             return 0;
         }
-        
+
         Ap    = A*p;
         alpha = (r*rs)/(Ap*rs);
         s     = r - alpha*Ap;

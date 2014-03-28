@@ -36,7 +36,7 @@
 #include <cxxblas/typedefs.h>
 
 namespace cxxblas {
-    
+
 #define HAVE_CXXBLAS_GEMM_STRASSEN 1
 
 #ifndef MINDIM

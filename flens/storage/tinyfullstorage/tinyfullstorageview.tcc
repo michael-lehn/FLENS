@@ -35,7 +35,7 @@
 
 #include <memory>
 #include <cxxblas/cxxblas.h>
-#include <flens/storage/tinyfullstorage/tinyfullstorage.h>
+#include <flens/storage/tinyfullstorage/tinyfullstorageview.h>
 
 namespace flens {
 
@@ -54,7 +54,8 @@ TinyFullStorageView<T,m,n,ldA,ib>::~TinyFullStorageView()
 
 template  <typename T, int m, int n, int ldA, int ib>
 const typename TinyFullStorageView<T,m,n,ldA,ib>::ElementType &
-TinyFullStorageView<T,m,n,ldA,ib>::operator()(IndexType row, IndexType col) const
+TinyFullStorageView<T,m,n,ldA,ib>::operator()(IndexType row,
+                                              IndexType col) const
 {
     const T *data = reinterpret_cast<const T *>(_data)
                   - (firstRow*leadingDimension+firstCol);

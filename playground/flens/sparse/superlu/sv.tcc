@@ -33,8 +33,10 @@
 #ifndef PLAYGROUND_FLENS_SPARSE_SUPERLU_SV_TCC
 #define PLAYGROUND_FLENS_SPARSE_SUPERLU_SV_TCC 1
 
+#ifdef WITH_SUPERLU
+
 namespace flens { namespace superlu {
-    
+
 template <typename MA, typename PC, typename PR, typename MB>
 typename
 RestrictTo<IsGeCCSMatrix<MA>::value  &&
@@ -50,25 +52,25 @@ sv(MA              &&A,
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::ElementType   ElementType;
     typedef typename MatrixA::IndexType     IndexType;
-        
+
     if (pc.length()==0) {
         pc.resize(A.numCols());
     }
     if (pr.length()==0) {
         pr.resize(A.numRows());
     }
-    
+
     ASSERT(A.numRows()==A.numCols());
     ASSERT(pr.length()==A.numRows());
     ASSERT(pc.length()==A.numCols());
-        
+
     ASSERT(pc.stride()==1);
     ASSERT(pr.stride()==1);
     ASSERT(B.order()==ColMajor);
-        
+
     const IndexType firstCol = A.firstCol();
     const IndexType firstRow = A.firstRow();
-        
+
     // SuperLu needs IndexBase 0
     // -> shift base temporarily
     if (firstCol != IndexType(0)) {
@@ -77,7 +79,7 @@ sv(MA              &&A,
     if (firstRow != IndexType(0)) {
         A.engine().rows() -= firstRow;
     }
-        
+
     superlu_options_t   options;
     SuperLUStat_t       stat;
     SuperMatrix         _A, _L, _U, _B;
@@ -88,19 +90,21 @@ sv(MA              &&A,
                           A.engine().cols().data(),
                           SLU_NC, SLU_GE);
 
-    Create_Dense_Matrix(&_B, B.numRows(), B.numCols(), B.data(), B.leadingDimension(),
+    Create_Dense_Matrix(&_B, B.numRows(), B.numCols(),
+                        B.data(), B.leadingDimension(),
                         SLU_DN, SLU_GE);
-        
+
     set_default_options(&options);
     options.ColPerm = NATURAL;
     StatInit(&stat);
-    int info = gssv<ElementType>(&options, &_A, pc.data(), pr.data(), &_L, &_U, &_B, &stat);
+    int info = gssv<ElementType>(&options, &_A, pc.data(), pr.data(),
+                                 &_L, &_U, &_B, &stat);
     Destroy_SuperMatrix_Store(&_A);
     Destroy_SuperMatrix_Store(&_B);
     Destroy_SuperNode_Matrix(&_L);
     Destroy_CompCol_Matrix(&_U);
     StatFree(&stat);
-        
+
     // Reset base to original value
     if (firstCol != IndexType(0)) {
         A.engine().cols() += firstCol;
@@ -108,10 +112,10 @@ sv(MA              &&A,
     if (firstRow != IndexType(0)) {
         A.engine().rows() += firstRow;
     }
-        
+
     return info;
 }
-    
+
 template <typename MA, typename PC, typename PR, typename MB>
 typename
 RestrictTo<IsGeCRSMatrix<MA>::value  &&
@@ -127,63 +131,65 @@ sv(MA              &&A,
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::ElementType   ElementType;
     typedef typename MatrixA::IndexType     IndexType;
-        
+
     if (pc.length()==0) {
         pc.resize(A.numCols());
     }
     if (pr.length()==0) {
         pr.resize(A.numRows());
     }
-    
+
     // Square Matrix
     ASSERT(A.numRows()==A.numCols());
     ASSERT(pr.length()==A.numRows());
     ASSERT(pc.length()==A.numCols());
-        
+
     ASSERT(pc.stride()==1);
     ASSERT(pr.stride()==1);
     ASSERT(B.order()==ColMajor);
-        
+
     const IndexType firstCol = A.firstCol();
     const IndexType firstRow = A.firstRow();
-        
+
     // SuperLu needs IndexBase 0
     // -> shift base temporarily
-        
+
     if (firstCol != IndexType(0)) {
         A.engine().cols() -= firstCol;
     }
     if (firstRow != IndexType(0)) {
         A.engine().rows() -= firstRow;
     }
-        
+
     superlu_options_t   options;
     SuperLUStat_t       stat;
     SuperMatrix         _A, _L, _U, _B;
-        
-        
+
+
     Create_CompCol_Matrix(&_A,
                           A.numCols(), A.numRows(), A.engine().numNonZeros(),
                           A.engine().values().data(),
                           A.engine().cols().data(),
                           A.engine().rows().data(),
                           SLU_NR, SLU_GE);
-        
-        
-        
-    Create_Dense_Matrix(&_B, B.numRows(), B.numCols(), B.data(), B.leadingDimension(),
+
+
+
+    Create_Dense_Matrix(&_B, B.numRows(), B.numCols(),
+                        B.data(), B.leadingDimension(),
                         SLU_DN, SLU_GE);
-        
+
     set_default_options(&options);
     options.ColPerm = NATURAL;
     StatInit(&stat);
-    int info = gssv<ElementType>(&options, &_A, pc.data(), pr.data(), &_L, &_U, &_B, &stat);
+    int info = gssv<ElementType>(&options, &_A, pc.data(), pr.data(),
+                                 &_L, &_U, &_B, &stat);
     Destroy_SuperMatrix_Store(&_A);
     Destroy_SuperMatrix_Store(&_B);
     Destroy_SuperNode_Matrix(&_L);
     Destroy_CompCol_Matrix(&_U);
     StatFree(&stat);
-        
+
     // Reset base to original value
     if (firstCol != IndexType(0)) {
         A.engine().cols() += firstCol;
@@ -191,10 +197,10 @@ sv(MA              &&A,
     if (firstRow != IndexType(0)) {
         A.engine().rows() += firstRow;
     }
-        
+
     return info;
 }
-    
+
 template <typename MA, typename PC, typename PR, typename VB>
 typename
 RestrictTo<(IsGeCCSMatrix<MA>::value || IsGeCRSMatrix<MA>::value) &&
@@ -207,19 +213,19 @@ sv(MA              &&A,
     PR              &&pr,
     VB              &&b)
 {
-        
+
     typedef typename RemoveRef<VB>::Type    VectorB;
     typedef typename VectorB::ElementType   ElementType;
     typedef typename VectorB::IndexType     IndexType;
-        
+
     ASSERT(b.stride()==IndexType(1));
     IndexType n      = b.length();
     GeMatrix<FullStorageView<ElementType, ColMajor> >  B(n, 1, b, n);
     return superlu::sv(A, pc, pr, B);
 }
 
-    
-
 } } // namespace superlu, flens
+
+#endif // WITH_SUPERLU
 
 #endif // PLAYGROUND_FLENS_SPARSE_SUPERLU_SV_TCC

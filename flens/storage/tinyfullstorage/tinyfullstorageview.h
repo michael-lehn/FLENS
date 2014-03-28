@@ -34,14 +34,14 @@
 #define FLENS_STORAGE_TINYFULLSTORAGE_TINYFULLSTORAGEVIEW_H 1
 
 namespace flens {
-    
-    template <typename T, int m, int n, int ldA, int indexBase=1>
-    class TinyFullStorageView
-    {
+
+template <typename T, int m, int n, int ldA, int indexBase=1>
+class TinyFullStorageView
+{
     public:
         typedef T    ElementType;
         typedef int  IndexType;
-        
+
         static const int numRows = m;
         static const int numCols = n;
         static const int leadingDimension = ldA;
@@ -49,34 +49,34 @@ namespace flens {
         static const int firstCol = indexBase;
         static const int lastRow = firstRow+numRows-1;
         static const int lastCol = firstCol+numCols-1;
-        
+
         TinyFullStorageView(ElementType *data);
-        
+
         ~TinyFullStorageView();
-        
+
         //-- operators ---------------------------------------------------------
-        
+
         const ElementType &
         operator()(IndexType row, IndexType col) const;
-        
+
         ElementType &
         operator()(IndexType row, IndexType col);
-        
+
         //-- methods -----------------------------------------------------------
-        
+
         const ElementType *
         data() const;
-        
+
         ElementType *
         data();
-        
+
         void
         fill(const ElementType &value = ElementType(0));
-        
+
     private:
         ElementType *_data;
-    };
-    
+};
+
 } // namespace flens
 
 #endif // FLENS_STORAGE_TINYFULLSTORAGE_TINYFULLSTORAGEVIEW_H

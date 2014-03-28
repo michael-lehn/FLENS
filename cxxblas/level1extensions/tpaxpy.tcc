@@ -55,14 +55,12 @@ tpaxpy(StorageOrder DEBUG_VAR(order), StorageUpLo, Transpose trans, Diag diag,
     // TODO: Remove copy of diagonal if diag == Unit
 
     if (trans==NoTrans) {
-          ASSERT(diag==Unit);
           const IndexType length = n*(n+1)/2;
           axpy(length, alpha, A, 1, B, 1);
           return;
     }
 
     if (trans==Conj) {
-          ASSERT(diag==Unit);
           const IndexType length = n*(n+1)/2;
           acxpy(length, alpha, A, 1, B, 1);
           return;

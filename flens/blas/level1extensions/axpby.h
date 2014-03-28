@@ -50,7 +50,7 @@ template <typename ALPHA, typename VX, typename BETA, typename VY>
              void>::Type
     axpby(const ALPHA &alpha, const VX &x, const BETA &beta, VY &&y);
 
-    
+
 //-- axpbby
 template <typename ALPHA, typename VX, typename BETA, typename VY>
     typename RestrictTo<IsTinyVector<VX>::value
@@ -59,7 +59,7 @@ template <typename ALPHA, typename VX, typename BETA, typename VY>
     axpby(const ALPHA &alpha, const VX &x, const BETA &beta, VY &&y);
 
 //== GeneralMatrix
-    
+
 //-- diagaxpby
 template <typename ALPHA, typename MA, typename BETA, typename MB>
     typename RestrictTo<IsDiagMatrix<MA>::value
@@ -67,7 +67,7 @@ template <typename ALPHA, typename MA, typename BETA, typename MB>
     void>::Type
     axpby(Transpose trans, const ALPHA &alpha, const MA &A,
           const BETA &beta, MB &&B);
-    
+
 //-- gbaxpby
 template <typename ALPHA, typename MA, typename BETA, typename MB>
     typename RestrictTo<IsGbMatrix<MA>::value
@@ -75,7 +75,7 @@ template <typename ALPHA, typename MA, typename BETA, typename MB>
     void>::Type
     axpby(Transpose trans, const ALPHA &alpha, const MA &A,
           const BETA &beta, MB &&B);
-    
+
 //-- geaxpby
 template <typename ALPHA, typename MA, typename BETA, typename MB>
     typename RestrictTo<IsGeMatrix<MA>::value
@@ -91,9 +91,9 @@ template <typename ALPHA, typename MA, typename BETA, typename MB>
              void>::Type
     axpby(Transpose trans, const ALPHA &alpha, const MA &A,
           const BETA &beta, MB &&B);
-    
+
 //== HermitianMatrix
-    
+
 //-- hbaxpby
 template <typename ALPHA, typename MA, typename BETA, typename MB>
     typename RestrictTo<IsHbMatrix<MA>::value
@@ -101,7 +101,7 @@ template <typename ALPHA, typename MA, typename BETA, typename MB>
              void>::Type
     axpby(Transpose trans, const ALPHA &alpha, const MA &A,
           const BETA &beta, MB &&B);
-    
+
 //-- heaxpby
 template <typename ALPHA, typename MA, typename BETA, typename MB>
     typename RestrictTo<IsHeMatrix<MA>::value
@@ -109,7 +109,7 @@ template <typename ALPHA, typename MA, typename BETA, typename MB>
              void>::Type
     axpby(Transpose trans, const ALPHA &alpha, const MA &A,
           const BETA &beta, MB &&B);
-    
+
 //-- hpaxpby
 template <typename ALPHA, typename MA, typename BETA, typename MB>
     typename RestrictTo<IsHpMatrix<MA>::value
@@ -117,10 +117,10 @@ template <typename ALPHA, typename MA, typename BETA, typename MB>
              void>::Type
     axpby(Transpose trans, const ALPHA &alpha, const MA &A,
           const BETA &beta, MB &&B);
-    
-    
+
+
 //== SymmetricMatrix
-    
+
 //-- sbaxpby
 template <typename ALPHA, typename MA, typename BETA, typename MB>
     typename RestrictTo<IsSbMatrix<MA>::value
@@ -128,7 +128,7 @@ template <typename ALPHA, typename MA, typename BETA, typename MB>
              void>::Type
     axpby(Transpose trans, const ALPHA &alpha, const MA &A,
           const BETA &beta, MB &&B);
-    
+
 //-- spaxpby
 template <typename ALPHA, typename MA, typename BETA, typename MB>
     typename RestrictTo<IsSpMatrix<MA>::value
@@ -136,7 +136,7 @@ template <typename ALPHA, typename MA, typename BETA, typename MB>
              void>::Type
     axpby(Transpose trans, const ALPHA &alpha, const MA &A,
           const BETA &beta, MB &&B);
-    
+
 //-- syaxpby
 template <typename ALPHA, typename MA, typename BETA, typename MB>
     typename RestrictTo<IsSyMatrix<MA>::value
@@ -144,10 +144,10 @@ template <typename ALPHA, typename MA, typename BETA, typename MB>
              void>::Type
     axpby(Transpose trans, const ALPHA &alpha, const MA &A,
           const BETA &beta, MB &&B);
-    
+
 
 //== TriangularMatrix
-    
+
 //-- tbaxpby
 template <typename ALPHA, typename MA, typename BETA, typename MB>
     typename RestrictTo<IsTbMatrix<MA>::value
@@ -155,7 +155,7 @@ template <typename ALPHA, typename MA, typename BETA, typename MB>
              void>::Type
     axpby(Transpose trans, const ALPHA &alpha, const MA &A,
           const BETA &beta, MB &&B);
-    
+
 //-- traxpby
 template <typename ALPHA, typename MA, typename BETA, typename MB>
     typename RestrictTo<IsTrMatrix<MA>::value
@@ -163,7 +163,7 @@ template <typename ALPHA, typename MA, typename BETA, typename MB>
              void>::Type
     axpby(Transpose trans, const ALPHA &alpha, const MA &A,
           const BETA &beta, MB &&B);
-    
+
 //-- tpaxpby
 template <typename ALPHA, typename MA, typename BETA, typename MB>
     typename RestrictTo<IsTpMatrix<MA>::value
@@ -171,7 +171,7 @@ template <typename ALPHA, typename MA, typename BETA, typename MB>
              void>::Type
     axpby(Transpose trans, const ALPHA &alpha, const MA &A,
           const BETA &beta, MB &&B);
-    
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1_AXPBY_H
