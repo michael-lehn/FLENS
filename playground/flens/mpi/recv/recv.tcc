@@ -45,7 +45,7 @@ typename RestrictTo<MPI_Type<T>::Compatible,
 MPI_recv(const int source, const MPI::Comm &communicator)
 {
     T val(0);
-     
+
     MPI_recv(val, source, communicator);
 
     return val;
@@ -57,13 +57,15 @@ typename RestrictTo<MPI_Type<T>::Compatible,
                     void>::Type
 MPI_recv(T &x, const int source, const MPI::Comm &communicator)
 {
-
     using namespace MPI;
-    
+
+    typedef typename MPI_Type<T>::PrimitiveType  PT;
+
     Status status;
-    communicator.Recv(reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(&x), 
-                      MPI_Type<T>::size, MPI_Type<T>::Type(), source, 0, status);
-        
+    communicator.Recv(reinterpret_cast<PT *>(&x),
+                      MPI_Type<T>::size, MPI_Type<T>::Type(),
+                      source, 0, status);
+
     return ;
 
 
@@ -75,16 +77,17 @@ typename RestrictTo<MPI_Type<T>::Compatible,
 MPI_recv(const IndexType n, T *x, const IndexType incX, const int source,
          const MPI::Comm &communicator)
 {
-
     using namespace MPI;
 
-    
+    typedef typename MPI_Type<T>::PrimitiveType  PT;
+
     if ( incX==IndexType(1) ) {
         Status status;
-        communicator.Recv(reinterpret_cast<typename MPI_Type<T>::PrimitiveType *>(x), 
-                          n*MPI_Type<T>::size, MPI_Type<T>::Type(), source, 0, status);
+        communicator.Recv(reinterpret_cast<PT *>(x),
+                          n*MPI_Type<T>::size, MPI_Type<T>::Type(),
+                          source, 0, status);
     } else {
-        
+
         for (IndexType i=0, iX=0; i<n; ++i, iX+=incX) {
              MPI_recv(x[iX], source, communicator);
         }
@@ -100,25 +103,25 @@ MPI_recv(VX &&x, const int source, const MPI::Comm &communicator)
 {
 
     using namespace MPI;
-    
+
     typedef typename RemoveRef<VX>::Type   VectorX;
     typedef typename VectorX::ElementType T;
     typedef typename VectorX::IndexType   IndexType;
-    
+
 
     IndexType length, stride;
-        
+
     // Receive Vector length and stride
     MPI_recv(length, source, communicator);
     MPI_recv(stride, source, communicator);
-    
+
     if ( x.length()==0 ) {
-        x.resize(length); 
+        x.resize(length);
     }
-    
+
     ASSERT (x.length()==length );
     ASSERT (x.stride()==stride || x.stride() != 1);
-    
+
     MPI_recv(x.length(), x.data(), x.stride(), source, communicator);
 
 }
@@ -130,69 +133,71 @@ MPI_recv(MA &&A, const int source, const MPI::Comm &communicator)
 {
 
     using namespace MPI;
-    
+
     typedef typename RemoveRef<MA>::Type   MatrixA;
     typedef typename MatrixA::ElementType T;
     typedef typename MatrixA::IndexType   IndexType;
-    
-    
+
+
     IndexType numCols, numRows;
-        
+
     // Receive size
     MPI_recv(numRows, source, communicator);
-    MPI_recv(numCols, source, communicator);  
-    
+    MPI_recv(numCols, source, communicator);
+
     if ( A.numCols()==0 && A.numRows()==0 ) {
         A.resize(numRows, numCols);
     }
-    
+
     ASSERT ( A.numRows()==numRows );
     ASSERT ( A.numCols()==numCols );
-    
+
 #ifndef NDEBUG
     int isColMajor;
     MPI_recv(isColMajor, source, communicator);
-    
+
     ASSERT( isColMajor == ( A.order() == ColMajor ) );
-#endif    
-    
+#endif
+
     if ( A.order() == ColMajor ) {
-      
+
       for (IndexType i=0; i<A.numCols(); ++i) {
 
-            MPI_recv(A.numRows(), A.data()+i*A.leadingDimension(), 1, source, communicator);
-        
+            MPI_recv(A.numRows(), A.data()+i*A.leadingDimension(), 1,
+                     source, communicator);
+
         }
-      
+
     } else {
-      
+
         for (IndexType i=0; i<A.numRows(); ++i) {
 
-            MPI_recv(A.numCols(), A.data()+i*A.leadingDimension(), 1, source, communicator);
-        
-        
-        }      
+            MPI_recv(A.numCols(), A.data()+i*A.leadingDimension(), 1,
+                     source, communicator);
+
+
+        }
     }
 
 
 }
 
 template <typename X>
-typename RestrictTo<IsDenseVector<X>::value || 
+typename RestrictTo<IsDenseVector<X>::value ||
                     IsGeMatrix<X>::value,
                     void>::Type
 MPI_recv_all(std::vector<X> &x, const MPI::Comm &communicator)
 {
 
     if (x.size()==0) {
-        x.resize(MPI_size());   
+        x.resize(MPI_size());
     }
     ASSERT( x.size() == MPI_size() );
-    
+
     for (int i=0; i<MPI_size(); ++i) {
         MPI_recv(x.at(i), i, communicator);
     }
-    
+
 }
 
 #endif // WITH_MPI

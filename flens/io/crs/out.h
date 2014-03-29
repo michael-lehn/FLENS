@@ -53,7 +53,7 @@ template <typename CRS>
 template <typename CRS>
     std::ostream &
     operator<<(std::ostream &out, const SyCRSMatrix<CRS> &A);
-    
+
 template <typename CRS>
     std::ostream &
     operator<<(std::ostream &out, const TrCRSMatrix<CRS> &A);

@@ -37,19 +37,19 @@
 
 
 namespace flens { namespace mpi {
-  
+
 #ifdef WITH_MPI
 
 template <typename T>
     typename RestrictTo<MPI_Type<T>::Compatible,
                         void>::Type
-    MPI_send(const T &x, const int dest, 
+    MPI_send(const T &x, const int dest,
              const MPI::Comm &communicator = MPI::COMM_WORLD);
 
 template <typename IndexType, typename T>
     typename RestrictTo<MPI_Type<T>::Compatible,
                         void>::Type
-    MPI_send(const IndexType n, const T *x, const IndexType incX, 
+    MPI_send(const IndexType n, const T *x, const IndexType incX,
              const int dest, const MPI::Comm &communicator = MPI::COMM_WORLD);
 
 template <typename VX>
@@ -61,7 +61,7 @@ template <typename VX>
 template <typename MA>
     typename RestrictTo<IsGeMatrix<MA>::value,
                     void>::Type
-    MPI_send(MA &&A, const int dest, 
+    MPI_send(MA &&A, const int dest,
              const MPI::Comm &communicator = MPI::COMM_WORLD);
 
 #endif // WITH_MPI

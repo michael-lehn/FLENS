@@ -99,18 +99,18 @@ raxpy(IndexType n, const T &alpha, const T *x,
 
         const int numElements = IntrinsicType::numElements;
 
-        IntrinsicType _x, _y, _tmp;  
+        IntrinsicType _x, _y, _tmp;
 
         IndexType i=0;
-    
+
         if (abs(real(alpha)) < abs(imag(alpha))) {
-        
+
             PT r   = real(alpha)/imag(alpha);
             PT den = imag(alpha) + r*real(alpha);
-            
+
             IntrinsicPrimitiveType _mr(-r);
             IntrinsicPrimitiveType _den(den);
-            
+
            for (; i+numElements-1<n; i+=numElements) {
                 _x.loadu(x+i);
                 _y.loadu(y+i);
@@ -122,15 +122,15 @@ raxpy(IndexType n, const T &alpha, const T *x,
 
                 _y.storeu(y+i);
             }
-          
+
         } else {
-          
+
             PT r   = imag(alpha)/real(alpha);
             PT den = real(alpha) + r*imag(alpha);
-              
+
             IntrinsicPrimitiveType _mr(-r);
             IntrinsicPrimitiveType _den(den);
-            
+
            for (; i+numElements-1<n; i+=numElements) {
                 _x.loadu(x+i);
                 _y.loadu(y+i);
@@ -141,9 +141,9 @@ raxpy(IndexType n, const T &alpha, const T *x,
 
                 _y.storeu(y+i);
             }
-            
-            
-            
+
+
+
         }
 
         for (; i<n; ++i) {

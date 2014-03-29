@@ -35,7 +35,7 @@
        SUBROUTINE DGEEQU( M, N, A, LDA, R, C, ROWCND, COLCND, AMAX,
      $                   INFO )
        SUBROUTINE ZGEEQU( M, N, A, LDA, R, C, ROWCND, COLCND, AMAX,
-     $                   INFO )     
+     $                   INFO )
  *
  *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -105,7 +105,7 @@ equ_impl(const GeMatrix<MA>  &A,
 //
     for (IndexType j=1; j<=n; ++j) {
         for (IndexType i=1; i<=m; ++i) {
-            r(i) = max(r(i), abs(cxxblas::real(A(i,j))) 
+            r(i) = max(r(i), abs(cxxblas::real(A(i,j)))
                              + abs(cxxblas::imag(A(i,j))));
         }
     }
@@ -278,7 +278,7 @@ equ(const MA    &A,
 //
     typedef typename RemoveRef<VR>::Type  VectorR;
     typedef typename RemoveRef<VC>::Type  VectorC;
-    
+
 //
 //  Make copies of output arguments
 //

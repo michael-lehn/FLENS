@@ -15,26 +15,25 @@ BLAS(strsv)(const char      *UPLO,
             float           *X,
             const INTEGER   *INCX)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _UPLO   = toupper(*UPLO);
         char    _TRANS  = toupper(*TRANS);
         char    _DIAG   = toupper(*DIAG);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      trans  = convertTo<Transpose>(_TRANS);
         Diag           diag   = Diag(_DIAG);
-        
+
         cblas_strsv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     cxxblas::CBLAS::getCblasType(trans),
                     cxxblas::CBLAS::getCblasType(diag),
                     *N,
                     _A, *LDA, X, *INCX);
-    
+
 #   else
-        
+
         using std::abs;
         using std::max;
 
@@ -62,7 +61,7 @@ BLAS(strsv)(const char      *UPLO,
                 return;
             }
 #       endif
-    
+
         StorageUpLo  upLo  = StorageUpLo(_UPLO);
         Transpose    trans = convertTo<Transpose>(_TRANS);
         Diag         diag  = Diag(_DIAG);
@@ -86,24 +85,24 @@ BLAS(dtrsv)(const char      *UPLO,
             const INTEGER   *INCX)
 {
 #   ifdef TEST_DIRECT_CBLAS
-        
+
         char    _UPLO   = toupper(*UPLO);
         char    _TRANS  = toupper(*TRANS);
         char    _DIAG   = toupper(*DIAG);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      trans  = convertTo<Transpose>(_TRANS);
         Diag           diag   = Diag(_DIAG);
-        
+
         cblas_dtrsv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     cxxblas::CBLAS::getCblasType(trans),
                     cxxblas::CBLAS::getCblasType(diag),
                     *N,
                     _A, *LDA, X, *INCX);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -131,7 +130,7 @@ BLAS(dtrsv)(const char      *UPLO,
                 return;
             }
 #       endif
-    
+
         StorageUpLo  upLo  = StorageUpLo(_UPLO);
         Transpose    trans = convertTo<Transpose>(_TRANS);
         Diag         diag  = Diag(_DIAG);
@@ -154,17 +153,16 @@ BLAS(ctrsv)(const char      *UPLO,
             cfloat          *X,
             const INTEGER   *INCX)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _UPLO   = toupper(*UPLO);
         char    _TRANS  = toupper(*TRANS);
         char    _DIAG   = toupper(*DIAG);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      trans  = convertTo<Transpose>(_TRANS);
         Diag           diag   = Diag(_DIAG);
-        
+
         cblas_ctrsv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     cxxblas::CBLAS::getCblasType(trans),
@@ -172,9 +170,9 @@ BLAS(ctrsv)(const char      *UPLO,
                     *N,
                     reinterpret_cast<const float *>(_A), *LDA,
                     reinterpret_cast<float *>(X), *INCX);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -225,17 +223,16 @@ BLAS(ztrsv)(const char      *UPLO,
             cdouble         *X,
             const INTEGER   *INCX)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _UPLO   = toupper(*UPLO);
         char    _TRANS  = toupper(*TRANS);
         char    _DIAG   = toupper(*DIAG);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      trans  = convertTo<Transpose>(_TRANS);
         Diag           diag   = Diag(_DIAG);
-        
+
         cblas_ztrsv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     cxxblas::CBLAS::getCblasType(trans),
@@ -243,16 +240,16 @@ BLAS(ztrsv)(const char      *UPLO,
                     *N,
                     reinterpret_cast<const double *>(_A), *LDA,
                     reinterpret_cast<double *>(X), *INCX);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
         char    _UPLO  = toupper(*UPLO);
         char    _TRANS = toupper(*TRANS);
         char    _DIAG  = toupper(*DIAG);
-    
+
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
             if (_UPLO!='U' && _UPLO!='L') {
@@ -283,7 +280,7 @@ BLAS(ztrsv)(const char      *UPLO,
 
         // if you only want to test FLENS-BLAS just call
         blas::sv(trans, A, x);
-    
+
 #   endif
 }
 

@@ -56,7 +56,10 @@ det(MA &&A, VPIV &&piv, VWORK &&work)
     trf(A, piv, work);
     T value(1);
 
-    for (IndexType i=A.firstRow(), k=piv.firstIndex(); i<=A.lastRow(); ++i, ++k) {
+    const IndexType i0 = A.firstRow();
+    const IndexType k0 = piv.firstIndex();
+
+    for (IndexType i=i0, k=k0; i<=A.lastRow(); ++i, ++k) {
         if (piv(k)>0) {
             value *= A(i,i);
         } else if (i < A.lastRow() && piv(k)<0 && piv(k)==piv(k+1) ) {

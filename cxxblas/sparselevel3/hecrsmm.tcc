@@ -57,16 +57,16 @@ hecrsmm(StorageUpLo      upLo,
         IndexType        ldC)
 {
     CXXBLAS_DEBUG_OUT("hecrsmm_generic");
-    
+
         for (IndexType i=0; i<n; ++i) {
          hecrsmv(upLo, m, alpha, A, ia, ja, B+i*ldB, beta, C+i*ldC);
     }
-    
+
     return;
-  
+
 }
 
-#ifdef HAVE_SPARSEBLAS   
+#ifdef HAVE_SPARSEBLAS
 
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
@@ -84,31 +84,32 @@ hecrsmm(StorageUpLo             upLo,
         IndexType               ldC)
 {
     CXXBLAS_DEBUG_OUT("hecrsmm -> [" BLAS_IMPL "] ccsrmm");
-    
+
     char matdescra[5] = { "H*N*" };
     matdescra[1] = getF77BlasChar(upLo);
     matdescra[3] = getIndexBaseChar(ia[0]);
-    
+
     if (matdescra[3]=='E') {
-         hecrsmm<IndexType, ComplexFloat, ComplexFloat, 
-                            ComplexFloat, ComplexFloat, 
+         hecrsmm<IndexType, ComplexFloat, ComplexFloat,
+                            ComplexFloat, ComplexFloat,
                             ComplexFloat>
-                            (upLo, m, n, alpha, A, ia, ja, B, ldB, beta, C, ldC);
+                            (upLo, m, n, alpha, A, ia, ja, B, ldB, beta,
+                             C, ldC);
          return;
     }
-      
-    char transA = 'N';    
+
+    char transA = 'N';
 
     mkl_ccsrmm(&transA,
-               &m, &n, &m,               
+               &m, &n, &m,
                reinterpret_cast<const float*>(&alpha), &matdescra[0],
                reinterpret_cast<const float*>(A), ia, ja, ja+1,
                reinterpret_cast<const float*>(B),
                &ldB,
-               reinterpret_cast<const float*>(&beta), 
+               reinterpret_cast<const float*>(&beta),
                reinterpret_cast<float*>(C),
                &ldC);
-    
+
 }
 
 template <typename IndexType>
@@ -127,20 +128,21 @@ hecrsmm(StorageUpLo             upLo,
         IndexType               ldC)
 {
     CXXBLAS_DEBUG_OUT("hecrsmm -> [" BLAS_IMPL "] zcsrmm");
-    
+
     char matdescra[5] = { "H*N*" };
     matdescra[1] = getF77BlasChar(upLo);
     matdescra[3] = getIndexBaseChar(ia[0]);
-    
+
     if (matdescra[3]=='E') {
-         hecrsmm<IndexType, ComplexDouble, ComplexDouble, 
-                            ComplexDouble, ComplexDouble, 
+         hecrsmm<IndexType, ComplexDouble, ComplexDouble,
+                            ComplexDouble, ComplexDouble,
                             ComplexDouble>
-                            (upLo, m, n, alpha, A, ia, ja, B, ldB, beta, C, ldC);
+                            (upLo, m, n, alpha, A, ia, ja, B, ldB, beta,
+                             C, ldC);
          return;
     }
-    char transA = 'N';    
-    
+    char transA = 'N';
+
     mkl_zcsrmm(&transA,
                &m, &n, &m,
                reinterpret_cast<const double*>(&alpha), &matdescra[0],
@@ -150,7 +152,7 @@ hecrsmm(StorageUpLo             upLo,
                reinterpret_cast<const double*>(&beta),
                reinterpret_cast<double*>(C),
                &ldC);
-    
+
 }
 
 #endif

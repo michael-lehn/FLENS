@@ -34,9 +34,9 @@
 #define PLAYGROUND_CXXBLAS_INTRINSICS_INCLUDES_H 1
 
 enum IntrinsicsLevel {
-	AVX  = 2,
-	SSE  = 1,
-	NONE = 0
+    AVX  = 2,
+    SSE  = 1,
+    NONE = 0
 };
 
 #ifdef WITH_AVX

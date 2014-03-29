@@ -82,7 +82,7 @@ struct Promotion<float, int>
     typedef float  Type;
 };
 
-//-- long, float ----------------------------------------------------------------
+//-- long, float ---------------------------------------------------------------
 template <>
 struct Promotion<long, float>
 {
@@ -108,7 +108,7 @@ struct Promotion<double, int>
     typedef double  Type;
 };
 
-//-- long, double ---------------------------------------------------------------
+//-- long, double --------------------------------------------------------------
 template <>
 struct Promotion<long, double>
 {

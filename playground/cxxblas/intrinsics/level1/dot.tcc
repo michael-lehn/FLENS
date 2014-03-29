@@ -43,7 +43,7 @@ namespace cxxblas {
 
 template <typename IndexType, typename T>
 typename flens::RestrictTo<flens::IsReal<T>::value &&
-                           flens::IsIntrinsicsCompatible<T>::value, 
+                           flens::IsIntrinsicsCompatible<T>::value,
                            void>::Type
 dotu(IndexType n,
      const T *x, IndexType incX,
@@ -92,7 +92,7 @@ dotu(IndexType n,
 
 template <typename IndexType, typename T>
 typename flens::RestrictTo<flens::IsComplex<T>::value &&
-                           flens::IsIntrinsicsCompatible<T>::value, 
+                           flens::IsIntrinsicsCompatible<T>::value,
                            void>::Type
 dotu(IndexType n,
      const T *x, IndexType incX,
@@ -108,7 +108,8 @@ dotu(IndexType n,
 
         typedef Intrinsics<T, DEFAULT_INTRINSIC_LEVEL>     IntrinsicType;
         typedef typename IntrinsicType::PrimitiveDataType  PT;
-        typedef Intrinsics<PT, DEFAULT_INTRINSIC_LEVEL>    IntrinsicPrimitiveType;
+
+        typedef Intrinsics<PT, DEFAULT_INTRINSIC_LEVEL>  IntrinsicPrimitiveType;
 
         const int numElements = IntrinsicType::numElements;
 
@@ -154,7 +155,7 @@ dotu(IndexType n,
 
 template <typename IndexType, typename T>
 typename flens::RestrictTo<flens::IsReal<T>::value &&
-                           flens::IsIntrinsicsCompatible<T>::value, 
+                           flens::IsIntrinsicsCompatible<T>::value,
                            void>::Type
 dot(IndexType n,
     const T *x, IndexType incX,
@@ -169,7 +170,7 @@ dot(IndexType n,
 
 template <typename IndexType, typename T>
 typename flens::RestrictTo<flens::IsComplex<T>::value &&
-                           flens::IsIntrinsicsCompatible<T>::value, 
+                           flens::IsIntrinsicsCompatible<T>::value,
                            void>::Type
 dot(IndexType n,
     const T *x, IndexType incX,
@@ -186,7 +187,9 @@ dot(IndexType n,
 
         typedef Intrinsics<T, DEFAULT_INTRINSIC_LEVEL>     IntrinsicType;
         typedef typename IntrinsicType::PrimitiveDataType  PT;
-        typedef Intrinsics<PT, DEFAULT_INTRINSIC_LEVEL>    IntrinsicPrimitiveType;
+
+        typedef Intrinsics<PT, DEFAULT_INTRINSIC_LEVEL>  IntrinsicPrimitiveType;
+
         const int numElements = IntrinsicType::numElements;
 
         IndexType i=0;

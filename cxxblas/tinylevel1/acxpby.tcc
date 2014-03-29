@@ -37,13 +37,13 @@
 
 namespace cxxblas {
 
-template <int n, typename ALPHA, typename X, int incX, 
+template <int n, typename ALPHA, typename X, int incX,
           typename BETA, typename Y, int incY>
 void
 acxpy(const ALPHA &alpha, const X *x, const BETA &beta, Y *y)
 {
     CXXBLAS_DEBUG_OUT("acxpby [tiny]");
-    
+
     for (int i=0, iX=0, iY=0; i<n; ++i, iX+=incX, iY+=incY) {
         y[iY] = beta*y[iY] + alpha*conjugate(x[iX]);
     }

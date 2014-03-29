@@ -315,7 +315,8 @@ laln2_impl(bool                  transA,
 //          If norm(C) < SMINI, use SMINI*identity.
 //
             if (cMax<safeMini) {
-                const T bNorm = max(abs(B(1,1))+abs(B(1,2)), abs(B(2,1))+abs(B(2,2)));
+                const T bNorm = max(abs(B(1,1))+abs(B(1,2)),
+                                    abs(B(2,1))+abs(B(2,2)));
                 if (safeMini<One && bNorm>One) {
                     if (bNorm>bigNum*safeMini) {
                         scale = One / bNorm;

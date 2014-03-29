@@ -12,7 +12,7 @@ main()
     GeTinyMatrix<TinyFullStorage<double, m, n> >   A, B;
     GeTinyMatrix<TinyFullStorageView<double, m, n/2, n> >   vA(A.data()+1);
     GeTinyMatrix<TinyConstFullStorageView<double, m, n/2, n> >   cvA(A.data());
-    
+
     A.engine().fill(1);
     A(2,3) = 10;
         vA(1,1) = 4;

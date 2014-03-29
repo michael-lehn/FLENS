@@ -50,7 +50,7 @@ template <typename MA, typename VX, typename VB>
        typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType tol
                 = std::numeric_limits<typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType>::epsilon(),
        typename RemoveRef<VX>::Type::IndexType maxIterations = std::numeric_limits<typename RemoveRef<VX>::Type::IndexType>::max());
-    
+
 template <typename MA, typename VX, typename VB>
     typename RestrictTo<IsGeneralMatrix<MA>::value
                      && IsDenseVector<VX>::value
@@ -60,7 +60,7 @@ template <typename MA, typename VX, typename VB>
          typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType tol
                   = std::numeric_limits<typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType>::epsilon(),
          typename RemoveRef<VX>::Type::IndexType maxIterations = std::numeric_limits<typename RemoveRef<VX>::Type::IndexType>::max());
-    
+
 } } // namespace solver, flens
 
 #endif // PLAYGROUND_FLENS_SOLVER_CG_H

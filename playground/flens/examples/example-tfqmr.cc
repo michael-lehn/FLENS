@@ -38,13 +38,13 @@ main()
 
     cerr << "A.upper().symmetric() = " << A.upper().symmetric() << endl;
     cerr << "b = " << b << endl;
-    
+
     ///
     /// solve A*x = b using transpose-free quasi minimal residual solver
     ///
     solver::bicgstab(A.upper().symmetric(), x, b);
     cout << "x = " << x << endl;
-    
+
     ///
     /// Test the result
     ///

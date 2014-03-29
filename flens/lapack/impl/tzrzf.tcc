@@ -246,13 +246,13 @@ tzrzf(MA           &&A,
 #   if defined(CHECK_CXXLAPACK) || !defined(NDEBUG)
 
     typedef typename RemoveRef<MA>::Type    MatrixA;
-    
+
 #   endif
 
 #   ifndef NDEBUG
 
     typedef typename MatrixA::IndexType     IndexType;
-    
+
     const IndexType m = A.numRows();
     const IndexType n = A.numCols();
 
@@ -275,7 +275,7 @@ tzrzf(MA           &&A,
 
     typedef typename RemoveRef<VTAU>::Type  VectorTau;
     typedef typename RemoveRef<VWORK>::Type VectorWork;
-    
+
     typename MatrixA::NoView        A_org    = A;
     typename VectorTau::NoView      tau_org  = tau;
     typename VectorWork::NoView     work_org = work;

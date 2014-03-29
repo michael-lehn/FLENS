@@ -67,7 +67,7 @@ mm(Transpose        transposeA,
 
     typedef typename RemoveRef<MC>::Type MatrixC;
     typedef typename MatrixC::IndexType  IndexType;
-    
+
 #   ifndef NDEBUG
     int kA = (noTransA) ? A.numCols() : A.numRows();
     int kB = (noTransB) ? B.numRows() : B.numCols();
@@ -92,11 +92,11 @@ mm(Transpose        transposeA,
     if ((C.numRows()!=m) || (C.numCols()!=n)) {
         C.resize(m, n);
     }
-    
+
     if(DEBUGCLOSURE::identical(B, C)) {
         ASSERT( beta==BETA(0) );
         ASSERT( transposeB==NoTrans );
-        
+
         FLENS_BLASLOG_SETTAG("--> ");
         FLENS_BLASLOG_BEGIN_TBMM(side, transA, alpha, A, B);
 
@@ -156,7 +156,7 @@ mm(Transpose        transposeA,
 {
     const bool noTransA = (transposeA==NoTrans || transposeA==Conj);
     const bool noTransB = (transposeB==NoTrans || transposeB==Conj);
-    
+
     typedef typename RemoveRef<MC>::Type MatrixC;
     typedef typename MatrixC::IndexType  IndexType;
 
@@ -186,10 +186,10 @@ mm(Transpose        transposeA,
     }
 
     if(DEBUGCLOSURE::identical(A, C)) {
-    
+
         ASSERT( beta==BETA(0) );
         ASSERT( transposeB==NoTrans );
-        
+
         FLENS_BLASLOG_SETTAG("--> ");
         FLENS_BLASLOG_BEGIN_TBMM(side, transA, alpha, B, C);
 

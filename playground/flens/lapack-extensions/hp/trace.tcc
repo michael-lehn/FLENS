@@ -43,7 +43,9 @@ namespace flens { namespace lapack { namespace extensions {
 //-- trace(hp)
 template <typename MA>
 typename RestrictTo<IsHpMatrix<MA>::value,
-typename ComplexTrait<typename RemoveRef<MA>::Type::ElementType>::PrimitiveType>::Type
+         typename ComplexTrait<
+                    typename RemoveRef<MA>::Type::ElementType>::PrimitiveType
+         >::Type
 trace(MA &&A)
 {
 

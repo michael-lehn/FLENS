@@ -145,7 +145,7 @@ axpy(Transpose DEBUG_VAR(trans), const ALPHA &alpha,
 {
     // Lehn: keep it simple for the moment
     ASSERT(trans==NoTrans);
-    
+
     using namespace DEBUGCLOSURE;
 
     typedef typename PruneScaling<VX>::Remainder    RVX;

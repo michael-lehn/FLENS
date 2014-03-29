@@ -190,7 +190,7 @@ typename RestrictTo<IsHeMatrix<MB>::value,
 scal(const ALPHA &alpha, MB &&B)
 {
     ASSERT(cxxblas::imag(alpha)==0);
-    
+
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
 
@@ -212,7 +212,7 @@ typename RestrictTo<IsHpMatrix<MB>::value,
 scal(const ALPHA &alpha, MB &&B)
 {
     ASSERT(cxxblas::imag(alpha)==0);
-    
+
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_SCAL(alpha, B);
 

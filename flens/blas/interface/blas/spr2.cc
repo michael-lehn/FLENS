@@ -16,11 +16,11 @@ BLAS(sspr2)(const char      *UPLO,
             float           *AP)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _UPLO   = toupper(*UPLO);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        
+
         cblas_sspr2(CBLAS_ORDER::CblasColMajor,
                    cxxblas::CBLAS::getCblasType(upLo),
                    *N,
@@ -28,14 +28,14 @@ BLAS(sspr2)(const char      *UPLO,
                    X, *INCX,
                    Y, *INCY,
                    AP);
-    
+
 #   else
-               
+
         using std::abs;
         using std::max;
 
         char    _UPLO  = toupper(*UPLO);
-    
+
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
             if (_UPLO!='U' && _UPLO!='L') {
@@ -80,11 +80,11 @@ BLAS(dspr2)(const char      *UPLO,
             double          *AP)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _UPLO   = toupper(*UPLO);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        
+
         cblas_dspr2(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     *N,
@@ -92,9 +92,9 @@ BLAS(dspr2)(const char      *UPLO,
                     X, *INCX,
                     Y, *INCY,
                     AP);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 

@@ -19,17 +19,17 @@ BLAS(strmm)(const char      *SIDE,
             const INTEGER   *LDB)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
     char    _SIDE   = toupper(*SIDE);
     char    _UPLO   = toupper(*UPLO);
     char    _TRANSA = toupper(*TRANSA);
     char    _DIAG   = toupper(*DIAG);
-    
+
     Side           side   = Side(_SIDE);
     StorageUpLo    upLo   = StorageUpLo(_UPLO);
     Transpose      transA = convertTo<Transpose>(_TRANSA);
     Diag           diag   = Diag(_DIAG);
-    
+
         cblas_strmm(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(side),
                     cxxblas::CBLAS::getCblasType(upLo),
@@ -37,7 +37,7 @@ BLAS(strmm)(const char      *SIDE,
                     cxxblas::CBLAS::getCblasType(diag),
                     *M, *N, *ALPHA,
                     _A, *LDA, _B, *LDB);
-        
+
 #   else
         using std::abs;
         using std::max;
@@ -72,7 +72,7 @@ BLAS(strmm)(const char      *SIDE,
                 return;
             }
 #       endif
-    
+
         Side           side   = Side(_SIDE);
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      transA = convertTo<Transpose>(_TRANSA);
@@ -118,17 +118,17 @@ BLAS(dtrmm)(const char      *SIDE,
             const INTEGER   *LDB)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _SIDE   = toupper(*SIDE);
         char    _UPLO   = toupper(*UPLO);
         char    _TRANSA = toupper(*TRANSA);
         char    _DIAG   = toupper(*DIAG);
-        
+
         Side           side   = Side(_SIDE);
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      transA = convertTo<Transpose>(_TRANSA);
         Diag           diag   = Diag(_DIAG);
-        
+
         cblas_dtrmm(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(side),
                     cxxblas::CBLAS::getCblasType(upLo),
@@ -136,9 +136,9 @@ BLAS(dtrmm)(const char      *SIDE,
                     cxxblas::CBLAS::getCblasType(diag),
                     *M, *N, *ALPHA,
                     _A, *LDA, _B, *LDB);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -172,7 +172,7 @@ BLAS(dtrmm)(const char      *SIDE,
                 return;
             }
 #       endif
-    
+
         Side           side   = Side(_SIDE);
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      transA = convertTo<Transpose>(_TRANSA);
@@ -218,17 +218,17 @@ BLAS(ctrmm)(const char      *SIDE,
             const INTEGER   *LDB)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _SIDE   = toupper(*SIDE);
         char    _UPLO   = toupper(*UPLO);
         char    _TRANSA = toupper(*TRANSA);
         char    _DIAG   = toupper(*DIAG);
-        
+
         Side           side   = Side(_SIDE);
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      transA = convertTo<Transpose>(_TRANSA);
         Diag           diag   = Diag(_DIAG);
-        
+
         cblas_ctrmm(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(side),
                     cxxblas::CBLAS::getCblasType(upLo),
@@ -238,9 +238,9 @@ BLAS(ctrmm)(const char      *SIDE,
                     reinterpret_cast<const float *>(ALPHA),
                     reinterpret_cast<const float *>(_A), *LDA,
                     reinterpret_cast<float *>(_B), *LDB);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -274,7 +274,7 @@ BLAS(ctrmm)(const char      *SIDE,
                 return;
             }
 #       endif
-    
+
         Side           side   = Side(_SIDE);
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      transA = convertTo<Transpose>(_TRANSA);
@@ -323,19 +323,18 @@ BLAS(ztrmm)(const char      *SIDE,
             cdouble         *_B,
             const INTEGER   *LDB)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _SIDE   = toupper(*SIDE);
         char    _UPLO   = toupper(*UPLO);
         char    _TRANSA = toupper(*TRANSA);
         char    _DIAG   = toupper(*DIAG);
-        
+
         Side           side   = Side(_SIDE);
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      transA = convertTo<Transpose>(_TRANSA);
         Diag           diag   = Diag(_DIAG);
-        
+
         cblas_ztrmm(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(side),
                     cxxblas::CBLAS::getCblasType(upLo),
@@ -345,12 +344,12 @@ BLAS(ztrmm)(const char      *SIDE,
                     reinterpret_cast<const double *>(ALPHA),
                     reinterpret_cast<const double *>(_A), *LDA,
                     reinterpret_cast<double *>(_B), *LDB);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
-    
+
         char    _SIDE   = toupper(*SIDE);
         char    _UPLO   = toupper(*UPLO);
         char    _TRANSA = toupper(*TRANSA);
@@ -381,7 +380,7 @@ BLAS(ztrmm)(const char      *SIDE,
                 return;
             }
 #       endif
-    
+
         Side           side   = Side(_SIDE);
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      transA = convertTo<Transpose>(_TRANSA);

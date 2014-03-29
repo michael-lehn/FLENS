@@ -19,15 +19,15 @@ BLAS(chemm)(const char      *SIDE,
             cfloat          *_C,
             const INTEGER   *LDC)
 {
-    
+
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _SIDE   = toupper(*SIDE);
         char    _UPLO   = toupper(*UPLO);
-        
+
         Side           side   = Side(_SIDE);
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        
+
         cblas_chemm(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(side),
                     cxxblas::CBLAS::getCblasType(upLo),
@@ -37,9 +37,9 @@ BLAS(chemm)(const char      *SIDE,
                     reinterpret_cast<const float *>(_B), *LDB,
                     reinterpret_cast<const float *>(BETA),
                     reinterpret_cast<float *>(_C), *LDC);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -108,16 +108,16 @@ BLAS(zhemm)(const char      *SIDE,
             cdouble         *_C,
             const INTEGER   *LDC)
 {
-    
-    
+
+
 #   ifdef TEST_DIRECT_CBLAS
-        
+
         char    _SIDE   = toupper(*SIDE);
         char    _UPLO   = toupper(*UPLO);
-        
+
         Side           side   = Side(_SIDE);
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        
+
         cblas_zhemm(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(side),
                     cxxblas::CBLAS::getCblasType(upLo),
@@ -128,7 +128,7 @@ BLAS(zhemm)(const char      *SIDE,
                     reinterpret_cast<const double *>(BETA),
                     reinterpret_cast<double *>(_C), *LDC);
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -158,7 +158,7 @@ BLAS(zhemm)(const char      *SIDE,
                 return;
             }
 #       endif
-    
+
         Side           side = Side(_SIDE);
         StorageUpLo    upLo = StorageUpLo(_UPLO);
         const INTEGER  ka   = side==Left ? *M : *N;

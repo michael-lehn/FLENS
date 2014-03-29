@@ -274,7 +274,7 @@ isIdentical(const GbMatrix<MA> &A, const GbMatrix<MB> &B,
                   << BName << ".numSuperDiags() = " << B.numSuperDiags()
                   << std::endl;
         return false;
-    }    
+    }
 
     for (IndexType i=A.firstRow(); i<=A.lastRow(); ++i) {
         for (IndexType j=A.firstCol(); j<=A.lastCol(); ++j) {
@@ -282,26 +282,30 @@ isIdentical(const GbMatrix<MA> &A, const GbMatrix<MB> &B,
             if ((i-j<=A.numSubDiags()) && (j-i<=A.numSuperDiags())) {
                 if (isDifferent(A(i,j), B(i,j))) {
                     std::cerr.precision(50);
-                    std::cerr << AName << "(" << i << ", " << j << ") = " << A(i,j)
-                              << std::endl
-                              << BName << "(" << i << ", " << j << ") = " << B(i,j)
-                              << std::endl
+                    std::cerr << AName << "(" << i << ", " << j << ") = "
+                              << A(i,j) << std::endl
+                              << BName << "(" << i << ", " << j << ") = "
+                              << B(i,j) << std::endl
                               << AName << "(" << i << ", " << j << ") - "
                               << BName << "(" << i << ", " << j << ") = "
                               << A(i,j) - B(i,j) << std::endl;
-                    std::cerr << "hex(" << AName << "(" << i << ", " << j << ")) = "
+                    std::cerr << "hex(" << AName
+                              << "(" << i << ", " << j << ")) = "
                               << hex(A(i,j)) << std::endl
-                              << "hex(" << BName << "(" << i << ", " << j << ")) = "
+                              << "hex(" << BName
+                              << "(" << i << ", " << j << ")) = "
                               << hex(B(i,j)) << std::endl
-                              << "hex(" << AName << "(" << i << ", " << j << ")) - "
-                              << "hex(" << BName << "(" << i << ", " << j << ")) = "
+                              << "hex(" << AName
+                              << "(" << i << ", " << j << ")) - "
+                              << "hex(" << BName
+                              << "(" << i << ", " << j << ")) = "
                               << hex(A(i,j) - B(i,j)) << std::endl;
                      return false;
                 }
-            } 
+            }
         }
     }
-    
+
     return true;
 }
 

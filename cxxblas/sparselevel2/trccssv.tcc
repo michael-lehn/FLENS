@@ -38,7 +38,7 @@
 
 namespace cxxblas {
 
-#ifdef HAVE_SPARSEBLAS   
+#ifdef HAVE_SPARSEBLAS
 
 #define HAVE_CXXBLAS_TRCCSSV 1
 
@@ -55,17 +55,17 @@ trccssv(StorageUpLo      upLo,
         float            *y)
 {
     CXXBLAS_DEBUG_OUT("trccssv -> [" BLAS_IMPL "] scscsv");
-    
+
     char matdescra[5] = { "T*N*" };
     matdescra[1] = getF77BlasChar(upLo);
     matdescra[3] = getIndexBaseChar(ia[0]);
-    
+
     ASSERT(matdescra[3]!='E');
-      
-    char transA = getF77BlasChar(trans);  
+
+    char transA = getF77BlasChar(trans);
 
     mkl_scscsv(&transA,
-               &n, &n,               
+               &n, &n,
                &alpha, &matdescra[0],
                A, ia, ja, ja+1,
                x, y);
@@ -84,17 +84,17 @@ trccssv(StorageUpLo      upLo,
         double           *y)
 {
     CXXBLAS_DEBUG_OUT("trccssv -> [" BLAS_IMPL "] dcscsv");
-    
+
     char matdescra[5] = { "T*N*" };
     matdescra[1] = getF77BlasChar(upLo);
     matdescra[3] = getIndexBaseChar(ia[0]);
-    
+
     ASSERT(matdescra[3]!='E');
-      
-    char transA = getF77BlasChar(trans);    
+
+    char transA = getF77BlasChar(trans);
 
     mkl_dcscsv(&transA,
-               &n, &n,               
+               &n, &n,
                &alpha, &matdescra[0],
                A, ia, ja, ja+1,
                x, y);
@@ -113,22 +113,22 @@ trccssv(StorageUpLo             upLo,
         ComplexFloat            *y)
 {
     CXXBLAS_DEBUG_OUT("trccssv -> [" BLAS_IMPL "] ccscsv");
-    
+
     char matdescra[5] = { "T*N*" };
     matdescra[1] = getF77BlasChar(upLo);
     matdescra[3] = getIndexBaseChar(ia[0]);
-    
+
     ASSERT(matdescra[3]!='E');
-      
-    char transA = getF77BlasChar(trans);  
-    
+
+    char transA = getF77BlasChar(trans);
+
     mkl_ccscsv(&transA,
-	      &n, &n,               
-	      reinterpret_cast<const float*>(&alpha), &matdescra[0],
-	      reinterpret_cast<const float*>(A), ia, ja, ja+1,
-	      reinterpret_cast<const float*>(x),
-	      reinterpret_cast<float*>(y));
-    
+               &n, &n,
+               reinterpret_cast<const float*>(&alpha), &matdescra[0],
+               reinterpret_cast<const float*>(A), ia, ja, ja+1,
+               reinterpret_cast<const float*>(x),
+               reinterpret_cast<float*>(y));
+
 }
 
 template <typename IndexType>
@@ -143,23 +143,23 @@ trccssv(StorageUpLo             upLo,
         const ComplexDouble     *x,
         ComplexDouble           *y)
 {
-    CXXBLAS_DEBUG_OUT("trccssv -> [" BLAS_IMPL "] zcscsv"); 
-    
+    CXXBLAS_DEBUG_OUT("trccssv -> [" BLAS_IMPL "] zcscsv");
+
     char matdescra[5] = { "T*N*" };
     matdescra[1] = getF77BlasChar(upLo);
     matdescra[3] = getIndexBaseChar(ia[0]);
-    
+
     ASSERT(matdescra[3]!='E');
-      
-    char transA = getF77BlasChar(trans);   
+
+    char transA = getF77BlasChar(trans);
 
     mkl_zcscsv(&transA,
-	      &n, &n,               
-	      reinterpret_cast<const double*>(&alpha), &matdescra[0],
-	      reinterpret_cast<const double*>(A), ia, ja, ja+1,
-	      reinterpret_cast<const double*>(x),
-	      reinterpret_cast<double*>(y));
-    
+               &n, &n,
+               reinterpret_cast<const double*>(&alpha), &matdescra[0],
+               reinterpret_cast<const double*>(A), ia, ja, ja+1,
+               reinterpret_cast<const double*>(x),
+               reinterpret_cast<double*>(y));
+
 }
 
 #endif

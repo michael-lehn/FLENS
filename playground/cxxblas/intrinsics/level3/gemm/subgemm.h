@@ -45,113 +45,129 @@ namespace cxxblas {
 template <typename IndexType, typename T, typename MA, typename MB>
     void
     sub_gemm_n_n(IndexType m, IndexType n, IndexType k,
-                 const T &alpha, const MA *A, IndexType ldA, const MB *B, IndexType ldB,
+                 const T &alpha, const MA *A, IndexType ldA,
+                 const MB *B, IndexType ldB,
                  const T &beta,  T *C, IndexType ldC,
                  MA *A_packed, MB *B_packed, bool first_call);
-    
+
 template <typename IndexType, typename T, typename MA, typename MB>
     void
     sub_gemm_c_n(IndexType m, IndexType n, IndexType k,
-                 const T &alpha, const MA *A, IndexType ldA, const MB *B, IndexType ldB,
+                 const T &alpha, const MA *A, IndexType ldA,
+                 const MB *B, IndexType ldB,
                  const T &beta,  T *C, IndexType ldC,
                  MA *A_packed, MB *B_packed, bool first_call);
-    
+
 template <typename IndexType, typename T, typename MA, typename MB>
     void
     sub_gemm_t_n(IndexType m, IndexType n, IndexType k,
-                 const T &alpha, const MA *A, IndexType ldA, const MB *B, IndexType ldB,
+                 const T &alpha, const MA *A, IndexType ldA,
+                 const MB *B, IndexType ldB,
                  const T &beta,  T *C, IndexType ldC,
                  MA *A_packed, MB *B_packed, bool first_call);
-    
+
 template <typename IndexType, typename T, typename MA, typename MB>
     void
     sub_gemm_ct_n(IndexType m, IndexType n, IndexType k,
-                  const T &alpha, const MA *A, IndexType ldA, const MB *B, IndexType ldB,
+                  const T &alpha, const MA *A, IndexType ldA,
+                  const MB *B, IndexType ldB,
                   const T &beta,  T *C, IndexType ldC,
                   MA *A_packed, MB *B_packed, bool first_call);
 
 template <typename IndexType, typename T, typename MA, typename MB>
     void
     sub_gemm_n_t(IndexType m, IndexType n, IndexType k,
-                 const T &alpha, const MA *A, IndexType ldA, const MB *B, IndexType ldB,
+                 const T &alpha, const MA *A, IndexType ldA,
+                 const MB *B, IndexType ldB,
                  const T &beta,  T *C, IndexType ldC,
                  MA *A_packed, MB *B_packed, bool first_call);
-    
+
 template <typename IndexType, typename T, typename MA, typename MB>
     void
     sub_gemm_c_t(IndexType m, IndexType n, IndexType k,
-                 const T &alpha, const MA *A, IndexType ldA, const MB *B, IndexType ldB,
+                 const T &alpha, const MA *A, IndexType ldA,
+                 const MB *B, IndexType ldB,
                  const T &beta,  T *C, IndexType ldC,
                  MA *A_packed, MB *B_packed, bool first_call);
-    
+
 template <typename IndexType, typename T, typename MA, typename MB>
     void
     sub_gemm_t_t(IndexType m, IndexType n, IndexType k,
-                 const T &alpha, const MA *A, IndexType ldA, const MB *B, IndexType ldB,
+                 const T &alpha, const MA *A, IndexType ldA,
+                 const MB *B, IndexType ldB,
                  const T &beta,  T *C, IndexType ldC,
                  MA *A_packed, MB *B_packed, bool first_call);
-    
+
 template <typename IndexType, typename T, typename MA, typename MB>
     void
     sub_gemm_ct_t(IndexType m, IndexType n, IndexType k,
-                  const T &alpha, const MA *A, IndexType ldA, const MB *B, IndexType ldB,
+                  const T &alpha, const MA *A, IndexType ldA,
+                  const MB *B, IndexType ldB,
                   const T &beta,  T *C, IndexType ldC,
                   MA *A_packed, MB *B_packed, bool first_call);
-    
-    
+
+
 template <typename IndexType, typename T, typename MA, typename MB>
     void
     sub_gemm_n_c(IndexType m, IndexType n, IndexType k,
-                 const T &alpha, const MA *A, IndexType ldA, const MB *B, IndexType ldB,
+                 const T &alpha, const MA *A, IndexType ldA,
+                 const MB *B, IndexType ldB,
                  const T &beta,  T *C, IndexType ldC,
                  MA *A_packed, MB *B_packed, bool first_call);
-    
+
 template <typename IndexType, typename T, typename MA, typename MB>
     void
     sub_gemm_c_c(IndexType m, IndexType n, IndexType k,
-                 const T &alpha, const MA *A, IndexType ldA, const MB *B, IndexType ldB,
+                 const T &alpha, const MA *A, IndexType ldA,
+                 const MB *B, IndexType ldB,
                  const T &beta,  T *C, IndexType ldC,
                  MA *A_packed, MB *B_packed, bool first_call);
-    
+
 template <typename IndexType, typename T, typename MA, typename MB>
     void
     sub_gemm_t_c(IndexType m, IndexType n, IndexType k,
-                 const T &alpha, const MA *A, IndexType ldA, const MB *B, IndexType ldB,
+                 const T &alpha, const MA *A, IndexType ldA,
+                 const MB *B, IndexType ldB,
                  const T &beta,  T *C, IndexType ldC,
                  MA *A_packed, MB *B_packed, bool first_call);
-    
+
 template <typename IndexType, typename T, typename MA, typename MB>
     void
     sub_gemm_ct_c(IndexType m, IndexType n, IndexType k,
-                  const T &alpha, const MA *A, IndexType ldA, const MB *B, IndexType ldB,
+                  const T &alpha, const MA *A, IndexType ldA,
+                  const MB *B, IndexType ldB,
                   const T &beta,  T *C, IndexType ldC,
                   MA *A_packed, MB *B_packed, bool first_call);
-    
+
 template <typename IndexType, typename T, typename MA, typename MB>
     void
     sub_gemm_n_ct(IndexType m, IndexType n, IndexType k,
-                  const T &alpha, const MA *A, IndexType ldA, const MB *B, IndexType ldB,
+                  const T &alpha, const MA *A, IndexType ldA,
+                  const MB *B, IndexType ldB,
                   const T &beta,  T *C, IndexType ldC,
                   MA *A_packed, MB *B_packed, bool first_call);
-    
+
 template <typename IndexType, typename T, typename MA, typename MB>
     void
     sub_gemm_c_ct(IndexType m, IndexType n, IndexType k,
-                  const T &alpha, const MA *A, IndexType ldA, const MB *B, IndexType ldB,
+                  const T &alpha, const MA *A, IndexType ldA,
+                  const MB *B, IndexType ldB,
                   const T &beta,  T *C, IndexType ldC,
                   MA *A_packed, MB *B_packed, bool first_call);
-    
+
 template <typename IndexType, typename T, typename MA, typename MB>
     void
     sub_gemm_t_ct(IndexType m, IndexType n, IndexType k,
-                  const T &alpha, const MA *A, IndexType ldA, const MB *B, IndexType ldB,
+                  const T &alpha, const MA *A, IndexType ldA,
+                  const MB *B, IndexType ldB,
                   const T &beta,  T *C, IndexType ldC,
                   MA *A_packed, MB *B_packed, bool first_call);
-    
+
 template <typename IndexType, typename T, typename MA, typename MB>
     void
     sub_gemm_ct_ct(IndexType m, IndexType n, IndexType k,
-                   const T &alpha, const MA *A, IndexType ldA, const MB *B, IndexType ldB,
+                   const T &alpha, const MA *A, IndexType ldA,
+                   const MB *B, IndexType ldB,
                    const T &beta,  T *C, IndexType ldC,
                    MA *A_packed, MB *B_packed, bool first_call);
 

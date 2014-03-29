@@ -164,13 +164,15 @@ tpsv_generic(StorageOrder order, StorageUpLo upLo,
             if (diag==NonUnit) {
                 for (IndexType i=0, iX=0; i<n; ++i, iX+=incX) {
                     x[iX] /= conjugate(A[i*(2*n-i+1)/2]);
-                    acxpy_generic(n-1-i, -x[iX], A+i*(2*n-i+1)/2+1, IndexType(1),
-                                                 x+iX+incX, incX);
+                    acxpy_generic(n-1-i, -x[iX],
+                                  A+i*(2*n-i+1)/2+1, IndexType(1),
+                                  x+iX+incX, incX);
                 }
             } else { /* diag==Unit */
                 for (IndexType i=0, iX=0; i<n-1; ++i, iX+=incX) {
-                    acxpy_generic(n-1-i, -x[iX], A+i*(2*n-i+1)/2+1, IndexType(1),
-                                                 x+iX+incX, incX);
+                    acxpy_generic(n-1-i, -x[iX],
+                                  A+i*(2*n-i+1)/2+1, IndexType(1),
+                                  x+iX+incX, incX);
                 }
             }
         } else { /* upLo==Lower */

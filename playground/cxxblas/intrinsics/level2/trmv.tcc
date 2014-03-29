@@ -145,24 +145,30 @@ trmv_real_up_t(Diag diag, IndexType n,
 
     if ( n>NBL3 ) {
 
-        trmv_real_up_t(diag, NBL3, A+(n-NBL3)*(ldA+1), ldA, x+(n-NBL3), IndexType(1));
-        gemv_real_t(n-NBL3, NBL3, T(1), A+(n-NBL3), ldA, x, IndexType(1), T(1), x+(n-NBL3), IndexType(1));
+        trmv_real_up_t(diag, NBL3, A+(n-NBL3)*(ldA+1), ldA,
+                       x+(n-NBL3), IndexType(1));
+        gemv_real_t(n-NBL3, NBL3, T(1), A+(n-NBL3), ldA,
+                    x, IndexType(1), T(1), x+(n-NBL3), IndexType(1));
         trmv_real_up_t(diag, n-NBL3, A, ldA, x, IndexType(1));
 
         return;
 
     } else if ( n>NBL2 ) {
 
-        trmv_real_up_t(diag, NBL2, A+(n-NBL2)*(ldA+1), ldA, x+(n-NBL2), IndexType(1));
-        gemv_real_t(n-NBL2, NBL2, T(1), A+(n-NBL2), ldA, x, IndexType(1), T(1), x+(n-NBL2), IndexType(1));
+        trmv_real_up_t(diag, NBL2, A+(n-NBL2)*(ldA+1), ldA,
+                       x+(n-NBL2), IndexType(1));
+        gemv_real_t(n-NBL2, NBL2, T(1), A+(n-NBL2), ldA,
+                    x, IndexType(1), T(1), x+(n-NBL2), IndexType(1));
         trmv_real_up_t(diag, n-NBL2, A, ldA, x, IndexType(1));
 
         return;
 
     } else if ( n>NBL1 ) {
 
-        trmv_real_up_t(diag, NBL1, A+(n-NBL1)*(ldA+1), ldA, x+(n-NBL1), IndexType(1));
-        gemv_real_t(n-NBL1, NBL1, T(1), A+(n-NBL1), ldA, x, IndexType(1), T(1), x+(n-NBL1), IndexType(1));
+        trmv_real_up_t(diag, NBL1, A+(n-NBL1)*(ldA+1), ldA,
+                       x+(n-NBL1), IndexType(1));
+        gemv_real_t(n-NBL1, NBL1, T(1), A+(n-NBL1), ldA,
+                    x, IndexType(1), T(1), x+(n-NBL1), IndexType(1));
         trmv_real_up_t(diag, n-NBL1, A, ldA, x, IndexType(1));
 
         return;
@@ -255,24 +261,30 @@ trmv_real_lo_n(Diag diag, IndexType n,
 
     if ( n>NBL3  ) {
 
-        trmv_real_lo_n(diag, NBL3, A+(n-NBL3)*(ldA+1), ldA, x+(n-NBL3), IndexType(1));
-        gemv_real_n(NBL3, n-NBL3, T(1), A+(n-NBL3)*ldA, ldA, x, incX, T(1), x+(n-NBL3), IndexType(1));
+        trmv_real_lo_n(diag, NBL3, A+(n-NBL3)*(ldA+1), ldA,
+                       x+(n-NBL3), IndexType(1));
+        gemv_real_n(NBL3, n-NBL3, T(1), A+(n-NBL3)*ldA, ldA,
+                    x, incX, T(1), x+(n-NBL3), IndexType(1));
         trmv_real_lo_n(diag, n-NBL3, A, ldA, x, IndexType(1));
 
         return;
 
     } else if ( n>NBL2  ) {
 
-        trmv_real_lo_n(diag, NBL2, A+(n-NBL2)*(ldA+1), ldA, x+(n-NBL2), IndexType(1));
-        gemv_real_n(NBL2, n-NBL2, T(1), A+(n-NBL2)*ldA, ldA, x, incX, T(1), x+(n-NBL2), IndexType(1));
+        trmv_real_lo_n(diag, NBL2, A+(n-NBL2)*(ldA+1), ldA,
+                       x+(n-NBL2), IndexType(1));
+        gemv_real_n(NBL2, n-NBL2, T(1), A+(n-NBL2)*ldA, ldA,
+                    x, incX, T(1), x+(n-NBL2), IndexType(1));
         trmv_real_lo_n(diag, n-NBL2, A, ldA, x, IndexType(1));
 
         return;
 
     } else if ( n>NBL1  ) {
 
-        trmv_real_lo_n(diag, NBL1, A+(n-NBL1)*(ldA+1), ldA, x+(n-NBL1), IndexType(1));
-        gemv_real_n(NBL1, n-NBL1, T(1), A+(n-NBL1)*ldA, ldA, x, incX, T(1), x+(n-NBL1), IndexType(1));
+        trmv_real_lo_n(diag, NBL1, A+(n-NBL1)*(ldA+1), ldA,
+                       x+(n-NBL1), IndexType(1));
+        gemv_real_n(NBL1, n-NBL1, T(1), A+(n-NBL1)*ldA, ldA,
+                    x, incX, T(1), x+(n-NBL1), IndexType(1));
         trmv_real_lo_n(diag, n-NBL1, A, ldA, x, IndexType(1));
 
         return;
@@ -728,24 +740,30 @@ trmv_complex_up_t(Diag diag, IndexType n,
 
     if ( n>NBL3  ) {
 
-        trmv_complex_up_t(diag, NBL3, A+(n-NBL3)*(ldA+1), ldA, x+(n-NBL3), IndexType(1));
-        gemv_complex_t(n-NBL3, NBL3, T(1), A+(n-NBL3), ldA, x, IndexType(1), T(1), x+(n-NBL3), IndexType(1));
+        trmv_complex_up_t(diag, NBL3, A+(n-NBL3)*(ldA+1), ldA,
+                          x+(n-NBL3), IndexType(1));
+        gemv_complex_t(n-NBL3, NBL3, T(1), A+(n-NBL3), ldA,
+                       x, IndexType(1), T(1), x+(n-NBL3), IndexType(1));
         trmv_complex_up_t(diag, n-NBL3, A, ldA, x, IndexType(1));
 
         return;
 
     } else if ( n>NBL3  ) {
 
-        trmv_complex_up_t(diag, NBL2, A+(n-NBL2)*(ldA+1), ldA, x+(n-NBL2), IndexType(1));
-        gemv_complex_t(n-NBL2, NBL2, T(1), A+(n-NBL2), ldA, x, IndexType(1), T(1), x+(n-NBL2), IndexType(1));
+        trmv_complex_up_t(diag, NBL2, A+(n-NBL2)*(ldA+1), ldA,
+                          x+(n-NBL2), IndexType(1));
+        gemv_complex_t(n-NBL2, NBL2, T(1), A+(n-NBL2), ldA,
+                       x, IndexType(1), T(1), x+(n-NBL2), IndexType(1));
         trmv_complex_up_t(diag, n-NBL2, A, ldA, x, IndexType(1));
 
         return;
 
     } else if ( n>NBL1  ) {
 
-        trmv_complex_up_t(diag, NBL1, A+(n-NBL1)*(ldA+1), ldA, x+(n-NBL1), IndexType(1));
-        gemv_complex_t(n-NBL1, NBL1, T(1), A+(n-NBL1), ldA, x, IndexType(1), T(1), x+(n-NBL1), IndexType(1));
+        trmv_complex_up_t(diag, NBL1, A+(n-NBL1)*(ldA+1), ldA,
+                          x+(n-NBL1), IndexType(1));
+        gemv_complex_t(n-NBL1, NBL1, T(1), A+(n-NBL1), ldA,
+                       x, IndexType(1), T(1), x+(n-NBL1), IndexType(1));
         trmv_complex_up_t(diag, n-NBL1, A, ldA, x, IndexType(1));
 
         return;
@@ -866,24 +884,30 @@ trmv_complex_up_ct(Diag diag, IndexType n,
 
     if ( n>NBL3  ) {
 
-        trmv_complex_up_ct(diag, NBL3, A+(n-NBL3)*(ldA+1), ldA, x+(n-NBL3), IndexType(1));
-        gemv_complex_ct(n-NBL3, NBL3, T(1), A+(n-NBL3), ldA, x, IndexType(1), T(1), x+(n-NBL3), IndexType(1));
+        trmv_complex_up_ct(diag, NBL3, A+(n-NBL3)*(ldA+1), ldA,
+                           x+(n-NBL3), IndexType(1));
+        gemv_complex_ct(n-NBL3, NBL3, T(1), A+(n-NBL3), ldA,
+                        x, IndexType(1), T(1), x+(n-NBL3), IndexType(1));
         trmv_complex_up_ct(diag, n-NBL3, A, ldA, x, IndexType(1));
 
         return;
 
     } else if ( n>NBL2  ) {
 
-        trmv_complex_up_ct(diag, NBL2, A+(n-NBL2)*(ldA+1), ldA, x+(n-NBL2), IndexType(1));
-        gemv_complex_ct(n-NBL2, NBL2, T(1), A+(n-NBL2), ldA, x, IndexType(1), T(1), x+(n-NBL2), IndexType(1));
+        trmv_complex_up_ct(diag, NBL2, A+(n-NBL2)*(ldA+1), ldA,
+                           x+(n-NBL2), IndexType(1));
+        gemv_complex_ct(n-NBL2, NBL2, T(1), A+(n-NBL2), ldA,
+                        x, IndexType(1), T(1), x+(n-NBL2), IndexType(1));
         trmv_complex_up_ct(diag, n-NBL2, A, ldA, x, IndexType(1));
 
         return;
 
     } else if ( n>NBL1  ) {
 
-        trmv_complex_up_ct(diag, NBL1, A+(n-NBL1)*(ldA+1), ldA, x+(n-NBL1), IndexType(1));
-        gemv_complex_ct(n-NBL1, NBL1, T(1), A+(n-NBL1), ldA, x, IndexType(1), T(1), x+(n-NBL1), IndexType(1));
+        trmv_complex_up_ct(diag, NBL1, A+(n-NBL1)*(ldA+1), ldA,
+                           x+(n-NBL1), IndexType(1));
+        gemv_complex_ct(n-NBL1, NBL1, T(1), A+(n-NBL1), ldA,
+                        x, IndexType(1), T(1), x+(n-NBL1), IndexType(1));
         trmv_complex_up_ct(diag, n-NBL1, A, ldA, x, IndexType(1));
 
         return;
@@ -1000,24 +1024,30 @@ trmv_complex_lo_n(Diag diag, IndexType n,
 
     if ( n>NBL3  ) {
 
-        trmv_complex_lo_n(diag, NBL3, A+(n-NBL3)*(ldA+1), ldA, x+(n-NBL3), IndexType(1));
-        gemv_complex_n(NBL3, n-NBL3, T(1), A+(n-NBL3)*ldA, ldA, x, incX, T(1), x+(n-NBL3), IndexType(1));
+        trmv_complex_lo_n(diag, NBL3, A+(n-NBL3)*(ldA+1), ldA,
+                          x+(n-NBL3), IndexType(1));
+        gemv_complex_n(NBL3, n-NBL3, T(1), A+(n-NBL3)*ldA, ldA,
+                       x, incX, T(1), x+(n-NBL3), IndexType(1));
         trmv_complex_lo_n(diag, n-NBL3, A, ldA, x, IndexType(1));
 
         return;
 
     } else if ( n>NBL2  ) {
 
-        trmv_complex_lo_n(diag, NBL2, A+(n-NBL2)*(ldA+1), ldA, x+(n-NBL2), IndexType(1));
-        gemv_complex_n(NBL2, n-NBL2, T(1), A+(n-NBL2)*ldA, ldA, x, incX, T(1), x+(n-NBL2), IndexType(1));
+        trmv_complex_lo_n(diag, NBL2, A+(n-NBL2)*(ldA+1), ldA,
+                          x+(n-NBL2), IndexType(1));
+        gemv_complex_n(NBL2, n-NBL2, T(1), A+(n-NBL2)*ldA, ldA,
+                       x, incX, T(1), x+(n-NBL2), IndexType(1));
         trmv_complex_lo_n(diag, n-NBL2, A, ldA, x, IndexType(1));
 
         return;
 
     } else if ( n>NBL1  ) {
 
-        trmv_complex_lo_n(diag, NBL1, A+(n-NBL1)*(ldA+1), ldA, x+(n-NBL1), IndexType(1));
-        gemv_complex_n(NBL1, n-NBL1, T(1), A+(n-NBL1)*ldA, ldA, x, incX, T(1), x+(n-NBL1), IndexType(1));
+        trmv_complex_lo_n(diag, NBL1, A+(n-NBL1)*(ldA+1), ldA,
+                          x+(n-NBL1), IndexType(1));
+        gemv_complex_n(NBL1, n-NBL1, T(1), A+(n-NBL1)*ldA, ldA,
+                       x, incX, T(1), x+(n-NBL1), IndexType(1));
         trmv_complex_lo_n(diag, n-NBL1, A, ldA, x, IndexType(1));
 
         return;
@@ -1128,24 +1158,30 @@ trmv_complex_lo_c(Diag diag, IndexType n,
 
     if ( n>NBL3  ) {
 
-        trmv_complex_lo_c(diag, NBL3, A+(n-NBL3)*(ldA+1), ldA, x+(n-NBL3), IndexType(1));
-        gemv_complex_c(NBL3, n-NBL3, T(1), A+(n-NBL3)*ldA, ldA, x, incX, T(1), x+(n-NBL3), IndexType(1));
+        trmv_complex_lo_c(diag, NBL3, A+(n-NBL3)*(ldA+1), ldA,
+                          x+(n-NBL3), IndexType(1));
+        gemv_complex_c(NBL3, n-NBL3, T(1), A+(n-NBL3)*ldA, ldA,
+                       x, incX, T(1), x+(n-NBL3), IndexType(1));
         trmv_complex_lo_c(diag, n-NBL3, A, ldA, x, IndexType(1));
 
         return;
 
     } else if ( n>NBL2  ) {
 
-        trmv_complex_lo_c(diag, NBL2, A+(n-NBL2)*(ldA+1), ldA, x+(n-NBL2), IndexType(1));
-        gemv_complex_c(NBL2, n-NBL2, T(1), A+(n-NBL2)*ldA, ldA, x, incX, T(1), x+(n-NBL2), IndexType(1));
+        trmv_complex_lo_c(diag, NBL2, A+(n-NBL2)*(ldA+1), ldA,
+                          x+(n-NBL2), IndexType(1));
+        gemv_complex_c(NBL2, n-NBL2, T(1), A+(n-NBL2)*ldA, ldA,
+                       x, incX, T(1), x+(n-NBL2), IndexType(1));
         trmv_complex_lo_c(diag, n-NBL2, A, ldA, x, IndexType(1));
 
         return;
 
     } else if ( n>NBL1  ) {
 
-        trmv_complex_lo_c(diag, NBL1, A+(n-NBL1)*(ldA+1), ldA, x+(n-NBL1), IndexType(1));
-        gemv_complex_c(NBL1, n-NBL1, T(1), A+(n-NBL1)*ldA, ldA, x, incX, T(1), x+(n-NBL1), IndexType(1));
+        trmv_complex_lo_c(diag, NBL1, A+(n-NBL1)*(ldA+1), ldA,
+                          x+(n-NBL1), IndexType(1));
+        gemv_complex_c(NBL1, n-NBL1, T(1), A+(n-NBL1)*ldA, ldA,
+                       x, incX, T(1), x+(n-NBL1), IndexType(1));
         trmv_complex_lo_c(diag, n-NBL1, A, ldA, x, IndexType(1));
 
         return;
@@ -1264,21 +1300,24 @@ trmv_complex_lo_t(Diag diag, IndexType n,
     if ( n>NBL3  ) {
 
         trmv_complex_lo_t(diag, NBL3, A, ldA, x, 1);
-        gemv_complex_t(n-NBL3, NBL3, T(1), A+NBL3*ldA, ldA, x+NBL3, 1, T(1), x, 1);
+        gemv_complex_t(n-NBL3, NBL3, T(1), A+NBL3*ldA, ldA, x+NBL3, 1, T(1),
+                       x, 1);
         trmv_complex_lo_t(diag, n-NBL3, A+NBL3*(ldA+1), ldA, x+NBL3, 1);
         return;
 
     } else if ( n>NBL2  ) {
 
         trmv_complex_lo_t(diag, NBL2, A, ldA, x, 1);
-        gemv_complex_t(n-NBL2, NBL2, T(1), A+NBL2*ldA, ldA, x+NBL2, 1, T(1), x, 1);
+        gemv_complex_t(n-NBL2, NBL2, T(1), A+NBL2*ldA, ldA, x+NBL2, 1, T(1),
+                       x, 1);
         trmv_complex_lo_t(diag, n-NBL2, A+NBL2*(ldA+1), ldA, x+NBL2, 1);
         return;
 
     } else if ( n>NBL1  ) {
 
         trmv_complex_lo_t(diag, NBL1, A, ldA, x, 1);
-        gemv_complex_t(n-NBL1, NBL1, T(1), A+NBL1*ldA, ldA, x+NBL1, 1, T(1), x, 1);
+        gemv_complex_t(n-NBL1, NBL1, T(1), A+NBL1*ldA, ldA, x+NBL1, 1, T(1),
+                       x, 1);
         trmv_complex_lo_t(diag, n-NBL1, A+NBL1*(ldA+1), ldA, x+NBL1, 1);
         return;
 
@@ -1408,21 +1447,24 @@ trmv_complex_lo_ct(Diag diag, IndexType n,
     if ( n>NBL3  ) {
 
         trmv_complex_lo_ct(diag, NBL3, A, ldA, x, 1);
-        gemv_complex_ct(n-NBL3, NBL3, T(1), A+NBL3*ldA, ldA, x+NBL3, 1, T(1), x, 1);
+        gemv_complex_ct(n-NBL3, NBL3, T(1), A+NBL3*ldA, ldA, x+NBL3, 1, T(1),
+                        x, 1);
         trmv_complex_lo_ct(diag, n-NBL3, A+NBL3*(ldA+1), ldA, x+NBL3, 1);
         return;
 
     } else if ( n>NBL2  ) {
 
         trmv_complex_lo_ct(diag, NBL2, A, ldA, x, 1);
-        gemv_complex_ct(n-NBL2, NBL2, T(1), A+NBL2*ldA, ldA, x+NBL2, 1, T(1), x, 1);
+        gemv_complex_ct(n-NBL2, NBL2, T(1), A+NBL2*ldA, ldA, x+NBL2, 1, T(1),
+                        x, 1);
         trmv_complex_lo_ct(diag, n-NBL2, A+NBL2*(ldA+1), ldA, x+NBL2, 1);
         return;
 
     } else if ( n>NBL1  ) {
 
         trmv_complex_lo_ct(diag, NBL1, A, ldA, x, 1);
-        gemv_complex_ct(n-NBL1, NBL1, T(1), A+NBL1*ldA, ldA, x+NBL1, 1, T(1), x, 1);
+        gemv_complex_ct(n-NBL1, NBL1, T(1), A+NBL1*ldA, ldA, x+NBL1, 1, T(1),
+                        x, 1);
         trmv_complex_lo_ct(diag, n-NBL1, A+NBL1*(ldA+1), ldA, x+NBL1, 1);
         return;
 
@@ -1554,7 +1596,8 @@ trmv(StorageOrder order, StorageUpLo upLo,
 
     if ( incX != 1) {
 
-        cxxblas::trmv<IndexType, T, T>(RowMajor, Upper, transA, diag, n, A, ldA, x, incX);
+        cxxblas::trmv<IndexType, T, T>(RowMajor, Upper, transA, diag, n,
+                                       A, ldA, x, incX);
         return;
 
     }
@@ -1587,7 +1630,7 @@ trmv(StorageOrder order, StorageUpLo upLo,
 
 template <typename IndexType, typename T>
 typename flens::RestrictTo<flens::IsComplex<T>::value &&
-                           flens::IsIntrinsicsCompatible<T>::value, 
+                           flens::IsIntrinsicsCompatible<T>::value,
                            void>::Type
 trmv(StorageOrder order, StorageUpLo upLo,
      Transpose transA, Diag diag,
@@ -1607,7 +1650,8 @@ trmv(StorageOrder order, StorageUpLo upLo,
 
     if ( incX != 1) {
 
-        cxxblas::trmv<IndexType, T, T>(RowMajor, Upper, transA, diag, n, A, ldA, x, incX);
+        cxxblas::trmv<IndexType, T, T>(RowMajor, Upper, transA, diag, n,
+                                       A, ldA, x, incX);
         return;
 
     }

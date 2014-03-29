@@ -43,7 +43,7 @@ namespace cxxblas {
 
 template <typename IndexType, typename T>
 typename flens::RestrictTo<flens::IsReal<T>::value &&
-                           flens::IsIntrinsicsCompatible<T>::value, 
+                           flens::IsIntrinsicsCompatible<T>::value,
                            void>::Type
 rscal(IndexType n, const T &alpha, T *y, IndexType incY)
 {
@@ -79,7 +79,7 @@ rscal(IndexType n, const T &alpha, T *y, IndexType incY)
 
 template <typename IndexType, typename T>
 typename flens::RestrictTo<flens::IsComplex<T>::value &&
-                           flens::IsIntrinsicsCompatible<T>::value, 
+                           flens::IsIntrinsicsCompatible<T>::value,
                            void>::Type
 rscal(IndexType n, const T &alpha, T *y, IndexType incY)
 {
@@ -108,7 +108,7 @@ rscal(IndexType n, const T &alpha, T *y, IndexType incY)
 
 
         PT alpha2 = real(alpha)*real(alpha) + imag(alpha)*imag(alpha);
-       
+
         IntrinsicPrimitiveType _real_alpha(real(alpha));
         IntrinsicPrimitiveType _imag_alpha(-imag(alpha));
         IntrinsicPrimitiveType _alpha2(alpha2);
@@ -129,7 +129,7 @@ rscal(IndexType n, const T &alpha, T *y, IndexType incY)
             y[i] /= alpha;
         }
 
-        
+
     } else {
         cxxblas::rscal<IndexType, T, T>(n, alpha, y, incY);
     }

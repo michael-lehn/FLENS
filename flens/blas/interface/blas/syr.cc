@@ -15,18 +15,18 @@ BLAS(ssyr)(const char      *UPLO,
            const INTEGER   *LDA)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _UPLO   = toupper(*UPLO);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        
+
         cblas_ssyr(CBLAS_ORDER::CblasColMajor,
                    cxxblas::CBLAS::getCblasType(upLo),
                    *N, *ALPHA,
                    X, *INCX, _A, *LDA);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -73,18 +73,17 @@ BLAS(dsyr)(const char      *UPLO,
            double          *_A,
            const INTEGER   *LDA)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-        
+
         char    _UPLO   = toupper(*UPLO);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        
+
         cblas_dsyr(CBLAS_ORDER::CblasColMajor,
                    cxxblas::CBLAS::getCblasType(upLo),
                    *N, *ALPHA,
                    X, *INCX, _A, *LDA);
-        
+
 #   else
         using std::abs;
         using std::max;
@@ -107,7 +106,7 @@ BLAS(dsyr)(const char      *UPLO,
                 return;
             }
 #       endif
-    
+
         StorageUpLo  upLo = StorageUpLo(_UPLO);
 
         DDenseVectorConstView x(DConstArrayView(*N, X, abs(*INCX)), *INCX<0);

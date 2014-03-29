@@ -35,12 +35,12 @@
 
 #include <cxxblas/typedefs.h>
 
-namespace cxxblas {    
-   
-#ifdef HAVE_SPARSEBLAS      
-    
+namespace cxxblas {
+
+#ifdef HAVE_SPARSEBLAS
+
 #define HAVE_CXXBLAS_TRCRSSV 1
-    
+
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     trcrssv(StorageUpLo      upLo,
@@ -51,8 +51,8 @@ template <typename IndexType>
             const IndexType  *ia,
             const IndexType  *ja,
             const float      *x,
-            float            *y);  
-    
+            float            *y);
+
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     trcrssv(StorageUpLo      upLo,
@@ -63,8 +63,8 @@ template <typename IndexType>
             const IndexType  *ia,
             const IndexType  *ja,
             const double     *x,
-            double           *y); 
-    
+            double           *y);
+
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     trcrssv(StorageUpLo             upLo,
@@ -76,7 +76,7 @@ template <typename IndexType>
             const IndexType         *ja,
             const ComplexFloat      *x,
             ComplexFloat            *y);
-    
+
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     trcrssv(StorageUpLo             upLo,
@@ -88,9 +88,9 @@ template <typename IndexType>
             const IndexType         *ja,
             const ComplexDouble     *x,
             ComplexDouble           *y);
-    
+
 #endif
-        
+
 
 } // namespace cxxblas
 

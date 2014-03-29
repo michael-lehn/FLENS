@@ -52,7 +52,7 @@ namespace flens { namespace lapack {
 //== generic lapack implementation =============================================
 
 namespace generic {
-  
+
 //-- (ge)con [real variant] ----------------------------------------------------
 
 template <typename MA, typename NORMA, typename RCOND,
@@ -167,7 +167,7 @@ con_impl(Norm                norm,
     }
 }
 
-//-- (ge)con [complex variant] ----------------------------------------------------
+//-- (ge)con [complex variant] -------------------------------------------------
 
 template <typename MA, typename NORMA, typename RCOND,
           typename VWORK, typename VRWORK>
@@ -227,7 +227,7 @@ con_impl(Norm                norm,
 
     auto work1 = work(_(1,n));
     auto work2 = work(_(n+1,2*n));
- 
+
     auto rwork1 = rwork(_(1  ,  n));
     auto rwork2 = rwork(_(n+1,2*n));
 
@@ -266,7 +266,9 @@ con_impl(Norm                norm,
         normIn = true;
         if (scale!=One) {
             const IndexType ix = blas::iamax(work1);
-            if (scale<(abs(real(work1(ix)))+abs(imag(work1(ix))))*smallNum || scale==Zero) {
+            if (scale<(abs(real(work1(ix)))+abs(imag(work1(ix))))*smallNum
+             || scale==Zero)
+            {
                 computeRCond = false;
                 break;
             }
@@ -344,7 +346,7 @@ con(Norm            norm,
 #   ifndef NDEBUG
 
     typedef typename MA::IndexType            IndexType;
-    
+
     ASSERT(norm==InfinityNorm || norm==OneNorm);
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
@@ -366,7 +368,7 @@ con(Norm            norm,
 //
     typedef typename RemoveRef<VWORK>::Type   VectorWork;
     typedef typename RemoveRef<VIWORK>::Type  VectorIWork;
-    
+
 //
 //  Make copies of output arguments
 //
@@ -418,11 +420,11 @@ con(Norm            norm,
 
     if (failed) {
         ASSERT(0);
-    } 
+    }
 #   endif
 }
 
-//-- (ge)con [complex variant] ----------------------------------------------------
+//-- (ge)con [complex variant] -------------------------------------------------
 
 template <typename MA, typename NORMA, typename RCOND,
           typename VWORK, typename VRWORK>
@@ -441,14 +443,14 @@ con(Norm                norm,
 {
 
     LAPACK_DEBUG_OUT("(ge)con [complex]");
-    
+
 //
 //  Test the input parameters
 //
 #   ifndef NDEBUG
 
     typedef typename MA::IndexType            IndexType;
-    
+
     ASSERT(norm==InfinityNorm || norm==OneNorm);
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
@@ -462,7 +464,7 @@ con(Norm                norm,
     ASSERT(rwork.firstIndex()==1);
     ASSERT(rwork.length()==2*n);
 #   endif
-    
+
 #   ifdef CHECK_CXXLAPACK
 
 //
@@ -470,7 +472,7 @@ con(Norm                norm,
 //
     typedef typename RemoveRef<VWORK>::Type   VectorWork;
     typedef typename RemoveRef<VRWORK>::Type  VectorRWork;
-    
+
 //
 //  Make copies of output arguments
 //
@@ -522,7 +524,7 @@ con(Norm                norm,
 
     if (failed) {
         ASSERT(0);
-    } 
+    }
 #   endif
 
 }

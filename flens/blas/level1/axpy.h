@@ -61,14 +61,14 @@ template <typename ALPHA, typename VX, typename VY>
 //-- BLAS Level 1 extensions ---------------------------------------------------
 
 //== GeneralMatrix
-    
+
 //-- diagaxpy
 template <typename ALPHA, typename MA, typename MB>
     typename RestrictTo<IsDiagMatrix<MA>::value
                      && IsDiagMatrix<MB>::value,
              void>::Type
     axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
-    
+
 //-- gbaxpy
 template <typename ALPHA, typename MA, typename MB>
     typename RestrictTo<IsGbMatrix<MA>::value
@@ -99,7 +99,7 @@ template <typename ALPHA, typename MA, typename MB>
                      && IsHbMatrix<MB>::value,
              void>::Type
     axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
-    
+
 //-- heaxpy
 template <typename ALPHA, typename MA, typename MB>
     typename RestrictTo<IsHeMatrix<MA>::value
@@ -130,8 +130,8 @@ template <typename ALPHA, typename MA, typename MB>
                      && IsSpMatrix<MB>::value,
              void>::Type
     axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
-    
-    
+
+
 //-- syaxpy
 template <typename ALPHA, typename MA, typename MB>
     typename RestrictTo<IsSyMatrix<MA>::value
@@ -148,7 +148,7 @@ template <typename ALPHA, typename MA, typename MB>
                      && IsTbMatrix<MB>::value,
              void>::Type
     axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B);
-    
+
 //-- traxpy
 template <typename ALPHA, typename MA, typename MB>
     typename RestrictTo<IsTrMatrix<MA>::value

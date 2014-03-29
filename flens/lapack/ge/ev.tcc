@@ -453,7 +453,7 @@ ev_impl(bool                computeVL,
     } else if (work.length()==0) {
         work.resize(maxWork);
     }
-    
+
     if (rWork.length()!=0 && rWork.length()<2*n) {
         ASSERT(0);
     } else if (rWork.length()==0) {

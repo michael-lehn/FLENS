@@ -20,20 +20,20 @@ BLAS(strmv)(const char      *UPLO,
         char    _UPLO   = toupper(*UPLO);
         char    _TRANS  = toupper(*TRANS);
         char    _DIAG   = toupper(*DIAG);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      trans  = convertTo<Transpose>(_TRANS);
         Diag           diag   = Diag(_DIAG);
-        
+
         cblas_strmv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     cxxblas::CBLAS::getCblasType(trans),
                     cxxblas::CBLAS::getCblasType(diag),
                     *N,
                     _A, *LDA, X, *INCX);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -61,7 +61,7 @@ BLAS(strmv)(const char      *UPLO,
                 return;
             }
 #       endif
-    
+
         StorageUpLo  upLo  = StorageUpLo(_UPLO);
         Transpose    trans = convertTo<Transpose>(_TRANS);
         Diag         diag  = Diag(_DIAG);
@@ -92,23 +92,23 @@ BLAS(dtrmv)(const char      *UPLO,
             const INTEGER   *INCX)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _UPLO   = toupper(*UPLO);
         char    _TRANS  = toupper(*TRANS);
         char    _DIAG   = toupper(*DIAG);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      trans  = convertTo<Transpose>(_TRANS);
         Diag           diag   = Diag(_DIAG);
-        
+
         cblas_dtrmv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     cxxblas::CBLAS::getCblasType(trans),
                     cxxblas::CBLAS::getCblasType(diag), *N,
                     _A, *LDA, X, *INCX);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -136,7 +136,7 @@ BLAS(dtrmv)(const char      *UPLO,
                 return;
             }
 #       endif
-    
+
         StorageUpLo  upLo  = StorageUpLo(_UPLO);
         Transpose    trans = convertTo<Transpose>(_TRANS);
         Diag         diag  = Diag(_DIAG);
@@ -166,27 +166,26 @@ BLAS(ctrmv)(const char      *UPLO,
             cfloat          *X,
             const INTEGER   *INCX)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _UPLO   = toupper(*UPLO);
         char    _TRANS  = toupper(*TRANS);
         char    _DIAG   = toupper(*DIAG);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      trans  = convertTo<Transpose>(_TRANS);
         Diag           diag   = Diag(_DIAG);
-        
+
         cblas_ctrmv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     cxxblas::CBLAS::getCblasType(trans),
                     cxxblas::CBLAS::getCblasType(diag), *N,
                     reinterpret_cast<const float *>(_A), *LDA,
                     reinterpret_cast<float *>(X), *INCX);
-    
+
 #   else
-    
-    
+
+
         using std::abs;
         using std::max;
 
@@ -214,7 +213,7 @@ BLAS(ctrmv)(const char      *UPLO,
                 return;
             }
 #       endif
-    
+
         StorageUpLo  upLo  = StorageUpLo(_UPLO);
         Transpose    trans = convertTo<Transpose>(_TRANS);
         Diag         diag  = Diag(_DIAG);
@@ -246,26 +245,25 @@ BLAS(ztrmv)(const char      *UPLO,
             cdouble         *X,
             const INTEGER   *INCX)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-        
+
         char    _UPLO   = toupper(*UPLO);
         char    _TRANS  = toupper(*TRANS);
         char    _DIAG   = toupper(*DIAG);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      trans  = convertTo<Transpose>(_TRANS);
         Diag           diag   = Diag(_DIAG);
-        
+
         cblas_ztrmv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     cxxblas::CBLAS::getCblasType(trans),
                     cxxblas::CBLAS::getCblasType(diag), *N,
                     reinterpret_cast<const double *>(_A), *LDA,
                     reinterpret_cast<double *>(X), *INCX);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -293,7 +291,7 @@ BLAS(ztrmv)(const char      *UPLO,
                 return;
             }
 #       endif
-    
+
         StorageUpLo  upLo  = StorageUpLo(_UPLO);
         Transpose    trans = convertTo<Transpose>(_TRANS);
         Diag         diag  = Diag(_DIAG);

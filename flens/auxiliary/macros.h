@@ -46,15 +46,16 @@
 #if defined(TRACEBACK_ASSERT) && !defined(NDEBUG)
 #   include <execinfo.h>
 #   ifndef ASSERT
-#       define ASSERT(x) if(!(x)) {                                              \
-                             void* callstack[128];                               \
-                             int frames = backtrace(callstack, 128);             \
-                             char** strs = backtrace_symbols(callstack, frames); \
-                             for (int i=0; i<frames; ++i) {                      \
-                                 std::cerr << strs[i] << std::endl;              \
-                             }                                                   \
-                         free(strs);                                             \
-                         }                                                       \
+#       define ASSERT(x) if(!(x)) {                                            \
+                             void* callstack[128];                             \
+                             int frames = backtrace(callstack, 128);           \
+                             char** strs = backtrace_symbols(callstack,        \
+                                                             frames);          \
+                             for (int i=0; i<frames; ++i) {                    \
+                                 std::cerr << strs[i] << std::endl;            \
+                             }                                                 \
+                         free(strs);                                           \
+                         }                                                     \
                          assert(x);
 #   endif
 #endif

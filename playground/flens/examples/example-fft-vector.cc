@@ -20,21 +20,21 @@ main(int argc, char* argv[])
     const IndexType n = 4;
     Vector x(n), y(n), z(n);
 
-    /// 
+    ///
     /// Fill in random values
     ///
     fillRandom(x);
-        
+
     ///
     /// Calculate forward Fourier transform
     ///
     dft_forward(x, y);
-    
+
     ///
     /// Calculate normalized backward Fourier transform
     ///
     dft_backward_normalized(y, z);
-    
+
     ///
     /// Check results
     ///

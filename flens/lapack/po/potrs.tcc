@@ -103,7 +103,7 @@ potrs_impl(const SyMatrix<MA> &A, GeMatrix<MB> &B)
     }
 }
 
-//-- potrs [complex variant] ------------------------------------------------------
+//-- potrs [complex variant] ---------------------------------------------------
 
 template <typename MA, typename MB>
 void

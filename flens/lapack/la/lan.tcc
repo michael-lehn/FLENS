@@ -378,8 +378,10 @@ lan(Norm norm, const GeMatrix<MA> &A)
 {
     ASSERT(norm!=InfinityNorm);
 
-    typedef typename ComplexTrait<typename GeMatrix<MA>::ElementType>::PrimitiveType  T;
-    DenseVector<Array<T> >  dummy;
+    typedef typename GeMatrix<MA>::ElementType       T;
+    typedef typename ComplexTrait<T>::PrimitiveType  PT;
+
+    DenseVector<Array<PT> >  dummy;
     return lan(norm, A, dummy);
 }
 
@@ -387,7 +389,9 @@ template <typename MA, typename VWORK>
 typename ComplexTrait<typename GeMatrix<MA>::ElementType>::PrimitiveType
 lan(Norm norm, const GeMatrix<MA> &A, DenseVector<VWORK> &work)
 {
-    typedef typename ComplexTrait<typename GeMatrix<MA>::ElementType>::PrimitiveType T;
+    typedef typename GeMatrix<MA>::ElementType       T;
+    typedef typename ComplexTrait<T>::PrimitiveType  PT;
+
 //
 //  Test the input parameters
 //
@@ -404,7 +408,7 @@ lan(Norm norm, const GeMatrix<MA> &A, DenseVector<VWORK> &work)
 //
 //  Call implementation
 //
-    T result = LAPACK_SELECT::lan_impl(norm, A, work);
+    PT result = LAPACK_SELECT::lan_impl(norm, A, work);
 
 #   ifdef CHECK_CXXLAPACK
 //
@@ -414,7 +418,7 @@ lan(Norm norm, const GeMatrix<MA> &A, DenseVector<VWORK> &work)
         _work.resize(work.length());
     }
 
-    T _result = external::lan_impl(norm, A, _work);
+    PT _result = external::lan_impl(norm, A, _work);
 
     bool failed = false;
     if (! isIdentical(work, _work, " work", "_work")) {
@@ -442,8 +446,10 @@ lan(Norm norm, const TrMatrix<MA> &A)
 {
     ASSERT(norm!=InfinityNorm);
 
-    typedef typename ComplexTrait<typename TrMatrix<MA>::ElementType>::PrimitiveType T;
-    DenseVector<Array<T> >  dummy;
+    typedef typename TrMatrix<MA>::ElementType       T;
+    typedef typename ComplexTrait<T>::PrimitiveType  PT;
+
+    DenseVector<Array<PT> >  dummy;
     return lan(norm, A, dummy);
 }
 
@@ -451,7 +457,9 @@ template <typename MA, typename VWORK>
 typename ComplexTrait<typename TrMatrix<MA>::ElementType>::PrimitiveType
 lan(Norm norm, const TrMatrix<MA> &A, DenseVector<VWORK> &work)
 {
-    typedef typename ComplexTrait<typename TrMatrix<MA>::ElementType>::PrimitiveType T;
+    typedef typename TrMatrix<MA>::ElementType       T;
+    typedef typename ComplexTrait<T>::PrimitiveType  PT;
+
 //
 //  Test the input parameters
 //
@@ -468,7 +476,7 @@ lan(Norm norm, const TrMatrix<MA> &A, DenseVector<VWORK> &work)
 //
 //  Call implementation
 //
-    T result = LAPACK_SELECT::lan_impl(norm, A, work);
+    PT result = LAPACK_SELECT::lan_impl(norm, A, work);
 
 #   ifdef CHECK_CXXLAPACK
 //
@@ -478,7 +486,7 @@ lan(Norm norm, const TrMatrix<MA> &A, DenseVector<VWORK> &work)
         _work.resize(work.length());
     }
 
-    T _result = external::lan_impl(norm, A, _work);
+    PT _result = external::lan_impl(norm, A, _work);
 
     bool failed = false;
     if (! isIdentical(work, _work, " work", "_work")) {

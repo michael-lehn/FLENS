@@ -54,10 +54,10 @@ template <typename IndexType, typename ALPHA, typename MA, typename MB,
             const BETA       &beta,
             MC               *C,
             IndexType        ldC);
-    
-   
-#ifdef HAVE_SPARSEBLAS      
-    
+
+
+#ifdef HAVE_SPARSEBLAS
+
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     sycrsmm(StorageUpLo      upLo,
@@ -72,7 +72,7 @@ template <typename IndexType>
             const float      &beta,
             float            *C,
             IndexType        ldC);
-    
+
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     sycrsmm(StorageUpLo      upLo,
@@ -87,8 +87,8 @@ template <typename IndexType>
             const double     &beta,
             double           *C,
             IndexType        ldC);
-    
-    
+
+
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     sycrsmm(StorageUpLo             upLo,
@@ -103,7 +103,7 @@ template <typename IndexType>
             const ComplexFloat      &beta,
             ComplexFloat            *C,
             IndexType               ldC);
-    
+
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     sycrsmm(StorageUpLo             upLo,
@@ -118,9 +118,8 @@ template <typename IndexType>
             const ComplexDouble     &beta,
             ComplexDouble           *C,
             IndexType               ldC);
-    
-#endif
-        
+
+#endif // HAVE_SPARSEBLAS
 
 } // namespace cxxblas
 

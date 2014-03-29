@@ -38,7 +38,7 @@
 namespace cxxlapack {
 
 template <typename IndexType>
-    void 
+    void
     laset(char                  uplo,
           IndexType             m,
           IndexType             n,

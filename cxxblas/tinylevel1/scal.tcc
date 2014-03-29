@@ -42,7 +42,7 @@ void
 scal(const ALPHA &alpha, Y *y)
 {
     CXXBLAS_DEBUG_OUT("scal [tiny]");
-    
+
     for (int i=0, iY=0; i<n; ++i, ++iY) {
         y[iY] *= alpha;
     }

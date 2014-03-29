@@ -17,13 +17,13 @@ BLAS(chemv)(const char      *UPLO,
             cfloat          *Y,
             const INTEGER   *INCY)
 {
-    
+
 #   ifdef TEST_DIRECT_CBLAS
-        
+
         char    _UPLO   = toupper(*UPLO);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        
+
         cblas_chemv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     *N,
@@ -32,9 +32,9 @@ BLAS(chemv)(const char      *UPLO,
                     reinterpret_cast<const float *>(X), *INCX,
                     reinterpret_cast<const float *>(BETA),
                     reinterpret_cast<float *>(Y), *INCY);
-    
+
 #   else
-        
+
         using std::abs;
         using std::max;
 
@@ -58,7 +58,7 @@ BLAS(chemv)(const char      *UPLO,
                 return;
             }
 #       endif
-    
+
         StorageUpLo  upLo = StorageUpLo(_UPLO);
 
         CHeMatrixConstView    A(CFullConstView(*N, *N, _A, *LDA), upLo);
@@ -88,13 +88,13 @@ BLAS(zhemv)(const char      *UPLO,
             cdouble         *Y,
             const INTEGER   *INCY)
 {
-    
+
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _UPLO   = toupper(*UPLO);
-    
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-    
+
         cblas_zhemv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     *N,
@@ -103,9 +103,9 @@ BLAS(zhemv)(const char      *UPLO,
                     reinterpret_cast<const double *>(X), *INCX,
                     reinterpret_cast<const double *>(BETA),
                     reinterpret_cast<double *>(Y), *INCY);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -129,7 +129,7 @@ BLAS(zhemv)(const char      *UPLO,
                 return;
             }
 #       endif
-    
+
         StorageUpLo  upLo = StorageUpLo(_UPLO);
 
         ZHeMatrixConstView    A(ZFullConstView(*N, *N, _A, *LDA), upLo);

@@ -32,7 +32,7 @@
 
 /* Based on
  *
- * Yousef Saad - Iterative methods for sparse linear systems  (2nd edition) 
+ * Yousef Saad - Iterative methods for sparse linear systems  (2nd edition)
  * Algorithm 9.1
  *
  */
@@ -44,7 +44,7 @@
 #include <playground/flens/solver/pcg.h>
 
 namespace flens { namespace solver {
-    
+
 template <typename MP, typename MA, typename VX, typename VB>
     typename RestrictTo<IsMatrix<MP>::value
                      && IsSymmetricMatrix<MA>::value
@@ -53,7 +53,7 @@ template <typename MP, typename MA, typename VX, typename VB>
              typename RemoveRef<VX>::Type::IndexType>::Type
 pcg(const MP &P, const MA &A, VX &&x, const VB &b,
        typename ComplexTrait<typename RemoveRef<VX>::Type::ElementType>::PrimitiveType tol,
-       typename RemoveRef<VX>::Type::IndexType maxIterations)  
+       typename RemoveRef<VX>::Type::IndexType maxIterations)
 {
     using std::abs;
 
@@ -61,23 +61,23 @@ pcg(const MP &P, const MA &A, VX &&x, const VB &b,
     typedef typename VectorX::NoView       Vector;
     typedef typename VectorX::IndexType    IndexType;
     typedef typename VectorX::ElementType  ElementType;
-    
+
     Vector      Ap, r, p, z;
     ElementType alpha, beta, pNormSquare, rz, rzPrev;
-    
+
     r  = b - A*x;
     z  = P*r;
     p  = z;
     rz = r*z;
-    
+
     for (IndexType k=1; k<=maxIterations; k++) {
-      
+
         pNormSquare = p*p;
 
         if (abs(pNormSquare)<=tol) {
             return 0;
         }
-        
+
         Ap     = A*p;
         alpha  = rz/(p*Ap);
         x      = x + alpha*p;

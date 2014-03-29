@@ -1404,7 +1404,7 @@ jsv_generic(JSV::Accuracy             accuracy,
     iwork(3) = warning
 }
 */
-    //== interface for native lapack ===============================================
+    //== interface for native lapack ===========================================
 
 #ifdef USE_CXXLAPACK
 

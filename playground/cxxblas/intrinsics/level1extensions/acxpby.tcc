@@ -44,7 +44,7 @@ namespace cxxblas {
 
 template <typename IndexType, typename T>
 typename flens::RestrictTo<flens::IsReal<T>::value &&
-                           flens::IsIntrinsicsCompatible<T>::value, 
+                           flens::IsIntrinsicsCompatible<T>::value,
                            void>::Type
 acxpby(IndexType n, const T &alpha, const T *x,
        IndexType incX, const T &beta, T *y, IndexType incY)
@@ -57,7 +57,7 @@ acxpby(IndexType n, const T &alpha, const T *x,
 
 template <typename IndexType, typename T>
 typename flens::RestrictTo<flens::IsComplex<T>::value &&
-                           flens::IsIntrinsicsCompatible<T>::value, 
+                           flens::IsIntrinsicsCompatible<T>::value,
                            void>::Type
 acxpby(IndexType n, const T &alpha, const T *x,
        IndexType incX, const T &beta, T *y, IndexType incY)
@@ -83,12 +83,12 @@ acxpby(IndexType n, const T &alpha, const T *x,
         return;
     }
     if (beta==T(1)) {
-        cxxblas::acxpy(n, alpha, x, incX, y, incY); 
-	return;
+        cxxblas::acxpy(n, alpha, x, incX, y, incY);
+    return;
     }
     if (alpha==T(1) && beta==T(0)) {
         cxxblas::ccopy(n, x, incX, y, incY);
-	return;
+    return;
     }
 
 //
@@ -120,12 +120,12 @@ acxpby(IndexType n, const T &alpha, const T *x,
             for (; i+numElements-1<n; i+=numElements) {
                 _x.loadu(x+i);
                 _y.loadu(y+i);
-                
+
                 _tmp = _intrinsic_mul(_real_beta, _y);
                 _y = _intrinsic_swap_real_imag(_y);
                 _y = _intrinsic_mul(_imag_beta, _y);
                 _y = _intrinsic_addsub(_tmp, _y);
-                
+
                 _y = _intrinsic_addsub(_y, _intrinsic_mul(_real_alpha, _x));
                 _x = _intrinsic_swap_real_imag(_x);
                 _y = _intrinsic_add(_y, _intrinsic_mul(_imag_alpha, _x));
@@ -139,7 +139,8 @@ acxpby(IndexType n, const T &alpha, const T *x,
 
     } else {
 
-        cxxblas::acxpby<IndexType, T, T, T ,T>(n, alpha, x, incX, beta, y, incY);
+        cxxblas::acxpby<IndexType, T, T, T ,T>(n, alpha, x, incX, beta,
+                                               y, incY);
 
     }
 }

@@ -41,35 +41,41 @@ namespace cxxblas {
 
 template <typename IndexType, typename T>
     void
-    PackMatrixColToColMajor( IndexType k, const T *A, IndexType ldA, T *A_to, IndexType ldA_to);
-    
-template <typename IndexType, typename T>
-    void
-    PackMatrixColToColMajor_4( IndexType k, const T *A, IndexType ldA, T *A_to );
+    PackMatrixColToColMajor(IndexType k, const T *A, IndexType ldA,
+                            T *A_to, IndexType ldA_to);
 
 template <typename IndexType, typename T>
     void
-    PackMatrixColToRowMajor( IndexType k, const T *B, IndexType ldB, T *b_to, IndexType ldB_to );
-    
+    PackMatrixColToColMajor_4(IndexType k, const T *A, IndexType ldA, T *A_to);
+
 template <typename IndexType, typename T>
     void
-    PackMatrixColToRowMajor_4( IndexType k, const T *B, IndexType ldB, T *b_to );
-    
+    PackMatrixColToRowMajor(IndexType k, const T *B, IndexType ldB,
+                            T *b_to, IndexType ldB_to);
+
 template <typename IndexType, typename T>
     void
-    PackMatrixColToColMajor_conj( IndexType k, const T *A, IndexType ldA, T *A_to, IndexType ldA_to );
-    
+    PackMatrixColToRowMajor_4(IndexType k, const T *B, IndexType ldB, T *b_to);
+
 template <typename IndexType, typename T>
     void
-    PackMatrixColToColMajor_4_conj( IndexType k, const T *A, IndexType ldA, T *A_to );
-    
+    PackMatrixColToColMajor_conj(IndexType k, const T *A, IndexType ldA,
+                                 T *A_to, IndexType ldA_to);
+
 template <typename IndexType, typename T>
     void
-    PackMatrixColToRowMajor_conj( IndexType k, const T *B, IndexType ldB, T *b_to, IndexType ldB_to );
-    
+    PackMatrixColToColMajor_4_conj(IndexType k, const T *A, IndexType ldA,
+                                   T *A_to);
+
 template <typename IndexType, typename T>
     void
-    PackMatrixColToRowMajor_4_conj( IndexType k, const T *B, IndexType ldB, T *b_to );
+    PackMatrixColToRowMajor_conj(IndexType k, const T *B, IndexType ldB,
+                                 T *b_to, IndexType ldB_to);
+
+template <typename IndexType, typename T>
+    void
+    PackMatrixColToRowMajor_4_conj(IndexType k, const T *B, IndexType ldB,
+                                   T *b_to);
 
 #endif // USE_INTRINSIC
 

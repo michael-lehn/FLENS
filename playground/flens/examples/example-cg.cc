@@ -38,13 +38,13 @@ main()
 
     cerr << "A.upper().symmetric() = " << A.upper().symmetric() << endl;
     cerr << "b = " << b << endl;
-    
+
     ///
     /// solve A*x = b using conjugated gradients
     ///
     solver::cg(A.upper().symmetric(), x, b);
     cout << "x = " << x << endl;
-    
+
     ///
     /// Test the result
     ///

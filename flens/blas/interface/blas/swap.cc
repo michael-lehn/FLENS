@@ -13,11 +13,11 @@ BLAS(sswap)(const INTEGER   *N,
             const INTEGER   *INCY)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
     cblas_sswap(*N, X, *INCX, Y, *INCY);
-    
+
 #   else
-    
+
         using std::abs;
 
         SDenseVectorView  x(SArrayView(*N, X, abs(*INCX)), *INCX<0);
@@ -36,11 +36,11 @@ BLAS(dswap)(const INTEGER   *N,
             const INTEGER   *INCY)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         cblas_dswap(*N, X, *INCX, Y, *INCY);
-    
+
 #   else
-    
+
         using std::abs;
 
         DDenseVectorView  x(DArrayView(*N, X, abs(*INCX)), *INCX<0);
@@ -58,13 +58,13 @@ BLAS(cswap)(const INTEGER   *N,
             const INTEGER   *INCY)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         cblas_cswap(*N,
                     reinterpret_cast<float *>(X), *INCX,
                     reinterpret_cast<float *>(Y), *INCY);
-    
+
 #   else
-    
+
         using std::abs;
 
         CDenseVectorView  x(CArrayView(*N, X, abs(*INCX)), *INCX<0);
@@ -83,15 +83,15 @@ BLAS(zswap)(const INTEGER   *N,
             const INTEGER   *INCY)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         cblas_zswap(*N,
                     reinterpret_cast<double *>(X), *INCX,
                     reinterpret_cast<double *>(Y), *INCY);
-    
+
 #   else
-    
+
         using std::abs;
-    
+
         ZDenseVectorView  x(ZArrayView(*N, X, abs(*INCX)), *INCX<0);
         ZDenseVectorView  y(ZArrayView(*N, Y, abs(*INCY)), *INCY<0);
 

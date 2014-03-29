@@ -33,7 +33,7 @@
 /* Based on
  *
        SUBROUTINE DPOTF2( UPLO, N, A, LDA, INFO )
-       SUBROUTINE ZPOTF2( UPLO, N, A, LDA, INFO )       
+       SUBROUTINE ZPOTF2( UPLO, N, A, LDA, INFO )
  *
  *  -- LAPACK routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -170,7 +170,7 @@ potf2_impl(HeMatrix<MA> &A)
 
     const PT Zero(0), One(1);
     const T  COne(1);
-    
+
     IndexType info = 0;
 //
 //  Quick return if possible

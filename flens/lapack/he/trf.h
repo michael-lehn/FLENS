@@ -51,7 +51,7 @@ namespace flens { namespace lapack {
 
 #ifdef USE_CXXLAPACK
 
-//== (he)trf =====================================================================
+//== (he)trf ===================================================================
 //
 //  complex variant
 //
@@ -62,7 +62,7 @@ template <typename MA, typename VPIV, typename VWORK>
              typename RemoveRef<MA>::Type::IndexType>::Type
     trf(MA &&A, VPIV &&piv, VWORK &&work);
 
-//== (he/sy)trf with temporary workspace =========================================
+//== (he/sy)trf with temporary workspace =======================================
 //
 //  Real and complex variant
 //

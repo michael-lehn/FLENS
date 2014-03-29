@@ -191,7 +191,7 @@ symv(StorageOrder order, StorageUpLo upLo,
     if (order==RowMajor) {
         upLo = (upLo==Upper) ? Lower : Upper;
     }
-    cxxlapack::symv(getF77BlasChar(upLo), 
+    cxxlapack::symv(getF77BlasChar(upLo),
                     n, alpha,
                     A, ldA,
                     x, incX,

@@ -42,7 +42,7 @@ namespace cxxblas {
 #ifdef USE_INTRINSIC
 
 template <typename IndexType, typename T>
-typename flens::RestrictTo<flens::IsIntrinsicsCompatible<T>::value, 
+typename flens::RestrictTo<flens::IsIntrinsicsCompatible<T>::value,
                            void>::Type
 sum(IndexType n, const T *y, IndexType incY, T &sum)
 {
@@ -57,7 +57,7 @@ sum(IndexType n, const T *y, IndexType incY, T &sum)
         IntrinsicType _sum, _y;
 
         _sum.setZero();
-        
+
         for(;i+numElements-1<n;i+=numElements) {
             _y.loadu(y+i);
             _sum = _intrinsic_add(_sum, _y);

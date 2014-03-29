@@ -137,11 +137,11 @@ class TrMatrix
         template <typename RHS>
             TrMatrix &
             operator=(const Matrix<RHS> &rhs);
-    
+
         template <typename RHS>
             TrMatrix &
             operator+=(const Matrix<RHS> &rhs);
-      
+
         template <typename RHS>
             TrMatrix &
             operator-=(const Matrix<RHS> &rhs);

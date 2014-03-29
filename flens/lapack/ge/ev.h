@@ -76,7 +76,7 @@ template <typename MA, typename VWR, typename VWI, typename MVL, typename MVR,
        MVR      &&VR,
        VWORK    &&work);
 
-//== (ge)ev workspace query ======================================================
+//== (ge)ev workspace query ====================================================
 //
 //  Real variant
 //
@@ -128,7 +128,7 @@ template <typename MA, typename VW, typename MVL, typename MVR, typename VWORK,
        VWORK    &&work,
        VRWORK   &&rWork);
 
-//== (ge)ev workspace query =======================================================
+//== (ge)ev workspace query ====================================================
 //
 //  Complex variant
 //

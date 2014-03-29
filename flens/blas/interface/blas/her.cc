@@ -1,6 +1,5 @@
 #include <flens/blas/interface/blas/config.h>
 
-
 using namespace flens;
 
 extern "C" {
@@ -14,25 +13,25 @@ BLAS(cher)(const char      *UPLO,
            cfloat          *_A,
            const INTEGER   *LDA)
 {
-    
+
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _UPLO   = toupper(*UPLO);
-    
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-    
+
         cblas_cher(CBLAS_ORDER::CblasColMajor,
                    cxxblas::CBLAS::getCblasType(upLo),
                    *N,
                    *ALPHA,
                    reinterpret_cast<const float *>(X), *INCX,
                    reinterpret_cast<float *>(_A), *LDA);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
-    
+
         char    _UPLO = toupper(*UPLO);
 
 #       ifndef NO_INPUT_CHECK
@@ -78,25 +77,25 @@ BLAS(zher)(const char      *UPLO,
            const INTEGER   *LDA)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _UPLO   = toupper(*UPLO);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        
+
         cblas_zher(CBLAS_ORDER::CblasColMajor,
                    cxxblas::CBLAS::getCblasType(upLo),
                    *N,
                    *ALPHA,
                    reinterpret_cast<const double *>(X), *INCX,
                    reinterpret_cast<double *>(_A), *LDA);
-        
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
         char    _UPLO = toupper(*UPLO);
-    
+
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
 

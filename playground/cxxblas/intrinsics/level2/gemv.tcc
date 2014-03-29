@@ -753,7 +753,8 @@ template <typename IndexType, typename T>
         gemv_real_t(m, n, alpha, A, ldA, x, incX, beta, y, 1);
 
     } else {
-        cxxblas::gemv<IndexType, T, T, T, T, T>(RowMajor, transA, m, n, alpha, A, ldA, x, incX, beta, y, incY);
+        cxxblas::gemv<IndexType, T, T, T, T, T>(RowMajor, transA, m, n, alpha,
+                                                A, ldA, x, incX, beta, y, incY);
     }
 }
 
@@ -795,7 +796,8 @@ template <typename IndexType, typename T>
         gemv_complex_ct(m, n, alpha, A, ldA, x, incX, beta, y, 1);
 
     } else {
-        cxxblas::gemv<IndexType, T, T, T, T, T>(RowMajor, transA, m, n, alpha, A, ldA, x, incX, beta, y, incY);
+        cxxblas::gemv<IndexType, T, T, T, T, T>(RowMajor, transA, m, n, alpha,
+                                                A, ldA, x, incX, beta, y, incY);
     }
 }
 

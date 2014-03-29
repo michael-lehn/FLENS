@@ -79,10 +79,6 @@ larft_impl(Direction direction, StoreVectors storeVectors, N n,
 
     const IndexType k = Tr.dim();
 
-//  Lehn: as long as we do not have col-views for TrMatrix we get them
-//        via a GeMatrixView
-    auto _Tr = Tr.general();
-
     if (direction==Forward) {
         IndexType lastV = -1;
         IndexType prevLastV = n;
@@ -112,11 +108,11 @@ larft_impl(Direction direction, StoreVectors storeVectors, N n,
 //
 //                  T(1:i-1,i) := - tau(i) * V(i:j,1:i-1)**T * V(i:j,i)
 //
-                    blas::mv(Trans , 
+                    blas::mv(Trans ,
                              -tau(i),
                              V(_(i,j),_(1,i-1)), V(_(i,j),i),
                              Zero,
-                             _Tr(_(1,i-1),i));
+                             Tr(_(1,i-1),i));
                 } else { /* storeVectors==RowWise */
 //                  Skip any trailing zeros.
                     for (lastV=n; lastV>=i+1; --lastV) {
@@ -131,15 +127,15 @@ larft_impl(Direction direction, StoreVectors storeVectors, N n,
                     blas::mv(NoTrans, -tau(i),
                              V(_(1,i-1),_(i,j)), V(i,_(i,j)),
                              Zero,
-                             _Tr(_(1,i-1),i));
+                             Tr(_(1,i-1),i));
                 }
                 V(i,i) = Vii;
 //
 //              T(1:i-1,i) := T(1:i-1,1:i-1) * T(1:i-1,i)
 //
                 blas::mv(NoTrans,
-                         _Tr(_(1,i-1),_(1,i-1)).upper(),
-                         _Tr(_(1,i-1),i));
+                         Tr(_(1,i-1),_(1,i-1)).upper(),
+                         Tr(_(1,i-1),i));
                 Tr(i,i) = tau(i);
                 if (i>1) {
                     prevLastV = max(prevLastV, lastV);
@@ -180,10 +176,6 @@ larft_impl(Direction direction, StoreVectors storeVectors, N n,
 
     const IndexType k = Tr.dim();
 
-//  Lehn: as long as we do not have col-views for TrMatrix we get them
-//        via a GeMatrixView
-    auto _Tr = Tr.general();
-
     if (direction==Forward) {
         IndexType lastV = -1;
         IndexType prevLastV = n;
@@ -213,11 +205,11 @@ larft_impl(Direction direction, StoreVectors storeVectors, N n,
 //
 //                  T(1:i-1,i) := - tau(i) * V(i:j,1:i-1)**H * V(i:j,i)
 //
-                    blas::mv(ConjTrans, 
+                    blas::mv(ConjTrans,
                              -tau(i),
                              V(_(i,j),_(1,i-1)), V(_(i,j),i),
                              Zero,
-                             _Tr(_(1,i-1),i));
+                             Tr(_(1,i-1),i));
                 } else { /* storeVectors==RowWise */
 //                  Skip any trailing zeros.
                     for (lastV=n; lastV>=i+1; --lastV) {
@@ -235,7 +227,7 @@ larft_impl(Direction direction, StoreVectors storeVectors, N n,
                     blas::mv(NoTrans, -tau(i),
                              V(_(1,i-1),_(i,j)), V(i,_(i,j)),
                              Zero,
-                             _Tr(_(1,i-1),i));
+                             Tr(_(1,i-1),i));
                     if (i<j) {
                         imag(V(i,_(i+1,j))) = -imag(V(i,_(i+1,j)));
                     }
@@ -245,8 +237,8 @@ larft_impl(Direction direction, StoreVectors storeVectors, N n,
 //              T(1:i-1,i) := T(1:i-1,1:i-1) * T(1:i-1,i)
 //
                 blas::mv(NoTrans,
-                         _Tr(_(1,i-1),_(1,i-1)).upper(),
-                         _Tr(_(1,i-1),i));
+                         Tr(_(1,i-1),_(1,i-1)).upper(),
+                         Tr(_(1,i-1),i));
                 Tr(i,i) = tau(i);
                 if (i>1) {
                     prevLastV = max(prevLastV, lastV);

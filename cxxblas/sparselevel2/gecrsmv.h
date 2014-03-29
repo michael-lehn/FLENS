@@ -53,9 +53,9 @@ template <typename IndexType, typename ALPHA, typename MA, typename VX,
             const BETA       &beta,
             VY               *y);
 
-    
-#ifdef HAVE_SPARSEBLAS      
-    
+
+#ifdef HAVE_SPARSEBLAS
+
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     gecrsmv(Transpose        trans,
@@ -67,8 +67,8 @@ template <typename IndexType>
             const IndexType  *ja,
             const float      *x,
             const float      &beta,
-            float            *y);  
-    
+            float            *y);
+
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     gecrsmv(Transpose        trans,
@@ -80,8 +80,8 @@ template <typename IndexType>
             const IndexType  *ja,
             const double     *x,
             const double     &beta,
-            double           *y); 
-    
+            double           *y);
+
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     gecrsmv(Transpose               trans,
@@ -94,7 +94,7 @@ template <typename IndexType>
             const ComplexFloat      *x,
             const ComplexFloat      &beta,
             ComplexFloat            *y);
-    
+
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     gecrsmv(Transpose               trans,
@@ -107,9 +107,9 @@ template <typename IndexType>
             const ComplexDouble     *x,
             const ComplexDouble     &beta,
             ComplexDouble           *y);
-    
+
 #endif
-    
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_SPARSELEVEL2_GECRSMV_H

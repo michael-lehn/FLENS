@@ -67,9 +67,9 @@ template <typename VX, typename VY>
 template <typename MA, typename MB>
     typename RestrictTo<IsDiagMatrix<MA>::value
                      && IsDiagMatrix<MB>::value,
-             void>::Type 
+             void>::Type
     copy(Transpose trans, const MA &A, MB &&B);
-    
+
 //-- gbcopy
 template <typename MA, typename MB>
     typename RestrictTo<IsGbMatrix<MA>::value
@@ -213,14 +213,14 @@ template <typename MA, typename MB>
     copy(const MA &A, MB &&B);
 
 //== TriangularMatrix
-    
+
 //-- copy: TrCoordMatrix -> TrCCSMatrix
 template <typename MA, typename MB>
     typename RestrictTo<IsTrCoordMatrix<MA>::value
                      && IsTrCCSMatrix<MB>::value,
              void>::Type
     copy(Transpose trans, const MA &A, MB &&B);
-    
+
 //-- copy: TrCoordMatrix -> TrCRSMatrix
 template <typename MA, typename MB>
     typename RestrictTo<IsTrCoordMatrix<MA>::value
@@ -288,14 +288,14 @@ template <typename MA, typename MB>
     copy(const MA &A, MB &&B);
 
 //== SymmetricMatrix
-    
+
 //-- copy: TrCCSMatrix -> TrMatrix
 template <typename MA, typename MB>
     typename RestrictTo<IsTrCCSMatrix<MA>::value
                      && IsTrMatrix<MB>::value,
              void>::Type
     copy(Transpose trans, const MA &A, MB &&B);
-    
+
 //-- copy: TrCRSMatrix -> TrMatrix
 template <typename MA, typename MB>
     typename RestrictTo<IsTrCRSMatrix<MA>::value

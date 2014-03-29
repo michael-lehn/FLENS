@@ -102,7 +102,7 @@ ev_impl(bool                  computeZ,
 
 #ifdef USE_CXXLAPACK
 
-//-- (hb)ev [complex variant] -----------------------------------------------------
+//-- (hb)ev [complex variant] --------------------------------------------------
 template <typename MA, typename VW, typename MZ, typename VWORK,
           typename VRWORK>
 typename RestrictTo<IsHbMatrix<MA>::value

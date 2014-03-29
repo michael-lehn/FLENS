@@ -139,7 +139,8 @@ trsm(StorageOrder order, Side side, StorageUpLo upLo,
 
     if (transA==Conj) {
         CXXBLAS_DEBUG_OUT("trsm_generic");
-        trsm_generic(order, side, upLo, transA, diag, m, n, alpha, A, ldA, B, ldB);
+        trsm_generic(order, side, upLo, transA, diag,
+                     m, n, alpha, A, ldA, B, ldB);
         return;
     }
 
@@ -166,7 +167,8 @@ trsm(StorageOrder order, Side side, StorageUpLo upLo,
 
     if (transA==Conj) {
         CXXBLAS_DEBUG_OUT("trsm_generic");
-        trsm_generic(order, side, upLo, transA, diag, m, n, alpha, A, ldA, B, ldB);
+        trsm_generic(order, side, upLo, transA, diag,
+                     m, n, alpha, A, ldA, B, ldB);
         return;
     }
 

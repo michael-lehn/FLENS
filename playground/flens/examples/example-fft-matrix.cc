@@ -21,25 +21,25 @@ main(int argc, char* argv[])
                     m = 8;
     Matrix A(n, m), B(n, m), C(n, m);
 
-    /// 
+    ///
     /// Fill in random values
     ///
     fillRandom(A);
-        
+
     ///
     /// Calculate forward Fourier transform
     /// of every column of A.
     /// Use dft_row_forward for rows.
     ///
     dft_col_forward(A, B);
-    
+
     ///
     /// Calculate normalized backward Fourier transform
     /// of every column of A
     /// Use dft_row_backward_normalized for rows
     ///
     dft_col_backward_normalized(B, C);
-    
+
     ///
     /// Check results
     ///

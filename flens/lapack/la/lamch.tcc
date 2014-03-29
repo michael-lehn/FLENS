@@ -40,7 +40,8 @@
  *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
  *     Based on LAPACK DLAMCH but with Fortran 95 query functions
  *     See: http://www.cs.utk.edu/~luszczek/lapack/lamch.html
- *     and  http://www.netlib.org/lapack-dev/lapack-coding/program-style.html#id2537289
+ *     and
+ *   http://www.netlib.org/lapack-dev/lapack-coding/program-style.html#id2537289
  *     July 2010
  */
 

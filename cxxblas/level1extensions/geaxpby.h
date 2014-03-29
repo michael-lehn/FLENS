@@ -39,7 +39,7 @@
 
 namespace cxxblas {
 
-template <typename IndexType, typename ALPHA, typename MA, 
+template <typename IndexType, typename ALPHA, typename MA,
           typename BETA, typename MB>
     void
     geaxpby(StorageOrder order,

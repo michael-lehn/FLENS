@@ -38,14 +38,14 @@ main()
 
     cerr << "A = " << A << endl;
     cerr << "b = " << b << endl;
-    
+
     ///
-    /// solve A*x = b using 
+    /// solve A*x = b using
     /// the biconjugate gradient stabilized method
     ///
     solver::bicgstab(A, x, b);
     cout << "x = " << x << endl;
-    
+
     ///
     /// Test the result
     ///

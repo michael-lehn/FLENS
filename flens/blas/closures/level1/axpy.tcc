@@ -204,7 +204,8 @@ axpySwitch(const ALPHA &alpha, const Vector<VX> &x, Vector<VY> &y)
 
 template <typename ALPHA, typename L, typename R, typename VY>
 void
-axpySwitch(const ALPHA &alpha, const VectorClosure<OpConj, L, R> &x, Vector<VY> &y)
+axpySwitch(const ALPHA &alpha, const VectorClosure<OpConj, L, R> &x,
+           Vector<VY> &y)
 {
 //
 //  No need to add another log-entry as we simply pass-through to the
@@ -304,7 +305,8 @@ raxpySwitch(const ALPHA &alpha, const Vector<VX> &x, Vector<VY> &y)
 //
 template <typename ALPHA, typename L, typename R, typename VY>
 void
-raxpySwitch(const ALPHA &alpha, const VectorClosure<OpConj, L, R> &x, Vector<VY> &y)
+raxpySwitch(const ALPHA &alpha, const VectorClosure<OpConj, L, R> &x,
+            Vector<VY> &y)
 {
 //  No need to add another log-entry as we simply pass-through to the
 //  BLAS implementation

@@ -53,7 +53,7 @@
 #    define BLAS_EXT(x)         cblas_##x
 #endif
 
-// MKL includes LAPACK 
+// MKL includes LAPACK
 #ifndef USE_CXXLAPACK
 #    define USE_CXXLAPACK       1
 #endif

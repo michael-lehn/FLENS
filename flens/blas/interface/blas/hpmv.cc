@@ -17,22 +17,22 @@ BLAS(chpmv)(const char      *UPLO,
             const INTEGER   *INCY)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
     char    _UPLO   = toupper(*UPLO);
-    
+
     StorageUpLo    upLo   = StorageUpLo(_UPLO);
-    
+
     cblas_chpmv(CBLAS_ORDER::CblasColMajor,
                 cxxblas::CBLAS::getCblasType(upLo),
-                *N, 
+                *N,
                 reinterpret_cast<const float *>(ALPHA),
                 reinterpret_cast<const float *>(AP),
                 reinterpret_cast<const float *>(X), *INCX,
                 reinterpret_cast<const float *>(BETA),
                 reinterpret_cast<float *>(Y), *INCY);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -83,13 +83,12 @@ BLAS(zhpmv)(const char      *UPLO,
             cdouble         *Y,
             const INTEGER   *INCY)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _UPLO   = toupper(*UPLO);
-    
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        
+
         cblas_zhpmv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     *N,
@@ -98,9 +97,9 @@ BLAS(zhpmv)(const char      *UPLO,
                     reinterpret_cast<const double *>(X), *INCX,
                     reinterpret_cast<const double *>(BETA),
                     reinterpret_cast<double *>(Y), *INCY);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 

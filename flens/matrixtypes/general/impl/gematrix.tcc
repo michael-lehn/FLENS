@@ -648,14 +648,22 @@ template <typename FS>
 const typename GeMatrix<FS>::ConstVectorView
 GeMatrix<FS>::operator()(IndexType row, const Range<IndexType> &cols) const
 {
-    return engine().viewRow(row, cols.firstIndex(), cols.lastIndex(), cols.stride());
+    const IndexType firstIndex = cols.firstIndex();
+    const IndexType lastIndex  = cols.lastIndex();
+    const IndexType stride     = cols.stride();
+
+    return engine().viewRow(row, firstIndex, lastIndex, stride);
 }
 
 template <typename FS>
 typename GeMatrix<FS>::VectorView
 GeMatrix<FS>::operator()(IndexType row, const Range<IndexType> &cols)
 {
-    return engine().viewRow(row, cols.firstIndex(), cols.lastIndex(), cols.stride());
+    const IndexType firstIndex = cols.firstIndex();
+    const IndexType lastIndex  = cols.lastIndex();
+    const IndexType stride     = cols.stride();
+
+    return engine().viewRow(row, firstIndex, lastIndex, stride);
 }
 
 // column view (vector view)
@@ -677,14 +685,22 @@ template <typename FS>
 const typename GeMatrix<FS>::ConstVectorView
 GeMatrix<FS>::operator()(const Range<IndexType> &rows, IndexType col) const
 {
-    return engine().viewCol(rows.firstIndex(), rows.lastIndex(), rows.stride(), col);
+    const IndexType firstIndex = rows.firstIndex();
+    const IndexType lastIndex  = rows.lastIndex();
+    const IndexType stride     = rows.stride();
+
+    return engine().viewCol(firstIndex, lastIndex, stride, col);
 }
 
 template <typename FS>
 typename GeMatrix<FS>::VectorView
 GeMatrix<FS>::operator()(const Range<IndexType> &rows, IndexType col)
 {
-    return engine().viewCol(rows.firstIndex(), rows.lastIndex(), rows.stride(), col);
+    const IndexType firstIndex = rows.firstIndex();
+    const IndexType lastIndex  = rows.lastIndex();
+    const IndexType stride     = rows.stride();
+
+    return engine().viewCol(firstIndex, lastIndex, stride, col);
 }
 
 // -- implementation -----------------------------------------------------------

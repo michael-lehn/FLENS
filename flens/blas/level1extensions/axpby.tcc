@@ -99,7 +99,8 @@ axpby(const ALPHA &alpha, const VX &x, const BETA &beta, VY &&y)
     const int incX = VX::Engine::stride;
     const int incY = VectorY::Engine::stride;
 
-    cxxblas::axpby<n, ALPHA, TX, incX, TY, incY>(alpha, x.data(), beta, y.data());
+    cxxblas::axpby<n, ALPHA, TX, incX, TY, incY>(alpha, x.data(),
+                                                 beta, y.data());
 }
 
 //-- BLAS Level 1 extensions ---------------------------------------------------
@@ -111,14 +112,14 @@ template <typename ALPHA, typename MA, typename BETA, typename MB>
 typename RestrictTo<IsDiagMatrix<MA>::value
                  && IsDiagMatrix<MB>::value,
          void>::Type
-axpby(Transpose trans, const ALPHA &alpha, const MA &A, 
+axpby(Transpose trans, const ALPHA &alpha, const MA &A,
       const BETA &beta, MB &&B)
 {
     if ( trans==Conj || trans==ConjTrans) {
         B.diag() = beta*B.diag() + alpha*conjugate(A.diag());
         return;
     }
-    
+
     B.diag() = beta*B.diag() + alpha*A.diag();
 }
 
@@ -133,7 +134,7 @@ axpby(Transpose trans, const ALPHA &alpha, const MA &A,
 {
     typedef typename RemoveRef<MA>::Type   MatrixA;
     typedef typename MatrixA::IndexType  IndexType;
-    
+
     if (B.numRows()==0 || B.numCols()==0) {
 //
 //      So we allow  B = beta*B + alpha*A  for an empty matrix B
@@ -201,9 +202,9 @@ axpby(Transpose trans, const ALPHA &alpha, const MA &A,
 //-- geaxpby
 template <typename ALPHA, typename MA, typename BETA, typename MB>
 typename RestrictTo<IsGeMatrix<MA>::value
-		  && IsGeMatrix<MB>::value,
-	  void>::Type
-axpby(Transpose trans, const ALPHA &alpha, const MA &A, 
+                 && IsGeMatrix<MB>::value,
+         void>::Type
+axpby(Transpose trans, const ALPHA &alpha, const MA &A,
       const BETA &beta, MB &&B)
 {
     typedef typename RemoveRef<MB>::Type   MatrixB;
@@ -274,7 +275,7 @@ axpby(Transpose trans, const ALPHA &alpha, const MA &A,
     ASSERT(0);
 #   endif
     FLENS_BLASLOG_END;
-    FLENS_BLASLOG_UNSETTAG; 
+    FLENS_BLASLOG_UNSETTAG;
 }
 
 
@@ -283,7 +284,7 @@ template <typename ALPHA, typename MA, typename BETA, typename MB>
 typename RestrictTo<IsGeTinyMatrix<MA>::value
                  && IsGeTinyMatrix<MB>::value,
          void>::Type
-axpby(Transpose trans, const ALPHA &alpha, const MA &A, 
+axpby(Transpose trans, const ALPHA &alpha, const MA &A,
       const BETA &beta, MB &&B)
 {
     typedef typename RemoveRef<MA>::Type   MatrixA;
@@ -312,7 +313,7 @@ template <typename ALPHA, typename MA, typename BETA, typename MB>
 typename RestrictTo<IsHbMatrix<MA>::value
                  && IsHbMatrix<MB>::value,
          void>::Type
-axpby(Transpose trans, const ALPHA &alpha, const MA &A, 
+axpby(Transpose trans, const ALPHA &alpha, const MA &A,
      const BETA &beta, MB &&B)
 {
     typedef typename RemoveRef<MA>::Type   MatrixA;
@@ -320,7 +321,7 @@ axpby(Transpose trans, const ALPHA &alpha, const MA &A,
 
     ASSERT(cxxblas::imag(alpha)==0);
     ASSERT(cxxblas::imag(beta)==0);
-    
+
     if (B.dim()==0) {
         B.resize(A);
     }
@@ -381,7 +382,7 @@ axpby(Transpose trans, const ALPHA &alpha, const MA &A,
     trans = (A.order()==B.order())
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
-          
+
 #   ifdef HAVE_CXXBLAS_GBAXPBY
     cxxblas::gbaxpby(B.order(), trans,
                      B.numRows(), B.numCols(),
@@ -400,7 +401,7 @@ template <typename ALPHA, typename MA, typename BETA, typename MB>
 typename RestrictTo<IsHeMatrix<MA>::value
                  && IsHeMatrix<MB>::value,
          void>::Type
-axpby(Transpose trans, const ALPHA &alpha, const MA &A, 
+axpby(Transpose trans, const ALPHA &alpha, const MA &A,
      const BETA &beta, MB &&B)
 {
 //
@@ -413,19 +414,19 @@ axpby(Transpose trans, const ALPHA &alpha, const MA &A,
     }
 
     ASSERT(A.dim()==B.dim());
-    
+
     // alpha and beta must be real
     ASSERT(cxxblas::imag(alpha)==0);
     ASSERT(cxxblas::imag(beta)==0);
-    
-    trans = (A.upLo()==B.upLo())          
+
+    trans = (A.upLo()==B.upLo())
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ ConjTrans);
-    
+
     trans = (A.order()==B.order())
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
-          
+
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_MAXPBY(trans, alpha, A, beta, B);
 
@@ -447,7 +448,7 @@ template <typename ALPHA, typename MA, typename BETA, typename MB>
 typename RestrictTo<IsHpMatrix<MA>::value
                  && IsHpMatrix<MB>::value,
          void>::Type
-axpby(Transpose trans, const ALPHA &alpha, const MA &A, 
+axpby(Transpose trans, const ALPHA &alpha, const MA &A,
       const BETA &beta, MB &&B)
 {
     ASSERT(cxxblas::imag(alpha)==0);
@@ -496,7 +497,7 @@ template <typename ALPHA, typename MA, typename BETA, typename MB>
 typename RestrictTo<IsSbMatrix<MA>::value
                  && IsSbMatrix<MB>::value,
          void>::Type
-axpby(Transpose trans, const ALPHA &alpha, const MA &A, 
+axpby(Transpose trans, const ALPHA &alpha, const MA &A,
       const BETA &beta, MB &&B)
 {
     typedef typename RemoveRef<MA>::Type   MatrixA;
@@ -580,12 +581,12 @@ template <typename ALPHA, typename MA, typename BETA, typename MB>
 typename RestrictTo<IsSpMatrix<MA>::value
                  && IsSpMatrix<MB>::value,
          void>::Type
-axpby(Transpose trans, const ALPHA &alpha, const MA &A, 
+axpby(Transpose trans, const ALPHA &alpha, const MA &A,
      const BETA &beta, MB &&B)
 {
     typedef typename RemoveRef<MA>::Type   MatrixA;
     typedef typename MatrixA::IndexType  IndexType;
-    
+
     ASSERT(B.diag()==NonUnit);
     // TODO: Remove this condition
     ASSERT(A.diag()==NonUnit);
@@ -644,7 +645,7 @@ template <typename ALPHA, typename MA, typename BETA, typename MB>
 typename RestrictTo<IsSyMatrix<MA>::value
                  && IsSyMatrix<MB>::value,
          void>::Type
-axpby(Transpose trans, const ALPHA &alpha, const MA &A, 
+axpby(Transpose trans, const ALPHA &alpha, const MA &A,
      const BETA &beta, MB &&B)
 {
 //
@@ -657,14 +658,14 @@ axpby(Transpose trans, const ALPHA &alpha, const MA &A,
     }
 
     ASSERT(A.dim()==B.dim());
-    trans = (A.upLo()==B.upLo())          
+    trans = (A.upLo()==B.upLo())
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
-    
+
     trans = (A.order()==B.order())
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
-          
+
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_MAXPBY(trans, alpha, A, beta, B);
 
@@ -693,7 +694,7 @@ axpby(Transpose trans, const ALPHA &alpha, const MA &A,
 {
     typedef typename RemoveRef<MA>::Type   MatrixA;
     typedef typename MatrixA::IndexType  IndexType;
-    
+
     ASSERT(B.diag()==NonUnit);
     // TODO: Remove this condition
     ASSERT(A.diag()==NonUnit);
@@ -759,17 +760,17 @@ template <typename ALPHA, typename MA, typename BETA, typename MB>
 typename RestrictTo<IsTrMatrix<MA>::value
                  && IsTrMatrix<MB>::value,
          void>::Type
-axpby(Transpose trans, const ALPHA &alpha, const MA &A, 
+axpby(Transpose trans, const ALPHA &alpha, const MA &A,
       const BETA &beta, MB &&B)
 {
     ASSERT(A.diag()==NonUnit);
     ASSERT(B.diag()==NonUnit);
-    
+
 #   ifndef NDEBUG
     if (A.upLo()==B.upLo()) {
         ASSERT(trans==NoTrans || trans==Conj) ;
     } else {
-        ASSERT(trans==Trans || trans==ConjTrans) ;    
+        ASSERT(trans==Trans || trans==ConjTrans) ;
     }
 #   endif
 
@@ -837,7 +838,7 @@ axpby(Transpose trans, const ALPHA &alpha, const MA &A,
     FLENS_BLASLOG_UNSETTAG;
 }
 
-    
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1_AXPBY_TCC

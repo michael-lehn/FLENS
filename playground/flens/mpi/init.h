@@ -34,9 +34,9 @@
 #define PLAYGROUND_FLENS_MPI_INIT_H 1
 
 namespace flens { namespace mpi {
-  
+
 inline void
-    MPI_init( int argc, char *argv[] );
+MPI_init( int argc, char *argv[] );
 
 } }
 

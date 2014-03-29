@@ -50,7 +50,7 @@ template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
              void>::Type
     mv(Transpose transpose, const ALPHA &alpha, const MA &A, const VX &x,
        const BETA &beta, VY &&y);
-    
+
 //-- gbmv
 template <typename ALPHA, typename MA, typename VX, typename BETA, typename VY>
     typename RestrictTo<IsGbMatrix<MA>::value

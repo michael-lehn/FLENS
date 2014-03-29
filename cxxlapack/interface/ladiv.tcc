@@ -39,7 +39,7 @@
 
 namespace cxxlapack {
 
-/*void
+void
 ladiv(const double          a,
       const double          b,
       const double          c,
@@ -64,11 +64,12 @@ ladiv(std::complex<double>  x,
 {
     CXXLAPACK_DEBUG_OUT("zladiv");
 
-    std::complex<double> z =  LAPACK_IMPL(zladiv)(reinterpret_cast<const double *>(&x),
-                                                  reinterpret_cast<const double *>(&y));
-                                                  
+    std::complex<double> z
+            =  LAPACK_IMPL(zladiv)(reinterpret_cast<const double *>(&x),
+                                   reinterpret_cast<const double *>(&y));
+
     return z;
-}*/
+}
 
 } // namespace cxxlapack
 

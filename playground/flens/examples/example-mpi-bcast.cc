@@ -23,33 +23,33 @@ main(int argc, char* argv[])
 
     ///
     /// Inititialize MPI enviroment
-    /// 
+    ///
     MPI_init(argc, argv);
-    
+
     ///
     /// Get rank
-    /// 
+    ///
     int rank = MPI_rank();
-    
-    if ( rank==0 ) { 
+
+    if ( rank==0 ) {
         ///
         /// fill vector with numbers
         ///
         x = T(1), T(2), T(3);
 
-    } 
-    
+    }
+
     ///
-    /// Broadcast vector from rank 0, 
+    /// Broadcast vector from rank 0,
     /// works also with GeMatrix
     ///
     MPI_bcast(x, 0);
-    
+
     ///
     /// Print result
     ///
     cout << "Rank = " << rank << ", x = " << x << endl;
-    
+
     MPI_finalize();
 
     return 0;

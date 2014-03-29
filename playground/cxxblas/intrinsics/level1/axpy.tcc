@@ -44,7 +44,7 @@ namespace cxxblas {
 
 template <typename IndexType, typename T>
 typename flens::RestrictTo<flens::IsReal<T>::value &&
-                           flens::IsIntrinsicsCompatible<T>::value, 
+                           flens::IsIntrinsicsCompatible<T>::value,
                            void>::Type
 axpy(IndexType n, const T &alpha, const T *x,
      IndexType incX, T *y, IndexType incY)
@@ -83,7 +83,7 @@ axpy(IndexType n, const T &alpha, const T *x,
 
 template <typename IndexType, typename T>
 typename flens::RestrictTo<flens::IsComplex<T>::value &&
-                           flens::IsIntrinsicsCompatible<T>::value, 
+                           flens::IsIntrinsicsCompatible<T>::value,
                            void>::Type
 axpy(IndexType n, const T &alpha, const T *x,
      IndexType incX, T *y, IndexType incY)
@@ -103,7 +103,9 @@ axpy(IndexType n, const T &alpha, const T *x,
     if (incX==1 && incY==1) {
 
         if (imag(alpha)==PT(0)) {
-            axpy(2*n, real(alpha), reinterpret_cast<const PT*>(x), 1, reinterpret_cast<PT*>(y), 1);
+            axpy(2*n, real(alpha),
+                 reinterpret_cast<const PT*>(x), 1,
+                 reinterpret_cast<PT*>(y), 1);
            return;
         }
 
@@ -116,17 +118,17 @@ axpy(IndexType n, const T &alpha, const T *x,
         IntrinsicPrimitiveType _imag_alpha(imag(alpha));
 
         if (real(alpha)==PT(0)) {
-        
+
             for (; i+numElements-1<n; i+=numElements) {
                 _x.loadu(x+i);
                 _y.loadu(y+i);
                 _x = _intrinsic_swap_real_imag(_x);
                 _y = _intrinsic_addsub(_y, _intrinsic_mul(_imag_alpha, _x));
                 _y.storeu(y+i);
-            }       
-             
+            }
+
         } else {
-        
+
             for (; i+numElements-1<n; i+=numElements) {
                 _x.loadu(x+i);
                 _y.loadu(y+i);
@@ -135,7 +137,7 @@ axpy(IndexType n, const T &alpha, const T *x,
                 _y = _intrinsic_addsub(_y, _intrinsic_mul(_imag_alpha, _x));
                 _y.storeu(y+i);
             }
-            
+
         }
 
         for (; i<n; ++i) {

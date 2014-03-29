@@ -17,22 +17,22 @@ BLAS(sspmv)(const char      *UPLO,
             const INTEGER   *INCY)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _UPLO   = toupper(*UPLO);
-    
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        
+
         cblas_sspmv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
-                    *N, 
+                    *N,
                     *ALPHA,
                     AP,
                     X, *INCX,
                     *BETA,
                     Y, *INCY);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -83,13 +83,12 @@ BLAS(dspmv)(const char      *UPLO,
             double          *Y,
             const INTEGER   *INCY)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _UPLO   = toupper(*UPLO);
-    
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        
+
         cblas_dspmv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     *N,
@@ -98,9 +97,9 @@ BLAS(dspmv)(const char      *UPLO,
                     X, *INCX,
                     *BETA,
                     Y, *INCY);
-    
+
 #   else
-        
+
         using std::abs;
         using std::max;
 

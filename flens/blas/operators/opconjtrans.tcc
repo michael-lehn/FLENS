@@ -38,13 +38,13 @@
 namespace flens {
 
 #ifndef GCC_HACK
-    template <typename MA>
-    const MatrixClosureOpConj<MatrixClosureOpTrans<typename MA::Impl> >
-    conjTrans(const Matrix<MA> &A)
-    {
-        typedef MatrixClosureOpConj<MatrixClosureOpTrans<typename MA::Impl> >  MC;
-        return conjugate(transpose(A));
-    }
+template <typename MA>
+const MatrixClosureOpConj<MatrixClosureOpTrans<typename MA::Impl> >
+conjTrans(const Matrix<MA> &A)
+{
+    typedef MatrixClosureOpConj<MatrixClosureOpTrans<typename MA::Impl> >  MC;
+    return conjugate(transpose(A));
+}
 #endif
 
 } // namespace flens

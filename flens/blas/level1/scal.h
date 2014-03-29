@@ -55,14 +55,14 @@ template <typename ALPHA, typename VY>
 //-- BLAS Level 1 extensions ---------------------------------------------------
 
 //== GeneralMatrix
-    
+
 //-- diagscal
 template <typename ALPHA, typename MB>
     typename RestrictTo<IsDiagMatrix<MB>::value,
              void>::Type
     scal(const ALPHA &alpha, MB &&B);
 
-    
+
 //-- gbscal
 template <typename ALPHA, typename MB>
     typename RestrictTo<IsGbMatrix<MB>::value,

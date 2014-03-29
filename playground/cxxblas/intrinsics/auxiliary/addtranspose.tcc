@@ -53,7 +53,8 @@ add_transpose_8x8(const T *A, const IndexType ldA , T *B, const IndexType ldB)
 
 template <typename IndexType>
 void
-add_transpose_8x8(const float *A, const IndexType ldA , float *B, const IndexType ldB)
+add_transpose_8x8(const float *A, const IndexType ldA ,
+                  float *B, const IndexType ldB)
 {
     typedef Intrinsics<float, DEFAULT_INTRINSIC_LEVEL> IntrinsicType;
 

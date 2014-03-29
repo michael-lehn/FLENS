@@ -69,7 +69,7 @@ template <typename ALPHA, typename MA, typename VX, typename VY>
                      && IsDenseVector<VY>::value,
              void>::Type
     sv(Transpose trans, const ALPHA &alpha, const MA &A, const VX &x, VY &&y);
-    
+
 //-- trccssv
 template <typename ALPHA, typename MA, typename VX, typename VY>
     typename RestrictTo<IsTrCRSMatrix<MA>::value

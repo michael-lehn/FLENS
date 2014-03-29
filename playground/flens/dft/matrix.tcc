@@ -58,11 +58,19 @@ dft_col_forward(AIN &&Ain, AOUT &&Aout)
     const IndexType numRows = Ain.numRows();
     const IndexType numCols = Ain.numCols();
 
-    const IndexType AinStride = ( Ain.order()==StorageOrder::ColMajor ? 1 : Ain.leadingDimension() );
-    const IndexType AinDist   = ( Ain.order()==StorageOrder::RowMajor ? 1 : Ain.leadingDimension() );
+    const IndexType AinStride  = Ain.order()==StorageOrder::ColMajor
+                                 ? 1
+                                 : Ain.leadingDimension();
+    const IndexType AinDist    = Ain.order()==StorageOrder::RowMajor
+                                 ? 1
+                                 : Ain.leadingDimension();
 
-    const IndexType AoutStride = ( Aout.order()==StorageOrder::ColMajor ? 1 : Aout.leadingDimension() );
-    const IndexType AoutDist   = ( Aout.order()==StorageOrder::RowMajor ? 1 : Aout.leadingDimension() );
+    const IndexType AoutStride = Aout.order()==StorageOrder::ColMajor
+                                 ? 1
+                                 : Aout.leadingDimension();
+    const IndexType AoutDist   = Aout.order()==StorageOrder::RowMajor
+                                 ? 1
+                                 : Aout.leadingDimension();
 
     cxxdft::dft_multiple(numRows, numCols,
                          Ain.data(), AinStride, AinDist,
@@ -131,11 +139,19 @@ dft_row_forward(AIN &&Ain, AOUT &&Aout)
     const IndexType numRows = Ain.numRows();
     const IndexType numCols = Ain.numCols();
 
-    const IndexType AinStride = ( Ain.order()==StorageOrder::RowMajor ? 1 : Ain.leadingDimension() );
-    const IndexType AinDist   = ( Ain.order()==StorageOrder::ColMajor ? 1 : Ain.leadingDimension() );
+    const IndexType AinStride  = Ain.order()==StorageOrder::RowMajor
+                                 ? 1
+                                 : Ain.leadingDimension();
+    const IndexType AinDist    = Ain.order()==StorageOrder::ColMajor
+                                 ? 1
+                                 : Ain.leadingDimension();
 
-    const IndexType AoutStride = ( Aout.order()==StorageOrder::RowMajor ? 1 : Aout.leadingDimension() );
-    const IndexType AoutDist   = ( Aout.order()==StorageOrder::ColMajor ? 1 : Aout.leadingDimension() );
+    const IndexType AoutStride = Aout.order()==StorageOrder::RowMajor
+                                 ? 1
+                                 : Aout.leadingDimension();
+    const IndexType AoutDist   = Aout.order()==StorageOrder::ColMajor
+                                 ? 1
+                                 : Aout.leadingDimension();
 
     cxxdft::dft_multiple(numCols, numRows,
                          Ain.data(), AinStride, AinDist,
@@ -164,11 +180,19 @@ dft_row_backward(AIN &&Ain, AOUT &&Aout)
     const IndexType numRows = Ain.numRows();
     const IndexType numCols = Ain.numCols();
 
-    const IndexType AinStride = ( Ain.order()==StorageOrder::RowMajor ? 1 : Ain.leadingDimension() );
-    const IndexType AinDist   = ( Ain.order()==StorageOrder::ColMajor ? 1 : Ain.leadingDimension() );
+    const IndexType AinStride  = Ain.order()==StorageOrder::RowMajor
+                                 ? 1
+                                 : Ain.leadingDimension();
+    const IndexType AinDist    = Ain.order()==StorageOrder::ColMajor
+                                 ? 1
+                                 : Ain.leadingDimension();
 
-    const IndexType AoutStride = ( Aout.order()==StorageOrder::RowMajor ? 1 : Aout.leadingDimension() );
-    const IndexType AoutDist   = ( Aout.order()==StorageOrder::ColMajor ? 1 : Aout.leadingDimension() );
+    const IndexType AoutStride = Aout.order()==StorageOrder::RowMajor
+                                 ? 1
+                                 : Aout.leadingDimension();
+    const IndexType AoutDist   = Aout.order()==StorageOrder::ColMajor
+                                 ? 1
+                                 : Aout.leadingDimension();
 
     cxxdft::dft_multiple(numCols, numRows,
                          Ain.data(), AinStride, AinDist,

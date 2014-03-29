@@ -116,7 +116,7 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
         B.diag() += alpha*conjugate(A.diag());
         return;
     }
-    
+
     B.diag() += alpha*A.diag();
 }
 
@@ -129,7 +129,7 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 {
     typedef typename RemoveRef<MA>::Type   MatrixA;
     typedef typename MatrixA::IndexType  IndexType;
-    
+
     if (B.numRows()==0 || B.numCols()==0) {
 //
 //      So we allow  B += alpha*A  for an empty matrix B
@@ -404,18 +404,18 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
     }
 
     ASSERT(A.dim()==B.dim());
-    
+
     // alpha must be real
     ASSERT(cxxblas::imag(alpha)==0);
-    
-    trans = (A.upLo()==B.upLo())          
+
+    trans = (A.upLo()==B.upLo())
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ ConjTrans);
-    
+
     trans = (A.order()==B.order())
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
-          
+
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
 
@@ -570,7 +570,7 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 {
     typedef typename RemoveRef<MA>::Type   MatrixA;
     typedef typename MatrixA::IndexType  IndexType;
-    
+
     ASSERT(B.diag()==NonUnit);
     // TODO: Remove this condition
     ASSERT(A.diag()==NonUnit);
@@ -642,14 +642,14 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
     }
 
     ASSERT(A.dim()==B.dim());
-    trans = (A.upLo()==B.upLo())          
+    trans = (A.upLo()==B.upLo())
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
-    
+
     trans = (A.order()==B.order())
           ? Transpose(trans ^ NoTrans)
           : Transpose(trans ^ Trans);
-          
+
     FLENS_BLASLOG_SETTAG("--> ");
     FLENS_BLASLOG_BEGIN_MAXPY(trans, alpha, A, B);
 
@@ -678,7 +678,7 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 {
     typedef typename RemoveRef<MA>::Type   MatrixA;
     typedef typename MatrixA::IndexType  IndexType;
-    
+
     ASSERT(B.diag()==NonUnit);
     // TODO: Remove this condition
     ASSERT(A.diag()==NonUnit);
@@ -748,12 +748,12 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 {
     ASSERT(A.diag()==NonUnit);
     ASSERT(B.diag()==NonUnit);
-    
+
 #   ifndef NDEBUG
     if (A.upLo()==B.upLo()) {
         ASSERT(trans==NoTrans || trans==Conj) ;
     } else {
-        ASSERT(trans==Trans || trans==ConjTrans) ;    
+        ASSERT(trans==Trans || trans==ConjTrans) ;
     }
 #   endif
 
@@ -775,8 +775,6 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
     FLENS_BLASLOG_END;
     FLENS_BLASLOG_UNSETTAG;
 }
-
-
 
 //-- tpaxpy
 template <typename ALPHA, typename MA, typename MB>

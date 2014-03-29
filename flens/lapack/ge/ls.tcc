@@ -56,7 +56,7 @@ namespace generic {
 //-- (ge)ls [real variant] -----------------------------------------------------
 
 template <typename MA, typename MB, typename VWORK>
-typename RestrictTo<IsRealGeMatrix<GeMatrix<MA> >::value, 
+typename RestrictTo<IsRealGeMatrix<GeMatrix<MA> >::value,
                     typename GeMatrix<MA>::IndexType>::Type
 ls_impl(Transpose                 trans,
         GeMatrix<MA>              &A,
@@ -300,7 +300,7 @@ ls_impl(Transpose                 trans,
 //-- (ge)ls [complex variant] --------------------------------------------------
 
 template <typename MA, typename MB, typename VWORK>
-typename RestrictTo<IsComplexGeMatrix<GeMatrix<MA> >::value, 
+typename RestrictTo<IsComplexGeMatrix<GeMatrix<MA> >::value,
                     typename GeMatrix<MA>::IndexType>::Type
 ls_impl(Transpose                 trans,
         GeMatrix<MA>              &A,

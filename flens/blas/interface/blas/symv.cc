@@ -17,21 +17,20 @@ BLAS(ssymv)(const char      *UPLO,
             float           *Y,
             const INTEGER   *INCY)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _UPLO   = toupper(*UPLO);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        
+
         cblas_ssymv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     *N, *ALPHA,
                     _A, *LDA, X, *INCX,
                     *BETA, Y, *INCY);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -55,7 +54,7 @@ BLAS(ssymv)(const char      *UPLO,
                 return;
             }
 #       endif
-    
+
         StorageUpLo  upLo = StorageUpLo(_UPLO);
 
         SSyMatrixConstView    A(SFullConstView(*N, *N, _A, *LDA), upLo);
@@ -85,19 +84,18 @@ BLAS(dsymv)(const char      *UPLO,
             double          *Y,
             const INTEGER   *INCY)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _UPLO   = toupper(*UPLO);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        
+
         cblas_dsymv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     *N, *ALPHA,
                     _A, *LDA, X, *INCX,
                     *BETA, Y, *INCY);
-    
+
 #   else
         using std::abs;
         using std::max;

@@ -63,24 +63,24 @@ sum(MA &&A)
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::ElementType   T;
     typedef typename MatrixA::IndexType     IndexType;
-    
+
     // Matrix Size
     const IndexType numCols = A.numCols();
     const IndexType numRows = A.numRows();
-    
-    
+
+
     T result;
 
     if ( A.order() == ColMajor ) {
-    
+
         if ( A.leadingDimension()==numRows ) {
-        
+
             cxxblas::sum(numCols*numCols, A.data(), IndexType(1), result);
 
         } else {
-        
+
             T tmp;
-            
+
             for (IndexType i=0; i<numCols; ++i) {
                 cxxblas::sum(numRows, A.data()+i*A.leadingDimension(), 1, tmp);
                 result += tmp;
@@ -88,21 +88,21 @@ sum(MA &&A)
         }
 
     } else {
-    
+
         if ( A.leadingDimension()==numCols ) {
-        
+
             cxxblas::sum(numCols*numCols, A.data(), IndexType(1), result);
 
         } else {
-        
+
             T tmp;
-            
+
             for (IndexType i=0; i<numRows; ++i) {
                 cxxblas::sum(numCols, A.data()+i*A.leadingDimension(), 1, tmp);
                 result += tmp;
             }
         }
-    
+
     }
 
     return result;

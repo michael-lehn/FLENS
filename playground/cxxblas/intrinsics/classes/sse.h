@@ -42,32 +42,32 @@ template <>
 class Intrinsics<float, IntrinsicsLevel::SSE> {
 
 public:
-	typedef float                            DataType;
-	typedef float                            PrimitiveDataType;
-	typedef __m128                           IntrinsicsDataType;
-	static  const int                        numElements = 4;
+    typedef float                            DataType;
+    typedef float                            PrimitiveDataType;
+    typedef __m128                           IntrinsicsDataType;
+    static  const int                        numElements = 4;
 
-	Intrinsics(void)                         {}
-	Intrinsics(__m128 val)                   {v = val;}
-	Intrinsics(float *a)                     {this->load(a);}
-	Intrinsics(float a)                      {this->fill(a);}
+    Intrinsics(void)                         {}
+    Intrinsics(__m128 val)                   {v = val;}
+    Intrinsics(float *a)                     {this->load(a);}
+    Intrinsics(float a)                      {this->fill(a);}
 
-	void operator=(float *a)                 {this->load(a);}
-	void operator=(float a)                  {this->fill(a);}
+    void operator=(float *a)                 {this->load(a);}
+    void operator=(float a)                  {this->fill(a);}
     void operator=(__m128 a)                 {v = a; }
 
-	__m128 get(void) const                   {return v;}
+    __m128 get(void) const                   {return v;}
 
     void fill(float a)                       { v = _mm_load1_ps(&a);}
     void load(const float *a)                { v = _mm_load_ps(a);}
     void loadu(const float *a)               { v = _mm_loadu_ps(a);}
-	void setZero()                           { v = _mm_setzero_ps();}
+    void setZero()                           { v = _mm_setzero_ps();}
     void store(float *a)                     { _mm_store_ps(a, v); }
     void storeu(float *a)                    { _mm_storeu_ps(a, v); }
     void stream(float *a)                    { _mm_stream_ps(a, v); }
 
 private:
-	__m128                                   v;
+    __m128                                   v;
 
 };
 
@@ -75,32 +75,32 @@ template <>
 class Intrinsics<double, IntrinsicsLevel::SSE> {
 
 public:
-	typedef double                           DataType;
-	typedef double                           PrimitiveDataType;
-	typedef __m128d                          IntrinsicsDataType;
-	static  const int                        numElements = 2;
+    typedef double                           DataType;
+    typedef double                           PrimitiveDataType;
+    typedef __m128d                          IntrinsicsDataType;
+    static  const int                        numElements = 2;
 
-	Intrinsics(void)                         {}
-	Intrinsics(__m128d val)                  {v = val;}
-	Intrinsics(double *a)                    {this->load(a);}
-	Intrinsics(double a)                     {this->fill(a);}
+    Intrinsics(void)                         {}
+    Intrinsics(__m128d val)                  {v = val;}
+    Intrinsics(double *a)                    {this->load(a);}
+    Intrinsics(double a)                     {this->fill(a);}
 
-	void operator=(double *a)                {this->load(a);}
-	void operator=(double a)                 {this->fill(a);}
+    void operator=(double *a)                {this->load(a);}
+    void operator=(double a)                 {this->fill(a);}
     void operator=(__m128d a)                {v = a; }
 
 
-	__m128d get(void) const                  {return v;}
+    __m128d get(void) const                  {return v;}
 
     void fill(double a)                      { v = _mm_load1_pd(&a);}
     void load(const double *a)               { v = _mm_load_pd(a);}
     void loadu(const double *a)              { v = _mm_loadu_pd(a);}
-	void setZero()                           { v = _mm_setzero_pd();}
+    void setZero()                           { v = _mm_setzero_pd();}
     void store(double *a)                    { _mm_store_pd(a, v); }
     void storeu(double *a)                   { _mm_storeu_pd(a, v); }
     void stream(double *a)                   { _mm_stream_pd(a, v); }
 private:
-	__m128d                                  v;
+    __m128d                                  v;
 
 };
 
@@ -108,30 +108,30 @@ template <>
 class Intrinsics<std::complex<float>, IntrinsicsLevel::SSE> {
 
 public:
-	typedef std::complex<float>              DataType;
-	typedef float                            PrimitiveDataType;
-	typedef __m128                           IntrinsicsDataType;
-	static  const int                        numElements = 2;
+    typedef std::complex<float>              DataType;
+    typedef float                            PrimitiveDataType;
+    typedef __m128                           IntrinsicsDataType;
+    static  const int                        numElements = 2;
 
-	Intrinsics(void)                         {}
-	Intrinsics(__m128 val)                   {v = val;}
-	Intrinsics(std::complex<float> *a)       {this->load(a);}
-	Intrinsics(float a)                     {this->fill(a);}
+    Intrinsics(void)                         {}
+    Intrinsics(__m128 val)                   {v = val;}
+    Intrinsics(std::complex<float> *a)       {this->load(a);}
+    Intrinsics(float a)                     {this->fill(a);}
 
-	void operator=(std::complex<float> *a)   {this->load(a);}
+    void operator=(std::complex<float> *a)   {this->load(a);}
     void operator=(__m128 a)                 {v = a; }
 
-	__m128 get(void) const                   {return v;}
+    __m128 get(void) const                   {return v;}
 
     void fill(float a)                       { v = _mm_load1_ps(&a); }
     void load(const std::complex<float> *a)  { v = _mm_load_ps(reinterpret_cast<const float* >(a));}
     void loadu(const std::complex<float> *a) { v = _mm_loadu_ps(reinterpret_cast<const float* >(a));}
-	void setZero()                           { v = _mm_setzero_ps();}
+    void setZero()                           { v = _mm_setzero_ps();}
     void store(std::complex<float> *a)       { _mm_store_ps(reinterpret_cast<float*>(a), v); }
     void storeu(std::complex<float> *a)      { _mm_storeu_ps(reinterpret_cast<float*>(a), v); }
     void stream(std::complex<float> *a)      { _mm_stream_ps(reinterpret_cast<float*>(a), v); }
 private:
-	__m128                                   v;
+    __m128                                   v;
 
 };
 
@@ -139,31 +139,31 @@ template <>
 class Intrinsics<std::complex<double>, IntrinsicsLevel::SSE> {
 
 public:
-	typedef std::complex<double>             DataType;
-	typedef double                           PrimitiveDataType;
-	typedef __m128d                          IntrinsicsDataType;
-	static  const int                        numElements = 1;
+    typedef std::complex<double>             DataType;
+    typedef double                           PrimitiveDataType;
+    typedef __m128d                          IntrinsicsDataType;
+    static  const int                        numElements = 1;
 
-	Intrinsics(void)                         {}
-	Intrinsics(__m128d val)                  {v = val;}
-	Intrinsics(std::complex<double> *a)      {this->load(a);}
+    Intrinsics(void)                         {}
+    Intrinsics(__m128d val)                  {v = val;}
+    Intrinsics(std::complex<double> *a)      {this->load(a);}
     Intrinsics(double a)                     {this->fill(a);}
 
-	void operator=(std::complex<double> *a)  {this->load(a);}
+    void operator=(std::complex<double> *a)  {this->load(a);}
     void operator=(__m128d a)                {v = a; }
 
 
-	__m128d get(void) const                  {return v;}
+    __m128d get(void) const                  {return v;}
 
     void fill(double a)                      { v = _mm_load1_pd(&a); }
     void load(const std::complex<double> *a) { v = _mm_load_pd(reinterpret_cast<const double* >(a));}
     void loadu(const std::complex<double> *a){ v = _mm_loadu_pd(reinterpret_cast<const double* >(a));}
-	void setZero()                           { v = _mm_setzero_pd();}
+    void setZero()                           { v = _mm_setzero_pd();}
     void store(std::complex<double> *a)      { _mm_store_pd(reinterpret_cast<double*>(a), v); }
     void storeu(std::complex<double> *a)     { _mm_storeu_pd(reinterpret_cast<double*>(a), v); }
     void stream(std::complex<double> *a)     { _mm_stream_pd(reinterpret_cast<double* >(a), v); }
 private:
-	__m128d                                  v;
+    __m128d                                  v;
 
 };
 

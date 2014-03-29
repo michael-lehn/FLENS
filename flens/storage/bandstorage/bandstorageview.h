@@ -86,9 +86,9 @@ class BandStorageView
         typedef flens::ArrayView<T, I, A>             ArrayView;
         typedef flens::Array<T, I, A>                 Array;
 
-        typedef flens::ConstFullStorageView<T, Order, I, A>    ConstFullStorageView;
-        typedef flens::FullStorageView<T, Order, I, A>         FullStorageView;
-        typedef flens::FullStorage<T, Order, I, A>             FullStorage;
+        typedef flens::ConstFullStorageView<T,Order,I,A>   ConstFullStorageView;
+        typedef flens::FullStorageView<T,Order,I,A>        FullStorageView;
+        typedef flens::FullStorage<T,Order,I,A>            FullStorage;
 
         BandStorageView(IndexType numRows, IndexType numCols,
                         IndexType numSubDiags, IndexType numSuperDiags,

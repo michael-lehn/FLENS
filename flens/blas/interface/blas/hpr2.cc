@@ -15,13 +15,12 @@ BLAS(chpr2)(const char      *UPLO,
             const INTEGER   *INCY,
             cfloat          *AP)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _UPLO   = toupper(*UPLO);
-    
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-    
+
         cblas_chpr2(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     *N,
@@ -29,14 +28,14 @@ BLAS(chpr2)(const char      *UPLO,
                     reinterpret_cast<const float *>(X), *INCX,
                     reinterpret_cast<const float *>(Y), *INCY,
                     reinterpret_cast<float *>(AP));
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
         char    _UPLO  = toupper(*UPLO);
-    
+
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
             if (_UPLO!='U' && _UPLO!='L') {
@@ -81,13 +80,12 @@ BLAS(zhpr2)(const char      *UPLO,
             const INTEGER   *INCY,
             cdouble         *AP)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _UPLO   = toupper(*UPLO);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        
+
         cblas_zhpr2(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     *N,
@@ -95,9 +93,9 @@ BLAS(zhpr2)(const char      *UPLO,
                     reinterpret_cast<const double *>(X), *INCX,
                     reinterpret_cast<const double *>(Y), *INCY,
                     reinterpret_cast<double *>(AP));
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 

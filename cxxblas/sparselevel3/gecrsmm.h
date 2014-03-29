@@ -56,15 +56,15 @@ template <typename IndexType, typename ALPHA, typename MA, typename MB,
             MC               *C,
             IndexType        ldC);
 
-    
-#ifdef HAVE_SPARSEBLAS      
-    
+
+#ifdef HAVE_SPARSEBLAS
+
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     gecrsmm(Transpose        transA,
             IndexType        m,
             IndexType        n,
-            IndexType        k, 
+            IndexType        k,
             const float      &alpha,
             const float      *A,
             const IndexType  *ia,
@@ -74,13 +74,13 @@ template <typename IndexType>
             const float      &beta,
             float            *C,
             IndexType        ldC);
-    
+
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     gecrsmm(Transpose        transA,
             IndexType        m,
             IndexType        n,
-            IndexType        k, 
+            IndexType        k,
             const double     &alpha,
             const double     *A,
             const IndexType  *ia,
@@ -90,7 +90,7 @@ template <typename IndexType>
             const double     &beta,
             double           *C,
             IndexType        ldC);
-    
+
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     gecrsmm(Transpose               transA,
@@ -105,9 +105,9 @@ template <typename IndexType>
             IndexType               ldB,
             const ComplexFloat      &beta,
             ComplexFloat            *C,
-            IndexType               ldC); 
+            IndexType               ldC);
 
-    
+
 template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     gecrsmm(Transpose               transA,
@@ -122,10 +122,10 @@ template <typename IndexType>
             IndexType               ldB,
             const ComplexDouble     &beta,
             ComplexDouble           *C,
-            IndexType               ldC); 
-    
+            IndexType               ldC);
+
 #endif
-    
+
 } // namespace cxxblas
 
 #endif // CXXBLAS_SPARSELEVEL3_GECRSMM_H

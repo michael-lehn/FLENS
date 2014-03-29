@@ -38,14 +38,14 @@
 
 namespace cxxblas {
 
-template <typename IndexType, typename ALPHA, typename X, 
+template <typename IndexType, typename ALPHA, typename X,
           typename BETA, typename Y>
 void
 acxpby(IndexType n, const ALPHA &alpha, const X *x,
        IndexType incX, const BETA &beta, Y *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("acxpby_generic");
-    
+
     scal(n, beta, y, incY);
     acxpy(n, alpha, x, incX, y, incY);
 }

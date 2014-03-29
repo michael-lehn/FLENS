@@ -77,17 +77,17 @@ class ConstBandStorageView
         static const StorageOrder       order = Order;
         static const IndexType          defaultIndexBase = I::defaultIndexBase;
 
-        typedef ConstBandStorageView                  ConstView;
-        typedef BandStorageView<T, Order, I, A>       View;
-        typedef BandStorage<T, Order, I, A>           NoView;
+        typedef ConstBandStorageView                       ConstView;
+        typedef BandStorageView<T, Order, I, A>            View;
+        typedef BandStorage<T, Order, I, A>                NoView;
 
-        typedef flens::ConstArrayView<T, I, A>        ConstArrayView;
-        typedef flens::ArrayView<T, I, A>             ArrayView;
-        typedef flens::Array<T, I, A>                 Array;
+        typedef flens::ConstArrayView<T, I, A>             ConstArrayView;
+        typedef flens::ArrayView<T, I, A>                  ArrayView;
+        typedef flens::Array<T, I, A>                      Array;
 
-        typedef flens::ConstFullStorageView<T, Order, I, A>    ConstFullStorageView;
-        typedef flens::FullStorageView<T, Order, I, A>         FullStorageView;
-        typedef flens::FullStorage<T, Order, I, A>             FullStorage;
+        typedef flens::ConstFullStorageView<T,Order,I,A>   ConstFullStorageView;
+        typedef flens::FullStorageView<T,Order,I,A>        FullStorageView;
+        typedef flens::FullStorage<T,Order,I,A>            FullStorage;
 
         ConstBandStorageView(IndexType numRows, IndexType numCols,
                              IndexType numSubDiags, IndexType numSuperDiags,

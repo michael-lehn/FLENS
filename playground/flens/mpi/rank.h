@@ -35,17 +35,17 @@
 
 namespace flens { namespace mpi {
 
-#ifdef WITH_MPI  
+#ifdef WITH_MPI
 
 inline int
-    MPI_rank(const MPI::Comm &communicator = MPI::COMM_WORLD);
-    
+MPI_rank(const MPI::Comm &communicator = MPI::COMM_WORLD);
+
 #else
-    
+
 inline int
-    MPI_rank();  
-    
-#endif    
+MPI_rank();
+
+#endif
 } }
 
 #endif // PLAYGROUND_FLENS_MPI_RANK_H

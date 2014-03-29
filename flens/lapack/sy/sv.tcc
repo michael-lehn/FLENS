@@ -144,7 +144,7 @@ sv(MA &&A, VPIV &&piv, MB &&B, VWORK &&work)
     return info;
 }
 
-//-- (sy)sv [real and complex variant, rhs is vector] ---------------------------
+//-- (sy)sv [real and complex variant, rhs is vector] --------------------------
 template <typename MA, typename VPIV, typename VB, typename VWORK>
 typename RestrictTo<IsSyMatrix<MA>::value
                  && IsIntegerDenseVector<VPIV>::value
@@ -170,7 +170,7 @@ sv(MA &&A, VPIV &&piv, VB &&b, VWORK && work)
     return sv(A, piv, B, work);
 }
 
-//-- (sy)sv [real and complex variant with temporary workspace] -----------------
+//-- (sy)sv [real and complex variant with temporary workspace] ----------------
 
 template <typename MA, typename VPIV, typename VB>
 typename RestrictTo<IsSyMatrix<MA>::value

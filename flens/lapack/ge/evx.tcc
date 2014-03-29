@@ -632,7 +632,7 @@ evx_impl(BALANCE::Balance     balance,
     return info;
 }
 
-//-- (ge)evx [complex variant] ----------------------------------------------------
+//-- (ge)evx [complex variant] -------------------------------------------------
 
 template <typename MA, typename VW, typename MVL, typename MVR,
           typename IndexType, typename VSCALE, typename ABNORM,
@@ -986,7 +986,7 @@ evx(BALANCE::Balance     balance,
 
 #ifdef USE_CXXLAPACK
 
-//-- (ge)evx [complex variant] ----------------------------------------------------
+//-- (ge)evx [complex variant] -------------------------------------------------
 
 template <typename MA, typename VW, typename MVL, typename MVR,
           typename IndexType, typename VSCALE, typename ABNORM,

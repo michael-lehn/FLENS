@@ -35,7 +35,7 @@
       SUBROUTINE DGEQRS( M, N, NRHS, A, LDA, TAU, B, LDB, WORK, LWORK,
      $                   INFO )
       SUBROUTINE ZGEQRS( M, N, NRHS, A, LDA, TAU, B, LDB, WORK, LWORK,
-     $                   INFO )     
+     $                   INFO )
  *
  *  -- LAPACK routine (version 3.0) --
  *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -53,15 +53,19 @@ namespace flens { namespace lapack {
 
 //-- qrs [real] ----------------------------------------------------------------
 template <typename MA, typename VTAU, typename MB, typename VWORK>
-typename RestrictTo<IsReal<typename GeMatrix<MA>::ElementType>::value,
+typename RestrictTo<IsRealGeMatrix<MA>::value
+                 && IsRealDenseVector<VTAU>::value
+                 && IsRealGeMatrix<MB>::value
+                 && IsRealDenseVector<VWORK>::value,
          void>::Type
-qrs(GeMatrix<MA> &A, const DenseVector<VTAU> &tau, GeMatrix<MB> &B,
-    DenseVector<VWORK> &work)
+qrs(MA &&A, const VTAU &tau, MB &&B, VWORK &&work)
 {
     ASSERT(work.length()>=B.numCols());
 
-    typedef typename GeMatrix<MA>::IndexType    IndexType;
-    typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename RemoveRef<MA>::Type   MatrixA;
+
+    typedef typename MatrixA::IndexType    IndexType;
+    typedef typename MatrixA::ElementType  T;
 
     const Underscore<IndexType> _;
 
@@ -85,17 +89,21 @@ qrs(GeMatrix<MA> &A, const DenseVector<VTAU> &tau, GeMatrix<MB> &B,
     blas::sm(Left, NoTrans, T(1), A.upper(), B);
 }
 
-//-- qrs [complex] --------------------------------------------------------------
+//-- qrs [complex] -------------------------------------------------------------
 template <typename MA, typename VTAU, typename MB, typename VWORK>
-typename RestrictTo<IsComplex<typename GeMatrix<MA>::ElementType>::value,
+typename RestrictTo<IsComplexGeMatrix<MA>::value
+                 && IsComplexDenseVector<VTAU>::value
+                 && IsComplexGeMatrix<MB>::value
+                 && IsComplexDenseVector<VWORK>::value,
          void>::Type
-qrs(GeMatrix<MA> &A, const DenseVector<VTAU> &tau, GeMatrix<MB> &B,
-    DenseVector<VWORK> &work)
+qrs(MA &&A, const VTAU &tau, MB &&B, VWORK &&work)
 {
     ASSERT(work.length()>=B.numCols());
 
-    typedef typename GeMatrix<MA>::IndexType    IndexType;
-    typedef typename GeMatrix<MA>::ElementType  T;
+    typedef typename RemoveRef<MA>::Type   MatrixA;
+
+    typedef typename MatrixA::IndexType    IndexType;
+    typedef typename MatrixA::ElementType  T;
 
     const Underscore<IndexType> _;
 
@@ -117,14 +125,6 @@ qrs(GeMatrix<MA> &A, const DenseVector<VTAU> &tau, GeMatrix<MB> &B,
 //  Solve R*X = B(1:n,:)
 //
     blas::sm(Left, NoTrans, T(1), A.upper(), B);
-}
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VTAU, typename MB, typename VWORK>
-void
-qrs(MA &&A, const VTAU &tau, MB &&B, VWORK &&work)
-{
-    qrs(A, tau, B, work);
 }
 
 } } // namespace lapack, flens

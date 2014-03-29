@@ -38,228 +38,227 @@
 #include <flens/typedefs.h>
 
 namespace flens {
-    
-    // forward declarations
-    template <typename A>
-    class DenseVector;
-    
-    template <typename FS>
-    class GbMatrix;
-    
-    template <typename FS>
-    class HbMatrix;
-    
-    template <typename FS>
-    class SbMatrix;
-    
-    template <typename FS>
-    class TbMatrix;
-    
-    template <typename FS>
-    class DiagMatrix;
-    
-    template <typename FS>
-    class DiagMatrix
+
+// forward declarations
+template <typename A>
+class DenseVector;
+
+template <typename FS>
+class GbMatrix;
+
+template <typename FS>
+class HbMatrix;
+
+template <typename FS>
+class SbMatrix;
+
+template <typename FS>
+class TbMatrix;
+
+template <typename FS>
+class DiagMatrix;
+
+template <typename FS>
+class DiagMatrix
     : public GeneralMatrix<DiagMatrix<FS> >
-    {
+{
     public:
         typedef FS                                  Engine;
         typedef typename Engine::ElementType        ElementType;
         typedef typename Engine::IndexType          IndexType;
-        
+
         // view types from Engine
         typedef typename Engine::ConstView          EngineConstView;
         typedef typename Engine::View               EngineView;
         typedef typename Engine::NoView             EngineNoView;
-        
+
         // view types for
         typedef DenseVector<EngineConstView>        ConstVectorView;
         typedef DenseVector<EngineView>             VectorView;
         typedef DenseVector<EngineNoView>           Vector;
-        
+
         typedef DiagMatrix<EngineConstView>         ConstView;
         typedef DiagMatrix<EngineView>              View;
         typedef DiagMatrix<EngineNoView>            NoView;
-        
+
         DiagMatrix();
-        
+
         DiagMatrix(IndexType dim,
                 IndexType firstIndex = Engine::defaultIndexBase);
-        
+
         DiagMatrix(const Engine &engine);
-        
+
         DiagMatrix(const DiagMatrix &rhs);
-        
+
         template <typename RHS>
         DiagMatrix(const DiagMatrix<RHS> &rhs);
-        
+
         template <typename RHS>
         DiagMatrix(const Matrix<RHS> &rhs);
-        
+
         template <typename RHS>
         DiagMatrix(DiagMatrix<RHS> &rhs);
-        
+
         template <typename RHS>
         DiagMatrix(const DenseVector<RHS> &rhs);
-        
+
         // -- operators --------------------------------------------------------
-        
+
         DiagMatrix &
         operator=(const DiagMatrix &rhs);
-        
+
         template <typename RHS>
         DiagMatrix &
         operator=(const Matrix<RHS> &rhs);
-        
+
         template <typename RHS>
         DiagMatrix &
         operator=(const DenseVector<RHS> &rhs);
-        
+
         template <typename RHS>
         DiagMatrix &
         operator+=(const Matrix<RHS> &rhs);
-        
+
         template <typename RHS>
         DiagMatrix &
         operator-=(const Matrix<RHS> &rhs);
-        
+
         DiagMatrix<FS> &
         operator=(const ElementType &alpha);
-        
+
         DiagMatrix<FS> &
         operator+=(const ElementType &alpha);
-        
+
         DiagMatrix<FS> &
         operator-=(const ElementType &alpha);
-        
+
         DiagMatrix &
         operator*=(const ElementType &alpha);
-        
+
         DiagMatrix &
         operator/=(const ElementType &alpha);
-        
+
         const ElementType &
         operator()(IndexType row, IndexType col) const;
-        
+
         ElementType &
         operator()(IndexType row, IndexType col);
-        
+
         // -- views ------------------------------------------------------------
 
         // diag views
         VectorView
         diag();
-        
+
         const ConstVectorView
         diag() const;
-        
+
         // -- methods ----------------------------------------------------------
-        
+
         IndexType
         dim() const;
-        
+
         IndexType
         numCols() const;
-        
+
         IndexType
         numRows() const;
-        
+
         IndexType
         firstIndex() const;
-        
+
         IndexType
         lastIndex() const;
-        
+
         IndexType
         leadingDimension() const;
-        
+
         const ElementType *
         data() const;
-        
+
         ElementType *
         data();
-        
+
         template <typename RHS>
         bool
         resize(const DiagMatrix<RHS> &rhs,
                const ElementType &value = ElementType());
-        
+
         bool
         resize(IndexType dim,
                IndexType firstIndex = Engine::defaultIndexBase,
                const ElementType &value = ElementType());
-        
+
         bool
         fill(const ElementType &value = ElementType(0));
-        
+
         bool
         fillRandom();
-        
+
         // -- implementation ---------------------------------------------------
-        
+
         const Engine &
         engine() const;
-        
+
         Engine &
         engine();
-        
+
     private:
         Engine       _engine;
         StorageUpLo  _upLo;
+};
+
+//-- Traits --------------------------------------------------------------------
+//
+//  IsDiagMatrix
+//
+struct _DiagMatrixChecker
+{
+
+    struct Two {
+        char x;
+        char y;
     };
-    
-    //-- Traits --------------------------------------------------------------------
-    //
-    //  IsDiagMatrix
-    //
-    struct _DiagMatrixChecker
-    {
-        
-        struct Two {
-            char x;
-            char y;
-        };
-        
-        static Two
-        check(_AnyConversion);
-        
-        template <typename Any>
-        static char
-        check(DiagMatrix<Any>);
-    };
-    
-    template <typename T>
-    struct IsDiagMatrix
-    {
-        static T var;
-        static const bool value = sizeof(_DiagMatrixChecker::check(var))==1;
-    };
-    
-    //
-    //  IsRealDiagMatrix
-    //
-    template <typename T>
-    struct IsRealDiagMatrix
-    {
-        typedef typename std::remove_reference<T>::type  TT;
-        
-        static const bool value = IsDiagMatrix<TT>::value
-        && IsNotComplex<typename TT::ElementType>::value;
-    };
-    
-    //
-    //  IsComplexDiagMatrix
-    //
-    template <typename T>
-    struct IsComplexDiagMatrix
-    {
-        typedef typename std::remove_reference<T>::type  TT;
-        
-        static const bool value = IsDiagMatrix<TT>::value
-        && IsComplex<typename TT::ElementType>::value;
-    };
-    
-    
+
+    static Two
+    check(_AnyConversion);
+
+    template <typename Any>
+    static char
+    check(DiagMatrix<Any>);
+};
+
+template <typename T>
+struct IsDiagMatrix
+{
+    static T var;
+    static const bool value = sizeof(_DiagMatrixChecker::check(var))==1;
+};
+
+//
+//  IsRealDiagMatrix
+//
+template <typename T>
+struct IsRealDiagMatrix
+{
+    typedef typename std::remove_reference<T>::type  TT;
+
+    static const bool value = IsDiagMatrix<TT>::value
+    && IsNotComplex<typename TT::ElementType>::value;
+};
+
+//
+//  IsComplexDiagMatrix
+//
+template <typename T>
+struct IsComplexDiagMatrix
+{
+    typedef typename std::remove_reference<T>::type  TT;
+
+    static const bool value = IsDiagMatrix<TT>::value
+    && IsComplex<typename TT::ElementType>::value;
+};
+
 } // namespace flens
 
 #endif // FLENS_MATRIXTYPES_GENERAL_IMPL_DIAGMATRIX_H

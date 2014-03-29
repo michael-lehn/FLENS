@@ -23,33 +23,33 @@ main(int argc, char* argv[])
 
     ///
     /// Inititialize MPI enviroment
-    /// 
+    ///
     MPI_init(argc, argv);
-    
+
     ///
     /// Get rank
-    /// 
+    ///
     int rank = MPI_rank();
-    
+
     ///
     /// fill vector with numbers
     ///
     x = T(-rank), T(0), T(rank);
-    
+
     ///
     /// Sum up all vectors x and store result at rank 0
     /// works also with GeMatrix
     ///
     MPI_reduce_sum(x, sum, 0);
 
-    if ( rank==0 ) { 
+    if ( rank==0 ) {
         ///
         /// Rank 0 print result
         ///
         cout << "sum = " << sum << endl;
 
-    } 
-    
+    }
+
     MPI_finalize();
 
     return 0;

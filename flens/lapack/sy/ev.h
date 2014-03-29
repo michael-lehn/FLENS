@@ -66,7 +66,7 @@ template <typename MA, typename VW, typename VWORK>
        VW     &&w,
        VWORK  &&work);
 
-//== (sy)ev workspace query =======================================================
+//== (sy)ev workspace query ====================================================
 //
 //  real variant
 //

@@ -19,15 +19,14 @@ BLAS(cher2k)(const char      *UPLO,
              cfloat          *_C,
              const INTEGER   *LDC)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-        
+
         char    _UPLO   = toupper(*UPLO);
         char    _TRANS  = toupper(*TRANS);
 
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      trans  = convertTo<Transpose>(_TRANS);
-        
+
         cblas_cher2k(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     cxxblas::CBLAS::getCblasType(trans),
@@ -37,9 +36,9 @@ BLAS(cher2k)(const char      *UPLO,
                     reinterpret_cast<const float *>(_B), *LDB,
                     *BETA,
                     reinterpret_cast<float *>(_C), *LDC);
-    
+
 #   else
-        
+
         using std::abs;
         using std::max;
 
@@ -133,15 +132,14 @@ BLAS(zher2k)(const char      *UPLO,
              cdouble         *_C,
              const INTEGER   *LDC)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _UPLO   = toupper(*UPLO);
         char    _TRANS  = toupper(*TRANS);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      trans  = convertTo<Transpose>(_TRANS);
-        
+
         cblas_zher2k(CBLAS_ORDER::CblasColMajor,
                      cxxblas::CBLAS::getCblasType(upLo),
                      cxxblas::CBLAS::getCblasType(trans),
@@ -151,9 +149,9 @@ BLAS(zher2k)(const char      *UPLO,
                      reinterpret_cast<const double *>(_B), *LDB,
                      *BETA,
                      reinterpret_cast<double *>(_C), *LDC);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -183,7 +181,7 @@ BLAS(zher2k)(const char      *UPLO,
                 return;
             }
 #       endif
-    
+
         StorageUpLo  upLo  = StorageUpLo(_UPLO);
         Transpose    trans = convertTo<Transpose>(_TRANS);
 

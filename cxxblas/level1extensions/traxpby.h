@@ -48,7 +48,8 @@ template <typename IndexType, typename ALPHA, typename MA,
           typename BETA, typename MB>
     void
     traxpby(StorageOrder order, StorageUpLo upLo, Transpose trans, Diag diag,
-            IndexType m, IndexType n, const ALPHA &alpha, const MA *A, IndexType ldA,
+            IndexType m, IndexType n,
+            const ALPHA &alpha, const MA *A, IndexType ldA,
             const BETA &beta, MB *B, IndexType ldB);
 
 } // namespace cxxblas

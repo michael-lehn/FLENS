@@ -39,9 +39,12 @@
 
 template <typename T, typename IndexType = int>
 IndexType
-DistAligned(const T *pointer, const IndexType byte_count = DEFAULT_ALIGNMENT_VALUE)
+DistAligned(const T *pointer,
+            const IndexType byte_count = DEFAULT_ALIGNMENT_VALUE)
 {
-    return static_cast<IndexType>( ((uintptr_t)pointer % byte_count) / sizeof(T) );
+    return static_cast<IndexType>(
+            ((uintptr_t)pointer % byte_count) / sizeof(T)
+           );
 }
 
 #endif // USE_INTRINSIC

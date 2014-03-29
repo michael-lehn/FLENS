@@ -49,27 +49,27 @@
 #include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace lapack {
-    
-    //== larft =====================================================================
-    template <typename N, typename MV, typename VTAU, typename MT>
-    void
-    larft(Direction                 direction,
-          StoreVectors              storeVectors,
-          N                         n,
-          GeMatrix<MV>              &V,
-          const DenseVector<VTAU>   &tau,
-          TrMatrix<MT>              &T);
-    
-    //-- forwarding ----------------------------------------------------------------
-    template <typename N, typename MV, typename VTAU, typename MT>
-    void
-    larft(Direction     direction,
-          StoreVectors  storeVectors,
-          N             n,
-          MV            &&V,
-          const VTAU    &tau,
-          MT            &&T);
-    
+
+//== larft =====================================================================
+template <typename N, typename MV, typename VTAU, typename MT>
+void
+larft(Direction                 direction,
+      StoreVectors              storeVectors,
+      N                         n,
+      GeMatrix<MV>              &V,
+      const DenseVector<VTAU>   &tau,
+      TrMatrix<MT>              &T);
+
+//-- forwarding ----------------------------------------------------------------
+template <typename N, typename MV, typename VTAU, typename MT>
+void
+larft(Direction     direction,
+      StoreVectors  storeVectors,
+      N             n,
+      MV            &&V,
+      const VTAU    &tau,
+      MT            &&T);
+
 } } // namespace lapack, flens
 
 #endif // FLENS_LAPACK_LA_LARFT_H

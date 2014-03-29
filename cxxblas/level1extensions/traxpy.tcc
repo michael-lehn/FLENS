@@ -40,7 +40,7 @@
 namespace cxxblas {
 
 //
-//  B += alpha*op(A) 
+//  B += alpha*op(A)
 //
 template <typename IndexType, typename ALPHA, typename MA, typename MB>
 void
@@ -111,10 +111,10 @@ traxpy(StorageOrder order, StorageUpLo upLo, Transpose trans, Diag diag,
             ASSERT(0);
         }
     } else { // diag==Unit
-        
+
         // Not possible
         ASSERT(0);
-        
+
     }
 }
 

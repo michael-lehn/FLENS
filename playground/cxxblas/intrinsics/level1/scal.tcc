@@ -43,7 +43,7 @@ namespace cxxblas {
 
 template <typename IndexType, typename T>
 typename flens::RestrictTo<flens::IsReal<T>::value &&
-                           flens::IsIntrinsicsCompatible<T>::value, 
+                           flens::IsIntrinsicsCompatible<T>::value,
                            void>::Type
 scal(IndexType n, const T &alpha, T *y, IndexType incY)
 {
@@ -71,8 +71,6 @@ scal(IndexType n, const T &alpha, T *y, IndexType incY)
 
 
         } else {
-
-
 
             IntrinsicType _alpha(alpha);
             IntrinsicType _y;

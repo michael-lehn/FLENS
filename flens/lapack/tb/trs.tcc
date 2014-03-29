@@ -64,11 +64,11 @@ trs_impl(Transpose trans, const TbMatrix<MA> &A, GeMatrix<MB> &B)
 {
     typedef typename TbMatrix<MA>::IndexType       IndexType;
     typedef typename TbMatrix<MA>::ElementType     ElementType;
-    
+
     const ElementType zero(0);
-    
+
     const Underscore<IndexType> _;
-    
+
 //
 //     Check for singularity.
 //

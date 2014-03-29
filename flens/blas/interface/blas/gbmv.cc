@@ -21,21 +21,23 @@ BLAS(sgbmv)(const char      *TRANS,
             const INTEGER   *INCY)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         const char         _TRANS = toupper(*TRANS);
         const Transpose    trans  = convertTo<Transpose>(_TRANS);
-        
-        cblas_sgbmv(CBLAS_ORDER::CblasColMajor, cxxblas::CBLAS::getCblasType(trans),
-                    *M, *N, *KL, *KU, *ALPHA, _A, *LDA, X, *INCX, *BETA, Y, *INCY);
-        
+
+        cblas_sgbmv(CBLAS_ORDER::CblasColMajor,
+                    cxxblas::CBLAS::getCblasType(trans),
+                    *M, *N, *KL, *KU, *ALPHA, _A, *LDA, X, *INCX,
+                    *BETA, Y, *INCY);
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
 
         char    _TRANS = toupper(*TRANS);
-    
+
 #       ifndef NO_INPUT_CHECK
             INTEGER info   = 0;
             if (_TRANS!='N' && _TRANS!='T' && _TRANS!='C') {
@@ -60,7 +62,7 @@ BLAS(sgbmv)(const char      *TRANS,
                 return;
             }
 #       endif
-    
+
         Transpose    trans = convertTo<Transpose>(_TRANS);
         const bool   noTrans = (trans==NoTrans || trans==Conj);
         INTEGER      lenX, lenY;
@@ -109,18 +111,20 @@ BLAS(dgbmv)(const char      *TRANS,
             double          *Y,
             const INTEGER   *INCY)
 {
-    
+
 #   ifdef TEST_DIRECT_CBLAS
-        
+
         const char         _TRANS = toupper(*TRANS);
         const Transpose    trans  = convertTo<Transpose>(_TRANS);
-        
-        cblas_dgbmv(CBLAS_ORDER::CblasColMajor, cxxblas::CBLAS::getCblasType(trans),
-                    *M, *N, *KL, *KU, *ALPHA, _A, *LDA, X, *INCX, *BETA, Y, *INCY);
-        
-    
+
+        cblas_dgbmv(CBLAS_ORDER::CblasColMajor,
+                    cxxblas::CBLAS::getCblasType(trans),
+                    *M, *N, *KL, *KU, *ALPHA, _A, *LDA, X, *INCX,
+                    *BETA, Y, *INCY);
+
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -149,8 +153,8 @@ BLAS(dgbmv)(const char      *TRANS,
                 BLAS(xerbla)("DGBMV ", &info);
                 return;
             }
-#       endif 
-    
+#       endif
+
         Transpose    trans = convertTo<Transpose>(_TRANS);
         const bool   noTrans = (trans==NoTrans || trans==Conj);
         INTEGER      lenX, lenY;
@@ -199,27 +203,28 @@ BLAS(cgbmv)(const char      *TRANS,
             cfloat          *Y,
             const INTEGER   *INCY)
 {
-    
+
 #   ifdef TEST_DIRECT_CBLAS
 
         const char         _TRANS = toupper(*TRANS);
         const Transpose    trans  = convertTo<Transpose>(_TRANS);
-    
-        cblas_cgbmv(CBLAS_ORDER::CblasColMajor, cxxblas::CBLAS::getCblasType(trans),
+
+        cblas_cgbmv(CBLAS_ORDER::CblasColMajor,
+                    cxxblas::CBLAS::getCblasType(trans),
                     *M, *N, *KL, *KU,
                     reinterpret_cast<const float *>(ALPHA),
                     reinterpret_cast<const float *>(_A), *LDA,
                     reinterpret_cast<const float *>(X), *INCX,
                     reinterpret_cast<const float *>(BETA),
                     reinterpret_cast<float *>(Y), *INCY);
-        
+
 #   else
-    
+
         using std::abs;
         using std::max;
-    
+
         char    _TRANS = toupper(*TRANS);
-    
+
 #       ifndef NO_INPUT_CHECK
             INTEGER info   = 0;
             if (_TRANS!='N' && _TRANS!='T' && _TRANS!='C') {
@@ -244,7 +249,7 @@ BLAS(cgbmv)(const char      *TRANS,
                 return;
             }
 #       endif
-    
+
         Transpose    trans = convertTo<Transpose>(_TRANS);
         const bool   noTrans = (trans==NoTrans || trans==Conj);
         INTEGER      lenX, lenY;
@@ -294,25 +299,26 @@ BLAS(zgbmv)(const char      *TRANS,
             const INTEGER   *INCY)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         const char         _TRANS = toupper(*TRANS);
         const Transpose    trans  = convertTo<Transpose>(_TRANS);
-    
-        cblas_zgbmv(CBLAS_ORDER::CblasColMajor, cxxblas::CBLAS::getCblasType(trans),
+
+        cblas_zgbmv(CBLAS_ORDER::CblasColMajor,
+                    cxxblas::CBLAS::getCblasType(trans),
                     *M, *N, *KL, *KU,
                     reinterpret_cast<const double *>(ALPHA),
                     reinterpret_cast<const double *>(_A), *LDA,
                     reinterpret_cast<const double *>(X), *INCX,
                     reinterpret_cast<const double *>(BETA),
                     reinterpret_cast<double *>(Y), *INCY);
-    
+
 #   else
-        
+
         using std::abs;
         using std::max;
 
         char    _TRANS = toupper(*TRANS);
-    
+
 #       ifndef NO_INPUT_CHECK
             INTEGER info   = 0;
             if (_TRANS!='N' && _TRANS!='T' && _TRANS!='C') {

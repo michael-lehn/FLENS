@@ -230,7 +230,7 @@ potri(MA &&A)
     return info;
 }
 
-//-- potri [complex variant] ------------------------------------------------------
+//-- potri [complex variant] ---------------------------------------------------
 
 template <typename MA>
 typename RestrictTo<IsHeMatrix<MA>::value,

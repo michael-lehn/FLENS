@@ -18,21 +18,21 @@ BLAS(ssyrk)(const char      *UPLO,
             const INTEGER   *LDC)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _UPLO   = toupper(*UPLO);
         char    _TRANS  = toupper(*TRANS);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      trans  = convertTo<Transpose>(_TRANS);
-        
+
         cblas_ssyrk(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     cxxblas::CBLAS::getCblasType(trans),
                     *N, *K, *ALPHA,
                     _A, *LDA, *BETA, _C, *LDC);
-    
+
 #   else
-        
+
         using std::abs;
         using std::max;
 
@@ -60,7 +60,7 @@ BLAS(ssyrk)(const char      *UPLO,
                 return;
             }
 #       endif
-    
+
         StorageUpLo  upLo  = StorageUpLo(_UPLO);
         Transpose    trans = convertTo<Transpose>(_TRANS);
 
@@ -114,15 +114,14 @@ BLAS(dsyrk)(const char      *UPLO,
             double          *_C,
             const INTEGER   *LDC)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-        
+
         char    _UPLO   = toupper(*UPLO);
         char    _TRANS  = toupper(*TRANS);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      trans  = convertTo<Transpose>(_TRANS);
-        
+
         cblas_dsyrk(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     cxxblas::CBLAS::getCblasType(trans),
@@ -156,7 +155,7 @@ BLAS(dsyrk)(const char      *UPLO,
                 return;
             }
 #       endif
-    
+
         StorageUpLo  upLo  = StorageUpLo(_UPLO);
         Transpose    trans = convertTo<Transpose>(_TRANS);
 
@@ -210,15 +209,14 @@ BLAS(csyrk)(const char      *UPLO,
             cfloat          *_C,
             const INTEGER   *LDC)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-        
+
         char    _UPLO   = toupper(*UPLO);
         char    _TRANS  = toupper(*TRANS);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      trans  = convertTo<Transpose>(_TRANS);
-        
+
         cblas_csyrk(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     cxxblas::CBLAS::getCblasType(trans),
@@ -228,7 +226,7 @@ BLAS(csyrk)(const char      *UPLO,
                     reinterpret_cast<const float *>(BETA),
                     reinterpret_cast<float *>(_C), *LDC);
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -310,15 +308,14 @@ BLAS(zsyrk)(const char      *UPLO,
             cdouble         *_C,
             const INTEGER   *LDC)
 {
-        
 #   ifdef TEST_DIRECT_CBLAS
-        
+
         char    _UPLO   = toupper(*UPLO);
         char    _TRANS  = toupper(*TRANS);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      trans  = convertTo<Transpose>(_TRANS);
-        
+
         cblas_zsyrk(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     cxxblas::CBLAS::getCblasType(trans),
@@ -334,7 +331,7 @@ BLAS(zsyrk)(const char      *UPLO,
         char    _UPLO  = toupper(*UPLO);
         char    _TRANS = toupper(*TRANS);
         INTEGER nRowA  = (_TRANS=='N') ? *N : *K;
-    
+
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
 

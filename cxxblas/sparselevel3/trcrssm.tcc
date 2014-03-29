@@ -37,7 +37,7 @@
 
 namespace cxxblas {
 
-#ifdef HAVE_SPARSEBLAS    
+#ifdef HAVE_SPARSEBLAS
 
 #define HAVE_CXXBLAS_TRCRSSM 1
 
@@ -56,15 +56,15 @@ trcrssm(StorageUpLo      upLo,
         float            *C,
         IndexType        ldC)
 {
-    CXXBLAS_DEBUG_OUT("trcrssm -> [" BLAS_IMPL "] scsrsm"); 
-    
+    CXXBLAS_DEBUG_OUT("trcrssm -> [" BLAS_IMPL "] scsrsm");
+
     char matdescra[5] = { "T*N*" };
     matdescra[1] = getF77BlasChar(upLo);
     matdescra[3] = getIndexBaseChar(ia[0]);
-    
+
     ASSERT(matdescra[3]!='E');
-      
-    char transA = getF77BlasChar(trans); 
+
+    char transA = getF77BlasChar(trans);
 
     mkl_scsrsm(&transA,
                &m, &n,
@@ -88,18 +88,18 @@ trcrssm(StorageUpLo      upLo,
         double           *C,
         IndexType        ldC)
 {
-    CXXBLAS_DEBUG_OUT("trcrssm -> [" BLAS_IMPL "] dcsrsm"); 
-    
+    CXXBLAS_DEBUG_OUT("trcrssm -> [" BLAS_IMPL "] dcsrsm");
+
     char matdescra[5] = { "T*N*" };
     matdescra[1] = getF77BlasChar(upLo);
     matdescra[3] = getIndexBaseChar(ia[0]);
-    
-    ASSERT(matdescra[3]!='E'); 
-      
-    char transA = getF77BlasChar(trans);   
+
+    ASSERT(matdescra[3]!='E');
+
+    char transA = getF77BlasChar(trans);
 
     mkl_dcsrsm(&transA,
-              &m, &n,            
+              &m, &n,
                &alpha, &matdescra[0],
                A, ja, ia, ia+1,
                B, &ldB, C, &ldC);
@@ -109,7 +109,7 @@ template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 trcrssm(StorageUpLo             upLo,
         Transpose               trans,
-	IndexType               m,
+        IndexType               m,
         IndexType               n,
         const ComplexFloat      &alpha,
         const ComplexFloat      *A,
@@ -120,23 +120,22 @@ trcrssm(StorageUpLo             upLo,
         ComplexFloat            *C,
         IndexType               ldC)
 {
-    CXXBLAS_DEBUG_OUT("trcrssm -> [" BLAS_IMPL "] ccsrsm"); 
-    
+    CXXBLAS_DEBUG_OUT("trcrssm -> [" BLAS_IMPL "] ccsrsm");
+
     char matdescra[5] = { "T*N*" };
     matdescra[1] = getF77BlasChar(upLo);
     matdescra[3] = getIndexBaseChar(ia[0]);
-    
+
     ASSERT(matdescra[3]!='E');
-      
-    char transA = getF77BlasChar(trans);  
+
+    char transA = getF77BlasChar(trans);
 
     mkl_ccsrsm(&transA,
-              &m, &n,             
+              &m, &n,
               reinterpret_cast<const float*>(&alpha), &matdescra[0],
               reinterpret_cast<const float*>(A), ja, ia, ia+1,
               reinterpret_cast<const float*>(B), &ldB,
               reinterpret_cast<float*>(C), &ldC);
-    
 }
 
 
@@ -144,7 +143,7 @@ template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 trcrssm(StorageUpLo             upLo,
         Transpose               trans,
-	IndexType               m,
+        IndexType               m,
         IndexType               n,
         const ComplexDouble     &alpha,
         const ComplexDouble     *A,
@@ -155,23 +154,22 @@ trcrssm(StorageUpLo             upLo,
         ComplexDouble           *C,
         IndexType               ldC)
 {
-    CXXBLAS_DEBUG_OUT("trcrssm -> [" BLAS_IMPL "] zcsrsm"); 
-    
+    CXXBLAS_DEBUG_OUT("trcrssm -> [" BLAS_IMPL "] zcsrsm");
+
     char matdescra[5] = { "T*N*" };
     matdescra[1] = getF77BlasChar(upLo);
     matdescra[3] = getIndexBaseChar(ia[0]);
-    
+
     ASSERT(matdescra[3]!='E');
-      
-    char transA = getF77BlasChar(trans);  
+
+    char transA = getF77BlasChar(trans);
 
     mkl_zcsrsm(&transA,
-              &m, &n,             
+              &m, &n,
               reinterpret_cast<const double*>(&alpha), &matdescra[0],
               reinterpret_cast<const double*>(A), ja, ia, ia+1,
               reinterpret_cast<const double*>(B), &ldB,
               reinterpret_cast<double*>(C), &ldC);
-    
 }
 
 #endif

@@ -39,7 +39,7 @@
 
 namespace cxxblas {
 
-template <typename IndexType, typename ALPHA, typename X, 
+template <typename IndexType, typename ALPHA, typename X,
           typename BETA, typename Y>
     void
     acxpby(IndexType n, const ALPHA &alpha, const X *x, IndexType incX,

@@ -57,15 +57,19 @@ det(MA &&A, VPIV && Pivots)
 
     value = blas::extensions::prod(A.diag(0));
 
+    const IndexType k0 = A.firstRow();
+    const IndexType m0 = Pivots.firstIndex();
+
     IndexType numSwaps(0);
-    for (IndexType k=A.firstRow(), m=Pivots.firstIndex();k<=A.lastRow();++k, ++m) {
+    for (IndexType k=k0, m=m0; k<=A.lastRow(); ++k, ++m) {
         if (Pivots(m)!=k) {
             ++numSwaps;
         }
     }
 
-    if (numSwaps%2==1)
+    if (numSwaps%2==1) {
         return -value;
+    }
     return value;
 }
 

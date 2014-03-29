@@ -49,11 +49,11 @@ template <typename CCS>
 template <typename CCS>
     std::ostream &
     operator<<(std::ostream &out, const HeCCSMatrix<CCS> &A);
-    
+
 template <typename CCS>
     std::ostream &
     operator<<(std::ostream &out, const SyCCSMatrix<CCS> &A);
-    
+
 template <typename CCS>
     std::ostream &
     operator<<(std::ostream &out, const TrCCSMatrix<CCS> &A);

@@ -41,7 +41,8 @@ namespace flens {
 template <typename T, StorageOrder Order, typename I, typename A>
 ConstBandStorageView<T, Order, I, A>::ConstBandStorageView(
                                         IndexType numRows, IndexType numCols,
-                                        IndexType numSubDiags, IndexType numSuperDiags,
+                                        IndexType numSubDiags,
+                                        IndexType numSuperDiags,
                                         const ElementType *data,
                                         IndexType leadingDimension,
                                         IndexType firstIndex,
@@ -284,7 +285,8 @@ ConstBandStorageView<T, Order, I, A>::viewDiag(IndexType diag,
 
 template <typename T, StorageOrder Order, typename I, typename A>
 const typename ConstBandStorageView<T, Order, I, A>::ConstView
-ConstBandStorageView<T, Order, I, A>::viewDiags(IndexType fromDiag, IndexType toDiag) const
+ConstBandStorageView<T, Order, I, A>::viewDiags(IndexType fromDiag,
+                                                IndexType toDiag) const
 {
     ASSERT(fromDiag<=toDiag);
     IndexType numRows = _numRows;
@@ -368,10 +370,14 @@ ConstBandStorageView<T, Order, I, A>::viewRow(IndexType row,
 
     ASSERT(row>=firstRow());
     ASSERT(row<=lastRow());
-    
-    IndexType length = 1+min(row-1,numSubDiags())+min(numRows()-row,numSuperDiags());
+
+    IndexType length = 1
+                     + min(row-1,numSubDiags())
+                     + min(numRows()-row,numSuperDiags());
+
     return ConstArrayView(length,
-                          &(operator()(row, firstCol()+max(0,row-1-numSubDiags()))),
+                          &(operator()(row,
+                                       firstCol()+max(0,row-1-numSubDiags()))),
                           strideCol(),
                           firstViewIndex,
                           allocator());
@@ -380,8 +386,10 @@ ConstBandStorageView<T, Order, I, A>::viewRow(IndexType row,
 template <typename T, StorageOrder Order, typename I, typename A>
 const typename ConstBandStorageView<T, Order, I, A>::ConstArrayView
 ConstBandStorageView<T, Order, I, A>::viewRow(IndexType row,
-                                              IndexType firstCol, IndexType lastCol,
-                                              IndexType stride, IndexType firstViewIndex) const
+                                              IndexType firstCol,
+                                              IndexType lastCol,
+                                              IndexType stride,
+                                              IndexType firstViewIndex) const
 {
     const IndexType length = (lastCol-firstCol)/stride+1;
 
@@ -421,19 +429,22 @@ ConstBandStorageView<T, Order, I, A>::viewCol(IndexType col,
     ASSERT(col>=firstCol());
     ASSERT(col<=lastCol());
 
-    IndexType length = 1+min(col-1,numSuperDiags())+min(numCols()-col,numSubDiags());
-    
+    IndexType length = 1
+                     + min(col-1, numSuperDiags())
+                     + min(numCols()-col, numSubDiags());
+
     return ArrayView(length,
-                     &(operator()(firstRow()+max(0,col-1-numSuperDiags()), col)),
+                     &(operator()(firstRow()+max(0,col-1-numSuperDiags()),
+                                  col)),
                      strideRow(),
                      firstViewIndex,
                      allocator());
-                     
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
 const typename ConstBandStorageView<T, Order, I, A>::ConstArrayView
-ConstBandStorageView<T, Order, I, A>::viewCol(IndexType firstRow, IndexType lastRow,
+ConstBandStorageView<T, Order, I, A>::viewCol(IndexType firstRow,
+                                              IndexType lastRow,
                                               IndexType stride, IndexType col,
                                               IndexType firstViewIndex) const
 {

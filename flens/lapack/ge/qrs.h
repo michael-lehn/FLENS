@@ -51,26 +51,30 @@
 
 namespace flens { namespace lapack {
 
-//TODO: make ref to A const!
 
-//-- forwarding ----------------------------------------------------------------
+//== qrs =======================================================================
+//
+//  Real variant
+//
 template <typename MA, typename VTAU, typename MB, typename VWORK>
-    void
+    typename RestrictTo<IsRealGeMatrix<MA>::value
+                     && IsRealDenseVector<VTAU>::value
+                     && IsRealGeMatrix<MB>::value
+                     && IsRealDenseVector<VWORK>::value,
+             void>::Type
     qrs(MA &&A, const VTAU &tau, MB &&B, VWORK &&work);
 
-//-- qrs -----------------------------------------------------------------------
+//
+//  Complex variant
+//
 template <typename MA, typename VTAU, typename MB, typename VWORK>
-    typename RestrictTo<IsReal<typename GeMatrix<MA>::ElementType>::value,
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsComplexDenseVector<VTAU>::value
+                     && IsComplexGeMatrix<MB>::value
+                     && IsComplexDenseVector<VWORK>::value,
              void>::Type
-    qrs(GeMatrix<MA> &A, const DenseVector<VTAU> &tau, GeMatrix<MB> &B,
-        DenseVector<VWORK> &work);
-    
-template <typename MA, typename VTAU, typename MB, typename VWORK>
-    typename RestrictTo<IsComplex<typename GeMatrix<MA>::ElementType>::value,
-             void>::Type
-    qrs(GeMatrix<MA> &A, const DenseVector<VTAU> &tau, GeMatrix<MB> &B,
-        DenseVector<VWORK> &work);
-    
+    qrs(MA &&A, const VTAU &tau, MB &&B, VWORK &&work);
+
 
 } } // namespace lapack, flens
 

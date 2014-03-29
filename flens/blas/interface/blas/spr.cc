@@ -14,20 +14,20 @@ BLAS(sspr)(const char      *UPLO,
            float           *AP)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
     char    _UPLO   = toupper(*UPLO);
-    
+
     StorageUpLo    upLo   = StorageUpLo(_UPLO);
-    
+
     cblas_sspr(CBLAS_ORDER::CblasColMajor,
                cxxblas::CBLAS::getCblasType(upLo),
                *N,
                *ALPHA,
                X, *INCX,
                AP);
-    
+
 #   else
-      
+
         using std::abs;
         using std::max;
 
@@ -71,22 +71,22 @@ BLAS(dspr)(const char      *UPLO,
            const INTEGER   *INCX,
            double          *AP)
 {
-    
+
 #   ifdef TEST_DIRECT_CBLAS
-    
+
     char    _UPLO   = toupper(*UPLO);
-    
+
     StorageUpLo    upLo   = StorageUpLo(_UPLO);
-    
+
     cblas_dspr(CBLAS_ORDER::CblasColMajor,
                cxxblas::CBLAS::getCblasType(upLo),
                *N,
                *ALPHA,
                X, *INCX,
                AP);
-               
+
 #   else
-               
+
         using std::abs;
         using std::max;
 

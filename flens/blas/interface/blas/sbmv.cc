@@ -19,11 +19,11 @@ BLAS(ssbmv)(const char      *UPLO,
             const INTEGER   *INCY)
 {
 #   ifdef TEST_DIRECT_CBLAS
-        
+
         char    _UPLO   = toupper(*UPLO);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        
+
         cblas_ssbmv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     *N, *K,
@@ -32,9 +32,9 @@ BLAS(ssbmv)(const char      *UPLO,
                     X, *INCX,
                     *BETA,
                     Y, *INCY);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -65,7 +65,8 @@ BLAS(ssbmv)(const char      *UPLO,
         INTEGER      KL   = (upLo==Lower) ? *K : 0;
         INTEGER      KU   = (upLo==Upper) ? *K : 0;
 
-        SSbMatrixConstView    A(SBandConstView(*N, *N, KL, KU,  _A, *LDA), upLo);
+        SSbMatrixConstView    A(SBandConstView(*N, *N, KL, KU,  _A, *LDA),
+                                upLo);
         SDenseVectorConstView x(SConstArrayView(*N, X, abs(*INCX)), *INCX<0);
         SDenseVectorView      y(SArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
@@ -93,13 +94,13 @@ BLAS(dsbmv)(const char      *UPLO,
             double          *Y,
             const INTEGER   *INCY)
 {
-    
+
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _UPLO   = toupper(*UPLO);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        
+
         cblas_dsbmv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     *N, *K,
@@ -108,9 +109,9 @@ BLAS(dsbmv)(const char      *UPLO,
                     X, *INCX,
                     *BETA,
                     Y, *INCY);
-    
+
 #   else
-        
+
         using std::abs;
         using std::max;
 
@@ -136,12 +137,13 @@ BLAS(dsbmv)(const char      *UPLO,
                 return;
             }
 #       endif
-    
+
         StorageUpLo  upLo = StorageUpLo(_UPLO);
         INTEGER      KL   = (upLo==Lower) ? *K : 0;
         INTEGER      KU   = (upLo==Upper) ? *K : 0;
 
-        DSbMatrixConstView    A(DBandConstView(*N, *N, KL, KU,  _A, *LDA), upLo);
+        DSbMatrixConstView    A(DBandConstView(*N, *N, KL, KU,  _A, *LDA),
+                                upLo);
         DDenseVectorConstView x(DConstArrayView(*N, X, abs(*INCX)), *INCX<0);
         DDenseVectorView      y(DArrayView(*N, Y, abs(*INCY)), *INCY<0);
 

@@ -57,16 +57,13 @@ sycrsmm(StorageUpLo      upLo,
         IndexType        ldC)
 {
     CXXBLAS_DEBUG_OUT("sycrsmm_generic");
-    
+
         for (IndexType i=0; i<n; ++i) {
          sycrsmv(upLo, m, alpha, A, ia, ja, B+i*ldB, beta, C+i*ldC);
     }
-    
-    return;
-  
 }
 
-#ifdef HAVE_SPARSEBLAS   
+#ifdef HAVE_SPARSEBLAS
 
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
@@ -84,31 +81,31 @@ sycrsmm(StorageUpLo      upLo,
         IndexType        ldC)
 {
     CXXBLAS_DEBUG_OUT("sycrsmm -> [" BLAS_IMPL "] scsrmm");
-    
+
     char matdescra[5] = { "S*N*" };
     matdescra[1] = getF77BlasChar(upLo);
     matdescra[3] = getIndexBaseChar(ia[0]);
-    
+
     if (matdescra[3]=='E') {
-         sycrsmm<IndexType, float, float, 
-                            float, float, 
+         sycrsmm<IndexType, float, float,
+                            float, float,
                             float>
-                            (upLo, m, n, alpha, A, ia, ja, B, ldB, beta, C, ldC);
+                            (upLo, m, n, alpha, A, ia, ja, B, ldB, beta,
+                             C, ldC);
          return;
     }
-      
-    char transA = 'N';    
+
+    char transA = 'N';
 
     mkl_scsrmm(&transA,
-               &m, &n, &m,               
+               &m, &n, &m,
                &alpha, &matdescra[0],
                A, ia, ja, ja+1,
                B,
                &ldB
-               &beta, 
+               &beta,
                C,
                &ldC);
-    
 }
 
 template <typename IndexType>
@@ -127,30 +124,30 @@ sycrsmm(StorageUpLo      upLo,
         IndexType        ldC)
 {
     CXXBLAS_DEBUG_OUT("sycrsmm -> [" BLAS_IMPL "] dcsrmm");
-    
+
     char matdescra[5] = { "S*N*" };
     matdescra[1] = getF77BlasChar(upLo);
     matdescra[3] = getIndexBaseChar(ia[0]);
-    
+
     if (matdescra[3]=='E') {
-         sycrsmm<IndexType, double, double, 
-                            double, double, 
+         sycrsmm<IndexType, double, double,
+                            double, double,
                             double>
-                            (upLo, m, n, alpha, A, ia, ja, B, ldB, beta, C, ldC);
+                            (upLo, m, n, alpha, A, ia, ja, B, ldB, beta,
+                             C, ldC);
          return;
     }
-    char transA = 'N';    
-    
+    char transA = 'N';
+
     mkl_dcsrmm(&transA,
-               &m, &n, &m,               
+               &m, &n, &m,
                &alpha, &matdescra[0],
                A, ia, ja, ja+1,
                B,
                &ldB
-               &beta, 
+               &beta,
                C,
                &ldC);
-    
 }
 
 template <typename IndexType>
@@ -169,31 +166,31 @@ sycrsmm(StorageUpLo             upLo,
         IndexType               ldC)
 {
     CXXBLAS_DEBUG_OUT("sycrsmm -> [" BLAS_IMPL "] ccsrmm");
-    
+
     char matdescra[5] = { "S*N*" };
     matdescra[1] = getF77BlasChar(upLo);
     matdescra[3] = getIndexBaseChar(ia[0]);
-    
+
     if (matdescra[3]=='E') {
-         sycrsmm<IndexType, ComplexFloat, ComplexFloat, 
-                            ComplexFloat, ComplexFloat, 
+         sycrsmm<IndexType, ComplexFloat, ComplexFloat,
+                            ComplexFloat, ComplexFloat,
                             ComplexFloat>
-                            (upLo, m, n, alpha, A, ia, ja, B, ldB, beta, C, ldC);
+                            (upLo, m, n, alpha, A, ia, ja, B, ldB, beta,
+                             C, ldC);
          return;
     }
-      
-    char transA = 'N';    
+
+    char transA = 'N';
 
     mkl_ccsrmm(&transA,
-               &m, &n, &m,               
+               &m, &n, &m,
                reinterpret_cast<const float*>(&alpha), &matdescra[0],
                reinterpret_cast<const float*>(A), ia, ja, ja+1,
                reinterpret_cast<const float*>(B),
                &ldB,
-               reinterpret_cast<const float*>(&beta), 
+               reinterpret_cast<const float*>(&beta),
                reinterpret_cast<float*>(C),
                &ldC);
-    
 }
 
 template <typename IndexType>
@@ -212,20 +209,21 @@ sycrsmm(StorageUpLo             upLo,
         IndexType               ldC)
 {
     CXXBLAS_DEBUG_OUT("sycrsmm -> [" BLAS_IMPL "] zcsrmm");
-    
+
     char matdescra[5] = { "S*N*" };
     matdescra[1] = getF77BlasChar(upLo);
     matdescra[3] = getIndexBaseChar(ia[0]);
-    
+
     if (matdescra[3]=='E') {
-         sycrsmm<IndexType, ComplexDouble, ComplexDouble, 
-                            ComplexDouble, ComplexDouble, 
+         sycrsmm<IndexType, ComplexDouble, ComplexDouble,
+                            ComplexDouble, ComplexDouble,
                             ComplexDouble>
-                            (upLo, m, n, alpha, A, ia, ja, B, ldB, beta, C, ldC);
+                            (upLo, m, n, alpha, A, ia, ja, B, ldB, beta,
+                             C, ldC);
          return;
     }
-    char transA = 'N';    
-    
+    char transA = 'N';
+
     mkl_zcsrmm(&transA,
                &m, &n, &m,
                reinterpret_cast<const double*>(&alpha), &matdescra[0],
@@ -235,7 +233,6 @@ sycrsmm(StorageUpLo             upLo,
                reinterpret_cast<const double*>(&beta),
                reinterpret_cast<double*>(C),
                &ldC);
-    
 }
 
 

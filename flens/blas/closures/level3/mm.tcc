@@ -68,8 +68,9 @@ typename RestrictTo<IsTriangularMatrix<MA>::value &&
                     IsGeneralMatrix<MB>::value &&
                     IsGeneralMatrix<MC>::value,
          void>::Type
-trmm(Side side, Transpose transA, Transpose DEBUG_VAR(transB), const ALPHA &alpha,
-     const MA &_A, const MB &_B, const BETA &DEBUG_VAR(beta), MC &C)
+trmm(Side side, Transpose transA, Transpose DEBUG_VAR(transB),
+     const ALPHA &alpha, const MA &_A, const MB &_B,
+     const BETA &DEBUG_VAR(beta), MC &C)
 {
     using namespace DEBUGCLOSURE;
 

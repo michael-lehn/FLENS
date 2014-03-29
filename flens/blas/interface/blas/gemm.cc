@@ -20,22 +20,22 @@ BLAS(sgemm)(const char      *TRANSA,
             float           *_C,
             const INTEGER   *LDC)
 {
-    
+
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         const char         _TRANSA = toupper(*TRANSA);
         const char         _TRANSB = toupper(*TRANSB);
         const Transpose    transA  = convertTo<Transpose>(_TRANSA);
         const Transpose    transB  = convertTo<Transpose>(_TRANSB);
-    
+
         cblas_sgemm(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(transA),
                     cxxblas::CBLAS::getCblasType(transB),
                     *M, *N, *K, *ALPHA,
                     _A, *LDA, _B, *LDB, *BETA, _C, *LDC);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -43,7 +43,7 @@ BLAS(sgemm)(const char      *TRANSA,
         char    _TRANSB = toupper(*TRANSB);
         INTEGER nRowA   = (_TRANSA=='N') ? *M : *K;
         INTEGER nRowB   = (_TRANSB=='N') ? *K : *N;
-    
+
 #       ifndef NO_INPUT_CHECK
             INTEGER info = 0;
             if (_TRANSA!='N' && _TRANSA!='C' && _TRANSA!='T') {
@@ -67,8 +67,8 @@ BLAS(sgemm)(const char      *TRANSA,
                 BLAS(xerbla)("SGEMM ", &info);
                 return;
             }
-#       endif  
-    
+#       endif
+
         Transpose  transA = convertTo<Transpose>(_TRANSA);
         Transpose  transB = convertTo<Transpose>(_TRANSB);
 
@@ -133,28 +133,28 @@ BLAS(dgemm)(const char      *TRANSA,
             const INTEGER   *LDC)
 {
 #   ifdef TEST_DIRECT_CBLAS
-        
+
         const char         _TRANSA = toupper(*TRANSA);
         const char         _TRANSB = toupper(*TRANSB);
         const Transpose    transA  = convertTo<Transpose>(_TRANSA);
         const Transpose    transB  = convertTo<Transpose>(_TRANSB);
-    
+
         cblas_dgemm(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(transA),
                     cxxblas::CBLAS::getCblasType(transB), *M, *N, *K, *ALPHA,
                     _A, *LDA, _B, *LDB, *BETA, _C, *LDC);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
-        
+
         char    _TRANSA = toupper(*TRANSA);
         char    _TRANSB = toupper(*TRANSB);
         INTEGER nRowA   = (_TRANSA=='N') ? *M : *K;
         INTEGER nRowB   = (_TRANSB=='N') ? *K : *N;
-    
+
 #       ifndef NO_INPUT_CHECK
             INTEGER info    = 0;
             if (_TRANSA!='N' && _TRANSA!='C' && _TRANSA!='T') {
@@ -244,12 +244,12 @@ BLAS(cgemm)(const char      *TRANSA,
             const INTEGER   *LDC)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         const char         _TRANSA = toupper(*TRANSA);
         const char         _TRANSB = toupper(*TRANSB);
         const Transpose    transA  = convertTo<Transpose>(_TRANSA);
         const Transpose    transB  = convertTo<Transpose>(_TRANSB);
-    
+
         cblas_cgemm(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(transA),
                     cxxblas::CBLAS::getCblasType(transB),
@@ -259,9 +259,9 @@ BLAS(cgemm)(const char      *TRANSA,
                     reinterpret_cast<const float *>(_B), *LDB,
                     reinterpret_cast<const float *>(BETA),
                     reinterpret_cast<float *>(_C), *LDC);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -269,7 +269,7 @@ BLAS(cgemm)(const char      *TRANSA,
         char    _TRANSB = toupper(*TRANSB);
         INTEGER nRowA   = (_TRANSA=='N') ? *M : *K;
         INTEGER nRowB   = (_TRANSB=='N') ? *K : *N;
-    
+
 #       ifndef NO_INPUT_CHECK
             INTEGER info    = 0;
             if (_TRANSA!='N' && _TRANSA!='C' && _TRANSA!='T') {
@@ -294,7 +294,7 @@ BLAS(cgemm)(const char      *TRANSA,
                 return;
             }
 #       endif
-    
+
         Transpose  transA = convertTo<Transpose>(_TRANSA);
         Transpose  transB = convertTo<Transpose>(_TRANSB);
 
@@ -359,12 +359,12 @@ BLAS(zgemm)(const char      *TRANSA,
             const INTEGER   *LDC)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         const char         _TRANSA = toupper(*TRANSA);
         const char         _TRANSB = toupper(*TRANSB);
         const Transpose    transA  = convertTo<Transpose>(_TRANSA);
         const Transpose    transB  = convertTo<Transpose>(_TRANSB);
-    
+
         cblas_zgemm(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(transA),
                     cxxblas::CBLAS::getCblasType(transB),
@@ -374,9 +374,9 @@ BLAS(zgemm)(const char      *TRANSA,
                     reinterpret_cast<const double *>(_B), *LDB,
                     reinterpret_cast<const double *>(BETA),
                     reinterpret_cast<double *>(_C), *LDC);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 

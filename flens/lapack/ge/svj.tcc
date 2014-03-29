@@ -1143,7 +1143,9 @@ svj_impl(SVJ::TypeA                typeA,
     }
 //
 //  Undo scaling, if necessary (and possible).
-    if (((skl>One) && (sva(1)<big/skl)) || ((skl<One) && (sva(n2)>safeMin/skl))) {
+    if (((skl>One) && (sva(1)<big/skl))
+     || ((skl<One) && (sva(n2)>safeMin/skl)))
+    {
         sva *= skl;
         skl = One;
     }

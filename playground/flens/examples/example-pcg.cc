@@ -40,20 +40,20 @@ main()
 
     ///
     /// Setting up the Jacobi preconditioner
-    ///  
+    ///
     for (IndexType i=1; i<=n; ++i) {
-        P(i,i) = T(1)/A(i,i); 
+        P(i,i) = T(1)/A(i,i);
     }
 
     cerr << "A.upper().symmetric() = " << A.upper().symmetric() << endl;
     cerr << "b = " << b << endl;
-    
+
     ///
     /// solve A*x = b using preconditioned conjugated gradients
     ///
     solver::pcg(P, A.upper().symmetric(), x, b);
     cout << "x = " << x << endl;
-    
+
     ///
     /// Test the result
     ///

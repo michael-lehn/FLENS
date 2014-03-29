@@ -38,7 +38,7 @@
 
 namespace cxxblas {
 
-template <typename IndexType, typename ALPHA, typename MA, 
+template <typename IndexType, typename ALPHA, typename MA,
           typename BETA, typename MB>
 void
 geaxpby(StorageOrder order,
@@ -57,7 +57,8 @@ geaxpby(StorageOrder order,
             return;
         } else {
             for (IndexType i=0; i<m; ++i) {
-                axpby(n, alpha, A+i*ldA, IndexType(1), beta, B+i*ldB, IndexType(1));
+                axpby(n, alpha, A+i*ldA, IndexType(1), beta,
+                      B+i*ldB, IndexType(1));
             }
             return;
         }
@@ -68,7 +69,8 @@ geaxpby(StorageOrder order,
             return;
         } else {
             for (IndexType i=0; i<m; ++i) {
-                acxpby(n, alpha, A+i*ldA, IndexType(1), beta, B+i*ldB, IndexType(1));
+                acxpby(n, alpha, A+i*ldA, IndexType(1), beta,
+                       B+i*ldB, IndexType(1));
             }
             return;
         }

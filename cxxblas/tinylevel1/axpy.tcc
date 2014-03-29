@@ -42,7 +42,7 @@ void
 axpy(const ALPHA &alpha, const X *x, Y *y)
 {
     CXXBLAS_DEBUG_OUT("axpy [tiny]");
-    
+
     for (int i=0, iX=0, iY=0; i<n; ++i, iX+=incX, iY+=incY) {
         y[iY] += alpha*x[iX];
     }

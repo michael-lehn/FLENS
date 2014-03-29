@@ -60,11 +60,11 @@ template <typename MA, typename VP>
 typename GbMatrix<MA>::IndexType
 tf2_impl(GbMatrix<MA> &A, DenseVector<VP> &piv)
 {
-	using std::min;
-	using std::max;
+    using std::min;
+    using std::max;
 
-	typedef typename GbMatrix<MA>::GeView          GeMatrixView;
-	typedef typename GbMatrix<MA>::FullStorageView FullStorageView;
+    typedef typename GbMatrix<MA>::GeView          GeMatrixView;
+    typedef typename GbMatrix<MA>::FullStorageView FullStorageView;
     typedef typename GbMatrix<MA>::IndexType       IndexType;
     typedef typename GbMatrix<MA>::ElementType     ElementType;
 
@@ -87,60 +87,62 @@ tf2_impl(GbMatrix<MA> &A, DenseVector<VP> &piv)
 //
 //  Set fill-in elements in columns ku+2 to kv to zero.
 //
-	for( IndexType j = ku + 2; j<=min( kv, n ); ++j) {
-		AB(_( kv - j + 2, kl), j) = zero;
-	}
+    for( IndexType j = ku + 2; j<=min( kv, n ); ++j) {
+        AB(_( kv - j + 2, kl), j) = zero;
+    }
 //
 //  ju is the index of the last column affected by the current stage
 //  of the factorization.
 //
-	IndexType ju = 1;
+    IndexType ju = 1;
 
-	for (IndexType j = 1; j<= min( m, n ); ++j) {
+    for (IndexType j = 1; j<= min( m, n ); ++j) {
 //
 //      Set fill-in elements in column j+kv to zero.
 //
-		if( j+kv<=n ) {;
-			AB(_(1,kl),j+kv) = zero;
-		}
+        if( j+kv<=n ) {;
+            AB(_(1,kl),j+kv) = zero;
+        }
 //
 //        Find pivot and test for singularity. km is the number of
 //        subdiagonal elements in the current column.
 //
-		IndexType km = min( kl, m-j );
-		IndexType jp = blas::iamax(AB( _(kv+1,kv+km+1), j ));
-		piv( j ) = jp + j - 1;
-		if( AB( kv+jp, j ) != zero ) {
-			ju = max( ju, min( j+ku+jp-1, n ) );
+        IndexType km = min( kl, m-j );
+        IndexType jp = blas::iamax(AB( _(kv+1,kv+km+1), j ));
+        piv( j ) = jp + j - 1;
+        if( AB( kv+jp, j ) != zero ) {
+            ju = max( ju, min( j+ku+jp-1, n ) );
 //
 //          Apply interchange to columns j to ju.
 //
-			if( jp!=1 ) {
-				blas::swap(A(jp+j-1,_(j,ju)), A(j,_(j,ju)));
-			}
+            if( jp!=1 ) {
+                blas::swap(A(jp+j-1,_(j,ju)), A(j,_(j,ju)));
+            }
 
-			if( km>0 ) {
+            if( km>0 ) {
 //
 //              Compute multipliers.
 //
-				blas::scal(one / AB( kv+1, j ), AB(_(kv+2, kv+km+1), j ));
+                blas::scal(one / AB( kv+1, j ), AB(_(kv+2, kv+km+1), j ));
 //
 //              Update trailing submatrix within the band.
 //
-				if( ju>j ) {
-					GeMatrixView  AB_tmp = FullStorageView( km, ju-j, &AB( kv+1, j+1 ), ldAB-1);
-					blas::r(-one, AB(_(kv+2,kv+km+1),j), A(j,_(j+1,ju)), AB_tmp);
+                if( ju>j ) {
+                    GeMatrixView  ABtmp = FullStorageView(km, ju-j,
+                                                          &AB( kv+1, j+1 ),
+                                                          ldAB-1);
+                    blas::r(-one, AB(_(kv+2,kv+km+1),j), A(j,_(j+1,ju)), ABtmp);
 
-				}
-			}
-		} else {
+                }
+            }
+        } else {
 //
 //          If pivot is zero, return the index
 //
-			return j;
-		}
-	}
-	return 0;
+            return j;
+        }
+    }
+    return 0;
 }
 
 } // namespace generic
@@ -208,7 +210,7 @@ tf2(MA &&A, VPIV &&piv)
 #   ifdef CHECK_CXXLAPACK
 
     typedef typename RemoveRef<VPIV>::Type  VectorPiv;
-    
+
 //
 //  Make copies of output arguments
 //

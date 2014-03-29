@@ -181,7 +181,7 @@ unml2(Side side, Transpose trans, GeMatrix<MA> &A,
 #   ifndef NDEBUG
 
     typedef typename GeMatrix<MC>::IndexType    IndexType;
-    
+
     const IndexType m = C.numRows();
     const IndexType n = C.numCols();
     const IndexType k = A.numRows();

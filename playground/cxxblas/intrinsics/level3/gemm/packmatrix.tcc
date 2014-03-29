@@ -44,36 +44,37 @@ namespace cxxblas {
 
 template <typename IndexType, typename T>
 void
-PackMatrixColToColMajor( IndexType k, const T *A, IndexType ldA, T *A_to, IndexType ldaA_to )
+PackMatrixColToColMajor(IndexType k, const T *A, IndexType ldA,
+                        T *A_to, IndexType ldaA_to )
 {
 
     switch(ldaA_to){
-        case 2:      
+        case 2:
             for(IndexType j=0; j<k; j++){  /* loop over columns of A */
                 const T *a_ij_pntr = A+j*ldA;
-        
+
                 A_to[0] = a_ij_pntr[0];
                 A_to[1] = a_ij_pntr[1];
-                
+
                 A_to += 2;
             }
             break;
-        case 4:  
+        case 4:
             for(IndexType j=0; j<k; j++){  /* loop over columns of A */
                 const T *a_ij_pntr = A+j*ldA;
-        
+
                 A_to[0] = a_ij_pntr[0];
                 A_to[1] = a_ij_pntr[1];
                 A_to[2] = a_ij_pntr[2];
                 A_to[3] = a_ij_pntr[3];
-                
+
                 A_to += 4;
             }
             break;
-        case 8:  
+        case 8:
             for(IndexType j=0; j<k; j++){  /* loop over columns of A */
                 const T *a_ij_pntr = A+j*ldA;
-        
+
                 A_to[0] = a_ij_pntr[0];
                 A_to[1] = a_ij_pntr[1];
                 A_to[2] = a_ij_pntr[2];
@@ -82,14 +83,14 @@ PackMatrixColToColMajor( IndexType k, const T *A, IndexType ldA, T *A_to, IndexT
                 A_to[5] = a_ij_pntr[5];
                 A_to[6] = a_ij_pntr[6];
                 A_to[7] = a_ij_pntr[7];
-                
+
                 A_to += 8;
             }
             break;
         case 16:
             for(IndexType j=0; j<k; j++){  /* loop over columns of A */
                 const T *a_ij_pntr = A+j*ldA;
-        
+
                 A_to[0] = a_ij_pntr[0];
                 A_to[1] = a_ij_pntr[1];
                 A_to[2] = a_ij_pntr[2];
@@ -106,7 +107,7 @@ PackMatrixColToColMajor( IndexType k, const T *A, IndexType ldA, T *A_to, IndexT
                 A_to[13] = a_ij_pntr[13];
                 A_to[14] = a_ij_pntr[14];
                 A_to[15] = a_ij_pntr[15];
-                
+
                 A_to += 16;
             }
             break;
@@ -121,18 +122,19 @@ PackMatrixColToColMajor_4( IndexType k, const T *A, IndexType ldA, T *A_to )
 
     for(IndexType j=0; j<k; j++){  /* loop over columns of A */
         const T *a_ij_pntr = A+j*ldA;
-        
+
         *A_to++ = *(a_ij_pntr++);
         *A_to++ = *(a_ij_pntr++);
         *A_to++ = *(a_ij_pntr++);
         *A_to++ = *(a_ij_pntr++);
-        
+
     }
 }
 
 template <typename IndexType, typename T>
 void
-PackMatrixColToRowMajor( IndexType k, const T *B, IndexType ldB, T *b_to, IndexType ldB_to )
+PackMatrixColToRowMajor(IndexType k, const T *B, IndexType ldB,
+                        T *b_to, IndexType ldB_to )
 {
     const T * b_pntr[ldB_to];
 
@@ -167,36 +169,37 @@ PackMatrixColToRowMajor_4( IndexType k, const T *B, IndexType ldB, T *b_to )
 
 template <typename IndexType, typename T>
 void
-PackMatrixColToColMajor_conj( IndexType k, const T *A, IndexType ldA, T *A_to, IndexType ldA_to )
+PackMatrixColToColMajor_conj(IndexType k, const T *A, IndexType ldA,
+                             T *A_to, IndexType ldA_to )
 {
 
     switch(ldA_to){
-        case 2:      
+        case 2:
             for(IndexType j=0; j<k; j++){  /* loop over columns of A */
                 const T *a_ij_pntr = A+j*ldA;
-        
+
                 A_to[0] = conjugate(a_ij_pntr[0]);
                 A_to[1] = conjugate(a_ij_pntr[1]);
-                
+
                 A_to += 2;
             }
             break;
-        case 4:  
+        case 4:
             for(IndexType j=0; j<k; j++){  /* loop over columns of A */
                 const T *a_ij_pntr = A+j*ldA;
-        
+
                 A_to[0] = conjugate(a_ij_pntr[0]);
                 A_to[1] = conjugate(a_ij_pntr[1]);
                 A_to[2] = conjugate(a_ij_pntr[2]);
                 A_to[3] = conjugate(a_ij_pntr[3]);
-                
+
                 A_to += 4;
             }
             break;
-        case 8:  
+        case 8:
             for(IndexType j=0; j<k; j++){  /* loop over columns of A */
                 const T *a_ij_pntr = A+j*ldA;
-        
+
                 A_to[0] = conjugate(a_ij_pntr[0]);
                 A_to[1] = conjugate(a_ij_pntr[1]);
                 A_to[2] = conjugate(a_ij_pntr[2]);
@@ -205,14 +208,14 @@ PackMatrixColToColMajor_conj( IndexType k, const T *A, IndexType ldA, T *A_to, I
                 A_to[5] = conjugate(a_ij_pntr[5]);
                 A_to[6] = conjugate(a_ij_pntr[6]);
                 A_to[7] = conjugate(a_ij_pntr[7]);
-                
+
                 A_to += 8;
             }
             break;
         case 16:
             for(IndexType j=0; j<k; j++){  /* loop over columns of A */
                 const T *a_ij_pntr = A+j*ldA;
-        
+
                 A_to[0] = conjugate(a_ij_pntr[0]);
                 A_to[1] = conjugate(a_ij_pntr[1]);
                 A_to[2] = conjugate(a_ij_pntr[2]);
@@ -229,17 +232,17 @@ PackMatrixColToColMajor_conj( IndexType k, const T *A, IndexType ldA, T *A_to, I
                 A_to[13] = conjugate(a_ij_pntr[13]);
                 A_to[14] = conjugate(a_ij_pntr[14]);
                 A_to[15] = conjugate(a_ij_pntr[15]);
-                
+
                 A_to += 16;
             }
             break;
         default: ASSERT(0);
     }
-    
-    for(IndexType j=0; j<k; j++){  
+
+    for(IndexType j=0; j<k; j++){
         const T *a_ij_pntr = A+j*ldA;
         for (IndexType l=0; l<ldA_to; ++l) {
-        	*(A_to+l  ) = conjugate(*(a_ij_pntr+l  ));
+            *(A_to+l  ) = conjugate(*(a_ij_pntr+l  ));
         }
 
         A_to += ldA_to;
@@ -248,23 +251,24 @@ PackMatrixColToColMajor_conj( IndexType k, const T *A, IndexType ldA, T *A_to, I
 
 template <typename IndexType, typename T>
 void
-PackMatrixColToColMajor_4_conj( IndexType k, const T *A, IndexType ldA, T *A_to )
+PackMatrixColToColMajor_4_conj(IndexType k, const T *A, IndexType ldA, T *A_to )
 {
 
     for(IndexType j=0; j<k; j++){  /* loop over columns of A */
         const T *a_ij_pntr = A+j*ldA;
-        
+
         *A_to++ = conjugate(*(a_ij_pntr++));
         *A_to++ = conjugate(*(a_ij_pntr++));
         *A_to++ = conjugate(*(a_ij_pntr++));
         *A_to++ = conjugate(*(a_ij_pntr++));
-        
+
     }
 }
 
 template <typename IndexType, typename T>
 void
-PackMatrixColToRowMajor_conj( IndexType k, const T *B, IndexType ldB, T *b_to, IndexType ldB_to )
+PackMatrixColToRowMajor_conj(IndexType k, const T *B, IndexType ldB,
+                             T *b_to, IndexType ldB_to )
 {
 
     const T * b_pntr[ldB_to];
@@ -273,7 +277,7 @@ PackMatrixColToRowMajor_conj( IndexType k, const T *B, IndexType ldB, T *b_to, I
         b_pntr[i  ] = B+ i   *ldB;
     }
 
-    for(IndexType i=0; i<k; ++i){  
+    for(IndexType i=0; i<k; ++i){
         for (IndexType j=0; j<ldB_to; ++j) {
             *b_to++ = conjugate(*b_pntr[j  ]++);
         }
@@ -282,7 +286,7 @@ PackMatrixColToRowMajor_conj( IndexType k, const T *B, IndexType ldB, T *b_to, I
 
 template <typename IndexType, typename T>
 void
-PackMatrixColToRowMajor_4_conj( IndexType k, const T *B, IndexType ldB, T *b_to )
+PackMatrixColToRowMajor_4_conj(IndexType k, const T *B, IndexType ldB, T *b_to)
 {
     const T
     *b_i0_pntr = B,

@@ -11,27 +11,26 @@ BLAS(sscal)(const INTEGER   *N,
             float           *X,
             const INTEGER   *INCX)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         cblas_sscal(*N, *ALPHA, X, *INCX);
-    
+
 #   else
-    
+
         using std::abs;
 
         SDenseVectorView  x(SArrayView(*N, X, abs(*INCX)), *INCX<0);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
-        
+
             x *= (*ALPHA);
-    
+
 #       else
-    
+
             blas::scal(*ALPHA, x);
-    
+
 #       endif
-    
+
 #   endif
 }
 
@@ -42,23 +41,23 @@ BLAS(dscal)(const INTEGER   *N,
             const INTEGER   *INCX)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         cblas_dscal(*N, *ALPHA, X, *INCX);
-    
+
 #   else
-    
+
         using std::abs;
 
         DDenseVectorView  x(DArrayView(*N, X, abs(*INCX)), *INCX<0);
-    
+
 #       ifdef TEST_OVERLOADED_OPERATORS
-    
+
             x *= (*ALPHA);
-    
+
 #       else
-    
+
             blas::scal(*ALPHA, x);
-    
+
 #       endif
 #   endif
 }
@@ -70,26 +69,26 @@ BLAS(cscal)(const INTEGER   *N,
             const INTEGER   *INCX)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         cblas_cscal(*N,
                     reinterpret_cast<const float *>(ALPHA),
                     reinterpret_cast<float *>(X), *INCX);
-    
+
 #   else
         using std::abs;
-    
+
         CDenseVectorView  x(CArrayView(*N, X, abs(*INCX)), *INCX<0);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
-    
+
             x *= (*ALPHA);
-    
+
 #       else
-    
+
             blas::scal(*ALPHA, x);
-    
+
 #       endif
-    
+
 #   endif
 }
 
@@ -100,25 +99,25 @@ BLAS(csscal)(const INTEGER   *N,
              const INTEGER   *INCX)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
     cblas_csscal(*N,
                 *ALPHA,
                 reinterpret_cast<float *>(X), *INCX);
-    
+
 #   else
-    
+
         using std::abs;
 
         CDenseVectorView  x(CArrayView(*N, X, abs(*INCX)), *INCX<0);
-    
+
 #       ifdef TEST_OVERLOADED_OPERATORS
-    
+
             x *= (*ALPHA);
-    
+
 #       else
-    
+
             blas::scal(*ALPHA, x);
-    
+
 #       endif
 #   endif
 }
@@ -130,27 +129,27 @@ BLAS(zscal)(const INTEGER   *N,
             const INTEGER   *INCX)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
     cblas_zscal(*N,
                 reinterpret_cast<const double *>(ALPHA),
                 reinterpret_cast<double *>(X), *INCX);
-    
+
 #   else
-    
+
         using std::abs;
 
         ZDenseVectorView  x(ZArrayView(*N, X, abs(*INCX)), *INCX<0);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
-    
+
             x *= (*ALPHA);
-    
+
 #       else
-    
+
             blas::scal(*ALPHA, x);
-    
+
 #       endif
-    
+
 #   endif
 }
 
@@ -161,25 +160,25 @@ BLAS(zdscal)(const INTEGER   *N,
              const INTEGER   *INCX)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
     cblas_cscal(*N,
                 reinterpret_cast<const float *>(ALPHA),
                 reinterpret_cast<float *>(X), *INCX);
-    
+
 #   else
-    
+
         using std::abs;
 
         ZDenseVectorView  x(ZArrayView(*N, X, abs(*INCX)), *INCX<0);
 
 #       ifdef TEST_OVERLOADED_OPERATORS
-            
+
             x *= (*ALPHA);
-    
+
 #       else
-    
+
             blas::scal(*ALPHA, x);
-    
+
 #       endif
 #   endif
 }

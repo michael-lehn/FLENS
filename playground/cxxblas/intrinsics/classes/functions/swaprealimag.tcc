@@ -61,13 +61,13 @@ inline _intrinsic_swap_real_imag(const Intrinsics<std::complex<double>, Intrinsi
 Intrinsics<std::complex<float>, IntrinsicsLevel::AVX>
 inline _intrinsic_swap_real_imag(const Intrinsics<std::complex<float>, IntrinsicsLevel::AVX> &x)
 {
-	return Intrinsics<std::complex<float>, IntrinsicsLevel::AVX>(_mm256_permute_ps(x.get(),177));
+    return Intrinsics<std::complex<float>, IntrinsicsLevel::AVX>(_mm256_permute_ps(x.get(),177));
 }
 
 Intrinsics<std::complex<double>, IntrinsicsLevel::AVX>
 inline _intrinsic_swap_real_imag(const Intrinsics<std::complex<double>, IntrinsicsLevel::AVX> &x)
 {
-	return Intrinsics<std::complex<double>, IntrinsicsLevel::AVX>(_mm256_permute_pd(x.get(),5));
+    return Intrinsics<std::complex<double>, IntrinsicsLevel::AVX>(_mm256_permute_pd(x.get(),5));
 }
 
 #endif // HAVE_AVX

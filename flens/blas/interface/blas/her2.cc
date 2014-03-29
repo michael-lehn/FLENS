@@ -17,11 +17,11 @@ BLAS(cher2)(const char      *UPLO,
             const INTEGER   *LDA)
 {
 #   ifdef TEST_DIRECT_CBLAS
-        
+
         char    _UPLO   = toupper(*UPLO);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        
+
         cblas_cher2(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     *N,
@@ -29,14 +29,14 @@ BLAS(cher2)(const char      *UPLO,
                     reinterpret_cast<const float *>(X), *INCX,
                     reinterpret_cast<const float *>(Y), *INCY,
                     reinterpret_cast<float *>(_A), *LDA);
-    
+
 #   else
-        
+
         using std::abs;
         using std::max;
-    
+
         char _UPLO = toupper(*UPLO);
-    
+
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
 
@@ -85,13 +85,12 @@ BLAS(zher2)(const char      *UPLO,
             cdouble         *_A,
             const INTEGER   *LDA)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _UPLO   = toupper(*UPLO);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        
+
         cblas_zher2(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     *N,
@@ -99,9 +98,9 @@ BLAS(zher2)(const char      *UPLO,
                     reinterpret_cast<const double *>(X), *INCX,
                     reinterpret_cast<const double *>(Y), *INCY,
                     reinterpret_cast<double *>(_A), *LDA);
-    
+
 #   else
-        
+
         using std::abs;
         using std::max;
 
@@ -126,7 +125,7 @@ BLAS(zher2)(const char      *UPLO,
                 return;
             }
 #       endif
-    
+
         StorageUpLo  upLo = StorageUpLo(_UPLO);
 
         ZDenseVectorConstView x(ZConstArrayView(*N, X, abs(*INCX)), *INCX<0);

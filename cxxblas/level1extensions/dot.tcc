@@ -47,7 +47,7 @@ dotu(IndexType n,
      const std::complex<float> *y, IndexType incY,
      std::complex<float> &result)
 {
-    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_cdotu [extension] [real, complex]");
+    CXXBLAS_DEBUG_OUT("[" BLAS_IMPL "] cblas_cdotu [extension] [real,complex]");
 
     float real_result, imag_result;
     const float *yr = reinterpret_cast<const float *>(y);

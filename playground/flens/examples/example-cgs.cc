@@ -38,13 +38,13 @@ main()
 
     cerr << "A = " << A << endl;
     cerr << "b = " << b << endl;
-    
+
     ///
     /// solve A*x = b using conjugated gradients squared
     ///
     solver::cgs(A, x, b);
     cout << "x = " << x << endl;
-    
+
     ///
     /// Test the result
     ///

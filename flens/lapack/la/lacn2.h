@@ -33,7 +33,7 @@
 /* Based on
  *
       SUBROUTINE DLACN2( N, V, X, ISGN, EST, KASE, ISAVE )
-      SUBROUTINE ZLACN2( N, V, X, EST, KASE, ISAVE )      
+      SUBROUTINE ZLACN2( N, V, X, EST, KASE, ISAVE )
  *
  *  -- LAPACK auxiliary routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -58,12 +58,12 @@ template <typename  VV, typename VX, typename VSGN, typename EST,
     void
     lacn2(DenseVector<VV> &v, DenseVector<VX> &x, DenseVector<VSGN> &sgn,
           EST &est, KASE &kase, DenseVector<VSAVE> &iSave);
-    
+
 //== lacn2 [complex] ==========================================================
 template <typename  VV, typename VX, typename EST,
           typename KASE, typename VSAVE>
     void
-    lacn2(DenseVector<VV> &v, DenseVector<VX> &x, 
+    lacn2(DenseVector<VV> &v, DenseVector<VX> &x,
           EST &est, KASE &kase, DenseVector<VSAVE> &iSave);
 
 //-- forwarding [real] --------------------------------------------------------

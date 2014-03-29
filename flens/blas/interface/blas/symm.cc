@@ -20,29 +20,29 @@ BLAS(ssymm)(const char      *SIDE,
             const INTEGER   *LDC)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _SIDE   = toupper(*SIDE);
         char    _UPLO   = toupper(*UPLO);
-        
+
         Side           side   = Side(_SIDE);
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        
+
         cblas_ssymm(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(side),
                     cxxblas::CBLAS::getCblasType(upLo),
                     *M, *N, *ALPHA,
                     _A, *LDA, _B, *LDB,
                     *BETA, _C, *LDC);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
         char    _SIDE = toupper(*SIDE);
         char    _UPLO = toupper(*UPLO);
         INTEGER nRowA = (_SIDE=='L') ? *M : *N;
-    
+
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
             if (_SIDE!='L' && _SIDE!='R') {
@@ -103,24 +103,23 @@ BLAS(dsymm)(const char      *SIDE,
             double          *_C,
             const INTEGER   *LDC)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-        
+
         char    _SIDE   = toupper(*SIDE);
         char    _UPLO   = toupper(*UPLO);
-        
+
         Side           side   = Side(_SIDE);
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        
+
         cblas_dsymm(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(side),
                     cxxblas::CBLAS::getCblasType(upLo),
                     *M, *N, *ALPHA,
                     _A, *LDA, _B, *LDB,
                     *BETA, _C, *LDC);
-        
+
 #   else
-        
+
         using std::abs;
         using std::max;
 
@@ -189,13 +188,13 @@ BLAS(csymm)(const char      *SIDE,
             const INTEGER   *LDC)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _SIDE   = toupper(*SIDE);
         char    _UPLO   = toupper(*UPLO);
-        
+
         Side           side   = Side(_SIDE);
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        
+
         cblas_csymm(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(side),
                     cxxblas::CBLAS::getCblasType(upLo),
@@ -205,9 +204,9 @@ BLAS(csymm)(const char      *SIDE,
                     reinterpret_cast<const float *>(_B), *LDB,
                     reinterpret_cast<const float *>(BETA),
                     reinterpret_cast<float *>(_C), *LDC);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -277,13 +276,13 @@ BLAS(zsymm)(const char      *SIDE,
             const INTEGER   *LDC)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
     char    _SIDE   = toupper(*SIDE);
     char    _UPLO   = toupper(*UPLO);
-    
+
     Side           side   = Side(_SIDE);
     StorageUpLo    upLo   = StorageUpLo(_UPLO);
-    
+
     cblas_zsymm(CBLAS_ORDER::CblasColMajor,
                 cxxblas::CBLAS::getCblasType(side),
                 cxxblas::CBLAS::getCblasType(upLo),
@@ -293,7 +292,7 @@ BLAS(zsymm)(const char      *SIDE,
                 reinterpret_cast<const double *>(_B), *LDB,
                 reinterpret_cast<const double *>(BETA),
                 reinterpret_cast<double *>(_C), *LDC);
-    
+
 #   else
         using std::abs;
         using std::max;
@@ -324,7 +323,7 @@ BLAS(zsymm)(const char      *SIDE,
                 return;
             }
 #       endif
-    
+
         Side           side = Side(_SIDE);
         StorageUpLo    upLo = StorageUpLo(_UPLO);
         const INTEGER  ka   = side==Left ? *M : *N;

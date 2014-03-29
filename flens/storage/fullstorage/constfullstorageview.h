@@ -146,7 +146,7 @@ class ConstFullStorageView
         const ConstArrayView
         arrayView(IndexType firstViewIndex = I::defaultIndexBase) const;
 
-        // view of rectangular part    
+        // view of rectangular part
         const ConstView
         view(IndexType fromRow, IndexType fromCol,
              IndexType toRow, IndexType toCol,

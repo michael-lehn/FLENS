@@ -42,7 +42,7 @@ namespace flens { namespace blas {
 
 //== GeneralMatrix - GeneralMatrix products ====================================
 
-    
+
 //-- diagmm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
     typename RestrictTo<IsDiagMatrix<MA>::value
@@ -56,7 +56,7 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
        const MB         &B,
        const BETA       &beta,
        MC               &&C);
-    
+
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
     typename RestrictTo<IsGeMatrix<MA>::value
                      && IsDiagMatrix<MB>::value
@@ -69,7 +69,7 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
        const MB         &B,
        const BETA       &beta,
        MC               &&C);
-    
+
 //-- gbmm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
     typename RestrictTo<IsGbMatrix<MA>::value
@@ -126,7 +126,7 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
        const MB         &B,
        const BETA       &beta,
        MC               &&C);
-    
+
 //-- gemm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
     typename RestrictTo<IsGeMatrix<MA>::value
@@ -181,8 +181,8 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
        const MB         &B,
        const BETA       &beta,
        MC               &&C);
-    
-    
+
+
 //-- hecrsmm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
     typename RestrictTo<IsHeCRSMatrix<MA>::value
@@ -224,7 +224,7 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
        const BETA       &beta,
        MC               &&C);
 
-    
+
 //-- syccsmm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
     typename RestrictTo<IsSyCCSMatrix<MA>::value
@@ -237,8 +237,8 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
        const MB         &B,
        const BETA       &beta,
        MC               &&C);
-    
-    
+
+
 //-- sycrsmm
 template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
     typename RestrictTo<IsSyCRSMatrix<MA>::value
@@ -251,7 +251,7 @@ template <typename ALPHA, typename MA, typename MB, typename BETA, typename MC>
        const MB         &B,
        const BETA       &beta,
        MC               &&C);
-    
+
 //== TriangularMatrix - GeneralMatrix products =================================
 
 //-- tbmm

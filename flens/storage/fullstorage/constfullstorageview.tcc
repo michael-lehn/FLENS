@@ -253,7 +253,8 @@ template <typename T, StorageOrder Order, typename I, typename A>
 const typename ConstFullStorageView<T, Order, I, A>::ConstView
 ConstFullStorageView<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
                                            IndexType toRow, IndexType toCol,
-                                           IndexType strideRow, IndexType strideCol,
+                                           IndexType strideRow,
+                                           IndexType strideCol,
                                            IndexType firstViewRow,
                                            IndexType firstViewCol) const
 {
@@ -266,7 +267,7 @@ ConstFullStorageView<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
         return ConstView(numRows, numCols, 0, leadingDimension(),
                          firstViewRow, firstViewCol, allocator());
     }
-    
+
 #   endif
 
     ASSERT(fromRow>=firstRow());
@@ -276,17 +277,17 @@ ConstFullStorageView<T, Order, I, A>::view(IndexType fromRow, IndexType fromCol,
     ASSERT(fromCol>=firstCol());
     ASSERT(fromCol<=toCol);
     ASSERT(toCol<=lastCol());
-    
+
     ASSERT(order==ColMajor || strideCol==IndexType(1) );
     ASSERT(order==RowMajor || strideRow==IndexType(1) );
-    
-    return ConstView(numRows,                                 // # rows
-                     numCols,                                 // # cols
-                     &(operator()(fromRow, fromCol)),         // data
-                     leadingDimension()*strideRow*strideCol,  // leading dimension
-                     firstViewRow,                            // firstRow
-                     firstViewCol,                            // firstCol
-                     allocator());                            // allocator
+
+    return ConstView(numRows,                               // # rows
+                     numCols,                               // # cols
+                     &(operator()(fromRow, fromCol)),       // data
+                     leadingDimension()*strideRow*strideCol,// leading dimension
+                     firstViewRow,                          // firstRow
+                     firstViewCol,                          // firstCol
+                     allocator());                          // allocator
 }
 
 // view of single row
@@ -414,7 +415,8 @@ ConstFullStorageView<T, Order, I, A>::viewDiag(IndexType d,
 template <typename T, StorageOrder Order, typename I, typename A>
 const typename ConstFullStorageView<T, Order, I, A>::ConstArrayView
 ConstFullStorageView<T, Order, I, A>::viewAntiDiag(IndexType d,
-                                                   IndexType firstViewIndex) const
+                                                   IndexType firstViewIndex
+                                                   ) const
 {
     IndexType _row = (d>0) ? 0 : -d;
     IndexType _col = (d>0) ? d :  0;

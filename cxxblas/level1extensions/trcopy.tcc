@@ -111,22 +111,30 @@ trcopy(StorageOrder order, StorageUpLo upLo, Transpose trans, Diag diag,
             ASSERT(0);
         }
     } else { // diag==Unit
-        
-        if (upLo==Upper) { 
+
+        if (upLo==Upper) {
             if (trans==NoTrans || trans==Conj) {
-                trcopy(order, upLo, trans, NonUnit, m-1, n-1, A+ldA, ldA, B+ldB, ldB);
+                trcopy(order, upLo, trans, NonUnit,
+                       m-1, n-1,
+                       A+ldA, ldA, B+ldB, ldB);
             } else {
-                trcopy(order, upLo, trans, NonUnit, m-1, n-1, A+1, ldA, B+ldB, ldB);
+                trcopy(order, upLo, trans, NonUnit,
+                       m-1, n-1,
+                       A+1, ldA, B+ldB, ldB);
             }
         } else {
             if (trans==NoTrans || trans==Conj) {
-                trcopy(order, upLo, trans, NonUnit, m-1, n-1, A+1, ldA, B+1, ldB);
+                trcopy(order, upLo, trans, NonUnit,
+                       m-1, n-1,
+                       A+1, ldA, B+1, ldB);
             } else {
-                trcopy(order, upLo, trans, NonUnit, m-1, n-1, A+ldA, ldA, B+1, ldB);
+                trcopy(order, upLo, trans, NonUnit,
+                       m-1, n-1,
+                       A+ldA, ldA, B+1, ldB);
             }
         }
         return;
-        
+
     }
 }
 

@@ -82,7 +82,7 @@ operator<<(std::ostream &out, const DiagMatrix<MA> &A)
 {
     typedef typename DiagMatrix<MA>::IndexType IndexType;
     typedef typename DiagMatrix<MA>::ElementType ElementType;
-    
+
     const auto x = A.diag();
 
 #   ifdef FLENS_IO_WITH_RANGES

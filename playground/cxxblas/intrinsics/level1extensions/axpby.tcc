@@ -44,7 +44,7 @@ namespace cxxblas {
 
 template <typename IndexType, typename T>
 typename flens::RestrictTo<flens::IsReal<T>::value &&
-                           flens::IsIntrinsicsCompatible<T>::value, 
+                           flens::IsIntrinsicsCompatible<T>::value,
                            void>::Type
 axpby(IndexType n, const T &alpha, const T *x,
       IndexType incX, const T &beta, T *y, IndexType incY)
@@ -62,14 +62,14 @@ axpby(IndexType n, const T &alpha, const T *x,
         return;
     }
     if (beta==T(1)) {
-        cxxblas::axpy(n, alpha, x, incX, y, incY); 
-	return;
+        cxxblas::axpy(n, alpha, x, incX, y, incY);
+    return;
     }
     if (alpha==T(1) && beta==T(0)) {
         cxxblas::copy(n, x, incX, y, incY);
-	return;
+    return;
     }
-    
+
     if (incX==1 && incY==1) {
         typedef Intrinsics<T, DEFAULT_INTRINSIC_LEVEL> IntrinsicType;
         const int numElements = IntrinsicType::numElements;
@@ -96,7 +96,8 @@ axpby(IndexType n, const T &alpha, const T *x,
             for (; i+numElements-1<n; i+=numElements) {
                 _x.loadu(x+i);
                 _y.loadu(y+i);
-                _y = _intrinsic_add(_intrinsic_mul(_beta,_y), _intrinsic_mul(_alpha, _x));
+                _y = _intrinsic_add(_intrinsic_mul(_beta,_y),
+                                    _intrinsic_mul(_alpha, _x));
                 _y.storeu(y+i);
             }
         }
@@ -113,7 +114,7 @@ axpby(IndexType n, const T &alpha, const T *x,
 
 template <typename IndexType, typename T>
 typename flens::RestrictTo<flens::IsComplex<T>::value &&
-                           flens::IsIntrinsicsCompatible<T>::value, 
+                           flens::IsIntrinsicsCompatible<T>::value,
                            void>::Type
 axpby(IndexType n, const T &alpha, const T *x,
      IndexType incX, const T &beta, T *y, IndexType incY)
@@ -138,12 +139,12 @@ axpby(IndexType n, const T &alpha, const T *x,
         return;
     }
     if (beta==T(1)) {
-        cxxblas::axpy(n, alpha, x, incX, y, incY); 
-	return;
+        cxxblas::axpy(n, alpha, x, incX, y, incY);
+    return;
     }
     if (alpha==T(1) && beta==T(0)) {
         cxxblas::copy(n, x, incX, y, incY);
-	return;
+    return;
     }
 
 //
@@ -151,7 +152,7 @@ axpby(IndexType n, const T &alpha, const T *x,
 //
     if (incX==1 && incY==1) {
 
-        
+
         if (imag(alpha)==PT(0) && imag(beta)==PT(0)) {
 //
 //          Only real scalars
@@ -159,10 +160,10 @@ axpby(IndexType n, const T &alpha, const T *x,
             axpby(2*n, real(alpha), reinterpret_cast<const PT*>(x), 1,
                        real(beta) , reinterpret_cast<PT*>(y), 1);
            return;
-        } 
-        
+        }
+
         IndexType i=0;
-        
+
         if (beta==T(0)) {
 //
 //          beta is zero
@@ -172,7 +173,7 @@ axpby(IndexType n, const T &alpha, const T *x,
             IntrinsicType _x, _y, _tmp;
             IntrinsicPrimitiveType _real_alpha(real(alpha));
             IntrinsicPrimitiveType _imag_alpha(imag(alpha));
-            
+
 
             for (; i+numElements-1<n; i+=numElements) {
                 _x.loadu(x+i);
@@ -182,7 +183,7 @@ axpby(IndexType n, const T &alpha, const T *x,
                 _y.storeu(y+i);
             }
 
-            
+
         } else {
 //
 //          alpha and beta are complex
@@ -198,7 +199,7 @@ axpby(IndexType n, const T &alpha, const T *x,
             for (; i+numElements-1<n; i+=numElements) {
                 _x.loadu(x+i);
                 _y.loadu(y+i);
-        
+
                 _tmp = _intrinsic_mul(_real_beta, _y);
                 _y = _intrinsic_swap_real_imag(_y);
                 _y = _intrinsic_mul(_imag_beta, _y);

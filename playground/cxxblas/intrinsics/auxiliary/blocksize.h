@@ -83,18 +83,46 @@ struct BlockSize {
 template<typename T, typename IndexType>
 struct BlockSize<TRMV, T, IndexType> {
 
-    static const IndexType NBlockL1() { return std::sqrt(get_l1_cache_size()/sizeOf<T>::value); };
-    static const IndexType NBlockL2() { return std::sqrt(get_l2_cache_size()/sizeOf<T>::value); };
-    static const IndexType NBlockL3() { return std::sqrt(3*get_l3_cache_size()/(2*sizeOf<T>::value)); };
+    static const IndexType
+    NBlockL1()
+    {
+        return std::sqrt(get_l1_cache_size()/sizeOf<T>::value);
+    };
+
+    static const IndexType
+    NBlockL2()
+    {
+        return std::sqrt(get_l2_cache_size()/sizeOf<T>::value);
+    };
+
+    static const IndexType
+    NBlockL3()
+    {
+        return std::sqrt(3*get_l3_cache_size()/(2*sizeOf<T>::value));
+    };
 
 };
 
 template<typename T, typename IndexType>
 struct BlockSize<TRSV, T, IndexType> {
 
-    static const IndexType NBlockL1() { return std::sqrt(get_l1_cache_size()/sizeOf<T>::value); };
-    static const IndexType NBlockL2() { return std::sqrt(get_l2_cache_size()/sizeOf<T>::value); };
-    static const IndexType NBlockL3() { return std::sqrt(3*get_l3_cache_size()/(2*sizeOf<T>::value)); };
+    static const IndexType
+    NBlockL1()
+    {
+        return std::sqrt(get_l1_cache_size()/sizeOf<T>::value);
+    };
+
+    static const IndexType
+    NBlockL2()
+    {
+        return std::sqrt(get_l2_cache_size()/sizeOf<T>::value);
+    };
+
+    static const IndexType
+    NBlockL3()
+    {
+        return std::sqrt(3*get_l3_cache_size()/(2*sizeOf<T>::value));
+    };
 
 };
 

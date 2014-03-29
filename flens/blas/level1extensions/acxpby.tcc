@@ -99,9 +99,10 @@ acxpby(const ALPHA &alpha, const VX &x, const BETA &beta, VY &&y)
     const int incX = VX::Engine::stride;
     const int incY = VectorY::Engine::stride;
 
-    cxxblas::acxpby<n, ALPHA, TX, incX, TY, incY>(alpha, x.data(), beta, y.data());
+    cxxblas::acxpby<n, ALPHA, TX, incX, TY, incY>(alpha, x.data(),
+                                                  beta, y.data());
 }
-    
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1_ACXPBY_TCC

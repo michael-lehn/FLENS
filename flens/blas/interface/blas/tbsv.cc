@@ -17,22 +17,22 @@ BLAS(stbsv)(const char      *UPLO,
             const INTEGER   *INCX)
 {
 #   ifdef TEST_DIRECT_CBLAS
-        
+
         char    _UPLO   = toupper(*UPLO);
         char    _TRANS  = toupper(*TRANS);
         char    _DIAG   = toupper(*DIAG);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      trans = convertTo<Transpose>(_TRANS);
         Diag           diag   = Diag(_DIAG);
-        
+
         cblas_stbsv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     cxxblas::CBLAS::getCblasType(trans),
                     cxxblas::CBLAS::getCblasType(diag),
                     *N, *K,
                     _A, *LDA, X, *INCX);
-        
+
 #   else
         using std::abs;
         using std::max;
@@ -40,7 +40,7 @@ BLAS(stbsv)(const char      *UPLO,
         char    _UPLO  = toupper(*UPLO);
         char    _TRANS = toupper(*TRANS);
         char    _DIAG  = toupper(*DIAG);
-    
+
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
             if (_UPLO!='U' && _UPLO!='L') {
@@ -63,7 +63,7 @@ BLAS(stbsv)(const char      *UPLO,
                 return;
             }
 #       endif
-    
+
         StorageUpLo  upLo  = StorageUpLo(_UPLO);
         Transpose    trans = convertTo<Transpose>(_TRANS);
         Diag         diag  = Diag(_DIAG);
@@ -71,7 +71,8 @@ BLAS(stbsv)(const char      *UPLO,
         INTEGER      KL   = (upLo==Lower) ? *K : 0;
         INTEGER      KU   = (upLo==Upper) ? *K : 0;
 
-        STbMatrixConstView  A(SBandConstView(*N, *N, KL, KU, _A, *LDA), upLo, diag);
+        STbMatrixConstView  A(SBandConstView(*N, *N, KL, KU, _A, *LDA),
+                              upLo, diag);
         SDenseVectorView    x(SArrayView(*N, X, abs(*INCX)), *INCX<0);
 
         blas::sv(trans, A, x);
@@ -90,22 +91,22 @@ BLAS(dtbsv)(const char      *UPLO,
             const INTEGER   *INCX)
 {
 #   ifdef TEST_DIRECT_CBLAS
-        
+
         char    _UPLO   = toupper(*UPLO);
         char    _TRANS  = toupper(*TRANS);
         char    _DIAG   = toupper(*DIAG);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      trans = convertTo<Transpose>(_TRANS);
         Diag           diag   = Diag(_DIAG);
-        
+
         cblas_dtbsv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     cxxblas::CBLAS::getCblasType(trans),
                     cxxblas::CBLAS::getCblasType(diag),
                     *N, *K,
                     _A, *LDA, X, *INCX);
-        
+
 #   else
         using std::abs;
         using std::max;
@@ -136,7 +137,7 @@ BLAS(dtbsv)(const char      *UPLO,
                 return;
             }
 #       endif
-    
+
         StorageUpLo  upLo  = StorageUpLo(_UPLO);
         Transpose    trans = convertTo<Transpose>(_TRANS);
         Diag         diag  = Diag(_DIAG);
@@ -144,7 +145,8 @@ BLAS(dtbsv)(const char      *UPLO,
         INTEGER      KL   = (upLo==Lower) ? *K : 0;
         INTEGER      KU   = (upLo==Upper) ? *K : 0;
 
-        DTbMatrixConstView  A(DBandConstView(*N, *N, KL, KU, _A, *LDA), upLo, diag);
+        DTbMatrixConstView  A(DBandConstView(*N, *N, KL, KU, _A, *LDA),
+                              upLo, diag);
         DDenseVectorView    x(DArrayView(*N, X, abs(*INCX)), *INCX<0);
 
         blas::sv(trans, A, x);
@@ -163,15 +165,15 @@ BLAS(ctbsv)(const char      *UPLO,
             const INTEGER   *INCX)
 {
 #   ifdef TEST_DIRECT_CBLAS
-        
+
         char    _UPLO   = toupper(*UPLO);
         char    _TRANS  = toupper(*TRANS);
         char    _DIAG   = toupper(*DIAG);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      trans = convertTo<Transpose>(_TRANS);
         Diag           diag   = Diag(_DIAG);
-        
+
         cblas_ctbmv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     cxxblas::CBLAS::getCblasType(trans),
@@ -179,7 +181,7 @@ BLAS(ctbsv)(const char      *UPLO,
                     *N, *K,
                     reinterpret_cast<const float *>(_A), *LDA,
                     reinterpret_cast<float *>(X), *INCX);
-        
+
 #   else
         using std::abs;
         using std::max;
@@ -218,7 +220,8 @@ BLAS(ctbsv)(const char      *UPLO,
         INTEGER      KL   = (upLo==Lower) ? *K : 0;
         INTEGER      KU   = (upLo==Upper) ? *K : 0;
 
-        CTbMatrixConstView  A(CBandConstView(*N, *N, KL, KU, _A, *LDA), upLo, diag);
+        CTbMatrixConstView  A(CBandConstView(*N, *N, KL, KU, _A, *LDA),
+                              upLo, diag);
         CDenseVectorView    x(CArrayView(*N, X, abs(*INCX)), *INCX<0);
 
         blas::sv(trans, A, x);
@@ -237,15 +240,15 @@ BLAS(ztbsv)(const char      *UPLO,
             const INTEGER   *INCX)
 {
 #   ifdef TEST_DIRECT_CBLAS
-        
+
         char    _UPLO   = toupper(*UPLO);
         char    _TRANS  = toupper(*TRANS);
         char    _DIAG   = toupper(*DIAG);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      trans = convertTo<Transpose>(_TRANS);
         Diag           diag   = Diag(_DIAG);
-        
+
         cblas_ztbmv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     cxxblas::CBLAS::getCblasType(trans),
@@ -253,7 +256,7 @@ BLAS(ztbsv)(const char      *UPLO,
                     *N, *K,
                     reinterpret_cast<const double *>(_A), *LDA,
                     reinterpret_cast<double *>(X), *INCX);
-        
+
 #   else
         using std::abs;
         using std::max;
@@ -284,7 +287,7 @@ BLAS(ztbsv)(const char      *UPLO,
                 return;
             }
 #       endif
-    
+
         StorageUpLo  upLo  = StorageUpLo(_UPLO);
         Transpose    trans = convertTo<Transpose>(_TRANS);
         Diag         diag  = Diag(_DIAG);
@@ -292,7 +295,8 @@ BLAS(ztbsv)(const char      *UPLO,
         INTEGER      KL   = (upLo==Lower) ? *K : 0;
         INTEGER      KU   = (upLo==Upper) ? *K : 0;
 
-        ZTbMatrixConstView  A(ZBandConstView(*N, *N, KL, KU, _A, *LDA), upLo, diag);
+        ZTbMatrixConstView  A(ZBandConstView(*N, *N, KL, KU, _A, *LDA),
+                              upLo, diag);
         ZDenseVectorView    x(ZArrayView(*N, X, abs(*INCX)), *INCX<0);
 
         blas::sv(trans, A, x);

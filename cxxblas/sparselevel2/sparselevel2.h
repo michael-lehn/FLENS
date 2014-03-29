@@ -36,22 +36,10 @@
 namespace cxxblas {
 
 template <typename IndexType>
-    char 
-    getIndexBaseChar(IndexType x) {
-    
-        if (x==IndexType(0)) {
-            // zero-based Indexing
-            return 'C';
-        } else if (x==IndexType(1)) {
-            // one-based Indexing
-            return 'F';
-        } 
-        
-        // Error
-        return 'E';
-      
-    };
-}
+    char
+    getIndexBaseChar(IndexType x);
+
+} // namespace cxxblas
 
 #include <cxxblas/sparselevel2/gecrsmv.h>
 #include <cxxblas/sparselevel2/heccsmv.h>

@@ -37,7 +37,7 @@
 
 namespace cxxblas {
 
-#ifdef HAVE_SPARSEBLAS    
+#ifdef HAVE_SPARSEBLAS
 
 #define HAVE_CXXBLAS_TRCRSSV 1
 
@@ -53,18 +53,18 @@ trcrssv(StorageUpLo      upLo,
         const float      *x,
         float            *y)
 {
-    CXXBLAS_DEBUG_OUT("trcrssv -> [" BLAS_IMPL "] scsrsv"); 
-    
+    CXXBLAS_DEBUG_OUT("trcrssv -> [" BLAS_IMPL "] scsrsv");
+
     char matdescra[5] = { "T*N*" };
     matdescra[1] = getF77BlasChar(upLo);
     matdescra[3] = getIndexBaseChar(ia[0]);
-    
+
     ASSERT(matdescra[3]!='E') ;
-      
-    char transA = getF77BlasChar(trans); 
+
+    char transA = getF77BlasChar(trans);
 
     mkl_scsrsv(&transA,
-               &n,              
+               &n,
                &alpha, &matdescra[0],
                A, ja, ia, ia+1,
                x, y);
@@ -82,18 +82,18 @@ trcrssv(StorageUpLo      upLo,
         const double     *x,
         double           *y)
 {
-    CXXBLAS_DEBUG_OUT("trcrssv -> [" BLAS_IMPL "] dcsrsv"); 
-    
+    CXXBLAS_DEBUG_OUT("trcrssv -> [" BLAS_IMPL "] dcsrsv");
+
     char matdescra[5] = { "T*N*" };
     matdescra[1] = getF77BlasChar(upLo);
     matdescra[3] = getIndexBaseChar(ia[0]);
-    
+
     ASSERT(matdescra[3]!='E') ;
-      
-    char transA = getF77BlasChar(trans);   
+
+    char transA = getF77BlasChar(trans);
 
     mkl_dcsrsv(&transA,
-               &n,               
+               &n,
                &alpha, &matdescra[0],
                A, ja, ia, ia+1,
                x, y);
@@ -111,23 +111,23 @@ trcrssv(StorageUpLo             upLo,
         const ComplexFloat      *x,
         ComplexFloat            *y)
 {
-    CXXBLAS_DEBUG_OUT("trcrssv -> [" BLAS_IMPL "] ccsrsv"); 
-    
+    CXXBLAS_DEBUG_OUT("trcrssv -> [" BLAS_IMPL "] ccsrsv");
+
     char matdescra[5] = { "T*N*" };
     matdescra[1] = getF77BlasChar(upLo);
     matdescra[3] = getIndexBaseChar(ia[0]);
-    
+
     ASSERT(matdescra[3]!='E') ;
-      
-    char transA = getF77BlasChar(trans);  
+
+    char transA = getF77BlasChar(trans);
 
     mkl_ccsrsv(&transA,
-              &n,               
-              reinterpret_cast<const float*>(&alpha), &matdescra[0],
-              reinterpret_cast<const float*>(A), ja, ia, ia+1,
-              reinterpret_cast<const float*>(x),
-              reinterpret_cast<float*>(y));
-    
+               &n,
+               reinterpret_cast<const float*>(&alpha), &matdescra[0],
+               reinterpret_cast<const float*>(A), ja, ia, ia+1,
+               reinterpret_cast<const float*>(x),
+               reinterpret_cast<float*>(y));
+
 }
 
 template <typename IndexType>
@@ -142,23 +142,23 @@ trcrssv(StorageUpLo             upLo,
         const ComplexDouble     *x,
         ComplexDouble           *y)
 {
-    CXXBLAS_DEBUG_OUT("trcrssv -> [" BLAS_IMPL "] zcsrsv");    
-     
+    CXXBLAS_DEBUG_OUT("trcrssv -> [" BLAS_IMPL "] zcsrsv");
+
     char matdescra[5] = { "T*N*" };
     matdescra[1] = getF77BlasChar(upLo);
     matdescra[3] = getIndexBaseChar(ia[0]);
-    
+
     ASSERT(matdescra[3]!='E');
-      
-    char transA = getF77BlasChar(trans);  
+
+    char transA = getF77BlasChar(trans);
 
     mkl_zcsrsv(&transA,
-              &n,               
-              reinterpret_cast<const double*>(&alpha), &matdescra[0],
-              reinterpret_cast<const double*>(A), ja, ia, ia+1,
-              reinterpret_cast<const double*>(x),
-              reinterpret_cast<double*>(y));
-    
+               &n,
+               reinterpret_cast<const double*>(&alpha), &matdescra[0],
+               reinterpret_cast<const double*>(A), ja, ia, ia+1,
+               reinterpret_cast<const double*>(x),
+               reinterpret_cast<double*>(y));
+
 }
 
 #endif

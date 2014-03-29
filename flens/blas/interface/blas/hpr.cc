@@ -13,21 +13,20 @@ BLAS(chpr)(const char      *UPLO,
            const INTEGER   *INCX,
            cfloat          *AP)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-    
+
     char    _UPLO   = toupper(*UPLO);
-    
+
     StorageUpLo    upLo   = StorageUpLo(_UPLO);
-    
+
     cblas_chpr(CBLAS_ORDER::CblasColMajor,
                cxxblas::CBLAS::getCblasType(upLo),
                *N, *ALPHA,
                reinterpret_cast<const float *>(X), *INCX,
                reinterpret_cast<float *>(AP));
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -47,7 +46,7 @@ BLAS(chpr)(const char      *UPLO,
                 return;
             }
 #       endif
-    
+
         StorageUpLo  upLo = StorageUpLo(_UPLO);
 
         CDenseVectorConstView  x(CConstArrayView(*N, X, abs(*INCX)), *INCX<0);
@@ -71,21 +70,20 @@ BLAS(zhpr)(const char      *UPLO,
            const INTEGER   *INCX,
            cdouble         *AP)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-    
+
     char    _UPLO   = toupper(*UPLO);
-    
+
     StorageUpLo    upLo   = StorageUpLo(_UPLO);
-    
+
     cblas_zhpr(CBLAS_ORDER::CblasColMajor,
                cxxblas::CBLAS::getCblasType(upLo),
                *N, *ALPHA,
                reinterpret_cast<const double *>(X), *INCX,
                reinterpret_cast<double *>(AP));
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 

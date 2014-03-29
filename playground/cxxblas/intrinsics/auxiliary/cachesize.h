@@ -29,7 +29,8 @@
  *   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- *   Source: http://nickstrupat.blogspot.ca/2012/12/i-wrote-this-function-for-cache-line.html
+ *   Source:
+ *   http://nickstrupat.blogspot.ca/2012/12/i-wrote-this-function-for-cache-line.html
  *
  */
 
@@ -66,7 +67,7 @@ size_t get_l3_cache_size()
 {
     static size_t l3_cache = 0;
     if (l3_cache==0) {
-        l3_cache=sysconf(_SC_LEVEL2_CACHE_SIZE);
+        l3_cache=sysconf(_SC_LEVEL3_CACHE_SIZE);
     }
     return l3_cache;
 }

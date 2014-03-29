@@ -295,15 +295,24 @@ template <typename FS>
 const typename GbMatrix<FS>::ConstVectorView
 GbMatrix<FS>::operator()(IndexType row, const Range<IndexType> &cols) const
 {
-    return engine().viewRow(row, cols.firstIndex(), cols.lastIndex(), cols.stride());
+    const IndexType firstIndex = cols.firstIndex();
+    const IndexType lastIndex  = cols.lastIndex();
+    const IndexType stride     = cols.stride();
+
+    return engine().viewRow(row, firstIndex, lastIndex, stride);
 }
 
 template <typename FS>
 typename GbMatrix<FS>::VectorView
 GbMatrix<FS>::operator()(IndexType row, const Range<IndexType> &cols)
 {
-    return engine().viewRow(row, cols.firstIndex(), cols.lastIndex(), cols.stride());
+    const IndexType firstIndex = cols.firstIndex();
+    const IndexType lastIndex  = cols.lastIndex();
+    const IndexType stride     = cols.stride();
+
+    return engine().viewRow(row, firstIndex, lastIndex, stride);
 }
+
 // column view (vector view)
 template <typename FS>
 const typename GbMatrix<FS>::ConstVectorView
@@ -323,14 +332,22 @@ template <typename FS>
 const typename GbMatrix<FS>::ConstVectorView
 GbMatrix<FS>::operator()(const Range<IndexType> &rows, IndexType col) const
 {
-    return engine().viewCol(rows.firstIndex(), rows.lastIndex(), rows.stride(), col);
+    const IndexType firstIndex = rows.firstIndex();
+    const IndexType lastIndex  = rows.lastIndex();
+    const IndexType stride     = rows.stride();
+
+    return engine().viewCol(firstIndex, lastIndex, stride, col);
 }
 
 template <typename FS>
 typename GbMatrix<FS>::VectorView
 GbMatrix<FS>::operator()(const Range<IndexType> &rows, IndexType col)
 {
-    return engine().viewCol(rows.firstIndex(), rows.lastIndex(), rows.stride(), col);
+    const IndexType firstIndex = rows.firstIndex();
+    const IndexType lastIndex  = rows.lastIndex();
+    const IndexType stride     = rows.stride();
+
+    return engine().viewCol(firstIndex, lastIndex, stride, col);
 }
 
 template <typename FS>
@@ -472,7 +489,8 @@ GbMatrix<FS>::resize(const GbMatrix<RHS> &rhs,
 
 template <typename FS>
 bool
-GbMatrix<FS>::resize(IndexType n, IndexType m, IndexType kl, IndexType ku, IndexType firstIndex,
+GbMatrix<FS>::resize(IndexType n, IndexType m, IndexType kl, IndexType ku,
+                     IndexType firstIndex,
                      const ElementType &value)
 {
     return _engine.resize(n, m, kl, ku, firstIndex, value);

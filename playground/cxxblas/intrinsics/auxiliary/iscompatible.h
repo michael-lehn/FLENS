@@ -38,12 +38,14 @@
 #include<flens/auxiliary/issame.h>
 
 namespace flens {
+
     template <typename T>
     struct IsIntrinsicsCompatible
     {
-        static const bool value =
-        IsSame<T, float>::value || IsSame<T, double>::value ||
-        IsSame<T, std::complex<float> >::value || IsSame<T, std::complex<double> >::value;
+        static const bool value = IsSame<T, float>::value
+                               || IsSame<T, double>::value
+                               || IsSame<T, std::complex<float> >::value
+                               || IsSame<T, std::complex<double> >::value;
     };
 }
 

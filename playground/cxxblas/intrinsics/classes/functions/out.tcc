@@ -40,11 +40,11 @@ template <typename DataType, IntrinsicsLevel Level>
 std::ostream& operator<<(std::ostream& output, Intrinsics<DataType, Level> &p)
 {
 
-	const int N = Intrinsics<DataType, Level>::numElements;
+    const int N = Intrinsics<DataType, Level>::numElements;
 
-	DataType tmp[N];
-	p.store(tmp);
-	for (int k=0; k<N; ++k) {
+    DataType tmp[N];
+    p.store(tmp);
+    for (int k=0; k<N; ++k) {
         output << tmp[k] << " ";
     }
     output << std::endl;

@@ -107,7 +107,7 @@ latrz_impl(IndexType             l,
            DenseVector<VTAU>     &tau,
            DenseVector<VWORK>    &work)
 {
-    
+
     typedef typename GeMatrix<MA>::ElementType  ElementType;
 
     const Underscore<IndexType>  _;
@@ -142,7 +142,8 @@ latrz_impl(IndexType             l,
 //      Apply H(i) to A(1:i-1,i:n) from the right
 //
         auto _work = work(_(1,i-1));
-        larz(Right, A(i,_(n-l+1,n)), cxxblas::conjugate(tau(i)), A(_(1,i-1),_(i,n)), _work);
+        larz(Right, A(i,_(n-l+1,n)), cxxblas::conjugate(tau(i)),
+             A(_(1,i-1),_(i,n)), _work);
         A(i,i) = cxxblas::conjugate(alpha);
     }
 }

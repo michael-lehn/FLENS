@@ -243,7 +243,7 @@ unglq(MA &&A, const VTAU &tau, VWORK &&work)
 {
 
     LAPACK_DEBUG_OUT("unglq");
-    
+
 //
 //  Test the input parameters
 //
@@ -260,7 +260,7 @@ unglq(MA &&A, const VTAU &tau, VWORK &&work)
 #   ifndef NDEBUG
 
     typedef typename MatrixA::IndexType     IndexType;
-    
+
     ASSERT(A.firstRow()==IndexType(1));
     ASSERT(A.firstCol()==IndexType(1));
     ASSERT(tau.firstIndex()==IndexType(1));
@@ -280,9 +280,9 @@ unglq(MA &&A, const VTAU &tau, VWORK &&work)
 //
 #   ifdef CHECK_CXXLAPACK
 
-    typedef typename MatrixA::ElementType   ElementType;    
+    typedef typename MatrixA::ElementType   ElementType;
     typedef typename RemoveRef<VWORK>::Type VectorWork;
-    
+
     typename MatrixA::NoView    A_org      = A;
     typename VectorWork::NoView work_org   = work;
 #   endif

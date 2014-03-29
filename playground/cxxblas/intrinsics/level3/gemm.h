@@ -40,23 +40,24 @@
 namespace cxxblas {
 
 #ifdef USE_INTRINSIC
-    
-    
+
+
 /* Block sizes */
 #ifndef BLOCKSIZE_GEMM_M
 #   define BLOCKSIZE_GEMM_M 256
 #endif
-    
+
 #ifndef BLOCKSIZE_GEMM_K
 #   define BLOCKSIZE_GEMM_K 128
 #endif
-    
+
 template <typename IndexType, typename T, typename MA, typename MB>
-    typename flens::RestrictTo< flens::IsIntrinsicsCompatible<T>::value &&
-                                flens::IsIntrinsicsCompatible<MA>::value &&
-                                flens::IsIntrinsicsCompatible<MB>::value &&
-                                (flens::IsComplex<T>::value ||
-                                    (flens::IsReal<MA>::value && flens::IsReal<MB>::value) ),
+    typename flens::RestrictTo<flens::IsIntrinsicsCompatible<T>::value &&
+                               flens::IsIntrinsicsCompatible<MA>::value &&
+                               flens::IsIntrinsicsCompatible<MB>::value &&
+                              (flens::IsComplex<T>::value ||
+                                  (flens::IsReal<MA>::value
+                                && flens::IsReal<MB>::value) ),
                                void>::Type
     gemm(StorageOrder order, Transpose transA, Transpose transB,
          IndexType m, IndexType n, IndexType k,
@@ -65,9 +66,9 @@ template <typename IndexType, typename T, typename MA, typename MB>
          const MB *B, IndexType ldB,
          const T &beta,
          T *C, IndexType ldC);
-   
+
 #endif // USE_INTRINSIC
-    
+
 }
 
 #endif // PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL3_GEMM_H

@@ -46,9 +46,9 @@ template <typename IndexType, typename VIN, typename VOUT>
                const VIN *x, IndexType incX,
                VOUT *y, IndexType incY,
                DFTDirection direction);
-    
+
 #ifdef HAVE_FFTW
-    
+
 #ifdef HAVE_FFTW_FLOAT
     template <typename IndexType>
     void
@@ -57,7 +57,7 @@ template <typename IndexType, typename VIN, typename VOUT>
                std::complex<float> *y, IndexType incY,
                DFTDirection direction);
 #endif // HAVE_FFTW_FLOAT
-    
+
 #ifdef HAVE_FFTW_DOUBLE
     template <typename IndexType>
     void
@@ -65,9 +65,9 @@ template <typename IndexType, typename VIN, typename VOUT>
                std::complex<double> *x, IndexType incX,
                std::complex<double> *y, IndexType incY,
                DFTDirection direction);
-    
+
 #endif // HAVE_FFTW_DOUBLE
-    
+
 #ifdef HAVE_FFTW_LONGDOUBLE
     template <typename IndexType>
     void
@@ -75,7 +75,7 @@ template <typename IndexType, typename VIN, typename VOUT>
                std::complex<long double> *x, IndexType incX,
                std::complex<long double> *y, IndexType incY,
                DFTDirection direction);
-    
+
 #endif // HAVE_FFTW_LONGDOUBLE
 
 #ifdef HAVE_FFTW_QUAD
@@ -85,9 +85,9 @@ template <typename IndexType, typename VIN, typename VOUT>
                std::complex<__float128> *x, IndexType incX,
                std::complex<__float128> *y, IndexType incY,
                DFTDirection direction);
-    
+
 #endif // HAVE_FFTW_QUAD
-    
+
 #endif
 
 } // namespace cxxdft

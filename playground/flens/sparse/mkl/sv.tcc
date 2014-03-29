@@ -245,7 +245,9 @@ sv(Transpose transA,
     }
 
     IndexType nRhs = B.numCols();
-    if (B.leadingDimension()!=B.numRows() || X.leadingDimension() != X.numRows()) {
+    if (B.leadingDimension()!=B.numRows()
+     || X.leadingDimension() != X.numRows())
+    {
 
         error = dss_solve_real (handle, opt, B.data(), nRhs, X.data());
         ASSERT(error==MKL_DSS_SUCCESS);
@@ -254,7 +256,10 @@ sv(Transpose transA,
 
         IndexType one(1);
         for (IndexType i=0; i<nRhs; ++i) {
-            error = dss_solve_real (handle, opt, B.data()+i*B.leadingDimension(), one, X.data()+i*X.leadingDimension());
+            error = dss_solve_real (handle, opt,
+                                    B.data()+i*B.leadingDimension(),
+                                    one,
+                                    X.data()+i*X.leadingDimension());
             ASSERT(error==MKL_DSS_SUCCESS);
         }
     }
@@ -281,8 +286,8 @@ sv(Transpose transA,
    MX        &&X,
    const MB  &B)
 {
-    transA = Transpose(transA^Trans); 
-    
+    transA = Transpose(transA^Trans);
+
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename MatrixA::IndexType     IndexType;
     typedef typename MatrixA::ElementType     ElementType;
@@ -364,7 +369,9 @@ sv(Transpose transA,
     }
 
     IndexType nRhs = B.numCols();
-    if (B.leadingDimension()!=B.numRows() || X.leadingDimension() != X.numRows()) {
+    if (B.leadingDimension()!=B.numRows()
+     || X.leadingDimension() != X.numRows())
+    {
 
         error = dss_solve_complex (handle, opt, B.data(), nRhs, X.data());
         ASSERT(error==MKL_DSS_SUCCESS);
@@ -373,7 +380,10 @@ sv(Transpose transA,
 
         IndexType one(1);
         for (IndexType i=0; i<nRhs; ++i) {
-            error = dss_solve_complex (handle, opt, B.data()+i*B.leadingDimension(), one, X.data()+i*X.leadingDimension());
+            error = dss_solve_complex (handle, opt,
+                                       B.data()+i*B.leadingDimension(),
+                                       one,
+                                       X.data()+i*X.leadingDimension());
             ASSERT(error==MKL_DSS_SUCCESS);
         }
     }
@@ -481,7 +491,9 @@ sv(Transpose transA,
     }
 
     IndexType nRhs = B.numCols();
-    if (B.leadingDimension()!=B.numRows() || X.leadingDimension() != X.numRows()) {
+    if (B.leadingDimension()!=B.numRows()
+     || X.leadingDimension() != X.numRows())
+    {
 
         error = dss_solve_complex (handle, opt, B.data(), nRhs, X.data());
         ASSERT(error==MKL_DSS_SUCCESS);
@@ -490,7 +502,10 @@ sv(Transpose transA,
 
         IndexType one(1);
         for (IndexType i=0; i<nRhs; ++i) {
-            error = dss_solve_complex (handle, opt, B.data()+i*B.leadingDimension(), one, X.data()+i*X.leadingDimension());
+            error = dss_solve_complex(handle, opt,
+                                      B.data()+i*B.leadingDimension(),
+                                      one,
+                                      X.data()+i*X.leadingDimension());
             ASSERT(error==MKL_DSS_SUCCESS);
         }
     }
@@ -589,7 +604,9 @@ sv(MA        &&A,
     ASSERT(error==MKL_DSS_SUCCESS);
 
     IndexType nRhs = B.numCols();
-    if (B.leadingDimension()!=B.numRows() || X.leadingDimension() != X.numRows()) {
+    if (B.leadingDimension()!=B.numRows()
+     || X.leadingDimension() != X.numRows())
+    {
 
         error = dss_solve_real (handle, opt, B.data(), nRhs, X.data());
         ASSERT(error==MKL_DSS_SUCCESS);
@@ -598,7 +615,10 @@ sv(MA        &&A,
 
         IndexType one(1);
         for (IndexType i=0; i<nRhs; ++i) {
-            error = dss_solve_real (handle, opt, B.data()+i*B.leadingDimension(), one, X.data()+i*X.leadingDimension());
+            error = dss_solve_real(handle, opt,
+                                   B.data()+i*B.leadingDimension(),
+                                   one,
+                                   X.data()+i*X.leadingDimension());
             ASSERT(error==MKL_DSS_SUCCESS);
         }
     }
@@ -691,7 +711,9 @@ sv(MA        &&A,
     ASSERT(error==MKL_DSS_SUCCESS);
 
     IndexType nRhs = B.numCols();
-    if (B.leadingDimension()!=B.numRows() || X.leadingDimension() != X.numRows()) {
+    if (B.leadingDimension()!=B.numRows()
+     || X.leadingDimension() != X.numRows())
+    {
 
         error = dss_solve_real (handle, opt, B.data(), nRhs, X.data());
         ASSERT(error==MKL_DSS_SUCCESS);
@@ -700,7 +722,10 @@ sv(MA        &&A,
 
         IndexType one(1);
         for (IndexType i=0; i<nRhs; ++i) {
-            error = dss_solve_real (handle, opt, B.data()+i*B.leadingDimension(), one, X.data()+i*X.leadingDimension());
+            error = dss_solve_real(handle, opt,
+                                   B.data()+i*B.leadingDimension(),
+                                   one,
+                                   X.data()+i*X.leadingDimension());
             ASSERT(error==MKL_DSS_SUCCESS);
         }
     }
@@ -791,7 +816,9 @@ sv(MA        &&A,
     ASSERT(error==MKL_DSS_SUCCESS);
 
     IndexType nRhs = B.numCols();
-    if (B.leadingDimension()!=B.numRows() || X.leadingDimension() != X.numRows()) {
+    if (B.leadingDimension()!=B.numRows()
+     || X.leadingDimension() != X.numRows())
+    {
 
         error = dss_solve_complex (handle, opt, B.data(), nRhs, X.data());
         ASSERT(error==MKL_DSS_SUCCESS);
@@ -800,7 +827,10 @@ sv(MA        &&A,
 
         IndexType one(1);
         for (IndexType i=0; i<nRhs; ++i) {
-            error = dss_solve_complex (handle, opt, B.data()+i*B.leadingDimension(), one, X.data()+i*X.leadingDimension());
+            error = dss_solve_complex(handle, opt,
+                                      B.data()+i*B.leadingDimension(),
+                                      one,
+                                      X.data()+i*X.leadingDimension());
             ASSERT(error==MKL_DSS_SUCCESS);
         }
     }
@@ -890,7 +920,9 @@ sv(MA        &&A,
     ASSERT(error==MKL_DSS_SUCCESS);
 
     IndexType nRhs = B.numCols();
-    if (B.leadingDimension()!=B.numRows() || X.leadingDimension() != X.numRows()) {
+    if (B.leadingDimension()!=B.numRows()
+     || X.leadingDimension() != X.numRows())
+    {
 
         error = dss_solve_complex (handle, opt, B.data(), nRhs, X.data());
         ASSERT(error==MKL_DSS_SUCCESS);
@@ -899,7 +931,10 @@ sv(MA        &&A,
 
         IndexType one(1);
         for (IndexType i=0; i<nRhs; ++i) {
-            error = dss_solve_complex (handle, opt, B.data()+i*B.leadingDimension(), one, X.data()+i*X.leadingDimension());
+            error = dss_solve_complex(handle, opt,
+                                      B.data()+i*B.leadingDimension(),
+                                      one,
+                                      X.data()+i*X.leadingDimension());
             ASSERT(error==MKL_DSS_SUCCESS);
         }
     }

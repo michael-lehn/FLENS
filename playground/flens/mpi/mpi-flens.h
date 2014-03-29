@@ -50,7 +50,7 @@
 
 #ifdef WITH_MPI
 #    ifdef NDEBUG
-#        define MPI_ASSERT(pred) 
+#        define MPI_ASSERT(pred)
 #    else
 #        define MPI_ASSERT(pred) \
          if (!(pred)) {                                                  \
@@ -61,7 +61,7 @@
              std::cerr << "Assertion `" << #pred << "' failed.";         \
              std::cerr << std::endl;                                     \
              MPI_Abort(MPI::COMM_WORLD, 1);                              \
-         } 
+         }
 #    endif
 #else
 #    define MPI_ASSERT(pred) ASSERT(pred)

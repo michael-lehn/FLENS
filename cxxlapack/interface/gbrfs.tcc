@@ -64,7 +64,7 @@ gbrfs(char                  trans,
     CXXLAPACK_DEBUG_OUT("sgbrfs");
     LAPACK_IMPL(sgbrfs)(&trans,
                         &n
-                        &kl, 
+                        &kl,
                         &ku,
                         &nRhs,
                         Ab,
@@ -115,7 +115,7 @@ gbrfs(char                  trans,
     CXXLAPACK_DEBUG_OUT("dgbrfs");
     LAPACK_IMPL(dgbrfs)(&trans,
                         &n
-                        &kl, 
+                        &kl,
                         &ku,
                         &nRhs,
                         Ab,
@@ -166,7 +166,7 @@ gbrfs(char                        trans,
     CXXLAPACK_DEBUG_OUT("cgbrfs");
     LAPACK_IMPL(cgbrfs)(&trans,
                         &n
-                        &kl, 
+                        &kl,
                         &ku,
                         &nRhs,
                         reinterpret_cast<const float  *>(Ab),
@@ -217,7 +217,7 @@ gbrfs(char                        trans,
     CXXLAPACK_DEBUG_OUT("zgbrfs");
     LAPACK_IMPL(zgbrfs)(&trans,
                         &n
-                        &kl, 
+                        &kl,
                         &ku,
                         &nRhs,
                         reinterpret_cast<const double *>(Ab),

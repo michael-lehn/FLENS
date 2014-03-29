@@ -60,12 +60,12 @@ template <typename MA, typename VP>
 typename GbMatrix<MA>::IndexType
 trf_impl(GbMatrix<MA> &A, DenseVector<VP> &piv)
 {
-	using std::min;
-	using std::max;
+    using std::min;
+    using std::max;
 
-	typedef typename GbMatrix<MA>::GeNoView        GeNoView;
-	typedef typename GbMatrix<MA>::GeView          GeMatrixView;
-	typedef typename GbMatrix<MA>::FullStorageView FullStorageView;
+    typedef typename GbMatrix<MA>::GeNoView        GeNoView;
+    typedef typename GbMatrix<MA>::GeView          GeMatrixView;
+    typedef typename GbMatrix<MA>::FullStorageView FullStorageView;
     typedef typename GbMatrix<MA>::IndexType       IndexType;
     typedef typename GbMatrix<MA>::ElementType     ElementType;
 
@@ -99,11 +99,11 @@ trf_impl(GbMatrix<MA> &A, DenseVector<VP> &piv)
 //
 //      Use unblocked code
 //
-    	return lapack::tf2(A, piv);
+        return lapack::tf2(A, piv);
 
     } else {
 
-    	GeNoView Work13(ldWork, nbmax), Work31(ldWork, nbmax);
+        GeNoView Work13(ldWork, nbmax), Work31(ldWork, nbmax);
 //
 //      Use blocked code
 //
@@ -113,17 +113,17 @@ trf_impl(GbMatrix<MA> &A, DenseVector<VP> &piv)
 //
 //      Set fill-in elements in columns ku+2 to kv to zero
 //
-    	for(IndexType j = ku + 2; j<=min( kv, n ); ++j) {
-    		AB(_(kv - j + 2, kl), j) = zero;
-    	}
+        for(IndexType j = ku + 2; j<=min( kv, n ); ++j) {
+            AB(_(kv - j + 2, kl), j) = zero;
+        }
 //
 //      ju is the index of the last column affected by the current
 //      stage of the factorization
 //
-    	IndexType ju = 1;
+        IndexType ju = 1;
 
-    	for (IndexType j = 1; j<=min( m, n ); j+=nb) {
-    		IndexType jb = min( nb, min( m, n )-j+1 );
+        for (IndexType j = 1; j<=min( m, n ); j+=nb) {
+            IndexType jb = min( nb, min( m, n )-j+1 );
 //
 //          The active part of the matrix is partitioned
 //
@@ -131,238 +131,252 @@ trf_impl(GbMatrix<MA> &A, DenseVector<VP> &piv)
 //              A21   A22   A23
 //              A31   A32   A33
 //
-//           Here A11, A21 and A31 denote the current block of jB columns
-//           which is about to be factorized. The number of rows in the
-//           partitioning are jb, i2, i3 respectively, and the numbers
-//           of columns are jB, j2, Jj3. The superdiagonal elements of A13
-//           and the subdiagonal elements of A31 lie outside the band.
+//          Here A11, A21 and A31 denote the current block of jB columns
+//          which is about to be factorized. The number of rows in the
+//          partitioning are jb, i2, i3 respectively, and the numbers
+//          of columns are jB, j2, Jj3. The superdiagonal elements of A13
+//          and the subdiagonal elements of A31 lie outside the band.
 //
-    		IndexType i2 = min( kl-jb, m-j-jb+1 );
-    		IndexType i3 = min( jb, m-j-kl+1 );
+            IndexType i2 = min( kl-jb, m-j-jb+1 );
+            IndexType i3 = min( jb, m-j-kl+1 );
 //
-//           j2 and j3 are computed after ju has been updated.
+//          j2 and j3 are computed after ju has been updated.
 //
-//           Factorize the current block of jb columns
+//          Factorize the current block of jb columns
 //
-    		for (IndexType jj = j; jj<=j + jb - 1; ++jj) {
+            for (IndexType jj = j; jj<=j + jb - 1; ++jj) {
 //
 //              Set fill-in elements in column JJ+KV to zero
 //
-    			if( jj+kv<=n ) {
-    				AB(_(1,kl),jj+kv) = zero;
-    			}
+                if( jj+kv<=n ) {
+                    AB(_(1,kl),jj+kv) = zero;
+                }
 //
 //              Find pivot and test for singularity. km is the number of
 //              subdiagonal elements in the current column.
 //
-				IndexType km = min( kl, m-jj );
-				IndexType jp = blas::iamax(AB(_(kv+1,kv+km+1),jj));
-				piv( jj ) = jp + jj - j;
-				if( AB( kv+jp, jj )!=zero ) {
-					ju = max( ju, min( jj+ku+jp-1, n ) );
-					if( jp!=1 ) {
+                IndexType km = min( kl, m-jj );
+                IndexType jp = blas::iamax(AB(_(kv+1,kv+km+1),jj));
+                piv( jj ) = jp + jj - j;
+                if( AB( kv+jp, jj )!=zero ) {
+                    ju = max( ju, min( jj+ku+jp-1, n ) );
+                    if( jp!=1 ) {
 //
-//                    Apply interchange to columns j to j+jb-1
+//                      Apply interchange to columns j to j+jb-1
 //
-						if( jp+jj-1<j+kl ) {
+                        if( jp+jj-1<j+kl ) {
 
-							blas::swap(A(jj,_(j,j+jb-1)), A(jj+jp-1,_(j,j+jb-1)));
+                            blas::swap(A(jj,_(j,j+jb-1)),
+                                       A(jj+jp-1,_(j,j+jb-1)));
 
-						} else {
+                        } else {
 //
 //                          The interchange affects columns j to jj-1 of A31
 //                          which are stored in the work array WORK31
 //
-							blas::swap(A(jj,_(j,jj-1)), Work31(jp+jj-j-kl, _(1, jj-j)));
-							blas::swap(A(jj,_(jj,j+jb-1)),A(jj+jp-1,_(jj,j+jb-1)));
+                            blas::swap(A(jj,_(j,jj-1)),
+                                       Work31(jp+jj-j-kl, _(1, jj-j)));
+                            blas::swap(A(jj,_(jj,j+jb-1)),
+                                       A(jj+jp-1,_(jj,j+jb-1)));
 
-						}
-					}
+                        }
+                    }
 //
 //                  Compute multipliers
 //
-					blas::scal(one / AB( kv+1, jj ), AB( _(kv+2,kv+km+1), jj ));
+                    blas::scal(one / AB( kv+1, jj ), AB( _(kv+2,kv+km+1), jj ));
 
 //
-//                 Update trailing submatrix within the band and within
-//                 the current block. jm is the index of the last column
-//                 which needs to be updated.
+//                  Update trailing submatrix within the band and within
+//                  the current block. jm is the index of the last column
+//                  which needs to be updated.
 //
-					IndexType jm = min( ju, j+jb-1 );
-					if( jm>jj ) {
-						GeMatrixView AB_tmp = FullStorageView(km, jm-jj,&AB( kv+1, jj+1 ), ldAB-1);
+                    IndexType jm = min( ju, j+jb-1 );
+                    if( jm>jj ) {
+                        GeMatrixView AB_tmp = FullStorageView(km, jm-jj,
+                                                              &AB( kv+1, jj+1),
+                                                              ldAB-1);
 
-						blas::r(-one, AB( _(kv+2, kv+km+1), jj ), A(jj,_(jj+1,jm)), AB_tmp);
+                        blas::r(-one, AB( _(kv+2, kv+km+1), jj ),
+                                A(jj,_(jj+1,jm)), AB_tmp);
 
-					}
-				} else {
+                    }
+                } else {
 //
 //                  If pivot is zero, return index
 //
-					return jj;
-				}
+                    return jj;
+                }
 //
 //              Copy current column of A31 into the work array WORK31
 //
-				IndexType NW = min( jj-j+1, i3 );
-				if( NW>0 ) {
-					blas::copy(AB( _(kv+kl+1-jj+j,kv+kl-jj+j+NW), jj ), Work31( _(1,NW), jj-j+1 ));
-				}
-    		}
-    		if( j+jb<=n ) {
+                IndexType NW = min( jj-j+1, i3 );
+                if( NW>0 ) {
+                    blas::copy(AB( _(kv+kl+1-jj+j,kv+kl-jj+j+NW), jj ),
+                               Work31( _(1,NW), jj-j+1 ));
+                }
+            }
+            if( j+jb<=n ) {
 //
 //              Apply the row interchanges to the other blocks.
 //
-    			IndexType j2 = min( ju-j+1, kv ) - jb;
-    			IndexType j3 = max( 0, ju-j-kv+1 );
+                IndexType j2 = min( ju-j+1, kv ) - jb;
+                IndexType j3 = max( 0, ju-j-kv+1 );
 //
 //              Use DLASWP to apply the row interchanges to A12, A22, and
 //              A32.
 //
-    			GeMatrixView AB_tmp = FullStorageView(min(ldAB-1,AB.numRows()-kv+jb), j2, &AB( kv+1-jb, j+jb ), ldAB-1);
-    			lapack::laswp(AB_tmp, piv(_(j,j+jb-1)));
+                const IndexType mAB_tmp = min(ldAB-1, AB.numRows()-kv+jb);
+                GeMatrixView AB_tmp = FullStorageView(mAB_tmp, j2,
+                                                      &AB( kv+1-jb, j+jb ),
+                                                      ldAB-1);
+                lapack::laswp(AB_tmp, piv(_(j,j+jb-1)));
 
 //
 //              Adjust the pivot indices.
 //
-    			for(IndexType i = j; i<=j + jb - 1; ++i) {
-    				piv( i ) = piv( i ) + j - 1;
-    			}
+                for(IndexType i = j; i<=j + jb - 1; ++i) {
+                    piv( i ) = piv( i ) + j - 1;
+                }
 //
 //              Apply the row interchanges to A13, A23, and A33
 //              columnwise.
 //
-    			IndexType k2 = j - 1 + jb + j2;
-    			for (IndexType i = 1; i<=j3; ++i) {
-    				IndexType jj = k2 + i;
-    				for (IndexType ii = j + i - 1; ii<=j + jb - 1; ++ii) {
-    					IndexType ip = piv( ii );
-    					if ( ip!=ii ) {
-    						ElementType TEMP     = AB( kv+1+ii-jj, jj );
-    						AB( kv+1+ii-jj, jj ) = AB( kv+1+ip-jj, jj );
-    						AB( kv+1+ip-jj, jj ) = TEMP;
-    					}
-    				}
-    			}
+                IndexType k2 = j - 1 + jb + j2;
+                for (IndexType i = 1; i<=j3; ++i) {
+                    IndexType jj = k2 + i;
+                    for (IndexType ii = j + i - 1; ii<=j + jb - 1; ++ii) {
+                        IndexType ip = piv( ii );
+                        if ( ip!=ii ) {
+                            ElementType TEMP     = AB( kv+1+ii-jj, jj );
+                            AB( kv+1+ii-jj, jj ) = AB( kv+1+ip-jj, jj );
+                            AB( kv+1+ip-jj, jj ) = TEMP;
+                        }
+                    }
+                }
 //
 //              Update the relevant part of the trailing submatrix
 //
-    			if( j2>0 ) {
+                if( j2>0 ) {
 //
 //                  Update A12
 //
-    				GeMatrixView AB_tmp_1 = FullStorageView(jb, jb, &AB( kv+1   , j ), ldAB-1);
-    				GeMatrixView AB_tmp_2 = FullStorageView(jb, j2, &AB( kv+1-jb, j+jb ), ldAB-1);
+                    GeMatrixView AB_tmp_1 = FullStorageView(jb, jb,
+                                                            &AB(kv+1, j),
+                                                            ldAB-1);
+                    GeMatrixView AB_tmp_2 = FullStorageView(jb, j2,
+                                                            &AB(kv+1-jb, j+jb),
+                                                            ldAB-1);
 
-    				blas::sm(Left, NoTrans, one, AB_tmp_1.lowerUnit(), AB_tmp_2);
+                    blas::sm(Left, NoTrans, one, AB_tmp_1.lowerUnit(), AB_tmp_2);
 
-    				if( i2>0 ) {
+                    if( i2>0 ) {
 //
-//                    	Update A22
+//                      Update A22
 //
-    					GeMatrixView AB_tmp_1 = FullStorageView(i2, jb, &AB( kv+1+jb, j    ), ldAB-1);
-    					GeMatrixView AB_tmp_2 = FullStorageView(jb, j2, &AB( kv+1-jb, j+jb ), ldAB-1);
-    					GeMatrixView AB_tmp_3 = FullStorageView(i2, j2, &AB( kv+1   , j+jb ), ldAB-1);
-    					AB_tmp_3 -= AB_tmp_1*AB_tmp_2;
+                        GeMatrixView AB_tmp_1 = FullStorageView(i2, jb, &AB( kv+1+jb, j    ), ldAB-1);
+                        GeMatrixView AB_tmp_2 = FullStorageView(jb, j2, &AB( kv+1-jb, j+jb ), ldAB-1);
+                        GeMatrixView AB_tmp_3 = FullStorageView(i2, j2, &AB( kv+1   , j+jb ), ldAB-1);
+                        AB_tmp_3 -= AB_tmp_1*AB_tmp_2;
 
 
-    				}
+                    }
 
-    				if( i3>0 ) {
+                    if( i3>0 ) {
 //
-//                    	Update A32
+//                      Update A32
 //
-    					GeMatrixView AB_tmp_1 = FullStorageView(jb, j2, &AB( kv   +1-jb, j+jb ), ldAB-1);
-    					GeMatrixView AB_tmp_2 = FullStorageView(i3, j2, &AB( kv+kl+1-jb, j+jb ), ldAB-1);
-    					AB_tmp_2 -= Work31(_(1,i3),_(1,jb))*AB_tmp_1;
+                        GeMatrixView AB_tmp_1 = FullStorageView(jb, j2, &AB( kv   +1-jb, j+jb ), ldAB-1);
+                        GeMatrixView AB_tmp_2 = FullStorageView(i3, j2, &AB( kv+kl+1-jb, j+jb ), ldAB-1);
+                        AB_tmp_2 -= Work31(_(1,i3),_(1,jb))*AB_tmp_1;
 
-    				}
+                    }
 
-    			}
+                }
 
-    			if( j3>0 ) {
+                if( j3>0 ) {
 //
 //                  Copy the lower triangle of A13 into the work array
 //                  WORK13
 //
-    				for (IndexType jj=1; jj<=j3; ++jj) {
-    					Work13(_(jj,jb), jj) = AB(_(1,jb-jj+1), jj+j+kv-1);
-    				}
+                    for (IndexType jj=1; jj<=j3; ++jj) {
+                        Work13(_(jj,jb), jj) = AB(_(1,jb-jj+1), jj+j+kv-1);
+                    }
 
 //
 //                  Update A13 in the work array
 //
-    				GeMatrixView AB_tmp = FullStorageView(jb, jb, &AB( kv+1, j ), ldAB-1);
+                    GeMatrixView AB_tmp = FullStorageView(jb, jb, &AB( kv+1, j ), ldAB-1);
 
 
-    				blas::sm(Left, NoTrans, one, AB_tmp.lowerUnit(), Work13(_(1,jb),_(1,j3)) );
+                    blas::sm(Left, NoTrans, one, AB_tmp.lowerUnit(), Work13(_(1,jb),_(1,j3)) );
 
-    				if( i2>0 ) {
+                    if( i2>0 ) {
 //
 //                      Update A23
 //
-    					GeMatrixView AB_tmp_1 = FullStorageView(i2, jb, &AB( kv+1+jb, j    ), ldAB-1);
-    					GeMatrixView AB_tmp_3 = FullStorageView(i2, j3, &AB(    1+jb, j+kv ), ldAB-1);
-    					AB_tmp_3 -= AB_tmp_1*Work13(_(1,jb),_(1,j3));
+                        GeMatrixView AB_tmp_1 = FullStorageView(i2, jb, &AB( kv+1+jb, j    ), ldAB-1);
+                        GeMatrixView AB_tmp_3 = FullStorageView(i2, j3, &AB(    1+jb, j+kv ), ldAB-1);
+                        AB_tmp_3 -= AB_tmp_1*Work13(_(1,jb),_(1,j3));
 
-    				}
+                    }
 
-    				if( i3>0 ) {
+                    if( i3>0 ) {
 //
 //                      Update A33
 //
-    					GeMatrixView AB_tmp = FullStorageView(i3, j3, &AB( 1+kl, j+kv ), ldAB-1);
-    					AB_tmp -= Work31(_(1,i3),_(1,jb))*Work13(_(1,jb),_(1,j3));
-    				}
+                        GeMatrixView AB_tmp = FullStorageView(i3, j3, &AB( 1+kl, j+kv ), ldAB-1);
+                        AB_tmp -= Work31(_(1,i3),_(1,jb))*Work13(_(1,jb),_(1,j3));
+                    }
 //
 //                  Copy the lower triangle of A13 back into place
 //
-    				for (IndexType jj = 1; jj<=j3; ++jj) {
-    					AB(_(1,jb-jj+1), jj+j+kv-1) = Work13(_(jj,jb),jj) ;
-    				}
-    			}
-    		} else {
+                    for (IndexType jj = 1; jj<=j3; ++jj) {
+                        AB(_(1,jb-jj+1), jj+j+kv-1) = Work13(_(jj,jb),jj) ;
+                    }
+                }
+            } else {
 //
 //              Adjust the pivot indices.
 //
-    			for (IndexType i = j; i<= j + jb - 1; ++i) {
-    				piv( i ) = piv( i ) + j - 1;
-    			}
-    		}
+                for (IndexType i = j; i<= j + jb - 1; ++i) {
+                    piv( i ) = piv( i ) + j - 1;
+                }
+            }
 //
 //          Partially undo the interchanges in the current block to
 //          restore the upper triangular form of A31 and copy the upper
 //          triangle of A31 back into place
 //
-    		for (IndexType jj = j + jb - 1; jj>= j; --jj) {
-    			IndexType jp = piv( jj ) - jj + 1;
-    			if( jp!=1 ) {
+            for (IndexType jj = j + jb - 1; jj>= j; --jj) {
+                IndexType jp = piv( jj ) - jj + 1;
+                if( jp!=1 ) {
 //
-//                 Apply interchange to columns j to jj-1
+//                  Apply interchange to columns j to jj-1
 //
-    				if( jp+jj-1<j+kl ) {
+                    if( jp+jj-1<j+kl ) {
 //
 //                      The interchange does not affect A31
 //
-    					blas::swap(A(jj,_(j,jj-1)),A(jj+jp-1,_(j,jj-1)));
+                        blas::swap(A(jj,_(j,jj-1)),A(jj+jp-1,_(j,jj-1)));
 
-    				} else {
+                    } else {
 //
 //                      The interchange does affect A31
 //
-    					blas::swap(A(jj,_(j,jj-1)), Work31(jp+jj-j-kl, _(1,jj-j)));
+                        blas::swap(A(jj,_(j,jj-1)), Work31(jp+jj-j-kl, _(1,jj-j)));
 
-    				}
-    			}
+                    }
+                }
 //
 //              Copy the current column of A31 back into place
 //
-    			IndexType nw = min( i3, jj-j+1 );
-    			if( nw>0 ) {
-    				blas::copy(Work31(_(1,nw), jj-j+1), AB( _(kv+kl+1-jj+j,kv+kl-jj+j+nw), jj ));
-    			}
-    		}
-    	}
+                IndexType nw = min( i3, jj-j+1 );
+                if( nw>0 ) {
+                    blas::copy(Work31(_(1,nw), jj-j+1), AB( _(kv+kl+1-jj+j,kv+kl-jj+j+nw), jj ));
+                }
+            }
+        }
     }
     return 0;
 }
@@ -432,7 +446,7 @@ trf(MA &&A, VPIV &&piv)
 #   ifdef CHECK_CXXLAPACK
 
     typedef typename RemoveRef<VPIV>::Type  VectorPiv;
-    
+
 //
 //  Make copies of output arguments
 //

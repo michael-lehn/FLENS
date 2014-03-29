@@ -54,7 +54,7 @@ heccsmv(StorageUpLo      upLo,
         VY               *y)
 {
     CXXBLAS_DEBUG_OUT("heccsmv_generic");
-  
+
     using cxxblas::conjugate;
 
 //
@@ -117,7 +117,7 @@ heccsmv(StorageUpLo      upLo,
     }
 }
 
-#ifdef HAVE_SPARSEBLAS   
+#ifdef HAVE_SPARSEBLAS
 
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
@@ -132,29 +132,29 @@ heccsmv(StorageUpLo             upLo,
         ComplexFloat            *y)
 {
     CXXBLAS_DEBUG_OUT("heccsmv -> [" BLAS_IMPL "] ccscmv");
-    
+
     char matdescra[5] = { "H*N*" };
     matdescra[1] = getF77BlasChar(upLo);
     matdescra[3] = getIndexBaseChar(ia[0]);
-    
+
     if (matdescra[3]=='E') {
-         heccsmv<IndexType, ComplexFloat, ComplexFloat, 
-                            ComplexFloat, ComplexFloat, 
+         heccsmv<IndexType, ComplexFloat, ComplexFloat,
+                            ComplexFloat, ComplexFloat,
                             ComplexFloat>
                             (upLo, n, alpha, A, ia, ja, x, beta, y);
          return;
     }
-      
-    char transA = 'N';    
+
+    char transA = 'N';
 
     mkl_ccscmv(&transA,
-               &n, &n,               
+               &n, &n,
                reinterpret_cast<const float*>(&alpha), &matdescra[0],
                reinterpret_cast<const float*>(A), ia, ja, ja+1,
                reinterpret_cast<const float*>(x),
-               reinterpret_cast<const float*>(&beta), 
+               reinterpret_cast<const float*>(&beta),
                reinterpret_cast<float*>(y));
-    
+
 }
 
 template <typename IndexType>
@@ -170,28 +170,28 @@ heccsmv(StorageUpLo             upLo,
         ComplexDouble           *y)
 {
     CXXBLAS_DEBUG_OUT("heccsmv -> [" BLAS_IMPL "] zcscmv");
-    
+
     char matdescra[5] = { "H*N*" };
     matdescra[1] = getF77BlasChar(upLo);
     matdescra[3] = getIndexBaseChar(ia[0]);
-    
+
     if (matdescra[3]=='E') {
-         heccsmv<IndexType, ComplexDouble, ComplexDouble, 
-                            ComplexDouble, ComplexDouble, 
+         heccsmv<IndexType, ComplexDouble, ComplexDouble,
+                            ComplexDouble, ComplexDouble,
                             ComplexDouble>
                             (upLo, n, alpha, A, ia, ja, x, beta, y);
          return;
     }
-    char transA = 'N';    
-    
+    char transA = 'N';
+
     mkl_zcscmv(&transA,
-              &n, &n,               
+              &n, &n,
               reinterpret_cast<const double*>(&alpha), &matdescra[0],
               reinterpret_cast<const double*>(A), ia, ja, ja+1,
               reinterpret_cast<const double*>(x),
-              reinterpret_cast<const double*>(&beta), 
+              reinterpret_cast<const double*>(&beta),
               reinterpret_cast<double*>(y));
-    
+
 }
 
 #endif

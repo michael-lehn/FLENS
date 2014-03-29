@@ -1266,8 +1266,8 @@ latrs_impl(Transpose             trans,
                             scale = Zero;
                             xMax = Zero;
                         }
-                    } 
-                    
+                    }
+
                 } else {
 //
 //                  Compute x(j) := x(j) / A(j,j) - CSUMJ if the dot
@@ -1276,7 +1276,7 @@ latrs_impl(Transpose             trans,
                     x(j) = ladiv(x(j), TjjS) - sumJ;
                 }
                 xMax = max(xMax, abs1(x(j)));
-                
+
             }
         }
         scale /= tScale;
@@ -1518,13 +1518,13 @@ latrs(Transpose trans,
 
     if (failed) {
         if(trans==NoTrans) {
-            std::cerr << "trans = NoTrans" << std::endl; 
+            std::cerr << "trans = NoTrans" << std::endl;
         } else if (trans==Conj) {
-            std::cerr << "trans = Conj" << std::endl; 
+            std::cerr << "trans = Conj" << std::endl;
         } else if (trans==Trans) {
-            std::cerr << "trans = Trans" << std::endl; 
+            std::cerr << "trans = Trans" << std::endl;
         } else if (trans==ConjTrans) {
-            std::cerr << "trans = ConjTrans" << std::endl; 
+            std::cerr << "trans = ConjTrans" << std::endl;
         }
         std::cerr << "normIn = " << normIn << std::endl;
         std::cerr << "x_org = " << x_org << std::endl;

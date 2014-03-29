@@ -47,7 +47,9 @@ namespace cxxblas {
 template <typename IndexType, typename ALPHA, typename MA, typename MB>
     void
     traxpy(StorageOrder order, StorageUpLo upLo, Transpose trans, Diag diag,
-           IndexType m, IndexType n, const ALPHA &alpha, const MA *A, IndexType ldA,
+           IndexType m, IndexType n,
+           const ALPHA &alpha,
+           const MA *A, IndexType ldA,
            MB *B, IndexType ldB);
 
 } // namespace cxxblas

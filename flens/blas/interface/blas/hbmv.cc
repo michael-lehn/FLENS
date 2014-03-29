@@ -19,11 +19,11 @@ BLAS(chbmv)(const char      *UPLO,
             const INTEGER   *INCY)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _UPLO   = toupper(*UPLO);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        
+
         cblas_chbmv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     *N, *K,
@@ -32,9 +32,9 @@ BLAS(chbmv)(const char      *UPLO,
                     reinterpret_cast<const float *>(X), *INCX,
                     reinterpret_cast<const float *>(BETA),
                     reinterpret_cast<float *>(Y), *INCY);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -60,12 +60,13 @@ BLAS(chbmv)(const char      *UPLO,
                 return;
             }
 #       endif
-    
+
         StorageUpLo  upLo = StorageUpLo(_UPLO);
         INTEGER      KL   = (upLo==Lower) ? *K : 0;
         INTEGER      KU   = (upLo==Upper) ? *K : 0;
 
-        CHbMatrixConstView    A(CBandConstView(*N, *N, KL, KU,  _A, *LDA), upLo);
+        CHbMatrixConstView    A(CBandConstView(*N, *N, KL, KU,  _A, *LDA),
+                                upLo);
         CDenseVectorConstView x(CConstArrayView(*N, X, abs(*INCX)), *INCX<0);
         CDenseVectorView      y(CArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
@@ -94,11 +95,11 @@ BLAS(zhbmv)(const char      *UPLO,
             const INTEGER   *INCY)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _UPLO   = toupper(*UPLO);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        
+
         cblas_zhbmv(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     *N, *K,
@@ -107,9 +108,9 @@ BLAS(zhbmv)(const char      *UPLO,
                     reinterpret_cast<const double *>(X), *INCX,
                     reinterpret_cast<const double *>(BETA),
                     reinterpret_cast<double *>(Y), *INCY);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -135,12 +136,13 @@ BLAS(zhbmv)(const char      *UPLO,
                 return;
             }
 #       endif
-    
+
         StorageUpLo  upLo = StorageUpLo(_UPLO);
         INTEGER      KL   = (upLo==Lower) ? *K : 0;
         INTEGER      KU   = (upLo==Upper) ? *K : 0;
 
-        ZHbMatrixConstView    A(ZBandConstView(*N, *N, KL, KU,  _A, *LDA), upLo);
+        ZHbMatrixConstView    A(ZBandConstView(*N, *N, KL, KU,  _A, *LDA),
+                                upLo);
         ZDenseVectorConstView x(ZConstArrayView(*N, X, abs(*INCX)), *INCX<0);
         ZDenseVectorView      y(ZArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
@@ -153,7 +155,7 @@ BLAS(zhbmv)(const char      *UPLO,
             blas::mv(*ALPHA, A, x, *BETA, y);
 #       endif
 #   endif
-    
+
 }
 
 } // extern "C"

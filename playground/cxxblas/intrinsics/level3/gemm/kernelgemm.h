@@ -61,7 +61,7 @@ template<typename IndexType, typename T>
                                const T *B, IndexType ldB,
                                const T &beta,
                                T *C, IndexType ldC );
-    
+
 // Mixed Kernel: A and B real, C complex
 template<typename IndexType, typename T>
     typename flens::RestrictTo<flens::IsReal<T>::value, void>::Type
@@ -71,7 +71,7 @@ template<typename IndexType, typename T>
                                const T *B, IndexType ldB,
                                const std::complex<T> &beta,
                                std::complex<T> *C, IndexType ldC );
-    
+
 // Mixed Kernel: A real, B and C complex
 template<typename IndexType, typename T>
     typename flens::RestrictTo<flens::IsReal<T>::value, void>::Type
@@ -81,7 +81,7 @@ template<typename IndexType, typename T>
                                const std::complex<T> *B, IndexType ldB,
                                const std::complex<T> &beta,
                                std::complex<T> *C, IndexType ldC );
-    
+
 // Mixed Kernel: B real, A and C complex
 template<typename IndexType, typename T>
     typename flens::RestrictTo<flens::IsReal<T>::value, void>::Type

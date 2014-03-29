@@ -17,15 +17,14 @@ BLAS(cherk)(const char      *UPLO,
             cfloat          *_C,
             const INTEGER   *LDC)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _UPLO   = toupper(*UPLO);
         char    _TRANS  = toupper(*TRANS);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      trans  = convertTo<Transpose>(_TRANS);
-        
+
         cblas_cherk(CBLAS_ORDER::CblasColMajor,
                     cxxblas::CBLAS::getCblasType(upLo),
                     cxxblas::CBLAS::getCblasType(trans),
@@ -34,17 +33,17 @@ BLAS(cherk)(const char      *UPLO,
                     reinterpret_cast<const float *>(_A), *LDA,
                     *BETA,
                     reinterpret_cast<float *>(_C), *LDC);
-    
+
 #   else
-        
+
         using std::abs;
         using std::max;
 
         char    _UPLO  = toupper(*UPLO);
         char    _TRANS = toupper(*TRANS);
         INTEGER nRowA  = (_TRANS=='N') ? *N : *K;
-    
-    
+
+
 #       ifndef NO_INPUT_CHECK
             INTEGER info  = 0;
             if (_UPLO!='U' && _UPLO!='L') {
@@ -120,15 +119,14 @@ BLAS(zherk)(const char      *UPLO,
             cdouble         *_C,
             const INTEGER   *LDC)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         char    _UPLO   = toupper(*UPLO);
         char    _TRANS  = toupper(*TRANS);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
         Transpose      trans  = convertTo<Transpose>(_TRANS);
-        
+
         cblas_zherk(CBLAS_ORDER::CblasColMajor,
                      cxxblas::CBLAS::getCblasType(upLo),
                      cxxblas::CBLAS::getCblasType(trans),
@@ -137,9 +135,9 @@ BLAS(zherk)(const char      *UPLO,
                      reinterpret_cast<const double *>(_A), *LDA,
                      *BETA,
                      reinterpret_cast<double *>(_C), *LDC);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -167,7 +165,7 @@ BLAS(zherk)(const char      *UPLO,
                 return;
             }
 #       endif
-    
+
         StorageUpLo  upLo  = StorageUpLo(_UPLO);
         Transpose    trans = convertTo<Transpose>(_TRANS);
 

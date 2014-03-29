@@ -37,7 +37,7 @@
 
 namespace flens { namespace mpi {
 
-#ifdef WITH_MPI  
+#ifdef WITH_MPI
 template <typename T>
 typename RestrictTo<MPI_Type<T>::Compatible,
                     void>::Type
@@ -45,37 +45,36 @@ MPI_send(const T &x, const int dest, const MPI::Comm &communicator)
 {
 
     using namespace MPI;
-    
+
     communicator.Send(
              reinterpret_cast<const typename MPI_Type<T>::PrimitiveType *>(&x),
              MPI_Type<T>::size, MPI_Type<T>::Type(), dest, 0);
-        
+
     return ;
-    
+
 }
 
 template <typename IndexType, typename T>
 typename RestrictTo<MPI_Type<T>::Compatible,
                     void>::Type
-MPI_send(const IndexType n, const T *x, const IndexType incX, const int dest, 
+MPI_send(const IndexType n, const T *x, const IndexType incX, const int dest,
          const MPI::Comm &communicator)
 {
-
     using namespace MPI;
-    
-    
+
+    typedef typename MPI_Type<T>::PrimitiveType  PT;
+
     if ( incX==1 ) {
-        communicator.Send(
-                 reinterpret_cast<const typename MPI_Type<T>::PrimitiveType *>(x),
-                 n*MPI_Type<T>::size, MPI_Type<T>::Type(), dest, 0);
+        communicator.Send(reinterpret_cast<const PT *>(x),
+                          n*MPI_Type<T>::size, MPI_Type<T>::Type(), dest, 0);
     } else {
         for (IndexType i=0, iX=0; i<n; ++i, iX+=incX) {
-            MPI_send(x[iX], dest, communicator); 
+            MPI_send(x[iX], dest, communicator);
         }
     }
-    
+
     return ;
-    
+
 }
 
 template <typename VX>
@@ -84,21 +83,21 @@ typename RestrictTo<IsDenseVector<VX>::value,
 MPI_send(VX &&x, const int dest, const MPI::Comm &communicator)
 {
    using namespace MPI;
-    
+
     typedef typename RemoveRef<VX>::Type   VectorX;
     typedef typename VectorX::ElementType T;
     typedef typename VectorX::IndexType   IndexType;
-    
-    
+
+
     // Send Vector length and stride
     const IndexType length = x.length();
-    const IndexType stride = x.stride();   
-    
+    const IndexType stride = x.stride();
+
     MPI_send(length, dest, communicator);
-    MPI_send(stride, dest, communicator); 
-    
+    MPI_send(stride, dest, communicator);
+
     MPI_send(x.length(), x.data(), x.stride(), dest, communicator);
-    
+
 }
 
 template <typename MA>
@@ -108,15 +107,15 @@ MPI_send(MA &&A, const int dest, const MPI::Comm &communicator)
 {
 
     using namespace MPI;
-    
+
     typedef typename RemoveRef<MA>::Type   MatrixA;
     typedef typename MatrixA::ElementType T;
     typedef typename MatrixA::IndexType   IndexType;
-    
+
     // Send size
     const IndexType numCols = A.numCols();
     const IndexType numRows = A.numRows();
-    
+
     MPI_send(numRows, dest, communicator);
     MPI_send(numCols, dest, communicator);
 
@@ -124,23 +123,23 @@ MPI_send(MA &&A, const int dest, const MPI::Comm &communicator)
     const int isColMajor = ( A.order() == ColMajor );
     MPI_send(isColMajor, dest, communicator);
 #endif
-    
+
     if ( A.order() == ColMajor ) {
-      
+
         for (IndexType i=0; i<A.numCols(); ++i) {
             MPI_send(A.numRows(), A.data()+i*A.leadingDimension(), 1,
-                     dest, communicator);     
+                     dest, communicator);
         }
-      
+
     } else {
-      
+
         for (IndexType i=0; i<A.numRows(); ++i) {
 
             MPI_send(A.numCols(), A.data()+i*A.leadingDimension(), 1,
                      dest, communicator);
-        
-        
-        }      
+
+
+        }
     }
 
 }

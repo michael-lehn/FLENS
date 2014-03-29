@@ -142,7 +142,7 @@ ev_impl(bool                  computeV,
 
 #ifdef USE_CXXLAPACK
 
-//-- (he)ev [complex variant] -----------------------------------------------------
+//-- (he)ev [complex variant] --------------------------------------------------
 template <typename MA, typename VW, typename VWORK, typename VRWORK>
 typename RestrictTo<IsHeMatrix<MA>::value
                  && IsRealDenseVector<VW>::value

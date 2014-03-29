@@ -54,7 +54,8 @@
 
 #define FLENS_BLASLOG_RESIZE_VECTOR(X, n)
 #define FLENS_BLASLOG_RESIZE_MATRIX(B, numRows, numCols)
-#define FLENS_BLASLOG_RESIZE_GBMATRIX(B, numRows, numCols, numSubDiags, numSuperDiags)
+#define FLENS_BLASLOG_RESIZE_GBMATRIX(B, numRows, numCols, \
+                                         numSubDiags, numSuperDiags)
 #define FLENS_BLASLOG_RESIZE_HBMATRIX(B, dim, numOffDiags)
 #define FLENS_BLASLOG_RESIZE_TBMATRIX(B, dim, numOffDiags)
 #define FLENS_BLASLOG_RESIZE_SBMATRIX(B, dim, numOffDiags)

@@ -349,7 +349,7 @@ lsy_impl(GeMatrix<MA>              &A,
         IndexType nb4 = ilaenv<ElementType>(1, "UNMRQ", "", m, n, nRhs);
         IndexType nb = max(nb1, nb2, nb3, nb4);
         lWorkMin = mn + max(2*mn, n+1, mn+nRhs);
-        lWorkOpt = max( 1, mn+2*n+nb*( n+1 ), 2*nb+nb*nRhs ); 
+        lWorkOpt = max( 1, mn+2*n+nb*( n+1 ), 2*nb+nb*nRhs );
     }
 
     if (lWork==0) {
@@ -513,7 +513,9 @@ lsy_impl(GeMatrix<MA>              &A,
 //  B(1:N,1:NRHS) := Y**H * B(1:N,1:NRHS)
 //
     if (rank<n) {
-        unmrz(Left, ConjTrans, n-rank, A(_(1,rank),_), tau2, B(_(1,n),_), work_);
+        unmrz(Left, ConjTrans, n-rank,
+              A(_(1,rank),_), tau2, B(_(1,n),_),
+              work_);
     }
 //
 //  workspace: 2*MN+NRHS.
@@ -729,7 +731,7 @@ lsy(MA           &&A,
     typedef typename RemoveRef<MB>::Type    MatrixB;
     typedef typename RemoveRef<VJPIV>::Type VectorJPiv;
     typedef typename RemoveRef<VWORK>::Type VectorWork;
-    
+
     typename MatrixA::NoView        A_org      = A;
     typename MatrixB::NoView        B_org      = B;
     typename VectorJPiv::NoView     jPiv_org   = jPiv;
@@ -882,7 +884,7 @@ lsy(MA           &&A,
     typedef typename RemoveRef<VJPIV>::Type  VectorJPiv;
     typedef typename RemoveRef<VWORK>::Type  VectorWork;
     typedef typename RemoveRef<VRWORK>::Type VectorRWork;
-        
+
     typename MatrixA::NoView        A_org      = A;
     typename MatrixB::NoView        B_org      = B;
     typename VectorJPiv::NoView     jPiv_org   = jPiv;
@@ -947,7 +949,8 @@ lsy(MA           &&A,
         failed = true;
     }
     if (! isIdentical(rwork_generic, rwork, "rwork_generic", "rwork")) {
-        std::cerr << "CXXLAPACK: rwork_generic = " << rwork_generic << std::endl;
+        std::cerr << "CXXLAPACK: rwork_generic = " << rwork_generic
+                  << std::endl;
         std::cerr << "F77LAPACK: rwork = " << rwork << std::endl;
         failed = true;
     }
@@ -965,63 +968,6 @@ lsy(MA           &&A,
 #   endif
 
     return rank;
-    
-    
-
-    /*
-    using flens::max;
-    using flens::min;
-
-    LAPACK_DEBUG_OUT("(ge)lsy [complex]");
-
-//
-//  Remove references from rvalue types
-//
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::IndexType     IndexType;
-
-//
-//  Test the input parameters
-//
-    const IndexType m = A.numRows();
-    const IndexType n = A.numCols();
-    const IndexType nRhs = B.numCols();
-
-#   ifndef NDEBUG
-    ASSERT(A.firstRow()==1);
-    ASSERT(A.firstCol()==1);
-    ASSERT(B.firstRow()==1);
-    ASSERT(B.firstCol()==1);
-    ASSERT(jPiv.firstIndex()==1);
-    ASSERT(work.firstIndex()==1);
-    ASSERT(B.numRows()==max(m,n));
-    ASSERT(jPiv.length()==0 || jPiv.length()==n);
-
-    if (work.length()>0) {
-        const IndexType mn = min(m, n);
-        const IndexType lWorkMin = mn + max(2*mn, n + 1, mn + nRhs);
-        ASSERT(work.length()>=lWorkMin);
-    }
-
-    ASSERT(rwork.length()==0 || rwork.length()==2*n);
-#   endif
-
-    if (jPiv.length()==0) {
-        jPiv.resize(n, jPiv.firstIndex(), IndexType(0));
-    }
-
-    if (rwork.length()==0) {
-        rwork.resize(2*n);
-    }
-
-//
-//  Call implementation
-//
-    IndexType  rank;
-    external::lsy_impl(A, B, jPiv, rCond, rank, work, rwork);
-
-    return rank;
-    */
 }
 
 

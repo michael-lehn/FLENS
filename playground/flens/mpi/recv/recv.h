@@ -48,9 +48,9 @@ namespace flens { namespace mpi {
 template <typename T>
     typename RestrictTo<MPI_Type<T>::Compatible,
                         T>::Type
-    MPI_recv(const int source, 
-             const MPI::Comm &communicator = MPI::COMM_WORLD); 
-    
+    MPI_recv(const int source,
+             const MPI::Comm &communicator = MPI::COMM_WORLD);
+
 template <typename T>
     typename RestrictTo<MPI_Type<T>::Compatible,
                         void>::Type
@@ -61,28 +61,28 @@ template <typename IndexType, typename T>
     typename RestrictTo<MPI_Type<T>::Compatible,
                         void>::Type
     MPI_recv(const IndexType n, T *x, const int source,
-             const MPI::Comm &communicator = MPI::COMM_WORLD);    
-  
+             const MPI::Comm &communicator = MPI::COMM_WORLD);
+
 template <typename VX>
     typename RestrictTo<IsDenseVector<VX>::value,
                         void>::Type
-    MPI_recv(VX &&x, const int source, 
+    MPI_recv(VX &&x, const int source,
              const MPI::Comm &communicator = MPI::COMM_WORLD);
 
 template <typename MA>
     typename RestrictTo<IsGeMatrix<MA>::value,
                         void>::Type
-    MPI_recv(MA &&A, const int source, 
+    MPI_recv(MA &&A, const int source,
              const MPI::Comm &communicator = MPI::COMM_WORLD);
 
 template <typename X>
     typename RestrictTo<IsDenseVector<X>::value ||
                         IsGeMatrix<X>::value,
                         void>::Type
-    MPI_recv_all(std::vector<X> &x, 
+    MPI_recv_all(std::vector<X> &x,
                  const MPI::Comm &communicator = MPI::COMM_WORLD);
 
-#endif    
+#endif
 } }
 
 #endif // PLAYGROUND_FLENS_MPI_RECV_RECV_H

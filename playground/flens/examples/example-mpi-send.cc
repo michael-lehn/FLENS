@@ -23,15 +23,15 @@ main(int argc, char* argv[])
 
     ///
     /// Inititialize MPI enviroment
-    /// 
+    ///
     MPI_init(argc, argv);
-    
+
     ///
     /// Get rank
-    /// 
+    ///
     int rank = MPI_rank();
 
-    if ( rank==0 ) { 
+    if ( rank==0 ) {
         ///
         /// Receive vectors and print them
         ///
@@ -46,8 +46,8 @@ main(int argc, char* argv[])
         /// fill vector with numbers
         ///
         x = T(-rank), T(0), T(rank);
-    
-        /// 
+
+        ///
         /// Send vector to rank 0
         /// works also with GeMatrix
         ///
@@ -55,7 +55,7 @@ main(int argc, char* argv[])
     }
     ///
     /// Finalize MPI environment
-    /// 
+    ///
     MPI_finalize();
 
     return 0;

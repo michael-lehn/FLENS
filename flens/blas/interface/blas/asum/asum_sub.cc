@@ -12,9 +12,9 @@ BLAS(sasum_sub)(const INTEGER   *N,
                 float           *RES)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         (*RES) = cblas_sasum(*N, X, *INCX);
-    
+
 #   else
         using std::abs;
 
@@ -32,9 +32,9 @@ BLAS(dasum_sub)(const INTEGER   *N,
                 double          *RES)
 {
 #   ifdef TEST_DIRECT_CBLAS
-        
+
         (*RES) = cblas_dasum(*N, X, *INCX);
-        
+
 #   else
         using std::abs;
 
@@ -51,17 +51,17 @@ BLAS(scasum_sub)(const INTEGER   *N,
                  float           *RES)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         (*RES) = cblas_scasum(*N, reinterpret_cast<const float *>(X), *INCX);
-    
+
 #   else
-    
+
         using std::abs;
 
         CDenseVectorConstView  x(CConstArrayView(*N, X, abs(*INCX)), *INCX<0);
 
         blas::asum(x, *RES);
-    
+
 #   endif
 }
 
@@ -73,18 +73,18 @@ BLAS(dzasum_sub)(const INTEGER   *N,
                  double          *RES)
 {
 #   ifdef TEST_DIRECT_CBLAS
-        
+
         (*RES) = cblas_dzasum(*N, reinterpret_cast<const double *>(X), *INCX);
-        
+
 #   else
         using std::abs;
 
         ZDenseVectorConstView  x(ZConstArrayView(*N, X, abs(*INCX)), *INCX<0);
 
         blas::asum(x, *RES);
-    
+
 #   endif
-    
+
 }
 
 

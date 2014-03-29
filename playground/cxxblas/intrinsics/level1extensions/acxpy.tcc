@@ -44,7 +44,7 @@ namespace cxxblas {
 
 template <typename IndexType, typename T>
 typename flens::RestrictTo<flens::IsReal<T>::value &&
-                           flens::IsIntrinsicsCompatible<T>::value, 
+                           flens::IsIntrinsicsCompatible<T>::value,
                            void>::Type
 acxpy(IndexType n, const T &alpha, const T *x,
       IndexType incX, T *y, IndexType incY)
@@ -57,7 +57,7 @@ acxpy(IndexType n, const T &alpha, const T *x,
 
 template <typename IndexType, typename T>
 typename flens::RestrictTo<flens::IsComplex<T>::value &&
-                           flens::IsIntrinsicsCompatible<T>::value, 
+                           flens::IsIntrinsicsCompatible<T>::value,
                            void>::Type
 acxpy(IndexType n, const T &alpha, const T *x,
       IndexType incX, T *y, IndexType incY)
@@ -90,7 +90,7 @@ acxpy(IndexType n, const T &alpha, const T *x,
                 _y.loadu(y+i);
                 _y = _intrinsic_addsub(_y, _intrinsic_mul(_real_alpha, _x));
                 _y.storeu(y+i);
-            }        
+            }
         } else {
             for (; i+numElements-1<n; i+=numElements) {
                 _x.loadu(x+i);

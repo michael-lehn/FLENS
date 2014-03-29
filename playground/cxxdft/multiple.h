@@ -48,8 +48,8 @@ template <typename IndexType, typename VIN, typename VOUT>
                  DFTDirection direction);
 
 #ifdef HAVE_FFTW
-    
-#ifdef HAVE_FFTW_FLOAT    
+
+#ifdef HAVE_FFTW_FLOAT
 template <typename IndexType>
     void
     dft_multiple(IndexType n, IndexType m,
@@ -57,7 +57,7 @@ template <typename IndexType>
                  std::complex<float> *y, IndexType strideY, IndexType distY,
                  DFTDirection direction);
 #endif // HAVE_FFTW_FLOAT
-    
+
 #ifdef HAVE_FFTW_DOUBLE
 template <typename IndexType>
     void
@@ -71,22 +71,22 @@ template <typename IndexType>
 template <typename IndexType>
     void
     dft_multiple(IndexType n, IndexType m,
-                 std::complex<long double> *x, IndexType strideX, IndexType distX,
-                 std::complex<long double> *y, IndexType strideY, IndexType distY,
-                 DFTDirection direction);
+             std::complex<long double> *x, IndexType strideX, IndexType distX,
+             std::complex<long double> *y, IndexType strideY, IndexType distY,
+             DFTDirection direction);
 #endif // HAVE_FFTW_LONGDOUBLE
- 
+
 #ifdef HAVE_FFTW_QUAD
 template <typename IndexType>
     void
     dft_multiple(IndexType n, IndexType m,
-                 std::complex<__float128> *x, IndexType strideX, IndexType distX,
-                 std::complex<__float128> *y, IndexType strideY, IndexType distY,
-                 DFTDirection direction);
+             std::complex<__float128> *x, IndexType strideX, IndexType distX,
+             std::complex<__float128> *y, IndexType strideY, IndexType distY,
+             DFTDirection direction);
 #endif // HAVE_FFTW_QUAD
-    
+
 #endif
-    
+
 } // namespace cxxfft
 
 #endif // PLAYGROUND_CXXDFT_MULTIPLE_H

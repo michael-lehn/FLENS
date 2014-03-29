@@ -22,16 +22,16 @@ main(int argc, char* argv[])
     Matrix A(n, n);
     IndexVector Pivots;
 
-    /// 
+    ///
     /// Fill in random values
     ///
     fillRandom(A);
     cout << " A = " << A << endl;
-    
+
     ///
     /// Calculate determinant based on LU factorization
     ///
     cout << lapack::extensions::det(A, Pivots) << endl;
-        
+
     return 0;
 }

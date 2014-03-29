@@ -44,20 +44,20 @@ namespace cxxblas {
 
 template <typename IndexType, typename T>
 typename flens::RestrictTo<flens::IsComplex<T>::value &&
-                           flens::IsIntrinsicsCompatible<T>::value, 
+                           flens::IsIntrinsicsCompatible<T>::value,
                            void>::Type
 ccopy(IndexType n, const T *x,
       IndexType incX, T *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("ccopy_intrinsics [" INTRINSIC_NAME "]");
-    
+
     using std::real;
     using std::imag;
 
     typedef Intrinsics<T, DEFAULT_INTRINSIC_LEVEL>     IntrinsicType;
     typedef typename IntrinsicType::PrimitiveDataType  PT;
     typedef Intrinsics<PT, DEFAULT_INTRINSIC_LEVEL>    IntrinsicPrimitiveType;
-    
+
     if (incX==1 && incY==1) {
 
         const int numElements = IntrinsicType::numElements;

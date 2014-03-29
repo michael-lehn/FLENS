@@ -52,43 +52,43 @@ geswap(StorageOrder orderA, StorageOrder orderB,
     CXXBLAS_DEBUG_OUT("geswap_generic");
 
     if ( (orderA==ColMajor) && (orderB==ColMajor) ) {
-      
+
         if ( (m==ldA) && (m==ldB) ) {
 
             cxxblas::swap(m*n, A, IndexType(1), B, IndexType(1));
 
         } else {
-        
+
             for (IndexType j=0; j<n; ++j) {
-                cxxblas::swap(m, A+j*ldA, IndexType(1), B+j*ldB, IndexType(1)); 
-            } 
+                cxxblas::swap(m, A+j*ldA, IndexType(1), B+j*ldB, IndexType(1));
+            }
         }
-        
+
     } else if ( (orderA==RowMajor) && (orderB==RowMajor) ){
-      
+
         if ( (n==ldA) && (n==ldB) ) {
-  
+
             cxxblas::swap(m*n, A, IndexType(1), B, IndexType(1));
-    
+
         } else {
-        
+
             for (IndexType i=0; i<m; ++i) {
-                cxxblas::swap(n, A+i*ldA, IndexType(1), B+i*ldB, IndexType(1)); 
+                cxxblas::swap(n, A+i*ldA, IndexType(1), B+i*ldB, IndexType(1));
             }
         }
     } else if ( (orderA==ColMajor) && (orderB==RowMajor) ) {
-      
+
       for (IndexType i=0; i<n; ++i) {
           cxxblas::swap(m, A+i*ldA, IndexType(1), B+i, ldB);
       }
-      
+
     } else if ( (orderA==RowMajor) && (orderB==ColMajor) ) {
-      
+
         for (IndexType j=0; j<m; ++j) {
-            cxxblas::swap(n, A+j, ldA, B+j*ldB, IndexType(1)); 
+            cxxblas::swap(n, A+j, ldA, B+j*ldB, IndexType(1));
         }
     } else {
-        ASSERT(0); 
+        ASSERT(0);
     }
 }
 

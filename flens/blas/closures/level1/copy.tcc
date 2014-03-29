@@ -139,7 +139,7 @@ typename RestrictTo<DefaultEval<VectorClosureOpConj<VX> >::value
                  && IsVector<VX>::value,
          void>::Type
 copy(const VectorClosureOpConj<VX> &x, Vector<VY> &y)
-{   
+{
     FLENS_BLASLOG_BEGIN_COPY(x, y);
     copyConj(x.left(), y.impl());
     FLENS_BLASLOG_END;
@@ -367,7 +367,8 @@ copy(Transpose trans, const MatrixClosure<OpMult, MA, MB> &AB, Matrix<MC> &C)
 
 template <typename Op, typename ML, typename MR, typename MB>
 void
-copy(Transpose DEBUG_VAR(trans), const MatrixClosure<Op, ML, MR> & DEBUG_VAR(A), Matrix<MB> & DEBUG_VAR(B) )
+copy(Transpose DEBUG_VAR(trans), const MatrixClosure<Op, ML, MR> &DEBUG_VAR(A),
+     Matrix<MB> &DEBUG_VAR(B) )
 {
     FLENS_BLASLOG_ERROR_MCOPY(trans, A, B);
     ERROR_MSG("B = <Unknown Closure>");

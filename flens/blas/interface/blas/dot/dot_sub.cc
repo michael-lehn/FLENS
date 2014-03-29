@@ -14,11 +14,11 @@ BLAS(sdot_sub)(const INTEGER   *N,
                float           *RES)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         *RES = cblas_sdot(*N, X, *INCX, Y, *INCY);
-    
+
 #   else
-    
+
         using std::abs;
 
         SDenseVectorConstView x(SConstArrayView(*N, X, abs(*INCX)), *INCX<0);
@@ -41,9 +41,9 @@ BLAS(ddot_sub)(const INTEGER   *N,
                double          *RES)
 {
 #   ifdef TEST_DIRECT_CBLAS
-        
+
         *RES = cblas_ddot(*N, X, *INCX, Y, *INCY);
-        
+
 #   else
         using std::abs;
 
@@ -67,15 +67,15 @@ BLAS(cdotc_sub)(const INTEGER  *N,
                 cfloat         *RES)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
     cblas_cdotc_sub(*N,
                     reinterpret_cast<const float *>(X), *INCX,
                     reinterpret_cast<const float *>(Y), *INCY,
                     reinterpret_cast<float *>(RES));
-    
+
 #   else
         using std::abs;
-    
+
         CDenseVectorConstView x(CConstArrayView(*N, X, abs(*INCX)), *INCX<0);
         CDenseVectorConstView y(CConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
@@ -96,12 +96,12 @@ BLAS(cdotu_sub)(const INTEGER  *N,
                 cfloat         *RES)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
     cblas_cdotu_sub(*N,
                     reinterpret_cast<const float *>(X), *INCX,
                     reinterpret_cast<const float *>(Y), *INCY,
                     reinterpret_cast<float *>(RES));
-    
+
 #   else
         using std::abs;
 
@@ -114,7 +114,7 @@ BLAS(cdotu_sub)(const INTEGER  *N,
             *RES = blas::dotu(x, y);
 #       endif
 #   endif
-    
+
 }
 
 void
@@ -126,12 +126,12 @@ BLAS(zdotc_sub)(const INTEGER  *N,
                 cdouble        *RES)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
     cblas_zdotc_sub(*N,
                     reinterpret_cast<const double *>(X), *INCX,
                     reinterpret_cast<const double *>(Y), *INCY,
                     reinterpret_cast<double *>(RES));
-    
+
 #   else
         using std::abs;
 
@@ -156,12 +156,12 @@ BLAS(zdotu_sub)(const INTEGER  *N,
 {
 
 #   ifdef TEST_DIRECT_CBLAS
-    
+
     cblas_zdotu_sub(*N,
                     reinterpret_cast<const double *>(X), *INCX,
                     reinterpret_cast<const double *>(Y), *INCY,
                     reinterpret_cast<double *>(RES));
-    
+
 #   else
         using std::abs;
 
@@ -174,7 +174,7 @@ BLAS(zdotu_sub)(const INTEGER  *N,
             *RES = blas::dotu(x, y);
 #       endif
 #   endif
-    
+
 }
 
 void
@@ -187,9 +187,9 @@ BLAS(sdsdot_sub)(const INTEGER   *N,
                  float           *RES)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         *RES = cblas_sdsdot(*N, *B, X, *INCX, Y, *INCY);
-    
+
 #   else
         using std::abs;
 
@@ -213,18 +213,18 @@ BLAS(dsdot_sub)(const INTEGER   *N,
                 double          *RES)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
     *RES =  cblas_dsdot(*N, X, *INCX, Y, *INCY);
-    
+
 #   else
-    
+
         using std::abs;
 
         SDenseVectorConstView x(SConstArrayView(*N, X, abs(*INCX)), *INCX<0);
         SDenseVectorConstView y(SConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
         blas::dot(x, y, *RES);
-    
+
 #   endif
 }
 

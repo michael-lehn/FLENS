@@ -154,7 +154,7 @@ sv(MA &&A, VPIV &&piv, MB &&B)
 
     typedef typename RemoveRef<VPIV>::Type  VectorPiv;
     typedef typename RemoveRef<MB>::Type    MatrixB;
-    
+
 //
 //  Make copies of output arguments
 //
@@ -168,7 +168,7 @@ sv(MA &&A, VPIV &&piv, MB &&B)
 //  Call implementation
 //
     IndexType info = LAPACK_SELECT::sv_impl(A, piv, B);
-    
+
 #   ifdef CHECK_CXXLAPACK
 //
 //  Compare results

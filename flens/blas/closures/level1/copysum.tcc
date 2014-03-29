@@ -140,14 +140,18 @@ typename RestrictTo<IsScalarValue<VXL1>::value &&
                     IsVector<VY>::value,
                     void>::Type
 copySum(const VectorClosure<OpMult, VXL1, VXR1> &x1, const ALPHA &alpha,
-        const VectorClosure<OpMult, VXL2, VectorClosureOpConj<VXR2> > &x2, VY &y)
+        const VectorClosure<OpMult, VXL2, VectorClosureOpConj<VXR2> > &x2,
+        VY &y)
 {
     ASSERT(alpha==ALPHA(1) || alpha==ALPHA(-1));
 
     ASSERT(!DebugClosure::search(x2, y));
 
     if (DEBUGCLOSURE::identical(x1.right().impl(), y)) {
-         blas::acxpby(alpha*x2.left().value(), x2.right().left(), x1.left().value(), y);
+         blas::acxpby(alpha*x2.left().value(),
+                      x2.right().left(),
+                      x1.left().value(),
+                      y);
     } else {
          blas::copy(x1.right(), y);
          blas::scal(x1.left().value(), y);

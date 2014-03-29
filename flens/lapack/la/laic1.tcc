@@ -104,7 +104,8 @@ laic1_impl(LAIC1::Job               job,
             } else {
                 s = alpha / s1;
                 c = gamma / s1;
-                tmp = sqrt(cxxblas::real(s*conjugate(s)) + cxxblas::real(c*conjugate(c)));
+                tmp = sqrt(cxxblas::real(s*conjugate(s))
+                          +cxxblas::real(c*conjugate(c)));
                 s /= tmp;
                 c /= tmp;
                 sEstPr = s1*tmp;
@@ -189,7 +190,8 @@ laic1_impl(LAIC1::Job               job,
                 sine   = -zeta1 / t;
                 cosine = -zeta2 / (One +t);
             }
-            tmp = sqrt(cxxblas::real(sine*conjugate(sine)) + cxxblas::real(cosine*conjugate(cosine)));
+            tmp = sqrt(cxxblas::real(sine*conjugate(sine))
+                      +cxxblas::real(cosine*conjugate(cosine)));
             s = sine / tmp;
             c = cosine / tmp;
             sEstPr = sqrt(t + One)*absEst;
@@ -214,7 +216,8 @@ laic1_impl(LAIC1::Job               job,
             s1 = max(abs(sine), abs(cosine));
             s = sine / s1;
             c = cosine / s1;
-            tmp = sqrt(cxxblas::real(s*conjugate(s)) + cxxblas::real(c*conjugate(c)));
+            tmp = sqrt(cxxblas::real(s*conjugate(s))
+                      +cxxblas::real(c*conjugate(c)));
             s /= tmp;
             c /= tmp;
             return;
@@ -325,7 +328,8 @@ laic1_impl(LAIC1::Job               job,
                 }
                 sEstPr = sqrt(One + t + Four*eps*eps*normA)*absEst;
             }
-            tmp = sqrt(cxxblas::real(sine*conjugate(sine)) + cxxblas::real(cosine*conjugate(cosine)));
+            tmp = sqrt(cxxblas::real(sine*conjugate(sine))
+                      +cxxblas::real(cosine*conjugate(cosine)));
             s = sine / tmp;
             c = cosine / tmp;
             return;

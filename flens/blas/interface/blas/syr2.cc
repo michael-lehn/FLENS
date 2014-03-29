@@ -16,20 +16,19 @@ BLAS(ssyr2)(const char      *UPLO,
             float           *_A,
             const INTEGER   *LDA)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-        
+
         char    _UPLO   = toupper(*UPLO);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        
+
         cblas_ssyr2(CBLAS_ORDER::CblasColMajor,
                    cxxblas::CBLAS::getCblasType(upLo),
                    *N, *ALPHA,
                    X, *INCX, Y, *INCY, _A, *LDA);
-        
+
 #   else
-        
+
         using std::abs;
         using std::max;
 
@@ -81,18 +80,17 @@ BLAS(dsyr2)(const char      *UPLO,
             double          *_A,
             const INTEGER   *LDA)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-        
+
         char    _UPLO   = toupper(*UPLO);
-        
+
         StorageUpLo    upLo   = StorageUpLo(_UPLO);
-        
+
         cblas_dsyr2(CBLAS_ORDER::CblasColMajor,
                    cxxblas::CBLAS::getCblasType(upLo),
                    *N, *ALPHA,
                    X, *INCX, Y, *INCY, _A, *LDA);
-        
+
 #   else
         using std::abs;
         using std::max;

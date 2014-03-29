@@ -42,7 +42,7 @@ void
 ccopy_generic(IndexType n, const X *x, IndexType incX, Y *y, IndexType incY)
 {
     CXXBLAS_DEBUG_OUT("ccopy_generic");
-    
+
     for (IndexType i=0, iX=0, iY=0; i<n; ++i, iX+=incX, iY+=incY) {
         y[iY] = conjugate(x[iX]);
     }

@@ -43,11 +43,13 @@ add_transpose_8x8(const T *A, const IndexType ldA , T *B, const IndexType ldB);
 
 template <typename IndexType>
 void
-add_transpose_8x8(const float *A, const IndexType ldA , float *B, const IndexType ldB);
+add_transpose_8x8(const float *A, const IndexType ldA ,
+                  float *B, const IndexType ldB);
 
 template <typename IndexType>
 void
-add_transpose_8x8(const double *A, const IndexType ldA , double *B, const IndexType ldB);
+add_transpose_8x8(const double *A, const IndexType ldA ,
+                  double *B, const IndexType ldB);
 
 #endif // HAVE_AVX
 

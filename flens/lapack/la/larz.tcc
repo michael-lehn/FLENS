@@ -56,7 +56,7 @@ namespace generic {
 //-- larz [real variant] -------------------------------------------------------
 
 template <typename VV, typename TAU, typename MC, typename VWORK>
-typename 
+typename
 RestrictTo<IsRealGeMatrix<GeMatrix<MC> >::value,
            void>::Type
 larz_impl(Side                   side,
@@ -132,7 +132,7 @@ larz_impl(Side                   side,
 //-- larz [complex variant] ----------------------------------------------------
 
 template <typename VV, typename TAU, typename MC, typename VWORK>
-typename 
+typename
 RestrictTo<IsComplexGeMatrix<GeMatrix<MC> >::value,
            void>::Type
 larz_impl(Side                   side,
@@ -270,13 +270,13 @@ larz(Side       side,
 #   if defined(CHECK_CXXLAPACK) || !defined(NDEBUG)
 
     typedef typename RemoveRef<MC>::Type    MatrixC;
-    
+
 #   endif
 
 #   ifndef NDEBUG
 
     typedef typename MatrixC::IndexType     IndexType;
-    
+
     const IndexType m = C.numRows();
     const IndexType n = C.numCols();
     const IndexType l = v.length();
@@ -295,7 +295,7 @@ larz(Side       side,
 //
 #   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<VWORK>::Type VectorWork;
-    
+
     typename MatrixC::NoView        C_org    = C;
     typename VectorWork::NoView     work_org = work;
 #   endif

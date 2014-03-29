@@ -47,12 +47,13 @@ namespace cxxblas {
 template <typename IndexType, typename T>
     typename flens::RestrictTo<flens::IsReal<T>::value &&
                                flens::IsIntrinsicsCompatible<T>::value,
-                               void>::Type
+                    void>::Type
     scal(IndexType n, const T &alpha, T *y, IndexType incY);
 
 template <typename IndexType, typename T>
     typename flens::RestrictTo<flens::IsComplex<T>::value &&
-                               flens::IsIntrinsicsCompatible<T>::value, void>::Type
+                               flens::IsIntrinsicsCompatible<T>::value,
+                    void>::Type
     scal(IndexType n, const T &alpha, T *y, IndexType incY);
 
 #endif // USE_INTRINSIC

@@ -132,7 +132,7 @@ ev_impl(bool                  computeV,
 
 #ifdef USE_CXXLAPACK
 
-//-- (sy)ev [complex variant] -----------------------------------------------------
+//-- (sy)ev [complex variant] --------------------------------------------------
 template <typename MA, typename VW, typename VWORK>
 typename RestrictTo<IsRealSyMatrix<MA>::value
                  && IsRealDenseVector<VW>::value

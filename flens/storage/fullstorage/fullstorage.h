@@ -178,7 +178,7 @@ class FullStorage
              IndexType strideCol = IndexType(1),
              IndexType firstViewRow = I::defaultIndexBase,
              IndexType firstViewCol = I::defaultIndexBase) const;
-    
+
         View
         view(IndexType fromRow, IndexType fromCol,
              IndexType toRow, IndexType toCol,

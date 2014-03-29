@@ -40,16 +40,20 @@
 //--- Real
 
 Intrinsics<float, IntrinsicsLevel::SSE>
-inline _intrinsic_unpackhi(const Intrinsics<float, IntrinsicsLevel::SSE> &x, const Intrinsics<float, IntrinsicsLevel::SSE> &y);
+inline _intrinsic_unpackhi(const Intrinsics<float, IntrinsicsLevel::SSE> &x,
+                           const Intrinsics<float, IntrinsicsLevel::SSE> &y);
 
 Intrinsics<float, IntrinsicsLevel::SSE>
-inline _intrinsic_unpacklo(const Intrinsics<float, IntrinsicsLevel::SSE> &x, const Intrinsics<float, IntrinsicsLevel::SSE> &y);
+inline _intrinsic_unpacklo(const Intrinsics<float, IntrinsicsLevel::SSE> &x,
+                           const Intrinsics<float, IntrinsicsLevel::SSE> &y);
 
 Intrinsics<double, IntrinsicsLevel::SSE>
-inline _intrinsic_unpackhi(const Intrinsics<double, IntrinsicsLevel::SSE> &x, const Intrinsics<double, IntrinsicsLevel::SSE> &y);
+inline _intrinsic_unpackhi(const Intrinsics<double, IntrinsicsLevel::SSE> &x,
+                           const Intrinsics<double, IntrinsicsLevel::SSE> &y);
 
 Intrinsics<double, IntrinsicsLevel::SSE>
-inline _intrinsic_unpacklo(const Intrinsics<double, IntrinsicsLevel::SSE> &x, const Intrinsics<double, IntrinsicsLevel::SSE> &y);
+inline _intrinsic_unpacklo(const Intrinsics<double, IntrinsicsLevel::SSE> &x,
+                           const Intrinsics<double, IntrinsicsLevel::SSE> &y);
 
 #endif // HAVE_SSE
 

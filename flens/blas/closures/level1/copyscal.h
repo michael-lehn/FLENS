@@ -61,22 +61,24 @@ template <typename ALPHA, typename VX, typename VY>
 //
 // case 2: x is a closure
 //
-    
+
 //
 // case 2 (a): x is a closure (conj)
 //
 template <typename ALPHA, typename VX, typename VY>
     typename RestrictTo<DefaultEval<VectorClosureOpConj<VX> >::value,
              void>::Type
-    copyScal(const ALPHA &alpha, const VectorClosureOpConj<VX> &x, Vector<VY> &y);    
-    
+    copyScal(const ALPHA &alpha, const VectorClosureOpConj<VX> &x,
+             Vector<VY> &y);
+
 //
 // case 2 (b): x is a closure (general)
 //
 template <typename ALPHA, typename OP, typename VXL, typename VXR, typename VY>
-    typename RestrictTo<VCDefaultEval<OP, VXL, VXR>::value, 
+    typename RestrictTo<VCDefaultEval<OP, VXL, VXR>::value,
              void>::Type
-    copyScal(const ALPHA &alpha, const VectorClosure<OP, VXL, VXR> &x, Vector<VY> &y);
+    copyScal(const ALPHA &alpha, const VectorClosure<OP, VXL, VXR> &x,
+             Vector<VY> &y);
 
 //------------------------------------------------------------------------------
 //
@@ -92,36 +94,37 @@ template <typename ALPHA, typename OP, typename VXL, typename VXR, typename VY>
 template <typename ALPHA, typename MA, typename MB>
     typename RestrictTo<!IsMatrixClosure<Matrix<MA> >::value,
              void>::Type
-    copyScal(Transpose trans, const ALPHA &alpha, const Matrix<MA> &A, Matrix<MB> &B);
+    copyScal(Transpose trans, const ALPHA &alpha, const Matrix<MA> &A,
+             Matrix<MB> &B);
 
 //
 // case 2: A is a closure
 //
-    
+
 //
 // case 2(a): A is a closure (trans)
 //
 template <typename ALPHA, typename MA, typename MB>
     typename RestrictTo<DefaultEval<MatrixClosureOpTrans<MA> >::value,
              void>::Type
-    copyScal(Transpose trans, const ALPHA &alpha, 
-	     const MatrixClosureOpTrans<MA> &A, Matrix<MB> &B);
+    copyScal(Transpose trans, const ALPHA &alpha,
+             const MatrixClosureOpTrans<MA> &A, Matrix<MB> &B);
 //
 // case 2(b): A is a closure (conj)
-//    
+//
 template <typename ALPHA, typename MA, typename MB>
     typename RestrictTo<DefaultEval<MatrixClosureOpConj<MA> >::value,
              void>::Type
-    copyScal(Transpose trans, const ALPHA &alpha, 
-	     const MatrixClosureOpConj<MA> &A, Matrix<MB> &B);
+    copyScal(Transpose trans, const ALPHA &alpha,
+             const MatrixClosureOpConj<MA> &A, Matrix<MB> &B);
 //
 // case 2(c): A is a closure (everything else)
-//    
+//
 template <typename ALPHA, typename OP, typename MAL, typename MAR, typename MB>
     typename RestrictTo<MCDefaultEval<OP, MAL, MAR>::value,
              void>::Type
-    copyScal(Transpose trans, const ALPHA &alpha, 
-	     const MatrixClosure<OP, MAL, MAR> &A, Matrix<MB> &B);
+    copyScal(Transpose trans, const ALPHA &alpha,
+             const MatrixClosure<OP, MAL, MAR> &A, Matrix<MB> &B);
 
 } } // namespace blas, flens
 

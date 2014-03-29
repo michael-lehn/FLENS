@@ -58,22 +58,22 @@ gecrsmm(Transpose        transA,
         IndexType        ldC)
 {
     CXXBLAS_DEBUG_OUT("gecrsmm_generic");
-       
+
     for (IndexType i=0; i<n; ++i) {
          gecrsmv(transA, m, k, alpha, A, ia, ja, B+i*ldB, beta, C+i*ldC);
     }
-    
+
     return;
 }
 
-#ifdef HAVE_SPARSEBLAS    
+#ifdef HAVE_SPARSEBLAS
 
 template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
 gecrsmm(Transpose        transA,
         IndexType        m,
         IndexType        n,
-        IndexType        k, 
+        IndexType        k,
         const float      &alpha,
         const float      *A,
         const IndexType  *ia,
@@ -84,25 +84,25 @@ gecrsmm(Transpose        transA,
         float            *C,
         IndexType        ldC)
 {
-    
+
     CXXBLAS_DEBUG_OUT("gecrsmm -> [" BLAS_IMPL "] scsrmm");
-    
+
     char matdescra[5] = { "G***" };
     matdescra[3] = getIndexBaseChar(ia[0]);
-    
+
     if (matdescra[3]=='E') {
-         gecrsmm<IndexType, float, float, 
-                            float, float, 
+         gecrsmm<IndexType, float, float,
+                            float, float,
                             float>
-                            (transA, m, n, k, alpha, 
+                            (transA, m, n, k, alpha,
                              A, ia, ja, B, ldB, beta, C, ldC);
          return;
-    
+
     }
     char _transA = getF77BlasChar(transA);
 
     mkl_scsrmm(&_transA,
-               &m, &n, &k,             
+               &m, &n, &k,
                &alpha, &matdescra[0],
                A, ja, ia, ia+1,
                B, ldB,
@@ -114,7 +114,7 @@ typename If<IndexType>::isBlasCompatibleInteger
 gecrsmm(Transpose        transA,
         IndexType        m,
         IndexType        n,
-        IndexType        k, 
+        IndexType        k,
         const double     &alpha,
         const double     *A,
         const IndexType  *ia,
@@ -125,20 +125,20 @@ gecrsmm(Transpose        transA,
         double           *C,
         IndexType        ldC)
 {
-      
+
     CXXBLAS_DEBUG_OUT("gecrsmm -> [" BLAS_IMPL "] dcsrmm");
-    
+
     char matdescra[5] = { "G***" };
     matdescra[3] = getIndexBaseChar(ia[0]);
-    
+
     if (matdescra[3]=='E') {
-         gecrsmm<IndexType, double, double, 
-                            double, double, 
+         gecrsmm<IndexType, double, double,
+                            double, double,
                             double>
-                            (transA, m, n, k, alpha, 
+                            (transA, m, n, k, alpha,
                              A, ia, ja, B, ldC, beta, C, ldC);
          return;
-    
+
     }
     char _transA = getF77BlasChar(transA);
 
@@ -166,40 +166,40 @@ gecrsmm(Transpose               transA,
         ComplexFloat            *C,
         IndexType               ldC)
 {
-      
+
     CXXBLAS_DEBUG_OUT("gecrsmm -> [" BLAS_IMPL "] ccsrmm");
-    
+
     char matdescra[5] = { "G***" };
     matdescra[3] = getIndexBaseChar(ia[0]);
-    
+
     if (matdescra[3]=='E') {
-         gecrsmm<IndexType, ComplexFloat, ComplexFloat, 
-                            ComplexFloat, ComplexFloat, 
+         gecrsmm<IndexType, ComplexFloat, ComplexFloat,
+                            ComplexFloat, ComplexFloat,
                             ComplexFloat>
-                            (transA, m, n, k, alpha, 
+                            (transA, m, n, k, alpha,
                              A, ia, ja, B, ldB, beta, C, ldC);
          return;
-    
+
     }
-    char _transA = getF77BlasChar(transA);    
-    
+    char _transA = getF77BlasChar(transA);
+
     if (transA==Conj) {
       _transA = 'C';
       mkl_ccscmm(&_transA,
-                &m, &n, k,              
-                reinterpret_cast<const float*>(&alpha), &matdescra[0],
-                reinterpret_cast<const float*>(A), ja, ia, ia+1,
-                reinterpret_cast<const float*>(B), ldB,
-                reinterpret_cast<const float*>(&beta), 
-                reinterpret_cast<float*>(C), ldC);
+                 &m, &n, k,
+                 reinterpret_cast<const float*>(&alpha), &matdescra[0],
+                 reinterpret_cast<const float*>(A), ja, ia, ia+1,
+                 reinterpret_cast<const float*>(B), ldB,
+                 reinterpret_cast<const float*>(&beta),
+                 reinterpret_cast<float*>(C), ldC);
     } else {
       mkl_ccsrmm(&_transA,
-                &m, &n, &k,
-                reinterpret_cast<const float*>(&alpha), &matdescra[0],
-                reinterpret_cast<const float*>(A), ja, ia, ia+1,
-                reinterpret_cast<const float*>(B), ldB,
-                reinterpret_cast<const float*>(&beta), 
-                reinterpret_cast<float*>(C), ldC);
+                 &m, &n, &k,
+                 reinterpret_cast<const float*>(&alpha), &matdescra[0],
+                 reinterpret_cast<const float*>(A), ja, ia, ia+1,
+                 reinterpret_cast<const float*>(B), ldB,
+                 reinterpret_cast<const float*>(&beta),
+                 reinterpret_cast<float*>(C), ldC);
     }
 }
 
@@ -219,41 +219,41 @@ gecrsmm(Transpose               transA,
         ComplexDouble           *C,
         IndexType               ldC)
 {
-  
+
     CXXBLAS_DEBUG_OUT("gecrsmm -> [" BLAS_IMPL "] zcsrmm");
-    
+
     char matdescra[5] = { "G***" };
     matdescra[3] = getIndexBaseChar(ia[0]);
-    
+
     if (matdescra[3]=='E') {
-         gecrsmm<IndexType, ComplexDouble, ComplexDouble, 
-                            ComplexDouble, ComplexDouble, 
+         gecrsmm<IndexType, ComplexDouble, ComplexDouble,
+                            ComplexDouble, ComplexDouble,
                             ComplexDouble>
-                            (transA, m, n, k, alpha, 
+                            (transA, m, n, k, alpha,
                              A, ia, ja, B, ldB, beta, C, ldC);
          return;
-    
+
     }
-    
+
     char _transA = getF77BlasChar(transA);
-    
+
     if (transA==Conj) {
       _transA = 'C';
       mkl_zcscmm(&_transA,
-                &m, &n, &k,           
-                reinterpret_cast<const double*>(&alpha), &matdescra[0],
-                reinterpret_cast<const double*>(A), ja, ia, ia+1,
-                reinterpret_cast<const double*>(B), ldB,
-                reinterpret_cast<const double*>(&beta), 
-                reinterpret_cast<double*>(C), ldC);
+                 &m, &n, &k,
+                 reinterpret_cast<const double*>(&alpha), &matdescra[0],
+                 reinterpret_cast<const double*>(A), ja, ia, ia+1,
+                 reinterpret_cast<const double*>(B), ldB,
+                 reinterpret_cast<const double*>(&beta),
+                 reinterpret_cast<double*>(C), ldC);
     } else {
       mkl_zcsrmm(&_transA,
-                &m, &n, &k,
-                reinterpret_cast<const double*>(&alpha), &matdescra[0],
-                reinterpret_cast<const double*>(A), ja, ia, ia+1,
-                reinterpret_cast<const double*>(B), ldB,
-                reinterpret_cast<const double*>(&beta), 
-                reinterpret_cast<double*>(C), ldC);
+                 &m, &n, &k,
+                 reinterpret_cast<const double*>(&alpha), &matdescra[0],
+                 reinterpret_cast<const double*>(A), ja, ia, ia+1,
+                 reinterpret_cast<const double*>(B), ldB,
+                 reinterpret_cast<const double*>(&beta),
+                 reinterpret_cast<double*>(C), ldC);
     }
 }
 

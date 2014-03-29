@@ -37,23 +37,24 @@ main()
     b = T( 1, 0),
         T(-1, 1),
         T(-2,-1);
-  
+
     ///
     /// Setting up the Jacobi preconditioner
     ///
     for (IndexType i=1; i<=n; ++i) {
-        P(i,i) = T(1)/A(i,i); 
+        P(i,i) = T(1)/A(i,i);
     }
 
     cerr << "A.upper().symmetric() = " << A.upper().symmetric() << endl;
     cerr << "b = " << b << endl;
-    
+
     ///
-    /// solve A*x = b using preconditioned transpose-free quasi minimal residual solver
+    /// solve A*x = b using preconditioned transpose-free quasi minimal
+    /// residual solver
     ///
     solver::pbicgstab(P, A.upper().symmetric(), x, b);
     cout << "x = " << x << endl;
-    
+
     ///
     /// Test the result
     ///

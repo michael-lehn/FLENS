@@ -25,13 +25,13 @@ BLAS(sger)(const INTEGER   *M,
                    Y, *INCY,
                    _A, *LDA);
 #   else
-    
+
         using std::abs;
         using std::max;
 
 #       ifndef NO_INPUT_CHECK
             INTEGER info    = 0;
-        
+
             if (*M<0) {
                 info = 1;
             } else if (*N<0) {
@@ -48,7 +48,7 @@ BLAS(sger)(const INTEGER   *M,
                 return;
             }
 #       endif
-    
+
         SDenseVectorConstView x(SConstArrayView(*M, X, abs(*INCX)), *INCX<0);
         SDenseVectorConstView y(SConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
         SGeMatrixView         A = SFullView(*M, *N, _A, *LDA);
@@ -75,7 +75,7 @@ BLAS(dger)(const INTEGER   *M,
            const INTEGER   *LDA)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         cblas_dger(CBLAS_ORDER::CblasColMajor,
                    *M, *N,
                    *ALPHA,
@@ -83,7 +83,7 @@ BLAS(dger)(const INTEGER   *M,
                    Y, *INCY,
                    _A, *LDA);
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -119,7 +119,7 @@ BLAS(dger)(const INTEGER   *M,
             blas::r(*ALPHA, x, y, A);
 #       endif
 #   endif
-    
+
 }
 
 void
@@ -134,7 +134,7 @@ BLAS(cgerc)(const INTEGER   *M,
             const INTEGER   *LDA)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
     cblas_cgerc(CBLAS_ORDER::CblasColMajor,
                 *M, *N,
                 reinterpret_cast<const float *>(ALPHA),
@@ -142,7 +142,7 @@ BLAS(cgerc)(const INTEGER   *M,
                 reinterpret_cast<const float *>(Y), *INCY,
                 reinterpret_cast<float *>(_A), *LDA);
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -165,7 +165,7 @@ BLAS(cgerc)(const INTEGER   *M,
                 return;
             }
 #       endif
-    
+
         CDenseVectorConstView x(CConstArrayView(*M, X, abs(*INCX)), *INCX<0);
         CDenseVectorConstView y(CConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
         CGeMatrixView         A = CFullView(*M, *N, _A, *LDA);
@@ -193,7 +193,7 @@ BLAS(cgeru)(const INTEGER   *M,
 {
 
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         cblas_cgeru(CBLAS_ORDER::CblasColMajor,
                     *M, *N,
                     reinterpret_cast<const float *>(ALPHA),
@@ -201,11 +201,11 @@ BLAS(cgeru)(const INTEGER   *M,
                     reinterpret_cast<const float *>(Y), *INCY,
                     reinterpret_cast<float *>(_A), *LDA);
 #   else
-    
+
         using std::abs;
         using std::max;
 
-    
+
 #       ifndef NO_INPUT_CHECK
             INTEGER info    = 0;
 
@@ -225,7 +225,7 @@ BLAS(cgeru)(const INTEGER   *M,
                 return;
             }
 #       endif
-    
+
         CDenseVectorConstView x(CConstArrayView(*M, X, abs(*INCX)), *INCX<0);
         CDenseVectorConstView y(CConstArrayView(*N, Y, abs(*INCY)), *INCY<0);
         CGeMatrixView         A = CFullView(*M, *N, _A, *LDA);
@@ -238,7 +238,7 @@ BLAS(cgeru)(const INTEGER   *M,
             blas::ru(*ALPHA, x, y, A);
 #       endif
 #   endif
-    
+
 }
 
 void
@@ -253,7 +253,7 @@ BLAS(zgerc)(const INTEGER   *M,
             const INTEGER   *LDA)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
     cblas_zgerc(CBLAS_ORDER::CblasColMajor,
                 *M, *N,
                 reinterpret_cast<const double *>(ALPHA),
@@ -261,7 +261,7 @@ BLAS(zgerc)(const INTEGER   *M,
                 reinterpret_cast<const double *>(Y), *INCY,
                 reinterpret_cast<double *>(_A), *LDA);
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -309,7 +309,7 @@ BLAS(zgeru)(const INTEGER   *M,
             const INTEGER   *LDA)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
     cblas_zgeru(CBLAS_ORDER::CblasColMajor,
                 *M, *N,
                 reinterpret_cast<const double *>(ALPHA),
@@ -317,8 +317,7 @@ BLAS(zgeru)(const INTEGER   *M,
                 reinterpret_cast<const double *>(Y), *INCY,
                 reinterpret_cast<double *>(_A), *LDA);
 #   else
-    
-    
+
         using std::abs;
         using std::max;
 

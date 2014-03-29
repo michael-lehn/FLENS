@@ -14,20 +14,19 @@ BLAS(srot)(const INTEGER   *N,
            const float     *C,
            const float     *S)
 {
-    
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         cblas_srot(*N, X, *INCX, Y, *INCY, *C, *S);
-    
+
 #   else
-    
+
         using std::abs;
 
         SDenseVectorView  x(SArrayView(*N, X, abs(*INCX)), *INCX<0);
         SDenseVectorView  y(SArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
         blas::rot(x, y, *C, *S);
-    
+
 #   endif
 }
 
@@ -41,20 +40,20 @@ BLAS(drot)(const INTEGER   *N,
            const double    *S)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         cblas_drot(*N, X, *INCX, Y, *INCY, *C, *S);
-    
+
 #   else
-    
+
         using std::abs;
 
         DDenseVectorView  x(DArrayView(*N, X, abs(*INCX)), *INCX<0);
         DDenseVectorView  y(DArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
         blas::rot(x, y, *C, *S);
-    
+
 #   endif
-    
+
 }
 
 void
@@ -102,7 +101,7 @@ BLAS(csrot)(const INTEGER   *N,
 {
     std::cerr << "csrot not implemented" << std::endl;
     ASSERT(0);
-    
+
     // FAKE USE
     (void)N;
     (void)X;
@@ -124,7 +123,7 @@ BLAS(zdrot)(const INTEGER   *N,
 {
     std::cerr << "zdrot not implemented" << std::endl;
     ASSERT(0);
-    
+
     // FAKE USE
     (void)N;
     (void)X;

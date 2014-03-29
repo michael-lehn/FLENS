@@ -19,15 +19,16 @@ BLAS(sgemv)(const char      *TRANS,
             const INTEGER   *INCY)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         const char         _TRANS = toupper(*TRANS);
         const Transpose    trans  = convertTo<Transpose>(_TRANS);
-    
-        cblas_sgemv(CBLAS_ORDER::CblasColMajor, cxxblas::CBLAS::getCblasType(trans),
+
+        cblas_sgemv(CBLAS_ORDER::CblasColMajor,
+                    cxxblas::CBLAS::getCblasType(trans),
                     *M, *N, *ALPHA, _A, *LDA, X, *INCX, *BETA, Y, *INCY);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -100,15 +101,16 @@ BLAS(dgemv)(const char      *TRANS,
             const INTEGER   *INCY)
 {
 #   ifdef TEST_DIRECT_CBLAS
-        
+
         const char         _TRANS = toupper(*TRANS);
         const Transpose    trans  = convertTo<Transpose>(_TRANS);
-    
-        cblas_dgemv(CBLAS_ORDER::CblasColMajor, cxxblas::CBLAS::getCblasType(trans),
+
+        cblas_dgemv(CBLAS_ORDER::CblasColMajor,
+                    cxxblas::CBLAS::getCblasType(trans),
                     *M, *N, *ALPHA, _A, *LDA, X, *INCX, *BETA, Y, *INCY);
-        
+
 #   else
-    
+
         using std::abs;
         using std::max;
 
@@ -180,26 +182,27 @@ BLAS(cgemv)(const char      *TRANS,
             const INTEGER   *INCY)
 {
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         const char         _TRANS = toupper(*TRANS);
         const Transpose    trans  = convertTo<Transpose>(_TRANS);
-    
-        cblas_cgemv(CBLAS_ORDER::CblasColMajor, cxxblas::CBLAS::getCblasType(trans),
+
+        cblas_cgemv(CBLAS_ORDER::CblasColMajor,
+                    cxxblas::CBLAS::getCblasType(trans),
                     *M, *N,
                     reinterpret_cast<const float *>(ALPHA),
                     reinterpret_cast<const float *>(_A), *LDA,
                     reinterpret_cast<const float*>(X), *INCX,
                     reinterpret_cast<const float*>(BETA),
                     reinterpret_cast<float*>(Y), *INCY);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
-    
+
         INTEGER info   = 0;
         char    _TRANS = toupper(*TRANS);
-    
+
         if (_TRANS!='N' && _TRANS!='T' && _TRANS!='C') {
             info = 1;
         } else if (*M<0) {
@@ -266,20 +269,21 @@ BLAS(zgemv)(const char      *TRANS,
 {
 
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         const char         _TRANS = toupper(*TRANS);
         const Transpose    trans  = convertTo<Transpose>(_TRANS);
-    
-        cblas_zgemv(CBLAS_ORDER::CblasColMajor, cxxblas::CBLAS::getCblasType(trans),
+
+        cblas_zgemv(CBLAS_ORDER::CblasColMajor,
+                    cxxblas::CBLAS::getCblasType(trans),
                     *M, *N,
                     reinterpret_cast<const double *>(ALPHA),
                     reinterpret_cast<const double *>(_A), *LDA,
                     reinterpret_cast<const double*>(X), *INCX,
                     reinterpret_cast<const double*>(BETA),
                     reinterpret_cast<double*>(Y), *INCY);
-    
+
 #   else
-    
+
         using std::abs;
         using std::max;
 

@@ -232,7 +232,8 @@ gemm_complex_3m_kernel(StorageOrder order,
     for (IndexType i=0; i<n; ++i) {
         cxxblas::copy(m,
                       C+i*ldC, IndexType(1),
-                      reinterpret_cast<std::complex<PT> *>(tmpC_row), IndexType(1));
+                      reinterpret_cast<std::complex<PT> *>(tmpC_row),
+                      IndexType(1));
 
     // copy real part
         cxxblas::copy(m,
@@ -329,14 +330,20 @@ gemm_strassen_kernel(StorageOrder order,
     IndexType kh = (k+1)/2;
 
     const T *pA11 = A;
-    const T *pA21 = (transA==NoTrans || transA==Conj) ? A+mh        : A   +mh*ldA;
-    const T *pA12 = (transA==NoTrans || transA==Conj) ? A   +kh*ldA : A+kh       ;
-    const T *pA22 = (transA==NoTrans || transA==Conj) ? A+mh+kh*ldA : A+kh+mh*ldA;
+    const T *pA21 = (transA==NoTrans || transA==Conj) ? A+mh
+                                                      : A+mh*ldA;
+    const T *pA12 = (transA==NoTrans || transA==Conj) ? A+kh*ldA
+                                                      : A+kh;
+    const T *pA22 = (transA==NoTrans || transA==Conj) ? A+mh+kh*ldA
+                                                      : A+kh+mh*ldA;
 
     const T *pB11 = B;
-    const T *pB21 = (transB==NoTrans || transB==Conj) ? B+kh        : B   +kh*ldB;
-    const T *pB12 = (transB==NoTrans || transB==Conj) ? B   +nh*ldB : B+nh       ;
-    const T *pB22 = (transB==NoTrans || transB==Conj) ? B+kh+nh*ldB : B+nh+kh*ldB;
+    const T *pB21 = (transB==NoTrans || transB==Conj) ? B+kh
+                                                      : B+kh*ldB;
+    const T *pB12 = (transB==NoTrans || transB==Conj) ? B+nh*ldB
+                                                      : B+nh;
+    const T *pB22 = (transB==NoTrans || transB==Conj) ? B+kh+nh*ldB
+                                                      : B+nh+kh*ldB;
 
     T *pC11 = C;
     T *pC21 = C + mh;

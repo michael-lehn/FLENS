@@ -42,7 +42,7 @@ namespace cxxblas {
 //
 //  B = beta*B + alpha*op(A)
 //
-template <typename IndexType, typename ALPHA, typename MA, 
+template <typename IndexType, typename ALPHA, typename MA,
           typename BETA, typename MB>
 void
 tpaxpby(StorageOrder order, StorageUpLo upLo, Transpose trans, Diag diag,
@@ -72,7 +72,8 @@ tpaxpby(StorageOrder order, StorageUpLo upLo, Transpose trans, Diag diag,
     } else if ( trans==ConjTrans) {
         for (IndexType i = 0; i < n; ++i) {
             for (IndexType j = i+shift; j < n; ++j) {
-                B[i+j*(j+1)/2] = beta*B[i+j*(j+1)/2] +  alpha*conjugate(A[j+(2*n-i-1)*i/ 2]);
+                B[i+j*(j+1)/2] = beta*B[i+j*(j+1)/2]
+                               + alpha*conjugate(A[j+(2*n-i-1)*i/ 2]);
             }
         }
     }

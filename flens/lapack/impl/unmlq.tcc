@@ -358,7 +358,7 @@ unmlq(Side         side,
 #   if defined(CHECK_CXXLAPACK) || !defined(NDEBUG)
 
     typedef typename RemoveRef<MC>::Type    MatrixC;
-    
+
 #   endif
 
 #   ifndef NDEBUG
@@ -395,7 +395,7 @@ unmlq(Side         side,
 
     typedef typename RemoveRef<VWORK>::Type VectorWork;
     typedef typename RemoveRef<MA>::Type    MatrixA;
-    
+
     typename MatrixA::NoView        A_org    = A;
     typename MatrixC::NoView        C_org    = C;
     typename VectorWork::NoView     work_org = work;

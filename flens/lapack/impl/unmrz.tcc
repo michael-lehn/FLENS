@@ -324,7 +324,7 @@ unmrz(Side          side,
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename RemoveRef<MC>::Type    MatrixC;
     typedef typename RemoveRef<VWORK>::Type VectorWork;
-    
+
     typename MatrixA::NoView        A_org      = A;
     typename MatrixC::NoView        C_org      = C;
     typename VectorWork::NoView     work_org   = work;

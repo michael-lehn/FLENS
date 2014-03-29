@@ -170,7 +170,7 @@ lq2(GeMatrix<MA> &A, DenseVector<VTAU> &tau, DenseVector<VWORK> &work)
 #   ifndef NDEBUG
 
     typedef typename GeMatrix<MA>::IndexType  IndexType;
-    
+
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
     ASSERT(tau.firstIndex()==1);

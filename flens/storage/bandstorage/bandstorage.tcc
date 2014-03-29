@@ -624,10 +624,14 @@ BandStorage<T, Order, I, A>::viewRow(IndexType row,
 
     ASSERT(row>=firstRow());
     ASSERT(row<=lastRow());
-    
-    IndexType length = 1+min(row-1,numSubDiags())+min(numRows()-row,numSuperDiags());
+
+    IndexType length = 1
+                     + min(row-1, numSubDiags())
+                     + min(numRows()-row, numSuperDiags());
+
     return ConstArrayView(length,
-                          &(operator()(row, firstCol()+max(0,row-1-numSubDiags()))),
+                          &(operator()(row,
+                                       firstCol()+max(0,row-1-numSubDiags()))),
                           strideCol(),
                           firstViewIndex,
                           allocator());
@@ -649,8 +653,11 @@ BandStorage<T, Order, I, A>::viewRow(IndexType row,
 
     ASSERT(row>=firstRow());
     ASSERT(row<=lastRow());
-    
-    IndexType length = 1+min(row-1,numSubDiags())+min(numRows()-row,numSuperDiags());
+
+    IndexType length = 1
+                     + min(row-1, numSubDiags())
+                     + min(numRows()-row, numSuperDiags());
+
     return ArrayView(length,
                      &(operator()(row, firstCol()+max(0,row-1-numSubDiags()))),
                      strideCol(),
@@ -662,7 +669,8 @@ template <typename T, StorageOrder Order, typename I, typename A>
 const typename BandStorage<T, Order, I, A>::ConstArrayView
 BandStorage<T, Order, I, A>::viewRow(IndexType row,
                                      IndexType firstCol, IndexType lastCol,
-                                     IndexType stride, IndexType firstViewIndex) const
+                                     IndexType stride,
+                                     IndexType firstViewIndex) const
 {
     const IndexType length = (lastCol-firstCol)/stride+1;
 
@@ -728,14 +736,17 @@ BandStorage<T, Order, I, A>::viewCol(IndexType col,
     ASSERT(col>=firstCol());
     ASSERT(col<=lastCol());
 
-    IndexType length = 1+min(col-1,numSuperDiags())+min(numCols()-col,numSubDiags());
-    
+    IndexType length = 1
+                     + min(col-1, numSuperDiags())
+                     + min(numCols()-col, numSubDiags());
+
     return ArrayView(length,
-                     &(operator()(firstRow()+max(0,col-1-numSuperDiags()), col)),
+                     &(operator()(firstRow()+max(0,col-1-numSuperDiags()),
+                                  col)),
                      strideRow(),
                      firstViewIndex,
                      allocator());
-                     
+
 }
 
 template <typename T, StorageOrder Order, typename I, typename A>
@@ -755,10 +766,13 @@ BandStorage<T, Order, I, A>::viewCol(IndexType col,
     ASSERT(col>=firstCol());
     ASSERT(col<=lastCol());
 
-    IndexType length = 1+min(col-1,numSuperDiags())+min(numCols()-col,numSubDiags());
-    
+    IndexType length = 1
+                     + min(col-1,numSuperDiags())
+                     + min(numCols()-col,numSubDiags());
+
     return ArrayView(length,
-                     &(operator()(firstRow()+max(0,col-1-numSuperDiags()), col)),
+                     &(operator()(firstRow()+max(0,col-1-numSuperDiags()),
+                                  col)),
                      strideRow(),
                      firstViewIndex,
                      allocator());
@@ -820,9 +834,9 @@ template <typename T, StorageOrder Order, typename I, typename A>
 const typename BandStorage<T, Order, I, A>::ConstFullStorageView
 BandStorage<T, Order, I, A>::viewFullStorage() const
 {
-    return ConstFullStorageView(numSubDiags()+numSuperDiags()+1, 
-                                max(numRows(),numCols()), 
-                                data(), 
+    return ConstFullStorageView(numSubDiags()+numSuperDiags()+1,
+                                max(numRows(),numCols()),
+                                data(),
                                 leadingDimension());
 }
 
@@ -831,7 +845,7 @@ template <typename T, StorageOrder Order, typename I, typename A>
 typename BandStorage<T, Order, I, A>::FullStorageView
 BandStorage<T, Order, I, A>::viewFullStorage()
 {
-    return FullStorageView(numSubDiags()+numSuperDiags()+1, 
+    return FullStorageView(numSubDiags()+numSuperDiags()+1,
                            max(numRows(),numCols()),
                            data(),
                            leadingDimension());

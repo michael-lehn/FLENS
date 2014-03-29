@@ -38,15 +38,15 @@ namespace flens { namespace mpi {
 #ifdef WITH_MPI
 
 inline int
-    MPI_size(const MPI::Comm &communicator = MPI::COMM_WORLD);
-    
+MPI_size(const MPI::Comm &communicator = MPI::COMM_WORLD);
+
 #else
 
 inline int
-    MPI_size();
-    
+MPI_size();
+
 #endif
-    
+
 } }
 
 #endif // PLAYGROUND_FLENS_MPI_SIZE_H

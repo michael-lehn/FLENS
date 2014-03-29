@@ -44,7 +44,7 @@ namespace cxxblas {
 
 template <typename IndexType, typename T>
 typename flens::RestrictTo<flens::IsReal<T>::value &&
-                           flens::IsIntrinsicsCompatible<T>::value, 
+                           flens::IsIntrinsicsCompatible<T>::value,
                            void>::Type
 racxpy(IndexType n, const T &alpha, const T *x,
       IndexType incX, T *y, IndexType incY)
@@ -56,7 +56,7 @@ racxpy(IndexType n, const T &alpha, const T *x,
 
 template <typename IndexType, typename T>
 typename flens::RestrictTo<flens::IsComplex<T>::value &&
-                           flens::IsIntrinsicsCompatible<T>::value, 
+                           flens::IsIntrinsicsCompatible<T>::value,
                            void>::Type
 racxpy(IndexType n, const T &alpha, const T *x,
       IndexType incX, T *y, IndexType incY)
@@ -79,13 +79,13 @@ racxpy(IndexType n, const T &alpha, const T *x,
         IntrinsicType _x, _y, _tmp;
 
         if (abs(real(alpha)) < abs(imag(alpha))) {
-        
+
             PT r   = real(alpha)/imag(alpha);
             PT den = imag(alpha) + r*real(alpha);
-            
+
             IntrinsicPrimitiveType _r(r);
             IntrinsicPrimitiveType _den(den);
-            
+
            for (; i+numElements-1<n; i+=numElements) {
                 _x.loadu(x+i);
                 _y.loadu(y+i);
@@ -96,15 +96,15 @@ racxpy(IndexType n, const T &alpha, const T *x,
 
                 _y.storeu(y+i);
             }
-          
+
         } else {
-          
+
             PT r   = imag(alpha)/real(alpha);
             PT den = real(alpha) + r*imag(alpha);
-              
+
             IntrinsicPrimitiveType _r(r);
             IntrinsicPrimitiveType _den(den);
-            
+
            for (; i+numElements-1<n; i+=numElements) {
                 _x.loadu(x+i);
                 _y.loadu(y+i);
@@ -115,11 +115,11 @@ racxpy(IndexType n, const T &alpha, const T *x,
 
                 _y.storeu(y+i);
             }
-            
-            
-            
+
+
+
         }
-        
+
         for (; i<n; ++i) {
             y[i] += conjugate(x[i])/alpha;
         }

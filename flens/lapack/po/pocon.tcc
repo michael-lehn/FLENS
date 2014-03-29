@@ -317,7 +317,7 @@ pocon(const MA      &A,
 #   endif
 }
 
-//-- pocon [complex variant] ------------------------------------------------------
+//-- pocon [complex variant] ---------------------------------------------------
 
 #ifdef USE_CXXLAPACK
 

@@ -67,14 +67,14 @@ unmr3_impl(Side                      side,
            DenseVector<VWORK>        &work)
 {
     typedef typename GeMatrix<MA>::ElementType  ElementType;
-    
+
     const IndexType k =  tau.length();
     const IndexType m =  C.numRows();
     const IndexType n =  C.numCols();
 
     const IndexType na = A.numCols();
     const IndexType ja = na-l+1;
-    
+
     ElementType taui(0);
 
     const Underscore<IndexType>  _;
@@ -221,7 +221,7 @@ unmr3(Side          side,
 //
     typedef typename RemoveRef<MC>::Type    MatrixC;
     typedef typename RemoveRef<VWORK>::Type VectorWork;
-    
+
     typename MatrixC::NoView        C_org    = C;
     typename VectorWork::NoView     work_org = work;
 #   endif

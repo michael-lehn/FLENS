@@ -16,11 +16,11 @@ BLAS(saxpy)(const INTEGER   *N,
     using std::abs;
 
 #   ifdef TEST_DIRECT_CBLAS
-    
+
         cblas_saxpy(*N, *ALPHA, X, *INCX, Y, *INCY);
-    
+
 #   else
-    
+
         SDenseVectorConstView  x(SConstArrayView(*N, X, abs(*INCX)), *INCX<0);
         SDenseVectorView       y(SArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
@@ -41,9 +41,9 @@ BLAS(daxpy)(const INTEGER   *N,
             const INTEGER   *INCY)
 {
     using std::abs;
-    
+
 #   ifdef TEST_DIRECT_CBLAS
-    
+
     cblas_daxpy(*N, *ALPHA, X, *INCX, Y, *INCY);
 
 #   else
@@ -68,15 +68,15 @@ BLAS(caxpy)(const INTEGER   *N,
             const INTEGER   *INCY)
 {
     using std::abs;
-    
+
 #   ifdef TEST_DIRECT_CBLAS
-    
+
     cblas_caxpy(*N, reinterpret_cast<const float *>(ALPHA),
                 reinterpret_cast<const float *>(X), *INCX,
                 reinterpret_cast<float *>(Y), *INCY);
-    
+
 #   else
-    
+
         CDenseVectorConstView  x(CConstArrayView(*N, X, abs(*INCX)), *INCX<0);
         CDenseVectorView       y(CArrayView(*N, Y, abs(*INCY)), *INCY<0);
 
@@ -99,13 +99,13 @@ BLAS(zaxpy)(const INTEGER   *N,
     using std::abs;
 
 #   ifdef TEST_DIRECT_CBLAS
-    
+
     cblas_zaxpy(*N, reinterpret_cast<const double *>(ALPHA),
                 reinterpret_cast<const double *>(X), *INCX,
                 reinterpret_cast<double *>(Y), *INCY);
-    
+
 #   else
-    
+
         ZDenseVectorConstView  x(ZConstArrayView(*N, X, abs(*INCX)), *INCX<0);
         ZDenseVectorView       y(ZArrayView(*N, Y, abs(*INCY)), *INCY<0);
 

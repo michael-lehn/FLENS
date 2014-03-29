@@ -59,7 +59,7 @@ template <typename ALPHA, typename MA, typename MB, typename MC>
                      && IsGeMatrix<MC>::value,
              void>::Type
     sm(Transpose trans, const ALPHA &alpha, const MA &A, const MB &B, MC &&C);
-    
+
 //-- trccssm
 template <typename ALPHA, typename MA, typename MB, typename MC>
     typename RestrictTo<IsTrCRSMatrix<MA>::value

@@ -43,7 +43,9 @@ namespace flens { namespace lapack { namespace extensions {
 //-- trace(he)
 template <typename MA>
 typename RestrictTo<IsHeMatrix<MA>::value,
-typename ComplexTrait<typename RemoveRef<MA>::Type::ElementType>::PrimitiveType>::Type
+         typename ComplexTrait<
+                typename RemoveRef<MA>::Type::ElementType>::PrimitiveType
+                >::Type
 trace(MA &&A)
 {
     return blas::extensions::sum(real(A.diag(0)));

@@ -39,7 +39,7 @@
 
 namespace cxxblas {
 
-template <typename IndexType, typename ALPHA, typename X, 
+template <typename IndexType, typename ALPHA, typename X,
           typename BETA, typename Y>
     void
     axpby(IndexType n, const ALPHA &alpha, const X *x, IndexType incX,
@@ -51,7 +51,7 @@ template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     axpby(IndexType n, const float &alpha,
           const float *x, IndexType incX,
-	  const float &beta,
+          const float &beta,
           float *y, IndexType incY);
 
 // daxpy
@@ -59,7 +59,7 @@ template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     axpby(IndexType n, const double &alpha,
           const double *x, IndexType incX,
-	  const double &beta,
+          const double &beta,
           double *y, IndexType incY);
 
 // caxpy
@@ -67,7 +67,7 @@ template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     axpby(IndexType n, const ComplexFloat &alpha,
           const ComplexFloat *x, IndexType incX,
- 	  const ComplexFloat &beta,
+          const ComplexFloat &beta,
           ComplexFloat *y, IndexType incY);
 
 // zaxpy
@@ -75,7 +75,7 @@ template <typename IndexType>
     typename If<IndexType>::isBlasCompatibleInteger
     axpby(IndexType n, const ComplexDouble &alpha,
           const ComplexDouble *x, IndexType incX,
-	  const ComplexDouble &beta,
+          const ComplexDouble &beta,
           ComplexDouble *y, IndexType incY);
 
 #endif // HAVE_CBLAS_AXPBY

@@ -40,9 +40,9 @@
 namespace cxxblas {
 
 //
-//  B = beta*B + alpha*op(A) 
+//  B = beta*B + alpha*op(A)
 //
-template <typename IndexType, typename ALPHA, typename MA, 
+template <typename IndexType, typename ALPHA, typename MA,
           typename BETA, typename MB>
 void
 traxpby(StorageOrder order, StorageUpLo upLo, Transpose trans, Diag diag,
@@ -112,10 +112,10 @@ traxpby(StorageOrder order, StorageUpLo upLo, Transpose trans, Diag diag,
             ASSERT(0);
         }
     } else { // diag==Unit
-        
+
         // Not possible
         ASSERT(0);
-        
+
     }
 }
 

@@ -70,12 +70,12 @@ swap(MA &&A, MB &&B)
 {
     typedef typename RemoveRef<MB>::Type MatrixB;
     typedef typename MatrixB::IndexType  IndexType;
-    
+
     const Underscore<IndexType> _;
-    
+
     ASSERT(A.numRows()==B.numRows());
     ASSERT(A.numCols()==B.numCols());
-    
+
 #   ifdef HAVE_CXXBLAS_GESWAP
     cxxblas::geswap(A.order(), B.order(), B.numRows(), B.numCols(),
                     A.data(), A.leadingDimension(),

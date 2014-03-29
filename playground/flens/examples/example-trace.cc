@@ -20,16 +20,16 @@ main(int argc, char* argv[])
     const IndexType n = 4;
     Matrix A(n, n);
 
-    /// 
+    ///
     /// Fill in random values
     ///
     fillRandom(A);
     cout << " A = " << A << endl;
-    
+
     ///
     /// Calculate trace
     ///
     cout << lapack::extensions::trace(A) << endl;
-        
+
     return 0;
 }

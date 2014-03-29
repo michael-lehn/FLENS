@@ -33,6 +33,7 @@
 /* Based on
  *
        SUBROUTINE DLAUU2( UPLO, N, A, LDA, INFO )
+       SUBROUTINE ZLAUU2( UPLO, N, A, LDA, INFO )
  *
  *  -- LAPACK auxiliary routine (version 3.3.1) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -118,14 +119,14 @@ lauu2_impl(TrMatrix<MA> &A)
     }
 }
 
-//-- lauu2 [complex variant] ------------------------------------------------------
+//-- lauu2 [complex variant] ---------------------------------------------------
 template <typename MA>
 typename RestrictTo<IsComplex<typename TrMatrix<MA>::ElementType>::value,
                     void>::Type
 lauu2_impl(TrMatrix<MA> &A)
 {
     using std::real;
-    
+
     typedef typename TrMatrix<MA>::ElementType   ElementType;
     typedef typename ComplexTrait<ElementType>::PrimitiveType PrimitiveType;
     typedef typename TrMatrix<MA>::IndexType     IndexType;
@@ -148,9 +149,10 @@ lauu2_impl(TrMatrix<MA> &A)
         for (IndexType i=1; i<=n; ++i) {
             const PrimitiveType a22 = real(A(i,i));
             if (i<n) {
-                A(i,i) = a22*a22 + real(blas::dotc(A(i,_(i+1,n)), A(i,_(i+1,n))));
+                A(i,i) = a22*a22
+                       + real(blas::dotc(A(i,_(i+1,n)), A(i,_(i+1,n))));
                 imag(A(i,_(i+1,n))) *= -One;
-                
+
                 const auto range1 = _(1,i-1);
                 const auto range2 = i;
                 const auto range3 = _(i+1,n);
@@ -171,9 +173,10 @@ lauu2_impl(TrMatrix<MA> &A)
         for (IndexType i=1; i<=n; ++i) {
             const PrimitiveType a22 = real(A(i,i));
             if (i<n) {
-                A(i,i) = a22*a22 + real(blas::dotc(A(_(i+1,n),i), A(_(i+1,n),i)));
+                A(i,i) = a22*a22
+                       + real(blas::dotc(A(_(i+1,n),i), A(_(i+1,n),i)));
                 imag(A(i,_(1,i-1))) *= -One;
-                
+
                 const auto range1 = _(1,i-1);
                 const auto range2 = i;
                 const auto range3 = _(i+1,n);

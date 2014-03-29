@@ -51,8 +51,9 @@ template <typename ALPHA, typename VL, typename VR, typename VY>
                      && IsVector<VL>::value
                      && IsVector<VR>::value,
              void>::Type
-    axpy(const ALPHA &alpha, const VectorClosure<OpConj, VL, VR> &x, Vector<VY> &y);
-    
+    axpy(const ALPHA &alpha, const VectorClosure<OpConj, VL, VR> &x,
+         Vector<VY> &y);
+
 // y += x1 + x2
 template <typename ALPHA, typename VL, typename VR, typename VY>
     typename RestrictTo<VCDefaultEval<OpAdd, VL, VR>::value
