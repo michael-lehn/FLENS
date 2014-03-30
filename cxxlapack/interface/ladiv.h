@@ -34,10 +34,16 @@
 #define CXXLAPACK_INTERFACE_LADIV_H 1
 
 #include <complex>
+#include <cxxblas/drivers/drivers.h>
 
 namespace cxxlapack {
 
-/*void
+using cxxblas::RestrictTo;
+using cxxblas::IsSame;
+
+template <typename Double>
+typename RestrictTo<IsSame<double, Double>::value,
+         void>::Type
 ladiv(const double          a,
       const double          b,
       const double          c,
@@ -46,9 +52,11 @@ ladiv(const double          a,
       double                &q);
 
 
-std::complex<double>
+template <typename Double>
+typename RestrictTo<IsSame<double, Double>::value,
+         std::complex<double> >::Type
 ladiv(std::complex<double>  x,
-      std::complex<double>  y);*/
+      std::complex<double>  y);
 
 } // namespace cxxlapack
 

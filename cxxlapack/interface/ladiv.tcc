@@ -39,13 +39,15 @@
 
 namespace cxxlapack {
 
-void
-ladiv(const double          a,
-      const double          b,
-      const double          c,
-      const double          d,
-      double                &p,
-      double                &q)
+template <typename Double>
+typename RestrictTo<IsSame<double, Double>::value,
+         void>::Type
+ladiv(const Double          a,
+      const Double          b,
+      const Double          c,
+      const Double          d,
+      Double                &p,
+      Double                &q)
 {
     CXXLAPACK_DEBUG_OUT("dladiv");
 
@@ -58,9 +60,11 @@ ladiv(const double          a,
 }
 
 
-std::complex<double>
-ladiv(std::complex<double>  x,
-      std::complex<double>  y)
+template <typename Double>
+typename RestrictTo<IsSame<double, Double>::value,
+         std::complex<double> >::Type
+ladiv(std::complex<Double>  x,
+      std::complex<Double>  y)
 {
     CXXLAPACK_DEBUG_OUT("zladiv");
 
