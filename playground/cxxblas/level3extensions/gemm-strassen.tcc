@@ -35,7 +35,7 @@
 
 #include <cxxblas/cxxblas.h>
 #include <flens/auxiliary/auxiliary.h>
-#include <flens/lapack/auxiliary/pow.h>
+#include <cxxblas/auxiliary/pow.h>
 #include <playground/cxxblas/level3extensions/gemm-strassen.h>
 
 namespace cxxblas {
@@ -758,8 +758,8 @@ gemm_strassen(StorageOrder order,
                 ++num_divides;
         }
 
-        IndexType mr = m - (m%IndexType(flens::pow(IndexType(2),num_divides)));
-        IndexType nr = n - (n%IndexType(flens::pow(IndexType(2),num_divides)));
+        IndexType mr = m-(m%IndexType(cxxblas::pow(IndexType(2),num_divides)));
+        IndexType nr = n-(n%IndexType(cxxblas::pow(IndexType(2),num_divides)));
 
         num_divides = 0;
 

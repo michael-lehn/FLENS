@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2011, Michael Lehn
+ *   Copyright (c) 2012, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,71 +30,25 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_LAPACK_AUXILIARY_POW_TCC
-#define FLENS_LAPACK_AUXILIARY_POW_TCC 1
+#ifndef CXXBLAS_AUXILIARY_COMPLEXTRAIT_H
+#define CXXBLAS_AUXILIARY_COMPLEXTRAIT_H 1
 
-#include <cmath>
-#include <flens/lapack/auxiliary/pow.h>
+#include <complex>
 
-namespace flens {
-
-template <typename T>
-typename RestrictTo<IsSame<T,int>::value,
-         T>::Type
-pow(const T &base, const T &exponent)
-{
-    ASSERT( exponent>=0 );
-    if ( exponent==0 ) {
-        return 1;
-    } else if ( exponent==1 ) {
-        return base;
-    }
-    int value = flens::pow(base, exponent/2 );
-
-    if ( exponent%2==0 ) {
-        return value*value;
-    }
-    return base*value*value;
-}
+namespace cxxblas {
 
 template <typename T>
-typename RestrictTo<!IsSame<T,int>::value,
-                    T>::Type
-pow(const T &base, int exponent)
+struct ComplexTrait
 {
-    typedef typename ComplexTrait<T>::PrimitiveType PT;
-    using std::pow;
-
-//
-//  TODO: Make this more general and call an external Fortran routine
-//        that computes 'pow(base, exponent)' for comparison
-//
-#   ifdef CHECK_CXXLAPACK
-    if (exponent==2) {
-        return base*base;
-    }
-#   endif
-    return pow(base, PT(exponent));
-}
+    typedef T  PrimitiveType;
+};
 
 template <typename T>
-std::complex<T>
-pow(const std::complex<T> &base, int exponent)
+struct ComplexTrait<std::complex<T> >
 {
-    typedef typename ComplexTrait<T>::PrimitiveType PT;
-    using std::pow;
-//
-//  TODO: Make this more general and call an external Fortran routine
-//        that computes 'pow(base, exponent)' for comparison
-//
-#   ifdef CHECK_CXXLAPACK
-    if (exponent==2) {
-        return base*base;
-    }
-#   endif
-    return pow(base, PT(exponent));
-}
+    typedef T  PrimitiveType;
+};
 
-} // namespace flens
+} // namespace cxxblas
 
-#endif // FLENS_LAPACK_AUXILIARY_POW_TCC
+#endif // CXXBLAS_AUXILIARY_COMPLEXTRAIT_H

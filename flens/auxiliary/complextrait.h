@@ -34,20 +34,11 @@
 #define FLENS_AUXILIARY_COMPLEXTRAIT_H 1
 
 #include <complex>
+#include <cxxblas/auxiliary/complextrait.h>
 
 namespace flens {
 
-template <typename T>
-struct ComplexTrait
-{
-    typedef T  PrimitiveType;
-};
-
-template <typename T>
-struct ComplexTrait<std::complex<T> >
-{
-    typedef T  PrimitiveType;
-};
+using cxxblas::ComplexTrait;
 
 } // namespace flens
 

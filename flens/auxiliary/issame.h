@@ -33,31 +33,11 @@
 #ifndef FLENS_AUXILIARY_ISSAME_H
 #define FLENS_AUXILIARY_ISSAME_H 1
 
+#include <cxxblas/auxiliary/issame.h>
+
 namespace flens {
 
-template <typename ...Args>
-struct IsSame
-{
-    static const bool value = false;
-};
-
-template <typename T>
-struct IsSame<T>
-{
-    static const bool value = true;
-};
-
-template <typename T>
-struct IsSame<T, T>
-{
-    static const bool value = true;
-};
-
-template <typename T, typename ...Args>
-struct IsSame<T, T, Args...>
-{
-    static const bool value = IsSame<T,Args...>::value;
-};
+using cxxblas::IsSame;
 
 } // namespace flens
 

@@ -154,6 +154,18 @@ template <typename MA, typename VW, typename MVL, typename MVR>
        MVL      &&VL,
        MVR      &&VR);
 
+//== (ge)ev ====================================================================
+//
+//  Real/complex variant that only computes eigenvalues
+//
+template <typename MA, typename VW>
+    typename RestrictTo<(IsComplexGeMatrix<MA>::value
+                      && IsComplexDenseVector<VW>::value)
+             ||         (IsRealGeMatrix<MA>::value
+                      && IsRealDenseVector<VW>::value),
+             typename RemoveRef<MA>::Type::IndexType>::Type
+    ev(MA       &&A,
+       VW       &&w);
 
 } } // namespace lapack, flens
 

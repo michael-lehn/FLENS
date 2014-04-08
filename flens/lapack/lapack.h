@@ -65,13 +65,13 @@
 
 #include <flens/lapack/auxiliary/getf77char.h>
 #include <flens/lapack/auxiliary/nint.h>
-#include <flens/lapack/auxiliary/pow.h>
 #include <flens/lapack/auxiliary/sign.h>
 
 #include <flens/lapack/debug/hex.h>
 #include <flens/lapack/debug/isidentical.h>
 
 #include <flens/lapack/gb/sv.h>
+#include <flens/lapack/gb/tf2.h>
 #include <flens/lapack/gb/trf.h>
 #include <flens/lapack/gb/trs.h>
 
@@ -151,6 +151,8 @@
 #include <flens/lapack/impl/unml2.h>
 #include <flens/lapack/impl/unmlq.h>
 #include <flens/lapack/impl/unmqr.h>
+#include <flens/lapack/impl/unmr3.h>
+#include <flens/lapack/impl/unmrz.h>
 
 #include <flens/lapack/la/ilaenv.h>
 #include <flens/lapack/la/ilalc.h>

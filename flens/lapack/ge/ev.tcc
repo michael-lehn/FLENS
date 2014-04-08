@@ -117,7 +117,7 @@ ev_impl(bool                computeVL,
         GeMatrix<MVR>       &VR,
         DenseVector<VWORK>  &work)
 {
-    using flens::pow;
+    using cxxblas::pow;
     using std::sqrt;
 
     typedef typename GeMatrix<MA>::ElementType  T;
@@ -422,7 +422,7 @@ ev_impl(bool                computeVL,
         DenseVector<VWORK>  &work,
         DenseVector<VRWORK> &rWork)
 {
-    using flens::pow;
+    using cxxblas::pow;
     using std::sqrt;
 
     typedef typename GeMatrix<MA>::ElementType          T;
@@ -1350,6 +1350,20 @@ ev(bool     computeVL,
     RealWorkVector  rWork;
 
     return ev(computeVL, computeVR, A, w, VL, VR, work, rWork);
+}
+
+//--(ge)ev  [real/complex variant that only computes eigenvalues] --------------
+
+template <typename MA, typename VW>
+typename RestrictTo<(IsComplexGeMatrix<MA>::value
+                  && IsComplexDenseVector<VW>::value)
+         ||         (IsRealGeMatrix<MA>::value
+                  && IsRealDenseVector<VW>::value),
+         typename RemoveRef<MA>::Type::IndexType>::Type
+ev(MA       &&A,
+   VW       &&w)
+{
+    return ev(false, false, A, w, A, A);
 }
 
 } } // namespace lapack, flens

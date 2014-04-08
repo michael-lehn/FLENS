@@ -44,7 +44,7 @@ nrm2_generic(IndexType n, const X *x, IndexType incX, T &norm)
     CXXBLAS_DEBUG_OUT("nrm2_generic");
 
     using std::abs;
-    using std::pow;
+    using cxxblas::pow;
     using std::sqrt;
 
     const T  Zero(0), One(1);

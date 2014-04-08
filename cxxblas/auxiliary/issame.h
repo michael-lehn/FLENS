@@ -30,15 +30,35 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_AUXILIARY_RESTRICTTO_H
-#define FLENS_AUXILIARY_RESTRICTTO_H 1
+#ifndef CXXBLAS_AUXILIARY_ISSAME_H
+#define CXXBLAS_AUXILIARY_ISSAME_H 1
 
-#include <cxxblas/auxiliary/restrictto.h>
+namespace cxxblas {
 
-namespace flens {
+template <typename ...Args>
+struct IsSame
+{
+    static const bool value = false;
+};
 
-using cxxblas::RestrictTo;
+template <typename T>
+struct IsSame<T>
+{
+    static const bool value = true;
+};
 
-} // namespace flens
+template <typename T>
+struct IsSame<T, T>
+{
+    static const bool value = true;
+};
 
-#endif // FLENS_AUXILIARY_RESTRICTTO_H
+template <typename T, typename ...Args>
+struct IsSame<T, T, Args...>
+{
+    static const bool value = IsSame<T,Args...>::value;
+};
+
+} // namespace cxxblas
+
+#endif // CXXBLAS_AUXILIARY_ISSAME_H

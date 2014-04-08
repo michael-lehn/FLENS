@@ -22,7 +22,7 @@ lu_blk(GeMatrix<MA> &A)
     const IndexType  n = A.numCols();
     const IndexType  mn = min(m, n);
 
-    const ElementType Zero(0), One(1);
+    const ElementType One(1);
 
     const Underscore<IndexType>  _;
 

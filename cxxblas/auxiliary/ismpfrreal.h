@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2004, Alexander Stippler
+ *   Copyright (c) 2014, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,15 +30,26 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_AUXILIARY_RESTRICTTO_H
-#define FLENS_AUXILIARY_RESTRICTTO_H 1
+#ifndef CXXBLAS_AUXILIARY_ISMPFRREAL_H
+#define CXXBLAS_AUXILIARY_ISMPFRREAL_H 1
 
-#include <cxxblas/auxiliary/restrictto.h>
+#include <complex>
+#include <external/real.hpp>
 
-namespace flens {
+namespace cxxblas {
 
-using cxxblas::RestrictTo;
+template <typename T>
+struct IsMpfrReal
+{
+    static const bool value = false;
+};
 
-} // namespace flens
+template <mpfr::real_prec_t prec, mpfr::real_rnd_t rnd>
+struct IsMpfrReal<mpfr::real<prec, rnd> >
+{
+    static const bool value = true;
+};
 
-#endif // FLENS_AUXILIARY_RESTRICTTO_H
+} // namespace cxxblas
+
+#endif // CXXBLAS_AUXILIARY_ISMPFRREAL_H

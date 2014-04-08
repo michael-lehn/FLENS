@@ -33,8 +33,8 @@
 #ifndef CXXBLAS_CXXBLAS_H
 #define CXXBLAS_CXXBLAS_H 1
 
-#include <cxxblas/drivers/drivers.h>
 #include <cxxblas/auxiliary/auxiliary.h>
+#include <cxxblas/drivers/drivers.h>
 #include <cxxblas/typedefs.h>
 
 #include <cxxblas/level1/level1.h>

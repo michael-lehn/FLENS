@@ -64,7 +64,7 @@ lartg_impl(const T &f, const T &g, T &cs, T &sn, T &r)
 {
     using std::abs;
     using std::max;
-    using flens::pow;
+    using cxxblas::pow;
 
     const T     Zero(0), One(1), Two(2);
     static bool first = true;
@@ -152,7 +152,7 @@ template <typename T>
 T
 absSq(const std::complex<T> &z)
 {
-    using flens::pow;
+    using cxxblas::pow;
 
     return pow(real(z),2) + pow(imag(z),2);
 }

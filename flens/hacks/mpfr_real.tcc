@@ -33,6 +33,9 @@
 #if defined(MPFR_REAL_HPP) && !defined(FLENS_HACKS_MPFR_REAL_TCC)
 #define FLENS_HACKS_MPFR_REAL_TCC 1
 
+#include <external/real.hpp>
+#include <flens/hacks/mpfr_real.h>
+
 /*
  * NOTE: This hack requires that in the mpfr::real class the '_x' attribute
  *       is made public!

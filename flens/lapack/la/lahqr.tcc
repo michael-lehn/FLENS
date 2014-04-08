@@ -482,7 +482,7 @@ lahqr_impl(bool                  wantT,
            IndexType             iHiZ,
            GeMatrix<MZ>          &Z)
 {
-    using flens::pow;
+    using cxxblas::pow;
     using std::abs;
     using std::conj;
     using std::imag;

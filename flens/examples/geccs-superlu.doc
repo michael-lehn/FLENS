@@ -32,8 +32,8 @@ Compile
   *--[SHELL]----------------------------------------------------------------*
   |                                                                         |
   |  cd flens/examples                                                      |
-  |  g++ -Wall -std=c++11 -I../.. -I$HOME/SuperLU_4.3/SRC                +++|
-  |      -L$HOME/SuperLU_4.3/lib -lsuperlu_4.3 -framework vecLib         +++|
+  |  g++ -Wall -std=c++11 -I../.. -I$HOME/work/SuperLU_4.3/SRC           +++|
+  |      -L$HOME/work/SuperLU_4.3/lib -lsuperlu_4.3 -framework vecLib    +++|
   |      -o geccs-superlu geccs-superlu.cc                                  |
   |                                                                         |
   *-------------------------------------------------------------------------*
@@ -41,12 +41,13 @@ Compile
 In this case we assume that __SuperLU__ is installed in `$HOME/SuperLU_4.3/`.
 So the following options were used:
 
-  -I$HOME/SuperLU_4.3/SRC    Add the __SuperLU__ headers to the include path.
-  -L$HOME/SuperLU_4.3/lib    Add the __SuperLU__ library path.
-  -lsuperlu_4.3              Link against the __SuperLU__ library.
-  -framework vecLib          This is the Mac OS X way of linking BLAS.  On other
-                             platforms this might be done more manual, e.g
-                             `-latlas -lblas`.
+  -I$HOME/work/SuperLU_4.3/SRC    Add the __SuperLU__ headers to the include
+                                  path.
+  -L$HOME/work/SuperLU_4.3/lib    Add the __SuperLU__ library path.
+  -lsuperlu_4.3                   Link against the __SuperLU__ library.
+  -framework vecLib               This is the Mac OS X way of linking BLAS.  On
+                                  other platforms this might be done more
+                                  manual, e.g `-latlas -lblas`.
 
 
 Run

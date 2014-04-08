@@ -98,7 +98,7 @@ mm(Transpose        transposeA,
         ASSERT( transposeB==NoTrans );
 
         FLENS_BLASLOG_SETTAG("--> ");
-        FLENS_BLASLOG_BEGIN_TBMM(side, transA, alpha, A, B);
+        FLENS_BLASLOG_BEGIN_TBMM(Left, transposeA, alpha, A, B);
 
 #       ifdef HAVE_CXXBLAS_TBMM
         cxxblas::tbmm(C.order(), Left,
@@ -191,7 +191,7 @@ mm(Transpose        transposeA,
         ASSERT( transposeB==NoTrans );
 
         FLENS_BLASLOG_SETTAG("--> ");
-        FLENS_BLASLOG_BEGIN_TBMM(side, transA, alpha, B, C);
+        FLENS_BLASLOG_BEGIN_TBMM(Right, transposeA, alpha, B, C);
 
 #       ifdef HAVE_CXXBLAS_TBMM
         cxxblas::tbmm(C.order(), Right,

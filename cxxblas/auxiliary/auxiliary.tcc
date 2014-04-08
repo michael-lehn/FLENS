@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2004, Alexander Stippler
+ *   Copyright (c) 2009, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,15 +30,10 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_AUXILIARY_RESTRICTTO_H
-#define FLENS_AUXILIARY_RESTRICTTO_H 1
+#ifndef CXXBLAS_AUXILIARY_AUXILIARY_TCC
+#define CXXBLAS_AUXILIARY_AUXILIARY_TCC 1
 
-#include <cxxblas/auxiliary/restrictto.h>
+#include <cxxblas/auxiliary/complex.tcc>
+#include <cxxblas/auxiliary/pow.tcc>
 
-namespace flens {
-
-using cxxblas::RestrictTo;
-
-} // namespace flens
-
-#endif // FLENS_AUXILIARY_RESTRICTTO_H
+#endif // CXXBLAS_AUXILIARY_AUXILIARY_TCC

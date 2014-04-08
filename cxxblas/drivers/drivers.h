@@ -33,6 +33,9 @@
 #ifndef CXXBLAS_DRIVERS_DRIVERS_H
 #define CXXBLAS_DRIVERS_DRIVERS_H 1
 
+#include <cxxblas/auxiliary/issame.h>
+#include <cxxblas/auxiliary/restrictto.h>
+
 // define implementation specific constants, macros, etc.
 #if defined (WITH_ATLAS)
 #   include <cxxblas/drivers/atlas.h>
@@ -82,33 +85,6 @@ template <>
 struct If<long>
 {
     typedef void isBlasCompatibleInteger;
-};
-
-//------------------------------------------------------------------------------
-
-template <typename A, typename B>
-struct IsSame
-{
-    static const bool value = false;
-};
-
-template <typename A>
-struct IsSame<A,A>
-{
-    static const bool value = true;
-};
-
-//------------------------------------------------------------------------------
-
-template <bool b, typename T>
-struct RestrictTo
-{
-};
-
-template <typename T>
-struct RestrictTo<true, T>
-{
-    typedef T Type;
 };
 
 //------------------------------------------------------------------------------

@@ -80,7 +80,9 @@ __FLENS-LAPACK__
 
  *--[BOX]--------------------------------------------------------------------*
  |                                                                           |
- |  __Page 1__    Computing a LU factorization.                              |
+ |  __Page 1__    Computing a LU factorization.  We also show how you can    |
+ |                boost performance by using optimized BLAS implementations  |
+ |                like __ATLAS__.                                            |
  |  __Page 2__    Computing a QR factorization.                              |
  |  __Page 3__    Solving systems of linear equations.                       |
  |  __Page 4__    Computing eigenvalues and eigenvectors.                    |
@@ -88,6 +90,7 @@ __FLENS-LAPACK__
  *---------------------------------------------------------------------------*
 
 :links: __FLENS-LAPACK__  -> doc:flens/lapack/lapack
+        __ATLAS__         -> http://math-atlas.sourceforge.net
         __Page (\d)__     -> doc:flens/examples/tut04-page0$1
 
 Using an external LAPACK implementation

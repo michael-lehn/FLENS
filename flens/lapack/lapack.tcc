@@ -39,13 +39,13 @@
 
 #include <flens/lapack/auxiliary/getf77char.tcc>
 #include <flens/lapack/auxiliary/nint.tcc>
-#include <flens/lapack/auxiliary/pow.tcc>
 #include <flens/lapack/auxiliary/sign.tcc>
 
 #include <flens/lapack/debug/hex.tcc>
 #include <flens/lapack/debug/isidentical.tcc>
 
 #include <flens/lapack/gb/sv.tcc>
+#include <flens/lapack/gb/tf2.tcc>
 #include <flens/lapack/gb/trf.tcc>
 #include <flens/lapack/gb/trs.tcc>
 
@@ -125,6 +125,8 @@
 #include <flens/lapack/impl/unml2.tcc>
 #include <flens/lapack/impl/unmlq.tcc>
 #include <flens/lapack/impl/unmqr.tcc>
+#include <flens/lapack/impl/unmr3.tcc>
+#include <flens/lapack/impl/unmrz.tcc>
 
 #include <flens/lapack/la/ilaenv.tcc>
 #include <flens/lapack/la/ilalc.tcc>

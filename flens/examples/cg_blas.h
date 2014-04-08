@@ -38,7 +38,6 @@ cg(const MA &A, const VB &b, VX &&x,
     rNormSquare = blas::dot(r, r);
 
     for (int k=1; k<=maxIterations; ++k) {
-        std::cout << "k = " << k << std::endl;
         if (sqrt(rNormSquare)<=tol) {
             return k-1;
         }

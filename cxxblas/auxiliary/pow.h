@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2004, Alexander Stippler
+ *   Copyright (c) 2014, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,15 +30,39 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_AUXILIARY_RESTRICTTO_H
-#define FLENS_AUXILIARY_RESTRICTTO_H 1
+#ifndef CXXBLAS_AUXILIARY_POW_H
+#define CXXBLAS_AUXILIARY_POW_H 1
 
+#include <cxxblas/auxiliary/ismpfrreal.h>
+#include <cxxblas/auxiliary/issame.h>
 #include <cxxblas/auxiliary/restrictto.h>
+#include <external/real.hpp>
 
-namespace flens {
+namespace cxxblas {
 
-using cxxblas::RestrictTo;
+/*
+template <typename B, typename E>
+    typename RestrictTo<IsMpfrReal<B>::value
+                     || IsMpfrReal<E>::value,
+             typename mpfr::result_type2<B, E>::type>::Type
+    pow(const B &base, const E &exponent);
+*/
 
-} // namespace flens
+template <typename T>
+    typename RestrictTo<IsSame<T,int>::value,
+             T>::Type
+    pow(const T &base, const T &exponent);
 
-#endif // FLENS_AUXILIARY_RESTRICTTO_H
+template <typename T>
+    typename RestrictTo<!IsSame<T,int>::value
+                     && !IsMpfrReal<T>::value,
+                        T>::Type
+    pow(const T &base, int exponent);
+
+template <typename T>
+    std::complex<T>
+    pow(const std::complex<T> &base, int exponent);
+
+} // namespace cxxblas
+
+#endif // CXXBLAS_AUXILIARY_POW_H

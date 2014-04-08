@@ -151,7 +151,7 @@ evx_impl(BALANCE::Balance     balance,
          DenseVector<VWORK>   &work,
          DenseVector<VIWORK>  &iWork)
 {
-    using flens::pow;
+    using cxxblas::pow;
 
     typedef typename GeMatrix<MA>::ElementType   T;
 

@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2011, Michael Lehn
+ *   Copyright (c) 2004, Alexander Stippler
  *
  *   All rights reserved.
  *
@@ -30,27 +30,26 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_LAPACK_AUXILIARY_POW_H
-#define FLENS_LAPACK_AUXILIARY_POW_H 1
+#ifndef CXXBLAS_AUXILIARY_RESTRICTTO_H
+#define CXXBLAS_AUXILIARY_RESTRICTTO_H 1
 
-#include <flens/auxiliary/auxiliary.h>
+#ifdef INCLUDE_TYPE_TRAITS
+#   include <type_traits>
+#endif
 
-namespace flens {
+namespace cxxblas {
 
-template <typename T>
-    typename RestrictTo<IsSame<T,int>::value,
-             T>::Type
-    pow(const T &base, const T &exponent);
-
-template <typename T>
-    typename RestrictTo<!IsSame<T,int>::value,
-                        T>::Type
-    pow(const T &base, int exponent);
+template <bool b, typename T>
+struct RestrictTo
+{
+};
 
 template <typename T>
-    std::complex<T>
-    pow(const std::complex<T> &base, int exponent);
+struct RestrictTo<true, T>
+{
+    typedef typename std::remove_reference<T>::type Type;
+};
 
-} // namespace flens
+} // namespace cxxblas
 
-#endif // FLENS_LAPACK_AUXILIARY_POW_H
+#endif // CXXBLAS_AUXILIARY_RESTRICTTO_H

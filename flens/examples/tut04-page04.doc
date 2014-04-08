@@ -17,7 +17,7 @@ Example Code
 
 Comments on Example Code
 ========================
-:import: flens/examples/lapack-geev.cc
+:import: flens/examples/lapack-geev.cc [brief]
 
 Compile
 =======
@@ -77,8 +77,8 @@ Compile and Run
   *--[SHELL]-----------------------------------------------------------------*
   |                                                                          |
   |  cd flens/examples                                                       |
-  |  g++ -Wall -std=c++11 -I../.. -I/opt/local/include/ -c qd-lapack-geev.cc |
-  |  g++ -o qd-lapack-geev qd-lapack-geev.o /opt/local/lib/libqd.a           |
+  |  g++ -Wall -std=c++11 -I../.. -c qd-lapack-geev.cc                       |
+  |  g++ -o qd-lapack-geev qd-lapack-geev.o /usr/local/lib/libqd.a           |
   |  ./qd-lapack-geev                                                        |
   |                                                                          |
   *--------------------------------------------------------------------------*
@@ -123,9 +123,9 @@ Compile and Run
   *--[SHELL]----------------------------------------------------------------*
   |                                                                         |
   |  cd flens/examples                                                      |
-  |  g++ -Wall -std=c++11 -I../.. -I/opt/local/include                   +++|
+  |  g++ -Wall -std=c++11 -I../..                                        +++|
   |       -o mpfr-real-lapack-geev mpfr-real-lapack-geev.cc              +++|
-  |       -L /opt/local/lib -lmpfr -lgmp                                    |
+  |       -lmpfr -lgmp                                                      |
   |  ./mpfr-real-lapack-geev                                                |
   |                                                                         |
   *-------------------------------------------------------------------------*

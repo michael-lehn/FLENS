@@ -2268,7 +2268,7 @@ namespace mpfr {
       template <class _Tp>
       inline real(const _Tp& o,
           typename enable_if<type_traits<real, _Tp>::has_set &&
-          type_traits<real, _Tp>::enable_impl_ctor>::type* dummy = 0) {
+          type_traits<real, _Tp>::enable_impl_ctor>::type* = 0) {
         mpfr_init2(_x, _prec);
         type_traits<real, _Tp>::set(_x, o, _rnd);
       }
@@ -2276,8 +2276,7 @@ namespace mpfr {
       template <real_prec_t _prec1, real_rnd_t _rnd1>
       inline real(const real<_prec1, _rnd1>& o,
           typename enable_if<
-          type_traits<real, real<_prec1, _rnd1> >::enable_impl_ctor>::type*
-          dummy = 0) {
+          type_traits<real, real<_prec1, _rnd1> >::enable_impl_ctor>::type* = 0) {
         mpfr_init2(_x, _prec1);
         mpfr_set(_x, o._x, _rnd1);
       }
@@ -2288,7 +2287,7 @@ namespace mpfr {
       inline explicit real(const _Tp& o,
           typename enable_if<
           type_traits<real, _Tp>::has_set &&
-          (! type_traits<real, _Tp>::enable_impl_ctor)>::type* dummy = 0) {
+          (! type_traits<real, _Tp>::enable_impl_ctor)>::type* = 0) {
         mpfr_init2(_x, _prec);
         type_traits<real, _Tp>::set(_x, o, _rnd);
       }
@@ -2296,8 +2295,7 @@ namespace mpfr {
       template <real_prec_t _prec1, real_rnd_t _rnd1>
       inline explicit real(const real<_prec1, _rnd1>& o,
           typename enable_if<
-          (! type_traits<real, real<_prec1, _rnd1> >::enable_impl_ctor)>::type*
-          dummy = 0) {
+          (! type_traits<real, real<_prec1, _rnd1> >::enable_impl_ctor)>::type* = 0) {
         mpfr_init2(_x, _prec1);
         mpfr_set(_x, o._x, _rnd1);
       }
@@ -3587,7 +3585,7 @@ namespace mpfr {
         type_traits<real, _Tp>::enable_math_funcs &&
         equal_types2<real, _Tp>::val,
         const _Tp>::type
-      nan(const char* tagp) {
+      nan(const char*) {
         _Tp temp;
         mpfr_set_nan(temp._x);
         return temp;
@@ -3960,16 +3958,5 @@ namespace mpfr {
   };  // class real
 
 }  // namespace mpfr
-
-//
-// import math functions into std
-//
-
-namespace std {
-
-using mpfr::pow;
-
-} // namespace std
-
 
 #endif  // MPFR_REAL_HPP

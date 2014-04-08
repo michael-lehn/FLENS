@@ -79,7 +79,7 @@ svj0_impl(SVJ::JobV                                  jobV,
     using std::abs;
     using std::max;
     using std::min;
-    using flens::pow;
+    using cxxblas::pow;
     using std::sqrt;
     using std::swap;
 
