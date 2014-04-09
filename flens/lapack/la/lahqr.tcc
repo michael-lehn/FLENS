@@ -679,7 +679,7 @@ lahqr_impl(bool                  wantT,
                     x  = RHalf * (H(i-1,i-1) - t);
                     sx = abs1(x);
                     s  = max(s, abs1(x));
-                    y  = s * sqrt(pow(x/s,2) + pow(u/s,2));
+                    y  = s * sqrt(cxxblas::pow(x/s,2) + cxxblas::pow(u/s,2));
                     if (sx > RZero) {
                         PT tmp = real(x/sx)*real(y)
                                + imag(x/sx)*imag(y);

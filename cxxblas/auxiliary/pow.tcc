@@ -72,8 +72,9 @@ pow(const T &base, const T &exponent)
 
 template <typename T>
 typename RestrictTo<!IsSame<T,int>::value
+                 && !IsComplex<T>::value
                  && !IsMpfrReal<T>::value,
-                    T>::Type
+         T>::Type
 pow(const T &base, int exponent)
 {
     typedef typename ComplexTrait<T>::PrimitiveType PT;
@@ -88,7 +89,7 @@ pow(const T &base, int exponent)
         return base*base;
     }
 #   endif
-    return pow(base, PT(exponent));
+    return std::pow(base, PT(exponent));
 }
 
 template <typename T>
@@ -106,7 +107,7 @@ pow(const std::complex<T> &base, int exponent)
         return base*base;
     }
 #   endif
-    return pow(base, PT(exponent));
+    return std::pow(base, PT(exponent));
 }
 
 } // namespace cxxblas

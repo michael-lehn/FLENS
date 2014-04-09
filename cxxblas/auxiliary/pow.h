@@ -33,6 +33,7 @@
 #ifndef CXXBLAS_AUXILIARY_POW_H
 #define CXXBLAS_AUXILIARY_POW_H 1
 
+#include <cxxblas/auxiliary/iscomplex.h>
 #include <cxxblas/auxiliary/ismpfrreal.h>
 #include <cxxblas/auxiliary/issame.h>
 #include <cxxblas/auxiliary/restrictto.h>
@@ -55,8 +56,9 @@ template <typename T>
 
 template <typename T>
     typename RestrictTo<!IsSame<T,int>::value
+                     && !IsComplex<T>::value
                      && !IsMpfrReal<T>::value,
-                        T>::Type
+             T>::Type
     pow(const T &base, int exponent);
 
 template <typename T>
