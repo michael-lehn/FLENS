@@ -14,3 +14,10 @@ Read more on
 
     http://www.mathematik.uni-ulm.de/~lehn/FLENS/
 
+
+If you want to test FLENS-LAPACK with Netlib's LAPACK test suites
+simply run
+
+    make check
+
+Note that this requires a Fortran compiler.

@@ -1,10 +1,11 @@
-all :
+all:
+
+
+check :
 	$(MAKE) -C cxxblas/netlib
 	$(MAKE) -C cxxlapack/netlib
 	$(MAKE) -C flens/blas/interface
 	$(MAKE) -C flens/lapack
-
-check :
 	$(MAKE) -C flens/blas/interface check
 	$(MAKE) -C flens/lapack check
 
