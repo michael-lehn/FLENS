@@ -269,7 +269,7 @@ copy(Transpose trans, const MA &A, MB &&B)
     } else {
         if ((A.numRows()!=B.numCols())  || (A.numCols()!=B.numRows())) {
 #           ifndef FLENS_DEBUG_CLOSURES
-            ASSERT(B.numRows()==0 && A.numCols()==0);
+            ASSERT(B.numRows()==0 || B.numCols()==0);
 #           else
             if (B.numRows()!=0 || B.numCols()!=0) {
                 FLENS_BLASLOG_RESIZE_MATRIX(B, A.numCols(), A.numRows());
