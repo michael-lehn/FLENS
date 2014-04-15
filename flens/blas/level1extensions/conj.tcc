@@ -71,6 +71,30 @@ conj(VX &&x)
     FLENS_BLASLOG_UNSETTAG;
 }
 
+//-- conj
+template <typename MA>
+typename RestrictTo<IsGeMatrix<MA>::value,
+         void>::Type
+conj(MA &&A)
+{
+    FLENS_BLASLOG_SETTAG("--> ");
+    FLENS_BLASLOG_BEGIN_MCOTR(Conj, A);
+
+#   ifdef HAVE_CXXBLAS_GECOTR
+    typedef typename RemoveRef<MA>::Type    MatrixA;
+    typedef typename MatrixA::IndexType     IndexType;
+
+    cxxblas::gecotr(A.order(), Conj,
+                    A.numRows(), A.numCols(),
+                    A.data(), A.leadingDimension());
+#   else
+    ASSERT(0);
+#   endif
+
+    FLENS_BLASLOG_END;
+    FLENS_BLASLOG_UNSETTAG;
+}
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1EXTENSIONS_CONJ_TCC

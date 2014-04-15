@@ -46,6 +46,12 @@ template <typename VX>
              void>::Type
     conj(VX &&x);
 
+//-- conj
+template <typename MA>
+    typename RestrictTo<IsGeMatrix<MA>::value,
+             void>::Type
+    conj(MA &&A);
+
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_LEVEL1EXTENSIONS_CONJ_H
