@@ -255,7 +255,7 @@ copy(Transpose trans, const MA &A, MB &&B)
 //  when the left hand side is an empty matrix (such that it is no actual
 //  resizing but rather an initialization).
 //
-    if (trans==NoTrans) {
+    if (trans==NoTrans || trans==Conj) {
         if ((A.numRows()!=B.numRows()) || (A.numCols()!=B.numCols())) {
 #           ifndef FLENS_DEBUG_CLOSURES
             ASSERT(B.numRows()==0 || B.numCols()==0);
