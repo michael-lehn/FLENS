@@ -31,8 +31,6 @@ LAPACK_DECL(dgeevx)(const char       *BALANC,
                     INTEGER          *IWORK,
                     INTEGER          *INFO)
 {
-    std::cerr << "dgeevx: N = " << *N << std::endl;
-
     using std::max;
     using std::min;
 //

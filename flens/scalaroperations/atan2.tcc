@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2014, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,28 +30,32 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_SCALAROPERATIONS_SCALAROPERATIONS_H
-#define FLENS_SCALAROPERATIONS_SCALAROPERATIONS_H 1
+#ifndef FLENS_SCALAROPERATIONS_ATAN2_TCC
+#define FLENS_SCALAROPERATIONS_ATAN2_TCC 1
 
-#include <flens/scalaroperations/abs.h>
-#include <flens/scalaroperations/acos.h>
-#include <flens/scalaroperations/asin.h>
-#include <flens/scalaroperations/atan.h>
 #include <flens/scalaroperations/atan2.h>
-#include <flens/scalaroperations/cos.h>
-#include <flens/scalaroperations/complex.h>
-#include <flens/scalaroperations/div.h>
-#include <flens/scalaroperations/double.h>
-#include <flens/scalaroperations/exp.h>
-#include <flens/scalaroperations/imag.h>
-#include <flens/scalaroperations/log.h>
-#include <flens/scalaroperations/minus.h>
-#include <flens/scalaroperations/mult.h>
-#include <flens/scalaroperations/pow.h>
-#include <flens/scalaroperations/plus.h>
-#include <flens/scalaroperations/real.h>
-#include <flens/scalaroperations/sin.h>
-#include <flens/scalaroperations/sqrt.h>
-#include <flens/scalaroperations/tan.h>
 
-#endif // FLENS_SCALAROPERATIONS_SCALAROPERATIONS_H
+namespace flens {
+
+template <typename Y, typename X>
+const typename ScalarClosure<ScalarOpATan2, Y, X>::ElementType
+evalScalarClosure(const ScalarClosure<ScalarOpATan2, Y, X> &exp)
+{
+    return atan2(exp.left().value(), exp.right().value());
+}
+
+//-- operator overloading
+template <typename Y, typename X>
+const ScalarClosure<ScalarOpATan2,
+                    typename Y::Impl,
+                    typename X::Impl>
+ATan2(const Scalar<Y> &y, const Scalar<X> &x)
+{
+    typedef ScalarClosure<ScalarOpATan2, typename Y::Impl, typename X::Impl> SC;
+    return SC(y.impl(), x.impl());
+}
+
+} // namespace flens
+
+#endif // FLENS_SCALAROPERATIONS_ATAN2_TCC
+

@@ -81,9 +81,6 @@ conj(MA &&A)
     FLENS_BLASLOG_BEGIN_MCOTR(Conj, A);
 
 #   ifdef HAVE_CXXBLAS_GECOTR
-    typedef typename RemoveRef<MA>::Type    MatrixA;
-    typedef typename MatrixA::IndexType     IndexType;
-
     cxxblas::gecotr(A.order(), Conj,
                     A.numRows(), A.numCols(),
                     A.data(), A.leadingDimension());

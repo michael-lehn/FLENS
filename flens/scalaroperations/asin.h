@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2014, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,28 +30,28 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_SCALAROPERATIONS_SCALAROPERATIONS_H
-#define FLENS_SCALAROPERATIONS_SCALAROPERATIONS_H 1
+#ifndef FLENS_SCALAROPERATIONS_ASIN_H
+#define FLENS_SCALAROPERATIONS_ASIN_H 1
 
-#include <flens/scalaroperations/abs.h>
-#include <flens/scalaroperations/acos.h>
-#include <flens/scalaroperations/asin.h>
-#include <flens/scalaroperations/atan.h>
-#include <flens/scalaroperations/atan2.h>
-#include <flens/scalaroperations/cos.h>
-#include <flens/scalaroperations/complex.h>
-#include <flens/scalaroperations/div.h>
-#include <flens/scalaroperations/double.h>
-#include <flens/scalaroperations/exp.h>
-#include <flens/scalaroperations/imag.h>
-#include <flens/scalaroperations/log.h>
-#include <flens/scalaroperations/minus.h>
-#include <flens/scalaroperations/mult.h>
-#include <flens/scalaroperations/pow.h>
-#include <flens/scalaroperations/plus.h>
-#include <flens/scalaroperations/real.h>
-#include <flens/scalaroperations/sin.h>
-#include <flens/scalaroperations/sqrt.h>
-#include <flens/scalaroperations/tan.h>
+#include <cxxblas/auxiliary/complex.h>
+#include <flens/auxiliary/auxiliary.h>
+#include <flens/scalartypes/impl/scalarclosure.h>
 
-#endif // FLENS_SCALAROPERATIONS_SCALAROPERATIONS_H
+namespace flens {
+
+struct ScalarOpASin {};
+
+template <typename S>
+    const typename ScalarClosure<ScalarOpASin, S, S>::ElementType
+    evalScalarClosure(const ScalarClosure<ScalarOpASin, S, S> &exp);
+
+//-- operator overloading
+template <typename S>
+    const ScalarClosure<ScalarOpASin,
+                        typename S::Impl,
+                        typename S::Impl>
+    ASin(const Scalar<S> &s);
+
+} // namespace flens
+
+#endif // FLENS_SCALAROPERATIONS_ASIN_H

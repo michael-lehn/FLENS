@@ -34,14 +34,24 @@
 #define FLENS_SCALAROPERATIONS_SCALAROPERATIONS_TCC 1
 
 #include <flens/scalaroperations/abs.tcc>
+#include <flens/scalaroperations/acos.tcc>
+#include <flens/scalaroperations/asin.tcc>
+#include <flens/scalaroperations/atan.tcc>
+#include <flens/scalaroperations/atan2.tcc>
 #include <flens/scalaroperations/cos.tcc>
 #include <flens/scalaroperations/complex.tcc>
 #include <flens/scalaroperations/div.tcc>
+#include <flens/scalaroperations/double.tcc>
+#include <flens/scalaroperations/exp.tcc>
 #include <flens/scalaroperations/imag.tcc>
+#include <flens/scalaroperations/log.tcc>
 #include <flens/scalaroperations/minus.tcc>
 #include <flens/scalaroperations/mult.tcc>
 #include <flens/scalaroperations/plus.tcc>
+#include <flens/scalaroperations/pow.tcc>
 #include <flens/scalaroperations/real.tcc>
 #include <flens/scalaroperations/sin.tcc>
+#include <flens/scalaroperations/sqrt.tcc>
+#include <flens/scalaroperations/tan.tcc>
 
 #endif // FLENS_SCALAROPERATIONS_SCALAROPERATIONS_TCC

@@ -7,6 +7,8 @@ test/ :
 check : test/
 	$(MAKE) -C test/MATGEN
 	$(MAKE) -C test cleanup
+	$(MAKE) -C test ded.out
+	$(MAKE) -C test zed.out
 	$(MAKE) -C test dtest.out
 	$(MAKE) -C test ztest.out
 	$(MAKE) -C test dnep.out
