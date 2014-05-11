@@ -870,8 +870,11 @@ larfb(Side                  side,
 //
 //  Remove references from rvalue types
 //
-#   ifdef CHECK_CXXLAPACK
+#   if defined(CHECK_CXXLAPACK) || !defined(NDEBUG)
     typedef typename RemoveRef<MC>::Type     MatrixC;
+#   endif
+
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<MWORK>::Type  MatrixWork;
 #   endif
 //

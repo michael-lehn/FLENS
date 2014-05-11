@@ -253,10 +253,12 @@ latrd(MA      &&A,
 //
 //  Remove references from rvalue types
 //
+#   ifdef CHECK_CXXLAPACK
     typedef typename RemoveRef<MA>::Type    MatrixA;
     typedef typename RemoveRef<VE>::Type    VectorE;
     typedef typename RemoveRef<VTAU>::Type  VectorTau;
     typedef typename RemoveRef<MW>::Type    MatrixW;
+#   endif
 
 #   ifndef NDEBUG
 //
