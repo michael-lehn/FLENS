@@ -64,8 +64,6 @@ LAPACK_DECL(dgees)(const char       *JOBVS,
                    LOGICAL          *BWORK,
                    INTEGER          *INFO)
 {
-    std::cerr << "dgees: N = " << *N << std::endl;
-
     using std::max;
     using std::min;
 //

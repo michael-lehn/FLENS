@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2010, Michael Lehn
+ *   Copyright (c) 2014, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -30,28 +30,35 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLENS_SCALAROPERATIONS_SCALAROPERATIONS_H
-#define FLENS_SCALAROPERATIONS_SCALAROPERATIONS_H 1
+#ifndef FLENS_SCALAROPERATIONS_ACOS_TCC
+#define FLENS_SCALAROPERATIONS_ACOS_TCC 1
 
-#include <flens/scalaroperations/abs.h>
+#include <cmath>
+#include <cxxblas/auxiliary/complex.h>
+#include <flens/auxiliary/auxiliary.h>
 #include <flens/scalaroperations/acos.h>
-#include <flens/scalaroperations/asin.h>
-#include <flens/scalaroperations/atan.h>
-#include <flens/scalaroperations/atan2.h>
-#include <flens/scalaroperations/cos.h>
-#include <flens/scalaroperations/complex.h>
-#include <flens/scalaroperations/div.h>
-#include <flens/scalaroperations/double.h>
-#include <flens/scalaroperations/exp.h>
-#include <flens/scalaroperations/imag.h>
-#include <flens/scalaroperations/log.h>
-#include <flens/scalaroperations/minus.h>
-#include <flens/scalaroperations/mult.h>
-#include <flens/scalaroperations/pow.h>
-#include <flens/scalaroperations/plus.h>
-#include <flens/scalaroperations/real.h>
-#include <flens/scalaroperations/sin.h>
-#include <flens/scalaroperations/sqrt.h>
-#include <flens/scalaroperations/tan.h>
+#include <flens/scalartypes/impl/scalarclosure.h>
 
-#endif // FLENS_SCALAROPERATIONS_SCALAROPERATIONS_H
+namespace flens {
+
+template <typename S>
+const typename ScalarClosure<ScalarOpACos, S, S>::ElementType
+evalScalarClosure(const ScalarClosure<ScalarOpACos, S, S> &exp)
+{
+    return acos(exp.left().value());
+}
+
+//-- operator overloading
+template <typename S>
+const ScalarClosure<ScalarOpACos,
+                    typename S::Impl,
+                    typename S::Impl>
+ACos(const Scalar<S> &s)
+{
+    typedef ScalarClosure<ScalarOpACos, typename S::Impl, typename S::Impl>  SC;
+    return SC(s.impl(), s.impl());
+}
+
+} // namespace flens
+
+#endif // FLENS_SCALAROPERATIONS_ACOS_TCC

@@ -202,7 +202,9 @@ hrd_impl(IndexType           iLo,
 //          left
 //
             GeView  Work(n-i-ib+1, ib, work, ldWork);
-            larfb(Left, ConjTrans, Forward, ColumnWise,
+            larfb(Left,
+                  IsComplex<T>::value ? ConjTrans : Trans,
+                  Forward, ColumnWise,
                   A(_(i+1,iHi),_(i,i+ib-1)),
                   Tr,
                   A(_(i+1,iHi),_(i+ib,n)),
