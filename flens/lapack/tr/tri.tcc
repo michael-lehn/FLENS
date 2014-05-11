@@ -72,6 +72,7 @@ tri_impl(TrMatrix<MA> &A)
     const Underscore<IndexType> _;
 
     const IndexType n = A.dim();
+
     const bool upper  = (A.upLo()==Upper);
     const bool noUnit = (A.diag()==NonUnit);
 

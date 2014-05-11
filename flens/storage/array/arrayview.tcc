@@ -247,7 +247,11 @@ ArrayView<T, I, A>::view(IndexType from, IndexType to,
     } else {
         ASSERT(firstIndex()<=from);
         ASSERT(lastIndex()>=to);
-        ASSERT(from<=to);
+        if (from>to) {
+            std::cerr << "from = " << from << std::endl;
+            std::cerr << "to =   " << to << std::endl;
+            ASSERT(from<=to);
+        }
     }
 #   endif
 

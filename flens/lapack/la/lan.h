@@ -60,31 +60,55 @@
 namespace flens { namespace lapack {
 
 //== lan(ge) ===================================================================
-template <typename MA, typename VWORK>
-    typename ComplexTrait<typename GeMatrix<MA>::ElementType>::PrimitiveType
-    lan(Norm norm, const GeMatrix<MA> &A);
+template <typename MA>
+    typename RestrictTo<IsGeMatrix<MA>::value,
+             typename ComplexTrait<typename MA::ElementType>::PrimitiveType
+             >::Type
+    lan(Norm      norm,
+        const MA  &A);
 
 template <typename MA, typename VWORK>
-    typename ComplexTrait<typename GeMatrix<MA>::ElementType>::PrimitiveType
-    lan(Norm norm, const GeMatrix<MA> &A, DenseVector<VWORK> &work);
+    typename RestrictTo<IsGeMatrix<MA>::value
+                     && IsRealDenseVector<VWORK>::value,
+             typename ComplexTrait<typename MA::ElementType>::PrimitiveType
+             >::Type
+    lan(Norm      norm,
+        const MA  &A,
+        VWORK     &&work);
+
+//== lan(he) ===================================================================
+template <typename MA>
+    typename RestrictTo<IsHeMatrix<MA>::value,
+             typename ComplexTrait<typename MA::ElementType>::PrimitiveType
+             >::Type
+    lan(Norm      norm,
+        const MA  &A);
+
+template <typename MA, typename VWORK>
+    typename RestrictTo<IsHeMatrix<MA>::value
+                     && IsRealDenseVector<VWORK>::value,
+             typename ComplexTrait<typename MA::ElementType>::PrimitiveType
+             >::Type
+    lan(Norm      norm,
+        const MA  &A,
+        VWORK     &&work);
 
 //== lan(tr) ===================================================================
 template <typename MA, typename VWORK>
-    typename ComplexTrait<typename TrMatrix<MA>::ElementType>::PrimitiveType
-    lan(Norm norm, const TrMatrix<MA> &A);
+    typename RestrictTo<IsTrMatrix<MA>::value,
+             typename ComplexTrait<typename MA::ElementType>::PrimitiveType
+             >::Type
+    lan(Norm      norm,
+        const MA  &A);
 
 template <typename MA, typename VWORK>
-    typename ComplexTrait<typename TrMatrix<MA>::ElementType>::PrimitiveType
-    lan(Norm norm, const TrMatrix<MA> &A, DenseVector<VWORK> &work);
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA, typename VWORK>
-    typename ComplexTrait<typename MA::ElementType>::PrimitiveType
-    lan(Norm norm, const MA &A);
-
-template <typename MA, typename VWORK>
-    typename ComplexTrait<typename MA::ElementType>::PrimitiveType
-    lan(Norm norm, const MA &A, VWORK &&work);
+    typename RestrictTo<IsTrMatrix<MA>::value
+                     && IsRealDenseVector<VWORK>::value,
+             typename ComplexTrait<typename MA::ElementType>::PrimitiveType
+             >::Type
+    lan(Norm      norm,
+        const MA  &A,
+        VWORK     &&work);
 
 } } // namespace lapack, flens
 

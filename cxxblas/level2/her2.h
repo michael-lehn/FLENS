@@ -55,7 +55,7 @@ template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
     her2(StorageOrder order, StorageUpLo upLo,
          IndexType n,
-         float alpha,
+         const ComplexFloat &alpha,
          const ComplexFloat *x, IndexType incX,
          const ComplexFloat *y, IndexType incY,
          ComplexFloat *A, IndexType ldA);
@@ -65,7 +65,7 @@ template <typename IndexType>
 typename If<IndexType>::isBlasCompatibleInteger
     her2(StorageOrder order, StorageUpLo upLo,
          IndexType n,
-         double alpha,
+         const ComplexDouble &alpha,
          const ComplexDouble *x, IndexType incX,
          const ComplexDouble *y, IndexType incY,
          ComplexDouble *A, IndexType ldA);

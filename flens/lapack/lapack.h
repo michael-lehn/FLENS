@@ -111,6 +111,8 @@
 
 #include <flens/lapack/he/ev.h>
 #include <flens/lapack/he/sv.h>
+#include <flens/lapack/he/td2.h>
+#include <flens/lapack/he/trd.h>
 #include <flens/lapack/he/trf.h>
 #include <flens/lapack/he/tri.h>
 #include <flens/lapack/he/trs.h>
@@ -135,17 +137,22 @@
 #include <flens/lapack/impl/ormqr.h>
 #include <flens/lapack/impl/ormr3.h>
 #include <flens/lapack/impl/ormrz.h>
+#include <flens/lapack/impl/steqr.h>
+#include <flens/lapack/impl/sterf.h>
 #include <flens/lapack/impl/trevc.h>
 #include <flens/lapack/impl/trexc.h>
 #include <flens/lapack/impl/trsen.h>
 #include <flens/lapack/impl/trsna.h>
 #include <flens/lapack/impl/trsyl.h>
 #include <flens/lapack/impl/tzrzf.h>
+#include <flens/lapack/impl/ung2l.h>
 #include <flens/lapack/impl/ung2r.h>
 #include <flens/lapack/impl/unghr.h>
 #include <flens/lapack/impl/ungl2.h>
 #include <flens/lapack/impl/unglq.h>
+#include <flens/lapack/impl/ungql.h>
 #include <flens/lapack/impl/ungqr.h>
+#include <flens/lapack/impl/ungtr.h>
 #include <flens/lapack/impl/unm2r.h>
 #include <flens/lapack/impl/unmhr.h>
 #include <flens/lapack/impl/unml2.h>
@@ -160,6 +167,8 @@
 #include <flens/lapack/la/labad.h>
 #include <flens/lapack/la/lacn2.h>
 #include <flens/lapack/la/ladiv.h>
+#include <flens/lapack/la/lae2.h>
+#include <flens/lapack/la/laev2.h>
 #include <flens/lapack/la/laexc.h>
 #include <flens/lapack/la/lahqr.h>
 #include <flens/lapack/la/lahr2.h>
@@ -167,6 +176,7 @@
 #include <flens/lapack/la/laln2.h>
 #include <flens/lapack/la/lamch.h>
 #include <flens/lapack/la/lan.h>
+#include <flens/lapack/la/lanst.h>
 #include <flens/lapack/la/lanv2.h>
 #include <flens/lapack/la/lapy2.h>
 #include <flens/lapack/la/lapy3.h>
@@ -190,9 +200,12 @@
 #include <flens/lapack/la/larzb.h>
 #include <flens/lapack/la/larzt.h>
 #include <flens/lapack/la/lascl.h>
+#include <flens/lapack/la/lasr.h>
+#include <flens/lapack/la/lasrt.h>
 #include <flens/lapack/la/lassq.h>
 #include <flens/lapack/la/laswp.h>
 #include <flens/lapack/la/lasy2.h>
+#include <flens/lapack/la/latrd.h>
 #include <flens/lapack/la/latrs.h>
 #include <flens/lapack/la/latrz.h>
 #include <flens/lapack/la/lauu2.h>

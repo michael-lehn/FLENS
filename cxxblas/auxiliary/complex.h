@@ -40,38 +40,38 @@ namespace cxxblas {
 
 template <typename T>
     typename
-    flens::RestrictTo<std::is_arithmetic<T>::value,
-                   const T &>::Type
+    cxxblas::RestrictTo<std::is_arithmetic<T>::value,
+             const T &>::Type
     conjugate(const T &x);
 
 template <typename T>
     typename
-    flens::RestrictTo<std::is_arithmetic<T>::value,
-                   std::complex<T> >::Type
+    cxxblas::RestrictTo<std::is_arithmetic<T>::value,
+             std::complex<T> >::Type
     conjugate(const std::complex<T> &x);
 
 template <typename T>
     typename
-    flens::RestrictTo<std::is_arithmetic<T>::value,
+    cxxblas::RestrictTo<std::is_arithmetic<T>::value,
                    const T & >::Type
     real(const T &x);
 
 template <typename T>
     typename
-    flens::RestrictTo<std::is_arithmetic<T>::value,
-                   const T >::Type
+    cxxblas::RestrictTo<std::is_arithmetic<T>::value,
+             const T >::Type
     real(const std::complex<T> &x);
 
 template <typename T>
     typename
-    flens::RestrictTo<std::is_arithmetic<T>::value,
-                   const T >::Type
+    cxxblas::RestrictTo<std::is_arithmetic<T>::value,
+             const T >::Type
     imag(const T &x);
 
 template <typename T>
     typename
-    flens::RestrictTo<std::is_arithmetic<T>::value,
-                   const T >::Type
+    cxxblas::RestrictTo<std::is_arithmetic<T>::value,
+             const T >::Type
     imag(const std::complex<T> &x);
 
 template <typename T>

@@ -454,12 +454,6 @@ ev_impl(bool                computeVL,
         work.resize(maxWork);
     }
 
-    if (rWork.length()!=0 && rWork.length()<2*n) {
-        ASSERT(0);
-    } else if (rWork.length()==0) {
-        rWork.resize(2*n);
-    }
-
     work(1) = maxWork;
 //
 //  Quick return if possible
@@ -1229,7 +1223,7 @@ typename RestrictTo<IsRealGeMatrix<MA>::value,
          Pair<typename MA::IndexType> >::Type
 ev_wsq(bool computeVL, bool computeVR, const MA &A)
 {
-    LAPACK_DEBUG_OUT("ev_wsq [real]");
+    LAPACK_DEBUG_OUT("(ge)ev_wsq [real]");
 
 //
 //  Test the input parameters
@@ -1250,8 +1244,13 @@ ev_wsq(bool computeVL, bool computeVR, const MA &A)
 //  Compare results
 //
     auto optWorkSize = external::ev_wsq_impl(computeVL, computeVR, A);
+    if (! isIdentical(optWorkSize.first, ws.first,
+                      "optWorkSize.first", "ws.first"))
+    {
+        ASSERT(0);
+    }
     if (! isIdentical(optWorkSize.second, ws.second,
-                      "optWorkSize", "ws.second"))
+                      "optWorkSize.second", "ws.second"))
     {
         ASSERT(0);
     }
@@ -1267,7 +1266,7 @@ typename RestrictTo<IsComplexGeMatrix<MA>::value,
          Pair<typename MA::IndexType> >::Type
 ev_wsq(bool computeVL, bool computeVR, const MA &A)
 {
-    LAPACK_DEBUG_OUT("ev_wsq [complex]");
+    LAPACK_DEBUG_OUT("(ge)ev_wsq [complex]");
 
 //
 //  Test the input parameters
@@ -1288,8 +1287,13 @@ ev_wsq(bool computeVL, bool computeVR, const MA &A)
 //  Compare results
 //
     auto optWorkSize = external::ev_wsq_impl(computeVL, computeVR, A);
+    if (! isIdentical(optWorkSize.first, ws.first,
+                      "optWorkSize.first", "ws.first"))
+    {
+        ASSERT(0);
+    }
     if (! isIdentical(optWorkSize.second, ws.second,
-                      "optWorkSize", "ws.second"))
+                      "optWorkSize.second", "ws.second"))
     {
         ASSERT(0);
     }

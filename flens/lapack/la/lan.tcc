@@ -53,7 +53,7 @@ namespace flens { namespace lapack {
 namespace generic {
 
 template <typename MA, typename VWORK>
-typename ComplexTrait<typename GeMatrix<MA>::ElementType>::PrimitiveType
+typename ComplexTrait<typename MA::ElementType>::PrimitiveType
 lan_impl(Norm norm, const GeMatrix<MA> &A, DenseVector<VWORK> &work)
 {
     using std::abs;
@@ -132,7 +132,122 @@ lan_impl(Norm norm, const GeMatrix<MA> &A, DenseVector<VWORK> &work)
 }
 
 template <typename MA, typename VWORK>
-typename ComplexTrait<typename TrMatrix<MA>::ElementType>::PrimitiveType
+typename ComplexTrait<typename MA::ElementType>::PrimitiveType
+lan_impl(Norm norm, const HeMatrix<MA> &A, DenseVector<VWORK> &work)
+{
+    using cxxblas::pow;
+    using std::real;
+    using std::abs;
+    using std::max;
+    using std::min;
+    using std::sqrt;
+
+    typedef typename TrMatrix<MA>::ElementType        T;
+    typedef typename ComplexTrait<T>::PrimitiveType   PT;
+    typedef typename TrMatrix<MA>::IndexType          IndexType;
+
+    const Underscore<IndexType> _;
+    const IndexType n = A.numCols();
+
+    const PT  Zero(0), One(1);
+
+    PT value = Zero;
+
+    if (n==0) {
+        value = Zero;
+    } else if (norm==MaximumNorm) {
+//
+//      Find max(abs(A(i,j))).
+//
+        value = Zero;
+        if (A.upLo()==Upper) {
+            for (IndexType j=1; j<=n; ++j) {
+                for (IndexType i=1; i<=j-1; ++i) {
+                    value = max(value, abs(A(i,j)));
+                }
+                value = max(value, abs(real(A(j,j))));
+            }
+        } else {
+            for (IndexType j=1; j<=n; ++j) {
+                value = max(value, abs(real(A(j,j))));
+                for (IndexType i=j+1; i<=n; ++i) {
+                    value = max(value, abs(A(i,j)));
+                }
+            }
+        }
+    } else if (norm==OneNorm || norm==InfinityNorm) {
+//
+//      Find normI(A) ( = norm1(A), since A is hermitian).
+//
+        value = Zero;
+        if (A.upLo()==Upper) {
+            for (IndexType j=1; j<= n; ++j) {
+                PT sum = Zero;
+                for (IndexType i=1; i<=j-1; ++i) {
+                    PT absA = abs(A(i,j));
+
+                    sum += absA;
+                    work(i) += absA;
+                }
+                work(j) = sum + abs(real(A(j,j)));
+            }
+            for (IndexType i=1; i<=n; ++i) {
+                value = max(value, work(i));
+            }
+        } else {
+            for (IndexType i=1; i<=n; ++i) {
+                work(i) = Zero;
+            }
+            for (IndexType j=1; j<=n; ++j) {
+                PT sum = work(j) + abs(real(A(j,j)));
+                for (IndexType i=j+1; i<=n; ++i) {
+                    PT absA = abs(A(i,j));
+
+                    sum += absA;
+                    work(i) += absA;
+                }
+                value = max(value, sum);
+            }
+        }
+    } else if (norm==FrobeniusNorm) {
+//
+//      Find normF(A).
+//
+        PT scale = Zero;
+        PT sum   = One;
+
+        if (A.upLo()==Upper) {
+            for (IndexType j=2; j<=n; ++j) {
+                const auto rows = _(1,min(n,j-1));
+                const auto Aj = A(rows,j);
+                lassq(Aj, scale, sum);
+            }
+        } else {
+            for (IndexType j=1; j<=n-1; ++j) {
+                const auto rows = _(min(n,j)+1,n);
+                const auto Aj = A(rows,j);
+                lassq(Aj, scale, sum);
+            }
+        }
+        sum *= 2;
+        for (IndexType i=1; i<=n; ++i) {
+            if (real(A(i,i))!=Zero) {
+                PT absA = abs(real(A(i,i)));
+                if (scale<absA) {
+                    sum = One + sum*pow(scale/absA, 2);
+                    scale = absA;
+                } else {
+                    sum += pow(absA/scale, 2);
+                }
+            }
+        }
+        value = scale*sqrt(sum);
+    }
+    return value;
+}
+
+template <typename MA, typename VWORK>
+typename ComplexTrait<typename MA::ElementType>::PrimitiveType
 lan_impl(Norm norm, const TrMatrix<MA> &A, DenseVector<VWORK> &work)
 {
     using std::abs;
@@ -336,10 +451,14 @@ lan_impl(Norm norm, const TrMatrix<MA> &A, DenseVector<VWORK> &work)
 namespace external {
 
 template <typename MA, typename VWORK>
-typename ComplexTrait<typename TrMatrix<MA>::ElementType>::PrimitiveType
+typename ComplexTrait<typename MA::ElementType>::PrimitiveType
 lan_impl(Norm norm, const GeMatrix<MA> &A, DenseVector<VWORK> &work)
 {
     typedef typename GeMatrix<MA>::IndexType  IndexType;
+
+    if (norm==InfinityNorm && work.length()==0) {
+        work.resize(work.length());
+    }
 
     return cxxlapack::lange<IndexType>(getF77Char(norm),
                                        A.numRows(),
@@ -350,7 +469,25 @@ lan_impl(Norm norm, const GeMatrix<MA> &A, DenseVector<VWORK> &work)
 }
 
 template <typename MA, typename VWORK>
-typename ComplexTrait<typename TrMatrix<MA>::ElementType>::PrimitiveType
+typename ComplexTrait<typename MA::ElementType>::PrimitiveType
+lan_impl(Norm norm, const HeMatrix<MA> &A, DenseVector<VWORK> &work)
+{
+    typedef typename HeMatrix<MA>::IndexType  IndexType;
+
+    if (norm==InfinityNorm && work.length()==0) {
+        work.resize(work.length());
+    }
+
+    return cxxlapack::lanhe<IndexType>(getF77Char(norm),
+                                       getF77Char(A.upLo()),
+                                       A.dim(),
+                                       A.data(),
+                                       A.leadingDimension(),
+                                       work.data());
+}
+
+template <typename MA, typename VWORK>
+typename ComplexTrait<typename MA::ElementType>::PrimitiveType
 lan_impl(Norm norm, const TrMatrix<MA> &A, DenseVector<VWORK> &work)
 {
     typedef typename TrMatrix<MA>::IndexType  IndexType;
@@ -373,12 +510,15 @@ lan_impl(Norm norm, const TrMatrix<MA> &A, DenseVector<VWORK> &work)
 
 //-- lan(ge)
 template <typename MA>
-typename ComplexTrait<typename GeMatrix<MA>::ElementType>::PrimitiveType
-lan(Norm norm, const GeMatrix<MA> &A)
+typename RestrictTo<IsGeMatrix<MA>::value,
+         typename ComplexTrait<typename MA::ElementType>::PrimitiveType
+         >::Type
+lan(Norm      norm,
+    const MA  &A)
 {
     ASSERT(norm!=InfinityNorm);
 
-    typedef typename GeMatrix<MA>::ElementType       T;
+    typedef typename MA::ElementType                 T;
     typedef typename ComplexTrait<T>::PrimitiveType  PT;
 
     DenseVector<Array<PT> >  dummy;
@@ -386,10 +526,15 @@ lan(Norm norm, const GeMatrix<MA> &A)
 }
 
 template <typename MA, typename VWORK>
-typename ComplexTrait<typename GeMatrix<MA>::ElementType>::PrimitiveType
-lan(Norm norm, const GeMatrix<MA> &A, DenseVector<VWORK> &work)
+typename RestrictTo<IsGeMatrix<MA>::value
+                 && IsRealDenseVector<VWORK>::value,
+         typename ComplexTrait<typename MA::ElementType>::PrimitiveType
+         >::Type
+lan(Norm      norm,
+    const MA  &A,
+    VWORK     &&work)
 {
-    typedef typename GeMatrix<MA>::ElementType       T;
+    typedef typename MA::ElementType                 T;
     typedef typename ComplexTrait<T>::PrimitiveType  PT;
 
 //
@@ -398,11 +543,14 @@ lan(Norm norm, const GeMatrix<MA> &A, DenseVector<VWORK> &work)
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
     ASSERT(norm!=InfinityNorm || work.length()>=A.numRows());
+
 #   ifdef CHECK_CXXLAPACK
 //
 //  Make copies of output arguments
 //
-    typename DenseVector<VWORK>::NoView _work = work;
+    typedef typename RemoveRef<VWORK>::Type     VectorWork;
+
+    typename VectorWork::NoView work_org = work;
 #   endif
 
 //
@@ -414,16 +562,16 @@ lan(Norm norm, const GeMatrix<MA> &A, DenseVector<VWORK> &work)
 //
 //  Compare results
 //
-    if (_work.length()==0) {
-        _work.resize(work.length());
-    }
+    typename VectorWork::NoView work_generic = work;
 
-    PT _result = external::lan_impl(norm, A, _work);
+    work = work_org;
+
+    PT _result = external::lan_impl(norm, A, work);
 
     bool failed = false;
-    if (! isIdentical(work, _work, " work", "_work")) {
-        std::cerr << "CXXLAPACK:  work = " << work << std::endl;
-        std::cerr << "F77LAPACK: _work = " << _work << std::endl;
+    if (! isIdentical(work, work_generic, "work", "work_generic")) {
+        std::cerr << "CXXLAPACK: work = " << work << std::endl;
+        std::cerr << "F77LAPACK: work_generic = " << work_generic << std::endl;
         failed = true;
     }
 
@@ -432,6 +580,87 @@ lan(Norm norm, const GeMatrix<MA> &A, DenseVector<VWORK> &work)
     }
 
     if (failed) {
+        ASSERT(0);
+    }
+#   endif
+
+    return result;
+}
+
+//-- lan(he)
+template <typename MA>
+typename RestrictTo<IsHeMatrix<MA>::value,
+         typename ComplexTrait<typename MA::ElementType>::PrimitiveType
+         >::Type
+lan(Norm      norm,
+    const MA  &A)
+{
+    ASSERT(norm!=InfinityNorm);
+
+    typedef typename MA::ElementType                 T;
+    typedef typename ComplexTrait<T>::PrimitiveType  PT;
+
+    DenseVector<Array<PT> >  dummy;
+    return lan(norm, A, dummy);
+}
+
+template <typename MA, typename VWORK>
+typename RestrictTo<IsHeMatrix<MA>::value
+                 && IsRealDenseVector<VWORK>::value,
+         typename ComplexTrait<typename MA::ElementType>::PrimitiveType
+         >::Type
+lan(Norm      norm,
+    const MA  &A,
+    VWORK     &&work)
+{
+    typedef typename MA::ElementType                 T;
+    typedef typename ComplexTrait<T>::PrimitiveType  PT;
+
+//
+//  Test the input parameters
+//
+    ASSERT(A.firstRow()==1);
+    ASSERT(A.firstCol()==1);
+    ASSERT(norm!=InfinityNorm || work.length()>=A.numRows());
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Make copies of output arguments
+//
+    typedef typename RemoveRef<VWORK>::Type     VectorWork;
+
+    typename VectorWork::NoView work_org = work;
+#   endif
+
+//
+//  Call implementation
+//
+    PT result = LAPACK_SELECT::lan_impl(norm, A, work);
+
+#   ifdef CHECK_CXXLAPACK
+//
+//  Compare results
+//
+    typename VectorWork::NoView work_generic = work;
+
+    work = work_org;
+
+    PT _result = external::lan_impl(norm, A, work);
+
+    bool failed = false;
+    if (! isIdentical(work, work_generic, "work", "work_generic")) {
+        std::cerr << "CXXLAPACK: work = " << work << std::endl;
+        std::cerr << "F77LAPACK: work_generic = " << work_generic << std::endl;
+        failed = true;
+    }
+
+    if (! isIdentical(result, _result, " result", "_result")) {
+        failed = true;
+    }
+
+    if (failed) {
+        std::cerr << "char(norm) = " << char(norm) << std::endl;
+        std::cerr << "A = " << A << std::endl;
         ASSERT(0);
     }
 #   endif
@@ -441,12 +670,15 @@ lan(Norm norm, const GeMatrix<MA> &A, DenseVector<VWORK> &work)
 
 //-- lan(tr)
 template <typename MA>
-typename ComplexTrait<typename TrMatrix<MA>::ElementType>::PrimitiveType
-lan(Norm norm, const TrMatrix<MA> &A)
+typename RestrictTo<IsTrMatrix<MA>::value,
+         typename ComplexTrait<typename MA::ElementType>::PrimitiveType
+         >::Type
+lan(Norm      norm,
+    const MA  &A)
 {
     ASSERT(norm!=InfinityNorm);
 
-    typedef typename TrMatrix<MA>::ElementType       T;
+    typedef typename MA::ElementType                 T;
     typedef typename ComplexTrait<T>::PrimitiveType  PT;
 
     DenseVector<Array<PT> >  dummy;
@@ -454,10 +686,15 @@ lan(Norm norm, const TrMatrix<MA> &A)
 }
 
 template <typename MA, typename VWORK>
-typename ComplexTrait<typename TrMatrix<MA>::ElementType>::PrimitiveType
-lan(Norm norm, const TrMatrix<MA> &A, DenseVector<VWORK> &work)
+typename RestrictTo<IsTrMatrix<MA>::value
+                 && IsRealDenseVector<VWORK>::value,
+         typename ComplexTrait<typename MA::ElementType>::PrimitiveType
+         >::Type
+lan(Norm      norm,
+    const MA  &A,
+    VWORK     &&work)
 {
-    typedef typename TrMatrix<MA>::ElementType       T;
+    typedef typename MA::ElementType                 T;
     typedef typename ComplexTrait<T>::PrimitiveType  PT;
 
 //
@@ -466,11 +703,14 @@ lan(Norm norm, const TrMatrix<MA> &A, DenseVector<VWORK> &work)
     ASSERT(A.firstRow()==1);
     ASSERT(A.firstCol()==1);
     ASSERT(norm!=InfinityNorm || work.length()>=A.numRows());
+
 #   ifdef CHECK_CXXLAPACK
 //
 //  Make copies of output arguments
 //
-    typename DenseVector<VWORK>::NoView _work = work;
+    typedef typename RemoveRef<VWORK>::Type VectorWork;
+
+    typename VectorWork::NoView work_org = work;
 #   endif
 
 //
@@ -482,16 +722,16 @@ lan(Norm norm, const TrMatrix<MA> &A, DenseVector<VWORK> &work)
 //
 //  Compare results
 //
-    if (_work.length()==0) {
-        _work.resize(work.length());
-    }
+    typename VectorWork::NoView work_generic = work;
 
-    PT _result = external::lan_impl(norm, A, _work);
+    work = work_org;
+
+    PT _result = external::lan_impl(norm, A, work);
 
     bool failed = false;
-    if (! isIdentical(work, _work, " work", "_work")) {
-        std::cerr << "CXXLAPACK:  work = " << work << std::endl;
-        std::cerr << "F77LAPACK: _work = " << _work << std::endl;
+    if (! isIdentical(work, work_generic, " work", "work_generic")) {
+        std::cerr << "CXXLAPACK: work = " << work << std::endl;
+        std::cerr << "F77LAPACK: work_generic = " << work_generic << std::endl;
         failed = true;
     }
 
@@ -503,33 +743,6 @@ lan(Norm norm, const TrMatrix<MA> &A, DenseVector<VWORK> &work)
         ASSERT(0);
     }
 #   endif
-
-    return result;
-}
-
-//-- forwarding ----------------------------------------------------------------
-template <typename MA>
-typename ComplexTrait<typename MA::ElementType>::PrimitiveType
-lan(Norm norm, const MA &A)
-{
-    typedef typename ComplexTrait<typename MA::ElementType>::PrimitiveType  T;
-
-    CHECKPOINT_ENTER;
-    const T result = lan(norm, A);
-    CHECKPOINT_LEAVE;
-
-    return result;
-}
-
-template <typename MA, typename VWORK>
-typename ComplexTrait<typename MA::ElementType>::PrimitiveType
-lan(Norm norm, const MA &A, VWORK &&work)
-{
-    typedef typename ComplexTrait<typename MA::ElementType>::PrimitiveType  T;
-
-    CHECKPOINT_ENTER;
-    const T result = lan(norm, A, work);
-    CHECKPOINT_LEAVE;
 
     return result;
 }

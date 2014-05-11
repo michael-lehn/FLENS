@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2011, Michael Lehn
+ *   Copyright (c) 2014, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -32,54 +32,33 @@
 
 /* Based on
  *
-      SUBROUTINE DLADIV( A, B, C, D, P, Q )
+       SUBROUTINE ZUNG2L( M, N, K, A, LDA, TAU, WORK, INFO )
  *
- *  -- LAPACK auxiliary routine (version 3.2) --
+ *  -- LAPACK routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
  *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
  *     November 2006
  */
 
-#ifndef FLENS_LAPACK_LA_LADIV_TCC
-#define FLENS_LAPACK_LA_LADIV_TCC 1
+#ifndef FLENS_LAPACK_IMPL_UNG2L_H
+#define FLENS_LAPACK_IMPL_UNG2L_H 1
 
-#include <cmath>
-#include <flens/lapack/lapack.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace lapack {
 
-//== generic lapack implementation =============================================
-
-template <typename T>
-void
-ladiv(const T &a, const T &b, const T &c, const T &d, T &p, T &q)
-{
-    LAPACK_DEBUG_OUT("ladiv");
-
-    using std::abs;
-
-    if (abs(d)<abs(c)) {
-        const T e = d / c;
-        const T f = c + d*e;
-        p = (a + b*e) / f;
-        q = (b - a*e) / f;
-    } else {
-        const T e = c / d;
-        const T f = d + c*e;
-        p = ( b + a*e) / f;
-        q = (-a + b*e) / f;
-    }
-}
-
-template <typename T>
-std::complex<T>
-ladiv(const std::complex<T> &x, const std::complex<T> &y)
-{
-    T  zr, zi;
-    ladiv(x.real(), x.imag(), y.real(), y.imag(), zr, zi);
-    return std::complex<T>(zr, zi);
-}
+//== ung2l =====================================================================
+template <typename IndexType, typename MA, typename VTAU, typename VWORK>
+    typename RestrictTo<IsComplexGeMatrix<MA>::value
+                     && IsComplexDenseVector<VTAU>::value
+                     && IsComplexDenseVector<VWORK>::value,
+             void>::Type
+    ung2l(IndexType             k,
+          MA                    &&A,
+          const VTAU            &tau,
+          VWORK                 &&work);
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_LA_LADIV_TCC
+#endif // FLENS_LAPACK_IMPL_UNG2L_H

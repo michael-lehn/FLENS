@@ -51,26 +51,34 @@
 
 namespace flens { namespace lapack {
 
-#ifdef USE_CXXLAPACK
-
 //== (he)ev ====================================================================
 //
-//  Complex variant
+//  Hermitian variant
 //
-template <typename MA, typename VW, typename VWORK>
+template <typename MA, typename VW, typename VWORK, typename VRWORK>
     typename RestrictTo<IsHeMatrix<MA>::value
                      && IsRealDenseVector<VW>::value
-                     && IsRealDenseVector<VWORK>::value,
+                     && IsComplexDenseVector<VWORK>::value
+                     && IsRealDenseVector<VRWORK>::value,
              typename RemoveRef<MA>::Type::IndexType>::Type
     ev(bool     computeV,
        MA       &&A,
        VW       &&w,
-       VWORK    &&work);
-
+       VWORK    &&work,
+       VRWORK   &&rWork);
 
 //== (he)ev ====================================================================
 //
-//  Complex variant with temporary workspace
+//  Worksize query
+//
+template <typename MA>
+    typename RestrictTo<IsHeMatrix<MA>::value,
+             Pair<typename MA::IndexType> >::Type
+    ev_wsq(const MA  &A);
+
+//== (he)ev ====================================================================
+//
+//  Hermitian variant with temporary workspace
 //
 template <typename MA, typename VW>
     typename RestrictTo<IsHeMatrix<MA>::value
@@ -79,8 +87,6 @@ template <typename MA, typename VW>
     ev(bool     computeV,
        MA       &&A,
        VW       &&w);
-
-#endif // USE_CXXLAPACK
 
 } } // namespace lapack, flens
 

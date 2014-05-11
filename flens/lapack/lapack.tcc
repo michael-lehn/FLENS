@@ -85,6 +85,8 @@
 
 #include <flens/lapack/he/ev.tcc>
 #include <flens/lapack/he/sv.tcc>
+#include <flens/lapack/he/td2.tcc>
+#include <flens/lapack/he/trd.tcc>
 #include <flens/lapack/he/trf.tcc>
 #include <flens/lapack/he/tri.tcc>
 #include <flens/lapack/he/trs.tcc>
@@ -109,17 +111,22 @@
 #include <flens/lapack/impl/ormqr.tcc>
 #include <flens/lapack/impl/ormr3.tcc>
 #include <flens/lapack/impl/ormrz.tcc>
+#include <flens/lapack/impl/steqr.tcc>
+#include <flens/lapack/impl/sterf.tcc>
 #include <flens/lapack/impl/trevc.tcc>
 #include <flens/lapack/impl/trexc.tcc>
 #include <flens/lapack/impl/trsen.tcc>
 #include <flens/lapack/impl/trsna.tcc>
 #include <flens/lapack/impl/trsyl.tcc>
 #include <flens/lapack/impl/tzrzf.tcc>
+#include <flens/lapack/impl/ung2l.tcc>
 #include <flens/lapack/impl/ung2r.tcc>
 #include <flens/lapack/impl/unghr.tcc>
 #include <flens/lapack/impl/ungl2.tcc>
 #include <flens/lapack/impl/unglq.tcc>
+#include <flens/lapack/impl/ungql.tcc>
 #include <flens/lapack/impl/ungqr.tcc>
+#include <flens/lapack/impl/ungtr.tcc>
 #include <flens/lapack/impl/unm2r.tcc>
 #include <flens/lapack/impl/unmhr.tcc>
 #include <flens/lapack/impl/unml2.tcc>
@@ -134,6 +141,8 @@
 #include <flens/lapack/la/labad.tcc>
 #include <flens/lapack/la/lacn2.tcc>
 #include <flens/lapack/la/ladiv.tcc>
+#include <flens/lapack/la/lae2.tcc>
+#include <flens/lapack/la/laev2.tcc>
 #include <flens/lapack/la/laexc.tcc>
 #include <flens/lapack/la/lahqr.tcc>
 #include <flens/lapack/la/lahr2.tcc>
@@ -141,6 +150,7 @@
 #include <flens/lapack/la/laln2.tcc>
 #include <flens/lapack/la/lamch.tcc>
 #include <flens/lapack/la/lan.tcc>
+#include <flens/lapack/la/lanst.tcc>
 #include <flens/lapack/la/lanv2.tcc>
 #include <flens/lapack/la/lapy2.tcc>
 #include <flens/lapack/la/lapy3.tcc>
@@ -164,9 +174,12 @@
 #include <flens/lapack/la/larzb.tcc>
 #include <flens/lapack/la/larzt.tcc>
 #include <flens/lapack/la/lascl.tcc>
+#include <flens/lapack/la/lasr.tcc>
+#include <flens/lapack/la/lasrt.tcc>
 #include <flens/lapack/la/lassq.tcc>
 #include <flens/lapack/la/laswp.tcc>
 #include <flens/lapack/la/lasy2.tcc>
+#include <flens/lapack/la/latrd.tcc>
 #include <flens/lapack/la/latrs.tcc>
 #include <flens/lapack/la/latrz.tcc>
 #include <flens/lapack/la/lauu2.tcc>

@@ -477,8 +477,118 @@ larfb_impl(Side                  side,
                 blas::axpy(NoTrans, -One, W, C1);
             }
         } else if (direction==Backward) {
-            // Lehn: I will implement it as soon as someone needs it
-            ASSERT(0);
+//
+//          Let  V =  ( V1 )
+//                    ( V2 )    (last K rows)
+//          where  V2  is unit upper triangular.
+//
+            if (side==Left) {
+//
+//              Form  H * C  or  H**H * C  where  C = ( C1 )
+//                                                    ( C2 )
+//
+                const IndexType lastV = max(k, ilalr(V));
+                const auto V1 = V(_(1,lastV-k),_);
+                const auto V2 = V(_(lastV-k+1,lastV),_);
+
+                const IndexType lastC = ilalc(C(_(1,lastV),_));
+                auto C1 = C(_(1,lastV-k),_(1,lastC));
+                auto C2 = C(_(lastV-k+1,lastV),_(1,lastC));
+
+//
+//              W := C**H * V  =  (C1**H * V1 + C2**H * V2)  (stored in WORK)
+//
+//              W := C2**H
+//
+                auto W = Work(_(1,lastC),_(1,k));
+                blas::copy(ConjTrans, C2, W);
+
+//
+//              W := W * V2
+//
+                blas::mm(Right, NoTrans, One, V2.upperUnit(), W);
+                if (lastV>k) {
+//
+//                  W := W + C1**H*V1
+//
+                    blas::mm(ConjTrans, NoTrans, One, C1, V1, One, W);
+                }
+//
+//              W := W * T**H  or  W * T
+//
+                blas::mm(Right, transT, One, Tr, W);
+//
+//              C := C - V * W**H
+//
+                if (lastV>k) {
+//
+//                  C1 := C1 - V1 * W**H
+//
+                    blas::mm(NoTrans, ConjTrans, -One, V1, W, One, C1);
+                }
+//
+//              W := W * V2**H
+//
+                blas::mm(Right, ConjTrans, One, V2.upperUnit(), W);
+//
+//              C2 := C2 - W**H
+//
+                blas::axpy(ConjTrans, -One, W, C2);
+
+            } else if (side==Right) {
+                // V is n x k
+//
+//              Form  C * H  or  C * H**H  where  C = ( C1  C2 )
+//
+                const IndexType lastV = max(k, ilalr(V));
+                const auto V1 = V(_(1,lastV-k),_);
+                const auto V2 = V(_(lastV-k+1,lastV),_);
+
+                const IndexType lastC = ilalr(C(_,_(1,lastV)));
+                auto C1 = C(_(1,lastC),_(1,lastV-k));
+                auto C2 = C(_(1,lastC),_(lastV-k+1,lastV));
+
+//
+//              W := C * V  =  (C1*V1 + C2*V2)  (stored in WORK)
+//
+//              W := C2
+//
+                auto W = Work(_(1,lastC),_(1,k));
+                W = C2;
+
+//
+//              W := W * V2
+//
+                blas::mm(Right, NoTrans, One, V2.upperUnit(), W);
+
+                if (lastV>k) {
+//
+//                  W := W + C1 * V1
+//
+                    blas::mm(NoTrans, NoTrans, One, C1, V1, One, W);
+                }
+//
+//              W := W * T  or  W * T**H
+//
+                blas::mm(Right, transH, One, Tr, W);
+//
+//              C := C - W * V**H
+//
+                if (lastV>k) {
+//
+//                  C1 := C1 - W * V1**H
+//
+                    blas::mm(NoTrans, ConjTrans, -One, W, V1, One, C1);
+                }
+//
+//              W := W * V2**H
+//
+                blas::mm(Right, ConjTrans, One, V2.upperUnit(), W);
+//
+//              C2 := C2 - W
+//
+                C2 -= W;
+            }
         }
     } else if (storeVectors==RowWise) {
 
@@ -768,7 +878,31 @@ larfb(Side                  side,
 //  Test the input parameters
 //
 #   ifndef NDEBUG
+    typedef typename MatrixC::IndexType   IndexType;
+
+    const IndexType m = C.numRows();
+    const IndexType n = C.numCols();
+    const IndexType k = Tr.dim();
+
     ASSERT(transH==NoTrans || transH==ConjTrans);
+
+    if (storeV==ColumnWise && side==Left) {
+        ASSERT(V.numRows()==m);
+    } else if (storeV==ColumnWise && side==Right) {
+        ASSERT(V.numRows()==n);
+    } else if (storeV==RowWise) {
+        ASSERT(V.numRows()==k);
+    }
+
+    if (storeV==ColumnWise) {
+        ASSERT(V.numCols()==k);
+    } else if (storeV==RowWise) {
+        if (side==Left) {
+            ASSERT(V.numCols()==m);
+        } else if (side==Right) {
+            ASSERT(V.numCols()==n);
+        }
+    }
 
     if (side==Left) {
         ASSERT(Work.numRows()>=C.numCols());

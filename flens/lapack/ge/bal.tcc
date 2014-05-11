@@ -500,7 +500,6 @@ bal_impl(BALANCE::Balance    job,
         iHi = l;
 }
 
-
 } // namespace generic
 
 //== interface for native lapack ===============================================

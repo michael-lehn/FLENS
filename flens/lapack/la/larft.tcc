@@ -248,8 +248,79 @@ larft_impl(Direction direction, StoreVectors storeVectors, N n,
             }
         }
     } else {
-        // Lehn: I will implement it as soon as someone needs this case
-        ASSERT(0);
+        IndexType lastV = -1;
+        IndexType prevLastV = 1;
+        for (IndexType i=k; i>=1; --i) {
+            if (tau(i)==Zero) {
+//
+//              H(i)  =  I
+//
+                for (IndexType j=i; j<=k; ++j) {
+                    Tr(j,i) = Zero;
+                }
+            } else {
+//
+//              general case
+//
+                if (i<k) {
+                    if (storeVectors==ColumnWise) {
+                        T Vii = V(n-k+i,i);
+                        V(n-k+i,i) = One;
+//                      Skip any leading zeros.
+                        for (lastV=1; lastV<=i-1; ++lastV) {
+                            if (V(lastV,i)!=Zero) {
+                                break;
+                            }
+                        }
+                        IndexType j = max(lastV, prevLastV);
+//
+//                      T(i+1:k,i) :=
+//                            - tau(i) * V(j:n-k+i,i+1:k)**H * V(j:n-k+i,i)
+//
+                        blas::mv(ConjTrans ,
+                                 -tau(i),
+                                 V(_(j,n-k+i),_(i+1,k)), V(_(j,n-k+i),i),
+                                 Zero,
+                                 Tr(_(i+1,k),i));
+                        V(n-k+i,i) = Vii;
+                    } else {
+                        T Vii = V(i,n-k+i);
+                        V(i,n-k+i) = One;
+//                      Skip any leading zeros.
+                        for (IndexType lastV=1; lastV<=i-1; ++lastV) {
+                            if (V(i,lastV)!=Zero) {
+                                break;
+                            }
+                        }
+                        IndexType j = max(lastV, prevLastV);
+//
+//                      T(i+1:k,i) :=
+//                           - tau(i) * V(i+1:k,j:n-k+i) * V(i,j:n-k+i)**H
+//
+                        blas::conj(V(i,_(j,n-k+i-1)));
+
+                        blas::mv(NoTrans, -tau(i),
+                                 V(_(i+1,k),_(j,n-k+i)), V(i,_(j,n-k+i)),
+                                 Zero,
+                                 Tr(_(i+1,k),i));
+                        blas::conj(V(i,_(j,n-k+i-1)));
+                        V(i,n-k+i) = Vii;
+                    }
+//
+//                  T(i+1:k,i) := T(i+1:k,i+1:k) * T(i+1:k,i)
+//
+                    blas::mv(NoTrans,
+                             Tr(_(i+1,k),_(i+1,k)).lower(),
+                             Tr(_(i+1,k),i));
+                    if (i>1) {
+                        prevLastV = min(prevLastV, lastV);
+                    } else {
+                        prevLastV = lastV;
+                    }
+                }
+                Tr(i,i) = tau(i);
+            }
+        }
     }
 }
 
@@ -301,6 +372,13 @@ larft(Direction direction, StoreVectors storeVectors, N n,
     ASSERT(tau.firstIndex()==1);
     ASSERT(Tr.firstRow()==1);
     ASSERT(Tr.firstCol()==1);
+#   ifndef NDEBUG
+    if (direction==Forward) {
+        ASSERT(Tr.upLo()==Upper);
+    } else {
+        ASSERT(Tr.upLo()==Lower);
+    }
+#   endif
 
 #   ifdef CHECK_CXXLAPACK
 //
@@ -341,7 +419,7 @@ larft(Direction direction, StoreVectors storeVectors, N n,
     {
         std::cerr << "CXXLAPACK: Tr_generic = " << Tr_generic << std::endl;
         std::cerr << "F77LAPACK: Tr = " << Tr.general() << std::endl;
-        //failed = true;
+        failed = true;
     }
 
     if (failed) {

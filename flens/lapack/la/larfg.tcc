@@ -228,7 +228,7 @@ typename RestrictTo<IsReal<ALPHA>::value
          void>::Type
 larfg(N n, ALPHA &alpha, VX &&x, TAU &tau)
 {
-    LAPACK_DEBUG_OUT("larfg");
+    LAPACK_DEBUG_OUT("(real) larfg");
 
 //
 //  Remove references from rvalue types
@@ -311,7 +311,7 @@ typename RestrictTo<IsComplex<ALPHA>::value
          void>::Type
 larfg(N n, ALPHA &alpha, VX &&x, TAU &tau)
 {
-    LAPACK_DEBUG_OUT("larfg");
+    LAPACK_DEBUG_OUT("(complex) larfg");
 
 //
 //  Remove references from rvalue types
@@ -380,6 +380,8 @@ larfg(N n, ALPHA &alpha, VX &&x, TAU &tau)
 
     if (failed) {
         ASSERT(0);
+    } else {
+        //std::cerr << "(complex) larfg passed" << std::endl;
     }
 #   endif
 }

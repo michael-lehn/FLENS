@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2011, Michael Lehn
+ *   Copyright (c) 2014, Michael Lehn
  *
  *   All rights reserved.
  *
@@ -32,7 +32,8 @@
 
 /* Based on
  *
-      SUBROUTINE DLADIV( A, B, C, D, P, Q )
+       SUBROUTINE DLAEV2( A, B, C, RT1, RT2, CS1, SN1 )
+       SUBROUTINE ZLAEV2( A, B, C, RT1, RT2, CS1, SN1 )
  *
  *  -- LAPACK auxiliary routine (version 3.2) --
  *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -40,46 +41,42 @@
  *     November 2006
  */
 
-#ifndef FLENS_LAPACK_LA_LADIV_TCC
-#define FLENS_LAPACK_LA_LADIV_TCC 1
+#ifndef FLENS_LAPACK_LA_LAEV2_H
+#define FLENS_LAPACK_LA_LAEV2_H 1
 
-#include <cmath>
-#include <flens/lapack/lapack.h>
+#include <complex>
 
 namespace flens { namespace lapack {
 
-//== generic lapack implementation =============================================
-
+//-- laev2 ---------------------------------------------------------------------
+//
+//  Real variant
+//
 template <typename T>
-void
-ladiv(const T &a, const T &b, const T &c, const T &d, T &p, T &q)
-{
-    LAPACK_DEBUG_OUT("ladiv");
+    typename RestrictTo<IsReal<T>::value,
+             void>::Type
+    laev2(const T &a,
+          const T &b,
+          const T &c,
+          T       &rt1,
+          T       &rt2,
+          T       &cs1,
+          T       &sn1);
 
-    using std::abs;
-
-    if (abs(d)<abs(c)) {
-        const T e = d / c;
-        const T f = c + d*e;
-        p = (a + b*e) / f;
-        q = (b - a*e) / f;
-    } else {
-        const T e = c / d;
-        const T f = d + c*e;
-        p = ( b + a*e) / f;
-        q = (-a + b*e) / f;
-    }
-}
-
+//
+//  Complex variant
+//
 template <typename T>
-std::complex<T>
-ladiv(const std::complex<T> &x, const std::complex<T> &y)
-{
-    T  zr, zi;
-    ladiv(x.real(), x.imag(), y.real(), y.imag(), zr, zi);
-    return std::complex<T>(zr, zi);
-}
+    typename RestrictTo<IsReal<T>::value,
+             void>::Type
+    laev2(const std::complex<T> &a,
+          const std::complex<T> &b,
+          const std::complex<T> &c,
+          T                     &rt1,
+          T                     &rt2,
+          T                     &cs1,
+          std::complex<T>       &sn1);
 
 } } // namespace lapack, flens
 
-#endif // FLENS_LAPACK_LA_LADIV_TCC
+#endif // FLENS_LAPACK_LA_LAEV2_H

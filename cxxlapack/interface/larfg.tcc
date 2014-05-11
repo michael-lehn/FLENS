@@ -65,7 +65,7 @@ larfg(IndexType     n,
       IndexType     incX,
       double        &tau)
 {
-    CXXLAPACK_DEBUG_OUT("slarfg");
+    CXXLAPACK_DEBUG_OUT("dlarfg");
 
     LAPACK_IMPL(dlarfg)(&n,
                         &alpha,
