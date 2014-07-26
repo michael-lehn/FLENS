@@ -36,7 +36,9 @@
 #include <cmath>
 #include <cxxblas/auxiliary/complextrait.h>
 #include <cxxblas/auxiliary/pow.h>
+#ifdef WITH_MPFR
 #include <external/real.hpp>
+#endif
 
 namespace cxxblas {
 
@@ -70,6 +72,7 @@ pow(const T &base, const T &exponent)
     return base*value*value;
 }
 
+#ifdef WITH_MPFR
 template <typename T>
 typename RestrictTo<!IsSame<T,int>::value
                  && !IsComplex<T>::value
@@ -91,6 +94,28 @@ pow(const T &base, int exponent)
 #   endif
     return std::pow(base, PT(exponent));
 }
+#else
+template <typename T>
+typename RestrictTo<!IsSame<T,int>::value
+                 && !IsComplex<T>::value,
+         T>::Type
+pow(const T &base, int exponent)
+{
+    typedef typename ComplexTrait<T>::PrimitiveType PT;
+    using std::pow;
+
+//
+//  TODO: Make this more general and call an external Fortran routine
+//        that computes 'pow(base, exponent)' for comparison
+//
+#   ifdef CHECK_CXXLAPACK
+    if (exponent==2) {
+        return base*base;
+    }
+#   endif
+    return std::pow(base, PT(exponent));
+}
+#endif
 
 template <typename T>
 std::complex<T>

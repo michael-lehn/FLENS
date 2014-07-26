@@ -33,6 +33,8 @@
 #ifndef CXXBLAS_AUXILIARY_ISMPFRREAL_H
 #define CXXBLAS_AUXILIARY_ISMPFRREAL_H 1
 
+#ifdef WITH_MPFR
+
 #include <complex>
 #include <external/real.hpp>
 
@@ -51,5 +53,7 @@ struct IsMpfrReal<mpfr::real<prec, rnd> >
 };
 
 } // namespace cxxblas
+
+#endif // WITH_MPFR
 
 #endif // CXXBLAS_AUXILIARY_ISMPFRREAL_H

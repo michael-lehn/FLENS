@@ -37,7 +37,10 @@
 #include <cxxblas/auxiliary/ismpfrreal.h>
 #include <cxxblas/auxiliary/issame.h>
 #include <cxxblas/auxiliary/restrictto.h>
+
+#ifdef WITH_MPFR
 #include <external/real.hpp>
+#endif
 
 namespace cxxblas {
 
@@ -54,12 +57,20 @@ template <typename T>
              T>::Type
     pow(const T &base, const T &exponent);
 
+#ifdef WITH_MPFR
 template <typename T>
     typename RestrictTo<!IsSame<T,int>::value
                      && !IsComplex<T>::value
                      && !IsMpfrReal<T>::value,
              T>::Type
     pow(const T &base, int exponent);
+#else
+template <typename T>
+    typename RestrictTo<!IsSame<T,int>::value
+                     && !IsComplex<T>::value,
+             T>::Type
+    pow(const T &base, int exponent);
+#endif
 
 template <typename T>
     std::complex<T>
