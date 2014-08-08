@@ -51,7 +51,7 @@
 
 #include <flens/lapack/ge/bak.tcc>
 #include <flens/lapack/ge/bal.tcc>
-#include <flens/lapack/ge/con.tcc>
+#include <flens/lapack/ge/cond.tcc>
 #include <flens/lapack/ge/equ.tcc>
 #include <flens/lapack/ge/es.tcc>
 #include <flens/lapack/ge/esx.tcc>

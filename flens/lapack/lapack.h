@@ -77,7 +77,7 @@
 
 #include <flens/lapack/ge/bak.h>
 #include <flens/lapack/ge/bal.h>
-#include <flens/lapack/ge/con.h>
+#include <flens/lapack/ge/cond.h>
 #include <flens/lapack/ge/equ.h>
 #include <flens/lapack/ge/es.h>
 #include <flens/lapack/ge/esx.h>
