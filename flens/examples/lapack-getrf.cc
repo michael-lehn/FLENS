@@ -18,7 +18,7 @@ main()
     ///  of our system of linear equations.
     ///
     typedef GeMatrix<FullStorage<T> >           Matrix;
-    typedef DenseVector<Array<T> >              Vector;
+    //typedef DenseVector<Array<T> >              Vector;
 
     ///
     ///  We also need an extra vector type for the pivots.  The type of the

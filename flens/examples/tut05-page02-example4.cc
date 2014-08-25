@@ -55,4 +55,3 @@ main()
         cerr << "A is numerically singular." << endl;
     }
 }
-
