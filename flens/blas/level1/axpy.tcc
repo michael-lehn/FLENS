@@ -246,7 +246,7 @@ axpy(Transpose trans, const ALPHA &alpha, const MA &A, MB &&B)
 //  If A and B are identical a temporary is needed if we want to use axpy
 //  for B += alpha*A^T or B+= alpha*A^H
 //
-    typedef typename RemoveRef<MA>::Type   MatrixA;
+    //typedef typename RemoveRef<MA>::Type   MatrixA;
 
     if ((trans==Trans || trans==ConjTrans) && DEBUGCLOSURE::identical(A, B)) {
         typename Result<MA>::Type _A = A;

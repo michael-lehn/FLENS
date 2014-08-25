@@ -13,7 +13,7 @@ main()
     typedef DenseVector<Array<T> >              Vector;
 
     typedef Matrix::IndexType                   IndexType;
-    typedef DenseVector<Array<IndexType> >      IndexVector;
+    //typedef DenseVector<Array<IndexType> >      IndexVector;
 
     const IndexType n = 4;
 

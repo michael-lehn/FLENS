@@ -224,7 +224,7 @@ copy(Transpose trans, const MA &A, MB &&B)
                             B.data(), B.leadingDimension());
             return;
 #           else
-            typedef typename RemoveRef<MA>::Type MatrixA;
+            //typedef typename RemoveRef<MA>::Type MatrixA;
 //
 //          temporaries are allowed: check if this requires a temporary
 //

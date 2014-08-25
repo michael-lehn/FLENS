@@ -207,7 +207,7 @@ symm(Side side, Transpose DEBUG_VAR(transB), const ALPHA &alpha,
                   "temporary required");
     ASSERT(transB==NoTrans);
 #   else
-    typedef typename Result<typename MC::Impl>::Type  RMC;
+    //typedef typename Result<typename MC::Impl>::Type  RMC;
 #   endif
 
 //
@@ -292,7 +292,7 @@ hemm(Side side, Transpose DEBUG_VAR(transB), const ALPHA &alpha,
                   "temporary required");
     ASSERT(transB==NoTrans);
 #   else
-    typedef typename Result<typename MC::Impl>::Type  RMC;
+    //typedef typename Result<typename MC::Impl>::Type  RMC;
 #   endif
 
 //
@@ -402,4 +402,3 @@ mm(Transpose transA, Transpose transB, const ALPHA &alpha,
 } } // namespace blas, flens
 
 #endif // FLENS_BLAS_CLOSURES_LEVEL3_MM_TCC
-

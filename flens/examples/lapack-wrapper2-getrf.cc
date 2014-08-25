@@ -102,7 +102,7 @@ main()
     ///  of our system of linear equations.
     ///
     typedef GeMatrix<FullStorage<T, ColMajor, ZeroBased> > Matrix;
-    typedef DenseVector<Array<T, ZeroBased> >              Vector;
+    //typedef DenseVector<Array<T, ZeroBased> >              Vector;
 
     ///
     ///  We also need an extra vector type for the pivots.  The type of the
@@ -141,4 +141,3 @@ main()
     cout << "Ab = " << Ab << endl;
     cout << "piv = " << piv << endl;
 }
-
