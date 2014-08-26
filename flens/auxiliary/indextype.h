@@ -60,7 +60,7 @@ struct IndexType
 
     template <typename A>
         static Two
-        check(typename A::NoView *);
+        check(typename A::IndexType *);
 
     template <typename Any>
         static char
