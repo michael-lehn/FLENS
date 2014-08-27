@@ -43,6 +43,9 @@
 #ifndef FLENS_LAPACK_LA_LAE2_TCC
 #define FLENS_LAPACK_LA_LAE2_TCC 1
 
+#include <flens/blas/blas.h>
+#include <flens/lapack/lapack.h>
+
 namespace flens { namespace lapack {
 
 //== generic lapack implementation =============================================

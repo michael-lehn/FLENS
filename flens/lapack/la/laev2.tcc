@@ -44,7 +44,8 @@
 #ifndef FLENS_LAPACK_LA_LAEV2_TCC
 #define FLENS_LAPACK_LA_LAEV2_TCC 1
 
-#include <complex>
+#include <flens/blas/blas.h>
+#include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
 

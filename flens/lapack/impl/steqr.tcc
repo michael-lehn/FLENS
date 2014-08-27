@@ -43,10 +43,8 @@
 #ifndef FLENS_LAPACK_IMPL_STEQR_TCC
 #define FLENS_LAPACK_IMPL_STEQR_TCC 1
 
-#include <flens/auxiliary/auxiliary.h>
-#include <flens/lapack/typedefs.h>
-#include <flens/matrixtypes/matrixtypes.h>
-#include <flens/vectortypes/vectortypes.h>
+#include <flens/blas/blas.h>
+#include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
 

@@ -43,9 +43,8 @@
 #ifndef FLENS_LAPACK_LA_LANST_TCC
 #define FLENS_LAPACK_LA_LANST_TCC 1
 
-#include <flens/lapack/typedefs.h>
-#include <flens/matrixtypes/matrixtypes.h>
-#include <flens/vectortypes/vectortypes.h>
+#include <flens/blas/blas.h>
+#include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
 

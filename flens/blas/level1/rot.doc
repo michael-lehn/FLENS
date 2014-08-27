@@ -100,8 +100,8 @@ rotg
 |      rotg(std::complex<T> &a, std::complex<T> &b, T &c, std::complex<T> &s);  |
 |                                                                               |
 *-------------------------------------------------------------------------------*
-                           [c:@N@flens@N@blas@FT@>1#Trotg#&>@N@std@CT>1#T@comple]
-                           [x1t0.0#S0_#&S2_#S0_#templatetypenameTvoid           ]
+                           [c:@N@flens@N@blas@FT@>1#Trotg#&>@N@std@N@__1@CT>1#T@]
+                           [complex1t0.0#S0_#&S2_#S0_#templatetypenameTvoid     ]
 
     a    `(input/output) complex scalar`                                       
          On entry, the $x$-coordinate of the point $p = (a,b)^T$ subject to

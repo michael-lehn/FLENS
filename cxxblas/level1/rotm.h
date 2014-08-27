@@ -33,6 +33,7 @@
 #ifndef CXXBLAS_LEVEL1_ROTM_H
 #define CXXBLAS_LEVEL1_ROTM_H 1
 
+#include <cxxblas/drivers/drivers.h>
 #include <cxxblas/typedefs.h>
 
 namespace cxxblas {

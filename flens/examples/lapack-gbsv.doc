@@ -62,7 +62,7 @@ Note that we need to link against an external LAPACK implementation:
   *--[SHELL]----------------------------------------------------------------*
   |                                                                         |
   |  cd flens/examples                                                      |
-  |  g++ -std=c++11 -Wall -I../.. -DUSE_CXXLAPACK -framework vecLib      +++|
+  |  clang++ -std=c++11 -Wall -I../.. -DUSE_CXXLAPACK -framework vecLib  +++|
   |      -o lapack-gbsv lapack-gbsv.cc                                      |
   |                                                                         |
   *-------------------------------------------------------------------------*

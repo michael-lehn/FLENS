@@ -33,6 +33,7 @@
 #ifndef CXXBLAS_LEVEL3EXTENSION_HBMM_H
 #define CXXBLAS_LEVEL3EXTENSION_HBMM_H 1
 
+#include <cxxblas/drivers/drivers.h>
 #include <cxxblas/typedefs.h>
 
 #define HAVE_CXXBLAS_HBMM 1

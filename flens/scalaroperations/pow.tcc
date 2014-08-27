@@ -33,7 +33,7 @@
 #ifndef FLENS_SCALAROPERATIONS_POW_TCC
 #define FLENS_SCALAROPERATIONS_POW_TCC 1
 
-#include <flens/scalaroperations/atan2.h>
+#include <flens/scalaroperations/pow.h>
 
 namespace flens {
 

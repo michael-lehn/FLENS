@@ -84,9 +84,9 @@ Complex Single Precision
 |           ComplexFloat *y, IndexType incY);                               |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@cxxblas@FT@>1#Taxpy#t0.0#&1$@N@std@C@complex>]
-                         [#f#*1S2_#S0_#*S2_#S0_#templatetypenameIndexTypetyp]
-                         [enameIfIndexTypeisBlasCompatibleInteger           ]
+                         [c:@N@cxxblas@FT@>1#Taxpy#t0.0#&1$@N@std@N@__1@C@co]
+                         [mplex>#f#*1S2_#S0_#*S2_#S0_#templatetypenameIndexT]
+                         [ypetypenameIfIndexTypeisBlasCompatibleInteger     ]
 
 
 Complex Double Precision
@@ -100,9 +100,10 @@ Complex Double Precision
 |           ComplexDouble *y, IndexType incY);                              |
 |                                                                           |
 *---------------------------------------------------------------------------*
-                         [c:@N@cxxblas@FT@>1#Taxpy#t0.0#&1$@N@std@C@complex>]
-                         [#d#*1S2_#S0_#*S2_#S0_#templatetypenameIndexTypetyp]
-                         [enameIfIndexTypeisBlasCompatibleInteger           ]
+                         [c:@N@cxxblas@FT@>1#Taxpy#t0.0#&1$@N@std@N@__1@C@co]
+                         [mplex>#d#*1S2_#S0_#*S2_#S0_#templatetypenameIndexT]
+                         [ypetypenameIfIndexTypeisBlasCompatibleInteger     ]
+
 
 
 :links: __CBLAS__    -> http://www.netlib.org/blas/

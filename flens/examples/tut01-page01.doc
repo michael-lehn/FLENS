@@ -37,6 +37,7 @@ Compile and Run
 
    *--[SHELL]-----------------------------------------------------------------*
    |                                                                          |
+   |  g++ --version                                                           |
    |  cd flens/examples                                                       |
    |  g++ -Wall -std=c++11 -I../.. tut01-page01-example.cc                    |
    |  ./a.out                                                                 |

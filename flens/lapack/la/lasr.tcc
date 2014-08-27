@@ -44,9 +44,8 @@
 #define FLENS_LAPACK_LA_LASR_TCC 1
 
 #include <cmath>
-#include <flens/lapack/typedefs.h>
-#include <flens/matrixtypes/matrixtypes.h>
-#include <flens/vectortypes/vectortypes.h>
+#include <flens/blas/blas.h>
+#include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {
 

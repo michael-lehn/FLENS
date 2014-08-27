@@ -111,7 +111,7 @@ Compile and Run
  *--[SHELL]------------------------------------------------------------------*
  |                                                                           |
  |  cd flens/examples                                                        |
- |  g++ -Wall -std=c++11 -I../.. -c qd-lapack-getrf.cc                       |
+ |  g++ -Wall -std=c++11 -I../.. -I /usr/local/include -c qd-lapack-getrf.cc |
  |  g++ -o qd-lapack-getrf qd-lapack-getrf.o /usr/local/lib/libqd.a          |
  |  ./qd-lapack-getrf                                                        |
  |                                                                           |

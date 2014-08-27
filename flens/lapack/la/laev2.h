@@ -44,7 +44,9 @@
 #ifndef FLENS_LAPACK_LA_LAEV2_H
 #define FLENS_LAPACK_LA_LAEV2_H 1
 
-#include <complex>
+#include <flens/lapack/typedefs.h>
+#include <flens/matrixtypes/matrixtypes.h>
+#include <flens/vectortypes/vectortypes.h>
 
 namespace flens { namespace lapack {
 

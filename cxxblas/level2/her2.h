@@ -33,6 +33,7 @@
 #ifndef CXXBLAS_LEVEL2_HER2_H
 #define CXXBLAS_LEVEL2_HER2_H 1
 
+#include <cxxblas/drivers/drivers.h>
 #include <cxxblas/typedefs.h>
 
 #define HAVE_CXXBLAS_HER2 1
