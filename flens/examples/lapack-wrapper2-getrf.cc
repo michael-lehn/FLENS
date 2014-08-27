@@ -98,11 +98,10 @@ main()
     typedef IndexOptions<int, 0>                           ZeroBased;
 
     ///
-    ///  Define some convenient typedefs for the matrix/vector types
+    ///  Define some convenient typedefs for the matrix type
     ///  of our system of linear equations.
     ///
     typedef GeMatrix<FullStorage<T, ColMajor, ZeroBased> > Matrix;
-    //typedef DenseVector<Array<T, ZeroBased> >              Vector;
 
     ///
     ///  We also need an extra vector type for the pivots.  The type of the

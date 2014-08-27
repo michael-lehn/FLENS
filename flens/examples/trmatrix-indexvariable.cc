@@ -8,7 +8,6 @@ using namespace std;
 int
 main()
 {
-  //typedef GeMatrix<FullStorage<double> >             RealGeMatrix;
     typedef TrMatrix<FullStorage<double> >             RealTrMatrix;
     typedef SyMatrix<FullStorage<double> >             RealSyMatrix;
     typedef HeMatrix<FullStorage<complex<double> > >   ComplexHeMatrix;

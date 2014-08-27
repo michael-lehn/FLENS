@@ -11,7 +11,6 @@ cg(const MA &A, const VB &b, VX &&x,
    int    maxIterations = std::numeric_limits<int>::max())
 {
     typedef typename VB::ElementType  ElementType;
-    //typedef typename VB::IndexType    IndexType;
     typedef typename VB::NoView       VectorType;
 
     ElementType  alpha, beta, rNormSquare, rNormSquarePrev;
