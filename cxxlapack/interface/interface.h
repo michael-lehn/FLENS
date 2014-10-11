@@ -33,7 +33,7 @@
 #ifndef CXXLAPACK_INTERFACE_INTERFACE_H
 #define CXXLAPACK_INTERFACE_INTERFACE_H 1
 
-#include <complex>
+#include <cxxstd/complex.h>
 
 #include <cxxlapack/interface/bbcsd.h>
 #include <cxxlapack/interface/bdsdc.h>

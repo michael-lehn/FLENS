@@ -35,7 +35,7 @@
 
 #define HAVE_CXXDFT_SINGLE 1
 
-#include <complex>
+#include <cxxstd/complex.h>
 #include <playground/cxxdft/direction.h>
 
 namespace cxxdft {

@@ -33,8 +33,8 @@
 #ifndef FLENS_LAPACK_AUXILIARY_SIGN_TCC
 #define FLENS_LAPACK_AUXILIARY_SIGN_TCC 1
 
-#include <algorithm>
-#include <cmath>
+#include <cxxstd/algorithm.h>
+#include <cxxstd/cmath.h>
 #include <flens/lapack/auxiliary/sign.h>
 
 namespace flens { namespace lapack {

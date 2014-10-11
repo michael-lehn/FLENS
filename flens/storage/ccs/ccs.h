@@ -33,8 +33,6 @@
 #ifndef FLENS_STORAGE_CCS_CCS_H
 #define FLENS_STORAGE_CCS_CCS_H 1
 
-#include <vector>
-
 #include <flens/vectortypes/impl/densevector.h>
 #include <flens/storage/array/array.h>
 #include <flens/storage/coordstorage/coordstorage.h>

@@ -4,7 +4,7 @@
 #include <flens/examples/simple_et2.h>
 #endif
 
-#include <iostream>
+#include <cxxstd/iostream.h>
 #include <flens/flens.cxx>
 
 using namespace flens;

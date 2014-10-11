@@ -44,7 +44,7 @@
 #ifndef FLENS_LAPACK_PB_PBTRS_TCC
 #define FLENS_LAPACK_PB_PBTRS_TCC 1
 
-#include <algorithm>
+#include <cxxstd/algorithm.h>
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>
 

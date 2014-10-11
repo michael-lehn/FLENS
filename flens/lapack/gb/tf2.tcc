@@ -44,7 +44,7 @@
 #ifndef FLENS_LAPACK_GB_TF2_TCC
 #define FLENS_LAPACK_GB_TF2_TCC 1
 
-#include <algorithm>
+#include <cxxstd/algorithm.h>
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>
 

@@ -33,8 +33,8 @@
 #ifndef FLENS_TYPEDEFS_H
 #define FLENS_TYPEDEFS_H 1
 
-#include <cassert>
-#include <complex>
+#include <cxxstd/cassert.h>
+#include <cxxstd/complex.h>
 #include <cxxblas/cxxblas.h>
 
 namespace flens {

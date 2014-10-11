@@ -33,7 +33,7 @@
 #ifndef FLENS_SCALAROPERATIONS_COMPLEX_H
 #define FLENS_SCALAROPERATIONS_COMPLEX_H 1
 
-#include <cmath>
+#include <cxxstd/cmath.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/scalartypes/scalartypes.h>
 

@@ -33,7 +33,7 @@
 #ifndef CXXLAPACK_INTERFACE_LASCL2_TCC
 #define CXXLAPACK_INTERFACE_LASCL2_TCC
 
-#include <iostream>
+#include <cxxstd/iostream.h>
 #include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 

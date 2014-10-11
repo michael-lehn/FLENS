@@ -33,7 +33,7 @@
 #ifndef FLENS_DEBUG_AUXILIARY_CLOSURELOGSTREAM_H
 #define FLENS_DEBUG_AUXILIARY_CLOSURELOGSTREAM_H 1
 
-#include <fstream>
+#include <cxxstd/fstream.h>
 #include <cxxblas/typedefs.h>
 #include <flens/debug/auxiliary/closurelog.h>
 #include <flens/debug/auxiliary/variablepool.h>

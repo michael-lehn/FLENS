@@ -47,7 +47,7 @@
 #ifndef FLENS_LAPACK_GE_ES_H
 #define FLENS_LAPACK_GE_ES_H 1
 
-#include <cmath>
+#include <cxxstd/cmath.h>
 #include <flens/lapack/typedefs.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>

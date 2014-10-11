@@ -1,5 +1,5 @@
+#include <cxxstd/iostream.h>
 #include <flens/flens.cxx>
-#include <iostream>
 
 using namespace flens;
 using namespace std;

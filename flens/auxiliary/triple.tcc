@@ -33,7 +33,7 @@
 #ifndef FLENS_AUXILIARY_TRIPLE_TCC
 #define FLENS_AUXILIARY_TRIPLE_TCC 1
 
-#include <iostream>
+#include <cxxstd/iostream.h>
 #include <flens/auxiliary/triple.h>
 
 namespace flens {

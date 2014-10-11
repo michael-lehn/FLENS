@@ -33,7 +33,7 @@
 #ifndef CXXLAPACK_INTERFACE_LA_GBRPVGRW_H
 #define CXXLAPACK_INTERFACE_LA_GBRPVGRW_H
 
-#include <complex>
+#include <cxxstd/complex.h>
 
 namespace cxxlapack {
 

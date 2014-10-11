@@ -33,7 +33,7 @@
 #ifndef CXXLAPACK_INTERFACE_LARRV_H
 #define CXXLAPACK_INTERFACE_LARRV_H 1
 
-#include <complex>
+#include <cxxstd/complex.h>
 
 namespace cxxlapack {
 

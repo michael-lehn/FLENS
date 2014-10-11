@@ -33,7 +33,7 @@
 #ifndef FLENS_IO_BANDSTORAGE_OUT_H
 #define FLENS_IO_BANDSTORAGE_OUT_H 1
 
-#include <iostream>
+#include <cxxstd/iostream.h>
 
 #include <flens/matrixtypes/general/impl/gbmatrix.h>
 #include <flens/matrixtypes/hermitian/impl/hbmatrix.h>

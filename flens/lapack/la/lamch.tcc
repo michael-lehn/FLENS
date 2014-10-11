@@ -48,7 +48,7 @@
 #ifndef FLENS_LAPACK_LA_LAMCH_TCC
 #define FLENS_LAPACK_LA_LAMCH_TCC 1
 
-#include <limits>
+#include <cxxstd/limits.h>
 
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>

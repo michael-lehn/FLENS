@@ -33,9 +33,9 @@
 #ifndef FLENS_STORAGE_COORDSTORAGE_COORDSTORAGE_H
 #define FLENS_STORAGE_COORDSTORAGE_COORDSTORAGE_H 1
 
-#include <algorithm>
-#include <cstddef>
-#include <vector>
+#include <cxxstd/algorithm.h>
+#include <cxxstd/cstddef.h>
+#include <cxxstd/vector.h>
 #include <flens/storage/indexoptions.h>
 
 namespace flens {

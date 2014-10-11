@@ -33,7 +33,7 @@
 #ifndef FLENS_STORAGE_ARRAY_ARRAYVIEW_TCC
 #define FLENS_STORAGE_ARRAY_ARRAYVIEW_TCC 1
 
-#include <cassert>
+#include <cxxstd/cassert.h>
 #include <cxxblas/level1/copy.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/storage/array/array.h>

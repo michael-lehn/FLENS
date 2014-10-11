@@ -1,5 +1,5 @@
-#include <complex>
-#include <iostream>
+#include <cxxstd/complex.h>
+#include <cxxstd/iostream.h>
 ///
 /// With header __flens.cxx__ all of FLENS gets included.
 ///

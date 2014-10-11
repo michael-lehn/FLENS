@@ -30,12 +30,12 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <algorithm>
-#include <string>
+#include <cxxstd/algorithm.h>
+#include <cxxstd/iostream.h>
+#include <cxxstd/string.h>
 #include <flens/debug/auxiliary/closurelog.h>
 #include <flens/debug/auxiliary/closurelogstream.h>
 #include <flens/auxiliary/macros.h>
-#include <iostream>
 
 namespace flens { namespace verbose {
 

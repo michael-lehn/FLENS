@@ -1,4 +1,4 @@
-#include <iostream>
+#include <cxxstd/iostream.h>
 #include <flens/examples/my_symatrix.h>
 #include <flens/examples/cg.h>
 #include <flens/flens.cxx>

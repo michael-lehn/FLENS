@@ -1,9 +1,9 @@
 #ifndef FLENS_LAPACK_INTERFACE_INCLUDE_CONFIG_H
 #define FLENS_LAPACK_INTERFACE_INCLUDE_CONFIG_H 1
 
-#include <complex>
-#include <iomanip>
-#include <iostream>
+#include <cxxstd/complex.h>
+#include <cxxstd/iomanip.h>
+#include <cxxstd/iostream.h>
 
 #ifdef LAPACK_DECL
 #   undef   LAPACK_DECL

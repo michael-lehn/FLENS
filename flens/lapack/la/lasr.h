@@ -43,7 +43,7 @@
 #ifndef FLENS_LAPACK_LA_LASR_H
 #define FLENS_LAPACK_LA_LASR_H 1
 
-#include <cmath>
+#include <cxxstd/cmath.h>
 #include <flens/lapack/typedefs.h>
 #include <flens/matrixtypes/matrixtypes.h>
 #include <flens/vectortypes/vectortypes.h>

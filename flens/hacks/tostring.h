@@ -33,7 +33,7 @@
 #ifndef FLENS_HACKS_TOSTRING_H
 #define FLENS_HACKS_TOSTRING_H 1
 
-#include <sstream>
+#include <cxxstd/sstream.h>
 
 namespace std {
 

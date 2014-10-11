@@ -33,7 +33,7 @@
 #ifndef CXXBLAS_DRIVERS_GOTOBLAS_H
 #define CXXBLAS_DRIVERS_GOTOBLAS_H 1
 
-#include <cstdlib>
+#include <cxxstd/cstdlib.h>
 
 #   define HAVE_CBLAS           1
 #   ifdef BLASINT

@@ -2,7 +2,7 @@
 #define FLENS_EXAMPLES_CG_BLAS_H 1
 
 #include <flens/flens.h>
-#include <limits>
+#include <cxxstd/limits.h>
 
 template <typename MA, typename VX, typename VB>
 int

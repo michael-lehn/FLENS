@@ -33,7 +33,7 @@
 #ifndef CXXBLAS_AUXILIARY_POW_TCC
 #define CXXBLAS_AUXILIARY_POW_TCC 1
 
-#include <cmath>
+#include <cxxstd/cmath.h>
 #include <cxxblas/auxiliary/complextrait.h>
 #include <cxxblas/auxiliary/pow.h>
 #ifdef WITH_MPFR

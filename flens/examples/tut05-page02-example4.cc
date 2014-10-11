@@ -1,4 +1,4 @@
-#include <iostream>
+#include <cxxstd/iostream.h>
 
 #define USE_CXXLAPACK
 #include <flens/flens.cxx>

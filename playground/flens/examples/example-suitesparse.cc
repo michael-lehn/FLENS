@@ -1,7 +1,8 @@
+#include <cxxstd/iostream.h>
+
 #define USE_PLAYGROUND
 #define WITH_SUITESPARSE
 #include <flens/flens.cxx>
-#include <iostream>
 
 using namespace std;
 using namespace flens;

@@ -33,7 +33,7 @@
 #ifndef FLENS_AUXILIARY_COMPLEXTRAIT_H
 #define FLENS_AUXILIARY_COMPLEXTRAIT_H 1
 
-#include <complex>
+#include <cxxstd/complex.h>
 #include <cxxblas/auxiliary/complextrait.h>
 
 namespace flens {

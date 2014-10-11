@@ -33,7 +33,7 @@
 #ifndef CXXBLAS_AUXILIARY_COMPLEXTRAIT_H
 #define CXXBLAS_AUXILIARY_COMPLEXTRAIT_H 1
 
-#include <complex>
+#include <cxxstd/complex.h>
 
 namespace cxxblas {
 

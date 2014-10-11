@@ -33,7 +33,7 @@
 #ifndef PLAYGROUND_CXXDFT_MULTIPLE_TCC
 #define PLAYGROUND_CXXDFT_MULTIPLE_TCC 1
 
-#include <cmath>
+#include <cxxstd/cmath.h>
 #include <string.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <playground/cxxdft/single.tcc>

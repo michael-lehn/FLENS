@@ -39,7 +39,7 @@
 #ifndef PLAYGROUND_FLENS_SOLVER_CGS_TCC
 #define PLAYGROUND_FLENS_SOLVER_CGS_TCC 1
 
-#include <cmath>
+#include <cxxstd/cmath.h>
 #include <playground/flens/solver/cgs.h>
 
 namespace flens { namespace solver {

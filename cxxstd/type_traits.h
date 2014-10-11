@@ -1,0 +1,6 @@
+#ifndef CXXSTD_STRING_H
+#define CXXSTD_STRING_H 1
+
+#include <type_traits>
+
+#endif // CXXSTD_STRING_H

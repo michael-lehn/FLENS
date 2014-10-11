@@ -1,4 +1,4 @@
-#include <algorithm>
+#include <cxxstd/algorithm.h>
 #include <flens/flens.h>
 
 namespace flens {

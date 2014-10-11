@@ -33,7 +33,7 @@
 #ifndef FLENS_DEBUG_AUX_BASENAME_H
 #define FLENS_DEBUG_AUX_BASENAME_H 1
 
-#include <string>
+#include <cxxstd/string.h>
 
 namespace flens { namespace verbose {
 

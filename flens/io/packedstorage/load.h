@@ -33,8 +33,8 @@
 #ifndef FLENS_IO_PACKEDSTORAGE_LOAD_H
 #define FLENS_IO_PACKEDSTORAGE_LOAD_H 1
 
-#include <iostream>
-#include <string>
+#include <cxxstd/iostream.h>
+#include <cxxstd/string.h>
 
 #include <flens/matrixtypes/hermitian/impl/hpmatrix.h>
 #include <flens/matrixtypes/symmetric/impl/spmatrix.h>

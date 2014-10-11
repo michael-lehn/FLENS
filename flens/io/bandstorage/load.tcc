@@ -33,9 +33,8 @@
 #ifndef FLENS_IO_BANDSTORAGE_LOAD_TCC
 #define FLENS_IO_BANDSTORAGE_LOAD_TCC 1
 
-#include <functional>
-#include <locale>
-#include <fstream>
+#include <cxxstd/locale.h>
+#include <cxxstd/fstream.h>
 
 #include <cxxblas/typedefs.h>
 #include <flens/io/bandstorage/load.h>

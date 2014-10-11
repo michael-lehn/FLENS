@@ -35,7 +35,7 @@
 
 #ifdef STD_HACK
 
-#include <sstream>
+#include <cxxstd/sstream.h>
 #include <flens/auxiliary/issame.h>
 
 namespace std {

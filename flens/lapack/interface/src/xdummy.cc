@@ -1,5 +1,5 @@
-#include <cassert>
-#include <cctype>
+#include <cxxstd/cassert.h>
+#include <cxxstd/cctype.h>
 
 #include <flens/lapack/interface/include/config.h>
 

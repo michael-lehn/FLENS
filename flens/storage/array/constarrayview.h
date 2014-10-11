@@ -33,7 +33,7 @@
 #ifndef FLENS_STORAGE_ARRAY_CONSTARRAYVIEW_H
 #define FLENS_STORAGE_ARRAY_CONSTARRAYVIEW_H 1
 
-#include <memory>
+#include <cxxstd/memory.h>
 #include <flens/storage/indexoptions.h>
 
 namespace flens {

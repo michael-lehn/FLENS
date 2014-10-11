@@ -33,7 +33,7 @@
 #ifndef CXXLAPACK_INTERFACE_LANEG_TCC
 #define CXXLAPACK_INTERFACE_LANEG_TCC 1
 
-#include <iostream>
+#include <cxxstd/iostream.h>
 #include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 

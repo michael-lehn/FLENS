@@ -33,7 +33,7 @@
 #ifndef FLENS_STORAGE_ARRAY_REALARRAY_H
 #define FLENS_STORAGE_ARRAY_REALARRAY_H 1
 
-#include <complex>
+#include <cxxstd/complex.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/storage/array/array.h>
 #include <flens/storage/array/arrayview.h>

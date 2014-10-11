@@ -33,7 +33,7 @@
 #ifndef PLAYGROUND_CXXBLAS_INTRINSICS_CLASSES_FUNCTIONS_OUT_H
 #define PLAYGROUND_CXXBLAS_INTRINSICS_CLASSES_FUNCTIONS_OUT_H 1
 
-#include <iostream>
+#include <cxxstd/iostream.h>
 #include <playground/cxxblas/intrinsics/classes/blank.h>
 #include <playground/cxxblas/intrinsics/includes.h>
 

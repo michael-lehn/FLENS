@@ -40,7 +40,7 @@
 #define RAWPOINTER(x) reinterpret_cast<const void *>(x)
 
 //-- ASSERT -------------------------------------------------------------------
-#include <cassert>
+#include <cxxstd/cassert.h>
 
 // ASSERT which prints out a trace back of the call
 #if defined(TRACEBACK_ASSERT) && !defined(NDEBUG)

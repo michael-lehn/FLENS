@@ -33,7 +33,6 @@
 #ifndef FLENS_STORAGE_CCS_CCS_TCC
 #define FLENS_STORAGE_CCS_CCS_TCC 1
 
-#include <vector>
 #include <flens/storage/ccs/ccs.h>
 
 namespace flens {

@@ -33,7 +33,7 @@
 #ifndef FLENS_IO_ARRAY_LOAD_TCC
 #define FLENS_IO_ARRAY_LOAD_TCC 1
 
-#include <fstream>
+#include <cxxstd/fstream.h>
 #include <flens/io/array/load.h>
 
 namespace flens {

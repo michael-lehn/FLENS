@@ -33,7 +33,7 @@
 #ifndef FLENS_IO_CRS_OUT_TCC
 #define FLENS_IO_CRS_OUT_TCC 1
 
-#include <iostream>
+#include <cxxstd/iostream.h>
 #include <flens/io/crs/out.h>
 
 namespace flens {

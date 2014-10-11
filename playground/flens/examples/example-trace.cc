@@ -1,4 +1,5 @@
-#include <iostream>
+#include <cxxstd/iostream.h>
+
 #define USE_PLAYGROUND
 #include <flens/flens.cxx>
 

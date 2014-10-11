@@ -30,7 +30,7 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <fstream>
+#include <cxxstd/fstream.h>
 #include <flens/debug/auxiliary/closurelog.h>
 #include <flens/debug/auxiliary/closurelogstream.h>
 #include <flens/debug/auxiliary/variablepool.h>

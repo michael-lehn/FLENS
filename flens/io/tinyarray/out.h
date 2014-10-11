@@ -33,7 +33,7 @@
 #ifndef FLENS_IO_TINYARRAY_OUT_H
 #define FLENS_IO_TINYARRAY_OUT_H 1
 
-#include <iostream>
+#include <cxxstd/iostream.h>
 
 #include <flens/vectortypes/vectortypes.h>
 

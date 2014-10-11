@@ -33,7 +33,7 @@
 #ifndef FLENS_STORAGE_CRS_CRS_TCC
 #define FLENS_STORAGE_CRS_CRS_TCC 1
 
-#include <vector>
+#include <cxxstd/vector.h>
 #include <flens/storage/crs/crs.h>
 
 namespace flens {

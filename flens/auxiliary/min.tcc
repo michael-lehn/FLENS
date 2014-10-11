@@ -33,7 +33,7 @@
 #ifndef FLENS_AUXILIARY_MIN_TCC
 #define FLENS_AUXILIARY_MIN_TCC 1
 
-#include <algorithm>
+#include <cxxstd/algorithm.h>
 #include <flens/auxiliary/min.h>
 #include <flens/auxiliary/restrictto.h>
 

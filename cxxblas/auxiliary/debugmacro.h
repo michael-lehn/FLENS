@@ -33,7 +33,7 @@
 #ifndef CXXBLAS_AUXILIARY_DEBUGMACRO_H
 #define CXXBLAS_AUXILIARY_DEBUGMACRO_H 1
 
-#include <iostream>
+#include <cxxstd/iostream.h>
 
 
 //-- CXXBLAS_DEBUG_OUT ---------------------------------------------------------
@@ -47,7 +47,7 @@
 #   endif // CXXBLAS_DEBUG_OUT
 #endif // CXXBLAS_DEBUG
 
-#include <cassert>
+#include <cxxstd/cassert.h>
 
 //-- ASSERT -------------------------------------------------------------------
 

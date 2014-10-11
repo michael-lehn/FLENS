@@ -33,7 +33,7 @@
 #ifndef FLENS_IO_ARRAY_SAVE_TCC
 #define FLENS_IO_ARRAY_SAVE_TCC 1
 
-#include <fstream>
+#include <cxxstd/fstream.h>
 #include <flens/io/array/save.h>
 
 namespace flens {

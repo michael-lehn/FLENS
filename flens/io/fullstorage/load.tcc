@@ -33,12 +33,12 @@
 #ifndef FLENS_IO_FULLSTORAGE_LOAD_TCC
 #define FLENS_IO_FULLSTORAGE_LOAD_TCC 1
 
-#include <algorithm>
-#include <functional>
-#include <locale>
-#include <fstream>
-#include <sstream>
-#include <string>
+#include <cxxstd/algorithm.h>
+#include <cxxstd/functional.h>
+#include <cxxstd/locale.h>
+#include <cxxstd/fstream.h>
+#include <cxxstd/sstream.h>
+#include <cxxstd/string.h>
 
 #include <cxxblas/typedefs.h>
 #include <flens/io/fullstorage/load.h>

@@ -33,7 +33,7 @@
 #if defined(MPFR_REAL_HPP) && !defined(FLENS_HACKS_MPFR_REAL_H)
 #define FLENS_HACKS_MPFR_REAL_H 1
 
-#include <limits>
+#include <cxxstd/limits.h>
 #include <flens/auxiliary/explicit_cast.h>
 
 namespace mpfr {

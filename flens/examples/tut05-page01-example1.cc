@@ -1,4 +1,4 @@
-#include <iostream>
+#include <cxxstd/iostream.h>
 
 ///
 /// Define `USE_CXXLAPACK` before you include the FLENS headers

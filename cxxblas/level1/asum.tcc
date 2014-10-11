@@ -33,7 +33,7 @@
 #ifndef CXXBLAS_LEVEL1_ASUM_TCC
 #define CXXBLAS_LEVEL1_ASUM_TCC 1
 
-#include <cmath>
+#include <cxxstd/cmath.h>
 #include <cxxblas/cxxblas.h>
 
 

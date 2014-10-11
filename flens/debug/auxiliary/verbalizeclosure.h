@@ -33,7 +33,7 @@
 #ifndef FLENS_DEBUG_AUXILIARY_VERBALIZECLOSURE_H
 #define FLENS_DEBUG_AUXILIARY_VERBALIZECLOSURE_H 1
 
-#include <string>
+#include <cxxstd/string.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/debug/auxiliary/typeid.h>
 #include <flens/debug/auxiliary/variablepool.h>

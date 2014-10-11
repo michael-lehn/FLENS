@@ -35,7 +35,7 @@
 
 #ifdef WITH_MPFR
 
-#include <complex>
+#include <cxxstd/complex.h>
 #include <external/real.hpp>
 
 namespace cxxblas {

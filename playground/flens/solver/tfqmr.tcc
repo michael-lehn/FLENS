@@ -42,7 +42,7 @@
 #ifndef PLAYGROUND_FLENS_SOLVER_TFQMR_TCC
 #define PLAYGROUND_FLENS_SOLVER_TFQMR_TCC 1
 
-#include <cmath>
+#include <cxxstd/cmath.h>
 #include <flens/blas/blas.h>
 #include <playground/flens/solver/tfqmr.h>
 

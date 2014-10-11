@@ -33,7 +33,7 @@
 #ifndef CXXLAPACK_INTERFACE_LADIV_H
 #define CXXLAPACK_INTERFACE_LADIV_H 1
 
-#include <complex>
+#include <cxxstd/complex.h>
 #include <cxxblas/drivers/drivers.h>
 
 namespace cxxlapack {

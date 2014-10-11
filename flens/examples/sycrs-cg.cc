@@ -1,5 +1,5 @@
-#include <cmath>
-#include <iostream>
+#include <cxxstd/cmath.h>
+#include <cxxstd/iostream.h>
 #include <flens/flens.cxx>
 #include <flens/examples/cg.h>
 

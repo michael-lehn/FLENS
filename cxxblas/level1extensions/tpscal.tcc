@@ -33,8 +33,8 @@
 #ifndef CXXBLAS_LEVEL1EXTENSIONS_TPSCAL_TCC
 #define CXXBLAS_LEVEL1EXTENSIONS_TPSCAL_TCC 1
 
-#include <algorithm>
-#include <cassert>
+#include <cxxstd/algorithm.h>
+#include <cxxstd/cassert.h>
 #include <cxxblas/cxxblas.h>
 
 namespace cxxblas {

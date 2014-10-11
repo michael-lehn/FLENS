@@ -33,7 +33,7 @@
 #ifndef FLENS_DEBUG_AUXILIARY_TYPEID_H
 #define FLENS_DEBUG_AUXILIARY_TYPEID_H 1
 
-#include <string>
+#include <cxxstd/string.h>
 #include <flens/auxiliary/issame.h>
 #include <flens/scalartypes/scalartypes.h>
 

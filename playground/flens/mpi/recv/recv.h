@@ -37,8 +37,8 @@
 #    include "mpi.h"
 #endif
 
-#include<vector>
-#include<playground/flens/mpi/types.h>
+#include <cxxstd/vector.h>
+#include <playground/flens/mpi/types.h>
 
 
 namespace flens { namespace mpi {

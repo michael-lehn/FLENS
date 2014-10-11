@@ -33,7 +33,7 @@
 #ifndef CXXLAPACK_INTERFACE_LAHEF_TCC
 #define CXXLAPACK_INTERFACE_LAHEF_TCC 1
 
-#include <iostream>
+#include <cxxstd/iostream.h>
 #include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 

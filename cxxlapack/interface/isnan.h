@@ -33,7 +33,7 @@
 #ifndef CXXLAPACK_INTERFACE_ISNAN_H
 #define CXXLAPACK_INTERFACE_ISNAN_H 1
 
-#include <complex>
+#include <cxxstd/complex.h>
 
 namespace cxxlapack {
 template <typename VOID>

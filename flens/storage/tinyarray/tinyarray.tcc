@@ -33,7 +33,7 @@
 #ifndef FLENS_STORAGE_TINYARRAY_TINYARRAY_TCC
 #define FLENS_STORAGE_TINYARRAY_TINYARRAY_TCC 1
 
-#include <memory>
+#include <cxxstd/memory.h>
 #include <cxxblas/cxxblas.h>
 #include <flens/storage/tinyarray/tinyarray.h>
 

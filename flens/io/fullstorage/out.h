@@ -33,7 +33,7 @@
 #ifndef FLENS_IO_FULLSTORAGE_OUT_H
 #define FLENS_IO_FULLSTORAGE_OUT_H 1
 
-#include <iostream>
+#include <cxxstd/iostream.h>
 
 #include <flens/matrixtypes/general/impl/gematrix.h>
 #include <flens/matrixtypes/hermitian/impl/hematrix.h>

@@ -33,7 +33,7 @@
 #ifndef FLENS_STORAGE_COORDSTORAGE_COORDSTORAGE_TCC
 #define FLENS_STORAGE_COORDSTORAGE_COORDSTORAGE_TCC 1
 
-#include <iostream>
+#include <cxxstd/iostream.h>
 #include <flens/storage/coordstorage/coordstorage.h>
 
 namespace flens {

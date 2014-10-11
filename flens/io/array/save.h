@@ -33,8 +33,8 @@
 #ifndef FLENS_IO_ARRAY_SAVE_H
 #define FLENS_IO_ARRAY_SAVE_H 1
 
-#include <iostream>
-#include <string>
+#include <cxxstd/iostream.h>
+#include <cxxstd/string.h>
 
 #include <flens/vectortypes/vectortypes.h>
 

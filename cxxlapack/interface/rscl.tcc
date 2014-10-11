@@ -33,9 +33,9 @@
 #ifndef CXXLAPACK_INTERFACE_RSCL_TCC
 #define CXXLAPACK_INTERFACE_RSCL_TCC 1
 
-#include <iostream>
+#include <cxxstd/iostream.h>
 #include <cxxlapack/interface/interface.h>
-#include <iostream>
+#include <cxxstd/iostream.h>
 #include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 

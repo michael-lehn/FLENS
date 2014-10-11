@@ -33,7 +33,7 @@
 #ifndef FLENS_BLAS_LEVEL1_ROT_H
 #define FLENS_BLAS_LEVEL1_ROT_H 1
 
-#include <complex>
+#include <cxxstd/complex.h>
 #include <cxxblas/typedefs.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/vectortypes/vectortypes.h>

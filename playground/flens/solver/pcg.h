@@ -33,7 +33,7 @@
 #ifndef PLAYGROUND_FLENS_SOLVER_PCG_H
 #define PLAYGROUND_FLENS_SOLVER_PCG_H 1
 
-#include <limits>
+#include <cxxstd/limits.h>
 
 #include <flens/lapack/typedefs.h>
 #include <flens/matrixtypes/matrixtypes.h>

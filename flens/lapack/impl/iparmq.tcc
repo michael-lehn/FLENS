@@ -42,8 +42,8 @@
 #ifndef FLENS_LAPACK_IMPL_IPARMQ_TCC
 #define FLENS_LAPACK_IMPL_IPARMQ_TCC 1
 
-#include <complex>
-#include <string>
+#include <cxxstd/complex.h>
+#include <cxxstd/string.h>
 
 #include <flens/auxiliary/issame.h>
 #include <flens/lapack/lapack.h>

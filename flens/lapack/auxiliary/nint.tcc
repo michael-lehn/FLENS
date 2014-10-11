@@ -33,7 +33,7 @@
 #ifndef FLENS_LAPACK_AUXILIARY_NINT_TCC
 #define FLENS_LAPACK_AUXILIARY_NINT_TCC 1
 
-#include <cmath>
+#include <cxxstd/cmath.h>
 
 namespace flens { namespace lapack {
 

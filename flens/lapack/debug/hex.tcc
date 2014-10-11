@@ -33,10 +33,10 @@
 #ifndef FLENS_LAPACK_DEBUG_HEX_TCC
 #define FLENS_LAPACK_DEBUG_HEX_TCC 1
 
-#include <sstream>
-#include <string>
-#include <cstring>
-#include <cstdlib>
+#include <cxxstd/sstream.h>
+#include <cxxstd/string.h>
+#include <cxxstd/cstring.h>
+#include <cxxstd/cstdlib.h>
 #include <flens/auxiliary/auxiliary.h>
 
 namespace flens { namespace lapack {

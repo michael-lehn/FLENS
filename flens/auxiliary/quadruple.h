@@ -33,7 +33,7 @@
 #ifndef FLENS_AUXILIARY_QUADRUPLE_H
 #define FLENS_AUXILIARY_QUADRUPLE_H 1
 
-#include <iostream>
+#include <cxxstd/iostream.h>
 
 namespace flens {
 

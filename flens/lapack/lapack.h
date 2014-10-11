@@ -61,7 +61,7 @@
 #   include <cxxlapack/cxxlapack.h>
 #endif
 
-#include <cmath>
+#include <cxxstd/cmath.h>
 
 #include <flens/lapack/auxiliary/getf77char.h>
 #include <flens/lapack/auxiliary/nint.h>

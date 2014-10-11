@@ -33,7 +33,7 @@
 #ifndef FLENS_DEBUG_AUXILIARY_CLOSURELOG_H
 #define FLENS_DEBUG_AUXILIARY_CLOSURELOG_H 1
 
-#include <fstream>
+#include <cxxstd/fstream.h>
 #include <flens/debug/auxiliary/variablepool.h>
 
 namespace flens { namespace verbose {

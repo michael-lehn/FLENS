@@ -45,7 +45,7 @@
 #ifndef FLENS_LAPACK_IMPL_TRSEN_TCC
 #define FLENS_LAPACK_IMPL_TRSEN_TCC 1
 
-#include <cmath>
+#include <cxxstd/cmath.h>
 #include <flens/blas/blas.h>
 #include <flens/lapack/lapack.h>
 

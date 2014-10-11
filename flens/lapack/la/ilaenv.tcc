@@ -48,8 +48,8 @@
 #ifndef FLENS_LAPACK_LA_ILAENV_TCC
 #define FLENS_LAPACK_LA_ILAENV_TCC 1
 
-#include <complex>
-#include <cstring>
+#include <cxxstd/complex.h>
+#include <cxxstd/cstring.h>
 
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/lapack/lapack.h>

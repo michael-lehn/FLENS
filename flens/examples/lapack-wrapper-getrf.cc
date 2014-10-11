@@ -1,4 +1,4 @@
-#include <iostream>
+#include <cxxstd/iostream.h>
 ///
 ///  With header __flens.cxx__ all of FLENS gets included.
 ///

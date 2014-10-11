@@ -33,8 +33,8 @@
 #ifndef CXXLAPACK_INTERFACE_BBCSD_TCC
 #define CXXLAPACK_INTERFACE_BBCSD_TCC 1
 
-#include <complex>
-#include <iostream>
+#include <cxxstd/complex.h>
+#include <cxxstd/iostream.h>
 #include <cxxlapack/interface/interface.h>
 #include <cxxlapack/netlib/netlib.h>
 

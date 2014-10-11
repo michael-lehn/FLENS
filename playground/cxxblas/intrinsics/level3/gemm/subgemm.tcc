@@ -37,7 +37,7 @@
 #include <playground/cxxblas/intrinsics/auxiliary/auxiliary.h>
 #include <playground/cxxblas/intrinsics/includes.h>
 #include <playground/cxxblas/intrinsics/level3/gemm/packmatrix.h>
-#include <vector>
+#include <cxxstd/vector.h>
 
 namespace cxxblas {
 

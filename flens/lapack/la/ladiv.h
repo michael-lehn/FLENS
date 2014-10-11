@@ -44,7 +44,7 @@
 #ifndef FLENS_LAPACK_LA_LADIV_H
 #define FLENS_LAPACK_LA_LADIV_H 1
 
-#include <complex>
+#include <cxxstd/complex.h>
 
 namespace flens { namespace lapack {
 

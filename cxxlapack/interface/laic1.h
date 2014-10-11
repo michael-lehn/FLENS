@@ -33,7 +33,7 @@
 #ifndef CXXLAPACK_INTERFACE_LAIC1_H
 #define CXXLAPACK_INTERFACE_LAIC1_H 1
 
-#include <complex>
+#include <cxxstd/complex.h>
 
 namespace cxxlapack {
 

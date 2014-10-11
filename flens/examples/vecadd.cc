@@ -1,4 +1,4 @@
-#include <iostream>
+#include <cxxstd/iostream.h>
 #include <flens/flens.h>
 
 #ifdef VECSUM
@@ -339,7 +339,7 @@ sum(const ALPHA1 alpha1, const DenseVector<VX1> &x1,
 
 //------------------------------------------------------------------------------
 
-#include <iostream>
+#include <cxxstd/iostream.h>
 #include <flens/flens.cxx>
 
 using namespace flens;

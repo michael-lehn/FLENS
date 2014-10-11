@@ -33,7 +33,7 @@
 #ifndef FLENS_LAPACK_DEBUG_HEX_H
 #define FLENS_LAPACK_DEBUG_HEX_H 1
 
-#include <string>
+#include <cxxstd/string.h>
 
 namespace flens { namespace lapack {
 

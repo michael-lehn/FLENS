@@ -33,7 +33,7 @@
 #ifndef FLENS_LAPACK_DEBUG_ISIDENTICAL_TCC
 #define FLENS_LAPACK_DEBUG_ISIDENTICAL_TCC 1
 
-#include <complex>
+#include <cxxstd/complex.h>
 #include <flens/lapack/debug/hex.h>
 #include <flens/lapack/debug/isidentical.h>
 

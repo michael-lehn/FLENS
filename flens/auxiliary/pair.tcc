@@ -33,7 +33,7 @@
 #ifndef FLENS_AUXILIARY_PAIR_TCC
 #define FLENS_AUXILIARY_PAIR_TCC 1
 
-#include <iostream>
+#include <cxxstd/iostream.h>
 #include <flens/auxiliary/pair.h>
 
 namespace flens {

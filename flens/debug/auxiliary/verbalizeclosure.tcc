@@ -33,7 +33,7 @@
 #ifndef FLENS_DEBUG_AUXILIARY_VERBALIZECLOSURE_TCC
 #define FLENS_DEBUG_AUXILIARY_VERBALIZECLOSURE_TCC 1
 
-#include <sstream>
+#include <cxxstd/sstream.h>
 #include <flens/blas/operators/operators.h>
 #include <flens/debug/auxiliary/operation.h>
 #include <flens/debug/auxiliary/typeid.h>

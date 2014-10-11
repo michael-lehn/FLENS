@@ -33,8 +33,8 @@
 #ifndef FLENS_DEBUG_AUX_VARIABLEPOOL_H
 #define FLENS_DEBUG_AUX_VARIABLEPOOL_H 1
 
-#include <map>
-#include <string>
+#include <cxxstd/map.h>
+#include <cxxstd/string.h>
 
 namespace flens { namespace verbose {
 

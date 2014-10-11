@@ -1,4 +1,4 @@
-#include <iostream>
+#include <cxxstd/iostream.h>
 #include <flens/flens.cxx>
 
 #ifndef SEED

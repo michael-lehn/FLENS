@@ -1,5 +1,6 @@
+#include <cxxstd/locale.h>
 #include <flens/lapack/interface/include/config.h>
-#include <locale>
+
 extern "C" {
 
 //-- lsamen --------------------------------------------------------------------

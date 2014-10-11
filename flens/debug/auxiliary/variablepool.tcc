@@ -33,9 +33,9 @@
 #ifndef FLENS_DEBUG_AUXILIARY_VARIABLEPOOL_TCC
 #define FLENS_DEBUG_AUXILIARY_VARIABLEPOOL_TCC 1
 
-#include <iostream>
-#include <string>
-#include <sstream>
+#include <cxxstd/iostream.h>
+#include <cxxstd/string.h>
+#include <cxxstd/sstream.h>
 #include <flens/auxiliary/issame.h>
 #include <flens/debug/auxiliary/basename.h>
 #include <flens/debug/auxiliary/typeid.h>

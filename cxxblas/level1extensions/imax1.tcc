@@ -33,8 +33,8 @@
 #ifndef CXXBLAS_LEVEL1EXTENSIONS_IMAX1_TCC
 #define CXXBLAS_LEVEL1EXTENSIONS_IMAX1_TCC 1
 
-#include <complex>
-#include <cmath>
+#include <cxxstd/complex.h>
+#include <cxxstd/cmath.h>
 #include <cxxblas/cxxblas.h>
 
 namespace cxxblas {

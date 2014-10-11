@@ -33,7 +33,7 @@
 #ifndef CXXBLAS_LEVEL1EXTENSIONS_GEAXPY_TCC
 #define CXXBLAS_LEVEL1EXTENSIONS_GEAXPY_TCC 1
 
-#include <cassert>
+#include <cxxstd/cassert.h>
 #include <cxxblas/cxxblas.h>
 
 namespace cxxblas {

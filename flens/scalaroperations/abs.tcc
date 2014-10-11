@@ -33,7 +33,7 @@
 #ifndef FLENS_SCALAROPERATIONS_ABS_TCC
 #define FLENS_SCALAROPERATIONS_ABS_TCC 1
 
-#include <cmath>
+#include <cxxstd/cmath.h>
 #include <cxxblas/auxiliary/complex.h>
 #include <flens/auxiliary/auxiliary.h>
 #include <flens/scalaroperations/abs.h>

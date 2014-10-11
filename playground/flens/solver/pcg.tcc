@@ -40,7 +40,7 @@
 #ifndef PLAYGROUND_FLENS_SOLVER_PCG_TCC
 #define PLAYGROUND_FLENS_SOLVER_PCG_TCC 1
 
-#include <cmath>
+#include <cxxstd/cmath.h>
 #include <playground/flens/solver/pcg.h>
 
 namespace flens { namespace solver {

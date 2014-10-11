@@ -33,7 +33,7 @@
 #ifndef CXXLAPACK_INTERFACE_LASD8_H
 #define CXXLAPACK_INTERFACE_LASD8_H 1
 
-#include <complex>
+#include <cxxstd/complex.h>
 
 namespace cxxlapack {
 

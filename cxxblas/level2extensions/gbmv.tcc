@@ -33,7 +33,7 @@
 #ifndef CXXBLAS_LEVEL2EXTENSIONS_GBMV_TCC
 #define CXXBLAS_LEVEL2EXTENSIONS_GBMV_TCC 1
 
-#include <complex>
+#include <cxxstd/complex.h>
 #include <cxxblas/cxxblas.h>
 
 namespace cxxblas {

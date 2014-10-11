@@ -33,7 +33,7 @@
 #ifndef FLENS_IO_TINYFULLSTORAGE_OUT_TCC
 #define FLENS_IO_TINYFULLSTORAGE_OUT_TCC 1
 
-#include <iostream>
+#include <cxxstd/iostream.h>
 
 #include <flens/io/tinyfullstorage/out.h>
 #include <flens/matrixtypes/general/impl/getinymatrix.tcc>

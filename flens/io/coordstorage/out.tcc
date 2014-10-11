@@ -33,7 +33,7 @@
 #ifndef FLENS_IO_COORDSTORAGE_OUT_TCC
 #define FLENS_IO_COORDSTORAGE_OUT_TCC 1
 
-#include <iostream>
+#include <cxxstd/iostream.h>
 #include <flens/io/coordstorage/out.h>
 
 namespace flens {

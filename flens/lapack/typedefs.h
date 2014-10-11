@@ -33,8 +33,8 @@
 #ifndef FLENS_LAPACK_TYPEDEFS_H
 #define FLENS_LAPACK_TYPEDEFS_H 1
 
-#include <cassert>
-#include <complex>
+#include <cxxstd/cassert.h>
+#include <cxxstd/complex.h>
 #include <cxxblas/cxxblas.h>
 #include <flens/storage/storage.h>
 

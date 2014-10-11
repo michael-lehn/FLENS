@@ -33,7 +33,7 @@
 #ifndef CXXBLAS_LEVEL1EXTENSIONS_RACXPY_TCC
 #define CXXBLAS_LEVEL1EXTENSIONS_RACXPY_TCC 1
 
-#include <cstdio>
+#include <cxxstd/cstdio.h>
 #include <cxxblas/cxxblas.h>
 
 namespace cxxblas {

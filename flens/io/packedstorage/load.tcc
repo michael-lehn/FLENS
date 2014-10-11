@@ -33,10 +33,10 @@
 #ifndef FLENS_IO_PACKEDSTORAGE_LOAD_TCC
 #define FLENS_IO_PACKEDSTORAGE_LOAD_TCC 1
 
-#include <algorithm>
-#include <functional>
-#include <locale>
-#include <fstream>
+#include <cxxstd/algorithm.h>
+#include <cxxstd/functional.h>
+#include <cxxstd/locale.h>
+#include <cxxstd/fstream.h>
 
 #include <cxxblas/typedefs.h>
 #include <flens/io/packedstorage/load.h>

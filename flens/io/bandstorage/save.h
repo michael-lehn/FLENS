@@ -33,9 +33,9 @@
 #ifndef FLENS_IO_BANDSTORAGE_SAVE_H
 #define FLENS_IO_BANDSTORAGE_SAVE_H 1
 
-#include <iostream>
-#include <limits>
-#include <string>
+#include <cxxstd/iostream.h>
+#include <cxxstd/limits.h>
+#include <cxxstd/string.h>
 
 #include <flens/matrixtypes/general/impl/gbmatrix.h>
 #include <flens/matrixtypes/hermitian/impl/hbmatrix.h>

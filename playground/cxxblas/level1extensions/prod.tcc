@@ -33,7 +33,7 @@
 #ifndef PLAYGROUND_CXXBLAS_LEVEL1_PROD_TCC
 #define PLAYGROUND_CXXBLAS_LEVEL1_PROD_TCC 1
 
-#include <cmath>
+#include <cxxstd/cmath.h>
 #include <cxxblas/cxxblas.h>
 
 

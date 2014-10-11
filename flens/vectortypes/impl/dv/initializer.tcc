@@ -34,7 +34,7 @@
 #ifndef FLENS_VECTORTYPES_IMPL_DV_INITIALIZER_TCC
 #define FLENS_VECTORTYPES_IMPL_DV_INITIALIZER_TCC 1
 
-#include <algorithm>
+#include <cxxstd/algorithm.h>
 #include <flens/auxiliary/macros.h>
 #include <flens/vectortypes/impl/densevector.h>
 

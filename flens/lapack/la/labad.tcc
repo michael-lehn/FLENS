@@ -42,7 +42,7 @@
 #ifndef FLENS_LAPACK_LA_LABAD_TCC
 #define FLENS_LAPACK_LA_LABAD_TCC 1
 
-#include <cmath>
+#include <cxxstd/cmath.h>
 #include <flens/lapack/lapack.h>
 
 namespace flens { namespace lapack {

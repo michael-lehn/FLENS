@@ -33,7 +33,7 @@
 #ifndef FLENS_STORAGE_TINYFULLSTORAGE_TINYFULLSTORAGEVIEW_TCC
 #define FLENS_STORAGE_TINYFULLSTORAGE_TINYFULLSTORAGEVIEW_TCC 1
 
-#include <memory>
+#include <cxxstd/memory.h>
 #include <cxxblas/cxxblas.h>
 #include <flens/storage/tinyfullstorage/tinyfullstorageview.h>
 

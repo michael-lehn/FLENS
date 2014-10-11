@@ -33,7 +33,7 @@
 #ifndef FLENS_AUXILIARY_MAX_TCC
 #define FLENS_AUXILIARY_MAX_TCC 1
 
-#include <algorithm>
+#include <cxxstd/algorithm.h>
 #include <flens/auxiliary/max.h>
 #include <flens/auxiliary/restrictto.h>
 

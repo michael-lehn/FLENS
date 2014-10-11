@@ -1,4 +1,4 @@
-#include <algorithm>
+#include <cxxstd/algorithm.h>
 #include <flens/flens.cxx>
 #include <flens/examples/lu_unblk.h>
 

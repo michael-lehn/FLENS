@@ -33,7 +33,7 @@
 #ifndef FLENS_IO_COORDSTORAGE_OUT_H
 #define FLENS_IO_COORDSTORAGE_OUT_H 1
 
-#include <iostream>
+#include <cxxstd/iostream.h>
 
 #include <flens/matrixtypes/general/impl/gecoordmatrix.h>
 #include <flens/matrixtypes/symmetric/impl/sycoordmatrix.h>

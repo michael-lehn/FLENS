@@ -33,7 +33,7 @@
 #ifndef CXXBLAS_LEVEL3EXTENSION_GBMM_TCC
 #define CXXBLAS_LEVEL3EXTENSION_GBMM_TCC 1
 
-#include <complex>
+#include <cxxstd/complex.h>
 #include <cxxblas/cxxblas.h>
 
 namespace cxxblas {

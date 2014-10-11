@@ -34,7 +34,7 @@
 #ifndef FLENS_STORAGE_CRS_CRS_H
 #define FLENS_STORAGE_CRS_CRS_H 1
 
-#include <vector>
+#include <cxxstd/vector.h>
 
 #include <flens/vectortypes/impl/densevector.h>
 #include <flens/storage/array/array.h>

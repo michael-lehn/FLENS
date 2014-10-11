@@ -33,7 +33,7 @@
 #ifndef FLENS_STORAGE_ARRAY_CONSTARRAYVIEW_TCC
 #define FLENS_STORAGE_ARRAY_CONSTARRAYVIEW_TCC 1
 
-#include <cassert>
+#include <cxxstd/cassert.h>
 #include <flens/storage/array/array.h>
 #include <flens/storage/array/arrayview.h>
 #include <flens/storage/array/constarrayview.h>

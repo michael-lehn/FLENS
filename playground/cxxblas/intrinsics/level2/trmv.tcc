@@ -33,7 +33,7 @@
 #ifndef PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL2_TRMV_TCC
 #define PLAYGROUND_CXXBLAS_INTRINSICS_LEVEL2_TRMV_TCC 1
 
-#include <iostream>
+#include <cxxstd/iostream.h>
 
 #include <cxxblas/cxxblas.h>
 #include <playground/cxxblas/intrinsics/auxiliary/auxiliary.h>

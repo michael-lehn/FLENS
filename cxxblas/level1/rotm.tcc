@@ -33,7 +33,7 @@
 #ifndef CXXBLAS_LEVEL1_ROTM_TCC
 #define CXXBLAS_LEVEL1_ROTM_TCC 1
 
-#include <cmath>
+#include <cxxstd/cmath.h>
 #include <cxxblas/cxxblas.h>
 
 namespace cxxblas {

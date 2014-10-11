@@ -33,7 +33,7 @@
 #ifndef FLENS_AUXILIARY_COMPATIBLETYPE_H
 #define FLENS_AUXILIARY_COMPATIBLETYPE_H 1
 
-#include <complex>
+#include <cxxstd/complex.h>
 
 namespace flens {
 
